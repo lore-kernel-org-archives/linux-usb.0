@@ -1,261 +1,103 @@
-Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DB134CDD;
-	Fri,  7 Aug 2026 02:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14627332EBD
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 02:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786068950; cv=none; b=AbUlvqNylCeKgUv2yokAAY/aCKRhS+btYiRzHbB6DXITx/RNxGHds6RxzeaxcFc/2KOWcWPGkdU3asW5wb/uNzrhKyFuJVvPwmM2hXhf1PQ1HOtaNLtvE4QaDKF3AWpOrS3hvivuHVAI98FmknvQlKQXYS4b7FoMGaxQgLj6Fng=
+	t=1786070592; cv=none; b=ehscuwdZbNtlFbf/twtipTXBOFELtF9L1IjArUfu0KMXWoywtyzlf/Ec+WF6o6+1UW0JygZf+VAn89r36UBXIajbUxiLfI5MSGN2R7LJRdoy+WjyS+PWMR22jukLL44Lef1yBHydJRDtASvnBbedGAs9wsE1m5s6crpuG1Uxmwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786068950; c=relaxed/simple;
-	bh=zcuFMRMcf7Vm1UYev2UDSQX6fSUA6Wpr3DX12/H4w1A=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t/uPKWbGLtm1bWFuvo+gZ+DJuiJHk8wiDnKd+uvXiDIrb/YpSRnwp/Ip57uxAtxfqlzeJhZ0k8fgogmlBf7MBH+8JZPe/dfE5lpPfawEEkTSdfzCWGp2j2Mha3KlIgkSa2dT8HblQshtSPVPOHn9Q11cXlsW6UjJoUlWkwZQAVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=ISC17R+9; arc=none smtp.client-ip=109.224.244.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1786070592; c=relaxed/simple;
+	bh=rCaCraUsyitUcvnePFtaiKWGpOeVONS38ajXlSPYS/I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DL61vESd9TwRxjJ6jmxjecHSFgZrQBtsStfNQZfD//V3KLF8Hdblk0pKfezN0FlOxpaNXpkJcDxTC8HnsY5bVNJ0P/5aXFNXNg6rOhYAZzm/1/t8MwVFUNVGjqE7o3qyJgDs1mKWJnaKq9169MAwcaf/XD1X7RkqEa25jhpKlvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+2i6ohM; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="ISC17R+9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1786068933; x=1786328133;
-	bh=t/hSfTn2D5QANsI1yfumTIwdpMzz9D5cDp1+waF062I=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=ISC17R+9SMWeuBI59R31KELlC4WbVakZhenlmgWVF4Kaw6lYn2RI8aHNv7I9ULXGh
-	 j36OiiY8kCk8Pw19ZIEdFkxuJwEeo/vj+n8aQZqHom5dsN6aXV/BRMUep6eIZeu3Um
-	 GVAIpFDSXP0bILTL/GeOndoO6yaqK24x++CpltrfZTp1z+8imj/iBUflIx0LkdHu3Z
-	 nV/zRaOWgruZHeRdZtCYlqlQnPJ9YzLTvFHxMVp2TF13236iaEJvc9kQdcvqU5YT8n
-	 7XLi/htDWHuhXoUu50j3lLQo738H/fRIOJe4BTKtasNREiuarVXcmNcqmgb+3VQz8Q
-	 rEyYxgqjUJwdw==
-Date: Fri, 07 Aug 2026 02:15:27 +0000
-To: Krzysztof Kozlowski <krzk@kernel.org>
-From: Esteban Urrutia <esteuwu@proton.me>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add Parade PS5169 redriver bindings
-Message-ID: <11214e90-7168-4180-af9c-b5922c146a71@proton.me>
-In-Reply-To: <20260730-enigmatic-coati-of-love-54ae0b@quoll>
-References: <20260729-ps5169-bup-v2-0-203b0a49881a@proton.me> <20260729-ps5169-bup-v2-1-203b0a49881a@proton.me> <20260730-enigmatic-coati-of-love-54ae0b@quoll>
-Feedback-ID: 147889766:user:proton
-X-Pm-Message-ID: 5bc3e928f222755b138c8f604f3d7bc29b6a611e
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+2i6ohM"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-527e352a167so19239091cf.1
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 19:43:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786070590; x=1786675390; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CsrsyxFG7GOYeXOWf4uqDKnv5HyHjU2WKbIHtlmhwlc=;
+        b=Q+2i6ohMcWYjLHGe2N2l0zRHdOmzp0kXvGaiZ57moL32+EdBQCkHJK/5SMOLB8NmXj
+         DO4mV419ydVrQpfPg7E2QaIBYQFTBg1pByHwIrrsZCkV6RaVgMlKgyg7pt5LIoEp24cQ
+         RsMHU1TLsfb6TChxrBls5Hww6BZCsW2r1FosGcDM3ZfZUGb+FZ+05O25LU6GlPJoPIht
+         dy+sHCN7sleNRWKRibkr4wnHHwezsQm3LmDBDSeI9LzUVaDoV2egnXSfCdym3bVsRQAu
+         AnrI0/oKrq3FgZJrRGsjUOc/MNhIv0tfz2J45g88M4cbKtqvItd+0MbbSMQvo7EuS9M/
+         An7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786070590; x=1786675390;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CsrsyxFG7GOYeXOWf4uqDKnv5HyHjU2WKbIHtlmhwlc=;
+        b=nATdj2JXxOZiqkVtDR2AUApIUPoocczb47eeIB7uzmHj8K4Oc5dc8mOX2IqwaTZr+z
+         OkKMk4JLSrEXrL+RzhLXs7+Pu5bDO1l0LrzVTZnNYNi+0wbdkkz/kuolGUygu6PAFZbW
+         cV2R5l7qOfh28Aa1Jbeh5lV0s4a0CFwxQxJdjfVZPABH9x1NIV7GFKUmkLJ7yjS4BxON
+         fv5zlpgDz0xYoH7nEzMYv9WnD8w8LX2p9EURzObeeWYHq2eCPKhIWOZk0fCzCeJt6bTs
+         m/2qqu3GVPj6M9L2aN8cb2h4cCVTs80vq6HiN6TLCsB/i8svc6rwrCxykuVpBWyB79+d
+         g3eQ==
+X-Gm-Message-State: AOJu0YwT4gtz28NEaNxfqFX/O/uqjOJxc+vh9vniEjpganpEY7+mGxxJ
+	SPH7jV5GXX2r/d8VBv5piCzT9JifU72NKdUNhDmVaeYEi+nwDdB8rwow
+X-Gm-Gg: AR+sD119RZw+vjmO/RySq8cWjoJ5SfaN4w6N3YuhhZtM6EVNaRzeJfwK42J9t71a2ig
+	V0/tlr/dNLy3eKTEAdA/mEyQlkuid1hwZCpAMc3MXWntduC5n4aANe92La2DZT4uIppEFl4tUD/
+	jr80/BaYek+NBWuGkfoSeoMaFN7Su8p6YvoDBEMH5ydrnIpwmjEje+XGqrG5/fConWkT08iI6lW
+	q6MIDEpkyEB3+Jays2cbxX49bJNxsQJIbcQrbCHV21lcAIMe6/dQCNmrc7q0piPxHwcR4whjrXC
+	PYsrhde4shDtnAA1IgNXgFlczoTcHfGpmhfOLdyh5++CH9i77IZGTOt93fAmFUBmxRtn1KBhMRP
+	yQecEmXcRXe95xUINFs+Po1glNKR07H2otIl9swsKqvwI//eb2jRkzfGUaYZpKpFlP4WDJwC4hO
+	g5CcTndnN+2uIG8egprMGoxkz3tW2QnJ9Xup3hc2wDDdY5j8XaWoUTlVZBp2Ypi3sS2JP7m+M20
+	Ndrg86WTGd5LacB998qaKhSTeZGKihnU/smYUhKbHL6pxZwjcyHqAmSmD3rMiIo9mkPysoMIg==
+X-Received: by 2002:a05:622a:1dcf:b0:517:580c:bcd3 with SMTP id d75a77b69052e-52ce604bce6mr224287081cf.19.1786070589676;
+        Thu, 06 Aug 2026 19:43:09 -0700 (PDT)
+Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d1659c1e4sm2825441cf.19.2026.08.06.19.43.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 19:43:08 -0700 (PDT)
+From: Yuho Choi <dbgh9129@gmail.com>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yuho Choi <dbgh9129@gmail.com>
+Subject: [PATCH v1] USB: pci-quirks: Release EHCI device reference
+Date: Thu,  6 Aug 2026 22:43:04 -0400
+Message-ID: <20260807024304.928708-1-dbgh9129@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 7/30/26 3:15 AM, Krzysztof Kozlowski wrote:
-> On Wed, Jul 29, 2026 at 02:03:14AM -0400, Esteban Urrutia wrote:
->> Add bindings for the Parade PS5169 and PS5170 USB Type-C linear redriver=
-s.
->> The difference between PS5169 and PS5170 is that PS5170 features an
->> embedded AUX switch, while PS5169 does not.
->> Future-proof the binding by adding PS5170 as well.
->>
->> Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
->> ---
->>  .../devicetree/bindings/usb/parade,ps5169.yaml     | 191 ++++++++++++++=
-+++++++
->>  1 file changed, 191 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/usb/parade,ps5169.yaml b/=
-Documentation/devicetree/bindings/usb/parade,ps5169.yaml
->> new file mode 100644
->> index 000000000000..86ea2351ee1e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/usb/parade,ps5169.yaml
->> @@ -0,0 +1,191 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/usb/parade,ps5169.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Parade PS5169 USB Type-C linear redriver
->> +
->> +maintainers:
->> +  - Esteban Urrutia <esteuwu@proton.me>
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - const: parade,ps5170
->> +          - const: parade,ps5169
->> +      - const: parade,ps5169
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  vcc-supply:
->> +    description: 1.8V power supply
->> +
->> +  reset-gpios:
->> +    maxItems: 1
->> +
->> +  orientation-switch: true
->> +  retimer-switch: true
->> +
->> +  parade,dp-eq-level:
->=20
-> Use -db suffix instead.
-> See https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schema=
-s/property-units.yaml
+for_each_pci_dev() holds a reference to the current device.  The Intel
+EHCI lookup breaks as soon as it finds a match, so the iterator does not
+get a chance to drop that reference on its next iteration.
 
-Will do.
+Release the reference before leaving the loop.
 
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      Equalization level for DisplayPort channels which is mapped to de=
-cibels.
->> +    # 0: 2    dB
->> +    # 1: 5.5  dB
->> +    # 2: 6.5  dB
->> +    # 3: 7.5  dB
->> +    # 4: 8    dB
->> +    # 5: 8.5  dB
->> +    # 6: 9.5  dB
->> +    # 7: 10   dB
->> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
->> +
->> +  parade,usb-rx-eq-level:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      Equalization level for USB receive channels which is mapped to de=
-cibels.
->> +    # 0: 5.2  dB
->> +    # 1: 6    dB
->> +    # 2: 7    dB
->> +    # 3: 8    dB
->> +    # 4: 8.8  dB
->> +    # 5: 9.6  dB
->> +    # 6: 10.4 dB
->> +    # 7: 11.2 dB
->> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
->> +
->> +  parade,usb-tx-eq-level:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      Equalization level for USB transmit channels which is mapped to d=
-ecibels.
->> +    # 0: 2    dB
->> +    # 1: 5.5  dB
->> +    # 2: 6.5  dB
->> +    # 3: 7.5  dB
->> +    # 4: 8    dB
->> +    # 5: 8.5  dB
->> +    # 6: 9.5  dB
->> +    # 7: 10   dB
->> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
->> +
->> +  parade,aux-rx-data-reverse:
->> +    type: boolean
->> +    description:
->> +      Please check the driver before specifying this property.
->=20
-> References to driver make this dubious.
+Fixes: 26b76798e050 ("Intel xhci: refactor EHCI/xHCI port switching")
+Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+---
+ drivers/usb/host/pci-quirks.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Indeed. I haven't been able to put what this does into words, so I think
-I'll drop it and add it back later when I figure that out.
-
->> +      Usage of this property is design-specific.
->> +
->> +  parade,fine-tune-lfps-swing:
->> +    type: boolean
->> +    description:
->> +      If this property is specified a 50 ohm termination will be set on=
- the USB receive channels.
->=20
-> s/If this property is specified//
->=20
-> Just describe the hardware, not the syntax of DTS.
-
-Will fix.
-
->> +      Usage of this property is design-specific.
->> +
->> +  parade,dp-set-gain:
->> +    type: boolean
->> +    description:
->> +      If this property is specified a gain of -0.9 dB will be applied o=
-n the DisplayPort channels.
->> +
->> +  parade,usb-rx-set-gain:
->> +    type: boolean
->> +    description:
->> +      If this property is specified a gain of -0.9 dB will be applied o=
-n the USB receive channels.
->> +
->> +  parade,usb-tx-set-gain:
->> +    type: boolean
->> +    description:
->> +      If this property is specified a gain of -0.9 dB will be applied o=
-n the USB transmit channels.
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Super Speed (SS) Output endpoint to the Type-C con=
-nector
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->=20
-> Why 'port-base' here but 'port' in port@0?
-
-'port' should be used instead of 'port-base' in port@1.
-Will fix.
-
->> +        description: Super Speed (SS) Input endpoint from the Super-Spe=
-ed PHY
->> +        unevaluatedProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - vcc-supply
->> +  - reset-gpios
->> +  - orientation-switch
->> +  - retimer-switch
->> +
->> +allOf:
->> +  - $ref: usb-switch.yaml#
->> +  - $ref: usb-switch-ports.yaml#
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: parade,ps5170
->> +    then:
->> +      properties:
->> +        ports:
->> +          properties:
->> +            port@2:
->=20
-> You must define all properties in top-level block and you only disallow
-> them. See writing-bindings.
-
-Will fix.
-
->> +              $ref: /schemas/graph.yaml#/properties/port
->> +              description:
->> +                Sideband Use (SBU) AUX lines endpoint to the Type-C con=
-nector for the purpose of
->> +                handling altmode muxing and orientation switching.
->> +    else:
->> +      properties:
->> +        ports:
->> +          properties:
->> +            port@2: false
->> +
->> +additionalProperties: false
-Thanks for the review.
-
-Regards,
-Esteban
+diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+index 0404489c2f6a..ba158d63bb8b 100644
+--- a/drivers/usb/host/pci-quirks.c
++++ b/drivers/usb/host/pci-quirks.c
+@@ -1073,6 +1073,7 @@ void usb_enable_intel_xhci_ports(struct pci_dev *xhci_pdev)
+ 		if (companion->class == PCI_CLASS_SERIAL_USB_EHCI &&
+ 		    companion->vendor == PCI_VENDOR_ID_INTEL) {
+ 			ehci_found = true;
++			pci_dev_put(companion);
+ 			break;
+ 		}
+ 	}
+-- 
+2.43.0
 
