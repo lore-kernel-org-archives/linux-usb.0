@@ -1,97 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F44446844;
-	Fri,  7 Aug 2026 06:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2713A447807
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 06:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786082451; cv=none; b=B2VuKXi0gr+O49671jFSCl5hihwg8P4HcnadGVSkf9jmZXgcU7q9TWntKqW3vkETqvBvI1WUvqVuEQ7ICfcVazgODSUI8/t+0f2TXuppPpzCv2YK9d8uPzf8KsacldMBq9kol+/a4j6fa7zQjuujj+8hH9GtdZczVnIGmZds+Tw=
+	t=1786082870; cv=none; b=rU93b9zD9acVnFVBzpY2swgALrTc7xwRLUP7oVnMuqTLTkLC6f90w7l2hDg7BA0mX9YbCGR85G1hdcK99HidR73EQ2l4v5L+PPNSp7mZpY3wewAKSZ3PVyKSdJvBbkcIdo/fs1Tg/sjprlArvTTwMsJYLCcqYMdJ6EQ8S5JruAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786082451; c=relaxed/simple;
-	bh=mTyJvuHtgA5D9He5ZWUPsg6jTMY3vexGtgAr7yvVBHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bHee14D5HQNz44PJNxWeDVwha6y1S7qUDJ/syg5EML403xi5iTkztRQLQ7gdoTJYIyMhdlTPFMl6t26Hn7iY5+S2mFnQ3vEJnV/4NLi1Az4tO8Nncmjkx0G0Slu1r+Y05YpQ71xhfZ2GRyxxMd+2qpxqito6LkJEAGuBGWt+iJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EErDr1TA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786082870; c=relaxed/simple;
+	bh=8nK3zk0LJnwP8Kr6V61I0Wwu+5q7KeBflm9aUfHvG3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TbnD+6hh+0CLc0QfZ5I3PVcjxiH3Se3QQVhMTXRblNVRqW70UCU+nl+U7/EikEHHZr24OPcivG+5jUFxLQY6ljhqaGgeduBqjz13y5GjsbQ7Yl+2aYF+J8iKfmEtI/jHghA/AY+RXnIwy/RRzGc62/foN4WSiBKFxM4xfQdqGbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/x95HHT; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EErDr1TA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 544AF1F000E9;
-	Fri,  7 Aug 2026 06:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786082449;
-	bh=LAJ39TwcMAdgtD0Y82iVU3GahasJe2+Axv14/P8Kbp8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EErDr1TAVCfKL2gg67Lm2NwTVV4smsx9HiBSCX6ilW6UEBrC0OQzqyuBOOCeHOei/
-	 mMJJKsWXX037jB94St23ymcIn7+sPiU/rI4h8dIou5Kj03MSuF33RaCkie3+3t4O/r
-	 ltwi0h9EwbVDpBfVvFJbopMEEjYRvSZWNO3dYrz0=
-Date: Fri, 7 Aug 2026 08:00:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jeffin Philip <jeffinphilip14@gmail.com>
-Cc: linux-usb@vger.kernel.org, valentina.manea.m@gmail.com,
-	shuah@kernel.org, i@zenithal.me, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] usbip: usbip_host: fix null pointer dereference in
-Message-ID: <2026080734-carnage-pointless-9781@gregkh>
-References: <20260807043759.12218-1-jeffinphilip14@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/x95HHT"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-902e4af2d9dso13254046d6.0
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 23:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786082868; x=1786687668; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HQf34kglk1Yh8CWS1BUF21oEZ3LoRTy5y/WvEz9+4IA=;
+        b=k/x95HHThjboC8AVoHcl28lLtjXggobDvkBbhqJ1QMp4h9jPg/F1ajjjWrSkztfZOW
+         wd68q55nVYQywtFejKuhfc1rnZxPqWd+XdTJqb2wRGv2n9gdN3YMXKXeJwal1TGLvpfV
+         D6rqT8QVJ6JvFAO4iNR4BzuVezhe6rqEzajAEr1Ml6oQ1HrOgOXFV4AHlZdYcu3NAXg5
+         6z2Aku2fSeCafhLvTXiDHE2olj/pPSlZpPcAq2TxfbMNPB2hzQHzfeEG2ni/4UuCeCpp
+         IwbX75gV9NiktKX+4rQbi6dS+1qv7WKFLv+B8IYLiaeqf6apZ2D7Ce0D0rVu7yxUR4Jz
+         sV1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786082868; x=1786687668;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HQf34kglk1Yh8CWS1BUF21oEZ3LoRTy5y/WvEz9+4IA=;
+        b=qFUVy4fVziId1/Gcrtm2CsmXsShQEkcR3rxZyk/Gok3ge0apFUpX1C3udhifMYmFj6
+         nwURFtTHdtQ7HQVaxEIwm8Cu/EhyJew/fzLvstjlzo/0zuUqyas5JatdOW6c46KyZAYD
+         e2Q5AvZsbPxJiUr2RfZC/WtKz2tBl6pWKVm5HdwPQsknaCZtnvLASRSC3Vn9L9KHRlGC
+         g7R16/+0CJGSRCYdUtz6NzJUfvJETx8NByeTQ4iZUNNVRDlWKHnU8Fz/nYZPrL8Z/r63
+         IXccXEpy4z1Ro9soYTLu69BjsJq3sGEuw4uATv/zeWEx+VDypJ1bKEwgkQlPd9IxW7Aa
+         eMEw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpzt2h1hOpfCJ/xC1weKVxw7CbNu8HXWMXft2cwogJEl1LZNgowGB+9PpcSCs8bwCuHfRBOudeBCvA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAFcslZjLHqZ84tyejDuI1kKEwIXC4nOF1CDjBegi3smqjONqB
+	8zl5bugtJTqjKZZPsP5N5AzxUj1jQ8oR4X5OKY16gbAPBDGCA/CoMPQn
+X-Gm-Gg: AR+sD11gtiTqrOe7OA25w+o+/DzAuINr5M7ZAp0XtZwkfpVgy5YuoHQroyd8HvK2BUi
+	mPb/c/6ygnbkgKqBom0cp7vx4Cj6vkmgs19UlvM3SIRicS6WMrHzGr2i8KF6fpekyFHoaOdPQXD
+	zvhBtOKnOZgXbx4kO5nmLLt6y8G5g8Y6Gpd82vvanLF431syap3BCc8PDHAhFVgMs7W30Op2H3o
+	01k10VYxWImSxkDmxU4qisdAXFW8KI/e0LvhliDN4nfZT1Y/i40B7qTVqsqX92e82E0tx4eDCue
+	7I3bohVSK7aMbcJEmj0zd+hoowEM7uSBWS5IS99ZAtHGGjt/y2i1LpIoE/6HIV1fBgY+YllsoS6
+	m9YOoR+9uG98ALO+iptUbW3eAYK76aDOMVNoDcaX55uDoi4VF2PZ/+ZDtO+PCnMy3ZhMNE+KBhM
+	14TcvYD+y947rMyCs0p3VBc2X7ASI66DOw/7RT1A6FvDLJA3fzONv5u2bZRnv0QbQ/fiY+LURkl
+	sGjes5pM+dHXJNfkA==
+X-Received: by 2002:a05:622a:4d86:b0:51c:b91a:33f9 with SMTP id d75a77b69052e-52cfb00255dmr137405711cf.13.1786082868001;
+        Thu, 06 Aug 2026 23:07:48 -0700 (PDT)
+Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a92ff8d1sm1985816d6.25.2026.08.06.23.07.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 23:07:47 -0700 (PDT)
+From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+To: "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: gadget: f_tcm: keep port count until LUN teardown completes
+Date: Fri,  7 Aug 2026 02:07:33 -0400
+Message-ID: <20260807060733.3186624-1-shuangpeng.kernel@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260807043759.12218-1-jeffinphilip14@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 07, 2026 at 10:07:59AM +0530, Jeffin Philip wrote:
-> rebind_store calls do_rebind which dereferences udev without
-> checking if it is NULL. If busid is registered using match_busid
-> but the device is never bound to the driver or it is never present
-> in the first place, it triggers a null pointer dereference when we
-> attempt to rebind the device. Fix this by checking explicitly for
-> udev first and returning -ENODEV if udev is NULL. Add usb_get_dev
-> in addition to the null check to get a reference to udev to prevent
-> udev from becoming NULL after the check. Drop the reference after
-> using it in do_rebind().
-> 
-> Reported-by: syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=af76b01c9a0f0ab60fb0
-> Fixes: 4bfb141bc013 ("usbip: usbip_host: fix to hold parent lock for device_attach() calls")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
-> ---
-> Changes in v2:
->  - Addressed concerns raised by the maintainer in v1 discussion
->    - Added usb_get_dev() to get a reference to udev preventing
->      it from becoming null after the null check. Drop the reference
->      after using it in do_rebind()
-> ---
->  drivers/usb/usbip/stub_main.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/usbip/stub_main.c b/drivers/usb/usbip/stub_main.c
-> index 79110a69d697..c911626427dc 100644
-> --- a/drivers/usb/usbip/stub_main.c
-> +++ b/drivers/usb/usbip/stub_main.c
-> @@ -256,12 +256,21 @@ static ssize_t rebind_store(struct device_driver *dev, const char *buf,
->  	if (!bid)
->  		return -ENODEV;
->  
-> +	if (!bid->udev) {
-> +		put_busid_priv(bid);
-> +		return -ENODEV;
-> +	}
-> +
-> +	/* get a reference to udev to prevent it from becoming NULL */
-> +	usb_get_dev(bid->udev);
+tcm_usbg_drop_nexus() permits session removal once tpg_port_count
+reaches zero. However, usbg_port_unlink() currently decrements that
+count from the fabric_pre_unlink() callback, before core_dev_del_lun()
+waits for active se_lun references to drain.
 
-So what happens if udev becomes NULL after checking it and before
-grabbing the reference?
+If removal of the last LUN races a nexus removal, the latter can observe
+a zero port count and call target_remove_session(). This frees
+sess_cmd_map while an in-flight struct usbg_cmd, including its work item,
+can still be accessed.
 
-This is not how to handle this at all.  Please step back and look at the
-root problem here and address that.  This is just papering over the
-issue.
+Overlapping the last-LUN unlink with nexus removal reproduces this
+lifetime violation as a DEBUG_OBJECTS "free active" warning for
+usbg_cmd_work, followed by a target-core BUG/Oops.
 
-thanks,
+The generic target-core unlink path has no callback after
+core_dev_del_lun() completes. Add an optional fabric_post_unlink()
+callback and use it for the f_tcm port count. The count now remains
+nonzero until core_dev_del_lun() has finished draining active LUN
+references, preventing nexus removal from freeing the session during
+command completion.
 
-greg k-h
+Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+---
+ drivers/target/target_core_fabric_configfs.c | 8 ++++++++
+ drivers/usb/gadget/function/f_tcm.c          | 2 +-
+ include/target/target_core_fabric.h          | 2 ++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/target/target_core_fabric_configfs.c b/drivers/target/target_core_fabric_configfs.c
+index 166dbf4c4061..ab8f81650710 100644
+--- a/drivers/target/target_core_fabric_configfs.c
++++ b/drivers/target/target_core_fabric_configfs.c
+@@ -690,6 +690,14 @@ static void target_fabric_port_unlink(
+ 	}
+ 
+ 	core_dev_del_lun(se_tpg, lun);
++
++	if (tf->tf_ops->fabric_post_unlink) {
++		/*
++		 * Allow fabrics to release state that must remain valid until
++		 * core_dev_del_lun() has drained all active LUN references.
++		 */
++		tf->tf_ops->fabric_post_unlink(se_tpg, lun);
++	}
+ }
+ 
+ static void target_fabric_port_release(struct config_item *item)
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index b3fa5a17fd2d..98414e7611c0 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -2024,7 +2024,7 @@ static const struct target_core_fabric_ops usbg_ops = {
+ 	.fabric_enable_tpg		= usbg_enable_tpg,
+ 	.fabric_drop_tpg		= usbg_drop_tpg,
+ 	.fabric_post_link		= usbg_port_link,
+-	.fabric_pre_unlink		= usbg_port_unlink,
++	.fabric_post_unlink		= usbg_port_unlink,
+ 	.fabric_init_nodeacl		= usbg_init_nodeacl,
+ 
+ 	.tfc_wwn_attrs			= usbg_wwn_attrs,
+diff --git a/include/target/target_core_fabric.h b/include/target/target_core_fabric.h
+index e9039e73d058..390ace5bb252 100644
+--- a/include/target/target_core_fabric.h
++++ b/include/target/target_core_fabric.h
+@@ -95,6 +95,8 @@ struct target_core_fabric_ops {
+ 				struct se_lun *);
+ 	void (*fabric_pre_unlink)(struct se_portal_group *,
+ 				struct se_lun *);
++	void (*fabric_post_unlink)(struct se_portal_group *se_tpg,
++				   struct se_lun *lun);
+ 	struct se_tpg_np *(*fabric_make_np)(struct se_portal_group *,
+ 				struct config_group *, const char *);
+ 	void (*fabric_drop_np)(struct se_tpg_np *);
+-- 
+2.43.0
+
