@@ -1,103 +1,124 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0312240759D;
-	Fri,  7 Aug 2026 10:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D689A3DB629;
+	Fri,  7 Aug 2026 10:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786097052; cv=none; b=GUeyULw/UI7YHAIhL1IVnoh4cs24Q8aAKNC+U2M5DABkW55YBiKX7wvolxOQ4MmuoJRQcNckislyupHU2YRaTmSjWQsz4DNaWXWlmryK3Uhhzqqx8dJMG8WfHfaE4PtNSDoX+SJQK9C45Y25LaxaF5YF3oKlkPkhbshGzcwkJWM=
+	t=1786097512; cv=none; b=RTi2j1gSXq605HQhCW5gALav42uohnNaUv4iZ5M0iVbFbYIOd3k363B/Mi8RtVO9BRr2PDrGEUHUL846JLHv99FwNybJ2j/tdfKNarqq8xfb6MiIdrev2zAhlRvANAm5d0F5JNLZ0LBhI4dj3LRy0qcyn9bIq+lfyUWOKxJ3PyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786097052; c=relaxed/simple;
-	bh=gYvAL6Bap47badhJJkSro/dQIKoKROnkObrvc385Ux0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P7Nr/QbLdkaUNkD+0mNMXjcXAVB9zMtO4fzafbGNSs/7g2qqmhlZbHheqdRMTl0rBIQ3ZxFlwNKouG8+JoDgXLb7M1MLyb8iWxp/JuaHiWRmv32Wae6B5SwXJNt1tDMVIa8EeTZE7AcF2W38Xcs9gWEnzZaM61FQmB4ocJ9EDrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 51b57584924711f1aa26b74ffac11d73-20260807
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:13760116-e5f9-4259-b5bf-dd6bef51b244,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:0236c0ae3bcbb0fc6514f2d8c3f5cee2,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 51b57584924711f1aa26b74ffac11d73-20260807
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 531783159; Fri, 07 Aug 2026 18:04:03 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: Minas Harutyunyan <hminas@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Huang Wei <huangwei@kylinos.cn>,
-	kakapapa2 <kakapapa2@gmail.com>
-Subject: [PATCH] usb: dwc2: debugfs: fix memory leak of hsotg->regset
-Date: Fri,  7 Aug 2026 18:04:00 +0800
-Message-Id: <20260807100400.3179625-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1786097512; c=relaxed/simple;
+	bh=Ebwf5LHputuTSxtGyqzf5bO13zEozfK3BHNLdSqgbu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N6i5ra7SeepbzDP47LB3Z4Dn+ACT00KPyBiFy2XE8KZl+9DHFZI/a2Y1iWmoWIqTWtobyQrOwnlAuV96bPzSRCX5Aa4hT9mCXBjAtAcXeBlm/1f9HRAIzSG6MD15o0ZFYWOWJ1ObAWo5croft5dJ21tP5MRIw10sWYWv27INlRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cl1E0/XI; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cl1E0/XI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439501F000E9;
+	Fri,  7 Aug 2026 10:11:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786097510;
+	bh=chBOxfxrsy9R9xkuQ2YnIlcTAWgi3sVUnBACSCudAU4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cl1E0/XISB2autCymuTdKhT6FfkbgwqbB0zBBvWDMN+pu5fK7sgfdlxUiN43ePfaL
+	 +mt8tzwk41imJTrzSa2DgbnfNNLJu5ALUqibt+t5sr5Oj5Fz0jTkIx2ffiKVXTyiqY
+	 71Og3vJID8Eq6Q3+/iMeMQD8wdkpJa/Lw7nSekVSPfk4GhML7+y/ZvKNhZ5AE+1g/Q
+	 xxePnSnM3JxZmz+r+RoMda5sxeUZ/m6MP7w5D6NqTlY6Ps3wAUmUwvfJHMoMHo/S5F
+	 vXPhtoh1SQhvwJMS0vyL62j5YKfbWI+EtHXJpTMBi8MRBz9wFiH0xKEgUxwV6GtmWQ
+	 YH1C5FikO38FQ==
+Date: Fri, 7 Aug 2026 03:11:48 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: Jie Deng <dengjie03@kylinos.cn>
+Cc: pawell@cadence.com, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: cdns3: Fix NULL pointer dereference in
+ cdns3_pci_probe
+Message-ID: <anWvZMPQ5ARWMu3o@hu-petche-lv.qualcomm.com>
+References: <20260806022258.3764848-1-dengjie03@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806022258.3764848-1-dengjie03@kylinos.cn>
 
-hsotg->regset is allocated in dwc2_debugfs_init() using devm_kzalloc()
-but is never explicitly freed. While devres would eventually reclaim
-the memory, the regset is logically owned by the debugfs lifetime:
-dwc2_debugfs_exit() only removes the debugfs directory and leaves
-hsotg->regset dangling.
+On 26-08-06 10:22:58, Jie Deng wrote:
+> The Cadence USBSS controller is a two-function PCI device. The first
+> probed function allocates the driver data and stores it with
+> pci_set_drvdata(), while the second function reuses it via
+> pci_get_drvdata() when pci_is_enabled() reports that the first
+> function has already been probed.
+> 
+> When the second function is probed while the first one has been
+> enabled but has not yet set its driver data, pci_get_drvdata()
+> returns NULL, and the subsequent wrap->devfn assignment dereferences
+> a NULL pointer and crashes the kernel.
+> logs:
+> Call trace:
+>   cdns3_pci_probe+0xa4/0x300
+>   local_pci_probe+0x44/0xa8
+>   pci_call_probe+0x54/0x158
+>   pci_device_probe+0x84/0x100
+>   really_probe+0x184/0x3d0
+>   __driver_probe_device+0x80/0x178
+>   driver_probe_device+0x44/0xe8
+>   __driver_attach+0xec/0x1f8
+>   bus_for_each_dev+0x7c/0xe0
+>   driver_attach+0x28/0x38
+>   bus_add_driver+0x110/0x238
+>   driver_register+0x64/0x128
+>   __pci_register_driver+0x50/0x60
+>   cdns3_pci_driver_init+0x28/0x38
+>   do_one_initcall+0x5c/0x280
+>   do_initcalls+0x104/0x1d8
+>   kernel_init_freeable+0x140/0x218
+>   kernel_init+0x28/0x1f8
+>   ret_from_fork+0x10/0x20
+> 
+> Return -EPROBE_DEFER in this case so that probing is retried after
+> the first function has completed its probe.
+> 
+> Fixes: 8bc1901ca7b0 ("usb:cdns3 Add Cadence USB3 DRD Driver")
 
-Switch to kzalloc() and free it explicitly in dwc2_debugfs_exit(),
-mirroring the equivalent fix already applied to dwc3 in commit
-e6bdf8195b4a ("usb: dwc3: fix memory leak of dwc->regset"). Also set
-the pointer to NULL after freeing to avoid a stale dangling pointer.
+The patch is okay, but the Fixes tag is wrong, 8bc1901ca7b0 was reverted,
+you may use below tag:
 
-Reported-by: kakapapa2 <kakapapa2@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219977
-Signed-off-by: Huang Wei <huangwei@kylinos.cn>
----
- drivers/usb/dwc2/debugfs.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
 
-diff --git a/drivers/usb/dwc2/debugfs.c b/drivers/usb/dwc2/debugfs.c
-index 3116ac72747f..2ecbf6523aaa 100644
---- a/drivers/usb/dwc2/debugfs.c
-+++ b/drivers/usb/dwc2/debugfs.c
-@@ -9,6 +9,7 @@
- #include <linux/spinlock.h>
- #include <linux/debugfs.h>
- #include <linux/seq_file.h>
-+#include <linux/slab.h>
- #include <linux/uaccess.h>
- 
- #include "core.h"
-@@ -787,8 +788,7 @@ int dwc2_debugfs_init(struct dwc2_hsotg *hsotg)
- 	/* Add gadget debugfs nodes */
- 	dwc2_hsotg_create_debug(hsotg);
- 
--	hsotg->regset = devm_kzalloc(hsotg->dev, sizeof(*hsotg->regset),
--								GFP_KERNEL);
-+	hsotg->regset = kzalloc_obj(*hsotg->regset, GFP_KERNEL);
- 	if (!hsotg->regset) {
- 		ret = -ENOMEM;
- 		goto err;
-@@ -810,4 +810,6 @@ void dwc2_debugfs_exit(struct dwc2_hsotg *hsotg)
- {
- 	debugfs_remove_recursive(hsotg->debug_root);
- 	hsotg->debug_root = NULL;
-+	kfree(hsotg->regset);
-+	hsotg->regset = NULL;
- }
+After above fix, feel free add:
+Acked-by: Peter Chen <peter.chen@kernel.org>
+
+Peter
+
+> Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+> ---
+>  drivers/usb/cdns3/cdns3-pci-wrap.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3-pci-wrap.c
+> index eb5760f75b9d..fd06a3d8e638 100644
+> --- a/drivers/usb/cdns3/cdns3-pci-wrap.c
+> +++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
+> @@ -96,6 +96,11 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+>  
+>  	if (pci_is_enabled(func)) {
+>  		wrap = pci_get_drvdata(func);
+> +		if (!wrap) {
+> +			dev_err(&pdev->dev,
+> +				"second function not initialized, retrying\n");
+> +			return -EPROBE_DEFER;
+> +		}
+>  	} else {
+>  		wrap = kzalloc_obj(*wrap);
+>  		if (!wrap)
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.25.1
 
+Thanks,
+Peter Chen
