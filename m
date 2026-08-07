@@ -1,174 +1,144 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012013.outbound.protection.outlook.com [52.101.43.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BA021D3F5;
-	Fri,  7 Aug 2026 18:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786125937; cv=none; b=tff33IjKXjNvfwaXvI3Z0hNYvzJUAZNnOadCpZiQve9yD5PahzSpgfDxY0CMekWNpsCizbfL62DdGkF2r1m08myD7YquocNfKXWYuucYtUYvEqb/dZlfGcrlaQODFGj5PCLiz3SWzPghCGpR0A5HiSSWj7qobDvqNbYHVhcUD0U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786125937; c=relaxed/simple;
-	bh=b4EV+MsYLwvA/FOeeJADbj+V6zEll+ofBjEXtbCZWW0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rtie+ooui8wKlNUaZLi94qAdmGtaYS9h/PbBxiD6oock6PQZ5fu6zJ5tWqrUTxsxL3A69qWfHn7xfLbPYLC8Sex/eO8Xh2O6A8Rbz5/snGRCwVtL+14gDwjMafc/5XZwmvyX2VhrfrTsznCvztvZhv8sUhxlaEeIxOfdShT5pPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=tgePFy6x; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=j0ivkmnQ; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E346B285CAA;
+	Fri,  7 Aug 2026 18:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786127013; cv=fail; b=sAFns7AoeUqKQqhMO4qR98L+JpTt55IQsvnFK8KPLw0KZm5299wj4znoWNRopXl0e7RstOdMWZC40Oac2S9j/PWMHEtnrGHkOeZRfnDLRV6VHd5swAf+mexiSoCTyuAt0frSH6EFRQ1aBhFoxYmGBL9+wMsFpuyxNgfe+bO2zrQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786127013; c=relaxed/simple;
+	bh=+FScmWliC8LlU38d6yBT1pHehQuVXN6DvhkwfmKe3Do=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J9ufby/wYRQDR9zZEKdPe5GrdDEAPdqX67kC1Tvi/Unyzfzdgzy7DKu557ZNLv+PObzT3bShfJlE4hwsZTCRCbxoJdPltRX5vjzTLh8ntwjkw5EdEcGgbs/eKCr1x8+/bwdZqtICCn/EWpgMejqawsme+NkxjW8SodG9fe9WVhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5pddWDzY; arc=fail smtp.client-ip=52.101.43.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="tgePFy6x";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="j0ivkmnQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1786125933;
-	bh=b4EV+MsYLwvA/FOeeJADbj+V6zEll+ofBjEXtbCZWW0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tgePFy6x/DeBEvrAsztK0rRCjOHhB17Hw1ItG+p1790br12agKOhcGqAIa12PacJX
-	 KM1CKa0fXLWlu53YVSOKzBucgDYY59pxhTeGVKnnVhQI9yrVuHwN4kF6UOyFNc4h1t
-	 XUVMMTfsQJyu2Y1Pst+l2SHlhILHqWCNGGHcHIzBfb7VLkS2M8n+7/YiRw2nlC/dcD
-	 43nIqgoqVxHYCz3mAFkMf17jXvDo7PPk1v4Z9ck++ZL45OmS7vfUCzlD2IFEojZdYp
-	 2y3UzeUil4UpfIrPgUlDNNQTccQE5GGzWgKtQDu/V0S/aK/zqAW2YMCINToLIBAJPs
-	 F/7gaGk3kYW+Q==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 61C0549712; Fri,  7 Aug 2026 18:05:33 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1786125932;
-	bh=b4EV+MsYLwvA/FOeeJADbj+V6zEll+ofBjEXtbCZWW0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j0ivkmnQ7lPNzyWlU0Tb8u3Bm5pTbBzsITk5iflfPhCejuN4hV0CKarlUfdZQnngJ
-	 yYkXMcaFZYQG4VX1XWCTINiaQePMOzpMv+yWlqj/pfeVZQzDFZlorRGZvWAjJPVPnw
-	 9sjzR1ayU5fPb090WORMj/+SAr4hAtF/FtiHFpDyxe06Fpe5LLmkxPUYwC0qbeDHbV
-	 vQYV63O37VYP2+WMVs1zDwR4JtfZvEjEupGqOWSOfYZehT80a9imitAthMP5nzjw3L
-	 mJCyjkQjQZwEnSMwV0s6c1IYAggmdSVbIIOPen1Y9dqixYeAN4BvtqkDVg80DDU5sL
-	 vjMSJotQaGpTw==
-Received: from [IPV6:2003:c6:9f06:3400:7626:30f6:e920:d1d3] (p200300c69f063400762630f6e920d1d3.dip0.t-ipconnect.de [IPv6:2003:c6:9f06:3400:7626:30f6:e920:d1d3])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 1236C49706;
-	Fri,  7 Aug 2026 18:05:32 +0000 (UTC)
-Message-ID: <6c165b0d-5e24-4b01-8057-1bef9fac851b@birger-koblitz.de>
-Date: Fri, 7 Aug 2026 20:05:31 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5pddWDzY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eb/jWydlL/EOa2YnlBkRyZ640ih7MUQ7mkmFb2K2IxAJtZnTEDG8TtR4B/ulWchenAloePtyNTqiB3j8zXeWPEI/7hiDEHqyPUpBNH/3WfJE4bgjVI+9B/qfexy4uW/v9XaWhJu0LHV/37M4ui77BXxuuDQhnFxT/2Oy2UQdPwS4pV6wAPoDAwlaGH85MosDrP9Q6IH6oySABuhjB5MRnNc4j7EZREal2hixAdwucDkZb7awWNg7fhZBc0zR/siWV7Ay9SELuiWr5ETkYzMZJF1TjY79gZG2iGYp5umPX07YJVpfqrD/iHTqRWOgiyEcYNVioUK5TXlzsLLY1i9Oew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KHB2Armig0HCvseXkKRl5ZOjKFZwNhil1y/2w2oM/MY=;
+ b=K9vNYKXeDt45tImXZ3T1ckv9bnHWdNBu3k05IWowKIcqvyB5eF3fZw1MCVI2/9FFoJGFhXK5iROHRYJnIeVv4eC2bTL3yPln+XJfbTbgg1Tii1T9PZurkmOmLat+vXoYyUW5QjvQ6xVLUjBtYk9O4pr/NMR9wgixc5Vp3S8PuVsSOWKHGDFg03DgsSW0DVBVbGnSPXfIq7ubUy/FZPI1qdCoGk29D8vNp/gpnfYeOBTIxmR11uJiRZKFZjuKW5d0ZAQNmpMWiUdTGhD6ZrVhGlIYos7MM+0TuextKAlTzvfbixlv9yd6e1VNn4tf6+FdeJ1iuaBa9OtgHZ18JEkbdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=synopsys.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KHB2Armig0HCvseXkKRl5ZOjKFZwNhil1y/2w2oM/MY=;
+ b=5pddWDzYY8AgaSTth74LMgBy3t05uIjDk0umJwQOccMbpR4HAz+kffUfRB9r7ismqFDOs1T99UV66g/I5oLUbP/bs7/RRHKxD7m0dhq5LPWpGTfuP0SqpT7LJfCI+oE0ZudhJF9ymlKxTJeaF0rKm/WwrkvfgIWrQNP0P1j2c9A=
+Received: from BL1PR13CA0229.namprd13.prod.outlook.com (2603:10b6:208:2bf::24)
+ by SJ2PR12MB9210.namprd12.prod.outlook.com (2603:10b6:a03:561::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Fri, 7 Aug
+ 2026 18:23:26 +0000
+Received: from BL02EPF0002992B.namprd02.prod.outlook.com
+ (2603:10b6:208:2bf:cafe::51) by BL1PR13CA0229.outlook.office365.com
+ (2603:10b6:208:2bf::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.8 via Frontend Transport; Fri, 7
+ Aug 2026 18:23:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BL02EPF0002992B.mail.protection.outlook.com (10.167.249.56) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.315.6 via Frontend Transport; Fri, 7 Aug 2026 18:23:25 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 7 Aug
+ 2026 13:23:24 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Fri, 7 Aug 2026 13:23:23 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <Thinh.Nguyen@synopsys.com>, <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Radhey Shyam
+ Pandey" <radhey.shyam.pandey@amd.com>, <stable@vger.kernel.org>
+Subject: [PATCH] usb: dwc3: gadget: cancel NoStream work before endpoint teardown
+Date: Fri, 7 Aug 2026 23:53:18 +0530
+Message-ID: <20260807182318.3736662-1-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.44.4
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 13/13] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Heiner Kallweit
- <hkallweit1@gmail.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
-References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
- <20260802-ax88179a-v5-13-dcb9fea4acd4@birger-koblitz.de>
- <5f32ac56-1c2f-474a-ab2a-f51464172d6d@lunn.ch>
- <4a203340-c2f1-48b3-b16f-93c31cbe2727@birger-koblitz.de>
- <f2a99d04-6d61-4cc2-814d-cfe1ef9b1395@lunn.ch>
- <7a91e550-ac70-4423-9aed-9f4406e71fe8@birger-koblitz.de>
- <527d31e5-1731-4925-bf7f-a567f3fb3774@lunn.ch>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <527d31e5-1731-4925-bf7f-a567f3fb3774@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992B:EE_|SJ2PR12MB9210:EE_
+X-MS-Office365-Filtering-Correlation-Id: 712f6fc7-0d2f-4e57-c72a-08def4b0f86a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|23010399003|6133799003|56012099006|11063799006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	McQmASH+BjHxnKHNiGBMvKUkdXF3e2V5LzqkDunQZ5Tl9WdXrdh5VRhVhErZ+QtMfHb6SXpTSQ+3DQ20XzR5t2QKKo1pe5hwOk9h/DStNFlBKf/iIsTiDZ/uiGwn9X1ETW0YIQXkzBaAbt/vIw8LLcIB/DarH8PUQ0pRGJjfhRuPelBI1j86Hcu7ZU0w3A/nGiV/KDSPMJ4Ur0awIgYDlZRCIcegZ2WprRYnKi3pKuK2s9aShZvZIaAEV9sEKTBq5PnK8HJ0jwwiTT1WZQv0hD7tQP4FzB+zAfZnwGuGUYS2okWFWMFnfRitPF1D2eq2hJTpSWwDm3Xs7P0JVykGgCIO4gEA/5YsE0QkZiPdeQ7+HlpdkDCSc8aERGCTau6GgIdKhSvKySmLSjr2X38gOo7vOcxP6SLJOxenLUr2bZRnLZpehvgM0ZmM8ZaIIDrxJwhbo+vjVmPBCz3E8paNl5llIGbpsnm1KzuJvfkYBXE0EiYPacDNfqDd9pTUOdAqu48mGC3wAlq/rN5Q/RQn4nNXoChQK+qatz/znnyiwzGN9RQY8WgIZFuTrrzbJqOEYSxlvN+EJ/h3lmninGvLCjjtw8mrhB0uVaIpC1iCMQGatQ4c36swEdnV6EukhXIQtxdBxsVOkhCVNlJ4JP8SVd5nkfAhp3OGU4oOjG3/na7E5NFwTTk8opaYqABC+JC7nfhpPoAmJot1clvnGebdEg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(23010399003)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	dUdfHvy4vt05Jek+2B+UbU71F7uQLNHUWXutRouDh523UPFRFyKqe6hNYfeNVfj5w/Jx9Fa0OMr0BKwt9tNdETmtsV0UKHVCNS+2BHOnla9CkGDZXNw1jtIQdrwIonDeICe3Fi9zkwMUiJW86P7VrJLrJRTVpnzi2VSUOXcY7EuWyFgBFfTiq1AjYKtC4K3JvAlophAi7hUF3jjFlrNwjdUDvvZKomlyNXdIWRPAZKMy1QDwZwLyB/nFStZBQnpnWA3bwGXeMmtLK1pp8l/2aWZn5k1aJXsPHlPgiOIvHjA0eed11bLR4jYChM4xagA+zlWOBvjQZNJnHzHiuaSrfzJLRFiI2IP8/2o95Yip6SEcPTvEWkx0xaX6CGXQKNv+W+3kdw+xi6QJrOdkaJCK951A9FXhEJ9pBBJ30FdAZxxXPkmF05h4v2LvEscwAibC
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 18:23:25.1903
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 712f6fc7-0d2f-4e57-c72a-08def4b0f86a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0002992B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9210
 
-On 07/08/2026 15:14, Andrew Lunn wrote:
-> On Fri, Aug 07, 2026 at 08:39:00AM +0200, Birger Koblitz wrote:
->>
->>
->> On 06/08/2026 23:16, Andrew Lunn wrote:
->>>>>> +static int asix_ax88279_config_aneg(struct phy_device *phydev)
->>>>>> +{
->>>>>> +	bool adv_2500;
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	if (phydev->autoneg == AUTONEG_DISABLE) {
->>>>>> +		phydev_warn(phydev, "Disabling autoneg is not supported\n");
->>>>>> +		return -EINVAL;
->>>>>> +	}
->>>>>
->>>>> Why is that? Now that phylink is driving the PHY, and reporting
->>>>> speeds, duplex etc, you should have everything you need to program the
->>>>> MAC when the link mode is forced.
->>>>>
->>>> I tried forcing the PHY speed in the past, and it does not work.
->>>> This is a limitation which is also acknowledged for the suspected underlying PHY
->>>> hardware Airoha EN8811H, see the head of air_en8811h.c
->>>
->>> How well does this unwind on error? Is phydev->autoneg put back to the
->>> old state to indicate autoneg is used?
->>>
->>> This is one of the areas where phylib/phylink is missing a bit of
->>> support infrastructure. We have a bit indicating the PHY support
->>> autoneg, ETHTOOL_LINK_MODE_Autoneg_BIT, but there is no bit
->>> ETHTOOL_LINK_MODE_Force_BIT, indicating the PHY supports forced
->>> mode. So the core cannot enforce this and reject it in
->>> ksettings_set().
->> The error is handled quite poorly:
->> $ sudo ethtool -s enx6c6e07090000 autoneg off speed 1000
->> $ ip a
->> shows link is down
->>
->> Kernel log:
->> [848763.836126] Asix Electronics AX88279 usb-004:045:03: Disabling autoneg is not supported
->> [848763.836134] ------------[ cut here ]------------
->> [848763.836137] _phy_start_aneg+0x0/0xa0: returned: -22
->> [848763.836142] WARNING: drivers/net/phy/phy.c:1352 at _phy_state_machine+0x100/0x310, CPU#8: kworker/8:1/534588
->> [848763.836146] Modules linked in: ax88179_178a cdc_mbim cdc_ncm ax88179(OE)
->> ax88796b(OE) cdc_ether phylink(OE) r8152 nfnetlink_queue nfnetlink_log
-> 
-> That is ugly.
-> 
-> Ideally, we want phylib/phylink to report EOPNOTSUPP in
-> ksetting_set. However, as i said, we currently don't have a mechanism
-> for the PHY to report forced link does not work.
-> 
-> So:
-> 
-> Please change EINVAL to EOPNOTSUPP.
-I'll fix that in v7. I would like to give Jianhui time to test v6, first,
-tough. There were definitely bugs regarding suspend/resume and the MAC configuration
-introduced in v4/v5, that I would like to be sure have been fixed.
+DEPEVT_STREAM_NOSTREAM schedules dwc3_nostream_work() with a 100 ms delay.
+Neither dwc3_gadget_ep_disable() nor dwc3_gadget_free_endpoints() cancel
+this work before freeing struct dwc3_ep, so the handler may run after
+kfree(dep) during DRD/OTG role switch teardown.
 
-> 
-> We accept your change as is.
-> 
-> But if you have time/energy, it would be nice to have some follow up
-> patches in a new series which fixes this correctly, allow a PHY to
-> indicate it does not support forced. The question is, how to actually
-> do that. The BMSR has a bit `Auto-Negotiation Ability`. But there is
-> no 'Forced Ability' indication. It is simply assumed all PHYs can do
-> forced. All the bits we have in phydev->supported, are positive, the
-> PHY can do something. There are no negative, the PHY cannot do
-> something. So i think it would be wrong to add a negative.
-> 
-> What we do have is struct phy_driver flags, and currently
-> 
-> #define PHY_IS_INTERNAL		0x00000001
-> #define PHY_RST_AFTER_CLK_EN	0x00000002
-> #define PHY_POLL_CABLE_TEST	0x00000004
-> #define PHY_ALWAYS_CALL_SUSPEND	0x00000008
-> #define MDIO_DEVICE_IS_PHY	0x80000000
-> 
-> So maybe add
-> 
-> #define PHY_BROKEN_FORCED	0x00000010
-> 
-> and look for that in ksettings_set() ?
-I'll work on this right away.
+To fix it cancel the delayed work synchronously in both paths before
+disable or free the endpoint.
 
-I also would like to add another feature to phylink separately. All the USB
-Ethernet controllers have a feature where the controller sends a USB Interrupt
-URB to the host when the link state changes. It would be great if instead
-of polling, this could be used to trigger a read_status() of the PHY instead
-of polling it constantly over USB. This would work like the equivalent of the
-PHY link state change interrupts. Basically, the host driver would, upon
-receiving a link change interrupt URB trigger a similar code path in phylink
-as a link change interrupt by a PHY triggers. Ideally, this could be something
-that usbnet would help drivers to set up. Would that make sense?
+Assisted-by: claude-mythos-preview-high
+Fixes: dcfe437492e2 ("usb: dwc3: gadget: Reinitiate stream for all host NoStream behavior")
+Cc: stable@vger.kernel.org
+Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+---
+ drivers/usb/dwc3/gadget.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Birger
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa0f16ffafef..ddf1e262e2aa 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1175,6 +1175,8 @@ static int dwc3_gadget_ep_disable(struct usb_ep *ep)
+ 					dep->name))
+ 		return 0;
+ 
++	cancel_delayed_work_sync(&dep->nostream_work);
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	ret = __dwc3_gadget_ep_disable(dep);
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+@@ -3508,6 +3510,7 @@ static void dwc3_gadget_free_endpoints(struct dwc3 *dwc)
+ 		}
+ 
+ 		dwc3_debugfs_remove_endpoint_dir(dep);
++		cancel_delayed_work_sync(&dep->nostream_work);
+ 		kfree(dep);
+ 	}
+ }
 
+base-commit: 6b8c8af514d739d0335f5579b585e02babe8a727
+-- 
+2.44.4
 
