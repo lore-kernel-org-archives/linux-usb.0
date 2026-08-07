@@ -1,110 +1,101 @@
-Received: from forward201a.mail.yandex.net (forward201a.mail.yandex.net [178.154.239.92])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF7F418345
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 08:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D830C2853E0;
+	Fri,  7 Aug 2026 09:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786092523; cv=none; b=hpYyvVYSXL59W2ZthEJYBjjYxGAVM/I+UZ6l6kWFIIhCzo5w5CFFeS7n+7nGIfEIK6Gi8MId+7F5+Vt5ZKhBqbldhoUMj/hQrsyMlYDecgmF7cQ6Ebt4NSWv4azTK00vo6spSW3KeBM5yt1KVO8wos2D4TI23uWDTu8yRTsoPsM=
+	t=1786094164; cv=none; b=hnFWrKNeAEHmWiFPOsXoJF9HPl/r8f+dEk5XfEM8cgpOd42A7Kfoz8DmB269MAtVMeK65X85nzVImAXRDK37ThpAAdS6iQZzLkq78HeJCAoN59Y93T3QmI2u/lvFo9axgnd92oD1QxZUIL3dy+tns5L+3ZdCoe0RcgUKkmuTjIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786092523; c=relaxed/simple;
-	bh=cRLULwcCvXsnrokUO7cF8kl7pnpAHs1Imv+MqODSAGg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bunsWtllbRJnfLtaaDYJ6GRuJ1f16y4lRlyhO7W6RGP6MAFInzsdp5TH46+b81eIvUHzeLp5uBqDAxkYUlA26K40J615dw0zd2LUylcGjdycznb9RaOxxmTCbPVUTzIeUfi5niP4l/2SFgm/AWzMgGipftVtVTSiFxaGrK7FBmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=ZYkSKUDZ; arc=none smtp.client-ip=178.154.239.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1786094164; c=relaxed/simple;
+	bh=mOrjxtcMUBhioDVa/xOG8fHd/y+yTOxdqxILrWkzWAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fG7ZuJ8yqtt0W8T+Z5HwVqwwEfPs+erJLrg7RSlNxek1VmIzdE/oUlWBfIDhH0pHF3SgkhFtpLRCjpzD2yNVKkg6iz749KkAxpDm/tm049flhfzzULwSd06QyNZDX1rYvNhGOWP73LtHawdsaSkNhJ9fBlcm2UCdcff2FcPg/mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gM5wq9yW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="ZYkSKUDZ"
-Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d101])
-	by forward201a.mail.yandex.net (postfix) with ESMTPS id 2BED887DEF
-	for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2026 11:41:08 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net [IPv6:2a02:6b8:c22:d15:0:640:87c2:0])
-	by forward101a.mail.yandex.net (postfix) with ESMTPS id DE57F80DF2;
-	Fri, 07 Aug 2026 11:40:59 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net (smtp) with ESMTPSA id weFKBYJg28c0-Qf9CL5pD;
-	Fri, 07 Aug 2026 11:40:59 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1786092059; bh=hv/TS3TZjTAyWXo1wQSnC/Ez7fwNHKemJGS0gaMR1Qc=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=ZYkSKUDZyuUeYzGDfSXAUQ9SnLAFpEJ7xZ0jzcK049R1r2r1XjCJKSjFt2YnVbFRm
-	 Qms+YK+lpEn5jqiDnjeK38L38Xd/BScmmFL97yzdT7813YmD1SJ/Ft7/9/3GJqLpE7
-	 0BISghOBVex1+zWMrSd+B7hg0U+PPrkjPpEMXNak=
-Authentication-Results: mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gM5wq9yW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB321F000E9;
+	Fri,  7 Aug 2026 09:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786094163;
+	bh=Pg7DvMb2fYV//fTe62LkGLuRK+/Lp0wcIpkZuHVszkY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gM5wq9yWQnAPYYXGTkmekit2Yfec+NkF8DmQj6QFqzcblr37D3WrOCL3ei5NX6wfn
+	 /rW7Fby2QyJyna0LBd4cS+oANqbA4UcnfXGFfDiKStL3D3A20ZFpzUCE/SDk5VtK0c
+	 IQn17ohFJiURPhGGd9uzfsjrejL8lYQH4VZFY8KGE4h+MoumPUa07CPASIG87MPKSb
+	 lIiCbyhPzTtNKHbPOstoUanJyJY+GYlNKSdU4w+4fpvPbKkfYkyGqQxPVVmkgIzI9i
+	 aM1Dn4pJ8vkpzCIs1nPNn4BWulN2lcD4eZTfk+NpTYVMM+Q7IaYveK8UZbNx5UZIiu
+	 gJYLFNiR3Mq2g==
+Date: Fri, 7 Aug 2026 02:16:01 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: phucduc.bui@gmail.com
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Dmitry Antipov <dmantipov@yandex.ru>,
-	syzbot+901ca72278dfd89daf58@syzkaller.appspotmail.com
-Subject: [PATCH] thunderbolt: verify PCI resource type and size in nhi_probe()
-Date: Fri,  7 Aug 2026 11:37:57 +0300
-Message-ID: <20260807083757.318371-1-dmantipov@yandex.ru>
-X-Mailer: git-send-email 2.55.0
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-usb@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/2] usb: chipidea: ci_hdrc_imx: Propagate errors from
+ optional IRQ lookup
+Message-ID: <anWiUSPx8t-23mJx@hu-petche-lv.qualcomm.com>
+References: <20260807065619.30604-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260807065619.30604-1-phucduc.bui@gmail.com>
 
-Syzbot reproducer at [1] enforces the kernel to probe PCI device 00:02.0
-as Thunderbolt NHI. On QEMU/aarch64 'virt' machine, the device (at least
-with qemu >= 11.0.0) is:
+On 26-08-07 13:56:18, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> platform_get_irq_optional() returns a positive IRQ number on success or
+> a negative error code on failure. For an optional IRQ, -ENXIO indicates
+> that no IRQ is available, while other errors should be propagated.
+> 
+> Propagate errors such as -EPROBE_DEFER and -EINVAL instead of continuing
+> probe without the IRQ.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-00:02.0 Class 0100: Device 1af4:1001
-	Subsystem: Device 1af4:0002
-	Flags: bus master, fast devsel, latency 0, IRQ 47
-	I/O ports at 1000 [size=128]                           <-- Hmmm...
-	Memory at 10041000 (32-bit, non-prefetchable) [size=4K]
-	Memory at 8000004000 (64-bit, prefetchable) [size=16K]
+Acked-by: Peter Chen <peter.chen@kernel.org>
 
-So call to 'pcim_iomap_region(pdev, 0, ...)' in 'nhi_pci_probe()' maps this
-128-bytes I/O ports area, and call to 'ioread32(nhi->iobase + REG_CAPS)' in
-'nhi_probe()' issues an invalid access at REG_CAPS (0x39640) offset. Since
-NHI's typical register window size is 256K, simple sanity check whether 1)
-the region is a memory rather than I/O ports and 2) the region is 256K at
-least should be enough to prevent from such a scenario.
+Peter
+> ---
+> 
+> Link v1:
+> https://lore.kernel.org/all/20260806065254.28204-1-phucduc.bui@gmail.com/
+> Changes in v2:
+>  - Update the commit message and error handling.
+>  - Propagate all errors from platform_get_irq_optional() except -ENXIO,
+>    instead of only handling -EPROBE_DEFER.
+> 
+>  drivers/usb/chipidea/ci_hdrc_imx.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
+> index 56d2ba824a0b..7387c9903e80 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_imx.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_imx.c
+> @@ -525,6 +525,10 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
+>  		data->supports_runtime_pm = true;
+>  
+>  	data->wakeup_irq = platform_get_irq_optional(pdev, 1);
+> +	if (data->wakeup_irq < 0 && data->wakeup_irq != -ENXIO) {
+> +		ret = data->wakeup_irq;
+> +		goto err_clk;
+> +	}
+>  	if (data->wakeup_irq > 0) {
+>  		irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", pdata.name);
+>  		if (!irq_name) {
+> -- 
+> 2.43.0
+> 
 
-[1] https://syzkaller.appspot.com/text?tag=ReproC&x=1564acc6580000
-
-Reported-by: syzbot+901ca72278dfd89daf58@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=901ca72278dfd89daf58
-Fixes: 16603153666d ("thunderbolt: Add initial cactus ridge NHI support")
-Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
----
- drivers/thunderbolt/nhi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 0f795ea58756..724263c17b3e 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1186,6 +1186,7 @@ static struct tb *nhi_select_cm(struct tb_nhi *nhi)
- int nhi_probe(struct tb_nhi *nhi)
- {
- 	struct device *dev = nhi->dev;
-+	struct pci_dev *pdev;
- 	struct tb *tb;
- 	int res;
- 
-@@ -1195,6 +1196,12 @@ int nhi_probe(struct tb_nhi *nhi)
- 	if (!nhi->ops->init_interrupts)
- 		return dev_err_probe(dev, -EINVAL, "missing required NHI ops\n");
- 
-+	pdev = to_pci_dev(dev);
-+	if (!pci_resource_is_mem(pdev, 0))
-+		return dev_err_probe(dev, -ENODEV, "invalid resource type\n");
-+	if (pci_resource_len(pdev, 0) < 0x40000)
-+		return dev_err_probe(dev, -ENODEV, "invalid resource size\n");
-+
- 	nhi->hop_count = ioread32(nhi->iobase + REG_CAPS) & 0x3ff;
- 	dev_dbg(dev, "total paths: %d\n", nhi->hop_count);
- 
 -- 
-2.55.0
 
+Thanks,
+Peter Chen
