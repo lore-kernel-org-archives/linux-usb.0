@@ -1,158 +1,84 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2713A447807
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 06:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00674477E1
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 06:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786082870; cv=none; b=rU93b9zD9acVnFVBzpY2swgALrTc7xwRLUP7oVnMuqTLTkLC6f90w7l2hDg7BA0mX9YbCGR85G1hdcK99HidR73EQ2l4v5L+PPNSp7mZpY3wewAKSZ3PVyKSdJvBbkcIdo/fs1Tg/sjprlArvTTwMsJYLCcqYMdJ6EQ8S5JruAg=
+	t=1786083662; cv=none; b=m3A+3nL1qW6AwbMcXFDUWcKD7JOLcl6fsp/0xLZA2TmLidDtkqME0w/MwYUSxwuzBxNx4HkhyXp6o+ZlifoMAU+ymexJLTxCnW6X8NqMMpu+saAxhJpOpuy4YxbdbVc7m2J27v0R4Nz5SSjK1fmdHVbod4x6Ppew9imB901zgaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786082870; c=relaxed/simple;
-	bh=8nK3zk0LJnwP8Kr6V61I0Wwu+5q7KeBflm9aUfHvG3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TbnD+6hh+0CLc0QfZ5I3PVcjxiH3Se3QQVhMTXRblNVRqW70UCU+nl+U7/EikEHHZr24OPcivG+5jUFxLQY6ljhqaGgeduBqjz13y5GjsbQ7Yl+2aYF+J8iKfmEtI/jHghA/AY+RXnIwy/RRzGc62/foN4WSiBKFxM4xfQdqGbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/x95HHT; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786083662; c=relaxed/simple;
+	bh=POzmRgE2KT2VgZ+BQI6wtH1rUfIWQgo5Rq1Q2qH5xaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qe6QaiNBgxyomwtJmbL9qrkADGPLxLxO/pd6zSbDzfHZ7D1Mq2cJO4Wa8XIEtFWQusfQBGcuwciF+6iyu53Hv7AcUXvDSwyraEiRTW+xcPad+GYYHhHLI4a1/RcGgxn1XxG3LTaHBtNOriuzVzop3FYMee718rRKIa5rNX/4Kzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyxzJa+S; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/x95HHT"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-902e4af2d9dso13254046d6.0
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 23:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786082868; x=1786687668; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HQf34kglk1Yh8CWS1BUF21oEZ3LoRTy5y/WvEz9+4IA=;
-        b=k/x95HHThjboC8AVoHcl28lLtjXggobDvkBbhqJ1QMp4h9jPg/F1ajjjWrSkztfZOW
-         wd68q55nVYQywtFejKuhfc1rnZxPqWd+XdTJqb2wRGv2n9gdN3YMXKXeJwal1TGLvpfV
-         D6rqT8QVJ6JvFAO4iNR4BzuVezhe6rqEzajAEr1Ml6oQ1HrOgOXFV4AHlZdYcu3NAXg5
-         6z2Aku2fSeCafhLvTXiDHE2olj/pPSlZpPcAq2TxfbMNPB2hzQHzfeEG2ni/4UuCeCpp
-         IwbX75gV9NiktKX+4rQbi6dS+1qv7WKFLv+B8IYLiaeqf6apZ2D7Ce0D0rVu7yxUR4Jz
-         sV1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786082868; x=1786687668;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HQf34kglk1Yh8CWS1BUF21oEZ3LoRTy5y/WvEz9+4IA=;
-        b=qFUVy4fVziId1/Gcrtm2CsmXsShQEkcR3rxZyk/Gok3ge0apFUpX1C3udhifMYmFj6
-         nwURFtTHdtQ7HQVaxEIwm8Cu/EhyJew/fzLvstjlzo/0zuUqyas5JatdOW6c46KyZAYD
-         e2Q5AvZsbPxJiUr2RfZC/WtKz2tBl6pWKVm5HdwPQsknaCZtnvLASRSC3Vn9L9KHRlGC
-         g7R16/+0CJGSRCYdUtz6NzJUfvJETx8NByeTQ4iZUNNVRDlWKHnU8Fz/nYZPrL8Z/r63
-         IXccXEpy4z1Ro9soYTLu69BjsJq3sGEuw4uATv/zeWEx+VDypJ1bKEwgkQlPd9IxW7Aa
-         eMEw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpzt2h1hOpfCJ/xC1weKVxw7CbNu8HXWMXft2cwogJEl1LZNgowGB+9PpcSCs8bwCuHfRBOudeBCvA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAFcslZjLHqZ84tyejDuI1kKEwIXC4nOF1CDjBegi3smqjONqB
-	8zl5bugtJTqjKZZPsP5N5AzxUj1jQ8oR4X5OKY16gbAPBDGCA/CoMPQn
-X-Gm-Gg: AR+sD11gtiTqrOe7OA25w+o+/DzAuINr5M7ZAp0XtZwkfpVgy5YuoHQroyd8HvK2BUi
-	mPb/c/6ygnbkgKqBom0cp7vx4Cj6vkmgs19UlvM3SIRicS6WMrHzGr2i8KF6fpekyFHoaOdPQXD
-	zvhBtOKnOZgXbx4kO5nmLLt6y8G5g8Y6Gpd82vvanLF431syap3BCc8PDHAhFVgMs7W30Op2H3o
-	01k10VYxWImSxkDmxU4qisdAXFW8KI/e0LvhliDN4nfZT1Y/i40B7qTVqsqX92e82E0tx4eDCue
-	7I3bohVSK7aMbcJEmj0zd+hoowEM7uSBWS5IS99ZAtHGGjt/y2i1LpIoE/6HIV1fBgY+YllsoS6
-	m9YOoR+9uG98ALO+iptUbW3eAYK76aDOMVNoDcaX55uDoi4VF2PZ/+ZDtO+PCnMy3ZhMNE+KBhM
-	14TcvYD+y947rMyCs0p3VBc2X7ASI66DOw/7RT1A6FvDLJA3fzONv5u2bZRnv0QbQ/fiY+LURkl
-	sGjes5pM+dHXJNfkA==
-X-Received: by 2002:a05:622a:4d86:b0:51c:b91a:33f9 with SMTP id d75a77b69052e-52cfb00255dmr137405711cf.13.1786082868001;
-        Thu, 06 Aug 2026 23:07:48 -0700 (PDT)
-Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a92ff8d1sm1985816d6.25.2026.08.06.23.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 23:07:47 -0700 (PDT)
-From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_tcm: keep port count until LUN teardown completes
-Date: Fri,  7 Aug 2026 02:07:33 -0400
-Message-ID: <20260807060733.3186624-1-shuangpeng.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyxzJa+S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786083661; x=1817619661;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=POzmRgE2KT2VgZ+BQI6wtH1rUfIWQgo5Rq1Q2qH5xaw=;
+  b=QyxzJa+SG57xrm0XwZQ0v9lix/SMOEhBGqlnhWrtB5MpuwqREsimCHzn
+   CrnNTTpQR29Tkkr6gjIdedhFLzrTL60201K7aoaX7fgLA22QYdR9tnLwt
+   R3RaNQJSJEWn31FLE5c8MzHGleXS71wQQjGj1W2fI2Co2j9N/rJhlFEc4
+   u5tB8rbmC11jkStAT1ToVOGwLAaDVxOtutZNry54J01bT9i3LkRi+Yzwt
+   LArmK/QQtnheQRJcLBozhhKpSrBjBrxRggY0lLbREQFNSrdxr6HpWEpRU
+   4+ldm3MNXtm4nX/aZZMSK50xzgwQEchPQ9CYUCHruz/PT1nhw36PUnL22
+   A==;
+X-CSE-ConnectionGUID: tH2bACiSTUSAS/YJ0IGpFg==
+X-CSE-MsgGUID: ne+uT5KkTy+kYJcMxmEbcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="90503872"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="90503872"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 23:21:00 -0700
+X-CSE-ConnectionGUID: z5tG2JF4SKOhzIKeNWHXFg==
+X-CSE-MsgGUID: /MzvzJpbTCmE4Ci0p2s6OQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="258008352"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Aug 2026 23:16:29 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 2FB7299; Fri, 07 Aug 2026 08:16:28 +0200 (CEST)
+Date: Fri, 7 Aug 2026 08:16:28 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org, Mario.Limonciello@amd.com,
+	Sanath S <Sanath.S@amd.com>
+Subject: Re: [PATCH -next v3] thunderbolt: Add quirk to reset host interface
+ on DMA path teardown for AMD USB4 routers
+Message-ID: <20260807061628.GK235112@black.igk.intel.com>
+References: <20260806125929.1238914-1-Basavaraj.Natikar@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260806125929.1238914-1-Basavaraj.Natikar@amd.com>
 
-tcm_usbg_drop_nexus() permits session removal once tpg_port_count
-reaches zero. However, usbg_port_unlink() currently decrements that
-count from the fabric_pre_unlink() callback, before core_dev_del_lun()
-waits for active se_lun references to drain.
+Hi,
 
-If removal of the last LUN races a nexus removal, the latter can observe
-a zero port count and call target_remove_session(). This frees
-sess_cmd_map while an in-flight struct usbg_cmd, including its work item,
-can still be accessed.
+On Thu, Aug 06, 2026 at 06:29:29PM +0530, Basavaraj Natikar wrote:
+> Some AMD USB4 host routers have a bug in the Host Interface where
+> DMA path setup and teardown cycles may cause the Tx ring to hang.
+> 
+> Fix this by issuing a Host Interface Reset on every DMA path teardown
+> for affected routers. The Host Interface Reset brings the registers in
+> the memory BAR to their default state and clears the End-to-End Flow
+> Control state, preventing the hang condition.
+> 
+> Co-developed-by: Sanath S <Sanath.S@amd.com>
+> Signed-off-by: Sanath S <Sanath.S@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 
-Overlapping the last-LUN unlink with nexus removal reproduces this
-lifetime violation as a DEBUG_OBJECTS "free active" warning for
-usbg_cmd_work, followed by a target-core BUG/Oops.
-
-The generic target-core unlink path has no callback after
-core_dev_del_lun() completes. Add an optional fabric_post_unlink()
-callback and use it for the f_tcm port count. The count now remains
-nonzero until core_dev_del_lun() has finished draining active LUN
-references, preventing nexus removal from freeing the session during
-command completion.
-
-Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
----
- drivers/target/target_core_fabric_configfs.c | 8 ++++++++
- drivers/usb/gadget/function/f_tcm.c          | 2 +-
- include/target/target_core_fabric.h          | 2 ++
- 3 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/target/target_core_fabric_configfs.c b/drivers/target/target_core_fabric_configfs.c
-index 166dbf4c4061..ab8f81650710 100644
---- a/drivers/target/target_core_fabric_configfs.c
-+++ b/drivers/target/target_core_fabric_configfs.c
-@@ -690,6 +690,14 @@ static void target_fabric_port_unlink(
- 	}
- 
- 	core_dev_del_lun(se_tpg, lun);
-+
-+	if (tf->tf_ops->fabric_post_unlink) {
-+		/*
-+		 * Allow fabrics to release state that must remain valid until
-+		 * core_dev_del_lun() has drained all active LUN references.
-+		 */
-+		tf->tf_ops->fabric_post_unlink(se_tpg, lun);
-+	}
- }
- 
- static void target_fabric_port_release(struct config_item *item)
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index b3fa5a17fd2d..98414e7611c0 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -2024,7 +2024,7 @@ static const struct target_core_fabric_ops usbg_ops = {
- 	.fabric_enable_tpg		= usbg_enable_tpg,
- 	.fabric_drop_tpg		= usbg_drop_tpg,
- 	.fabric_post_link		= usbg_port_link,
--	.fabric_pre_unlink		= usbg_port_unlink,
-+	.fabric_post_unlink		= usbg_port_unlink,
- 	.fabric_init_nodeacl		= usbg_init_nodeacl,
- 
- 	.tfc_wwn_attrs			= usbg_wwn_attrs,
-diff --git a/include/target/target_core_fabric.h b/include/target/target_core_fabric.h
-index e9039e73d058..390ace5bb252 100644
---- a/include/target/target_core_fabric.h
-+++ b/include/target/target_core_fabric.h
-@@ -95,6 +95,8 @@ struct target_core_fabric_ops {
- 				struct se_lun *);
- 	void (*fabric_pre_unlink)(struct se_portal_group *,
- 				struct se_lun *);
-+	void (*fabric_post_unlink)(struct se_portal_group *se_tpg,
-+				   struct se_lun *lun);
- 	struct se_tpg_np *(*fabric_make_np)(struct se_portal_group *,
- 				struct config_group *, const char *);
- 	void (*fabric_drop_np)(struct se_tpg_np *);
--- 
-2.43.0
-
+I did few minor cosmetic tweaks and applied to thunderbolt.git/next,
+thanks!
