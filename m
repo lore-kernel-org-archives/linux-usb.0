@@ -1,69 +1,90 @@
-Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57E3442399
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 13:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FB8468C0D;
+	Fri,  7 Aug 2026 13:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786109241; cv=none; b=pHHxFJltgRxUHgrfo5l3ErrRIvDIbeXwCB3haBkD08fL8puBe0kU3soJM4TkXbEH3wI7lNY3mffXL84+zb3faIOL09AP5Al9TwaYy6BAS09lYCCktI1Tak1LPllvsLHvvZPZLeEgP/t4cLlSQ4xhlsCjjirAhywf1ZF/Z9LGdBk=
+	t=1786110769; cv=none; b=GsmiktI2HgB2w3rMCSz/0ZbbKuJPy0B0kFlO4dzT3bGuXMJOPkAeHqEwjYtkjcJhEY6I/bLQxh1QX3MDy29J+eOWf8Io0lOy1bOkTUsC+yOY1Nj55PnKbAcq19Y6f2eyCqBBfkC9QSeYwViPflDgtECzoDkaq9dzfsNsB1yFIqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786109241; c=relaxed/simple;
-	bh=3BgR6ltVD5wFHwNQdYWtUdg4vVQPaPEGxN8PO7VtXuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MKJDi3CLtlot5u34e5uTpj/bbFIlitPRRPaK+ADokrpSl+cOtuCJBNslKvQzonR4iTIyS07iu0dLHPI6d2NrrmPzEidhAKNDohbZTKziLmoPFywp/kqoZXiOZ31CIEXo8yNaitw6+IYqfysgGZLnylTK+Upy1TnmgeiVMFArH5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=oYkkRxQw; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1786110769; c=relaxed/simple;
+	bh=H+Nyc4/vgdWy94CaLo6H0u8OAMw71TbP8kluCcqjd44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qIhl3LEjuEWyErgsiKTYyjqqe14Wd8He1v+eLMZ1j+2ApTMAkruFIw/ud3DwzNw/Tz1dgNY4dxXg+Zl1ViHBkzQnFJ9s4WHi1bCMOdBOIPduhOVbc4W1XrcLYVtpE+nDXJXEZJA7AUD2mhFILZT+3BSF25qpsEVwnNboeCr4JGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h2c6pEWN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="oYkkRxQw"
-Received: from mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:ea2:0:640:ef77:0])
-	by forward500d.mail.yandex.net (postfix) with ESMTPS id B9B7C82B14;
-	Fri, 07 Aug 2026 16:27:11 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net (smtp) with ESMTPSA id 9RKlA1Og50U0-J2p3xACM;
-	Fri, 07 Aug 2026 16:27:11 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1786109231; bh=3BgR6ltVD5wFHwNQdYWtUdg4vVQPaPEGxN8PO7VtXuc=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=oYkkRxQwkqrQfAyAQ/0H2buo0HDVSOvm/y/fNwYdCyVBdwj76LbEmsSHdL6flFsaL
-	 SL4VvQcc7B1MpYB4joyvztLwoX4aZDgMz9B7azvtOjpZnkSvvEcAur/V+OTYtm5lEH
-	 KGCArL9b4Z0mSd9qq6l6aB3D/t2mHIFJzmYJh+5s=
-Authentication-Results: mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <c6baa5a3-b466-46ad-a83b-f642ee85f04b@yandex.ru>
-Date: Fri, 7 Aug 2026 16:27:09 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2c6pEWN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F44D1F000E9;
+	Fri,  7 Aug 2026 13:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786110760;
+	bh=z6EKGMncM2Wze0PaGWUbY8vyrNDHhiTO8yRZPcZARKg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=h2c6pEWNuEGV41Pf1BUoazp3KY3E2+foQv0Z9a7SeX0Gz8P4coboyNbG58kghcFQB
+	 60voaminXFK/9AgH52/lMhG+ypZk1nfzVoklFvO2vfOkOX44rcAqaAmF0/kjKOo0h4
+	 AtZmrmZ4iEJKHftF4XnxIAymGMO4iQC0fKmJABli6gOp0w93HMYf+FQ0bEPa4oIIXA
+	 xcZ4t5wM921WSYC93cNcux1xjv7dbNDtMKl3IGdFgs9QfCSqw0UYxnMdnmMwmQ6t9c
+	 VuPFdj43k0mRSQLPpuMccazT5Eh5ncF2qkQv0/EoxRZGYNx3Gpf6zLzc0uFe5mUniM
+	 6+Oj+/WUDBeHg==
+Date: Fri, 7 Aug 2026 08:52:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Elson Serrao <elson.serrao@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Peter Chen <peter.chen@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/9] dt-bindings: soc: qcom: eud: Add per-path child
+ nodes for UTMI routing
+Message-ID: <20260807135239.GA48030-robh@kernel.org>
+References: <20260803031534.2942628-1-elson.serrao@oss.qualcomm.com>
+ <20260803031534.2942628-2-elson.serrao@oss.qualcomm.com>
+ <20260807-shrewd-white-mayfly-a8bfea@quoll>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] thunderbolt: verify PCI resource type and size in
- nhi_probe()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
- lvc-project@linuxtesting.org,
- syzbot+901ca72278dfd89daf58@syzkaller.appspotmail.com
-References: <20260807083757.318371-1-dmantipov@yandex.ru>
- <20260807095831.GL235112@black.igk.intel.com>
- <7510bf11-7ae3-47dc-b499-5eb5e0aa0192@yandex.ru>
- <20260807113113.GO235112@black.igk.intel.com>
- <0c4957c9-8642-449d-b71e-6615babd553f@yandex.ru>
- <2026080747-doing-humongous-c14b@gregkh>
-Content-Language: en-US
-From: Dmitry Antipov <dmantipov@yandex.ru>
-In-Reply-To: <2026080747-doing-humongous-c14b@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260807-shrewd-white-mayfly-a8bfea@quoll>
 
-On 8/7/26 4:11 PM, Greg Kroah-Hartman wrote:
+On Fri, Aug 07, 2026 at 09:20:26AM +0200, Krzysztof Kozlowski wrote:
+> On Sun, Aug 02, 2026 at 08:15:26PM -0700, Elson Serrao wrote:
+> > The Qualcomm Embedded USB Debugger (EUD) can intercept one or two
+> > High-Speed UTMI paths depending on the SoC. For example, SC7280 supports
+> > EUD on the primary UTMI path only, while SM8350 supports EUD on both
+> > primary and secondary UTMI paths.
+> > 
+> > Each UTMI path connects an independent USB controller/connector pair and
+> > forms its own role-switch domain. EUD routes traffic based on USB role.
+> > In device role the debug hub is inserted, while in host role it is
+> > bypassed.
+> > 
+> > The existing binding models EUD using a flattened ports representation.
+> > While sufficient for fixed device-role configurations, it cannot naturally
+> > associate a controller, connector, and role switch with a specific
+> > EUD-routable path. This is problematic for role-switch capable ports and
+> > becomes more pronounced on SoCs with multiple paths. In such cases, each
+> > path forms an independent role-switch domain and requires per-path role
+> > awareness.
+> > 
+> > Model each UTMI path as a separate child node with its own OF graph. Add
+> > an SM8350 compatible for dual-path EUD topologies while retaining the
+> > legacy ports representation for backward compatibility.
+> > 
+> > Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
+> > ---
+> >  .../bindings/soc/qcom/qcom,eud.yaml           | 128 +++++++++++++++++-
+> >  1 file changed, 127 insertions(+), 1 deletion(-)
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-> This is a debugging-only feature
-
-AFAIK QEMU's vfio-pci uses this to bypass PCI devices to guests.
-
-Dmitry
+sashiko correctly points out the oneOf logic is flawed.
 
