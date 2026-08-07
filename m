@@ -1,118 +1,130 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24960431A5E;
-	Fri,  7 Aug 2026 20:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4050122579E
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 20:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786134393; cv=none; b=ktrInxdvfkfwolyxHuadaFh/b4ksxhDFcWx3iDB/AH+mbDUPNzAavD5Z2e8L3wF7dr9gysWhBaQ++VIbTJRlzhTMTYe1z6/Y4r4AMHVTr5xXCsZwoq0cWQLXq9KJCj+9Bal8HgbO57ns0mqfM4Jyko6ue9fvENp4z0QEJOFhzWY=
+	t=1786134851; cv=none; b=Ke7zn9/YtV/qC4SiNGDtWIIHI1SxgHiZfnoEfGkSfXwV0t3B3qn0tAPXsINs38jMWNRYheSSN/uuTWifRfQjWssQHa7yVYQA4tF8wvJTI5xgcHdaad1+Uuta1BVXcZlfgTgb0ITAEg/SBXKLpFC3KXNDbw9QpYlmTolKhqbTiFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786134393; c=relaxed/simple;
-	bh=aKNyWgXdRLFr474pjx12W41X/xOsNzZd8nzPgCT62jg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VkPcR8i7Whn6nakoOGEMfw5dVDFZtW/RT1oRQ4cuUao87rcCBnn0chAWmEEoEUVximqjwVDUFjAotlzQZeQaVlss72dSe/npXelmMbFmSRQFRAC+nuFtfq+i2csuLldAUEHofaznMmXIqAAtm33oSoTnVy7UgCab26V7agPYdP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=StxvltlO; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1786134851; c=relaxed/simple;
+	bh=4bKtNy1m3ugf3oupJKxYZLQ3iwlmRNaacUKow8NU8kc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b5osgZryNiMWU8sZcWJGnnQHL36VuU9jq8uzTIyhDyaFnjorYxkqWRFPsKJUrQHVPkMPIjbpDe+/6F/WnHaZr3safOC0VuVz0MEdrmBXXG95NDHyYVuISO7y5NDQV/zyoUaoT+Cib7bZknMblw4qoRxpMD19arHiFyK4QllD6vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqsSh7oc; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="StxvltlO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=PmzGAJ4lFgHbct8/39EuKLahvGMctDU+xTNHlGejDd4=; b=StxvltlOLFiF0O8hTiZd0h7u4D
-	mXSwYlefizCKfOjao5TF0g8pSdkV5CIcnSIIpYgkgNX+5aagsSNoGz5qvBL+UwKZNfpMGMJ16P64f
-	yjnpwYIjAgTKxep3OttoYLXl1RsO2Qe/GKXLB6hVFJhq9vs8i3TKo1NfCCyS0gK84ZrE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wsR8T-00Gdav-2Y; Fri, 07 Aug 2026 22:25:45 +0200
-Date: Fri, 7 Aug 2026 22:25:45 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Ciprian Regus <ciprian.regus@analog.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Mark Einon <mark.einon@gmail.com>,
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-	Keyur Chudgar <keyur@os.amperecomputing.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Wei Fang <wei.fang@nxp.com>, Frank Li <frank.li@nxp.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Jian Shen <shenjian15@huawei.com>,
-	Bryan Whitehead <bryan.whitehead@microchip.com>,
-	UNGLinuxDriver@microchip.com, Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Timur Tabi <timur@kernel.org>, nic_swsd@realtek.com,
-	Byungho An <bh74.an@samsung.com>,
-	Steve Glendinning <steve.glendinning@shawell.net>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Jiawen Wu <jiawenwu@trustnetic.com>,
-	Mengyuan Lou <mengyuanlou@net-swift.com>,
-	Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	Sebastian Reichel <sre@kernel.org>, Simon Horman <horms@kernel.org>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-omap@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH net-next v4 0/4] net: mdio: support dynamic OF device
- changes
-Message-ID: <e0ed0a61-8878-46e8-805f-c0869b97da7d@lunn.ch>
-References: <20260806-submit-mdio-of-dynamic-v2-v4-0-4beb0c50d5ba@gmail.com>
- <b2e83ba0-2e9c-4105-b806-8a155e8b9aa5@lunn.ch>
- <CADvTj4rame1n8eQL2GUOaJHnOcR_cqNxzNYO+QeCLYDczEFeUA@mail.gmail.com>
- <ddce5cfa-8cf9-4f9e-ab0a-0b415706876a@lunn.ch>
- <CADvTj4qxGVw+PW2LeF-a3h1XfmirQZGfJA9-6Czt72XASbVLBQ@mail.gmail.com>
- <4aeebecb-81fe-4f09-9dfe-a3be2f778bb8@lunn.ch>
- <CADvTj4qrYYA-e+9iJ+q4UaZteUjpypRa6HBSmwp-ajwPbwYERg@mail.gmail.com>
- <3cd188e7-7dc4-4d67-82de-e2ef3edee232@lunn.ch>
- <CADvTj4pJG56UERve8BfbYzjCLO4KBDDuFviTcz1ivuwUFRMdxA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqsSh7oc"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8ee43b3e5abso26113966d6.3
+        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2026 13:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786134849; x=1786739649; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6IowxHDF4Drb1gFfxYtPR+reAwuJtDGOMbAUhoGrbyA=;
+        b=jqsSh7ocphShw+6OSjf+rojoSJIdFPYSOnSvHNeodsjqKdjCedgeOZsvt93x6kLEfW
+         XkkSZyMFB3pD5yEt9sCLwvJcWP0g5zN/njWuiHVqqkfkm7xM/ryzsP5cj1gxT+ih4onl
+         qNHWQc8fgc8BimEFrMa1nsZph/NlBTYm1TF6hUrSfy/5udrKdUeIOO8CNkQtGXCiqAR+
+         J2ZShl1o+Dy9sl8rJxRWyJdal1Z68VyItncv+8j5di0fxdUR3TjBbALVWlTWlKzX96nd
+         0guwmxX8S8WjTP7zfYtqAEMeVxd5MlkmNneHMGCk4FkIlOfgJs3ZrPs0XkoanbEov1/Y
+         UKAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786134849; x=1786739649;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6IowxHDF4Drb1gFfxYtPR+reAwuJtDGOMbAUhoGrbyA=;
+        b=dOIFLJ3OszfMaJLCqGVGWL26VmsJSCfQYbb5AY/gj7/uMqjBa924knFFHpKvgFzJz3
+         W06ZXuxZQb5HfCcCmaDsxndZsgpK8Wv+TxsbbK3m1ckXzEjMjNP4XJiEWEroxLOQhiS7
+         XmiTm/moOT7KlDVaZPV/w0u6e1elBT15UNSQcebwP5XCkFqUBQYOntz+GHnzfZgUUdKn
+         bgEv/j6LHLJjRVDl3t0cAvdwaBTieVJq91KnOxsNl9YNfA4Nqp1rovtNJnSLwDckXGKQ
+         W4/HR8nLxivn/ZUyIB4Ao76/qAjPem8ugY1R/lWsxE9HPAmHF2aw5zA9sIaKz2xY80uT
+         jlkQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpCCjyk8TgerwJIwwtEM9UmRn09l/WqyFeoK9UfHin4M0C734MnzmHqayrMQRTuYRiTYvdr/Up7K+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyqay40xy0hOuWeOCCLKKvNVNJqf9LZutQCJR6EsRe3sXKUqUyp
+	OQ/qiEv/g4D9foslmKWYfm9oU+WHGytYQDNBtqukzi6OG1uZF1B+anZG
+X-Gm-Gg: AR+sD11Vpkx1CiXCfPrx4VglGbNwbl1v1jMZUyDee1O6V6LUvx0cPf5Z/Z9kmNfUjVX
+	9/emLsGqge7qpBfwNYTsgcJzLsKQigpautfOUCgcWpvaP0jJb/PWzhTWofCLZG61Dfj5yu/g0kr
+	M9NwkNIxvohViaKBRhmiOhkMh5UYRdRU6EQieVVBEJ/mErgA6/VKiBb/xCyENP4mm4BjQ+0hwUy
+	DyIn7fII62v1RJQYvtk8jMDeSQ4S6BvHS6m84HPdtw+sJKVbnCHEN/AH5UyFGIsr1S27Td77uw9
+	odHSlxZYi05+bVfkt00FpjdHxwT01UEp4X8A40S8mkQ6PI41qIoo9hFyMdgcvcEgI5p5bMWOedj
+	SgqhbKdtmqIKFcoFQ7n9yLYGG2MwCNiU9Ymip223qnN1mFGZ53AU0e9Au1vJgBU5kinWc+pm6fw
+	XmFeBe5nT8G0JmOSndsh9FYeXCIIPi/KK9HxonXmQyzM1aeoNUvNnuSPhHixNwNLdc+oNgPZ+YB
+	BeVNisfg65jDPUCLbsYRJGOeMZ18betFYZl4XG/GZViG4ezZELZNT9oNnHOmis=
+X-Received: by 2002:a05:6214:252d:b0:8fd:7913:b345 with SMTP id 6a1803df08f44-9088126f465mr296889346d6.22.1786134848955;
+        Fri, 07 Aug 2026 13:34:08 -0700 (PDT)
+Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a918dc65sm16676826d6.6.2026.08.07.13.34.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 13:34:08 -0700 (PDT)
+From: Yuho Choi <dbgh9129@gmail.com>
+To: heikki.krogerus@linux.intel.com
+Cc: gregkh@linuxfoundation.org,
+	sebastian.reichel@collabora.com,
+	tglx@kernel.org,
+	alchark@flipper.net,
+	u.kleine-koenig@baylibre.com,
+	ustc.gu@gmail.com,
+	bigeasy@linutronix.de,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yuho Choi <dbgh9129@gmail.com>
+Subject: [PATCH v1] usb: typec: fusb302: Free log buffers on exit
+Date: Fri,  7 Aug 2026 16:34:03 -0400
+Message-ID: <20260807203403.1011343-1-dbgh9129@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADvTj4pJG56UERve8BfbYzjCLO4KBDDuFviTcz1ivuwUFRMdxA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-> So should I just drop the final "net: mdio: support dynamic OF device
-> changes" patch and keep the MDIO hardening patches?
+fusb302_log() lazily allocates entries in chip->logbuffer[], but
+fusb302_debugfs_exit() only removes the debugfs directory. The buffers are
+not part of the devm-managed chip allocation, so they leak when the driver
+is removed or probe fails after logging.
 
-If you can provide suitable commit messages which indicate you are
-fixing real problems. We get way too many AI generated patches which
-fix theoretical issues which nobody ever encounters. That is wasting a
-lot of Reviewer time, preventing me and other reviewers from helping
-developers doing real work adding new hardware support, or fixing bugs
-which both them. Those are the people which i prefer to help, not the
-newbies using AI and have never taken Operating Systems 101.
+Free all log buffer entries during debugfs teardown.
 
-       Andrew
+Fixes: c034a43e72dd ("staging: typec: Fairchild FUSB302 Type-c chip driver")
+Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+---
+ drivers/usb/typec/tcpm/fusb302.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index 3319f6a2b0c9..67ccbbd64caf 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -223,7 +223,16 @@ static void fusb302_debugfs_init(struct fusb302_chip *chip)
+ 
+ static void fusb302_debugfs_exit(struct fusb302_chip *chip)
+ {
++	int i;
++
+ 	debugfs_remove(chip->dentry);
++
++	mutex_lock(&chip->logbuffer_lock);
++	for (i = 0; i < LOG_BUFFER_ENTRIES; i++) {
++		kfree(chip->logbuffer[i]);
++		chip->logbuffer[i] = NULL;
++	}
++	mutex_unlock(&chip->logbuffer_lock);
+ }
+ 
+ #else
+@@ -1784,8 +1793,8 @@ static int fusb302_probe(struct i2c_client *client)
+ fwnode_put:
+ 	fwnode_handle_put(chip->tcpc_dev.fwnode);
+ destroy_workqueue:
+-	fusb302_debugfs_exit(chip);
+ 	destroy_workqueue(chip->wq);
++	fusb302_debugfs_exit(chip);
+ 
+ 	return ret;
+ }
+-- 
+2.43.0
 
