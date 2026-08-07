@@ -1,159 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9F132B13E
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 11:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786102506; cv=none; b=GOfIz9rVmkQ8eEuDNS3SICeWtuFaIWBECa3qLnMQtOnMc9CVKZbM7k/x0Z/Y8FMAiBYx4lqHkQOhMe6PRfyKhJGfiuXoAw1h5+86ch2X0qEJkgrEH2TqXq1cBp0vewm1Ii0HsPR0cBccXolc+7GyKS/GWVEXb7w2qObPj9PiDEc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786102506; c=relaxed/simple;
-	bh=6m09kTlh3avw8bM9oWK+DTkEfset+vKbHomfXs4fZZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p32cPQPmNpXdFr2F1oQLuulv24BQ1GYAA6bJ/ESN9Qj7k5fI1JO8zIdYH3WtFJj3gMhh4B7ATSo8grVZHMd3jprJpAANSOimV29NtpAC/G7Mmbs7Hl/KmvIp9eZEnphEaWuJdyd4OMj97Ut4yGHk446loNbEFAAXit4uxyFwjf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+r9SEOX; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E124A47127E
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 11:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786102546; cv=pass; b=q+ENQIJze9Lqu+8jsfJGYEswmDZX+k2KYkvQXO/qPMBCM7ejB5qgwJQfcn8j9vaANgwFbMDiDAzfUPlF9I8RDiRzK4uTNBuk/Jn7mIkkKMzVDmDpAv4FqFJTQVNLojmnkjh/Ehg6SOGC+MtM1V2jk181k1lkh65KmpfnfVBuf6M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786102546; c=relaxed/simple;
+	bh=KonotXRwXiSLQlw6vlTzZA1LY9JAAKMhrEBp5NWp/aw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fYAFlPtJkMVIncL2ZsSewFIGFbM/L9MqJLmaDmOyRdXsSKh0+SlXIRePOx0oyb/eDRJnrXc2j87u9C8eUppXRpzSJJWwjcpE1f5zFWua1MF8UYt1SIQZvSSQOLDBjZb8+tkxGRIkJmTr4LQRZvMRzJIKB0m22nvBdElBvBfp+bE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gywRWkup; arc=pass smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+r9SEOX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786102504; x=1817638504;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6m09kTlh3avw8bM9oWK+DTkEfset+vKbHomfXs4fZZI=;
-  b=V+r9SEOXH0v0AdGSvr8OUG99H+h5VgQu+QPmZl2M6QmasMLtkSwAt+FW
-   vEnRwa/zj8GtGTQjNJun7Em5V/oI1RbZjWIwJvnTfKylteGhk1fppYJmG
-   osNz9mJTwUn5i7RUyd0EfpaLZRvDGriUJKpylaKkobbPZj+JjBQP5NYvt
-   KUo7v+acd3x8qSH1eR8tUj+gu/LVkDgk3PtiCNr8/zE95ohKwg5/9p8km
-   pe9OgyoaJgz3SBQfkq7XahwMssDDLyq8AbhL80cxb6c46UT4y3IjWQpsN
-   UYZS4HBbEX916MQzUwxisHJEOLDhtFVYVPnuXk/wmEI9OqFgfaeAr2hiH
-   Q==;
-X-CSE-ConnectionGUID: txIb5AY4RY6l4kD+5hdapg==
-X-CSE-MsgGUID: Jr9aucp/QzyND75uPJW5+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="90525199"
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="90525199"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 04:35:04 -0700
-X-CSE-ConnectionGUID: 3rHV+F3BTlmqzOCJGRVlug==
-X-CSE-MsgGUID: ccKSQ+wJRje+XOJRDWiVSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="261857575"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 07 Aug 2026 04:35:02 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 1E8A499; Fri, 07 Aug 2026 13:35:01 +0200 (CEST)
-Date: Fri, 7 Aug 2026 13:35:01 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: David GUENAULT <david.guenault@gmail.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: thunderbolt: PCIe tunnel creation fails for USB4 eGPU dock on
- Titan Ridge host
-Message-ID: <20260807113501.GP235112@black.igk.intel.com>
-References: <CAOFj14_tBEh5eXt_o5ZZme6bMt+Gt1pLS1ARwR2n=29WcjP2Qw@mail.gmail.com>
- <20260807043719.GI235112@black.igk.intel.com>
- <CAOFj14869aOGeoSfBVcS+-W3FUCq7CN3g+3cuGRJeZTD5Zjnng@mail.gmail.com>
- <20260807101805.GM235112@black.igk.intel.com>
- <CAOFj14-tWAAkwGOuoyS_w-kV87PvLaXMViXmNKW9wjxS9Hr3yw@mail.gmail.com>
- <20260807112925.GN235112@black.igk.intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gywRWkup"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-81ed073fed0so42195367b3.0
+        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2026 04:35:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786102544; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qFWoc/Dj1IHAO9K08D6cGHX016CuRXZ6h+cuKAmgwER+D8KFj2CZh3yYAcime90eY2
+         bWwdWOzScVV/K4HjhuHBu/RHBXcG3WN+C5xSiZHxd6aKNkWrbc2xZGCy5T9E4PrSZ03z
+         0UjC6hropA2i9gWjAVmB3USPPfWMWGhGkqe0zWEmfpu9H5A03zwmsrCU3//oXuxYBFnj
+         YNI05XZFoPRqRhIQcTiSy9z1K96kVN8PJhcpzjfcq86JgtGRDDMHHW7fiZrxpJueRjKc
+         blSiyiie3Wfv80geGv11zWSpcDrIlFAz2PmrjTRGhZU4pU6/cDq4pp/xrJ9ctb5LZvmv
+         +bsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NFbpeccrBLnPNDngnsLUG5X8Bi2l3FjgVOiCpFS3kpA=;
+        fh=w/euhXE08iQLukvcPdnV3tJG1OsNdj+Sg8ZX/dWCSfY=;
+        b=Au4zDEX3rawaVEruAnstC1UaY22sBvlGhvpol+6Cc3urijFFy5SnTj8EVzU5DHCUPv
+         iVQnnG+UFwfBwKPvfOS/xdLobKzsjZnSBawXHwiUGDptVk1m5D5kc/t68S23y3UOshoQ
+         hfYUdD+yTVmiw+AmglaUS7ooWFoO5M9EiJmpcotJKxSXIXhmXnbXOmFwQ2uGRQjEgOSS
+         nL12dUc9kHuyl5YeZKMSqNvOH65zwOUDF7HQlzeI6HT+LiWC2UrSEtsVJrbpa3N7yAp2
+         dlz9pL3wQP/iOx7YFNOu6nyhA/URQoKounjfww7R7UGv1Cd14cBwDTdX7WaqBPx6jCAv
+         139g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1786102544; x=1786707344; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NFbpeccrBLnPNDngnsLUG5X8Bi2l3FjgVOiCpFS3kpA=;
+        b=gywRWkupYdQcwx1CAxh1NJRwVrJW56NntIg+rqr98QrAOpyb8Sl9qH/7GgAkJNczIF
+         ZqesRdYr5qrwH0RKrlknW/OgIQBDeZcA+0TSJWt0R41Fwu2j26OC4AW81eT6xGJ85gqH
+         Dhhx6WGz4rhe7nooO4yzXrTK1Zg/O1jCa3jmQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786102544; x=1786707344;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NFbpeccrBLnPNDngnsLUG5X8Bi2l3FjgVOiCpFS3kpA=;
+        b=YVqtW6GQsyC6yWn3uXgZ+1E4q0AzWKYYPjkXsm0FREvizJPkqQmC/7Tot5Tw8gikL0
+         Gpjrfpr+HwzpbX28GF+rpNrWE+EGwAYvmWfQBw5mq9NzhH+2ZitKEkNdGIGvR11eCqLq
+         MxOR1nw6WzZaBaKHaNWxK4Pbl6jCxSGPZJrnxwjfeO0Zw0GeU0A+euLYPcB5/HO7E93d
+         EbfU/tJ/qMNU5wddUDVlO3A+6jvRIh5jQy8eO4uJKMjObgtsohhaE4lagnqmZFsBUM8S
+         yEWATMd1e6raaSVwSQvWOiy6fnees8Cr+EPOKTLjWDylqlCUwFaoloejCQzovAR44HCg
+         Eekw==
+X-Forwarded-Encrypted: i=1; AHgh+RpvN8xSweL0POTFFQBD21d5SHI42X1zKEd+gphxJilBwCYERshzRpnRviJdfafJ+GdELFPMI126Q6s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVo2jcTJ/54Pr5HxqYctwA9iVuFOfTC2T1vd4LVfobcbiMBdoD
+	VcOCVe9qnS/JzxkoB4qiHISfJzRPh2VqQ4StAiOfEuksuO569k92zCZ2jhC783bqtWTt+yB1mDg
+	nkF+uGfDS0Uz3AfQ9bwQBkg+I5618Za+bCAA37b1h
+X-Gm-Gg: AR+sD10nHrS4WPKjlU+k150IGvTbXPEMp3O2C0q1kNbOTBoSsMUjX+/rk0Pcr2pLDb+
+	+bTweE4B7D7f/jsNY0r5Ml0X9nTPrwWlbMm+gOCDJQt8Y8aTU7hh9NUX7wb/paO5d/FpoGWpmwJ
+	riGGuqRPk2E/IFzzcULsqPrsiYTVsN274ollQvzn8CRFe+jLINsDm7y2pY1IspoJH0OQxtq+8fY
+	sPqnmdetLzMAqhx0KPzkpm8/Y+y1YaSCzjevF7Z0GQBu3R6LSpERv/zoK4ZGzM8whmLV2vC25PJ
+	P76bboyq8U28xNXILrHt/qwGO8E7jt9FybsLBH7h0Y6S9n6MUGu3xWBuan9Mb3I8mar2I82xKX8
+	B3wMPSTi0fg==
+X-Received: by 2002:a05:690c:480b:b0:81c:872a:5152 with SMTP id
+ 00721157ae682-82022510fcbmr127613327b3.30.1786102543795; Fri, 07 Aug 2026
+ 04:35:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260807112925.GN235112@black.igk.intel.com>
+References: <20260724084328.3943997-1-wenst@chromium.org>
+In-Reply-To: <20260724084328.3943997-1-wenst@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 7 Aug 2026 19:35:32 +0800
+X-Gm-Features: AUfX_mzUutrA5-Q9ACqE0pQ_D7Us70orWiV3KcyO1fjFDW5_he5R56G8cIzEovo
+Message-ID: <CAGXv+5ETE2WAA8jwnQKSe69aR=qrqKnALuiSM12X_ZwFouxdRA@mail.gmail.com>
+Subject: Re: [PATCH v7 00/16] arm64: mediatek: Add M.2 E-key slot on Chromebooks
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 07, 2026 at 01:29:25PM +0200, Mika Westerberg wrote:
-> On Fri, Aug 07, 2026 at 01:01:22PM +0200, David GUENAULT wrote:
-> > On Fri, Aug 07, 2026, Mika Westerberg wrote:
-> > > So with IOMMU enabled SL1 is redundant and it may actually end up stepping
-> > > a non validated path because these systems ship with IOMMU support so the
-> > > CM firmware is by default "none".
-> > >
-> > > Can you put the BIOS settings back to the defaults and then repro but
-> > > instead of booting with the device connected do this:
-> > >
-> > > 1. Boot the system up, nothing connected.
-> > > 2. Once up, plug in the TB5 dock.
-> > 
-> > Done. BIOS restored to factory defaults (only change kept afterwards:
-> > Secure Boot disabled, because the mainline kernel build I am testing is
-> > unsigned). Security level is back to the default:
-> > 
-> >   /sys/bus/thunderbolt/devices/domain0/security      = none
-> >   /sys/bus/thunderbolt/devices/domain0/iommu_dma_protection = 1
-> > 
-> > Kernel is still vanilla mainline v7.1.5, command line unchanged apart from
-> > the debug flag:
-> > 
-> >   BOOT_IMAGE=/boot/vmlinuz-7.1.5-070105-generic root=UUID=... ro quiet splash
-> >   thunderbolt.dyndbg=+p vt.handoff=7
-> > 
-> > The udev rules I mentioned earlier are still disabled, so this is stock.
-> > 
-> > Booted with nothing connected, then plugged the dock in at t=60s. The
-> > firmware CM is used, as expected:
-> > 
-> >   [    1.680488] thunderbolt 0000:03:00.0: using firmware connection manager
-> > 
-> > and on hotplug:
-> > 
-> >   [   60.228058] thunderbolt 0-1: new device found, vendor=0x41f device=0xd002
-> >   [   60.228061] thunderbolt 0-1: Micro Computer (HK) Tech. Ltd. TBGAA
-> >   [   60.228236] thunderbolt 0-1: device disconnected
-> > 
-> > So the router is announced and then dropped 178 microseconds later. This
-> > happens exactly once -- there is no reconnect loop. As you predicted, there
-> > is no "PCIe tunnel creation failed" this time, since approve_switch is never
-> > called at security=none.
-> > 
-> > Nothing appears behind the Thunderbolt downstream port afterwards:
-> > 02:01.0 stays at PresDet-, no device on bus 04, no GPU in lspci. The dock's
-> > USB and Ethernet functions do not show up either.
-> > 
-> > For reference, when the link does stay up (which happened in earlier tests),
-> > the lane adapter error counters are all zero and the link reports
-> > 40 Gb/s = 2 lanes * 20 Gb/s in both directions, so this does not look like a
-> > signal integrity problem to me.
-> > 
-> > Attached:
-> >   dmesg-factory-default.txt      full dmesg (1330 lines)
-> >   lspci-vv-factory-default.txt   full 'sudo lspci -vv' (1190 lines)
-> > 
-> > Attaching them as files this time, sorry about the line wrapping in my
-> > previous mail.
-> > 
-> > Let me know if you want any other capture -- I can rebuild the kernel with
-> > extra tracing if that helps.
-> 
-> Thanks!
-> 
-> There is pretty much no PCIe hotplug from your logs and the lspci shows the
-> same as you also noticed. One thing that stands out:
-> 
-> [    1.745588] thunderbolt 0000:03:00.0: 0: NVM version 42.0
-> 
-> I looked our latest NVM for TR and the version is 69.4, if I read right it
-> also supports "SP" == Single Port == 2C version that you have. Now the
-> release notes mention exactly issues with devices after Goshen Ridge (first
-> TB4 dock) so that might actually apply in your case too because you have
-> TB5 dock which is exactly the one after GR. There are certain bits that the
-> CM needs to set for the tunneling to work in USB4 routers.
-> 
-> I wonder if you have checked if there is firmware upgrade available for
-> that? It should be available through fwupd but some OEMs don't do that
-> (Dell and Lenovo at least do).
-> 
-> I have TB5 dock here and TB3 system so I will try on my end if I can see
-> similar behaviour.
+Hi Mani,
 
-Okay I took my laptop (TB3) and connected TB5 dock and I can see exactly
-the same issue as yours. It definitely should work in TB3 compatible mode
-but apparently not. Let me ask around.
+On Fri, Jul 24, 2026 at 4:44=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> Hi everyone,
+>
+> This is v7 of my attempt at integrating the power sequencing API into
+> the USB core to support the USB connection on M.2 E-key slots. M.2
+> E-key was enabled in v7.1-rc1 with just PCIe and UART supported [1].
+> Hopefully this is the last revision. However the pwrseq patches haven't
+> been reviewed yet, and the fwnode patches need a review from the fwnode
+> owners.
+>
+
+[...]
+
+> Patch 12 adds matching pwrseq consumer by "port@" node to the M.2 slot
+> driver. This is only used for the USB target, but there is no attempt
+> to differentiate the connection type. The driver simply tries matching
+> the "port@" node first, then falling back to the port parent or device's
+> node.
+>
+> Patch 13 reworks the power sequencing targets for the E-key connector in
+> the pcie-m2 driver to add targets for USB and SDIO. The former is used
+> later on in this series.
+>
+> Patch 14 splits the Bluetooth power sequencing unit so that the USB and
+> serdev consumers can separately toggle the actual state of W_DISABLE#2.
+> This patch is purposefully not squashed into the previous one to provide
+> a clear target for discussions.
+
+[...]
+
+>   power: sequencing: pcie-m2: support matching on remote "port" node
+>   power: sequencing: pcie-m2: Add usb and sdio targets for E-key
+>     connector
+>   power: sequencing: pcie-m2: Split Bluetooth unit based on interface
+
+Could you take a look at the pcie-m2 patches? These are the only ones
+that haven't been reviewed.
+
+
+Thanks
+ChenYu
