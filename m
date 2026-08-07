@@ -1,117 +1,261 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4D235DA43;
-	Fri,  7 Aug 2026 01:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DB134CDD;
+	Fri,  7 Aug 2026 02:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786066296; cv=none; b=cltP5nrHZTbSROSnpMzFdWb5fLxWRsyUfgVS7NqBAtZi8jpCvnFxNGVFavO6fWgrlIbw4BtfkYuzZ2R7h98iHxcrldI77KLGulqwzqJg1Acdnhb+IGcsvFwKoDS+pGf7I51LxQGgC6F401odCMDnpv+IasLNH08JrNyXcVMx1no=
+	t=1786068950; cv=none; b=AbUlvqNylCeKgUv2yokAAY/aCKRhS+btYiRzHbB6DXITx/RNxGHds6RxzeaxcFc/2KOWcWPGkdU3asW5wb/uNzrhKyFuJVvPwmM2hXhf1PQ1HOtaNLtvE4QaDKF3AWpOrS3hvivuHVAI98FmknvQlKQXYS4b7FoMGaxQgLj6Fng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786066296; c=relaxed/simple;
-	bh=taqgwb4RpaHuorOFuY8dCdXDfQToTYDhk32UGL3iqAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lpNpB7h52MfySpv8u6iwRPiZKMsTAj2N2x8Pu6R7jZMtwNzTshR7xHxOhWxKhUzwYtW7wQh47ZZdbz8eg+bkmVDn7FWo4ebG60lMmEn8xsxMg2SMqQhDdgLWRuGuSgJ/sJn06HilQV7OrHvZNMQfAs35VRGOdmDGfWsAgBBHHis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DFjNTcxv; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786068950; c=relaxed/simple;
+	bh=zcuFMRMcf7Vm1UYev2UDSQX6fSUA6Wpr3DX12/H4w1A=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t/uPKWbGLtm1bWFuvo+gZ+DJuiJHk8wiDnKd+uvXiDIrb/YpSRnwp/Ip57uxAtxfqlzeJhZ0k8fgogmlBf7MBH+8JZPe/dfE5lpPfawEEkTSdfzCWGp2j2Mha3KlIgkSa2dT8HblQshtSPVPOHn9Q11cXlsW6UjJoUlWkwZQAVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=ISC17R+9; arc=none smtp.client-ip=109.224.244.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DFjNTcxv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786066292; x=1817602292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=taqgwb4RpaHuorOFuY8dCdXDfQToTYDhk32UGL3iqAI=;
-  b=DFjNTcxvVjomFmTEnJk01otpy0+GeVuQrj4iuXXNDVww7tpiXGIFT+pZ
-   CgUq9ECfOGGpqX34b0bWzefQzwQ3O5vVmLoisYyNvMf5vT2xkrlpqxKHV
-   MYW4eJZsfpmdPINATYpy2BNRsjSBiNl+81fmswPwCNMuWw6xfp0xjSTfj
-   vZ9ZGlMIaZ0ujvxKBmb956ezfPi23oWgPG69Lvu7WZoNu96owSE0rAnWO
-   K7DFQOqga0DKgOB78gaIaUyrLbq2V0NT6yw5LKDNoSKZdvhLy+8z/5tC4
-   XyQ0qxayyWynEvTlMc4rofxd470G/nOcqT5FGX3fgGu+oEPUuzVn0YRUP
-   Q==;
-X-CSE-ConnectionGUID: 6Kr/CIJQQ1OMAbcsWgzUNA==
-X-CSE-MsgGUID: NaVxHELORmSgDtKyUTB5cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97266865"
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="97266865"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 18:31:22 -0700
-X-CSE-ConnectionGUID: rtF2mFYSRteG0Dd919mAZg==
-X-CSE-MsgGUID: w52SIaqWTLy2EEAJZkJeeQ==
-X-ExtLoop1: 1
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 18:31:15 -0700
-Date: Fri, 7 Aug 2026 04:31:13 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Darren Hart <dvhart@infradead.org>, Lukas Wunner <lukas@wunner.de>,
-	Westerberg <mika.westerberg@linux.intel.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] treewide: Add a flag to detect the Apple T2 chip
-Message-ID: <anU1YX6EAHxrNiLP@ashevche-desk.local>
-References: <20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com>
- <20260727211807.1223-2-atharvatiwarilinuxdev@gmail.com>
- <20260728005847.GBamf-x27vgqj7WG7e@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="ISC17R+9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1786068933; x=1786328133;
+	bh=t/hSfTn2D5QANsI1yfumTIwdpMzz9D5cDp1+waF062I=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=ISC17R+9SMWeuBI59R31KELlC4WbVakZhenlmgWVF4Kaw6lYn2RI8aHNv7I9ULXGh
+	 j36OiiY8kCk8Pw19ZIEdFkxuJwEeo/vj+n8aQZqHom5dsN6aXV/BRMUep6eIZeu3Um
+	 GVAIpFDSXP0bILTL/GeOndoO6yaqK24x++CpltrfZTp1z+8imj/iBUflIx0LkdHu3Z
+	 nV/zRaOWgruZHeRdZtCYlqlQnPJ9YzLTvFHxMVp2TF13236iaEJvc9kQdcvqU5YT8n
+	 7XLi/htDWHuhXoUu50j3lLQo738H/fRIOJe4BTKtasNREiuarVXcmNcqmgb+3VQz8Q
+	 rEyYxgqjUJwdw==
+Date: Fri, 07 Aug 2026 02:15:27 +0000
+To: Krzysztof Kozlowski <krzk@kernel.org>
+From: Esteban Urrutia <esteuwu@proton.me>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add Parade PS5169 redriver bindings
+Message-ID: <11214e90-7168-4180-af9c-b5922c146a71@proton.me>
+In-Reply-To: <20260730-enigmatic-coati-of-love-54ae0b@quoll>
+References: <20260729-ps5169-bup-v2-0-203b0a49881a@proton.me> <20260729-ps5169-bup-v2-1-203b0a49881a@proton.me> <20260730-enigmatic-coati-of-love-54ae0b@quoll>
+Feedback-ID: 147889766:user:proton
+X-Pm-Message-ID: 5bc3e928f222755b138c8f604f3d7bc29b6a611e
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728005847.GBamf-x27vgqj7WG7e@fat_crate.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 27, 2026 at 05:58:47PM -0700, Borislav Petkov wrote:
-> On Mon, Jul 27, 2026 at 05:18:02PM -0400, Atharva Tiwari wrote:
-> > Add a flag to detect Apple T2 chips on Intel Macs.
-> > Cache the result to avoid repeated checks. That will
-> > be used in upcoming patches.
+On 7/30/26 3:15 AM, Krzysztof Kozlowski wrote:
+> On Wed, Jul 29, 2026 at 02:03:14AM -0400, Esteban Urrutia wrote:
+>> Add bindings for the Parade PS5169 and PS5170 USB Type-C linear redriver=
+s.
+>> The difference between PS5169 and PS5170 is that PS5170 features an
+>> embedded AUX switch, while PS5169 does not.
+>> Future-proof the binding by adding PS5170 as well.
+>>
+>> Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
+>> ---
+>>  .../devicetree/bindings/usb/parade,ps5169.yaml     | 191 ++++++++++++++=
++++++++
+>>  1 file changed, 191 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/parade,ps5169.yaml b/=
+Documentation/devicetree/bindings/usb/parade,ps5169.yaml
+>> new file mode 100644
+>> index 000000000000..86ea2351ee1e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/usb/parade,ps5169.yaml
+>> @@ -0,0 +1,191 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/usb/parade,ps5169.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Parade PS5169 USB Type-C linear redriver
+>> +
+>> +maintainers:
+>> +  - Esteban Urrutia <esteuwu@proton.me>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
+>> +          - const: parade,ps5170
+>> +          - const: parade,ps5169
+>> +      - const: parade,ps5169
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  vcc-supply:
+>> +    description: 1.8V power supply
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +
+>> +  orientation-switch: true
+>> +  retimer-switch: true
+>> +
+>> +  parade,dp-eq-level:
+>=20
+> Use -db suffix instead.
+> See https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schema=
+s/property-units.yaml
 
-Why don't you use match_string()?
+Will do.
 
-...
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Equalization level for DisplayPort channels which is mapped to de=
+cibels.
+>> +    # 0: 2    dB
+>> +    # 1: 5.5  dB
+>> +    # 2: 6.5  dB
+>> +    # 3: 7.5  dB
+>> +    # 4: 8    dB
+>> +    # 5: 8.5  dB
+>> +    # 6: 9.5  dB
+>> +    # 7: 10   dB
+>> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+>> +
+>> +  parade,usb-rx-eq-level:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Equalization level for USB receive channels which is mapped to de=
+cibels.
+>> +    # 0: 5.2  dB
+>> +    # 1: 6    dB
+>> +    # 2: 7    dB
+>> +    # 3: 8    dB
+>> +    # 4: 8.8  dB
+>> +    # 5: 9.6  dB
+>> +    # 6: 10.4 dB
+>> +    # 7: 11.2 dB
+>> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+>> +
+>> +  parade,usb-tx-eq-level:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Equalization level for USB transmit channels which is mapped to d=
+ecibels.
+>> +    # 0: 2    dB
+>> +    # 1: 5.5  dB
+>> +    # 2: 6.5  dB
+>> +    # 3: 7.5  dB
+>> +    # 4: 8    dB
+>> +    # 5: 8.5  dB
+>> +    # 6: 9.5  dB
+>> +    # 7: 10   dB
+>> +    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+>> +
+>> +  parade,aux-rx-data-reverse:
+>> +    type: boolean
+>> +    description:
+>> +      Please check the driver before specifying this property.
+>=20
+> References to driver make this dubious.
 
-> >  bool x86_apple_machine;
-> >  EXPORT_SYMBOL(x86_apple_machine);
-> >  
-> > +bool has_apple_t2_chip;
-> > +EXPORT_SYMBOL(has_apple_t2_chip);
-> 
-> I'm guessing this is parrotting the non-GPL export of x86_apple_machine from
-> 
->   630b3aff8a51 ("treewide: Consolidate Apple DMI checks")
-> 
-> Lemme add those folks and ask why aren't those exports GPL only?
+Indeed. I haven't been able to put what this does into words, so I think
+I'll drop it and add it back later when I figure that out.
 
-I don't remember the details, but brief grepping shows no impediments (from my
-p.o.v.) to make them GPL. Maybe Lukas knows more?
+>> +      Usage of this property is design-specific.
+>> +
+>> +  parade,fine-tune-lfps-swing:
+>> +    type: boolean
+>> +    description:
+>> +      If this property is specified a 50 ohm termination will be set on=
+ the USB receive channels.
+>=20
+> s/If this property is specified//
+>=20
+> Just describe the hardware, not the syntax of DTS.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Will fix.
 
+>> +      Usage of this property is design-specific.
+>> +
+>> +  parade,dp-set-gain:
+>> +    type: boolean
+>> +    description:
+>> +      If this property is specified a gain of -0.9 dB will be applied o=
+n the DisplayPort channels.
+>> +
+>> +  parade,usb-rx-set-gain:
+>> +    type: boolean
+>> +    description:
+>> +      If this property is specified a gain of -0.9 dB will be applied o=
+n the USB receive channels.
+>> +
+>> +  parade,usb-tx-set-gain:
+>> +    type: boolean
+>> +    description:
+>> +      If this property is specified a gain of -0.9 dB will be applied o=
+n the USB transmit channels.
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Super Speed (SS) Output endpoint to the Type-C con=
+nector
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>=20
+> Why 'port-base' here but 'port' in port@0?
+
+'port' should be used instead of 'port-base' in port@1.
+Will fix.
+
+>> +        description: Super Speed (SS) Input endpoint from the Super-Spe=
+ed PHY
+>> +        unevaluatedProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - vcc-supply
+>> +  - reset-gpios
+>> +  - orientation-switch
+>> +  - retimer-switch
+>> +
+>> +allOf:
+>> +  - $ref: usb-switch.yaml#
+>> +  - $ref: usb-switch-ports.yaml#
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: parade,ps5170
+>> +    then:
+>> +      properties:
+>> +        ports:
+>> +          properties:
+>> +            port@2:
+>=20
+> You must define all properties in top-level block and you only disallow
+> them. See writing-bindings.
+
+Will fix.
+
+>> +              $ref: /schemas/graph.yaml#/properties/port
+>> +              description:
+>> +                Sideband Use (SBU) AUX lines endpoint to the Type-C con=
+nector for the purpose of
+>> +                handling altmode muxing and orientation switching.
+>> +    else:
+>> +      properties:
+>> +        ports:
+>> +          properties:
+>> +            port@2: false
+>> +
+>> +additionalProperties: false
+Thanks for the review.
+
+Regards,
+Esteban
 
