@@ -1,144 +1,195 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012013.outbound.protection.outlook.com [52.101.43.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E346B285CAA;
-	Fri,  7 Aug 2026 18:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87DF379ECD
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 18:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786127013; cv=fail; b=sAFns7AoeUqKQqhMO4qR98L+JpTt55IQsvnFK8KPLw0KZm5299wj4znoWNRopXl0e7RstOdMWZC40Oac2S9j/PWMHEtnrGHkOeZRfnDLRV6VHd5swAf+mexiSoCTyuAt0frSH6EFRQ1aBhFoxYmGBL9+wMsFpuyxNgfe+bO2zrQ=
+	t=1786128538; cv=pass; b=MsfvTH9Wr/Jt0oAbpDOgIAMiPrxMT2oz6b8ERJwXbYRrKSM915nt6iWjhadm0v6yIBefXxUXtn3xQTH/8tMmmGCjHC1DUUgvIsEAP00fMEWzqvb1i9qEM0XpOd9CWem8y6IWrOAAyhLwA0Z/TwSXJBs5aBYPTAtkDo3op9oosK8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786127013; c=relaxed/simple;
-	bh=+FScmWliC8LlU38d6yBT1pHehQuVXN6DvhkwfmKe3Do=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J9ufby/wYRQDR9zZEKdPe5GrdDEAPdqX67kC1Tvi/Unyzfzdgzy7DKu557ZNLv+PObzT3bShfJlE4hwsZTCRCbxoJdPltRX5vjzTLh8ntwjkw5EdEcGgbs/eKCr1x8+/bwdZqtICCn/EWpgMejqawsme+NkxjW8SodG9fe9WVhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5pddWDzY; arc=fail smtp.client-ip=52.101.43.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1786128538; c=relaxed/simple;
+	bh=K/AYQ0slGtGh2aGVAcbd5Ml309uD9bp7iupPakzq76U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cX+0RL4D8u3vHCAgyp7bRTelKIjiB1ptdM5rr0U4t7Dlw+3lwpEsPLI2PQL2+46op3A3XiKC8Tqk5ePoenaZZLxQv+pQsZNG/l7Bw1AltraU0hTnS+j6FeHvKi5qjWMDKglh8TaVzYKA1hxswFks0NQDaa061YoimrTUWYQF9F0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JMhAf9U6; arc=pass smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5pddWDzY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eb/jWydlL/EOa2YnlBkRyZ640ih7MUQ7mkmFb2K2IxAJtZnTEDG8TtR4B/ulWchenAloePtyNTqiB3j8zXeWPEI/7hiDEHqyPUpBNH/3WfJE4bgjVI+9B/qfexy4uW/v9XaWhJu0LHV/37M4ui77BXxuuDQhnFxT/2Oy2UQdPwS4pV6wAPoDAwlaGH85MosDrP9Q6IH6oySABuhjB5MRnNc4j7EZREal2hixAdwucDkZb7awWNg7fhZBc0zR/siWV7Ay9SELuiWr5ETkYzMZJF1TjY79gZG2iGYp5umPX07YJVpfqrD/iHTqRWOgiyEcYNVioUK5TXlzsLLY1i9Oew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KHB2Armig0HCvseXkKRl5ZOjKFZwNhil1y/2w2oM/MY=;
- b=K9vNYKXeDt45tImXZ3T1ckv9bnHWdNBu3k05IWowKIcqvyB5eF3fZw1MCVI2/9FFoJGFhXK5iROHRYJnIeVv4eC2bTL3yPln+XJfbTbgg1Tii1T9PZurkmOmLat+vXoYyUW5QjvQ6xVLUjBtYk9O4pr/NMR9wgixc5Vp3S8PuVsSOWKHGDFg03DgsSW0DVBVbGnSPXfIq7ubUy/FZPI1qdCoGk29D8vNp/gpnfYeOBTIxmR11uJiRZKFZjuKW5d0ZAQNmpMWiUdTGhD6ZrVhGlIYos7MM+0TuextKAlTzvfbixlv9yd6e1VNn4tf6+FdeJ1iuaBa9OtgHZ18JEkbdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=synopsys.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KHB2Armig0HCvseXkKRl5ZOjKFZwNhil1y/2w2oM/MY=;
- b=5pddWDzYY8AgaSTth74LMgBy3t05uIjDk0umJwQOccMbpR4HAz+kffUfRB9r7ismqFDOs1T99UV66g/I5oLUbP/bs7/RRHKxD7m0dhq5LPWpGTfuP0SqpT7LJfCI+oE0ZudhJF9ymlKxTJeaF0rKm/WwrkvfgIWrQNP0P1j2c9A=
-Received: from BL1PR13CA0229.namprd13.prod.outlook.com (2603:10b6:208:2bf::24)
- by SJ2PR12MB9210.namprd12.prod.outlook.com (2603:10b6:a03:561::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Fri, 7 Aug
- 2026 18:23:26 +0000
-Received: from BL02EPF0002992B.namprd02.prod.outlook.com
- (2603:10b6:208:2bf:cafe::51) by BL1PR13CA0229.outlook.office365.com
- (2603:10b6:208:2bf::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.8 via Frontend Transport; Fri, 7
- Aug 2026 18:23:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BL02EPF0002992B.mail.protection.outlook.com (10.167.249.56) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.6 via Frontend Transport; Fri, 7 Aug 2026 18:23:25 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 7 Aug
- 2026 13:23:24 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Fri, 7 Aug 2026 13:23:23 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <Thinh.Nguyen@synopsys.com>, <gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Radhey Shyam
- Pandey" <radhey.shyam.pandey@amd.com>, <stable@vger.kernel.org>
-Subject: [PATCH] usb: dwc3: gadget: cancel NoStream work before endpoint teardown
-Date: Fri, 7 Aug 2026 23:53:18 +0530
-Message-ID: <20260807182318.3736662-1-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.44.4
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JMhAf9U6"
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-73a442f7cd3so2298704137.3
+        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2026 11:48:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786128536; cv=none;
+        d=google.com; s=arc-20260327;
+        b=q+6BDNWj9m93hVnROLUP7Z7xoamzhKBNcNRe3OT8xafNYqAZF/UR0kMxs2fmqngFfn
+         BeGhlRc4MIz2ZCUdflSSmSbOAhcdLf0iI2NsdvMOgkT9AhjZEkKD+qfDCzA2Sg+W4gRp
+         ++qeqqs/x0r0T9Zj/GL+tlsphFH9POknTq6fPSN1fR7pisjCNcLP/ydW6wH+mILqYijr
+         W9EC3/056h/dt0pAyv/ymwAomHi2jOgHx2B4Y7mv2GeCNsLPNbiEJvdqtYE5pNF0W+nH
+         V0J9sKE+k6RtWDflJwCvTIWEH3S5RLG7dtKpIDn1IdbG5dnWGYh1eT9MoolZ+TMzXK1v
+         7kxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KQbEMAEah3Uz8h1TWdBCzAeaWUqz5MbVi1G2fYGojfc=;
+        fh=OUmjrNCjjr5IbWxb2ZU/0bvA0x++PeW2Y+GclBAHbOE=;
+        b=BQbyGMCjItvM4leJZ7iVZkMZ0G76tRlX2HuyA94Ec/+okb2juixArOSZ8ie9lvRfLI
+         uPQToHK+u+7170Lc6osufMzn7K+Zz94NeVWrY1qKQdiSY5cKSGVuToEsAS+hsl9a5mxY
+         Igy6A91nXWKt7ZQk1DiyAJpduHYzF2qgf3ViAojApIrIGR9ft3gKyLFg22hIPBnVSeCX
+         TR+b9ylNPqoP0i2w1ajebqOkJCqZfnLeuUHMBHc8WXvfCqchS7C/oHJ7QtR5ryswfbJi
+         0qr0/AHv1WYMJipmt69xj0pjO+Y1YhKkzMQITdvZT8mZ/yiMqRlxL1G9SjEs4slDqx4c
+         ufWA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786128536; x=1786733336; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KQbEMAEah3Uz8h1TWdBCzAeaWUqz5MbVi1G2fYGojfc=;
+        b=JMhAf9U6dfKednfqd8dtBUk7canj9LAv/awGpDra4tmFHbTMPNxvWLr/DfJrtG8c97
+         9hJVeN/TeZyWUTCIuV4DzT24pirlbAMO/6d8LUUcbTE9+CYJPFNGg1xbXIioOU+s9ivj
+         6bGpOZkeqm5/IUdN8B1ppTs6+LHS1etEvWyTW29++Dnp5n+aSsJ5pyATaWiV6n78hTu/
+         YahRabBsWrv+w5ZXW0J9Ihb/iTBVpgb68gfubkVhRkBwZ/X62EsJRJAh5M9HJqONTCtl
+         oTArV8811sAguAjw2X8utuSMXJjRog8tEJk1fSp0tHgQk9fC/yV+xGrrin3qMktPmV46
+         jSdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786128536; x=1786733336;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KQbEMAEah3Uz8h1TWdBCzAeaWUqz5MbVi1G2fYGojfc=;
+        b=eySK9H3WtycK282aDhfStf1ar/GvnS0xke3yuyjYBGC5Vwz+LfT8Z7UR4WcNis+Sok
+         9AsGvBSAN3aPtP+e8Cd40pkoZJu6nioBSqiwO0swWuVSfGP3zj/2Cl4YFi0o8seG11De
+         nl5rOtybeQvdHC7ci2sLuuoAM9SgRkuNvG5gN44Q7PVofXr3KWxYSD+HxA3dF0B2FiUI
+         4BNZsTEPGrNVF2AQX/unN3VpYU6pDIawR+gwtmvzkH6tsZ5CBYIcGWQE6cmnLyHTWYR9
+         gsD7MG+bZqIKD52HMOazWipayAQNliJHQOGGdaBsy4OkXNjx6cU7W2+mWS479844yZ9G
+         7R3w==
+X-Forwarded-Encrypted: i=1; AHgh+RpjKnHoajTzWa60F/G3iVMn8c3m7OoN0oH/u3C9tkpH2mF60JtD7HSexNgBvDtyndRtNeMe2i64R7o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhx6cMtpU16WUSYokIB5PT+0e8mnUIV2PIVrzxyiA4zlF890OV
+	jHc++Y4fO7wfoaInvSK3Fru6jMuZiQoEWlX8cfUiYvmEOFCiE+dDaCs8whp+q2fbGCex+Wo+aSk
+	6ggsdxvoyCgNXUZ/AoAw786duD88J/IU=
+X-Gm-Gg: AR+sD118HsA6DtJgbqeeiwtuNyh/FnjKGgkSiBVADZJrzm6/Vc7hVE3R1WVTvpEh+b5
+	26AHHxlSUimWyLW3Mp7uA87KVMY1vetHYSIYE4Ku1bOpj0lvJ9FqqP9dmgdDV7wUlpaHc2Zh8kE
+	QXWfffrstalh9x0EUcPjuIeiO7qbB4sslKMmw0yWJ4dNimervhr7lmiBgs0ZZq4lVL7D1vXWQOI
+	2SFRetkNdiQZhEeAvSiPO7L1np7eLpVALWJ6/G7N8MP9HzabNIbYTrVriedKb0qe9AFpirM/es8
+	RdS6B94/JsY7CpZFikdoJQBTvDP+pJ6ZP4qQgYL8x6092+1vzJDAnghtLyCnPJeqbFDdq/E5oRn
+	BP+n79hKtX074GxQqUZcxLhBLa4yeWPhWDVHngym0XeXM/mLTACfAFaa+gnTRw7k1OFrhmncqRe
+	crjek+GfCyp7mxQBRf6KfIrXFV7hvooepxYXTTFQ5yCgxHIWo=
+X-Received: by 2002:a05:6102:41a1:b0:73e:9fae:5845 with SMTP id
+ ada2fe7eead31-764e1c5f6d2mr939262137.0.1786128535635; Fri, 07 Aug 2026
+ 11:48:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992B:EE_|SJ2PR12MB9210:EE_
-X-MS-Office365-Filtering-Correlation-Id: 712f6fc7-0d2f-4e57-c72a-08def4b0f86a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|23010399003|6133799003|56012099006|11063799006|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	McQmASH+BjHxnKHNiGBMvKUkdXF3e2V5LzqkDunQZ5Tl9WdXrdh5VRhVhErZ+QtMfHb6SXpTSQ+3DQ20XzR5t2QKKo1pe5hwOk9h/DStNFlBKf/iIsTiDZ/uiGwn9X1ETW0YIQXkzBaAbt/vIw8LLcIB/DarH8PUQ0pRGJjfhRuPelBI1j86Hcu7ZU0w3A/nGiV/KDSPMJ4Ur0awIgYDlZRCIcegZ2WprRYnKi3pKuK2s9aShZvZIaAEV9sEKTBq5PnK8HJ0jwwiTT1WZQv0hD7tQP4FzB+zAfZnwGuGUYS2okWFWMFnfRitPF1D2eq2hJTpSWwDm3Xs7P0JVykGgCIO4gEA/5YsE0QkZiPdeQ7+HlpdkDCSc8aERGCTau6GgIdKhSvKySmLSjr2X38gOo7vOcxP6SLJOxenLUr2bZRnLZpehvgM0ZmM8ZaIIDrxJwhbo+vjVmPBCz3E8paNl5llIGbpsnm1KzuJvfkYBXE0EiYPacDNfqDd9pTUOdAqu48mGC3wAlq/rN5Q/RQn4nNXoChQK+qatz/znnyiwzGN9RQY8WgIZFuTrrzbJqOEYSxlvN+EJ/h3lmninGvLCjjtw8mrhB0uVaIpC1iCMQGatQ4c36swEdnV6EukhXIQtxdBxsVOkhCVNlJ4JP8SVd5nkfAhp3OGU4oOjG3/na7E5NFwTTk8opaYqABC+JC7nfhpPoAmJot1clvnGebdEg==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(23010399003)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	dUdfHvy4vt05Jek+2B+UbU71F7uQLNHUWXutRouDh523UPFRFyKqe6hNYfeNVfj5w/Jx9Fa0OMr0BKwt9tNdETmtsV0UKHVCNS+2BHOnla9CkGDZXNw1jtIQdrwIonDeICe3Fi9zkwMUiJW86P7VrJLrJRTVpnzi2VSUOXcY7EuWyFgBFfTiq1AjYKtC4K3JvAlophAi7hUF3jjFlrNwjdUDvvZKomlyNXdIWRPAZKMy1QDwZwLyB/nFStZBQnpnWA3bwGXeMmtLK1pp8l/2aWZn5k1aJXsPHlPgiOIvHjA0eed11bLR4jYChM4xagA+zlWOBvjQZNJnHzHiuaSrfzJLRFiI2IP8/2o95Yip6SEcPTvEWkx0xaX6CGXQKNv+W+3kdw+xi6QJrOdkaJCK951A9FXhEJ9pBBJ30FdAZxxXPkmF05h4v2LvEscwAibC
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 18:23:25.1903
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 712f6fc7-0d2f-4e57-c72a-08def4b0f86a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0002992B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9210
+References: <20260806-submit-mdio-of-dynamic-v2-v4-0-4beb0c50d5ba@gmail.com>
+ <b2e83ba0-2e9c-4105-b806-8a155e8b9aa5@lunn.ch> <CADvTj4rame1n8eQL2GUOaJHnOcR_cqNxzNYO+QeCLYDczEFeUA@mail.gmail.com>
+ <ddce5cfa-8cf9-4f9e-ab0a-0b415706876a@lunn.ch> <CADvTj4qxGVw+PW2LeF-a3h1XfmirQZGfJA9-6Czt72XASbVLBQ@mail.gmail.com>
+ <4aeebecb-81fe-4f09-9dfe-a3be2f778bb8@lunn.ch>
+In-Reply-To: <4aeebecb-81fe-4f09-9dfe-a3be2f778bb8@lunn.ch>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Fri, 7 Aug 2026 12:48:43 -0600
+X-Gm-Features: AUfX_mzkWefaGr-yvRIWAT7-WpS4J20YFg4GvupbZl2AqZK75NjTjLSVgtv1IY8
+Message-ID: <CADvTj4qrYYA-e+9iJ+q4UaZteUjpypRa6HBSmwp-ajwPbwYERg@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 0/4] net: mdio: support dynamic OF device changes
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jonas Gorski <jonas.gorski@gmail.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, Ciprian Regus <ciprian.regus@analog.com>, 
+	Andreas Larsson <andreas@gaisler.com>, Mark Einon <mark.einon@gmail.com>, 
+	Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
+	Keyur Chudgar <keyur@os.amperecomputing.com>, Michael Chan <michael.chan@broadcom.com>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Doug Berger <opendmb@gmail.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, =?UTF-8?B?VGjDqW8gTGVicnVu?= <theo.lebrun@bootlin.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Wei Fang <wei.fang@nxp.com>, 
+	Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
+	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
+	Bryan Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, Timur Tabi <timur@kernel.org>, 
+	nic_swsd@realtek.com, Byungho An <bh74.an@samsung.com>, 
+	Steve Glendinning <steve.glendinning@shawell.net>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
+	Jiawen Wu <jiawenwu@trustnetic.com>, Mengyuan Lou <mengyuanlou@net-swift.com>, 
+	Thangaraj Samynathan <Thangaraj.S@microchip.com>, Sebastian Reichel <sre@kernel.org>, 
+	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DEPEVT_STREAM_NOSTREAM schedules dwc3_nostream_work() with a 100 ms delay.
-Neither dwc3_gadget_ep_disable() nor dwc3_gadget_free_endpoints() cancel
-this work before freeing struct dwc3_ep, so the handler may run after
-kfree(dep) during DRD/OTG role switch teardown.
+On Fri, Aug 7, 2026 at 11:15=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
+>
+> > I guess it can also be used like this for live dt modification:
+>
+> A guess is not good enough. Give us a concrete, in kernel use cases.
 
-To fix it cancel the delayed work synchronously in both paths before
-disable or free the endpoint.
+I searched the current tree for callers of the OF changeset and
+overlay APIs and for OF reconfiguration notifiers. I did not find a
+current in-tree path which adds or removes a child below an already
+registered MDIO bus.
 
-Assisted-by: claude-mythos-preview-high
-Fixes: dcfe437492e2 ("usb: dwc3: gadget: Reinitiate stream for all host NoStream behavior")
-Cc: stable@vger.kernel.org
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
- drivers/usb/dwc3/gadget.c | 3 +++
- 1 file changed, 3 insertions(+)
+There are concrete existing kernel mechanisms and DT descriptions which
+could become users. lan966x_pci already applies an embedded DT overlay
+from a PCI driver, and the FPGA region code already coordinates
+in-kernel overlay application and removal. Mainline also ships overlays
+for TI J7 Ethernet expansion cards, NXP LS1028A QDS cards, and other
+boards which add PHY nodes below existing MDIO controllers.
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index fa0f16ffafef..ddf1e262e2aa 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1175,6 +1175,8 @@ static int dwc3_gadget_ep_disable(struct usb_ep *ep)
- 					dep->name))
- 		return 0;
- 
-+	cancel_delayed_work_sync(&dep->nostream_work);
-+
- 	spin_lock_irqsave(&dwc->lock, flags);
- 	ret = __dwc3_gadget_ep_disable(dep);
- 	spin_unlock_irqrestore(&dwc->lock, flags);
-@@ -3508,6 +3510,7 @@ static void dwc3_gadget_free_endpoints(struct dwc3 *dwc)
- 		}
- 
- 		dwc3_debugfs_remove_endpoint_dir(dep);
-+		cancel_delayed_work_sync(&dep->nostream_work);
- 		kfree(dep);
- 	}
- }
+Those overlays are currently normally applied before Linux starts, so
+they are not present-day live MDIO users. If an in-kernel line-card,
+mezzanine, or FPGA manager applies one of these topologies after
+detecting hardware, adding or removing the PHY children below the
+persistent MDIO bus is exactly the operation this notifier supports.
 
-base-commit: 6b8c8af514d739d0335f5579b585e02babe8a727
--- 
-2.44.4
+Likewise, a driver which identifies a PHY or retimer package from an
+EEPROM, NVMEM, or firmware and then enables the matching child nodes
+would use the same mechanism. The kernel already uses OF changesets for
+analogous late hardware selection in other subsystems.
 
+> > AFAIU the patches other than the last one are still relevant regardless
+> > since they are fixing a bunch of generic mdio safety issues in code tha=
+t
+> > has users since MDIO maps already change at runtime through non-OF
+> > paths(i.e. SFP insertion/removal).
+>
+> Fixes are fine, but please word the commit message around real things
+> that can happen in todays kernel. If it is a race condition, such bug
+> reports often show the call stack of the two racing threads.
+
+After auditing those paths, I would qualify that statement. SFP, AMD
+XGBE, and Airoha all modify the MDIO map at runtime, but their known
+paths use subsystem-local lifecycle ordering to serialize removal and
+attachment. I do not currently have evidence of a reachable race in
+those particular paths.
+
+They do demonstrate that the MDIO map cannot be treated as immutable.
+Its safety currently depends on every producer and consumer arranging
+compatible external serialization, while the MDIO APIs neither express
+nor enforce that lifetime contract.
+
+I found more concrete current interleavings elsewhere. For example,
+PXA168 can scan and attach from ndo_open while its remove path
+unregisters and frees the MDIO bus before unregistering the netdev.
+BCM SF2 looks up and removes PHYs belonging to another MDIO provider and
+can observe that provider while registration and OF population are
+still in progress. GENET ACPI and Davinci also cross lookup, reference,
+and attachment lifetime boundaries.
+
+> Do you have a board with an SFP cage? Can you test your change.
+
+I do not currently have an SFP-capable board.
+
+>
+>    Andrew
