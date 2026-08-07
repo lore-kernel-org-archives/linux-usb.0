@@ -1,133 +1,161 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6CF233943
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 04:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786077500; cv=none; b=i61BgBJKFzgVf78z03IF1LwWPKEC5o1O00HD1fB3TZdo2G8573/zFHgN8wmSm1UoobHi9P0AU31L6rSgJyBjSuT2o4heyL+U5meM323q6b3nN7NqeSpKiPJMyWJ/HFA0NJ8iVy2TCLnohDYYwIbZxsu51f1v16qi12W6NXLirbk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786077500; c=relaxed/simple;
-	bh=c2eJmS6Fidv7OQwOFciceAX1dEuewckWJWc+sV7tPN0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GmfmH2ksJtWjJiZZ80xGLKYu8gRbbHluFJmgPQBx4DhFdz/dJi1jLSYl9bghS9RTbOEwcTkDTD2mFsymS01TMQu8yZE6VVBNYn4+gLBWs1t+7p9bxVWkHNU23PdJavgVwljatg8fR9UXWyma6NP6033VC6tiKtXOJvh2bYVOCcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DriXPxRR; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B453AFB01
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 04:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786078658; cv=pass; b=qadZos5R3vq+1FuzSXfOG4vFFQzHFT/TCyecehZ5vr8UGrKhjiFG4Tp6pXi8RYcfXRgkrZ+kkL9VF3pP8Hj+bZjUHDAFTD7WyHvt/IUg5gxSeaL4SyUyedwJrL5tDCIem7P1iwtu1RSkGt+5yW3Z63QAo0teaAEjYQLqbhdQTWg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786078658; c=relaxed/simple;
+	bh=fuV2w3QsYdqjcL/mLCP+ZwdqV7DB7Ir3cm7vFKQ0UYI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JT5xKxTX3UA1fI0BE3IMwVNQKuYFB3KSrIUKx+p4rpOcvS9DZnDqbahPYirn5XacTF3okpP8BBxmoHABUZ1148Vv4oN2i4REtxuUNR1fl6UFkOKyYgIUF9/Omo5YJjYXOh3XLfWwyCWdyxJZgg+imXHrQqfxXADJTf2r50pMQYc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B65+qWwj; arc=pass smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DriXPxRR"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so2458670a91.2
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 21:38:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B65+qWwj"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cab973140bso41222775ad.3
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 21:57:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786078648; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FFfYa9yhyPISLPXFVuJxvYjDLrH/W7FsX6BWYs1sqcxIwFnUpDfyrJH6o49ICwroML
+         D9v0xJ0y6SUxwbel5yHx26XQzlaVJnUNP7oGO3cG4XRWLZ30GoyUP6Kv6bDwPv7CwuQE
+         ArSZujjYj7oerRvTJ2c/SsRsFgmIX1mhlyJcC/xuk8AUvJ3JxainuBkMoCp45kFbapfH
+         HDl9m91EZdL4FOYEj5/y201NiLH4iEfGRUXIB5kDEIuFTrz3MNoqzUynHY1TWLwhgDY+
+         OltIPUe9mDDzgoOlvVEekMW6bFL+shxZyKwlJ18x/kxyQi2DDIPtDO/hQTbSzW19HJ1f
+         5JAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DL9zt+iaIT8X/6aHcZfiY4XxFYWf6572yFG/+Vl4euI=;
+        fh=jhsNd5Mfeny5JZXBK+atWYQoDNhwUXfM+T5ROYEL4CY=;
+        b=Qwt4g5RN2YDW7mHNnf5QD1hrus1zPLIL6DQQalZUOFesIfmsfnZA2aSsFehjqOLW7j
+         A9/nScp3QbtZEs/a0UpFJ/P4f2y3S6/K95vEf/0rlBK9EMnwfWYl/6hdH7ua2LrW88Hd
+         9wTYRX01Zo0DTxNuthSdFSpxqhFeekdDqb9i66th/VAkvNJFt3CDEly2siOmVVzpq2Ti
+         f8yjDBCeNh1pICfD/n1u8RcyCJ9TuOIdMT1ng5rpgvf83lrZSyqSumHsmuWwB3guuTdM
+         byFxNm2RvibMfNLpEdZk9psf2xvkMSjLdqZPRwW0+pa0XXYuOd5IH5TwH7vy3HswWZFO
+         0FbQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786077499; x=1786682299; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OApPi/aBpyIH8HD0zKAoJ3Rb4TUBRhQUqTZcuTXFIYw=;
-        b=DriXPxRR25QIAiZxJUvKBtEBiG9Viz8SAvEWMVyc4WvX3wptR2w6KynyU9cmlDaVHp
-         dxjMsermDzK1US/Uca5lkvgj5PuiNyqgS/7bsbbgH+WQKiAhduT51eueELDYCMIMmZeN
-         owX/bIVpn8HMvieMc2kfmiqbbsE7E193QTwCScSXybFulRDcl7nAQQ/GJHj/12RMw6Tb
-         JSEOXRgPi1Vsdtw20TLXUa7RNuQanPF+SMf6yCHFqLMTxMvsLLmhHRj2gy6LdfRNP8Wc
-         v67jteEzlRzpx5vQoNlJDKm6EtXyu+NW7F5i23+qUvpqBX2n1L4J9d8cGDBYvWNlFNg2
-         mlAw==
+        d=gmail.com; s=20251104; t=1786078648; x=1786683448; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DL9zt+iaIT8X/6aHcZfiY4XxFYWf6572yFG/+Vl4euI=;
+        b=B65+qWwjrpVVtD3q6qAiPKX+pP4k9udFL9wrzkqY9usNmxcVIuzzIsnL4V9ny5IqBF
+         TwxNqj0wbfVfVGlR9j7VgRpz67bw/t99oPIoPbieyaJOSvMCtq24HZYHUpg4gqKYMBz4
+         J5QqCO94iMfE2qCo7loGhk31SGETfztbD/TvzbpVHcvhWBovoMfa7yyQezTSVIiSv9fT
+         /EDKx5molh1LDyv0ICFR5qngxMrxOIw0KPTtQFtry5ajwDHXN5gxL2xlzhza/zo+HJFy
+         XDmFm4T8ueTMSewJmI37AOR5dLoE5gMJg3XVLcY1bvlXXHu6PKd+7NLjQoDEOCbdCxDK
+         wGKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786077499; x=1786682299;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OApPi/aBpyIH8HD0zKAoJ3Rb4TUBRhQUqTZcuTXFIYw=;
-        b=TtXYzdWzf76z/qkTXQW6jO/LEN46sS4Yw0yz3q37+GrS46uDVLeQ67jzCPTBpLcMor
-         RzmwT08scZ21PpJtw+4JBTQTcZ1aaA3gy2WWwjGGWiYwFWVf0cAe2Xjnackc52vE3XVq
-         fqLqfB94pKzGj65WFB8I78175J9Sbz9JMFTG9Rt/+OFcnfaa7aDc/YG7Sey4Q4sd6ECw
-         UDZ85s8Ch90EC+bXhS57T6BLsMhc2LXPwF/qLXh5aL8kTZdQkblaTi9QZbzFEcmagPcY
-         Pjs8rovHhfjDuLP2BfVG6Qk0rxMbPLvpJ+3mfjL4VS7eBuyQKBUUSKw3l+CnQ0aH1tyK
-         Jhtg==
-X-Gm-Message-State: AOJu0YzN6FCOfq6i6MxkjCGczmUerEUWMcPa3owUbuZ4tTuZIF6QrzDa
-	+QTggeVQDzFSFmTQHLgKd7f93erzwvsbdocBMRG3vB/KIF6jblPamUH0i1qTlA==
-X-Gm-Gg: AR+sD11w2m6Ly3gHpO3lFYDwBmzUWMUFm9Q4u5CzUyFgq+UBdQEsQVfwmB3kDyKS6cz
-	H6uJzJJpwLPy21iYn1X0gQaTX6ztwZ99aaJGYRg3RitUarBcoV9t5Cxiv6hNJegk2wSvoNLkX8q
-	ze9zzir2tMKsKhllonh8PZ9NgbkSlhik9NLekpU+8OAnFnyQWyFGfUV3F+YK7bLZePaWGvRlGsC
-	mlmKoI/MBf3qbcFOQUGYDPpYEZtQ8gWZ/nMxrgrDYooMjaWPDPoXIcUrW7slASSeI8p4Hs3RmQy
-	XvvXVPNeS9CvdbJ439BGRGhX+wyYpiMmTEOgJoGSo3uGi6l/xYbFIUFqDnyHmg/Uf88FGb1wJUx
-	Z2T9X0YQGfHu/GnIl5zKdAzRx1Ipp4eScu+8+MGCVpnSd6pJto1d7KzlJOXhMgG7CDAGtJ9Tpnh
-	6OHcfgjmJDg+4ZpaasTLYK2vBi1ADn3QcAJWQkPNtolpcT96pxxQJjOyv+M2t8xFGeBw==
-X-Received: by 2002:a17:90b:520a:b0:38f:efed:5445 with SMTP id 98e67ed59e1d1-3903c54adafmr20909787a91.4.1786077498756;
-        Thu, 06 Aug 2026 21:38:18 -0700 (PDT)
-Received: from Default ([2409:40f4:102d:3eaf:6f2d:c1cd:a882:e082])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bec2ec20sm2749192eec.28.2026.08.06.21.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 21:38:18 -0700 (PDT)
-From: Jeffin Philip <jeffinphilip14@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: valentina.manea.m@gmail.com,
-	shuah@kernel.org,
-	i@zenithal.me,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
-	Jeffin Philip <jeffinphilip14@gmail.com>
-Subject: [PATCH v2] usbip: usbip_host: fix null pointer dereference in
-Date: Fri,  7 Aug 2026 10:07:59 +0530
-Message-ID: <20260807043759.12218-1-jeffinphilip14@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1786078648; x=1786683448;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DL9zt+iaIT8X/6aHcZfiY4XxFYWf6572yFG/+Vl4euI=;
+        b=YA7vP/JloB5UpXdhbvYbjeY2lGFoFyG+5sT913AFVOdbJi+VIWBkF/++4BGc7nx1J7
+         snS8fGlTIHO3IH9R5Ruo9klPGq6sXoYpujtsezKUo10oLOhbqfajMZ1CcY8uuzd6puzD
+         QS5dN/6jO/+S8kgT4BgRkB/MqTclv0mTSkHxSjpZRSbwRJ4gjbGADxp+2RETBVaDioQF
+         XBUg0lAfx6PBnGY3TPkHHUCQYZoZq0wAnVVCtxUDonLoylWPCGc40rt9qL16Qn/Jx/6i
+         srqPXQFCrgO5udHI9VZDP3naHRSWIjQrXc+tV6nerX8Vku1BySPgsA/6ugMfuLASgCJV
+         bTZQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoqxupR/iV+JbMMOURiM6uIbHYhc4XyhkzxZoZaOpuNFlbXQyYLZ6XWgvX2g/SNpBOSgpXiDLeLVoY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjRHGy7IsLh4QocquX0zZirpPQuAxokpdJBr3nnfKFOUX9Zjr/
+	XPPRZjBUQpMkQ3aT8Kyrc2ghFdM3naPjT71GBioHtpdmR7H5clU+ZHMsb+iQFz+SuzRtoPP+Esu
+	QRPXpzV26/5KjzL5theNN8KRj20E+ISw=
+X-Gm-Gg: AR+sD12bUYk3ST2vUbY2sfM6ASssgCkOgYNJyTKYvnYY7PaLkmTM9cTjSR12RhuK4Mw
+	vgz6iU1ttXoqFlS3uT1gwd2Gqk1B4mjje2TNkeCwRZZph2d4C5fnHkt3+Vptzwlb40HfDroC5QU
+	lffg2eUZovpWNgeMWTsMq+r9BueY8Wq14hZHBK2/HWmmTeCzFmAKHgh9rQ6ByRE9ph1jKOkCNTB
+	VuXOryeH3IBg9a5qvrNWM8KyyUbOldl+DLSKtzYh156CYTbdi2lHto0/nOuOUOe7oPLyJF8fDw7
+	wlUpgMEsXAks9A8POn1//aSdlTpKoINcct0Gzkm0yM1PRCvDz4EdrOYBRBX4peYs75nfP3TL4ja
+	JmtQb1hgW8heSay3T6mhJwKxDAEAbvXDELiWarl9admgBSiKCJtbKE6OP
+X-Received: by 2002:a17:903:1b70:b0:2d0:cc92:f7c2 with SMTP id
+ d9443c01a7336-2d0cc930325mr247857335ad.1.1786078648456; Thu, 06 Aug 2026
+ 21:57:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260806065254.28204-1-phucduc.bui@gmail.com> <2026080623-repressed-griminess-e3fe@gregkh>
+In-Reply-To: <2026080623-repressed-griminess-e3fe@gregkh>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 7 Aug 2026 11:57:17 +0700
+X-Gm-Features: AUfX_mwRnOY7VUq-ck_xwOmg8y-ARldqTcX5XmuIOCDKQs-VxTrkOjINteaUTxY
+Message-ID: <CAABR9nEfPqXAt8wDo597qDS3b3KMaHeF6-swAFg9RLanapDnBQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: chipidea: ci_hdrc_imx: Propagate -EPROBE_DEFER from
+ IRQ lookup
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Chen <peter.chen@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	linux-usb@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-rebind_store calls do_rebind which dereferences udev without
-checking if it is NULL. If busid is registered using match_busid
-but the device is never bound to the driver or it is never present
-in the first place, it triggers a null pointer dereference when we
-attempt to rebind the device. Fix this by checking explicitly for
-udev first and returning -ENODEV if udev is NULL. Add usb_get_dev
-in addition to the null check to get a reference to udev to prevent
-udev from becoming NULL after the check. Drop the reference after
-using it in do_rebind().
+Hi Greg,
 
-Reported-by: syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=af76b01c9a0f0ab60fb0
-Fixes: 4bfb141bc013 ("usbip: usbip_host: fix to hold parent lock for device_attach() calls")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
----
-Changes in v2:
- - Addressed concerns raised by the maintainer in v1 discussion
-   - Added usb_get_dev() to get a reference to udev preventing
-     it from becoming null after the null check. Drop the reference
-     after using it in do_rebind()
----
- drivers/usb/usbip/stub_main.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thank you for your feedback.
 
-diff --git a/drivers/usb/usbip/stub_main.c b/drivers/usb/usbip/stub_main.c
-index 79110a69d697..c911626427dc 100644
---- a/drivers/usb/usbip/stub_main.c
-+++ b/drivers/usb/usbip/stub_main.c
-@@ -256,12 +256,21 @@ static ssize_t rebind_store(struct device_driver *dev, const char *buf,
- 	if (!bid)
- 		return -ENODEV;
- 
-+	if (!bid->udev) {
-+		put_busid_priv(bid);
-+		return -ENODEV;
-+	}
-+
-+	/* get a reference to udev to prevent it from becoming NULL */
-+	usb_get_dev(bid->udev);
- 	/* mark the device for deletion so probe ignores it during rescan */
- 	bid->status = STUB_BUSID_OTHER;
- 	/* release the busid lock */
- 	put_busid_priv(bid);
- 
- 	ret = do_rebind((char *) buf, bid);
-+	/* we finished using udev and don't need the reference anymore, drop it */
-+	usb_put_dev(bid->udev);
- 	if (ret < 0)
- 		return ret;
- 
--- 
-2.55.0
+> > From: bui duc phuc <phucduc.bui@gmail.com>
+>
+> All lower case?
+>
 
+Yes, I=E2=80=99ll keep it lowercase.
+
+> > Return -EPROBE_DEFER from platform_get_irq_optional() so the driver is
+> > re-probed when the interrupt resource becomes available instead of
+> > continuing probe without an IRQ.
+>
+> How was this found and tested?
+>
+
+I found this during code inspection while cleaning up probe functions in
+the Rockchip ASoC drivers.
+
+https://lore.kernel.org/all/20260806052136.21034-1-phucduc.bui@gmail.com/
+
+platform_get_irq_optional() returns a positive IRQ number on success or
+a negative error code on failure, including -EPROBE_DEFER. The driver
+handled positive IRQ numbers but ignored -EPROBE_DEFER, continuing
+probe without an IRQ instead of deferring.
+
+I only compile-tested the change. I don't have the hardware to test this
+path at runtime.
+
+While reviewing this,I noticed that -EINVAL also deserves to be returned,
+not just -EPROBE_DEFER only -ENXIO really means "no IRQ".
+I=E2=80=99ll update this to:
+
+if (data->wakeup_irq < 0 && data->wakeup_irq !=3D -ENXIO) {
+        ret =3D data->wakeup_irq;
+        goto err_clk;
+}
+
+I also found another issue in the same area:
+
+        if (data->wakeup_irq > 0) {
+                irq_name =3D devm_kasprintf(dev, GFP_KERNEL,
+"%s:wakeup", pdata.name);
+                if (!irq_name) {
+-                       dev_err_probe(dev, -ENOMEM, "failed to create
+irq_name\n");
++                       ret =3D dev_err_probe(dev, -ENOMEM, "failed to
+create irq_name\n");
+                        goto err_clk;
+                }
+
+
+the error return from dev_err_probe() was not assigned to ret,  so the
+error path could still return 0.
+I=E2=80=99ll send v2 soon.
+
+Best regards,
+Phuc
