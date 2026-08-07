@@ -1,50 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C042542F70E
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 11:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FCF42049B
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 11:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786101042; cv=none; b=UCfK8HXL7fVB/EArq5fTwmCMWa79pnxEqPhQj3R/5z4zo5UVamXzXZDLPTb7njtTjDQ9MykSsDPpkX/ASgak//b6URGMRFC6ZRHLydJOebBsANhfEkPfRhI/OaCKk0DKKa3OVVIy8/1HF4u2EAChUMBwzAAW3bfkygQqdBsYSug=
+	t=1786101201; cv=none; b=aAYzDgYGgzbIU5suEbOqUoeAuuZvjKSNoXKvdf5zy7Aj7WSLb3IPjX5Q3mLubd87JxfVrltS5P99SxhfI9vuoaX5kcT8AJw2hz+T+oC+rlEmtahMClIKdkxJCyNh+IMhcBI52yXtm+4BypxFC2h5udLWiNJE8SHoMBwtTdY3YpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786101042; c=relaxed/simple;
-	bh=h6NBU84xhTihWY/u5TxxJ2qcxOUUxbNMTSMqOkWPupc=;
+	s=arc-20240116; t=1786101201; c=relaxed/simple;
+	bh=cL3HCRqEqhoHnqaa5p8SVztI+2hdt6kr7zcSMjuQ/Ds=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OT8wPs+lkLBU3vaTzVR7wtOlaeMxuzyPIZLqUFkXgMTY3y4um2uuxJRrQ/wgn4h7hVtlO/KzqpMkK+qNsvVOadMjNDJofqAVhYjZO12bCRnlUGSeXieah/flLnUfiW9PYOxYJ88fWnrY8bp/64Eg04z5Juf7xp60nAsowJyCPqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K56/K/xg; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=EeQcSYhahIPCF2QCswGvXPKgyFnwvW+p2Fh15qcVNcNjvFe5Ku73qshvoVtTFyaw83f4eDvI0AlUChriRdpOByA+d8qyPFmAFEiVlzGNwbyEJ7aiOyFM311+8CRfNKYkKf8Ks3jTUi9jv71XY+Dn8DkV9CbLT+io/6Z0UVGp9AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=kGBt8w+j; arc=none smtp.client-ip=178.154.239.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K56/K/xg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786101040; x=1817637040;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=h6NBU84xhTihWY/u5TxxJ2qcxOUUxbNMTSMqOkWPupc=;
-  b=K56/K/xgyIYBYXlZc6/GRJ3xw0b+Zu2Bc7QGb5iAIr6Oivpx/mAnf+eY
-   QUIx96U3ig/xJUsC1UPNByTMAyVQriTsL2N2Njzzlce5d+wfQmkqo7VhE
-   Zy7o4uPZ9adczhrc9L1QCW40ncwX9u/5K+LQq3fAZ4sdr52+qmFiC0dpd
-   EpqahcWFhZ9K0YmEBQpIkSWo+lLp4bgWTbzw8l3R+Euf1Kr71fHTqLLzx
-   HiLMwATjRxlGlDYDrgYzyP5NQp46b53+XuvdrPr3ChfFMURTXpKKx0FhV
-   VnKhrR0iUvGiONSRPJqpDi4LbH0cWMxw8aI7iJo9Fz2syfXxuj9/BcOI3
-   g==;
-X-CSE-ConnectionGUID: 9rDon+8xSsmCXdSGHAduQg==
-X-CSE-MsgGUID: 9UORO4csSTmtPv5leLbfvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97301868"
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="97301868"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 04:10:40 -0700
-X-CSE-ConnectionGUID: d8VSj8PeQwyXnc8eYSdvvQ==
-X-CSE-MsgGUID: ddAmB+wxTXmIJFSO6gZ9/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="266614526"
-Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.88]) ([10.245.245.88])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 04:10:38 -0700
-Message-ID: <310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
-Date: Fri, 7 Aug 2026 14:10:35 +0300
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="kGBt8w+j"
+Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net [IPv6:2a02:6b8:c23:4403:0:640:bf85:0])
+	by forward501b.mail.yandex.net (postfix) with ESMTPS id 871988267C;
+	Fri, 07 Aug 2026 14:13:09 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (smtp) with ESMTPSA id 6DIuYbKfK8c0-gw3wElwL;
+	Fri, 07 Aug 2026 14:13:08 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1786101188; bh=cL3HCRqEqhoHnqaa5p8SVztI+2hdt6kr7zcSMjuQ/Ds=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=kGBt8w+jcrL5DgeoAkNIQ67FswQpQ/9pPMrVx1BLSclL1wiTV3B2O1ueujEiVghb1
+	 JvZEGdARE9j3iTxTDdgAh51GGQl4mgYoo93FEV0b9ZN4+jzVJaofTmTa5ai23Z276K
+	 PREhMoFUQyrQBGaQ35uVk2HWCkkLGh75B9GsY6aA=
+Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <7510bf11-7ae3-47dc-b499-5eb5e0aa0192@yandex.ru>
+Date: Fri, 7 Aug 2026 14:13:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,93 +38,28 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
- isoc URBs
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: dylan_robinson@motu.com, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, stern@rowland.harvard.edu
-References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
- <20260521152715.288995-1-mathias.nyman@linux.intel.com>
- <20260806101706.72a8de47.michal.pecio@gmail.com>
- <0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
- <20260807000155.2960c741.michal.pecio@gmail.com>
- <e3c66325-0291-40f9-a87e-1bb337ce4427@linux.intel.com>
- <20260807102604.5f649db2.michal.pecio@gmail.com>
+Subject: Re: [PATCH] thunderbolt: verify PCI resource type and size in
+ nhi_probe()
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, lvc-project@linuxtesting.org,
+ syzbot+901ca72278dfd89daf58@syzkaller.appspotmail.com
+References: <20260807083757.318371-1-dmantipov@yandex.ru>
+ <20260807095831.GL235112@black.igk.intel.com>
 Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260807102604.5f649db2.michal.pecio@gmail.com>
+From: Dmitry Antipov <dmantipov@yandex.ru>
+In-Reply-To: <20260807095831.GL235112@black.igk.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/7/26 11:26, Michal Pecio wrote:
-> On Fri, 7 Aug 2026 03:07:08 +0300, Mathias Nyman wrote:
->> On 8/7/26 01:01, Michal Pecio wrote:
->>> On Thu, 6 Aug 2026 16:25:15 +0300, Mathias Nyman wrote:
->>>> On 8/6/26 11:17, Michal Pecio wrote:
->>>>> Besides initialization, it's made -1 if and only if xHCI endpoint
->>>>> state isn't Running at the time of submission. This effectively
->>>>> means that to start a new "isoch data flow" aka "stream", class
->>>>> driver must unlink the last remaining URB of the previous flow. If
->>>>> the driver doesn't unlink (or tries too late), the endpoint goes
->>>>> Running-Idle.
->>>>
->>>> If class driver doesn't unlink remaining urbs then list won't be
->>>> empty and you have the exact same situation.
->>>
->>> Obviously not, it can simply stop resubmitting and wait. Or there
->>> may be no URBs left to unlink at all, when recovering from ring
->>> underrun.
->>>
->>> Then HW endpoint state will still be Running, not Stopped, and new
->>> URBs will be scheduled into the past, doomed to complete with
->>> -EXDEV.
->>
->> Isn't this exactly what we want?
-> 
-> This was discussed all the way back in Bugzilla - usb_submit_urb()
-> kerneldoc spells out what we want and Alan was clear that it reflects
-> what HCDs have been doing for 20 years:
-> 
+On 8/7/26 12:58 PM, Mika Westerberg wrote:
 
-I'm doing exactly what kerneldoc and comments in bugzilla state.
-If queue empties out we schedule the next TD based on URB_ISO_ASAP flag.
+> Yeah, I'm not entirely sure we want to start "fixing" issues like these
+> where it's clearly not a USB4/TB NHI. IMHO If user forces the driver
+> somehow to bind to this unrelated device then she/he got what asked for.
 
-The logic is from Alan's bugzilla comment. I'll quote the beginning here:
+I agree but isn't there a scenario to trigger such a weird probe just by mistake?
 
-"When the queue underruns is exactly when URB_ISO_ASAP is supposed to matter.
-  If the flag is set in the new URB then that URB should be scheduled for the
-  first slot in the future, leaving a logical gap in the queue.
-  If the flag is clear then the new URB is supposed to be scheduled for the slot
-  that follows the preceding URB, which means that some of its packets will
-  never be sent because their slots have already expired.
-  This will still leave a physical gap in the queue, of course -- no way to
-  avoid that -- but it will maintain the logical alignment of URBs and frames.
-
-  Thus by submitting all URBs with URB_ISO_ASAP clear, drivers can help ensure
-  that the queue remains synchronized to within the limits imposed by the host
-  controller driver.
-  If xhci-hcd doesn't behave this way then it should be changed."
-
-So I changed it to behave this way.
-
->   * If the driver is unable to keep up and the queue empties out, the
->   * behavior for new submissions is governed by the URB_ISO_ASAP flag.
->   * If the flag is set, or if the queue is idle, then the URB is always
->   * assigned to the first available (and not yet expired) slot in the
->   * endpoint's schedule.
-
-> 
-> "If the queue is idle" means all completions have already returned.
-
-That's an odd interpretation of "queue is idle"
-
-This would mean that an URB queued after "queue runs out" (underrun)
-should always be treated as USB_ISO_ASAP case, making the flag useless.
-
-Isn't it more likely that 'queue is idle' means 'not yet started' than
-'class driver intentionally left it to dry out and underrun in order
-to later restart it, assuming it will restart ASAP on next URB enqueue
-without setting URB_ISO_ASAP flag?'
-
-Thanks
-Mathias
+Dmitry
