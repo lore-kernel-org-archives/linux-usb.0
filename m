@@ -1,169 +1,176 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB70233C53D
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 16:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786120880; cv=pass; b=r8VtMMX59g1q0pWc+VqALuu8ce4zzgIjAUE3YdsjtOko8whozQfzq8UXWPQbMY9vWLvUewl2h/HyQcsIztPi1Vx2E9PDnFTGaeQw3E4p6hN6BQ4ALjSDfpblY5pS4r37FyMbipKD/b2xM3pKcbUB4iACRu2b9SkVhF9yAQGn4tk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786120880; c=relaxed/simple;
-	bh=H4YOFrL1KfBu3NDle8YUdni3Mk4BFwaMFq6LZ90tQgg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ObUu2ltHh3UZN32lWeinwFJIF9JnAXy3uWVGxHZ1uUPWwzxm25zUqx/oCeppI3BKiEOmj6j5q5YaxkTwhPIYEJAmb5pjolNjJ7x5KEYpCJg79We6HKmRLqfJLDmdXmPwuEUmJNt/ZXtOndFmayD7tdG4ECfusbqv5dmGYdWMT2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQWRLutR; arc=pass smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D3238655E
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 16:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786121296; cv=none; b=P/5VkaOL39RlyvIXuTN/ZTVjs5ijA67ExZDLqRtbHQ/1vQJen1ChF3AZsKKDMpd6dCIycOenb0HI2MjxZFNVbpxPnD3P2udvAOo+orvFj4BvOJOdiI05juvIRl7rIEbZ4s4diOHEdX3eKVJWhBscD+ooblzU/6seSy7M7w368uA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786121296; c=relaxed/simple;
+	bh=EmxIZs/t4pbaj2KGbevzEc4gNPv/70MPikAqU6Fgino=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lO4/jk9Uor9aRgy2a39Vx0QvxDziJqNyywG6K0gLDrEfKLqWdPKT0xTfUzaNLn/Ifj5gkcFg1jCjPyGF3hYyPkWnsc6T6ruTsYNnIAQHyAvZurCUFhDbj5YhpEyXpnKakA8B0KtE8Gitn8L/vclZ6IqHNqIQqdOGB1fuOUB5YUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=imItjbc0; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQWRLutR"
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-969524c1a63so2517563241.0
-        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2026 09:41:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786120878; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oy8Rry+Mf++tq/+ayrgsoMFye/pBmXhgg/RYK3NQZoJQ3uzu82AJLNeL/4DfLZqpGu
-         Y1mk1DNhD+fGFdeJnhPDddKsAogyU7vgKogT6us6QNH3P3RPrW2CyAnNy1OCDtXCIyP9
-         U9y39lQqn3I7lpyG88WM9p33qvyINtNJT8sc0/dLItq2rLAqJFcBK1wg/73EKqOSGCCF
-         w2GJQRJuZAoDf5f5GQh77aKTGMgv4B4ljCzNGqsIE65JzbY0w/q0KUS0kb8xK87LJ17A
-         F8ZdgNXTU1uPJrU12CE0eKryGfo55Se31qOpvb8u+HpxBD8S2fZqzobN4Duya4IebKr4
-         tb5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VbYKBFSni/MXYcTbspULgZDCuPfk5qG+Byfv7cl+Zzg=;
-        fh=y8GB0zBUGQTernFWd6QRloV+jPN161pv6YdeDPoTBeI=;
-        b=LaE8vbUTfhpWc1uLQ1OKhHym1oHhr47d4Q1J/sfq3RNwoPuS9c3ZX+tSvcn9U2T3b1
-         uMKOUKF3KKItJc9Q5QoNvD4Tm48EeeHNKlv3IvmQ2vIXlIVyV9q6u3l2AHTpzQyMGUqh
-         lFZ2Em4LjQWs56oowVEI+tZqk9+aNB69LhpA7hgSHbcOI1YI2T15ID5f15mKC7DqrffL
-         84JuvMU3xTim7BUISh+mWyrarZ+oKEd8dv9vlMLveZtCT9SWoCpzmMfRcJXv5jK+2trt
-         Jros+TOfZhEwr130bOEiOGhcv6V9vYOc3nGsQuN7w/2LH9B6qZHqf1h8Gre0bT0MUQsj
-         3Mlw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="imItjbc0"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e85499ffbso241825285a.0
+        for <linux-usb@vger.kernel.org>; Fri, 07 Aug 2026 09:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786120878; x=1786725678; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=rowland.harvard.edu; s=google; t=1786121293; x=1786726093; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VbYKBFSni/MXYcTbspULgZDCuPfk5qG+Byfv7cl+Zzg=;
-        b=bQWRLutRFUKY/OF/6kmInYCWZcLyGaNyhItdMuuSNqAsCkK5solo5inhvi1d1BllN4
-         f2FoUM7mxHcL13xsdSR/PjkSNpSbqJj/E0MbKsRafc9xqsmfzHCyWRDEBQgN4b+JLK08
-         UYTx5SRS4fJuAJpBFSxSuNzed4SPx8gdwyYj9WsGBB6ueJggMvg9FWBWELo6wWhOn3rA
-         y1wE/RT0j5aT2IJEjyV1D4zko8RrVkwsyjdXrAGkhLFYzeBU+1Gc6EYCzu+62B5DJ6Gy
-         HfDT1izxLFumQm48VEMQWq8NdYgygHFzGxLO+uJr732wFlpsz0FiOW8K3ymk2DOyCMxc
-         APhQ==
+        bh=YjuVYqTcCHqAuGswg5tmGMiBN8OszBc3xUl+fHnlPpk=;
+        b=imItjbc0FytTYJlGSX0Y8ahUBcaDd/Ewr4aYW/xsBm0NVsgJxRJ+VWnFekLVDalhLH
+         28Xnykm1nOn0pWx4B/+/5pF4bspwj01MvawEjG3TNzM8nP+HUSdlnUTGgH65pbN9YRYo
+         2R1FQT/tX885DkfBTLhe7bH9aEgvjvalrEtahSF2Sc0c9JDAguodcpkXcEwIDgGq/dvD
+         RittkNXbRDEg+aKcMPp5m+WAkB3aC5PvCRVZ8zmOvpozAzwG2u4ZhTFode+ePa+Nk6Jr
+         5FP1BS1DlFEf0PqMItCCsKfl82e5AwDCxoAw4MvaAVgACbEWsfqNclU/rgYsQdXXNrHA
+         iQ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786120878; x=1786725678;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1786121293; x=1786726093;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VbYKBFSni/MXYcTbspULgZDCuPfk5qG+Byfv7cl+Zzg=;
-        b=GkncrKssac5FHumAU82Jzi6lbDQ19+5EJJKm2UucRFEyGPs3I3949UeOoo2jO4WBiw
-         H7Rw9r78rFjcs0M6foaxBmbb2/FLwmR3ayzmDw04OJZYXkbWqUTqU6EHQ1qrv0GAtdHc
-         UNLT97CX1dpD4TPgXuUExyFw9TKmfyI7uQ8+vdQPVIJmfd1oe4mJH8rhW/U3Bsp/3ERs
-         quQlE2QUDZRs0amw0op4FzpNaX0tvGG81ux93FyOzYyUrXejAphSWibzXt6Dqdw2oN1G
-         Vwz1X4ETC5YO6JwkcNSvG+aCv3pkMeE5IB8ikC6w1XNykVYM0u88jgmvkJ2TZ1lzMdO1
-         4mhg==
-X-Forwarded-Encrypted: i=1; AHgh+Rrx69hHnkx9LkKbqdJ6j1ErYzjdqC0Icm0fULb6W7cLyX1pQrn6PlPIukXk4gbQhJM2Yvu+RgRQAuY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoIl17CAra5Qm98X5kpfxA4DkFgnbMZFKmkAb3jkHV4HDWv0ki
-	ss0R2UzPDaI5S2cV7OGxGg1ylAA/tXDvHud4PEG+fE6SnYTgM+/gWQLPlmhTuZDpNa9D0Qm58h/
-	+Isvoi0/GAjRn0tPHg9QDKCfKH1eMZeQ=
-X-Gm-Gg: AR+sD10IDtFsoYhIkTyrQzEiYZJyu7qLu/PYa4+DR8E+Y+F2bXT3hKF5gzsE0R1SSTD
-	4AWFcrRqFMIptNmeZ0pHZ4VgLdArnSy/0G1moFstaOMsft5Fh97Hc9iQwmpL5hlk9uJa77UkLX6
-	b7oxc12yUBKdacAS8pId+fNa2BKP9ODeJUUpzLgpTUT/bhQDLtkDDYPu7P94LQxG+4frRi8UnS9
-	8HP2ugux28h6Lx1Z2qD+cZIjuHPJWg5+ZrlmlRfQfH9wET5wV9Z9kyJ6Csza2QzpqvQZ+Wt/Wtp
-	Vt8RedXUTbrgFCwHgeraRy5GviBXSFXKFNXkGFLa2y42w7+UNpzLUjeyA4RajEdjKU+SL+Ay12E
-	g1l6ZaOSlyFo0jD+mxXSa1X8iCOiIGXRaktes0qgKV3qkMWISqRtyKhu62Go+5pdWRSrWYbH12z
-	7lCKm15W35EIpnOlk4oVJzxjLWC69RPUxWdkRy
-X-Received: by 2002:a05:6102:578b:b0:737:5c42:858b with SMTP id
- ada2fe7eead31-764e72c3a27mr698784137.11.1786120877713; Fri, 07 Aug 2026
- 09:41:17 -0700 (PDT)
+        bh=YjuVYqTcCHqAuGswg5tmGMiBN8OszBc3xUl+fHnlPpk=;
+        b=WCel7b7+D91GdS6EV42Q0gAy/u6t8e5Vmh4uruhVdapR+Ca3IaowO3C9gLbkmItDFL
+         sQT8QQu+NzZV3IicbqjMebXfSRvfB+usjGlvGyGRFVH90BAA/c5IgJqnavBB7+Bxii1R
+         Udk+l4PLwSIF1rS0SeDv3fikIuxD1CeenRy+RAkHwo916d/r7wsTu03adb3p2wSuhUcU
+         G+eqvP1RXLpvH9KDDgHPeN+pzMznzD6o+vzo9WtEwTfXwakZBwiM1w+jZ+U5bmhNptyb
+         OFLagBk6wQ+2aVjrx6w65TOTtKLiOS/VfRhPSCWPlN0SvUMEI6fS1EOGUY4N6csYfl7w
+         bz8g==
+X-Forwarded-Encrypted: i=1; AHgh+RqAQU0RIkk5hONHh6nDC7M83SgTvYNIgadydVGCdvV9p7bN4DH6DGk7uXkOBcvP1DnYkUAhJrmGRIk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUiCg3R/qdyigEOiwPhCAWURaLfSnlmJqkoqmc7eR/bGVgdzac
+	13bD9riTLCSbh2WbJkfesKZ/2/dtJCXz8BMwZrL+rWDg+5eHuSpvjbYOAzercoFLAw==
+X-Gm-Gg: AR+sD135328KOGyuoaQdQYc1vK0eSXqwwdDO5iaz2UngGh+dwfD2aeU1iIwSjfEUZ09
+	dZxnEq18sdrm0d9OkESjTG0W+npqQZUSM0BfQFJyPDAO20SDbRBBh/P9ek2hE0KMWVHJ4roSMkN
+	9fFZtro8/9Y7JbwGW8DcMAxwnZP/SymRrDX1IqUU7l1bTeLLmHuAY+99RVxXRv50486DDQlAcs9
+	T8UzRd4Zm4My55xEjuYXd+RFmVJJWPL7QmWWwfrp0AYgSdYnXK7ag9jF6uY14PyuG8hHyo8238X
+	TVwxsWKSr8Lt1v/XF3zVICKxspjAIq0y6TVhHZVFTnyYZ110fahhFY6xfK9QFUOmo/c7IT1YNlA
+	OofHhw4F8yW5PseoFjcbVbzmyDB94j5/afYIodsDr1KQ7b4P3x2VW84JYkinRTYy59+olB+rHyl
+	l8Cg05+Jd8tMt0SZOksX8JqDt8fXG+7bzX0qnOk1hfJquGGz5rgYES31fT1P+Pzw==
+X-Received: by 2002:a05:620a:4014:b0:932:ddff:123d with SMTP id af79cd13be357-9366655b12dmr1161383285a.29.1786121292462;
+        Fri, 07 Aug 2026 09:48:12 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9366e0c17fasm188094485a.21.2026.08.07.09.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 09:48:11 -0700 (PDT)
+Date: Fri, 7 Aug 2026 12:48:08 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Michal Pecio <michal.pecio@gmail.com>, dylan_robinson@motu.com,
+	linux-usb@vger.kernel.org, mathias.nyman@intel.com
+Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
+ isoc URBs
+Message-ID: <7d514c0c-cb24-4d3f-a9a6-8107cc605bad@rowland.harvard.edu>
+References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
+ <20260521152715.288995-1-mathias.nyman@linux.intel.com>
+ <20260806101706.72a8de47.michal.pecio@gmail.com>
+ <0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
+ <20260807000155.2960c741.michal.pecio@gmail.com>
+ <e3c66325-0291-40f9-a87e-1bb337ce4427@linux.intel.com>
+ <20260807102604.5f649db2.michal.pecio@gmail.com>
+ <310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806-submit-mdio-of-dynamic-v2-v4-0-4beb0c50d5ba@gmail.com>
- <b2e83ba0-2e9c-4105-b806-8a155e8b9aa5@lunn.ch> <CADvTj4rame1n8eQL2GUOaJHnOcR_cqNxzNYO+QeCLYDczEFeUA@mail.gmail.com>
- <ddce5cfa-8cf9-4f9e-ab0a-0b415706876a@lunn.ch>
-In-Reply-To: <ddce5cfa-8cf9-4f9e-ab0a-0b415706876a@lunn.ch>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 7 Aug 2026 10:41:06 -0600
-X-Gm-Features: AUfX_mwLDixIRmddCRIK4ioEeGf1D4LRV-vMQxIFETRbvqYEEeJik4zuAKwk_IU
-Message-ID: <CADvTj4qxGVw+PW2LeF-a3h1XfmirQZGfJA9-6Czt72XASbVLBQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 0/4] net: mdio: support dynamic OF device changes
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Richard Cochran <richardcochran@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Jonas Gorski <jonas.gorski@gmail.com>, 
-	Vladimir Oltean <olteanv@gmail.com>, Ciprian Regus <ciprian.regus@analog.com>, 
-	Andreas Larsson <andreas@gaisler.com>, Mark Einon <mark.einon@gmail.com>, 
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
-	Keyur Chudgar <keyur@os.amperecomputing.com>, Michael Chan <michael.chan@broadcom.com>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Doug Berger <opendmb@gmail.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, =?UTF-8?B?VGjDqW8gTGVicnVu?= <theo.lebrun@bootlin.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Wei Fang <wei.fang@nxp.com>, 
-	Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
-	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
-	Bryan Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, Timur Tabi <timur@kernel.org>, 
-	nic_swsd@realtek.com, Byungho An <bh74.an@samsung.com>, 
-	Steve Glendinning <steve.glendinning@shawell.net>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
-	Jiawen Wu <jiawenwu@trustnetic.com>, Mengyuan Lou <mengyuanlou@net-swift.com>, 
-	Thangaraj Samynathan <Thangaraj.S@microchip.com>, Sebastian Reichel <sre@kernel.org>, 
-	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
 
-On Fri, Aug 7, 2026 at 9:10=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> On Fri, Aug 07, 2026 at 08:59:47AM -0600, James Hilliard wrote:
-> > On Fri, Aug 7, 2026 at 7:16=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wro=
-te:
-> > >
-> > > On Thu, Aug 06, 2026 at 09:54:19PM -0600, James Hilliard wrote:
-> > > > MDIO buses enumerate firmware children only when the bus is registe=
-red. A
-> > > > later devicetree overlay or status transition is ignored, unlike on=
- I2C and
-> > > > SPI buses. Supporting live reconfiguration also means that populati=
-on and
-> > > > removal can race address scanning, PHY attachment and bus teardown.
-> > >
-> > > Please make the bootloader work around the issues, and drop this
-> > > patchset.
-> >
-> > This is just fixing OF_DYNAMIC for mdio now, it's no longer used
-> > by the AC200/AC300 PHY patches anymore.
->
-> Meaning it has no users?
+On Fri, Aug 07, 2026 at 02:10:35PM +0300, Mathias Nyman wrote:
+> On 8/7/26 11:26, Michal Pecio wrote:
+> > This was discussed all the way back in Bugzilla - usb_submit_urb()
+> > kerneldoc spells out what we want and Alan was clear that it reflects
+> > what HCDs have been doing for 20 years:
+> > 
+> 
+> I'm doing exactly what kerneldoc and comments in bugzilla state.
+> If queue empties out we schedule the next TD based on URB_ISO_ASAP flag.
+> 
+> The logic is from Alan's bugzilla comment. I'll quote the beginning here:
+> 
+> "When the queue underruns is exactly when URB_ISO_ASAP is supposed to matter.
+>  If the flag is set in the new URB then that URB should be scheduled for the
+>  first slot in the future, leaving a logical gap in the queue.
+>  If the flag is clear then the new URB is supposed to be scheduled for the slot
+>  that follows the preceding URB, which means that some of its packets will
+>  never be sent because their slots have already expired.
+>  This will still leave a physical gap in the queue, of course -- no way to
+>  avoid that -- but it will maintain the logical alignment of URBs and frames.
+> 
+>  Thus by submitting all URBs with URB_ISO_ASAP clear, drivers can help ensure
+>  that the queue remains synchronized to within the limits imposed by the host
+>  controller driver.
+>  If xhci-hcd doesn't behave this way then it should be changed."
 
-I think OF_OVERLAY depends on OF_DYNAMIC?
+This quote needs some context; it applies when the new URB is submitted 
+while the queue is still active, for example, by a completion handler.
 
-I guess it can also be used like this for live dt modification:
-https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/t=
-ree/Documentation/devicetree/configfs-overlays.txt?h=3Dtopic/overlays
+> So I changed it to behave this way.
+> 
+> >   * If the driver is unable to keep up and the queue empties out, the
+> >   * behavior for new submissions is governed by the URB_ISO_ASAP flag.
+> >   * If the flag is set, or if the queue is idle, then the URB is always
+> >   * assigned to the first available (and not yet expired) slot in the
+> >   * endpoint's schedule.
+> 
+> > 
+> > "If the queue is idle" means all completions have already returned.
+> 
+> That's an odd interpretation of "queue is idle"
 
-> We don't add code unless it has a user. To do so pointlessly adds
-> Maintenance burden.
+Michal is correct; that's what it's supposed to mean.
 
-AFAIU the patches other than the last one are still relevant regardless
-since they are fixing a bunch of generic mdio safety issues in code that
-has users since MDIO maps already change at runtime through non-OF
-paths(i.e. SFP insertion/removal).
+> This would mean that an URB queued after "queue runs out" (underrun)
+> should always be treated as USB_ISO_ASAP case, making the flag useless.
 
->
->    Andrew
+... useless in that situation.  That's right.  The flag is used only 
+while the queue is still active.
+
+> Isn't it more likely that 'queue is idle' means 'not yet started' than
+> 'class driver intentionally left it to dry out and underrun in order
+> to later restart it, assuming it will restart ASAP on next URB enqueue
+> without setting URB_ISO_ASAP flag?'
+
+I don't know about likelihood, but the fact is that "queue is idle" does 
+mean all completion handlers have returned.  Of course, this includes 
+the "not yet started" case, but it includes other cases as well.
+
+Do any existing class drivers actually rely on documented behavior of 
+isochronous queues?  I have no idea.  In fact, I would expect that if a 
+class driver wanted to stop a queue and restart it later, it would 
+switch to altsetting 0 in the meantime, which would eliminate all 
+ambiguities.
+
+The point under discussion is really about what happens when an underrun 
+occurs by accident -- for example, if the system is temporarily 
+overloaded.  In this situation there are two logical choices of action 
+if the class driver wants to keep the queue running: Keep the alignment 
+of iso_packet_descriptors and (micro)frames as it was, which means 
+assigning some new packets to times in the past, or forget about the old 
+alignment and start fresh, which means assigning the next packet to the 
+next available future time slot.  The URB_ISO_ASAP flag is how the 
+driver communicates its choice to the HCD.
+
+On the other hand, if the class driver doesn't respond right away and 
+lets the queue dry out totally, the first choice becomes invalid.  After 
+all, if the driver cared about keeping the slots aligned, it wouldn't 
+have waited so long that the queue became idle.  And besides, there's 
+no time limit on how a queue can remain idle before the driver decides 
+to start using it again; we can't expect an HCD to keep track of the 
+queue's state indefinitely while it's not being used.
+
+For these reasons the URB_ISO_ASAP flag is ignored if the queue is idle 
+-- meaning that all completion handlers have returned (because 
+submission of new URBs in an iso stream typically occurs within a 
+completion handler).
+
+Alan Stern
