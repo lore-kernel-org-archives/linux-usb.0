@@ -1,103 +1,206 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14627332EBD
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 02:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B608F3A3E77
+	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 03:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786070592; cv=none; b=ehscuwdZbNtlFbf/twtipTXBOFELtF9L1IjArUfu0KMXWoywtyzlf/Ec+WF6o6+1UW0JygZf+VAn89r36UBXIajbUxiLfI5MSGN2R7LJRdoy+WjyS+PWMR22jukLL44Lef1yBHydJRDtASvnBbedGAs9wsE1m5s6crpuG1Uxmwo=
+	t=1786074889; cv=none; b=JNFg6yBqib5xl4H2vEumpJYd7l5ja5Gv70NKL4vcLK1ex1xe51USNiqhSB5MjkdsvHhTXGU5JRbCKRw3LSYRb+bFjBPvDE2NwIm+NNfhkjT7PMzCrXarrLl0Z2z+SXJWkds2lQJh9RM7KIz8zhsvGnjucQTEEUVENZASXjS74Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786070592; c=relaxed/simple;
-	bh=rCaCraUsyitUcvnePFtaiKWGpOeVONS38ajXlSPYS/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DL61vESd9TwRxjJ6jmxjecHSFgZrQBtsStfNQZfD//V3KLF8Hdblk0pKfezN0FlOxpaNXpkJcDxTC8HnsY5bVNJ0P/5aXFNXNg6rOhYAZzm/1/t8MwVFUNVGjqE7o3qyJgDs1mKWJnaKq9169MAwcaf/XD1X7RkqEa25jhpKlvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+2i6ohM; arc=none smtp.client-ip=209.85.160.174
+	s=arc-20240116; t=1786074889; c=relaxed/simple;
+	bh=0+TjxDD3Jy9In/dYW3swTJjk2WwZ3m7x7rp80MwetQc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=u7j6XXZZq+RighPXjWeCKfRiSXIqdPtV+d+pe3S3SkqSU7Aj6gLW+09Lw8TpuDFaGcWUHxx0T9LrRzsLyNEAcHf4YZK7FucFYbSBrhrYLlPR68+g/nISGKlr4TAFnXY9aiPgxf0lbQW/kg1a+BXXs6jn6brLmGVjT2Ui2xurBig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpEX/7BI; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+2i6ohM"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-527e352a167so19239091cf.1
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 19:43:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpEX/7BI"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6ae9b721927so1559598eaf.0
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 20:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786070590; x=1786675390; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CsrsyxFG7GOYeXOWf4uqDKnv5HyHjU2WKbIHtlmhwlc=;
-        b=Q+2i6ohMcWYjLHGe2N2l0zRHdOmzp0kXvGaiZ57moL32+EdBQCkHJK/5SMOLB8NmXj
-         DO4mV419ydVrQpfPg7E2QaIBYQFTBg1pByHwIrrsZCkV6RaVgMlKgyg7pt5LIoEp24cQ
-         RsMHU1TLsfb6TChxrBls5Hww6BZCsW2r1FosGcDM3ZfZUGb+FZ+05O25LU6GlPJoPIht
-         dy+sHCN7sleNRWKRibkr4wnHHwezsQm3LmDBDSeI9LzUVaDoV2egnXSfCdym3bVsRQAu
-         AnrI0/oKrq3FgZJrRGsjUOc/MNhIv0tfz2J45g88M4cbKtqvItd+0MbbSMQvo7EuS9M/
-         An7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786070590; x=1786675390;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1786074883; x=1786679683; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CsrsyxFG7GOYeXOWf4uqDKnv5HyHjU2WKbIHtlmhwlc=;
-        b=nATdj2JXxOZiqkVtDR2AUApIUPoocczb47eeIB7uzmHj8K4Oc5dc8mOX2IqwaTZr+z
-         OkKMk4JLSrEXrL+RzhLXs7+Pu5bDO1l0LrzVTZnNYNi+0wbdkkz/kuolGUygu6PAFZbW
-         cV2R5l7qOfh28Aa1Jbeh5lV0s4a0CFwxQxJdjfVZPABH9x1NIV7GFKUmkLJ7yjS4BxON
-         fv5zlpgDz0xYoH7nEzMYv9WnD8w8LX2p9EURzObeeWYHq2eCPKhIWOZk0fCzCeJt6bTs
-         m/2qqu3GVPj6M9L2aN8cb2h4cCVTs80vq6HiN6TLCsB/i8svc6rwrCxykuVpBWyB79+d
-         g3eQ==
-X-Gm-Message-State: AOJu0YwT4gtz28NEaNxfqFX/O/uqjOJxc+vh9vniEjpganpEY7+mGxxJ
-	SPH7jV5GXX2r/d8VBv5piCzT9JifU72NKdUNhDmVaeYEi+nwDdB8rwow
-X-Gm-Gg: AR+sD119RZw+vjmO/RySq8cWjoJ5SfaN4w6N3YuhhZtM6EVNaRzeJfwK42J9t71a2ig
-	V0/tlr/dNLy3eKTEAdA/mEyQlkuid1hwZCpAMc3MXWntduC5n4aANe92La2DZT4uIppEFl4tUD/
-	jr80/BaYek+NBWuGkfoSeoMaFN7Su8p6YvoDBEMH5ydrnIpwmjEje+XGqrG5/fConWkT08iI6lW
-	q6MIDEpkyEB3+Jays2cbxX49bJNxsQJIbcQrbCHV21lcAIMe6/dQCNmrc7q0piPxHwcR4whjrXC
-	PYsrhde4shDtnAA1IgNXgFlczoTcHfGpmhfOLdyh5++CH9i77IZGTOt93fAmFUBmxRtn1KBhMRP
-	yQecEmXcRXe95xUINFs+Po1glNKR07H2otIl9swsKqvwI//eb2jRkzfGUaYZpKpFlP4WDJwC4hO
-	g5CcTndnN+2uIG8egprMGoxkz3tW2QnJ9Xup3hc2wDDdY5j8XaWoUTlVZBp2Ypi3sS2JP7m+M20
-	Ndrg86WTGd5LacB998qaKhSTeZGKihnU/smYUhKbHL6pxZwjcyHqAmSmD3rMiIo9mkPysoMIg==
-X-Received: by 2002:a05:622a:1dcf:b0:517:580c:bcd3 with SMTP id d75a77b69052e-52ce604bce6mr224287081cf.19.1786070589676;
-        Thu, 06 Aug 2026 19:43:09 -0700 (PDT)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d1659c1e4sm2825441cf.19.2026.08.06.19.43.07
+        bh=oG17fuSe5U2XTSseOTKToMBz/2cRmkeSjfgTvQP48IM=;
+        b=lpEX/7BI85Fi/0G5+0D2xup9DX4yz60TfCAwoHRQUZ8vNfDwj0b1q5H7nz2xeO59b0
+         fyBTIsSZr3zl7i0m8aH+JmxbrgAFJUphZe+HHFvRWEtoU2ApRPKQF2levV6kdjtJifv4
+         2OIk1cbOGyT37h0z83/WywXHs50v06NqWDN8McDAyOawzI2B2XKsVWgXArqEmb0ca7oz
+         zsMgAwWJW4EWWpI4nlB5IrCkANpuRtO2N6ztmMx9n9zZ9txMW/CvU9VcjxQ20kktyqaz
+         Z8FQlF8MfAIDnfA8RPbjHGMLrBHX0GG1H20LsCCgVqKj2bOquVlTm0Uah6SICXjpHNA1
+         PvMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786074883; x=1786679683;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oG17fuSe5U2XTSseOTKToMBz/2cRmkeSjfgTvQP48IM=;
+        b=a4LCKGU8TEXxPDW0bC2NzByKMqM54wcPPGQ1JiiTwuOaCryrKU7KXT8p+Q1CDhOOt/
+         hIHfc+dhnjfJes7hs2XdNYTWe6vblL9GtFSXf/OqxIwu/klLdrCP+h9tVrVGw9eSzGVC
+         vbW5cJwjgCpsmfm6zPkhy4VTDzppfMJMkLYE5s+bdHMA4rAM7kDkcdH4Bt6rAvqNh213
+         ddpdHIAb3ojppZsPe2gfC3st/mDh+pUCdCAWsIhDIR2qvUifZln6mQ2ThvJDDgD+Nu0U
+         JqcLRByzGB2cZsKAGZoh58L1Lj0eMIoxIU+B8Ya/0AuySfxlEI/BJw7aeIFh3RCHQ4Eg
+         B8MQ==
+X-Forwarded-Encrypted: i=1; AHgh+Roy1syF01Pkuk7addDtIa6nk8vot75PX/glIGruJX1SZD5QJR+o1YWrcEtRHoK1gkV/d72trAmoj3s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvvZ1JcBuR+IMrLvuIkK2arKww/1K67kSaZFe0ib+ftJQB6YcC
+	x+Ahzdx1mVTsVQ0mBzdyUv+tzm+cx7wBZqx7V7iQF+HAdughpxazTZtL
+X-Gm-Gg: AR+sD12eSdvOpdUHTzs0Uq0KA7Y2ElLJRB2m458gJ+i2rnwckFas2Knr3GQlD8tCUQF
+	Yk0BaNYq1jHES0GckYsgAO4AhG9ChSgOVVXxDev0UuNYuSeSycM2DV5fhl12ouVajTuQFImiks7
+	1YKw6KfE+IJ1djiLa852i2TIPkmXVB5tywwbsLuP+rx0fq+jrF7Wcu4jgDgTRLZ1BWS1o6hnJu3
+	YkhTDW2VQ0d9Ifq7UTbD7Ez72L1HQjtfW+/js+U0MLkB5bvXEExql/CJacgBEa3o1jjvvZZVtEL
+	ji8Fw4VN6FJ18S6bE/JvMsVvPkuonMuSPSks3hBHOEUKJCv2W2paSwUbEjtKrO6G1tpPSMu99q5
+	XD2ugkKi0bgoyzd9suBL4tVSvAilFWFibLRPbNz1O5d4PN7L3JTUu6h88DKRvqj6lyllD+AsvhP
+	HkbRGmK+p5n2VJQi99XxzDc3vtG7ADlydsv6zgJt+asrvVQ+m39iuL+z6cM+rt6nnfHQ5RtxgtS
+	flywP6r57G9o/qZ8pdiLZFB63sAkQ9yC/2C/0mUIjWlh5aXzoUsfPOLaBBHqRzEZG1a6Yayv1Ta
+	e2xLNw2X8eD+YjT7Y1OdDpQ5vsmsUAsGM/IP+6Zte+Sqmc1IFrgd5E0/YsiMOXzACy0iuF9xUhk
+	H7/XQiksHreA9uf0HSg==
+X-Received: by 2002:a05:6820:987:b0:6aa:e573:9ce0 with SMTP id 006d021491bc7-6ae96d0b246mr11060312eaf.16.1786074883485;
+        Thu, 06 Aug 2026 20:54:43 -0700 (PDT)
+Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b02bbc41bbsm1329339eaf.3.2026.08.06.20.54.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 19:43:08 -0700 (PDT)
-From: Yuho Choi <dbgh9129@gmail.com>
-To: mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuho Choi <dbgh9129@gmail.com>
-Subject: [PATCH v1] USB: pci-quirks: Release EHCI device reference
-Date: Thu,  6 Aug 2026 22:43:04 -0400
-Message-ID: <20260807024304.928708-1-dbgh9129@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 06 Aug 2026 20:54:43 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Thu, 06 Aug 2026 21:54:20 -0600
+Subject: [PATCH net-next v4 1/4] net: phy: cache MDIO bus owner before
+ dropping PHY reference
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260806-submit-mdio-of-dynamic-v2-v4-1-4beb0c50d5ba@gmail.com>
+References: <20260806-submit-mdio-of-dynamic-v2-v4-0-4beb0c50d5ba@gmail.com>
+In-Reply-To: <20260806-submit-mdio-of-dynamic-v2-v4-0-4beb0c50d5ba@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Florian Fainelli <f.fainelli@gmail.com>, 
+ Richard Cochran <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Jonas Gorski <jonas.gorski@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+ Ciprian Regus <ciprian.regus@analog.com>, 
+ Andreas Larsson <andreas@gaisler.com>, Mark Einon <mark.einon@gmail.com>, 
+ Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
+ Keyur Chudgar <keyur@os.amperecomputing.com>, 
+ Michael Chan <michael.chan@broadcom.com>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Doug Berger <opendmb@gmail.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Wei Fang <wei.fang@nxp.com>, 
+ Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
+ Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
+ Bryan Whitehead <bryan.whitehead@microchip.com>, 
+ UNGLinuxDriver@microchip.com, Vladimir Zapolskiy <vz@mleia.com>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Timur Tabi <timur@kernel.org>, nic_swsd@realtek.com, 
+ Byungho An <bh74.an@samsung.com>, 
+ Steve Glendinning <steve.glendinning@shawell.net>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+ Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
+ Jiawen Wu <jiawenwu@trustnetic.com>, 
+ Mengyuan Lou <mengyuanlou@net-swift.com>, 
+ Thangaraj Samynathan <Thangaraj.S@microchip.com>, 
+ Sebastian Reichel <sre@kernel.org>, Simon Horman <horms@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-pm@vger.kernel.org
+X-Mailer: b4 0.15.2
 
-for_each_pci_dev() holds a reference to the current device.  The Intel
-EHCI lookup breaks as soon as it finds a match, so the iterator does not
-get a chance to drop that reference on its next iteration.
+phy_attach_direct() and phy_detach() cache the MDIO bus pointer, drop their
+PHY device reference, and then read bus->owner. If the put releases the PHY
+during concurrent teardown, the cached pointer does not itself keep the
+parent bus alive.
 
-Release the reference before leaving the loop.
+Cache the module pointer before dropping the PHY reference. The existing
+module reference protects the cached pointer whenever the MDIO bus and
+network device have different owners.
 
-Fixes: 26b76798e050 ("Intel xhci: refactor EHCI/xHCI port switching")
-Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+Fixes: ec988ad78ed6 ("phy: Don't increment MDIO bus refcount unless it's a different owner")
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/usb/host/pci-quirks.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/phy/phy_device.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index 0404489c2f6a..ba158d63bb8b 100644
---- a/drivers/usb/host/pci-quirks.c
-+++ b/drivers/usb/host/pci-quirks.c
-@@ -1073,6 +1073,7 @@ void usb_enable_intel_xhci_ports(struct pci_dev *xhci_pdev)
- 		if (companion->class == PCI_CLASS_SERIAL_USB_EHCI &&
- 		    companion->vendor == PCI_VENDOR_ID_INTEL) {
- 			ehci_found = true;
-+			pci_dev_put(companion);
- 			break;
- 		}
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 94b2e85e00a3..34d00f1ee483 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -1752,7 +1752,7 @@ static bool phy_drv_supports_irq(const struct phy_driver *phydrv)
+ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 		      u32 flags, phy_interface_t interface)
+ {
+-	struct mii_bus *bus = phydev->mdio.bus;
++	struct module *bus_owner = phydev->mdio.bus->owner;
+ 	struct device *d = &phydev->mdio.dev;
+ 	struct module *ndev_owner = NULL;
+ 	int err;
+@@ -1764,7 +1764,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	 */
+ 	if (dev)
+ 		ndev_owner = dev->dev.parent->driver->owner;
+-	if (ndev_owner != bus->owner && !try_module_get(bus->owner)) {
++	if (ndev_owner != bus_owner && !try_module_get(bus_owner)) {
+ 		phydev_err(phydev, "failed to get the bus module\n");
+ 		return -EIO;
  	}
+@@ -1900,8 +1900,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	d->driver = NULL;
+ error_put_device:
+ 	put_device(d);
+-	if (ndev_owner != bus->owner)
+-		module_put(bus->owner);
++	if (ndev_owner != bus_owner)
++		module_put(bus_owner);
+ 	return err;
+ }
+ EXPORT_SYMBOL(phy_attach_direct);
+@@ -1917,7 +1917,7 @@ void phy_detach(struct phy_device *phydev)
+ {
+ 	struct net_device *dev = phydev->attached_dev;
+ 	struct module *ndev_owner = NULL;
+-	struct mii_bus *bus;
++	struct module *bus_owner;
+ 
+ 	if (phydev->devlink) {
+ 		device_link_del(phydev->devlink);
+@@ -1972,17 +1972,14 @@ void phy_detach(struct phy_device *phydev)
+ 	/* Assert the reset signal */
+ 	phy_device_reset(phydev, 1);
+ 
+-	/*
+-	 * The phydev might go away on the put_device() below, so avoid
+-	 * a use-after-free bug by reading the underlying bus first.
+-	 */
+-	bus = phydev->mdio.bus;
++	/* The PHY and its parent bus may be released by put_device() below. */
++	bus_owner = phydev->mdio.bus->owner;
+ 
+ 	put_device(&phydev->mdio.dev);
+ 	if (dev)
+ 		ndev_owner = dev->dev.parent->driver->owner;
+-	if (ndev_owner != bus->owner)
+-		module_put(bus->owner);
++	if (ndev_owner != bus_owner)
++		module_put(bus_owner);
+ }
+ EXPORT_SYMBOL(phy_detach);
+ 
+
 -- 
-2.43.0
+2.53.0
 
