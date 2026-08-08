@@ -1,79 +1,74 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F9E29C33F
-	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 16:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA48387341
+	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 18:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786205271; cv=none; b=XWiKeV+M1h4s/PyvAGEY54cPpgYMwNsLemSkPPMuTgrheqs5nsiqXX9Ynn3kTAbMILOTkEqy5QfNKaBX0FKGZgCKTSaigf3w29uomM28EzX4XLpobYhh8G5G6tyBBN/AxNNaw6RUAY0ZFEl0F9tQFu4UnRg1kZq6yf7SJjUqwcE=
+	t=1786212933; cv=none; b=ToSdDK4tuXZD66tYrEZGx65fuy4jEp5DbFr+nL9BtHbiegInaqNKx+x4j0iC4zI0Lkp20hcRiMqblMaGZotf6fMPi2ztC7//RUTIbVw0klaaCxk/XRLwKKppszsffWplO6MMImHU972+1AFgoFN2fKg0ayxevBj3sRFOVQ9bze8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786205271; c=relaxed/simple;
-	bh=xHY+S+KV7aofm8Qyz6ICcsPYKjrEprOF1DxCXtRvUwU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RxGCSet7BdesuSO4+u1YNb+XyNGgFtthJqPC+bS+4djlgv0GNdM6H86SLOc5I6FW5FWdq8yugM/SgBDFSKXwaZrhKW+prIEl0Icseq4q8rPL/9+oIuGNJUF2Hgd9oaEHB3kpeC5i2SCrUTAjFdgSGmi3pcLTmE+PEVOQf4kwFuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ko2rpens; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1786212933; c=relaxed/simple;
+	bh=EkACh1bDArPo69kB4KkzQxhqfiR3/+XE/Ns+gNlzdm4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s8YqP4loaTss3O41ltCeCUBDdPBabv4OS/tIORflS3sxsXfStwiGCvimphUSQ8sx2pj+0908xHrXtH62E/QFHhzGlESAjpXdsCUJ6X3sifeDYjXAx0Za/wtqSFRNjC1Aw3OIoWTsutc1dwUi29kS/vI+hXMXXufJvUs0wXkL5/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFkSk4VH; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ko2rpens"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso2048775a12.0
-        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 09:07:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFkSk4VH"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-ca97d139d8dso285956a12.2
+        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 11:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786205270; x=1786810070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SENg9pRRUoZlSlJ+dKSUdZMKiB8mTHxjF4bNd6z+scs=;
-        b=ko2rpenscD/J2gEGs14EKE+UbBicRv/c9QYOfTitVWagMR9VdydBD1NL4XEAWsuydo
-         6KlUYWZCJQtNjXHmVjadWoI6LtWMfXgzT/ugcEqGH6jEk5SVEIHIiTACd5bDNtBWVdkx
-         C3bo4bauLeHYfSnoq34m5SZmQM9VY8n7dZu3E+MuOHHmH2FhMVQWvy6nDGEAHLZjxMVV
-         iIvxR/KOk3V8rVcGMYlN3jMx0SbnurMf7/Hx7bFuGYqu/asjBI7PGiDufOT1ne+7FgrS
-         qBF/SoQegecMZYoDeaQD+qq3TYobJzKQNucagHcReN26LMcFwtuUlxfSThRQGVFXyZj9
-         ArCA==
+        d=gmail.com; s=20251104; t=1786212931; x=1786817731; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=P8G6Z8iSF5Ollo2I3Xn+2pO6Z1VQrAx2pCt3BvyTS+M=;
+        b=fFkSk4VH9I1oVjQ+KOoH3tMgdHW3i6MtKBTdop31W53ML7YSk9NoNr7VpBgwYn6DBJ
+         mjZ8CqXo5UWzz3P3U782vqVVXvwQeshWKGb9UPgBLpEoXZAiKNubGbWnbM1IQZH1JUTS
+         74j3ckH9VekuzV9BJ3Hn6mqGlYfvvX12bj7dW6SwGuurSOxULu0M3UwyXvUMlG80malf
+         LD7TJcT7hvQcj3hREBq9JmKikig7u7Qh5PbSALfCKl0tL14e7PtLVHEP6CWAx36twMcX
+         Zfy3td2EZ0S9T+Vj/jRJ0DFBrgLC+oM40IZWG9FnZRdpUiSLTX4JJo0PFyYBAbQderPN
+         J3Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786205270; x=1786810070;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SENg9pRRUoZlSlJ+dKSUdZMKiB8mTHxjF4bNd6z+scs=;
-        b=mUlpXHLh0RAmc7w36pDuasvVevrowsgn/JSxaTbHFssgA0YXp4ughb5ylD3JN4Nx0o
-         EljvUMlkY4hlMxwiERb7QkgG5DwDlMzKtzSNeYGVtHpljwszxX+rNZkgYN8aoQRmnhX+
-         nPrDGm7fsuZQ5wbzPLrYg08g0NPiwPh80PnCyUUXiAA458+hlRFshaFvWoyQmlM8cpt3
-         fixETzxKEtUMSIuCvUPVPsNJ4k+GGfw1xCMb4G12QICG4Qg+pSfZLR99tTbXTHD3WUKw
-         HlPhEzhOzqqVLYgWan3nqL8WpeaNZzO40a3ZlgOfKI3/tMlKafq0Zl/t7GcbkOSdUuXe
-         PneQ==
-X-Forwarded-Encrypted: i=1; AHgh+RokDz54oGNS9cyXKnWccJEB/GvNY34gzGYPNGMPK2YIJiwnXbocMnxekIMWvXpSxl+FcT4nlReR9NE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9rNZJ7nMznIgreHphQ0gUnMG84ljHvtkCIa2U0Phvgnwaoa0v
-	REOw/Yarw2XfyhNM16dIDdN1RGibXIq2YeK/N5tXNsMdyqCFpSiidOke
-X-Gm-Gg: AR+sD12r6ygx3H3KLorazHn8fkweOtLzbwA9wmRPK1vcmkvJhdA14rTJjyLsKeAgLCA
-	AVeRVlM4UqjMsOJcNP1za3LsJpC3ZDMXT4AyY5F/Dd6icRNPT+fajdiVWjFvMiLQDfrJhWGGcKC
-	lV6XWcjZiznCFGpRQj3tndrEnYqkR6Za14Jickf74nhgu0aaxdYTLij4n4PuraAqlZvz7GwXXHb
-	yuQhErE06rW6exWWnqPpymFmSdIucCL68DZ115peRDipzPLt2+ejAsODm7wzWKJT/FKhLDgOQKc
-	6jZRT9T+Mcin5HWhaH6OFfzhDF8z8C62FwwOncKtUSLB1qnkjS2ghPacp4QP++2fp7n4T5A+VxA
-	rEtDKOivAb31d+DNtRiSRr9A6XQ3R1y5H8EnT0YxYU1x9clA/r5vUyA+oArKeZQhOKM+WHOrqBC
-	RW58G4OBbuNufqU9PS7nmAT1owb37GCqdWPXY3wPyS1N4u37LRr24bQVyGCfFj/i3X9A==
-X-Received: by 2002:a05:6a20:7487:b0:3b3:3506:cf3f with SMTP id adf61e73a8af0-3cbd37eeb43mr5799416637.1.1786205269492;
-        Sat, 08 Aug 2026 09:07:49 -0700 (PDT)
-Received: from Default ([2409:40f4:1004:7586:314d:e5f1:6904:c18e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315beb877b4sm24529384eec.19.2026.08.08.09.07.42
+        d=1e100.net; s=20251104; t=1786212931; x=1786817731;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=P8G6Z8iSF5Ollo2I3Xn+2pO6Z1VQrAx2pCt3BvyTS+M=;
+        b=XmdCItUbJTCRqVDDwVz4e7Z4WH1YK09FcWIuw5wn+SoSmo+7z1jPFZ4qw94gwBaeM9
+         dOSuZkrVTwNuN5FWTmaU9Xg5kIqz904QMR6HgpcgbxxPHV7x+aP7nOZXroT9SKdvCqN5
+         q8l84Etv6X+d4dtTQx3vf7ZL9BNIbN7M2kdff50U1iPbBEnlJhbETzHDj2QODmSzWBKO
+         KC+/uzhjHGzsuZ1FQ69ceUNW3m52O8BrvWhl4PooXzAf/0v+AH0Tb2NaQQev7O5hNHF/
+         wD2kmnFk2ckRblRy1Wypdfu3+WycRke3F01GfDVUcysOMfLOsd3P5M+JWTa1Ezp5FxqS
+         YSEQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrXDRmR+4n2z6YCdlEPc5MV12ilhpacoxKujgEAF7K+0TdrVNIX1HZTyhyYNFdRh0msM8R+iWAES0s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYMYKaRMLvf29LatBX58qtOpelQJfM7atGLntu8K/LNaLgHZwK
+	RxgsGUyF1XBUBhjESDvyp60f76c7h4L45JgS53+E81SKSIsXQJLg3tGe
+X-Gm-Gg: AR+sD11xEmuLtIX2ynCzPHAnTviVZ7XiBcsXbE4EcX+YKUz+QbkXoCuDUnfvGBng2Zu
+	q/S4DyUk9GdunVXqrjuOVt74soCAP3WZ6hmllZxzn1rvSWTDBBZ7ZHvZaSEvvF8cBSBTjkvGeIM
+	USBksQGwass6druuw+Cvf3BYN0PlOGab0J91MfmdCtZqvOw+fhT/Ks1TIgBo66NLwDpO0Y9Vltv
+	zkfMu+DOGUazAhqNI7Rr+SuolUE2QCIISCDy1/vavzoXSODoI+veDdimIrJpebSPepuiMKTdFfu
+	EAKhiTrNVTTkChuK135WZE6ya/46sKJ+saJM6jYtgbJGLf6QDCHvwfUi+d3cDcd61E6LYcTb8OF
+	/EbZrTEQfsiViPE419uA64hbeKGPnkOuzTQg8WDmw2Up67+S2dnedjn2F9LeQhlgaG5D/HSUgJf
+	aB3IBlLsqmI3drlfnldRQmvt/OfZ9CODccaO5/WetXlw4Ua9EAlNNyWMuPxTh4uzLD8CGc3QuIZ
+	w==
+X-Received: by 2002:a05:6a21:3181:b0:3cb:9594:91b8 with SMTP id adf61e73a8af0-3cbcea0aa13mr10340672637.35.1786212930873;
+        Sat, 08 Aug 2026 11:15:30 -0700 (PDT)
+Received: from amd.ban-spse ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1410cc132c1sm4348142c88.8.2026.08.08.11.15.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 09:07:48 -0700 (PDT)
-From: Jeffin Philip <jeffinphilip14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: i@zenithal.me,
-	jeffinphilip14@gmail.com,
-	linux-kernel@vger.kernel.org,
+        Sat, 08 Aug 2026 11:15:30 -0700 (PDT)
+From: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Kees Cook <kees@kernel.org>,
 	linux-usb@vger.kernel.org,
-	shuah@kernel.org,
-	stable@vger.kernel.org,
-	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
-	valentina.manea.m@gmail.com
-Subject: [PATCH v2] usbip: usbip_host: fix null pointer dereference in
-Date: Sat,  8 Aug 2026 21:37:31 +0530
-Message-ID: <20260808160731.8698-1-jeffinphilip14@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <2026080737-drank-trodden-16e4@gregkh>
-References: <2026080737-drank-trodden-16e4@gregkh>
+	linux-kernel@vger.kernel.org,
+	Chaithanya Lagisetty <nagachaithanya9911@gmail.com>,
+	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: f_loopback: fix descriptor leak on unbind
+Date: Sat,  8 Aug 2026 18:15:04 +0000
+Message-ID: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -82,21 +77,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 07, 2026 at 03:09:56PM +0200, Greg KH wrote:
->If you do not hold a lock when testing and doing something based on a
->field, it will race and is broken.
->
->Again, step back and try to determine what you are trying to fix here,
->and how that can be done in a race-free way.  If you don't know, that's
->fine too, I sure don't!  :)
+loopback_bind() allocates descriptor copies through
+usb_assign_descriptors(), but f_loopback does not release them during
+the unbind path. On every bind/unbind cycle of the gadget (for example
+by repeatedly writing the UDC attribute through configfs) a new set of
+descriptors is allocated while the previous ones are leaked. syzbot
+reported this via kmemleak:
 
-I read the whole driver, and udev does not seem to be nulled anywhere
-except in stub_probe(), where it is only assigned. So, we can safely
-check for null udev alone. The driver itself seems to hold itself
-together as currently I don't see a potential race. probe() also 
-cannot run as we set our status to STUB_BUSID_OTHER under lock so 
-probe would ignore that too. Am I missing something else here that
-could create a potential race? Please advise.
+  BUG: memory leak
+  unreferenced object 0xffff888016b8f180 (size 64):
+    comm "repro", pid 5613
+    backtrace:
+      __kmalloc_noprof+0x3bf/0x550
+      usb_copy_descriptors+0x6c/0x160
+      usb_assign_descriptors+0x48/0x180
+      loopback_bind+0xff/0x120
+      usb_add_function+0xca/0x270
+      configfs_composite_bind+0x667/0x9b0
+      gadget_bind_driver+0xed/0x390
 
-Thanks,
-Jeffin.
+Move descriptor cleanup to a new loopback_unbind() callback that frees
+them with usb_free_all_descriptors(), matching the lifecycle used by
+other gadget functions such as f_acm. With descriptors released during
+unbind, the usb_free_all_descriptors() call in lb_free_func() becomes
+redundant and can be removed.
+
+Fixes: 10287baec761 ("usb: gadget: always update HS/SS descriptors and create a copy of them")
+Reported-by: syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=28cf08dec5895bd562e6
+Signed-off-by: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+---
+ drivers/usb/gadget/function/f_loopback.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index d2d07fb49e70..40aaf2eb00f2 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -216,6 +216,11 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
+ 	return 0;
+ }
+ 
++static void loopback_unbind(struct usb_configuration *c, struct usb_function *f)
++{
++	usb_free_all_descriptors(f);
++}
++
+ static void lb_free_func(struct usb_function *f)
+ {
+ 	struct f_lb_opts *opts;
+@@ -226,7 +231,6 @@ static void lb_free_func(struct usb_function *f)
+ 	opts->refcnt--;
+ 	mutex_unlock(&opts->lock);
+ 
+-	usb_free_all_descriptors(f);
+ 	kfree(func_to_loop(f));
+ }
+ 
+@@ -442,6 +446,7 @@ static struct usb_function *loopback_alloc(struct usb_function_instance *fi)
+ 
+ 	loop->function.name = "loopback";
+ 	loop->function.bind = loopback_bind;
++	loop->function.unbind = loopback_unbind;
+ 	loop->function.set_alt = loopback_set_alt;
+ 	loop->function.disable = loopback_disable;
+ 	loop->function.strings = loopback_strings;
+-- 
+2.43.0
+
