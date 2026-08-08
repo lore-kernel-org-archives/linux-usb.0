@@ -1,122 +1,243 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C344E32F757
-	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 19:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C1138B12F
+	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 20:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786216703; cv=none; b=dElMb3W9UYk7Uh/TcZFi8H73LRrxBBAd3nQeN/R/hAhsJTa10Yyf/aUK4xFYiBCXr59TKor89qBQu7DTItMN+rJAlQJYdbXoYXC6WqBzfUaloqv72lxbAJBA3lwto/SO4/Ue4QDQsVp5ORRF51fvzGer9cFTFCSly2OBUdh7n4U=
+	t=1786219653; cv=none; b=S5tdNgLAIH4rV0dQ1e5aVrbCv6WvPvwUR0WkwN4EqTddoK07wvikCeDfu5BrdveLn3R3dq/q92Z/eivTxqj1sA/kXeYY/b9Ub733Csz1MnigadxBKoe6pe2W4H6qf6kGgkrtei0EyU5tAaXpm60vizlsoMXJcSCffct3lYQABgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786216703; c=relaxed/simple;
-	bh=kItp9Z1e8JBemDwqeOPjo5Xxl2mgPRr4PDK1h4h3tHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsE98Rh2Qt7ssO7rrPRtD7y7AI43zeu5tk2MoXRbqYFDmmIhv5pbJOy3zavgw8EuNLne/MjM+DWbeNb3cn+q1t1Ku9Yg700EbcFsi6XDxt68cTQXxwogzgMbJhIXLMBlz7SSIZAAiHYpBH18Kpou/NPdbPYKhXdSSO4VgUtxWV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=p9WD2jz9; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="p9WD2jz9"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c04bf4711so6313291cf.2
-        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 12:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1786216701; x=1786821501; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rLFxNt6cekVDYhRViYWogX3gp+Zn05f4HEhIaap8PSo=;
-        b=p9WD2jz9Y8XSjF7q7b/0c5kuLXcOW9eHQhDt1iLfmuNZNHhtUYaeoA2SrzYShUAeCR
-         GlnRUQGhWm+E/tICw3dGlo7Hd0A7SXU52JveFTAUk+sNppm0M/9bo9g6TFubOl5p0Dhl
-         D+HSShuGr/kxUKMy6HwWabnZwbWhS6s0PgerapzzDfWPGQaNBQdNeIuus3iVUO4tNKo5
-         rCZFC5uGXDqEQwvpbWRRaY69gk3zws1dpyUcjB4mMsIs1jWSonoszV3ysPjtOhTeLiz8
-         Hft60D2o0YfcyFKvtBdRL7Be1Qb28OiDgp3HYKvZr6xeoeQmHitkUGfBGutwksNG7mDA
-         acjA==
+	s=arc-20240116; t=1786219653; c=relaxed/simple;
+	bh=G4llWDQ9kUCfEFMhmukLQHocHThdOaA51Sp7Z6uxBuU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=H5FvCMafTUrQGB4MrPygwwas/1uDNPgEuFJmbDIIasG3njpSUjdQDErYs0ms34U113Bjjx4BFWahPa4lXMQNMj60J7NRTTvjcKzzy2G8iQf0GdNS+GBn8C2yhWqb6Hgs/Sx0bqQUlm9NH4LEdY0aOta3nxu03LtEjqjdR/HKByg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4ab8b4887d4so451873b6e.1
+        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 13:07:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786216701; x=1786821501;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1786219650; x=1786824450;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rLFxNt6cekVDYhRViYWogX3gp+Zn05f4HEhIaap8PSo=;
-        b=q8yQtN5/wo5eoG+zRDzpx/IgEsLWoSUqpNs/xmlNb3ODxFwWzbHJZmNWP/Dx+P/+PM
-         oi6AgfvQh7DxW69IQbAZ24x6uKe1g9BrD2Vnx5sTieNGznDrfPQIRd2KeahQEg0zM9Yh
-         txd/+s/W9rvfsLHsqmDo8lSh2WrooSBs2qT+cckGO7Wgj93jkEezUVfmWKuGsbINB5hz
-         sAC9rLukgHqqeO58gQFblfdLj8lX1ybFKuSfH/Nfk3VaWgJroR1qNnoUKovnq1zZJEeJ
-         /+scM5BxTZ4MAGrovwW5DGwT7hazZOZb8LjrtvCQs+OFLfDqlnGqm5T1xwn4pM2ckx8F
-         kVWg==
-X-Forwarded-Encrypted: i=1; AHgh+RoWA1GZmG+jGIuYUSBuSDPxyCLLeCgl8T40rYsvVPVN2K4g2OyLadpLdGsBi/OXIEWjlv0RHe4QHF0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2ArNZqLlrPH0HzWNX9vFqxbWKRMLl5czIaM59u1y+NBulrJTO
-	Q4285xbSdBBMQGcQmQ9ptS6OfVUxSiUZu4XGKsx1mb0gf3VtIZkU3mSE+pTpN4cl3baF8/stlcO
-	RcMY8UQ==
-X-Gm-Gg: AR+sD12m8oN/HVgQTtMF2zL5GAz6XRay7P4Qy3PuX15ZLX57KwA9CDPiJKsCIHWtVNp
-	xOqIqTR6SzJehJsow3BlI+1PtRO8iT8+P7c6oB6lbheObS18JcwtLUzaF1/Z47YsgkO1BxTzPiv
-	g6Wy0dsT8GUj4offMt5l50UrWlhnTukabRjX6AtRhik/FLozyjemriQs9ygu9+fXyjOqNYQHaOq
-	hhmLAHoeISKOBKryzl6QreanuZG7knZCdaYRcQLQ4zSIOfIKmCb+fooRVrDcxnEB7/C3Jc+ZO3o
-	4eg1W8Qm3g4sMsotJMDU3wiVeS0NhZt3upQdlp/8zgD6QWChB18rfKNwFiLAzYrL1z8zFqTFNOm
-	DVeqxcULIqHeC4ouvf5vjqDvVUjdg11FqwJygJfxfoG8T+bBTX7yAXCQF7IkGe8nUcIBvNOzP+4
-	zwQrsin9FRTBrPBlSbqNYNnRVrYyAU7IzdbhzcKKVJHPp0RHFWTsgEjzy8t22nNA==
-X-Received: by 2002:a05:622a:609:b0:51c:1a11:75cf with SMTP id d75a77b69052e-52ce5f7ed9emr323594671cf.7.1786216700651;
-        Sat, 08 Aug 2026 12:18:20 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a92ff8d1sm36588246d6.25.2026.08.08.12.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 12:18:19 -0700 (PDT)
-Date: Sat, 8 Aug 2026 15:18:17 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Jamie Stephens <jamie.stephens@gmail.com>
-Cc: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, jikos@kernel.org,
-	bentiss@kernel.org, regressions@lists.linux.dev,
-	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: Re: [REGRESSION] CyberPower LE1000DG (0764:0501) USB HID regression
- on x86
-Message-ID: <be3775ba-3e7f-4548-aa1b-4710711f8aed@rowland.harvard.edu>
-References: <CABWMpWQiSEKMkROgKZJ6nV8GXYgr7E=-SmsatQie4eK8b3F9Xw@mail.gmail.com>
- <CABWMpWR7Law_vHdeAMsOcY28VBcvX2jYSqq2SpksJSiLFcXhuw@mail.gmail.com>
- <anIhyHL4Kl-DX2G_@eggarch>
- <CABWMpWQEfycicrctrW3RD1yNf0rv1ZrioY9FcjoZZGEz4GAm_Q@mail.gmail.com>
- <CABWMpWTn3H7UKqYzr7JP9tkQCEJHsXX-F103nyyey_srn7mvHA@mail.gmail.com>
- <CABWMpWSkJgmoZACA4LYEbmsbEGJMYLyixwv2V3tZbneeKBxpWg@mail.gmail.com>
+        bh=TOKcx8og/vzi2kWnyCOC3U9gzBKfuk51ZFJIQMBx+CA=;
+        b=FsdsklYYTUeu6Sb6hBgRKkq11HCxlgjN2hHLSRxYVvqwVm5fc0bN5OZZ6oA78/htRT
+         Dd6mx/l8OCeocTW1c0jayknZXbUrVEGzuY33czuJct/JHzYtmiNHKwZMhqazT5napTig
+         jyfWSJQrDFPHYsJdb0kRv0tR1hAPGLW+A+qivdYUirWhzsZvT9DzekUCbqeWIe6eUhQe
+         m37FLFjKCPYM/n0XNTy53dus6+Gt/t88nFQaL5gD9EgmVPeNpI798eGI0D7ZqXRuaZwQ
+         OSR4UdsuJuc34QQsDTxP4OTOKcFC3kKt70oJTLIVpYiA1zIUB86So8tBI91DhmeRaFkh
+         wY/A==
+X-Forwarded-Encrypted: i=1; AHgh+RpBNO8fLz4v+H9xMiD+/43eaTiGtrgpw4b8u2VpAWhEQ9/nF+2lkJifxbJ0D8JPK37oeBl60vZ2R2s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRCenHoESEwkVqeHsgUmWz7vYs73tckCAcytqZlRLYNXLyhK+J
+	Qlgzdg8ptNj/xchG3U9vNgcLetQIs0kt+KTrEsm7NbyaoWX2xKNzErT9q/pwfxuh+HKM65+Vcee
+	z7gFFop65CC7HMg0hTSdKjdMHUTF8ZZGrnGGjIT0xFvlww9pwfpXEVJLls3k=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABWMpWSkJgmoZACA4LYEbmsbEGJMYLyixwv2V3tZbneeKBxpWg@mail.gmail.com>
+X-Received: by 2002:a05:6808:6f88:b0:495:fa73:2e44 with SMTP id
+ 5614622812f47-4b1ab9fe7eamr5609664b6e.15.1786219650546; Sat, 08 Aug 2026
+ 13:07:30 -0700 (PDT)
+Date: Sat, 08 Aug 2026 13:07:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a778c82.01d0871a.3a0d52.0069.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] KASAN: slab-out-of-bounds Read in hid_dump_input
+From: syzbot <syzbot+a942efa43c928a1e3daa@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Aug 08, 2026 at 03:14:38PM -0400, Jamie Stephens wrote:
-> I also completed the test with a separate PCIe USB controller based on
-> the ASMedia ASM1042.
-> 
-> The UPS enumerates normally on the ASMedia controller and the kernel
-> identifies it correctly as the CyberPower LE1000DG (0764:0501).
-> However, on this controller the failure mode is different.
-> 
-> The device and HID descriptors are readable, but the 504-byte HID
-> report descriptor is consistently unavailable. Ten consecutive runs
-> of:
-> 
->     lsusb -v -d 0764:0501
-> 
-> all showed:
-> 
->     Report Descriptors:
->         ** UNAVAILABLE **
-> 
-> NUT behaves consistently with that result. usbhid-ups successfully
-> opens the device and claims interface 0, but then fails while
-> attempting to retrieve the HID report descriptor:
-> 
->     Unable to get HID descriptor (Pipe error)
->     HID descriptor length 504
->     Unable to get Report descriptor: Resource temporarily unavailable
->     No matching HID UPS found
-> 
-> There are no USB disconnects or xHCI errors in dmesg. The device
-> remains present and enumerated on the ASMedia controller.
+Hello,
 
-What shows up in usbmon (or equivalently, Wireshark)?
+syzbot found the following issue on:
 
-Alan Stern
+HEAD commit:    0d8395707651 Merge tag 'soc-fixes-7.2-2' of git://git.kern..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1265cfb9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3e8a402093abe6b2
+dashboard link: https://syzkaller.appspot.com/bug?extid=a942efa43c928a1e3daa
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13520fb9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15ccbe49580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/137c48a5e559/disk-0d839570.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7597f78ad1c4/vmlinux-0d839570.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/1a79fc123166/bzImage-0d839570.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a942efa43c928a1e3daa@syzkaller.appspotmail.com
+
+hid-picolcd 0003:04D8:C002.0001: offset (1) exceeds report_count (1)
+==================================================================
+BUG: KASAN: slab-out-of-bounds in hid_dump_input+0xcb/0xd0 drivers/hid/hid-debug.c:3132
+Read of size 4 at addr ffff88802ab28fc0 by task kworker/1:2/48
+
+CPU: 1 UID: 0 PID: 48 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: events fb_deferred_io_work
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ hid_dump_input+0xcb/0xd0 drivers/hid/hid-debug.c:3132
+ hid_set_field+0xd3/0x440 drivers/hid/hid-core.c:1936
+ picolcd_fb_send_tile drivers/hid/hid-picolcd_fb.c:112 [inline]
+ picolcd_fb_update drivers/hid/hid-picolcd_fb.c:268 [inline]
+ picolcd_fb_deferred_io+0x6d5/0x1880 drivers/hid/hid-picolcd_fb.c:403
+ fb_deferred_io_work+0x1cf/0x310 drivers/video/fbdev/core/fb_defio.c:405
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 24:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5334 [inline]
+ __kvmalloc_node_noprof+0x53f/0x860 mm/slub.c:6905
+ hid_register_field drivers/hid/hid-core.c:133 [inline]
+ hid_add_field+0x70a/0x1840 drivers/hid/hid-core.c:340
+ hid_parser_main+0x2e1/0xd50 drivers/hid/hid-core.c:-1
+ hid_parse_collections drivers/hid/hid-core.c:1291 [inline]
+ hid_open_report+0x884/0xf00 drivers/hid/hid-core.c:1384
+ hid_parse include/linux/hid.h:1206 [inline]
+ picolcd_probe+0x177/0x16c0 drivers/hid/hid-picolcd_core.c:547
+ __hid_device_probe drivers/hid/hid-core.c:2829 [inline]
+ hid_device_probe+0x42c/0x7c0 drivers/hid/hid-core.c:2866
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ hid_add_device+0x272/0x3e0 drivers/hid/hid-core.c:3010
+ usbhid_probe+0x9d4/0xde0 drivers/hid/usbhid/hid-core.c:1452
+ usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ usb_new_device+0x99d/0x1620 drivers/usb/core/hub.c:2695
+ hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x28e8/0x4d30 drivers/usb/core/hub.c:5953
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff88802ab28f00
+ which belongs to the cache kmalloc-192 of size 192
+The buggy address is located 16 bytes to the right of
+ allocated 176-byte region [ffff88802ab28f00, ffff88802ab28fb0)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2ab28
+flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000000 ffff88813fe3e3c0 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2c00(GFP_NOIO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 12816571384, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0x21fa/0x2270 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3266 [inline]
+ allocate_slab+0x79/0x5e0 mm/slub.c:3380
+ new_slab mm/slub.c:3426 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7310
+ refill_sheaf mm/slub.c:2804 [inline]
+ __pcs_replace_empty_main+0x2bf/0x6b0 mm/slub.c:4675
+ alloc_from_pcs mm/slub.c:4773 [inline]
+ slab_alloc_node mm/slub.c:4905 [inline]
+ __do_kmalloc_node mm/slub.c:5333 [inline]
+ __kmalloc_noprof+0x485/0x720 mm/slub.c:5359
+ _kmalloc_noprof include/linux/slab.h:992 [inline]
+ usb_alloc_urb+0x46/0x150 drivers/usb/core/urb.c:75
+ usb_internal_control_msg drivers/usb/core/message.c:110 [inline]
+ usb_control_msg+0x118/0x3e0 drivers/usb/core/message.c:167
+ usb_get_string+0xa2/0x3e0 drivers/usb/core/message.c:902
+ usb_string_sub+0x76/0x420 drivers/usb/core/message.c:941
+ usb_string+0x34f/0x790 drivers/usb/core/message.c:1046
+ usb_cache_string+0x7d/0xf0 drivers/usb/core/message.c:1090
+ usb_enumerate_device drivers/usb/core/hub.c:2537 [inline]
+ usb_new_device+0x27c/0x1620 drivers/usb/core/hub.c:2665
+ register_root_hub+0x250/0x5c0 drivers/usb/core/hcd.c:990
+ usb_add_hcd+0xac7/0xf80 drivers/usb/core/hcd.c:2987
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff88802ab28e80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+ ffff88802ab28f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff88802ab28f80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+                                           ^
+ ffff88802ab29000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff88802ab29080: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc 00 00
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
