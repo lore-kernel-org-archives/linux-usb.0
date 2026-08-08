@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA052941A;
-	Sat,  8 Aug 2026 07:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362D22941A;
+	Sat,  8 Aug 2026 07:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786173120; cv=none; b=QJBfa3bqVD4SUZ7W1zopaTEyyFtP5i8MwB8TQKHSspo13ZQL0GjO5o9epBcL9s7IkfB+jJ4k8fSbckFfBZxe+M52wftift3EeFGO7fnD1WDMmBvcPUAeFRaAkpdtfjf9k3+rxKVGRbxPjDRbTOcXerUf7F7dur8SOCajgfD4lcc=
+	t=1786173170; cv=none; b=i2sn+zy+aJcxq4zPUaYgqXZZ21avybRvAhBN3MkqBb2q4Kb/++mZmPcm33p3GbA3rdVF70a7fHrxM01waZd+lHMmn9TQxJm6AGUe1sf20ny0wiRyyENH1mYPGIMQxDyNBURxgEU1voarYoIb+St/sxtTbIkps9PAXeh+OvnsWiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786173120; c=relaxed/simple;
-	bh=Y3p+uxfnkd9jFBNazJKewzAI7z2k3ogdPN46d4RLNwY=;
+	s=arc-20240116; t=1786173170; c=relaxed/simple;
+	bh=8QmR5cV69n7w7ZQvrPYhefR0mCB3jimmYadgVsEBvig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXP2aXWDxnLDQhi1pI8czi3PO/hIBlFdlMc7M3b/RAqfZwl+CLt0y2K07MvzkD/CuBujxJIDsf0nWr/o2kBDqK/o/0aEhSa6CRHJPkfRQN917Mn4UrAwop/1hao1f9ZiNlyvpTxCow7EWzHfm5q5sVl8Hj+YbRhR3qM6UwmztLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=txJQj/ZC; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VOhYh+RrT+r/fOu9w2uCaO2BMCMkmEFogUjxHKCzC/V/ZZ5cxt71spgEZ5y8kRtEbKgos+yWBf6GtOlrQcKRzgCz01tlgt8D3bMCk0fB2yzAyJUoanFoAIxETtYSGl7mR+F2lYr3+LpiPz7V488Te5iNZs26nAyu2QQ7vPkx3eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XGNgrLcf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="txJQj/ZC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50B101F000E9;
-	Sat,  8 Aug 2026 07:11:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XGNgrLcf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3108B1F000E9;
+	Sat,  8 Aug 2026 07:12:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786173118;
-	bh=sBAR4sRcRDC+0m78UDCnOIdXECY6rjt8APDbPMzB+KE=;
+	s=korg; t=1786173168;
+	bh=/Tr0twj2QYdtbM/E724s3dCEesgbWT+UymFnBaiAMwg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=txJQj/ZC33Z2yw6ZVs9nnWi/t8ct5pT7CET8kU2c+hsj9ZgoCEp9NXDusGjo45vjl
-	 +TOoaOm17Sz1aeglkqPj30gUbGEqWcuFpb9CdDts1WRGyl01s5RZC1ZIA/P20Ab9ru
-	 VEXb1Lkpw/56V2xqko7qnB2x32ESxnThMr4OWo1A=
-Date: Sat, 8 Aug 2026 09:10:28 +0200
+	b=XGNgrLcfgRPGqrLTrpX44PJcTXrtIzeAm+yrssOx+wW44zLBQMqC1nqK3ujyOONfw
+	 3RwN/xu5WgL6IconGdOJ4YVq6oUtQUp2AJrhH0LWcpoXHryx7jTQh0ZjI2xCfZZRfZ
+	 t3noMGnte3sWazfqwAO7D5rkCnIMxy6oNQ6ZS2aw=
+Date: Sat, 8 Aug 2026 09:11:18 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Yuho Choi <dbgh9129@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, sebastian.reichel@collabora.com,
-	tglx@kernel.org, alchark@flipper.net, u.kleine-koenig@baylibre.com,
-	ustc.gu@gmail.com, bigeasy@linutronix.de, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] usb: typec: fusb302: Free log buffers on exit
-Message-ID: <2026080802-finicky-exclaim-0def@gregkh>
-References: <20260807203403.1011343-1-dbgh9129@gmail.com>
+To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, git@amd.com, stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: tipd: fix uninitialized
+ typec_partner_desc on stack
+Message-ID: <2026080849-quench-earwig-f998@gregkh>
+References: <20260807174659.3720863-1-radhey.shyam.pandey@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,43 +40,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260807203403.1011343-1-dbgh9129@gmail.com>
+In-Reply-To: <20260807174659.3720863-1-radhey.shyam.pandey@amd.com>
 
-On Fri, Aug 07, 2026 at 04:34:03PM -0400, Yuho Choi wrote:
-> fusb302_log() lazily allocates entries in chip->logbuffer[], but
-> fusb302_debugfs_exit() only removes the debugfs directory. The buffers are
-> not part of the devm-managed chip allocation, so they leak when the driver
-> is removed or probe fails after logging.
+On Fri, Aug 07, 2026 at 11:16:58PM +0530, Radhey Shyam Pandey wrote:
+> tps6598x_connect() and cd321x_update_work() pass a stack-allocated
+> typec_partner_desc to typec_register_partner() after initializing only
+> usb_pd, accessory and identity.
 > 
-> Free all log buffer entries during debugfs teardown.
+> typec_register_partner() copies attach and deattach from the descriptor
+> into the partner. With those fields left unset, garbage function pointers
+> may be stored and later invoked from typec_partner_link_device() when a USB
+> device is linked to the port. Uninitialized pd_revision and usb_capability
+> similarly leak stack data through partner sysfs.
 > 
-> Fixes: c034a43e72dd ("staging: typec: Fairchild FUSB302 Type-c chip driver")
-> Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
-> ---
->  drivers/usb/typec/tcpm/fusb302.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> Zero-initialize the descriptor so optional callbacks remain NULL and the
+> remaining fields are zero.
 > 
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-> index 3319f6a2b0c9..67ccbbd64caf 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -223,7 +223,16 @@ static void fusb302_debugfs_init(struct fusb302_chip *chip)
->  
->  static void fusb302_debugfs_exit(struct fusb302_chip *chip)
->  {
-> +	int i;
-> +
->  	debugfs_remove(chip->dentry);
-> +
-> +	mutex_lock(&chip->logbuffer_lock);
-> +	for (i = 0; i < LOG_BUFFER_ENTRIES; i++) {
-> +		kfree(chip->logbuffer[i]);
-> +		chip->logbuffer[i] = NULL;
-> +	}
-> +	mutex_unlock(&chip->logbuffer_lock);
+> Assisted-by: claude-mythos-preview-high
+> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
+> Fixes: 0a4c005bd171 ("usb: typec: driver for TI TPS6598x USB Power Delivery controllers")
 
-As you are tearing things down here, and there is no actual user, why is
-the lock needed?  And if so, can you just use a guard() instead?
+Two different commits caused this issue?  Does that mean two different
+commits should fix it?  How far back should this be backported?
 
 thanks,
 
