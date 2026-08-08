@@ -1,108 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E7C1E515;
-	Sat,  8 Aug 2026 12:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A16284896
+	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 13:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786191382; cv=none; b=BD9VSlGWC4Q6hoJshO2rVPseAabJeQ+qsqCTGNPMRQvAih3Tnu/QDwd5n4eS40TtsypJueQMQQlCnd/Poow+jX2m6Eh5HdEvuEmtVr1irF7Q+jBYUK4lLnnaAp/tTonUqk90321hYhIq48qtUQM4GQdaM9cQV3Cx9ZY3QXPB1ac=
+	t=1786195044; cv=none; b=OV1sgJbq2FQLaE7GPfd36Jz1Qa4q7T7/l+kR8LEhcKFfN8mDS+id5gdK2aCRCcJ9wru+LOxRvfRxZiu8azuXRoPg8JjFclJw8+LoFFv9ArgCs3V4UThb2/RHRgwjs+ebHGYns/xUgndDDWDRW7mHkTs9mZ6iNJwRpO4nzAkiGBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786191382; c=relaxed/simple;
-	bh=jBKpxU8IYqhiMCoM13EEwgS5j8zT5lHo6dA1NHnu0Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxyWzh7OEoxhOhtPFML2i8mhwvQOLDPS5fE2dW/XqYvQCYhL9Yuw17JaETB3aCEUmAjBhXy17oW4HlAGgQC8o9imrMTHNN3O3zeCGGEOF3cwAqa/y74Qq9TYbDUJCn0gKz1eMTegyAn9FHh4grOvZVJt5B1mfmynLGi69NIG7gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPq7bqMT; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786195044; c=relaxed/simple;
+	bh=uNXKSJdgCM/gcLD9oVG87DBC0E23vzXLQvQaP902Z2U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=druTM32e7/qeHuq6LdA4EtaGimSUUTi3/pknlVi1JNi4Y0/dHQbBPy4nBXerELyaQ3HOP8heaJtpJq+3445gGf4L8RUXmaC6Og2r4l9NNzjGqh4tLV1UWyed0flX10z5YzYtENjZXor7iQh/RB/Jo+z4Sx8Q5v5BmoP/V7/TWJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9AmlLeH; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPq7bqMT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786191380; x=1817727380;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jBKpxU8IYqhiMCoM13EEwgS5j8zT5lHo6dA1NHnu0Uo=;
-  b=gPq7bqMTqS5Lo1lfqu+Jv1egmq/Akho5g+0+PRmzww9D5T/2K0Y5PjqQ
-   NXsne9rUzt19+8qMGjIMvQ4ptAtRI3SEWZwiAW18Dfhj9Xl+HW/pltjwE
-   RzsGXdPqM6dzp2z8fOEDvRVpZCEObr8IlRABcsEC8qGd4REsZjVmQXHC2
-   IQx1fNZMW5STQOWMc8r3AypbNo6+R/ND5gYLob+LoaIQYKvDWfZUBDNsG
-   BqnzGA5gbPAp/WyaQe94UM0iolj/sfkoBgBGzNvatYfGg8FaFYhjCnLFM
-   ikrjvL140YabQXdP4wDsqSXenPAhpmmkY6P0cBbo9TCgT/+KHiu182FnE
-   g==;
-X-CSE-ConnectionGUID: qkO3M0VpRkOhbWkRjtecoQ==
-X-CSE-MsgGUID: aNLYWlMjQhGslwBaui3CWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="97431383"
-X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="97431383"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 05:16:20 -0700
-X-CSE-ConnectionGUID: vyqZb6etRZq/3bOmUa7uhQ==
-X-CSE-MsgGUID: cWMXf/NEQKqqK1L0EVSDyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="262668104"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Aug 2026 05:16:19 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wsfyK-00000000KAr-0jwN;
-	Sat, 08 Aug 2026 12:16:16 +0000
-Date: Sat, 8 Aug 2026 20:16:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jie Deng <dengjie03@kylinos.cn>, mathias.nyman@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	Jie Deng <dengjie03@kylinos.cn>
-Subject: Re: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume
- for RESET_ON_RESUME hosts
-Message-ID: <202608081908.EsUNhI36-lkp@intel.com>
-References: <20260714090210.1201964-1-dengjie03@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9AmlLeH"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso193204f8f.1
+        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 06:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786195041; x=1786799841; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=k7rLDJgiGBNy28Y0Cch7JU2d64DR0itzNJWdOavO6CM=;
+        b=V9AmlLeHBaOlhcZ8QuNIJ6v1xG0zgD8CrXJsoPGvycOYI6j2UkZxhpEsUv5RyKI3wn
+         R/HDbp+dh3J4zz0Kb6LDKq3TR+/OBEolgKdS14jy5Jmvs1Vr+3KHnH5OL9QkhJWT8Um/
+         ZrkVySZiehMJGOkUZWZEMa60MULy9eTth/q/0eeYtVEyq8vd2SNldTNKe4fh+0NqgMN1
+         v+ly1oXAkMrF7Ni9NV+tsNGcQ7gknLTNyLyA3fOlBN7uxlFEG5Ns8jiq2B0UPprO+U/u
+         kXcKBG2NT+u5vGUWbQzvwm0H3cmfuJvTbvWu2UW+rwHEHO6qSHQzR01CXJjxO7641l20
+         91hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786195041; x=1786799841;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k7rLDJgiGBNy28Y0Cch7JU2d64DR0itzNJWdOavO6CM=;
+        b=jxlXCB+9Ci8WbXmox9z9zRISolBd6BkpHiONVkBGG+9lGKz/gXXG1K0uMzZwje22HH
+         1xEeXkPJMX4z+/W+iZbvUC5/Ot7nFDvvDy3NFtWGt7ofl7DxUiKH2SaOt4FwiITduQnM
+         Pj9SlMpBC+I/XULjG8YrERRAgSzTFv2V4EIXqrZOv5FYjN/g/jcc8/EIw/9dgLsNSpHO
+         NfZ5IBGqN4A2csn4NzAGJBjQx6iScEL2xz245/tb0O4MW8zaKHQ9h22mHR54DgE/OdLq
+         wXdVjWssdSXd764+ZAD3yaGJg/2KnL+9OjM6VxyiVRBohE0kDQuqmeSOBmyla2BVXoIl
+         E5Kg==
+X-Forwarded-Encrypted: i=1; AHgh+RrZaFK3vOiIlC1YLETw+N70CIPZ5rJWkkYz8OXVi/zfRu59l+Orh90AysiTrJkF0G/h9C3W4wQ2eDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFzs+YLeslsAX6smjS++itf0msTbrautJjwdleX05fqvPXtQJ7
+	W827jBU2aRS2VIati7u5FZXO7JvvO9xkDpjcJ/7f/6nJ3XbCxw4nwwghHLtuRSg+
+X-Gm-Gg: AR+sD10O5KpOz54t95+Gp2cwiLmxGpZ1maW/aJZ1NRRUMlupvLptPn6YBtn12UlGQKq
+	6CWLdez3lNajMSzggyyUpzDLv3Jzjc0ZuwYG0jLjXV6/+BarNJ4rmJjtcF9lG87xg/AarXrcV6V
+	qTJBhZzkswu+VxVLidwC3LVDLqLh80Ghgi+h+AKwfF2NIpR6kjH7TwQ6ybluIoVotXmaF+tOQL3
+	0pZ6US6Cv8kDYtMHRtXjbFqr7NmW/WndNin0Lw6+CgHiJ2JBIDyGsgp5e5bbDBQSA7zGPo2UVo6
+	TiepQ5uBOuhAa+D6t9qu6PAjknX6T2drYaVNoKL7TIDlftN6yo6Mw04RXrH9yjQ/fUtVgSamZPG
+	VfG9akrrXpzs7YV3/w4/kZqOmb2fz4GvL6B42jdu8mxgOCFfcwih6/c2slLA+t4MvQEV97eiwsG
+	puZPiCkKXVSBYDy46Cz9DC4IbQbqJWT85lkq7ddWpvROTZFJ0Dz9TywJLFdVEOKd6kgcs1kyhQC
+	5gvib5uxe+9UBckDrdUjOzEjeGu836dM7IxJdgRXOGlCGTCMU4w6wXAmrEyBdr+/ulhMHHbc+os
+	9lPSa7u2zaZbWjTZJzOIoQoSsG73jeBwwSI=
+X-Received: by 2002:a05:6000:41ed:b0:47f:8d71:210a with SMTP id ffacd0b85a97d-48130ed871emr9891239f8f.15.1786195041367;
+        Sat, 08 Aug 2026 06:17:21 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-077-007-004-134.77.7.pool.telefonica.de. [77.7.4.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021509a5sm14087590f8f.16.2026.08.08.06.17.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 08 Aug 2026 06:17:20 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: core: handle port status errors in disable_show()
+Date: Sat,  8 Aug 2026 15:16:01 +0200
+Message-Id: <20260808131601.75096-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714090210.1201964-1-dengjie03@kylinos.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi Jie,
+usb_hub_port_status() leaves its output arguments untouched when the
+status request fails. disable_show() nevertheless uses portstatus, so a
+sysfs read may report the wrong port state instead of an error.
 
-kernel test robot noticed the following build errors:
+Propagate the status request error.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v7.2-rc6 next-20260807]
-[cannot apply to peter-chen-usb/for-usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fixes: f061f43d7418c ("usb: hub: port: add sysfs entry to switch port power")
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ drivers/usb/core/port.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Deng/usb-xhci-Restore-MSI-MSI-X-reinitialization-on-resume-for-RESET_ON_RESUME-hosts/20260807-153157
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20260714090210.1201964-1-dengjie03%40kylinos.cn
-patch subject: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume for RESET_ON_RESUME hosts
-config: x86_64-randconfig-076-20260808 (https://download.01.org/0day-ci/archive/20260808/202608081908.EsUNhI36-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608081908.EsUNhI36-lkp@intel.com/reproduce)
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index b4452b665f591..0022473e526d7 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -96,7 +96,9 @@ static ssize_t disable_show(struct device *dev,
+ 		goto out_hdev_lock;
+ 	}
+ 
+-	usb_hub_port_status(hub, port1, &portstatus, &unused);
++	rc = usb_hub_port_status(hub, port1, &portstatus, &unused);
++	if (rc < 0)
++		goto out_hdev_lock;
+ 	disabled = !usb_port_is_power_on(hub, portstatus);
+ 
+  out_hdev_lock:
+-- 
+2.53.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608081908.EsUNhI36-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> depmod: ERROR: Cycle detected: xhci_hcd -> xhci_pci -> xhci_hcd
-   depmod: ERROR: Found 2 modules in dependency cycles!
-   make[3]: *** [scripts/Makefile.modinst:132: depmod] Error 1 shuffle=20476890
-   make[3]: Target '__modinst' not remade because of errors.
-   make[2]: *** [Makefile:2095: modules_install] Error 2 shuffle=20476890
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=20476890
-   make[1]: Target 'modules_install' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=20476890
-   make: Target 'modules_install' not remade because of errors.
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
