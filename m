@@ -1,66 +1,63 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011028.outbound.protection.outlook.com [52.101.52.28])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011034.outbound.protection.outlook.com [40.107.208.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79CE3B27F0;
-	Sat,  8 Aug 2026 11:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED31B233923;
+	Sat,  8 Aug 2026 11:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786187232; cv=fail; b=uw1MTPtHHIwlUrrDFWxOARdFNkVjU+9EKQASoM2Pc0dv1Ek7s9YNTyGiguovP9XYhgE/AtL24uD+XJ7K5MRdvziKEbNiXd2FTZRJmhmPYRPRLyAipZAiqjRNuLQz8t0nqifXPCavY7vj3kXGgfeG01Xm3LrUqzmMj4Qv/BbySKs=
+	t=1786187611; cv=fail; b=i9yVaSyP/zI6hTdb6WFBSMzLkQ0hkAxbUeTL8usjqAeUEXS4Yzr0nUC1wsBpeK7g+OWVqN8UD1sBp1qnqbfY7+l1LM5BKrq+n/6mr/1TAd2//12EoUM1IeGUc5uheW1y8GQiJA0Ntr4gWKRUHvVoVsq68iwp6K8Sr1i7y85oNPg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786187232; c=relaxed/simple;
-	bh=9zLOY/+lCJvO6fI0+CIIPCMN4Zo44Eo6p1M5Zkay9IQ=;
+	s=arc-20240116; t=1786187611; c=relaxed/simple;
+	bh=A4ipxQbPq4IHHcnmRn1/6wqvyc9TDj9gnQ3PD29yu3M=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KH9WVRG9sDPeXvni0/e9VU0IIXhAjI8uVKbQ1cZB90PXRkbgRbzGKarXYze2q03avucdv0TOexiF0zVtHXrX83LIwg0g23ZlNcrie0LgYi4dJY5o9iyJJNVGE+U8cU6FWHjRdbIBV2XDrO1xDXzgOwQhDJvC7iz9zK+3HZANh2o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NKNQxHDJ; arc=fail smtp.client-ip=52.101.52.28
+	 Content-Type:MIME-Version; b=WsL9tf4fi9Rv57Q2/VfXrTz/bporqNzL2pr0NoNiqu32C4WiZFcOouLrX2Gf2aFZj0FTIyKcyLGq9P6xwvRiePKIqVJ1zoMSI9LX7N4A/HHYNMFaxiT7y6uXor6HbQuqk3meKRDl7N+gEtHOOjRo8T/hCLxSGQFHDdF4TmXRKkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=t+LDgFLP; arc=fail smtp.client-ip=40.107.208.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NKNQxHDJ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t+LDgFLP"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YOBMJocTjhH9je6FGKH0Hk269soiTIKRcakmHjGHYt1fSTKcNLlnVNjx+Zr7KNrDBQkwMVftNqRiI8L76zGWCtbZC1UIAH+LJ7X1c3YiKoDq6yNoohVgEwdjpLgiuFg/QUEpz2INOnaniNTVC1jHoK1D0F/ouDsnyo/16p8KCkvC4KH3ONgp5f3hwN6EpUKbfOs6Rcv9egKts7ZnbW1q4LH71bsPQaOuYUZw0yrdknV9ccrZLvP6ngeKWrCB15qa6i8gY9SgAggYSs8wWBf4Esy82r8d+DmYlJujGGkPywPv2rjKvsjctH5kOyid6WLcixmX/+4v0mYsSyMAKKtICQ==
+ b=Sz43VB4WNgpvX8q6FydIjDGKCz70uxPFlTLqBbL9LS767C09TA82KUGuXiT8BPT03suNz23u854nO4qlXNoUqIQWaBPlS93r5+UZckVKllG3rJu5pNzfYD3K/VZmwPPtV2QKJmx1kXm7IIM6kFpWJPKZKmmAWjBC6upyMFFKy70YyoDNMFJz91rUkUYnMrvWfMAsba49YHWKLNK8lZNvi1GgTSuHuF82OgLxJpcJLtBFx/VgPn/OHD+yIL2bD3P+fgBeUnOhl9fnAz6pVNsaVtUnUW32JBETr2shyOEw2Bo2R1nn+Y56XlSW/AgckFMHFjs/O5tBzeCZ8278BLQiUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X46YelmUuGJz8O5Mb4SUbF4PsPza8YYxBOfJDOPJQBw=;
- b=yw1bR/ixKYaRjHTfqgZQaOabxC17blO4hsly5DWrTgdJUfc61PzEfKSVOry7E6bf8mceX2k5tLGAnJ0eu615c7iBC9iMd4QS40fxpiZjp/DaZn8fYToagvFJUq2nYcRhM7M7fXDHl+3UENSgPc7wZzkuRglXzQtZ7W5Baapc65OFPsTUrPTTkg9+e9/ImfIyV8ntySJPvC4SK2JyOCoCFp7gYmqqAxOcAcKwafKGPXvZzPDzLFBT3FWgnLc/qxVfIlvmKEWTDY7ByRV+RWs1H/Tjwq/CD5UJ9h+Y3kWaFZZaEFBjrdzyGu1RSdHa/UAZ+n+cbGelVgnyZgTQO142Hg==
+ bh=2ndURG8VdqtzM1YKluYMm/71++ZztV0Q/9FAMMO+e68=;
+ b=CqHMfboJmTWOqyDKURTM57uAfk3grJlo/dTuX7xYE2o6JpssUyViZZAKXNWrCs/fhvM5t22op7qSkMFw+0PPzfwQbj+D9Z0BVuAqhd7PpVZ8JdKmoU6PMyjDjOtNv7CWR7xKnIH9dQVkh8V+WpIIVlBVxTPsfax9367XrcPMfdJ2D1YtR0X34bU0zm3nuqdHasjx/et2XANj3KhEPouh3jC+LOwfeoF4pLPHek1KG3+xPrqsIyzK520XWnDTQs/EvQQO1Ox6TKbPklNxEgJZegpcrwewyMXWPH+ZzCN0vvj8o5HsMSBpomFZIOKHq333m+vD3XaCTp99LpeOvnQkTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X46YelmUuGJz8O5Mb4SUbF4PsPza8YYxBOfJDOPJQBw=;
- b=NKNQxHDJe0VuMVMTLdeWxp39vdwolyEHEnTDk8WODBXyPw9ptGVX13qv+16uX8LhkptDYjCgEXqWM6NANVG0vIMiOvvNQMU5JiDqyMTfIm17ZOQ2bRx6tKmX5MxxySlWU7czihLYBQEAET9a8UCf7AIknNNalZALzKEXIt6gPo0=
+ bh=2ndURG8VdqtzM1YKluYMm/71++ZztV0Q/9FAMMO+e68=;
+ b=t+LDgFLPOfpXr4hmddJu+VH/Yy8fFq6PCWvMDqakIuYkFinzPnFFjnxM1yAjxzh3WPDFsWNsYfJJo5A7Qlwj1p2mj+GBw2nUevpwEKtavk3PLCCeFeaLj7hz3SUUUvfOeD1e/0k5gRlcfTLGcn2jBi4AnmN4jPZ6yuaO7u2RJ+M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by CYXPR12MB9428.namprd12.prod.outlook.com (2603:10b6:930:d5::13) with
+ by CY1PR12MB9626.namprd12.prod.outlook.com (2603:10b6:930:106::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Sat, 8 Aug
- 2026 11:07:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.23; Sat, 8 Aug
+ 2026 11:13:26 +0000
 Received: from CY1PR12MB9697.namprd12.prod.outlook.com
  ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
  ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0292.022; Sat, 8 Aug 2026
- 11:07:07 +0000
-Message-ID: <10768491-bb0f-423c-8c6e-8ee1878a98cc@amd.com>
-Date: Sat, 8 Aug 2026 16:37:02 +0530
+ 11:13:26 +0000
+Message-ID: <46ccf549-339b-4085-a47f-430c307d624e@amd.com>
+Date: Sat, 8 Aug 2026 16:43:20 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: dwc3: gadget: cancel NoStream work before endpoint
- teardown
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <20260807182318.3736662-1-radhey.shyam.pandey@amd.com>
- <anZW8H1kQfwXW2Ix@vbox>
+Subject: Re: [PATCH v2] usb: dwc3: gadget: Fix use-after-free in
+ dwc3_gadget_free_endpoints due to race condition
+To: Pei Xiao <xiaopei01@kylinos.cn>, Thinh.Nguyen@synopsys.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+References: <331d1d5133496d2b4184e05f8848adb06930a138.1785893865.git.xiaopei01@kylinos.cn>
 Content-Language: en-US
 From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <anZW8H1kQfwXW2Ix@vbox>
+In-Reply-To: <331d1d5133496d2b4184e05f8848adb06930a138.1785893865.git.xiaopei01@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0075.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:9a::15) To CY1PR12MB9697.namprd12.prod.outlook.com
+X-ClientProxiedBy: PN3PR01CA0073.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9a::6) To CY1PR12MB9697.namprd12.prod.outlook.com
  (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -69,125 +66,124 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|CYXPR12MB9428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e69efc2-e33f-4a7c-0cd6-08def53d2fbd
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|CY1PR12MB9626:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6eb7433-4c05-488f-4ac2-08def53e1133
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|18002099003|22082099003|10067099003|56012099006|11063799006|4143699003|6133799003;
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|22082099003|18002099003|56012099006|11063799006|6133799003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	mZSr/Z3P+LHtrRGwpYvumDGuIchQgOLjZOXTSV3yuNowEIbkUnqkPZ1Vkgmzw5iR3bVPgrmmdXG3deWx2WnyPhEF1Ewq8Xkt2yJfHwFCBZJ1W24YH22y3stbDCOiTNLlgOB6IRktoVmwqHQ8ccexUC9TU33JW4Nx/TdyAP2FN2c3sFLsEdyONxtYBClNr/05VHKqOUkabABoAVrZ27MPPYDz1c0QM0cIAd7R8e4mUvhuK2Ki2tnQpMpMhQu1f3Iyyot3khpwMWSgTo/dbRL29fBow+9dBRiy0+F4gMVejtEbIPE9upTG6A7Ujxn2X+aMYRsxIkx6Ijuhy3eFlXhyDg1pCbvGt7L32jxr1SYmj1OGXFYyvr2U16W1pK8++0Dp2oSeZ01UiQEshIWFBij6UQ0IzNSrvND/LsWnLvYYGmSdyA6raD6Ud8tIbIEPtfoiYeL2+7E4jRHxayFblEb1cVM7EOe4zJRE/fngoPBLZXeOnkuJQFng+oOvUBWu0+oxtl/Em7eAb6hos0buhqvxtG+Jls2yh0/JOTllUvxsLGiwumG8XCnk97sHVqGuCR//4j2eq36Whs4gCoCTA68GKEDFPDjo+NmwtJcuPrGS+Jc4YQFmE46RFf2+TrbuoY5X
+	Hojl+eO5EM34Ayku0SCE3VxR6fMFLq3LMaY5CF2BsNKDfdtRHvrGNlU0S5ABaDbtNN3cgdb7x5KiUIZ2/M/a0FBHs8jMQ+Eqh6wJr5W2LMEV6raEfpjE2HzyLWtAFtRU8mh49b0QcGM6GmDw4oM/CDXVAiQbxfxvTjpfnB2rxhiEJtzc4CcERkhfw+nRJDjKKLL8y/72QaBy9aiStAe8s23PgMzaTUfRj3auZP3uyTdBDTgAp7P0J8vBO3g2A0VyYBGZTUv0ldBMCXfc20k4CiV4t348j9VxgVLMknPdxNpIVJgcOI6qPQq0fH/a1F/7rAS0tuKYLNIhfi5mdF7/h5Yg9qDwXGhePSHFerxEIn4DPokDJuJ80t2PWshOLlgZB0YhgiAqKqcAJFi4xubVLCw6Wqol0XH9UiEa+8hQRpGH08BxAtsCWdbjFQnoEil+EKZ4nOD0xtXu6guvnVkxDNU2Q5mvyeQwqbnlTcPi+mFbbRRN5/8z/IE+1JtkuwYyizIOPcqNA2HtyOONfK4eJb8pEEs/DRCcrwbQKzQCkaMSrE5vY55ldWVT+0WVbFpUgj+DEHNryhso5QgXWzZ7LJrYvcE/u/QQvPEgY7ZoU5NT2JTzjp12Gj99fTYHZyGLUHVgp4gyVJ06VYtBxnlzqsdeQ6LcevOSdjIGC62bskM=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(18002099003)(22082099003)(10067099003)(56012099006)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(11063799006)(6133799003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MC9yT2dWazlONUtTZGlrMGdFM2tQaDMwUHhiWFRYdG8xM1BpVjNTMmpuY3dV?=
- =?utf-8?B?NStrVXBNbVdSUnNLakg3M1h6d1Exc1N6RURzZmV4QitPcjl6WmRodC9UbGNF?=
- =?utf-8?B?c0JFdnFZVTJ1OGRTVGdFVjIrQVpDclpYbHlCZ0RZV2lCVWJvcFcxTTM1VWMy?=
- =?utf-8?B?dzVUM2p0cUdqWXdRMFBITmFOdXk2QlZ0bzhqckZkZ3B1MWxrY1BFVkhqVzF1?=
- =?utf-8?B?NFV1K2RsWFJLRGlQR3lqVllvajVLdm9rVEZWWFJPSEdJQVpjOUcvV2FHZEVL?=
- =?utf-8?B?Vzk0VVdaYVhRMjdaTVBOTkN3OXRvSzVFTFJOVDFFL1NtR2xIY2U3U2RvQ0NV?=
- =?utf-8?B?VmcyUnArMTEvbmpiZk9Wc1FMQXhXVEg3Y3JmWmROVVBKZmFocy9jTk9qYUFG?=
- =?utf-8?B?THNTT2NaeUFhRW5mNmRONWd2V29pRHhGMzRocWcxVnRNZzYwNGV2TUVLSExs?=
- =?utf-8?B?MlAwVVZnc3R4OGpyWnpYMXRrNnBDa3hjV0pMSWFMd0Y1QkNYbzVmbUVmQ0dF?=
- =?utf-8?B?V2xsSzBDUWl2YVpxUHZEWDBlelhrUW9LM3Nicm9mazMzdjdZVkxGNXdjc3V6?=
- =?utf-8?B?ZFJDMXBCMklBNlFYaTZIbFlnNldQSnBvTWthVTZjZzFEUUtPZEpoRzZqaFVU?=
- =?utf-8?B?dXNGa2FjZkNYbjZoM1dWbFpSTlpMK2hZUVQvZFR4K0dvcW1Nc05vWFh2Z0hH?=
- =?utf-8?B?VnhrbTZicFZQWGw0TUMvd1lyMFM5Vjk2WHEvY1BjYmdQUllObkVaMHFyRjVq?=
- =?utf-8?B?V3VWc0l2by9walp6OTBST0MxRURrcFdDKzdoNk1FUVZLTE4yVmIzODFxeFJY?=
- =?utf-8?B?ODF1N09rcFQ5dEtTUGRGQUtVK01UUFF3bEtIRzdSemJWK3NJL3dsOUlPY3po?=
- =?utf-8?B?QzRxSWd5RzA4WVQzMTBGcXVwcjVpaVorNGhMR05SU0RsQ2Y1TW5wNVhkNHFx?=
- =?utf-8?B?eWRFNmlzN0hTQjRiQlVMbUJ5WUllY2VCdi9HejIrM2dzWU9lZVljTlcwRHlL?=
- =?utf-8?B?OExSTUlPVEhIaXUxd2ltcWtjelp6cGdlVktYR2hLNUxqekpQa3BsNWQzR3BY?=
- =?utf-8?B?YUh1eU8rQTZOUXZ0ZWVuTmxzY0Y4VVBRbzVDVmc5Y1dPQm5yVDdlcEpWbEpI?=
- =?utf-8?B?ZjVzNGNJaTZ1SE02a21UMy9WZHNPYmVvOXRBRnNiZlhqemhIY0tzb0tmc0pP?=
- =?utf-8?B?bUR4a3A0Y0UwZUgxVW0xbnFOa3piU0hCOW1XZkN2VnIySGszcGpMZC9nNlZz?=
- =?utf-8?B?VXh2T1d6T1c3RWF1UmZBVGk3Q2pLUnJYOGhRdU5sQmdtTVlGRDFDUUdOcUpM?=
- =?utf-8?B?TWxzcU1INmF5SU00c1JEaHZXYUJLRGRlaFpSSkdXa2RORk1yYkVXUGJYenJF?=
- =?utf-8?B?WTJVejFsZnZZVmtjVXBvSmgvczM1SDgxWmFjUHNNd2ZQcTI5MStlSkpVdzBk?=
- =?utf-8?B?bFZxVTB5V0hmYWVyR09ZQmR3QnNPUUV3WjBxYVgyd2lnWDF5SFBhK3Axc01l?=
- =?utf-8?B?Z3pFV3NRMTZUV2ROZFlaS3ZQTTYzYlBWelJRVGtxQ3ZkWE5iSGZsUGVtelk0?=
- =?utf-8?B?UUhaK3U5LzZUS0lNMGJoT1N2M1RBSTVaSjV1MTA0S08zM1VBMm8wR1pjVElR?=
- =?utf-8?B?R0lYdXdRait6WTlleVhjLzdiYTgyR3pwVGxXcGJ1S1VXb3V3bDNNQUh6YVRw?=
- =?utf-8?B?Zi9mLzhmbjRIVkdScm1hc0t2K0VKNW9Id1lmRzkyUHp4RjFXNHdiNGNUMWxI?=
- =?utf-8?B?QjJkcnhNSjd3bXlNV0dGRWhpZUN3anRRRlFRM0UybVRTZk9yK1JuQ1M3elhV?=
- =?utf-8?B?Zks5WGJEQXhFTWJwYWVuWEFYcXdTY0ZTdFE1N2Q3MGJSb29hdiswb1M4MlJy?=
- =?utf-8?B?a09SOExBWlloRVduL2NnL0xwRzczR0ozSWlPelM5RjRIbXQ3VEhQV1oxU0hL?=
- =?utf-8?B?VEZnTDEzUEhUY0lOVUVTN1V2R1FJYWd3SHg0cThDeGhvV3FMYkQ4NjJXc2lr?=
- =?utf-8?B?RmcyUUZVS2dvU1V4WUovME51TU5RSjJSRVRaMUhSdHZuZ0k5aVFhalBob24x?=
- =?utf-8?B?djdqZ2hNc1RwcWtGVVZKMnViSGVSdXQwZHhlZG54RTEvYmNYV2lYQWhyUmhF?=
- =?utf-8?B?WkIyWGRiOWdLYitVbDRtS25mMmJJWU9ReUxHYVVBNnM1TUhsNVhZRVEwLzN5?=
- =?utf-8?B?NVl6TmIvQmZnVTFhcFp0bkl5bUhONUZoM3FhcmJncVhtYzdackRWbktGNHdh?=
- =?utf-8?B?K3RjSVAxVVlLaDV6RVR3VWNvYVU4ZkNBWGZEQkMvQlZKTDlaWGxXUDkwaW9D?=
- =?utf-8?B?ZHl3Q0FGaVZjNlhTbW9idjZwaGxCb2M1UmVHMnUzK29qS0VwcXcrUT09?=
+	=?utf-8?B?cXZoZFRLZkhSWXV1T0F3WlZEUUttd3B2V1NqWXVubjJRaktrMFg1QVl3S1JD?=
+ =?utf-8?B?dXFidkZqUVo2MjNBQWNjYTVoWkUyb0ZLR0g1UU5wbS9KSGVIMnNhVHFyS1Nl?=
+ =?utf-8?B?c1ZwUzgvMmZQY3lHTnVsR0VJbmI2dXRjU0o3TWtsY2FSTFRLc3IxLzE5RjRT?=
+ =?utf-8?B?R0U5aGRndXBkY1ZVVGRHWXJ4aUtDNWV2WXNPeVdtWXA4NXhwK0tWa0Q0VnU0?=
+ =?utf-8?B?NkZ0Y1YydUhDMlo3WVpwbXdPd3V5c2JycWJVNzhtNGZ4Z1VJanpDY3FkOVpi?=
+ =?utf-8?B?MzF5THE2ZlROVmtnVGJzQ1dVR3dwaEliNzFDMlpzNDJDNGppcXg3ODljclZT?=
+ =?utf-8?B?N01ocEhPSnBjM3E3SDdpYzEzSE5pVmt2TkhTM0taVmgvajJadXVUT0xULzJB?=
+ =?utf-8?B?YmRNMmJiTmE2WEs5bjZHMUFRWGNDaFNiYUxNVjFPdW9lQjIvWHJZTHRxejd0?=
+ =?utf-8?B?b1pIMnlCaGFwSE9sRWVNSG1adEdsOWxlYXJYZ3BORHUzbWtrd2hYRFhwWFcy?=
+ =?utf-8?B?K2h3bUtVcTJ3Y2FPMVo0RGkwdjVEbWJNSU9EeTJTYUg0bEdKdGt1bHVMSEVj?=
+ =?utf-8?B?bzIwTnBWZm5DWXZKYitpNk1pdDNIWDMybDlqcHdRRkVLZXpvR1p4dG83eFVH?=
+ =?utf-8?B?MVRMY3M0VFdBdUZNYXJ4R25VL3JBZkpNTEdGTnc4cTRFRGgvTEo3ZmVJSHha?=
+ =?utf-8?B?NnU5MmZrOVRmdTBEUUV1Z2s4Z3FkRWFxdEM1TDRxdGlqeXI1ZWFpWnJqRTRC?=
+ =?utf-8?B?dXRpckcwN0RDYjhyTTRQMWRsZGZFSlVRdXBDU3JmT2hjcmQxcWsvczNYUzJz?=
+ =?utf-8?B?ZVZFYWdDbWRUSiszOUFIWld3QnhpTlBxRFlCSlFJYWdjSWZYUGpZSmViMzg5?=
+ =?utf-8?B?c3drMGpPVTlnVy9EZEJTeHdqYVBUK3RrLzNmaTN1MzFnYTJUTTYyYlJzQ2Rl?=
+ =?utf-8?B?czJvNzJyQ2ROZkJFc1Zqd2pYM1ArTXFXNkcySjVzZjRzM1ZYcm9sbnpYVGgz?=
+ =?utf-8?B?SGFIcFZsaWUvVUNIUThaSWhBMWNwRVgyb2xsL0J4VjZjNVdjUTFJT0JFR256?=
+ =?utf-8?B?VVZJUG5GQ2x5M2EvTE43VGp2QnVBRW90bUlNM3VsTW9RMUtyY25qS09ZelFO?=
+ =?utf-8?B?dmZwVXMzWFBTUEdYYlVBeU10dzRIK2VRcGloQjAvL0J4cmM1UVE4eCtlb0R2?=
+ =?utf-8?B?dHJqWjRXNnNYQ1lrR05HZVpDK2xzZll5cXhRcS9HNjF1TWRmdXRMQzlFdTMv?=
+ =?utf-8?B?Vk91RlV6R1AvMWIvUjhzRFNqTWtwS29qRit6ZWtEZm56UWZSd0JUekxNZ0g3?=
+ =?utf-8?B?OEc0aE9IRVZCSWNTTWF6VCtxR1ZyOVlXQVIxTEdNQWwrSmFiajI1YlJBdFJK?=
+ =?utf-8?B?cE8zTzhmZFhhVWpDR2J0WDVrbTVDa2dzYmRhSFV4Qlp4RUtOSVBlTUx2Rjg2?=
+ =?utf-8?B?dFZaME5DUVBqZnRSUGV0dTVSYk1xeGd4Ymg5Z2hMc20wK0RYL1d2TGpka1lU?=
+ =?utf-8?B?b0NYV3MybGovWWQ1UHpEWUZoRW1XQW81K0RmZDBIeXNIakFsNkpQQisvY21o?=
+ =?utf-8?B?eWRLTDRjWVFNZ2pZbm9ZNWVqenFWKzFpM3JlZ1ZEQXk4aTY3cGNxenVmUGZX?=
+ =?utf-8?B?bnoyaFRuRHIwVi9XeDdlRlpsQWtrZ0lKMFNkYWVjci9QdU80TWN5ZURXdHNF?=
+ =?utf-8?B?MThLT0wvZXJ1TE93Y3ZlOVJXWFZwZ2ZsdG85MjV4ZG5PWTM0ejI0cmw2Q1Fo?=
+ =?utf-8?B?RXcxWkJLVVVQejB6cFZBZVMwanRUVjUyRkh5dXFZS3FERk1CM1pYcGRPanZQ?=
+ =?utf-8?B?MjZVanpUOWd6Vy9KWmlpQVFJeENxTjR0UW5FbnhiNjl3ZFJpOWpGMTBRUTdk?=
+ =?utf-8?B?V3F1cXNDNzEzcDJONkJ4aVNlRjJkSFh0U05MR082dXYvbW1vWVNOc0ljOUhD?=
+ =?utf-8?B?ZVpTRkc0TU5WTThhMWtOS2U3REVGL2dmQnBTQmdnVGxKZUgwSnJpRU5Td29I?=
+ =?utf-8?B?cDhzQmppTTJ2UVFaREF1Q1gxM2lDQTZCUnQ0Vm9udVpJWHNrQ2xPS3NoZlda?=
+ =?utf-8?B?ZWFlb2dRaVpTK3hjSWRJa1lNR3Nhb0hNOWd0NWRqU2Y2WHV0NHJaeTVHTi8w?=
+ =?utf-8?B?cmZVd09lYWRITnNlVWQ5RmNlQjlxS0pQTjk0L0lxOXZXcXlzMnNieUxLeEJB?=
+ =?utf-8?B?VGt6RVVDSlRjSVZyZ0gzbUVjN2Vhclc5MFkzeEtGc2RWNlJSZmxwSEVYTFZ0?=
+ =?utf-8?B?QllKK2R5Q29uUWxkSGRSbW5yeGIyWUpCWDV4MWxxcEtXbmRDNExNazRYRXA5?=
+ =?utf-8?B?RFVVdjN1NmZsci9tczY5eWtQK3BjQ2F1RktwUjdrL2REa3hmRzNiQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e69efc2-e33f-4a7c-0cd6-08def53d2fbd
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6eb7433-4c05-488f-4ac2-08def53e1133
 X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2026 11:07:07.7197
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2026 11:13:25.9565
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /wXT73/JdTwZ2kJGspALwKitS6s48CVma0GL5ca3tdzQUNMRoZMuvFAhSPwVcfnG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9428
+X-MS-Exchange-CrossTenant-UserPrincipalName: ToSF7oKY3MwpVuLRPs6Z/h5XhaRZHL3W7LZi6u4PxT8vYIOcLEQ6zZ68fW8rm2lq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9626
 
-On 8/8/2026 3:42 AM, Thinh Nguyen wrote:
-> On Fri, Aug 07, 2026, Radhey Shyam Pandey wrote:
->> DEPEVT_STREAM_NOSTREAM schedules dwc3_nostream_work() with a 100 ms delay.
->> Neither dwc3_gadget_ep_disable() nor dwc3_gadget_free_endpoints() cancel
->> this work before freeing struct dwc3_ep, so the handler may run after
->> kfree(dep) during DRD/OTG role switch teardown.
->>
->> To fix it cancel the delayed work synchronously in both paths before
->> disable or free the endpoint.
->>
->> Assisted-by: claude-mythos-preview-high
->> Fixes: dcfe437492e2 ("usb: dwc3: gadget: Reinitiate stream for all host NoStream behavior")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
->> ---
->>   drivers/usb/dwc3/gadget.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->> index fa0f16ffafef..ddf1e262e2aa 100644
->> --- a/drivers/usb/dwc3/gadget.c
->> +++ b/drivers/usb/dwc3/gadget.c
->> @@ -1175,6 +1175,8 @@ static int dwc3_gadget_ep_disable(struct usb_ep *ep)
->>   					dep->name))
->>   		return 0;
->>   
->> +	cancel_delayed_work_sync(&dep->nostream_work);
->> +
+On 8/5/2026 7:10 AM, Pei Xiao wrote:
+> In dwc3_gadget_init_endpoint, &dep->nostream_work is bound with
+> dwc3_nostream_work, and dwc3_gadget_endpoint_stream_event can queue
+> this delayed work on system_percpu_wq when a DEPEVT_STREAM_NOSTREAM
+> event is received.
 > 
-> We may not sleep during dwc3_gadget_ep_disable() and we shouldn't call
-> *_sync() here.
+> If we remove the gadget, dwc3_gadget_free_endpoints makes cleanup and
+> the memory allocated for dep with kzalloc() is released by kfree(dep),
+> while the delayed work mentioned above may still be pending or
+> running. The sequence of operations that may lead to a UAF bug is as
+> follows:
 > 
->>   	spin_lock_irqsave(&dwc->lock, flags);
->>   	ret = __dwc3_gadget_ep_disable(dep);
->>   	spin_unlock_irqrestore(&dwc->lock, flags);
->> @@ -3508,6 +3510,7 @@ static void dwc3_gadget_free_endpoints(struct dwc3 *dwc)
->>   		}
->>   
->>   		dwc3_debugfs_remove_endpoint_dir(dep);
->> +		cancel_delayed_work_sync(&dep->nostream_work);
+> CPU0                                      CPU1
 > 
-> Just this here is sufficient.
+>                                            | dwc3_thread_interrupt
+>                                            | dwc3_endpoint_interrupt
+>                                            | dwc3_gadget_endpoint_stream_event
+>                                            | queue_delayed_work(system_percpu_wq,
+>                                            |                    &dep->nostream_work)
+> dwc3_gadget_free_endpoints                |
+> dwc3_free_trb_pool(dep)                   |
+> list_del(&dep->endpoint.ep_list)          |
+> dwc3_debugfs_remove_endpoint_dir(dep)     |
+> kfree(dep)                                |
+> // dep is freed                           |
+>                                            | dwc3_nostream_work
+>                                            | // use dep (use-after-free)
 > 
->>   		kfree(dep);
->>   	}
->>   }
->>
->> base-commit: 6b8c8af514d739d0335f5579b585e02babe8a727
->> -- 
->> 2.44.4
->>
+> Fix it by canceling the delayed work before kfree(dep) in
+> dwc3_gadget_free_endpoints.
 > 
-> Pei Xiao already submitted a patch for this:
-> https://lore.kernel.org/linux-usb/331d1d5133496d2b4184e05f8848adb06930a138.1785893865.git.xiaopei01@kylinos.cn/T/#u
+> Fixes: dcfe437492e2 ("usb: dwc3: gadget: Reinitiate stream for all host NoStream behavior")
+> Assisted-by: Codex:deepseek-v4-flash
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+
+Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Thanks!> ---
+> changes in v2:
+> add Acked-by add Cc stable
+> ---
+>   drivers/usb/dwc3/gadget.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-Thanks for the review , good to see this issue is already covered by
-Pei Xiao's patch
--Radhey
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index fa0f16ffafef..fa944856f956 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -3508,6 +3508,7 @@ static void dwc3_gadget_free_endpoints(struct dwc3 *dwc)
+>   		}
+>   
+>   		dwc3_debugfs_remove_endpoint_dir(dep);
+> +		cancel_delayed_work_sync(&dep->nostream_work);
+>   		kfree(dep);
+>   	}
+>   }
 
