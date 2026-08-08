@@ -1,74 +1,72 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013003.outbound.protection.outlook.com [40.93.196.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A16284896
-	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 13:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786195044; cv=none; b=OV1sgJbq2FQLaE7GPfd36Jz1Qa4q7T7/l+kR8LEhcKFfN8mDS+id5gdK2aCRCcJ9wru+LOxRvfRxZiu8azuXRoPg8JjFclJw8+LoFFv9ArgCs3V4UThb2/RHRgwjs+ebHGYns/xUgndDDWDRW7mHkTs9mZ6iNJwRpO4nzAkiGBU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786195044; c=relaxed/simple;
-	bh=uNXKSJdgCM/gcLD9oVG87DBC0E23vzXLQvQaP902Z2U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=druTM32e7/qeHuq6LdA4EtaGimSUUTi3/pknlVi1JNi4Y0/dHQbBPy4nBXerELyaQ3HOP8heaJtpJq+3445gGf4L8RUXmaC6Og2r4l9NNzjGqh4tLV1UWyed0flX10z5YzYtENjZXor7iQh/RB/Jo+z4Sx8Q5v5BmoP/V7/TWJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9AmlLeH; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C55C401A00;
+	Sat,  8 Aug 2026 13:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786195188; cv=fail; b=B9TWPEbwMv85UFAoBVSWAIw1Ua4gYYIHCxsYRjL6Nkq+DXbvv87JFtSUbklwDy4bqHh7xSbzV3nmN41BKFu1Rq5hj5rOV6pM7KPodqPZwMJk7YTF1oI0ZKQi8rT8sm2QW05Wg8MaeSQjSIu1ug/Rqf/C5Ipo6rE6PAVyIuB93Fk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786195188; c=relaxed/simple;
+	bh=tDlaGr9PQtOGwg0fEnltfiea1385Zztdv/N6tMUuPy4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Tw+D289/6yIa1xJIy8EGmeQ/Wqa0d1gKT3AYsgVNMVhdUI88pEIZcHrBSRIsoPY0oVI+c2zUaKOshQgcqSyCQr6o+Rr5/iGmJC5xVIkNNaVCSNEZ+AN6v12UHnAO9e1l1/Wj1FZkR+bCn0ax6o5kBtdLjgjMkRlky+Fe03eK2GI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tkId7L/w; arc=fail smtp.client-ip=40.93.196.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9AmlLeH"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso193204f8f.1
-        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 06:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786195041; x=1786799841; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k7rLDJgiGBNy28Y0Cch7JU2d64DR0itzNJWdOavO6CM=;
-        b=V9AmlLeHBaOlhcZ8QuNIJ6v1xG0zgD8CrXJsoPGvycOYI6j2UkZxhpEsUv5RyKI3wn
-         R/HDbp+dh3J4zz0Kb6LDKq3TR+/OBEolgKdS14jy5Jmvs1Vr+3KHnH5OL9QkhJWT8Um/
-         ZrkVySZiehMJGOkUZWZEMa60MULy9eTth/q/0eeYtVEyq8vd2SNldTNKe4fh+0NqgMN1
-         v+ly1oXAkMrF7Ni9NV+tsNGcQ7gknLTNyLyA3fOlBN7uxlFEG5Ns8jiq2B0UPprO+U/u
-         kXcKBG2NT+u5vGUWbQzvwm0H3cmfuJvTbvWu2UW+rwHEHO6qSHQzR01CXJjxO7641l20
-         91hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786195041; x=1786799841;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=k7rLDJgiGBNy28Y0Cch7JU2d64DR0itzNJWdOavO6CM=;
-        b=jxlXCB+9Ci8WbXmox9z9zRISolBd6BkpHiONVkBGG+9lGKz/gXXG1K0uMzZwje22HH
-         1xEeXkPJMX4z+/W+iZbvUC5/Ot7nFDvvDy3NFtWGt7ofl7DxUiKH2SaOt4FwiITduQnM
-         Pj9SlMpBC+I/XULjG8YrERRAgSzTFv2V4EIXqrZOv5FYjN/g/jcc8/EIw/9dgLsNSpHO
-         NfZ5IBGqN4A2csn4NzAGJBjQx6iScEL2xz245/tb0O4MW8zaKHQ9h22mHR54DgE/OdLq
-         wXdVjWssdSXd764+ZAD3yaGJg/2KnL+9OjM6VxyiVRBohE0kDQuqmeSOBmyla2BVXoIl
-         E5Kg==
-X-Forwarded-Encrypted: i=1; AHgh+RrZaFK3vOiIlC1YLETw+N70CIPZ5rJWkkYz8OXVi/zfRu59l+Orh90AysiTrJkF0G/h9C3W4wQ2eDI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFzs+YLeslsAX6smjS++itf0msTbrautJjwdleX05fqvPXtQJ7
-	W827jBU2aRS2VIati7u5FZXO7JvvO9xkDpjcJ/7f/6nJ3XbCxw4nwwghHLtuRSg+
-X-Gm-Gg: AR+sD10O5KpOz54t95+Gp2cwiLmxGpZ1maW/aJZ1NRRUMlupvLptPn6YBtn12UlGQKq
-	6CWLdez3lNajMSzggyyUpzDLv3Jzjc0ZuwYG0jLjXV6/+BarNJ4rmJjtcF9lG87xg/AarXrcV6V
-	qTJBhZzkswu+VxVLidwC3LVDLqLh80Ghgi+h+AKwfF2NIpR6kjH7TwQ6ybluIoVotXmaF+tOQL3
-	0pZ6US6Cv8kDYtMHRtXjbFqr7NmW/WndNin0Lw6+CgHiJ2JBIDyGsgp5e5bbDBQSA7zGPo2UVo6
-	TiepQ5uBOuhAa+D6t9qu6PAjknX6T2drYaVNoKL7TIDlftN6yo6Mw04RXrH9yjQ/fUtVgSamZPG
-	VfG9akrrXpzs7YV3/w4/kZqOmb2fz4GvL6B42jdu8mxgOCFfcwih6/c2slLA+t4MvQEV97eiwsG
-	puZPiCkKXVSBYDy46Cz9DC4IbQbqJWT85lkq7ddWpvROTZFJ0Dz9TywJLFdVEOKd6kgcs1kyhQC
-	5gvib5uxe+9UBckDrdUjOzEjeGu836dM7IxJdgRXOGlCGTCMU4w6wXAmrEyBdr+/ulhMHHbc+os
-	9lPSa7u2zaZbWjTZJzOIoQoSsG73jeBwwSI=
-X-Received: by 2002:a05:6000:41ed:b0:47f:8d71:210a with SMTP id ffacd0b85a97d-48130ed871emr9891239f8f.15.1786195041367;
-        Sat, 08 Aug 2026 06:17:21 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl.localdomain (dynamic-077-007-004-134.77.7.pool.telefonica.de. [77.7.4.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021509a5sm14087590f8f.16.2026.08.08.06.17.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 08 Aug 2026 06:17:20 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: core: handle port status errors in disable_show()
-Date: Sat,  8 Aug 2026 15:16:01 +0200
-Message-Id: <20260808131601.75096-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tkId7L/w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SIPqsswa87r6rWrZTddboLPAXnEkg5SIi/xqE9w92bmHlfa48J/InUqbnBCS+0vA4aom8HgcGUoMYLJsx5HawWtwmNpNlLD8V2oXpPYbF7wzVJ9swf9JpypfmQ5ukzyXSKct/cyfZgpY9fdD2njMKmHGiE7jvAJ0EbAO2eQduLo5XuQQ2PiFRQ3yJSEYirmXtyim9F94jqHDqbkzpY/Z9qvsrUwbHX+NBvIeaFoehYIQkcFi/jRWPzXV4er7MLbv85qFXyP2JH6Kv+UVp8NyFZhV2otKYib1y3zLQtCR3RxfW9SemXv5D4iw2QTCG586ZM8Z17BiypqUH/xfgEVdPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b/C64rMW2aKwpRxqgVL33ekn09QOtLQsJLs1Vn4KZCk=;
+ b=UMStPpfD56D74fkdQkeN8LPbmhjad0QhSjtISzNfjhFjSrTaohdK88UuT3acfHubAZIPJvg1NFL9ELuiTdWeIduzI3TrR58KV3jsgZn77O0ZE4rWS1IgSPmz8rESmZ0r37O52U9WOa3U6sWN1/Sp8yWrRvII2HWzkV7U7yo1ZCdfbwibXAC62nrlgllTV44gwEw5MzUdZCWYHrYY8oQ8WsiPcquEALP/Eir4m70/DMiPHv1sB6dU9P2dXnbI1UXCr3h3SHsov2q3THdpjzYJqYEIcMYdyYb76QVj5bwwEHUsOcghD/wrjN5KsfH+iDHVyFYAHVC7SRqHyyboo7MIXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
+ dmarc=bestguesspass action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b/C64rMW2aKwpRxqgVL33ekn09QOtLQsJLs1Vn4KZCk=;
+ b=tkId7L/woMY7sKOWSHxCHqtNgh8RofLqW7w7Af94g6uLBPORnO2PxC8a0DSkYsnnkGbt9FkI53UGXqkasSqTrmthYEmCsaR8MZ2OUWHspKzy6sOvs/6JHBF2EkSRlUVFx+URq9MDwHld0CNNHv3iKqZmsjqeYuwrr/ArNnAUUrg=
+Received: from MW4PR04CA0240.namprd04.prod.outlook.com (2603:10b6:303:87::35)
+ by SJ0PR12MB7082.namprd12.prod.outlook.com (2603:10b6:a03:4ae::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Sat, 8 Aug
+ 2026 13:19:38 +0000
+Received: from MWH0EPF000C6188.namprd02.prod.outlook.com
+ (2603:10b6:303:87:cafe::27) by MW4PR04CA0240.outlook.office365.com
+ (2603:10b6:303:87::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.25 via Frontend Transport; Sat, 8
+ Aug 2026 13:19:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000C6188.mail.protection.outlook.com (10.167.249.120) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.315.6 via Frontend Transport; Sat, 8 Aug 2026 13:19:37 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Sat, 8 Aug
+ 2026 08:19:37 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Sat, 8 Aug 2026 08:19:34 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <gregkh@linuxfoundation.org>, <jiashengjiangcool@gmail.com>,
+	<Thinh.Nguyen@synopsys.com>, <zzzccc427@gmail.com>, <kees@kernel.org>,
+	<christophe.jaillet@wanadoo.fr>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Radhey Shyam
+ Pandey" <radhey.shyam.pandey@amd.com>
+Subject: [PATCH 0/2] usb: gadget: f_tcm: validate command length before parsing
+Date: Sat, 8 Aug 2026 18:49:25 +0530
+Message-ID: <20260808131927.214132-1-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.44.4
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -76,35 +74,64 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C6188:EE_|SJ0PR12MB7082:EE_
+X-MS-Office365-Filtering-Correlation-Id: 803558fe-2a41-480f-6188-08def54fb289
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|82310400026|36860700016|6133799003|11063799006|56012099006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	6BzKfAoSQUg6GNUKujWxceZGNLpHZy0aLEEHtrjv4Mpa8nd8ib7tPouUQPVFyZyJZI36/MCSBLh3l16etiPZkXK4/7RUbZZI+oBtmOaTJH5e9X2j4C9VEd7NjjM9JhgzWufOeLLuc/H9Tx4sv/prf0beWZ4A0e8XoHw1Dxrc3KiGi/YTknO+kMLvZPTJh1tzoftRwySS2WiYbR5+QD5vvHhuS/c73mus94ClM1zgTumL3wLkp99lwwrwgsiLeHgJajN0qgoOfZjOSNdZU0s6S6+A/O9fepSoQ1CTUXr6CC7LVc2iFtTEyTu8ilGLI+scrtUO4sUDaAk+xxLK9aHSmu8Egxx1Lykt9Dk4ao3iyrVAxKw2jpViZkcdbpRBKb/BRKIKq7iTQLN2XbtvcaST5aQkgIz/PNpnUrGMyhesxKWAlLGq8dnYwa3ZVrwEefBXrtAUBBzghSHw2J0aDVuFNQ+RirrkEy6H/BIxUDkiIdsu063Uxz56idDlZ9tlV3V9uGgLtOyVS7JM5CvQsLFoLYAXgN7qiTAmUSabwlMLOgKbzfQo7beQDPmzV0KQ/5CKfyOvfQ2/uUmbFdyrySIs6OMhmKy3mHc7onB9wg1Qw32UHXsi3K/Wv644LPb+zd0YOznltCEMa+Ls709nRkm0N67aC8j/7LacEleRV+XOfkoolwQSubnK+JmJ1ML2yBG/ywYGgKXgzxtxK35dNZgvuA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(82310400026)(36860700016)(6133799003)(11063799006)(56012099006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	K0lTfxCYdtkNdsvW9931MbkvRxso3Q5RbPy1j9T1dDs/ft99csUHXIM6gQtzuzPSh0o0RFnHA9GoLDx2FWikiz6lAhHLKn/JWZnPKz1E5JA733GqzBpk7lu6nV+sv8zMrPwWsBUKwAYIpbyvtv5JTbBIn7ndLE3whtAtgEFoEikKQ5BpfmN9JlbEDZN0KMeGav+zpdPFRWfUO6qfK1NCNB1b8cHXLVQNXl1hoKxS/UqiX3/4Gdp0QRfbHCKIbFjIBRDKJjonUcDOHVtysAGLy0f8CwbAVKh9m4Y1dbdlVrPls+v0B6R4B+tE18gxt8EdBksIQVdf5Qnprg78win/1dYrSTjnPVdoy7eB/rCDywMeDhia7VWsOALYU4ofNSLGjdTpqhX9jclRqAdVffBe9or+BLaL8T4FF6U2POTWk/JHl65j7RsgVLb3yaWp0qcU
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2026 13:19:37.8949
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 803558fe-2a41-480f-6188-08def54fb289
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000C6188.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7082
 
-usb_hub_port_status() leaves its output arguments untouched when the
-status request fails. disable_show() nevertheless uses portstatus, so a
-sysfs read may report the wrong port state instead of an error.
+f_tcm exposes a USB mass-storage target through configfs with two
+alternate settings: Bulk-Only Transport (BOT, alt=0) and USB Attached
+SCSI (UAS, alt=1).  In both paths the driver parses command buffers
+received from the host without first ensuring that req->actual covers
+every field read or copied.
 
-Propagate the status request error.
+This series validates the received length before parsing in each path.
 
-Fixes: f061f43d7418c ("usb: hub: port: add sysfs entry to switch port power")
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- drivers/usb/core/port.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Patch 1 (BOT): bot_submit_command() checked US_BULK_CB_WRAP_LEN only
+after reading cbw->Signature.  A short host OUT transfer could read past
+the received CBW buffer.  Check the length before accessing CBW
+fields, matching f_mass_storage.c.
 
-diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-index b4452b665f591..0022473e526d7 100644
---- a/drivers/usb/core/port.c
-+++ b/drivers/usb/core/port.c
-@@ -96,7 +96,9 @@ static ssize_t disable_show(struct device *dev,
- 		goto out_hdev_lock;
- 	}
- 
--	usb_hub_port_status(hub, port1, &portstatus, &unused);
-+	rc = usb_hub_port_status(hub, port1, &portstatus, &unused);
-+	if (rc < 0)
-+		goto out_hdev_lock;
- 	disabled = !usb_port_is_power_on(hub, portstatus);
- 
-  out_hdev_lock:
+Patch 2 (UAS): usbg_submit_command() parsed Command and Task Management
+IUs from a buffer sized to ep_cmd->maxpacket without checking
+req->actual.  A host could supply a short IU or an inflated
+cmd_iu->len and trigger an out-of-bounds read when copying the CDB.
+Validate the received length before parsing and re-queue the command
+endpoint request when validation fails.
+
+
+Radhey Shyam Pandey (2):
+  usb: gadget: f_tcm: validate CBW length before parsing
+  usb: gadget: f_tcm: validate UAS command IU length before parsing
+
+ drivers/usb/gadget/function/f_tcm.c | 42 ++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 12 deletions(-)
+
+
+base-commit: 6b8c8af514d739d0335f5579b585e02babe8a727
 -- 
-2.53.0
+2.44.4
 
