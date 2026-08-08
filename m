@@ -1,243 +1,234 @@
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C1138B12F
-	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 20:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786219653; cv=none; b=S5tdNgLAIH4rV0dQ1e5aVrbCv6WvPvwUR0WkwN4EqTddoK07wvikCeDfu5BrdveLn3R3dq/q92Z/eivTxqj1sA/kXeYY/b9Ub733Csz1MnigadxBKoe6pe2W4H6qf6kGgkrtei0EyU5tAaXpm60vizlsoMXJcSCffct3lYQABgY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786219653; c=relaxed/simple;
-	bh=G4llWDQ9kUCfEFMhmukLQHocHThdOaA51Sp7Z6uxBuU=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=H5FvCMafTUrQGB4MrPygwwas/1uDNPgEuFJmbDIIasG3njpSUjdQDErYs0ms34U113Bjjx4BFWahPa4lXMQNMj60J7NRTTvjcKzzy2G8iQf0GdNS+GBn8C2yhWqb6Hgs/Sx0bqQUlm9NH4LEdY0aOta3nxu03LtEjqjdR/HKByg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4ab8b4887d4so451873b6e.1
-        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 13:07:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786219650; x=1786824450;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C12A1F09A5
+	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 22:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786228254; cv=pass; b=dGTGOPYbFHSRQuMrW4tc8dx2R5PF8Pf9BPV3vfq2hTBwtD/5v1F67XGrDRSASu6eDrvxgXChAdLr91pE7JD2yxh8sKLAFXAzXUlwJK8QMw1/fWnUCJNiFdUNHclGr6cjQnM3I9IG6sS3cCCtR7CG7lwenGzmuzQeuDILw7B/ops=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786228254; c=relaxed/simple;
+	bh=u/aR+YgPWxL3SaP0F+G6mRY9b3B2c1OpPs6Kao85gCg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KtgBsqkPtES97+UYma8pZbBI/t0SVa0jSTJIcPO+JSq5NK8zww8WYUGt6OZdzEF5L+TSY48lbLCj9Tjj4t57HIA01WdzQFLAd2PoTp/kJKZ9Hx7i3or2LuktMZymD/hifItU+a3fWFz6IjJl+vOoCcvWuEymFgXvyA8hLyHGp9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHH3TmgS; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHH3TmgS"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2caced6038eso6171335ad.0
+        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 15:30:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786228253; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MxKSkZOTQpfa5HPqYh4z9Uvs8SUUykyrpr3vFeDIrZShD7nh3I8SpTVh8JRG1iUYAw
+         ORFiGCUcv4tMRjIsVQ7OrP4H7dhTTRXwCSVPIjGkT8bRwBO1vR2P8WyrQeQICLAIegJT
+         p5jFJOMlMwTHA/nY2sDA/z0GTEzygZfUNswSDPi17QyNbnAHqQJkbe3nTFRM+Fp0Yc6D
+         dytn1LHb3la8Xz+b1iw4rY5ZlWk/K8DLWzCDd6HF4swjRVOdIYGY+lq0Mx8TmidDV2cc
+         Ih6cSPv6o4FXtG17r44AGZ0B9HX7HyxnDheIX1rUg2KOcD1aa1FED9RjJbe4BYejzCpK
+         H6Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aBDL96EwzGigIPn5AWnNwvGjhTglYCk7YLygBX7ROMU=;
+        fh=3CIenth+06lQhsy8L+tY1dlmMJXy5qcKJzO9RVL50f4=;
+        b=Ox6BFXNePY+Yrqz2cVIt92qNy358W6J/OXc2RVK2wFTZ0WI8kzmGxskGabG4dSNuN1
+         gfu3TZPydKQpMxCNLdm7qqbWyBy/16qTo6j49b/uKeNDQlDVhxI+aJTrbjbROOUioQ3m
+         3HS9zW4jiHGaGj/0heN/YNbz1nkrezV/is52oL4DtchnlM6x8gaOKQlBnbCXEDfzyV04
+         cONlhKZo7UewaC/ruLziktAUqVfNGr+j9mIILJxaA/8+Y5iRyaDq1oDbQ41XipvKVWBw
+         v8yIN7RK/W3taktJEZDbCqg9JRK1J2zi9811YqZJMtzVibic4NOVkR7WfqWrEqN7ZBxa
+         5VsQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786228253; x=1786833053; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TOKcx8og/vzi2kWnyCOC3U9gzBKfuk51ZFJIQMBx+CA=;
-        b=FsdsklYYTUeu6Sb6hBgRKkq11HCxlgjN2hHLSRxYVvqwVm5fc0bN5OZZ6oA78/htRT
-         Dd6mx/l8OCeocTW1c0jayknZXbUrVEGzuY33czuJct/JHzYtmiNHKwZMhqazT5napTig
-         jyfWSJQrDFPHYsJdb0kRv0tR1hAPGLW+A+qivdYUirWhzsZvT9DzekUCbqeWIe6eUhQe
-         m37FLFjKCPYM/n0XNTy53dus6+Gt/t88nFQaL5gD9EgmVPeNpI798eGI0D7ZqXRuaZwQ
-         OSR4UdsuJuc34QQsDTxP4OTOKcFC3kKt70oJTLIVpYiA1zIUB86So8tBI91DhmeRaFkh
-         wY/A==
-X-Forwarded-Encrypted: i=1; AHgh+RpBNO8fLz4v+H9xMiD+/43eaTiGtrgpw4b8u2VpAWhEQ9/nF+2lkJifxbJ0D8JPK37oeBl60vZ2R2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRCenHoESEwkVqeHsgUmWz7vYs73tckCAcytqZlRLYNXLyhK+J
-	Qlgzdg8ptNj/xchG3U9vNgcLetQIs0kt+KTrEsm7NbyaoWX2xKNzErT9q/pwfxuh+HKM65+Vcee
-	z7gFFop65CC7HMg0hTSdKjdMHUTF8ZZGrnGGjIT0xFvlww9pwfpXEVJLls3k=
+        bh=aBDL96EwzGigIPn5AWnNwvGjhTglYCk7YLygBX7ROMU=;
+        b=QHH3TmgSaU3iyDjVmXSNyGyp6V40a8IpmbpPaw7GGJxtopHYIY/kBiko7/1FwGG8W0
+         e85Er/SNMufvbN+iQL6rolUXqAkpW4pZI4YxQtfkd44duQr6vi1qtZXSE4SA8d+x3Icc
+         TjAW5I87oc1hcd0GEfaftGces+l+aRNzjQe3+Jf5EiqAhxmQbyWyHCrnKze3YvMq1Vfb
+         N8cW17j/KxKn5FnUku4lT2RDgcVw+3/Ffxl9A1X4FB4maSscsAk9iVAHm5doVcYWoryA
+         jvey13lYh6Bb1eAzem16psodAN/RLdp0+mlZijFmMFUxDJGoQz0jhglMDXsr7ITTnPUD
+         5SZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786228253; x=1786833053;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=aBDL96EwzGigIPn5AWnNwvGjhTglYCk7YLygBX7ROMU=;
+        b=Ih+5pygEMLxIwRvSir9oPtFYPAdeVGmRQ9zn7sy5kkGo03QaSqieZn9pcrk/uUu9EK
+         1oSttDWvmTTA5hOSpvRw99URN+V8fWnA/LQ2zohgTdTxZsjiRpRYsCpsNDm5N0fhl3AR
+         sCQsoK3z5a1GBxmHYsUz1cHNZ8Ln2CEQarcstp0ZVbddvfarcCyAWQ6EytUIG0rlEejR
+         5KAyKuhy+8PR+acdkevKk+CfoMff0T+Cm3YaqDxvYyZO64krw+fVaBBSBXyQXTtRKOg3
+         sUh/fAZtLID98G2Q9XYaPUcSIgViJeTdHYKNk7bnR9+QSkyTFWyatqn82Y/fXR5mF+1w
+         w/fw==
+X-Forwarded-Encrypted: i=1; AHgh+RojhZWRuPbnap4SnjmIgpe7tdEANPlKL8svs/uTiG5feGXxQZR2WKl8K6iA/k/xoH7QKjbXo4Jgh1w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnvjfKz2rN5dapn7XyUfWCRd3FZAwHhZTi6U1CFqGaY441TiXA
+	jc0XQ28PHjv3riFPyPBqwsYb4d1lV0HT/3I+330S+/Y+IrTkQD5/vNKmrEyRRYjqygrO2twYDxf
+	biRJAstNPBTX7Lu+B6sRk9lmTTwMX7eI=
+X-Gm-Gg: AR+sD13Jga3HkQoc4q6xdy6ghKEu4WfXUZOLT6cvhEe2iC8461jvf/o7fjzg2/PhZu+
+	WN8RyfWNRu+Ovbl/LVZ1QxzLgprrgr8/hIH+xrScEi8u+ijMD3+lqWEJIBrtOeGLqlQddwlK6b9
+	jlSSFaeyaXwxxWBd5DGgyf3UtRKRznCsjzrUdn7KuWi58qIOnL+Abo0m7vVIZlcVrdecSBnSPnR
+	MHWLMnPZtW9Wu7k6EoTvarKKFWph0gnyp9dZieJQiTBy843779N+R6r+rZpvAyblP305oq3Ck6J
+	NZr2wiHXGvxz6f0qXhqCJZ+BDjAbHErkvnKwMi7MiLKsFEnJ0G5Zx0CzOfBSIZj5nIE5CraiP5a
+	olvCp/kZSfjK++3kF7mlAtJpURHMYPR/ZpRhSxOsF9xKCk5MMsJYQo6HG1WQ=
+X-Received: by 2002:a17:902:ccc9:b0:2cc:db7a:251 with SMTP id
+ d9443c01a7336-2d2b2d8ec9emr100184405ad.2.1786228252650; Sat, 08 Aug 2026
+ 15:30:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:6f88:b0:495:fa73:2e44 with SMTP id
- 5614622812f47-4b1ab9fe7eamr5609664b6e.15.1786219650546; Sat, 08 Aug 2026
- 13:07:30 -0700 (PDT)
-Date: Sat, 08 Aug 2026 13:07:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a778c82.01d0871a.3a0d52.0069.GAE@google.com>
-Subject: [syzbot] [input?] [usb?] KASAN: slab-out-of-bounds Read in hid_dump_input
-From: syzbot <syzbot+a942efa43c928a1e3daa@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <CABWMpWQiSEKMkROgKZJ6nV8GXYgr7E=-SmsatQie4eK8b3F9Xw@mail.gmail.com>
+ <CABWMpWR7Law_vHdeAMsOcY28VBcvX2jYSqq2SpksJSiLFcXhuw@mail.gmail.com>
+ <anIhyHL4Kl-DX2G_@eggarch> <CABWMpWQEfycicrctrW3RD1yNf0rv1ZrioY9FcjoZZGEz4GAm_Q@mail.gmail.com>
+ <CABWMpWTn3H7UKqYzr7JP9tkQCEJHsXX-F103nyyey_srn7mvHA@mail.gmail.com>
+ <CABWMpWSkJgmoZACA4LYEbmsbEGJMYLyixwv2V3tZbneeKBxpWg@mail.gmail.com> <be3775ba-3e7f-4548-aa1b-4710711f8aed@rowland.harvard.edu>
+In-Reply-To: <be3775ba-3e7f-4548-aa1b-4710711f8aed@rowland.harvard.edu>
+From: Jamie Stephens <jamie.stephens@gmail.com>
+Date: Sat, 8 Aug 2026 18:30:40 -0400
+X-Gm-Features: AUfX_mxXklcd22HO6HDonbWutYlV7pvODMMT9yPLiMD5KmmDZ5Por3aKpq8ARgE
+Message-ID: <CABWMpWSSYWusBTvxC8ciHR4FAY4zo=sON5fBWr-B=uefyqAw2A@mail.gmail.com>
+Subject: Re: [REGRESSION] CyberPower LE1000DG (0764:0501) USB HID regression
+ on x86
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, jikos@kernel.org, bentiss@kernel.org, 
+	regressions@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-usb@vger.kernel.org, linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Subject: Re: CyberPower LE1000DG (0764:0501) - Further testing results
 
-syzbot found the following issue on:
+Thanks again for all of the help and for the patches you provided.
 
-HEAD commit:    0d8395707651 Merge tag 'soc-fixes-7.2-2' of git://git.kern..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1265cfb9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3e8a402093abe6b2
-dashboard link: https://syzkaller.appspot.com/bug?extid=a942efa43c928a1e3daa
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13520fb9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15ccbe49580000
+Unfortunately, I did not get a usbmon/Wireshark capture from the
+LE1000DG before returning it. I wanted to send an update before going
+any farther with the kernel git bisect, because some additional
+testing changed my thinking about where the problem may be.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/137c48a5e559/disk-0d839570.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7597f78ad1c4/vmlinux-0d839570.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/1a79fc123166/bzImage-0d839570.xz
+As discussed previously, I tested the LE1000DG across a number of
+kernels, including:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a942efa43c928a1e3daa@syzkaller.appspotmail.com
+- 6.0.x
+- 6.18.40
+- several 7.0 kernels
+- 7.1.5
+- 7.2 development builds
 
-hid-picolcd 0003:04D8:C002.0001: offset (1) exceeds report_count (1)
-==================================================================
-BUG: KASAN: slab-out-of-bounds in hid_dump_input+0xcb/0xd0 drivers/hid/hid-debug.c:3132
-Read of size 4 at addr ffff88802ab28fc0 by task kworker/1:2/48
+I also built and tested the patched kernels you provided, including
+the USB/LPM and reset/resume changes.
 
-CPU: 1 UID: 0 PID: 48 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Workqueue: events fb_deferred_io_work
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- hid_dump_input+0xcb/0xd0 drivers/hid/hid-debug.c:3132
- hid_set_field+0xd3/0x440 drivers/hid/hid-core.c:1936
- picolcd_fb_send_tile drivers/hid/hid-picolcd_fb.c:112 [inline]
- picolcd_fb_update drivers/hid/hid-picolcd_fb.c:268 [inline]
- picolcd_fb_deferred_io+0x6d5/0x1880 drivers/hid/hid-picolcd_fb.c:403
- fb_deferred_io_work+0x1cf/0x310 drivers/video/fbdev/core/fb_defio.c:405
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
+None of those changes made the LE1000DG reliable enough for normal
+use, so my next planned step had been to begin a Linux git bisect.
 
-Allocated by task 24:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5334 [inline]
- __kvmalloc_node_noprof+0x53f/0x860 mm/slub.c:6905
- hid_register_field drivers/hid/hid-core.c:133 [inline]
- hid_add_field+0x70a/0x1840 drivers/hid/hid-core.c:340
- hid_parser_main+0x2e1/0xd50 drivers/hid/hid-core.c:-1
- hid_parse_collections drivers/hid/hid-core.c:1291 [inline]
- hid_open_report+0x884/0xf00 drivers/hid/hid-core.c:1384
- hid_parse include/linux/hid.h:1206 [inline]
- picolcd_probe+0x177/0x16c0 drivers/hid/hid-picolcd_core.c:547
- __hid_device_probe drivers/hid/hid-core.c:2829 [inline]
- hid_device_probe+0x42c/0x7c0 drivers/hid/hid-core.c:2866
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3772
- hid_add_device+0x272/0x3e0 drivers/hid/hid-core.c:3010
- usbhid_probe+0x9d4/0xde0 drivers/hid/usbhid/hid-core.c:1452
- usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3772
- usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3772
- usb_new_device+0x99d/0x1620 drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x28e8/0x4d30 drivers/usb/core/hub.c:5953
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+Before doing that, I installed a separate PCIe USB controller using an
+ASMedia ASM1042 chipset so I could eliminate the Intel xHCI controller
+as a variable.
 
-The buggy address belongs to the object at ffff88802ab28f00
- which belongs to the cache kmalloc-192 of size 192
-The buggy address is located 16 bytes to the right of
- allocated 176-byte region [ffff88802ab28f00, ffff88802ab28fb0)
+The LE1000DG behaved poorly there as well.
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2ab28
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000000 ffff88813fe3e3c0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2c00(GFP_NOIO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 12816571384, free_ts 0
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0x21fa/0x2270 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
- alloc_slab_page mm/slub.c:3266 [inline]
- allocate_slab+0x79/0x5e0 mm/slub.c:3380
- new_slab mm/slub.c:3426 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7310
- refill_sheaf mm/slub.c:2804 [inline]
- __pcs_replace_empty_main+0x2bf/0x6b0 mm/slub.c:4675
- alloc_from_pcs mm/slub.c:4773 [inline]
- slab_alloc_node mm/slub.c:4905 [inline]
- __do_kmalloc_node mm/slub.c:5333 [inline]
- __kmalloc_noprof+0x485/0x720 mm/slub.c:5359
- _kmalloc_noprof include/linux/slab.h:992 [inline]
- usb_alloc_urb+0x46/0x150 drivers/usb/core/urb.c:75
- usb_internal_control_msg drivers/usb/core/message.c:110 [inline]
- usb_control_msg+0x118/0x3e0 drivers/usb/core/message.c:167
- usb_get_string+0xa2/0x3e0 drivers/usb/core/message.c:902
- usb_string_sub+0x76/0x420 drivers/usb/core/message.c:941
- usb_string+0x34f/0x790 drivers/usb/core/message.c:1046
- usb_cache_string+0x7d/0xf0 drivers/usb/core/message.c:1090
- usb_enumerate_device drivers/usb/core/hub.c:2537 [inline]
- usb_new_device+0x27c/0x1620 drivers/usb/core/hub.c:2665
- register_root_hub+0x250/0x5c0 drivers/usb/core/hcd.c:990
- usb_add_hcd+0xac7/0xf80 drivers/usb/core/hcd.c:2987
-page_owner free stack trace missing
+It enumerated normally on the ASMedia controller:
 
-Memory state around the buggy address:
- ffff88802ab28e80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
- ffff88802ab28f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff88802ab28f80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
-                                           ^
- ffff88802ab29000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff88802ab29080: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc 00 00
-==================================================================
+    Bus 003 Device 003: ID 0764:0501 Cyber Power System, Inc. CP1500 AVR UPS
 
+and the kernel identified it correctly as:
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+    Product: LE1000DG
+    Manufacturer: CPS
+    SerialNumber: QBKRP7001634
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+However, usbhid-ups was unable to reliably retrieve the HID report descriptor:
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+    Unable to get HID descriptor (Pipe error)
+    Unable to get Report descriptor: Resource temporarily unavailable
+    No matching HID UPS found
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+lsusb could still read the normal USB device and configuration
+descriptors, but the HID report descriptor remained unavailable.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+The more interesting test came afterward.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+I temporarily connected an older CyberPower AVR1500/CP1500C UPS that I
+already own to the same Proxmox host.
 
-If you want to undo deduplication, reply with:
-#syz undup
+It uses the same VID:PID:
+
+    0764:0501
+
+but is an older USB 1.1 / low-speed device:
+
+    Product: CP 1500C
+    bcdUSB: 1.10
+    Negotiated speed: Low Speed (1 Mbps)
+    HID report descriptor length: 387 bytes
+
+ this older CyberPower UPS worked normally with the same NUT 2.8.1
+usbhid-ups driver.
+
+It has been polling continuously with successful quick and full update
+cycles. For example:
+
+    RemainingCapacity = 100
+    RunTimeToEmpty = 5407
+    Input.Voltage = 121
+    Output.Voltage = 121
+
+The driver continues to receive HID input reports and complete full
+updates without losing communication.
+
+This seems significant because the working test uses:
+
+- The same Proxmox host
+- The same current kernel
+- The same NUT 2.8.1 installation
+- The same usbhid-ups driver
+- The same CyberPower VID:PID 0764:0501
+- The same Intel xHCI controller
+
+and the older CP1500C works while the newer LE1000DG did not.
+
+I also tested the LE1000DG on the separate ASMedia USB controller and
+saw essentially the same communication problems there.
+
+The LE1000DG reported:
+
+    USB 2.00
+    Full Speed (12 Mbps)
+    HID 1.11
+    504-byte report descriptor
+
+while the older working CP1500C reports:
+
+    USB 1.10
+    Low Speed (1 Mbps)
+    HID 1.10
+    387-byte report descriptor
+
+With the older CyberPower UPS remaining stable on the same host,
+kernel, NUT installation, and Intel USB controller, I became much less
+convinced that the primary issue was a Linux kernel regression or the
+Intel xHCI controller.
+
+At this point I suspect the problem may be related more specifically
+to the USB/HID implementation in the newer LE1000DG, or an interaction
+between that implementation and usbhid-ups/libusb.
+
+Because I was still within the return window, I decided to return the
+LE1000DG rather than continue troubleshooting a unit I could no longer
+return later.
+
+Given these results, I am also wondering whether there is still much
+value in proceeding with the kernel git bisect. The fact that the
+older CyberPower unit works reliably on the exact same system seems
+like fairly strong evidence against a general kernel USB regression.
+
+I do appreciate all of the time, patches, and troubleshooting help
+everyone provided. This turned into a much deeper investigation than I
+originally expected, but I learned quite a bit from it.
+
+Thanks again for all of the help.
+
+Jamie
