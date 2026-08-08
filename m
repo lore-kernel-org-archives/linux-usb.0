@@ -1,199 +1,117 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012063.outbound.protection.outlook.com [52.101.53.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C9E418A58;
-	Sat,  8 Aug 2026 13:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786195197; cv=fail; b=Nn5074KJNrf2pozk2pfRYCnkY0NVwG86AzYjsvTJDYFHC8yPz3BSHghKOVGclNoUQ1ED30p1dFFjJOfG4XK9M9TnXDS2o0IwzJmRsJOgbtirNYgYO1VUIW+79dbX7lQ+90NL8b6nN+t4Ev9+HZpkdjFXuBVfNRfrq/QZYALA4FQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786195197; c=relaxed/simple;
-	bh=0ORTyNROEfIiO5ZPvUUSnay20GK/ToSq/W8fPCi+lfE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dvP7dpbeJgCa9TqoYGC7GFGx5fk/PWh4QFDAQ7yoHTH68bD6CtUUlCSUmTLSKvQDxrbh6WavZmkksV9/2/K/r8N1UmX5QkXm8zTvMh+LjGZv/BrgV3wFfX9LrqEoUj/gMx9YD/C3Tp1GSoGvmwyAvofArFoeoLeXk44HxCIXJMs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MC+EKn8d; arc=fail smtp.client-ip=52.101.53.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC14367B85
+	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 13:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786196651; cv=none; b=DeRrS7SelW9q7l87Dw5mQ8oSUMogF4enEHXhwnRws0r6BbZxwL1+gjQfEuWHrek/h3WyMagWhaQjwki3aSdhSbfu1baNzQ6DevPYT6Dtf1zuK58c8lkjCKBPnP5ZO1EeND7qqNpYNh/CChGWkMbU67G+y4vx5r1jM5KOXchoV/k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786196651; c=relaxed/simple;
+	bh=h9tPHOk1gQhG4ouk47fwwyYVuC+IgJZ3E7SuOkPILj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LG5jG8DxoUluwTXb5be4Zrtw/rPm5dWWMVXxTOsSnJYyMy5o8NpYhTUNY2cdESsuCR1S2c13S0iXSaLc66cRkMaRJMK19cvS8njyAL0NTa3/cpZUqyWQDKfzYOPaple8ja5bNgIQOchFQZQQpAIaafQ7XTsu9pMgnhGnEq7qj0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=DiNHaLi8; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MC+EKn8d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iT6JBhwD/6MxI/Zx8mqAQBE/inENP2wKFy5shQ+igU8jNoRfVBPTxC8DEzIZAPItgofcwBL9jwAYSziFrsuAuDK11yDrvdNqDANcmfdyPDCVeYM7S9YKSAY7tSZ6y5T0aflpA/6FpLwo+edRuqi96ZTdapIJIkR+DVJkuH8LN83Yy5027iK6cZEiw8uh9V/st40b9TizuTtxu6B0XzkvF5H3JJn4X1IsoP9Pw747ljXjOpFNkOPPhHzuPa/KASEvW/Z9PeMTxAggHwd52OZvSpKPcbSj4DFxvw1fNOjwOEt9mvUyg1RBuJhScKhWrjlWegh39HYB4wtTbMMZe6rQpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1qRtxZ9IUsXO+NPPmvBs1hEvXNleoTT8okFVC1jSixU=;
- b=nPf1eyPg4FmYIehsjQ2hjboGYzDQTrrUZ5BVORkZzXF4CIRFLe4eTgh6o9OtyhLGIo7VQfw6M2/B7zAQFqKf1TVxfzisYHfpuU3iJy4XDzB6cNoXOFbVOA6vavIOHZ3h01Y5qCppMppo8qa1P0X011EWKlsNrL+Df8X2BDFUGQJbDmgXMrJrbVY79duGOdjKmhZN/hx/OAIoOkG7y6VDro0JHnE6n/vNsgQFGmiFdoVZjXf2LT0IdraKFH/8fqazDXrMqZIsQ3pgpIlOO3zsH7UhhzM96f9CN+N3QXLHfz5CCVLZzQgFVsmVN+ayah9h/8QFRpQDySx7hQrywwEhsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1qRtxZ9IUsXO+NPPmvBs1hEvXNleoTT8okFVC1jSixU=;
- b=MC+EKn8dNj3xw5NLvre65LTAV6SP9WEbFQzHJWWHJ/18+7RU6byFAVkX3whlf6Rds/7UEdAAb+yeCkRlHy5cJix6kNOaJd/elAZtMbZYheBd+33pHhjyvaa9PlQMwZ3ByeeSplsqZOiMhSM0H+oKyeGiJRbAdgvxt2CGw+7tfGs=
-Received: from CYZPR05CA0017.namprd05.prod.outlook.com (2603:10b6:930:89::14)
- by SJ5PPF75EAF8F39.namprd12.prod.outlook.com (2603:10b6:a0f:fc02::999) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Sat, 8 Aug
- 2026 13:19:44 +0000
-Received: from CY4PEPF0000EDD4.namprd03.prod.outlook.com
- (2603:10b6:930:89:cafe::5d) by CYZPR05CA0017.outlook.office365.com
- (2603:10b6:930:89::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.10 via Frontend Transport; Sat, 8
- Aug 2026 13:19:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- CY4PEPF0000EDD4.mail.protection.outlook.com (10.167.241.200) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.6 via Frontend Transport; Sat, 8 Aug 2026 13:19:43 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Sat, 8 Aug
- 2026 08:19:43 -0500
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Sat, 8 Aug
- 2026 08:19:42 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Sat, 8 Aug 2026 08:19:40 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <gregkh@linuxfoundation.org>, <jiashengjiangcool@gmail.com>,
-	<Thinh.Nguyen@synopsys.com>, <zzzccc427@gmail.com>, <kees@kernel.org>,
-	<christophe.jaillet@wanadoo.fr>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Radhey Shyam
- Pandey" <radhey.shyam.pandey@amd.com>
-Subject: [PATCH 2/2] usb: gadget: f_tcm: validate UAS command IU length before parsing
-Date: Sat, 8 Aug 2026 18:49:27 +0530
-Message-ID: <20260808131927.214132-3-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.44.4
-In-Reply-To: <20260808131927.214132-1-radhey.shyam.pandey@amd.com>
-References: <20260808131927.214132-1-radhey.shyam.pandey@amd.com>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="DiNHaLi8"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51bfad59921so2940721cf.0
+        for <linux-usb@vger.kernel.org>; Sat, 08 Aug 2026 06:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1786196649; x=1786801449; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eNRUNIMFxO8twZMqXfV4psRlK7NT7ynBzHponr24G6g=;
+        b=DiNHaLi8zCsbSsGDisEA+0adbMWHCfBF/OiHFiedoyGDVG2yOfyD4XqkqCXaHpvTfm
+         XGQ0d13qIdW3Z93tIQKSdRHwJ3SAXgOivPwAlTKJ5A5w/I6iEjFkwx0iWTkDTo4Of2sw
+         BbKA0G/ZyqmmYxDwGVnU/vn4KKugbdfdZ0pK9hQFp3LyGGr14luE2Y6mCtLxoxOUyEMu
+         kD+uGeFL1wM7EF0tOcepVy/qmBCH++XvwA1wby+iiHwiOe0FcUgvv8pNw4GXJtou/Zs8
+         ElKzU5WvmA7OgMpjUkEg/M/fZvsMJU8zMyvt9kkkwSuGJXsO0bWs8uDFGp+5yfbKIaZC
+         OQ7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786196649; x=1786801449;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eNRUNIMFxO8twZMqXfV4psRlK7NT7ynBzHponr24G6g=;
+        b=Y6wSd8FIMwCp1iOsmi4KvDnC/fzgK9JZuMKKr4zgFYDMPQ4g3jgzj7WaW7RZJUYAAI
+         tS9tquHFu6GT7yB+s0e0jpPw1Iw4kgMkOOHRTyM8/5GWMghYw6EAKUmvl7gteKuhx48l
+         /8sapOCJc5iCWAF/CC3m5VpIgtlKH/W3Vbl7e/keeURpXNoKE1GRdp65EZcWWHDadnvw
+         ngn3B2OYwxWDX0qSXwHuG+HHhsjwpW2kvmOJ5REX+B47+7XmC0ogsQBmNJoUEQ+X0Q0e
+         1FfGKaw7f07n86rGaHK04m+K9lIrksXFcVlmy/ZsUDfjhRLIU67g8Mn+WXUANayJ38Le
+         IJVg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqmn/AQEUkalz9cyB1zEF6zBZGaZquTKfgOhhuIecSW2jmTEqgpQWwdnXHyR8afCtG6l4wsdfpV6+Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfLweGBTh3/YrDtzLkH/rLgJ+Fz+1nkdMbPIAfyS0NnLoMMiv8
+	iuI59PJHXahtCWZVHb7Ypv7kamwJz1NJ5w4PzCMC2woM3U8MuGGC7hcC5qv3yHbQ7/OCk1EQN9b
+	g0HvEEw==
+X-Gm-Gg: AR+sD13ToXs6GEWBY9il+6DJD0wguBdxGAxQgr5ZYdZlKZnkvtIp0fcWYw2/GWmPzYw
+	C9vtiHjt1dNwhUKvpD7dFwTF+KhxiukM5Q/OUi+mbh+bUtS6a2cpoylRPxf6KARbSIwnjyPQyT0
+	pe0sKdBCTU9wZKRNTZ/T9kNhy9N03gkEECU21vkAQC1t7IyRwZhZcczJS8bFt1V1uyiFTfrcUNf
+	1ojDvSOodP8RzYGolVGlRwGg5ilJJGGcqowaTUCnol5nIHBqQpG0dMIhZX21/JqGXsPvskVw77W
+	YLj6slSwAemUkaY6SVuJWO15gNa4L+mz/tWfOuLcgavQgiKQ5QFB5M7Dg4/hX6Gav/Iuq4zHB++
+	2sqGRRvAF6V+xGviwNIN/PDPxKf9DSgZihsGf/05i71AhdVgf1MMm/NXw6WXV54WcLcbQ2GG7d6
+	vXQtu0E6KOWQIH3unI4Y5aOkMbgM8Zg1reX2jbASsfR/pdWSNvcDjTTO2lFz2CRQ==
+X-Received: by 2002:a05:622a:1c09:b0:51c:a7e:4cc2 with SMTP id d75a77b69052e-52ce61460e3mr363116401cf.20.1786196649228;
+        Sat, 08 Aug 2026 06:44:09 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d1659c1d8sm33663821cf.16.2026.08.08.06.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Aug 2026 06:44:08 -0700 (PDT)
+Date: Sat, 8 Aug 2026 09:44:06 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: handle port status errors in disable_show()
+Message-ID: <bf4b1120-e252-4f5b-baf9-faf8ed716b49@rowland.harvard.edu>
+References: <20260808131601.75096-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD4:EE_|SJ5PPF75EAF8F39:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c1d6528-f4ae-49af-ce36-08def54fb602
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|1800799024|376014|6133799003|56012099006|22082099003|10067099003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	xsATMpqYRh0UrsEFGyPlewdkTtASqTGliPxYp5/c96unT+lxlLjFSpbRUHvrIYOHlH9CATlWyUU/J7LdRCpTlUIuOWd8abDyiFivDnDYbvy6JP9q/d7unFXsCBKCRGr3T1oGznxUh8Pbg0Hb6hsdmu9QTBjE83gMjzDQWn90v77R3gFRgENVRMuQWZKKAU1JJxlDvX9GjKH9Jd7NAvp+nSJAa5uCfApydjl14mwB+KEF0DxKO8T+gmW4WSwTLUSAQzahJkYSCjISq5XAgNRTwahvq6V5LKMyQmqUKGX4C04PddCoQByLTvJGCZhMfmTXzmPTEc+vxyMr/OIlhfCqAbHV2bb3tsZW3OZd7mcTsxs64lQXQBRFgPJ/Pzx27qpLE+O5kGR3x10b5GZz7pMrRr0zfaqNahdHVbE2PQ5RQE9CH7+MFBNVyyoPaxeq8qs4BLuUGSgQ4c/MTIBcPAqqDXsr7aLabT6PcathXiq7c06rGDroIetH3yhp//VwPNg4nXZfUMAe3//XazpoRlXbUPoY6Aavtitzic0z1EIGnetOVhYtZK01k/ATQqFoa1i9x6DtbEOpN5MGlRiqZoOJghfXxAwPRU2xHvhcl87yzmHLWt7WZJqDR41NqHG/vLppevo4k1P8M6Yhg+BTKZS1TEphyG9L/okIZwpjbe2aymeYt/xix49lDDDPw/+SBkaR4KQxjpOyNa6EatiDx94dhQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(1800799024)(376014)(6133799003)(56012099006)(22082099003)(10067099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	jO1OC3AfIHhW6WWVAuRQ4v3OpFRi4J0B/6DMIdM2O4S25cBqmH4onBtG9sgcgTgRfVVzHeCefLG8ejJ2FoUPgPv8ev1LFIDRHbpFR0bORaDES2ZvIvP/MszVWhZpN9GwEdcHqAR4yC5084VOU/DcUDjMva2TYj897v7+CqTBNnNmVt6x6an2oegAJG5EmhBAtyyaG8mMBjpxJV5yoghbn7Gi7uZxxCOQqnMhaIhpTCdH/LtvVB8QZy43QSuXWE760xbU1VVW1BtKBLBBu3fX8nHvrqByPA4jf81eze5QRWNzDqox7S2XxWdXD5ZgXFYqHMmzLBIliWSWhg31fsvEfx6CKX4Kon3ZH+ihTm0bDWeW8yWFB6sR9gOeaKafVYSFZK6MShWGVg46oAw7Loo+h2ttzuhMsBd6K56EpgqEHMgjxylm3yz6izQIRzf3GPti
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2026 13:19:43.7175
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c1d6528-f4ae-49af-ce36-08def54fb602
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EDD4.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF75EAF8F39
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260808131601.75096-1-kmehltretter@gmail.com>
 
-usbg_submit_command() parsed Command and Task Management IUs from a
-buffer sized to ep_cmd->maxpacket without checking req->actual. A host
-could supply a short IU or inflated cmd_iu->len and trigger an
-out-of-bounds read when copying the CDB. Validate the received length
-before parsing, matching the BOT path, and re-queue the command
-endpoint request when validation fails.
+On Sat, Aug 08, 2026 at 03:16:01PM +0200, Karl Mehltretter wrote:
+> usb_hub_port_status() leaves its output arguments untouched when the
+> status request fails. disable_show() nevertheless uses portstatus, so a
+> sysfs read may report the wrong port state instead of an error.
+> 
+> Propagate the status request error.
+> 
+> Fixes: f061f43d7418c ("usb: hub: port: add sysfs entry to switch port power")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>  drivers/usb/core/port.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+> index b4452b665f591..0022473e526d7 100644
+> --- a/drivers/usb/core/port.c
+> +++ b/drivers/usb/core/port.c
+> @@ -96,7 +96,9 @@ static ssize_t disable_show(struct device *dev,
+>  		goto out_hdev_lock;
+>  	}
+>  
+> -	usb_hub_port_status(hub, port1, &portstatus, &unused);
+> +	rc = usb_hub_port_status(hub, port1, &portstatus, &unused);
+> +	if (rc < 0)
+> +		goto out_hdev_lock;
+>  	disabled = !usb_port_is_power_on(hub, portstatus);
+>  
+>   out_hdev_lock:
 
-Assisted-by: claude-mythos-preview-high
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
- drivers/usb/gadget/function/f_tcm.c | 33 ++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 8 deletions(-)
+It would be cleaner and simpler to do:
 
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index 565ad1934755..4b30b23ddac0 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -862,6 +862,7 @@ static int usbg_submit_command(struct f_uas *, struct usb_request *);
- static void uasp_cmd_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	struct f_uas *fu = req->context;
-+	int ret;
- 
- 	if (req->status == -ESHUTDOWN)
- 		return;
-@@ -871,7 +872,9 @@ static void uasp_cmd_complete(struct usb_ep *ep, struct usb_request *req)
- 		return;
- 	}
- 
--	usbg_submit_command(fu, req);
-+	ret = usbg_submit_command(fu, req);
-+	if (ret)
-+		usb_ep_queue(fu->ep_cmd, req, GFP_ATOMIC);
- }
- 
- static int uasp_alloc_stream_res(struct f_uas *fu, struct uas_stream *stream)
-@@ -1382,6 +1385,27 @@ static int usbg_submit_command(struct f_uas *fu, struct usb_request *req)
- 		return -EINVAL;
- 	}
- 
-+	cmd_iu = (struct command_iu *)iu;
-+
-+	if (req->actual < offsetof(struct command_iu, cdb)) {
-+		pr_err("Wrong length for UAS command IU\n");
-+		return -EINVAL;
-+	}
-+
-+	if (iu->iu_id == IU_ID_COMMAND) {
-+		cmd_len = (cmd_iu->len & ~0x3) + 16;
-+		if (cmd_len > USBG_MAX_CMD ||
-+		    req->actual < offsetof(struct command_iu, cdb) + cmd_len) {
-+			pr_err("Wrong length for UAS command IU\n");
-+			return -EINVAL;
-+		}
-+	} else if (iu->iu_id == IU_ID_TASK_MGMT) {
-+		if (req->actual < sizeof(struct task_mgmt_iu)) {
-+			pr_err("Wrong length for UAS task management IU\n");
-+			return -EINVAL;
-+		}
-+	}
-+
- 	scsi_tag = be16_to_cpup(&iu->tag);
- 	cmd = usbg_get_cmd(fu, tv_nexus, scsi_tag);
- 	if (IS_ERR(cmd)) {
-@@ -1398,8 +1422,6 @@ static int usbg_submit_command(struct f_uas *fu, struct usb_request *req)
- 	cmd->flags = 0;
- 	cmd->data_len = 0;
- 
--	cmd_iu = (struct command_iu *)iu;
--
- 	/* Command and Task Management IUs share the same LUN offset */
- 	cmd->unpacked_lun = scsilun_to_int(&cmd_iu->lun);
- 
-@@ -1434,11 +1456,6 @@ static int usbg_submit_command(struct f_uas *fu, struct usb_request *req)
- 	}
- 
- 	cmd_len = (cmd_iu->len & ~0x3) + 16;
--	if (cmd_len > USBG_MAX_CMD) {
--		target_free_tag(tv_nexus->tvn_se_sess, &cmd->se_cmd);
--		hash_del(&stream->node);
--		return -EINVAL;
--	}
- 	memcpy(cmd->cmd_buf, cmd_iu->cdb, cmd_len);
- 
- 	switch (cmd_iu->prio_attr & 0x7) {
--- 
-2.44.4
+	if (rc >= 0)
+		disabled = !usb_port_is_power_on(hub, portstatus);
 
+Alan Stern
