@@ -1,85 +1,92 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8D63612FE;
-	Sat,  8 Aug 2026 04:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5AA353EC0
+	for <linux-usb@vger.kernel.org>; Sat,  8 Aug 2026 05:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786162918; cv=none; b=e7s3O/7MhKwXXgvNh5SRWbvdaJT4rzMRGDErCPHbPWdtOaGFMGit9ubCKqSTdu8S1KzluVmZ64VAS0rKXmHoTyNuicm+rshZve7VkMR0jgW9C3eHIBS5lQvRP1iYfwUSOWEIKK88G3le9t9q8eHiJbwNeIpKXc08covNiFbVjQ0=
+	t=1786165220; cv=none; b=nkIjZmYV/33IcCMgpPYeb3Oj8T+kDXifRs213WRxVrYI0eHjNNu5wIF2fCbcywSZjkF3Z+HbcxnDFSzcDHKa0pW3SMcxO4RCtyoyyKnN6Zp41bfLNZH+yIZugoVakkEEM6+BFR4tYcnRJnHYZaGt5GqdZhyBHN/7KzZ8G6c1/X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786162918; c=relaxed/simple;
-	bh=jgd666ZsIlwVOC9npSEOGg61PdXnU8bW+3OyYPQQ2MA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g6ZFZusBx9Ytx295ytK0HSvQ7mLCPgSq37kWtwVYbrmVOTfM77Fr6xMwNlK6q35io3W60AweDJXfKMjDNfQS0MnAGZEQYrt9vf5BLyyd4FgHcNlta4E1UtZKzf+tdiTp2TuIxt+x1NrAfDkNdcOpBvcRT52LnaOE5e+w41DXJJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f0f33aTI; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1786165220; c=relaxed/simple;
+	bh=oNguuroEAZHOdD6/WdQ+AB6EyhYgUb9/PoDgN00PHus=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FN0MAVjR4XvW9OXY8Xb/EwDjWy5jyFqwBpFofef7objP2xltwIkp4BlpAoTJz/pJHLiXKQ1T14NnhMtoeZfPSRXHASCKxbXHWxFTvSPzddm7zeFozNdylgRWDD+dCEB+7E5VnLPQ2R70al4uUJTnD5a4Kr6JlnZ+9PT5ltgYgEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fnr06iae; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f0f33aTI"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hH7Bh3jRtzMlH4;
-	Sat, 08 Aug 2026 06:21:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1786162908;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lPRMczOnzvQyTCVwnpWM6nSAp6obL+qHV5cMgjWSuwI=;
-	b=f0f33aTIq8s4ZqkMAaEy4b1Sd85jXd5RXh7nXN1G3CWYWgAYnb19L76ZktTaJIFIRag8VO
-	O86MoMxxT9e/aTm3REnzKSuHHHLTlvAyV1xJoJc+aWslkTW5iubM8G1ZRrVLkS/AtyG7GV
-	04rkxlnofvfm+BMGHBXx/N8fDGVq+/9nQVFX9N2VVnI8m6n35mDD41MxE2hTNlccLVf76c
-	XnCaNG4JtSuEUUOvcVRqmYUojjHP1711RlZ12r+kwVFg6am0I4bVkUJcdFlUjPXelfT2np
-	WL8vELagNOJ/dud86QEaYyEhMJKKVb73Kv0ljcmK1FU6TXZzBcYXI00DKSWPdg==
-Message-ID: <2b5e81da-4a62-4665-8476-f361cd0039c4@mailbox.org>
-Date: Sat, 8 Aug 2026 06:21:45 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fnr06iae"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786165218; x=1817701218;
+  h=date:from:to:cc:subject:message-id;
+  bh=oNguuroEAZHOdD6/WdQ+AB6EyhYgUb9/PoDgN00PHus=;
+  b=Fnr06iaeojTRAa/Y3RZZJu1WISxVEyVEu8tFl7klqp9gH0XRJpQAZxR/
+   VWfx9sA1yd/S9cgT4z5INZbj0vSfS2xBbKrCyTpdkSzp5vmDwBedxAeOK
+   l5GVZx9Ol4yV59yWoQNQFf1qxNzGWaVgppbWMeKcVyvit/ZEkOLuNPI12
+   J7CYhuxGH7tfejPlOFcFEGjF8XJ0Dd9S0cbRHBlvDayUb9uju9XjwT/ua
+   P3zImZIj4hWsp7mTU0kYewY7E9SrYeYC4XNY3Ws7DrUQy0AIZpsmKlUIv
+   kUNI8eQ5oti0qljcM0vvo/DVXZQF33s3qBywxZ4KftX4LiAM+xqIwnZeo
+   Q==;
+X-CSE-ConnectionGUID: BhwFFcG6TXuuGdMe3ZEwxg==
+X-CSE-MsgGUID: t0Vnj0dSSHOldcz4j5Dy+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="85742752"
+X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
+   d="scan'208";a="85742752"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 22:00:17 -0700
+X-CSE-ConnectionGUID: eTAQJVBKTD2UD0pD+AAAkA==
+X-CSE-MsgGUID: 1JaZRbPVTLam1sgwAhS+JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
+   d="scan'208";a="266823099"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 07 Aug 2026 22:00:14 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wsZAJ-00000000Jl6-2ZA0;
+	Sat, 08 Aug 2026 05:00:11 +0000
+Date: Sat, 08 Aug 2026 12:59:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org
+Subject: [westeri-thunderbolt:next] BUILD SUCCESS
+ f1de1fc5f632cdeae1f5c2984572ab710d4dfcaa
+Message-ID: <202608081228.rVjYhucB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car
- Gen5 DWC3 xHCI USB controller
-To: linux-usb@vger.kernel.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260806050422.324435-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20260806050422.324435-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: rfgngqqr6i4qdd1zf441mmwuq9jfac9c
-X-MBO-RS-ID: 10e5f276f7cc3e07f00
 
-On 8/6/26 7:03 AM, Marek Vasut wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+branch HEAD: f1de1fc5f632cdeae1f5c2984572ab710d4dfcaa  thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers
 
-[...]
+elapsed time: 813m
 
-> +  phys:
-> +    maxItems: 1
-> +
-> +  phy-names:
-> +    enum: [ usb2-phy, usb3-phy ]
-I will be adding this change here and will send V3:
+configs tested: 15
+configs skipped: 0
 
-    phys:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 2
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-    phy-names:
--    enum: [ usb2-phy, usb3-phy ]
-+    minItems: 1
-+    items:
-+      - const: usb2-phy
-+      - const: usb3-phy
+tested configs:
+alpha              allnoconfig    gcc-16.1.0
+alpha             allyesconfig    gcc-16.1.0
+alpha                defconfig    gcc-16.1.0
+arc               allmodconfig    gcc-16.1.0
+arc               allyesconfig    gcc-16.1.0
+csky              allmodconfig    gcc-16.1.0
+i386              allmodconfig    gcc-14
+loongarch            defconfig    clang-24
+nios2             allmodconfig    gcc-11.5.0
+nios2              allnoconfig    gcc-11.5.0
+parisc            allmodconfig    gcc-16.1.0
+parisc            allyesconfig    gcc-16.1.0
+parisc               defconfig    gcc-16.1.0
+powerpc    lite5200b_defconfig    clang-24
+sh                   defconfig    gcc-16.1.0
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
