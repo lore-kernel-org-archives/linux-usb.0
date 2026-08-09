@@ -1,146 +1,140 @@
-Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
+Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6A23AFD1C
-	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 19:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4133BD63C
+	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 19:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786302769; cv=none; b=iTRhSwfM/3tg7dYVKjRiKEeQ8yvYNn8dGhk8upeMRPk+VmPcxUp/RzwhS2GVuslRblN0GrI3jIMEywdBXp99dOq9juHy5Dp+MgixicDmpBy/eOLv7UB2JbGPL1R/B1CKASNEhp6lTaaWxe56Z8EWLIQVVPUQ6u6i2yx4xmt8vA0=
+	t=1786302820; cv=none; b=e45uUYVB7jPbFb9PnCeQ4pTcLUauN7PeTv4NAn2LVUOxjUFRayZ2H+xQnIqA2caG1np1mPcbXc2SfNjEMwWS7mIYtwnqE+VjSc3X0v3VEBJPxcI+WDv0sbKtg/Uyc+RVCX7fiexXN4Lj2z3IJ5BgjD/D7DShiK9clSmZb8ZQOko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786302769; c=relaxed/simple;
-	bh=QZ+LDMAmLF3k2EVZBQ9Ma+ncAVqVRIhd5TQucPrCMxE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LTaBo6vp5zNMmFQg1nCG8Qh8vxUr4JFFDwjaDMgzkagUl3k8J1w0PcxEaSWP3/jyjalYnx4xH99BeUFEO2B1dAWGCO9BOZuc8Ca+Q2C3Mb0WSCR6sEksJLMW7gmmg5oY6HDv6lqAxa5BW02wGe/wFcXgsVzSoWOS791qH8NvhHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
+	s=arc-20240116; t=1786302820; c=relaxed/simple;
+	bh=ULnjhk1q/DXdLvKaws97bJJnv5OEu4EARgSogokhj9s=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=E6DQQZzd8gvhb+G3Mz71+MQ1VOtSO88JenvpoMeMCVWqR7mmpSu6c7YVQATAubwGkJ5wKnpNyYdzNQWfbUK5QSqbyKZOTtWDXXm/FAj3MQ6OjPpF2eQ/f7kEHcScSxHwXD17qzOkcqkgCyoHCJBoUIgdkHlY20TycfL35e7ENPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7ebfcb4c999so2006081a34.1
-        for <linux-usb@vger.kernel.org>; Sun, 09 Aug 2026 12:12:45 -0700 (PDT)
+Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-6ae7c37604aso1007441eaf.0
+        for <linux-usb@vger.kernel.org>; Sun, 09 Aug 2026 12:13:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786302764; x=1786907564;
+        d=1e100.net; s=20251104; t=1786302816; x=1786907616;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PbOwH8zfT+TouAG4yn0mvVVB7CIzeZLDErpOsblOR/s=;
-        b=DWKQS6b2zExsBS1oEdngmRd/1BRdFABMkDs5j4DqrfJKuGDCQBjB/+FpytGEopx0+r
-         rCm+QgduYwxHblCe2w7wQcqxsERXjYY0Kbf8I8u41FVBF1CWXoKPgE1rXpsT9shjVNO8
-         XVz3myyaYqyBqpp6gHSltC4eVFc9+PU+RxppSXWZ5GUr+V2oaU6K8kqdJRpxaPQd6KlU
-         y4M0+9hsyOTxxUnEF8lBherZmLmQBEt10TV38sRI7rk7Fdi42We55mb6ntr1SjHrhYU9
-         0lZvxNWefE4OFh3JPbjw/dBT7iFZf+xhFeGPQs8L8yy0VdgKf/ttaeo/28z9UtAh6dDx
-         E86A==
-X-Forwarded-Encrypted: i=1; AHgh+RrwED15MsswhFdOWef9bhJVqu9JvPzWosakakwsvjR1meQnIQJv0Ib+r+H+LxQBEavLheyZyziCJBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVb+go5Ao6V6tDDB1ISKdy+jauHeMqrtSv/c/5RxNXe1SPHbuU
-	OSN5xQHZkUIQJi//Lr6pEV2VvGmSJrTt6o9CSmsV6uFadwUVUkMKedmYgpHhzyl5Z7j/H3ZELaO
-	0pmWYtV1B6D53Hv4bZ9B+9I25W91CaPEli19y5NF31nWbi1JBjoCmuipAFK8=
+        bh=f2R6sd8NFICSpwZAP9zSy8wA89p64sXxGsH5JCp6mJE=;
+        b=iz+C6d48B3MywmyTHbYlUqlkT4vSrjPsf6Y+nzYRgU9alZhIxBCR395a7dLyL6YXbg
+         ezNgQuRrlnIxehge91WMJYmL1yHsgVhjCXebdywKADfs4UMAov8e8j6t8GvQg9DqxdeI
+         0Kw8vGwyzT83MLr6xYujPLZQIJxXx5ZzPxZxRZYmL8b8jBb1CobeHzoR5YP3iztgFayY
+         x+Yh3t+/4f7+az1KiQ23C0T7PEuDmj1TEZy8C2Ew1l8BqLG/ckXcnMH4qYkStETAMRKI
+         R4S+j9HQtaAL635HuWadBfvb6ZbXfzFqPt/Qvj8mA2J7ARl0voJ1tC3PEhA8fzVyFlq5
+         IDmg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro4ydsdlfkuL/+iT/8ubF8xC1sbTjeHc6F5W74WHV7dttQAiEM0XwaE8KmmJ897Of2rkItLO1n7ano=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnGIt53f6A7fUBFXOWUtzav2xR6pgIiALre+qCiBpWays6lfPj
+	wtnAXu5ZGXsW/7FFweDwbftkPrfV0xQI7qlLCcCQa8M58gQBJjk/qAk2R+uPjh16gpQSwYfY4iD
+	tiHzUP1ThfYrBDMR6DWZxs8fzhaJ0/XpD125uesUQ+ESQ+jYXU4WIRX8Z3vs=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:c88:b0:6ac:a8ef:9a86 with SMTP id
- 006d021491bc7-6ae96cf7403mr20299995eaf.15.1786302763971; Sun, 09 Aug 2026
- 12:12:43 -0700 (PDT)
-Date: Sun, 09 Aug 2026 12:12:43 -0700
+X-Received: by 2002:a05:6820:1c85:b0:6ac:a5a3:460e with SMTP id
+ 006d021491bc7-6b0352ab430mr8460203eaf.19.1786302816372; Sun, 09 Aug 2026
+ 12:13:36 -0700 (PDT)
+Date: Sun, 09 Aug 2026 12:13:36 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a78d12b.01d0871a.3a0d52.008e.GAE@google.com>
-Subject: [syzbot] [usb?] WARNING in i2c_unregister_device
-From: syzbot <syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <6a78d160.01d0871a.3a0d52.0091.GAE@google.com>
+Subject: [syzbot] [usb?] memory leak in hidg_bind
+From: syzbot <syzbot+60740c6a17a5b5eb1f5a@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    a59f57e2aa12 Merge tag 'watchdog-for-v7.2-rc7' of git://gi..
+HEAD commit:    9a143525f62b Merge tag 'ata-7.2-rc7' of git://git.kernel.o..
 git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=14e28079580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
-dashboard link: https://syzkaller.appspot.com/bug?extid=3fb7629cfd12d04beeab
+console output: https://syzkaller.appspot.com/x/log.txt?x=17edefb9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6843f8fd2336602d
+dashboard link: https://syzkaller.appspot.com/bug?extid=60740c6a17a5b5eb1f5a
 compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12349fb9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1793bfb9580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1061fe49580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10c06fb9580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6e78675a9575/disk-a59f57e2.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8214e30981cd/vmlinux-a59f57e2.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/44559008ddee/bzImage-a59f57e2.xz
+disk image: https://storage.googleapis.com/syzbot-assets/689093bae5bf/disk-9a143525.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a57b87e6032d/vmlinux-9a143525.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/508c649c8b0f/bzImage-9a143525.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com
+Reported-by: syzbot+60740c6a17a5b5eb1f5a@syzkaller.appspotmail.com
 
-------------[ cut here ]------------
-Device '2-002c' does not have a release() function, it is broken and must be fixed. See Documentation/core-api/kobject.rst.
-WARNING: drivers/base/core.c:2638 at device_release+0x1da/0x270 drivers/base/core.c:2638, CPU#1: kworker/1:3/4450
-Modules linked in:
-CPU: 1 UID: 0 PID: 4450 Comm: kworker/1:3 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:device_release+0x1dd/0x270 drivers/base/core.c:2638
-Code: df 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 93 00 00 00 48 8b 6b 50 48 85 ed 74 19 e8 6d 94 af fb 48 8d 3d d6 1a d3 0a 48 89 ee <67> 48 0f b9 3a e9 eb fe ff ff e8 54 94 af fb 48 89 da 48 b8 00 00
-RSP: 0018:ffffc90010427548 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff88807d9c3020 RCX: ffffffff8bb0ba12
-RDX: ffff888036a3ca80 RSI: ffff888022a8dc00 RDI: ffffffff912deb50
-RBP: ffff888022a8dc00 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: ffff888038298400
-R13: dffffc0000000000 R14: ffff888022a8dc00 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888123eec000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000000000 CR3: 000000002aaa6000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device drivers/base/core.c:3880 [inline]
- device_unregister+0x2f/0xe0 drivers/base/core.c:4003
- i2c_unregister_device+0xf5/0x270 drivers/i2c/i2c-core-base.c:1075
- i2c_deregister_clients+0x255/0x460 drivers/i2c/i2c-core-base.c:1782
- i2c_del_adapter+0x124/0x2d0 drivers/i2c/i2c-core-base.c:1820
- i2c_tiny_usb_disconnect+0x43/0xe0 drivers/i2c/busses/i2c-tiny-usb.c:282
- usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:618 [inline]
- device_remove+0x12a/0x180 drivers/base/dd.c:610
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
- bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
- device_del+0x376/0x9b0 drivers/base/core.c:3961
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
- hub_port_connect drivers/usb/core/hub.c:5407 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x1c4f/0x4a60 drivers/usb/core/hub.c:5953
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	df 48 89             	fisttps -0x77(%rax)
-   3:	fa                   	cli
-   4:	48 c1 ea 03          	shr    $0x3,%rdx
-   8:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   c:	0f 85 93 00 00 00    	jne    0xa5
-  12:	48 8b 6b 50          	mov    0x50(%rbx),%rbp
-  16:	48 85 ed             	test   %rbp,%rbp
-  19:	74 19                	je     0x34
-  1b:	e8 6d 94 af fb       	call   0xfbaf948d
-  20:	48 8d 3d d6 1a d3 0a 	lea    0xad31ad6(%rip),%rdi        # 0xad31afd
-  27:	48 89 ee             	mov    %rbp,%rsi
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	e9 eb fe ff ff       	jmp    0xffffff1f
-  34:	e8 54 94 af fb       	call   0xfbaf948d
-  39:	48 89 da             	mov    %rbx,%rdx
-  3c:	48                   	rex.W
-  3d:	b8                   	.byte 0xb8
+2026/08/08 09:35:22 executed programs: 5
+BUG: memory leak
+unreferenced object 0xffff888112450300 (size 128):
+  comm "syz.0.18", pid 5923, jiffies 4294943868
+  hex dump (first 32 bytes):
+    00 03 45 12 81 88 ff ff 00 03 45 12 81 88 ff ff  ..E.......E.....
+    30 00 b2 03 81 88 ff ff 00 00 00 00 00 00 00 00  0...............
+  backtrace (crc 18381426):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    dummy_alloc_request+0x65/0xf0 drivers/usb/gadget/udc/dummy_hcd.c:693
+    usb_ep_alloc_request+0x2e/0xd0 drivers/usb/gadget/udc/core.c:197
+    hidg_bind+0x2b/0x490 drivers/usb/gadget/function/f_hid.c:1154
+    usb_add_function+0xca/0x270 drivers/usb/gadget/composite.c:333
+    configfs_composite_bind+0x667/0x9b0 drivers/usb/gadget/configfs.c:1802
+    gadget_bind_driver+0xed/0x390 drivers/usb/gadget/udc/core.c:1662
+    call_driver_probe drivers/base/dd.c:628 [inline]
+    really_probe+0x12f/0x3a0 drivers/base/dd.c:706
+    __driver_probe_device+0xe9/0x1a0 drivers/base/dd.c:868
+    driver_probe_device+0x28/0xf0 drivers/base/dd.c:898
+    __driver_attach drivers/base/dd.c:1292 [inline]
+    __driver_attach+0x10a/0x200 drivers/base/dd.c:1232
+    bus_for_each_dev+0xb8/0x120 drivers/base/bus.c:383
+    bus_add_driver+0x122/0x280 drivers/base/bus.c:763
+    driver_register+0xb1/0x140 drivers/base/driver.c:174
+    usb_gadget_register_driver_owner+0x69/0xe0 drivers/usb/gadget/udc/core.c:1752
+    gadget_dev_desc_UDC_store+0x153/0x1e0 drivers/usb/gadget/configfs.c:300
+
+BUG: memory leak
+unreferenced object 0xffff888112c7bf00 (size 128):
+  comm "syz.0.20", pid 5967, jiffies 4294944502
+  hex dump (first 32 bytes):
+    00 bf c7 12 81 88 ff ff 00 bf c7 12 81 88 ff ff  ................
+    30 00 b2 03 81 88 ff ff 00 00 00 00 00 00 00 00  0...............
+  backtrace (crc cd50bb2e):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    dummy_alloc_request+0x65/0xf0 drivers/usb/gadget/udc/dummy_hcd.c:693
+    usb_ep_alloc_request+0x2e/0xd0 drivers/usb/gadget/udc/core.c:197
+    hidg_bind+0x2b/0x490 drivers/usb/gadget/function/f_hid.c:1154
+    usb_add_function+0xca/0x270 drivers/usb/gadget/composite.c:333
+    configfs_composite_bind+0x667/0x9b0 drivers/usb/gadget/configfs.c:1802
+    gadget_bind_driver+0xed/0x390 drivers/usb/gadget/udc/core.c:1662
+    call_driver_probe drivers/base/dd.c:628 [inline]
+    really_probe+0x12f/0x3a0 drivers/base/dd.c:706
+    __driver_probe_device+0xe9/0x1a0 drivers/base/dd.c:868
+    driver_probe_device+0x28/0xf0 drivers/base/dd.c:898
+    __driver_attach drivers/base/dd.c:1292 [inline]
+    __driver_attach+0x10a/0x200 drivers/base/dd.c:1232
+    bus_for_each_dev+0xb8/0x120 drivers/base/bus.c:383
+    bus_add_driver+0x122/0x280 drivers/base/bus.c:763
+    driver_register+0xb1/0x140 drivers/base/driver.c:174
+    usb_gadget_register_driver_owner+0x69/0xe0 drivers/usb/gadget/udc/core.c:1752
+    gadget_dev_desc_UDC_store+0x153/0x1e0 drivers/usb/gadget/configfs.c:300
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
 
 
 ---
