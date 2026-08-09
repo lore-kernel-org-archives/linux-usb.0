@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478034E764;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748133603C7;
 	Sun,  9 Aug 2026 02:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786243093; cv=none; b=E6SYE0NyAkW+F1yyGYhM4bll9ODc0kHM0v+fEEDaN17qVa2ZY7g4GDfd3+42OfIqNklEdgQ7IUTjs5uQkxv3wgjmb/Eg/iObcK8DTDvgZ/FOUU9sXLgdJiGyirCi7M83jLqbmDIhG6+8wIzDEcPX38pMGKFR/yy4IJ2CfFarfFU=
+	t=1786243093; cv=none; b=j/GpvVTJYBj5d4M0fkc1sRbzbJu2j1TjblrbJMigQkNqUbEHVJhCbYcCCct5+oxbNC7vuX4PzuW/eP0qXwIUgUZqL2wyv0//6VxPxHU5YKLWLEsl8462eIFEjG3SrlrgPiocdcdYLVwGwBQDp4M9uhUT5joC9MV12BoyO5Q98Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786243093; c=relaxed/simple;
-	bh=F2BBxyzuQgU4YMuqnor0OM7ZeeVUY0kzCx+pxXcWUvs=;
+	bh=yv8xiCRj4YZ1ZWSz6pNLOkahPK2yqg7VK7awmmhphn4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g8oAj/VXkzCHlu5QrhtlOWK2kIb7ioJAUlaIOV+893Jv5uJZpNNt1k3aaDOiQGWn43Ookf5khe9xT38ewwLAhHLeKMAeC9uv4ZwYKBJ6tcRH3vTgrMEJmrd2iPDiHS7StkpXZXmyW4AIzfzdsf8eSv4BfahXVtaIwS5Jkk1/5Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTKzMrj9; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=YnLnLSwWu1tIBXeiihrjbOhCBi3jJUqBVZC1mi1UAxdLBd+N0unmZp8x4N0YjJ6sB0k856ejA/Kv53NbS+5LCE/5+gV14ZAQorElo/w3pFnfuKl4aEOVhmUBZ+0OEPa76HvFllSetKNX1O7SgkRNJbsO1Ru5BCRmDF70uA9HZ9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gPSX9udh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTKzMrj9"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B7490C2BCF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gPSX9udh"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A72A2C2BCF6;
 	Sun,  9 Aug 2026 02:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1786243092;
-	bh=F2BBxyzuQgU4YMuqnor0OM7ZeeVUY0kzCx+pxXcWUvs=;
+	bh=yv8xiCRj4YZ1ZWSz6pNLOkahPK2yqg7VK7awmmhphn4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FTKzMrj9LRypU9rE+9Q0y8zVKK9vvYKQTibyffEgb+FPT+KRJ5LwEqokbpxqMgEgf
-	 eiEA9h1OdOHv0s3uOPHBAyYL1g2dGFdu9xeyZuGPGpsNw86RljxpNGWGugbM96aCpZ
-	 YsRNEJK5dDkrb4VKC2ldID2wx4p/SzSHVcd3mC8QgKTOPXzuvGGWgYMTk2zKETCnNL
-	 90RO3J0OeFjz3c7YZiTGKmqy5JNLtN9DMHCBL5vvmUi5VDFlOvYvaekes/EmaXGlwK
-	 hNdMmXCvD7v8yBItXRDM/ZZCQ/wxa6Y9pQeuBU4lP0cS/kmTQatSYEetk/Em+J2iol
-	 Za10q0v6wkSEw==
+	b=gPSX9udhD88/BuTJ0d0yK2Im6G6hYxbk0ig3OlfTrDKZFxgZymGGz3AgNNeVhPH+N
+	 WNR9mD1s6rmjC69ccLfn/rGJ7CIL560oeIFj9VLorKzUAy315beLpn/XX5L9Dh6wVd
+	 hNM/xwIM2iqAznQv8qIHNraozCRPhW+TTli3vUlyDvpMKaAVuZ5jPjqxIkvRfub/Z/
+	 N3pfb08uFdSCA7F5VNa5Kv8BbYn2iUmrnL2qHFVhzqurtUgkH+zWKMgFyRwpvZn/BV
+	 mLSiNCow8s6Y9fB7iUaqs9s95+8AtucxNjlmBVYtzDn1IOEnMHqNbClIFalZtiZNwJ
+	 AW58F3Sc4C2wQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99187C5AD5A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 892CDC5AC67;
 	Sun,  9 Aug 2026 02:38:12 +0000 (UTC)
 From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
-Date: Sun, 09 Aug 2026 02:38:13 +0000
-Subject: [PATCH 2/2] thunderbolt: Stop waiting on a path pending bit that
- never clears
+Date: Sun, 09 Aug 2026 02:38:12 +0000
+Subject: [PATCH 1/2] thunderbolt: Report DMA path teardown failures to the
+ caller
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260809-b4-tb-teardown-v1-2-c88bbfe5c127@gmail.com>
+Message-Id: <20260809-b4-tb-teardown-v1-1-c88bbfe5c127@gmail.com>
 References: <20260809-b4-tb-teardown-v1-0-c88bbfe5c127@gmail.com>
 In-Reply-To: <20260809-b4-tb-teardown-v1-0-c88bbfe5c127@gmail.com>
 To: Andreas Noever <andreas.noever@gmail.com>, 
@@ -50,11 +50,11 @@ To: Andreas Noever <andreas.noever@gmail.com>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Fan Ye <fy15309206903@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786243091; l=12410;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786243091; l=13438;
  i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
- bh=I+Dii04wTbPkpgYws6HgBObtMsU7P9RXA14SBC0jPjI=;
- b=qbMjxchvgtop/u2jMRMMn2yX1weAHqhQSYKVv9M5jVThNT9030GYk8Cu+NQf+vzXa6ViF9JJb
- Mn3zZfuPoSBC1C8oDuOvwjQSJtVDFRIvVegj57PShmpEXaj08UGlR8e
+ bh=5AHRlpfrTSsFCbzNpyLtMvBMw9k0+EuueoiB50mmcF0=;
+ b=gw4IgH7ihJ5bILsxJcAMTO/S47Ohk9llAjSilkWSpfnowPTh+bC4CLk/Do1Sds1c0F1cS6Fzl
+ k8evFN6TRUCBG+MEqhMkyQ78IqNBmBOdJDAGQcGC2S3bX/M7eczbBbK
 X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
  pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
 X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
@@ -64,100 +64,64 @@ Reply-To: fy15309206903@gmail.com
 
 From: Fan Ye <fy15309206903@gmail.com>
 
-__tb_path_deactivate_hop() disables a hop and then waits up to 500 ms for
-its pending bit to read back as clear. On an ASMedia ASM4242 host router
-the bit belonging to the host interface adapter latches once the DMA ring
-feeding it has wrapped around, and from then on it never clears. Every
-teardown of a host-to-host DMA tunnel spends the full 500 ms on that hop
-and gives up anyway, which on a link that is brought up and down
-repeatedly is 500 ms every time for an answer that is already known.
+tb_disconnect_xdomain_paths() returns 0 unconditionally. Everything
+below it that could fail is a void function, so when a hop refuses to
+drain and __tb_path_deactivate_hop() gives up with -ETIMEDOUT, the only
+trace is one tb_port_warn() line; the connection manager reports success.
 
-The bit does not track anything the adapter is doing. A path that has
-just been activated and has never carried a single frame reads it set,
-and it is back to clear within a few seconds of that activation with no
-traffic at all - the activation is what gets it there, not time passing,
-which is why the polling further down never sees it move,
-and on a hop entry left behind by an earlier teardown it still reads set
-while the rest of the entry reads as zero - 129 times over a day of
-testing, against zero occurrences on any other adapter of the same
-router, which has four lane adapters, two PCIe down, two USB3 down and
-two DP in.
+One of the ICM implementations of the same cm_ops callback,
+icm_tr_disconnect_xdomain_paths(), does propagate its errors; the other,
+icm_fr_disconnect_xdomain_paths(), returns 0 unconditionally the way the
+software one does. So of the three implementations behind that callback
+only one tells the caller anything, and callers cannot tell which one
+they are talking to. tbnet has
 
-Reading the hop config space either side of the disable write shows the
-write lands and the controller does react to it, and that pending is all
-that is left:
+	ret = tb_xdomain_disable_paths(...);
+	if (ret)
+		netdev_warn(net->dev, "failed to disable DMA paths\n");
 
-  dw0  80000808 -> 00000808   enable cleared
-  dw1  127ff501 -> 107ff501   egress FC cleared by the controller
-        ^ bit 28, the only bit still set
+which therefore can only ever fire on the ICM hosts that use the _tr
+implementation, never on the software connection manager that every USB4
+host uses.
 
-Nothing reachable from the driver clears it from there. It still reads
-set after 30 s of polling (237528 config space reads), after 60 s of idle
-before the teardown is even started, and across a module unload and
-reload. The other hop of the same tunnel, the one on the lane adapter,
-drains on its first read in about 125 us.
+Give the software connection manager the same contract: return the first
+error seen while deactivating hops, and pass it up through
+tb_path_deactivate(), tb_tunnel_deactivate() and
+tb_deactivate_and_free_tunnel().
 
-What decides it is the ring, not an amount of traffic. With the tbnet
-ring at 128 and at 256 descriptors the first frame count whose teardown
-fails moves with it:
+Teardown still runs to completion on failure - the paths are marked
+inactive, the credits are released and the tunnel is freed exactly as
+before. What changes is that a caller which looks at the return value
+now gets told.
 
-  ring 128    100 frames  0/5 fail    120 frames  5/5 fail
-  ring 256    240 frames  0/5 fail    260 frames  5/5 fail
+One caller already looks, and it is worth spelling out what this does to
+it. tb_xdomain_disable_paths() decrements xd->ntunnels only when the
+callback returns 0, so on a hop that fails to drain the counter is now
+left incremented for a tunnel that is gone. Nothing reads it on this
+path - ntunnels is only consulted by the ICM implementations of
+approve_xdomain_paths(), which never run on a software connection
+manager - so this is inert today. It is still a real difference in what
+a nonzero return means between the two connection managers: for ICM it
+says the tunnel may still be up, for this one it says the tunnel is gone
+but a hop did not drain. If you would rather the counter stayed exact I
+can decrement it unconditionally there, but that only makes sense
+alongside the guarantee this patch adds, so I left it out.
 
-Every point is either five failures out of five or none, and the pending
-bit read back before the disable write agrees with the outcome in each of
-those 40 rounds. Traffic keeps flowing at full rate afterwards, so
-nothing is stuck behind the bit either.
+This matters more than a lost warning. On an ASMedia ASM4242 host router
+the Tx path hop reports its pending bit set once the Tx ring has wrapped
+once and never clears it again, so every teardown after that burns the
+full 500 ms timeout and fails. Cycling the interface down and up 200
+times across two such hosts produced 213 and 206 of those timeouts, and
+the connection manager reported every one of them as success.
 
-I would like to say the trigger is the ring wrapping round, and for the
-256 ring the threshold does straddle 256. It does not for the 128 one:
-120 frames is already enough there, short of a full lap. So the two sizes
-show that the point moves with the ring, not that the wrap itself is what
-does it. A third size would say more than I can.
+With this patch the first of them arrives at tbnet as well:
 
-The connection manager already gives up when the wait times out - the
-caller only warns and carries on. So the question is not whether to wait
-it out, but whether to spend the timeout re-learning the same answer on
-every subsequent teardown. Remember it on the adapter instead and skip
-the wait after that.
+  thunderbolt 0000:70:00.0: 0:5: hop deactivation failed for hop 0, index 1
+  thunderbolt-net 0-1.0 thunderbolt0: failed to disable DMA paths
 
-The first timeout is still reported, because __tb_path_deactivate_hops()
-warns on it before anything is remembered. That holds for teardowns; the
-other caller of __tb_path_deactivate_hop() is tb_path_activate(), which
-discards the return value, so a first timeout arriving there would set
-the flag without a word. In the runs below it never did - the hop reads
-back disabled by then and the function returns early - but that is an
-observation, not something the code guarantees.
-
-This needs no vendor matching: an adapter whose pending bit behaves never
-sets the flag, so nothing changes for hardware that works, whoever made
-it. It is however limited to host interface adapters. A lane, PCIe, USB3
-or DP adapter that latched the bit the same way would still burn the
-timeout on every teardown. I scoped it that way because that is where I
-have evidence - 466 timeouts on the host interface adapter of this router
-against 3 on its lane adapter over the same day, and the lane adapter
-drained on the first read every other time - not because I know the
-others cannot do it.
-
-Measured by cycling the interface down and up 200 times over 80 minutes
-between two of these hosts, from a cold boot, with no module reloads in
-between. Only the thunderbolt module differs between the two runs:
-
-                                        without      with
-    hop deactivation failed              213 / 206    1 / 1
-    wall clock per cycle                 23.4 s       22.9 s
-                                     (host A / host B)
-
-One report per adapter instead of one per teardown, and the run comes out
-110 seconds shorter over its 200 cycles - 4682 against 4572 seconds of
-wall clock, which is where the per-cycle figures above come from. The
-script's own delays are fixed, so that difference is the timeout itself:
-200 cycles at half a second each would be 100 seconds, and the measured
-110 is that plus whatever the rest of the run varied by.
-
-The report lands on the first teardown, which is where a latched bit
-shows up, not during the deactivate that tb_path_activate() does before
-programming a hop.
+Both lines are from the same second and the same teardown, the first from
+__tb_path_deactivate_hops() and the second from tbnet, which had no way
+of hearing about it before.
 
 Signed-off-by: Fan Ye <fy15309206903@gmail.com>
 
@@ -173,7 +137,7 @@ reason below.
   3 thunderbolt: Report DMA path teardown failures to the caller
   4 thunderbolt: Stop waiting on a path pending bit that never clears
 
-This one is number 4 on that list.
+This one is number 3 on that list.
 
 1 and 2 fix two separate things that happen to be reached through the
 same branch. Neither depends on the other for correctness - each leaves
@@ -192,128 +156,262 @@ failure to be reported and silences the rest, so 3's new signal fires
 once per adapter here rather than on every teardown. 4 is the one I am
 least sure of, for the reasons in its own notes.
 
-Measured on two ASM4242 hosts linked to each other, hw_vendor_id 0x174c,
-hw_device_id 0x2428, NVM 200011.250708. The base is v6.17 with three
-later commits on top, which the link needs before it stays up long enough
-to measure anything across:
+This widens three signatures, across fifteen call sites of which twelve
+still ignore the value:
 
-  7e49bb89df86 ("thunderbolt: Avoid reserved fields in path config space
-                 for USB4 routers")
-  1881f2efbf7f ("Revert "net: thunderbolt: Enable end-to-end flow control
-                 also in transmit"")
-  68bf02b6b4ad ("net: thunderbolt: Tear down DMA paths before stopping the
-                 rings")
+  tb_path_deactivate()            2 sites, 1 collects
+  tb_tunnel_deactivate()          8 sites, 1 collects
+  tb_deactivate_and_free_tunnel() 5 sites, 1 collects
 
-plus the two thunderbolt-net patches earlier in this list.
+The one tb_path_deactivate() site that does not collect is in
+tb_tunnel_activate(), which disables each hop before programming it and
+has nothing to do with a teardown failing; I left it alone deliberately.
+The twelve behaved the same before and behave the same now. The
+alternative I could see was threading a separate out-parameter down to
+the one caller that cares, which seemed worse.
 
-This started out as a quirk keyed on that hardware id, and the one-shot
-form is better on every count I can think of. Three things about it are
-worth saying plainly.
+tb_path_deactivate() also gains a second error return: it now answers
+-EINVAL for a path that is not activated, where it used to warn and
+return void. Both callers guard on paths[i]->activated so nothing can
+reach it today, but it does travel the same channel as a real hop
+failure if a future caller stops guarding.
 
-One timeout is enough to set the flag, and that is a deliberate choice
-rather than an oversight. A host interface adapter whose bit works but
-whose poll happened to time out once - a busy control channel, say -
-would stop being waited on for the rest of that switch's lifetime. I have
-not seen that happen on a host interface adapter, but I have seen a
-single timeout on an adapter that was otherwise fine: the lane adapter of
-this router timed out three times over the same day and drained on the
-first read every other time. That adapter is out of scope here, so it
-would not have been flagged, but it is the shape of the thing I cannot
-rule out. I settled on one because the caller already ignores the
-timeout, so a false positive costs a diagnostic that was being thrown
-away anyway - it is a counter away from being stricter if you would
-rather it were.
-
-I cannot show that skipping the wait is safe. Either controller can stop
-answering config space entirely (probe -110, cold boot to recover); over
-one day I logged 16 of those, five on one host and eleven on the other,
-on the distribution kernel and on the unmodified base as much as with
-anything of mine. None of them fell inside the four 200-cycle runs, which
-between them are about five and a half hours of nothing but bringing the
-link up and down - they cluster around module loads and deployments
-instead. So the runs above cannot speak to that rate either way, and I
-would rather say so than let them suggest the question is settled.
-
-And I cannot answer the spec question. I do not have the USB4 Connection
-Manager guide, so I cannot tell whether the pending bit of a protocol
-adapter is vendor defined the way its IFC, ISE and Path Credits Allocated
-fields are - which 7e49bb89df86 already has the CM keep its hands off.
-
-That last one is where I would most like help. If someone who has the
-guide could check that one field, it decides whether this patch is the
-right shape or whether the CM simply should not be waiting on that bit at
-all, in which case this is working around a symptom and should be
-dropped. It would also be worth ASMedia confirming the behaviour against
-the NVM above.
-
-The other thing I would be glad of is coverage. Everything above was
-measured on one model of router, and the flag is only ever set by an
-adapter that has already failed to clear the bit within the existing
-500 ms, so hardware that behaves should never reach it - but that is an
-argument, not a measurement. If anyone with an Intel or Barlow Ridge host
-can run a few hundred link cycles with this applied and confirm the flag
-stays clear, I would be much happier about it than I am now.
+The direction here is a judgement call and I may have it backwards. I
+made the software connection manager match ICM because tbnet and
+dma_test are both written as if the callback returns errors, and on ICM
+it does. The other way round - having ICM stop propagating - would also
+make the two agree, and would not touch as much code. If that is the
+preferred direction, say so and I will send that instead.
 ---
- drivers/thunderbolt/path.c | 17 +++++++++++++++++
- drivers/thunderbolt/tb.h   |  3 +++
- 2 files changed, 20 insertions(+)
+ drivers/thunderbolt/path.c   | 21 +++++++++++++++------
+ drivers/thunderbolt/tb.c     | 35 +++++++++++++++++++++++------------
+ drivers/thunderbolt/tb.h     |  2 +-
+ drivers/thunderbolt/tunnel.c | 19 +++++++++++++++----
+ drivers/thunderbolt/tunnel.h |  2 +-
+ 5 files changed, 55 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index 81a79c78777e..0dcc3deb6f61 100644
+index b2c322e76b8a..81a79c78777e 100644
 --- a/drivers/thunderbolt/path.c
 +++ b/drivers/thunderbolt/path.c
-@@ -397,6 +397,14 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * This adapter has already been seen to leave the pending bit set
-+	 * for good, so there is nothing to wait for. The hop is disabled
-+	 * by the write above either way, which is what the caller needs.
-+	 */
-+	if (port->no_drain_status)
-+		return 0;
-+
- 	/* Wait until it is drained */
- 	timeout = ktime_add_ms(ktime_get(), 500);
- 	do {
-@@ -430,6 +438,15 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
- 		usleep_range(10, 20);
- 	} while (ktime_before(ktime_get(), timeout));
- 
-+	/*
-+	 * Some host interface adapters latch the pending bit and never
-+	 * clear it again, and there is nothing the connection manager can
-+	 * do about that from here. Report it once and stop spending the
-+	 * timeout on this adapter on every teardown from now on.
-+	 */
-+	if (tb_port_is_nhi(port))
-+		port->no_drain_status = true;
-+
- 	return -ETIMEDOUT;
+@@ -448,26 +448,33 @@ int tb_path_deactivate_hop(struct tb_port *port, int hop_index)
+ 	return __tb_path_deactivate_hop(port, hop_index, true);
  }
  
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index a9a32b64fe2a..8c022d2724e9 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -273,6 +273,8 @@ struct tb_bandwidth_group {
-  * @max_bw: Maximum possible bandwidth through this adapter if set to
-  *	    non-zero.
-  * @redrive: For DP IN, if true the adapter is in redrive mode.
-+ * @no_drain_status: The pending bit of this adapter's path config space
-+ *		     stayed set once, so it is not waited on any more
-  *
-  * In USB4 terminology this structure represents an adapter (protocol or
-  * lane adapter).
-@@ -302,6 +304,7 @@ struct tb_port {
- 	struct list_head group_list;
- 	unsigned int max_bw;
- 	bool redrive;
-+	bool no_drain_status;
- };
+-static void __tb_path_deactivate_hops(struct tb_path *path, int first_hop)
++static int __tb_path_deactivate_hops(struct tb_path *path, int first_hop)
+ {
+-	int i, res;
++	int i, res, ret = 0;
+ 
+ 	for (i = first_hop; i < path->path_length; i++) {
+ 		res = __tb_path_deactivate_hop(path->hops[i].in_port,
+ 					       path->hops[i].in_hop_index,
+ 					       path->clear_fc);
+-		if (res && res != -ENODEV)
++		if (res && res != -ENODEV) {
+ 			tb_port_warn(path->hops[i].in_port,
+ 				     "hop deactivation failed for hop %d, index %d\n",
+ 				     i, path->hops[i].in_hop_index);
++			if (!ret)
++				ret = res;
++		}
+ 	}
++
++	return ret;
+ }
+ 
+-void tb_path_deactivate(struct tb_path *path)
++int tb_path_deactivate(struct tb_path *path)
+ {
++	int ret;
++
+ 	if (!path->activated) {
+ 		tb_WARN(path->tb, "trying to deactivate an inactive path\n");
+-		return;
++		return -EINVAL;
+ 	}
+ 	tb_dbg(path->tb,
+ 	       "deactivating %s path from %llx:%u to %llx:%u\n",
+@@ -475,9 +482,11 @@ void tb_path_deactivate(struct tb_path *path)
+ 	       path->hops[0].in_port->port,
+ 	       tb_route(path->hops[path->path_length - 1].out_port->sw),
+ 	       path->hops[path->path_length - 1].out_port->port);
+-	__tb_path_deactivate_hops(path, 0);
++	ret = __tb_path_deactivate_hops(path, 0);
+ 	__tb_path_deallocate_nfc(path, 0);
+ 	path->activated = false;
++
++	return ret;
+ }
  
  /**
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index f43f2d952372..d5bc31a8b184 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -1719,15 +1719,16 @@ static void tb_discover_tunnels(struct tb *tb)
+ 	}
+ }
+ 
+-static void tb_deactivate_and_free_tunnel(struct tb_tunnel *tunnel)
++static int tb_deactivate_and_free_tunnel(struct tb_tunnel *tunnel)
+ {
+ 	struct tb_port *src_port, *dst_port;
+ 	struct tb *tb;
++	int ret;
+ 
+ 	if (!tunnel)
+-		return;
++		return 0;
+ 
+-	tb_tunnel_deactivate(tunnel);
++	ret = tb_tunnel_deactivate(tunnel);
+ 	list_del(&tunnel->list);
+ 
+ 	tb = tunnel->tb;
+@@ -1767,6 +1768,8 @@ static void tb_deactivate_and_free_tunnel(struct tb_tunnel *tunnel)
+ 	}
+ 
+ 	tb_tunnel_put(tunnel);
++
++	return ret;
+ }
+ 
+ /*
+@@ -2365,14 +2368,15 @@ static int tb_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	return ret;
+ }
+ 
+-static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+-					  int transmit_path, int transmit_ring,
+-					  int receive_path, int receive_ring)
++static int __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
++					 int transmit_path, int transmit_ring,
++					 int receive_path, int receive_ring)
+ {
+ 	struct tb_cm *tcm = tb_priv(tb);
+ 	struct tb_port *nhi_port, *dst_port;
+ 	struct tb_tunnel *tunnel, *n;
+ 	struct tb_switch *sw;
++	int res, ret = 0;
+ 
+ 	sw = tb_to_switch(xd->dev.parent);
+ 	dst_port = tb_port_at(xd->route, sw);
+@@ -2385,8 +2389,11 @@ static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 			continue;
+ 
+ 		if (tb_tunnel_match_dma(tunnel, transmit_path, transmit_ring,
+-					receive_path, receive_ring))
+-			tb_deactivate_and_free_tunnel(tunnel);
++					receive_path, receive_ring)) {
++			res = tb_deactivate_and_free_tunnel(tunnel);
++			if (res && !ret)
++				ret = res;
++		}
+ 	}
+ 
+ 	/*
+@@ -2395,20 +2402,24 @@ static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	 * the same host router USB4 downstream port.
+ 	 */
+ 	tb_enable_clx(sw);
++
++	return ret;
+ }
+ 
+ static int tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 				       int transmit_path, int transmit_ring,
+ 				       int receive_path, int receive_ring)
+ {
++	int ret = 0;
++
+ 	if (!xd->is_unplugged) {
+ 		mutex_lock(&tb->lock);
+-		__tb_disconnect_xdomain_paths(tb, xd, transmit_path,
+-					      transmit_ring, receive_path,
+-					      receive_ring);
++		ret = __tb_disconnect_xdomain_paths(tb, xd, transmit_path,
++						    transmit_ring, receive_path,
++						    receive_ring);
+ 		mutex_unlock(&tb->lock);
+ 	}
+-	return 0;
++	return ret;
+ }
+ 
+ /* hotplug handling */
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index ec9192b61bc0..a9a32b64fe2a 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1197,7 +1197,7 @@ struct tb_path *tb_path_alloc(struct tb *tb, struct tb_port *src, int src_hopid,
+ 			      const char *name);
+ void tb_path_free(struct tb_path *path);
+ int tb_path_activate(struct tb_path *path);
+-void tb_path_deactivate(struct tb_path *path);
++int tb_path_deactivate(struct tb_path *path);
+ int tb_path_deactivate_hop(struct tb_port *port, int hop_index);
+ bool tb_path_is_invalid(struct tb_path *path);
+ bool tb_path_port_on_path(const struct tb_path *path,
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index b7f32305f14a..21d866476379 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -2454,10 +2454,16 @@ int tb_tunnel_activate(struct tb_tunnel *tunnel)
+ /**
+  * tb_tunnel_deactivate() - deactivate a tunnel
+  * @tunnel: Tunnel to deactivate
++ *
++ * Deactivates all paths of the tunnel. This always runs to completion,
++ * even if a path fails to deactivate.
++ *
++ * Return: %0 on success, or the first error seen while deactivating the
++ * paths.
+  */
+-void tb_tunnel_deactivate(struct tb_tunnel *tunnel)
++int tb_tunnel_deactivate(struct tb_tunnel *tunnel)
+ {
+-	int i;
++	int i, res, ret = 0;
+ 
+ 	tb_tunnel_dbg(tunnel, "deactivating\n");
+ 
+@@ -2465,14 +2471,19 @@ void tb_tunnel_deactivate(struct tb_tunnel *tunnel)
+ 		tunnel->activate(tunnel, false);
+ 
+ 	for (i = 0; i < tunnel->npaths; i++) {
+-		if (tunnel->paths[i] && tunnel->paths[i]->activated)
+-			tb_path_deactivate(tunnel->paths[i]);
++		if (tunnel->paths[i] && tunnel->paths[i]->activated) {
++			res = tb_path_deactivate(tunnel->paths[i]);
++			if (res && !ret)
++				ret = res;
++		}
+ 	}
+ 
+ 	if (tunnel->post_deactivate)
+ 		tunnel->post_deactivate(tunnel);
+ 
+ 	tb_tunnel_set_active(tunnel, false);
++
++	return ret;
+ }
+ 
+ /**
+diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
+index 4878763a82b3..deb07af85ab2 100644
+--- a/drivers/thunderbolt/tunnel.h
++++ b/drivers/thunderbolt/tunnel.h
+@@ -137,7 +137,7 @@ struct tb_tunnel *tb_tunnel_alloc_usb3(struct tb *tb, struct tb_port *up,
+ 
+ void tb_tunnel_put(struct tb_tunnel *tunnel);
+ int tb_tunnel_activate(struct tb_tunnel *tunnel);
+-void tb_tunnel_deactivate(struct tb_tunnel *tunnel);
++int tb_tunnel_deactivate(struct tb_tunnel *tunnel);
+ 
+ /**
+  * tb_tunnel_is_active() - Is tunnel fully activated
 
 -- 
 2.43.0
