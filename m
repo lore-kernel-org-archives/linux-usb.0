@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17A438425A
-	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 23:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6993793BA
+	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 23:36:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786318532; cv=none; b=AtTC6JBHkTdHcoeFanppCfWBrrmWnxMTiNaSz59updi0u+o/Bjhoju0gsiUsTi7KaPZn3/ad3NKDWnakkhucac7dMLNQ6BbgXsT4QGCe3ZjoHMVxFRbgcT2NdU9ukDXjWyPYJ2Nf0+DEQeKquOCOt88gQwcGOVL6kgp4jzEvwNI=
+	t=1786318564; cv=none; b=XvmxQ4tr2ZCIXAyiRx9tl6fEff+vxeh1mIzQIwMT4nHIYtcTsREecq8B5ZwumwqI8UkVgLyVXGAhILFcNfZqae++cIhiibg0svwFYQcLmUwefNDBfH88K/ivYct3Du1VYNtUEVS3xJt5EmYvNZ0+QIleI15fDPjdKRVcuncx9tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786318532; c=relaxed/simple;
-	bh=W2XIAnVvAMo2OU99YeMzNQOpabKjEgQfKLo9l0z9CAk=;
+	s=arc-20240116; t=1786318564; c=relaxed/simple;
+	bh=vTgTxxHS41ZalnaK1eqXMaIq1KlFSZSfZUynSsRF3LY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=m8a1g6vASyxzpbf9W05+l36bawp4D+rWtdemaUy2rccUViILq5m5RYMH05mly9YrcqLGX5kIbcAbWn8T3OdWPtxC3U1t4Ae0NZaLqTYL6/tcQuXW4mz/j7pegXR6TXLVorQFJTQ3yTr1GUh5ZpYqTG99q4RvVLVJy+TD1oVO4h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z30TeKny; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=KNKgSLxPpXQPgOC9YnanirCuzAhuJ6E+grTMpMY9ltg24nZ/jPkB7yYaZao4DRydfWuuj3rnDHEnRcmQTHu8xB8zpP79EBlu2wJYyLxCSpSba5ln79jkRMuJ8pPfcCApfjYBmK4rBRVtqBUfbyMY8siGCTIazdAu7kFeclZbqYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yud6IMdq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z30TeKny"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CAFD0C2BCB9
-	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 23:35:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yud6IMdq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1427BC2BCB9
+	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 23:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786318531;
-	bh=W2XIAnVvAMo2OU99YeMzNQOpabKjEgQfKLo9l0z9CAk=;
+	s=k20201202; t=1786318564;
+	bh=vTgTxxHS41ZalnaK1eqXMaIq1KlFSZSfZUynSsRF3LY=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Z30TeKnyz0hg0k+0wdA7Gfvg9k1mJCfjX/c4tigy8bGp3j1h3YURAsSPET0mY6TNc
-	 JzHRDTKpDAQhCYEJYZS7HZq2qRUaUC38d3Y4L5lk3LschdG27hRG4X3pj/WT0HXUuk
-	 McqoKNjiZ3jdfqp/IdPhy91v7FeVyZGsnSTYhF+eHKld/I8u+rGkGkR5H+MuwgcV+l
-	 EzoPlgPaxOzrdEIMJrHjMA4exKB38JtLtcXBf3bt5bZDeq4N4l+8murAQU4z7y3pIV
-	 LWVf8BDuUdceg5ImYPeaTD+JJyagJ/0G+T/EvXNNsydeoEySs2T2u8ABv2opuUyZRC
-	 IYE3RiG5vIYQw==
+	b=Yud6IMdqEbcb8AG1dG3il0Nf4anbuvfjPYKHUdq6uhFKd//doYIwZkiZ46LMG4JJp
+	 z++B6Oi0oUxtXV2icrF2T6aWbO4W9FTrl/14ksAI5lbbs28bji+zDkiQd6AehB7rdb
+	 BJOWntVAJ8B4+4Lzu+AOAm+ylFnF2N0R8ypoV62Z0AksRQWRxLESMrVPH8s1qQqIrM
+	 1izBn8mavL8+Qxe4BuMMRii7h5yipKoH2/LlxdcbgVP6+uHlKNaOnq4QrlAykzaheH
+	 /Va6piMFxQS/xANe7N645WAGvtsk58zonmyGym3HcSBIkLIhXnuqqRuQVzE4Nwajmm
+	 4pNc2f5kPMAKQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id B8A0DC4160E; Sun,  9 Aug 2026 23:35:31 +0000 (UTC)
+	id 01C80C4160E; Sun,  9 Aug 2026 23:36:04 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221861] ucsi_acpi fails to probe on HP EliteBook X G1a
  (PNP0CA0/USBC000:00), USB-PD stuck at 100W SPR, cannot reach 140W EPR
-Date: Sun, 09 Aug 2026 23:35:31 +0000
+Date: Sun, 09 Aug 2026 23:36:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221861-208809-jJOXXYwNde@https.bugzilla.kernel.org/>
+Message-ID: <bug-221861-208809-ABKkjdb4F4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221861-208809@https.bugzilla.kernel.org/>
 References: <bug-221861-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221861
 
---- Comment #4 from jayden.blain@gmail.com ---
-Created attachment 310611
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310611&action=3Dedit
-acpidump
+--- Comment #5 from jayden.blain@gmail.com ---
+Created attachment 310612
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310612&action=3Dedit
+ssdt17 dsl
 
 --=20
 You may reply to this email to add a comment.
