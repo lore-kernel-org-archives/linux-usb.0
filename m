@@ -1,135 +1,215 @@
-Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D593B1EC7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009A73B19A5
 	for <linux-usb@vger.kernel.org>; Sun,  9 Aug 2026 19:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786302823; cv=none; b=Xct1o2VbNZANh7pLLWPMQzzZuiENEG2ptL2/bFEQLiHrT0KGxfV5RnoUg5WN33Ggij+zSben7XAXsvnRrQrcOtzUvm/yggD5RrARhnwE3pl3HsbSRnINsNDzTI6G+hjZEPqlRBDeLniy3lDWhrW0+icxMwtEOqegbxqiL3J6pS4=
+	t=1786302822; cv=none; b=s9kZuqjqo8sKk05VgxUaILobUrYGZ+lYbFct3b1wZmJ7HVZJp9NqqWASpFG2EN9Jo+izyzkbpT712iHlj1iiobNxP8Y+M4jXc4nNzocjQie9WkqTLuoj+LxXeShMk9dqzTu1soLAYgaSOSUd+DEy1YYL9KB/H9UG/LzycOQ3DcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786302823; c=relaxed/simple;
-	bh=2b1WiZTnCcPOFsbbumIvx0wN6TuVbDd/NU+5LTA+Dl4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QijFEmixQnIPNQACT4mtaaSq7LgP+cIe8pIYd1I/UX/RSQGReAPdoGzQd9dgTwzlMIvIOFoFBcIiRiZNbSwSoTgPY0wKwQHghCco0H2cWSEZbaeBWjrk4KQi2qzIeTyZ9u6fmdVm1CuowMClIf0dc/drXRSbBtJERhpP5/LEcpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
+	s=arc-20240116; t=1786302822; c=relaxed/simple;
+	bh=YlUozqL+pNCTPZjh0WOpVKZ09K4EJPn8LY5CZInsdS4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ln9aEyJbWeoU9tJXrOM5vI3agyy7ooIY7WvcPWWgc7tsIeWAxsEpFfBYdXESA6iR7BVbfLfJCS8OdbJCBlhH2DE0bcHNq5gwXpu72e3StcMNF0mIvAfQa2a17HuFBod9SRXbX0VnQpO2wLdlMMLyNWsn7SLz/yQiOKc2ER3Td7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-6ae4917006eso860701eaf.2
+Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-6a0f261aeb6so1398772eaf.3
         for <linux-usb@vger.kernel.org>; Sun, 09 Aug 2026 12:13:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1786302816; x=1786907616;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nr9czbpiDY2aYjkJ1zIfJ1Y8AGVvSucR8vX6OAs8zKU=;
-        b=G7knrwsNlWEJkAPek30DN2z8QEB2hMlR07bsecaayEFhv1QENDof51DyyMnkfKtE+a
-         gu9xmrHFWeuPQNNsZ/Pj1uO0PlsF5a9209NFp47XWR9GfeWPs5Ik64hqRopz95WeUSNI
-         cQw95fv2HGrQpqJOSXevyWMIoHcxhSlEYSc3ZXyV6OchpcDuO38YhD/HpUxkTVrBN92V
-         poZKiQ2kx2i1zGoOoOt/5dU7dPUg32Przf90WdFtzJWKsLVPVYnlaDCwkht49cwpsSV2
-         b9LPfCsapFWT1gtCrXhmnjEgRzavMuxi9uWRJ8nAzPyrPENUDBp6EdPRqSjDmC+W2oMx
-         4Ptg==
-X-Forwarded-Encrypted: i=1; AHgh+RpH5U89Ct5NlqFQnvgLJwFOUHIws00RfND7xCYEoNM4W17B7t4td6V7zUIBwVDINFNwKOSwn+EkGaE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJkzVlKmARZ0NQvc0JDfUkIBS8uOui+ej2lMcHOqyISHVBpJxO
-	AYgEaLEqvU378vbEGNu7OrSg0tmiG0yj29Huc7h6DM1quzBJT6BZP9u0LNDQLH8aHxhCmoDItWX
-	sJph5qfZcEGb2F9zabXEyL7M0spzurLgSywetDgqwWCAPWZQccl0WDdINWoE=
+        bh=7DxYcKDooR4FwgKlCxuoRI/oVR2/Ow72rmZBy2HjH1s=;
+        b=F51jC2CHvwf4ogWZtOP2yGvO5EY8osABhtiF8OlnyNFdgsIyb0gsv0aCXUSgZjhmzi
+         BUKN7mOiM5C0nVo5ABfL/nFu2PuwoqwA1IqRjysczJmSFGd1nOZFE/wF82KNdHkjD3hP
+         KkxXOC6JQ2eod0xymR14O6gWH9LmIzvYSM27FSR//QXNiPLTFjPmeKYpt+1xCKAkfA+Q
+         +proCiRoYoJCQ5Zmb2pckQqcIpDECqDDa2odA9kOUp5ct72n3+5ZQaQKn6VghM4zmhRB
+         hpf57xm3EKznUOdPrbDp4nf2xgy8tKIJGZofi/1hI+vCN/Oo7iFTWkIGH1PNFq19QZ+8
+         CIDQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoEgN1JlMefVSTqfv//gvujtE9zsRpxJGMsjPzWc2+KD+TxnV+riZZN+FpHwJu+VnfuyX4Ug7/UMxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGa/MaHZQkCe+AtDDxptlx5y6ZiBmceMzKNQamlxF6Tp5GCssN
+	oRNeL88G+G2mTDVhPZctLJrNRscb+0kUnDpUsxNM21p3nLq4XtE80gscNSRvY/0Ua4sS0cqBdHU
+	VWQi+Bza209tUd3fL7ZT2gLRrS4jHl1KsvoRSkvMhzxY2bRIET6eQEDdlvm4=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2084:b0:6aa:a1e5:f596 with SMTP id
- 006d021491bc7-6ae96c1005dmr19512692eaf.3.1786302816187; Sun, 09 Aug 2026
+X-Received: by 2002:a05:6820:188e:b0:6ae:4767:a503 with SMTP id
+ 006d021491bc7-6b035405ca2mr9166107eaf.34.1786302816602; Sun, 09 Aug 2026
  12:13:36 -0700 (PDT)
 Date: Sun, 09 Aug 2026 12:13:36 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a78d160.01d0871a.3a0d52.0090.GAE@google.com>
-Subject: [syzbot] [usb?] WARNING: refcount bug in trace_suspend_resume (2)
-From: syzbot <syzbot+8496ab5e117502750445@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Message-ID: <6a78d160.01d0871a.3a0d52.0092.GAE@google.com>
+Subject: [syzbot] [media?] [usb?] WARNING in ttusb_dec_start_feed
+From: syzbot <syzbot+e1dbaae5eefaa2dfbc35@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org, mchehab@kernel.org, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    3f008280327b Merge tag 'pinctrl-v7.2-3' of git://git.kerne..
-git tree:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux master
-console output: https://syzkaller.appspot.com/x/log.txt?x=16e7efb9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fa49d7bda29d9792
-dashboard link: https://syzkaller.appspot.com/bug?extid=8496ab5e117502750445
-compiler:       arm-linux-gnueabi-gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: arm
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17013fb9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1557a132580000
+HEAD commit:    ba5cc80fd326 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=1702bfb9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccf4bea59f67007
+dashboard link: https://syzkaller.appspot.com/bug?extid=e1dbaae5eefaa2dfbc35
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13af6fb9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15c56132580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/98a89b9f34e4/non_bootable_disk-3f008280.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ac9e46e45e52/vmlinux-3f008280.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/491a8a3d010a/zImage-3f008280.xz
+disk image: https://storage.googleapis.com/syzbot-assets/959ad5f4e730/disk-ba5cc80f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0787d25f251e/vmlinux-ba5cc80f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2e85c36fabac/Image-ba5cc80f.gz.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8496ab5e117502750445@syzkaller.appspotmail.com
+Reported-by: syzbot+e1dbaae5eefaa2dfbc35@syzkaller.appspotmail.com
 
-udc dummy_udc.1: failed to start USB Gadget filesystem: -12
-gadgetfs gadget.1: probe with driver gadgetfs failed with error -12
-UDC core: USB Gadget filesystem: couldn't find an available UDC
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
 ------------[ cut here ]------------
-WARNING: lib/refcount.c:28 at refcount_warn_saturate+0x134/0x170 lib/refcount.c:28, CPU#0: syz.2.17/4036
-refcount_t: underflow; use-after-free.
+memcpy: detected buffer overflow: 75 byte read of buffer size 60
+WARNING: lib/string_helpers.c:1037 at __fortify_report+0xa0/0xb8 lib/string_helpers.c:1036, CPU#1: kworker/1:3/4388
 Modules linked in:
-Kernel panic - not syncing: kernel: panic_on_warn set ...
-CPU: 0 UID: 0 PID: 4036 Comm: syz.2.17 Not tainted syzkaller #0 PREEMPT 
-Hardware name: ARM-Versatile Express
-Call trace: 
-[<80201998>] (dump_backtrace) from [<80201a8c>] (show_stack+0x18/0x1c arch/arm/kernel/traps.c:257)
- r7:82a20f78 r6:00000000 r5:82333190 r4:00000001
-[<80201a74>] (show_stack) from [<8021e60c>] (__dump_stack lib/dump_stack.c:94 [inline])
-[<80201a74>] (show_stack) from [<8021e60c>] (dump_stack_lvl+0x5c/0x70 lib/dump_stack.c:120)
-[<8021e5b0>] (dump_stack_lvl) from [<8021e638>] (dump_stack+0x18/0x1c lib/dump_stack.c:129)
- r7:82a20f78 r6:00000000 r5:83e0c980 r4:82c83d40
-[<8021e620>] (dump_stack) from [<80202590>] (vpanic+0x114/0x320 kernel/panic.c:651)
-[<8020247c>] (vpanic) from [<802027d0>] (trace_suspend_resume+0x0/0x100 kernel/panic.c:788)
- r7:809300ec
-[<8020279c>] (panic) from [<80250a80>] (check_panic_on_warn kernel/panic.c:525 [inline])
-[<8020279c>] (panic) from [<80250a80>] (get_taint+0x0/0x1c kernel/panic.c:520)
- r3:82a0b144 r2:00000001 r1:82318ef4 r0:82320850
-[<80250a08>] (check_panic_on_warn) from [<80250bfc>] (__warn+0x98/0x1a4 kernel/panic.c:1104)
-[<80250b64>] (__warn) from [<80250ef0>] (warn_slowpath_fmt+0x1e8/0x1f4 kernel/panic.c:1144)
- r8:00000009 r7:8238cee4 r6:e0259da4 r5:83e0c980 r4:00000000
-[<80250d0c>] (warn_slowpath_fmt) from [<809300ec>] (refcount_warn_saturate+0x134/0x170 lib/refcount.c:28)
- r10:8475ea00 r9:00000000 r8:838acb10 r7:8553bc80 r6:835f77f8 r5:00000000
- r4:85c7f600
-[<8092ffb8>] (refcount_warn_saturate) from [<81120650>] (__refcount_sub_and_test include/linux/refcount.h:400 [inline])
-[<8092ffb8>] (refcount_warn_saturate) from [<81120650>] (__refcount_dec_and_test include/linux/refcount.h:432 [inline])
-[<8092ffb8>] (refcount_warn_saturate) from [<81120650>] (refcount_dec_and_test include/linux/refcount.h:450 [inline])
-[<8092ffb8>] (refcount_warn_saturate) from [<81120650>] (put_dev+0x4c/0x6c drivers/usb/gadget/legacy/inode.c:165)
-[<81120604>] (put_dev) from [<81120718>] (dev_release+0x48/0x6c drivers/usb/gadget/legacy/inode.c:1215)
-[<811206d0>] (dev_release) from [<805a1bcc>] (__fput+0xd8/0x2f4 fs/file_table.c:512)
- r5:040f801b r4:85a2ef00
-[<805a1af4>] (__fput) from [<805a1e7c>] (____fput+0x14/0x18 fs/file_table.c:540)
- r9:00000000 r8:83e0d214 r7:82c846ac r6:83e0c980 r5:83e0d1e0 r4:00000000
-[<805a1e68>] (____fput) from [<8027d7c8>] (task_work_run+0x8c/0xb4 kernel/task_work.c:233)
-[<8027d73c>] (task_work_run) from [<80257888>] (exit_task_work include/linux/task_work.h:40 [inline])
-[<8027d73c>] (task_work_run) from [<80257888>] (do_exit+0x2ac/0xadc kernel/exit.c:1009)
- r9:00000000 r8:e0259e90 r7:83e0d210 r6:850c5d4c r5:83e0c980 r4:850c5c00
-[<802575dc>] (do_exit) from [<8025828c>] (do_group_exit+0x40/0x8c kernel/exit.c:1152)
- r7:00000004
-[<8025824c>] (do_group_exit) from [<80269358>] (get_signal+0xa68/0xa90 kernel/signal.c:3046)
- r7:00000004 r4:83e0c980
-[<802688f0>] (get_signal) from [<8022a630>] (do_signal arch/arm/kernel/signal.c:579 [inline])
-[<802688f0>] (get_signal) from [<8022a630>] (do_work_pending+0x124/0x4f0 arch/arm/kernel/signal.c:619)
- r10:00000004 r9:83e0c980 r8:0000001f r7:00000004 r6:8020029c r5:e0259fb0
- r4:83e0c980
-[<8022a50c>] (do_work_pending) from [<80200088>] (slow_work_pending+0xc/0x24)
-Exception stack(0xe0259fb0 to 0xe0259ff8)
-9fa0:                                     0000001f 20000400 0000001f 00000000
-9fc0: 00000000 00000000 00356310 00000004 003562d8 00000000 003562d8 003562e4
-9fe0: 7ef7e798 7ef7e788 00018fa0 001309d0 60000010 00000003
- r10:00000004 r9:83e0c980 r8:8020029c r7:00000004 r6:00356310 r5:00000000
- r4:00000000
-Rebooting in 86400 seconds..
+CPU: 1 UID: 0 PID: 4388 Comm: kworker/1:3 Not tainted syzkaller #0 PREEMPT 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/02/2026
+Workqueue: usb_hub_wq hub_event
+pstate: 63400005 (nZCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : __fortify_report+0xa0/0xb8 lib/string_helpers.c:1036
+lr : __fortify_report+0xa0/0xb8 lib/string_helpers.c:1036
+sp : ffff800094c46d20
+x29: ffff800094c46d20 x28: dfff800000000000 x27: ffff700012988db0
+x26: 0000000000000000 x25: ffff0000d18d4983 x24: ffff800094c46ea0
+x23: 000000000000004b x22: ffff800086cec898 x21: 0000000000000000
+x20: 000000000000004b x19: 000000000000003c x18: 1fffe00034bbbe28
+x17: 0000000000000003 x16: ffff800088b27000 x15: ffff8000824ebed4
+x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000000
+x11: 0000000000000000 x10: 0000000000000002 x9 : 96b32e65f1701e00
+x8 : 96b32e65f1701e00 x7 : ffff80008048e8f8 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffff8000802f8870
+x2 : 0000000100000000 x1 : ffff0000c70e1d40 x0 : 0000000000000000
+Call trace:
+ __fortify_report+0xa0/0xb8 lib/string_helpers.c:1036 (P)
+ __fortify_panic+0x10/0x14 lib/string_helpers.c:1043
+ fortify_memcpy_chk include/linux/fortify-string.h:549 [inline]
+ ttusb_dec_start_feed+0x0/0x10ac drivers/media/usb/ttusb-dec/ttusb_dec.c:372
+ ttusb_dec_get_stb_state drivers/media/usb/ttusb-dec/ttusb_dec.c:392 [inline]
+ ttusb_dec_init_stb drivers/media/usb/ttusb-dec/ttusb_dec.c:1413 [inline]
+ ttusb_dec_probe+0x724/0x1aa0 drivers/media/usb/ttusb-dec/ttusb_dec.c:1671
+ usb_probe_interface+0x308/0x788 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x29c/0x800 drivers/base/dd.c:706
+ __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
+ driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
+ __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
+ bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
+ __device_attach+0x248/0x390 drivers/base/dd.c:1098
+ device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
+ bus_probe_device+0x58/0x120 drivers/base/bus.c:620
+ device_add+0x6cc/0x9e0 drivers/base/core.c:3772
+ usb_set_configuration+0x1184/0x158c drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0x8c/0x148 drivers/usb/core/generic.c:250
+ usb_probe_device+0x114/0x2b0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x29c/0x800 drivers/base/dd.c:706
+ __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
+ driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
+ __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
+ bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
+ __device_attach+0x248/0x390 drivers/base/dd.c:1098
+ device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
+ bus_probe_device+0x58/0x120 drivers/base/bus.c:620
+ device_add+0x6cc/0x9e0 drivers/base/core.c:3772
+ usb_new_device+0x9bc/0x11f0 drivers/usb/core/hub.c:2695
+ hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1ef0/0x39fc drivers/usb/core/hub.c:5953
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0x788/0x10b8 kernel/workqueue.c:3405
+ worker_thread+0x798/0xbd0 kernel/workqueue.c:3486
+ kthread+0x304/0x3d4 kernel/kthread.c:436
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
+irq event stamp: 7958
+hardirqs last  enabled at (7957): [<ffff8000868f4e64>] irqentry_exit_to_kernel_mode_after_preempt include/linux/irq-entry-common.h:507 [inline]
+hardirqs last  enabled at (7957): [<ffff8000868f4e64>] arm64_exit_to_kernel_mode+0x80/0x94 arch/arm64/kernel/entry-common.c:62
+hardirqs last disabled at (7958): [<ffff8000868f0d88>] el1_brk64+0x20/0x54 arch/arm64/kernel/entry-common.c:425
+softirqs last  enabled at (7892): [<ffff800080310744>] softirq_handle_end kernel/softirq.c:468 [inline]
+softirqs last  enabled at (7892): [<ffff800080310744>] handle_softirqs+0xc28/0xd98 kernel/softirq.c:650
+softirqs last disabled at (7883): [<ffff8000800204c0>] __do_softirq+0x14/0x20 kernel/softirq.c:656
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+kernel BUG at lib/string_helpers.c:1044!
+Internal error: Oops - BUG: 00000000f2000800 [#1]  SMP
+Modules linked in:
+CPU: 1 UID: 0 PID: 4388 Comm: kworker/1:3 Tainted: G        W           syzkaller #0 PREEMPT 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/02/2026
+Workqueue: usb_hub_wq hub_event
+pstate: 63400005 (nZCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : __fortify_panic+0x10/0x14 lib/string_helpers.c:1043
+lr : __fortify_panic+0x10/0x14 lib/string_helpers.c:1043
+sp : ffff800094c46d50
+x29: ffff800094c46d50 x28: dfff800000000000 x27: ffff700012988db0
+x26: 0000000000000000 x25: ffff0000d18d4983 x24: ffff800094c46ea0
+x23: 000000000000004b x22: 000000000000004b x21: ffff0000d18d4980
+x20: 1fffe0001a31a930 x19: ffff0000dd4bc000 x18: 1fffe00034bbbe28
+x17: 0000000000000003 x16: ffff800088b27000 x15: ffff8000824ebed4
+x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000000
+x11: 0000000000000000 x10: 0000000000000002 x9 : 96b32e65f1701e00
+x8 : 96b32e65f1701e00 x7 : ffff80008048e8f8 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffff8000802f8870
+x2 : 0000000100000000 x1 : ffff0000c70e1d40 x0 : 0000000000000000
+Call trace:
+ __fortify_panic+0x10/0x14 lib/string_helpers.c:1043 (P)
+ fortify_memcpy_chk include/linux/fortify-string.h:549 [inline]
+ ttusb_dec_start_feed+0x0/0x10ac drivers/media/usb/ttusb-dec/ttusb_dec.c:372
+ ttusb_dec_get_stb_state drivers/media/usb/ttusb-dec/ttusb_dec.c:392 [inline]
+ ttusb_dec_init_stb drivers/media/usb/ttusb-dec/ttusb_dec.c:1413 [inline]
+ ttusb_dec_probe+0x724/0x1aa0 drivers/media/usb/ttusb-dec/ttusb_dec.c:1671
+ usb_probe_interface+0x308/0x788 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x29c/0x800 drivers/base/dd.c:706
+ __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
+ driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
+ __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
+ bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
+ __device_attach+0x248/0x390 drivers/base/dd.c:1098
+ device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
+ bus_probe_device+0x58/0x120 drivers/base/bus.c:620
+ device_add+0x6cc/0x9e0 drivers/base/core.c:3772
+ usb_set_configuration+0x1184/0x158c drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0x8c/0x148 drivers/usb/core/generic.c:250
+ usb_probe_device+0x114/0x2b0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x29c/0x800 drivers/base/dd.c:706
+ __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
+ driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
+ __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
+ bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
+ __device_attach+0x248/0x390 drivers/base/dd.c:1098
+ device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
+ bus_probe_device+0x58/0x120 drivers/base/bus.c:620
+ device_add+0x6cc/0x9e0 drivers/base/core.c:3772
+ usb_new_device+0x9bc/0x11f0 drivers/usb/core/hub.c:2695
+ hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1ef0/0x39fc drivers/usb/core/hub.c:5953
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0x788/0x10b8 kernel/workqueue.c:3405
+ worker_thread+0x798/0xbd0 kernel/workqueue.c:3486
+ kthread+0x304/0x3d4 kernel/kthread.c:436
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
+Code: d503233f a9bf7bfd 910003fd 94619c95 (d4210000) 
+---[ end trace 0000000000000000 ]---
 
 
 ---
