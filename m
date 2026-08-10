@@ -1,119 +1,333 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67716CA6F;
-	Mon, 10 Aug 2026 02:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E11C282F06;
+	Mon, 10 Aug 2026 04:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786329404; cv=none; b=rbVD65JNxnLdOtUwRw9F2vZzmgMflQHRvUdQo1sG44ti0Ug7lQDLdU4EYF6hznMPyCAvtflBDF3fQ+clI/RAHJdW+SbKUAfFogDOe/2ewImDe74Le6W/vti920iwOebB1QZsU3xRAwU/9zEsRGzSuOI8AGgvlcLLS318AxXE6tc=
+	t=1786336986; cv=none; b=l3l1jzaK/op9J4qGkRz13jMBTzm4vnkVZNW+cch+F14Jb6y56jY2yoom29sSCsXVvUNY755UdO0/fy5CAPxm4ToVAnaXnzw9TpYXmk9/ZySqV9K8Aj15CuDD890koB+wGGei2qBK2cHljwiNGuSE0vFLfvAHL5NyX9LBXh1i+9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786329404; c=relaxed/simple;
-	bh=bHqr1yGMsgFKucpNBrZ4u4PE1U7kkrLJJ5JRFoRO9lU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bQbaF7icXIB36uAX9BQIZ6o9sQJdoWx6pcRtfX7lxe+IWJrQ5XvMFibhD2bmFvQ07qMFEPOd5m/lbADFrTHK+4delNP4AVHo6GOMaAgFESNnPb63t+C1k/+vstTs3B9WK4F5gTY2kKWlX+obDoGAHYl160GqThUknowpdUnPlpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 4c75122c946411f1aa26b74ffac11d73-20260810
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:04c3f277-2a2c-4c1f-acd1-d55b22c85d1b,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:16732161d10f8f5410b515358820790f,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
-	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 4c75122c946411f1aa26b74ffac11d73-20260810
-X-User: dengjie03@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <dengjie03@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1793676562; Mon, 10 Aug 2026 10:36:32 +0800
-From: Jie Deng <dengjie03@kylinos.cn>
-To: peter.chen@kernel.org,
-	pawell@cadence.com
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jie Deng <dengjie03@kylinos.cn>
-Subject: [PATCH v2] usb: cdns3: Fix NULL pointer dereference in cdns3_pci_probe
-Date: Mon, 10 Aug 2026 10:36:26 +0800
-Message-Id: <20260810023626.70669-1-dengjie03@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1786336986; c=relaxed/simple;
+	bh=QUMi0H4pGqQnpCzTuHjyQb5+Lq4GrC3V0Q8br1beYuA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D0hO0FaN9VLc5GYNeAi2U47M/309abqe5EgTRUW513A06XY0iGdE9bNxcEtCJSPhHec9InzhAGXqG5BB/1onrrQl/0Mmil8wPbzLXfzCRUd4QW9dNNzXfRIrmLq9jVxgXFFGr79RyQLOIM4ZmDNYVYCqSHSHl4X2HlPh5ftwyyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tztm+Uuj; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tztm+Uuj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786336984; x=1817872984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QUMi0H4pGqQnpCzTuHjyQb5+Lq4GrC3V0Q8br1beYuA=;
+  b=Tztm+UujPE5HDiKRx059TmBHVVSuESE2qd51IoRWJGkxrr+wibY3dmOM
+   WL9wW065ePjgswxvoTWunK9kF0k1aeHLRt66jHXjATL1bHsjHwohDTy/4
+   8qwJW/LIvZ1OzP4XbOAPEkcdBXXMt6pWS309l4lzXfb8qvHklxmsVgPNK
+   oCTo6WCu7QnJfoNCY3hKcphN50aX93yY6Mq6Tx5jEFIfeAXJL7unxFBia
+   BmxVjS54ZvRtClyp40zHxh/JWun6USoZMhkJcVWbKIhgyTXO/rdctDTGt
+   QRI//nBgBWegHoq02mGWaqgRSEHYX4luVTH33vVlT4ZbR/kW/G0LEVEON
+   g==;
+X-CSE-ConnectionGUID: e7jsjmF4SYuYHWIBrFTKZg==
+X-CSE-MsgGUID: MH0zWg3iQNyCNkVv8ltCzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="85811900"
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="85811900"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 21:43:02 -0700
+X-CSE-ConnectionGUID: g0UwLK0BSBGazxYq0/TFKQ==
+X-CSE-MsgGUID: 1WozKMb1S5Wj4UE2HYMEwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="266782691"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa004.jf.intel.com with ESMTP; 09 Aug 2026 21:43:01 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 35E5099; Mon, 10 Aug 2026 06:42:59 +0200 (CEST)
+Date: Mon, 10 Aug 2026 06:42:59 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: fy15309206903@gmail.com
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] thunderbolt: Stop waiting on a path pending bit that
+ never clears
+Message-ID: <20260810044259.GC893316@black.igk.intel.com>
+References: <20260809-b4-tb-teardown-v1-0-c88bbfe5c127@gmail.com>
+ <20260809-b4-tb-teardown-v1-2-c88bbfe5c127@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260809-b4-tb-teardown-v1-2-c88bbfe5c127@gmail.com>
 
-The Cadence USBSS controller is a two-function PCI device. The first
-probed function allocates the driver data and stores it with
-pci_set_drvdata(), while the second function reuses it via
-pci_get_drvdata() when pci_is_enabled() reports that the first
-function has already been probed.
+Hi,
 
-When the second function is probed while the first one has been
-enabled but has not yet set its driver data, pci_get_drvdata()
-returns NULL, and the subsequent wrap->devfn assignment dereferences
-a NULL pointer and crashes the kernel.
-logs:
-Call trace:
-  cdns3_pci_probe+0xa4/0x300
-  local_pci_probe+0x44/0xa8
-  pci_call_probe+0x54/0x158
-  pci_device_probe+0x84/0x100
-  really_probe+0x184/0x3d0
-  __driver_probe_device+0x80/0x178
-  driver_probe_device+0x44/0xe8
-  __driver_attach+0xec/0x1f8
-  bus_for_each_dev+0x7c/0xe0
-  driver_attach+0x28/0x38
-  bus_add_driver+0x110/0x238
-  driver_register+0x64/0x128
-  __pci_register_driver+0x50/0x60
-  cdns3_pci_driver_init+0x28/0x38
-  do_one_initcall+0x5c/0x280
-  do_initcalls+0x104/0x1d8
-  kernel_init_freeable+0x140/0x218
-  kernel_init+0x28/0x1f8
-  ret_from_fork+0x10/0x20
+On Sun, Aug 09, 2026 at 02:38:13AM +0000, Fan Ye via B4 Relay wrote:
+> From: Fan Ye <fy15309206903@gmail.com>
+> 
+> __tb_path_deactivate_hop() disables a hop and then waits up to 500 ms for
+> its pending bit to read back as clear. On an ASMedia ASM4242 host router
+> the bit belonging to the host interface adapter latches once the DMA ring
+> feeding it has wrapped around, and from then on it never clears. Every
+> teardown of a host-to-host DMA tunnel spends the full 500 ms on that hop
+> and gives up anyway, which on a link that is brought up and down
+> repeatedly is 500 ms every time for an answer that is already known.
+> 
+> The bit does not track anything the adapter is doing. A path that has
+> just been activated and has never carried a single frame reads it set,
+> and it is back to clear within a few seconds of that activation with no
+> traffic at all - the activation is what gets it there, not time passing,
+> which is why the polling further down never sees it move,
+> and on a hop entry left behind by an earlier teardown it still reads set
+> while the rest of the entry reads as zero - 129 times over a day of
+> testing, against zero occurrences on any other adapter of the same
+> router, which has four lane adapters, two PCIe down, two USB3 down and
+> two DP in.
+> 
+> Reading the hop config space either side of the disable write shows the
+> write lands and the controller does react to it, and that pending is all
+> that is left:
+> 
+>   dw0  80000808 -> 00000808   enable cleared
+>   dw1  127ff501 -> 107ff501   egress FC cleared by the controller
+>         ^ bit 28, the only bit still set
+> 
+> Nothing reachable from the driver clears it from there. It still reads
+> set after 30 s of polling (237528 config space reads), after 60 s of idle
+> before the teardown is even started, and across a module unload and
+> reload. The other hop of the same tunnel, the one on the lane adapter,
+> drains on its first read in about 125 us.
+> 
+> What decides it is the ring, not an amount of traffic. With the tbnet
+> ring at 128 and at 256 descriptors the first frame count whose teardown
+> fails moves with it:
+> 
+>   ring 128    100 frames  0/5 fail    120 frames  5/5 fail
+>   ring 256    240 frames  0/5 fail    260 frames  5/5 fail
+> 
+> Every point is either five failures out of five or none, and the pending
+> bit read back before the disable write agrees with the outcome in each of
+> those 40 rounds. Traffic keeps flowing at full rate afterwards, so
+> nothing is stuck behind the bit either.
+> 
+> I would like to say the trigger is the ring wrapping round, and for the
+> 256 ring the threshold does straddle 256. It does not for the 128 one:
+> 120 frames is already enough there, short of a full lap. So the two sizes
+> show that the point moves with the ring, not that the wrap itself is what
+> does it. A third size would say more than I can.
+> 
+> The connection manager already gives up when the wait times out - the
+> caller only warns and carries on. So the question is not whether to wait
+> it out, but whether to spend the timeout re-learning the same answer on
+> every subsequent teardown. Remember it on the adapter instead and skip
+> the wait after that.
+> 
+> The first timeout is still reported, because __tb_path_deactivate_hops()
+> warns on it before anything is remembered. That holds for teardowns; the
+> other caller of __tb_path_deactivate_hop() is tb_path_activate(), which
+> discards the return value, so a first timeout arriving there would set
+> the flag without a word. In the runs below it never did - the hop reads
+> back disabled by then and the function returns early - but that is an
+> observation, not something the code guarantees.
+> 
+> This needs no vendor matching: an adapter whose pending bit behaves never
+> sets the flag, so nothing changes for hardware that works, whoever made
+> it. It is however limited to host interface adapters. A lane, PCIe, USB3
+> or DP adapter that latched the bit the same way would still burn the
+> timeout on every teardown. I scoped it that way because that is where I
+> have evidence - 466 timeouts on the host interface adapter of this router
+> against 3 on its lane adapter over the same day, and the lane adapter
+> drained on the first read every other time - not because I know the
+> others cannot do it.
+> 
+> Measured by cycling the interface down and up 200 times over 80 minutes
+> between two of these hosts, from a cold boot, with no module reloads in
+> between. Only the thunderbolt module differs between the two runs:
+> 
+>                                         without      with
+>     hop deactivation failed              213 / 206    1 / 1
+>     wall clock per cycle                 23.4 s       22.9 s
+>                                      (host A / host B)
+> 
+> One report per adapter instead of one per teardown, and the run comes out
+> 110 seconds shorter over its 200 cycles - 4682 against 4572 seconds of
+> wall clock, which is where the per-cycle figures above come from. The
+> script's own delays are fixed, so that difference is the timeout itself:
+> 200 cycles at half a second each would be 100 seconds, and the measured
+> 110 is that plus whatever the rest of the run varied by.
+> 
+> The report lands on the first teardown, which is where a latched bit
+> shows up, not during the deactivate that tb_path_activate() does before
+> programming a hop.
+> 
+> Signed-off-by: Fan Ye <fy15309206903@gmail.com>
 
-Return -EPROBE_DEFER in this case so that probing is retried after
-the first function has completed its probe.
+There is already a fix for this I think. Can you try this:
 
-Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
-Acked-by: Peter Chen <peter.chen@kernel.org>
----
-Changes in v2:
-- Fix the wrong Fixes tag: 8bc1901ca7b0 was reverted, use 7733f6c32e36
-  which introduced the driver in the current tree (per Peter Chen's review)
-- Add Acked-by from Peter Chen
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=68bf02b6b4ad3f748c6db71fd77b6c0402d252f4
 
- drivers/usb/cdns3/cdns3-pci-wrap.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3-pci-wrap.c
-index eb5760f75b9d..fd06a3d8e638 100644
---- a/drivers/usb/cdns3/cdns3-pci-wrap.c
-+++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
-@@ -96,6 +96,11 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
- 
- 	if (pci_is_enabled(func)) {
- 		wrap = pci_get_drvdata(func);
-+		if (!wrap) {
-+			dev_err(&pdev->dev,
-+				"second function not initialized, retrying\n");
-+			return -EPROBE_DEFER;
-+		}
- 	} else {
- 		wrap = kzalloc_obj(*wrap);
- 		if (!wrap)
--- 
-2.25.1
-
+> 
+> ---
+> These four came out of one investigation on a pair of ASMedia ASM4242
+> hosts wired to each other. Apply them in this order: the second one
+> touches lines the first one adds, so it needs that one underneath to
+> apply at all, and the last two want the first two under them for the
+> reason below.
+> 
+>   1 net: thunderbolt: Release the Rx HopID that was handed out on mismatch
+>   2 net: thunderbolt: Mark the connection down when bringing it up fails
+>   3 thunderbolt: Report DMA path teardown failures to the caller
+>   4 thunderbolt: Stop waiting on a path pending bit that never clears
+> 
+> This one is number 4 on that list.
+> 
+> 1 and 2 fix two separate things that happen to be reached through the
+> same branch. Neither depends on the other for correctness - each leaves
+> the other's defect in place - but 2 edits the lines 1 adds, so it will
+> not apply on its own.
+> 
+> 1 and 2 were posted to netdev separately and are not in this series:
+> https://lore.kernel.org/netdev/20260809-b4-tbnet-hopid-v1-0-97aaf2aa0fc7@gmail.com/
+> 
+> 3 and 4 do want 1 and 2 underneath: the warning splat that 2 removes
+> fires throughout any prolonged run of link cycling, which is what 3 and 4
+> have to be measured across. 3 makes teardown failures visible to the
+> caller at all; 4 stops the teardown paying for one that cannot succeed.
+> Note what that pair does on this particular router - 4 leaves the first
+> failure to be reported and silences the rest, so 3's new signal fires
+> once per adapter here rather than on every teardown. 4 is the one I am
+> least sure of, for the reasons in its own notes.
+> 
+> Measured on two ASM4242 hosts linked to each other, hw_vendor_id 0x174c,
+> hw_device_id 0x2428, NVM 200011.250708. The base is v6.17 with three
+> later commits on top, which the link needs before it stays up long enough
+> to measure anything across:
+> 
+>   7e49bb89df86 ("thunderbolt: Avoid reserved fields in path config space
+>                  for USB4 routers")
+>   1881f2efbf7f ("Revert "net: thunderbolt: Enable end-to-end flow control
+>                  also in transmit"")
+>   68bf02b6b4ad ("net: thunderbolt: Tear down DMA paths before stopping the
+>                  rings")
+> 
+> plus the two thunderbolt-net patches earlier in this list.
+> 
+> This started out as a quirk keyed on that hardware id, and the one-shot
+> form is better on every count I can think of. Three things about it are
+> worth saying plainly.
+> 
+> One timeout is enough to set the flag, and that is a deliberate choice
+> rather than an oversight. A host interface adapter whose bit works but
+> whose poll happened to time out once - a busy control channel, say -
+> would stop being waited on for the rest of that switch's lifetime. I have
+> not seen that happen on a host interface adapter, but I have seen a
+> single timeout on an adapter that was otherwise fine: the lane adapter of
+> this router timed out three times over the same day and drained on the
+> first read every other time. That adapter is out of scope here, so it
+> would not have been flagged, but it is the shape of the thing I cannot
+> rule out. I settled on one because the caller already ignores the
+> timeout, so a false positive costs a diagnostic that was being thrown
+> away anyway - it is a counter away from being stricter if you would
+> rather it were.
+> 
+> I cannot show that skipping the wait is safe. Either controller can stop
+> answering config space entirely (probe -110, cold boot to recover); over
+> one day I logged 16 of those, five on one host and eleven on the other,
+> on the distribution kernel and on the unmodified base as much as with
+> anything of mine. None of them fell inside the four 200-cycle runs, which
+> between them are about five and a half hours of nothing but bringing the
+> link up and down - they cluster around module loads and deployments
+> instead. So the runs above cannot speak to that rate either way, and I
+> would rather say so than let them suggest the question is settled.
+> 
+> And I cannot answer the spec question. I do not have the USB4 Connection
+> Manager guide, so I cannot tell whether the pending bit of a protocol
+> adapter is vendor defined the way its IFC, ISE and Path Credits Allocated
+> fields are - which 7e49bb89df86 already has the CM keep its hands off.
+> 
+> That last one is where I would most like help. If someone who has the
+> guide could check that one field, it decides whether this patch is the
+> right shape or whether the CM simply should not be waiting on that bit at
+> all, in which case this is working around a symptom and should be
+> dropped. It would also be worth ASMedia confirming the behaviour against
+> the NVM above.
+> 
+> The other thing I would be glad of is coverage. Everything above was
+> measured on one model of router, and the flag is only ever set by an
+> adapter that has already failed to clear the bit within the existing
+> 500 ms, so hardware that behaves should never reach it - but that is an
+> argument, not a measurement. If anyone with an Intel or Barlow Ridge host
+> can run a few hundred link cycles with this applied and confirm the flag
+> stays clear, I would be much happier about it than I am now.
+> ---
+>  drivers/thunderbolt/path.c | 17 +++++++++++++++++
+>  drivers/thunderbolt/tb.h   |  3 +++
+>  2 files changed, 20 insertions(+)
+> 
+> diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
+> index 81a79c78777e..0dcc3deb6f61 100644
+> --- a/drivers/thunderbolt/path.c
+> +++ b/drivers/thunderbolt/path.c
+> @@ -397,6 +397,14 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
+>  	if (ret)
+>  		return ret;
+>  
+> +	/*
+> +	 * This adapter has already been seen to leave the pending bit set
+> +	 * for good, so there is nothing to wait for. The hop is disabled
+> +	 * by the write above either way, which is what the caller needs.
+> +	 */
+> +	if (port->no_drain_status)
+> +		return 0;
+> +
+>  	/* Wait until it is drained */
+>  	timeout = ktime_add_ms(ktime_get(), 500);
+>  	do {
+> @@ -430,6 +438,15 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
+>  		usleep_range(10, 20);
+>  	} while (ktime_before(ktime_get(), timeout));
+>  
+> +	/*
+> +	 * Some host interface adapters latch the pending bit and never
+> +	 * clear it again, and there is nothing the connection manager can
+> +	 * do about that from here. Report it once and stop spending the
+> +	 * timeout on this adapter on every teardown from now on.
+> +	 */
+> +	if (tb_port_is_nhi(port))
+> +		port->no_drain_status = true;
+> +
+>  	return -ETIMEDOUT;
+>  }
+>  
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index a9a32b64fe2a..8c022d2724e9 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -273,6 +273,8 @@ struct tb_bandwidth_group {
+>   * @max_bw: Maximum possible bandwidth through this adapter if set to
+>   *	    non-zero.
+>   * @redrive: For DP IN, if true the adapter is in redrive mode.
+> + * @no_drain_status: The pending bit of this adapter's path config space
+> + *		     stayed set once, so it is not waited on any more
+>   *
+>   * In USB4 terminology this structure represents an adapter (protocol or
+>   * lane adapter).
+> @@ -302,6 +304,7 @@ struct tb_port {
+>  	struct list_head group_list;
+>  	unsigned int max_bw;
+>  	bool redrive;
+> +	bool no_drain_status;
+>  };
+>  
+>  /**
+> 
+> -- 
+> 2.43.0
+> 
