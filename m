@@ -1,190 +1,105 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D682FBE
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 01:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1661C84A0;
+	Mon, 10 Aug 2026 02:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786325764; cv=none; b=K2wz7O0WS2N7iR2fPRzIXvRDsUqQoRkECiRBGB5aHlBV+ZYLKxBUzjiLlmWsfHnkwaD0WtqXGlQeLqSDfAbLPM5xOsE2Dz2tAHKmFuqmOhi3+qUfyLElYt6dL5P1YaedNnNSegaNZ3QsGGUCAsFiFC77E0g4c67DXTWki/LQiXo=
+	t=1786328441; cv=none; b=oLFesHfgOABvykhkr/uQnHcesVa33KxhFXd+8HXpHjLPtZS1OcO8mLB5tcy8ivQMVK1BEiY/5SBucEkDUyBBslfDJP098QPA6akZ7+KND7eCLN3wQNGideENlBNYmvhY/9PgFEjWV2YupgOwKr3fZ9j3l+hcuhynkoMRuGgzFm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786325764; c=relaxed/simple;
-	bh=hgWVXzJsJ4d0sRL88GH49EhKXhlQYDNwAM1F3JUS1JY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s6xPSq5Fyu74TPakvAcSYPh0AfYrjEoznp72UgqZOluMfKwrFcjDa5GNhAS7YxIqFMqxoI2+wWH/cjvVw9d4059YV3oY8Sl1jYqb2GDcYAg14PNNQ4/t13EbwtKlUyKdhcpk/fs+2rB+FNbUpZdk1CGsrK57PEAb/LcibgENo7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbdXXSXX; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbdXXSXX"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cc73e322dbso12778165ad.1
-        for <linux-usb@vger.kernel.org>; Sun, 09 Aug 2026 18:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786325763; x=1786930563; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aiAA/a8nJJhpvuOCjBB2Gsecn2IfMJTVx/RtNy6N2qI=;
-        b=lbdXXSXXiTYzfhnVVX1/YSDP1mZ9VLt2Cy6d+J/6K3akpcjwiV2/7BSq9AYt67/UyK
-         ZgMMSmhZfzpXl/DY3OugaxmHWCaqWgL9ZDvbyKZx1r+yi1wZIrFdfSj6p9F44c0ryjdF
-         7MuGGdTpyG53dtxmk9YqjjX6Lssc+bkm4us/tUFv+9FQhxb7yvjuALmzOCYH7U3s1bQz
-         HlHen2K/Ky8jrrBSobzj0bFyDk6VBq4NrpRyYNiAjKA/3Qq4RLUlMwafNr5jyI//zST7
-         zfBjdqWoZ0XMJtTko1CTu1n66wX7NXqErjmk4puN+8nLpZp80e8W7l+UIkjPZpTiI57T
-         5D6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786325763; x=1786930563;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aiAA/a8nJJhpvuOCjBB2Gsecn2IfMJTVx/RtNy6N2qI=;
-        b=oqXgCy3blhJrCzVJD4Ph7ZUE9bv8xp4gGV2Wem5BzuN/hLBFGxOY7Av/ByguWGcdzR
-         XmRFUnmJHOsLW2OE6VChttz9AQKeSIwGGyfAtSCPHVIh0Tga5LRfTi0nM+MMQsNLGAAa
-         w3ke5VkAIXJD4s0aW+IClgskDzozZUrDEERaaPSgOiGuz/GM7b0JKNfIQj3KzhHtI34y
-         34qK4zqIQomsSjdAKaQpaOYZHk81N3HaeYcQAlfdu4NAEwLiHIXJuz4rLj+5zyANDnvb
-         xX81XBAyfmB99b+TENnJxqX+FNqGW1XXpxXTzBZlxN8X/0C7SgAmTYHKZSq/dw3UoEyp
-         VlWw==
-X-Forwarded-Encrypted: i=1; AHgh+RrBFOqHv0sYik8glpmnh8w1V6mHcxcAFoFO1iD/N8CCHLEJsWt5KOM2Qdv1/nxUR9Sx/u+hdLid8gk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7mPu9GSqGxuYWKCN5iDLbs/aE6Pgvdv7oA8pt4kpOf3Q78Ht4
-	bqUkPQNa/HzpwiLKwVlFR7Jndv8C3o54REslkM+Whdrq8XsR9ktd6Dmu
-X-Gm-Gg: AR+sD13w8NMIbGrRIQaiPUpvSSZPZh8RQNG+LQcM+r39awDog45x4AjBt5zZHra6kxz
-	2JV8SEG8aQXJKI9grhdCJi+SDsFKOLUeJWZVgUv8spQZNdVZpdd3bwIpA7fXCUb8aRR/IpkFVWN
-	Rdas+g/RjSYTyWtzL5ot4KNbG6VdoVqlP54CNXO4rnsQU2CxegF5SbKigHUMRqiQBmKUp6iKgQI
-	Vb/UL6mqUMXZdwaA5+cDQ/Xd+Dp3xi5uLa4iw27yveaVWxR5JpLsgAyGNNHZNEVfrmqsSLQnJqk
-	rO9KUhh8sMvdh2dK5m2JknAzD0VhUu2KhuiiJsoXltuwOR0ut7i/lZ1wQo3RlTfmRPz7h6D+fac
-	xPRrNIt0mSlMhw4o34ZpbU3SBC9LNAfGuDXZ3LJvhlnIiA63bW76538XxcN99JkN3YJDsbaX2ls
-	/BPmvnKcPdDV4JPx9Q5smCC73Iv2Vs4e86h3DMmsOTFTvnxr6NKGQBH7xhxiKDwzY=
-X-Received: by 2002:a17:902:d581:b0:2cf:a108:7605 with SMTP id d9443c01a7336-2d0ca75b37cmr502324835ad.11.1786325762707;
-        Sun, 09 Aug 2026 18:36:02 -0700 (PDT)
-Received: from Inspiron5409 ([138.199.21.246])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d14ccac19esm27558895ad.9.2026.08.09.18.35.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2026 18:36:02 -0700 (PDT)
-From: Jianhui Xu <neuromoments@gmail.com>
-To: mail@birger-koblitz.de
-Cc: andrew+netdev@lunn.ch,
-	andrew@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	hkallweit1@gmail.com,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	netdev@vger.kernel.org,
-	neuromoments@gmail.com,
-	pabeni@redhat.com
-Subject: Re: [PATCH net-next v6 00/13] ax88179_178a: Add support for AX88179A-based chips
-Date: Mon, 10 Aug 2026 09:35:49 +0800
-Message-ID: <20260810013549.2510969-1-neuromoments@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <2eeb01b5-7d3d-425e-9865-4e2fe1614e67@birger-koblitz.de>
-References: <2eeb01b5-7d3d-425e-9865-4e2fe1614e67@birger-koblitz.de>
+	s=arc-20240116; t=1786328441; c=relaxed/simple;
+	bh=pj6+ywvqpxCOEAx6Uw/i3YbpI/Ce3Z7qaVJo/UNogzg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RxRCzAYVRM7tb9EQEAfVZFb0FO7hXbxvLQ5dT3Xfa1lxBN6KPpg0sCZ6hlxRPOkEzbEx2Bj83Zoj/HCZ7jyAsAGXPqDJgNq5atvqGtZOXJzHVoclX1uhJ2ge+h7jtogItlEe18C1VET928CIaWBnlU9wlPY07VxgVH4lgUuOw6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 1032907a946211f1aa26b74ffac11d73-20260810
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:75b3433a-0b67-446c-9c7d-0e042430c472,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:aade752dc357fa1d33a50d92e74af715,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|865|898,TC:nil,Content:0
+	|15|52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
+	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 1032907a946211f1aa26b74ffac11d73-20260810
+X-User: dengjie03@kylinos.cn
+Received: from [10.42.12.246] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1072434717; Mon, 10 Aug 2026 10:20:32 +0800
+Message-ID: <f27de7ac-86f5-47e2-8cb0-848306b52072@kylinos.cn>
+Date: Mon, 10 Aug 2026 10:20:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: cdns3: Fix NULL pointer dereference in
+ cdns3_pci_probe
+To: Peter Chen <peter.chen@kernel.org>
+Cc: pawell@cadence.com, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260806022258.3764848-1-dengjie03@kylinos.cn>
+ <anWvZMPQ5ARWMu3o@hu-petche-lv.qualcomm.com>
+From: Jie Deng <dengjie03@kylinos.cn>
+In-Reply-To: <anWvZMPQ5ARWMu3o@hu-petche-lv.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Sorry for the late reply. I think the previous experimental workaround may
-have some race conditions, so I was seeking for a better solution.
 
-> I tested the 100MBit connections mainly with a AX88772E 100MBit adapter
-> (UGREEN CR110), which has the same firmware (1.3.0.0) as your and my
-> AX88179B adapter.
-
-My adapter is an AX88179B with firmware v1.3.0.3, not v1.3.0.0.
-
-> You did not mention which device is used on the other side of the
-> Ethernet link (or maybe I missed that), could you specify this?
-
-The link partner was the Ethernet port of a ZTE ZXHN F7005MV3 gateway, not
-another USB Ethernet adapter. ethtool reported autonegotiation support and
-no advertised pause frames.
-
-> The only way this could be coming from the driver that I see is via a call
-> to ax88179a_stop(), which would clear exactly that bit.
-> Have you traced this and can exclude that this function is called somehow?
-
-Yes. I added a dynamic kprobe on ax88179_write_cmd(), filtered to
-AX_MEDIUM_STATUS_MODE writes, and recorded the value and caller stack.
-
-During 30 100baseT/Full-to-1000baseT/Full cycles, four transitions to
-100baseT/Full lost RX. In all four cases:
-
-- ax88179a_mac_link_up() first wrote 0x0102;
-- there was no intervening Linux write to AX_MEDIUM_STATUS_MODE;
-- about one second later the delayed worker read the register with
-  AX_MEDIUM_RECEIVE_EN clear and restored 0x0102.
-
-All 71 traced writes to AX_MEDIUM_STATUS_MODE had
-AX_MEDIUM_RECEIVE_EN set. The complete 1,209-entry trace contained no
-ax88179a_stop() or ax88179_change_mtu() caller.
-
-The earlier failed-state dump also retained AX_RX_CTL at 0x0198 with carrier
-up. I therefore think ax88179a_stop() can be excluded as the direct source
-of these clears.
-
-I also repeated the test with the same AX88179B and ZTE link partner using
-the ASIX vendor driver on the Arch host. All 30 further
-100baseT/Full-to-1000baseT/Full cycles passed. All 4,415 carrier-up
-100baseT/Full samples retained receive-enable at 0x0132. A separate trace
-recorded 30 writes of 0x0132 and 30 writes of 0x0133, with no write clearing
-AX_MEDIUM_RECEIVE_EN.
-
-Dense sampling did show the adapter changing 0x0133 to 0x0033, or 0x0132 to
-0x0032, while the link was down during renegotiation, without a corresponding
-vendor-driver write. The vendor link-setting path then restored 0x0132 or
-0x0133 before the link became stably up.
-
-So the device can clear AX_MEDIUM_RECEIVE_EN without a corresponding host
-write. In the failing v6 case, the clear likewise was not caused by a Linux
-write and appears to be an autonomous device-side change.
-
-I do not think this proves an unconditional device-side bug, though. The v6
-driver failed four times in 30 cycles after writing 0x0102, while the vendor
-driver had no failures after writing 0x0132.
-
-I therefore tested a focused v6 variant that writes 0x0132 instead of 0x0102
-at 100baseT/Full. Failures still occurred, so retaining the RX/TX
-flow-control bits alone is not sufficient to prevent the problem.
-
-This points to some other difference in the vendor driver's link-setting
-sequence, possibly register ordering or timing. The physical xHCI host in
-my tests versus QEMU's emulated xHCI is another uncontrolled difference.
-
-At this point this looks like a device-side quirk exposed by the driver's
-link-setting sequence, but I cannot distinguish firmware behavior from
-autonomous MAC hardware behavior.
-
-> If this can indeed be attributed to a bug in the firmware of the
-> adapters, I would add your patch to the series with an "Authored-by" you,
-> as this sounds like a good solution for this issue.
-
-I found several race conditions in the patch. For example,
-`cancel_delayed_work(...)` only cancels pending work. If the callback has
-already started running, it may still be running when
-`cancel_delayed_work(...)` returns. Therefore, if another execution context
-performs a read-modify-write operation on `MEDIUM_STATUS`, there can be
-a race: the link is brought down, but the worker subsequently writes the
-RX-enable bit back. This particular issue can be fixed by using
-`cancel_delayed_work_sync(...)`, but there are still other races.
-
-One possible solution would be to add a mutex to serialize accesses to the
-medium register. However, I am reluctant to add too much synchronization
-machinery for what is essentially a defensive workaround, especially given
-how infrequently these network configuration operations occur.
-
-I see two options:
-1. Leave the code mostly as it is, changing only
-   `cancel_delayed_work(...)` to `cancel_delayed_work_sync(...)`. This keeps
-   the main code path simple and clear, at the cost of leaving a few rare
-   corner cases unresolved.
-2. Add stronger synchronization to eliminate these races completely, at the
-   cost of making the code considerably more complex for cases that are
-   unlikely to occur in practice.
-
-What do you think?
-
-Thanks,
-Jianhui
+在 2026/8/7 18:11, Peter Chen 写道:
+> On 26-08-06 10:22:58, Jie Deng wrote:
+>> The Cadence USBSS controller is a two-function PCI device. The first
+>> probed function allocates the driver data and stores it with
+>> pci_set_drvdata(), while the second function reuses it via
+>> pci_get_drvdata() when pci_is_enabled() reports that the first
+>> function has already been probed.
+>>
+>> When the second function is probed while the first one has been
+>> enabled but has not yet set its driver data, pci_get_drvdata()
+>> returns NULL, and the subsequent wrap->devfn assignment dereferences
+>> a NULL pointer and crashes the kernel.
+>> logs:
+>> Call trace:
+>>    cdns3_pci_probe+0xa4/0x300
+>>    local_pci_probe+0x44/0xa8
+>>    pci_call_probe+0x54/0x158
+>>    pci_device_probe+0x84/0x100
+>>    really_probe+0x184/0x3d0
+>>    __driver_probe_device+0x80/0x178
+>>    driver_probe_device+0x44/0xe8
+>>    __driver_attach+0xec/0x1f8
+>>    bus_for_each_dev+0x7c/0xe0
+>>    driver_attach+0x28/0x38
+>>    bus_add_driver+0x110/0x238
+>>    driver_register+0x64/0x128
+>>    __pci_register_driver+0x50/0x60
+>>    cdns3_pci_driver_init+0x28/0x38
+>>    do_one_initcall+0x5c/0x280
+>>    do_initcalls+0x104/0x1d8
+>>    kernel_init_freeable+0x140/0x218
+>>    kernel_init+0x28/0x1f8
+>>    ret_from_fork+0x10/0x20
+>>
+>> Return -EPROBE_DEFER in this case so that probing is retried after
+>> the first function has completed its probe.
+>>
+>> Fixes: 8bc1901ca7b0 ("usb:cdns3 Add Cadence USB3 DRD Driver")
+> The patch is okay, but the Fixes tag is wrong, 8bc1901ca7b0 was reverted,
+> you may use below tag:
+>
+> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+>
+> After above fix, feel free add:
+> Acked-by: Peter Chen <peter.chen@kernel.org>
+>
+> Peter
+Thank you for your reply. I will send the V2 version patch later.
