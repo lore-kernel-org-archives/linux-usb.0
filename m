@@ -1,99 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.attrio.net (mail.attrio.net [167.235.71.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810733AF667
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 09:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BA83B47F3;
+	Mon, 10 Aug 2026 09:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.235.71.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786355249; cv=none; b=okfqhuULAsoahPK3VB4ma9EY2DlmKGsWPhb51RxHw1LgDqv7mT18hCYOEGkUyw8z0mNOxZaAhSOwEGmUqgW75RlMnawM+fgGrCDfsKpujAWCrlZtUmK7JxHUFWtJw4IWdcJ44UjvaZdAT8NRRQoB52lFQFAWjsNAupdlEyPUp1w=
+	t=1786355837; cv=none; b=k/51l95nUCf5+O8iR2KHfACV31/vn9NaLrEHKXjrCZ2ZJqbNcPYP6HzAdwtgPCeo05MznJT/KC/wLljJQ7oWeAh1ljrY04voYUFF1K9TAmpkKtTTXZzCyCUGYb2ldm7ak2eSUEc89AGhJQgBBGm2f9JoHilLnvw9Qi1ocXW7Cjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786355249; c=relaxed/simple;
-	bh=nkZ+R2UOtBKsZPfK/IOLnFMw8VnIYdPXzZH+29yp6D8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fwseVjz/kX+FwdfeE2jBrxtD9vRkFXCFC4iXrR8cXFXaQUSD2iiyUqztB5jU46tLZyS/W5Y1oom1WN/T8iOA71pFmjCMyiNGuPmZlHzPMOnS4nX/vU631fRAPZZgri38zv10R4hlK5oke8fJUdX7E8HPd8C8FHHulqItF4ZiTb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rdHjGOzx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786355837; c=relaxed/simple;
+	bh=D1Iip0pMjyoncMTjzwRHFjbAJ/7U4vT65XMNG45ZABY=;
+	h=From:Content-Type:Date:Cc:To:MIME-Version:Message-ID:Subject; b=q5Ni+alg0NNNAVLREITddBsDfDWXsybk82CmVkNr3yiHHYX0YBu0a8L58b8I0VzyzhIhRcvbs8QuSgCt6gqzbWFhNohOqr7ATNE4rm6KPSfJiD+ywJOB/9vryD/n5qUqvnv7MBEqu2g5hQSq3uhaaqmCFVmsahxPJoaFFb3sLkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=leypold.cz; spf=pass smtp.mailfrom=leypold.cz; dkim=pass (2048-bit key) header.d=leypold.cz header.i=@leypold.cz header.b=fNaIN1Rj; arc=none smtp.client-ip=167.235.71.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=leypold.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leypold.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rdHjGOzx"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F9A7C19425
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 09:47:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786355249;
-	bh=nkZ+R2UOtBKsZPfK/IOLnFMw8VnIYdPXzZH+29yp6D8=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=rdHjGOzxVNzafpJaKxNBiWv58ofiuZ0EezR8GmhKk1CtGTOjbjwe51v+OmcOs6UMo
-	 H84drkny3BX9ZlQ6Sn125xH64ZCAy3bL3sm/zG4UBScM17RfVFJtS8spz+imtw5Nxm
-	 qNkr0KxwGGUKAvXODd2ChmRYZTRzoQzEFWF0qq7YF4vdDlX4g470Q3rlp51KBudm3M
-	 xafSdND73tKy20yOQpG7p83R6i1f5w1DPC4irIuh4bsY9mDkV7fxctGo0OMedfytH1
-	 NWcGKt2pg0GcgzL31h5lFwovs/vJUblHAyWwGNsa27lEk2SI07T6KLf2uHP2EUzI8b
-	 7daEkgheSIS/g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 34A56C41612; Mon, 10 Aug 2026 09:47:29 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
- breaks functionality of Owon VDS1022
-Date: Mon, 10 Aug 2026 09:47:29 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: huangwei@kylinos.cn
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-220193-208809-3XyDDA0j45@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
-References: <bug-220193-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=leypold.cz header.i=@leypold.cz header.b="fNaIN1Rj"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPA id DF294AF034;
+	Mon, 10 Aug 2026 11:57:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leypold.cz; s=mdkim;
+	t=1786355833; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=3PO7o0uZ1gbi2+0e4KW7FZAhEaE8wv6oNKEqk9TF+VM=;
+	b=fNaIN1RjuJtnqhJU84TL3oVHvqEYXUqC1agPl56kfZPfwB11PEJTyBAr2fJBCxj8506iBV
+	TcislMiyomGpwhNVqedp3TdyEJnhGk+bcbbyBUsvJQPgjpDQS61dROuSORaa87bmg+kZcg
+	Euu3q+tAoji4yE6nwljWjHqGkGnGFjPeiMAqMvkc/JecSK4/K1fgNglc1iPnnVXeXs94be
+	WnEcHNW4/4cA72tjsLwOUDqz7rNeFOsVw7dWJJsxgRGYKOu8MQsVDgv1llm9/h/2im/8G/
+	LWg/OLBgt716MryhqHaYkjamn/7Ws5FtyQ6BqoHSfqWzNZvJfFovVvwtkGWcsQ==
+From: "Tomas Leypold" <tomas@leypold.cz>
+Content-Type: text/plain; charset="utf-8"
+Date: Mon, 10 Aug 2026 11:57:11 +0200
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, nfraprado@collabora.com
+To: jikos@kernel.org, bentiss@kernel.org
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Message-ID: <5a6e9d44-52ca-4707-5b72-66d92dd799c4@leypold.cz>
+Subject: [BUG] =?utf-8?q?usbhid=3A?= logitech bolt =?utf-8?q?(046d=3Ac548)?= 
+ spuriously wakes system from suspend
+User-Agent: SOGoMail 5.12.9
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: None
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
+Hi, I've got an logitech mx keys s keyboard with a logi bolt receiver
+(046d:c548)
+that wakes my pc from suspend on its own, no input involved, just a
+moment after it goes to sleep. Reproducible on two different machines,
+both nixos. One's a laptop with s2idle, the other's a pc with s3/deep.
 
-Wei Huang (huangwei@kylinos.cn) changed:
+Aug 09 00:08:07 w01 kernel: PM: suspend entry (deep)
+Aug 09 00:08:12 w01 kernel: ACPI: PM: Preparing to enter system sleep
+state S3
+Aug 09 00:08:12 w01 kernel: ACPI: PM: Waking up from system sleep state=
+ S3
+Aug 09 00:08:12 w01 kernel: PM: suspend exit
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |huangwei@kylinos.cn
+Sometimes replugging the receiver into a different USB port fixes it
+temporarily, for a while.
 
---- Comment #1 from Wei Huang (huangwei@kylinos.cn) ---
-Hi leStoppe,
+HID=5FQUIRK=5FALWAYS=5FPOLL
+(https://lore.kernel.org/linux-input/20260407-logi-bolt-hid-quirk-alway=
+s-poll-v1-1-4dae0fda344e@collabora.com/)
+doesn't seem relevant to this issue. 6.18.41 doesn't have that quirk,
+7.1.6 does, and the bug happens on both.
 
-Thanks for reporting this and bisecting the regression to commit
-4cc01410e1c1.
+In forums, people with the same problem recommend a udev rule setting
+power/wakeup to disabled. That disables keyboard wake entirely.
 
-A fix has been submitted to the linux-usb mailing list. It narrows
-the OWON match from USB_DEVICE() to USB_DEVICE_AND_INTERFACE_INFO(),
-requiring bInterfaceClass=3D0x05 (Physical Interface Device) as
-reported in the HDS200 USB descriptor. This should let the VDS1022
-fall back to the generic usbserial driver as before, provided it
-uses a different interface class.
+After some debugging I found a more targeted workaround with no
+downsides that I know of: unbinding usbhid from interface 0 (the
+keyboard interface) right before suspend, rebinding after resume.
+Remote wakeup stays armed, so a keypress still wakes the machine
+normally.
 
-The patch can be found here:
-https://lore.kernel.org/linux-usb/20260810091322.2201740-1-huangwei@kylinos=
-.cn/
+Tried unbinding each of the four interfaces on its own, only interface
+0 makes a difference.
 
-Could you test whether this resolves the issue on your VDS1022?
-If the VDS1022 also happens to use bInterfaceClass=3D0x05, further
-work (e.g. a probe callback checking the device string descriptor)
-may be needed.
+Here's the systemd-sleep script, drop it in
+/usr/lib/systemd/system-sleep/50-bolt-unbind, or wherever your distro
+puts these, and chmod +x:
 
---=20
-You may reply to this email to add a comment.
+#!/bin/sh
+find=5Fdev() {
+   for d in /sys/bus/usb/devices/*/idProduct; do
+     [ -r "$d" ] || continue
+     v=3D$(cat "$(dirname "$d")/idVendor" 2>/dev/null)
+     p=3D$(cat "$d" 2>/dev/null)
+     [ "$v" =3D "046d" ] && [ "$p" =3D "c548" ] && basename "$(dirname
+"$d")" && return
+   done
+}
+case "$1" in
+   pre)
+     dev=3D$(find=5Fdev)
+     [ -n "$dev" ] || exit 0
+     echo "$dev:1.0" > /sys/bus/usb/drivers/usbhid/unbind
+     ;;
+   post)
+     dev=3D$(find=5Fdev)
+     [ -n "$dev" ] || exit 0
+     echo "$dev:1.0" > /sys/bus/usb/drivers/usbhid/bind
+     ;;
+esac
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+No idea what the right fix looks like on the kernel side, just wanted
+to share what I found.
+
+Happy to run further tests and try out patches.
+
+Best regards,
+Tomas Leypold
+
+
