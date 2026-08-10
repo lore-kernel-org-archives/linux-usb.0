@@ -1,62 +1,79 @@
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0177A3AFD1E;
-	Mon, 10 Aug 2026 10:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A563D3B7B9D
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 10:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786357548; cv=none; b=eM9MLqK4cmCx3h9jtoRr9V2dInahKxAt0tmIx+v65i3knGWhPEv143sfISXC7lx7hhXu08s73gfyF21/3JcxevKfGUSTZuT4JS1Y9xUH3q3xuASvCncOA3VDFQocolUCJa60qfXpQusQ7FhCHnzIGkYtagJt3yEkSyPkYRtLt+c=
+	t=1786357747; cv=none; b=G3DsoCBJcKg83PJZ+bcFAFDFYxko9EZlMvfPGGSmAiRU02HtE6E11qaMl9dY2loJ+Rim6EwQxwp3mImEB1ub0wtnZshpmFaiLuLUf9XnpDHXxh5/qDxzedg+q+z+ItVETdvxb1qiWpguo5FGV0yn4JvjeC1emW0gRbVIx4kPWH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786357548; c=relaxed/simple;
-	bh=OFdKyOqLgHahAhv0hxxF3za+pHHGYEaz7L6XeTNduuc=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=iltbaU7Io/ubqDp7AZpCuIrzGd0zbI7teN8rWnCs2uYg5AF02lZw1ScvDWKIo2ZH8NMLPlNqeHrUtrE5FIjGbo/FsELH1IoOlAawoRPrCj2x9QQ4oOVd0tTsR8tz2ufUhrBpvNDNmvj13IW2HBkiqOBeVqrcjigkHNoXdvzcGIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=MFYOyRpv; arc=none smtp.client-ip=203.205.221.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1786357747; c=relaxed/simple;
+	bh=lABGybqrOfA/5F7rLlcKuLSPW3KayZdePUYNTXr1NxY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OXiadCs+9o5jTLLXjOW9Dk9j5D3I0xabOoUiIyGbqu047LADRWo3aUXf2y6tn5VmDm6aeuuziYyM+zHUIreP/fhR/7Gy9cx2+1sSTBKoRAHvfBJoeKOGMwtZYboT9tb+nQ2cr8oD5MOgYHL5oFkN74X6vTZD/8UX9jLBu/289Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EF2s0QrM; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="MFYOyRpv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1786357536; bh=XYdFTaSJOlhb/N4N7xL3icHdMyXd8Ey4bfCAxrqrtNg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=MFYOyRpvkc9yXImsoyN2pr2pxq/Go8gyhZRPfihTgL1ks9uuYXjuy52naWLz0QFJd
-	 AqLfZjjldvXqoBWuZdt27m3qUAoOha9fwQjHmZgspbS5levJeEpo6tftM9V7x4jLdP
-	 QRKErRG/xT02gFztyvzdQ9pGJL89fJT6PSyrW7fE=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 6613E86C; Mon, 10 Aug 2026 18:25:33 +0800
-X-QQ-mid: xmsmtpt1786357533tn763hipb
-Message-ID: <tencent_F5AB9201DDA25D8E1925CF818D87258B8D07@qq.com>
-X-QQ-XMAILINFO: OATpkVjS499uyrV04o8dtemYnXgcXxM/oRQT7DWCciuA4xbTmlP/qV64UU/FXS
-	 /PTnzuKUeqe/xIOloeK+ar+n/Je4JE66AUyIRKCr24qcXeq5nTcyCYzTqtiEWfVDbLtWsba3bNgm
-	 /B8PCEYoI4CFgtV96tG+Ad7QIbbpKjqTuzBFUgaedfif3xGq2AdG+XkmJdm8wa18ZErJfd19XyCt
-	 3tms2gpJ2qf6nqIHqwV6BkydhMiInM7ydrXX52pfTf0fWROM0d/4ELMWKzKT69qVeha9ya9kUjUY
-	 2rIP1RiD3tKgQofMyLJ5I+pd7U4O6b86Sca9x/4REIkckYxr3cvsp56iYxHI2QUgAn87UJ+IXzvd
-	 Ze3Oz3qzUMOaj3+SGDX6WYxFoTs+FqFGaFcKb3dYv9gF/t3/U9hucTsDLsVXrWzhZy5kwwJ5C7Rs
-	 rsq5U7VnQgdVjh97XVZ7D5/qO+SQ6BNIPWHkHNgtTUTS0Ybv6FSFlw3+kgWMdk7D8Re7hDJz8IVA
-	 tu1PD0lyr+By3XqY9gdsVfurQ6pAPGPld2TM79vQsdjrRQfy0wrv0c+x4Oi7n6G6gdrt2jYLLthY
-	 idiL5z/Uxthw0x/F0Y8AM+nndpepzGI3hYq+Fs5ovPaJlfBZGdVBDinp4+q4rQL3FF9uqI7amACH
-	 dqJyJPopd43QHQpLz6tDeN6yuNClkgDVyRzfXMmD2G5kXvrYJ6ftRH5Ghpa2ajrBIjuOo0Au4q9I
-	 flrYsat75ifHoVe/eOlTToGPhI/MwH9EAInuwbSGmB5vuTsVb93UC5HWYYP4ouVrrRZzMpvp+15H
-	 Mlb2JRaucy6KcIxVCwEAR01i1jqU6NWSqGL9VVS4P/4tyJDmIak+T8kz61rW0oqXIvUNXCmEhywx
-	 8FGKCAHe7Dnyapsz3uhqDxbWrLso/3zaPgMK75XchH5PW6DXlARpXHwMxGikx0XK5jxN/IaxFSoH
-	 suvfrMX0JhnQF+yT0VAqbiG/VKoNy1mhMCLhvI7E5sCW+mZFhlhU1uG13CEEjX7N8LjLifb2/RTR
-	 VXBGckwicdU4CpD351xFKlv8jQv+U=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+60740c6a17a5b5eb1f5a@syzkaller.appspotmail.com
-Cc: gregkh@linuxfoundation.org,
-	david.sands@biamp.com,
-	chris.wulff@biamp.com,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EF2s0QrM"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso19662505e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 03:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786357744; x=1786962544; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=boYBSecBRl5T+XjjQzpMdytsU7Qux9bXP/GDQdqKxko=;
+        b=EF2s0QrMvqJp+DGhV7+6GXGOqn+fgRztAa5UaKpx4plfuEa4uoP7bK9/Whuvl1PNSu
+         fexBfiw3JAbGdKxNVFDnGteW6ImhIK6hnLWhUEcV4c/8v0+h4CAD8dK+uPHtd3ZQKUAI
+         1NJ9xjdXt3FVyVKedVwsrxQoTZ2HNY3TvmSEqBzhbHCp0SlE6V11GiOcCMi2iRQAtmsz
+         huauI67W0qJVsFcDt16JJoXqeHJ6HSlVzkjGVYoB7wIKkaPTYUhxArz6DOaX7p+4hcfW
+         Im+wTAH8JHSPu9fcDJvo3lPRdSn0OmLqrN+La2J/ZpaDWZLajIJHVF/dymQHjelafq7G
+         k67Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786357744; x=1786962544;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=boYBSecBRl5T+XjjQzpMdytsU7Qux9bXP/GDQdqKxko=;
+        b=Y+nTM4sZiJu+4uejnwkD7vJMqjTwanDCBoFcJ1jrIDXEC5vLK8aDEPo6TOkA9ymn2c
+         gPKRtUOraZLa2eYB9m6hqD49aP+uaiCii/477Nq0H6SscCoHek4CmGvxnsLr883Q2wUC
+         wutBVx+vTfji5SjHC85bqqNC5+M1V2+0zZG+5iw7mKZ6G7VCQmD/2uU1RIXHpjXhzUR1
+         j23Psw9h90D5BZE4xDUeYpJevYZ+nykjxG8ppHauYFrpTlyWl7DXiBeZdRmuimX+wMRi
+         OnFpvkmGlBAAbtbxM0V28zNUsy4UZqxY9Cw5YHZ+P6aAbfnJmy/JBB0w8396yXrLws9x
+         Wf2A==
+X-Forwarded-Encrypted: i=1; AHgh+Roa7a79lQlInXCMmqkMrsesvu8OHADqyOqsQS9fOGWTZBTOYXTYKKVomK0sHprREVfNOYHSjy6hCDU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdUWqphA9h4Obea9Zd1abzVH56w51lvb6oDsN5MxLIOcA4XPjE
+	+yHXvWUavixTqj7bBCqo7tDbm4ixDTcDI3R4O/FIf45k0MzgNrgT/VWW
+X-Gm-Gg: AR+sD13C+cx+Ub1r939/sIb9He5ZxfFAuv7woHCEFBVRLZMSXumoPK5DG8yFFcojF/j
+	i5IbzNrfRTDWDb0P95V/gmmiKaUVtDqeinzOLwccwqY2w++6WrM2dxhxGV4YvDzhdaBGS55fz6b
+	QbgH+dhBxwEXYIJd1GyHCF9PBApedzc2OY+krymkM4XqkXF7rWNCxLoQ9dLi0cfuOBOP2oOKFpQ
+	8Q/574NXS3+qkcUt5voONFUqwF9t5D3of7NH6CM+zpsCDBFpAsMxCcMFdo/b3SVgeb2Pvwv7Hpu
+	oe/50Y2f2SABK7NnFm9n1DKZqgGba5W72PdejDumalXAPTF4MITZ8h8b4zsqducxIodBHjBLgYv
+	K2aSFU++8w7LLhbNSFp9eLx7vVvr0oFjLlGxDIYTuBk8N20MhBUtb31Km+4MtyKlBQt5l1+meTU
+	XL9ygfCup1FDCKflNHOfiy9GwyK4lV3RyvKXH1B13rNIbss06GYdxfY1o3WZXVi4Wvakg/w9IRr
+	op8LFBpqp/p2PqIK2vWtHuMg1GQYzR6RGhWxejmkFsOeu/DjuDtksXn0AR21MTiYf20SlddMUdb
+	uQv3
+X-Received: by 2002:a05:600c:4f45:b0:493:c47f:3c55 with SMTP id 5b1f17b1804b1-49972764ed2mr11353955e9.5.1786357743613;
+        Mon, 10 Aug 2026 03:29:03 -0700 (PDT)
+Received: from labdl-itc-sw01.tmt.telital.com ([2a01:7d0:4800:7:a04:488a:882a:de93])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995ea27ec7sm297309075e9.10.2026.08.10.03.29.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Aug 2026 03:29:02 -0700 (PDT)
+From: Fabio Porcedda <fabio.porcedda@gmail.com>
+To: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] USB: gadget: f_hid: Release get report req upon unsetup
-Date: Mon, 10 Aug 2026 18:25:33 +0800
-X-OQ-MSGID: <20260810102533.72490-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a78d160.01d0871a.3a0d52.0091.GAE@google.com>
-References: <6a78d160.01d0871a.3a0d52.0091.GAE@google.com>
+	linux-kernel@vger.kernel.org,
+	Daniele Palmas <dnlplm@gmail.com>,
+	Fabio Porcedda <fabio.porcedda@gmail.com>
+Subject: [PATCH] net: usb: qmi_wwan: add Telit Cinterion FE990D50 composition
+Date: Mon, 10 Aug 2026 12:28:40 +0200
+Message-ID: <20260810102840.125473-1-fabio.porcedda@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,78 +82,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The GET_REPORT request instance (hidg->get_req) is freed only within
-hidg_disable() after successful binding, and only if Condition [1] is met.
+Add the followin Telit Cinterion FE990D50 composition:
 
-Since userspace does not execute the setup, get_report_workqueue_handler()
-is never invoked; consequently, Condition [1] is never met, leading to the
-memory leak reported in [2].
-
-The solution is to add memory reclamation for get_req in hidg_unbind(),
-using `get_req->length` to determine whether Condition [1] applies.
-
-Additionally, a failure in usb_gstrings_attach() also triggers the issue
-reported in [2], so this is fixed at the same time.
-
-[1]
-The report is not in the list or should not be sent immediately
-
-[2]
-BUG: memory leak
-unreferenced object 0xffff888112450300 (size 128):
-  backtrace (crc 18381426):
-    usb_ep_alloc_request+0x2e/0xd0 drivers/usb/gadget/udc/core.c:197
-    hidg_bind+0x2b/0x490 drivers/usb/gadget/function/f_hid.c:1154
-    usb_add_function+0xca/0x270 drivers/usb/gadget/composite.c:333
-    configfs_composite_bind+0x667/0x9b0 drivers/usb/gadget/configfs.c:1802
-    gadget_bind_driver+0xed/0x390 drivers/usb/gadget/udc/core.c:1662
-
-
-Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
-Reported-by: syzbot+60740c6a17a5b5eb1f5a@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=60740c6a17a5b5eb1f5a
-Tested-by: syzbot+60740c6a17a5b5eb1f5a@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+0x0991: rmnet + tty (AT/NMEA) + tty (AT) + tty (AT) + tty (AT) +
+        tty (diag) + ADPL + adb
+T:  Bus=01 Lev=01 Prnt=01 Port=06 Cnt=03 Dev#= 10 Spd=480  MxCh= 0
+D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=1bc7 ProdID=0991 Rev=06.06
+S:  Manufacturer=Telit Cinterion
+S:  Product=FE990
+S:  SerialNumber=2aa802d2
+C:  #Ifs= 9 Cfg#= 1 Atr=e0 MxPwr=500mA
+I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=88(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+I:  If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=8a(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+I:  If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=8b(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=80 Driver=(none)
+E:  Ad=8c(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 7 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
+E:  Ad=8d(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 8 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
 ---
- drivers/usb/gadget/function/f_hid.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 3c6b43d06a6d..8d739e052e68 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -1163,8 +1163,10 @@ static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
- 	/* maybe allocate device-global string IDs, and patch descriptors */
- 	us = usb_gstrings_attach(c->cdev, ct_func_strings,
- 				 ARRAY_SIZE(ct_func_string_defs));
--	if (IS_ERR(us))
--		return PTR_ERR(us);
-+	if (IS_ERR(us)) {
-+		status = PTR_ERR(us);
-+		goto fail;
-+	}
- 	hidg_interface_desc.iInterface = us[CT_FUNC_HID_IDX].id;
- 
- 	/* allocate instance-specific interface IDs, and patch descriptors */
-@@ -1585,10 +1587,18 @@ static void hidg_free(struct usb_function *f)
- static void hidg_unbind(struct usb_configuration *c, struct usb_function *f)
- {
- 	struct f_hidg *hidg = func_to_hidg(f);
-+	unsigned long flags;
- 
- 	cdev_device_del(hidg->cdev, &hidg->dev);
- 	destroy_workqueue(hidg->workqueue);
- 	usb_free_all_descriptors(f);
-+
-+	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
-+	if (hidg->get_req && !hidg->get_req->length) {
-+		usb_ep_free_request(f->config->cdev->gadget->ep0, hidg->get_req);
-+		hidg->get_req = NULL;
-+	}
-+	spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
- }
- 
- static struct usb_function *hidg_alloc(struct usb_function_instance *fi)
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 94cdb61dca83..147beaa61340 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1360,6 +1360,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x1bbb, 0x0203, 2)},	/* Alcatel L800MA */
+ 	{QMI_FIXED_INTF(0x2357, 0x0201, 4)},	/* TP-LINK HSUPA Modem MA180 */
+ 	{QMI_FIXED_INTF(0x2357, 0x9000, 4)},	/* TP-LINK MA260 */
++	{QMI_QUIRK_SET_DTR(0x1bc7, 0x0991, 0)}, /* Telit LE910C1-EUX */
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1031, 3)}, /* Telit LE910C1-EUX */
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1034, 2)}, /* Telit LE910C4-WWX */
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1037, 4)}, /* Telit LE910C4-WWX */
 -- 
-2.43.0
+2.55.0
 
