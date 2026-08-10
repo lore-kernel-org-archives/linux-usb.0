@@ -1,28 +1,29 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11021077.outbound.protection.outlook.com [40.107.130.77])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020139.outbound.protection.outlook.com [52.101.69.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51293A05FC;
-	Mon, 10 Aug 2026 07:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A831B39CCFE;
+	Mon, 10 Aug 2026 07:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.139
 ARC-Seal:i=4; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786345937; cv=fail; b=YOrV+eM+fc6xYl4CtKm3uZQMc4+5DRcFPgP1GWxkQUZ2FKIDbWvYy+tNfj4/cV9jOD7Jld/1Yj/YwJ0XRkVWnSTgGScgwHC77KGUobHI1B+9Avf1ijkMMJGLUnGBRzwv/NGXfe6OnZ2lQgahMTPYxwEHnGpijAnaN7PAT1f2Wa0=
+	t=1786345941; cv=fail; b=tKzKIijhKPV8n4mbippbXK+BHR2NL6xiDJNVrmI8J/2FmdIg20Dq0BB2+jK5S/zCzvZypbJYIaMksfrFLfeixjXjBBn0AB5tOn7mANrL80MarVrvK9asdZyc35aSqDK2JX8FJ3GFTpyWVBPxOXVoMLdCdPoWVH+//Q5zpz9+FdQ=
 ARC-Message-Signature:i=4; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786345937; c=relaxed/simple;
-	bh=80/S7jSennw1SlQq3sE6YBuAYKi3uvX5nHr+eVx2k10=;
-	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=N8T2z3tMA+cccHJNJcjImF0ramblUOihaeacDyN9a52lR2+YnydDtchyazQuepHsyPwQUh/kV2he55dyg7MdXXb8NP5WJvGdilzV+UCoI5b/xwMkO3hLkwmVyH4DCy2TttSZOJ6Cn1hWafmuIvGEP+WXB6qt9e3MK3BC5eyAfss=
-ARC-Authentication-Results:i=4; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=solid-run.com; spf=pass smtp.mailfrom=solid-run.com; dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b=nec8ngHd; dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b=nec8ngHd; arc=fail smtp.client-ip=40.107.130.77
+	s=arc-20240116; t=1786345941; c=relaxed/simple;
+	bh=b/tKKvM2jJE0LZTZgyiX+DtXMWWPk0yt6CAPS2X4LF4=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=BJpLiA3r8lr7SuYNXAOfCVlda9NljYBp1oqIc+bLgScIo2Z1c4QYqFivQobo96lN5b/ASBlCEjZ899DedGtXZBFBsU06L7dvgZ4aq+4/MFAk+Uxm1S8gtYvachPl3H7tKFPMtneM8Rpu5Qz0BGM6UtUC/kMX76cfvdQ1Caw7zhc=
+ARC-Authentication-Results:i=4; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=solid-run.com; spf=pass smtp.mailfrom=solid-run.com; dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b=iCSGDCTh; dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b=iCSGDCTh; arc=fail smtp.client-ip=52.101.69.139
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=solid-run.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=solid-run.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b="nec8ngHd";
-	dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b="nec8ngHd"
+	dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b="iCSGDCTh";
+	dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b="iCSGDCTh"
 ARC-Seal: i=3; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=TWOLiffZYDjeQ7iMhUu1am7EVNbfdQHWIaEEcm09bO4gSvkKrPgDbaXxT7TRr2B+GlQeRWlhCBOUjwrZN3VhL3UYlchfbMPxKBNSmxxCyc6detTwrnkMhxk7m/WvwGKWL+N/Qs1mM2WkGSjxQVxwZ3OAyJFs25hXbOGG1IauR7uRCoLf76RYRSPlXiHlD3Jt6gR0JBLb5NI2rC6jTa0QPM74FerlKr9j26TlfdsLODh2TX/jpHwjezyk2MlgDFvg16bTSe2WtjpdYMNNjCP+uaGpgGUyYP3Gfbv8dlnGe+/J6I0EgCRVOVVPzBPWHIUZgoAFP/SWy84eTnBGJ7eAwg==
+ b=Yn+2NM4HHQ5ediBcpFjEwnaL4vHdeXDsXg7NnxRvAhbbQQlD7pW/BBx8bT5mOLcSYOstJ7MK3k193J+YAUr5G5AVxUAJgj9dR0Is7hplc8oYCY4segx82m7RzsoKrwwkY1P8psQbGC9nUYybqcM5Bkc030Cc1e15S0/xbropf1sAcHLiXG8SV+ZytGrAGGETRcuEq6TVb/yoHEGEPxraBqAk3bpw8F0VUDBJTSoTMTrcwWKbu/gYNUt3zFfMBY0BJlrTtzjMQTwh1+PtmrtPK6HAhVM1vV0uNYC7oMmMGx2zNhS55QUuDax/LKOXav8KDunfvc3oNMH+cHOCUfVhYg==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mGpl8ysJRCyfrT2T+Bct2Kw29wTXQPWQdoQsJqxrx0g=;
- b=YGPQehb57i9ADX6+SN2jzQEfJddCM8iLA/mWFqxkYWt2sX3CjIR0w2tSyUX6o0snTfRRTIZJOVh9eKwZjCfqHSa8neMTLOg5ZxlY63p7LvDfYMcQcc9uB0nMaq4eIi/B7DopO9vAPDJlV/9URjDrYUVUWlci3nhiKYKwyccsJYgHnzt8zBATNWNUxxvYRox1rK1G0gll0rqYcOyWK90XiYyJ8kijKfzZ4oy3LuPsXieGg515SHNkCZBnuJzgvQo9VAXuup0ae9G8zJXFeox2EbPvfxsS/qMlFDZjvV0ThGwNd7S9zU4O83WehykMmChFx9/bsQWWkZZjSC/kkTlplg==
+ bh=4zNdL7tWham87HoHwn8xz6ueibe+Hh/aJgP8wcB7vHs=;
+ b=kvdoFiy7BpIh7+MDjU/T8wGaCeorOwpbQzVMyxYyrGpIEn6ilwUbSezP55GRQfBxUrSKWPvHrO8f8AbG80xqbTJYb0H16DoO4LWCRoQQwY5BLcQtlUBzp1m9z4tN9dVxrL5H6AHnvHRbeyazJsigB7TElMLCVKWUkT9l/hGmBkcuGmzFmlEr45gJrk28iAlM96tjVYwjbSs8tU8iipNZxiv0RrLCB5kkPxQMGCf/eihSfPnVEAGLaUQkheuL345oprI+qZobisEbddyHfpbCrhiOg5hXZCBzwWI5rACFsMUweDOGVozS+8uJGMe8JlvA38IibUp5gBmw4LmBnLB5bA==
 ARC-Authentication-Results: i=3; mx.microsoft.com 1; spf=fail (sender ip is
  52.17.62.50) smtp.rcpttodomain=glider.be smtp.mailfrom=solid-run.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none
@@ -33,18 +34,18 @@ ARC-Authentication-Results: i=3; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=solid-run.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mGpl8ysJRCyfrT2T+Bct2Kw29wTXQPWQdoQsJqxrx0g=;
- b=nec8ngHduUQnFawPuuMAKHo1AH1/P4rbSPHcNkv3LVN5S5cDD9uqn4l4y/hK5Rd9sTQSf8mNGrpo5T3eJTtfv7bHyOghLn87/NwMPdSCPbRcBuyj7bxikHXcYWn5cpbGQ9vyuTcBr1pxZEqbQ+uX7+BzXfNCaTcTGuJCIaRJklw9PQDDTph4mKfG6JyIITN4F1pDMwP1x6KFcHamAFeSwW7ldRFIgk2NNNlJY+HoUorJRtMFmDtes4Nwo8a1l+oXLYP5EwWwh9rUvLbQ+M83y741HyHmI099BcbAdHyLSCl8IwSPq+kaoYU9RU3Mu+m6eoQzK4p24mPu5vKvkUq+Ww==
-Received: from AM8P251CA0017.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:21b::22)
- by GV1PR04MB9515.eurprd04.prod.outlook.com (2603:10a6:150:24::6) with
+ bh=4zNdL7tWham87HoHwn8xz6ueibe+Hh/aJgP8wcB7vHs=;
+ b=iCSGDCThIU3J0O5mGetZsuevngGXjAseiY1QuSkgmxC5K73FjofYjbWtE7WkJhVz5QzH1QohIU1StpT4m8EfSqv0OdKmbOHQRfme6Y6kSulc/Op5tL0Z4HviMsV6+VbkfkScWf55C7JSUK7q1lgMXDUHdSlc7LwLcirxrcz1nGcYPZQKnziZtbQMlK2BaPnnM30MZahDGpZ3mLq6/ZVv2aP9Ps7eH7SWly3Y/tfo8QqMdlt7DGIJUvoPfyLPUgDRy7/YpcgKv9dkamnkUfZ6byMDCoYKZyH3Sk1YFibJbrG2ufcG3GenMkSMMTbwCGkVQ+BfL6Mcc78chVRiC2//Ng==
+Received: from DB9PR02CA0009.eurprd02.prod.outlook.com (2603:10a6:10:1d9::14)
+ by VE1PR04MB7453.eurprd04.prod.outlook.com (2603:10a6:800:1b0::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 07:12:08 +0000
-Received: from AMS1EPF0000008F.eurprd05.prod.outlook.com
- (2603:10a6:20b:21b:cafe::35) by AM8P251CA0017.outlook.office365.com
- (2603:10a6:20b:21b::22) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 07:12:12 +0000
+Received: from DU2PEPF0001E9C1.eurprd03.prod.outlook.com
+ (2603:10a6:10:1d9:cafe::82) by DB9PR02CA0009.outlook.office365.com
+ (2603:10a6:10:1d9::14) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.25 via Frontend Transport; Mon,
- 10 Aug 2026 07:12:07 +0000
+ 10 Aug 2026 07:12:12 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 52.17.62.50)
  smtp.mailfrom=solid-run.com; dkim=pass (signature was verified)
  header.d=solid-run.com;dmarc=pass action=none header.from=solid-run.com;
@@ -52,57 +53,53 @@ Received-SPF: Fail (protection.outlook.com: domain of solid-run.com does not
  designate 52.17.62.50 as permitted sender) receiver=protection.outlook.com;
  client-ip=52.17.62.50; helo=eu-dlp.cloud-sec-av.com;
 Received: from eu-dlp.cloud-sec-av.com (52.17.62.50) by
- AMS1EPF0000008F.mail.protection.outlook.com (10.167.242.86) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Mon, 10 Aug 2026 07:12:07 +0000
-Received: from emails-2880923-12-mt-prod-cp-eu-2.checkpointcloudsec.com (ip-10-20-6-60.eu-west-1.compute.internal [10.20.6.60])
-	by mta-outgoing-dlp-517-mt-prod-cp-eu-2.checkpointcloudsec.com (Postfix) with ESMTPS id 6F30F7EC17;
-	Mon, 10 Aug 2026 07:12:07 +0000 (UTC)
-X-Mailbox-Line: From b'josua@solid-run.com' Mon Aug 10 07:12:01 2026
+ DU2PEPF0001E9C1.mail.protection.outlook.com (10.167.8.70) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8 via
+ Frontend Transport; Mon, 10 Aug 2026 07:12:11 +0000
+Received: from emails-985746-12-mt-prod-cp-eu-2.checkpointcloudsec.com (ip-10-20-5-157.eu-west-1.compute.internal [10.20.5.157])
+	by mta-outgoing-dlp-942-mt-prod-cp-eu-2.checkpointcloudsec.com (Postfix) with ESMTPS id C6A147ED95;
+	Mon, 10 Aug 2026 07:12:11 +0000 (UTC)
+X-Mailbox-Line: From b'josua@solid-run.com' Mon Aug 10 07:12:03 2026
 ARC-Seal: i=2; cv=pass; a=rsa-sha256; d=checkpointcloudsec.com;
- s=arcselector01; t=1786345927;
- b=DjxCeQgSE4JYpXcc7hkEJkEGJyDq+lRPk0/UZiFF7zjtfRzodZnI9JHu5zqzlVXHT49oa
- mAA6H5Y+TS1C8YJBwMFSq06cq9lfMQlnZOd3E+jJS68Zd3XVRW4/h13U0HYX2F+rdl47MZW
- k8TrOWSaa59trHA4CV7U5t1Hndb+fI0=
+ s=arcselector01; t=1786345931;
+ b=DRGQlhHRmJaWoZ0BJ2FB9tgMfFtApV97X74GIY9kP5CmNPn3MTC5d3l+ZbH8e/pgPmh7C
+ 2ExNWBGKMn5Y5qJyTsZxuCy/yNXLOF6P2wIabcx3Ct+x3xW1RHHkvZVL14qAfaw8Fne/CX6
+ oDiJ3HJftYrijh1pLWVN1kAQAyXG88Y=
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed;
- d=checkpointcloudsec.com; s=arcselector01; t=1786345927; h=from : to :
+ d=checkpointcloudsec.com; s=arcselector01; t=1786345931; h=from : to :
  subject : date : message-id : content-type : mime-version;
- bh=mGpl8ysJRCyfrT2T+Bct2Kw29wTXQPWQdoQsJqxrx0g=;
- b=Mmq958fEhwKFEcPxPsGb7Td3RaKhXVPAgdj9xWOLFll1iYdR/mmmKkGCPs6uMJJBU044v
- 9lWC78L2uCfAr3Y/5evacIhlRFydqJ84LX4fQ49s5ofrcSf+2ofoCdy3NoPOqtVv5aYDHO3
- D9qgWogIS7TakdcYsPX9D5Rk3U83TtY=
+ bh=4zNdL7tWham87HoHwn8xz6ueibe+Hh/aJgP8wcB7vHs=;
+ b=K7UITwRN8XGeyHOV6fuklKhBhxi/ofrUFz2BZcGRjQWLvVnNLSCFzj9NH1x7UAABM3Dh4
+ u9HnFQnh3bgjk0Y5jSz1hUqDdAR8KPo/pUYR7p3d+x0jiwWcC9g1exGJw2rTh8/dvQ4mRXd
+ 3pDtUgn9MLxD29I4b2XfyTofyIy5BYQ=
 ARC-Authentication-Results: i=2; mx.checkpointcloudsec.com;
  arc=pass;
  dkim=none header.d=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=solid-run.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mGpl8ysJRCyfrT2T+Bct2Kw29wTXQPWQdoQsJqxrx0g=;
- b=nec8ngHduUQnFawPuuMAKHo1AH1/P4rbSPHcNkv3LVN5S5cDD9uqn4l4y/hK5Rd9sTQSf8mNGrpo5T3eJTtfv7bHyOghLn87/NwMPdSCPbRcBuyj7bxikHXcYWn5cpbGQ9vyuTcBr1pxZEqbQ+uX7+BzXfNCaTcTGuJCIaRJklw9PQDDTph4mKfG6JyIITN4F1pDMwP1x6KFcHamAFeSwW7ldRFIgk2NNNlJY+HoUorJRtMFmDtes4Nwo8a1l+oXLYP5EwWwh9rUvLbQ+M83y741HyHmI099BcbAdHyLSCl8IwSPq+kaoYU9RU3Mu+m6eoQzK4p24mPu5vKvkUq+Ww==
+ bh=4zNdL7tWham87HoHwn8xz6ueibe+Hh/aJgP8wcB7vHs=;
+ b=iCSGDCThIU3J0O5mGetZsuevngGXjAseiY1QuSkgmxC5K73FjofYjbWtE7WkJhVz5QzH1QohIU1StpT4m8EfSqv0OdKmbOHQRfme6Y6kSulc/Op5tL0Z4HviMsV6+VbkfkScWf55C7JSUK7q1lgMXDUHdSlc7LwLcirxrcz1nGcYPZQKnziZtbQMlK2BaPnnM30MZahDGpZ3mLq6/ZVv2aP9Ps7eH7SWly3Y/tfo8QqMdlt7DGIJUvoPfyLPUgDRy7/YpcgKv9dkamnkUfZ6byMDCoYKZyH3Sk1YFibJbrG2ufcG3GenMkSMMTbwCGkVQ+BfL6Mcc78chVRiC2//Ng==
 Authentication-Results-Original: mx.checkpointcloudsec.com; arc=pass;
  dkim=none header.d=none
 Received: from VI1PR04MB5807.eurprd04.prod.outlook.com (2603:10a6:803:ec::21)
  by PA4PR04MB9688.eurprd04.prod.outlook.com (2603:10a6:102:271::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 07:11:59 +0000
+ 2026 07:12:00 +0000
 Received: from VI1PR04MB5807.eurprd04.prod.outlook.com
  ([fe80::3da4:2827:d637:37de]) by VI1PR04MB5807.eurprd04.prod.outlook.com
  ([fe80::3da4:2827:d637:37de%2]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
- 07:11:59 +0000
+ 07:12:00 +0000
 From: Josua Mayer <josua@solid-run.com>
-Subject: [PATCH v6 0/5] arm64: dts: renesas: Add various SolidRun RZ/G2
- based boards
-Date: Mon, 10 Aug 2026 10:11:49 +0300
-Message-Id: <20260810-rzg2-sr-boards-v6-0-41faa32cdafb@solid-run.com>
+Date: Mon, 10 Aug 2026 10:11:50 +0300
+Subject: [PATCH v6 1/5] dt-bindings: soc: renesas: Add various SolidRun
+ RZ/G2 based boards
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALV5eWoC/23PwU7EIBCA4VfZcBYDM2UAT76H8dAC3SXRsgEl6
- qbvLt3E7EZ6/CeZLzMXVkKOobCnw4XlUGOJaWlBDwfmTuNyDDz61gwEkFACeP45Ai+ZT2nMvnD
- UXikiMiN41pbOOczx6wq+vLY+xfKR8vfVr3Kb/lH4n6qSC27UoEjr2aIbn0t6i57nz+XRpXe2c
- RXuCCk7AjYCxjBNHrSxco/Ae6J7qGIjZoE4O0vOCtojhhuhUXTE0AhhJjcoq7Txbo9QN8II2xG
- qEdI6IkBlAnZXrOv6C4MJEtO8AQAA
-X-Change-ID: 20260502-rzg2-sr-boards-37d556668a2d
+Message-Id: <20260810-rzg2-sr-boards-v6-1-41faa32cdafb@solid-run.com>
+References: <20260810-rzg2-sr-boards-v6-0-41faa32cdafb@solid-run.com>
+In-Reply-To: <20260810-rzg2-sr-boards-v6-0-41faa32cdafb@solid-run.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>, 
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -114,8 +111,7 @@ Cc: Josua Mayer <josua@solid-run.com>, Jon Nettleton <jon@solid-run.com>,
  Yazan Shhady <yazan.shhady@solid-run.com>, 
  linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.15.2
 X-ClientProxiedBy: TL2P290CA0013.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:2::7)
  To VI1PR04MB5807.eurprd04.prod.outlook.com (2603:10a6:803:ec::21)
@@ -126,170 +122,149 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-TrafficTypeDiagnostic:
-	VI1PR04MB5807:EE_|PA4PR04MB9688:EE_|AMS1EPF0000008F:EE_|GV1PR04MB9515:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2fa512ee-c028-4143-a164-08def6aeb06e
+	VI1PR04MB5807:EE_|PA4PR04MB9688:EE_|DU2PEPF0001E9C1:EE_|VE1PR04MB7453:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0e96da7-df61-4cdc-baaf-08def6aeb2e3
 X-CLOUD-SEC-AV-Info: solidrun,office365_emails,sent,inline
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|1800799024|7416014|52116014|376014|23010399003|10067099003|56012099006|18002099003|38350700014;
+ BCL:0;ARA:13230040|366016|1800799024|7416014|52116014|376014|23010399003|10067099003|56012099006|22082099003|18002099003|38350700014;
 X-Microsoft-Antispam-Message-Info-Original:
- jw3qTX66s/JlZtS3gfzlu55IkvDv4HGWyfGUeNl5YGNpcBiYNQmPGMAHp4Vsl58tuL0Bu9k/zFoFDJCSniQ8Ixheomzr8u+boqpQ/bFeFWy0D5re/M54Anv8q0k87q6iffMNJFrEpLhybDrhiBk1fIEJDYNAMzeYJWLQpYFsB0ys0b59cTeQ3lnOa4US8UvU6WPBN/h3jaRQmUpVRFdzjS96fhC8YkZaEOuEeOKqYamp6vkgTKGGxg9MMss3Yq/jE/AopIWtqwJzv0KiVXoN7JojrpIrWsFflkjzoEJN96PhAE/dmc2W2DEiEFoCZ8Rtj8NfVsgMvQsU0zPCbSqv7p2dEWo0F4o8wbfU77JiikBW+y4B2JWMphvXa50YZ94Mypb68Cob8lgshSzR27aKw5IBSF63wSh6iQIN340pSUXBsN7iKBmUlkw1pWyEvBA1cRJ59zhW0Y2oGYCkQl4vsZnw0i7mcIjujzkq2GqM2LA/KMbnyU3N6rcWS4hHfZcCYCOgrm+OnhwdoPkplnquMbOiRQc6795iC4agZIKmwjnirIyhmHqctydB2ysepvMfAvcxp8/sqChyWjAHsP6WlX3P4Mzm8hw48JxbO9jROxTPfzH4scl3HedqdQfj8b5J/FU/p/qmy+wRolbUHrPpSM4+cPek9dzMGxzBi69p/tMwWTxZEHGC3mGNaDCv4VxATLWx30O7uOyheq455nG1PWmYDJD7TJ+UoxO2xBB1RKM=
+ mga22Zi14dtZl2WgJ22avBjGIQgDyvdCr/S90zwW0GxDOWRreTGFuf6q0Qui/O8BgPJeL1sRrxdy2NSSHgiT2VESlpifuSDWsZTJ0/lr7QTKzA8C7LMbHwwXL/OrvGyd3W11tUcew8G+17W8LQ80uWxWF3EtNZp5lThyHHo/EM5Lvu2O+SPUhqon+Y1QN/JgKvM/vjsWJCLiCiiGMCQLTEcgdzAueSza8V64Ey3UMYRx3i5Q1BicC+hFT2wEteEr/cBhOR5otiBwmstO4YiwbthFGLAvQ7nWxZ+06N1Pj0TcWvWOeFyWfFxj8rMZAbcE/sY0scp650zNqdh+yYWmoDfT/gX7G30BL+itDKb5F69I97aVUkFOHup0nrQ1hFhzowukxgY0ANHmN3urlVrkIPcG7ckO/e+hrtJytd3NUc6O5ppawPmZgBas8AoGSLeqBj+HuhSTNdPNRN4GXeYWTJ7LHgBN9jChRvvgerIU4xaXSKGm7l5r4iockGZ/c0RzPZD98pZoLaK/fPnpj7nz06HjoVzLNQf7TCULHRdBJLdG2iL8g+RkEF4HZ8cQNhjbVpu1LD31m/oQIqTQ+AS9pc11GzXQBDq6N6z0e2HEOt+NDGmGyO3YPwwtEwq6QoHmS3bl/EHxaW8OWqXPsBPy72jLxWVZw7cgUmg2Do4n+0fcx/L7x/X4xah9GIYvM0KladpJC7EhQF+euGejVWgaPOAYHXuJoT48mh6HlyDvbH0=
 X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5807.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(52116014)(376014)(23010399003)(10067099003)(56012099006)(18002099003)(38350700014);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5807.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(52116014)(376014)(23010399003)(10067099003)(56012099006)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
 X-Exchange-RoutingPolicyChecked:
- rnSBeHvR71NLif+Dv0A4kM07mDn+abQA2FPrTNtgp2jYop+7scR0B5k3aGVCFq/5+m8/w8OWPbRrCRQdgyxy7Nv6NKRG979mt5HspmfTa3TZ8KD4ftIrBMIFk91H6dPM+PNJHHoLsSL3TFP+1tpVnJVX23f/YIgyZmpuHttwPFx+ti9xbKukTorT2eRKB8Yz249fZyVxjwtLf0JVqfDtZ1hDw8m4ogVjhiyqB7GDAchlD8fFREKSraJdXhKbxpGuMWPb9j52/GIbbBdoQOq3/1It1tr9rweyDZfWqmCVk3/kCAruhYqTLVfOi4Awwn4IGS0R+iItxKOFtjwB+qY48w==
+ EXUP0w7KG6kCDCtlmAVEwsv16lE1Jit1io6pboCfcbcfB3Ihdm8kIcUfk4hGYxBVZp3rhJbjd0lMajT6HYxSHfL/90YuYqHVabHdwRImUyUy1LWjX2cEty+eI1eXGx86a6zuRggCS7ql/e9VJ7njleoYi0Eq7JO38H4+VErBLK/7leDZQPHfwlm36mJBpXqgVP+TVsNB4FRhsXenERF/YR3OOKW4RddC7qU7qt5UkYbmjKU718bKBrECZPTzvmp73chAhT7ahgAm2/RBliPjbxADMPyg04Cw6KgmpjvjQtPfChIk+A9fp2IpyOLvV6CM4voc7U0AYQw92+12g77mmg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9688
 X-CLOUD-SEC-AV-INT-Relay: sent<mta-outgoing-dlp-mt-prod-cp-eu-2.checkpointcloudsec.com>
-X-CLOUD-SEC-AV-UUID: c1e6d38b80254a5485d54a5ed63912bc:solidrun,office365_emails,sent,inline:861ddfbf4d31d0554dab2616f44bffc4
+X-CLOUD-SEC-AV-UUID: 1fbe91eb07ca48aba9c4746550d49b16:solidrun,office365_emails,sent,inline:b0c3473bf7e570ba4d5b6c15ad0b5ebd
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uWb089bj7VNfO9LLkTQwnBlltmOZJ5Rq/gB1EBoxFjlOPf2Ogt5tunA+wemqMHW/5gg6+8uXgmBpepSGFSBGMJtdfR7wl4PE7rTJOU2ZlQ1QX2uits7cW/eOd6KB+Ir2LagMNcO3zxYY6mr4aEEg4yXIC0eKj5aVi1+KvynTpw6kCox+CWgMbL1xMRtDjZzjlmtHS/m71uHGUDhDBwcsKQ12+iKaLp7NGrF8UZEcDoJTbM6X3EqtpN6H1o40pAE5FFgBSpLGY0tWFFKB9pt0JzijL649670GP+XNRaOj673YcfaVQ4IDFMV2cEs1gI5qcjMLDZ+mTM91dbAR49sKJg==
+ b=RNHW9tbqt3ISGTRemZdFVkWGXDCam5iCGuFgKzbg+0x2GwYrvkemwzHcaQWIQWpblfSSHQj/PXrIOFNhB2jJ8aS8Kjs4aWs/BbqBCuETSjoicivt+QQslLEHPudmutye3RsDBymJWPFf+4IH81JHSfXUG+Obp8t917YVF2i7BI3z643sB7Coi6URKpVb3IlRv+d4QkcEk737HJgctKZXo185cBjMAYH39Xxgn1Y+DLsemOFnSFuJwog44Xph6W1R7sI0RdsapcLimxWip5bFs9LJ0gwBSimPWK7lGzz62kUxplH60Eks6AmvFvJ7flJzrMgpN8Db7kKwfeLxqg7Ylw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mGpl8ysJRCyfrT2T+Bct2Kw29wTXQPWQdoQsJqxrx0g=;
- b=tF6mZnnNQEhZuzRzZhvD6fw5GXrjbhyD/O94+lNNH9MQqG0k1K/etvWN+krDJSkY2OBlS4kCQXE9mxK/KR1yf7Pt1446+kNb5R6aMjfJP3D1Y0bJKkZaQLgst5q3EbuCDy8Rvac88r/cj4EicZ7Wyia8Bx5LlwlN7koj1v7o9PKG7RXEynDuE1Fezyyy0xlysE+1IhL+AEREk/SIZPAUuB35RYk8xzudWXfHY/SLFxpLV7n2hEvvaCo6aFa/twM7e+wjKiSWSf3/ijWcv30CRiR67giwUFXE7IkE7ATGBwbC5nzmLpUzLy+WId5NWGOxMFn0OKNgNJn6Aszxa8mDHA==
+ bh=4zNdL7tWham87HoHwn8xz6ueibe+Hh/aJgP8wcB7vHs=;
+ b=uMHanSSsrUvOEMJVGSyheTJbFXaG0yIbw0u7SUTJQl9x2lNNP5psaEq9y74/bhr6MMXTKQiTFPjTcGLOfnDv7Q1F3aEZUImWCn8jz5kmpPJjcdIyZBjO3nzS84mWPhE+QNv4EhnBP0dNP0djibo69ktrp1fm68ez31Hv7vONVLCRnx910ysgP1oENDRpZyyddGR70jnK0kI29uvEDc1AVplnaXvpL3u3pEo+zLfXEJG2WvTdXVL6f6pdbqyh76vIB+Krbo2RbBrXcu3f1gL0EDd6YS37qjpZM4IfQe2QyTm78ds6IaXL4drVjchQfRu9bwb2ZM2SnIHpVm6J0naZjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=solid-run.com; dmarc=pass action=none
  header.from=solid-run.com; dkim=pass header.d=solid-run.com; arc=none
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AMS1EPF0000008F.eurprd05.prod.outlook.com
+ DU2PEPF0001E9C1.eurprd03.prod.outlook.com
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	99e7e056-1712-4bef-2dcd-08def6aeaae7
+	fd1b2c67-1a09-4fd1-d8f0-08def6aeabd2
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|35042699022|82310400026|23010399003|376014|7416014|14060799003|56012099006|10067099003|18002099003|13003099007;
+	BCL:0;ARA:13230040|36860700016|1800799024|35042699022|82310400026|23010399003|14060799003|376014|7416014|10067099003|56012099006|18002099003|22082099003|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	E2P4UBPjKxpQnwXXnjCr+vsKtM5yuvMCPxh8Abt+7D+XKwcphMQIo9RV25sysEqKXiadFFZYgOWrzkweM4ojtOiGxrE8uJeQEutIqHcKQD2ygu1Thknm7CDjtKVMQ1MVCAyBtlKtY9LuxPN3bwMn6OC9Ahc78IWnQ9iBSvntFjCI2/peayj6DO8ND3bOiBTxoeTHEfRgUg27cBfFIpBmeJd1CYlgUm1FgzCx8DZ8v/+en/r+eAsKVX85PU3Ff7hukx9iL4OC3y/sCuiPhSWvGZ+TKJ8zpI4vMYBamZB0Rwkx3OHI7XenXCHQaw726UU4tF99yR9ZrtoaDwOoadUoozrFuMehf25V9R3oSv2W3mFl5gLnLqAHN7WWut0oxYZExUIamMKys9V5cP7w2T7MiYcV6F/IvqYKLIipjExmyuvKdLBawQojobSitK9chwPn/o1MWg2cOhtCx1vQGorfrBN0apnIxTYErYsZWRn5ROAuahWy9PvAZ9G+hTNkh9JM2/NvlmLy2SwJxAYlc5aiMB4p48YHr5yeGdQr6l3fQtyEFzu6GThaeYrweNYobtT4nxfFsYjrXZiKWGfs6+PJ+Q6zCqksQBg51C6nsB6mABz0pU5wwj3V6uxihRkdqCFYhY5YUv/6vCz1UqGw7Snazb6yaDr8w2rBq4h3Gi5XbNV8IDb2GgLRzkfYzuiblA+QXoJjOqWWneJ7CxjP2lMuWQ==
+	v4kg07GFoJVg7qHXs6qf+sWYT9jjOcMRAzR1/86v6z165NSd+xrBhTPbfD8HTWCjM1OhWsOFgfB4prBHJlsrpjA7/L8DAi3rPHAn/4QnZ83D74fNwKM2Lg+qYXvDCmsG3+HjvGAxlhrEFbbK9A9eypl6qPFD8vwSnBTOIOw1dKmt2ihshAcgma5DQPDtS+yuaJ8bI0g8iESd/MMvJqDa2AjOIFTAB9Rmavmz2B+QHezr0/OunZWhfx95qy7rYT8Jue0kNzbEWs///pNyc7PUx/Ml6oPON4tqU2TnWpKzPn2g3shh+aK3y+fKzFj2z7gAY2dxvAxRWUXtbsgvCuEdnuQ4h1TmoyILEfsJ7fX6dxW9CWui90Fyx4zS5SJe2zyRaYOcAKrs0PlaZSZvtWtWAf7sL3RjTpww904FA5IBYwOIMUsLpc+Mz+ToJT8YbOEZs4OsVvGooAW7mBoENvagq421KDtYnzTTuDlj5rUbcnqyFMnK9ckJ5qQQMSA5WC7uQjD1mg+wCQR7pGnBPGPGaeCNfn1z6hU7F00AT6VMRG1eCtlDZpSX9Ko4PN4wBcI20mR0GQRWJ69RlQ8FxNAPyL/4gscP12jFP/CLmAz65M3xcdt8Q+H/qIWwDSKsbl9TfLZD+67vwGR7jwxHNEiTZcyRuL1TSMD8QObmW3tQmQWsLZvX8e984iw6FLxITtzA4xvB+aWTaLSSe79pNuIlCQ==
 X-Forefront-Antispam-Report:
-	CIP:52.17.62.50;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu-dlp.cloud-sec-av.com;PTR:eu-dlp.cloud-sec-av.com;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(35042699022)(82310400026)(23010399003)(376014)(7416014)(14060799003)(56012099006)(10067099003)(18002099003)(13003099007);DIR:OUT;SFP:1102;
+	CIP:52.17.62.50;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu-dlp.cloud-sec-av.com;PTR:eu-dlp.cloud-sec-av.com;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(35042699022)(82310400026)(23010399003)(14060799003)(376014)(7416014)(10067099003)(56012099006)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	ijvc2rsQ9MWvnZAIiQITkzqaGTsc3q/5q/0Pu12nlXoagGxYo3PBEWVONYEAzwmsrIuw6tCzCCtvvvA/3xvAm1KEDLmUiMBpfj5BjuzUd0esdG+ZClxJK/TczR0xCHoHZd/zxvJUidlHRE1RlsElYz/QAAKS+x5VHDEwhA2CWB6Ahdv+vTIKzd+K0ln5unkXrHZ3FdlxxRSsqdgARdcSHmNSYluZPyFiqpPvAQ/7KZx4H/HeJSxcIIY/eOkqLVEDyWjPFoWRVupICm5YKr+kuWEHLIb1OZuNG9ICxnUSstxQAXe2lDdQt7oxmW+SWI3mXfHPS/HCUmz7yBbjRO6QxjwtO4Z7hCdoJ8dNh5QcNmSO5ttQ+aurkfDER56z87rp893X6fuXgIgo45aeomh8rJTz+cGQWeL+2oUGr0WtCeC6HYeHiT0EY8PRx/le2NoO
+	ansjXSBUl6RUTK84hjFrUP1rLPyhcFIP3c9xKSeGbVViB2/HrO3j7jah3d4kNmJFmYJJx5/EsKNHE7s3qVmP7oiMIv4hvYaBIOtssi5TvaYb8mbWIsYCFQnnhG6YvuNijpgY8B/wm6Es3GLAofonT+1q9tbsEPIR5B/MXwu82xbzuv3z3G++MEqdDN1HyuclcbkkZ/dbFqIPfkUW857VOUGsxJi/UqE7Dt6zteod49v8y6BMG/p6ype6+1WohL1Z5PPv2k2xtoKpMuiXYPUFc4AqAxeSA0hkkQd4Lnqn1VSr6dGiJhpKXqgPrLzl9xwGpkfEIkTqni6sPpxE4t0PJ4JZ2GhtHW42wFQ/SynZchq9+xJaAuz5Aakk28hlH89B+7MNdvpRhV8MRXRchvf5qbZFq/O4tUsIcjA3VGvs+v1B83dTNTXzqug5URsD7Fav
 X-OriginatorOrg: solid-run.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 07:12:07.6957
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 07:12:11.8746
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fa512ee-c028-4143-a164-08def6aeb06e
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0e96da7-df61-4cdc-baaf-08def6aeb2e3
 X-MS-Exchange-CrossTenant-Id: a4a8aaf3-fd27-4e27-add2-604707ce5b82
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a4a8aaf3-fd27-4e27-add2-604707ce5b82;Ip=[52.17.62.50];Helo=[eu-dlp.cloud-sec-av.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AMS1EPF0000008F.eurprd05.prod.outlook.com
+	DU2PEPF0001E9C1.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9515
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7453
 
-Add support for a variety of SolidRun RZ/G2 based SoMs and the
-HummingBoard IIoT Evaluation board.
+Add bindings for various SolidRun boards and System on Module built
+around Renesas RZ/G2 family of SoCs:
 
-Bindings are added for all SolidRun RZ/G2 SoMs:
+- RZ/G2L SoM [1]
+- RZ/V2L SoM [2]
+  (shares PCB with G2L and has very similar programming model)
+- RZ/G2LC SoM [3]
+- RZ/G2UL SoM [4]
+  (shares PCB with G2LC but programming model differs largely)
+- HummingBoard IIoT [5] (RZ/G2L, RZ/V2L, RZ/G2LC)
+- HummingBoard Pro [6] (RZ/G2L, RZ/V2L)
+- HummingBoard Base (Ripple) [7] (RZ/G2L, RZ/V2L, RZ/G2LC, RZ/G2UL)
 
-- RZ/G2L SYSTEM ON MODULE
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
-- RZ/V2L SYSTEM ON MODULE
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-v2l-som/
-- RZ/G2LC SYSTEM ON MODULE
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2lc-som/
-- RZ/G2UL SYSTEM ON MODULE
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2ul-som/
+[1] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
+[2] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-v2l-som/
+[3] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2lc-som/
+[4] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2ul-som/
+[5] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
+[6] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-sbc/
+[7] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2lc-base/
 
-And each supported carrier board:
-
-- HUMMINGBOARD RZ/G2L IIOT
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
-- HUMMINGBOARD RZ/G2L PRO
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-sbc/
-- HUMMINGBOARD RZ/G2LC BASE (Ripple)
-  https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2lc-base/
-
-Device-tree are only added for the first board to reduce initial effort.
-
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Josua Mayer <josua@solid-run.com>
 ---
-Changes in v6:
-- Drop currently unused usb-vbus pinctrl nodes from som dtsi, reported
-  by sashiko.
-- Fix duplicate pin config mistakes in split dat0-3/dat4-7, reported by
-  sashiko.
-- Link to v5: https://patch.msgid.link/20260809-rzg2-sr-boards-v5-0-19c662358e36@solid-run.com
+ .../devicetree/bindings/soc/renesas/renesas.yaml   | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-Changes in v5:
-- Clarified sdhi mux dt comment on mux and gpio states.
-- Added microsd & emmc dtbos to Makefile targets explicitly for V2L SoC
-  too. Reported by Sashiko.
-- split 8-bit and 4-bit sdhi pinctrl to avoid theoretical overvoltage on
-  hardwired eMMC DAT4-7 pins. Reported by sashiko.
-- Moved dr_mode from usb phy to controller. Reported by sashiko.
-- Collected acks.
-- Link to v4: https://patch.msgid.link/20260730-rzg2-sr-boards-v4-0-08bc459578dc@solid-run.com
+diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+index eeef34e3d7d0..1673005a3d93 100644
+--- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
++++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+@@ -508,6 +508,14 @@ properties:
+               - renesas,r9a07g043u12 # RZ/G2UL Type-2
+           - const: renesas,r9a07g043
+ 
++      - description: SolidRun RZ/G2UL based boards
++        items:
++          - enum:
++              - solidrun,rzg2ul-hummingboard-ripple # SolidRun RZ/G2UL HummingBoard Ripple
++          - const: solidrun,rzg2ul-sr-som
++          - const: renesas,r9a07g043u12 # RZ/G2UL Type-2
++          - const: renesas,r9a07g043
++
+       - description: RZ/G2{L,LC} (R9A07G044)
+         items:
+           - enum:
+@@ -519,6 +527,25 @@ properties:
+               - renesas,r9a07g044l2 # Dual Cortex-A55 RZ/G2L
+           - const: renesas,r9a07g044
+ 
++      - description: SolidRun RZ/G2L based boards
++        items:
++          - enum:
++              - solidrun,rzg2l-hummingboard-iiot   # SolidRun RZ/G2L HummingBoard IIoT
++              - solidrun,rzg2l-hummingboard-pro    # SolidRun RZ/G2L HummingBoard Pro
++              - solidrun,rzg2l-hummingboard-ripple # SolidRun RZ/G2L HummingBoard Ripple
++          - const: solidrun,rzg2l-sr-som
++          - const: renesas,r9a07g044l2 # Dual Cortex-A55 RZ/G2L
++          - const: renesas,r9a07g044
++
++      - description: SolidRun RZ/G2LC based boards
++        items:
++          - enum:
++              - solidrun,rzg2lc-hummingboard-iiot   # SolidRun RZ/G2LC HummingBoard IIoT
++              - solidrun,rzg2lc-hummingboard-ripple # SolidRun RZ/G2LC HummingBoard Ripple
++          - const: solidrun,rzg2lc-sr-som
++          - const: renesas,r9a07g044c2 # Dual Cortex-A55 RZ/G2LC
++          - const: renesas,r9a07g044
++
+       - items:
+           - enum:
+               # MYIR Remi Pi SBC (MYB-YG2LX-REMI)
+@@ -535,6 +562,16 @@ properties:
+               - renesas,r9a07g054l2 # Dual Cortex-A55 RZ/V2L
+           - const: renesas,r9a07g054
+ 
++      - description: SolidRun RZ/V2L based boards
++        items:
++          - enum:
++              - solidrun,rzv2l-hummingboard-iiot   # SolidRun RZ/V2L HummingBoard IIoT
++              - solidrun,rzv2l-hummingboard-pro    # SolidRun RZ/V2L HummingBoard Pro
++              - solidrun,rzv2l-hummingboard-ripple # SolidRun RZ/V2L HummingBoard Ripple
++          - const: solidrun,rzv2l-sr-som
++          - const: renesas,r9a07g054l2 # Dual Cortex-A55 RZ/V2L
++          - const: renesas,r9a07g054
++
+       - description: RZ/G3S (R9A08G045)
+         items:
+           - enum:
 
-Changes in v4:
-- Rebased on v7.2-rc1.
-- Addresed sashiko comments for g2l som & hb-iiot:
-  gpio dt property -> plural, irq levels, memory size, usb-3.0 hub.
-  The usb hub ids however are correct, 6502 and 6506 are usb-2.0.
-- Addressed sashiko comments for g2lc som & hb-iiot:
-  gpio dt property -> plural, vmmc gpio polarity.
-- Link to v3: https://patch.msgid.link/20260512-rzg2-sr-boards-v3-0-f033fc96c906@solid-run.com
-
-Changes in v3:
-- Added explanatory comments on won't-fix sashiko findings.
-- Added cap-sdio-irq to sdhi controllers used for WiFi.
-- Drop redundant addition of common device-tree overlays to install
-  targets of G2L(C) SoC.
-- Add common device-tree overlays to install targets of both G2L and V2L
-  SoCs.
-- Assign kbuild composie variables with := operator.
-- Link to v2: https://lore.kernel.org/r/20260511-rzg2-sr-boards-v2-0-82aebbd27891@solid-run.com
-
-Changes in v2:
-- Added relevant product page links to each commit description.
-- Added product page links to cover letter, thanks Geert.
-- Link to v1: https://lore.kernel.org/r/20260503-rzg2-sr-boards-v1-0-8545677f93ca@solid-run.com
-
-Cc: Jon Nettleton <jon@solid-run.com>
-Cc: Mikhail Anikin <mikhail.anikin@solid-run.com>
-Cc: Yazan Shhady <yazan.shhady@solid-run.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Benjamin Bara <benjamin.bara@skidata.com>
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-
----
-Josua Mayer (5):
-      dt-bindings: soc: renesas: Add various SolidRun RZ/G2 based boards
-      dt-bindings: usb: cypress,hx3: make peer-hub property optional
-      arm64: dts: renesas: add support for solidrun rzg2l som and hb-iiot evb
-      arm64: dts: renesas: add support for solidrun rzv2l som and hb-iiot evb
-      arm64: dts: renesas: add support for solidrun rzg2lc som and hb-iiot evb
-
- .../devicetree/bindings/soc/renesas/renesas.yaml   |  37 ++
- .../devicetree/bindings/usb/cypress,hx3.yaml       |   1 -
- arch/arm64/boot/dts/renesas/Makefile               |  35 ++
- .../dts/renesas/r9a07g044c2-hummingboard-iiot.dts  |  20 +
- .../dts/renesas/r9a07g044l2-hummingboard-iiot.dts  |  16 +
- .../dts/renesas/r9a07g054l2-hummingboard-iiot.dts  |  16 +
- .../renesas/rzg2l-hummingboard-iiot-common.dtsi    | 560 +++++++++++++++++++++
- .../renesas/rzg2l-hummingboard-iiot-microsd.dtso   |  26 +
- .../renesas/rzg2l-hummingboard-iiot-rs485-a.dtso   |  17 +
- .../renesas/rzg2l-hummingboard-iiot-rs485-b.dtso   |  17 +
- .../boot/dts/renesas/rzg2l-hummingboard-iiot.dtsi  |  49 ++
- arch/arm64/boot/dts/renesas/rzg2l-sr-som-emmc.dtso |  44 ++
- arch/arm64/boot/dts/renesas/rzg2l-sr-som.dtsi      | 451 +++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2lc-sr-som.dtsi     | 408 +++++++++++++++
- 14 files changed, 1696 insertions(+), 1 deletion(-)
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260502-rzg2-sr-boards-37d556668a2d
-
-Best regards,
---  
-Josua Mayer <josua@solid-run.com>
+-- 
+2.43.0
 
