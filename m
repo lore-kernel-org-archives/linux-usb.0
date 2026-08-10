@@ -1,155 +1,114 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8513BB685
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 10:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4B136F900;
+	Mon, 10 Aug 2026 10:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786358061; cv=none; b=k1066IJIM5ma27DGTAdsySK86TBZlfFdD+jRxRcknssNoetL4diUbYt8YrklFY+TtHx00W2+ClQU9n4+4SqVEbEev+uaknXm/NYORdq5L+ZPp/Df7x8VtXfBha9no3x6vQOUyetW6uSLNx8sc1xn7QBCCxOJhPKctpxKQLALjkY=
+	t=1786358618; cv=none; b=Ps7dpe+ppBM9nYezcA8AgucVEGl9vGEbkUPdDQQFcqfVR4Z0erVXmCorjXp8J3h9Jnfciz8N1V0Rh0LSgVF+gnC4Dy4BVSzaWe9mmJ7RNP9pGHBTTGYXs/i+/mdE25Uoe0kM/AaHEqriZjdXWFy8CkeviJHG7855157mkdnXDiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786358061; c=relaxed/simple;
-	bh=PkEqfw5BtLdDnZYry2g2/pwCtnDYFA3+IyO/9jzcKEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j3Fkdu6mfvmhmh0wyuo/5iJRHtQDt7xy7TrW7xGtWtCZPtCskDZDnN9TkSG9NHnIqHNzXPqs82E8LL4c/2cxFCxfRrTKP3Pm7+hiZKIpGKTQm4kA0IpydsZLMhVYy1bshGyvCUfUbrXRzir66/1tF+1es/DRmz6VNHqXClelsl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kXPz7jXa; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786358618; c=relaxed/simple;
+	bh=H3hnNB4UNyV1sp06CjJaNULoM7znOZ64zfIEHTRpD5g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L2uXy88YPDg2cKTstTLj0HK7sxc0kdQvdbEqlRhjXAtO7gelpyjzg3n30fi/8eCtDLck2jcT4fqjYdVGucQOnaOtZFyeaF4kEoZMx0QtVRodNjORp80XhN/wP0R2PuJyixZ5y2hWHKlLwQfjFfrnLbsvTM51GJeBCxbgLGg3qJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=CzFXARr7; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=YbQOhqFs; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kXPz7jXa"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so14925785e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 03:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786358056; x=1786962856; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fLj1mS69X3Y7Lky/wyVZgHB9SawjBhLGJHOJwFF5I10=;
-        b=kXPz7jXaFgEp9qvXlHYNehPtlANmvvO1EJ/XTJaA48W/UN/okSlqpnrOWFXUP9i+ew
-         cKsbYMa3tZSqnWPVoB9muOTRxU2sR3NFanxTZVtmWWPTHWqLzz0TspUDoAthQPXdYBae
-         SYxjCP0UgH0TLdiBosk4ct7LGu2eWE2Ilenk7AghUQ3GdgTOZx+9nOpWC02QAHYKRj0Z
-         4qnAGUcF712UjkLOUpo2APB+TKnnYodRD83W5VXRto75glDKGbWo2Zk6C517CEBBiHM8
-         fgPisDxeNFn95ZmqqtCbt7Wg1nfUoDCqpazBZ5r5TzhOORFfuasLe1+AZOSDa4+4xWsl
-         7hQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786358056; x=1786962856;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fLj1mS69X3Y7Lky/wyVZgHB9SawjBhLGJHOJwFF5I10=;
-        b=KFsrHsqEeQoEgA9UYWc+gcGpWZmvaxMPLRDIVX2P8ZGK1zmZgGDs/2zNxWcpBNtuKE
-         ZHDUbQH+f+yJOwmhGC+ZcdbL2MjqoiVdk61gwudTU0byIIQR2UcyZRDuSg1WEBmcCNqq
-         au2+4J003PEm2Z68TcuXSz1lLuJ+3c2lHR/tNsl5kOXAAioQGX5DzWEXNZ/wp40mkkK9
-         P7M7D0NOgzqu5EcLV3N/DMCgUk7QQFlA4+8YAvGhWJkBrUEwezYurEKrMeNfIbFSAP0Z
-         /FcgoM/wTP2u+TwEoqbzTShTbGXoUIIkpWFaad6syB+UlSqfsFUFFMNTXBsehqMvsDtM
-         /dtQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoM1OWcE/8piEOovoiFcicPKMXSspa0wWsbfraCczJnkijhs0MDB9hGmAQz9zNXK6cE+/J2ChNS4yw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8MEImbMPMVN9KnCdMoymr1L/Ijnx5GpM7Yyf1EDnA1J6tNFRb
-	D7TXVYcS26Wx5nSUaAz3VRdh8AqpRdNl0nezQLiWcrdRS9w9FrNiQICY
-X-Gm-Gg: AR+sD11Ru+LTAV1MbYajVMGycq/V+EhHXsuCHMy4wQ98a7vMyZK9uCqx/Tr+nastC4R
-	1hGyhrWDR26BoqNV4GynDH+JzHoa9bK1bqtnOWjt9R7SlDiGylq2tOEPZivUXu1S9UW99C0dnWG
-	yemA15JiKUg/guZzTW4rs5MwWBbxZ+tsyMJr9+SfC81bfXiwZUoDs2Dk5AfQfcr405HyL7gkpj9
-	yZWpi3ZEK3MV1u7pMRaXwcxGt1jEwJNdBwnkmrj6pF9JRAGKOYMh30ADw1IDdu04PzfXjXUWIDe
-	8ClQgBsWzP5j87EYEA7b7YKo0OoYQiznytk3mpnLkwWxfwaGBpcauZQsZ7oJ5E//azdXgvqdKD2
-	AJ/ZsXsHId0A/ar6Z8EEa+TkOpd7uKfGVBR4XOJWm3H1IxTipKr/wGK5IX+/XL7TntrlxTRIAUO
-	k0UIIleJVZ/8+EIpmTQcDLrG9It9+vHvqyWY3nhQ+lR/WNSDgETtS4VygCsGudpiuT/I120LDbE
-	y26MBKGCXwpZFX0exmwob4VS+jBma/XWi7NUx1P4kiXZYyT9oABX/MLVqyNMF0VjCNemTAH2+KB
-	bI4Eaf8whAUhEA==
-X-Received: by 2002:a05:600c:6749:b0:492:4e09:9fc1 with SMTP id 5b1f17b1804b1-499727e65dfmr12164765e9.15.1786358056467;
-        Mon, 10 Aug 2026 03:34:16 -0700 (PDT)
-Received: from labdl-itc-sw01.tmt.telital.com ([2a01:7d0:4800:7:a04:488a:882a:de93])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4800220727bsm34917350f8f.33.2026.08.10.03.34.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 03:34:15 -0700 (PDT)
-From: Fabio Porcedda <fabio.porcedda@gmail.com>
-To: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Daniele Palmas <dnlplm@gmail.com>,
-	Fabio Porcedda <fabio.porcedda@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] net: usb: qmi_wwan: add Telit Cinterion FE990D50 composition
-Date: Mon, 10 Aug 2026 12:34:09 +0200
-Message-ID: <20260810103409.133796-1-fabio.porcedda@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="CzFXARr7";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="YbQOhqFs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1786358608;
+	bh=H3hnNB4UNyV1sp06CjJaNULoM7znOZ64zfIEHTRpD5g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CzFXARr7z99wvutR06vxKc9at+85MPTZwAxfoe9B8VJteOZPFh2mOR5wj/nc6s6ZB
+	 cIK3cO0H2eJruLByfS9yfn6P3BGmqLxOL6m8mVUWkHR0Mf9LVaawsrISoDvpWILZVO
+	 srX26cNiT/tb7Q63sHUUtt7dv7P4t5x19ihLE1eLezOu76Slf5PgF2hAcCpqQRdLue
+	 mNJL7/XmxrzJaxbY70v7Kmat/sEftGm2N2244M6W/1vihRoEL5VPeA458p+KCW8T2Y
+	 KklZWCpa3O5MdtRnE99eqnQkLRy3I6cYEpyiP6SArfNgKnAI7Ks43y2BWPGu2zeA+M
+	 kzjBwhdF+Mzow==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 3E6064976E; Mon, 10 Aug 2026 10:43:28 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1786358598;
+	bh=H3hnNB4UNyV1sp06CjJaNULoM7znOZ64zfIEHTRpD5g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YbQOhqFsNXaeobNBtVWmOCD/X+RkJr4s2dnUV2TsLXswRwTDTsbcN7/g+/MAbCOeB
+	 LXSy+St+Mhbf3rjWGZ0iaA9FZlXdewfh5yUF3/5hrbL+CWzTcoMJSx/9D8z7n0vNIU
+	 EGKEeEfgesP+yTqiooaWzQf+WCD2MO7rxN3ifL3rpXA1WITlZvDAY6ZUNFB4TKEAsa
+	 D1i+L+JVbCDDUz1JID3UISomkZxqEtJ+yE2eU3mC+xnLQ9H5nJdcgSxIERLTicfGv0
+	 cm1K/a1KHmMvDZDHdhPwegtU5uf6179uNyVx6TIhrhRQ9CmY/FGDW+nVhYzUhJZXM0
+	 J87cZIw160I/A==
+Received: from [IPV6:2003:c6:9f06:3400:aa83:94e1:f1fd:d452] (p200300c69f063400aa8394e1f1fdd452.dip0.t-ipconnect.de [IPv6:2003:c6:9f06:3400:aa83:94e1:f1fd:d452])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 5E7C94975F;
+	Mon, 10 Aug 2026 10:43:18 +0000 (UTC)
+Message-ID: <5b2c4498-2e3c-4ae6-b078-deeccf8b7a5c@birger-koblitz.de>
+Date: Mon, 10 Aug 2026 12:43:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 00/13] ax88179_178a: Add support for
+ AX88179A-based chips
+To: Jianhui Xu <neuromoments@gmail.com>
+Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, hkallweit1@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux@armlinux.org.uk, netdev@vger.kernel.org, pabeni@redhat.com
+References: <2eeb01b5-7d3d-425e-9865-4e2fe1614e67@birger-koblitz.de>
+ <20260810013549.2510969-1-neuromoments@gmail.com>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20260810013549.2510969-1-neuromoments@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add the followin Telit Cinterion FE990D50 composition:
+On 8/10/26 03:35, Jianhui Xu wrote:
+>> The only way this could be coming from the driver that I see is via a call
+>> to ax88179a_stop(), which would clear exactly that bit.
+>> Have you traced this and can exclude that this function is called somehow?
+> 
+> Yes. I added a dynamic kprobe on ax88179_write_cmd(), filtered to
+> AX_MEDIUM_STATUS_MODE writes, and recorded the value and caller stack.
+> 
+> During 30 100baseT/Full-to-1000baseT/Full cycles, four transitions to
+> 100baseT/Full lost RX. In all four cases:
+> 
+> - ax88179a_mac_link_up() first wrote 0x0102;
+> - there was no intervening Linux write to AX_MEDIUM_STATUS_MODE;
+> - about one second later the delayed worker read the register with
+>    AX_MEDIUM_RECEIVE_EN clear and restored 0x0102.
+> 
+> All 71 traced writes to AX_MEDIUM_STATUS_MODE had
+> AX_MEDIUM_RECEIVE_EN set. The complete 1,209-entry trace contained no
+> ax88179a_stop() or ax88179_change_mtu() caller.
+> 
+[...]
+> I do not think this proves an unconditional device-side bug, though. The v6
+> driver failed four times in 30 cycles after writing 0x0102, while the vendor
+> driver had no failures after writing 0x0132.
+I have finally understood what is happening: There is a race condition between
+the controller of the AX88179A trying to set up and optimize the link and
+phylink trying to configure the link on the mac-side. When a link change
+is requested by phylink triggering re-configuring the PHY, the PHY is continued
+to be polled by phylink. At this point, the PHY may report that the link is up
+before the controller is actually finished configuring it. mac_link_up() is called
+by phylink, but the controller overwrites the AX_MEDIUM_RECEIVE_EN
+bit that is set by mac_link_up() when it continues with its configuration.
 
-0x0991: rmnet + tty (AT/NMEA) + tty (AT) + tty (AT) + tty (AT) +
-        tty (diag) + ADPL + adb
-T:  Bus=01 Lev=01 Prnt=01 Port=06 Cnt=03 Dev#= 10 Spd=480  MxCh= 0
-D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=1bc7 ProdID=0991 Rev=06.06
-S:  Manufacturer=Telit Cinterion
-S:  Product=FE990
-S:  SerialNumber=2aa802d2
-C:  #Ifs= 9 Cfg#= 1 Atr=e0 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=88(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=8a(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=8b(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=80 Driver=(none)
-E:  Ad=8c(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 7 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
-E:  Ad=8d(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 8 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+The solution is simple: do not poll the PHY with phylink, but wait until the
+controller decides the link is completely configured, at which point an interrupt
+USB-URB is sent. Then handle this interrupt in phylink in order to read the final PHY
+configuration and only then call mac_link_up().
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
----
-Changes:
-v2: 
-- Add stable@vger.kernel.org
-v1:
-- https://lore.kernel.org/netdev/20260810102840.125473-1-fabio.porcedda@gmail.com/
+I will provide a v7 with an additional phylink function phylink_mac_interrupt()
+being introduced as suggested by Andrew, which is called by ax88179a_status()
+in response to usbnet receiving the link change interrupt. I tested changing
+the link a couple of dozen times and it always worked, now.
 
-
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 94cdb61dca83..147beaa61340 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1360,6 +1360,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x1bbb, 0x0203, 2)},	/* Alcatel L800MA */
- 	{QMI_FIXED_INTF(0x2357, 0x0201, 4)},	/* TP-LINK HSUPA Modem MA180 */
- 	{QMI_FIXED_INTF(0x2357, 0x9000, 4)},	/* TP-LINK MA260 */
-+	{QMI_QUIRK_SET_DTR(0x1bc7, 0x0991, 0)}, /* Telit LE910C1-EUX */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1031, 3)}, /* Telit LE910C1-EUX */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1034, 2)}, /* Telit LE910C4-WWX */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1037, 4)}, /* Telit LE910C4-WWX */
--- 
-2.55.0
+Birger
 
