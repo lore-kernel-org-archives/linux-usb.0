@@ -1,107 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6733AFD08;
-	Mon, 10 Aug 2026 09:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810733AF667
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 09:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786354723; cv=none; b=YKcnT6npLWIlpZvEpm5KiBtcYHVMcgJbfxpctEIzcV2L95mQHTBYnYGjpuPvCe2Sn+anjd3ESuGxYEzjDdw2Ovd5tx+wrtvqBW8N4DQISFYuG9VAAAANY2lgH+iZccGl8usJOmjLFxem46xvN5Ig2pfcrEflROtIZk4rCLll1Ko=
+	t=1786355249; cv=none; b=okfqhuULAsoahPK3VB4ma9EY2DlmKGsWPhb51RxHw1LgDqv7mT18hCYOEGkUyw8z0mNOxZaAhSOwEGmUqgW75RlMnawM+fgGrCDfsKpujAWCrlZtUmK7JxHUFWtJw4IWdcJ44UjvaZdAT8NRRQoB52lFQFAWjsNAupdlEyPUp1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786354723; c=relaxed/simple;
-	bh=30gKJksUBvCxM80pwVWmcl90ABwG5Q9q/pg+bFx3Og0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NA8N4agmJe5JFAfRYh6qaeQWc1x/W6Q8ZVD3sL4fSliUyXrBPk306ZbG4bPydbsBk5VDs3BVnIz2ONS3Fny3ek11ODN1EmBgk2aeb36Cew51QaYnFFku26lEguiQDofDa59y/i5bQQxU+39ruH97f0NIUpqWaDzF7DvjW/lpWeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sw3R9rnv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786355249; c=relaxed/simple;
+	bh=nkZ+R2UOtBKsZPfK/IOLnFMw8VnIYdPXzZH+29yp6D8=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fwseVjz/kX+FwdfeE2jBrxtD9vRkFXCFC4iXrR8cXFXaQUSD2iiyUqztB5jU46tLZyS/W5Y1oom1WN/T8iOA71pFmjCMyiNGuPmZlHzPMOnS4nX/vU631fRAPZZgri38zv10R4hlK5oke8fJUdX7E8HPd8C8FHHulqItF4ZiTb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rdHjGOzx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sw3R9rnv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 15B3FC2BCF6;
-	Mon, 10 Aug 2026 09:38:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rdHjGOzx"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F9A7C19425
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 09:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786354723;
-	bh=30gKJksUBvCxM80pwVWmcl90ABwG5Q9q/pg+bFx3Og0=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Sw3R9rnvlWUnrKwXd30Y+//xiGTaTFVrh5qYwccZTFe9HCgH3sSf2bEhqeoSAs1wn
-	 NlAF+hk1lhnHkU25p3yqnMDrOUos6YzPl9u1AZpLJ2bLlD2uneieau4VHgyDo6Io8z
-	 Lb3uFeC1cpMGhq6zOQ6HwaKrCSMR0qYI4B0Bog0OHh/Yglu1I8flQY5j9A/LDu+M7H
-	 OMNsyqcKLyqfh5XQlIoSTSEYuVcqYNKTcI6W5j1l7MEAE5kcAjbbh25lEW6BolUoup
-	 5pWHhFwggSC1Tz1cXfFwW1+zKBchCRZ79y3WtaLydRbb7dMsLzIh76x7c/KDo1dB00
-	 L1qRvi7Eoe5ug==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A45C5AC82;
-	Mon, 10 Aug 2026 09:38:43 +0000 (UTC)
-From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
-Date: Mon, 10 Aug 2026 09:38:43 +0000
-Subject: [PATCH] thunderbolt: Use min() for the DMA path credit cap
+	s=k20201202; t=1786355249;
+	bh=nkZ+R2UOtBKsZPfK/IOLnFMw8VnIYdPXzZH+29yp6D8=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=rdHjGOzxVNzafpJaKxNBiWv58ofiuZ0EezR8GmhKk1CtGTOjbjwe51v+OmcOs6UMo
+	 H84drkny3BX9ZlQ6Sn125xH64ZCAy3bL3sm/zG4UBScM17RfVFJtS8spz+imtw5Nxm
+	 qNkr0KxwGGUKAvXODd2ChmRYZTRzoQzEFWF0qq7YF4vdDlX4g470Q3rlp51KBudm3M
+	 xafSdND73tKy20yOQpG7p83R6i1f5w1DPC4irIuh4bsY9mDkV7fxctGo0OMedfytH1
+	 NWcGKt2pg0GcgzL31h5lFwovs/vJUblHAyWwGNsa27lEk2SI07T6KLf2uHP2EUzI8b
+	 7daEkgheSIS/g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 34A56C41612; Mon, 10 Aug 2026 09:47:29 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
+ breaks functionality of Owon VDS1022
+Date: Mon, 10 Aug 2026 09:47:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: huangwei@kylinos.cn
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-220193-208809-3XyDDA0j45@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
+References: <bug-220193-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260810-tb-dma-credit-min-v1-1-1ea9d3847e7c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACKceWoC/yXMQQqDMBBA0avIrDuQiGj0KtKFyUx1BKMksRTEu
- xvt8i3+PyByEI7QFQcE/kqU1WfoVwFuGvzIKJQNpSprZbTCZJGWAV1gkoSLeGyMNS3pqrXUQO6
- 2wB/5Pc/+/Xfc7cwu3SM4zwuzgkX3dQAAAA==
-X-Change-ID: 20260810-tb-dma-credit-min-78b89d149bd7
-To: Yehezkel Bernat <YehezkelShB@gmail.com>, 
- Mika Westerberg <westeri@kernel.org>, 
- Andreas Noever <andreas.noever@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Fan Ye <fy15309206903@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786354722; l=1319;
- i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
- bh=xu76tpRxhyIN36dOBysJ1tAL6rwd3DghIfQIiVfsYhE=;
- b=jqWnKrgvjW6j0B80u8b+Vddx63b36o0xKfC7tnxw2k39fcYyzw4zMbTqiuu5+yrsgqFihV+e6
- T6xYaUFtMttDAmlrFkK0P1RN/mrTqMkb3jystyKRl+kwndb3XVYgljk
-X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
- pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
-X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
- auth_id=929
-X-Original-From: Fan Ye <fy15309206903@gmail.com>
-Reply-To: fy15309206903@gmail.com
 
-From: Fan Ye <fy15309206903@gmail.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
 
-tb_dma_reserve_credits() caps the request against what the adapter has
-left by decrementing one credit at a time. The other arm of the same
-if() already caps with min(port->total_credits, credits); use min()
-here too.
+Wei Huang (huangwei@kylinos.cn) changed:
 
-No functional change: the object code is unchanged.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |huangwei@kylinos.cn
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Fan Ye <fy15309206903@gmail.com>
----
-Verified by building drivers/thunderbolt/tunnel.o with and without this
-patch (gcc 13.3.0, x86_64): objdump output is identical, a single cmovbe
-either way.
----
- drivers/thunderbolt/tunnel.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+--- Comment #1 from Wei Huang (huangwei@kylinos.cn) ---
+Hi leStoppe,
 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index b7f32305f14a..e9214de5f3b7 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -1778,8 +1778,7 @@ static int tb_dma_reserve_credits(struct tb_path_hop *hop, unsigned int credits)
- 		if (available < TB_MIN_DMA_CREDITS)
- 			return -ENOSPC;
- 
--		while (credits > available)
--			credits--;
-+		credits = min(credits, available);
- 
- 		tb_port_dbg(port, "reserving %u credits for DMA path\n",
- 			    credits);
+Thanks for reporting this and bisecting the regression to commit
+4cc01410e1c1.
 
----
-base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-change-id: 20260810-tb-dma-credit-min-78b89d149bd7
+A fix has been submitted to the linux-usb mailing list. It narrows
+the OWON match from USB_DEVICE() to USB_DEVICE_AND_INTERFACE_INFO(),
+requiring bInterfaceClass=3D0x05 (Physical Interface Device) as
+reported in the HDS200 USB descriptor. This should let the VDS1022
+fall back to the generic usbserial driver as before, provided it
+uses a different interface class.
 
-Best regards,
---  
-Fan Ye <fy15309206903@gmail.com>
+The patch can be found here:
+https://lore.kernel.org/linux-usb/20260810091322.2201740-1-huangwei@kylinos=
+.cn/
 
+Could you test whether this resolves the issue on your VDS1022?
+If the VDS1022 also happens to use bInterfaceClass=3D0x05, further
+work (e.g. a probe callback checking the device string descriptor)
+may be needed.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
