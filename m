@@ -1,143 +1,196 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7863AFCF3
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 09:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C124C287510;
+	Mon, 10 Aug 2026 09:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786354308; cv=none; b=CES4Ao4+sfI99HpIEh6n+lGIUCsvRy4qNrmNm8+BjUuLweNLIijzAloj2sh3I6orCRhjM4Qobfdsk6VbJC9JZFiNNL8+KUlwsYYjgL3N8kCYDAyhWU8xWwHUJKbdJrX6t2JrGpMvaWvnQfXZZqyHpBS3/BImyepmya+htwKumVQ=
+	t=1786354710; cv=none; b=Mim962W2TZijLHzIVARU+WKsQWJ0rJ8SDBfmjiOtNMwePrKUYyiXfKnFqmJcezD4oNmc7yBlaaaaqqrNdCp3d2FAVjBC9DkjcsUMVXX+UHUg8EzxpMK3IdB8mbgfAfg++n68cHEj4U9ej2nCGbOfBMw02P6eNGMuMc+DCMfod60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786354308; c=relaxed/simple;
-	bh=2M2xeAgdsVXI/pfTvlb2yIeWwS0e9oCjUL8hkbV4lvI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EI/O5B/MrIL2TNepDPGu6faqn6vhF55ctkDtHLuwJRHvqpk+3EckJ2gSPv0S2IH32Ny2wD8l0qwtG4FqJGzdHNm5p4AxAPGR49ZArtnuMQl7AA8VyaJuoETT4o1rTA+1ySm+o2M0f0/Wq3FlcPn8h21CRh/AVZ2x/yX1lgh54mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MxzzOma8; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786354710; c=relaxed/simple;
+	bh=jPJLCTXhpSJYSNYZjxYzbcKdBWh5A5tHVdsDFtabW3s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qMNC7LUfet44g+HA/VPsNzGxWX09bbWOQ3KcXXIl8rcj6W4QCIWLupJhbSkyk2rUHaYUzKDRDK9YeLb33BUBiIOKnbln/dNTG+6CF6bwRjN99I7vXoVTmqho4CPxcPucaxf5wUy4doanQLDI8MmRu8DMP5CvlNKwHcwt8Bh7ceM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAz4yl6J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxzzOma8"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84874b52eabso2105929b3a.0
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 02:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786354306; x=1786959106; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cgq4ngVWmvwH/7fZSBUdZHTs+zKxzmXCAvxr+GPkjcI=;
-        b=MxzzOma8iIMiccF03ORdokrS0HqdSLg2ketlyV+zsgBQMiYYCECMMyocd+S3uSW0pG
-         fgIVFHn03CJcceVFI4t8gnvU2+Jy8PLztaGwDyZzSOXeHofJcoNDfopLdmcJtw+NImQJ
-         DzOXap5jRA5UlHZNY89hZ/XZIBBpMZSMqoi9q9zxb+q/7UM1jmr5rp77MgmnEV3Sfv4P
-         qlJ9zXQgg8W3mc9bjziFlSb+eTZjzNjv/wElnkDD7Cd0kf6MfB5VDnzlheWpmR5vaJNH
-         A1PRsAxBw/UukY+Oufb0lgJtvGPeYSpHdhVnuOpFmaHyoCCnyeI/GP7kaPW1kfDrTUfa
-         XAPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786354306; x=1786959106;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cgq4ngVWmvwH/7fZSBUdZHTs+zKxzmXCAvxr+GPkjcI=;
-        b=JWAM8aTD3Jq0TgEGLRui2tUdyjtFDbvFXNT/1yVY4R4UofXaTMCmLVyv7n4855l9jf
-         viMvHy6TnJ+qb8lhC/tXX0C2UQOs/uakSJlENFzcP3wf9cqqSLgY+hEtUoHJ5kb27Ilq
-         wBAeI9CYnxVGQ3jHZBGO7eS5dcGj6WYKdoLsEXYL8anSRqGjgzEKHkKVdcWpPACqj8Iu
-         2XZKDEYQpYOqlmxCmYxdANe5pQVO/JGC6xuLZXdi+XPiRfeAKQAGAi4QGImU4t69eRTP
-         yhdDDOcAzcVt7PaHZxbJprSGGnkOC105wOScCk/ZIBAd53qyWZRjmxf+fipsHdzsaSNN
-         845Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpLrgfiIOiTSwsYi6oRefizW+zpQcUzDHejcSQXr5wjLwTeBBJBjUBBfRftiFafDhmlflKafIZM1uE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQIe/atssFcMHW8gZESqYIIMoAHe9ywjpmtBpGIiCEGHTohixY
-	rh9SmUdVkONVbmM56IdA9x8T9Muqy/YJVW9QwARea1pBG4B/EZSZOQMV
-X-Gm-Gg: AR+sD13ky+/ZdfFifs+vO5BXcWHKePVZavnmTCnAo5lioTMtVh+y/WgsXLdN9iXW5Mx
-	+LfpzOMIj+C71VeUTzx7N+3+LLe9BS3a4Q6KdpuiWjZz++Od+ZZnWKqvWMGyXjIkjp0u3hGTyL8
-	e2ubTSpEziTAtMuHXj4dUv7KH/8faRaURRcn3N3ciNRBvCi8RC8WAo75ZPVb3k4UWwNCviWn5Z3
-	605NQ/JjTHOKAGHKrD0HNOSdM8aafH91cab5rqCE7zG8Fs/s/7EUlj8+2CmJ1VgQoft241rY5Hi
-	6/JFU1NEWgV0jCF2rA6/7kbvmtmHp9pzBIDLMQ62t09sRtiQpTd2DhsT5uEfWKfFP9oeal4u2Yy
-	a4ESJ/54ARECRlaEpJn9/MrdfOp52UGBuVA1vTeaE+5DL/L5/BTz4DuREjcBG6WAmPtOmhTRmcU
-	+Xksx4wgoSe0K1gX3m2KDH0m0n/dFMMe87Zqy4v35hR70aOaOF4cH63ycBofXlPlby1PdjXiN0q
-	o/GQ3FGbfmZQfZviT5xy+TbxmDKrqxsqYBBPGSlktnucTTkWWLNA54aoMY9OMpKN4/7QtgaiqLO
-	8nYR
-X-Received: by 2002:a05:6a00:3c81:b0:848:50a5:a70b with SMTP id d2e1a72fcca58-84f5e068579mr22565587b3a.21.1786354306343;
-        Mon, 10 Aug 2026 02:31:46 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f5a3fe7d6sm3592046b3a.26.2026.08.10.02.31.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 02:31:46 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Peter Chen <peter.chen@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-usb@vger.kernel.org
-Cc: Fabio Estevam <festevam@gmail.com>,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Sashiko Bot <sashiko-bot@kernel.org>
-Subject: [PATCH v3 2/2] usb: chipidea: ci_hdrc_imx: Fix error handling when creating IRQ name
-Date: Mon, 10 Aug 2026 16:31:12 +0700
-Message-ID: <20260810093112.47807-2-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260810093112.47807-1-phucduc.bui@gmail.com>
-References: <20260810093112.47807-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAz4yl6J"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 734FFC2BCF6;
+	Mon, 10 Aug 2026 09:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786354710;
+	bh=jPJLCTXhpSJYSNYZjxYzbcKdBWh5A5tHVdsDFtabW3s=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=QAz4yl6JcZoTUGzletg7tRzYMsRCADvZcSgH8gUW0vJS2hafSqYu8SgyUpkJjuiqs
+	 RDUOynWcWQq6u+7aYP3JRwqPQDnwYLohyMvqzzwQJ+R8ZlIN8E7gK2RNntgp+4vas/
+	 zyyK7V1vLREp80mJPx1A25OvC/58PYY45BKxSRAKBKfnL2Jah0yBPrDILPsdDjhzDl
+	 jKjOBjHvYGfkPp67IhV+bNqa0kMPCXeJOhd2/Dxh4hertkcdIo9U7RBhb2yQRzWC/k
+	 KBgaLiczzA8Vv1LfWNUhOCnlvbYYMTkF40AIxDCkXOZaob064fHo2OftqQ+EZT5Gd1
+	 Jl1AwD6p03OOQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6B1C5AD4E;
+	Mon, 10 Aug 2026 09:38:30 +0000 (UTC)
+From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
+Date: Mon, 10 Aug 2026 09:38:30 +0000
+Subject: [PATCH] thunderbolt: Clamp DMA tunnel credits to what a hop
+ register can hold
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260810-tb-dma-credit-clamp-v1-1-69610146d164@gmail.com>
+X-B4-Tracking: v=1; b=H4sIABWceWoC/yXMSwqDMBRG4a3IHfdColhit1I6yONve6VaSaII4
+ t6N7fAbnLNRQhQkulUbRSyS5DsW6EtF/m3HF1hCMdWqviqjFWfHYbDsI4Jk9h87TAzXdI1Ga1t
+ jqJRTxFPW3/X++DvNrofP54r2/QA3H4IGdwAAAA==
+X-Change-ID: 20260810-tb-dma-credit-clamp-eb3931e5a588
+To: Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Fan Ye <fy15309206903@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786354709; l=6038;
+ i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
+ bh=sH5s661mYHQVXNWt2E9soxhgbibtEzecbaMoOwZi+Fk=;
+ b=4GxCjJOPsvbZXUft4clBvXYrN5xgdpNnye8LCpCADk8rEYIXBWPL3FO/oDtfoHtXDnZVwrvNK
+ iN49Ods2vxOD7ewAl7l+vcsnqSomzXGyP94ENg6OJs5RxaPZADbvWA2
+X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
+ pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
+X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
+ auth_id=929
+X-Original-From: Fan Ye <fy15309206903@gmail.com>
+Reply-To: fy15309206903@gmail.com
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+From: Fan Ye <fy15309206903@gmail.com>
 
-devm_kasprintf() can fail when allocating the wakeup IRQ name. The error
-was logged with dev_err_probe(), but its return value was ignored and
-probe could continue with a successful return value.
+struct tb_regs_hop::initial_credits is 7 bits wide, so a hop can be
+programmed with 127 credits at most. tb_tunnel_alloc_dma() picks the
+credit count for a DMA tunnel out of two values that are not bounded by
+that: the dma_credits module parameter, which has no upper limit at all,
+and the host router's baMaxHI, which usb4_switch_credits_init() reads
+out of a 16-bit field and only checks for presence, never for magnitude.
 
-Store the error returned by dev_err_probe() in ret and jump to the error
-path to propagate the failure.
+What comes out is handed to tb_dma_init_rx_path() and
+tb_dma_init_tx_path(), which lower it to what the adapter has room for
+and store the result in struct tb_path_hop::initial_credits. That field
+is an unsigned int, so an oversized number survives until
+tb_path_activate() copies it into the 7-bit register field and keeps
+only the low bits. The path then runs on a credit count that neither
+the driver nor the user chose, while port->dma_credits goes on
+accounting for the number that was asked for. Nothing reports the
+difference.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-Acked-by: Peter Chen <peter.chen@kernel.org>
-Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
-Link: https://lore.kernel.org/all/20260806065755.C9F361F000E9@smtp.kernel.org/
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+The adapter has to have that many buffers for the truncation to be
+reachable, and ADP_CS_4_TOTAL_BUFFERS_MASK leaves room for it: the lane
+adapters of an ASMedia ASM4242 host router report 174. Asking such a
+router for 172 credits leaves 172 & 0x7f == 44 in the hop.
+
+Clamp the count where it is chosen. tb_tunnel_alloc_dma() is the only
+entry point for DMA tunnels, the clamp sits ahead of every hop
+assignment and every credit accounting update, and each step below it
+can only lower the value further, so one bound covers the whole tunnel
+and the driver's bookkeeping stays in step with the hardware. Before the
+module parameter existed this line read min_not_zero(TB_DMA_CREDITS,
+nhi->sw->max_dma_credits) and could not yield more than 14.
+
+While at it, carry the count in an unsigned int. Both min_not_zero()
+operands and every function it is passed to are unsigned already, so the
+int only added a signed detour in the middle of an otherwise unsigned
+path.
+
+Fixes: 7ee20d0afb69 ("thunderbolt: Allow specifying custom credits for DMA tunnels")
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Fan Ye <fy15309206903@gmail.com>
 ---
+The truncation is not reachable with the defaults. dma_credits is 14 and
+the ASM4242 in front of me reports baMaxHI 32, so 127 is never
+approached; I had to drop the baMaxHI cap with a local debug patch and
+ask for 172 to see it. Reading the hop straight back after
+tb_path_activate() had written it then showed 44 in the register. With
+this patch it shows 127.
 
-Link v2: 
-https://lore.kernel.org/all/20260807065619.30604-2-phucduc.bui@gmail.com/
-Changes in v3:
- - Use the phy_shutdown label instead of err_clk as suggested by 
-   Sashiko's review. 
- - Add Peter Chen's Acked-by tag.
- - Add Frank Li's Reviewed-by tag.
+That is not an argument for 127 being a good number to run on. On this
+hardware anything above what the router asks for costs packets - the
+receiving adapter starts dropping around 35 credits, and further up the
+control channel stops answering altogether - so the clamp is a statement
+about what the field can hold, not a recommendation.
 
- drivers/usb/chipidea/ci_hdrc_imx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The same 7-bit field is assigned from three other places: USB3
+(sw->max_usb3_credits, with no min() at all), DP AUX
+(sw->min_dp_aux_credits) and PCIe (min(sw->max_pcie_credits,
+available)). usb4_switch_credits_init() only checks that those buffer
+allocation values are present, never how large they are, so nothing in
+the driver stops them from passing 127 either. I left them alone because
+I have no evidence any router advertises that much there - the one I can
+read out reports 64/2/64 for USB3/DP AUX/PCIe, and the bad advertisement
+already handled in tree, quirk_dp_credit_allocation(), is 56. Should
+those get the same treatment, or does the spec bound them in a way that
+makes it unnecessary?
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-index 9e529398c607..edbf9df9b8f2 100644
---- a/drivers/usb/chipidea/ci_hdrc_imx.c
-+++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-@@ -532,8 +532,8 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
- 	if (data->wakeup_irq > 0) {
- 		irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", pdata.name);
- 		if (!irq_name) {
--			dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
--			goto err_clk;
-+			ret = dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
-+			goto phy_shutdown;
- 		}
+One thing I deliberately left alone: tb_available_credits() computes
+spare = min_not_zero(sw->max_dma_credits, dma_credits) without this
+bound, so with dma_credits set above 127 it now reserves more than a DMA
+tunnel can take, at the expense of the DP stream count. Clamping there
+too is one more line, but it changes how many DP streams fit, which is
+more than a truncation fix should do on its own.
+
+No Cc: stable, since reaching this needs either dma_credits set by hand
+or a router advertising baMaxHI above 127, and I have not seen the
+latter. Happy to add it if you disagree.
+---
+ drivers/thunderbolt/tunnel.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index b7f32305f14a..b2a8e4950200 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -48,6 +48,15 @@
+ #define TB_DP_AUX_PRIORITY		2
+ #define TB_DP_AUX_WEIGHT		1
  
- 		ret = devm_request_threaded_irq(dev, data->wakeup_irq,
-@@ -541,7 +541,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
- 						IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 						irq_name, data);
- 		if (ret)
--			goto err_clk;
-+			goto phy_shutdown;
- 	}
++/*
++ * struct tb_regs_hop::initial_credits is 7 bits wide, so this is the most a
++ * hop can be programmed with. What feeds it is not bounded by that:
++ * ADP_CS_4_TOTAL_BUFFERS_MASK is 10 bits and the dma_credits module
++ * parameter has no upper limit at all. A larger value is stored with its
++ * top bits cut off, leaving the path on a credit count nobody asked for.
++ */
++#define TB_MAX_HOP_CREDITS		127
++
+ /* Minimum number of credits needed for PCIe path */
+ #define TB_MIN_PCIE_CREDITS		6U
+ /*
+@@ -1908,7 +1917,7 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 	struct tb_tunnel *tunnel;
+ 	size_t npaths = 0, i = 0;
+ 	struct tb_path *path;
+-	int credits;
++	unsigned int credits;
  
- 	ret = imx_usbmisc_init(data->usbmisc_data);
--- 
-2.43.0
+ 	/* Ring 0 is reserved for control channel */
+ 	if (WARN_ON(!receive_ring || !transmit_ring))
+@@ -1931,6 +1940,11 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 	tunnel->destroy = tb_dma_destroy;
+ 
+ 	credits = min_not_zero(dma_credits, nhi->sw->max_dma_credits);
++	if (credits > TB_MAX_HOP_CREDITS) {
++		tb_tunnel_dbg(tunnel, "%u credits do not fit a hop, using %u\n",
++			      credits, TB_MAX_HOP_CREDITS);
++		credits = TB_MAX_HOP_CREDITS;
++	}
+ 
+ 	if (receive_ring > 0) {
+ 		path = tb_path_alloc(tb, dst, receive_path, nhi, receive_ring, 0,
+
+---
+base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
+change-id: 20260810-tb-dma-credit-clamp-eb3931e5a588
+
+Best regards,
+--  
+Fan Ye <fy15309206903@gmail.com>
+
 
