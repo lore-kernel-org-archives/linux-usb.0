@@ -1,165 +1,75 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.hc5016-32.iphmx.com (esa.hc5016-32.iphmx.com [207.54.81.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7253A4505
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 08:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786350093; cv=pass; b=tcT7vo2tPnDMjVrNGvfyHbgXPVfyP3C7DBrZEYbNPj0uPMQBwk0EnapCBDS7lhiI460mIuShKKxjnf2YYRTEObCFyHkplr2u1TrsbVukrL7S0CSTexBmVo5pMG/34RjDb/xOQH7lLHUl/hqRTbKUqIw3ca6GDkGRldZgu3wgO8g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786350093; c=relaxed/simple;
-	bh=ISQrs++lQPkCSS8q83bACLgi7FD9qqn6A8PUSQjE9bI=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=GDeGdbr8Qbya9L7BxHuI/eQadx6xc/xLAEkBqzF867XwyEqiEcjO3OLo6jj7NYmIFZN0lDgozrLdZmXLg2k2q7dXhIrR0zYgcfU0ubPs5QyAppvT35AxSKDGm3vLg7mrAtSkHTtbqcZD4E4otdKj3uLxZ9Z8CfhfirMvsm7WYLQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rG1/yWpS; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB683630BF;
+	Mon, 10 Aug 2026 08:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.81.235
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786350199; cv=none; b=Re09z/6sDxW9xwsyH34H1x5y0uxAU4qTANgb8bsddBoFdg4E/CU/NOhU6iO9OJpb9B6xcrVftAdiicu5q21YPRqcfW+YcAA90bjuqSQ3cspDoo1qrwVxNMJYnZkGztmgkFp84xQMjdprUsWqklaAVbyzJIZJZMhfGJm8RtdJJwg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786350199; c=relaxed/simple;
+	bh=Yu5VxAVkhi+tZguNspFOoK3JZTsOeV34cWVexmGBL7Q=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N8R5rdkqK1vgCLCChsE6PPuvUr8eo9eTu5QhDQZv05HH62rtb98+/GeXl3XCEprE5OTVdjXARrePhXNrOyoDb7sm+GSJnXSWkB3T9WmsWI1qTPGvuU+kFpXezoYatqB2600AdGcrfEixtR2EWSjis5jhfVbT2ZbjEqcXxKsEKtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=harman.com; spf=pass smtp.mailfrom=harman.com; dkim=pass (2048-bit key) header.d=harman.com header.i=@harman.com header.b=EphwWVOK; arc=none smtp.client-ip=207.54.81.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=harman.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harman.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rG1/yWpS"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-527e352a167so9310561cf.1
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 01:21:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786350091; cv=none;
-        d=google.com; s=arc-20260327;
-        b=q5kWrCNIIrHVkInvJx7X5vd5LggIRuv69bPMKFgMznYJ7TubUPTdzrlBfNZtF1l26W
-         3Zk1zIVKpeRN0iQJGvBwGvBjWsoN95s7IfRmNDMvdvVtYgK/Jr+PTwu/oqJeMvlIQYaw
-         wal5ZyrnqjG2EPFrJCZTxALfUJGN4kUtHVos+spnwXeGSLA24RnActoId2/aarnQeHrm
-         E8iewnERKkfAnA9+LVh+pmbs8qGNSChSSCXIz5JghNPlUXfcvkznkJqeQ1oWCbTtjl3N
-         u1JFNvtbSgnwK5xlQZ8g43Nf0tMjHkY51OPnb3KqUE093PVjMNjUqDRCF67E7Y0be2ux
-         /6gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=ISQrs++lQPkCSS8q83bACLgi7FD9qqn6A8PUSQjE9bI=;
-        fh=X4VIKKDxXzOx5jc4UtFFchivTBAHZmjWyNpD8BVZBAI=;
-        b=cCHcsZUaRhhp1cCdOmrS4RJ5W7MEm7UAUjUqZFC0BvftxTRJQcHnaMbuPn19QgZ9VU
-         GSNUzGX5Z+7dLgJEEkyA17+aBg4ZnOnn391RFI4KGHJ+ZkPppCmkA3R5dsrYmuT+5EVb
-         eUclvODhhhi71OX2rSPiVXfyOjIHtQzqtDU6XG7QPOFS8qi6GQeLo1BoE33yAXAtTWdq
-         1k7xp2IzC2g3RGK7A/OhG+wmTY2wFywW19X3Z4uRelHLq0PuZJ9NqMqqLp0X1v8qyyAN
-         Ge4M1EC7ibrq2xcuGsGnZqiZF1Ot9/aoBbLR8lDEWqTShcRC07CofOesfPb0Xjxp30li
-         /+XQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=harman.com header.i=@harman.com header.b="EphwWVOK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786350091; x=1786954891; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ISQrs++lQPkCSS8q83bACLgi7FD9qqn6A8PUSQjE9bI=;
-        b=rG1/yWpSe3FrDw9dLGh40DhMM9JA2kUb9G9TT6FRm8CaxB5hRvXYdOUUj1EfkjWJwA
-         bH9cCFai8BPV+5GVtRl1zCXhSrYfmLkuyA/mVmucsAQROQ9PHfu40wf4hfqcjMEMLJwr
-         lgF0QkMt3lVyAT+2NLyZRAgFbcEQtUwE6HTAgPan4Fdjxm16lVTt6qfmSG345aitcKXf
-         Tl45njv8ZpRhXR8jEwL9yYeqjryQSX21YVYqdAAyUhl4tTHxeu+TB7trhesG+DVwRLyr
-         g0JweBjew3EbqzDW1P8pT/qm8UtbEk0u2HCrhR24rV77lASILVinErjpXN2uHWTCoF6Q
-         l3TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786350091; x=1786954891;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ISQrs++lQPkCSS8q83bACLgi7FD9qqn6A8PUSQjE9bI=;
-        b=nEoKRF0iFCWpDbGw3DmplLkb9BzYen5Ei+ybHAjDMVDRlaeMUXOLZdBqSLJ+CQ+tdP
-         Ql82f41GJscHpnLinO6a5SAJjE5yhqGEG+kEDtAUhI1DzckZyS//T9GJv1EW2PGFG5yP
-         wjfoA0L0twZRHeuxpzm0PxNzbriY/qRNnbU6VyZe1hIHzBkGph93EvmlyeL+v5+SAE7v
-         q0DNKni8nUWUnSvESCO0vCWqtkzeo6VntS0yQvCfzQHqwZ0nzQptoDYxo3LSxsee1Uow
-         wYlBhqjIjjHeNul0NQbbFWTksi8dQiI42alefz6xCMkJXIg7Q3m8Xzl5AsLCQzIVldV9
-         DC/g==
-X-Forwarded-Encrypted: i=1; AHgh+Rqw2O/5RDgpqqD/jsqkWsBVCL502RgpNuPh2h3aaxO93Ws13ukt7JPsMzW1Cj+Ux77o4npmuzE42E4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvE7yHb554xh2whQt56sNotmZcHK9/VTAjadi6K9Kt0WRzfLR/
-	vX4aF6lUEVVntAXqjhSJ5+RGEtSPNkbWpqe2W4zq9NRDKGekiaCO88/2a/fiYm2L3JNG1krGAwO
-	QWPlepqYEWSnjwM8APKkySUg86zw8yOo=
-X-Gm-Gg: AR+sD12ZqqOBt3Qgzz7V1X1x8xbcc/gdIM0hriybftCGs4/+iNoIdoWpfZIXWa3E8rF
-	Q/xAwhWHfhMUutCCUWu4xMvX/pumg4jEoLpsWuSDLr+JCZCwim6FSaWxrAdApIWa5INSz2s3PLp
-	0Etmn4eCfMtsqj4ccEJVpDQa5IRLchkyglempK9F7RLOq9OD6qhx02wNG26kupXXYrvKVznlt00
-	TCt+OlYkMNK67cCCG4AvCzIZpTGvyjirbAQMmYT5GLxNjEPuGCG+wXjYaSRHvKkqLZBkZKbawjj
-	L2sVQaU9gBS1qM37+RKPee6TnYmstlhl2zCdV3W4MI/7fQ==
-X-Received: by 2002:a05:622a:13c9:b0:51b:ecca:f2e0 with SMTP id
- d75a77b69052e-52ce5f44c7dmr409965021cf.5.1786350091277; Mon, 10 Aug 2026
- 01:21:31 -0700 (PDT)
+  d=harman.com; i=@harman.com; q=dns/txt; s=CES-HARMAN1;
+  t=1786350197; x=1817886197;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Yu5VxAVkhi+tZguNspFOoK3JZTsOeV34cWVexmGBL7Q=;
+  b=EphwWVOKjbou5VozA2j09eg5fdwzzYWvUeTsPTocbXKqIJsCnEdGPEJk
+   U+Zt6yOTuF86SuKSXJ9MZC3U5+N46ZYbD0UX29MoeBChb176Z70BKghf4
+   LVHNsToT/KhqfX7n/N2SM+yZ8uE0c0n915X6pRaWYVMRLqdkkjOwVejdI
+   avyBIzTkQeArOedt/p8bKefWHYAjbSo0VrAZpbnVnWrFj7KVghvJZx0ku
+   pmuKpM60Az9ft2F1h2ysmt5FpgEaJOiOjXObu63VHjkSC6Yj+1yOOlEoH
+   KihY+aPexC3AkKkiQMkXBqceBswQ5zSmLO0YWYgU0ZMYw3reSa7aUQWua
+   Q==;
+X-CSE-ConnectionGUID: KZWlT2tgRxuzc4Lfrnn4dw==
+X-CSE-MsgGUID: KvVvkTjIQKyBSNtVJXsq9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="120215693"
+X-IronPort-AV: E=Sophos;i="6.25,215,1779163200"; 
+   d="scan'208";a="120215693"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO INMDWSHYB10.ad.harman.com) ([199.27.113.4])
+  by esa4.hc5016-32.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 04:23:15 -0400
+Received: from INMDWSHYB10.ad.harman.com (10.92.6.249) by
+ INMDWSHYB10.ad.harman.com (10.92.6.249) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 10 Aug 2026 13:53:13 +0530
+Received: from awsmblx423bs002.localdomain (10.63.34.68) by
+ INMDWSHYB10.ad.harman.com (10.92.6.254) with Microsoft SMTP Server id
+ 15.2.2562.43 via Frontend Transport; Mon, 10 Aug 2026 13:53:13 +0530
+Received: by awsmblx423bs002.localdomain (Postfix, from userid 530975)
+	id 32C7A7D26A; Mon, 10 Aug 2026 08:23:13 +0000 (UTC)
+From: Akshay Gujar <Akshay.Gujar@harman.com>
+To: <akshay.gujar@harman.com>
+CC: <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <naveen.v@harman.com>, <oneukum@suse.com>,
+	<stern@rowland.harvard.edu>
+Subject: Re: [PATCH v6 0/3] driver core: add enumeration failure uevent helper
+Date: Mon, 10 Aug 2026 08:23:13 +0000
+Message-ID: <20260810082313.313776-1-Akshay.Gujar@harman.com>
+X-Mailer: git-send-email 2.19.0
+In-Reply-To: <20260802233108.70950-1-Akshay.Gujar@harman.com>
+References: <20260802233108.70950-1-Akshay.Gujar@harman.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: ZW Tang <tangzw515@gmail.com>
-Date: Mon, 10 Aug 2026 16:21:20 +0800
-X-Gm-Features: AUfX_mzKQypVMU99t1ppZCZ2EaFi-qQwwCo0qcg1KtKBkr3ieea5BotyUz7bCIw
-Message-ID: <CAA2SOT4pewLwoVkCDsT48QhXTbz_j5MZCuO1QL8dde4NGqtfDQ@mail.gmail.com>
-Subject: [BUG] media: dvb-usb-v2: gl861: WARNING in usb_submit_urb due to
- bogus control direction
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi,
+Hi Greg,
 
-I am reporting a WARNING triggered by a syzkaller reproducer in the
-GL861 DVB USB driver.
+Gentle ping on this patch series. Please let me know if any further changes are needed.
 
-Although a similar bug has been reported before, I can still trigger
-this warning on Linux 7.2-rc3 with the attached syzkaller reproducer.
-
-The warning is emitted from usb_submit_urb() because the USB control
-transfer direction appears inconsistent:
-
-usb 3-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
-WARNING: CPU: 0 PID: 4359 at drivers/usb/core/urb.c:412
-usb_submit_urb+0x117a/0x18d0 drivers/usb/core/urb.c:410
-
-This looks like a driver-side control-message construction or
-validation issue in the GL861 DVB USB driver, rather than a USB core
-problem. The reproducer creates a dummy GL861 USB device, opens the
-corresponding I2C device, and issues an I2C_SMBUS ioctl. The execution
-path reaches gl861_i2c_master_xfer(), then gl861_ctrl_msg(), and
-finally usb_control_msg()/usb_submit_urb().
-
-In the observed crash, the driver submits a vendor IN control request
-with bRequestType 0xc0, but USB core reports that the control pipe
-direction does not match the request direction/length. This may be
-related to insufficient validation of zero-length or malformed
-I2C/SMBus read requests before calling gl861_ctrl_msg().
-
-The system panics afterwards because panic_on_warn is enabled.
-
-Reproducer:
-console output: https://pastebin.com/raw/NDGEuRHC
-kernel config: https://pastebin.com/raw/ysywjhc0
-syz reproducer:
-
-# See https://goo.gl/kgGztJ for information about syzkaller reproducers.
-#{"repeat":true,"procs":5,"slowdown":1,"sandbox":"","sandbox_arg":0,"close_fds":false,"callcomments":true}
-syz_usb_connect(0x5, 0x24,
-&(0x7f0000000000)=ANY=[@ANYBLOB="120100024286bd10b00d815522f90102030109021200019ddb10010904"],
-0x0)
-r0 = syz_open_dev$I2C(&(0x7f0000000040), 0x1, 0x2603)
-ioctl$I2C_SMBUS(r0, 0x720, &(0x7f0000000380)={0x1, 0x10, 0x0, 0x0})
-
-Kernel:
-HEAD commit: 1137d8b5df06137fb49513cc923b3b24d94cb809
-git tree: torvalds/linux
-kernel version: 7.2-rc3
-
-
-Crash signature:
-
-WARNING: CPU: 0 PID: 4359 at drivers/usb/core/urb.c:412
-usb_submit_urb+0x117a/0x18d0
-usb 3-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
-
-Call trace:
-
-usb_submit_urb
-usb_start_wait_urb
-usb_control_msg
-gl861_ctrl_msg
-gl861_i2c_master_xfer
-__i2c_transfer
-__i2c_smbus_xfer
-i2c_smbus_xfer
-i2cdev_ioctl_smbus
-i2cdev_ioctl
-__se_sys_ioctl
-do_syscall_64
-entry_SYSCALL_64_after_hwframe
-
-
-
-Thanks
+Thanks,
+Akshay
