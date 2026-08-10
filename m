@@ -1,116 +1,195 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2D4245012
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 23:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786403083; cv=none; b=M4ew1PyPcN2CO7sWbvs1S9mq09CtC/I5extw92jANPgeW7dnXUsZRwtmTQpTcr+X5bQSNshEP5JMID+yxuMIt1hseNzf8XzWNXlNWUNZtRG35J/pFXU0oil7mAealr3JlbD0Xq18pLZblIWExcVWDZf0nKFNjmmiZlXhyeHN/vA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786403083; c=relaxed/simple;
-	bh=kA3VyBjbnycsi8w8XT7KgGKvM/tIq3TsjWOhM/tLTp8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KQuPnnFXlkIudclTi/Eh1rFCwol2MTwoAQtCZb0oa4a7bOhbzIq6dSqqxjQHkHmUS5+dxOol7QOvvRRbfT5Fxf5YgJqTCtnI0oxvaV7M1jds/LFt/LmXsJ+4jC5qhI4cOSkCoynUnQP6utqbYucEhyNwlMKdibBzQT+UeZWWhFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oKQBQKqM; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213F13B9DB3
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 23:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786403637; cv=pass; b=PONIrBpM7Jk9MPVfhQd/ihwC8P7aM63KN85H+yQ9VQE6IIr1osfpqvfoH94tP1xNdHCqfl0ZhN7CjeTzNDSkWU46gGG68HUl7K3F8eSbwL3saQWGbE+pqYzpWbmt3OrtGU/osX7XV8147/94HvupLp0SBUJhoSyWHtgdurOXbyU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786403637; c=relaxed/simple;
+	bh=s3AmpGmK1zhxWdtx4TDtq14i50GnbDCggwxCVhys9nY=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=SJCdVm47axXAB3tPadXBWaY+wTUsQ+hxeVGuepSOvO1ighyUi2wP9MKySDgXqKZUvK8+rlrCvU18GyjBX+lqbk+jroXUF/ORYx1fIWQ/8J8v0xjjsnu0UbBOntsMUc+xfWPSsCE+lveYiZy+WeVQqZ0yqBWVCw+zq7PELAQFyhQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XYweyj9K; arc=pass smtp.client-ip=74.125.224.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oKQBQKqM"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-495437bb891so2803235e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 16:04:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XYweyj9K"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-6685483aad2so3572777d50.0
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 16:13:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786403635; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TsVO57kzpQeH910au2veQKROptktERnWcG90aIoDdNV1b6XyFMUm3KRAiwLKUc1tWg
+         +J5HPQa2rSDJX5SluIyacF6r4tnnzxs1iAiCyaWg5XslPjGMOhzsTJLyJclPggNJd5fH
+         gwGAwNQUP/TEbENTX85O/0ATkkudn56I2PLiflrFYDxQv4iupLk9jLiKqWg3TH2wEPCm
+         8NFRPX/KWfEWw2wGWq8Sv1egmNFjvYV8isquSKI9P7uLU0a3KaO8w9JnihQvulV6zrwq
+         P5fSKWnT/j56HdorUYy1dM6D8slnCJ0SBKcRf6JGgeNPGMY6IwMhzPUHkunPqegRG8Kb
+         3zQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=a5zzbX5UUKb28qJzV8Jk8ol6WUaHCfavAB9FhEI6Yr8=;
+        fh=sK9WvwBH0QJHkbtmcjdY2DXXlj85wWpeNBguaXYNtKo=;
+        b=TqwCnp856MT9n9Y6lyoXitwXnI8waKzo8gzxrVx10hUEgvyHxAG1LYFWx5sh4qJFKb
+         lHzWstVLRURmW89YzQdooBTGg29eHcLPkdLmjmDQqUUV/F6NY2jdJ4wTySePfuFL3QZ3
+         iTdewf2/OdaK08J721g3uNIHkFKhnDkeadlfhh9VzeYCiwRwUjqqoQf4Ztx9a3MEIr9c
+         pyI+YrlSVX2Te+LEIYfi2ylN/nxbuUBM0spflN/PXVdXgUcW/I7nIU/H8lr1ntTe0No9
+         DxAWwUI8RQfDFoMmuCHVR0fIUiYMGpLDvE/Gq9fAF7dZN4D4fFQFZqXKWdbOS23AIagK
+         NgAg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786403081; x=1787007881; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=X0/hcIiPqPs2K48/eoaYUPW9dUsT8eOP20Kvf6Vb/6g=;
-        b=oKQBQKqM6mf7KHLicFDfZZKNlq5/nQi7UCppkY9VQU/atstNRkcAoiYevhcxdmj+TZ
-         C4s3jfEMRz/iVu5dxyueS2TCrgy1LGaT78cSGeOHUh4s1g1sBDBMtzH3cNThQgnbAux6
-         qQxwD9cKoSz/ZEzFZS3VAU2NCruyANVshDRq+z4fI5W9fCRdHgW6MSkUEQ7+SPQzcJBV
-         mC/xeWTkdkZE6l04vNn5vLyOic3Gk5c2OlsRzeNMfWKH2N3TS4nmwXJx/y1vUv4J7UTC
-         VTYKqmK83T3XKVCw6haV7XIJkMAOJJY5L+P7b/gI6dAIsw6KF2zTMi1LJEPN4SMc8Dt8
-         4ekg==
+        d=gmail.com; s=20251104; t=1786403635; x=1787008435; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=a5zzbX5UUKb28qJzV8Jk8ol6WUaHCfavAB9FhEI6Yr8=;
+        b=XYweyj9KgvoPT7d2L3vdBkklPX/e3Yo/tQWQpJb0rlN//p/xzCi7Ui/wSpy0AdLvre
+         SYesmlMTGW9XuWn9Ksvk56gncuBrfuaDmcIIsyoZrdUNaENHBUjUq6AgAwXDYcKDdqzz
+         4nPCE1opLMcuYQasDYAJUIeXYfI2f7T8U7beTt7TAAnBcu9cBmfmLgWSJRmKZsAEO56y
+         bNTyjZ4qDVkcAo8bJNe2DWyZdDaC5Nvxv1fLtxU5tgcqP99Vbj8aMu7hdNZESgXSxZLF
+         BbgeiLQJp+lFGtqda6LeY1+XpuxGfQnkWzfw1vK+qSABM2FYHFh4baAbXeglxX8yDink
+         DFcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786403081; x=1787007881;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=X0/hcIiPqPs2K48/eoaYUPW9dUsT8eOP20Kvf6Vb/6g=;
-        b=qOKc4h3benhvZe2R1Qp1U/bmump3uEoKALQ0ti+fbYjg4dxH1oMlBPmBHJNnDIWsTp
-         0SZHRtbj9DIXHp++PyvFsdmWFLUQxAzzeKiMtMyWqh6f5xjh5MPuLOnMmFzH1ehlVzLu
-         lxNgzVP2vluXCNJrChtZAhDnEqbtjpGGX+BMP5MxO737ikgr8rnW7aDO2eUj1CBjstZp
-         513X2oLzzQfWxk6G2Q7uP9L2t+8zPHnOdoe8T3s/up6kv71D9D3Sf28sQDwp1PzOJ5Kp
-         TFu46wPNJzwjjSH1QQtaB7u0bfbTQ4VrsPrJ38wSOtIv9HOOpwnKOZIvsqN6DE72zYSv
-         CokA==
-X-Forwarded-Encrypted: i=1; AHgh+RrqEN9mF/Z0ZzAbLUoYG9LvR6F0S/K1OlN4aZWT5rRMadorCVfNODmE+yuTQILjxJYFUvPq/oIbKNs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB1G6kNuLlqYGiHHJvk58l/Y3PLyJaVvYSeDG5YGcp6rzGXsBz
-	y8G7uv/EGl9CFIsxjv1BJqsj1jeYyXkMngrUJ5YRDporby+6ZGhqH+vp
-X-Gm-Gg: AR+sD11Iz54GM5P6SXVyRYTUwcyvAQ3+9WRXSa3VxVI20vXAeBY7FYN/8JTSOIa0jQW
-	YehUsgrb5AjyJLQSXYv8b/Z2UiFyiPkLI/CoTQivIT6aHj1IyQImL/8DIBX3vQokCi8e4+gJWYB
-	raYA8fdzhxqrx2DVg2dD2U5RFwRaA7ctZVy76TgiQbJRGEYXBVG9oX7pBgMwivM7gc9un04Y5QY
-	XSjTU8//PXdKBfj9rEQ8EBbd90bmxnKr0MEX13xF8IL9dBbGf25wgOKalVFUwMQK8eXR566Vta7
-	9osRgG46mQks5LG5hIPUBz9hokQjFecL1mrgtueegdmY66rUokFnXQGG3oP785gSSZaSi++zfZ+
-	UR41DzgE0BHqZrFbxlQGu2uVb7FzVBHxZd6JG/tgCGTq2DxA20iv/R+9hbUamN+sIf1IXLehap7
-	roO+NZnRthnhhcddGInFh8bzd38/YgAwOQw8mh/tHbRGXfXXjCXAC5PQfyeHN4w555dUkB8npTo
-	qictawjUetO86nwM4gAEwWOA7fvvs+u0XxxNZO190KdIQWkAOWKMhXpyguFJDOHlumylzzIjo3B
-	7MxzW/9+flv7qpLTMoq/7dTfRCNSZHuVpj8j5t6EE1KvS9C0h4E2f5uWOaQJgfZW9+4ev8Bu
-X-Received: by 2002:a05:600c:c178:b0:499:596b:2e91 with SMTP id 5b1f17b1804b1-49974613499mr16093335e9.3.1786403080417;
-        Mon, 10 Aug 2026 16:04:40 -0700 (PDT)
-Received: from MBP-von-Karl.localdomain (dynamic-2a02-3100-a1e8-7401-316d-6c00-7a9a-8fac.310.pool.telefonica.de. [2a02:3100:a1e8:7401:316d:6c00:7a9a:8fac])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499740f1095sm33395985e9.13.2026.08.10.16.04.39
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 10 Aug 2026 16:04:39 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: core: handle port status errors in disable_show()
-Date: Tue, 11 Aug 2026 01:04:32 +0200
-Message-Id: <20260810230432.44511-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        d=1e100.net; s=20251104; t=1786403635; x=1787008435;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=a5zzbX5UUKb28qJzV8Jk8ol6WUaHCfavAB9FhEI6Yr8=;
+        b=OHN4EVAzmxfSUMQ6coeJekS6Vc6B3HT6LhUifTeC7Hu46bBQUMe9vm9IXL3J6DEUUZ
+         3Y425HTIv+M4GuYMIn6ER8xwngUYG+NdrpzF7T1lAZ0m1/fLYSWmR2+GPf10uRG8/Kgw
+         NukYP3K2p747GpTnBbf+AeW+FAXpymTzSfY5dPo25JKJBgIeWtohQ3qBVKPW0KolDcoa
+         5oYe/IdYiDaL65VotILvluyqrkJ5u1MqzExGd+ZrxHxEVwtSn0ZPf8tPN2njpU8DZAKM
+         InTzZSih6PTnHsGNKCiTnXR+78v9nGvoHWF/n3BU8IHXONrtlabp1BJ+176oDdO6TOXq
+         Ir6A==
+X-Forwarded-Encrypted: i=1; AHgh+RpF5jeURa8+ocViy8Sdq6gsf4sIeCMYVeE9Iw7IIHi0DzIDiru6GVOsFnjzO3a6qKnP7ejIdZyv7sM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2ucJytRQkmkWUuHNql/BgttLtJDs2aV2Oo44b6KBzEcj6j7WU
+	Wvmlz4sVNWt0RK0exSAlqCQbCpApTJcpwNBt9PVmfWSHa4FRkK7/hfQaREqYbnxaOt17b5XOqTX
+	c7I0DucLrPfSU8wEVHaABRl7qX01SRBY=
+X-Gm-Gg: AR+sD128l/Y+QnuSf2+H7+DjYaPHeVM0GALjXofrZctA8Ofc6jLFg99AOlQYgZp3S0E
+	jC66m6hyN8YY75RXU0r5szvdpkuhpeBU9iiWMVi7cWL753+kTBfyfmVbhYn1DzLqEo8mS8NJlqB
+	i1sh9Ia7R8Vv8jOHHhbQMikahQSz0ooC3O1csyPB4UecEIMvLoInbvORWf931ERKtFUGC883aF7
+	CqGuaxa+9TZnx/WVTlG8NH8ABXYZLLyL331iV24M4/OZaPmv7Ek8xEYRBDI+vzHNZW+SMuatD2G
+	/G3p1Wo27QW6Ogq6DHVXtp/YM3Qhkzen0fp2VvJSnowt/r7tK+jpkh4oEXg4t6ylaqC4BM2KCfm
+	EW5l5ttng/X16eDJheKidel2ftrRHj5J8NER0j9GrMjPyfJPfl7uXUngkGYPRJtnwHbKwJB3kiw
+	tvzTgBTiZR1g==
+X-Received: by 2002:a05:690e:120e:b0:667:bb60:78a5 with SMTP id
+ 956f58d0204a3-66ad72af455mr13186309d50.52.1786403634990; Mon, 10 Aug 2026
+ 16:13:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Jason <jasoncola1@gmail.com>
+Date: Mon, 10 Aug 2026 19:13:44 -0400
+X-Gm-Features: AUfX_myBSolHw0-70-Ggzdm4y00Phsn7b_-SOxtr_Q-m3xkp7IFPYg42q6z4CGI
+Message-ID: <CA+Z0x2KjiCjzTzNQVYRk3Zs6YoNsZLs_t+5YNj84AvDqqDjr+Q@mail.gmail.com>
+Subject: [PATCH] usbip: make remote list honor parsable output
+To: Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
+Cc: Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-usb_hub_port_status() leaves its output arguments untouched when the
-status request fails. disable_show() nevertheless uses portstatus, so a
-sysfs read may report the wrong port state instead of an error.
+The -p option only affects local devices and gadgets. Remote lists still
+print their human-readable headings and details, so scripts cannot parse
+them using the documented option.
 
-Propagate the status request error.
+Pass the parsable flag through the remote listing path. Emit the same busid
+and usbid record used for local devices while continuing to consume every
+interface record from the server.
 
-Fixes: f061f43d7418c ("usb: hub: port: add sysfs entry to switch port power")
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
+Assisted-by: Codex:gpt-5
+Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
 ---
-Changes in v2:
-- Simplify error handling (Alan Stern).
+ tools/usb/usbip/src/usbip_list.c | 33 ++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-v1: https://lore.kernel.org/r/20260808131601.75096-1-kmehltretter@gmail.com/
+diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
+index 3d810bcca02..b9d60b87e47 100644
+--- a/tools/usb/usbip/src/usbip_list.c
++++ b/tools/usb/usbip/src/usbip_list.c
+@@ -41,7 +41,7 @@ void usbip_list_usage(void)
+        printf("usage: %s", usbip_list_usage_string);
+ }
 
- drivers/usb/core/port.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+-static int get_exported_devices(char *host, int sockfd)
++static int get_exported_devices(char *host, int sockfd, bool parsable)
+ {
+        char product_name[100];
+        char class_name[100];
+@@ -80,9 +80,11 @@ static int get_exported_devices(char *host, int sockfd)
+                return 0;
+        }
 
-diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-index b4452b665f59..6503668f303b 100644
---- a/drivers/usb/core/port.c
-+++ b/drivers/usb/core/port.c
-@@ -96,8 +96,9 @@ static ssize_t disable_show(struct device *dev,
- 		goto out_hdev_lock;
- 	}
- 
--	usb_hub_port_status(hub, port1, &portstatus, &unused);
--	disabled = !usb_port_is_power_on(hub, portstatus);
-+	rc = usb_hub_port_status(hub, port1, &portstatus, &unused);
-+	if (rc >= 0)
-+		disabled = !usb_port_is_power_on(hub, portstatus);
- 
-  out_hdev_lock:
- 	usb_unlock_device(hdev);
--- 
-2.39.5 (Apple Git-154)
+-       printf("Exportable USB devices\n");
+-       printf("======================\n");
+-       printf(" - %s\n", host);
++       if (!parsable) {
++               printf("Exportable USB devices\n");
++               printf("======================\n");
++               printf(" - %s\n", host);
++       }
 
+        for (i = 0; i < reply.ndev; i++) {
+                memset(&udev, 0, sizeof(udev));
+@@ -98,9 +100,14 @@ static int get_exported_devices(char *host, int sockfd)
+                usbip_names_get_class(class_name, sizeof(class_name),
+                                      udev.bDeviceClass, udev.bDeviceSubClass,
+                                      udev.bDeviceProtocol);
+-               printf("%11s: %s\n", udev.busid, product_name);
+-               printf("%11s: %s\n", "", udev.path);
+-               printf("%11s: %s\n", "", class_name);
++               if (parsable) {
++                       printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
++                              udev.idVendor, udev.idProduct);
++               } else {
++                       printf("%11s: %s\n", udev.busid, product_name);
++                       printf("%11s: %s\n", "", udev.path);
++                       printf("%11s: %s\n", "", class_name);
++               }
+
+                for (j = 0; j < udev.bNumInterfaces; j++) {
+                        rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
+@@ -116,16 +123,18 @@ static int get_exported_devices(char *host, int sockfd)
+                                        uintf.bInterfaceClass,
+                                        uintf.bInterfaceSubClass,
+                                        uintf.bInterfaceProtocol);
+-                       printf("%11s: %2d - %s\n", "", j, class_name);
++                       if (!parsable)
++                               printf("%11s: %2d - %s\n", "", j, class_name);
+                }
+
+-               printf("\n");
++               if (!parsable)
++                       printf("\n");
+        }
+
+        return 0;
+ }
+
+-static int list_exported_devices(char *host)
++static int list_exported_devices(char *host, bool parsable)
+ {
+        int rc;
+        int sockfd;
+@@ -138,7 +147,7 @@ static int list_exported_devices(char *host)
+        }
+        dbg("connected to %s:%s", host, usbip_port_string);
+
+-       rc = get_exported_devices(host, sockfd);
++       rc = get_exported_devices(host, sockfd, parsable);
+        if (rc < 0) {
+                err("failed to get device list from %s", host);
+                return -1;
+@@ -351,7 +360,7 @@ int usbip_list(int argc, char *argv[])
+                        parsable = true;
+                        break;
+                case 'r':
+-                       ret = list_exported_devices(optarg);
++                       ret = list_exported_devices(optarg, parsable);
+                        goto out;
+                case 'l':
+                        ret = list_devices(parsable);
+--
+2.50.1 (Apple Git-155)
