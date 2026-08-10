@@ -1,89 +1,89 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8A04189DD
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 15:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83132417D87
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 15:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786376548; cv=none; b=WnHN2UFEvfTI0OglKmycWgqR/KUGrf7eQ3qaY4li+rF0B2Yoha61eYKDm3Wfmb8r7EKFka48Y/F6UZHL/OILj1D7ppoBIlhpRBr10lViY6Xwuid/R5YsbRj502Skp+7YJYd0xrR4PjrAN41D2Zx0v/Q73EBtepyb7zz4jDrjcTE=
+	t=1786376549; cv=none; b=qm+QsDlirQeUBnzsqGtgItSDQ+dd4OiBRGAPk+zOIMlC3HQix1J61D6rm5pvR+qcT1hwVzwkVyAbUqwd7qcdnHtpogvUk8+jVoogF+32wQPZfrERf0hIdgBWvz5RroIhyGQvjTLWcy3Ci7TxDhlj74iGiY9xmRkc8ac3+V9BcqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786376548; c=relaxed/simple;
-	bh=zF09fnAjSPFGZsQfp4IpqRrDJjz7DPLi1N/LYmSBNLw=;
+	s=arc-20240116; t=1786376549; c=relaxed/simple;
+	bh=W5fwrw87A/zYMZyvs0ZH/Ywonomd67B2W25bvL7eGxM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uEKuaj7V0XxvDTvmCFTKWPVJKGmXyqByYjxmDRK3/I1tS9Miv4g+j4a3b/rUnBBcSivKBupXtD96XU6wI7/m1V16coN8QifbR22r5wgfB+QSf4wGR3Ygfx9mrHMOcCd1IRWpU3GQd04VSuzv+eAkM7g/Dfnk8DvcMUUj6nTdy34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UOLHK9R4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hwKY4Snp; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=DrgAXvBSFufG/9qNDIsTPDHrBhTrK3kCpzssq2d6OcPPHpX0L/UFPmRF7wwyz0ypCrgB7WGqMFTyyjGqIPk8VfMT+urn29OCrtOl2C510faJ86+fluU0ht/Tmomezw5GioMdyol131ewNyStevuOgvd/s036kY3QuVpi5gbNkYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=c09Tmmx7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cFdUMocZ; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UOLHK9R4";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hwKY4Snp"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AFWMLX1729097
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 15:42:23 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="c09Tmmx7";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cFdUMocZ"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AFWDpF1694826
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 15:42:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ykiz7/WLXu1Pqam7m96oprgwnXnPFLvlLQkcUT1pgeA=; b=UOLHK9R46ffmVQXv
-	ZQwEq0a8ewE8eq3tOwO3f74Jy+opbpXLRpw0AfxuMocVObs4gccOCaHSC7B6KtW/
-	Wu4wxcdUOPOLna37bl4kE36gdF5UyjLY5PMj7iT2oz68GvPmS0d+J3wz4QjujuZl
-	KLCMRFs0OnwbyLeg1XSEnuIA21OO3dLet1Tc3BmgZGqN3Jm7LPh05V1Z0NbkLZWh
-	I6Ku4DNJA07pPrUr179BdqnHp68BQwdIlvZtDxzmjQrhGuQiMoV8ynniqzX1pFaq
-	j2KelKK4eBONxuHXtVIdgI6Ars/v8WGxfuu9gb5bIovsLeNt3M8y0vMPWyqUxrKe
-	VF55QA==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fy8v5a9ry-1
+	GCrGDHyDrQa95r9/bHjjtu86fmQgfeBAEBBhKsMFLXQ=; b=c09Tmmx752QBOxka
+	QruGFk8j0cco/ou2TFU+r7Mm7vIHwXva7N1cvwsrPPeGtdPb2Zx4QX6jn/z+rRGe
+	lmTJgrJ+BPzUYNHfzazialSmqEOsWI2pxPE9gzWPN/WH9+sY1kOxAbxUQAOYMX4f
+	mJqcQ+HoEW5dfQYD79VOxrTrVIr03RvSOiv0Bk3E1NVGH0H3+UsU91aiGWqrZrY6
+	h1bCL+top/z/VE7fmcWdhdeOf0WXZXjVTGfb8tNA1+epGVvZl8LXkwwHU3VoYrQl
+	6YCUdBnITbwlKAFlklcM2nstm3hGhzxLqbzP/8DqfBVb3FiWpkout2iHX6b9rskC
+	zyZ3vg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fyccqsedx-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 15:42:23 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-904ee4473a8so18321436d6.2
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 08:42:23 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 15:42:25 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c1a9764f0so20351021cf.1
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 08:42:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786376543; x=1786981343; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1786376544; x=1786981344; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ykiz7/WLXu1Pqam7m96oprgwnXnPFLvlLQkcUT1pgeA=;
-        b=hwKY4SnpEcbjpUHw8cvzeDnMsWgJAqXhMIfwzELZlKsTh/U1jWiEdMBB4CBA1dGwm9
-         3q1ZNj4RCbeUt4f+aOy2R7FutuaMzjECOVcuXUzKXFGeCVPswkhhYreaHP5SKmS3y5Sp
-         AQrFRTw577v6SmAapFhf8674qvvkOXyKWQJ241nMrdQhD6tv02mMiEaZbOLIy/AUvqvD
-         90mGQKFRbcBqr3tufBPnOXOn9bgFdKiOMq1X9oWzVO3z3vX6GCK5oGKOP9QcXbWzYs1y
-         0AvLd83x720C7woe9prSeu5rbfK69E4BmzQejvjFMDQOMLvpsDOFu7XKAf7vUl8UtFjG
-         aECg==
+        bh=GCrGDHyDrQa95r9/bHjjtu86fmQgfeBAEBBhKsMFLXQ=;
+        b=cFdUMocZSmTbGCOuoEn447rVJhAnfdsHRk/7oh2jtUItbzA00T6fMQcvKYo9laSp/k
+         vRPYBnbM6ZUnrtn1XXsbhAka2doC1D4vMJeXkSxNMBayTHBRWEzTQrp33b7FmYKNuVy2
+         YRv8LccoGrqHp9YTVZ5Nrx0eLVIZFjZIc56lD1QQ7HV1T2Y85Ti0UiBCP5KJVRhcTgQ9
+         H0rnlPuICQWz8kAsIK9mYhluTcLoMbaOxsG6WRoj3w6psnq4WerNRbM2E4jIPJ7MZUNl
+         hopIL0lWcVY4TZapQf3kwn4/sDa2t/YpdKC7fA6/ehE4dcbXOvaP+2rGFAHu9mKTJ3GV
+         7gpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786376543; x=1786981343;
+        d=1e100.net; s=20251104; t=1786376544; x=1786981344;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ykiz7/WLXu1Pqam7m96oprgwnXnPFLvlLQkcUT1pgeA=;
-        b=Vz1YQqOdTZJH49jg1+eMjGfv7CAoGpM9c9ZOJzQZizojWJLDkbQ5/iAe2v0M33WHWx
-         QVofD3WA+Q+UHK2foc44x91PhOlVpu/ScYrd2ynkG7TKU6LKedLw0YpnrFXimLcHvdy8
-         2lCQEVVex3OUXmhyP5bIVjBep2Ijs2QjiWG+TxxP8juMW3Aiy/2MFlTwQO/2ofEmIRWN
-         2NIhha/6AwK/DwlrsW8Lwd4bwr1z7E/UkgBF285bR0mzYjL1qv+bRXU54hxBiO1hdzxR
-         M1R6HlBTDj4Vqw7FGiFY5qsPuAaPCDYwf5pFcT9p0Nb6K9b7Mdlzltoca6EvbT9NZMpI
-         swHQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqdCbSHompcys5xcPNWTla3UZR3KaaZY/+2xp3rskyCMMFZeNLM7+mn07jhBC4xSpbdvi5RTlZTn0A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYgFGGR1k5V+pYd1Y9WT8Hmk0v6fNYgfYb0nlnL3QHCO0d8B16
-	UfT3xon5SWWIsBtnRXWDeJdq7KgNEXM2SbHlk+4jbmv1kEcTrnTmLmfXlHPZ832j1IEAyBl2VTY
-	IQs8yrxtZFj4JJ6hAfau/D4/4XY5OtfatOAVkU4scUfrQoMaLQ/evu5KyIpS2+BU=
-X-Gm-Gg: AR+sD11odnxZABbsytnLNYIYpCjR8K4i5ZAycPvkcHwkn6lNSTLezob9buGeQul6cnA
-	YCB7icq4JNU3L2sqAhzwqU6QwodCRuvMnWXg8vmgFkOK3yScxgZuSMqPsrtJx8AWZ39fnx9yHZC
-	UnoTLkoxNaAOmMhKPVVd3I9oFlbgaoL27kDZ2XNi77usZIRUyrRCRlfD8NZxwUvm8/bVR3zJ/kw
-	kZz5Sq8Y9RID7mvgf+Eo6hMgHk7p+AN0udiC62gFtYMbYMocq+3v1Y5pFmwErU3S9rmajN9PGAz
-	HY6ryB5g/w8bNsq6QIVP0zVuuoj9LElW6kW149sCjI722ciK/GxER291ExdyQUEne5UWHKrwJfL
-	rdHi/r1LFs3PyneAMzpaZmpdOK1gfEv9sEZxwHGmIWqCapxgpDyhWvH9StPfZ6M0AVdbHEvdXOW
-	SQ9Sx64vb2HU3X/A==
-X-Received: by 2002:a05:622a:593:b0:51c:21d1:3852 with SMTP id d75a77b69052e-52ce5f63740mr455152081cf.5.1786376542589;
-        Mon, 10 Aug 2026 08:42:22 -0700 (PDT)
-X-Received: by 2002:a05:622a:593:b0:51c:21d1:3852 with SMTP id d75a77b69052e-52ce5f63740mr455151151cf.5.1786376542016;
-        Mon, 10 Aug 2026 08:42:22 -0700 (PDT)
+        bh=GCrGDHyDrQa95r9/bHjjtu86fmQgfeBAEBBhKsMFLXQ=;
+        b=s5lPn0pUs+BbY84tFHTQnZPoEtMlhs57nVzTjxvoP7+fuWVRfjfAwzFdo101znl7/b
+         BTRaBY7fSPC08uXuO0MmSuL8XbVP0ZxXhz8mZlFQqkM2zPtloecSf8/bnrvdUWwqCWFX
+         jK6IBWd273ZWW9pzpzsuJtVLzpJg2KP2EU6SsTGkQprqoho0x5pDSZZIXfBq3p3qKABH
+         XSPxxNBDeItM+8pcTRPMpynOQqgNundr8MeR1WhhZjg0iqR8D2bhPb0mfG598wmktmT/
+         iLj539LPELVjMwalOxyM8zC6m+u14iFZKxivnMPHQPzMOwdDtna4n2smNARl9ALE0iAe
+         C2Qg==
+X-Forwarded-Encrypted: i=1; AHgh+Roezk/3rtgHAXUtRzB42lzY2zy812fgAAwLcvwEzOYubFM3ZT23UwgzcfH2NchOjVEzJBE5kpZ4Vws=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC7EA8/wA+a/Ta3TCHP3mygiQcAA+lySX1kJYLIH5N2Vj/hY3B
+	AU6b8OX72FROVzzmUezW6QynJJATtQ3DJAAaTDup35QiNqvcYvtU5bLgz0IFnRn898qrcDE4YGm
+	HX/oUmoTJSENqRIwdC36H/YCT8tIwsQKG1yFFhksr4S5UUQ7zkYoVRznaF8sS3P0=
+X-Gm-Gg: AR+sD11f2GuiFclSReNRa9UOLMl5DlMeYbDrrOSSOGkRHotGDUQTNNd4ensIFnYKDYd
+	+8xcz+PM1VPMf1JrZw0SEHKwrz2fGuuevuJ8IjZF5EY/gVTxMrqQMDX6TRMk+DgI5Zc9SWBNW/8
+	qjKQSOP1qsJJh3xVoY5LoULLeEo6MLtGAV/diM77dbVF1BX9Rm9UMXGtD8AGk/ghi+cDITwF29G
+	EcKBweScPNq+MpaXsq/Zc3rpWaREDWENS+YOc84hW8BIrR3o2z84z7xv8UaalMvfMvohgT3rN/F
+	jf532TmV46ekFXHRAynCrcreqEKfhlb14W+9/l6qnZfjgwFAfRLIj+n6hd4HsjnaxenzSSOGwB3
+	aqkpqzm9fan6B4HGhw0io9AYL5qDWFdUhN2WzrcIxwNZpPLdVow2jLBkTiZOe/03XuO+isV1mx5
+	1uJR2RP+50r9xkog==
+X-Received: by 2002:a05:622a:58c4:b0:51c:963:cafc with SMTP id d75a77b69052e-52d20a814eemr255581901cf.41.1786376544498;
+        Mon, 10 Aug 2026 08:42:24 -0700 (PDT)
+X-Received: by 2002:a05:622a:58c4:b0:51c:963:cafc with SMTP id d75a77b69052e-52d20a814eemr255581111cf.41.1786376544064;
+        Mon, 10 Aug 2026 08:42:24 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b3056f1bbdsm2071673e87.82.2026.08.10.08.42.20
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b3056f1bbdsm2071673e87.82.2026.08.10.08.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 08:42:20 -0700 (PDT)
+        Mon, 10 Aug 2026 08:42:22 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 10 Aug 2026 18:42:09 +0300
-Subject: [PATCH 05/10] usb: chipidea: msm: support the HSIC asynchronous
- wakeup interrupt
+Date: Mon, 10 Aug 2026 18:42:10 +0300
+Subject: [PATCH 06/10] usb: chipidea: msm: keep the glue device
+ runtime-active
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -92,7 +92,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260810-msm8974-usb-hsic-v1-5-e5f93ea76ffa@oss.qualcomm.com>
+Message-Id: <20260810-msm8974-usb-hsic-v1-6-e5f93ea76ffa@oss.qualcomm.com>
 References: <20260810-msm8974-usb-hsic-v1-0-e5f93ea76ffa@oss.qualcomm.com>
 In-Reply-To: <20260810-msm8974-usb-hsic-v1-0-e5f93ea76ffa@oss.qualcomm.com>
 To: Bartosz Golaszewski <brgl@kernel.org>,
@@ -114,112 +114,94 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
         linux-phy@lists.infradead.org, Greg Kroah-Hartman <gregkh@suse.de>,
         Peter Chen <peter.chen@nxp.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2640;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2213;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=zF09fnAjSPFGZsQfp4IpqRrDJjz7DPLi1N/LYmSBNLw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBqefFQprX64U/4DCFpJiS14RtCBnDgkvwJpjJKW
- lTiyOQZ8kyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCannxUAAKCRCLPIo+Aiko
- 1W2AB/4guuqVz3+TvJnK5H8xdLnO5BEYGr+vZ7ygvrf0WZfuL4F1BLUJwTmRESF5lD/QlFQZemG
- IwfL5qsbQDRHMZhbNYcrgh1msxLpuSwmO+RCqWlG6mZbMiwHGCFfYq9Xa0TEoE9A7Cwi9x9KDD8
- Tm/0C1wFxNGJf8uCRkSsy5efA8Ijx5smouZxEsNmJrQJ8zyDQ4c/n5UwtyOTl8RG1NwpBV8z//t
- im+bU+E6xQeyEb9oMQ/BOjcG0xg8uOP4bXVCcn9B4pdveKZv3UN3yGCbHYbkK8frrxGdLmJDe8n
- t4bCyvugfQo97me6aPjdAhjJgTH8IhMsPP8mTtvXY4fZmCLL
+ bh=W5fwrw87A/zYMZyvs0ZH/Ywonomd67B2W25bvL7eGxM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBqefFQhTQDcU2q5OpKlPcQt9+901ij4/eO0pNy/
+ HSEWtd7m3iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCannxUAAKCRCLPIo+Aiko
+ 1atgB/9L0zN0A8qyBtwd82vNyEPK5KczZuUzbj/WjMLPPb+4l0Q3ash4UwV7mMg5NN/ewuxYNK/
+ lL6Ywgcv+8x4aToz+jDBwPPDYjmzgBezMgBtUW22NvPUG6+efLudrkNisso2Au+ATDaxP6BAcce
+ kkpONMN8GRn9mrLWwGCMmROlJslpvJSeGzvc4nFbtku9clhrJKi2mHQFeI2lBzBIaGBH+K12Mk+
+ Mn0hmMZCBnyZ/bvBGVA20M9wIuCyJXgRDwIpFTldc0FFhhwuoSRIB8HE1wWVoVzMZ/Q3twkGmxR
+ 76E4RQOFwkp4nJdrNElE2LUMNEJzBT1hBg9xYM0eSRC5B2qH
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDEzNSBTYWx0ZWRfX0Nu5T58k/l7B
- FfU9VdYGenIpzjO3uNN9EvUtafuTh9VnURVSnqQGnP71GA7Y6mtEaxE7NbH07zJomVxxEjb7vkV
- qs6R6/PCwnZpR2xY3H6gFrAb9NLZu8I=
-X-Authority-Analysis: v=2.4 cv=J6qaKgnS c=1 sm=1 tr=0 ts=6a79f15f cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-GUID: TEKTN1LstwVvQ2zTwtbGedtG6lXMaagh
+X-Proofpoint-ORIG-GUID: TEKTN1LstwVvQ2zTwtbGedtG6lXMaagh
+X-Authority-Analysis: v=2.4 cv=WNVPmHsR c=1 sm=1 tr=0 ts=6a79f161 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
- a=a4gATcTAGDG0ZWSRqCQA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-GUID: CuEg3WPqKtOzbpwLLeoK4_cDefpOJz5b
-X-Proofpoint-ORIG-GUID: CuEg3WPqKtOzbpwLLeoK4_cDefpOJz5b
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDEzNSBTYWx0ZWRfX5hMEsDl4zO8d
- 0gn2d/OoNheJ7hMbueh7S+evvePhC79uXhVeHyGRSWBGklkVm9jHIGJI6R4jWmA9gGcPysoJVZN
- BFWLucTkqJKEOFgdfzLHuBkKxJYv4DzB0FDfWRM1+1V87Rz7DxrZFo57ncWMLJhFlSq2eDVT+OI
- fAh0UX6exTfeMxNhDGWG0m1paOkOQgSn9halbHIWo+JKaTJh+3BdzRv8TU1AECxrrmPbIyOksUs
- 5plts3CtzlsEilZy/LjZUb46w5m9+0OPBgvXw4s0hlu6TgANH6sUAkAK60cWt8kBfajPuskOx3Q
- gyrcrV949egm3OwYPPOpLGWY12RnlcbUg5iCHDRb+e5nLjoeaNAYydy/0+/qXsrV/wdhtSHAFgW
- G+cp1RN4J0tsrpFGGfuZkb7VtAYmdilLYSqrJe/yzAuaAHITH8eOv8T6yjawAwzmpuaB/O2LZ4l
- UtDEWyWFL2vw1C/tf/Q==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
+ a=Gq4z8NyD3fEPJbr1v9MA:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDEzNSBTYWx0ZWRfX+D6reAxyXlaP
+ m1pb/y0RkZ9I3FSw381S7uB7D7fs/vxK89+mMfWTgIx1W/aeQyM9vxTQowlsY7VoTWMQ6B6vVMk
+ v89tzNCXRq3ynYQ1nvO/mZ4NkVswVwQhVrV83ZxmNhotFWr4XwJ/sDDCqcJCwyFnsbuB+h/piS3
+ l9qMnsdkYoEIa8tQjK8pG+6H0L/CjfF9uSLvZGF9aHING95tY4V+0+LDeSj+9MTt5u2Z9xiiMYD
+ QPvbKsttaw1J11YMdVCAdNO3y7rDaMCAZ9Zq4td69jyEqjileu+1rm+5e0jlXaXFa80A/K/x7fX
+ LGSuYXer5ZkazdFZgQY4O4V5uexBrJD5IPWxLe+/k/kOKUD5gQCcGtRWGL9VGe6o4Dq4IQJQyOe
+ VMt7Xvtg09sbM4N/vN6jnFkbIG9r3POHZTMj2Qxi2aqIGsstx5y/ItEgIwfGbz5zLbVcxTEqz4R
+ X9axdHcdtxQ39G3KU6A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDEzNSBTYWx0ZWRfX+0seJzneQiyR
+ 13MsYiFYJqhVsx6Cp2fDy/Gc2jnpdYVB1ilOpw72LqJWukaj3bb6txVyrXItrndWBWvaSledwDI
+ WHcKgAraMnGqk+FnMr6HnufUSMVHq5w=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-10_03,2026-08-10_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 clxscore=1015 adultscore=0 bulkscore=0 malwarescore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ impostorscore=0 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608100135
 
-The HSIC instances of the chipidea controller runtime-suspend with
-their clocks gated whenever the bus is empty. HSIC has no VBUS-style
-connect detection: a device (such as an onboard hub coming out of
-reset) signals a single connect event, and if the controller is
-suspended at that moment the connect is never noticed and the device
-never enumerates.
+The msm chipidea glue enables runtime PM with pm_runtime_no_callbacks()
+and nothing pinning it active. Right after a successful probe the
+driver core's pm_request_idle() runtime-suspends the glue (the ci core
+child has runtime PM disabled, so it does not hold its parent), and
+when the glue sits in a power domain - the HSIC instances live in the
+USB_HS_HSIC GDSC on msm8974 - genpd then powers the domain off
+underneath the running controller. The EHCI register file reads back
+zeroes, an onboard hub's connect is never seen, and subsequent bus
+accesses into the unpowered block wedge the interconnect, eventually
+taking the whole SoC down.
 
-The hardware provides an asynchronous wakeup interrupt that fires on
-HSIC bus activity while the controller is in low power mode. Pick it
-up as an optional second interrupt and attach it as a dedicated wake
-irq of the core device, so the PM core arms it over runtime suspend
-and resumes the controller when the bus reports activity.
+Pin the glue runtime-active so the domain stays powered for the
+lifetime of the controller. Proper low-power handling can later be
+built on the child's runtime PM together with the HSIC wakeup
+interrupt.
 
+Fixes: 2d0cdcc5a0e4 ("USB: gadget: Implement runtime PM for MSM bus glue driver")
 Assisted-by: Claude:claude-fable-5
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/usb/chipidea/ci_hdrc_msm.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/usb/chipidea/ci_hdrc_msm.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/usb/chipidea/ci_hdrc_msm.c b/drivers/usb/chipidea/ci_hdrc_msm.c
-index 3ab3daa78e34..e28ea87f9898 100644
+index e28ea87f9898..9a9410a814e5 100644
 --- a/drivers/usb/chipidea/ci_hdrc_msm.c
 +++ b/drivers/usb/chipidea/ci_hdrc_msm.c
-@@ -4,6 +4,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/pm_wakeirq.h>
- #include <linux/usb/chipidea.h>
- #include <linux/clk.h>
- #include <linux/reset.h>
-@@ -173,6 +174,7 @@ static int ci_hdrc_msm_probe(struct platform_device *pdev)
- {
- 	struct ci_hdrc_msm *ci;
- 	struct platform_device *plat_ci;
-+	int wake_irq;
- 	struct clk *clk;
- 	struct reset_control *reset;
- 	int ret;
-@@ -261,6 +263,19 @@ static int ci_hdrc_msm_probe(struct platform_device *pdev)
- 
- 	ci->ci = plat_ci;
+@@ -276,7 +276,13 @@ static int ci_hdrc_msm_probe(struct platform_device *pdev)
+ 			dev_warn(&pdev->dev, "no wakeup interrupt: %d\n", ret);
+ 	}
  
 +	/*
-+	 * The optional second interrupt is the asynchronous wakeup interrupt
-+	 * of the HSIC instances: without it a bus connect arriving while the
-+	 * runtime-suspended controller has its clocks gated is never seen.
++	 * The glue owns the controller's power domain (the HSIC instances sit
++	 * in a GDSC): if it runtime-suspends, the domain is powered off
++	 * underneath the running controller. Pin it active.
 +	 */
-+	wake_irq = platform_get_irq_optional(pdev, 1);
-+	if (wake_irq > 0) {
-+		device_init_wakeup(&plat_ci->dev, true);
-+		ret = dev_pm_set_dedicated_wake_irq(&plat_ci->dev, wake_irq);
-+		if (ret)
-+			dev_warn(&pdev->dev, "no wakeup interrupt: %d\n", ret);
-+	}
-+
  	pm_runtime_set_active(&pdev->dev);
++	pm_runtime_get_noresume(&pdev->dev);
  	pm_runtime_no_callbacks(&pdev->dev);
  	pm_runtime_enable(&pdev->dev);
-@@ -279,6 +294,7 @@ static void ci_hdrc_msm_remove(struct platform_device *pdev)
+ 
+@@ -294,6 +300,7 @@ static void ci_hdrc_msm_remove(struct platform_device *pdev)
  	struct ci_hdrc_msm *ci = platform_get_drvdata(pdev);
  
  	pm_runtime_disable(&pdev->dev);
-+	dev_pm_clear_wake_irq(&ci->ci->dev);
++	pm_runtime_put_noidle(&pdev->dev);
+ 	dev_pm_clear_wake_irq(&ci->ci->dev);
  	ci_hdrc_remove_device(ci->ci);
  	clk_disable_unprepare(ci->iface_clk);
- 	clk_disable_unprepare(ci->core_clk);
 
 -- 
 2.47.3
