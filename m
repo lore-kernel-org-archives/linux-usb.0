@@ -1,174 +1,161 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D92BE656
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 13:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786368779; cv=pass; b=lme6fKnfttyCb3dPqHLfPIys69zVI4ci8T7h8NIf+BRi9hCibJkpY5KTg1SZZ7VnpgBusUEpiUWEEHKPb+iy/6aJwgvM5/17uDBJN5KYQ/vu5PMjMILQjL7eK+ZLErxjtndW/lz4/fCAHx5d0PT/O+xaKhztn0dgxnwGcT9X4vQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786368779; c=relaxed/simple;
-	bh=j4fdJB83OgkfpDFpn8eOXag7cSqCJ6o/mUw8wWH5rc4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aWKubHEAqgCPAMdR9qAn9Df/81ODxr9Zj3X/sqvqrAYCRfmvLRbqSXlxjXI8SNICHHOM+bz7Ix7H2yMxLWh/8O8ZJv5JlbmOmIbc9EHKRbUIAQHlghZSGBwyM0WVuvycg0tc7lSWqRvmrhVqJ8hXX3KjmKYLpnlMNENwSzq3mPU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=apTmBob4; arc=pass smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B253AD531
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 13:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786370065; cv=none; b=TH5F+0Qi2Cniz/hZOk5wLXEE2ZfZVL81gqoPGwjF5RJLv6bYYfHwp1c/fxbvfwMVXxNd5m70YbD1TRQzXAEgO0dMh7iieuiP2Rn2n3E/qMs/IOyt63XJP0uENHz+rdSSs2gC0/12HpDI2iw1CxtD51HwcnAr6zEl+88iUSwZO9k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786370065; c=relaxed/simple;
+	bh=K20w2hkA1GeB59OfT9MrgKeGGaCroV6c8F6TUCcrpUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZ4ukiRhs6YX6DbesunlUSVJUVNqvkQALqsw5/pPTL+gN9e62fLHjRszKN5xGo7ue9iaZvfJRITYpxvumD4nXfeIRS6hqaP1OiTHINtoCUqwpU/o64TEWGcoOMmaWW8uYAvPQhTqmmlOZ1nNNKenNNLq4dCZ8E5rq+nYjVJ1+Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=nDux75Fp; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="apTmBob4"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-4472500e25fso780182fac.1
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 06:32:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786368777; cv=none;
-        d=google.com; s=arc-20260327;
-        b=I3hPEbJxuruMcUea2jOOQGq6tqo4uXYqxtl5Kjz9ebB0InD1Q0Q3FTEZJczOXsop3F
-         AFPTLPRc1+FE76PyyMBD3H16jFZSRuiQmdzLtI5Ryz+yjzsK5xGNDMNoLtFW9/5LJo9p
-         RP2qE1Y9RQL2qP9GdSWG/GmmP7at0apM0bkU3QxOqUh1OZ4PHSP1vVbKSEl7RRYHEM2N
-         Gw3c4SqDxyStBgNw16sdHLY/qkpD/On9BYcUmqyBRCQBTuaIEGHAoTXUQ1N2S5C/I9tt
-         YRhd8HtpQP3uU8ftPU4uYx0NCzI196dMJsJoCtow0JwHVqdVnQjOytOR2GECiovS2Dgj
-         yTKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=roc9S1a5x2gvGrqXEh82i6BdFvHALhfABuncZ0V+eZg=;
-        fh=e19+7uM7b4e1Ejf86stA+rositz1eYxPR/rkYMvTFZ8=;
-        b=Tr2NNL6cimXAg0rCFti7iyKz0wXOt8AyJ9JBzWSuyl4O+i31WczpUxfmRO5sXsoJyc
-         06OQI6PQ1MnNMJjBjYxGdPORH5NkCqGKGmYHW24DExojZUaalFLU9pvRLnCX5XtUqlik
-         VqqRigL3SC5yiCYI4drhG+fQLwUV2LnOQHZ5Hi/VrcJ4gmn5MNCL7Bp2RfOpCurwuPV9
-         wfaaSu6iJXE8QDzw713CFjI9EEAXmlK/e4x+A0zC+CZDjeI5/qh/veLjR8OQdldMQU+w
-         1KxjmTqxEWlddPDBQ4ifShCX7oVmX/RTm3MXW9e/HVd1hHQ8Uy0AYmtURC2ENBGZOfMV
-         K3JQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="nDux75Fp"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5218927884fso18438911cf.3
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 06:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786368777; x=1786973577; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=roc9S1a5x2gvGrqXEh82i6BdFvHALhfABuncZ0V+eZg=;
-        b=apTmBob4QIr3twF45Vgg+rTrZD0GB0olkQzlq+ySNkICwvn5TjNTPZc6fiVqwpO0cl
-         UfUj03HmEsA+tujX/3hZqhT7Smgcbqvbmr2YrcfFMIDyXRYG4xkqth+EW7/tNZXTWTn8
-         99krUXsIMfnDAHn37g6itmmcdxU1jtmzxVFt+JwD2CB6WkurOS3cW1cu0hHaLxQLK+u4
-         5JJwYnohVlNVq0yHGz9GU+/wTEAvUMTaqywA2mPW7o7oBkNf/O0KuK90x/LAEigl7MAq
-         WICl4vYhI5WeI1guwhW/DI55mwRDQ1k1j6m4c5483jlYPaAkcIAy9nNlk2fDqvxfkssV
-         tdyw==
+        d=rowland.harvard.edu; s=google; t=1786370062; x=1786974862; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8Gjj3Ar8GXNl6474TVXHlm3Nbb0dLaiQhJwp56fbo9Q=;
+        b=nDux75Fpk0oyVuG4maz8LzOeQijjT92NzLwmdD+1PB97Yqaw2KbY8PJMaAHNr2Wgst
+         YL+Flv6lhJCif2DdZQYQqHMuvCphJkNjA5r7tln2rZ2zMcqtfFc42k2IacjrFdCaP1d6
+         +53hW6zn4VIrBevd/nGAkawS6EUpAiUCvS7VqruaI+1kR9MLqpvG4ZuJG/pvmPJVH7d5
+         EyBdBRu+XrAsWOp36/GWcAS68M8Gf7zS97i0G2/TO3Np+75amc/m8f1hw2EWuFVpagt8
+         M3euXDilBjHKTbrG7xBoxZZZR6pUXH5iG4VjGSWsFMQZ2uo8hEmT5YYvB8MmKwzTzxDk
+         kojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786368777; x=1786973577;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=roc9S1a5x2gvGrqXEh82i6BdFvHALhfABuncZ0V+eZg=;
-        b=gU1Yeg2wTQj5ujPRDONSLSGq8rzznrD8YJrn8M4htz3p6rj9R8OG0L1von3yt82p/z
-         W6CfQybTep9waqTB3/EGqC1E/+7HjlfcXoWPETXIAdqCZjELGsPicPqjoeJ/GzyEtxdm
-         9o6XUkZ2hraEMWvev2NV6kOpWfXoDIkk77oh5QTdgAGN1lYYE6AptiShbwWaAMdexgLG
-         1gU8D7c6lq/HZP1wgONnDf3fgeartB6otOBcKpMJaWloPr8Xvq/JRAyTGArSnOdJGrM4
-         Fdv/qLBLJtYMAJ8OHLWY//hlE8AM6vGSLZVxMpNcWxImjT3n1iL8bjcLhm5an5yF9XJ5
-         f24w==
-X-Forwarded-Encrypted: i=1; AHgh+RpoyVh8OJcv+FukzTIOWgOE7NFG/6x9qtB5ZorQkSwIZFRoTwoBuPPWmM5IUM7f/E5kEZD4DPWfgmk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysaEtSFUPE8vWG/FFo7PJYvabjoz1B7SAtl9MJBt17/iue2k+v
-	KwrAIm6tW04Gu99fG8kJ2tHQBgrNwGXpo+ab50nK+9jiBSJmckl5DyT73Tv0xvWjc7gEUXi+c8F
-	zAJMCy+WEEkf0IjrwI+CduKwd5/FzlQY=
-X-Gm-Gg: AR+sD13HMrty7Hku6rHaUDmb48M67Z+LSjUUoYGZzaihQGv3PhdiEwWcQnSPX9ZKfQ0
-	XH4r2bUV/We8zNYsJ7s0z8KNmtYL7V0hQnLIuoTm236TDUKSSRAGfx75tDWIG4UlelKRBpc2ZGf
-	CvAXJNkorna9SMIJgbCM/ILBB+ti6/DMvrYQ+9GVuCmYYbVBh2GsbXHDWx7eUITJFgGTyyseLy7
-	CfzWoDB9XfumDSwQnD7xf8xJt2H90xI0K6Q8cpTt7PTVZ0atFs+sdi6rjs7NbKj5rS5gLZGjpHI
-	9p+n+Bfe9AneV4QjuTTsDvH3hKbJ9SXzJtyOVRLF+zSJ7fz8p/mxeglXTKTZVptRbFyqdolLl21
-	uGwVvZs7TRg9Yhp1PUYPFvgY09oguf7ZzeDTuVZY4zqICSYjF605IgLD3qw==
-X-Received: by 2002:a05:6808:309f:b0:4a4:744:a4ff with SMTP id
- 5614622812f47-4b1e7709011mr939902b6e.4.1786368777312; Mon, 10 Aug 2026
- 06:32:57 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786370062; x=1786974862;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=8Gjj3Ar8GXNl6474TVXHlm3Nbb0dLaiQhJwp56fbo9Q=;
+        b=CO/CONPI55tT9lx9tVe/dn8ScYMsZNRlnvn9FUvHh6ZmcsXQd0L36DHo2jJEQEI4Vx
+         E/XOlLTHN/IxeGU7ZJ0VhZmh11o3K+uXOTPsB3+wtU6brc3e4E0HQcW1cbQk1VDXlPFT
+         fIZzii+HfdPq2FxHOBWKicQg8KaYHOMe7Bv/xh11rFpTEbyPdICs+fxTq+l7fFq4ypRg
+         N5vdp3xD0JLJbztaoA2wOli6hpRj29p71qTpL897i2Se4pv9CC1IgWHv4z4FTnYs2uT2
+         kosUNfIh8x6XLq7KZFEj1H6YaimjBVue+noae864sjpd2+ZjV+ZApMb7m+14QugegLjX
+         N+Lg==
+X-Gm-Message-State: AOJu0YyUSyaMw46qW8Af1VBZ7+WRBNYcJCriRR/bYviprblt9T8PQyhR
+	rv/MrseOjhhsKk/NbLWE8njAZ9eIkJZsDNI7VF5umt2bba6ZOSdps1MCwMe7DzZ69cBa6bNLSxU
+	6D7qV5g==
+X-Gm-Gg: AR+sD12Ojy1ZPwygMZbNz2aq/6RK3yjKOna75VsMDhR8n7x4vi+l0gut3uSYhuqHAMX
+	2DBNoFDA1oYUz5bmWSUSjeNYHonzpt4O/BTNcik+KW/P0lZg0NDzos5aD4e5DG6bxpd9ZArj01V
+	+jiwqMkD+R2RITJGffLEj5PkdIJjmauCB5/Em9q7T7gNt8EAR0KCRHi9eR4QUpmeaNpV2JcFkJD
+	/Bt6UbPVBnmknIZe7u8/IZr5xLCH+Q/jI133LLG0En0HF91Qu4W1hlfztPdR56X4FZdKeTOL5er
+	h939K0yWBY+cOxzJHFLFgKYVFoBNrnP9hSXOMQ56SMP8sHZ0kpumgyE8PtSgUVbvTDjuQgS5OTs
+	Y1wnuz8J2+Wfcw9sN+/dpjHrMtibmB3L39jVodnrf5C7SJYTHN2wwnq6SfQHcTekAQp2JFck0nA
+	cqYtdGGkXOS3QrA/iEXQZ31Lm0U2ErvHk25f2T6brtIkmgNHQ3eFGSJuWdSkAE9B1DIS/KV/wWH
+	L6A740=
+X-Received: by 2002:a05:622a:4c8d:b0:521:8ef0:b4e0 with SMTP id d75a77b69052e-52d4bba4201mr21459221cf.17.1786370062364;
+        Mon, 10 Aug 2026 06:54:22 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d16380af8sm71864891cf.11.2026.08.10.06.54.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Aug 2026 06:54:21 -0700 (PDT)
+Date: Mon, 10 Aug 2026 09:54:19 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Miguel =?iso-8859-1?Q?Pe=F1aranda?= <mig.penaranda07@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH] usb: usbfs: fix use-after-free of usb_device in
+ usbdev_release()
+Message-ID: <949c706d-ac9e-4d66-b1cb-c92164f1fdb7@rowland.harvard.edu>
+References: <20260810121209.795089-1-mig.penaranda07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260810103409.133796-1-fabio.porcedda@gmail.com> <annMvEUa7sUvVIfr@gmail.com>
-In-Reply-To: <annMvEUa7sUvVIfr@gmail.com>
-From: Fabio Porcedda <fabio.porcedda@gmail.com>
-Date: Mon, 10 Aug 2026 15:32:21 +0200
-X-Gm-Features: AUfX_mxVKhydZDc9mSz7qXovjZ7jMm5XgJfbsYaYFTfSaUt4W52YohxggxigRWw
-Message-ID: <CAHkwnC-RM+R08MJtwNr=QFPcA-WT-P8JFaospxF9-YKe-yVsZA@mail.gmail.com>
-Subject: Re: [PATCH v2] net: usb: qmi_wwan: add Telit Cinterion FE990D50 composition
-To: Breno Leitao <leitao@debian.org>
-Cc: =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Daniele Palmas <dnlplm@gmail.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260810121209.795089-1-mig.penaranda07@gmail.com>
 
-On Mon, Aug 10, 2026 at 3:07=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
-ote:
->
-> On Mon, Aug 10, 2026 at 12:34:09PM +0200, Fabio Porcedda wrote:
-> > Add the followin Telit Cinterion FE990D50 composition:
-> >
-> > 0x0991: rmnet + tty (AT/NMEA) + tty (AT) + tty (AT) + tty (AT) +
-> >         tty (diag) + ADPL + adb
-> > T:  Bus=3D01 Lev=3D01 Prnt=3D01 Port=3D06 Cnt=3D03 Dev#=3D 10 Spd=3D480=
-  MxCh=3D 0
-> > D:  Ver=3D 2.10 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D64 #Cfgs=3D  =
-1
-> > P:  Vendor=3D1bc7 ProdID=3D0991 Rev=3D06.06
-> > S:  Manufacturer=3DTelit Cinterion
-> > S:  Product=3DFE990
-> > S:  SerialNumber=3D2aa802d2
-> > C:  #Ifs=3D 9 Cfg#=3D 1 Atr=3De0 MxPwr=3D500mA
-> > I:  If#=3D 0 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D50 Driv=
-er=3Dqmi_wwan
-> > E:  Ad=3D01(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D81(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D82(I) Atr=3D03(Int.) MxPS=3D   8 Ivl=3D32ms
-> > I:  If#=3D 1 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D60 Driv=
-er=3Doption
-> > E:  Ad=3D02(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D83(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D84(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
-> > I:  If#=3D 2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D40 Driv=
-er=3Doption
-> > E:  Ad=3D03(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D85(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D86(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
-> > I:  If#=3D 3 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D40 Driv=
-er=3Doption
-> > E:  Ad=3D04(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D87(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D88(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
-> > I:  If#=3D 4 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D40 Driv=
-er=3Doption
-> > E:  Ad=3D05(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D89(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D8a(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
-> > I:  If#=3D 5 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3D30 Driv=
-er=3Doption
-> > E:  Ad=3D06(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D8b(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > I:  If#=3D 6 Alt=3D 0 #EPs=3D 1 Cls=3Dff(vend.) Sub=3Dff Prot=3D80 Driv=
-er=3D(none)
-> > E:  Ad=3D8c(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > I:  If#=3D 7 Alt=3D 0 #EPs=3D 1 Cls=3Dff(vend.) Sub=3Dff Prot=3D70 Driv=
-er=3D(none)
-> > E:  Ad=3D8d(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > I:  If#=3D 8 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3D42 Prot=3D01 Driv=
-er=3D(none)
-> > E:  Ad=3D07(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D8e(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> >
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
-> > ---
-> > Changes:
-> > v2:
-> > - Add stable@vger.kernel.org
->
-> Why CCing stable?
+On Mon, Aug 10, 2026 at 02:12:09PM +0200, Miguel Peñaranda wrote:
+> usbdev_release() drops its reference to the struct usb_device before
+> draining the list of completed async URBs, but that drain path reads back
+> through the same object: free_async() calls dec_usb_memory_use_count()
+> for any URB whose buffer came from the usbfs mmap() region, and its first
+> statement is bus_to_hcd(ps->dev->bus).
+> 
+> After a disconnect the usbfs reference can be the last one, in which case
+> usb_put_dev() frees the device and the subsequent loop reads offset 80 of
+> freed memory and uses the result as a struct usb_hcd *, which
+> hcd_buffer_free_pages() then dereferences.
+> 
+> This is reachable by an unprivileged process that has read/write access to
+> a /dev/bus/usb node: mmap() the fd, submit one URB with a buffer inside the
+> mapping, wait for the device to be unplugged, then munmap() and close().
+> It reproduces on every attempt rather than being a race, because a live
+> MAP_SHARED vma holds a reference on the struct file, so usbdev_release()
+> cannot run until the last vma is gone and the freeing branch of
+> dec_usb_memory_use_count() is always taken.
+> 
+>   BUG: KASAN: slab-use-after-free in dec_usb_memory_use_count+0x3ae/0x410
+>   Read of size 8 at addr ffff8880122ee050 by task poc/769
+>   CPU: 1 UID: 1000 PID: 769 Comm: poc Tainted: G    B    6.12.94 #3
+> 
+>   Call Trace:
+>    dec_usb_memory_use_count+0x3ae/0x410
+>    free_async+0x2aa/0x4f0
+>    usbdev_release+0x375/0x460
+>    __fput+0x3ea/0xb50
+>    __x64_sys_close+0x86/0x100
+> 
+>   Allocated by task 11:
+>    usb_alloc_dev+0x55/0xd90
+>    hub_event+0x2524/0x43d0
+> 
+>   Freed by task 769:
+>    kfree+0x121/0x360
+>    device_release+0xd2/0x280
+>    usb_put_dev+0x23/0x30
+>    usbdev_release+0x2d8/0x460
+> 
+> Release the device reference after the drain loop instead. Nothing between
+> the two points requires it to have been dropped.
+> 
+> Fixes: f7d34b445abc ("USB: Add support for usbfs zerocopy.")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Miguel Peñaranda <mig.penaranda07@gmail.com>
+> ---
 
-I've added it so it can be cherry-picked into the stable and long-term rele=
-ases.
-It should be legit for adding a device ID.
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 
-BR
---=20
-Fabio Porcedda
+>  drivers/usb/core/devio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+> index e191934..486ced7 100644
+> --- a/drivers/usb/core/devio.c
+> +++ b/drivers/usb/core/devio.c
+> @@ -1113,7 +1113,6 @@ static int usbdev_release(struct inode *inode, struct file *file)
+>  	if (!ps->suspend_allowed)
+>  		usb_autosuspend_device(dev);
+>  	usb_unlock_device(dev);
+> -	usb_put_dev(dev);
+>  	put_pid(ps->disc_pid);
+>  	put_cred(ps->cred);
+>  
+> @@ -1122,6 +1121,7 @@ static int usbdev_release(struct inode *inode, struct file *file)
+>  		free_async(as);
+>  		as = async_getcompleted(ps);
+>  	}
+> +	usb_put_dev(dev);
+>  
+>  	kfree(ps);
+>  	return 0;
+> -- 
+> 2.53.0
+> 
+> 
