@@ -1,109 +1,79 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B773AB28E;
-	Mon, 10 Aug 2026 16:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A09331EDD;
+	Mon, 10 Aug 2026 16:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786378634; cv=none; b=jHNafQpq0yQfSQhCDdAERuj6fyOZcq/c86lGcV6u/tx0wR1Uf8dcKaOyHXyzRFpgttzp0N0+R0BpwFZ6Dbjy+7RMAaiegacu+oC/RcGZMGQVlKzNQnoP+WbQ3c+Ry53fJ09IN0vYQJ2d7V1g/BbkDBOcTd4WjjWHpq9iHjee1Sg=
+	t=1786378805; cv=none; b=nmctRFEAjNbSs530X5eA1uok7TA0WwKGhQBdH0ks5lfYFRNskZYw2eodvzW22SlIq+cH7GOFLKouN6VvpyfEH7zDCM7kPpRAIQfr8fuAsZ6/IZC/R5bIL39tEFcX9U4/VHbqb1+7GXAIqQx2PQN9YFpExzDqIOxOxhZXY0EKr4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786378634; c=relaxed/simple;
-	bh=nHDjAqs60zYrahzt+nKdZ75WY4hjyGhwhcO1BdaA+Gs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m/4+sw46QE3QHrjGr3uxHnA+S2BLjdjush8XIOJhjn4HELBDJHq0njHuji+owcOU5FkDHDPWAmrQUpVQbaePhiE+6VH1MOe1WNzdZBrpBw22GGjbQhee5+J2rQTNv6gorySg+HtERleBu4AIBj7K8DDmtintXETvK2ZP57k9R84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=QmIGRBUL; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=xQB1UZzU; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1786378805; c=relaxed/simple;
+	bh=gsBZW3roLR55x3KD23eK9IBtGuPFN6cGbNRvxUGO+Jg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=THzDC67tmkOxfBVwdHkankbYGfR47hBleHEIQCZrX4E38OtiRYWlg5XLiSvcy9xiY5AUJrUjJmTZLZcDVQZ8g2ca5Vf71c8PvIZbD9rXKPiwvHMgz/beTtuDT4stmfPbaHoi5zWKMNPTeXYSuETs9r+TnLmibg9eMpeAcn+Q6bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTNv9jC/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="QmIGRBUL";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="xQB1UZzU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1786378629;
-	bh=nHDjAqs60zYrahzt+nKdZ75WY4hjyGhwhcO1BdaA+Gs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QmIGRBULpOH9EyTKKlgK2a2byf/gotpzNYPhpPs1E8xPZOK4/jEvANw+xbuZso2pH
-	 ul54mFrRQ83GZM1Df0DFAJbjBA1nLW36mtyY66CkZtivBz3SDQhXeRx12SW5sX0OdX
-	 UODtDIJzH9kEDNX0rUCVnNwRCMK1GCzx1q3PdS/AKHXK0ECY6grwanK6eXUuOR8ba1
-	 v3rNE4Rl9RyrItTk/wClYgH9z+O1pCara2iP6GQasQNVJSb9W04fFAPZFXUvEyDZQY
-	 jiwCUFduU82bnJNCiUpaYGBB2fOjqswV0NGlL92XjVr38wfZKXMTOAS286fs5CW/CD
-	 9NfJch2K6q6lg==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id A6C4349784; Mon, 10 Aug 2026 16:17:09 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1786378627;
-	bh=nHDjAqs60zYrahzt+nKdZ75WY4hjyGhwhcO1BdaA+Gs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=xQB1UZzUp5rmzIKsYW9bUmwS7a0aaLe+CaSO/GMxs6Kq8OP2pm6MDBRcQStlX6rq9
-	 1kMOcgTOmbmCP9KRdNx4wHx/qBFRX9FcX6gVmT7mCSD3JOzFW2VyWgF4GtKpQq97k7
-	 Xy+Suevo3pu6YMFT+ZtMnGv03sKk6zGcRrbl9zD7YNhJJuFY0Z3iytYsA5qHCKS4kX
-	 QMVx1RkRnivfy7qnIEH8SMmyYK+Fb++6ysCsVznxKjPMJscXIiaH0Lw8MaV3UVdg1V
-	 HztWVGLHSAeg+Ev/EZmasw7tXrDSx7YydJzFuh5d7oaHEaji3moXyU6QqkmEp8eNAY
-	 dUiWZq0O9StnQ==
-Received: from [IPV6:2003:c6:9f06:3400:60dd:238c:9273:a789] (p200300c69f06340060dd238c9273a789.dip0.t-ipconnect.de [IPv6:2003:c6:9f06:3400:60dd:238c:9273:a789])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 20AD64977A;
-	Mon, 10 Aug 2026 16:17:07 +0000 (UTC)
-Message-ID: <904f166a-b3c4-4579-9614-6ebe3dc18277@birger-koblitz.de>
-Date: Mon, 10 Aug 2026 18:17:05 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTNv9jC/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C87551F000E9;
+	Mon, 10 Aug 2026 16:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786378804;
+	bh=RPOZDjm0qicPVxcdpi6ugyNcGwoCVz6o/jhlFg1DkwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cTNv9jC/aG9GpEcPuG/S5rsnSC9CG7OLShcGUUGf2DothJRSHWvCP/+upsSE3l9WG
+	 f0woCzDd/0kF6hE8tAo2g7pqiAK8eukZm/KrEr66NptSJIUaJ0Rb4fwSDfYyn8HiW3
+	 HGf1yCCsfDutQZ/ziT3ziWsbFK170iLWcCL9BfNfeuy+wcAcURn2mRN1yeZg9hzTGc
+	 pjjz1Ip9lIEZQMpupAP2tKSo3rmBjEW7N/YIIDMV2dUIXvbQElP5QNDu1wCIQZwMeP
+	 9SdjsXJFS1ErWospxII5r6xeT3+s9QIbquSzf2G/Y2uLxK0jPOyY8LApKOpWoD+QBM
+	 uwclds2+gi4Uw==
+Date: Mon, 10 Aug 2026 18:19:52 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Alan Stern <stern@rowland.harvard.edu>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v7 03/16] power: sequencing: Add pwrseq_get_state()
+Message-ID: <5kvmepqjoeh4igu3q3xovgimqunz4e6z3h35gqq6p2runsab5c@an2sg7ltp4p4>
+References: <20260724084328.3943997-1-wenst@chromium.org>
+ <20260724084328.3943997-4-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 00/13] ax88179_178a: Add support for
- AX88179A-based chips
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jianhui Xu <neuromoments@gmail.com>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, hkallweit1@gmail.com,
- kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux@armlinux.org.uk, netdev@vger.kernel.org, pabeni@redhat.com
-References: <2eeb01b5-7d3d-425e-9865-4e2fe1614e67@birger-koblitz.de>
- <20260810013549.2510969-1-neuromoments@gmail.com>
- <5b2c4498-2e3c-4ae6-b078-deeccf8b7a5c@birger-koblitz.de>
- <60e05662-5f0d-4b2e-9646-f7d42e04ef13@lunn.ch>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <60e05662-5f0d-4b2e-9646-f7d42e04ef13@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260724084328.3943997-4-wenst@chromium.org>
 
-On 8/10/26 15:25, Andrew Lunn wrote:
->> I have finally understood what is happening: There is a race condition between
->> the controller of the AX88179A trying to set up and optimize the link and
->> phylink trying to configure the link on the mac-side.
+On Fri, Jul 24, 2026 at 04:43:12PM +0800, Chen-Yu Tsai wrote:
+> The power sequencing consumer API already does power on state tracking
+> internally. Expose the state to consumers through pwrseq_get_state()
+> so that they don't have to reimplement it locally.
 > 
-> This is why i dislike any hardware/firmware which thinks it is smarter
-> than Linux and directly access the hardware. Such features often break
-> stuff, because it does not respect the mutex Linux uses to serialise
-> access to the device.
-The hardware by default uses CDC_NCM and even needs to be switched to the
-vendor mode in order to allow any manual configuration of MAC and PHY.
-As much as possible is supposed to work automagically. Linux support looks
-very much like an afterthought.
+> Instead of just on/off and error codes, the function can also return
 
+'can' -> in the future? I don't see a value in adding it, but not a concern.
+
+> "unknown" state. This is in anticipation for "uncontrollable" power
+> sequencers (such as GPIOs left unconnected).
 > 
->> I will provide a v7 with an additional phylink function phylink_mac_interrupt()
->> being introduced as suggested by Andrew, which is called by ax88179a_status()
->> in response to usbnet receiving the link change interrupt. I tested changing
->> the link a couple of dozen times and it always worked, now.
-> 
-> This will make it safer, but might not stop all the problems. Does the
-> PHY have LEDs? Does it have temperature sensors? Features like this
-> operate asynchronously to link state. The user can configure them at
-> any time. Such register writes might collide with what the firmware is
-> doing. I don't suppose you have physical access to the MDIO bus and
-> can put a logic analyser on it? Are there bus transactions happening
-> during normal operation which are not from Linux?
-> 
-The device has LEDs, but they are entirely controlled by firmware. The behaviour
-can be configured from the EEPROM. Writing to the EEPROM involves stopping
-the firmware on the device. There are no temperature sensors, or maybe there are,
-but the firmware hides them from us.
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-There is no physical access to the MDIO bus, as MAC and PHY are in the same
-chip. I hope that otherwise we are safe from firmware interference, though.
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-Birger
+- Mani
 
+-- 
+மணிவண்ணன் சதாசிவம்
