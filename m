@@ -1,109 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2585133A03F;
-	Mon, 10 Aug 2026 17:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1B5339380;
+	Mon, 10 Aug 2026 17:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786381938; cv=none; b=Fpuju0peNxRRe00+4wnAs6q4nFsnSglqvpnQlE68cqqNSWUs6wYtK9su1ul95XCXZFAG1Kg9tWhkC45hFtF9T8BK/KWkwoPpyNooUI4k6Qsil49T72b8+31J6y7S08VlBxPpnaAEdLwxnP8Bmbvj6onUXBAnTMSHZMiDfXnzPi8=
+	t=1786383364; cv=none; b=SEVpk2Zp9g6ZtDd7hWdX8LvTOb0zs153vA+kTsKrXAgJVXusEWxVuKA6re21YCuqyfzNcUuC5XnRFMNP2syo8/Dptk4MepIXETqkIeIqYyvZH6reCFI3PmAePgdr4kQdpGj/2PFBKFR6Kty6xPBIvCYBXSrO2aBDewVSknPgK8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786381938; c=relaxed/simple;
-	bh=mceccNaaWmcchg9L8ED4lJf/FLN7OSM0KRweOSQ6BlY=;
+	s=arc-20240116; t=1786383364; c=relaxed/simple;
+	bh=K6EWAEJezE3jVhwMfkJzv9gx9dVGv6vtUZ+nLTgS+Cc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=toCgr5KbcyUonHfyGJzEwIJh7rCWJYQL59uIqS7j4Pb7xOS0d1j5421EB7pnXmAajzRLgkegUAhPWneMGJ/YQ7Lrns/6LdqczfpjV3U4kzX9UHkcEB+YjGAhkJd1pYJSad6BYj2svDqNTCYbEDQCTBfbXA6rwmd1loI/vojnXvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjGA/P24; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOHtTy76OtqSrU+tE92OI+E2r7NzmMEP3V7CbTXWqUS5Ctt3T5ElH6D8YFF+rs71GwvdAC4fJ9d1t2YObYlYa7dzGzf1Qs54uVY5wXDF/rvbgIT268Y4OhvN1x9/FVM3C9b1BXvxK6dWbU01iA+1P37hRc1f955bf1bdz7Jnqnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=30mWfu7u; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjGA/P24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A5881F000E9;
-	Mon, 10 Aug 2026 17:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786381936;
-	bh=fVrGGL5Q0nSgj2p380L09qPkXcrVRBJyN66cazrVrMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PjGA/P24nLObN/Vr0Bxq12S0QmU7205Y8TzFWVr4OpTB51Nd4GtcEPxwaNVh5NLY/
-	 Hk870KboTaYos41UywIijUWP3lCPNOr3XiUbNzg2JR+WFmMUJ01xs9HHUosv/IG7HD
-	 bj54JiKJBhSDlWThr6gedepNZrPRdreI5HoQdfLV/WE5NWmWa654WjYcXxrPStliRh
-	 p2Zj5kFWg6+KNdbmipxEEADZGm1w8pFmFt5//PmCO7lY3AUodjHHKu/fLekg1Dtan4
-	 Za+sUxmqcSAJSMiDJEfrQzAMrReqclqt8FH7is5NZlviPAdg/Rf7Vy633pOmQOqCsk
-	 QhAXbL278yMcQ==
-Date: Mon, 10 Aug 2026 19:12:06 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v7 14/16] power: sequencing: pcie-m2: Split Bluetooth
- unit based on interface
-Message-ID: <ns5zexfsbin4om3klprrh4v2xfvhhg5nztbbf5neakyuwq47bc@mckelf2d5x5f>
-References: <20260724084328.3943997-1-wenst@chromium.org>
- <20260724084328.3943997-15-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="30mWfu7u"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=zn4VQmuotBpmLN+M4aouGi71z10fZOiTXnJCrsxOzMc=; b=30mWfu7uMXUw49PpigbtG7v+r/
+	ttjCVYB8jbF1X+n50ewmUxQGYrJhwbTxdyMJPGryMuktjntYwyYpc8Rt9IiNXhhkMVujU5W2+TQQX
+	sHukpUYE0pMACsWl/ED8rNKy++ciRYg7JqJHmiIlY6wHzYr1zMCHwbcY6JMV2fprTdMA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wtTua-00GxeV-4X; Mon, 10 Aug 2026 19:35:44 +0200
+Date: Mon, 10 Aug 2026 19:35:44 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Jianhui Xu <neuromoments@gmail.com>, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, hkallweit1@gmail.com,
+	kuba@kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux@armlinux.org.uk,
+	netdev@vger.kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH net-next v6 00/13] ax88179_178a: Add support for
+ AX88179A-based chips
+Message-ID: <11b179af-eb30-41bd-a110-a5d3b036d3a0@lunn.ch>
+References: <2eeb01b5-7d3d-425e-9865-4e2fe1614e67@birger-koblitz.de>
+ <20260810013549.2510969-1-neuromoments@gmail.com>
+ <5b2c4498-2e3c-4ae6-b078-deeccf8b7a5c@birger-koblitz.de>
+ <60e05662-5f0d-4b2e-9646-f7d42e04ef13@lunn.ch>
+ <904f166a-b3c4-4579-9614-6ebe3dc18277@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260724084328.3943997-15-wenst@chromium.org>
+In-Reply-To: <904f166a-b3c4-4579-9614-6ebe3dc18277@birger-koblitz.de>
 
-On Fri, Jul 24, 2026 at 04:43:23PM +0800, Chen-Yu Tsai wrote:
-> Some UART / serdev based Bluetooth drivers need to be able to reset the
-> hardware during initialization or recovery. This is not possible with
-> the current power sequencing API if a unit is shared between USB and
-> UART interfaces.
-> 
-> For now, split the Bluetooth unit into two, one for each interface.
-> This allows either interface to independently toggle the power, with
-> the last action prevailing, thereby unbreaking the Qualcomm Bluetooth
-> serdev driver. This is also needed for the Realtek Bluetooth serdev
-> driver (hci_h5).
-> 
-> Having independent control from either interface unfortunately means
-> that userspace is able to shut down the controller from sysfs using
-> the USB port's "disable" setting without the serdev driver knowing
-> about it. On the USB side, independent control is also desired, as it
-> allows the USB core to power cycle the port/device during faults, and
-> for userspace to initiate reset and recovery using the aforementioned
-> "disable" setting. However when USB is used, a serdev device is not
-> created, and there is no conflicting usage, which allows the power
-> sequencing to work even without the split unit.
-> 
-> Suggested-by: Wei Deng <wei.deng@oss.qualcomm.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v4:
-> - New patch
-> 
-> This patch is _not_ squashed into the previous to provide clear context
-> on the change, and the less than perfect nature of it.
-> 
-> I think what we need in this case is some sort of lockout. The serdev
-> consumer would want "exclusive" access, locking out the USB consumer,
-> which can tolerate "shared" access.
-> 
-> Something similar would be needed for the WiFi if we ever add support
-> for SDIO for toggling the state of W_DISABLE#1. At least the SDIO and
-> PCIe reset signals are separate.
+> The device has LEDs, but they are entirely controlled by firmware. The behaviour
+> can be configured from the EEPROM. Writing to the EEPROM involves stopping
+> the firmware on the device. There are no temperature sensors, or maybe there are,
+> but the firmware hides them from us.
 
-I don't think PCIe/SDIO suffers from the same issue as USB/BT. But anyhow, I
-think it is OK to have this patch as an interim solution, but we should try to
-model the BT control in a proper manner. I'd fancy adding TODO instead of XXX in
-the comments. But nevertheless,
+That keeps thinks simpler.
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> There is no physical access to the MDIO bus, as MAC and PHY are in the same
+> chip. I hope that otherwise we are safe from firmware interference, though.
 
-- Mani
+It is the sort of thing which you find out in time. As you have seen,
+there can be race conditions, and there could be issues hiding until
+specific timing is hit to trigger them. But there is little we can do
+about that, so lets just go with what you have.
 
--- 
-மணிவண்ணன் சதாசிவம்
+      Andrew
