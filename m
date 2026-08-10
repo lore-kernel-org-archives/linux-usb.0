@@ -1,160 +1,144 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C880637755C
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 06:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05723939A4;
+	Mon, 10 Aug 2026 06:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786342341; cv=none; b=CsML2MilJm4+ixjf+WTAix2f9wM72/wRKigyevqgmL/HRno8qUhk2vGTI3p6k4WVfyJeFiAEca/qXBzB5tWwFlQQFO4q4285mWS9Wf0J3w8eb+trcK7FyKnZKlHpwOu8YOdz5Zkh0Ra3aM23uYzBhWswx79a78rWTkjILpDciAY=
+	t=1786345098; cv=none; b=JnWIuzXqBTrwzCeRC55ivps0X1lHUexkaemAaUGZcB/Ph8phFXZ+YMRxyifXA7gKNuZodv29yi4B5JMWfkIrnMw1fq3FmWMbZJU4e+FGn+Mxv3TFirrFvdq9QEMNX9BV0vBtxfVGI822lasqrbKoImMK0MjUYBuwXqPzeCGq+sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786342341; c=relaxed/simple;
-	bh=CcJOyrNv/v2EaQu2FZ57TDe+Cl1Nf2GThdi/dHHT7iE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=bh8zkS2kOdQpm9ZNa1reIt7w3pSnNgMDbLiTHZ19JhqSS8mUgBWfl8ufFWLCDCZ4PeEoEMMZ19quXDnOANidZPnRmDdDMDoi9EQotavkeWPy9dDYj9YPVSJcxMV8o66l6H/imARA2qhXmZC0hCmgOdAiWBteKEXhWqwgMx/BnyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NbVndAh7; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786345098; c=relaxed/simple;
+	bh=7WlPeWCWTJ+S0FMnLOLkCGqMPWXTgxckC0ljdW2sEGw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CcTBz2IoyGzJ2cRA/aU/SGL99LUqGII05qg9i0QQZm0t5DRhXU3ZszPyz7COBALUVYJxkAAWpabax6RLy3g9odPkLa8YF1N8o9FNg2os7MWfUhI/+5VOQq1/6XX9fdNhtbLXjW37LXj3uTrM7ytDNV4991RjO2+liVfuAUubd7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=bMi4LUef; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NbVndAh7"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49557167508so11900225e9.1
-        for <linux-usb@vger.kernel.org>; Sun, 09 Aug 2026 23:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786342338; x=1786947138; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=F5NO9iuQibAOt2y4Xoj9Oz8+6b5gn3Kh/p2fleGsaSw=;
-        b=NbVndAh74JFeCydI305fCTbXcqcwcwN8EcH6NcHYLjIK1limQssHZ4ir4u1cHVahMB
-         AOg/kQSQ1avDkQgtS93tG9Nz5F9WusPqegDo2RrFzLtvYZVA6kHO/p4OF/Zg/MeOoba6
-         U0VPnoZVe9u419KtIXDqHAnAEMFLl2TZDUih8O4gS3dn9mtHq2yl0ejD4KDzjY9R1XgL
-         klxcV7Mwqu48bEzdiuqNDuGY1O1n303SEJhKYitVQ5od7XkmvPb7xOH22OB4tYSVbb58
-         wMxqx6/LfJ66Xemp+eudiWMmKxdzWvR9L74A1Q5xskAmi+56wlDpy8NNorpld1a+CqZz
-         K51g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786342338; x=1786947138;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=F5NO9iuQibAOt2y4Xoj9Oz8+6b5gn3Kh/p2fleGsaSw=;
-        b=Bwb5MJHp6ppBpQG4AhFBjdsKqnNzjWBZqKILj8WnOOX4Rz9FyVV6exJnx1o/EIMr1i
-         RE4IsGbS+/HRzCPb9mWPxdn/J7KHqC3fHfTiSKeLUlmgn17gMLfWbBVwZmqm1ZvCkeg4
-         Fhhn6P6rC2hCVmmtis2ANm+DpMBCOHsGVBAXL9VpoJ30GwgsJmyKv6qPLaPiY2Mhsi+c
-         1GaINJfn4q0UmiGpEnSyvrKswAdUB5hA8/Pkeqn+WXRGqwJTc7xzLSfCsM0GUeDDYt5a
-         Vu4f3BpRRNmeDpkjWgJgunwKtZhLiD7z5YRX6l7sSsos2RXlD9Y97jrc2bjJvKOMjm/v
-         SzZg==
-X-Forwarded-Encrypted: i=1; AHgh+RpVPwvttFprd1cNFozy4r9ZIM/UjkKXU9NTDvtj//7jrzLjY3BDj/Wqndg793pYVRHFPE/wy8mBV24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZ5rBUqJLW+w6zFHj8ZQYVFLFp+EzFtwEtabCG6q2UAJ92LOYL
-	2k4WJkE2OSRyjXcUKGp7KwRq2xtlLgIJB0kDiQ+2H3NS/IzLT341kJHGiipuGg==
-X-Gm-Gg: AR+sD12Qt3JB3QKrDL6doMK2lPSMhI3z4qVKDWY8akioW3tfWG7d1UPX8cFPDobS24M
-	4aCsFqaK/nerV4PLjeCM44FHGo6c/N7aTP1Tv44q19Sa2ntBkRUstNMAtGyTDaTfSB9BuNPNbdx
-	j/lZoIV84diLOB+agsPwVYvX0t2COzQ1p9kc7PltmX/3uM6svDLtqhACR/BwTYh1DZGvQnMpox6
-	6u/SOIVB3s8AJTBVeqC2awECz4R1BdIXvqZ+VxQrtDAarI5yC8ynh5GtHEy/HM10Kcx1ja53ByK
-	fdRKs7Orgc38gK0PW25Vc4jiJ/BdIj7t3+tXAzqykXoIRmzuLYE8HPiGU1TWkwmEfzI4EVJkUPy
-	QRcsZLXp4H5c8DKJnu3D48P+u6USfskK6aXk0zhE1dgfuHozc+jRPdwCgF0YhnWuf9hHxqNOF0s
-	hRzsAcKNYu8h7cEWZnPDR3MkbYZyt4mgwivVAoo4CuotSMhFLUvFu6BEd5/hp8eV+UfyKVyQoO
-X-Received: by 2002:a05:600c:1d23:b0:499:51b8:d649 with SMTP id 5b1f17b1804b1-49951b8d652mr455964575e9.3.1786342337792;
-        Sun, 09 Aug 2026 23:12:17 -0700 (PDT)
-Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995420c68fsm356032505e9.1.2026.08.09.23.12.17
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 09 Aug 2026 23:12:17 -0700 (PDT)
-Date: Mon, 10 Aug 2026 08:12:12 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern
- <stern@rowland.harvard.edu>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: core: Remove unused SuperSpeed EP0 maxpacket handling
-Message-ID: <20260810081212.59877d78.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="bMi4LUef"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 67A6viQN31514129, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1786345065; bh=oAJl7fPPZqm2YPpWeuSwRmWowSoWPb5vYe00HxOiy9s=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=bMi4LUefoGWIa3H5nV86hOf8YPw38c6TyseJSQFr1UUKBwzBtKnU6OuHXy0xaL67S
+	 i0TsBypZnEunCJsXmYqBpAwM8b0dQhnZqtE++bjSLBZ26ChtqRSyrf6MeF7qA0x+dq
+	 pTG5bxH5P9ZpNnGMl32oQSZdu/U1eE4mb+vkpZsyFo/xW7b6vWj9oJD2bihNRKRlYD
+	 3gMfqzDu5WCFvxGO2aLEbJXiVm8ax95StK0eGxkJNXkPpWc5oXVZFLJZZcu9UDP/pJ
+	 IzrjRWlvtfQadb8Y9NxNRcR5JVzMeil9svSIJ5kReyj3dE1oRLhSL4JNJKQfoAeuF4
+	 8q5Pv7ohdpE4Q==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 67A6viQN31514129
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 10 Aug 2026 14:57:44 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 10 Aug 2026 14:57:45 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 10 Aug 2026 14:57:44 +0800
+Received: from fc40.realtek.com.tw (172.22.241.7) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.43 via Frontend Transport; Mon, 10 Aug 2026 14:57:44 +0800
+From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>
+CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
+	<linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
+	<hsu.chih.kai@realtek.com>
+Subject: [PATCH net-next] r8152: use GFP_NOIO during system suspend
+Date: Mon, 10 Aug 2026 14:57:41 +0800
+Message-ID: <20260810065741.4019-1-nic_swsd@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-512 is the only control endpoint max packet size defined by USB 3,
-encoded logarithmically as 9 in the 8-bit bMaxPacketSize0 field.
+During system suspend, memory allocation with GFP_KERNEL can block
+waiting for I/O to complete. If that I/O depends on a device that is
+itself suspended, a deadlock results.
 
-Up to v6.5 in 2023, core assumed 512 and ignored the descriptor,
-but now it tries to decode and use it. One (emulated) device was
-found to specify 8, see commit c78c3644b772 ("usb: Fix regression
-caused by invalid ep0 maxpacket in virtual SuperSpeed device").
+Introduce RTL8152_SYSTEM_SUSPEND flag to track when the driver is
+operating in the system suspend/resume context. Set the flag at the
+start of rtl8152_system_suspend() and clear it at the end of
+rtl8152_system_resume(), following the same pattern used by
+SELECTIVE_SUSPEND for runtime suspend.
 
-Thankfully, xhci_setup_addressable_virt_dev() always initializes
-EP 0 packet size to 512 and xhci_check_[ep0]_maxpacket() has never
-been called on SuperSpeed endpoints, which means that none of this
-has any effect and 512 works for all devices ever supported. The
-regression was caused by core refusing to enumerate bogus devices.
+In get_registers() and set_registers(), select GFP_NOIO when the flag
+is set so that the kmalloc and kmemdup calls in those paths do not
+trigger I/O reclaim.
 
-Drop pointless calculations and correct misleading logs, because
-we don't actually use out of spec packet sizes. Moreover, some HCs
-(NEC/Renesas, old AMD) reject them, though others don't and there
-is some effect - enumeration fails with -EOVERFLOW or -EPROTO.
-
-But those effects are only seen when patching xhci-hcd; altering
-ep0.desc does nothing, even after the usb_ep0_reinit() call.
-
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 ---
+ drivers/net/usb/r8152.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-By the way, xhci-hcd only updates max packet size at full-speed,
-which means that the high-speed workaround doesn't work either.
-
-Renesas does accept high-speed overrides, this time Etron doesn't.
-
-Whether any of that works correctly with actual devices with unusual
-packet size, and whether they really need a workaround (unlikely if
-all their descriptors are shorter than bMaxPacketSize0) is unknown.
-
- drivers/usb/core/hub.c | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5262e11c12cd..d9409943f388 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -5143,22 +5143,14 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index f61686433031..57d04af6368c 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -792,6 +792,7 @@ enum rtl8152_flags {
+ 	IN_PRE_RESET,
+ 	PROBED_WITH_NO_ERRORS,
+ 	PROBE_SHOULD_RETRY,
++	RTL8152_SYSTEM_SUSPEND,
+ };
  
- 	/*
- 	 * Check the ep0 maxpacket guess and correct it if necessary.
--	 * maxp0 is the value stored in the device descriptor;
--	 * i is the value it encodes (logarithmic for SuperSpeed or greater).
- 	 */
- 	i = maxp0;
--	if (udev->speed >= USB_SPEED_SUPER) {
--		if (maxp0 <= 16)
--			i = 1 << maxp0;
--		else
--			i = 0;		/* Invalid */
--	}
- 	if (usb_endpoint_maxp(&udev->ep0.desc) == i) {
- 		;	/* Initial ep0 maxpacket guess is right */
--	} else if (((udev->speed == USB_SPEED_FULL ||
--				udev->speed == USB_SPEED_HIGH) &&
--			(i == 8 || i == 16 || i == 32 || i == 64)) ||
--			(udev->speed >= USB_SPEED_SUPER && i > 0)) {
-+	} else if (udev->speed >= USB_SPEED_SUPER && i == 9) {
-+		;	/* Logarithmic encoding of 512 */
-+	} else if ((udev->speed == USB_SPEED_FULL || udev->speed == USB_SPEED_HIGH)
-+			&& (i == 8 || i == 16 || i == 32 || i == 64)) {
- 		/* Initial guess is wrong; use the descriptor's value */
- 		if (udev->speed == USB_SPEED_FULL)
- 			dev_dbg(&udev->dev, "ep0 maxpacket = %d\n", i);
-@@ -5169,8 +5161,11 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 	} else {
- 		/* Initial guess is wrong and descriptor's value is invalid */
- 		dev_err(&udev->dev, "Invalid ep0 maxpacket: %d\n", maxp0);
--		retval = -EMSGSIZE;
--		goto fail;
-+		if (udev->speed < USB_SPEED_SUPER) {
-+			retval = -EMSGSIZE;
-+			goto fail;
-+		}
-+		/* else: bogus USB 3.0 descriptors exist, we use 512 anyway */
+ #define DEVICE_ID_LENOVO_USB_C_TRAVEL_HUB		0x721e
+@@ -1370,9 +1371,12 @@ static
+ int get_registers(struct r8152 *tp, u16 value, u16 index, u16 size, void *data)
+ {
+ 	int ret;
++	gfp_t gfp;
+ 	void *tmp;
+ 
+-	tmp = kmalloc(size, GFP_KERNEL);
++	gfp = test_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags) ? GFP_NOIO :
++							     GFP_KERNEL;
++	tmp = kmalloc(size, gfp);
+ 	if (!tmp)
+ 		return -ENOMEM;
+ 
+@@ -1394,9 +1398,12 @@ static
+ int set_registers(struct r8152 *tp, u16 value, u16 index, u16 size, void *data)
+ {
+ 	int ret;
++	gfp_t gfp;
+ 	void *tmp;
+ 
+-	tmp = kmemdup(data, size, GFP_KERNEL);
++	gfp = test_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags) ? GFP_NOIO :
++							     GFP_KERNEL;
++	tmp = kmemdup(data, size, gfp);
+ 	if (!tmp)
+ 		return -ENOMEM;
+ 
+@@ -8693,6 +8700,9 @@ static int rtl8152_system_resume(struct r8152 *tp)
+ 		usb_submit_urb(tp->intr_urb, GFP_NOIO);
  	}
  
- 	descr = usb_get_device_descriptor(udev);
++	clear_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags);
++	smp_mb__after_atomic();
++
+ 	return 0;
+ }
+ 
+@@ -8758,6 +8768,9 @@ static int rtl8152_system_suspend(struct r8152 *tp)
+ {
+ 	struct net_device *netdev = tp->netdev;
+ 
++	set_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags);
++	smp_mb__after_atomic();
++
+ 	netif_device_detach(netdev);
+ 
+ 	if (netif_running(netdev) && test_bit(WORK_ENABLE, &tp->flags)) {
 -- 
-2.48.1
+2.34.1
+
