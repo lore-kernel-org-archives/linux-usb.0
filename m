@@ -1,137 +1,148 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6683D3DB311
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 14:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559173A6B66
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 14:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786370759; cv=none; b=YZ6UstCjTx4g0Sd8SHKcIT//e936a2TKoUsu79wkUsvA092lC510uf6HUjofxQyDPhh7CXbUQIJBDsWLlxmKB9YhleHaDu4lSEvURsD32z0TQSfZo9cqqQAL+lopfCw370jyIXrtn6+hPj7U5bkM2bV/DBaPYrztY8Q+k8GMGPA=
+	t=1786371164; cv=none; b=Jf7jRgyqWk0RZifsH7AfRps5ktRYVMuYN/P6rBCMuYGCsRDex9LmgR7GlxqBX5ahPRXN5S/dRIg0yHbIEKWDWnXNC1KadIQBQZBNj5wWtKooduJpriqYI/yBIORG2IfyhfJPRxXaPJaQORABGSaB9uKhUDIn2Qpql/U03BriAVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786370759; c=relaxed/simple;
-	bh=PE+DawgEjAv/QG74ZlOobOWqVlqvp4GWFZ0aXCE+9Dg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QPBn7tkle4J6RPO/6mxsGBZbX0N/0lItcb8s7JsLxLZHo6mEbPNUtu25LAUZqGAYUfuc65PLdSyOkgcTYh5eEtriZ+AZ5HcrSGTPHp7/380rtNtw+PLRxm9klBirliwaZDVMAskgIRFm1WDCC9LhZPfioDq9VKKMUhS8W+/PMhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Z9c04bgL; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1786371164; c=relaxed/simple;
+	bh=jXxJIOuttykfD6pvipDdzOYLSzkM64qojJIL2XQ1xtU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WRHjWzGn0pFMIns0lP14WjFYLqMIUstF4Cxgo4x8Wa0M/xjDnlJ5IutARLSxd5fhSt9j7LMlnsnnsq4lW+pRjDbcmFrgcliaieqRpZgSqchItbuzt70StkBgBqnFR0YDPQccd2nLoO54cD8TQNq7vP8EGbOHtsUjHsu6b1HjHu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YmAkbBwg; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Z9c04bgL"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c149c5722so14345201cf.0
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 07:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1786370757; x=1786975557; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=txYMP5LSIe8bGNvKOOCl7bq8DLNUIYu6vPP03PJS3sU=;
-        b=Z9c04bgLlQ8v2Y8lZfK8WAlXxI0rdUI6mLXZ1HaACqC4W3wtI1eUCokpB5xcMjEm5x
-         s2jZYzVTuGW7JXtzsDcam3VHeeRnfMVfgHICZs2J2vaQSKHPJEQFBoVttB8n3IYefC9R
-         6z/Lcutmi72qFoU9RWTAEuXNPmHDmelrpR1fWfI/xnLWECAQtSTC+vm0LZ5TWeMG5IT1
-         cmzEEg/v8Rnh1E52AOV/NK0wNa2gd5oTbvRcDEhnXwfhfxAmVH7agfFZyeiGBrPhogqD
-         gMuYIezfiQt0yReSA2PwLJFjKK0luApeUTyShd1yDCnfNVCrBZ3Mh/OR9wTFS33fafbK
-         9tCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786370757; x=1786975557;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=txYMP5LSIe8bGNvKOOCl7bq8DLNUIYu6vPP03PJS3sU=;
-        b=IeMhB5oOl62f8KOTna43OSnS3TgeTaoeAy6DYuQkL0EcW1nVMoQhuZriAPmSWpPTdf
-         qNfh7TZn8cYtB6hHGRuURdnqP2rFkS4mHH34KrWQvrW/ys0JVGq9kFVTbkbZTeSIS/q5
-         UiNqbih3ciPlpUNqzbb5Rir1DJG3lus1ufbGw9L6owV+U30MDsNgGY0Mxz5BfZdmq99x
-         cjf0x4+qEXiMP/MLe7/x/yU/dilCHMuDFtdL7vnAuCFtoKZ3MnQDPRi2kib4S1UZgqpG
-         NB1UfWOpKIaBVPCEIppg+RGlpntCCWkk2j0RuszIMzOFKy+lQdqJuF92kFzDpRKfTE9P
-         Ercg==
-X-Forwarded-Encrypted: i=1; AHgh+RqjBrMEW+4tKg24higXusqmHF941eK+E6d6hT0bg9uZ4kQ5SYTYMRp05kOFar1gqhX+gFEcSZTGPJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC2e4SegUpoa19DnP/7oDUhDcU3vYpmOhdfn3530HYeZbmOCSd
-	Vjvy9jvpka15Jde1Cgaji/sEBimOParmnrkYt+SaWc7KUkxOUPDTTw6waPUALA2Paw==
-X-Gm-Gg: AR+sD11xa4tKohadXffqEKXxjnpjQvuP6kLvCo5J6yT6QVZstbtAW53vA4GzMZZGOU+
-	5p1mEvrgIDhmPu7Nl24uRMNUMo0eQoGh307Yg+8uQzW2LJR9ixERfRGsVDBttx6+fRpcvtnk4V2
-	sD8HRQauU3SB9pwfOnbybeJPPQ42zJ0Wkrp7Z8zNUDVXMSGo5GPvLLCQ2zJ2RmuYSATkS95Fbr6
-	afdoDAoxUXIpRU66f2y34Ch09EdL8AW84FUC/7CPZ5mI2gF+8jxNEnLNZ72Wflhfp0edqlNTu2n
-	aZzIeDvJ6l8dnqziLiU3tt64mahuDzey8ZOUtLXleesyDq6pENMRJlHRVcNT7T74naB85H+iVBU
-	pmj5GtTd3v5H4te/1VUfOcwjzPkbVwVkcjuNGCrt6JOb2UyMoVZ+Nb9xpVJuGSEUnErsbN6be79
-	RcibHnbqqSQl+FDKYhYz8S2MxBR+fycXlcj/if1D5I2iP5SXzVXTeHJUNvwNOy1ZcIYClWgb+kD
-	isEjn27
-X-Received: by 2002:a05:622a:5587:b0:517:87a9:6a89 with SMTP id d75a77b69052e-52d236950f8mr196889581cf.6.1786370757176;
-        Mon, 10 Aug 2026 07:05:57 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d1659b9f0sm73461751cf.14.2026.08.10.07.05.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 07:05:56 -0700 (PDT)
-Date: Mon, 10 Aug 2026 10:05:54 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: core: Remove unused SuperSpeed EP0 maxpacket
- handling
-Message-ID: <b9ff5b7a-f552-42df-ae52-bad89005e6e5@rowland.harvard.edu>
-References: <20260810081212.59877d78.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YmAkbBwg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786371162; x=1817907162;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jXxJIOuttykfD6pvipDdzOYLSzkM64qojJIL2XQ1xtU=;
+  b=YmAkbBwgjJ4F/GTXv5OEDgTI+1eOpRMKuHAZBmi1ztGfksqM7grLlmRL
+   HDeHtsl0LLSam1iwpAyL81vnX03AeLuFrtlSt331YsIxC9CBFHcOIm1Up
+   K6ZnA054Uib/e8GWMKTqhb3YN0eshabSkWdwfdEoQCSnIJQaevODjTwyZ
+   D+IPcibaHw9oLNQrQQM6wU4KR+K1msznJkYrs5yRJs+06Vut+Aqfcdz8U
+   lK8txf873j0eZyYio6WqXboekbLnM0qJOX7SCSfWlTc3QIGKvM7NFunjn
+   +FrjxMyVOoHiN97zrXbkg+x+41Tfnu4T8COAFOkHqW4EuEaMB+j6HDRNl
+   A==;
+X-CSE-ConnectionGUID: LIlYne3ESki2dWjRAf+dNQ==
+X-CSE-MsgGUID: RbRTPW5cTryc07Aj6YELBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="104417532"
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="104417532"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 07:12:42 -0700
+X-CSE-ConnectionGUID: sw5YGpudR8qmuT1N5o2SxA==
+X-CSE-MsgGUID: NFGjz1UHQhOlvKyja16Q6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="265041933"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.102]) ([10.245.244.102])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 07:12:40 -0700
+Message-ID: <e993b7d0-c793-4d9e-b7ca-901ad46504d7@linux.intel.com>
+Date: Mon, 10 Aug 2026 17:12:38 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260810081212.59877d78.michal.pecio@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
+ isoc URBs
+To: Michal Pecio <michal.pecio@gmail.com>,
+ Dylan Robinson <dylan_robinson@motu.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com
+References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
+ <20260521152715.288995-1-mathias.nyman@linux.intel.com>
+ <20260806101706.72a8de47.michal.pecio@gmail.com>
+ <0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
+ <20260807000155.2960c741.michal.pecio@gmail.com>
+ <e3c66325-0291-40f9-a87e-1bb337ce4427@linux.intel.com>
+ <20260807102604.5f649db2.michal.pecio@gmail.com>
+ <310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
+ <7d514c0c-cb24-4d3f-a9a6-8107cc605bad@rowland.harvard.edu>
+ <CA+Df+jdCbY23h+Bq+ehKbJWMvTtwQDAOLk+hw=Y8Ne9zhJ_GOw@mail.gmail.com>
+ <20260807232952.015d380b.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260807232952.015d380b.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 10, 2026 at 08:12:12AM +0200, Michal Pecio wrote:
-> 512 is the only control endpoint max packet size defined by USB 3,
-> encoded logarithmically as 9 in the 8-bit bMaxPacketSize0 field.
+On 8/8/26 00:29, Michal Pecio wrote:
+> On Fri, 7 Aug 2026 13:30:40 -0400, Dylan Robinson wrote:
+>> On Thu, Aug 6, 2026 at 8:07 PM Mathias Nyman
+>> <mathias.nyman@linux.intel.com> wrote:
+>>> With the hardware ep ctx check we will set the frame_id of the late
+>>> URB to point to the past, to the real time it was supposed to be
+>>> played back. xHC hardware will then trigger a 'missed service
+>>> event' for that TD as it was incapable of playing it at the correct
+>>> time, and then fast forward with MSE until it finds a TD with a
+>>> frame_id it can play, and play at the correct timeslot. Here we
+>>> lost the late data but playback stays in sync, as isoc transfer are
+>>> intended to work.
+>>
+>> I want to make sure I'm following along correctly. This is only true
+>> for host controllers that support CFC. On controllers without CFC,
+>> continuations are always submitted with SIA, so the controller can't
+>> reject expired TDs based on their Frame ID.
 > 
-> Up to v6.5 in 2023, core assumed 512 and ignored the descriptor,
-> but now it tries to decode and use it. One (emulated) device was
-> found to specify 8, see commit c78c3644b772 ("usb: Fix regression
-> caused by invalid ep0 maxpacket in virtual SuperSpeed device").
+> Yes, we are talking about the patch fixing CFC logic. You are right,
+> and you could only be more right with "because" in place of "so";
+> I tried treating old chips as if they had CFC, outcomes were weird.
 > 
-> Thankfully, xhci_setup_addressable_virt_dev() always initializes
-> EP 0 packet size to 512 and xhci_check_[ep0]_maxpacket() has never
-> been called on SuperSpeed endpoints, which means that none of this
-> has any effect and 512 works for all devices ever supported. The
-> regression was caused by core refusing to enumerate bogus devices.
+>> On Fri, Aug 7, 2026 at 12:48 PM Alan Stern
+>> <stern@rowland.harvard.edu> wrote:
+>>> The point under discussion is really about what happens when an
+>>> underrun occurs by accident -- for example, if the system is
+>>> temporarily overloaded.  In this situation there are two logical
+>>> choices of action if the class driver wants to keep the queue
+>>> running: Keep the alignment of iso_packet_descriptors and
+>>> (micro)frames as it was, which means assigning some new packets to
+>>> times in the past, or forget about the old alignment and start
+>>> fresh, which means assigning the next packet to the next available
+>>> future time slot.  The URB_ISO_ASAP flag is how the driver
+>>> communicates its choice to the HCD.
+>>
+>> How is the first choice realized when the host controller doesn't
+>> support CFC?
 > 
-> Drop pointless calculations and correct misleading logs, because
-> we don't actually use out of spec packet sizes. Moreover, some HCs
-> (NEC/Renesas, old AMD) reject them, though others don't and there
-> is some effect - enumeration fails with -EOVERFLOW or -EPROTO.
+> Currently it isn't, everything goes "ASAP" on xHCI 1.0 hardware and
+> underrun creates a gap. Another patch that Mathias prepared for 7.3
+> would align the first URB of each new stream, but nothing more.
 > 
-> But those effects are only seen when patching xhci-hcd; altering
-> ep0.desc does nothing, even after the usb_ep0_reinit() call.
+> We get the Ring Underrun event, so we know it happened. Drivers don't
+> know and they seem to have no trivial and robust way to detect it. To
+> them, URBs are completing, submissions are succeeding, all looks fine.
 > 
-> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
-> ---
+> Potential solutions I could think of:
 > 
-> By the way, xhci-hcd only updates max packet size at full-speed,
-> which means that the high-speed workaround doesn't work either.
-> 
-> Renesas does accept high-speed overrides, this time Etron doesn't.
-> 
-> Whether any of that works correctly with actual devices with unusual
-> packet size, and whether they really need a workaround (unlikely if
-> all their descriptors are shorter than bMaxPacketSize0) is unknown.
-> 
->  drivers/usb/core/hub.c | 23 +++++++++--------------
->  1 file changed, 9 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 5262e11c12cd..d9409943f388 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -5143,22 +5143,14 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
->  
->  	/*
->  	 * Check the ep0 maxpacket guess and correct it if necessary.
-> -	 * maxp0 is the value stored in the device descriptor;
-> -	 * i is the value it encodes (logarithmic for SuperSpeed or greater).
->  	 */
+> 1. Somehow let drivers know that a fresh start is their only choice
+>     (some completion status, bogus start_frame, usb_submit_urb() error,
+>     callback, ...) and have them ready to deal with this (hard part).
 
-Nit: Since this is now a one-line comment, it should be written as:
+Tune urb->start_frame to be one step closer to reality could be a first step.
+Give class drivers a chance to detect a difference in expected and reported
+urb->start_frame
 
-	/* Check the ep0 maxpacket guess and correct it if necessary. */
+If there are already queued TDs when we receive an underrun event then add
+urb->start_frame += ESIT to every queued URB
 
-Alan Stern
+If there are no pending URBs then set flag to calculate new urb->start_frame
+for the next URB when enqueued.
+
+This is of course only for the ASAP case.
+It won't be perfect, might drift especially if URBs are enqueued before we handle
+the underrun event, but not too difficult to implement and better than current
+situation
+
+Thanks
+Mathias
+  
+
