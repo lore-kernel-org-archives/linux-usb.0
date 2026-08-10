@@ -1,93 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789AE3644B3;
-	Mon, 10 Aug 2026 10:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA033C10AF
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 11:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786359125; cv=none; b=CJZXZ4YAmsYCEBonHj+JuaTm+K9yAmrvCIXHiqC4acVgt4P5Q0xAWaJlvjA3f+7DG1ZDqLauaSKvru9IGKOMPHJTLRl7U3kU6flHFp8Xt/GCNhFlWDEkdo5UXAoNCvi22XfTdjIi38mQBKEUI2arsnCRK1FhggQCzLzaF7z2YMY=
+	t=1786361172; cv=none; b=WGIkCn23xQGJLA578yqbRIAnlRVBunDB15BzvSccYwvI+XCl7sC9p0gNTM9NFe5Fl9vw78PzzrAMPTOo+1ZQv3YM6qmneAQqagDMACFP1u70eeafQa9mXXcPZ1q7hUgWjDD2azZnUmrjTinq8lHYJ9pYgDKXa/GmLe30tdQraAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786359125; c=relaxed/simple;
-	bh=I/A3NC+n3zA7uKMKMTm7wbXZ6/sM+Q110qW0kehCU00=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CtCPZqRDO3InymI6XIBZWMqlkji8MNkyigUXEeScrlC3f2HNyzObyakRJM/uhH2F0Ef5XA/9rptFlA/NS9h9s8lI5Q4DP+dhf9EK/yWrCZSrHATPhD7l5Xf5+9b6vhkCIqssiX7Uo3XVFxPT/xkSrOtHQR/WYPBL+fkNMmVTtBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HFAj69tO; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786361172; c=relaxed/simple;
+	bh=QwVAnHRHiCemIeYxsEaRGiTsru4MY7geYHkt3gj+mPE=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TVjrKbLn0IEcPN0hUmAeIh686/Me78PWFhuhKEv1leRvB37u5X8TozRe0JXoIhXahZIOzvr2ulRR1X4+niUATZVOVlFHOgVuLmSeGdHvp5BR6j/ES4yisE/1nGFNk2V8dvVUNOhVsDw3EyfevPOCQ0+590jyQIBJ17NA+15qgb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAi5N8oQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFAj69tO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786359122; x=1817895122;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I/A3NC+n3zA7uKMKMTm7wbXZ6/sM+Q110qW0kehCU00=;
-  b=HFAj69tOakeUGhDAIRnNqtrjVFRiqOXGDmRDXEHfez355ylUQTsAfGe0
-   gqn8FYKdWKxua6QE6TB85RH3pPnk5bphU4Px+/Ny/8c0JBk6vHPmbHHPj
-   0pLgzdew+a5r019pem8MsS2PdsNR90DQ8qD9eF0tbCUSecfQgMEOrtbo/
-   gKlovPWEy7WnR/ON38o6rWpBwzxkBpmzBORB2BfHIFfGuNz+yQUDIpDz6
-   egCPlcuvdiDjpVE1a2VECN1jfQsSGOmbTYv4p37QMQ+Pss4cihx2081mt
-   SGHaS6E2g+eEPwLpDuCJzs5tklN/bFt1YX/SevpDe9ea2Ecs+hkhgXZBr
-   Q==;
-X-CSE-ConnectionGUID: H24V4HniQQqqywWqlzEZ4g==
-X-CSE-MsgGUID: Nvbx/0vvQ8qBneb1CGdZnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="85837900"
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="85837900"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 03:52:02 -0700
-X-CSE-ConnectionGUID: 59j41mbPQIG2jjcmonNOQA==
-X-CSE-MsgGUID: FqL/2QvhQOuRY72HLy6sJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="261725385"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa010.jf.intel.com with ESMTP; 10 Aug 2026 03:52:00 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id E665D99; Mon, 10 Aug 2026 12:51:58 +0200 (CEST)
-Date: Mon, 10 Aug 2026 12:51:58 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: debugfs: Replace get_zeroed_page() with
- kzalloc()
-Message-ID: <20260810105158.GG893316@black.igk.intel.com>
-References: <20260808223829.3117-1-mahad.ibrahim.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAi5N8oQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A1F1F00ADE
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 11:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786361170;
+	bh=wZoyj/bcYqq2WaFoOPNolBM0q0on9gdK76aAsSvObhU=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=TAi5N8oQgDU3uxlgGdhWfEn9nNC7rXCuv4yN2uZImZ5Qe473HPVo3p50VUpSWiPHG
+	 IoiTod5iPqxiSXKiITSq8Z8zTmwJc5HZ5uz7xmOpQ3Jkb0fyrve6APE8i9wcqXWbG9
+	 lXGMKZJiKDjBF9o//Mpr0RyCf4KxJ0hU7mN22P+i0Mg5N9bg3iRDxEVPL+nUuBavi3
+	 AGideJY+Jza/asFc16Mup/MjDB2acqh/PegxslqsJ6Ggp5t9N4qp8PgknMdViirGgS
+	 A8bpR8iBlt1Pwb4LwILd9Hw6sRCpa0GAj9fkI0FlOKyQ95A6k8YjbPxxtVg2uxyHNg
+	 fWwlAMzpEDWvA==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b15dcaca31so1638593e87.0
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 04:26:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoH/w1QJCs6/upyvSeFUmp80fuKsnbrFKqMWkMNMlexXaPu2pWu7eIwV3PfLGNe0Xqa9vkKqtECPv8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjlsTpndid0wK/IhIZBpqcqK+p6oDpv9wJ48zPp769Jpxo+Xpy
+	rJgM8EztdVZokOl8thTED0l5QN/EfkcEp3hGzDijySrVaO5nPfXIViNSpJxbKHL7DWRxfVkiU+5
+	wUiCioOs632kuVVF6wA+sE8LEa7DOJHRFqgoTskYlHQ==
+X-Received: by 2002:ac2:4d18:0:b0:5b0:1b0f:7a60 with SMTP id
+ 2adb3069b0e04-5b2f4cc8da0mr3704106e87.32.1786361168649; Mon, 10 Aug 2026
+ 04:26:08 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 10 Aug 2026 06:26:07 -0500
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 10 Aug 2026 06:26:07 -0500
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260801195613.235430-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260808223829.3117-1-mahad.ibrahim.dev@gmail.com>
+References: <20260801195613.235430-2-krzysztof.kozlowski@oss.qualcomm.com>
+Date: Mon, 10 Aug 2026 06:26:07 -0500
+X-Gmail-Original-Message-ID: <CAMRc=MeiXHL-1i31q-+wuibK5qM1=xV+4qn0z+CWFXjt3CdrCQ@mail.gmail.com>
+X-Gm-Features: AUfX_myd-9E67e5jDYYEWIDd_Fhka4yTI8ar0CZ3ucq5EUGNAu2R2AhAZ0we-FI
+Message-ID: <CAMRc=MeiXHL-1i31q-+wuibK5qM1=xV+4qn0z+CWFXjt3CdrCQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Correct white-space style
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>, 
+	Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Lee Jones <lee@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jeff Johnson <jjohnson@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Yangbo Lu <yangbo.lu@nxp.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Richard Cochran <richardcochran@gmail.com>, 
+	Jens Wiklander <jenswi@kernel.org>, Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>, 
+	YC Hung <yc.hung@mediatek.com>, Svyatoslav Ryhel <clamor95@gmail.com>, 
+	Sean Wang <sean.wang@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	coresight@lists.linaro.org, linux-arm-msm@vger.kernel.org, 
+	linux-ide@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, mfd@lists.linux.dev, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Sat, 1 Aug 2026 21:56:14 +0200, Krzysztof Kozlowski
+<krzysztof.kozlowski@oss.qualcomm.com> said:
+> Correct a few white-space issues, like double space after '=' or before
+> bracket '{' characters, which will be flagged by dt-check-style.  No
+> functional changes.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>
+> ---
+>
+> Patch applies on Rob's for-next branch.
+> ---
+>  .../arm/firmware/linaro,optee-tz.yaml         |  8 +-
+>  .../devicetree/bindings/arm/psci.yaml         | 18 ++--
+>  .../bindings/arm/qcom,coresight-tnoc.yaml     |  2 +-
+>  .../devicetree/bindings/ata/st,ahci.yaml      | 22 ++---
+>  .../bindings/display/ti/ti,am65x-dss.yaml     | 12 +--
+>  .../bindings/display/ti/ti,j721e-dss.yaml     | 96 +++++++++----------
+>  .../bindings/display/ti/ti,k2g-dss.yaml       | 36 +++----
+>  .../bindings/dsp/mediatek,mt8195-dsp.yaml     |  2 +-
+>  .../bindings/gpio/st,nomadik-gpio.yaml        |  2 +-
+>  .../devicetree/bindings/i2c/st,sti-i2c.yaml   |  2 +-
+>  .../bindings/mailbox/st,sti-mailbox.yaml      |  2 +-
+>  .../bindings/mfd/maxim,max77620.yaml          |  2 +-
+>  .../bindings/net/wireless/qcom,ath10k.yaml    | 34 +++----
+>  .../devicetree/bindings/opp/opp-v2.yaml       | 28 +++---
+>  .../pinctrl/mediatek,mt7988-pinctrl.yaml      |  2 +-
+>  .../devicetree/bindings/ptp/fsl,ptp.yaml      | 12 +--
+>  .../devicetree/bindings/pwm/pwm-sifive.yaml   |  2 +-
+>  .../bindings/usb/ti,twl4030-usb.yaml          |  2 +-
+>  18 files changed, 142 insertions(+), 142 deletions(-)
+>
 
-On Sat, Aug 08, 2026 at 10:38:29PM +0000, Mahad Ibrahim wrote:
-> validate_and_copy_from_user() allocates a page to store data from
-> userspace via get_zeroed_page(), and then returns it as a buffer.
-> Neither the function itself nor its callers require struct page access.
-> 
-> This buffer can easily be allocated with kzalloc() as there is nothing
-> special about it that requires going through the page allocator.
-> kzalloc(), which internally reduces to kmalloc() with __GFP_ZERO,
-> provides a better API and kfree() does not need to know the size of the
-> freed object. Additionally it removes the casts of (void *) and
-> (unsigned long) which only obfuscate the code.
-> 
-> Replace get_zeroed_page() with kzalloc() and free_page() with kfree().
-> 
-> Compile-tested only; no USB4 hardware available.
+For GPIO:
 
-I tested this on Intel HW and works fine.
-
-> Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com/
-> Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-
-Applied to thunderbolt.git/next with Mike's ack. Thanks!
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
