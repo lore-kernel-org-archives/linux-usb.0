@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C124C287510;
-	Mon, 10 Aug 2026 09:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6733AFD08;
+	Mon, 10 Aug 2026 09:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786354710; cv=none; b=Mim962W2TZijLHzIVARU+WKsQWJ0rJ8SDBfmjiOtNMwePrKUYyiXfKnFqmJcezD4oNmc7yBlaaaaqqrNdCp3d2FAVjBC9DkjcsUMVXX+UHUg8EzxpMK3IdB8mbgfAfg++n68cHEj4U9ej2nCGbOfBMw02P6eNGMuMc+DCMfod60=
+	t=1786354723; cv=none; b=YKcnT6npLWIlpZvEpm5KiBtcYHVMcgJbfxpctEIzcV2L95mQHTBYnYGjpuPvCe2Sn+anjd3ESuGxYEzjDdw2Ovd5tx+wrtvqBW8N4DQISFYuG9VAAAANY2lgH+iZccGl8usJOmjLFxem46xvN5Ig2pfcrEflROtIZk4rCLll1Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786354710; c=relaxed/simple;
-	bh=jPJLCTXhpSJYSNYZjxYzbcKdBWh5A5tHVdsDFtabW3s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qMNC7LUfet44g+HA/VPsNzGxWX09bbWOQ3KcXXIl8rcj6W4QCIWLupJhbSkyk2rUHaYUzKDRDK9YeLb33BUBiIOKnbln/dNTG+6CF6bwRjN99I7vXoVTmqho4CPxcPucaxf5wUy4doanQLDI8MmRu8DMP5CvlNKwHcwt8Bh7ceM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAz4yl6J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786354723; c=relaxed/simple;
+	bh=30gKJksUBvCxM80pwVWmcl90ABwG5Q9q/pg+bFx3Og0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NA8N4agmJe5JFAfRYh6qaeQWc1x/W6Q8ZVD3sL4fSliUyXrBPk306ZbG4bPydbsBk5VDs3BVnIz2ONS3Fny3ek11ODN1EmBgk2aeb36Cew51QaYnFFku26lEguiQDofDa59y/i5bQQxU+39ruH97f0NIUpqWaDzF7DvjW/lpWeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sw3R9rnv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAz4yl6J"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 734FFC2BCF6;
-	Mon, 10 Aug 2026 09:38:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sw3R9rnv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 15B3FC2BCF6;
+	Mon, 10 Aug 2026 09:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786354710;
-	bh=jPJLCTXhpSJYSNYZjxYzbcKdBWh5A5tHVdsDFtabW3s=;
+	s=k20201202; t=1786354723;
+	bh=30gKJksUBvCxM80pwVWmcl90ABwG5Q9q/pg+bFx3Og0=;
 	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=QAz4yl6JcZoTUGzletg7tRzYMsRCADvZcSgH8gUW0vJS2hafSqYu8SgyUpkJjuiqs
-	 RDUOynWcWQq6u+7aYP3JRwqPQDnwYLohyMvqzzwQJ+R8ZlIN8E7gK2RNntgp+4vas/
-	 zyyK7V1vLREp80mJPx1A25OvC/58PYY45BKxSRAKBKfnL2Jah0yBPrDILPsdDjhzDl
-	 jKjOBjHvYGfkPp67IhV+bNqa0kMPCXeJOhd2/Dxh4hertkcdIo9U7RBhb2yQRzWC/k
-	 KBgaLiczzA8Vv1LfWNUhOCnlvbYYMTkF40AIxDCkXOZaob064fHo2OftqQ+EZT5Gd1
-	 Jl1AwD6p03OOQ==
+	b=Sw3R9rnvlWUnrKwXd30Y+//xiGTaTFVrh5qYwccZTFe9HCgH3sSf2bEhqeoSAs1wn
+	 NlAF+hk1lhnHkU25p3yqnMDrOUos6YzPl9u1AZpLJ2bLlD2uneieau4VHgyDo6Io8z
+	 Lb3uFeC1cpMGhq6zOQ6HwaKrCSMR0qYI4B0Bog0OHh/Yglu1I8flQY5j9A/LDu+M7H
+	 OMNsyqcKLyqfh5XQlIoSTSEYuVcqYNKTcI6W5j1l7MEAE5kcAjbbh25lEW6BolUoup
+	 5pWHhFwggSC1Tz1cXfFwW1+zKBchCRZ79y3WtaLydRbb7dMsLzIh76x7c/KDo1dB00
+	 L1qRvi7Eoe5ug==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6B1C5AD4E;
-	Mon, 10 Aug 2026 09:38:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A45C5AC82;
+	Mon, 10 Aug 2026 09:38:43 +0000 (UTC)
 From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
-Date: Mon, 10 Aug 2026 09:38:30 +0000
-Subject: [PATCH] thunderbolt: Clamp DMA tunnel credits to what a hop
- register can hold
+Date: Mon, 10 Aug 2026 09:38:43 +0000
+Subject: [PATCH] thunderbolt: Use min() for the DMA path credit cap
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,22 +39,22 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260810-tb-dma-credit-clamp-v1-1-69610146d164@gmail.com>
-X-B4-Tracking: v=1; b=H4sIABWceWoC/yXMSwqDMBRG4a3IHfdColhit1I6yONve6VaSaII4
- t6N7fAbnLNRQhQkulUbRSyS5DsW6EtF/m3HF1hCMdWqviqjFWfHYbDsI4Jk9h87TAzXdI1Ga1t
- jqJRTxFPW3/X++DvNrofP54r2/QA3H4IGdwAAAA==
-X-Change-ID: 20260810-tb-dma-credit-clamp-eb3931e5a588
-To: Andreas Noever <andreas.noever@gmail.com>, 
+Message-Id: <20260810-tb-dma-credit-min-v1-1-1ea9d3847e7c@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACKceWoC/yXMQQqDMBBA0avIrDuQiGj0KtKFyUx1BKMksRTEu
+ xvt8i3+PyByEI7QFQcE/kqU1WfoVwFuGvzIKJQNpSprZbTCZJGWAV1gkoSLeGyMNS3pqrXUQO6
+ 2wB/5Pc/+/Xfc7cwu3SM4zwuzgkX3dQAAAA==
+X-Change-ID: 20260810-tb-dma-credit-min-78b89d149bd7
+To: Yehezkel Bernat <YehezkelShB@gmail.com>, 
  Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Andreas Noever <andreas.noever@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Fan Ye <fy15309206903@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786354709; l=6038;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786354722; l=1319;
  i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
- bh=sH5s661mYHQVXNWt2E9soxhgbibtEzecbaMoOwZi+Fk=;
- b=4GxCjJOPsvbZXUft4clBvXYrN5xgdpNnye8LCpCADk8rEYIXBWPL3FO/oDtfoHtXDnZVwrvNK
- iN49Ods2vxOD7ewAl7l+vcsnqSomzXGyP94ENg6OJs5RxaPZADbvWA2
+ bh=xu76tpRxhyIN36dOBysJ1tAL6rwd3DghIfQIiVfsYhE=;
+ b=jqWnKrgvjW6j0B80u8b+Vddx63b36o0xKfC7tnxw2k39fcYyzw4zMbTqiuu5+yrsgqFihV+e6
+ T6xYaUFtMttDAmlrFkK0P1RN/mrTqMkb3jystyKRl+kwndb3XVYgljk
 X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
  pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
 X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
@@ -65,129 +64,41 @@ Reply-To: fy15309206903@gmail.com
 
 From: Fan Ye <fy15309206903@gmail.com>
 
-struct tb_regs_hop::initial_credits is 7 bits wide, so a hop can be
-programmed with 127 credits at most. tb_tunnel_alloc_dma() picks the
-credit count for a DMA tunnel out of two values that are not bounded by
-that: the dma_credits module parameter, which has no upper limit at all,
-and the host router's baMaxHI, which usb4_switch_credits_init() reads
-out of a 16-bit field and only checks for presence, never for magnitude.
+tb_dma_reserve_credits() caps the request against what the adapter has
+left by decrementing one credit at a time. The other arm of the same
+if() already caps with min(port->total_credits, credits); use min()
+here too.
 
-What comes out is handed to tb_dma_init_rx_path() and
-tb_dma_init_tx_path(), which lower it to what the adapter has room for
-and store the result in struct tb_path_hop::initial_credits. That field
-is an unsigned int, so an oversized number survives until
-tb_path_activate() copies it into the 7-bit register field and keeps
-only the low bits. The path then runs on a credit count that neither
-the driver nor the user chose, while port->dma_credits goes on
-accounting for the number that was asked for. Nothing reports the
-difference.
+No functional change: the object code is unchanged.
 
-The adapter has to have that many buffers for the truncation to be
-reachable, and ADP_CS_4_TOTAL_BUFFERS_MASK leaves room for it: the lane
-adapters of an ASMedia ASM4242 host router report 174. Asking such a
-router for 172 credits leaves 172 & 0x7f == 44 in the hop.
-
-Clamp the count where it is chosen. tb_tunnel_alloc_dma() is the only
-entry point for DMA tunnels, the clamp sits ahead of every hop
-assignment and every credit accounting update, and each step below it
-can only lower the value further, so one bound covers the whole tunnel
-and the driver's bookkeeping stays in step with the hardware. Before the
-module parameter existed this line read min_not_zero(TB_DMA_CREDITS,
-nhi->sw->max_dma_credits) and could not yield more than 14.
-
-While at it, carry the count in an unsigned int. Both min_not_zero()
-operands and every function it is passed to are unsigned already, so the
-int only added a signed detour in the middle of an otherwise unsigned
-path.
-
-Fixes: 7ee20d0afb69 ("thunderbolt: Allow specifying custom credits for DMA tunnels")
 Assisted-by: Claude:claude-opus-5
 Signed-off-by: Fan Ye <fy15309206903@gmail.com>
 ---
-The truncation is not reachable with the defaults. dma_credits is 14 and
-the ASM4242 in front of me reports baMaxHI 32, so 127 is never
-approached; I had to drop the baMaxHI cap with a local debug patch and
-ask for 172 to see it. Reading the hop straight back after
-tb_path_activate() had written it then showed 44 in the register. With
-this patch it shows 127.
-
-That is not an argument for 127 being a good number to run on. On this
-hardware anything above what the router asks for costs packets - the
-receiving adapter starts dropping around 35 credits, and further up the
-control channel stops answering altogether - so the clamp is a statement
-about what the field can hold, not a recommendation.
-
-The same 7-bit field is assigned from three other places: USB3
-(sw->max_usb3_credits, with no min() at all), DP AUX
-(sw->min_dp_aux_credits) and PCIe (min(sw->max_pcie_credits,
-available)). usb4_switch_credits_init() only checks that those buffer
-allocation values are present, never how large they are, so nothing in
-the driver stops them from passing 127 either. I left them alone because
-I have no evidence any router advertises that much there - the one I can
-read out reports 64/2/64 for USB3/DP AUX/PCIe, and the bad advertisement
-already handled in tree, quirk_dp_credit_allocation(), is 56. Should
-those get the same treatment, or does the spec bound them in a way that
-makes it unnecessary?
-
-One thing I deliberately left alone: tb_available_credits() computes
-spare = min_not_zero(sw->max_dma_credits, dma_credits) without this
-bound, so with dma_credits set above 127 it now reserves more than a DMA
-tunnel can take, at the expense of the DP stream count. Clamping there
-too is one more line, but it changes how many DP streams fit, which is
-more than a truncation fix should do on its own.
-
-No Cc: stable, since reaching this needs either dma_credits set by hand
-or a router advertising baMaxHI above 127, and I have not seen the
-latter. Happy to add it if you disagree.
+Verified by building drivers/thunderbolt/tunnel.o with and without this
+patch (gcc 13.3.0, x86_64): objdump output is identical, a single cmovbe
+either way.
 ---
- drivers/thunderbolt/tunnel.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/tunnel.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index b7f32305f14a..b2a8e4950200 100644
+index b7f32305f14a..e9214de5f3b7 100644
 --- a/drivers/thunderbolt/tunnel.c
 +++ b/drivers/thunderbolt/tunnel.c
-@@ -48,6 +48,15 @@
- #define TB_DP_AUX_PRIORITY		2
- #define TB_DP_AUX_WEIGHT		1
+@@ -1778,8 +1778,7 @@ static int tb_dma_reserve_credits(struct tb_path_hop *hop, unsigned int credits)
+ 		if (available < TB_MIN_DMA_CREDITS)
+ 			return -ENOSPC;
  
-+/*
-+ * struct tb_regs_hop::initial_credits is 7 bits wide, so this is the most a
-+ * hop can be programmed with. What feeds it is not bounded by that:
-+ * ADP_CS_4_TOTAL_BUFFERS_MASK is 10 bits and the dma_credits module
-+ * parameter has no upper limit at all. A larger value is stored with its
-+ * top bits cut off, leaving the path on a credit count nobody asked for.
-+ */
-+#define TB_MAX_HOP_CREDITS		127
-+
- /* Minimum number of credits needed for PCIe path */
- #define TB_MIN_PCIE_CREDITS		6U
- /*
-@@ -1908,7 +1917,7 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
- 	struct tb_tunnel *tunnel;
- 	size_t npaths = 0, i = 0;
- 	struct tb_path *path;
--	int credits;
-+	unsigned int credits;
+-		while (credits > available)
+-			credits--;
++		credits = min(credits, available);
  
- 	/* Ring 0 is reserved for control channel */
- 	if (WARN_ON(!receive_ring || !transmit_ring))
-@@ -1931,6 +1940,11 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
- 	tunnel->destroy = tb_dma_destroy;
- 
- 	credits = min_not_zero(dma_credits, nhi->sw->max_dma_credits);
-+	if (credits > TB_MAX_HOP_CREDITS) {
-+		tb_tunnel_dbg(tunnel, "%u credits do not fit a hop, using %u\n",
-+			      credits, TB_MAX_HOP_CREDITS);
-+		credits = TB_MAX_HOP_CREDITS;
-+	}
- 
- 	if (receive_ring > 0) {
- 		path = tb_path_alloc(tb, dst, receive_path, nhi, receive_ring, 0,
+ 		tb_port_dbg(port, "reserving %u credits for DMA path\n",
+ 			    credits);
 
 ---
 base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-change-id: 20260810-tb-dma-credit-clamp-eb3931e5a588
+change-id: 20260810-tb-dma-credit-min-78b89d149bd7
 
 Best regards,
 --  
