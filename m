@@ -1,144 +1,90 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05723939A4;
-	Mon, 10 Aug 2026 06:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB74139793C
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 07:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786345098; cv=none; b=JnWIuzXqBTrwzCeRC55ivps0X1lHUexkaemAaUGZcB/Ph8phFXZ+YMRxyifXA7gKNuZodv29yi4B5JMWfkIrnMw1fq3FmWMbZJU4e+FGn+Mxv3TFirrFvdq9QEMNX9BV0vBtxfVGI822lasqrbKoImMK0MjUYBuwXqPzeCGq+sA=
+	t=1786345841; cv=none; b=dzBiVfpJlzS1Nm/3sD+wfUMVHwOfawgXvikkuObAQpPP2BOo1yRHGMCxnBKEB09cl4GtBjoxVahCL5JtStzOYZiU+dl3A9uTtrysZYQr9EATy9d5n1FA7YUAYH8mD6il0pEHPpxWBzxq5WqYLVJXv53m4uSk+DIy37CROZ4wODQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786345098; c=relaxed/simple;
-	bh=7WlPeWCWTJ+S0FMnLOLkCGqMPWXTgxckC0ljdW2sEGw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CcTBz2IoyGzJ2cRA/aU/SGL99LUqGII05qg9i0QQZm0t5DRhXU3ZszPyz7COBALUVYJxkAAWpabax6RLy3g9odPkLa8YF1N8o9FNg2os7MWfUhI/+5VOQq1/6XX9fdNhtbLXjW37LXj3uTrM7ytDNV4991RjO2+liVfuAUubd7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=bMi4LUef; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1786345841; c=relaxed/simple;
+	bh=a12Y7a8bQgSn52AIPVsydlnSRQtQ6nZLvXNS38bGKDg=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YWagdKhya190oNRc8OAgj4WrECgiUzyri5b4cQDTLjb4VLKpS/rQzXHBHepY/o5PZZtzAIM6gYMK2I5gBuDi9yONb41iX+PAGJy3iTomnSzZ91rQb51Xcd48eXUnLWPjpme8w4ljeTrL4EC1fhMGtQb2zddD2fVpKS+nwqi4/B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JbMcQgcu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="bMi4LUef"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 67A6viQN31514129, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1786345065; bh=oAJl7fPPZqm2YPpWeuSwRmWowSoWPb5vYe00HxOiy9s=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=bMi4LUefoGWIa3H5nV86hOf8YPw38c6TyseJSQFr1UUKBwzBtKnU6OuHXy0xaL67S
-	 i0TsBypZnEunCJsXmYqBpAwM8b0dQhnZqtE++bjSLBZ26ChtqRSyrf6MeF7qA0x+dq
-	 pTG5bxH5P9ZpNnGMl32oQSZdu/U1eE4mb+vkpZsyFo/xW7b6vWj9oJD2bihNRKRlYD
-	 3gMfqzDu5WCFvxGO2aLEbJXiVm8ax95StK0eGxkJNXkPpWc5oXVZFLJZZcu9UDP/pJ
-	 IzrjRWlvtfQadb8Y9NxNRcR5JVzMeil9svSIJ5kReyj3dE1oRLhSL4JNJKQfoAeuF4
-	 8q5Pv7ohdpE4Q==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 67A6viQN31514129
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 10 Aug 2026 14:57:44 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 10 Aug 2026 14:57:45 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 10 Aug 2026 14:57:44 +0800
-Received: from fc40.realtek.com.tw (172.22.241.7) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Mon, 10 Aug 2026 14:57:44 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>
-CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-	<linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
-	<hsu.chih.kai@realtek.com>
-Subject: [PATCH net-next] r8152: use GFP_NOIO during system suspend
-Date: Mon, 10 Aug 2026 14:57:41 +0800
-Message-ID: <20260810065741.4019-1-nic_swsd@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JbMcQgcu"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5F734C19425
+	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 07:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786345841;
+	bh=a12Y7a8bQgSn52AIPVsydlnSRQtQ6nZLvXNS38bGKDg=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=JbMcQgcuogplW9U9O7Xo4pXrKDZpq8oq5b0IaHGR85cu8VMDd4M9BF99wlIoU+F5F
+	 t4I7AGENHfUMnaMiLD6zCVf/Po6tvaklrY6q2sxlCycLXnzfeGnVf4TxgUN2hzGFPR
+	 npd1UbJan4dPlgChKJZk5XzFR+Rc7GImcIiYErx586yG2+B4ZgxovsBVKLoBMnrr/E
+	 cdI8WPCCmqt71B+Cxb7ePV3WvdNqTADPzXqvh1TBapIa2NhoYgqyqk3Tk7b1th7DcN
+	 ax152o9J6d9fQTZxbrKS/SQxM31kjzRCu21UBg4DaYhda6jvHdQEa/394h3IK1o9vS
+	 DMjQ8nV7icy/Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 45949C3279F; Mon, 10 Aug 2026 07:10:41 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 219977] usb: dwc2: memory leak of hsotg->regset
+Date: Mon, 10 Aug 2026 07:10:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: huangwei@kylinos.cn
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-219977-208809-MYyqonQzP8@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219977-208809@https.bugzilla.kernel.org/>
+References: <bug-219977-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-During system suspend, memory allocation with GFP_KERNEL can block
-waiting for I/O to complete. If that I/O depends on a device that is
-itself suspended, a deadlock results.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219977
 
-Introduce RTL8152_SYSTEM_SUSPEND flag to track when the driver is
-operating in the system suspend/resume context. Set the flag at the
-start of rtl8152_system_suspend() and clear it at the end of
-rtl8152_system_resume(), following the same pattern used by
-SELECTIVE_SUSPEND for runtime suspend.
+Wei Huang (huangwei@kylinos.cn) changed:
 
-In get_registers() and set_registers(), select GFP_NOIO when the flag
-is set so that the kmalloc and kmemdup calls in those paths do not
-trigger I/O reclaim.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |huangwei@kylinos.cn
 
-Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
----
- drivers/net/usb/r8152.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+--- Comment #1 from Wei Huang (huangwei@kylinos.cn) ---
+Hi kakapapa2,
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index f61686433031..57d04af6368c 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -792,6 +792,7 @@ enum rtl8152_flags {
- 	IN_PRE_RESET,
- 	PROBED_WITH_NO_ERRORS,
- 	PROBE_SHOULD_RETRY,
-+	RTL8152_SYSTEM_SUSPEND,
- };
- 
- #define DEVICE_ID_LENOVO_USB_C_TRAVEL_HUB		0x721e
-@@ -1370,9 +1371,12 @@ static
- int get_registers(struct r8152 *tp, u16 value, u16 index, u16 size, void *data)
- {
- 	int ret;
-+	gfp_t gfp;
- 	void *tmp;
- 
--	tmp = kmalloc(size, GFP_KERNEL);
-+	gfp = test_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags) ? GFP_NOIO :
-+							     GFP_KERNEL;
-+	tmp = kmalloc(size, gfp);
- 	if (!tmp)
- 		return -ENOMEM;
- 
-@@ -1394,9 +1398,12 @@ static
- int set_registers(struct r8152 *tp, u16 value, u16 index, u16 size, void *data)
- {
- 	int ret;
-+	gfp_t gfp;
- 	void *tmp;
- 
--	tmp = kmemdup(data, size, GFP_KERNEL);
-+	gfp = test_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags) ? GFP_NOIO :
-+							     GFP_KERNEL;
-+	tmp = kmemdup(data, size, gfp);
- 	if (!tmp)
- 		return -ENOMEM;
- 
-@@ -8693,6 +8700,9 @@ static int rtl8152_system_resume(struct r8152 *tp)
- 		usb_submit_urb(tp->intr_urb, GFP_NOIO);
- 	}
- 
-+	clear_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags);
-+	smp_mb__after_atomic();
-+
- 	return 0;
- }
- 
-@@ -8758,6 +8768,9 @@ static int rtl8152_system_suspend(struct r8152 *tp)
- {
- 	struct net_device *netdev = tp->netdev;
- 
-+	set_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags);
-+	smp_mb__after_atomic();
-+
- 	netif_device_detach(netdev);
- 
- 	if (netif_running(netdev) && test_bit(WORK_ENABLE, &tp->flags)) {
--- 
-2.34.1
+Thanks for reporting this. A fix has been submitted to the linux-usb mailing
+list:
+https://lore.kernel.org/linux-usb/?q=3Dhuangwei%40kylinos.cn
 
+The fix mirrors the equivalent dwc3 fix (commit e6bdf8195b4a) by
+switching hsotg->regset from devm_kzalloc() to kzalloc() and freeing
+it explicitly in dwc2_debugfs_exit().
+
+https://lore.kernel.org/linux-usb/20260807100400.3179625-1-huangwei@kylinos=
+.cn/
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
