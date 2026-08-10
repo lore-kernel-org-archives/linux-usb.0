@@ -1,149 +1,143 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8233D3334
-	for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 12:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBB83D4135;
+	Mon, 10 Aug 2026 12:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786363938; cv=none; b=TIErlVatSan3qEr/vobmTTemRdsXnFIlBeIhuvTukHTP5y/KHdsAkTRXu+wgwU58g3xmkQrzDqmsvDGNC3HOADLGSpZs77C/z4seZvx7WXPQE3RRb0QtdK0OTb/tHBfXrO6u60/aeXtJFYdQkX9+Sq+m9zonVXRnybXEcvhywX8=
+	t=1786364054; cv=none; b=WukhOC+YvB0NIY9puOHqsue7mo1kfg0Tcd8Sc614XrWo6pNfp8s+9oqvrsNkSSjoWKJcYMptEcwQEUNTimLQKomvBV9bHK8TnD1z05xQoNT4wPSusqhPGWOeP/efSSdXLCZmWShy8P7sMYsn6G/6z5ZGqEyyZL72XXPpo3cJjzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786363938; c=relaxed/simple;
-	bh=n5t0F7BzvSgZNkQJ/YimmEsQrhjAMXpb16NZlz8/d+c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aYwRAYCVPG+EwWwO+gnpgiRt5xR8r0QrQc0CzNpuxae2Fh3Axqd87FJ1h3/C7R1xofMKvwmJdQA77wuc+7bZ94cv4xNZ+RaA4hqHMlXL/Lhqx2HAwOkmNhgnBCVn0Rf0aMxS9CBb2TcVn6AeUyWfhgjf51VcQ2TuO7lEeabcK5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PhUxFIVc; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786364054; c=relaxed/simple;
+	bh=nv7gPr0S2hTo9psyUyb4JGL1Pu+7hzhXmHuadC/0gec=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mWx9bdC15ml1n4AJ8LllIWLpgysgaxPXNxRarK2cWVfSKG0wjgJJA55gKXlD4vthaHRk4Si50xIBNrK9C8oi3rmyJ2HiQWokYjhtE45uQfHyEKUHWfIxW+8TpkQdVAmePgZ3XbRm+hl7XzheFO1DHQPunLJ0DCxZ0xQCcC4HiBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWw0rLC5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PhUxFIVc"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so25620865e9.2
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 05:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786363935; x=1786968735; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vSwL7aNN7hYKFTp1kfxgml5r4vyPUCqPEJX0Du3qOqU=;
-        b=PhUxFIVc/mq3gr7q9AmqhOvZQtBz0K1YA/0aKVNE0v1fb5VW8l8scvoXwYb9sz4TO+
-         BTb6ywr2TppJpXQLZH59MjvBV62FoAhC2+bvamOwi95lzLgnvSfYb1onSM8oU7uRJ6lW
-         6Il1v1cEDr6xNz7K2CdaJ+mIzbJGFqsM5RI+a9Shlj0xYOSyR1GF8lSAZQeDSXTe0Tvg
-         Z2wY/kk7z+/2Z1PXiirXOWHK6N1Gj51n1IOoRkzKJ/eaE0mMe0pkNeULaJZbva/hKv0n
-         8BayK+k3/RKc2YKldjkoTE+HAI5OSRAe6RRXQ+K9mKl4KqUQfyrqrPfwgN03Ea8Hfhyc
-         fxtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786363935; x=1786968735;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vSwL7aNN7hYKFTp1kfxgml5r4vyPUCqPEJX0Du3qOqU=;
-        b=Gp6hkGcstkTHnDUZESsXmKDY/cayXRlujs9CPf6H2Xtm6rjxK6hqNeOPAfBy/nc8Jp
-         g+d6UBY4xA7+dXgKYk00GLk34093mwFCYoIkBPAw0yIf3hjmXQHHhGBqorpd/P/AkCMd
-         ZyCJrOxnoEEwTdethOQOyqZ+7Nzxi2IGR0bfvvnz7aO4z6uLcIkOhfCFP0D2Yc/WkwBA
-         65vCEBOhV77Xq52P+EkSsvw4/956y5cLNm5eqlI4tkwLvpeqB24Mf+ioDwDsenpiHz8y
-         +57tvHuUjnlJPQgGpE6wR9rcfldE2oLDP8lzilabMXX/hWKPf4JZRqWboMTHQSelefLJ
-         AumA==
-X-Gm-Message-State: AOJu0YzBzrjEQkFvG7vLjYTAlPeVvPNJ16FRzMb76ypENnKQCbwUgZN1
-	5cxQQ+RCWpo9vvn+p09g+ve6/ZfYNruOYmjVkbciPrRj++9Kt4qpT9jW9f0V0qRQFOCP+Q==
-X-Gm-Gg: AR+sD10f41wzXvh80efnKHRIA/QTTr7gn/lrslJDIwB1CadidtKefh7g5DSOYO8k/oZ
-	eE42b1GX4Q2znHBmGCgF5LITdYH64uJ/5mZnyd2YI1ouQNXnP65aD1fvptY0lp8t+SDCDSDS4hk
-	uAVLZi9TH037s9X5aAgQv8QZiKPEt3IwBgh69mPlThHNpC9DkMigqWqdUZuA+Wdcl4GBkgkxOnv
-	uM0mvrjdn0GOs80J0lXN0F6O0znRyGFt1byAXFoWno62s4GnQXmzVS3yyrgyhc8DHoozTU7jKdc
-	u5yOj5RMJ6V+Y0Jrq4ZX+YAxzkBfYwgGQJVd9JPwvdetJkcCxTcGkm5mpvxW4TI8dZxRlNf0DgL
-	cT/5P0s/G0nxDhNeEql0yQa59NfUSJ0+dqLAqF/GlXAm0fQ+NX1+xblONDw1Un65aUmEnvVlKbx
-	771uNtRSQvW3sNgbF/l83PdfdHgDbeN/O7ZTCt2kLZbt2P6r94nPKe4Mq5EA==
-X-Received: by 2002:a05:600c:840f:b0:496:c1f3:e8fb with SMTP id 5b1f17b1804b1-4994e71ffafmr549042025e9.8.1786363934643;
-        Mon, 10 Aug 2026 05:12:14 -0700 (PDT)
-Received: from kali ([135.136.16.250])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995e9f9424sm254883645e9.8.2026.08.10.05.12.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 05:12:14 -0700 (PDT)
-From: =?UTF-8?q?Miguel=20Pe=C3=B1aranda?= <mig.penaranda07@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: [PATCH] usb: usbfs: fix use-after-free of usb_device in usbdev_release()
-Date: Mon, 10 Aug 2026 14:12:09 +0200
-Message-ID: <20260810121209.795089-1-mig.penaranda07@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWw0rLC5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C33B2C2BCF4;
+	Mon, 10 Aug 2026 12:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786364053;
+	bh=nv7gPr0S2hTo9psyUyb4JGL1Pu+7hzhXmHuadC/0gec=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=ZWw0rLC5wfZQbyd+vuC2zS39ghs4C0foMjqinv9S+RUW4jqtpE72GbVaJSeCqsTw5
+	 Zrl2YyA2kEtnkmH3e3aQ/nfJxXVvZvaEwfOWvG1+HOdLMQWUJ1qqXiDj2AVnNvW8ze
+	 hLd5GqEShnRq4AQEG42K/kHSacDQuPkIPTdsRYFbr3qfiBZP+4lFQtQDeXFC4rmiKW
+	 TEnQmEubfKj9S3VBJzv06YGYvAGTG0HQjMGgjsW8RTD1vnOpLKu5W3GMk+e7D25vcU
+	 36Yesy2BV7Y3Y9Yb0f9R+/INjS3Bcbl1SFWfB29Y/wXs1iWToq7bnJ/xvBqsVq3hPR
+	 QJP38KWJaV4lA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A96A0C5AD55;
+	Mon, 10 Aug 2026 12:14:13 +0000 (UTC)
+From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
+Date: Mon, 10 Aug 2026 12:14:13 +0000
+Subject: [PATCH v2] thunderbolt: Clamp DMA tunnel credits to what a hop
+ register can hold
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260810-tb-dma-credit-clamp-v2-1-e81af742994d@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAJTAeWoC/yXMSwqDMBRG4a3IHfdCjFhit1I6yONve6VaSaII4
+ t6N7fAbnLNRQhQkulUbRSyS5DsW6EtF/m3HF1hCMWmlr8rUirPjMFj2EUEy+48dJoZruqZGa1t
+ jqJRTxFPW3/X++DvNrofP54r2/QDDHSSsdwAAAA==
+X-Change-ID: 20260810-tb-dma-credit-clamp-eb3931e5a588
+To: Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Fan Ye <fy15309206903@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786364052; l=2813;
+ i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
+ bh=KBUQ47DnBp3QLMg8TJHD2p+uE/UzAFnilfTEhi9eTUs=;
+ b=aq/DQVlltc9t1J6XnhVF3zVK1D7g3GWhN/YV5BFD5Z5A4zZ34QW1rBSBDI/Fup+ykvBLLbuCQ
+ FHRMRNvnq1cDvsZ0xCXRdxj3AQzEbMi2SjJb1Op5Yst9/Q8A7M7xmgZ
+X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
+ pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
+X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
+ auth_id=929
+X-Original-From: Fan Ye <fy15309206903@gmail.com>
+Reply-To: fy15309206903@gmail.com
 
-usbdev_release() drops its reference to the struct usb_device before
-draining the list of completed async URBs, but that drain path reads back
-through the same object: free_async() calls dec_usb_memory_use_count()
-for any URB whose buffer came from the usbfs mmap() region, and its first
-statement is bus_to_hcd(ps->dev->bus).
+From: Fan Ye <fy15309206903@gmail.com>
 
-After a disconnect the usbfs reference can be the last one, in which case
-usb_put_dev() frees the device and the subsequent loop reads offset 80 of
-freed memory and uses the result as a struct usb_hcd *, which
-hcd_buffer_free_pages() then dereferences.
+struct tb_regs_hop::initial_credits is 7 bits wide, but neither of the
+values tb_tunnel_alloc_dma() picks from is bounded by that: the
+dma_credits module parameter has no upper limit, and neither does the
+host router's baMaxHI. A larger count survives until tb_path_activate()
+copies it into the register and keeps the low bits, leaving the path on
+a credit count nobody asked for.
 
-This is reachable by an unprivileged process that has read/write access to
-a /dev/bus/usb node: mmap() the fd, submit one URB with a buffer inside the
-mapping, wait for the device to be unplugged, then munmap() and close().
-It reproduces on every attempt rather than being a race, because a live
-MAP_SHARED vma holds a reference on the struct file, so usbdev_release()
-cannot run until the last vma is gone and the freeing branch of
-dec_usb_memory_use_count() is always taken.
+Clamp it in tb_tunnel_alloc_dma(), the only entry point for DMA tunnels;
+every step below it can only lower the value further. Carry the count in
+an unsigned int while at it.
 
-  BUG: KASAN: slab-use-after-free in dec_usb_memory_use_count+0x3ae/0x410
-  Read of size 8 at addr ffff8880122ee050 by task poc/769
-  CPU: 1 UID: 1000 PID: 769 Comm: poc Tainted: G    B    6.12.94 #3
-
-  Call Trace:
-   dec_usb_memory_use_count+0x3ae/0x410
-   free_async+0x2aa/0x4f0
-   usbdev_release+0x375/0x460
-   __fput+0x3ea/0xb50
-   __x64_sys_close+0x86/0x100
-
-  Allocated by task 11:
-   usb_alloc_dev+0x55/0xd90
-   hub_event+0x2524/0x43d0
-
-  Freed by task 769:
-   kfree+0x121/0x360
-   device_release+0xd2/0x280
-   usb_put_dev+0x23/0x30
-   usbdev_release+0x2d8/0x460
-
-Release the device reference after the drain loop instead. Nothing between
-the two points requires it to have been dropped.
-
-Fixes: f7d34b445abc ("USB: Add support for usbfs zerocopy.")
-Cc: stable@vger.kernel.org
 Assisted-by: Claude:claude-opus-5
-Signed-off-by: Miguel Peñaranda <mig.penaranda07@gmail.com>
+Signed-off-by: Fan Ye <fy15309206903@gmail.com>
 ---
- drivers/usb/core/devio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reproduced by dropping the baMaxHI cap with a debug patch and asking an
+ASMedia ASM4242 host router, whose lane adapters report 174 buffers, for
+172 credits: reading the hop back after tb_path_activate() showed 44,
+that is 172 & 0x7f.  With this patch it shows 127.  The defaults do not
+reach it - dma_credits is 14 and this router reports baMaxHI 32.
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index e191934..486ced7 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -1113,7 +1113,6 @@ static int usbdev_release(struct inode *inode, struct file *file)
- 	if (!ps->suspend_allowed)
- 		usb_autosuspend_device(dev);
- 	usb_unlock_device(dev);
--	usb_put_dev(dev);
- 	put_pid(ps->disc_pid);
- 	put_cred(ps->cred);
+v2:
+- Trim the commit message and these notes.
+- Drop the Fixes: tag.
+- Rename TB_MAX_HOP_CREDITS to TB_MAX_CREDITS and cut the comment above
+  it down to one line.
+
+v1: https://lore.kernel.org/r/20260810-tb-dma-credit-clamp-v1-1-69610146d164@gmail.com
+---
+ drivers/thunderbolt/tunnel.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index b7f32305f14a..da4fa7b1b248 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -48,6 +48,9 @@
+ #define TB_DP_AUX_PRIORITY		2
+ #define TB_DP_AUX_WEIGHT		1
  
-@@ -1122,6 +1121,7 @@ static int usbdev_release(struct inode *inode, struct file *file)
- 		free_async(as);
- 		as = async_getcompleted(ps);
- 	}
-+	usb_put_dev(dev);
++/* struct tb_regs_hop::initial_credits is 7 bits wide */
++#define TB_MAX_CREDITS			127
++
+ /* Minimum number of credits needed for PCIe path */
+ #define TB_MIN_PCIE_CREDITS		6U
+ /*
+@@ -1908,7 +1911,7 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 	struct tb_tunnel *tunnel;
+ 	size_t npaths = 0, i = 0;
+ 	struct tb_path *path;
+-	int credits;
++	unsigned int credits;
  
- 	kfree(ps);
- 	return 0;
--- 
-2.53.0
+ 	/* Ring 0 is reserved for control channel */
+ 	if (WARN_ON(!receive_ring || !transmit_ring))
+@@ -1931,6 +1934,11 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 	tunnel->destroy = tb_dma_destroy;
+ 
+ 	credits = min_not_zero(dma_credits, nhi->sw->max_dma_credits);
++	if (credits > TB_MAX_CREDITS) {
++		tb_tunnel_dbg(tunnel, "%u credits do not fit a hop, using %u\n",
++			      credits, TB_MAX_CREDITS);
++		credits = TB_MAX_CREDITS;
++	}
+ 
+ 	if (receive_ring > 0) {
+ 		path = tb_path_alloc(tb, dst, receive_path, nhi, receive_ring, 0,
+
+---
+base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
+change-id: 20260810-tb-dma-credit-clamp-eb3931e5a588
+
+Best regards,
+--  
+Fan Ye <fy15309206903@gmail.com>
+
 
