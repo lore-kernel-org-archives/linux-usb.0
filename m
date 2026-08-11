@@ -1,88 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D0033F361;
-	Tue, 11 Aug 2026 04:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31418266B46;
+	Tue, 11 Aug 2026 04:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786421035; cv=none; b=f872amk3BGM85IQb+VUi/KAifUZRm8xQpBP3gi5GhZ8XEamx+tyvXj8nKV7P6ZPmNpW/LKLDJe7McdhptVdF+c+OIi5bMBY7bhYmaUwfsc6dQbD7DyOIPWMFkI0VguCRvyF1ygjuhoC8vQLJui6Rr6f6RG1eQT1rrMydi7bTrwc=
+	t=1786423720; cv=none; b=cY+QUD9kZLUCNx1+RAMVvP2lu30Y2ACVEq2Dk59EQKPC4jlJxIbwyOkFRm74/SdBK1lbBj+XZ0+5+AkTRlycl623HuWFuyl1xVD3Y/U9dloSaj+ICpat2VT+Iw811erhSVVvia1OunU1oFqUzhodlf/+rNrTRhx2/NNrH7JXcBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786421035; c=relaxed/simple;
-	bh=LbA4FA558ylgtlVl2t9c4qFUW6Yltp59ToJnfj8HRJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hFMMy/iHjsdiwg5iZhATRKJpXugPJEGahiKCmj62eQlK74n6xgkGoq/Q5t+AoHc3WU19VV9ba39GTM7SSudT1huOovnO2yVkw8Yc4mdszvyJc5b39PVGH3Wo8EZzzCFuvaXVaEyFhL76Ct+4Z8IOl29twDhLcugBMkPhUNHAnEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VM3Jmcqb; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786423720; c=relaxed/simple;
+	bh=uUVMtEb+ufbseU1gnFoaJRCwQsCphZJUQ2auD4sLi9Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hXq5LpJRvEQCqc+tPGIpD6ZuVcLPy7WPF/Riy+CIwunyTYCMM12dhaqJAJB5k3ElDMeRMzjj7K5vRufVoin3AooO2O6meRBVD8IbHfVwqpuYtav/c8tJ0PImHipnoMAC4oFDCKVl3EUkRfSrorZ4pihbr0HlwedqOA0dsMR7GaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=S1BvD3UN; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VM3Jmcqb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786421031; x=1817957031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LbA4FA558ylgtlVl2t9c4qFUW6Yltp59ToJnfj8HRJk=;
-  b=VM3JmcqbyMFBB+IAKWXEc2MG+ry+QAAA2r0AsOEjdRFReSm/brvJ6dDu
-   Fn+CHH5tWAk2Y3BuWzgBhPsHUVmtHN4JCe5zoqzGFe2LOtOEXKEv87Ixx
-   7/rfMqlsyPQZQ9c64ZnJpxBv75zxtnQN9jm27YbiU2MnQ3Jso1jyokQx6
-   FvwrYq5ydDzUF9j5n3om7cHlXrt4EAHRLrsAfyZh1WMqxCaVgv5QO24L8
-   W3Nr4gSKave7NLg6DglAng5g3BQ75iKhJcXC3sXc66+WXye4PXigTOyhr
-   hxyrKCDPuM3xpQC6bFwwXDvtx7lkkgc2aUkg3cmOxaqwcIg7fVYyC0YAL
-   w==;
-X-CSE-ConnectionGUID: FAkQ5pcwRt6vUcIenvJr1g==
-X-CSE-MsgGUID: cw+jLgnMTBGOen5p5rcw3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="86799836"
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="86799836"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 21:03:50 -0700
-X-CSE-ConnectionGUID: j+JHqkUfQkSVZuT2U/fyXg==
-X-CSE-MsgGUID: Wv7P5xhiSLKy49LH9A2nEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="259371661"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Aug 2026 21:03:49 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 2CCD199; Tue, 11 Aug 2026 06:03:48 +0200 (CEST)
-Date: Tue, 11 Aug 2026 06:03:48 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: fy15309206903@gmail.com
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] thunderbolt: Clamp DMA tunnel credits to what a hop
- register can hold
-Message-ID: <20260811040348.GJ893316@black.igk.intel.com>
-References: <20260810-tb-dma-credit-clamp-v2-1-e81af742994d@gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="S1BvD3UN"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hJzf454TpzMlNS;
+	Tue, 11 Aug 2026 06:48:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1786423708;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3AtY33r4MVbEl55xX7fHnJYetW9OMHq7dKc20AHkeOA=;
+	b=S1BvD3UNx7tem7A446esoB3R88Ihq6cb9M62aHhhAQytsBBt9YY0NeVw+dkmbA+SkZdOdy
+	GM90I2Ry8WtbmHAPtZJvEtZLqLVzH/iIxX/bMgODG3vETPTuBNWBcmXTdXxM0qH9x6D3Nl
+	5vmnccWzLvpKHJYPTIzHQjl7I32soue+wucaTcJLhRpL4bOqQ0dOrac25dkJTsdUvh6k0E
+	omfJ08aL2Xf/Eq3Wr81MszmI21rPgDNVMISuXgcJu0qYeqGrLctntzRjasAMBZxxFl6sNc
+	pWfsiTItcnVU2zxWx8w8OnQ0maCSr7TVHLMcEjfVpEB1K0DS//+PQ2XpMzl2Vw==
+Message-ID: <d81fc021-d7d3-4b80-8bed-f1d9ada2b167@mailbox.org>
+Date: Tue, 11 Aug 2026 06:48:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260810-tb-dma-credit-clamp-v2-1-e81af742994d@gmail.com>
+Subject: Re: [PATCH v2 2/2] usb: dwc3: dwc3-generic-plat: Add Renesas R-Car
+ Gen5 DWC3 xHCI USB controller glue
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Thanh Quan <thanh.quan.xn@renesas.com>, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20260806050422.324435-1-marek.vasut+renesas@mailbox.org>
+ <20260806050422.324435-2-marek.vasut+renesas@mailbox.org>
+ <anZpZIW76RzmyiIi@vbox> <400a1d8c-3b71-4e73-b103-c6e6c518fa13@mailbox.org>
+ <anpSU2q_jAssGb7_@vbox>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <anpSU2q_jAssGb7_@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: b3m3af3rpsqj9o9yjjsiekwb3x8g6do3
+X-MBO-RS-ID: 683d43e645adcf12a35
 
-Hi,
+On 8/11/26 1:18 AM, Thinh Nguyen wrote:
 
-On Mon, Aug 10, 2026 at 12:14:13PM +0000, Fan Ye via B4 Relay wrote:
-> From: Fan Ye <fy15309206903@gmail.com>
+>>>> +static int dwc3_renesas_rcar_gen5_init(struct dwc3_generic *dwc3g)
+>>>> +{
+>>>> +	struct device *dev = dwc3g->dev;
+>>>> +	struct platform_device *pdev = to_platform_device(dev);
+>>>> +	const char *maximum_speed;
+>>>> +	bool use_usb3_flow;
+>>>> +	void __iomem *glue;
+>>>> +	int ret;
+>>>> +
+>>>> +	glue = devm_platform_ioremap_resource_byname(pdev, "glue");
+>>>> +	if (IS_ERR(glue))
+>>>> +		return PTR_ERR(glue);
+>>>> +
+>>>> +	ret = of_property_read_string(dev->of_node, "maximum-speed", &maximum_speed);
+>>>> +	if (ret)
+>>>> +		return dev_err_probe(dev, -ENODEV, "Failed to determine maximum speed\n");
+>>>
+>>> We shouldn't overload the generic "maximum-speed" definition.
+>>>
+>>> Can we check for the presence of the "usb3-phy" instead?
+>> This could be made to work, but I don't think this would work nicely, please
+>> see below.
+>>
+>> The Gen5 contains four DWC3 controllers, two are USB2-only and two are
+>> combined USB2+USB3.2 ; the USB2-only controllers each use one PHY, the
+>> USB2+USB3.2 controllers each use two PHYs -- one USB2 and one USB3 PHY.
+>> -> The PHYs are always present and always connected inside the SoC, so I
+>>     believe the PHYs should always be described in the SoC DT, and the
+>>     DWC3 controller node should always have phandle(s) to its matching
+>>     PHYs.
+>>
+>> The USB2-only controllers are a non-issue, there we could get away with
+>> checking for the presence of "usb3-phy" and if this is missing in DT, apply
+>> the magic code ("use_usb3_flow" is always false).
+>>
+>> It is the USB2+USB3.2 controllers that are more complicated. These
+>> controllers can be downgraded to USB2-only mode. Currently, this is done via
+>> this "maximum-speed" DT property, which, if set to "high-speed" or lower
+>> triggers the application of the magic code. If the "maximum-speed" DT
+>> property is "super-speed" or "super-speed-plus", the magic code is not
+>> applied (this is the "use_usb3_flow").
+>>
+>> If we were to opt for checking for presence of "usb3-phy" , then the board
+>> DTs (which include the SoC DT) for board which would require the USB2+USB3.2
+>> controller to be downgraded to USB2-only mode would have to adjust the PHY
+>> phandles of such controller DT node in board DT, which itself does not seem
+>> right (DT describes the SoC hardware, and the PHY is still in the SoC and
+>> connected to the controller, please see "->" above).
+>>
+>> That is why using "maximum-speed" is I think a bit better.
+>>
+>> But maybe there is yet another option that I missed ?
+>>
+>> Thank you for your help !
+>>
 > 
-> struct tb_regs_hop::initial_credits is 7 bits wide, but neither of the
-> values tb_tunnel_alloc_dma() picks from is bounded by that: the
-> dma_credits module parameter has no upper limit, and neither does the
-> host router's baMaxHI. A larger count survives until tb_path_activate()
-> copies it into the register and keeps the low bits, leaving the path on
-> a credit count nobody asked for.
+> I see.
 > 
-> Clamp it in tb_tunnel_alloc_dma(), the only entry point for DMA tunnels;
-> every step below it can only lower the value further. Carry the count in
-> an unsigned int while at it.
+> My concern is that "maximum-speed" is a generic property that describes
+> the maximum speed the controller is allowed to operate at. Per the
+> binding, if it is not present the controller should default to its
+> maximum HW capability.
 > 
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+> Would this work for you? (Given that the usb3 phy phandle must be
+> present)
+> 
+> 	if (!has_usb3_phy || maximum_speed <= USB_SPEED_HIGH)
+> 		use_usb3_flow = false;
+> 
+> This way, "maximum-speed" retains its generic meaning as a speed limit
+> rather than being used by itself to select Renesas specific flow.
 
-Applied to thunderbolt.git/next, thanks!
+This works nicely.
+
+I will include a slightly reworked variant of this in V3.
+
+Thank you !
+
+-- 
+Best regards,
+Marek Vasut
