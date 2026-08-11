@@ -1,212 +1,201 @@
-Received: from mail-pz2-f0.google.com (mail-pz2-f0.google.com [74.125.228.0])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5413043BE
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.0
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786419322; cv=none; b=nfX1eEtL/asE+yf4zXLQ+cVNgIGzaUgregkPL2fTfEefjBJw9N3YWPB8b51Hf8KWCfKXESFLOpMwVzrqdGZF9Be5nx9/6j8SVaMAcXEsH7Ufyc0POELjGk3CgpPLldaQ1AXv0YPeZRgRuRgiDTU9fAqjbkF36h/WDGDB9RXNq4s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786419322; c=relaxed/simple;
-	bh=ATG2zZJZO7nehKSOkGY/6Ezddu0Y2JYaW4sBgTe7PnI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A8yjL6WTKl/WwagrY5mxPgDGrpNYsf+lm2zc7RBJW3gwu/QNYhJnLOsijSLWwjD4/c/xkXLukXBs1XPiUazdUuwfywYLI/1tfErSNHzkMzGPPVAVrOsQwTw3FaV57Ywhk4unLLm3QoWvr+7iuBNz5PeeI8HIF1jwrFhKAWN+ZQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=superbaloo.net; spf=pass smtp.mailfrom=superbaloo.net; dkim=pass (2048-bit key) header.d=superbaloo.net header.i=@superbaloo.net header.b=XeMvtnxN; arc=none smtp.client-ip=74.125.228.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=superbaloo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=superbaloo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86267357D1D
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786419430; cv=pass; b=lXKTlCOLXx6tTuM8IShBm48GSa/nzybJIhkrh1JiO3Dj9VhuTSG8JPLqpJOxVR/fYThJp8CtgdtbR5MtsxM+Y4PZffF9vJpq04VqXOjQTI48ce86OLYSXaUtIvTDzNzsmCxLYBo2F3uqYiNwhs5pnLamA/kS+KLkezZDw/xM7ps=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786419430; c=relaxed/simple;
+	bh=h7ERLeSsm63NpAkva3LUfyOhZMDa714TtANVGouyQCA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=FzvG/NpU56FUHaEb3nVvNp221vvIzmFd1Z+vPX7LoEA3Ptp3GiS8kUMLc4uLWTcn4WEYq9nWOAWIp3slxRoF6QK0FbXbX3dQqB1TZ8e/pnnHxJIl/gdrMAXKnuVHBTiDVStYVLImGJjNb0RybhXHdHr2+6nE60EBzB9DM6270K0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tIFjvkXS; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=superbaloo.net header.i=@superbaloo.net header.b="XeMvtnxN"
-Received: by mail-pz2-f0.google.com with SMTP id 41be03b00d2f7-c888c001628so1675786a12.0
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 20:35:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tIFjvkXS"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66892c81725so3462617d50.2
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 20:37:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786419427; cv=none;
+        d=google.com; s=arc-20260327;
+        b=m76AWjWVot439jIkCbeOKgxTKzSCEY45dYqfuRLJNoh3JeJo+Fjc54ckfypRWoIk2q
+         E0qRGIMjXVMTVzNO2wuuOKx0s7mTFuaiHGm4MIWWBBIZvK2b7ScZqbpPcRktW6AxH7sE
+         4NQoduRtnaaH7m0lh8lK7SZOSTqoq1h4avPynKRidh6eBVllNnszZa+Ai8Sv0iMYpvFP
+         jPbTJstRDyLxihpeym5tAuPXwZe6U2m7HzWsuhj4xoXgj5QUICYWd1yubjI2t1JT2qqD
+         NskFbJFl5tbW7dVa5/UgCQEHR1/ndU9itnkvh1UX34AgnL8Em7bihGjHgkTkgow1T+yo
+         Qrmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=ZnL4Vz4XyDBv6/wX4o2LTm4p1gW6ZuiqBp9YAgRdnNQ=;
+        fh=Z/o+nR9bVq8TQbLaOwl5xxpAqQ2icnAf3tN+pI3VDWU=;
+        b=iD/EB4oHhZ5TiGQRfPBUk0nPOvUWO08QEm8JTptKqa+/aIaiYiyGna8LuJiM8+YpMN
+         rzbigUSCO1a/tYwWe7aw1muf7PsUViMx9C/i4MbV7lhS7zkTQ0QILEmUDcvpLRY1nPY9
+         IKHKR57RcOtf7BfPaYuRdDT9S4xK5bdYbNhHG4tVE2CyldnkOWGClld4VbgTlSKMd9kb
+         Q/QLiftpVcnPT088saBJAaKoDlH3lyShSq8P09WvOgGJU7lyWHGRSU8IA8VXk4/ohd+R
+         SeWtuZxqAYYVIXZiK8HLY816T1abmnMwt5jzYsXEXBAo6una01oi7tC7QtOkwPuNb/tj
+         eLCQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=superbaloo.net; s=google; t=1786419318; x=1787024118; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dp1RK/TSL03/GFQ+qVFH+d7TjYANMQxszFGz4iG/D5c=;
-        b=XeMvtnxNLJ0efnzQQp2GFZE8KE3xDhIYD8pqLor3pOqpyI4oeW5uNVPwPcs8VKBI//
-         QbFLXI7ev/wLWjgjMODYDg+OxieITsDyKu/CrmY6z0cA7b99Gn+R7Km6elOsk9mLSS5q
-         Jnggv83GDzkgfy1BUdysIJ92jgij3YTbyyxRyEcELjwqyrSuE/XJbJ+6cF9Ph3wBT6Wv
-         rTFjg56hs66Hm2mdOQkftTJJHauSlvkEAWBu4IQYjhCnMDhQlXcuz4NjawLJ0vqkKW5G
-         ZXx2TAeLWxlDyVDLlnl95op4TSkzTCBW4U3KIyjN6l4DgSqDVfxsxc375qhNbokyFxiO
-         r0Ig==
+        d=gmail.com; s=20251104; t=1786419427; x=1787024227; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZnL4Vz4XyDBv6/wX4o2LTm4p1gW6ZuiqBp9YAgRdnNQ=;
+        b=tIFjvkXS75TMPj0qvk2DFdYskEEgyh+KWm6wI+cafhqgvdw8wD2bEwJtqWw0xtiOQR
+         tVsD22pcMxgj+GREMy745TLPKcQ3T53OP0P654XLQHHTNoiQUmA6ZAFmEofWZiYMIwga
+         Fmpa7hVZvo2XKnrbsVoP0iwqhwocxQokhFN27K96ZOC0Ew17hXSWnK/0uEGKfpol6KVO
+         O8WuFdHGbGx79MVAXVVDNJWorzag4gO1nvD30FpFB9IvCdJj/vNspou978ulFK4ssS59
+         d6+McnYFfCAAYLpWYqFKlFq957huZN5qQchCEPfUZaNA6UmFEvEcGM4r9RdH9lru6D9A
+         EC+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786419318; x=1787024118;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dp1RK/TSL03/GFQ+qVFH+d7TjYANMQxszFGz4iG/D5c=;
-        b=DBPVn51TnGMpdiki3UgzaO4F1vKNb9oCVhlGrWksayMZPTlvYxFf9eABeT6WKqv3+9
-         uBuPsucXBfS4Psl3nRCqfuYV4xzOwUgTNPEhTZX5qGpWW6aeInLK/ZM+aYOyVrc8GW2u
-         yvCvglErcV3He4vF8pzJf1BSK5Uiuvpzb+J6hkh1Qp4Sdqg5jDV5ttNPNzmZGOUYmW4h
-         H1IDLbSJP/yvr7DfqaqAoXwlvCk7rJroLcXatHanp3zDA5zQezOiZ/XGsfeLDCmduD8O
-         vMtFdCjskPk098RrCDbGs7/uwF9KyaByJxI0i7wxXcUDlZiJHNMYsjM18s1z++untEqB
-         wjYg==
-X-Gm-Message-State: AOJu0YwHSkwLMMS1mu0hEyv7HAk497khrPMbeCDInf6jdRnEAFZG923i
-	NEf3XMnR7VdK2nh3jg1nODDDfqnllYTUSxTCWmFWunBOz2MMaQwqp5GooUh9T7cOXE9Rt1x5yQW
-	xBI/XmT3JS2JC4Jw=
-X-Gm-Gg: AR+sD103l3gjwYjJsUlArHLPN//LWKdR8qzWuW0fTMbxv7RJLwDxu48BVT6UtBxdI1g
-	/s4FuxNWVi2N5jHcTHbYBpUotnqNetcVPmmwQfaQ9hnDuwoOgLt/3EqIauA9flsPJNXsP5Zoc9z
-	0jxCHVZihVo9Wtm8vUcpppTJ2g+36U2cGClf9rNVQcfFcS1Wtk7GaWL+zl1JNAGrC6REZ2fIPCM
-	zWnXCOp33NFJHNAOenhI8g//h8NIN4vRl+do9tSTX9xSU7R+v2QLaJuFKEyX/R5CdcgH4B1Soig
-	VBJC0gmJLeNosb/zjZaYBxmT1ShlCNUR8ZOyMMi/DdKWfX01l0OxXPX8wznYqMNk5DrxBQIPQ6c
-	CTjxN3MMnGjsK4/Pa8BaObVjZsF1sOatvKtmCfLT8BpCMyyWcBDdfQHTbotXJ7gL6o+qmH3pm95
-	mUpgqp4bhmpt53jmiyGTFdT+yLfmvaZuZqwvfh6vc6XmSph4ZOkhnFASx2GLkQ/y9tvPkPDfhX9
-	FaO7s536TiBKVDPdl9lbm9IE1LIWp30d+m4G89FrXdKNSVRGQAm6XiR3mbr73sr
-X-Received: by 2002:a05:6a21:490:b0:3cb:b6af:e3a6 with SMTP id adf61e73a8af0-3cc2babb898mr679354637.27.1786419318448;
-        Mon, 10 Aug 2026 20:35:18 -0700 (PDT)
-Received: from localhost ([2603:800c:21f0:c0:a1af:2e25:d07b:83f9])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-315beb877b4sm56462306eec.19.2026.08.10.20.35.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Aug 2026 20:35:17 -0700 (PDT)
-From: Arthur Gautier <baloo@superbaloo.net>
-To: linux-usb@vger.kernel.org
-Cc: Arthur Gautier <baloo@superbaloo.net>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] xhci: fix lost bounce buffers on TDs spanning several ring segments
-Date: Tue, 11 Aug 2026 03:35:08 +0000
-Message-ID: <20260811033508.1050148-1-baloo@superbaloo.net>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1786419427; x=1787024227;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ZnL4Vz4XyDBv6/wX4o2LTm4p1gW6ZuiqBp9YAgRdnNQ=;
+        b=m326CYnY6IO4Rc9KRmGVai+4taZroDjnSDZpDo4Kt4YaFIGVq50yaKIbIrXPOLYgTH
+         BJ5bDj8+f/4z/bW6zapbVAMIm3m7/lGJgIZv+xF+/qGmdmK3N8U3AzAcwJDw3yT9OK49
+         fQZz4iu4zqWLf5o0AUkJd3KBPnOTSCYHI5vt6j7bs1bX1ByAT0GNIrQE4FMIAEOZJUIg
+         +R4t/HX2dc59Ipe1uiv+kViRVHPRNDFT59I/SQhD/Xpesw5KrDKVnQ7NQwdMFJLs3vU+
+         L4XHHy9Wwerv+fOnnjiEDG43Dpr0dYSeY3Yn/DpEudQZHwerFF24ZxL5n1U7A9J1B9sn
+         lbYA==
+X-Forwarded-Encrypted: i=1; AHgh+RoPKIGv9QCfUNksbcoOgnMegBjcg+y/Hg9/rPU1XMWn5QDNJOBlD30B//RzEryIhcHhJFpXEvoWa9I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyga3VjAWdtIYHMWPp2sPTGdl77DzojtlVcwbAqE5FOup9Jp52y
+	xfn/0GS+/RlhWC9PQBmAdRPrFzA90UyZ8H7HxCihUcXA4DRFjADVVYUEEiYIhXNxUpJz2yTGq4o
+	LXAS+k6WvqWnLYJ5oIprJcuiwvjwA/Xw=
+X-Gm-Gg: AR+sD11HtP3KZ3oc5j7sTxJH/RZ6oLVTLxZTuNmg7YAgCBGKEUOEUGTb0Rq4oa7KQmT
+	I5hhk7AN0xDCVu67ltWgkMgubhrnIh5Duxr22ufjzJUvz3kM2rg/t8UCCN+eWvHG9aNqixonjwX
+	4PxzK1KbrbyhK5ZOKdGtX/RMW5eHJxoY/IZPUfkoSMEidph1TDna566tat0/PuuKBxZVCed8TY/
+	9P5Joid+fjmCK3obQnjBh3ULXZA2ZCqYiuyXW9n4F0pRHGyPlFJi+XHGI05gCw0R1MJBZEWSyNS
+	tOmtMUmaGFXkaRPX4MGHo/IbG5mVvsLXClXxwP/+/+nvLe1MYEwZ4qX4pC8793f9lJqAfz9gcSn
+	/OK7gjH+SEy9M5Nz8HVLPIbU8diPiYoRkuUCH+rzM61a4KCBoiXL5BaxmeQDic9sgJ/YJ+Iv0lZ
+	qG0GK0VEjbj4lC
+X-Received: by 2002:a05:690e:4292:20b0:666:39a8:fb82 with SMTP id
+ 956f58d0204a3-66b22d9f964mr102664d50.14.1786419427395; Mon, 10 Aug 2026
+ 20:37:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Jason Colapietro <jasoncola1@gmail.com>
+Date: Mon, 10 Aug 2026 23:36:56 -0400
+X-Gm-Features: AUfX_mzF21M26wbAtf2AnhCVFZnA26kG-PD1qMX1SfK5ylkY4TSVFQwLsLDopRk
+Message-ID: <CA+Z0x2J-kxsCBJbDP0DbfEHYQxz_Zg_YAHA8t8nrFM7aNnytSQ@mail.gmail.com>
+Subject: [PATCH v2] usbip: make remote list honor parsable output
+To: Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
+Cc: Hongren Zheng <i@zenithal.me>, Greg KH <greg@kroah.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-When a TD reaches a link TRB with data that is not aligned to the
-endpoint's wMaxPacketSize, xhci_align_td() stages the unalignable tail
-through the bounce buffer of the ring segment holding that link TRB.
-xhci_unmap_td_bounce_buffer() later unmaps it and, for IN transfers,
-copies the data back into the URB's buffer.
+The -p option only affects local devices and gadgets. Remote lists still
+print their human-readable headings and details, so scripts cannot parse
+them using the documented option.
 
-The enqueue path records the segment that was bounced in td->bounce_seg,
-under the assumption that a TD never spans more than two ring segments.
-That assumption does not hold: a TD large enough to span three or more
-segments crosses several link TRBs and can be bounced at each of them.
-Only the last one survives in td->bounce_seg, so every earlier bounce
-buffer is neither copied back nor DMA unmapped.
+Pass the parsable flag through the remote listing path. Emit the same busid
+and usbid record used for local devices while continuing to consume every
+interface record from the server.
 
-The URB still completes with actual_length equal to the requested length
-and no error, so the transfer looks successful while a wMaxPacketSize
-sized hole in the destination buffer silently keeps its previous
-contents. It also leaks a DMA mapping per dropped bounce.
-
-This is reachable with a USB mass storage device behind xHCI backing a
-dm-verity target with 512 byte hash blocks. The device enumerates as
-SuperSpeed, so wMaxPacketSize is 1024, while dm-bufio issues one 512 byte
-bio per hash block. verity_prefetch_io() makes the block layer merge
-hundreds of them into a single request of up to 512 scatterlist entries
-of 512 bytes each. At 256 TRBs per ring segment such a TD spans three
-segments, and every segment boundary falls on an odd multiple of 512,
-i.e. unaligned to wMaxPacketSize. dm-bufio then caches a hash block
-holding stale data and dm-verity declares the metadata block corrupted:
-
-  device-mapper: verity: 8:2: metadata block 10850 is corrupted
-
-A reproducer running this under qemu is available at
-https://github.com/baloo/xhci-verity
-
-The bounce state (bounce_buf, bounce_dma, bounce_len, bounce_offs)
-already lives on the ring segment, so there is nothing extra to track.
-Keep the first bounced segment in td->bounce_seg and, on completion,
-walk the segments the TD covers from there up to td->end_seg, handling
-every segment that still has a pending bounce.
-
-Fixes: f9c589e142d0 ("xhci: TD-fragment, align the unsplittable case with a bounce buffer")
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
 Cc: stable@vger.kernel.org
-Signed-off-by: Arthur Gautier <baloo@superbaloo.net>
+Assisted-by: Codex:gpt-5
+Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
 ---
- drivers/usb/host/xhci-ring.c | 49 +++++++++++++++++++++++++++++-------
- 1 file changed, 40 insertions(+), 9 deletions(-)
+Changes in v2:
+- Make the email From header match Signed-off-by.
+- Add Cc: stable@vger.kernel.org.
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 4f98d8269625..4154e84420ac 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -842,21 +842,18 @@ static void xhci_giveback_urb_in_irq(struct xhci_hcd *xhci,
- 	usb_hcd_giveback_urb(hcd, urb, status);
- }
- 
--static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
--		struct xhci_ring *ring, struct xhci_td *td)
-+static void xhci_unmap_one_bounce_buffer(struct xhci_hcd *xhci,
-+		struct xhci_ring *ring, struct xhci_td *td,
-+		struct xhci_segment *seg)
- {
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
--	struct xhci_segment *seg = td->bounce_seg;
- 	struct urb *urb = td->urb;
- 	size_t len;
- 
--	if (!ring || !seg || !urb)
--		return;
--
- 	if (usb_urb_dir_out(urb)) {
- 		dma_unmap_single(dev, seg->bounce_dma, ring->bounce_buf_len,
- 				 DMA_TO_DEVICE);
--		return;
-+		goto done;
- 	}
- 
- 	dma_unmap_single(dev, seg->bounce_dma, ring->bounce_buf_len,
-@@ -872,10 +869,37 @@ static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
- 		memcpy(urb->transfer_buffer + seg->bounce_offs, seg->bounce_buf,
- 		       seg->bounce_len);
- 	}
-+done:
- 	seg->bounce_len = 0;
- 	seg->bounce_offs = 0;
- }
- 
-+static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
-+		struct xhci_ring *ring, struct xhci_td *td)
-+{
-+	struct xhci_segment *seg;
-+	unsigned int i;
-+
-+	if (!ring || !td->bounce_seg || !td->urb)
-+		return;
-+
-+	/*
-+	 * A TD that spans more than two ring segments crosses several link
-+	 * TRBs, and may have been aligned with a bounce buffer at each of
-+	 * them. Every bounce buffer lives on the segment whose link TRB it
-+	 * was needed for, so walk all segments the TD covers, starting at
-+	 * the first one that was bounced.
-+	 */
-+	seg = td->bounce_seg;
-+	for (i = 0; i < ring->num_segs; i++) {
-+		if (seg->bounce_len)
-+			xhci_unmap_one_bounce_buffer(xhci, ring, td, seg);
-+		if (seg == td->end_seg)
-+			break;
-+		seg = seg->next;
-+	}
-+}
-+
- static void xhci_td_cleanup(struct xhci_hcd *xhci, struct xhci_td *td,
- 			    struct xhci_ring *ep_ring, int status)
- {
-@@ -3674,8 +3698,15 @@ int xhci_queue_bulk_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
- 						  &trb_buff_len,
- 						  ring->enq_seg)) {
- 					send_addr = ring->enq_seg->bounce_dma;
--					/* assuming TD won't span 2 segs */
--					td->bounce_seg = ring->enq_seg;
-+					/*
-+					 * A TD spanning several segments can be
-+					 * bounced once per segment boundary it
-+					 * crosses. Remember the first bounced
-+					 * segment, the rest are found by walking
-+					 * the TD's segments on completion.
-+					 */
-+					if (!td->bounce_seg)
-+						td->bounce_seg = ring->enq_seg;
- 				}
- 			}
- 		}
--- 
-2.55.0
+ tools/usb/usbip/src/usbip_list.c | 33 ++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
+diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
+index 3d810bcca02..b9d60b87e47 100644
+--- a/tools/usb/usbip/src/usbip_list.c
++++ b/tools/usb/usbip/src/usbip_list.c
+@@ -41,7 +41,7 @@ void usbip_list_usage(void)
+        printf("usage: %s", usbip_list_usage_string);
+ }
+
+-static int get_exported_devices(char *host, int sockfd)
++static int get_exported_devices(char *host, int sockfd, bool parsable)
+ {
+        char product_name[100];
+        char class_name[100];
+@@ -80,9 +80,11 @@ static int get_exported_devices(char *host, int sockfd)
+                return 0;
+        }
+
+-       printf("Exportable USB devices\n");
+-       printf("======================\n");
+-       printf(" - %s\n", host);
++       if (!parsable) {
++               printf("Exportable USB devices\n");
++               printf("======================\n");
++               printf(" - %s\n", host);
++       }
+
+        for (i = 0; i < reply.ndev; i++) {
+                memset(&udev, 0, sizeof(udev));
+@@ -98,9 +100,14 @@ static int get_exported_devices(char *host, int sockfd)
+                usbip_names_get_class(class_name, sizeof(class_name),
+                                      udev.bDeviceClass, udev.bDeviceSubClass,
+                                      udev.bDeviceProtocol);
+-               printf("%11s: %s\n", udev.busid, product_name);
+-               printf("%11s: %s\n", "", udev.path);
+-               printf("%11s: %s\n", "", class_name);
++               if (parsable) {
++                       printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
++                              udev.idVendor, udev.idProduct);
++               } else {
++                       printf("%11s: %s\n", udev.busid, product_name);
++                       printf("%11s: %s\n", "", udev.path);
++                       printf("%11s: %s\n", "", class_name);
++               }
+
+                for (j = 0; j < udev.bNumInterfaces; j++) {
+                        rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
+@@ -116,16 +123,18 @@ static int get_exported_devices(char *host, int sockfd)
+                                        uintf.bInterfaceClass,
+                                        uintf.bInterfaceSubClass,
+                                        uintf.bInterfaceProtocol);
+-                       printf("%11s: %2d - %s\n", "", j, class_name);
++                       if (!parsable)
++                               printf("%11s: %2d - %s\n", "", j, class_name);
+                }
+
+-               printf("\n");
++               if (!parsable)
++                       printf("\n");
+        }
+
+        return 0;
+ }
+
+-static int list_exported_devices(char *host)
++static int list_exported_devices(char *host, bool parsable)
+ {
+        int rc;
+        int sockfd;
+@@ -138,7 +147,7 @@ static int list_exported_devices(char *host)
+        }
+        dbg("connected to %s:%s", host, usbip_port_string);
+
+-       rc = get_exported_devices(host, sockfd);
++       rc = get_exported_devices(host, sockfd, parsable);
+        if (rc < 0) {
+                err("failed to get device list from %s", host);
+                return -1;
+@@ -351,7 +360,7 @@ int usbip_list(int argc, char *argv[])
+                        parsable = true;
+                        break;
+                case 'r':
+-                       ret = list_exported_devices(optarg);
++                       ret = list_exported_devices(optarg, parsable);
+                        goto out;
+                case 'l':
+                        ret = list_devices(parsable);
+--
+2.50.1 (Apple Git-155)
