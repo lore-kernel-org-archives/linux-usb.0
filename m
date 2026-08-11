@@ -1,76 +1,137 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1AD421236;
-	Tue, 11 Aug 2026 09:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9321B42CAEF
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 09:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786441644; cv=none; b=eak3JGxCHjUGXVsDsesho1Ru917Mcq5/iYq4YSetyhfILSyf1nWSGCNMXaeiXMykD9+/zKB3lQCSDkENysqOOIc/JVI13TGVQl9HmMId+LdEnlehtqNtMIenRBAzsw5bsbq3kvd9JifJqjIjm1WE21fdF4yXO3lc64MWE1bifEc=
+	t=1786442320; cv=none; b=WpuQ3DUqpoT2kItQv8sh8R8s92tB4bOXGNSScGau62GSJGlw/uWcRHHeCpCsqvqZ4nrbObdfklicozSo8y1pfzuKs+YvKQZOi2UJjJlG3tu3NrHo4CkzIw+WXeSuk1ptQX8GcSY1vVb7ZQY3EX3bPZqGceGfK7TMAgzjnoaCGRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786441644; c=relaxed/simple;
-	bh=WsdwV8cgGCzRcVc6/Su3UP/M+rCHofFFCa7cUwLLN5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BR1BRQwZU/jGnzES2ygHyfF6+enG/9acMOPlqFxxNar7XfwQArd9LB+BxX/hNq235ap59MtbXZPZj7Bg2PuO9YJa0zNBvcPIrdKXf9Z4A+TPNVKGLbPo///KJopwMpO7dQskoigQVicMVv2Fzt2U2BdtWGMRNEaOLZPqDL1SV08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=DqE2Dhdw; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="DqE2Dhdw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zDof1we58wKax1h91I1P7AXDV0lW9jjr9oYw3fOKD9Q=; b=DqE2DhdwxRI7djw2qENWZPZzOd
-	JgF8hrvhxVxgcVK2GwD0cc1rXCSA7QmgiF1m3dw9Pwt/m06igSULDEgiVfeA8oNe2T/IUKN3Pponx
-	Xd9TKM7sGgR/KyAxccWuGmK/nZvyUi/O9Jf+Q1ubTF1x0Zc61B6cXoaEcTn1AXw3KatQeUhUUmjw3
-	6i88aKmCn3Y1qHoUCGufqNQ8AEAPQu66bSPtDOaRLtXYQWBtFRBVafs2y+G9faDFpbIWnuUNPle+P
-	rGtHJOnbqDW7Q+AXaBYXPWk4illZDHt5RG+oZwbjF65mKeyGjIJBVzWcSUdm/YSvtkGxUAcX79ruX
-	eE2oawYQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wtj4k-003TWy-2I;
-	Tue, 11 Aug 2026 09:47:14 +0000
-Date: Tue, 11 Aug 2026 02:47:10 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Fabio Porcedda <fabio.porcedda@gmail.com>, 
-	=?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Daniele Palmas <dnlplm@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] net: usb: qmi_wwan: add Telit Cinterion FE990D50
- composition
-Message-ID: <anrvb9qW92cr7ahR@gmail.com>
-References: <20260810103409.133796-1-fabio.porcedda@gmail.com>
- <annMvEUa7sUvVIfr@gmail.com>
- <20260810113931.43b2dad4@kernel.org>
+	s=arc-20240116; t=1786442320; c=relaxed/simple;
+	bh=SHJKKXa6Qxl1b1vatYjKpZOHn+aOrWkwm9LDa9rhBCs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hgS6tvfhe7+pmMHNn3udp/xX8liEiptTQuMIBuyD7fh4LwiA2v7MKc11scHXukbuH6N59dAAndjKomJsMkkMIyASPKFtWTxlV0JB6BzXRKH9OgDgBpGzM4hjNuQOvplfanZKzGs5d3Y/SBI86/jq30k6LEO36577Wrgo7BEdxG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-84847482584so573954b3a.0
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 02:58:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786442318; x=1787047118;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Z9G16LNyyTi82BYCiJ00/MXPiMBCTYGTmoQ2/cxSgig=;
+        b=apHFeCFLYq7/vETs8xBSRbH5sjWE07qAVlT/QspJDjlfVl8hapALe9C34R3VzQDp+S
+         ezLTldNtVV6Fmtk5zxxa83DWJhJ/Tbh2HTJm/AOBLeACzcDMDug3MDkUNIVX2q1S42Zy
+         35Q5Lh/w9t22Aw9JwAREUV2b5l6XXhOUjPtgfuQtPc88WeB2kND9uOx8EqreIr8OyAjR
+         ZN4FQcduLp7yBzXi2ksrGJURUtTIyzeDplk76E02nCRhzQd67lVs0ideZx7jG9xGxbzH
+         83Z7TJBaKp8PepiVI3bTqSdw2PP9/9cZoP53pDRNYQ/lt+etv3EINh1qTLpLlj3LdEg0
+         E1Jw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrq/YLMbF63Xgy5qWhHryld1ubHzstFKJkrj/JCrmBW1g2RvytJURBMNsmRvowiCRAX2uMvbyDce8A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPUaPVQed45Tez/F5wJVW6Qj713b2XJoee6395lnTR+Goc1vij
+	xPUqpz3INkqciKbkzxgNgWSJzM1/xbQoVD7WUSFKdqIoZPn0DiHZaBu1
+X-Gm-Gg: AR+sD13BR4zdlaufXa0IJeJVn6VAFpKJC3YSo2BsIb+lm1QrcS5lWhbthm6LuX3pfmr
+	xy9nWr6F+BQarmVb5ihMwYAT4dIlSA/vAnGobYNqqPVwrpYHeg7y9MJFVYHWCSekHycBWuAxefd
+	BJe3Nc1P6eXRW668p4V6pQPPBUo9kG9ox7IVfjx25y85nlLbjc7bFaoLDJkHr7/wVn8XOQGlbE6
+	bZO43J81+gZWpqAxKzIYUr9FzLHrU8oEEhO54Ijb1GYTcAckX+S8QMUMrN1w3ymyxJjb/JaO5es
+	V2qHGMiQpaUAGlbItqEu83ditetP5iY84l0rJ2H6BZ4pvFSIS+9sVVkavu8nFhvXZM2TPTV0Ect
+	Msg90gfMHEyRIBtawQxIU6S5/Lsnvfvzm/jr296KMD38VshzRyZFgqNu6VB60MfZunsQbfdoUVv
+	q4pzYGafxeO6jmCgG5HEIdltE292s3worlgybPfjuwAZx7M6IsYe+i1N5RUXjB6BqCMB7LvSriM
+	1ZoKCnneQ==
+X-Received: by 2002:a05:6a00:228a:b0:84a:2b96:5986 with SMTP id d2e1a72fcca58-84fa889d2b7mr1889004b3a.8.1786442317744;
+        Tue, 11 Aug 2026 02:58:37 -0700 (PDT)
+Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbed970200fsm661840a12.7.2026.08.11.02.58.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 02:58:37 -0700 (PDT)
+From: Xueqin Luo <luoxueqin@kylinos.cn>
+To: heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: pooja.katiyar@intel.com,
+	johan@kernel.org,
+	pmenzel@molgen.mpg.de,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xueqin Luo <luoxueqin@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] usb: typec: ucsi: Add ACPI_COMPANION() NULL check in ucsi_acpi_probe
+Date: Tue, 11 Aug 2026 17:58:27 +0800
+Message-ID: <20260811095827.1001654-1-luoxueqin@kylinos.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260810113931.43b2dad4@kernel.org>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 10, 2026 at 11:39:31AM -0700, Jakub Kicinski wrote:
-> On Mon, 10 Aug 2026 06:07:04 -0700 Breno Leitao wrote:
-> > > Changes:
-> > > v2: 
-> > > - Add stable@vger.kernel.org  
-> > 
-> > Why CCing stable?
-> 
-> FWIW now since you haven't acked the patch but asked question the patch
-> is going to be held in "active discussion" state and delayed so please
-> provide a tag.. FWIW2 we discourage reviewers (iow non-maintainers) from
-> asking these sort of process questions FWIW. Majority of the time the
-> submitter knows better than the reviewer.
+Add NULL check for ACPI_COMPANION() in ucsi_acpi_probe() to prevent
+NULL pointer dereference when driver_override matches a device without
+ACPI companion.
 
-Ack, sorry for the noise.
+Since every platform driver can be forced to match a device that doesn't
+match its list of device IDs because of device_match_driver_override(),
+the ACPI_COMPANION() may return NULL, leading to a NULL pointer
+dereference at adev->dep_unmet.
 
-Reviewed-by: Breno Leitao <leitao@debian.org>
+Test steps:
+
+  $ sudo modprobe ucsi_acpi
+  $ echo ucsi_acpi | sudo tee /sys/bus/platform/devices/alarmtimer.0.auto/driver_override
+  $ echo alarmtimer.0.auto | sudo tee /sys/bus/platform/drivers/alarmtimer/unbind
+  $ echo alarmtimer.0.auto | sudo tee /sys/bus/platform/drivers/ucsi_acpi/bind
+
+which triggered the following crash:
+
+  [ 6599.180948] calling  ucsi_acpi_platform_driver_init+0x0/0xff0 [ucsi_acpi] @ 24208
+  [ 6599.181198] initcall ucsi_acpi_platform_driver_init+0x0/0xff0 [ucsi_acpi] returned 0 after 207 usecs
+  [ 6729.051074] BUG: kernel NULL pointer dereference, address: 00000000000005f4
+  [ 6729.051102] #PF: supervisor read access in kernel mode
+  [ 6729.051113] #PF: error_code(0x0000) - not-present page
+  [ 6729.051122] PGD 0 P4D 0
+  [ 6729.051136] Oops: 0000 [#1] PREEMPT SMP NOPTI
+  ....
+  [ 6729.051300] PKRU: 55555554
+  [ 6729.051306] Call Trace:
+  [ 6729.051314]  <TASK>
+  [ 6729.051327]  platform_probe+0x41/0xa0
+  [ 6729.051348]  really_probe+0x1a9/0x410
+  [ 6729.051364]  __driver_probe_device+0xc9/0x170
+  [ 6729.051377]  device_driver_attach+0x46/0xb0
+  [ 6729.051390]  bind_store+0x77/0xd0
+
+Fixes: 1f3546ff3f0a ("usb: typec: ucsi: acpi: Check the _DEP dependencies")
+Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
+Cc: stable@vger.kernel.org
+---
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 18286d3e9cc5..b4a783217dc6 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -188,7 +188,7 @@ static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
+ 
+ static int ucsi_acpi_probe(struct platform_device *pdev)
+ {
+-	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
++	struct acpi_device *adev;
+ 	const struct ucsi_operations *ops = &ucsi_acpi_ops;
+ 	const struct dmi_system_id *id;
+ 	struct ucsi_acpi *ua;
+@@ -196,6 +196,10 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
+ 	acpi_status status;
+ 	int ret;
+ 
++	adev = ACPI_COMPANION(&pdev->dev);
++	if (!adev)
++		return -ENODEV;
++
+ 	if (adev->dep_unmet)
+ 		return -EPROBE_DEFER;
+ 
+-- 
+2.43.0
+
