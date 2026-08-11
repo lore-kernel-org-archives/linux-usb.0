@@ -1,245 +1,74 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5268D42586B
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 10:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786445870; cv=pass; b=mWeSyZA46BgkczIQvjGmSvPomi9zFsFvUGj4X3xgXPOqqkilJZXEASaQWcPENdk/MtNhOuPdGD85ok61zqyTjBHRcdRRFK+1QYaFp/XLvAMVgnzls6Rlub/c0OtJ7w0rYVuiuDJTKNfi/COvGvrajUGmu994BwxC73F3hH6Vnq0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786445870; c=relaxed/simple;
-	bh=O7+JYergMAsC015lG9tF5jzHYH8SbLJKj2G6GmXXTzo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k9bzQG5ylrLjYn8vP/f3scNDdVamjFqG75S4cwC0EinxFiKZAgZFFW9K+Z8BPs3BjAaOxXW5AJP1Urju95VDcfn/aBwP9WvnniU3tuYMtQw50Gb0yhJgMIYq4sS6WSnMdYRB5e0ocCCLZF5SKdOCG6+1jIetwxRP3eYM7Ye1p7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rZlcS9QZ; arc=pass smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8978347506;
+	Tue, 11 Aug 2026 12:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786451333; cv=none; b=ehrTgj9rgyLJg7hDjFbDsfLVPsHCBtjQ+VurMQ646ap9XoVkUf3HNfTwQlZSbdw7LPxpg8yYGZeunzSZDC43ZpDoixwbkzGGw6jXKR8HrtBSAAUwUZQXQsRbjqL8HI5XN4rSZqTmnfDVUPQu490SFu8TKHOhnjylHvAQW8eMOoY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786451333; c=relaxed/simple;
+	bh=1HJM2k2JV3t2FQTApIRUtJS3EfIQx0T4Q8RZFnZ1pCY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cavm1vE85VEOQevj0kmynhgsHdjJvqItJc6o1Dr5vwYEzXHkbetUsQ8B0B8JrtR/FfHfYVH2ntey7q+qGuBzUyyr7qDkvFt5nvG2iSqSEJ5B/PRScrBlJ5t9fcrWG3Wn0SKKDCeTrNDdtLkC98UxLK+31WKjjsKssvlcBhBvYog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nvnqsi03; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rZlcS9QZ"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so2812580a91.2
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:57:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786445865; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BXNemOfl/SILaKsZ+jqOuLeEEbJ5jQGDaNyUvoAOWgbPy9/IJafddDqN92NROV/q6t
-         V7RNBCO4v2QdJmsSZBW7l3RrKDmdGUkYmiF6aCRnm6lMyKzemt4lcLC2Q9Zz22QvZcma
-         5gyJrRNShfYwsz1LuyEhx6I48RmnT7coffxMvrQ3CrDD0te1entBxssyP6ZoYx8QjHkd
-         Z1F0XiYZfb82KSzWh+tYMBlhJPVkrycJN+YyZ4AUh+uU7HSo7/UEMPScr4O6bqUQ3buJ
-         wHa6i4k3uIU09T7n+8P/f8ksFRxkzQSyoojjKZ1KgVgRVqS+5UiZTYeKfnIDxoq98Xg5
-         8tZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HvnZNlDTcAoy+XAjgmpVzW3owkfclIIg7i3hD29IibY=;
-        fh=q5UeOnfIFCUxRGJa+hPmQqVSrNUNzJxkgnA6au6o/2o=;
-        b=Rqlx85kAAVcx1BrUMtrY+lx9JyjCM/fUV/rxDn55ZDLD2IU4x7EgFXR9dgxVtkhq1r
-         FdStey3VNesS9c40e7E6WbB7TBT+F5wcm8Hb5NWqpGAfHLPeWrGHPTjh+asEALkQMImO
-         +RGQNeWj7htuJsyxIwUNNg/1OfvUnPAjWY4mg1B+zykieEhBOdZpFuYo1IAxRJIAvo2f
-         hFzmNQpTCV47iqvYg1GDEFMRCj6kytYvBWYvRPVeKCTaewAJGZGlN+s6XAdtdgb8SCzG
-         ekDj+j50UZ7zwJzYmJ6EaqJ110CppmOME295gdYLdUbzEgO3kYxndjLBFGFSwQMD8YB8
-         wAqw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786445865; x=1787050665; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HvnZNlDTcAoy+XAjgmpVzW3owkfclIIg7i3hD29IibY=;
-        b=rZlcS9QZ4TuKZDjB78qEYF3upOEiWHB+EE0jRUeMgjfEbeiF5N7yFmaS2oo4u4bJN0
-         6GGNdtVygslB/RANaXs3+QA4Y7ylktdRxYVniYA+KPWHgAwE/6hfC693Dy58POY/oBEq
-         dsWW4K/2MZ7c1AR5Sk46OECy1g9vCkJUueJdvO1csGd3HIw3C26YGXsb871/okT6jxQ0
-         7Uxvt5l1Zxisor4QthCJduZoJ1CLZm5oqgeGSQ9Q0t+zZmAOqKEWdn8/D8Z+79fnBClg
-         L6Hcr646231ptZS+n5bqTO/2pjmBpJLG5QHWxrKH8r+pRJQNmjsWdkgX+9IVXFD5cY+W
-         Yc3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786445865; x=1787050665;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HvnZNlDTcAoy+XAjgmpVzW3owkfclIIg7i3hD29IibY=;
-        b=jtgn7eGHscwWLFydbC+qtRwkmwzoqXmmqW3AEKj72DxtwaXoNARU4kQM217QRAxaE2
-         96J7oXlEyJFbRN5pGZb0NoFe+oayZlExv7nliGfbkjekfVG15W4D8dpaBAortNyZArD+
-         xlZtc112HGTxNlIbdeKQ5adSarHMs1/S51EIqaxiTpfv57dtifJ1pW6qQNVZd/ZoPpN3
-         3EXZzjQu7Tq12tb4rees5SCp1vfPwkQLQOA1GJum/+kifQYPDaBK2qxE7sHn9YRf+Rjo
-         +rjSVfLzeEdezYxBFqMSVNhUSDv8GxPbk1oxRmc+NHSb9J5/wuXvDIx6YnGZ9J7zy8QI
-         Tl9w==
-X-Forwarded-Encrypted: i=1; AHgh+RrfzB5tM78T2QmJnHUKD6QIF6qyuWAvgfpIja4Yb8loHL36mykltMKVg99xC6lgZ7J9aYYvHnSYIA0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywbj4FCJri39PHtXFBwjvMUZkreaZitQAHUDCxU2fQFDdMomY9F
-	vWxkBOtB254LI39kC0BMi7UfT35IqVUdk3wV4/C5GqK/yHBnwlB6oJ7tjmOqDRtGh3epaS4rFJp
-	Hmcg04rJYWbRMczR0E276lWos9t27AF0=
-X-Gm-Gg: AR+sD11ESYSIZTd6yoUgtOfoIWsQ7SE+H83QzHC05wqXEpD+iWL4ABVu+MukNV71Ya+
-	Lylvmnc6xv8Mr9qIuzD6NI1WHpbkEc546Ut1wOoNBqNgkK0PjYUmXnlB44vW/WN6aPDbE/8ZTZF
-	cctBP1LY5cjT18HxCGc5sgukdkmplmERoBliwLI7QhWf0CV38ph45VDLk0fydKp1/p/z1PLKtTw
-	jeCLQirPTrPom2rAE3VS6JEZEOTsur/zfp7jQ23fhWHdQr0q2DJBoFZG0LkOOLRsUvDeb5UCjaC
-	/L1W14XRSVJls6ScVfUwQhmV+v09T41CkmHUTK9xneyk
-X-Received: by 2002:a17:90b:5486:b0:38f:1a2e:6e56 with SMTP id
- 98e67ed59e1d1-392ec3c39aamr2487616a91.9.1786445864914; Tue, 11 Aug 2026
- 03:57:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nvnqsi03"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753801F000E9;
+	Tue, 11 Aug 2026 12:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786451332;
+	bh=UdIsiKVFhDlUuCmo+fjPrnJmZm9dNzKypop6Jsqk+DY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Nvnqsi03F+RfEqUTxbHVk4abr18YXEWVCCrDXlLBMcqDVcVUMHQKjBe+rTy10zjrR
+	 nvGI8iMn94HEUCE2YgUDchFhUss04at+jYO36ynOfDrqY9Geab3qSitraUVxIJTL3o
+	 HoMkM5l1aDheIiTj3GbUX6kY024CeyPuo9ZQaxT5XKBFalTXyBM4hGceXIbkk5zzrQ
+	 ttiZLVixvpiHINlPVQdV/gL1K0LP2E6zY6WQzbfzgLfaDOv3pPWXLkn/lir0BDo0PQ
+	 jnwJwoa0tPjGWYEC5oHXzkNDLQZUHmOHxk2BorFkxci5zk0+kNXAwNhwnPAtElzePU
+	 JTipzctWNekHQ==
+Date: Tue, 11 Aug 2026 13:28:48 +0100
+From: Simon Horman <horms@kernel.org>
+To: raoxu <raoxu@uniontech.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, kees@kernel.org,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usb: lg-vl600: fix Ethernet header on fragmented RX
+ packets
+Message-ID: <20260811122848.GE51943@horms.kernel.org>
+References: <30CC616506DE5BC4+20260810084435.2099229-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CADoo8uyrmw_GkNgNf+bV_pieYN_gn5i49rOF8jUvSsfPOcqCJA@mail.gmail.com>
- <20260811012120.GA565400@bhelgaas>
-In-Reply-To: <20260811012120.GA565400@bhelgaas>
-From: Max Stevens <thinker.healer@gmail.com>
-Date: Tue, 11 Aug 2026 05:57:33 -0500
-X-Gm-Features: AUfX_mxhIl2TuFBHubG-xrx-9hPHJ3dqEvw0IP4lGbnRIM-dykcUYOOlmq-C0u0
-Message-ID: <CADoo8ux-r7jnwO=PqTK_aZaJBrpM5P3W5fRNWeNxCi+FpP8G0w@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_Pericom_PI7C9X2G608_=2812d8=3A2608=29_missing_from_ACS?=
-	=?UTF-8?Q?_quirk_=E2=80=94_breaks_Renesas_uPD720202_USB3_cards_when_IOMMU_is?=
-	=?UTF-8?Q?_on?=
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: linux-pci@vger.kernel.org, bhelgaas@google.com, nathan@nathanrossi.com, 
-	nicolas.cavallari@green-communications.fr, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30CC616506DE5BC4+20260810084435.2099229-1-raoxu@uniontech.com>
 
-Hi Bjorn,
+On Mon, Aug 10, 2026 at 04:44:35PM +0800, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
+> 
+> The LG VL600 RX path can assemble one device frame from multiple USB RX
+> URBs.  In the single-URB case, the input skb passed by usbnet is also the
+> buffer being parsed, so @skb and @buf point to the same skb.
+> 
+> When a frame is completed from current_rx_buf, however, @buf points to
+> the assembled skb while @skb still points to the last URB fragment.
+> vl600_rx_fixup() returns @buf to the network stack in that path, but it
+> currently obtains the Ethernet header from @skb.
+> 
+> As a result, the source/destination address fixups and the IPv6 ethertype
+> fixup can be applied to the final fragment instead of the assembled skb
+> that is actually delivered.  Use @buf for the Ethernet header so the
+> fixups are applied to the packet being parsed and returned.
+> 
+> This has likely gone unnoticed because the common single-URB path has
+> @skb == @buf and therefore behaves correctly.
+> 
+> Fixes: 7a635ea98999 ("net/usb: Ethernet quirks for the LG-VL600 4G modem")
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
 
-Thanks for the quick patch. I tested its effect on my PI7C9X2G608GP
-(12d8:2608) by replicating what pci_fixup_pericom_acs_store_forward()
-does, using setpci at runtime (I have not built a patched kernel =E2=80=94
-happy to do that too if you want a test of the actual binary).
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Findings on the 2G608:
-
-The mode register exists at the same offset as on the smaller
-switches: upstream port config 0x74. Value on my system before any
-test: 0x0102 (store-forward bit clear).
-With ACS on all four downstream ports set to what the kernel normally
-enables here (ACSCtl =3D SrcValid+ ReqRedir+ CmpltRedir+ UpstreamFwd+),
-and 0x74 bit 0 CLEAR, device enumeration on the downstream xHCI
-controllers fails: [43069.603242] xhci-pci-renesas 0000:0c:00.0: Error
-while assigning device slot ID: Command Aborted [43069.603270] usb
-usb9-port1: couldn't allocate usb_device
-Setting 0x74 to 0x0103 (bit 0, store-forward) with ACS unchanged, then
-rebinding the xHCI drivers: the same device on the same port
-enumerates immediately and works fully: [43071.971147] usb 9-1: new
-full-speed USB device number 2 using xhci-pci-renesas [43072.132176]
-usb 9-1: Product: Azeron Keypad [43072.218656] hid-generic
-0003:16D0:113C.0017: input,hidraw12: USB HID v1.11 Keyboard [Azeron
-LTD Azeron Keypad] on usb-0000:0c:00.0-1/input1
-I toggled the bit back and forth across several driver rebinds. Every
-"Command Aborted" failure I have logged (both today and across earlier
-debugging) occurred with the bit clear; none with it set.
-
-One honest nuance: with the bit clear the failure is not 100% =E2=80=94 I s=
-aw
-one enumeration attempt start successfully during a bit-clear window.
-That intermittency is consistent with the load-dependent packet
-buffering behaviour described in Nathan's original erratum writeup,
-and with this card family's long history of "sometimes almost works"
-reports on various forums.
-
-So on this hardware the store-forward workaround behaves exactly as it
-does on the already-quirked siblings, and the patch looks correct to
-me.
-
-Tested-by: Maximo Paulino Thinker.Healer@gmail.com
-
-Thanks, Max
-
-On Mon, Aug 10, 2026 at 8:21=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
-wrote:
->
-> On Mon, Aug 10, 2026 at 08:00:59PM -0500, Max Stevens wrote:
-> > Hello,
-> >
-> > I'd like to report that the Pericom PI7C9X2G ACS erratum handled by
-> > pci_fixup_pericom_acs_store_forward() also affects the 6-port variant
-> > of the switch, PI7C9X2G608GP (12d8:2608), which is not covered by the
-> > existing quirk (2404/2304/2303, and b404 recently proposed by Nicolas
-> > Cavallari). On this switch the erratum is severe enough to make an
-> > entire class of consumer USB 3.0 cards completely non-functional on
-> > any system with the IOMMU enabled.
-> >
-> > Hardware
-> >
-> > StarTech PEXUSB3S44V-style 4-port USB 3.0 card ("one dedicated channel
-> > per port", widely sold ~2016 for Oculus Rift sensors). Topology:
-> >
-> > 00:1d.0 Intel Z690 PCH root port 07:00.0 Pericom PI7C9X2G608GP switch
-> > upstream [12d8:2608] (x4 gen2) 08:01.0 - 08:04.0 switch downstream
-> > ports [12d8:2608] 09:00.0 - 0c:00.0 4x Renesas uPD720202 xHCI
-> > [1912:0015] (rev 02)
-> >
-> > System: Alder Lake / Z690, kernel 6.18.43 (Void Linux), VT-d enabled,
-> > booted with iommu=3Dpt (default domain: passthrough). Firmware for the
-> > uPD720202s is the correct v2.0.2.6 image (sha256 177560c2...) and
-> > uploads successfully on every probe.
-> >
-> > Symptom
-> >
-> > With the IOMMU on, the kernel enables ACS on the switch's downstream
-> > ports (ACSCtl: SrcValid+ ReqRedir+ CmpltRedir+ UpstreamFwd+). The four
-> > xHCI controllers then probe cleanly, register their buses, upload
-> > firmware, and report port connect status normally =E2=80=94 but any dev=
-ice
-> > plugged into any port fails enumeration with:
-> >
-> > xhci-pci-renesas 0000:09:00.0: Error while assigning device slot ID:
-> > Command Aborted xhci-pci-renesas 0000:09:00.0: Max number of devices
-> > this xHCI host supports is 32. usb usb3-port1: couldn't allocate
-> > usb_device
-> >
-> > All four controllers fail identically. xhci debugfs portsc shows the
-> > port stuck at "Connected ... Link:Polling" while the Enable Slot
-> > command times out. Posted writes from the endpoints still work (MSI-X
-> > interrupts for port change events are delivered), but the controllers
-> > appear unable to complete DMA reads (command ring fetch) =E2=80=94 cons=
-istent
-> > with the known PI7C9X2G packet-buffering erratum when P2P Request
-> > Redirect is enabled. No AER/DMAR errors are logged for the failed
-> > requests.
-> >
-> > Confirmation
-> >
-> > Clearing ACS control on the downstream ports at runtime and rebinding
-> > the drivers immediately and fully fixes the card:
-> >
-> > for p in 08:01.0 08:02.0 08:03.0 08:04.0; do setpci -s $p
-> > ECAP_ACS+6.w=3D0x0000 done
-> >
-> > + unbind/rebind xhci-pci-renesas for each 0x:00.0
-> >
-> > After this, all four controllers enumerate devices normally and the
-> > card works (tested with HID devices, hubs, and mass storage).
-> > "pci=3Ddisable_acs_redir=3Dpci:12d8:2608" is my current persistent
-> > workaround.
-> >
-> > Given that the 2G404/2G304/2G303 (and b404) already have the
-> > store-and-forward fixup, could 12d8:2608 be added as well? I'm happy
-> > to test a patch, and can provide full lspci -vv dumps, dmesg, or
-> > register reads from the switch on request. I can't say whether the
-> > store-and-forward vendor register of the smaller switches exists at
-> > the same offset on the 2G608, but I'm glad to poke it under
-> > instruction.
-> >
-> > These cards were sold in large numbers and every Linux report I can
-> > find about them (Arch, FreeBSD, Proxmox, Unraid forums) describes
-> > unexplained failures or dropped input events with no root cause
-> > identified =E2=80=94 this quirk gap likely explains most of them.
->
-> Can you test the patch below?
->
->
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index b09f27f7846f..27f7d56c9ac3 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -6263,6 +6263,10 @@ DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_PERICOM, 0x=
-b404,
->                          pci_fixup_pericom_acs_store_forward);
->  DECLARE_PCI_FIXUP_RESUME(PCI_VENDOR_ID_PERICOM, 0xb404,
->                          pci_fixup_pericom_acs_store_forward);
-> +DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_PERICOM, 0x2608,
-> +                        pci_fixup_pericom_acs_store_forward);
-> +DECLARE_PCI_FIXUP_RESUME(PCI_VENDOR_ID_PERICOM, 0x2608,
-> +                        pci_fixup_pericom_acs_store_forward);
->
->  static void nvidia_ion_ahci_fixup(struct pci_dev *pdev)
->  {
