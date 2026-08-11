@@ -1,104 +1,282 @@
-Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831D97E792
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC251F8AC5;
+	Tue, 11 Aug 2026 03:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786417862; cv=none; b=pr4uzjIC4xMCOaQqxSGr2wzbuu8sCQURYHGcZcy29x3T+BkS9UeaGUACPPOItUsdLO/mzTTdoYL6Vp3JpkEv1ai5H1KOsnobw/Tz6Mu44agURcQQTmGY3nujQDDArBUuIAnHky4d57rXg2x15zOhwJcpnhqIR/LHu9dk5ur4zNM=
+	t=1786419138; cv=none; b=LDjGRJTO+xknDy62OAKUbHH/GXbDk34RAjalO9Z609kNo5bOzNSBg/9ZDg7xHmpgJxCEl72GfqPxgDMV+HalvGVeSfl31tKD9etFEHVgHg9q3ojRMzK4wvZlt8dGwrn1dIfQjpu2w9NP16EiBPgGh1jLEeKdlr/SpsncqLtCaVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786417862; c=relaxed/simple;
-	bh=9xGVGoG6+15SyTh2I5jQogP6u8bckxgfiAejG+A7hiM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PIzqf+vQph82dsyPbRjKSxO56/cxSUu2xE2tz4QYAYST7ihlySQgEsR//tD3aIBb0B7qzd2rVo5Id+d/EEii14gYTqHyJ72no/0uDJ3NbcFOK+qt+oxwGJcQkguw1hYq+HrQpttEZyzsGV5Z3t0aQElNKGbDKicvaha5TZ6UaJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-3810f0aba07so1284177a91.1
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 20:10:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786417859; x=1787022659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5zOJ+OKoF01RgSFmlK3dcJuyfCzAbCRmdIbnifKtbW8=;
-        b=X+TVmhzJ07ucgtV/nEaElSfqJzB+LkXcf1bo22qJFZ6tp8Cx5umzdpvacRL/thBYkV
-         op07SsN80d09RjZH5i1BN6lZo66tQuv7pH6Q4Pv9neTdQxO9BAN4DdIwlwScZ5QTo5B0
-         yaVf1y/0L0iDdUl8b5SHV5bdWoR74wKtQPCniYkB9ZJxlPjnmkCJoMIQhwEB9BhbNrRk
-         oJrhkHEwDKfmIAqIRxJhTiNahwKNxovrQOVatPh4GNUKVtXfglfKS+3Vw5P8AgRvXucE
-         Wi8pwsntxnE9Tq51k1vFMOGOS8eM/MD/BU84jZN0Sfe7C029vSzHD9ptzMMVZ/ZxqTG6
-         tqqw==
-X-Forwarded-Encrypted: i=1; AHgh+RpEPUaBGDrXxFqtn04PHXMHI2vQlEVrwTrDgMHzatscXVhg9VgmgvbNPuo6OhTHhHYvI5AGUzXeQ+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDJRLNzYg4KR+q7k6zJvsShTkVLEWgKB8Tp8KlklKjJg9/Asxv
-	c+DM9YK8xu0z4wXBMWogl8hZp3b+a0Qshy6T7+VJoGuXQ5eOZsZDI8Qk
-X-Gm-Gg: AR+sD13U3CZFXwKzugnDYRsdak7Azi8Go36ItF9CByAlVMCy5aeg/ITrjrX0xRe3xk2
-	YWpdQFnVDFHoBXWfF9x1ij9QmU3p3uGm/f5u3BjkQ2d3pVtzmnGbgQC1EhZZYppTZvynisfLbq+
-	pKrXXy0farDegJwgPqzT6QoZbUoXxIiU7jLFm8y7OptYQHOT9fLTh5NuW6GXuLR+GnJPU929/q1
-	cjd0XzmyIjJgx23/U3JqOfbiMvWHtVJemqihz70Sgw8ZkR+Gzdw75wHfcuBgx02c1Pwp39c8W5g
-	ih8aXl6Kc3UsGQUvRthBsWMDH5oqIUiyX9GM0WMQXbeHYdKYn5sUr0C9lQl9RkPDxqgQb5bdLn4
-	Z0netSbhwMSa8VpYzokgwwpfm2qewtE2LH7cNABbE8fSCucKGSfLUf6mzr6RRT8tVKet+MqodID
-	TlUmeew+3RO6ktIL7UCGKNVuOtScZolHddJlfhAube0i4vMTC2d7kWo91nC23dhKnbdX926wMOn
-	78jJd6V/Lzg/uAs53jd
-X-Received: by 2002:a17:90b:2dca:b0:381:a766:efc9 with SMTP id 98e67ed59e1d1-392ec34642fmr243891a91.7.1786417858834;
-        Mon, 10 Aug 2026 20:10:58 -0700 (PDT)
-Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392d51be07dsm1658527a91.6.2026.08.10.20.10.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 20:10:58 -0700 (PDT)
-From: Xueqin Luo <luoxueqin@kylinos.cn>
-To: heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: pooja.katiyar@intel.com,
-	johan@kernel.org,
-	pmenzel@molgen.mpg.de,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xueqin Luo <luoxueqin@kylinos.cn>
-Subject: [PATCH] usb: typec: ucsi: Add ACPI_COMPANION() NULL check in ucsi_acpi_probe
-Date: Tue, 11 Aug 2026 11:10:47 +0800
-Message-ID: <20260811031047.399164-1-luoxueqin@kylinos.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1786419138; c=relaxed/simple;
+	bh=wWPDqbtE9IjjVOj38eLfwO5U/9DHuOFyX+RgCqVoio0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WdQDdBZCmNYLb2yv3hZhceExOh4bZHMpBFw99Y9AhjTWC6NeglprBljwq3Kx+QI31g0fXAY1+KJptoy+xJ9Z0RpSmCdXEjmNeySMdoVel13wtz0c7YotGHQy/6D0ZrAbon9GZIbI60IfhYZ9o2Yd6UGAlrMCVFrmXq3RpnA3Co8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAeG1LB0; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MAeG1LB0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7208EC2BCF7;
+	Tue, 11 Aug 2026 03:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786419138;
+	bh=wWPDqbtE9IjjVOj38eLfwO5U/9DHuOFyX+RgCqVoio0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=MAeG1LB0qJ/M1qIUQh8unWjfJ4qsvvQ+hwXud3mG/3HhD6TmdxH0VGT4ndS70b+b5
+	 gN4D7cL9CzOJLhIEzjIQpWE3q73xgUOeFBolm0dyPitCqrMxUXZHkp7W6sw+5tZFwQ
+	 P6PHIAQjKpIHhJF60ZvzopmckOQXgw5p0KaPciyjIgu7ysBldCpOgkyiMeYPWX0hCo
+	 1c7d4XGyZw3ORuW3zdnNjdSxpw8H6QKZpC2YjcDOOil+Ay0vedMrR9yrnm94gQJYqD
+	 mfCRJGEDNpm9iq1afDgYwtIH83xsBVHOfP+/Q7S/W1lqmg175py83Q1GRf4UWf5EMn
+	 bhwNEGArrgOAw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB11C5AD7B;
+	Tue, 11 Aug 2026 03:32:18 +0000 (UTC)
+From: Esteban Urrutia via B4 Relay <devnull+esteuwu.proton.me@kernel.org>
+Date: Mon, 10 Aug 2026 23:31:36 -0400
+Subject: [PATCH v3 1/2] dt-bindings: usb: Add Parade PS5169 redriver
+ bindings
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260810-ps5169-bup-v3-1-a2178b2834d7@proton.me>
+References: <20260810-ps5169-bup-v3-0-a2178b2834d7@proton.me>
+In-Reply-To: <20260810-ps5169-bup-v3-0-a2178b2834d7@proton.me>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ Esteban Urrutia <esteuwu@proton.me>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786419136; l=5639;
+ i=esteuwu@proton.me; s=20260622; h=from:subject:message-id;
+ bh=B7m2pd9kvS3C97uNpoakZ1NLas4KObjMwrJoNHsnny0=;
+ b=FKics0VG7D5waIfkoZq7BAaT5p2wgj9xNLNUoAhKjG0iODlve8k8kxrLfQM8qQvsl+4eZDYzr
+ DLFs4rZYygYAy0fBwCcWU+drPLn866kNNX6Ac9bNS6BRFURijPeS+3H
+X-Developer-Key: i=esteuwu@proton.me; a=ed25519;
+ pk=wToFt4mOAWkzbqb15Ye1hrhevI13vK9BcMUFiQ/me1M=
+X-Endpoint-Received: by B4 Relay for esteuwu@proton.me/20260622 with
+ auth_id=835
+X-Original-From: Esteban Urrutia <esteuwu@proton.me>
+Reply-To: esteuwu@proton.me
 
-Add NULL check for ACPI_COMPANION() in ucsi_acpi_probe() to prevent
-NULL pointer dereference when driver_override matches a device without
-ACPI companion.
+From: Esteban Urrutia <esteuwu@proton.me>
 
-Fixes: 1f3546ff3f0a ("usb: typec: ucsi: acpi: Check the _DEP dependencies")
-Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
+Add bindings for the Parade PS5169 and PS5170 USB Type-C linear redrivers.
+Unline PS5170, PS5169 doesn't have an integrated AUX switch and only
+performs AUX channel monitoring.
+Future-proof the binding by adding PS5170 as well.
+
+Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
 ---
- drivers/usb/typec/ucsi/ucsi_acpi.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/usb/parade,ps5169.yaml     | 193 +++++++++++++++++++++
+ 1 file changed, 193 insertions(+)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 18286d3e9cc5..b4a783217dc6 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -188,7 +188,7 @@ static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
- 
- static int ucsi_acpi_probe(struct platform_device *pdev)
- {
--	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
-+	struct acpi_device *adev;
- 	const struct ucsi_operations *ops = &ucsi_acpi_ops;
- 	const struct dmi_system_id *id;
- 	struct ucsi_acpi *ua;
-@@ -196,6 +196,10 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
- 	acpi_status status;
- 	int ret;
- 
-+	adev = ACPI_COMPANION(&pdev->dev);
-+	if (!adev)
-+		return -ENODEV;
+diff --git a/Documentation/devicetree/bindings/usb/parade,ps5169.yaml b/Documentation/devicetree/bindings/usb/parade,ps5169.yaml
+new file mode 100644
+index 000000000000..fe202e481c8c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/parade,ps5169.yaml
+@@ -0,0 +1,193 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/parade,ps5169.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	if (adev->dep_unmet)
- 		return -EPROBE_DEFER;
- 
++title: Parade PS5169 USB Type-C linear redriver
++
++maintainers:
++  - Esteban Urrutia <esteuwu@proton.me>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - const: parade,ps5170
++          - const: parade,ps5169
++      - const: parade,ps5169
++
++  reg:
++    maxItems: 1
++
++  vcc-supply:
++    description: 1.8V power supply
++
++  reset-gpios:
++    maxItems: 1
++
++  orientation-switch: true
++  retimer-switch: true
++
++  parade,dp-eq-db:
++    description:
++      Equalization for DP channels.
++      For example, <6 5> denotes an equalization of 6.5 dB.
++    oneOf:
++      - items:
++          - enum: [ 2, 8, 10 ]
++          - const: 0
++      - items:
++          - enum: [ 5, 6, 7, 8, 9 ]
++          - const: 5
++
++  parade,usb-rx-eq-db:
++    description:
++      Equalization for USB receive channels.
++      For example, <5 2> denotes an equalization of 5.2 dB.
++    oneOf:
++      - items:
++          - enum: [ 5, 11 ]
++          - const: 2
++      - items:
++          - enum: [ 6, 7, 8 ]
++          - const: 0
++      - items:
++          - const: 8
++          - const: 8
++      - items:
++          - const: 9
++          - const: 6
++      - items:
++          - const: 10
++          - const: 4
++
++  parade,usb-tx-eq-db:
++    description:
++      Equalization for USB transmit channels.
++      For example, <6 5> denotes an equalization of 6.5 dB.
++    oneOf:
++      - items:
++          - enum: [ 2, 8, 10 ]
++          - const: 0
++      - items:
++          - enum: [ 5, 6, 7, 8, 9 ]
++          - const: 5
++
++  parade,fine-tune-lfps-swing:
++    type: boolean
++    description:
++      Set a 50 ohm termination for USB receive channels.
++      Usage of this property is design-specific.
++
++  parade,dp-set-gain:
++    type: boolean
++    description:
++      Set a -0.9 dB gain for DP channels.
++
++  parade,usb-rx-set-gain:
++    type: boolean
++    description:
++      Set a -0.9 dB gain for USB receive channels.
++
++  parade,usb-tx-set-gain:
++    type: boolean
++    description:
++      Set a -0.9 dB gain for USB transmit channels.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Super Speed (SS) Output endpoint to the Type-C connector
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Super Speed (SS) Input endpoint from the Super-Speed PHY
++        unevaluatedProperties: false
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Sideband Use (SBU) AUX lines endpoint to the Type-C connector for the purpose of
++          handling altmode muxing and orientation switching.
++
++required:
++  - compatible
++  - reg
++  - vcc-supply
++  - reset-gpios
++  - orientation-switch
++  - retimer-switch
++
++allOf:
++  - $ref: usb-switch.yaml#
++  - $ref: usb-switch-ports.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: parade,ps5170
++    then:
++      properties:
++        ports:
++          required:
++            - port@2
++
++    else:
++      properties:
++        ports:
++          properties:
++            # PS5169 only performs AUX channel monitoring and doesn't have an integrated AUX switch
++            port@2: false
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec-retimer@30 {
++            compatible = "parade,ps5169";
++            reg = <0x30>;
++
++            vcc-supply = <&vreg_s10b_1p8>;
++            reset-gpios = <&tlmm 54 GPIO_ACTIVE_LOW>;
++
++            orientation-switch;
++            retimer-switch;
++
++            parade,dp-eq-db     = <2 0>; /* 2   dB */
++            parade,usb-rx-eq-db = <5 2>; /* 5.2 dB */
++            parade,usb-tx-eq-db = <2 0>; /* 2   dB */
++
++            parade,fine-tune-lfps-swing;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    usb_con_ss: endpoint {
++                        remote-endpoint = <&typec_con_ss>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    phy_con_ss: endpoint {
++                        remote-endpoint = <&usb_phy_ss>;
++                    };
++                };
++
++                /* PS5169 doesn't have an integrated AUX switch, so no port@2 */
++            };
++        };
++    };
++...
+
 -- 
-2.43.0
+2.55.0
+
 
