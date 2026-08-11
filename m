@@ -1,125 +1,127 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B524F310784
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 16:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D013CB2D4;
+	Tue, 11 Aug 2026 16:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786464385; cv=none; b=RXKueR8+XySLVZQEPATpcN8XNUdkRdlYiueyCKY/O3it1MuAA7wHdcI8JlkfX3HHbaYLdU8vFp3D+JnKGQ2jzVjyQjjVhKOE3mrMv6qxIYSFWv6z54lXHYA9B7D+yMpoC91R5+qQxbuT26+ucR9THYa2It1EDe6WGnIBQPz1g60=
+	t=1786464405; cv=none; b=h5jNatKUYb/WSGq6xcKgcLU/xgYtdEty13J6Ec7PguQWuZNgST3NL57A7O/jkcDFL3EnU+ea3UV3xPRipS2CStxbUoN7AjYLxUEiNsf5+02bOtNCez7Rv5Gi3/b34vmlOQNlrCwRlf1QdZXqMoNiMoqM2E9Rc+UbRdAClzYUeDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786464385; c=relaxed/simple;
-	bh=Q11AFmutljWK/xSGy1F4WCSSPG4F+Gb0p9DCwWyBxSM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cVuI/qemJouiO9EKJlS4VOP+AoR8NePn54tfrr7HSQdZhry+8j/DKQ0GGCWFM5Ods8HUHnTE9GKImkx3jUZ7P8Z4BlmWoTRTNmWCRgfN7C2/16onED9ecc4+hB1utK/blO9LieX9SFWjsgoyZ3HcuAWbkPhHRGt2lTlFO3xnJuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HJr3yVMw; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786464405; c=relaxed/simple;
+	bh=l6y6SBQuraQkb5VQ3z8ukPOghHgP1nT1Wtp4BjufNz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T4g8F33OE0+fDacb3ecmG1sfp9zP0ORMIb+IeH8HqxSsPFWB26q2IhBEDylktjaYU0//lD7WO1/bCGvWNIaMQM4a/DBLkOclwn17je86XKkdL5kNfju0C/h1BHNv+1DdjATJn7XKx/Dpp+8UApKqt73CR7irXU8zmaSR8WPcr8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TYwtWdMZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJr3yVMw"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cbedf318752so290942a12.0
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 09:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786464383; x=1787069183; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qWLUXRAB0ac5pRSFO1pHnYmTLRg2ASj9kBuww6heBRs=;
-        b=HJr3yVMwkECAmO1iz1t/HLWlS/+K62XmH2IGww4q672QC/tadQQ+FP++AsOwnauEKG
-         PuOKx8P+Ievr8SOQoV7f+8RcQ98+ANdZhMpYas81kEM8vqzOKKPKCN34diiTk187MYdi
-         UFtJRp52xgeL2WDXwKjKWA1JKdRlvhHfZVSPapYX3axpOUtDRcXpP16vPKJs44Y+KSWs
-         wPVk795szMRuRuL7gGCK+fl1cEeU8bjch83jHIVx1zFANOzi/rK2+r9Am2z5nhXXsPfv
-         HOJvLjthDtcCqdcuQCKmICRpR4taNlNxwp898Rq/y+Ka2ZS5rTSk6av86XBtBdx/z7sg
-         mR7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786464383; x=1787069183;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qWLUXRAB0ac5pRSFO1pHnYmTLRg2ASj9kBuww6heBRs=;
-        b=JUGNJTdDQvi7NjfVTzVeGlqSyyJDFedQoYOLIe+DgYdBL45SZKOUKBDFfU14KZU3Zn
-         sjjKu6MoO47NjX2DUByHQrXDaAJNfL8t4gUplUmvh1F/7fgJZI7bpnFGxjG3c6vPflXr
-         85xTHBUXfYdr6TDn5MOtofrtN555vV2waFuoxnJNgxaNzyt6dyljWRmMmDrEBKrpfIC6
-         aEqOPba4gibtkU3eBq9kFxHA9fAroNQsNV9xmxHMXrk00W189QnzFToVaBUiI0PKZB+m
-         sQDB4hSE0ODfF4gP3OS4Ky9pfjDGoDKTVHikwL7nFCy2kwMue8f0OYG6H+K+Q2O8a/Nq
-         GLPg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr6KhqSCLvsLhlllcgu8BcQk3mX/oVKmEvWw09m82cF/+VhrB/mgrup9EunwnC6LoM3BNTbSxROwmM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywk/TOJZvfvcHxaPv1SMINXv/0UmsNjs4lq+bCtIvDW79QqD7KM
-	ELzQh8+BE1aUPH7MRA3rOngE4eQjB4nyXIyzqlsWwMTA8MF/p/Rt60eO
-X-Gm-Gg: AR+sD11M0gW652dXl676FEkf6fpzvnmCkM0p2+Um+lDJP+aLbfn5igKW/AU9KRr/G9b
-	EUU+ntMfl1jmhsyE3ouYGdKm6F2bV2X6isNQ+yfjEtPdVEmbfZ9XPX+8wopkH3Cth9mIhBDnuMV
-	//37uImIP016Jdmu0HqqvQe/ghTmTvP11N5m/Nx9qt7THvE7nt/+c5VIoAm9aHWQgOU7C65ZhvP
-	PcLU3kJu1gUrNMAX1kJzs1h/r52RghJrIxrHjf3RqW4D0T3pmN9ljJ4STslu045WZnq38cc1mmL
-	HA9Ev/lFtm+Lk/7oesOrusrq8C4sIAQePmy5oI0Ii2PSsvJcGT26/yX0vUF356DPgvgIu5PBarX
-	K0o7Lyja9aYlZoy39zn701Fovs4Y8RzGzZIuB35eeDHavTqrE1rLQHCqj3PGtuynZYua6XHfaSy
-	4iUrjcez+ZPYuAwwfxf1Kb++9MFOGjrfXP2QJXyP942Y4+yzzhaUjVJVIW9QmyigpaH2lRGY37t
-	jFW
-X-Received: by 2002:a05:6a21:e0a6:b0:3c3:7481:7a03 with SMTP id adf61e73a8af0-3cc2baff4acmr6296784637.34.1786464382690;
-        Tue, 11 Aug 2026 09:06:22 -0700 (PDT)
-Received: from Default ([2409:40f4:1011:30f7:310c:32cf:5ea7:7043])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31cf3624c08sm916149eec.5.2026.08.11.09.06.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 09:06:21 -0700 (PDT)
-From: Jeffin Philip <jeffinphilip14@gmail.com>
-To: valentina.manea.m@gmail.com,
-	shuah@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: i@zenithal.me,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
-	Jeffin Philip <jeffinphilip14@gmail.com>
-Subject: [PATCH v3 2/2] usbip: tools: replace faulty rebind_store with drivers_probe
-Date: Tue, 11 Aug 2026 21:35:41 +0530
-Message-ID: <20260811160541.29461-3-jeffinphilip14@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260811160541.29461-1-jeffinphilip14@gmail.com>
-References: <20260811160541.29461-1-jeffinphilip14@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TYwtWdMZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B111F000E9;
+	Tue, 11 Aug 2026 16:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786464403;
+	bh=bsFrD+8bsJ8zTcQSeMYM7e3hb54WciAWCpQseABIlqk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TYwtWdMZ8Ao51ww1bhZblT18MUr7qDxkwcAcEbYPHbrC9TY069ydowFfdIi4cZ0Lv
+	 ERS1UVOj9x3CsUP3r4umtrc1DF47emrHnID7XpG/ci5cVHd5IDDaSRmEJpHiVJDSyH
+	 vUuQDBfUIX6WfjufpcE/0Gn8Bd0HaeK2cgvDMkxjyp3uK3tiT+Pw/tdqKkOJ9jtUNl
+	 fwhqizf9b6nF61KCY8HGWkMJ7SKUjqwc2i2Os0BSGcDJ2jrNIWtKrwprSH2lDz7DSg
+	 OzuRy9uqldfzfdgP9fiG6WWT7yuDL31/Ms1hpXehzZVDaIa8uIG5WJj4YWY5LAqds6
+	 qlHnUwAcPLFqQ==
+Date: Tue, 11 Aug 2026 17:06:33 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Vladislav Leonov <vlad@zlab.su>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Simon Glass <sjg@chromium.org>, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	Brian Masney <bmasney@redhat.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Wu <david.wu@rock-chips.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Olivia Mackall <olivia@selenic.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 00/25] ARM: rockchip: Add peripheral support for RV1106
+Message-ID: <5842f89b-ef11-41fd-a5c6-f07d4110b65a@sirena.org.uk>
+References: <20260810121121.210040-1-vlad@zlab.su>
+ <20260810113548.7fd24d56@kernel.org>
+ <anq1ouUnKA02Eauj@monoceros>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0rdiv1roUnHM6tDX"
+Content-Disposition: inline
+In-Reply-To: <anq1ouUnKA02Eauj@monoceros>
+X-Cookie: Now, let's SEND OUT for QUICHE!!
 
-unbind_device() currently unbinds and then uses rebind_store
-to rebind the device back to the usb driver. This is already
-possible with the safer drivers_probe rather than the faulty
-rebind_store. Fix this by referencing drivers_probe rather
-than rebind_store.
 
-Fixes: a46034ca57ed ("staging: usbip: trigger driver probing after unbinding from usbip-host")
-Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
----
- tools/usb/usbip/src/usbip_unbind.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+--0rdiv1roUnHM6tDX
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tools/usb/usbip/src/usbip_unbind.c b/tools/usb/usbip/src/usbip_unbind.c
-index 66a44d4a0d56..242280cec452 100644
---- a/tools/usb/usbip/src/usbip_unbind.c
-+++ b/tools/usb/usbip/src/usbip_unbind.c
-@@ -34,7 +34,7 @@ static int unbind_device(char *busid)
- 
- 	char unbind_attr_name[] = "unbind";
- 	char unbind_attr_path[SYSFS_PATH_MAX];
--	char rebind_attr_name[] = "rebind";
-+	char rebind_attr_name[] = "drivers_probe";
- 	char rebind_attr_path[SYSFS_PATH_MAX];
- 
- 	struct udev *udev;
-@@ -77,9 +77,8 @@ static int unbind_device(char *busid)
- 	}
- 
- 	/* Trigger new probing. */
--	snprintf(rebind_attr_path, sizeof(unbind_attr_path), "%s/%s/%s/%s/%s/%s",
--			SYSFS_MNT_PATH, SYSFS_BUS_NAME, bus_type, SYSFS_DRIVERS_NAME,
--			USBIP_HOST_DRV_NAME, rebind_attr_name);
-+	snprintf(rebind_attr_path, sizeof(rebind_attr_path), "%s/%s/%s/%s",
-+			SYSFS_MNT_PATH, SYSFS_BUS_NAME, bus_type, rebind_attr_name);
- 
- 	rc = write_sysfs_attribute(rebind_attr_path, busid, strlen(busid));
- 	if (rc < 0) {
---
-2.55.0
+On Tue, Aug 11, 2026 at 07:43:16AM +0200, Uwe Kleine-K=F6nig wrote:
+> On Mon, Aug 10, 2026 at 11:35:48AM -0700, Jakub Kicinski wrote:
 
+> > Don't expect maintainers to dig out patches for their subsystems
+> > from a big series. This is not how upstream development works.
+
+> I see this from time to time and I personally think it's fine to have
+> these patches together. Also the only the patch that affects my
+> subsystem was Cc:d to me which is how I like it (but I think opinions
+> differ on that one, too).
+
+Any cross tree thing is just always going to be more effort, at a
+minimum you need to figure out if there are actually any dependencies or
+if it's just a lot of tangentially related stuff bundled together.  Plus
+the larger CC lists and whatever.
+
+> `b4 am -P _` is great!
+
+OTOH b4 won't ingest serieses unless it can commit them to git and I
+have *no* idea what the base is supposed to be here, it's not my tree,
+Linus' tree or -next.
+
+Please resend the spi bits as a separate series.
+
+--0rdiv1roUnHM6tDX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp7SIgACgkQJNaLcl1U
+h9CgzAf+Mfyz8kncpmkuFsip4V/KEWeY/74EiaopCxYZu9ER12XWRS+3hpvAP06t
+FzE4FyJ4b5uGDeBclT3D4mSAIoI1xT63Br7sqmOlocnv85dq3wqcimH5FwpoisgP
+5o7v5A2Bw9BkYeZW7XsKzJ2raxgqYKgQcbvIffN77mT78KVu2yBG3hkiD+PvJWLA
+Kv2uKKzxmBely9BaCFeZ7M/N5D6vGZMhGDL+seRSttR6Xn+3sA1AAi3RKObAWLya
+ZorJCLDgynNI5VEU2Jkv+oT3n0y9sdMToX9eDXrAI3JP8Vt4xncCBw2lhPerORRx
+ULbQrEoR959v7lubt5ZIQdwdztM4uw==
+=gZCM
+-----END PGP SIGNATURE-----
+
+--0rdiv1roUnHM6tDX--
