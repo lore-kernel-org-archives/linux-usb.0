@@ -1,82 +1,82 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA6947D951
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 21:36:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1E347DF8E
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 21:36:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786484179; cv=none; b=LGhw1I2g6zLHzmfrMXzlYT+6U9xg8IPfdw19Lox1ol4B6Mm+jpPVJV1vQdwFNEtHX/Jy1vueNPzdP9wtY6Oh5faw3UhxWoyzfqTUruEfn9RjZqUazqyJhbNcIp3dBzIohl6AemBk33b7T6lt7Kzy36sziERcO6Rup52nptvZ3iA=
+	t=1786484181; cv=none; b=n6i/kv8Q4gtcJ4eOVThf8PQC7fjYR+QcF8aA1byoKt3tK5RNXZmhejr87WB5/z42GwmY2KAuy3z4poJIDCn3qCv/xOPGF7Thy61lWk4euv9IekBxGL3omE1MWJtJWsu18kDSfElBlDUNeJKB9guqdT8yfR7LS0k8lYEUpNnWYFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786484179; c=relaxed/simple;
-	bh=vMN9xFS7+UE4CpC8JHmwvxMa/ZHXGxw+m0BPvf48J2E=;
+	s=arc-20240116; t=1786484181; c=relaxed/simple;
+	bh=0L1Nlyhc9R2Fh9oy1Sf9Zo15aqLWpgRmbpV5WKoAi2I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=syxJ7XRYMhwNLvST3G/ZAwW0WTyr/bU7ONZBeE2tmWY+Gz0pFi5O3/YL9Dkk4G4FIYfFgjPAhu4qKhGGvjKd5CzOy55wFf1n3orsnecZRPSyLq6mwawbMSeyw2bZfg37MNgeHSJsSjFN+LzFXxf3iONWSWS8kdWMN2Pv0jQBZ/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FEKvAmTo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EBh0TxS2; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=gqd464+lUyBJIriKQaGd5o55T1SC7EfFfX+l3ofB/mFWV2joRkHwjn+A+Df8klge5Z5+52LBNqfCXw4AUsiKj37sliuiSsTCDC37fy6OaJlzwfrwKch3TuZtIJSgmCD3wh+eCN2BkhTxqde6WTW9dLPrHGW0OnCdGdIv7f+ODfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EzgfKZBR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=e9e1Ol1w; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FEKvAmTo";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EBh0TxS2"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BLQDWE2159598
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 21:36:17 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EzgfKZBR";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e9e1Ol1w"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BLQKYX1520467
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 21:36:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=Y6Vl3S9Ln2Q
-	++E5qKFv7377jV7NXuG93z+ypJQ+LQuw=; b=FEKvAmTobjJytMmB9Le3k1W4Elq
-	mYQ60EH8zAZ2jda057ej2RJlmJUo1xpeBIfcqb7sg9AdBjb/u+JG/xgTwLG6vchu
-	V7sM73cb3NpdQPdZCaGZsMMCwt68EzL9X/0w6PwT5fwJzwN4GRGl7UMzaAhaDQgl
-	HHaC5WLuzuB6d6uhu29k06K7lsMNyqmliAnJWBZL/0qU8QUBS6l05glBr9qc+87Q
-	tFU+BHpNaRWmoHWMOcCJUOxXlyPLG81s4/OIO5+Rla2j2vrQpaeH12y0WNHPbW0I
-	N99bMInffo2ffSpL5wX3OfczJWgLe9MK7ag2GI298+QQS6bPLuvOcmQBwIA==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g049et67h-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=pPQKRnqntZ3
+	qOHUeBtj5RYbP4mgE0OmZLSFKwefcwXk=; b=EzgfKZBRlDxuuc9d/+o0KqsK9WN
+	08XYGSYdUI4GIMxqsJ5DyiNW6Dlgu6Z0pvUvtU+z6OfR6vT+lIn69H8ET1VLWVGL
+	xQIAFezDDOcbwWjNQnZV6L2CK1icUyn+Hit5XQGKI9wwI/0VX04ykfTOX64Mn3oD
+	+jnJWcyF6XPPn9XWvNeKeTOOmm/IE+ddv9dK9BUKym0zoNU/suZ7faTswjIU+5Et
+	R/yJ4ySJrUB0yTDOsGOKGM2gLNRR2MSsgurBG7zgOsWGr3g5Ssab9zfPH8a+RiR5
+	F0a94g2NF0ea99NDWiGKeCaxjFIFB5WkzL0ZSdZjw+1hJSzE2ps9w5hk0Ww==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g049mj60u-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 21:36:16 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cc640dfde3so5643755ad.1
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 14:36:16 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 21:36:18 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e8e864ef0so499664a91.0
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 14:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786484174; x=1787088974; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1786484177; x=1787088977; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Y6Vl3S9Ln2Q++E5qKFv7377jV7NXuG93z+ypJQ+LQuw=;
-        b=EBh0TxS2Sx/akIIs9KeydtbJV8zhkFN7cuH68grGkGSW1hrg7UK0jcIZ4LWdcK4HpN
-         tzyr8aVUSi0l3ywO7nNIIe2KRZVDB4y0Xw6W/pXg2b/oHsc95ShBPPDSjO0f87DIx2YI
-         2cdvVIx2zhKmHleMErNfjPvsp0mcg8zYJNcDO0awdywAr6MI2rTZxRzuvDcEEMTNe0uU
-         sh1zG0O/1qMqKan0VdN6LYykZPFIIq5KJNbV8zYorW1r6NIuhc4TJl4irKGJNUgO+G2R
-         K8U7sLeR22gUxjru9n8piXgiwGAv9dxQ5GqA7MF8nkklRVe/9LMogslMv3cVJYqktueF
-         3TPQ==
+        bh=pPQKRnqntZ3qOHUeBtj5RYbP4mgE0OmZLSFKwefcwXk=;
+        b=e9e1Ol1wM4FZ7LUtZnJb6FWBx59ADPFgOGew+KPMDerKDJdxaHGtbSKcAFIxlWNaw+
+         vYesHpDMOE8azaEtekGjSBRGYSEpvX33Mcfj6VXcj9MTXDw7jNmb15sdxcwdBy/QSoRz
+         D4gaax5sidPeRI164QZEmqd8l460k1mek2BwFgbG7IwxhJrXexDvnGlm+Rc66JKbCpf3
+         ub+iIIThKREc+2KFfxDoxf0IgEVO/7gpxHmaspdc26QRbyHg1JwVCtyhjkC/OW7kmp40
+         L0kkijers4VLq7b4xQ/GxKFMsrayzlOTZlgjh91Fs2m3RFavAVz3LHRa7SUaaiG1sFdv
+         2tMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786484174; x=1787088974;
+        d=1e100.net; s=20251104; t=1786484177; x=1787088977;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y6Vl3S9Ln2Q++E5qKFv7377jV7NXuG93z+ypJQ+LQuw=;
-        b=N2Hzixh4WICuOuc8Gh2KqeTN2AL1ImDhcEt3veYo3JsWeee5xUSF2LUxbWriVuSyf1
-         9J23g32Tboc3BveDEAoEFCVAGYbZp7mKmbGhdbRuQtwW0GLenEMy1O5Q7jiFqYSRrP55
-         ZicaORwU+aRWqqND53zxwm+YYd0kG/IstKcrDyyr9HWNmINvPPxFHH/RN/ae0RHK2Py6
-         7jsUewXJNMWKkfUG7NZWCFJdzeuLoFzVEVCkGYYq90YZCnnFi/dnIMuDEpvELOhb87vy
-         nIZIgE+AUhD229AUFZnG4nSNcxpDUPRYt8zTTalapp5epR/e3g8s0XZguafqvdqK7MJu
-         g8lQ==
-X-Forwarded-Encrypted: i=1; AHgh+Roh29PtCpM3f8hbBcw8Rue09hSYii3KkJDSjb3qvBldrtiRG98aSJ07MZeXaZq7xBfSmcp5DdqbK60=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCYex54Wan9cm0u5lVuwYkubh0n/XqdsouGymEMHi6gTWe9xBn
-	KeHIB5EXxKTQEmikM7/d/5HOW+/TKvlNljrf/UUg9z0UIRSXP1PFqMQvYQo8q+YFsYw3hRHYyiS
-	46t0rr1XP+c+iYfn//UqQV0ZQfYDOS+2LTOkKn9959B0qhX4kXbb6rB36xhmFaog=
-X-Gm-Gg: AR+sD12pBAfhSFsrN3xlGdq6cgmHMCa4ccArLICeFuhsCodJdgv0+X0yPOUbSReur0T
-	5+rFb0EoncJYkywrU5qajjtyz29SF17+kcNtZ8ZgIgT42Aza555CqFns1LHYrr4y8tJ69QCMf2C
-	hh7rRwc3jNpQe30io1LiMfvLh7OWNUCxoZwJCboscw5DbIzCJBQdNV4pu1gLqFsi+5dZNnsYdYv
-	aEAfTDH4cq7D/kvQIh0+S+BMVkVQkFcjEWZ7HcJpmdppUEFTzig910ZY7/IkWsOOchxceOOe5MK
-	Z34TrOscbI3cI8svnKxkPaYLx4EfBJlxnHeGjf7C8JBSyFCrS/PZZ0hcFoV/jSQwNCWSu8pKoe2
-	Lcs6rljzLZ1gtfIwfStWv1Mw0nmQH88cLs5dobgOoTBKjLDD6qvECbQ==
-X-Received: by 2002:a05:6a21:6014:b0:3c3:8d4c:6679 with SMTP id adf61e73a8af0-3cc2baf91c1mr9221725637.20.1786484173501;
-        Tue, 11 Aug 2026 14:36:13 -0700 (PDT)
-X-Received: by 2002:a05:6a21:6014:b0:3c3:8d4c:6679 with SMTP id adf61e73a8af0-3cc2baf91c1mr9221656637.20.1786484172935;
-        Tue, 11 Aug 2026 14:36:12 -0700 (PDT)
+        bh=pPQKRnqntZ3qOHUeBtj5RYbP4mgE0OmZLSFKwefcwXk=;
+        b=eUWOHQdVn3IcRAYr2gHxYdG4yJKDcrJnvl2avHnQ8wqYtj4nS8gQLXVLeaBFAdCWBa
+         kEKxi1V3j0ocH3i5BV7sq5tEsQ8TtgzgV2l6SnKlX3sPkY1wdc5UqCIP41H0L7U4JIs+
+         x3w6aHd6cnxBoV5fdcZow0Pib6xh5GmWZFJxAOP/qiSdlKjrorW52bcyabTtxL7o6q/H
+         zaiVoZv9TqQNFaT/GZdfQl8nujj5TDTnhZVQ4tGlPcWo6rfvQFWWJq/IL624St4V9qyB
+         0bAx36+I5FH7RlrwTEP/Ze+f9r/8RnxpdJhQvSwefIjxJsv5cuacxrn4bUknfSsQn4d/
+         +E4Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpdaBbwPWCWxaCt6PHZHdR6c/v2ZxxJEQUaXBh4ZvA3/bItiTdylnpfDtS0vIS3CpQA0Pr1mLoUvK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+T8jJpOEoZr0VRcQyFNQjscWvFhKEwX3CVnO5H9u+dBYR3CdK
+	sH5vjaqxJGoSSyAT7ajRllyicIcJ3fsQjaY9f6AIPE6wf1SmQfv9ukKZN/ylpdxMdsXC3mNqu4n
+	orviXvl8A7xPBVFXUEjS/en+jkZpweG1uzqxlnOyVvNocgxQoQl8bqPZVpzv0A60=
+X-Gm-Gg: AR+sD10lZIkQQGmJIQa97NhThzJozZdLdbV51XNik53uFwHS5lNKlADcr4av2uQf4YS
+	nXQJP+IobkZzeivwrTxyNcYomoh/WK8S5ZAUV6xJVs98obH3TF2QSo65hUzS986qFJHY61A9Qal
+	aBo9CvD57gCg3fEevzvsviNhssrjV3430FbGy8c7b9avD82UZXaDO7e+5bZur3jEL5DGL93XduQ
+	hHwOGC6LoP5gvZUjnH/Cncb/H0cugOt0C2ZYOjQ1l9ys1gvpoacJnzIW6kNJRtTIkXeznpgxTvy
+	4gb/iO824FhPpRR5sA9Hhf58CG4y/YlUTDvSQhrFoS4KKkFAenSPibK3QRkW/E7JkPwRrQzQnN0
+	iBQH1MrVuLpt+geJvx93xMCQaH1EBc0FYhtTuz1wn2EAYjd0dQC+mWg==
+X-Received: by 2002:a17:90b:1b05:b0:38e:4cb:51f with SMTP id 98e67ed59e1d1-393012c841dmr41878a91.11.1786484177126;
+        Tue, 11 Aug 2026 14:36:17 -0700 (PDT)
+X-Received: by 2002:a17:90b:1b05:b0:38e:4cb:51f with SMTP id 98e67ed59e1d1-393012c841dmr41827a91.11.1786484176504;
+        Tue, 11 Aug 2026 14:36:16 -0700 (PDT)
 Received: from hu-eserrao-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31cf3c08163sm2713563eec.7.2026.08.11.14.36.12
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31cf3c08163sm2713563eec.7.2026.08.11.14.36.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 14:36:12 -0700 (PDT)
+        Tue, 11 Aug 2026 14:36:15 -0700 (PDT)
 From: Elson Serrao <elson.serrao@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>,
         Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
@@ -86,11 +86,10 @@ To: Bjorn Andersson <andersson@kernel.org>,
         Peter Chen <peter.chen@kernel.org>, Rob Herring <robh@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v6 1/9] dt-bindings: soc: qcom: eud: Add per-path child nodes for UTMI routing
-Date: Tue, 11 Aug 2026 14:36:02 -0700
-Message-Id: <20260811213610.2956147-2-elson.serrao@oss.qualcomm.com>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 4/9] usb: misc: qcom_eud: add per-path role switch support
+Date: Tue, 11 Aug 2026 14:36:05 -0700
+Message-Id: <20260811213610.2956147-5-elson.serrao@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260811213610.2956147-1-elson.serrao@oss.qualcomm.com>
 References: <20260811213610.2956147-1-elson.serrao@oss.qualcomm.com>
@@ -101,219 +100,220 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDE4MiBTYWx0ZWRfX06jDC6cQHWfo
- THaA/oszeslM8n14Cw1xDAqdS0t8QNJP+T2n+6CYCMsbl1oItnJ7X6ulaKq4XLN4+QQJqAQaFx3
- e/jj1wWeKiKlbI+35a2JHaYCoTjApkc=
-X-Authority-Analysis: v=2.4 cv=DoFmPm/+ c=1 sm=1 tr=0 ts=6a7b95d0 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Proofpoint-GUID: aikf4ws1csA0_m0UQNxkc98iPPPgVSAR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDE4MiBTYWx0ZWRfXwPmBb9hFAhg8
+ Kn2nViDLnXyakebVwLiAJAjNxcD8BTuJt5VW9ICN1KCMn2AEKLzjbxu8pawEFtp7dRjVhfcArKk
+ VRRqjqpXYLN/cjiu9i3cRlxWqiy7aIVp6m1TGa9pU70Vuma3hhHZ1Sf9u8K/i32Xw2mSuRcMG0L
+ vXH2xQRoE5Lntdbv0AwpExRrb+ZLZ77HeXCBRz+DtoUKqdqLziJdMSf3E8nEHq/2OytsgC9I0iQ
+ QQphnr0eUA3C1raOV8tS110C5gZoH/CtRaQqTTz/UZ6QiOqzaj5uj58IPk/ZI1Y+PDVaHmQElIB
+ VFs+2x1XwOYea2qV19YaL6OzflwKHeOGiaW6Ct2Koi+pHugdV8ls6BuBbm2pMIaLeWApM93QE6J
+ STiSL+54IWPnacOhZVNKi3tfe57lJcFuaIZyXf2QStFh4d1EXHILpEOOVqOnx/8Bq9lCc8iQvFb
+ 7rPWobLcouRzRRP09DA==
+X-Proofpoint-ORIG-GUID: aikf4ws1csA0_m0UQNxkc98iPPPgVSAR
+X-Authority-Analysis: v=2.4 cv=FbkHAp+6 c=1 sm=1 tr=0 ts=6a7b95d2 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8
- a=RJ9lep_nkaVUh_m6BXgA:9 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-ORIG-GUID: kV4M3lDgqtbltz7fOvkFlf57u-iQO6bJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDE4MiBTYWx0ZWRfX5bgnzO6n+Fz6
- vBxD3qeoK534YLyxo7KCwPf34a6PyZiTdLmTrMhqcZQ5/fpfAa1tBV9W/L9SLYm2Uah/dRZVbsI
- jiljqasyxFi4DuOeaC7BfLQ6/k9F2WR2xChfcsdY5wFJwVunAJwNiijxmBJXeIKBqaNCYl6ePnu
- plwxamAgp9261ZSH++CGNVRVSMYM5KC2tfHJmZRkP28e5AVwLVJ10dk8ggejd65kTarx0aWKq8J
- PCw6Uvl9sTbkNCVlBq8e0KcfuFW4w3gYNsBVAfQ9E51/yp/dL2BeoTLsXdFpeCpBuw+By5lyv3m
- uq3ytBDfulNT9+NTB4SqokeW5ehP5gWi0Oc3tkDfFg1LY2YwT/b28dGE/pq2x3w48txuBikFGW0
- nZMQW6bq2DGXpDVdj+3cCyKfEls7uaUZxN6SGkxWTGoT3XUnOuDEHHMzIGGZOHBchy2pnHKlqH7
- 7bsHQSZ9/yzHVL4WwPA==
-X-Proofpoint-GUID: kV4M3lDgqtbltz7fOvkFlf57u-iQO6bJ
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=7LOY1QleUuiESi-gyjEA:9 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDE4MiBTYWx0ZWRfXxenVZM9Hqm1b
+ 4ZCPSfGsS9hXwEdy86SoxqL/0406Zi/oPHQcH65tA+JB4d4C56BPrMtMihQzxVWNYlzCZnPxS9t
+ DsYXmohskH5Yfn5EEVlGDpAbCLk5tRw=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-11_05,2026-08-10_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608110182
+ adultscore=0 phishscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608110182
 
-The Qualcomm Embedded USB Debugger (EUD) can intercept one or two
-High-Speed UTMI paths depending on the SoC. For example, SC7280 supports
-EUD on the primary UTMI path only, while SM8350 supports EUD on both
-primary and secondary UTMI paths.
+The EUD hardware can support multiple High-Speed USB paths, each connected
+to different USB controllers. The current implementation uses a single
+chip-level role switch, which cannot properly handle multi-path
+configurations where each path needs independent role management. Since
+EUD is physically present between the USB connector and the controller,
+it should also relay the role change requests from the connector.
 
-Each UTMI path connects an independent USB controller/connector pair and
-forms its own role-switch domain. EUD routes traffic based on USB role.
-In device role the debug hub is inserted, while in host role it is
-bypassed.
+Restructure the driver to support per-path role switches and remove the
+chip-level role switch. Additionally, as EUD need not modify the USB
+role upon enabling, remove the unnecessary role switch call from
+enable_eud().
 
-The existing binding models EUD using a flattened ports representation.
-While sufficient for fixed device-role configurations, it cannot naturally
-associate a controller, connector, and role switch with a specific
-EUD-routable path. This is problematic for role-switch capable ports and
-becomes more pronounced on SoCs with multiple paths. In such cases, each
-path forms an independent role-switch domain and requires per-path role
-awareness.
-
-Model each UTMI path as a separate child node with its own OF graph. Add
-an SM8350 compatible for dual-path EUD topologies while retaining the
-legacy ports representation for backward compatibility.
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Reviewed-by: Peter Chen <peter.chen@kernel.org>
 Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
 ---
- .../bindings/soc/qcom/qcom,eud.yaml           | 133 +++++++++++++++++-
- 1 file changed, 132 insertions(+), 1 deletion(-)
+ drivers/usb/misc/qcom_eud.c | 100 +++++++++++++++++++++++++++++-------
+ 1 file changed, 81 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-index 84218636c0d8..0e35bc9a9d20 100644
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-@@ -18,6 +18,7 @@ properties:
-     items:
-       - enum:
-           - qcom,sc7280-eud
-+          - qcom,sm8350-eud
-       - const: qcom,eud
+diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+index 03d1c200658c..48a4441b0c9c 100644
+--- a/drivers/usb/misc/qcom_eud.c
++++ b/drivers/usb/misc/qcom_eud.c
+@@ -44,12 +44,15 @@ static const char * const eud_port_names[] = {
+ struct eud_path {
+ 	struct eud_chip		*chip;
+ 	struct phy		*phy;
++	struct usb_role_switch	*controller_sw;
++	struct usb_role_switch	*eud_sw;
++	enum usb_role		curr_role;
++	char			name[16];
+ 	u8			num;
+ };
  
-   reg:
-@@ -45,10 +46,87 @@ properties:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: This port is to be attached to the type C connector.
+ struct eud_chip {
+ 	struct device			*dev;
+-	struct usb_role_switch		*role_sw;
+ 	void __iomem			*base;
+ 	struct eud_path			*paths[EUD_MAX_PORTS];
+ 	phys_addr_t			mode_mgr;
+@@ -123,7 +126,7 @@ static int enable_eud(struct eud_chip *priv)
+ 	writel(EUD_INT_VBUS | EUD_INT_SAFE_MODE,
+ 			priv->base + EUD_REG_INT1_EN_MASK);
  
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^eud-path@[0-1]$":
-+    type: object
-+    description:
-+      Represents one High-Speed UTMI path that EUD intercepts. Use eud-path nodes
-+      to associate role-switching behavior with specific port connections, allowing
-+      EUD to manage role transitions independently for each UTMI path.
-+
-+    properties:
-+      reg:
-+        maxItems: 1
-+        description: Path number
-+
-+      usb-role-switch:
-+        type: boolean
-+        description:
-+          Indicates that EUD relays USB role-switch events for this path and
-+          performs role-dependent UTMI routing accordingly. In device role,
-+          the EUD hub is inserted into this path to enable debug
-+          functionality. In host role, the EUD hub is bypassed and UTMI
-+          traffic flows directly between the PHY and the USB controller.
-+
-+      ports:
-+        $ref: /schemas/graph.yaml#/properties/ports
-+        description:
-+          These ports are to be attached to the endpoint of the USB controller node
-+          and USB connector node.
-+
-+        properties:
-+          port@0:
-+            $ref: /schemas/graph.yaml#/properties/port
-+            description: This port is to be attached to the USB controller.
-+
-+          port@1:
-+            $ref: /schemas/graph.yaml#/properties/port
-+            description: This port is to be attached to the USB connector.
-+
-+    required:
-+      - reg
-+      - ports
-+
-+    additionalProperties: false
-+
- required:
-   - compatible
-   - reg
--  - ports
-+
-+oneOf:
-+  - required:
-+      - ports
-+    properties:
-+      eud-path@0: false
-+      eud-path@1: false
-+  - allOf:
-+      - if:
-+          properties:
-+            compatible:
-+              contains:
-+                const: qcom,sc7280-eud
-+        then:
-+          required:
-+            - eud-path@0
-+          properties:
-+            eud-path@1: false
-+      - if:
-+          properties:
-+            compatible:
-+              contains:
-+                const: qcom,sm8350-eud
-+        then:
-+          required:
-+            - eud-path@0
-+            - eud-path@1
-+    properties:
-+      ports: false
+-	return usb_role_switch_set_role(priv->role_sw, USB_ROLE_DEVICE);
++	return 0;
+ }
  
- additionalProperties: false
+ static int disable_eud(struct eud_chip *priv)
+@@ -270,12 +273,15 @@ static irqreturn_t handle_eud_irq(int irq, void *data)
+ static irqreturn_t handle_eud_irq_thread(int irq, void *data)
+ {
+ 	struct eud_chip *chip = data;
++	struct eud_path *path;
+ 	int ret;
  
-@@ -77,3 +155,56 @@ examples:
-             };
-         };
-     };
-+  - |
-+    eud@88e0000 {
-+        compatible = "qcom,sm8350-eud", "qcom,eud";
-+        reg = <0x88e0000 0x2000>,
-+              <0x88e2000 0x1000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	path = chip->paths[chip->port_idx];
 +
-+        eud-path@0 {
-+            reg = <0>;
-+            usb-role-switch;
+ 	if (chip->usb_attached)
+-		ret = usb_role_switch_set_role(chip->role_sw, USB_ROLE_DEVICE);
++		ret = usb_role_switch_set_role(path->controller_sw, USB_ROLE_DEVICE);
+ 	else
+-		ret = usb_role_switch_set_role(chip->role_sw, USB_ROLE_HOST);
++		ret = usb_role_switch_set_role(path->controller_sw, USB_ROLE_HOST);
+ 	if (ret)
+ 		dev_err(chip->dev, "failed to set role switch\n");
+ 
+@@ -286,17 +292,39 @@ static irqreturn_t handle_eud_irq_thread(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void eud_role_switch_release(void *data)
++static int eud_role_switch_set(struct usb_role_switch *sw, enum usb_role role)
+ {
+-	struct eud_chip *chip = data;
++	struct eud_path *path = usb_role_switch_get_drvdata(sw);
++	int ret;
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                port@0 {
-+                    reg = <0>;
-+                    eud_usb0: endpoint {
-+                        remote-endpoint = <&usb_1_dwc3_hs>;
-+                    };
-+                };
++	/* Forward the role request to the USB controller */
++	ret = usb_role_switch_set_role(path->controller_sw, role);
++	if (ret) {
++		dev_err(path->chip->dev, "failed to set role %s for port %u: %d\n",
++			usb_role_string(role), path->num, ret);
++		return ret;
++	}
 +
-+                port@1 {
-+                    reg = <1>;
-+                    eud_con0: endpoint {
-+                        remote-endpoint = <&pmic_glink_hs_in>;
-+                    };
-+                };
-+            };
-+        };
++	path->curr_role = role;
+ 
+-	usb_role_switch_put(chip->role_sw);
++	return 0;
++}
 +
-+        eud-path@1 {
-+            reg = <1>;
++static void eud_path_role_switch_release(void *data)
++{
++	struct eud_path *path = data;
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                port@0 {
-+                    reg = <0>;
-+                    eud_usb1: endpoint {
-+                        remote-endpoint = <&usb_2_dwc3_hs>;
-+                    };
-+                };
++	usb_role_switch_unregister(path->eud_sw);
++	usb_role_switch_put(path->controller_sw);
+ }
+ 
+ static int eud_init_path(struct eud_chip *chip, struct device_node *np)
+ {
++	struct usb_role_switch_desc role_sw_desc = {NULL};
++	struct usb_role_switch *sw;
+ 	struct device_node *controller_node;
+ 	struct eud_path *path;
++	const char *dr_mode = "";
+ 	u32 path_num;
+ 	int ret;
+ 
+@@ -327,14 +355,57 @@ static int eud_init_path(struct eud_chip *chip, struct device_node *np)
+ 				     "failed to get controller node for path %u\n", path_num);
+ 
+ 	path->phy = devm_of_phy_get_by_index(chip->dev, controller_node, 0);
+-	of_node_put(controller_node);
+-
+-	if (IS_ERR(path->phy))
++	if (IS_ERR(path->phy)) {
++		of_node_put(controller_node);
+ 		return dev_err_probe(chip->dev, PTR_ERR(path->phy),
+ 				     "failed to get PHY for path %d\n", path_num);
++	}
+ 
+ 	chip->paths[path_num] = path;
+ 
++	of_property_read_string(controller_node, "dr_mode", &dr_mode);
 +
-+                port@1 {
-+                    reg = <1>;
-+                    eud_con1: endpoint {
-+                        remote-endpoint = <&conn_2_hs_in>;
-+                    };
-+                };
-+            };
-+        };
-+    };
++	if (!strcmp(dr_mode, "host"))
++		path->curr_role = USB_ROLE_HOST;
++	else if (!strcmp(dr_mode, "peripheral"))
++		path->curr_role = USB_ROLE_DEVICE;
++	else
++		path->curr_role = USB_ROLE_NONE;
++
++	/* No role switch needed for fixed role controllers */
++	if (path->curr_role != USB_ROLE_NONE) {
++		of_node_put(controller_node);
++		return 0;
++	}
++
++	sw = usb_role_switch_find_by_fwnode(of_fwnode_handle(controller_node));
++	if (!sw) {
++		of_node_put(controller_node);
++		return dev_err_probe(chip->dev, -EPROBE_DEFER,
++				     "Failed to get controller role switch for path %d\n",
++				     path_num);
++	}
++	path->controller_sw = sw;
++
++	of_node_put(controller_node);
++
++	role_sw_desc.fwnode = of_fwnode_handle(np);
++	role_sw_desc.set = eud_role_switch_set;
++	role_sw_desc.driver_data = path;
++	snprintf(path->name, sizeof(path->name), "eud-path%u", path_num);
++	role_sw_desc.name = path->name;
++
++	path->eud_sw = usb_role_switch_register(chip->dev, &role_sw_desc);
++	if (IS_ERR(path->eud_sw)) {
++		usb_role_switch_put(path->controller_sw);
++		return dev_err_probe(chip->dev, PTR_ERR(path->eud_sw),
++				     "Failed to register EUD role switch for path %d\n", path_num);
++	}
++
++	ret = devm_add_action_or_reset(chip->dev, eud_path_role_switch_release, path);
++	if (ret)
++		return ret;
++
+ 	return 0;
+ }
+ 
+@@ -361,15 +432,6 @@ static int eud_probe(struct platform_device *pdev)
+ 	if (!chip->paths[0])
+ 		return dev_err_probe(chip->dev, -ENODEV, "primary path not found\n");
+ 
+-	chip->role_sw = usb_role_switch_get(&pdev->dev);
+-	if (IS_ERR(chip->role_sw))
+-		return dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
+-					"failed to get role switch\n");
+-
+-	ret = devm_add_action_or_reset(chip->dev, eud_role_switch_release, chip);
+-	if (ret)
+-		return ret;
+-
+ 	chip->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(chip->base))
+ 		return PTR_ERR(chip->base);
 -- 
 2.34.1
 
