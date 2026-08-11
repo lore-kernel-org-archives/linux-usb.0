@@ -1,116 +1,133 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98D73FE65F
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 08:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C0441F7FD;
+	Tue, 11 Aug 2026 09:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786438744; cv=none; b=pxA6t5T8M+jlfqQJQyMDwHA7mGpXrnv5+uB6jCzI8UNArz2LW77VBSu6AqjsbZ7/5RT9Mf3lZWzKwxld+Tr+kZRJxGwESRS6inx1ixvC8PjuzR4Ie/Utlq+FasnaL8tJQwN5AmcXzRlUCflD0xE9u+pkmQhVlOti6naBRIwdYyo=
+	t=1786439337; cv=none; b=hMgUaVwpegXMBqVb6VKhLwUqKE3AEOmiT10klVlQJ4fk2YF+F1/mXJ2GkTIOlGTtqnN5b92qCIvtP0IgxOFv9PqP4BMsuvHfOohCto/9bSKK+VOCFEvYF00dxeOqhT86iNs3tHkr047ZT1hHP0utnahIwMrCVnupPWPzdK+1RHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786438744; c=relaxed/simple;
-	bh=TXi53rFxJBdFlfbvVAj6cdgBdIHIpDbeFqnTTLRscO8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fHJo+HOf2IBv1GK+oHujyBTJlAt+Pb71a4inbek7C/D0tGO6FQAgcF+FWu7ExLei6Pv4aZQY0yuHOYh1RtdIoO+fRHlJ0If5utzpv/1fXgwXGsT6K1dO3LoSA2b5fVJewzbqBsY7+oDXyqbwhrGHPzn7rwit7iC+FIyrRf2GTRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WKRYvd+i; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786439337; c=relaxed/simple;
+	bh=T9Hcp5ru0JjNvcERwUiH+S8mJJ9PcssBj5Onv1+dsWY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SNx8m9AkWyKa/tzoq20dED1PbFwVeHigbtBav1HS4mLUBcicUykAkgm/3PdI/pJe0O4AVXgIQYeFqH3Av8hKNiCh0W3udB96fRIICuvYYUtfztgYkIge4w5dcMNJYvnk4Zakl5polgXB0mGsqgTGowm2uL62bAqU1yfgRKcnrfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=F+ygK6Mq; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WKRYvd+i"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47fe2d179e2so1602443f8f.1
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 01:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786438741; x=1787043541; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QQXpNuQQFm5sUEBX0kmz785dyNklSUIJrRxHt7Y1I18=;
-        b=WKRYvd+iBsE4DRjApi0nWIjrW4MI7XuzwabqJIj4DJKiX+u4Rudf8ecp0aZ+ZcHiUs
-         VhRITZSHX5YbLTzlbJbhc0Hk6KXKg0wyh9Z2ipJBSOQ1GRnd7kOxLD1gntSbjLwwA5Z0
-         aew2NteWedx7wEMbT6vcFgQ8Zrjf6C4zFizQ+t1kL41Wu/a9SdRequigQGg//1Yzx3KW
-         F4gdhD2A+LkKnsgl52EDnVrg6lZNQrLfgyNUQoBPspOUORW+V8n6dybrcRIDWEYyNQW6
-         JwwsQUgokzldBWYPZ3P+t4llhB0vMJh2Stl4gIjkHAxPb5HAx0fmxWtJDR1iXY9DJRRZ
-         OI5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786438741; x=1787043541;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QQXpNuQQFm5sUEBX0kmz785dyNklSUIJrRxHt7Y1I18=;
-        b=M6Xd8xbVV7BqKah/z7UzgUQsAI8JaAsonpbLzRi68nSxL0KIfzAP6Of35Pgj0/v6tE
-         LO+9BWK4Bj9ZdtLdXC6/HDakzWyYl5tENtDcjoWbg1gCFjErHyTYVMWBDHkDklDxlOr0
-         CLsgsalIL7aghgEMQdEvzgjyUu10PpKM+NR8K9WFqM+3iT8OY53DxRKmv+u8hKIN0szG
-         pUePDEk9BaXcZPew0/f//a1maQSzSYF/uwQn22DrwKn2MJlH1hgSlYV3tgQJYJmTUGnV
-         goeYDA9ma7V1394dwIF7Gb4LNKdQQqcqP/c0ONSWsWiE9KWiCVN0Ki7LGZD2/BIL88ou
-         AAAw==
-X-Gm-Message-State: AOJu0YwhPv3+ILPlrHMLFFyimj1PkDf8e3I7djkvR2uXpaQTqsvbrX9u
-	R1bD9pakHn2WnaRkxO6MRZuxuuzy7aPkKJowM2OMOsth8W+yN4z/VLSq
-X-Gm-Gg: AR+sD13602orCrYRVKGVL/qS7OSDdZ+QL6BfCywkwM/L9tjHgcYwKZti1DX/bmBn71I
-	WZZLSPF9dVRi9lJMqt94e0FJzzvqOfRx89/3jiIrD2LXUr1mVAUJ4kTd0CAofOtQaDvONf2QGGE
-	noNWCFpsXbDjxFJcLh1YdSfwCzQr8LKpqn+Vn05BA7WQ2LAV+qgPQF8r4Yza2N5lTe6JxBYc5Qd
-	6M/jS/Xm3q64lLj7aRx85C4/sF15yzhRsqgMNys3VzffuYVTEe6WVhIxWochEcwJTTrlot4ICkt
-	M0NT03UIlFVRZEHs81vsjo3alzU0iT50MGfe6LznD41HzfueLEw3PopJBFAlk++w7w80Zt7NC4i
-	EwxsQ2glrYM0LehhA2urmvLeEj+ZR0aUo0AUnh8IG87LqCBM4U3fFXKn5/2KXtWPQvNccDMgPyr
-	GgPKowH6TIl2x7E3ZAy0Bl+N8FsKLO8tTXL1IIQT7mDu5DFMYD42L1w5Ld+27XP1D2Iq0=
-X-Received: by 2002:a05:6000:2c08:b0:481:46d2:19a4 with SMTP id ffacd0b85a97d-4814adc5fdemr2626276f8f.24.1786438740785;
-        Tue, 11 Aug 2026 01:59:00 -0700 (PDT)
-Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4814a5be1b7sm2701403f8f.14.2026.08.11.01.58.59
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 11 Aug 2026 01:59:00 -0700 (PDT)
-Date: Tue, 11 Aug 2026 10:58:56 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Arthur Gautier <baloo@superbaloo.net>
-Cc: linux-usb@vger.kernel.org, Mathias Nyman
- <mathias.nyman@linux.intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] xhci: fix lost bounce buffers on TDs spanning several
- ring segments
-Message-ID: <20260811105856.75d5a7dd.michal.pecio@gmail.com>
-In-Reply-To: <20260811104237.4500b578.michal.pecio@gmail.com>
-References: <20260811033508.1050148-1-baloo@superbaloo.net>
-	<20260811104237.4500b578.michal.pecio@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="F+ygK6Mq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1786439305;
+	bh=vajpKwz9mmlb4a7LFKx5forjQ8ETSpXDNUDEeyZx2Z0=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=F+ygK6MqVZMPD+u38xkJM/lpKD4a6IPgDc4up4GrWCrm9+RS25nV/3RqS2qjLlqcz
+	 gPtZN30UMif6VMfEfLAuMXYK/olBqK3udfpZ56ZvA7Yk0JI6+VmEG+T82uVl8ORYGt
+	 myYxLkQTq8jEKCYxPuL4n7v74+tCFt9jTTfbhXGI=
+X-QQ-mid: zesmtpsz9t1786439300t99f4b4ba
+X-QQ-Originating-IP: yiDwvkgk/p1MCoIm7wYCpX/i5n0GZSno7aDN5plSQy8=
+Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 11 Aug 2026 17:08:18 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4559435952495275185
+EX-QQ-RecipientCnt: 6
+From: Junzhong Pan <panjunzhong@linux.spacemit.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	troy.mitchell@linux.spacemit.com,
+	peixin.xie@linux.spacemit.com
+Subject: [RFC PATCH] usb: dwc3: core: resume xHCI child on runtime resume in host mode
+Date: Tue, 11 Aug 2026 17:08:17 +0800
+Message-Id: <20260811090817.109350-1-panjunzhong@linux.spacemit.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
+X-QQ-XMAILINFO: MHnXMSYug7f9JhL9U7UaIOr07/AfehafwAUm170NRMyZoOZ4ltIHNvdS
+	xLqfgxyeN6ToiV2araRFYsZc+poGNkCiuyY5cdgAUAARyQO3F45Dg2FCVc4GEG/tCZiY7Ng
+	2pL9X65JDWLlqwFUnHpVKjX661zlO4ZroqC/7p369DpFomg2yh/Axl/8o+EYTRZxd/cLzln
+	P8LVAZqXt0zL1CUf6CrghexNa2TAIPwt2G+VY7vZYkfWqwj/O66hbTB1FqKF51pB6r/V6MK
+	RD13PSiVe7OYYKMCwTOupM/VoezAtXQ96Cam0I28k9J+50KOkto+O1IgyVmyKXFtsqUGHOd
+	3kpagRz+DVWZ9rkGcNwQcosfQv0Je5Ot4HSoPrZpFij3Kpv1r8G2bty9jOr7Qxq/FlIcwyo
+	LoyvA+dVPb02AIvbPrLyAdjXlZMp5Jfvxhw7X9aU7TsOecotrjz3JNHQuSBjoq7FESpZ1nr
+	Iykd0uJzAEJHibDFYlOku5xHdrXKWHsgZoX2n5yU15Pat8miBtERHACvoJluFPa0iw/thqk
+	UiRqHhfH+Yy/djYFJrRjGQckQtojRwyO4V3NMaXq3WqKBcV0u+B9yYwF5rbHWCBJQfStbTw
+	FI0KZ0kr0KtPcI9fU10RNZ++WeOknrLJ/I6HMIJS4cTnd0yrFLIXxDU9VdFZeeK7HdITTNB
+	iTx8CFuguF9EKQjwACBpgFB9abKjvjNkSvJ7W15nssWC7nOHg055AmGdoIsfPayY8LXMdM2
+	uja2ReHou9p/pHlWNd1BXJmkxynw7NPYdMMgrQhmJrii6V9J/bZ4RL9rLdX+YGxrT/hJVT/
+	tWxLT/wO29UTv1LCNxGpyufVfamrpBCmGbR7Fu2Rt9dp2/zxFuLI3lSNtOfpnyY0RQV/fJv
+	CJ+/AysOXv1TNZVx9rXTYi4TrL+Hvcsc+C0XyTsoNc75dP2cdLtXxKg/zHYwvTQh04WGMRz
+	uvNhcIj+Em0XoulDtHcakldX7rxE41vrMPdfSFwz904TEYE5bnfHjw2BNFxk4JU60T54zha
+	2V8Le85XDdWNnbm52orFlKCyC/WHQzUB+ZmTo0hDU5xrpeEuW6kI6PaWtAthuRyyjMSc1wq
+	o7nKfR2K+wCwr3LoyweeiGiyhvrUsVtCPX7iUA+Xx/bBr6/x+BMilo=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-On Tue, 11 Aug 2026 10:42:37 +0200, Michal Pecio wrote:
-> The code looks correct, though I would do it differently: store the
-> last bounce_seg and run the loop from td->start_seg to td->bounce_seg.
-> This avoids adding the 'if' during enqueue, and still works correctly
-> if the TD wraps around the whole ring so that end_seg == start_seg.
-> 
-> The driver is never supposed to create such TDs (they break the ring
-> expansion procedure) but I prefer more robust code if it costs nothing.
-> Bugs happen, or expansion could theoretically become more flexible.
-> 
-> Regards,
-> Michal
-> 
-> > +	seg = td->bounce_seg;
-> > +	for (i = 0; i < ring->num_segs; i++) {
-> > +		if (seg->bounce_len)
-> > +			xhci_unmap_one_bounce_buffer(xhci, ring, td, seg);
-> > +		if (seg == td->end_seg)
-> > +			break;
-> > +		seg = seg->next;
-> > +	}
+USB controller runtime suspend halts the controller on disconnection.
+It relies on platforms with custom connection notification to start
+the controller again.
 
-Oops, sorry, Mathias is right, this loop may incorrectly unmap a buffer
-belonging to a later TD which starts somewhere in td->end_seg.
+The host branch of dwc3_runtime_resume() does nothing currently. There
+are two paths that can trigger a runtime resume of the dwc3 core in
+host mode:
 
-I think the alternative procedure I suggested is free of this problem.
+(a) Wake lands on the xHCI child (DT platforms, e.g. Qualcomm, i.MX8MP)
+    A platform wakeup IRQ fires and the glue handler calls
+    pm_runtime_resume(&xhci->dev). Runtime PM walks upward, resumes
+    the dwc3 parent first, then resumes xHCI. Both wake correctly.
 
-- if td has bounce_seg, then it surely spans beyond start_seg, so we
-  can safely unmap start_seg's bounce buffer
-- if start_seg == bounce_seg then this was the last bounce to unmap,
-  because it's impossible for end_trb to also be a bonuce.
-- otherwise, we can continue to blindly unmap until reachng bounce_seg
-- after unmapping bounce_seg, there is nothing more left to unmap
+(b) Wake lands on the dwc3 parent (ACPI platforms)
+    When an ACPI Notify(ACPI_NOTIFY_DEVICE_WAKE) targets the dwc3
+    parent device -- for example via a Generic Event Device on a
+    hardware-reduced platform where dwc3 is enumerated as an ACPI
+    device without a glue driver -- the ACPI core turns this into
+    pm_request_resume(dwc3_dev). Runtime PM does not propagate resume
+    downward, so the xHCI child stays suspended. Root hub polling is
+    never re-armed, and a device plugged in while suspended is silently
+    dropped.
 
-Regards,
-Michal
+This patch fills in the host branch to cover case (b) by requesting an
+async resume of the xHCI child so xhci_resume() can restore the port
+state machine and re-arm root hub polling. Async is required to avoid
+deadlocking on the parent's own rpm_resume() re-entry.
+
+Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+---
+base-commit: d58772d8520c7ef247c4b95c9bd76d3a25da9ff5
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index ceb49f2f8004..bce56765ad90 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2668,6 +2668,18 @@ int dwc3_runtime_resume(struct dwc3 *dwc)
+ 		}
+ 		break;
+ 	case DWC3_GCTL_PRTCAP_HOST:
++		/*
++		 * Only the xHCI child's resume re-arms root hub polling, which
++		 * is what rediscovers a device plugged in while suspended.
++		 * Runtime PM never resumes children on its own, so request it
++		 * here. This has to be asynchronous: resuming the child
++		 * synchronously would deadlock because rpm_resume() tries to
++		 * resume the parent before the child, and here the parent's
++		 * own callback has not returned yet.
++		 */
++		if (dwc->xhci)
++			pm_request_resume(&dwc->xhci->dev);
++		break;
+ 	default:
+ 		/* do nothing */
+ 		break;
+--
+2.25.1
+
