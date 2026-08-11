@@ -1,65 +1,65 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE1B2C0F6D
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 22:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD243AE19D
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 22:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786488527; cv=none; b=SsXVq9CyO46vjHTIUOxFpaxNB8fdLMYRMmCUULCKN9mtbKNO9I7Cp1N4LGt7g7VoQjmYF3kOXEoAfBCeWAabIxceavEeVzMWaG8kmrDXiu9J7vN8eTNLAcWaD7NfZbuXRwgaMscR2rgS2NvetCAFEoRHz50ZUQgsv/vtoVwh5WA=
+	t=1786488810; cv=none; b=MQ2mk/qlaw3Ni/iPvR+wgC/eAeie3s7B7YVoXo9UkpA4GVCKPAZ90XEklS7SkrAJYQbplM0sjVvMlMD6z0ZhOObd03e0mP62FWhZA62xygJapzQDXp1Z7BUCZsvkORB8jG+kMhUm8Mrq0XbPNbQ6UPdaW0lVl0I1m5YLDidrFRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786488527; c=relaxed/simple;
-	bh=piW5qjtiPWkw4LU+yvxw3yZycgE07lwFSDBsxW8SHSU=;
+	s=arc-20240116; t=1786488810; c=relaxed/simple;
+	bh=YQ4HAHTxj7qU6tYzGeoF602jIIrwnSrAyak9jpfBM0s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q1eyNQGyqjwZDq7a8km3GtwK6s6znS1h/0554BgIdPqPij/fovoGZav9BpoTP0s932GRT1Lipp6xZSCcAXbjXmdGOxzOcDkj5NFtyFEZvOlvfU23VZ6DUXANPcf5FQCkqwezIeZ2+hO1+eo+DoXPw7xvXdxlAoAMAibtL6MWYOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UY9Fjf6I; arc=none smtp.client-ip=209.85.160.54
+	 In-Reply-To:Content-Type; b=JkEsNkAwvpHmM26nl96fP6MRLG8dlwS3uRr108Vlfs5nLxQrZfVYM/zBTHl6NTmYErnHkmQogmkOqSphIzs27vApXitRc9fSVTxj1ei3yIyRlLYaoecJrO2dgQTYjAe/i+o/Ch0rGm3z0cPC6reZTlDatFTLmqna9JOMjhwm17I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SyKtZjjz; arc=none smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UY9Fjf6I"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-448b0ff4a57so337201fac.2
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 15:48:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SyKtZjjz"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4a427e628a9so186526b6e.0
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 15:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786488524; x=1787093324; darn=vger.kernel.org;
+        d=linuxfoundation.org; s=google; t=1786488807; x=1787093607; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kWf7t0J9zKpnW/lPJBg7TGDxdXOi7Iv82pnKCI2dtOw=;
-        b=UY9Fjf6IRTbjChS/2qaWtgXQXHC0iVmmGo51yOcWiFuCTXUixrJ/mSzX2vYe5vtjho
-         d7wbzrQVmU5s/GBkdXCYC63izQdgRc0Z/xbndlwsiwXQkTJfYjX0QbaJBzI9wq0PUejn
-         OWBVDXSxXf2CM9QhHoZaTKJaQZrsItYMWE2do=
+        bh=QLL9rTiC5SLvih2di+U6KnSJGxV2qGIcYMvCuEbtdHg=;
+        b=SyKtZjjzfT2UlxOe835vwY+rL6eDsUyR8ANd6G/i1uEGrDv5BeHPctygbJwdHeJX/x
+         f6VQCJOjH0QLKGaux3Vr0W+0rT4g5tCCd+46QXhyir7Yit6CU/oPN40qA9vkQhktjkZ8
+         hh03n67fQmJZljWtMBlZIhE9Y24mMctsIEoBc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786488524; x=1787093324;
+        d=1e100.net; s=20251104; t=1786488807; x=1787093607;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kWf7t0J9zKpnW/lPJBg7TGDxdXOi7Iv82pnKCI2dtOw=;
-        b=FJPJSFB3UCvIKl+4WqQSK9hk3TYr6ERrPftSLEgzMCKQEb28uiDvJF3y9W6hW1PJVO
-         2SJikE2WzrXQYh5mOAi7CdgwFAjyRO+erEQ6qNryYUKosdKgVWdghSrJTec4s5BnahtR
-         7M/H0mXFFCvK+RGe1R7/HAfLH11tbwYUdcyWvsNPL79kqnOqvaYhkARMCN1xK9/Q9wEs
-         dyAnFZapYMuxHZk+Po39zS7k0ca3a8xPPV0nfHFsRvuKbT9IvwXiY+TJcZBJY3bNJX/K
-         N/ulieHwwg74uWylr+W5YnD+6Ac7rQGnkU7nvm4zqzkzDuns1KqBpw32MP+sTX6DnjF5
-         ACyw==
-X-Forwarded-Encrypted: i=1; AHgh+RotRh9eCGekrGQGstguV8lhTiXAyyL96lpbjH/rVw//CNhexcXx967U82tgfQqeTv+f+Bmh6oBXuLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2TljrsUMqu7k6AYU3y/vk+Xg1DBgIV2m9Vh1HQYyJTXX6/y4c
-	rXvTYyZ4Cvn/Kz/tF+uC9A0CRNeaF+D6+QpRXHrSN45CFo7O+nxzEufIu+7GO9AK58S80gd8vLM
-	GxVPMPs4=
-X-Gm-Gg: AR+sD111ts+TFrqMzMJqURXKogFLo3JnJjBKAYR4OaZT10Lt8zF2nPy+nY53QQPLX8n
-	/kQsT0JHA9G9H/27fciVaoJP4VgSzmlHZYMv/yvXB1RcEjZp9PsIAx7hBo//hNdZH5Iz1DlSpTQ
-	JuiHhycaU52lRLdRfy80D4QNQXHGdsybdfsY3GM/LR7yR59/YLxBjGT1wGDILWELpWUeAvXKT+I
-	1gL7U4CZgorI8fJKvlrxL0AUb/3jOrOe+qoU59C6XzMftVZK08GjUMW2t4fIXidJH6j66Lf0qAF
-	KPPTEbPBX/RXLdb5GnQ1rijCxpkWeJtgQQ+UhdNd14AC54MRJVsC6GsBdeLIA8FkWAshzWU+TTN
-	uEtT1SA8ruhqvrxMvzAx17wQGnY23oWRCuAKgq5sNzGL7WutP/+u0XyAjAU0xgEXFTGBjaRZy7a
-	Tz6YNcvpLBiqB1c2dH1Y8Liq5ceYVn9GhqoIsicvQU429JA/H8gd51IL/SV8DVqYAnYKHn0A==
-X-Received: by 2002:a05:6820:1f0f:b0:6b0:4a08:17d9 with SMTP id 006d021491bc7-6b0b2ba9c32mr283831eaf.28.1786488524055;
-        Tue, 11 Aug 2026 15:48:44 -0700 (PDT)
+        bh=QLL9rTiC5SLvih2di+U6KnSJGxV2qGIcYMvCuEbtdHg=;
+        b=hxPZsCzeL/YeRKUiRviLJMNYjma1X31TRX9Tsy7sS/Ph87uhlYt0wzEEAOwKGKHD+Q
+         bqPUWczASo6BODu19MwsaMmTneYPw4HVkNitLbUNH43tn1Jgl4PI3MDYJySWM5ecUthQ
+         pyOyK0z71hMY4FFxlbn0Q6WSPFI4ynEu7uc2kRWPA+ScqVj+gc+zK/nYVmHNsTrK6vje
+         J+v5safrvgIFjURRFSnWzUISpcv9iB5NB/ZgXcPLafyN/CGabkYJ2Q2wM3+pW7BEThiH
+         Cbp6ris72saCWYZhI+48Kms5gDOEyHVXFm933IVafRUYHs74qJlHgfwXZHtzAe4P1I17
+         u7Pg==
+X-Forwarded-Encrypted: i=1; AHgh+Rrgpxehgk3gVeM2uciqNCj6hYEfIDcgdCx1Fek47ikZ+XF4UsHzwkgqlPv2z+0zdmVADUor2KXtI6c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAJtFSEb6yK5dUp9hGwGXiZ5VGvkBEhHPh27e2wuJa5/RD7+/o
+	OrZAZUhpKsaRSeAYEayWHHXQDVEmuCS+W8LqJwGHaakgPdEkPiQis4ANrXP/DWJpPH8=
+X-Gm-Gg: AR+sD10/znfSRrpmGFLd9swHe95D9dLMR4/Dx7oYKEKC4YhzygfSiS2oS4Dg5bzSPr2
+	Ab/Vgi8oEZOt195aG2n3+Gq+aOK4EIP55E4FMzyz65GbyC4Ve4nKvtmqlPhUMYzyqQz9cwm3Ad4
+	ln9KWVapXHPypBQT9dtOQUTOC1TQrTojpFvh8s3qdm8Z8wij/YaB16S43CNzBzAIxTP+iCFyFzt
+	VpLqPMquU43R4wWIpnQEbtBAdUhwu91LwxgEaaYHmKaoHt1ZfKSg7pAipX8UTnPRK8CmTYNOB32
+	nlzQpoKgODmvL/7BJUXwSXFpYNPblMP6uOzGUAKF/CGxyYmmgpS8XFt4eoyjnlo2INLHrjPl8W8
+	ZDFDpP+/tEDKupjNXmEKMdt6SKUYKzpngCqNkNSUGnUwhYI1q2782BQU7l2fGoRyiuoO8QrI6ap
+	sfVdbNp3LTzyJQ4GnOP/hKmEXYWMQvvhHRPsRo751ZAPJeW9z3r70mehKT7TuluaswHzQkVgApT
+	4zvRNhh
+X-Received: by 2002:a05:6808:1385:b0:492:5684:7ab3 with SMTP id 5614622812f47-4b210c6fe4bmr646183b6e.21.1786488806722;
+        Tue, 11 Aug 2026 15:53:26 -0700 (PDT)
 Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b0ad500d37sm969208eaf.7.2026.08.11.15.48.42
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b20019e83csm1829535b6e.16.2026.08.11.15.53.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Aug 2026 15:48:43 -0700 (PDT)
-Message-ID: <2e6a5558-3bc1-4b5e-a9e1-cc03f0e5663e@linuxfoundation.org>
-Date: Tue, 11 Aug 2026 16:48:40 -0600
+        Tue, 11 Aug 2026 15:53:26 -0700 (PDT)
+Message-ID: <e3473010-e995-40b6-9040-e38f51d1a6c9@linuxfoundation.org>
+Date: Tue, 11 Aug 2026 16:53:23 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,130 +67,62 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 RESEND] usbip: make remote list honor parsable output
-To: Jason Colapietro <jasoncola1@gmail.com>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
-Cc: Hongren Zheng <i@zenithal.me>, Greg KH <greg@kroah.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <CA+Z0x2KotE5hgrFn-vzR+XNF_H_vEbZcE_nXmpVz5F2q1vxE6w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] usbip: usbip_host: remove legacy rebind_store in
+ favor of drivers_probe
+To: Jeffin Philip <jeffinphilip14@gmail.com>, valentina.manea.m@gmail.com,
+ shuah@kernel.org, gregkh@linuxfoundation.org
+Cc: i@zenithal.me, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org,
+ syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260811160541.29461-1-jeffinphilip14@gmail.com>
 Content-Language: en-US
 From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CA+Z0x2KotE5hgrFn-vzR+XNF_H_vEbZcE_nXmpVz5F2q1vxE6w@mail.gmail.com>
+In-Reply-To: <20260811160541.29461-1-jeffinphilip14@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/10/26 21:42, Jason Colapietro wrote:
-> The -p option only affects local devices and gadgets. Remote lists still
-> print their human-readable headings and details, so scripts cannot parse
-> them using the documented option.
+On 8/11/26 10:05, Jeffin Philip wrote:
+> do_rebind, which sleeps normally gets a mutex lock. However, it does not
+> or should I say, cannot check for null udev between spin lock dropped in
+> rebind_store and entering do_rebind. This is a potential race window
+> already. So, even if we check for null udev under spinlock, we cannot do
+> it outside. Regarding do_rebind, it is called during stub_device_rebind,
+> but that function is called during module exit when all files are removed.
+> So, do_rebind is not designed to work in a concurrent environment in the
+> first place.
 > 
-> Pass the parsable flag through the remote listing path. Emit the same busid
-> and usbid record used for local devices while continuing to consume every
-> interface record from the server.
-
-What happens without this patch? Can you elaborate with some examples?
-
+> We have a safer function that can already do what do_rebind does,
+> drivers_probe. So, we use drivers_probe to rebind the device rather than
+> use rebind_store.
 > 
-> Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
+> usbip tool references this function immediately after the device is unbound,
+> which is safe for the tool itself but since we opted for drivers_probe, fix
+> it by using drivers_probe rather than rebind_store after unbinding device
+> which is more safer.
+> 
+> Tested and working in both userspace via the tool and manually echoing
+> the busid in the related nodes. rebind node is still left active with a
+> warning to use drivers_probe upon encountering rebind_store.
+> 
+> Thanks,
+> Jeffin.
+> 
+> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
 > ---
-> Changes in v2:
-> - Make the email From header match Signed-off-by.
-> - Add Cc: stable@vger.kernel.org.
-> 
->   tools/usb/usbip/src/usbip_list.c | 33 ++++++++++++++++++++------------
->   1 file changed, 21 insertions(+), 12 deletions(-)
-> 
-> diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
-> index 3d810bcca02..b9d60b87e47 100644
-> --- a/tools/usb/usbip/src/usbip_list.c
-> +++ b/tools/usb/usbip/src/usbip_list.c
-> @@ -41,7 +41,7 @@ void usbip_list_usage(void)
->   	printf("usage: %s", usbip_list_usage_string);
->   }
-> 
-> -static int get_exported_devices(char *host, int sockfd)
-> +static int get_exported_devices(char *host, int sockfd, bool parsable)
->   {
->   	char product_name[100];
->   	char class_name[100];
-> @@ -80,9 +80,11 @@ static int get_exported_devices(char *host, int sockfd)
->   		return 0;
->   	}
-> 
-> -	printf("Exportable USB devices\n");
-> -	printf("======================\n");
-> -	printf(" - %s\n", host);
-> +	if (!parsable) {
-> +		printf("Exportable USB devices\n");
-> +		printf("======================\n");
-> +		printf(" - %s\n", host);
-> +	}
-> 
->   	for (i = 0; i < reply.ndev; i++) {
->   		memset(&udev, 0, sizeof(udev));
-> @@ -98,9 +100,14 @@ static int get_exported_devices(char *host, int sockfd)
->   		usbip_names_get_class(class_name, sizeof(class_name),
->   				      udev.bDeviceClass, udev.bDeviceSubClass,
->   				      udev.bDeviceProtocol);
-> -		printf("%11s: %s\n", udev.busid, product_name);
-> -		printf("%11s: %s\n", "", udev.path);
-> -		printf("%11s: %s\n", "", class_name);
-> +		if (parsable) {
-> +			printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
-> +			       udev.idVendor, udev.idProduct);
-> +		} else {
-> +			printf("%11s: %s\n", udev.busid, product_name);
-> +			printf("%11s: %s\n", "", udev.path);
-> +			printf("%11s: %s\n", "", class_name);
-> +		}
-> 
->   		for (j = 0; j < udev.bNumInterfaces; j++) {
->   			rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
-> @@ -116,16 +123,18 @@ static int get_exported_devices(char *host, int sockfd)
->   					uintf.bInterfaceClass,
->   					uintf.bInterfaceSubClass,
->   					uintf.bInterfaceProtocol);
-> -			printf("%11s: %2d - %s\n", "", j, class_name);
-> +			if (!parsable)
-> +				printf("%11s: %2d - %s\n", "", j, class_name);
->   		}
-> 
-> -		printf("\n");
-> +		if (!parsable)
-> +			printf("\n");
->   	}
-> 
->   	return 0;
->   }
-> 
-> -static int list_exported_devices(char *host)
-> +static int list_exported_devices(char *host, bool parsable)
->   {
->   	int rc;
->   	int sockfd;
-> @@ -138,7 +147,7 @@ static int list_exported_devices(char *host)
->   	}
->   	dbg("connected to %s:%s", host, usbip_port_string);
-> 
-> -	rc = get_exported_devices(host, sockfd);
-> +	rc = get_exported_devices(host, sockfd, parsable);
->   	if (rc < 0) {
->   		err("failed to get device list from %s", host);
->   		return -1;
-> @@ -351,7 +360,7 @@ int usbip_list(int argc, char *argv[])
->   			parsable = true;
->   			break;
->   		case 'r':
-> -			ret = list_exported_devices(optarg);
-> +			ret = list_exported_devices(optarg, parsable);
->   			goto out;
->   		case 'l':
->   			ret = list_devices(parsable);
+> Changes in v3:
+>   - Removed rebind_store in favor of drivers_probe to eliminate race
+>     condition
+
+How did you find this problem? Is this generated code or did you
+write it?
+
+Also, the first patch removes code in rebind_store(), replacing it
+with a pr_warn()? The second patch points it driver_probe() - what
+happens with just the first patch?
+
+Did you run tests to see if you can bind and unbind devices - does the
+driver work correctly?
 
 thanks,
 -- Shuah
