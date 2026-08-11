@@ -1,116 +1,266 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211123DA5CD;
-	Tue, 11 Aug 2026 09:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CC1428820
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 09:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786439518; cv=none; b=OkK1lDLLXPMOC+pzWBCcGXE1HLa/O67fPB4mtghoc4oCnyKFKrBaz34i3TQYZzGK3aB5z2zk8bT66VshUSq0CiNQmro7mz1r6C7XooL6NmSrcfYnoci86rQgHvfkKGS4l/M4Jm/emj4GLeEOWT+y9ANeXMJNkj6xynBTODcB1Vg=
+	t=1786441166; cv=none; b=DSmhmyWYdZ09VQANokfLhngjYgP3CBR9bQgCGkHaLukLtZOEVjVA85qDVYwwjLZ/aTWVYje7WMzWbVkhz0yndVrbde683h+bRTZorA+C72K7rZBvZRHkqBE/G/vSZKGMq8e1qdlX/GG7F5H5thJRsHRZRrMEoA7GXL45cUvg4hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786439518; c=relaxed/simple;
-	bh=po5+wP0U2TBC+FVKr01XOHbmY3talVXqJp7KnmOCIQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjSPiszc8dICOQai1zX/efGqNiDGueOaQsJm0pb1oaGIR5MKCEVY8x1nqjz0NduEZyE0njDlaUEzNzfWIiHyXnw5rl8TMZ72R/qfnpl9OH9FgU5tDKu/U/JXGwdQLXne3CZLjgZsjp9Lt1o831VVV5/1h9PHS0YTBMny6H6e9dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=boRyG9hC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786441166; c=relaxed/simple;
+	bh=P7MdvFn0nz7qqSukugxeA9OnzGseB4a4JEs1zGcJjII=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=sQmxkPux5wGLDEtu14CQgayNflvO99HB5YcUUvvKElVgJ9rap8ijf0vuoWEhxAA8M0nlJgHZyh0O1edsPGTY85FF8DIDaiPvXCJFLZ99cfQrZqIyAjWO6mfBymMI+1bIiPMsEFifymtiHxZ7gbumUfsCN0+u3FxokZ8Iph6v+0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com; spf=pass smtp.mailfrom=wyliodrin.com; dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b=KExhOCxQ; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyliodrin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="boRyG9hC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91241F000E9;
-	Tue, 11 Aug 2026 09:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786439516;
-	bh=TrkFBbkecTCcsu/DhLu0OsB/6QF6n66HPvIjwvA7MZ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=boRyG9hC9kgOPMxjMOZOLPXwT+esiVW5sy8I+8n7pvS3iEeM3QZbE22pUBqVqxtBr
-	 wRbmWhIgtTp8k3PSHQ98PM8mWBHKdt2fpAY5xbD2Ox05UPYNPVbdQ7ot6PN5yfKFGM
-	 OpKM5FgcdBhb6LcV+wnM9zHOgx+S413HB0rFkppa1BsfvMWZnz/pP8FBfKpnV5ziT5
-	 mgcXKmLyCiV+ltSlgDMThnRNX6Dwr+qK8SEf4JiHOGhp2RnnNkmIQ3cruXacxrYz6C
-	 BUL/5ApiHXuUTbu8R1Gax2himWfaHeSznRep8zEPux/XxzrbCqNRWVHyDT0AhodD8i
-	 AleWurP3JPjYw==
-Date: Tue, 11 Aug 2026 11:11:52 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Esteban Urrutia <esteuwu@proton.me>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: usb: Add Parade PS5169 redriver
- bindings
-Message-ID: <20260811-watchful-turaco-of-opportunity-b8ddbf@quoll>
-References: <20260810-ps5169-bup-v3-0-a2178b2834d7@proton.me>
- <20260810-ps5169-bup-v3-1-a2178b2834d7@proton.me>
+	dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b="KExhOCxQ"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-495635a85d2so24863505e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 02:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wyliodrin.com; s=google; t=1786441163; x=1787045963; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=keOctzNwfNBsLPbe15O/mUE1LNwpA3sYadag5szckvA=;
+        b=KExhOCxQAJILW2gJIwDD7mUcjqpwh8TC0JHO0mb1iY6Plq0Mi0qagshnlpU+ghRH01
+         KQmJ8j2qo3VyM2KXUP3rwDWcQbaIv/f1XQgXl/bT7sYxKlXs0tKwhCrLsuDtMDvMcQQB
+         SOE5iPEpbnS5AQ+sqsCy3gAyPtybqNnfo3/LQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786441163; x=1787045963;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=keOctzNwfNBsLPbe15O/mUE1LNwpA3sYadag5szckvA=;
+        b=p1lxRTa63L4sa8t9u774B3v4UY0qtBSUfS7tawYfDV8hTT/HVdms6Oc6gJh8N1CRON
+         xTMU67x6LVuewBcihtJF53tcS4WHmlA+VIgJIgElCws2b0kMlM92JdRXCNLp+9HeQAEh
+         syYfYaM2LEunulyBY0G14/+n48UtFypG01haJPbRrWsmKq5dS4GIm8oFR8edZIBy1CXT
+         AJeIncOFP9JMkSisXmEp1+BopynY4QGa8ca4eCk4YjE/7JwiS0FwXBm0KZfTghhPhoUp
+         rCchX/Qn1qxCemEYvLMHIo/iB/nKHBlEbS5/BIm6YPmm2PDAAIRk01NNeqVRRb5Lih72
+         TMug==
+X-Forwarded-Encrypted: i=1; AHgh+Rrce/hYvNEp0xh1Uxlc8hFc5kvmsN9YeBnAtGtwSj+CqGmrIRqtfpKoau3JrvGmIqxRTD8CVchHHFg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJRp8R/KoK/MVn1DCdNgrgtUmQZjfuT6sSyWlztSS3kXodhebQ
+	7IlaYoTqg5QQkP7eyBT33ruyceM9M2O2dDBmEk27GiOqiziS0JmeGLyamyMDShsy4FpzlQFnn3Q
+	PF21WnS8=
+X-Gm-Gg: AR+sD13PYhBFswqTpHu/z2csYquQqrTasvMjRCpjXI2PO/p3xPpjnrstDdrG/zRckdw
+	x+fsNCQlOlj7NQKnL/uoyy+ppAR9C4KUWZtn3YLcgOoev0MBqtPwb9WabOl3/ppRpLIn0AQv51c
+	GK0j9k4N2nrP3TumpI8InJ4d+F/lPYrKPHthypgb01XFzSksxzT2YVqzl7c/aaDJzeEwahzLm/5
+	LL1EqQiaMlQFe9lnft3hGz3K6Ri524Msq0+OKnJYGfCFiKWol0lAAXT8d5X9or02nUQYjbO5YUO
+	3ASpUrvPaQQbueKUU+W6qXc+YQVTl4ispc+/A6LEuc3v4e6nTrQ+FWSouBR0kIGGTwUa2E73z7b
+	f1JcpoBdKqGdofAbJcBz3WFv12SdQDejQMIuoxIkd2w7SgxpvSb7Jf5qRlBbIVnQLsFCVTjkkox
+	DDTiKI+bebz8sAHZ1f0FN/f1j6pPRm2L0K6/DaGz95XYlISKmNPj3OPdmfBMuo97yuYbjS3HGr/
+	lCC5Wjo5UAl1TJME7/wpm34Eu9JLQximbPt/UKQHUu3
+X-Received: by 2002:a05:600c:674a:b0:495:5045:39e6 with SMTP id 5b1f17b1804b1-499784712bamr36714075e9.17.1786441162514;
+        Tue, 11 Aug 2026 02:39:22 -0700 (PDT)
+Received: from localhost ([217.73.170.83])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499740c4a87sm52930975e9.5.2026.08.11.02.39.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 02:39:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260810-ps5169-bup-v3-1-a2178b2834d7@proton.me>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 11 Aug 2026 12:39:20 +0300
+Message-Id: <DKM0JFH8G8U1.16WQSH2AFB1UO@wyliodrin.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH RFC 1/2] rust: usb: add endpoint abstraction
+From: "Alrexandru Radovici" <alexandru.radovici@wyliodrin.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Alrexandru Radovici"
+ <alexandru.radovici@wyliodrin.com>
+X-Mailer: aerc 0.21.0
+References: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
+ <20260801-rust-usb_control_msg-v1-1-655bb444b52c@wyliodrin.com>
+ <2026080205-falsify-stalemate-175b@gregkh>
+ <DKFBIK6S4RR4.2PB6HTV910C1J@wyliodrin.com>
+ <2026080315-detective-cadet-3d6b@gregkh>
+In-Reply-To: <2026080315-detective-cadet-3d6b@gregkh>
 
-On Mon, Aug 10, 2026 at 11:31:36PM -0400, Esteban Urrutia wrote:
+On Mon Aug 3, 2026 at 4:23 PM EEST, Greg Kroah-Hartman wrote:
+> On Mon, Aug 03, 2026 at 03:46:44PM +0300, Alrexandru Radovici wrote:
+>> On Sun Aug 2, 2026 at 11:39 AM EEST, Greg Kroah-Hartman wrote:
+>> > On Sat, Aug 01, 2026 at 03:01:07AM +0300, Alexandru Radovici wrote:
+>> >> Add an abstraction for `struct usb_host_endpoint`, together with the
+>> >> accessors needed to reach one: `AlternateSetting` wrapping
+>> >> `struct usb_host_interface`, `Interface::alternate_settings()` and
+>> >> `Interface::current_alternate_setting()`, and `Device::control_endpoi=
+nt()`
+>> >> for the default control endpoint, which no interface descriptor lists=
+.
+>> >
+>> > Why?  USB drivers shouldn't be messing with usb_host_endpoint structur=
+es
+>> > for the most part, what user do you have for this?
+>>=20
+>> The more I think of this, I think you are right. `HostEndpoint`'s access=
+or
+>> methods are only used for debug, as the `kernel` crate can access
+>> the actual `usb_host_endpoint` underneeth. For debug purposes, we should
+>> just derive the `Debug` trait instead.
+>
+> Great, if it's even really needed.  Let's see how that works out, as I
+> don't know what you want to provide for debugging.
+>
+>> >> `HostEndpoint` is generic over two sealed marker traits,
+>> >> `EndpointDirection` and `EndpointTransferType`, whose implementors ar=
+e
+>> >> 1-ZSTs held in `PhantomData`. An endpoint borrowed from an alternate
+>> >> setting starts out generic in both; `as_in()`, `as_out()` and
+>> >> `as_control()` check the descriptor once and return a reference
+>> >> carrying the corresponding marker, so a function taking
+>> >> `&HostEndpoint<In, Bulk>` needs no check of its own. The type is
+>> >> `#[repr(transparent)]` over the C struct and the markers are
+>> >> zero-sized, so the refinement costs nothing and a slice of endpoints
+>> >> can be borrowed directly from the C array.
+>> >>=20
+>> >> Control endpoints get a distinct `Bidirectional` marker rather than a=
+n
+>> >> IN or OUT one. A control transfer takes its direction from bit 7 of t=
+he
+>> >> setup packet's bmRequestType, and USB 2.0 section 9.6.6 defines the
+>> >> corresponding bit of bEndpointAddress as ignored for control endpoint=
+s.
+>> >> `as_in()` and `as_out()` are not implemented for `Bidirectional`, mak=
+ing
+>> >> calling them a compile error rather than a misleading result.
+>> >
+>> > Don't over-think USB endpoints, they are "just" a pipe that contain a
+>> > numbering scheme that the USB core uses.  Is that what you are trying =
+to
+>> > create here?  What are you trying to "enforce" here that the C code do=
+es
+>> > not already do?
+>>=20
+>> My USB knowledge is limited, so I hope I am not saying something
+>> stupid here. My understanding is that drivers should not expect
+>> interfaces to map the same endpoints (numbers) every time.
+>
+> Why not?  Well, they can, or can not, depending on the device, and the
+> driver knows this.  For some drivers, a specific endpoint will _ALWAYS_
+> be a specific number, while for others, they are dynamically determined.
+> It depends on the device/protocol being used.
+>
+>> A driver should expect an interface to expose a certain number of
+>> endpoints, each one with a certain type, but the actual number of each
+>> exposed endpoint is not to be considered hardcoded. This means that driv=
+ers
+>> should anyway iterate over the endpoints to discover the numbers
+>> of the required endpoints.
+>
+> Again, sometimes, but not always.  What a driver SHOULD always do is
+> verify that the device is providing the specific number and types of
+> endpoints that it is expecting at probe time and call the core to "find"
+> the expected endpoints that are present.  In the C api we do that with
+> the usb_find_common_endpoints() or the usb_check_bulk_endpoints() type
+> functions.
+I suggest adding a structure and functions like:
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v7.1-rc7/source/Documentation/devicetree/bindings/submitting-patches.rst#L23
+	struct CommonEndpoints {
+		bulk_in: Option<HostEndpoint<In, Bulk>>,
+		...
+	}
 
-> +
-> +  parade,dp-eq-db:
-> +    description:
-> +      Equalization for DP channels.
-> +      For example, <6 5> denotes an equalization of 6.5 dB.
-> +    oneOf:
-> +      - items:
-> +          - enum: [ 2, 8, 10 ]
-> +          - const: 0
-> +      - items:
-> +          - enum: [ 5, 6, 7, 8, 9 ]
-> +          - const: 5
+	pub fn find_common_endpoints(&self) -> CommonEndpoints;
 
-Eh, this is on me. I did not pay attention that values are fractional.
-You should not be a list, but expressed as a single value, which is not
-possible with int32. This might be the only ever practical use of mB :),
-but I doubt that any engineer would find that readable, so let's go to
-your previous code - direct register values - for all three properties.
+I can add them in the v2 series of patches, but as there is no
+user yet, not sure if I should.
+>
+>> My idea is to leaverage Rust's type system to prevent users from supplyi=
+ng
+>> the wrong endpoint type at compile time rather then at runtime. By makin=
+g
+>> the `HostEndpoint` its own Rust type with no public constructor,
+>> users will be forced to iterate the endpoints to discover the correct
+>> number for each endpoint that they require. Once they have it, users
+>> can hold to the reference as long as the interface is valid.
+>
+> Having a reference is great, but really, these are things that you
+> should just call the core for and get a reference back.  No need for the
+> special encoding logic, see how "simple" the C code is for this please.
 
-Sorry for the mess.
+I started looking closer at the C API, I think I have a better understandin=
+g
+of what you mean, I need to think a little more about this. The v2 set of
+patches will not include these changes yet.
 
-> +
-> +  parade,usb-rx-eq-db:
-> +    description:
-> +      Equalization for USB receive channels.
-> +      For example, <5 2> denotes an equalization of 5.2 dB.
-> +    oneOf:
-> +      - items:
-> +          - enum: [ 5, 11 ]
-> +          - const: 2
-> +      - items:
-> +          - enum: [ 6, 7, 8 ]
-> +          - const: 0
-> +      - items:
-> +          - const: 8
-> +          - const: 8
-> +      - items:
-> +          - const: 9
-> +          - const: 6
-> +      - items:
-> +          - const: 10
-> +          - const: 4
-> +
-> +  parade,usb-tx-eq-db:
-> +    description:
-> +      Equalization for USB transmit channels.
-> +      For example, <6 5> denotes an equalization of 6.5 dB.
-> +    oneOf:
-> +      - items:
-> +          - enum: [ 2, 8, 10 ]
-> +          - const: 0
-> +      - items:
-> +          - enum: [ 5, 6, 7, 8, 9 ]
-> +          - const: 5
+>> By adding the `Dir` and `Type` generic markers, suplying the wrong endpo=
+int
+>> to a function will be caught at compile time rather than at runtime. Thi=
+s
+>> should hopefully shorthen the debug work needed for a driver, as some of
+>> the errors become impossible.
+>
+> functions should be taking any "type" of endpoint as this will be
+> checked when the USB core actually submits the data to the device, so no
+> driver will get very far if all is not correct.  No real need to attempt
+> to provide many different types and check it all in the api as the api
+> needs to handle all endpoint types, right?
+I still think that this can be checked at compile time and should be.
 
-Best regards,
-Krzysztof
+>> As endpoint 0 is always provided and basically _almost hardcoded_``, I a=
+dded
+>> the `control_endpoint` function.=20
+>
+> That's great, but again, we "know" what that endpoint type is, and it
+> will be used for both read and write operations, BUT you need to specify
+> it somehow which way you want that operation to happen when you make the
+> API call, right?
+
+For control endpoints, I guess this is done by the names of
+the `control_message_...` functions. They both take the
+same endpoint, and use it in different ways.
+
+For Bulk and Interrupt transfers I would add API like:
+
+	trait UsbMessageSend<Type> {
+		fn message(&self, endpoint: HostEndpoint<Out, Type>, data: &[u8]) -> Resu=
+lt<...>;
+	}
+
+	trait UsbMessageReceive<Type> {
+		fn message(&self, endpoint: HostEndpoint<In, Type>, data: &mut [u8]) -> R=
+esult<...>;
+	}
+
+	and implement these for usb::Interface for Bulk and Interrupt.
+
+Users will just call
+
+	intf.message(endpoint, data)
+
+and the compiler will select the correct function. There is no way a
+user could use an endpoint in a wrong way.
+
+This API is somehow in line with what nusb does.
+https://docs.rs/nusb/latest/nusb/
+
+I am not sure yet how to implement this for Isochornous transfers.
+
+> I would recommend actually porting/writing a USB driver using the apis
+> while you are attempting to make these bindings, as I think a lot of
+> these issues will fall out automatically when doing so.  USB really
+> isn't that complicated, it's just a dumb and slow "pipe" that for every
+> message, is triggered by a host request, no matter which way the data is
+> flowing.
+
+I am porting usbsevseg.c and I'll send the v2 version of these patches that
+include all the infrastructure needed to port the driver.
+
+> thanks,
+>
+> greg k-h
 
