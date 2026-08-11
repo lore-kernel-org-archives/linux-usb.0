@@ -1,152 +1,245 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E877432E93
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 10:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786443585; cv=none; b=gzO+X3fbO9oX8S7bUHpebxJX+e7yvFD1gfrtMiWwx/rSWBw2r9M/sKOVr4sFX80gsNkbW+fBWvk0Azitmu24QDfdVmu5KMOSqQVOrdCGbhtxKvB7oCm71OqSms+KoB1AVqL35xZjxlT0HrZdoAjsEo4y8LLshwiqPLL2tnEjRp0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786443585; c=relaxed/simple;
-	bh=s+vQTpgMPfFZNzcrlhf94If9JU9zfxJn7knX69cBwpA=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=ocvg8b91tv3YCcRWktzQdZr3Uu6MaeY7JqPezWj/5FAxx8wMr6lE8OjciwFXSSTN/es+kv8mV4T24fMLKZsSK//Uwlaq70XvvBKKUUeIIa8YCOTXOZKCri7tY1DESGjm2EqoyxbquJGUksBo3Jk8a/YVVcNx3eIzgn24oqeIZwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4959c49e054so1349909b6e.3
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:19:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5268D42586B
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 10:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786445870; cv=pass; b=mWeSyZA46BgkczIQvjGmSvPomi9zFsFvUGj4X3xgXPOqqkilJZXEASaQWcPENdk/MtNhOuPdGD85ok61zqyTjBHRcdRRFK+1QYaFp/XLvAMVgnzls6Rlub/c0OtJ7w0rYVuiuDJTKNfi/COvGvrajUGmu994BwxC73F3hH6Vnq0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786445870; c=relaxed/simple;
+	bh=O7+JYergMAsC015lG9tF5jzHYH8SbLJKj2G6GmXXTzo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k9bzQG5ylrLjYn8vP/f3scNDdVamjFqG75S4cwC0EinxFiKZAgZFFW9K+Z8BPs3BjAaOxXW5AJP1Urju95VDcfn/aBwP9WvnniU3tuYMtQw50Gb0yhJgMIYq4sS6WSnMdYRB5e0ocCCLZF5SKdOCG6+1jIetwxRP3eYM7Ye1p7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rZlcS9QZ; arc=pass smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rZlcS9QZ"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so2812580a91.2
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:57:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786445865; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BXNemOfl/SILaKsZ+jqOuLeEEbJ5jQGDaNyUvoAOWgbPy9/IJafddDqN92NROV/q6t
+         V7RNBCO4v2QdJmsSZBW7l3RrKDmdGUkYmiF6aCRnm6lMyKzemt4lcLC2Q9Zz22QvZcma
+         5gyJrRNShfYwsz1LuyEhx6I48RmnT7coffxMvrQ3CrDD0te1entBxssyP6ZoYx8QjHkd
+         Z1F0XiYZfb82KSzWh+tYMBlhJPVkrycJN+YyZ4AUh+uU7HSo7/UEMPScr4O6bqUQ3buJ
+         wHa6i4k3uIU09T7n+8P/f8ksFRxkzQSyoojjKZ1KgVgRVqS+5UiZTYeKfnIDxoq98Xg5
+         8tZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HvnZNlDTcAoy+XAjgmpVzW3owkfclIIg7i3hD29IibY=;
+        fh=q5UeOnfIFCUxRGJa+hPmQqVSrNUNzJxkgnA6au6o/2o=;
+        b=Rqlx85kAAVcx1BrUMtrY+lx9JyjCM/fUV/rxDn55ZDLD2IU4x7EgFXR9dgxVtkhq1r
+         FdStey3VNesS9c40e7E6WbB7TBT+F5wcm8Hb5NWqpGAfHLPeWrGHPTjh+asEALkQMImO
+         +RGQNeWj7htuJsyxIwUNNg/1OfvUnPAjWY4mg1B+zykieEhBOdZpFuYo1IAxRJIAvo2f
+         hFzmNQpTCV47iqvYg1GDEFMRCj6kytYvBWYvRPVeKCTaewAJGZGlN+s6XAdtdgb8SCzG
+         ekDj+j50UZ7zwJzYmJ6EaqJ110CppmOME295gdYLdUbzEgO3kYxndjLBFGFSwQMD8YB8
+         wAqw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786445865; x=1787050665; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HvnZNlDTcAoy+XAjgmpVzW3owkfclIIg7i3hD29IibY=;
+        b=rZlcS9QZ4TuKZDjB78qEYF3upOEiWHB+EE0jRUeMgjfEbeiF5N7yFmaS2oo4u4bJN0
+         6GGNdtVygslB/RANaXs3+QA4Y7ylktdRxYVniYA+KPWHgAwE/6hfC693Dy58POY/oBEq
+         dsWW4K/2MZ7c1AR5Sk46OECy1g9vCkJUueJdvO1csGd3HIw3C26YGXsb871/okT6jxQ0
+         7Uxvt5l1Zxisor4QthCJduZoJ1CLZm5oqgeGSQ9Q0t+zZmAOqKEWdn8/D8Z+79fnBClg
+         L6Hcr646231ptZS+n5bqTO/2pjmBpJLG5QHWxrKH8r+pRJQNmjsWdkgX+9IVXFD5cY+W
+         Yc3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786443567; x=1787048367;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VYA258uA+eAatbOgpT1gCcJEyJG5lwfSmvj7tVbWtq0=;
-        b=JQeNxH7x1HC6vl+VjgBMlYHK0c/mn3MkHrLXBpeq5eEqgZsp1iGz21w++oQWghj30x
-         cUMn6FCSOMNcbyUl5mqqOYeSM99TYhhW9WPprHlXd1oD9Eqeguce+5/nA36urFds8PMY
-         aQx5JvsBIx1C8lfKiw3ijnrp5vgID2ADKiO2Blwl0N2VNAsfJMpCNCzlXkcyi3Aairke
-         u7bItSGawakdY54o5vaA21xPuzL5DR0Q4akXDOsSwUQK0j5UmRWiOnEJ3/v9GIeLt9Fw
-         7VPYHo+jsF5ZUM5MvoG1J/bPp9batTu5nYT2exkGXocIMqiTssMWSdFlPNOIFEe15ShV
-         AMGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrVtu/K5qPIlrWxiGVcWJPbI30FmCH/L9ICTiyXoYb3+dhxGaKWNRo6+vIFCufvzYg8sSBoXP/ob10=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzybZcUnFsbgM2WSy98svefkvNaUZzJ3mqKOASkRnxHER+2ET1b
-	sqIoTYraldl6iGwYsagE0yezIhS0amN7QW/Y7KXzpZlOW/CQGNj4SdLXFVPQqj46HrwGbRRI6Ss
-	5a1tE1iWWrrXN3gCTyJ0UzyWXy0Okv8yWvRZrldbRiP0/oSgPwx8d/ZhG4co=
+        d=1e100.net; s=20251104; t=1786445865; x=1787050665;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HvnZNlDTcAoy+XAjgmpVzW3owkfclIIg7i3hD29IibY=;
+        b=jtgn7eGHscwWLFydbC+qtRwkmwzoqXmmqW3AEKj72DxtwaXoNARU4kQM217QRAxaE2
+         96J7oXlEyJFbRN5pGZb0NoFe+oayZlExv7nliGfbkjekfVG15W4D8dpaBAortNyZArD+
+         xlZtc112HGTxNlIbdeKQ5adSarHMs1/S51EIqaxiTpfv57dtifJ1pW6qQNVZd/ZoPpN3
+         3EXZzjQu7Tq12tb4rees5SCp1vfPwkQLQOA1GJum/+kifQYPDaBK2qxE7sHn9YRf+Rjo
+         +rjSVfLzeEdezYxBFqMSVNhUSDv8GxPbk1oxRmc+NHSb9J5/wuXvDIx6YnGZ9J7zy8QI
+         Tl9w==
+X-Forwarded-Encrypted: i=1; AHgh+RrfzB5tM78T2QmJnHUKD6QIF6qyuWAvgfpIja4Yb8loHL36mykltMKVg99xC6lgZ7J9aYYvHnSYIA0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbj4FCJri39PHtXFBwjvMUZkreaZitQAHUDCxU2fQFDdMomY9F
+	vWxkBOtB254LI39kC0BMi7UfT35IqVUdk3wV4/C5GqK/yHBnwlB6oJ7tjmOqDRtGh3epaS4rFJp
+	Hmcg04rJYWbRMczR0E276lWos9t27AF0=
+X-Gm-Gg: AR+sD11ESYSIZTd6yoUgtOfoIWsQ7SE+H83QzHC05wqXEpD+iWL4ABVu+MukNV71Ya+
+	Lylvmnc6xv8Mr9qIuzD6NI1WHpbkEc546Ut1wOoNBqNgkK0PjYUmXnlB44vW/WN6aPDbE/8ZTZF
+	cctBP1LY5cjT18HxCGc5sgukdkmplmERoBliwLI7QhWf0CV38ph45VDLk0fydKp1/p/z1PLKtTw
+	jeCLQirPTrPom2rAE3VS6JEZEOTsur/zfp7jQ23fhWHdQr0q2DJBoFZG0LkOOLRsUvDeb5UCjaC
+	/L1W14XRSVJls6ScVfUwQhmV+v09T41CkmHUTK9xneyk
+X-Received: by 2002:a17:90b:5486:b0:38f:1a2e:6e56 with SMTP id
+ 98e67ed59e1d1-392ec3c39aamr2487616a91.9.1786445864914; Tue, 11 Aug 2026
+ 03:57:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3081:b0:492:9e13:d5a7 with SMTP id
- 5614622812f47-4b1fd7706c4mr1384875b6e.6.1786443567425; Tue, 11 Aug 2026
- 03:19:27 -0700 (PDT)
-Date: Tue, 11 Aug 2026 03:19:27 -0700
-In-Reply-To: <6a7a6961.9c11d2ce.289b96.00f6.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7af72f.5aeeccc9.207e63.0014.GAE@google.com>
-Subject: Re: [syzbot] [usb?] general protection fault in uvcg_video_enable
-From: syzbot <syzbot+44835f0858f11e3e923c@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <CADoo8uyrmw_GkNgNf+bV_pieYN_gn5i49rOF8jUvSsfPOcqCJA@mail.gmail.com>
+ <20260811012120.GA565400@bhelgaas>
+In-Reply-To: <20260811012120.GA565400@bhelgaas>
+From: Max Stevens <thinker.healer@gmail.com>
+Date: Tue, 11 Aug 2026 05:57:33 -0500
+X-Gm-Features: AUfX_mxhIl2TuFBHubG-xrx-9hPHJ3dqEvw0IP4lGbnRIM-dykcUYOOlmq-C0u0
+Message-ID: <CADoo8ux-r7jnwO=PqTK_aZaJBrpM5P3W5fRNWeNxCi+FpP8G0w@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_Pericom_PI7C9X2G608_=2812d8=3A2608=29_missing_from_ACS?=
+	=?UTF-8?Q?_quirk_=E2=80=94_breaks_Renesas_uPD720202_USB3_cards_when_IOMMU_is?=
+	=?UTF-8?Q?_on?=
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: linux-pci@vger.kernel.org, bhelgaas@google.com, nathan@nathanrossi.com, 
+	nicolas.cavallari@green-communications.fr, linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+Hi Bjorn,
 
-HEAD commit:    d58772d8520c Merge tag 'regmap-fix-v7.2-rc7' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1434a879580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d07fbc6821d72a61
-dashboard link: https://syzkaller.appspot.com/bug?extid=44835f0858f11e3e923c
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17d69879580000
+Thanks for the quick patch. I tested its effect on my PI7C9X2G608GP
+(12d8:2608) by replicating what pci_fixup_pericom_acs_store_forward()
+does, using setpci at runtime (I have not built a patched kernel =E2=80=94
+happy to do that too if you want a test of the actual binary).
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+44835f0858f11e3e923c@syzkaller.appspotmail.com
+Findings on the 2G608:
 
-audit: backlog limit exceeded
-configfs-gadget.g1 gadget.32: uvc: uvc_function_bind()
-use of bytesused == 0 is deprecated and will be removed in the future,
-use the actual size instead.
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 2 UID: 0 PID: 6048 Comm: syz-executor268 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:usb_endpoint_xfer_isoc include/uapi/linux/usb/ch9.h:571 [inline]
-RIP: 0010:uvc_video_prep_requests drivers/usb/gadget/function/uvc_video.c:508 [inline]
-RIP: 0010:uvc_video_alloc_requests drivers/usb/gadget/function/uvc_video.c:559 [inline]
-RIP: 0010:uvcg_video_enable+0x12d/0xf80 drivers/usb/gadget/function/uvc_video.c:784
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 b7 0d 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 18 48 8d 7d 03 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48 89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 e5 0d 00 00
-RSP: 0018:ffffc900033a7b58 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffff88802e74c100 RCX: ffffffff87e608b8
-RDX: 0000000000000000 RSI: ffffffff87e608c5 RDI: 0000000000000003
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000002
-R13: 0000000000000000 R14: ffff88802c31e8f0 R15: ffff88802c31e840
-FS:  000055555baac400(0000) GS:ffff8880d5dd7000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055555bab0000 CR3: 000000003df62000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- uvc_v4l2_streamon+0x9f/0x130 drivers/usb/gadget/function/uvc_v4l2.c:531
- __video_do_ioctl+0xb2a/0xdf0 drivers/media/v4l2-core/v4l2-ioctl.c:3133
- video_usercopy+0x47a/0x1730 drivers/media/v4l2-core/v4l2-ioctl.c:3475
- v4l2_ioctl+0x1bd/0x250 drivers/media/v4l2-core/v4l2-dev.c:366
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc0f28ab40b
-Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-RSP: 002b:00007fffe9a50160 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fffe9a501e8 RCX: 00007fc0f28ab40b
-RDX: 00007fffe9a501e0 RSI: 0000000040045612 RDI: 0000000000000003
-RBP: 0000000000000002 R08: 0000000000000003 R09: 0000000000008000
-R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000003
-R13: 00007fffe9a501e0 R14: 00000000c0585609 R15: 00000000c058560f
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:usb_endpoint_xfer_isoc include/uapi/linux/usb/ch9.h:571 [inline]
-RIP: 0010:uvc_video_prep_requests drivers/usb/gadget/function/uvc_video.c:508 [inline]
-RIP: 0010:uvc_video_alloc_requests drivers/usb/gadget/function/uvc_video.c:559 [inline]
-RIP: 0010:uvcg_video_enable+0x12d/0xf80 drivers/usb/gadget/function/uvc_video.c:784
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 b7 0d 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 18 48 8d 7d 03 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48 89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 e5 0d 00 00
-RSP: 0018:ffffc900033a7b58 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffff88802e74c100 RCX: ffffffff87e608b8
-RDX: 0000000000000000 RSI: ffffffff87e608c5 RDI: 0000000000000003
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000002
-R13: 0000000000000000 R14: ffff88802c31e8f0 R15: ffff88802c31e840
-FS:  000055555baac400(0000) GS:ffff8880d5cd7000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055703341ef30 CR3: 000000003df62000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	48 89 fa             	mov    %rdi,%rdx
-   3:	48 c1 ea 03          	shr    $0x3,%rdx
-   7:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   b:	0f 85 b7 0d 00 00    	jne    0xdc8
-  11:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  18:	fc ff df
-  1b:	48 8b 6b 18          	mov    0x18(%rbx),%rbp
-  1f:	48 8d 7d 03          	lea    0x3(%rbp),%rdi
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax <-- trapping instruction
-  2e:	48 89 fa             	mov    %rdi,%rdx
-  31:	83 e2 07             	and    $0x7,%edx
-  34:	38 d0                	cmp    %dl,%al
-  36:	7f 08                	jg     0x40
-  38:	84 c0                	test   %al,%al
-  3a:	0f 85 e5 0d 00 00    	jne    0xe25
+The mode register exists at the same offset as on the smaller
+switches: upstream port config 0x74. Value on my system before any
+test: 0x0102 (store-forward bit clear).
+With ACS on all four downstream ports set to what the kernel normally
+enables here (ACSCtl =3D SrcValid+ ReqRedir+ CmpltRedir+ UpstreamFwd+),
+and 0x74 bit 0 CLEAR, device enumeration on the downstream xHCI
+controllers fails: [43069.603242] xhci-pci-renesas 0000:0c:00.0: Error
+while assigning device slot ID: Command Aborted [43069.603270] usb
+usb9-port1: couldn't allocate usb_device
+Setting 0x74 to 0x0103 (bit 0, store-forward) with ACS unchanged, then
+rebinding the xHCI drivers: the same device on the same port
+enumerates immediately and works fully: [43071.971147] usb 9-1: new
+full-speed USB device number 2 using xhci-pci-renesas [43072.132176]
+usb 9-1: Product: Azeron Keypad [43072.218656] hid-generic
+0003:16D0:113C.0017: input,hidraw12: USB HID v1.11 Keyboard [Azeron
+LTD Azeron Keypad] on usb-0000:0c:00.0-1/input1
+I toggled the bit back and forth across several driver rebinds. Every
+"Command Aborted" failure I have logged (both today and across earlier
+debugging) occurred with the bit clear; none with it set.
 
+One honest nuance: with the bit clear the failure is not 100% =E2=80=94 I s=
+aw
+one enumeration attempt start successfully during a bit-clear window.
+That intermittency is consistent with the load-dependent packet
+buffering behaviour described in Nathan's original erratum writeup,
+and with this card family's long history of "sometimes almost works"
+reports on various forums.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+So on this hardware the store-forward workaround behaves exactly as it
+does on the already-quirked siblings, and the patch looks correct to
+me.
+
+Tested-by: Maximo Paulino Thinker.Healer@gmail.com
+
+Thanks, Max
+
+On Mon, Aug 10, 2026 at 8:21=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
+>
+> On Mon, Aug 10, 2026 at 08:00:59PM -0500, Max Stevens wrote:
+> > Hello,
+> >
+> > I'd like to report that the Pericom PI7C9X2G ACS erratum handled by
+> > pci_fixup_pericom_acs_store_forward() also affects the 6-port variant
+> > of the switch, PI7C9X2G608GP (12d8:2608), which is not covered by the
+> > existing quirk (2404/2304/2303, and b404 recently proposed by Nicolas
+> > Cavallari). On this switch the erratum is severe enough to make an
+> > entire class of consumer USB 3.0 cards completely non-functional on
+> > any system with the IOMMU enabled.
+> >
+> > Hardware
+> >
+> > StarTech PEXUSB3S44V-style 4-port USB 3.0 card ("one dedicated channel
+> > per port", widely sold ~2016 for Oculus Rift sensors). Topology:
+> >
+> > 00:1d.0 Intel Z690 PCH root port 07:00.0 Pericom PI7C9X2G608GP switch
+> > upstream [12d8:2608] (x4 gen2) 08:01.0 - 08:04.0 switch downstream
+> > ports [12d8:2608] 09:00.0 - 0c:00.0 4x Renesas uPD720202 xHCI
+> > [1912:0015] (rev 02)
+> >
+> > System: Alder Lake / Z690, kernel 6.18.43 (Void Linux), VT-d enabled,
+> > booted with iommu=3Dpt (default domain: passthrough). Firmware for the
+> > uPD720202s is the correct v2.0.2.6 image (sha256 177560c2...) and
+> > uploads successfully on every probe.
+> >
+> > Symptom
+> >
+> > With the IOMMU on, the kernel enables ACS on the switch's downstream
+> > ports (ACSCtl: SrcValid+ ReqRedir+ CmpltRedir+ UpstreamFwd+). The four
+> > xHCI controllers then probe cleanly, register their buses, upload
+> > firmware, and report port connect status normally =E2=80=94 but any dev=
+ice
+> > plugged into any port fails enumeration with:
+> >
+> > xhci-pci-renesas 0000:09:00.0: Error while assigning device slot ID:
+> > Command Aborted xhci-pci-renesas 0000:09:00.0: Max number of devices
+> > this xHCI host supports is 32. usb usb3-port1: couldn't allocate
+> > usb_device
+> >
+> > All four controllers fail identically. xhci debugfs portsc shows the
+> > port stuck at "Connected ... Link:Polling" while the Enable Slot
+> > command times out. Posted writes from the endpoints still work (MSI-X
+> > interrupts for port change events are delivered), but the controllers
+> > appear unable to complete DMA reads (command ring fetch) =E2=80=94 cons=
+istent
+> > with the known PI7C9X2G packet-buffering erratum when P2P Request
+> > Redirect is enabled. No AER/DMAR errors are logged for the failed
+> > requests.
+> >
+> > Confirmation
+> >
+> > Clearing ACS control on the downstream ports at runtime and rebinding
+> > the drivers immediately and fully fixes the card:
+> >
+> > for p in 08:01.0 08:02.0 08:03.0 08:04.0; do setpci -s $p
+> > ECAP_ACS+6.w=3D0x0000 done
+> >
+> > + unbind/rebind xhci-pci-renesas for each 0x:00.0
+> >
+> > After this, all four controllers enumerate devices normally and the
+> > card works (tested with HID devices, hubs, and mass storage).
+> > "pci=3Ddisable_acs_redir=3Dpci:12d8:2608" is my current persistent
+> > workaround.
+> >
+> > Given that the 2G404/2G304/2G303 (and b404) already have the
+> > store-and-forward fixup, could 12d8:2608 be added as well? I'm happy
+> > to test a patch, and can provide full lspci -vv dumps, dmesg, or
+> > register reads from the switch on request. I can't say whether the
+> > store-and-forward vendor register of the smaller switches exists at
+> > the same offset on the 2G608, but I'm glad to poke it under
+> > instruction.
+> >
+> > These cards were sold in large numbers and every Linux report I can
+> > find about them (Arch, FreeBSD, Proxmox, Unraid forums) describes
+> > unexplained failures or dropped input events with no root cause
+> > identified =E2=80=94 this quirk gap likely explains most of them.
+>
+> Can you test the patch below?
+>
+>
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index b09f27f7846f..27f7d56c9ac3 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -6263,6 +6263,10 @@ DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_PERICOM, 0x=
+b404,
+>                          pci_fixup_pericom_acs_store_forward);
+>  DECLARE_PCI_FIXUP_RESUME(PCI_VENDOR_ID_PERICOM, 0xb404,
+>                          pci_fixup_pericom_acs_store_forward);
+> +DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_PERICOM, 0x2608,
+> +                        pci_fixup_pericom_acs_store_forward);
+> +DECLARE_PCI_FIXUP_RESUME(PCI_VENDOR_ID_PERICOM, 0x2608,
+> +                        pci_fixup_pericom_acs_store_forward);
+>
+>  static void nvidia_ion_ahci_fixup(struct pci_dev *pdev)
+>  {
