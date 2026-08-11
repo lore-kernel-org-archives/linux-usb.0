@@ -1,79 +1,83 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86267357D1D
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C9F38A299
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 03:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786419430; cv=pass; b=lXKTlCOLXx6tTuM8IShBm48GSa/nzybJIhkrh1JiO3Dj9VhuTSG8JPLqpJOxVR/fYThJp8CtgdtbR5MtsxM+Y4PZffF9vJpq04VqXOjQTI48ce86OLYSXaUtIvTDzNzsmCxLYBo2F3uqYiNwhs5pnLamA/kS+KLkezZDw/xM7ps=
+	t=1786419726; cv=pass; b=Sa8yHvLKnnQpab/pknZfeRw1uqcwKWXJfXATT+hEpxUMX7hrZ4XzbksEm4/08OASi3TGtG5Tv77vAoMgd41smAnfMp46t6Bts3OX7AGKXSfxyFQR3x9TtvPJLNW8ir+3jUI/SYGJ8bgp421BeKV+0B37KT3R85R44mmabzDiBRg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786419430; c=relaxed/simple;
-	bh=h7ERLeSsm63NpAkva3LUfyOhZMDa714TtANVGouyQCA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=FzvG/NpU56FUHaEb3nVvNp221vvIzmFd1Z+vPX7LoEA3Ptp3GiS8kUMLc4uLWTcn4WEYq9nWOAWIp3slxRoF6QK0FbXbX3dQqB1TZ8e/pnnHxJIl/gdrMAXKnuVHBTiDVStYVLImGJjNb0RybhXHdHr2+6nE60EBzB9DM6270K0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tIFjvkXS; arc=pass smtp.client-ip=74.125.224.53
+	s=arc-20240116; t=1786419726; c=relaxed/simple;
+	bh=iZB2YHuqY/AHAU9asRRVXZpiAJUeAYjNTurWRgZq72A=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=bs1U7lZ/c+MutCh2YS7cio4aoFdVBC9HlF/eHg+/9iq6JGQ5M5QO9398iZo8A9C1wS3q+Q/CDgSxsp4zTbvqY5sSTmImCOewuWYAr9wudVKVOVDZBittq3VPjjN/XeoAzwjpPfllTsAZRXex0mAOwVDT1o6Z6bMH2POcun/y5/E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M56JBqCl; arc=pass smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tIFjvkXS"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66892c81725so3462617d50.2
-        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 20:37:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786419427; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M56JBqCl"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-664b05d408bso2207095d50.1
+        for <linux-usb@vger.kernel.org>; Mon, 10 Aug 2026 20:42:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786419724; cv=none;
         d=google.com; s=arc-20260327;
-        b=m76AWjWVot439jIkCbeOKgxTKzSCEY45dYqfuRLJNoh3JeJo+Fjc54ckfypRWoIk2q
-         E0qRGIMjXVMTVzNO2wuuOKx0s7mTFuaiHGm4MIWWBBIZvK2b7ScZqbpPcRktW6AxH7sE
-         4NQoduRtnaaH7m0lh8lK7SZOSTqoq1h4avPynKRidh6eBVllNnszZa+Ai8Sv0iMYpvFP
-         jPbTJstRDyLxihpeym5tAuPXwZe6U2m7HzWsuhj4xoXgj5QUICYWd1yubjI2t1JT2qqD
-         NskFbJFl5tbW7dVa5/UgCQEHR1/ndU9itnkvh1UX34AgnL8Em7bihGjHgkTkgow1T+yo
-         Qrmg==
+        b=KkkN9bNLz9iBI2FV22a3hrTppi7ZWVAQ4KyxlZSSUS0rVIP/do1fdB+dbiufaJPdyw
+         mMVFZkYNn+geFw6jsa+ebXHYMcN9oGYfd6/whkLP6YnMkBV2LDxRf++ZqEIzVUBgmDoO
+         w75bxVrGpgasuDYguZTf6Sef2XR/jKN6cbuk2PjPvrrS6ObGGnmzgTSAmW8nVsUbjIae
+         /BEBYEj9JZSr+9yEuPHzPW7D8LlIeptAYOXnkiPhSeoxgEf7nRUat25vmB+wvOZQx1Zh
+         /eN/nE6BF3HnwEATWryXcmeHwDRLAfu4AJDy7UIfG7XBndaTTfNK2FpYg5s7DDSB5q2j
+         OuzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
         bh=ZnL4Vz4XyDBv6/wX4o2LTm4p1gW6ZuiqBp9YAgRdnNQ=;
-        fh=Z/o+nR9bVq8TQbLaOwl5xxpAqQ2icnAf3tN+pI3VDWU=;
-        b=iD/EB4oHhZ5TiGQRfPBUk0nPOvUWO08QEm8JTptKqa+/aIaiYiyGna8LuJiM8+YpMN
-         rzbigUSCO1a/tYwWe7aw1muf7PsUViMx9C/i4MbV7lhS7zkTQ0QILEmUDcvpLRY1nPY9
-         IKHKR57RcOtf7BfPaYuRdDT9S4xK5bdYbNhHG4tVE2CyldnkOWGClld4VbgTlSKMd9kb
-         Q/QLiftpVcnPT088saBJAaKoDlH3lyShSq8P09WvOgGJU7lyWHGRSU8IA8VXk4/ohd+R
-         SeWtuZxqAYYVIXZiK8HLY816T1abmnMwt5jzYsXEXBAo6una01oi7tC7QtOkwPuNb/tj
-         eLCQ==;
+        fh=eY3jZ6POtBZN7VFSr25OyOuS5tVKiMEisV8XMbGtMog=;
+        b=Zy9HcKwv1uASF9RizKf3ObkvIlboN4RK6gLwFbaLDzhEhXOeNOSlGQk/uIezHRBW2K
+         eFquO84aH376fBKNZ8GZbjt41TmmSx8GCHX4/ZxJcgbdXUJS1gE1iwVJyXeOuICOacj3
+         K9ue34D3rt3uXq+beTkCwo96sSclvYTh+7F0TflGCOeolapm0kE0CaC5HThSuYnbY46m
+         x3zQnt/AzHyCeSLGQEbDPXbDSbOoRmMQxtA19Wvjx7y3eMY2tXoQR+veHa02fv7zlNJ/
+         MM4ogpRcLH0HlW5yAPMEyQT/vdPZgfj+4WvjwFrjIlfbx3bFFswgQJGaHiju1CufL5oI
+         YPlQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786419427; x=1787024227; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786419724; x=1787024524; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:mime-version:from
          :to:cc:subject:date:message-id:reply-to:content-type;
         bh=ZnL4Vz4XyDBv6/wX4o2LTm4p1gW6ZuiqBp9YAgRdnNQ=;
-        b=tIFjvkXS75TMPj0qvk2DFdYskEEgyh+KWm6wI+cafhqgvdw8wD2bEwJtqWw0xtiOQR
-         tVsD22pcMxgj+GREMy745TLPKcQ3T53OP0P654XLQHHTNoiQUmA6ZAFmEofWZiYMIwga
-         Fmpa7hVZvo2XKnrbsVoP0iwqhwocxQokhFN27K96ZOC0Ew17hXSWnK/0uEGKfpol6KVO
-         O8WuFdHGbGx79MVAXVVDNJWorzag4gO1nvD30FpFB9IvCdJj/vNspou978ulFK4ssS59
-         d6+McnYFfCAAYLpWYqFKlFq957huZN5qQchCEPfUZaNA6UmFEvEcGM4r9RdH9lru6D9A
-         EC+g==
+        b=M56JBqClpfVX3GWOT3FFC04i5IsT3GsTeyvnJpyEKRdXfyWLfuv/bbk6drpa9Syjbb
+         ce5IlvO0yG6VLl4ZW/xvPIgrjkhhXmhzYKR6FGits4UhRsmUqp9J5d4pO07VNjNAyDRc
+         feZZk5+p3wCKysocUrNJ/u8hfhEinler742J7H2bIEFQJAeOFqzmLOfHFDRXL12MHJJU
+         VtjDkKlbDy7uF+B9r+MicQynM7QO0e32g0M73ttxLywukiIbfTl7/a7HWm47Irsto1gZ
+         gK9BkQm1WEyb6+/hbgPE84qQanhVIlspbBERt4gn4AloKB3BwPyH65nCGl/9OKhx2m+3
+         D5Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786419427; x=1787024227;
+        d=1e100.net; s=20251104; t=1786419724; x=1787024524;
         h=content-type:cc:to:subject:message-id:date:from:mime-version
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
         bh=ZnL4Vz4XyDBv6/wX4o2LTm4p1gW6ZuiqBp9YAgRdnNQ=;
-        b=m326CYnY6IO4Rc9KRmGVai+4taZroDjnSDZpDo4Kt4YaFIGVq50yaKIbIrXPOLYgTH
-         BJ5bDj8+f/4z/bW6zapbVAMIm3m7/lGJgIZv+xF+/qGmdmK3N8U3AzAcwJDw3yT9OK49
-         fQZz4iu4zqWLf5o0AUkJd3KBPnOTSCYHI5vt6j7bs1bX1ByAT0GNIrQE4FMIAEOZJUIg
-         +R4t/HX2dc59Ipe1uiv+kViRVHPRNDFT59I/SQhD/Xpesw5KrDKVnQ7NQwdMFJLs3vU+
-         L4XHHy9Wwerv+fOnnjiEDG43Dpr0dYSeY3Yn/DpEudQZHwerFF24ZxL5n1U7A9J1B9sn
-         lbYA==
-X-Forwarded-Encrypted: i=1; AHgh+RoPKIGv9QCfUNksbcoOgnMegBjcg+y/Hg9/rPU1XMWn5QDNJOBlD30B//RzEryIhcHhJFpXEvoWa9I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyga3VjAWdtIYHMWPp2sPTGdl77DzojtlVcwbAqE5FOup9Jp52y
-	xfn/0GS+/RlhWC9PQBmAdRPrFzA90UyZ8H7HxCihUcXA4DRFjADVVYUEEiYIhXNxUpJz2yTGq4o
-	LXAS+k6WvqWnLYJ5oIprJcuiwvjwA/Xw=
-X-Gm-Gg: AR+sD11HtP3KZ3oc5j7sTxJH/RZ6oLVTLxZTuNmg7YAgCBGKEUOEUGTb0Rq4oa7KQmT
-	I5hhk7AN0xDCVu67ltWgkMgubhrnIh5Duxr22ufjzJUvz3kM2rg/t8UCCN+eWvHG9aNqixonjwX
-	4PxzK1KbrbyhK5ZOKdGtX/RMW5eHJxoY/IZPUfkoSMEidph1TDna566tat0/PuuKBxZVCed8TY/
-	9P5Joid+fjmCK3obQnjBh3ULXZA2ZCqYiuyXW9n4F0pRHGyPlFJi+XHGI05gCw0R1MJBZEWSyNS
-	tOmtMUmaGFXkaRPX4MGHo/IbG5mVvsLXClXxwP/+/+nvLe1MYEwZ4qX4pC8793f9lJqAfz9gcSn
-	/OK7gjH+SEy9M5Nz8HVLPIbU8diPiYoRkuUCH+rzM61a4KCBoiXL5BaxmeQDic9sgJ/YJ+Iv0lZ
-	qG0GK0VEjbj4lC
-X-Received: by 2002:a05:690e:4292:20b0:666:39a8:fb82 with SMTP id
- 956f58d0204a3-66b22d9f964mr102664d50.14.1786419427395; Mon, 10 Aug 2026
- 20:37:07 -0700 (PDT)
+        b=LylrXVe8RcTROEXR+ENXZXqDfJQqcOacHPPH0NDFiIfvTawRTnOZ8cDst/OHB4Hh2m
+         g/AQNnzzUGD5WChp+uD2dYDi1EPKPj7w/DuYlwS5yXRJQVyQLyG5hQTBXEP433DUFJvp
+         7yQptOOV7e7tNI3jBZG3RRYtTE1NRptgD3UAxbtZs3n4sinXgOC6mlXcpJED2RfSmeu0
+         DYKlSVCNAJkqA/DLs/DFhaJ7jMvR7x+UY9pbDzBtgcFhW34t8c8yBPRyQ8AYsxMvhZye
+         er9zX2hBqmO3VhHmg0F3WCx4iDrom9rYChd7NBpETtYqAPZtpk1c3cMyxOhcXUQG9F07
+         qGmQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpFB6dlUkBhQ1Dyy1jJopJi6KI78ChjVCac5pKTKtaZ4/V6g+pYecbjY0ng90ElRUya1EYckjuZsqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznHL17qM8CZZTHjQqEUuuSdfwjfxaWunhpB9LYrQeKpGYCBtX6
+	oMqbt6ePJBhCfuW88kSrEqFglU2omcENNACntqTndW1nsXmslMVN+JZnhSRSBkYhIf5WQBPfJBU
+	V06LpbV5U0tXMnKJ6BCL2XUnoC34q3jjhEw==
+X-Gm-Gg: AR+sD13NXdF+oOZ+Ih3XaNSstA/CGde8NBCQ88Jb09jkprPSSmzk/1ZaZY/Zrxgk+Ra
+	yqFKAqf92/dfneAWyQeZ+6HSUss9TuXWG7s4LYPH5oKhMwS9F/KjYgJ8/S4Y4LWsynPoMCGaVd+
+	gmhy0pIIx9AKKkXbmIxhhOy2VCsRK312fVkoqehKE0qm/QsFm9zpDKJ/kgKIxrYiQv6W9Ky4+8p
+	/5byk90eeybz9G4F6xPdrmD2OL2ukN/lT2Y+ocn9V/CYG4g3zudAlSCVxXLt6O/a+WJZVeqMATd
+	XEOdJNljJQD36lxx0q/w5Rs2C+aobQU8LK0HckjKUBRtK3c5uWzX7NL4jpB+SzLtBK/UhWWR3RP
+	vdogXwFQbTE+v9t83VgtE4eYzOfki5AlsaDZExvIPIvV3PCPs5/dMnVeNRTMo6D4tp9NSkm0L9J
+	bzPiJEhS1CXBDN
+X-Received: by 2002:a53:ec42:0:b0:664:eb8c:9e3c with SMTP id
+ 956f58d0204a3-66b2328386amr61049d50.46.1786419723806; Mon, 10 Aug 2026
+ 20:42:03 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Mon, 10 Aug 2026 20:42:03 -0700
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Mon, 10 Aug 2026 20:41:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,10 +85,10 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Jason Colapietro <jasoncola1@gmail.com>
-Date: Mon, 10 Aug 2026 23:36:56 -0400
-X-Gm-Features: AUfX_mzF21M26wbAtf2AnhCVFZnA26kG-PD1qMX1SfK5ylkY4TSVFQwLsLDopRk
-Message-ID: <CA+Z0x2J-kxsCBJbDP0DbfEHYQxz_Zg_YAHA8t8nrFM7aNnytSQ@mail.gmail.com>
-Subject: [PATCH v2] usbip: make remote list honor parsable output
+Date: Mon, 10 Aug 2026 20:42:03 -0700
+X-Gm-Features: AUfX_myHsQ52VwnmjRH9a2gnffH86lXLWJczz7oJFqrKYV2cOsVXJTR8qzJz9KI
+Message-ID: <CA+Z0x2KotE5hgrFn-vzR+XNF_H_vEbZcE_nXmpVz5F2q1vxE6w@mail.gmail.com>
+Subject: [PATCH v2 RESEND] usbip: make remote list honor parsable output
 To: Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
 Cc: Hongren Zheng <i@zenithal.me>, Greg KH <greg@kroah.com>, linux-usb@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
@@ -116,86 +120,86 @@ index 3d810bcca02..b9d60b87e47 100644
 --- a/tools/usb/usbip/src/usbip_list.c
 +++ b/tools/usb/usbip/src/usbip_list.c
 @@ -41,7 +41,7 @@ void usbip_list_usage(void)
-        printf("usage: %s", usbip_list_usage_string);
+ 	printf("usage: %s", usbip_list_usage_string);
  }
 
 -static int get_exported_devices(char *host, int sockfd)
 +static int get_exported_devices(char *host, int sockfd, bool parsable)
  {
-        char product_name[100];
-        char class_name[100];
+ 	char product_name[100];
+ 	char class_name[100];
 @@ -80,9 +80,11 @@ static int get_exported_devices(char *host, int sockfd)
-                return 0;
-        }
+ 		return 0;
+ 	}
 
--       printf("Exportable USB devices\n");
--       printf("======================\n");
--       printf(" - %s\n", host);
-+       if (!parsable) {
-+               printf("Exportable USB devices\n");
-+               printf("======================\n");
-+               printf(" - %s\n", host);
-+       }
+-	printf("Exportable USB devices\n");
+-	printf("======================\n");
+-	printf(" - %s\n", host);
++	if (!parsable) {
++		printf("Exportable USB devices\n");
++		printf("======================\n");
++		printf(" - %s\n", host);
++	}
 
-        for (i = 0; i < reply.ndev; i++) {
-                memset(&udev, 0, sizeof(udev));
+ 	for (i = 0; i < reply.ndev; i++) {
+ 		memset(&udev, 0, sizeof(udev));
 @@ -98,9 +100,14 @@ static int get_exported_devices(char *host, int sockfd)
-                usbip_names_get_class(class_name, sizeof(class_name),
-                                      udev.bDeviceClass, udev.bDeviceSubClass,
-                                      udev.bDeviceProtocol);
--               printf("%11s: %s\n", udev.busid, product_name);
--               printf("%11s: %s\n", "", udev.path);
--               printf("%11s: %s\n", "", class_name);
-+               if (parsable) {
-+                       printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
-+                              udev.idVendor, udev.idProduct);
-+               } else {
-+                       printf("%11s: %s\n", udev.busid, product_name);
-+                       printf("%11s: %s\n", "", udev.path);
-+                       printf("%11s: %s\n", "", class_name);
-+               }
+ 		usbip_names_get_class(class_name, sizeof(class_name),
+ 				      udev.bDeviceClass, udev.bDeviceSubClass,
+ 				      udev.bDeviceProtocol);
+-		printf("%11s: %s\n", udev.busid, product_name);
+-		printf("%11s: %s\n", "", udev.path);
+-		printf("%11s: %s\n", "", class_name);
++		if (parsable) {
++			printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
++			       udev.idVendor, udev.idProduct);
++		} else {
++			printf("%11s: %s\n", udev.busid, product_name);
++			printf("%11s: %s\n", "", udev.path);
++			printf("%11s: %s\n", "", class_name);
++		}
 
-                for (j = 0; j < udev.bNumInterfaces; j++) {
-                        rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
+ 		for (j = 0; j < udev.bNumInterfaces; j++) {
+ 			rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
 @@ -116,16 +123,18 @@ static int get_exported_devices(char *host, int sockfd)
-                                        uintf.bInterfaceClass,
-                                        uintf.bInterfaceSubClass,
-                                        uintf.bInterfaceProtocol);
--                       printf("%11s: %2d - %s\n", "", j, class_name);
-+                       if (!parsable)
-+                               printf("%11s: %2d - %s\n", "", j, class_name);
-                }
+ 					uintf.bInterfaceClass,
+ 					uintf.bInterfaceSubClass,
+ 					uintf.bInterfaceProtocol);
+-			printf("%11s: %2d - %s\n", "", j, class_name);
++			if (!parsable)
++				printf("%11s: %2d - %s\n", "", j, class_name);
+ 		}
 
--               printf("\n");
-+               if (!parsable)
-+                       printf("\n");
-        }
+-		printf("\n");
++		if (!parsable)
++			printf("\n");
+ 	}
 
-        return 0;
+ 	return 0;
  }
 
 -static int list_exported_devices(char *host)
 +static int list_exported_devices(char *host, bool parsable)
  {
-        int rc;
-        int sockfd;
+ 	int rc;
+ 	int sockfd;
 @@ -138,7 +147,7 @@ static int list_exported_devices(char *host)
-        }
-        dbg("connected to %s:%s", host, usbip_port_string);
+ 	}
+ 	dbg("connected to %s:%s", host, usbip_port_string);
 
--       rc = get_exported_devices(host, sockfd);
-+       rc = get_exported_devices(host, sockfd, parsable);
-        if (rc < 0) {
-                err("failed to get device list from %s", host);
-                return -1;
+-	rc = get_exported_devices(host, sockfd);
++	rc = get_exported_devices(host, sockfd, parsable);
+ 	if (rc < 0) {
+ 		err("failed to get device list from %s", host);
+ 		return -1;
 @@ -351,7 +360,7 @@ int usbip_list(int argc, char *argv[])
-                        parsable = true;
-                        break;
-                case 'r':
--                       ret = list_exported_devices(optarg);
-+                       ret = list_exported_devices(optarg, parsable);
-                        goto out;
-                case 'l':
-                        ret = list_devices(parsable);
---
+ 			parsable = true;
+ 			break;
+ 		case 'r':
+-			ret = list_exported_devices(optarg);
++			ret = list_exported_devices(optarg, parsable);
+ 			goto out;
+ 		case 'l':
+ 			ret = list_devices(parsable);
+-- 
 2.50.1 (Apple Git-155)
