@@ -1,66 +1,82 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA252F6920;
-	Tue, 11 Aug 2026 13:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAF02F6920
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 13:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786454266; cv=none; b=GrxKio4Tf4hHlZXw02Zhf7Ht0JHqyWx4Bm5n+hxEbRGR5/IgbHpLhUZdArHxiwQm1d3jRWNyGSjvkdclGqXch5/5pLJDnKw8hjI7eUTaJQaCQQCr+f3vjGgAYw3JeNXBru+cp9MvOdBCgkRgxFVNRyElzzKHKu1VveiWG32vVWg=
+	t=1786454664; cv=none; b=dg7/lBZ0QTDY/V5Gh2bw3dZsfmTgW23gDnLt6JEWvvIYU83LV33WsxTVaA8ESXsCwcHk5N4duyk39vGpdxk3M+feijJ8GJwSurdiVtq5CS3PAvpKCBa7cqXtRR84/klGYXziLGIWJvpkdse47T5/3IAZ6zGd3HO+HQo1Ru7mRUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786454266; c=relaxed/simple;
-	bh=twkZ0g2SCbRmgprQ447NupPbQVbptShinGcDJMlUmug=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UjeQvWiyR7j2bVnNrfbfYdHdTaFsCTX+/MU0o2y3gZGSVywWCpsz6Hmv0ChzKdZOFVvREoH/PG2K8vELGehKxk3UdLCOerM2zi0GwXKJdE/iyxj4P3GmBF0D4uKpXUmopFI9lJg3nOF+08P7MZ9TlLqkpMG/A5W5xFREfOzT2/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 039f3ffe958711f1aa26b74ffac11d73-20260811
-X-CID-CACHE: Type:Local,Time:202608112105+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:432ffea4-df74-4d5c-b58b-aa081efefcfa,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:3f38bd8ae9b84da239937bec4861cfb7,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|850|865|898,TC:nil,Content:
-	0|15|50,EDM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:
-	0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 039f3ffe958711f1aa26b74ffac11d73-20260811
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 886383421; Tue, 11 Aug 2026 21:17:33 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: leStoppe <lestoppe@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Huang Wei <huangwei@kylinos.cn>
-Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
-Date: Tue, 11 Aug 2026 21:17:29 +0800
-Message-Id: <20260811131729.86563-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260811011008.0f7435c4@matra.magic>
-References: <20260811011008.0f7435c4@matra.magic>
+	s=arc-20240116; t=1786454664; c=relaxed/simple;
+	bh=nrvnct/TKM8XiFKfRGO1vIvfm/lLpWMbwQy4oB4Pqes=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JXZguqLBANPmrZpcvoStRMBCf4dCOpcDvjy08wXK6ZpzjXDPlMAX+XptuoDnjSsVpOpYuZylzT0967Y4YbbWZoJ8gwGXxNG/ztqgi/X7m/QlgC0bEsW5ReuXL7CSGB2QsIr83t5aD6FLaISGeErkyuwZHdqujnI5od6/3bi3ohs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTi0XD8G; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oTi0XD8G"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AFA7EC2BCC7
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 13:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786454664;
+	bh=nrvnct/TKM8XiFKfRGO1vIvfm/lLpWMbwQy4oB4Pqes=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=oTi0XD8GKiIoWzueeXWOe9sOEVTSmkdJDZyA05qOL/AcsdPl1iN62139+DsNywvWl
+	 N8h01aXrFbQUw9QXtlQtXmzHV1FjGcLQte6V0aq2rr17DMQc4IwAjjW48VRI7tc1BI
+	 +boVd8UscR1/k08EHeIknAnOabQAPZxGQA3LWr40pn87d0DVXu0iCxy9ez6WiKJLdx
+	 ++sh8I6MYBEh7QxC+3e7/auATpS0WlqqTE0GOK1iRpUSP6TmcHrza+I5QxICti3Rxy
+	 DjqGb5SGijSNqwt998ryrHlSfNIRAy5Kqyrg8nP7mFJZqgRVxOPp0EzHo2fRklkHoh
+	 dyPCxwbMEQZXQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 92A25C41612; Tue, 11 Aug 2026 13:24:24 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
+ breaks functionality of Owon VDS1022
+Date: Tue, 11 Aug 2026 13:24:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: huangwei@kylinos.cn
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220193-208809-4uistJWqzM@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
+References: <bug-220193-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi leStoppe,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
 
-Thanks for testing! Could you provide a formal Tested-by tag so I
-can add it to the patch? You can simply reply with:
+--- Comment #3 from Wei Huang (huangwei@kylinos.cn) ---
+Thank you for the detailed testing and confirmation!
 
-  Tested-by: leStoppe <lestoppe@gmail.com>
+For reference, a formal Tested-by tag has been requested on the mailing lis=
+t so
+it can be included in the patch:
+https://lore.kernel.org/linux-usb/20260810091322.2201740-1-huangwei@kylinos=
+.cn/
 
-Best regards,
-Huang Wei
+The patch is now awaiting review from the USB serial maintainers.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
