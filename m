@@ -1,74 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8978347506;
-	Tue, 11 Aug 2026 12:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B414330C157
+	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 12:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786451333; cv=none; b=ehrTgj9rgyLJg7hDjFbDsfLVPsHCBtjQ+VurMQ646ap9XoVkUf3HNfTwQlZSbdw7LPxpg8yYGZeunzSZDC43ZpDoixwbkzGGw6jXKR8HrtBSAAUwUZQXQsRbjqL8HI5XN4rSZqTmnfDVUPQu490SFu8TKHOhnjylHvAQW8eMOoY=
+	t=1786452808; cv=none; b=SVSKWhi7Do2QW0ILb3lKZDHkyf+d8FRk2TmCRBvu4Cku5rffj/Xx0x3886//+z8u906fduFUkB8bTN3rtDTpCWA5JlV6+s0bcdNbN9ylA5oPMVbxM5BlZTUlVzfbWofJ4+ajRMz/HWQrGzqw+4V2MlGxmmHaptmktPACk0Q9keA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786451333; c=relaxed/simple;
-	bh=1HJM2k2JV3t2FQTApIRUtJS3EfIQx0T4Q8RZFnZ1pCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cavm1vE85VEOQevj0kmynhgsHdjJvqItJc6o1Dr5vwYEzXHkbetUsQ8B0B8JrtR/FfHfYVH2ntey7q+qGuBzUyyr7qDkvFt5nvG2iSqSEJ5B/PRScrBlJ5t9fcrWG3Wn0SKKDCeTrNDdtLkC98UxLK+31WKjjsKssvlcBhBvYog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nvnqsi03; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nvnqsi03"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753801F000E9;
-	Tue, 11 Aug 2026 12:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786451332;
-	bh=UdIsiKVFhDlUuCmo+fjPrnJmZm9dNzKypop6Jsqk+DY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Nvnqsi03F+RfEqUTxbHVk4abr18YXEWVCCrDXlLBMcqDVcVUMHQKjBe+rTy10zjrR
-	 nvGI8iMn94HEUCE2YgUDchFhUss04at+jYO36ynOfDrqY9Geab3qSitraUVxIJTL3o
-	 HoMkM5l1aDheIiTj3GbUX6kY024CeyPuo9ZQaxT5XKBFalTXyBM4hGceXIbkk5zzrQ
-	 ttiZLVixvpiHINlPVQdV/gL1K0LP2E6zY6WQzbfzgLfaDOv3pPWXLkn/lir0BDo0PQ
-	 jnwJwoa0tPjGWYEC5oHXzkNDLQZUHmOHxk2BorFkxci5zk0+kNXAwNhwnPAtElzePU
-	 JTipzctWNekHQ==
-Date: Tue, 11 Aug 2026 13:28:48 +0100
-From: Simon Horman <horms@kernel.org>
-To: raoxu <raoxu@uniontech.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, kees@kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: lg-vl600: fix Ethernet header on fragmented RX
- packets
-Message-ID: <20260811122848.GE51943@horms.kernel.org>
-References: <30CC616506DE5BC4+20260810084435.2099229-1-raoxu@uniontech.com>
+	s=arc-20240116; t=1786452808; c=relaxed/simple;
+	bh=XFWIHy6QuGQ5UtkZD5i86rs2cCXDOIRIBawqKDnYW8Q=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ACvaqoJ8NGkhVDcbs24fdCFQhM/x9rHo8gBeBiHnyd0fZ9QKVjGrLPRtvzpnb+AHAJHg1cwLVvI75jepjG5bPXwwUceTm1FDTl4dOiiyjdYUeAViBEhcnn9mvf7ibT/JRk1XoqrBq1b/hBlx8x/fhZNn62LVO4AZg17S2V+K3Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4ab260600easo1233785b6e.1
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 05:53:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786452805; x=1787057605;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=noChZkT7g51Z3CosKUKVV3G5GIKROqkR3T7nJW+r8UI=;
+        b=Wv9fjMGTuIbCsNTim/XYd8xEcQ0bqrKhTt3TyByDhqYEcMhEMPwqjFT/6O2W0HASXT
+         bTgPF/lgO1HmeHF81Dlq95gughq6f5ob8mPjdYYFYWmNhXlQjdtWG7wZgNq426dFj2ay
+         8+DPRBjddxkxkXF0O/Fjl0m/NVNycxG5OuSzyO1ddZj0s9LCXdU9tC/Hv6QbQ5mQpn+v
+         RsKIHG45NJRBo0/t9niY2iTOnpNhoIdA6YmYMenOVkJVHzhlh7GpripkA1PDiJvvSDd2
+         Ii/4NKffm8/2Mk2JAa/mVCjKJAxgySz7Gu0tVUSNCizjHS3XW9DqVbH0v+JdSGJlpKub
+         0EIQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6k4c4tLQnZoiru8JlfmkATb4QAqpEhIE3LMRBJjJyix+XANFNmrao2aGfkQgPddwH0n22t+w+aQc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8w/Pahc5iQUkjUHxyNVUbNr6BCvErJ2+FoyDdY/SQgvowQr12
+	YTDG6Ix9bgwH7kzrHZQC/GIyK88MOp6HZfRMVw/a81ZRYdEtkXb8PIPzFE8q+QnAQdXpmBgeJde
+	lEU4OBAcPbNUPyiXZuxvecHfdsz+RmUwL9t8civ5ogLEwqoz5r7N4ztVIxuE=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <30CC616506DE5BC4+20260810084435.2099229-1-raoxu@uniontech.com>
+X-Received: by 2002:a05:6808:1314:b0:492:7abc:422e with SMTP id
+ 5614622812f47-4b1fe85793emr1900814b6e.13.1786452805630; Tue, 11 Aug 2026
+ 05:53:25 -0700 (PDT)
+Date: Tue, 11 Aug 2026 05:53:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7b1b45.9c11d2ce.289b96.0106.GAE@google.com>
+Subject: [syzbot] [usb?] WARNING: kobject bug in pch_udc_remove
+From: syzbot <syzbot+3e2e533aa1b2a75525e7@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 10, 2026 at 04:44:35PM +0800, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
-> 
-> The LG VL600 RX path can assemble one device frame from multiple USB RX
-> URBs.  In the single-URB case, the input skb passed by usbnet is also the
-> buffer being parsed, so @skb and @buf point to the same skb.
-> 
-> When a frame is completed from current_rx_buf, however, @buf points to
-> the assembled skb while @skb still points to the last URB fragment.
-> vl600_rx_fixup() returns @buf to the network stack in that path, but it
-> currently obtains the Ethernet header from @skb.
-> 
-> As a result, the source/destination address fixups and the IPv6 ethertype
-> fixup can be applied to the final fragment instead of the assembled skb
-> that is actually delivered.  Use @buf for the Ethernet header so the
-> fixups are applied to the packet being parsed and returned.
-> 
-> This has likely gone unnoticed because the common single-URB path has
-> @skb == @buf and therefore behaves correctly.
-> 
-> Fixes: 7a635ea98999 ("net/usb: Ethernet quirks for the LG-VL600 4G modem")
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Hello,
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+syzbot found the following issue on:
 
+HEAD commit:    d58772d8520c Merge tag 'regmap-fix-v7.2-rc7' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10996149580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
+dashboard link: https://syzkaller.appspot.com/bug?extid=3e2e533aa1b2a75525e7
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17bc2a9e580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17293132580000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-d58772d8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/caffbd0a7ec1/vmlinux-d58772d8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/686d959b6f96/bzImage-d58772d8.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3e2e533aa1b2a75525e7@syzkaller.appspotmail.com
+
+pch_udc 0000:00:03.0: pch_udc_probe: request_irq(23) fail
+------------[ cut here ]------------
+kobject: '(null)' (ffff888035ce0110): is not initialized, yet kobject_put() is being called.
+WARNING: lib/kobject.c:734 at kobject_put+0x252/0x640 lib/kobject.c:734, CPU#0: syz.0.17/5908
+Modules linked in:
+CPU: 0 UID: 0 PID: 5908 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:kobject_put+0x258/0x640 lib/kobject.c:734
+Code: 59 f6 48 89 da 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 5e 03 00 00 48 8d 3d de 47 83 05 48 8b 33 48 89 da <67> 48 0f b9 3a e9 0b fe ff ff e8 b9 a8 59 f6 be 03 00 00 00 4c 89
+RSP: 0018:ffffc900035b7918 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: ffff888035ce0110 RCX: ffffffff8bb0c8c4
+RDX: ffff888035ce0110 RSI: 0000000000000000 RDI: ffffffff91341290
+RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888035ce014c
+R13: dffffc0000000000 R14: ffff888035ce1978 R15: ffff888035ce0608
+FS:  000055558de32500(0000) GS:ffff8880d5dec000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557c252125d8 CR3: 0000000040736000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ put_device+0x1f/0x30 drivers/base/core.c:3880
+ pch_udc_remove+0x47/0x510 drivers/usb/gadget/udc/pch_udc.c:2986
+ pch_udc_probe+0xcc6/0x1130 drivers/usb/gadget/udc/pch_udc.c:3109
+ local_pci_probe+0xdd/0x1b0 drivers/pci/pci-driver.c:332
+ pci_call_probe+0x176/0x800 drivers/pci/pci-driver.c:394
+ __pci_device_probe drivers/pci/pci-driver.c:455 [inline]
+ pci_device_probe+0x1cd/0x370 drivers/pci/pci-driver.c:489
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ device_driver_attach+0xd1/0x220 drivers/base/dd.c:1203
+ bind_store+0xf4/0x190 drivers/base/bus.c:267
+ drv_attr_store+0x74/0xb0 drivers/base/bus.c:125
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f60b4b9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdce022f28 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f60b4e25fa0 RCX: 00007f60b4b9e0d9
+RDX: 000000000000000d RSI: 0000200000000240 RDI: 0000000000000005
+RBP: 00007ffdce022f90 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007f60b4e25fac R14: 00007f60b4e25fa0 R15: 00007f60b4e25fa0
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	59                   	pop    %rcx
+   1:	f6 48 89 da          	testb  $0xda,-0x77(%rax)
+   5:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+   c:	fc ff df
+   f:	48 c1 ea 03          	shr    $0x3,%rdx
+  13:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+  17:	0f 85 5e 03 00 00    	jne    0x37b
+  1d:	48 8d 3d de 47 83 05 	lea    0x58347de(%rip),%rdi        # 0x5834802
+  24:	48 8b 33             	mov    (%rbx),%rsi
+  27:	48 89 da             	mov    %rbx,%rdx
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	e9 0b fe ff ff       	jmp    0xfffffe3f
+  34:	e8 b9 a8 59 f6       	call   0xf659a8f2
+  39:	be 03 00 00 00       	mov    $0x3,%esi
+  3e:	4c                   	rex.WR
+  3f:	89                   	.byte 0x89
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
