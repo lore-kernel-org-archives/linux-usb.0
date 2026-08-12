@@ -1,166 +1,112 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23C4379C5A
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 19:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0F03A8FE6;
+	Wed, 12 Aug 2026 20:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786563763; cv=none; b=jZfqPgMK+TgRMUBMJKZcz0p3DwUW1PU8627ppxbUC12V/ZX3BeVQ1coDY4OpE6RoZ/CQrv9mOAxQAToy6HarDWk74nNtLoyRd+Nbc1GiTFNaoN8ULyI5Ul4iRQTw7WCYf3Np3kbmTNcobw6v3xx/oUZ8EYSSb2OzwJo42Zf07CM=
+	t=1786568120; cv=none; b=SyqR4+pD39f+ruMhE6SfYX8N4v/uUQVLvwRI+HWwOCRD6i4UxP/eNaHthUMJjbHCJ66qBZAakmM1S5CJK0QJDU84QQatqWyhu01Wa3Zg9heBVohroxax9xBIsxta6+0UrcUleG75Oesdf4hkVpkMDV6gaMfoncOyigL6VZxF6Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786563763; c=relaxed/simple;
-	bh=eISd+hEgb4c3qR0e1EfQedosc8fxgnYoQNMskvbjX3s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ltYLzRwc15mdI8DM318BzI+1+MP/wSkhYVyO2XZxWB2KHPC7g7xQVdLhEzOtzwaekVYa0cy1pmjqJaDwBhVarLMScQtfEdGrXLRkWdOydlDJH7KIzXVgKHsgTsH69FZhc7nAglvg7DEzXbrhf/DmZPInaoBvWiQfyJbmoZwmB3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCv4fT8A; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCv4fT8A"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso1111315a91.1
-        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 12:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786563761; x=1787168561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x28R8Syz/ACbEC+wTOFdBotlQUTS8Z7aqlLsrbeAKSM=;
-        b=MCv4fT8AswGMxZmC2WMv+bbO81p6jgmYYp8Qv6uf4ZzSp/s1mHwZTK6eiWucY33R00
-         Tk9zIKLYxC5yj3EZ9lPTLVv2tGWYZ9DmHeYa83EBQiEcuQr58WTzJBvWiTwX7Gd9+gLl
-         ouN23uz6uLiIBqT5JZunJwGZ19t4Q++TEYndKZ7S7mf/WuLxRkT66lsgZr7AgPyY4lFI
-         +FSJ5eO04v18gc6nWJOjls2DvhhWjtqtu7YtJkz99YbalqxCjWjIYaS8WGMZhkbO4SC+
-         7iCOAk6x/+BYQJDxmeGND+8i5vDy8O8swQ6+aSKMPDJyRLdpvfy6wDzKjI8auG/UQ1a3
-         JjTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786563761; x=1787168561;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x28R8Syz/ACbEC+wTOFdBotlQUTS8Z7aqlLsrbeAKSM=;
-        b=Zb4rs1YaSp9nge5HBxnb+IuNJcfsJGAPB0B+hxHHEE3rFyZEypspIYL1FO6NEiMcch
-         X7edsV6L3xAPKwqrfW4AwydwcCrYIRQQblMAWswAQ9FZWteMr9eGJ4q2rfX+2YbjitRl
-         qnOnEO/yCavgsFGEODG6mMjVMYrWvVbyGlS6tdTfZORZq5vR3spqR7uHE0GRIgvgWpFa
-         TMy3yB4etN+E/Y84NeAgQ0uvkmJfSfs6f1nUS6fAYDvOtFJDEr60hHG3Hl8ssjZDVeTT
-         j+VVcKyv8GnvsHrA9ELAhbD+EOE/lJi+TJ5mScMNIeJUeO+qistCpSQ0PfWY2JJKUW1l
-         Aa/A==
-X-Forwarded-Encrypted: i=1; AHgh+Rr4AvN/DjfQxO/2VhAzOM1drIZRHj0CsLihYEsMbLpMUEtmB7ScuvAH8dquf2o34QQI2xPSTjDrgIc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxahkf4uWCMm20sYT0ioUbtd7FtUTg7Iibpf2yKgD6R4QKaOyGa
-	Y1HqMjqyH/N7wbNMbZEYzbao/aHq3Oa9EFWJ1a+GM/6GPHBZBvMqmtBn
-X-Gm-Gg: AR+sD11RWw67DwxqwFAAdvT1fAi6pFJwJ0zMCe6/M+7aAwf9wzaVWsBWEdwIwxqdYtQ
-	tQJJtTVhsjfXZ7QHgj6PeztrdEeRBa0+5hEJ3GQY2lwyBvMxEc1zVzGPAZg3k+QQSj0Gmcp6r9d
-	tZuHDOIsJD1h0UhF8upupTBdN+B5AuESApPrCmcLCqws+xz7fcRdkgMnr5aMZlkYE1lDlLB/k0I
-	9pZ6zhbt8RNpQCDgA0SDX+6mOkgQzWVW8gKR4hnGXk7fDYzVU1EJXYMTPOe2VsHvAoF/ub4FYZX
-	szvTcBybnYuM/GhSdSVBliAp7iLMjyrm4Xs6M8y94Fi662v6P25PaMXCQXxyFg1HQ9u28R/hizR
-	D+W/S57t9pURRFNoM6KbL0jycfHmCpBtuD3sspyr9i9apm2PK8Bpw3iuCCD47+hOFd4plBybq4K
-	iadO9dnbKwK+Zhn3WBYJAhEm+nNSa5M6e2al44l6x8pd0thOLJk2+zqPcQUnRJXwkGNA==
-X-Received: by 2002:a17:90b:3b81:b0:38d:f5bb:e0f4 with SMTP id 98e67ed59e1d1-3931dfe6479mr716266a91.1.1786563760947;
-        Wed, 12 Aug 2026 12:42:40 -0700 (PDT)
-Received: from Default ([2409:40f4:1019:468c:4dfb:a166:9b41:1fa8])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31cf3621252sm16726993eec.1.2026.08.12.12.42.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 12:42:40 -0700 (PDT)
-From: Jeffin Philip <jeffinphilip14@gmail.com>
-To: skhan@linuxfoundation.org
-Cc: gregkh@linuxfoundation.org,
-	i@zenithal.me,
-	jeffinphilip14@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	shuah@kernel.org,
-	stable@vger.kernel.org,
-	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
-	valentina.manea.m@gmail.com
-Subject: Re: [PATCH v3 0/2] usbip: usbip_host: remove legacy rebind_store in favor of drivers_probe
-Date: Thu, 13 Aug 2026 01:12:24 +0530
-Message-ID: <20260812194224.9293-1-jeffinphilip14@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <647d51b8-bc02-40a7-8cf0-3a76f950c7ad@linuxfoundation.org>
-References: <647d51b8-bc02-40a7-8cf0-3a76f950c7ad@linuxfoundation.org>
+	s=arc-20240116; t=1786568120; c=relaxed/simple;
+	bh=FrdqQ6kXNnNKfJVjZwswwcKEQOtgoDeMVrYYyQrDqpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G2RQoc+vbOnhCIa3WaSsCZSuZsb58bPHCs8WyB4Mdb9lg9RZ8irj5fEiOrSvMsHE/l7T8asZOYiHHgGhrsKHt1P4OGA3NMcD9keZPtQL54OVgxXn+UNqlteDRzf3U0Dkutx6yKGZ8r2PdkMIgvmygDKuYNdvEwdiSEfNPKm8Vx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
+Message-ID: <b15b2687-0c2e-43b2-ac9e-78e04e77e065@mainlining.org>
+Date: Wed, 12 Aug 2026 23:54:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/33] Add support for Qualcomm Snapdragon SM7150 SoC and
+ Google Pixel 4a
+To: David Heidelberg <david@ixit.cz>, Jens Reidel <adrian@mainlining.org>,
+ Danila Tikhonov <danila@jiaxyga.com>, Miro Mraz <mraz.miro@seznam.cz>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ neil.armstrong@linaro.org, linux-hardening@vger.kernel.org,
+ linux@mainlining.org, Connor Mitchell <c.dog29@hotmail.com>
+References: <20250422-sm7150-upstream-v1-0-bf9a9081631d@jiaxyga.com>
+ <2ca2b774-fd7f-4612-b38d-f60e32ff6f9a@mainlining.org>
+ <283096ad-ae1b-42b8-8312-b192f735fc80@linaro.org>
+ <cce3fe36-322e-49ed-8928-3aef813faad7@ixit.cz>
+Content-Language: en-US
+From: Danila Tikhonov <danila@mainlining.org>
+In-Reply-To: <cce3fe36-322e-49ed-8928-3aef813faad7@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 12 Aug 2026, at 13:31:50 -0600, Shuah Khan wrote:
->On 8/11/26 20:40, Jeffin Philip wrote:
->> On Tue, Aug 11 2026, at 16:53:23 -0600, Shuah Khan wrote:
->> 
->>> On 8/11/26 10:05, Jeffin Philip wrote:
->>>> do_rebind, which sleeps normally gets a mutex lock. However, it does not
->>>> or should I say, cannot check for null udev between spin lock dropped in
->>>> rebind_store and entering do_rebind. This is a potential race window
->>>> already. So, even if we check for null udev under spinlock, we cannot do
->>>> it outside. Regarding do_rebind, it is called during stub_device_rebind,
->>>> but that function is called during module exit when all files are removed.
->>>> So, do_rebind is not designed to work in a concurrent environment in the
->>>> first place.
->>>>
->>>> We have a safer function that can already do what do_rebind does,
->>>> drivers_probe. So, we use drivers_probe to rebind the device rather than
->>>> use rebind_store.
->>>>
->>>> usbip tool references this function immediately after the device is unbound,
->>>> which is safe for the tool itself but since we opted for drivers_probe, fix
->>>> it by using drivers_probe rather than rebind_store after unbinding device
->>>> which is more safer.
->>>>
->>>> Tested and working in both userspace via the tool and manually echoing
->>>> the busid in the related nodes. rebind node is still left active with a
->>>> warning to use drivers_probe upon encountering rebind_store.
->>>>
->>>> Thanks,
->>>> Jeffin.
->>>>
->>>> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
->>>> ---
->>>> Changes in v3:
->>>>    - Removed rebind_store in favor of drivers_probe to eliminate race
->>>>      condition
->>>
->>> How did you find this problem?
->> 
->> I found the problem on syzbot and had to reproduce it using the following
->> commands:
->> link to issue: https://syzkaller.appspot.com/bug?extid=af76b01c9a0f0ab60fb0
->> echo 'add 1-1' > /sys/bus/usb/drivers/ubsip-host/match_busid
->> echo '1-1' > /sys/bus/usb/drivers/usbip-host/rebind
->> 
->>> Is this generated code or did you write it?
->> 
->> No, I wrote the code myself.
->> 
->>> Also, the first patch removes code in rebind_store(), replacing it
->>> with a pr_warn()? The second patch points it driver_probe() - what
->>> happens with just the first patch?
->> 
->> It just prints out a warning. I did get a -Wunused function warning
->> while building the kernel for testing and considered removing it. I
->> ultimately didn't as scripts running on newer kernels(if this
->> was merged) would break as there is no rebind node. Should I remove it?
->> and is pr_warn not the right way to deal with this? If so, please advise.
+Hi David,
+
+Thank you for your comment.
+
+On 12/08/2026 14:40, David Heidelberg wrote:
 >
->Okay. But why is this change split into two patches? Does just the first patch
->work correctly?
+>
+> On 23/04/2025 09:26, Neil Armstrong wrote:
+>> Hi,
+>>
+>> On 23/04/2025 00:07, Jens Reidel wrote:
+>>> Hi everyone,
+>>>
+>>> apologies for the mess this created. Danila's mail provider 
+>>> ratelimited him halfway through sending the series and the attempt 
+>>> to re-try sending the second half an hour later ended up with a new 
+>>> message ID (I think due to not using --in-reply-to).
+>>> He asked me to let you know that this will be resolved later and the 
+>>> whole series will be re-sent once the problems are resolved.
+>>
+>> The b4 web submission is a great alternative when the mail provider 
+>> is rate limited:
+>> https://b4.docs.kernel.org/en/latest/contributor/send.html#web-endpoint
+>>
+>
+> I see people interested in moving Pixel 4a forward, but it seems this 
+> was never upstreamed? I looked at sm7150 repository [1] where I see 
+> FROMLIST, but these patches never arrived to the list and this series 
+> is from 2025.
+>
+> Should we expect v2 (re)based on recent tree?
+>
 
-The first patch is for people echoing the busid directly to rebind node, so it
-just prints out a warning asking them to use drivers_probe. The second patch is 
-for the usbip tool, as the old tool used rebind store for rebinding, we replaced
-it already in the first patch and since 'usbip unbind' rebinds the device back to
-the usb driver after unbinding it, we cannot use rebind_store like the old tool.
-That is why I replaced rebind with drivers_probe in the second patch.
+I'd definitely like to get back to upstreaming SM7150 and the devices
+based on it, but I don't think there's much value in continuing with
+this particular series as-is. A lot has changed in the kernel over the
+past year, which would require substantial changes throughout the series
+and would effectively force the maintainers to review it from scratch
+anyway.
 
->> 
->>> Did you run tests to see if you can bind and unbind devices - does the
->>> driver work correctly?
->> 
->> Yes the tool works correctly after switching to drivers_probe. Devices are
->> bound and unbound correctly.
->> 
->> The function also caused an invalid opcode while testing in an unpatched
->> kernel with a different sequence: write to match_busid, then write to bind
->> and rebind, followed by writing to unbind. 
+I'd also like to split the series up to avoid targeting such a large
+number of maintainers in a single submission. Hopefully, I'll be able to
+find some time to work on this in the near future.
 
-Thanks,
-Jeffin.
+
+> Thanks
+> David
+>
+> [1] 
+> https://github.com/sm7150-mainline/linux/commit/7ea41523c678e94a7c048936052b5b1b1b109cdd
+>
+>> Neil
+>>
+>>>
+>>> Best regards,
+>>> Jens
+>>
+>>
+---
+Best regards,
+Danila
+
