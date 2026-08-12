@@ -1,79 +1,79 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F196F3603DB
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 03:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BE1364022
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 03:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786505045; cv=pass; b=f0SPs5zKWgRfrxsLrzu1RWy7/0w/QdcIJuhWNwF5R7E7p7uhpgODjYDyKFTsEGfrgxizftgMz05//Flln/PPhzU5XGpQ8hmpdxl2AQM4OOc+4HEZnOg4+yUuyQh7GtNFf5yrcF0Jg6ns8etQgA0xmrRPlGyeTMy2L3+gzVM7tDQ=
+	t=1786505328; cv=pass; b=fXl3fxIYYhPfFcT5mREcDVWwbU5A5uEKGKFR36qPEK2zjEUVA7diLNTXR2WFDOZGTyv9x+rw2K/P7vMjHilReQ6UyAUKF1tr+beLYk0Eo/i1ij2+aoq6tbZ8clgfU1EUzDI8koMRaWRVC8BBkF6xdGvXvgDJxjq7IlK7esfYrtk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786505045; c=relaxed/simple;
-	bh=zBt/qZgsLXTMNMb03BartQTDgFJ4whNRfaR5h2RGGdA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=sKcXeJ5OoNHBzo3jgjsz94ZFfHK7G/YIWPsL21fEUoFcC5CLmj6hL4FCYR68jGYrYjPXFB6B4KvjdOmvJtUmov8220YXtheA+JHhTbP5bB4z+9oGXmnk92AWx63k+IxTzF1obodFHw4YvPS4FCQrNOOQo3iLWrvWf9jviHCKrj4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kV/2LRTS; arc=pass smtp.client-ip=74.125.224.49
+	s=arc-20240116; t=1786505328; c=relaxed/simple;
+	bh=hFzgByS6bi5kTwwi7O8DAmM80iUm2D2izFyPPAtbNYQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=cYPupcrz/+n3Lb4DocDD3L+wCV0Lat35VFZyr4wa3rytbIbF5qG5ynivgEijQB72rX7364rUhslkVFMdEb2gHCgqR7tRjMo7R0+4BHYoC7r8F6akY4hfoWQUdJqlMuA3xMQWRkhiUgP7JXt1WjiA/DkTYq1kb+LiizlOQ3cbEeE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XtUcIPwT; arc=pass smtp.client-ip=74.125.224.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kV/2LRTS"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-6688acd1a51so867916d50.3
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 20:24:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786505043; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XtUcIPwT"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-66771ded50aso840870d50.1
+        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 20:28:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786505326; cv=none;
         d=google.com; s=arc-20260327;
-        b=lE5i24Io+jbl2VK1R0YvKRkjl95KEhvwxuj9FMs8o8disfl8JI6JscokIWYU/ASPWS
-         CplyE7eFe0ajmoxMZv869GTBGA0ol7aW6RMTW5PnpFHM//6tyXRIloxstjkFtims31zQ
-         0UjEKM7R3JC91e1CjDt9+3Yfkm1Z/BUO71raGjx8RhO0J0qZ2kTy74/e6M2AGNUYa9wB
-         EVm1PFM7J1v+s6geEbki0KV9tJUos7uh2LdV7Buc4a4y6XQx3cqxk0Es+bKs8DDrVdUl
-         FIJQZ6pPKY/QGxcMDiQTd8TeHoqg1HBQAZqrW6CP6vshM8Ej7s+4lBdyFdhubVGik/yq
-         rQdg==
+        b=QgD/t4TICIjeA75BtuXpuelV8l45+BXuPVUjjgoOd3f27OlwD7hDQyOU5dC549gDSp
+         pZcEqE5peHwKuAd3oRSFBx5igbZNh7cENMgP7IHCiG7/gJshZbnJesYNpBRmE/Ow9Ewf
+         VAxXXGFVhablTR8XIT5CEYviW/PaF4yZS8eQIFBGq7CSTi4sige3ZGs08rPs3aM/vEdX
+         RpJ1+y0a7gvUIvpuhF7ALp2YpqOLmSzmfGB2AjkOsjruHPhxYge9fuY5t3ilAlbUeNmm
+         A5xJcEqHuT7Nc/bd+cfBaj1ugLVr1SVcGMmBMwvjMliQefDMNJIi3M/GDjI7r5o2sDTS
+         oK2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=zBt/qZgsLXTMNMb03BartQTDgFJ4whNRfaR5h2RGGdA=;
-        fh=n+fUVDIvOsMGbOf7naybW3/ZjJcXmo+HftgZTio9Ilk=;
-        b=hdzPHFTC2Qn53IGZCZO4W67DiD5A3RcxChiWmp0Uc8+XpfGB4t4+MGQmxxSPyKG4jK
-         kdkwNQRdHMfJPqNEuFofpP4CxekMJtzpKxYXCbkKcANsgw3yWSUhU4tExuJp0+KOTVQ3
-         Y0LocrdALXwhxCyVMbhFYG4ZCFOvOkx8UL8XPBAbBWNOoyy69IHm3VvJ5EULEVHigNdL
-         UhDyJxM0QesGXS/MgZAruRTnWai6hne2o9l9uf4VuAjCWn2xf0U+hTe3bbKjrHQRbgMk
-         AK3MU6mE1mgyiZbvQIIwCmKxQoaISqLqXY+6oG7S5dIxEbvLZrU1idrC/SzGd9fSdWXL
-         myMg==;
+        bh=3x3ljB1/5jZGvMK+xKcmNMNUG38LdqV4gbBC5pUVMDE=;
+        fh=qRzOhPfL/9ynYYukUUeqSji1zGZwBm1oarSag5rjc2M=;
+        b=JsLpCCyy/Wo2rOSCmmpY/8u5J1DN9c4JS2VXO2dl16kAG8oFkgp45Ndb2uwc288fMR
+         bV4VSByoiH8kjf0WGMgIbCsnhl1H6J1Oj1/X5aTRzwEBE5/QPT5Ctw55gld4s3TnJUJl
+         U3twGkeeBmuGvNfUnhIxom22HSk79BtqOoi10n9yonZhRoUDplJpUgnYV7/TzPCk9hcA
+         TMfi4e1tQ7G5e/zLZu/8/kASEYMkghJFL4Wn8ol7WGLqZWCOV0bqQnpvOo10IqW6cKm4
+         8JURZ0qaRALvf3Bku+vhCPNDxhceOf3AMSxbGTfYM2zgAPmoKDlWaUCjv3w+EM53E+gJ
+         QM7A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786505043; x=1787109843; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786505326; x=1787110126; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:mime-version:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zBt/qZgsLXTMNMb03BartQTDgFJ4whNRfaR5h2RGGdA=;
-        b=kV/2LRTSbdbBxDNs1bLCyjdBWGMhnawOG6CDKgQLoN/4pMaImkYOv082HVAe2S3UEh
-         9FKudCFR1o2FsN4+EwvFbe92iFXoza8XUfA6ac9E9z7dwQtZFXFidwcjsbOex13cNaVx
-         c5UweBT+b/kidyUEIDFWAJfojNWVx/qcsi9ZnEbUg9s2aafpYhgWWd/U17XracF8Pcog
-         JQoPqh9HJzXl9zhfQzI3TIGOE7BlGaFGObSVGaLTp++rzlZtFaD9Gku65B2jjdJKfe/+
-         9F//IBcPwL7qqN6voRMfo1kEDczp5nVF5+wJWVIru5lpRDaCPcvM7A8yGXm+y92/o1e4
-         Ze/w==
+        bh=3x3ljB1/5jZGvMK+xKcmNMNUG38LdqV4gbBC5pUVMDE=;
+        b=XtUcIPwTZycFAWCsfQTxD2tq+Lkpd5SN/Wf8fbv3IN5CsJDaSe9teKNm/gePANMWh4
+         /trW2NJq2kM2DgwNdRvueUmJvppqJF8TgM4CkuwdKTZ61RtmJqKjUy8/iha7V9rssRGo
+         Nw8sra7LT8jRDFBbsE38mpPVsPj1DcsVuVWd9kE1lIynjNi+rX3jt6xov0kJdwcksT06
+         c9iysBhP6akw5ZpTHlofsXJFgfR8KrCpa74udzXmSzuEeMizZJylqRHSEpVyyGQ6wQKA
+         Ys+NMy3EbvG2PGWnqVuQwkF4zmumplAlLRNvGi33zBVW7w5urw75VnFi1GMsuEM/EVGf
+         9Jhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786505043; x=1787109843;
+        d=1e100.net; s=20251104; t=1786505326; x=1787110126;
         h=content-type:cc:to:subject:message-id:date:from:mime-version
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=zBt/qZgsLXTMNMb03BartQTDgFJ4whNRfaR5h2RGGdA=;
-        b=s/RRkvc1xk6DQo5H4z4E1+sG0QoyYpkwtzE6tAP5w/XX3SiEHk3yWezjeRbAOnGzm+
-         ymHVjZctdPuWOSxXYacebPBb/M85wUVGVC7IrKeJbgEw1EpIxkmM+ai92/uUmIbqCNh4
-         1kCT2vRou0H6yu3yoIft0x0CCiH3rO5wj1RXU5vzBSKjyDIIaAJAS+r6r3kZs8aEKKNj
-         F9Oq9TC1g4m5yGP54AWhMF73p+NJLMQX08gMYxkzeCoeDNYT0w5suc4+ObgLRzYTpM72
-         oe1iGd3D9ZfH4QeU+zFT2w2hvHWz4eywO+EwX2OrvzpbU53YOkja7MZjmVPAICWBM+j8
-         07yQ==
-X-Forwarded-Encrypted: i=1; AHgh+RozGpvSqUI8z/qDkneKtiY3mT+XE2h/wTYP6MOnc/EIKj8zXZ8EgieUjPiqukfiQHeVtIJxQCR4XSA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6Woz44jOOmpvDLC7WrmxBTpqz0GP054kZ/LvPKkmoIoTHoHBq
-	nRvslNItmkxQw6kKjiacFkkPw4WkBZ/PX1auAETEvo5PVtbF/q9KVbgWxL7UwXsmWKVD9rx3YMV
-	j9Hi7zpjo6slio1fhT/3dNak1w+hLYqE=
-X-Gm-Gg: AR+sD13+yEqoioPSU7yqL6TcAE+YDK2TvvjalJoBL8xa8NFVTZwWhbWG0E5FuRo315h
-	D40jdbhFVrpz+QWWw9LPjBPS0gFNQ8J3QQCeNclguTIZcGfilHtCdffW+AFeE/hypb1qBnwdRun
-	HSQG5436oUmjMTDQGBTVqf63o9o8iCmLcNOnRQrYzjc2j/dvm7q63VlIPFCUbvV+P/+6HevH0op
-	geCMVtZjblc63mz2iaVSFSlp0DCI67Gid3lrOmJKUR1lXimNbuC3aA76LP+i9sOCcqswbLnFgY6
-	SG+zjqR0f2zehTX3AtGfY4ObosdddEJRek5qNcf8ohxUlyIlLHIUwZ5U08JdQoHphgsh1DTPqPX
-	6KsBSbKovG5KWbHWGMiJQ9DeYUjmxlKa4lBCfyet2gYru5jM6D0frwQfDRCKd83HEpZy6QXbsM0
-	p03bwJ3jgttXyy
-X-Received: by 2002:a05:690e:1914:b0:66a:c3aa:48ed with SMTP id
- 956f58d0204a3-66b340e7a89mr968538d50.11.1786505042781; Tue, 11 Aug 2026
- 20:24:02 -0700 (PDT)
+        bh=3x3ljB1/5jZGvMK+xKcmNMNUG38LdqV4gbBC5pUVMDE=;
+        b=fAKqQKhgZv5CDxVkFa5KNxStMOOhncdcfgvCcWQve4F0UtV2eBArAUTc67gp+4jHUt
+         l8AiWP6TP/INxF9qWinV7dtj9rii5mzA/W2aJaD7i9rIqV/RWdu3cfVbth5kXg78DFEh
+         90GhFzoUj0tDeYSXqMfUwj7iiykNIVt3GgTpWOnHC+E+u7znD6ym/ykaVe1WHgDSs6cv
+         bJqUvii/lHVbsd/vvz0Xv2B2wXewAH18HkRWzhJKxUxZuTxi52JdaHyR6sRJp6p3QyaW
+         6l1vPyO2iQ2kM8iuMV/9vz/SSX8K7cscBkDeR1AkSMmfFKEPvqpJs4mMktYCPDGffs4m
+         WDGA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqv+tMW1bDz6XVkQE2xY2U6CjEs4HnvP8vS3KezX4d5GukN5abc7aC1crzwsKj8ck8K++MU6Js1fas=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYbDxbteSyhG05R2NH1Kw+XpuYyG/SQILidQ8FQU8JJticVii4
+	vWB7Zz7qswC7mmBLyzbKe0GwaaJ/Y30IFf9MLP1GBLvj2plINlCMjyxyvQ0iofUCODdMZKz99Nv
+	PhO17uSfiz/WecGwHord1X7OKhiK2T2Y=
+X-Gm-Gg: AR+sD10H2gNUmXCn6VDwUEwB0paymKQoQBM6Sp4d7H4F7TV7OKwlH1LAsNKTnZBR/dk
+	P3sq85UtkvZVH279ylNV9QAeXCDpyl03hGe+wQChA5PB96XjCmodpr4nUAYgW+VHxaAOw0/gSAU
+	R70qpQL54sbFh3lOHb544lNK84jPqVQQHKbDV6qkx+JW8JhZdMUZSWe81wKJ6qO76+77TSx3Rkb
+	sx0Dihc5iP5x3KNpPd4dVIFgdWYffTasjYlIHC8MzRXQmdHq3aXBpYtJPLgpnvwBn3wdkuDNMOW
+	lArrGMf7j91sk8UUfLFcQi9mrZs0XJVpfGjlfbd2edwDeEKxFhQQ5bGanDOYfIUybSoyrpnOW5a
+	Ot/032OXv6srWks3G4BM8DGLZm4YU16nOMuGdD3PU/gpynUiNnRT3QLzHOuAg5IjUhS8tmG8tl4
+	EuWwfsEkhAEnxq
+X-Received: by 2002:a05:690e:e83:b0:667:e04a:8a30 with SMTP id
+ 956f58d0204a3-66b33ef1462mr992132d50.20.1786505326485; Tue, 11 Aug 2026
+ 20:28:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,98 +81,86 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Jason Colapietro <jasoncola1@gmail.com>
-Date: Tue, 11 Aug 2026 23:23:51 -0400
-X-Gm-Features: AUfX_mzugbBOicmHpKoAv3KhC9SvKN-FTdMJ313wWkPqNAHrREXbLVFbdiYcjgU
-Message-ID: <CA+Z0x2L0udTqSZ=905W+oV5BSfsp7L+j7FJ5YnkoQPbQbjh7Mg@mail.gmail.com>
-Subject: Re: [PATCH v2 RESEND] usbip: make remote list honor parsable output
-To: skhan@linuxfoundation.org, Shuah Khan <shuah@kernel.org>, 
-	Valentina Manea <valentina.manea.m@gmail.com>
-Cc: Hongren Zheng <i@zenithal.me>, Greg KH <greg@kroah.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Tue, 11 Aug 2026 23:28:35 -0400
+X-Gm-Features: AUfX_myX4ikitz6ENF2ELu8gUjOPLyTbs5oNiidFWnVNdInB4yOw_nKrcnjo4hQ
+Message-ID: <CA+Z0x2L_j=HaZO2_YwVSe2WtRYwGFu-EPOWJLHj9_AWC7wesUg@mail.gmail.com>
+Subject: [PATCH v3 2/2] usbip: apply list options regardless of order
+To: Shuah Khan <shuah@kernel.org>, Valentina Manea <valentina.manea.m@gmail.com>
+Cc: skhan@linuxfoundation.org, Hongren Zheng <i@zenithal.me>, Greg KH <greg@kroah.com>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On 8/11/26 16:48, Shuah Khan wrote:
-> What happens without this patch? Can you elaborate with some examples?
+usbip_list() acts on -r, -l and -d as soon as getopt_long() returns them,
+so any option parsed afterwards is never seen. -p therefore only takes
+effect when it precedes the mode selector: "usbip list -p -r <host>" is
+parsable while "usbip list -r <host> -p" is not, and -l and -d behave the
+same way. Nothing in the usage text suggests the order matters.
 
--p is accepted in every list mode and `usbip help list` documents it as
-"Parsable list format", but it only ever reached the local (-l) and gadget
-(-d) paths. list_exported_devices() never took the flag, so -r ignores it
-and always prints the human-readable report.
+Record the requested mode during the option loop and run it once parsing
+has finished, so -p applies wherever it appears on the command line. When
+several mode selectors are given the first one still wins, as before.
 
-That is what the reporter hit in bugzilla 219502 -- same flag, same command,
-two different formats depending on -l vs -r:
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
+---
+tools/usb/usbip/src/usbip_list.c | 31 +++++++++++++++++++++++++------
+1 file changed, 25 insertions(+), 6 deletions(-)
 
-[root@usb1 adminlocal]# /usr/sbin/usbip list -p -l
-busid=1-2#usbid=1a86:55d4#
-busid=2-1#usbid=0627:0001#
-busid=2-3#usbid=11b0:6298#
-busid=2-4#usbid=12d1:1506#
-[root@usb1 adminlocal]# /usr/sbin/usbip list -p -r localhost
-Exportable USB devices
-======================
-- localhost
-2-3: ATECH FLASH TECHNOLOGY : Kingston SNA-DC/U (11b0:6298)
-: /sys/devices/pci0000:00/0000:00:1d.7/usb2/2-3
-: (Defined at Interface level) (00/00/00)
+diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
+index b9d60b87e47..632a968a088 100644
+--- a/tools/usb/usbip/src/usbip_list.c
++++ b/tools/usb/usbip/src/usbip_list.c
+@@ -343,6 +343,8 @@ int usbip_list(int argc, char *argv[])
+};
 
-I reproduced that here: `usbip list -r <host>` and `usbip list -p -r <host>`
-produce byte-identical output, so -p is a no-op on the one listing mode a
-script is most likely to want it for. Automating attach against a remote host
-means scraping the decorated report instead -- the column padding, the
-" - <host>" banner, the blank line between devices, the per-interface lines.
+bool parsable = false;
++ char *remote_host = NULL;
++ int action = 0;
+int opt;
+int ret = -1;
 
-After the patch, -r honours -p and emits the record shape local already uses:
+@@ -360,19 +362,36 @@ int usbip_list(int argc, char *argv[])
+parsable = true;
+break;
+case 'r':
+- ret = list_exported_devices(optarg, parsable);
+- goto out;
++ if (!action) {
++ action = opt;
++ remote_host = optarg;
++ }
++ break;
+case 'l':
+- ret = list_devices(parsable);
+- goto out;
+case 'd':
+- ret = list_gadget_devices(parsable);
+- goto out;
++ if (!action)
++ action = opt;
++ break;
+default:
+goto err_out;
+}
+}
 
-$ usbip list -p -r 127.0.0.1
-busid=1-1#usbid=0781:5583#
-busid=1-2#usbid=046d:c52b#
-
-so the obvious loop works against a remote host:
-
-for b in $(usbip list -p -r "$host" | sed 's/^busid=//; s/#.*//'); do
-usbip attach -r "$host" -b "$b"
-done
-
-On the same device set, `usbip list -p -l` and `usbip list -p -r <host>` are
-now byte-identical -- one format for both sides.
-
-Three things I checked:
-
-- Without -p the remote output is unchanged; before and after diff clean.
-
-- The connection stays in sync. Interface records are still read from the
-socket in parsable mode, only the printf is suppressed. To confirm that
-rather than assert it, I had the test server withhold the final 4-byte
-usbip_usb_interface record for 3 seconds: the patched client with -p blocks
-for the full 3 seconds, so it really is draining every record.
-
-- With no exported devices, -p prints nothing on stdout ("no exportable
-devices found on <host>" still goes to stderr), so stdout stays clean.
-
-While checking that, I found the option order is a bug in its own right:
-usbip_list() acts on -r, -l and -d the moment getopt_long() returns them, so
-anything parsed afterwards is ignored. -p only works if it comes first --
-"usbip list -r <host> -p" silently gives you the decorated report, and -l
-and -d behave the same way. I have fixed that as a second patch in v3: the
-mode is recorded during the option loop and run once parsing has finished,
-so -p applies wherever it appears. When several mode selectors are given the
-first one still wins, as before. Both orders and the long forms now produce
-the same records, and the human output is untouched.
-
-Testing disclosure: my checkout is on macOS, so I have not run a native
-USB/IP stack end to end. The numbers above come from building the real
-usbip_list.c, usbip_network.c, usbip_common.c and names.c against a stub
-libudev -- the remote path never calls udev, and the stubs abort if reached
--- and pointing that binary at a small mock usbipd answering OP_REQ_DEVLIST
-with a real OP_REP_DEVLIST payload. The -p -l side is a second build with a
-fake udev backend presenting the same devices. So it is the real listing path
-over a real socket, but not usbip-host/usbip-vudc on hardware. Happy to redo
-the runs on a Linux box, or to have someone with a usbip setup confirm,
-before this goes in.
-
-I will send v3 as a two-patch series with a condensed before/after folded
-into the first commit message, unless you would rather see the ordering fix
-kept separate.
-
-thanks,
-Jason
++ switch (action) {
++ case 'r':
++ ret = list_exported_devices(remote_host, parsable);
++ break;
++ case 'l':
++ ret = list_devices(parsable);
++ break;
++ case 'd':
++ ret = list_gadget_devices(parsable);
++ break;
++ default:
++ goto err_out;
++ }
++ goto out;
++
+err_out:
+usbip_list_usage();
+out:
+-- 
+2.50.1 (Apple Git-155)
