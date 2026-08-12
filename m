@@ -1,32 +1,32 @@
 Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70BF36606E;
-	Wed, 12 Aug 2026 01:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB63C364042;
+	Wed, 12 Aug 2026 01:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786496573; cv=none; b=Yagx3qlfxuuqMdF4N8WTgLJ2Ps06JbDeEWzzxKW1l5r4VPqeAXt4mz/zi10LtpS2IZ1hCqsCWKSXEAdkaDVxYokoEKyIMBGISVC814ovcJfJvPFseUi2yvKATmA9DiXRfLCKzob86krvTJLyGq+fS2soJwemby9o2qX4g5dkPnw=
+	t=1786496578; cv=none; b=SGi9TIWBNmyTSUFzdeXxIB0q82E3gC0l1pllhZ2pDptlyLT/Z09XHTpcPzu3W/nK/2AMDzXhn/fToiGzoz5Jw3wjzWf3DojP2smiJVCSKJs6qMXp/gDKtCs2roig8ZOk07tSYWUD7KQa3eWb9p/wrilPEs9uV2qSuNd/Z26F6KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786496573; c=relaxed/simple;
-	bh=4yqaJ41QWv9ezx5trprUhiCzwOrFAQf2Tw6VeJmSVdE=;
+	s=arc-20240116; t=1786496578; c=relaxed/simple;
+	bh=JLPFvhcyV1Ejg92++ch63Jk8yT0B5Vd6UjuTGjnhJAU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z4dOkgdwfoC1QN7ODoDBR31Lpx8NZsVVIafSPI+aRyXCJ++PWunzMz9WRrOLdYZJpwARHXyGOACmzYNYlk/vPeFhhzg/iOnR2OcFWWfu9xmRNUSN8LWKlI11vOwWpPHbgAGIxD5EyjSW4cXe2PyEL3QR4TrL2D1HoAT4vwWef0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=fKHZvYG7; arc=none smtp.client-ip=178.251.229.89
+	 MIME-Version; b=rGCYhZUdQ5pwQQAAMwo7Cg/S4PoIV1C2xB4yEtigq+YEwsSQ89duoTi65SqH84NbQtKU/ju75dZAofFrSIzoq/PmS9gKlyv+CQD9KRkRri1BpC2CNrFMErhsE2ySC+g031d14WYd8hAl8TfIqnlPoH+ijGwUD5ioUmCYT4/RsTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=LRTsjnwg; arc=none smtp.client-ip=178.251.229.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="fKHZvYG7"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7AD0311A168;
-	Wed, 12 Aug 2026 03:02:44 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="LRTsjnwg"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CF53611A15A;
+	Wed, 12 Aug 2026 03:02:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1786496565; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1786496570; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=7IfkV4fMeV55auykFK/hP+/pINz7v15ZIHYcteus4q4=;
-	b=fKHZvYG75qLff5mhyphMc1eG+wnbCDw3rnTgMNWlKymuWWMO2u1EREioIqHYn/eUDrY5iQ
-	KAo+C70+sJywPrIls1wToTLbmDOD/GKZtG840kDWElGGHJ15nVD0+TXtXqWGtSjgy9boLj
-	wZFNY/iUsPG60PYhmO92lJobeASbOc6n+DnQTrCOcI72vVJ8KQm5xlhbR2wGQPs/ZRp6nb
-	tO92Kg8/lNxZHX3yighcaZmgsLxDctBepYK3Xm6GnVBlMpWwR7+10PqCCmBN7F2P7qI198
-	/eBwO8sbeVuJuwJHyQqjGzsTTW/JEIjldrZWlaLd667TSYYJ3h1bzT/ycX+irw==
+	bh=m88qCHy/S/Vbp27qirkj4TXf6QFGGR91roqySjh99AY=;
+	b=LRTsjnwgSvcVDHJACTPkpyfQfHee1RsjW9/6P8qXrL/HRs65DCnrsz7Sayon00uBXlpChL
+	GJBH0TvLi59z4PccCxDJ3IFT6li0r/OUytgtWp+MHc4M8tOViCjwUwR2OJ0sC+SgdJNeSm
+	7rtORDmchymT9QSNxzck2MDTZJilVvtzam3XPWRQgkGiUmxJNKUC5YvssX8J1eLsUexZ3l
+	8ZzipBF5AM+W3nTqgnOHH+3WAJCbqhnmxu8M1+hsyZv/+PDnFYkpqWRHzjJ8+o941RrFVS
+	0CHzMMXoMpcwXb9+Qu5M88rngXYsFE5fO2gZT2CUpU6kAIUBwxQC5duJUdpH5Q==
 From: Marek Vasut <marex@nabladev.com>
 To: linux-usb@vger.kernel.org
 Cc: Marek Vasut <marex@nabladev.com>,
@@ -50,9 +50,9 @@ Cc: Marek Vasut <marex@nabladev.com>,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 3/8] dt-bindings: usb: generic-ehci: Document access-controllers property
-Date: Wed, 12 Aug 2026 02:55:43 +0200
-Message-ID: <20260812010157.1772849-4-marex@nabladev.com>
+Subject: [PATCH 4/8] dt-bindings: usb: generic-ohci: Document access-controllers property
+Date: Wed, 12 Aug 2026 02:55:44 +0200
+Message-ID: <20260812010157.1772849-5-marex@nabladev.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260812010157.1772849-1-marex@nabladev.com>
 References: <20260812010157.1772849-1-marex@nabladev.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Document the access-controllers for EHCI USB controllers in case
+Document the access-controllers for OHCI USB controllers in case
 access checks need to be performed to use them.
 
 Signed-off-by: Marek Vasut <marex@nabladev.com>
@@ -92,16 +92,16 @@ Cc: linux-phy@lists.infradead.org
 Cc: linux-stm32@st-md-mailman.stormreply.com
 Cc: linux-usb@vger.kernel.org
 ---
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 3 +++
+ Documentation/devicetree/bindings/usb/generic-ohci.yaml | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index ae9fb70d0212c..6bca56681cdfe 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -80,6 +80,9 @@ properties:
-     minItems: 1
-     maxItems: 2
+diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+index 322808aaa2839..8e3522a3faa76 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+@@ -65,6 +65,9 @@ properties:
+   reg:
+     maxItems: 1
  
 +  access-controllers:
 +    maxItems: 1
