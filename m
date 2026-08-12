@@ -1,149 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3856F33B97D;
-	Wed, 12 Aug 2026 09:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9605418A5D;
+	Wed, 12 Aug 2026 09:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786527465; cv=none; b=sL3VSnhds5ydStV9x4WakhDDMi4KL9+GG8icqWLRBmWAOjOkzw8d2xnD4CEVADKbtJJi7X3nYkSlyE8iBihQIPfvC/AsFQSLqg6jX552mNwzFBqDTV99U24Sa6VEc/CZ1MrE7KIeZ2ISEdXdKfPV4TmyXWmi+lHPO/Wi1XLRfM8=
+	t=1786528032; cv=none; b=QCbPARzJ7dNAI5Rrj44ka2etpFMh+SAv2AaCparQUyEjzLVbYyczSDoLI8Gpdpa/nbMCFGmFuu9yEmuzdeEWziPyq/d03UU+CUCJukt6e23xogniMQbiNPM5FE9ro8ktqCRaTTYm0v+D4ByWme0AlOyranV+qMdWB6cUyEnU49s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786527465; c=relaxed/simple;
-	bh=Tvb7zsQQLcBCDwFGCjb3RT1c663KgCpuM7+RojAuo2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dd2KYfLz37Av/i7MduZo12NVIu2bKtzqlnIil9V54oKR/YDMpFF4YedE5E6ZpLtyxoyWB+ATGIs92J9EuZyq0g6GW1pMypgfQGxNG0iggDD8Ckk8dPmZ7RlDYCHAg2XLAItBXFvx85iM+KeL+4/Ky5IFNa0TQVXyIOCrS6ERnPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVstlXkz; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786528032; c=relaxed/simple;
+	bh=B0xcHHKe27nBRZEA1Wx6aRYhLvhQNqvldh6mm5506rk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L0dgDa8suUUof0ej2V60hI5lVZWvRi9gMdPrNpGavExp3GcUe+T4I6z8c6BP93nxXXSV7SY7wUEj+Slu18XLC6xQrNFv0UW6m2tpYeca1MfyuzwleEzouRLyS2EU2yY7GcQ5Hfsledp3iuy8q4kqyQt8dLKke+W66RjA9Ppdubc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=hWLU9zAU; arc=none smtp.client-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVstlXkz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786527463; x=1818063463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tvb7zsQQLcBCDwFGCjb3RT1c663KgCpuM7+RojAuo2s=;
-  b=XVstlXkzJWUKPOITsS3wcSafcnBANhMDs11F2EWj6h8QCVZylldk67Aw
-   Dups2ftI5ZPgNgu0zLzd3wKRufcaZZ4P77Omn1xm/evgkYIZ/6bGNykku
-   0n1GgYG8aWZx5Z1lp167QMXSnq+WFulngOkuNkJA11tz3wognbNE76uDU
-   qZNDBqvhopgtLFwTXH2FHKSULcqIUC/TlpfaybQQGXCGt97aCafemzHpf
-   NMSVT/3ImPYcnYH79pbOokKDn1x0WTBvRdS1ow2mBJrXzzanND7vwkWqT
-   6NqcJQzUpiETXw28JJbq5wxanxhF+JSpZBhBX+0FQWfsly4CsXgtiX4Rs
-   w==;
-X-CSE-ConnectionGUID: xwZ6RY8DTAGzTa7SF7LjfQ==
-X-CSE-MsgGUID: ja/dJ6ydQOmsVUWQK8glZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="74612821"
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="74612821"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 02:37:42 -0700
-X-CSE-ConnectionGUID: NwuUZsgSQ+mkuYAzRqRiyg==
-X-CSE-MsgGUID: +7/zRKDsQdqeVy4Kcm/KLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="262285725"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa010.jf.intel.com with ESMTP; 12 Aug 2026 02:37:41 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 1638799; Wed, 12 Aug 2026 11:37:39 +0200 (CEST)
-Date: Wed, 12 Aug 2026 11:37:39 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Xueqin Luo <luoxueqin@kylinos.cn>
-Cc: gregkh@linuxfoundation.org, pooja.katiyar@intel.com, johan@kernel.org,
-	pmenzel@molgen.mpg.de, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: ucsi: Add ACPI_COMPANION() NULL check in
- ucsi_acpi_probe
-Message-ID: <anw-41p6cVPQyrDP@black.igk.intel.com>
-References: <20260811095827.1001654-1-luoxueqin@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="hWLU9zAU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1786528013;
+	bh=8MVPi0XBjoc5Tc+HMC+mk03uFoGDImFmSLFyLytxGtw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=hWLU9zAU1EgiWBSpRiMshaLMr1x3ReVQhtoM5Z1JUIryHLDxSNa+LryivBIu2V1tr
+	 Wo83JtS7H1n4HVR/izOzNd/gCdT6nKd41ppdRxNqOObpQ05I2ywpT/SK+DKj1I/LVt
+	 OQmipm3kgaazs9pYV8FcgaqyhoewL1h7rHxFKO50=
+X-QQ-mid: esmtpgz12t1786527995t2e6be267
+X-QQ-Originating-IP: gAH8PLOuktySRyqaoaUXnTt5xqfYt8BF3s1uagy+0uc=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 12 Aug 2026 17:46:34 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 10804165861698727362
+EX-QQ-RecipientCnt: 6
+From: raoxu <raoxu@uniontech.com>
+To: heikki.krogerus@linux.intel.com
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	raoxu@uniontech.com,
+	stable@vger.kernel.org
+Subject: [PATCH v2] usb: typec: hd3ss3220: fix VBUS regulator error message
+Date: Wed, 12 Aug 2026 17:46:32 +0800
+Message-ID: <7A42A287B2B588D0+20260812094632.348581-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260811095827.1001654-1-luoxueqin@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NVu/uN2EcufQu0W7q8DxzJPc/A60aSUoXUnLq7GOSBssoeeaTNOCt10z
+	RZSaVuRIrmTroG13ktuYCIh43tklmXGGtEN94W+pdGIiv8k2IMca2Rcd1tLg45pAyQJ3TPh
+	s5Q+Lo7h9f+l/+G7Sn9sPjC+dr601HbksCGxPm1lRjQFNlyuM2u4OVSlrOeTLCrLhQN/nSr
+	w+iiEH7LOa2sJKmS+cVIC8wwUlSiJJrfCPQUkv2fPQnr9bneuLXhdaIKv/MwCljed7FD27u
+	i/FOStLaN8sUSWUfA8y3nT/nFPMyYUzhYzZq6PMYuqml5yi8+XjaeljRSe9iYk/OfmSBRGK
+	bMPsFjVWeQUO40Jw79YdjaaajWNkP5HYvKSWebjongaV36ZEml45rZLoDR+UhjbCOgvSfcc
+	Or3nVQyCQqazYmGDDg61GdDrU+SZXheG/q08VQ9Ubm4+WsTfukBVI1WwE52bLUecUMf2OXB
+	l+TIvbn79UwvJxcCBlDchEL3Qf+glK+jhuNucfXBB7sR0fApQSK00YtrhtghNi6AkqTHema
+	gAdU4pNelkvn2o17n09E+ZrHSDXU2ywyv0sycBGZ2+ep31ppAgpjbrdw2OVtHLFiZVdRgwH
+	M/eJeeXn1tIZk0B87/SEh3H0yZLyZV6glOVMgaeVJSlF/W0suQ7ZQpZDmgKctBtEX1+5BFM
+	io10K50FILObc4fbrFnzn/T2IAREbijd5iuLPCHSWZpt5n55kYSO3aGGGJqWCq7v9HCY03C
+	7O9HTdMC782SjpZCJ43G7Ep1qkRUV2n0b50WuooYLsn3VHFLXaU+BGAFueN3e+VEenPfIZV
+	7BO9BH+bpD7y24TMN4Ei/eC7xwS1rxKxOkhg7HnJji/vu7bAcRNimh/XdxYHoRJwE7D0BB8
+	nOg7rTneqcBK4flGcN5974P96F5xfSXjTOIrrLbPTBzctjcuR2C+GdlR9hQpad/u1RfWq8W
+	dD9jsxjY+f+2Tlu96NHhgGoEO1SSDBKSm15EUKU3UikgqlXg+T6H5l47xQbON+3Rgwvp9yJ
+	PoCJlDirF6EF6vJ6dWaXvdB6RXwVuh/IP1e256q1aQWvnHY5E/feQi7TM4gZDAlKW9NXLwA
+	gpIDro6266UrI57M6GJrER8WJORRnui06efd/Diz7er
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-RECHKSPAM: 0
 
-On Tue, Aug 11, 2026 at 05:58:27PM +0800, Xueqin Luo wrote:
-> Add NULL check for ACPI_COMPANION() in ucsi_acpi_probe() to prevent
-> NULL pointer dereference when driver_override matches a device without
-> ACPI companion.
-> 
-> Since every platform driver can be forced to match a device that doesn't
-> match its list of device IDs because of device_match_driver_override(),
-> the ACPI_COMPANION() may return NULL, leading to a NULL pointer
-> dereference at adev->dep_unmet.
-> 
-> Test steps:
-> 
->   $ sudo modprobe ucsi_acpi
->   $ echo ucsi_acpi | sudo tee /sys/bus/platform/devices/alarmtimer.0.auto/driver_override
->   $ echo alarmtimer.0.auto | sudo tee /sys/bus/platform/drivers/alarmtimer/unbind
->   $ echo alarmtimer.0.auto | sudo tee /sys/bus/platform/drivers/ucsi_acpi/bind
-> 
-> which triggered the following crash:
-> 
->   [ 6599.180948] calling  ucsi_acpi_platform_driver_init+0x0/0xff0 [ucsi_acpi] @ 24208
->   [ 6599.181198] initcall ucsi_acpi_platform_driver_init+0x0/0xff0 [ucsi_acpi] returned 0 after 207 usecs
->   [ 6729.051074] BUG: kernel NULL pointer dereference, address: 00000000000005f4
->   [ 6729.051102] #PF: supervisor read access in kernel mode
->   [ 6729.051113] #PF: error_code(0x0000) - not-present page
->   [ 6729.051122] PGD 0 P4D 0
->   [ 6729.051136] Oops: 0000 [#1] PREEMPT SMP NOPTI
->   ....
->   [ 6729.051300] PKRU: 55555554
->   [ 6729.051306] Call Trace:
->   [ 6729.051314]  <TASK>
->   [ 6729.051327]  platform_probe+0x41/0xa0
->   [ 6729.051348]  really_probe+0x1a9/0x410
->   [ 6729.051364]  __driver_probe_device+0xc9/0x170
->   [ 6729.051377]  device_driver_attach+0x46/0xb0
->   [ 6729.051390]  bind_store+0x77/0xd0
+From: Xu Rao <raoxu@uniontech.com>
 
-I don't think kernel can protect the user from everything. I would
-rather keep the NULL pointer dereference than silently fail in this
-kind of cases.
+hd3ss3220_regulator_control() enables the VBUS regulator when @on is
+true and disables it when @on is false.  However, its error message uses
+the opposite operation name, so an enable failure is reported as a
+disable failure and vice versa.
 
-Note that you can use the driver_override like that also with a device
-(not UCSI) that does have the ACPI device node. In that case the probe
-would just continue pass the condition you are introducing below.
+Print the operation that was actually attempted.  Reporting the opposite
+regulator operation on failures can mislead debugging of VBUS problems.
 
-Thanks,
+Fixes: 27fbc19e52b9 ("usb: typec: hd3ss3220: Enable VBUS based on role state")
+Cc: stable@vger.kernel.org
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+Changes in v2:
+- Add Cc: stable@vger.kernel.org as requested by Heikki.
+- Add Reviewed-by Heikki Krogerus.
 
-> Fixes: 1f3546ff3f0a ("usb: typec: ucsi: acpi: Check the _DEP dependencies")
-> Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/usb/typec/ucsi/ucsi_acpi.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> index 18286d3e9cc5..b4a783217dc6 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> @@ -188,7 +188,7 @@ static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
->  
->  static int ucsi_acpi_probe(struct platform_device *pdev)
->  {
-> -	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
-> +	struct acpi_device *adev;
->  	const struct ucsi_operations *ops = &ucsi_acpi_ops;
->  	const struct dmi_system_id *id;
->  	struct ucsi_acpi *ua;
-> @@ -196,6 +196,10 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
->  	acpi_status status;
->  	int ret;
->  
-> +	adev = ACPI_COMPANION(&pdev->dev);
-> +	if (!adev)
-> +		return -ENODEV;
-> +
->  	if (adev->dep_unmet)
->  		return -EPROBE_DEFER;
->  
-> -- 
-> 2.43.0
+ drivers/usb/typec/hd3ss3220.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-heikki
+diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+index 3e39b800e6b5..d0de5a2488f9 100644
+--- a/drivers/usb/typec/hd3ss3220.c
++++ b/drivers/usb/typec/hd3ss3220.c
+@@ -218,7 +218,7 @@ static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
+
+ 	if (ret)
+ 		dev_err(hd3ss3220->dev,
+-			"vbus regulator %s failed: %d\n", on ? "disable" : "enable", ret);
++			"vbus regulator %s failed: %d\n", on ? "enable" : "disable", ret);
+ }
+
+ static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
+--
+2.50.1
