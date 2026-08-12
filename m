@@ -1,164 +1,226 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-oa1-f78.google.com (mail-oa1-f78.google.com [209.85.160.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A29495048
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 22:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3FB495048
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 22:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786575118; cv=none; b=tQkdE1+BQXpeNfT45fXxVPngn5R/Q5hYHvIAwm70GhAHu+ec21Wqc8I4v5K1ej6E3AX849aggQ7SklbhT597TawxVfZQ/j9BpEoQR42Ey+7qBQLWNU053GzS45j+X1f1zffEbOaKiiE02zJkdiDCNqbqQzJCTSyqFDInWRSfme0=
+	t=1786575265; cv=none; b=ljqZ3cPMJgl1O8NDlQxOvUP+DnV1DpZHn7TRG3Ex8v7LrRPjxo/EqX50QYjJEwvCDC3hVrrKiWTR7ph4BmCbShWaxKnrqMl+tfKZhxbv/Gy1xMDhWz6lmhGIri8GUfXAgMnn3ooAc/e550HWaASBs4fYvzc5QmcfkgoR1QGmfH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786575118; c=relaxed/simple;
-	bh=N04PVWfy57hvS6v3skK+UM6pB81qFkW3Lc4nNYMPvzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S+/AFi46VwWVvYJkxFLskWBmgpFxiULdoqOfulK4F7svt4nvTf9RGCyVGpktAf6ujy7Or9URYmJPmqWZwdEHTw2p2A/6CW6g2NXxNU4sYBjXhaMQFJ+NwuJcoMZMG6JQfqu9/hh+c4OEk7zpJh96MNRUGJyGS0IsrZOwIWfDC+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bBXVkLyx; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bBXVkLyx"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4956242332dso13268555e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 15:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786575115; x=1787179915; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SAn5Fpr2HiBs1ThvJhTtiIwuqFlbFsiKhKVHZQl7vVU=;
-        b=bBXVkLyxS+YsvgBTsRdW3Bd3CzSnMJlqFMUC5M0R43exNiEYvE30QWEg29xkX3Ak9k
-         ik0Liw+r2kaZDVBzIonF99MQqS/gEU8VkEgkV6WrsxVWKFMFZ/IiZWg2ytvbJtKNqnuP
-         3AouJLLDqDJYLUnnIIvbri0DYWW6d/J+JCastP0mJR77Z68W6n9TfLTPF27oN9UrnX8+
-         0OAsXbSQVdH9JFpwx9p5A1EloGrmjL/KFe8nFcJuSZufX9jiR9eL+J2Kqr2o3G5vH1EL
-         JbTQMlUuBCSbb6s1XcHCGUzU+BflOBxDCGl8ArNmzDN191WuxMDQqR+z2+11AKkCvKeU
-         McPg==
+	s=arc-20240116; t=1786575265; c=relaxed/simple;
+	bh=Z515dz8XQoMG7rXqXJKs8fZdZZaXoafFbUzwJcfYBUA=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ck2ckf5t8vbAprMAsRL6av+Mq8QbMJicgRMES2fsHH/pVmQO2np4tcLrgMEVandAJolGx12CPn7uY4Zea86usB2Xh8ThMYZ+InOoyR+hKo4Mc+Va7sJNDbvBX3IxU/N7x3sTchPDjhYF6qQONC0qIwvtO73llJo/m5gSDLeR4b0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f78.google.com with SMTP id 586e51a60fabf-43cd2d12617so1913899fac.3
+        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 15:54:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786575115; x=1787179915;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1786575263; x=1787180063;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SAn5Fpr2HiBs1ThvJhTtiIwuqFlbFsiKhKVHZQl7vVU=;
-        b=AIEc4VIekNkaVtMXrkJ7IIaf28uWsJSF1DfFJyajNL3qkuGLIQ86dPMdd0N+gvxn0W
-         pNiD8JyuY+ekWIlOvQTRRmM23WAcqhjlxPWSziKnBdpP3di1kvqM3As+cs7Ho+YnzuMT
-         7YyNbaRVbyepznaDFKVMw+DWC5ixcI7ZOQbUuC4rE8HaAvqf8iabGPy4vSikIWtjokA7
-         Y4gjQU4cXd87kMDM+PhxyE/5iQfeA/Q8NrlOboHfLAXJDS+uvW8ts2tgqbZ3nadQ0sHi
-         oRO/zCiQ9r+GWzU5KaZUuZsplRN/iZQ6AciBUWeMBt+gkXpqcSBISNvvXMEuOUM2L76o
-         lYjQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoQQEoVrPTkBE6aTh095V+plfA9Gg9d5Gie4AUL3jnlMzvDOZ3YFH35QsVH7Q8qMza+bM6zKm5nnHc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOEUFpi8Rj/5km7F3wIujvf7cywR004DMEthSbFwEbd9wJbIvp
-	DczhZFOPIKFuQ32xVycRijax8QtlBARHwVaSI1O4H2WeV4N7GTlGO2ha
-X-Gm-Gg: AR+sD13YY6My6E/tGB7yfnMYnep9uvnk2BL6+9AtnrOyM1WXddFYDDiREptSHM1K7tU
-	QJ6XhEFc6GA2zdh4P6UBZv7S+GOao+rZuzBMLX8jmAmr/igfXc1+vO+7gm2Vd7umJ/fbqS/Pxe1
-	crrSsaoMR27+YcfU4DXhVCsch4T+z5THNeSeP46NyG6UTfbiqo4blCeCUkKwlyHsbI6X82qNX22
-	YD0CAunLusnOlUbKZvlBr4hCEQmLbEki5WqbYuSQB9T+Hkt29xPv8tLnE1U4lNKRkZ/gaJjc+Ha
-	X9Ch4yaDYlwmRs6Qf+dobYqqUIun3ExoYfJa9JMJF7QEK4NcHWbdHFR39Z+zi3XAYDGK8rp9N4Q
-	R+y23hFUgdylas6Z5PAFY6kZkFiWBfVo8apvnwoACiW4tk3pJt20T+QB9kqWqBUJnt9wD22dujj
-	Q80WYM4WfY9xLdf0YKLhj83Kc47t38tJA36+x2MM4bMfVNzvVmXyTXs9/LGjkgYPPumFc=
-X-Received: by 2002:a05:600c:19c8:b0:495:4d88:e630 with SMTP id 5b1f17b1804b1-499821ca34amr9964245e9.10.1786575114662;
-        Wed, 12 Aug 2026 15:51:54 -0700 (PDT)
-Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49982129643sm10959165e9.4.2026.08.12.15.51.50
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 12 Aug 2026 15:51:51 -0700 (PDT)
-Date: Thu, 13 Aug 2026 00:56:35 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: dylan_robinson@motu.com, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, stern@rowland.harvard.edu
-Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
- isoc URBs
-Message-ID: <20260813005635.34750f8c.michal.pecio@gmail.com>
-In-Reply-To: <310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
-References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
-	<20260521152715.288995-1-mathias.nyman@linux.intel.com>
-	<20260806101706.72a8de47.michal.pecio@gmail.com>
-	<0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
-	<20260807000155.2960c741.michal.pecio@gmail.com>
-	<e3c66325-0291-40f9-a87e-1bb337ce4427@linux.intel.com>
-	<20260807102604.5f649db2.michal.pecio@gmail.com>
-	<310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
+        bh=RDZcZo0+EeBG3DHeV95T0UXPTqagtYDFivARu5zT2JU=;
+        b=F0DaGXyRGEDU/JSQ+QvisBmgToe8Ew4CDOJmBkiC0nDo9+HFpS9bTqWiMPWEwCBnpM
+         S48aQeVjgFC5wCzi0ozb3TUmRJ2xFyDybd9FEhaTlRyzsUTesQXKz1BjnNF0L74g52ko
+         XuKbWafbk7CaNO1s2I14UYcBpyPubS02HwYVej29UpV5r1wAi1uD/7Dd+sx1hAV+mlpH
+         aa+ICN7VNc0ZR8Kn63M8JUNTbR4cAFLKs4zMmlnufktBaUtjpr4h8x9Rx5d7dpJ6cnkF
+         aySDDJVLsj0xF08AldwSGmUuXPS6l8CQPSKYS6fQtyib9sk5V3UmoqyYUF7s8Nxy9f+7
+         fabA==
+X-Forwarded-Encrypted: i=1; AHgh+RrbZkx4jUhQjZ07ESB3OC6JcrXtwe2VdveZIhGOW4obLESJhkRnWfbprYGOMDnhuwRFW1BCEg/0FnE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzH3KIIPoumYyakjeqJELSLlDwT9/9HuIxJpAvC6HJwaMdEz8z
+	AV/bXxTJOoJpakON8x0YVSyoPlI9M/LIf/aaq2aT0HOM31rwgPOJ+vubH3HwMPbr7Gk0nFZm5yD
+	2gYn+B9+sm9VwGSkp6Ja12KJSFNU7CCaZy8VuK5UyT8e40MEIf32Ll/cNbAk=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:1f11:b0:6a1:82f5:b009 with SMTP id
+ 006d021491bc7-6b0c421eff7mr1984957eaf.13.1786575262707; Wed, 12 Aug 2026
+ 15:54:22 -0700 (PDT)
+Date: Wed, 12 Aug 2026 15:54:22 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7cf99e.3668565d.e8814.0015.GAE@google.com>
+Subject: [syzbot] [usb?] BUG: spinlock bad magic in gadget_dev_open
+From: syzbot <syzbot+7659afffb6c3d2d12b83@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 7 Aug 2026 14:10:35 +0300, Mathias Nyman wrote:
-> I'm doing exactly what kerneldoc and comments in bugzilla state.
-> If queue empties out we schedule the next TD based on URB_ISO_ASAP
-> flag.
+Hello,
 
-> > "If the queue is idle" means all completions have already returned.
-> 
-> That's an odd interpretation of "queue is idle"
-> 
-> This would mean that an URB queued after "queue runs out" (underrun)
-> should always be treated as USB_ISO_ASAP case, making the flag
-> useless.
+syzbot found the following issue on:
 
-Well, there are HW queues and SW queues, and HW and SW underruns.
+HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.or..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=114ccc79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
+dashboard link: https://syzkaller.appspot.com/bug?extid=7659afffb6c3d2d12b83
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-If the HW queue underruns but the SW queue still has pending URBs
-(not completed yet) then we do care about URB_ISO_ASAP. If the SW
-queue is completely empty (all completed), we aren't expected to.
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f486efba4dfc/vmlinux-3d6d8176.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9b9dcf9ee9f3/bzImage-3d6d8176.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7659afffb6c3d2d12b83@syzkaller.appspotmail.com
+
+BUG: spinlock bad magic on CPU#3, syz.3.498/7450
+==================================================================
+BUG: KASAN: slab-out-of-bounds in task_pid_nr include/linux/pid.h:236 [inline]
+BUG: KASAN: slab-out-of-bounds in spin_dump+0xe7/0x160 kernel/locking/spinlock_debug.c:64
+Read of size 4 at addr ffff8880584fbe50 by task syz.3.498/7450
+
+CPU: 3 UID: 0 PID: 7450 Comm: syz.3.498 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ task_pid_nr include/linux/pid.h:236 [inline]
+ spin_dump+0xe7/0x160 kernel/locking/spinlock_debug.c:64
+ spin_bug kernel/locking/spinlock_debug.c:78 [inline]
+ debug_spin_lock_before kernel/locking/spinlock_debug.c:86 [inline]
+ do_raw_spin_lock.cold+0x37/0x3c kernel/locking/spinlock_debug.c:115
+ spin_lock_irq include/linux/spinlock.h:372 [inline]
+ gadget_dev_open+0x44/0x1b0 drivers/usb/gadget/legacy/inode.c:1919
+ do_dentry_open+0x6ab/0x14d0 fs/open.c:947
+ vfs_open+0x82/0x3f0 fs/open.c:1052
+ do_open fs/namei.c:4700 [inline]
+ path_openat+0x2873/0x4280 fs/namei.c:4863
+ do_file_open+0x20e/0x430 fs/namei.c:4892
+ do_sys_openat2+0x10f/0x1e0 fs/open.c:1368
+ do_sys_open fs/open.c:1374 [inline]
+ __do_sys_openat fs/open.c:1390 [inline]
+ __se_sys_openat fs/open.c:1385 [inline]
+ __x64_sys_openat+0x12d/0x210 fs/open.c:1385
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff73279e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ff7335f1028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007ff732a25fa0 RCX: 00007ff73279e0d9
+RDX: 0000000000000002 RSI: 00002000000001c0 RDI: ffffffffffffff9c
+RBP: 00007ff732835024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ff732a26038 R14: 00007ff732a25fa0 R15: 00007ffcdadf0c88
+ </TASK>
+
+Allocated by task 7177:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5334 [inline]
+ __kvmalloc_node_noprof+0x34f/0x970 mm/slub.c:6905
+ bucket_table_alloc.isra.0+0x88/0x460 lib/rhashtable.c:194
+ __rhashtable_init_noprof+0x43a/0x890 lib/rhashtable.c:1212
+ ioam6_net_init+0xb8/0x190 net/ipv6/ioam6.c:992
+ ops_init+0x1e2/0x5f0 net/core/net_namespace.c:137
+ setup_net+0x118/0x3a0 net/core/net_namespace.c:446
+ copy_net_ns+0x46f/0x7c0 net/core/net_namespace.c:579
+ create_new_namespaces+0x3ea/0xac0 kernel/nsproxy.c:132
+ unshare_nsproxy_namespaces+0xf2/0x220 kernel/nsproxy.c:234
+ ksys_unshare+0x438/0xab0 kernel/fork.c:3269
+ __do_sys_unshare kernel/fork.c:3343 [inline]
+ __se_sys_unshare kernel/fork.c:3341 [inline]
+ __x64_sys_unshare+0x31/0x40 kernel/fork.c:3341
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff8880584fb800
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 976 bytes to the right of
+ allocated 640-byte region [ffff8880584fb800, ffff8880584fba80)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff8880584fa800 pfn:0x584f8
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000240(workingset|head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000240 ffff88801bc42dc0 ffffea0001620610 ffffea0000eade10
+raw: ffff8880584fa800 000000080010000b 00000000f5000000 0000000000000000
+head: 00fff00000000240 ffff88801bc42dc0 ffffea0001620610 ffffea0000eade10
+head: ffff8880584fa800 000000080010000b 00000000f5000000 0000000000000000
+head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 13, tgid 13 (kworker/u32:1), ts 56489698437, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3266 [inline]
+ allocate_slab mm/slub.c:3380 [inline]
+ new_slab+0xa2/0x640 mm/slub.c:3426
+ refill_objects+0xe3/0x410 mm/slub.c:7310
+ refill_sheaf mm/slub.c:2804 [inline]
+ __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4675
+ alloc_from_pcs mm/slub.c:4773 [inline]
+ slab_alloc_node mm/slub.c:4905 [inline]
+ __do_kmalloc_node mm/slub.c:5333 [inline]
+ __kmalloc_noprof+0x66d/0x820 mm/slub.c:5359
+ _kmalloc_noprof include/linux/slab.h:992 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ neigh_alloc net/core/neighbour.c:518 [inline]
+ ___neigh_create+0x1532/0x2940 net/core/neighbour.c:652
+ ip6_finish_output2+0xffa/0x1ce0 net/ipv6/ip6_output.c:128
+ __ip6_finish_output+0x357/0xdf0 net/ipv6/ip6_output.c:208
+ ip6_finish_output net/ipv6/ip6_output.c:219 [inline]
+ NF_HOOK_COND include/linux/netfilter.h:307 [inline]
+ ip6_output+0x2aa/0xa60 net/ipv6/ip6_output.c:246
+ dst_output include/net/dst.h:470 [inline]
+ NF_HOOK include/linux/netfilter.h:318 [inline]
+ ndisc_send_skb+0xa85/0x1bf0 net/ipv6/ndisc.c:512
+ ndisc_send_ns+0xc6/0x140 net/ipv6/ndisc.c:671
+ addrconf_dad_work+0xca1/0x1360 net/ipv6/addrconf.c:4317
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff8880584fbd00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880584fbd80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff8880584fbe00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                                 ^
+ ffff8880584fbe80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880584fbf00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
 
-This does make a difference with snd-usb-audio. If I run
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-jackd -d alsa -d hw:... -p 24 -n 2
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Ring Underrun and Missed Service are reported every now and then,
-sometimes repeatedly, and it doesn't take long to enter this loop:
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-1. playback Ring Underrun (xHCI EP state is Running)
-2. capture URB unlink (xHCI EP state is Stopped)
-3. multiple capture URBs scheduled to the same start_frame before
-   EP state becomes Running
-4. new playback URB is scheduled into a distant past due Running EP
-5. 2 uframes later OUT endpoint reports Missed Service for all
-   those misscheduled TDs
-6. goto 1
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Changing the condition from "running endpoint" back to "empty list"
-breaks this pathological cycle. Experimental patch below.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 1ff84ab9955a..8e380d1c066e 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -4303,6 +4303,12 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
- 	return ret;
- }
- 
-+static int _ep(int ep_index)
-+{
-+	ep_index++;
-+	return ep_index / 2 + 0x80 * (ep_index & 1);
-+}
-+
- /*
-  * Check transfer ring to guarantee there is enough room for the urb.
-  * Update ISO URB start_frame and interval.
-@@ -4348,7 +4354,22 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
- 	 * Check if this starts the isoc data flow. Relies on hw setting ep ctx
- 	 * state after doorbell ring. Consider adding list_empty(td_list) check
- 	 */
--	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-+	bool running = GET_EP_CTX_STATE(ep_ctx) == EP_STATE_RUNNING;
-+
-+	bool pending = !list_empty(&ep_ring->td_list) ||
-+		       hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep);
-+
-+	if (running && !pending)
-+		xhci_info(xhci, "ep %.2x running without pending URBs\n", _ep(ep_index));
-+	if (pending && !running)
-+		xhci_info(xhci, "ep %.2x pending URBs but not running\n", _ep(ep_index));
-+
-+	//if (!running)
-+	if (!pending)
- 		xep->next_uframe = -1;
- 
- 	return xhci_queue_isoc_tx(xhci, mem_flags, urb, slot_id, ep_index);
-
+If you want to undo deduplication, reply with:
+#syz undup
