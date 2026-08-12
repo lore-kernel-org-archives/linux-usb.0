@@ -1,30 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9A43546C9;
-	Wed, 12 Aug 2026 07:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3E5352F86;
+	Wed, 12 Aug 2026 07:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786519460; cv=none; b=tQic82qweo+oS8hULhEsCP3FAH3t6bdvsD9gbHRSbgTZbQ36H/vSm1k+Gae9h69QhFFRXQ6ttCuAdCZjhM2vyw34lKAJnDfDDeT3Wo2L+Dhs5y+jFaat7KAFijKqw8mhRUsLEffpNFmv5TC9xk6q+JkiSPLOn8bDBubBgRA5yKQ=
+	t=1786519538; cv=none; b=EE+iVc/PVfryyHcb+TQHncdtcmYTsnkSGGqqFN60k6ltONHALS++Z65x173ieBKLQEEWAqGrpX844QIhYNZa8O2jEkXkF8FfrVJXxgSNsLXMuuk3sefqAK9tkQRD6U4kyLEN/bxJ5QxLhAgUMkLl35OG0++sv4uf/ZJsqApGpkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786519460; c=relaxed/simple;
-	bh=2fRif9LFmEF8luiE0PJWVKj7ULtpQt6q7+Ju2R5xw+I=;
+	s=arc-20240116; t=1786519538; c=relaxed/simple;
+	bh=vtc+9fVJdjU6qJE4nfAFO8m8fK5xQB1iXR1cVY1G8hc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YY+z80+exim/fUR6mSfz81dclxbhrK3UNd+b2gu1Zt3u8Bmjyt56Y3YTRpl7lLsjl6MseUJWCUlZDD44wp+Esds3u5nsRd8H6kTmjixa+FJkz4NCO6Ot6/+9JZbLMKCUapirNeat/M8hphqHnoqs9Ls8h1mSkYZOUmmxnBgnoR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Z7GzNN9A; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wm01cp9Ei++ZmQsSODtr90mKp96mArOSBmq/qAC46L+SuBjUMtXfiJeWza34oUumnRFWczQ5kOlqbI9JbS+P6/CLXbE4FO/9rtVGVv4la2RXtvvX5sPLziqQt/uKF7sta93PwCakBMHdX8gWRcw5c1hlknS5+HS0gMpnM2zeODI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Yt+TtxKF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GbvLifOk; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Z7GzNN9A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D3F1F000E9;
-	Wed, 12 Aug 2026 07:24:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786519458;
-	bh=orcE077VNmf0pOGt1L/uozOB+nmmXz9DGvU2rokqBxM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z7GzNN9A7rO3ao+Q8wTbBcV2ZQxE3+56TlAxacZ9fEqHgZo8eUkHltM/wI+4gtFfT
-	 jUMW8G4iqthAz9zBonRRndFcKAgGtUkUUCVHNr7Wmm8VMAw1K3nQpqlccW1xSHzLil
-	 +VPTuk7VEY79eDQgohdcrMkTeBqtf/m+z+Jdcddk=
-Date: Wed, 12 Aug 2026 16:22:44 +0900
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Yt+TtxKF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GbvLifOk"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5B61A1D00126;
+	Wed, 12 Aug 2026 03:25:35 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 12 Aug 2026 03:25:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1786519535; x=1786605935; bh=niL4OSIHDl
+	Q8pw3FC/Vt3XSQSxfjAmdZ+bNGZxfF+ZA=; b=Yt+TtxKFmqf4etLgg3WIcOovD8
+	t7lRkE2EU1gArdc+rTrqvtYueG8fl5+SeWPTOSgPxY+z3hKFEDxUp3wO+2IPpggz
+	LV8z3sR3vYp9Wly7rEiYw9wyvewbIxbXyKZLrSdPXLD58wJkCSJ5jti9HgY8fNkZ
+	lqUTaYp1rJ7h6/W/40tPF6AsRcmznpInMNuejno0ecoGxaigxz3HZIoJcPndMfD2
+	rOhaLDXEpN/oJY2SPCuurT8Ioi/4g1mt+fenjIO+xVUr2xQ0MJerhHQnSBYq6LjM
+	EMHJsvtyWOfcgeGmIdpqTmuXPu+IQMAZQh/Rb3ucAQPUf/TQOyzNdlTyPikQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1786519535; x=1786605935; bh=niL4OSIHDlQ8pw3FC/Vt3XSQSxfjAmdZ+bN
+	GZxfF+ZA=; b=GbvLifOkMF1EhrQeroS7p51RB6ruffqCIQhLe4frLuFxfIrp94X
+	Sf7Fkfka2J8mgcR4nfP1npMOFnxnIFw2baoqxR2lCr1ZjDzR/DGb6eUNFUnF0lpk
+	/u3vc98eZgjxn4rXnzSbBKKcekTwaTTMnCV0dPQ2qQt5JC6vywIBTaPMZ+YMWyWt
+	PNDyhWDjhFvz6IKJd4GipkrjRQwQssAfkDx8Z78qIezYcQkKfEAg6FsIYQX4Na+m
+	u6rYxebRkmasvpRU+PIZ/mhL9T6Nr9mU1KGNYZf2iMGc/nghy7pZj4eQ7MoCcCT6
+	+mE/mNDHdtiL/wEoFFwNoWXC36f6F+qWJlg==
+X-ME-Sender: <xms:7h98ag4vyQxACmkjD9FBWE0lhOmgZkP0CusXgxzvAGOVuLTE7kKsvQ>
+    <xme:7h98aiAuk_lMqK_DnCb4Vs3NJlqhufgAbaJr01dGaOhqutx_7o4hm36ITwQXV78J-
+    rrHmlMHCNAyo_UnDTFLRxrDXjCwQz5rxNUeCs-DcjJygZ1Czw0>
+X-ME-Received: <xmr:7h98am540EtkJUe5rTpb0DC5dAPWKzsj5tQ8-rNbIWnzQKlyJXyu_uQ>
+X-ME-Proxy-Cause: dmFkZTF7Zu7n7jUZXouOj6SlMjI0m+8M08b/HO+jhekg5bSP8zCs4rT/wU1NEPNfb1kLwA
+    EEC2+Kmpfl0CkxzCAig2HGzJpJFMKLxcKgSTC3f2WLYWlmqY2F33wc8a8wr97HIeqlygL+
+    YTeUs89v6EA9Nf7vFj24D9t/ZO+w+AOXsKKc8aOvf4HUDY3GnWwTe0JP7cG/46uViLEt6c
+    IQx+WfYaDKTX8/duEIvwvH/f2Bu7MQv7HnbwjIUmWSMSZlCtsbPYVtcjOB6a6unPxH88Dh
+    MuDrhHTPeu1QgZr9/Qu4L+E16mOHgYsIqNz6gx20kbuZ0yn+6eC9EuC+rQ8//PjZKVdcdb
+    CeYkNRUkF5PXKZfkjOAL37QI4bSq0eJnc/otwHy94GZrT54Y16CT3sLDXNH1I3MTqZfTW2
+    CYw9hUgvn11JWGz6En1wvE1yPZ9vL0uDDuMuKOAEU6ft65dXjr7brq2pH46y0m2a1ulC3v
+    ZlONEOQCJs20bfPVSSuJVR2TRTQfM9iYRVa7H4XQ1XBvDRQ+dK6pE9rZ6fovJL+kqfCyYr
+    4uGmD1LhlcObXRYE0MvV4MlP6W82zN/7VOPh3kL0hndZQYCSR+M+ns9xq2kKQ7eGzYUiuz
+    q1Cr3Vk9kovYoHz/jwbRohlbMM2SHV4bu6FzeevD+yadGlvchNs3lpa7IAuA
+X-ME-Proxy: <xmx:7h98aru6JKoDzPuX055wIE3pXFPDRlwLq4t29jbzk6ZuNjw3K1aqxw>
+    <xmx:7h98ar6nMttqDWv205ZFTTE-WCL-_4LS5sa_1Oq7T1Bod6KzeRwdWg>
+    <xmx:7h98av0kmdIr_u6DPMS0JgHDbJPfYzt2DmqeOH3yFjXPK98odhltYQ>
+    <xmx:7h98auiAVvXRz0o7MvBimnor44kFBVhGlTX3-Opn4vZoCevjShayAg>
+    <xmx:7x98agDWlKFpE_XmvOn_QQT0ZGAiSig2xhWpVtr8eUeTLCBac3-kwhfT>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Aug 2026 03:25:33 -0400 (EDT)
+Date: Wed, 12 Aug 2026 16:23:59 +0900
+From: Greg KH <greg@kroah.com>
 To: Jason Colapietro <jasoncola1@gmail.com>
 Cc: Valentina Manea <valentina.manea.m@gmail.com>,
 	Shuah Khan <shuah@kernel.org>,
@@ -33,7 +76,7 @@ Cc: Valentina Manea <valentina.manea.m@gmail.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 RESEND 1/2] usbip: make remote list honor parsable
  output
-Message-ID: <2026081225-imprison-upper-e03a@gregkh>
+Message-ID: <2026081211-seventh-whoever-d455@gregkh>
 References: <20260812063910.31293-1-jasoncola1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -73,110 +116,10 @@ On Wed, Aug 12, 2026 at 02:39:09AM -0400, Jason Colapietro wrote:
 >  
 > -static int get_exported_devices(char *host, int sockfd)
 > +static int get_exported_devices(char *host, int sockfd, bool parsable)
->  {
->  	char product_name[100];
->  	char class_name[100];
-> @@ -80,9 +80,11 @@ static int get_exported_devices(char *host, int sockfd)
->  		return 0;
->  	}
->  
-> -	printf("Exportable USB devices\n");
-> -	printf("======================\n");
-> -	printf(" - %s\n", host);
-> +	if (!parsable) {
-> +		printf("Exportable USB devices\n");
-> +		printf("======================\n");
-> +		printf(" - %s\n", host);
-> +	}
->  
->  	for (i = 0; i < reply.ndev; i++) {
->  		memset(&udev, 0, sizeof(udev));
-> @@ -98,9 +100,14 @@ static int get_exported_devices(char *host, int sockfd)
->  		usbip_names_get_class(class_name, sizeof(class_name),
->  				      udev.bDeviceClass, udev.bDeviceSubClass,
->  				      udev.bDeviceProtocol);
-> -		printf("%11s: %s\n", udev.busid, product_name);
-> -		printf("%11s: %s\n", "", udev.path);
-> -		printf("%11s: %s\n", "", class_name);
-> +		if (parsable) {
-> +			printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
-> +			       udev.idVendor, udev.idProduct);
-> +		} else {
-> +			printf("%11s: %s\n", udev.busid, product_name);
-> +			printf("%11s: %s\n", "", udev.path);
-> +			printf("%11s: %s\n", "", class_name);
-> +		}
->  
->  		for (j = 0; j < udev.bNumInterfaces; j++) {
->  			rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
-> @@ -116,16 +123,18 @@ static int get_exported_devices(char *host, int sockfd)
->  					uintf.bInterfaceClass,
->  					uintf.bInterfaceSubClass,
->  					uintf.bInterfaceProtocol);
-> -			printf("%11s: %2d - %s\n", "", j, class_name);
-> +			if (!parsable)
-> +				printf("%11s: %2d - %s\n", "", j, class_name);
->  		}
->  
-> -		printf("\n");
-> +		if (!parsable)
-> +			printf("\n");
->  	}
->  
->  	return 0;
->  }
->  
-> -static int list_exported_devices(char *host)
-> +static int list_exported_devices(char *host, bool parsable)
->  {
->  	int rc;
->  	int sockfd;
-> @@ -138,7 +147,7 @@ static int list_exported_devices(char *host)
->  	}
->  	dbg("connected to %s:%s", host, usbip_port_string);
->  
-> -	rc = get_exported_devices(host, sockfd);
-> +	rc = get_exported_devices(host, sockfd, parsable);
->  	if (rc < 0) {
->  		err("failed to get device list from %s", host);
->  		return -1;
-> @@ -351,7 +360,7 @@ int usbip_list(int argc, char *argv[])
->  			parsable = true;
->  			break;
->  		case 'r':
-> -			ret = list_exported_devices(optarg);
-> +			ret = list_exported_devices(optarg, parsable);
->  			goto out;
->  		case 'l':
->  			ret = list_devices(parsable);
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Why is "parsable" not just a global variable for the program?  Passing
+it around like this is odd.
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
