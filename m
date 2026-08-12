@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A187A336EDA;
-	Wed, 12 Aug 2026 08:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D4937206F;
+	Wed, 12 Aug 2026 08:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786524284; cv=none; b=F6PBUnqbRMxCHVoYsvx0WiLrf9AW6Ym+o/MZDdOsX3BoORCbmKHuKzzq50kMYivDRoSQR6NaK5Ki9QAqpJX1vp+ZdU4B6ZuWA8Cmbb9l0J8EBtdHV6WdpfjFXCHAA6jlfrNJ6hoNYZEl2MmPY8BRepqDK0WQTUKNfP93+K6U+4w=
+	t=1786524797; cv=none; b=T+Sl00b9jbKeg/C88ntKvixiFZUyHIuKiPBlQtfF3//8omtlxDEmTYWY7QAoZtSj+JhCCnFqxUHPDn6nge1Ur1L4TFukWdFxy8SKFYds1BNPP14csDtxTg8uN4IsEbdkrLuoRFSzWNw1n8BLf34qd0XgV8yesSc1tX4Mp+sToeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786524284; c=relaxed/simple;
-	bh=pbRARv5fwRHkVws/8N8wPVrGhv1Uve2ca/8gaBODuv4=;
+	s=arc-20240116; t=1786524797; c=relaxed/simple;
+	bh=xg3SaO0KedoMkyn4P8Q+rYIy9nsoCka+jvsorAqNj0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=itbsiOX5Gz1nTDzkt0OPpzelMMBPtqCUglUyCsbJLbkXtITV+s6YrCMXGaczz/KXYYAsl68WB+QlfzwZZsuYLMcXfD/yxnjcKpQe47YR7EKK/770pzdEb4RDAaCvjoOXNt2lUN7gdxS5XHqVMOGV6mL6aPrsqdJY5H6i2TcOhnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b32vscw/; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZuCk5STCB8IW6PQ8z1U/G3S4lYg9j4492TmeBmw7tTAGUqlrwfhP6/A1lB9lpRdxHQAqzrtKm1995W82hdjrej6V47W0lveWio6ODVxyjWRw5lBZ4I5kS4BQjZNZeqb4QaRS9aYaB2DxeKdjl3Pm/Pk3sHRIgIaJRODkfhZ6g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5RUtLPv; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b32vscw/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5RUtLPv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786524283; x=1818060283;
+  t=1786524796; x=1818060796;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pbRARv5fwRHkVws/8N8wPVrGhv1Uve2ca/8gaBODuv4=;
-  b=b32vscw/7XyP+D/V29tEltCYSY/Emld56fOOoiujpjLDqw1salc3LARv
-   HS5Zrl5/J76oYVzZYaD5h0kIaBgahPAghNq2r26p/Thz1emoIFsq9xNmJ
-   l1UMOZyjkoz0Yi51voSgeb1EkbjB7M43NwIBxkfXGC7DPD7L6Je+8SSv5
-   RRj2adEoC0ThAH1AQyWB/y0gIe31E2rCEbxlH2fTNMbQ/43InjxaC2BIA
-   IjejlFVKKVA+dhkHyouM560RC1Y+zJwJwtxhjbW617AEswxRRftWhXftH
-   oXDIc3E2Ve4ayXpRdakoiVCzWYFxrJWGFaBpodj0FOSyDU4P23rYhQZPB
-   g==;
-X-CSE-ConnectionGUID: KA5fDtDLQsqQ97iUIIuhIA==
-X-CSE-MsgGUID: MH1ZprV/Sz60fo00Ig8+Dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="90947677"
+  bh=xg3SaO0KedoMkyn4P8Q+rYIy9nsoCka+jvsorAqNj0U=;
+  b=F5RUtLPvHAVEaGR35KPPR3VC2m/z25DdTiRPSnNShiU+ZM3eSHWDoX0L
+   k4TFFvnRBWT9fv15CbCj+c0r+Ap+WOqOdjCpa9n1spQaPBF3RIwCzh9m5
+   tlnZUNEtEarbdB7ZlTBWPW3LHV2OQFBqGEdaA6+F6ekDl7H04E6445QJ1
+   t6RjXQuCGRwnEc+Q0IcdEPjtIvWWMMIfobZNEwgLMhJ8mD9wT7UHMbM48
+   njnmamWIq0gm0Hsn21Zc+NwGPzGc3P17816pswV1O4Gw4RZt1CZtRvCz1
+   7D6PqJ2xySXAMnmBrv8+dss4SGtIZbUC47KjMU9kyAXFYQmPtwSJXcT4k
+   Q==;
+X-CSE-ConnectionGUID: PpwwcFKLQvChygFKpp59Kw==
+X-CSE-MsgGUID: /E+JfvRfS5uYn78rwql70w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="87145290"
 X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="90947677"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 01:44:37 -0700
-X-CSE-ConnectionGUID: ZrnFbWPUTtGlr2fNYJXZYw==
-X-CSE-MsgGUID: xqySs9/cQyyUduktfFLY1w==
+   d="scan'208";a="87145290"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 01:53:16 -0700
+X-CSE-ConnectionGUID: 5H4NEmmKQZ+8+kLbiBwDlA==
+X-CSE-MsgGUID: /dZj+aZQQOW9dHMkS4J4tQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="287010546"
+   d="scan'208";a="268739249"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Aug 2026 01:44:34 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 12 Aug 2026 01:53:13 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id E04CA99; Wed, 12 Aug 2026 10:44:32 +0200 (CEST)
-Date: Wed, 12 Aug 2026 10:44:32 +0200
+	id 8643499; Wed, 12 Aug 2026 10:53:12 +0200 (CEST)
+Date: Wed, 12 Aug 2026 10:53:12 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: badhri@google.com, gregkh@linuxfoundation.org, xu.yang_2@nxp.com,
-	18255117159@163.com, krzysztof.kozlowski@oss.qualcomm.com,
+To: Hongyan Xu <getshell@seu.edu.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH] usb: typec: tcpci: add alert.fault handling
-Message-ID: <anwycNkYyY0N8A2F@black.igk.intel.com>
-References: <20260731083529.2659924-1-m.felsch@pengutronix.de>
- <anMpvRaTmV0qY65v@black.igk.intel.com>
- <ucjnu5ybx7kcxtfagyxxjjkzwcqbhfip7zxdlndu3lnggvscwp@27w6h2kbxs3v>
+	stable@vger.kernel.org, jianhao.xu@seu.edu.cn
+Subject: Re: [PATCH] usb: typec: thunderbolt: cancel work on driver removal
+Message-ID: <anw0eIpSau17rCwr@black.igk.intel.com>
+References: <20260806060713.863-1-getshell@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,54 +64,38 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ucjnu5ybx7kcxtfagyxxjjkzwcqbhfip7zxdlndu3lnggvscwp@27w6h2kbxs3v>
+In-Reply-To: <20260806060713.863-1-getshell@seu.edu.cn>
 
-On Wed, Aug 05, 2026 at 03:45:20PM +0200, Marco Felsch wrote:
-> On 26-08-05, Heikki Krogerus wrote:
-> > On Fri, Jul 31, 2026 at 10:34:59AM +0200, Marco Felsch wrote:
-> > > Add minimal handling to clear the ALERT.Fault bit which may be set in
-> > > case of an over-current or over-voltage detection. At the moment only
-> > > the IRQ clear support is added since the TCPC Spec mentions that the
-> > > handling of such events is vendor specific.
-> > > 
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > ---
-> > >  drivers/usb/typec/tcpm/tcpci.c | 16 +++++++++++++++-
-> > >  1 file changed, 15 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-> > > index a56e31b20c21..d2d5bf7ca618 100644
-> > > --- a/drivers/usb/typec/tcpm/tcpci.c
-> > > +++ b/drivers/usb/typec/tcpm/tcpci.c
-> > > @@ -692,7 +692,8 @@ static int tcpci_init(struct tcpc_dev *tcpc)
-> > >  
-> > >  	reg = TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_FAILED |
-> > >  		TCPC_ALERT_TX_DISCARDED | TCPC_ALERT_RX_STATUS |
-> > > -		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS;
-> > > +		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS |
-> > > +		TCPC_ALERT_FAULT;
-> > >  	if (tcpci->controls_vbus)
-> > >  		reg |= TCPC_ALERT_POWER_STATUS;
-> > >  	/* Enable VSAFE0V status interrupt when detecting VSAFE0V is supported */
-> > > @@ -720,6 +721,19 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
-> > >  	irq_ret = status & tcpci->alert_mask;
-> > >  
-> > >  process_status:
-> > > +	/*
-> > > +	 * Handle nested fault before clearing the alert status to not
-> > > +	 * re-trigger a fault alert immediately again.
-> > > +	 */
-> > 
-> > Shouldn't that explanation in the comment be also in the commit
-> > message? That sounds like the "why" part to me.
+On Thu, Aug 06, 2026 at 02:07:12PM +0800, Hongyan Xu wrote:
+> The probe and alternate mode callbacks can schedule tbt->work. The remove
+> callback drops the cable and plug references without canceling that work,
+> and the devres core then frees tbt. A pending or running work item can
+> therefore dereference both released objects and the freed tbt allocation.
 > 
-> I don't think so, it's just a comment for $dev that this ordering is
-> important. The commit message clearly states that an over-current or
-> over-voltage may trigger this.
+> Cancel the work synchronously before dropping the referenced Type-C
+> objects.
+> 
+> Fixes: 100e25738659 ("usb: typec: Add driver for Thunderbolt 3 Alternate Mode")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
+> ---
+>  drivers/usb/typec/altmodes/thunderbolt.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec/altmodes/thunderbolt.c
+> index 32250b94262a..57c8dff0c51f 100644
+> --- a/drivers/usb/typec/altmodes/thunderbolt.c
+> +++ b/drivers/usb/typec/altmodes/thunderbolt.c
+> @@ -303,6 +303,8 @@ static void tbt_altmode_remove(struct typec_altmode *alt)
+>  {
+>  	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
+>  
+> +	cancel_work_sync(&tbt->work);
 
-Fair enough. Let's wait for Badhri, but FWIW:
+There's already a fix for this one:
+https://lore.kernel.org/linux-usb/20260802014959.416687-1-fanwu01@zju.edu.cn/
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+thanks,
 
 -- 
 heikki
