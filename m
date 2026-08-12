@@ -1,103 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9F725DB0D;
-	Wed, 12 Aug 2026 22:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A29495048
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 22:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786575067; cv=none; b=DTo/rlWSvcqEeO+0k/K5pQniYHYIGzhO0AIRPS7Dlwm3M1sFuBzmTP9x1e7u+a6S7ikkliN75r5vsN1PnIac2Yovnd95wrCxPTe3faOhdrBr+FapHT6LvG0XrAru9S3Cshb59+qSnNvLgF/ZadgxtLdjE3bE8jraoCcWTM56TiY=
+	t=1786575118; cv=none; b=tQkdE1+BQXpeNfT45fXxVPngn5R/Q5hYHvIAwm70GhAHu+ec21Wqc8I4v5K1ej6E3AX849aggQ7SklbhT597TawxVfZQ/j9BpEoQR42Ey+7qBQLWNU053GzS45j+X1f1zffEbOaKiiE02zJkdiDCNqbqQzJCTSyqFDInWRSfme0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786575067; c=relaxed/simple;
-	bh=XkdV+RuGebEDrCF6DhzBka3ijYujuoX2/b9kM1oW0u0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SDGfNtQO9ZxpmkjWJW0wkiTuCa4e/jBNvsn4LJQgG70sz9WLgVh60K7Pn/kJ0LdP3Kchnat2Z2xX/VBYV8uFIGORd7oZ+rAtf1k+XneC+cUx0unACpEOlFj4RnzmDH6xvFPw1J5Hj+knb3ePZ6sSkZ7m7/jBCGbIeF7dhsdIKa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GbmnXaWe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786575118; c=relaxed/simple;
+	bh=N04PVWfy57hvS6v3skK+UM6pB81qFkW3Lc4nNYMPvzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S+/AFi46VwWVvYJkxFLskWBmgpFxiULdoqOfulK4F7svt4nvTf9RGCyVGpktAf6ujy7Or9URYmJPmqWZwdEHTw2p2A/6CW6g2NXxNU4sYBjXhaMQFJ+NwuJcoMZMG6JQfqu9/hh+c4OEk7zpJh96MNRUGJyGS0IsrZOwIWfDC+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bBXVkLyx; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GbmnXaWe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CA8B1F000E9;
-	Wed, 12 Aug 2026 22:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786575065;
-	bh=q94daslctU9u8EUSFugtHPk2cVBdSnc1E2aM20T8veU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GbmnXaWeCQaaqrT8Hp/zNHy8kss73W/neIJN1E9VGPX08O8vxf+frHXmvQsJO11Pj
-	 KEDci1oe6firfMN35BT3WQzabTnykjeteGsUCxySrWPYwgqKNjdYQwukD9pSBLnLhw
-	 eWM7OMMdS/widY/WecnKrnZ8Ermx8XAFjf6F2TXOy5e0T+cJSvb9WXeZl+lxyTVZtr
-	 FWqZWVM6xnchqFpC0bZpcGPKSGAKM9kzKPWLAt8D1+jfiwdepwXXLReZ0pwGOYuP1p
-	 DxV9WyH04g/bVqIj4TQE49i+1L1XYiihUebgNV0Ge7ocKfF2qzyWEdYE0KjQOh6n29
-	 pFU+uCfjZ4uAw==
-Date: Wed, 12 Aug 2026 17:51:05 -0500
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@nabladev.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org,
-	Pankaj Dev <pankaj.dev@st.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Rahul Kumar <rahul.kumar05@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Christian Bruel <christian.bruel@foss.st.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rosen Penev <rosenp@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
-	kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 1/8] dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO
- PHY
-Message-ID: <20260812225105.GB693080-robh@kernel.org>
-References: <20260812010157.1772849-1-marex@nabladev.com>
- <20260812010157.1772849-2-marex@nabladev.com>
- <20260812-silky-omniscient-dalmatian-b268cb@quoll>
- <ff691741-a110-44e8-90e7-ac54a96de1af@nabladev.com>
- <ff957fbb-b8ed-485d-adaa-18258ed693a6@kernel.org>
- <ea21d4fb-04a1-4280-9a73-6f566be2b015@nabladev.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bBXVkLyx"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4956242332dso13268555e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 15:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786575115; x=1787179915; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SAn5Fpr2HiBs1ThvJhTtiIwuqFlbFsiKhKVHZQl7vVU=;
+        b=bBXVkLyxS+YsvgBTsRdW3Bd3CzSnMJlqFMUC5M0R43exNiEYvE30QWEg29xkX3Ak9k
+         ik0Liw+r2kaZDVBzIonF99MQqS/gEU8VkEgkV6WrsxVWKFMFZ/IiZWg2ytvbJtKNqnuP
+         3AouJLLDqDJYLUnnIIvbri0DYWW6d/J+JCastP0mJR77Z68W6n9TfLTPF27oN9UrnX8+
+         0OAsXbSQVdH9JFpwx9p5A1EloGrmjL/KFe8nFcJuSZufX9jiR9eL+J2Kqr2o3G5vH1EL
+         JbTQMlUuBCSbb6s1XcHCGUzU+BflOBxDCGl8ArNmzDN191WuxMDQqR+z2+11AKkCvKeU
+         McPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786575115; x=1787179915;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SAn5Fpr2HiBs1ThvJhTtiIwuqFlbFsiKhKVHZQl7vVU=;
+        b=AIEc4VIekNkaVtMXrkJ7IIaf28uWsJSF1DfFJyajNL3qkuGLIQ86dPMdd0N+gvxn0W
+         pNiD8JyuY+ekWIlOvQTRRmM23WAcqhjlxPWSziKnBdpP3di1kvqM3As+cs7Ho+YnzuMT
+         7YyNbaRVbyepznaDFKVMw+DWC5ixcI7ZOQbUuC4rE8HaAvqf8iabGPy4vSikIWtjokA7
+         Y4gjQU4cXd87kMDM+PhxyE/5iQfeA/Q8NrlOboHfLAXJDS+uvW8ts2tgqbZ3nadQ0sHi
+         oRO/zCiQ9r+GWzU5KaZUuZsplRN/iZQ6AciBUWeMBt+gkXpqcSBISNvvXMEuOUM2L76o
+         lYjQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoQQEoVrPTkBE6aTh095V+plfA9Gg9d5Gie4AUL3jnlMzvDOZ3YFH35QsVH7Q8qMza+bM6zKm5nnHc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOEUFpi8Rj/5km7F3wIujvf7cywR004DMEthSbFwEbd9wJbIvp
+	DczhZFOPIKFuQ32xVycRijax8QtlBARHwVaSI1O4H2WeV4N7GTlGO2ha
+X-Gm-Gg: AR+sD13YY6My6E/tGB7yfnMYnep9uvnk2BL6+9AtnrOyM1WXddFYDDiREptSHM1K7tU
+	QJ6XhEFc6GA2zdh4P6UBZv7S+GOao+rZuzBMLX8jmAmr/igfXc1+vO+7gm2Vd7umJ/fbqS/Pxe1
+	crrSsaoMR27+YcfU4DXhVCsch4T+z5THNeSeP46NyG6UTfbiqo4blCeCUkKwlyHsbI6X82qNX22
+	YD0CAunLusnOlUbKZvlBr4hCEQmLbEki5WqbYuSQB9T+Hkt29xPv8tLnE1U4lNKRkZ/gaJjc+Ha
+	X9Ch4yaDYlwmRs6Qf+dobYqqUIun3ExoYfJa9JMJF7QEK4NcHWbdHFR39Z+zi3XAYDGK8rp9N4Q
+	R+y23hFUgdylas6Z5PAFY6kZkFiWBfVo8apvnwoACiW4tk3pJt20T+QB9kqWqBUJnt9wD22dujj
+	Q80WYM4WfY9xLdf0YKLhj83Kc47t38tJA36+x2MM4bMfVNzvVmXyTXs9/LGjkgYPPumFc=
+X-Received: by 2002:a05:600c:19c8:b0:495:4d88:e630 with SMTP id 5b1f17b1804b1-499821ca34amr9964245e9.10.1786575114662;
+        Wed, 12 Aug 2026 15:51:54 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49982129643sm10959165e9.4.2026.08.12.15.51.50
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 12 Aug 2026 15:51:51 -0700 (PDT)
+Date: Thu, 13 Aug 2026 00:56:35 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: dylan_robinson@motu.com, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com, stern@rowland.harvard.edu
+Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
+ isoc URBs
+Message-ID: <20260813005635.34750f8c.michal.pecio@gmail.com>
+In-Reply-To: <310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
+References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
+	<20260521152715.288995-1-mathias.nyman@linux.intel.com>
+	<20260806101706.72a8de47.michal.pecio@gmail.com>
+	<0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
+	<20260807000155.2960c741.michal.pecio@gmail.com>
+	<e3c66325-0291-40f9-a87e-1bb337ce4427@linux.intel.com>
+	<20260807102604.5f649db2.michal.pecio@gmail.com>
+	<310ccfe5-0212-4c8b-9213-891a7340e2f4@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea21d4fb-04a1-4280-9a73-6f566be2b015@nabladev.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 12, 2026 at 08:30:33PM +0200, Marek Vasut wrote:
-> On 8/12/26 1:22 PM, Krzysztof Kozlowski wrote:
-> > On 12/08/2026 12:56, Marek Vasut wrote:
-> > > On 8/12/26 12:15 PM, Krzysztof Kozlowski wrote:
-> > > > On Wed, Aug 12, 2026 at 02:55:41AM +0200, Marek Vasut wrote:
-> > > > > From: Pankaj Dev <pankaj.dev@st.com>
-> > > > > 
-> > > > > Document USB2 PHY for STM32MP25 USB2 controllers, which includes the
-> > > > > USB2.0 host-only controller and USB 2.0 part of the DWC3 controller.
-> > > > > Two such PHYs in total are present in STM32MP25 SoC, they both are
-> > > > > slightly different, therefore they use different compatible string
-> > > > 
-> > > > What is slightly different? This should be either here, or better, in
-> > > > "description" part.
-> > > 
-> > > They are both Synopsys FEMTO-PHY , but they are each attached to a
-> > > different controller (one to USB 2.0 host , the other to DWC3 DRD) , and
-> > > their control bits in the system controller register are different for
-> > > each variant.
-> > > 
-> > > I extended the description in V2.
-> > 
-> > Depending on the actual difference, this rather belongs to the phandle
-> > to syscon, instead of separate compatible.
+On Fri, 7 Aug 2026 14:10:35 +0300, Mathias Nyman wrote:
+> I'm doing exactly what kerneldoc and comments in bugzilla state.
+> If queue empties out we schedule the next TD based on URB_ISO_ASAP
+> flag.
+
+> > "If the queue is idle" means all completions have already returned.
 > 
-> Modeling that in the phandle to syscon won't scale, the PHY driver is simple
-> thus far and does not control all the bits in that syscon, if we were to
-> somehow extend the phandle to syscon to describe the various bit mappings
-> and differences in it, it would look awful quickly. Hence the separate
-> compatible strings, so the driver can match on them, derive match data from
-> them and use the match data to figure out differences of each instance.
+> That's an odd interpretation of "queue is idle"
+> 
+> This would mean that an URB queued after "queue runs out" (underrun)
+> should always be treated as USB_ISO_ASAP case, making the flag
+> useless.
 
-There's no 'reg' so the syscon is the only control interface, right? So 
-this should be child node of the syscon (with a reg property).
+Well, there are HW queues and SW queues, and HW and SW underruns.
 
-Rob
+If the HW queue underruns but the SW queue still has pending URBs
+(not completed yet) then we do care about URB_ISO_ASAP. If the SW
+queue is completely empty (all completed), we aren't expected to.
+
+
+This does make a difference with snd-usb-audio. If I run
+
+jackd -d alsa -d hw:... -p 24 -n 2
+
+Ring Underrun and Missed Service are reported every now and then,
+sometimes repeatedly, and it doesn't take long to enter this loop:
+
+1. playback Ring Underrun (xHCI EP state is Running)
+2. capture URB unlink (xHCI EP state is Stopped)
+3. multiple capture URBs scheduled to the same start_frame before
+   EP state becomes Running
+4. new playback URB is scheduled into a distant past due Running EP
+5. 2 uframes later OUT endpoint reports Missed Service for all
+   those misscheduled TDs
+6. goto 1
+
+Changing the condition from "running endpoint" back to "empty list"
+breaks this pathological cycle. Experimental patch below.
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 1ff84ab9955a..8e380d1c066e 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -4303,6 +4303,12 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 	return ret;
+ }
+ 
++static int _ep(int ep_index)
++{
++	ep_index++;
++	return ep_index / 2 + 0x80 * (ep_index & 1);
++}
++
+ /*
+  * Check transfer ring to guarantee there is enough room for the urb.
+  * Update ISO URB start_frame and interval.
+@@ -4348,7 +4354,22 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 	 * Check if this starts the isoc data flow. Relies on hw setting ep ctx
+ 	 * state after doorbell ring. Consider adding list_empty(td_list) check
+ 	 */
+-	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
++	bool running = GET_EP_CTX_STATE(ep_ctx) == EP_STATE_RUNNING;
++
++	bool pending = !list_empty(&ep_ring->td_list) ||
++		       hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep);
++
++	if (running && !pending)
++		xhci_info(xhci, "ep %.2x running without pending URBs\n", _ep(ep_index));
++	if (pending && !running)
++		xhci_info(xhci, "ep %.2x pending URBs but not running\n", _ep(ep_index));
++
++	//if (!running)
++	if (!pending)
+ 		xep->next_uframe = -1;
+ 
+ 	return xhci_queue_isoc_tx(xhci, mem_flags, urb, slot_id, ep_index);
+
