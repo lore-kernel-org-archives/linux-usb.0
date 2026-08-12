@@ -1,207 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C182429CC2
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 11:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080C6453A44
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 13:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786534930; cv=none; b=qGZ8rw/3jw+qpIhK5rgqmtJE5bZ8kKi7y7+B56QSP598eTTS6QO4A/JqrHyoYRxkbaIaA+F4NewpxaiJ2gu1pfJ4NewrgsTQVw3wAsT9yiue3aHXg9oBQvR6KCPu41YwkliLG7zwX1Hek0ACI72i+LdbeP2Ep6DCNPoribHjm9o=
+	t=1786542310; cv=none; b=T8DL+6zqK+sj3FxEeZWtEZ8v+utX8nyG4dPOJ3bcGEKsEMP00ow7dNXIklMMFPoVxPN+nJc74Qlhpz8QRsCwIb4Now8Xqcc2HRVTJlnVGeHQ0DQ7o/UvkpneOwtAPw+zfn8zgINSlDOCH4O2KrChN8RWqEhhQD94Hp4uArFcyec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786534930; c=relaxed/simple;
-	bh=2+7Y13wfvdGj5eFROyFk5rDsZv4X+rHepbzMzie7D+E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dUAycaNdqj7aIa/Qx4sj2M8mqKfMOLSdIU5ZyCs67xJZTutXFm4nULBhOqolkYdq4OEQ7plP87iJTIrfBGDE3MciwNbBB255U9yPMtiS996FpbwWzgRkw4FN98buvlSQJxhXO4ylw3oD7hVFY12ndEw322BnyA+J43moScJaHQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKzlqihF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786542310; c=relaxed/simple;
+	bh=dHXdSEWJo3Fjmi2CPPFQMv893oaZbPDhTb0Zj+OIl1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vsq3qIB3S0za0PFurS6Nj3rn8UxEgYr3YpcYfGpZ1FsppoA7hb9d0a0dMDBkB/08z+R8cgVsD9dZVfXG8lLCSClnYF1z0cKLBkF+3xZcN+uXczb2a603YENhVDfDl2NDKF+NDFtnj/NSruegpgbLPSoNi94/GYENsJUqn3EYGGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=h+/iCKZj; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MNCJQ8bw; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKzlqihF"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DA73C2BCB9;
-	Wed, 12 Aug 2026 11:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786534929;
-	bh=2+7Y13wfvdGj5eFROyFk5rDsZv4X+rHepbzMzie7D+E=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=SKzlqihFskAwZyrscs5aldMEA3UnY3BziuCX5u/GxfYJ1AywY7wgfsoH4QhvTKzyh
-	 szAZ5CFUnQyply77uYWcxmHO1h6hU+gaNtort6Irxs1Vi1h3ReOmHSnkYHiWLpARLH
-	 x7BYT+qUs2jjQ2KfndawUMA5cIR9hujvPbuHJqbAeUMUn/l4Aw06wRM/ZXLZcLhmRc
-	 YqhEyMBEw7LuTrBexkknZF9bqE8pkoXmAXqekkWFs4JSyyyh125hY8+Uj/+/EdpwZH
-	 1rAmd5wrIgwyU5xiehnCArKyOx+yA9vQKxZLe3H761B4iNxg57C0vVRA/YpouwS7YT
-	 uhVzbLavA8zqw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D02BC5B56A;
-	Wed, 12 Aug 2026 11:42:09 +0000 (UTC)
-From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
-Date: Wed, 12 Aug 2026 11:42:09 +0000
-Subject: [PATCH v3] thunderbolt: Stop waiting on a path pending bit that
- never clears
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="h+/iCKZj";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MNCJQ8bw"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67CDcsvh3654843
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 13:45:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=7ozTwiVg9+hl0WUjpZaz2ubQf+JQlxvOWQb
+	g5M5ApFk=; b=h+/iCKZjnv/cnKLWsVPIhbnMwvAg9aGKVfDK/6aiDaNx+QgKLCV
+	XM07kzAKiA11zXyPcaT1ZXPHZHKgOQjzP4pWuekcZ0lIdBV56pHJUXSLfjrUAKFs
+	Yu1GuGdc5NEsiRvp2lrAqVkDgu1J0WX+f6m3SFkzJiyW0ebOvqkni5wYZjzWl8Y/
+	bu6D5Y11eM03P3aHEVw6W12Gz/cOaSRGplsky4fh+0Kf1f/oJfRiMTGdvPoZRmBW
+	jflXGjjvm3HGzhPKI+LNUKzHW9NSCPOm914Q+bxQi1lEaT2YOtogOd1gOFeDVc6B
+	0cfFA6m8XUQ/09UaIdccEJczLx3p2/7a+qw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g0pmyru1q-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 13:45:07 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5174a23afcbso13449471cf.3
+        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 06:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786542306; x=1787147106; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7ozTwiVg9+hl0WUjpZaz2ubQf+JQlxvOWQbg5M5ApFk=;
+        b=MNCJQ8bwIGowMPq4WMrxtqiCzB2teAU/MvRywohYMznnw5VwEd0HeS3R6Cb6ph09F3
+         YDkXHKuSuEa9LTANutSzn1kjRmEIYtoAcJ4WoVNhhxEL1PJ6fWGl5IVPyXmXUvoql3J4
+         u/OvQHvaOjz7sBa63P10FoyBsjDOm6jEtujUfelrC+J5uOCvxf98zzijJAKAP+tyr5bO
+         AYti6G8QjVy6hEFNqyLAMt1AYxr7+6yBxxXJxHsWAYqk3Xvhj+96+xOEe2uh/07ZF19f
+         N06ytPIFGFlzUODVFkbXRAYk9kGU3jYvAoE0/B4nyCNb2oHiYxJ39GlR6ZAoUE+jUCBN
+         N0eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786542306; x=1787147106;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7ozTwiVg9+hl0WUjpZaz2ubQf+JQlxvOWQbg5M5ApFk=;
+        b=SG7wFE0LNKQ8O/u2WCW1rKB2zRinOl0rn82ee48+AM2BlnhK60HJAJI5rdoF6KqupN
+         vYcaKJIP2xCeW//F7WP7nWTydcBSbZp79HcawasSOEO8in492FbssM19+cGTVAI98/S3
+         ahCKO4OpRG29/DIE/zkRrt/4I1EyVajH0qh8R49vkYS/ZSamf4oe2FQIwldHNH5+qQ51
+         pQLG4JHGnjlliOBZdcz7nVTnJXpLhnFIGQe2E9jZUqk0l9RHZ33Xnd47/mK7dvqNE2YA
+         e3wu3ozm9dKg6Mdod5PzgFFVasHhfcJh5c6Yb9Vr+VQhDVC6QedewCjSVXDukUAyBqKb
+         9boQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrHyLWySjFzmptxyZg0K4++rRLS+Um5sksDbVMWPPEPMBqvjf3fTOjprCA6RPJ77DSFIUsSsjwRusI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+sq0A0sTGPjCghUp763bXyVTpNKjz+aUnVMYupEo1XVeobug1
+	5xu6tGBY11GhA3ru0VkwzFt4BkqwjguHaaUD5kU1KOsjpqlHQ8eVZG5g3sOx6Flh0gujGNyPpHh
+	2/hpsCpihWyRrYhgMyek5u1Io/roPP4OEVl4oeMXHq8pdE6TNcuyrWaox/haG6ts=
+X-Gm-Gg: AR+sD13uVpkbfH7oS0+nqlB8OBLpWK/sEs+AdggIu8d3pnYe/mpd1SlpygeKGmyVHbe
+	4VqHEKK0XpWDFIdzDIrhtorvO/ztO3dgKVZFNxv2UZy9ZrujJ4CnaBdxBw0K3PKzgfZMQwvQN15
+	D0o2CCs9EdcB5eiKy5CT6T+JWoSdYMxg80yQTYTPOCuzdlcDuvyO2ENDHKVWJvq/Ix5U2xKNxOE
+	GHBsalv2GaEmWSAqWce+mJE/KIU/mLPAKDFlfN5JchQ008SRxfdm5QXVQHzHnTk4G0gAosZdqF7
+	dF7Ye7hTwO7+e4dgkA+WUOPJXM1KwJKXpKWZEFWhENEc3TmdAAa4D2payah2yDw+EaWqW7B8o1E
+	Ik0FsBhwAGeeLiy73
+X-Received: by 2002:a05:622a:6082:b0:51c:f3e:7819 with SMTP id d75a77b69052e-52d6482d9f3mr43867521cf.39.1786542305984;
+        Wed, 12 Aug 2026 06:45:05 -0700 (PDT)
+X-Received: by 2002:a05:622a:6082:b0:51c:f3e:7819 with SMTP id d75a77b69052e-52d6482d9f3mr43866781cf.39.1786542305543;
+        Wed, 12 Aug 2026 06:45:05 -0700 (PDT)
+Received: from quoll ([178.197.219.214])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997c993d80sm52793265e9.12.2026.08.12.06.45.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 06:45:04 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH 1/2] dt-bindings: usb: snps,dwc3: Correctly restrict number of resets
+Date: Wed, 12 Aug 2026 15:44:56 +0200
+Message-ID: <20260812134455.179663-3-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260812-b4-tb-pending-v3-1-3a292e7194c9@gmail.com>
-X-B4-Tracking: v=1; b=H4sIABBcfGoC/yXMTQ5AMBBA4avIrE1S4yfiKmKh7WAsSlpEIu6uW
- H6L9y4I7IUDNMkFng8JsriIPE3ATL0bGcVGAymqVJ0R6gI3jSs7K25Em+WkFA2m4hJis3oe5Px
- +bfc77Hpms70TuO8HsnLJ43EAAAA=
-X-Change-ID: 20260812-b4-tb-pending-d132002fc6e5
-To: Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>, 
- Andreas Noever <andreas.noever@gmail.com>
-Cc: linux-usb@vger.kernel.org, Fan Ye <fy15309206903@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786534928; l=5168;
- i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
- bh=L3Lnw1mWZ/p8vS+tXDNiU2TpU0v+O3am4AgNeqUNTmI=;
- b=/XvGN1ezr9fpFXe7pnaxHCyvTv5lC0EQ4Rh1RCpd5lJlZgt6AkEm0TMhPN4MiB+8cCvvXgg6Q
- 4xIfH3A33HkBcpxqV0R8xJwcfSWceKt5+duazqF563VQ16c/Ezf3oeM
-X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
- pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
-X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
- auth_id=929
-X-Original-From: Fan Ye <fy15309206903@gmail.com>
-Reply-To: fy15309206903@gmail.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=989; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=dHXdSEWJo3Fjmi2CPPFQMv893oaZbPDhTb0Zj+OIl1Q=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqfHjXSTfXOV4HITJSOcYjrngPqPruu9qzNufO9
+ f1A1xMOydqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCanx41wAKCRDBN2bmhouD
+ 18YRD/0RZH97CUS5pDObp8zz2sZPR2WGr6sqRsKyMGxXbTa0Jf4R9Y4d0NS9Dia/oAuUiOoJJQS
+ 4RBY2jUH1v3SBqHOiPzzmwwgGmSoolkwlxEwfXtqbUh1XUH/N40ZwoHVKYTH7U8lv3ehhnoU+Hq
+ ckFuX6smhWRrWZxO1Xs7YWmgbdyh6SJiLXD+z4FZoRbPio29gqoqSVrss1kIv3Y3BY6djPQHKHV
+ r7xP64OY7XWA8RmZhD5eDNiWV4StHhAOvK956kCiUSsWVxQvZVn6rbV3x7ccW5jFFNi/YICAj38
+ UXCIoPC/vXw/cPaSCVpsbguMGMdTJlkn8B1Nk7Hsay6MqhqQXXY5YKppXaxrrjvit8KcTqZfk6b
+ +6bi1EVUsbRI4//+jDp3cLpwYiLwcK9NluozhFPZcwrMRN99pLAs+SJQrDUnNFts/L+uM6V7yfg
+ qisjVbh+U58iBC66zZlFZvyAX6XhjtBwVCq+bB0Jo/SqLrYnA8flGPaGz5qQJ1DA9m5/N9XOvcx
+ raAUUenaSeeqxd552EOTA2LEftoXZ52zsEgV2/SsxzCmjmj5XX+pyZR/msibe+DlRIq4FV4h4B1
+ ho8HosizCz1KJkpGMtyr6qu1IBSwHRUJvyz/emm2VTznUKI4ZU+dtg994K2/eANSMhhsu1l6gsY CD+u/oBf7yL3X/g==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDExMiBTYWx0ZWRfXyjkYNGWdj8lt
+ ocVayJMRG0BnnQF7Gayj5YAr8qPrS4mmW0hCHptYLJahmARLdss3SZgvjHKDCzmpJgggeT/w214
+ VMbqiJjw+CqiPD3tFB6zPNZWqC4T/yw=
+X-Proofpoint-ORIG-GUID: 4Q00TCE7Vb92-xe7Y2mMwZ6VVNz66tct
+X-Authority-Analysis: v=2.4 cv=C/fZDwP+ c=1 sm=1 tr=0 ts=6a7c78e3 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
+ a=F0jcGj4a8BhWEZHBF2gA:9 a=ZXulRonScM0A:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: 4Q00TCE7Vb92-xe7Y2mMwZ6VVNz66tct
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDExMiBTYWx0ZWRfX1h54PxKr4TVW
+ vp4lISGSZqAwRKQdoi3HinM2CyTdRF2SP55d7bd0vtZKHtUdhNxnQ8JPfEzNAKJGr8ZnRwIdaaj
+ EY5RXZyxRc1VVRJcSZYKnE9sp/m/dny3hNo7WLlDJSe8ut2YTA6BLu5mOCfBpDdI/S/z0YmkGHk
+ 6sGApsKJrh3bJioRSH3CuJ0O6AzFuyVCuBfL4g3gKIRUvYFLmySxjoGCun3JuP5p/+8v6/R1u6q
+ +HWk4c9LX14/M70FzjlHaGEaSxE6TfDOfscXjZnofXTZCSgcX3QUthYsvxYtqbKFUOG/pikFR3M
+ l3JMXaIDlYgFgVTYbOEhyMkdqGNlVfIKp9ErtazIcgbP54x+Seu014YORbEaMCMhEIRGlsZDfzd
+ RWTI0AqlI7USLMZrqWgYuFHlLFlKGuLM1OzG/v3NuqVn06huNO+KuZ8Wki/AhR7+n+5MclyjciT
+ jfJ3AL3TLw8y48Gm82g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-12_04,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1011 phishscore=0 spamscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120112
 
-From: Fan Ye <fy15309206903@gmail.com>
+Add missing upper bound of number of resets for DWC3 node, because
+"minItems" alone does not imply one and any number of resets would be
+allowed.  Ideally this would be restricted to "maxItems: 1" (as in a few
+other bindings referencing snps,dwc3.yaml) but
+arch/arm64/boot/dts/hisilicon/hi3660.dtsi defines node with four resets
+and a generic compatible, thus make this one an upper limit.
 
-__tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit to
-read back clear. On an ASMedia ASM4242 host router the host interface
-adapter latches it once enough frames have gone through the DMA ring and
-never clears it again: the teardown finds it already set, seconds after
-the last frame and with the path still up. USB4 v2 table 8-23 has the
-field read only and zero unless packets belonging to the path are waiting
-to be dequeued, so the wait is right and this adapter is not.
-
-Make the wait a per-adapter length and quirk those routers to zero, which
-leaves the loop reading the bit exactly once. A hop that does drain still
-says so on that read, and one that does not answers -ETIMEDOUT without
-burning the timeout: bringing the interface down takes 6 ms where it took
-506.
-
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
-Measured on two ASM4242 hosts wired to each other, hw_vendor_id 0x174c,
-hw_device_id 0x2428, NVM 200011.250708.
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Both behaviours in one binary selected at runtime, three rounds each: the
-single read reports drained at 200 frames in 3 of 3 and answers -ETIMEDOUT
-at 400 frames in 3 of 3, where skipping the read answers -ETIMEDOUT at 200
-frames as well.
-
-v3:
-- Give the adapter a pp_timeout_msec instead of the learned pending_stuck
-  flag, and let the quirk clear it.
-- Feed it to the existing timeout rather than skipping the wait, so a
-  quirked adapter still reads the bit once.
-
-v2: https://lore.kernel.org/linux-usb/20260812-b4-tb-pending-v2-v2-1-0667ee84c2d4@gmail.com/
----
- drivers/thunderbolt/path.c   |  2 +-
- drivers/thunderbolt/quirks.c | 18 ++++++++++++++++++
- drivers/thunderbolt/switch.c |  1 +
- drivers/thunderbolt/tb.h     |  6 ++++++
- 4 files changed, 26 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index b2c322e76b8a..05249eed3f64 100644
---- a/drivers/thunderbolt/path.c
-+++ b/drivers/thunderbolt/path.c
-@@ -398,7 +398,7 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
- 		return ret;
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 4380bb6fa2f0..6eb6a823bd56 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -74,6 +74,7 @@ properties:
  
- 	/* Wait until it is drained */
--	timeout = ktime_add_ms(ktime_get(), 500);
-+	timeout = ktime_add_ms(ktime_get(), port->pp_timeout_msec);
- 	do {
- 		ret = tb_port_read(port, &hop, TB_CFG_HOPS, 2 * hop_index, 2);
- 		if (ret)
-diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
-index 9f7914ac2f48..f41c5b7ef114 100644
---- a/drivers/thunderbolt/quirks.c
-+++ b/drivers/thunderbolt/quirks.c
-@@ -52,6 +52,19 @@ static void quirk_block_rpm_in_redrive(struct tb_switch *sw)
- 	tb_sw_dbg(sw, "preventing runtime PM in DP redrive mode\n");
- }
+   resets:
+     minItems: 1
++    maxItems: 4
  
-+static void quirk_stuck_pending(struct tb_switch *sw)
-+{
-+	struct tb_port *port;
-+
-+	tb_switch_for_each_port(sw, port) {
-+		if (!tb_port_is_nhi(port))
-+			continue;
-+
-+		port->pp_timeout_msec = 0;
-+		tb_port_dbg(port, "pending bit does not clear, reading it once\n");
-+	}
-+}
-+
- struct tb_quirk {
- 	u16 hw_vendor_id;
- 	u16 hw_device_id;
-@@ -114,6 +127,11 @@ static const struct tb_quirk tb_quirks[] = {
- 	{ 0x0438, 0x0209, 0x0000, 0x0000, quirk_clx_disable },
- 	{ 0x0438, 0x020a, 0x0000, 0x0000, quirk_clx_disable },
- 	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
-+	/*
-+	 * ASMedia ASM4242 never clears the Pending Packets bit of its host
-+	 * interface adapter.
-+	 */
-+	{ 0x174c, 0x2428, 0x0000, 0x0000, quirk_stuck_pending },
- };
+ unevaluatedProperties: false
  
- /**
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index a830c82bb905..fb0fc8def0a9 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -703,6 +703,7 @@ static int tb_init_port(struct tb_port *port)
- 	int cap;
- 
- 	INIT_LIST_HEAD(&port->list);
-+	port->pp_timeout_msec = TB_PENDING_TIMEOUT;
- 
- 	/* Control adapter does not have configuration space */
- 	if (!port->port)
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index ec9192b61bc0..3ddd3cbc2b39 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -27,6 +27,9 @@
- /* Need to keep power on while USB4 port is in redrive mode */
- #define QUIRK_KEEP_POWER_IN_DP_REDRIVE			BIT(2)
- 
-+/* How long a hop is given to drain when a path is deactivated */
-+#define TB_PENDING_TIMEOUT				500 /* ms */
-+
- /**
-  * struct tb_nvm - Structure holding NVM information
-  * @dev: Owner of the NVM
-@@ -273,6 +276,8 @@ struct tb_bandwidth_group {
-  * @max_bw: Maximum possible bandwidth through this adapter if set to
-  *	    non-zero.
-  * @redrive: For DP IN, if true the adapter is in redrive mode.
-+ * @pp_timeout_msec: How long a hop of this adapter is given to drain when a
-+ *		     path is deactivated. %0 means a single read.
-  *
-  * In USB4 terminology this structure represents an adapter (protocol or
-  * lane adapter).
-@@ -302,6 +307,7 @@ struct tb_port {
- 	struct list_head group_list;
- 	unsigned int max_bw;
- 	bool redrive;
-+	unsigned int pp_timeout_msec;
- };
- 
- /**
-
----
-base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
-change-id: 20260812-b4-tb-pending-d132002fc6e5
-
-Best regards,
---  
-Fan Ye <fy15309206903@gmail.com>
-
+-- 
+2.53.0
 
