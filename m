@@ -1,43 +1,47 @@
 Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B15319CC0F;
-	Wed, 12 Aug 2026 01:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A7519CC0F;
+	Wed, 12 Aug 2026 01:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786496558; cv=none; b=Y80QuRfK+tx65lhrlb9B1lr5W3YAKTCqLeHBAAs42nXSDjUk8n5Lz83FajUjI2i/2HKfANksm1nxfvcjwfWDg/JrI/TNYRrS/QoVcdtVUIWx+R8eNvhPwgpbicSMEdjvL0IJqIFR6XnA1dUTA74UIXrV3ssSh2OMzVuWrbji4bY=
+	t=1786496563; cv=none; b=CNFVzOSZv1XuWC/5XkZzR4KEmHgjslSGzypzx5CGKGJEADJbD7az3v1eOVWriTS1AOb9jkrtJhGYSw/PAJVVMO45N06TjoUsbWWNuxANJQPtVlxJa/boMxuLSECkmdHW6JIWiz/shCJqElL/4P4IP71NDzI/3Wy2oHubpUUfXS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786496558; c=relaxed/simple;
-	bh=T/6sX2xdcsqwfL2ZOi9Wv+/hxmdpQDlYI2um12MlG+Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ABBgoRGVeziX1RkcUqC4HHLsrjme5VxDnCslxn6KujFL3MQkSkEsicEotVEd3+zmW+UF/uYvNhmkk/LzGAf/rHHZzUlYS3Fi3RZon9SuUPVLhVPaBRw+RSRMf/sHBUzpJPcGN6E4l6cMBBdzMiIfgosC4HAN/ofToauzaEj9Eqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=EFYrinV3; arc=none smtp.client-ip=178.251.229.89
+	s=arc-20240116; t=1786496563; c=relaxed/simple;
+	bh=pfUsyoLoHAX8g8NNT9OCZLozcs6hQaR9JvPwdpfxa98=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vbc2blTQtGUGlHi+jBTVaQolCz+s+vfwtsJOcPCb0/j/g/vJ3CZn4c7loPQcrWeScTbqaoyK/kcIFWOo1mNKUGpCP9mZzT/LmlbyVImI+5WGNcoobCe6eUt2gbSzI53e7kCs4qt2mqlr2c9KqL9EieUwYfjneiJGJTusLSdyjiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=H1EsvCaa; arc=none smtp.client-ip=178.251.229.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="EFYrinV3"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B45B111A03D;
-	Wed, 12 Aug 2026 03:02:24 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="H1EsvCaa"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B341D11A0F7;
+	Wed, 12 Aug 2026 03:02:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1786496549; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=PfgDafVpcYcIsx/y/Mtz5wPBNsA0Bqi65/JdgQqh0iY=;
-	b=EFYrinV3BEapm6M2XOHJBjrJ2IA4vSaRhrSmC3sLGx7r+x4bZk7Z5LZQ7Jg3kcoGWizKwE
-	/KGEKJDNNvjjJRuIT24HMYRzoz6s7b8W8QG/4oOasO0Em7EAgtdhzHxzxI7qCH5SqJ5hkM
-	gbWV6kmZdJPvUkclEMXOuewW6Tu7PRRV/0z9Bx5cnYbLSdGJ296L258AL86RPtrWE9V5mJ
-	YbZnFXlDADh1UyCYOhXGPTS6Gh7mdCKUa0GgdwRnMU00fk3E3U4D0LPvU70nv1FLFGo6PA
-	o+VioM4lgh1MwCv6wDXPl3sJMtn/TxijLzF/RljnDM8UnsBUfiiony24qnL58w==
+	s=dkim; t=1786496554;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=abWDjsJ7MsHebe5ntsIcqA1aci2Halsj83iswXsJtc4=;
+	b=H1EsvCaaoRHgFznR+XCmsmsslT45Kre7HxxJyi6Y8Oq/4ZSuY4dgAKmCk0hoXaXQUJLS8X
+	YYoB0bsgP1F8zuELGXr4LjXk9Rx40DYwGAN+GgLT0J4DmWFECTiOsuMIyTiM2mq5shYrm0
+	zLNuzMRJ4ZlH8BD9LTm3G7JGPXyqrkMArBh/d6O1G9r4MxzFOmEon0As/sdOh41Xm0DzXg
+	TELgugOCTWQQxpx2mLdCPCihv2CkePJ0lci/wEFy/CeMKJBMhvRBAdzdL+9Pq0n37W2LtG
+	KXYTL/s4+NwLqyLj806PXfW1YvuaABIMDgaex8n/Bf9CzYvy1c1Fk/r3YVVMMQ==
 From: Marek Vasut <marex@nabladev.com>
 To: linux-usb@vger.kernel.org
-Cc: Marek Vasut <marex@nabladev.com>,
+Cc: Pankaj Dev <pankaj.dev@st.com>,
+	=?UTF-8?q?Cl=C3=A9ment=20Le=20Goffic?= <clement.legoffic@foss.st.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Marek Vasut <marex@nabladev.com>,
+	Rahul Kumar <rahul.kumar05@st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Christian Bruel <christian.bruel@foss.st.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pankaj Dev <pankaj.dev@st.com>,
-	Rahul Kumar <rahul.kumar05@st.com>,
 	Rob Herring <robh@kernel.org>,
 	Rosen Penev <rosenp@gmail.com>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -48,60 +52,36 @@ Cc: Marek Vasut <marex@nabladev.com>,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 0/8] arm64: dts: phy: st: usb: Add STM32MP2 USB support
-Date: Wed, 12 Aug 2026 02:55:40 +0200
-Message-ID: <20260812010157.1772849-1-marex@nabladev.com>
+Subject: [PATCH 1/8] dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO PHY
+Date: Wed, 12 Aug 2026 02:55:41 +0200
+Message-ID: <20260812010157.1772849-2-marex@nabladev.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260812010157.1772849-1-marex@nabladev.com>
+References: <20260812010157.1772849-1-marex@nabladev.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add USB support for STM32MP23xx/STM32MP25xx SoCs. This includes USB 2.0
-FEMTO-PHY driver, DWC3 glue code and DT adjustments. Parts of this are
-taken from ST downstream kernel fork, reduced, or rewritten, since not
-all of the content there was useful and bits which might be missing and
-are useful can be added later.
+From: Pankaj Dev <pankaj.dev@st.com>
 
-Unlike the downstream implementation, the DWC3 glue code is using plain
-dwc3-generic-plat, the EHCI and OHCI controllers are instantiated as
-plain generic controllers without any wrapper glue driver, and the USB2
-PHY driver is simplified.
+Document USB2 PHY for STM32MP25 USB2 controllers, which includes the
+USB2.0 host-only controller and USB 2.0 part of the DWC3 controller.
+Two such PHYs in total are present in STM32MP25 SoC, they both are
+slightly different, therefore they use different compatible string
+to discern them.
 
-Both USB 2.0 Host controller and DWC3 super-speed controller are tested.
-
-Marek Vasut (5):
-  dt-bindings: usb: generic-ehci: Document access-controllers property
-  dt-bindings: usb: generic-ohci: Document access-controllers property
-  dt-bindings: usb: dwc3: Document ST STM32MP2 DWC3 xHCI USB controller
-  usb: dwc3: dwc3-generic-plat: Add ST STM32MP2 DWC3 xHCI USB controller
-    glue
-  arm64: dts: st: Add USB nodes on stm32mp231
-
-Pankaj Dev (3):
-  dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO PHY
-  phy: stm32: Add support for ST STM32MP25 USB2-FEMTO PHY
-  arm64: dts: st: Add USB nodes on stm32mp251
-
- .../bindings/phy/st,stm32-usb2phy.yaml        |  72 ++++
- .../devicetree/bindings/usb/generic-ehci.yaml |   3 +
- .../devicetree/bindings/usb/generic-ohci.yaml |   3 +
- .../bindings/usb/st,stm32mp25-dwc3.yaml       | 108 ++++++
- arch/arm64/boot/dts/st/stm32mp231.dtsi        |  77 ++++
- arch/arm64/boot/dts/st/stm32mp251.dtsi        |  61 +++
- drivers/phy/st/Kconfig                        |  10 +
- drivers/phy/st/Makefile                       |   1 +
- drivers/phy/st/phy-stm32-usb2phy.c            | 356 ++++++++++++++++++
- drivers/usb/dwc3/dwc3-generic-plat.c          |  44 +++
- 10 files changed, 735 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/st,stm32mp25-dwc3.yaml
- create mode 100644 drivers/phy/st/phy-stm32-usb2phy.c
-
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Signed-off-by: Marek Vasut <marex@nabladev.com>
+Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
+Signed-off-by: Rahul Kumar <rahul.kumar05@st.com>
+---
 Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
 Cc: Christian Bruel <christian.bruel@foss.st.com>
 Cc: Conor Dooley <conor+dt@kernel.org>
@@ -123,7 +103,89 @@ Cc: linux-kernel@vger.kernel.org
 Cc: linux-phy@lists.infradead.org
 Cc: linux-stm32@st-md-mailman.stormreply.com
 Cc: linux-usb@vger.kernel.org
+---
+ .../bindings/phy/st,stm32-usb2phy.yaml        | 72 +++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
 
+diff --git a/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml b/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+new file mode 100644
+index 0000000000000..ca9fc3b87383c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/st,stm32-usb2phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics STM32 MPU High-Speed USB PHY
++
++description:
++  USB2 PHY block in STM32 is attached to USB 2.0 Host controller and
++  USB 2.0 side of DWC3 DRD controller, and provides the USB LS/FS/HS
++  connectivity.
++
++maintainers:
++  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
++  - Marek Vasut <marex@nabladev.com>
++  - Pankaj Dev <pankaj.dev@st.com>
++
++properties:
++  compatible:
++    enum:
++      - st,stm32mp25-usb2phy1
++      - st,stm32mp25-usb2phy2
++
++  "#phy-cells":
++    const: 0
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  vdd33-supply:
++    description: Phandle to regulator providing 3V3 power supply to the USB2 HS PHY
++
++  st,syscfg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: Phandle to system configuration controller.
++    items:
++      - items:
++          - description: phandle to syscfg
++          - description: USB2PHY control offset within syscfg
++
++  "#clock-cells":
++    const: 0
++
++required:
++  - compatible
++  - "#clock-cells"
++  - "#phy-cells"
++  - clocks
++  - resets
++  - st,syscfg
++  - vdd33-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/st,stm32mp25-rcc.h>
++    #include <dt-bindings/reset/st,stm32mp25-rcc.h>
++
++    usb2_phy2: usb-phy {
++        compatible = "st,stm32mp25-usb2phy";
++        #clock-cells = <0>;
++        #phy-cells = <0>;
++        clocks = <&rcc CK_KER_USB2PHY2>;
++        resets = <&rcc USB2PHY2_R>;
++        st,syscfg = <&syscfg 0x2800>;
++        vdd33-supply = <&vdd33usb>;
++    };
 -- 
 2.53.0
 
