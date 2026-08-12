@@ -1,202 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E9D362154
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 01:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9270370D56;
+	Wed, 12 Aug 2026 01:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786497713; cv=none; b=SQ/PYBuLo+FaooDPNlhvQA8QlvVWQkHNov7qt+pddsCsVsD4XjufueKZsQ1hjaK9UQSa1x+KIrDUZkhNysx87uJQ18YbsaOBqZeKOnkkew4M1sbnU/7b9hCvNWRzQB3+UG4API8d88/a6AMoY31H/JZRWvu/UpeUqn6aognCJ0k=
+	t=1786498874; cv=none; b=XT94tWwxmwuj1SkxDrNMVcQWSeRxW9EAX+f/Rp1tWmzoVcsnDqL0EWc2G5Qq9kc4b+02Mt+O3GB1rqQuFTFYO97KOsO/+0dFzaU+bUDBZ/EgwomaOoqcJ6VYAY8OFyZi32/OMtWDYKl3nZwZS4zCRqei4pNi/oLa6YluxUI+FUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786497713; c=relaxed/simple;
-	bh=eQi+Q0RecU5qxfkPIjiTPHloqq3+dnQiKndhh9wW4i4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BE8praPcfB8+MzOUv8hikSxSmkICsOxbjvMGTcEtQ4R0//PZFzAJScMsBtnXkOmL98LOYS6i8dg+Tb/rOfECt1uSs2Tar/YG9Xf2AqMwNoU+UVqeffPsP1CERtu5SAsVGPG+c4Ds5Qu3Kv7go14w/HGiIMkVbUWx17nLW9KF1oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BL6P/Ee/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786498874; c=relaxed/simple;
+	bh=zgxQ1Dlh38HZOImSEfZiP36YJ9/wuYQvRevSX5EiaEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JlB6zMTde5Po+vkTtfmQ3rjTBOw+qhw16KQAL6rRCDaOtQLqhKGOhLXbwfNu8hxfaTsRIpouh9smisJ/UoWUnicjih4d3HlgUej9kaA93hPIltrcl+vNBs9Gh7YjYKft+FVYr8R1SqVJL9O1wD61Y625u4LtwxbSxAPOyMrWUQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SevL2kYI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BL6P/Ee/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CC171C2BCF4;
-	Wed, 12 Aug 2026 01:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786497712;
-	bh=eQi+Q0RecU5qxfkPIjiTPHloqq3+dnQiKndhh9wW4i4=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=BL6P/Ee/W5e4qCy/ApIB7PyrQ60CcS3dEJKvQy+iEnVz8pIhVGHzEWkTugvPMKDc4
-	 W/F6y2G+7h/10TPqGtTBKtv5iqXLHHsTUc11HTOy2iy1OFpP8GdFFbv9Avt9RLm+r9
-	 gNK5YB/WgdWLdsWbK42E0R2xtD+xrWG2pmbTW9DYQ0pOWVUz2uM16TtwmhixJxF0sw
-	 7XVRgvQuDp/34Gc7ALHDCEv0pEQGgm8H/8SSI5Ya9yBEf0How1oZ2psT1qRvIuDkgq
-	 VCHy745nhmihNkRHTsotVjohrqW0sI50blQk9JBBlMwnFodmTRcC7p+L5CxReeGe9s
-	 tw2BIUaCZKhbw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3129C5AC67;
-	Wed, 12 Aug 2026 01:21:52 +0000 (UTC)
-From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
-Date: Wed, 12 Aug 2026 01:21:52 +0000
-Subject: [PATCH v2] thunderbolt: Stop waiting on a path pending bit that
- never clears
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SevL2kYI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 303FA1F000E9;
+	Wed, 12 Aug 2026 01:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786498872;
+	bh=YDVhKIVRwhk7NjczVHRS/FNkLpxTfXl/HQj2fMs4j2Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=SevL2kYIpXIZjiVE3tSj+IOFi2FHZbHglTBaVFaudEB1eTPrryPkV8Z9X6y7vAAjd
+	 eX0KPnk6el8K/5GIXaMRVTkjAaqwWCadkVTO52tbNhojCXs4RoKdlLhls47q0se2CJ
+	 fbDt65Xk3uvwxFgBNhwekCRUfX6bmWEgJqn0ZyD4bE/pOTjuWdyO+XKVi7vGhVdUwC
+	 qbO8QzvoonDC30WafEeLriT+NrKlSDdoMJvNrut37+u5MPFJ0XvcYWXsyj6vDsEDCg
+	 mDCMpaE++1scufoZYcOK34lRayCubtwTKWLI2LHVg2Pa5nHACTFCTWbwZXJzzHoJ1j
+	 A/LnExjoOXBWg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: fabio.porcedda@gmail.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	bjorn@mork.no,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dnlplm@gmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] net: usb: qmi_wwan: add Telit Cinterion FE990D50 composition
+Date: Tue, 11 Aug 2026 18:41:11 -0700
+Message-ID: <20260812014111.1680631-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260810103409.133796-1-fabio.porcedda@gmail.com>
+References: <20260810103409.133796-1-fabio.porcedda@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260812-b4-tb-pending-v2-v2-1-0667ee84c2d4@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAK/Ke2oC/yXMMQ6DMAxA0asgz7UULApRr4I61MEJZkhRQhES4
- u6EMr7h/x2yJJUMr2qHJKtm/cYCelTgxk8MgjoUAxlqja0JucGFcZY4aAy4EnZW2HXMxj8tlGx
- O4nX7L/v37fzjSdxyfeA4TqBsrKR0AAAA
-X-Change-ID: 20260812-b4-tb-pending-v2-78ebc7bb0f58
-To: Andreas Noever <andreas.noever@gmail.com>, 
- Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org, Fan Ye <fy15309206903@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786497711; l=5171;
- i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
- bh=ZJC23Z8IdZX0lJBPYb5DU7w3VWoK5HvGEn98o9tOYh4=;
- b=Qvq8J5ODMHaWcbNJZ9OyQreABtIk0im/SiDAZSs3HIt/L8nJ2cVId5ziZmUbh8Ww2Fr8r2qzE
- aDylT/aZvexDbQY3NTrLMxTJXtpKp1m6sS67p0cJ6akycCCwBh44aZU
-X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
- pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
-X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
- auth_id=929
-X-Original-From: Fan Ye <fy15309206903@gmail.com>
-Reply-To: fy15309206903@gmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Fan Ye <fy15309206903@gmail.com>
-
-__tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit to
-read back clear. On an ASMedia ASM4242 host router the host interface
-adapter latches it once enough frames have gone through the DMA ring and
-never clears it again: the teardown finds it already set, seconds after
-the last frame and with the path still up. USB4 v2 table 8-23 has the
-field read only and zero unless packets belonging to the path are waiting
-to be dequeued, so the wait is right and this adapter is not.
-
-Quirk those routers by hardware id and let a quirked adapter that has
-timed out once answer -ETIMEDOUT immediately from then on. Bringing the
-interface down then took 8 ms across 200 cycles, where unpatched it took
-508 ms in 161 of 162, at an unchanged failure rate of about one per
-cycle.
-
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
 ---
-Measured on two ASM4242 hosts wired to each other, hw_vendor_id 0x174c,
-hw_device_id 0x2428, NVM 200011.250708, on a base that already carries
-68bf02b6b4ad.
+net: usb: qmi_wwan: add Telit Cinterion FE990D50 composition
 
-Read before the teardown writes anything, path still up and the ring idle
-for seconds: at 200 frames it is clear in 5 of 5 rounds and the hop drains
-on the first read, at 260 it is set in 5 of 5 and the wait runs out. So it
-is set before the teardown starts rather than by it, and the clear case is
-why the flag is learned rather than taken from the quirk alone.
+Adds a qmi_wwan products[] entry for USB ID 1bc7:0991 interface 0, using
+the SET_DTR quirk, for the Telit Cinterion FE990D50 rmnet + tty + ADPL +
+adb composition.
 
-5.4.1 has a connection manager wait tTeardown after the router sets the
-bit to 0b before making the path valid again. On an adapter where it
-never reads 0b there is no such point, patched or not.
+> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+> index 94cdb61dca83d..147beaa61340d 100644
+> --- a/drivers/net/usb/qmi_wwan.c
+> +++ b/drivers/net/usb/qmi_wwan.c
+> @@ -1360,6 +1360,7 @@ static const struct usb_device_id products[] = {
+>  	{QMI_FIXED_INTF(0x1bbb, 0x0203, 2)},	/* Alcatel L800MA */
+>  	{QMI_FIXED_INTF(0x2357, 0x0201, 4)},	/* TP-LINK HSUPA Modem MA180 */
+>  	{QMI_FIXED_INTF(0x2357, 0x9000, 4)},	/* TP-LINK MA260 */
+> +	{QMI_QUIRK_SET_DTR(0x1bc7, 0x0991, 0)}, /* Telit LE910C1-EUX */
+                                                   ^^^^^^^^^^^^^^^^^^
 
-v2:
-- Add the Assisted-by tag.
-- Answer the spec question from USB4 v2 table 8-23.
-- Return -ETIMEDOUT instead of 0; gate the flag on a 0x174c/0x2428 quirk.
-- Drop the ring-wrap claim.
-- Cut the text down.
+[Severity: Low]
+Is the device name in this comment the intended one?  The subject line and
+the descriptor dump in the changelog both describe 1bc7:0991 as the
+FE990D50:
 
-v1: https://lore.kernel.org/linux-usb/20260809-b4-tb-teardown-v1-2-c88bbfe5c127@gmail.com/
----
- drivers/thunderbolt/path.c   | 8 ++++++++
- drivers/thunderbolt/quirks.c | 8 ++++++++
- drivers/thunderbolt/tb.h     | 4 ++++
- 3 files changed, 20 insertions(+)
+    P:  Vendor=1bc7 ProdID=0991 Rev=06.06
+    S:  Manufacturer=Telit Cinterion
+    S:  Product=FE990
 
-diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index b2c322e76b8a..5cf87b8af2b2 100644
---- a/drivers/thunderbolt/path.c
-+++ b/drivers/thunderbolt/path.c
-@@ -397,6 +397,10 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
- 	if (ret)
- 		return ret;
- 
-+	/* It never clears on this adapter, so the wait would time out again. */
-+	if (port->pending_stuck)
-+		return -ETIMEDOUT;
-+
- 	/* Wait until it is drained */
- 	timeout = ktime_add_ms(ktime_get(), 500);
- 	do {
-@@ -430,6 +434,10 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
- 		usleep_range(10, 20);
- 	} while (ktime_before(ktime_get(), timeout));
- 
-+	/* Remember it only on an adapter known to latch it. */
-+	if (tb_port_is_nhi(port) && (port->sw->quirks & QUIRK_STUCK_PENDING))
-+		port->pending_stuck = true;
-+
- 	return -ETIMEDOUT;
- }
- 
-diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
-index 9f7914ac2f48..6ec90a85bbaf 100644
---- a/drivers/thunderbolt/quirks.c
-+++ b/drivers/thunderbolt/quirks.c
-@@ -52,6 +52,12 @@ static void quirk_block_rpm_in_redrive(struct tb_switch *sw)
- 	tb_sw_dbg(sw, "preventing runtime PM in DP redrive mode\n");
- }
- 
-+static void quirk_stuck_pending(struct tb_switch *sw)
-+{
-+	sw->quirks |= QUIRK_STUCK_PENDING;
-+	tb_sw_dbg(sw, "host interface adapter pending bit does not clear\n");
-+}
-+
- struct tb_quirk {
- 	u16 hw_vendor_id;
- 	u16 hw_device_id;
-@@ -114,6 +120,8 @@ static const struct tb_quirk tb_quirks[] = {
- 	{ 0x0438, 0x0209, 0x0000, 0x0000, quirk_clx_disable },
- 	{ 0x0438, 0x020a, 0x0000, 0x0000, quirk_clx_disable },
- 	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
-+	/* ASM4242 never clears the Pending Packets bit of its NHI adapter */
-+	{ 0x174c, 0x2428, 0x0000, 0x0000, quirk_stuck_pending },
- };
- 
- /**
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index ec9192b61bc0..00eb8d85755a 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -26,6 +26,8 @@
- #define QUIRK_NO_CLX					BIT(1)
- /* Need to keep power on while USB4 port is in redrive mode */
- #define QUIRK_KEEP_POWER_IN_DP_REDRIVE			BIT(2)
-+/* Pending Packets bit of the host interface adapter never clears */
-+#define QUIRK_STUCK_PENDING				BIT(3)
- 
- /**
-  * struct tb_nvm - Structure holding NVM information
-@@ -273,6 +275,7 @@ struct tb_bandwidth_group {
-  * @max_bw: Maximum possible bandwidth through this adapter if set to
-  *	    non-zero.
-  * @redrive: For DP IN, if true the adapter is in redrive mode.
-+ * @pending_stuck: Pending bit did not clear, so it is not waited on again
-  *
-  * In USB4 terminology this structure represents an adapter (protocol or
-  * lane adapter).
-@@ -302,6 +305,7 @@ struct tb_port {
- 	struct list_head group_list;
- 	unsigned int max_bw;
- 	bool redrive;
-+	bool pending_stuck;
- };
- 
- /**
+The comment looks like a copy of the next line, which is the entry for the
+real LE910C1-EUX at a different product ID and interface number:
 
----
-base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
-change-id: 20260812-b4-tb-pending-v2-78ebc7bb0f58
+>  	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1031, 3)}, /* Telit LE910C1-EUX */
 
-Best regards,
---  
-Fan Ye <fy15309206903@gmail.com>
+drivers/usb/serial/option.c already labels the same product ID as the
+FE990D50 in option_ids[]:
 
+	{ USB_DEVICE_AND_INTERFACE_INFO(TELIT_VENDOR_ID, 0x0991, 0xff, 0xff, 0x30),	/* Telit FE990D50 (rmnet) */
 
+Would /* Telit FE990D50 */ be a better fit here, matching the existing
+naming for the rest of the family in this table (/* Telit FE990A */ for
+0x1080 and /* Telit FE990B */ for 0x10b0)?  As it stands, two entries for
+different hardware carry the same label, which makes it easy for a later
+addition to touch the wrong line.
+
+The match itself looks fine: interface 0 of 0x0991 has bInterfaceProtocol
+0x50, which none of the option.c filters (0x30, 0x40, 0x60) claim, so only
+the comment appears to need a change.
+
+>  	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1034, 2)}, /* Telit LE910C4-WWX */
+>  	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1037, 4)}, /* Telit LE910C4-WWX */
+-- 
+pw-bot: cr
