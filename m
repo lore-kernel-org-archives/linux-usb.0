@@ -1,97 +1,81 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782C23B05B3
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 08:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0998A3203B6
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 08:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786522767; cv=none; b=ISLtalSRbgxrgxKyuA0ZWcHapXagWjBj/9J9KVLsfW9O6FCHCoc8+o8BiZwjgE7DI508yCCzC3SRIEZLtdIUdgv1zsoPsNIAJWGS+IHRaqnDuU8BlgDJrhj+U5iBX2ih60wPA2nPp4M98mJILJbs9Q+6lP2o7ITWFSmiSTdU5k0=
+	t=1786522912; cv=none; b=svznKLKigbm6n4GHpLzLKVLeZDtfKypsw4RDMk4eKpH7Epo3Gu95A68tp5zMFQJxkEb34QeQk9dYOF7xKkYtARf1ts7tWiiBS2+Lmy6YO4cZOMaonF6FnE376bsOUu+WBADhTVxZ7Lf62Q6UIhMEKxqQlospsL6g0ISmwfb389M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786522767; c=relaxed/simple;
-	bh=O4tS74Qpamlgy50ymq4f2hv0mNK8g08TXH3vrTvTCcU=;
+	s=arc-20240116; t=1786522912; c=relaxed/simple;
+	bh=FBYMXzm/9qgd59ANdaZgQARfVOQfiv5uHwv1ToHWrak=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p6oKiT0SJeinF7TB7Y/V1zYTXOe6ijTvFCz6i0Jf6m2ES87En1aNDaZVJI3CVKVapLrIKwYZcRo2BYyaFjXoCQE98E8zZ0+6FZHzs+QsHFbBsm0V0YA6CwjfCxoxphYGbGQ4Cif6xzGQs7H6gkBQycX9wEO/TzX/Dmp191Ok+Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jP2QrAhV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eMzR6H0K; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 MIME-Version; b=J68WTJYw8B7Dbt8JFXyn90C/mgSG55f0K6o8EGF7XD80Pgw+lDtZ5YrzMKE/vTyZYffeBuHelZuycJwJDmTSpxkRE4KWJADhNhQyc8MA0/sJUlO5Fzeb9Gbx8ax6D9/7cao2uHQMy6YEF/y2l07XgRuFbShcscr4Pmtk/OGdgHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VVupkjcC; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jP2QrAhV";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eMzR6H0K"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67C79SA03144255
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 08:19:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=yCvY8dTpd0m
-	VJHRvRNyakrvKHP85LZh5EA/bbkoXk+c=; b=jP2QrAhVd2X9t6b9PolWGLVwmyY
-	jTSuLjkHzlYqsQzwCZztmmKZKdamqaKwFG956agY5BPIcAY5prVoSn6lVCtGC1Cz
-	3wx29co/ly71FbKzwBFOxfHV6Sjbjlrk9l/kB3Izb4H9vaAu4yxjat4lDKf0NXC3
-	/w/0TUty+OmSmB9dM3fwzl62Q2oaIADoGlbN4ksGomQHp3Kg96hHYbBa8JQAs3Ew
-	QGO0lfAyh2oBt3zPYNTDF4AnlyBise3q3d6glrJH8zUcBNzxqBRDpfVIIXg3QoM2
-	7MIOcUBtQbDNorEFPZxcfUYdU4ZM9OQoxnG2QruZtD5fBcDz9t1rtEdv9rQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g0m6rg8b4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 08:19:24 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c1eb52e1fso12963891cf.0
-        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 01:19:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VVupkjcC"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38f620399a0so703296a91.2
+        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 01:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786522763; x=1787127563; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786522910; x=1787127710; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=yCvY8dTpd0mVJHRvRNyakrvKHP85LZh5EA/bbkoXk+c=;
-        b=eMzR6H0K5cB7bBvhOlnSa7yY+KTtsxPKOZm6grfKLTwmMd698Qn9R6Fq84HyOoIMXT
-         tS5WtWWgLhiHOwOw9Mg7LAJwCqggw9JEyGKUsId+Ryl0E0B5ehmUQ80hhXrexo6nneNP
-         7EiDcGdG3TFpUIzdfVGNCWHjWSMnpwt1ztiUxo1CJPSF8v1Oard5UsgI8TKLACe67qYv
-         uEhPyIS7lawocxAD4xk1ZiTMrt1aXQN/gXPZnKo5pqgFpESQ4oeqJgbzBwpPOfX74UzI
-         lQNyKRLvk1BIpmIQUOKqW4my9CD5bcgnh+7Xf8ALvs8gy8IRCYwd1CA1NdNhwTDXaVHe
-         Ez0A==
+        bh=nflQk1ynJ2NMOg/4B1vzQ7rLRCrtvqb920yEH95lTXY=;
+        b=VVupkjcC9D7lOzIxyJzO63zKuAuP6w9e3jX/wDHfG/Z82F/R7pM6ZlJRNZJML7PpmF
+         be6GxEE5ySRDndGTI50PAT6ed4F4yKy9ldAK8BsUy8qjZIxdxb6M4b5W5H8gKKmbIkg2
+         Ez0wFhR4TnxeD1+62QJuSE8JsexMkcTFU75L18NFS8NmpKu/lyE2FXDAszP9RZKR0v0y
+         CEOxBXW1rus5N/7RZJaplI+3tp82P9uww/dUt4FUWQ1YIjwb4nWgLCiUFbmRyOn/1n8b
+         JJQamoxGiHyqRljuj4EVeTQ7pukquYU0IuSuSlz1YC0rQllmh3slYLJlCFMa7Z0/kXyk
+         Rs1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786522763; x=1787127563;
+        d=1e100.net; s=20251104; t=1786522910; x=1787127710;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yCvY8dTpd0mVJHRvRNyakrvKHP85LZh5EA/bbkoXk+c=;
-        b=KA967U18wpCrAsh6CeZ8AuFQya2Px/PbRQeR+GOR8fppw8842iM8u1G3zakP+E6ZWY
-         k89RPSTaIbtdi+CFyxS7UWttnAV+Z6nxtgQXfAYBVmVZEl4OVGcZ/0503Yw2xTsT64Y8
-         /TIL13a4hiRlIZLDNI1z/nCkkwo2egncQiIgrH+g73LaURrJjVvYFKbn99i5YC2X500Y
-         jZu4fWsd7j4dugW0/ysdBM9l+XdK7fsiE6M2byvgcu5Sk73j3tsfLlUOiiOtMkWpO4Hv
-         E2HojoI2pE0RFUJGXtH10t2K7DrwVXy2nJhXpPYj5pI5j7WFgFeD3ygeFfHNrqfqSqS0
-         r8ig==
-X-Forwarded-Encrypted: i=1; AHgh+RqPppUkiXmBnY0mD426gutpqxmeutSCUOJEwprODnUAcjetrM52IxagkQPI/JoOU9zRuUf8FCc4Qj8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGCMamf7xuYrmk3CHdutaPQYhzWibBXcU7XOLR0+JJF718SDXs
-	hNqwVx6zdAkMcBJIt3Mn7+igT0KAsmAvZOGlZbhkAW83ckrrmtsnUErY+j/3YQHE32MrxJr+7da
-	g3g3vkdFwLgfigPu+OjuPu/ZOo8N+h41A3cskA3tGAxfIcnDOT6k3GscisgJH4xM=
-X-Gm-Gg: AR+sD10fLklHJ8BzGBZGEEa62XV68u9LQIU0xvhmCr9zSVtme73hjZb28mPo1LtFlDg
-	J42zOP9WniFRIjB1vJ5QN7bwO/UK6ByRQ/5nBj9Kg2XbowuQivioUjYpCc2PEDh5Y1sz8sWKyRJ
-	WFy8Eb/orscnftBtePkzsuajQ2h8KTjAJTVRv5Tlw3BoR0+9vhj+7Q7Qw74jIiLdVnpHpU3n1vE
-	wK/arKMacjIB8zR6ytuAZcYjPDA3HRf3FanpoohPkYhyOVHK3/YnZGSUufIrdRXuQosWuv+OakI
-	gQrCt9N2PKMRgb1hn2rKUMCVPF9w4ZvmOM95GXDWJy52TlLQxomO3XHjDhIO2z6TkSI5EBqAmht
-	9h5org8VZImUvK+vYV9e9ZKkhzqxYLCw=
-X-Received: by 2002:ac8:5845:0:b0:51c:1a11:75cf with SMTP id d75a77b69052e-52d646b8fd9mr24139251cf.7.1786522763485;
-        Wed, 12 Aug 2026 01:19:23 -0700 (PDT)
-X-Received: by 2002:ac8:5845:0:b0:51c:1a11:75cf with SMTP id d75a77b69052e-52d646b8fd9mr24139041cf.7.1786522763124;
-        Wed, 12 Aug 2026 01:19:23 -0700 (PDT)
-Received: from QCOM-WFsSr66Fqw.qualcomm.com ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c20f059195asm63327366b.0.2026.08.12.01.19.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 01:19:22 -0700 (PDT)
-From: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Seungjin Bae <eeodqql09@gmail.com>,
-        Kees Cook <kees@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Sebastian Urban <surban@surban.net>, Felipe Balbi <balbi@ti.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Igor Skalkin <igor.skalkin@oss.qualcomm.com>
-Subject: [PATCH v2 2/2] usb: gadget: dummy_hcd: set no_sg_constraint only on the SuperSpeed bus
-Date: Wed, 12 Aug 2026 10:19:10 +0200
-Message-ID: <20260812081910.6821-3-igor.skalkin@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260812081910.6821-1-igor.skalkin@oss.qualcomm.com>
-References: <20260807075438.5566-1-igor.skalkin@oss.qualcomm.com>
- <20260812081910.6821-1-igor.skalkin@oss.qualcomm.com>
+        bh=nflQk1ynJ2NMOg/4B1vzQ7rLRCrtvqb920yEH95lTXY=;
+        b=ZNmC3pgwFkD+huVreFSx3mdbSuCXX1rNvh/KoDOjB4Ca9hV9UqrpbaJa5Rna91isHn
+         mlxrZ3pn/fVzv0OUfwK4995CaEzXixprAqE9UIcnF0lJdDwnD55gcNf2bS0jHc/fG5yy
+         13zX3KM9JQNjdyFvxcUoIaVsSmSGX617+iW3vrtqgxpETaYaLVvytQIGVjQp+hrEtzLX
+         pdJ+Nm9wlQDMl0nIpRNy5D8Ae0OG+hB6LxxYjeLpJbUy4RPRl8SnTtKb/1vcMBzt8OME
+         OX+ECns8cjpID7zmYO751Rjf1Tc/FicPXwanwCoRbSkNX0lCF9BcuuPMOKKlBKfyMbLN
+         46rA==
+X-Gm-Message-State: AOJu0YzfzDcQh+qdjvxyUKsUqQpbPQ5q9X/HdQJKBlIqvwnd3tSxwKPA
+	kKXbqvv68YNmOpCVvK8t8J77SfIdUwONnq75ec5hZBj7vEdxS7HL5k16
+X-Gm-Gg: AR+sD111TiS1oM8+1yKbY7HSDDA7QuvsBqFDyoXzHOyugfdbX+DMn7z6Y8c6rA+OMrv
+	rkyCx12EDXN+Pw2Qjn5kBJJOjdSFx+kDYTSZiaM/Yj46XPEVybh30ihCEzmkXxUHTLv5yzgYs/n
+	2tunKlPW/RlWQvhIa+d+dJxWgouW2dDPkWJzdwHKB0etmIz1TC2KQ8DmtQDa8EvJ5yqNC5vJ6o0
+	0zJwXfkZ+SiodOpysHbfoBwJM8LbM5F3XxesAID54xzUIrFFgmoM9bc3ATOZceUGfK3ThwcS+Rm
+	YOkSzJF8wRczPNW+S6GU1Gx8b80WCZkMsVqtWKajZkPSw4YfZQ2ikWI7HCrrqxgAfG+Amiptcek
+	BTU4BQ1fKu8ExwOdppy/kwaUSEATFYvNc4QpgRdvF9wnVqUo+wt0ZP3Oi0aebJYO51h2Vb0Ktb4
+	zB14A5BVpyWoYQi4vcy1XBfYUfaWje0dUFrIe/PsyhzpY1RVTwBEvFz99uckHfACbwkpT6cwOWB
+	capQmmmH1zB7m7BDMx2ISVdOseDlD7JsCPljHbOuUgfAVA+M6t9SG5B+MVahjAhjMHxX+0xC5s2
+	Gio=
+X-Received: by 2002:a17:90b:390c:b0:37c:6910:5758 with SMTP id 98e67ed59e1d1-3930119eff3mr3400014a91.1.1786522910251;
+        Wed, 12 Aug 2026 01:21:50 -0700 (PDT)
+Received: from 7cf34ddc0813.ant.amazon.com ([54.222.46.39])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392f94d5cb7sm2614417a91.15.2026.08.12.01.21.45
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 12 Aug 2026 01:21:49 -0700 (PDT)
+From: Jiazi Liu <jiazi.liu1984@gmail.com>
+X-Google-Original-From: Jiazi Liu <liujiazi@amazon.com>
+To: Thinh.Nguyen@synopsys.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Jiazi Liu <jiazi.liu1984@gmail.com>,
+	Jiazi Liu <liujiazi@amazon.com>
+Subject: [PATCH v2 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
+Date: Wed, 12 Aug 2026 16:21:27 +0800
+Message-ID: <20260812082127.79610-1-liujiazi@amazon.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260727092258.1121-1-liujiazi@amazon.com>
+References: <20260727092258.1121-1-liujiazi@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -99,77 +83,198 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDA2NSBTYWx0ZWRfX0Is4y7lUhxeO
- tY0K3e9kkAVvE+CFNEmaZJ1zZBv1GMmU7XeCUmfdkR7jA2FLeAvb67u7hSC4s7QUkHWVi2sjWvy
- aHiaFEZLMqwIXOE2RhHSav5B5XRVE5vx4Q7P9+UfpNOfeWFLucTvJEQ6KVtWTNLNY7l07TTTSfb
- Z+KN4JZesEnrYMaG/T76p/0LsadYr1qOHS7qS7rtyRyU3W+LCVb1/X6sgUm5ne6hrc9pOCBs8Kh
- EOARrtdgZrwbOJnfXs2esdpQK2SaJ7fariA+TWvBnxyiSaocO7MSIbCSmbczG7wwDiPZOTNztdG
- T7KSQkX6AI5gMPXSNRwA0i8hRApdwbXVCVdkQrn3LQbqQV3PkaZnx7q8geIX3vKTSbQSXRln+hY
- pkzVqe+qe8Cik9jJyVWhOQUY32PyTqF/vLllfd8ET6h3eye7L6VDI9LPLFZmeqS6zPGVSdWcdD0
- EIE6GVefrhAPhlwPtsg==
-X-Authority-Analysis: v=2.4 cv=Wb08rUhX c=1 sm=1 tr=0 ts=6a7c2c8c cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=ErlKB2RathMbn5d_X_QA:9 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: TrO18MLopfEoQMpsTKLk4xcvrhnWWS9S
-X-Proofpoint-ORIG-GUID: TrO18MLopfEoQMpsTKLk4xcvrhnWWS9S
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDA2NSBTYWx0ZWRfX2SXsvr3qbP5e
- EmW/tShrbHwwJsehMr9N+ozHHRQcOaBPP6sqfrw6jsDNd6RDe9Fmw5aeBMULerydprLtNfQbYqm
- na1zXcZcaDW+esNpk2HLcGKayorJG0k=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-12_02,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120065
 
-dummy_hcd registers two separate root hubs/buses: a HighSpeed one
-emulating an EHCI-class controller, and a SuperSpeed one emulating an
-xHCI-class controller.  usb_submit_urb() rejects SG URBs whose
-non-final segments are not a multiple of the endpoint maxpacket size,
-unless the bus has no_sg_constraint set.
+From: Jiazi Liu <jiazi.liu1984@gmail.com>
 
-For SuperSpeed bulk endpoints maxpacket is 1024 bytes; usbtest
-generates SG lists with varying segment sizes (e.g. 512 bytes) that
-are valid transfers but not maxpacket-aligned, causing usb_submit_urb
-to return -EINVAL before the URB reaches the host controller.
+When dwc3_check_event_buf() reads a GEVNTCOUNT value exceeding the
+event buffer length, commit 63ccd26cd1f6 ("usb: dwc3: gadget: check
+that event count does not exceed event buffer length") returns IRQ_NONE
+without writing back GEVNTCOUNT. Since the DWC3 interrupt is
+level-triggered, the uncleared IRQ source keeps the line asserted,
+causing a tight IRQ storm that accumulates 99,900 unhandled interrupts
+and triggers spurious.c:184 BUG -> kernel panic.
 
-xHCI-class controllers have no such DMA alignment requirement, so set
-no_sg_constraint on the SS bus to match.  Leave the HS bus unchanged:
-EHCI-class controllers do have this requirement in hardware, and
-dummy_hcd's HS roothub is meant to emulate that behaviour, so the
-constraint should stay enforced there.
+The resulting call stack:
+  __report_bad_irq+0xac/0xc8
+  note_interrupt+0x340/0x468
+  handle_irq_event+0xac/0xc0
+  handle_fasteoi_irq+0x120/0x228
+  gic_handle_irq+0x68/0x108
+  ...
+  kernel BUG at kernel/irq/spurious.c:184
 
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Assisted-by: OpenCode:claude-sonnet-5
-Signed-off-by: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+To reproduce, write a bogus value exceeding the event buffer length
+directly to the GEVNTCOUNT register:
+
+  devmem <DWC3_BASE + 0xc40c> 4 0x1004
+
+Write the bogus count back to GEVNTCOUNT to clear the IRQ source,
+consistent with the stale event clearing pattern in
+dwc3_event_buffers_setup(), and schedule error recovery to
+reinitialize the controller.
+
+Fixes: 63ccd26cd1f6 ("usb: dwc3: gadget: check that event count does not
+exceed event buffer length")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiazi Liu <liujiazi@amazon.com>
 ---
- drivers/usb/gadget/udc/dummy_hcd.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Changes in v2:
+  - Rename softcon_work to err_recovery_work
+  - Use dev_err instead of dev_err_ratelimited
+  - Update comment to document driver/controller out-of-sync fatal error
+    condition rather than describing IRQ storm behavior
+  - Remove dev_err from work handler; error message belongs at the call
+    site where the specific failure is known
+  - Follow dwc3_gadget_suspend/resume logic in recovery work handler
+  - Add err_dying state to reject gadget driver requests during recovery
+  - Add err_recovery_count counter and stop scheduling recovery after
+    DWC3_ERR_RECOVERY_MAX attempts to prevent infinite retry loops
+  - Add synchronize_irq() before soft_disconnect to ensure IRQ handler
+    has completed before reinitializing the controller
+  - Define DWC3_ERR_RECOVERY_MAX in core.h alongside other global constants
+  - Fix sparse warning: use dwc as first argument to dwc3_writel, not dwc->regs
+---
+ drivers/usb/dwc3/core.h   |  7 +++++++
+ drivers/usb/dwc3/gadget.c | 41 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 46 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-index 29f671c7b319..0ae600159478 100644
---- a/drivers/usb/gadget/udc/dummy_hcd.c
-+++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -2578,6 +2578,15 @@ static int dummy_setup(struct usb_hcd *hcd)
- 		dum->ss_hcd->dum = dum;
- 		hcd->speed = HCD_USB3;
- 		hcd->self.root_hub->speed = USB_SPEED_SUPER;
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 608daeb7ef10..b1cd888eca77 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -49,6 +49,7 @@
+ #define DWC3_ENDPOINTS_NUM	32
+ #define DWC3_XHCI_RESOURCES_NUM	2
+ #define DWC3_ISOC_MAX_RETRIES	5
++#define DWC3_ERR_RECOVERY_MAX	3
+ 
+ #define DWC3_SCRATCHBUF_SIZE	4096	/* each buffer is assumed to be 4KiB */
+ #define DWC3_EVENT_BUFFERS_SIZE	4096
+@@ -1004,6 +1005,7 @@ struct dwc3_glue_ops {
+ /**
+  * struct dwc3 - representation of our controller
+  * @drd_work: workqueue used for role swapping
++ * @err_recovery_work: workqueue used for controller error recovery
+  * @ep0_trb: trb which is used for the ctrl_req
+  * @bounce: address of bounce buffer
+  * @setup_buf: used while precessing STD USB requests
+@@ -1171,6 +1173,7 @@ struct dwc3_glue_ops {
+  * @wakeup_configured: set if the device is configured for remote wakeup.
+  * @suspended: set to track suspend event due to U3/L2.
+  * @susphy_state: state of DWC3_GUSB2PHYCFG_SUSPHY + DWC3_GUSB3PIPECTL_SUSPHY
++ * @err_dying: true when controller is in error recovery, reject all requests
+  *		  before PM suspend.
+  * @imod_interval: set the interrupt moderation interval in 250ns
+  *			increments or 0 to disable.
+@@ -1186,9 +1189,11 @@ struct dwc3_glue_ops {
+  * @wakeup_pending_funcs: Indicates whether any interface has requested for
+  *			 function wakeup in bitmap format where bit position
+  *			 represents interface_id.
++ * @err_recovery_count: number of consecutive error recovery attempts
+  */
+ struct dwc3 {
+ 	struct work_struct	drd_work;
++	struct work_struct	err_recovery_work;
+ 	struct dwc3_trb		*ep0_trb;
+ 	void			*bounce;
+ 	u8			*setup_buf;
+@@ -1420,6 +1425,7 @@ struct dwc3 {
+ 	unsigned		wakeup_configured:1;
+ 	unsigned		suspended:1;
+ 	unsigned		susphy_state:1;
++	unsigned		err_dying:1;
+ 
+ 	u16			imod_interval;
+ 
+@@ -1429,6 +1435,7 @@ struct dwc3 {
+ 	struct dentry		*debug_root;
+ 	u32			gsbuscfg0_reqinfo;
+ 	u32			wakeup_pending_funcs;
++	u32			err_recovery_count;
+ };
+ 
+ #define INCRX_BURST_MODE 0
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa0f16ffafef..05f3ffab6e47 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2054,6 +2054,9 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
+ 
+ 	int				ret;
+ 
++	if (dwc->err_dying)
++		return -ESHUTDOWN;
 +
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	ret = __dwc3_gadget_ep_queue(dep, req);
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+@@ -4667,9 +4670,22 @@ static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
+ 		return IRQ_NONE;
+ 
+ 	if (count > evt->length) {
+-		dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
++		dev_err(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
+ 			count, evt->length);
+-		return IRQ_NONE;
 +		/*
-+		 * xHCI-class SuperSpeed controllers have no maxpacket
-+		 * alignment requirement for non-final SG segments.  Only
-+		 * relax the constraint on the SS bus; the HS bus keeps
-+		 * emulating the alignment requirement of EHCI-class
-+		 * controllers.
++		 * This is a fatal error - the driver and controller are out of
++		 * sync on which event has been consumed. Reinitializing the
++		 * controller is required to recover. Write the bogus count back
++		 * to GEVNTCOUNT to clear the IRQ source, consistent with the
++		 * stale event clearing in dwc3_event_buffers_setup(), then
++		 * schedule error recovery.
 +		 */
-+		hcd->self.no_sg_constraint = 1;
++		dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
++		dwc->err_dying = true;
++		dwc->err_recovery_count++;
++		if (dwc->err_recovery_count <= DWC3_ERR_RECOVERY_MAX)
++			schedule_work(&dwc->err_recovery_work);
++		return IRQ_HANDLED;
  	}
- 	return 0;
+ 
+ 	evt->count = count;
+@@ -4729,6 +4745,25 @@ static void dwc_gadget_release(struct device *dev)
+ 	kfree(gadget);
  }
+ 
++static void dwc3_err_recovery_work(struct work_struct *work)
++{
++	struct dwc3 *dwc = container_of(work, struct dwc3, err_recovery_work);
++	int ret;
++
++	synchronize_irq(dwc->irq_gadget);
++
++	ret = dwc3_gadget_soft_disconnect(dwc);
++	if (ret)
++		return;
++
++	dwc3_disconnect_gadget_sleepable(dwc);
++
++	dwc->err_dying = false;
++
++	if (dwc->softconnect)
++		dwc3_gadget_soft_connect(dwc);
++}
++
+ /**
+  * dwc3_gadget_init - initializes gadget related registers
+  * @dwc: pointer to our controller context structure
+@@ -4772,6 +4807,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+ 	}
+ 
+ 	init_completion(&dwc->ep0_in_setup);
++	INIT_WORK(&dwc->err_recovery_work, dwc3_err_recovery_work);
+ 	dwc->gadget = kzalloc_obj(struct usb_gadget);
+ 	if (!dwc->gadget) {
+ 		ret = -ENOMEM;
+@@ -4868,6 +4904,7 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ 	if (!dwc->gadget)
+ 		return;
+ 
++	cancel_work_sync(&dwc->err_recovery_work);
+ 	dwc3_enable_susphy(dwc, true);
+ 	usb_del_gadget(dwc->gadget);
+ 	dwc3_gadget_free_endpoints(dwc);
 -- 
-2.49.0
+2.50.1 (Apple Git-155)
 
