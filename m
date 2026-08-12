@@ -1,183 +1,202 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF60634C9A6;
-	Wed, 12 Aug 2026 01:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E9D362154
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 01:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786496600; cv=none; b=Vbq8D/g9Cerx/nKanDC/XUuy0ZRQd/v8E1hZogxb5PSMwt7olrt9yw2xjb2kE3LSICIfq1vM7IeO/ZR0e4aK4h2h15lnuoPURb48SDQB3hKKqaFaHriHKS0nf6nGhMCIVpQk4MRJj+O7nBwBJddvJP6oMqbNyHvv63v/0XzADYs=
+	t=1786497713; cv=none; b=SQ/PYBuLo+FaooDPNlhvQA8QlvVWQkHNov7qt+pddsCsVsD4XjufueKZsQ1hjaK9UQSa1x+KIrDUZkhNysx87uJQ18YbsaOBqZeKOnkkew4M1sbnU/7b9hCvNWRzQB3+UG4API8d88/a6AMoY31H/JZRWvu/UpeUqn6aognCJ0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786496600; c=relaxed/simple;
-	bh=QG49uE3Hwe0taYRu7ArcUz5sNiMbbruqmGKOyiXnmEo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OYFXqBGs96LcbVTUDp3ws5CdnbssKWljNUA942ui9IEC/3eUgjUW3Hc2OHqrlyUhr6ZP46Zm+MrNM6bSerOw7424pgI2xAPo6BtoYCNYLmWiLljs8BRGSQoxj59utS+76zmwazZhGBIyOju1newgiPKsfjcTuFRxoebb4DlPKWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=Ll7s98JJ; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1786497713; c=relaxed/simple;
+	bh=eQi+Q0RecU5qxfkPIjiTPHloqq3+dnQiKndhh9wW4i4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BE8praPcfB8+MzOUv8hikSxSmkICsOxbjvMGTcEtQ4R0//PZFzAJScMsBtnXkOmL98LOYS6i8dg+Tb/rOfECt1uSs2Tar/YG9Xf2AqMwNoU+UVqeffPsP1CERtu5SAsVGPG+c4Ds5Qu3Kv7go14w/HGiIMkVbUWx17nLW9KF1oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BL6P/Ee/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="Ll7s98JJ"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D543D11A195;
-	Wed, 12 Aug 2026 03:03:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1786496592; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=/y0h0XBkWfzpZGbn2+ONwS3q9qDmIFhWudnEFeJ59eY=;
-	b=Ll7s98JJVQDiY0e/l4m7Dar4+0mwNdLcNkFHdSxbO3R2L3z2FL3Y3ksub1NsxeAXzDSYV6
-	w4NlgeKUg1KyJvPxBecY8KPcuFwEs7wDo7qsSmSWacuoM7A85y2Z3mElBGFg4qsUefLaAZ
-	EYF1R33pNa1hoZypjLxTQ/HAVlC2W2eRUC0CT2yuaO5hZsa3JkNyfdr0ooQR7AjzdbDuqq
-	Hh00nQ8KlkD2zcGoyjJ3eBqO9q8CsEtNwnXUwAUFOIFSh2SY4A0IKfMjb9dz1EskLn7q2L
-	WVd5fm+WTRfLCPrL8U2OylIiIgJ0kVkdMMpTKWf9p1yjOOnmf9JskCbOx6jJeg==
-From: Marek Vasut <marex@nabladev.com>
-To: linux-usb@vger.kernel.org
-Cc: Pankaj Dev <pankaj.dev@st.com>,
-	Marek Vasut <marex@nabladev.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Christian Bruel <christian.bruel@foss.st.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rahul Kumar <rahul.kumar05@st.com>,
-	Rob Herring <robh@kernel.org>,
-	Rosen Penev <rosenp@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	devicetree@vger.kernel.org,
-	kernel@dh-electronics.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 8/8] arm64: dts: st: Add USB nodes on stm32mp251
-Date: Wed, 12 Aug 2026 02:55:48 +0200
-Message-ID: <20260812010157.1772849-9-marex@nabladev.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260812010157.1772849-1-marex@nabladev.com>
-References: <20260812010157.1772849-1-marex@nabladev.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BL6P/Ee/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CC171C2BCF4;
+	Wed, 12 Aug 2026 01:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786497712;
+	bh=eQi+Q0RecU5qxfkPIjiTPHloqq3+dnQiKndhh9wW4i4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=BL6P/Ee/W5e4qCy/ApIB7PyrQ60CcS3dEJKvQy+iEnVz8pIhVGHzEWkTugvPMKDc4
+	 W/F6y2G+7h/10TPqGtTBKtv5iqXLHHsTUc11HTOy2iy1OFpP8GdFFbv9Avt9RLm+r9
+	 gNK5YB/WgdWLdsWbK42E0R2xtD+xrWG2pmbTW9DYQ0pOWVUz2uM16TtwmhixJxF0sw
+	 7XVRgvQuDp/34Gc7ALHDCEv0pEQGgm8H/8SSI5Ya9yBEf0How1oZ2psT1qRvIuDkgq
+	 VCHy745nhmihNkRHTsotVjohrqW0sI50blQk9JBBlMwnFodmTRcC7p+L5CxReeGe9s
+	 tw2BIUaCZKhbw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3129C5AC67;
+	Wed, 12 Aug 2026 01:21:52 +0000 (UTC)
+From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
+Date: Wed, 12 Aug 2026 01:21:52 +0000
+Subject: [PATCH v2] thunderbolt: Stop waiting on a path pending bit that
+ never clears
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260812-b4-tb-pending-v2-v2-1-0667ee84c2d4@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAK/Ke2oC/yXMMQ6DMAxA0asgz7UULApRr4I61MEJZkhRQhES4
+ u6EMr7h/x2yJJUMr2qHJKtm/cYCelTgxk8MgjoUAxlqja0JucGFcZY4aAy4EnZW2HXMxj8tlGx
+ O4nX7L/v37fzjSdxyfeA4TqBsrKR0AAAA
+X-Change-ID: 20260812-b4-tb-pending-v2-78ebc7bb0f58
+To: Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: linux-usb@vger.kernel.org, Fan Ye <fy15309206903@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786497711; l=5171;
+ i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
+ bh=ZJC23Z8IdZX0lJBPYb5DU7w3VWoK5HvGEn98o9tOYh4=;
+ b=Qvq8J5ODMHaWcbNJZ9OyQreABtIk0im/SiDAZSs3HIt/L8nJ2cVId5ziZmUbh8Ww2Fr8r2qzE
+ aDylT/aZvexDbQY3NTrLMxTJXtpKp1m6sS67p0cJ6akycCCwBh44aZU
+X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
+ pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
+X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
+ auth_id=929
+X-Original-From: Fan Ye <fy15309206903@gmail.com>
+Reply-To: fy15309206903@gmail.com
 
-From: Pankaj Dev <pankaj.dev@st.com>
+From: Fan Ye <fy15309206903@gmail.com>
 
-Add USB controller and PHY nodes to stm32mp251 DT.
-This includes two USB 2.0 FEMTO PHYs, USB 2.0 host
-controller and DWC3 DRD controller nodes.
+__tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit to
+read back clear. On an ASMedia ASM4242 host router the host interface
+adapter latches it once enough frames have gone through the DMA ring and
+never clears it again: the teardown finds it already set, seconds after
+the last frame and with the path still up. USB4 v2 table 8-23 has the
+field read only and zero unless packets belonging to the path are waiting
+to be dequeued, so the wait is right and this adapter is not.
 
-Signed-off-by: Marek Vasut <marex@nabladev.com>
-Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
+Quirk those routers by hardware id and let a quirked adapter that has
+timed out once answer -ETIMEDOUT immediately from then on. Bringing the
+interface down then took 8 ms across 200 cycles, where unpatched it took
+508 ms in 161 of 162, at an unchanged failure rate of about one per
+cycle.
+
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Fan Ye <fy15309206903@gmail.com>
 ---
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Christian Bruel <christian.bruel@foss.st.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Pankaj Dev <pankaj.dev@st.com>
-Cc: Rahul Kumar <rahul.kumar05@st.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Rosen Penev <rosenp@gmail.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: kernel@dh-electronics.com
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-phy@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-usb@vger.kernel.org
----
- arch/arm64/boot/dts/st/stm32mp251.dtsi | 61 ++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+Measured on two ASM4242 hosts wired to each other, hw_vendor_id 0x174c,
+hw_device_id 0x2428, NVM 200011.250708, on a base that already carries
+68bf02b6b4ad.
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-index 6e985f115b195..c54bd4554c33a 100644
---- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-@@ -168,6 +168,26 @@ timer {
- 		arm,no-tick-in-suspend;
- 	};
+Read before the teardown writes anything, path still up and the ring idle
+for seconds: at 200 frames it is clear in 5 of 5 rounds and the hop drains
+on the first read, at 260 it is set in 5 of 5 and the wait runs out. So it
+is set before the teardown starts rather than by it, and the clear case is
+why the flag is learned rather than taken from the quirk alone.
+
+5.4.1 has a connection manager wait tTeardown after the router sets the
+bit to 0b before making the path valid again. On an adapter where it
+never reads 0b there is no such point, patched or not.
+
+v2:
+- Add the Assisted-by tag.
+- Answer the spec question from USB4 v2 table 8-23.
+- Return -ETIMEDOUT instead of 0; gate the flag on a 0x174c/0x2428 quirk.
+- Drop the ring-wrap claim.
+- Cut the text down.
+
+v1: https://lore.kernel.org/linux-usb/20260809-b4-tb-teardown-v1-2-c88bbfe5c127@gmail.com/
+---
+ drivers/thunderbolt/path.c   | 8 ++++++++
+ drivers/thunderbolt/quirks.c | 8 ++++++++
+ drivers/thunderbolt/tb.h     | 4 ++++
+ 3 files changed, 20 insertions(+)
+
+diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
+index b2c322e76b8a..5cf87b8af2b2 100644
+--- a/drivers/thunderbolt/path.c
++++ b/drivers/thunderbolt/path.c
+@@ -397,6 +397,10 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
+ 	if (ret)
+ 		return ret;
  
-+	usb2_phy1: usb2-phy1 {
-+		compatible = "st,stm32mp25-usb2phy1";
-+		#phy-cells = <0>;
-+		#clock-cells = <0>;
-+		st,syscfg = <&syscfg 0x2400>;
-+		clocks = <&rcc CK_KER_USB2PHY1>;
-+		resets = <&rcc USB2PHY1_R>;
-+		status = "disabled";
-+	};
++	/* It never clears on this adapter, so the wait would time out again. */
++	if (port->pending_stuck)
++		return -ETIMEDOUT;
 +
-+	usb2_phy2: usb2-phy2 {
-+		compatible = "st,stm32mp25-usb2phy2";
-+		#phy-cells = <0>;
-+		#clock-cells = <0>;
-+		st,syscfg = <&syscfg 0x2800>;
-+		clocks = <&rcc CK_KER_USB2PHY2EN>;
-+		resets = <&rcc USB2PHY2_R>;
-+		status = "disabled";
-+	};
-+
- 	soc@0 {
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
-@@ -1746,6 +1766,47 @@ stmmac_axi_config_1: stmmac-axi-config {
- 				};
- 			};
+ 	/* Wait until it is drained */
+ 	timeout = ktime_add_ms(ktime_get(), 500);
+ 	do {
+@@ -430,6 +434,10 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
+ 		usleep_range(10, 20);
+ 	} while (ktime_before(ktime_get(), timeout));
  
-+			usbh_ohci: usb@482e0000 {
-+				compatible = "generic-ohci";
-+				reg = <0x482e0000 0x1000>;
-+				access-controllers = <&rifsc 63>;
-+				clocks = <&usb2_phy1>, <&rcc CK_BUS_USB2OHCI>;
-+				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy1>;
-+				phy-names = "usb";
-+				resets = <&rcc USBH_R>;
-+				status = "disabled";
-+			};
++	/* Remember it only on an adapter known to latch it. */
++	if (tb_port_is_nhi(port) && (port->sw->quirks & QUIRK_STUCK_PENDING))
++		port->pending_stuck = true;
 +
-+			usbh_ehci: usb@482f0000 {
-+				compatible = "generic-ehci";
-+				reg = <0x482f0000 0x1000>;
-+				access-controllers = <&rifsc 63>;
-+				clocks = <&usb2_phy1>, <&rcc CK_BUS_USB2EHCI>;
-+				companion = <&usbh_ohci>;
-+				interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy1>;
-+				phy-names = "usb";
-+				resets = <&rcc USBH_R>;
-+				status = "disabled";
-+			};
+ 	return -ETIMEDOUT;
+ }
+ 
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+index 9f7914ac2f48..6ec90a85bbaf 100644
+--- a/drivers/thunderbolt/quirks.c
++++ b/drivers/thunderbolt/quirks.c
+@@ -52,6 +52,12 @@ static void quirk_block_rpm_in_redrive(struct tb_switch *sw)
+ 	tb_sw_dbg(sw, "preventing runtime PM in DP redrive mode\n");
+ }
+ 
++static void quirk_stuck_pending(struct tb_switch *sw)
++{
++	sw->quirks |= QUIRK_STUCK_PENDING;
++	tb_sw_dbg(sw, "host interface adapter pending bit does not clear\n");
++}
 +
-+			usb3dr: usb@48300000 {
-+				compatible = "st,stm32mp25-dwc3";
-+				reg = <0x48300000 0x100000>;
-+				access-controllers = <&rifsc 66>;
-+				clocks = <&rcc CK_KER_USB2PHY2>,
-+					 <&rcc CK_BUS_USB3DR>,
-+					 <&rcc CK_KER_USB2PHY2>;
-+				clock-names = "ref", "bus_early", "suspend";
-+				interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy2>, <&combophy PHY_TYPE_USB3>;
-+				phy-names = "usb2-phy", "usb3-phy";
-+				resets = <&rcc USB3DR_R>;
-+				st,syscfg = <&syscfg 0x4800>;
-+				status = "disabled";
-+			};
-+
- 			pcie_ep: pcie-ep@48400000 {
- 				compatible = "st,stm32mp25-pcie-ep";
- 				reg = <0x48400000 0x100000>,
--- 
-2.53.0
+ struct tb_quirk {
+ 	u16 hw_vendor_id;
+ 	u16 hw_device_id;
+@@ -114,6 +120,8 @@ static const struct tb_quirk tb_quirks[] = {
+ 	{ 0x0438, 0x0209, 0x0000, 0x0000, quirk_clx_disable },
+ 	{ 0x0438, 0x020a, 0x0000, 0x0000, quirk_clx_disable },
+ 	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
++	/* ASM4242 never clears the Pending Packets bit of its NHI adapter */
++	{ 0x174c, 0x2428, 0x0000, 0x0000, quirk_stuck_pending },
+ };
+ 
+ /**
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index ec9192b61bc0..00eb8d85755a 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -26,6 +26,8 @@
+ #define QUIRK_NO_CLX					BIT(1)
+ /* Need to keep power on while USB4 port is in redrive mode */
+ #define QUIRK_KEEP_POWER_IN_DP_REDRIVE			BIT(2)
++/* Pending Packets bit of the host interface adapter never clears */
++#define QUIRK_STUCK_PENDING				BIT(3)
+ 
+ /**
+  * struct tb_nvm - Structure holding NVM information
+@@ -273,6 +275,7 @@ struct tb_bandwidth_group {
+  * @max_bw: Maximum possible bandwidth through this adapter if set to
+  *	    non-zero.
+  * @redrive: For DP IN, if true the adapter is in redrive mode.
++ * @pending_stuck: Pending bit did not clear, so it is not waited on again
+  *
+  * In USB4 terminology this structure represents an adapter (protocol or
+  * lane adapter).
+@@ -302,6 +305,7 @@ struct tb_port {
+ 	struct list_head group_list;
+ 	unsigned int max_bw;
+ 	bool redrive;
++	bool pending_stuck;
+ };
+ 
+ /**
+
+---
+base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
+change-id: 20260812-b4-tb-pending-v2-78ebc7bb0f58
+
+Best regards,
+--  
+Fan Ye <fy15309206903@gmail.com>
+
 
