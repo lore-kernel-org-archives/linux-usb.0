@@ -1,41 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BCE353A7C;
-	Wed, 12 Aug 2026 14:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB2A426D03
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 14:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786543377; cv=none; b=cXVmiKRHAyW4dWIk1UigFSYeOg9Luoc4KRaI3ydXOtxabxey9EuxnFMuEiUIsmP342VvFS90KH6Flf+0OW9XEL58o8y9YTKkxn2tUUZqK/LoOv2Oxt/IPtgg2pHuwAQZn+GbsjkVVFlVt7nYN1mHhaiJeCJigBb8p1v30Hu+mBk=
+	t=1786543420; cv=none; b=CEyB9RSDGU6hGAbyyQsppJBFuXLHx/4Bw4RO3wzRwmkV3gB8MtFYJeYSR7+AwS349r9bw8GKjaOwIPFd7YBZYRDOT4Ho4LKlwsS3MpTYBlEEo4YsN8eR0c/FaHgqnzDn+KZijT3i38AD4mvaNx2u+NQVkzv2UBnk0BED9jIHYDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786543377; c=relaxed/simple;
-	bh=82gHQ/5Rq3CZLyTUAWRAhTsz+PCouU9ku6Gn0UhmzIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TZjAbWeLZ2keo7gCiBwwaS6zjx41dw9T03PrtelHq00oNbG26xUq3xUK4vLlRQH6/JwdyyIk66aFJ+cDUyqms/JocuS/pm0ck5EYYbuKxW+j2et82QvmSDdkzbfMqHIlyezrvRLHW2vRnAFwX0sqXG5aEMfnrIdKi7LQm3AwyS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QH82+0MH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786543420; c=relaxed/simple;
+	bh=tkFBWX6TWsY2yqbIdcFhwLJgBnXo3tnHmb+/clVqnq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WkMT/bfWCXMwZpSriiCxZk9LIdBgPMYwGWlLVKdwdvBbUTQOIqfmz2UroM2aw149JGaaxdL3jQZeXCjQfyVqMk6XEsycYcWK/+ieBVov26+ViQtQuL1sg6XxaR+fjWYFaUZ+bB6GjP7q+SX49D4A7DD5t3tlEgpWkj6UeuGyuEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=gVNIh5l/; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QH82+0MH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 218671F000E9;
-	Wed, 12 Aug 2026 14:02:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786543376;
-	bh=EiKxcccL1B8P/TqdVLQFZhQtYSbiWoSv/ctpadHa4Jw=;
-	h=Date:From:To:Cc:Subject;
-	b=QH82+0MHq2ML+uQfMOhME2ktz0n57/RPPLjtWIxUc2jx2cMeXBVwB9ZIaljo+Bvq/
-	 F9uXBKmg9DYW7RBdvptN9ZFM6YS+X5vglOdx2iixZU4y1JSsd12/MpIf/uK508LpBX
-	 Y14RuhQauN09aiivbDWYhpxfnruu77PmG+2StcBSVJEtzTzCjyX+SKKsNB/vTCqEfr
-	 ddSvW9vHCqtJBfI/kb+XzYqLt+aKD5P03IQbywbu9p5R6aQH8flrX27bZSjjZDS7gQ
-	 VTQStyzSqcy7mkuDvk50NnPVG4KL/Q+7qfhskAySopPdbWqrbv9DNWfFDdGa8iGg+e
-	 Tf13fzP3mIznQ==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1wu9Xh-00000000Dz0-3hyq;
-	Wed, 12 Aug 2026 16:02:53 +0200
-Date: Wed, 12 Aug 2026 16:02:53 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] USB serial updates for 7.3-rc1
-Message-ID: <anx9DSOtHC_Eq7LB@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="gVNIh5l/"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-52d5bfa4bafso10395651cf.3
+        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 07:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1786543417; x=1787148217; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1g2SHfgKmket+Ww0ZqSMLYugnJBxmjuhN4c9IVa+FUE=;
+        b=gVNIh5l/hSxZ8Nx+RCDLC61gPro/3sY2V2oyToa+XOHgodHmFCTTtZci4LN/6Y75XD
+         zCNZipWSYKkLFbN9u6WByCtkshzA3W1MkNcgbTjmH7b9KbOSJHxbBWFKOyTHx9jQAasp
+         aEZEFfFqQmSqAmqU4wPo1n2rzSRIo73/qEI+GDymWg4uqMr9sD8EERoKSPaEdRNyrtiY
+         IT5vCJ924s3u9vWlV/J5IdJqigGEK/ayVzFqUL+06SA/VkwwTQJ3hhSL2HAi1nemhXtr
+         hhdELm6Anx7+0mOi1kkG3eg3kKbYW6l5sFjUoSqhJYpYiK3dxSzQXVDtkKJRS6HMs4F8
+         kFhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786543417; x=1787148217;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1g2SHfgKmket+Ww0ZqSMLYugnJBxmjuhN4c9IVa+FUE=;
+        b=GWlB3UTUPhQaEDOhxoEQVb4oHS+PprznTDJjnO6WrVUckPjG0zSuSPmqWAInVNNnkg
+         NQkMlMFQnnX62LcvASsfjdE4p+1mrSF4Dw3IRgM0Utqjz2RG761jD6x4AAYFDIERnt1H
+         NNvOGdw7Fw/AqqnTPWIegB3S82f8JwsNnjoM5J31sqVLtIIXtdKXMSU0MBIEu72kQ3A1
+         D+dI3ySUENB/9H2SlsViOBjdtx1zaW6hsUuASnGfdZtsxa8u9Iz9W9VRcQRaIE69RBAs
+         b320PQXZ+qY6mu19nsF0dFv8L2Rbmdutzl/G0FvJnXceperyfcnLPwVWoj55ERVy3zfz
+         EM+w==
+X-Forwarded-Encrypted: i=1; AHgh+RquNCFpTytYuazqNpwZLodHOH2v8xRck7Aet5WHUDg2Z/V7MjVNDmacsow4kLlBnWOASyn/RBwpJ1w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDgvoGX6wTNmU4i4o5eTXCwHtjuXcbApYjCEfgnuZOP8YmRzHT
+	F0iSBC05sbcOKmXxTaFIvHYgtuYm9oYu5FfXeG8YzOTDfQ0odgDf39WUfBqJBPQeVQ==
+X-Gm-Gg: AR+sD10QZOpdx5X8qGSRV0E0zgGp/g8YVqjgyjjwahnrTsAMlilg+Ubue8DHQJAV4Jg
+	lCdMLOsoawsGuSYQkiv2pq/lNp/Q5q53bpJzuX4kVv6L3/VlcVT7IcjCjAybnsPP5Vvq2ISNnCd
+	7YTkRDccW80R3pYakC1j1KkTEQnNjCNslw5nGagY8n0GQOTeZ3a8nXosLpDHMimOa7zMRxEhTJP
+	WxSppxIfT/c+m5HcCeeA1ii5rPmikHh0v+EXBPuAQRi73xgK1uXvYxSXtkmmWz4lezD16XDP+ax
+	cxU0n/Km7Jfy5zTaw8PshpTj05NRWddxVr8EAPhg7njVZX4oUcNs7mpVRACRzze0q3xbuT9UcNu
+	w+vODJbfJzKdN8PnEfXHbVoBkLDrTSKj+ReZzums0BQMO8ugm2qVOSPMD1KWINfhOCP+HiPiRuY
+	83jTDGNMaWOYxDA81aNxUJtyVcKXEWSVF6fdPIPjtB3f/lbD+2RfgA56uPwej+h54oFWpY3hlGS
+	A6orgw=
+X-Received: by 2002:ac8:5a8f:0:b0:51c:ace:de6a with SMTP id d75a77b69052e-52d6471a97dmr39189301cf.18.1786543416751;
+        Wed, 12 Aug 2026 07:03:36 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d61c3adecsm18281101cf.11.2026.08.12.07.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 07:03:36 -0700 (PDT)
+Date: Wed, 12 Aug 2026 10:03:33 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Seungjin Bae <eeodqql09@gmail.com>, Kees Cook <kees@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Sebastian Urban <surban@surban.net>, Felipe Balbi <balbi@ti.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] usb: gadget: dummy_hcd: set no_sg_constraint only
+ on the SuperSpeed bus
+Message-ID: <38202595-cacd-4527-88d6-1ed1980420d3@rowland.harvard.edu>
+References: <20260807075438.5566-1-igor.skalkin@oss.qualcomm.com>
+ <20260812081910.6821-1-igor.skalkin@oss.qualcomm.com>
+ <20260812081910.6821-3-igor.skalkin@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,65 +82,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260812081910.6821-3-igor.skalkin@oss.qualcomm.com>
 
-The following changes since commit a13c140cc289c0b7b3770bce5b3ad42ab35074aa:
+On Wed, Aug 12, 2026 at 10:19:10AM +0200, Igor Skalkin wrote:
+> dummy_hcd registers two separate root hubs/buses: a HighSpeed one
+> emulating an EHCI-class controller, and a SuperSpeed one emulating an
+> xHCI-class controller.  usb_submit_urb() rejects SG URBs whose
+> non-final segments are not a multiple of the endpoint maxpacket size,
+> unless the bus has no_sg_constraint set.
+> 
+> For SuperSpeed bulk endpoints maxpacket is 1024 bytes; usbtest
+> generates SG lists with varying segment sizes (e.g. 512 bytes) that
+> are valid transfers but not maxpacket-aligned, causing usb_submit_urb
+> to return -EINVAL before the URB reaches the host controller.
+> 
+> xHCI-class controllers have no such DMA alignment requirement, so set
+> no_sg_constraint on the SS bus to match.  Leave the HS bus unchanged:
+> EHCI-class controllers do have this requirement in hardware, and
+> dummy_hcd's HS roothub is meant to emulate that behaviour, so the
+> constraint should stay enforced there.
+> 
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Assisted-by: OpenCode:claude-sonnet-5
+> Signed-off-by: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+> ---
 
-  Linux 7.2-rc3 (2026-07-12 14:16:39 -0700)
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-7.3-rc1
-
-for you to fetch changes up to 15734de99517b0c81a1a5a3bccaff4593ef8d953:
-
-  USB: serial: pl2303: add support for PL256X multi-port devices (2026-08-03 10:48:44 +0200)
-
-----------------------------------------------------------------
-USB serial updates for 7.3-rc1
-
-Here are the USB serial updates for 7.3-rc1, including:
-
- - fix digi_acceleport port registration order
- - stop digi_acceleport I/O when ports are closed
- - fix digi_acceleport OOB port dev_printk()
- - fix metro-usb unthrottle race
- - fix option slab OOB read with malicious devices
- - add support for a new class of Prolific PL256X devices
-
-Included are also various clean ups.
-
-All have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Charles Yeh (1):
-      USB: serial: pl2303: add support for PL256X multi-port devices
-
-Jiale Yao (1):
-      USB: serial: option: fix slab OOB read in interrupt URB callback
-
-Johan Hovold (17):
-      USB: serial: digi_acceleport: do not log stopping of urbs as errors
-      USB: serial: digi_acceleport: fix port registration order
-      USB: serial: digi_acceleport: drop unused wait queue
-      USB: serial: digi_acceleport: always stop write urb on close
-      USB: serial: digi_acceleport: add oob port helper
-      USB: serial: digi_acceleport: clean up declarations and whitespace
-      USB: serial: digi_acceleport: drop redundant driver data sanity checks
-      USB: serial: digi_acceleport: stop OOB I/O when not in use
-      USB: serial: digi_acceleport: drop unused in-buf define
-      USB: serial: digi_acceleport: clean up xfer buf length expression
-      USB: serial: digi_acceleport: clean up write completion
-      USB: serial: digi_acceleport: clean up inb command submission
-      USB: serial: digi_acceleport: fix oob port dev_printk()
-      USB: serial: metro-usb: replace unnecessary atomic allocation
-      USB: serial: metro-usb: fix unthrottle race
-      USB: serial: metro-usb: drop redundant initialisations
-      USB: serial: keyspan_pda: drop unused driver data usb-serial pointer
-
- drivers/usb/serial/digi_acceleport.c | 325 ++++++++++++++---------------------
- drivers/usb/serial/keyspan_pda.c     |   1 -
- drivers/usb/serial/metro-usb.c       |  31 ++--
- drivers/usb/serial/option.c          |  20 ++-
- drivers/usb/serial/pl2303.c          | 108 +++++++++++-
- drivers/usb/serial/pl2303.h          |   2 +-
- 6 files changed, 269 insertions(+), 218 deletions(-)
+>  drivers/usb/gadget/udc/dummy_hcd.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+> index 29f671c7b319..0ae600159478 100644
+> --- a/drivers/usb/gadget/udc/dummy_hcd.c
+> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
+> @@ -2578,6 +2578,15 @@ static int dummy_setup(struct usb_hcd *hcd)
+>  		dum->ss_hcd->dum = dum;
+>  		hcd->speed = HCD_USB3;
+>  		hcd->self.root_hub->speed = USB_SPEED_SUPER;
+> +
+> +		/*
+> +		 * xHCI-class SuperSpeed controllers have no maxpacket
+> +		 * alignment requirement for non-final SG segments.  Only
+> +		 * relax the constraint on the SS bus; the HS bus keeps
+> +		 * emulating the alignment requirement of EHCI-class
+> +		 * controllers.
+> +		 */
+> +		hcd->self.no_sg_constraint = 1;
+>  	}
+>  	return 0;
+>  }
+> -- 
+> 2.49.0
+> 
