@@ -1,72 +1,72 @@
 Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3E5352F86;
-	Wed, 12 Aug 2026 07:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A9134C134;
+	Wed, 12 Aug 2026 07:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786519538; cv=none; b=EE+iVc/PVfryyHcb+TQHncdtcmYTsnkSGGqqFN60k6ltONHALS++Z65x173ieBKLQEEWAqGrpX844QIhYNZa8O2jEkXkF8FfrVJXxgSNsLXMuuk3sefqAK9tkQRD6U4kyLEN/bxJ5QxLhAgUMkLl35OG0++sv4uf/ZJsqApGpkg=
+	t=1786519576; cv=none; b=FVyhFigdCFTZRJgIMzInvuocu1bSoGG8kLz9kjKGjUMYen5LK0wWvB13+a9JOf7JldU83N0wXisGe4/hFtI+TjGJR5xB+7Xczgsr5FggX+vBlrC+JH3ZSEuH5zjT0FNFaPcyj9401d6A/PQDToFBuJaWpqgIuWDseE2zVID+dJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786519538; c=relaxed/simple;
-	bh=vtc+9fVJdjU6qJE4nfAFO8m8fK5xQB1iXR1cVY1G8hc=;
+	s=arc-20240116; t=1786519576; c=relaxed/simple;
+	bh=tPFdSagMNhwO8H4YSmuD7xgqNN+5/455dFASniJLrXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wm01cp9Ei++ZmQsSODtr90mKp96mArOSBmq/qAC46L+SuBjUMtXfiJeWza34oUumnRFWczQ5kOlqbI9JbS+P6/CLXbE4FO/9rtVGVv4la2RXtvvX5sPLziqQt/uKF7sta93PwCakBMHdX8gWRcw5c1hlknS5+HS0gMpnM2zeODI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Yt+TtxKF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GbvLifOk; arc=none smtp.client-ip=202.12.124.148
+	 Content-Type:Content-Disposition:In-Reply-To; b=rkqgApJ9H7G2hmt0yea4hJJHBz2X32ltxjeRjsz+bnhTaNvooWep04+yHoViYFZjpsWcRiIH0Itv7GpO2LrDRD4ksGaD4BCliq9YJmMoky9zq5lld0OQuBHyaeTyB1dIoqOraKGbza2zP5rNHic+ywcJN+0oTLpWAss8+XvHiqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=PcFDDv3W; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lzKF+9ME; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Yt+TtxKF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GbvLifOk"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5B61A1D00126;
-	Wed, 12 Aug 2026 03:25:35 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="PcFDDv3W";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lzKF+9ME"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 55E151D0013A;
+	Wed, 12 Aug 2026 03:26:14 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 12 Aug 2026 03:25:35 -0400
+  by phl-compute-01.internal (MEProxy); Wed, 12 Aug 2026 03:26:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1786519535; x=1786605935; bh=niL4OSIHDl
-	Q8pw3FC/Vt3XSQSxfjAmdZ+bNGZxfF+ZA=; b=Yt+TtxKFmqf4etLgg3WIcOovD8
-	t7lRkE2EU1gArdc+rTrqvtYueG8fl5+SeWPTOSgPxY+z3hKFEDxUp3wO+2IPpggz
-	LV8z3sR3vYp9Wly7rEiYw9wyvewbIxbXyKZLrSdPXLD58wJkCSJ5jti9HgY8fNkZ
-	lqUTaYp1rJ7h6/W/40tPF6AsRcmznpInMNuejno0ecoGxaigxz3HZIoJcPndMfD2
-	rOhaLDXEpN/oJY2SPCuurT8Ioi/4g1mt+fenjIO+xVUr2xQ0MJerhHQnSBYq6LjM
-	EMHJsvtyWOfcgeGmIdpqTmuXPu+IQMAZQh/Rb3ucAQPUf/TQOyzNdlTyPikQ==
+	:subject:to:to; s=fm3; t=1786519574; x=1786605974; bh=uhC146gvbT
+	TxjCGMMgmnO1PsGLOPBxBQJQhuvepqUlo=; b=PcFDDv3WbowMWwXm+lMDUDtwUS
+	J2UxDj9FxA1byd8NulJA/+oypz3yicwZBWpX3y8dBzENNASqx+JRfJSv03+mwgZB
+	mxcLJzKlytIlMzw5HK8V2TbtBrcZyXSQC9Otpz5cmXNbCU8itPH8ZCWMwhhVzjed
+	3ahXLTY800+FmbqN68JcmtMuoJmQfWUh/U2kSiZzWXGdY4U0pu2DF7g8kiX0auXB
+	D+IYWdVBdLV7Yo0mG56ZEWj5aV5qb+lkW/1KwRaPwdlGOSGcduInO9Xp+5jeOCeU
+	GVt/5+iZwCxFx08tWBUA4pzCPb0d3PDcDE+JdX3zPN8TNrPJP4He1jYBOzBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1786519535; x=1786605935; bh=niL4OSIHDlQ8pw3FC/Vt3XSQSxfjAmdZ+bN
-	GZxfF+ZA=; b=GbvLifOkMF1EhrQeroS7p51RB6ruffqCIQhLe4frLuFxfIrp94X
-	Sf7Fkfka2J8mgcR4nfP1npMOFnxnIFw2baoqxR2lCr1ZjDzR/DGb6eUNFUnF0lpk
-	/u3vc98eZgjxn4rXnzSbBKKcekTwaTTMnCV0dPQ2qQt5JC6vywIBTaPMZ+YMWyWt
-	PNDyhWDjhFvz6IKJd4GipkrjRQwQssAfkDx8Z78qIezYcQkKfEAg6FsIYQX4Na+m
-	u6rYxebRkmasvpRU+PIZ/mhL9T6Nr9mU1KGNYZf2iMGc/nghy7pZj4eQ7MoCcCT6
-	+mE/mNDHdtiL/wEoFFwNoWXC36f6F+qWJlg==
-X-ME-Sender: <xms:7h98ag4vyQxACmkjD9FBWE0lhOmgZkP0CusXgxzvAGOVuLTE7kKsvQ>
-    <xme:7h98aiAuk_lMqK_DnCb4Vs3NJlqhufgAbaJr01dGaOhqutx_7o4hm36ITwQXV78J-
-    rrHmlMHCNAyo_UnDTFLRxrDXjCwQz5rxNUeCs-DcjJygZ1Czw0>
-X-ME-Received: <xmr:7h98am540EtkJUe5rTpb0DC5dAPWKzsj5tQ8-rNbIWnzQKlyJXyu_uQ>
-X-ME-Proxy-Cause: dmFkZTF7Zu7n7jUZXouOj6SlMjI0m+8M08b/HO+jhekg5bSP8zCs4rT/wU1NEPNfb1kLwA
-    EEC2+Kmpfl0CkxzCAig2HGzJpJFMKLxcKgSTC3f2WLYWlmqY2F33wc8a8wr97HIeqlygL+
-    YTeUs89v6EA9Nf7vFj24D9t/ZO+w+AOXsKKc8aOvf4HUDY3GnWwTe0JP7cG/46uViLEt6c
-    IQx+WfYaDKTX8/duEIvwvH/f2Bu7MQv7HnbwjIUmWSMSZlCtsbPYVtcjOB6a6unPxH88Dh
-    MuDrhHTPeu1QgZr9/Qu4L+E16mOHgYsIqNz6gx20kbuZ0yn+6eC9EuC+rQ8//PjZKVdcdb
-    CeYkNRUkF5PXKZfkjOAL37QI4bSq0eJnc/otwHy94GZrT54Y16CT3sLDXNH1I3MTqZfTW2
-    CYw9hUgvn11JWGz6En1wvE1yPZ9vL0uDDuMuKOAEU6ft65dXjr7brq2pH46y0m2a1ulC3v
-    ZlONEOQCJs20bfPVSSuJVR2TRTQfM9iYRVa7H4XQ1XBvDRQ+dK6pE9rZ6fovJL+kqfCyYr
-    4uGmD1LhlcObXRYE0MvV4MlP6W82zN/7VOPh3kL0hndZQYCSR+M+ns9xq2kKQ7eGzYUiuz
-    q1Cr3Vk9kovYoHz/jwbRohlbMM2SHV4bu6FzeevD+yadGlvchNs3lpa7IAuA
-X-ME-Proxy: <xmx:7h98aru6JKoDzPuX055wIE3pXFPDRlwLq4t29jbzk6ZuNjw3K1aqxw>
-    <xmx:7h98ar6nMttqDWv205ZFTTE-WCL-_4LS5sa_1Oq7T1Bod6KzeRwdWg>
-    <xmx:7h98av0kmdIr_u6DPMS0JgHDbJPfYzt2DmqeOH3yFjXPK98odhltYQ>
-    <xmx:7h98auiAVvXRz0o7MvBimnor44kFBVhGlTX3-Opn4vZoCevjShayAg>
-    <xmx:7x98agDWlKFpE_XmvOn_QQT0ZGAiSig2xhWpVtr8eUeTLCBac3-kwhfT>
+	1786519574; x=1786605974; bh=uhC146gvbTTxjCGMMgmnO1PsGLOPBxBQJQh
+	uvepqUlo=; b=lzKF+9MEuM04Si/cgdpsJ2qejhBSuxO+borz8LkT2vL4W4LSdbC
+	a0SGsmWphc9XGwSEB3pBc/O0lV2Bl4EjDF7s0zdh3H9JmwaqEAaaNs8Oq31v0/4Z
+	znz0OLNX5OnpGCD67VJ3h7ctO08aIOdTOww31INvOmMjGxxNrThSJRqahAVHAT16
+	0jR3Lx/cruwXAtiNi+uXY3RP8W51p7jbUy+1Vq0DGYAcRZAcIL0mRb7aqB82i1NZ
+	MPn90zp3KaLPeilRE2Rt91ALzGfYMzXomQwvI7Egt6jS9M1hrfOoCuOxxlHPaK4S
+	iIxPfOM8YLSUfwpp+vbcWLY1rXXwP7H9c/w==
+X-ME-Sender: <xms:FiB8amAhEwZ1kHwF9kFv44Ejydku7PqhdgG_pjIrEhfl0xKOPI63bA>
+    <xme:FiB8as71gQvIzb1_3FtxXPWEdYFVILP5BUsXycEkAqsEY9nUhxmFc1ZRILaHNiSis
+    DJD0R1tYxTxAxVor4Qt2YCpr-s81SAb3mob6842DCjN5e9cTA>
+X-ME-Received: <xmr:FiB8auBN0CmAzhBE5zgeV5SRBJSs1-ck99BV0_yl7CU2y_yXtPKQj6Y>
+X-ME-Proxy-Cause: dmFkZTEREdGtcVPZyvce+ENUhU7i1XijOqvykogvfpKtwXmCYYToA8uJrWqOJL7fjbW3CQ
+    kLTPTr2hOTdAbs+L8pBlKrp66uj1ib7n+BIQErcAD3nlfZIblpgdhYH5CjroWDRob4t8S8
+    ITih9lyEeQZXm2Kn9ePD+DvxnUBRjSK7K2BNqiPcMvbNt/zE8P8vRJjsE8pZJYTTDyz5mD
+    DBKEWLlbpL7WYZzMVgqB9GdEtBpYhTVYTqwbUNIUz8PbsUQcIcmZVFBY7XNT1G/TzaOPgO
+    gvKsE54b1iji0NZHK1fyFaWMIXc96ydE2hKqGqsOS5szek1gK7tjI/UYM8PxDt59dsITVk
+    mxpqRDnbukbjS06NCkwo46o/zDRUKLAubshLBW0sOK+lSrbHdjLwUFckJZlPUtVg2OA6sE
+    bC3hoYHgTCuPM4tdcfWuVo1yZcfAphupcvMwcsV+dQz0p4JfHoZm9Lw5BYg48McZct8R5b
+    pG6QE2tscHlNBtuK/ab9ZKmi8heNF7prNw/1rSCJORu1mD9aXa9hd57yccK3hVz3R6yCbM
+    UxMpD7GdIZwSKOoOYaCHGEntumioAUTLXvE59xZoEpabROY141b7zboaHbjV7dWLjAKuOA
+    mWf7EHS8UuEmnJPI6AVGFFPD4+7yHAWoLLOIcTDXw9IrCHQXdG9I+kLbn7rw
+X-ME-Proxy: <xmx:FiB8ai59XYVaEsbYWDrKj_gtpGFwRP-LVCHycc8OV32ticWPgFCXCg>
+    <xmx:FiB8antAdL4GCWPGUmhgcNsOPvDE4kbe8Ia-cVIcJABTr7G8gYRuzw>
+    <xmx:FiB8an4aOcDj1j5JvKM5-VZaD8IS2AJQvebAJsEo4bd1D_GRZWcItA>
+    <xmx:FiB8ar2AcGp70fUXqkUJ3QqA250AEV9adK-Ybd6IlUxAUiDCAO29gg>
+    <xmx:FiB8asCqKNMWIvnokZ1jlvdgvgTbHRiW3ss90kDh8CU3wvcu6Y9_9x98>
 Feedback-ID: i787e41f1:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Aug 2026 03:25:33 -0400 (EDT)
-Date: Wed, 12 Aug 2026 16:23:59 +0900
+ 12 Aug 2026 03:26:13 -0400 (EDT)
+Date: Wed, 12 Aug 2026 16:24:39 +0900
 From: Greg KH <greg@kroah.com>
 To: Jason Colapietro <jasoncola1@gmail.com>
 Cc: Valentina Manea <valentina.manea.m@gmail.com>,
@@ -74,10 +74,11 @@ Cc: Valentina Manea <valentina.manea.m@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 RESEND 1/2] usbip: make remote list honor parsable
- output
-Message-ID: <2026081211-seventh-whoever-d455@gregkh>
+Subject: Re: [PATCH v3 RESEND 2/2] usbip: apply list options regardless of
+ order
+Message-ID: <2026081209-boring-discolor-5b45@gregkh>
 References: <20260812063910.31293-1-jasoncola1@gmail.com>
+ <20260812063910.31293-2-jasoncola1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -86,39 +87,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260812063910.31293-1-jasoncola1@gmail.com>
+In-Reply-To: <20260812063910.31293-2-jasoncola1@gmail.com>
 
-On Wed, Aug 12, 2026 at 02:39:09AM -0400, Jason Colapietro wrote:
-> The -p option only affects local devices and gadgets. Remote lists still
-> print their human-readable headings and details, so scripts cannot parse
-> them using the documented option.
+On Wed, Aug 12, 2026 at 02:39:10AM -0400, Jason Colapietro wrote:
+> usbip_list() acts on -r, -l and -d as soon as getopt_long() returns them,
+> so any option parsed afterwards is never seen. -p therefore only takes
+> effect when it precedes the mode selector: "usbip list -p -r <host>" is
+> parsable while "usbip list -r <host> -p" is not, and -l and -d behave the
+> same way. Nothing in the usage text suggests the order matters.
 > 
-> Pass the parsable flag through the remote listing path. Emit the same busid
-> and usbid record used for local devices while continuing to consume every
-> interface record from the server.
-> 
-> Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
-> ---
->  tools/usb/usbip/src/usbip_list.c | 33 ++++++++++++++++++++------------
->  1 file changed, 21 insertions(+), 12 deletions(-)
-> 
-> diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
-> index 3d810bcca..b9d60b87e 100644
-> --- a/tools/usb/usbip/src/usbip_list.c
-> +++ b/tools/usb/usbip/src/usbip_list.c
-> @@ -41,7 +41,7 @@ void usbip_list_usage(void)
->  	printf("usage: %s", usbip_list_usage_string);
->  }
->  
-> -static int get_exported_devices(char *host, int sockfd)
-> +static int get_exported_devices(char *host, int sockfd, bool parsable)
+> Record the requested mode during the option loop and run it once parsing
+> has finished, so -p applies wherever it appears on the command line. When
+> several mode selectors are given the first one still wins, as before.
 
-Why is "parsable" not just a global variable for the program?  Passing
-it around like this is odd.
+This changes how the program works, so this might break existing
+systems.
+
+Is this a real problem as-is?  If not, I'd be very careful in changing
+anything here...
 
 thanks,
 
