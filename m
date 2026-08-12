@@ -1,40 +1,37 @@
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.155.80.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D4C40BCBD;
-	Wed, 12 Aug 2026 09:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.155.80.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A37240DB35;
+	Wed, 12 Aug 2026 09:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786526969; cv=none; b=b+USpBJ1ganOgWplNvGqTX2xP+2i9Zhv5yn9aOlmWsA7fw3cMUKgXDn0hw4sigKckCOPKYweU5FqBPWXQvHRb82+BX/VDWJqsJLzBPgcgr4eZuHk9Bfku/VsMnrxbeZuL0zxTdwMF3X2UUsXwH5Z8GjgmFyR6usPmm9GDAZxU4U=
+	t=1786527285; cv=none; b=tF6f7aDYpfGSMusimESYeUJ0y/rfI3PSC0SrSDeESoxWd5sLi1GxuBxETd2V+qRzetarhq2uy//+iunBNWdh8YmsrJXRZZcB+X/9QOWQUFiCeiqhKTPeAagednt1wHXiSWAth/IIqT+BAkAlsDaDI3p3TslSJVELyRKAk3P+LjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786526969; c=relaxed/simple;
-	bh=t9+vAyNBc5hbWcoEznMTg58r47M+gdps0UnYHSvqFwA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RJVo5wMAWEGrN3F7K78lKEgp2ygxhKPVdxL7LxelsmZx3bufkWyGBZ61TIDjnBf8efSwApuafLx6KDxW+UZkGoQOWwpsAP2Du7G7BXz0T1Ww5ylIGtP4tzem22uIpxfx8RmwbZ/CdBaxTNwu94W8kXhGwhuQdSuiQysBDS/+cbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=jzrNmO6d; arc=none smtp.client-ip=43.155.80.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1786527285; c=relaxed/simple;
+	bh=BQ5z6QONddo0/kZR7JvLPfgP8kFsD1j6RLJMJ82C1KQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=J3PJhzcZH3HRnViBin3LURemeu/wwqKqFETOzpkArdxHL9Pq6FowO6dQrwURV69Fm6C1zX/k9M47Q4GkSgsCnP9DKtRip7O5hQZbQe37An/uOc9+SUAZnel0520PdB9kmAX4ZG1EEGObsoq4EKvec4czaEmJVAHFe8qyKXA83po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=miDPwXqf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="jzrNmO6d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1786526894;
-	bh=FIACfTE6HY9gRQUYe7MUc5uIAOvWe4xknMRb2EjO4tg=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=jzrNmO6dApx9vM+S6qrtjoidwc5DkTPXfNEpXMxIYx0aS7S5zfDhZrqLCYM6X69P8
-	 Xn4Hy/BWcShanwflpC+507OPfayFcEAYAKlLpq5Pn0aF9myJpfLDJFpV7mK++kf71x
-	 KxTLXDPalQLKNlbtni3xCRz90S1xADTG+PLwx4kY=
-X-QQ-mid: esmtpsz19t1786526887tdddef16c
-X-QQ-Originating-IP: 4ywHshY3prd/YrZlsz3cbXCTcv2+vS2r4y3VpvHJUvU=
-Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 12 Aug 2026 17:28:05 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16021684546642310656
-EX-QQ-RecipientCnt: 20
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-Date: Wed, 12 Aug 2026 17:26:14 +0800
-Subject: [PATCH 3/6] usb: chipidea: usb2: add SpacemiT K1 support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="miDPwXqf"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 949F2C2BCB9;
+	Wed, 12 Aug 2026 09:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786527284;
+	bh=BQ5z6QONddo0/kZR7JvLPfgP8kFsD1j6RLJMJ82C1KQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=miDPwXqfOgYT/7OKWhPXBx8N6d2cs09PQ+VAogGU0WWQWB71zH9a9LxRm8xit4106
+	 0FGxvsq6f1wRmGr4JuHn7LXuvemus9Ce7E/Qfv8aVNbrQqo/tB4AizK29fX56NqFSm
+	 WBSPBXTdkWXPV+9byTPKCaH/1s7YYMSRopvMrXN1x5xMoC4O8wjaxGcpWJtx2eyufl
+	 8zmRKcmeXJDkNGANUfRZrAtzB8r/f11qg+0BkWd2Zdy6sV+0qHjg32q7DCVWWasofg
+	 vQOOyrQqqyxeuQX4qOxLckBkb4VYVSnPFWm9SGlOTgXoJOrCmAiyRcFR+iHfD/rGQy
+	 mGz0DD3n2wtiw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69778C5CFDB;
+	Wed, 12 Aug 2026 09:34:44 +0000 (UTC)
+From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
+Subject: [PATCH v2 00/14] Enable USB3 for Qualcomm IPQ5018 and IPQ5332
+Date: Wed, 12 Aug 2026 13:34:35 +0400
+Message-Id: <20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -43,82 +40,114 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260812-b4-spacemit-k1-usb2-v1-3-f28cf29e522b@linux.spacemit.com>
-References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
-In-Reply-To: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
- Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
- Peter Chen <peter.chen@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
- Junzhong Pan <panjunzhong@linux.spacemit.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zXMQQ6CMBBA0auQWTtk2iJpXXkPYwyUQSYGCq0YE
+ 8LdrSYu3+L/DRJH4QSnYoPIL0kSpgx9KMAPzXRnlC4bNOmaLBmUeTmSsrim1mDVautaxZ2qGXI
+ yR+7l/dtdrtl9DCM+h8jNf2LIaUe20uRKQybToMJlFX+T+bGOTTx/IZMvfRhh3z/PkLPeogAAA
+ A==
+X-Change-ID: 20260803-ipq5018-usb3-4b289b1ed16e
+To: Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Praveenkumar I <quic_ipkumar@quicinc.com>, 
+ Varadarajan Narayanan <quic_varada@quicinc.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, George Moussalem <george.moussalem@outlook.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786526874; l=1248;
- i=panjunzhong@linux.spacemit.com; s=20260306; h=from:subject:message-id;
- bh=t9+vAyNBc5hbWcoEznMTg58r47M+gdps0UnYHSvqFwA=;
- b=DNePWlRca9q6sgDuGmHvfUFcfcteN+TwEO1f9979xv37Y7Zihx6Tl1gKBe/qkwpShms/x+ced
- pE/pLVo92GpAYqU/uOr23/rhG9TwBoSQpaMxD9ftlUaof7Vm0qMhUM4
-X-Developer-Key: i=panjunzhong@linux.spacemit.com; a=ed25519;
- pk=bY08BOg2T9H93/jG8fEE/tVmdXoQQMp9M2rtzPFoyJg=
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: MViTLAucusFcYetUF76ExbeMNcojO7kx79taiXHn0PQ6r09OXUhQNgWK
-	qfuMxTmdYi6exka4WTKcwgw6DC9lOc7nPHKEz+0rSn8VX1kkt9+7uGPL2BUrtcm2KaC64qC
-	JlPDAZ5PWnBvXg58Ii9R8DW8OT9/RWIWWq0vv5sScNF3SeBMVfbxMmrG/SjRlub/az0XwUL
-	ovxcs2OCjvbtoKR9ph4fuVGGq1iT2plfYxTVvi8O6QzL5OW3SCcOk7VO1zVWCPc2OcnXKiK
-	9HPtEPYdzj4AEseWYw0ylGsxCIv3n1odT/jSh29Fgrw1rr4eyOldq6URgamXPBoSDibbSod
-	I8ek+lzdIFol/VNhAVufyO/c8JyrJYQN3An6jgm4QPFHkTypgPs9rQEpivvaxZXy/HcZklm
-	U+Gx5G37IUjCJ/tGioVB9KxnmoiFQNqneMV4n7Igy1KmYYqflq+gLOb9fpmvVUoH+k8gjQH
-	UCwXse40ALIbil+t/Lfp/S55MPsiecaAYhQ768bj4etnHfhl3fwLn5QrXc3OE0Hfs3M1nGH
-	yFbK7+4wQrrd0iNhdQGKW5wyK+l4N/pcplGNo3aWVB/a6fKgwuS31c1v+69YZQzE6xRFALt
-	N+L7nuilU9zN64+dzZb56bNwIrrl/Z54Ysqd6OQpFlD7coq/HGMPOhMF5w8e8m6O0KSTOsO
-	Q6CSkpQl4rGU91a61Yj+9mw80p/vW8fQxrUHJgkXN9bIudv/8Xq/JnS2HsK/TO5M6YmxFRu
-	5W5gj+PzjWOkudky813fj67zWPRMDDviI2eM7TcJA0NytlGdNHYCkf2jSvljWDgbCujUILT
-	Tb6/KeZrUR9gWAZscFAglCfyamre+X058b4IDOA2mTaMJrOJWSUFPJjVIYaMKNvUTjiqC85
-	5RTgFcPC6pR1QnFAmqHDHwyjOLADHbLaRpFgG8rG/ZjlRfWqZKNohC4rucVthVB7/7RiVHS
-	WYIQIVC0RAu/G7Z5vE9iNRtn5Dxuvqjw8E+vWmMJjB7gI+SQ0L134sVf5nFRz6Ur1f/pJk8
-	iOMtbTVjiw3exj7+TDtVn6Lqk8l4jMlmQjT5mqas/r8Cmen7182z2ooQhE7YF1VSjkBV+EU
-	Wfrn2W4+p2/czmUusboiwQOFmK+QRU/nIfODx3xC8n+SsRU3laZzieiSIaHo4Butw==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-QQ-RECHKSPAM: 0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786527282; l=4043;
+ i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
+ bh=BQ5z6QONddo0/kZR7JvLPfgP8kFsD1j6RLJMJ82C1KQ=;
+ b=Dtgg01Djp9cU1Gjus8a4Z8V49sY0y5rS9TvjuhXDpkoYRLtnqi2/YYC/O5Z3rXV49J/hqzJK9
+ Ge3PsjE0NafDIsR558C7+62IHv+RwrwXNq8ww15aYLHIVltcum/seRL
+X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
+ pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
+X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
+ with auth_id=364
+X-Original-From: George Moussalem <george.moussalem@outlook.com>
+Reply-To: george.moussalem@outlook.com
 
-Add a compatible for SpacemiT K1, and add platform data with correct
-flag since the hardware doesn't have internal otg register support.
+Patch series adds Qualcomm 22ull Super-Speed USB UNIPHY driver support
+present in Qualcomm IPQ5018 and IPQ5332 SoC which is required to enable
+USB3. This PHY is interfaced with SNPS DWC3 USB and SNPS DWC PCIe.
+Either one of the interface can use it via the mux selection present in
+the TCSR register. Current patch series adds the support for UNIPHY with
+DWC3 USB.
 
-Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 ---
- drivers/usb/chipidea/ci_hdrc_usb2.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Changes in v2:
+- Rebased on top of master tree
+- Included support for IPQ5018
+- Changed bindings filename to match compatible string
+- Dropped items from compatible list in bindings file
+- Added required block in bindings file
+- Removed double space of reset property in example in bindings file
+- Added branching logic based on compatible string to define the right
+  clocks per SoC in bindings file
+- Renamed phy driver to phy-qcom-uniphy-usb-ss-22ull.c
+- Added missing error handling uniphy_usb_init in phy driver
+- Changed to use devm_clk_hw_register_fixed_rate to register fixed rate
+  pipe clock
+- Changed to use devm_of_clk_add_hw_provider to register clock provider
+- Release exclusive get of vdd and changed to devm_regulator_get as the
+  regulator supply is also acquired by the m31 USB2 phy driver
+- Inlined acquisition of clocks to phy probe function
+- Use reverse xmas tree sorting of variables in phy driver probe
+- Moved USB mux selection away from phy init to probe as it needs to be
+  set before the controller is taken out of reset.
+- Flattened the USB controller nodes in line with latest bindings and
+  flattened driver approach for both SoCs.
+- Set clock frequencies in IPQ5018 controller node to ensure they're
+  parented correctly and override any freqs set by the bootloader.
+- Removed patch to add usb phy node for IPQ5332 as the pcie0 phy shares
+  the same MMIO as the usb3 phy. Hence, chose the approach to override
+  the compatible string of said node and assign the right clocks, reset,
+  and related properties upon enabling it as a USB3 phy instead of
+  adding a new node with the same unit and reg address space.
+- Link to v1: https://lore.kernel.org/r/20230929084209.3033093-1-quic_ipkumar@quicinc.com
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea/ci_hdrc_usb2.c
-index 00d575cd2955..70c5ce750519 100644
---- a/drivers/usb/chipidea/ci_hdrc_usb2.c
-+++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
-@@ -40,10 +40,18 @@ static const struct ci_hdrc_platform_data ci_zevio_pdata = {
- 	.flags		= CI_HDRC_REGS_SHARED | CI_HDRC_FORCE_FULLSPEED,
- };
- 
-+static const struct ci_hdrc_platform_data ci_k1_pdata = {
-+	.capoffset	= DEF_CAPOFFSET,
-+	.flags		= CI_HDRC_DISABLE_STREAMING |
-+			  CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS |
-+			  CI_HDRC_DUAL_ROLE_NOT_OTG,
-+};
-+
- static const struct of_device_id ci_hdrc_usb2_of_match[] = {
- 	{ .compatible = "chipidea,usb2" },
- 	{ .compatible = "xlnx,zynq-usb-2.20a", .data = &ci_zynq_pdata },
- 	{ .compatible = "lsi,zevio-usb", .data = &ci_zevio_pdata },
-+	{ .compatible = "spacemit,k1-usb2", .data = &ci_k1_pdata },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ci_hdrc_usb2_of_match);
+---
+George Moussalem (7):
+      arm64: dts: qcom: ipq5018: Add USB Super-Speed PHY node
+      arm64: dts: qcom: ipq5332: Flatten usb controller node
+      arm64: dts: qcom: ipq5018: Flatten usb controller node
+      dt-bindings: usb: qcom,snps-dwc3: Add clocks for USB3 on Qualcomm IPQ5018
+      arm64: dts: qcom: ipq5018: Add clocks required for USB3 support
+      arm64: dts: qcom: ipq5018: Add Super-Speed UNIPHY to USB node
+      arm64: dts: qcom: ipq5018: Enable USB Super-Speed PHY
 
+Praveenkumar I (7):
+      dt-bindings: phy: Document the Qualcomm IPQ5332 UNIPHY USB Super-speed PHY
+      phy: qcom: Introduce Qualcomm IPQ5332 Super-Speed USB UNIPHY driver
+      dt-bindings: usb: qcom,snps-dwc3: Add clocks for USB3 on Qualcomm IPQ5332
+      arm64: dts: qcom: ipq5332: Add clocks required for USB3 support
+      arm64: dts: qcom: ipq5332: Add Super-Speed UNIPHY to USB node
+      arm64: dts: qcom: ipq5332: Enable USB Super-Speed PHY
+      arm64: defconfig: Enable qcom USB UNIPHY driver
+
+ .../phy/qcom,ipq5332-uniphy-usb-ss-phy.yaml        | 111 ++++++++
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    |  41 ++-
+ arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts     |  18 +-
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi              |  82 +++---
+ arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts        |  23 +-
+ arch/arm64/boot/dts/qcom/ipq5332.dtsi              |  57 ++--
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/phy/qualcomm/Kconfig                       |  10 +
+ drivers/phy/qualcomm/Makefile                      |   1 +
+ .../phy/qualcomm/phy-qcom-uniphy-usb-ss-22ull.c    | 304 +++++++++++++++++++++
+ 10 files changed, 577 insertions(+), 71 deletions(-)
+---
+base-commit: 7b6a23be392e99e7a4cf72325697315460cf2a20
+change-id: 20260803-ipq5018-usb3-4b289b1ed16e
+
+Best regards,
 -- 
-2.34.1
+George Moussalem <george.moussalem@outlook.com>
+
 
