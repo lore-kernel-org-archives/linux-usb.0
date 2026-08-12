@@ -1,227 +1,157 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010071.outbound.protection.outlook.com [52.101.85.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE67239280C;
-	Wed, 12 Aug 2026 16:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786551894; cv=fail; b=F1zE1m/8ZGHZ81jGE/MoLBKczj2S3K4akKSi3zFB4vyYagGMFcPzwEd0V/46/A+RkBVVIYY96EJr10NFiAaZ0Z4PoeIH7jYK4GoAbtWTAhHg9PZBeBIt5Oje8zB5Wjbd3rk4CX0VllUfkTBQw+2F7uFgDBwuHiU8Fv0SiFsB77Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786551894; c=relaxed/simple;
-	bh=4qRQq2dvBC5FS9Z8JfSZ5lCyaJRqFwzHVXChD2VJCP4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OFM82cneKtaxqAb+GupCWD9xjqHDWKKlNOu9psZZhxx1uCfOrXKMTnUchnk+bjw+TRdLLsp235FNu+HEHUUuA2rpCR50IuAO9aIn65w3rgAkHEYyWlwEoPXDCZAYskYsFvenNT+YYNfMuTJ5Cl2GpxpxR5vgPQTDE3K2upDFsDY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MfZNQXej; arc=fail smtp.client-ip=52.101.85.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152BE360EE1
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 19:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786563116; cv=none; b=TFRkw/iIybyK1DGuE3ki0HLk5Yeu+wA5lHd09uWX+kGXhmiYDS8adHN/XSpDPpTJOqW+y+1dsV7nV4CCWXnwRNWNY5SXn14ilebJz9fYM2QagELz5YkkiXoMLmkIB7rf1pKN4awhxQx88mO4A9AjpHyGkbBJ8t+/hymr3LnhTGQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786563116; c=relaxed/simple;
+	bh=+qQRiiUCwQCD20Re9tDOWLm8g4UGUDN1XvkW0NPnfeA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZLzo7xSEjtgaoZDGiQO7meCcp7/NY+Ua7a7rJvOERos9IkWMEGvmJTviG5zo3pohAQAwjUnmwf53oqbNLcQ+Fw9qg5/QGvohV0SAKDuS351o1pKY0ocf7qK/ZYYhW8uHieESuKuE9hXosrpFLhP8s8/CSQGBPnc0zjRreKnEHsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VSF6y1+v; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MfZNQXej"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eHN1/GTVVWwvwuo5+9zhg0aSVPgqi+r905wT0aIRxJrTDeD4j2siNvqGRbY4x7ueyAvtSILuaGB4Xz6Z+zBJsscO7/FN3o9MvLDYLrrRFmJ852KLHmepdzkeqGZUw8HIEXwPcmxx5KnxJxooZICLW0E5ZR4bypet9ykcAC0Sg0IwHDqOAIEm7K3UurSki5A5n5Kyj3EVmDRLR2OU5dleL2OnT0IcdZqokfogng/w9GZSx5LitKamiE3pXshSOM5RppjrFBb6lZ11qMcpgrZ2wmhi3u6jCqUaoCr4BuBkAP0denLq9Udkb7krlgoTR6fOBCnoelMgP5ocL1TE7oTrrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W19NBkh7fbhMf3ZrazZ6EPqRfx9w0SkvsAbVhzl7FOg=;
- b=NbUKXf71p96MXkKuqfbQkcLCFYUinjzH4/JFGHfLsLDp0EWlSekeHRDzp2X6M2EZimxmo9KwE/dwcdBwI0vPNv2PBYBOz60VFxgbAuP7EjFWUjgNarFlFTQgdHzxoDFHeVXRxxLH483hEznCWoqF45sgvqILvX/CeoXBObbh7TaZnbZQzdoO8d1XXJlUWol19TmYxHt7hoYJjZPFRm8tq1e3SQKm4p+cU2hRZ6URIlsFxn/bZNY9bkdmaiw0rWcI2kbJW+4ud1lC5UXVvCHADGC2PKi+noVHqNPDjufDdYZ5OZjZfJsNHrdOJoFZAyUnPqyDo26HJJn76bfswmm0LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W19NBkh7fbhMf3ZrazZ6EPqRfx9w0SkvsAbVhzl7FOg=;
- b=MfZNQXejxmLgcrkHdjXKJTWg7qAD8xsTQ3zAUGST3a5JHTNdGtWFMbPBYJGkbcH91u77HInHd7+xafvJN6CJG+pf38HarxmAysziZXSpknZuaqU0IS7aiYTtNS03zBhk3ge5EOXXxwJ3ZTNma1/50cJUBRjpssgMgNvqU9OpWxE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by BN7PPF0D2C72F0D.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6c6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Wed, 12 Aug
- 2026 16:24:45 +0000
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0315.011; Wed, 12 Aug 2026
- 16:24:45 +0000
-Message-ID: <59226f81-ddb6-4138-a67c-90ef6db7021c@amd.com>
-Date: Wed, 12 Aug 2026 21:54:38 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usb: typec: tipd: fix uninitialized typec_partner_desc
- on stack
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, git@amd.com, stable@vger.kernel.org
-References: <20260807174659.3720863-1-radhey.shyam.pandey@amd.com>
- <anw8wDlUq4Vf4JN6@black.igk.intel.com>
-Content-Language: en-US
-From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <anw8wDlUq4Vf4JN6@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0142.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1b9::17) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VSF6y1+v"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-49c38a4f110so802168b6e.1
+        for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 12:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1786563114; x=1787167914; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JO8wtDZ5KajjBoQwQfJOX0LnbQbHRiyuBi4hT4PtKNA=;
+        b=VSF6y1+vtutnQm/EvqffHKrP0Sdi+0qT++1K4ASC8f63M/bVDsqbMiq5QUcJzF81T6
+         1jrKTxFQq6uWh68lv///k5KskrK0I3PaLJCba9UpVToSnwnt6MxFJeMhMCc5VDD+fX/L
+         bFvq9aC6VI6JqXjQe1OiUFxqSAzbwQrtrHwrs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786563114; x=1787167914;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JO8wtDZ5KajjBoQwQfJOX0LnbQbHRiyuBi4hT4PtKNA=;
+        b=PdCk9FE5pBMJnFaf8WrhMazUZDVAiVJshdIj/BiXBaJbHZ1z5g0m+B+V2GTQ8u5gJd
+         lTpjoX6mLLJ0yNTGwA/kZRGOeYSrqIe4N8A+prvGxg5LE2deq1+Gdr/GIz/BWy/mBVU6
+         NXPGisa8TpDK6YqDhbqG/VXCzKpdey+xLPO5gonMfIVY7bzT0eTlXZGY0xqRa0B/W8iI
+         4uULDn+3NSsNmKZPwWPYJ03RPY/vMiolgqE95oNFBUYexM2UmegKG0MZWenJUeCWn5KI
+         k8Wqhk6+np5bCq/951mNvn8H6JPAKO0IuEn0qCTCUNJdd5QERpeUCHg1r+MeM+NvyK/b
+         SQtw==
+X-Forwarded-Encrypted: i=1; AHgh+RpwjxNc5Tfy9xWQFna/yW5tzqOunb2GbviFQ/JyQP4CJUUdRMnCQKA49TYSOiycJtsjGtvNR1QSHD4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxUBoCUPW87Z14pWr7MPLULXnDUEiySjFDwI1XybLbLakZlqhf
+	oKWT5zvarjOUPcB956xU5IqlSNhoILQdKmX/5Mp6EdAQAqt0iqhFMhDZGABZtr0VYiA=
+X-Gm-Gg: AR+sD11YtB+XjgRqAsldDfai+XRMgsL9M+MAxLKZtGWGXXGrDwLjOwHaukQMPZmv2U6
+	iXC8/2IQEBPWj4+wOlm5DrLlAlqTQ8B0xM5KMXkFMVM/i5G7Xy9WcGrrd9Gwrm+lLIk1xBWBiEG
+	WNd4131h+GE5Fx54Ztm5au0OtZ2Q7gi7eBtVFb5DNFyXElYsUQG7LTvQ5PMED7UcXvBwjgW9yzC
+	02Rb7D5YzszRysH7t7d/Njm5k6nj90xCh7Lz00bhfUXZRtpYCxMmyNBA9wVLj1+gm+1yqx60AnU
+	bbm81BxU17+7zVzByd36JVDZ9YfLMwKTU9QFpNcY+tZv3rs5bsJAKMjWHkPcNze3h/bPJ+Jy0p3
+	mHkhs+/mcjeDyOgvsaDZIFaZLebus/Mt6TAuNdv4x8GP8UcUgh0RXwxLKWZb+3iy3w0chjeo9CZ
+	j038Sn9PZVClhg7qtIa7mJb8Y21kUpk9Q/472u8cQpz7DDuLPuX+VnpJpDWFuQTaU6zhjVzQ==
+X-Received: by 2002:a05:6808:640f:b0:4af:5b7e:e5ce with SMTP id 5614622812f47-4b227790286mr185589b6e.3.1786563113727;
+        Wed, 12 Aug 2026 12:31:53 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b22347c0basm631294b6e.6.2026.08.12.12.31.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Aug 2026 12:31:52 -0700 (PDT)
+Message-ID: <647d51b8-bc02-40a7-8cf0-3a76f950c7ad@linuxfoundation.org>
+Date: Wed, 12 Aug 2026 13:31:50 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|BN7PPF0D2C72F0D:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec6754e6-d6e2-40d2-4c70-08def88e3849
-X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|11063799006|6133799003|10067099003|56012099006|5023799004|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	66GGfWW72AAXoh8xUDGdpssTSgQvfSPwTxfvbEZ9Xhos3C0SLsVMv9//Ea8LGNb2WmzYRMtImpKmXkYMU8HQJPfMnpl9hC7/DYGQXy8riG9yFFyncBHP/4oP1HQ3GiF+4AxUNU0KfTO36hPkm4HjnAGg0cbUn5xiPMMdYNlE7w6GH5GNQTUQCNYoFV+gipZbVfCT32vD0XGJk1O9eroXUqo4Wnbcda6KvDwgkm5HgWaptj1BTR3ejtWD/TGKTSyLqWgkS58fkznCTYkN25tThIV6Rv9T5wHSFgYEvEpSKlUt4HVgXsbTAPeMsWk1exa7xjkIl7sYjzkU7h+YrIcanjIV1nqGjXhVbkzAUwC7YKklalm6zfM5tkB/duS9Uqv6K4lClKc2HlQzfzJ9zZiokNYKzIkE7PMMl/28O+W27Bqv0JG3qHmWUd+5rWg+pGPJBfT1vnJGolKR8aRWTMgwGFFZppAq0CXtTqNyPIKWR+oxb9i9nQ/IC8pqghYbxhBqd8nccvKYC4tNs4EUBEl2IMmvJYwY1aNs/gUp65uV0VbmBJtAfQf4nq+gc/Q/s8PbK8PwSXGXALA7NeY7QKXFxkPR/CZZ59NP79HQxiz4FC41yquolDxfRrYC6zUrLUzIQM/M7fDM/XZQJENlqVOnEcaMLshyc9mu2uBBA6+CCrI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(11063799006)(6133799003)(10067099003)(56012099006)(5023799004)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Tld2OWlBZjFHOHRUdWRpbDgzdEhEL3RoeVRnMzc1YXVaSGZkVkpyV2FpNFg3?=
- =?utf-8?B?b25DSU80UmV1RVJ6WTRxWG1NY3ZMN2FMbS9Kbk1RbEVmMzN5WEdjWFkyUkZZ?=
- =?utf-8?B?MFNsL0RXbU01NklOTzdhMDY2TGQvN3o3MUtLVFpVNWtESGRjUFJIc2s2bDUz?=
- =?utf-8?B?OG51dU1KdmR6M0c0Z2FBRWFkbUlZVGdWdVpGN0JtKy9iamliNWZFNlpjREQx?=
- =?utf-8?B?ZjRNd2pabS9oVnllK3Y3UzNObDc4MFNJVHM2U3VCdis3RCtINVpRWERvSW4r?=
- =?utf-8?B?M1ZJRzFLbW4zMG54eUZEZlRaTzVCbDBLcGNnYWo2d0RFTHkxRjRQeVc0c1BU?=
- =?utf-8?B?REFqRnZrSEFORjRGZE5qVkhLVFNrYlhnNzR2VDl4bnRhSnN3bWpqVkg4VVZh?=
- =?utf-8?B?dk1nTDdjeWFnNVQvdzQveFlXN1dRTFBVdW9DQkl0dkd1UFhpNVdNNlNFTkJP?=
- =?utf-8?B?VDV4d01BbGxvMWpha2djV2dBY0g2Tm1pN0pzSHZaTTV4SjJiQ3JxM3pCZmZD?=
- =?utf-8?B?RExEWTB0RUhXdUFuZnhHdTl6Tks2T2xOTEZmam5BQjArRjVRQ1lWTzNIL002?=
- =?utf-8?B?TjlyVWRldmJWUEptek80djdZczVJUWNzVlR5T2VTbUZQVGExNG80K01VY2dE?=
- =?utf-8?B?QmszNHBxWmxrK2RVVTlwdi9IYXBDSEFQTU1jNXN0cEJpTkhianBJdiszS0Vl?=
- =?utf-8?B?LzhIamd3SE5BNy9QeXdpajlyb1NCQ21yQlJTT05pbjR4ZW13d25mS1A3TTd3?=
- =?utf-8?B?VWZ1OGVrK3hxREtGVmRsZXpndUxDVEhjMXJyU1ZoVC9DN093bUFuTzJuRm4v?=
- =?utf-8?B?NHlCVmZlUUo2cFBsZisveEUxaitaaUc2UDZWOTRuZzJXd0NOaEV1WkRTVjd3?=
- =?utf-8?B?K3h5OGNHY0ZVaXZ0anVHUGk1bHllMVIvejR2NHhqc0JRSDVHN0dJeDhud25H?=
- =?utf-8?B?c0Y2NE8rbm01Q1NCOU8zTGkxODlzR1ppZWk5enFyK0hLZHVjTVhNRWFsYk5j?=
- =?utf-8?B?QVlZQzg0eWRHU1Z3TEVrTnZqOThleC95TGtSUFdGUlp4bFRIblZsLzhTNlBz?=
- =?utf-8?B?ZFBHZlV1dytiUGQ0MURmbGllZ2NXUWY0M2VXaEJlaWwzQ0F5S2JldFZqb1ky?=
- =?utf-8?B?V1hWV21GNGpXMFNmei9jVmJkYXllazBuUmZXdDdDSDI1ZWxJakpYY250QXhV?=
- =?utf-8?B?YnhiOEJZY2Irb1cyUHRiOFpaUWNCSHh3cm40aXFINXdncHJqSTU5TmlRNWZh?=
- =?utf-8?B?bWREQm1waW12MWxxNXlyY2F6aFBjYnR6dGlvQWMrckJqMWpOYzJZQ0JaT1Mv?=
- =?utf-8?B?S1IvYlpjR3NBMmZvQ2ZlUk13QU5qNmVKTWgyeC9BTW5ZUU1BeE5yR0dPUjZX?=
- =?utf-8?B?OXFKR1JLN2F4akprUk5PMVp3TW5UMFhmdXo3RWYvenpoanNOMERGVHpsU01w?=
- =?utf-8?B?ZWdsZDFVTFU5cmtJQ2I3YWgyNmdMaWFKRXFqMzBDb1FEdEF2UUNQenpJeXFJ?=
- =?utf-8?B?L0x3WWNnM2d0STRyR0R6b1RXTEN6N3k5NVMrREZOZVEvc1hyczdIUWoyN2E4?=
- =?utf-8?B?dUFQREF4ekh6K0dQekpOUkNGRGVCTE02OHRDNGZJRHBUVmVCOW9UVFpnVVJ2?=
- =?utf-8?B?SGFiaFNCUXlyNHlPTVhJNGk3M3JkNjRTU1J5RmlLTHVoWnQ4SlZ4ZGtuWmgz?=
- =?utf-8?B?STJLR2RXS0VXL3RvOHpaZXdkUXFuOHdXVFlVbEE5UU4xc1hFYzV2cm1JNGlX?=
- =?utf-8?B?Z3dhQ2pXVWpadEZ6cHR1YmRPZmJTVDZFdU5lVHp2N2JzblE5Z0htSjFXb01w?=
- =?utf-8?B?WnNCUUR5N3VuUWpzaTNiMFRzRTVpM2RPdFVJZCsrWGUrQlBzMkhYWGJGUUdD?=
- =?utf-8?B?eHFYdzF2NDNQeEN5bklTaW5lKzc4OHRSR1oveUlpMlFtRnJoODI4WUxHM0pQ?=
- =?utf-8?B?YjQ0K3owUk1uMUZ5TFhNaHZGV2hTaE1IbytIOHY2eGxubm50ZnpES2ZnZU9n?=
- =?utf-8?B?WmN5dlVvSlJtdk5Gc0pzUm0wdnNDM3JSaGVzVEF2cU90WWpSVnhlaFpKL20r?=
- =?utf-8?B?WkZjNDB5MUdUTGhWVjdWUDFta1FjcG8wWTlYRS9lcW0xKzJab2x6cEJNU3F4?=
- =?utf-8?B?SDlCWitQcjllUXgxRGllaU1Lcm5kVnRkUmFEb3RnZXE2MWtmaDQyS1RDeGVx?=
- =?utf-8?B?NWxlUmt2WjZaTHdLQjF1MjBUVTBFejRVaUdXdmREbmNaRVlwaVQ2NHhrSVlM?=
- =?utf-8?B?NzV4YVYrbVRmSXRPU1BpK20wV01QNy95dFR0UzRucEFYSzZCYXNLVzRGRFE2?=
- =?utf-8?B?SUszK0RmSWZjV2ZNeWlTdmFsU1lQUjF6Wm1SZWpZSXdwczhmWmFUQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec6754e6-d6e2-40d2-4c70-08def88e3849
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 16:24:44.9775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dm9g1vTqn5FAUjSG+TUgH9Y8yKwFNGHu1g87tHvNgCWjnyx/SLQOuq6aiqMteKm2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF0D2C72F0D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] usbip: usbip_host: remove legacy rebind_store in
+ favor of drivers_probe
+To: Jeffin Philip <jeffinphilip14@gmail.com>
+Cc: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, shuah@kernel.org, stable@vger.kernel.org,
+ syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
+ valentina.manea.m@gmail.com, Shuah Khan <skhan@linuxfoundation.org>
+References: <e3473010-e995-40b6-9040-e38f51d1a6c9@linuxfoundation.org>
+ <20260812024050.11267-1-jeffinphilip14@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260812024050.11267-1-jeffinphilip14@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 8/12/2026 2:58 PM, Heikki Krogerus wrote:
-> On Fri, Aug 07, 2026 at 11:16:58PM +0530, Radhey Shyam Pandey wrote:
->> tps6598x_connect() and cd321x_update_work() pass a stack-allocated
->> typec_partner_desc to typec_register_partner() after initializing only
->> usb_pd, accessory and identity.
->>
->> typec_register_partner() copies attach and deattach from the descriptor
->> into the partner. With those fields left unset, garbage function pointers
->> may be stored and later invoked from typec_partner_link_device() when a USB
->> device is linked to the port. Uninitialized pd_revision and usb_capability
->> similarly leak stack data through partner sysfs.
->>
->> Zero-initialize the descriptor so optional callbacks remain NULL and the
->> remaining fields are zero.
->>
->> Assisted-by: claude-mythos-preview-high
->> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
->> Fixes: 0a4c005bd171 ("usb: typec: driver for TI TPS6598x USB Power Delivery controllers")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+On 8/11/26 20:40, Jeffin Philip wrote:
+> On Tue, Aug 11 2026, at 16:53:23 -0600, Shuah Khan wrote:
 > 
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>> On 8/11/26 10:05, Jeffin Philip wrote:
+>>> do_rebind, which sleeps normally gets a mutex lock. However, it does not
+>>> or should I say, cannot check for null udev between spin lock dropped in
+>>> rebind_store and entering do_rebind. This is a potential race window
+>>> already. So, even if we check for null udev under spinlock, we cannot do
+>>> it outside. Regarding do_rebind, it is called during stub_device_rebind,
+>>> but that function is called during module exit when all files are removed.
+>>> So, do_rebind is not designed to work in a concurrent environment in the
+>>> first place.
+>>>
+>>> We have a safer function that can already do what do_rebind does,
+>>> drivers_probe. So, we use drivers_probe to rebind the device rather than
+>>> use rebind_store.
+>>>
+>>> usbip tool references this function immediately after the device is unbound,
+>>> which is safe for the tool itself but since we opted for drivers_probe, fix
+>>> it by using drivers_probe rather than rebind_store after unbinding device
+>>> which is more safer.
+>>>
+>>> Tested and working in both userspace via the tool and manually echoing
+>>> the busid in the related nodes. rebind node is still left active with a
+>>> warning to use drivers_probe upon encountering rebind_store.
+>>>
+>>> Thanks,
+>>> Jeffin.
+>>>
+>>> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
+>>> ---
+>>> Changes in v3:
+>>>    - Removed rebind_store in favor of drivers_probe to eliminate race
+>>>      condition
+>>
+>> How did you find this problem?
 > 
-
-Thanks for the review. To simplify stable backporting, I split the
-patch and posted it as v3. Since the patch was split, I did not carry
-over the Reviewed-by tag in v3. Please have a look at it.
-
-https://lore.kernel.org/all/20260812161454.149606-1-radhey.shyam.pandey@amd.com
-
->> ---
->> Changes for v2:
->> - Add  Assisted-by tag.
->> - Remove explicit indentity=NULL
->>
->> AI code scanning identified this issue; the possible call graph is shown below.
->>
->>    USB-C plug event (IRQ)
->>      tps6598x_interrupt()
->>        tps6598x_handle_plug_event()
->>          tps6598x_connect()
->>            struct typec_partner_desc desc;     /* bug: attach/deattach unset */
->>            desc.usb_pd / .accessory / .identity = ...
->>            typec_register_partner(port, &desc)   /* class.c */
->>              partner->attach   = desc->attach;   /* copy stack garbage */
->>              partner->deattach = desc->deattach;
->>              [if port->usb2_dev || port->usb3_dev already set]
->>                typec_partner_link_device(partner, dev)
->>                  if (partner->attach)
->>                    partner->attach(partner, dev)  /* indirect call via bad ptr */
->> ---
->>   drivers/usb/typec/tipd/core.c | 6 ++----
->>   1 file changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
->> index 522f56742aa9..d99a55063e34 100644
->> --- a/drivers/usb/typec/tipd/core.c
->> +++ b/drivers/usb/typec/tipd/core.c
->> @@ -344,7 +344,7 @@ static void tps6598x_set_data_role(struct tps6598x *tps,
->>   
->>   static int tps6598x_connect(struct tps6598x *tps, u32 status)
->>   {
->> -	struct typec_partner_desc desc;
->> +	struct typec_partner_desc desc = { };
->>   	enum typec_pwr_opmode mode;
->>   	int ret;
->>   
->> @@ -355,7 +355,6 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
->>   
->>   	desc.usb_pd = mode == TYPEC_PWR_MODE_PD;
->>   	desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
->> -	desc.identity = NULL;
->>   
->>   	if (desc.usb_pd) {
->>   		ret = tps6598x_read_partner_identity(tps);
->> @@ -841,11 +840,10 @@ static void cd321x_update_work(struct work_struct *work)
->>   
->>   	/* Set up partner if we were previously disconnected (or changed). */
->>   	if (!tps->partner) {
->> -		struct typec_partner_desc desc;
->> +		struct typec_partner_desc desc = { };
->>   
->>   		desc.usb_pd = is_pd;
->>   		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
->> -		desc.identity = NULL;
->>   
->>   		if (desc.usb_pd)
->>   			desc.identity = &st.partner_identity;
->>
->> base-commit: ea2bff00da89d7767d677bb68470130ba96f4928
->> -- 
->> 2.44.4
+> I found the problem on syzbot and had to reproduce it using the following
+> commands:
+> link to issue: https://syzkaller.appspot.com/bug?extid=af76b01c9a0f0ab60fb0
+> echo 'add 1-1' > /sys/bus/usb/drivers/ubsip-host/match_busid
+> echo '1-1' > /sys/bus/usb/drivers/usbip-host/rebind
 > 
+>> Is this generated code or did you write it?
+> 
+> No, I wrote the code myself.
+> 
+>> Also, the first patch removes code in rebind_store(), replacing it
+>> with a pr_warn()? The second patch points it driver_probe() - what
+>> happens with just the first patch?
+> 
+> It just prints out a warning. I did get a -Wunused function warning
+> while building the kernel for testing and considered removing it. I
+> ultimately didn't as scripts running on newer kernels(if this
+> was merged) would break as there is no rebind node. Should I remove it?
+> and is pr_warn not the right way to deal with this? If so, please advise.
 
+Okay. But why is this change split into two patches? Does just the first patch
+work correctly?
+
+> 
+>> Did you run tests to see if you can bind and unbind devices - does the
+>> driver work correctly?
+> 
+> Yes the tool works correctly after switching to drivers_probe. Devices are
+> bound and unbound correctly.
+> 
+> The function also caused an invalid opcode while testing in an unpatched
+> kernel with a different sequence: write to match_busid, then write to bind
+> and rebind, followed by writing to unbind.
+
+
+thanks,
+-- Shuah
