@@ -1,216 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1912BB13
-	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 04:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B166031355C;
+	Wed, 12 Aug 2026 05:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786510002; cv=none; b=u6ZAmkkxytUx/nJ2sH47Iej2Wt4U5YZx9mP8Kd/wSpeRyVrCvHxaAUPa97AmhLt3eNonetXXS7gCbnmX6/Jia7UhxM5k9rksLC30FH7jYueOgrE0C24XCxPov3cGzbAPB2oW8kFrZ9cDTXgF8cvnDRpyTjFI217nZoFbR8FRvGI=
+	t=1786512313; cv=none; b=TJCI6M/oc7ZYUsjkU0I/bqjBU0XHzII02JnY8Lw9VbYFYPqaUk4wrVgYT81LlkBsZa8OFOgUIEBXpxGags8ABrhhIru53p16NRULvUt/S5XZCDnYZMtTE0YAHZbhHgV18Go8U7mACDT7eWfdl8Y96/MzgB1BCjPEO7h0HNtuwfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786510002; c=relaxed/simple;
-	bh=zHowPcYJxFHDx384BNnqBiWzOSfxmu9was63TdV4hOw=;
+	s=arc-20240116; t=1786512313; c=relaxed/simple;
+	bh=KGaBHN4E32+eD1xus4KQt6sFROwBOr9CL7SGEfl1Jik=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UfWyxDJ0PPuA2TfN/bMizv6Q5SIrQnx62C0mbQ8Cv0V0SBmSwMsCDBBkQtZJl/8IWegj4z6dU37k5mw9Nt1tbplfY6l1UemfnzchJbjTnpAt6FRREmVe1ig6QaG5wpLd1kE96O4jvvq2qk77VCDBDIGnLOBAszV6c+AOjENlqUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9RrJxWr; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FXpMJCHOPFaSxNsnwlfeT6n732TjqBwsIUuifQt9mZi/FbMaUl8YnUVG/6mwEo4sni6AViO9zp7HQQO/9KSLedRTbnOjBdyApZcPGUw89y/nFrW2spLSUVOuIupvJLS3Udn9g08r2bvML41u0M+veLw/0FIEogfa2gBfi1KWgSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=PwMqUyXj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mUSNQKe/; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9RrJxWr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786509999; x=1818045999;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zHowPcYJxFHDx384BNnqBiWzOSfxmu9was63TdV4hOw=;
-  b=d9RrJxWrFtmoXHPvJ0XyjHIxEXSE6hLNdDa/6HFESx44I6yWAHohrjog
-   Lbw+Dgw4OemLiK7V7ZR7jYW//RHjwjQj1H3SWjwfBBBB8Ajyk5C99Z64G
-   ayHT2sCFGIbcstSYkEgIL1ToTV6AL5BEK4pkhWGg6nlw1BROetpEXZPWl
-   g2crPRSuev8JiljREnPk4rLIJf4Jhk4Lp4FnzmQqVnvBaB8uIRAysJcps
-   JvAeJJVmdAr/1txxcrg837x65FuDg1NcOG3DoroYEmqA+0ve4uTeWlaOF
-   u1I5w4XFjMMCOnFWhd73rZSxqEP17BrMZ3wv9oC23Ril1ZIzH+R7WSd6v
-   w==;
-X-CSE-ConnectionGUID: qIoHiXbqSD2+IWbRNQRrTw==
-X-CSE-MsgGUID: VUtXmgQXTTiMIKU3YS2kLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="87266291"
-X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
-   d="scan'208";a="87266291"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 21:46:39 -0700
-X-CSE-ConnectionGUID: Va+KQzgJR8COSLaCpPYlBw==
-X-CSE-MsgGUID: UskWFhggQC2syQ/mQtXEUQ==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Aug 2026 21:46:37 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 9EC8B99; Wed, 12 Aug 2026 06:46:36 +0200 (CEST)
-Date: Wed, 12 Aug 2026 06:46:36 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: fy15309206903@gmail.com
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2] thunderbolt: Stop waiting on a path pending bit that
- never clears
-Message-ID: <20260812044636.GL893316@black.igk.intel.com>
-References: <20260812-b4-tb-pending-v2-v2-1-0667ee84c2d4@gmail.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="PwMqUyXj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mUSNQKe/"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3CFEE7A00C8;
+	Wed, 12 Aug 2026 01:25:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 12 Aug 2026 01:25:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1786512309; x=1786598709; bh=28nPvFuVpI
+	YU5pV5aG0THofF4Ustxv56B0tybpBYheE=; b=PwMqUyXj1JeJMJwmopqiz0GFse
+	DNN12b2fXK5Ehf87O9Z6ufmFI2jFAzbCYtPCyjA+kvP/CiqD73ENS+48oxGDAoqo
+	RT0vnNgsQ/lv4ToxPy2mVNpEEwlrJS2lEEKnu6NxF3Ut0FjrariBpCQQXF3hOVCL
+	vyj8LJOMkjEE+Ujl6Z5OAH6Ue4cg6j1stkIz5F/6lkhVG7i0zxEWEti8niUrU+XI
+	oZst+sXF0tR8O/TwElRoJ+NmI2jx9+7jFeYFvnZauwo1nZ6/c+UzvOUzBs1dEZOj
+	JNylrwnThQODpYyZwpk/nVhjtr2qbMte6FT1ZxZYv6zO5ruriMSCQj1Sk7hg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1786512309; x=1786598709; bh=28nPvFuVpIYU5pV5aG0THofF4Ustxv56B0t
+	ybpBYheE=; b=mUSNQKe/34Yv6SpKEVAWfyia1Z9ABOKV8XDhvU4lo7B37Gve8lP
+	HjPbX6OOEEzko4PwlO2k/zIAu4bGpCRAULzU1ZF1ew7TdgY5ituQA5sUR/DcPPvI
+	VHX9rY6T6AnGTlZhZKfANQpBpVQBKqcD5Q/PBaCnVnsx6OeIw3mZeH5uNBnLCAm0
+	pIFaYAkejMN2x3JxPRioLs0dVogqgpMMi6jNl1D/r6K1U5FTENqlgJSLMqqKzDpN
+	ZwHwOIwbRtw1CqhZq6ZHRUkwKTYUvgO/kGVvCXwcIlMAYOirEd/J8VNOhGph/xT8
+	PbIcSxabuf+YoP9LTU/MIOh7QhCYuDk8T8A==
+X-ME-Sender: <xms:tAN8av8FlY4_7fawhXNS2sGeiQsxEww-hxWNg0cR4veLBOAk-EtZiQ>
+    <xme:tAN8asolI34Zl7G_Fho9eIru22vHHuqac3aRxc7XRiqbEzEszUflZM8Ft6pqnRmrv
+    p39QgaZQqD5Gc0-t8YeDDgYbGsKdwB-wz9ZrGGXPsp8e0y3wg>
+X-ME-Received: <xmr:tAN8atWYzyklDZc45PnxqUj83hHcBK6gLOThyMAUduZutBGn_6F_UAg>
+X-ME-Proxy-Cause: dmFkZTFr0akD6lmTxJrZbE8su1kplFOautjQj2TvjR3JGl06nJdMnzMO0H6t2V3D0g2T5B
+    GQ/p81FPfKke26FaecXeU2jvao1vycAjE9zrvjPn8FoUxIqEi/NCo6RkbjtTxaDYEFN5Rz
+    Atw5PxK3jDFzJuaMuLh14j51WUQheOVFaE2qQwLB0GvRb3g6tfMH64qw+XLsVFs3fNl4pz
+    3GlnqEV+ZR5ZT2sOUIsOQzZQRRSgek7eQU+AogS+Xdk9qMpx6D68dfuJ6JtjKtmOWZiJe7
+    Lm/l5b56aJtwyiUix90mGmFpfF2KuRb+OfvVVcXaHnZhBEH63a4oBqCS9vltVOJV50ogVN
+    jLAvdpczwVPZUL4f/AjhWYuI2saft1HZrrEV1uj56w92cZxR/1vQncrwoCajWwfe/w9NaK
+    5OXJT+2wDpYUYM24G4D8+lvpTAQ9cPKWzmSUg+X3Vo5XaBkSxQgRP+cirFQ28caXMWREbB
+    QU/EhfppdFRMDusLiXTuZe4upEWt/81SZ/bdp4Vhry9gaKzrbbFpMuW0oKQEFuA57oWKWP
+    p9a3S4QDaiLSPA8LQGfCD4CqasgETzc8tlUlu3cD0nUX+A5RD+PBoBK8WC+JSFeaxtIyRN
+    bmWYIpTXUhFjL60yvoeLHziki/i1RNO3ydIuwkFPNSkEhS2fhsLDsZDOe8eA
+X-ME-Proxy: <xmx:tAN8ap46kZiIX1YvsuWArVFKtJfABSZx0mnUiq3SxaD1JxhAHDSiTw>
+    <xmx:tAN8arCLHTi8aWfiK00g3n3ZtgAjREitCQl8cyjPT6vyVLAotGYW5w>
+    <xmx:tAN8atdYmR8q80iVObRudg1ZVuT9KmZPmD5cBfnbK4sMcECRsf-fxg>
+    <xmx:tAN8asuZMVWhotMoZ6sWhD46aZaN3Ow4uLH9GPlfOXdB5YD1HbuMRw>
+    <xmx:tQN8alBlP1LiNgGqd68mGB0SJi-Hsfs3gpsYk4E5KdYtPjaS79azM5-l>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Aug 2026 01:25:07 -0400 (EDT)
+Date: Wed, 12 Aug 2026 14:23:34 +0900
+From: Greg KH <greg@kroah.com>
+To: Jason Colapietro <jasoncola1@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	skhan@linuxfoundation.org, Hongren Zheng <i@zenithal.me>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] usbip: make remote list honor parsable output
+Message-ID: <2026081214-litigator-nutty-83fb@gregkh>
+References: <CA+Z0x2JOUKR6cH41JyFHBmG5L_XoVEa02vrc91-L42RX5oa5OA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260812-b4-tb-pending-v2-v2-1-0667ee84c2d4@gmail.com>
+In-Reply-To: <CA+Z0x2JOUKR6cH41JyFHBmG5L_XoVEa02vrc91-L42RX5oa5OA@mail.gmail.com>
 
-Hi,
-
-On Wed, Aug 12, 2026 at 01:21:52AM +0000, Fan Ye via B4 Relay wrote:
-> From: Fan Ye <fy15309206903@gmail.com>
+On Tue, Aug 11, 2026 at 11:26:44PM -0400, Jason Colapietro wrote:
+> The -p option only affects local devices and gadgets. Remote lists still
+> print their human-readable headings and details, so scripts cannot parse
+> them using the documented option.
 > 
-> __tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit to
-> read back clear. On an ASMedia ASM4242 host router the host interface
-> adapter latches it once enough frames have gone through the DMA ring and
-> never clears it again: the teardown finds it already set, seconds after
-> the last frame and with the path still up. USB4 v2 table 8-23 has the
-> field read only and zero unless packets belonging to the path are waiting
-> to be dequeued, so the wait is right and this adapter is not.
+> Pass the parsable flag through the remote listing path. Emit the same busid
+> and usbid record used for local devices while continuing to consume every
+> interface record from the server.
 > 
-> Quirk those routers by hardware id and let a quirked adapter that has
-> timed out once answer -ETIMEDOUT immediately from then on. Bringing the
-> interface down then took 8 ms across 200 cycles, where unpatched it took
-> 508 ms in 161 of 162, at an unchanged failure rate of about one per
-> cycle.
-> 
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+> Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
+> Closes:
+> https://www.google.com/url?q=https://bugzilla.kernel.org/show_bug.cgi?id%3D219502&source=gmail&ust=1786591574713000&sa=E
+> Cc: stable@vger.kernel.org
+> Assisted-by: Codex:gpt-5
+> Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
 > ---
-> Measured on two ASM4242 hosts wired to each other, hw_vendor_id 0x174c,
-> hw_device_id 0x2428, NVM 200011.250708, on a base that already carries
-> 68bf02b6b4ad.
+> Changes in v3:
+> - No functional change; resent as 1/2 of a series.
+> - 2/2 makes -p work regardless of where it appears on the command line.
+> 
+> tools/usb/usbip/src/usbip_list.c | 33 ++++++++++++++++++++------------
+> 1 file changed, 21 insertions(+), 12 deletions(-)
+> 
+> diff --git a/tools/usb/usbip/src/usbip_list.c
+> b/tools/usb/usbip/src/usbip_list.c
+> index 3d810bcca02..b9d60b87e47 100644
+> --- a/tools/usb/usbip/src/usbip_list.c
+> +++ b/tools/usb/usbip/src/usbip_list.c
+> @@ -41,7 +41,7 @@ void usbip_list_usage(void)
+> printf("usage: %s", usbip_list_usage_string);
+> }
+> 
+> -static int get_exported_devices(char *host, int sockfd)
+> +static int get_exported_devices(char *host, int sockfd, bool parsable)
+> {
+> char product_name[100];
+> char class_name[100];
+> @@ -80,9 +80,11 @@ static int get_exported_devices(char *host, int sockfd)
+> return 0;
+> }
+> 
+> - printf("Exportable USB devices\n");
+> - printf("======================\n");
+> - printf(" - %s\n", host);
+> + if (!parsable) {
+> + printf("Exportable USB devices\n");
+> + printf("======================\n");
+> + printf(" - %s\n", host);
+> + }
 
-I suppose there is not errata about this?
-
-> Read before the teardown writes anything, path still up and the ring idle
-> for seconds: at 200 frames it is clear in 5 of 5 rounds and the hop drains
-> on the first read, at 260 it is set in 5 of 5 and the wait runs out. So it
-> is set before the teardown starts rather than by it, and the clear case is
-> why the flag is learned rather than taken from the quirk alone.
-> 
-> 5.4.1 has a connection manager wait tTeardown after the router sets the
-> bit to 0b before making the path valid again. On an adapter where it
-> never reads 0b there is no such point, patched or not.
-> 
-> v2:
-> - Add the Assisted-by tag.
-> - Answer the spec question from USB4 v2 table 8-23.
-> - Return -ETIMEDOUT instead of 0; gate the flag on a 0x174c/0x2428 quirk.
-> - Drop the ring-wrap claim.
-> - Cut the text down.
-> 
-> v1: https://lore.kernel.org/linux-usb/20260809-b4-tb-teardown-v1-2-c88bbfe5c127@gmail.com/
-> ---
->  drivers/thunderbolt/path.c   | 8 ++++++++
->  drivers/thunderbolt/quirks.c | 8 ++++++++
->  drivers/thunderbolt/tb.h     | 4 ++++
->  3 files changed, 20 insertions(+)
-> 
-> diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-> index b2c322e76b8a..5cf87b8af2b2 100644
-> --- a/drivers/thunderbolt/path.c
-> +++ b/drivers/thunderbolt/path.c
-> @@ -397,6 +397,10 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
->  	if (ret)
->  		return ret;
->  
-> +	/* It never clears on this adapter, so the wait would time out again. */
-> +	if (port->pending_stuck)
-> +		return -ETIMEDOUT;
-
-Instead of this, let's do it so that you introduce port->pp_timeout_msec
-that gets initialized with 500. In the quirk_stuck_pending() you check for
-the NHI adapter and then set that to 0. Here you just check that field and
-if it is 0 then skip the wait.
-
-I think that would be more "future" proof in case there will be other
-issues like this on various vendor's adapters.
-
-> +
->  	/* Wait until it is drained */
->  	timeout = ktime_add_ms(ktime_get(), 500);
->  	do {
-> @@ -430,6 +434,10 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
->  		usleep_range(10, 20);
->  	} while (ktime_before(ktime_get(), timeout));
->  
-> +	/* Remember it only on an adapter known to latch it. */
-> +	if (tb_port_is_nhi(port) && (port->sw->quirks & QUIRK_STUCK_PENDING))
-> +		port->pending_stuck = true;
-> +
->  	return -ETIMEDOUT;
->  }
->  
-> diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
-> index 9f7914ac2f48..6ec90a85bbaf 100644
-> --- a/drivers/thunderbolt/quirks.c
-> +++ b/drivers/thunderbolt/quirks.c
-> @@ -52,6 +52,12 @@ static void quirk_block_rpm_in_redrive(struct tb_switch *sw)
->  	tb_sw_dbg(sw, "preventing runtime PM in DP redrive mode\n");
->  }
->  
-> +static void quirk_stuck_pending(struct tb_switch *sw)
-> +{
-> +	sw->quirks |= QUIRK_STUCK_PENDING;
-> +	tb_sw_dbg(sw, "host interface adapter pending bit does not clear\n");
-> +}
-> +
->  struct tb_quirk {
->  	u16 hw_vendor_id;
->  	u16 hw_device_id;
-> @@ -114,6 +120,8 @@ static const struct tb_quirk tb_quirks[] = {
->  	{ 0x0438, 0x0209, 0x0000, 0x0000, quirk_clx_disable },
->  	{ 0x0438, 0x020a, 0x0000, 0x0000, quirk_clx_disable },
->  	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
-> +	/* ASM4242 never clears the Pending Packets bit of its NHI adapter */
-> +	{ 0x174c, 0x2428, 0x0000, 0x0000, quirk_stuck_pending },
->  };
->  
->  /**
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index ec9192b61bc0..00eb8d85755a 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -26,6 +26,8 @@
->  #define QUIRK_NO_CLX					BIT(1)
->  /* Need to keep power on while USB4 port is in redrive mode */
->  #define QUIRK_KEEP_POWER_IN_DP_REDRIVE			BIT(2)
-> +/* Pending Packets bit of the host interface adapter never clears */
-> +#define QUIRK_STUCK_PENDING				BIT(3)
->  
->  /**
->   * struct tb_nvm - Structure holding NVM information
-> @@ -273,6 +275,7 @@ struct tb_bandwidth_group {
->   * @max_bw: Maximum possible bandwidth through this adapter if set to
->   *	    non-zero.
->   * @redrive: For DP IN, if true the adapter is in redrive mode.
-> + * @pending_stuck: Pending bit did not clear, so it is not waited on again
->   *
->   * In USB4 terminology this structure represents an adapter (protocol or
->   * lane adapter).
-> @@ -302,6 +305,7 @@ struct tb_port {
->  	struct list_head group_list;
->  	unsigned int max_bw;
->  	bool redrive;
-> +	bool pending_stuck;
->  };
->  
->  /**
-> 
-> ---
-> base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
-> change-id: 20260812-b4-tb-pending-v2-78ebc7bb0f58
-> 
-> Best regards,
-> --  
-> Fan Ye <fy15309206903@gmail.com>
-> 
+Something went wrong with your email client and it sent html email with
+a corrupted patch :(
