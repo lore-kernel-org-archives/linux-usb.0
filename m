@@ -1,174 +1,227 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013066.outbound.protection.outlook.com [40.93.196.66])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010071.outbound.protection.outlook.com [52.101.85.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62DA38F64E;
-	Wed, 12 Aug 2026 16:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE67239280C;
+	Wed, 12 Aug 2026 16:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786551336; cv=fail; b=G95olwJX0IHCh0IJ0XGtKLIMJvOkvp7++PRK8CsLsUAIIog2vl3I5miFvBE84Iw9lr1rwEjnEZbWzzQK26Qzd6GXgZNXFqQ7sMEk31roktMBTou5/7a/PJ7KgDYWT3n7CzJB8WUq41RrJMYgw7N75RPUvWwWKQinOXuuymOJuwc=
+	t=1786551894; cv=fail; b=F1zE1m/8ZGHZ81jGE/MoLBKczj2S3K4akKSi3zFB4vyYagGMFcPzwEd0V/46/A+RkBVVIYY96EJr10NFiAaZ0Z4PoeIH7jYK4GoAbtWTAhHg9PZBeBIt5Oje8zB5Wjbd3rk4CX0VllUfkTBQw+2F7uFgDBwuHiU8Fv0SiFsB77Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786551336; c=relaxed/simple;
-	bh=FVeYfhvEsilNBg9TpFRFjSp8LG0uzJ6eecoZ2BTzlMo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t2XwcTT1KVXqksXgf7Dd0iQEDDX9G8GeKcq/2EoH6MaTKhQW1ujke9R0jI+nYh/BdsCZr3E3hPyjL8iabjphDS7rEW+V4a4rj5AVsfdJe5tp9VmFISkSLb79vKWPbDTBdcQfUhlJvEJuBE5uYARuSxJnMlFOMZbhj6dQ4Aek1qk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=aaA61mHj; arc=fail smtp.client-ip=40.93.196.66
+	s=arc-20240116; t=1786551894; c=relaxed/simple;
+	bh=4qRQq2dvBC5FS9Z8JfSZ5lCyaJRqFwzHVXChD2VJCP4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OFM82cneKtaxqAb+GupCWD9xjqHDWKKlNOu9psZZhxx1uCfOrXKMTnUchnk+bjw+TRdLLsp235FNu+HEHUUuA2rpCR50IuAO9aIn65w3rgAkHEYyWlwEoPXDCZAYskYsFvenNT+YYNfMuTJ5Cl2GpxpxR5vgPQTDE3K2upDFsDY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MfZNQXej; arc=fail smtp.client-ip=52.101.85.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="aaA61mHj"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MfZNQXej"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RTps3kD1nPiN2iGlYpkIP+3HPGojXs2743FbbaFJtdOhKcr00qSeSBBeoJrrA4CebLHmrQ3QLgWK6XpQWgCTKAR/JLNF5bJYG3Pg0mmycvaTLt0zw73wsd59E7FBzFCyFQUdsq9a4wlno4ImDcAUFouI6tZtJLx0pnz7PRkq3bJdww7KYI2SY2AqW8fBjyVrFdHrTN40g2qda2J8GqP11Chyg8UUJs7byfuVWRnZWNDoqeW0mBMGFhYwSLCwHHm/IKwG/Ybf2Z4GVV+Vpj/PC22GNSgMYHdM9epJ6alSXIxhtpsZdf5YeIo49TSHEkAfGyFEJAa5IrKYFq5HQr5qkw==
+ b=eHN1/GTVVWwvwuo5+9zhg0aSVPgqi+r905wT0aIRxJrTDeD4j2siNvqGRbY4x7ueyAvtSILuaGB4Xz6Z+zBJsscO7/FN3o9MvLDYLrrRFmJ852KLHmepdzkeqGZUw8HIEXwPcmxx5KnxJxooZICLW0E5ZR4bypet9ykcAC0Sg0IwHDqOAIEm7K3UurSki5A5n5Kyj3EVmDRLR2OU5dleL2OnT0IcdZqokfogng/w9GZSx5LitKamiE3pXshSOM5RppjrFBb6lZ11qMcpgrZ2wmhi3u6jCqUaoCr4BuBkAP0denLq9Udkb7krlgoTR6fOBCnoelMgP5ocL1TE7oTrrQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aXVsz+suNHAcIEQ66sEkKuxzKty0x9EfvQzlPTU6pPo=;
- b=Sfk0E5XHPWGEYowrgWL43bAB3m+vh838oJnrziwxKy33EuA5zFp4PCAazGiPNpypIkh+zkM5+Bag2lA9bNhwXboaKgThutM0m114Lg9XIk/A0bwSZ7GTs+9+OidCrdvEgmNLvdwseiEqkYf07WX+5IClbBwUv/V8PfGLOUsjm8n4fclfa1QzQfjchvXeyS7a3MYCKYZkQHrgpImTkxA+wn7otu60wHUstU8I5zO9U54ooYgvNuN5RrGOmygWCzf5hzSkcuxOsEZHd2BJIfxpUgIA0z8tNbTltNvP7Yr4FapWFkDrl9R/jXHnwru4c1cc29p090CTDBCf+9s7rS/frw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
+ bh=W19NBkh7fbhMf3ZrazZ6EPqRfx9w0SkvsAbVhzl7FOg=;
+ b=NbUKXf71p96MXkKuqfbQkcLCFYUinjzH4/JFGHfLsLDp0EWlSekeHRDzp2X6M2EZimxmo9KwE/dwcdBwI0vPNv2PBYBOz60VFxgbAuP7EjFWUjgNarFlFTQgdHzxoDFHeVXRxxLH483hEznCWoqF45sgvqILvX/CeoXBObbh7TaZnbZQzdoO8d1XXJlUWol19TmYxHt7hoYJjZPFRm8tq1e3SQKm4p+cU2hRZ6URIlsFxn/bZNY9bkdmaiw0rWcI2kbJW+4ud1lC5UXVvCHADGC2PKi+noVHqNPDjufDdYZ5OZjZfJsNHrdOJoFZAyUnPqyDo26HJJn76bfswmm0LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aXVsz+suNHAcIEQ66sEkKuxzKty0x9EfvQzlPTU6pPo=;
- b=aaA61mHjNPIALVoDnglMfL133oPXvAyMYleGFmzLHxgLrn8UZffILzCkWz9h2W0v5Vq7mFB5rGwes1k4IvzlEdqiNvjDYwaf6WRPSvIeoPa1GDWplW7K8vub0Np4XPFcFdrYwatoxkbGb+S9rK3IubVjSrf2N6+fOZxR42sTR6I=
-Received: from BL1PR13CA0368.namprd13.prod.outlook.com (2603:10b6:208:2c0::13)
- by MW4PR12MB6754.namprd12.prod.outlook.com (2603:10b6:303:1eb::7) with
+ bh=W19NBkh7fbhMf3ZrazZ6EPqRfx9w0SkvsAbVhzl7FOg=;
+ b=MfZNQXejxmLgcrkHdjXKJTWg7qAD8xsTQ3zAUGST3a5JHTNdGtWFMbPBYJGkbcH91u77HInHd7+xafvJN6CJG+pf38HarxmAysziZXSpknZuaqU0IS7aiYTtNS03zBhk3ge5EOXXxwJ3ZTNma1/50cJUBRjpssgMgNvqU9OpWxE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
+ by BN7PPF0D2C72F0D.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6c6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Wed, 12 Aug
- 2026 16:15:26 +0000
-Received: from BL6PEPF00020E65.namprd04.prod.outlook.com
- (2603:10b6:208:2c0:cafe::12) by BL1PR13CA0368.outlook.office365.com
- (2603:10b6:208:2c0::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.12 via Frontend Transport; Wed,
- 12 Aug 2026 16:15:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BL6PEPF00020E65.mail.protection.outlook.com (10.167.249.26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.6 via Frontend Transport; Wed, 12 Aug 2026 16:15:24 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 12 Aug
- 2026 11:15:15 -0500
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 12 Aug
- 2026 11:15:14 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.45 via Frontend
- Transport; Wed, 12 Aug 2026 11:15:12 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<git@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	<stable@vger.kernel.org>
-Subject: [PATCH v3 2/2] usb: typec: tipd: fix uninitialized typec_partner_desc in cd321x_update_work()
-Date: Wed, 12 Aug 2026 21:44:54 +0530
-Message-ID: <20260812161454.149606-3-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260812161454.149606-1-radhey.shyam.pandey@amd.com>
-References: <20260812161454.149606-1-radhey.shyam.pandey@amd.com>
+ 2026 16:24:45 +0000
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0315.011; Wed, 12 Aug 2026
+ 16:24:45 +0000
+Message-ID: <59226f81-ddb6-4138-a67c-90ef6db7021c@amd.com>
+Date: Wed, 12 Aug 2026 21:54:38 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: typec: tipd: fix uninitialized typec_partner_desc
+ on stack
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, git@amd.com, stable@vger.kernel.org
+References: <20260807174659.3720863-1-radhey.shyam.pandey@amd.com>
+ <anw8wDlUq4Vf4JN6@black.igk.intel.com>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <anw8wDlUq4Vf4JN6@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0142.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b9::17) To CY1PR12MB9697.namprd12.prod.outlook.com
+ (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E65:EE_|MW4PR12MB6754:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b408572-f2fe-4e72-a9e5-08def88ceab0
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|BN7PPF0D2C72F0D:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec6754e6-d6e2-40d2-4c70-08def88e3849
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700016|23010399003|6133799003|11063799006|5023799004|10067099003|56012099006|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|11063799006|6133799003|10067099003|56012099006|5023799004|4143699003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	QlEZKN4SURkYUzC/dRY1HO0MqV5BRRovuyLqX9oiEQRzoSH7v+wwM9iEGDk1S+dthqX9xx13hnKGb3+adQ3J9iH3RbtLUXs60r+dNc/UMModeLkrzGQwnz9dW0zcCdYFUchwU2EVEkEInyKKXqw6iOQQ19V6ZG6rH7eSZU8bSMHrbCgqn37dMB+XMEXGyQ8J+RrbpdzDSX/7jqXRFyzktTuLyI1HAwIIGoUZlFDuao7se1dSoUXzfU+V04Gr7XYqw+chu6/PVKcsUeaexOEohLtQN0wxeyXxCqGzp79Pr6fkIH/DlXSa9gREfB2zFNkJAZ6xG4Vrcroz523Xu39gEUE6hDq9NUp3BBQvMHU5mGBtNazzyO2xVWiu1Et7Nj9sw6rkTCvSba1YX4DgEot4JIQ6btBrMNOial8GmNMsBzP1AS5RQZshLj/IcxVu4d1FvmqIpUzCjHMAnibYlTJ4W2GcDH+O+R3Jm9ysSGx98ojnXxi3vg82+G7UYUWt4rORUrNNS6aDwugaQSHsiVH9V3r4FtqdmjXdcDa0v2/iJOr2r2erH1ZBxLUx508ZGBGPvqkc4/cmtUMLPa67EtsyLcnd+DKgN8Zdgf4SAFGMeqYfEQz/d5Tm83qLlyfXO/VrSWeaGJoxoWkUyTHiIyYVvy/sR/3M0nO9oI+ob6Uybi8I4tjUezVg4uZAHkfwlUqi3o3sW5Zl0vPogqG8or43Wg==
+	66GGfWW72AAXoh8xUDGdpssTSgQvfSPwTxfvbEZ9Xhos3C0SLsVMv9//Ea8LGNb2WmzYRMtImpKmXkYMU8HQJPfMnpl9hC7/DYGQXy8riG9yFFyncBHP/4oP1HQ3GiF+4AxUNU0KfTO36hPkm4HjnAGg0cbUn5xiPMMdYNlE7w6GH5GNQTUQCNYoFV+gipZbVfCT32vD0XGJk1O9eroXUqo4Wnbcda6KvDwgkm5HgWaptj1BTR3ejtWD/TGKTSyLqWgkS58fkznCTYkN25tThIV6Rv9T5wHSFgYEvEpSKlUt4HVgXsbTAPeMsWk1exa7xjkIl7sYjzkU7h+YrIcanjIV1nqGjXhVbkzAUwC7YKklalm6zfM5tkB/duS9Uqv6K4lClKc2HlQzfzJ9zZiokNYKzIkE7PMMl/28O+W27Bqv0JG3qHmWUd+5rWg+pGPJBfT1vnJGolKR8aRWTMgwGFFZppAq0CXtTqNyPIKWR+oxb9i9nQ/IC8pqghYbxhBqd8nccvKYC4tNs4EUBEl2IMmvJYwY1aNs/gUp65uV0VbmBJtAfQf4nq+gc/Q/s8PbK8PwSXGXALA7NeY7QKXFxkPR/CZZ59NP79HQxiz4FC41yquolDxfRrYC6zUrLUzIQM/M7fDM/XZQJENlqVOnEcaMLshyc9mu2uBBA6+CCrI=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700016)(23010399003)(6133799003)(11063799006)(5023799004)(10067099003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(11063799006)(6133799003)(10067099003)(56012099006)(5023799004)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	fwIfHFJsBbesqlKcn5cY+LihUM6qwJSn5CBDSi+YABq8cjgpBJJfXFleKi6q5NVkVuDYepHgpNHCDSqVablwTmjEQXke/Avc+8enDd94nvL3BprE1gb0hLTKZarFmmealTjqQagOib+SKxoOlv99VG2OExYi00e0Wg94yAd5j0tixwcxA2GMi4J/yLM9eMvCpxFzyQpziepcnci2tsXRQsFvO4y0Di++XlzqYbbaX3WeMBtFs+sA7TlZnA/LXjyMMCtPvBg+OEmqkzd7QIC/WO+cnTiFqvWVo8qkOiVDwf42Pwg/WsMk2Y7j+3TS2YEeM9C579y6VNJkfZmt3M4OzryNLH/+YVG9+ay6Lo6ThHVqTldvOt426Ee5hcNdzb6bIObp10sr/tHTkiIUYKI1cBUQZfaWtqrYNRjAZUxBrt+s488WGHMtGEtmul1oLTQC
+	=?utf-8?B?Tld2OWlBZjFHOHRUdWRpbDgzdEhEL3RoeVRnMzc1YXVaSGZkVkpyV2FpNFg3?=
+ =?utf-8?B?b25DSU80UmV1RVJ6WTRxWG1NY3ZMN2FMbS9Kbk1RbEVmMzN5WEdjWFkyUkZZ?=
+ =?utf-8?B?MFNsL0RXbU01NklOTzdhMDY2TGQvN3o3MUtLVFpVNWtESGRjUFJIc2s2bDUz?=
+ =?utf-8?B?OG51dU1KdmR6M0c0Z2FBRWFkbUlZVGdWdVpGN0JtKy9iamliNWZFNlpjREQx?=
+ =?utf-8?B?ZjRNd2pabS9oVnllK3Y3UzNObDc4MFNJVHM2U3VCdis3RCtINVpRWERvSW4r?=
+ =?utf-8?B?M1ZJRzFLbW4zMG54eUZEZlRaTzVCbDBLcGNnYWo2d0RFTHkxRjRQeVc0c1BU?=
+ =?utf-8?B?REFqRnZrSEFORjRGZE5qVkhLVFNrYlhnNzR2VDl4bnRhSnN3bWpqVkg4VVZh?=
+ =?utf-8?B?dk1nTDdjeWFnNVQvdzQveFlXN1dRTFBVdW9DQkl0dkd1UFhpNVdNNlNFTkJP?=
+ =?utf-8?B?VDV4d01BbGxvMWpha2djV2dBY0g2Tm1pN0pzSHZaTTV4SjJiQ3JxM3pCZmZD?=
+ =?utf-8?B?RExEWTB0RUhXdUFuZnhHdTl6Tks2T2xOTEZmam5BQjArRjVRQ1lWTzNIL002?=
+ =?utf-8?B?TjlyVWRldmJWUEptek80djdZczVJUWNzVlR5T2VTbUZQVGExNG80K01VY2dE?=
+ =?utf-8?B?QmszNHBxWmxrK2RVVTlwdi9IYXBDSEFQTU1jNXN0cEJpTkhianBJdiszS0Vl?=
+ =?utf-8?B?LzhIamd3SE5BNy9QeXdpajlyb1NCQ21yQlJTT05pbjR4ZW13d25mS1A3TTd3?=
+ =?utf-8?B?VWZ1OGVrK3hxREtGVmRsZXpndUxDVEhjMXJyU1ZoVC9DN093bUFuTzJuRm4v?=
+ =?utf-8?B?NHlCVmZlUUo2cFBsZisveEUxaitaaUc2UDZWOTRuZzJXd0NOaEV1WkRTVjd3?=
+ =?utf-8?B?K3h5OGNHY0ZVaXZ0anVHUGk1bHllMVIvejR2NHhqc0JRSDVHN0dJeDhud25H?=
+ =?utf-8?B?c0Y2NE8rbm01Q1NCOU8zTGkxODlzR1ppZWk5enFyK0hLZHVjTVhNRWFsYk5j?=
+ =?utf-8?B?QVlZQzg0eWRHU1Z3TEVrTnZqOThleC95TGtSUFdGUlp4bFRIblZsLzhTNlBz?=
+ =?utf-8?B?ZFBHZlV1dytiUGQ0MURmbGllZ2NXUWY0M2VXaEJlaWwzQ0F5S2JldFZqb1ky?=
+ =?utf-8?B?V1hWV21GNGpXMFNmei9jVmJkYXllazBuUmZXdDdDSDI1ZWxJakpYY250QXhV?=
+ =?utf-8?B?YnhiOEJZY2Irb1cyUHRiOFpaUWNCSHh3cm40aXFINXdncHJqSTU5TmlRNWZh?=
+ =?utf-8?B?bWREQm1waW12MWxxNXlyY2F6aFBjYnR6dGlvQWMrckJqMWpOYzJZQ0JaT1Mv?=
+ =?utf-8?B?S1IvYlpjR3NBMmZvQ2ZlUk13QU5qNmVKTWgyeC9BTW5ZUU1BeE5yR0dPUjZX?=
+ =?utf-8?B?OXFKR1JLN2F4akprUk5PMVp3TW5UMFhmdXo3RWYvenpoanNOMERGVHpsU01w?=
+ =?utf-8?B?ZWdsZDFVTFU5cmtJQ2I3YWgyNmdMaWFKRXFqMzBDb1FEdEF2UUNQenpJeXFJ?=
+ =?utf-8?B?L0x3WWNnM2d0STRyR0R6b1RXTEN6N3k5NVMrREZOZVEvc1hyczdIUWoyN2E4?=
+ =?utf-8?B?dUFQREF4ekh6K0dQekpOUkNGRGVCTE02OHRDNGZJRHBUVmVCOW9UVFpnVVJ2?=
+ =?utf-8?B?SGFiaFNCUXlyNHlPTVhJNGk3M3JkNjRTU1J5RmlLTHVoWnQ4SlZ4ZGtuWmgz?=
+ =?utf-8?B?STJLR2RXS0VXL3RvOHpaZXdkUXFuOHdXVFlVbEE5UU4xc1hFYzV2cm1JNGlX?=
+ =?utf-8?B?Z3dhQ2pXVWpadEZ6cHR1YmRPZmJTVDZFdU5lVHp2N2JzblE5Z0htSjFXb01w?=
+ =?utf-8?B?WnNCUUR5N3VuUWpzaTNiMFRzRTVpM2RPdFVJZCsrWGUrQlBzMkhYWGJGUUdD?=
+ =?utf-8?B?eHFYdzF2NDNQeEN5bklTaW5lKzc4OHRSR1oveUlpMlFtRnJoODI4WUxHM0pQ?=
+ =?utf-8?B?YjQ0K3owUk1uMUZ5TFhNaHZGV2hTaE1IbytIOHY2eGxubm50ZnpES2ZnZU9n?=
+ =?utf-8?B?WmN5dlVvSlJtdk5Gc0pzUm0wdnNDM3JSaGVzVEF2cU90WWpSVnhlaFpKL20r?=
+ =?utf-8?B?WkZjNDB5MUdUTGhWVjdWUDFta1FjcG8wWTlYRS9lcW0xKzJab2x6cEJNU3F4?=
+ =?utf-8?B?SDlCWitQcjllUXgxRGllaU1Lcm5kVnRkUmFEb3RnZXE2MWtmaDQyS1RDeGVx?=
+ =?utf-8?B?NWxlUmt2WjZaTHdLQjF1MjBUVTBFejRVaUdXdmREbmNaRVlwaVQ2NHhrSVlM?=
+ =?utf-8?B?NzV4YVYrbVRmSXRPU1BpK20wV01QNy95dFR0UzRucEFYSzZCYXNLVzRGRFE2?=
+ =?utf-8?B?SUszK0RmSWZjV2ZNeWlTdmFsU1lQUjF6Wm1SZWpZSXdwczhmWmFUQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 16:15:24.9307
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec6754e6-d6e2-40d2-4c70-08def88e3849
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 16:24:44.9775
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b408572-f2fe-4e72-a9e5-08def88ceab0
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00020E65.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6754
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dm9g1vTqn5FAUjSG+TUgH9Y8yKwFNGHu1g87tHvNgCWjnyx/SLQOuq6aiqMteKm2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF0D2C72F0D
 
-cd321x_update_work() passes a stack-allocated typec_partner_desc to
-typec_register_partner() after initializing only usb_pd, accessory and
-identity.
+On 8/12/2026 2:58 PM, Heikki Krogerus wrote:
+> On Fri, Aug 07, 2026 at 11:16:58PM +0530, Radhey Shyam Pandey wrote:
+>> tps6598x_connect() and cd321x_update_work() pass a stack-allocated
+>> typec_partner_desc to typec_register_partner() after initializing only
+>> usb_pd, accessory and identity.
+>>
+>> typec_register_partner() copies attach and deattach from the descriptor
+>> into the partner. With those fields left unset, garbage function pointers
+>> may be stored and later invoked from typec_partner_link_device() when a USB
+>> device is linked to the port. Uninitialized pd_revision and usb_capability
+>> similarly leak stack data through partner sysfs.
+>>
+>> Zero-initialize the descriptor so optional callbacks remain NULL and the
+>> remaining fields are zero.
+>>
+>> Assisted-by: claude-mythos-preview-high
+>> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
+>> Fixes: 0a4c005bd171 ("usb: typec: driver for TI TPS6598x USB Power Delivery controllers")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+> 
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> 
 
-typec_register_partner() copies attach and deattach from the descriptor
-into the partner. With those fields left unset, garbage function pointers
-may be stored and later invoked from typec_partner_link_device() when a USB
-device is linked to the port. Uninitialized pd_revision and usb_capability
-similarly leak stack data through partner sysfs.
+Thanks for the review. To simplify stable backporting, I split the
+patch and posted it as v3. Since the patch was split, I did not carry
+over the Reviewed-by tag in v3. Please have a look at it.
 
-Zero-initialize the descriptor so optional callbacks remain NULL and the
-remaining fields are zero.
+https://lore.kernel.org/all/20260812161454.149606-1-radhey.shyam.pandey@amd.com
 
-Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
-Cc: stable@vger.kernel.org # 6.18+
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
-Changes for v3:
-- Split v2 into separate patches to simplify LTS backporting.
-- Drop Heikki reviewed-by tag as now patch is split.
-
-Changes for v2:
-- Add  Assisted-by tag.
-- Remove explicit indentity=NULL
-
-AI code scanning identified this issue; the possible call graph is shown below.
-
-  USB-C plug event (IRQ)
-    tps6598x_interrupt()
-      tps6598x_handle_plug_event()
-        tps6598x_connect()
-          struct typec_partner_desc desc;     /* bug: attach/deattach unset */
-          desc.usb_pd / .accessory / .identity = ...
-          typec_register_partner(port, &desc)   /* class.c */
-            partner->attach   = desc->attach;   /* copy stack garbage */
-            partner->deattach = desc->deattach;
-            [if port->usb2_dev || port->usb3_dev already set]
-              typec_partner_link_device(partner, dev)
-                if (partner->attach)
-                  partner->attach(partner, dev)  /* indirect call via bad ptr */
----
- drivers/usb/typec/tipd/core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 54ca726c3b15..d99a55063e34 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -840,11 +840,10 @@ static void cd321x_update_work(struct work_struct *work)
- 
- 	/* Set up partner if we were previously disconnected (or changed). */
- 	if (!tps->partner) {
--		struct typec_partner_desc desc;
-+		struct typec_partner_desc desc = { };
- 
- 		desc.usb_pd = is_pd;
- 		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
--		desc.identity = NULL;
- 
- 		if (desc.usb_pd)
- 			desc.identity = &st.partner_identity;
--- 
-2.43.0
+>> ---
+>> Changes for v2:
+>> - Add  Assisted-by tag.
+>> - Remove explicit indentity=NULL
+>>
+>> AI code scanning identified this issue; the possible call graph is shown below.
+>>
+>>    USB-C plug event (IRQ)
+>>      tps6598x_interrupt()
+>>        tps6598x_handle_plug_event()
+>>          tps6598x_connect()
+>>            struct typec_partner_desc desc;     /* bug: attach/deattach unset */
+>>            desc.usb_pd / .accessory / .identity = ...
+>>            typec_register_partner(port, &desc)   /* class.c */
+>>              partner->attach   = desc->attach;   /* copy stack garbage */
+>>              partner->deattach = desc->deattach;
+>>              [if port->usb2_dev || port->usb3_dev already set]
+>>                typec_partner_link_device(partner, dev)
+>>                  if (partner->attach)
+>>                    partner->attach(partner, dev)  /* indirect call via bad ptr */
+>> ---
+>>   drivers/usb/typec/tipd/core.c | 6 ++----
+>>   1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+>> index 522f56742aa9..d99a55063e34 100644
+>> --- a/drivers/usb/typec/tipd/core.c
+>> +++ b/drivers/usb/typec/tipd/core.c
+>> @@ -344,7 +344,7 @@ static void tps6598x_set_data_role(struct tps6598x *tps,
+>>   
+>>   static int tps6598x_connect(struct tps6598x *tps, u32 status)
+>>   {
+>> -	struct typec_partner_desc desc;
+>> +	struct typec_partner_desc desc = { };
+>>   	enum typec_pwr_opmode mode;
+>>   	int ret;
+>>   
+>> @@ -355,7 +355,6 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
+>>   
+>>   	desc.usb_pd = mode == TYPEC_PWR_MODE_PD;
+>>   	desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
+>> -	desc.identity = NULL;
+>>   
+>>   	if (desc.usb_pd) {
+>>   		ret = tps6598x_read_partner_identity(tps);
+>> @@ -841,11 +840,10 @@ static void cd321x_update_work(struct work_struct *work)
+>>   
+>>   	/* Set up partner if we were previously disconnected (or changed). */
+>>   	if (!tps->partner) {
+>> -		struct typec_partner_desc desc;
+>> +		struct typec_partner_desc desc = { };
+>>   
+>>   		desc.usb_pd = is_pd;
+>>   		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
+>> -		desc.identity = NULL;
+>>   
+>>   		if (desc.usb_pd)
+>>   			desc.identity = &st.partner_identity;
+>>
+>> base-commit: ea2bff00da89d7767d677bb68470130ba96f4928
+>> -- 
+>> 2.44.4
+> 
 
