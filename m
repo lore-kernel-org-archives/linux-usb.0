@@ -1,128 +1,101 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD243AE19D
-	for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 22:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4861222E3E9;
+	Wed, 12 Aug 2026 00:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786488810; cv=none; b=MQ2mk/qlaw3Ni/iPvR+wgC/eAeie3s7B7YVoXo9UkpA4GVCKPAZ90XEklS7SkrAJYQbplM0sjVvMlMD6z0ZhOObd03e0mP62FWhZA62xygJapzQDXp1Z7BUCZsvkORB8jG+kMhUm8Mrq0XbPNbQ6UPdaW0lVl0I1m5YLDidrFRE=
+	t=1786493402; cv=none; b=EvOm4GyfActdl4WCXkOz5CFdCHBH86Nmyr5td9ipdj1KX89K+jQ4eZeIKnwucJfp8HbMeacsKeymKyq7xnn7Ofa8jv3O97HnWrPh/cYP8+Tl45gm4Hy1szeoHZv2KussqYgBq9cptqetwmnqiE1DbDLIU2wsjSXDflKq/nwT2Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786488810; c=relaxed/simple;
-	bh=YQ4HAHTxj7qU6tYzGeoF602jIIrwnSrAyak9jpfBM0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JkEsNkAwvpHmM26nl96fP6MRLG8dlwS3uRr108Vlfs5nLxQrZfVYM/zBTHl6NTmYErnHkmQogmkOqSphIzs27vApXitRc9fSVTxj1ei3yIyRlLYaoecJrO2dgQTYjAe/i+o/Ch0rGm3z0cPC6reZTlDatFTLmqna9JOMjhwm17I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SyKtZjjz; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1786493402; c=relaxed/simple;
+	bh=4BIXfyY8ouC+eYsan5ZZ8fW5j6pXpyvyKQVfmP72EjM=;
+	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID; b=u9Y+qrLaCbT1m4ShZ7Jb29qDht3dyM1tR7p7SFyy6r2X0jd7Gqf7mfKS2AiHIQDzFVcrro3M+W64oNrTnsvq5lyttjwO29Ha2RFymrv8f5n+Y3Z7hTtFHA7q4M84oZ28rmCzUzMp2yR6+K2q+1tqDzXSciCMJPzrLyXPwUT1AyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=MKVCpHjn; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SyKtZjjz"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4a427e628a9so186526b6e.0
-        for <linux-usb@vger.kernel.org>; Tue, 11 Aug 2026 15:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786488807; x=1787093607; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QLL9rTiC5SLvih2di+U6KnSJGxV2qGIcYMvCuEbtdHg=;
-        b=SyKtZjjzfT2UlxOe835vwY+rL6eDsUyR8ANd6G/i1uEGrDv5BeHPctygbJwdHeJX/x
-         f6VQCJOjH0QLKGaux3Vr0W+0rT4g5tCCd+46QXhyir7Yit6CU/oPN40qA9vkQhktjkZ8
-         hh03n67fQmJZljWtMBlZIhE9Y24mMctsIEoBc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786488807; x=1787093607;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QLL9rTiC5SLvih2di+U6KnSJGxV2qGIcYMvCuEbtdHg=;
-        b=hxPZsCzeL/YeRKUiRviLJMNYjma1X31TRX9Tsy7sS/Ph87uhlYt0wzEEAOwKGKHD+Q
-         bqPUWczASo6BODu19MwsaMmTneYPw4HVkNitLbUNH43tn1Jgl4PI3MDYJySWM5ecUthQ
-         pyOyK0z71hMY4FFxlbn0Q6WSPFI4ynEu7uc2kRWPA+ScqVj+gc+zK/nYVmHNsTrK6vje
-         J+v5safrvgIFjURRFSnWzUISpcv9iB5NB/ZgXcPLafyN/CGabkYJ2Q2wM3+pW7BEThiH
-         Cbp6ris72saCWYZhI+48Kms5gDOEyHVXFm933IVafRUYHs74qJlHgfwXZHtzAe4P1I17
-         u7Pg==
-X-Forwarded-Encrypted: i=1; AHgh+Rrgpxehgk3gVeM2uciqNCj6hYEfIDcgdCx1Fek47ikZ+XF4UsHzwkgqlPv2z+0zdmVADUor2KXtI6c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAJtFSEb6yK5dUp9hGwGXiZ5VGvkBEhHPh27e2wuJa5/RD7+/o
-	OrZAZUhpKsaRSeAYEayWHHXQDVEmuCS+W8LqJwGHaakgPdEkPiQis4ANrXP/DWJpPH8=
-X-Gm-Gg: AR+sD10/znfSRrpmGFLd9swHe95D9dLMR4/Dx7oYKEKC4YhzygfSiS2oS4Dg5bzSPr2
-	Ab/Vgi8oEZOt195aG2n3+Gq+aOK4EIP55E4FMzyz65GbyC4Ve4nKvtmqlPhUMYzyqQz9cwm3Ad4
-	ln9KWVapXHPypBQT9dtOQUTOC1TQrTojpFvh8s3qdm8Z8wij/YaB16S43CNzBzAIxTP+iCFyFzt
-	VpLqPMquU43R4wWIpnQEbtBAdUhwu91LwxgEaaYHmKaoHt1ZfKSg7pAipX8UTnPRK8CmTYNOB32
-	nlzQpoKgODmvL/7BJUXwSXFpYNPblMP6uOzGUAKF/CGxyYmmgpS8XFt4eoyjnlo2INLHrjPl8W8
-	ZDFDpP+/tEDKupjNXmEKMdt6SKUYKzpngCqNkNSUGnUwhYI1q2782BQU7l2fGoRyiuoO8QrI6ap
-	sfVdbNp3LTzyJQ4GnOP/hKmEXYWMQvvhHRPsRo751ZAPJeW9z3r70mehKT7TuluaswHzQkVgApT
-	4zvRNhh
-X-Received: by 2002:a05:6808:1385:b0:492:5684:7ab3 with SMTP id 5614622812f47-4b210c6fe4bmr646183b6e.21.1786488806722;
-        Tue, 11 Aug 2026 15:53:26 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b20019e83csm1829535b6e.16.2026.08.11.15.53.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Aug 2026 15:53:26 -0700 (PDT)
-Message-ID: <e3473010-e995-40b6-9040-e38f51d1a6c9@linuxfoundation.org>
-Date: Tue, 11 Aug 2026 16:53:23 -0600
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="MKVCpHjn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1786493389; bh=4BIXfyY8ouC+eYsan5ZZ8fW5j6pXpyvyKQVfmP72EjM=;
+	h=From:To:Cc:Subject:Date;
+	b=MKVCpHjnvzjllcRIl40QmUYno/xhnMzJt6eJWH4LbNV+y9F9qNfR9jxMu056Ug2OD
+	 AHGO3dcxSmkLu+/BHuMxbrXp4A9MEZWXcTE6Cfrsl8R3iAmWr8Wf0ubJBzcxrQ/wiZ
+	 fT/Qx3njL74u3uxumtW9+y3OPdscCSPJpxVR/urE=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-XMAILINFO: OPDQNGCUQ3qLg9A8CdzGGDJdasTEH9BTJk/PJGZdS6NWzDGhkOfCIFiRDC0N6C
+	 IX/qzIMMDTVl+QUVo2XAD4LE8d5FA7keFJAA+w0ORU0Snt6qgWGGkGP55NLYRwch7OhOGUhx7T9k8
+	 oGANW34HQLsG8KsaGCFBw/LoD2NpOOnuB2Kb9CWHqlRRmcKYliFKJho/LEU8ZHvoEaT51FoWvAb3Q
+	 KBlEA8xXCpM1yukHSTSYTDvv/+PWEt3OeE0k4WZNQa8wfvaFVgG4ZxUAmeW0LX9/gePIw/QjCtjGH
+	 5eslyYQvtWzB9PgWblMkf21vX12sDELiAaFTPS9o8cCoUHqkbEgOOlFcaWfxn8h4Dzknkv+wBTlQf
+	 SMwbE8nl7uf1dOTv15oBYkCC1eOJYNPj219/GhZQE+9mGjvT2h2ftaF3Kkc/W5pxj/IsUXmdH33Od
+	 Rn9MO742fp7T2tcfEJ3MrAUB11UjZvm2JyI0uWiQmbytO/o8/F3erEYHjEKws1o23UredhvssRjyY
+	 BY4IduiW8iwIBdZqGiif2nEMpjClNps2qlolQKG0aq6bXhKwdRpG01YQaM08qJV9UAHa6xVQICdB0
+	 1+VxBWqa/YKc8BqCnd7qageebsKJGrB1KoFNEfhVYgTddr7Ewqun2lqpMdG2yzZe2KLAgPasPwLGO
+	 4vdvIiWk5NUlzvOtkmUHdr0yiY5yBri3/+yxww+yeLdKF8g6fD1oA6Jt6hMXbINVkiJvsv/s0WltI
+	 bSK8i93oUHQbDEj4zp5pHgC6aHbfRh6eljdeG0HlHrQPXcpRzpkkyJEduOEsCBvjc0e/lqNhrxTGG
+	 aj44bCbzaaJ0t9IcypKMb7jpXA5Dsm3QshSfRFFfHxvJ813l1s85Jxs4/kND7XfZObIhTlKXIARdp
+	 AUJx23nGXGvL9Zhx1dzSSEgSO474Ym+9H3jiJHyzcUWAIA4Yx637Zf3aSCXtTjkwhk9i3TeWtFgMB
+	 UyqWMGZTgo7k+V1gpUATlwY6n6iRqSpsqr1PKO6zs0x24zjupOpIn+DboGJuFk+iGf2oTakYmeCvq
+	 gnme1ROo9qBI8geRWiKpbbEtxSQ==
+From: "=?utf-8?B?cmVhbHNzbA==?=" <realsll826@qq.com>
+To: "=?utf-8?B?emh1eWluYm8=?=" <zhuyinbo@loongson.cn>, "=?utf-8?B?cm9iaA==?=" <robh@kernel.org>
+Cc: "=?utf-8?B?bGludXgtdXNi?=" <linux-usb@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>
+Subject: [BUG] usb: dwc2: Unsafe PCI fallback in dwc2_init_params may crash on non-PCI platforms
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] usbip: usbip_host: remove legacy rebind_store in
- favor of drivers_probe
-To: Jeffin Philip <jeffinphilip14@gmail.com>, valentina.manea.m@gmail.com,
- shuah@kernel.org, gregkh@linuxfoundation.org
-Cc: i@zenithal.me, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260811160541.29461-1-jeffinphilip14@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260811160541.29461-1-jeffinphilip14@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Wed, 12 Aug 2026 08:09:47 +0800
+X-Priority: 3
+Message-ID: <tencent_49C5A1C04E85656D38169147438090EF3B0A@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-mid: xmsezc57-0t1786493387tdadh64w5
 
-On 8/11/26 10:05, Jeffin Philip wrote:
-> do_rebind, which sleeps normally gets a mutex lock. However, it does not
-> or should I say, cannot check for null udev between spin lock dropped in
-> rebind_store and entering do_rebind. This is a potential race window
-> already. So, even if we check for null udev under spinlock, we cannot do
-> it outside. Regarding do_rebind, it is called during stub_device_rebind,
-> but that function is called during module exit when all files are removed.
-> So, do_rebind is not designed to work in a concurrent environment in the
-> first place.
-> 
-> We have a safer function that can already do what do_rebind does,
-> drivers_probe. So, we use drivers_probe to rebind the device rather than
-> use rebind_store.
-> 
-> usbip tool references this function immediately after the device is unbound,
-> which is safe for the tool itself but since we opted for drivers_probe, fix
-> it by using drivers_probe rather than rebind_store after unbinding device
-> which is more safer.
-> 
-> Tested and working in both userspace via the tool and manually echoing
-> the busid in the related nodes. rebind node is still left active with a
-> warning to use drivers_probe upon encountering rebind_store.
-> 
-> Thanks,
-> Jeffin.
-> 
-> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
-> ---
-> Changes in v3:
->   - Removed rebind_store in favor of drivers_probe to eliminate race
->     condition
+RGVhciBZaW5ibyBaaHUgYW5kIFJvYiBIZXJyaW5nLAoKSSBob3BlIHlvdSBhcmUgd2VsbC4K
+CldoaWxlIHJldmlld2luZyB0aGUgRFdDMiBkcml2ZXIsIEkgbm90aWNlZCBhIHBvdGVudGlh
+bCBjcmFzaCByaXNrIGluIHRoZcKgCmBkd2MyX2luaXRfcGFyYW1zYCBmdW5jdGlvbiAoZHJp
+dmVycy91c2IvZHdjMi9wYXJhbXMuYyksIGludHJvZHVjZWQgYnkgdGhlwqAKY29tYmluYXRp
+b24gb2YgeW91ciB0d28gcGF0Y2hlczoKCi0gWWluYm8ncyBQQ0kgc3VwcG9ydCBwYXRjaCAo
+d2hpY2ggYWRkZWQgYHBjaV9tYXRjaF9pZGAgaW5zaWRlIHBhcmFtcy5jKQotIFJvYidzIHN1
+YnNlcXVlbnQgcGF0Y2ggdGhhdCByZXBsYWNlZCBgb2ZfbWF0Y2hfZGV2aWNlYCB3aXRowqAK
+wqDCoGBkZXZpY2VfZ2V0X21hdGNoX2RhdGFgIGJ1dCByZXRhaW5lZCB0aGUgUENJIGZhbGxi
+YWNrIHBhdGguCgpUaGUgY3VycmVudCBjb2RlIGxvb2tzIGxpa2UgdGhpcyAoc2ltcGxpZmll
+ZCk6CgrCoMKgIMKgc2V0X3BhcmFtcyA9IGRldmljZV9nZXRfbWF0Y2hfZGF0YShoc290Zy0+
+ZGV2KTsKwqDCoCDCoGlmIChzZXRfcGFyYW1zKSB7CsKgwqAgwqAgwqAgwqBzZXRfcGFyYW1z
+KGhzb3RnKTsKwqDCoCDCoH0gZWxzZSB7CsKgwqAgwqAgwqAgwqBjb25zdCBzdHJ1Y3QgcGNp
+X2RldmljZV9pZCAqcG1hdGNoID0KwqDCoCDCoCDCoCDCoCDCoCDCoHBjaV9tYXRjaF9pZChk
+d2MyX3BjaV9pZHMsIHRvX3BjaV9kZXYoaHNvdGctPmRldi0+cGFyZW50KSk7CsKgwqAgwqAg
+wqAgwqBpZiAocG1hdGNoICYmIHBtYXRjaC0+ZHJpdmVyX2RhdGEpIHsKwqDCoCDCoCDCoCDC
+oCDCoCDCoHNldF9wYXJhbXMgPSAoc2V0X3BhcmFtc19jYilwbWF0Y2gtPmRyaXZlcl9kYXRh
+OwrCoMKgIMKgIMKgIMKgIMKgIMKgc2V0X3BhcmFtcyhoc290Zyk7CsKgwqAgwqAgwqAgwqB9
+CsKgwqAgwqB9CgpUaGlzIGRlc2lnbiBoYXMgb25lIGNyaXRpY2FsIGlzc3VlOgoKMS4gKipS
+ZWFsIGNyYXNoIG9uIG5vbi1QQ0kgcGxhdGZvcm1zKiog4oCTIElmIHRoZSBkZXZpY2UgaXMg
+bm90IGEgUENJIGRldmljZQrCoMKgIChlLmcuLCBwbGF0Zm9ybS9EVCBvciBBQ1BJKSBhbmQg
+YGRldmljZV9nZXRfbWF0Y2hfZGF0YSgpYCByZXR1cm5zIE5VTEwKwqDCoCAobWlzc2luZyBt
+YXRjaCBlbnRyeSksIHRoZSBjb2RlIGZhbGxzIGJhY2sgdG8gdGhlIFBDSSBwYXRoLiBJdCB0
+aGVuIGNhbGxzCsKgwqAgYHRvX3BjaV9kZXYoaHNvdGctPmRldi0+cGFyZW50KWAgb24gYSBu
+b24tUENJIHBhcmVudCBkZXZpY2UsIHJlc3VsdGluZyBpbiBhCsKgwqAgd2lsZCBwb2ludGVy
+LiBTdWJzZXF1ZW50IGBwY2lfbWF0Y2hfaWRgIGFuZCB0aGUgZnVuY3Rpb24tcG9pbnRlciBj
+YWxsIHdpbGwKwqDCoCBhY2Nlc3MgaW52YWxpZCBtZW1vcnksIGxlYWRpbmcgdG8gYW4gYFVu
+YWJsZSB0byBoYW5kbGUga2VybmVsIHBhZ2luZyByZXF1ZXN0YArCoMKgIGFuZCBzeXN0ZW0g
+Y3Jhc2guCgpUaGlzIGNhbiBiZSB0cmlnZ2VyZWQgb24gbWFueSBBUk0vUklTQy1WIGJvYXJk
+cyB1c2luZyBEV0MyIGFzIGEgcGxhdGZvcm0gZGV2aWNlLAplc3BlY2lhbGx5IGlmIHRoZSBk
+ZXZpY2UgdHJlZSBpcyBtaXNzaW5nIGEgbWF0Y2hpbmcgY29tcGF0aWJsZSBvciB0aGUgZHJp
+dmVyCmRhdGEgaXMgbm90IHByb3Blcmx5IHNldC4KCkNvdWxkIHlvdSBwbGVhc2UgY29tbWVu
+dCBvbiB3aGV0aGVyIHlvdSBoYXZlIHBsYW5zIHRvIGZpeCB0aGlzPyBJIGJlbGlldmUgdGhl
+CnByb3BlciBzb2x1dGlvbiBpcyB0byBtb3ZlIHRoZSBQQ0ktc3BlY2lmaWMgbWF0Y2hpbmcg
+bG9naWMgb3V0IG9mIHRoZSBjb3JlCmBwYXJhbXMuY2AgYW5kIGludG8gYGR3YzJfcGNpLmNg
+LCB3aGVyZSB0aGUgcHJvYmUgZnVuY3Rpb24gY2FuIGV4cGxpY2l0bHkgc2V0CnRoZSBwYXJh
+bWV0ZXJzLiBUaGUgY29yZSBzaG91bGQgb25seSByZWx5IG9uIGBkZXZpY2VfZ2V0X21hdGNo
+X2RhdGEoKWAgYW5kIGZhbGwKYmFjayB0byBzYWZlIGRlZmF1bHRzIG9yIHJldHVybiBhbiBl
+cnJvci4KClRoYW5rIHlvdSBmb3IgeW91ciB0aW1lIGFuZCBmb3IgeW91ciBjb250cmlidXRp
+b25zIHRvIHRoZSBrZXJuZWwuIEkgbG9vawpmb3J3YXJkIHRvIHlvdXIgcmVzcG9uc2UuCgpC
+UnMubGlhbmdsaWFuZy4KVGhhbmtzLgoK
 
-How did you find this problem? Is this generated code or did you
-write it?
-
-Also, the first patch removes code in rebind_store(), replacing it
-with a pr_warn()? The second patch points it driver_probe() - what
-happens with just the first patch?
-
-Did you run tests to see if you can bind and unbind devices - does the
-driver work correctly?
-
-thanks,
--- Shuah
