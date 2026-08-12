@@ -1,149 +1,207 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA25435504;
-	Wed, 12 Aug 2026 11:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C182429CC2
+	for <linux-usb@vger.kernel.org>; Wed, 12 Aug 2026 11:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786534828; cv=none; b=MYR0K2oDmXvpEz/hj+VYkImZvEe56JDzIf9v8HfP9pHnV0fg8+s1yOjPKfY/z2ToXQrfkeyChDAx/qy8D+lA5sTsAsOgOdYQuaohBTgHN3BCOAr5QK4oNmriWsR/62EI5OPL1sFAzYbxZaACNDu9euNE+hoW7C2C/ZXKe7Tgxdc=
+	t=1786534930; cv=none; b=qGZ8rw/3jw+qpIhK5rgqmtJE5bZ8kKi7y7+B56QSP598eTTS6QO4A/JqrHyoYRxkbaIaA+F4NewpxaiJ2gu1pfJ4NewrgsTQVw3wAsT9yiue3aHXg9oBQvR6KCPu41YwkliLG7zwX1Hek0ACI72i+LdbeP2Ep6DCNPoribHjm9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786534828; c=relaxed/simple;
-	bh=4h/0oLp2h7IE8pA6uZy4AQLNovG4Wqu1oVEvekedYSA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DMtnPU65fDILrYTo06tAmD6FYYIn1zJsAuJnegXnWuziHVXUQid6568tUFVNXgYy95C9ba9qWj4DkiDh5w4Wk33jomaRjzVkLi+qPcPeyTIu1LhxIZAldGbwT9uJ4Yx15P8QrJRiJ3XepybbmGbdWH4i6WvoFrW3a+cArlYqY08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=GB7ysRj8; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1786534930; c=relaxed/simple;
+	bh=2+7Y13wfvdGj5eFROyFk5rDsZv4X+rHepbzMzie7D+E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dUAycaNdqj7aIa/Qx4sj2M8mqKfMOLSdIU5ZyCs67xJZTutXFm4nULBhOqolkYdq4OEQ7plP87iJTIrfBGDE3MciwNbBB255U9yPMtiS996FpbwWzgRkw4FN98buvlSQJxhXO4ylw3oD7hVFY12ndEw322BnyA+J43moScJaHQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKzlqihF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="GB7ysRj8"
-Received: from [172.16.124.192] (ip-78-44-13-22.bb.vodafone.cz [78.44.13.22])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id B6B8F53401E6;
-	Wed, 12 Aug 2026 13:40:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786534824;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KArXhTGikECnnXJBaKJQL5HiSiaclLz+gY4N4WdWjRA=;
-	b=GB7ysRj8pn9j8ajPfl9zs1ENqu8qTVII284Qf4FOevTFQfE6k//3GPYoLp5AlMyfiII8KF
-	bmiL05O4Yw4ptY+RPGmR1DHhpv3qai5XeDSN/rTPsAXphZx0FOsSqW7It7FR4+276wuubB
-	XtmhSyiGNND8ETSKmaPTKjjifL1M/ik=
-Message-ID: <cce3fe36-322e-49ed-8928-3aef813faad7@ixit.cz>
-Date: Wed, 12 Aug 2026 13:40:23 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKzlqihF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DA73C2BCB9;
+	Wed, 12 Aug 2026 11:42:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786534929;
+	bh=2+7Y13wfvdGj5eFROyFk5rDsZv4X+rHepbzMzie7D+E=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=SKzlqihFskAwZyrscs5aldMEA3UnY3BziuCX5u/GxfYJ1AywY7wgfsoH4QhvTKzyh
+	 szAZ5CFUnQyply77uYWcxmHO1h6hU+gaNtort6Irxs1Vi1h3ReOmHSnkYHiWLpARLH
+	 x7BYT+qUs2jjQ2KfndawUMA5cIR9hujvPbuHJqbAeUMUn/l4Aw06wRM/ZXLZcLhmRc
+	 YqhEyMBEw7LuTrBexkknZF9bqE8pkoXmAXqekkWFs4JSyyyh125hY8+Uj/+/EdpwZH
+	 1rAmd5wrIgwyU5xiehnCArKyOx+yA9vQKxZLe3H761B4iNxg57C0vVRA/YpouwS7YT
+	 uhVzbLavA8zqw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D02BC5B56A;
+	Wed, 12 Aug 2026 11:42:09 +0000 (UTC)
+From: Fan Ye via B4 Relay <devnull+fy15309206903.gmail.com@kernel.org>
+Date: Wed, 12 Aug 2026 11:42:09 +0000
+Subject: [PATCH v3] thunderbolt: Stop waiting on a path pending bit that
+ never clears
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/33] Add support for Qualcomm Snapdragon SM7150 SoC and
- Google Pixel 4a
-To: Jens Reidel <adrian@mainlining.org>, Danila Tikhonov
- <danila@jiaxyga.com>, Miro Mraz <mraz.miro@seznam.cz>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- neil.armstrong@linaro.org, linux-hardening@vger.kernel.org,
- linux@mainlining.org, Connor Mitchell <c.dog29@hotmail.com>
-References: <20250422-sm7150-upstream-v1-0-bf9a9081631d@jiaxyga.com>
- <2ca2b774-fd7f-4612-b38d-f60e32ff6f9a@mainlining.org>
- <283096ad-ae1b-42b8-8312-b192f735fc80@linaro.org>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <283096ad-ae1b-42b8-8312-b192f735fc80@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260812-b4-tb-pending-v3-1-3a292e7194c9@gmail.com>
+X-B4-Tracking: v=1; b=H4sIABBcfGoC/yXMTQ5AMBBA4avIrE1S4yfiKmKh7WAsSlpEIu6uW
+ H6L9y4I7IUDNMkFng8JsriIPE3ATL0bGcVGAymqVJ0R6gI3jSs7K25Em+WkFA2m4hJis3oe5Px
+ +bfc77Hpms70TuO8HsnLJ43EAAAA=
+X-Change-ID: 20260812-b4-tb-pending-d132002fc6e5
+To: Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>, 
+ Andreas Noever <andreas.noever@gmail.com>
+Cc: linux-usb@vger.kernel.org, Fan Ye <fy15309206903@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786534928; l=5168;
+ i=fy15309206903@gmail.com; s=tbnet3; h=from:subject:message-id;
+ bh=L3Lnw1mWZ/p8vS+tXDNiU2TpU0v+O3am4AgNeqUNTmI=;
+ b=/XvGN1ezr9fpFXe7pnaxHCyvTv5lC0EQ4Rh1RCpd5lJlZgt6AkEm0TMhPN4MiB+8cCvvXgg6Q
+ 4xIfH3A33HkBcpxqV0R8xJwcfSWceKt5+duazqF563VQ16c/Ezf3oeM
+X-Developer-Key: i=fy15309206903@gmail.com; a=ed25519;
+ pk=6QsQIrI/kruYWIJyCH9ntPMXsHCqF5JtK/DCMtOCzdc=
+X-Endpoint-Received: by B4 Relay for fy15309206903@gmail.com/tbnet3 with
+ auth_id=929
+X-Original-From: Fan Ye <fy15309206903@gmail.com>
+Reply-To: fy15309206903@gmail.com
+
+From: Fan Ye <fy15309206903@gmail.com>
+
+__tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit to
+read back clear. On an ASMedia ASM4242 host router the host interface
+adapter latches it once enough frames have gone through the DMA ring and
+never clears it again: the teardown finds it already set, seconds after
+the last frame and with the path still up. USB4 v2 table 8-23 has the
+field read only and zero unless packets belonging to the path are waiting
+to be dequeued, so the wait is right and this adapter is not.
+
+Make the wait a per-adapter length and quirk those routers to zero, which
+leaves the loop reading the bit exactly once. A hop that does drain still
+says so on that read, and one that does not answers -ETIMEDOUT without
+burning the timeout: bringing the interface down takes 6 ms where it took
+506.
+
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+---
+Measured on two ASM4242 hosts wired to each other, hw_vendor_id 0x174c,
+hw_device_id 0x2428, NVM 200011.250708.
+
+Both behaviours in one binary selected at runtime, three rounds each: the
+single read reports drained at 200 frames in 3 of 3 and answers -ETIMEDOUT
+at 400 frames in 3 of 3, where skipping the read answers -ETIMEDOUT at 200
+frames as well.
+
+v3:
+- Give the adapter a pp_timeout_msec instead of the learned pending_stuck
+  flag, and let the quirk clear it.
+- Feed it to the existing timeout rather than skipping the wait, so a
+  quirked adapter still reads the bit once.
+
+v2: https://lore.kernel.org/linux-usb/20260812-b4-tb-pending-v2-v2-1-0667ee84c2d4@gmail.com/
+---
+ drivers/thunderbolt/path.c   |  2 +-
+ drivers/thunderbolt/quirks.c | 18 ++++++++++++++++++
+ drivers/thunderbolt/switch.c |  1 +
+ drivers/thunderbolt/tb.h     |  6 ++++++
+ 4 files changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
+index b2c322e76b8a..05249eed3f64 100644
+--- a/drivers/thunderbolt/path.c
++++ b/drivers/thunderbolt/path.c
+@@ -398,7 +398,7 @@ static int __tb_path_deactivate_hop(struct tb_port *port, int hop_index,
+ 		return ret;
+ 
+ 	/* Wait until it is drained */
+-	timeout = ktime_add_ms(ktime_get(), 500);
++	timeout = ktime_add_ms(ktime_get(), port->pp_timeout_msec);
+ 	do {
+ 		ret = tb_port_read(port, &hop, TB_CFG_HOPS, 2 * hop_index, 2);
+ 		if (ret)
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+index 9f7914ac2f48..f41c5b7ef114 100644
+--- a/drivers/thunderbolt/quirks.c
++++ b/drivers/thunderbolt/quirks.c
+@@ -52,6 +52,19 @@ static void quirk_block_rpm_in_redrive(struct tb_switch *sw)
+ 	tb_sw_dbg(sw, "preventing runtime PM in DP redrive mode\n");
+ }
+ 
++static void quirk_stuck_pending(struct tb_switch *sw)
++{
++	struct tb_port *port;
++
++	tb_switch_for_each_port(sw, port) {
++		if (!tb_port_is_nhi(port))
++			continue;
++
++		port->pp_timeout_msec = 0;
++		tb_port_dbg(port, "pending bit does not clear, reading it once\n");
++	}
++}
++
+ struct tb_quirk {
+ 	u16 hw_vendor_id;
+ 	u16 hw_device_id;
+@@ -114,6 +127,11 @@ static const struct tb_quirk tb_quirks[] = {
+ 	{ 0x0438, 0x0209, 0x0000, 0x0000, quirk_clx_disable },
+ 	{ 0x0438, 0x020a, 0x0000, 0x0000, quirk_clx_disable },
+ 	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
++	/*
++	 * ASMedia ASM4242 never clears the Pending Packets bit of its host
++	 * interface adapter.
++	 */
++	{ 0x174c, 0x2428, 0x0000, 0x0000, quirk_stuck_pending },
+ };
+ 
+ /**
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index a830c82bb905..fb0fc8def0a9 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -703,6 +703,7 @@ static int tb_init_port(struct tb_port *port)
+ 	int cap;
+ 
+ 	INIT_LIST_HEAD(&port->list);
++	port->pp_timeout_msec = TB_PENDING_TIMEOUT;
+ 
+ 	/* Control adapter does not have configuration space */
+ 	if (!port->port)
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index ec9192b61bc0..3ddd3cbc2b39 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -27,6 +27,9 @@
+ /* Need to keep power on while USB4 port is in redrive mode */
+ #define QUIRK_KEEP_POWER_IN_DP_REDRIVE			BIT(2)
+ 
++/* How long a hop is given to drain when a path is deactivated */
++#define TB_PENDING_TIMEOUT				500 /* ms */
++
+ /**
+  * struct tb_nvm - Structure holding NVM information
+  * @dev: Owner of the NVM
+@@ -273,6 +276,8 @@ struct tb_bandwidth_group {
+  * @max_bw: Maximum possible bandwidth through this adapter if set to
+  *	    non-zero.
+  * @redrive: For DP IN, if true the adapter is in redrive mode.
++ * @pp_timeout_msec: How long a hop of this adapter is given to drain when a
++ *		     path is deactivated. %0 means a single read.
+  *
+  * In USB4 terminology this structure represents an adapter (protocol or
+  * lane adapter).
+@@ -302,6 +307,7 @@ struct tb_port {
+ 	struct list_head group_list;
+ 	unsigned int max_bw;
+ 	bool redrive;
++	unsigned int pp_timeout_msec;
+ };
+ 
+ /**
+
+---
+base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
+change-id: 20260812-b4-tb-pending-d132002fc6e5
+
+Best regards,
+--  
+Fan Ye <fy15309206903@gmail.com>
 
 
-
-On 23/04/2025 09:26, Neil Armstrong wrote:
-> Hi,
-> 
-> On 23/04/2025 00:07, Jens Reidel wrote:
->> Hi everyone,
->>
->> apologies for the mess this created. Danila's mail provider ratelimited him 
->> halfway through sending the series and the attempt to re-try sending the 
->> second half an hour later ended up with a new message ID (I think due to not 
->> using --in-reply-to).
->> He asked me to let you know that this will be resolved later and the whole 
->> series will be re-sent once the problems are resolved.
-> 
-> The b4 web submission is a great alternative when the mail provider is rate 
-> limited:
-> https://b4.docs.kernel.org/en/latest/contributor/send.html#web-endpoint
-> 
-
-I see people interested in moving Pixel 4a forward, but it seems this was never 
-upstreamed? I looked at sm7150 repository [1] where I see FROMLIST, but these 
-patches never arrived to the list and this series is from 2025.
-
-Should we expect v2 (re)based on recent tree?
-
-Thanks
-David
-
-[1] 
-https://github.com/sm7150-mainline/linux/commit/7ea41523c678e94a7c048936052b5b1b1b109cdd
-
-> Neil
-> 
->>
->> Best regards,
->> Jens
-> 
-> 
