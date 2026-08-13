@@ -1,125 +1,75 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492D14457A0
-	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 09:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29396353EDF;
+	Thu, 13 Aug 2026 09:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786614182; cv=none; b=ZWWd3XY/YeOA1BEggJijZ2ZnfsjWjYm09nFyq8/FVj+yBLt/0SGI89mhCcdENpq7OjTaKUY2BIYMBQ9Shi+1El+e3bfbvwahnxFoa+TRkwN4HkU5MXWx/ACvmDn9iVIQi41C3JNexa88O0gHqamW4989Y27ONTZodeRPh3hU9WQ=
+	t=1786614366; cv=none; b=jUxSj/LLksLu5QBoFPt+BOFSyFWgBKoyLvU196eFj8Zgcsfhu86Mw6hMnW9BP5x/OivZIziFvHDLiAklfGjJf0qPm3JQSXfQY6Cm3RTZ+Od0mMajkdNk5wy7UGU51lG4pp01OJvDjosLLcBEwFfcMnITi2k7r6v4memq78tucT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786614182; c=relaxed/simple;
-	bh=kxznEwWSWeLwBy4WcmW9aaOKCiueS1kXCDEWn8ogGb0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Mu6J9CjNyKuG+LTbCm9bdCwdFMBRZXxDHFlwwYgdyjgr1GfNEUp495PefwelLoku91T144Nbw4uAMc1bnpfLWriv7CvDCCtnn7loB4FNdsV7BeEnmS+aZAtc3rHengfS4Tm0qITLFhohpC4bhqAF62BqrqM0ugoyv5q9MqSAAJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imd-tec.com; spf=pass smtp.mailfrom=imd-tec.com; dkim=pass (2048-bit key) header.d=imd-tec.com header.i=@imd-tec.com header.b=Ws5h6jfR; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imd-tec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imd-tec.com
+	s=arc-20240116; t=1786614366; c=relaxed/simple;
+	bh=Asfy3W2nPVPE/oIyIRQzD/mHd4wbc6vZc1m4e7AHJNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a6Au2GEC6dIHDzfvyKngRw9JYfFxZJ7UV7+DIM/V4+nXvl2ellW2fs7c7oIMNMNcB5ZvQau8W3nZrDUYFla+wDJbnwOE3W8ixPTokltwDThgSCqREZrBo5B4k8YY0N38sgD82jUbLd8erNUdXJfDxaZbw3hGGljMaHVxO6+ZhyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQPX9WgT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imd-tec.com header.i=@imd-tec.com header.b="Ws5h6jfR"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4994c49f588so7243695e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 02:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=imd-tec.com; s=google; t=1786614179; x=1787218979; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=PJ/Vk0IqUKoQaaPNgJ0QAJec1n39bTY+37UOcsvpPhw=;
-        b=Ws5h6jfRPzaOij9MiWRPjOwgNArQ9Ig/bigY+IK28UypBFKg4OEI46bZh3XXdkgv/C
-         v/aI7nUQWxAi7eQ0/ChJeKHBp0DgvIdvkZ6bnCdOfvnY0gXkhQ/9WUX4tG4Ha0RmJYBo
-         1cCyjONmkEb4Jo+euG7ayOeFbN8odVNmGbYeMX4idsGxNm+VHg/CcKTyeMaWWuOoVXH+
-         SEHsjayd+2kkkAfpBCLUxqHPAgnFoRL9bKxM3Yb3oGdYvbgKmr1ndnOWSlK6BnA37qpd
-         fyoY0xvXVGoSve8uK+cOtuNc9kXV/inZRiyBAV/Y/5YXP6nex9MBHvozRBkeEhgXHLEa
-         uqhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786614179; x=1787218979;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=PJ/Vk0IqUKoQaaPNgJ0QAJec1n39bTY+37UOcsvpPhw=;
-        b=PYX5NAJkvYcmEGW/uhocqK1DQWUecAV8qAunTn4V/7dr0UuIPdHfSVbqyjQpL7x5DT
-         FnLbHSoYasdzFguIesVG65VGgY07MAicgfnFSwUbUTiEx6JzdUVaNOBFAbuD8Y5Uide8
-         wHz8JjnZ6blDyGB9tRuui9ymvH3Nej7AY8efVnmLTY14RyaU7XUELVFVCEkZT524Hckz
-         MjjTgkJyXIZ1tBJ/awzrpWOt8nscoCKYqIB/JUquYpDvfG9winAlNaP88tpWKTBGj+aH
-         Xz8KCRbN10kW2i6rPUiUOquTEaEgpNhz9IFt9vUw79YyeBI8YFvDtz/UxkRVIaTc/XVF
-         sYJg==
-X-Gm-Message-State: AOJu0Yw5MecSe/USWtlv1jFbvh79ptxdVcWYr17qn24eF3Usmq8fXv8m
-	Mh7OxJivgELuzD4PQaam4bvGbn7jHbvpmkRZEgL4vtLVqPdLhKVFVW205fOBXEa80bk=
-X-Gm-Gg: AR+sD10Qzf+J2BUHW3hOFQ4+QAFNk7HGzaAqcyI4opq7WSD9l48DmuAQbiOVpsTuWHz
-	UjEWprfsbLYF5IiRMXdWabCYP/rofDoNP6ptujJf0aZpr7Hl/k9xAPrkp55h5/7WV4KeYbpHEU9
-	fV/sOHeUxbm/4E2uHS8wJqR0n3n9naUZxXf0OIpBv/rbbuxGck0eOPJLRUm6BhtEW44B5q2mt+h
-	zKVOcpIi3X0AMv0gng3vcXSrGscsDagqQZQC3iSTzFdzXECIREVu38jCTXy215JodXRXFTLKJCj
-	CmJTcbnbduVLKke0EE3HIlWkKc8KLOmaoVRCd1ts7aGwxjlJp55wbl6HJgQgbVFQ0sQb+/drOTr
-	mXhwXw1vsmO0iS96Sjwg0zyyzBuwojbclOEqdjBkMPm3mr1I2acFCxaQwi5Ab4Kj+6kS6W9P5Ym
-	LKqjboWrx0rDTzpgF7B8UgXXk5Tc0S+l+/0bKFo2z+MT5E/94Dapgeo7+kD9mNnwzMX9H/SXk2S
-	SCkuBnzWtDNBO4bw400NBna+/Af1c+9bGcoazmvscel3vBHhG/eQzibcUQ=
-X-Received: by 2002:a05:600c:19c8:b0:495:69eb:27d3 with SMTP id 5b1f17b1804b1-4998220c7bbmr36330555e9.8.1786614179547;
-        Thu, 13 Aug 2026 02:42:59 -0700 (PDT)
-Received: from [127.0.1.1] ([2a00:23c6:273c:cd01:b4ff:a571:9037:93])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499820c2897sm93117405e9.0.2026.08.13.02.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 02:42:59 -0700 (PDT)
-From: William Bright <william.bright@imd-tec.com>
-Date: Thu, 13 Aug 2026 10:38:40 +0100
-Subject: [PATCH] usb: typec: ucsi: Handle connectors already attached at
- init
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQPX9WgT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FE31F000E9;
+	Thu, 13 Aug 2026 09:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786614364;
+	bh=94KZngccI045nRvys8eezH1GfpKKPqRGcEOkvAjloio=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AQPX9WgTX8qT4ToT5/172hs/Po43jnfpkRyqxQbRZDb4Do8q3HsgxL6HO0sTu5E5T
+	 eziVZEKMVigN1uUUOPw2P4ud+DGOSERL1VhuCt7KmBl+CGVqocT30XHfFpWE+LmVFY
+	 n0sm5Ari+ndCOY0sxai6PCIew26BzIyl5YPb4/riSDgaIAQaFkGm0QVTg1+0SmG+rc
+	 qZpNkNhHToA2sLnceRNRx+/OV2TrOoFuDqMctJbHkGdd4ufS3Dc5UINSYHa5UTZbjP
+	 BF8veJDnnJP0nWHjCC2BnbRO9IVBarF6kQkg1FagKpWxyQwYoSxKvidNTXN0PBDoND
+	 hz3w8nsRB2fzA==
+Date: Thu, 13 Aug 2026 11:45:54 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+	Matthias Kaehlcke <mka@chromium.org>, Fabio Estevam <festevam@gmail.com>, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/8] dt-bindings: usb: ti,usb8041: document the TUSB8040A
+ hub
+Message-ID: <20260813-olive-kingfisher-of-greatness-f24ddf@quoll>
+References: <20260810-msm8974-onboard-usb-v1-0-08a805768328@oss.qualcomm.com>
+ <20260810-msm8974-onboard-usb-v1-1-08a805768328@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
-X-B4-Tracking: v=1; b=H4sIAJ+QfWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDC0Nj3dLk4kzd5PycFN0kY9NUQ0NLS8Mk82QloPqCotS0zAqwWdGxEH5
- xaVJWanIJyACl2loAVWW7eW0AAAA=
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Christian A. Ehrhardt" <lk@c--e.de>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- William Bright <william.bright@imd-tec.com>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260810-msm8974-onboard-usb-v1-1-08a805768328@oss.qualcomm.com>
 
-After a cold boot the PPM may already have a partner attached without a
-pending connector change to report. On a CYPD6125 the CCI register reads
-back 0 in ucsi_init(), so ucsi_connector_change() is never called and the
-Type-C mux is left unconfigured for the already-attached port.
+On Mon, Aug 10, 2026 at 03:42:32AM +0300, Dmitry Baryshkov wrote:
+> The TI TUSB8040A four-port USB 3.0 hub is not documented, so onboard
+> device nodes for it cannot be validated.
+> 
+> Document it next to its TUSB8041 sibling: the same reset-gpios/peer-hub
+> properties apply. Besides the datasheet default 0451:8040 / 0451:8042
+> IDs, also document 0451:8041 / 0451:8043: the configuration EEPROM can
+> override the product IDs, and e.g. the APQ8074 Dragonboard programs
+> these values, as seen when booting the vendor image.
+> 
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/usb/ti,usb8041.yaml | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-Fix this by additionally checking the connector status of every
-connector and call ucsi_connector_change() for connectors that are
-already attached. Whilst also continuing to call ucsi_connector_change()
-for connectors that report a change via the CCI register.
-
-Fixes: ce4c8d21054a ("usb: typec: ucsi: Fix connector check on init")
-Signed-off-by: William Bright <william.bright@imd-tec.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index ecbda2a3783c..740ae4a14f7f 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -2136,8 +2136,11 @@ static int ucsi_init(struct ucsi *ucsi)
- 	mutex_unlock(&ucsi->ppm_lock);
- 	if (ret)
- 		return ret;
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
-+
-+	for (i = 0; i < ucsi->cap.num_connectors; i++)
-+		if (UCSI_CONSTAT(&connector[i], CONNECTED) ||
-+		    UCSI_CCI_CONNECTOR(cci) == i + 1)
-+			ucsi_connector_change(ucsi, i + 1);
- 
- 	return 0;
- 
-
----
-base-commit: 55431f6adac42f818a0c76594ce2c6c02fe1034d
-change-id: 20260813-ucsi-cold-b35e11991b7c
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
--- 
-William Bright <william.bright@imd-tec.com>
+Krzysztof
 
