@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1216D3126A0;
-	Thu, 13 Aug 2026 08:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953CF4446F7;
+	Thu, 13 Aug 2026 08:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786611505; cv=none; b=EOWrDhQ1JNoh48APV0QnsznPsibBEYQespRAPqXuin9cM8yC8jcWZNrkeg5oJG35/rfrk+T1RTxM0rqVw6MZuz1w197JZz+K+9GBqj1hSllS4CE1vEOaVJHyMbWGJ/UIgNMTxMT/olTDEpFNkiZDXJM48WghqwZyifK6mdqFHbE=
+	t=1786611600; cv=none; b=UDUavO2bSOG78Q4vFXdu8FbY25527lw3Wv54ThwCmvJX++nTBPDVPfIy6f3urt0pof5NFxPTCGtBlbLBBh+NZfoTmEBCTDxp5tAJ0DUDRf26FOI9Gu7BpDFVOqBoA7d7qrmCqjZ+G3QCyJnNGqMRg4sk3ceTAhYdwAcRF/O4L74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786611505; c=relaxed/simple;
-	bh=/UBIGNUgjYX+9pBBLlO6oZUmjzXd4JKdbNqg+43IwIo=;
+	s=arc-20240116; t=1786611600; c=relaxed/simple;
+	bh=GdyuVcouelAph5a8W7iYpdcHMMgGGIj8pLf+4ZiB6Ds=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GCFwqOUl3jCBSLglM7k1qAsUiajz/oAc0r2DGVxyEBltznfB3mBg6kFjP/MZTeJT+Ha55QMbMygFr7OoRtxejkrJ1MwCg5q01ELFMnCWnBd5VSKBcZBezj94Edr5Kh/LZHe3JMeJWDTlnrLBnH87ClVkYH2cImNvb7omMKtWw2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEH8U6YY; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=sl1CEDf0Y+Ol9evfRiVg/P5fExFXxlyhLj4+EUu18pFcfZScOtFS7EsJ31hJ0bqbO4XFymEb5x3hXkd4mzxxEeUU8Dfa+54RlVClfT9FOu+rWtiV3PcFA2RJ0XNEIDn1HSQfuNC5YnsAWySlfL1XeqdA36EvI3iYZKLCEiFxhyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bq65PrTl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OEH8U6YY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605541F000E9;
-	Thu, 13 Aug 2026 08:58:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bq65PrTl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 875421F00A3A;
+	Thu, 13 Aug 2026 08:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786611503;
-	bh=mUM3gx5fUhLkzXuel80f3jVm80HXZyBPiyyBV8LlM9c=;
+	s=k20260515; t=1786611595;
+	bh=dtGZ81a3jSSuCBgYV0KTzg5fZRnkjFOsncZEdYGS6S4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OEH8U6YY/k3abK15cAm8SOWWeMYPxh5Eo9X4FPfZKKcfG3INBqRbgkVRjLKP79rXA
-	 A7CoCi7FwUyaSnsrwPmAK4rSfej/0x4GCw19Rn/4hoJp/TpzGFH0ZtWS20aefiw8z2
-	 yUpK1RtLBTD1t78I/ctYhQGTFPErN/oVl4u2tZ4TDwRJpg7mtoGf3TcBzLdLGUSw09
-	 EOPERMHKk1D245B8nBhb5QfZHmVfnRD2izaXz0ETwRGk/6nUZdb3yhDgjh24zZqScJ
-	 CoTJtfTB5gPKYIJQsx+FEA2RFEEU9ggslcprPlrFlOZqcNXicb8FA/aeBV3eANsS2p
-	 jl00SOeF1vlCA==
-Date: Thu, 13 Aug 2026 10:58:13 +0200
+	b=bq65PrTlrpQK5qnE6+gKhwDV8n+44dSRcaQ15A9cQ8w8ugWgWsVHfbcdZSwGUgCFn
+	 1RWLpApt10D2UuocrruxHUY5xj2cx/L8E8KYysNR9ozK3XpX0xql6GzPBgNnuimdmo
+	 xXKq3sjTcri6QXfHtzfdzvwDWqnshiOIBCOx4OxeQYIMrQepZTuRf7Svc/i86ESnOK
+	 P7/MQ69Mw87UW5mWgvo1fOfId3yHTcPm/zjSyqWg4YhgFmkt9fLFpE+txyJbasR0sp
+	 Kn25kcWPvTgPwdvLJy3MJQVNSuMNcWT/EP5w/OtreTZjxFDMr94kQbZ1JY3jXx1A3i
+	 x9R22341btaUg==
+Date: Thu, 13 Aug 2026 10:59:46 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: George Moussalem <george.moussalem@outlook.com>
 Cc: Vinod Koul <vkoul@kernel.org>, 
@@ -37,11 +37,11 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	Konrad Dybcio <konradybcio@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 01/14] dt-bindings: phy: Document the Qualcomm IPQ5332
- UNIPHY USB Super-speed PHY
-Message-ID: <20260813-alluring-advanced-jackalope-55e5c1@quoll>
+Subject: Re: [PATCH v2 12/14] arm64: dts: qcom: ipq5332: Enable USB
+ Super-Speed PHY
+Message-ID: <20260813-gentle-eel-of-elegance-ccbdbb@quoll>
 References: <20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com>
- <20260812-ipq5018-usb3-v2-1-8f355d7ff0ef@outlook.com>
+ <20260812-ipq5018-usb3-v2-12-8f355d7ff0ef@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,138 +50,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260812-ipq5018-usb3-v2-1-8f355d7ff0ef@outlook.com>
+In-Reply-To: <20260812-ipq5018-usb3-v2-12-8f355d7ff0ef@outlook.com>
 
-On Wed, Aug 12, 2026 at 01:34:36PM +0400, George Moussalem wrote:
+On Wed, Aug 12, 2026 at 01:34:47PM +0400, George Moussalem wrote:
 > From: Praveenkumar I <quic_ipkumar@quicinc.com>
 > 
-> Document the Qualcomm USB3 22ull UNIPHY present in the IPQ5018 and
-> IPQ5332 SoCs.
+> Enable USB Super-Speed PHY support. The PCIe and USB3 PHYs share the
+> same MMIO address space, so override the compatible string to use the
+> USB3 PHY driver instead of the PCIe PHY driver and set the required
+> properties accordingly.
 > 
 > Signed-off-by: Praveenkumar I <quic_ipkumar@quicinc.com>
 > Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 > ---
->  .../phy/qcom,ipq5332-uniphy-usb-ss-phy.yaml        | 111 +++++++++++++++++++++
->  1 file changed, 111 insertions(+)
+>  arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-usb-ss-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-usb-ss-phy.yaml
-> new file mode 100644
-> index 000000000000..cc9eccac51dd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-usb-ss-phy.yaml
-> @@ -0,0 +1,111 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/qcom,ipq5332-uniphy-usb-ss-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts b/arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts
+> index 25a70cd884c0..164f9a9a6c75 100644
+> --- a/arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts
+> +++ b/arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts
+> @@ -100,3 +100,22 @@ &usbphy0 {
+>  
+>  	status = "okay";
+>  };
 > +
-> +title: Qualcomm UNIPHY USB Super-Speed 22ull PHY
-> +
-> +maintainers:
-> +  - Praveenkumar I <quic_ipkumar@quicinc.com>
-> +  - Varadarajan Narayanan <quic_varada@quicinc.com>
-> +
-> +description:
-> +  USB Super-Speed UNIPHY found in Qualcomm IPQ5018 & IPQ5332 SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,ipq5018-uniphy-usb-ss-phy
-> +      - qcom,ipq5332-uniphy-usb-ss-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 3
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description:
-> +      Phandle to 5V regulator supply to PHY digital circuit.
-> +
-> +  qcom,phy-usb-mux-sel:
-> +    description: |
+> +/* this combo PHY supports PCIe and USB3 */
+> +&pcie0_phy {
+> +	compatible = "qcom,ipq5018-uniphy-usb-ss-phy";
 
-Do not need '|' unless you need to preserve formatting.
+Nope, phy in tjhe SoC does not change per board.
 
-> +      Mux selection for USB PHY. The USB3 and PCIe PHY pads are muxed and the
-> +      mux selection is done via a register in TCSR syscon.
-
-git grep qcom,phy-usb-mux-sel gave me zero, so I wonder how is it done
-from the PCI side.
-
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle of TCSR syscon
-> +          - description: offset of PHY mux selection register
-> +
-> +  "#clock-cells":
-> +    const: 0
-> +
-> +  "#phy-cells":
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - vdd-supply
-> +  - qcom,phy-usb-mux-sel
-> +  - "#clock-cells"
-> +  - "#phy-cells"
-> +
-
-
-> +additionalProperties: false
-
-This goes after "allOf:" block.
-
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,ipq5018-uniphy-usb-ss-phy
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: USB3 PHY CFG AHB clock
-> +            - description: USB3 pipe clock
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,ipq5332-uniphy-usb-ss-phy
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Shared PCIe/USB3 PHY AHB clock
-> +            - description: USB3 PHY CFG AHB clock
-> +            - description: USB3 pipe clock
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,ipq5332-gcc.h>
-> +
-> +    phy@4b0000 {
-> +        compatible = "qcom,ipq5332-uniphy-usb-ss-phy";
-> +        reg = <0x4b0000 0x800>;
-
-That is the same address as PCI PHY, so you have one device, not two.
+You have one phy device, already defined in the SoC DTSI. In the board
+you only choose phy type in the consumer node.
 
 Best regards,
 Krzysztof
