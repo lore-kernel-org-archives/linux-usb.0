@@ -1,43 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD3643B3C9;
-	Thu, 13 Aug 2026 20:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242A943BDBD;
+	Thu, 13 Aug 2026 20:52:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786654333; cv=none; b=fH4ziIZS9AqfvaUDOabNZCjlnMS7Q/41GIJ21FC0dNeZtb4TYvzbZY9/E53p4PnLpDU2e0qrqW30zEARwHen7OclWA5Goq3gN588I5+okRunS/KSzau1BdShZQiThTQyFCnShHQuHYcp8PGtovGG9KV9nuF/IL/NtAc9swzrjCA=
+	t=1786654333; cv=none; b=IPQdJ1ucWXlujeYLWiBgpyg2Rq1MYWd6JayD+oOS8dWxUJmoqmQ2LB1QxqBjCWq0+d2dCrlebsFYA9PIEPPQljo3HCT32plsab2YmWspzuHdGhHd3mP5b57Ic6c/AKMIqVGLfSqwZWgy86aAJrY8mQA1hsNg5au63SVUH9QLuhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786654333; c=relaxed/simple;
-	bh=az155ty4ey0N2rbig1QNJwsNOxcqCRBwMjN2/AtKJko=;
+	bh=DRXGZ9p7V1/mxjzbN8TrhXQcxeu/SF2V+MgG6q/rcw4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lxgz6xQEBCmi1wwcuRrIQIapAvh2n+JA9Tg64gSW/HgeyrlNhKsYM73296qiFrdLiFSQclLPqmIJqVPltSvm8pDTrPInEPNK5jkipiSusB12yJ/0nGXqZKnhqvNHoyYVMfWX9kLT6qTxwjg8FkfbnAYA0Q7G1YfJDiRqYfkCJ8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LJ3Yu0Ah; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=mQ+MXqHqfjrzJNRwG6lqDChOjHsjMkMSTG44eB3tqbqFyCoSNAmUopp4Lm3BitUJKhcGqLkcPRspg84rHQmx8vxe/we1jQyZ2qscbzGM+bYEp//DFSRMvXSLRhtAxkRQd06l34YmXL2KF984KvBqVtTAVBqkTcwpJOKn0E03AWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Nv4x1Cpv; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LJ3Yu0Ah"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Nv4x1Cpv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1786654311;
-	bh=az155ty4ey0N2rbig1QNJwsNOxcqCRBwMjN2/AtKJko=;
+	s=mail; t=1786654310;
+	bh=DRXGZ9p7V1/mxjzbN8TrhXQcxeu/SF2V+MgG6q/rcw4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LJ3Yu0Ah5WlEHZOCFyFFK60xmXWrsoYM+LSAN8ldjgHeZWVD3yc6hc8iADApun9he
-	 CVwDKLdmhavQt5gZdU20+5a2vAZ08Tqu4RmzucM9iR/+8wikAq/OGDPZ3xZp6OCvok
-	 uPoSPVt930JOhl+ss1i3SwSxvwcOTqS23jCKnu8UHiqt96B2lmOrgKIiQWRL1fYmDP
-	 N4WQ8Ha6zl2HQuoBnlXBZlcw5hEQ1WD3AEiduSMsux52LnHvL5P21E1QxorhRiiW5H
-	 t0ELvP+rIPuvealhNgZip9Phogceht5uhvgJ8a8amo8HB4GOkx2Dtu89qy+GkE13X3
-	 LM9v8YpemCbEg==
+	b=Nv4x1Cpvz1JnVCQQn7THa67sUsto/PeLMeRJsJMScgQLhHCx5qWCQ626SzJwT+ipa
+	 oDEAO2AGVEqNwO0qLAmG35mm2nAIpOPtFEkBiXGJ4NRkEUH+kmuthVS2V9GTWJGib2
+	 ogC5Hmz/xwm+FGUeQDAgtWIaRMq9JKXm41frLe7mXycgom5+rqSWDj+yceZuA/lbN6
+	 EDD45HwCfJQR1o2RcyIhixORexYCiFBMrLWszjuXozAhHHNkT3RXX2SHd2o5tM4WE3
+	 IyFYWCiyVa8fxSqbRM7E2bJVWxmXusPpGfw56eTQR1lOv8v9+JM64u5diNTIKdyilA
+	 e1LWHBPK5zZFA==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 10FD917E35C5;
-	Thu, 13 Aug 2026 22:51:51 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 96CD717E1412;
+	Thu, 13 Aug 2026 22:51:50 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id C99DD480079; Thu, 13 Aug 2026 22:51:49 +0200 (CEST)
+	id B1812480065; Thu, 13 Aug 2026 22:51:49 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Thu, 13 Aug 2026 22:52:17 +0200
-Subject: [PATCH v14 34/38] phy: rockchip: usbdp: Drop -EPROBE_DEFER hack
+Date: Thu, 13 Aug 2026 22:52:02 +0200
+Subject: [PATCH v14 19/38] phy: rockchip: usbdp: Re-init the PHY on
+ orientation change
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,7 +47,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260813-rockchip-usbdp-cleanup-v14-34-b5ad9c68fa11@collabora.com>
+Message-Id: <20260813-rockchip-usbdp-cleanup-v14-19-b5ad9c68fa11@collabora.com>
 References: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
 In-Reply-To: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
@@ -65,60 +66,58 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  kernel@collabora.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
  Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1497;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1326;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=az155ty4ey0N2rbig1QNJwsNOxcqCRBwMjN2/AtKJko=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGp+LmXuvHkIKLF8WzgW8Xt3dZVo/ImSA8pyM
- bLRFywusTTPjokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqfi5lAAoJENju1/PI
- O/qaD2sP/2X1hCEWM8Y4KcuUUh/u4WxeCzFCA3ny1NLWS/KbPpa+38JVyDC81Z7zXIZC5QB15es
- EdPXoyygKp6CqbvF9D9F8Cg6dPwap28pTwagQNFNRWfFDd9Osk2ifO+sbDMlSWDF+JcvDvRYm0M
- 3dhe5ZdDx6k73+IhefVtJznNzPZj3i7ogUkj3CCyDTNAFJbZGjNzo6iTnUrhi1Ww+iAClIh9yZb
- M8FhwEnp3u/SmLjcUKfvbkv1sLWjuveEVDyhx7n4ul31i2b8J71v1T8G8ipS6YwP4MtdO11wOoo
- GAAH/ytvst+ujqfUxtl6uthTFQGbLRLiKeYUA8IjgaFwZSiLJYdUEuLX9JHJYeSEyyPwzgw4xTT
- HdizEvrOfVbDc3O6MWl3Xqh0GtFEj1+ci/8fgJK1XX9V8gyiOPAXsSx2OqMbUXhx8pCYvWv1acU
- m25neI2sKpfQZB4ykjikGq+QCCFdXX9q3wDrAN5pEmCPisb1ODoFWk5nIiEbOPPRDVwyWjRqyok
- 7U28KIUYqqGotUdh/HVaznprBE4g6MqvJR9ONz5ChTWxmU2TBNSi85gFpeFaqIigzuerkegYdWk
- pjflGl7Bk7axvxdX+P06tSTyWkuUs7S3qp0TWLjiaQeBCe5J59xy6bDvjRn4t2RfyEWAYUgz9BV
- fXVugwMD9jljp0Dqa3PwzRw==
+ bh=DRXGZ9p7V1/mxjzbN8TrhXQcxeu/SF2V+MgG6q/rcw4=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGp+LmQT5DejwXvNJchdzLQ3Mt6HljWSUwqQU
+ CutrxoaF1atb4kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqfi5kAAoJENju1/PI
+ O/qaptkQAKL4RVLm+JOiRRYPfvlsojLvVjCjKZ92tkzFvrMhc/Dv2rodKUiN2eDA3ynL4V2ywY2
+ fI2vE4NM41TiFBKCHoRfWyZDSpyBJuMaj6QkqHJG0QK2YEkuUtR5vLy6JHtxVg2JKWq3WAFoke2
+ WDtodDjxj0HDvBlBdrFdbVu7FXMYFVypoDiPO4AdHMRjhVyy6sk3obpNE3M9TPlF5MXSlDgn7+u
+ DUeGG0SDaojXCjgU3RW+rUr+TyN4IhK1kU3nsEufu7fRprDq7x79VCTVy/SpizczHOQBSh6m4kh
+ yO+1yvHj2OyUzfUmDT4UxrH6SdayYQNmyr1pYmTWoEPDl9Kme53HFWXYOldaJHtK3/vqa51vbU6
+ iAEkaQJXomOQqRyuXn3mu8eKSOC4g3tJHYbOfk6KHwHjOpIi4V9Kg63k5ONlO+b3B8sOdVKyiem
+ aE645AlUDgAoUGJi0+pny7BNSrqgVi4er/3hUJSj3WDG+7WEoGcO8RYkhhuBFQGP1Vgb0p8iUCU
+ 48nVNYu93yN2/tnw4i/aonfeJwjXqeEPbumPKNvOYBgeoqKXA/7m5ZVdtVgmbWaTZ3a0Gn6j0r8
+ 5+0VdvsQ0a706rBwSZTvbcNdOaiB63KInVXVFHpVmcC2rETooOJr628BdjElUQHX8uDssSQOr2D
+ XWcMfXsvcQyc7CqtMu9E0Zg==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The hack to return -EPROBE_DEFER when the lcpll lock timeouts is no
-longer needed. The driver now does a reset during its PHY init, which
-avoids the problem.
-
-Since rk_udphy_status_check() is called after the probe, it should not
-return -EPROBE_DEFER.
+Changing the cable orientation reconfigures the lane muxing, which
+requires re-initializing the PHY. Without this DP functionality
+breaks, if the cable is re-plugged with swapped orientation.
 
 Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 21f282216aef..a6fe634574bb 100644
+index e44d19c9d119..4b454798c4ed 100644
 --- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
 +++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -750,17 +750,7 @@ static int rk_udphy_status_check(struct rk_udphy *udphy)
- 					       (val & CMN_ANA_LCPLL_LOCK_DONE), 200, 100000);
- 		if (ret) {
- 			dev_err(udphy->dev, "cmn ana lcpll lock timeout\n");
--			/*
--			 * If earlier software (U-Boot) enabled USB once already
--			 * the PLL may have problems locking on the first try.
--			 * It will be successful on the second try, so for the
--			 * time being a -EPROBE_DEFER will solve the issue.
--			 *
--			 * This requires further investigation to understand the
--			 * root cause, especially considering that the driver is
--			 * asserting all reset lines at probe time.
--			 */
--			return -EPROBE_DEFER;
-+			return ret;
- 		}
+@@ -620,6 +620,7 @@ static int rk_udphy_orien_sw_set(struct typec_switch_dev *sw,
+ 				 enum typec_orientation orien)
+ {
+ 	struct rk_udphy *udphy = typec_switch_get_drvdata(sw);
++	bool flipped = orien == TYPEC_ORIENTATION_REVERSE;
  
- 		if (!udphy->flip) {
+ 	mutex_lock(&udphy->mutex);
+ 
+@@ -631,7 +632,10 @@ static int rk_udphy_orien_sw_set(struct typec_switch_dev *sw,
+ 		goto unlock_ret;
+ 	}
+ 
+-	udphy->flip = orien == TYPEC_ORIENTATION_REVERSE;
++	if (udphy->flip != flipped)
++		udphy->phy_needs_reinit = true;
++
++	udphy->flip = flipped;
+ 	rk_udphy_set_typec_default_mapping(udphy);
+ 	rk_udphy_usb_bvalid_enable(udphy, true);
+ 
 
 -- 
 2.53.0
