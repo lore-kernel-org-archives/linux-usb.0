@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C8348989D;
-	Thu, 13 Aug 2026 15:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AB848AE0F;
+	Thu, 13 Aug 2026 15:33:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786635157; cv=none; b=JzrE/ZGoAWP1ZHbYKtEefo6Ibag1rwPZ9VZSqijFY4e643QMRDuaMrGaKEGKB2Z12UIJF/M5lzYaEVmHQr6Mx/iib2PHjU6UwOOe/VkQYtvItaTvFFFvZgPJ9Uodzg06PPMiu9EwvQMORW74FrfBSBpEDG7aIfK25glkUsYMHJk=
+	t=1786635242; cv=none; b=FpelGH5KRlwi+4o0r2L6diCwrCVheWZWmlT7wF1Ufc4SO47gbHnRYHOp1uTU5l5SrWCt0rL7WNp1p2/cuua2NK7Lq8itJ0qF265NFKNT8KrMm/2Nlh50Heb3Qg/b292dX/t0Gnx8slNZ39n9JVXA+WREgACFCz1fJkOLuEiPz3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786635157; c=relaxed/simple;
-	bh=JDLO8daK29k1D20Pkrip/gt9b4HgN71EbjmzbFSes/s=;
+	s=arc-20240116; t=1786635242; c=relaxed/simple;
+	bh=C9dVE97QX7R2h0xqYmSfNdYsahc8ZF0BspXO3OXAe+w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PMiEO2cM+3dAW8oYtivCAcN08t8QX6HBATlXeHV8RpMdQWT91A5o2ccwqOv5HqyLY7KB7R50CjzN0tWuZgWYb0Lo4Q69oGVdFca+YZHDf/FfO7Kcpx+BT7XtNl36d2xFvkvQxXp7K+UT2YeI6/ebIw087Sbup1b6WOnU74RHZa4=
+	 MIME-Version:Content-Type; b=txniG7PhTTxoEr4cnYEMJLDb+HMvaDq7buuZPekD3dd6hVtxxg81f1QW5QBA6BU+/e3xcUkjBdtnCpFlM7mMQWHDMDw5H+Xs6Ah1T/q4yCFPcOcGPY0U/lGqpP1rJBlCyWLeQyNCGmZGIqPFjrgvVzZ7T/IdwMzGr6ZILowm73g=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowAAX7O+O431qcuZ5BQ--.56275S2;
-	Thu, 13 Aug 2026 23:32:30 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowADHn_Ph431qDfN5BQ--.53587S2;
+	Thu, 13 Aug 2026 23:33:54 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Bin Liu <b-liu@ti.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -24,9 +24,9 @@ Cc: Alexandre Bailon <abailon@baylibre.com>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v3 1/2] usb: musb: da8xx: depopulate OF children on probe failure
-Date: Thu, 13 Aug 2026 23:32:30 +0800
-Message-ID: <20260813153230.40421-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH v3 2/2] usb: musb: da8xx: depopulate OF children on remove
+Date: Thu, 13 Aug 2026 23:33:53 +0800
+Message-ID: <20260813153353.42817-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
 References: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
@@ -38,71 +38,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAX7O+O431qcuZ5BQ--.56275S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4xXrW8Wr13XF4rXF4UCFg_yoW8WFWkpa
-	yDGaySyr4Iga1Y9FWUGr45ua4fCa1xta4jkrW7J3yvv343Gry8KryktFWUtF47AFZ7Cr4j
-	qr45AaykuayDCaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUj2YLD
-	UUUUU==
+X-CM-TRANSID:qwCowADHn_Ph431qDfN5BQ--.53587S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4rZF48Cw4DZF1fWF45Wrg_yoWktFc_GF
+	95uF4kGw1kCF1vkr45KrWfuFWIya1DXrZ7XF1DKrsIqa4UZr1fX34UArsrGFy7ZFsrCrnx
+	J3sF9w4a9a4fujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
+	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU089NUU
+	UUU
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-da8xx_probe() creates the CPPI child devices before registering the MUSB
-platform device. If population partially succeeds or the later MUSB
-registration fails, the probe path unregisters the generic PHY but leaves
-the OF children registered under a parent whose probe failed.
+da8xx_probe() creates CPPI platform devices with of_platform_populate(),
+but da8xx_remove() unregisters only the separately created MUSB device and
+the generic PHY. The OF children therefore remain registered after the
+glue driver is unbound.
 
-Depopulate the OF children before unregistering the PHY on both failure
-paths. Use one cleanup label so each resource is unwound in reverse
-publication order without introducing an unused label.
+Pair the successful population with of_platform_depopulate() during remove.
+Unregister the MUSB device first because it reuses the parent DT node but
+was not created by of_platform_populate().
 
 Fixes: d6299b6efbf6 ("usb: musb: Add support of CPPI 4.1 DMA controller to DA8xx")
 
 Assisted-by: Codex:gpt-5
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- drivers/usb/musb/da8xx.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/usb/musb/da8xx.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
-index 4209f438ba18..c08ec1241dc0 100644
+index c08ec1241dc0..6c859a1a11d0 100644
 --- a/drivers/usb/musb/da8xx.c
 +++ b/drivers/usb/musb/da8xx.c
-@@ -562,7 +562,7 @@ static int da8xx_probe(struct platform_device *pdev)
- 	ret = of_platform_populate(pdev->dev.of_node, NULL,
- 				   da8xx_auxdata_lookup, &pdev->dev);
- 	if (ret)
--		goto err_unregister_phy;
-+		goto err_depopulate;
+@@ -593,6 +593,7 @@ static void da8xx_remove(struct platform_device *pdev)
+ 	struct da8xx_glue		*glue = platform_get_drvdata(pdev);
  
- 	pinfo = da8xx_dev_info;
- 	pinfo.parent = &pdev->dev;
-@@ -577,12 +577,13 @@ static int da8xx_probe(struct platform_device *pdev)
- 	ret = PTR_ERR_OR_ZERO(glue->musb);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to register musb device: %d\n", ret);
--		goto err_unregister_phy;
-+		goto err_depopulate;
- 	}
- 
- 	return 0;
- 
--err_unregister_phy:
-+err_depopulate:
+ 	platform_device_unregister(glue->musb);
 +	of_platform_depopulate(&pdev->dev);
  	usb_phy_generic_unregister(glue->usb_phy);
- 	return ret;
  }
+ 
 -- 
 2.50.1 (Apple Git-155)
 
