@@ -1,21 +1,22 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D8B48665F;
-	Thu, 13 Aug 2026 15:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C8348989D;
+	Thu, 13 Aug 2026 15:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786635031; cv=none; b=uu/qrX+Icpr4XCBKRnPlZs7w1piBEoVWolkPg7x+xuAO7MJXKz4dHlPEhL1xefvU8Tdz5gSH3A2+45iuzwzhoF+9kE5uudPPwdR3h4GVQco6x7v/Jq2I4YHYoIuAHlhzXcrxxX6d/YNDgayjMHCQt6E8mO2G2eCbwy6VMzQTsrE=
+	t=1786635157; cv=none; b=JzrE/ZGoAWP1ZHbYKtEefo6Ibag1rwPZ9VZSqijFY4e643QMRDuaMrGaKEGKB2Z12UIJF/M5lzYaEVmHQr6Mx/iib2PHjU6UwOOe/VkQYtvItaTvFFFvZgPJ9Uodzg06PPMiu9EwvQMORW74FrfBSBpEDG7aIfK25glkUsYMHJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786635031; c=relaxed/simple;
-	bh=D7VofKSnl/qn3MQyqgWvMHmsWoXj80TIKWLmXlHgGaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GBXNF5mO66lIytT+R/rXmaT2QYci4/MS04gMwXfa/qjoAMoL613D7jLUqnIiWpQ4YFIe9ZTvpeaVj2MSxh967h3hdBlZa5EBDFfoNsmGtv3IBSfqExx+3P9nLSnPtE+HjZIiv2p2l6rF+A+Ds53CliVY2Y32L2R/+Zb1V92tt1E=
+	s=arc-20240116; t=1786635157; c=relaxed/simple;
+	bh=JDLO8daK29k1D20Pkrip/gt9b4HgN71EbjmzbFSes/s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PMiEO2cM+3dAW8oYtivCAcN08t8QX6HBATlXeHV8RpMdQWT91A5o2ccwqOv5HqyLY7KB7R50CjzN0tWuZgWYb0Lo4Q69oGVdFca+YZHDf/FfO7Kcpx+BT7XtNl36d2xFvkvQxXp7K+UT2YeI6/ebIw087Sbup1b6WOnU74RHZa4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowADXq+8O431qNNB5BQ--.14364S2;
-	Thu, 13 Aug 2026 23:30:22 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAAX7O+O431qcuZ5BQ--.56275S2;
+	Thu, 13 Aug 2026 23:32:30 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Bin Liu <b-liu@ti.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -23,10 +24,12 @@ Cc: Alexandre Bailon <abailon@baylibre.com>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v3 0/2] usb: musb: da8xx: pair OF child population
-Date: Thu, 13 Aug 2026 23:30:21 +0800
-Message-ID: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH v3 1/2] usb: musb: da8xx: depopulate OF children on probe failure
+Date: Thu, 13 Aug 2026 23:32:30 +0800
+Message-ID: <20260813153230.40421-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
+References: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,10 +38,10 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADXq+8O431qNNB5BQ--.14364S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4kuF48Jw4xCF4xXF4Dtwb_yoW8JFyDpF
-	W5G34akr4DG3WakayUuw47u3Z5G393JFZ8JF98Jw1fuw13Wr1UGryIyayjqrnxCFZ2kF4F
-	qr45t3WvqayDCFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:qwCowAAX7O+O431qcuZ5BQ--.56275S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4xXrW8Wr13XF4rXF4UCFg_yoW8WFWkpa
+	yDGaySyr4Iga1Y9FWUGr45ua4fCa1xta4jkrW7J3yvv343Gry8KryktFWUtF47AFZ7Cr4j
+	qr45AaykuayDCaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
@@ -54,35 +57,52 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4kuF48Jw4xCF4xXF4Dtwb_yoW8JFyDpF
 	UUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-da8xx_probe() publishes CPPI child devices with of_platform_populate().
-Those children are owned by the DA8xx parent and are not removed by
-unregistering the separately created MUSB platform device.
+da8xx_probe() creates the CPPI child devices before registering the MUSB
+platform device. If population partially succeeds or the later MUSB
+registration fails, the probe path unregisters the generic PHY but leaves
+the OF children registered under a parent whose probe failed.
 
-The two patches intentionally cover separate lifetime exits.  Patch 1
-unwinds partially or fully populated children when probe later fails.
-Patch 2 pairs a successful population during normal driver removal.  In
-both paths, resources are unpublished in the reverse order in which the
-driver made them visible.
+Depopulate the OF children before unregistering the PHY on both failure
+paths. Use one cleanup label so each resource is unwound in reverse
+publication order without introducing an unused label.
 
-Changes since v2:
-https://lore.kernel.org/all/20260715135916.24417-4-pengpeng@iscas.ac.cn/
-- split probe-failure cleanup from normal remove cleanup
-- document ownership of OF-created children versus the MUSB device
-- cover partial failure from of_platform_populate()
-- preserve reverse publication order on every exit
+Fixes: d6299b6efbf6 ("usb: musb: Add support of CPPI 4.1 DMA controller to DA8xx")
 
-The series was reviewed statically against the current tree. I do not
-have DA8xx hardware for bind/unbind testing.
+Assisted-by: Codex:gpt-5
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/usb/musb/da8xx.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Pengpeng Hou (2):
-  usb: musb: da8xx: depopulate OF children on probe failure
-  usb: musb: da8xx: depopulate OF children on remove
-
- drivers/usb/musb/da8xx.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
-
+diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
+index 4209f438ba18..c08ec1241dc0 100644
+--- a/drivers/usb/musb/da8xx.c
++++ b/drivers/usb/musb/da8xx.c
+@@ -562,7 +562,7 @@ static int da8xx_probe(struct platform_device *pdev)
+ 	ret = of_platform_populate(pdev->dev.of_node, NULL,
+ 				   da8xx_auxdata_lookup, &pdev->dev);
+ 	if (ret)
+-		goto err_unregister_phy;
++		goto err_depopulate;
+ 
+ 	pinfo = da8xx_dev_info;
+ 	pinfo.parent = &pdev->dev;
+@@ -577,12 +577,13 @@ static int da8xx_probe(struct platform_device *pdev)
+ 	ret = PTR_ERR_OR_ZERO(glue->musb);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to register musb device: %d\n", ret);
+-		goto err_unregister_phy;
++		goto err_depopulate;
+ 	}
+ 
+ 	return 0;
+ 
+-err_unregister_phy:
++err_depopulate:
++	of_platform_depopulate(&pdev->dev);
+ 	usb_phy_generic_unregister(glue->usb_phy);
+ 	return ret;
+ }
 -- 
 2.50.1 (Apple Git-155)
 
