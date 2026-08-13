@@ -1,143 +1,125 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57B432D0F5;
-	Thu, 13 Aug 2026 09:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492D14457A0
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 09:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786612831; cv=none; b=pc9cq6Q0YmGs1plpSl7cb4qXT2mwP9BPVpA+O1vLLYIu/fRkkZppodZ5Wna29qPOKamntEdYkgzdmBuM1xwAyYss1ZGObQmF/ZAp67enW6XPKKY3M6pAS1Emil3A8E3qdKfZcMfjfhQhGAhS5jBFKS5dvWzDIU/k2k1YnO9ytXs=
+	t=1786614182; cv=none; b=ZWWd3XY/YeOA1BEggJijZ2ZnfsjWjYm09nFyq8/FVj+yBLt/0SGI89mhCcdENpq7OjTaKUY2BIYMBQ9Shi+1El+e3bfbvwahnxFoa+TRkwN4HkU5MXWx/ACvmDn9iVIQi41C3JNexa88O0gHqamW4989Y27ONTZodeRPh3hU9WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786612831; c=relaxed/simple;
-	bh=XSbxuFNDxlXVpQ/cS578M2yFcGMkc7DG8pgNdZPizcw=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=r6MS6xcjUZisslsbzqA12opEBkddOi83zt8xbCOO2KUxk8K1Alxq1JFmsyNhRMdRcyA75EwzAqKvpz/KlsemzRLbfzwH5DeylfJdWt4h1YA/n8rMvHY9+HA5aCb+9rjrx28+gQPrEuxVEBcVNTTmU+qx3xxGv+Kn0vkYzDf9V54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=LZXlAaqM; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1786614182; c=relaxed/simple;
+	bh=kxznEwWSWeLwBy4WcmW9aaOKCiueS1kXCDEWn8ogGb0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Mu6J9CjNyKuG+LTbCm9bdCwdFMBRZXxDHFlwwYgdyjgr1GfNEUp495PefwelLoku91T144Nbw4uAMc1bnpfLWriv7CvDCCtnn7loB4FNdsV7BeEnmS+aZAtc3rHengfS4Tm0qITLFhohpC4bhqAF62BqrqM0ugoyv5q9MqSAAJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imd-tec.com; spf=pass smtp.mailfrom=imd-tec.com; dkim=pass (2048-bit key) header.d=imd-tec.com header.i=@imd-tec.com header.b=Ws5h6jfR; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imd-tec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imd-tec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="LZXlAaqM"
-Received: from smtpclient.apple (85-70-170-181.rcd.o2.cz [85.70.170.181])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id BC3165340217;
-	Thu, 13 Aug 2026 11:20:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786612821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XSbxuFNDxlXVpQ/cS578M2yFcGMkc7DG8pgNdZPizcw=;
-	b=LZXlAaqMDuz1Eu1qoATS2mQYnT7CsZwlU8A/IXlgD06ajK8b+e6H1n9LYw4UJuCZm5U/K1
-	45EC+UwLTUEFW7hK5NTe7T8cn5/fV82S+8GeZjkxTS2flC4JayGWz1E96Y3dcIj8ur1J4R
-	hWWn2JaZ0EhUTvH7hyEn/4YiTGlPbJw=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: David Heidelberg <david@ixit.cz>
+	dkim=pass (2048-bit key) header.d=imd-tec.com header.i=@imd-tec.com header.b="Ws5h6jfR"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4994c49f588so7243695e9.0
+        for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 02:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=imd-tec.com; s=google; t=1786614179; x=1787218979; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=PJ/Vk0IqUKoQaaPNgJ0QAJec1n39bTY+37UOcsvpPhw=;
+        b=Ws5h6jfRPzaOij9MiWRPjOwgNArQ9Ig/bigY+IK28UypBFKg4OEI46bZh3XXdkgv/C
+         v/aI7nUQWxAi7eQ0/ChJeKHBp0DgvIdvkZ6bnCdOfvnY0gXkhQ/9WUX4tG4Ha0RmJYBo
+         1cCyjONmkEb4Jo+euG7ayOeFbN8odVNmGbYeMX4idsGxNm+VHg/CcKTyeMaWWuOoVXH+
+         SEHsjayd+2kkkAfpBCLUxqHPAgnFoRL9bKxM3Yb3oGdYvbgKmr1ndnOWSlK6BnA37qpd
+         fyoY0xvXVGoSve8uK+cOtuNc9kXV/inZRiyBAV/Y/5YXP6nex9MBHvozRBkeEhgXHLEa
+         uqhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786614179; x=1787218979;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=PJ/Vk0IqUKoQaaPNgJ0QAJec1n39bTY+37UOcsvpPhw=;
+        b=PYX5NAJkvYcmEGW/uhocqK1DQWUecAV8qAunTn4V/7dr0UuIPdHfSVbqyjQpL7x5DT
+         FnLbHSoYasdzFguIesVG65VGgY07MAicgfnFSwUbUTiEx6JzdUVaNOBFAbuD8Y5Uide8
+         wHz8JjnZ6blDyGB9tRuui9ymvH3Nej7AY8efVnmLTY14RyaU7XUELVFVCEkZT524Hckz
+         MjjTgkJyXIZ1tBJ/awzrpWOt8nscoCKYqIB/JUquYpDvfG9winAlNaP88tpWKTBGj+aH
+         Xz8KCRbN10kW2i6rPUiUOquTEaEgpNhz9IFt9vUw79YyeBI8YFvDtz/UxkRVIaTc/XVF
+         sYJg==
+X-Gm-Message-State: AOJu0Yw5MecSe/USWtlv1jFbvh79ptxdVcWYr17qn24eF3Usmq8fXv8m
+	Mh7OxJivgELuzD4PQaam4bvGbn7jHbvpmkRZEgL4vtLVqPdLhKVFVW205fOBXEa80bk=
+X-Gm-Gg: AR+sD10Qzf+J2BUHW3hOFQ4+QAFNk7HGzaAqcyI4opq7WSD9l48DmuAQbiOVpsTuWHz
+	UjEWprfsbLYF5IiRMXdWabCYP/rofDoNP6ptujJf0aZpr7Hl/k9xAPrkp55h5/7WV4KeYbpHEU9
+	fV/sOHeUxbm/4E2uHS8wJqR0n3n9naUZxXf0OIpBv/rbbuxGck0eOPJLRUm6BhtEW44B5q2mt+h
+	zKVOcpIi3X0AMv0gng3vcXSrGscsDagqQZQC3iSTzFdzXECIREVu38jCTXy215JodXRXFTLKJCj
+	CmJTcbnbduVLKke0EE3HIlWkKc8KLOmaoVRCd1ts7aGwxjlJp55wbl6HJgQgbVFQ0sQb+/drOTr
+	mXhwXw1vsmO0iS96Sjwg0zyyzBuwojbclOEqdjBkMPm3mr1I2acFCxaQwi5Ab4Kj+6kS6W9P5Ym
+	LKqjboWrx0rDTzpgF7B8UgXXk5Tc0S+l+/0bKFo2z+MT5E/94Dapgeo7+kD9mNnwzMX9H/SXk2S
+	SCkuBnzWtDNBO4bw400NBna+/Af1c+9bGcoazmvscel3vBHhG/eQzibcUQ=
+X-Received: by 2002:a05:600c:19c8:b0:495:69eb:27d3 with SMTP id 5b1f17b1804b1-4998220c7bbmr36330555e9.8.1786614179547;
+        Thu, 13 Aug 2026 02:42:59 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:23c6:273c:cd01:b4ff:a571:9037:93])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499820c2897sm93117405e9.0.2026.08.13.02.42.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 02:42:59 -0700 (PDT)
+From: William Bright <william.bright@imd-tec.com>
+Date: Thu, 13 Aug 2026 10:38:40 +0100
+Subject: [PATCH] usb: typec: ucsi: Handle connectors already attached at
+ init
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 00/33] Add support for Qualcomm Snapdragon SM7150 SoC and Google Pixel 4a
-Date: Thu, 13 Aug 2026 11:20:11 +0200
-Message-Id: <7B026D92-3826-494D-B1A9-EF01D41B4461@ixit.cz>
-References: <b15b2687-0c2e-43b2-ac9e-78e04e77e065@mainlining.org>
-Cc: Jens Reidel <adrian@mainlining.org>,
- Danila Tikhonov <danila@jiaxyga.com>, Miro Mraz <mraz.miro@seznam.cz>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- neil.armstrong@linaro.org, linux-hardening@vger.kernel.org,
- linux@mainlining.org, Connor Mitchell <c.dog29@hotmail.com>
-In-Reply-To: <b15b2687-0c2e-43b2-ac9e-78e04e77e065@mainlining.org>
-To: Danila Tikhonov <danila@mainlining.org>
-X-Mailer: iPhone Mail (23G71)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
+X-B4-Tracking: v=1; b=H4sIAJ+QfWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDC0Nj3dLk4kzd5PycFN0kY9NUQ0NLS8Mk82QloPqCotS0zAqwWdGxEH5
+ xaVJWanIJyACl2loAVWW7eW0AAAA=
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ William Bright <william.bright@imd-tec.com>
+X-Mailer: b4 0.13.0
 
+After a cold boot the PPM may already have a partner attached without a
+pending connector change to report. On a CYPD6125 the CCI register reads
+back 0 in ucsi_init(), so ucsi_connector_change() is never called and the
+Type-C mux is left unconfigured for the already-attached port.
 
-> On 12. 8. 2026, at 22:54, Danila Tikhonov <danila@mainlining.org> wrote:
->=20
-> =EF=BB=BFHi David,
->=20
-> Thank you for your comment.
->=20
->> On 12/08/2026 14:40, David Heidelberg wrote:
->>=20
->>=20
->>> On 23/04/2025 09:26, Neil Armstrong wrote:
->>> Hi,
->>>=20
->>> On 23/04/2025 00:07, Jens Reidel wrote:
->>>> Hi everyone,
->>>>=20
->>>> apologies for the mess this created. Danila's mail provider ratelimited=
- him halfway through sending the series and the attempt to re-try sending th=
-e second half an hour later ended up with a new message ID (I think due to n=
-ot using --in-reply-to).
->>>> He asked me to let you know that this will be resolved later and the wh=
-ole series will be re-sent once the problems are resolved.
->>>=20
->>> The b4 web submission is a great alternative when the mail provider is r=
-ate limited:
->>> https://b4.docs.kernel.org/en/latest/contributor/send.html#web-endpoint
->>>=20
->>=20
->> I see people interested in moving Pixel 4a forward, but it seems this was=
- never upstreamed? I looked at sm7150 repository [1] where I see FROMLIST, b=
-ut these patches never arrived to the list and this series is from 2025.
->>=20
->> Should we expect v2 (re)based on recent tree?
->>=20
->=20
-> I'd definitely like to get back to upstreaming SM7150 and the devices
-> based on it, but I don't think there's much value in continuing with
-> this particular series as-is. A lot has changed in the kernel over the
-> past year, which would require substantial changes throughout the series
-> and would effectively force the maintainers to review it from scratch
-> anyway.
+Fix this by additionally checking the connector status of every
+connector and call ucsi_connector_change() for connectors that are
+already attached. Whilst also continuing to call ucsi_connector_change()
+for connectors that report a change via the CCI register.
 
-After longer period of time maintainers will have to do full review anyway. S=
-ure, the reviews needs to be addressed :)
+Fixes: ce4c8d21054a ("usb: typec: ucsi: Fix connector check on init")
+Signed-off-by: William Bright <william.bright@imd-tec.com>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
->=20
-> I'd also like to split the series up to avoid targeting such a large
-> number of maintainers in a single submission.
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index ecbda2a3783c..740ae4a14f7f 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2136,8 +2136,11 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	mutex_unlock(&ucsi->ppm_lock);
+ 	if (ret)
+ 		return ret;
+-	if (UCSI_CCI_CONNECTOR(cci))
+-		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
++
++	for (i = 0; i < ucsi->cap.num_connectors; i++)
++		if (UCSI_CONSTAT(&connector[i], CONNECTED) ||
++		    UCSI_CCI_CONNECTOR(cci) == i + 1)
++			ucsi_connector_change(ucsi, i + 1);
+ 
+ 	return 0;
+ 
 
-Yes, that=E2=80=99s exactly what=E2=80=99s needed (at least for the part pat=
-ches I saw).
+---
+base-commit: 55431f6adac42f818a0c76594ce2c6c02fe1034d
+change-id: 20260813-ucsi-cold-b35e11991b7c
 
-> Hopefully, I'll be able to
-> find some time to work on this in the near future.
+Best regards,
+-- 
+William Bright <william.bright@imd-tec.com>
 
-Where the most recent patchset can be found? Just in case someone wanted to p=
-ush some bits in meantime.
-
-Thanks
-David
-
->=20
->=20
->> Thanks
->> David
->>=20
->> [1] https://github.com/sm7150-mainline/linux/commit/7ea41523c678e94a7c048=
-936052b5b1b1b109cdd
->>=20
->>> Neil
->>>=20
->>>>=20
->>>> Best regards,
->>>> Jens
->>>=20
->>>=20
-> ---
-> Best regards,
-> Danila
