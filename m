@@ -1,44 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807FE432E6C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6006C43B3EC;
 	Thu, 13 Aug 2026 20:52:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786654331; cv=none; b=SBv+SVo2KHaWZgYUZ8RQ9LeljWY8ObdCZlQPSm37PGmAvCSEzefROeiLss3z2ED0ucHqTmMspVPY4KqKHnlDVWrA23yMpu2MLQ7uOiLaChLobmg+UHEb5bW9htvH1mSm8mH0nNugz7wx/eygLAUs3tG3t7iGAhq4/d9pbzZJJAU=
+	t=1786654329; cv=none; b=bC+6ihMvTG2XIMdOTIqygkbd0w04djrafa0G4LlyPLvUesd9b+OBpbY+JLj30o1Tosn3V5Dky1/KKyp2kqNNREtEqjfukWSPqpt3WA7OMce4cuj96EiPYpDT1FxnpYVt7Sw/y3XTIdBkkg+FqPaeRd98wK4aBQ1wxK9OoId0Wyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786654331; c=relaxed/simple;
-	bh=UernfhZx0JYe3iXoCAiTVzwM/QAARPlfYy6ZBB10VvY=;
+	s=arc-20240116; t=1786654329; c=relaxed/simple;
+	bh=spmEcyu0k2MKd0qFutZPYWVRo/y0CcX0idupQElCsbw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A3WfLsxkWXgmX0a8rcfK18gY0+jkZlPeNZL/XRwCSrKkyeeKX+naVTrLBr/1PJAoU4Ogn/mISykqpTvSK795/rF1LrmygYJI/RVIgTdM++pmV5veGyMeV78rlHBbzMRdYoXXiNi4ftEYJRtV7YzRe8wL7jGd5x5xjfB2tGK4b+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iiVz0kr3; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=dg37eCWWXfcSpk4IWQy0HkxOX41d9XEoAYGg/9DsSia8KYD/2HbNgZ3z74MlFfP7Shq7atnQiNVzR7ZTZEIuR+uNRDdRN4d0mY6h7vxJY6RgNIRrcNo2WlnwYQa19aB8q6NB7di/lYhT8yiIWwKSoItl8XgrQbCeFliWT5iDn04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=S+MRqUfO; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iiVz0kr3"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S+MRqUfO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1786654311;
-	bh=UernfhZx0JYe3iXoCAiTVzwM/QAARPlfYy6ZBB10VvY=;
+	bh=spmEcyu0k2MKd0qFutZPYWVRo/y0CcX0idupQElCsbw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=iiVz0kr33b+IyEogMs/8JPeLyruZJbQaFaMDSi4By8Pa9JtWGUuOmQbQJuCo5niRz
-	 ZRiuQRbviWFtgYk4IxrWGa9mVQwXVC2nNtASMY9HM9Q5oRP3JZRyoAUo6RhDFgR0gn
-	 rvzmXwvjFqlT2tO/Lh6tnjs0vFyvgKUZHE1MrJwTAQdj9va7J1YC4rbIj+nmgurXwa
-	 1r8aGQDJ/xZRp0rpRbL9OSe4pRnaK5i2ecqtGxqjWt2zzPZYJkCE8OIbRv2SaxwMbL
-	 z9xZubZgyQPn84G9fUCeNLYFERz4UDtFEdvUtlSdnKETJVjiAdvejLt6dwC7u3ccFN
-	 I7OFb3d2EEJTQ==
+	b=S+MRqUfO7DD5gbCC5qWahySKuVXZplJWRGZbml2Sj4rVc6g4ge964/MyOArJVHfE7
+	 UB50xan7f8w9p4brNFsB1m7SV4rMDNadtFbGl5yJciAlGwYpxWmeS37kdjRIs27XFr
+	 vp76DUv3wRqyDtNDwTJkA6uDjuhCZEKcWOjuB1OkNvWA950vTX5BPxcSkI6TSDeCi0
+	 yYeB9p9SmY2SKZxuo+7Se0G6B8b8qBRGPoIH9Mrvmhuz+ZYb1KByUbjXXN5npwhpc1
+	 48Z9HEx6qNoal20rMlTnBApmRNSY/W3ENdtZszSAHj/57dVEzG9z9bc8ETWmJhh+5v
+	 br+73SiYWIEyA==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id F054217E157A;
-	Thu, 13 Aug 2026 22:51:50 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0616C17E15A5;
+	Thu, 13 Aug 2026 22:51:51 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id C692F480076; Thu, 13 Aug 2026 22:51:49 +0200 (CEST)
+	id C830D480077; Thu, 13 Aug 2026 22:51:49 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Thu, 13 Aug 2026 22:52:15 +0200
-Subject: [PATCH v14 32/38] usb: dwc3: rockchip: fix USB-C reconnect in
- gadget mode
+Date: Thu, 13 Aug 2026 22:52:16 +0200
+Subject: [PATCH v14 33/38] phy: rockchip: usbdp: Add phy reset notification
+ support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260813-rockchip-usbdp-cleanup-v14-32-b5ad9c68fa11@collabora.com>
+Message-Id: <20260813-rockchip-usbdp-cleanup-v14-33-b5ad9c68fa11@collabora.com>
 References: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
 In-Reply-To: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
@@ -66,104 +66,83 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  kernel@collabora.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
  Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2823;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2051;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=UernfhZx0JYe3iXoCAiTVzwM/QAARPlfYy6ZBB10VvY=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGp+LmWt8532Lg/5dPP2v2wQ5BiB5YCJCJADx
- fWfrfVUCwbRX4kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqfi5lAAoJENju1/PI
- O/qa3zMP/29YAZehz0zofVJuH2Ernkpt4yYq0AX6+aym1zdc79vYvq8xFCr1sZLlO+PmXEh0FFO
- SMc3I1PqAkodM06CEcZ/MaG/FH/394NxbCzl4XEW+EET+rewxLI5I+sqI2meceu/FS5ThrUMr+e
- XM3fYN//zbsqg5xXpB4RINC8fcGPciRV/Zpq2F67tcuNQHPFU2SmZx8Tt7Y0VR1IiE+ntoONPlp
- lTmN+ZtApxAP1ZBgk+6NkDWUKTJ9ROtJDvMQlipVj/MFlcdmu0sKk19PcxXCaC+zqkfEKwrs9JL
- zzR69bO34aPXzaxjJRKruvv/UkWnUc6eM6l+E3Hfp/HxpIXF5xkym/tJ/7cpAJ83QuRS9poQMlv
- fGjWz9mbz6FtbtMr46BAgT9n3ilC+k1VwcCfAubixBhJeiVJY2qDYckeKVaAywm3KKoQCVFufaa
- +0mGcLyFg1bIuDWK/23cHoWERc1yPhMl8ZLs0LzrU8OcOIWGp6cIK1D+8R9jPqBPFbvDFOy9hnl
- j5qmq/YQzzN2eJojvek6ug7lP11cqdpeoqRAiNDiiUAwTLuGPnmZaYg8BQJJ8n+2MoKrEW7GRn1
- vhTXoi02DxJ8jL01qFXY92fbXFHLpuTRzQXnrcjJj8eFHhchPH9stfHy14frM4/G0rd7K9WDYo/
- IMdHaFB6+hOSUdHE/ttg9GQ==
+ bh=spmEcyu0k2MKd0qFutZPYWVRo/y0CcX0idupQElCsbw=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGp+LmUiDe07eDCnaZ5KbEnAis6ILxTW+4ylp
+ e7mb3mS/ca6EIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqfi5lAAoJENju1/PI
+ O/qadqMP/jNqqMAC6NZiBIRANjgie+u8VGHTTTFrHYl1wYztaRtRiCA1NSd3zUFXhToldmRKCpA
+ eTHbd1rotrkR1kRh+qmpeORZ7pgrgPWT+03PFGzBaIHAaclP/6PtZCNPbIvECky6Ne8qq8aZEUl
+ hKJxkj96uvVdZcb3ibdhd+M6HNAlt7Kgpcm+2Pm7LKSy0IExhTeR9AYWaVCLgWvJUefDlsC7uVA
+ /mdYQELqxbaVZU3dLOTzMPXEdkkC0aWTqdSYqRjuSpemHdsd+YpmGpkiX/oFIxjAfvBW6fRtdaM
+ sFZCg+nUFDUgG0b8twyfFGJrdHx8legewT1OFooi4V3yqb+lGuu/yH3MW50RNv/7U7gWTbIfddA
+ HEZtwki3kT+9D2nNC3vtWOA6qhhv/fseKx5/TZerTGdWp1cUziFNsTxNGQ8HwDMSg6bxJEZIHvj
+ NHWNYCjeXt8VsAxv7ujExQliXfmGFBVFE4RfanUDFXGmz+aTwyDlZ96otrJvCSccfQfIlasQvtH
+ C8+3muijy3Hn/5XiGifPxmiak+uQLw9yabqSZFGbuYGW5fyY+E3WKiez2OgB9oLlOjJ015HDZkZ
+ M1VS1fCVFpba2TZrDutdhtszU66cYAUy50RaVpG2Xl3vZKxHVZi1mPBu9vRD+dlERgTYOVCLGAj
+ 9Flgn3xp5Rz21y7td6+kjGg==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-When USB-C is configured in gadget mode and the cable is unplugged
-the USB controller is suspended. After plugging in the cable again,
-the USB controller stays suspended and thus the port status remains
-not-attached.
+To resolve issues with running into permanent "cmn ana lcpll lock
+timeout" errors after a few device replugs, add support for reset
+notifications, which will be handled by the DWC3 driver to gracefully
+handle the PHY being disabled. This avoids corrupting the controller's
+internal state and the PIPE interface between the USB3 controller and
+the PHY, thus fixing the issue.
 
-Fix this by triggering a runtime PM resume when the role is changed.
-The Runtime PM reference counter is immediately decreased again - the
-auto-suspend time is big enough to detect the connection status, which
-will then keep its own reference.
-
+Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/usb/dwc3/dwc3-rockchip.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-rockchip.c b/drivers/usb/dwc3/dwc3-rockchip.c
-index 9e91e5f7e53d..246d7dcafc68 100644
---- a/drivers/usb/dwc3/dwc3-rockchip.c
-+++ b/drivers/usb/dwc3/dwc3-rockchip.c
-@@ -25,8 +25,17 @@ struct dwc3_rockchip {
- 	struct dwc3		dwc;
- 	struct dwc3_rk_phy_nb	usb3_phy_nb[DWC3_USB3_MAX_PORTS];
- 	u8			phy_reset_active;
-+	enum usb_role		role;
- };
- 
-+static void dwc3_rockchip_vbus_handler(struct dwc3 *dwc, bool present)
-+{
-+	if (!dwc->gadget || !dwc->gadget_driver)
-+		return;
-+
-+	usb_udc_vbus_handler(dwc->gadget, present);
-+}
-+
- static int dwc3_usb3_phy_notify(struct notifier_block *nb,
- 				unsigned long action, void *data)
- {
-@@ -57,6 +66,8 @@ static int dwc3_usb3_phy_notify(struct notifier_block *nb,
- 		if (!ret)
- 			return NOTIFY_OK;
- 
-+		dwc3_rockchip_vbus_handler(dwc, false);
-+
- 		/*
- 		 * Assert USB3 PHY soft reset within DWC3 before the external
- 		 * PHY resets. This disconnects the PIPE interface, preventing
-@@ -69,6 +80,7 @@ static int dwc3_usb3_phy_notify(struct notifier_block *nb,
- 		reg |= DWC3_GUSB3PIPECTL_PHYSOFTRST;
- 		dwc3_writel(dwc, DWC3_GUSB3PIPECTL(port), reg);
- 		spin_unlock_irqrestore(&dwc->lock, flags);
-+
- 		break;
- 
- 	case PHY_NOTIFY_POST_RESET:
-@@ -89,6 +101,8 @@ static int dwc3_usb3_phy_notify(struct notifier_block *nb,
- 		dwc3_writel(dwc, DWC3_GUSB3PIPECTL(port), reg);
- 		spin_unlock_irqrestore(&dwc->lock, flags);
- 
-+		dwc3_rockchip_vbus_handler(dwc, dwc_rk->role == USB_ROLE_DEVICE);
-+
- 		pm_runtime_put_autosuspend(dwc->dev);
- 		break;
+diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+index 59b836a3796c..21f282216aef 100644
+--- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
++++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+@@ -1005,24 +1005,39 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
  	}
-@@ -130,7 +144,16 @@ static int dwc3_rk_phy_register_notifiers(struct dwc3 *dwc)
- 	return devm_add_action_or_reset(dwc->dev, dwc3_rk_phy_unregister_notifiers, dwc_rk);
- }
  
-+static void dwc3_rockchip_set_role(struct dwc3 *dwc, enum usb_role role)
-+{
-+	struct dwc3_rockchip *dwc_rk = container_of(dwc, struct dwc3_rockchip, dwc);
+ 	if (udphy->status == UDPHY_MODE_NONE) {
++		phy_notify_reset(udphy->phy_u3, PHY_NOTIFY_PRE_RESET);
 +
-+	dwc_rk->role = role;
-+	dwc3_rockchip_vbus_handler(dwc, role == USB_ROLE_DEVICE);
-+}
++		rk_udphy_u3_port_disable(udphy, true);
++		udelay(10);
 +
- static struct dwc3_glue_ops dwc3_rockchip_glue_ops = {
-+	.pre_set_role = dwc3_rockchip_set_role,
- 	.post_phy_registration = dwc3_rk_phy_register_notifiers,
- };
+ 		ret = rk_udphy_setup(udphy);
+-		if (ret)
++		if (ret) {
++			phy_notify_reset(udphy->phy_u3, PHY_NOTIFY_POST_RESET);
+ 			return ret;
++		}
  
+ 		if (!udphy->hs && udphy->mode & UDPHY_MODE_USB)
+ 			rk_udphy_u3_port_disable(udphy, false);
+ 		udphy->phy_needs_reinit = false;
++
++		phy_notify_reset(udphy->phy_u3, PHY_NOTIFY_POST_RESET);
+ 	} else if (udphy->phy_needs_reinit) {
++		phy_notify_reset(udphy->phy_u3, PHY_NOTIFY_PRE_RESET);
++
+ 		rk_udphy_u3_port_disable(udphy, true);
+ 		udelay(10);
+ 
+ 		ret = rk_udphy_init(udphy);
+-		if (ret)
++		if (ret) {
++			phy_notify_reset(udphy->phy_u3, PHY_NOTIFY_POST_RESET);
+ 			return ret;
++		}
+ 
+ 		if (!udphy->hs && udphy->mode & UDPHY_MODE_USB)
+ 			rk_udphy_u3_port_disable(udphy, false);
+ 		udphy->phy_needs_reinit = false;
++
++		phy_notify_reset(udphy->phy_u3, PHY_NOTIFY_POST_RESET);
+ 	}
+ 
+ 	udphy->status |= mode;
 
 -- 
 2.53.0
