@@ -1,145 +1,254 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3209547D455;
-	Thu, 13 Aug 2026 13:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C156B486652
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 15:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786628450; cv=none; b=pGMaKjXM7CzzvPm5T1+6mWSJuAErmu2VQBCSZI+LcrzhGMYx0EztfUNVOk04CixcPVOXc2IcyKoYFyqmQo3fcLbukCyN/LK4BeOz433es0GzUQ+0nqwRSsV2mb58mCvtcPddWhvWjEqLZjDEzoL9QdTr4b5wZlVXAanMVp7odMg=
+	t=1786634103; cv=none; b=DmKMMqhGbwIiZYvT9MCRUKjF7Afth0zeDjh2cJFuR2DU1aHGOlz/4sYxjkZft3YS1YPBfxqqTXuaEDUcvBgDnoXqyHGcn8ZRXTgqJUJ8UVO2LB1NMwt7re/uHLlemglSxMG7vLQObWBgk6wJRotjCHjzQy6hA2zB2Hu5ZwZPhV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786628450; c=relaxed/simple;
-	bh=EOTzoKXhw8pmYEF064ZJZFhuQOAr+bV2/xKGwpi/9TA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=THiQPliGVjfytcfEQbLnnMuW3XhUwhQg6IL6eJqvfNnzThq2QkcaBurj/VjV7tscmbHL9cjNytx7E8/tLMS5YET5ZhjAXo5keycWPF1SDREeIPYJoONaRFQ6nppClgTiwZks4qUM/wytgOogO7RIiIm855I5pYNIbttn2WyIFR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=yKR98d1s; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1786634103; c=relaxed/simple;
+	bh=elW128aOH5J4nyGnJf/yqtTxEUc9WR6CRa7BhXSkiYo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kytUxH10CcfeqqTVwPIDtMpSZ6o+udzBxBDVSngXvRmP1T5MUdXsG+EpYEIp+zPWGIyRtGJH2mr/OG4KgAZosvMxA23mK9S2X7E9xn+klz+PEgL5pLrDwdeCoQqdMNz0bEM8a9z2qixwYvt+xDufPrPxiGBxgl12a3LTfjt3DfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RMsGCaa6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JUU++2ev; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="yKR98d1s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1786628382;
-	bh=g0sOZCBcZ2Jrw2TFICRpxT9bPvkWg5mDU3MLmvx9Nrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=yKR98d1sBuhMaO1QCtKqv0vlG1m64pb/+BRw59DG1p43nyFTMf67/HWIIaojw+1KX
-	 kyq4wdMq4A62tYBMSSBbWXUJ5ysz9Q57QoyquiNudG0hCPWQX3B8RWHmubcTTcr+rq
-	 i9TSFRY3FyDeTjduI3JXhc/r6bbvtnwdu6UxR7IU=
-X-QQ-mid: esmtpgz11t1786628375t10281695
-X-QQ-Originating-IP: uzsjwFlxrWyHR9ePQt3/tWbNYhbV0LoN42pEOIxKeZE=
-Received: from [192.168.1.100] ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 13 Aug 2026 21:39:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3186414962884766525
-EX-QQ-RecipientCnt: 19
-Message-ID: <870CB1C672C91040+8a75565f-344c-4f1e-aa69-33585a88c8e5@linux.spacemit.com>
-Date: Thu, 13 Aug 2026 21:39:32 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RMsGCaa6";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JUU++2ev"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67DDvnqb2971102
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 15:15:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=oGkhc3VcH9UfbYfwazrmmsuyDoSDIflf9JS
+	7FTGpS7E=; b=RMsGCaa6bVLffMwrpzw3zK+DdAs5aaEQlFRrQuXb6y4N5clLt/k
+	KVQ9wtgNuJYv49Ux0R9yls67L5plcYiz4bmOXjezNBoUijOl6flIVg8sBf6qZUMs
+	K/10HkfhzjhnPSMcP6QoJtP4Vyya4MNSbCEvjTYXdeQJhW+evKr1Lv+bIvlOaR1W
+	5G9LbvO5t8aKCzTURxyUb0LCfmPcYMkzXJraValXx2AUdyvTitvSQQ4uu/L8mIIo
+	TLCBLBDLck0gdcxOV23x7HZaOYp7Ik79UysCvyf0eFszDWZoqNJZfDIDLPd6Mpf9
+	HPw5njjH5K4OhEnj33rpajjqG1wv8zZtapQ==
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g1f94gcfs-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 15:15:00 +0000 (GMT)
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-81eddfe28b4so25445877b3.3
+        for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 08:15:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786634100; x=1787238900; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oGkhc3VcH9UfbYfwazrmmsuyDoSDIflf9JS7FTGpS7E=;
+        b=JUU++2ev3eybTlpSuRe21WbrLHZtq/dZW3U/OrQieZlIJ6cYt8C1dX4GrEfc4N8Wmd
+         CEqfm2A6vsWvrFq7Q0Ac0OSLhlaxDhHt5Kz7mEowx1g7O0iatNMqpbkjCwv3Jk69kAJO
+         vRY5WhyypejQMntSj1eOsP8mKgeXHZuH7n5BQdMtJHl8GSKnMrVWXZeACQPd/V2KtTVL
+         t4FRefZ5Q1v3T+/E9ogHyKiMe7PT/3j5HfD/iWbj3kP9JIS6n3zjnUBCtAZg8xhZ+5ap
+         4S+0cPzBT/g2teraYECRMyqjNRPjLb+ffgtX8ui+Ee57wF1Sk1bVH0pqlYfzmk83LyN6
+         q3qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786634100; x=1787238900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oGkhc3VcH9UfbYfwazrmmsuyDoSDIflf9JS7FTGpS7E=;
+        b=H7brjAVZyPksABWY/HVTAXhZ7caxFnUiA7Y77UhR0CdX1PMCJ5U8jpB5GyYawwaeUp
+         6oExt2KJ1B88p6/UA6CXZLE+PPphANMvg/kldngHBLAQNT5KJ01z8nE8+HP/1b07fIDt
+         gp+hiiz3bWzH+RKe7iSjJWoj8RzSeP+WHTvupwJzorQbU4Lg6QX2dkZCrKAf984EyHck
+         Ws4ullaNhxuyeKp2wlvWNqCsPKua0U1VScagu5ribT0y4VvaYAt6DiGneqnF+DXfM0ua
+         VYmJDGsRY5E6c6MLWiKkWnFiCBPNE47cVhxepE7663nf91OlRfjNF/DTqw/HP/F5Ea/f
+         qfuw==
+X-Gm-Message-State: AOJu0YxGL7TDDlLLzRIgJnH1bW8Bpjy6bcy6LjgOCOPlB7YE1n+ZPpFb
+	Nns9hBTa6fa+7IyccR2O1BB3lQsG+3X0nLSXC6CeLrZ9gWiJ8LvxVsQTBzwgszCx3svqPYhssKu
+	Y6yf+JQ36X22zjR+nj1oXLfvC3AJhq2JLFWo0xDOFpWajL6wwG8CvYSP5KOA84+E=
+X-Gm-Gg: AR+sD13ZxntLk7TGFI5aNY7YITfmm3ontIrR3nGFdH9zLAquGayGA6jGU9MoC3bzAC2
+	q3BknReHMSafTeJPX2udtfuWH18kG0/Q+KEi0w/p4vFXtxydYN1T4DDg9s+2uDUK0s0VqYReq2y
+	Bv2L1NT80HZUCkPO8LZyDQ/vwW6gAjq8TIJ+XlwYf3EaXs3DfUWgGBXbaiSGYrJHe5JZy/B+/zc
+	pW4/cc17miV3Yg/j+gJtPCOW/qcAW6UzvlWRf/aaulFQuPnXqwdMgP4q3N3pZO2/K//uignaFg2
+	zXZi/f7ZV/8jVOs7uA6YRm4X4z/hQREuY4j1NBIAMRC7Vpk9nLMf8yF0XImdjR9whb1wiCgec/Y
+	yYrn7AyPal2ZEbzSlP/W9NNUgiOvUYfhuS5tmPFsqhDkjdXJDlKksAA==
+X-Received: by 2002:a05:690c:5706:b0:80c:5ce9:8f29 with SMTP id 00721157ae682-83474fa2f29mr24944827b3.22.1786634099652;
+        Thu, 13 Aug 2026 08:14:59 -0700 (PDT)
+X-Received: by 2002:a05:690c:5706:b0:80c:5ce9:8f29 with SMTP id 00721157ae682-83474fa2f29mr24944577b3.22.1786634099082;
+        Thu, 13 Aug 2026 08:14:59 -0700 (PDT)
+Received: from hu-eserrao-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-836bbdb427dsm314987b3.11.2026.08.13.08.14.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 08:14:58 -0700 (PDT)
+From: Elson Serrao <elson.serrao@oss.qualcomm.com>
+To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH v2] usb: dwc3: clear forceRM when issuing EndTransfer
+Date: Thu, 13 Aug 2026 08:14:56 -0700
+Message-Id: <20260813151456.867008-1-elson.serrao@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] usb: chipidea: usb2: add optional reset support
-To: Peter Chen <peter.chen@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
- Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
- Troy Mitchell <troy.mitchell@linux.spacemit.com>
-References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
- <20260812-b4-spacemit-k1-usb2-v1-2-f28cf29e522b@linux.spacemit.com>
- <an2UgcS8cHDGwzsO@hu-petche-lv.qualcomm.com>
-Content-Language: en-US
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-In-Reply-To: <an2UgcS8cHDGwzsO@hu-petche-lv.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: MhTS1zoHQzhUjTHRHxfWbMuupghBYH8SH6pucJxT0SQixF+Adgp1vR2A
-	dU+cBN/rUaTdqfkbb/Dpotk8DrFaH4z2LFocYpNTQbvNq0xP2kHVeSsSyF2UG4eBbgrKTZz
-	T38JoNxy0BCCDj2Ctx/OdgWHx2JLKvIAeVEykQ8/RA4ZJazVVsX+jBVnzP9lNFMOLH9KBeq
-	U5V+HmwDdhj3v1lZRE46nCdw6QFiinO8wsuk1Lp5J2j/Bzn915dLEJgfpmXWZQkHqmMA9xY
-	q6f4WeUYVL8m1UGgD8TGEpYxlGhaKyVuhXpUL9gRjXSRbCAQzwHQ6Tk5HUXppYyC31+r5rp
-	hITGIIvbAqihuOXrjvty2fvbiMGQYTaW0DMHa6yUcUaP71yjN5iB+aiAK+NLpTuicrvaUKo
-	ZaO9UBUwEg2z8iCZ9/5ke7qDNdM8cOB4W/LIJ2Gg2RMHRurKKsFn49zsmnFy6FMjN57CnZw
-	uPAPehPsrZWuLuAZ2LG0TnH8A5h970Pd9h/47DW+h0iOA5ow9w7rfHTbZqhIhVU8Zwzj115
-	pWL8Ej19O+WQiCkxiZW8S34BUxwfVHztq0dutdDTXSKugHJT9TwmqXxfzaHwoDqYq3Lgpuh
-	YzURde1TeRijXUkopTC6lsiSOr49+air7iz4KPeLVyBRAVTbf+vBY7nY+UjZ/Lsq17pFJ8x
-	/ItGkTfUGKfl0RtHPCLEyLyCp0bC/S7Qo8vkld0iI6GCi1nVKPpuOMLbnA6jA930VapMNuE
-	gr9hL0E30TIqPoV7jwq4G+nI3gEnNDPCz4XAePcRpB0YBFBkCQq+4RWomuVD0Cu5k+1JwZD
-	+2EJQMNkfYTuiCqlSDez9oIWaGjZEK1LE0FvNA/X6DIqRA1hdwh1iISb5zqOTjnJ46eeTD9
-	v6X+icyrvcY6rHDxWS78lm01axrKcYOl7nmS105/zY/xwLk3bwX+4eX2haxTeaY0Wuk2d/q
-	ox75wdv5kaHI3MJ3kQA+2gQYvBDcmGUB/3sDY4uGWJ19k7JkNluzkmrtzCVD20CzjDm4Lux
-	B9sTEUBfwzYDUW89vjHnstxVnU0EYGN/rMewoiBeKXS34o0y8ilL1NEZqR2JWjDmEsc63m8
-	Tp8t5P0IWqYsGB5nHIjYHnqvz6o++KPow==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEzMDEwOSBTYWx0ZWRfXy5sm1aRQIQyc
+ VF+K3Kcqb5usLi12pJsV1wTIAgRecBvC0Rh+9tsswlbpWHuk+PLquSWwnXGXFc2Zbsfz/OtULCI
+ aqRHo3kjvmF9fqxg4vDxfdq3ihdE0ts=
+X-Authority-Analysis: v=2.4 cv=VYDH+lp9 c=1 sm=1 tr=0 ts=6a7ddf74 cx=c_pps
+ a=0mLRTIufkjop4KoA/9S1MA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=o_ZYxRPx-Uo3p7AnxY4A:9 a=WgItmB6HBUc_1uVUp3mg:22
+X-Proofpoint-GUID: Dd6ACLeWmNmwaBOHWq0oPypQAkW8ttZL
+X-Proofpoint-ORIG-GUID: Dd6ACLeWmNmwaBOHWq0oPypQAkW8ttZL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEzMDEwOSBTYWx0ZWRfX0DlEaR+2IxuU
+ i/SisPMkiCJf5S4YC6uxaOxkxu9xyg+CxS81xAA/C80r1XnVawHVj4HmadTGCReZ2gRciV7kf7J
+ w3PcS/6QtZSXMKRpBGZcXZVD8tEmMLrLqO+22R5pKicGmIuhFZVxSuuldzyhl7w22BnRbUzey4Q
+ z8lhyKCx+lJnamCHIKYWQTVzJysVocfi4xdlmotLUyAmj9Z8kfAsdeEvIAHgyiPEKbVZzeowwir
+ allLWlL1CbgO51eHDULO+7qmWw+k6y2F5WskwgBls2RJPlss15gYJpRmv5wUSbQNcuxghC7euOM
+ 9pl3ECn/O/idPgjVJcG1d7iDgi9CI9U7alkVf4xKFWugtkTfdqfnV9cWh8QL7TKKoqsZwEfJ555
+ RveGhGXaFXE00ngA5yJZAWtwCE0nGcdZr2OWBNN8YgUz4Yaxgu6e65No9ZSzKANVn2UZ8Rjz4gn
+ BxTII3hP+gPsVdY+Tyg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-13_04,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 phishscore=0 clxscore=1015 suspectscore=0
+ spamscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608130109
 
-On 8/13/2026 5:55 PM, Peter Chen wrote:
-> On 26-08-12 17:26:13, Junzhong Pan wrote:
->> The USB2 controller of SpacemiT K1 SoC requires reset support, to keep
->> compatibility, add optional reset support.
->>
->> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
->> ---
->>  drivers/usb/chipidea/ci_hdrc_usb2.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea/ci_hdrc_usb2.c
->> index 8ffa1e95d8e8..00d575cd2955 100644
->> --- a/drivers/usb/chipidea/ci_hdrc_usb2.c
->> +++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
->> @@ -12,6 +12,7 @@
->>  #include <linux/phy/phy.h>
->>  #include <linux/platform_device.h>
->>  #include <linux/property.h>
->> +#include <linux/reset.h>
->>  #include <linux/usb/chipidea.h>
->>  #include <linux/usb/hcd.h>
->>  #include <linux/usb/ulpi.h>
->> @@ -21,6 +22,7 @@
->>  struct ci_hdrc_usb2_priv {
->>  	struct platform_device	*ci_pdev;
->>  	struct clk		*clk;
->> +	struct reset_control	*reset;
->>  };
->>  
->>  static const struct ci_hdrc_platform_data ci_default_pdata = {
->> @@ -80,6 +82,12 @@ static int ci_hdrc_usb2_probe(struct platform_device *pdev)
->>  		return ret;
->>  	}
->>  
->> +	priv->reset = devm_reset_control_get_optional_exclusive_deasserted(dev, NULL);
->> +	if (IS_ERR(priv->reset)) {
->> +		ret = PTR_ERR(priv->reset);
->> +		goto clk_err;
->> +	}
->> +
-> 
-> You may update binding doc?
-> 
+The forceRM bit of the DEPCMD register controls the behavior of the
+EndTransfer command used to stop an active transfer. Older DWC3
+programming guide revisions recommended setting forceRM=1 when
+issuing EndTransfer. Newer programming guide revisions recommend
+issuing EndTransfer with forceRM cleared.
 
-Sure, I forgot it, will do in v2.
+With forceRM=1 on DWC_usb31 v2.00a and v2.10a controllers, a transfer
+aborted through the ep_dequeue path was observed to remain active
+after EndTransfer completion. A subsequent StartTransfer issued on the
+same endpoint triggered writes associated with the aborted transfer.
+This resulted in an SMMU fault because the transfer buffer had already
+been unmapped during EndTransfer command-completion cleanup.
 
-Thanks.
+Using forceRM=0 eliminates the issue. Although older DWC3 programming
+guide revisions recommended setting forceRM=1, no issues are known
+from using forceRM=0. Clear forceRM when issuing EndTransfer to provide
+consistent EndTransfer behavior and align with newer programming guide
+recommendations.
 
-> Acked-by: Peter Chen <peter.chen@kernel.com>
-> 
-> Peter
->>  	ci_pdata->name = dev_name(dev);
->>  
->>  	priv->ci_pdev = ci_hdrc_add_device(dev, pdev->resource,
->>
->> -- 
->> 2.34.1
->>
-> 
+Fixes: 1e43c86d84fb ("usb: dwc3: core: Add DWC31 version 2.00a controller")
+Cc: stable@vger.kernel.org
+Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
+---
+Changes in v2:
+ - Clear forceRM unconditionally and document the programming guide
+   recommendation (Thinh).
+ - Link to v1: https://lore.kernel.org/all/20260806234035.1078704-1-elson.serrao@oss.qualcomm.com/
+---
+ drivers/usb/dwc3/ep0.c    |  2 +-
+ drivers/usb/dwc3/gadget.c | 21 +++++++++++++--------
+ 2 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
+index bfe616194dfa..310b5ffb236a 100644
+--- a/drivers/usb/dwc3/ep0.c
++++ b/drivers/usb/dwc3/ep0.c
+@@ -304,7 +304,7 @@ void dwc3_ep0_out_start(struct dwc3 *dwc)
+ 
+ 		dwc3_ep->flags &= ~DWC3_EP_DELAY_STOP;
+ 		if (dwc->connected)
+-			dwc3_stop_active_transfer(dwc3_ep, true, true);
++			dwc3_stop_active_transfer(dwc3_ep, false, true);
+ 		else
+ 			dwc3_remove_requests(dwc, dwc3_ep, -ESHUTDOWN);
+ 	}
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa0f16ffafef..dad9866b908e 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1004,7 +1004,7 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
+ 			 * controller to generate an ERDY to initiate the
+ 			 * stream.
+ 			 */
+-			dwc3_stop_active_transfer(dep, true, true);
++			dwc3_stop_active_transfer(dep, false, true);
+ 
+ 			/*
+ 			 * All stream eps will reinitiate stream on NoStream
+@@ -1032,7 +1032,7 @@ void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int status)
+ {
+ 	struct dwc3_request		*req;
+ 
+-	dwc3_stop_active_transfer(dep, true, false);
++	dwc3_stop_active_transfer(dep, false, false);
+ 
+ 	/* If endxfer is delayed, avoid unmapping requests */
+ 	if (dep->flags & DWC3_EP_DELAY_STOP)
+@@ -1720,7 +1720,7 @@ static int __dwc3_gadget_kick_transfer(struct dwc3_ep *dep)
+ 		if (ret == -EAGAIN)
+ 			return ret;
+ 
+-		dwc3_stop_active_transfer(dep, true, true);
++		dwc3_stop_active_transfer(dep, false, true);
+ 
+ 		list_for_each_entry_safe(req, tmp, &dep->started_list, list)
+ 			dwc3_gadget_move_cancelled_request(req, DWC3_REQUEST_STATUS_DEQUEUED);
+@@ -1757,6 +1757,11 @@ static int __dwc3_gadget_get_frame(struct dwc3 *dwc)
+  * the controller won't update the TRB progress on command
+  * completion. It also won't clear the HWO bit in the TRB.
+  * The command will also not complete immediately in that case.
++ *
++ * Older programming guide revisions recommended setting ForceRM to 1
++ * when ending a transfer. Newer programming guide revisions now
++ * recommend keeping ForceRM cleared, and TRBs are properly updated
++ * on command completion.
+  */
+ static int __dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force, bool interrupt)
+ {
+@@ -1882,7 +1887,7 @@ static int dwc3_gadget_start_isoc_quirk(struct dwc3_ep *dep)
+ 		 * to wait for the next XferNotReady to test the command again
+ 		 */
+ 		if (cmd_status == 0) {
+-			dwc3_stop_active_transfer(dep, true, true);
++			dwc3_stop_active_transfer(dep, false, true);
+ 			return 0;
+ 		}
+ 	}
+@@ -2165,7 +2170,7 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+ 			struct dwc3_request *t;
+ 
+ 			/* wait until it is processed */
+-			dwc3_stop_active_transfer(dep, true, true);
++			dwc3_stop_active_transfer(dep, false, true);
+ 
+ 			/*
+ 			 * Remove any started request if the transfer is
+@@ -2242,7 +2247,7 @@ int __dwc3_gadget_ep_set_halt(struct dwc3_ep *dep, int value, int protocol)
+ 			return 0;
+ 		}
+ 
+-		dwc3_stop_active_transfer(dep, true, true);
++		dwc3_stop_active_transfer(dep, false, true);
+ 
+ 		list_for_each_entry_safe(req, tmp, &dep->started_list, list)
+ 			dwc3_gadget_move_cancelled_request(req, DWC3_REQUEST_STATUS_STALLED);
+@@ -3368,7 +3373,7 @@ static void dwc3_nostream_work(struct work_struct *work)
+ 		dwc3_send_gadget_generic_command(dwc, cmd, dep->number);
+ 	} else {
+ 		dep->flags |= DWC3_EP_DELAY_START;
+-		dwc3_stop_active_transfer(dep, true, true);
++		dwc3_stop_active_transfer(dep, false, true);
+ 		spin_unlock_irqrestore(&dwc->lock, flags);
+ 		return;
+ 	}
+@@ -3725,7 +3730,7 @@ static bool dwc3_gadget_endpoint_trbs_complete(struct dwc3_ep *dep,
+ 	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
+ 		list_empty(&dep->started_list) &&
+ 		(list_empty(&dep->pending_list) || status == -EXDEV))
+-		dwc3_stop_active_transfer(dep, true, true);
++		dwc3_stop_active_transfer(dep, false, true);
+ 	else if (dwc3_gadget_ep_should_continue(dep))
+ 		if (__dwc3_gadget_kick_transfer(dep) == 0)
+ 			no_started_trb = false;
+-- 
+2.34.1
 
