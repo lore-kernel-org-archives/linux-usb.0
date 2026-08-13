@@ -1,91 +1,158 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AB848AE0F;
-	Thu, 13 Aug 2026 15:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA66485CE3
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 15:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786635242; cv=none; b=FpelGH5KRlwi+4o0r2L6diCwrCVheWZWmlT7wF1Ufc4SO47gbHnRYHOp1uTU5l5SrWCt0rL7WNp1p2/cuua2NK7Lq8itJ0qF265NFKNT8KrMm/2Nlh50Heb3Qg/b292dX/t0Gnx8slNZ39n9JVXA+WREgACFCz1fJkOLuEiPz3c=
+	t=1786635502; cv=none; b=EsJXOP65tuFOvUnadIDktrahXEueUgZSh94GJ+DzxJT/0ux3GByA5VVEHtKP2lVyYoHbiu61B+xYA15voWAaImjzWIW9HsBskcboelkbg13LjJcY3j3r8NokNjDALqKJVu6w5YUg1ZmoPzqoms3n3E1kFfqJGtErJNqdVbH5I08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786635242; c=relaxed/simple;
-	bh=C9dVE97QX7R2h0xqYmSfNdYsahc8ZF0BspXO3OXAe+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=txniG7PhTTxoEr4cnYEMJLDb+HMvaDq7buuZPekD3dd6hVtxxg81f1QW5QBA6BU+/e3xcUkjBdtnCpFlM7mMQWHDMDw5H+Xs6Ah1T/q4yCFPcOcGPY0U/lGqpP1rJBlCyWLeQyNCGmZGIqPFjrgvVzZ7T/IdwMzGr6ZILowm73g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowADHn_Ph431qDfN5BQ--.53587S2;
-	Thu, 13 Aug 2026 23:33:54 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Bin Liu <b-liu@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alexandre Bailon <abailon@baylibre.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v3 2/2] usb: musb: da8xx: depopulate OF children on remove
-Date: Thu, 13 Aug 2026 23:33:53 +0800
-Message-ID: <20260813153353.42817-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
-References: <20260813153021.38834-1-pengpeng@iscas.ac.cn>
+	s=arc-20240116; t=1786635502; c=relaxed/simple;
+	bh=+UccSeJlO0loZSK/eH8DMP1/5s7t4faZKMDsRTcReC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a14nLZFvXrMV8AC/PaLaeIJ86O3KjOnilm2tu533/tntlIU+W9eWaxNn0a+uZ0xDvY5UOwFnUw4IInCNYdODtnvLHVY9owuxip+agQ0YR4JOuH+5pZYSkaI3SbigbBm5cw3/oR3jF6Mum//daYzQEdINTtl8zm7ghAxoprPjPrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=g+aYcNPp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KvB0nQtV; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="g+aYcNPp";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KvB0nQtV"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67DFTdT23706324
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 15:38:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=2Z+8TPPRz/0BEaS0dGmL/mci
+	2zflTsU1Bc4aBxXGWSE=; b=g+aYcNPpxIWs/oJJ0iCejJakXeLzxdBdRG12jvMh
+	argp1tvJHacVB5XZz3z5BLhlTizXR2vhaqycVmwEPP9Waogv4QuVA5csDPJpPLYx
+	PIafcPe5N0WFyCLqROGpo1/NZ6MCmI3LJ03mxcxvj3lox5vOQXdBvnQcTTBPM8Bl
+	a+FZoL+NsdoH3gxuv/uhMGCG+82Zo7nJs5nInVwTTrJ94rP6fkAZ/021CMu0l5Pz
+	MJ9GHQvRTMsKCdamXCqkZ/fmqYYYDrvQfRlcnr2EVPR+MrDWm897sCQa1ULNI1AI
+	8fCtJtkbmXoGOSmT9M4QnxQFFTgvbV30H4/t4KKv1vdOag==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g18c5jew2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 15:38:13 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-51c0e702df8so667161cf.2
+        for <linux-usb@vger.kernel.org>; Thu, 13 Aug 2026 08:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786635492; x=1787240292; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2Z+8TPPRz/0BEaS0dGmL/mci2zflTsU1Bc4aBxXGWSE=;
+        b=KvB0nQtVg4pO9gyXeYStZgsL8bGgNaaz3saz3woGS/RezwCthOfrdw+sU1HHEb+KLn
+         9iLVl+K35aFVk1YTSM5o4MpxsZ2PIS29Cx6BfMN26N0B9auYJ3qEzFqBs7tKJIcTOQTv
+         xds76EfzjBFMONPCLgN+DJat/e35tgTGj8peD0SC/P9SGvxWsxpzYufDwbGQgtwkG3AC
+         o3h4WZ9Lf36Nabm5E6JzpZE+L8HxbHi47Yc5d6rObBa4mbBO1jHi2UFnX6lzqki1IKgQ
+         MEBmFY+UXVQu2VZQRuuAxGI/f5DPqDLX4JXduweMVtCu7DJ5l8oIhtYea9PlY7LzjN4/
+         SY4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786635492; x=1787240292;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2Z+8TPPRz/0BEaS0dGmL/mci2zflTsU1Bc4aBxXGWSE=;
+        b=EJUFdiltbkW96YCtzgjDd6Msq4nbcqGmVnTxRzPKOFEy/Wo+3A7gLgZEQbp4iJvxdv
+         d3/a/Eg8I06flBGNSv4Mlz0CbRRr/dhPGbfDmSUikvbsmBRzx27kWJa6HDhO8cE/9dpA
+         aHuAI5zqoLQWvpnVZ2lPoIqih4K+nqezXnShZVLu2UCRomPSiORN+yZEwCQerxDy5w9b
+         +NlFUwUYoqSIFGg9BgtK8i0BHLRPfVnt07XgORoK7amvN9FQDt2cSURaL7dte0XnjsTB
+         XZe3H3VwTHIHS+XbLU7O2SZyJOZhKwUyISeJfAJ269xiCTO5owR/bnoCAezPu7kIp/Pt
+         4biA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq2TMoa0fgsejLJQJX/pE70/3tAh6378Ulnmcx3h7cNOHS4+VYdR9RsgLLcN276mbT1uNQrFCJt0tM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiLdr07U2Ofc0f9iOTogR31jEPZ5IolXSOX32Qq5MVHDk8cvp2
+	pX5hsHOgHFIipaDzOR9oANwT+Vz4porOjfIRXJh2vnyI4G4hFTjMN/FM9eD54GS30C1u7xAJHLI
+	2xKJDybiYpEXkf4vmZl6nHnSSvbBvArITCJwPXFjIQz3LcEbIXLouptBtac7T2y8=
+X-Gm-Gg: AR+sD11bUgbwQ3wmkHUveTqtaGvQxi5foha9cJ87PswOwyY5MHvlDmMA28B0RlXA8IF
+	PqarYkWpfYbHVfdcRVQqPVh3JDX4auAs/B2LEaQQ8YHb7AQ1zSUG7IRLgH+WHx9Zv+1YqPt8CZc
+	vWYh4oEmwEPJIXH56LdVbYigjJXPxFF6TMLd/m6hc/xlFqdKUFa7Ee5zPMz/X+IM0rfu3WzNRTL
+	Ug05CDYkWfQwkVZpmHAWYTf0+7jC8cev9TeqymKhZh7qfyCvAHI15Uc1eHID18IZLU+CaArCcVh
+	j3cNjxdRkJezdt+sM9gKwtRAV18F+eXnWHF5Amj7M4MfcciemV+Zgh8T1Bu+6ERSGu1NZlhPc+2
+	EoyRwYcS8ZkvAhkPbN14TidTJA99J4ibqHiHHcq7qavqdOf82YwJSfxYmlbWg+8G4bCP/euc++v
+	fOrmA5H71u8gZP
+X-Received: by 2002:a05:622a:1106:b0:528:15e:d1d4 with SMTP id d75a77b69052e-52d73be0ed5mr63315471cf.4.1786635492126;
+        Thu, 13 Aug 2026 08:38:12 -0700 (PDT)
+X-Received: by 2002:a05:622a:1106:b0:528:15e:d1d4 with SMTP id d75a77b69052e-52d73be0ed5mr63314781cf.4.1786635491629;
+        Thu, 13 Aug 2026 08:38:11 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458419613sm64708e87.62.2026.08.13.08.38.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 08:38:10 -0700 (PDT)
+Date: Thu, 13 Aug 2026 18:38:08 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: George Moussalem <george.moussalem@outlook.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Praveenkumar I <quic_ipkumar@quicinc.com>,
+        Varadarajan Narayanan <quic_varada@quicinc.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 08/14] arm64: dts: qcom: ipq5332: Add clocks required
+ for USB3 support
+Message-ID: <5dh3s4dbpynj3tbe5ivmsq5qjnjztmzpmbj2m5whmi43qlae5a@w6flmrikrked>
+References: <20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com>
+ <20260812-ipq5018-usb3-v2-8-8f355d7ff0ef@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADHn_Ph431qDfN5BQ--.53587S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4rZF48Cw4DZF1fWF45Wrg_yoWktFc_GF
-	95uF4kGw1kCF1vkr45KrWfuFWIya1DXrZ7XF1DKrsIqa4UZr1fX34UArsrGFy7ZFsrCrnx
-	J3sF9w4a9a4fujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU089NUU
-	UUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260812-ipq5018-usb3-v2-8-8f355d7ff0ef@outlook.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEzMDExMiBTYWx0ZWRfXyr6EaaH1STPU
+ gEGCIfIP77s4I1STEUPmL5qyLZ00DLx3sbyDnveDIGRVVF+UPd08LEJcMTUO0IMGYykN3AOpXID
+ 05g2MmgR6RQk0V0h6MPN6v2gIZiCpno=
+X-Proofpoint-GUID: rVj5To1yRI68fvhhokPxY-B6rLVQOsur
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEzMDExMiBTYWx0ZWRfX8GWLuUYgIiez
+ K3e79YtOG0msU82rj/b++GOU7rfmeZdV6mnKRSv/PeIb0r2LUkgmHAuFLwe+iyHe87X/dcPfaz7
+ aS2SbZWOoJhymJSTveGeNxmA+cYl3f00bn/xL06qE7nPqhR1axtGxNQ5EOBFxxJ+F1O+FtsM646
+ dSjmL68hWItcfsWEiNrcfZEwW0jEcFaCw221EdFHMGYWWkAKIeMLCbF0QWY6UcgUtuomiAxtPkU
+ bVFlBARELiTXTJXid/HfCFoQpq94I10JrHrzYT0HpYBdZ2mugOxIRYXJ6/shiyPhTogQZzSF4Hb
+ Som15Roq8+aw5NyzM22ce2CJiIoPr49doqF1BtwDnmHdTlSuLp10dsKppmztSg0zm2XUDmDGeug
+ 2iNo42A7TVwVZOJh1+fIUhLXsQ7MmL3dguEjUbnl5k0rhOsdTMwM9wQ+9l0B6gU108mhzG/exrh
+ 2kZKz1O/GaFCvhifBJA==
+X-Proofpoint-ORIG-GUID: rVj5To1yRI68fvhhokPxY-B6rLVQOsur
+X-Authority-Analysis: v=2.4 cv=VebH+lp9 c=1 sm=1 tr=0 ts=6a7de4e5 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=COk6AnOGAAAA:8
+ a=UqCG9HQmAAAA:8 a=EUspDBNiAAAA:8 a=TbTMhDWFNTfgXYAo_YsA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-13_05,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608130112
 
-da8xx_probe() creates CPPI platform devices with of_platform_populate(),
-but da8xx_remove() unregisters only the separately created MUSB device and
-the generic PHY. The OF children therefore remain registered after the
-glue driver is unbound.
+On Wed, Aug 12, 2026 at 01:34:43PM +0400, George Moussalem wrote:
+> From: Praveenkumar I <quic_ipkumar@quicinc.com>
+> 
+> Add aux and lfps clocks to USB controller node for Super-Speed support.
+> 
+> Signed-off-by: Praveenkumar I <quic_ipkumar@quicinc.com>
+> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+> ---
+>  arch/arm64/boot/dts/qcom/ipq5332.dtsi | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
 
-Pair the successful population with of_platform_depopulate() during remove.
-Unregister the MUSB device first because it reuses the parent DT node but
-was not created by of_platform_populate().
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Fixes: d6299b6efbf6 ("usb: musb: Add support of CPPI 4.1 DMA controller to DA8xx")
 
-Assisted-by: Codex:gpt-5
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- drivers/usb/musb/da8xx.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
-index c08ec1241dc0..6c859a1a11d0 100644
---- a/drivers/usb/musb/da8xx.c
-+++ b/drivers/usb/musb/da8xx.c
-@@ -593,6 +593,7 @@ static void da8xx_remove(struct platform_device *pdev)
- 	struct da8xx_glue		*glue = platform_get_drvdata(pdev);
- 
- 	platform_device_unregister(glue->musb);
-+	of_platform_depopulate(&pdev->dev);
- 	usb_phy_generic_unregister(glue->usb_phy);
- }
- 
 -- 
-2.50.1 (Apple Git-155)
-
+With best wishes
+Dmitry
