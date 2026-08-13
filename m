@@ -1,45 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D828E43A7FB;
-	Thu, 13 Aug 2026 09:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DED442A150;
+	Thu, 13 Aug 2026 09:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786614495; cv=none; b=uHoBiWueb26mB3M/JrvPjNkGn581Ur2xZW9ZodKnAtJKsKBI+ELz9IDOEUStsrJW47nvkcrq6gQqg+bnTlQxmleJ/fpqhE8N22034gIgcQkk5ozH2AahCygcvePF0HIpS7PjgelAZH1AhkfVxA1WJR5U9XprMRV9ZVU7iHXUrUk=
+	t=1786614580; cv=none; b=GCuQ9UieoZtsg58tCqYWS9jYywbmdIu5W+Jz+YSs1/m2X4a3AJ+4o3IPd0yYaztpyAIBOm0KCTzUdPRAhJLdC5yzkEk0G7wY9nzZ/pwyOX2ZU19+gYXSNEsjv6RIo+mGH7uzFdkM47h6HtLGZCYtYY18vDZ+TZYTzNHYbCcKV/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786614495; c=relaxed/simple;
-	bh=ZkgIabWGAntWYV6VTTWxAltfFpuWEQZthzTuj84b3qs=;
+	s=arc-20240116; t=1786614580; c=relaxed/simple;
+	bh=j/6VFLqMmWsYFcCRbi/+gA0E3dif0Xb6P0i3Mjv9F3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEbzpG8DntJwrydTcDybswIHaCeUnxeHaogmcJzb+KAK58yayYp4KKtZ1X2OcLm527Dnfz7QvvuF5/rEWdGpL69BYawCXPqqEnApNIQLCUHLcOvY/BCmNH5+YG3i5H0DQTsE4KKsSn/vrCdzpZHLamUa5m9HaCFQYvIoJaeF1Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FwBWDZ48; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fr4TN/EdpmPRm7xPOo+twQrq7rHP2oyAo1TGYcZCgtmnKj4IWY76rptW1U/Y9ykd/Z05RRmf1qTM85aXWsJWk6KFrN59sQrWtjeOeQUWO3a9n9vVXJOWplnktlHdp2kju6tKb0fcozLnD+OhNomiMtVC5VNnt2EO5s1LicpDbSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BIwrsoCl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwBWDZ48"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5270B1F000E9;
-	Thu, 13 Aug 2026 09:48:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BIwrsoCl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 523CF1F000E9;
+	Thu, 13 Aug 2026 09:49:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786614493;
-	bh=JhoXw3RFEqzXczfkUaS1se+ToO/5VXgXgifgsnHZJSE=;
+	s=k20260515; t=1786614578;
+	bh=TTABNkzRnvKcALm2Uzahbsigca8Jvi3+YV2m2C/7ack=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FwBWDZ48bk5dHLbMDY/xC9cgKSHnoiBSmLz2DW/DjHR3SoC/+UWOYwmW/2SwQIDy/
-	 Uz3svXj01QDzv5EaKfFpdTEBSMGu3fJxifYmaSnHThWIp5kYKq/kPmFqSf56zqiNec
-	 nPXJdgshyCALWe2LdgF8XQh410989Wpd5OjRFVgjg2+5uPPVWKWoR/wQbuCDmSVUK7
-	 rs5Bk8KOS949QFZLp2927vJteotpJnu4Ermd+AZyum/mFbAhCGla3vyvrTHntAptOZ
-	 VsJQ/rmOdC8c1o4sMNOdB9F88KMv9iyF3ZL7ArG3riD7R3UUOwF65Je0VS+4qz+l+A
-	 maBhWG8RSLx5Q==
-Date: Thu, 13 Aug 2026 02:48:11 -0700
+	b=BIwrsoCl7tY9BhRCIm744CBabclvQfR64hEKjewDzXcajooO63rgrJfG5dth5CubV
+	 OIdixsawiVZ++RlKe/uNmNNa1kjrVUwYT+haQHzm6bIb/8tLatLLQO4+AT+/EIzu3b
+	 e8PaxrIgkBw7cbEXLu2YvjTqU99J2lG6vBQT7UIy5QkBdpKcAhjY93KuZG5FfdFfp9
+	 j0yh9cdU/BMBhWwrTPdAND2ddmLNJO4J/sA59JdPAJdko4MmzjsA5jKZJVGYN0qG4Y
+	 nTfS3IZKSMLNgbxJkCfndpCJHpkc3+pWfMssBe3YWrn+t9QieEOah1UAovhXnJ58zG
+	 g84ay/MA0xIfA==
+Date: Thu, 13 Aug 2026 02:49:37 -0700
 From: Peter Chen <peter.chen@kernel.org>
-To: Pawel Laszczak <pawell@cadence.com>
+To: Junzhong Pan <panjunzhong@linux.spacemit.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	gary.yang@cixtech.com
-Subject: Re: [PATCH] usb: cdnsp: fix wakeup from S3 after controller context
- loss
-Message-ID: <an2S2-4J329OIqKb@hu-petche-lv.qualcomm.com>
-References: <20260723-suspend_resume_fix-v1-1-c12a0e8eaffc@cadence.com>
- <amgbVsk6ioQQGzat@hu-petche-lv.qualcomm.com>
- <LV5PR07MB113546210770FBED0E2A26E84DDDC2@LV5PR07MB11354.namprd07.prod.outlook.com>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
+	Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Subject: Re: [PATCH 3/6] usb: chipidea: usb2: add SpacemiT K1 support
+Message-ID: <an2TMSqHTVh-XYdX@hu-petche-lv.qualcomm.com>
+References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
+ <20260812-b4-spacemit-k1-usb2-v1-3-f28cf29e522b@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,97 +53,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <LV5PR07MB113546210770FBED0E2A26E84DDDC2@LV5PR07MB11354.namprd07.prod.outlook.com>
+In-Reply-To: <20260812-b4-spacemit-k1-usb2-v1-3-f28cf29e522b@linux.spacemit.com>
 
-On 26-08-12 08:13:08, Pawel Laszczak wrote:
+On 26-08-12 17:26:14, Junzhong Pan wrote:
+> Add a compatible for SpacemiT K1, and add platform data with correct
+> flag since the hardware doesn't have internal otg register support.
 > 
-> Hi Peter,
-> 
-> Sorry about that. Yeah, I know. I think b4 added that address automatically
-> And I didn't notice.
+> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 
-Probably you work at old kernel?
+Acked-by: Peter Chen <peter.chen@kernel.org>
 
+Peter
+> ---
+>  drivers/usb/chipidea/ci_hdrc_usb2.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> >
-> >> CDNSP controller loses its runtime register programming across S3
-> >> suspend/resume.
-> >
-> >It is not always true, it depends on SoC implementation. For some
-> >SoCs (like CIX P1), the controller power still exists when the
-> >system at S3.
-> >
-> >> After resume the operational and interrupter registers
-> >> may contain reset values, which prevents the gadget side from recovering
-> >> correctly and breaks wakeup from S3.
-> >>
-> >> Fix this by reprogramming the controller state required for normal
-> >> operation after resume, including the command ring, DCBAA pointer,
-> >> doorbell base, event ring, ERST base/size and event ring dequeue
-> >> pointer.
-> >>
-> >> Move the basic controller register programming out of the one-time
-> >memory
-> >> initialization path and make it reusable from the resume path. Also
-> >> separate ring allocation from ring initialization so that rings can be
-> >> reinitialized without reallocating DMA memory.
-> >>
-> >> This fixes S3 resume on systems where the controller register context is
-> >> lost while keeping the existing DMA allocations intact.
-> >
-> >With your fix, does device mode wakeup still work, does affect the SoC
-> >like I mentioned CIX P1 which keeps power at S3?
-> >
+> diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea/ci_hdrc_usb2.c
+> index 00d575cd2955..70c5ce750519 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_usb2.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
+> @@ -40,10 +40,18 @@ static const struct ci_hdrc_platform_data ci_zevio_pdata = {
+>  	.flags		= CI_HDRC_REGS_SHARED | CI_HDRC_FORCE_FULLSPEED,
+>  };
+>  
+> +static const struct ci_hdrc_platform_data ci_k1_pdata = {
+> +	.capoffset	= DEF_CAPOFFSET,
+> +	.flags		= CI_HDRC_DISABLE_STREAMING |
+> +			  CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS |
+> +			  CI_HDRC_DUAL_ROLE_NOT_OTG,
+> +};
+> +
+>  static const struct of_device_id ci_hdrc_usb2_of_match[] = {
+>  	{ .compatible = "chipidea,usb2" },
+>  	{ .compatible = "xlnx,zynq-usb-2.20a", .data = &ci_zynq_pdata },
+>  	{ .compatible = "lsi,zevio-usb", .data = &ci_zevio_pdata },
+> +	{ .compatible = "spacemit,k1-usb2", .data = &ci_k1_pdata },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, ci_hdrc_usb2_of_match);
 > 
-> Yes, device mode should still works correctly with this fix, and the
-> patch does not break platforms like CIX P1 that keep power during S3,
-> but I have verified this only on my FPGA platform.
-> We cannot test on CIX P1 directly. but the logic is sound based on
-> the hardware register behavior.
+> -- 
+> 2.34.1
 > 
-> The resume path uses CFG_U1_PIPE_CLK_GATE_EN (bit 0 of
-> XEC_CFG_3XPORT_MODE_2) to detect whether the controller lost its
-> register context:
-> 
-> - On platforms where power is lost during S3 (like ours), the
->   controller undergoes a Power-On Reset, which sets this bit back to
->   its reset value of 1. The driver detects this and takes the full
->   reinitialization path. Wakeup is not signaled in this case, as the
->   USB link has been dropped.
-> 
-> - On platforms where power is retained during S3 (like CIX P1), this
->   bit remains cleared (it was cleared by the driver as part of a
->    previous fix). The driver detects bit = 0, takes the CRS (Controller
->   Restore State) path, restores saved registers, and then calls
->   __cdnsp_gadget_wakeup() if the link was in U3. Device mode wakeup
->   works correctly in this case.
-
-Add Gary to confirm if it affects CIX P1 platform.
-
-> >>  irqreturn_t cdnsp_irq_handler(int irq, void *priv)
-> >>  {
-> >>  	struct cdnsp_device *pdev = (struct cdnsp_device *)priv;
-> >> +	struct cdns *cdns = dev_get_drvdata(pdev->dev);
-> >>  	u32 irq_pending;
-> >>  	u32 status;
-> >>
-> >> +	if (cdns->in_lpm)
-> >> +		return IRQ_NONE;
-> >> +
-> >
-> >If the interrupt happens before cdns->in_lpm is clear, there will be no one
-> >handles interrupt issue.
-> 
-> I will change it to IRQ_HANDLED. 
-> The controller is stopped during suspend so no level-triggered
-> storm can occur. IRQ_HANDLED properly acknowledges the interrupt to
-> the kernel preventing it from disabling the IRQ line due to spurious
-> interrupt detection.
-> 
-
-It is not so simple, it needs to co-work with wakeup irq. See 
-cdns_wakeup_irq and cdns_drd_irq please. By the way, why you
-add above code?
 
 -- 
 
