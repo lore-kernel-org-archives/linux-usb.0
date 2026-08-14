@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500EB3EC6A9;
-	Fri, 14 Aug 2026 10:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABD63EBF02;
+	Fri, 14 Aug 2026 10:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786703601; cv=none; b=D9lLg1QuOymyIln+uPr1ki7vHx1g6xDnqWsAd+uPNTxc8LK/OO52h4g6S042kbxBsycbQ7jMgRh2qx00sjhdm0M1v5E2ZjF8AbpSGWMLD6B+fCRR2BFrCUd1ZAHDJCoLhWyiv5rZHe83LQ6bGS8euCrClww31Ql79bwRXLDI+fk=
+	t=1786703830; cv=none; b=jwYvHy4424h2+rhw0LP0piT/1IfNsuT+/WgXl2hjQ6OIeRt0oE6nqhlQqr8IyoN2+dTpaBGU5Y1rDYtZ0tvhkOy8D/nCrsYDcFR9yU7le30+JwahT/Gcn048lvth0cQ8lvpGawg6ChUO96LzhIopP+j+KQaC8hptC2TgJy2qOmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786703601; c=relaxed/simple;
-	bh=Ox7+xXMzjOqT41gzxIAltGSc26sAMIXoBRt6kUQhSgA=;
+	s=arc-20240116; t=1786703830; c=relaxed/simple;
+	bh=p69RouqMpALXee3UEOkmmOzgGp30XErIRh8g+uHdd9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mI/V9lOEBI5XZuflnP1dcWlXvfl7psq9VHTc6ymOGTCfoW2e4Upn2ReYdjt55u54Bcn8A27TNJxN5tmHNTkdAabAtpFRgszeXjH+zeQBgrAtvOmyNbw1cjYRtwG3eVIBc5Ek7qstR7tQ1oajZsjarS0cKX/AmN1G/yF4SDWlr8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DetQLR7D; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=KxCa9rDFHjAs2VJJ4KI2IEnoCmD56BzAQTOSpzQo2l2aTZGugAEgbTiIvuKajM47Bg4MeRCrYvQywvg3nUNXOXRbHJAoFx4YNHiIGt6FLUmtGVEG1MworTfo90tdw44USaDWDFk/mzRY1ErSISkYz4/x9V0uH/SzAivxyCT5MNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJ2X7S/9; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DetQLR7D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJ2X7S/9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786703593; x=1818239593;
+  t=1786703826; x=1818239826;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ox7+xXMzjOqT41gzxIAltGSc26sAMIXoBRt6kUQhSgA=;
-  b=DetQLR7D4ImaTDvIhg4EL1kghV/Lnt8buFwyQTSWDwgOpmtcjhh6StK4
-   gLeMO4K+VnbtZewKKGtvq/joRDCTZpQwCR9TyUjN1EqQzAO5RFLh7OICw
-   Ud+aaSqmpij9mrsZtG/sFuRRT8SGrBSLSYNdXtdHrL5nxsErseJDl5tJc
-   GYSB+nX9obsKozosiHoQMkELkVc7GPvfx42JLKyxYVcPxqNJ5UZKcK2/6
-   aVTB8dJ1d2qS3wNcbZDv9jkZwkNYOJ9ZwwYJui1zCu4r7lyJpiCLM7IYz
-   7h/oMILmDnou1V/sszaEgC5vjsxPLuIzO8qvKyM/9P8ZJ81OUYmilsyg3
-   Q==;
-X-CSE-ConnectionGUID: PQSLTSLJTfuqF0qote0P4A==
-X-CSE-MsgGUID: uhrLh2IASpS9ZrqyOG8cqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="112826729"
+  bh=p69RouqMpALXee3UEOkmmOzgGp30XErIRh8g+uHdd9M=;
+  b=TJ2X7S/98EgFS/OW8GR1AsVupkMhmHOTEsBr+OuQ8N+Zt8nUCtHpc3mB
+   1s5rC+5tkd/f6BpozLMXnGdWLAKf1c3/gr1xed2rVMoKwy3GLBSkShpWa
+   LKNLeDatZRlOxnIl9Va/6mmQasG4k0YQsC0ISU6luUdb1uJrFq7KJ0tIC
+   aMXnsoJ23VBSrHmZxN1EW7BJvpvlhQD5MFEYyFabk5pCuJjfRGhm4SFiI
+   hR6LUGUFkITvbGaPvVBWcEEhUuG5erRb5PXiON/uVVP6J4QEAcf7OeJ3G
+   jIEJXOgPoCd3vvVBFp7DhVOvYXLYn9yHX8htzVZSimTXe1S4bXME+QFRd
+   A==;
+X-CSE-ConnectionGUID: WvW23hxYSWSTpv8ZngTjIA==
+X-CSE-MsgGUID: qJ1dFs4xTCC7U3yCGO1aKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="91157715"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="112826729"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 03:33:09 -0700
-X-CSE-ConnectionGUID: HVbzPJIkSNOqBoO9FjH5OA==
-X-CSE-MsgGUID: 7ZUl5mC4RcWsFYugkc9jTg==
+   d="scan'208";a="91157715"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 03:37:03 -0700
+X-CSE-ConnectionGUID: 6C4pvVPiTqG+lndfzT1K+Q==
+X-CSE-MsgGUID: A7t0kuppTuGEpPVbhyNc0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="294128638"
+   d="scan'208";a="260923733"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 14 Aug 2026 03:33:08 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Aug 2026 03:37:01 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 0F13699; Fri, 14 Aug 2026 12:33:06 +0200 (CEST)
-Date: Fri, 14 Aug 2026 12:33:06 +0200
+	id 9528A99; Fri, 14 Aug 2026 12:37:00 +0200 (CEST)
+Date: Fri, 14 Aug 2026 12:37:00 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
+To: William Bright <william.bright@imd-tec.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tipd: Fix Thunderbolt altmode VDOs for cd321x
-Message-ID: <an7u4kHCuYE0bz4x@black.igk.intel.com>
-References: <20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@kernel.org>
+	"Christian A. Ehrhardt" <lk@c--e.de>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Handle connectors already attached at
+ init
+Message-ID: <an7vzBaar_e_K3uk@black.igk.intel.com>
+References: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,91 +63,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@kernel.org>
+In-Reply-To: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
 
-On Thu, Aug 13, 2026 at 08:16:15PM +0200, Sven Peter wrote:
-> The Intel VID status register is actually 9 bytes long and doesn't
-> contain the raw VDOs but only the upper 16bits for device mode and enter
-> mode. Shift those two fields into place and reconstruct the cable
-> discover mode VDO from the data status register instead since it's not
-> directly accessible. With this fixed now the correct VDOs are forwarded
-> to the PHY and the to-be-submitted Thunderbolt/USB4 native host interface
-> so that the right mode can be negotiated and the link actually comes up.
+On Thu, Aug 13, 2026 at 10:38:40AM +0100, William Bright wrote:
+> After a cold boot the PPM may already have a partner attached without a
+> pending connector change to report. On a CYPD6125 the CCI register reads
+> back 0 in ucsi_init(), so ucsi_connector_change() is never called and the
+> Type-C mux is left unconfigured for the already-attached port.
 > 
-> Link: https://www.ti.com/lit/ug/slvubh2b/slvubh2b.pdf
-> Fixes: 0b31c978935f ("usb: typec: tipd: Read USB4, Thunderbolt and DisplayPort status for cd321x")
-> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sven Peter <sven@kernel.org>
+> Fix this by additionally checking the connector status of every
+> connector and call ucsi_connector_change() for connectors that are
+> already attached. Whilst also continuing to call ucsi_connector_change()
+> for connectors that report a change via the CCI register.
+> 
+> Fixes: ce4c8d21054a ("usb: typec: ucsi: Fix connector check on init")
+> Signed-off-by: William Bright <william.bright@imd-tec.com>
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+You need to CC stable.
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
->  drivers/usb/typec/tipd/core.c     | 17 +++++++++++++----
->  drivers/usb/typec/tipd/tps6598x.h |  4 ++--
->  2 files changed, 15 insertions(+), 6 deletions(-)
+>  drivers/usb/typec/ucsi/ucsi.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index d5ee0af9058b..159d1a2f9a1f 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -114,7 +114,6 @@ struct tps6598x_intel_vid_status_reg {
->  	__le32 attention_vdo;
->  	__le16 enter_vdo;
->  	__le16 device_mode;
-> -	__le16 cable_mode;
->  } __packed;
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index ecbda2a3783c..740ae4a14f7f 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -2136,8 +2136,11 @@ static int ucsi_init(struct ucsi *ucsi)
+>  	mutex_unlock(&ucsi->ppm_lock);
+>  	if (ret)
+>  		return ret;
+> -	if (UCSI_CCI_CONNECTOR(cci))
+> -		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
+> +
+> +	for (i = 0; i < ucsi->cap.num_connectors; i++)
+> +		if (UCSI_CONSTAT(&connector[i], CONNECTED) ||
+> +		    UCSI_CCI_CONNECTOR(cci) == i + 1)
+> +			ucsi_connector_change(ucsi, i + 1);
 >  
->  /* Standard Task return codes */
-> @@ -700,9 +699,19 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status
->  		   cd321x->state.mode == TYPEC_TBT_MODE)
->  			return;
+>  	return 0;
 >  
-> -		tbt_data.cable_mode = le16_to_cpu(st->intel_vid_status.cable_mode);
-> -		tbt_data.device_mode = le16_to_cpu(st->intel_vid_status.device_mode);
-> -		tbt_data.enter_vdo = le16_to_cpu(st->intel_vid_status.enter_vdo);
-> +		tbt_data.cable_mode = TBT_MODE |
-> +			TBT_SET_CABLE_SPEED(TPS_DATA_STATUS_TBT_CABLE_SPEED(st->data_status)) |
-> +			TBT_SET_CABLE_ROUNDED(TPS_DATA_STATUS_TBT_CABLE_GEN(st->data_status));
-> +		if (st->data_status & TPS_DATA_STATUS_OPTICAL_CABLE)
-> +			tbt_data.cable_mode |= TBT_CABLE_OPTICAL;
-> +		if (st->data_status & TPS_DATA_STATUS_ACTIVE_LINK_TRAIN)
-> +			tbt_data.cable_mode |= TBT_CABLE_LINK_TRAINING;
-> +		if (st->data_status & TPS_DATA_STATUS_ACTIVE_CABLE)
-> +			tbt_data.cable_mode |= TBT_CABLE_ACTIVE_PASSIVE;
-> +		tbt_data.device_mode = TBT_MODE |
-> +			(u32)le16_to_cpu(st->intel_vid_status.device_mode) << 16;
-> +		tbt_data.enter_vdo =
-> +			(u32)le16_to_cpu(st->intel_vid_status.enter_vdo) << 16;
->  		cd321x->state.alt = cd321x->port_altmode_tbt;
->  		cd321x->state.mode = TYPEC_TBT_MODE;
->  		cd321x->state.data = &tbt_data;
-> diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
-> index 03edbb77bbd6..d172c84ada74 100644
-> --- a/drivers/usb/typec/tipd/tps6598x.h
-> +++ b/drivers/usb/typec/tipd/tps6598x.h
-> @@ -206,10 +206,10 @@
->  #define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) \
->  	TPS_FIELD_GET(TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK, (x))
->  #define TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK   GENMASK(27, 25)
-> -#define TPS_DATA_STATUS_TBT_CABLE_SPEED \
-> +#define TPS_DATA_STATUS_TBT_CABLE_SPEED(x) \
->  	TPS_FIELD_GET(TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK, (x))
->  #define TPS_DATA_STATUS_TBT_CABLE_GEN_MASK     GENMASK(29, 28)
-> -#define TPS_DATA_STATUS_TBT_CABLE_GEN \
-> +#define TPS_DATA_STATUS_TBT_CABLE_GEN(x) \
->  	TPS_FIELD_GET(TPS_DATA_STATUS_TBT_CABLE_GEN_MASK, (x))
->  
->  /* Map data status to DP spec assignments */
 > 
 > ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260813-b4-tipd-vdo-fix-44e65b48aea3
+> base-commit: 55431f6adac42f818a0c76594ce2c6c02fe1034d
+> change-id: 20260813-ucsi-cold-b35e11991b7c
 > 
 > Best regards,
-> --  
-> Sven Peter <sven@kernel.org>
-> 
+> -- 
+> William Bright <william.bright@imd-tec.com>
 
 -- 
 heikki
