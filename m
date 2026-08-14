@@ -1,575 +1,391 @@
-Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F141148032F
-	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 15:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A97F48AE1F
+	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 16:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786720293; cv=none; b=capVXphTfuvlet5+fVR1MLcyV8ikBoOUR0a99VueehMlWFeUhniL79POs/aKOP9Yqf9zeNLkTDLQBx+bSYiADCoohYzn3Hel5xTI0GC3leAoV2hbSfKaNx48/2N1rZ6IclNmu7lP7vmFnclhv6/0vM8CwM7REjaU2fwkyMu6Wu8=
+	t=1786724261; cv=none; b=t08dKdtzOOrmmegbBcul9MltGGjwj8dnZ879JxPCk25svWSeVSoDticR7GeZxcWDUJRc9+lGL0xZQQdNIE7r7DW84hx8P4EK40yCorEX5T8cu1kj2zZ29+FEUag1g/op5fc+yqruGaMS4iXOk0L1Xi9kdQ5vf6BusoEFklsrxN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786720293; c=relaxed/simple;
-	bh=/ZrmtC2pVKkk+Fgrao8x+BBCzcnQ5vlH+XOL5czNtDc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=HtHcNJD87xBVY3W6j6SiMxgXPbqldj+oN6qhd8rCLIXmktWKnpqToKcQmfUM4a05XIvQRYuteUoFTSUzO9s0ChXYOraLbCqQalVSotacHlY6jwLMus1D7GRjvbdAoMM18R1JCl1PqMU2pPnPQtQDoxnRQhhUB1cSyQOniLepehU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7e6b73b3920so894689a34.0
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 08:11:29 -0700 (PDT)
+	s=arc-20240116; t=1786724261; c=relaxed/simple;
+	bh=juFDv7RvuAPqszMqqwEhpAF4VUFVTTR/K1AEUJ7aEOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=elxJ7KgIc9UsnvAfujF4FOhJSAm/2paw/pBbso7J+2dXA0RveFD+0rjGftKZOtJIXy7AfXnsdP37C03NYoDWynADGaFfZqyvRT3lvkPMYElzibnjy6elvLOBCgQI3Faa99Vg1BLNcij0MIul9o9AMX+KscZSxKVmIVBrjq/Gibk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=tXltAKUv; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="tXltAKUv"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-9061a795d76so11722746d6.3
+        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 09:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1786724257; x=1787329057; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gCFg5uMrkm2OEsRvXdLpnJSQsI053RQZSwuU+wws3qk=;
+        b=tXltAKUvfN+FOWd3FIN61eq7lc6+ACuTHbkwtGcbtW7tXGI6EFYJnpkUed0iC4K5ZN
+         uIfLe6PyEXA4os0pzgSaDA/koEOTm4sTeAJllY84FGeTi075zUf9scjg42ODGs0hkJGL
+         LNCUQPFlkPe2HHMlXDPTnU+J+zhj34nDsT1CT7XfZFRHnBcnIo0ITasmMFKz6IHHuTOL
+         040NRuOS0O7wPP6DwPJtUbIYtow9qebdgkDmIZ9hnsBG0NKJwNyJqCnoEXwpcAPjTl5n
+         COuxUkho+ddJ98X411QdeQuab7r+/Wx/qslzcs+NLKVL0xPOmGZKjvO7lG4eg5K0/Kak
+         mxCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786720289; x=1787325089;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1786724257; x=1787329057;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ckS03SzjPkKNDuc+6LezxBOebF0DwUwc/THgl/tiQUA=;
-        b=Ie2wgAM87JYxc3EZPq6DeWhGS/eL8EMxqjMENxKBmpgfByam6A+XdLSNZ2Uk4A8Dz1
-         m8uqQYoNlmIQCnrAZnpUZe/LmcQKI0knSCneX6dDr2KhczC8ULgLfwiwPDrU+ME5Z7JE
-         XF9teGEhbVCdkz8X4IUzB5ToqAAeUzV3/8BAyxxRJup5nB3clxfpd+9QUE8J0c9INZKb
-         Pi47nSsnImbRcUh1ppseSn3ZrnKi/N9tWa84lCbhqQ/Ut4uor5FU5wtqO4rfVSMqAWDW
-         PaXdMjyQYkag8gLCTv1ZE1A9oXWadOwdzgyNxeLWrnDjbN8LRJBSpsYsajVJ4wFK3vYN
-         SllA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrx30HG1j6g34VOEY5oY2li/BSBmCDKv85quos91ID4oZ816XH15WnhKjM39s6jv2ltjdG1IF2gTk4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj+izfsQQhr1yE925nTHFu4KZVSgwUgaxqoiExVKZDcnysJzLY
-	LVXEToR42rTHo2RHyrK32b6eONVJku9tkLMJis4Wpry+r3ChclGNXQ5b5nuSadOJlxbSaYwJiXi
-	54qPFykKueZXRoNg4zTC6emCM/+QcZIOO958vFvsdDnhNvtnHi4FTMn7DkXY=
+        bh=gCFg5uMrkm2OEsRvXdLpnJSQsI053RQZSwuU+wws3qk=;
+        b=cUWQnCc7xxMne9nFm4B/iEIvsy+Uc17pfX2LuBKEtFkbmRg8MiedB1IryTjLmJwKVy
+         2rgEIWq3xjrm2sPDJLcmlRTxZ2nzEzgVFo7ssiLQ7EsQEyNqSLMEG4bzbGV9gRp7B1pt
+         ZiuPflU3Q1Ia1SLu1rKByQZWi+HAjI8WACqVLHXRocAGFn7zFWuLsCzRpUxfiHHsj2kf
+         CatJkACCQuDbtAhLlXkGSNtUdRsVFHnWo6RPMsX0MP48gGLp7g8WCTv48fwjOq2gbD3Y
+         Tr81Bwp8SWzbQyZ+MaG+gXSc6nc/FHHC1aktvEkzFZiBs2EAYKV1IGzrXLrCn3HOSbu4
+         AmcQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoSCGj2SJ8TUKAsRFwynEsDAwFLCkpESf3OBWKNi9iSIJRhgKy30jnu9LuXWS2fzpq+7eZlJgC6xYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzFHl6xhsCgbHS2waRhxRRqVH1UPT8/wBe2uCC1ZUyGLkC/fCu
+	3eeuEvi5nU8DW3QUSc+FqjEaBzQ1ahhQlLSRndO0tSXB5Op3sP6WgAmhmOTaG3LeTg==
+X-Gm-Gg: AR+sD121IUy6wfltWILzpnqywig8Bj6BDZ5CCgfaTqtTMtkVwGqGeV4D1ZkmA2snv8A
+	G+4XiiaPxyxWFuOmNlfZ1QigNPtf1IjcU6sPt3t9hR0oGkpZXN9f4moMlKNLpBeFGo08OJ9928z
+	gjeIMGvrauSAtcrNbRBAykemJGWkGG+7j1xwOHjl+LRJ+1mgay0SNnxFOsBPx3QyBDf8iPIUIaF
+	TVA+pma4FkJNcUPVFdLMHVcWhoPA99nXsuSvHyAYbsAHWeQrwcnB6cyIiFUeOeoZDa/xW62mJFa
+	oERYkxBbwfMQ+XDlW5VsacS+uD7WRcVYFkCR9zLHPUhSQfhWQP+bIt9EaT/10mmpQoEy7ozQWp2
+	879YTvfiHYAKto4BgxSHpT5yTrnuxR7/9ICvEEGyEY2c9FWwlAeACMXVzfLTrwRWkD0ua+WQDyB
+	7EJbGa3AVWrrLfc841wdNd505hrHknxmzFYNGcr8j0rLNSccxc0lyPBEQ7iBI1wg==
+X-Received: by 2002:a05:6214:5789:b0:8f5:c166:b418 with SMTP id 6a1803df08f44-90a91cd80afmr90211956d6.11.1786724256931;
+        Fri, 14 Aug 2026 09:17:36 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a93548b24sm20885956d6.36.2026.08.14.09.17.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 09:17:36 -0700 (PDT)
+Date: Fri, 14 Aug 2026 12:17:33 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <15185c2d-4544-42cc-ba0a-79dd36e82a21@rowland.harvard.edu>
+References: <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
+ <CAFmvuTXx6bOEEusjf=bw5c-RDVu-bzRLbd_RVnhn2tLe4n4upQ@mail.gmail.com>
+ <887e75d3-dd11-4d98-b6e6-5f6a2c3a6ae8@rowland.harvard.edu>
+ <e05c6ba1-48f9-49e7-9d56-25db41e70f6e@rowland.harvard.edu>
+ <CAFmvuTVYt2bVaqcyJVUSvNZfss6yzVdPbA5Wk2dtr89w2tz+5w@mail.gmail.com>
+ <483692a4-8fb7-419e-90d5-1784b71fbb9f@rowland.harvard.edu>
+ <CAFmvuTXvwuUrfbvsAQ_VvC9jH5iS62J+Ei23TD0NfQ_igFRJ_A@mail.gmail.com>
+ <6761b47f-0230-4f3e-942c-26ed8dd6d0d4@rowland.harvard.edu>
+ <CAFmvuTW2cfj5dzkRR8ymenWoA7tw1WAYsMitorvppTwcZ+xfbg@mail.gmail.com>
+ <e8655e37-02b3-40ef-9ce0-98c8fa25481d@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:201b:b0:6b0:589e:42f4 with SMTP id
- 006d021491bc7-6b0d6245e3bmr5390234eaf.20.1786720288815; Fri, 14 Aug 2026
- 08:11:28 -0700 (PDT)
-Date: Fri, 14 Aug 2026 08:11:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7f3020.5ca1970b.32aa76.0004.GAE@google.com>
-Subject: [syzbot] [mmc?] WARNING: suspicious RCU usage in cancel_delayed_work_sync
-From: syzbot <syzbot+9c1988bc953fca2086a3@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
-	ulf.hansson@linaro.org, ulfh@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e8655e37-02b3-40ef-9ce0-98c8fa25481d@rowland.harvard.edu>
 
-Hello,
+On Wed, Aug 05, 2026 at 12:17:22PM -0400, Alan Stern wrote:
+> But as you have seen, there are still other problems in that driver.
+> 
+> However, I'm not sure it's worth working on them.  Greg KH is talking 
+> about getting rid of almost all the drivers in the gadget/legacy 
+> directory.  I don't know if that will include the gadgetfs driver.  If 
+> it does, trying to fix up the driver will be a waste of time.
 
-syzbot found the following issue on:
+Not having heard anything from Greg, I'll assume that the driver is not 
+in any imminent danger.
 
-HEAD commit:    05abeffcc27e Merge tag 'usb-serial-7.3-rc1' of ssh://gitol..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=172cfac6580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
-dashboard link: https://syzkaller.appspot.com/bug?extid=9c1988bc953fca2086a3
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Accordingly, below is a new patch implementing the updates mentioned 
+last time.  In particular, the ep_aio_cancel() carries out its dequeue 
+operation in a separate thread, and ep_aio() drops dev->lock before 
+calling kiocb_set_cancel_fn() and usb_ep_queue().
 
-Unfortunately, I don't have any reproducer for this issue yet.
+It will probably be necessary to flush the workqueue in 
+gadgetfs_unbind() after calling destroy_ep_files(), to make sure that 
+any work routines scheduled for aio requests are no longer running.  We 
+can worry about that later.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f63099341558/disk-05abeffc.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/2f8181068028/vmlinux-05abeffc.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7d35739c76eb/bzImage-05abeffc.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9c1988bc953fca2086a3@syzkaller.appspotmail.com
-
-=============================
-WARNING: suspicious RCU usage
-syzkaller #0 Not tainted
------------------------------
-kernel/sched/core.c:9159 Illegal context switch in RCU-sched read-side critical section!
-
-other info that might help us debug this:
+Alan Stern
 
 
-rcu_scheduler_active = 2, debug_locks = 1
-9 locks held by syz-executor/2973:
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
- #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
+Index: usb-devel/drivers/usb/gadget/legacy/inode.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
++++ usb-devel/drivers/usb/gadget/legacy/inode.c
+@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
+ static const char *CHIP;
+ static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
+ 
++static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
++
+ /*----------------------------------------------------------------------*/
+ 
+ /* NOTE:  don't use dev_printk calls before binding to the gadget
+@@ -433,40 +435,98 @@ static long ep_ioctl(struct file *fd, un
+ 
+ /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
+ 
++enum aio_req_state {
++	AIO_SUBMITTING,
++	AIO_RUNNING,
++	AIO_COMPLETED,
++	AIO_GIVEN_BACK,
++};
++
++enum aio_cancel_state {
++	AIO_NOT_CANCELLED,
++	AIO_UNLINKING,
++	AIO_UNLINK_DONE,
++};
++
+ struct kiocb_priv {
+ 	struct usb_request	*req;
+ 	struct ep_data		*epdata;
+ 	struct kiocb		*iocb;
+ 	struct mm_struct	*mm;
+-	struct work_struct	work;
++	struct work_struct	copy_work;
++	struct work_struct	unlink_work;
+ 	void			*buf;
+ 	struct iov_iter		to;
+ 	const void		*to_free;
+ 	unsigned		actual;
++	enum aio_req_state	req_state;
++	enum aio_cancel_state	cancel_state;
+ };
+ 
+-static int ep_aio_cancel(struct kiocb *iocb)
++static void ep_unlink_worker(struct work_struct *work)
+ {
+-	struct kiocb_priv	*priv = iocb->private;
++	struct kiocb_priv	*priv;
+ 	struct ep_data		*epdata;
+-	int			value;
++	enum aio_req_state	req_state;
+ 
+-	local_irq_disable();
++	priv = container_of(work, struct kiocb_priv, unlink_work);
+ 	epdata = priv->epdata;
+-	// spin_lock(&epdata->dev->lock);
+-	if (likely(epdata && epdata->ep && priv->req))
+-		value = usb_ep_dequeue (epdata->ep, priv->req);
+-	else
+-		value = -EINVAL;
+-	// spin_unlock(&epdata->dev->lock);
+-	local_irq_enable();
+ 
+-	return value;
++	usb_ep_dequeue(epdata->ep, priv->req);
++
++	spin_lock_irq(&aio_lock);
++	req_state = priv->req_state;
++	priv->cancel_state = AIO_UNLINK_DONE;
++	spin_unlock_irq(&aio_lock);
++
++	/*
++	 * priv->req and epdata are freed after unlinking and completion are
++	 * both done.
++	 * priv itself is freed after unlinking and giveback are both done.
++	 */
++	if (req_state >= AIO_COMPLETED) {
++		usb_ep_free_request(epdata->ep, priv->req);
++		put_ep(epdata);
++		if (req_state == AIO_GIVEN_BACK)
++			kfree(priv);
++	}
++}
++
++static int ep_aio_cancel(struct kiocb *iocb)
++{
++	struct kiocb_priv	*priv;
++
++	spin_lock_irq(&aio_lock);
++	priv = iocb->private;
++	if (!priv || priv->cancel_state != AIO_NOT_CANCELLED) {
++		spin_unlock_irq(&aio_lock);
++		return -EINVAL;		/* Already completed or cancelled */
++	}
++	if (priv->req_state == AIO_SUBMITTING) {
++		priv->cancel_state = AIO_UNLINK_DONE;
++		spin_unlock_irq(&aio_lock);
++		return 0;	/* ep_aio() will call us again if needed */
++	}
++
++	priv->cancel_state = AIO_UNLINKING;
++	spin_unlock_irq(&aio_lock);
++
++	/*
++	 * usb_ep_dequeue() is allowed to run synchronously, calling the
++	 * request's completion handler before it returns.
++	 * We are called with the aio core holding the aio's context lock,
++	 * and ep_aio_complete() below may call iocb->kio_complete(), which
++	 * tries to acquire the context lock, which would cause deadlock.
++	 * For this reason, do the dequeue operation in a work routine.
++	 */
++	INIT_WORK(&priv->unlink_work, ep_unlink_worker);
++	schedule_work(&priv->unlink_work);
++	return 0;
+ }
+ 
+ static void ep_user_copy_worker(struct work_struct *work)
+ {
+-	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, work);
++	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, copy_work);
+ 	struct mm_struct *mm = priv->mm;
+ 	struct kiocb *iocb = priv->iocb;
+ 	size_t ret;
+@@ -482,7 +542,12 @@ static void ep_user_copy_worker(struct w
+ 
+ 	kfree(priv->buf);
+ 	kfree(priv->to_free);
+-	kfree(priv);
++
++	spin_lock_irq(&aio_lock);
++	priv->req_state = AIO_GIVEN_BACK;
++	if (priv->cancel_state != AIO_UNLINKING)
++		kfree(priv);
++	spin_unlock_irq(&aio_lock);
+ }
+ 
+ static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
+@@ -490,11 +555,13 @@ static void ep_aio_complete(struct usb_e
+ 	struct kiocb		*iocb = req->context;
+ 	struct kiocb_priv	*priv = iocb->private;
+ 	struct ep_data		*epdata = priv->epdata;
++	enum aio_req_state	new_req_state;
++	enum aio_cancel_state	cancel_state;
+ 
+-	/* lock against disconnect (and ideally, cancel) */
+-	spin_lock(&epdata->dev->lock);
+-	priv->req = NULL;
+-	priv->epdata = NULL;
++	/* Prevent future cancellation */
++	spin_lock(&aio_lock);
++	iocb->private = NULL;
++	spin_unlock(&aio_lock);
+ 
+ 	/* if this was a write or a read returning no data then we
+ 	 * don't need to copy anything to userspace, so we can
+@@ -503,10 +570,9 @@ static void ep_aio_complete(struct usb_e
+ 	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
+ 		kfree(req->buf);
+ 		kfree(priv->to_free);
+-		kfree(priv);
+-		iocb->private = NULL;
+ 		iocb->ki_complete(iocb,
+ 				req->actual ? req->actual : (long)req->status);
++		new_req_state = AIO_GIVEN_BACK;
+ 	} else {
+ 		/* ep_copy_to_user() won't report both; we hide some faults */
+ 		if (unlikely(0 != req->status))
+@@ -515,13 +581,24 @@ static void ep_aio_complete(struct usb_e
+ 
+ 		priv->buf = req->buf;
+ 		priv->actual = req->actual;
+-		INIT_WORK(&priv->work, ep_user_copy_worker);
+-		schedule_work(&priv->work);
++		new_req_state = AIO_COMPLETED;
+ 	}
+ 
+-	usb_ep_free_request(ep, req);
+-	spin_unlock(&epdata->dev->lock);
+-	put_ep(epdata);
++	spin_lock(&aio_lock);
++	priv->req_state = new_req_state;
++	cancel_state = priv->cancel_state;
++	spin_unlock(&aio_lock);
++
++	if (new_req_state == AIO_COMPLETED) {
++		INIT_WORK(&priv->copy_work, ep_user_copy_worker);
++		schedule_work(&priv->copy_work);
++	}
++	if (cancel_state != AIO_UNLINKING) {
++		usb_ep_free_request(ep, req);
++		put_ep(epdata);
++		if (new_req_state == AIO_GIVEN_BACK)
++			kfree(priv);
++	}
+ }
+ 
+ static ssize_t ep_aio(struct kiocb *iocb,
+@@ -532,11 +609,12 @@ static ssize_t ep_aio(struct kiocb *iocb
+ {
+ 	struct usb_request *req;
+ 	ssize_t value;
++	struct usb_ep *ep;
++	bool need_unlink = false;
+ 
+ 	iocb->private = priv;
+ 	priv->iocb = iocb;
+ 
+-	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+ 	get_ep(epdata);
+ 	priv->epdata = epdata;
+ 	priv->actual = 0;
+@@ -547,10 +625,11 @@ static ssize_t ep_aio(struct kiocb *iocb
+ 	 */
+ 	spin_lock_irq(&epdata->dev->lock);
+ 	value = -ENODEV;
+-	if (unlikely(epdata->ep == NULL))
++	ep = epdata->ep;
++	if (unlikely(ep == NULL))
+ 		goto fail;
+ 
+-	req = usb_ep_alloc_request(epdata->ep, GFP_ATOMIC);
++	req = usb_ep_alloc_request(ep, GFP_ATOMIC);
+ 	value = -ENOMEM;
+ 	if (unlikely(!req))
+ 		goto fail;
+@@ -560,12 +639,45 @@ static ssize_t ep_aio(struct kiocb *iocb
+ 	req->length = len;
+ 	req->complete = ep_aio_complete;
+ 	req->context = iocb;
+-	value = usb_ep_queue(epdata->ep, req, GFP_ATOMIC);
++
++	priv->req_state = AIO_SUBMITTING;
++	priv->cancel_state = AIO_NOT_CANCELLED;
++
++	/* Not allowed to manipulate the aio context while holding dev->lock */
++	++epdata->dev->udc_usage;
++	spin_unlock_irq(&epdata->dev->lock);
++
++	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
++	value = usb_ep_queue(ep, req, GFP_KERNEL);
++
++	spin_lock_irq(&epdata->dev->lock);
++	--epdata->dev->udc_usage;
++
+ 	if (unlikely(0 != value)) {
+-		usb_ep_free_request(epdata->ep, req);
++		spin_lock(&aio_lock);
++		iocb->private = NULL;
++		spin_unlock(&aio_lock);
++
++		usb_ep_free_request(ep, req);
+ 		goto fail;
+ 	}
+ 	spin_unlock_irq(&epdata->dev->lock);
++
++	spin_lock_irq(&aio_lock);
++	if (iocb->private != NULL) {
++		priv->req_state = AIO_RUNNING;
++
++		/* Cancelled before or just after submission? */
++		if (priv->cancel_state == AIO_UNLINK_DONE) {
++			priv->cancel_state = AIO_NOT_CANCELLED;
++			need_unlink = true;
++		}
++	}			/* Otherwise already completed */
++	spin_unlock_irq(&aio_lock);
++
++	if (need_unlink)	/* Redo cancel that was too early */
++		ep_aio_cancel(iocb);
++
+ 	return -EIOCBQUEUED;
+ 
+ fail:
 
-stack backtrace:
-CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- lockdep_rcu_suspicious.cold+0x4f/0xb1 kernel/locking/lockdep.c:6876
- __might_resched+0x2e0/0x330 kernel/sched/core.c:9159
- __cancel_work_sync kernel/workqueue.c:4487 [inline]
- cancel_delayed_work_sync+0xb8/0xf0 kernel/workqueue.c:4568
- mmc_free_host+0x19/0x30 drivers/mmc/core/host.c:700
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
-Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
-RSP: 0018:ffffc90001457430 EFLAGS: 00000286
-RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
-RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
-RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
- rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
- rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
- rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
- pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
- page_table_check_set+0x25/0x580 mm/page_table_check.c:105
- __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
- page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
- set_ptes include/linux/pgtable.h:447 [inline]
- __copy_present_ptes mm/memory.c:1118 [inline]
- copy_present_ptes mm/memory.c:1197 [inline]
- copy_pte_range mm/memory.c:1320 [inline]
- copy_pmd_range mm/memory.c:1408 [inline]
- copy_pud_range mm/memory.c:1445 [inline]
- copy_p4d_range mm/memory.c:1469 [inline]
- copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
- dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
- dup_mm kernel/fork.c:1543 [inline]
- copy_mm kernel/fork.c:1595 [inline]
- copy_process+0x4996/0x7dd0 kernel/fork.c:2289
- kernel_clone+0x176/0x9d0 kernel/fork.c:2748
- __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2fd1056b52
-Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
-RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
-R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
- </TASK>
-BUG: sleeping function called from invalid context at kernel/workqueue.c:4487
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 2973, name: syz-executor
-preempt_count: 104, expected: 0
-RCU nest depth: 2, expected: 0
-9 locks held by syz-executor/2973:
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
- #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
-Preemption disabled at:
-[<0000000000000000>] 0x0
-CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- __might_resched.cold+0x1ec/0x232 kernel/sched/core.c:9197
- __cancel_work_sync kernel/workqueue.c:4487 [inline]
- cancel_delayed_work_sync+0xb8/0xf0 kernel/workqueue.c:4568
- mmc_free_host+0x19/0x30 drivers/mmc/core/host.c:700
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
-Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
-RSP: 0018:ffffc90001457430 EFLAGS: 00000286
-RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
-RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
-RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
- rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
- rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
- rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
- pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
- page_table_check_set+0x25/0x580 mm/page_table_check.c:105
- __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
- page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
- set_ptes include/linux/pgtable.h:447 [inline]
- __copy_present_ptes mm/memory.c:1118 [inline]
- copy_present_ptes mm/memory.c:1197 [inline]
- copy_pte_range mm/memory.c:1320 [inline]
- copy_pmd_range mm/memory.c:1408 [inline]
- copy_pud_range mm/memory.c:1445 [inline]
- copy_p4d_range mm/memory.c:1469 [inline]
- copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
- dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
- dup_mm kernel/fork.c:1543 [inline]
- copy_mm kernel/fork.c:1595 [inline]
- copy_process+0x4996/0x7dd0 kernel/fork.c:2289
- kernel_clone+0x176/0x9d0 kernel/fork.c:2748
- __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2fd1056b52
-Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
-RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
-R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
- </TASK>
-
-=============================
-WARNING: suspicious RCU usage
-syzkaller #0 Tainted: G        W          
------------------------------
-kernel/rcu/srcutree.c:1483 Illegal synchronize_srcu() in same-type SRCU (or in RCU) read-side critical section!
-
-other info that might help us debug this:
-
-
-rcu_scheduler_active = 2, debug_locks = 1
-9 locks held by syz-executor/2973:
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
- #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Tainted: G        W           syzkaller #0 PREEMPT(lazy) 
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- lockdep_rcu_suspicious.cold+0x4f/0xb1 kernel/locking/lockdep.c:6876
- __synchronize_srcu+0x29d/0x300 kernel/rcu/srcutree.c:1483
- wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
- wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
- wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
- mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
- device_release+0xd2/0x270 drivers/base/core.c:2636
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3880
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
-Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
-RSP: 0018:ffffc90001457430 EFLAGS: 00000286
-RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
-RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
-RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
- rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
- rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
- rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
- pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
- page_table_check_set+0x25/0x580 mm/page_table_check.c:105
- __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
- page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
- set_ptes include/linux/pgtable.h:447 [inline]
- __copy_present_ptes mm/memory.c:1118 [inline]
- copy_present_ptes mm/memory.c:1197 [inline]
- copy_pte_range mm/memory.c:1320 [inline]
- copy_pmd_range mm/memory.c:1408 [inline]
- copy_pud_range mm/memory.c:1445 [inline]
- copy_p4d_range mm/memory.c:1469 [inline]
- copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
- dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
- dup_mm kernel/fork.c:1543 [inline]
- copy_mm kernel/fork.c:1595 [inline]
- copy_process+0x4996/0x7dd0 kernel/fork.c:2289
- kernel_clone+0x176/0x9d0 kernel/fork.c:2748
- __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2fd1056b52
-Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
-RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
-R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
- </TASK>
-BUG: sleeping function called from invalid context at kernel/rcu/srcutree.c:1491
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 2973, name: syz-executor
-preempt_count: 104, expected: 0
-RCU nest depth: 2, expected: 0
-9 locks held by syz-executor/2973:
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
- #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
- #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
- #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
- #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
- #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
- #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
- #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
-Preemption disabled at:
-[<0000000000000000>] 0x0
-CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Tainted: G        W           syzkaller #0 PREEMPT(lazy) 
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- __might_resched.cold+0x1ec/0x232 kernel/sched/core.c:9197
- __synchronize_srcu+0x13c/0x300 kernel/rcu/srcutree.c:1491
- wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
- wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
- wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
- mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
- device_release+0xd2/0x270 drivers/base/core.c:2636
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3880
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
-Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
-RSP: 0018:ffffc90001457430 EFLAGS: 00000286
-RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
-RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
-RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
- rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
- rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
- rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
- pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
- page_table_check_set+0x25/0x580 mm/page_table_check.c:105
- __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
- page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
- set_ptes include/linux/pgtable.h:447 [inline]
- __copy_present_ptes mm/memory.c:1118 [inline]
- copy_present_ptes mm/memory.c:1197 [inline]
- copy_pte_range mm/memory.c:1320 [inline]
- copy_pmd_range mm/memory.c:1408 [inline]
- copy_pud_range mm/memory.c:1445 [inline]
- copy_p4d_range mm/memory.c:1469 [inline]
- copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
- dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
- dup_mm kernel/fork.c:1543 [inline]
- copy_mm kernel/fork.c:1595 [inline]
- copy_process+0x4996/0x7dd0 kernel/fork.c:2289
- kernel_clone+0x176/0x9d0 kernel/fork.c:2748
- __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2fd1056b52
-Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
-RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
-R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
- </TASK>
-ODEBUG: object ffffc90000007a70 is NOT on stack ffffc90001450000, but annotated.
-
-======================================================
-----------------
-Code disassembly (best guess):
-   0:	90                   	nop
-   1:	90                   	nop
-   2:	90                   	nop
-   3:	90                   	nop
-   4:	41 54                	push   %r12
-   6:	55                   	push   %rbp
-   7:	53                   	push   %rbx
-   8:	48 83 ec 08          	sub    $0x8,%rsp
-   c:	65 8b 1d 65 1f 82 05 	mov    %gs:0x5821f65(%rip),%ebx        # 0x5821f78
-  13:	65 f7 05 56 1f 82 05 	testl  $0x7fffffff,%gs:0x5821f56(%rip)        # 0x5821f74
-  1a:	ff ff ff 7f
-  1e:	74 0f                	je     0x2f
-  20:	48 83 c4 08          	add    $0x8,%rsp
-  24:	89 d8                	mov    %ebx,%eax
-  26:	5b                   	pop    %rbx
-  27:	5d                   	pop    %rbp
-  28:	41 5c                	pop    %r12
-* 2a:	c3                   	ret <-- trapping instruction
-  2b:	cc                   	int3
-  2c:	cc                   	int3
-  2d:	cc                   	int3
-  2e:	cc                   	int3
-  2f:	9c                   	pushf
-  30:	58                   	pop    %rax
-  31:	f6 c4 02             	test   $0x2,%ah
-  34:	74 ea                	je     0x20
-  36:	65 4c 8b 25 1e 1f 82 	mov    %gs:0x5821f1e(%rip),%r12        # 0x5821f5c
-  3d:	05
-  3e:	48                   	rex.W
-  3f:	89                   	.byte 0x89
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
