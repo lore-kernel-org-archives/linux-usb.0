@@ -1,149 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FADD45FFC7;
-	Fri, 14 Aug 2026 12:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D3A411F96
+	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 12:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786709155; cv=none; b=AqAheX4jOuAF/cTdRfqOoqdttaEFpbaJjBTYHlmi5maq06FANmq83NxTrBqQXc41bj5rtDvZEA7sursrN5MTQXB8LAcrgWOKR0bN8XWcQtNSr47w6dvkgwE3Otfifqnww88YjPOquWslWQ3IbwWKgWnp5SxZDS4ltkxAQ/4T6xA=
+	t=1786710556; cv=none; b=TkJHB6qBfxeX31sC74ko7KRFZ0ADg+T3NdKdqjzHc/xz89iZAap8bVfoIPp2jmSqJY0cPvX+XPfr0Q1nKJK91z74DWvERHyzOgVM03hk0+EPfomEZ8KHpAy1uM9rEf2njJdI/6ZB3pKnGE/Xt+HuoaPGiXnURXkKtE/tqVjNgyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786709155; c=relaxed/simple;
-	bh=RRAdnE3AgfrpxH5Gc5Sx8/07H+aHGviS7OiNn75ei88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M27nP9fMv4IV5SWSX/0vX/cVu5nxSscMcHRIMRqMXW4kqJZDhT3+gnTWodwC467jl0b3Zrx4Iu636eTdBqNBGbdn4703GuBIDayLS49eHi3srw2bJTH2atmviducwIxI4fVmsN8i+aqtQ12jYS3JaamN0yFTZADs6ktDy+3A3bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Y5xTWKQv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786710556; c=relaxed/simple;
+	bh=EFhEUQzDN1Y8/23mKBEH9DobyUEVzsa/Nm+io8oT7s8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=uLIWYiEyLwM87gebIpCbjgx4eeIOxk2N0smVbW+iW1HzRUTtH9dT+NGznQH5Rc/HqsY8j5XAMQIWuNZmAUFq+f1Q7mAJQAnFT3Tifz5wPdTd8UInqP2D6nFUbwbwr3/Y7fN4EYGc9ZqANnK0kejfHcKNj8+OwY5qOMr5ifOR458=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEvSbjT5; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y5xTWKQv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2DAA1F000E9;
-	Fri, 14 Aug 2026 12:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786709154;
-	bh=oc6QpJbe8pAPodwdQ5Ao7+1jRsE5XVSpcTx3GCcOuDM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y5xTWKQvXonNx0CKPQ6zsGycg+pEGSsAhHM9DDvG2J+VqX+QOn3sfBt0OQhMNRuwg
-	 getzwfLDC8Bnhya4cmUgXzyqNXObpJVrIHNO5+SXF8UHlZKcSU0F1b9zVSs08zi9ry
-	 /tYP8In5umUxHagqATufe8hu/6EWB8kFmtB+K3nk=
-Date: Fri, 14 Aug 2026 21:04:20 +0900
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hyeontae Lee <wonju345@naver.com>
-Cc: Krzysztof Opasiak <k.opasiak@samsung.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_hid: only clear write_pending from the
- owning request
-Message-ID: <2026081413-exorcist-elliptic-5d1b@gregkh>
-References: <20260814084616.259367-1-wonju345@naver.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEvSbjT5"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4994c49f588so7798225e9.0
+        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 05:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786710553; x=1787315353; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:content-language:to:subject
+         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=11eC1y/W/K91eHAR6XufPheKUWG+n1sOLm6uV2bmmqk=;
+        b=lEvSbjT5CIAcNoJtysfuIDvINK48vRwGPLNRG8BhjF7tgx7Zar3THYmvZkWM5+0w7Q
+         zey1aad7NZx64yzIjJFAYTQQOdoCMWXC7Itwwg83QgKjqVKZl1TXsH4+Yxj2er95BHFU
+         IeHRd80trFgFln0xGF8U0C2pc2yd+gH8zvs5seWkoVIdSavWd+e3z7bS/brabpC/zEPv
+         4iLflSHOUPyPPkGFZzojXL5iLg1ZklyYr7Fa6siSikbcO7Tbkd3ulLLzgPPn8Yd/HjY9
+         /6xYh9lCs0HqSG8kI8ULrHRwxHOYOHX3F9mZwbbdOpGic34SztGkkHUalscrEwRgjngG
+         g9Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786710553; x=1787315353;
+        h=content-transfer-encoding:content-type:content-language:to:subject
+         :from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=11eC1y/W/K91eHAR6XufPheKUWG+n1sOLm6uV2bmmqk=;
+        b=QBqZulM0X9PjoSSHbIWQqNva4jw7buyvQMd3c7cy6JWqAdYMWgy3BDaRumy8xVUKdm
+         bXx1PCf5zObBstWPcWVXVZo2SEp40PG+kKQGhOWWahQsEEI53p1oZxEyli4YdpE6unBN
+         FZmiZTuOsLzcVXSZdaOWo0e5a3/niExlSYpZE8oyEdJ51eMxMZbTGJ7FX2hPzC/ABT1P
+         IJtMdRpQFPxGrAcOlnTc+Ncqp5atRUKOqq67JfX1rv99sHBKHBw9V+K1gVbVYd0mZaEc
+         mnbXYtHjm2wHID9vGoHeb1KApOaOKZk8UBG1JZkT2XspQZsbItEy02yn0LmRLZx23n75
+         Q9UQ==
+X-Gm-Message-State: AOJu0YwlvJ0zuNsYKCe9KtMGlJ0UP3Gy8nMoQsVUAv3PQCNRY10NLYE0
+	GeZL8ExyB36p3/NEJadUhY+Vn9fNUZe6mllVuYHnfSZnW2If2Xjd1z+tRCWuCg==
+X-Gm-Gg: AR+sD13DepXW0jLVzaxMls47WS8FukrOjWjGd8+txyvzWCSXY3zdBuTZXxlfdcmHi5C
+	8Levwj+6RaVocB3ELl6l55EelN0SIZwZTKpee4LobPLzz/wggoqXp1vMU+V/+6Z8hSgFIk2VyDA
+	C2rjai5656uKKMk+yIwYwPBTAsY5ciftx0MKOTLRjhJ4F+Hmf3OTvvfNzxAvsNfv95KAgi+i56o
+	azvcPIK9IHPZVL6wTJuDB+xFSCLGQ7W7FfifQ/Rk38tVSFxkTSSJvbINnfFhRGnJhEzuRVym7Zt
+	ixoHYQ6La3eWFAgFB46XAVf/qCfmF6n7gJnDJvlJImGqcgbgnaPLppbrkYcfkMRF/H7wb6tsfJt
+	toM5XvyynH3FjY60+68baHPQti4b/uQPc7fLXx8qPyWzT8g0Qy6e2bfT8Y5MzNldsT/DY2Qr3wS
+	KiBgFultfXKwI80KugiqxUUfj8NSi+mthmhI+Jj9hJmMZQghMGVIzuzz5gLhVQ7ycNk3iDXDZxH
+	mEK4PIh5tMzjaYIvPXXWCV6QayX5neqaUXrWod46x7n9FEDCkqOuZDlPIoWSiBvPqs4rKKsKmVV
+	dnlmwLwKj05qaj7m3g==
+X-Received: by 2002:a05:600c:3b90:b0:499:59fd:dbfc with SMTP id 5b1f17b1804b1-49987a4f131mr62891255e9.1.1786710552601;
+        Fri, 14 Aug 2026 05:29:12 -0700 (PDT)
+Received: from [10.0.0.10] (dynamic-adsl-94-34-135-177.clienti.tiscali.it. [94.34.135.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f20051esm8599011f8f.7.2026.08.14.05.29.12
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Aug 2026 05:29:12 -0700 (PDT)
+Message-ID: <304867f7-f0b9-46b3-b43b-e9d377d5d092@gmail.com>
+Date: Fri, 14 Aug 2026 14:29:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260814084616.259367-1-wonju345@naver.com>
+User-Agent: Mozilla Thunderbird
+From: Fabrizio Pelosi <tesfabpel@gmail.com>
+Subject: Minor init annoyance with Logitech G900 Gaming Mouse
+To: linux-usb@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 14, 2026 at 05:46:16PM +0900, Hyeontae Lee wrote:
-> f_hidg_write() sets write_pending, caches hidg->req into a stack local,
-> and drops write_spinlock across copy_from_user(). hidg_disable() frees
-> hidg->req whenever write_pending is clear, so that flag is the only thing
-> keeping the writer's cached pointer alive.
-> 
-> f_hidg_req_complete() clears it for whichever request completes, not for
-> the one the writer owns. A write() that has queued a request leaves it
-> queued indefinitely if the host never issues an IN token. When the host
-> then disables the configuration, usb_ep_disable() gives that old request
-> back, its completion clears write_pending, and hidg_disable() goes on to
-> free hidg->req - which a different write() is holding at that moment.
-> 
-> The writer resumes, finds hidg->req NULL, and frees its cached pointer a
-> second time:
-> 
->   BUG: KASAN: slab-use-after-free in f_hidg_write+0x7b7/0x920
->   Read of size 8 at addr ffff888104fc9018 by task s4-3/163
-> 
->   Allocated by task 0:
->    alloc_ep_req+0x20/0x1b0
->    hidg_set_alt+0x1ed/0xbd0
->    composite_setup+0x1072/0x8690
->    configfs_composite_setup+0xcd/0x110
->    dummy_timer+0x1a68/0x31d0
-> 
->   Freed by task 0:
->    kfree+0x121/0x380
->    hidg_disable+0x559/0x7a0
->    reset_config+0x9d/0x200
->    composite_setup+0x32d4/0x8690
->    configfs_composite_setup+0xcd/0x110
->    dummy_timer+0x1a68/0x31d0
-> 
->   The buggy address belongs to the object at ffff888104fc9000
->    which belongs to the cache kmalloc-128 of size 128
-> 
->   BUG: KASAN: double-free in f_hidg_write+0x267/0x920
-> 
-> Record which request owns the flag and let only that request's completion
-> clear it. An older queued request being given back then leaves
-> write_pending set, hidg_disable() declines to free, and the writer frees
-> its own request on the existing path.
-> 
-> Fixes: 25cd9721c2b1 ("usb: gadget: f_hid: fix: Don't access hidg->req without spinlock held")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hyeontae Lee <wonju345@naver.com>
-> ---
-> Notes for reviewers:
-> 
-> The clearer was identified by instrumenting the three sites that clear the
-> flag: of 4944 frees at hidg_disable(), all 4944 followed a clear from
-> f_hidg_req_complete(), and 4440 freed a request a writer was holding.
-> 
-> 749494b6bdbb introduced the stack local but left the uses on hidg->req, so
-> check and use still agreed; 25cd9721c2b1 moved the uses to the local and
-> left the guard on the field, which is why that one is tagged.
-> 
-> Every dereference of the freed pointer is inside f_hidg_write(), so this is
-> not remotely triggerable on its own - a local process must be writing to
-> /dev/hidgN at the time.
-> 
-> hidg_disable() now declines to free a request a writer owns; f_hid's request
-> lifetime under repeated SET_INTERFACE has pre-existing gaps this does not
-> address.
-> 
-> Tested on v7.2-rc7-12 (f5bbbfec59b4) under dummy_hcd, report_length=8: over
-> 45 s of identical workload, double frees of the same address went from 52 to
-> 0 and KASAN reports from 208 to 0.
+Hello, 
+I'm having a minor annoyance with my Logitech G900 Gaming Mouse 
+since a long time and only now I've decided to report it.
 
-Did you forget to add an Assisted-by: tag?
+I'm running ArchLinux (amd64) with kernel `7.1.8.arch1-3`.
+Mouse firmware is the latest available.
 
+The mouse is a wired / wireless gaming mouse. 
+It can work via USB directly or via its own receiver. 
+It has a switch on the bottom (the part that touches the flat surface): 
+when OFF it doesn't work even via USB.
 
-> ---
->  drivers/usb/gadget/function/f_hid.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-> index 3c6b43d06a6d1..d65169c9645b1 100644
-> --- a/drivers/usb/gadget/function/f_hid.c
-> +++ b/drivers/usb/gadget/function/f_hid.c
-> @@ -89,6 +89,7 @@ struct f_hidg {
->  	/* send report */
->  	spinlock_t			write_spinlock;
->  	bool				write_pending;
-> +	struct usb_request		*write_req;
->  	wait_queue_head_t		write_queue;
->  	struct usb_request		*req;
->  
-> @@ -443,7 +444,16 @@ static void f_hidg_req_complete(struct usb_ep *ep, struct usb_request *req)
->  	}
->  
->  	spin_lock_irqsave(&hidg->write_spinlock, flags);
-> -	hidg->write_pending = 0;
-> +	/*
-> +	 * Only the completion of the request this writer owns may clear the
-> +	 * flag. usb_ep_disable() gives back whatever is still queued from an
-> +	 * earlier write(), and letting that clear write_pending lets
-> +	 * hidg_disable() go on to free a request a writer is still holding.
+The issue is that if you switch the mouse ON and wait one second or two before 
+putting it down, it works correctly. 
+If you happen to put it down too fast, instead, it may happen that you need to 
+wait ~31 seconds before it starts to work. 
+Also there are differences between the two cases in `dmesg`. You can see them 
+in the `g900_journal` section below.
+When it works, the mouse is renamed to "Logitech Heat Gaming Mouse G900" 
+(with "Heat") and the line "HID++ 4.2 device connected" appears; 
+when it doesn't it doesn't get renamed (it remains "Logitech Gaming Mouse G900")
+and there's NO line "HID++ 4.2 device connected".
 
-LLMs love to add comments when it's not needed, be judicious please.
+This issue may also happen if the mouse is ON and the PC is rebooted. 
+It seems it causes a delay in the initrd with systemd trying to stop 
+"Rule-based Manager for Device Events and Files". 
+Ultimately it works (but it takes a bit longer than 31 seconds it seems) 
+but if I switch the mouse OFF, it seems it exits as soon as I do it.
+You can see the `journalctl` log in the `g900_initrd` section below.
 
-thanks,
+I have captured a USB capture with `dumpcap` (the capture is related to 
+the `g900_journal` section below). 
+I can provide it as an attachment, if needed (it's less than 60 KiB).
 
-greg k-h
+These are the steps to try to reproduce the issue:
+
+1. Run `dmesg -w`
+2. Pick up the mouse and switch it ON.
+3. Put it down on a surface as fast as possible (so that it starts to send 
+   pointer events, maybe)
+4. Watch `dmesg -w` and see that there's a delay of 31s before the mouse 
+   fully works.
+
+I can try to test a patch on the `drivers/hid/hid-logitech-hidpp.c` module, 
+if needed (but I can't guarantee I'll be able to since it'll be my 
+first time doing it).
+
+Thanks,
+Fabrizio.
+
+====== g900_journal ======
+
+ago 13 10:03:36 tesx-pc kernel: usb 7-4: USB disconnect, device number 4
+
+# --- waiting before putting the mouse down after turning it on ---
+
+ago 13 10:03:43 tesx-pc kernel: usb 7-4: new full-speed USB device number 5 using xhci_hcd
+ago 13 10:03:43 tesx-pc kernel: usb 7-4: New USB device found, idVendor=046d, idProduct=c081, bcdDevice= 1.03
+ago 13 10:03:43 tesx-pc kernel: usb 7-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+ago 13 10:03:43 tesx-pc kernel: usb 7-4: Product: Gaming Mouse G900
+ago 13 10:03:43 tesx-pc kernel: usb 7-4: Manufacturer: Logitech
+ago 13 10:03:43 tesx-pc kernel: usb 7-4: SerialNumber: 0E6C36503233
+ago 13 10:03:43 tesx-pc kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.0/0003:046D:C081.0009/input/input33
+ago 13 10:03:43 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.0009: input,hidraw6: USB HID v1.11 Mouse [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input0
+ago 13 10:03:43 tesx-pc kernel: input: Logitech Heat Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.1/0003:046D:C081.000A/input/input34
+ago 13 10:03:43 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000A: input,hiddev99,hidraw7: USB HID v1.11 Keyboard [Logitech Heat Gaming Mouse G900] on usb-0000:0e:00.3-4/input1
+ago 13 10:03:43 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000A: HID++ 4.2 device connected.
+ago 13 10:03:43 tesx-pc mtp-probe[4632]: checking bus 7, device 5: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
+ago 13 10:03:43 tesx-pc mtp-probe[4632]: bus: 7, device: 5 was not an MTP device
+ago 13 10:03:43 tesx-pc systemd-logind[983]: Watching system buttons on /dev/input/event28 (Logitech Heat Gaming Mouse G900)
+ago 13 10:03:43 tesx-pc mtp-probe[4675]: checking bus 7, device 5: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
+ago 13 10:03:43 tesx-pc mtp-probe[4675]: bus: 7, device: 5 was not an MTP device
+ago 13 10:03:47 tesx-pc kernel: usb 7-4: USB disconnect, device number 5
+
+# --- putting the mouse down right after turning it on (it doesn't happen always) ---
+
+ago 13 10:03:50 tesx-pc kernel: usb 7-4: new full-speed USB device number 6 using xhci_hcd
+ago 13 10:03:50 tesx-pc kernel: usb 7-4: New USB device found, idVendor=046d, idProduct=c081, bcdDevice= 1.03
+ago 13 10:03:50 tesx-pc kernel: usb 7-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+ago 13 10:03:50 tesx-pc kernel: usb 7-4: Product: Gaming Mouse G900
+ago 13 10:03:50 tesx-pc kernel: usb 7-4: Manufacturer: Logitech
+ago 13 10:03:50 tesx-pc kernel: usb 7-4: SerialNumber: 0E6C36503233
+ago 13 10:03:50 tesx-pc kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.0/0003:046D:C081.000B/input/input35
+ago 13 10:03:50 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000B: input,hidraw6: USB HID v1.11 Mouse [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input0
+
+# 31s later (it seems the delay is fixed)...
+
+ago 13 10:04:21 tesx-pc kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.1/0003:046D:C081.000C/input/input36
+ago 13 10:04:21 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000C: input,hiddev99,hidraw7: USB HID v1.11 Keyboard [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input1
+ago 13 10:04:37 tesx-pc mtp-probe[4724]: checking bus 7, device 6: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
+ago 13 10:04:37 tesx-pc mtp-probe[4724]: bus: 7, device: 6 was not an MTP device
+ago 13 10:04:37 tesx-pc systemd-logind[983]: Watching system buttons on /dev/input/event28 (Logitech Gaming Mouse G900)
+ago 13 10:04:37 tesx-pc mtp-probe[4767]: checking bus 7, device 6: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
+ago 13 10:04:37 tesx-pc mtp-probe[4767]: bus: 7, device: 6 was not an MTP device
+
+# The line "HID++ 4.2 device connected." is missing
+# and the device didn't change name to "Logitech Heat Gaming Mouse G900" ("Heat" is missing)
+
+====== g900_initrd ======
+
+ago 11 12:05:13 archlinux systemd[1]: Stopping Rule-based Manager for Device Events and Files...
+
+[...]
+
+ago 11 12:05:47 archlinux kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.1/0003:046D:C081.0008/input/input12
+ago 11 12:05:47 archlinux kernel: logitech-hidpp-device 0003:046D:C081.0008: input,hiddev99,hidraw7: USB HID v1.11 Keyboard [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input1
+ago 11 12:06:00 archlinux kernel: usb 7-4: USB disconnect, device number 4
+ago 11 12:06:02 archlinux systemd[1]: systemd-udevd.service: Deactivated successfully.
+ago 11 12:06:02 archlinux systemd[1]: Stopped Rule-based Manager for Device Events and Files.
+ago 11 12:06:02 archlinux systemd[1]: systemd-udevd.service: Consumed 4.881s CPU time over 50.277s wall clock time, 48.5M memory peak.
+ago 11 12:06:02 archlinux systemd[1]: systemd-udevd-control.socket: Deactivated successfully.
+ago 11 12:06:02 archlinux systemd[1]: Closed udev Control Socket.
+ago 11 12:06:02 archlinux systemd[1]: Starting Cleanup udev Database...
+ago 11 12:06:02 archlinux systemd[1]: systemd-tmpfiles-setup-dev.service: Deactivated successfully.
+ago 11 12:06:02 archlinux systemd[1]: Stopped Create Static Device Nodes in /dev.
+ago 11 12:06:02 archlinux systemd[1]: initrd-udevadm-cleanup-db.service: Deactivated successfully.
+ago 11 12:06:02 archlinux systemd[1]: Finished Cleanup udev Database.
+ago 11 12:06:02 archlinux systemd[1]: Reached target Switch Root.
+ago 11 12:06:02 archlinux systemd[1]: Starting Switch Root...
+ago 11 12:06:02 archlinux systemd[1]: Switching root.
