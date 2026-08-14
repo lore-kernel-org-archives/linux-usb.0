@@ -1,53 +1,58 @@
-Received: from cvsmtppost36.nm.naver.com (cvsmtppost36.nm.naver.com [114.111.35.244])
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C713FF1AD
-	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 08:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.244
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D7143F09F;
+	Fri, 14 Aug 2026 09:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786697794; cv=none; b=rpXjGdwFtIS/t2YLCS74dVFvV5vlKVqDI1wl1yEg9/4jjP453Rp1IAMHZ7DQXkHhPrmVTdeYmxd16V8iAQUalRVcDmomE+xciE9+KID5ct5oaEMn9NilF43JSb84shDIzn/SAM/jukAOJguW/HMZXbRvj9yBk0nklqn9rbZv+2E=
+	t=1786698118; cv=none; b=JL5qqB/AMyV4M1bDVyHQoinzQTyy2eCaOSVM8HmNMN9qeU6rV0bzSCpHkqHm33Qpe7oXgtmkktvlIW+sch52jjbLmkh7rjrdc9dV/RWcAGBSN9DZbjVbV7+jwDQY+h7hhPcfLDT6AoWoEhMgrmpiZaytDP2bMP1HOMm7cHcUx/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786697794; c=relaxed/simple;
-	bh=BCPyBqL54PWZKMN+4NXDapbcOzcTHBSwv8tnKZW/WLc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GVlUxp46O3ZDhoW0aD8EzF6X6bizoN4/mhn5vXWAZvpaD2Yw9m68kP9/2gVQHsn9V+vvGF2u989VM7EFuBEdEoAmUSaGGRALB9C/SSa8i5kZN/aZaA8RR15S/23tQS7Yne+xDveUU4v8nM9Ad+vmRVgbeBQoCV/nWI0LN+4cl9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=M7nqo4oH; arc=none smtp.client-ip=114.111.35.244
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1786698118; c=relaxed/simple;
+	bh=W7RRVKDxUzp/LNaA6cizI/lvbS7caktsn0OtU1MzZ1w=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=Yo6NzNoRCprGy/ej9uqL3jg2dTSAUZfaJGFZlyZ3A9N57Mf87fzuf1kB798A5FXfDdBaL5Jg3wJUIyuVl6Jo+mXZt7SFzqtpPU1hzP1Ea+TatySYmWEz+bIfq2g92rr/6fxh3/8hk2H7riz2QwuxMpTKM0p9M4WAqkANv0vDqHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=PaI3Sr0O; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="M7nqo4oH"
-Received: from cvsendbo001.nm ([10.112.18.53])
-  by cvsmtppost36.nm.naver.com with ESMTP id RReVD7k4Tl+iGzQ9TDIRYw
-  for <linux-usb@vger.kernel.org>;
-  Fri, 14 Aug 2026 08:46:22 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1786697182; bh=BCPyBqL54PWZKMN+4NXDapbcOzcTHBSwv8tnKZW/WLc=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=M7nqo4oHbU3c3U3YloFtL5UkjSRVJKOEm30zzYP1C/tV1J+AdqCqh6OQaXVnMAamn
-	 Tvfmy9b1kiEYpRVHVSnsPx6PC5QafrDC/egEuoUrCBnkU4j+bJ8qe/gCUsQwn1NRuE
-	 TvRa3aGVkg+T2s/10+MmPg2syEWEDrX91NkbQ42slo0YmnS81Q9sf13nE2hcXqFiBV
-	 x33pliGMzQW5VvDm8NJEf+el1A8fl/A0NKZ3ItOsazH6VWhF6F7l8RSaUn4WLVsVCm
-	 V1NQfwuVWAmRGdqvbx0N0spgLsyDH3P703dP5kJYmdd9pokBEudOyx6AsdVYgNFkV7
-	 ASgZoSIMifcJg==
-X-Session-ID: 1Fb99AraQdaqbpG9cujd7A
-X-Works-Send-Opt: rPF8W4eXjHwYKBm9FAF9FBmwKo2mKqErKqb/jJIFjAJYKg==
-X-Works-Smtp-Source: VdbrFoM/FqJZ+HmZaAbd+6E=
-Received: from bl4ckhyun.localdomain ([211.41.193.194])
-  by cvnsmtp004.nm.naver.com with ESMTP id 1Fb99AraQdaqbpG9cujd7A
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Fri, 14 Aug 2026 08:46:22 -0000
-From: Hyeontae Lee <wonju345@naver.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Opasiak <k.opasiak@samsung.com>
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="PaI3Sr0O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1786698110;
+	bh=gQhfEsgDo3TVMl5SLLpkFzxDyd+go7Ru4f+rG0WUlzM=;
+	h=From:To:Cc:Subject:Date;
+	b=PaI3Sr0ObIkCS3XgUPMEm2OEVojGcC+KztC5j6a7pLhExBpr9VLWj4k2ls66f28CZ
+	 uyPqW/vnYJa/ZDd6tBZiLHDd5x0kdSMLubY9Q5wILgWOhFHVzZ0w/NsDHvMI2E6R9f
+	 yARkd/JX6dUmMaKJaUMXYRqEtRCKuIWvwkFrGwb0=
+Received: from localhost.localdomain ([116.128.244.169])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 70364F7; Fri, 14 Aug 2026 17:01:48 +0800
+X-QQ-mid: xmsmtpt1786698108tqq6wwhx0
+Message-ID: <tencent_CDB9F0B44FDD051447DCF48862B8E764E80A@qq.com>
+X-QQ-XMAILINFO: OIJV+wUmQOUAaqdIdQ4VP9gv19r1/+L2aap0O56COsbO6RowBMekMWsCXBOliz
+	 r4XWzdMNwkyLEZk8PzcXGtsEqw8OnpSA2VkAUAwDoOVlT+lz5bfqk3iwuqSXlHp+NW/qpZqvNhX7
+	 YPtlT0V2b1OHmGkGxxTMgWvCw9TjoHrAe/erUE1fyFxFVQy34Hb82bV5xv0Cu8X175m1u3mtGiin
+	 GxT+CZ1gANeFXiTvyQVD53twVy+DmRgc1jvGUhQXN/v61TJGNZK5PI4nO3ATd8nJ3f46qAxYQMPo
+	 6bypqaRfPoNAsRDVEMbscLa0wBCWzDsV9zSAYngG/lhl9CO0fHYLWGKmzWFbQGnwScw7695PQJhG
+	 fCVdq8zvDqij4Zk28LbG6Gek0PIKPaymo0C02hth6u8EQcjGdEViBE6MLApM7TWh22+upMG2CAs0
+	 VAxHzaoJgjiAnM0sGnwdUSeKp10inyJ0IZL6Y1eOmVgMXkTNSDCihslwwH699fm1fsUpjOhtQciW
+	 7/fGdN4yhEwIk4VMGNmub6FhNtaIPWCSALBs2CnLjj6CK4+lo4DG6c/B+eM/Regh+Gz0JEmpiuhl
+	 P5UpETFeta1u4vT7eFPyDDH+P+IaBGh+s0pvRxFD3HgphMPKF/VPMGngS7qBatwdAwd+hKOWbFS1
+	 rQY9tRyddtu7g9rjf6+sH2nKUki4Wk5r8MTRd+LzCqINEHonuyuiVCtaOJf5Rry8cE2pk7I4PYti
+	 qNdHYHr1B0LKCTOHzbfHFA7YthZg3bfKVddx+nZjO/JrX6kNk7Rf38ANG0CpC5GYsDSDShNTrEDA
+	 F4ak2vSr3C9Q4L7XkWytS0yYZPPHCZi8RFvheI/y6MBNw0mpD95OxuRnH0aHhE8FsldEXXMKjD8M
+	 c1s0lKAfGnHLrfg6LP+Ns/0c4ea1MOl36vowkke8BeaWOFBxxz3bd2kXhL6gU2NtUYHRk1YfVqHr
+	 TBmdxXOxuFP8cnagxh6pk6ziKKqXnJfyGXAJozGgciHyRfNZNXAXKEE3sUrHZGwSIeZ+t8grrVTO
+	 OQiUvAcQPlb0LBpC9QmkriArZkIAxhcr8K1ouxbA+SP/X3bHRDrLxjBT4+tkw=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+From: Zhao Dongdong <winter91@foxmail.com>
+To: johan@kernel.org,
+	gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hyeontae Lee <wonju345@naver.com>
-Subject: [PATCH] usb: gadget: f_hid: only clear write_pending from the owning request
-Date: Fri, 14 Aug 2026 17:46:16 +0900
-Message-ID: <20260814084616.259367-1-wonju345@naver.com>
-X-Mailer: git-send-email 2.43.0
+	Zhao Dongdong <zhaodongdong@kylinos.cn>
+Subject: [PATCH] USB: serial: option: add support for SIMCom SIM8260C
+Date: Fri, 14 Aug 2026 17:01:15 +0800
+X-OQ-MSGID: <20260814090115.380882-1-winter91@foxmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -56,141 +61,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-f_hidg_write() sets write_pending, caches hidg->req into a stack local,
-and drops write_spinlock across copy_from_user(). hidg_disable() frees
-hidg->req whenever write_pending is clear, so that flag is the only thing
-keeping the writer's cached pointer alive.
+From: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-f_hidg_req_complete() clears it for whichever request completes, not for
-the one the writer owns. A write() that has queued a request leaves it
-queued indefinitely if the host never issues an IN token. When the host
-then disables the configuration, usb_ep_disable() gives that old request
-back, its completion clears write_pending, and hidg_disable() goes on to
-free hidg->req - which a different write() is holding at that moment.
+Add support for SIMCom SIM8260C (1e0e:902b).
 
-The writer resumes, finds hidg->req NULL, and frees its cached pointer a
-second time:
+T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
+D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
+P:  Vendor=1e0e ProdID=902b Rev= 5.04
+S:  Manufacturer=SIMCOM
+S:  Product=SDXLEMUR-LITE-MTP _SN:120696AB
+S:  SerialNumber=0123456789ABCDEF
+C:* #Ifs= 8 Cfg#= 1 Atr=a0 MxPwr=896mA
+A:  FirstIf#= 5 IfCount= 3 Cls=01(audio) Sub=00 Prot=20
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan_simcom
+E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 5 Alt= 0 #EPs= 0 Cls=01(audio) Sub=01 Prot=20 Driver=snd-usb-audio
+I:* If#= 6 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
+I:  If#= 6 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
+E:  Ad=05(O) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
+I:* If#= 7 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=option
+I:  If#= 7 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=option
+E:  Ad=89(I) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
 
-  BUG: KASAN: slab-use-after-free in f_hidg_write+0x7b7/0x920
-  Read of size 8 at addr ffff888104fc9018 by task s4-3/163
-
-  Allocated by task 0:
-   alloc_ep_req+0x20/0x1b0
-   hidg_set_alt+0x1ed/0xbd0
-   composite_setup+0x1072/0x8690
-   configfs_composite_setup+0xcd/0x110
-   dummy_timer+0x1a68/0x31d0
-
-  Freed by task 0:
-   kfree+0x121/0x380
-   hidg_disable+0x559/0x7a0
-   reset_config+0x9d/0x200
-   composite_setup+0x32d4/0x8690
-   configfs_composite_setup+0xcd/0x110
-   dummy_timer+0x1a68/0x31d0
-
-  The buggy address belongs to the object at ffff888104fc9000
-   which belongs to the cache kmalloc-128 of size 128
-
-  BUG: KASAN: double-free in f_hidg_write+0x267/0x920
-
-Record which request owns the flag and let only that request's completion
-clear it. An older queued request being given back then leaves
-write_pending set, hidg_disable() declines to free, and the writer frees
-its own request on the existing path.
-
-Fixes: 25cd9721c2b1 ("usb: gadget: f_hid: fix: Don't access hidg->req without spinlock held")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hyeontae Lee <wonju345@naver.com>
+Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 ---
-Notes for reviewers:
+ drivers/usb/serial/option.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The clearer was identified by instrumenting the three sites that clear the
-flag: of 4944 frees at hidg_disable(), all 4944 followed a clear from
-f_hidg_req_complete(), and 4440 freed a request a writer was holding.
-
-749494b6bdbb introduced the stack local but left the uses on hidg->req, so
-check and use still agreed; 25cd9721c2b1 moved the uses to the local and
-left the guard on the field, which is why that one is tagged.
-
-Every dereference of the freed pointer is inside f_hidg_write(), so this is
-not remotely triggerable on its own - a local process must be writing to
-/dev/hidgN at the time.
-
-hidg_disable() now declines to free a request a writer owns; f_hid's request
-lifetime under repeated SET_INTERFACE has pre-existing gaps this does not
-address.
-
-Tested on v7.2-rc7-12 (f5bbbfec59b4) under dummy_hcd, report_length=8: over
-45 s of identical workload, double frees of the same address went from 52 to
-0 and KASAN reports from 208 to 0.
----
- drivers/usb/gadget/function/f_hid.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 3c6b43d06a6d1..d65169c9645b1 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -89,6 +89,7 @@ struct f_hidg {
- 	/* send report */
- 	spinlock_t			write_spinlock;
- 	bool				write_pending;
-+	struct usb_request		*write_req;
- 	wait_queue_head_t		write_queue;
- 	struct usb_request		*req;
- 
-@@ -443,7 +444,16 @@ static void f_hidg_req_complete(struct usb_ep *ep, struct usb_request *req)
- 	}
- 
- 	spin_lock_irqsave(&hidg->write_spinlock, flags);
--	hidg->write_pending = 0;
-+	/*
-+	 * Only the completion of the request this writer owns may clear the
-+	 * flag. usb_ep_disable() gives back whatever is still queued from an
-+	 * earlier write(), and letting that clear write_pending lets
-+	 * hidg_disable() go on to free a request a writer is still holding.
-+	 */
-+	if (req == hidg->write_req) {
-+		hidg->write_req = NULL;
-+		hidg->write_pending = 0;
-+	}
- 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
- 	wake_up(&hidg->write_queue);
- }
-@@ -480,6 +490,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
- 
- 	hidg->write_pending = 1;
- 	req = hidg->req;
-+	hidg->write_req = req;
- 	count  = min_t(unsigned, count, hidg->report_length);
- 
- 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
-@@ -502,6 +513,8 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
- 
- 	/* when our function has been disabled by host */
- 	if (!hidg->req) {
-+		if (hidg->write_req == req)
-+			hidg->write_req = NULL;
- 		free_ep_req(hidg->in_ep, req);
- 		/*
- 		 * TODO
-@@ -534,6 +547,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
- release_write_pending:
- 	spin_lock_irqsave(&hidg->write_spinlock, flags);
- 	hidg->write_pending = 0;
-+	hidg->write_req = NULL;
- 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
- 
- 	wake_up(&hidg->write_queue);
-@@ -1102,6 +1116,7 @@ static int hidg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
- 		spin_lock_irqsave(&hidg->write_spinlock, flags);
- 		hidg->req = req_in;
- 		hidg->write_pending = 0;
-+		hidg->write_req = NULL;
- 		spin_unlock_irqrestore(&hidg->write_spinlock, flags);
- 
- 		wake_up(&hidg->write_queue);
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 580f06f5ce5e..9c1444af2c61 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2165,6 +2165,8 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(ALINK_VENDOR_ID, ALINK_PRODUCT_3GU, 0xff, 0xff, 0xff) },
+ 	{ USB_DEVICE(ALINK_VENDOR_ID, SIMCOM_PRODUCT_SIM7100E),
+ 	  .driver_info = RSVD(5) | RSVD(6) },
++	{ USB_DEVICE(0x1e0e, 0x902b),
++	  .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9003, 0xff) },	/* Simcom SIM7500/SIM7600 MBIM mode */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9011, 0xff),	/* Simcom SIM7500/SIM7600 RNDIS mode */
+ 	  .driver_info = RSVD(7) },
 -- 
-2.43.0
+2.25.1
 
