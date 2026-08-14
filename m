@@ -1,118 +1,277 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABD63EBF02;
-	Fri, 14 Aug 2026 10:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B613439F7D
+	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 10:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786703830; cv=none; b=jwYvHy4424h2+rhw0LP0piT/1IfNsuT+/WgXl2hjQ6OIeRt0oE6nqhlQqr8IyoN2+dTpaBGU5Y1rDYtZ0tvhkOy8D/nCrsYDcFR9yU7le30+JwahT/Gcn048lvth0cQ8lvpGawg6ChUO96LzhIopP+j+KQaC8hptC2TgJy2qOmw=
+	t=1786703856; cv=none; b=dRC1G0dVMo+qbvEgvGvB5QM/daY3v86A4NS2eKbM4myNhZtjBvp+VhXsTdN2v3hk0hA6egZAubNHO/lOCO6b9KmhXQhN6XzBVQzXozJTGuwWcBVW/eDUXqG9brBdGjjUsRPxqmZaspIG+WdXD6mJgOK0XMEbOyqoHYF4xiQ5vUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786703830; c=relaxed/simple;
-	bh=p69RouqMpALXee3UEOkmmOzgGp30XErIRh8g+uHdd9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KxCa9rDFHjAs2VJJ4KI2IEnoCmD56BzAQTOSpzQo2l2aTZGugAEgbTiIvuKajM47Bg4MeRCrYvQywvg3nUNXOXRbHJAoFx4YNHiIGt6FLUmtGVEG1MworTfo90tdw44USaDWDFk/mzRY1ErSISkYz4/x9V0uH/SzAivxyCT5MNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJ2X7S/9; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJ2X7S/9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786703826; x=1818239826;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p69RouqMpALXee3UEOkmmOzgGp30XErIRh8g+uHdd9M=;
-  b=TJ2X7S/98EgFS/OW8GR1AsVupkMhmHOTEsBr+OuQ8N+Zt8nUCtHpc3mB
-   1s5rC+5tkd/f6BpozLMXnGdWLAKf1c3/gr1xed2rVMoKwy3GLBSkShpWa
-   LKNLeDatZRlOxnIl9Va/6mmQasG4k0YQsC0ISU6luUdb1uJrFq7KJ0tIC
-   aMXnsoJ23VBSrHmZxN1EW7BJvpvlhQD5MFEYyFabk5pCuJjfRGhm4SFiI
-   hR6LUGUFkITvbGaPvVBWcEEhUuG5erRb5PXiON/uVVP6J4QEAcf7OeJ3G
-   jIEJXOgPoCd3vvVBFp7DhVOvYXLYn9yHX8htzVZSimTXe1S4bXME+QFRd
-   A==;
-X-CSE-ConnectionGUID: WvW23hxYSWSTpv8ZngTjIA==
-X-CSE-MsgGUID: qJ1dFs4xTCC7U3yCGO1aKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="91157715"
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="91157715"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 03:37:03 -0700
-X-CSE-ConnectionGUID: 6C4pvVPiTqG+lndfzT1K+Q==
-X-CSE-MsgGUID: A7t0kuppTuGEpPVbhyNc0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="260923733"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Aug 2026 03:37:01 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 9528A99; Fri, 14 Aug 2026 12:37:00 +0200 (CEST)
-Date: Fri, 14 Aug 2026 12:37:00 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: William Bright <william.bright@imd-tec.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Christian A. Ehrhardt" <lk@c--e.de>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: Handle connectors already attached at
- init
-Message-ID: <an7vzBaar_e_K3uk@black.igk.intel.com>
-References: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
+	s=arc-20240116; t=1786703856; c=relaxed/simple;
+	bh=iLm6yHdgH9uTz6XEjQZ4K0e0vkLBndFd2jp/Lxiobpo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LnTaCFeBwJXR5Y7GwU1b12roU/HyD1myO8AVTPscDTZfzD0PikbfflsqOIj9x6N8trH66bZSEbXf1geIk8HlPfRqJCRlQCz1+/6uPEDtzVlTS2NwjiVNAEuoOyCMyQhE5D2klFn6d6jCHY390fU0AuH/63U7aAm2iku6eQ9A2Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7eb641eaf5eso965548a34.1
+        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 03:37:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786703846; x=1787308646;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V8h9rcswZfmF0SHe0JimNyQe+xhlf/jwvw/S/NcoY/Q=;
+        b=A6xeMx9beBRZ1ru3alhindziCyi0YLcmfJ5Z3jffK2v+Hl5pYlFrsDjeJFkyK6sE/x
+         gzmWq2uphs4ubzd5qQuOE3FMoVTBEIpS63PX748rIhulyw/f4NzJD1+pklzERZY73SJi
+         XO6fVO0SUa5iig3/xsLtIy86AlMwaDVd7/m1nbHVuITLkdvsAmr6Xv0xmecRbzIgKZaV
+         SQ9+W3L5PLCSSkFrHt5DOUScp7p3gv2IZ0s4weYZeo4KG9CceZ0XbVr/AYxPedNRkd1W
+         SIBy92MC21ZB0hXKUNKzDEzXpTnSKcWGTf0VFVtnWFz9dO4v8ctiGyWn5AMl4Au0JB6I
+         ihYQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp01jFvab7mt9BXjDtmf1JlZlrOe1AvMnN3Wep6zmzreL3QVhGikCn40diiVWh1t1PAczgtyl+crRU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywqs7eVGUMHqvsWxgdUawyZLm665QQXlZHaIoNqoFb/HFilBNi2
+	r7+mmWt5tF2RazWIkhZQi4ZX9KZtU/ZN1EeUmcWjMtnpX77RXbcT/qzoelKkWuuQlHVxFabUGEZ
+	ZcqJZc/cVndhgCNk7hkxybQCtzC9k0wB+4I0vk+wa1O7/xDANmvF9yDPg++E=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
+X-Received: by 2002:a05:6820:4b82:b0:6a1:8b23:d4c8 with SMTP id
+ 006d021491bc7-6b0d5fa52bemr4170435eaf.3.1786703846321; Fri, 14 Aug 2026
+ 03:37:26 -0700 (PDT)
+Date: Fri, 14 Aug 2026 03:37:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7eefe6.f7a79266.2f965f.0001.GAE@google.com>
+Subject: [syzbot] [kernel?] INFO: task hung in usb_disable_device (2)
+From: syzbot <syzbot+5cf28d3643d94bfb0821@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, mcgrof@kernel.org, 
+	rafael@kernel.org, russ.weight@linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 13, 2026 at 10:38:40AM +0100, William Bright wrote:
-> After a cold boot the PPM may already have a partner attached without a
-> pending connector change to report. On a CYPD6125 the CCI register reads
-> back 0 in ucsi_init(), so ucsi_connector_change() is never called and the
-> Type-C mux is left unconfigured for the already-attached port.
-> 
-> Fix this by additionally checking the connector status of every
-> connector and call ucsi_connector_change() for connectors that are
-> already attached. Whilst also continuing to call ucsi_connector_change()
-> for connectors that report a change via the CCI register.
-> 
-> Fixes: ce4c8d21054a ("usb: typec: ucsi: Fix connector check on init")
-> Signed-off-by: William Bright <william.bright@imd-tec.com>
+Hello,
 
-You need to CC stable.
+syzbot found the following issue on:
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+HEAD commit:    5d5fd841c346 Merge 7.2-rc5 into usb-next
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14fbca9e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
+dashboard link: https://syzkaller.appspot.com/bug?extid=5cf28d3643d94bfb0821
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index ecbda2a3783c..740ae4a14f7f 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2136,8 +2136,11 @@ static int ucsi_init(struct ucsi *ucsi)
->  	mutex_unlock(&ucsi->ppm_lock);
->  	if (ret)
->  		return ret;
-> -	if (UCSI_CCI_CONNECTOR(cci))
-> -		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
-> +
-> +	for (i = 0; i < ucsi->cap.num_connectors; i++)
-> +		if (UCSI_CONSTAT(&connector[i], CONNECTED) ||
-> +		    UCSI_CCI_CONNECTOR(cci) == i + 1)
-> +			ucsi_connector_change(ucsi, i + 1);
->  
->  	return 0;
->  
-> 
-> ---
-> base-commit: 55431f6adac42f818a0c76594ce2c6c02fe1034d
-> change-id: 20260813-ucsi-cold-b35e11991b7c
-> 
-> Best regards,
-> -- 
-> William Bright <william.bright@imd-tec.com>
+Unfortunately, I don't have any reproducer for this issue yet.
 
--- 
-heikki
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/2ed536ae4daf/disk-5d5fd841.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ab40098ccbf1/vmlinux-5d5fd841.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/66d5c395f47c/bzImage-5d5fd841.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5cf28d3643d94bfb0821@syzkaller.appspotmail.com
+
+INFO: task kworker/1:1:28 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/1:1     state:D
+ stack:19176 pid:28    tgid:28    ppid:2      task_flags:0x4208060 flags:0x00080000
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0xdd/0x2c0 kernel/sched/core.c:7326
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7383
+ __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+ __mutex_lock+0xccc/0x1bd0 kernel/locking/mutex.c:821
+ device_lock include/linux/device.h:1102 [inline]
+ device_del+0xa0/0x9b0 drivers/base/core.c:3923
+ usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
+ usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2350
+ hub_port_connect drivers/usb/core/hub.c:5412 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5712 [inline]
+ port_event drivers/usb/core/hub.c:5876 [inline]
+ hub_event+0x1d0c/0x4af0 drivers/usb/core/hub.c:5958
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+INFO: task kworker/0:2:247 blocked for more than 144 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:2     state:D stack:20520 pid:247   tgid:247   ppid:2      task_flags:0x4288060 flags:0x00080000
+Workqueue: events request_firmware_work_func
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0xdd/0x2c0 kernel/sched/core.c:7326
+ lbs_wait_for_firmware_load+0x11e/0x1e0 drivers/net/wireless/marvell/libertas/firmware.c:117
+ lbs_remove_card+0x84/0x390 drivers/net/wireless/marvell/libertas/main.c:913
+ if_usb_disconnect+0xc5/0x270 drivers/net/wireless/marvell/libertas/if_usb.c:317
+ usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:461
+ device_remove drivers/base/dd.c:618 [inline]
+ device_remove+0x12a/0x180 drivers/base/dd.c:610
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
+ usb_driver_release_interface drivers/usb/core/driver.c:643 [inline]
+ usb_forced_unbind_intf+0x1a4/0x240 drivers/usb/core/driver.c:1137
+ usb_reset_device+0x411/0xaa0 drivers/usb/core/hub.c:6409
+ if_usb_reset_device.isra.0+0x21e/0x290 drivers/net/wireless/marvell/libertas/if_usb.c:400
+ if_usb_prog_firmware+0x626/0xef0 drivers/net/wireless/marvell/libertas/if_usb.c:889
+ lbs_fw_loaded drivers/net/wireless/marvell/libertas/firmware.c:23 [inline]
+ helper_firmware_cb drivers/net/wireless/marvell/libertas/firmware.c:80 [inline]
+ helper_firmware_cb+0x1f7/0x2d0 drivers/net/wireless/marvell/libertas/firmware.c:64
+ request_firmware_work_func+0x13f/0x440 drivers/base/firmware_loader/main.c:1164
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Showing all locks held in the system:
+5 locks held by kworker/1:1/28:
+ #0: 
+ffff888106aa4540
+ (
+(wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
+ #1: ffffc900001e7d18 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
+ #2: ffff88810af571d8
+ (
+&dev->mutex
+){....}-{4:4}
+, at: device_lock include/linux/device.h:1102 [inline]
+, at: hub_event+0x1bd/0x4af0 drivers/usb/core/hub.c:5904
+ #3: 
+ffff8881158cd1d8
+ (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
+ (&dev->mutex){....}-{4:4}, at: usb_disconnect+0x10a/0x9a0 drivers/usb/core/hub.c:2341
+ #4: ffff8881158c81a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
+ #4: ffff8881158c81a0 (&dev->mutex){....}-{4:4}, at: device_del+0xa0/0x9b0 drivers/base/core.c:3923
+1 lock held by khungtaskd/30:
+ #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x3d/0x184 kernel/locking/lockdep.c:6775
+3 locks held by kworker/0:2/247:
+ #0: ffff88810006b140 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
+ #1: 
+ffffc90001af7d18
+ (
+(work_completion)(&fw_work->work)
+){+.+.}-{0:0}
+, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
+ #2: 
+ffff8881158c81a0
+ (
+&dev->mutex
+){....}-{4:4}
+, at: device_lock include/linux/device.h:1102 [inline]
+, at: __device_driver_lock drivers/base/dd.c:1171 [inline]
+, at: device_release_driver_internal+0xb2/0x620 drivers/base/dd.c:1369
+2 locks held by getty/2918:
+ #0: 
+ffff888115d290a0
+ (
+&tty->ldisc_sem
+){++++}-{0:0}
+, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
+ #1: 
+ffffc900000452e8
+ (
+&ldata->atomic_read_lock
+){+.+.}-{4:4}
+, at: n_tty_read+0x419/0x14e0 drivers/tty/n_tty.c:2211
+2 locks held by kworker/0:5/5267:
+2 locks held by kworker/0:11/11531:
+
+=============================================
+
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 30 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ nmi_cpu_backtrace.cold+0x12d/0x151 lib/nmi_backtrace.c:122
+ nmi_trigger_cpumask_backtrace+0x21c/0x2a0 lib/nmi_backtrace.c:65
+ trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x141/0x190 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xcb1/0x1030 kernel/hung_task.c:561
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 9069 Comm: kworker/0:9 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: events legacy_dvb_usb_read_remote_control
+RIP: 0010:__sanitizer_cov_trace_pc+0xb/0x70 kernel/kcov.c:213
+Code: 5f 00 be 03 00 00 00 5b e9 e2 72 23 01 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 65 8b 05 e5 9b 4a 0b <48> 8b 34 24 65 48 8b 15 c1 9b 4a 0b a9 00 01 ff 00 74 1b f6 c4 01
+RSP: 0018:ffffc900125cf238 EFLAGS: 00000216
+RAX: 0000000000000001 RBX: ffffffff878ae180 RCX: ffffffff87788dd0
+RDX: 0000000000000063 RSI: 000000000000002a RDI: ffff88811567bc00
+RBP: ffffc900125cf2e0 R08: 0000000000000001 R09: 000000000000002a
+R10: 0000000000000063 R11: 0000000000b421c8 R12: 0000000000000063
+R13: ffffffff878ae181 R14: ffffc900125cf370 R15: 0000000000000033
+FS:  0000000000000000(0000) GS:ffff888268636000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055556db20908 CR3: 00000001175ac000 CR4: 00000000003506f0
+Call Trace:
+ <TASK>
+ format_decode+0x32f/0xdd0 lib/vsprintf.c:2739
+ vsnprintf+0x1c0/0x1300 lib/vsprintf.c:2887
+ snprintf+0xc7/0x100 lib/vsprintf.c:3043
+ print_caller kernel/printk/printk.c:1368 [inline]
+ info_print_prefix+0x134/0x350 kernel/printk/printk.c:1387
+ record_print_text+0x143/0x3c0 kernel/printk/printk.c:1434
+ printk_get_next_message+0x2d1/0x6c0 kernel/printk/printk.c:3072
+ console_emit_next_record kernel/printk/printk.c:3137 [inline]
+ console_flush_one_record+0x67c/0xe50 kernel/printk/printk.c:3269
+ console_flush_all kernel/printk/printk.c:3343 [inline]
+ __console_flush_and_unlock kernel/printk/printk.c:3373 [inline]
+ console_unlock+0x103/0x260 kernel/printk/printk.c:3413
+ vprintk_emit+0x407/0x6b0 kernel/printk/printk.c:2479
+ _printk+0xcf/0x110 kernel/printk/printk.c:2504
+ legacy_dvb_usb_read_remote_control.cold+0x11/0x16 drivers/media/usb/dvb-usb/dvb-usb-remote.c:124
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
