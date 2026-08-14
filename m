@@ -1,116 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92937361966;
-	Fri, 14 Aug 2026 10:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8498B43F4C2;
+	Fri, 14 Aug 2026 10:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786703483; cv=none; b=IZJSgi+liF6Z+YEY5OiXXV0At7mMOmrPZ0TiO/jrNpe5t/gt2n/JnlHCuM2FIedg06lb5e37gGLrv8/BUrJlk+CjuVjsyQ56td9WBWdoYCMLuFagxukwmdgP3mwPSoFW3HvKXuTojAVb61j8ne1Cirx9UoUmSmy25np7G77NDgM=
+	t=1786703532; cv=none; b=a7rL6Ka1fSXAKVqY6OIqF2gUb6IS47W37rth57BF5MCuHsOzPZcOhoaVo6ZxU1U7DO5wib+vgSmRsI3zAocxXBn2nk9tGJI2La46kugIOGSWxLEuXIlFIwNp6kx7KJBmHvLNeHdCay69Ob0aRS9AVHjEX6OH6oeVyaSEWTAUjKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786703483; c=relaxed/simple;
-	bh=x184bNmNwLs9tj1ULAmrZbwCOx8XgicDUHsToUTZ/0I=;
+	s=arc-20240116; t=1786703532; c=relaxed/simple;
+	bh=IOzWA2b0aYhsfF0sHRhAWGJv42gCItzciQRYf6txQKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D4WD4Bsys9qQffuhWzeyPgixKEVDihTXoqO99qHqFZtIl1HoTDQzzcGn01/7e3Vh61Oi11+dsUySGeiwATYwm/wIipPzo64SW2vA399uLjKTGp2Q6dgyCRCCHGhBcO8519hRwvLuF3oSpYTH4G22OYc+BkkeZFPGmIR/oAB7XWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CsZinVx9; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=J53LbgLBh9IyiYmpXkFWhLhUKGPPNKQJICIulmmPgFu+wniI4jA/1MjOMV7FYbhphU/KAZrQQlxnrxT0G95hq7dyVRUtBcGBzK6zSrHP6+wxvXIq2Q5L8M1tiX+7PmTKFeGFLfYkjVwkOuNbOLl3ASbXuPQBO+DjBmnwR5Xu5e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kC5IZWh+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CsZinVx9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786703475; x=1818239475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x184bNmNwLs9tj1ULAmrZbwCOx8XgicDUHsToUTZ/0I=;
-  b=CsZinVx9u58uRmpBIqxwQAJ2EhW6OZA9BGqudcddDjGHsV6576PCGLXz
-   DCjo9IACVsGvfmKDTUvrTjlLtO68B5BXpcFJfvg+VBoCuw2qbeifAa+Xo
-   /ufSFPHOKKqmg0W6s/sGZyxcvFboV3//9r9cLv8q/ohRLQrAgJBHieIHF
-   Zo+PPBzScTXmuY8IBTdAJp//3UDmtYqFSFUQAsXJse/+a8z2SwLl/A/O4
-   l/9qtTg7kiBGjBJHg02MoKjibVIcuwd4zsBtZKikNulCFI2azKPq2YS8+
-   o5SNZDqLgL1cIfwVeErHZxXeXXsuLUEjNLR3vJud78NBkxbEWGB9ZF/Ek
-   g==;
-X-CSE-ConnectionGUID: brtVBYqgRRqMr4RPwc41ig==
-X-CSE-MsgGUID: LEFUEBmiRgWPtK/wueaIhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="98795713"
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="98795713"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 03:31:06 -0700
-X-CSE-ConnectionGUID: XcXKS50nQ9KJEFgicerPFg==
-X-CSE-MsgGUID: 0BjiolWjQVKzgTBDSN6vEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="263753970"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 14 Aug 2026 03:31:03 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 4D03D99; Fri, 14 Aug 2026 12:31:02 +0200 (CEST)
-Date: Fri, 14 Aug 2026 12:31:02 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: esteuwu@proton.me
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] usb: typec: Add support for Parade PS5169 USB
- Type-C redriver
-Message-ID: <an7uZqb31GoZy65d@black.igk.intel.com>
-References: <20260810-ps5169-bup-v3-0-a2178b2834d7@proton.me>
- <20260810-ps5169-bup-v3-2-a2178b2834d7@proton.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kC5IZWh+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1D81F000E9;
+	Fri, 14 Aug 2026 10:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786703527;
+	bh=IOzWA2b0aYhsfF0sHRhAWGJv42gCItzciQRYf6txQKA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kC5IZWh+0+2yzgUANAlE4uUxlBQ1ylWV9AbGabmeHEcwpgi63DVz2Sndfs6Kbyi4Y
+	 Eot3AoZphew0eBbm7jXop7CJkDv3qYfZbC2FkSQzMS5vl0ugfPt34BJrLjUa04Zabl
+	 tgRRnktqh3Y6adf4eH7SsOdpSYCbMEpoUcB2G90/lR2qYDHsui8ICd/ps5hosH5xiU
+	 4XOyD3SJZupYpN6x7WWbWXaHjCjlTxHYwfTvDIgG9UfGygHvyGYeuh1O5Kl95VgEe/
+	 /29SkdJ8+1hmoCf1ANJIiGDqPFd/BHMHC1RxVjLeSKOzVT0r2QkIdPw3EUx9/oE0t2
+	 PJbI6oBKdMfkw==
+Date: Fri, 14 Aug 2026 12:32:01 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, git@amd.com
+Subject: Re: [PATCH] dt-bindings: usb: xlnx,usb2: Make clocks required
+Message-ID: <20260814-true-greedy-woodlouse-4cdb5c@quoll>
+References: <20260810154548.2133565-1-radhey.shyam.pandey@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260810-ps5169-bup-v3-2-a2178b2834d7@proton.me>
+In-Reply-To: <20260810154548.2133565-1-radhey.shyam.pandey@amd.com>
 
-Hi Esteban,
+On Mon, Aug 10, 2026 at 09:15:48PM +0530, Radhey Shyam Pandey wrote:
+> Add s_axi_aclk AXI4 clock support as a required property. Traditionally
+> this IP was used on MicroBlaze platforms which had fixed clocks enabled
+> all the time. But since it is a PL IP, it can also be used on SoC
+> platforms like Zynq UltraScale+ MPSoC which combines processing system
+> (PS) and user programmable logic (PL) into the same device. On these
+> platforms instead of fixed enabled clocks it is mandatory to explicitly
+> enable IP clocks for proper functionality.
 
-On Mon, Aug 10, 2026 at 11:31:37PM -0400, Esteban Urrutia via B4 Relay wrote:
-> From: Esteban Urrutia <esteuwu@proton.me>
-> 
-> Add driver for the Parade PS5169, an USB Type-C redriver capable of
-> handling 10Gb/s USB signals and 8.1Gb/s DP signals.
-> 
-> Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
-> ---
->  MAINTAINERS                    |   7 +
->  drivers/usb/typec/mux/Kconfig  |  10 +
->  drivers/usb/typec/mux/Makefile |   1 +
->  drivers/usb/typec/mux/ps5169.c | 592 +++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 610 insertions(+)
+I do not see the clocks being added. You made them only required, but
+first sentence suggests you add them.
 
-This does not compile...
+I still do not get why the traditional "MicroBlaze platforms which had
+fixed clocks enabled all the time" are now broken and require the clocks.
+IOW, what changed for devices which you claim do not need the clocks,
+that they now need the clocks?
 
-> diff --git a/drivers/usb/typec/mux/ps5169.c b/drivers/usb/typec/mux/ps5169.c
-> new file mode 100644
-> index 000000000000..5fbc452249d0
-> --- /dev/null
-> +++ b/drivers/usb/typec/mux/ps5169.c
-> @@ -0,0 +1,592 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Driver for Parade PS5169 USB Type-C linear redriver
-> + * Registers and bits decoded from downstream drivers
-> + *
-> + * Copyright (c) 2026 Esteban Urrutia <esteuwu@proton.me>
-> + */
-> +
-> +#include <drm/bridge/aux-bridge.h>
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/regmap.h>
+Maybe this should be required only on platforms which actually need it?
 
-You are missing a lot of headers here. Please include everything that
-you are using - don't rely on nested includes. I think that's the rule
-nowadays.
+Best regards,
+Krzysztof
 
-Thanks,
-
--- 
-heikki
