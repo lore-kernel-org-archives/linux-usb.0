@@ -1,137 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E759C463B66;
-	Fri, 14 Aug 2026 12:00:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9CD3C3C0E;
+	Fri, 14 Aug 2026 12:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786708846; cv=none; b=Mg1M4bW/k4xojzM6BqyxgRLjN8EYBj04+/TY5rsmkYZ3swpOo8cewhqEuoNtSbjoDtblQK/uxI7DeUMtu6Cx1OrbxT5Y8x0rAkMaWnIeznAPpeuarMU7hmIGaeoDMG7t+gJbPdxBbQPvJ1tV2J/eRz6F73M5ttd/vnGDxxdQMmo=
+	t=1786709060; cv=none; b=ddCPay0XMOkD5DST+KWOMfvcmQju49u2fBhGAI2jT1XxpnwojOyw5S/ThMy5A6rm5kmXOIv54YVrrNBtTF+LfykAwF7sEzaUjYLKNdifJoaUVvqu5HnMlyDI2udVUNWakMuupWF2tAbUGNTp+jFaCnZaY3ymTS03yM0nGX8WpOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786708846; c=relaxed/simple;
-	bh=rFk09Bb53+K74sovTi6N2QPwmW4Ff1AbnPCrP54XhZw=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=Fbr17pLOorcCC6E40PetAbCa18jkuYB2oP2YZ0qxSttnYI537Pf70E8LH6ZWZgvcBnYLK02Uef1nBa+2FDy+zPnu9FGNikqgYR42PeQKfhKMFxSwgGsQqv9GvsG6E4OII/mwNHek3jQaJxMyndc01o6DT42ZrX62X4XIozsWxkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko2TV0SK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786709060; c=relaxed/simple;
+	bh=C4mJ9LgpVpEWinY9QRW7zW3XibIvpVSDw57m9Rgw7k4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l5RBVagcyPnkk7AFaGd58/ogYFeAdSwHafIZR/WyPtLRSCbQWhIe3RdF1fZ5wmybwdM+zRKtIhvXKAmb0/QhxKaCBkmTGgNvF2FdBgiVvEdG5phhT6Cf5PmRBsGsDv9XCAbDihjdhzuChUPIGKZFR+mcloge29vEjP+iSL1+Imo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1ol5zunH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko2TV0SK"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1C6B21F000E9;
-	Fri, 14 Aug 2026 12:00:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786708844;
-	bh=qZ+vwQsKOZyf98JxhPjZ+yNNOmKTKmOjpcXZsYWCH2k=;
-	h=From:To:Cc:Subject:Date;
-	b=Ko2TV0SKBmQsYOYWLf0ildLi/sM15I4xh+j21JS0l33T6svZ25PP5wXo28JnTP5mK
-	 Vst0sfr6dYX2iqTEpG+cuXx1kYIAdQiWxA4ajeSl11M/AP1CoIO98HJh4xoOGR7Jn+
-	 r+UGhtDm2WpzDHNVKoVMUMcG1KDvFB3HtzoNzarbkZeaELXdURuXP92ynbbD08nVpG
-	 5/bjg50xU6Vbm9w4xiSgXTZd+Nu58fBUjFV4sU4MMncM4zEI+M4hYGzoLUKK8KQv1Z
-	 gukqv/yhmfcRPO7bDaf3bMiphG54Ejsux890wmsWKHY7vupbIxvC51X1jwyMMPW48f
-	 HjinW2Ba+IbCQ==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Michael Grzeschik" <m.grzeschik@pengutronix.de>
-Cc: Frank.Li@nxp.com, hhhuuu@google.com, kees@kernel.org, linux-kernel@vger.kernel.org, meatuni001@gmail.com, panjunzhong@linux.spacemit.com, syzbot@lists.linux.dev, xu.yang_2@nxp.com
-Subject: [PATCH] usb: gadget: uvc: check endpoint enabled state in uvcg_video_enable()
-Message-ID: <8fff0312-bd04-44e4-8df3-b60d3bc849bf@mail.kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1ol5zunH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 834C01F000E9;
+	Fri, 14 Aug 2026 12:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1786709058;
+	bh=HnBdQjz+MlWjhTqSk9p3Cz+Yfs2UxMFsvIBgquZBk0A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=1ol5zunHfbeU9f0Vt2elv27UnADJONKp60o8KZZhy/DxZOfITZ+yBbTWtf3IT/bTT
+	 Jom7aJrytfoF/XoKGnE+3Er8pC7gOkPwLvxs5IWq31+VKkI8IRICY03XpsPHGQTHxm
+	 5Y4DqZLSl4eD8cvGb9HooC7r6zhqeqYJJ8CSkYQE=
+Date: Fri, 14 Aug 2026 21:02:43 +0900
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Zhao Dongdong <winter91@foxmail.com>
+Cc: johan@kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhao Dongdong <zhaodongdong@kylinos.cn>
+Subject: Re: [PATCH] USB: serial: option: add support for SIMCom SIM8260C
+Message-ID: <2026081427-overcast-silk-8fe2@gregkh>
+References: <tencent_CDB9F0B44FDD051447DCF48862B8E764E80A@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Date: Fri, 14 Aug 2026 12:00:44 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_CDB9F0B44FDD051447DCF48862B8E764E80A@qq.com>
 
-From: Aleksandr Nogikh <nogikh@google.com>
+On Fri, Aug 14, 2026 at 05:01:15PM +0800, Zhao Dongdong wrote:
+> From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+> 
+> Add support for SIMCom SIM8260C (1e0e:902b).
+> 
+> T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
+> D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
+> P:  Vendor=1e0e ProdID=902b Rev= 5.04
+> S:  Manufacturer=SIMCOM
+> S:  Product=SDXLEMUR-LITE-MTP _SN:120696AB
+> S:  SerialNumber=0123456789ABCDEF
+> C:* #Ifs= 8 Cfg#= 1 Atr=a0 MxPwr=896mA
+> A:  FirstIf#= 5 IfCount= 3 Cls=01(audio) Sub=00 Prot=20
+> I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+> E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+> E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+> E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+> E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan_simcom
+> E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+> E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> I:* If#= 5 Alt= 0 #EPs= 0 Cls=01(audio) Sub=01 Prot=20 Driver=snd-usb-audio
+> I:* If#= 6 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
+> I:  If#= 6 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
+> E:  Ad=05(O) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
+> I:* If#= 7 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=option
+> I:  If#= 7 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=option
+> E:  Ad=89(I) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
+> 
+> Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
+> ---
+>  drivers/usb/serial/option.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> index 580f06f5ce5e..9c1444af2c61 100644
+> --- a/drivers/usb/serial/option.c
+> +++ b/drivers/usb/serial/option.c
+> @@ -2165,6 +2165,8 @@ static const struct usb_device_id option_ids[] = {
+>  	{ USB_DEVICE_AND_INTERFACE_INFO(ALINK_VENDOR_ID, ALINK_PRODUCT_3GU, 0xff, 0xff, 0xff) },
+>  	{ USB_DEVICE(ALINK_VENDOR_ID, SIMCOM_PRODUCT_SIM7100E),
+>  	  .driver_info = RSVD(5) | RSVD(6) },
+> +	{ USB_DEVICE(0x1e0e, 0x902b),
+> +	  .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
+>  	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9003, 0xff) },	/* Simcom SIM7500/SIM7600 MBIM mode */
+>  	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9011, 0xff),	/* Simcom SIM7500/SIM7600 RNDIS mode */
+>  	  .driver_info = RSVD(7) },
 
-A NULL pointer dereference can occur in uvc_video_prep_requests() if
-userspace issues a VIDIOC_STREAMON ioctl before the USB host has fully
-configured the streaming endpoint.
+Shouldn't this be in sorted order?
 
-When userspace calls VIDIOC_STREAMON, the driver handles it in
-uvc_v4l2_streamon(), which in turn calls uvcg_video_enable(). Currently,
-uvcg_video_enable() only checks if the endpoint pointer is allocated
-(video->ep == NULL), but it fails to check if the endpoint is actually
-enabled (video->ep->enabled).
+thanks,
 
-The endpoint descriptor (video->ep->desc) is only assigned when the USB
-host explicitly selects the streaming alternate setting via a SET_INTERFACE
-control request. If userspace prematurely calls VIDIOC_STREAMON before the
-host has selected the streaming alternate setting, video->ep->desc will
-still be NULL.
-
-Because uvcg_video_enable() does not verify the endpoint's enabled state,
-it proceeds to call uvc_video_alloc_requests() and then
-uvc_video_prep_requests(). Inside uvc_video_prep_requests(), the code
-unconditionally dereferences video->ep->desc, resulting in a KASAN
-null-ptr-deref / general protection fault:
-
-Oops: general protection fault, probably for non-canonical address
-0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-RIP: 0010:usb_endpoint_xfer_isoc include/uapi/linux/usb/ch9.h:571 [inline]
-RIP: 0010:uvc_video_prep_requests
-drivers/usb/gadget/function/uvc_video.c:508 [inline]
-RIP: 0010:uvc_video_alloc_requests
-drivers/usb/gadget/function/uvc_video.c:559 [inline]
-RIP: 0010:uvcg_video_enable+0x142/0xe70
-drivers/usb/gadget/function/uvc_video.c:784
-Call Trace:
- <TASK>
- uvc_v4l2_streamon+0x7e/0x110 drivers/usb/gadget/function/uvc_v4l2.c:531
- __video_do_ioctl+0x8af/0xc70 drivers/media/v4l2-core/v4l2-ioctl.c:3133
- video_usercopy+0x860/0x1430 drivers/media/v4l2-core/v4l2-ioctl.c:3475
- v4l2_ioctl+0x18d/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:366
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
-
-To fix this, update uvcg_video_enable() to also verify that the endpoint is
-enabled (!video->ep->enabled). This ensures that if userspace prematurely
-calls VIDIOC_STREAMON, the driver will safely reject the request with
--ENODEV instead of crashing the kernel.
-
-Fixes: 48dbe731171e ("usb: gadget: uvc: set req_size and n_requests based on the frame interval")
-Assisted-by: Gemini:gemini-3.6-flash Gemini:gemini-3.1-pro-preview syzbot
-Reported-by: syzbot+44835f0858f11e3e923c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=44835f0858f11e3e923c
-Link: https://syzkaller.appspot.com/ai_job?id=6bcd0cc3-0532-4cbc-81bd-e487719ff9a3
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
-
----
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index dfa0521a2..da857c2c5 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -527,6 +527,12 @@ uvc_v4l2_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 	if (type != video->queue.queue.type)
- 		return -EINVAL;
- 
-+	if (uvc->state == UVC_STATE_STREAMING)
-+		return 0;
-+
-+	if (uvc->state != UVC_STATE_CONNECTED)
-+		return -ENODEV;
-+
- 	/* Enable UVC video. */
- 	ret = uvcg_video_enable(video);
- 	if (ret < 0)
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 2f9700b3f..d4aeedacc 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -764,7 +764,7 @@ int uvcg_video_enable(struct uvc_video *video)
- {
- 	int ret;
- 
--	if (video->ep == NULL) {
-+	if (video->ep == NULL || !video->ep->enabled) {
- 		uvcg_info(&video->uvc->func,
- 			  "Video enable failed, device is uninitialized.\n");
- 		return -ENODEV;
-
-
-base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
--- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-The person who has signed off on the patch is responsible for
-addressing comments.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+greg k-h
