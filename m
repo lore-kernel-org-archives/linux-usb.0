@@ -1,103 +1,196 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost36.nm.naver.com (cvsmtppost36.nm.naver.com [114.111.35.244])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E214562BC
-	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 08:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C713FF1AD
+	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 08:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.244
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786696360; cv=none; b=FgSaPeqxtS3+5D+2LakO4Y5QS7YgAl7+fdpP+5mrMg2QWD6DcKs3pf/aZ9N5RND8t1zHH10KrWVahgj1A3fVrRjNF7MeAU011SabgnrhZL2ugvgMyu+Jyin/Xqnsvmcet+HP152X39UdZbQhr8TXnu6YahADL0iHLuYUAHW2dQ0=
+	t=1786697794; cv=none; b=rpXjGdwFtIS/t2YLCS74dVFvV5vlKVqDI1wl1yEg9/4jjP453Rp1IAMHZ7DQXkHhPrmVTdeYmxd16V8iAQUalRVcDmomE+xciE9+KID5ct5oaEMn9NilF43JSb84shDIzn/SAM/jukAOJguW/HMZXbRvj9yBk0nklqn9rbZv+2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786696360; c=relaxed/simple;
-	bh=nSy4YnXDZmEVPM6ByRNEJNzOjITIxUJLPWdIUDhrpyU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CnoOXTmcwyupv02p22S5pM1sG3Bkzo5TGtwdkm+HkAWCzqNEZnKithZIaLnurohpi8A+9L5yI2+5nFpLLpH09i2wUQcJR8IESK6gAQtd0Nr4OvQxnKrUcW7SJ6y31NSf8YxW7LwWeCFzLcb9QuVAZsQO1G1ir73D3YDHli8aLZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5bf9506704fso221640e0c.2
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 01:32:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786696348; x=1787301148;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=UhCRzI3TB4j97WDpdASWQlB7pngpUekrwjbWYGiYblQ=;
-        b=DSrMTwc8D63jHLUP4sL8VT/lgAtQNGdyjMG2iPhBIGif/lrqKj5nwfcf04jrHl7l9n
-         2GAaxuWIqswDMNQ/fFIh+IWQ1pnBNsM3GZC15PaDfhhTqlnIo5G5PmSbiHwHfSLV5Qg+
-         JZ09nuoXtHxTKezC84Oa90fapgZ0O8zb6mH7JCr3WJHdecH71Jtyt1IdLf1pze6tcmCV
-         m/iLTYUs9HwcIF5HUUUR1b0BZjaC8CPsZ36PuAiFkZgd04APUbVfzaKjvRKIWGf1p9jv
-         w4/GRpGtzJwuDG8Y+yOIRC84CBjUZczW+I+PY7D9ACx5TcVcEh89OUftZCqahI/mY0yo
-         IHoQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpHWQopJxXgWhn6HnLR/Y6c502XzcrnF14VNVvJkBfNimGldDcd2xmlPc99QIymDRgbtsyYy08NVtw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSll4dFOA8CVhkHO4dEe0jHBmK99iFZvd1dWEFnLMCZlfCn5YC
-	KNZu8eMO3OgQ0v+OftGuJtuMgjoa5bSfbjp4gz04k5i9rknLmgnJxNSlfrfdUNPqEIY=
-X-Gm-Gg: AR+sD11uCxlCPIuW5H7StQvxxUm3DHu/XcRHqkXXA5PXL0+JYnqniSaF6jBdqkHY76V
-	tsugLi8vG2sUkO9xRj3TEnTZt5fzAZh38x1x8R0jclFVp6IVoTW/yE2ME5FbkLov5DSsQcspOiM
-	GAOTHyb/8GYW5XlTUvZX02Isa/e+6T1Y3Sg0AzMo7Einc+sqtHJdrPLVhd363b3Pql07eGHTkgx
-	eKmq+BeX9YKEAjid7LoFQ/LRLLtYRzNU+RUWqXJo68MH1l68fac1/rDDc1LPAKerRWjBl9YBRZu
-	93v8e+vkw6IMCoW6be1eRPFbZP6zV2vhRrSr+JovD+e+N98ZeJFzAlD635CwbfhPfpDrNgE17Cw
-	PPVoPb8We7kbEhhdW8Hxw5K0yIbqWaFVDC+IA+cxYMs+pombo6ctoE/DL3iJIdjZF/M+gFPEA44
-	000ip3LINGqCO3deHf8KdWWeAPNeTPVcVtjkih9uqjUM+OZoTmi3hcwiJnXcbN79LWhOckNBvTy
-	P26iLrAXzYp6n8ITRZ5jGqZoPn6qw==
-X-Received: by 2002:a05:6122:46a6:b0:5bb:aae2:1754 with SMTP id 71dfb90a1353d-5c591f2f2a4mr694768e0c.13.1786696348069;
-        Fri, 14 Aug 2026 01:32:28 -0700 (PDT)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c597b308e7sm427615e0c.12.2026.08.14.01.32.27
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2026 01:32:27 -0700 (PDT)
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5bf83925ddaso238457e0c.1
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 01:32:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqxVhMUCwF2l5IfDLRuTM5JWhX4TJffBRW3pdAM2rDYNRd1TA32oFpd5yURHonhoZfZM6q0dHatXNo=@vger.kernel.org
-X-Received: by 2002:a05:6122:1814:b0:5c4:1f03:a1fe with SMTP id
- 71dfb90a1353d-5c591c3ed13mr714902e0c.1.1786696346767; Fri, 14 Aug 2026
- 01:32:26 -0700 (PDT)
+	s=arc-20240116; t=1786697794; c=relaxed/simple;
+	bh=BCPyBqL54PWZKMN+4NXDapbcOzcTHBSwv8tnKZW/WLc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GVlUxp46O3ZDhoW0aD8EzF6X6bizoN4/mhn5vXWAZvpaD2Yw9m68kP9/2gVQHsn9V+vvGF2u989VM7EFuBEdEoAmUSaGGRALB9C/SSa8i5kZN/aZaA8RR15S/23tQS7Yne+xDveUU4v8nM9Ad+vmRVgbeBQoCV/nWI0LN+4cl9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=M7nqo4oH; arc=none smtp.client-ip=114.111.35.244
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="M7nqo4oH"
+Received: from cvsendbo001.nm ([10.112.18.53])
+  by cvsmtppost36.nm.naver.com with ESMTP id RReVD7k4Tl+iGzQ9TDIRYw
+  for <linux-usb@vger.kernel.org>;
+  Fri, 14 Aug 2026 08:46:22 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1786697182; bh=BCPyBqL54PWZKMN+4NXDapbcOzcTHBSwv8tnKZW/WLc=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=M7nqo4oHbU3c3U3YloFtL5UkjSRVJKOEm30zzYP1C/tV1J+AdqCqh6OQaXVnMAamn
+	 Tvfmy9b1kiEYpRVHVSnsPx6PC5QafrDC/egEuoUrCBnkU4j+bJ8qe/gCUsQwn1NRuE
+	 TvRa3aGVkg+T2s/10+MmPg2syEWEDrX91NkbQ42slo0YmnS81Q9sf13nE2hcXqFiBV
+	 x33pliGMzQW5VvDm8NJEf+el1A8fl/A0NKZ3ItOsazH6VWhF6F7l8RSaUn4WLVsVCm
+	 V1NQfwuVWAmRGdqvbx0N0spgLsyDH3P703dP5kJYmdd9pokBEudOyx6AsdVYgNFkV7
+	 ASgZoSIMifcJg==
+X-Session-ID: 1Fb99AraQdaqbpG9cujd7A
+X-Works-Send-Opt: rPF8W4eXjHwYKBm9FAF9FBmwKo2mKqErKqb/jJIFjAJYKg==
+X-Works-Smtp-Source: VdbrFoM/FqJZ+HmZaAbd+6E=
+Received: from bl4ckhyun.localdomain ([211.41.193.194])
+  by cvnsmtp004.nm.naver.com with ESMTP id 1Fb99AraQdaqbpG9cujd7A
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Fri, 14 Aug 2026 08:46:22 -0000
+From: Hyeontae Lee <wonju345@naver.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Opasiak <k.opasiak@samsung.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hyeontae Lee <wonju345@naver.com>
+Subject: [PATCH] usb: gadget: f_hid: only clear write_pending from the owning request
+Date: Fri, 14 Aug 2026 17:46:16 +0900
+Message-ID: <20260814084616.259367-1-wonju345@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260814075531.15446-1-pengpeng@iscas.ac.cn>
-In-Reply-To: <20260814075531.15446-1-pengpeng@iscas.ac.cn>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Aug 2026 10:32:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUZdv6FdhgSB_u5wU4YoqpKFqKmhs8x+bZeGFYyvZ5Puw@mail.gmail.com>
-X-Gm-Features: AcwNN1WPLr30kFj8CbzyLORiLfA1whfORh6IrkvKJcdj7IXFdcU0Lq1p7DeCyxE
-Message-ID: <CAMuHMdUZdv6FdhgSB_u5wU4YoqpKFqKmhs8x+bZeGFYyvZ5Puw@mail.gmail.com>
-Subject: Re: [PATCH v2] sh: defconfig: enable the current M66592 UDC symbol
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-sh@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 14 Aug 2026 at 10:01, Pengpeng Hou <pengpeng@iscas.ac.cn> wrote:
-> The M66592 UDC provider is built under CONFIG_USB_M66592. Several
-> SuperH defconfigs still enable the removed CONFIG_USB_GADGET_M66592
-> symbol.
->
-> Replace the stale entries with the current provider symbol.
->
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+f_hidg_write() sets write_pending, caches hidg->req into a stack local,
+and drops write_spinlock across copy_from_user(). hidg_disable() frees
+hidg->req whenever write_pending is clear, so that flag is the only thing
+keeping the writer's cached pointer alive.
 
-Fixes: 193ab2a6070039e7 ("usb: gadget: allow multiple gadgets to be built")
+f_hidg_req_complete() clears it for whichever request completes, not for
+the one the writer owns. A write() that has queued a request leaves it
+queued indefinitely if the host never issues an IN token. When the host
+then disables the configuration, usb_ep_disable() gives that old request
+back, its completion clears write_pending, and hidg_disable() goes on to
+free hidg->req - which a different write() is holding at that moment.
 
-> The Kconfig/provider mapping was reviewed statically; no SuperH kernel
-> build was performed.
+The writer resumes, finds hidg->req NULL, and frees its cached pointer a
+second time:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be> # build-tested
+  BUG: KASAN: slab-use-after-free in f_hidg_write+0x7b7/0x920
+  Read of size 8 at addr ffff888104fc9018 by task s4-3/163
 
-Gr{oetje,eeting}s,
+  Allocated by task 0:
+   alloc_ep_req+0x20/0x1b0
+   hidg_set_alt+0x1ed/0xbd0
+   composite_setup+0x1072/0x8690
+   configfs_composite_setup+0xcd/0x110
+   dummy_timer+0x1a68/0x31d0
 
-                        Geert
+  Freed by task 0:
+   kfree+0x121/0x380
+   hidg_disable+0x559/0x7a0
+   reset_config+0x9d/0x200
+   composite_setup+0x32d4/0x8690
+   configfs_composite_setup+0xcd/0x110
+   dummy_timer+0x1a68/0x31d0
 
+  The buggy address belongs to the object at ffff888104fc9000
+   which belongs to the cache kmalloc-128 of size 128
+
+  BUG: KASAN: double-free in f_hidg_write+0x267/0x920
+
+Record which request owns the flag and let only that request's completion
+clear it. An older queued request being given back then leaves
+write_pending set, hidg_disable() declines to free, and the writer frees
+its own request on the existing path.
+
+Fixes: 25cd9721c2b1 ("usb: gadget: f_hid: fix: Don't access hidg->req without spinlock held")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hyeontae Lee <wonju345@naver.com>
+---
+Notes for reviewers:
+
+The clearer was identified by instrumenting the three sites that clear the
+flag: of 4944 frees at hidg_disable(), all 4944 followed a clear from
+f_hidg_req_complete(), and 4440 freed a request a writer was holding.
+
+749494b6bdbb introduced the stack local but left the uses on hidg->req, so
+check and use still agreed; 25cd9721c2b1 moved the uses to the local and
+left the guard on the field, which is why that one is tagged.
+
+Every dereference of the freed pointer is inside f_hidg_write(), so this is
+not remotely triggerable on its own - a local process must be writing to
+/dev/hidgN at the time.
+
+hidg_disable() now declines to free a request a writer owns; f_hid's request
+lifetime under repeated SET_INTERFACE has pre-existing gaps this does not
+address.
+
+Tested on v7.2-rc7-12 (f5bbbfec59b4) under dummy_hcd, report_length=8: over
+45 s of identical workload, double frees of the same address went from 52 to
+0 and KASAN reports from 208 to 0.
+---
+ drivers/usb/gadget/function/f_hid.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 3c6b43d06a6d1..d65169c9645b1 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -89,6 +89,7 @@ struct f_hidg {
+ 	/* send report */
+ 	spinlock_t			write_spinlock;
+ 	bool				write_pending;
++	struct usb_request		*write_req;
+ 	wait_queue_head_t		write_queue;
+ 	struct usb_request		*req;
+ 
+@@ -443,7 +444,16 @@ static void f_hidg_req_complete(struct usb_ep *ep, struct usb_request *req)
+ 	}
+ 
+ 	spin_lock_irqsave(&hidg->write_spinlock, flags);
+-	hidg->write_pending = 0;
++	/*
++	 * Only the completion of the request this writer owns may clear the
++	 * flag. usb_ep_disable() gives back whatever is still queued from an
++	 * earlier write(), and letting that clear write_pending lets
++	 * hidg_disable() go on to free a request a writer is still holding.
++	 */
++	if (req == hidg->write_req) {
++		hidg->write_req = NULL;
++		hidg->write_pending = 0;
++	}
+ 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
+ 	wake_up(&hidg->write_queue);
+ }
+@@ -480,6 +490,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
+ 
+ 	hidg->write_pending = 1;
+ 	req = hidg->req;
++	hidg->write_req = req;
+ 	count  = min_t(unsigned, count, hidg->report_length);
+ 
+ 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
+@@ -502,6 +513,8 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
+ 
+ 	/* when our function has been disabled by host */
+ 	if (!hidg->req) {
++		if (hidg->write_req == req)
++			hidg->write_req = NULL;
+ 		free_ep_req(hidg->in_ep, req);
+ 		/*
+ 		 * TODO
+@@ -534,6 +547,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
+ release_write_pending:
+ 	spin_lock_irqsave(&hidg->write_spinlock, flags);
+ 	hidg->write_pending = 0;
++	hidg->write_req = NULL;
+ 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
+ 
+ 	wake_up(&hidg->write_queue);
+@@ -1102,6 +1116,7 @@ static int hidg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
+ 		spin_lock_irqsave(&hidg->write_spinlock, flags);
+ 		hidg->req = req_in;
+ 		hidg->write_pending = 0;
++		hidg->write_req = NULL;
+ 		spin_unlock_irqrestore(&hidg->write_spinlock, flags);
+ 
+ 		wake_up(&hidg->write_queue);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
