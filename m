@@ -1,137 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA073A874D;
-	Fri, 14 Aug 2026 09:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9999A3E9584;
+	Fri, 14 Aug 2026 10:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786701313; cv=none; b=kaojsoyn3VuHfPVWzxBF7A3msdk+FI/1s8/kjkLCmtxjjLs2zuBaRGKsVSB3viDCMxVQf91A0leVUwoPWq5t2DkIvJo4+A5C5Qk17F/PSjXA4FVJUzNwLLSz1haOMYfUmLbGobFfl811FaNEd1VfsdfiTTiHgTb0+Pt53P01ZLk=
+	t=1786702753; cv=none; b=bRL00gk6/9efycoSqdxzeGA7T8Lt3e79wb09HEbOF7yQ332zMRxJdue4Lc/q8R6c4c4KjmsSokwmJKV8j89hFbMT2Zzs+dRU+fnkLdgIgPEWZC4YBoIlZx9yJkaLe33Z3oomsuV06NS/dmEQXIYE3HhIYHJiThwJofG6cisbJb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786701313; c=relaxed/simple;
-	bh=0T+f8JEOj92JHGa1TCRTIxJOscVM+UJ6z6RLSzVbRqQ=;
+	s=arc-20240116; t=1786702753; c=relaxed/simple;
+	bh=K/JybFN4RV/75dALSWrTrUgHeP544FPa/fH1D6v5AEQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOgPj07bjIpsrfTzDoc97QH4OirYLvxcEsg0HQoRtWYuq9c2210vgkXESfIyBm3os2OCHyDlRA29w2Zijw99OgGG+Fswn+yBZI102yokGrVLENNVsSU4cOPVJbkCj9fnHOGn+eS3+yZYR8cJc/Rm0TM7K33C6rLvfCHbOJyNGb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4XB3hBc; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IReUELg9MbgRlxUK9xaQPLC43WFqYypJM1eCfxZ+gVBwp+7ShzFtFmJn/Em9F8XoD5qYJ7R+S8j+H6EJ4Ad2ixwlSDpXAdBZ5k2IxoqX3hoBNML37b9DIi5764pLbMtpUntx5okRqHfS464T7NnRGTFgdN92/In2ynw2QATYCt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/QXCTjI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4XB3hBc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786701309; x=1818237309;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0T+f8JEOj92JHGa1TCRTIxJOscVM+UJ6z6RLSzVbRqQ=;
-  b=S4XB3hBcLFOZVtfZhUUxTjkmjZhYSftR/Xbam+4Wkb0KXwg9QsOSffU+
-   FMvJ+ZHMCArtGW/juWacfyKU1AGQS7uO0sOVvSpl1bZeLOEkF9y4vP2UV
-   dUefsT7p4Kl6i3f2/698HDdaSQXHb8gsrQBrYrPJPAEQj1AwIKoep9rK+
-   sgXU65Fv5G3UbEF0mcd1AySXsxdG+vfZjprbSFcxfsvxnLfdSaDURPrCc
-   g/CvVQdgXZOsVcUWd/v87iO+RLEtSRd6IWmwz6jLU2FJbEukhnE2a4iDr
-   YLm86+QuAwblKfJJe4qOA9KzXKQnvt1t37+hn1FV9JpYaES+ULZrb72oX
-   w==;
-X-CSE-ConnectionGUID: jzALNurvTgGasjkgFXmMsA==
-X-CSE-MsgGUID: pyecC/GcSEK+bdcXVN6sAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87408840"
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="87408840"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 02:55:05 -0700
-X-CSE-ConnectionGUID: iqNWZyRoQvqFva1sare29w==
-X-CSE-MsgGUID: 962vBUMjRgC74aVrNrN5Gw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="266169704"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Aug 2026 02:55:03 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id D963899; Fri, 14 Aug 2026 11:55:02 +0200 (CEST)
-Date: Fri, 14 Aug 2026 11:55:02 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, git@amd.com, stable@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] usb: typec: tipd: fix uninitialized
- typec_partner_desc in cd321x_update_work()
-Message-ID: <an7l9oHsXR3Zp8TL@black.igk.intel.com>
-References: <20260812161454.149606-1-radhey.shyam.pandey@amd.com>
- <20260812161454.149606-3-radhey.shyam.pandey@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/QXCTjI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B73A1F000E9;
+	Fri, 14 Aug 2026 10:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786702742;
+	bh=NXdGXpEaeSzo6LucHd30eYR/GtpdrDPatB4CgfYUQF4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=E/QXCTjI36E8mBXEr6GvChfoeqasCRqIBQhD+HHSxLkNy/ZkATKjNyVKWxSFnDy3R
+	 o01xFHf7H63TWszeKcUx7lJTvk6qMIXPWPoBzJ0h+EbMzWr9dH+9Qd9GE1k7YFp2TH
+	 1sPCvaVkqjB7uR5mqkCfGoaaqNsu7Ki3477kNdUXzrn8/OMane3Gl+7vb5UHmJAvyp
+	 tFmN/agBMSAAgKSRAth53CIWXe/CE7KXsmUdELHOi4gIJnxwIpn0l1InPUPcP0IFW6
+	 jVhFtxWsRp0/vyYrS8gXqIVkj88/r3e3OoAwlgujhMK+I00XX6qpxww0bQsGeAptdA
+	 Of4GkzD49p0Dg==
+Date: Fri, 14 Aug 2026 12:18:45 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Vladislav Leonov <vlad@zlab.su>, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	Simon Glass <sjg@chromium.org>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Aurelien Jarno <aurelien@aurel32.net>, Brian Masney <bmasney@redhat.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Daniel Golle <daniel@makrotopia.org>, 
+	"David S. Miller" <davem@davemloft.net>, David Wu <david.wu@rock-chips.com>, 
+	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Olivia Mackall <olivia@selenic.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	linux-crypto@vger.kernel.org, linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 00/25] ARM: rockchip: Add peripheral support for RV1106
+Message-ID: <20260814-vivacious-nickel-copperhead-c746f6@quoll>
+References: <20260810121121.210040-1-vlad@zlab.su>
+ <20260810113548.7fd24d56@kernel.org>
+ <anq1ouUnKA02Eauj@monoceros>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260812161454.149606-3-radhey.shyam.pandey@amd.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <anq1ouUnKA02Eauj@monoceros>
 
-On Wed, Aug 12, 2026 at 09:44:54PM +0530, Radhey Shyam Pandey wrote:
-> cd321x_update_work() passes a stack-allocated typec_partner_desc to
-> typec_register_partner() after initializing only usb_pd, accessory and
-> identity.
-> 
-> typec_register_partner() copies attach and deattach from the descriptor
-> into the partner. With those fields left unset, garbage function pointers
-> may be stored and later invoked from typec_partner_link_device() when a USB
-> device is linked to the port. Uninitialized pd_revision and usb_capability
-> similarly leak stack data through partner sysfs.
-> 
-> Zero-initialize the descriptor so optional callbacks remain NULL and the
-> remaining fields are zero.
-> 
-> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
-> Cc: stable@vger.kernel.org # 6.18+
-> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+On Tue, Aug 11, 2026 at 07:43:16AM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> On Mon, Aug 10, 2026 at 11:35:48AM -0700, Jakub Kicinski wrote:
+> > On Mon, 10 Aug 2026 15:10:51 +0300 Vladislav Leonov wrote:
+> > > Basic support for the Rockchip RV1106/RV1103 SoCs currently under rev=
+iew.
+> > > This series builds on top of that and enables the peripherals needed =
+to
+> > > bring up a board beyond a serial console:
+> >=20
+> > Don't expect maintainers to dig out patches for their subsystems
+> > from a big series. This is not how upstream development works.
+>=20
+> I see this from time to time and I personally think it's fine to have
+> these patches together. Also the only the patch that affects my
+> subsystem was Cc:d to me which is how I like it (but I think opinions
+> differ on that one, too).
+>=20
+> `b4 am -P _` is great!
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Yeah, and with DTS being patch 3, patch 6, 10 ...  and so on, it is
+every easy to review and pick up.
 
-> ---
-> Changes for v3:
-> - Split v2 into separate patches to simplify LTS backporting.
-> - Drop Heikki reviewed-by tag as now patch is split.
-> 
-> Changes for v2:
-> - Add  Assisted-by tag.
-> - Remove explicit indentity=NULL
-> 
-> AI code scanning identified this issue; the possible call graph is shown below.
-> 
->   USB-C plug event (IRQ)
->     tps6598x_interrupt()
->       tps6598x_handle_plug_event()
->         tps6598x_connect()
->           struct typec_partner_desc desc;     /* bug: attach/deattach unset */
->           desc.usb_pd / .accessory / .identity = ...
->           typec_register_partner(port, &desc)   /* class.c */
->             partner->attach   = desc->attach;   /* copy stack garbage */
->             partner->deattach = desc->deattach;
->             [if port->usb2_dev || port->usb3_dev already set]
->               typec_partner_link_device(partner, dev)
->                 if (partner->attach)
->                   partner->attach(partner, dev)  /* indirect call via bad ptr */
-> ---
->  drivers/usb/typec/tipd/core.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 54ca726c3b15..d99a55063e34 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -840,11 +840,10 @@ static void cd321x_update_work(struct work_struct *work)
->  
->  	/* Set up partner if we were previously disconnected (or changed). */
->  	if (!tps->partner) {
-> -		struct typec_partner_desc desc;
-> +		struct typec_partner_desc desc = { };
->  
->  		desc.usb_pd = is_pd;
->  		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
-> -		desc.identity = NULL;
->  
->  		if (desc.usb_pd)
->  			desc.identity = &st.partner_identity;
-> -- 
-> 2.43.0
+No, there is only one case of combining multiple subsystems together -
+upstreaming new SoC vendor. All other cases are wrong and spreading DTS
+all over is just proof that this is poorly readable and poorly
+reviewable.
 
--- 
-heikki
+Not even mentioning the rules of dependency on DTS expressed in
+submitting patches.
+
+Best regards,
+Krzysztof
+
