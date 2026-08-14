@@ -1,198 +1,575 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D3A411F96
-	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 12:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F141148032F
+	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 15:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786710556; cv=none; b=TkJHB6qBfxeX31sC74ko7KRFZ0ADg+T3NdKdqjzHc/xz89iZAap8bVfoIPp2jmSqJY0cPvX+XPfr0Q1nKJK91z74DWvERHyzOgVM03hk0+EPfomEZ8KHpAy1uM9rEf2njJdI/6ZB3pKnGE/Xt+HuoaPGiXnURXkKtE/tqVjNgyI=
+	t=1786720293; cv=none; b=capVXphTfuvlet5+fVR1MLcyV8ikBoOUR0a99VueehMlWFeUhniL79POs/aKOP9Yqf9zeNLkTDLQBx+bSYiADCoohYzn3Hel5xTI0GC3leAoV2hbSfKaNx48/2N1rZ6IclNmu7lP7vmFnclhv6/0vM8CwM7REjaU2fwkyMu6Wu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786710556; c=relaxed/simple;
-	bh=EFhEUQzDN1Y8/23mKBEH9DobyUEVzsa/Nm+io8oT7s8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=uLIWYiEyLwM87gebIpCbjgx4eeIOxk2N0smVbW+iW1HzRUTtH9dT+NGznQH5Rc/HqsY8j5XAMQIWuNZmAUFq+f1Q7mAJQAnFT3Tifz5wPdTd8UInqP2D6nFUbwbwr3/Y7fN4EYGc9ZqANnK0kejfHcKNj8+OwY5qOMr5ifOR458=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEvSbjT5; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEvSbjT5"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4994c49f588so7798225e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 05:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786710553; x=1787315353; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:content-language:to:subject
-         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=11eC1y/W/K91eHAR6XufPheKUWG+n1sOLm6uV2bmmqk=;
-        b=lEvSbjT5CIAcNoJtysfuIDvINK48vRwGPLNRG8BhjF7tgx7Zar3THYmvZkWM5+0w7Q
-         zey1aad7NZx64yzIjJFAYTQQOdoCMWXC7Itwwg83QgKjqVKZl1TXsH4+Yxj2er95BHFU
-         IeHRd80trFgFln0xGF8U0C2pc2yd+gH8zvs5seWkoVIdSavWd+e3z7bS/brabpC/zEPv
-         4iLflSHOUPyPPkGFZzojXL5iLg1ZklyYr7Fa6siSikbcO7Tbkd3ulLLzgPPn8Yd/HjY9
-         /6xYh9lCs0HqSG8kI8ULrHRwxHOYOHX3F9mZwbbdOpGic34SztGkkHUalscrEwRgjngG
-         g9Ig==
+	s=arc-20240116; t=1786720293; c=relaxed/simple;
+	bh=/ZrmtC2pVKkk+Fgrao8x+BBCzcnQ5vlH+XOL5czNtDc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=HtHcNJD87xBVY3W6j6SiMxgXPbqldj+oN6qhd8rCLIXmktWKnpqToKcQmfUM4a05XIvQRYuteUoFTSUzO9s0ChXYOraLbCqQalVSotacHlY6jwLMus1D7GRjvbdAoMM18R1JCl1PqMU2pPnPQtQDoxnRQhhUB1cSyQOniLepehU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7e6b73b3920so894689a34.0
+        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 08:11:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786710553; x=1787315353;
-        h=content-transfer-encoding:content-type:content-language:to:subject
-         :from:user-agent:mime-version:date:message-id:x-gm-gg
+        d=1e100.net; s=20251104; t=1786720289; x=1787325089;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=11eC1y/W/K91eHAR6XufPheKUWG+n1sOLm6uV2bmmqk=;
-        b=QBqZulM0X9PjoSSHbIWQqNva4jw7buyvQMd3c7cy6JWqAdYMWgy3BDaRumy8xVUKdm
-         bXx1PCf5zObBstWPcWVXVZo2SEp40PG+kKQGhOWWahQsEEI53p1oZxEyli4YdpE6unBN
-         FZmiZTuOsLzcVXSZdaOWo0e5a3/niExlSYpZE8oyEdJ51eMxMZbTGJ7FX2hPzC/ABT1P
-         IJtMdRpQFPxGrAcOlnTc+Ncqp5atRUKOqq67JfX1rv99sHBKHBw9V+K1gVbVYd0mZaEc
-         mnbXYtHjm2wHID9vGoHeb1KApOaOKZk8UBG1JZkT2XspQZsbItEy02yn0LmRLZx23n75
-         Q9UQ==
-X-Gm-Message-State: AOJu0YwlvJ0zuNsYKCe9KtMGlJ0UP3Gy8nMoQsVUAv3PQCNRY10NLYE0
-	GeZL8ExyB36p3/NEJadUhY+Vn9fNUZe6mllVuYHnfSZnW2If2Xjd1z+tRCWuCg==
-X-Gm-Gg: AR+sD13DepXW0jLVzaxMls47WS8FukrOjWjGd8+txyvzWCSXY3zdBuTZXxlfdcmHi5C
-	8Levwj+6RaVocB3ELl6l55EelN0SIZwZTKpee4LobPLzz/wggoqXp1vMU+V/+6Z8hSgFIk2VyDA
-	C2rjai5656uKKMk+yIwYwPBTAsY5ciftx0MKOTLRjhJ4F+Hmf3OTvvfNzxAvsNfv95KAgi+i56o
-	azvcPIK9IHPZVL6wTJuDB+xFSCLGQ7W7FfifQ/Rk38tVSFxkTSSJvbINnfFhRGnJhEzuRVym7Zt
-	ixoHYQ6La3eWFAgFB46XAVf/qCfmF6n7gJnDJvlJImGqcgbgnaPLppbrkYcfkMRF/H7wb6tsfJt
-	toM5XvyynH3FjY60+68baHPQti4b/uQPc7fLXx8qPyWzT8g0Qy6e2bfT8Y5MzNldsT/DY2Qr3wS
-	KiBgFultfXKwI80KugiqxUUfj8NSi+mthmhI+Jj9hJmMZQghMGVIzuzz5gLhVQ7ycNk3iDXDZxH
-	mEK4PIh5tMzjaYIvPXXWCV6QayX5neqaUXrWod46x7n9FEDCkqOuZDlPIoWSiBvPqs4rKKsKmVV
-	dnlmwLwKj05qaj7m3g==
-X-Received: by 2002:a05:600c:3b90:b0:499:59fd:dbfc with SMTP id 5b1f17b1804b1-49987a4f131mr62891255e9.1.1786710552601;
-        Fri, 14 Aug 2026 05:29:12 -0700 (PDT)
-Received: from [10.0.0.10] (dynamic-adsl-94-34-135-177.clienti.tiscali.it. [94.34.135.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f20051esm8599011f8f.7.2026.08.14.05.29.12
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2026 05:29:12 -0700 (PDT)
-Message-ID: <304867f7-f0b9-46b3-b43b-e9d377d5d092@gmail.com>
-Date: Fri, 14 Aug 2026 14:29:11 +0200
+        bh=ckS03SzjPkKNDuc+6LezxBOebF0DwUwc/THgl/tiQUA=;
+        b=Ie2wgAM87JYxc3EZPq6DeWhGS/eL8EMxqjMENxKBmpgfByam6A+XdLSNZ2Uk4A8Dz1
+         m8uqQYoNlmIQCnrAZnpUZe/LmcQKI0knSCneX6dDr2KhczC8ULgLfwiwPDrU+ME5Z7JE
+         XF9teGEhbVCdkz8X4IUzB5ToqAAeUzV3/8BAyxxRJup5nB3clxfpd+9QUE8J0c9INZKb
+         Pi47nSsnImbRcUh1ppseSn3ZrnKi/N9tWa84lCbhqQ/Ut4uor5FU5wtqO4rfVSMqAWDW
+         PaXdMjyQYkag8gLCTv1ZE1A9oXWadOwdzgyNxeLWrnDjbN8LRJBSpsYsajVJ4wFK3vYN
+         SllA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrx30HG1j6g34VOEY5oY2li/BSBmCDKv85quos91ID4oZ816XH15WnhKjM39s6jv2ltjdG1IF2gTk4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj+izfsQQhr1yE925nTHFu4KZVSgwUgaxqoiExVKZDcnysJzLY
+	LVXEToR42rTHo2RHyrK32b6eONVJku9tkLMJis4Wpry+r3ChclGNXQ5b5nuSadOJlxbSaYwJiXi
+	54qPFykKueZXRoNg4zTC6emCM/+QcZIOO958vFvsdDnhNvtnHi4FTMn7DkXY=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Fabrizio Pelosi <tesfabpel@gmail.com>
-Subject: Minor init annoyance with Logitech G900 Gaming Mouse
-To: linux-usb@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:201b:b0:6b0:589e:42f4 with SMTP id
+ 006d021491bc7-6b0d6245e3bmr5390234eaf.20.1786720288815; Fri, 14 Aug 2026
+ 08:11:28 -0700 (PDT)
+Date: Fri, 14 Aug 2026 08:11:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7f3020.5ca1970b.32aa76.0004.GAE@google.com>
+Subject: [syzbot] [mmc?] WARNING: suspicious RCU usage in cancel_delayed_work_sync
+From: syzbot <syzbot+9c1988bc953fca2086a3@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	ulf.hansson@linaro.org, ulfh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello, 
-I'm having a minor annoyance with my Logitech G900 Gaming Mouse 
-since a long time and only now I've decided to report it.
+Hello,
 
-I'm running ArchLinux (amd64) with kernel `7.1.8.arch1-3`.
-Mouse firmware is the latest available.
+syzbot found the following issue on:
 
-The mouse is a wired / wireless gaming mouse. 
-It can work via USB directly or via its own receiver. 
-It has a switch on the bottom (the part that touches the flat surface): 
-when OFF it doesn't work even via USB.
+HEAD commit:    05abeffcc27e Merge tag 'usb-serial-7.3-rc1' of ssh://gitol..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=172cfac6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
+dashboard link: https://syzkaller.appspot.com/bug?extid=9c1988bc953fca2086a3
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-The issue is that if you switch the mouse ON and wait one second or two before 
-putting it down, it works correctly. 
-If you happen to put it down too fast, instead, it may happen that you need to 
-wait ~31 seconds before it starts to work. 
-Also there are differences between the two cases in `dmesg`. You can see them 
-in the `g900_journal` section below.
-When it works, the mouse is renamed to "Logitech Heat Gaming Mouse G900" 
-(with "Heat") and the line "HID++ 4.2 device connected" appears; 
-when it doesn't it doesn't get renamed (it remains "Logitech Gaming Mouse G900")
-and there's NO line "HID++ 4.2 device connected".
+Unfortunately, I don't have any reproducer for this issue yet.
 
-This issue may also happen if the mouse is ON and the PC is rebooted. 
-It seems it causes a delay in the initrd with systemd trying to stop 
-"Rule-based Manager for Device Events and Files". 
-Ultimately it works (but it takes a bit longer than 31 seconds it seems) 
-but if I switch the mouse OFF, it seems it exits as soon as I do it.
-You can see the `journalctl` log in the `g900_initrd` section below.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f63099341558/disk-05abeffc.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/2f8181068028/vmlinux-05abeffc.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7d35739c76eb/bzImage-05abeffc.xz
 
-I have captured a USB capture with `dumpcap` (the capture is related to 
-the `g900_journal` section below). 
-I can provide it as an attachment, if needed (it's less than 60 KiB).
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9c1988bc953fca2086a3@syzkaller.appspotmail.com
 
-These are the steps to try to reproduce the issue:
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Not tainted
+-----------------------------
+kernel/sched/core.c:9159 Illegal context switch in RCU-sched read-side critical section!
 
-1. Run `dmesg -w`
-2. Pick up the mouse and switch it ON.
-3. Put it down on a surface as fast as possible (so that it starts to send 
-   pointer events, maybe)
-4. Watch `dmesg -w` and see that there's a delay of 31s before the mouse 
-   fully works.
+other info that might help us debug this:
 
-I can try to test a patch on the `drivers/hid/hid-logitech-hidpp.c` module, 
-if needed (but I can't guarantee I'll be able to since it'll be my 
-first time doing it).
 
-Thanks,
-Fabrizio.
+rcu_scheduler_active = 2, debug_locks = 1
+9 locks held by syz-executor/2973:
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
+ #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
 
-====== g900_journal ======
+stack backtrace:
+CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ lockdep_rcu_suspicious.cold+0x4f/0xb1 kernel/locking/lockdep.c:6876
+ __might_resched+0x2e0/0x330 kernel/sched/core.c:9159
+ __cancel_work_sync kernel/workqueue.c:4487 [inline]
+ cancel_delayed_work_sync+0xb8/0xf0 kernel/workqueue.c:4568
+ mmc_free_host+0x19/0x30 drivers/mmc/core/host.c:700
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
+ __do_softirq kernel/softirq.c:656 [inline]
+ invoke_softirq kernel/softirq.c:496 [inline]
+ __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
+Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
+RSP: 0018:ffffc90001457430 EFLAGS: 00000286
+RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
+RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
+RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
+ rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
+ rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
+ rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
+ pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
+ page_table_check_set+0x25/0x580 mm/page_table_check.c:105
+ __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
+ page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
+ set_ptes include/linux/pgtable.h:447 [inline]
+ __copy_present_ptes mm/memory.c:1118 [inline]
+ copy_present_ptes mm/memory.c:1197 [inline]
+ copy_pte_range mm/memory.c:1320 [inline]
+ copy_pmd_range mm/memory.c:1408 [inline]
+ copy_pud_range mm/memory.c:1445 [inline]
+ copy_p4d_range mm/memory.c:1469 [inline]
+ copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
+ dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm kernel/fork.c:1595 [inline]
+ copy_process+0x4996/0x7dd0 kernel/fork.c:2289
+ kernel_clone+0x176/0x9d0 kernel/fork.c:2748
+ __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2fd1056b52
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
+R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
+ </TASK>
+BUG: sleeping function called from invalid context at kernel/workqueue.c:4487
+in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 2973, name: syz-executor
+preempt_count: 104, expected: 0
+RCU nest depth: 2, expected: 0
+9 locks held by syz-executor/2973:
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
+ #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
+Preemption disabled at:
+[<0000000000000000>] 0x0
+CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ __might_resched.cold+0x1ec/0x232 kernel/sched/core.c:9197
+ __cancel_work_sync kernel/workqueue.c:4487 [inline]
+ cancel_delayed_work_sync+0xb8/0xf0 kernel/workqueue.c:4568
+ mmc_free_host+0x19/0x30 drivers/mmc/core/host.c:700
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
+ __do_softirq kernel/softirq.c:656 [inline]
+ invoke_softirq kernel/softirq.c:496 [inline]
+ __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
+Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
+RSP: 0018:ffffc90001457430 EFLAGS: 00000286
+RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
+RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
+RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
+ rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
+ rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
+ rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
+ pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
+ page_table_check_set+0x25/0x580 mm/page_table_check.c:105
+ __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
+ page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
+ set_ptes include/linux/pgtable.h:447 [inline]
+ __copy_present_ptes mm/memory.c:1118 [inline]
+ copy_present_ptes mm/memory.c:1197 [inline]
+ copy_pte_range mm/memory.c:1320 [inline]
+ copy_pmd_range mm/memory.c:1408 [inline]
+ copy_pud_range mm/memory.c:1445 [inline]
+ copy_p4d_range mm/memory.c:1469 [inline]
+ copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
+ dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm kernel/fork.c:1595 [inline]
+ copy_process+0x4996/0x7dd0 kernel/fork.c:2289
+ kernel_clone+0x176/0x9d0 kernel/fork.c:2748
+ __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2fd1056b52
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
+R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
+ </TASK>
 
-ago 13 10:03:36 tesx-pc kernel: usb 7-4: USB disconnect, device number 4
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Tainted: G        W          
+-----------------------------
+kernel/rcu/srcutree.c:1483 Illegal synchronize_srcu() in same-type SRCU (or in RCU) read-side critical section!
 
-# --- waiting before putting the mouse down after turning it on ---
+other info that might help us debug this:
 
-ago 13 10:03:43 tesx-pc kernel: usb 7-4: new full-speed USB device number 5 using xhci_hcd
-ago 13 10:03:43 tesx-pc kernel: usb 7-4: New USB device found, idVendor=046d, idProduct=c081, bcdDevice= 1.03
-ago 13 10:03:43 tesx-pc kernel: usb 7-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-ago 13 10:03:43 tesx-pc kernel: usb 7-4: Product: Gaming Mouse G900
-ago 13 10:03:43 tesx-pc kernel: usb 7-4: Manufacturer: Logitech
-ago 13 10:03:43 tesx-pc kernel: usb 7-4: SerialNumber: 0E6C36503233
-ago 13 10:03:43 tesx-pc kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.0/0003:046D:C081.0009/input/input33
-ago 13 10:03:43 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.0009: input,hidraw6: USB HID v1.11 Mouse [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input0
-ago 13 10:03:43 tesx-pc kernel: input: Logitech Heat Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.1/0003:046D:C081.000A/input/input34
-ago 13 10:03:43 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000A: input,hiddev99,hidraw7: USB HID v1.11 Keyboard [Logitech Heat Gaming Mouse G900] on usb-0000:0e:00.3-4/input1
-ago 13 10:03:43 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000A: HID++ 4.2 device connected.
-ago 13 10:03:43 tesx-pc mtp-probe[4632]: checking bus 7, device 5: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
-ago 13 10:03:43 tesx-pc mtp-probe[4632]: bus: 7, device: 5 was not an MTP device
-ago 13 10:03:43 tesx-pc systemd-logind[983]: Watching system buttons on /dev/input/event28 (Logitech Heat Gaming Mouse G900)
-ago 13 10:03:43 tesx-pc mtp-probe[4675]: checking bus 7, device 5: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
-ago 13 10:03:43 tesx-pc mtp-probe[4675]: bus: 7, device: 5 was not an MTP device
-ago 13 10:03:47 tesx-pc kernel: usb 7-4: USB disconnect, device number 5
 
-# --- putting the mouse down right after turning it on (it doesn't happen always) ---
+rcu_scheduler_active = 2, debug_locks = 1
+9 locks held by syz-executor/2973:
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
+ #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
 
-ago 13 10:03:50 tesx-pc kernel: usb 7-4: new full-speed USB device number 6 using xhci_hcd
-ago 13 10:03:50 tesx-pc kernel: usb 7-4: New USB device found, idVendor=046d, idProduct=c081, bcdDevice= 1.03
-ago 13 10:03:50 tesx-pc kernel: usb 7-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-ago 13 10:03:50 tesx-pc kernel: usb 7-4: Product: Gaming Mouse G900
-ago 13 10:03:50 tesx-pc kernel: usb 7-4: Manufacturer: Logitech
-ago 13 10:03:50 tesx-pc kernel: usb 7-4: SerialNumber: 0E6C36503233
-ago 13 10:03:50 tesx-pc kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.0/0003:046D:C081.000B/input/input35
-ago 13 10:03:50 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000B: input,hidraw6: USB HID v1.11 Mouse [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input0
+stack backtrace:
+CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Tainted: G        W           syzkaller #0 PREEMPT(lazy) 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ lockdep_rcu_suspicious.cold+0x4f/0xb1 kernel/locking/lockdep.c:6876
+ __synchronize_srcu+0x29d/0x300 kernel/rcu/srcutree.c:1483
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
+ wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
+ mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
+ device_release+0xd2/0x270 drivers/base/core.c:2636
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x1f7/0x640 lib/kobject.c:737
+ put_device+0x1f/0x30 drivers/base/core.c:3880
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
+ __do_softirq kernel/softirq.c:656 [inline]
+ invoke_softirq kernel/softirq.c:496 [inline]
+ __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
+Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
+RSP: 0018:ffffc90001457430 EFLAGS: 00000286
+RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
+RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
+RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
+ rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
+ rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
+ rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
+ pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
+ page_table_check_set+0x25/0x580 mm/page_table_check.c:105
+ __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
+ page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
+ set_ptes include/linux/pgtable.h:447 [inline]
+ __copy_present_ptes mm/memory.c:1118 [inline]
+ copy_present_ptes mm/memory.c:1197 [inline]
+ copy_pte_range mm/memory.c:1320 [inline]
+ copy_pmd_range mm/memory.c:1408 [inline]
+ copy_pud_range mm/memory.c:1445 [inline]
+ copy_p4d_range mm/memory.c:1469 [inline]
+ copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
+ dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm kernel/fork.c:1595 [inline]
+ copy_process+0x4996/0x7dd0 kernel/fork.c:2289
+ kernel_clone+0x176/0x9d0 kernel/fork.c:2748
+ __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2fd1056b52
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
+R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
+ </TASK>
+BUG: sleeping function called from invalid context at kernel/rcu/srcutree.c:1491
+in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 2973, name: syz-executor
+preempt_count: 104, expected: 0
+RCU nest depth: 2, expected: 0
+9 locks held by syz-executor/2973:
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm kernel/fork.c:1595 [inline]
+ #0: ffffffff89823d10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_process+0x498b/0x7dd0 kernel/fork.c:2289
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:554 [inline]
+ #1: ffff888123fdceb8 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x11f/0x1f60 mm/mmap.c:1739
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:544 [inline]
+ #2: ffff888118e9e7b8 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x1ba/0x1f60 mm/mmap.c:1746
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #3: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:342 [inline]
+ #4: ffff88810cf5e8b8 (ptlock_ptr(ptdesc)#2){+.+.}-{3:3}, at: pte_offset_map_lock+0x10f/0x320 mm/pgtable-generic.c:404
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #5: ffffffff896e2bc0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x2f/0x300 mm/pgtable-generic.c:290
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pte_range mm/memory.c:1272 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pmd_range mm/memory.c:1408 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_pud_range mm/memory.c:1445 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_p4d_range mm/memory.c:1469 [inline]
+ #6: ffff888123d09f18 (ptlock_ptr(ptdesc)#2/1){+.+.}-{3:3}, at: copy_page_range+0xcc2/0x56a0 mm/memory.c:1555
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: rcu_read_lock_sched include/linux/rcupdate.h:938 [inline]
+ #7: ffffffff896e2b00 (rcu_read_lock_sched){....}-{1:2}, at: pfn_valid+0xbc/0x4a0 include/linux/mmzone.h:2270
+ #8: ffffc90000007ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
+Preemption disabled at:
+[<0000000000000000>] 0x0
+CPU: 0 UID: 0 PID: 2973 Comm: syz-executor Tainted: G        W           syzkaller #0 PREEMPT(lazy) 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ __might_resched.cold+0x1ec/0x232 kernel/sched/core.c:9197
+ __synchronize_srcu+0x13c/0x300 kernel/rcu/srcutree.c:1491
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
+ wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
+ mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
+ device_release+0xd2/0x270 drivers/base/core.c:2636
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x1f7/0x640 lib/kobject.c:737
+ put_device+0x1f/0x30 drivers/base/core.c:3880
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
+ __do_softirq kernel/softirq.c:656 [inline]
+ invoke_softirq kernel/softirq.c:496 [inline]
+ __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:check_preemption_disabled+0x26/0xe0 lib/smp_processor_id.c:54
+Code: 90 90 90 90 41 54 55 53 48 83 ec 08 65 8b 1d 65 1f 82 05 65 f7 05 56 1f 82 05 ff ff ff 7f 74 0f 48 83 c4 08 89 d8 5b 5d 41 5c <c3> cc cc cc cc 9c 58 f6 c4 02 74 ea 65 4c 8b 25 1e 1f 82 05 48 89
+RSP: 0018:ffffc90001457430 EFLAGS: 00000286
+RAX: 0000000000000000 RBX: 0000000000125cae RCX: ffffffff82216929
+RDX: ffff8881236b0000 RSI: ffffffff87b15680 RDI: ffffffff87b156c0
+RBP: ffff88823ff5d480 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88823ff5e000 R14: dffffc0000000000 R15: 0000000000000000
+ rcu_is_watching_curr_cpu include/linux/context_tracking.h:128 [inline]
+ rcu_is_watching+0x12/0xc0 kernel/rcu/tree.c:752
+ rcu_read_lock_sched include/linux/rcupdate.h:939 [inline]
+ pfn_valid+0x2d0/0x4a0 include/linux/mmzone.h:2270
+ page_table_check_set+0x25/0x580 mm/page_table_check.c:105
+ __page_table_check_ptes_set+0x217/0x270 mm/page_table_check.c:223
+ page_table_check_ptes_set include/linux/page_table_check.h:83 [inline]
+ set_ptes include/linux/pgtable.h:447 [inline]
+ __copy_present_ptes mm/memory.c:1118 [inline]
+ copy_present_ptes mm/memory.c:1197 [inline]
+ copy_pte_range mm/memory.c:1320 [inline]
+ copy_pmd_range mm/memory.c:1408 [inline]
+ copy_pud_range mm/memory.c:1445 [inline]
+ copy_p4d_range mm/memory.c:1469 [inline]
+ copy_page_range+0x1c87/0x56a0 mm/memory.c:1555
+ dup_mmap+0xcd8/0x1f60 mm/mmap.c:1840
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm kernel/fork.c:1595 [inline]
+ copy_process+0x4996/0x7dd0 kernel/fork.c:2289
+ kernel_clone+0x176/0x9d0 kernel/fork.c:2748
+ __do_sys_clone+0xd9/0x120 kernel/fork.c:2889
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2fd1056b52
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007ffc26622180 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007ffc26622180 RCX: 00007f2fd1056b52
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007ffc2662230c R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558a3997d0 R11: 0000000000000246 R12: 0000000000000000
+R13: 00000000000927c0 R14: 000000000001c243 R15: 00007ffc26622360
+ </TASK>
+ODEBUG: object ffffc90000007a70 is NOT on stack ffffc90001450000, but annotated.
 
-# 31s later (it seems the delay is fixed)...
+======================================================
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	41 54                	push   %r12
+   6:	55                   	push   %rbp
+   7:	53                   	push   %rbx
+   8:	48 83 ec 08          	sub    $0x8,%rsp
+   c:	65 8b 1d 65 1f 82 05 	mov    %gs:0x5821f65(%rip),%ebx        # 0x5821f78
+  13:	65 f7 05 56 1f 82 05 	testl  $0x7fffffff,%gs:0x5821f56(%rip)        # 0x5821f74
+  1a:	ff ff ff 7f
+  1e:	74 0f                	je     0x2f
+  20:	48 83 c4 08          	add    $0x8,%rsp
+  24:	89 d8                	mov    %ebx,%eax
+  26:	5b                   	pop    %rbx
+  27:	5d                   	pop    %rbp
+  28:	41 5c                	pop    %r12
+* 2a:	c3                   	ret <-- trapping instruction
+  2b:	cc                   	int3
+  2c:	cc                   	int3
+  2d:	cc                   	int3
+  2e:	cc                   	int3
+  2f:	9c                   	pushf
+  30:	58                   	pop    %rax
+  31:	f6 c4 02             	test   $0x2,%ah
+  34:	74 ea                	je     0x20
+  36:	65 4c 8b 25 1e 1f 82 	mov    %gs:0x5821f1e(%rip),%r12        # 0x5821f5c
+  3d:	05
+  3e:	48                   	rex.W
+  3f:	89                   	.byte 0x89
 
-ago 13 10:04:21 tesx-pc kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.1/0003:046D:C081.000C/input/input36
-ago 13 10:04:21 tesx-pc kernel: logitech-hidpp-device 0003:046D:C081.000C: input,hiddev99,hidraw7: USB HID v1.11 Keyboard [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input1
-ago 13 10:04:37 tesx-pc mtp-probe[4724]: checking bus 7, device 6: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
-ago 13 10:04:37 tesx-pc mtp-probe[4724]: bus: 7, device: 6 was not an MTP device
-ago 13 10:04:37 tesx-pc systemd-logind[983]: Watching system buttons on /dev/input/event28 (Logitech Gaming Mouse G900)
-ago 13 10:04:37 tesx-pc mtp-probe[4767]: checking bus 7, device 6: "/sys/devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4"
-ago 13 10:04:37 tesx-pc mtp-probe[4767]: bus: 7, device: 6 was not an MTP device
 
-# The line "HID++ 4.2 device connected." is missing
-# and the device didn't change name to "Logitech Heat Gaming Mouse G900" ("Heat" is missing)
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-====== g900_initrd ======
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-ago 11 12:05:13 archlinux systemd[1]: Stopping Rule-based Manager for Device Events and Files...
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-[...]
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-ago 11 12:05:47 archlinux kernel: input: Logitech Gaming Mouse G900 as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb7/7-4/7-4:1.1/0003:046D:C081.0008/input/input12
-ago 11 12:05:47 archlinux kernel: logitech-hidpp-device 0003:046D:C081.0008: input,hiddev99,hidraw7: USB HID v1.11 Keyboard [Logitech Gaming Mouse G900] on usb-0000:0e:00.3-4/input1
-ago 11 12:06:00 archlinux kernel: usb 7-4: USB disconnect, device number 4
-ago 11 12:06:02 archlinux systemd[1]: systemd-udevd.service: Deactivated successfully.
-ago 11 12:06:02 archlinux systemd[1]: Stopped Rule-based Manager for Device Events and Files.
-ago 11 12:06:02 archlinux systemd[1]: systemd-udevd.service: Consumed 4.881s CPU time over 50.277s wall clock time, 48.5M memory peak.
-ago 11 12:06:02 archlinux systemd[1]: systemd-udevd-control.socket: Deactivated successfully.
-ago 11 12:06:02 archlinux systemd[1]: Closed udev Control Socket.
-ago 11 12:06:02 archlinux systemd[1]: Starting Cleanup udev Database...
-ago 11 12:06:02 archlinux systemd[1]: systemd-tmpfiles-setup-dev.service: Deactivated successfully.
-ago 11 12:06:02 archlinux systemd[1]: Stopped Create Static Device Nodes in /dev.
-ago 11 12:06:02 archlinux systemd[1]: initrd-udevadm-cleanup-db.service: Deactivated successfully.
-ago 11 12:06:02 archlinux systemd[1]: Finished Cleanup udev Database.
-ago 11 12:06:02 archlinux systemd[1]: Reached target Switch Root.
-ago 11 12:06:02 archlinux systemd[1]: Starting Switch Root...
-ago 11 12:06:02 archlinux systemd[1]: Switching root.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
