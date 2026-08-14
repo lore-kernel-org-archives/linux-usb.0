@@ -1,67 +1,125 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017A13314D2;
-	Fri, 14 Aug 2026 20:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AA33EB0E6
+	for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 21:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786738321; cv=none; b=Aoxn+zWM20GzrggQcxqy/9pmhwi9NVfTiY/rOIcpzbXRKf/5TAghndImsWXIzKzyt/wI8xGYHs/5T6UpgmEG8SA4PacoWqHEWo2mOAu7bVUyFA9t4luhjHiVFIxCwqrXUS83qVxtU1B6bypVAE4KGo98oiTliyHhyFwHhWN3I3M=
+	t=1786743792; cv=none; b=daRxu2MMBqNzH1uuh54OFJxovBW5msclIPZdK/V3+I/reAAKfFFhAGCM44YjnwJ+Lszxu6tsQM4xyduF6Ojjw1EJazygKsQg0BoS3q9GdK375uhN+3puSCE7oGpwQML7drInCxu14iuZyYSKMZnA5qvFVvBcdu2SUtGvyQAtnsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786738321; c=relaxed/simple;
-	bh=wnvQzKguxPov0pXd/96m+nYEqJuD3W4fY7K+WrCiZWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nkmtSj3aie7+2RXblhAeotqzE42yWtN4Rp6qTIq6mVCbE3cVA4+OXT9OCwASuukMhfC5hwp7B0pBPn2MExMx21Q+Ef5rOMlYcfEuxTnAV7AQK1tr2h67xWn1UwF0T5sJLcHKihnk86rrwzjQuQBLrvByRIFLJpapTWZOEOWpujU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=i+2V4XGp; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1786743792; c=relaxed/simple;
+	bh=TVNK44tqeWZooNGhluUWrHVVheLEixQbcO6ypEz6/JM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q4+eiwcMhvdgEWG02YQJSwrbbosf4cUNH4KE37VlrPqRktWBY73FYng8XlUmoxiXYDO5TzYgn4cfVEjQwO5/C4MRgvpUAPGlwKjoHgyRxMqSbpnwLFa/NI2LCVa13/xcliwAnMQdK5/7GImvMJo4WfpaarrPKF6bee233thHsRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPhflwwJ; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="i+2V4XGp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=PxpdOmXm8nHLvIh8dI4mjC2w14RXShnV3+KF8Fge3dM=; b=i+2V4XGpn7JwTaS+sSwfT1hO2m
-	KASgnVVLspqnTMwhNC6I4+UM3fJYo+k92RGuN+fPQwJCOVFgFdBzhIaRAqDuMEDxTGCGmYtx8yIh8
-	O1ZIikVQ71Wpvb4IOxiSjpYEeelS8tEOyKDbQYPy54HeOKYa29lml7ZVMHidHtu8Zyh8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wuyFw-0002b4-Jp; Fri, 14 Aug 2026 22:11:56 +0200
-Date: Fri, 14 Aug 2026 22:11:56 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jason Winter <jjx@live.nl>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, linux@rainbow-software.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH net] net: usb: cx82310_eth: bound partial-frame remainder
- by current skb length
-Message-ID: <dfa12d31-275f-426f-8cb2-594a823dbd82@lunn.ch>
-References: <BESP194MB28324DC870B7DE2E694CCEEEB8DA2@BESP194MB2832.EURP194.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPhflwwJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786743790; x=1818279790;
+  h=date:from:to:cc:subject:message-id;
+  bh=TVNK44tqeWZooNGhluUWrHVVheLEixQbcO6ypEz6/JM=;
+  b=jPhflwwJ/NhAs45EaSIqd2u/WJZG7DWMsMOLynenxpoLRydP7Z837nH6
+   bXFu1+RefAwxg4ve9eqJ380s/UX2WP1atYvZphOnV3KPSHSwPNvHbPvdX
+   Vtv7hbgFURkIcleyzGg5/gSH+uOwt8fDWAUt3IVALROIB+wY2qeKT+lbV
+   m6mD+Wf0PkW2dg0RsJNVd6mvJNOguuwNzk3qAWoUnUCwEPv0xh9ZOAPkV
+   Jy0p/3aCRNhce9nhiZiRwLGMPOKjVxPQg5hW74QfrKxSe0TWpe+aTNhu/
+   IllH8HY/CEGe8DgV+fH0VkTvjczD8aYgv29IYtY8Gvw/5He4+2/xXJXBl
+   A==;
+X-CSE-ConnectionGUID: 68i15ACbQTCbjeeBXA6/kQ==
+X-CSE-MsgGUID: DZUxoWTHRjqxRXYrPum/5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="110110771"
+X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
+   d="scan'208";a="110110771"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 14:43:10 -0700
+X-CSE-ConnectionGUID: MeUF3mAWTMiR5nnSuhWk8A==
+X-CSE-MsgGUID: il1cmSTNQTyPTrv5otsirQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
+   d="scan'208";a="267817351"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 14 Aug 2026 14:43:10 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wuzgB-00000000aHZ-0jHX;
+	Fri, 14 Aug 2026 21:43:07 +0000
+Date: Sat, 15 Aug 2026 05:42:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-next] BUILD SUCCESS
+ 3d9eeb336131bc5a174367c384fa00c15c8744fd
+Message-ID: <202608150534.NS6XjvEP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BESP194MB28324DC870B7DE2E694CCEEEB8DA2@BESP194MB2832.EURP194.PROD.OUTLOOK.COM>
 
-On Fri, Aug 14, 2026 at 09:08:14PM +0200, Jason Winter wrote:
-> When a frame straddles two bulk URBs, cx82310_rx_fixup() stores the
-> number of bytes still expected in dev->partial_rem and on the next call
-> memcpy()s that many bytes from the new skb without checking that the new
-> URB actually delivered that much data. A malicious device
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+branch HEAD: 3d9eeb336131bc5a174367c384fa00c15c8744fd  usb: xhci: Handle bogus TRB pointers in Missed Service Error events
 
-So this is somewhat theoretical. Maybe less so than average, since
-this is a USB dongle, but still, does it bother people?
+elapsed time: 793m
 
-Please drop the Fixes: tag and post for net-next.
+configs tested: 48
+configs skipped: 0
 
-https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-    Andrew
+tested configs:
+alpha                            allnoconfig    gcc-16.1.0
+alpha                           allyesconfig    gcc-16.1.0
+alpha                              defconfig    gcc-16.1.0
+arc                             allmodconfig    gcc-16.1.0
+arc                             allyesconfig    gcc-16.1.0
+arc                  randconfig-001-20260815    gcc-11.5.0
+arc                  randconfig-002-20260815    gcc-8.5.0
+arm                  randconfig-001-20260815    clang-21
+arm                  randconfig-002-20260815    gcc-8.5.0
+arm                  randconfig-003-20260815    clang-17
+arm                  randconfig-004-20260815    gcc-8.5.0
+arm                          sunxi_defconfig    gcc-16.1.0
+arm64                randconfig-001-20260815    clang-24
+arm64                randconfig-004-20260815    clang-24
+csky                            allmodconfig    gcc-16.1.0
+csky                 randconfig-001-20260815    gcc-13.4.0
+csky                 randconfig-002-20260815    gcc-15.2.0
+i386                            allmodconfig    gcc-14
+loongarch                          defconfig    clang-24
+loongarch            randconfig-001-20260815    clang-18
+nios2                           allmodconfig    gcc-11.5.0
+nios2                            allnoconfig    gcc-11.5.0
+parisc                          allmodconfig    gcc-16.1.0
+parisc                          allyesconfig    gcc-16.1.0
+parisc                             defconfig    gcc-16.1.0
+riscv                randconfig-001-20260814    gcc-14.3.0
+riscv                randconfig-002-20260814    clang-24
+s390                 randconfig-001-20260814    gcc-11.5.0
+s390                 randconfig-002-20260814    gcc-13.4.0
+sh                                 defconfig    gcc-16.1.0
+sh                   randconfig-001-20260814    gcc-16.1.0
+sh                   randconfig-002-20260814    gcc-16.1.0
+sparc                randconfig-001-20260814    gcc-16.1.0
+sparc                randconfig-002-20260814    gcc-15.2.0
+sparc64              randconfig-001-20260814    gcc-8.5.0
+sparc64              randconfig-002-20260814    clang-24
+um                   randconfig-001-20260814    gcc-14
+um                   randconfig-002-20260814    clang-22
+x86_64     buildonly-randconfig-002-20260815    gcc-14
+x86_64     buildonly-randconfig-003-20260815    gcc-14
+x86_64               randconfig-001-20260814    gcc-14
+x86_64               randconfig-002-20260814    clang-22
+x86_64               randconfig-003-20260814    clang-22
+x86_64               randconfig-004-20260814    clang-22
+x86_64               randconfig-005-20260814    gcc-14
+x86_64               randconfig-006-20260814    gcc-14
+xtensa               randconfig-001-20260814    gcc-9.5.0
+xtensa               randconfig-002-20260814    gcc-15.2.0
 
----
-pw-bot: cr
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
