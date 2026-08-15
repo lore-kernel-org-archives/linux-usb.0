@@ -1,145 +1,111 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost24.nm.naver.com (cvsmtppost24.nm.naver.com [114.111.35.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A6F64AA4
-	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 03:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D26335BBB
+	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 05:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786763860; cv=none; b=PaX/ay586cIa7fGDIXnmVnwVO152CVE938xvimr92xXTB7EiafWgkglcTM2T0MMQfStTk7WbisO1uEIgXh0rzEkPTMCt44t8YaJzb8IFTm1QQqzhG4pOKOUGBSVaiWKKulKkbWmF01SQshCLqmqv0d5LguG2TUqF0zr3OlEC+14=
+	t=1786772418; cv=none; b=URsE9YC0iJhLYBaMIgr+miae200NGKOF6gO0Nwc9d9XIgwR9QGAhNZ0BQl76psFCmMI6VW0k7ntuMwl36qyh4Xddo75jPRruVuWTpf4L+mHHVz5eu5EqKp08L1UJ18tSote+4pvPV7HETetBpqCXilHmKn2HPwLe3Nl4+pKOXx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786763860; c=relaxed/simple;
-	bh=Vr3265QkvDmHa19G/OZcGJOKv+IyjiXDQPmTXu6wNbY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=YfDpjnjM29A+cSqn29O2PYrQyEA6mFG5rn9ZRkyf27MTGMXFNCNbIjWM9pDIHER9GvZ3XErWSFmJ4y6HJyIcXJ7u+rCKse737E7drb3tlJkhRuoNVk57sMzgA/H2qhgHzJP4k/E3WjZirPFQtAj1aa1rW3f1uy+ptpHI9tYwF0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4b1a69b1188so1992570b6e.1
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 20:17:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786763858; x=1787368658;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pWwdcs/fmExSbOc6n7QsYUwmk2EXu5SiNFV8elih4VU=;
-        b=Ja7JJJU2t1KAWbbfMXM5oxdqNTcRIvswqc5SnhezOmg9Io39CYXv9xRbsc0yG4VV2D
-         wFy6Hq6RD+nJJTBwNBfO8MSrGWl+q8ezy/IAqP7MuVdPZntdCSLzfokPMGTNFl9ntpzu
-         ZFMDSCqXmgBG8f4TZwf/XpRSY9Roc/d1PbeSK2KUCVgXaKEpCiMZZ+yNrx0z1TyVwd94
-         bUfMfdwpNOhCu8jLcHTj59unp9h1aso/KuzCKBo7Yk+yBGviV/N1hQN5cb5WgyxdqlFB
-         rIWeGT/abn3kXIfADkSnuz+lFgZ9iPIWwKkExkW5fVjxKr/8mu+2gLjwl6mafHSkBL0U
-         knKw==
-X-Forwarded-Encrypted: i=1; AHgh+RpGxGIxt+8HpBKJYsLgjxVwGcsbzwH9eIJQ7ESdZGyTc7pmp19Lh2ua1eYoj3TvnWTc2t+3FPvyOVA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI8SeoVvddPYHHPt6VgKFONzjiO3aJ6/IOtfAJ0Q0JWk1jXHd1
-	31TwDYIxzK+RA4Y1YcPY+0fTU7+La6h8sVy3EEYNczyHXAzh56gVtRaNiP34by2Q7ajJPyD5Amx
-	8Qfj3ZMoXAdYWKN28+LanWIyUpum8t0AGmHo7My9ko44B/FpHxY3ec0UwTNY=
+	s=arc-20240116; t=1786772418; c=relaxed/simple;
+	bh=884LaAzVVhTshgpuDrYlbsmxSEorMucoGoR8jRD33oY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VFLwvv6hjdy1xzcTYeRAntjA2jZR4jhWLH/JSfM2t95bVO7+IW90/Q0EL5yby/rc6QyHy6ipCYSzseUlqUYSxqFAwCPHsEZOLJGT89LOExHJD1zvbx343w9Dk/606DUvLGNAcqMWNxaovajjB5MTlpViNcd6q2RLBddA338hdIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=s+s0bLrz; arc=none smtp.client-ip=114.111.35.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="s+s0bLrz"
+Received: from cvsendbo002.nm ([10.112.20.42])
+  by cvsmtppost24.nm.naver.com with ESMTP id VN-3sko-SLmTL7XVAlrVnw
+  for <linux-usb@vger.kernel.org>;
+  Sat, 15 Aug 2026 05:30:06 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1786771806; bh=884LaAzVVhTshgpuDrYlbsmxSEorMucoGoR8jRD33oY=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=s+s0bLrzylkJryJgjaoc82iBmA3Fqh2UyxSfCXMhmPZqDjGH+QS8q9wen3CIJxWP7
+	 RSsWly3vv6XBj9RK2LGCeLQyTtWvAY03dMRW4UCK/8rXd2rI3rjAuOuvJzhl/sO5TK
+	 llyJM+DgYj6jRoobKLQAKfnXinXgqczdQ4vgwJZv2gO3UFWV7Xj4Mb0W1aeJCh/Src
+	 UGvQJ+fx3hEZUzhAJxIyCCXwjPFQIlp6gvnDNYPVqBDYvkqm2NTra88TBqgA0MOlUU
+	 Ypm+r6hvYtObIUUkkdT44jNr8BH4wsx8mCJCZzJyHT62dl5yi8INVGxHhStS46IB27
+	 P3w4KmwyhHYLw==
+X-Session-ID: 2HYKETDkQXm94HPKqk7Zcg
+X-Works-Send-Opt: rle8W4eXjHwYKBm9FAF9FHmwKo2mKqErKqb/jJIFjAJYKg==
+X-Works-Smtp-Source: gqYqFqM/FqJZ+HmrKAtl+6E=
+Received: from bl4ckhyun.localdomain ([211.41.193.194])
+  by cvnsmtp008.nm.naver.com with ESMTP id 2HYKETDkQXm94HPKqk7Zcg
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Sat, 15 Aug 2026 05:30:06 -0000
+From: Hyeontae Lee <wonju345@naver.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hyeontae Lee <wonju345@naver.com>
+Subject: [PATCH] usb: gadget: f_midi: hold transmit_lock while freeing IN requests
+Date: Sat, 15 Aug 2026 14:29:29 +0900
+Message-ID: <20260815052929.146901-1-wonju345@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4b07:b0:6b0:abaa:bd3 with SMTP id
- 006d021491bc7-6b0d614726cmr9007988eaf.9.1786763858235; Fri, 14 Aug 2026
- 20:17:38 -0700 (PDT)
-Date: Fri, 14 Aug 2026 20:17:38 -0700
-In-Reply-To: <6a6a966c.86abc875.e5c3d.0053.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7fda52.dbb3a75c.20434b.0010.GAE@google.com>
-Subject: Re: [syzbot] [usb?] kernel BUG in register_netdevice
-From: syzbot <syzbot+85ede281798faf736677@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has found a reproducer for the following issue on:
+f_midi_disable() drains in_req_fifo and frees the requests without taking
+transmit_lock.  f_midi_transmit() holds that lock across the whole of
+f_midi_do_transmit(), which peeks a request off the fifo without removing
+it and then keeps using it.  kfifo_peek() does not advance the read index,
+so the drain frees exactly the request the transmit path is still using.
 
-HEAD commit:    a5161661ae99 Merge tag 'sound-7.2' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1628e279580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=65bd434865e8f85c
-dashboard link: https://syzkaller.appspot.com/bug?extid=85ede281798faf736677
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10df2949580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=129886c6580000
+No hostile host is needed: __composite_disconnect() calls f->disable() as
+well, so a bus reset or a cable pull while a MIDI client is writing is
+enough.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-a5161661.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f6b1c02aa089/vmlinux-a5161661.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4f64faaa14c5/bzImage-a5161661.xz
+  BUG: KASAN: slab-use-after-free in f_midi_in_work+0x126c/0x18c0
+  Read of size 4 at addr ffff888104818e20 by task kworker/2:2H/164
+  Freed by task 158:
+   kfree+0x121/0x380
+   f_midi_disable+0x20e/0x430
+   reset_config+0x9d/0x200
+   __composite_disconnect+0xa7/0x140
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+85ede281798faf736677@syzkaller.appspotmail.com
+Take the lock around the drain, the way hidg_disable() does.
 
-------------[ cut here ]------------
-kernel BUG at net/core/dev.c:11344!
-Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-CPU: 2 UID: 0 PID: 5914 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:register_netdevice+0x1233/0x25a0 net/core/dev.c:11344
-Code: 0f 0b e8 70 4c 7d f8 48 8d 3d d9 89 a4 07 ba 4b 2c 00 00 48 c7 c6 00 0d 16 8d 67 48 0f b9 3a e9 a5 ee ff ff e8 4e 4c 7d f8 90 <0f> 0b e8 46 4c 7d f8 90 0f 0b 48 8b 5c 24 18 48 8b 6c 24 20 e8 34
-RSP: 0018:ffffc900047cf770 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 1ffff920008f9ef7 RCX: ffffffff898c728a
-RDX: ffff888029578000 RSI: ffffffff898c8392 RDI: ffff888029578000
-RBP: ffff88804d3c0000 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000003 R11: 0000000000000000 R12: 0000000000000003
-R13: ffff88804d3c0f10 R14: ffff88804d3c1049 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888096de7000(0063) knlGS:0000000057fb4480
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 00007fc6ffb06fb3 CR3: 0000000026f01000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- register_netdev+0x34/0x50 net/core/dev.c:11567
- gether_register_netdev+0x93/0x130 drivers/usb/gadget/function/u_ether.c:873
- ncm_bind+0x2cf/0xee0 drivers/usb/gadget/function/f_ncm.c:1470
- usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
- bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
- bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
- driver_register+0x1e2/0x360 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0x132/0x210 drivers/usb/gadget/udc/core.c:1752
- gadget_dev_desc_UDC_store+0x1b0/0x2e0 drivers/usb/gadget/configfs.c:300
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:83 [inline]
- __do_fast_syscall_32+0xe7/0x970 arch/x86/entry/syscall_32.c:307
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:332
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf705efec
-Code: Unable to access opcode bytes at 0xf705efc2.
-RSP: 002b:00000000fffb142c EFLAGS: 00000296 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000080001400
-RDX: 000000000000000b RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:register_netdevice+0x1233/0x25a0 net/core/dev.c:11344
-Code: 0f 0b e8 70 4c 7d f8 48 8d 3d d9 89 a4 07 ba 4b 2c 00 00 48 c7 c6 00 0d 16 8d 67 48 0f b9 3a e9 a5 ee ff ff e8 4e 4c 7d f8 90 <0f> 0b e8 46 4c 7d f8 90 0f 0b 48 8b 5c 24 18 48 8b 6c 24 20 e8 34
-RSP: 0018:ffffc900047cf770 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 1ffff920008f9ef7 RCX: ffffffff898c728a
-RDX: ffff888029578000 RSI: ffffffff898c8392 RDI: ffff888029578000
-RBP: ffff88804d3c0000 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000003 R11: 0000000000000000 R12: 0000000000000003
-R13: ffff88804d3c0f10 R14: ffff88804d3c1049 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888096ee7000(0063) knlGS:0000000057fb4480
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 00007ffdb20bb010 CR3: 0000000026f01000 CR4: 0000000000352ef0
-
-
+Fixes: e1e3d7ec5da3 ("usb: gadget: f_midi: pre-allocate IN requests")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4.8
+Signed-off-by: Hyeontae Lee <wonju345@naver.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ drivers/usb/gadget/function/f_midi.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index fba8cf787d6c1..9e67b3c74296f 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -420,6 +420,7 @@ static void f_midi_disable(struct usb_function *f)
+ 	struct f_midi *midi = func_to_midi(f);
+ 	struct usb_composite_dev *cdev = f->config->cdev;
+ 	struct usb_request *req = NULL;
++	unsigned long flags;
+ 
+ 	DBG(cdev, "disable\n");
+ 
+@@ -431,8 +432,10 @@ static void f_midi_disable(struct usb_function *f)
+ 	usb_ep_disable(midi->out_ep);
+ 
+ 	/* release IN requests */
++	spin_lock_irqsave(&midi->transmit_lock, flags);
+ 	while (kfifo_get(&midi->in_req_fifo, &req))
+ 		free_ep_req(midi->in_ep, req);
++	spin_unlock_irqrestore(&midi->transmit_lock, flags);
+ 
+ 	f_midi_drop_out_substreams(midi);
+ }
+-- 
+2.43.0
+
