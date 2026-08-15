@@ -1,163 +1,145 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ACD1A680B
-	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 01:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A6F64AA4
+	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 03:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786758339; cv=none; b=nNQ1vhJGuoZ+EZZAuCQbrTxiMOzN1EuViTveH1mR0HGzNZGYENesemxP/hWz1JH8C71mR8C0REwEP+M7uK2B4c8tRaArEJd9cBUs30reoQ57rDUodgt+YquXOAmnr/bhQvqNHOuTWW0tiHRMyiyTdPWnnlv2aBaIdDLx6ejaQxU=
+	t=1786763860; cv=none; b=PaX/ay586cIa7fGDIXnmVnwVO152CVE938xvimr92xXTB7EiafWgkglcTM2T0MMQfStTk7WbisO1uEIgXh0rzEkPTMCt44t8YaJzb8IFTm1QQqzhG4pOKOUGBSVaiWKKulKkbWmF01SQshCLqmqv0d5LguG2TUqF0zr3OlEC+14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786758339; c=relaxed/simple;
-	bh=kr+DDiC7lwoKjoLKWh3UYa7mUtn9pf/hNo4vbGKht+Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ok0zFDSRlRroUWbXsBup/GEosrLWD/gH4S75axfkQpN3OmVOyeyiVpMod8ufD3Vo2w+rLI0gm75kgM3GwxnHpqjmR+j2iS3gowIzHdVbSlqP659xdvI91JwSdelIqc1nVz6Jz0Ubf3o/s7LyeMKSkflxufPMlbjqcKli/HeQUVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=erjEL8J6; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="erjEL8J6"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d319b84213so3066915ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 18:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786758337; x=1787363137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2rUTBjQcy9ZWD15hkohvAODksdiIkTujMyPdVWOGcaE=;
-        b=erjEL8J61hrVrmwq2Ld/qdYGrjDQGFOz6/ZJ7Lhcf6ji6cWQ/zDKzzvNfs3aDuEa/W
-         FHH9Hwl8Ga0s3lFEW7dcGprJChfGxeWEgqfQw7lI62Y9Chl614ecNvtYrSHRk4Sgqxc8
-         /QWPBRWTYQ54/Y0bQNkwPbbjITOF5mmfpxRcGRp3pTI3of3eXkB09ZlleKRSnDRqozGd
-         p9y2Ov6Hq9kfbLnxVq4yJbPTiyA887vKbfidj1R55TR+OnaAA6kDlPSULcUEaivfSYB4
-         OM/REwqwTuzjl3ALCplwqnbtJ2N2rQClxp0KFOZMANKeleGzYenw1p3hkSNnzBuIMlUL
-         GTSQ==
+	s=arc-20240116; t=1786763860; c=relaxed/simple;
+	bh=Vr3265QkvDmHa19G/OZcGJOKv+IyjiXDQPmTXu6wNbY=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=YfDpjnjM29A+cSqn29O2PYrQyEA6mFG5rn9ZRkyf27MTGMXFNCNbIjWM9pDIHER9GvZ3XErWSFmJ4y6HJyIcXJ7u+rCKse737E7drb3tlJkhRuoNVk57sMzgA/H2qhgHzJP4k/E3WjZirPFQtAj1aa1rW3f1uy+ptpHI9tYwF0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4b1a69b1188so1992570b6e.1
+        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 20:17:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786758337; x=1787363137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2rUTBjQcy9ZWD15hkohvAODksdiIkTujMyPdVWOGcaE=;
-        b=clIDILarPjJRaXPL4sr/95J9ormRZxU9XssJRL1gkh5dx8F5+yvhGFEsxktFR7Tk+8
-         AzIx6J4Q29u08HHBE09595AZqXbwgMIkQ1wglFnKE1WkQBAQH5LPDEN4U8Ljh3uY0Ms6
-         BgzoNjbKS+CcD3CU6M7Uvn5abx3/0D+TUbsXPEUhAuhLmm5YKDK8pjK6Ls8b9MxCR3GP
-         TW0WX6I6jWbx5jmXs5HSpdncRlSad5wPTdBMnkf1MYdSkyCochJx7Ub1pAMUcL5oNc7D
-         cZ6952A66QGI8xg62f1VVxmYTrLdY/1fuvCr1zzFcEQ8PoTcAYmkULvqRsMkX3EpiLu/
-         FfDA==
-X-Forwarded-Encrypted: i=1; AHgh+RrSrcqnCU6uLoJgM3txYVpXrd5uuc8p4gJ5z+n3D2657RZL/VPX6Cyys/TnYyRhawLYxF86e1ZJlyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcLx6pxYh5MI5qLfOiw3Oh+gg3bTWTjfVcX1EJwHfRRTvqFAeg
-	1hZmC8LMMNQyF/giT/gx5SlalkKOq64zRk7pdp3yryCJEpqEkzthJE9a
-X-Gm-Gg: AR+sD11AxBW+rN7cckozTQFOE3SoQPMas6cPOUTm2N9ucbBx7qRGNi3SajyuGwe8Qif
-	PRnbdi8flXyoDYUzZ2SDXAi/ltYVtPKrTlKojDEvG1/aDKfQGot9oIVBBIjFxjPlsL1s5ZdIUrS
-	U3I5fyOBL0O6P+ireIU26U7WvcKZs5FSRPuAWo00BraqGJVQoRHM5d4xOI36isnXICUUfMUOuoD
-	gGDWxWkQxrI+anGNqGc44xMHLvwhrSWVEJljs09/b+KiO4co++DoC/egtBkPtJ84I5vIgVmSUDY
-	2gwz6yPXaNnFYDQA/XskrL9rw/cVHN/Z4UsF91EIDTHIHXI4CDXJM2dQ2zkQtxA0fX8uwaO6e53
-	lsjMTjVRIwqXN62NbLRO0dJXi/5QXRC9myWrcCtasrLXN9UcH8EuQaY1SEvQ/ub0ryGCY0zMyrz
-	dK6Vjp/Xei5fkYKRgg8TsJbhrenruPZxKjxO0MUHflMrQRtSsmpy22HsiKnQikwM7bTWRqOMQsz
-	n/X9/Gyn090itp8oHqWnCsG25+EAjoVk6YgRtmAkwL79ojPnhbyJZ5EitBshSdSiwB8tvmQs2j5
-	vYdJ//Bx7rhxEQBq
-X-Received: by 2002:a17:90b:1d44:b0:38f:57f0:1f51 with SMTP id 98e67ed59e1d1-3933b84ddd6mr7357225a91.0.1786758337093;
-        Fri, 14 Aug 2026 18:45:37 -0700 (PDT)
-Received: from localhost.localdomain (c-98-47-46-163.hsd1.ca.comcast.net. [98.47.46.163])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1413889d914sm14230840c88.13.2026.08.14.18.45.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Aug 2026 18:45:36 -0700 (PDT)
-From: Rishabh Jain <rishabh.jain1198@gmail.com>
-To: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mario Limonciello <superm1@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Rishabh Jain <rishabh.jain1198@gmail.com>
-Subject: [PATCH] usb: pci-quirks: always assert xHCI OS ownership
-Date: Fri, 14 Aug 2026 18:45:34 -0700
-Message-ID: <20260815014534.77850-1-rishabh.jain1198@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1786763858; x=1787368658;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=pWwdcs/fmExSbOc6n7QsYUwmk2EXu5SiNFV8elih4VU=;
+        b=Ja7JJJU2t1KAWbbfMXM5oxdqNTcRIvswqc5SnhezOmg9Io39CYXv9xRbsc0yG4VV2D
+         wFy6Hq6RD+nJJTBwNBfO8MSrGWl+q8ezy/IAqP7MuVdPZntdCSLzfokPMGTNFl9ntpzu
+         ZFMDSCqXmgBG8f4TZwf/XpRSY9Roc/d1PbeSK2KUCVgXaKEpCiMZZ+yNrx0z1TyVwd94
+         bUfMfdwpNOhCu8jLcHTj59unp9h1aso/KuzCKBo7Yk+yBGviV/N1hQN5cb5WgyxdqlFB
+         rIWeGT/abn3kXIfADkSnuz+lFgZ9iPIWwKkExkW5fVjxKr/8mu+2gLjwl6mafHSkBL0U
+         knKw==
+X-Forwarded-Encrypted: i=1; AHgh+RpGxGIxt+8HpBKJYsLgjxVwGcsbzwH9eIJQ7ESdZGyTc7pmp19Lh2ua1eYoj3TvnWTc2t+3FPvyOVA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI8SeoVvddPYHHPt6VgKFONzjiO3aJ6/IOtfAJ0Q0JWk1jXHd1
+	31TwDYIxzK+RA4Y1YcPY+0fTU7+La6h8sVy3EEYNczyHXAzh56gVtRaNiP34by2Q7ajJPyD5Amx
+	8Qfj3ZMoXAdYWKN28+LanWIyUpum8t0AGmHo7My9ko44B/FpHxY3ec0UwTNY=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:4b07:b0:6b0:abaa:bd3 with SMTP id
+ 006d021491bc7-6b0d614726cmr9007988eaf.9.1786763858235; Fri, 14 Aug 2026
+ 20:17:38 -0700 (PDT)
+Date: Fri, 14 Aug 2026 20:17:38 -0700
+In-Reply-To: <6a6a966c.86abc875.e5c3d.0053.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7fda52.dbb3a75c.20434b.0010.GAE@google.com>
+Subject: Re: [syzbot] [usb?] kernel BUG in register_netdevice
+From: syzbot <syzbot+85ede281798faf736677@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The xHCI ownership protocol requires the OS driver to assert the HC OS
-Owned semaphore before using the host controller, then wait for HC BIOS
-Owned to clear if firmware owns it.
+syzbot has found a reproducer for the following issue on:
 
-quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
-is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
-while both ownership semaphores remain clear.
+HEAD commit:    a5161661ae99 Merge tag 'sound-7.2' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1628e279580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=65bd434865e8f85c
+dashboard link: https://syzkaller.appspot.com/bug?extid=85ede281798faf736677
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10df2949580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=129886c6580000
 
-On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
-resume to terminate Controller Restore State with USBSTS 0x401. Linux
-then reset the host controller, both root hubs and the USB Bluetooth
-adapter.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-a5161661.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f6b1c02aa089/vmlinux-a5161661.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4f64faaa14c5/bzImage-a5161661.xz
 
-The controller entered resume ready and halted with USBSTS 0x1.
-Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
-device contexts and command, event and transfer rings were verified not
-to cause the restore error.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+85ede281798faf736677@syzkaller.appspotmail.com
 
-Asserting only HC OS Owned changed USBLEGSUP from 0x00000801 to
-0x01000801 and eliminated the restore failure across four S3 cycles,
-including a stock-kernel test. Clearing USBLEGCTLSTS was independently
-verified to be unnecessary.
+------------[ cut here ]------------
+kernel BUG at net/core/dev.c:11344!
+Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+CPU: 2 UID: 0 PID: 5914 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:register_netdevice+0x1233/0x25a0 net/core/dev.c:11344
+Code: 0f 0b e8 70 4c 7d f8 48 8d 3d d9 89 a4 07 ba 4b 2c 00 00 48 c7 c6 00 0d 16 8d 67 48 0f b9 3a e9 a5 ee ff ff e8 4e 4c 7d f8 90 <0f> 0b e8 46 4c 7d f8 90 0f 0b 48 8b 5c 24 18 48 8b 6c 24 20 e8 34
+RSP: 0018:ffffc900047cf770 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 1ffff920008f9ef7 RCX: ffffffff898c728a
+RDX: ffff888029578000 RSI: ffffffff898c8392 RDI: ffff888029578000
+RBP: ffff88804d3c0000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000003 R11: 0000000000000000 R12: 0000000000000003
+R13: ffff88804d3c0f10 R14: ffff88804d3c1049 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888096de7000(0063) knlGS:0000000057fb4480
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00007fc6ffb06fb3 CR3: 0000000026f01000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ register_netdev+0x34/0x50 net/core/dev.c:11567
+ gether_register_netdev+0x93/0x130 drivers/usb/gadget/function/u_ether.c:873
+ ncm_bind+0x2cf/0xee0 drivers/usb/gadget/function/f_ncm.c:1470
+ usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
+ bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
+ bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
+ driver_register+0x1e2/0x360 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0x132/0x210 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1b0/0x2e0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:83 [inline]
+ __do_fast_syscall_32+0xe7/0x970 arch/x86/entry/syscall_32.c:307
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:332
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf705efec
+Code: Unable to access opcode bytes at 0xf705efc2.
+RSP: 002b:00000000fffb142c EFLAGS: 00000296 ORIG_RAX: 0000000000000004
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000080001400
+RDX: 000000000000000b RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:register_netdevice+0x1233/0x25a0 net/core/dev.c:11344
+Code: 0f 0b e8 70 4c 7d f8 48 8d 3d d9 89 a4 07 ba 4b 2c 00 00 48 c7 c6 00 0d 16 8d 67 48 0f b9 3a e9 a5 ee ff ff e8 4e 4c 7d f8 90 <0f> 0b e8 46 4c 7d f8 90 0f 0b 48 8b 5c 24 18 48 8b 6c 24 20 e8 34
+RSP: 0018:ffffc900047cf770 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 1ffff920008f9ef7 RCX: ffffffff898c728a
+RDX: ffff888029578000 RSI: ffffffff898c8392 RDI: ffff888029578000
+RBP: ffff88804d3c0000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000003 R11: 0000000000000000 R12: 0000000000000003
+R13: ffff88804d3c0f10 R14: ffff88804d3c1049 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888096ee7000(0063) knlGS:0000000057fb4480
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00007ffdb20bb010 CR3: 0000000026f01000 CR4: 0000000000352ef0
 
-Always assert OS Owned when the xHCI Legacy Support capability is
-present. Use the independently accessible ownership byte so firmware
-can update BIOS Owned without racing a 32-bit read-modify-write. Keep
-the existing BIOS handoff wait and legacy SMI cleanup unchanged.
 
-Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
-Tested-by: Rishabh Jain <rishabh.jain1198@gmail.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
 ---
-Additional context:
-
-* Kernel Bugzilla #216470 documents the same USBSTS 0x401/reinitialize
-  behavior and its impact on attached USB devices:
-  https://bugzilla.kernel.org/show_bug.cgi?id=216470
-
-* Commit a7d57abcc8a5 ("xhci: workaround CSS timeout on AMD SNPS 3.0
-  xHC") is related workaround history: it tolerates a distinct AMD CSS
-  timeout and resets the controller on resume:
-  https://github.com/torvalds/linux/commit/a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
-
-The external reports do not record their ownership semaphore values but
-are included as corroborating failure signatures that this might fix.
-
-drivers/usb/host/pci-quirks.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index 0404489c2f6a..d76a4791b8f5 100644
---- a/drivers/usb/host/pci-quirks.c
-+++ b/drivers/usb/host/pci-quirks.c
-@@ -1185,6 +1185,14 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
- 		dev_warn(&pdev->dev, "xHCI controller failing to respond");
- 		goto iounmap;
- 	}
-+
-+	/*
-+	 * The OS ownership semaphore must be asserted while the OS owns the
-+	 * xHC, even if firmware did not assert the BIOS ownership semaphore.
-+	 * Update only the OS ownership byte to avoid racing with firmware.
-+	 */
-+	writeb(readb(base + ext_cap_offset + 3) | BIT(0),
-+	       base + ext_cap_offset + 3);
- 	val = readl(base + ext_cap_offset);
- 
- 	/* Auto handoff never worked for these devices. Force it and continue */
-@@ -1195,10 +1203,8 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
- 		writel(val, base + ext_cap_offset);
- 	}
- 
--	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
-+	/* If the BIOS owns the HC, wait for it to hand over control */
- 	if (val & XHCI_HC_BIOS_OWNED) {
--		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
--
- 		/* Wait for 1 second with 10 microsecond polling interval */
- 		timeout = handshake(base + ext_cap_offset, XHCI_HC_BIOS_OWNED,
- 				0, 1000000, 10);
--- 
-2.50.1 (Apple Git-155)
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
