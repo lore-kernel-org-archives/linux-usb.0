@@ -1,172 +1,271 @@
-Received: from mail-oa1-f77.google.com (mail-oa1-f77.google.com [209.85.160.77])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8EA37F735
-	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 08:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D19B1ADC83
+	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 12:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786783302; cv=none; b=Ly92EHElTlQTTIZ/PQg9qfoq8OzoVELS173i1/IDfPPD57e5vkqEM/RkEdt38AsV1VnwlB1XoZul+2ONIGPLVRXmnZFAajSjOQkM54rRXE37wjc3qlqwAas+phJkaPpdIICqiYBPoWPOmEPO2gAJ7f5uljtPFkp66lrK0QjIWBc=
+	t=1786796194; cv=none; b=gCEZzX3YuqX39bbHE1wCIJDXWUzrEbmErkh8nZkl5BdQ7cYA9Unyvqod4/GkP34RrFFy/wnsnFjU+KkOEuZMLQbIrfX8oCzYviAFX4rvZFg0QMkFkN6EfAT4yddDtfA7wgRLl2Ys/6ozpacgA+R0Nyj6BlIbu1N3rF3EZmBBP9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786783302; c=relaxed/simple;
-	bh=AmBwXzfDbGtuWgDRAjiU7VBytuCs27oMeoYEJUSEk3E=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=PWG0faIyj+So3dTzs1ZY3hrplklmydFVGBt925Lu9pKDJWIQx3mnoUB8As4W6RNx7TIwS+RHKJmLxOiXIBWeaVR6kJyIzlQ+3nU9VJphgk5D9wta8BLpTv7ahjVG8OMLqrJz73JnhQK16yW41z0M9WjIqKo42g6V0Gs5ImJ2j5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-456ab1a7f2cso2173002fac.3
-        for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 01:41:40 -0700 (PDT)
+	s=arc-20240116; t=1786796194; c=relaxed/simple;
+	bh=5BaY8HQ851Kqy8sATg8eUMfiKtuMSeRoM13jTIjrXTI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cgWLrRszKYlXidNezyXPuRttQQ2+PtUcUrIYmn0BjSPzTTOgQIXj0Q62VmPZ4HO9WUrWjT18NWWghfiAFPfF6NYSFAI8BuvC6+ejkmpcSryRilhrQTA26fZfsP+QgK7AdLsU6UH1pLfcaXwPG88yONmed7vyJwaPWT4XKdqieC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RnXAyDXB; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RnXAyDXB"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-495502852d1so1333595e9.2
+        for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 05:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786796191; x=1787400991; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=omHTfKpsU+DWgQY2twAMRzTMu3eHiMgDqoPsISGHyO0=;
+        b=RnXAyDXBIUvv78w3kPZ7wX4qnlVXj8wNjpSky6Esq9teSTSfKqdlOukLZopFn4LZdj
+         f4ycUGhXUlqdz+Dwx10VqYMOvh/mRXAY9tYGepsuTN5Kl/miKowhNyDflC4dGi0kQNnv
+         N+Og0MqF+yxB1v+vYF4ZHTMzwMukOI0OwlBEV4JEV/NxMkj+RJ06a2IDLhYDnZa8jq8H
+         8sFmP7cLZKQr4w5uVZRl6Iys/iNYnp1b4wCXMYGSOTY5XSoEdjNuMpzTK1RhY/Q7QBzU
+         /FiJRlPUgCcTRCJUW1iEH3ngCo0wHbXJ2OMn6t1FEhjusEI63xe1pHr2SvJQ6F8BQKYE
+         zonw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786783299; x=1787388099;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8VdJBlXtqy/A9lcaW/cqt6SDkLm7snHEaVFfxMxGJFk=;
-        b=jNCRTHPpWpf5JSsDO+vOmQjl7CVBEQd2YoKRR8MollEGxUtiVgTfICjt2K+QuMxqBT
-         H72gFXp2YrDzI8qRHo4M+4xfGI1+m0Af+r1pw7iZuddGVXb0Mnw6UBt2Fncg42QfR4gY
-         L9WvbbNeuSZBCLVA8Mtgl5MedFd6mWRnCoHv7/ZiNpnDCM3umE7ohZT0f61p1vDVkOkT
-         t6A6mzoFRn8KuAJJA45Rpa6b32icGQ7kGHY9Ou7YHIWLGfdHz6M2yPDbLMPlFKDHMXNC
-         /zg5rzD4cR3fXKKMleuVLsa+aezm8SFl3QtfpRN03R6WwQhxheV88cIRGavYWtGxbwVA
-         BSBw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrmhemobx7wZU1BH7vh4bFjfAxcYxTcyll7vgV+I2qyr57BcfSb3NzhBsO/YHHoyhxy3JL26NUHVKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRQc9HbESoF5I3UtjiXWaovhG3z8q4doWFqoPaFhRylxunPhpo
-	zWM/VxqJhDiavr2HLrbVcDr66kej461cA42UpKmlfDzJTrbdIS/PUA12NADeiVX/vBAAQl8s6IH
-	RsASvWctuvzKm+iXTJOTqyUH8yUMu498K6UV8/jktgUMj642DRvhPFYgof3A=
+        d=1e100.net; s=20251104; t=1786796191; x=1787400991;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=omHTfKpsU+DWgQY2twAMRzTMu3eHiMgDqoPsISGHyO0=;
+        b=PWc84HxSZ7snCcELQrwYa5CRcUi7RohYmX4PYMiA+r1FHVZTqVLplOwN/YIAy1ifnV
+         IiUzV2hMfaVQV4U1eKerPex0lVccampdTiVoQ+1bmF1hqbNAsk0YnXjGNNlW8lQG/eYT
+         IIkvwOTUi94dOUTJLlnNKCpF8+Z9awL6s9XlIzoaCZesKVfyJNLhSf2JalTvq0kLsVQS
+         kGmkdSivQ9xL0sjeoQoMj1CTgixAMKnoFYB+0lbGQeaoQ7ik3s/CXahTipCl3ssqQhyF
+         kVwYWRIi2JF7Kxi3D1uj0LUscYYT8itXbccuzu2j1EfxwXoR3okblDbSp4FTJL6rmckj
+         wzNA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQsZYIYhuFPbddxrdJa+OWC0U0jHkvW4Wajd60hT5gSHm/AxxL4t0lULeFdrpnLcT+V3PXgiMSXGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTwCtT7PFhKcEC+PHC8rPsILwQITx6L5AQFFb4GIHEdxFglHFQ
+	a39DdwhpYvqIJgaco+dlXfS8gaLUmXN3m/2xDtpVNGDiXaRpjPyQcJ9+FCnM1KBb
+X-Gm-Gg: AR+sD11f/OC4RzLzoiaXXrxzp8V7232buEiPNUiXafipKeSuxvgzUz7fYGjkTRrZYv2
+	26GMaVWahQWru9nDQw81XhHzWioSuCUBDvLMqZDBuZAr6AV1LTUp5LJ6Ea/V7Csgo0Lpm8uypuU
+	k0+RerCvuD3CkbXPTfAZhSs4++jFYPJ6hA6OjqFyD/RM6ii3ZIzoWCX6l1sr5vVwbsD52Z4jgv3
+	s/f7Uph98U+Y0QvmHv9CLapLLpV0YfPsFs136sMRZXsjOVClVJYGW2MFZRN6Ix825IO0/1k8qrS
+	kQsj3FV/vBz+BDGkXBD0lhex66/4ob2KTjwMTJFSYNr+jb2/w7Kt7vRY+p8en+x5s6rRR4SaBWP
+	O5r1axRPDJ825VCxqCUgV1NBSm/UTrV20/8aHfFUpcbgi8l5mf0mfwy7zfWjA+PvrOcXSSjFYM0
+	Cc+di2IQI6cN9W5c2t9JRlnd2WXOM57FxobZ9BkiDoMS4c1Gh+2kN02FttPTdKGs3hT6hu8V2zG
+	wLieybq3dnMULuxzul4oVbHNhz6oZzS6rAWsjOlTbFfTuaT2E7bgzYPoy1qef2w6qUO
+X-Received: by 2002:a05:600c:630c:b0:495:7561:a9cc with SMTP id 5b1f17b1804b1-499879b1c50mr91017745e9.4.1786796191200;
+        Sat, 15 Aug 2026 05:16:31 -0700 (PDT)
+Received: from OrangePi5-Plus.BB-HOME (20014C4E1B932600BF05B505F15B0ECC.dsl.pool.telekom.hu. [2001:4c4e:1b93:2600:bf05:b505:f15b:ecc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499899afa63sm113425555e9.1.2026.08.15.05.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 05:16:30 -0700 (PDT)
+From: Igor Paunovic <royalnet026@gmail.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Frank Wang <frank.wang@rock-chips.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Igor Paunovic <royalnet026@gmail.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Yubing Zhang <yubing.zhang@rock-chips.com>,
+	Alexey Charkov <alchark@flipper.net>,
+	William Wu <william.wu@rock-chips.com>,
+	linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH v14 00/38] phy: rockchip: usbdp: Clean up the mess
+Date: Sat, 15 Aug 2026 14:16:01 +0200
+Message-ID: <20260815121608.64818-1-royalnet026@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
+References: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:188c:b0:6b0:5742:9c32 with SMTP id
- 006d021491bc7-6b0d61a1646mr10708849eaf.15.1786783299719; Sat, 15 Aug 2026
- 01:41:39 -0700 (PDT)
-Date: Sat, 15 Aug 2026 01:41:39 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a802643.9ebadd4d.20b15e.000b.GAE@google.com>
-Subject: [syzbot] [input?] [usb?] WARNING: ODEBUG bug in hid_device_remove
-From: syzbot <syzbot+f8fb5598924c7e645553@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Hi Sebastian,
 
-syzbot found the following issue on:
+I retested v14 on my Orange Pi 5 Plus, this time covering the phy-core
+notifier patch and the new dwc3 glue patches (28/38-31/38), which do not
+carry my tag yet.
 
-HEAD commit:    28d012efb432 Add linux-next specific files for 20260812
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1613f479580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5a13c7bc480b5c3f
-dashboard link: https://syzkaller.appspot.com/bug?extid=f8fb5598924c7e645553
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17bc1c79580000
+Test kernel: 7.2.0-rc7, built from your rockchip-devel branch at
+ea51774c5c42 ("usb: typec: mux: initialize mux switch array"), which
+already contains the whole v14 series (I checked that 1/38 and 28/38-32/38
+are in that history, plus all 32 "phy: rockchip: usbdp:" commits are
+ancestors of it).
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/de882be6df4b/disk-28d012ef.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/412cb9fb7e2d/vmlinux-28d012ef.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/9d7096c27f1b/bzImage-28d012ef.xz
+On top of that base I carry 50 local commits - display, GPU, media and
+platform work. None of them touch drivers/usb/, drivers/usb/typec/ or
+phy-rockchip-usbdp.c, but two are worth naming so you know exactly what
+was under test:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f8fb5598924c7e645553@syzkaller.appspotmail.com
+  - drivers/phy/rockchip/phy-rockchip-snps-pcie3.c: a one-line fix to the
+    PCIe combo PHY SRAM-init check. Unrelated to this series.
 
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object: ffff88801faaf2c8 object type: work_struct hint: k90_backlight_work+0x0/0x1c0 drivers/hid/hid-corsair.c:-1
-WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#1: kworker/1:3/5638
-Modules linked in:
-CPU: 1 UID: 0 PID: 5638 Comm: kworker/1:3 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:debug_print_object+0x18a/0x230 lib/debugobjects.c:629
-Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 3d dc 4f fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 b3 78 93 0b 48 83 c4 10 5b 41 5c
-RSP: 0018:ffffc90003a77008 EFLAGS: 00010246
-RAX: 1ffffffff1816f44 RBX: dffffc0000000000 RCX: 0000000000000000
-RDX: ffffffff8c6cc240 RSI: ffffffff8c6cbcc0 RDI: ffffffff9084a330
-RBP: ffffffff8c6cc240 R08: ffff88801faaf2c8 R09: ffffffff8c0b8be0
-R10: dffffc0000000000 R11: ffffffff818f4a00 R12: 0000000000000000
-R13: ffffffff9084a330 R14: ffff88801faaf2c8 R15: ffffffff8c0b7a20
-FS:  0000000000000000(0000) GS:ffff888124dfc000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fa0bbdb3000 CR3: 000000007a984000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
- debug_check_no_obj_freed+0x2e3/0x450 lib/debugobjects.c:1201
- slab_free_hook mm/slub.c:2679 [inline]
- slab_free mm/slub.c:6499 [inline]
- kfree+0x13e/0x650 mm/slub.c:6792
- hid_device_remove+0xc5/0x1c0 drivers/hid/hid-core.c:2901
- device_remove drivers/base/dd.c:616 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
- bus_remove_device+0x444/0x560 drivers/base/bus.c:664
- device_del+0x524/0x8f0 drivers/base/core.c:3965
- hid_remove_device drivers/hid/hid-core.c:3130 [inline]
- hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3152
- usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
- usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:618 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
- bus_remove_device+0x444/0x560 drivers/base/bus.c:664
- device_del+0x524/0x8f0 drivers/base/core.c:3965
- usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
- usb_disconnect+0x346/0x9a0 drivers/usb/core/hub.c:2350
- hub_port_connect drivers/usb/core/hub.c:5420 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
- port_event drivers/usb/core/hub.c:5884 [inline]
- hub_event+0x1bbb/0x4d30 drivers/usb/core/hub.c:5966
- process_one_work kernel/workqueue.c:3387 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	f8                   	clc
-   1:	48 c1 e8 03          	shr    $0x3,%rax
-   5:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-   9:	74 08                	je     0x13
-   b:	4c 89 ff             	mov    %r15,%rdi
-   e:	e8 3d dc 4f fd       	call   0xfd4fdc50
-  13:	4d 8b 0f             	mov    (%r15),%r9
-  16:	4c 89 ef             	mov    %r13,%rdi
-  19:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-  1e:	48 89 ea             	mov    %rbp,%rdx
-  21:	44 89 e1             	mov    %r12d,%ecx
-  24:	4d 89 f0             	mov    %r14,%r8
-  27:	ff 34 24             	push   (%rsp)
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 83 c4 08          	add    $0x8,%rsp
-  33:	ff 05 b3 78 93 0b    	incl   0xb9378b3(%rip)        # 0xb9378ec
-  39:	48 83 c4 10          	add    $0x10,%rsp
-  3d:	5b                   	pop    %rbx
-  3e:	41 5c                	pop    %r12
+  - arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts: in mainline
+    this board still has the old single-"port" graph for usbdp_phy0 and no
+    altmodes node on the usb-c-connector, so there is no DP alt mode to
+    exercise at all. I carry a local DT patch that converts usbdp_phy0 to
+    the four-port "ports" graph and usb_host0_xhci to the two-port graph
+    your bindings describe, and adds an altmodes/displayport node
+    (svid 0xff01) to the connector. That DT change is mine, it is not in
+    mainline and not part of v14 - so everything below is your v14 code,
+    unmodified, driven by that DT.
 
+The USB-C link runs through an Epico EC65 "UltraLink 8K/60Hz HDMI to
+USB-C" cable - an active DP alt-mode to HDMI converter (GsCooLink chip,
+USB VID 0x3679) - into the HDMI input of a Samsung Odyssey G70B. So the
+DP link partner your code negotiates with is that converter, not a
+monitor directly.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+What I actually exercised, running this kernel as my daily driver since it
+booted on 2026-08-14 at 20:09 local time (17+ hours of continuous uptime
+when I ran these checks):
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+- The new glue driver is bound to both controllers:
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+    /sys/bus/platform/drivers/dwc3-rockchip/fc000000.usb
+    /sys/bus/platform/drivers/dwc3-rockchip/fc400000.usb
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+- DisplayPort alt mode is active at the Type-C layer:
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+    /sys/class/typec/port0-partner/port0-partner.0/svid   = ff01
+    /sys/class/typec/port0-partner/port0-partner.0/mode   = 1
+    /sys/class/typec/port0-partner/port0-partner.0/active = yes
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+  driving DP-1 at 3840x2160@120 with HDR, simultaneously with two HDMI
+  outputs: HDMI-A-1 to a Sony TV at 3840x2160@60 and HDMI-A-2 to a second
+  Odyssey G70B at 3840x2160@120, both with HDR.
 
-If you want to undo deduplication, reply with:
-#syz undup
+  Two caveats about DP-1, both pre-existing on my setup and unrelated to
+  your series: the converter emits a broken Y420VDB block, so I feed the
+  connector a corrected EDID through edid_override, and after the EDK2
+  firmware hand-off DP-1 comes up "disconnected" with the cable present,
+  so a boot script does one unbind/bind of the fusb302 i2c device to kick
+  it. Neither workaround was touched during the hotplug test below.
+
+- Hot unplug/replug of the USB-C cable. The xHCI host controller was
+  re-registered and the DisplayPort output came back on its own, with no
+  manual intervention:
+
+    13:00:56  kernel: xhci-hcd xhci-hcd.6.auto: USB bus 4 deregistered
+    13:00:57  kwin_wayland_drm: Removing output
+    13:01:26  kernel: xhci-hcd xhci-hcd.6.auto: xHCI Host Controller
+    13:01:26  kernel: xhci-hcd xhci-hcd.6.auto: Host supports USB 3.0 SuperSpeed
+    13:01:29  kwin_wayland_drm: New output on GPU /dev/dri/card0: Odyssey G70B
+
+  (kernel and compositor lines interleaved, abridged.) Note the ~30 s
+  between disconnect and re-registration - PD/alt-mode negotiation with
+  this converter is slow. After the replug the connector is back at
+  3840x2160@120 with HDR.
+
+- No messages at all from dwc3, dwc3-rockchip or the usbdp PHY for the
+  whole uptime, before or after the replug.
+
+  For completeness, the DP controller does print a burst of 32
+  "dw-dp fde50000.dp: timeout waiting for AUX reply" right after the cable
+  is pulled - that is the DRM side probing a dead link, it clears on
+  replug and is not from your code. The converter's billboard device also
+  logs one "cdc_acm 3-1:1.1: probe with driver cdc_acm failed with error
+  -22" per connect - a converter quirk, seen daily on this setup since
+  long before this kernel.
+
+One thing I should not hide: I do get a WARN from tcpm, but I trigger it
+myself and it is not from this series:
+
+  WARNING: drivers/base/devres.c:1184 at devm_kfree+0xb8/0xd0
+  Call trace:
+    devm_kfree
+    tcpm_port_unregister_pd [tcpm]
+    tcpm_unregister_port [tcpm]
+    devm_tcpm_unregister_port [tcpm]
+    devm_action_release / release_nodes / devres_release_group
+    i2c_device_remove / device_release_driver_internal / unbind_store
+
+(trace abridged.) It fires when the boot script mentioned above explicitly
+unbinds fusb302 (i2c 6-0022), i.e. on the devres teardown path introduced
+by 48bf0f5f9ec8
+("usb: typec: tcpm: add device managed port registration") and fcdd23c1984e
+("usb: typec: fusb302: Switch to device managed resources") in
+rockchip-devel. Those are not part of v14 and I have not root-caused this,
+but since they are in the branch I tested I thought you would rather know.
+It does not fire on a normal cable unplug/replug, only on an explicit
+driver unbind.
+
+I am sending the Tested-by tags as separate replies to 28/38, 29/38, 30/38
+and 31/38, so that they land on exactly those patches.
+
+I am deliberately not tagging 32/38 ("fix USB-C reconnect in gadget mode").
+I have never used this board in gadget mode, so I cannot claim to have
+tested that path.
+
+One build issue to report, starting at 31/38
+============================================
+
+The new glue driver cannot be built as a module once 31/38 is applied.
+29/38 alone is fine - the glue it introduces only pulls in module.h,
+platform_device.h, pm_runtime.h and glue.h. It is 31/38 that adds
+#include "io.h" and the dwc3_readl()/dwc3_writel() calls.
+
+Reproducer: ea51774c5c42, arm64 defconfig plus CONFIG_USB_DWC3=y,
+CONFIG_USB_DWC3_ROCKCHIP=m, CONFIG_TRACEPOINTS=y. The build then fails at
+modpost:
+
+  ERROR: modpost: "__tracepoint_dwc3_readl" [drivers/usb/dwc3/dwc3-rockchip.ko] undefined!
+  ERROR: modpost: "__traceiter_dwc3_readl" [drivers/usb/dwc3/dwc3-rockchip.ko] undefined!
+  ERROR: modpost: "__tracepoint_dwc3_writel" [drivers/usb/dwc3/dwc3-rockchip.ko] undefined!
+  ERROR: modpost: "__traceiter_dwc3_writel" [drivers/usb/dwc3/dwc3-rockchip.ko] undefined!
+  make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
+  [...]
+
+dwc3_readl()/dwc3_writel() call trace_dwc3_readl()/trace_dwc3_writel(),
+and the dwc3 tracepoints are not exported - there is no
+EXPORT_TRACEPOINT_SYMBOL* anywhere in drivers/usb/dwc3/ - so a separate
+module cannot reference them. With CONFIG_TRACEPOINTS=n the trace_* calls
+become empty inlines and this should not trigger; I only tested
+CONFIG_TRACEPOINTS=y.
+
+dwc3-rockchip.c is the only glue driver in drivers/usb/dwc3/ that calls
+the core's dwc3_readl()/dwc3_writel(). dwc3-st.c also includes io.h, but
+it reads through its own st_dwc3_readl()/st_dwc3_writel(), and e.g.
+dwc3-keystone.c defines kdwc3_readl()/kdwc3_writel() - though those all
+access their own glue registers, not the core register block.
+
+Two ways to fix it, whichever you prefer:
+
+  - EXPORT_TRACEPOINT_SYMBOL_GPL(dwc3_readl) and (dwc3_writel) in
+    drivers/usb/dwc3/trace.c, or
+  - open-code the access in the glue, e.g.
+    readl(dwc->regs + DWC3_GUSB3PIPECTL(port) - DWC3_GLOBALS_REGS_START),
+    at the cost of losing the dwc3_readl/dwc3_writel trace events.
+
+I worked around it locally with CONFIG_USB_DWC3_ROCKCHIP=y, which is how
+the kernel I tested above was built. Note that "default USB_DWC3" means
+the glue follows the core: with CONFIG_USB_DWC3=y the default is =y and
+the problem stays hidden, but with CONFIG_USB_DWC3=m the default would be
+=m. I have not build-tested the CONFIG_USB_DWC3=m case. The Kconfig entry
+added by 29/38 does promise "Say 'Y' or 'M' if you have such device."
+
+This reply was prepared with the help of Claude (Anthropic). The board,
+the tests and the measurements are mine, and I checked every claim above
+before sending.
+
+Best regards,
+Igor
