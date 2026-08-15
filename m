@@ -1,75 +1,75 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691E52931F2
-	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 01:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ACD1A680B
+	for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 01:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786757939; cv=none; b=UxlQCm0/vXxwmyK6dTb3CRz/J3bwWQeBkcxv8XpTA+hZI1rIHGlWanMVUpxFfEGmjRX/6mqoZHzo2l5P8HTXuAFqnhzlokv2LolXZ0No/uEgzYpCAPXLBRthiNIHL/kdvCm4cLfZTa65bKuRAB2SbcLhFN+N489nQV7hDtKgm1M=
+	t=1786758339; cv=none; b=nNQ1vhJGuoZ+EZZAuCQbrTxiMOzN1EuViTveH1mR0HGzNZGYENesemxP/hWz1JH8C71mR8C0REwEP+M7uK2B4c8tRaArEJd9cBUs30reoQ57rDUodgt+YquXOAmnr/bhQvqNHOuTWW0tiHRMyiyTdPWnnlv2aBaIdDLx6ejaQxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786757939; c=relaxed/simple;
-	bh=mCOXa+UzANBq0YSTWd7h4Gptj1cmZ7Q9m3HFpmaUeyc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e9Wnln90Sux63CYMcQ3DZQu4GbPl4rueb6+JPcAWFej08CudGv12iP5kMnTiUC4xIv9Fi395pvDIj//5/WTJ/6M07FEQyoFb6dR4q1axAY9D2D6npUrf7fozvzd0JGco8OKwZ7SVrvwuJb3PrHgtr058vS/PDtMVq7j9sUG2jAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cChEtWE1; arc=none smtp.client-ip=209.85.219.50
+	s=arc-20240116; t=1786758339; c=relaxed/simple;
+	bh=kr+DDiC7lwoKjoLKWh3UYa7mUtn9pf/hNo4vbGKht+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ok0zFDSRlRroUWbXsBup/GEosrLWD/gH4S75axfkQpN3OmVOyeyiVpMod8ufD3Vo2w+rLI0gm75kgM3GwxnHpqjmR+j2iS3gowIzHdVbSlqP659xdvI91JwSdelIqc1nVz6Jz0Ubf3o/s7LyeMKSkflxufPMlbjqcKli/HeQUVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=erjEL8J6; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cChEtWE1"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-90898faf46dso7480296d6.1
-        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 18:38:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="erjEL8J6"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d319b84213so3066915ad.1
+        for <linux-usb@vger.kernel.org>; Fri, 14 Aug 2026 18:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786757937; x=1787362737; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786758337; x=1787363137; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0DPz+4csxg4ejb60H4w2G/Kt+5hvp2XVZ2P+UQVR9Dk=;
-        b=cChEtWE1wDypLFTDVZvmbKsaRHG6fe1c6ef+TSesD6EFe1y57VCUfeIqFuQvCLbXjO
-         NUYp+1DXg9haXqwcdBYugSuPmpVe6QkG4Tagm3KHNkpwpiD/ueMNd/U0AWTtfuuGnlJd
-         yzzgCqoz4jUzOfGDhfyoDyIrl7dAHg0RLc7oEzmU5oOppXz329fRquZIbB35kVlMNtGM
-         Bw0Ee3q+td35oSwAjrUtQul4/gi1ifG/hoimC9fsx8BUAsWDynqp6qCy/rKu5THbJYTG
-         Km8ck/RLIp9UeLXxDudrIuMcASdHilHz3wLqOdgiYRlOKufpuASenbfRN5LNJRC04XsW
-         P6xA==
+        bh=2rUTBjQcy9ZWD15hkohvAODksdiIkTujMyPdVWOGcaE=;
+        b=erjEL8J61hrVrmwq2Ld/qdYGrjDQGFOz6/ZJ7Lhcf6ji6cWQ/zDKzzvNfs3aDuEa/W
+         FHH9Hwl8Ga0s3lFEW7dcGprJChfGxeWEgqfQw7lI62Y9Chl614ecNvtYrSHRk4Sgqxc8
+         /QWPBRWTYQ54/Y0bQNkwPbbjITOF5mmfpxRcGRp3pTI3of3eXkB09ZlleKRSnDRqozGd
+         p9y2Ov6Hq9kfbLnxVq4yJbPTiyA887vKbfidj1R55TR+OnaAA6kDlPSULcUEaivfSYB4
+         OM/REwqwTuzjl3ALCplwqnbtJ2N2rQClxp0KFOZMANKeleGzYenw1p3hkSNnzBuIMlUL
+         GTSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786757937; x=1787362737;
+        d=1e100.net; s=20251104; t=1786758337; x=1787363137;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0DPz+4csxg4ejb60H4w2G/Kt+5hvp2XVZ2P+UQVR9Dk=;
-        b=DlrK+hV+lu/YfpF4jgjIxHbdihC44I8hHJyQ4iZF8o9tFhUmD8WTqYWb9tPITdmjdz
-         +gXZL8zm+X0ppe+VXFmkeJL8IIoRNlGdAUOkf+1vZTUuaJUDnEgFlGn9mG3bqXys2ZyG
-         n8xx8sprm7FUObzaj+GKNET+IXcCQqCuuPck2ESBmSNPiUQ7Z9Q3Zy8uFFJRZ6jlGr6V
-         5hNURWM74pCx8U0gtSVbIOTuCLnJmTH80mSbFn9+03gclPwqGnBfG68hmfajrj/Zrp/S
-         Ztgeq40qRD6QPXih5igm5Wo21Z1ViUROc0jWxgyrIZtefTC96GRnpB89YZL2Fx0JabrJ
-         3LEQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqWFqhzYfOFDDDZ5ftRGE4W4z88jgc95XGgC1ZdDrrUg//kV3KasviYWkuE/fsj2GTzOvNFFKrlRcs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOYD1KwOaxMv97ZsfZ7tkfXwNuSb8FdkQFB9QljNAqj5bfRzd3
-	fr4VcxrUG+NkhsGEsYezoNhnHkAYupFc0vOsqzpLhJWY9wcNeDeBV5XZ
-X-Gm-Gg: AR+sD10poWPe9pTv8YxFUze/40hGOxuJHGjEw+Nmp1ghF1pbIFNkbL3r+B65zIUvUA+
-	3VwCnR4FWXYtGnFjTWm+u0rwNF7hDuoxCoaVUXQ4a6Zpz/3v2uVoB89yFripOX5BLe05zkxRoA2
-	Ui0aWTswvEwvYDf5W/KpnjmZjAyHHrAxR2GVermIdVWoETyFCcELc1MfZrRol9xE4fqCSshECE0
-	y9Q2vUopP84uueUEGS0b+VN77ij+pBgM7IPaMyPs1tRnInvuVYkSLLT/tU3H6nRYuBBEKSyygu0
-	KL9Rs6RT8iXQnTqLhAxVfobpzfjElyq5fXIUL+tUyJ4jycEvhNrmrYJcDnJkKKT81RqsC9flNl5
-	Ynocterp30vCaAwqnma1W6kx4uXNjJdjcLJpITiaBD5aAWaW0vpDb7jPRJj2v2s9LNebnzz5Dg5
-	zO+4eyVasjIo2kWuUS3cYHnQ6ZnMRyze8YFTN2QCOyZEjNSw6NK5eRCAF7aEUS7O8OJqHhG67c0
-	BalBZ3a3Lvh/omr0B4=
-X-Received: by 2002:a05:6214:1316:b0:8f2:3472:5b33 with SMTP id 6a1803df08f44-90a91da5cd9mr114078476d6.23.1786757937258;
-        Fri, 14 Aug 2026 18:38:57 -0700 (PDT)
-Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a9354d2c3sm30800376d6.38.2026.08.14.18.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 18:38:56 -0700 (PDT)
-From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: viro@zeniv.linux.org.uk,
-	r.baldyga@samsung.com,
-	balbi@ti.com,
+        bh=2rUTBjQcy9ZWD15hkohvAODksdiIkTujMyPdVWOGcaE=;
+        b=clIDILarPjJRaXPL4sr/95J9ormRZxU9XssJRL1gkh5dx8F5+yvhGFEsxktFR7Tk+8
+         AzIx6J4Q29u08HHBE09595AZqXbwgMIkQ1wglFnKE1WkQBAQH5LPDEN4U8Ljh3uY0Ms6
+         BgzoNjbKS+CcD3CU6M7Uvn5abx3/0D+TUbsXPEUhAuhLmm5YKDK8pjK6Ls8b9MxCR3GP
+         TW0WX6I6jWbx5jmXs5HSpdncRlSad5wPTdBMnkf1MYdSkyCochJx7Ub1pAMUcL5oNc7D
+         cZ6952A66QGI8xg62f1VVxmYTrLdY/1fuvCr1zzFcEQ8PoTcAYmkULvqRsMkX3EpiLu/
+         FfDA==
+X-Forwarded-Encrypted: i=1; AHgh+RrSrcqnCU6uLoJgM3txYVpXrd5uuc8p4gJ5z+n3D2657RZL/VPX6Cyys/TnYyRhawLYxF86e1ZJlyA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcLx6pxYh5MI5qLfOiw3Oh+gg3bTWTjfVcX1EJwHfRRTvqFAeg
+	1hZmC8LMMNQyF/giT/gx5SlalkKOq64zRk7pdp3yryCJEpqEkzthJE9a
+X-Gm-Gg: AR+sD11AxBW+rN7cckozTQFOE3SoQPMas6cPOUTm2N9ucbBx7qRGNi3SajyuGwe8Qif
+	PRnbdi8flXyoDYUzZ2SDXAi/ltYVtPKrTlKojDEvG1/aDKfQGot9oIVBBIjFxjPlsL1s5ZdIUrS
+	U3I5fyOBL0O6P+ireIU26U7WvcKZs5FSRPuAWo00BraqGJVQoRHM5d4xOI36isnXICUUfMUOuoD
+	gGDWxWkQxrI+anGNqGc44xMHLvwhrSWVEJljs09/b+KiO4co++DoC/egtBkPtJ84I5vIgVmSUDY
+	2gwz6yPXaNnFYDQA/XskrL9rw/cVHN/Z4UsF91EIDTHIHXI4CDXJM2dQ2zkQtxA0fX8uwaO6e53
+	lsjMTjVRIwqXN62NbLRO0dJXi/5QXRC9myWrcCtasrLXN9UcH8EuQaY1SEvQ/ub0ryGCY0zMyrz
+	dK6Vjp/Xei5fkYKRgg8TsJbhrenruPZxKjxO0MUHflMrQRtSsmpy22HsiKnQikwM7bTWRqOMQsz
+	n/X9/Gyn090itp8oHqWnCsG25+EAjoVk6YgRtmAkwL79ojPnhbyJZ5EitBshSdSiwB8tvmQs2j5
+	vYdJ//Bx7rhxEQBq
+X-Received: by 2002:a17:90b:1d44:b0:38f:57f0:1f51 with SMTP id 98e67ed59e1d1-3933b84ddd6mr7357225a91.0.1786758337093;
+        Fri, 14 Aug 2026 18:45:37 -0700 (PDT)
+Received: from localhost.localdomain (c-98-47-46-163.hsd1.ca.comcast.net. [98.47.46.163])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1413889d914sm14230840c88.13.2026.08.14.18.45.35
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 14 Aug 2026 18:45:36 -0700 (PDT)
+From: Rishabh Jain <rishabh.jain1198@gmail.com>
+To: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mario Limonciello <superm1@kernel.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_fs: fix use-after-free in ffs_func_unbind
-Date: Fri, 14 Aug 2026 21:38:18 -0400
-Message-ID: <20260815013818.39466-1-shuangpeng.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	stable@vger.kernel.org,
+	Rishabh Jain <rishabh.jain1198@gmail.com>
+Subject: [PATCH] usb: pci-quirks: always assert xHCI OS ownership
+Date: Fri, 14 Aug 2026 18:45:34 -0700
+Message-ID: <20260815014534.77850-1-rishabh.jain1198@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,46 +78,86 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ffs_func_unbind() continues to access ffs after calling
-functionfs_unbind(), including taking ffs->eps_lock for endpoint cleanup.
-However, functionfs_unbind() drops the binding reference to ffs.
+The xHCI ownership protocol requires the OS driver to assert the HC OS
+Owned semaphore before using the host controller, then wait for HC BIOS
+Owned to clear if firmware owns it.
 
-A concurrent FunctionFS unmount can drop the independent superblock
-reference. Either put can then release the final reference and free ffs
-before ffs_func_unbind() finishes its endpoint cleanup.
+quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
+is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
+while both ownership semaphores remain clear.
 
-Take a temporary ffs reference for the duration of ffs_func_unbind() and
-drop it only after all post-unbind cleanup is complete.
+On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
+resume to terminate Controller Restore State with USBSTS 0x401. Linux
+then reset the host controller, both root hubs and the USB Bluetooth
+adapter.
 
-Fixes: a3058a5d82e2 ("usb: gadget: f_fs: remove redundant ffs_data_get()")
+The controller entered resume ready and halted with USBSTS 0x1.
+Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
+device contexts and command, event and transfer rings were verified not
+to cause the restore error.
+
+Asserting only HC OS Owned changed USBLEGSUP from 0x00000801 to
+0x01000801 and eliminated the restore failure across four S3 cycles,
+including a stock-kernel test. Clearing USBLEGCTLSTS was independently
+verified to be unnecessary.
+
+Always assert OS Owned when the xHCI Legacy Support capability is
+present. Use the independently accessible ownership byte so firmware
+can update BIOS Owned without racing a 32-bit read-modify-write. Keep
+the existing BIOS handoff wait and legacy SMI cleanup unchanged.
+
+Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
+Tested-by: Rishabh Jain <rishabh.jain1198@gmail.com>
 Cc: stable@vger.kernel.org
-Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
 ---
- drivers/usb/gadget/function/f_fs.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Additional context:
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 44218be1e676..8acad4564b6c 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -4089,6 +4089,9 @@ static void ffs_func_unbind(struct usb_configuration *c,
- 	unsigned count = ffs->eps_count;
- 	unsigned long flags;
- 
-+	/* Keep ffs alive until all post-unbind cleanup is complete. */
-+	ffs_data_get(ffs);
+* Kernel Bugzilla #216470 documents the same USBSTS 0x401/reinitialize
+  behavior and its impact on attached USB devices:
+  https://bugzilla.kernel.org/show_bug.cgi?id=216470
+
+* Commit a7d57abcc8a5 ("xhci: workaround CSS timeout on AMD SNPS 3.0
+  xHC") is related workaround history: it tolerates a distinct AMD CSS
+  timeout and resets the controller on resume:
+  https://github.com/torvalds/linux/commit/a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
+
+The external reports do not record their ownership semaphore values but
+are included as corroborating failure signatures that this might fix.
+
+drivers/usb/host/pci-quirks.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+index 0404489c2f6a..d76a4791b8f5 100644
+--- a/drivers/usb/host/pci-quirks.c
++++ b/drivers/usb/host/pci-quirks.c
+@@ -1185,6 +1185,14 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+ 		dev_warn(&pdev->dev, "xHCI controller failing to respond");
+ 		goto iounmap;
+ 	}
 +
- 	if (ffs->func == func) {
- 		ffs_func_eps_disable(func);
- 		ffs->func = NULL;
-@@ -4122,6 +4125,7 @@ static void ffs_func_unbind(struct usb_configuration *c,
- 	func->function.ssp_descriptors = NULL;
- 	func->interfaces_nums = NULL;
++	/*
++	 * The OS ownership semaphore must be asserted while the OS owns the
++	 * xHC, even if firmware did not assert the BIOS ownership semaphore.
++	 * Update only the OS ownership byte to avoid racing with firmware.
++	 */
++	writeb(readb(base + ext_cap_offset + 3) | BIT(0),
++	       base + ext_cap_offset + 3);
+ 	val = readl(base + ext_cap_offset);
  
-+	ffs_data_put(ffs);
- }
+ 	/* Auto handoff never worked for these devices. Force it and continue */
+@@ -1195,10 +1203,8 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+ 		writel(val, base + ext_cap_offset);
+ 	}
  
- static struct usb_function *ffs_alloc(struct usb_function_instance *fi)
+-	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
++	/* If the BIOS owns the HC, wait for it to hand over control */
+ 	if (val & XHCI_HC_BIOS_OWNED) {
+-		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
+-
+ 		/* Wait for 1 second with 10 microsecond polling interval */
+ 		timeout = handshake(base + ext_cap_offset, XHCI_HC_BIOS_OWNED,
+ 				0, 1000000, 10);
 -- 
-2.43.0
-
+2.50.1 (Apple Git-155)
