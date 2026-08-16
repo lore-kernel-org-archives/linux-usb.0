@@ -1,125 +1,110 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC7A3CF1E3
-	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 06:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786860716; cv=pass; b=keD9HgbIgZiCDPzJRv95Hn8i1MRn8ogyslp1ukudPCNt1LkQZh4aYtbA/OaKAWQWEv3KsfFRVFTj3znvu8Rp6a4SFi7uL5m0TeaY7Jfw5nWEQCBOpThURefv6LXyYfmpUrxhotFqVsbJeihdhwp4tdkefNMBEtcrTiD3T4aGxUA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786860716; c=relaxed/simple;
-	bh=X7sTe9fAaQ+e1Hd42kmuXVAg7k+XMVq5DlF/59+WCjQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lns820oaZ/1U07+8kviTIpYaqeTsvrFJrsYKe/lcuFkr6sCnhqCka4InZiASaLrNBLK/x6zIHKRipV9KVj+xbgeaoqh3jKMK9fApwq08R2BsaxJNsfpUZdoxs/t1zfiz7vY8angTh3n/is456Hoo9I49EB+fZa8BpMfI2IRECfU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RYDDUonq; arc=pass smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAAC301709
+	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 06:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786861050; cv=none; b=fc486cJygiIsNck7tze3QhD2Dp3eamb7BRcgXoLasK/hyqGhZZ90KdApNo/WqyO1qilAYqhf//pBu+oDx+fZcZ96vkwSJSxYOUNxJN6gC8g+AkYHWyeO9w1vJMw5fzHLWHr2m+fNISOriv5awuCayk5cV1g1TXX0bb7PmP06gBc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786861050; c=relaxed/simple;
+	bh=9rkh+l6xraLTWwL32qe6TKz2/frEdnGi3YOr9WdAETs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FU3zWSq2crLKbt8yXIVa/UsWRYaOwOYa9XtmJCAxm/8c1pdZpB4iYd5AipEK5xCVSCFh3kKP95exWL68RbDE3Z9hSThgaIF79Hk+SYKqIO0KWBvPWwfuer60prE+lf2oIaHrMJOUzm9VDwv2a017npkABlJatwPx+8+D0ruA9JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DEE9Swyi; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RYDDUonq"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-66c5101a984so1782889d50.1
-        for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 23:11:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786860714; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LlLlCe2AZzAhcn0C2KUNfqNrkQaRzeVQmxrmOVGNEZBpruWjfS6oDEVeXm5esiRGRq
-         roo5h50LHWYortwVSWrTp+1c/M47NsO2644o9/enSN+ryaPw7tDkT0+JuBKnMIaKs+Zs
-         99QvnlOr4uGBdN7+FoS5ikCUQXPeLMz8OIiQCcSnercka/qkLxdvMl+wbMxTvx3leqjH
-         7CeM4M6CpwA9togt26ZOZwJ3D6dqU+Y5nIOH7K87vujfwsO7Wte3e/dlhb4xwRVawMD/
-         ZGDWmrbGxE4UImKqphd05AsuZtCHx+FC8RwJg0tmDSsTxYi1xOaW7/MqdZIm1zdcZEb7
-         vTFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iH5MCGHwPTj9XikT4F4oyjMZRAIaWGaMMU2/DmLs1Fw=;
-        fh=gU87nPL8PKZFfs8iWaX1Zv8DzUVpVUW7SZ1WegH37Xw=;
-        b=lVEPkNY6fGamY7Jb2ie2PR1TcBaMacBM/20QabtmRvdiyU6SWTT8xxLzrGpVY9szTC
-         RRXQExn3fGdBuwfxkOLOHxK6bUMkE7lw1iVqFcjF+d3B8YzAqMt4xKGGgcBmRPnrpZJb
-         FBgT7cJmLJ9IIZ8/Deoa7LZFQBuRVqWbNToQIfhB2O0dlVyu5JUNypQlm6Zn+fC/XfBb
-         33mW8Ip3CBBIKjEEKK2bBOINKQCi1t3ePk0GrE9dWX4K8OZ1myxWLZdFKa4FKTJ7V6I2
-         iCSGOLGhZcUwfAAePjXFyvuH2yiICGnQKDizHhYqAwl792yPwt2NxJNgZrmWQnsGzdQx
-         fU4A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DEE9Swyi"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d049069377so24262355ad.0
+        for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 23:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786860714; x=1787465514; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iH5MCGHwPTj9XikT4F4oyjMZRAIaWGaMMU2/DmLs1Fw=;
-        b=RYDDUonqGS8RUdYtKfVx+wWMMyvtST3yE5sIr6QSgvCEqBRgwKPf1+KiaUvIG8qwfl
-         xxJm1Tqw0yfafQ+64CTqLCAtcgGa4zfE55K+6pjFQ6d02tH9hupRE22typvQPgRsm8Rs
-         IMlioFSBD6ZtMYXWP9Bb5HrRxHNkswTnvAG6YjQ4E3m93KljDSnCvI59bRr3HD/72W/4
-         lTtHzsYzKue6mcFb7Fls4MOMQcBhYUhMSxUBbJHUSUDIMdIQLgr0TDr2AxGqh+yg/Afd
-         Z8zVmCLQPMmPslLYD7+NOMua29ZUNxsINSGQ2depq0sNmFAgpUT2a8E/dMbhQ8YNuQbs
-         cYSA==
+        d=gmail.com; s=20251104; t=1786861049; x=1787465849; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/lt0MYPB2A8n9D+NrNfP6TZGyktOpHcmig9SIzvH9ZY=;
+        b=DEE9SwyicVMYdnUaIW1jzVnbllX3Na5ABZ7ZwM7WadjOJrd+aW9UXvmeJUJoAl7/Cc
+         yyOEMM1iCuhZR0Uh5uyZ5PzYcMX93bLZg2qaiH9WMl+8aAcTuO0JwfQu+/v3W0e/gEn4
+         2/CvOFqUr1kg7XspSrdWLLLp5k9ItSi0pzUDx75Hh6r3OYbrnqBG/KjwHSa8lhzaCCpY
+         Z3lmuGWm0TgqLF7T/tnVNi3ATuS4aOA1x+58FgVlpbwT6GJ4S4cNo6FlR6jlEKogQnoO
+         rGj9Z/hZlhYYxt0IfJJ7ec4v6bKLkw/40RfO23gYCc3pR1e2Fsudjk55tlB3aKEXGyMW
+         Si9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786860714; x=1787465514;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iH5MCGHwPTj9XikT4F4oyjMZRAIaWGaMMU2/DmLs1Fw=;
-        b=C9Jc7kFzEhkFfANizvS1H/1n67wFys8vJetVhvZPEd0scQZtcDvweGtk85Ox08nxA4
-         xuR7lSuRujHvJ8SMoF+vmMsR5kJIt8bJtEqtmI2JXGDI8Km/wan/3nUBlwwpWadBErN6
-         KptfrkV2w6LX9Ogu71vaiPeoTz0r+nS3iDO8M0wZJwDuaCc3+OJmiq2srDDpNNc0B3j9
-         ifRBFAreJS1wvjsYDceE3bHt2pvBlVvtLNqjiJSYtqXxVXBjWbL1mrnNDatKbRAOdeTK
-         pDGKmQLUwV9zDIXB4eha8GgqTCFoPiLkXj/eXPYOGBWDObyLAWKujbm2/KaQdu9eabU1
-         gQBA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq54Ikg/hEAgTG7dCuYMmLMM74PrsrdFM01sdHy5rMnFKXCpfsuL+DJrbhQWfy2wGwVsxk+b5p4Ig8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrG8tWPi5OmU3v6VF9qdOJR7Cb98D8EKhhHBV8DIxwrFN/EhYf
-	XavjwYhV9OAG6WPnpkKBAjP0S464aGsl6bipT3HM4SHlcbIKcKyivmk+i7uKqoLpzWVmX8HAKuV
-	Zi/Pp/AUSjM8xBAkez+aQWHZgHLoapec=
-X-Gm-Gg: AR+sD10sa9StEYSUWWGQtrM0jIr8WZyjzlKear0Oq6fe5FoxEkpOg+d48YFUc9+Kho5
-	dnkPQGAHi+9FQzDLpqhodRr2DrzJuisxkGqKXhUyVLRbBq7LCJWb4TQbSYCPHgANS4sy/YAJbw4
-	wssCXv0QiAoJivqICG3IwKRrc94+VI66+pc39wwo6LyU1dcNgUd0JB3xxwGtzeY0BxDeKEXnw26
-	PEXTVWJJPyx08SiB8GjzysrY+Huofd2suQ4SyF5il6nFwYzv+ojKguAlAUenrlNvs4URkuKwZ9g
-	cUHrUxx6GZc8eoHxTse7Kd37tWzsG6ElYYdtnfLIfFd+xr9HHPTA0vXwGD/FOblMRFTz8GEAzeo
-	ftP2WBe3A14I9kExM25nBOzOQHZbY4A+zpg==
-X-Received: by 2002:a53:b68d:0:b0:667:e855:eccb with SMTP id
- 956f58d0204a3-66c72be4aa8mr4388540d50.20.1786860714386; Sat, 15 Aug 2026
- 23:11:54 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786861049; x=1787465849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/lt0MYPB2A8n9D+NrNfP6TZGyktOpHcmig9SIzvH9ZY=;
+        b=iv1yhTAK6wZKuoeOL8oWCLP3i38A8LkHIxLzEvROLsDrXTwHCTZkCmXrPQxeFH9CaJ
+         aK2YxJjF/VbQCP9r2hg9pNgfg22iRnVu+yvQ8eN/cyufyU8StdMqBPkUl4mpH4LsxyML
+         wWzlzZK9lk2OIx8ZH+c+z40mqMtkIGcj63yojkVbD3hnn4k/9escn6YnNIQ0fsRqXsRe
+         XOAZVi8NcPFRpB5I4/Aa9old13Ju9d6GfN5UoZfhWpgyQslZw8KL90lqst1zucSKGZS1
+         F8AtOkYvGX9yR40eMdeU0Vsb98b/sJl/seBT/oVv1F/9wJgVAwFmjqEnoZojUt3/GXbZ
+         D7uA==
+X-Forwarded-Encrypted: i=1; AHgh+RoAdrzlyU3QjTQzxjTA/15F087IMLZqDdrl8CfoGhfLMlNLZ8GxEJmFsWiUV7aHUBn7d8b5wUxlqYM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB50D09VFWIlSy1EsxegohTDQRA3qRh02NDeXNuIPWOmHrG6wk
+	RB0gGds98MJS9CY8LQiIwB3sUDNR5Shr0M32dUNjNDITwI72PmCSZVYF
+X-Gm-Gg: AR+sD13d4m49Pt4EsRDQwC3MwO5DNj9jE9M9swpoBx3AmrTNpRPfb59i0Za1C9R18dJ
+	7Yfq/B56HuDremAAW5ytglzp+MsjQArqii/mSiZZC7nBWF5s3lVzjVRf1tUvz/7EhgiscdXZyDO
+	QLisKnEs9Oe1bnvu4aU3ZxQG2b1coC5jYqX0C64YbM1EC7etJwOJQGbOU3LhO+LgWC3TaHqZIm4
+	ApOlVf4jcsBXg6dNUU2t8H2wvzsEVsOcnHbBCdio+iIlzGq6oVxC/t6jPR65sfqa3ogi2wo+ODO
+	u3QKvUaWlQ94tMPc6mJ0yP4k7FloIQUjPn/d55hhCUUjfWKfWxjHceEvUqzOQ6qfuU+R/xfGHm2
+	Tpg5wvQiooSw3Kqj1zHmghyqIqPHLo46dYdVorqZ5Q6cq6S95RLrswuIFW8PDL/cVh44Uuga8Dw
+	iwHU7Zm6ro2omNanvSmE/fz8HtPcGF3B9nl6TVbKS36lIiPBovM4x+dvduPR+t2QIA0Q==
+X-Received: by 2002:a17:90b:3c91:b0:380:f85c:94b4 with SMTP id 98e67ed59e1d1-3933b78e3c2mr19285769a91.7.1786861048973;
+        Sat, 15 Aug 2026 23:17:28 -0700 (PDT)
+Received: from Default ([2409:40f4:1032:c11e:2df8:ef26:4db8:5cbd])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141387e49d3sm27378993c88.7.2026.08.15.23.17.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 23:17:28 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: jeffinphilip14@gmail.com,
+	balbi@ti.com,
+	bigeasy@linutronix.de,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+fd6ef980cf1c722be639@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: fix null pointer dereference in usb_put_function_instance()
+Date: Sun, 16 Aug 2026 11:47:12 +0530
+Message-ID: <20260816061712.15547-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260816015051.13184-1-kartikey406@gmail.com> <2026081646-sixties-fade-1359@gregkh>
-In-Reply-To: <2026081646-sixties-fade-1359@gregkh>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sun, 16 Aug 2026 11:41:41 +0530
-X-Gm-Features: AUfX_mxbl2LS9tBzL_cDi1sfNRQL_ko6m7_EegGjR_6N3gLNRFyRABve9B7Dct0
-Message-ID: <CADhLXY7UWkd_4wNVSjxQYOVP3GeBZcDA5iiOBoZbz9DXn993GA@mail.gmail.com>
-Subject: Re: [PATCH v2] usbip: vhci_hcd: let the driver core manage the sysfs attributes
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me, 
-	yuyang.du@intel.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 16, 2026 at 10:26=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
->
+usb_put_function_instance() attempts to dereference fd inside fi struct
+to get mod in uvc_alloc_inst() error path. However, fd is not allocated
+until later in try_get_usb_function_instance() after allocating fi in
+uvc_alloc_inst() and thus guranteed to be null in error path. Fix this
+by adding a null check for fi->fd that returns if fd is null.
 
-> >  extern struct vhci *vhcis;
-> >  extern struct attribute_group vhci_attr_group;
->
-> Is this still needed here?  And can't it be static now?
->
-> > @@ -1565,9 +1546,12 @@ static int __init vhci_hcd_init(void)
-> >
-> >       return 0;
-> >
-> > +
->
-> Extra line?
->
-> thanks,
->
-> greg k-h
+Reported-by: syzbot+fd6ef980cf1c722be639@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=fd6ef980cf1c722be639
+Fixes: 0062f6e56f70 ("usb: gadget: add a forward pointer from usb_function to its "instance"")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
+---
+ drivers/usb/gadget/functions.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have sent patch v3
+diff --git a/drivers/usb/gadget/functions.c b/drivers/usb/gadget/functions.c
+index 203361a64212..70e31c40e267 100644
+--- a/drivers/usb/gadget/functions.c
++++ b/drivers/usb/gadget/functions.c
+@@ -70,7 +70,7 @@ void usb_put_function_instance(struct usb_function_instance *fi)
+ {
+ 	struct module *mod;
+ 
+-	if (!fi)
++	if (!fi || !fi->fd)
+ 		return;
+ 
+ 	mod = fi->fd->mod;
+-- 
+2.55.0
 
-Thanks
-
-Deepanshu
