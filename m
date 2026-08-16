@@ -1,35 +1,39 @@
 Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7986724E4A1;
-	Sun, 16 Aug 2026 21:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447733E2746;
+	Sun, 16 Aug 2026 21:39:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786916370; cv=none; b=XDeKd0JcXX89fc+v0wC5lIzCDVBmdmG5OqUe7gqta33/2YpTklkWH59gxtj73U8/hJrwWy1HTzKH1DZfUB6FYI9jmZNmqjxmX/ngNDyA1gc8QiNbban9m3wdBzxjzBaEmjxLRYqTAdC3c0gnfjrJtK3wxUlkFh0Kpu86ON2/krs=
+	t=1786916376; cv=none; b=FCuZlgR7AqoHfGkQlYMGb5MvLGgp8/9q10x5NZe08rMwh49+Kqq+vo0dAya0tVL+Zpyae8hCazoV0na8tG5q6NDRmO+NpozawPGiriuO7zTvmO8jzrGX62BQZ+hNyGO2h7ZJDDbqG1FrW99742l6GRzHGJvuLIWJQmE8JNicdg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786916370; c=relaxed/simple;
-	bh=LyLwXSC3R4k+tjS84BP1Gz3scjxMixrmDDn9YxCTmvU=;
+	s=arc-20240116; t=1786916376; c=relaxed/simple;
+	bh=CkekS3QCZ/697uYlWc/8+H356EROo43rSMP4oscrcJs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qYbuS3frySlZA7FLG7H+FwyJAIt4AOd0QWgmw8ehDAhzT/rVMJTlx7XL27CKbegfKp/GjpLZ+IlRhoAQg+cS6gzR6AkUAeGqZdkmNYTHT+toXhhLB/q8gqmwrDcgrdOcTp6ySjhHw1ihbWX8LCdKfks2E5RypqdP+VIwNTj5Wl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=MaAIT7Ym; arc=none smtp.client-ip=178.251.229.89
+	 MIME-Version:Content-Type; b=TzfRiZHS+rgUfCh9TQAxlr6h4mdwaxiIvcQMKV7NEeUMbWPzdgh2124FRCOKmKwKPI24dF6JImk5j1xiNMHba5gf2cA9TA4oZZ9Og53GwOHX324HkTKTiyqo4DW4EeMRz1KFKt9IcsQ45/1f6KG8LN+0MDYybRtlXtJOhp21Z/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=d/sBAf5C; arc=none smtp.client-ip=178.251.229.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="MaAIT7Ym"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6045E11C1F4;
-	Sun, 16 Aug 2026 23:39:21 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="d/sBAf5C"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BAAE611C1F1;
+	Sun, 16 Aug 2026 23:39:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1786916362; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1786916367;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=QP/6fSBavnugcpPHEyvwMnqH3KyZ0x7/oTTOBjqzH5U=;
-	b=MaAIT7YmCM5HPtGDMig+bYXE9l4yxgmOgCCAwVlnhpoPyUhMQ/DAqJ8wx3jS46vi8QwhzI
-	GFbLw4GqOeEkQ/v3ZBAs8FjgrBoO9GpWJmgfuzqbSzhVwtKvRu+5hOeHsphHNYghwPsZax
-	QhjKhKryhk10KlWAuF+1b3fb9WuFtpB8lInqdB4Gmnhgz7mj2WjMcp2KkHVX4gD8NsT5Sy
-	HWtEWNQI1w4OYOXGWNTPiVNvp+/rTE47xUzlwN+Luhevi6yH4U3KFCwLfAurz4XJyz4EDO
-	TUoDjqJyqrutnBlZiIR3Z+wKXYBnLuAZJBypnMLPLYE5yUgZcr9AuHHTAq8gbA==
+	bh=/WPNd7bAkhsYaqHEPW2/1kC0IadD/2WCrHtK65muLRo=;
+	b=d/sBAf5CX3dKn8/AGUW0OPKomcIFG0upXbclzPfvKOhL9MwcLJ4bmMnD3vvsQqWnEB2gZb
+	mXkjcLPgunI8Z66UakjDHTQdfOYKIWB3kQwecd9FrMSOsnRCh3OlCHZiOdNYOjXiZMEasn
+	xCFnULBf9RrYdvnQrdyn3FlNhwL4RZdqoYex4SoqMXZFyxiHbgrdpkjbNF/SCSBPNkXpI/
+	fPUmhafFVbxJH9NB2vqcdMLBEmTKkCxLoArt1ckoUV6sOwUC+N6biUxRF7e9oKKWW29nto
+	ewzBzr1MS8nkDxsDIfV9+dwJxtygvElcV4OZ1iWxkZhvfwLladKU28Ax8BVOCA==
 From: Marek Vasut <marex@nabladev.com>
 To: linux-usb@vger.kernel.org
 Cc: Marek Vasut <marex@nabladev.com>,
+	Pankaj Dev <pankaj.dev@st.com>,
+	=?UTF-8?q?Cl=C3=A9ment=20Le=20Goffic?= <clement.legoffic@foss.st.com>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Christian Bruel <christian.bruel@foss.st.com>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -38,7 +42,6 @@ Cc: Marek Vasut <marex@nabladev.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pankaj Dev <pankaj.dev@st.com>,
 	Rahul Kumar <rahul.kumar05@st.com>,
 	Rob Herring <robh@kernel.org>,
 	Rosen Penev <rosenp@gmail.com>,
@@ -50,9 +53,9 @@ Cc: Marek Vasut <marex@nabladev.com>,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v2 4/9] dt-bindings: usb: generic-ohci: Document access-controllers property
-Date: Sun, 16 Aug 2026 23:37:06 +0200
-Message-ID: <20260816213849.1044073-5-marex@nabladev.com>
+Subject: [PATCH v2 5/9] dt-bindings: usb: dwc3: Document ST STM32MP2 DWC3 xHCI USB controller
+Date: Sun, 16 Aug 2026 23:37:07 +0200
+Message-ID: <20260816213849.1044073-6-marex@nabladev.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260816213849.1044073-1-marex@nabladev.com>
 References: <20260816213849.1044073-1-marex@nabladev.com>
@@ -62,12 +65,20 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Document the access-controllers for OHCI USB controllers in case
-access checks need to be performed to use them.
+The ST STM32MP2 SoC contains single instance of DWC3 USB controller with
+glue logic wrapper around it controlled by syscon. Document the glue
+logic and DWC3 controller.
 
+Co-developed-by: Pankaj Dev <pankaj.dev@st.com>
+Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
+Co-developed-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+Co-developed-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 Signed-off-by: Marek Vasut <marex@nabladev.com>
 ---
 Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
@@ -92,25 +103,126 @@ Cc: linux-phy@lists.infradead.org
 Cc: linux-stm32@st-md-mailman.stormreply.com
 Cc: linux-usb@vger.kernel.org
 ---
-V2: No change
+V2: Fix up Sob/Cdb lines
 ---
- Documentation/devicetree/bindings/usb/generic-ohci.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ .../bindings/usb/st,stm32mp25-dwc3.yaml       | 108 ++++++++++++++++++
+ 1 file changed, 108 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/st,stm32mp25-dwc3.yaml
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-index 322808aaa2839..8e3522a3faa76 100644
---- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-@@ -65,6 +65,9 @@ properties:
-   reg:
-     maxItems: 1
- 
+diff --git a/Documentation/devicetree/bindings/usb/st,stm32mp25-dwc3.yaml b/Documentation/devicetree/bindings/usb/st,stm32mp25-dwc3.yaml
+new file mode 100644
+index 0000000000000..e377efef43503
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/st,stm32mp25-dwc3.yaml
+@@ -0,0 +1,108 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/st,stm32mp25-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics STM32 MPU DWC3 USB SoC controller
++
++description:
++  The STM32 MPU DWC3 USB SoC controller block supports both
++  Host(SS/HS/FS/LS) and Device(SS/HS/FS) mode operation
++
++maintainers:
++  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
++  - Marek Vasut <marex@nabladev.com>
++
++properties:
++  compatible:
++    const: st,stm32mp25-dwc3
++
++  reg:
++    maxItems: 1
++
 +  access-controllers:
 +    maxItems: 1
 +
-   dma-coherent: true
- 
-   interrupts:
++  clocks:
++    minItems: 3
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: ref
++      - const: bus_early
++      - const: suspend
++
++  dr_mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [host, peripheral, otg]
++
++  interrupts:
++    maxItems: 1
++
++  phys:
++    minItems: 1
++    maxItems: 2
++
++  phy-names:
++    minItems: 1
++    items:
++      - const: usb2-phy
++      - const: usb3-phy
++
++  resets:
++    minItems: 1
++
++  st,syscfg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: Phandle to system configuration controller.
++    items:
++      - items:
++          - description: phandle to syscfg
++          - description: USB3DR control offset within syscfg
++
++  st,enable-port-power-control:
++    type: boolean
++    description: Enable Host-Mode Port Power Control (bit-3 of capability param HCCPARAMS)
++
++  st,ovrcur-active-low:
++    type: boolean
++    description: Over-Current signal polarity is active-low
++
++  st,vbusen-active-low:
++    type: boolean
++    description: VBUS-ENABLE signal polarity is active-low
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - phys
++  - phy-names
++  - resets
++  - st,syscfg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/st,stm32mp25-rcc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/reset/st,stm32mp25-rcc.h>
++
++    usb3dr: usb@48300000 {
++        compatible = "st,stm32mp25-dwc3";
++        reg = <0x48300000 0x100000>;
++        clocks = <&rcc CK_KER_USB2PHY2>, <&rcc CK_BUS_USB3DR>, <&rcc CK_KER_USB2PHY2>;
++        clock-names = "ref", "bus_early", "suspend";
++        interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>;
++        phys = <&usb2_phy>, <&usb3_phy>;
++        phy-names = "usb2-phy", "usb3-phy";
++        resets = <&rcc USB3DR_R>;
++        st,ovrcur-active-low;
++        st,syscfg = <&syscfg 0x4800>;
++        st,vbusen-active-low;
++    };
 -- 
 2.53.0
 
