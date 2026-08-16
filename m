@@ -1,53 +1,76 @@
-Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60D6211A14;
-	Sun, 16 Aug 2026 04:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786853090; cv=pass; b=SvplJ/1N35D1nPO4VozphJoRA/p4bU+ppkuPSdwDQDU+kWxUYS7SfesndWbvMAGrM5KfT7jKUFujRyOYhSHjdOx7kg5jdJbv7a3R37A6Ig+Us98HjVPx8ZLx3nwOvK5KAZDXU7UPEOwsoOkR2w7s01GPjUfrou387WVxxn2GmY8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786853090; c=relaxed/simple;
-	bh=vnWbeG6jNjVzSW5eXOTDCKHq88HEcr/5VLWlIp2mAuU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WvikAZHQLK6T0FhSozBtgyxpF+Yhcy7yiRYAQDiNQFXeAfwqDJ3iDwLE5BkJswP9kfSi7Q7+zRZf8TnsEUCmkUpmds+v4fCHVTN3LEBesB6CozvF1Uw+viGRKrrbqphOUUinZQxcGWhXP7ra4tBNnG2bO8PxfrPwldYMWGEfTo0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=signeen.com; spf=pass smtp.mailfrom=signeen.com; dkim=pass (1024-bit key) header.d=signeen.com header.i=mehrdad@signeen.com header.b=XHtxE/HP; arc=pass smtp.client-ip=136.143.188.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=signeen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=signeen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369BD35838E
+	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 04:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786853746; cv=none; b=QXTBvRJd+sIgLtBGfsQf3tyYjIHFEC9YmjJmBWmABZ5mX4cPq7BJdwA6ufMu9/XRZYbCwg0b28XMv4DR9t7J2zP76TS13EvuYcFliWjKuNcD7hWllRZ/KjSjBLYy8AEUIjRRp7Bu2yZ0OGKdZx/8dldefYLmAWTKm/lozh62gIo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786853746; c=relaxed/simple;
+	bh=nNm/QRaJ/y3CNuk5oavkzkvXthwcbkYwN0TWtBgDZ4s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rEkh5YeW3tmxwaxIgjRdBOxC0tzaOglqEwuIUSOLXqZ1Q7CkSCT/cOxjwgKwRpcI4QpiF3zFrrB4JQUqECQ+DsIirf7giaNWM7alCgY3I+pdSmRWGK/FzXoU/SFMRmXsHDd0/YXAgtXoZi/VjAMpCPdvzMhhvxPqRtg3uyHmhHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkhwZTis; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=signeen.com header.i=mehrdad@signeen.com header.b="XHtxE/HP"
-ARC-Seal: i=1; a=rsa-sha256; t=1786853071; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NnM+AJjMQ91dAHuXd1JiKMRVgrkXyvWiLfimKCE4i9uyKNPbBhh2wuBwGTwFSdvhQsX5n/nFbOYyWT4H801p1DWTF2ytGMQg7pld6o4oa89Dc1b9Xn76tfefbO+r4yWRVn/r3JYPt6k1cPJoJciJ4BvmwZxxc/X3S/Ok/Njhcsg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1786853071; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=lQRqyJJ6rsb6/t6lPsSdDdhPi5P5tAJq6wXmkDnZVkA=; 
-	b=Ff/yKULjbEYHAlheJ4NgLMbrZYyc1NzPWARCqhYFbJ9YKWt+Zv9AqUliVkM1xCHMiEPsQkd59M1hvu6qaW9IwARHj5jcdefvDEep4JZI4GOkiRbG88PnWHL0FON/RJWR6FX2JdNIvdFfTJ7ZIQRJv5+q4pD1S3JhP1Z/oKuMj9E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=signeen.com;
-	spf=pass  smtp.mailfrom=mehrdad@signeen.com;
-	dmarc=pass header.from=<mehrdad@signeen.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1786853071;
-	s=zmail; d=signeen.com; i=mehrdad@signeen.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=lQRqyJJ6rsb6/t6lPsSdDdhPi5P5tAJq6wXmkDnZVkA=;
-	b=XHtxE/HPFdt0SZUXQtcDCVOo2c6HAz0WaUruCGPVY6Kd+QQvfH6uZKGheV8RiBqM
-	xtgsCdtCxKCCR0faxCv4+m8Ci1EpCry+2bjUQhuknOiz9wlLnO3mGC1Q6Y6YcnXJyaf
-	Gd0nIAecljTUD51HZIxprrclAC2yBFT0toRHoSss=
-Received: by mx.zohomail.com with SMTPS id 1786853068327967.7775185495542;
-	Sat, 15 Aug 2026 21:04:28 -0700 (PDT)
-From: Mehrdad Afshari <mehrdad@signeen.com>
-To: Oliver Neukum <oliver@neukum.org>,
-	netdev@vger.kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkhwZTis"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66825847b2cso2580828d50.3
+        for <linux-usb@vger.kernel.org>; Sat, 15 Aug 2026 21:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786853743; x=1787458543; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5Uj2rF2EF2u5Ttp6n1CkYp299l14iOey9vUEfQ6T0RM=;
+        b=AkhwZTis9maSXighzc2i57yB8zm7cUbTHK585mdmWrNwNjUYmMULhua6gfmgjIxPyW
+         esq4kDwvp7JfDHia9T2o9EmX/e29DlobBNJZRTu1P4jfWyGXv+IjUjtapegkmSjmt/1d
+         YN/RKNty+lzL1uhlZW2aceXwvVX3GrOIPh4OF95oeOYlcWZg7nCgV6MDSKUJrGN7qbhR
+         hf8ZkD4cnqbI8QbsNBvMrl50Z7w60sNMDpoXLiLwj2cwpr2SV3HhVcQ/tgcjatEcSGrr
+         YPJnqX30xWRsB6+V9bbl4vDw/n2dwJvk+ZYgVhzOxIgT2iV7Rea40k3cMLyl0H0VwCyK
+         MEsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786853743; x=1787458543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5Uj2rF2EF2u5Ttp6n1CkYp299l14iOey9vUEfQ6T0RM=;
+        b=F4TwbSAdUUNHPeFXIvbmT7A4s4tAIaFf6kfeBaR7lE4GCm8hc4iOT/oNqjC8K7k6CJ
+         ezFsxts8/eZeLKLrH5HbUEcVser2FH/wpENAxRvlkdqgCJ1NLd7OnTSQfbfsClpdspYV
+         Gk9nitnPu9o78jX6IfM9IV8gkEnqA5TnXcjT8SYbi4V/zvofFX/RMm6Vn4mthUp5u9HU
+         IIct88wjw8053t57QJXQOIAVjCWdXNc2nvBJL0jmJGlgCijdhnf/VGeZU5uEbBqogegF
+         knPGykfRk/ydNjqEdLbPVdM0a9HFATGwqrp/1WGiq1TCFzG7TwhcSttP5IRcOKflV0JC
+         S6qg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1bPyEp4dbP1r+UZj86B/AtE8m2etprF2WhHMsktRXpLw5T2sY6dVdXMjURzDprIy2cbbugSIJb6Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3TF4E/P5bn6LIBs8TrOm/baGaR43QzQPi3OqDPFbyJ/uGe6oz
+	5UaADImGLGN9nf6myoQBcWyZH0ABEitFBYCBOFjAk75Jvvg68Xz/hJ56
+X-Gm-Gg: AR+sD13lO37X1GH3j+mRvBa6xHLH0gTzOfFjWTEVmzwFvT6hXSjPRwWDlGZ7VcIbXUJ
+	uY9kkCdw/7X7LPpKo6PHh0AAdr5ih+OJzeoh/RIFhqfz8ZtJO3YvJ9LPBVoq88annac4nGi1LId
+	u2D1/fF6fUSRGRoaRai5UwGc5oldB0SK68YMF96zC6+IqmeRQ/j3ub7S3nY5CmcRWMibQYo1Qwb
+	3PO+dgI2kemDQ94/YFZdusGtq2+4AVnUoIGh3T5ak2/tZC2vTdfVTQGakI4/vBv/T5oE4TljmF/
+	mhdvP4V6T3LyTgZruqsphcyt7XZJTvru2yiv7kzZfw1IDU4r0fwG8qwfUw4a+z/vu3EHrQtQ6Rz
+	k2Xx2oilPRlzem9ZAekkbSxiW0kORfUVPoK3ZpaZ4m5MpAtoPb2ff8kFQTijSW6zemW5PfedQ3A
+	jIUjgmqYQ8PDc0AkxH630/PRUnjfF/cHRuP7QcdIXN5BKJsprNvUzqHv3GazyEvUsrigEfsjdr6
+	H75gyZOZzYcuM6BTZbm8kunyaG0Ws1E/C5QDbk3aYZ8R8MpcEKn64RphWU7YNduAXO5LopAEAft
+	ejlrFUtwbot1IikZwV91arr0sleG5mzMGJSW6WwTE/WbsngtyCjcuh5LTs49PELQFQuC1uzSvhy
+	9F8/8anujaeQZuupyN1AAtLJc
+X-Received: by 2002:a05:690e:78c:b0:66c:7332:7ca with SMTP id 956f58d0204a3-66c73320883mr4537600d50.13.1786853743090;
+        Sat, 15 Aug 2026 21:15:43 -0700 (PDT)
+Received: from localhost.localdomain (c-76-108-143-213.hsd1.fl.comcast.net. [76.108.143.213])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-836bda13fe2sm32908387b3.22.2026.08.15.21.15.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 21:15:42 -0700 (PDT)
+From: Jason Colapietro <jasoncola1@gmail.com>
+To: valentina.manea.m@gmail.com,
+	shuah@kernel.org,
+	skhan@linuxfoundation.org
+Cc: greg@kroah.com,
+	i@zenithal.me,
 	linux-usb@vger.kernel.org,
-	Mehrdad Afshari <mehrdad@signeen.com>
-Subject: [PATCH] net: usb: cdc_ncm: add Apple MacBook Pro USB product ID 0x1902
-Date: Sat, 15 Aug 2026 21:04:26 -0700
-Message-ID: <20260816040426.57132-1-mehrdad@signeen.com>
+	linux-kernel@vger.kernel.org,
+	Jason Colapietro <jasoncola1@gmail.com>
+Subject: [PATCH v5 RESEND] usbip: make remote list honor parsable output
+Date: Sun, 16 Aug 2026 00:15:18 -0400
+Message-ID: <20260816041518.48053-1-jasoncola1@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -56,58 +79,174 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-The cdc_devs[] quirk table special-cases the Mac CDC-NCM private
-interface personality only for USB product ID 0x1905.
-Some MacBook Pro models (e.g. M1 Max) connected over a
-USB4/Thunderbolt 3/4 cable to a host whose Thunderbolt controller
-lacks PCIe tunneling support (no NHI function, USB4-only mode)
-present themselves with product ID 0x1902 instead,
-using the same descriptor layout as 0x1905: a Communications
-control interface with zero endpoints (no interrupt/status endpoint)
-paired with a CDC Data interface, at
-interface numbers 0 and 2.
+The -p option only affects local devices and gadgets. Remote lists
+still print their human-readable headings and details, so scripts
+cannot parse them using the documented option.
 
-Because 0x1902 is unmatched, these devices fall through to the
-generic cdc_ncm_info driver_info, which sets FLAG_LINK_INTR and
-therefore requires an interrupt endpoint on the control interface.
-Apple's private NCM interface never provides one, so cdc_ncm_bind()
-fails outright:
+Use one file-scope flag for the list command and honor it in the remote
+listing path. Emit the same busid and usbid record used for local
+devices while continuing to consume every interface record from the
+server.
 
-  cdc_ncm 2-1:1.0: bind() failure
-  cdc_ncm 2-1:1.2: bind() failure
-
-and no network device is created, breaking Ethernet-over-USB4
-between the Mac and any USB4 host lacking Thunderbolt PCIe
-tunneling.
-
-Add matching entries for 0x1902 alongside the existing 0x1905
-ones, reusing apple_private_interface_info as with the other Mac
-ID.
-
-Signed-off-by: Mehrdad Afshari <mehrdad@signeen.com>
+Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
+Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
 ---
- drivers/net/usb/cdc_ncm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+v4 -> v5:
+- Drop Cc: stable@vger.kernel.org. This changes the user-visible output
+  of "usbip list -r -p", so it is not a stable backport candidate.
 
-diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 0223a17..35db38c 100644
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -2013,6 +2013,12 @@ static const struct usb_device_id cdc_devs[] = {
- 	},
+v3 -> v4:
+- Make parsable file-scope instead of passing it through list helpers.
+- Drop the option-ordering change to preserve existing behavior.
+
+Resend: the v5 posting did not reach the lists (rejected as HTML). No
+code changes from that posting.
+
+v4: https://lore.kernel.org/r/20260812210326.21485-1-jasoncola1@gmail.com
+
+ tools/usb/usbip/src/usbip_list.c | 48 +++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 19 deletions(-)
+
+diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
+index 3d810bcc..482f11d7 100644
+--- a/tools/usb/usbip/src/usbip_list.c
++++ b/tools/usb/usbip/src/usbip_list.c
+@@ -36,6 +36,8 @@ static const char usbip_list_usage_string[] =
+ 	"    -l, --local            List the local USB devices\n"
+ 	"    -d, --device           List the local USB gadgets bound to usbip-vudc\n";
  
- 	/* Mac */
-+	{ USB_DEVICE_INTERFACE_NUMBER(0x05ac, 0x1902, 0),
-+		.driver_info = (unsigned long)&apple_private_interface_info,
-+	},
-+	{ USB_DEVICE_INTERFACE_NUMBER(0x05ac, 0x1902, 2),
-+		.driver_info = (unsigned long)&apple_private_interface_info,
-+	},
- 	{ USB_DEVICE_INTERFACE_NUMBER(0x05ac, 0x1905, 0),
- 		.driver_info = (unsigned long)&apple_private_interface_info,
- 	},
++static bool parsable;
++
+ void usbip_list_usage(void)
+ {
+ 	printf("usage: %s", usbip_list_usage_string);
+@@ -80,9 +82,11 @@ static int get_exported_devices(char *host, int sockfd)
+ 		return 0;
+ 	}
+ 
+-	printf("Exportable USB devices\n");
+-	printf("======================\n");
+-	printf(" - %s\n", host);
++	if (!parsable) {
++		printf("Exportable USB devices\n");
++		printf("======================\n");
++		printf(" - %s\n", host);
++	}
+ 
+ 	for (i = 0; i < reply.ndev; i++) {
+ 		memset(&udev, 0, sizeof(udev));
+@@ -98,9 +102,14 @@ static int get_exported_devices(char *host, int sockfd)
+ 		usbip_names_get_class(class_name, sizeof(class_name),
+ 				      udev.bDeviceClass, udev.bDeviceSubClass,
+ 				      udev.bDeviceProtocol);
+-		printf("%11s: %s\n", udev.busid, product_name);
+-		printf("%11s: %s\n", "", udev.path);
+-		printf("%11s: %s\n", "", class_name);
++		if (parsable) {
++			printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
++			       udev.idVendor, udev.idProduct);
++		} else {
++			printf("%11s: %s\n", udev.busid, product_name);
++			printf("%11s: %s\n", "", udev.path);
++			printf("%11s: %s\n", "", class_name);
++		}
+ 
+ 		for (j = 0; j < udev.bNumInterfaces; j++) {
+ 			rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
+@@ -116,10 +125,12 @@ static int get_exported_devices(char *host, int sockfd)
+ 					uintf.bInterfaceClass,
+ 					uintf.bInterfaceSubClass,
+ 					uintf.bInterfaceProtocol);
+-			printf("%11s: %2d - %s\n", "", j, class_name);
++			if (!parsable)
++				printf("%11s: %2d - %s\n", "", j, class_name);
+ 		}
+ 
+-		printf("\n");
++		if (!parsable)
++			printf("\n");
+ 	}
+ 
+ 	return 0;
+@@ -150,7 +161,7 @@ static int list_exported_devices(char *host)
+ }
+ 
+ static void print_device(const char *busid, const char *vendor,
+-			 const char *product, bool parsable)
++			 const char *product)
+ {
+ 	if (parsable)
+ 		printf("busid=%s#usbid=%.4s:%.4s#", busid, vendor, product);
+@@ -158,13 +169,13 @@ static void print_device(const char *busid, const char *vendor,
+ 		printf(" - busid %s (%.4s:%.4s)\n", busid, vendor, product);
+ }
+ 
+-static void print_product_name(char *product_name, bool parsable)
++static void print_product_name(char *product_name)
+ {
+ 	if (!parsable)
+ 		printf("   %s\n", product_name);
+ }
+ 
+-static int list_devices(bool parsable)
++static int list_devices(void)
+ {
+ 	struct udev *udev;
+ 	struct udev_enumerate *enumerate;
+@@ -229,8 +240,8 @@ static int list_devices(bool parsable)
+ 					strtol(idProduct, NULL, 16));
+ 
+ 		/* Print information. */
+-		print_device(busid, idVendor, idProduct, parsable);
+-		print_product_name(product_name, parsable);
++		print_device(busid, idVendor, idProduct);
++		print_product_name(product_name);
+ 
+ 		printf("\n");
+ 
+@@ -246,7 +257,7 @@ err_out:
+ 	return ret;
+ }
+ 
+-static int list_gadget_devices(bool parsable)
++static int list_gadget_devices(void)
+ {
+ 	int ret = -1;
+ 	struct udev *udev;
+@@ -307,8 +318,8 @@ static int list_gadget_devices(bool parsable)
+ 					le16toh(idProduct));
+ 
+ 		/* Print information. */
+-		print_device(busid, idVendor_buf, idProduct_buf, parsable);
+-		print_product_name(product_name, parsable);
++		print_device(busid, idVendor_buf, idProduct_buf);
++		print_product_name(product_name);
+ 
+ 		printf("\n");
+ 
+@@ -333,7 +344,6 @@ int usbip_list(int argc, char *argv[])
+ 		{ NULL,       0,                 NULL,  0  }
+ 	};
+ 
+-	bool parsable = false;
+ 	int opt;
+ 	int ret = -1;
+ 
+@@ -354,10 +364,10 @@ int usbip_list(int argc, char *argv[])
+ 			ret = list_exported_devices(optarg);
+ 			goto out;
+ 		case 'l':
+-			ret = list_devices(parsable);
++			ret = list_devices();
+ 			goto out;
+ 		case 'd':
+-			ret = list_gadget_devices(parsable);
++			ret = list_gadget_devices();
+ 			goto out;
+ 		default:
+ 			goto err_out;
 -- 
-2.55.0
+2.50.1 (Apple Git-155)
 
