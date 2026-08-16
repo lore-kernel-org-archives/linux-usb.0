@@ -1,165 +1,177 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0374346766
-	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 15:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E083B19B7
+	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 15:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786895437; cv=none; b=Ti6U1ftCrNNbjkSWKiETQVkHPRz3VtEHYcE7PPOe8wvSMXsmU9gUvJ+YcsyTCi2v+03msOJMLdHufTVYfIBB5i/ZFRi5kRcvl8EH+1t6hngMdJnxS5aM3VJz9LZAIgvaqK6K74VTJr33xe2G0gIQdevV9w3Mg5Mkmhhunr8tzR4=
+	t=1786895989; cv=none; b=GEr0C2i4RuCdcCFeQ0I3rkkyE+QaVkJQA6fSufZIgoaUE3t43VLRXVZNEUk77jBSsDp7Gv59CoWiDBxr4px23YzjW5L4innn9janIAqJuIg5oEKztLSUs6462foMa6xt3omngkhiU8f+YR1x1QmlYDKuYS0P4IRVQ+0Oj3u2db8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786895437; c=relaxed/simple;
-	bh=/SnFRFWZ+e2MT0MdERjDdfGocHFBwEI3oS9OvKJuxDM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pJCLkhanHFnL6kCAV2xNGrFLhMc/nxrsza5fs9b4zCqA1tFgzYyUSdT0Hypj24fgXLU/uYOxt3Ch/M37pnlZlSIA20lEVx4QCcUmfgGopyy3Z4I+QYJiNIl6PElwRcngxMAlihEeLpjDCSNdTQAdbkNf6i2kuKPKkP3NJRlF8PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7e6b59d85dcso5303463a34.3
-        for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 08:50:34 -0700 (PDT)
+	s=arc-20240116; t=1786895989; c=relaxed/simple;
+	bh=Sw9+05Kn6CPhAWUYNlQRpu8a6dAywA6+bHc0oOe2MKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QJ1n/TWyFQ6EWjtoSQmqSINBcMQ4ZRBV7F/A/zLtqscRM9vQs1qRDzBOkjg5k8Lw8tF0Ig+2Q0FGv2m33ZMNTHmDjS4tjSWvOQDjMKASY5cxkzMM3OcEXevQKyn3/wRwJuCzanUQboL9RJ8hlV10Jw3TvVX8G4O4OXDLMrC/3pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jxZbBjoJ; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jxZbBjoJ"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a0de062db5so3983604a12.1
+        for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 08:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786895986; x=1787500786; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pAKKTUYGlatu3QmFxdyAgsxejHtc5j1LfICMpNa6Qh0=;
+        b=jxZbBjoJx8e2svs3p+xBTkv8elDP32vcn9Y32L6wHbJLY+X/JmVja2U7yQ8xypSdZO
+         YK5Wg+Sg8jC4U9dbZnZC+uv1C2jsRvXmEZfWKd/NtjOLHtf/aKl7cbfg8olFJRzwusAf
+         1dhnSTjexszCkPgx29x1Tg9kMelgk+fYgeuCHMnZyC1mQazhm2uGy5M3DnSlRwXY1LqR
+         s5c/yHpa6ADC9mFv5g3JPOnQB0vy/ARE9NiSNdjSqpAhiLxA3S8hYi7eDe6OANOc6oRq
+         aVD4d/Z/zSTT1MY8LgTg8uF93Myiv/twrM10RVqWrju+LLymniaNo1+O6aJlZjYPX2Rc
+         4mjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786895433; x=1787500233;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1786895986; x=1787500786;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4F/qYOLfXsZiQ5CWsAPa/yqxgrqMFi8Q2t/jWge6hqw=;
-        b=swbOtzDaRQIOK5ZIzKXSi/4I8fS8fbY4VYlK3UoFqU/8hGUn6OClOqy67kuQbfocnN
-         UhCdvF5h+Fjb75U58f3pMjLK7bnIlrlOZoIUz5bRxXNCtLmshaWlTUzCJ8KMkheHa1Ub
-         JmaK97ft8PJDyiOzA+CnhLTgN9tmWhhM98EkmBrOTRWXTuO49JDNm78nXPAXRadpUqM9
-         c/B561Zq5CnAZ8IX4qkXdqZe12E0sxG3oouJTglG3wH3rYv/Uw23mk9fEQQMANJn5W1w
-         xi4+IHixlacmEq9vsCYNQFSLpYk4xKjfYkf3czhUrI8LuKNcVJfmLUHXfRTqjRwiO88v
-         RBzw==
-X-Forwarded-Encrypted: i=1; AHgh+RoBnVtF7HDQpcMZkCqm6I8tqqe0zmd1O2NjYj81y08FWGSNh2cgDXMdzV8AElg7Iw1b3ZNQKmTxu+g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyovFi3MUGD2520VuUpTlb++hn9mopt5+yQ1Ecg/5Fs+DW6nu4r
-	AcbE25riCohnNn62jhqIKkqKyu3hRN8TP6Br5ZMw5C351ValtuKf/5H1Zc65/RuGoo4wAq9YX89
-	33g9BazXXIlto5Cufe7g1j68RO9WefhigYJ2mks58K45Lral45hyyr+7Cu3U=
+        bh=pAKKTUYGlatu3QmFxdyAgsxejHtc5j1LfICMpNa6Qh0=;
+        b=e+BXcL3rv/C0v77MJccys2m8elVgn/EI1IAa0lnBburSEUYPjQ8bMIOgrXoSvjT66R
+         Lc+iTcwK+jJE55/pkGV+mIZ0J/LXN6gJSXvcYsqphZDc4fJD6NVMNDaexJcZr4Y9Vhtx
+         SNfeG1/XYggET2jwbR+SyU5idZY1TALZqaFgPinC9lornDFs83VV7S3jc10XcyqaqXeJ
+         WGARRIwIMNc5NFJe00GvRPHqXOQmGnljBh3Whdn1UbFgkPBu4K0JMoSEGDa/iSI7g5x6
+         qchlzZAyjQIKNJk4FkAyahaHdYeX0mepHehW0fO9UBNY8EJpPcBu+Mld2ME1/V5Nv5tV
+         hEcQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqFJtZE3+RSz7ciCnqV8Nx5fjwAKPeF5hWY2UpkRq4cZmvqQlbnZ8tKpEhxzO68t+J4EQZaomet4dY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGO7elucNdLEXzyS+igvBvx8F7hxbTk9AWqEdWJP86VcdpDPK1
+	s4yXTkLTs9BT/05L9HGFJeVNNUE6oVLnv7jvz5KHa5vst4BUOaDYS1rZ
+X-Gm-Gg: AR+sD11FwVSRMK2xSUIdbxuag2KUkvjaEglHUSWCbK7JJfYZJlMEw6Eqh6Pw4N1r0EH
+	iQxGT6Z7Mud42RBKiJL4knAWQ5fRhz7ImDYbuzo83SpGPghD0qVhuse5vufRTscW3cPAbHUeFtn
+	IomRIvum0nbamgTBEf2UHj/6PapvSRd/I42WgkqooQPWjUDirF88VrFh1MtpmyVKE486Qo8Zs+n
+	MzL+99Vax35sbleThtZpaYSEjfY1Dcha1enuw/dQjMamBZeah427bynNAitaRqXJfRxLiYY+RfD
+	4BeXF/WjQrtV6D5g6/4lMeWtxibznqNnZ9TkBbMaZBujGYdw5dEU94PvIF9DSUs5oj/VMwP11oG
+	FBxu6Je4epsTx1evAFg4PYL1wsgsIElXvS/xiQmcup3So+j3xOzbSleI4o0jkON+vrYKPyrNgqE
+	+hTwyX/N7OTsnasIAMLisLGyogattk9WqLfWHZGqUSGyTLZnP/scGaMa8MzZpCx9/iHrQ=
+X-Received: by 2002:a05:6402:1ccf:b0:698:9e5e:5df8 with SMTP id 4fb4d7f45d1cf-6a38a903b19mr9091471a12.7.1786895985687;
+        Sun, 16 Aug 2026 08:59:45 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a38d767e3csm2931148a12.17.2026.08.16.08.59.42
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 16 Aug 2026 08:59:44 -0700 (PDT)
+Date: Sun, 16 Aug 2026 18:01:47 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: perex@perex.cz, tiwai@suse.com, kees@kernel.org,
+ chengordon326@gmail.com, jussi@sonarnerd.net, hulianqin@vivo.com,
+ i@rong.moe, g@b4.vu, cryolitia@uniontech.com, pav@iki.fi,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: usb-audio: Fix boot-time audio stuttering for
+ USB Audio device
+Message-ID: <20260816180147.2e5f01d1.michal.pecio@gmail.com>
+In-Reply-To: <20260728111309.1271834-1-zhangheng@kylinos.cn>
+References: <20260728111309.1271834-1-zhangheng@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:824:b0:694:9c71:2772 with SMTP id
- 006d021491bc7-6b0d617c8d9mr15377627eaf.16.1786895433437; Sun, 16 Aug 2026
- 08:50:33 -0700 (PDT)
-Date: Sun, 16 Aug 2026 08:50:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a81dc49.dbb3a75c.20434b.0037.GAE@google.com>
-Subject: [syzbot] [usb?] general protection fault in adsl_state_store
-From: syzbot <syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi,
 
-syzbot found the following issue on:
+Adding linux-usb.
 
-HEAD commit:    3eb40771c00a Merge tag 'soc-fixes-7.2-3' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12fc9949580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1d67342c314f228d
-dashboard link: https://syzkaller.appspot.com/bug?extid=9b195c4f412ea5c4e56a
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17334679580000
+On Tue, 28 Jul 2026 19:13:09 +0800, Zhang Heng wrote:
+> This USB Audio device (0x1e0b:0xd01e) exhibits audio stuttering
+> during boot when playing audio. Once the system is fully booted,
+> playback is normal.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
+Weird, your thread runs horribly slowly (preempted by something despite
+spin_lock_irqsave held by xhci-hcd?) during those URB submissions. It's
+first time I actually see this warning:
 
-cxacru_cm: 3 callbacks suppressed
-cxacru 5-1:1.0: send of cm 0x85 failed (-104)
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
-CPU: 0 UID: 0 PID: 6032 Comm: syz-executor219 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:adsl_state_store.cold+0x5d/0x15d drivers/usb/atm/cxacru.c:359
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 74 05 e8 a3 89 27 01 48 8b 6d 78 b8 ff ff 37 00 48 c1 e0 2a 48 8d 7d 10 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e d5 00 00 00 8b 75 10 89 da 48
-RSP: 0018:ffffc900038e7bb0 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: 00000000ffffff98 RCX: ffffffff87c43ce9
-RDX: 0000000000000002 RSI: ffffffff8153789d RDI: 0000000000000010
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 00000000ffffff98 R11: ffffffff81d6107c R12: ffffc900038e7be8
-R13: 0000000000000004 R14: ffff8880478ad800 R15: 1ffff9200071cf79
-FS:  000055558821b400(0000) GS:ffff8880d5bde000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000560168e483b8 CR3: 00000000361a1000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- dev_attr_store+0x58/0x80 drivers/base/core.c:2505
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7ff46eca73de
-Code: 08 0f 85 f5 e2 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 90 41 57 41 56 4d 89 c6 41 55 4d 89 cd 41 54 55 53 48 83 ec 08
-RSP: 002b:00007fffbb5e0ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 000055558821b400 RCX: 00007ff46eca73de
-RDX: 0000000000000004 RSI: 00007ff46ecf2074 RDI: 0000000000000005
-RBP: 000055558821d890 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff46ecf4540
-R13: 0000000000000000 R14: 0000000000000005 R15: 00007ff46ecf4590
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:adsl_state_store.cold+0x5d/0x15d drivers/usb/atm/cxacru.c:359
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 74 05 e8 a3 89 27 01 48 8b 6d 78 b8 ff ff 37 00 48 c1 e0 2a 48 8d 7d 10 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e d5 00 00 00 8b 75 10 89 da 48
-RSP: 0018:ffffc900038e7bb0 EFLAGS: 00010202
+[    9.654586] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5154, index 13) beyond range (645, 1539)
+[    9.654589] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
+[    9.655053] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5158, index 14) beyond range (645, 1539)
+[    9.655055] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
 
-RAX: dffffc0000000000 RBX: 00000000ffffff98 RCX: ffffffff87c43ce9
-RDX: 0000000000000002 RSI: ffffffff8153789d RDI: 0000000000000010
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 00000000ffffff98 R11: ffffffff81d6107c R12: ffffc900038e7be8
-R13: 0000000000000004 R14: ffff8880478ad800 R15: 1ffff9200071cf79
-FS:  000055558821b400(0000) GS:ffff8880d5cde000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb3d476b0f5 CR3: 00000000361a1000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	48 89 fa             	mov    %rdi,%rdx
-   3:	48 c1 ea 03          	shr    $0x3,%rdx
-   7:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   b:	74 05                	je     0x12
-   d:	e8 a3 89 27 01       	call   0x12789b5
-  12:	48 8b 6d 78          	mov    0x78(%rbp),%rbp
-  16:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
-  1b:	48 c1 e0 2a          	shl    $0x2a,%rax
-  1f:	48 8d 7d 10          	lea    0x10(%rbp),%rdi
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax <-- trapping instruction
-  2e:	84 c0                	test   %al,%al
-  30:	74 08                	je     0x3a
-  32:	3c 03                	cmp    $0x3,%al
-  34:	0f 8e d5 00 00 00    	jle    0x10f
-  3a:	8b 75 10             	mov    0x10(%rbp),%esi
-  3d:	89 da                	mov    %ebx,%edx
-  3f:	48                   	rex.W
+If packet 14 was scheduled for frame 644, packet 0 must have been
+frame 643 i.e. uframe 5144 (should be frame aligned). So packet 14 was
+uframe 5158 - it was only being written to HW while it was already
+due for execution, some 2ms after usb_submit_urb() began. ???
 
+URB execution won't even start until all packets are written - we do
+take care to queue URBs atomically. Initial part of this URB (before
+the warnings) will complete with -EXDEV status due to blatant isoc
+scheduling threshold violation, but the rest (with SIA bits) will be
+delayed by HW and completed normally after submission finishes.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+The same may happen to the next URB if the condition which caused this
+persists, and moreover, the next URB may be scheduled with a gap after
+the previous one.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+IDK how snd-usb-audio would react to such a mess. It is believed, at
+least by the USB subsystem, that drivers expect contiguously submitted
+URBs to execute in contiguous service intervals, without gaps.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+FYI, a lot of this xhci-hcd logic is considered broken and goes out
+the window in v7.3. I'm curious if you could test how things work on
+usb-next without (and maybe also with) your workaround code.
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/log/?h=usb-next
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+This removes the automatic conversion to SIA/ASAP and insertion of gaps
+between URBs, so that the initial URB will likely wholly complete with
+-EXDEV and the next one will be scheduled immediately after it.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+Again, what snd-usb-audio will think about it IDK, but usb-next mostly
+works for me in my test (one remaining exception I'm trying to fix).
 
-If you want to undo deduplication, reply with:
-#syz undup
+> The device reports its isochronous endpoints with the Asynchronous
+> sync type (bmAttributes = 0x03), which causes the driver to
+> calculate nurbs = min(max_urbs, ...) = 3, providing only ~16ms
+> of buffering. During boot, the higher system scheduling jitter
+> (e.g., from init scripts, device enumeration, and driver probing)
+> can exceed this buffer depth, causing audible stuttering.
+
+Not sure what causes it, xhci-hcd holds a spin_lock_irqsave() during
+the whole submission, so I think it shouldn't get preempted.
+
+> This patch adds a device-specific quirk (QUIRK_FLAG_PLAYBACK_URB_FIXUP)
+> that applies two changes for this device:
+> 1. Forces nurbs to MAX_URBS (12), providing sufficient buffering
+
+I actually wonder why snd-usb-audio seems to allocate only one URB per
+period and then submit URBs shorter than a period. Doesn't this mean
+that all URBs may be busy without covering the whole playback buffer,
+and then newly written samples have nowhere to go until one completes?
+
+This seems to increase risk of URB queue underrun, though TBH I tried
+increasing 'nurbs' and I haven't seen much practical difference running
+with very low latency like 2x250us or 2x500us.
+
+Note: on USB 3.1 and newer such settings may only work on usb-next.
+
+> 2. Sets URB_ISO_ASAP flag for more consistent xHCI scheduling
+
+URB_ISO_ASAP or xHCI SIA do the opposite of consistency - they cause
+execution to be delayed until the URB is written to the HW and the HW
+reaches it.
+
+Non-ASAP submissions are scheduled contiguously and possibly complete
+with -EXDEV if submitted too late. Only after the last completion of
+the last remaining URB returns, will the next URB be scheduled
+separately and discontiguously, to execute in some (near) future.
+Again, this is documented usb_submit_urb() rule and it's believed that
+drivers expect it. It's how OHCI/UHCI/EHCI drivers work.
+
+Using ASAP is a known workaround for the old xhci-hcd bugs, similar
+patches have been sent to linux-usb, that's why it's being fixed. But
+IDK if usb-next will solve your bizarre edge case out of the box.
+
+Regards,
+Michal
