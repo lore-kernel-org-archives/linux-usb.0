@@ -1,148 +1,109 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cae.in-ulm.de (cae.in-ulm.de [217.10.14.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EAF3DEAC0;
-	Sun, 16 Aug 2026 10:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3A333D6ED;
+	Sun, 16 Aug 2026 13:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.14.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786877121; cv=none; b=XYMjID4NpPOHUQoC9sawXiE7W6jHV/X4Atyk/v7QxrKpKrvE88EebY/aIomNYjvOS1IER8s6cFXmMT6MPPSstOxIm37QDi22v6lg2X0I9v3rdx//5SNLAem4ug6K3H60VtM93Crw0cxPPtTvwVq4Zj8yINtSl71NP67nRhxv0Fc=
+	t=1786887849; cv=none; b=ZZvforiR6lnGkEawZt3t70OU72GXKYvXISye7yeUJZMfKkUl8AHDJ8dgnz/S/zBbyHS3TuQIyzt+bj5sPcW5H8tuuuQrwwu0Xciq+dXpuHzeDbfXu58WolNkt3g7OCVLzzegvKQXlfm/53eth9ACT8a/12qzkDtS17GIHWu+MB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786877121; c=relaxed/simple;
-	bh=VBBRBhYNyAIINV8g13Bp95XFGJdb782H2BTytJfQwUk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XnbmGw9QUugaICVs8hRuUZLx33PW6LkW4qL0+VGrY44Ry77Re+h2wTbQEyT8tSnm8koU4z1BF0OD9lL+FrP+VmszQZsDH0yTlWggsApCtC9N+bJ9JV4rPjBSUN+CJKkdb/QOKgrtLHxrgxNZhEtP4lCCWTpEbLXqmnFiEGtF7go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ha7XXt1S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ToK+YGa4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C9reJAeg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jd/GeASw; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ha7XXt1S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ToK+YGa4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C9reJAeg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jd/GeASw"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4163C3E25;
-	Sun, 16 Aug 2026 10:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786877043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xsd0giZowRyO7s6xgALZUr1zoOCjQCgaiy9LzKVAnbY=;
-	b=ha7XXt1SPCwKEpCNyLK3A4y26BGS1JwebpNFdTBqLppyRQljU/12NpSlefAZIa4vvlI1qQ
-	Kl45WGXUV3Y02pY+wdNNNQszJzYtfD9+a20Myu0nKhq+5WzbHn9yKwKQLGpQ8t525pIlWB
-	omZWzZm7q6LH4Eiu6y4z3f2z29f0Ixw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786877043;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xsd0giZowRyO7s6xgALZUr1zoOCjQCgaiy9LzKVAnbY=;
-	b=ToK+YGa4HHJkmgsYhBePKkfG8loWFlm2dcMv/HoFfpdERhvVNYgrz3ka1hP0HSpVkNdoiO
-	kj7JiiUgKlABiCBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786877039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xsd0giZowRyO7s6xgALZUr1zoOCjQCgaiy9LzKVAnbY=;
-	b=C9reJAegS7k+sO6ugiaoeKohnIul2ufC+3Ly5XwS/lz74rtQbdX0YWhce3p3KrGV+L+T1W
-	PGS1PZt4EwFdrii56L89xehiWM4KKtN6LeqwfjI2g/Ur4ZpIDq+yTAXWCSJ6hIbxpqO/eb
-	gdHr5J7FsP2rwlb3BqK9+XWwpuKce1g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786877039;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xsd0giZowRyO7s6xgALZUr1zoOCjQCgaiy9LzKVAnbY=;
-	b=jd/GeASwNMJ6pDkzkYuNLFxoKzq/qjRgGcNyh6MlMC5RgFGyWIMkhW7Y+ZSeqlp4EJckd3
-	Zm6oxTlJNjxNGICg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7298B78E6C;
-	Sun, 16 Aug 2026 10:43:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id np/WGW6UgWo+bAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 16 Aug 2026 10:43:58 +0000
-Date: Sun, 16 Aug 2026 12:43:58 +0200
-Message-ID: <87wltqcpld.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jeffin Philip <jeffinphilip14@gmail.com>
-Cc: gregkh@linuxfoundation.org,
-	victor.krawiec@arturia.com,
-	fanwu01@zju.edu.cn,
-	christophe.jaillet@wanadoo.fr,
-	kees@kernel.org,
-	balbi@kernel.org,
-	tiwai@suse.de,
-	dave@stgolabs.net,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+d5fa3d224505c8610702@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: gadget: f_midi: initialize work in f_midi_alloc()
-In-Reply-To: <20260815054006.102325-1-jeffinphilip14@gmail.com>
-References: <20260815054006.102325-1-jeffinphilip14@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1786887849; c=relaxed/simple;
+	bh=8A72cVi742LH7B2tGx7/9tALN32SJtPy83JCLmt9Rxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WgwSKckTrkH9Gm5/4jNTTnOLRwSjo4OH7PLShjiQQSG4m5TRYWA0pCAvytH2NVZdeVqrljiPr4UUDIZPp+aYbEN3b4e780p5NAW0mFcvCP8F/QqlkaVZqhBODcVVp9RlhOutSeoSWXxiFKP+Od/eGdm8OYf6TM7zbmp4iKEFlrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de; spf=pass smtp.mailfrom=c--e.de; arc=none smtp.client-ip=217.10.14.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=c--e.de
+Received: by cae.in-ulm.de (Postfix, from userid 1000)
+	id BDD6D140155; Sun, 16 Aug 2026 15:35:59 +0200 (CEST)
+Date: Sun, 16 Aug 2026 15:35:59 +0200
+From: "Christian A. Ehrhardt" <lk@c--e.de>
+To: William Bright <william.bright@imd-tec.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Handle connectors already attached at
+ init
+Message-ID: <aoG8vy8upZhuLsQV@cae.in-ulm.de>
+References: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[d5fa3d224505c8610702];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,wanadoo.fr];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,arturia.com,zju.edu.cn,wanadoo.fr,kernel.org,suse.de,stgolabs.net,vger.kernel.org,syzkaller.appspotmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,syzkaller.appspot.com:url]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813-ucsi-cold-v1-1-72896abf51c5@imd-tec.com>
 
-On Sat, 15 Aug 2026 07:40:06 +0200,
-Jeffin Philip wrote:
+
+Hi William,
+
+On Thu, Aug 13, 2026 at 10:38:40AM +0100, William Bright wrote:
+> After a cold boot the PPM may already have a partner attached without a
+> pending connector change to report. On a CYPD6125 the CCI register reads
+> back 0 in ucsi_init(), so ucsi_connector_change() is never called and the
+> Type-C mux is left unconfigured for the already-attached port.
 > 
-> f_midi_alloc initializes free_ref to 1 and it can only be incremented
-> when a sound card is registered via f_midi_register_card().
-> f_midi_register_card() is only called in f_midi_bind() which actually
-> performs INIT_WORK. If f_midi_bind() is never run, work is not
-> initialized and the if condition in f_midi_free becomes true,
-> this results in a warning later in __flush_work as work->func = 0.
-> Fix this by moving INIT_WORK from f_midi_bind() to f_midi_alloc().
+> Fix this by additionally checking the connector status of every
+> connector and call ucsi_connector_change() for connectors that are
+> already attached. Whilst also continuing to call ucsi_connector_change()
+> for connectors that report a change via the CCI register.
+
+I'm not sure if this is the right thing to do.
+
+First, there is code in ucsi_register_port() that is supposed to
+handle the case where a connection is already present. I wonder
+why that does not work for you?
+
+> Fixes: ce4c8d21054a ("usb: typec: ucsi: Fix connector check on init")
+> Signed-off-by: William Bright <william.bright@imd-tec.com>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> Reported-by: syzbot+d5fa3d224505c8610702@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=d5fa3d224505c8610702
-> Fixes: 8653d71ce376 ("usb/gadget: f_midi: Replace tasklet with work")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index ecbda2a3783c..740ae4a14f7f 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -2136,8 +2136,11 @@ static int ucsi_init(struct ucsi *ucsi)
+>  	mutex_unlock(&ucsi->ppm_lock);
+>  	if (ret)
+>  		return ret;
+> -	if (UCSI_CCI_CONNECTOR(cci))
+> -		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
+> +
+> +	for (i = 0; i < ucsi->cap.num_connectors; i++)
+> +		if (UCSI_CONSTAT(&connector[i], CONNECTED) ||
+> +		    UCSI_CCI_CONNECTOR(cci) == i + 1)
+> +			ucsi_connector_change(ucsi, i + 1);
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
+ucsi_connector_change() really is supposed to handle an actual event.
+The second call to the function will be a NOP because EVENT_PENDING
+is already set. So your fix only works for one established connection.
 
+Additionally, calling ucsi_connector_change() will set
+EVENT_PENDING which in turn will cause the next ACK to include
+UCSI_ACK_CONNECTOR_CHANGE which acks a connector change event
+that never happend. That is, unless such an event did happen in the
+mean time. In this case you will ACK the event without handling
+it.
 
-thanks,
+Also, I seem to recall that some backends don't like it when you
+ACK something that did not happen.
 
-Takashi
+Best regards,
+Christian
+
+>  	return 0;
+>  
+> 
+> ---
+> base-commit: 55431f6adac42f818a0c76594ce2c6c02fe1034d
+> change-id: 20260813-ucsi-cold-b35e11991b7c
+> 
+> Best regards,
+> -- 
+> William Bright <william.bright@imd-tec.com>
+> 
+> 
