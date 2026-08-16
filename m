@@ -1,202 +1,213 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8543124E4C6
-	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 18:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F027D33938C
+	for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 20:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786904168; cv=none; b=hIZJG8Uv4R2ZhPeAF5HKxCuckenPi9XnlUzafjigMccEKc2vy+iVSwe8V2BwK2am6peoC7wB+JJWy4iD1FPFD3GSG4b79BtfkwzsbJG5RJQ3PF3Zs+XVjZCMw2eoS/F+bFMS6jWQFmPMs98xZVecRfwA3Kkpkn4Pecvd5uChNLQ=
+	t=1786910475; cv=none; b=Cz2XpH+z+l93TWjRPMoaRA3ThZRM2wOvQMmnf9EvAHzu8vhnBdsfUmRs/kohY6pVhTYko1mHfBCKimIkG1klFyxE0govpZE5SY/u6HO+ISCRf2AYbFfKl0BC3J9tdW3/R/aDgGx6cdE2jur/Zf8S4EmLz+VUwhGQkM5/nH+PxyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786904168; c=relaxed/simple;
-	bh=oW8WDtEKirvx0mPOlGeZsjJBr0GaF+eKT6gExnakevs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ta6VO0qEzvDRufHBiZIIy/LgV1oSVOtdwoSpS8Iw4zlXAGcprEXpfj7kI9qY/Oz6oXKqk2E2MngB3+u39RdfGR7ODkZdc3ZLjFMED2tM42hDeAZ4PdQK82OQxHz2K4pho6MAiyClDaJR9/qwhVHZ7Tfsx0P4bvil4nfRC8P6O+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GS0334FR; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1786910475; c=relaxed/simple;
+	bh=78/nuNzPt4uU4JcK086ubaceGsR5Qkebr1ixbFJAhXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HTIQKqDsv/uRmHL7gE4jQ5LhnUD/FXoE3Gpg4HfXyQVgvxdBR/iba6jjfjfMZxpeTZJjPTHEG5CuAraEQ6/nQmySVkMWdVPuujYH3fS/wZXasjoH07AEe+i75OJG2ioiAB+V6j8hkS1m7GVjfi/0Qd5ysbEG2gvpPowMuMhttrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=phFwyrPN; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS0334FR"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-394f4397662so151728a91.1
-        for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 11:16:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="phFwyrPN"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c2055f5a993so313297666b.2
+        for <linux-usb@vger.kernel.org>; Sun, 16 Aug 2026 13:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786904166; x=1787508966; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FFfDkrfxwy7hG8CK5T75q58k3ed4tHaImnic4A+OQwE=;
-        b=GS0334FR/HauLMhp9YiFZWzxCQI0kCMtwlLhTxMSGuWFHttL8bsyfo9iZMqZYsWyp6
-         Roh4rkFqHJEDzNwdhueH2/xHvnmj8CP2vWMxa9lUMI00SLS4HxjIlatE5RaSuoDkr6SN
-         ITdML8ltI9PaG1S76RExdS/8zlY8yDjMzkQ626p8JfH1AcZ8/drxL3zacb0v57XdmvqL
-         j5+uNjM08UvlLHgfpDXu6CCw7YT9QLlX6ToPGU63fqMc/1EK25JBJ/8cttNhJrU9+g05
-         YvYanLyq7DlmgxWaOtQ3Z1f1sqXzXuenuAcfNHUdKTpeu1vw+kVSfCgKmyAivKV/Er1b
-         YyVw==
+        d=gmail.com; s=20251104; t=1786910471; x=1787515271; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HVK0VUvQpxU/PuZtFJZXm6xx2UqmZ44Az9dSUfrFhas=;
+        b=phFwyrPN5i95leUanjsrNN1VFamOh4v/HecdLTFDblDYcBHP4cU1vt1ad/2MZqBb4v
+         uc1Huw4ZdMvAu16XM74a2Lmz50E5oRbQQTvgsfc4dktEzRYISl0WTK1ixMJ0zYjKiX4o
+         cdwX12hWN9YkXuHnDSrFMuYbP+YutZ2xcnoXC++fhZxW6VxqsPsbTVvXY257bmZhbeRP
+         S6D4egKe6DpbwrwtNN1Fueqfo/jk0ED68Jo4l3T5ZWzyHQvXks3WdAwpbZ+ClpijdtSd
+         j3sbVQ+BgTJR6H3LTGBPZVLYgCvPo6bQerjId0ymVSOSfUQ+rmeGYPvsZxiD309Gf1Hq
+         sFcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786904166; x=1787508966;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FFfDkrfxwy7hG8CK5T75q58k3ed4tHaImnic4A+OQwE=;
-        b=qFRkvCLG6uvYJcdCqMvgqndf6wvd6FI2i7RV1tA7oSoc0gmW1SjyQ8xpAcZARLe25S
-         yDepVC58zawlUctP12xpWxXBPyKArMG4hsZz5/6dmjnvc9oeQixVIDkmveY66dj45Nri
-         6Q6bwTz6UVK/smUVBnwLnGquuK+XG8MQA/KdGYkOg9aHoxPa0ytUA8NNgCO+M34ewJB5
-         pItXZF1NJdvPZmTuxSAEeUgT+WPlgLCp6yF9ewZ8rDI/d+lE8gEd4J8KBiugrob+47o3
-         fHAZl0B1AJRUSJeGY+0uFUdsOr+xHmJHK+CpzLCE6p9Sk9iXR7FOZ2AOHke0+ZK/nqhI
-         /4LA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpt8qCBKSC/C9tetA7Th2eQw059zsrWkUuLBbOKtAUWtXDeA6Z5ud8jV+eJPKD6M+FuiW7rQ0Sj19M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjLyXF7bf3LzjGyzDpSoV/KauKa3uHNxLnXSn/W2609A9/Uo66
-	+FxCT9pz5wDg0/fla4ZtjyydpTxQ8+BOiON0y3HQ5+SVlDx6elc+78hH
-X-Gm-Gg: AR+sD136wMgpHmLrfMUEp5c9QWx473dHwb6E/xR64s+CMXidHVzuRis9srObo9yLqLC
-	XrSko+reEMZwWRLIakGxIyb/qBuVGRfSukzJfCsCnuiRIQsBk8+SWb8lsTQZmQ6YTdcfDpYzb9u
-	N5bg2svdk0lzXUP431pm/d/BF/Y/z5KkNk65z32W08PD9vU17J3t6pxjB0i6Mq6iE17r3DDS4Nt
-	zAMjO1AFoiCCxJjhb+bWPUA28szDygaK4ly1zGfptOqff3n1mHPjiSMSKUevSX+mGVn7xN2JBhk
-	jl09PD45qS58vE5Ng+/YRCInhA8DUAHm4rzT2+md7CBlssPqtCwYLhcKq9vZvrRdi5ZMx2T3n5+
-	ubDo2WGHYHae5rD0oM/S0wv8Z/QOq421ljVAqMXmakOK3P+MFRMn4veFq0T7mZXetbBXzs11Urs
-	hSxtQXR7xZwhnzHq66oSPLJFndTT3J2L2hRzrUTVsJN6MdXj1PTNNsaYb8nxIZg5WnmZZ9Rll+v
-	YyoqA7WhTTh5iruHcTRcI8u2pZ+I8ld7JtDLIxIbTaXY2f1MPuP2zGrvsO7yz+NDFpIyULTXB0F
-	OYMrf+YvhBw2qkAv
-X-Received: by 2002:a17:90b:5444:b0:381:bcfb:e710 with SMTP id 98e67ed59e1d1-3933b8e2befmr14552562a91.3.1786904165699;
-        Sun, 16 Aug 2026 11:16:05 -0700 (PDT)
-Received: from localhost.localdomain (c-98-47-46-163.hsd1.ca.comcast.net. [98.47.46.163])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141387ed5b1sm55015503c88.8.2026.08.16.11.16.04
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 16 Aug 2026 11:16:05 -0700 (PDT)
-From: Rishabh Jain <rishabh.jain1198@gmail.com>
-To: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mario Limonciello <superm1@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Rishabh Jain <rishabh.jain1198@gmail.com>
-Subject: [PATCH v2] usb: pci-quirks: always assert xHCI OS ownership
-Date: Sun, 16 Aug 2026 11:15:19 -0700
-Message-ID: <20260816181519.88865-1-rishabh.jain1198@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1786910471; x=1787515271;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HVK0VUvQpxU/PuZtFJZXm6xx2UqmZ44Az9dSUfrFhas=;
+        b=O8wg7RLykTIBt2rvsGX12Pm+FCDylrHLF3/l2Tv988LvKxU8p5kyBhthsHEm1go92q
+         eWZflb7tT7k6YpP5OWF7FcGRPXcBkcmheK/oooK7TnVVvmRR0etR7vFqK+AJqOXp1Q0Z
+         X3UdCMx/A6AhfhYd1YS5XS1nsRJI4JrzcM+FwKQHJm7JekUSu9GE3HWaXfBL/TqGFo9j
+         iUE41Q6cUbfEM12dJHQv5LWHxwPt7wnGqjKyzkO0cArSDkb4ksGX4oQOR4mBBVQKvNQO
+         GW3yt+anE8Q9EPimf0TRbJj1WyRwgI7ApLqqij3VIt5e4rCkt6MD1tIGojt/BclcnGGL
+         KoeA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqg1sATWB8UjVtsUEyWT6w1VmEc/E3Gx7rSGhx0DRQDPvJ5eDW1w8OJW0Q3G9IAWnVTfpL1GGNNsF4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywhaXo4IVUryJbO4m18vG5HwDadHMzQ4G0fA8lhEslsf5FAScR
+	onI+If6NiJNjeOlWGBgrLpPCC0TzB5B6zqtRzD5alh9H5WXMDqCTUErb
+X-Gm-Gg: AR+sD10N9yDUkaYcFJzXvvtiZZO5LAqoni7ygy3lIAdA7oAIIvtau9siWiOF9STkIIl
+	p2323MikpOuGyPnh7Gf2tQv2PAKGq9OleLkxtPcDkRfFiHWjXndWni1VH/PdIde/gXwQEbJR7gg
+	oA+YITJOF7xgV4lUR1l+vgAg/LS6+lSfnLbQFYY7J3yPOtaSD8brznuHc/Xfg2VsMJaOtBcqrvA
+	DxNv+tP9juKgm0rB7MAy+Bsh0qFF3LVLvfsCPqgfpdBA+8icLZFUq2QYTGMkm16Jq/4uJpQvyQ7
+	maPeMBPQDD62ose08tpLX008wCYEGt7Me/AhcM5oto3SxkJ3W7X5ZP4lpuVIwBjeczlj24gfcdH
+	174PA6zej8vxK08SWwg8jIEvcZCL8rASRY9DTM3i09i1hYN6mfOtzQam0iqjacrEwJRj+uPmSQm
+	ha0vBfrQgBPp2NUWLYorEGqbyNuMALpAoj6vCUozkkDcJBHCtKUVf/b3hmGmWw7tFdl0U=
+X-Received: by 2002:a17:906:fe43:b0:c20:88a6:8210 with SMTP id a640c23a62f3a-c2129be1502mr1020404866b.9.1786910470813;
+        Sun, 16 Aug 2026 13:01:10 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a38d79e437sm3098303a12.31.2026.08.16.13.01.08
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 16 Aug 2026 13:01:09 -0700 (PDT)
+Date: Sun, 16 Aug 2026 22:03:06 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Rishabh Jain <rishabh.jain1198@gmail.com>, Mathias Nyman
+ <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] usb: pci-quirks: always assert xHCI OS ownership
+Message-ID: <20260816220306.64c615f2.michal.pecio@gmail.com>
 In-Reply-To: <69fdc442-a4f2-42e0-80f6-6b35cbc207bf@kernel.org>
-References: <69fdc442-a4f2-42e0-80f6-6b35cbc207bf@kernel.org>
+References: <20260815014534.77850-1-rishabh.jain1198@gmail.com>
+	<69fdc442-a4f2-42e0-80f6-6b35cbc207bf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The xHCI ownership protocol requires the OS driver to assert the HC OS
-Owned semaphore before using the host controller, then wait for HC BIOS
-Owned to clear if firmware owns it.
+On Sun, 16 Aug 2026 11:33:56 -0500, Mario Limonciello wrote:
+> On 8/14/26 20:45, Rishabh Jain wrote:
+> > The xHCI ownership protocol requires the OS driver to assert the HC
+> > OS Owned semaphore before using the host controller, then wait for
+> > HC BIOS Owned to clear if firmware owns it.
+> > 
+> > quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS
+> > Owned is already set. If firmware leaves BIOS Owned clear, Linux
+> > uses the xHC while both ownership semaphores remain clear.
+> > 
+> > On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
+> > resume to terminate Controller Restore State with USBSTS 0x401.
+> > Linux then reset the host controller, both root hubs and the USB
+> > Bluetooth adapter.
 
-quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
-is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
-while both ownership semaphores remain clear.
+Not sure if this has anything to do with PROM21, or if some BIOS
+is just trying to use the xHC at resume because it's permitted to.
+Then it makes too many changes for Restore State to still work.
 
-On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
-resume to terminate Controller Restore State with USBSTS 0x401. Linux
-then reset the host controller, both root hubs and the USB Bluetooth
-adapter.
+Potentially, such bugs may have happened and been left unsolved or
+"solved" with RESET_ON_RESUME quirks and other hacks.
 
-The controller entered resume ready and halted with USBSTS 0x1.
-Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
-device contexts and command, event and transfer rings were verified not
-to cause the restore error.
+> > The controller entered resume ready and halted with USBSTS 0x1.
+> > Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
+> > device contexts and command, event and transfer rings were verified not
+> > to cause the restore error.
+> > 
+> > Asserting only HC OS Owned changed USBLEGSUP from 0x00000801 to
+> > 0x01000801 and eliminated the restore failure across four S3 cycles,
+> > including a stock-kernel test. Clearing USBLEGCTLSTS was independently
+> > verified to be unnecessary.
+> > 
+> > Always assert OS Owned when the xHCI Legacy Support capability is
+> > present. Use the independently accessible ownership byte so firmware
+> > can update BIOS Owned without racing a 32-bit read-modify-write. Keep
+> > the existing BIOS handoff wait and legacy SMI cleanup unchanged.
+> > 
+> > Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
+> > Tested-by: Rishabh Jain <rishabh.jain1198@gmail.com>
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
+> > ---
+> > Additional context:
+> > 
+> > * Kernel Bugzilla #216470 documents the same USBSTS 0x401/reinitialize
+> >    behavior and its impact on attached USB devices:
+> >    https://bugzilla.kernel.org/show_bug.cgi?id=216470
+> > 
+> > * Commit a7d57abcc8a5 ("xhci: workaround CSS timeout on AMD SNPS 3.0
+> >    xHC") is related workaround history: it tolerates a distinct AMD CSS
+> >    timeout and resets the controller on resume:
+> >    https://github.com/torvalds/linux/commit/a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
+> > 
+> > The external reports do not record their ownership semaphore values but
+> > are included as corroborating failure signatures that this might fix.
+> > 
+> > drivers/usb/host/pci-quirks.c | 12 +++++++++---
+> >   1 file changed, 9 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+> > index 0404489c2f6a..d76a4791b8f5 100644
+> > --- a/drivers/usb/host/pci-quirks.c
+> > +++ b/drivers/usb/host/pci-quirks.c
+> > @@ -1185,6 +1185,14 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+> >   		dev_warn(&pdev->dev, "xHCI controller failing to respond");
+> >   		goto iounmap;
+> >   	}
+> > +
+> > +	/*
+> > +	 * The OS ownership semaphore must be asserted while the OS owns the
+> > +	 * xHC, even if firmware did not assert the BIOS ownership semaphore.
+> > +	 * Update only the OS ownership byte to avoid racing with firmware.
+> > +	 */
+> > +	writeb(readb(base + ext_cap_offset + 3) | BIT(0),
+> > +	       base + ext_cap_offset + 3);  
+> 
+> I'm assuming you are actually meaning XHCI_EXT_CAPS_PM for the 3 here. 
+> Why are you doing all this math?
+> 
+> We already have the defines XHCI_HC_OS_OWNED, can't you just use that?
+> 
+> And for that matter it sounds like you are really proposing to just 
+> remove this check but adding more complexity in the process.
+> 
+> 	if (val & XHCI_HC_BIOS_OWNED)
 
-Asserting only HC OS Owned changed USBLEGSUP from 0x00000801 to
-0x01000801 and eliminated the restore failure across four S3 cycles,
-including a stock-kernel test. Clearing USBLEGCTLSTS was independently
-verified to be unnecessary.
+All explained by the comment above and xHCI 4.22.1.
 
-Always assert OS Owned when the xHCI Legacy Support capability is
-present. Use the existing ownership masks with a single initial register
-read/write, and leave a debug breadcrumb when firmware owns the
-controller. Keep the existing BIOS handoff recovery and legacy SMI
-cleanup unchanged.
+Though curiously, while HW is required to enable doing the sensible
+thing, the spec doesn't clearly state that SW must actually do it...
 
-Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
-Tested-by: Rishabh Jain <rishabh.jain1198@gmail.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
----
-Ah, agreed, I didn't see XHCI_HC_OS_OWNED is defined! The +3 in v1 was
-for selecting byte 3 of USBLEGSUP.
+And BTW, I checked if any of my HCs refuses to honor DWORD writes to
+this register to protect SW from itself, but none does.
 
-I've simplified v2 to use the existing ownership masks, one initial
-read/write (makes sense to batch the writes), and the debug breadcrumb
-you suggested.
+> I guess the way I would do this is at least leave a debug breadcrumb
 
-Changes in v2:
-- Use XHCI_HC_OS_OWNED instead of byte-offset access.
-- Fold the TI/Renesas forced handoff into the ownership-register write.
-- Add a debug breadcrumb when BIOS ownership is initially set.
-- Make the BIOS handoff wait unconditional and gate recovery on the initial
-  BIOS ownership state.
+Is anyone ever going to look at that pci_debug()?
 
-Additional context:
+If it works, who cares if it was claimed by the BIOS or not.
+If it doesn't, you know that it was. And the full register is dumped.
 
-* Kernel Bugzilla #216470 documents the same USBSTS 0x401/reinitialize
-  behavior and its impact on attached USB devices:
-  https://bugzilla.kernel.org/show_bug.cgi?id=216470
-
-* Commit a7d57abcc8a5 ("xhci: workaround CSS timeout on AMD SNPS 3.0
-  xHC") is related workaround history: it tolerates a distinct AMD CSS
-  timeout and resets the controller on resume:
-  https://github.com/torvalds/linux/commit/a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
-
-The external reports do not record their ownership semaphore values but
-are included as corroborating failure signatures that this might fix.
-
- drivers/usb/host/pci-quirks.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index 0404489c2f6a..29e635a036a6 100644
---- a/drivers/usb/host/pci-quirks.c
-+++ b/drivers/usb/host/pci-quirks.c
-@@ -1185,31 +1185,31 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
- 		dev_warn(&pdev->dev, "xHCI controller failing to respond");
- 		goto iounmap;
- 	}
-+
- 	val = readl(base + ext_cap_offset);
-+	if (val & XHCI_HC_BIOS_OWNED)
-+		pci_dbg(pdev, "BIOS owns xHCI HC\n");
- 
- 	/* Auto handoff never worked for these devices. Force it and continue */
- 	if ((pdev->vendor == PCI_VENDOR_ID_TI && pdev->device == 0x8241) ||
- 			(pdev->vendor == PCI_VENDOR_ID_RENESAS
- 			 && pdev->device == 0x0014)) {
--		val = (val | XHCI_HC_OS_OWNED) & ~XHCI_HC_BIOS_OWNED;
--		writel(val, base + ext_cap_offset);
-+		val &= ~XHCI_HC_BIOS_OWNED;
- 	}
- 
--	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
--	if (val & XHCI_HC_BIOS_OWNED) {
--		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
-+	val |= XHCI_HC_OS_OWNED;
-+	writel(val, base + ext_cap_offset);
- 
--		/* Wait for 1 second with 10 microsecond polling interval */
--		timeout = handshake(base + ext_cap_offset, XHCI_HC_BIOS_OWNED,
--				0, 1000000, 10);
-+	/* Wait for 1 second with 10 microsecond polling interval */
-+	timeout = handshake(base + ext_cap_offset, XHCI_HC_BIOS_OWNED,
-+			    0, 1000000, 10);
- 
--		/* Assume a buggy BIOS and take HC ownership anyway */
--		if (timeout) {
--			dev_warn(&pdev->dev,
--				 "xHCI BIOS handoff failed (BIOS bug ?) %08x\n",
--				 val);
--			writel(val & ~XHCI_HC_BIOS_OWNED, base + ext_cap_offset);
--		}
-+	/* Assume a buggy BIOS and take HC ownership anyway */
-+	if (timeout && (val & XHCI_HC_BIOS_OWNED)) {
-+		dev_warn(&pdev->dev,
-+			 "xHCI BIOS handoff failed (BIOS bug ?) %08x\n",
-+			 val);
-+		writel(val & ~XHCI_HC_BIOS_OWNED, base + ext_cap_offset);
- 	}
- 
- 	val = readl(base + ext_cap_offset + XHCI_LEGACY_CONTROL_OFFSET);
--- 
-2.50.1 (Apple Git-155)
+> since you're reading the register something like this:
+> 
+> val = readl(base + ext_cap_offset);
+> if (val & XHCI_HC_BIOS_OWNED)
+> 	pci_debug(pdev, "BIOS owns XHCI HC\n"0;
+> writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
+> timeout = handshake(...)
+> if (timeout && (val & XHCI_HC_BIOS_OWNED)) {
+> 	dev_warn(...)
+> 	writel(val & ~XHCI_HC_BIOS_OWNED, base + ext_cap_offset);
+> }
+> 
+> Then you have a single read, no extra writes.
+> 
+> >   	val = readl(base + ext_cap_offset);
+> >   
+> >   	/* Auto handoff never worked for these devices. Force it and continue */
+> > @@ -1195,10 +1203,8 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+> >   		writel(val, base + ext_cap_offset);
+> >   	}
+> >   
+> > -	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
+> > +	/* If the BIOS owns the HC, wait for it to hand over control */
+> >   	if (val & XHCI_HC_BIOS_OWNED) {
+> > -		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
+> > -
+> >   		/* Wait for 1 second with 10 microsecond polling interval */
+> >   		timeout = handshake(base + ext_cap_offset, XHCI_HC_BIOS_OWNED,
+> >   				0, 1000000, 10);  
+> 
