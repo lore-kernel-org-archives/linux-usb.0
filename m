@@ -1,116 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010059.outbound.protection.outlook.com [52.101.61.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB3B423786;
-	Mon, 17 Aug 2026 20:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786996873; cv=none; b=myUmQGjhjGfXW4S1BOwYIW0tfVFoSfjwM246LicPlmMy3Gcr4CYwFbQ2GZkOgXnCZzSM2OTNje6N3/cUEGCjIAtaoV7Eke27Z+BsfFZuv2yOzZmQpwJwfjsdhnOInQPPhAG7szOPI8cxDxfDHMkh9cCKm3HXieKEwy15F/MtDsI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786996873; c=relaxed/simple;
-	bh=adBHAGZJIcg8hGYrTjNLrmyuG8LG+DRfpp20ZDclqmU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OKa9YNR9dW4heRV+EYSc6oo387VIgDfCZC1YOT8gRIg1vLk0mHTkM8vBlVjdQvAiFR3sh8BC3kghy3KdvA70S1ZCw/IVQMt6JPaKFp75hH7QB7bhh8+aXHgZbWXm5M7j+FJAj0Sf2VabjoK0lM/Xv3iqkZL/gNXFCeEJMwMzMRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FMshiOvK; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7624B04AF;
+	Mon, 17 Aug 2026 20:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786998896; cv=fail; b=pcokRSQ8e7MIUf1yxAHvUWYZu8VkMxbFCi54Ofq+l7mHQvJ1p2xV1r/2SkoTCVyeTOI629+TSTMlJ2PYxYd/B6vQCf93QFGQNy4x0lwlF/fJ6npeHudzt4GalvVeOijHBK/1WFLnTUbgE6cp+YRO2Kf7lRgdQ6mSstWygi6Pd0E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786998896; c=relaxed/simple;
+	bh=ipYLDAX4Bgn4rSbB6ljRJ/MF+E/gzKSBA8TCm2uJAE4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DrcFVHWObBQ0QhTHkheY4ZCeXlP12IFqkVaSyEU1R1YYMshBCZVEnlCKgDlgMtxoMinHVxn+tRWPNbK4AaLoiEOA8U5F6GR+2PX3JtMHQw/CChDc7wkVtiPQ0ZxHZBSrUNmmal8uklQ6sgIV4Jlp7tXV4x3XHsR0nmBya9E6gEg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EMOICK+H; arc=fail smtp.client-ip=52.101.61.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FMshiOvK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3E31F000E9;
-	Mon, 17 Aug 2026 20:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786996872;
-	bh=ra7Z7ncAB1zZr6NRuNY7z+lfT4f4+C8W8KOgF9WPwwU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=FMshiOvK1R7uHU/FXalxbeSaQm2cNjSN025T6KUgHCN0/TFgaHMWKH/DuRBS8DqZx
-	 ZxUzfDkWe5VEldRyE1d1bXdnkYXEYDPF1juLlVx1kRacbke2wbVBTtjVIV2Dj+t4LA
-	 fcLM0GlL8LrDxSy6PdD8LdGIiVOl0h/Gvmn1UqoqaVV3j00PdTspiUqgSc94pQS79E
-	 cr4INfRVischMHtWzweYK3GDA3wSw9o/tM+e3wWbsiRexmm6TLsItXyLee+TNkFuYk
-	 TSpro/vGq7hmsjeXA/D906EncA/nts7yAipXqPF21VOLE7yNPXqnkNfW6YnNo6kpXv
-	 j05rB6WdZD+iw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56A483926263;
-	Mon, 17 Aug 2026 20:00:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EMOICK+H"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZMwrgAAn4wg2llQ3EQ4wVa0KmfeFDLGSlSb9+0W8zHTyjdlIIb1T+ebeWdvJA2//no6XEccs6ic+Mb/VQQSVA536iPYvG53SiZXbXt9srTzpkY6iY0LdjOK6OyxmYWTwJVDgzszhp/+yHQH0nxmIE1zqr6JTUBsjIbsC4e/UrTfH2U8AdqoUGK45jhbSmpxjNAGbhx0M4CaoVFnGPGEVdSONfvvtDQ/f7RdtnLAFf/fGYKSsfVogyGupJhZjGQBET3NucXNR1DECFlxdNXwnFfiKdl4os4vbX0jZCrxKkJeubcWCZ32PnVUL2ILg9vbCEPSZ4hWZqwGG87A36oDpjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PWB62lEJpWuDk+WdVnDRr+KM+VHqeXPbB3lrNN90s+0=;
+ b=Pe2psFxt/Rq1tugjIdMgOi4pZtwiQSzcRyQesSo+yr0CUKbFdluH+//sdTaWg4zP1GOLhkt29vKEzBxR91sDj0DmnAZoXYJgqrivMetsiWMa59F87MqmGhHB21BNWWSzqSiJiJrR68WpCr39iE1K/EiVqB/oDPOaS4MvfH7+mTJqlAm673haEHu/eG05RSbvPIG0QTyvPFKN+8DjkMf7vsPBKWdZsD7eiN/vkGus1n4WNV94RDJVLmlvgJspqRyud2tlZ3swq1XqrNecvPh+Vv+Xm+wrA7zFUhYn1AksNWHAz/FumJCejQOW7l5Uot/MFISvmBn+gGMlAKkgxY5blQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PWB62lEJpWuDk+WdVnDRr+KM+VHqeXPbB3lrNN90s+0=;
+ b=EMOICK+HyMSwH8s3abMFrE6zWZPY8IvWf4rVVX8KZnBwh8XWXBrOUs2lYkB/8oS3Va6xziwgqJYraSpwDBL9+KVDSxojQCg+u/Zf6IjNhsT3dz1yzhzK9AitxErfKJdXKnu6mPXrwJfshU8541MMHy0Me2fGsU80/i8107kNnRU8WMFqKQCi4U4rMUpPvAnI28hmLDk6A4ajQh9K9zHYNTlzzriNYu5fdklwMfDHLHpSw7XSxxbYmR9ZpKcf5gDZ1BDvOe8t/1wGNCIIrag/nilT4DfqKSfbzBJwwtA1VJxDzOEnn6BMpogtYlQ5IAj2gcjTJJO9tTScxTyinU0oIQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ MN0PR12MB6296.namprd12.prod.outlook.com (2603:10b6:208:3d3::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.315.17; Mon, 17 Aug 2026 20:34:51 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
+ 20:34:45 +0000
+Message-ID: <bd091acb-fab9-4678-a185-0b65a2900a11@nvidia.com>
+Date: Mon, 17 Aug 2026 13:34:43 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+To: Zi Yan <ziy@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+ apopple@nvidia.com, byungchul@sk.com, david@kernel.org, gourry@gourry.net,
+ joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ matthew.brost@intel.com, rakie.kim@sk.com, syzkaller-bugs@googlegroups.com,
+ ying.huang@linux.alibaba.com, linux-usb@vger.kernel.org,
+ Vlastimil Babka <vbabka@kernel.org>
+References: <DKQP5QC9XTDJ.3MI016NP0NPFY@nvidia.com>
+ <02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
+ <DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
+ <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
+ <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
+ <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
+ <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
+ <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
+ <2026081745-unshaken-retread-d744@gregkh>
+ <1ED81A86-22F2-415A-8CC0-7E9B4A4446C2@nvidia.com>
+ <2026081732-unaltered-regime-f91f@gregkh>
+ <92B3A471-F7BF-488F-94FA-6A011D33D31E@nvidia.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <92B3A471-F7BF-488F-94FA-6A011D33D31E@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ2P221CA0003.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5db::10) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] net: usb: qmi_wwan: add Telit Cinterion FE990D50
- composition
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178699682389.1714062.10704219346705097638.git-patchwork-notify@kernel.org>
-Date: Mon, 17 Aug 2026 20:00:23 +0000
-References: <20260812054911.447887-1-Fabio.Porcedda@telit.com>
-In-Reply-To: <20260812054911.447887-1-Fabio.Porcedda@telit.com>
-To: Fabio Porcedda <fabio.porcedda@gmail.com>
-Cc: bjorn@mork.no, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dnlplm@gmail.com, stable@vger.kernel.org,
- leitao@debian.org
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|MN0PR12MB6296:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7c64e8e-379a-4522-2d19-08defc9ef991
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|7416014|366016|18002099003|22082099003|10067099003|56012099006|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	1kySRiEBJsW6ROFLYnk1hWvn/lCw5CY70kFBRoLUzDE/ViZ4cvCX2V/p7BjORS8WMfGHycfbIyI9cvvwP/cyRspz+nypbKd/H8lZtglAoyv4S30bF/rnEzqT419O0B3tGa7NmvCjTIZXuwqn+res9BWpz13cBAm8vvOwXX0LcyXFBYAGpUX7DVG8WV/hSgIz5ssyBI6vS/G0uzYWDgCkdHAXri9jO9VDyamLbxFIYdm1XN+2gP2bEjXl97+U2PbY9054yXtpZO8NSNda33Kbg8xtWMWFkZwQ2CqfjbfjTErg58kYxhFy8PxcBecy+ZV131qFzHS51VEglLTf1c8qyCCnXZyJ8II9Z4IWkwg0m1mse1IJSpUnuV4ZE8FdQXiaa5gE5BhxHxxaC4bG6e3Ns6lTT9a/O+SI0OBWfdp/cMmRPMbmUTRz7s4g0D4jTMbmnhKpsQk/mVRjt0nYnFzjl8jgJWSjndpbaLPjqqouqoch5T4jzJoza7jqiPXo6+B9K6A54V0TFDz1YcqKY7WizMgg0HJzCqNH3NiAWEaDZ3TIshrCDEOtZNMO87Mhk7ejHKg04jFSfjQP2USDVisHB6IUJ2Q//2Du5DGBqlMFdx2JNhqsHm8fgsC93LGaIkrCuPDFN6yJsTvgV1E2ggJq7PFMBsWrwEzgZFvIllLZWCs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(7416014)(366016)(18002099003)(22082099003)(10067099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YWFheVBhRzBkOXkrMlRpM2l6V0k3ci9BMWJaVW9HT1k4Tks3K2JpanQ0ZkRW?=
+ =?utf-8?B?ZDdRUlhIQVNVVzhCdVY3Wk9Ka1kyK2kwOXRVYW11b3hKdjVjanp2eVUxNVZi?=
+ =?utf-8?B?K2lQQlhia0I1WkIrUHpwZFVYa1ZLVEFwVHkzN0lQSTlhY1UzekVNRmxoMlNm?=
+ =?utf-8?B?ajJwOTg0L1I4RnVXdmVyVHo2Q0hRWTlXWU5jbHNIdnZxTVh4NDMrc0pUdEZ1?=
+ =?utf-8?B?cGdYdDE2R0toV3l1VTNUZk9PNGllR1dCb2tld09VTGhCTnk5QVo0NEdxYkVF?=
+ =?utf-8?B?RXR3WCtOckl2ZHNOTmdGM1ZhRHZFaEQzZDBYdTQyMXBqYWM2ZjV3T3Vxa1Ba?=
+ =?utf-8?B?M3BiQmNqM3ZIME5BMGhtQjRwMkRTTEprVjA3cXZxSkNTZHJXYXJXOTdBa09X?=
+ =?utf-8?B?OUtoak9xSVpPVXR1N3ZSUHUzUU9ReDhCY2I5NmRmNW41dVd4dUxFMkMyM2Iz?=
+ =?utf-8?B?MGtSS2s3S0pBU0RLNGNXT2xTUFdKL0N4bm1HRDFPenRzMUFHNGxCUUlZMWpo?=
+ =?utf-8?B?Mkt1L1luNk5PdldhRmlhbStGOXRsZk5NUk9PbUc0N1dBbnF4bGxlZ2xqRVZC?=
+ =?utf-8?B?SmFmc0tOcGdydDJHTXF5cWYwVS9TTXJKTStFTjBqMkljUloxZjFRa0F0eGNF?=
+ =?utf-8?B?QWFaSEZ1SEJpTVVKSFFpcjl2VGtwWXFLQjVUbkpPZmdWUTc0NVQvaG43eUp5?=
+ =?utf-8?B?QjlvNldvWlpmNjFjcG01bzltNVg1MVJPcHFVakJDZ1RJa2dObkJnU3U5S2My?=
+ =?utf-8?B?cTh4ZXh0WFEzSVVoWUw4bkk0aGVOUk9ZTzBqY0pCdS9hOW03SjdZcXUwQkh2?=
+ =?utf-8?B?Z0ZLaEZsNm9LS2dRbzVSd3lKM0VrSXZzZzFFSjJRNmVLeHhDNmpyWFc4UmVU?=
+ =?utf-8?B?T28rZlNzWWxLVEJaUmsvbUxJMmxzMHJjVnhaZFpyNFEyS0p4TUNHb1dyZHVs?=
+ =?utf-8?B?M09IRDFpYVpiWE1DZUFvZWFKRjF0NnVKb0tFVlNJbFZJVG01UjdHaFluR3Jp?=
+ =?utf-8?B?TXBlQTRTUzJhL2tXTFFSL2xSc1RUMmoyUnJPMU9WaXJiaW5ORzRBaUVDN3Bw?=
+ =?utf-8?B?VGJTTlp0eXZmNVNPTDNxSWZIUkhUU3Nxcjk1QVJ4aW0vbG95NEl3L2QxeHJM?=
+ =?utf-8?B?QWs2VXVQUG1pZDBHVXd5djluOGdBaUVrMTZqNEdxMEFtZzlybm5mZ1hoQ1pX?=
+ =?utf-8?B?dC85K3VhRktyb0VZM3NZejlaS0RjWXJLQld0dWp3VE9iWk53ekFmakxUN2RB?=
+ =?utf-8?B?YStjV0djZjVWWGlTV240MjNHRnJrYUJVVjJxdHpZVXNLSE9Kc1RsRFVIVnRG?=
+ =?utf-8?B?bngyVVZnV0IyS1E0clRtc045L2RmYXFGZzBCblMrYXVQdEtxRGdnbXlYQjg2?=
+ =?utf-8?B?bTdtVDNrYW5LZWtIUE5ISzNMaFIvbWxsNXlMZHM1TW9nZlovek91SDBldlkr?=
+ =?utf-8?B?U01UdEJKcVJ3NjN6L2JTMnd2aFlqdmVnTkEvWHZkTG1JNFhjaENxRWdqN21Y?=
+ =?utf-8?B?eXJGMDkvdnJQZi82dGlQYXo0Y050aVZMZHhxMlBFMi9FUXJXZk1Ec2xQUnNM?=
+ =?utf-8?B?RnNqNG1zL1lMMHExa0l0c1RUZGpRcU4yWmpRbnEwcFQvQ1hyMlhYV1Q1VGhQ?=
+ =?utf-8?B?bks2THk3V2E5dXNwdUtuYkhuQm13NEhLd0lTOEVCVG53WjBaTW1pLzZrL2Nq?=
+ =?utf-8?B?N2Rkdk4vdjNaTFpybW5wTGtqYy95K0hpMlJqaTc3Y2tUNUdaVzhubDVZdHlU?=
+ =?utf-8?B?RUJkVmFOQ0pPUlRYVWNiRUhCNW01QllkL3k2YjhTZG1iMVQxSndIcmh1ZUZi?=
+ =?utf-8?B?UGUraGVoYXNEZVNkZW5ibGVvYUFrYXVIdm9EelArRGlab1c4MCtreExrWEVl?=
+ =?utf-8?B?Q0J3TXN4am1iZDRGMUhsWUMvY2ZET1F3aysvblM1TmJ4UUR6bGgwRVkvUDQv?=
+ =?utf-8?B?RE52SVVHUkd1aUx0ekxRQ1J0Y0tUUWJSaENYYUZzYzRudkFDbFZER2V1Vjk4?=
+ =?utf-8?B?QUYxQWFkR3FnU3pnWVRJbmF0aFZTV2dEL3BjaVgwNXZkSkpSZHJrWHVxSGhX?=
+ =?utf-8?B?NDFCVi9qNjByemRzZnQ5TjN2Y0t1cTVYMElxWjNaemZ3VnJ4ZVZTOS9ka1FU?=
+ =?utf-8?B?UDFKT011MlVxZGI3R3Q1TlBzY2JtN0JrL1hXRVBCMDV4T29JUEVIUmdsV1BJ?=
+ =?utf-8?B?L1dXMXpITm9iT1VwT1A1MjJVNUJKQVhIMG1FSW15ODdmWWt2TysxM0pXUlBq?=
+ =?utf-8?B?NUM1K0QxZ1JzK05yTzlEUndKbWc3Y3FVZ05KcGU2QzkxdzBFRW5BZHUxWWhQ?=
+ =?utf-8?B?TFJ0U0U3TG1RVjBaalp2M2xZcHlHZzBZVGF2aC9yQkptQTI1VEc5UT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7c64e8e-379a-4522-2d19-08defc9ef991
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 20:34:45.6788
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CpTHpkOpbPkuHh71MTOXqGNesyCGFoAm8+qHxU46P+4WDMI00q5I9EVVViCbV6p1wrsY5F9cZwRqlIt9VOJITA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6296
 
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 12 Aug 2026 07:49:11 +0200 you wrote:
-> From: Fabio Porcedda <fabio.porcedda@gmail.com>
+On 8/17/26 11:51 AM, Zi Yan wrote:
+> On 17 Aug 2026, at 11:55, Greg Kroah-Hartman wrote:
+>> On Mon, Aug 17, 2026 at 11:19:23AM -0400, Zi Yan wrote:
+>>> On 17 Aug 2026, at 11:06, Greg Kroah-Hartman wrote:
+>>>> On Mon, Aug 17, 2026 at 10:34:26AM -0400, Zi Yan wrote:
+>>>>> On 17 Aug 2026, at 9:55, Alan Stern wrote:
+>>>>>> On Sun, Aug 16, 2026 at 07:42:13PM -0700, Andrew Morton wrote:
+>>>>>>> On Sun, 16 Aug 2026 21:47:58 -0400 "Zi Yan" <ziy@nvidia.com> wrote:
+... 
+> BTW, kvmalloc() also gives a WARN if the input size is bigger than INT_MAX[1][2].
 > 
-> Add the followin Telit Cinterion FE990D50 composition:
-> 
-> 0x0991: rmnet + tty (AT/NMEA) + tty (AT) + tty (AT) + tty (AT) +
->         tty (diag) + ADPL + adb
-> T:  Bus=01 Lev=01 Prnt=01 Port=06 Cnt=03 Dev#= 10 Spd=480  MxCh= 0
-> D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=1bc7 ProdID=0991 Rev=06.06
-> S:  Manufacturer=Telit Cinterion
-> S:  Product=FE990
-> S:  SerialNumber=2aa802d2
-> C:  #Ifs= 9 Cfg#= 1 Atr=e0 MxPwr=500mA
-> I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-> I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=88(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> I:  If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8a(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> I:  If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8b(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=80 Driver=(none)
-> E:  Ad=8c(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 7 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
-> E:  Ad=8d(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 8 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-> E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> 
-> [...]
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/slub.c?h=v7.2#n6912
+> [2] https://lore.kernel.org/all/CAHk-=wiRq+_jd_O1gz3J6-ANtXMY7iLpi8XFUcmtB3rBixvUXQ@mail.gmail.com/
+ 
+Probably best to remove those WARNs as well, both for consistency, and
+because the reasoning still holds for those two references as well.
 
-Here is the summary with links:
-  - [v3] net: usb: qmi_wwan: add Telit Cinterion FE990D50 composition
-    https://git.kernel.org/netdev/net-next/c/1056e79fffd0
+There is already enough information for the kernel developer: the allocation
+failed. "Go investigate, it's easy enough to find out what happened."
 
-You are awesome, thank you!
+No need to print out warnings.
+
+
+thanks,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+John Hubbard
 
