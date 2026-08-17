@@ -1,118 +1,150 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7192147E5
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2463D2EEE99
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786957281; cv=none; b=T1n6L5jXSBx+MXNegFVSmgYv3QVlmNO5nYfOebRNiayQmwPlps2ki09KlfMOu5ZjjTFKS4L9Ue7l8o7zJt0Av1fYATAXJoOJmHOG2LVpqodpiB6d00kGXgu7wVwTcP+QpAWUpdJxCVKFXDkSsVj4sZUdwn1kcJa99dG8n6641Ik=
+	t=1786957408; cv=none; b=oypOIqNtT6BitjN+fU64aStY2eyCKgJfUmW9+ymTL5Na3MQ77y0almCgfHz+cQIvhx2BKNMhqUH8aKxB+10ADhVgTkqJ/5vkUX1+qrDeOKYtg735xiSn5KGvi4SpisXMSS3cfuNAK8A2ZD/kmMMXDLrTfguussBivD743SkTXGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786957281; c=relaxed/simple;
-	bh=40pG3l4ZaTgqcIvvWo+/1VApTRlONbYb++lBWj8AKak=;
-	h=Date:From:To:Cc:Subject:References:Mime-Version:Message-ID:
-	 Content-Type; b=XcZ+FqbyUd/zKKPakM0pwbd5+sgOaU6T5okudgpx+SZeTHjPy2EMlcUwxHoibxrSaq+dh7DVfzQhLw+5Xkjmg3Z1dXQrcDq8xef4bFGCj9ERjCKn3qsD2hKxBzHfhkI9mPxuXE4HvinnItngkE2o8wpEnNtc09NtvqOxqpZEe0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 30b55d569a1a11f19a56ed5b684f684d-20260817
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:bdee8816-cc87-482c-9c13-995bd8b1ae24,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:7db8b62,CLOUDID:4ee841f0ce2a6c2b556c5ef456038106,BulkI
-	D:nil,BulkQuantity:0,SF:81|83|102|855|865|898,TC:nil,Content:0|15|52,EDM:-
-	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
-	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 30b55d569a1a11f19a56ed5b684f684d-20260817
-X-User: huangwei@kylinos.cn
-Received: from mywork-t480 [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1165397571; Mon, 17 Aug 2026 17:01:10 +0800
-Date: Mon, 17 Aug 2026 17:01:11 +0800
-Organization: =?utf-8?B?6bqS6bqf6L2v5Lu25pyJ6ZmQ5YWs5Y+4?=
-From: huangwei <huangwei@kylinos.cn>
-To: "Jacob Riff" <jacob@riff.dk>, 
-	"Heikki Krogerus" <heikki.krogerus@linux.intel.com>
-Cc: =?utf-8?B?6buE5Lyf?= <huangwei@kylinos.cn>, 
-	linux-usb <linux-usb@vger.kernel.org>, 
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: Re: Re: [RFC PATCH] usb: typec: ucsi: retry init when the PPM answers early commands incorrectly
-References: <202608171119200877083@kylinos.cn>, 
-	<20260817043746.1449099-1-jacob@riff.dk>
-X-Priority: 3
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.25.489[cn]
+	s=arc-20240116; t=1786957408; c=relaxed/simple;
+	bh=Gsm78FdDURTwGEtRi7PbbtQblZGO/rlLl2zrSxlPekU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GlGXkl3Fs10Qh13UwXmCnG4rySx49Jeiu/orQyAqjtb0qll6oBqOwiH91bPCS7k0ocDvtU/mxCb+H8RQpoMBRkByN85LtkHTqBPtSDNOrpSpprMS0svmyFCaBczZVFTCwTMU0swx4Ito4tgw6KZZf1Fl60eA3yyQC1VK05NKpGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jx/Dj8F3; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jx/Dj8F3"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-39266382df6so2467116a91.3
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 02:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786957406; x=1787562206; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Qup8wHSqTNWqZ291WX414Vh9WOIqgyCwHVdx/0J522I=;
+        b=jx/Dj8F3i4EJeTQAc7SKCmYD1UuFLCPviJJparV1aQqVbxqTwHtDKKq0mP+drL64KE
+         0l85dWI73etSaxNbtoyyxrB36YcQzA2NmUGvdmA9XgjlX8/KWPmZ8XxNRF5wxX7ejOSc
+         3sBNTlxzW0w6bUWOeA8mz4zaZrq0m3JvexXJ0MlIGyX10w0Zwog8gs1a0HjkAVGhadhJ
+         w3RkoQX0gQ/CQj+3UCVSNhHHQhbF0Og0ImghWjPzwM7eKSwkCGmP2bQO8T7vlii58D+S
+         MR9IiVIFix2qGpMBRFQxkqmyrvEj9aafUeujO1tTkT6NFFPZ4o7K2DOQMpdAvbK2i9IF
+         5x0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786957406; x=1787562206;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Qup8wHSqTNWqZ291WX414Vh9WOIqgyCwHVdx/0J522I=;
+        b=nFczAwxxm1OJtO2PSZjEsaMMRaQqmFRNnIkOS7qWj0mkKZM4gx2HmqUaTksto2vN0n
+         kjjKQnIQ02XMAnEUt5PHmE7XZ2p2tIuhf88OEbfshWglGMu5h4XDdS96W+VgmsI1dxec
+         FlF23kkGfVnbZ0bFXd2PJDJFn5M8xL/k+iMNhKfQv9xgBVTn+FOqFmj0Q1s1ZrI5BGev
+         Uskbs47qRNU6twDXVIeDXCbL/893LbuU/KJTr2zfPIV6qyZLvhYjph/fw9jznO3xSpcX
+         M19DLrFzswEDQBkQw6veTYZjdm5cdnyO5Mh9hP7tcDahTGfrdZq/aFtJjQ+Ne3FZbFJi
+         XOUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoMagp1zPLYzmFppv7cIi8Fu/9uojPDzoCFxBj8Oa1UPHVOqCnyZK7sTntccOnyV9+JeekfIsE+M7g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlDUXOWIEkHEnd2zZIJxHTOIp+xgxL4YH8N0y/d/GixwXcTX4M
+	8Sm2pHPSDWlroGQpwKV2F4mtUPeAT1udRZuqntx25f2TdTyW2Uptnpg=
+X-Gm-Gg: AR+sD10qA24+xrjrVNlgE27cMPA2hZOpJqSYHv1DDiK4YQ28v9CZbtPiook5NdZXyE9
+	ZKxirC0d+nAbhQaWnbgI8tPU2yloTIQArjqvOz58z6XGPuIl+Dn1FnK1dtamOl5i/4a4Rln/UBX
+	muOWbzGPDct4TXz2RwpRgyO/4fJRZPMDrTReJfc8cL31lD6EvadALVAHgnbqGG/bLwcLnuZtjbg
+	91fhWhBCyZzBTCqa8ieuSqp30fK0WYfKHdN8TZZwWq37bAG/NvgSrIH61/3teSYWPNeQx5bPvfH
+	T0PIDjtV1UhiYxwrdTVYhxUwXW/c7U9ea+vb3BwFWHia69V2EOB+fX7Kn4RrN4f+48OCuXgWy82
+	8velwqGBoF0SdNLVomREZV5PqdP+TRcS3doyoz6GxkR9snkeu+MAHPv1GGNNUxX4TGhpkEokqY9
+	bYwV4GzrWJYwK7OQ0zErN5RFWTvKoRrCBv/g+jz1/Uok1MK/oS3sJm9oxOO7Q=
+X-Received: by 2002:a17:90b:3889:b0:381:11eb:d78e with SMTP id 98e67ed59e1d1-3933b8ace11mr21789029a91.14.1786957406258;
+        Mon, 17 Aug 2026 02:03:26 -0700 (PDT)
+Received: from DL2XHKPB4.dl.net ([103.63.104.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3933b68adefsm4614751a91.3.2026.08.17.02.03.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 02:03:25 -0700 (PDT)
+From: Triet Hoang <triet.hoang.dev@gmail.com>
+To: peter.chen@kernel.org
+Cc: pawell@cadence.com,
+	rogerq@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Triet Hoang <triet.hoang.dev@gmail.com>
+Subject: [PATCH v2] usb: cdns3: Handle ZLP request allocation failure
+Date: Mon, 17 Aug 2026 16:03:20 +0700
+Message-ID: <20260817090321.955841-1-triet.hoang.dev@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260817075929.899795-1-triet.hoang.dev@gmail.com>
+References: <20260817075929.899795-1-triet.hoang.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <202608171701083146745@kylinos.cn>
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-SGkgSmFjb2IsCgpUaGFua3MgLSB0aGF0IHJlc29sdmVzIG15IGNvbmNlcm4uIEkgaGFkIG1pc3Nl
-ZCB0aGF0IHRoZSAicG9zc2libGUKVUNTSSBkcml2ZXIgYnVnIiBkZXZfZXJyIGluIHVjc2lfcmVh
-ZF9lcnJvcigpIGlzIHVudG91Y2hlZCBieSB5b3VyCnBhdGNoLCBzbyBmaXJzdC1vY2N1cnJlbmNl
-IHZpc2liaWxpdHkgaXMgcHJlc2VydmVkIGFuZCB0aGUgYm91bmRlZApyZXRyeSBvbmx5IGRlbGF5
-cyB0aGUgZmluYWwgdmVyZGljdCBieSB+MTBzLiBSZXN0cmljdGluZyB0aGUgcmV0cnkKdG8gdGhl
-IHVjc2lfaW5pdF93b3JrKCkgcGF0aCBpcyBhIHJlYXNvbmFibGUgZGlzY3JpbWluYXRvciwgZ2l2
-ZW4KdGhlIGVycm9yIGNvZGVzIHJlYWxseSBhcmUgaWRlbnRpY2FsIGJldHdlZW4gdGhlIHR3byBj
-YXNlcy4KCk5vIGZ1cnRoZXIgY29tbWVudHMgZnJvbSBteSBzaWRlLiBHb29kIGx1Y2sgd2l0aCB0
-aGUgUkZDLgoKQmVzdCByZWdhcmRzLApIdWFuZyBXZWkKCgoKCuS6jsKgMjAyNi0wOC0xN8KgMTI6
-MzcswqBKYWNvYiBSaWZmwqDlhpnpgZM6wqAKCgoKT24gTW9uLCAxNyBBdWcgMjAyNiAxMToxOToy
-NCArMDgwMCwgaHVhbmd3ZWkgd3JvdGU6CgoKCj4gVGhlcmUgdGhlIGNvbW1hbmRzIGRvIGNvbXBs
-ZXRlLCBidXQgdGhlIEVDIHRha2VzIGxvbmdlciB0aGFuIHRoZSA1cwoKCgo+IGhhcmRjb2RlZCB3
-YWl0IGluIHVjc2lfc3luY19jb250cm9sX2NvbW1vbigpLiBUaGUgZml4IGZvciB0aGF0IGNhc2Ug
-aXMKCgoKPiBhbHJlYWR5IHJldmlld2VkIFsxXSAodGhhbmtzIEhlaWtraSwgRmVkb3IpLCBzbyBi
-b3RoIGZhaWx1cmUgbW9kZXMgb2YKCgoKPiB0aGUgIlBQTSBub3QgcmVhZHkgZHVyaW5nIGJvb3Qi
-IHdpbmRvdyB3b3VsZCBiZSBjb3ZlcmVkOgoKCgo+CgoKCj7CoMKgIC0gc2xvdyBhbnN3ZXJzwqAg
-LT4gbG9uZ2VyIGNvbXBsZXRpb24gdGltZW91dCBbMV0KCgoKPsKgwqAgLSB3cm9uZyBhbnN3ZXJz
-IC0+IGluaXQgcmV0cnkgKHRoaXMgUkZDKQoKCgrCoAoKCgpIaSBIdWFuZyBXZWksCgoKCsKgCgoK
-ClRoYW5rcyBmb3IgdGFraW5nIGEgbG9vaywgYW5kIGdvb2QgdG8gc2VlIHRoZSB0d28gZmFpbHVy
-ZSBtb2RlcyBvZgoKCgp0aGUgYm9vdCB3aW5kb3cgZW5kIHVwIHdpdGggY29tcGxlbWVudGFyeSBm
-aXhlcy4KCgoKwqAKCgoKPiBPbmUgc21hbGwgcXVlc3Rpb24gb24gdGhlIC1FSU5WQUwgcmV0cnk6
-IHVjc2lfcmVhZF9lcnJvcigpIGFsc28KCgoKPiByZXR1cm5zIC1FSU5WQUwgZm9yIFVDU0lfRVJS
-T1JfSU5WQUxJRF9DT05fTlVNIC8gVU5SRUdPTklaRURfQ01EIC8KCgoKPiBJTlZBTElEX0NNRF9B
-UkdVTUVOVCwgd2hpY2ggYXJlIGxvZ2dlZCBhcyAicG9zc2libGUgVUNTSSBkcml2ZXIgYnVnIi4K
-CgoKPiBSZXRyeWluZyB0aG9zZSBpcyBoYXJtbGVzcyBpbiBwcmFjdGljZSAoZGVidWctbGV2ZWwg
-bG9nZ2luZywgYm91bmRlZAoKCgo+IGF0dGVtcHRzKSwgYnV0IGl0IGRlbGF5cyB0aGUgcmVwb3J0
-IG9mIGEgZ2VudWluZSBkcml2ZXIgYnVnIGZyb20gdGhlCgoKCj4gZmlyc3Qgb2NjdXJyZW5jZSB0
-byB0aGUgMTAwdGguIERpZCB5b3UgY29uc2lkZXIgZGlzdGluZ3Vpc2hpbmcgdGhlCgoKCj4gUFBN
-LW5vdC1yZWFkeSBjYXNlIGZyb20gdGhlIHJlYWwgZXJyb3IgY2FzZSwgb3IgaXMgdGhlIHNpbXBs
-aWNpdHkgb2YKCgoKPiByZXRyeWluZyBib3RoIHdvcnRoIHRoYXQgdHJhZGUtb2ZmPwoKCgrCoAoK
-CgpJIGNvbnNpZGVyZWQgaXQsIGJ1dCBieSBlcnJvciBjb2RlIHRoZSB0d28gY2FzZXMgYXJlIGlk
-ZW50aWNhbC4gT24KCgoKdGhpcyBtYWNoaW5lIHRoZSBub3QtcmVhZHkgUFBNIGFuc3dlcnMgYSB2
-YWxpZCBzdGFuZGFyZCBpbml0IGNvbW1hbmQKCgoKd2l0aCBVTlJFR09OSVpFRF9DTUQgLyBJTlZB
-TElEX0NNRF9BUkdVTUVOVCAtIGV4YWN0bHkgdGhlIGNvZGVzCgoKCnVjc2lfcmVhZF9lcnJvcigp
-IG1hcHMgdG8gInBvc3NpYmxlIFVDU0kgZHJpdmVyIGJ1ZyIuIFNvIHRoZSBvbmx5CgoKCmRpc2Ny
-aW1pbmF0b3JzIGxlZnQgYXJlIGNvbnRleHQgYW5kIHBlcnNpc3RlbmNlLCB3aGljaCBpcyB3aGF0
-IHRoZQoKCgpwYXRjaCByZWxpZXMgb246IHRoZSByZXRyeSBleGlzdHMgb25seSBpbiB0aGUgdWNz
-aV9pbml0X3dvcmsoKSBwYXRoCgoKCihhIHJ1bnRpbWUgLUVJTlZBTCBpcyB1bmFmZmVjdGVkKSwg
-dGhlIG5vdC1yZWFkeSB3aW5kb3cgaGFzIGNsZWFyZWQKCgoKYWZ0ZXIgYSBzaW5nbGUgcmV0cnkg
-aW4gZXZlcnkgYm9vdCBvYnNlcnZlZCBoZXJlLCBhbmQgYSBnZW51aW5lIGJ1ZwoKCgpmYWlscyBk
-ZXRlcm1pbmlzdGljYWxseSwgZXhoYXVzdHMgdGhlIGJvdW5kZWQgYXR0ZW1wdHMgKDEwMCB4IDEw
-MG1zCgoKCj0gMTBzIHdpdGggdGhlIHJvbGUgc3dpdGNoIGNvbnN0YW50cykgYW5kIHN0aWxsIGVu
-ZHMgaW4gdGhlIGxvdWQKCgoKIlBQTSBpbml0IGZhaWxlZCwgc3RvcCB0cnlpbmciLgoKCgrCoAoK
-CgpPbiBkZWxheWluZyB0aGUgcmVwb3J0OiB0aGUgInBvc3NpYmxlIFVDU0kgZHJpdmVyIGJ1ZyIg
-bWVzc2FnZSBpcwoKCgpkZXZfZXJyIGluIHVjc2lfcmVhZF9lcnJvcigpIGFuZCB0aGlzIHBhdGNo
-IGRvZXMgbm90IHRvdWNoIGl0LCBzbyBpdAoKCgpzdGlsbCBmaXJlcyBvbiB0aGUgZmlyc3Qgb2Nj
-dXJyZW5jZS4gV2l0aCB0aGUgcmV0cmllcyBhIGRldGVybWluaXN0aWMKCgoKYnVnIHdvdWxkIHBy
-aW50IGl0IG9uIGV2ZXJ5IGF0dGVtcHQgYmVmb3JlIHRoZSBmaW5hbCBlcnJvciwgc28gdGhlCgoK
-CmNvc3QgaXMgYSAxMCBzZWNvbmQgZGVsYXkgb2YgdGhlIGZpbmFsIHZlcmRpY3QgcmF0aGVyIHRo
-YW4gYSBoaWRkZW4KCgoKcmVwb3J0LiBUaGF0IHNlZW1lZCBhIGZhaXIgcHJpY2UgZm9yIHJldXNp
-bmcgdGhlIGV4aXN0aW5nIHJvbGUgc3dpdGNoCgoKCnJldHJ5IG1hY2hpbmVyeSB1bmNoYW5nZWQu
-CgoKCsKgCgoKCkJlc3QgcmVnYXJkcywKCgoKSmFjb2IKCgoKCgoKCjIwMjYtMDgtMTcKCgoK5YWs
-5Y+477ya6bqS6bqf6L2v5Lu25pyJ6ZmQ5YWs5Y+4CgoKCuWnk+WQje+8mum7hOS8nyAoRGF3YXku
-SHVhbmcpCgoKCuWcsOWdgO+8muS4iua1t+W4guW+kOaxh+WMuueVquemuui3rzEwMjjlj7fmlbDl
-qLHlpKfljqYxMualvAoKCgrpgq7nvJbvvJoyMDAwMzAKCgoK55S16K+d77yaMDIxLTUxMDk4ODY2
-LTYwMzMKCgoK5omL5py677yaMTM4MTQ5OTY1NzUKCgoKRW1haWzvvJpodWFuZ3dlaUBreWxpbm9z
-LmNuCgoK
+Check the return value of cdns3_gadget_ep_alloc_request() before
+dereferencing the returned request.
+
+Changes in v2:
+- Allocate the ZLP request before queuing the primary request.
+- Free the allocated ZLP request when the primary request queueing fails.
+
+Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
+---
+ drivers/usb/cdns3/cdns3-gadget.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
+index 42311c1bfada..05d225f99012 100644
+--- a/drivers/usb/cdns3/cdns3-gadget.c
++++ b/drivers/usb/cdns3/cdns3-gadget.c
+@@ -2641,7 +2641,7 @@ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
+ static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
+ 				 gfp_t gfp_flags)
+ {
+-	struct usb_request *zlp_request;
++	struct usb_request *zlp_request = NULL;
+ 	struct cdns3_endpoint *priv_ep;
+ 	struct cdns3_device *priv_dev;
+ 	unsigned long flags;
+@@ -2655,24 +2655,36 @@ static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
+ 
+ 	spin_lock_irqsave(&priv_dev->lock, flags);
+ 
+-	ret = __cdns3_gadget_ep_queue(ep, request, gfp_flags);
+-
+-	if (ret == 0 && request->zero && request->length &&
++	if (request->zero && request->length &&
+ 	    (request->length % ep->maxpacket == 0)) {
+ 		struct cdns3_request *priv_req;
+ 
+ 		zlp_request = cdns3_gadget_ep_alloc_request(ep, GFP_ATOMIC);
++		if (!zlp_request) {
++			ret = -ENOMEM;
++			goto out;
++		}
++
+ 		zlp_request->buf = priv_dev->zlp_buf;
+ 		zlp_request->length = 0;
+ 
+ 		priv_req = to_cdns3_request(zlp_request);
+ 		priv_req->flags |= REQUEST_ZLP;
++	}
++
++	ret = __cdns3_gadget_ep_queue(ep, request, gfp_flags);
++	if (ret)
++		goto out;
+ 
++	if (zlp_request) {
+ 		dev_dbg(priv_dev->dev, "Queuing ZLP for endpoint: %s\n",
+ 			priv_ep->name);
+ 		ret = __cdns3_gadget_ep_queue(ep, zlp_request, gfp_flags);
+ 	}
+ 
++out:
++	if (ret && zlp_request)
++		cdns3_gadget_ep_free_request(ep, zlp_request);
+ 	spin_unlock_irqrestore(&priv_dev->lock, flags);
+ 	return ret;
+ }
+-- 
+2.53.0
 
