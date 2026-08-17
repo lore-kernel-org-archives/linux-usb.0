@@ -1,107 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6E03BADAA
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A183E022C;
+	Mon, 17 Aug 2026 09:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786958450; cv=none; b=iuSVCf/B64L9PlKP1wxTyZWzhx0vFqxyUys/XbH5HMmpitVt8mcNyevbNoVbQytRWEHhJdv+OtYXl2EzFtG2M9a39eqz58zGdceAMHICVhgGXTEh3UEUDGm+FBoUieqSkIq1WKienPBAGdpVF4PDzLmxHwccdKA8//YuM42piGw=
+	t=1786959364; cv=none; b=Ae2BCtw6ag+YaGz2oik6Ehw0XtwJlj7i8cYtXaUXEReoaFKME6Z39x8J3mo9x3DhMoicl+QDVw2UdtKKmLyMJ6Wk8HAg8Wc5zBkD/h/2KYGNYGUvlkyIkB1S2jyhO87o4WfXPwsWTdfLoPXf4NOEFv8Vd2FhL/xH94m6DoQTCo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786958450; c=relaxed/simple;
-	bh=i0Rpx05Yc13ffI+daQyqgvyYBnzXDXedTwZKvdO3Sik=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EyYT6kIv0030NuMpcEcnZ3miNmwnE+u0RcAqv8sIUp3JFfvVGEpgdBaegkVuFwq8NoUuXCp8mRrVHieljFRGKrosU7XzVxhyFXFw7olcMTepBspdINwgtqX6STWrwecqYJ10YNj6RLMQQVLb0mVwmcuMCf0cxKnnMkrBmmtsHbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ww9zCMfN; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ww9zCMfN"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EC6E7C2BCF4
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786958450;
-	bh=i0Rpx05Yc13ffI+daQyqgvyYBnzXDXedTwZKvdO3Sik=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Ww9zCMfNCX9BRpGPFZH4bc5TKjdGi5l+tGJm0qnHvOBx4DXBLFJ+imRYT4gnHWmt1
-	 O9s11IbyBiGtwSxuix9M9EI9bSNSNfESgV6HfiEQgcjh00Db6oqZ7bn0o1MGZcig8F
-	 WVmojZ0ecIY9PkSK9yq3OZrqCpgsMp+uHytb+hikw9AysZG4cDxbG4X2sxTeJGoa56
-	 P4VIT0Hkp+zb6La7wMzRGU5wSCO1L0BZULsCUJQb25X9mSOc22Cj4zCI9pjcEOdW9T
-	 NYTMp4XknNhzUrPLZSqkyLP3iyEx/os2z4IaOHpsFbT7aPSzGK+mUhq0Y1yqN3zknj
-	 eB7ixZ75femuw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id DB86DC41612; Mon, 17 Aug 2026 09:20:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221142] ucsi_acpi actively breaks USB-C PD charging on Lenovo
- Legion Pro 7 (Arrow Lake)
-Date: Mon, 17 Aug 2026 09:20:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: trivial
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: huangwei@kylinos.cn
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-221142-208809-gmeHTJa3um@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221142-208809@https.bugzilla.kernel.org/>
-References: <bug-221142-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1786959364; c=relaxed/simple;
+	bh=dMuJJdV3AxAYtcWe+dbl22mUmCd8t14P+au1fWQUB/g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=B+oDyYaj47+Y8tPV94eIijz+CXDwiFW895F3sHIqzBaJL96dNVc3ngAEbCcCN5zILt5w+awr3ojA/1jVHezHzD0HgtsoNztXC0Ds09T5ijDD8PUnE6LIjj1sAcm6CC63E4fJ+OEqpzKES7gM/S8t62+zaiOQsWX5oBqa95+emXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 09d4b6fa9a1f11f19a56ed5b684f684d-20260817
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:2f2dad2c-6390-4dd3-aa55-310cf1b34d93,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:62f4f0c0eaa02832bee5e4450bef1af2,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50,ED
+	M:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 09d4b6fa9a1f11f19a56ed5b684f684d-20260817
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 159824157; Mon, 17 Aug 2026 17:35:52 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: Johan Hovold <johan@kernel.org>
+Cc: Huang Wei <huangwei@kylinos.cn>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Craig Hesling <craig@hesling.com>,
+	leStoppe <lestoppe@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
+Date: Mon, 17 Aug 2026 17:35:49 +0800
+Message-Id: <20260817093549.245503-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <aoLKsDMGD3NXT19-@hovoldconsulting.com>
+References: <20260810091322.2201740-1-huangwei@kylinos.cn> <aoLKsDMGD3NXT19-@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
+Hi Johan,
 
-Wei Huang (huangwei@kylinos.cn) changed:
+Thanks for the review.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |huangwei@kylinos.cn
+You're right that the owon 'simple' driver is effectively an alias for
+the generic usbserial driver, so a VDS1022 used through a kernel tty
+would not have been broken by the new match. The reporter's breakage is
+therefore most likely due to a libusb-based userspace tool, which can
+no longer claim the interface once the kernel driver binds to it -
+before commit 4cc01410e1c1 nothing claimed these interfaces in-kernel,
+so such tools worked out of the box.
 
---- Comment #1 from Wei Huang (huangwei@kylinos.cn) ---
-Hi Alstergee,
+leStoppe, to figure out the right fix, could you share:
 
-Thanks for the detailed report, and for verifying that blacklisting
-ucsi_acpi restores normal PD negotiation on this machine.
+ 1. which userspace software you use with the VDS1022 (is it a
+    libusb-based tool?);
+ 2. the output of "lsusb -v" (or "usb-devices") for the VDS1022;
+ 3. whether the VDS1022 supports the same SCPI command set as the
+    HDS200 series.
 
-The cleanest way forward is a DMI quirk for this model in
-drivers/usb/typec/ucsi/ucsi_acpi.c - there is already a quirk mechanism
-there, used for a similar EC firmware problem on LG gram laptops. To
-write the quirk, I need the exact DMI identification strings of the
-machine, which are not part of the report.
+Craig, was the intent of 4cc01410e1c1 to cover only the HDS200 series,
+or the whole range of OWON scopes sharing this VID:PID?
 
-Could you please attach the output of:
+I'll follow up with a v2 that switches to USB_DEVICE_INTERFACE_CLASS(),
+fixes the comment style, and drops the wording about falling back to a
+generic driver.
 
-    sudo dmidecode -t system
-
-Alternatively, the contents of these files:
-
-    /sys/class/dmi/id/sys_vendor
-    /sys/class/dmi/id/product_name
-    /sys/class/dmi/id/product_version
-    /sys/class/dmi/id/product_family
-    /sys/class/dmi/id/product_sku
-    /sys/class/dmi/id/board_name
-    /sys/class/dmi/id/board_version
-
-With that information I can prepare a patch and submit it upstream.
-
-Thanks!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Best regards,
+Huang Wei
