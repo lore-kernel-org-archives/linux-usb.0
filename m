@@ -1,78 +1,129 @@
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-244121.protonmail.ch (mail-244121.protonmail.ch [109.224.244.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09112BFC60
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 16:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB657137923
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 16:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786984686; cv=none; b=G0cjiSlFJREpxHmng6B/YK7MH8bSyJLxj9wU7ZxW13Pa7hSsmeqo58hUEvrOtcJt/meWbtRBiqTTSJgHwlORCCx8/to4BVL20RdgP7qOdUvscPvSBOLUAzrhi0EJumUm5UPkocRwii/O+3ZflfYZEz3DX4id4rWk8NcrMZZgkIU=
+	t=1786985053; cv=none; b=nkQ7GgGybbH132FjyZ30uEomuOttw93Ene/yCnlWvXencFDjvMVHPwrvxLDK1XlBVQRMuLZ6b/QN8T+52LIz3OWvxlRVfsK3pkMuNhYLv8xIVd0++HbVzCbTm+wzLDZ7YNeTFUumUnlvpz2lEaFejad/utOm0u2RLlruuJRP/ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786984686; c=relaxed/simple;
-	bh=O5tWgxmwgMrUnydp1q9GOvUzClrE/Mq92ksXIVL8dHY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=r/DFb+ymOw1OhrXcTNJFmBI9tqsAmYHGMrVW5eQTpkK44qscROWnlUVo17eFDAo2XpcxsisFfwhVr5H7tI3IiVGoWPk67Se973FatUL1Vrq6TkEznodzZGg5JGFO++Txljwdkzod6S6mxN71U9/8NFrXxubih/xcsaj6sGjqUgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6acbcb92d31so3229948eaf.1
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:38:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786984683; x=1787589483;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=6ry6iaEim5a44990Oh54c+d4+LN5Mgz5CQaOqSlmlJI=;
-        b=gj1EcDdSs04uc038gaznUW+WQdvab6O8lq1wmAwSKZ8qmxvK7JmD3wMBiR2vhPbpdo
-         4ql2E5Bt8/j9n2G5t9q76hne1KeqehpKM+IFRujONq48fBNsCtDe2VPDdFFTZQoXLzUi
-         TbSYHH9jlz8fYmYU1dSVwCXuk9bo+cUNxndD0jeHaQOoJt6C1xUwWrnjjxIA9JGk6/dp
-         z4fXkLvPCUq8+XJ2RM81qZj7PkeqhrhdDDJ/0KFglS328EFC8WuViQP57DarIiKX1/Vk
-         8EcRIMQAAHUcNKKJvLCxhBObFp/lE0fB6WBq/a6spyQNlRUE3lG+Zt0f8VnEmxDRw22p
-         kMFA==
-X-Forwarded-Encrypted: i=1; AHgh+RpknR7J8vq2B/LDQfQekUrLOMitWG/O9K5oV5Nzm2XbVFT8xWLmsLdK44NhrmYtu+uzi/I6NcKirJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxelb/T3ms81hvDaSDwe2RsAJMwtgBgxqXAFeMYrla+v9O9SYKY
-	KeEcPDSYOfw1vR2S/GRvkrH44FshkhIf7kZMOfpTYbA8IC9vApNVD1Lv6E84Ar+g9BEtCL/O++O
-	YBm4V+ISZNoKHLbjmCc+JQIOLNFK49oqP3OrKjWg7TSDTj62dT9Q3Jh54WRE=
+	s=arc-20240116; t=1786985053; c=relaxed/simple;
+	bh=Wl8oXUwNGRBYWuwc6YRskc3trlDpAznVH/KLhV8jjo0=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RISGXMkOcbaKoxQz226Eewl2HiDlw9G8z0IJHwuywPQ1Hw1tnaRsjhZgBgjJYFL8pnoJPVoqaBLIucl7xXO/tCgQJ6wn/g6LoRjaY1V6ifYgT/UiyBMmPG4WwrsUzuOG3Ki1kQnWh2mPqtvMrEq6Lyoi57o8B27kYls7YquLHu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=HV2Aioxq; arc=none smtp.client-ip=109.224.244.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="HV2Aioxq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=rvpx3mo3wjddxk5opdpaheghie.protonmail; t=1786985047; x=1787244247;
+	bh=tvTUvCneZ8nwqCJ1TwJd58jgKWGMjvkPFRANIp9gx0s=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=HV2AioxqCXe/4QCz45w7OrxE0HYJ3t1TlFAQy7dQhCH2z6QvQZw1X0sq1nbtLLh18
+	 gH8n6Jr0KS1RtiMUI2S04xTRSF0ggS33BQkqgWi3KRn3xPIJrA0g9YvOq/L2zCzwtF
+	 9NZt128GtylD9Efcn7lGQg7BbuG4feTNxMIvb5J1NIz59Y9+nfkobZfRaEEU0ZNLWW
+	 rwzM/1Huaz9mVC8EcwUWemz4uidOhiUtbdHeIoEGFR2avw48kDg7LewE5FG8MRVeXX
+	 Ee/YC45vzfVqiI6qy2xReUab4FtReo5NWcx6tNPFEBbsOG/O1xVlPf/80HMMDorRPM
+	 +Jw0Yah7XKVaQ==
+Date: Mon, 17 Aug 2026 16:44:05 +0000
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Cole Munz <Munzzyy1@proton.me>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: dwc3: gadget: don't error on dequeue of a completed request
+Message-ID: <18ebf019a119389870bbc7c155a00a86bf867323.1786985009.git.Munzzyy1@proton.me>
+Feedback-ID: 209578162:user:proton
+X-Pm-Message-ID: fce444720aea5567c64ce8625721c69a7150dc1d
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1990:b0:6ae:aa38:a0bb with SMTP id
- 006d021491bc7-6b0d692d722mr21841468eaf.33.1786984682847; Mon, 17 Aug 2026
- 09:38:02 -0700 (PDT)
-Date: Mon, 17 Aug 2026 09:38:02 -0700
-In-Reply-To: <34e65096-8827-470c-9a88-8c643cccef22@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8338ea.dbb3a75c.20434b.006a.GAE@google.com>
-Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Read in ep_open
-From: syzbot <syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com>
-To: asml.silence@gmail.com, axboe@kernel.dk, brauner@kernel.org, 
-	gregkh@linuxfoundation.org, io-uring@vger.kernel.org, jack@suse.cz, 
-	kartikey406@gmail.com, kees@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mjguzik@gmail.com, nogikh@google.com, 
-	stern@rowland.harvard.edu, syzbot@kernel.org, syzbot@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, 
-	syzkaller-upstream-moderation@googlegroups.com, torvalds@ppc970.osdl.org, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Dequeuing a request that has already been given back logs an error and
+returns -EINVAL:
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+  dwc3 23000000.usb: request 00000000ad92f1c4 was not queued to ep0out
 
-Reported-by: syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
-Tested-by: syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
+f_fs hits this on every teardown. functionfs_unbind() dequeues ep0req
+unconditionally before freeing it, which
+commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
+before free_request") made deliberate to close a use-after-free. By then
+the control transfer has long completed, so dwc3_gadget_ep_dequeue()
+finds the request on none of cancelled_list, pending_list or
+started_list and falls through to the error path.
 
-Tested on:
+Nothing is actually wrong. The request is not queued, which is what the
+caller asked for, and both callers ignore the return value and free the
+request straight after. The only effect is an error line in every gadget
+teardown, which buries real USB errors.
 
-commit:         8d3ae592 Linux 7.2
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ v7.2
-console output: https://syzkaller.appspot.com/x/log.txt?x=16a91a25580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
-dashboard link: https://syzkaller.appspot.com/bug?extid=df9e891bf8ea586f846b
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=15790679580000
+dwc3 already tracks enough to tell the two cases apart.
+dwc3_gadget_ep_alloc_request() sets DWC3_REQUEST_STATUS_UNKNOWN, both
+__dwc3_gadget_ep_queue() and __dwc3_gadget_ep0_queue() set
+DWC3_REQUEST_STATUS_QUEUED, and dwc3_gadget_giveback() sets
+DWC3_REQUEST_STATUS_COMPLETED. A request that reaches the end of dequeue
+with status COMPLETED was queued to this endpoint and has finished.
+Anything else was never queued here, or the driver lost track of it.
+Keep the error for those, and return success for a completed request.
 
-Note: testing is done by a robot and is best-effort only.
+A completed request still has to be dequeued on the endpoint it belongs
+to. req->dep is set once at allocation and never changes, and
+__dwc3_gadget_ep_queue() rejects the same mismatch with a WARN, so a
+wrong-endpoint dequeue stays on the error path here as well.
+
+This is narrower than the cdnsp fix for the same caller,
+commit 34f08eb0ba6e ("usb: cdnsp: Fixes issue with dequeuing not queued
+requests"), which returns 0 whenever usb_request::status is not
+-EINPROGRESS. That also swallows a request that was never queued, since
+status is zero out of allocation. Going by dwc3's own request status
+keeps that case an error, which is what was asked for when a separate
+ep0 dequeue was proposed in 2022.
+
+Link: https://lore.kernel.org/linux-usb/20221117054917.30104-1-quic_ugoswam=
+i@quicinc.com/
+Signed-off-by: Cole Munz <Munzzyy1@proton.me>
+---
+ drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 1082e9c9afaa..e6c13f29f705 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2181,9 +2181,22 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+ =09=09}
+ =09}
+=20
+-=09dev_err(dwc->dev, "request %p was not queued to %s\n",
+-=09=09request, ep->name);
+-=09ret =3D -EINVAL;
++=09/*
++=09 * The request is on none of this endpoint's lists. That is the
++=09 * expected state once it has been given back: a function may dequeue
++=09 * a request before freeing it, and f_fs does so unconditionally for
++=09 * ep0req in functionfs_unbind(). Nothing is queued, which is what the
++=09 * caller asked for, so report success. Any other status means the
++=09 * request was never queued here or the driver lost track of it, and
++=09 * stays an error. So does a completed request handed to the wrong
++=09 * endpoint: req->dep is fixed at allocation, and the queue side
++=09 * rejects the same mismatch.
++=09 */
++=09if (req->status !=3D DWC3_REQUEST_STATUS_COMPLETED || req->dep !=3D dep=
+) {
++=09=09dev_err(dwc->dev, "request %p was not queued to %s\n",
++=09=09=09request, ep->name);
++=09=09ret =3D -EINVAL;
++=09}
+ out:
+ =09spin_unlock_irqrestore(&dwc->lock, flags);
+=20
+
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+--=20
+2.55.0
+
+
