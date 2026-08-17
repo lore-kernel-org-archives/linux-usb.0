@@ -1,74 +1,79 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164E53DA5DA
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 10:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10B53F65EE
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 10:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786961629; cv=none; b=AcP8orF10z0BI3DOO4pG904UNolKXr3gpJPSLRxn34hRB75dP9Chx2Bki8i2CnGRZ/9Ah82hBuLlgItquHRBlwReXat6hkAa/I3eG7C+/1AWtuk3ED5EpGR1wXPAjXQj4QvmXTxieU2IcIzunIdbuXhh36K1Vtqp6/6ArmhKKdo=
+	t=1786961634; cv=none; b=TQz6QqB9XrVDCqqF6w7WienkAqzZzMmYXCmiFF6Fe4pifQ/+Y9Hxmk+Dus4cbagvaP5HWC3nj5/ikSpFGdtMZHUlRMqcBmqVCBr3JTjSSpP4H/Try3VRSwnYy+Z08o/6WMJjbcNWiQ17vNxL5phqxihqrL54Yr3pdR7wV8uD0YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786961629; c=relaxed/simple;
-	bh=qm7h/cjcfAj5pMrU08l60eyqDdvbXcBYtEb/EBlaASc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kav6aPH6qtKtiXKnANVeklNasTenjhu1UNj1iYzdHajuMextCrO2nJ91eZq24toRU4EoZwhbMo080DrN1aKb5InSF/WHHwso3CfxPEEYDoBOBVCOZAB2o327LCzLFBWW8XVS9sLmTICzO/jWzMydVSWhpo9ufb+zRaTRC+OV8Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIlq7/PO; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1786961634; c=relaxed/simple;
+	bh=CizFxtplh31MaoRyDhQUklAVO5brshVhPT06PE0+8xg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Mebbx1YY8mQjsqNkZDrA5pr1H49HOx8wXUbgxy7/JrKzUXVAQxQyS+qWbrq5zxlV+gGpnq1mqkI4rhQJET+gs/xT+ZusM8LamTr/p+pQpgP7y8yM+iKHKwTdNRy+hWtbhDao02874XxMUrdmI3o7pr2Y4vBfvPoBjUDSF2rdneE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OI7IT0r1; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIlq7/PO"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so40444075ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 03:13:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OI7IT0r1"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so4213587a91.0
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 03:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786961627; x=1787566427; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VG2XuUk72z58iBFG6BERHwYFHW3e/3vW2ebIonsj3J4=;
-        b=BIlq7/POYgUxHpehtxJHTZ/8Qu/ChsuLBGLG4j9S4+5QiLxByNVxxN0UFrvRqcqzaA
-         Gx09lZ95Tz2+9E7gi84CPCMSD9a2UQIcYcIHhh7AmqFEwOEV5jJRaH+pdK9Ak0s1Xa/i
-         YwvQbfk7MM72daqa/lvg9nFhLTOgzWR6zeCrss/k6qushSoPD80kXUtak7tHIwG2ecq1
-         cMb+rjdHma4hQ7P/EZC7luNvvEpW7G10SU5sYHT05rcJtrUbvL3HPsPPoSMU+nuK5sy/
-         mM6fUxe6QtEnStJ3nwwK0AIThQr7Y95rT3dUAjsxuIBZ39cejymK1XHDm311iHDSct+b
-         HepQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786961627; x=1787566427;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1786961632; x=1787566432; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VG2XuUk72z58iBFG6BERHwYFHW3e/3vW2ebIonsj3J4=;
-        b=nyBj00ZTInYYDNLF3hBo5g3MwI5Jj5zpiV9d2w0ROgKK79nJPG3Wh4KnvnCk8PuVma
-         yBPLrTIKd7FIH0TwVhb26Q4MvRfXsX5h3GL2IbvSDMfn2xjmoaUkl53uNzHiUca08lZV
-         OybIAzVOqpB0RuWcL1/oL7eYNWygj2HMk4tmLJTF5fEikWsGHpHqcAS89PICx8BlnFjY
-         pxjq2orhbZjDaF08hkASizxB6DpQtMdlqAjsVxk3Hfatn62lJPRh2mpaWO67opg2OW0c
-         XvZtzrYUSNp2xWvrUPeqy7VvTX9ECItwkOp5YoqZO3togTVeCYk/XrlKbQdQ2GI6Npm6
-         czZQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5z7Hj+p73o6Wb1Nh0HmhVCFkhXnAXBQP51BBmYMDA/0SWRmaCc5yzyKZKFkxwiL3jCaK3xzcaka4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye0Xsg77Qftu6ldKrWE8SY/7ukHGtd2jsQT3ff/6Pl/WDi7Os1
-	inqgrcikC1aNVbE50nEf2EksSiTCom3JKm9pYiR4GZ+f/GR02ko8CXM=
-X-Gm-Gg: AR+sD10UDUszLMstLalsrELWX9b3TN9mBH2NGyrHebtVQg5u0KhYMzCumS61d/dAg7t
-	8fIFwXBuuXbhVBAXH175k6gR7RAV/0gcme+Znxzx7/OyrGjbFm8I/6RlPHrZmwTtkeRusfP+7Fe
-	3qyBlnu+FKHsra+3aN6wbyhOuy0ZPwB8+16c9Rp5Oee2OQv8cHPqbZP9e61FtIYxzm08Tfig9w/
-	dHq1BfC2u4cLxtiiO2vF8DoV1AO5c5cy4CXqupUh4fybF9hBMuk38Xntw/u/TD5fNSivwxnAO7X
-	gV2VKT80+kEhxxoRLqCHW2DE2Dh1zfh1t2c3s1NFxkE563crpCfdkfQ86apbHqYkIbhhzd+a9/7
-	ECa5gfsZK1hsKN62MP6Tjo7NGvxbNqr5XpjMxLgQ7i9lIeLvSacFClvqIEVuiipUGB4ex7UrK7+
-	3kx3QLgzslTWpJMsvIOvwEwtLDwFmWI/jg/XDZQEsRFn/xNcXiVYUs8ugAI3mWuZf2o+o0ILtJY
-	RT9Hf4SIKC9bNaSKqgYeg==
-X-Received: by 2002:a17:902:d549:b0:2cc:6018:f030 with SMTP id d9443c01a7336-2d3b0c6832dmr275991335ad.14.1786961627359;
-        Mon, 17 Aug 2026 03:13:47 -0700 (PDT)
+        bh=CeECLjqLcEJPD/Rw00vUe8sjoJNKjBRQIoIZeyp3OHU=;
+        b=OI7IT0r1Bolw6qa/o0tSxBizGX35sJpLMwghqvi6DLyNVOfhfQLj8+x8wnEUWfVYIR
+         +OFvr9KEaSrJcmsW+rNzPyflqsCoh+HxWSbY7kslKeroVLzxDmAlKtcxJaFQ/rUoJKj7
+         clJUPQq9Qhz9C1Fb9fHsxTNNqrxKbf9hwFqceSFbHZBP9kXh+oHhDGzisf4qLcUZ4+lq
+         v3VYD/BAMk/GplaXojSigbY0vlWdw6yOwoI9nMxCUeuhJduhMGCml2HT4KK2ePvfWMQh
+         zxwLdVAe5TmzLzI7DPuEpXuGyNU88WlMl75gP5GMKo+LGcQZ8RznRqTy725Dtk/6TMow
+         Eenw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786961632; x=1787566432;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CeECLjqLcEJPD/Rw00vUe8sjoJNKjBRQIoIZeyp3OHU=;
+        b=kfefLNLPvi+WRpIdKPPCjq2FWzSepkqDmgeperCWKL6t+56cmpaCnryAXclR31lJmw
+         AxAO18FfRm/pFsMR30jVnGukY/TZMcifXmMPm9DTtzl3rIPH2cnaYW6ctZ9/v0OSmp8o
+         rxRP+PcM2TGMZ3su5H2mJTWzzEvoWlgFAdOql/cokiALP8lFJ/RePk/QhZl8zjqVxLsI
+         um1AZhgbRERtTfY9A+OQVdwih+okLOFCV/u3FF4qTGLH/lW5BY0OdSjc8MQ+2j7GnZg+
+         JKnMqxjDwlm5lULFtTJDt1dh6Qxb0eAGEMTVlUNapsuAIu0UM7TQN+OAJpz+Xzcn3tWW
+         t/Qg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqz/84wW0+Qw+rNTi0IuItLDqtduDE1LSk8brLryG1Wgx2y6jQj3T2yRuiGGIV5aaNmAVeDiuj5wGA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwW+NwMAgZ7uMJo6nHeG+RX2fUv9S+vXihTj7lIKI4ehyyMDvJB
+	66pinP9c5An+TEcMnNy4FYfrOjR/L4gkZAVoSr+Am84v8CUnO4DzAug=
+X-Gm-Gg: AR+sD10th25uHCeuJ2JJMMB6c4Z3CbcXIjcjLFhEDu5PwvHYRFzJ7MuBmqykwSJPE5h
+	44GWtRS+dLcK5N4GKMEJo5GZZLM6WphF+rZIi+92S+sAQdGOepVYneoLWYD807h1lAieB5wdlaf
+	171D+FFePdgLh2mO45OWpOtK7S2+oRIU65D69jtSK4/fsy/VUz7vQ+Eea/x2IqOyreWwPpPc6YC
+	pPXhQhdyaxRORcR87VLAurmOyB30XlTfQAbvzwcUIrt22bqjKY4NF51pi/4PnRHU/kUy907045s
+	57X7MWCFIGJfIS3ALoXwJZgcC5HDAdhtnN8nigh30tpbPSUeovXzRV4UW2CS3m5NvNDN3MKufMa
+	E5+qxYAc9kqHiA5aVKKYYJV/VKPnSmxnyo7U32U9gD3h1Rj93I7zMgcU5mA8d5eP2jci1KKFSZZ
+	h6eSaHaqa7cjqQJF3rKX9k3cJ+7D86eDDzfW4W68D5ppOVg6QoPiddg2//yzrX8Q4hVfu3S3frx
+	MVwOVMPJVSRz43zU9aqqw==
+X-Received: by 2002:a17:90b:3c0e:b0:393:1d92:db5 with SMTP id 98e67ed59e1d1-3933b8f1451mr25461296a91.10.1786961631875;
+        Mon, 17 Aug 2026 03:13:51 -0700 (PDT)
 Received: from at-Standard-PC-Q35-ICH9-2009.. ([27.59.94.1])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326761d3539sm4864117eec.0.2026.08.17.03.13.44
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326761d3539sm4864117eec.0.2026.08.17.03.13.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 03:13:46 -0700 (PDT)
+        Mon, 17 Aug 2026 03:13:51 -0700 (PDT)
 From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 To: 
 Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <westeri@kernel.org>,
 	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 0/3] Add Apple T2 NHI Device links
-Date: Mon, 17 Aug 2026 06:13:21 -0400
-Message-ID: <20260817101329.1517-1-atharvatiwarilinuxdev@gmail.com>
+Subject: [PATCH v8 1/3] thunderbolt: Shift tb_apple_add_links to pci.c
+Date: Mon, 17 Aug 2026 06:13:22 -0400
+Message-ID: <20260817101329.1517-2-atharvatiwarilinuxdev@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260817101329.1517-1-atharvatiwarilinuxdev@gmail.com>
+References: <20260817101329.1517-1-atharvatiwarilinuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,74 +82,224 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds support for Device linking on Titan ridge, and
-Icelake, which are used exclusively on Apple T2 machines.
+Shift tb_apple_add_links to pci.c as tb_apple_add_links calls
+pci functions.
 
-Changes in v8:
-- Shifted tb_apple_add_links to pci.c
+Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+---
+ drivers/thunderbolt/pci.c | 73 +++++++++++++++++++++++++++++++++++++++
+ drivers/thunderbolt/tb.c  | 72 +-------------------------------------
+ drivers/thunderbolt/tb.h  |  1 +
+ 3 files changed, 75 insertions(+), 71 deletions(-)
 
-Changes in v7:
-- Used pci_lock_rescan_remove to prevent race conditons.
-- Fixed patch format.
-
-Changes in v6:
-- Used for_each_pci_bridge in Icelake section
-- Removed has_apple_t2_chip as its not required now
-
-Changes in v5:
-- Used Icelake root PCI IDs for detection of root ports instead of TRP
-
-Changes in v4:
-- Limited TRP check to T2 Icelake systems only
-- Optimized has_apple_t2_chip check
-- Included pci.h to drivers/thunderbolt/tb.c
-- Used __free(pci_dev_put) to avoid label
-
-Changes in v3:
-- Fix build errors with non-x86 machines
-- Used __initconst for apple_t2_devices
-- Removed UEFI_QUIRK_SKIP_CERT as its unused now
-- Used IS_ENABLED(CONFIG_ACPI) in tb_apple_add_links for the T2 part
-- Removed !bid check to remove warning with -Waddress
-
-Changes in v2:
-- Used a less generic name for has_t2_chip
-- Used DMI instead of PCI for has_apple_t2_chip to avoid PCI problems
-- Initialized ret in tb_apple_add_links
-
-Link to v7:
-https://lore.kernel.org/all/20260812153717.1345-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v6:
-https://lore.kernel.org/all/20260730223435.2874-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v5:
-https://lore.kernel.org/all/20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v4:
-https://lore.kernel.org/all/20260724164641.2239-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v3:
-https://lore.kernel.org/all/20260721063412.11588-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v2:
-https://lore.kernel.org/all/20260721054506.11871-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v1:
-https://lore.kernel.org/all/20260719180308.1398-1-atharvatiwarilinuxdev@gmail.com/
-
-
-Atharva Tiwari (3):
-  thunderbolt: Shift tb_apple_add_links to pci.c
-  thunderbolt: Add device links for Apple machines with Titan Ridge
-  thunderbolt: Add device links for Apple systems with Icelake
-    thunderbolt
-
- drivers/thunderbolt/pci.c | 119 ++++++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/tb.c  |  72 +----------------------
- drivers/thunderbolt/tb.h  |   1 +
- 3 files changed, 121 insertions(+), 71 deletions(-)
-
+diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+index bbd186c29..c3d5a36ab 100644
+--- a/drivers/thunderbolt/pci.c
++++ b/drivers/thunderbolt/pci.c
+@@ -18,6 +18,7 @@
+ #include <linux/property.h>
+ #include <linux/string_helpers.h>
+ #include <linux/suspend.h>
++#include <linux/platform_data/x86/apple.h>
+ 
+ #include "nhi.h"
+ #include "nhi_regs.h"
+@@ -261,6 +262,53 @@ static const struct tb_nhi_ops pci_nhi_default_ops = {
+ 	.init_interrupts = nhi_pci_init_msi,
+ };
+ 
++static bool tb_pci_add_links_discrete(struct pci_dev *nhi_pdev)
++{
++	struct pci_dev *pdev, *upstream = pci_upstream_bridge(nhi_pdev);
++	bool ret = false;
++
++	while (upstream) {
++		if (!pci_is_pcie(upstream))
++			return false;
++		if (pci_pcie_type(upstream) == PCI_EXP_TYPE_UPSTREAM)
++			break;
++		upstream = pci_upstream_bridge(upstream);
++	}
++
++	if (!upstream)
++		return false;
++
++	/*
++	 * For each hotplug downstream port, create add device link
++	 * back to NHI so that PCIe tunnels can be re-established after
++	 * sleep.
++	 */
++	pci_lock_rescan_remove();
++	for_each_pci_bridge(pdev, upstream->subordinate) {
++		const struct device_link *link;
++
++		if (!pci_is_pcie(pdev))
++			continue;
++		if (pci_pcie_type(pdev) != PCI_EXP_TYPE_DOWNSTREAM ||
++		    !pdev->is_pciehp)
++			continue;
++
++		link = device_link_add(&pdev->dev, &nhi_pdev->dev,
++				       DL_FLAG_AUTOREMOVE_SUPPLIER |
++				       DL_FLAG_PM_RUNTIME);
++		if (link) {
++			dev_dbg(&nhi_pdev->dev, "created link from %s\n",
++				dev_name(&pdev->dev));
++			ret = true;
++		} else {
++			dev_warn(&nhi_pdev->dev, "device link creation from %s failed\n",
++				 dev_name(&pdev->dev));
++		}
++	}
++	pci_unlock_rescan_remove();
++
++	return ret;
++}
+ /* Ice Lake specific NHI operations */
+ 
+ #define ICL_LC_MAILBOX_TIMEOUT	500 /* ms */
+@@ -444,6 +492,31 @@ static const struct tb_nhi_ops icl_nhi_ops = {
+ 	.init_interrupts = nhi_pci_init_msi,
+ };
+ 
++/*
++ * During suspend the Thunderbolt controller is reset and all PCIe
++ * tunnels are lost. The NHI driver will try to reestablish all tunnels
++ * during resume. This adds device links between the tunneled PCIe
++ * downstream ports and the NHI so that the device core will make sure
++ * NHI is resumed first before the rest.
++ */
++bool tb_pci_add_links(struct tb_nhi *nhi)
++{
++	struct pci_dev *nhi_pdev = to_pci_dev(nhi->dev);
++
++	if (!x86_apple_machine)
++		return false;
++
++	switch (nhi_pdev->device) {
++	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
++	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
++	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
++	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
++		return tb_pci_add_links_discrete(nhi_pdev);
++	default:
++		return false;
++	}
++}
++
+ static int nhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	struct device *dev = &pdev->dev;
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index f43f2d952..9c2fc7ff1 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -10,7 +10,6 @@
+ #include <linux/errno.h>
+ #include <linux/delay.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/platform_data/x86/apple.h>
+ 
+ #include "tb.h"
+ #include "tb_regs.h"
+@@ -3302,75 +3301,6 @@ static const struct tb_cm_ops tb_cm_ops = {
+ 	.disconnect_xdomain_paths = tb_disconnect_xdomain_paths,
+ };
+ 
+-/*
+- * During suspend the Thunderbolt controller is reset and all PCIe
+- * tunnels are lost. The NHI driver will try to reestablish all tunnels
+- * during resume. This adds device links between the tunneled PCIe
+- * downstream ports and the NHI so that the device core will make sure
+- * NHI is resumed first before the rest.
+- */
+-static bool tb_apple_add_links(struct tb_nhi *nhi)
+-{
+-	struct pci_dev *nhi_pdev = to_pci_dev(nhi->dev);
+-	struct pci_dev *upstream, *pdev;
+-	bool ret;
+-
+-	if (!x86_apple_machine)
+-		return false;
+-
+-	switch (nhi_pdev->device) {
+-	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
+-	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
+-	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
+-	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
+-		break;
+-	default:
+-		return false;
+-	}
+-
+-	upstream = pci_upstream_bridge(nhi_pdev);
+-	while (upstream) {
+-		if (!pci_is_pcie(upstream))
+-			return false;
+-		if (pci_pcie_type(upstream) == PCI_EXP_TYPE_UPSTREAM)
+-			break;
+-		upstream = pci_upstream_bridge(upstream);
+-	}
+-
+-	if (!upstream)
+-		return false;
+-
+-	/*
+-	 * For each hotplug downstream port, create add device link
+-	 * back to NHI so that PCIe tunnels can be re-established after
+-	 * sleep.
+-	 */
+-	ret = false;
+-	for_each_pci_bridge(pdev, upstream->subordinate) {
+-		const struct device_link *link;
+-
+-		if (!pci_is_pcie(pdev))
+-			continue;
+-		if (pci_pcie_type(pdev) != PCI_EXP_TYPE_DOWNSTREAM ||
+-		    !pdev->is_pciehp)
+-			continue;
+-
+-		link = device_link_add(&pdev->dev, nhi->dev,
+-				       DL_FLAG_AUTOREMOVE_SUPPLIER |
+-				       DL_FLAG_PM_RUNTIME);
+-		if (link) {
+-			dev_dbg(nhi->dev, "created link from %s\n",
+-				dev_name(&pdev->dev));
+-			ret = true;
+-		} else {
+-			dev_warn(nhi->dev, "device link creation from %s failed\n",
+-				 dev_name(&pdev->dev));
+-		}
+-	}
+-
+-	return ret;
+-}
+-
+ struct tb *tb_probe(struct tb_nhi *nhi)
+ {
+ 	struct tb_cm *tcm;
+@@ -3400,7 +3330,7 @@ struct tb *tb_probe(struct tb_nhi *nhi)
+ 	 * before the PCIe/USB stack is resumed so complain here if we
+ 	 * found them missing.
+ 	 */
+-	if (!tb_apple_add_links(nhi) && !tb_acpi_add_links(nhi))
++	if (!tb_pci_add_links(nhi) && !tb_acpi_add_links(nhi))
+ 		tb_warn(tb, "device links to tunneled native ports are missing!\n");
+ 
+ 	return tb;
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index ec9192b61..6a285fe7f 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1506,6 +1506,7 @@ static inline bool usb4_port_device_is_offline(const struct usb4_port *usb4)
+ }
+ 
+ void tb_check_quirks(struct tb_switch *sw);
++bool tb_pci_add_links(struct tb_nhi *nhi);
+ 
+ #ifdef CONFIG_ACPI
+ bool tb_acpi_add_links(struct tb_nhi *nhi);
 -- 
 2.43.0
 
