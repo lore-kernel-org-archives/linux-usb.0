@@ -1,93 +1,81 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A58E2F1FDF
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 15:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E81446BE2
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 15:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786981059; cv=none; b=t+0vhzTQhkSNkgcZEPWu43LRpHQQIJbYSHzlVBHeOuEAUbQdvIhl1pBv2nTVz1xi+HYNPzPbFSW3CnSN7zh8gcBKCQjxjz957A0ehH3x4LtPKE0pwIg9Ui0qoO2Rup6OgJIBFF1FLbkAFvcoGi8oXYAaz1Fn8Ki5onrNEUzZzj8=
+	t=1786981551; cv=none; b=hDxqwPlfmUH1RVyLTiLV2exT8PZoTfwkm/teiv+NMWqtG+bigWqUTa2sBzKhoe5snNDH89O9Hvpa0wOUdYTpPkFqUYbH7A/A6WpuOP9eFis/T89dU5udicZfu5ELh1VpSRh5NkDNlKYYKOahiY7THSTqbsk8JPyLADAxdJ10Y2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786981059; c=relaxed/simple;
-	bh=y00OH/k6isPu7S1CKVMJFjc4kiKrBk4/wIFrAzstCDI=;
+	s=arc-20240116; t=1786981551; c=relaxed/simple;
+	bh=WgoUXwoPUgqVhPGao7+QJ9DTMWGX+mf2qPAXnx16Ag8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laII0BC4Xi8NAjuFQeOkcZgseIzNfs8afqc6lR9lBNggNpS+dBqPRIzx+9onwLI4DKmUA5/HYdvGRrV8L5Je0XAxYhBMXBoGwpatt9G5B7KFNgPwl+O6+LpEgMPz7EkwHWwZMwq5W1dleWLslBWUkxP7xfUUBh0rKIdtLUw/obY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=GkjzwRMl; arc=none smtp.client-ip=209.85.222.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=VlU5WlIc2nK1foSruw/dy02HOoakjNhKrXYDkAlm91DqIrqMgcERKOOk0l18sJTF1S0loeW79IXwMu3m7ojn0s6NiiVELDuQCCfK9VKha9sqqPZi/k7Om/E4BDIExKEyOXmX2Ujus40lwH+fZBqPGqEaxDtIeWBH3mwziv1oS3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=dKFrKwQs; arc=none smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="GkjzwRMl"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92e65e18969so861785a.1
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 08:37:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="dKFrKwQs"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ef7b7651ecso60396d6.1
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 08:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1786981057; x=1787585857; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1786981545; x=1787586345; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Zvtwet2mmperbd15jKuLJ2cEJWb4hiwaUW/F5C2XVJA=;
-        b=GkjzwRMlKcjAQFlQOW5fM1WlKrsVYfral+7bRQf8yD+0Vvymo8IoFug7lX79TUnMud
-         PbXamhAnlkKpeAE47y0kQe1Tk4L7P87A+1rom+kY+xnit3SFNsHw4a+MUmdrd/a92KKK
-         HBFzYDlH/QrVFK0nOGmufqN8Aq/9J6QlhQD4n4KHGDfp1unQRXaCeq+/6Qr3a9j7mqUS
-         mLzCf8cisFmOXK2Gbloo3tE45GJNp7LwVePRp7iv7jEMnvqjFDM9XxJlAsE1O/5K7Z+d
-         MFbIGKaMDjljzD0w59ai8saJDlYCkGshgus6QFJtuJTLTwWWQWYprgTj/Wpw0KpFGr61
-         5fUw==
+        bh=K1WwIY9ZgTWoG+HT13scDb1WtDYcalENgFFGa4ZZEZ8=;
+        b=dKFrKwQsqocP4v8yF4yJwzRFNR0rT5J9+hXhExXHKeqiP/AOOlHCnbSPMN2OSo0ymu
+         drVhGLMurytv4f+viB6zs5zcU3yflN/oUxazEzZChvN+weTVA3TbJor+CGOzRoIjBYlU
+         Bi7oM85hlRmLSq7VDTH7CLRXfPPlsQwUuZrVEiP3rU2UY22hWA5wKFEv5x8t+DmPG2NS
+         bVBDwbnhM0Jq1MKL9zkNhjoBBoXmckJVsltnnzD6zh0zlQ3DlwsVqSvrPQhz8tHHs0DQ
+         SHRwcRItnwoyvBjh3j1NLVt8Uvl/sSrSqz1LZI2+AsyDUaAEiMd/Yn9WB4y+m24r5mX9
+         7DNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786981057; x=1787585857;
+        d=1e100.net; s=20251104; t=1786981545; x=1787586345;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Zvtwet2mmperbd15jKuLJ2cEJWb4hiwaUW/F5C2XVJA=;
-        b=JYJA+snDTWWWOgkDAAv1hwDW4XgTj1pC1YC0dPH2wPrmiBtBdIKDWT/IqcW/4B5IOp
-         trQ7Ey7HbcwlV5TWGlHtlltP4J3CkvlJXcd4MXqOZlVTEKfiBbajEImhf87MnEMuKwBf
-         0G6V5o3HTCTfCBi/RUkpD9NSXRCv89R9/8bHcyVfENPLm11EdtZXb5weMw2zLyda5Ygw
-         MjOCYPDZf8LZhaCZwFNjAYBkrIs3bwfnDspsloHwyjXK7IuCOHgjcmCMM/RFYLuaCHj8
-         XDE52rc04wITMlo9URocJkP9+2jrxrPps768ZBb2dhrFXMzn5lGSaXm5xIMEBOcBPpQJ
-         Bivw==
-X-Forwarded-Encrypted: i=1; AHgh+RorP5JJBY1u1ExDJ0QU/1TltwnpoUattZQlBOahEz1UWAZAyO27IB1zue8nb4+PRxOR/napo7RvRE4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfSuTTywyT6CCdRabS/G0OKfZIsI2v6sZa4zyUSOFj7KXuSvJe
-	7Hnr2pfAXKOEb5tYyIC6JDuMZI2TjHyb8xyt6dSrklb7Ny1KW07yyVGux8YQZxpeYQ==
-X-Gm-Gg: AR+sD13se5Ja/ZdjAmNgdUwb4Q7WE6i/QlNeslqlOWmDLw9eqooRqCFdgrzlUp6/anV
-	TquQEgJW2qF0vQ2hbFxymbZKD+2JHcfN7souyQ/qHdMV9NBXQlD9sWFh6tbqnmRxBJBF6m6PN2I
-	UCkveYpDnUEXmBw5Ju5Vr+47ywx4RsoqY9lBRHImD1ZLCVgadvvowgRIHR40i2RYIx7jCMQVzgi
-	mgJSrLiZLIujUnLTBrUHRHRXgwGausMUZvDwZoRINoY7zfGMEA+xtTunuJ7Qorm3yW7GUeD+UjF
-	1K0iK1Cmf6J0RfFqW1yfWqBuwS/6AyKgkHzVhgJ6p9gJxvvRrHrmkCMG17GZdu4pmTuQc7ITr3E
-	+ld1rLf2W1LiQ6WX6Dj8BWGssCEtrk87T40LYXndLBx3DWU+Dgnqaatllq8K9vw/YBiDshcx+tc
-	2/SAKDmHtFRxem3yJESvJSf9vz+cjQMhsrjD2YXJ17M5fYU/PKWB+GN3LfZ5dzWrt+c4S6Vmhu0
-	toMipYjgahXG5UOqzxi898chnsOR0nz
-X-Received: by 2002:a05:620a:8084:b0:929:f78f:6bf9 with SMTP id af79cd13be357-93706624b9cmr2264085a.16.1786981057302;
-        Mon, 17 Aug 2026 08:37:37 -0700 (PDT)
+        bh=K1WwIY9ZgTWoG+HT13scDb1WtDYcalENgFFGa4ZZEZ8=;
+        b=IuWVE15kPFjsNnsH3isN2wGtxF3RbuA8ryro1wEKeoh1CZIP57UxFnNP5Bwnh//704
+         6d26Zyn8ArmQ14+kJ/ncYcY45dD3PBBuT2k4U8HWYf/mSlbuj0uK/8qdJt2R1zJkqsZ2
+         wqnsvUzYKVzKBG6vQ9TBscPdU8+Roz29YexmhVXWseIxGVQvLxHjpT7rOiixkOCqJfby
+         wMLQOnqvhgxM8SgwgpyOKioC1BTIeFYir4xws57dCw+k7qShFTUfeXu8ZzqhCNC+dTeO
+         WCwpfWq01ipeti/fsDfdpozrqNvMx7CHKvFd7hIp77q5M5Fngfep5oB6rZF3VkyDdOmp
+         0Z6A==
+X-Forwarded-Encrypted: i=1; AHgh+RpnPnYvKnAxBl3kryIwBlFPWowCM1IUn+qe/WDBTvtDPplmvyA3OTpc20l3cT/UKRRQb9c222ivLug=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7AwOwIEf+Sy6uxNvdmdFaUDHAptMQXHqjosOHLX4v+VZ37TFA
+	dhP9r1OWHqNDP5Hu9EHihDiw7dRh8JB98h7n9ZTBD5NBOEuh1ZuCI/JahyZ4CRmBoQ==
+X-Gm-Gg: AR+sD10RpLf5tX47J8XZthAbxa0fX397NIMD/JZIxCVyKe/G+zJcOvcqr28b1zaSk3u
+	B/kMPXE8Vg/GXzoYYDpzv8G4xWlnggAX/u4k9LY17nI2Cf2wE9HhVLhdqMf9almruWJ49fUIRzf
+	Hl61MchtR6LElJ+JrVe30El+K40w9nhi+p4/pp2gbIL7NQj30t7EBQN7kDEJw+Y3jvmM1Q3G4ph
+	u7mN35w283oOdftx9llLQ3thGLP1Y+8F39/ZZd5B/Jc6YqpbNpMnbewj+vmpMbI1jRmT66dEGbe
+	21aNZmSOCg3es1z4FleYNnpGe5F+xLhFFxYt0ixzjD3S8v8uzZh+UIAKdz/nj3E5xaaa11Z7FAB
+	mc0g4SOCOsKw6s5pbUV+heK2i8E2wLLYrMQmwQHXaUSEzv79tby8PuqTkkGuvDWQXYyvs3Mlhld
+	7hdKMQ20k4o4ZixMXGkzCFD0XC1weLa4c+0Hg0VW1bbb5L+uHURKw4un3fhNTgiWhWEnyMk+/jG
+	/i49quZk22d2atzmpe/Pu8t4idV2Hh07NBSp9AnWk8=
+X-Received: by 2002:a05:6214:3a84:b0:8ee:756a:bc32 with SMTP id 6a1803df08f44-90c4cf2ed8cmr197776d6.15.1786981545001;
+        Mon, 17 Aug 2026 08:45:45 -0700 (PDT)
 Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-937010c3304sm111069285a.5.2026.08.17.08.37.35
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c4583a4bfsm11630376d6.14.2026.08.17.08.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 08:37:36 -0700 (PDT)
-Date: Mon, 17 Aug 2026 11:37:34 -0400
+        Mon, 17 Aug 2026 08:45:44 -0700 (PDT)
+Date: Mon, 17 Aug 2026 11:45:42 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
-	apopple@nvidia.com, byungchul@sk.com, david@kernel.org,
-	gourry@gourry.net, joshua.hahnjy@gmail.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	matthew.brost@intel.com, rakie.kim@sk.com,
-	syzkaller-bugs@googlegroups.com, ying.huang@linux.alibaba.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Message-ID: <2bf01548-723c-465d-8368-247a814f61eb@rowland.harvard.edu>
-References: <02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
- <DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
- <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
- <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
- <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
- <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
- <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
- <EECC6FB3-7559-4D22-B9DA-33E30E5EC181@nvidia.com>
- <7deabd9c-04d5-4a45-8b8a-39929c046152@rowland.harvard.edu>
- <A2BA0883-6B5D-4AB1-A7CF-6B9BDF27F439@nvidia.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: syzbot <syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com>,
+	asml.silence@gmail.com, brauner@kernel.org,
+	gregkh@linuxfoundation.org, io-uring@vger.kernel.org, jack@suse.cz,
+	kartikey406@gmail.com, kees@kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	mjguzik@gmail.com, nogikh@google.com, syzbot@kernel.org,
+	syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+	syzkaller-upstream-moderation@googlegroups.com,
+	torvalds@ppc970.osdl.org, viro@zeniv.linux.org.uk
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Read in ep_open
+Message-ID: <34e65096-8827-470c-9a88-8c643cccef22@rowland.harvard.edu>
+References: <6a830fab.dbb3a75c.20434b.005d.GAE@google.com>
+ <7c6ce54c-ec12-4754-a36e-d5550f8337b0@kernel.dk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -96,36 +84,144 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <A2BA0883-6B5D-4AB1-A7CF-6B9BDF27F439@nvidia.com>
+In-Reply-To: <7c6ce54c-ec12-4754-a36e-d5550f8337b0@kernel.dk>
 
-On Mon, Aug 17, 2026 at 11:22:47AM -0400, Zi Yan wrote:
-> > Again, I disagree with some of the details of this argument in this
-> > context.  For instance, if all kernel developers are supposed to know
-> > that they shouldn't ask kmalloc() for more than MAX_PAGE_ORDER at the
-> > risk of provoking a WARN, if this is such an important restriction, then
-> > shouldn't this requirement be mentioned in the kerneldoc for kmalloc()?
+On Mon, Aug 17, 2026 at 09:04:06AM -0600, Jens Axboe wrote:
+> On 8/17/26 7:42 AM, syzbot wrote:
+> > syzbot has bisected this issue to:
+> > 
+> > commit aa00f67adc2c0d6439f81b5a81ff181377c47a7e
+> > Author: Jens Axboe <axboe@kernel.dk>
+> > Date:   Tue Oct 22 19:47:00 2024 +0000
+> > 
+> >     io_uring: add support for fixed wait regions
+> > 
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10e60679580000
+> > start commit:   9a143525f62b Merge tag 'ata-7.2-rc7' of git://git.kernel.o..
+> > git tree:       upstream
+> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=12e60679580000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=14e60679580000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=df9e891bf8ea586f846b
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=120defb9580000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16323fb9580000
+> > 
+> > Reported-by: syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
+> > Fixes: aa00f67adc2c ("io_uring: add support for fixed wait regions")
 > 
-> 
-> kmalloc is the normal method of allocating memory
-> for objects smaller than page size in the kernel.
+> That looks like nonsense, I strongly suspect it's a race and hence your
+> bisection ends up being mostly useless as it sends you in random directions.
 
-This means when you are allocating small objects, kmalloc is the normal 
-way to do it.  It says nothing about what you should do when allocating 
-large objects.
+Agreed.
 
-In particular, it doesn't say that if you ask kmalloc for more than 4 MB 
-of memory, your system is likely to crash.
-
-> See https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/slab.h?h=v7.2#n1001
-> 
-> In this case, kmalloc is used to request > 4MB memory.
-> 
-> >
-> > Regardless, if it is important to let kernel developers know that their
-> > code is doing something wrong, why not make the WARN conditional on
-> > CONFIG_EXPERT or something similar?  In other words, prevent it from
-> > crashing production systems.
-
-You didn't respond to this.
+The patch below has already been sent to the USB mailing list.  Has 
+syzbot tested it?
 
 Alan Stern
+
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ v7.2
+
+From: Aleksandr Nogikh <nogikh@google.com>
+
+A race condition exists between opening a gadgetfs endpoint file and the
+destruction of the endpoint files, leading to a use-after-free of the
+ep_data object.
+
+When an endpoint file is opened, the VFS looks up the dentry and calls
+ep_open(). ep_open() retrieves the ep_data pointer from inode->i_private
+and attempts to lock its mutex. Concurrently, if the gadget is unbound,
+destroy_ep_files() iterates over the endpoints, unhashes their dentries,
+and immediately calls put_ep(). This drops the initial reference to the
+ep_data object, freeing it. If another thread is already in the process of
+opening the file, it holds a reference to the dentry and the inode. The
+inode remains alive, and its i_private pointer still points to the
+now-freed ep_data. When ep_open() proceeds to lock data->lock, it accesses
+freed memory.
+
+BUG: KASAN: slab-use-after-free in __mutex_lock_common
+kernel/locking/mutex.c:625 [inline]
+BUG: KASAN: slab-use-after-free in __mutex_lock+0x130/0xf14
+kernel/locking/mutex.c:821
+Read of size 8 at addr ffff0000f43acc58 by task syz-executor/5900
+
+Call trace:
+ __mutex_lock_common kernel/locking/mutex.c:625 [inline]
+ __mutex_lock+0x130/0xf14 kernel/locking/mutex.c:821
+ mutex_lock_interruptible_nested+0x24/0x30 kernel/locking/mutex.c:899
+ ep_open+0x58/0x25c drivers/usb/gadget/legacy/inode.c:823
+ do_dentry_open+0x5c4/0xfc0 fs/open.c:947
+ vfs_open+0x44/0x2dc fs/open.c:1052
+
+Freed by task 6138:
+ kfree+0x188/0x690 mm/slub.c:6692
+ put_ep+0xd0/0x144 drivers/usb/gadget/legacy/inode.c:225
+ destroy_ep_files+0x244/0x2dc drivers/usb/gadget/legacy/inode.c:1582
+ gadgetfs_unbind+0x114/0x1f0 drivers/usb/gadget/legacy/inode.c:1655
+ gadget_unbind_driver+0x188/0x790 drivers/usb/gadget/udc/core.c:1724
+
+To fix this, tie the base reference of ep_data to the lifetime of the inode
+rather than manually dropping it in destroy_ep_files(). Add an .evict_inode
+callback to gadget_fs_operations that drops the reference when the inode is
+finally destroyed. Remove the premature put_ep() call from
+destroy_ep_files(). Additionally, to prevent a double-free in the error
+path of activate_ep_files(), clear inode->i_private in
+gadgetfs_create_file() before calling iput() if simple_start_creating()
+fails.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
+Reported-by: syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=df9e891bf8ea586f846b
+Link: https://syzkaller.appspot.com/ai_job?id=ae49a838-5eb9-4227-93a3-56ad2313483a
+Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+
+---
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index d87a8ab51..a03062986 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1579,8 +1579,6 @@ static void destroy_ep_files (struct dev_data *dev)
+ 		/* break link to dcache */
+ 		simple_remove_by_name(dev->sb->s_root, ep->name, NULL);
+ 
+-		put_ep (ep);
+-
+ 		spin_lock_irq (&dev->lock);
+ 	}
+ 	spin_unlock_irq (&dev->lock);
+@@ -1996,6 +1994,7 @@ static int gadgetfs_create_file (struct super_block *sb, char const *name,
+ 
+ 	dentry = simple_start_creating(sb->s_root, name);
+ 	if (IS_ERR(dentry)) {
++		inode->i_private = NULL;
+ 		iput(inode);
+ 		return PTR_ERR(dentry);
+ 	}
+@@ -2006,9 +2005,18 @@ static int gadgetfs_create_file (struct super_block *sb, char const *name,
+ 	return 0;
+ }
+ 
++static void gadgetfs_evict_inode(struct inode *inode)
++{
++	truncate_inode_pages_final(&inode->i_data);
++	clear_inode(inode);
++	if (inode->i_private && inode->i_fop == &ep_io_operations)
++		put_ep(inode->i_private);
++}
++
+ static const struct super_operations gadget_fs_operations = {
+ 	.statfs =	simple_statfs,
+ 	.drop_inode =	inode_just_drop,
++	.evict_inode =	gadgetfs_evict_inode,
+ };
+ 
+ static int
+
+
+base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
+-- 
+See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
+You can comment on the patch as usual, syzbot will try to address
+the comments and send a new version of the patch if necessary.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
