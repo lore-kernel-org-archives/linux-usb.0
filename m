@@ -1,63 +1,65 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012026.outbound.protection.outlook.com [52.101.48.26])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012066.outbound.protection.outlook.com [52.101.48.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064E6446823;
-	Mon, 17 Aug 2026 15:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2471E2F1FDF;
+	Mon, 17 Aug 2026 15:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.66
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786979978; cv=fail; b=MmFCDwStejnTvwEFg+jgRfrQZ2vh7mylOAONcctqNvTEnHOPlJ+3PDC0voNqbJs2/KprA4K4BkKowlF8hwt0BHRuKQ9cMPRXt0ljjX4vTTw4DJuhS3MJ8BHCVB8d6GyCWLsyfSaqftBowxilTpsTa+x3B8pqBjbvY4ZIM5u3Sck=
+	t=1786980174; cv=fail; b=PrBd5QjK8JM4XXc4GAUfuvZ2mE7bwojRXCoDjjeIgY8+qAlpUfDaacU/UgSjla2h9ChCMweeW0HtXfMDmvxR0yawTB9L7JLzn+FS3w7xZAAgOTOGsnKdDWYrAqC3FIkQLzPnmltG90ytHPPqaZmZKKPNQpPIxexpvdHN+ZsME8M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786979978; c=relaxed/simple;
-	bh=IgEbO1QMsGP9Ufrl1mGK5HgxYKV3ZSMHgPzUb7OrlnQ=;
+	s=arc-20240116; t=1786980174; c=relaxed/simple;
+	bh=oyKxVV6YGkIge1P2j3SRAR32mnSaWIHY4XQDv8ngQA0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FLNPVwHnDYivlFTmZuI3ClZ0jFWpVHYrbarH3BJjkyIJq92BOnm7FNq4N9Ur/rF+1F5dOHryq7sawuLU6jUtqu+vEDx/2GiGVyaJSUQn3WpHBk8mCLf0tuu4Am0bk/8JcA/qtbJy1qY7x2P2By1xMmvg/dYhduKdtt6YwWlsHjQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ODk6udi8; arc=fail smtp.client-ip=52.101.48.26
+	 Content-Type:MIME-Version; b=caDVvZ4Q7WAqywS7RO1jsNeXnZkQatA61tZBrGEmAJcO6DlCzryOjLpeU3tT3Djt+Hi5Fu/Vz4hEDfpXwiiu+V4iOi9Ed+3ZXIN6AOHwpWLZQS4QSwKpH7IfnGr2ADGYlkeR9jHk4nm2r0NPJOjFzeB/Gdi3smCGz9ZpeDhVnp8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=bny9Alpd; arc=fail smtp.client-ip=52.101.48.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ODk6udi8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="bny9Alpd"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DrVzpCP/+WRzAYCJgERzJJOss65JYKYn9pBi35CwC1f5f29DVedrtjw8fRCd9O7fkm+M7ucI+w4CcX3m40lAa5cqLCoVbZWd59CT6EdCeGofiS1AfCGptAW8lRRT7nn3dzVXU2IyYkW6Aek2c2VWXKF4o6nemMPP7HmzN0EHL9b0oQaqJF/EZ/7WRh5cRRPZYv9ibvxnr1Xz97UCqjQyV2cVlvv0V+5z0GyPFXoxj+pjTuhUTsCepCCCCbRX6r0l6QNSzKaTDDufgySKyrHFRdC0vx8dmwNeH2MtupR6GwuFSYLwgVbgyyjpME/LWyFa4AhozvYzUaF8eCy3O9VRhw==
+ b=CHB3qCbVr5QVoqXwN6S22+MRH/zKTbmUdoA24o3l5l0RIRqPQDLlTvVfQwh0RGmgcyMbQWnkwuP3N32rFwWGQDIazp9AaQfLuM8MCNn4mCsHYA/07jSILJD5QyEnahPjbNxnczZxLDT7ICSdjCRC3QhovHfIGkPEMxU7nQ0Pdg+mu3jE28Y3fECNW6RLbcFvMPpQfn7biqgsdAT/4A7PFk2J5E/U4SsQYlYwF3Yb17w+/o8Z9x378b5QHvBkNhSX64AZtLluPuXNQZTAIOAexta98S4k51oPElNoeEKf6qtR8nTPuRHy6CUNDeB4w2AeHXxCRd1OryciT8l7zcA31g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6IMWgN66r5tR3cHCw0xOxHgzvmoXAo2WQNENDAjIoHk=;
- b=O3VysvxOCbS/4P8+eYFwuUjJBYBcUKiWX5qWqcv8mcZ2oo4WUv0VNknWB1XgSo2zlqGjXZMkf41sbbPJ7lD8PJnME+YKMm6QW7nPQD4G3EXxV47fypT6uG+XWpkz5pHbl3p5MD3fqQxm9wlYNTnyX/+LDQqmrRv6wwePEo8EcyAd5chNh+Jk1HCSSCSjIM9OUCzaoA62OG8eTHh1PQchs7FipTZNYJ/ppKcD8NRtK2fKoZ3xtyWkoCNM9NNgSK9rtOL2TYdE7IU4NciVxFqDIv/HzJ7EQoJiVanabD1CV21zIQTJkuAyHJe85Th9l4hYhZ6clG8Psv5l04vjbBuhVA==
+ bh=cuAtPxkx9IorZluIXtXKr4uQTjHfeukF0g9O+KTdAMY=;
+ b=BSajFx9O8Vo+ImPb9nffrWUAL7pIkW//QC7CFQL6CNESyFo2gTrhmIkaPHCM8zzgoJv8Vckkg9Kpq4Jz0u0cyi0uvBVlp2g/agjzMag4cX9BfYR69r53FUJY2Tfqr9qS5ZqOYv/LRWPzH51iYb3xAxyPDdllPspsIZQ322gL4YX5wT1NF/rzB8evvYgZOrUI5XmzQoQIRWTY0Ac8KpRDEsx1rVqmzPGZBXirxDxDKeZwBBh3BedOLYjpTyfs2H9XuHpi7HWVfU0gRLVl0icd1kI9eg5bfFd28U75crRGbOC9GMM+1CFwTMkIWU+lgxvug5alXde3WM6MoBtgJokz2A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6IMWgN66r5tR3cHCw0xOxHgzvmoXAo2WQNENDAjIoHk=;
- b=ODk6udi8WqN813GTRvV3BBr3X5gL5b5GnaSm62t+hCuiI2I2TU4mw8IthnvY9wDoltAEaT0EscNKHFxT0BEwDOuDQvMXzfKLV6e6QBIsInywBPcEX2nC0OeoIkWZ+x0Eiv8pEj5k5qvSCTWSgxTFRQHQt2XdQzsN16NN1HC7pN4pLn7B4VtNkhyhWbo0tt4IbKS7gFvXUW6pDM8qWmJgzJuZ0YQt3l64lq2RKsSu2Kn7u57YinXlThPAlDpVyvSAhBxokK0NWFRS0TEZ30gabcg998ABjxFtraPcMbiJNrBv9mtx1/o70XqE+N884DcNyt0FuyGV0w/4eiHojSjTPA==
+ bh=cuAtPxkx9IorZluIXtXKr4uQTjHfeukF0g9O+KTdAMY=;
+ b=bny9AlpdbI0AlmRt/EK8ux/sil8Mvfd6vy06RAeqQUkSCIPwzgxCjpK7Ks0vCFnC6Za/rGalBIHTH24Dxx2AILfQ30Vje1DpCYUBfjtl3Hy+Y+qdGMLfdAE5BAzFSdqioMjLV/tZ1ekdWTySVJLDjZY5blCHWNAhNXwmWtNJm2oieXqRy9yeuOO6AHZCpot5/+v9x0draX9IQ3Zwsx4QWhgdJ+JrtxiZd8XjtpvkUYSexTRapYu4ZNtK6ThbcZ1pUg4qv0I5WCmG+unAtn2p0H6Pe2VUzwbNYoQmgRhvNdHpnUM1Ypk2xEbZiuTqdbdT++wmITBauwPeCvIMc1yPtQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SN7PR12MB6887.namprd12.prod.outlook.com (2603:10b6:806:261::12) with
+ by SA3PR12MB9157.namprd12.prod.outlook.com (2603:10b6:806:39a::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Mon, 17 Aug
- 2026 15:19:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
+ 2026 15:22:49 +0000
 Received: from IA0PR12MB8374.namprd12.prod.outlook.com
  ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
  ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 15:19:25 +0000
+ 15:22:49 +0000
 From: Zi Yan <ziy@nvidia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
- Andrew Morton <akpm@linux-foundation.org>,
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
  syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
  apopple@nvidia.com, byungchul@sk.com, david@kernel.org, gourry@gourry.net,
  joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  matthew.brost@intel.com, rakie.kim@sk.com, syzkaller-bugs@googlegroups.com,
- ying.huang@linux.alibaba.com, linux-usb@vger.kernel.org
+ ying.huang@linux.alibaba.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>
 Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Date: Mon, 17 Aug 2026 11:19:23 -0400
+Date: Mon, 17 Aug 2026 11:22:47 -0400
 X-Mailer: MailMate (3.0r7024)
-Message-ID: <1ED81A86-22F2-415A-8CC0-7E9B4A4446C2@nvidia.com>
-In-Reply-To: <2026081745-unshaken-retread-d744@gregkh>
-References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
- <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+Message-ID: <A2BA0883-6B5D-4AB1-A7CF-6B9BDF27F439@nvidia.com>
+In-Reply-To: <7deabd9c-04d5-4a45-8b8a-39929c046152@rowland.harvard.edu>
+References: <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
  <DKQP5QC9XTDJ.3MI016NP0NPFY@nvidia.com>
  <02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
  <DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
@@ -66,12 +68,13 @@ References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
  <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
  <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
  <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
- <2026081745-unshaken-retread-d744@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ <EECC6FB3-7559-4D22-B9DA-33E30E5EC181@nvidia.com>
+ <7deabd9c-04d5-4a45-8b8a-39929c046152@rowland.harvard.edu>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-MS-Reactions: disallow
-X-ClientProxiedBy: BN9PR03CA0876.namprd03.prod.outlook.com
- (2603:10b6:408:13c::11) To IA0PR12MB8374.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0121.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::6) To IA0PR12MB8374.namprd12.prod.outlook.com
  (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -80,166 +83,137 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SN7PR12MB6887:EE_
-X-MS-Office365-Filtering-Correlation-Id: 955020f0-32e3-4226-b27f-08defc72ec46
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SA3PR12MB9157:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11b946f9-fbbd-450d-98a6-08defc7365ac
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|7416014|18002099003|10067099003|22082099003|4143699003|5023799004|56012099006|11063799006|6133799003;
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|376014|6133799003|4143699003|10067099003|56012099006|11063799006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	xJvtnDNNncuwOVEkLomalTVSbjkIpIW357QnmkKh7gSscoVwWC5mWLPOZ1FoUDDz/IiY1yHoK0+hkUzt3ZsMyxj8u1g+f9+oCHTVFsTCxwWChv1UWLg56J1LHkSiTre5LbU99VB/vkewx0Q4h4mz9PmtsKTM1fGshYsgN7uXvFya0TpPf/YBJfsqQlU3PIf/pmy7N/4RL2aUVjLOBHONsCeDiS8CIz2iYU0OpdZZfOOYYZT3/DiHf32hO8XRJhk/E5vj5a971FxPQiJCirW9A4trKyb+gP+dI6Fj8fqo2wJK6dOeB6tqkf7YnWm7oPrl1LdIBU5HQMqaSQEylPG5qUN0T9UG/PGnA6KO3BIdFbscKuTOJEV+CFvutJD4UYQd4jhbW2j2wJ0H3mfgc7RS9XYS67P0tMS5wUXK24cTBNoJLXsggCe9E+n9JtsMCU1qATineTNDAnNJhtVhMm6oUyvXN9Fsv96/Dj0JqwhSzAnHnVG5x1X5eeB1rqBM/4Z9Kg22U8qOAmdBUfvfL5mf41lViHtbKaDdRoGCZFl6mlLZv5DdaJsXK7Ky3heV7OKKXe9jzcA0yTvc+QEgG6K0nJgLOpQeR217VM/1aKPkQazHjLhGHGh5I2+VsY3AMwl1WRTnWpa4nRZyrxRa10YBIsmmHbaGsgfTPuxaD5LIHa4=
+	16r2q6CZAaATeWTdWOM6OXKK2+GaNL/kh7UAGujPPWn+3n0Q0fMmZS8JidI29+NyxS2jA69o4I0LkLbRXp6fEbSTcIYu5D5E9YjYzGnbuu6C1Ywej+CWBVu66/cremoNmUGl4HWahCUef3wCIw1oRwgq3ZAG10ti6rg0LnGps2hOYYboYwUaxSmYjwkxFBz2m1i0t4R9pHCqkMtsGxEmUAmWnPASIz03mDrswCInq/oNex1wPKpTOzegJxp1pvedz+eDuM9sokF35ANeSsYWnYlHnoW8Gyz/xjTgR56ktP4GuixItAcJ3uyUkiAN2gJm+Ny5WJbOzlLvVmgXp0sTnfK7YciQVzsf9jJ4vqMKkIIUoBFsR5n4KvxHSfsrDirurPJ2MmZ7OtdTs7MTv6Iqkxq20Mw8JXh7Vaji0Wt634tPZ7zAQyzBf3gBbcRfXg8AU2sS+vQWiPRfiG0tQKGPJrbVNDP36Vyv7VWx7FiQsh1YPnURlo7BlpPlhNqum57izeqWcwIjMLhTT+wIXV1BflYAZVULSshlXfJ4i7XCpNbTzbgiC6N4l12mUYlES7Bb14AaeMH2Ipj4LgZJeLfV6As527p57Qo8dvdguqMgZ4kOiMppooa2JDCjBV5Z5UHh7b5hRgYfeRE7vj+tgCL5wY5fmAxjjpL99PLcu3K3d4M=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(7416014)(18002099003)(10067099003)(22082099003)(4143699003)(5023799004)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(376014)(6133799003)(4143699003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Kys2ZjU0M2xILzV4R3JqQXFINU80eDVwRzg2T29QVURjY2lKTGN2bWdaK3Vx?=
- =?utf-8?B?VmxTZURLTURuNzB3NXJOTmYvVVYvR01rSlpteDJFZk1xdlhxRE94ODRmRmJ0?=
- =?utf-8?B?UzF3UWRVYlB3RmlhMmR6eC8vaS9SV2RKN283VWJ0eFVscVBzcEpjUzA4T0RJ?=
- =?utf-8?B?M1dwcDJxbFlsWHBXc2puOWVlSHFRZ1dncG5RUjVNaHBoUzJBSmttYW9mNXBv?=
- =?utf-8?B?UGJyekozL0lFVW1mN2tnWlpxZzRHSkxBKzhUTDhVNVdiVlZIcWdIZGc4b0tN?=
- =?utf-8?B?TTN2ZFZuSEhmZ1Y3dUhFaUt3TGtoSEZEY3hYTEVWMWVla2N5aURqRlJTRTdY?=
- =?utf-8?B?ZFd3YTgrZXhCeG5yRk0vQXJKQnA5K1NOUDRjWUdPQUttdjhOWFJNNTJ3czZG?=
- =?utf-8?B?MkVwVUxpOUhkNEdBVjNLVUIyT0tNTHU0V3FaUGg1Q092NXFyanBaNWFPT3Rj?=
- =?utf-8?B?TmtGU1EwejJmN2FFUUg4c09xYUxSUjdyWWlwYkpMU3BiZ3RJNDRXT0tUaW1q?=
- =?utf-8?B?VzU3cEsxRHVQN3hnTEZhakpjclc4WnQ5ZEJQTnhJYm5RTW9lcTlrVzR2V1hR?=
- =?utf-8?B?NGpjSzVKSkVIeDROUmV4eG5qS1NYZCsvR3BEeDdKbjh6WlBvRVhGMWRZNytP?=
- =?utf-8?B?QWVjdDJ4SXVMMEZQUW5pN085NVI1MDVFQmtTV0V5dDM4bjIxeFJvWUxiOEFl?=
- =?utf-8?B?Z09qOURrUytLay80enFsWUFBMFJJdHZuLzlPMExvOHIxMlZmeVovNm9yVzVM?=
- =?utf-8?B?bmJJNWNNN3BFTGRzR0p5MmVNUFR5Z085MFMzNmxobHpuS3JtMk1UaURhMkpi?=
- =?utf-8?B?R3hGc0pLSEk0b1VSM1hDSDh0aGFBeThqWmN5NW1ESC9abkVHUUtQS3JqdENy?=
- =?utf-8?B?M0t3bjRDQ1IvRktKUUdGWVowSGcrK3RLbTY3Mm5oNEdsWlB5UFQvL2RqWnBh?=
- =?utf-8?B?cWZOQ29BUHZ1elVVenZHQUJGcjlRTXNudkhwdG8wRytncXcwU1RtaXdDbEo3?=
- =?utf-8?B?UHhjblZCTEUvc0hJTDBqaVoyM0psakVHUzd4VVJ5ZGt5Qy9xb3pUZjJqSU1l?=
- =?utf-8?B?bFVPODNQSk9lbEExd2Y0S0FmK1VGSEswQjBkb0FXU1lpRTRJRU9tRG5jSW1Q?=
- =?utf-8?B?NytiQVl2RVAxSE1aRUd6NXcrWmdvYmpTYW9WWjRFL2dZek92anFoRndVUE5h?=
- =?utf-8?B?c1lpOWpyUWVXU0Z3cmRZUVkrQWNRK2diT293Qk0wLzhLYXRkYXlOMHFubmd5?=
- =?utf-8?B?VTlOdW03ZDk3ZERaWTk3V3pWdkdJOXhjbTB5ZU9odm4vL0ZwUGxrYitZQnpB?=
- =?utf-8?B?TkxpV0xSaDVLUDB5TE1xODBvY3kvMjZmVG5yZ0l0NS9DL2NXSmFWeDRiK0tL?=
- =?utf-8?B?OTA4emNsRmoyMGFJK1h4elhWVVNTWVU2bWVaMGZGT0JzTEpBekVqdU1mQk9l?=
- =?utf-8?B?MEJuNGlGOXR2amFDbktjbFZONjVOdjlXeFlSdW5ZaExJQi92ZW0zRHNOdDdT?=
- =?utf-8?B?b0xIZWhIbm95MXE1a1BHRHVyTUd2V01BNmFneUJkazV1MTV5NTJnNDlWUy9k?=
- =?utf-8?B?TjZUSlIzVUdQeG8wcjI2YnVvSGdDY0RveVVpUjFmbUVmVWdWdldCUDNaMkVo?=
- =?utf-8?B?Q3k1VFZTbDZSS3o2M0VJNVZyOW5iaGxHZ0hCcEpwOUI2ZVNXNjhUUWo4eG5w?=
- =?utf-8?B?Q21BN1NWcTF4Nms5T2dsbWlGUnpsT2tjSjNXV1RxSDN6QkZnYmp0YWxNZDFX?=
- =?utf-8?B?U0NhVWlIZ21OY3dDSWFZQnA1T0RpOURSVVpFbjJzQUpKNmdHOTUyQlZtbnVX?=
- =?utf-8?B?S2xYajFUVXpLNE1BbFJjQlliRFlaSkZaK1h5d2VZYnNqNHJ0Nlg0NFNONzNq?=
- =?utf-8?B?ZHVFcytvSkpwUlN0VjVVMWpaZ2tWTG1IanZEblpxNVJST0hzbkp4cWVIdXYz?=
- =?utf-8?B?YWhPeVgxRGdRWkI1SHkwalhvMEJDT1l5bHdsaXd5VVVsTEdkc2xkY3ZSRkcx?=
- =?utf-8?B?dDVYSm90bWU5Q0dmcTc3L3Rabi9EUnBiYTk3YUVzekpZZjdyOW9VaE1wNEpr?=
- =?utf-8?B?M21xeXJKdVAvWitNZk9yclN5KzdtaWpzbTNMWlZKMm9qNGhSWVNIZUtDRnY3?=
- =?utf-8?B?MjVHNlMvbU94U09pbzRCRVlpL08xQXl5ZzNSQk1reFgvS21JK2ZwZzRyK1p0?=
- =?utf-8?B?UWRpQjVCZXRycVFwYlVQeU9BL25GMnphSG9TcUNsb3VSUURGSC9NSWdMYUh1?=
- =?utf-8?B?bkJXK0RtOXozU0lvRXhRT1lST1cyNHk2TVk1dGwvdEhva0RnY0FQektxMitZ?=
- =?utf-8?Q?tAgqYFLDzLMu77+E/g?=
+	=?us-ascii?Q?9niunN/hfvppvid9SVdCslOl8w08fAlMTUjuhvaYdDUPYbqmGoqP7aM8Ickv?=
+ =?us-ascii?Q?E9fUlL3cxi7lWmtXiSyvS8V2f2K+M8sVnFeHuEaDMrOua2LAmXFRGaauArgq?=
+ =?us-ascii?Q?X9QwxGyG9xwnuS/K2LotN4QkQRMK3c4LNNOZeuPBo+B1Cxb7lCNz6Y6T/9Ul?=
+ =?us-ascii?Q?9JL2g8RfxzzKX7n04//+knFkymTsUhIHJO/yMv5Mq4d5Tc59T5GR5gPAA5lU?=
+ =?us-ascii?Q?3d1o2OVTgFoPpLXHZtvs+X/Xoyb9ZXXnBTKnyO1hYkSD7E22kegtN7YHy83O?=
+ =?us-ascii?Q?KBhZ3Xte1QXyPExCPobDv6p+MK/evG9hSyPZffqGXOQaaBlmMn9YkJkzCYu3?=
+ =?us-ascii?Q?9/Hxg02kfrWGHZnsI09JTNZYERghP2krblCyyoA3FbAb906S/pAtPvNU/J7V?=
+ =?us-ascii?Q?dAJl9xD05cFvHkIUaBlh/QO3lrVXC+X5ekViOlJeSdohVZn8lbtbO8t0KVBt?=
+ =?us-ascii?Q?l2m6m8ZF4+r6nLmgeuEOAmo89QQ2xFCzX8NVTFr2ber0zvh8GIloLvLMyFyx?=
+ =?us-ascii?Q?6AojigBpTF4HsHMe+FOvH3lqLgPfpsKXV6sAnIUUbSdTeoTnMKQngGSLp9U6?=
+ =?us-ascii?Q?nKd6oM5JWgmyLMQSJaEDC11wz0lMwgCjPKeABIxCdzphVKB30W3Dn/uzxUmp?=
+ =?us-ascii?Q?M8no3exDs5JRGroEMsNfQonmDFQYFO6nC8P4MRhDn6X8ASri265bI7JmivYz?=
+ =?us-ascii?Q?njiQfZXaebxOiN5FVyfYUNeKKYKCfp2tVJaoWKMMtBN9q5wzQbswYxKRjI3I?=
+ =?us-ascii?Q?tOM+JCajoCk/tNYEMG45Zp8Th9JeWtxJ0t9cBdDMf1tupYSvyoFeOYbt4hwf?=
+ =?us-ascii?Q?jzQh6ox663BcTPOx1DmD+hUkqX/kKdG7HL2jKjahjw+mdWBXJravQYXDxMT/?=
+ =?us-ascii?Q?njVipcVCI22mY7zl14aTd9hriEjEa867Fxa8sgSatnBmGw5doCaTp4gG7VvD?=
+ =?us-ascii?Q?ahZem+FSltrX8BX2RYETZwgPUmNGZwkQYTnsKxS9/NO4pcHqGdy5ifz+5eRC?=
+ =?us-ascii?Q?OE7wo3HqVJehQ3vA+FLB8otwAC8d5pV502EB3lyzUmoBikz16Q5eTcHJOQfa?=
+ =?us-ascii?Q?Y4Y8JGrB+STcrC44q/fRWemgQYvQ3HqsWnEuRhbSZCiicbAgJoYm81K4PTGL?=
+ =?us-ascii?Q?lRDjLfMdp0jcdb4TyXeY0fAx4tjK7GUfCw28584ldc0ITizvTB0ivsmsd7c3?=
+ =?us-ascii?Q?XbVUWPDPU6+x2Wu6cSFGbXJCWQ31dAM3foI1sZUfZOGTjUFr76U2fcAjHnGM?=
+ =?us-ascii?Q?1diocYILz1b+J9Y0CARhZFSfxR5dUDf3UJML/bPUljQpAcFQS1bqmFe/ztDD?=
+ =?us-ascii?Q?M36DaOMWFwcr6bn164dGeQEByvtr6WSGENxl/pC60c/t3ZYQqgruK4A8mGWu?=
+ =?us-ascii?Q?9+orTiF6AF/SlLqwQ7XoFYCcI9XnVoKh5opu4nJ6FpCWF4J0w529N3Ep7duB?=
+ =?us-ascii?Q?UlWkQHM9bUOx9X5aS0fnnS3QNwhxQG0pNfgmErWCmcqJfMRMZu1PgRj/jTnM?=
+ =?us-ascii?Q?Br+ofFT4vs2SbIt+avqF/l0BWTy0mqxnI40oNn1OtTWvkDQ+BimqIG0VYRLj?=
+ =?us-ascii?Q?Pq+wI2wXhzcNaAQ2tLq5weYIwEJ2D2Nuh44fe0DvzRjriFlnf+QUF5LZ80oa?=
+ =?us-ascii?Q?lkIxn8JW9zv+YizrnS93leL+KkX7DG7zfViJZRVE6NKmIGbu860QE45SKzYX?=
+ =?us-ascii?Q?tbWdn8YDjHehcIHuvn9W0dlz1EA3wh4DyYSIxO136+0xR3ce?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 955020f0-32e3-4226-b27f-08defc72ec46
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11b946f9-fbbd-450d-98a6-08defc7365ac
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 15:19:25.5101
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 15:22:49.1721
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XfrNXAsH1tJLT/M5/BLdbY4RRX4QgvZVszJF9Fvcn4Ijxm2REsJn6ilzicvjc99w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6887
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hy8klAbaWAcNaP875dUnDZuD867BVD/u8LED+oO0tR30d+EEzgmHnwZBgQ5AqWEU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9157
 
-On 17 Aug 2026, at 11:06, Greg Kroah-Hartman wrote:
+On 17 Aug 2026, at 11:06, Alan Stern wrote:
 
-> On Mon, Aug 17, 2026 at 10:34:26AM -0400, Zi Yan wrote:
->> On 17 Aug 2026, at 9:55, Alan Stern wrote:
->>
->>> On Sun, Aug 16, 2026 at 07:42:13PM -0700, Andrew Morton wrote:
->>>> On Sun, 16 Aug 2026 21:47:58 -0400 "Zi Yan" <ziy@nvidia.com> wrote:
->>>>
->>>>>>
->>>>>>>> I prefer Andrew's first suggestion.  If the user asks the kernel to copy
->>>>>>>> too much data, just fail -- with no warning.
->>>>>>>
->>>>>>> __GFP_WARN gets rid of all other warnings, even if user asks for a
->>>>>>> reasonable size. Why use such a big hammer?
->>>>>>
->>>>>> Because on many systems, WARN causes the kernel to crash.  You don't
->>>>>> want the entire system to crash just because the user asked for more
->>>>>> memory than was available.
->>>>>
->>>>> User asking for more memory that what is available is pretty common and
->>>>> should not trigger a WARN or crash, unless you have panic_on_oom set.
->>>>
->>>> I assume Alan is referring to panic_on_warn.
->>>
->>> Yes.
->>
->> Right. That is why I said “unless you have panic_on_oom set”. So panic_on_warn
->> will not crash the kernel if user asks for more memory than what is available.
+> On Mon, Aug 17, 2026 at 10:37:29AM -0400, Zi Yan wrote:
+>> On 17 Aug 2026, at 10:34, Zi Yan wrote:
+>>> But the warning here is when kernel user wants buddy allocator to giv=
+e
+>>> what it cannot allocate, a page order > MAX_PAGE_ORDER. The warning
+>>> tells that kernel user please ask for a reasonably sized memory.
 >
-> Are you sure?  It kicks off syzbot, what prevents the oops from
-> happening if panic_on_warn is enabled and a warning like this happens?
-> Am I missing some code somewhere?
+> That's fine, but it doesn't have to be done in a way that will crash
+> many systems.
+>
+>>> The issue here is that the inode.c code passes the user input len wit=
+hout
+>>> checking to page allocator code. Capping that is a minimal requiremen=
+t
+>>> to prevent untrusted userspace input getting into trusted kernel spac=
+e code
+>>> easily.
+>
+> I disagree.  If the memory allocators are so fragile that userspace can=
 
-usb’s inode.c uses kmalloc to allocate > order 10 memory, namely >4MB. This
-caused the warning.
+> break into the kernel just by asking for too much memory, the allocator=
+s
+> should be fixed.
+>
+> Furthermore, it's generally recognized that library routines such as
+> kmalloc() should check their own inputs rather than relying on their
+> callers to do this work for them.
+>
+>>>>> Why are we emitting a WARN if an allocation fails, given that this =
+will
+>>>>> often panic the kernel?  Should we on the core MM side dial that ba=
+ck
+>>>>> to a pr_warn() and a helpful backtrace?
+>>>>
+>>>> I think that would be a very good idea.  Only the caller knows wheth=
+er
+>>>> an allocation failure will leave the system in an unstable state; th=
+e
+>>>> library routine shouldn't try to make this decision on its own.
+>>>
+>>> In this case, the WARN is emitted not because of an allocation failur=
+e,
+>>> but an invalid input to buddy allocator (order > MAX_PAGE_ORDER). The=
 
-kmalloc’s doc says:
+>>> WARN is for kernel developers, telling them their code is asking too =
+much
+>>> free memory and core MM cannot handle it. Suppressing that means
+>>> code outside MM can abuse page allocator. Code like doing
+>>> alloc_pages(MAX_PAGE_ORDER + 1, __GFP_NOFAIL | __GFP_NOWARN) should n=
+ot
+>>> exist, instead of just getting pr_warn() and failures.
+>
+> Again, I disagree with some of the details of this argument in this
+> context.  For instance, if all kernel developers are supposed to know
+> that they shouldn't ask kmalloc() for more than MAX_PAGE_ORDER at the
+> risk of provoking a WARN, if this is such an important restriction, the=
+n
+> shouldn't this requirement be mentioned in the kerneldoc for kmalloc()?=
+
+
 
 kmalloc is the normal method of allocating memory
 for objects smaller than page size in the kernel.
 
-Shouldn’t usb inode.c use a proper memory allocation API?
+See https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/include/linux/slab.h?h=3Dv7.2#n1001
+
+In this case, kmalloc is used to request > 4MB memory.
 
 >
->>>> Heaven knows how common panic_on_warn usage is.  Gemini tells me "There
->>>> is no exact global headcount or precise user metric for how many people
->>>> use panic_on_warn.  However, the setting is widely enabled across a few
->>>> billion Android devices and many cloud/server provider host kernels
->>>> where automated failover makes a full reboot preferable to running with
->>>> an unknown warning state".
->>>>
->>>> So I do think that WARNs are more serious than we (mm developers) tend
->>>> to assume.
->>>
->>> I do know that Greg KH has pretty strong feelings about this issue.
->>
->> But the warning here is when kernel user wants buddy allocator to give
->> what it cannot allocate, a page order > MAX_PAGE_ORDER. The warning
->> tells that kernel user please ask for a reasonably sized memory.
->
-> And if panic_on_warn is enabled, like it is in billions of Linux
-> systems, and a user can trigger it, then you just rebooted the box,
-> causing a DoS and a simple way to get a CVE assigned for the problem.
->
->>>> So we just shouldn't permit userspace to trivially trigger a
->>>> page-allocation WARN.  Especially if the caller is perfectly capable of
->>>> handling an ENOMEM allocation failure, as appears to be the case with
->>>> usb-gadget.
->>>>
->>>> (Does usb-gadget actually get used by Android?  Surely not by cloud
->>>> providers!)
->>>>
->>>> (Can this WARN be triggered by unprivileged userspace?  I didn't look,
->>>> this matters a lot).
->>>
->>> I don't think it can.  Regardless, even privileged userspace shouldn't
->>> be able to crash the whole system by doing something that ought to
->>> return a harmless error.
->>
->> The issue here is that the inode.c code passes the user input len without
->> checking to page allocator code. Capping that is a minimal requirement
->> to prevent untrusted userspace input getting into trusted kernel space code
->> easily.
->
-> But why would inode.c know what the page allocation max is?  We have put
+> Regardless, if it is important to let kernel developers know that their=
 
-kmalloc document says:
+> code is doing something wrong, why not make the WARN conditional on
+> CONFIG_EXPERT or something similar?  In other words, prevent it from
+> crashing production systems.
 
-kmalloc is the normal method of allocating memory
-for objects smaller than page size in the kernel.
-
-> arbitrary bounds in other places where you can cause large allocations
-> from userspace (like in usbfs), and if that's needed here, great, we can
-> do that too.  But don't tie that to the mm core values as those can
-> change over time.
-
-But inode.c asks for >4MB memory.
 
 
 Best Regards,
