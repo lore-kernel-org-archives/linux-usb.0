@@ -1,102 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f11.google.com (mail-oi2-f11.google.com [74.125.231.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C75175A6B;
-	Mon, 17 Aug 2026 15:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BBD2D0C8F
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 15:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786978860; cv=none; b=Dyf37DJ35zngbLC6d2qv4q0neCpDTE3s9Lrtrcvi7zMZtJJUe+b+wv5Vh4gk+kzxJL2cCsss6gM2A5KQz4if+tKAuBFoRY9WWM6bbn2IhCYmHDbBv4tvGl6GaIubbcWfno02dgthPZiO3nY5gGcVPq3ZeR/TTmBu/MLT1VmtCvQ=
+	t=1786979053; cv=none; b=EBpH2W3evprPprpBWk6qppdb0hHZNktCW9ZVNUbcdUKQhnutKVgDzwKohXH/j8VhZp1vBCsUVUDvsyixsGJWoyGc1+Zk4DgX6caVeCjXkUweVFYJWib3cBUYz8idWOBqtv2SuAv0Zj1RgxyqPZbm+OT40nZbP/qFHpNW13LzYW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786978860; c=relaxed/simple;
-	bh=lKd4pWyd/rZPlq/Ux63G+AJ8ooe3gMQslMM6zRt41VI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6bRvzd8IM9WzzbhfiGH+SLsOK5Md7QLUrTTQ+MvvRBpvlzfX8NFUE13SnGsY1nSOHet6D0A0VaSGV//MlqY5GyJpHW1A6Ahx+dpp4GwQw0Dpm4tdGNL9rt4AHQPL+Evo8n9UYJXzVGj+JQDKl/AYaC5e1OXLC3NZ+HjkdGfTf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQbbf1hI; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786979053; c=relaxed/simple;
+	bh=Ur+cKiVbAh3ZsrGizOKH+9+i3VfuiVrSQMhUYBEr/Ao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=RfDeKNigH64RqT/9XVjA04pKdofCNem3Y90kilxPK842jfUzMy9wh4j3SfmlaNUYlCXqARSEH24NC6/JC4YFGgvIOlLPQsOFx8n3MG5I3ookyzHdDni8VRoxLZ1tYnycAiENxtPuWVtP7G5cHtNlfkxbIoQBrZHrR6CKfOnVFYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=C4geTbvj; arc=none smtp.client-ip=74.125.231.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQbbf1hI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786978858; x=1818514858;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=lKd4pWyd/rZPlq/Ux63G+AJ8ooe3gMQslMM6zRt41VI=;
-  b=MQbbf1hI04JEOwnr/fM5wASxZBWIaAUaSFTTAkzFXTYUI/dtjgLdjiFX
-   4mPriMtdmPre21rS4byZPOm5HGKxLZivXil0USKKs/Pr6uKYtRaqF+VZF
-   0L27UdCNnAdkuiI8YBh48ywbQK+Mq9b32kMj6G1Bi/o6wzSJ5GvpKguyM
-   Nfjq7HBnRkAcivvm4BZjRKqhXormAlPa8tSK1c/FJVCCwJgA5crCygo5+
-   fTIV45YPKeaG3uEm4Ck9fudKGPL0xX6+TYPClYPuUo7nXagRdABs4sTwX
-   MOQFPUiQICHw7/WD6iOdsL47IjHugCVjUQF/QaQVBUoT1hA9fhKmGU5wN
-   Q==;
-X-CSE-ConnectionGUID: AkCCwETrQnmvBG+OKE8rsg==
-X-CSE-MsgGUID: U8UYtM3xTymncRPMi5Nm/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="104990548"
-X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="104990548"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:00:57 -0700
-X-CSE-ConnectionGUID: bCR45RmAQ3uvpUz94b0g5Q==
-X-CSE-MsgGUID: 0Hkl2vszSy+RU+ViK+EdqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="263594322"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:00:56 -0700
-Date: Mon, 17 Aug 2026 18:00:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] usb: f_mass_storage: Bump local buffer size in
- fsg_common_create_luns()
-Message-ID: <aoMiJSUsXVBvCzQY@ashevche-desk.local>
-References: <20260817104734.1031300-1-andriy.shevchenko@linux.intel.com>
- <fd2a7c76-c900-4ccd-92bc-d1205fe16d87@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="C4geTbvj"
+Received: by mail-oi2-f11.google.com with SMTP id 5614622812f47-4b25c60f07cso893123b6e.1
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 08:04:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1786979049; x=1787583849; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hzh00wSs4akcYyh6M7Ta6jCsY96mvygh9fJXvzCpDIs=;
+        b=C4geTbvjmQxH2B2kAfKmRe8Z0qFErpeI/SbkffYWpwIiJPX/UxwqUZgQOGh2wSu9cq
+         z0YisZnJEZanj1Lvs8r7k1PRcJ2jj84p4lSwHw3nTm8fRWu5MyaC1cGePxw/0awlkIKt
+         fSlRTMdhcUt3C9PwrnlqH3zddCtUH+qt1vwsVZK+HeCAED8zDhf6hMm7cpnGLxRHa6MO
+         EsR3Syic1aNMahrnNYj9WqQMiSiHbTf/bvCsyxL648gJLB9JUqKVsORWze3ExIUVwp+a
+         ttXMP2AL6qiAIBxZmibSYoUoUafwn+ts77+p8kynYNRwVOcxCr3wJk7rTWtwxVY0ll3n
+         cjZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786979049; x=1787583849;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hzh00wSs4akcYyh6M7Ta6jCsY96mvygh9fJXvzCpDIs=;
+        b=USqjsBx7eICQYhWncRkyx7ZV81SazXGplTWzh9I+PNIqAMI82lXMzTE9tTYVDJUCn3
+         /ntTMq3omGzvgj4uED6/f7froCxqM84j0yMsH/q2gSjji29CvJU+xdPaZ9ZKfYeI+MMF
+         ee6Il4vpuZsdPNpmrbjmRgc5S7+uT/SA3IKfHgQvRN06AyxBRfdbdnLxATF2VZkcVdoh
+         o3tqFD3TM3v0ZldwM7nZwZ4hte0UBcy1axnUU2FEF/5qXC2QdqDJEtbf0FDs1FMMISnO
+         x89Uy/YY8gGKiYoGouthzclTPDQcg9tRfJRhdqBJ+5NztWxW59l7mV7/gFmnTvhrad5i
+         gXog==
+X-Forwarded-Encrypted: i=1; AHgh+RqXQ2Rq2G5lqdnyUk2/31Sd5jWpZkP/e/J0hq2XB/LILLYwYDePZbAVWG8umINOUmzsF38SUqHEOjg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMDvZqGrn7Hbb+sk9fhYUSbBgeB72oxuJo8HWDLp4sJtGgp/5h
+	M6Ic8Yw0kudLD1gerLMTf/4fOPfXYLT89Xybla/V9nO8yM08dG7MwpyAKlDnJ/om3Wc=
+X-Gm-Gg: AR+sD10Ztn71XOv7yFVMXUzR2R4NjFJDzxyPPavT8infIZFOxi7O2aJcnW5isH+QuWR
+	BVZQzBXInK9rOXy6qUfRm5k+ZGgBz+P9vofHATpvFGA3kwMeX3v/Q2tKDsI0+8Bb6gXp8FF+Jgf
+	WaQTGO7LJyCmj72LZ+O+FHoEO5xIo3ZLdF6cheJExAaT0z/c1ksVKUxwoZus2PGrbVODwC9Wibg
+	XojyGv4h1v0rMjaZ41EzAWtb1pGlH2BZV5F3RGzXfP1hJ9YTvCvBtVZPe3hpzUqSgb7GNmaC15J
+	di4pa611hC2Dj1NKIXdp7lO+WVyIaltKOTxylRyvitrjGOIGK4vEXEuiDbXVNEX7z0ppH36ignk
+	aVbCf65OsHrQ1WmV1rYoiHrU1cQ6KKxsUL0Mv8HkH11fFV3xJx6Wenn6c2MuBaV2acu8Rwr3CO8
+	u9+LbIEfvEi1VNtaBb2z5wQAAfAoiZL1M2YvTkENECgM110BHPRKZ7+Rc3JZ6/cR/iXujBbrwg/
+	3u4vkjUEUtEby7dH9k5gzC2x2Nvu6C7BBpADcrdTlbYG2A=
+X-Received: by 2002:a05:6808:238b:b0:48b:1e49:24a8 with SMTP id 5614622812f47-4b241cbe2e6mr24394079b6e.11.1786979049030;
+        Mon, 17 Aug 2026 08:04:09 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b290a3d048sm1165264b6e.1.2026.08.17.08.04.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 08:04:08 -0700 (PDT)
+Message-ID: <7c6ce54c-ec12-4754-a36e-d5550f8337b0@kernel.dk>
+Date: Mon, 17 Aug 2026 09:04:06 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd2a7c76-c900-4ccd-92bc-d1205fe16d87@rowland.harvard.edu>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Read in ep_open
+To: syzbot <syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com>,
+ asml.silence@gmail.com, brauner@kernel.org, gregkh@linuxfoundation.org,
+ io-uring@vger.kernel.org, jack@suse.cz, kartikey406@gmail.com,
+ kees@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ mjguzik@gmail.com, nogikh@google.com, stern@rowland.harvard.edu,
+ syzbot@kernel.org, syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+ syzkaller-upstream-moderation@googlegroups.com, torvalds@ppc970.osdl.org,
+ viro@zeniv.linux.org.uk
+References: <6a830fab.dbb3a75c.20434b.005d.GAE@google.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <6a830fab.dbb3a75c.20434b.005d.GAE@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 17, 2026 at 09:47:45AM -0400, Alan Stern wrote:
-> On Mon, Aug 17, 2026 at 12:47:34PM +0200, Andy Shevchenko wrote:
-> > GCC is not happy about the buffer size:
-> > 
-> > drivers/usb/gadget/function/f_mass_storage.c:2970:48: error: ‘%d’ directive output may be truncated writing between 1 and 9 bytes into a region of size 5 [-Werror=format-truncation=]
-> > 
-> > Bump the size to get it enough for all possible values.
-> > 
-> > Note, the existing comment is wrong as size 8 for the whole buffer doesn't
-> > cover 100 mil numbers, hence drop it altogether.
+On 8/17/26 7:42 AM, syzbot wrote:
+> syzbot has bisected this issue to:
 > 
-> It seems highly unlikely that anyone would ever want to create 100 million
-> LUNs.
+> commit aa00f67adc2c0d6439f81b5a81ff181377c47a7e
+> Author: Jens Axboe <axboe@kernel.dk>
+> Date:   Tue Oct 22 19:47:00 2024 +0000
+> 
+>     io_uring: add support for fixed wait regions
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10e60679580000
+> start commit:   9a143525f62b Merge tag 'ata-7.2-rc7' of git://git.kernel.o..
+> git tree:       upstream
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=12e60679580000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14e60679580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
+> dashboard link: https://syzkaller.appspot.com/bug?extid=df9e891bf8ea586f846b
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=120defb9580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16323fb9580000
+> 
+> Reported-by: syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
+> Fixes: aa00f67adc2c ("io_uring: add support for fixed wait regions")
 
-Completely agree (but see below).
-
-> Why not limit the number of LUNs to some more reasonable value, like 1000?
-
-I chose the robust way as different versions of the compiler may or may not
-that limit (yes, we had such a case in the past [1] and it required to replace
-also specifier and variable type altogether. Given that, I'm not feeling to
-rework that way. Up to you to implement, though. If you think this patch is
-not good enough, consider this then as a bug report (with `make W=1` it breaks
-the build, exactly what my case is).
-
-Thanks for the review.
-
-[1]: 239afba8b9f3 ("leds: pca955x: Avoid potential overflow when filling default_label (take 2)")
+That looks like nonsense, I strongly suspect it's a race and hence your
+bisection ends up being mostly useless as it sends you in random directions.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Jens Axboe
 
