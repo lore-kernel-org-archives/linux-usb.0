@@ -1,133 +1,102 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B461E429037
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 14:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C75175A6B;
+	Mon, 17 Aug 2026 15:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786977969; cv=none; b=n96XhcC5iU6ybLTE78nNp+uLgGmhxKQMQdWR9kP8uVhYHyJrKX6ytcwQBTA4BMsBFqdq2pWF9snrk1SJKLNQVM6pBzANKKutAxfyI/bYlhRCgQ0cQ0mQlnulFPCQshQudVRXZmWvLQjA8IATlcb+Q+4l1gV6DeE0b/F/3gQZwHU=
+	t=1786978860; cv=none; b=Dyf37DJ35zngbLC6d2qv4q0neCpDTE3s9Lrtrcvi7zMZtJJUe+b+wv5Vh4gk+kzxJL2cCsss6gM2A5KQz4if+tKAuBFoRY9WWM6bbn2IhCYmHDbBv4tvGl6GaIubbcWfno02dgthPZiO3nY5gGcVPq3ZeR/TTmBu/MLT1VmtCvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786977969; c=relaxed/simple;
-	bh=MduWm0piicCPLJVaVl38wmTVcawPChLXhJfFlKqq6ZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NR6DWrtZqMSYTC/oW3jUKJ5bXdU4A+/wcbba4ZpjkZRvh94tl1NgznuvCYw1oepKWOydqzd45lVGfu4yVIYyNVuG7nJmMEhChZu4kNJzECpA9+at73WgFhTzwHpmUcpee+wYIx0JisCgjAJRDAQyp5M3AdMrMGwYW9dH5QKXaXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qisWjA9i; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786978860; c=relaxed/simple;
+	bh=lKd4pWyd/rZPlq/Ux63G+AJ8ooe3gMQslMM6zRt41VI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D6bRvzd8IM9WzzbhfiGH+SLsOK5Md7QLUrTTQ+MvvRBpvlzfX8NFUE13SnGsY1nSOHet6D0A0VaSGV//MlqY5GyJpHW1A6Ahx+dpp4GwQw0Dpm4tdGNL9rt4AHQPL+Evo8n9UYJXzVGj+JQDKl/AYaC5e1OXLC3NZ+HjkdGfTf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQbbf1hI; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qisWjA9i"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4994c49f588so31985105e9.0
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 07:46:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786977966; x=1787582766; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5WfvTCVMtBGFuD0i/SGJKcgjjeNMofzdUgLOwyahACM=;
-        b=qisWjA9ivd2ZLBUXkgosoRe5OmPsDC9ILM5SoQBvy5SzGtaFGloAqgkijWKqUHD2NS
-         VzeLcrCyqWtme4rRjsrknJdh/wOUnQ+JFj0asaUTTenNUkrUligumOinA+iOKPO7gcIN
-         KJlCJu1Ohmo2cXg/2UZID0LjzptSuTB42M0IH6C974OmItfmPdtgVjo1MG+tSzHceFzP
-         PAhjKfO3UhHRLaDJVnamRvtOvYcBcOH58mZK7+n/dgysiClYlkDNd8xVOPUDAVApqb6g
-         gxMKRi6YUMTKIjrT+4ewYFASVJdiuZqIIO5uGOtx6HH8AcEyouG7YM67qrUYB7w/owcv
-         78rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786977966; x=1787582766;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5WfvTCVMtBGFuD0i/SGJKcgjjeNMofzdUgLOwyahACM=;
-        b=r+CJwt5OmKiyRZhkd1lfxLF1Cp0KQh4lhLG21z15lLKUgDifLrQ06D39NsourqD2XV
-         t9fDX9gF1NdNl3VQFEX4ChtddeJ1E4QOdoiFMN01Yg9dDi7wY1SJv5nE9Ba76y9hH1hG
-         IsuGtp/hKf3d4qmV8AinYgYNHKTXLtF5+qFX+q6OivRqpSksUbTt/D/sT11lXsPewjnM
-         pTDO6w6Mcupd9z3z4MP9FcH67eh1UYSlqnycpWWu7jkgpPHH8qw+/xwjBDl9X66BTkFL
-         r9LWD1EB0Cj4GVZvyh6s2Hl2Oed5xueyu4W0QGGEm7tHTva4sulfZdDkTiWtdVZLFpzo
-         je8Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqQwU1xKHX3wG9tTUlLgVuzwEvlyYOWDvHYHWYlyFEJ+1RL9X31y1bSTv0ZGYCm+5Tvb0wLDxbsSOc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxopPIpWpJhFUG0M/6tZ8zUQmhR3jCSFaNHjnz35sHIwG8L6pTw
-	ROm1XfdChY0bKoeEbMX4cRuf2BzVj86PrS7+wjEEby8oGwCGKjKhsvPotC9kyAaj
-X-Gm-Gg: AR+sD10GjXQc2g10APiqHMiFDMioGSNSppIxXv8BUH7z9VNh6uTWomwZZ31kGn1nk5z
-	xdxBjFESjfj9Ppi2w4kquGcJZBBGVZ8BLU7IzG6ZSLiLlSPvEUR4ZCV36VdVzt+y0AwvmoNi7RG
-	+F9tPa95TXkmjz8zGnMNyNoXC4SUGPbEkQNBtUyuMQhks/BjnSRUTrZ2JoQmoPBrK0pelhufQ3i
-	ARR0DRXgbHFJDzk+owR+PfaYQxxJggaDq9yO+zi6XCDqHcRPEcVRJqYtaYVBnVldCtg0o3TdbkH
-	AT55jc65/P3fk5yy6U8nCue7LqT26I8IAOz83u3S1snWY+8dPyPDDjNgVrZKahNo/dMrAILcSr2
-	25xJ2IOPq+wruufHRWPpQgJph8M3RHmDNUimj+lmTwjNEcJIYHL6OZMlsgPbvEltBzAkTwqsMbl
-	bT1KS+FRvNwoeRY+V+zFD+dJziZXk1UJFSTp7HVxIO+aDXAK5EOxoUbW5uAnmhk5g5y/reI16JA
-	5lcibMKMJ7NzY6gOfCwCK/Fpw==
-X-Received: by 2002:a05:600c:4704:b0:495:5d6d:9cc1 with SMTP id 5b1f17b1804b1-499922f4c82mr209964585e9.0.1786977965797;
-        Mon, 17 Aug 2026 07:46:05 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4999d0788dasm41047085e9.4.2026.08.17.07.46.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 07:46:05 -0700 (PDT)
-Date: Mon, 17 Aug 2026 15:46:04 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Linkai Gong <gonglinkai@kylinos.cn>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Zimmermann
- <sigmaepsilon92@gmail.com>, Peter Korsgaard <peter@korsgaard.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, John Keeping
- <jkeeping@inmusicbrands.com>, William Wu <william.wu@rock-chips.com>, Marco
- Crivellari <marco.crivellari@suse.com>, Ethan Tidmore
- <ethantidmore06@gmail.com>, Kees Cook <kees@kernel.org>, Chris Wulff
- <Chris.Wulff@biamp.com>, David Sands <david.sands@biamp.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_hid: do not copy_from_user() under a
- spinlock
-Message-ID: <20260817154604.70427ed1@pumpkin>
-In-Reply-To: <20260817061141.82597-1-gonglinkai@kylinos.cn>
-References: <20260817061141.82597-1-gonglinkai@kylinos.cn>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQbbf1hI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786978858; x=1818514858;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lKd4pWyd/rZPlq/Ux63G+AJ8ooe3gMQslMM6zRt41VI=;
+  b=MQbbf1hI04JEOwnr/fM5wASxZBWIaAUaSFTTAkzFXTYUI/dtjgLdjiFX
+   4mPriMtdmPre21rS4byZPOm5HGKxLZivXil0USKKs/Pr6uKYtRaqF+VZF
+   0L27UdCNnAdkuiI8YBh48ywbQK+Mq9b32kMj6G1Bi/o6wzSJ5GvpKguyM
+   Nfjq7HBnRkAcivvm4BZjRKqhXormAlPa8tSK1c/FJVCCwJgA5crCygo5+
+   fTIV45YPKeaG3uEm4Ck9fudKGPL0xX6+TYPClYPuUo7nXagRdABs4sTwX
+   MOQFPUiQICHw7/WD6iOdsL47IjHugCVjUQF/QaQVBUoT1hA9fhKmGU5wN
+   Q==;
+X-CSE-ConnectionGUID: AkCCwETrQnmvBG+OKE8rsg==
+X-CSE-MsgGUID: U8UYtM3xTymncRPMi5Nm/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="104990548"
+X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
+   d="scan'208";a="104990548"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:00:57 -0700
+X-CSE-ConnectionGUID: bCR45RmAQ3uvpUz94b0g5Q==
+X-CSE-MsgGUID: 0Hkl2vszSy+RU+ViK+EdqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
+   d="scan'208";a="263594322"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:00:56 -0700
+Date: Mon, 17 Aug 2026 18:00:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] usb: f_mass_storage: Bump local buffer size in
+ fsg_common_create_luns()
+Message-ID: <aoMiJSUsXVBvCzQY@ashevche-desk.local>
+References: <20260817104734.1031300-1-andriy.shevchenko@linux.intel.com>
+ <fd2a7c76-c900-4ccd-92bc-d1205fe16d87@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fd2a7c76-c900-4ccd-92bc-d1205fe16d87@rowland.harvard.edu>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, 17 Aug 2026 14:11:41 +0800
-Linkai Gong <gonglinkai@kylinos.cn> wrote:
-
-> f_hidg_get_report() already copied the report from userspace into a
-> new entry, then called copy_from_user() again under
-> get_report_spinlock. That can fault and sleep in atomic context.
+On Mon, Aug 17, 2026 at 09:47:45AM -0400, Alan Stern wrote:
+> On Mon, Aug 17, 2026 at 12:47:34PM +0200, Andy Shevchenko wrote:
+> > GCC is not happy about the buffer size:
+> > 
+> > drivers/usb/gadget/function/f_mass_storage.c:2970:48: error: ‘%d’ directive output may be truncated writing between 1 and 9 bytes into a region of size 5 [-Werror=format-truncation=]
+> > 
+> > Bump the size to get it enough for all possible values.
+> > 
+> > Note, the existing comment is wrong as size 8 for the whole buffer doesn't
+> > cover 100 mil numbers, hence drop it altogether.
 > 
-> Update the existing entry with memcpy() from the copy already taken.
-> 
-> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Linkai Gong <gonglinkai@kylinos.cn>
-> ---
->  drivers/usb/gadget/function/f_hid.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
-> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-> index 3c6b43d06a6d..e4621e5a0b69 100644
-> --- a/drivers/usb/gadget/function/f_hid.c
-> +++ b/drivers/usb/gadget/function/f_hid.c
-> @@ -667,14 +667,9 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
->  	ptr = f_hidg_search_for_report(hidg, report_id);
->  
->  	if (ptr) {
-> -		/* Report already exists in list - update it */
-> -		if (copy_from_user(&ptr->report_data, buffer,
-> -				sizeof(struct usb_hidg_report))) {
-> -			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-> -			ERROR(cdev, "copy_from_user error\n");
+> It seems highly unlikely that anyone would ever want to create 100 million
+> LUNs.
 
-How about a patch to remove the ERROR() from the earlier copy_from_user()
-error path?
+Completely agree (but see below).
 
-	David
+> Why not limit the number of LUNs to some more reasonable value, like 1000?
 
-> -			kfree(entry);
-> -			return -EINVAL;
-> -		}
-> +		/* Report already exists; data was copied before taking the lock. */
-> +		memcpy(&ptr->report_data, &entry->report_data,
-> +		       sizeof(struct usb_hidg_report));
->  		kfree(entry);
->  	} else {
->  		/* Report does not exist in list - add it */
+I chose the robust way as different versions of the compiler may or may not
+that limit (yes, we had such a case in the past [1] and it required to replace
+also specifier and variable type altogether. Given that, I'm not feeling to
+rework that way. Up to you to implement, though. If you think this patch is
+not good enough, consider this then as a bug report (with `make W=1` it breaks
+the build, exactly what my case is).
+
+Thanks for the review.
+
+[1]: 239afba8b9f3 ("leds: pca955x: Avoid potential overflow when filling default_label (take 2)")
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
