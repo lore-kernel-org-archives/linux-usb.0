@@ -1,157 +1,239 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010039.outbound.protection.outlook.com [52.101.85.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF6C443E31
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 14:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786977208; cv=none; b=RC0lOh+6oxRSyRKORCXMDu/UqZsUP9RPEVIMeq4OrhErUXSQf2LKBtszelfqazcuk2r3B5YqxYJLlAp2VXTaiE6nUdIm9TNP65lkEMNzsIj3dvJOuAs5Oj3ES5qT9MtvqbIq6pxsA+faAT91Z4CtU8yCUTmZG/zt2YD0qfy94LM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786977208; c=relaxed/simple;
-	bh=DDFwBhiBLofGa23pCJqnqJo3yOWJ4dehw0ePV0fwogI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C099A4322E5;
+	Mon, 17 Aug 2026 14:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786977274; cv=fail; b=fpe1jmLqIKHFMIjdcnDkEu/ZUN1IqJIZZf+kIlows8ryP9FT836LPII78Okreh2o5TKt4tKIzl0DIUImi+e/rDAQ/+tzUcBNdV82EbeqJjV0kI59cOZEQGURRX6+JS/hjrdNctmo40BwQfo1SexUOR+jqajCGMpXl+yzPGj3dFk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786977274; c=relaxed/simple;
+	bh=wmPAhonXRlkz6/qVfoUd+UZbLhqWspAsnO2YqT7iQ04=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BX+MtF9DhFHtDHssKcOXdzybIk330xhjgVH/xa0dfVzbTGgg38yAH8y45uwCPpznJ5Qk5UX3bqkVD6K1ILsRyAZcfJX9d4pPG+2mPf45eqHoVBcUjqwIYeR7Qom0U2Ml3R5LOlvihS6KDd26ME/OY4SohLv8//vz4MxwTdaTKe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GgZKjlyH; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:MIME-Version; b=NIW4XdkEcLiZuhJ8th6vXLXNGSu0NylKfMrJs4IxA4yrDdp0XJlJ4ocSgyPoK6zX/xAnbOSd4LF7bjLGYx3yJEHV3ABeZnp5d1Y3XCGsZAPvRMAL8aNuG/DfDh5aWkLImpMMWQqUq4YaX3WRaOEfVnQ+Ofp5XJ6ruOGB06GgdtI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sfgTaeXI; arc=fail smtp.client-ip=52.101.85.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GgZKjlyH"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-848761b5897so1183831b3a.3
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 07:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786977206; x=1787582006; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bmPzW0++6cESqYY1D8FfWa9d9CR6iOyeJuXogCEEgOI=;
-        b=GgZKjlyHW29Ad5wmSfjlbBsHz6kCRHIYal0E8tbZYEzKwtp25N8NwnZT676KcylHZh
-         3Xvg60FAOBwgngYiqa3Hi+6aipixiILi9tfrQV/kWWGxCKIgCM3ncw1MnvGcGKpfktv6
-         j6nx2punqsYkxvJQfLEJA8LKA/kMmWDBapvfsP3FRB+inFwZPCGF9WUz10X1UF3qVn4c
-         ylPfuen9d0o0XoFa3a4RvrsH5oXN0KLYHuJ4ujeY5ACj2afkai+Di2+78pYPH+f9pOH1
-         C930rE6ashOmD5HziGy6t/fFLpzI9JKX1GiWe96U0g4A0EQbyEmdsU+fTCVtbG2Z41rt
-         OhOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786977206; x=1787582006;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bmPzW0++6cESqYY1D8FfWa9d9CR6iOyeJuXogCEEgOI=;
-        b=iDiU/CbBgHIiEPwiAccF1YbTjGPSKJ2waRAWB4M/z61EQ2BKkXoSJqIaRS9NHyWJqw
-         kzr+b7PwpJWRfOeRXMXxZ/LE5OI+AYJQTuiUfcoT62ZtIhD2jMjZb6+yt0MNOHogjHdT
-         AoIDlJMeB6egCcicXgkKY449OGn76j1CWP6ORWYWPFb4bZ1Jx/4BZseH+G4jT7MPCG1Y
-         etcEDqCja5BrJsz05uv1pZq6S/yqcWZo3oocD0VfbL3w0kmr+iXzdxg5eRcVdxj5sO9G
-         Ug2K3EwDl4ukytSsAmorXvdstPl84h0XSPPg1U3TONI7sBmAuK4UzfICwtdaOEL8Zx/L
-         hqZQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6L5BZL+6QP41s7/n7Sfges+uBNfhq/xKWDqnoiF/FhdLs9ogSAEZvp3ORF20O5u7priSVqungtxI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEIcotF+Q11y5SDrLV+jwv1V/rnfXomLvgJndSggDhfpXs+Oi2
-	D3yrmbYfUk5kb/wEfQWLY9WJ3jLyv2a2CArIWZJMyHZNa2yN0j+TUew=
-X-Gm-Gg: AR+sD123ij8vwWyuRmTA6YNmMQNRWf+hphW+Ijj1ajTxdTt+7hnr573gtQ5BOph+f/L
-	FMIUx69/drdmizp9kRqGZzhF9nPKyFuOw3JPhCovEqdu8LgHKqUOHLysJfmr+g+rdzRvNYZ2gFb
-	SZk9KaZX9pgn3VEnKyBAjbMcGfdvvJrDD4mh+dcWWqCZ4KJgpil7MRkiUk9TV3MPNnaIFmR8KqS
-	6dyFCBGBXAfuXa9YGwHEalfKA2Hccrl3vRgOZcN622sJEp6b4AadD+YClDEm54yYvYVG5GWsLKB
-	HPMnjsfw+70K01OBAfrH952u+Oi9KGDbmY69v3wO/mJY/Zc4sGo7AR5idGnWublCz4Pvavq1jLJ
-	VtkY7/2kanzTGCSKtcHvrjd79bH15zyaGgPhn8beM4DlPHEMjFXq/oASE73ll8UW47BGyZR+pVr
-	HTCIz7Xd8V/w0nN5M3DpCavHsdeXj6Cs8BBfnJHl0Pp/BvtoJi+gusSyBdlgUfWI7IMhoEceggS
-	KUmB4G2tTMSNhly6bSUwrGW3zmwLVYG+U2m0BB8j9maiPkZBLt/xJCzz1BDG+uUjzPxGfz2Qw==
-X-Received: by 2002:a05:6a00:ab8b:b0:848:67ca:bfd with SMTP id d2e1a72fcca58-851b87faa1fmr1192725b3a.16.1786977206514;
-        Mon, 17 Aug 2026 07:33:26 -0700 (PDT)
-Received: from codespaces-2db70c.m2fxbej512jepnsor2itp05j3d.ix.internal.cloudapp.net ([207.46.224.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851b404944bsm690961b3a.23.2026.08.17.07.33.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 07:33:26 -0700 (PDT)
-From: Triet Hoang <triet.hoang.dev@gmail.com>
-X-Google-Original-From: Triet Hoang <89897892+HMTCT@users.noreply.github.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	pawell@cadence.com,
-	peter.chen@kernel.org,
-	rogerq@kernel.org,
-	triet.hoang.dev@gmail.com
-Subject: [PATCH] usb: cdns3: Handle ZLP request allocation failure
-Date: Mon, 17 Aug 2026 14:33:12 +0000
-Message-ID: <20260817143312.163155-1-89897892+HMTCT@users.noreply.github.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026081757-fog-lunacy-2df9@gregkh>
-References: <2026081757-fog-lunacy-2df9@gregkh>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sfgTaeXI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fUL+qT3iBLXMNUgdqKOCiw8RvueLzhlF8CxKO2e1RHj8NLZOIz5WeXe9910h4j2Ts46iCmOKmYsge684rq9KMNWyFQTIrMRZbCde5Qk43CPuFei+raqPdDIIf7uiQiXpq7ESjq6fAwb+YIx5ZfdiGfPgg4ZEuuqsNi6Mbn6PSfGs9hdAeb+D5t7nbEuYMgAIsrhpsuA5cA7+YBLszaPMDUBR8HdVSL0Els/ouNeQV5L8WBRjAYVGdCIm1bq+/Jws4OgIK5YM/DAVRzJOn9+hwHjVzRGs1akyNEb1wWxEcYPlmJgu1pJA0iflO0ODbq6nzEZFD4DCq3mgfkzsYxPC2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jV8Qcrd4OPseOadp9d58/wwlTuGWEWRal3OKQELuvss=;
+ b=jEiM6eqygaOAPUeSKeI6izf+UgyX9SQCxbNL/zdFnSRV22ekblPh/CfLimFHJ6CGwE+ufcYIwFmH7ZMcItjLgF+BdjuUCb6G8/088TyE5QlGQSovIKPDbarcMMqTRa1E038pPMCZPhR/DOJFEEJ6x54Hk9kNr8a1hLmePVP9UvnWen57alzsLhINqav9pYjcPlnho/fosaupQDrE0DM5etLvWUzN6puvKoHtyMzTdrnpB0YKch5VQ6eInnk8N3EmfKGbauNnU6/ue5Xsl53jy617Vg8noS76jIAhW+knbsTO1N8MVGJ9da3XT8fqQUDomor/IXj+Ry0vKfgbsoSvgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jV8Qcrd4OPseOadp9d58/wwlTuGWEWRal3OKQELuvss=;
+ b=sfgTaeXIPZfC6ycpHfVvilZtmYLzM0TR4NMPuonqsUHy1pBNfLNec5mPeCuki4GlJ0NK2v7kcLSH6XTzZrT6lwYImJXnV6QugyckIh+Z8M7Op5tR3oyBaGJpe/w0C0jQuG9wlWrx+ZcWC50MnG2QbQjvTNURGVFHVreyv0gu79lA6/9wxHTirrRifNgyrmCyC2KUj4uAp6Ao0CNQpl3TzekNRTLHjljT4/TSFPTObMIG/c3+uSiutpMDYyqhIrQTd+MuszUPLiq/nkqtpHW3I4dmo26rZl49WG8KZBmh2WIa4OTqYbappDQ3TgkSD1qXKj9I1y5L/ZYQuZDX41UDEg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by MW4PR12MB7013.namprd12.prod.outlook.com (2603:10b6:303:218::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
+ 2026 14:34:29 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
+ 14:34:28 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+ apopple@nvidia.com, byungchul@sk.com, david@kernel.org, gourry@gourry.net,
+ joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ matthew.brost@intel.com, rakie.kim@sk.com, syzkaller-bugs@googlegroups.com,
+ ying.huang@linux.alibaba.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Date: Mon, 17 Aug 2026 10:34:26 -0400
+X-Mailer: MailMate (3.0r7024)
+Message-ID: <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
+In-Reply-To: <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
+References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+ <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+ <DKQP5QC9XTDJ.3MI016NP0NPFY@nvidia.com>
+ <02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
+ <DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
+ <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
+ <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
+ <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
+ <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BLAPR05CA0046.namprd05.prod.outlook.com
+ (2603:10b6:208:335::26) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MW4PR12MB7013:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69eab42b-7369-4059-7731-08defc6ca481
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|7416014|1800799024|23010399003|18002099003|22082099003|11063799006|56012099006|5023799004|4143699003|10067099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	nUe6lUZQf+EgnEPbNNGTGqssMLkTywFTAidFGQPkkb9v777UmFFi7Q2gH6tR4Gi0iZGvNYyf1JMZBb4XNRnbwxmOSsNNRyZFogrYJqNVVHoh4UGAjboDYl4QrqAbGNOzpS2BH/Ru/aZcI7U4olc+kudCUI/LlC9kb7b9FdZFl224zj1UNlUc5BYvtJrxd4LB0VyuFx0kc2aSyP4q+fobnjtr/bsaHRzcGuy2ytmt0KCfD479qMOJaH/QEgHR/lgH6EmhFsaY46wG2X3odum+fOOyxc9V1XgvpZFbHZZ2hREKw7801F1j4IeZMMPsF3UMAa2HvLbPCFbxdvsVZ1YSyamUzyVvoN1R8fo7JP29a0HwtKGB1MH2Y1GdHzo2XewCZaiiSRULN1oIhR8Se5Kp+mRDnObOvZlw900h47ZUb4IqbFwsQv1VoB/g/1q3H+jFUdV+xXJPr5CAcA2hglvHTNOwPPyOPV6CBg7r45U5u0SXyxxP8Q6FqBGCi/acAX9P7tPPnAJCkVF7K8Ax+uPDmdNxZE3U1/gK0F9CUlv9PcAGpvT43PttDVSCsNQkFA1biMfV/XJZi6prWUgGi3IFAU9GGYHVtsbshxYTaCWoyj3xdyCKAddEwsIhTzzjCDHt/V/LUczMJfper3tDiI9GOP1XSzQxvv4r0SQneu+JiXI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(5023799004)(4143699003)(10067099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SEpUeFdIcitTRWtMOGhFblJiM3V6dndBbE5PVi9XL0h3cDB1Rlg3bnl0VDFH?=
+ =?utf-8?B?NUNHaHZNM2dDZVlQWWt2R2lTbk1yaitBRGU0eWZ0azlWN3d3VjNGTnp4VFN6?=
+ =?utf-8?B?eEh5R1YyTmtYUXVLVFpTa1dYeXBhMUJSajlGS3o5QnA5TDVHUm9yRkdJY0Mz?=
+ =?utf-8?B?LzdOaFgwWXJqYWZ4U0VFRjlkQmpIZzBzRDRlS091aU5wMXlETWxhV1VEeUhM?=
+ =?utf-8?B?SkVzRU1mZktsWXV3QVk3aFVPZUc4SUFPZzlMN3Zac25wT09wSHhYeExRZzB2?=
+ =?utf-8?B?QllPNm5NSGh5QllsSmQrTmlFMDNTYWUvY3ViM0poZ3RpWjlrMDNibmgzek5i?=
+ =?utf-8?B?LzJ4WFQrMnVzY1c1S1dtR3ZxWURORm8xSjYxaXNZa3pnOXl3UVZOMWM4dVU4?=
+ =?utf-8?B?QXVRaEJQZ0tNSVFoRU5YZDl4T3VWTVZGeVJmS3UwMXRhaEszcmJ2RkVwNno1?=
+ =?utf-8?B?L0Y5eEVaV2xDWEl3dUw5cWkvZ3FKcVQvSS9UYzR3M1FGUEVNNUljUnVmS00w?=
+ =?utf-8?B?ZU5sMWcyRTdubTV1UFZuUXlqMHdWU2I3T3ppd3I3Qmo0UU1MOHBYYk0rNWpT?=
+ =?utf-8?B?cTBYN0ZyUnRUeEk2b0hxQTM1Qi9IUDlqeG0yR1pXMm9qRFZUelk5VzdQYUtB?=
+ =?utf-8?B?TW8vWU1XQnBYc0pNeWY4dmhZQy9uMnRwcnA4QU1EYXJkbE9jTjZhTmNTUUU3?=
+ =?utf-8?B?c1BmVitZam5lY2FiRmNMc3kxalA4OWNkNzFmVmNkbkZrWll1Zld0eSt6bWh3?=
+ =?utf-8?B?S2Q3c1dmVDM3NkZBNW12ZHF6ZEpJOHBFN2kzdEorcllzTStWUEp3WXdVRGRO?=
+ =?utf-8?B?bDlmRWJCMzF3OGtsNFRUdU85MkpVYW5DTE92RktneG5YMi94eHB2Q2w5eWNY?=
+ =?utf-8?B?cDI1d3NhWGZFMVBEYVJsZkFyRGxld2wydFo1dk90d3RBQVJUZllMWnNqZWx1?=
+ =?utf-8?B?MjZrUkUyc3dSd2FSZmkwSEpyUU1kekFkT3p1T2dCMkxJTDJ0R1VINVIyMzZW?=
+ =?utf-8?B?S3dlZVNMY1pIVzJNeU1WM0NodDNyNTVlZWw2V1dkNnVJUm1LUVBETjh3NkJO?=
+ =?utf-8?B?TUxSTjQ4cUsra0JSQTNSNmlIa3hqUEdZcTZHWGcrUWRVUmZjb293TDE4WTds?=
+ =?utf-8?B?ZWFFMU5RK28zbERHclNwNW1VS2hwNDYrbmtmNmgzdWhicWlyUmd4UWl2bk9X?=
+ =?utf-8?B?azhmTGJybytSenJWcUVHZDY5M0Rvdzh2YXdGQkMraWhpVEpZMUR3dUlMTHRH?=
+ =?utf-8?B?VVpaNFQxcEdrTUZKTGdwNzVaL20xNlVQRFVwQ2Y2MmVtSXRUOS8wSHk3UEx4?=
+ =?utf-8?B?WnM4UTV1am1Yd0VVcVVxdVR1VDVudmN6R01BRG1xZWZ2NU40Z2dQMlQ4QWNk?=
+ =?utf-8?B?RzZFR3d4OGk0RHM3cTU4QlN5Qk93T2NXajRncTBNY0gycW9hcUFXQmc0SXlX?=
+ =?utf-8?B?b1MxOG95Vm9ZTE5xMmxtQXFxcTZhQXhvZkFwbXJIczhlZnh6aU9GcDBaUGJV?=
+ =?utf-8?B?bW4wK25WeWIvMnVrc3FrMWhNM3JpWFNEWHNJNkFTa2pqVkhvc0tqU2Rsbll2?=
+ =?utf-8?B?Wisrd2QxdWlVMGxuT1E0ODRWdE1mbm1GckVEYzBnbStlMld3UHRwZjhDTS8r?=
+ =?utf-8?B?b251L1NkOXlYbktYdnBGN3lBSTlMdFhJNHZMOG1FRm9RSVMzanA1SzFqeXNk?=
+ =?utf-8?B?TE5CRzNWYU4vVlh2VWJlb0dmOUNqKzMzTkQ5dXhRNnFaSDNMR2NNaE0xS2tZ?=
+ =?utf-8?B?dGhTUi9JVXNhclh5WGJZYzkzOW9pTkN3cko1dkFOMDc1Z1pHWUcreURySmts?=
+ =?utf-8?B?QkgvcEd6V1IzcnZRdkVsVEJuZURNYVIybDhFR1ExV01CTmpOWklZaDdlRE5C?=
+ =?utf-8?B?YUhMaUMrdlY5bzEvMEpSNGxHOE9ZMmpDU3VtM2JqVDQ1QWRBVUszMWNubzdp?=
+ =?utf-8?B?bHljNStqVS84ZkR4T29EcHFNSUtIVWgwbVdmczZEWWRSOE81Z2R3ckdCbWQy?=
+ =?utf-8?B?N2NHNC85U3F5NlFlcDJLemdYYXZLajVEekRSY1pRblZNaStjRVdDNDhHV0h4?=
+ =?utf-8?B?OEUrZlppNytYN21pYldObE5Icm0vZ21KdnV6QUI5Nk9EWk5jQ2dnVTlNeHdL?=
+ =?utf-8?B?N3JtVk5jUGk4d084SEIxcDAwTnV6ZFd6TlZqUnFCQzFxMGQ1THAzOWNESmNL?=
+ =?utf-8?B?QXpHUVorUTJJbFpkcmhSSFdhYjZYNXBOaDNiU3lIVzYyNWpwTWVucG04czdr?=
+ =?utf-8?B?dU94bXR6N0M4UkQza3N5ck5ISVVuQUliWEdleWZIRGlkM09IRUw2U0NVV0dE?=
+ =?utf-8?Q?kUeAVjRj/5OETmq2ec?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69eab42b-7369-4059-7731-08defc6ca481
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 14:34:28.1318
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: idi598FrAoxHTNpUlCsq5qmuzMCm+DIZX7xnJ/OB/GEBZspJnO8fDww5yPAScKPJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7013
 
-From: Triet Hoang <triet.hoang.dev@gmail.com>
+On 17 Aug 2026, at 9:55, Alan Stern wrote:
 
-Check the return value of cdns3_gadget_ep_alloc_request() before
-dereferencing the returned request.
+> On Sun, Aug 16, 2026 at 07:42:13PM -0700, Andrew Morton wrote:
+>> On Sun, 16 Aug 2026 21:47:58 -0400 "Zi Yan" <ziy@nvidia.com> wrote:
+>>
+>>>>
+>>>>>> I prefer Andrew's first suggestion.  If the user asks the kernel to copy
+>>>>>> too much data, just fail -- with no warning.
+>>>>>
+>>>>> __GFP_WARN gets rid of all other warnings, even if user asks for a
+>>>>> reasonable size. Why use such a big hammer?
+>>>>
+>>>> Because on many systems, WARN causes the kernel to crash.  You don't
+>>>> want the entire system to crash just because the user asked for more
+>>>> memory than was available.
+>>>
+>>> User asking for more memory that what is available is pretty common and
+>>> should not trigger a WARN or crash, unless you have panic_on_oom set.
+>>
+>> I assume Alan is referring to panic_on_warn.
+>
+> Yes.
 
-Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
----
-Changes in v2:
-- Allocate the ZLP request before queuing the primary request.
-- Free the allocated ZLP request when the primary request queueing fails.
+Right. That is why I said “unless you have panic_on_oom set”. So panic_on_warn
+will not crash the kernel if user asks for more memory than what is available.
 
-Changes in v3:
-- Move patch version descriptions below the '---' marker.
+>
+>> Heaven knows how common panic_on_warn usage is.  Gemini tells me "There
+>> is no exact global headcount or precise user metric for how many people
+>> use panic_on_warn.  However, the setting is widely enabled across a few
+>> billion Android devices and many cloud/server provider host kernels
+>> where automated failover makes a full reboot preferable to running with
+>> an unknown warning state".
+>>
+>> So I do think that WARNs are more serious than we (mm developers) tend
+>> to assume.
+>
+> I do know that Greg KH has pretty strong feelings about this issue.
 
- drivers/usb/cdns3/cdns3-gadget.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+But the warning here is when kernel user wants buddy allocator to give
+what it cannot allocate, a page order > MAX_PAGE_ORDER. The warning
+tells that kernel user please ask for a reasonably sized memory.
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index 42311c1bfada..05d225f99012 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -2641,7 +2641,7 @@ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
- static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
- 				 gfp_t gfp_flags)
- {
--	struct usb_request *zlp_request;
-+	struct usb_request *zlp_request = NULL;
- 	struct cdns3_endpoint *priv_ep;
- 	struct cdns3_device *priv_dev;
- 	unsigned long flags;
-@@ -2655,24 +2655,36 @@ static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
- 
- 	spin_lock_irqsave(&priv_dev->lock, flags);
- 
--	ret = __cdns3_gadget_ep_queue(ep, request, gfp_flags);
--
--	if (ret == 0 && request->zero && request->length &&
-+	if (request->zero && request->length &&
- 	    (request->length % ep->maxpacket == 0)) {
- 		struct cdns3_request *priv_req;
- 
- 		zlp_request = cdns3_gadget_ep_alloc_request(ep, GFP_ATOMIC);
-+		if (!zlp_request) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
-+
- 		zlp_request->buf = priv_dev->zlp_buf;
- 		zlp_request->length = 0;
- 
- 		priv_req = to_cdns3_request(zlp_request);
- 		priv_req->flags |= REQUEST_ZLP;
-+	}
-+
-+	ret = __cdns3_gadget_ep_queue(ep, request, gfp_flags);
-+	if (ret)
-+		goto out;
- 
-+	if (zlp_request) {
- 		dev_dbg(priv_dev->dev, "Queuing ZLP for endpoint: %s\n",
- 			priv_ep->name);
- 		ret = __cdns3_gadget_ep_queue(ep, zlp_request, gfp_flags);
- 	}
- 
-+out:
-+	if (ret && zlp_request)
-+		cdns3_gadget_ep_free_request(ep, zlp_request);
- 	spin_unlock_irqrestore(&priv_dev->lock, flags);
- 	return ret;
- }
--- 
-2.53.0
+>
+>> So we just shouldn't permit userspace to trivially trigger a
+>> page-allocation WARN.  Especially if the caller is perfectly capable of
+>> handling an ENOMEM allocation failure, as appears to be the case with
+>> usb-gadget.
+>>
+>> (Does usb-gadget actually get used by Android?  Surely not by cloud
+>> providers!)
+>>
+>> (Can this WARN be triggered by unprivileged userspace?  I didn't look,
+>> this matters a lot).
+>
+> I don't think it can.  Regardless, even privileged userspace shouldn't
+> be able to crash the whole system by doing something that ought to
+> return a harmless error.
 
+The issue here is that the inode.c code passes the user input len without
+checking to page allocator code. Capping that is a minimal requirement
+to prevent untrusted userspace input getting into trusted kernel space code
+easily.
+
+>
+>>> You can mmap a virtual address range bigger than your physical memory
+>>> size plus your swap space and try to fault all pages in. That would
+>>> cause OOM and the system should not crash.
+>>
+>> Right.  As long as it doesn't trigger a WARN!
+>>
+>>
+>>
+>>
+>> Perhaps we should revisit this.
+>>
+>> Why are we emitting a WARN if an allocation fails, given that this will
+>> often panic the kernel?  Should we on the core MM side dial that back
+>> to a pr_warn() and a helpful backtrace?
+>
+> I think that would be a very good idea.  Only the caller knows whether
+> an allocation failure will leave the system in an unstable state; the
+> library routine shouldn't try to make this decision on its own.
+
+In this case, the WARN is emitted not because of an allocation failure,
+but an invalid input to buddy allocator (order > MAX_PAGE_ORDER). The
+WARN is for kernel developers, telling them their code is asking too much
+free memory and core MM cannot handle it. Suppressing that means
+code outside MM can abuse page allocator. Code like doing
+alloc_pages(MAX_PAGE_ORDER + 1, __GFP_NOFAIL | __GFP_NOWARN) should not
+exist, instead of just getting pr_warn() and failures.
+
+
+
+Best Regards,
+Yan, Zi
