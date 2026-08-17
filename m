@@ -1,150 +1,119 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2463D2EEE99
-	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE3232D0E3
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786957408; cv=none; b=oypOIqNtT6BitjN+fU64aStY2eyCKgJfUmW9+ymTL5Na3MQ77y0almCgfHz+cQIvhx2BKNMhqUH8aKxB+10ADhVgTkqJ/5vkUX1+qrDeOKYtg735xiSn5KGvi4SpisXMSS3cfuNAK8A2ZD/kmMMXDLrTfguussBivD743SkTXGk=
+	t=1786958074; cv=none; b=FchvRiBddr6ess43A9EEyvMPNdNhNYAkTsdfqAlxyc+R0TfO7bzBtRvOIIvnCW469oUyv2fy42I20Yidoggd3xTIxS6mZL4wwauUjWZAOFyhNnDnd2xfcgDfy6AdwCEl711OIe3GbqXjPunrqvONIQ8Vp0NAi2NK6uGZE2rqJl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786957408; c=relaxed/simple;
-	bh=Gsm78FdDURTwGEtRi7PbbtQblZGO/rlLl2zrSxlPekU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GlGXkl3Fs10Qh13UwXmCnG4rySx49Jeiu/orQyAqjtb0qll6oBqOwiH91bPCS7k0ocDvtU/mxCb+H8RQpoMBRkByN85LtkHTqBPtSDNOrpSpprMS0svmyFCaBczZVFTCwTMU0swx4Ito4tgw6KZZf1Fl60eA3yyQC1VK05NKpGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jx/Dj8F3; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jx/Dj8F3"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-39266382df6so2467116a91.3
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 02:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786957406; x=1787562206; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qup8wHSqTNWqZ291WX414Vh9WOIqgyCwHVdx/0J522I=;
-        b=jx/Dj8F3i4EJeTQAc7SKCmYD1UuFLCPviJJparV1aQqVbxqTwHtDKKq0mP+drL64KE
-         0l85dWI73etSaxNbtoyyxrB36YcQzA2NmUGvdmA9XgjlX8/KWPmZ8XxNRF5wxX7ejOSc
-         3sBNTlxzW0w6bUWOeA8mz4zaZrq0m3JvexXJ0MlIGyX10w0Zwog8gs1a0HjkAVGhadhJ
-         w3RkoQX0gQ/CQj+3UCVSNhHHQhbF0Og0ImghWjPzwM7eKSwkCGmP2bQO8T7vlii58D+S
-         MR9IiVIFix2qGpMBRFQxkqmyrvEj9aafUeujO1tTkT6NFFPZ4o7K2DOQMpdAvbK2i9IF
-         5x0w==
+	s=arc-20240116; t=1786958074; c=relaxed/simple;
+	bh=CVpTGZhFHmUfN5ANVL8C/TJw9Le2zioUZ7nwTD0lJOk=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=IszYopn8Fvrwl6Y4Y33GR64cgP8U4hf5KTxiWWB61TrF4aXAj9On05S69TOZ94FFmrHlDRjaTs3fR4pjzZffU4JZiPaqZ/YNFnawcop5o6UmisnlpRv+Z4Cg9BaL0wxuiXsQyPLRh587sDDXEWXwBdv0QC+fixNiEwaF0ZIPc8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-6ae4917006eso2964194eaf.2
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 02:14:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786957406; x=1787562206;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qup8wHSqTNWqZ291WX414Vh9WOIqgyCwHVdx/0J522I=;
-        b=nFczAwxxm1OJtO2PSZjEsaMMRaQqmFRNnIkOS7qWj0mkKZM4gx2HmqUaTksto2vN0n
-         kjjKQnIQ02XMAnEUt5PHmE7XZ2p2tIuhf88OEbfshWglGMu5h4XDdS96W+VgmsI1dxec
-         FlF23kkGfVnbZ0bFXd2PJDJFn5M8xL/k+iMNhKfQv9xgBVTn+FOqFmj0Q1s1ZrI5BGev
-         Uskbs47qRNU6twDXVIeDXCbL/893LbuU/KJTr2zfPIV6qyZLvhYjph/fw9jznO3xSpcX
-         M19DLrFzswEDQBkQw6veTYZjdm5cdnyO5Mh9hP7tcDahTGfrdZq/aFtJjQ+Ne3FZbFJi
-         XOUQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoMagp1zPLYzmFppv7cIi8Fu/9uojPDzoCFxBj8Oa1UPHVOqCnyZK7sTntccOnyV9+JeekfIsE+M7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlDUXOWIEkHEnd2zZIJxHTOIp+xgxL4YH8N0y/d/GixwXcTX4M
-	8Sm2pHPSDWlroGQpwKV2F4mtUPeAT1udRZuqntx25f2TdTyW2Uptnpg=
-X-Gm-Gg: AR+sD10qA24+xrjrVNlgE27cMPA2hZOpJqSYHv1DDiK4YQ28v9CZbtPiook5NdZXyE9
-	ZKxirC0d+nAbhQaWnbgI8tPU2yloTIQArjqvOz58z6XGPuIl+Dn1FnK1dtamOl5i/4a4Rln/UBX
-	muOWbzGPDct4TXz2RwpRgyO/4fJRZPMDrTReJfc8cL31lD6EvadALVAHgnbqGG/bLwcLnuZtjbg
-	91fhWhBCyZzBTCqa8ieuSqp30fK0WYfKHdN8TZZwWq37bAG/NvgSrIH61/3teSYWPNeQx5bPvfH
-	T0PIDjtV1UhiYxwrdTVYhxUwXW/c7U9ea+vb3BwFWHia69V2EOB+fX7Kn4RrN4f+48OCuXgWy82
-	8velwqGBoF0SdNLVomREZV5PqdP+TRcS3doyoz6GxkR9snkeu+MAHPv1GGNNUxX4TGhpkEokqY9
-	bYwV4GzrWJYwK7OQ0zErN5RFWTvKoRrCBv/g+jz1/Uok1MK/oS3sJm9oxOO7Q=
-X-Received: by 2002:a17:90b:3889:b0:381:11eb:d78e with SMTP id 98e67ed59e1d1-3933b8ace11mr21789029a91.14.1786957406258;
-        Mon, 17 Aug 2026 02:03:26 -0700 (PDT)
-Received: from DL2XHKPB4.dl.net ([103.63.104.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3933b68adefsm4614751a91.3.2026.08.17.02.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 02:03:25 -0700 (PDT)
-From: Triet Hoang <triet.hoang.dev@gmail.com>
-To: peter.chen@kernel.org
-Cc: pawell@cadence.com,
-	rogerq@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Triet Hoang <triet.hoang.dev@gmail.com>
-Subject: [PATCH v2] usb: cdns3: Handle ZLP request allocation failure
-Date: Mon, 17 Aug 2026 16:03:20 +0700
-Message-ID: <20260817090321.955841-1-triet.hoang.dev@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260817075929.899795-1-triet.hoang.dev@gmail.com>
-References: <20260817075929.899795-1-triet.hoang.dev@gmail.com>
+        d=1e100.net; s=20251104; t=1786958071; x=1787562871;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=0YnkKb4Fet8hxhNIWn1tISjKYbWQvuS7wogHoFnXdVU=;
+        b=VjfpmHZcMDAldsocuiTQDhP4IG1kQptRHWmCx2SD6BIhiJZ1S3gosAOwQ/j/UymiEw
+         9dwUryyYiix1pvGv0nociT02/xDVV3Ms34ddn2Uxa9gySWWwAbp0R8xaej3n6idb8cjl
+         9dpTX+gQjE2H+MVJrhFZpzUltO50jevazwoXSXYP3WYfvAwIa1nGBUvtZY0+dh3BO5em
+         N7hVgwL8uw0+bBqNJbBzbhnI3cQ7mm3oH3dVpD04+XHr2Y+tgiROz6pwTy6t8qh4X41u
+         jcb+gFaviZOkxAzf4brrfKJY4vRofuIXfWLl2xJNuyLPDrk/qCoBkvN8foRU4RumzzfH
+         d8sg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro15667Pp2uI4tgDwY59qr2b9/JYgR/cSWt2iVJ0wxyED/3l+FAFlLh/n3oAt/CFdwGakoKPHMgR0s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnXLH8Ieff2Lj6RSFxt5c+vad7XUNRMMF+vV+3DcEuC3QyArjL
+	Wz/zlbKkR9/aqRsEb2Yex69ybeFviEvY5Ln01OXZSBZPdVSL9pWCcbkyoFcQO1+ZCU/OdLU0iT8
+	ai4toViheia5tpSZ+RIjKZYH60FBdNh1NJdhXffgj0dERjgSzS87KzonIca4=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:1ca2:b0:6aa:f0fd:3f0a with SMTP id
+ 006d021491bc7-6b0d68ebd55mr19778363eaf.30.1786958071630; Mon, 17 Aug 2026
+ 02:14:31 -0700 (PDT)
+Date: Mon, 17 Aug 2026 02:14:31 -0700
+In-Reply-To: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a82d0f7.dbb3a75c.20434b.004d.GAE@google.com>
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+From: syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, apopple@nvidia.com, byungchul@sk.com, 
+	david@kernel.org, gourry@gourry.net, gregkh@linuxfoundation.org, 
+	joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-usb@vger.kernel.org, matthew.brost@intel.com, rakie.kim@sk.com, 
+	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com, 
+	ying.huang@linux.alibaba.com, ziy@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
-Check the return value of cdns3_gadget_ep_alloc_request() before
-dereferencing the returned request.
+syzbot has found a reproducer for the following issue on:
 
-Changes in v2:
-- Allocate the ZLP request before queuing the primary request.
-- Free the allocated ZLP request when the primary request queueing fails.
+HEAD commit:    8d3ae59288f1 Linux 7.2
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13bad949580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1d67342c314f228d
+dashboard link: https://syzkaller.appspot.com/bug?extid=805630f1453e490427fa
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1637ea25580000
 
-Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+
+gadgetfs: bound to dummy_udc driver
+------------[ cut here ]------------
+1
+WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2427/0x2dc0 mm/page_alloc.c:5280, CPU#2: syz-executor421/6034
+Modules linked in:
+CPU: 2 UID: 0 PID: 6034 Comm: syz-executor421 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:__alloc_frozen_pages_noprof+0x2427/0x2dc0 mm/page_alloc.c:5280
+Code: e9 8d fb ff ff 31 d2 be 28 12 00 00 48 c7 c7 a0 74 01 8c e8 7b 95 68 ff 2e 2e 2e 31 c0 e9 02 ed ff ff c6 05 85 90 bc 0e 01 90 <0f> 0b 90 e9 6f df ff ff 48 c7 c7 80 be f3 8e 45 89 f7 44 8b 74 24
+RSP: 0018:ffffc900048c7810 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 1ffff92000918f1c RDI: 0000000000040cc0
+RBP: 0000000000000013 R08: 0000000000000005 R09: 0000000000000009
+R10: 0000000000000013 R11: 0000000000000000 R12: 0000000000040cc0
+R13: 1ffff92000918f5a R14: ffffffff9b95c444 R15: 0000000000000001
+FS:  00005555738a6400(0000) GS:ffff8880d5dde000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffd5f5d6fe8 CR3: 0000000020943000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ alloc_pages_mpol+0x1fb/0x540 mm/mempolicy.c:2490
+ ___kmalloc_large_node+0xe5/0x120 mm/slub.c:5274
+ __kmalloc_large_node_noprof+0x1c/0x70 mm/slub.c:5305
+ __do_kmalloc_node mm/slub.c:5322 [inline]
+ __kmalloc_noprof+0x5a1/0x820 mm/slub.c:5359
+ _kmalloc_noprof include/linux/slab.h:992 [inline]
+ ep_write_iter+0x180/0xbc0 drivers/usb/gadget/legacy/inode.c:669
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7cc18b5cb7
+Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+RSP: 002b:00007ffd5f5d76e0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00005555738a6400 RCX: 00007f7cc18b5cb7
+RDX: 000000007fffffff RSI: 0000000000000000 RDI: 0000000000000004
+RBP: 00007ffd5f5d7730 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffd5f5d7930
+R13: 00007f7cc18ea039 R14: 00007ffd5f5d7b30 R15: 0000000000000002
+ </TASK>
+
+
 ---
- drivers/usb/cdns3/cdns3-gadget.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index 42311c1bfada..05d225f99012 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -2641,7 +2641,7 @@ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
- static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
- 				 gfp_t gfp_flags)
- {
--	struct usb_request *zlp_request;
-+	struct usb_request *zlp_request = NULL;
- 	struct cdns3_endpoint *priv_ep;
- 	struct cdns3_device *priv_dev;
- 	unsigned long flags;
-@@ -2655,24 +2655,36 @@ static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
- 
- 	spin_lock_irqsave(&priv_dev->lock, flags);
- 
--	ret = __cdns3_gadget_ep_queue(ep, request, gfp_flags);
--
--	if (ret == 0 && request->zero && request->length &&
-+	if (request->zero && request->length &&
- 	    (request->length % ep->maxpacket == 0)) {
- 		struct cdns3_request *priv_req;
- 
- 		zlp_request = cdns3_gadget_ep_alloc_request(ep, GFP_ATOMIC);
-+		if (!zlp_request) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
-+
- 		zlp_request->buf = priv_dev->zlp_buf;
- 		zlp_request->length = 0;
- 
- 		priv_req = to_cdns3_request(zlp_request);
- 		priv_req->flags |= REQUEST_ZLP;
-+	}
-+
-+	ret = __cdns3_gadget_ep_queue(ep, request, gfp_flags);
-+	if (ret)
-+		goto out;
- 
-+	if (zlp_request) {
- 		dev_dbg(priv_dev->dev, "Queuing ZLP for endpoint: %s\n",
- 			priv_ep->name);
- 		ret = __cdns3_gadget_ep_queue(ep, zlp_request, gfp_flags);
- 	}
- 
-+out:
-+	if (ret && zlp_request)
-+		cdns3_gadget_ep_free_request(ep, zlp_request);
- 	spin_unlock_irqrestore(&priv_dev->lock, flags);
- 	return ret;
- }
--- 
-2.53.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
