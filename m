@@ -1,111 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7E1279DB1;
-	Mon, 17 Aug 2026 02:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786934536; cv=none; b=Lq8H06ITAQ1+EQwdIcm5cgqNz39st3tf2E8A9Ln7Lh0lSRadgxi2Wd2AS3cTfWk2Lct3l/h9kxcXiiSLgEtFBKCnZs+etFVn8A2LUI+GKLR8yib23DRMl3LEz0XUpyUJ+Zd7OnT9Mb8U0Cm9bsmEkLpwjAkGV0qdNgHoOHZme2M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786934536; c=relaxed/simple;
-	bh=aODx9rqiWbXnfWc75C41GNt16u+fkKJXzUegh59lttY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=kGmBf/bKlUJmMM7yHR9mTHCg9zrwVDQtXwOw0ngteAGD/zS8OZTyvXv/PXOO5RWajOonXPV08TPLz0OIQVudzkxOiulOPbR0ZzloZiJEEiBqfXFxfYPEqz3sxgXsZ2D/CZYJ7Oa0FETb8e6nv/P2lgryBVSe/LvB5wwJKSx543w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=CQShMVjj; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82A230566F;
+	Mon, 17 Aug 2026 04:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786940712; cv=pass; b=D1/ACbBojr6tkHJF4kBW7ok1l96KwlsP6EHQmujxYzITXgb0SO8itfgYNkrJqqgn62vYc03WJU5L1t/JGOUjpBMazQABRHLkeY+cBQGyHX3B6ed4K99nv0T70h4Y3hwOQhDBuAHyOR9/ornrNYVIrer5WpYfnXJgQXEf3vJ+5Kg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786940712; c=relaxed/simple;
+	bh=tj/YUrP0Y20IM9wcPZHGiH136Mn0RSuTkslJFuKAkY8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Eb3/1G0bX2J8DKHF+3VmDZJ4Ofe1ewkELu1LM2b7Ra2BO749n+D1pLE3aBrX3xY6knZRTH5d7I0xix+D9F5YRP8uiIXlcG1WRDS302QOqG/CZlNm426obnXAv1yedJ7/D/eH66jPCu/F2WEXsWMNGFwRQwDK4DzT/ItaMqQ0TnY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=HT7ksXPE; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CQShMVjj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077DF1F000E9;
-	Mon, 17 Aug 2026 02:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1786934534;
-	bh=HZTCYCleUiU3YRCHIU5xkcgU6TcXz2UCAgTFRMqwvL4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=CQShMVjjnI1IlYUmO0zNpP6fs6jQvF4hvVXe70zPGDgsR0gi4FCJ5g92ymEGRk1jU
-	 tQ9aG6fAGeNMW7tH6ndqVegbvFRz1q1s3RIBPl/NJ/a3hr5b6Ma83WTqLgkqxodOoa
-	 AffLXdw4vbc8OcrDBSACUUNAK7u42AlPD8C8uBPo=
-Date: Sun, 16 Aug 2026 19:42:13 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Zi Yan" <ziy@nvidia.com>
-Cc: "Alan Stern" <stern@rowland.harvard.edu>, "syzbot"
- <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
- <apopple@nvidia.com>, <byungchul@sk.com>, <david@kernel.org>,
- <gourry@gourry.net>, <joshua.hahnjy@gmail.com>,
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <matthew.brost@intel.com>, <rakie.kim@sk.com>,
- <syzkaller-bugs@googlegroups.com>, <ying.huang@linux.alibaba.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <linux-usb@vger.kernel.org>
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Message-Id: <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
-In-Reply-To: <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
-References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
-	<20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
-	<DKQP5QC9XTDJ.3MI016NP0NPFY@nvidia.com>
-	<02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
-	<DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
-	<9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
-	<DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="HT7ksXPE"
+ARC-Seal: i=1; a=rsa-sha256; t=1786940677; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=KzI1Y4GT+H6j9FEFK0hC47a08RldjqCxo5u3mTr9qqfKlDZVmoOyUfrXICQG2NwgpZ8FE+Ubh+4UDRciq9CJeHPkxgDzNKgqBl/Yc7CnKd5BKlAw4d8eyYUrBtYaF88x0PBTj8ufzJawkNoFIx2YqR47wv0jdVR13M5opHN3mhk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1786940677; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ZSlZwiisO+mhc+1mZ7YoDuogysbfOwIRDw36DrAX+ww=; 
+	b=Aj1FAqPjgK//aBsflzglzkpsIq1CFmmkhwPTMRpw8QY3komjD3d3hIFDz+1EsBOYfH43VRJlBf9SdcMhp3oZJbu88LJtuRVSJKCyJH4uxcb9TCDkt82Exeu41HlBHQTR8YovOzeK73oE61S/5rHI8AKlD9pRVkfAOu1DIjGsbW8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1786940677;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=ZSlZwiisO+mhc+1mZ7YoDuogysbfOwIRDw36DrAX+ww=;
+	b=HT7ksXPEC2RKhnKUehEHLxm7khUfsKuBuVPRjd073C8/12ktpJHyDz4j/gGZbo+E
+	xPufyVRRYjkXwSygr+EjDBIKq7Cneonu+it5XdiRURMqzCd00KOV1RUnr0Q+8Rr9hAq
+	SDqkRDksgLZ0Au33T6acXvJzZnKPLb64VCWYYOk8XPr4MFvfBrrbD1bj4ZyxrFrYsIb
+	JhW/c+XIqKuZdn0SOuq4cjJYIPxfaLpY055c118UZ/XMuDkgTyVeQBYwoqlY3dyPNhE
+	FM0owtXUDG+0pC1nV9lQrAKteqTvnCOwyctLIoky65KZgPjh8kJvDOP9Tmep2u/Szpn
+	HErGxyxb/g==
+Received: by mx.zohomail.com with SMTPS id 1786940674891707.3346436865633;
+	Sun, 16 Aug 2026 21:24:34 -0700 (PDT)
+Message-ID: <3f0268a19aab46d602dffc9e14fc6683af7a20cd.camel@icenowy.me>
+Subject: Re: [PATCH 02/12] clk: thead: th1520-ap: add support for MISC
+ subsys clocks
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Michael Turquette
+	 <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, Neil Armstrong	
+ <neil.armstrong@linaro.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Paul Walmsley	 <pjw@kernel.org>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Albert Ou	 <aou@eecs.berkeley.edu>, Alexandre
+ Ghiti <alex@ghiti.fr>, Jisheng Zhang	 <jszhang@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, 	linux-riscv@lists.infradead.org,
+ linux-clk@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-gpio@vger.kernel.org,
+ linux-phy@lists.infradead.org, 	linux-usb@vger.kernel.org, Han Gao
+ <rabenda.cn@gmail.com>, Yao Zi	 <ziyao@disroot.org>
+Date: Mon, 17 Aug 2026 12:24:26 +0800
+In-Reply-To: <aoH9cvTC8vD4NYpB@x1>
+References: <20260507081710.4090814-1-zhengxingda@iscas.ac.cn>
+	 <20260507081710.4090814-3-zhengxingda@iscas.ac.cn>
+	 <aier9XppLeCkJydw@thelio>
+	 <93b867c1b7f5526cc25cb04f838432cd752f5981.camel@icenowy.me>
+	 <aievi0s-3SO8hV6a@thelio> <aijpEqzJ7fM7rGMH@thelio> <aoH9cvTC8vD4NYpB@x1>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-ZohoMailClient: External
 
-On Sun, 16 Aug 2026 21:47:58 -0400 "Zi Yan" <ziy@nvidia.com> wrote:
+=E5=9C=A8 2026-08-16=E6=97=A5=E7=9A=84 11:12 -0700=EF=BC=8CDrew Fustini=E5=
+=86=99=E9=81=93=EF=BC=9A
+> On Tue, Jun 09, 2026 at 09:33:22PM -0700, Drew Fustini wrote:
+> > On Mon, Jun 08, 2026 at 11:15:39PM -0700, Drew Fustini wrote:
+> > > On Tue, Jun 09, 2026 at 02:01:43PM +0800, Icenowy Zheng wrote:
+> > > > =E5=9C=A8 2026-06-08=E4=B8=80=E7=9A=84 23:00 -0700=EF=BC=8CDrew Fus=
+tini=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > On Thu, May 07, 2026 at 04:17:00PM +0800, Icenowy Zheng
+> > > > > wrote:
+> > > > > > The TH1520 SoC contains a MISC_SUBSYS clock controller,
+> > > > > > which
+> > > > > > allows
+> > > > > > controlling of USB related clocks and MMC/SD controller AHB
+> > > > > > bus
+> > > > > > clocks.
+> > > > > >=20
+> > > > > > Add support for this clock controller, in order to enable
+> > > > > > USB
+> > > > > > support.
+> > > > > >=20
+> > > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > > > > ---
+> > > > > > =C2=A0drivers/clk/thead/clk-th1520-ap.c | 64
+> > > > > > +++++++++++++++++++++++++++++++
+> > > > > > =C2=A01 file changed, 64 insertions(+)
+> > > > > >=20
+> > > > > > diff --git a/drivers/clk/thead/clk-th1520-ap.c
+> > > > > > b/drivers/clk/thead/clk-th1520-ap.c
+> > > > > > index 3a6847f1c950f..24f785f0b329a 100644
+> > > > > > --- a/drivers/clk/thead/clk-th1520-ap.c
+> > > > > > +++ b/drivers/clk/thead/clk-th1520-ap.c
+> > > > > [...]
+> > > > > > @@ -1609,6 +1663,12 @@ static int th1520_clk_probe(struct
+> > > > > > platform_device *pdev)
+> > > > > > =C2=A0			return ret;
+> > > > > > =C2=A0	}
+> > > > > > =C2=A0
+> > > > > > +	if (plat_data =3D=3D &th1520_ap_platdata) {
+> > > > > > +		ret =3D devm_clk_hw_register(dev,
+> > > > > > &usb_suspend_div_clk.hw);
+> > > > > > +		if (ret)
+> > > > > > +			return ret;
+> > > > > > +	}
+> > > > >=20
+> > > > > Should usb_suspend_div_clk.hw instead be registered under
+> > > > > 'if (plat_data =3D=3D &th1520_ap_platdata)'?
+> > > >=20
+> > > > Do you mean misc_platdata?
+> > > >=20
+> > > > Yes, this is an copy-n-paste error that deserves a fix.
+> > >=20
+> > > Hah, yes, I also had a typo :)
+> >=20
+> > Assuming that gets fixed in the next rev:
+> >=20
+> > Reviewed-by: Drew Fusini <fustini@kernel.org>
+>=20
+> I will fixup the typo and apply to thead-clk-for-next once 7.3-rc1 is
+> released.
 
-> >
-> >> > I prefer Andrew's first suggestion.  If the user asks the kernel to copy 
-> >> > too much data, just fail -- with no warning.
-> >> 
-> >> __GFP_WARN gets rid of all other warnings, even if user asks for a
-> >> reasonable size. Why use such a big hammer?
-> >
-> > Because on many systems, WARN causes the kernel to crash.  You don't 
-> > want the entire system to crash just because the user asked for more 
-> > memory than was available.
-> 
-> User asking for more memory that what is available is pretty common and
-> should not trigger a WARN or crash, unless you have panic_on_oom set.
+BTW I think the binding patch should go through your tree too.
 
-I assume Alan is referring to panic_on_warn.
+Thanks,
+Icenowy
 
-Heaven knows how common panic_on_warn usage is.  Gemini tells me "There
-is no exact global headcount or precise user metric for how many people
-use panic_on_warn.  However, the setting is widely enabled across a few
-billion Android devices and many cloud/server provider host kernels
-where automated failover makes a full reboot preferable to running with
-an unknown warning state".
-
-So I do think that WARNs are more serious than we (mm developers) tend
-to assume.
-
-So we just shouldn't permit userspace to trivially trigger a
-page-allocation WARN.  Especially if the caller is perfectly capable of
-handling an ENOMEM allocation failure, as appears to be the case with
-usb-gadget.
-
-(Does usb-gadget actually get used by Android?  Surely not by cloud
-providers!)
-
-(Can this WARN be triggered by unprivileged userspace?  I didn't look,
-this matters a lot).
-
-> You can mmap a virtual address range bigger than your physical memory
-> size plus your swap space and try to fault all pages in. That would
-> cause OOM and the system should not crash.
-
-Right.  As long as it doesn't trigger a WARN!
-
-
-
-
-Perhaps we should revisit this.
-
-Why are we emitting a WARN if an allocation fails, given that this will
-often panic the kernel?  Should we on the core MM side dial that back
-to a pr_warn() and a helpful backtrace?
-
+>=20
+> Thanks,
+> Drew
