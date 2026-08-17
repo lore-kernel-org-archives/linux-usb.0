@@ -1,142 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EB13BCD15;
-	Mon, 17 Aug 2026 08:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7192147E5
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 09:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786957180; cv=none; b=fNtTtirJq1WF241fmfSh0exOks3NyuOlXznwN9rEwSlvJXnMsQ8RNotbIjIcKOEZktj1YAOFlMr0lWPv+565BlgIyyal7IS3KK4lCjbzXahSm3YtUOoKNaUSzrWNHzZ05H7taryKN8QbOeOrBusMKAalVOx3WwIufjyuoWAKkjY=
+	t=1786957281; cv=none; b=T1n6L5jXSBx+MXNegFVSmgYv3QVlmNO5nYfOebRNiayQmwPlps2ki09KlfMOu5ZjjTFKS4L9Ue7l8o7zJt0Av1fYATAXJoOJmHOG2LVpqodpiB6d00kGXgu7wVwTcP+QpAWUpdJxCVKFXDkSsVj4sZUdwn1kcJa99dG8n6641Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786957180; c=relaxed/simple;
-	bh=j9KSWj8drcPTzea6D5R3yXCOQbE/tJgc+be9E8ozo6w=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hJXwqCx+wOWkfGAslqAanJiFIxOXz1sfH7WjbEpwzDIvlNUMs1ZFSdWcqZ4WzIqi+1J1l5i+UwZ2G2uYYQ7kyuNzJMKHPkcPEqLYd1N0N133QRvBCYpH1Z8gawkEeVk0tK/x/o5XK/WNDo+wB4JpzJD+2H20yNiE7/Gx3XZ3SV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YF+6uRC2; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YF+6uRC2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B699C1F000E9;
-	Mon, 17 Aug 2026 08:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786957179;
-	bh=nPQ7ONmp4+YuiX0xkOiHyL7fMAn2hMkZoJINMfHIJBY=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=YF+6uRC2eRYRxNGVHzrfMPc8WjWhHgxTuScb/E4ZctMj3F2jiGZ74sPjDn6RTNNLF
-	 pbl6iMaS6MFPbZ4F9CpoWN5cQqniHtghYz/uUGh1ezksyJASYJPJ79lhFM1BZF69+m
-	 rCpvCwF0F9dmnXELwCxho0w7dDPuY6KfFZe1u+Es4yeFXYYN6iIzO3NhMLfPWn1VDa
-	 +EYgGTKrdLoNS897Zy6yGvR5giwBzJwvRrK++CTAdZz8puyCu+lW86DYEXSxaexZXH
-	 KRmcfhKIgdUBbEePMdjxp8GM6I18qPLdlDy087OVOTbt9qvpH7hJjjJyi4Za+qR8Td
-	 DOw6bpp81YZ3A==
-Message-ID: <2566ae21-2787-4870-94a4-fc259f444389@kernel.org>
-Date: Mon, 17 Aug 2026 10:59:31 +0200
+	s=arc-20240116; t=1786957281; c=relaxed/simple;
+	bh=40pG3l4ZaTgqcIvvWo+/1VApTRlONbYb++lBWj8AKak=;
+	h=Date:From:To:Cc:Subject:References:Mime-Version:Message-ID:
+	 Content-Type; b=XcZ+FqbyUd/zKKPakM0pwbd5+sgOaU6T5okudgpx+SZeTHjPy2EMlcUwxHoibxrSaq+dh7DVfzQhLw+5Xkjmg3Z1dXQrcDq8xef4bFGCj9ERjCKn3qsD2hKxBzHfhkI9mPxuXE4HvinnItngkE2o8wpEnNtc09NtvqOxqpZEe0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 30b55d569a1a11f19a56ed5b684f684d-20260817
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:bdee8816-cc87-482c-9c13-995bd8b1ae24,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:7db8b62,CLOUDID:4ee841f0ce2a6c2b556c5ef456038106,BulkI
+	D:nil,BulkQuantity:0,SF:81|83|102|855|865|898,TC:nil,Content:0|15|52,EDM:-
+	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
+	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 30b55d569a1a11f19a56ed5b684f684d-20260817
+X-User: huangwei@kylinos.cn
+Received: from mywork-t480 [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1165397571; Mon, 17 Aug 2026 17:01:10 +0800
+Date: Mon, 17 Aug 2026 17:01:11 +0800
+Organization: =?utf-8?B?6bqS6bqf6L2v5Lu25pyJ6ZmQ5YWs5Y+4?=
+From: huangwei <huangwei@kylinos.cn>
+To: "Jacob Riff" <jacob@riff.dk>, 
+	"Heikki Krogerus" <heikki.krogerus@linux.intel.com>
+Cc: =?utf-8?B?6buE5Lyf?= <huangwei@kylinos.cn>, 
+	linux-usb <linux-usb@vger.kernel.org>, 
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: Re: Re: [RFC PATCH] usb: typec: ucsi: retry init when the PPM answers early commands incorrectly
+References: <202608171119200877083@kylinos.cn>, 
+	<20260817043746.1449099-1-jacob@riff.dk>
+X-Priority: 3
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.25.489[cn]
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/14] dt-bindings: phy: Document the Qualcomm IPQ5332
- UNIPHY USB Super-speed PHY
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: George Moussalem <george.moussalem@outlook.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Praveenkumar I <quic_ipkumar@quicinc.com>,
- Varadarajan Narayanan <quic_varada@quicinc.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com>
- <20260812-ipq5018-usb3-v2-1-8f355d7ff0ef@outlook.com>
- <20260813-alluring-advanced-jackalope-55e5c1@quoll>
- <SN7PR19MB67369ED27F676F6197A0727A9DDB2@SN7PR19MB6736.namprd19.prod.outlook.com>
- <71cfe76b-ea84-47f8-9ff7-945d69efbdcd@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <71cfe76b-ea84-47f8-9ff7-945d69efbdcd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Message-ID: <202608171701083146745@kylinos.cn>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 13/08/2026 12:48, Krzysztof Kozlowski wrote:
-> On 13/08/2026 12:28, George Moussalem wrote:
->>>> +examples:
->>>> +  - |
->>>> +    #include <dt-bindings/clock/qcom,ipq5332-gcc.h>
->>>> +
->>>> +    phy@4b0000 {
->>>> +        compatible = "qcom,ipq5332-uniphy-usb-ss-phy";
->>>> +        reg = <0x4b0000 0x800>;
->>>
->>> That is the same address as PCI PHY, so you have one device, not two.
->>
->> yes, AFAIK they're separate PHYs (pcie-28lp vs usb-ss-22ull) sharing the
->> same MMIO register space in IPQ5332. To enable USB3, the compatible
->> string, clocks, resets, and related USB3 properties override the PCIe
->> properties. In IPQ5018, the PHYs have different register address spaces,
->> hence representing it as a new devicetree node.
->>
-> 
-> Same MMIO space is same device, IMO, especially that you have the same
-> registers (looking at the driver).
-> 
+SGkgSmFjb2IsCgpUaGFua3MgLSB0aGF0IHJlc29sdmVzIG15IGNvbmNlcm4uIEkgaGFkIG1pc3Nl
+ZCB0aGF0IHRoZSAicG9zc2libGUKVUNTSSBkcml2ZXIgYnVnIiBkZXZfZXJyIGluIHVjc2lfcmVh
+ZF9lcnJvcigpIGlzIHVudG91Y2hlZCBieSB5b3VyCnBhdGNoLCBzbyBmaXJzdC1vY2N1cnJlbmNl
+IHZpc2liaWxpdHkgaXMgcHJlc2VydmVkIGFuZCB0aGUgYm91bmRlZApyZXRyeSBvbmx5IGRlbGF5
+cyB0aGUgZmluYWwgdmVyZGljdCBieSB+MTBzLiBSZXN0cmljdGluZyB0aGUgcmV0cnkKdG8gdGhl
+IHVjc2lfaW5pdF93b3JrKCkgcGF0aCBpcyBhIHJlYXNvbmFibGUgZGlzY3JpbWluYXRvciwgZ2l2
+ZW4KdGhlIGVycm9yIGNvZGVzIHJlYWxseSBhcmUgaWRlbnRpY2FsIGJldHdlZW4gdGhlIHR3byBj
+YXNlcy4KCk5vIGZ1cnRoZXIgY29tbWVudHMgZnJvbSBteSBzaWRlLiBHb29kIGx1Y2sgd2l0aCB0
+aGUgUkZDLgoKQmVzdCByZWdhcmRzLApIdWFuZyBXZWkKCgoKCuS6jsKgMjAyNi0wOC0xN8KgMTI6
+MzcswqBKYWNvYiBSaWZmwqDlhpnpgZM6wqAKCgoKT24gTW9uLCAxNyBBdWcgMjAyNiAxMToxOToy
+NCArMDgwMCwgaHVhbmd3ZWkgd3JvdGU6CgoKCj4gVGhlcmUgdGhlIGNvbW1hbmRzIGRvIGNvbXBs
+ZXRlLCBidXQgdGhlIEVDIHRha2VzIGxvbmdlciB0aGFuIHRoZSA1cwoKCgo+IGhhcmRjb2RlZCB3
+YWl0IGluIHVjc2lfc3luY19jb250cm9sX2NvbW1vbigpLiBUaGUgZml4IGZvciB0aGF0IGNhc2Ug
+aXMKCgoKPiBhbHJlYWR5IHJldmlld2VkIFsxXSAodGhhbmtzIEhlaWtraSwgRmVkb3IpLCBzbyBi
+b3RoIGZhaWx1cmUgbW9kZXMgb2YKCgoKPiB0aGUgIlBQTSBub3QgcmVhZHkgZHVyaW5nIGJvb3Qi
+IHdpbmRvdyB3b3VsZCBiZSBjb3ZlcmVkOgoKCgo+CgoKCj7CoMKgIC0gc2xvdyBhbnN3ZXJzwqAg
+LT4gbG9uZ2VyIGNvbXBsZXRpb24gdGltZW91dCBbMV0KCgoKPsKgwqAgLSB3cm9uZyBhbnN3ZXJz
+IC0+IGluaXQgcmV0cnkgKHRoaXMgUkZDKQoKCgrCoAoKCgpIaSBIdWFuZyBXZWksCgoKCsKgCgoK
+ClRoYW5rcyBmb3IgdGFraW5nIGEgbG9vaywgYW5kIGdvb2QgdG8gc2VlIHRoZSB0d28gZmFpbHVy
+ZSBtb2RlcyBvZgoKCgp0aGUgYm9vdCB3aW5kb3cgZW5kIHVwIHdpdGggY29tcGxlbWVudGFyeSBm
+aXhlcy4KCgoKwqAKCgoKPiBPbmUgc21hbGwgcXVlc3Rpb24gb24gdGhlIC1FSU5WQUwgcmV0cnk6
+IHVjc2lfcmVhZF9lcnJvcigpIGFsc28KCgoKPiByZXR1cm5zIC1FSU5WQUwgZm9yIFVDU0lfRVJS
+T1JfSU5WQUxJRF9DT05fTlVNIC8gVU5SRUdPTklaRURfQ01EIC8KCgoKPiBJTlZBTElEX0NNRF9B
+UkdVTUVOVCwgd2hpY2ggYXJlIGxvZ2dlZCBhcyAicG9zc2libGUgVUNTSSBkcml2ZXIgYnVnIi4K
+CgoKPiBSZXRyeWluZyB0aG9zZSBpcyBoYXJtbGVzcyBpbiBwcmFjdGljZSAoZGVidWctbGV2ZWwg
+bG9nZ2luZywgYm91bmRlZAoKCgo+IGF0dGVtcHRzKSwgYnV0IGl0IGRlbGF5cyB0aGUgcmVwb3J0
+IG9mIGEgZ2VudWluZSBkcml2ZXIgYnVnIGZyb20gdGhlCgoKCj4gZmlyc3Qgb2NjdXJyZW5jZSB0
+byB0aGUgMTAwdGguIERpZCB5b3UgY29uc2lkZXIgZGlzdGluZ3Vpc2hpbmcgdGhlCgoKCj4gUFBN
+LW5vdC1yZWFkeSBjYXNlIGZyb20gdGhlIHJlYWwgZXJyb3IgY2FzZSwgb3IgaXMgdGhlIHNpbXBs
+aWNpdHkgb2YKCgoKPiByZXRyeWluZyBib3RoIHdvcnRoIHRoYXQgdHJhZGUtb2ZmPwoKCgrCoAoK
+CgpJIGNvbnNpZGVyZWQgaXQsIGJ1dCBieSBlcnJvciBjb2RlIHRoZSB0d28gY2FzZXMgYXJlIGlk
+ZW50aWNhbC4gT24KCgoKdGhpcyBtYWNoaW5lIHRoZSBub3QtcmVhZHkgUFBNIGFuc3dlcnMgYSB2
+YWxpZCBzdGFuZGFyZCBpbml0IGNvbW1hbmQKCgoKd2l0aCBVTlJFR09OSVpFRF9DTUQgLyBJTlZB
+TElEX0NNRF9BUkdVTUVOVCAtIGV4YWN0bHkgdGhlIGNvZGVzCgoKCnVjc2lfcmVhZF9lcnJvcigp
+IG1hcHMgdG8gInBvc3NpYmxlIFVDU0kgZHJpdmVyIGJ1ZyIuIFNvIHRoZSBvbmx5CgoKCmRpc2Ny
+aW1pbmF0b3JzIGxlZnQgYXJlIGNvbnRleHQgYW5kIHBlcnNpc3RlbmNlLCB3aGljaCBpcyB3aGF0
+IHRoZQoKCgpwYXRjaCByZWxpZXMgb246IHRoZSByZXRyeSBleGlzdHMgb25seSBpbiB0aGUgdWNz
+aV9pbml0X3dvcmsoKSBwYXRoCgoKCihhIHJ1bnRpbWUgLUVJTlZBTCBpcyB1bmFmZmVjdGVkKSwg
+dGhlIG5vdC1yZWFkeSB3aW5kb3cgaGFzIGNsZWFyZWQKCgoKYWZ0ZXIgYSBzaW5nbGUgcmV0cnkg
+aW4gZXZlcnkgYm9vdCBvYnNlcnZlZCBoZXJlLCBhbmQgYSBnZW51aW5lIGJ1ZwoKCgpmYWlscyBk
+ZXRlcm1pbmlzdGljYWxseSwgZXhoYXVzdHMgdGhlIGJvdW5kZWQgYXR0ZW1wdHMgKDEwMCB4IDEw
+MG1zCgoKCj0gMTBzIHdpdGggdGhlIHJvbGUgc3dpdGNoIGNvbnN0YW50cykgYW5kIHN0aWxsIGVu
+ZHMgaW4gdGhlIGxvdWQKCgoKIlBQTSBpbml0IGZhaWxlZCwgc3RvcCB0cnlpbmciLgoKCgrCoAoK
+CgpPbiBkZWxheWluZyB0aGUgcmVwb3J0OiB0aGUgInBvc3NpYmxlIFVDU0kgZHJpdmVyIGJ1ZyIg
+bWVzc2FnZSBpcwoKCgpkZXZfZXJyIGluIHVjc2lfcmVhZF9lcnJvcigpIGFuZCB0aGlzIHBhdGNo
+IGRvZXMgbm90IHRvdWNoIGl0LCBzbyBpdAoKCgpzdGlsbCBmaXJlcyBvbiB0aGUgZmlyc3Qgb2Nj
+dXJyZW5jZS4gV2l0aCB0aGUgcmV0cmllcyBhIGRldGVybWluaXN0aWMKCgoKYnVnIHdvdWxkIHBy
+aW50IGl0IG9uIGV2ZXJ5IGF0dGVtcHQgYmVmb3JlIHRoZSBmaW5hbCBlcnJvciwgc28gdGhlCgoK
+CmNvc3QgaXMgYSAxMCBzZWNvbmQgZGVsYXkgb2YgdGhlIGZpbmFsIHZlcmRpY3QgcmF0aGVyIHRo
+YW4gYSBoaWRkZW4KCgoKcmVwb3J0LiBUaGF0IHNlZW1lZCBhIGZhaXIgcHJpY2UgZm9yIHJldXNp
+bmcgdGhlIGV4aXN0aW5nIHJvbGUgc3dpdGNoCgoKCnJldHJ5IG1hY2hpbmVyeSB1bmNoYW5nZWQu
+CgoKCsKgCgoKCkJlc3QgcmVnYXJkcywKCgoKSmFjb2IKCgoKCgoKCjIwMjYtMDgtMTcKCgoK5YWs
+5Y+477ya6bqS6bqf6L2v5Lu25pyJ6ZmQ5YWs5Y+4CgoKCuWnk+WQje+8mum7hOS8nyAoRGF3YXku
+SHVhbmcpCgoKCuWcsOWdgO+8muS4iua1t+W4guW+kOaxh+WMuueVquemuui3rzEwMjjlj7fmlbDl
+qLHlpKfljqYxMualvAoKCgrpgq7nvJbvvJoyMDAwMzAKCgoK55S16K+d77yaMDIxLTUxMDk4ODY2
+LTYwMzMKCgoK5omL5py677yaMTM4MTQ5OTY1NzUKCgoKRW1haWzvvJpodWFuZ3dlaUBreWxpbm9z
+LmNuCgoK
 
-Just for the record: you still use outlook.com which is known to mark
-all kernel maintainers emails as spam, thus I receive multiple bounces
-from you.
-
-Outlook.com is a well known offender in this case and you should not use
-it. I know it is inconvenient, but that's Microsoft intention not mine.
-Complains to Microsoft.
-
-I expect all my emails still to be treated as delivered, regardless of
-Microsoft decision.
-
-Best regards,
-Krzysztof
