@@ -1,128 +1,245 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012009.outbound.protection.outlook.com [40.107.200.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506E776026;
-	Mon, 17 Aug 2026 01:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786930877; cv=none; b=ZyHGKN12E5OE1xyGW27mc8UU6uCTNVgmW+OU6XVf5nDBHco2FcwFEfYJB12liM9iOQ+yrxLN5JT2TiLqQlOWMOC/hHsAAXZOsoTsC4xDnULuXqWPzT4ExEjhnwhThcyrN4PHGy+Wwm/dkkTrQc3ALJfkKHhJyGfzedkKw536Ff0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786930877; c=relaxed/simple;
-	bh=6BIm7BMByHKj7zyqcfFg/yFZLkCAd+wsMYbugSKk2Wc=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=a0+QRd0ZTtwrknLoJIZ9Ibk3wThUXLya6NuxkNIackPnJeqyXtOgzQTWGH06JLabCI8R+pnQT/m5L81/0ShXc/hHVpo7OUHKuaU5NK2zv/BHm+1BB7xUTFUyKg2/0OVge0icc8g99afvwS3K76GObS98sp25FW+ILuX1OEJY31c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=QeSUXKQC; arc=none smtp.client-ip=162.62.57.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7115C613;
+	Mon, 17 Aug 2026 01:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786931286; cv=fail; b=GFU4BW2Bs48xKM04OGlquNxNGkqpaaOzIu0Vf7nPPZEVlDQ7HkUKE59rPXCZ/OgCLrdwhJmetdLFh7X1ZXkb0FBxsPOpvpd+UpVGY1mHwOsmXoyrxABhGN1IHF257RNdijx8b5eloribvHbOdUVWMZEErT7bUa9eoN4wYTdDEDQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786931286; c=relaxed/simple;
+	bh=ZJKJzgFO5VMSSpiwieFxLZ+o0fMtNHO3ujwkVm2V3b0=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=BR3syFWvzAXbBVUuJ2eCe/HQnAGWTBfpDvNGVN4BT3aWT6dnOe9FHxbJP0vEEXZxugVFvaQTwp/+p9MH2y+f1dEIH8wVIdwhMyM2eKqw2LtQcVY+Ly8f9kJJ9mf+PAZ61u4w9//fy+n+HZr4tQJ8gvhOEESTrXBLciFk9Xwlw0Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hccIOvMv; arc=fail smtp.client-ip=40.107.200.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="QeSUXKQC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1786930867;
-	bh=l6RNkkgRF3Lz/nqmXo9xNBfItShcbdgyV1uj50wqTgc=;
-	h=From:To:Cc:Subject:Date;
-	b=QeSUXKQCvE9HfH5OwHJ2T4NHdci7SwQ7r0X4bZmDvvjUHloGb2fKGn+CRSr5+1ubq
-	 Dfute3GLoiRr9Uhknw7aL2/Cm8Uzoq/RR/enJ5bPvHLMg9/L/fbQZvLQJbniGqjLQF
-	 hRSNsGsDSVn4e9c2dcvqAvLvkFdrvlM/t+UOfaSs=
-Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id A45B42DF; Mon, 17 Aug 2026 09:41:05 +0800
-X-QQ-mid: xmsmtpt1786930865twnr5muz6
-Message-ID: <tencent_E58647B4DE1D2583D785AFDDE58EB278FD05@qq.com>
-X-QQ-XMAILINFO: MRMtjO3A6C9XaqsAvpKqWuTmqE8xEhtPwRlfcl2QxYgiIp5Phn9yR9DhGszEAz
-	 nWxzEiVHzIaDn2y3Pnp9LlfZcrCW22w9AmG0N1viNgY59tu7rJPFzur8TeUBZSWDs23CMC86UaAc
-	 CEtz2y9t+si+4Zx3y2X/lF9MaMovdOud9jrU2BH7R3Zbmn18XZsmfoVEXGsk0iW+RFLAZHMmJ9yC
-	 TWYqTtKDN92y6E4dwK29Mz5RXsRBhQEk1DEKmkW3YE4ZAunVqhBR2yqWgS6/QxD5AVG3vpGfFrP2
-	 r2o1Ph1Q4c8Xfl32cAAojt4rnQOuYMf6EESejgHZMisF9hgOuNz871fqRCo1hBUKgh6tLYXbaCRv
-	 97TgTjW9aYmNPPCzfbK5QQgOVmDKDuvqWlXgbaoXvwbgPv3o8jvinyQR+3Mq33eQlR95f+nf5ylI
-	 MaZpJ4NsCvjSCF8alCkj44Y1oSrOhzl+Yk6XlaYLg8A0eA2yQ0Dm7iNeMfQf7TLn4soeEngeqWgS
-	 UGmJIbMDHR27kfYs4GTBDDOfAZH25nY9iwOygtF3YBJ5qS0q+m+sftqqVx26S1MecQjGJrrB4REh
-	 bue1UZSR7eudoj3nE9bb6t8S8zbvb4IkSVqnjLJNPvFcDhKlFdEtHSmoJYhkcCej6n+FdmqqFnLT
-	 Hhl6gPodk1KcgR9N0/b76K1nj7G1VYXU7cyj0FLFRS5E0z2MyfqzVy8rjDdjXRLHLKQV5OBJwklC
-	 zXaCjHfGFKT7R2/FX3jLoL/UABZXoqsg8uMx3wGBzcsQFqhBw0Hobqujuyu7NDVeP7w5Wlc0Og7Z
-	 AKnE9Xtic6KBw0JWQMzX8JsjXCSYn8pNnGlxL+MGGY1NPLjeT5Trt4PogIQxFFik16aY9lPRvxs/
-	 fo/ypndHsNQ5A8dqIFwC/RyHsDlrWH3EgrLi/NgE/1aqYYo5jIAFbgtMd7lDX+zgugWUEBFe1UMy
-	 npHBWGSTlL17l0r9pjZVWkyzltxK/5H4KyZreP62dYV4VRvBEYv7jagDmyRJLgywkHFsQQQzlwdd
-	 wHOJEP+3dK6o5BoEXQbJvPGJtI5VzCgOZH1Rhiowmz80imYeSZozp4CPi3FtfQ4WZsFJdxGEfy0v
-	 lENTTH
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: Zhao Dongdong <winter91@foxmail.com>
-To: johan@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhao Dongdong <zhaodongdong@kylinos.cn>
-Subject: [PATCH v2] USB: serial: option: add support for SIMCom SIM8260C
-Date: Mon, 17 Aug 2026 09:40:05 +0800
-X-OQ-MSGID: <20260817014005.61213-1-winter91@foxmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hccIOvMv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lUTRj3aUXR0Ax9Hn4LRlq/bQecmz66MpBB4piaUEg+nrQi0ruaVGWPzPm0kvEbWLotqLWmnv0airMWoZLB8jzi/P56LuD+LGVxDvxLUkvreLgThkoMwK5zAMlYP/fN19eKkUzGv8MaFu5uj923kOoS/JumqTDCZr2JXSu2dku8yKAm+LG+siGu1o1NYkMFRXKGW45SvnvDzxBQeQulvHLyqtsS3ey5WVIWKwMj1ytCK+yU+iZMdh8gpiy1zMSxZEPqk/MOYrl700eQE6LYhVrMaxZJXfDUtdrwApSFvKF44hGnXew/0z+Tm6RufsXtWfONlufZO1Qi45npMS7Q0GGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qQegPhqe6GcBTrpaWoKUtCN9B5Bo3XgInkn0P76LVrs=;
+ b=Q6Wf9bkaGkz7tC7Y/olNYW4w+W7oxWcFLMDHFDfm/GsK8uyLnovvBLunuNpoJV+3P7LfDLwkAAOPLjQjcFaeamxP5AENR4YqRwZmiYMSS5xLwG6m2dqkua6EJXyTUjF5aW4TLTKDwWT3CRZsn4XVAqvWv3PQKdvgClcC0igG6WA55NGkiyeKHDY3hwFoOuQjwqDXQi6EOgNU5n2IQZwTGnsX9cQp/HQNYvwCOQeh9Ix8G7qtalxTqrVq3nV91jkrntGtamh5pp7A5TD+Zq98NNs5/lHq9cKph9FuwxTcXvPICaMyeTd4ufHlVorMZovJa2C7AVrKWBWbQ2DFc/MSaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qQegPhqe6GcBTrpaWoKUtCN9B5Bo3XgInkn0P76LVrs=;
+ b=hccIOvMvCZNxe/gK0QneV3lVpICGRv+pili9LYJfygDjNg7m1LcBCqnU0aQABwRxmo7nSYJHyE8Ir5nt0KjqmURX3c2bSjz73vid2Gqm/H2TOsKVM1AWL0d6w66/NCIp6lkktWQ7ERKjOTeSeM5F8xvPpq3BI402xv24URGX++iKLJetE5etWhBjzelrggprIci8uHkbVUTf5AigSUm+p1blZt/3//xtSHdIrqaVbbYG0cSqsZt7gI4R4DzBJ8Qwb6Lp1vf9GK0RqNsgDhZrFwwkVRYGpkkXPmCnnLVbzDw4lAEPejKXy1N2WGF+HrOFiR3T7OrRpFZbNycK3FA7Zw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by BL4PR12MB9479.namprd12.prod.outlook.com (2603:10b6:208:58e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Mon, 17 Aug
+ 2026 01:48:00 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
+ 01:48:00 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 16 Aug 2026 21:47:58 -0400
+Message-Id: <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Cc: "Andrew Morton" <akpm@linux-foundation.org>, "syzbot"
+ <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+ <apopple@nvidia.com>, <byungchul@sk.com>, <david@kernel.org>,
+ <gourry@gourry.net>, <joshua.hahnjy@gmail.com>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <matthew.brost@intel.com>, <rakie.kim@sk.com>,
+ <syzkaller-bugs@googlegroups.com>, <ying.huang@linux.alibaba.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+ <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+ <DKQP5QC9XTDJ.3MI016NP0NPFY@nvidia.com>
+ <02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
+ <DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
+ <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
+In-Reply-To: <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
+X-ClientProxiedBy: YQBPR0101CA0332.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::18) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|BL4PR12MB9479:EE_
+X-MS-Office365-Filtering-Correlation-Id: 839b94f4-c065-4ba5-78ea-08defc0191b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|56012099006|22082099003|11063799006|10067099003|6133799003|4143699003|3023799007|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	lWoT+Z3Sr4NGmFKAsOQplmW47jmTjqu4LrPWLMUbXkB9VzQ6rHSO9qfn4eFYD7Jx7JGDFn44pDRDEs9dBnqb7bHSNFAy+IphIpAt1VpPTqUGJP1YaqchAYoRkvcvDhwV3MFuCgSGDi5io+GhsOnc8Hf+OV2T/6qAkr9nHUhknIXQQ1McBFK+3Khxi3AIBfhUD8iKSiXfZRzGFDzHyK37F9iqHz+xMtoZixTGR8cD4zvSwDRqPYvS93pAuX4TktPiZOU1O+bAtyz1macErYovWgZlw1sYCcQ/eCVSbN30mMSZnrEuntXlpWRo+bo/X+CSLictsT+Qn7uM/of9JaBhNpuLzL3jc5Xn+/R/Ce5wXZqZnD4jNZiQ+IdbihR+NhIbIUolN3i5woz9GDzA0aTx555MQyljiC/B+AN9m55Lnm+EajnKm33WoiAuAica7HCqE2Zbupo/S/WYpf9H8IIMVJwtBM4AV+lv5pw1yLN1WfhBpbdorfoXSzJMGEFr7c1VPHDMY6So/eF/p+hMTDQ/7DqBIC36mTNqNOqpKnn6Jws10swWblOveT1mBECis79w97WwHGMC/Narnt12vh2u5Xv8KCmgNWoj4D6dWpjVgrZI5zhBsdxcfibAmltdsS9rouyEIAdRraTCQiCaDux5amFsVLsRAoy5yFEd+cvAz24=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(56012099006)(22082099003)(11063799006)(10067099003)(6133799003)(4143699003)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WUlBMHFGSENsVUUrcEVPa3NjNXlrcWtsWkRPa2RIZFBDWkN5bmJPM0RlOWND?=
+ =?utf-8?B?Sm93dGpibEE4cE1ialpvU2l0UGZwOWpjdEVtVmUyY0tkYUlnVURML3VFd1A4?=
+ =?utf-8?B?ekVCZXp2TERkbWxMYkd0Y3JMZnFYWjh5ekFoMW16S0MydkNVSUhxcmZleGZ4?=
+ =?utf-8?B?M1BhZ1dFZnZFRjJzT1FsK2FWZUFYdm45OFMvbUlSbFg2dzF4dWpuWnhwNGdR?=
+ =?utf-8?B?bzRybGIwejJ3ajBJUjZHdTl3amhXdzRENjJtQTRUWStWQXlxVHNvT09wRTVY?=
+ =?utf-8?B?QUI3SFY5cVVaRVZPdkhhVXJWNFBVTXp1K3RWSlZId2kwYWpjRnNZeG5mY0xV?=
+ =?utf-8?B?RHl5bVowbEx0MjY4QWYxdnpQTjBZUWFkRkw0YTFRZUhXRG9PMnZXQ3laRzVy?=
+ =?utf-8?B?N0p0MXU1UjcxMW5hQTRTSFZVdWFxSy9ORHR1VVA2b3AvbVdza2tXU2c3OVhq?=
+ =?utf-8?B?YnNpdllaZzVjTG9KMkF1SzNFTDNzSUxnK01jaGJ0SjcwVlNoUDdrNkxvc25E?=
+ =?utf-8?B?NERXOStmbTc2ZmZGc3krYmtQWlp5MDZvK1ljdHJ2M3ZXblBmVEp0YUpDZzZr?=
+ =?utf-8?B?MGU5VG1IaDFQSTkwc2hFYkVPWDI2VmVqRjE5Nk04Z3BwL2ZWdzBDYVh2V1Vs?=
+ =?utf-8?B?R2hSLzR5NndpRkV0WGJjekE1enNsWjNwTVY1bnI5ZjVaUXpjclNPZXRpSHJB?=
+ =?utf-8?B?ZktXbXN3aDRsb0IrWjd3UzlZU3JnTk5GTTlEVzB3aHZQWTVFdGxFbkEyOGRi?=
+ =?utf-8?B?VWdadlpKWVJnN095b0I1ajhhMVR2cEVwdWE1eFpWUFhoRHhxZ1NsbzdsK2xv?=
+ =?utf-8?B?blpaREo4ZUJBU3U5U2pCakhoVDg2SDhxY1RjQXUyc09mOCtSNENaL1BvY1hi?=
+ =?utf-8?B?R09kclRKdE1ISm55SllENDZPQmc5dUZ2RFZmRVVZVVNQTVd0TEJFNjJzdnN0?=
+ =?utf-8?B?aUdJZGRmSkJPZUV4UFprSzJDTTFlV1FpQUwvVHhpMVBBUzhTbmVDcU80NDVu?=
+ =?utf-8?B?Sk16Nm02YW03ZUp3UTBxOTNmS2Z1dG1IelFqcmZyZ1VKUWxpM0ZvaDNzdmtP?=
+ =?utf-8?B?NktFTDFPSjFHaS9kZXhTNnk0cW5jMmlLUlBuZXc3c1JZQTRhNVIxUkt3MWo1?=
+ =?utf-8?B?ejBWODYxSVNSNXJhckxRQXpqUENFeEttYmpjcSs2b0M1Zm5UTS94eW1BYkZ3?=
+ =?utf-8?B?WTlNOFlaOFE5UWJoTVRCeW5hSjl5czQ5aVNNMkswYkl6T3crbWJOTWVOT3lj?=
+ =?utf-8?B?ckhORFNrR3FtdE5SMHBBaHo5T01yKzQzMFVteTcwRnJzdnVkSjk5RDlQUVhS?=
+ =?utf-8?B?QWwvQ2hQTVpnK1JwQWRYUVFRYUwzT2pwTWJDOUlsTDVnSmRIZFB4YVhQNGJn?=
+ =?utf-8?B?T0o1VUlubVo4bnJVdUxFdTZYOU5ZVGg4OHFDcnZTRXZBbGhjKzdHdVJUcXRB?=
+ =?utf-8?B?d1haVzlyT1FxSEp4OWhURnlhTGlNcnBNSUxTRmRRMUNpcHdYU0VpenIzeUdJ?=
+ =?utf-8?B?bElvajNxSG1wa0lORGVxSjcxcjl1RG40Y2ZOeTNRVHJnUDV4V0wwSER6c3Bs?=
+ =?utf-8?B?cS95SXd2TXpJZUhuQ3g5ZTBIQzk5Y3VyQkwrVGlkVDVsTUhScmMrVDZQc2ZD?=
+ =?utf-8?B?d3k0MExEOHJNVFZITDdIYVBBLzQ0WUwvT1dWTDEyZmRjeVNFSkdvaSs2bjNJ?=
+ =?utf-8?B?b2d0aCttbFRHdFI5N095NUJVc2VjckI4NEYzc29UaXZqNUF0RHc4VGd3YXRU?=
+ =?utf-8?B?Zndod0V2aWg4aW9ibGZDVDlWQ1pwS2dKMVpyL1JtRE4wRGFWaWI3UnJUNzlW?=
+ =?utf-8?B?RFllMkFyZGJVMTdvNWx6QlpreGRuK1UzcWdXc3o2NTFaaGFoYzVhbWxFbHZW?=
+ =?utf-8?B?TGFaR2pJRkxhNy9WSE9xNVlmRmVwck1obHlzcWR0UUtMb3k4Wnc4eWcva0FQ?=
+ =?utf-8?B?U2NjYWdDa1c5Y3p6S1VQNDZJTnV5OFZXSlEwRk16TlU1ZFl6NGFhTUlTc0Rm?=
+ =?utf-8?B?N3pPTmhhb0NoR1dhcHRkeVVUK0hEdXROa2NRNy9FdU1WTzBiY3RucC9nOFFW?=
+ =?utf-8?B?RG1JbkpvcHhSSE4wVVgyWkYxbS9MMWprakVGZTFIaVRWNUpPMkZNcWxuNkZO?=
+ =?utf-8?B?c05XTWZYb3FzM3lyNEFRalZ5S1FiaHFlUnNkSnFmZHdaZ0ptYU0rWTl2SE1y?=
+ =?utf-8?B?KzdoWUhYTnQvU1BsRm9nemdISE5qdnhucXZ0M1J2ZnVpazBIWDJFOUUzSXl0?=
+ =?utf-8?B?NWxBcG9CSS9PbXR1Z0MveGdwcTNkMVM1OGszWlZTZUFPaFJISVNpcktzV0ht?=
+ =?utf-8?Q?6rCfDydQq4VxlwEuFs?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 839b94f4-c065-4ba5-78ea-08defc0191b2
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 01:48:00.3848
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qOqfyZ3ws6XsZxlIvzPjFchq8tOnGnjzVfCdyp5zDjphW4y2hnxHrVedMozlYJE0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9479
 
-From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+On Sun Aug 16, 2026 at 9:15 PM EDT, Alan Stern wrote:
+> On Sun, Aug 16, 2026 at 08:13:16PM -0400, Zi Yan wrote:
+>> On Sun Aug 16, 2026 at 7:32 PM EDT, Alan Stern wrote:
+>> > On Sun, Aug 16, 2026 at 05:47:34PM -0400, Zi Yan wrote:
+>> >> On Sun Aug 16, 2026 at 4:52 PM EDT, Andrew Morton wrote:
+>> >> > On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e49042=
+7fa@syzkaller.appspotmail.com> wrote:
+>> >> >
+>> >> >> Hello,
+>> >> >>=20
+>> >> >> syzbot found the following issue on:
+>> >> >>=20
+>> >> >> HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.k=
+ernel.or..
+>> >> >> git tree:       upstream
+>> >> >> console output: https://syzkaller.appspot.com/x/log.txt?x=3D159274=
+79580000
+>> >> >> kernel config:  https://syzkaller.appspot.com/x/.config?x=3Da59830=
+cba91a1981
+>> >> >> dashboard link: https://syzkaller.appspot.com/bug?extid=3D805630f1=
+453e490427fa
+>> >> >> compiler:       Debian clang version 22.1.8 (++20260613092233+e80b=
+eda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+>> >> >>=20
+>> >> >> Unfortunately, I don't have any reproducer for this issue yet.
+>> >> >>=20
+>> >> >> Downloadable assets:
+>> >> >> disk image (non-bootable): https://storage.googleapis.com/syzbot-a=
+ssets/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
+>> >> >> vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a=
+/vmlinux-3d6d8176.xz
+>> >> >> kernel image: https://storage.googleapis.com/syzbot-assets/f6da706=
+811f4/bzImage-3d6d8176.xz
+>> >> >>=20
+>> >> >> IMPORTANT: if you fix the issue, please add the following tag to t=
+he commit:
+>> >> >> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+>> >> >>=20
+>> >> >> gadgetfs: bound to dummy_udc driver
+>> >> >> ------------[ cut here ]------------
+>> >> >> 1
+>> >> >> WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce=
+/0x380 mm/page_alloc.c:5280, CPU#0: syz.0.0/5319
+>> >> >
+>> >> > Thanks.  drivers/usb/gadget is the offender.
+>> >> >
+>> >> > Gemini sums it up well.  "ep_write_iter() needs a bounds check prio=
+r to
+>> >> > memory allocation".  https://share.gemini.google/5NzjyttO0ULc
+>> >> >
+>> >> > I expect an easy fix would be
+>> >>=20
+>> >> Maybe it is better to stop asking kmalloc for unreasonable len:
+>> >>=20
+>> >>=20
+>> >> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/l=
+egacy/inode.c
+>> >> index d87a8ab515107..20905f254968f 100644
+>> >> --- a/drivers/usb/gadget/legacy/inode.c
+>> >> +++ b/drivers/usb/gadget/legacy/inode.c
+>> >> @@ -645,6 +645,9 @@ ep_write_iter(struct kiocb *iocb, struct iov_iter=
+ *from)
+>> >>  	ssize_t value;
+>> >>  	char *buf;
+>> >> =20
+>> >> +	if (len > KMALLOC_MAX_SIZE)
+>> >> +		return -EINVAL;
+>> >
+>> > Is there any reason to think that KMALLOC_MAX_SIZE is a good limit?  T=
+he=20
+>> > allocation could still fail, and you'd still get a WARNing.
+>>=20
+>> KMALLOC_MAX_SIZE uses MAX_PAGE_ORDER, anything bigger than that will be
+>> rejected by page allocator. This warning comes out because of it. This
+>> if solves the exact issue here.
+>
+> Are you saying that if len < KMALLOC_MAX_SIZE and the allocation fails,=20
+> the kernel won't WARN?
 
-Add support for SIMCom SIM8260C (1e0e:902b).
+Right. Just pr_warn() (from warn_alloc()) to tell allocation fails and
+NULL is returned.
 
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=1e0e ProdID=902b Rev= 5.04
-S:  Manufacturer=SIMCOM
-S:  Product=SDXLEMUR-LITE-MTP _SN:120696AB
-S:  SerialNumber=0123456789ABCDEF
-C:* #Ifs= 8 Cfg#= 1 Atr=a0 MxPwr=896mA
-A:  FirstIf#= 5 IfCount= 3 Cls=01(audio) Sub=00 Prot=20
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan_simcom
-E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 0 Cls=01(audio) Sub=01 Prot=20 Driver=snd-usb-audio
-I:* If#= 6 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
-I:  If#= 6 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
-E:  Ad=05(O) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
-I:* If#= 7 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=option
-I:  If#= 7 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=option
-E:  Ad=89(I) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
+>
+>> > I prefer Andrew's first suggestion.  If the user asks the kernel to co=
+py=20
+>> > too much data, just fail -- with no warning.
+>>=20
+>> __GFP_WARN gets rid of all other warnings, even if user asks for a
+>> reasonable size. Why use such a big hammer?
+>
+> Because on many systems, WARN causes the kernel to crash.  You don't=20
+> want the entire system to crash just because the user asked for more=20
+> memory than was available.
 
-Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
----
-v2: Modify the order.
-v1: https://lore.kernel.org/all/tencent_CDB9F0B44FDD051447DCF48862B8E764E80A@qq.com/
----
----
- drivers/usb/serial/option.c | 2 ++
- 1 file changed, 2 insertions(+)
+User asking for more memory that what is available is pretty common and
+should not trigger a WARN or crash, unless you have panic_on_oom set.
+You can mmap a virtual address range bigger than your physical memory
+size plus your swap space and try to fault all pages in. That would
+cause OOM and the system should not crash.
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 580f06f5ce5e..e52f3fe6ccd9 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2168,6 +2168,8 @@ static const struct usb_device_id option_ids[] = {
- 	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9003, 0xff) },	/* Simcom SIM7500/SIM7600 MBIM mode */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9011, 0xff),	/* Simcom SIM7500/SIM7600 RNDIS mode */
- 	  .driver_info = RSVD(7) },
-+	{ USB_DEVICE(0x1e0e, 0x902b),
-+	  .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
- 	{ USB_DEVICE(0x1e0e, 0x9071),				/* Simcom SIM8230 RMNET mode */
- 	  .driver_info = RSVD(3) | RSVD(4) },
- 	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9078, 0xff),	/* Simcom SIM8230 ECM mode */
--- 
-2.25.1
+
+--=20
+Best Regards,
+Yan, Zi
 
