@@ -1,151 +1,125 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72E83B443F;
-	Mon, 17 Aug 2026 07:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27A5282F34;
+	Mon, 17 Aug 2026 07:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786950787; cv=none; b=YLicP5JXHqyQqmt5cPHvvINc8TfKxEMRVTbmZzrhg8guW/emCqmPhHgLRsQ/EpOCWBq6NoBGLZPHqzj0lk+cokfRqIcbvXRYNu+7dZM8Dk7eVCsKdio6uGrMOPE7TKQzazPXJd9dC57dT/7XwB3r9OTLRI9OlVTNYUwizjKdk0E=
+	t=1786950803; cv=none; b=OOsxBkO60C5FUH26KC9RB8WfBvjESzPejipDT5ftvcjFwbd212yw40uoL08wZtFmrlf6eDez6XL3S+ZZScLg1wIhJx4dMlyP4NjfhgWkY435T/HqZf908fakkCefclmL+bbczbBi5nIACq/J5oy2hsmMaLQCrdZMx0piSgKu6do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786950787; c=relaxed/simple;
-	bh=xqQD3IqTPg2YBtv6PzUg+Cq8vxmRbU5bMXz86kB0P64=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=ZkTSrqqsQkviYkdQbhwqaguOAEvpEyr5edIb0IuoSK6xZOHm0i+n02ISIvUox8hzeK8DHTjrdXLtx2h2yCIruvm6sAX0wEOXdZSWDkWVOWoBlpQHN04eiJ3ibR5yKlAiS6oL1BeaFc6AAfYY25yvYChoaT8gf4EmxW8vNfRZsU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=Hjdw877S; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1786950803; c=relaxed/simple;
+	bh=CuDMSjILBooHAbswi6D25Is5mfpufM6t6pZic0QGP5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lBj4un8LNpVCnT5IpjUYFGbajIKoWe5NTv+meOKBpsoSaZbVqVCe10qA4V1g4UjS+y6Y8Icck9owKQEgfjpp9GbO4Ve/Sc22dkR1fUmTpDU0YjK3vGWldXNdIMlbAG0+kE23BjGuceEb8vQVNvlAwcbnOvP+ZwfMYf8ZrytcWVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nchVkzt7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="Hjdw877S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1786950771;
-	bh=eaPbZFaxUtDlYx7QkxWOPc2jYrMbFWf4qznKy07Gp2M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Hjdw877S+AId+PilffKrWdhB45QysK684rGa867zewB9V+FmRDjk6JzNafbrnJd6v
-	 kTMVuhqu7ItWvFU3dj/EZdXQAXJf5EDY4A+8fyGXEdliLiRuPTaAcKuXEcHvf9Nn8f
-	 w4WcKZOYzBQStlsGOfroqnPnqnGm/GKZJEFPRnK0=
-Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 3319BACA; Mon, 17 Aug 2026 15:12:49 +0800
-X-QQ-mid: xmsmtpt1786950769t6983zhog
-Message-ID: <tencent_13F0CDB628837B4BC680CB7CFBDE1D5A7106@qq.com>
-X-QQ-XMAILINFO: NYJ8poRRqcAYx7OGbbQnG0EuvrI+gYpyA1wIUppinS8+sii4bPtmYVZsEsgCkQ
-	 3xs9Mz7h/vGTaDXPwiRcQAABn7ZUenY/oaJECIAZvU3bPxKUJsOBlgl2Bp39F1t/2j+t3djrHPYU
-	 1yMa38t3L694q2LKW7HYVot278iO0up2NHO/WI1feUN1RYoQAX1Mjcdic5b1wEjIK6DSDGAigHvs
-	 E0bDK+d40m/zPigBwyrIZp7DPR2tOgosjK7r0w8/4PvQBkxDJZgkeqqJF9jDE9jzssKFXoyyktbA
-	 3CxdcWCJWqDvdgsYCADBnSyYiffsTSGH6FUoxgtK2gTYs5xRBsF6PLgfXhe1BihM1M1GAYmUMn2V
-	 NHPxnhIsB/uvQGt4lS2JtRL5Y9zeZwNFcPXxeFCmmvMm7HrPhe1Ofsj7ighRQtEE+EdFEEAlYK/m
-	 WZlgxEszvZEJd4QI1GzVfluUaJ+ZrswPq78pnB9MAik0vmxAUYV7ALGkB23oUDjzmb9n4TelvwPy
-	 bGuTKkFggzqei2B1Cj/kcQfpFd6XR2ACD07Tc4QhTShDUgORQGi9dg38bLhOpHTVDbzbShD4oYed
-	 HY0pOETQp8o5y/CvOuXva+x/Jp3suOXWA8FqhQrQX8Q3v6s9MoDo2N2rB4HAWs1nksdR9e0NiAmT
-	 jH813HDwPloMm96vHSdlWnH3uQ+ndHgJG/7MCbjblZWaHr8gqN7zriQHD5DrqPgsJCO455PBQnoV
-	 gE/aWLWUtw5YIHA7X1sNpAOcPE04rVWOL3Sbgh/b7eh7q/sxeed11qNv5JAWbwOl79EfhEqE94MF
-	 obol5y8ozBDwoA8Ik4AZIwUN5ayUn8hUjjrUqVLjg/OPBt1qqruz7kfI5zpNuH87bhkMdhFKroqu
-	 Za0vSVi0KpJ5u9ul59fRK7tEXomViG3k+b5pleC7tuVYFG4R4h4VeWISKh0ftCUPenAp1h7kWoES
-	 FBuoGkmxL+Ga0YtmIaKz6NSvgjkGCOLjtIRIkgDCyz/syK9oKn1nIlEyQ68TZPD0brBSeiUb23wA
-	 oNWW8Kfrr2S/pni2yCNyTuYceUSITiGozgH18OTFwRJPSSAM6KuaD6ww9G+rfBcVsdmfVYr/dawC
-	 HrSMqaVfuxJStEoXq1NZt/ekkCB0tkZceMyluWRze+54dswAPbMzd8Vvfl5I2tI6FJTqE6xB7G/z
-	 klEc5cbybljOqiBW2HsHBD659ZA0o4+viTiXA=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Zhao Dongdong <winter91@foxmail.com>
-To: johan@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	winter91@foxmail.com,
-	zhaodongdong@kylinos.cn
-Subject: Re: [PATCH v2] USB: serial: option: add support for SIMCom SIM8260C
-Date: Mon, 17 Aug 2026 15:12:49 +0800
-X-OQ-MSGID: <20260817071249.301106-1-winter91@foxmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <aoKs8BwgS-rTZPpD@hovoldconsulting.com>
-References: <aoKs8BwgS-rTZPpD@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nchVkzt7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA241F000E9;
+	Mon, 17 Aug 2026 07:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786950801;
+	bh=H/t2thtyqCv2kiESP+whdnlUNHP7f/OGlGkn1NUoBMU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=nchVkzt7VQ3uuhao50qAbHHI8oC82cb3b8qn/5/dpb3/K3TG5mjm/Hb7MzLDkORzd
+	 8M3ijT5Y9AjGf+kI9cHIu7BgYguWUEK7/JU5YuO4fJ4yWmHAkBhsMbAtHY3U2p1LcU
+	 +GCoYY+bbzYKwGTTgtJ9zRlCyK5XSb4B2DvEmr/QamUb64WvUi5/ICqGbCP0houBEu
+	 b9dPs0rpp3sRrd5SrHD4FE0RXI4blvfQyiMB6A3N2kUZA0VcyQ1X1qi38hBaSo7hdD
+	 TV5TfbC9MclWep5Expl7DbrbcCzbZNsyjCB0mnhwI+6bx8txTuhQuUx+HtM0uqNRyG
+	 gNkMf/wQZY50g==
+Message-ID: <c8fea13c-5b67-4ef5-beff-b10f3b3772e2@kernel.org>
+Date: Mon, 17 Aug 2026 09:13:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car
+ Gen5 DWC3 xHCI USB controller
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-usb@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260811051016.1655887-1-marek.vasut+renesas@mailbox.org>
+ <20260817-uakari-of-mysterious-nirvana-a1d0da@quoll>
+ <CAMuHMdXU0Z_VP7H3=KX1g7wowG1ZDi__nDgWRmquYxhLHKvd7A@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <CAMuHMdXU0Z_VP7H3=KX1g7wowG1ZDi__nDgWRmquYxhLHKvd7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 17 Aug 2026 08:40:48 +0200, Johan Hovold <johan@kernel.org> wrote:
->
-> On Mon, Aug 17, 2026 at 09:40:05AM +0800, Zhao Dongdong wrote:
-> > From: Zhao Dongdong <zhaodongdong@kylinos.cn>
-> > 
-> > Add support for SIMCom SIM8260C (1e0e:902b).
-> > 
-> > T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
-> > D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-> > P:  Vendor=1e0e ProdID=902b Rev= 5.04
-> > S:  Manufacturer=SIMCOM
-> > S:  Product=SDXLEMUR-LITE-MTP _SN:120696AB
-> > S:  SerialNumber=0123456789ABCDEF
-> > C:* #Ifs= 8 Cfg#= 1 Atr=a0 MxPwr=896mA
-> > A:  FirstIf#= 5 IfCount= 3 Cls=01(audio) Sub=00 Prot=20
-> > I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> > E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> > E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> > E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> > E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> > E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> > E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> > E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan_simcom
-> > E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-> > E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> > I:* If#= 5 Alt= 0 #EPs= 0 Cls=01(audio) Sub=01 Prot=20 Driver=snd-usb-audio
-> > I:* If#= 6 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
-> > I:  If#= 6 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=snd-usb-audio
-> > E:  Ad=05(O) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
-> > I:* If#= 7 Alt= 0 #EPs= 0 Cls=01(audio) Sub=02 Prot=20 Driver=option
-> > I:  If#= 7 Alt= 1 #EPs= 1 Cls=01(audio) Sub=02 Prot=20 Driver=option
->
-> As you can see here, you should only match on vendor class interfaces to
-> avoid probing the audio interfaces.
->
-> > E:  Ad=89(I) Atr=0d(Isoc) MxPS=  34 Ivl=1ms
-> > 
-> > Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
-> > ---
-> > v2: Modify the order.
-> > v1: https://lore.kernel.org/all/tencent_CDB9F0B44FDD051447DCF48862B8E764E80A@qq.com/
-> > ---
-> > ---
-> >  drivers/usb/serial/option.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-> > index 580f06f5ce5e..e52f3fe6ccd9 100644
-> > --- a/drivers/usb/serial/option.c
-> > +++ b/drivers/usb/serial/option.c
-> > @@ -2168,6 +2168,8 @@ static const struct usb_device_id option_ids[] = {
-> >  	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9003, 0xff) },	/* Simcom SIM7500/SIM7600 MBIM mode */
-> >  	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9011, 0xff),	/* Simcom SIM7500/SIM7600 RNDIS mode */
-> >  	  .driver_info = RSVD(7) },
-> > +	{ USB_DEVICE(0x1e0e, 0x902b),
-> > +	  .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
->
-> That is, use USB_DEVICE_INTERFACE_CLASS() here and only reserve
-> interface 4.
->
-> >  	{ USB_DEVICE(0x1e0e, 0x9071),				/* Simcom SIM8230 RMNET mode */
-> >  	  .driver_info = RSVD(3) | RSVD(4) },
-> >  	{ USB_DEVICE_INTERFACE_CLASS(0x1e0e, 0x9078, 0xff),	/* Simcom SIM8230 ECM mode */
->
-> Johan
-
-Thanks. I get it.
+On 17/08/2026 09:06, Geert Uytterhoeven wrote:
+> On Mon, 17 Aug 2026 at 09:01, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> On Tue, Aug 11, 2026 at 07:09:33AM +0200, Marek Vasut wrote:
+>>> The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
+>>> controller with glue logic wrapper around them. Document the glue
+>>> logic and DWC3 controller.
+>>>
+>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> 
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
+> 
+>>> +  dr_mode:
+>>
+>> We don't accept properties with underscores, unless this is coming from
+>> existing schema but I do not see snps,dwc referenced in the binding.
+>>
+>>> +    enum: [ host, otg, peripheral ]
+> 
+> Probably this should just reference usb/usb-drd.yaml instead of
+> defining it itselves.
+If this is DWC, why isn't it referencing snps,dwc-common?
 
 
--- 
-Regards,
-    Zhao Dongdong
-
+Best regards,
+Krzysztof
