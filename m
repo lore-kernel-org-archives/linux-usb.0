@@ -1,141 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABEE304BB3;
-	Mon, 17 Aug 2026 15:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180AF440A13
+	for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 15:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786979190; cv=none; b=MJC8lM+vkPzrKyOZvZh8nJiM9oYBjOdnMuLu6pzdWmc5k5/0Ev3sEC8dmyvKU3SCYgLIOzTgoJPn8C6iMDqCoCpnR3W71xnD6qCZobXR/ogLFNT4MMrGV/rA1XbZ40qWqYUawsgMDo04m9SuN0aB/UyFWbYPEiJdW3yb7mHXJqI=
+	t=1786979978; cv=none; b=t2E4XHF42xUcOQAHp2q1FpiSK/clv9bbiYFgx8rm/GFlwBREHQfvj9vRn/vv9HikVJKeKnZvbft+hkS7L9Frj4a7SDz2OgeyhHYUIz42Tky4Giqs1+DUtZpNnuUAiGFJhIbc/UmjUfyb3OG3BmzhoJHnffEOXYHsK57okRFYl1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786979190; c=relaxed/simple;
-	bh=FKvPb0JO0LovZDou7yakBIMA6w52AzNRAX4cT5ulIoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VABe0u/lPnB0PR7X8SJpMIwYJR//Bce3Up+J4zQWgtNVee5vX8o8oU+BS/VygfJcmrJjgnfoQumB67ZKnOwHjOBLxlLlNQZkgN7sRh4fih9LZMVJqA3odSIXPCzyqwg6WNrMOsesU0uZ8veMLNAY/g8WJor1GimIroZDleal9aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=isZd5Nbo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786979978; c=relaxed/simple;
+	bh=OhND/qvWSkqE3s18woFDpmymL+MfxuThSmxLnhoyubc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T4xtxVCXH28Lax/TLaTzBY/TTqSE99hqf+FrQAStcySUia8xqJQWQJAFHYEp8GSZvy1+wZGEV+xruveTffNOhaZO8Xz0uORn+BP2Z5ZZ+IeFB6QrO7+BBeaZB8xYcvqMUxQbGq1aqEzZAEQvSVA+rQxtOqX4DbzH4mLA9JWrMSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dAtd9Ot3; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="isZd5Nbo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9CC1F000E9;
-	Mon, 17 Aug 2026 15:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786979189;
-	bh=htBZK+/e+FmhBk0msQ5WNa9+9hWof0l6pn5iLqOk5Ik=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=isZd5NboYbWJoU3x/9sedVKgBjPitdEST8EQDu3relYKPFz72YZ23AAREzTURngEU
-	 2yUEefMYB99kQD2X9oNzrUxkmYoP9ffzYLGnGms/VE3OtHJHyp8bR6Bfv6jtzyVdd6
-	 FL3NDlxl2Sc+ti1WdM4iWxfWleAvFFjcpH9U+jYo=
-Date: Mon, 17 Aug 2026 17:06:25 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
-	apopple@nvidia.com, byungchul@sk.com, david@kernel.org,
-	gourry@gourry.net, joshua.hahnjy@gmail.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	matthew.brost@intel.com, rakie.kim@sk.com,
-	syzkaller-bugs@googlegroups.com, ying.huang@linux.alibaba.com,
-	linux-usb@vger.kernel.org
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Message-ID: <2026081745-unshaken-retread-d744@gregkh>
-References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
- <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
- <DKQP5QC9XTDJ.3MI016NP0NPFY@nvidia.com>
- <02c2e5c7-0d78-4763-90ff-75fa87105fcb@rowland.harvard.edu>
- <DKQS9ADYVLN1.246LJPQ9QQYVP@nvidia.com>
- <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
- <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
- <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
- <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
- <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dAtd9Ot3"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8487b7b3fc8so3806607b3a.3
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 08:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786979971; x=1787584771; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LKqm42/ODNCgkRQzNhF5koc+EyW84bXZD1789uSuy2Y=;
+        b=dAtd9Ot3dGaPioW6GX5R1QbuQkxZ5khkt+nSgMh1Cq08NGuPtDBasEP6imugMM61yc
+         xsswnU81cfc4UHvf67ZmZoTfBJFLb9cAdIAWOIqt/kRTk1Iz4MNtdqwLtVYJTy5LH1HA
+         Jo0bIxhEi2iLRO1bXKr1/8T3uUWkfbuzwHL8xmh76Cr1LPlzH6oJCawWPN1Ei9KLbHy1
+         x6/ZRO9EpUQUs0C2Ri4YpJBd3e7SRwdMpY1He1zGg8j/J0iJhB3oulYd+J8NtY0cpdDR
+         NPaRb8wh2Gm3G6QCqZd5vcBgxwxcYrETx6bI163wNcPSM4wExmIygqJ93F5KPBpTmwFL
+         6UyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786979971; x=1787584771;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LKqm42/ODNCgkRQzNhF5koc+EyW84bXZD1789uSuy2Y=;
+        b=EfeK2QDqlzcwPZaBFBcDiGP0LFpjIYnvL/gJ2shJpcR1UcQOll1Vzmvl8w+X5eLZmG
+         6bzHDtPzqB4jpskPtpCLuF90rFA9qBvFMy6wKhR424g7piIrkF25YiVANojZtJMYX66T
+         VcrpetLEUyqEawHoTVdUAWPW3nQqAtEN2dPg+6x68da5FOYdUxedIO86Kt9XR4tXC428
+         mP0PVSBy6NP4Fq7/xnXaW0M8JguMTADZRjeazy72epKMZmGf60W1sjZyB4SJ+CQTZRSC
+         PsGc39bhYDyFaP8RseaNDnmkFvVWBQSFONxoXrIvoz8tgUCc3oXLCq8t4+XnSvbAHvhf
+         Cmtw==
+X-Gm-Message-State: AOJu0YzAt1FLzFooB/Ip0OySwCSn7t1WFczKZnd92yA5hx9M54tJ7s5K
+	4xZ64tu7r42b+mFrLQ5Hu4pkRPomXdY/JdHf30Z/kGptK2utd4cnq/E=
+X-Gm-Gg: AR+sD13700zu2JellZXOgg3r3spdFjt9GvqQWoGtchsUSMLY2nJfkS+9fq17WZ94MjM
+	93OtXlaq27zf/fDtWeTza59GWyhFQHqkISdFLMnnjoHgHsVJ+m5QzefJ/9QxO5uWzjKLuBgWPxY
+	QYFxsnBR5Zi+LMJHxdfonLdItH+YQpO/LzmNrEPVMIxkOaM7SBxDraIpQRu47g5x5zrwY9MdCPL
+	PTjVbkSics1v+XM/AzOAX9qZmWlAubLAkahd3Y0kdpLPUyujkh48TYfPJYcpb78t9cXYWxbfJjl
+	a4JMC2U1L1OvTgO/JwDh/ZkufbzvU3xdLQOuJ04/Yx6U5NmmYBQpisbmd2HCSoEOnwnXG21tGcM
+	FHjoHm35uUWgjCi8DROCa1aERgiEIaYL2y/5Saot+QP/8OfZPOgIcmit05iCgspm0nFXeag1ow1
+	KqCPYruFvFw1FVFKE1USTzbVIAR0YRZEpV8INpUSDl3B2DZebPeFI08urvEuw+GHw4F5qW1wPvA
+	mDOWrkGp7ZF2MxF8mj1RSk+UsxenZpT0dVq1FuPLXmWZjEPRs0TY7X1KXDkj6f58g==
+X-Received: by 2002:a05:6a00:23c1:b0:847:968d:b101 with SMTP id d2e1a72fcca58-851b88ce701mr1194606b3a.21.1786979970648;
+        Mon, 17 Aug 2026 08:19:30 -0700 (PDT)
+Received: from codespaces-2db70c.m2fxbej512jepnsor2itp05j3d.ix.internal.cloudapp.net ([207.46.224.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851b404a4d2sm770372b3a.16.2026.08.17.08.19.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 08:19:30 -0700 (PDT)
+From: Triet Hoang <triet.hoang.dev@gmail.com>
+To: Pawel Laszczak <pawell@cadence.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Triet Hoang <triet.hoang.dev@gmail.com>
+Subject: [PATCH] usb: cdns2: Handle ZLP request allocation failure
+Date: Mon, 17 Aug 2026 15:19:03 +0000
+Message-ID: <20260817151903.188692-1-triet.hoang.dev@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
 
-On Mon, Aug 17, 2026 at 10:34:26AM -0400, Zi Yan wrote:
-> On 17 Aug 2026, at 9:55, Alan Stern wrote:
-> 
-> > On Sun, Aug 16, 2026 at 07:42:13PM -0700, Andrew Morton wrote:
-> >> On Sun, 16 Aug 2026 21:47:58 -0400 "Zi Yan" <ziy@nvidia.com> wrote:
-> >>
-> >>>>
-> >>>>>> I prefer Andrew's first suggestion.  If the user asks the kernel to copy
-> >>>>>> too much data, just fail -- with no warning.
-> >>>>>
-> >>>>> __GFP_WARN gets rid of all other warnings, even if user asks for a
-> >>>>> reasonable size. Why use such a big hammer?
-> >>>>
-> >>>> Because on many systems, WARN causes the kernel to crash.  You don't
-> >>>> want the entire system to crash just because the user asked for more
-> >>>> memory than was available.
-> >>>
-> >>> User asking for more memory that what is available is pretty common and
-> >>> should not trigger a WARN or crash, unless you have panic_on_oom set.
-> >>
-> >> I assume Alan is referring to panic_on_warn.
-> >
-> > Yes.
-> 
-> Right. That is why I said “unless you have panic_on_oom set”. So panic_on_warn
-> will not crash the kernel if user asks for more memory than what is available.
+Check the return value of cdns2_gadget_ep_alloc_request() before
+dereferencing the returned request.
 
-Are you sure?  It kicks off syzbot, what prevents the oops from
-happening if panic_on_warn is enabled and a warning like this happens?
-Am I missing some code somewhere?
+Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
+---
+ drivers/usb/gadget/udc/cdns2/cdns2-gadget.c | 25 +++++++++++++++------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-> >> Heaven knows how common panic_on_warn usage is.  Gemini tells me "There
-> >> is no exact global headcount or precise user metric for how many people
-> >> use panic_on_warn.  However, the setting is widely enabled across a few
-> >> billion Android devices and many cloud/server provider host kernels
-> >> where automated failover makes a full reboot preferable to running with
-> >> an unknown warning state".
-> >>
-> >> So I do think that WARNs are more serious than we (mm developers) tend
-> >> to assume.
-> >
-> > I do know that Greg KH has pretty strong feelings about this issue.
-> 
-> But the warning here is when kernel user wants buddy allocator to give
-> what it cannot allocate, a page order > MAX_PAGE_ORDER. The warning
-> tells that kernel user please ask for a reasonably sized memory.
+diff --git a/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c b/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
+index 308d3c468ab1..40c02159ff4d 100644
+--- a/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
++++ b/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
+@@ -1696,7 +1696,7 @@ static int cdns2_ep_enqueue(struct cdns2_endpoint *pep,
+ static int cdns2_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
+ 				 gfp_t gfp_flags)
+ {
+-	struct usb_request *zlp_request;
++	struct usb_request *zlp_request = NULL;
+ 	struct cdns2_request *preq;
+ 	struct cdns2_endpoint *pep;
+ 	struct cdns2_device *pdev;
+@@ -1717,21 +1717,32 @@ static int cdns2_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
+ 
+ 	spin_lock_irqsave(&pdev->lock, flags);
+ 
+-	preq =  to_cdns2_request(request);
+-	ret = cdns2_ep_enqueue(pep, preq, gfp_flags);
+-
+-	if (ret == 0 && request->zero && request->length &&
++	if (request->zero && request->length &&
+ 	    (request->length % ep->maxpacket == 0)) {
+-		struct cdns2_request *preq;
+-
+ 		zlp_request = cdns2_gadget_ep_alloc_request(ep, GFP_ATOMIC);
++		if (!zlp_request) {
++			ret = -ENOMEM;
++			goto out;
++		}
++
+ 		zlp_request->buf = pdev->zlp_buf;
+ 		zlp_request->length = 0;
++	}
+ 
++	preq = to_cdns2_request(request);
++	ret = cdns2_ep_enqueue(pep, preq, gfp_flags);
++	if (ret)
++		goto out;
++
++	if (zlp_request) {
+ 		preq = to_cdns2_request(zlp_request);
+ 		ret = cdns2_ep_enqueue(pep, preq, gfp_flags);
+ 	}
+ 
++out:
++	if (ret && zlp_request)
++		cdns2_gadget_ep_free_request(ep, zlp_request);
++
+ 	spin_unlock_irqrestore(&pdev->lock, flags);
+ 	return ret;
+ }
+-- 
+2.53.0
 
-And if panic_on_warn is enabled, like it is in billions of Linux
-systems, and a user can trigger it, then you just rebooted the box,
-causing a DoS and a simple way to get a CVE assigned for the problem.
-
-> >> So we just shouldn't permit userspace to trivially trigger a
-> >> page-allocation WARN.  Especially if the caller is perfectly capable of
-> >> handling an ENOMEM allocation failure, as appears to be the case with
-> >> usb-gadget.
-> >>
-> >> (Does usb-gadget actually get used by Android?  Surely not by cloud
-> >> providers!)
-> >>
-> >> (Can this WARN be triggered by unprivileged userspace?  I didn't look,
-> >> this matters a lot).
-> >
-> > I don't think it can.  Regardless, even privileged userspace shouldn't
-> > be able to crash the whole system by doing something that ought to
-> > return a harmless error.
-> 
-> The issue here is that the inode.c code passes the user input len without
-> checking to page allocator code. Capping that is a minimal requirement
-> to prevent untrusted userspace input getting into trusted kernel space code
-> easily.
-
-But why would inode.c know what the page allocation max is?  We have put
-arbitrary bounds in other places where you can cause large allocations
-from userspace (like in usbfs), and if that's needed here, great, we can
-do that too.  But don't tie that to the mm core values as those can
-change over time.
-
-
-thanks,
-
-greg k-h
