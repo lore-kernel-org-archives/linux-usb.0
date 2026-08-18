@@ -1,151 +1,84 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B8E3DF008;
-	Tue, 18 Aug 2026 11:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93C146D0A3
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 11:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787053395; cv=none; b=H52CxgWKPmq5V679+2gZDYeTzUg9J2YJ05mj8ZumzLYfAhlafhiA92JLc38N/CRIS3gH9oekG2kHte2XwBZQ2Z7kYHJLRd70QzxQ1mbNFNmkidTWOB9ifXgDn9NI9usahFy/DGTrI2dQMWOY8R7TQsgHi/sHCSjfAI/rFUxxNMk=
+	t=1787054157; cv=none; b=JYFANCZwykfPlaikGKnQb30H0NIpL05+nYsyRRSu7z7N1kH5fW4E+PhRrgwiQ0FfB0F4fgq7VRdHdyO5P++5ME2FR+BD5r3mEi/umS3VCKkxXzcxxVrH8Gt2jxwXqbAcC7UffGFKVet0oafIaIaWWnz8CwTFA23OILGBJ3uoI4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787053395; c=relaxed/simple;
-	bh=p8uUw1EELMPA6+cusUPDVinRnmKRuMGt7TU7C6tgJ1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SsulO1eT6bt+DrU7cMxZK70uDgt2v3GHWlB53j9sU2K9ayCE9SA/NwRd/dg0XFC4CNYbjLWQsnDqiZCr2jyTlN1J4okyev7Z3O+VXMFHvz8kjei56l/JDSAY24jXrZXMOSkWcqZO538BN5CkkdiRSXAJZX34nUE26ZstOJ+s78M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=TkUwwvcA; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1787054157; c=relaxed/simple;
+	bh=8UoCslDRSe4PuXt/Dj5KV2hFiRbV0vYiOYJZ3sB1oTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wk3KVYOl1ov6sKGso6vke/ODCKK1ZtF7YHLTrP0Agi7ml2Yg7GtPfAirKGrJhoYNHUtH7Qyf/IAHpq7jtre/Gei6HDVYC/BM98JUEq98GaEM5r+E5y/MSoUmUp0gEv58m9m5REJFCfX5g+RZQ0k3TMW1j3BwHai4vFQrBClkF+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpTIWIut; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="TkUwwvcA"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E0F3011C00F;
-	Tue, 18 Aug 2026 13:43:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787053387;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=9ZcN0w+bflhe6BRMhf9Wjukk4Z/S3kbcxpHbb9Y44iQ=;
-	b=TkUwwvcAUXRRaxQI8sBMU9QIhZu4Qp/SPjiHNWps9dZ8EOKxynh+zjsyxh1VfduE7a4+rd
-	B/G5e9L5nCec4TSqEkGe6RQi2TozkIXCm2c4eYm0mzHOSmTjaJEUF0cJk9ojpSx0L19hW8
-	1VRKOspct39pI7cvMrYtFYTyDT6S0ClwLzlYpX10KxhCRxypYf5/CoZWWC9ZBY52w0ipWl
-	cY6Xcazi1fRQ3sYKUsNwhzzLF/SYdhhPUdMmmcDY5lTuF1GC4P1g2KowduKJnetov+x0Mf
-	m9VETLu60p8fgHa4vjCS8prShpAQSPrmpqzrtQcnHC0CfSnQWkT7NS/ohug59Q==
-Message-ID: <0198d074-6fc8-45d4-9ef0-eac299ec9d82@nabladev.com>
-Date: Tue, 18 Aug 2026 11:53:19 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpTIWIut"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787054156; x=1818590156;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8UoCslDRSe4PuXt/Dj5KV2hFiRbV0vYiOYJZ3sB1oTo=;
+  b=GpTIWIutwY95NvItf9ZmQvcLNphSUQkboX7brYCQgkmZ1CBS0dHxk2kH
+   8MJ797P50HMdcY8KxZqoePV48D2SW9EMreniq+Xdpa4s6EbUbdATJQ3cG
+   0NN+gn+NFYSGlWQQ0N9iwTJ99N8bSnwWRRhYlC2WlY3R8yAoKrWJ0U9+7
+   95TUM/FXiX3/KVhQoY8Qzf896hAmyw7LZ/PvUZrpp296oECnpvtzlp437
+   eRoyWGaFeIfsoorIX4kiL/TfDbyREfeJV348YaOwQJVrlAh+FgJJHe3TP
+   /3Jbi0b6orj+3A43Ow6bT/GUrB7OtqOLHXtwMIdSjyKyFPU24dQ3HQzgh
+   A==;
+X-CSE-ConnectionGUID: mC550tx+QKiQpjmxoJhkdg==
+X-CSE-MsgGUID: RPVoW0qISAKnuf9gVwMcrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87666480"
+X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
+   d="scan'208";a="87666480"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 04:55:47 -0700
+X-CSE-ConnectionGUID: JVJiF8eeTIe9gjZHb46/6w==
+X-CSE-MsgGUID: lgsqXzDkS7aUgqDYj9oHTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
+   d="scan'208";a="260994977"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Aug 2026 04:55:46 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id A255699; Tue, 18 Aug 2026 13:55:44 +0200 (CEST)
+Date: Tue, 18 Aug 2026 13:55:44 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: David GUENAULT <david.guenault@gmail.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org
+Subject: Re: thunderbolt: PCIe tunnel creation fails for USB4 eGPU dock on
+ Titan Ridge host
+Message-ID: <20260818115544.GY893316@black.igk.intel.com>
+References: <CAOFj14_tBEh5eXt_o5ZZme6bMt+Gt1pLS1ARwR2n=29WcjP2Qw@mail.gmail.com>
+ <20260807043719.GI235112@black.igk.intel.com>
+ <CAOFj14869aOGeoSfBVcS+-W3FUCq7CN3g+3cuGRJeZTD5Zjnng@mail.gmail.com>
+ <20260807101805.GM235112@black.igk.intel.com>
+ <CAOFj14-tWAAkwGOuoyS_w-kV87PvLaXMViXmNKW9wjxS9Hr3yw@mail.gmail.com>
+ <20260807112925.GN235112@black.igk.intel.com>
+ <20260807113501.GP235112@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/9] phy: stm32: Add support for ST STM32MP25
- USB2-FEMTO PHY
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-usb@vger.kernel.org
-Cc: Pankaj Dev <pankaj.dev@st.com>, Rahul Kumar <rahul.kumar05@st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260816213849.1044073-1-marex@nabladev.com>
- <20260816213849.1044073-3-marex@nabladev.com>
- <e415f8de-f8dc-460d-80a9-5e1b2b34f8a8@foss.st.com>
- <f7b674b3-9490-453c-9eb9-96b19254d0a3@nabladev.com>
- <ed1d6988-251a-43d3-ba0e-aaa3e54ad07b@foss.st.com>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <ed1d6988-251a-43d3-ba0e-aaa3e54ad07b@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260807113501.GP235112@black.igk.intel.com>
 
-On 8/18/26 11:28 AM, Fabrice Gasnier wrote:
+Hi David,
 
-Hello Fabrice,
+On Fri, Aug 07, 2026 at 01:35:01PM +0200, Mika Westerberg wrote:
+> Okay I took my laptop (TB3) and connected TB5 dock and I can see exactly
+> the same issue as yours. It definitely should work in TB3 compatible mode
+> but apparently not. Let me ask around.
 
->>>> +static int stm32_usb2phy_enable(struct stm32_usb2phy *phy_dev)
->>>> +{
->>>> +    const struct stm32mp2_usb2phy_hw_data *phy_data = phy_dev->hw_data;
->>>> +    unsigned long rate;
->>>> +    int refsel, ret;
-> 
-> Hello Marek,
-> 
-> Just noticed refsel should be unsigned ?
-
-It makes no difference in this case, since the value can be either 
-0/1/2, but fixed.
-
->>>> +
->>>> +    /* Check if a phy is already init or clk48 in use */
->>>> +    if (atomic_inc_return(&phy_dev->en_refcnt) > 1)
->>>> +        return 0;
->>>> +
->>>> +    rate = clk_get_rate(phy_dev->phyref);
->>>> +    if (rate == 19200000)
->>>> +        refsel = 0;
->>>> +    else if (rate == 20000000)
->>>> +        refsel = 1;
->>>> +    else if (rate == 24000000)
->>>> +        refsel = 2;
->>>> +    else
->>>> +        return -EINVAL;
-
-[...]
-
->>> As you mention the downstream driver, please see there a specific
->>> comment regarding the 2nd clock for OHCI:
->>> /*
->>> * USB2PHY provides several clocks used either by either USHB
->>> (EHCI/OHCI), OTG or USB3DR.
->>> * In case of OHCI, CMN bit must be cleared (clkohci_hw). This clock is
->>> required to access
->>> * the registers, to resume the controller from suspended state.
->>> * So declare two clocks, the PLL used in all case, and the OHCI clocks
->>> used by OHCI
->>> * controller.
->>> */
->> Is this what you have in mind ?
-> 
-> Yes, with one addition, please see next comment
-[...]
-
->>   static int stm32_usb2phy_probe(struct platform_device *pdev)
->>   {
->> -    struct clk_init_data init = { .ops =  &stm32_usb2phy_clk48_ops };
->> +    struct clk_init_data clk48init = { .ops =  &stm32_usb2phy_clk48_ops };
->> +    struct clk_init_data clkcmninit = { .ops =
->> &stm32_usb2phy_clkcmn_ops };
-> 
-> clkcmninit should be a child of clk48 which basically represent the PLL
-> (480MHz) as it is still needed as parent. See below.
-> 
-> BTW, mainly a nit: could rename clk48 to clkpll and update frequency to
-> 480M.
-
-Fixed in V3.
-
->> +    phy_dev->clk48_hw.init = &clk48init;
->>       ret = devm_clk_hw_register(phy_dev->dev, &phy_dev->clk48_hw);
->>       if (ret)
->>           return dev_err_probe(phy_dev->dev, ret, "Failed to register 48
->> MHz clock\n");
->>
->> -    ret = devm_of_clk_add_hw_provider(phy_dev->dev,
->> of_clk_hw_simple_get, &phy_dev->clk48_hw);
->> +    phy_dev->clkcmn_hw.init = &clkcmninit;
-> 
-> Would initialize with (to adapt) :
-> 
-> + phy_dev->clkcmn_hw.init = CLK_HW_INIT_HW(name, &phy_dev->clk48_hw,
-> +					 &stm32_usb2phy_clkcmn_ops, 0);
-> +
-That's nice, also added to V3, thanks !
-
-[...]
+Sorry about the delay - inside big corporation finding correct people
+sometimes takes long time. Unfortunately the reason is that none of the
+Thunderbolt 3 firmware connection managers support Thunderbolt 5 devices.
+It needs to be Thunderbolt 4/5 host (FW CM and SW CM).
