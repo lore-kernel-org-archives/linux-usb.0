@@ -1,127 +1,75 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EAC353A63;
-	Mon, 17 Aug 2026 23:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC9410F1;
+	Tue, 18 Aug 2026 01:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787011148; cv=none; b=BCD8NJuMHoWs8zoNo2CjD/38khFnijuqYun6xE8CDXOdgWH1cj1BXKBLhuNtUx9DHBwDSBNf/0tRikdBoHKTKkk2u89qBidxA75WvBdCIxkWu3Qh14oeM0aVX88o5ays6apxRQFs86b9PQYc9h1JOA+TpFbtYjdITi5YaQl9iDM=
+	t=1787015837; cv=none; b=hGB2rfqJiUcNlImlpmARV+wcbF0GDDJSUpFo9tzOILTmXX+PbvzK1B9xXsyHGsMKRXs6JRICTxaj71usMJhWrWmWpab7AALsJjhLKpB3Kbdl1eDIVv/zK80fz74Jf51LCNIUfj3DowEI9t0mWqQBglgJvfoDsAYZhDOPn5zR1g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787011148; c=relaxed/simple;
-	bh=q+J/H6sHE4nDtXQAWSPuw8JjGxx+5heuvubufxb7M/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vb44SY4VAAP+EDioNCKX+QbKOXG2mTY4v4ndXSBCrXG65/xE4gwnWY5tE82dg1Gqd2Ysli1Imvng/iQE9G8V/WS+FK8oTRUOIfb+r62ZasFHEILO/jfhHloWpQTRUtIUoQ9sd46pfknVALYg4P5P33gAt6yV6ONaoKXU6btcuNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=doc8GAvU; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="doc8GAvU"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B3C7A11C31A;
-	Tue, 18 Aug 2026 01:58:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787011141;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=s5KA4b6Nzoo36ubzR9I6KxJ83F3i3nPCmuwn73fogoU=;
-	b=doc8GAvUAAXUcq/v3aPgSkOK8+gMFCYu/cHimh6rBUBoZmCby9eRWCEqjDt2N+9XuAOnqt
-	cW2662RC+EuSuNkmkf3XZgcr2pLjHZTQEXCB7LClrnR1bK5lXNY909cm0dED8M2TGpMkh3
-	lD3z6DGQmRIWNaBom4IYrKg7sVo5C17FbF95kCtRUJ/Y+Nq1VwwoaTtM4Z9szIJPPm4OHi
-	1qMe4TH02WvZmLj1MwpPzrbPqV5SaQpXeKFmiHDsyFwBp3uJEbpI5yEmy9RVDMpnQNrim8
-	+fHuyqZwGdAU+sxnWeOdyX4FiKI84kRLrOvaRJe/0ss+dkMPfXfOiFK47SUqkQ==
-Message-ID: <41e7978b-933d-4813-9158-00474f531476@nabladev.com>
-Date: Mon, 17 Aug 2026 21:48:09 +0200
+	s=arc-20240116; t=1787015837; c=relaxed/simple;
+	bh=2HGCg/DE4itQgrkWf4etwHHgoM+Mciay/ZLzOF8Q9z4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=L0iPJOVByfNHovWR9zOshFKl/uAI8fDmmu+NKN3a1JdBdbJmpwF+LyoToyn7txJwRpLljvd2uzmmy0ZVEfGiVk3UGV9fjoVoTt+lf+4ufcWCE2NHOyV7FlxaxpwyJd1j05ROj3GYSve0bs2Vht3D+eXZZEyL9f+XzrFRkTUW5CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 8a2a698e9aa211f19a56ed5b684f684d-20260818
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:17eb5614-ab2a-4efb-ba35-648acf85ad1b,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:06ff1fd76e6d94177b22379aaafa4062,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50,ED
+	M:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 8a2a698e9aa211f19a56ed5b684f684d-20260818
+X-User: gonglinkai@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <gonglinkai@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1794351527; Tue, 18 Aug 2026 09:17:11 +0800
+From: Linkai Gong <gonglinkai@kylinos.cn>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Zimmermann <sigmaepsilon92@gmail.com>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	John Keeping <jkeeping@inmusicbrands.com>,
+	William Wu <william.wu@rock-chips.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	Chris Wulff <Chris.Wulff@biamp.com>,
+	David Sands <david.sands@biamp.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Linkai Gong <gonglinkai@kylinos.cn>
+Subject: Re: [PATCH] usb: gadget: f_hid: do not copy_from_user() under a spinlock
+Date: Tue, 18 Aug 2026 09:17:05 +0800
+Message-Id: <20260818011705.3840602-1-gonglinkai@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260817154604.70427ed1@pumpkin>
+References: <20260817154604.70427ed1@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/9] arm64: dts: phy: st: usb: Add STM32MP2 USB support
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-usb@vger.kernel.org
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
- Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260816213849.1044073-1-marex@nabladev.com>
- <61dc785c-bea1-4674-918d-0f38ea253a29@foss.st.com>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <61dc785c-bea1-4674-918d-0f38ea253a29@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-On 8/17/26 6:35 PM, Fabrice Gasnier wrote:
-> 
-> On 8/16/26 23:37, Marek Vasut wrote:
->> Add USB support for STM32MP23xx/STM32MP25xx SoCs. This includes USB 2.0
->> FEMTO-PHY driver, DWC3 glue code and DT adjustments. Parts of this are
->> taken from ST downstream kernel fork, reduced, or rewritten, since not
->> all of the content there was useful and bits which might be missing and
->> are useful can be added later.
->>
->> Unlike the downstream implementation, the DWC3 glue code is using plain
->> dwc3-generic-plat, the EHCI and OHCI controllers are instantiated as
->> plain generic controllers without any wrapper glue driver, and the USB2
->> PHY driver is simplified.
->>
->> Both USB 2.0 Host controller and DWC3 super-speed controller are tested.
-> 
-> Hi Marek,
+On Mon, 17 Aug 2026 15:46:04 +0100, David Laight wrote:
+> How about a patch to remove the ERROR() from the earlier copy_from_user()
+> error path?
 
-Hello Fabrice,
+Agreed. A failed copy_from_user() is a userspace error and should not
+spam the kernel log. I'll send a follow-up that drops that ERROR().
 
-> Regarding dwc3, I've started to test and needed another patch from our
-> downstream. I've posted it here:
-> https://lore.kernel.org/linux-usb/20260817163101.6203-1-fabrice.gasnier@foss.st.com/
-
-Understood.
-
-> Regarding USBH, there's a dedicated glue on STM32MP2x SoCs for the
-> EHCI/OHCI controllers, similar to the dwc3. On dwc3, I see it can be
-> managed.
-> 
-> There are:
-> - AFMUX signals out of EHCI/OHCI controllers, to manage a Vbus power
-> switch (with polarity) control.
-> - AFMUX need pinctrl to be added, and managed during system PM
-
-This can be managed by the PHY instead, can it not ?
-
-> - On coming MP21 (not supported here), there's address translation control
-
-What kind of address translation ? IOMMU ?
-
-> - Common dedicated interrupt to manage wakeup
-
-This is EXTI configuration, is it not ?
-
-> Using generic controller drivers, I don't see how to manage it, without
-> describing it in the DT.
-> 
-> For sure, generic ehci/ochi drivers and bindings can/must be used. What
-> would be the proper place for this glue to leave ? Why not adding the
-> glue driver from the downstream ? That's supposed to address this.
-> 
-> Do you wish I send it upstream, so it can be properly reviewed, amended ?
-
-I would very much prefer to avoid the glue if that is at all possible.
-Thus far, it seems this could be done (interrupts are generic interrupts 
-managed by EXTI, Vbus detection polarity is likely a PHY thing since 
-this is managed by SYSCFG anyway) ?
-
-> I'd like to sort this glue management out before the DT for the USBH can
-> land.
-ACK
-
-[...]
+Thanks,
+Linkai
