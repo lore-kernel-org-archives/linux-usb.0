@@ -1,90 +1,153 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from forward103b.mail.yandex.net (forward103b.mail.yandex.net [178.154.239.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9E64749D5;
-	Tue, 18 Aug 2026 12:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C0A441627
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 14:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787057790; cv=none; b=Ky73nr1Al1GOugYve5CHkAl1X24//zWl8ZZi7A0Jd/6HngPdhHL9x4kPMSb5BO76FJ01Hv4X2/a9pX2QdvljDxhYlPwSqFdUSCTyMDmks2GydH/QN2XbjTukDjupGWgfLsUuw2A7VwaGn25+TQQx2xUPJqMrQffcoMmDFrizf8I=
+	t=1787062241; cv=none; b=ude/1oSsi2J5DQ1BHppYaOWj9LSJNCHqg1M1YaDSpFdmMoFHndcUuGuTVTMWROT/Z03T7wUAzODowYNP7l3c1gBD3qUsN/M2/k86EjNxBny3U31j8AzO2D71KlfJLos3lnRkzEAqtHmYdgxkzE1NI1ffgWLdsrKZZcpXZ1uIfKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787057790; c=relaxed/simple;
-	bh=DOPq80cBsvVhChvsLsqYIhzON+VjqGSyvXXlgxdQzdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GgE/3N1vajsWKRQTbtXWdqfsQWbEGz7YLRfg8Dj/KvLyzicm1vSc9yRadWnIsjz9rVCiho116AJexTsyl7wZl3hBV9SYaI5R4FCB9KmTN0Lh9vDjDB1KgAEmhnZPwZl23W+nNAZ+DiBTcM5iJYRSd2sQ8ok3PNdV8libB9W32bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dj6aiZch; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1787062241; c=relaxed/simple;
+	bh=ZKWXn3Z2ntqGWP2Xq9wpWw1Ak80qeqxcY1bdqr7l/B4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rvqQRV1WXzUzrufhzzcmAWc5DrsDaYKCFielvekAvZVUeAQl0VF1Q66bDWVxkgBicw6hKpqcRKZJ3B49+3Jc5Mse0R2a54ibfu/mZmgmWEOQZUEWyUMW5if3Z2Th242Dz7NmFXGe9u/ROijZg+m/gl+HM2cHcoaoWh/cak6qBPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=nGMJqWjk; arc=none smtp.client-ip=178.154.239.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dj6aiZch"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=pzGhfyGKCTcCAI1esMUGVzqsdQ1GfC1ZoHKfgE71dGU=; b=dj6aiZchFzgYrS0aTNg2WjeDlg
-	CsvyF5YkVOLnZGgkp9DStjfdAvcYGktShS4SFrF5iAgwuqWvZ0PJDaaF3xjSWfaQ8W82L600IKNxZ
-	KHFFMwyEbOp5wCgci/tXJb/LDBGDMVYMmeACqUCQtsKlX302wTbOGMXrFaMvkIvxZhbs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wwJMU-000TGP-H9; Tue, 18 Aug 2026 14:56:14 +0200
-Date: Tue, 18 Aug 2026 14:56:14 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jianhui Xu <neuromoments@gmail.com>
-Subject: Re: [PATCH net-next v7 03/14] ax88179_178a: Split driver into
- library and device specific code
-Message-ID: <5eda66a7-2b37-4766-a9b7-04d3d421b1a6@lunn.ch>
-References: <20260810-ax88179a-v7-0-da633191c129@birger-koblitz.de>
- <20260810-ax88179a-v7-3-da633191c129@birger-koblitz.de>
- <20260817152800.3dbe9f55@kernel.org>
- <e72d0d5e-6368-46eb-8247-a760046cb8c0@birger-koblitz.de>
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="nGMJqWjk"
+Received: from mail-nwsmtp-smtp-production-main-70.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-70.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:69d:0:640:32f2:0])
+	by forward103b.mail.yandex.net (postfix) with ESMTPS id 8051CC0030;
+	Tue, 18 Aug 2026 17:10:29 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-70.sas.yp-c.yandex.net (smtp) with ESMTPSA id SAWBJjKdD8c0-y7MPcTbq;
+	Tue, 18 Aug 2026 17:10:29 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1787062229; bh=/wbdkqWpVe0nUhJF/Ne3SXG1DRDzfeRPNlOV5D7Kz1c=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=nGMJqWjk8AZ+kFyzgiqEAKsDMLACZYRxUIprelNoGR4VHNemB0vP4y+KrLN2/biMn
+	 wsRUkWt2w0PIEm0dP7huHgIPiSxgTzkpY3yJyCu9rLvw3KhQ21dONG2QJL0/fDaOzW
+	 z75t5ib31DXGHBqE7COMpol/0uD1nOnth+RabyAo=
+Authentication-Results: mail-nwsmtp-smtp-production-main-70.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	linux-usb@vger.kernel.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH] usb: core: sysfs: use string choices helpers
+Date: Tue, 18 Aug 2026 17:09:51 +0300
+Message-ID: <20260818140951.2656522-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e72d0d5e-6368-46eb-8247-a760046cb8c0@birger-koblitz.de>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2026 at 06:51:32AM +0200, Birger Koblitz wrote:
-> Hi Jakub,
-> 
-> thanks for reviewing the code!
-> On 8/18/26 00:28, Jakub Kicinski wrote:
-> > On Mon, 10 Aug 2026 14:33:28 +0200 Birger Koblitz wrote:
-> > > +static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
-> > > +			       u16 size, const void *data)
-> > 
-> > Local netdev convention is to still wrap at 80 chars.
-> > Anything beyond that is inviting laziness.
-> > 
-> > > +{
-> > > +	int ret;
-> > > +	int (*fn)(struct usbnet *dev, u8 cmd, u8 rtype, u16 val, u16 i, const void *d, u16 size);
-> > > +	struct ax88179_data *ax179_data = dev->driver_priv;
-> > 
-> > Local netdev convention - please sort the variable declaration lines
-> > longest to shortest
-> Both of the above and other occurrences will be fixed in v8. Sorry about those, I was
-> moving existing code and tried to minimally change it in order to allow blame to correctly
-> identify the original author of the code, while still making checkpatch happy.
-> 
-> I was not expecting a review while netdev was closed for patches, btw. Am I right
-> to assume that I should not send v8 during the merge window, or do you prefer the
-> next version to be submitted earlier while everyone still easily remembers what this
-> was about?
+Use convenient 'str_yes_no()' and 'str_enabled_disabled()'
+helpers instead of hardcoded strings where appropriate.
 
-You can post a new version, but mark it as RFC. This should be
-documented in
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+ drivers/usb/core/sysfs.c | 43 +++++++++++++---------------------------
+ 1 file changed, 14 insertions(+), 29 deletions(-)
 
-https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
+index d22dc78457d7..11f6f3fb0259 100644
+--- a/drivers/usb/core/sysfs.c
++++ b/drivers/usb/core/sysfs.c
+@@ -18,6 +18,7 @@
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
+ #include <linux/usb/quirks.h>
++#include <linux/string_choices.h>
+ #include <linux/of.h>
+ #include "usb.h"
+ 
+@@ -303,9 +304,9 @@ static DEVICE_ATTR_RO(urbnum);
+ static ssize_t ltm_capable_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+-	if (usb_device_supports_ltm(to_usb_device(dev)))
+-		return sysfs_emit(buf, "%s\n", "yes");
+-	return sysfs_emit(buf, "%s\n", "no");
++	bool ltm = usb_device_supports_ltm(to_usb_device(dev));
++
++	return sysfs_emit(buf, "%s\n", str_yes_no(ltm));
+ }
+ static DEVICE_ATTR_RO(ltm_capable);
+ 
+@@ -482,15 +483,9 @@ static DEVICE_ATTR_RW(level);
+ static ssize_t usb2_hardware_lpm_show(struct device *dev,
+ 				      struct device_attribute *attr, char *buf)
+ {
+-	struct usb_device *udev = to_usb_device(dev);
+-	const char *p;
+-
+-	if (udev->usb2_hw_lpm_allowed == 1)
+-		p = "enabled";
+-	else
+-		p = "disabled";
++	bool lpm = to_usb_device(dev)->usb2_hw_lpm_allowed;
+ 
+-	return sysfs_emit(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", str_enabled_disabled(lpm));
+ }
+ 
+ static ssize_t usb2_hardware_lpm_store(struct device *dev,
+@@ -575,21 +570,16 @@ static ssize_t usb3_hardware_lpm_u1_show(struct device *dev,
+ 				      struct device_attribute *attr, char *buf)
+ {
+ 	struct usb_device *udev = to_usb_device(dev);
+-	const char *p;
+-	int rc;
++	bool u1;
+ 
+-	rc = usb_lock_device_interruptible(udev);
+-	if (rc < 0)
++	if (usb_lock_device_interruptible(udev) < 0)
+ 		return -EINTR;
+ 
+-	if (udev->usb3_lpm_u1_enabled)
+-		p = "enabled";
+-	else
+-		p = "disabled";
++	u1 = udev->usb3_lpm_u1_enabled;
+ 
+ 	usb_unlock_device(udev);
+ 
+-	return sysfs_emit(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", str_enabled_disabled(u1));
+ }
+ static DEVICE_ATTR_RO(usb3_hardware_lpm_u1);
+ 
+@@ -597,21 +587,16 @@ static ssize_t usb3_hardware_lpm_u2_show(struct device *dev,
+ 				      struct device_attribute *attr, char *buf)
+ {
+ 	struct usb_device *udev = to_usb_device(dev);
+-	const char *p;
+-	int rc;
++	bool u2;
+ 
+-	rc = usb_lock_device_interruptible(udev);
+-	if (rc < 0)
++	if (usb_lock_device_interruptible(udev) < 0)
+ 		return -EINTR;
+ 
+-	if (udev->usb3_lpm_u2_enabled)
+-		p = "enabled";
+-	else
+-		p = "disabled";
++	u2 = udev->usb3_lpm_u2_enabled;
+ 
+ 	usb_unlock_device(udev);
+ 
+-	return sysfs_emit(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", str_enabled_disabled(u2));
+ }
+ static DEVICE_ATTR_RO(usb3_hardware_lpm_u2);
+ 
+-- 
+2.55.0
 
-	Andrew
