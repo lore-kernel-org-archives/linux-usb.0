@@ -1,87 +1,87 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B459635DA78
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 10:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B308223EA8B
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 10:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787047723; cv=none; b=fDLraEQZGvFQIyNljAG/jFsvZ9/8PZJNuZ2rJsKvJ8g2tLBdRSJq/xZ6yThuMmGA8u6PX3NoCjdi3ayAyIy4IqKg5pWTBG0Nqz99MCcTODnFod1YE0Ngf4Pmx0m2i39VWL68Ri+KX6doNPHCGwUGmTB0cYsVgt0uErwM06z1B4A=
+	t=1787047777; cv=none; b=lHUIUW6AmGdlXIBao+z/KJlMr8CJuTqyjcjMBMBKQTdihxaU+I8NQeSZzOFYIx1Z6KInNH7WDK8+R5v034viFfzUQWxjgjNca48B11FZ4KAOs9KP8m4JZB3PMa9OOd3egEKYFjxM6fUQvjnEKSr9k/T25mgWwiBs7x/8el4OMmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787047723; c=relaxed/simple;
-	bh=QfiBAIQo84wvhlp4PSzKS5oAyVZnF+vu+rXcqOtSjsg=;
+	s=arc-20240116; t=1787047777; c=relaxed/simple;
+	bh=FCAsqH+2yPXBkPxNZiTIltc5+xJiGT29wxDHDroGmXY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E4MNQoVJCRhhkWDQj8d9PcW5ipe+XMuNDMBY0pYiQG2P+qSeOdw3MD41gab1DnsEG/3W+jIQnfrQj+srMZVUjyUxD2e5Ttp1YUVwRvuKZLFXAVyXz7CEVmGtKzmvBmS3NVvTyc2h/7X8UhUvLdIS0qJ6IzlgghDRmlmqGJihWGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wo14ffHr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=er+k9kmq; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=RGVtu92SsTVN6pghm+y1b2lCgxXO/+FPpaUuh4j1SgnRD3+ZMF1bHW8iRkh3rrnjVNI/+b4FbGmj5NkBmK3plJaKKM/4e4JPIBzyGk2JHeLEbi0LB9qIudvE+bQ2ezvgeyf5976XEDfGU+qAm/zNysVwHSsGXbx5ByOqCZ47yE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ah44Q4sY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WzNdm2Ad; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wo14ffHr";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="er+k9kmq"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I8BKus1061728
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 10:08:40 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ah44Q4sY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WzNdm2Ad"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I8BImQ722678
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 10:09:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4zX7BztKtXi11cLzAfcZ9hIjR8IT6XfTvfH3alw4a2I=; b=Wo14ffHrSEJu6/9W
-	Zt5LCGEjhuvvj+5polNFsavEnvRSWdMip7Qgfu7oPhRJVNEgx92eXusAEVpv2Vm7
-	aXe0MADRBEQ4SpibpuvomQ8WlbTiiAsfcVcniw5oSH2XmsZyG9C8KaIZyjlfiY2y
-	mbzrsyKT3RJbnuFm0JAnIUWLApZ2oUUA1jxt5nAmgzAsBZUi4IIP9H66QDvbboGo
-	fagV7YwE0kc5/spJO4FDYgC2ce610cLxJUAddqM6lbiG9/h9G3r1cUbKCnlZKXAM
-	UVG2uO/DnQYF6FdxHCyqhumd7INOT9Jks5LX5+ROyZIZzp0jVCD1e7RLmSdmCQQM
-	Ut9bNg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4fvp1g0d-1
+	pviJHTasWouuNyvj3di1PtY92WvpKmSMA/f48Z2Jhd4=; b=Ah44Q4sY+ut0+g7j
+	L5IIuCegXFLzcK5ou3twjYl96ERo1dOZCK45srKkBHwuKP7IM39cEVlrFqYZLbyH
+	hcmoPnujZhbqp67nUr7qItlFyG1G+IiJFxfPv56TkvLU8Ph614WkzkadAn92OuJ0
+	DXAoegVRCxZDFjkl13zQFYbG57YbxSmE5qj7IKas+UuuoddGvrfkKkdwB4DNM97z
+	nM5wYPiuP+cN2w3ZCdCh3d98uQNBzw7xQwTdQ2lBSRBQOJ7CGARdn/7OiwRs9Y8K
+	LS+jtn6NXcPBgB1lKTCpMOaYACnp2mzVvrjKz1034U9wwylw/pDjIDo03i+swxZY
+	4ne8oA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4615kuvr-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 10:08:40 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-930bd2bfc45so122395685a.1
-        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 03:08:40 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 10:09:31 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-930f80ae4f0so28489485a.2
+        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 03:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787047720; x=1787652520; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1787047771; x=1787652571; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4zX7BztKtXi11cLzAfcZ9hIjR8IT6XfTvfH3alw4a2I=;
-        b=er+k9kmqG8jp24X4Px4Xt1BpteUOkm2nJyryCb8DePbRr7Hjpbx52pqco4DF4+jHbH
-         dngNr9RMUl7sq6RyNGDJQ1HSPShH2Xy1b5Z4gMZ91lYNujiEdt/h79kxe9ucfxXLl7yh
-         jMLt93fUgD2YmbIYFMJggd0XFWLw+VqGBKuCLkiwCUNqgMsuB4LPu/yLtlGiNXle16ON
-         1N+74I/q8ZeKFNCMbFuUxyM7FHXAps7Evu78QUYYRIbs9m8f0y/VCNxEXFDYJC5lM3nI
-         /RGeIpb2x3XCW8Pfx4CtfPGB/nO/1PR0r/JUusUiGFtFnZANsGL4+viIYoLuXT9YemfI
-         YLKw==
+        bh=pviJHTasWouuNyvj3di1PtY92WvpKmSMA/f48Z2Jhd4=;
+        b=WzNdm2AdarQWGebU/7WFszqHZ7mZjAHzUP4O8E7eDKtiElxlq+3nDO97fKxnDHzXJK
+         gHyNDFZW6B5JIZS5/1ahR7DPhavghKw0r1LhOzU9tepLQHrOW0vzhhm1PhwseFWgOzGw
+         Jrs5hTCUS0r8HRCENw3JePmJV8BbeN1xRXaxyaQ55I5X1WKCxp4eTxuCzn8xoUNdZOJL
+         C2XQ4xT86SZch+BNJ8AslY2tX9EOEhd6Gc/0SjZ/cZhE3jdnVoqfwl4yYCbdbHCErK6U
+         iVma4J1rxK28b8IVcF2yAfBGinr6Y8zrX/L6aZkOlQnm7Jswo53OOvOPzaEVqNFWV1kE
+         Y4nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787047720; x=1787652520;
+        d=1e100.net; s=20251104; t=1787047771; x=1787652571;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4zX7BztKtXi11cLzAfcZ9hIjR8IT6XfTvfH3alw4a2I=;
-        b=OWI1BWa3upbm3bD2ogBKbKCA24n/ILihTOQ1vR+XXQmXsmo2xfND93K8+RIXNR7BAQ
-         QEijCVu3AWnte7Bf5ZUrBAcUvSz2GDPRajRL8KIknCfjoq3EMsw67vpQArqWR3zxk+PY
-         8KEXuaxrXXZKxKQDivxWlOJXwXfAK93mamfEfKwomMXEyLkHE0IYNHS/Qlym43D7FCE2
-         8sZVWu3uZ/X1J3QOZGYu5BNAFSuJoR4VeJnsIpeZVKw/5Chn33GJFjMhBMVvmp7pq1eg
-         N6dz+TfBHwYxY3Up2K7it629ndJgaCJelNDXScnA9tOzDtndWrtV9udZhv7aiqGutQT5
-         kkdQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpkJlIiYSeabJ9FFJ7c+L/C4xsG2agxxfPQp7z2pE/wPEvMr1ST8VxbA/CN3jLx1AXBLw+RaLVjoYI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzp3fB+UlaDC6TPi/YoMuvYPQKfdkOu48FVXhdzsQiPFbLdISlh
-	mR3aUvmRIFfgT2BHLxGftFNsjImifUhvjUg/Nj7G6y6y+Z8OAaZoo/scrcs+hXEDdybYUWOZlWE
-	piwLNxA4uK4CFqOF12FzxXnVj8UHLEKOAi/zdNvGWbDyOdIMhXY+PigRP99p6tIs=
-X-Gm-Gg: AR+sD13KHJwx3rnPiDj9I619LJ0ekRP2CssywF8amUO2LVhTosKc05jgPVrbPhqFaZM
-	giQ/ToQCIvVTspC75m421iyUK6STVKvp/V+b9FQN2KlNRwiUcoeiC2knDQlImCdfvb3iL8iqsBC
-	4nmKLGFdTzItDJKL61JAM65SSa4dR/JJ84VMVuvY4O/OVXNoTPdyL8zq+zq/jSxb9+BrSRWNqi8
-	WEy+34eJq56a23yuaQm6rUBqqcvhqy0TVFdkPhc/aHwQqEkguPhlqt1iAnpUC40Cr99tTyhXgYO
-	ng/ihY5Y+KPHMdk3nyarfs8MsVXw+iNafdZ77n4zDljf18DBsxC6eGZUrTO7pYycTVrS53Cfnwa
-	sBuucEmxbuZjusgqxeJ4SNHK2
-X-Received: by 2002:a05:620a:6846:b0:92e:5272:4e3e with SMTP id af79cd13be357-936d1f0a69cmr2252169585a.0.1787047719989;
-        Tue, 18 Aug 2026 03:08:39 -0700 (PDT)
-X-Received: by 2002:a05:620a:6846:b0:92e:5272:4e3e with SMTP id af79cd13be357-936d1f0a69cmr2252164385a.0.1787047719529;
-        Tue, 18 Aug 2026 03:08:39 -0700 (PDT)
+        bh=pviJHTasWouuNyvj3di1PtY92WvpKmSMA/f48Z2Jhd4=;
+        b=XiXnMt7eU0SsHEbQDy8x5OE9EgNrmaM83WMNZcvGV9Ug3COFBrxg7aLIwOmOkh5INq
+         gpS5YiRXQPXYmm8gufHtwAU3HkQDIrdXic2B3FP2JWfnAONqOekoPVfv3IyChtsgItUE
+         uxmx+Zr3gwnat/LoAMxVYspTYmvWzabKF6L2oKWQ+SAARLoVtoa6rPtMJJ93KwJKefzu
+         m6AOTgdYc0Hlq+aoU+Cqrs11hK9H4GsCZ+fq8A1WB0DnLH1xpuwUM4YzSmR5jsX3lmoU
+         7zX4PJR9c1VlXfTG7gAL9C7vc5ju9Mxac4jKO14dqOPgZfjrv4ilFuMUTQzrNQosdEv8
+         +P7Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3GjbZbGQcWJgkL5QhKC/Pkv2Rc4JOFHSJ+WIvDrIvzkQneV6wZWTnkeuoqEreSfjYK5eQfTuidF0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRQZhYdXXxUqU2GbEh/WdW8a+aVFH8IwtteqbOsRq9TGfYsVoV
+	hQ5KQFz8HBXO2uKBRHoS16Moa8QMLG5lTTIhJudt6AecWJn0DFhA4SFpo8tzSipj55tiIFIIhvJ
+	VZ0zDuY8jGoRgbbHCLu+DYcc5dhYMWFdoalRoQYbC2IcRbwNGdVRcSP+tqO42mHA=
+X-Gm-Gg: AR+sD10t9gGYHIEdWABOqjlhgHsXG7Bt9o3baQ4VIkv9AlFt4C2ag5dY9cZaeg5rqIg
+	1l6Y4gVri4o55NDldyxbSrN/D8JBtZIDQ2a5QOGFkAxxhIN5eYOYRV8O5eHL1TzBzvBsHQX/rT3
+	FfG1R1a8Uzl4d0j4gGIpjkYfBiozFS1aFlil88olyF2Kae2Y8JWx1Q8mVNSTmPL38Esx/7e6mn4
+	MSJ6kNLmihH+zd/9UQskptBkE+zGIuAixDiyOFqQGIak5/t5Baqj6Xnc9nOj8kAjIlcLBEXuFZt
+	dzuywHtfW+MgNPVrQGesx5CDsUlgl7go4ufvoZlBK3X/SfsVUu+ZjdokxiTnslwrGjm8R+2SkpW
+	5Iykqg/Cd1NBdchCvYD6wvoNB
+X-Received: by 2002:a05:620a:6008:b0:92e:6071:7cc4 with SMTP id af79cd13be357-936d23a402amr2194643485a.4.1787047770571;
+        Tue, 18 Aug 2026 03:09:30 -0700 (PDT)
+X-Received: by 2002:a05:620a:6008:b0:92e:6071:7cc4 with SMTP id af79cd13be357-936d23a402amr2194640285a.4.1787047770192;
+        Tue, 18 Aug 2026 03:09:30 -0700 (PDT)
 Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2185bc60a2sm126710566b.56.2026.08.18.03.08.37
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3d85886bcsm1736914a12.16.2026.08.18.03.09.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2026 03:08:38 -0700 (PDT)
-Message-ID: <070e30fb-a9c5-4685-8185-a5f19ed13693@oss.qualcomm.com>
-Date: Tue, 18 Aug 2026 12:08:36 +0200
+        Tue, 18 Aug 2026 03:09:28 -0700 (PDT)
+Message-ID: <66f8e084-9bc2-412d-b617-70baf0f9f4cd@oss.qualcomm.com>
+Date: Tue, 18 Aug 2026 12:09:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -89,8 +89,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] usb: chipidea: msm: do not force the TX FIFO idle
- on HSIC instances
+Subject: Re: [PATCH 08/10] usb: chipidea: host: calibrate the PHY after
+ starting the host
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
         Bartosz Golaszewski <brgl@kernel.org>,
         Bjorn Andersson
@@ -113,74 +113,88 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
         linux-phy@lists.infradead.org, Greg Kroah-Hartman <gregkh@suse.de>,
         Peter Chen <peter.chen@nxp.com>
 References: <20260810-msm8974-usb-hsic-v1-0-e5f93ea76ffa@oss.qualcomm.com>
- <20260810-msm8974-usb-hsic-v1-7-e5f93ea76ffa@oss.qualcomm.com>
+ <20260810-msm8974-usb-hsic-v1-8-e5f93ea76ffa@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260810-msm8974-usb-hsic-v1-7-e5f93ea76ffa@oss.qualcomm.com>
+In-Reply-To: <20260810-msm8974-usb-hsic-v1-8-e5f93ea76ffa@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: MFgkvpY4sTKortPqkDWz2dGsBG-4Nj4w
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA3MyBTYWx0ZWRfX/Z60KrY8ZKgz
- ycMYXx6VqpEjXN9gscToiEQNfUQDFatiwjmR92EXI4RfHGpNQY/r0F6yQ0lhZRIq6tBEGuJpRG7
- fTukxDJGqVJhpqE6Mub3nnF0g98goY1uYz3lHR7wT4rzcPtHE4GtgUxEPlcFFZnqgrN4MRof6nU
- IMMeG4aIYcOGISgjmDsxBTWpXMSR4q0LEU6RhigdYafL25nJ4wFK2NmWyvipBJZ5jxJ/qPPFcAB
- VCs5LbAzi7dKe4ap6wLcJ2ogSRX1E0scUa1A3Ync3dzHsBfMQXaHclAm7N4l+dpcEdCZnUPKIxa
- A8bqo8eH1QgsN9Vz/sPo3Erv0wXu6FVEJcORmfprTE8XlAhqq5O6dba36B8k7gyhSniauFAMXnl
- HcsbW6L2U30XSUnikXiiMkYAaAybloOz6uLS5S/dNb9eG16Lt/qX9zQUZ/D3/WxsIjdIyCB5X8h
- bjCDM6reOWvjE2enTAw==
-X-Authority-Analysis: v=2.4 cv=K/IS2SWI c=1 sm=1 tr=0 ts=6a842f28 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+X-Proofpoint-GUID: 9-R9aySjuTjMOwr5e7jNZvIKELYi5aPX
+X-Proofpoint-ORIG-GUID: 9-R9aySjuTjMOwr5e7jNZvIKELYi5aPX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA3MyBTYWx0ZWRfXxr78fi8oiA+o
+ 7OFVXhQU4VkWO73vBEFBXEcCJQGTKm0eoIwJX/jBYS8YX+zSMyUjCb9JpuTW+PMlo5cAvGbeeiS
+ 9MB6zQ9aSu8OidRI42ezQdaY7jGGoEfKXLAZbsa8kbdBD/2EdlrDHIuqI5DaRLppnaTKukrtlWI
+ iwMIGhfqsi/PnJDU1TYqgQyLmUF9yMe9vAC2yF41iNMWMt1GUtViWM6VsKzwQXcmFvStJPT/s1X
+ jpQkoz1JqIAZNBtlpzCcSkSsY8wxbC2ZCHqfZZhcuWXT1fB/LsqZCLDqQlkUCIxbQhgPN6u3yz+
+ 6xsdqXa2yTqriEdXoai0eQTRxGvksHTyggbWTxkBB2rb9PxjlR8dA6wIERLfwaN8G+bo7pd9ivB
+ ScjwtNphcsJRdLDgs1Iy7ewdz/R3rKSIiV00F1mPc00jvJM5P0RmWjIawoGM2TUCu8XeaNr8wKp
+ uOnehEQfx9Td2FREqVw==
+X-Authority-Analysis: v=2.4 cv=Ruf16imK c=1 sm=1 tr=0 ts=6a842f5b cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
  a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=rJk912bZzWDh8y19x2MA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA3MyBTYWx0ZWRfXymA1PBFuDO26
- oscmo7EUUSybU133XQmzCXCyeSxrtXaBL1KZH0Rl8fUvpEx4MuYJsZwVh0yzYz9cd9bxqjgvMyI
- 0PnYlEWFzLmL0Af+kcLmLMuHDxMIpLI=
-X-Proofpoint-GUID: MFgkvpY4sTKortPqkDWz2dGsBG-4Nj4w
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=QSrdRFCPdf6-eOukQi8A:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA3MyBTYWx0ZWRfX28uLXYEr6i5w
+ qNhk1+CnvU13svfCWSHwj4oGo3bG6PoUBFIQVnUYDYiFFlS4ep5Bm4g9jJV60KlWvgwvf/oaarl
+ e6Y3/kIDGVv1ujTNIpq0/U7PSbSKxK8=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-17_04,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 phishscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
  definitions=main-2608180073
 
 On 8/10/26 5:42 PM, Dmitry Baryshkov wrote:
-> The controller reset handler unconditionally clears
-> GENCONFIG[TXFIFO_IDLE_FORCE_DIS] as a workaround for an RX buffer
-> collision issue. The vendor HSIC host driver never applies this
-> workaround on the HSIC instances and leaves the bit at its power-on
-> default (set), so clearing it makes the HSIC instance diverge from the
-> known-working configuration.
+> Some PHYs need a final programming step after the host controller is
+> up: the Qualcomm HSIC PHY latches the device connect at the moment
+> HSIC mode is engaged, so that write must happen with the root port
+> already running, or an already-connected HSIC device (the strobe/data
+> lines have no hotplug) is never seen. The generic PHY framework
+> provides phy_calibrate() for exactly this kind of post-init fixup and
+> dwc3 already calls it; the chipidea host does not, leaving no place
+> for such PHY work.
 > 
-> Skip the workaround for HSIC instances, like the neighbouring
-> GENCONFIG_2 write already does.
+> Call phy_calibrate() once the HCD has been added, next to the existing
+> i.MX HSIC active-event hook which serves the same purpose. PHYs
+> without a calibrate op are unaffected.
 > 
-> Fixes: 47654a162081 ("usb: chipidea: msm: Restore wrapper settings after reset")
 > Assisted-by: Claude:claude-fable-5
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  drivers/usb/chipidea/ci_hdrc_msm.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/chipidea/ci_hdrc_msm.c b/drivers/usb/chipidea/ci_hdrc_msm.c
-> index 9a9410a814e5..69be194f8e27 100644
-> --- a/drivers/usb/chipidea/ci_hdrc_msm.c
-> +++ b/drivers/usb/chipidea/ci_hdrc_msm.c
-> @@ -108,8 +108,9 @@ static int ci_hdrc_msm_notify_event(struct ci_hdrc *ci, unsigned event)
->  		hw_write_id_reg(ci, HS_PHY_AHB_MODE, 0xffffffff, 0x8);
->  
->  		/* workaround for rx buffer collision issue */
-> -		hw_write_id_reg(ci, HS_PHY_GENCONFIG,
-> -				HS_PHY_TXFIFO_IDLE_FORCE_DIS, 0);
-> +		if (!msm_ci->hsic)
-> +			hw_write_id_reg(ci, HS_PHY_GENCONFIG,
-> +					HS_PHY_TXFIFO_IDLE_FORCE_DIS, 0);
 
-This patch seems not to match downstream, msm-3.10 sets it in both
-hsic and non-hsic drivers
+PHY APIs happily eat nullptrs fwiw
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
 Konrad
+
+>  drivers/usb/chipidea/host.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
+> index ced6076a8248..62bb2999edb6 100644
+> --- a/drivers/usb/chipidea/host.c
+> +++ b/drivers/usb/chipidea/host.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/string_choices.h>
+>  #include <linux/pinctrl/consumer.h>
+> +#include <linux/phy/phy.h>
+>  
+>  #include "../host/ehci.h"
+>  
+> @@ -192,6 +193,9 @@ static int host_start(struct ci_hdrc *ci)
+>  			(ci->platdata->flags & CI_HDRC_IMX_IS_HSIC))
+>  			ci->platdata->notify_event
+>  				(ci, CI_HDRC_IMX_HSIC_ACTIVE_EVENT);
+> +
+> +		if (ci->phy)
+> +			phy_calibrate(ci->phy);
+>  	}
+>  
+>  	return ret;
+> 
