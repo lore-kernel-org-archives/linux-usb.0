@@ -1,35 +1,35 @@
 Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA85437AA9C;
-	Tue, 18 Aug 2026 16:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B385833F595;
+	Tue, 18 Aug 2026 16:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787070923; cv=none; b=nuwMr+9UzywMzFOvnuHctNSDlChdjZrCJzPJEC8iThMkXiBaRJWtPqpftUY4S2ji3pAgrCq7AlpY3/OnwJQUGhOltFaYNDlJ8mDPTPB+LEE/5pYsHmJqBysRhYTTwelwUvRHwj9v4fJJQuQPlN4IswcqlbrpLypG2h7MarBKbr8=
+	t=1787072225; cv=none; b=rlh4jUGilkC64S+TAIWFnoL2Y7kQidicoY3FrvGxUnLfphuU6yldeNha7cJkan4mGUCumBnDKm4RhGVKCrK6zHuMk2kwK+AMxvUzNC2L2gburb11w6mohnXjEL9ZSUPM2OapzpiUjsgWEA5h7UGH4OGHhAtAQmH9i5afsT5XI0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787070923; c=relaxed/simple;
-	bh=hw10gIrcVssu6A8BkkQ4x2eyGQFgSpSmppcpntZNMu0=;
+	s=arc-20240116; t=1787072225; c=relaxed/simple;
+	bh=44z5lgFGYGRPX9DUgWmoiqY3j7JJlYIBmB1UHvvNdjI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=opgAKbBS0EMb1dmDtNxzBqIRq6enQ9ZFiVi9ltd3FbGmWYiuEu1DEG2rw6Dsn4aCW0Xl5gPIIvryvAPl9AQNls+o6m1tN8LrTnHSCFEu/7qnizIdHOc9AJmc7qkEpwrJhO2j5UxQHF6Nhx6Go5kDsnz/WixioQyyvpD+gD90J18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=MnfX7ENv; arc=none smtp.client-ip=178.251.229.89
+	 In-Reply-To:Content-Type; b=B01WepaV8zgKDJtg1Tu1b2HPZ8Bgqq6GZ3aCZSoNOJr9kjjZ+mYco83jWB+S4ojcbLYBG7xjip/sdR4ViqM489kmClLuRe0e+Fvo05hqvrbId3vjQ1O+Obbcw0CUE4U0/wCeHWCDE3ko4XkOJ2pT4ZqyLYOpK/YRxs3+aYm70Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=jzPRBktI; arc=none smtp.client-ip=178.251.229.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="MnfX7ENv"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CD10A11C32A;
-	Tue, 18 Aug 2026 18:35:10 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="jzPRBktI"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C399311C31D;
+	Tue, 18 Aug 2026 18:56:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787070915;
+	s=dkim; t=1787072214;
 	h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Q9v8GxHoF0StEQNyJKE2bkpAPrVfKbBQPYDkMVPC55o=;
-	b=MnfX7ENvYLsquDvBDCL9P3OXOr3jnFJr7USPuU2Hs+kf4GAZjcFgqvsnDMgCDxTaOk3UtX
-	VVxDi3GEFP2Hh56dXxIfbqI8z3zhSaWYwzgGN0cbHYyKjXHc9CMhricENuvCHedS75f8Ml
-	IR0LRlF8PXlYTPqkx5nhp5c+4fs5/RJ68E8oBVIRErRx1CeiRRMMOJqPy9UiR8r7vs4Bdd
-	8U/e8LYxcYmTrs5/ynA/h3LkM7GE/EkDz1LhdYVLFqOKVc0TCNSZMfKIITQkSQuPzAtw8K
-	cqSVgVUqLldBb56IFffMOTdPsYlCZs7MqIj5dIKFpW3Erl88H7uOmErly04hwQ==
-Message-ID: <d6064380-2368-4131-8cde-44734f67028f@nabladev.com>
-Date: Tue, 18 Aug 2026 18:35:09 +0200
+	bh=XW+R/bVPewEY+UjFdeGzB0LwlhlvVKED2LQpFCgnlRM=;
+	b=jzPRBktIZDIaN/tn7j9TdnX6RSM0bItaYdpo0QLLxOwHxlwENW/nMC1mrciVjPr/cmn1vl
+	tXGHDoeY0BwYasFgL6D0eZC4vA3/CzLG/shFcBcDQCe95qpEZQFIcu52aFweE+TvhOxmFG
+	n0HxIgs7FAJaJRrq7a+0E4ACtRNXNLFH9UgCgmm3xahFF0RlyFvC3Pn1MXeEujpMwPjFCw
+	h3HBo+9xQCnu9rkVruTrjVj33vSOt3o2b0oiuTkm7A/8bOsDWqR31liPeG4OSAfOKJVf5N
+	JOJNuTkEYCqfhr8Fv9oRRjG/75usj0JJau0oGOwbLiFrbarZ0w1V0YRwjF0lCg==
+Message-ID: <dfac3134-920e-498e-a59b-720a6c51b82a@nabladev.com>
+Date: Tue, 18 Aug 2026 18:56:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,89 +37,107 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/9] arm64: dts: phy: st: usb: Add STM32MP2 USB support
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-usb@vger.kernel.org
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
+Subject: Re: [PATCH] usb: typec: mux: Fix typec_switch_match()
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
- Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260816213849.1044073-1-marex@nabladev.com>
- <61dc785c-bea1-4674-918d-0f38ea253a29@foss.st.com>
- <41e7978b-933d-4813-9158-00474f531476@nabladev.com>
- <6c900e6b-2f50-4ec2-aca4-3093479bba53@foss.st.com>
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Jens Glathe <jens.glathe@oldschoolsolutions.biz>, kernel@dh-electronics.com,
+ linux-kernel@vger.kernel.org
+References: <20260817182302.146546-1-marex@nabladev.com>
+ <aoSFjbydIiu4KyW0@venus>
 Content-Language: en-US
 From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <6c900e6b-2f50-4ec2-aca4-3093479bba53@foss.st.com>
+In-Reply-To: <aoSFjbydIiu4KyW0@venus>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On 8/18/26 6:07 PM, Fabrice Gasnier wrote:
+On 8/18/26 6:24 PM, Sebastian Reichel wrote:
 
-Hello Fabrice,
+Hello Sebastian,
 
->>> - On coming MP21 (not supported here), there's address translation
->>> control
+> On Mon, Aug 17, 2026 at 08:22:39PM +0200, Marek Vasut wrote:
+>> The fwnode_typec_switch_get() sporadically returns NULL instead of an
+>> -EPROBE_DEFER for orientation-switch described in DT. This makes it
+>> impossible to discern whether the DT does describe an orientation-switch
+>> which did not probe yet, or whether the DT does not describe the switch.
+>> This happens with gpio-sbu-mux connected to an I2C GPIO expander.
 >>
->> What kind of address translation ? IOMMU ?
+>> The class_find_device() on typec_switch_match() may return NULL in case
+>> the mux did not probe just yet early on boot. The sw_devs[] array can be
+>> empty on boot as well. If these two conditions occur, then the conditional
+>> if (to_typec_switch_dev(dev) == sw_devs[i]) evaluates to true and the match
+>> function returns NULL, which propagates to fwnode_typec_switch_get() which
+>> makes it look as if the orientation-switch was not described in DT.
+>>
+>> This is incorrect, because the mux driver will probe a bit later on, but
+>> at that point, the caller of fwnode_typec_switch_get() already got the
+>> NULL return value. The NULL return value also does not trigger IS_ERR(),
+>> therefore the caller driver interprets this as if the orientation-switch
+>> is not described in DT, and does not return -EPROBE_DEFER to try again,
+>> even if it should.
+>>
+>> Fix this by checking the class_find_device() return value, and return
+>> -EPROBE_DEFER if it is NULL right away. If the return value is not NULL,
+>> perform the deduplication test, and if that test passes, consider the
+>> return value to be already non-NULL.
+>>
+>> Fixes: a53b4f9c51a9 ("usb: typec: mux: avoid duplicated orientation switches")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Marek Vasut <marex@nabladev.com>
+>> ---
+>>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>> Cc: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+>> Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+>> Cc: kernel@dh-electronics.com
+>> Cc: linux-kernel@vger.kernel.org
+>> Cc: linux-usb@vger.kernel.org
+>> ---
+>> NOTE: A similar change was reverted in
+>>        f576c75f95a5 ("Revert "usb: typec: mux: avoid duplicated mux switches"")
+>>        Maybe the orientation switch commit also needs a revert ?
+>>        Or the mux switch revert can be undone and fixed using this NULL check ?
+>> ---
 > 
-> This is much more "basic". The controller can address 4G of memory, e.g.
-> it's 32bits. That feature is only for STM32MP21 that can address 4G of
-> DDR which starts at 2G offset. So basically there's a SYSCFG bit
-> (SYSCFG_USBHARCR AREN), that adds a 2G offset so the controller 'DMA'
-> addresses directly the 4G of the DDR (instead of 2G lower memory map,
-> that's not necessarily useful, and 2G of the 4G DDR, requiring swiotlb
-> with perf penalty).
+> This revert negatively affects Rockchip once my USB-C rework for
+> USB-DP lands and I undid it locally. I've just not yet found the
+> time to investigate why it regresses the X1E platform to reintroduce
+> the feature. Maybe you found the root cause and fix already, but
+> investigating with my T14s Gen6 Snapdragon is on my TODO list.
 > 
-> Current downstream glue driver checks the 'dma_range_map', (e.g. DT prop
-> dma-ranges = <0x0 0x0 0x80000000 0x1 0x0>;) that represent this, to
-> enable the syscon bit that adds offset in hardware (so 4G of DDR can be
-> accessed by the controller, without swiotlb).
-> For USBH, there's nothing mode: set it at probe time, based on
-> dma_range_map, restore it after resume from low power.
+> FWIW this patch is
+> 
+> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Could you revert f576c75f95a5 ("Revert "usb: typec: mux: avoid 
+duplicated mux switches"") and apply the following patch (equivalent to 
+this patch, applies to mux instead of switch) and see if that fixes the 
+T14s for you too then ? If yes, than, I think this might be the proper 
+fix rather than the revert:
 
-Maybe the DT syscfg node shouldn't be a plain syscon , but rather there 
-should be an actual driver which binds to the syscfg DT node and 
-configures all these hardware details early on boot ? The USB controller 
-drivers will start only later, when the syscfg configuration is already 
-set in the hardware by this (future) driver, since they depend on the 
-syscfg node and the PHY subnodes. Maybe that is the way to fix the MP21 
-without having USB controller glue ?
+diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+index 4a4297f15aad3..afa6fc1813978 100644
+--- a/drivers/usb/typec/mux.c
++++ b/drivers/usb/typec/mux.c
+@@ -294,6 +294,8 @@ static void *typec_mux_match(const struct 
+fwnode_handle *fwnode,
 
->>> - Common dedicated interrupt to manage wakeup
->>
->> This is EXTI configuration, is it not ?
->>
->>> Using generic controller drivers, I don't see how to manage it, without
->>> describing it in the DT.
->>>
->>> For sure, generic ehci/ochi drivers and bindings can/must be used. What
->>> would be the proper place for this glue to leave ? Why not adding the
->>> glue driver from the downstream ? That's supposed to address this.
->>>
->>> Do you wish I send it upstream, so it can be properly reviewed, amended ?
->>
->> I would very much prefer to avoid the glue if that is at all possible.
->> Thus far, it seems this could be done (interrupts are generic interrupts
->> managed by EXTI, Vbus detection polarity is likely a PHY thing since
->> this is managed by SYSCFG anyway) ?
-> 
-> I better see your point, thanks for your explanation.
-> This makes sense! For this part, the approach can be the same on all
-> STM32MP2 SoCs (21/23/25).
-> 
-> Still for STM32MP21 address remapping feature (out of scope here) I
-> think there will be not much choice to keep a minimal glue DT & driver
-> (and parent to generic ehci/ohci). It seems totally out of the PHY
-> driver purpose.
-> Maybe you have some thoughts about this ?
-Please see above.
+         dev = class_find_device(&typec_mux_class, NULL, fwnode,
+                                 mux_fwnode_match);
++       if (!dev)
++               return ERR_PTR(-EPROBE_DEFER);
+
+         /* Skip duplicates */
+         for (i = 0; i < TYPEC_MUX_MAX_DEVS; i++)
+@@ -303,7 +305,7 @@ static void *typec_mux_match(const struct 
+fwnode_handle *fwnode,
+                 }
+
+
+-       return dev ? to_typec_mux_dev(dev) : ERR_PTR(-EPROBE_DEFER);
++       return to_typec_mux_dev(dev);
+  }
+
+  /**
