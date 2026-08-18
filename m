@@ -1,112 +1,181 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from SY5PR01CU010.outbound.protection.outlook.com (mail-australiaeastazolkn19012065.outbound.protection.outlook.com [52.103.72.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB2745BE3;
-	Tue, 18 Aug 2026 04:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787028706; cv=none; b=LwORGyKsdP9KCLUDg/+Xu1aFRYNkrexIFO3uamnHMQ2TWtSWLIupXEJu42mEANmA6JcHl2BsWv87WcCychYAvFgrRNftIV28FyBtY1sh0aawEtzxwRYygmWA9KF1N9nx9h7vh7TpueAj6yCY6yQVMU/l7103gRBQGX0AAkd/XgU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787028706; c=relaxed/simple;
-	bh=VuGy5kLPtgm60zY3sLvALqHrRSs450ZmIGcsTFHJ4RM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AJpOfRlvoyW73zwpYLWPaFFegpGph6aD9HOWGKkTefS4YpehQt2cjZU1SpbkOFxz3XCyc3e93ZkRf6BWTbQzf01KJNbhgjwxmw2pc/PqlnSy8nTYRUBlgjLlouaHGGK8hu822HEUOuIr4jbAJNj7x0S+8fYYSAS9aWrWvx5o57g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=zTMz47nV; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=wmrRSKbr; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682A9846A;
+	Tue, 18 Aug 2026 05:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.72.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787031318; cv=fail; b=VluN+7uRTzxisHI8Ye6AwkKhtnkiMIRS6eHYKiKO6hx0Es9k7AA34Vm2Nv75bUy0+nLQGBHtBFFPTlOJX4IFC1u3uKioT10qPKuSECAjZblJaOpbHA+WpAFucUv2YyvzG2pkybz+ifhDPn0BfKMBsygC2GYWsYHdcV3i2WsMl5c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787031318; c=relaxed/simple;
+	bh=t+TmSHzby++PrGQfT4WVvKaPYlfu8dAiUbJ94Xs11qg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fbERoBkY8pPvBf3/hOJ4fBiUUO21CZnVCxb4CCuXFzwzjEF1KiwX0gmgd85OlomRVhkRFoZv2yhB2atUo5J/UYSVPmqW9cG5ztT8bzuP3xs7CTsHDHMrliIRRtOp6HKmlkuVpGise7mbvmckAA7LBROz6zhOBcxc0MdGmIM9uo8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au; spf=pass smtp.mailfrom=outlook.com.au; dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b=tW4X9dDa; arc=fail smtp.client-ip=52.103.72.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="zTMz47nV";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="wmrRSKbr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1787028697;
-	bh=VuGy5kLPtgm60zY3sLvALqHrRSs450ZmIGcsTFHJ4RM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=zTMz47nVk7OuDgMLTbVEPxlljGi+BhNpnaw4TwBHDwEm56ww8POveALzUShzKgO2v
-	 KjjuoUeyPKRBa0KtPw/E1XtmKlmLDYETYRmCAyAwXxKRcaO0JxubZUD59U/WS6xd3C
-	 Z58WwWzgB6W9ZCcfm2ALMAgTtQgmxTr/GRLoGGL+7uxlh6K/HduWJVUboMFKnInHeZ
-	 pNGjAoZCCtoYpZGeAom9gwFo7kG8anJ3Xh8fZr7WxQAHh/sFUp6EJLL7t7HCHFQVTN
-	 5LHV4relF7hXI0SkPTMtxCmMVrmHYsHEAmkgn/dNH9rWDKBjcrTrrKhZCnd5sHO84i
-	 ay0gaMHzk8PRw==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 5ABC049933; Tue, 18 Aug 2026 04:51:37 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1787028693;
-	bh=VuGy5kLPtgm60zY3sLvALqHrRSs450ZmIGcsTFHJ4RM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=wmrRSKbr1GClq3w6sFiTQnRYhp4Xip4Ees65vufGv7mEnCoWOCIaUpx47at5EXUoO
-	 lPbZtg6vm7uN9+BLGwl9FFUHxWHym4qY7iuHoI002UwfETfZDXe+wt4aivqx0jmvz7
-	 wKa4DwiwTda5V0/wPDOWGdWBe4o0iXZSNz79tuELEEF45IU8gl0IHTKWvonJxg6W5C
-	 MD3tqpVLm4dMs6mIByav0MlCGHhOSIJ03qy84AIFUWgBuJi9kgLy9QIluLpo81vkil
-	 0UacfEkYOh1YuCcOVNWmBCjkV5s1mDBpJz6/wPDmHm/VKwi5zMk/FsK91o7AFV6zpH
-	 sHKiFX8REjv9A==
-Received: from [IPV6:2003:c6:9f06:3400:a121:726d:74b1:1cd6] (p200300c69f063400a121726d74b11cd6.dip0.t-ipconnect.de [IPv6:2003:c6:9f06:3400:a121:726d:74b1:1cd6])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 4F47E4992A;
-	Tue, 18 Aug 2026 04:51:33 +0000 (UTC)
-Message-ID: <e72d0d5e-6368-46eb-8247-a760046cb8c0@birger-koblitz.de>
-Date: Tue, 18 Aug 2026 06:51:32 +0200
+	dkim=pass (2048-bit key) header.d=OUTLOOK.COM.AU header.i=@OUTLOOK.COM.AU header.b="tW4X9dDa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x2lBKhHZOc69CvPBQ7Z6kCC8+5s8EC9kD6CBmEvJ6Y+c2pZ7DIUjnVv/muuMuCmETndysyBG7Avhkli+UPD6i74BAm6eViSUPQjhQwZo7ZRBgYLP1CR8mgLjmlpB7vqp9/N4AhajScuoeLuqrrw/riLmnZ4lpIIgbGlIW77XPBWTxnTf+pgiJgPGjvU9NmoFzDjBpkW0fgsd56F5Z5rVZbSHpCN9n9Ty2XOPwQRfPWCnExAc2oxh4pJGovJwqQ2cT3v2zwjsCFiNXSxZvGEr3ROQRvBa7c6oP/HvoOb23cpM/3UnQM8rBQ2stqv5iLMrATVMLtPIQ/5rAr1gVcfBLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t+TmSHzby++PrGQfT4WVvKaPYlfu8dAiUbJ94Xs11qg=;
+ b=FhXIAiDyFFiLac0NPuFHDTpltnCzf2osd/yc8oFny9B6zh85VIWeyZ67DjBTE24NCRfa5BQPEEDb7J8PMKcei5L+UwGKp/j2PRecwZiPi2qrUVWyHi8e/WslQ+00kELUOvnXOXHR+3ghYIctfjfKDvXD/AwaFge5eExawggKDvCev7Wk08kBWbPbeiBjOJoS2wNjBseMFRkbhi7V7Os4iXvLwOfiD06PfvEQXbWPSj7PgvnQw8RCwJmWsMOU0Nt6DZoW9bxdveITyijJan6c9QughMU5U3mSh84K5pp8212s3lGGLWEqpdXfTQr3AYeLDcyKAIDNqmBqfqNisn1gjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.COM.AU;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t+TmSHzby++PrGQfT4WVvKaPYlfu8dAiUbJ94Xs11qg=;
+ b=tW4X9dDajsZT6nZGHj0KzgqZXPSFMwJU/ifU+ynXlIF9uonbsYpUKdX940PjzG8CYGDD3Cmho/cyMtMYWd5J0dbJ08EPtpG4kJp3nIXG/VOHzZpw91lYLJlPsvtXxpalUdYxjWyJy/dcqsxPAYosmMl0bYgdH8/CG2orASGVMmAFH20keomOCQxCUoLna1pQsTbKcEWWz5bEA17kjGIQekh0pV6pNiG9viXElJNLvzwsqWs47Z/kfh7VjzgtX35ajS4ai1MeGQMQmtdz95HRiBksxGk96u68PxElFBRtRsI7cFwVQW6iUsgPxZEH+/oIRIT6hhWQEA/dCczYCZpKiA==
+Received: from SYBPR01MB4586.ausprd01.prod.outlook.com (2603:10c6:10:59::12)
+ by ME5PR01MB10170.ausprd01.prod.outlook.com (2603:10c6:220:24f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Tue, 18 Aug
+ 2026 05:35:11 +0000
+Received: from SYBPR01MB4586.ausprd01.prod.outlook.com
+ ([fe80::57d:8fd6:3940:5957]) by SYBPR01MB4586.ausprd01.prod.outlook.com
+ ([fe80::57d:8fd6:3940:5957%6]) with mapi id 15.21.0315.016; Tue, 18 Aug 2026
+ 05:35:11 +0000
+From: Stephen Horvath <s.horvath@outlook.com.au>
+To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: Stephen Horvath <s.horvath@outlook.com.au>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Mario Limonciello
+	<mario.limonciello@amd.com>, Jihong Min <hurryman2212@gmail.com>
+Subject: [PATCH] usb: xhci-pci: Add AMD 600 series to xhci-pci-prom21
+Thread-Topic: [PATCH] usb: xhci-pci: Add AMD 600 series to xhci-pci-prom21
+Thread-Index: AQHdLtNWrsvYoq2kvUuSLQRhzdh6lw==
+Date: Tue, 18 Aug 2026 05:35:11 +0000
+Message-ID: <20260818-xhci-pci-prom21-v1-1-6584857e654d@outlook.com.au>
+Accept-Language: en-AU, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SYBPR01MB4586:EE_|ME5PR01MB10170:EE_
+x-ms-office365-filtering-correlation-id: 9c5933c7-ab1c-4d1e-06af-08defcea78e0
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|37011999003|25010399006|31061999003|24021099003|15080799012|38102599003|8022599003|19110799012|8062599012|8060799015|440099028|3412199025|102099032|2607281247196008|3071699003|10035399007|1710799026;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?aTNNbjZXVDB5SkgwTDBRYmNYSm9FVVVEYTZNcUUzaEVvbXpjb3BtaXpmaEpi?=
+ =?utf-8?B?Z0JVcndwT3FVb2dMblZOZU9NVzZZcFRlQ1d2MzJ2blpIS2RXYTRqb0F4WFVN?=
+ =?utf-8?B?MCtqdDhwRGhCOCtRYkFOWmhMUTZnU0dEdU1zNUJZTnQ5TW5NQ2dIUE8rVExE?=
+ =?utf-8?B?UW14ZGhhNVNHWVJmT0JiazRVVjZjOURidStMakd2RDRqemN5SXdRa003cnR0?=
+ =?utf-8?B?Vy8wdjQ4b1VqYmpRQW9hM1hUSUJOVzR0eW1IM0NEWVFseUY4akNVYTBqTS96?=
+ =?utf-8?B?L0o3QnVaVWNyM2pVK0QycW1sQzhnQ2FTczBMclZoODM3TUFGMjlTSFRMYzJS?=
+ =?utf-8?B?eDdvcFRlVDUxOU83MVhHTEw3ZUdCRGJZTFM0VzcxSUd5eFhOajVCYVVXbk9J?=
+ =?utf-8?B?VlhFL0RXSkp3U3FJVUczbkFHNGIrRHRTTVBjZ1Q0bGRVMmxLTnZaSkZNd2RG?=
+ =?utf-8?B?eTNhYS9wU29sOVF1TzdDaW0vdXRnL2RPS0lTLzIvQS9uZW91WTV3QUxIT0FG?=
+ =?utf-8?B?em1TUEhMeFVleDhONHpFQmNGaWxGQmxkZk8zMzF4MGg3UTdZb044UzRMOFkr?=
+ =?utf-8?B?YTNyL0k4MWY4Y1czcXJTUXU3WFFpbXFRMEZXNlJHc1JLd3owRHZqMFA4NnM0?=
+ =?utf-8?B?N1FzZlpjTjhaR0JGSjBjVzgyM1VvMHFRbjBaYllwVitWVDlUMzVBWGxCWFhH?=
+ =?utf-8?B?bCtld2FGOHR5Q2hvblQwVlhaS2JKRTVaUE9tSnZuRVFCaXUwUVJCZ3hpaWgx?=
+ =?utf-8?B?WDFSU2VidExpZnlORTR5L08vZ0FJV1FKOU5sQTJWQ2VuRThpRWt1L3hFbGlM?=
+ =?utf-8?B?RlkzRUMrSG5nTWhtMHVvbUhPT2t2bnpqTFBtZ2VRMzhSWk0rclhoMnlxUzlL?=
+ =?utf-8?B?ckMvajNnbzQwYTZwVzdPYi9DWWFhTDBkb0pFd2V0RTZqbngxYm1HUjliRENL?=
+ =?utf-8?B?Mk9ueVpZMGdQZE55L1dqZG92WDBVUE9tK1VUcVJVWE5wa0w5cTZFK3BudU4y?=
+ =?utf-8?B?dllxS1VGSGk3ZitMcU1KalI3ekFtUVFqRjBDNHlhRXhCaGtKMG5FZkE1TS81?=
+ =?utf-8?B?RFRhbXdyekdiWFF6ckVSdGtIVFdCUXFQVmhISTROSU5pbE5QRVdhR1YwYWhy?=
+ =?utf-8?B?QVVKU092ZnhiQXBWdnVBemNEdTRzOWcxdzcwWWpmMU9XTHEwSjVEUERBMzZq?=
+ =?utf-8?B?a29OVnVnNENPMU1XQ1ByZ3daNG9qV1RBRFJJcnpHNnQ4d1IxVTNWR20rN25i?=
+ =?utf-8?B?U3dWZW5KYUF3YlQwRmxpUkVjTUl1MEpmcUVkVTRPVnhaMVhDcGhLc1RMVDBn?=
+ =?utf-8?Q?6AdlB1Km/tTGm4qQ0K2xmwiT7Tl+N/obyS?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?M0txWjVKcDhWb1ZkVllsTXpQQWIxT1Z3UXphWFZKWlp3SGo1a2ZSWHdzOE9O?=
+ =?utf-8?B?aHJLT1NlaWF5QjRRRnRhYWlvbUVJUFN6bk9nbU5PM3RJR2E4YUJjZitXS2ow?=
+ =?utf-8?B?eDVvV2duWDdnTWVxMGs0c2NxY1Vha3E5U3FrUUlJZlJDSmtwblZzUkcrYm90?=
+ =?utf-8?B?SEZKUE12V2gzZndhZENiSEVodGcwRG5kZlRKQUFET3dwZ3BrSENqUFBuTlN0?=
+ =?utf-8?B?ZDZJdWZKZDNOUGJWdlFRWHVEdkFLQWRSR0pXWTdkMVRsVjhjR0pmQzdaQitp?=
+ =?utf-8?B?ajk1MEw0SzhyUDQ4cnJmNGJSTThRRU14UllZMVJYMDkvMGN4MjB5cEhRbk5D?=
+ =?utf-8?B?amhyc0NZQ0drSjdaVnZpT0ZrdVdUNTZkdHVjYVdEQTJFT3dQVDdrS0FUM01V?=
+ =?utf-8?B?NG9iOTRXUVRadmpkUTVSRUZxYlFhUDZ4Zi9KcGJBTE5TdStyYk5OR3B5UFhY?=
+ =?utf-8?B?UHdLN0htM25wSU1mZ3MvaFZ3cU84RUhoVmw5akNDTVBHak9ETjloMU80Tm5U?=
+ =?utf-8?B?clRjeWxDVHl1ay9DNjZDaE12dDdKdnRZbVA0Y1YxNEJHNUlxTXcxeEp3T0Jo?=
+ =?utf-8?B?M1gySUJnWkR5SUhOeVEycCtCMXN2R2pPYy9LY1VjS1pTUHo1MXBYVFdwUyts?=
+ =?utf-8?B?V21pam1MNDRkdEZ1N201M2dXcCtpeGd4cE95dTg1TE5iWTJEMm02RUh2YWkw?=
+ =?utf-8?B?VFRaWjk3UDRvMlFCSFdLanZVNlNPRjNqVnFpZnVKdno1UG13TzFUSGh0Zlk4?=
+ =?utf-8?B?aXBpaEpjNXhudVZaWkpiSnA0RE5DRXdtVjBDZGMyR05vZlZQR1lqMllkY1lV?=
+ =?utf-8?B?WDJKazZHQVUrOFJacWczWFhhNWhvNVgwMVRGb0Fva3lscVIzc0tIb1Q3UWcx?=
+ =?utf-8?B?L29xL3piaTNHcUpOZFB5b25NTm8vTFNTVGNEV1ZDMkdVbTFFY09rSHpUMkxD?=
+ =?utf-8?B?OS8vNlk0Q2psK2U2NllBY1NTTC9UZ3RvK2hrcEkwRDF3VVQ0YWNldzVNRVJH?=
+ =?utf-8?B?TG5iMmxGUVh4eDdobUJUaWl4Y1VhQkt3OVdlOXFzdThPUlJlR3RoL2tYSWts?=
+ =?utf-8?B?bXBsdlBvQ3VXS3JTUEc3Qkl3MTRUdU9leU1IY1FLNVdoR0ZUVW1ZQkdEY25t?=
+ =?utf-8?B?K3l4SGlhWW1iZXI3em1GK1dWRmYzaDlBVjNJeGc5a0pqOFdkOUdqMlByTStS?=
+ =?utf-8?B?c1BNWUYzekVzNTBMaWZaVmwxeU5TNzZ1a3A3dWVjc3R3OTVnTU5GdTcyd3JW?=
+ =?utf-8?B?aElzYnoyem5odGJuS2dOUE53UTd4b0hqWXp6YUlFcGludm82QnBhRys3TTBC?=
+ =?utf-8?B?YWQxYmhRS3lmUURVMDM5UmoxZHFkZE5Zc1RLaEIvOC9maE55dFpIYm5uVGJ2?=
+ =?utf-8?B?SzNOMWkxQWxnUVRxOFlKTjFaTGhPZmlqdFNYNDBrSGN1Z3pFaE15TDFEVUNj?=
+ =?utf-8?B?dGxJSmdiNUNLWGkzRm5JdWdma1krcVkwVTBwcSs4K0h4eHV3Z1hWcVVkNkNK?=
+ =?utf-8?B?UXF0QkNRMm52aVhYYmdONzFpbmhVd29sc3hJRUN3NjFJT3ZxN2lKRjlaMkpr?=
+ =?utf-8?B?TUV5bkN0ZUJGN2VUcWw4K3RFS0M1TGVyRll4ZmRRRDVkQ09ZUzFHdHY2YUpq?=
+ =?utf-8?B?UUtnY1I3QXNCZ0JLT3JtNFRDZWNiQno5V1ByT1BzNUp6MU5maml2NUMvV1Bz?=
+ =?utf-8?B?djBpdHYrdFp6MHlxYmJFUVM0ZjB5cmZuL25rNjBEWUhiUzQvb2ltMUV2c05E?=
+ =?utf-8?B?YVJrK1lmcEIyNHNrNHdFT2xVOGdBZkhVYUU0eXRySHhLNStNMWxWd1JiZWVS?=
+ =?utf-8?B?STB1NHQrUVRFbnBnVGZTaDZDTk1lQkE0Nmw2c3ZxcFdMdG00ZGYrM3dHTjBV?=
+ =?utf-8?Q?wcb0Qp07Ac5Th?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CA269F922D98974A88066E251ABCB919@ausprd01.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 03/14] ax88179_178a: Split driver into library
- and device specific code
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
-References: <20260810-ax88179a-v7-0-da633191c129@birger-koblitz.de>
- <20260810-ax88179a-v7-3-da633191c129@birger-koblitz.de>
- <20260817152800.3dbe9f55@kernel.org>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <20260817152800.3dbe9f55@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-feddd.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SYBPR01MB4586.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c5933c7-ab1c-4d1e-06af-08defcea78e0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2026 05:35:11.3425
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME5PR01MB10170
 
-Hi Jakub,
-
-thanks for reviewing the code!
-On 8/18/26 00:28, Jakub Kicinski wrote:
-> On Mon, 10 Aug 2026 14:33:28 +0200 Birger Koblitz wrote:
->> +static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
->> +			       u16 size, const void *data)
-> 
-> Local netdev convention is to still wrap at 80 chars.
-> Anything beyond that is inviting laziness.
-> 
->> +{
->> +	int ret;
->> +	int (*fn)(struct usbnet *dev, u8 cmd, u8 rtype, u16 val, u16 i, const void *d, u16 size);
->> +	struct ax88179_data *ax179_data = dev->driver_priv;
-> 
-> Local netdev convention - please sort the variable declaration lines
-> longest to shortest
-Both of the above and other occurrences will be fixed in v8. Sorry about those, I was
-moving existing code and tried to minimally change it in order to allow blame to correctly
-identify the original author of the code, while still making checkpatch happy.
-
-I was not expecting a review while netdev was closed for patches, btw. Am I right
-to assume that I should not send v8 during the merge window, or do you prefer the
-next version to be submitted earlier while everyone still easily remembers what this
-was about?
-
-> 
->> +	if (!dev) {
->> +		netdev_err(dev->net, "No net device.\n");
->> +		return -ENODEV;
->> +	}
-> 
-> Is this a real check you need? It was a BUG() previously, so clearly
-> it must never happen. Please don't add pointless defensive checks.
-No, I did not see how BUG() was doing anything useful before, either, and just
-wanted to preserve the logic of the existing code, while making checkpatch happy.
-Will remove the 2 occurrences of this bit of code.
-
-Birger
+SXQgc2VlbXMgdGhlIHhoY2ktcGNpLXByb20yMSBtb2R1bGUgb25seSBoYXMgSURzIGZvciB0aGUg
+ODAwIHNlcmllcwpjaGlwc2V0cy4gSG93ZXZlciwgdGhpcyBhbHNvIHNlZW1zIHRvIHdvcmsgZm9y
+IG15IFg2NzAgYm9hcmQsIHNvIEkgaGF2ZQphZGRlZCBpdHMgRElEIChgMHg0M2Y3YCkgdG8gdGhl
+IGxpc3QuCgpgMTAyMjo0M2Y3YCBhbHNvIHNlZW1zIHRvIGJlIHRoZSBvbmx5IERJRCBmb3IgdGhl
+IDYwMCBzZXJpZXMsIG9uIHRoZSBQQ0kKSUQgZGF0YWJhc2UgKGh0dHBzOi8vcGNpLWlkcy51Y3cu
+Y3ovcmVhZC9QQy8xMDIyLzQzZjcpLgoKQ2M6IEppaG9uZyBNaW4gPGh1cnJ5bWFuMjIxMkBnbWFp
+bC5jb20+ClNpZ25lZC1vZmYtYnk6IFN0ZXBoZW4gSG9ydmF0aCA8cy5ob3J2YXRoQG91dGxvb2su
+Y29tLmF1PgotLS0KIGRyaXZlcnMvdXNiL2hvc3QveGhjaS1wY2ktcHJvbTIxLmMgfCAxICsKIGRy
+aXZlcnMvdXNiL2hvc3QveGhjaS1wY2kuYyAgICAgICAgfCAxICsKIGRyaXZlcnMvdXNiL2hvc3Qv
+eGhjaS1wY2kuaCAgICAgICAgfCAxICsKIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCsp
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLXBjaS1wcm9tMjEuYyBiL2RyaXZl
+cnMvdXNiL2hvc3QveGhjaS1wY2ktcHJvbTIxLmMKaW5kZXggNjQ4NmY0YTA5MzQ1Li5iNDFmYWE4
+N2Y0ZWIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wY2ktcHJvbTIxLmMKKysr
+IGIvZHJpdmVycy91c2IvaG9zdC94aGNpLXBjaS1wcm9tMjEuYwpAQCAtMTExLDYgKzExMSw3IEBA
+IHN0YXRpYyB2b2lkIHByb20yMV94aGNpX3JlbW92ZShzdHJ1Y3QgcGNpX2RldiAqZGV2KQogfQog
+CiBzdGF0aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgcGNpX2lkc1tdID0geworCXsgUENJ
+X0RFVklDRShQQ0lfVkVORE9SX0lEX0FNRCwgUENJX0RFVklDRV9JRF9BTURfUFJPTTIxX1hIQ0lf
+NDNGNykgfSwKIAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9BTUQsIFBDSV9ERVZJQ0VfSURf
+QU1EX1BST00yMV9YSENJXzQzRkMpIH0sCiAJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfQU1E
+LCBQQ0lfREVWSUNFX0lEX0FNRF9QUk9NMjFfWEhDSV80M0ZEKSB9LAogCXsgLyogZW5kOiBhbGwg
+emVyb2VzICovIH0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wY2kuYyBiL2Ry
+aXZlcnMvdXNiL2hvc3QveGhjaS1wY2kuYwppbmRleCBhODg4OTA4MWFlODIuLmRlMTMyMDI1ZDhh
+NiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLXBjaS5jCisrKyBiL2RyaXZlcnMv
+dXNiL2hvc3QveGhjaS1wY2kuYwpAQCAtNzAxLDYgKzcwMSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgcGNpX2RldmljZV9pZCBwY2lfaWRzX3JlbmVzYXNbXSA9IHsKIAogLyogaGFuZGxlZCBieSB4
+aGNpLXBjaS1wcm9tMjEgaWYgZW5hYmxlZCAqLwogc3RhdGljIGNvbnN0IHN0cnVjdCBwY2lfZGV2
+aWNlX2lkIHBjaV9pZHNfcHJvbTIxW10gPSB7CisJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURf
+QU1ELCBQQ0lfREVWSUNFX0lEX0FNRF9QUk9NMjFfWEhDSV80M0Y3KSB9LAogCXsgUENJX0RFVklD
+RShQQ0lfVkVORE9SX0lEX0FNRCwgUENJX0RFVklDRV9JRF9BTURfUFJPTTIxX1hIQ0lfNDNGQykg
+fSwKIAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9BTUQsIFBDSV9ERVZJQ0VfSURfQU1EX1BS
+T00yMV9YSENJXzQzRkQpIH0sCiAJeyAvKiBlbmQ6IGFsbCB6ZXJvZXMgKi8gfQpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLXBjaS5oIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLXBj
+aS5oCmluZGV4IDExZjQzNWY5NDMyMi4uMjZhOWVkZmNhY2ViIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L3VzYi9ob3N0L3hoY2ktcGNpLmgKKysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLXBjaS5oCkBA
+IC00LDYgKzQsNyBAQAogI2lmbmRlZiBYSENJX1BDSV9ICiAjZGVmaW5lIFhIQ0lfUENJX0gKIAor
+I2RlZmluZSBQQ0lfREVWSUNFX0lEX0FNRF9QUk9NMjFfWEhDSV80M0Y3CTB4NDNmNwogI2RlZmlu
+ZSBQQ0lfREVWSUNFX0lEX0FNRF9QUk9NMjFfWEhDSV80M0ZDCTB4NDNmYwogI2RlZmluZSBQQ0lf
+REVWSUNFX0lEX0FNRF9QUk9NMjFfWEhDSV80M0ZECTB4NDNmZAogCgotLS0KYmFzZS1jb21taXQ6
+IGJkYWI1NjA1MjU5YmE1ZDZmZjkyN2MxYTg1Y2M4M2ViM2VjZmRhY2MKY2hhbmdlLWlkOiAyMDI2
+MDgxOC14aGNpLXBjaS1wcm9tMjEtY2ViMDI1ZDQ4NGE4CgpCZXN0IHJlZ2FyZHMsCi0tICAKU3Rl
+cGhlbiBIb3J2YXRoIDxzLmhvcnZhdGhAb3V0bG9vay5jb20uYXU+Cgo=
