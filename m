@@ -1,103 +1,90 @@
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1994746B2;
-	Tue, 18 Aug 2026 12:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9E64749D5;
+	Tue, 18 Aug 2026 12:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787056897; cv=none; b=cJXNyv5eiMaIliGljeJSK5q3NT5lHJmeEuhuUkm+n7bu5ZrHlgeZenhiWcbS/3DGpukXkWdb2Bkts4T2BbvLtIVm8xAnDGecz/hMwKpuT9DedG1p43WykM4oejCquyWZFWMzFkvqSt9tat559wNWTaDFnm0khpf/xe+lsmruQqM=
+	t=1787057790; cv=none; b=Ky73nr1Al1GOugYve5CHkAl1X24//zWl8ZZi7A0Jd/6HngPdhHL9x4kPMSb5BO76FJ01Hv4X2/a9pX2QdvljDxhYlPwSqFdUSCTyMDmks2GydH/QN2XbjTukDjupGWgfLsUuw2A7VwaGn25+TQQx2xUPJqMrQffcoMmDFrizf8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787056897; c=relaxed/simple;
-	bh=4wDMGKMp2mOuBcTDn+31ZEh/ssqJsL2i219zJSRWMHY=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=spTbz7c82z/OcvT6soT0UMMRgB3/i5E6DmKkC8vvCZjpmexLhZxcLCNGry+g5flTsBAjlIFmjLFXUuehuqXrUA6XtOswkTXppQII95z4lpl8sSm59mwvx0iUS5vea5ZZKiuBcoyap7JOp8tZJLXQaFsKWyJMXPpQAHev1nYJGzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zuyK35Gb; arc=none smtp.client-ip=203.205.221.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1787057790; c=relaxed/simple;
+	bh=DOPq80cBsvVhChvsLsqYIhzON+VjqGSyvXXlgxdQzdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgE/3N1vajsWKRQTbtXWdqfsQWbEGz7YLRfg8Dj/KvLyzicm1vSc9yRadWnIsjz9rVCiho116AJexTsyl7wZl3hBV9SYaI5R4FCB9KmTN0Lh9vDjDB1KgAEmhnZPwZl23W+nNAZ+DiBTcM5iJYRSd2sQ8ok3PNdV8libB9W32bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dj6aiZch; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zuyK35Gb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1787056892; bh=4gN5Bzu44Mp5j7wpfiS66+lZDbNl2Rk7pPXW7o3kN9Y=;
-	h=From:To:Cc:Subject:Date;
-	b=zuyK35Gb67RbqgBKlXXVZ6N8qiWMeEv1PdykgTUMgIRgjRMUwCbEzOznsWGSkLh51
-	 kEC3BpuNWjpKDt0Gyrvp+GK4nymqfxn0mn6CPU/bSVuFBRzYQKbJeKTwsB1eptKNsW
-	 1TIA254/3KO+4+mjsNKBf0QhDfuKFEHWJYT3AK6g=
-Received: from ws006419.mbzu.ae ([5.195.0.150])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id A5D0B61E; Tue, 18 Aug 2026 20:41:29 +0800
-X-QQ-mid: xmsmtpt1787056889tzw9h6z02
-Message-ID: <tencent_30752557FD78912E64BC2E901338A0D0EF06@qq.com>
-X-QQ-XMAILINFO: OK7NBzdNss/RK8OU+4T+ckOQ6L7UJ4G+0o3mUQguEcLL05sOch7u5mRSVzzcc+
-	 5W7csBG78M8Bb1CjbJUhpxvG509a9hBtyuYAExZIkUGnLyWxrXlJMrbkeNRL/xtmpTJcif5eCvGb
-	 wiiw+lawOU5HLJNatoGP9Yy61mSK28kLlis2mPxgvGeVoPMGNzxspn3Ed6U2r46bDlkEI2lcwfbt
-	 oV2+gGR5rE2vW+Zs34Lcw9eKSsMzsatjs4uyFsmQzfcWVDi3bWXQYYwiIwNIMTOhABDW/UJskY4g
-	 LmQ3DZaBQBzRJnETCr2oc2FKx9Yo8S75AvRzWObIQT0/JeEkbHEJo+C/bMF8X4UI2XJ1TbljmOzf
-	 QQXUVeRjt75BO6Dvy1A++sNdc8ZOJN/qlCG3Fu58ED5jXlxjtux8nSkhNlr8iMc1QeskdSh+T0Yr
-	 IyhJEj8oMZFRaanGjo1ktN8Y+I2HBIW/qJUqDn9B3pAm04Lcasesa0b9bHoIR4zp3OQ+6WAz4dEF
-	 bpOBjOVwZEB5eF6f0rFMNtLf2bBSdvI3K9wXJclH00zBBkEaUzfX45ijhCGuz0HCQmykWW53/gf9
-	 QcCYFnEJ4uZvjWuiGzHLral4ASxTdazcyocX0ffwjdVCvPGaWH63FPl4ySYChjWjgpZfEgYM71u0
-	 N5roS/KWS4bYJxm77XWThcWJYtaS1reVpSuUyPyHlwir1C9F/AO6aBVFHEme+RPLSWM0PsLQ8GNf
-	 OOMmVmcZRaTsgO80e/PWBWgBps1GB0lXsKTK2ysinoqRPIxyDhGRifHx7TaQOjihDgcumjFGrG7B
-	 2X/9JDTHlgy6tDlXYaVbKTr8Ltd2tah0GKcK4ANsDklY/B5dxU4hTFZD7LxO/ocMZwTWmiwkmPIy
-	 08ub3MZHuxM9fgfDyXv2gX0smLoinx583Pv1ibgjwCOXXvwZIIEJmGKrmXZesc0+sfwWA1up5s4/
-	 lKxdXsGjTUDR9jEd3XgGywUOEC5uR1PjM5OX022WqyaCWyVR+h5pvNNoUT1hRleUZVHUwC5MXETx
-	 rX/58ngri4D107EUYPlx/Qei+E95nMBrPp7Z/ePv4wcy0jtOR8012Zr+Cqfhs4pFqzh8XmHfGHyU
-	 29mHg0RJHsbfkPqU8wPDUOIVbUiw==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: Jiawen Liu <1298662399@qq.com>
-To: Juergen Stuber <starblue@users.sourceforge.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	legousb-devel@lists.sourceforge.net,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: jiawen <1298662399@qq.com>
-Subject: [PATCH] usb: legousbtower: clear interface data on probe failure and disconnect
-Date: Tue, 18 Aug 2026 16:41:28 +0400
-X-OQ-MSGID: <20260818124128.246989-1-1298662399@qq.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dj6aiZch"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=pzGhfyGKCTcCAI1esMUGVzqsdQ1GfC1ZoHKfgE71dGU=; b=dj6aiZchFzgYrS0aTNg2WjeDlg
+	CsvyF5YkVOLnZGgkp9DStjfdAvcYGktShS4SFrF5iAgwuqWvZ0PJDaaF3xjSWfaQ8W82L600IKNxZ
+	KHFFMwyEbOp5wCgci/tXJb/LDBGDMVYMmeACqUCQtsKlX302wTbOGMXrFaMvkIvxZhbs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wwJMU-000TGP-H9; Tue, 18 Aug 2026 14:56:14 +0200
+Date: Tue, 18 Aug 2026 14:56:14 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jianhui Xu <neuromoments@gmail.com>
+Subject: Re: [PATCH net-next v7 03/14] ax88179_178a: Split driver into
+ library and device specific code
+Message-ID: <5eda66a7-2b37-4766-a9b7-04d3d421b1a6@lunn.ch>
+References: <20260810-ax88179a-v7-0-da633191c129@birger-koblitz.de>
+ <20260810-ax88179a-v7-3-da633191c129@birger-koblitz.de>
+ <20260817152800.3dbe9f55@kernel.org>
+ <e72d0d5e-6368-46eb-8247-a760046cb8c0@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e72d0d5e-6368-46eb-8247-a760046cb8c0@birger-koblitz.de>
 
-From: jiawen <1298662399@qq.com>
+On Tue, Aug 18, 2026 at 06:51:32AM +0200, Birger Koblitz wrote:
+> Hi Jakub,
+> 
+> thanks for reviewing the code!
+> On 8/18/26 00:28, Jakub Kicinski wrote:
+> > On Mon, 10 Aug 2026 14:33:28 +0200 Birger Koblitz wrote:
+> > > +static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
+> > > +			       u16 size, const void *data)
+> > 
+> > Local netdev convention is to still wrap at 80 chars.
+> > Anything beyond that is inviting laziness.
+> > 
+> > > +{
+> > > +	int ret;
+> > > +	int (*fn)(struct usbnet *dev, u8 cmd, u8 rtype, u16 val, u16 i, const void *d, u16 size);
+> > > +	struct ax88179_data *ax179_data = dev->driver_priv;
+> > 
+> > Local netdev convention - please sort the variable declaration lines
+> > longest to shortest
+> Both of the above and other occurrences will be fixed in v8. Sorry about those, I was
+> moving existing code and tried to minimally change it in order to allow blame to correctly
+> identify the original author of the code, while still making checkpatch happy.
+> 
+> I was not expecting a review while netdev was closed for patches, btw. Am I right
+> to assume that I should not send v8 during the merge window, or do you prefer the
+> next version to be submitted earlier while everyone still easily remembers what this
+> was about?
 
-In tower_probe(), usb_set_intfdata() is called before
-usb_register_dev(). If registration fails, the error path calls
-tower_delete() which frees the device, but the interface data still
-points to the freed memory. A subsequent disconnect would dereference
-stale data.
+You can post a new version, but mark it as RFC. This should be
+documented in
 
-Clear the interface data before freeing the device on the registration
-failure path. Similarly, tower_disconnect() retrieves the interface data
-but never clears it before possibly calling tower_delete(). Clear the
-interface data before the possible tower_delete() call to avoid leaving
-stale interface data after disconnect.
+https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
 
-Signed-off-by: jiawen <1298662399@qq.com>
----
-diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index 111111111111..222222222222 100644
---- a/drivers/usb/misc/legousbtower.c
-+++ b/drivers/usb/misc/legousbtower.c
-@@ -814,7 +814,8 @@ static int tower_probe(struct usb_interface *interface, const struct usb_device_id *id)
- 	retval = usb_register_dev(interface, &tower_class);
- 	if (retval) {
- 		/* something prevented us from registering this driver */
- 		dev_err(idev, "Not able to get a minor for this device.\n");
-+		usb_set_intfdata(interface, NULL);
- 		goto error;
- 	}
- 	dev->minor = interface->minor;
-@@ -846,6 +847,8 @@ static void tower_disconnect(struct usb_interface *interface)
- 	dev = usb_get_intfdata(interface);
- 
- 	minor = dev->minor;
-+
-+	usb_set_intfdata(interface, NULL);
- 
- 	/* give back our minor and prevent further open() */
- 	usb_deregister_dev(interface, &tower_class);
-
+	Andrew
