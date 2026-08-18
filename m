@@ -1,99 +1,166 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2840542E8FA;
-	Tue, 18 Aug 2026 17:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FD137FF41
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 20:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787075046; cv=none; b=oimYqbh+IHUhuDR66iVS9b7qbqxbCHvjJSaZooy3WXvS/PFGc49C9xTYe13ajOp1Qcle1N8Dso5tA3rvVkdFMQd55fsQbZ5+8gjVkvfL0yS3E7uA9orVEcIQHkrXsicJNDj6zeRIsp8NOskM2AopBSPnv3+hVoWkoLcxr2BfVAY=
+	t=1787086651; cv=none; b=GfVBBdIwlfABHz8FK9frZZeSQ9lBvoCuCYQP9/fCT8XJz5zHP8iyERHMayZxwk9YmX6juqWmG8OaLY03MbKtnVsMOt4E4Ur16Q9ZCra0GOitp9r76vwfRhL+K/oQ/1PeBdBD3NQ7+cRu9xcEKubdE1XSF2ObLNaC5fZ6p0YlAd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787075046; c=relaxed/simple;
-	bh=98104+qlk82T/fZ20I7oOz2sxkvy0a2ES8hMfagpv6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tgN2jF827HdH+Oar9FQ/ENHUoRfZdGkgNhCuSHdkm5hck0HTTUkRJ9k7XgQ9ar7eUYGX9d+mTM7M/jWqQwFiS48W5lY7cvy2cO6q9AprrFsF7Z+p3vmxg9TzFVlcnMH3smU0OL/VgLBG4MVi8TA/seQA+cVOCtg50UazOrSuajU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=Py7B5Mc+; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1787086651; c=relaxed/simple;
+	bh=NbBlOo7NTJaG6oAmparK6IlCJeTyS24qMGJz+OZfZNs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=j3BIkeIkjSxTvE0oXrw7QXzdPVhq9VvV98vTW9QJByarr4K2RRpiQ3ZTXQ3Nx44Ucv7pW+dCn2/4N2nC132bis2Wg9f6m8/7i/xjjcLy6hPUcHwB2ldzugWum8x8HTRIrqgAWNygDHe8OacG46PcKDuA3h55vd45Qu49qbM96cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tN+Tg5Er; arc=none smtp.client-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="Py7B5Mc+"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CAC1211C3FF;
-	Tue, 18 Aug 2026 19:43:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787075038;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=EMhd+4IY5p7flR11T1qJvwQPGPiAzM3TNIUrDNpuxGo=;
-	b=Py7B5Mc+YKnKOuzQhWPGzJjLgphjXgrXJNNmn/dZsLb1dC9+ANNBKcyAfCMlGMRf2BoSPS
-	zsHGT10SPz2TpbW9mZsTuxaNn1bPSX/SyHv2p08554qwe6R2ToXhC2yPVzybr8a8L701Zl
-	WcoPeM1WtGYcT6NJJLyZ8c/hAN8fQjC2puN74SmtuHCfwOSeVtV3BXhtHlk/GtX121qdKY
-	XtY7vpkWMxz3ZAIE6O/Rt2nLhj4Mad6I0cMWTdiGfUq3UR/24Yqz5iLqBHON3j3wyaT+gH
-	AM5wy5up3/iDu5UisCUPaWONfCdiaZYhHRM36G8AWZl+8cN1Eq8biEJtfQWsnw==
-Message-ID: <71fca17d-9b6b-4c9d-b595-ebd1dc6605de@nabladev.com>
-Date: Tue, 18 Aug 2026 19:43:54 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tN+Tg5Er"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cbedbd182f5so140368a12.1
+        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 13:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787086649; x=1787691449; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=R0nX0jhN3JBQqm+1BONg8WcZGuPuvMazpDXdPY4cftM=;
+        b=tN+Tg5EruOfWjqLDx5euXdwX/1KA39qDTPGcFHtMM+cle/3KFdKhShoi6AqQOsXiD6
+         CCxSmcPOlqZUn5jFUUCJuWW2OdP+rD1VLVU6NtGetTxX0pKVQ2vfUsi6UZPl+CMhq6FP
+         Xbopf9iu1heS/6TyIdhT28K7TJL7dc/V0zkoj3gsy/+UX0LpOTngV9hQsS/BB5z5V9Wu
+         X33Ctk+dBvYlNxbNyAz2ZbNB1aZm0wwKS8nkaX3x++vc7u3+njhi2toTMgPn1FptR0xe
+         c1RzGJq4qjKWqZzR4vZNLKlLgStG0bTUKb2H8vdVPufnfSss8D6F2EjLLeuaflO9YbPj
+         RjkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787086649; x=1787691449;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=R0nX0jhN3JBQqm+1BONg8WcZGuPuvMazpDXdPY4cftM=;
+        b=hxhJMTplnK1KTL9ah7AmW6DHowqZZ70tlDl2VhVaU3kFapFppLXi3gqvcfP7mJHgsC
+         PZhL+FDyWRhEp2uIF8lJ5ZIg4qxIYxwBV84HBEI8HN5XWtHUic1GfP5l/zpF6qtWqMd+
+         Ln+1/Md0GwsC51yjcJWJKfE86eT14eFQvHIlGnugJgfm+3VtTorgzX6GR0W6F+CXc2f2
+         ns+1PQ8EcND21+HGRtM7ygUky3K1zYvVAqninhtJoMN9sdA8t+YxnO79xYZlqU9NdqbY
+         DH5/SIsL0BhV4oMMeEp2MpY2AS39YMsXhPzaK4alzkLieQEDJ5l40k/2CkuWWC6goips
+         5r9A==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1+5hOz/5LMVtIdih+zTkr/dqye46TyZdPt3mNJ8fxM97twb3t/iTLgRYXTShcFG2OUQcN3nNmPTk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynWG4XhhztMks/mXyz8fJ2qtXWvUBVI7HTT8aUu3XoXKtzG77G
+	pudzjEQngrQHcNdnwc5JHk0VaJ+rBKRvoQ+fakad8qCpMLOHNV6TbBbnflKr6Hp6qfxQk289aIm
+	GLcuPMA==
+X-Received: from dycqw13-n1.prod.google.com ([2002:a05:7300:c00d:10b0:327:b7dc:6167])
+ (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:2446:b0:39b:bc11:9ec5
+ with SMTP id adf61e73a8af0-3ccded40c3emr8744782637.13.1787086648471; Tue, 18
+ Aug 2026 13:57:28 -0700 (PDT)
+Date: Tue, 18 Aug 2026 20:57:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: mux: Fix typec_switch_match()
-To: Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- kernel@dh-electronics.com, linux-kernel@vger.kernel.org
-References: <20260817182302.146546-1-marex@nabladev.com>
- <aoSFjbydIiu4KyW0@venus> <dfac3134-920e-498e-a59b-720a6c51b82a@nabladev.com>
- <1aeaa585-79f2-4f43-87b1-2ae3925b176c@oldschoolsolutions.biz>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <1aeaa585-79f2-4f43-87b1-2ae3925b176c@oldschoolsolutions.biz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.737.g08866a6d13-goog
+Message-ID: <20260818205717.1492247-1-jthies@google.com>
+Subject: [PATCH v1] usb: typec: ucsi: allow retries of ucsi_resume_work
+From: Jameson Thies <jthies@google.com>
+To: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, bleung@chromium.org, 
+	gregkh@linuxfoundation.org, akuchynski@chromium.org, 
+	abhishekpandit@chromium.org, Jameson Thies <jthies@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/18/26 7:05 PM, Jens Glathe wrote:
-> Hi Marek,
-> 
-> On 8/18/26 18:56, Marek Vasut wrote:
->> Hello Sebastian,
-> [...]
->> Could you revert f576c75f95a5 ("Revert "usb: typec: mux: avoid 
->> duplicated mux switches"") and apply the following patch (equivalent 
->> to this patch, applies to mux instead of switch) and see if that fixes 
->> the T14s for you too then ? If yes, than, I think this might be the 
->> proper fix rather than the revert:
->>
->> diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
->> index 4a4297f15aad3..afa6fc1813978 100644
->> --- a/drivers/usb/typec/mux.c
->> +++ b/drivers/usb/typec/mux.c
->> @@ -294,6 +294,8 @@ static void *typec_mux_match(const struct 
->> fwnode_handle *fwnode,
->>
->>         dev = class_find_device(&typec_mux_class, NULL, fwnode,
->>                                 mux_fwnode_match);
->> +       if (!dev)
->> +               return ERR_PTR(-EPROBE_DEFER);
->>
->>         /* Skip duplicates */
->>         for (i = 0; i < TYPEC_MUX_MAX_DEVS; i++)
->> @@ -303,7 +305,7 @@ static void *typec_mux_match(const struct 
->> fwnode_handle *fwnode,
->>                 }
->>
->>
->> -       return dev ? to_typec_mux_dev(dev) : ERR_PTR(-EPROBE_DEFER);
->> +       return to_typec_mux_dev(dev);
->>  }
->>
->>  /**
-> 
-> I will test that one with the f576c75f95a5 reverted on the x1p and 
-> sc8280xp boxes I have here, let's see. T14s G6 shouldn't be affected 
-> either way.
-> 
-> with best regards
-Thank you
+On resume, the UCSI driver will re-enable notifications by sending
+SET_NOTIFICATION_ENABLE. The LPM/PPM may be busy during system
+resume causing SET_NOTIFICATION_ENABLE to fail and preventing the UCSI
+driver from receiving connection status changes.
+
+Change resume work to a delayed workqueue to allow retries on failed
+SET_NOTIFICATION_ENABLED commands. Additionally, cancel resume work
+on suspend to prevent pending resume commands from impacting suspend.
+
+Signed-off-by: Jameson Thies <jthies@google.com>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 18 +++++++++++++-----
+ drivers/usb/typec/ucsi/ucsi.h |  3 ++-
+ 2 files changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index bef3f9b71d71..5c67f0990dd3 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2158,7 +2158,7 @@ static int ucsi_init(struct ucsi *ucsi)
+ 
+ static void ucsi_resume_work(struct work_struct *work)
+ {
+-	struct ucsi *ucsi = container_of(work, struct ucsi, resume_work);
++	struct ucsi *ucsi = container_of(to_delayed_work(work), struct ucsi, resume_work);
+ 	struct ucsi_connector *con;
+ 	u64 command;
+ 	int ret;
+@@ -2167,6 +2167,11 @@ static void ucsi_resume_work(struct work_struct *work)
+ 	command = UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
+ 	ret = ucsi_send_command(ucsi, command, NULL, 0);
+ 	if (ret < 0) {
++		if (++ucsi->resume_retries < 5) {
++			queue_delayed_work(system_long_wq, &ucsi->resume_work,
++					   msecs_to_jiffies(500));
++			return;
++		}
+ 		dev_err(ucsi->dev, "failed to re-enable notifications (%d)\n", ret);
+ 		return;
+ 	}
+@@ -2187,6 +2192,7 @@ int ucsi_suspend(struct ucsi *ucsi)
+ 	 * EC is stopped for suspend; state is re-read on resume.
+ 	 */
+ 	cancel_delayed_work_sync(&ucsi->work);
++	cancel_delayed_work_sync(&ucsi->resume_work);
+ 
+ 	if (!ucsi->connector)
+ 		return 0;
+@@ -2200,8 +2206,10 @@ EXPORT_SYMBOL_GPL(ucsi_suspend);
+ 
+ int ucsi_resume(struct ucsi *ucsi)
+ {
+-	if (ucsi->connector)
+-		queue_work(system_long_wq, &ucsi->resume_work);
++	if (ucsi->connector) {
++		ucsi->resume_retries = 0;
++		queue_delayed_work(system_long_wq, &ucsi->resume_work, 0);
++	}
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(ucsi_resume);
+@@ -2299,7 +2307,7 @@ struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops)
+ 	if (!ucsi)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	INIT_WORK(&ucsi->resume_work, ucsi_resume_work);
++	INIT_DELAYED_WORK(&ucsi->resume_work, ucsi_resume_work);
+ 	INIT_DELAYED_WORK(&ucsi->work, ucsi_init_work);
+ 	mutex_init(&ucsi->ppm_lock);
+ 	init_completion(&ucsi->complete);
+@@ -2365,7 +2373,7 @@ void ucsi_unregister(struct ucsi *ucsi)
+ 
+ 	/* Make sure that we are not in the middle of driver initialization */
+ 	cancel_delayed_work_sync(&ucsi->work);
+-	cancel_work_sync(&ucsi->resume_work);
++	cancel_delayed_work_sync(&ucsi->resume_work);
+ 
+ 	ucsi_debugfs_unregister(ucsi);
+ 
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index dc594388dcd0..1996f04ed5e6 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -484,7 +484,8 @@ struct ucsi {
+ 	struct ucsi_connector *connector;
+ 	struct ucsi_debugfs_entry *debugfs;
+ 
+-	struct work_struct resume_work;
++	struct delayed_work resume_work;
++	int resume_retries;
+ 	struct delayed_work work;
+ 	int work_count;
+ #define UCSI_ROLE_SWITCH_RETRY_PER_HZ	10
+
+base-commit: bdab5605259ba5d6ff927c1a85cc83eb3ecfdacc
+-- 
+2.55.0.737.g08866a6d13-goog
+
