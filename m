@@ -1,149 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A101DED5C;
-	Tue, 18 Aug 2026 06:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68F2233923
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 06:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787033980; cv=none; b=UCYyUe0JeX4Qv9U/ug8NcPGMis62L2OZ8cQ/QBSdsqv+s2zBinsSj0MfQHeR7M8CokxxH7gWXM66WRpH5DolC7X0DPwjNfLwtgxwM6StAnLapf91pUmhU/XzPfhtLxShtMqr3CrcHqZqoGETxWEtxbjhL2muajIfkzwsBby7jG0=
+	t=1787034785; cv=none; b=c/iO3ln5RBnYszXCOckVjE41vYepwaL4RlPUj4OvkusisXiB17KEsjiBXS3DAK+51gPXz8bqhLyCNkIOkySEsPQ8M4zZ+gXApl8/Lf411jX4VE9kQ6x9kcgR7pN3EMuYX0eFSlV79Jz+RjJArLsKu9VDKGjWuvixxMOLrVPipao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787033980; c=relaxed/simple;
-	bh=nsNY88etWZbJyWM+AugejWA/5xf1KAag4dQxaNnDAkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ilcrApN9M4R6d+p1C1Jj3zkzrRDswuUIo00nEdKKV/Q9kGwIGzy6N9OPixOxgQ4KNzWGLy0lfPPXZklaoDjrg7PDUsFaxdCIxwnLQLO1k8HpzSYCw/1V7WuaOyr7IQPz8ntq25xl3lsphESb3103Y45p1cGq64KCrieR1UXVJQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NcvcYfKJ; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787034785; c=relaxed/simple;
+	bh=KvLBsPIZiQIoOtzd3m7MbdZLgvgTdxMJVb0p4mDTKhI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=b78yJrudh0mXOgilKS8QNQU3Cg+23Nvywes0e+ErU49O9S70XIAHDgFoF8+qy9RsWSYwOPg38FvQ5RNIiyIRGSjRkFLcg40TiYoilzo/Bn86SbyOH8z48RgMG8hNcf+UVyYTbJHfPy0X90ZoYpFs8nlwvZqExg3NE6HxSu7r624=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com; spf=pass smtp.mailfrom=korsgaard.com; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=p3Xeyj7c; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korsgaard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NcvcYfKJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787033979; x=1818569979;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nsNY88etWZbJyWM+AugejWA/5xf1KAag4dQxaNnDAkw=;
-  b=NcvcYfKJvzSeO55E26WAFdMICqd/VLAaA57TlSGtHiK+C7suuQVOvmJE
-   HXZ5ddS/XfvWiL9XOYpY1SQ3e9c8uQj1T52w+OM4ME3Kam4l9EMCDGPCi
-   6hMS+pgSoQCVL9wEFduSIEYSwcwt7kHA5DbvK/i+j4N7nXkmfXuVNyWDp
-   HBc5Gd07oB1Yu5p3LvnQKeFckp+qjkVJd+GHI/ECk/Ce5ber+q8pE6iju
-   ECd50p9ICLTkh5iAzkKNWWnIRGB0EUerDHV2sPQN5lOTZjVv/lW5xdOU5
-   HYGGpo9a6HkMx+WNG6xIx1JkkniTTvv52zdrwsqC8S73avDsopor/cjyA
-   Q==;
-X-CSE-ConnectionGUID: treaO2lIShG11I72Yg2jFQ==
-X-CSE-MsgGUID: //HsH7ALTPWHeaEWhQIXwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87532693"
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87532693"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 23:19:38 -0700
-X-CSE-ConnectionGUID: qOLhjh8NRq2nb/Ql8lh6hA==
-X-CSE-MsgGUID: 4tgv/tYoTqO2HcB/imOs3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="267095741"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Aug 2026 23:19:36 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A3B7399; Tue, 18 Aug 2026 08:19:35 +0200 (CEST)
-Date: Tue, 18 Aug 2026 08:19:35 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, asahi@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konradybcio@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] thunderbolt: Fix tunnel reference leak when the DPRX
- work is not started
-Message-ID: <20260818061935.GX893316@black.igk.intel.com>
-References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
- <20260817-b4-tbt-fixes-v1-1-eded2461f5fc@kernel.org>
- <20260818044232.GS893316@black.igk.intel.com>
- <b9100abf-b284-4e56-a4e7-9dfbf96734a8@kernel.org>
- <20260818060044.GT893316@black.igk.intel.com>
- <da48977c-071f-4671-8f19-e22d14aa3105@kernel.org>
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="p3Xeyj7c"
+DKIM-Signature: a=rsa-sha256; b=p3Xeyj7cDM0odOv3QI29+4k1mQ/Nqj6OhP9DhouACyRdubzR6WO18VzYGnktwxaeSAPMpQPy7fUncUXuVIHQXsJ/ZCYO2zAwU/r9S7JtRAjm9+suF+lTeMCZwStIppf91gSshq/JMPT3JvE/VTv1pBmM0M3fVy8gWhZRVWzun46z+yuv66bQNEYM8A7omJqTnb0wSilbXZ9szjybuNBp3fj+Wjvf2hzFKEKjC1QUEEJN4wnfmuklrYl0n2b0a5VmqhGSVqndgvQy+wuWIOo3bsmoayChD3FbjFpN0nn9S/+V1a7nP5Jj+H+LvhAWHzWZO2lU7Ihv2+xlC/v27qdTxw==; s=purelymail3; d=purelymail.com; v=1; bh=KvLBsPIZiQIoOtzd3m7MbdZLgvgTdxMJVb0p4mDTKhI=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
+Feedback-ID: 21632:4007:null:purelymail
+X-Pm-Original-To: linux-usb@vger.kernel.org
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 1185890304;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Tue, 18 Aug 2026 06:32:36 +0000 (UTC)
+Received: from peko by dell.be.48ers.dk with local (Exim 4.98.2)
+	(envelope-from <peter@korsgaard.com>)
+	id 1wwDNC-00000003OLa-3ZLi;
+	Tue, 18 Aug 2026 08:32:34 +0200
+From: Peter Korsgaard <peter@korsgaard.com>
+To: Linkai Gong <gonglinkai@kylinos.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  David Laight
+ <david.laight.linux@gmail.com>,  Michael Zimmermann
+ <sigmaepsilon92@gmail.com>,  Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>,  John Keeping
+ <jkeeping@inmusicbrands.com>,  William Wu <william.wu@rock-chips.com>,
+  Marco Crivellari <marco.crivellari@suse.com>,  Ethan Tidmore
+ <ethantidmore06@gmail.com>,  Kees Cook <kees@kernel.org>,  Chris Wulff
+ <Chris.Wulff@biamp.com>,  David Sands <david.sands@biamp.com>,
+  linux-usb@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_hid: drop ERROR() on copy_from_user()
+ failure
+In-Reply-To: <20260818012118.3903388-1-gonglinkai@kylinos.cn> (Linkai Gong's
+	message of "Tue, 18 Aug 2026 09:21:18 +0800")
+References: <20260817154604.70427ed1@pumpkin>
+	<20260818012118.3903388-1-gonglinkai@kylinos.cn>
+Date: Tue, 18 Aug 2026 08:32:34 +0200
+Message-ID: <877bloym4d.fsf@dell.be.48ers.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <da48977c-071f-4671-8f19-e22d14aa3105@kernel.org>
+Content-Type: text/plain
 
-Hi,
+>>>>> "Linkai" == Linkai Gong <gonglinkai@kylinos.cn> writes:
 
-On Tue, Aug 18, 2026 at 08:11:09AM +0200, Sven Peter wrote:
-> Hi,
-> 
-> On 8/18/26 08:00, Mika Westerberg wrote:
-> > Hi,
-> > 
-> > On Tue, Aug 18, 2026 at 07:44:35AM +0200, Sven Peter wrote:
-> > > Hi,
-> > > 
-> > > On 8/18/26 06:42, Mika Westerberg wrote:
-> > > > Hi,
-> > > > 
-> > > > On Mon, Aug 17, 2026 at 09:53:58PM +0200, Sven Peter wrote:
-> > > > > tb_dp_dprx_start always takes a tunnel reference which is only dropped
-> > > > > by dprx_work eventually. Tunnels that have no callback don't ever queue
-> > > > > that work and tb_dp_dprx_stop then has nothing to cancel. It however only
-> > > > > releases the reference if cancel_delayed_work returned true and the
-> > > > > reference is leaked then.
-> > > > Okay but we always actually pass that callback there so I guess you are
-> > > > hitting this because you have modified the caller in tb.c not to pass the
-> > > > callback, right? If that's the case then I suggest mention how you actually
-> > > > reproduced this whole issue.
-> > > > 
-> > > > I'm thinking we should make the callback mandatory instead as we always
-> > > > need it for DP tunnels anyway. It should work the same also in Apple
-> > > > silicon (one you have the DP tunneling in place).
-> > > As mentioned a few lines below,
-> > > > ---
-> > > > I didn't actually hit this on hardware but found it while fixing a domain
-> > > > leak in the same area and that fix depends on this one.
-> > > > ---
-> > Hehe, sorry missed that one.
-> 
-> No worries, maybe I should've put it into the commit message and/or cover
-> letter as well!
-> > 
-> > > ^-- there, I didn't actually hit this. It's just that there's also a
-> > > tb_domain leak here (see patch 3) and when fixing that one the asymmetry
-> > > here just jumps out. There's nothing special my code does to tb.c , the only
-> > > reason DP tunnels don't work yet is because they need two separate MMIO
-> > > blocks (what macOS calls "DP IN PHY" and "display crossbar") and possibly
-> > > also the display co-processor to be up. Once that's done they should come up
-> > > normally.
-> > > 
-> > > Tunnels discovered in tb_tunnel_discover_dp setup a DP tunnel with callback
-> > > = NULL but also never start the dptx_work there and I'm not familiar enough
-> > > with the code to know if it's possible to ever have those end up in the
-> > > "normal" paths which queue the dprx_work then.
-> > > I'm happy to also just make the callback mandatory though and just bail if
-> > > it's not set.
-> > For the discovery (happens when the boot firmware/kexec sets up the
-> > tunnels) DPRX negotiation is already done so we never need to do that for
-> > those. I think it simplifies this if we just make it mandatory.
-> 
-> Okay, great, I'll look into making it mandatory for v2 then.
-> 
-> > 
-> > BTW, is this bringup stuff available somewhere already? I have M1 Mac here
-> > so perhaps I can at least help testing things (assuming setting these up is
-> > not super complex).
-> 
-> Sure, the current WIP code is in
-> https://github.com/AsahiLinux/linux/commits/tbt-reset-wip/.
+ > A failed copy_from_user() is a userspace error and should not spam the
+ > kernel log. Just free the temporary entry and return.
 
-Cool! Thanks for sharing.
+ > Suggested-by: David Laight <david.laight.linux@gmail.com>
+ > Signed-off-by: Linkai Gong <gonglinkai@kylinos.cn>
 
-> It's not quite in a good shape yet and I have a few improvements in my local
-> tree that I can push this evening after $work. Right now only XDomain works
-> since pcie, dp and usb3 tunnels need more bringup work and not all cables
-> work because I'm not forwarding the information like Apple's NHI expects
-> them just yet.
+Acked-by: Peter Korsgaard <peter@korsgaard.com>
 
-Understood.
+> ---
+ >  drivers/usb/gadget/function/f_hid.c | 1 -
+ >  1 file changed, 1 deletion(-)
+
+ > diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+ > index 3c6b43d06a6d..5c39da1ac7a6 100644
+ > --- a/drivers/usb/gadget/function/f_hid.c
+ > +++ b/drivers/usb/gadget/function/f_hid.c
+ > @@ -656,7 +656,6 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
+ 
+ >  	if (copy_from_user(&entry->report_data, buffer,
+ >  				sizeof(struct usb_hidg_report))) {
+ > -		ERROR(cdev, "copy_from_user error\n");
+ >  		kfree(entry);
+ >  		return -EINVAL;
+ >  	}
+ > -- 
+
+ > 2.25.1
+
+
+-- 
+Bye, Peter Korsgaard
