@@ -1,114 +1,175 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ABA342CB0
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 02:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C435202A;
+	Tue, 18 Aug 2026 03:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787021977; cv=none; b=uZpg0yDh7D39dz3O2bO5nUi9UNGq5e/sVK9L6FwvAVyhW0x76r88RF25VQ4jcmnjxfGTzWjnUuYA8Nbh7b52r/uIPQkiZkQsTvE1sQeD+qqLG2cUkIIOMGwIFBD5z2EjorozkMIsg4GuRDVcQowzPMrownhWKCwpWEMIyMAkIao=
+	t=1787022050; cv=none; b=ZBJAmvSMlNE3BeguEyrRsq0csCAqu3vZcpIbkLeGKyMsVZ61N/fihgtmLSYYdqZkUux+OiTwxw/P91ZscpQPQimSXgfnS1abfVXWR6cJ2MmaqTc/rXWFrQyDTCreRJyO4YedcMM8a5/dHBTYpbhwy2g68YpDH3tu3nD9FHSeuCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787021977; c=relaxed/simple;
-	bh=OFzNqmcZS4R4FV+pXkH5Cb8qCpxPZIA03eLKeqvWgUM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uDY+DgS99GlkD3ePocYJcv6WGG3GCJpQgH362X7VrLhvzCqdYdsX48YshcljOKBfn/iFbqz9cPOAlf8x6uCoHlYxtLIfjYZsXSv6fqRe2ApuEnMCz9D9GQaVno/hGxKktKz+rrxlgdc+wLQAHFt2rresvkf6iVhBuK8QOatlILA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=W5oOFXVs; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1787022050; c=relaxed/simple;
+	bh=9x4AZrWZcZ63FIkowGQwQQitbL74pCyLw6EgRIg7ru0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NI/5UjbpKsp/yF0PqfiN8koNywZF6r8eNt1ITvzDydU7KcyUoKHkJCFPIcFFUvyWz9WGSUwRCNu1uAXAnIgcboJQetzOR2hXVh4gA4GzCQw/l+Fwqe5+EzvUcsXNNkZIyS6ONTX+LyxTvxmoPkwWKk9J1rvzYjxHff1sil0GCUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erkuNq+i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="W5oOFXVs"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e6c4a867cso257338985a.0
-        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 19:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787021975; x=1787626775; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tpYS9nogSeC5YAWQyKVXdj3E5kPL+kfXuGGttfptnTE=;
-        b=W5oOFXVsl7RcB+qjH5+yaIBHNytAtANpHR2EiiPMPx1/ozgVUp/6Tz7pHwLilL9e4i
-         fFe3GNvOAORnsyR7KUwROC8gFfV8ohdmyeg0mGclcYvyYCaHdhzb9gA9kVtGayI5OB0S
-         pfHqI6GCdyKScP48gx8Nb2IskCl+sfvC/q0QKtZZl07w4CL/tZ+8OKgEDnjpZpK33slo
-         976/chq8IwHEKAhSq8zNq5xUxlfawtjQv9SlyVQuE2kYJuz6hSDb82TeTtAh4hniIjXP
-         jmLQvC0xjtriMJWiE7k9P2dCOQw0X1cc8BzC+cq/x2G3yJ/grv0fD/szGpw6qGvAcyyG
-         MiYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787021975; x=1787626775;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tpYS9nogSeC5YAWQyKVXdj3E5kPL+kfXuGGttfptnTE=;
-        b=RO5/BSTghr8ZZV4YBbi906SDLaKhtNb3jWVrqsoRVRCEtAdTeKLNOXfqLQaaGXKckN
-         5f+gn6BCKoiLvfzh8eWpuX26IuyCaQZIhECymtQXYwXGhONXyaGq/rrZh4CTqfZFIdH4
-         cW1ZgWi7mCh5sGr8DhU5mReyhjSUou+A6Od8GpH/0424IMprMk0h7ayjn05JFiZ5vPiI
-         93iohwcg89vZLVBWxYWtWUmygTR02hqibwT1OeoFSMlPh9g68f8P+eyDeTcq065tr/4M
-         M60ISIl4LsWHJFaacp+4FALNlJWueWytskDBYylZbfC+cjBR/iQrWmMD09J3v8egbQan
-         WsOQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpmvdKoK4CWlepJOHZKQXoIm9B6QyQBEOFD0njoEyND2pVHaVqAvjHHZWjNbUExCmEEckiOQY2/n7I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMttYhscFWFxrtEqNGxPjeMpgNtn3Z9Co5GOkt+FCCKFS+1Vvw
-	PYOkFRFVZa9/lCuokbv9t/J0PgWjQu5D/YQz+MGx/32LMQPyQjxDdi69oWOpYFZ0Gg==
-X-Gm-Gg: AR+sD12tSZkrY7Vzk4aOtWSKvnE51V+z7PvdncQtqBSGfazgCadW5Aybp+8U0cKsiN4
-	MZSNyNT0fGz+69VC3Go/gn3ooRj3fyza6oyTZqwXb80iEeKpTk+YUwIyXHkSuJmEQum0rdWWZcs
-	/U8/huWusoK/amrU1k1whnW5EtMtvt2YxRykMlppMS4VRXiynAZiO8rV5UroYPQjPhryNjszqM6
-	xiNifWvtD8kFeZclI3AyV7td47iyC/a6MydMYOeYGag6Ui4A5Uud1dOTf1IUsSVjmpVJ+Sokf7B
-	k8seaUXq/vf/XsgO4gucHTdyUqHZ4SQIYBoZcGG55mU3CPcIIttRklqiqRvz0v3ld+uuY/9Vsad
-	9HQsqxOjIiI9MohDLQ4FUP3/qzYW/sIGQmw7vr0M/ze8Dh2dKp2BwLU25a1bCg44A/zWVWV+H+g
-	U5wpGJ5l+avXS8Qwq7amx4oUSCFQyBzol5uDCVKSxpjATKOlwnEgb34n9Nqe9LTg==
-X-Received: by 2002:a05:620a:2683:b0:915:83fa:b3e0 with SMTP id af79cd13be357-936d1fdb95bmr2738326885a.5.1787021974874;
-        Mon, 17 Aug 2026 19:59:34 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-937033ceb9bsm191865685a.23.2026.08.17.19.59.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 19:59:34 -0700 (PDT)
-Date: Mon, 17 Aug 2026 22:59:31 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	syzbot+805630f1453e490427fa@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
-Message-ID: <3ec57a22-3096-418f-b10f-b0993a352007@rowland.harvard.edu>
-References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erkuNq+i"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 84657C2BCB3;
+	Tue, 18 Aug 2026 03:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787022049;
+	bh=9x4AZrWZcZ63FIkowGQwQQitbL74pCyLw6EgRIg7ru0=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=erkuNq+iuhQwEIGUOCdHr84Mr4inGzh4BbAEx3U4ktTTpTJ9ByylD8UrzTcGktrPl
+	 /yov7pxtLkPGgMIg6ExzcakMgj7atrVm53ZyfUcFnWt5ZDkr2cdqByADxKNnK82iTK
+	 ArtHyNMELmaTxJfSZuhjSaWvPIDXt+7iGkOetaJW8NB7cM0FkAQbpBiF1EjjIXGqIK
+	 CUU3nlSMX3KlDKkqczEwVzU12Sk3i2S1aaCZykNLvwuyH++UyoQ5Yuv98vSxJaCzeS
+	 flKz+FmcdQpJEigmH20ArfDGNhgvhtNUcd0HK6sVaT9fts5qnxsFM5e72qraJdg/bV
+	 4rxJHz/zY9iiQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E943C5DF70;
+	Tue, 18 Aug 2026 03:00:49 +0000 (UTC)
+From: George Maraveyas via B4 Relay <devnull+george.0xfff.gmail.com@kernel.org>
+Subject: [PATCH RFC 0/2] USB/Bluetooth: recover MT7925 after warm reboot
+Date: Tue, 18 Aug 2026 04:55:19 +0200
+Message-Id: <20260818-mt7925-rfc-v1-0-284d856ac572@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2NQW7DIBBFr2LNuliAoRgriipF6gG6rbIYw9DQx
+ rgBJ4oU5e4lbpZ/5v/3blAoRyowNDfIdIklzqkG8dKAO2D6IhZ9zSC5fOW96Nm0GCs1y8Ex8r5
+ TFHgnvIU6+M0U4nWFfcLH+w72/8dyHr/JLQ/Ms5bpdK6q5dmdqBRcVUOzWU2GVxsXwrSd0Uprz
+ gRDR0dM7Q/Obw7TnKLDY+vmafuAjliI1TDFZWhk77mQFEbVSROsM9pr4kqicVaQRa3qE20P+/v
+ 9DzEpGtUCAQAA
+X-Change-ID: 20260818-mt7925-rfc-edd34ef031d9
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-bluetooth@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, 
+ George Maraveyas <george.0xfff@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787022047; l=5036;
+ i=george.0xfff@gmail.com; s=20260818; h=from:subject:message-id;
+ bh=9x4AZrWZcZ63FIkowGQwQQitbL74pCyLw6EgRIg7ru0=;
+ b=UNa7XJ9EUgbQOFONkmEpkedo0rlgGQGvYZlI0IxpxOiMEYaus9gkcIqjLusIDEg7wgUkYj8ol
+ X1mNgNEEzAyAFcb04Noe+JMvpWkWdxMDAsaQBjy7rSwbL6vTQwTIfXF
+X-Developer-Key: i=george.0xfff@gmail.com; a=ed25519;
+ pk=Jz8kMnumjUlo1GJvJ5kdfkF3ZP8DjPbYaYQR5J8IHMI=
+X-Endpoint-Received: by B4 Relay for george.0xfff@gmail.com/20260818 with
+ auth_id=960
+X-Original-From: George Maraveyas <george.0xfff@gmail.com>
+Reply-To: george.0xfff@gmail.com
 
-On Mon, Aug 17, 2026 at 04:40:18PM -0400, Zi Yan wrote:
-> kmalloc is used to allocate physically contiguous memory for kernel
-> allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
-> the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
-> sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
-> because kmalloc allocates an order greater than MAX_PAGE_ORDER. Systems
-> with panic_on_warn=1 crash because of this WARN. Fix it by rejecting any
-> kmalloc size bigger than KMALLOC_MAX_SIZE.
-> 
-> Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher kmalloc requests")
-> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
-> Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> Cc: stable@vger.kernel.org
-> ---
-> It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadgetfs
-> requests excessively large memory from kmalloc. Instead of adding
-> __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
-> kmalloc to return NULL without a warning for this specific issue.
-> 
-> [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively large memory allocations")
+While dual booting Windows 11 and Linux on an ASUS ROG Strix B850-I
+Gaming WiFi, I found that the MediaTek MT7925 Bluetooth controller could
+remain unusable after a warm reboot even though its USB function had
+enumerated successfully.
 
-Thanks for doing this.  If you like, I can write a follow-up patch to 
-remove the __GFP_NOWARN added in 4f2629ea67e72, now that it isn't needed 
-any more.
+This investigation originally began on Ubuntu 26.04 LTS, where the
+failure was already present on the stock kernel, and remained
+reproducible after the work was moved to linux-next for upstream testing.
 
-Alan Stern
+The Bluetooth USB function on this system is 13d3:3602.  The problem was
+reproduced with ASUS motherboard BIOS versions 1644 and 1681.  Updating
+the BIOS did not change the failure.
+
+A typical failure occurs after restarting directly from Windows 11 into
+Linux without removing power.  The MT7925 USB function enumerates, btusb
+begins setting up the controller, and the WMT function-control command
+eventually times out with -ETIMEDOUT (-110).  The existing MediaTek reset
+path then runs, but the subsequent MT7925 subsystem reset also times out
+and resetting the existing usb_device does not recover the controller.
+
+Powering the machine off and starting again was not a reliable workaround
+in later testing, especially after booting Windows and then Linux.
+Linux-to-Linux warm reboots after a failure were also inconsistent: on
+some boots Bluetooth recovered, while on others the failed controller
+state persisted.
+
+When that state persisted across a reboot, the MT7925 could fail earlier
+while USB core was reading its descriptors.  USB core then handled the
+failure through its normal enumeration retry path and could eventually
+reach the existing port power-cycle.
+
+The series was tested on top of Chia-Lin Kao's:
+
+  [PATCH v2] USB: hub: call ACPI _PRR reset during port power-cycle on
+  enumeration failure
+
+Kao's patch adds the ACPI _PRR reset to that existing mid-retry
+power-cycle.  It is required for the port recovery used on this machine,
+but it does not fix the original warm-reboot failure by itself.  On the
+first Linux boot after Windows, USB enumeration has already succeeded
+before the WMT command times out, so USB core does not enter the
+enumeration retry path where the power-cycle and _PRR reset occur.
+
+Patch 1 adds usb_queue_reenumerate_device().  It allows a driver to ask
+USB core to remove the current usb_device and enumerate the
+still-connected physical device again through the normal hub path.  It
+does not itself request a port power-cycle or an ACPI _PRR reset.
+
+Patch 2 changes one part of the existing MT7925 reset path.  After
+btmtk_usb_subsys_reset() returns, an MT7925 -ETIMEDOUT result causes the
+driver to request re-enumeration through the helper from Patch 1.  If
+that request cannot be queued, the existing usb_queue_reset_device()
+path remains as the fallback.  Other MediaTek devices and other reset
+results retain their existing behaviour.
+
+On the test system the re-enumerated MT7925 continued to fail descriptor
+reads.  The normal hub retry logic therefore eventually reached its
+existing port power-cycle, where Kao's prerequisite supplied the ACPI
+_PRR reset.  Enumeration then succeeded and Bluetooth setup completed.
+
+Three controlled Windows 11-to-Linux warm restart tests recovered
+successfully with the series.  The observed average interval from the
+initial WMT timeout to successful Bluetooth setup was about 70.9 seconds.
+
+Bluetooth remained unavailable during most of that interval, so someone
+testing the series should not expect the controller to return
+immediately after re-enumeration is requested.
+
+Since completing those controlled tests, I have continued to use the
+patched kernel as my daily Linux system.  On this machine it has been the
+only reliable way I have found to switch between Windows and Linux
+without repeated reboot or power-cycle attempts to recover Bluetooth.
+
+The test kernel was based on next-20260812 and reported:
+
+  7.2.0-rc7-next-20260812-mt7925-rfc-v1
+
+I am sending this as an RFC because Patch 1 adds a USB-core interface.  I
+would particularly appreciate feedback on whether returning an
+already-enumerated device to the normal hub enumeration path through
+hub_port_logical_disconnect() is the appropriate interface for this
+recovery.
+
+Signed-off-by: George Maraveyas <george.0xfff@gmail.com>
+---
+George Maraveyas (2):
+      USB: core: add helper to queue device re-enumeration
+      Bluetooth: mt7925: recover subsystem-reset timeout through USB re-enumeration
+
+ drivers/bluetooth/btmtk.c |  4 ++++
+ drivers/bluetooth/btusb.c | 16 ++++++++++++++
+ drivers/usb/core/hub.c    | 54 +++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/usb.h       |  1 +
+ 4 files changed, 75 insertions(+)
+---
+base-commit: 28d012efb4327f9c75d5e042a7c91e9a542efa98
+change-id: 20260818-mt7925-rfc-edd34ef031d9
+prerequisite-message-id: <20260706080117.3754550-1-acelan.kao@canonical.com>
+prerequisite-patch-id: 47a2729fbc473534f8ba52052b00723c54a26c17
+
+Best regards,
+--  
+George Maraveyas <george.0xfff@gmail.com>
+
+
