@@ -1,134 +1,126 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1813A7F58
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 08:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787042011; cv=none; b=TJlyrjM997DE6j6iOHC9uZzPqaE1sKjz7PCAulOMPJogYE+mRSSneABc6ZYQ1s+6cInxl3+FIU8ESMIcwwGTR61ci7n6W7GzdYkGDoR2QBhqPNwaf1cvnxEHaZZknzyEVKz7yL5rA0Z8rkisvVK8GGS7CI/hJhk1Z8ecsKJotb0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787042011; c=relaxed/simple;
-	bh=RlsS7vAu3DE/r5tm5+GKRG8WE9EmSc1cMP6e7fbOCVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XGRPFTpmq4Ysp9R9qhuYrnVr+G10+E1IT6xsjGprpiLu9p8hOIleN9oaLL8ydS3xUCGLBICN+S8fn+cobXTE10t6DvLnksJU1momeW18vJNiuKwLKNPoXlusLt8b/c+9QgqKMj0tdKEzyjBj/Zr0cCRDeSY2I8LsRYVgDnxqub0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FbazJZhL; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E59420471
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 08:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787042169; cv=pass; b=EbspxDWVZe1JrjTySD4a56jGK4H1MZ91fXmW/AjpcveIUbIzTEjFzEvtNVpEUj5LKFbsJcOYhDMlKK+Ma5VOmxMkhxe/E9vEqYUqDBAwKCsuNaZe7NzIXQUd2tyVLnnVeBP/Wa6TXBi2rFEnQ9xLHwKVje8LZwoTy5ipi1KwI+M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787042169; c=relaxed/simple;
+	bh=qW4ERuNvK9fgZg40AQUcFPxZYw3NJz6R1VN9uER0cuw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zf7t5UYFZ7V4ZTZCveKHgwGzCaCv2usJLjv/SW2lmu/sglEPJAYdjAjh1Ws5MBIK7c5UrAYjv2i1kavMzYekDydre/ocevNc1GTHWWGvSDw/+d+gz6FVuX2NXZEQOcIBDt46juYI9Q9AwflNWtDmrPl+bctCRhlKDpn5tFu9Eao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PJDn54yH; arc=pass smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FbazJZhL"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-382ef647e20so4187444a91.1
-        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 01:33:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PJDn54yH"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7e9f69ee6f4so4229362a34.2
+        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 01:36:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787042165; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lzhwHaZQe9fRQKx/0EW52BMEMIzbfhrZBjYLnOnE7wdO8ajoYDAgbuWxbGyC3hOwIh
+         d4x5UykODwgJ/3lg6GVrzR1Di5O6zV0ADbNPRMH4vmHqXFCGK5lw+0pNmboMLLE2E2Gy
+         xYG7R74KAGLpe0WgHrEx78561G4VKZ4fcW6VLcpyPMFMN2W7diDK+nJoe84c5CzVEJPW
+         1lg4a3/IXO6rTiw6bfXONA+2M5LsbiSI9H65uxew+McEIxHD6BLfHW75zKirmKwOZqcY
+         a5JjY/HU/91QJVCeDgLi+5XJ+6TmSnh9BhEGIMZuEgUucMzOw/oO7SvRQx1sz8M+/f6B
+         nfJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JpVDHozNTGP/7IjLlVpN0Zw4A7Wgx/MzhAMSS+fSqo8=;
+        fh=Z1I1pYT1r+0hOQQmUQiuIRo+o6RQvvhTQBQ2clWviQk=;
+        b=SHb7qjfSN98bkJlWXnaUDMghymoYT2ykOe3/6ThgDMElwcSLVG6NXpn7Qr/xJWCYHE
+         rzpObImH45CGV+dMZ25dMROXcRf9W9xQXtxYLWwN90MqBOIQDYjFxRYkOTzxP/LmFlB9
+         mYF3A8T+gJ6sGKxBwUfeqT9A5edspgnJHHatgTdIl63YErbPsrH+RugTC/x3d+kqMu2J
+         7lDoCaZLHlXFlb0j49PE4ROjSYofooEHhonJ58h+FyYnkdIxVLyng7RB1Gt3urk5lf7m
+         7+iIKOJ4D3SIfo58CZszFSMOUxfrZ6Q7EWU4ItTIRi5pNwDqapE86VNqDvw4G7mSqgeC
+         9NSA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787042009; x=1787646809; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=srZLzFpNfDNrD79+dnb6Flm08rVfyHpmgm9TRApXS9U=;
-        b=FbazJZhLJC5zX3DES6CHukut/CyoJuVmjFufMTFroVu7H9+eMJiv/4W/Jx7+N6Q9gR
-         Uu2VBvmDIU+BlnCabCX11wo7rr6dnvBmi8LL9zukHQ6+dImrljL7sq1l2bUiKLd9k/BL
-         VLwK286v13Cmj0cO6vE/qUVVsKrneHNStRwSB6SpB0axfWJRRfClMs4fjs2VNgjiEMpk
-         sM2GgbPaRcf+TplZPflzOMzBPp0urZs43UXapdawl26GtY0kPf1gzBZ9I/gKmxoyIaf7
-         Kj8gYqmgpZgRJwtCDJOJnPOUhQRexOvww2fAVbFPewQ2UPYVwxcFnUB/FrN1C6hmTh5A
-         0Rpw==
+        d=google.com; s=20251104; t=1787042165; x=1787646965; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JpVDHozNTGP/7IjLlVpN0Zw4A7Wgx/MzhAMSS+fSqo8=;
+        b=PJDn54yHXHjGhMvyFDqW4ig3IMmMVXy0//4gNrrXntG1y3aabavMUKcR9Ux2F2uQ2F
+         iwKQaBt93L9lPW7rFwxRSWisbtOEdt+e0UVN9gsat/WI/6pIx3eG/gikmzVVXTRSyRay
+         RuO6pxhAeDsoCI8fzT5eafSz/h2+SMkK6eXA2zpiZZvjcKyS2WLTul1T3RZP+FMukQSF
+         GOZu57lsRGLv+Z9B7YcW9eyK1Iour+lwz/RpktWit1S81N5X5PUAb+VYvNIBjp+Qqw7F
+         aHjMrVO46TiS36u0zCjw830CWIFJh3q3BRyO+qM7H0+4NqXTX9KyBtBlhNWXiqOU5sME
+         NI4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787042009; x=1787646809;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=srZLzFpNfDNrD79+dnb6Flm08rVfyHpmgm9TRApXS9U=;
-        b=ONpFqweLUbOsQUO7crKYlnxgpf4QpWJDPipLP8S4+eMZiC8lS4pOWhWh8uwHZODY35
-         Mm/Mv9H5+mr25ZopPhSKAwa1sEnvrvmsLic2Q1MtS5ZTwYLbxUd9gU24pCNLQ0ojlhPZ
-         uQl8TFmLw016m2uQc1slX9lWNsD2x+2uXCVfWDWs914hujZDrTFuKR6aez0ncVUjsCcB
-         TrhqffqGPv6w8eXaeOM9bkXYSNsuXUdQ9ocEwEJlZ8+NAmABPLaowd5jAA8jH045Ueq7
-         rj491jttlV/zrKN9n+0/omm03ZYHaUHUOeJungorZex//PiE+x+H0zdUHchHaeA7+lSf
-         FgGQ==
-X-Gm-Message-State: AOJu0YyToNIdAVbUNDw0CDyZD5mlzbv6MhFFwsq3qnbucOU8poa+LsIt
-	4ZZwv8SF/owUUEkP0qWDXAqxDzjZ+bU0IV4agmR41u2jkhqipQlAus0a
-X-Gm-Gg: AR+sD12awx9OdcUWnypqoouCM8aKlBuMik1YScAHb1JB54sTpqW1pcYeBCsHHqxfRs2
-	kx1Ty9VcYoC37NMeMS+dN082XGWpEctgcJ9irXC4fZBAI9/Jap7aBE3utNt6Np+RdwsHeyjMdv0
-	O8UrOm5WtEnNPXff3SXOcWVVXZrW9rxcBzV85QDBtTD46w2YAHK4u1N9B7xDcbdNQY9mbj5pRzU
-	NZSW9iRI60vC/GTqpy/dwnLLNpe0CxKyoimZIWgRAKHW25rTP1Br9N18iOfq6MiXJhkpPVSdvPt
-	EclUKrkr1iSdu3Uaebv6srptjqi/vTOPoWX2hX6sKgGbNWwaZvD7mPI3gCZZKrkhDwoqJ0+EB1o
-	eVDuX+ss4/PkQtz62ryJ7ljgMX0rnLEiicNPQz7TDRjqk3yskroF2Yg8FDspDAQkB4GukgAw4J5
-	kWDXDK7jMJZpufiDuJqs5NuVi2wGqp2jxDnqUU7jDXkypcKSrP4TYvBStRnD59hBTnXm4=
-X-Received: by 2002:a17:90b:5291:b0:36a:5d1f:7b6 with SMTP id 98e67ed59e1d1-3933bd18849mr34288276a91.2.1787042008953;
-        Tue, 18 Aug 2026 01:33:28 -0700 (PDT)
-Received: from localhost ([2402:e280:3e0d:544:91b3:77c4:f31d:d706])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326794c0c94sm27801981eec.9.2026.08.18.01.33.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 01:33:28 -0700 (PDT)
-From: Vaibhav Nagare <nagarevaibhav@gmail.com>
-X-Google-Original-From: Vaibhav Nagare <vnagare@redhat.com>
-To: stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Vaibhav Nagare <vnagare@redhat.com>
-Subject: [PATCH] usb: ehci: fix QTD list corruption in qh_completions
-Date: Tue, 18 Aug 2026 14:03:23 +0530
-Message-ID: <20260818083323.2270580-1-vnagare@redhat.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1787042165; x=1787646965;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JpVDHozNTGP/7IjLlVpN0Zw4A7Wgx/MzhAMSS+fSqo8=;
+        b=LBiaSAj9t62Wm8JZ4zPiS6gLpOIzDBrunOHIsgD7gZcZyDS3b8aUq0CgIz5VVI2fJ2
+         kAQukmA4upAJJJxOcVmyrOT1dq1AUj+kmmDGb/5erwymqx2Wdg+wuUKuTwjZvBYoruVl
+         8aC59POu5FCBwxEDWr2cgQBATJvIDGGuv69gm4+BNjh58crUOKBS8LUF+Uf8NspROgBS
+         yQQeC5sFWdIH3SVIsG2dSfeqtriq2svawnI7JSq1uXXkqbU1zifGNDv5utr6DEDIiR5B
+         Nc2TC15/ZuVQ/EWI+yJWZF/JxOWlzc+GFUxzbhWen3NKJ99yzruszohNP3ao4kjLTIJq
+         o+mQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrYl4wS+vb2iMu6ecsNoAs2CUfq82tNv2j1N8ZaDv6rKamVBQ6iZ/pTl0x2SJRyJnLD0hizhR+8uDU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjQe77xGSBxr1qANbg5yTLc632UN1G1lNMrf7595u75z6DqtOv
+	rswsBasOhOlpxPye7XOVB22ZS+E588V9st07ZYUVMNUoQ46Bd30PTQ+Y1xilrhbSXvlxBdLavUU
+	nha8VkiJThtIDpd2xM6cxkPJeO4StjimUaR2hleMI
+X-Gm-Gg: AR+sD11CaByTydKrERcaMs/bbNZ7yiTtl+Jw5XIMVXAk6GYX/3zh1ZcU2N/BKf/Pe92
+	nuSOPUX77c/cTn7D7Aj7QcXNDlICvpxUxHuiXqhjWH/TMxHZPGFA2Xxs4Swrp0j8qcrPWqxJxtu
+	JCcZV9yv74G2DCff0CDWFXwNAcUbYzatZa1IuxBWGNiXvK6zwR1l5CuWE+nlWBMXGIERPcjDVXZ
+	plkStPkRbW4QP1sq0UHjpAu6Qn/uXX/ofgD++SxEIENn7GGRfTXBaYj5AhDp8cFKPswQWv8lBFJ
+	w9SoYkbOkY9ZaUYjE6pb9mBtJko6aPBHpvISg9v7NUz3nt/7PlBE5nunue19NFkj4KqPuftg3iA
+	zM4lVcvUrSfm+1j9nYXmgiVAue28N5t290fRDL32R9UQBOXI4rz6gvcmjW4dUGKUGh8a+J5EbME
+	z0ZHmScVB4m5H8Nk1VJuIzZmrd
+X-Received: by 2002:a05:6830:6606:b0:7e9:ead3:4449 with SMTP id
+ 46e09a7af769-7f3de4ea586mr32399234a34.6.1787042164534; Tue, 18 Aug 2026
+ 01:36:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ee41fbfd-f368-4a06-95d6-ae9b4267fd82@mail.kernel.org> <2be6a758-c34d-4040-9c71-eb929b379fcf@rowland.harvard.edu>
+In-Reply-To: <2be6a758-c34d-4040-9c71-eb929b379fcf@rowland.harvard.edu>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Tue, 18 Aug 2026 10:35:53 +0200
+X-Gm-Features: AcwNN1Xm0pPhGVSrbku0E-V59s4HDVMB-_AqrxIhRvuS38U41gk43KckkL5Y7Bc
+Message-ID: <CANp29Y6EGSUYZP7om7CSnibob7K9Ys8Xn06yQJhEuGKWqCc0=g@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadgetfs: fix use-after-free in ep_open()
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Deepanshu Kartikey <kartikey406@gmail.com>, USB mailing list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In qh_completions(), when completing a URB at a URB boundary
-(last->urb != urb), ehci_urb_done() is called which drops ehci->lock
-via usb_hcd_giveback_urb() for the completion callback. While the lock
-is dropped, a concurrent ehci_urb_dequeue() (e.g. from a TX timeout
-recovery) can modify the QTD list, making the 'tmp' pointer saved by
-list_for_each_safe() stale. Continuing iteration with a stale pointer
-leads to list_del() corruption and a kernel panic:
+Hi Alan,
 
-    list_del corruption. prev->next should be ff27e4e01aefa580,
-    but was ff27e4e01aefa1c0
-    kernel BUG at lib/list_debug.c:51!
-    Call Trace:
-      qh_completions+0x28f/0x640
-      ehci_work.part.0+0x1d5/0x330
-      ehci_irq+0x3d2/0x490
+On Sat, Aug 1, 2026 at 4:13=E2=80=AFAM Alan Stern <stern@rowland.harvard.ed=
+u> wrote:
+>
+> Deepanshu and Aleksandr:
+>
+> Have the two of you seen each other's patches?
+>
+> https://lore.kernel.org/linux-usb/ee41fbfd-f368-4a06-95d6-ae9b4267fd82@ma=
+il.kernel.org/
+> https://lore.kernel.org/linux-usb/20260731230603.4637-1-kartikey406@gmail=
+.com/
+>
+> For what it's worth, Aleksandr's approach seems simpler to me.  Can the
+> two of you work together to find an optimal solution?
+>
+> Alan Stern
 
-This was observed on systems with an HPE iLO5 Virtual NIC (cdc_ncm)
-where repeated NETDEV WATCHDOG TX timeouts trigger concurrent URB
-unlinks that race with the qh_completions lock-drop window.
+To be honest, I don't have a strong opinion here and I'm happy to
+follow whatever approach that seems reasonable to the USB dev
+community :)
 
-Fix this by freeing the completed QTD and restarting the list scan
-via the existing rescan label after ehci_urb_done(). This is safe
-because already-processed QTDs have been removed via list_del() and
-the list is strictly shrinking, guaranteeing forward progress.
+If any changes are necessary to the patch, I can resend it next week
+(when I get back to the office).
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Vaibhav Nagare <vnagare@redhat.com>
----
- drivers/usb/host/ehci-q.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/ehci-q.c b/drivers/usb/host/ehci-q.c
-index ba37a9fcab92..c715648e97ab 100644
---- a/drivers/usb/host/ehci-q.c
-+++ b/drivers/usb/host/ehci-q.c
-@@ -328,7 +328,16 @@ qh_completions (struct ehci_hcd *ehci, struct ehci_qh *qh)
- 		if (last) {
- 			if (likely (last->urb != urb)) {
- 				ehci_urb_done(ehci, last->urb, last_status);
--				last_status = -EINPROGRESS;
-+				/*
-+				 * ehci_urb_done() drops ehci->lock for the
-+				 * completion callback. The QTD list may have
-+				 * been modified (e.g. by URB unlink during
-+				 * TX timeout recovery). The 'tmp' saved by
-+				 * list_for_each_safe() may be stale.
-+				 * Free last and restart the scan.
-+				 */
-+				ehci_qtd_free(ehci, last);
-+				goto rescan;
- 			}
- 			ehci_qtd_free (ehci, last);
- 			last = NULL;
--- 
-2.54.0
-
+--=20
+Aleksandr
