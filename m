@@ -1,209 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB610388868;
-	Tue, 18 Aug 2026 03:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEBA3793A9
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 03:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787022050; cv=none; b=FkR3dsrT0rUyMmQo/xQOYNxGkNCCkpGiXBHpsjSYSFnM5okKQdjbZLfThqBX4aHBPLyx9/JJrWBVkb94Dxg3jN7UOoxTnAA3o5iyozQ4dCf2pjXsCxQhj5YmZg0MIWySdOLZtAOW9UYzlzx5kejxVp2spXbZZ/L894OljVLBD80=
+	t=1787022773; cv=none; b=pTp84Rw1ZaYM3ehS1jw6Jjal2/3IAszFGqYz7bW3cjc9h5gKsBueVlCAfe6pUXdDr0Mq5lopxaKigckV1ZTrCZEW7MAUoTzAqVWM/uNBFotC4xaVVDLvEEw/76546NIs869nnqwQAfOpRNdtd5ydkbsuXVOFciYWAwhUlZRH1no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787022050; c=relaxed/simple;
-	bh=lN8gr0eID1lGrFTTNUIMwNSjyBOb3TsnREZbiNkECnI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CUq8vaUfWBwKtWg9C51puEybJPRyQanNqmkTE0V6iaYLFUXSMw0L1DlZbBnwmuPAkUXOS/gnr34TnsmUUnQj7xnz9aFcPnRhJpKcFVqCxtPEYioADqZ1eTLnAWkIyhF0sfvQiTs/w51gCoGrCOqEJW9S+F4PLGBbHwRGAC4nd+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCg+PM7W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787022773; c=relaxed/simple;
+	bh=pRlDpVHZI8Qf3SAFb2Px7DVIDVztCoVZcH2Wos7qzjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UdfhChftea4UlhdpxrSSt5JC/smDxQe9gCFDig5PXnGltd8MZFp4Wsqqi3nTj8woZ3Wc4k3T0BjUVehC/pyXTm63702sT7A4M+aCqHGFz79o7hJqdjbx/aqs44k2ZxY+2cLZfv1tQvumnbxOChZ/O+c1KhsBb7kifKVbrUJ5zgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=BR7tPP/z; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCg+PM7W"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BB7E2C2BCF6;
-	Tue, 18 Aug 2026 03:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787022049;
-	bh=lN8gr0eID1lGrFTTNUIMwNSjyBOb3TsnREZbiNkECnI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=PCg+PM7Wu34xP4J6pU+hUNvIEVAclWRTyQ35wJ2I8BJphLNlnrQ19zTlMmSrRMo7Z
-	 mcspFGeJhVb549bJfvEPONTECS5gsFq4Fa2atgbHYjiT7cxTj0n169oLzL7PV8+Jy8
-	 LYp5q4FGeY6AH8uTCmRloQcLCkxjWupaE0RqSaq70WK4+ncD6YHTV8Sn5bNYBqGEVY
-	 czgUiCY/AFwl47Y2epxQodJS8RymI0y3JX9DgEduVLAlNNwjHFJqq++DyRwSkxdMn3
-	 l2xRjBRSFv1bdD9hwROctuH7wKekAzUIK4ga3ZSP079AihIEVsjDb9lxQSaQh9PILE
-	 DUzGWhKMzOi/A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F4EC5DF74;
-	Tue, 18 Aug 2026 03:00:49 +0000 (UTC)
-From: George Maraveyas via B4 Relay <devnull+george.0xfff.gmail.com@kernel.org>
-Date: Tue, 18 Aug 2026 04:55:21 +0200
-Subject: [PATCH RFC 2/2] Bluetooth: mt7925: recover subsystem-reset timeout
- through USB re-enumeration
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="BR7tPP/z"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92edb12cdf2so342010185a.3
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 20:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1787022764; x=1787627564; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hMP8Ja3+ZNELH3tfUgGHoK2S1Rf6V+67czaj+c/eO7A=;
+        b=BR7tPP/z+ztFXylxmlVTeQeQuAN/mPWaytN4looUpb/IQeNHFZfWyQ74aXBDHQDEUn
+         2LTWbTQMMdkDi8tkyPBTBxRZEDzojmu2zchiOczcKR78iWuadHz1cSQSGUNxKPhxjf/b
+         DR40ruJOZ5LYFNz51LzGs04rIjzsFTq/cW8NXuas7GBa9QfPwzKCeVBc8sA9n9+7Kj50
+         /jRCZIuX3mSDtg4/kmt8Qhm6f7xSieQ8ThaGZ2emXI66P9dj902oUD5GxbM/YsOUTyyX
+         msrUYEe7B1V9kij8R8OoI7m9TtPeKE88FaXKlyvhHHI0WcCWNZww5kQiUK9H4xegNyC8
+         8EHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787022764; x=1787627564;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hMP8Ja3+ZNELH3tfUgGHoK2S1Rf6V+67czaj+c/eO7A=;
+        b=TS6mMerpTlEI9048IB6AJj2P0bLemjRW0QH+bPGjv7Yzn+tuieTtrUKvJf9HJkMKHW
+         lvgKtLpl98hUb2jD5NEq7kY2HQLCZ+Smo37TjEd1FLQ3QHSRqgX9dkizRsN8ds0SGx1C
+         Zl858HG7cNcN4IpdZ9KsD/3wRXiTDr3H9uSl0jHwsj0UzzYqyJPU+X4S9P6Pm1OJzOjh
+         ddESlkfyYnmyELUAiOaHxWaRp7Oh7Sx8xuDtLpHtYS3QnY8cEX2WzGvn0xTuj686qUdx
+         8jNpIPHF9uFA5ZcRuFLEVwNpzXW5yW8ZwbToeUzhcqQ9sWrMzhiXbyy8Pssxy1DgnCA5
+         dKJg==
+X-Forwarded-Encrypted: i=1; AHgh+RrriomBFnThqyM8mcssFkw0VVuzZm1pfVLt7lsSR2N68b7ON8PZzu4A9siD754XHprD/HVxQqNENSI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG6g2+ccgJwPSCGadbXnIDd9P6RAory3RFQEwIiWL4z8v3eZqR
+	+uBvuWpKlygNufePjVpobs7eqemryz3ak6zckzY+PJqVC27kO6a3U7J6yrlfHH5yMQ==
+X-Gm-Gg: AR+sD11qDBcWi8PkTZvt+QhaL53fBPlnUqiar7fl4rr02evsV2k98GdW1gY/gd8nUn9
+	BbVfPzxUc+V7CMXPXQL/ufU043eoD3IohuwpmEv+KH3urFd+2AQqgu38Tv+X0XGn5xAO5TUlG5R
+	MBwC4RSbvVQ7S09IO3GSj5OZuQk0Et1XtdgF+YotinqgTfL0AwLS5ZZS/Lyw1lDafjRUM8Eddjg
+	3BM8GzUeq8GUcqcSU82XitUFCvrUni0d1FklBe1pp8Jx5oSoAAChEj+jREpfbLZ81nJ++wHYg97
+	2CHd32zy74dUljirazkX362eaYNTs4eNbvs5xYhP9GSYy78OE3pI+r9KaXDf6+KeTAgmhFo0Yn8
+	GFF9Oyvb7Z75l4qXA9QUOMTA8BeulVv9Vt4HxIJowFlyi+Fp2f6jYb8Q1CCaDaxX1MGONuqooGe
+	vJEU/SgVa2FWffsTLDPTxE1HN2MUN47Hqo4Rbv2j9TNLawyNqs/MJPTXR/ZJJ73w==
+X-Received: by 2002:a05:620a:a1d4:b0:936:9db3:b82 with SMTP id af79cd13be357-936d22e9eafmr2865871585a.31.1787022763675;
+        Mon, 17 Aug 2026 20:12:43 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-937033cf47asm191170785a.26.2026.08.17.20.12.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 20:12:43 -0700 (PDT)
+Date: Mon, 17 Aug 2026 23:12:39 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+	apopple@nvidia.com, byungchul@sk.com, david@kernel.org,
+	gourry@gourry.net, joshua.hahnjy@gmail.com,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	matthew.brost@intel.com, rakie.kim@sk.com,
+	syzkaller-bugs@googlegroups.com, ying.huang@linux.alibaba.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Message-ID: <15b086cc-7f10-4766-9b0c-88c3302e7398@rowland.harvard.edu>
+References: <9787b33b-b30e-4c5e-a0ee-7f14515c7166@rowland.harvard.edu>
+ <DKQU9SQUIKDR.2KEZZPONJ1IJ7@nvidia.com>
+ <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
+ <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
+ <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
+ <EECC6FB3-7559-4D22-B9DA-33E30E5EC181@nvidia.com>
+ <7deabd9c-04d5-4a45-8b8a-39929c046152@rowland.harvard.edu>
+ <A2BA0883-6B5D-4AB1-A7CF-6B9BDF27F439@nvidia.com>
+ <2bf01548-723c-465d-8368-247a814f61eb@rowland.harvard.edu>
+ <6FC11E12-9428-4975-B135-E24805C2D9BF@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260818-mt7925-rfc-v1-2-284d856ac572@gmail.com>
-References: <20260818-mt7925-rfc-v1-0-284d856ac572@gmail.com>
-In-Reply-To: <20260818-mt7925-rfc-v1-0-284d856ac572@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, 
- George Maraveyas <george.0xfff@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787022047; l=5329;
- i=george.0xfff@gmail.com; s=20260818; h=from:subject:message-id;
- bh=tw21DpwflFbWWZ7xCtmAWfoLs4aafF589lcKdxB+wGk=;
- b=Ix8UDLUTd3fPtF4Fj9V9Qd5tWoAqB0bL7oV7Wy8yEsyle2hgNl34XqyvZ4pF2vAGU+VqagctJ
- 6n8FspmR5/4CqOkdPqZG3dZEfv488nXnL9APzijyoGt5lNuJYL0VPI/
-X-Developer-Key: i=george.0xfff@gmail.com; a=ed25519;
- pk=Jz8kMnumjUlo1GJvJ5kdfkF3ZP8DjPbYaYQR5J8IHMI=
-X-Endpoint-Received: by B4 Relay for george.0xfff@gmail.com/20260818 with
- auth_id=960
-X-Original-From: George Maraveyas <george.0xfff@gmail.com>
-Reply-To: george.0xfff@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6FC11E12-9428-4975-B135-E24805C2D9BF@nvidia.com>
 
-From: George Maraveyas <george.0xfff@gmail.com>
+On Mon, Aug 17, 2026 at 02:45:19PM -0400, Zi Yan wrote:
+> On 17 Aug 2026, at 11:37, Alan Stern wrote:
+> >>> Regardless, if it is important to let kernel developers know that their
+> >>> code is doing something wrong, why not make the WARN conditional on
+> >>> CONFIG_EXPERT or something similar?  In other words, prevent it from
+> >>> crashing production systems.
+> >
+> > You didn't respond to this.
+> 
+> I do not get your argument here. Why does this WARN need to be conditional
+> on CONFIG_EXPERT? What makes it special? Or you mean you want all WARNs
+> to be conditional CONFIG_EXPERT?
 
-The MT7925 Bluetooth controller on an ASUS ROG Strix B850-I Gaming WiFi
-can remain unusable after a warm reboot even though its USB function
-initially enumerates normally.
+This may be a moot point now, but I'll answer the questions anyway.
 
-The Bluetooth USB function on the test system is:
+This WARN should be conditional on something indicating that the kernel 
+is meant for testing rather than production (not necessarily 
+CONFIG_EXPERT but something like it) because it does not indicate that 
+an operation has failed badly enough to leave the kernel in a 
+dangerously unstable state.  Rather, it indicates that a programmer has 
+tried to do something that can't possibly succeed.  The result should 
+not be dangerous because the caller should always check kmalloc()'s 
+return value.  If the caller is unable to recover from a memory 
+allocation failure then it is the caller's responsibility to WARN, not 
+kmalloc()'s.
 
-  idVendor=13d3, idProduct=3602
-  Manufacturer: MediaTek Inc.
-  Product: Wireless_Device
+The same is true for all other WARN statements.  If they merely indicate 
+a programming infelicity and not a dangerous failure then they should 
+not fire in production kernels.
 
-The problem was reproduced with ASUS motherboard BIOS versions 1644 and
-1681.  Updating from BIOS 1644 to 1681 did not change the failure.
-
-The Bluetooth firmware reported during testing was:
-
-  HW/SW Version: 0x00000000
-  Build Time: 20260605184935
-
-A typical Windows 11-to-Linux failure is:
-
-  1. The MT7925 USB function enumerates as 13d3:3602.
-  2. Bluetooth setup begins.
-  3. The WMT function-control command times out with -ETIMEDOUT (-110).
-  4. The existing MediaTek reset work runs.
-  5. btmtk_usb_subsys_reset() also times out.
-  6. Resetting the existing usb_device does not recover the controller.
-
-The relevant log contains:
-
-  Bluetooth: hci0: Execution of wmt command timed out
-  Bluetooth: hci0: Failed to send wmt func ctrl (-110)
-  Bluetooth: hci0: MT7925 WMT func ctrl timed out (dev_id=0x7925), scheduling device reset
-  Bluetooth: hci0: Failed to read uhw reg(-110)
-
-The WMT timeout handling and scheduling of the MediaTek reset already
-exist before this change.  This patch begins later, inside
-btusb_mtk_reset(), after btmtk_usb_subsys_reset() has returned.
-
-The existing path calls btmtk_usb_subsys_reset() and then queues
-usb_queue_reset_device().  On the affected MT7925 the subsystem reset
-returns -ETIMEDOUT, and resetting the existing usb_device does not recover
-the controller.
-
-After btmtk_usb_subsys_reset() returns, check for an MT7925 device and an
--ETIMEDOUT result.  When both conditions are present, request
-re-enumeration through usb_queue_reenumerate_device(), added by Patch 1.
-
-If the re-enumeration request is queued successfully, clear
-BTMTK_HW_RESET_ACTIVE and return the original subsystem-reset error.  If
-the request cannot be queued, report the error and continue into the
-existing usb_queue_reset_device() path.
-
-Other MediaTek devices and MT7925 reset results other than -ETIMEDOUT
-continue to use the existing recovery path unchanged.
-
-The re-enumeration request gives the MT7925 another chance to go through
-normal USB enumeration via the helper in Patch 1, which does this.  This
-patch calls that helper when the MT7925 subsystem reset has timed out.
-
-Chia-Lin Kao's preceding _PRR patch is required for the port recovery
-used on this machine.  Re-enumeration does not itself request a port
-power-cycle or an ACPI _PRR reset.  If the re-enumerated device continues
-to fail during enumeration, the existing hub retry path can reach its
-port power-cycle, where the _PRR prerequisite supplies the ACPI reset.
-
-The _PRR prerequisite does not fix this failure by itself because the
-first USB enumeration has already succeeded before the WMT timeout and
-subsequent subsystem-reset timeout occur.
-
-A representative successful recovery was:
-
-  Bluetooth: hci0: MT7925 subsystem reset timed out, requesting USB re-enumeration
-  usb 1-11: USB disconnect, device number 4
-  usb 1-11: device descriptor read/64, error -110
-  usb 1-11: device descriptor read/64, error -110
-  usb usb1-port11: attempt power cycle
-  usb 1-11: New USB device found, idVendor=13d3, idProduct=3602
-
-Three Windows 11-to-Linux warm restart tests recovered successfully with
-this series.  The observed average interval from the initial WMT timeout
-to successful Bluetooth setup was about 70.9 seconds.
-
-Bluetooth remains unavailable during most of this interval, so recovery
-should not be expected immediately after usb_queue_reenumerate_device()
-is called.
-
-Signed-off-by: George Maraveyas <george.0xfff@gmail.com>
----
- drivers/bluetooth/btmtk.c |  4 ++++
- drivers/bluetooth/btusb.c | 16 ++++++++++++++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/drivers/bluetooth/btmtk.c b/drivers/bluetooth/btmtk.c
-index 66b346761..e8f02f1e3 100644
---- a/drivers/bluetooth/btmtk.c
-+++ b/drivers/bluetooth/btmtk.c
-@@ -1413,6 +1413,10 @@ int btmtk_usb_setup(struct hci_dev *hdev)
- 		err = btmtk_usb_hci_wmt_sync(hdev, &wmt_params);
- 		if (err < 0) {
- 			bt_dev_err(hdev, "Failed to send wmt func ctrl (%d)", err);
-+
-+			if (dev_id == 0x7925 && err == -ETIMEDOUT)
-+				btmtk_reset_sync(hdev);
-+
- 			return err;
- 		}
- 
-diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
-index 2bae85b00..5b56c26de 100644
---- a/drivers/bluetooth/btusb.c
-+++ b/drivers/bluetooth/btusb.c
-@@ -2943,6 +2943,22 @@ static int btusb_mtk_reset(struct hci_dev *hdev, void *rst_data)
- 
- 	err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
- 
-+	if (btmtk_data->dev_id == 0x7925 && err == -ETIMEDOUT) {
-+		int reenum_err;
-+
-+		bt_dev_warn(hdev,
-+			    "MT7925 subsystem reset timed out, requesting USB re-enumeration");
-+
-+		reenum_err = usb_queue_reenumerate_device(data->intf);
-+		if (!reenum_err) {
-+			clear_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags);
-+			return err;
-+		}
-+
-+		bt_dev_err(hdev, "Failed to queue USB re-enumeration (%d)",
-+			   reenum_err);
-+	}
-+
- 	usb_queue_reset_device(data->intf);
- 	clear_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags);
- 
-
--- 
-2.53.0
-
-
+Alan Stern
