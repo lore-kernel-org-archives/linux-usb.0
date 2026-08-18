@@ -1,131 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BC737C0FE;
-	Tue, 18 Aug 2026 04:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB2745BE3;
+	Tue, 18 Aug 2026 04:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787028158; cv=none; b=eNcmEWxlA9rnWkIgTNVp/V23bkTTjoeOseE0+ya8LfR8sf51ZgpVF54RTr4druuukgo8YGxNevqNpSNFLGp+HyR1RDh5jE/ooyQbFIgfTQ0zFjbaPK2OzrbG9/XiuhYGgEjh8jYSl5McEtdxs/1L3lAiju2WrnXbiy6d2Cq1TZA=
+	t=1787028706; cv=none; b=LwORGyKsdP9KCLUDg/+Xu1aFRYNkrexIFO3uamnHMQ2TWtSWLIupXEJu42mEANmA6JcHl2BsWv87WcCychYAvFgrRNftIV28FyBtY1sh0aawEtzxwRYygmWA9KF1N9nx9h7vh7TpueAj6yCY6yQVMU/l7103gRBQGX0AAkd/XgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787028158; c=relaxed/simple;
-	bh=beJQykPMz75byPsAGpDchMYPEmOy2/H1CoYZ5C4bcsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tdEye34VJPuPlD+pNhXRuz0euooYyC/aPQ6NE3RxQlsszf2F3GyXDi6DvcZvSfSikCiWA5EwmAoEdP55LFKw8XAGWek/qlBEKmoi1XTHbckA8YjuVfIv7yGcvTOBpTJIGi/1aS+LDsNCZL7MxVgYrClCAUO5Xps/3ymE+UFQwmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F0mE4OnY; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787028706; c=relaxed/simple;
+	bh=VuGy5kLPtgm60zY3sLvALqHrRSs450ZmIGcsTFHJ4RM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AJpOfRlvoyW73zwpYLWPaFFegpGph6aD9HOWGKkTefS4YpehQt2cjZU1SpbkOFxz3XCyc3e93ZkRf6BWTbQzf01KJNbhgjwxmw2pc/PqlnSy8nTYRUBlgjLlouaHGGK8hu822HEUOuIr4jbAJNj7x0S+8fYYSAS9aWrWvx5o57g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=zTMz47nV; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=wmrRSKbr; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F0mE4OnY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787028157; x=1818564157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=beJQykPMz75byPsAGpDchMYPEmOy2/H1CoYZ5C4bcsw=;
-  b=F0mE4OnYPvtPENzjKreY1y5z8rvxZnBM5lgfSO7y9n0gNEWpYVb+LIa1
-   0giPBkVLaT0+3aXeO/NUjU6QTSO6N5Sc2zNeGnzzQtpsHQpLvBb91b7JK
-   b16lI/VY9B+tD1NftIuuf8kk3GQ2RydZ/cGlNc3Hy1ocnftS18iX0Q5BK
-   hJHvL0Zjm8X/PELAOtSJS6vMCuuvJbas6f0WKokPT0xy2F53DivAjm2XW
-   nq66yzF6r7ZimNAqLoREEjLM/6t+OVbAKvCtpulfARH4J0Wk5BOObLPpn
-   FIWmYk2eAXHyCpSe/+Kw9DDheqyZKZLyXpWexw+aVlevyXSZxkpE2kaHt
-   w==;
-X-CSE-ConnectionGUID: 6r4JMpOuQRSNFoHENp0E9A==
-X-CSE-MsgGUID: k6+vO9tYTSKircEyTHvQGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87529074"
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87529074"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 21:42:36 -0700
-X-CSE-ConnectionGUID: 1gfHfwMZRZOINcQ8JGDwAg==
-X-CSE-MsgGUID: 01wVAVsjRm2AG06qDtxQFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="261369324"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Aug 2026 21:42:33 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 5B72399; Tue, 18 Aug 2026 06:42:32 +0200 (CEST)
-Date: Tue, 18 Aug 2026 06:42:32 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, asahi@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konradybcio@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] thunderbolt: Fix tunnel reference leak when the DPRX
- work is not started
-Message-ID: <20260818044232.GS893316@black.igk.intel.com>
-References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
- <20260817-b4-tbt-fixes-v1-1-eded2461f5fc@kernel.org>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="zTMz47nV";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="wmrRSKbr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1787028697;
+	bh=VuGy5kLPtgm60zY3sLvALqHrRSs450ZmIGcsTFHJ4RM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=zTMz47nVk7OuDgMLTbVEPxlljGi+BhNpnaw4TwBHDwEm56ww8POveALzUShzKgO2v
+	 KjjuoUeyPKRBa0KtPw/E1XtmKlmLDYETYRmCAyAwXxKRcaO0JxubZUD59U/WS6xd3C
+	 Z58WwWzgB6W9ZCcfm2ALMAgTtQgmxTr/GRLoGGL+7uxlh6K/HduWJVUboMFKnInHeZ
+	 pNGjAoZCCtoYpZGeAom9gwFo7kG8anJ3Xh8fZr7WxQAHh/sFUp6EJLL7t7HCHFQVTN
+	 5LHV4relF7hXI0SkPTMtxCmMVrmHYsHEAmkgn/dNH9rWDKBjcrTrrKhZCnd5sHO84i
+	 ay0gaMHzk8PRw==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 5ABC049933; Tue, 18 Aug 2026 04:51:37 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1787028693;
+	bh=VuGy5kLPtgm60zY3sLvALqHrRSs450ZmIGcsTFHJ4RM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=wmrRSKbr1GClq3w6sFiTQnRYhp4Xip4Ees65vufGv7mEnCoWOCIaUpx47at5EXUoO
+	 lPbZtg6vm7uN9+BLGwl9FFUHxWHym4qY7iuHoI002UwfETfZDXe+wt4aivqx0jmvz7
+	 wKa4DwiwTda5V0/wPDOWGdWBe4o0iXZSNz79tuELEEF45IU8gl0IHTKWvonJxg6W5C
+	 MD3tqpVLm4dMs6mIByav0MlCGHhOSIJ03qy84AIFUWgBuJi9kgLy9QIluLpo81vkil
+	 0UacfEkYOh1YuCcOVNWmBCjkV5s1mDBpJz6/wPDmHm/VKwi5zMk/FsK91o7AFV6zpH
+	 sHKiFX8REjv9A==
+Received: from [IPV6:2003:c6:9f06:3400:a121:726d:74b1:1cd6] (p200300c69f063400a121726d74b11cd6.dip0.t-ipconnect.de [IPv6:2003:c6:9f06:3400:a121:726d:74b1:1cd6])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 4F47E4992A;
+	Tue, 18 Aug 2026 04:51:33 +0000 (UTC)
+Message-ID: <e72d0d5e-6368-46eb-8247-a760046cb8c0@birger-koblitz.de>
+Date: Tue, 18 Aug 2026 06:51:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260817-b4-tbt-fixes-v1-1-eded2461f5fc@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v7 03/14] ax88179_178a: Split driver into library
+ and device specific code
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
+References: <20260810-ax88179a-v7-0-da633191c129@birger-koblitz.de>
+ <20260810-ax88179a-v7-3-da633191c129@birger-koblitz.de>
+ <20260817152800.3dbe9f55@kernel.org>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20260817152800.3dbe9f55@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Jakub,
 
-On Mon, Aug 17, 2026 at 09:53:58PM +0200, Sven Peter wrote:
-> tb_dp_dprx_start always takes a tunnel reference which is only dropped
-> by dprx_work eventually. Tunnels that have no callback don't ever queue
-> that work and tb_dp_dprx_stop then has nothing to cancel. It however only
-> releases the reference if cancel_delayed_work returned true and the
-> reference is leaked then.
-
-Okay but we always actually pass that callback there so I guess you are
-hitting this because you have modified the caller in tb.c not to pass the
-callback, right? If that's the case then I suggest mention how you actually
-reproduced this whole issue.
-
-I'm thinking we should make the callback mandatory instead as we always
-need it for DP tunnels anyway. It should work the same also in Apple
-silicon (one you have the DP tunneling in place).
-
-> Fix this by only taking the reference when dprx_work is actually queued.
+thanks for reviewing the code!
+On 8/18/26 00:28, Jakub Kicinski wrote:
+> On Mon, 10 Aug 2026 14:33:28 +0200 Birger Koblitz wrote:
+>> +static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
+>> +			       u16 size, const void *data)
 > 
-> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> I didn't actually hit this on hardware but found it while fixing a domain
-> leak in the same area and that fix depends on this one.
-> ---
->  drivers/thunderbolt/tunnel.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
+> Local netdev convention is to still wrap at 80 chars.
+> Anything beyond that is inviting laziness.
 > 
-> diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-> index b7f32305f14a..50580ebdac4b 100644
-> --- a/drivers/thunderbolt/tunnel.c
-> +++ b/drivers/thunderbolt/tunnel.c
-> @@ -1113,15 +1113,14 @@ static void tb_dp_dprx_work(struct work_struct *work)
->  
->  static int tb_dp_dprx_start(struct tb_tunnel *tunnel)
->  {
-> -	/*
-> -	 * Bump up the reference to keep the tunnel around. It will be
-> -	 * dropped in tb_dp_dprx_stop() once the tunnel is deactivated.
-> -	 */
-> -	tb_tunnel_get(tunnel);
-> -
-> -	tunnel->dprx_started = true;
-> -
->  	if (tunnel->callback) {
-> +		/*
-> +		 * Bump up the reference to keep the tunnel around until the
-> +		 * work has run or has been canceled.
-> +		 */
-> +		tb_tunnel_get(tunnel);
-> +
-> +		tunnel->dprx_started = true;
->  		tunnel->dprx_timeout = dprx_timeout_to_ktime(dprx_timeout);
->  		queue_delayed_work(tunnel->tb->wq, &tunnel->dprx_work, 0);
->  		return -EINPROGRESS;
+>> +{
+>> +	int ret;
+>> +	int (*fn)(struct usbnet *dev, u8 cmd, u8 rtype, u16 val, u16 i, const void *d, u16 size);
+>> +	struct ax88179_data *ax179_data = dev->driver_priv;
 > 
-> -- 
-> 2.55.0
+> Local netdev convention - please sort the variable declaration lines
+> longest to shortest
+Both of the above and other occurrences will be fixed in v8. Sorry about those, I was
+moving existing code and tried to minimally change it in order to allow blame to correctly
+identify the original author of the code, while still making checkpatch happy.
+
+I was not expecting a review while netdev was closed for patches, btw. Am I right
+to assume that I should not send v8 during the merge window, or do you prefer the
+next version to be submitted earlier while everyone still easily remembers what this
+was about?
+
 > 
+>> +	if (!dev) {
+>> +		netdev_err(dev->net, "No net device.\n");
+>> +		return -ENODEV;
+>> +	}
+> 
+> Is this a real check you need? It was a BUG() previously, so clearly
+> it must never happen. Please don't add pointless defensive checks.
+No, I did not see how BUG() was doing anything useful before, either, and just
+wanted to preserve the logic of the existing code, while making checkpatch happy.
+Will remove the 2 occurrences of this bit of code.
+
+Birger
