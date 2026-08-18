@@ -1,175 +1,152 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6D6368276
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 21:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787088567; cv=none; b=thAgs/u3lHzvpbtH7OYfLepV5f7zcc+UtNOxywwEaj4q3iyz+p0hVcSU7u6dXKtaB0FgxW94g+xKa9R+mNLzgq136BSJIfu8tsu67cJP+Jkrgb08AwPIUG596knDzUPGU6xHl8YKeYyvBeTGXEiejz/IJClUx+52zRoXJvyi5NQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787088567; c=relaxed/simple;
-	bh=ewuNWNUfbffTEKmpljj0H+UsvOVh2anmkonM1q+K7Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ofbS1RsEuC5XOpiJqnSGwoAUGkht8YxBQ+vMnXcCz+WD3in87oAU3QCQExYaGuZOg+mW3HZQ+C7HpGiBzUEjCoTgufT+fMBZJRdYkLhz89+1tjwoRpFoLJxL0FoLB3rFeMelh02+xR/hRpe2774Jo5KwMfzVgkgqUSB2p9b3cXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L4Y38Nnc; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CFF1D95A3;
+	Tue, 18 Aug 2026 21:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787089423; cv=pass; b=CANXh5C/sGqGMGKTBfTrA4Eh+NfajVZSMORLBfyMUjXRnmsGGywWth4V6teN6FCzTtxo15JLyBqaOftiTqolWnpJkG2T9gezSJ1G8Ulo3xmOqjJPeyy47ZTeTTsDbxxf2EVQBIIqYIn6ls0BCzuwea1uldso8OO1LwivwlKcP8I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787089423; c=relaxed/simple;
+	bh=WHgLKUTzy+ajlOdMI/QUguwowgxNejsORdVHNAejODI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uaHRBbxZQl9d4Kw2bkxDhgmBmKY8QsTzr5nM6QmLtXUDkRKx8V2W+8W3Kw38kgrOBNeQx4SPJKgzjmpSPk/YY66K7+AJQgPi7VJE6E+Pnkc32beuRGzOdhhqDKdEY7lMtuvdUWNpNSKWc4F613vDnu3BAhP9cmBECPTnJ42y8ug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=EATAvhGj; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L4Y38Nnc"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47fde295992so161325f8f.0
-        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 14:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787088564; x=1787693364; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zFSZRh91M7soUNAsn/zdF6i5hVPwmo9/9fhGPbtc9DA=;
-        b=L4Y38NncCTzf2AQ4j04oygGyfQ3Y0HEIADVn92L95G3HW04vT9oGzTGdwbrfNqcQlM
-         z6hYBT4Fxhz0/IIk0/R1JbdfCfw5/x9HtKB0A2btD73LYPqIBitmu4gK5kj152YPRIJC
-         q7n29N9VTvT0LxmagjXF8WVAO9aC/xn9ORw41Kiq3XwMyAKZZjxaLWTibkuT4mAw7je/
-         GVd9Hfgm6ute2vmAVE8i3rsYaKRZg664Qg63Cvm6RLd4+UZN3SlZrPCOG37N4fj3URPV
-         xQ/gXAHDZ+DzepjBS95TLjZioHagM0JToVsNAe11btz+6AJiIIpQr4hUJdYenICPuIVj
-         6h+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787088564; x=1787693364;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zFSZRh91M7soUNAsn/zdF6i5hVPwmo9/9fhGPbtc9DA=;
-        b=kJFKwP6dIlf3v10ahqAEmOMJvfz3qLKfuDJjJBTFzDvmZ7g9boa8jpXbwqqI6Ef4KG
-         fEHZC1BKgRPt5Y+8ks8pCRHizMDEfD62zZCtQ/tCW1fxyO3FdaRokYcV9BCJaet2vR6h
-         Q3VqQMrdPfvU+yG4i5nkDJyrx10Tw566tjRtWN0jg0thL3ZCZnw4JLy+x5Uwt4LQUMzs
-         ovFhCJ0IU8J01e6I0xFSm9CW4p+iRiMmCaSrJrvNOjFV2AeJcJCf1jCq1dXLe23wRwWj
-         6Rs1PP4zFuYg2ygEHMwiLtUAWvzFuWkxT9q0Y6DUuXPGb//gN3mGW6qd/ocXmeqY7Jx5
-         M2AQ==
-X-Gm-Message-State: AOJu0Yy8gzuCK+Hm3rX6p/E4hfOs+dojMloWzJm19I1V1/cXqbhi33D3
-	J/VsSmU40eagFJFqUs8yGeqJm+k2j+VbIpb6v2Qizm/OgYaJWfvc0iXU
-X-Gm-Gg: AR+sD13zGirke+xI6dYVD2ux8b2RH38Y4/TkLKJTDOFDuX3qHim9HuGK4Oq1/W/6LGq
-	mtKk8e+trSRqgeWbdtPpAH0HPxWym7Z1ixatoTRSUVXgPv/prNKVDjxiTIvBCxxwoaa8hqHuwyH
-	r8q7Wkjx+hJmXHB4/b+3xcdTjd1qi4z4Z2w94pJ08+s0mMenC/lJ6HxR9CrOMIs4e5iOKG8zEu8
-	KyJDxreq5XwWlAQ6MJLow9zXPfM2SBrDDIZB7NrAOgjN8ja1xnJ9FhIZqWA13Aib+av8FIFjuej
-	UmCL3ncz/KrfQtvYw8/uktZ4RXHCFMG58UZzEdwGB6lcX/N9b7c0Jl89MxaA12N7Zue+3u9ef97
-	UBC0wqq56NQEvJs0SRUAzGMTl9b9Z+aPmjScgVLHkhqzSVKhmSH3cwnKbL9yRvIO+zV7iZhnEYS
-	y5p/ZI2Rbbtzt72WnoeJcZE+ZXlUfoFJbd1RVi1mUg/1UiMBrbKkSxcJV1h7TbsGKT+hTi0NB+Q
-	+zIVg==
-X-Received: by 2002:a05:6000:715:b0:47f:7fe0:a287 with SMTP id ffacd0b85a97d-482b0f3c28cmr473564f8f.2.1787088563579;
-        Tue, 18 Aug 2026 14:29:23 -0700 (PDT)
-Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b1441b0fsm126507f8f.4.2026.08.18.14.29.22
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 18 Aug 2026 14:29:23 -0700 (PDT)
-Date: Tue, 18 Aug 2026 23:29:45 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: =?UTF-8?B?0JTQvNC40YLRgNC40Lk=?= <senior.joker2009@yandex.ru>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [BUG] xhci: repeated URB cancel on UVC status interrupt EP
- (0x83) loops for ~15s, stalls camera - Intel Cannon Point-LP [8086:9ded]
-Message-ID: <20260818232945.2c67b15b.michal.pecio@gmail.com>
-In-Reply-To: <358afe43-5f0f-41f6-89cc-129b20ef7641@yandex.ru>
-References: <1551785954451@mail.yandex.ru>
-	<20260815215259.014cc324.michal.pecio@gmail.com>
-	<fa17985f-fe64-4f23-9b71-9a244db2f64c@yandex.ru>
-	<20260818000909.31af0ae3.michal.pecio@gmail.com>
-	<358afe43-5f0f-41f6-89cc-129b20ef7641@yandex.ru>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="EATAvhGj"
+ARC-Seal: i=1; a=rsa-sha256; t=1787089379; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=R1G8loKEMmQgzBe9C8b6zMyzqfX1/4AwdWB/Sed7saPCbbb5AJ1w2bfRjaOxkT0k1TBvEcc2oEmyUyTsNMdI8Phm2NcIAh7ypJgfYcj82MG1VlDgfkS91sGe6+JPRbqnuWuVj8eJT3tUYgIhltGYMeCM9UvQFdlGGJCfMkqvhaA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1787089379; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=DpmVj5c9FDXQSwuSsbxK1L8of1AmrLOJ/cZ+cQrHX54=; 
+	b=WmKuFoJbFK0zNMA+rIz0rvuCYT5grWtdUpzoLpsjOlcBjadqk9DuahFhWJU3JSJY7WisfrbNn8aDKtTSyB/C3qjU1M8Svhih2Rz43dO43PXbShJQGrdTOsbcYis/IBNfY2RUJgJ0JRNwki/oWUBgVLZBKmBW6DTMYSOjLFNImpY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787089379;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=DpmVj5c9FDXQSwuSsbxK1L8of1AmrLOJ/cZ+cQrHX54=;
+	b=EATAvhGjB0BxlGsm+l29SdEaUqqx/UzPjLLQYionr+lI6JBS518mBhoqoQDUlDpH
+	uoijmrTaLxXjR0zjXhhAM7w8DcArp/97HlffwENaSaj5bTGeCddzxwAP8Rg0Ox22vnj
+	kdk3f7mNSWckQ2aigReGzhXzXeuUr2LYsg4Wjxr8=
+Received: by mx.zohomail.com with SMTPS id 178708937710788.45877915239339;
+	Tue, 18 Aug 2026 14:42:57 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 030B6182034; Tue, 18 Aug 2026 23:42:51 +0200 (CEST)
+Date: Tue, 18 Aug 2026 23:42:50 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Frank Wang <frank.wang@rock-chips.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Yubing Zhang <yubing.zhang@rock-chips.com>, 
+	Alexey Charkov <alchark@flipper.net>, Igor Paunovic <royalnet026@gmail.com>, 
+	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, kernel@collabora.com, 
+	devicetree@vger.kernel.org, linux-usb@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>, 
+	William Wu <william.wu@rock-chips.com>
+Subject: Re: [PATCH v14 00/38] phy: rockchip: usbdp: Clean up the mess
+Message-ID: <aoTMQtpYYw8O-3cj@venus>
+References: <20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com>
+ <h54c2hrcsv3zjzzgojzf5sjmu3vtpobz6rwloam5kp7mwqqn3n@bqjnlellvnz6>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lb64huk2f3isbo5n"
+Content-Disposition: inline
+In-Reply-To: <h54c2hrcsv3zjzzgojzf5sjmu3vtpobz6rwloam5kp7mwqqn3n@bqjnlellvnz6>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/287.68.66
+X-ZohoMailClient: External
+
+
+--lb64huk2f3isbo5n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v14 00/38] phy: rockchip: usbdp: Clean up the mess
+MIME-Version: 1.0
 
-On Tue, 18 Aug 2026 20:31:17 +0300, =D0=94=D0=BC=D0=B8=D1=82=D1=80=D0=B8=D0=
-=B9 wrote:
-> Hi Michal,
+Hello Mani,
+
+On Tue, Aug 18, 2026 at 11:27:07AM +0200, Manivannan Sadhasivam wrote:
+> On Thu, Aug 13, 2026 at 10:51:43PM +0200, Sebastian Reichel wrote:
+> > This series does a major overhaul of the Rockchip USBDP driver. The
+> > initial main goal was to add USB-C DP AltMode support to the RK3576
+> > and RK3588 and this series still prepares the PHY driver for exactly
+> > that. But in addition to that I uncovered a huge amount of issues,
+> > that are fixed along the way. Some of the more interesting ones are:
+> >=20
+> >  * Currently the driver might trigger a fatal SError on USB-C hotplug,
+> >    since re-initializing the PHY stops the clocks going to DWC3. If
+> >    the DWC3 driver tries to access its registers at the same time the
+> >    system will crash.
+> >  * The DWC3 hardware can get into a buggy state when the PHY is
+> >    disabled, which results in the PHY not coming up properly again.
+> >  * Swithcing the USB-C connector orientation during hotplug breaks
+> >    USB3 speed, as the PHY is not being re-initialized.
+> >  * The code always enables DP mode when USB-C is involved.
+> >  * The driver has some locking issues uncovered by Sashiko.
+> >=20
+> > In addition to these bigger ones, Sashiko also found a bunch of
+> > minor problems, which are mostly harmless, but were fixed while
+> > going at it.
 >=20
-> I tested the suggested commit:
->=20
-> 3d9eeb336131bc5a174367c384fa00c15c8744fd
->=20
-> on top of Fedora kernel 7.1.8 with the earlier commit
-> 7c0c31c66a7f9daace156bac427aafb2f4bbb5fc also applied.
->=20
-> The resulting kernel was:
->=20
-> 7.1.8-200.xhci3d9eeb3.fc44.x86_64
->=20
-> COPR build:
->=20
-> https://copr.fedorainfracloud.org/coprs/vertigo-red/kernel-xhci-deq/build=
-/10875339/
->=20
-> IOMMU remained enabled in translated, strict mode:
->=20
-> intel_iommu=3Don iommu.passthrough=3D0 iommu.strict=3D1
->=20
-> There were no DMAR or IOMMU faults.
->=20
-> A journal-cursor-bounded run with dynamic debug enabled for
-> drivers/usb/host/xhci-ring.c timed out after 45.026 seconds:
->=20
-> rc=3D124
->=20
-> The v4l2-ctl output contained 22 capture markers and reported 239
-> dropped buffers. During the exact test interval, the kernel logged:
+> 38 patches for a single series is too much to review. Please
+> consider splitting it up into multiple series not exceeding ~10
+> patches per series. Thanks!
 
-This looks like high data loss on the isoc endpoint.
+So let me summarize:
 
-> * 8,781 "Spurious event dma ..., comp_code 13 after 13"
+ - Vinod wants Sashiko feedback to be acted upon
+ - linux-phy does not want series with dependencies ( [0] )
+ - You don't want series with more than ~10 patches
+ - Generally fixes should be at the start of a series
 
-Probably harmless. While it could be some unknown bug, it usually
-is just a normal condition when multi-TRB TDs are present.
+This tremendously slows down any real work. The first series would
+just be Sashiko fixes without *any* of the work I originally wanted
+to do (DP AltMode). I would have to wait for it to land before
+working on the next bits as there are massive code conflicts with
+the same file being heavily modified. This simply does not scale,
+especially when considering that there are more dependencies on this
+series.
 
-It may go away with certain other combinations of video format,
-resolution and frame rate (namely: those where alt settings with
-power-of-two packet size are used, and you can know selected alt
-setting by passing trace=3D0x400 module parmatere to uvcvideo).
+[0] https://lore.kernel.org/linux-phy/20260330233532.ulnqiqrogezswht2@skbuf/
 
-> * 6,309 "Miss service interval" events
-> * 4,073 "Found td. Clear skip flag" events
+Greetings,
 
-This number of Missed Service Errors is excessive and may be the main
-reason for data loss. Unfortunately, I don't konw what causes it. Some
-users reported seeing correlation with CPU load (it may go both ways -
-either high or low CPU load causes errors).
+-- Sebastian
 
-It notably shouldn't be affected by scheduling patches in usb-next,
-because uvcvideo uses URB_ISO_ASAP. And you say the bug is very old.
+--lb64huk2f3isbo5n
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Maybe it's something to do with multi-TRB TDs? Would it get any better
-in video modes that don't produce "spurious events"?
+-----BEGIN PGP SIGNATURE-----
 
-> * 23 "Giveback URB" events
-> * 0 "All TDs skipped" events
-> * 0 DMAR/IOMMU faults
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmqE0dMACgkQ2O7X88g7
++pp1WA/9Ehn7r1EMjla99QJRa2MMoOYd+t/cIFPVNbsUDA6t9qfCwIGxmOawRoog
+uUDXe/RqRp5xObb+2jSPMuvb3jelMPX+1357dxVoYaqsmrvPG6jSEjjBFtf4z++7
+62Ws1nWgH0YR1XO45vFBsrNCNv3ELThj/FALxPQmU0pZ/x/7bizhTQtx3PEHW104
+kT+171AqELAfbpfUMM7lYcHHIy8D4hSy0Ah66RFTNpWl1obZCUCFL1B0zuDANnMJ
+CAjqkPtwoJPpVaKRlY2h1YB5JREpQNfJCUl4XVPZ5Tuia+BOF5mvegHPXhU1F+ZT
+lasrChZQHYnkJNOl7EDgMaYpKnc3bJbxagtA1Q3IbqdRZA3jm8GrWH6dLhq9Pdr6
+kFsnhDJo5omh7AskYgm1uZ6ZL6ve/d+BUYS5Bkku8SJNbAb8eLqR20ntn45rDBIH
+29NMHJ9OQ8DKzJ7dxW3x19A6RuLTCHsVd6cQgTqMbgkVgrQehq4ivCMBuPwrpBZO
+fglWS7cNZGv+KYDnEJo9K2KrUOtyHfOYAjdbsOwQEyntf0QxDNtMoQ89LzIyJM7m
+nUsBRW1ZxNJ3NvHrC+580iDz5c+F0yTRwv7LeUNcwcp8SF9+hBEme+EQL4Vid9lH
+TrH9qhoHr/d7ZyZOOtQ4a3vRzVbBN4+cmrWofzpBfmyI7XtjNKU=
+=cryx
+-----END PGP SIGNATURE-----
 
-Good, the "All TDs skipped" and "Event dma" bug is fixed now.
-
-> There is also more information about the two endpoints:
->=20
-> * 23 "Stopped on Transfer TRB" messages for slot 4 ep 6, corresponding
->  =C2=A0 to the camera's USB status interrupt endpoint 0x83
-
-These are very fast submit-unlink cycles, it doesn't look like the
-URBs are unlinked due to failing to complete for a long time, but more
-like uvcvideo "changed its mind" for some reason. No problem?
-
-Then it's 45 seconds of Missed Service Errors, which looks like the
-actual problem and the reason why video frames are being lost.
-
-> * 5 "Stopped on Transfer TRB" messages for slot 4 ep 2, corresponding
->  =C2=A0 to the isochronous video endpoint 0x81
-
-And 5 video URBs are unlinked when v4l2-ctl exists. Normal.
-
-> For comparison, the camera works acceptably under Windows on the same
-> laptop, including stream restarts. Windows uses the standard
-> usbvideo.sys stack together with a Realtek Device MFT named
-
-Windows must be doing something differently. But again, the problem
-seems to be with xHCI, not any control requests sent to the camera.
-
-Regards,
-Michal
+--lb64huk2f3isbo5n--
