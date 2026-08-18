@@ -1,208 +1,175 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47BF3246ED
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 21:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6D6368276
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 21:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787087784; cv=none; b=ZU5XY/hzi8p1EoUKrDTaFfAQf0GN8oUCKEUC7WQ4mpTiNoyOWWw3KyRzQVJ1d3TTizU7b5gek0n5rdIquJCtdbzh70gS482HDcCChQo7242ys5zAQ/CgEwVdJ/nX50O9X7uu3QGIR8abgcp6giNNFet6qtECRJ+IKffaLfsGi6w=
+	t=1787088567; cv=none; b=thAgs/u3lHzvpbtH7OYfLepV5f7zcc+UtNOxywwEaj4q3iyz+p0hVcSU7u6dXKtaB0FgxW94g+xKa9R+mNLzgq136BSJIfu8tsu67cJP+Jkrgb08AwPIUG596knDzUPGU6xHl8YKeYyvBeTGXEiejz/IJClUx+52zRoXJvyi5NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787087784; c=relaxed/simple;
-	bh=7wM9DsKsMoIzwrrkwCbvghqVDiH9iyjjlGgosH6vQEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QNEib+9dk0J1wz6Dy2UXj3EjRNXTNNhBKBI8DEBcmyHMvA2gE0aF8HNWlUqstU/jgl45YjdyqwQo5YgJSI11hwoFhNcPvYiBjF95QNodJvxXWFfdHLsSGKzlYmQvQmpThaXS5XWf8xtQmXrMQWV796ooMcTzdbrquLjE4dshJrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R6NyA6Gp; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1787088567; c=relaxed/simple;
+	bh=ewuNWNUfbffTEKmpljj0H+UsvOVh2anmkonM1q+K7Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ofbS1RsEuC5XOpiJqnSGwoAUGkht8YxBQ+vMnXcCz+WD3in87oAU3QCQExYaGuZOg+mW3HZQ+C7HpGiBzUEjCoTgufT+fMBZJRdYkLhz89+1tjwoRpFoLJxL0FoLB3rFeMelh02+xR/hRpe2774Jo5KwMfzVgkgqUSB2p9b3cXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L4Y38Nnc; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R6NyA6Gp"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cf52d15d88so2288095ad.2
-        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 14:16:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L4Y38Nnc"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47fde295992so161325f8f.0
+        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 14:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787087782; x=1787692582; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787088564; x=1787693364; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xNtQcp6EPVcy8qRKN+a9JrKI8GXk1eW9kPm9FdXDU6g=;
-        b=R6NyA6GprqI8lJH3jlNFVkjzpP8eKAkZpgv49NySxNw6zAlO/Eqcj1C6pGXz1+m3+O
-         Qd7stKKP5K/FNHa305TLE0DMpv4Ipq2XFMPb+A9zSWlYvRp5eh3+2aLtnRf5Ew5pqfu8
-         3Drgn1o7xnnnOUa51G0t7NKZ5exk5YRfdXHs+XW5fef1AZbQjimauw9LwTYRbNpIljRk
-         WXNhjtKo+FU4Ilhneg/SmebFllIMfI99BlITDmsbR20qeaetS41vVXPSZckN1dNwddgf
-         BitxYgX6IKT1v/uLxBHbpGtlguoHqeBr7cVNL+VMC+9xfsZAUTmSVylwZvjkHTg7Gh4B
-         J+uQ==
+        bh=zFSZRh91M7soUNAsn/zdF6i5hVPwmo9/9fhGPbtc9DA=;
+        b=L4Y38NncCTzf2AQ4j04oygGyfQ3Y0HEIADVn92L95G3HW04vT9oGzTGdwbrfNqcQlM
+         z6hYBT4Fxhz0/IIk0/R1JbdfCfw5/x9HtKB0A2btD73LYPqIBitmu4gK5kj152YPRIJC
+         q7n29N9VTvT0LxmagjXF8WVAO9aC/xn9ORw41Kiq3XwMyAKZZjxaLWTibkuT4mAw7je/
+         GVd9Hfgm6ute2vmAVE8i3rsYaKRZg664Qg63Cvm6RLd4+UZN3SlZrPCOG37N4fj3URPV
+         xQ/gXAHDZ+DzepjBS95TLjZioHagM0JToVsNAe11btz+6AJiIIpQr4hUJdYenICPuIVj
+         6h+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787087782; x=1787692582;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787088564; x=1787693364;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xNtQcp6EPVcy8qRKN+a9JrKI8GXk1eW9kPm9FdXDU6g=;
-        b=f/ZtHvfliHeuJC9h53MugfEZTNIOjf7BJX9BrLghg4CAbNRKANZjRdkmEkvfjRTkNc
-         o3zlX2FsPCtqx6zA/bzSGf6d8cKMpbuePINFIq+X4jbR2s7Q2Mr7XQR/2/qmtoUN1h1K
-         Z9Lhs7dl1I+i3Yaead7gtsmUdUq95QQJHoq/oxr20QSSJRrF+UknQdkD7dOq1J+gEdjE
-         Kv8Ny8Ctrk2JAgoXhylFe1xknw6InqEai9OXv/Yt02kGeim7NghE4DF4ue4bd1Gw9gAY
-         IcuPekjV/KCvNoMmcrABl8a1DCHrK7+zQuVms+q7p5jH51mVUv90z6bUlLv3Pt5LtaGz
-         lY4A==
-X-Forwarded-Encrypted: i=1; AHgh+RpBgSfMEnQck7xlmDBPKxEpIETKGPSnYiqqtNk2vql2cFoB2z8dA2h7G7JFmfIn6CGLxSGKBf3u5tk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6qx5cqhuspLkFJXtfn7U7VxwJJzCqQ/vC61lVmFwBSoQBwlMj
-	6NqBMb2/m9OAQ/jxO1doBloYz308hyhMRXEErOBRpfXefkORa4tkjuanEQR1XcU7Hw==
-X-Gm-Gg: AR+sD10tRwxdnF21MVCKlrFBt5x0Dk8j6rW8xGisVHI419vUscVNpgqr/GSxgZcVAjw
-	e9tbH0rbfS9+b0mvK/z7HizMJmxG03brlyTxRGdG4rIWRVbSJ+4um5xcYswVYogNraMq5Ra7mYW
-	S5qsZ4ETFCZZtcBwbGULklVcs+knCL8wwHdtmDEIovpA5gmiLbriSyomHxIlvRQNOtxN5XEJzA/
-	w4XzgoMPt9+PWfp4c3m6WQHlyn8gdDOVd/4q/8WDTHNYVZB/+ROL1N+N9SPnM9zkcogGhq6zyMq
-	pOCpiAnERv/LvNeVMSrhi86Nfobq3ju0c2HeH4Wbn4Ypw4VaIVS8mPJqLsWgeJ/GV8XB7yxFQqp
-	NsAqmY1/1x1IiUr/7nGnpkAEPbJNm3liLHEWmuxjjb2tfpMqI09kDOkhfo9ZoHFMbRBPsMC1CON
-	o3bCzdSSWvWHA0flaTcS5+AN7T/4yWN8fCWgaF4fxuuOfpitBuKoR+qdRkSRGaFUhWETwGwnJMX
-	ME3+CZF2cHax/moZN55erHwtD3KrYLk
-X-Received: by 2002:a17:903:2309:b0:2ca:6514:9201 with SMTP id d9443c01a7336-2d5f6bb6a4amr11060385ad.15.1787087781152;
-        Tue, 18 Aug 2026 14:16:21 -0700 (PDT)
-Received: from google.com (51.86.127.34.bc.googleusercontent.com. [34.127.86.51])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5c1ef0147sm18499065ad.77.2026.08.18.14.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 14:16:19 -0700 (PDT)
-Date: Tue, 18 Aug 2026 21:16:17 +0000
-From: Benson Leung <bleung@google.com>
-To: Jameson Thies <jthies@google.com>
-Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	bleung@chromium.org, gregkh@linuxfoundation.org,
-	akuchynski@chromium.org, abhishekpandit@chromium.org
-Subject: Re: [PATCH v1] usb: typec: ucsi: allow retries of ucsi_resume_work
-Message-ID: <aoTLod0A0PHhLw6h@google.com>
-References: <20260818205717.1492247-1-jthies@google.com>
+        bh=zFSZRh91M7soUNAsn/zdF6i5hVPwmo9/9fhGPbtc9DA=;
+        b=kJFKwP6dIlf3v10ahqAEmOMJvfz3qLKfuDJjJBTFzDvmZ7g9boa8jpXbwqqI6Ef4KG
+         fEHZC1BKgRPt5Y+8ks8pCRHizMDEfD62zZCtQ/tCW1fxyO3FdaRokYcV9BCJaet2vR6h
+         Q3VqQMrdPfvU+yG4i5nkDJyrx10Tw566tjRtWN0jg0thL3ZCZnw4JLy+x5Uwt4LQUMzs
+         ovFhCJ0IU8J01e6I0xFSm9CW4p+iRiMmCaSrJrvNOjFV2AeJcJCf1jCq1dXLe23wRwWj
+         6Rs1PP4zFuYg2ygEHMwiLtUAWvzFuWkxT9q0Y6DUuXPGb//gN3mGW6qd/ocXmeqY7Jx5
+         M2AQ==
+X-Gm-Message-State: AOJu0Yy8gzuCK+Hm3rX6p/E4hfOs+dojMloWzJm19I1V1/cXqbhi33D3
+	J/VsSmU40eagFJFqUs8yGeqJm+k2j+VbIpb6v2Qizm/OgYaJWfvc0iXU
+X-Gm-Gg: AR+sD13zGirke+xI6dYVD2ux8b2RH38Y4/TkLKJTDOFDuX3qHim9HuGK4Oq1/W/6LGq
+	mtKk8e+trSRqgeWbdtPpAH0HPxWym7Z1ixatoTRSUVXgPv/prNKVDjxiTIvBCxxwoaa8hqHuwyH
+	r8q7Wkjx+hJmXHB4/b+3xcdTjd1qi4z4Z2w94pJ08+s0mMenC/lJ6HxR9CrOMIs4e5iOKG8zEu8
+	KyJDxreq5XwWlAQ6MJLow9zXPfM2SBrDDIZB7NrAOgjN8ja1xnJ9FhIZqWA13Aib+av8FIFjuej
+	UmCL3ncz/KrfQtvYw8/uktZ4RXHCFMG58UZzEdwGB6lcX/N9b7c0Jl89MxaA12N7Zue+3u9ef97
+	UBC0wqq56NQEvJs0SRUAzGMTl9b9Z+aPmjScgVLHkhqzSVKhmSH3cwnKbL9yRvIO+zV7iZhnEYS
+	y5p/ZI2Rbbtzt72WnoeJcZE+ZXlUfoFJbd1RVi1mUg/1UiMBrbKkSxcJV1h7TbsGKT+hTi0NB+Q
+	+zIVg==
+X-Received: by 2002:a05:6000:715:b0:47f:7fe0:a287 with SMTP id ffacd0b85a97d-482b0f3c28cmr473564f8f.2.1787088563579;
+        Tue, 18 Aug 2026 14:29:23 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b1441b0fsm126507f8f.4.2026.08.18.14.29.22
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 18 Aug 2026 14:29:23 -0700 (PDT)
+Date: Tue, 18 Aug 2026 23:29:45 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: =?UTF-8?B?0JTQvNC40YLRgNC40Lk=?= <senior.joker2009@yandex.ru>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [BUG] xhci: repeated URB cancel on UVC status interrupt EP
+ (0x83) loops for ~15s, stalls camera - Intel Cannon Point-LP [8086:9ded]
+Message-ID: <20260818232945.2c67b15b.michal.pecio@gmail.com>
+In-Reply-To: <358afe43-5f0f-41f6-89cc-129b20ef7641@yandex.ru>
+References: <1551785954451@mail.yandex.ru>
+	<20260815215259.014cc324.michal.pecio@gmail.com>
+	<fa17985f-fe64-4f23-9b71-9a244db2f64c@yandex.ru>
+	<20260818000909.31af0ae3.michal.pecio@gmail.com>
+	<358afe43-5f0f-41f6-89cc-129b20ef7641@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q7mid4L40iN1KA+y"
-Content-Disposition: inline
-In-Reply-To: <20260818205717.1492247-1-jthies@google.com>
-
-
---q7mid4L40iN1KA+y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 18, 2026 at 08:57:17PM +0000, Jameson Thies wrote:
-> On resume, the UCSI driver will re-enable notifications by sending
-> SET_NOTIFICATION_ENABLE. The LPM/PPM may be busy during system
-> resume causing SET_NOTIFICATION_ENABLE to fail and preventing the UCSI
-> driver from receiving connection status changes.
+On Tue, 18 Aug 2026 20:31:17 +0300, =D0=94=D0=BC=D0=B8=D1=82=D1=80=D0=B8=D0=
+=B9 wrote:
+> Hi Michal,
 >=20
-> Change resume work to a delayed workqueue to allow retries on failed
-> SET_NOTIFICATION_ENABLED commands. Additionally, cancel resume work
-> on suspend to prevent pending resume commands from impacting suspend.
+> I tested the suggested commit:
 >=20
-> Signed-off-by: Jameson Thies <jthies@google.com>
-
-Reviewed-by: Benson Leung <bleung@chromium.org>
-
-
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 18 +++++++++++++-----
->  drivers/usb/typec/ucsi/ucsi.h |  3 ++-
->  2 files changed, 15 insertions(+), 6 deletions(-)
+> 3d9eeb336131bc5a174367c384fa00c15c8744fd
 >=20
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index bef3f9b71d71..5c67f0990dd3 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2158,7 +2158,7 @@ static int ucsi_init(struct ucsi *ucsi)
-> =20
->  static void ucsi_resume_work(struct work_struct *work)
->  {
-> -	struct ucsi *ucsi =3D container_of(work, struct ucsi, resume_work);
-> +	struct ucsi *ucsi =3D container_of(to_delayed_work(work), struct ucsi, =
-resume_work);
->  	struct ucsi_connector *con;
->  	u64 command;
->  	int ret;
-> @@ -2167,6 +2167,11 @@ static void ucsi_resume_work(struct work_struct *w=
-ork)
->  	command =3D UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
->  	ret =3D ucsi_send_command(ucsi, command, NULL, 0);
->  	if (ret < 0) {
-> +		if (++ucsi->resume_retries < 5) {
-> +			queue_delayed_work(system_long_wq, &ucsi->resume_work,
-> +					   msecs_to_jiffies(500));
-> +			return;
-> +		}
->  		dev_err(ucsi->dev, "failed to re-enable notifications (%d)\n", ret);
->  		return;
->  	}
-> @@ -2187,6 +2192,7 @@ int ucsi_suspend(struct ucsi *ucsi)
->  	 * EC is stopped for suspend; state is re-read on resume.
->  	 */
->  	cancel_delayed_work_sync(&ucsi->work);
-> +	cancel_delayed_work_sync(&ucsi->resume_work);
-> =20
->  	if (!ucsi->connector)
->  		return 0;
-> @@ -2200,8 +2206,10 @@ EXPORT_SYMBOL_GPL(ucsi_suspend);
-> =20
->  int ucsi_resume(struct ucsi *ucsi)
->  {
-> -	if (ucsi->connector)
-> -		queue_work(system_long_wq, &ucsi->resume_work);
-> +	if (ucsi->connector) {
-> +		ucsi->resume_retries =3D 0;
-> +		queue_delayed_work(system_long_wq, &ucsi->resume_work, 0);
-> +	}
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(ucsi_resume);
-> @@ -2299,7 +2307,7 @@ struct ucsi *ucsi_create(struct device *dev, const =
-struct ucsi_operations *ops)
->  	if (!ucsi)
->  		return ERR_PTR(-ENOMEM);
-> =20
-> -	INIT_WORK(&ucsi->resume_work, ucsi_resume_work);
-> +	INIT_DELAYED_WORK(&ucsi->resume_work, ucsi_resume_work);
->  	INIT_DELAYED_WORK(&ucsi->work, ucsi_init_work);
->  	mutex_init(&ucsi->ppm_lock);
->  	init_completion(&ucsi->complete);
-> @@ -2365,7 +2373,7 @@ void ucsi_unregister(struct ucsi *ucsi)
-> =20
->  	/* Make sure that we are not in the middle of driver initialization */
->  	cancel_delayed_work_sync(&ucsi->work);
-> -	cancel_work_sync(&ucsi->resume_work);
-> +	cancel_delayed_work_sync(&ucsi->resume_work);
-> =20
->  	ucsi_debugfs_unregister(ucsi);
-> =20
-> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-> index dc594388dcd0..1996f04ed5e6 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.h
-> +++ b/drivers/usb/typec/ucsi/ucsi.h
-> @@ -484,7 +484,8 @@ struct ucsi {
->  	struct ucsi_connector *connector;
->  	struct ucsi_debugfs_entry *debugfs;
-> =20
-> -	struct work_struct resume_work;
-> +	struct delayed_work resume_work;
-> +	int resume_retries;
->  	struct delayed_work work;
->  	int work_count;
->  #define UCSI_ROLE_SWITCH_RETRY_PER_HZ	10
+> on top of Fedora kernel 7.1.8 with the earlier commit
+> 7c0c31c66a7f9daace156bac427aafb2f4bbb5fc also applied.
 >=20
-> base-commit: bdab5605259ba5d6ff927c1a85cc83eb3ecfdacc
-> --=20
-> 2.55.0.737.g08866a6d13-goog
+> The resulting kernel was:
 >=20
+> 7.1.8-200.xhci3d9eeb3.fc44.x86_64
+>=20
+> COPR build:
+>=20
+> https://copr.fedorainfracloud.org/coprs/vertigo-red/kernel-xhci-deq/build=
+/10875339/
+>=20
+> IOMMU remained enabled in translated, strict mode:
+>=20
+> intel_iommu=3Don iommu.passthrough=3D0 iommu.strict=3D1
+>=20
+> There were no DMAR or IOMMU faults.
+>=20
+> A journal-cursor-bounded run with dynamic debug enabled for
+> drivers/usb/host/xhci-ring.c timed out after 45.026 seconds:
+>=20
+> rc=3D124
+>=20
+> The v4l2-ctl output contained 22 capture markers and reported 239
+> dropped buffers. During the exact test interval, the kernel logged:
 
---q7mid4L40iN1KA+y
-Content-Type: application/pgp-signature; name=signature.asc
+This looks like high data loss on the isoc endpoint.
 
------BEGIN PGP SIGNATURE-----
+> * 8,781 "Spurious event dma ..., comp_code 13 after 13"
 
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaoTLoQAKCRBzbaomhzOw
-wojrAQCOj1CFk/+d5VX6nRg4egpyj2sWbBVkFVISO4aWL5NlfAEAul17MwasyjmF
-5NqYS/0tl6/ungw67bE58CvJWPbeAww=
-=l/Zw
------END PGP SIGNATURE-----
+Probably harmless. While it could be some unknown bug, it usually
+is just a normal condition when multi-TRB TDs are present.
 
---q7mid4L40iN1KA+y--
+It may go away with certain other combinations of video format,
+resolution and frame rate (namely: those where alt settings with
+power-of-two packet size are used, and you can know selected alt
+setting by passing trace=3D0x400 module parmatere to uvcvideo).
+
+> * 6,309 "Miss service interval" events
+> * 4,073 "Found td. Clear skip flag" events
+
+This number of Missed Service Errors is excessive and may be the main
+reason for data loss. Unfortunately, I don't konw what causes it. Some
+users reported seeing correlation with CPU load (it may go both ways -
+either high or low CPU load causes errors).
+
+It notably shouldn't be affected by scheduling patches in usb-next,
+because uvcvideo uses URB_ISO_ASAP. And you say the bug is very old.
+
+Maybe it's something to do with multi-TRB TDs? Would it get any better
+in video modes that don't produce "spurious events"?
+
+> * 23 "Giveback URB" events
+> * 0 "All TDs skipped" events
+> * 0 DMAR/IOMMU faults
+
+Good, the "All TDs skipped" and "Event dma" bug is fixed now.
+
+> There is also more information about the two endpoints:
+>=20
+> * 23 "Stopped on Transfer TRB" messages for slot 4 ep 6, corresponding
+>  =C2=A0 to the camera's USB status interrupt endpoint 0x83
+
+These are very fast submit-unlink cycles, it doesn't look like the
+URBs are unlinked due to failing to complete for a long time, but more
+like uvcvideo "changed its mind" for some reason. No problem?
+
+Then it's 45 seconds of Missed Service Errors, which looks like the
+actual problem and the reason why video frames are being lost.
+
+> * 5 "Stopped on Transfer TRB" messages for slot 4 ep 2, corresponding
+>  =C2=A0 to the isochronous video endpoint 0x81
+
+And 5 video URBs are unlinked when v4l2-ctl exists. Normal.
+
+> For comparison, the camera works acceptably under Windows on the same
+> laptop, including stream restarts. Windows uses the standard
+> usbvideo.sys stack together with a Realtek Device MFT named
+
+Windows must be doing something differently. But again, the problem
+seems to be with xHCI, not any control requests sent to the camera.
+
+Regards,
+Michal
