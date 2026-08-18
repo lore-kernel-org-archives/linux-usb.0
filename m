@@ -1,79 +1,114 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB865846A
-	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 02:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ABA342CB0
+	for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 02:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787021877; cv=none; b=C3tyKtI/J3MJ1KLD3Qp4v53kKtZAlHie4fA+FjcAB0H7ziyxsYLge8UKM1vpnVItd6opShdjv8xfU+iLbgnkCNgaVpeOapXCt3Lz54pesHQqQRDbPERycVklQiiJwlHNYRvpNyvnXxyaTY6k+amFw9QVG3zpOU//ozimBJcZ3l0=
+	t=1787021977; cv=none; b=uZpg0yDh7D39dz3O2bO5nUi9UNGq5e/sVK9L6FwvAVyhW0x76r88RF25VQ4jcmnjxfGTzWjnUuYA8Nbh7b52r/uIPQkiZkQsTvE1sQeD+qqLG2cUkIIOMGwIFBD5z2EjorozkMIsg4GuRDVcQowzPMrownhWKCwpWEMIyMAkIao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787021877; c=relaxed/simple;
-	bh=hmqjrm7JN0bFewhwmx5whgZovzdNSmYzfg1AKUkjqi8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hSLOUGlfIQ0DQUFa1o1Ggg1W32AAQukH2Bt631x/ttu53ZQgAtqs4+Z2LlopxuMdvqOozE6PAV6JGSaFZ5jeGNuV5we4g1jdQHaWI+F20lnS13sBmhyDIfTXJAQXp5B0t1UViT6DRvG5VBWErfCZKTonGqggZVE2xsvuZf2+IME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 980311a69ab011f19a56ed5b684f684d-20260818
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:882c6e56-00a0-47a0-a594-9d54069cc498,IP:0,U
-	RL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-20
-X-CID-META: VersionHash:7db8b62,CLOUDID:72ed963ce4dd209f14d8d23b8defdc86,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:1|44|-1
-	00,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_EDM_RNO
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 980311a69ab011f19a56ed5b684f684d-20260818
-X-User: yanlonglong@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <yanlonglong@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1948136474; Tue, 18 Aug 2026 10:57:48 +0800
-From: longlong yan <yanlonglong@kylinos.cn>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	longlong yan <yanlonglong@kylinos.cn>
-Subject: [PATCH] tools: usb: ffs-test: fix pthread_join return value check
-Date: Tue, 18 Aug 2026 10:57:33 +0800
-Message-ID: <20260818025733.1911-1-yanlonglong@kylinos.cn>
-X-Mailer: git-send-email 2.47.1.windows.2
+	s=arc-20240116; t=1787021977; c=relaxed/simple;
+	bh=OFzNqmcZS4R4FV+pXkH5Cb8qCpxPZIA03eLKeqvWgUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uDY+DgS99GlkD3ePocYJcv6WGG3GCJpQgH362X7VrLhvzCqdYdsX48YshcljOKBfn/iFbqz9cPOAlf8x6uCoHlYxtLIfjYZsXSv6fqRe2ApuEnMCz9D9GQaVno/hGxKktKz+rrxlgdc+wLQAHFt2rresvkf6iVhBuK8QOatlILA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=W5oOFXVs; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="W5oOFXVs"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e6c4a867cso257338985a.0
+        for <linux-usb@vger.kernel.org>; Mon, 17 Aug 2026 19:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1787021975; x=1787626775; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tpYS9nogSeC5YAWQyKVXdj3E5kPL+kfXuGGttfptnTE=;
+        b=W5oOFXVsl7RcB+qjH5+yaIBHNytAtANpHR2EiiPMPx1/ozgVUp/6Tz7pHwLilL9e4i
+         fFe3GNvOAORnsyR7KUwROC8gFfV8ohdmyeg0mGclcYvyYCaHdhzb9gA9kVtGayI5OB0S
+         pfHqI6GCdyKScP48gx8Nb2IskCl+sfvC/q0QKtZZl07w4CL/tZ+8OKgEDnjpZpK33slo
+         976/chq8IwHEKAhSq8zNq5xUxlfawtjQv9SlyVQuE2kYJuz6hSDb82TeTtAh4hniIjXP
+         jmLQvC0xjtriMJWiE7k9P2dCOQw0X1cc8BzC+cq/x2G3yJ/grv0fD/szGpw6qGvAcyyG
+         MiYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787021975; x=1787626775;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tpYS9nogSeC5YAWQyKVXdj3E5kPL+kfXuGGttfptnTE=;
+        b=RO5/BSTghr8ZZV4YBbi906SDLaKhtNb3jWVrqsoRVRCEtAdTeKLNOXfqLQaaGXKckN
+         5f+gn6BCKoiLvfzh8eWpuX26IuyCaQZIhECymtQXYwXGhONXyaGq/rrZh4CTqfZFIdH4
+         cW1ZgWi7mCh5sGr8DhU5mReyhjSUou+A6Od8GpH/0424IMprMk0h7ayjn05JFiZ5vPiI
+         93iohwcg89vZLVBWxYWtWUmygTR02hqibwT1OeoFSMlPh9g68f8P+eyDeTcq065tr/4M
+         M60ISIl4LsWHJFaacp+4FALNlJWueWytskDBYylZbfC+cjBR/iQrWmMD09J3v8egbQan
+         WsOQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpmvdKoK4CWlepJOHZKQXoIm9B6QyQBEOFD0njoEyND2pVHaVqAvjHHZWjNbUExCmEEckiOQY2/n7I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMttYhscFWFxrtEqNGxPjeMpgNtn3Z9Co5GOkt+FCCKFS+1Vvw
+	PYOkFRFVZa9/lCuokbv9t/J0PgWjQu5D/YQz+MGx/32LMQPyQjxDdi69oWOpYFZ0Gg==
+X-Gm-Gg: AR+sD12tSZkrY7Vzk4aOtWSKvnE51V+z7PvdncQtqBSGfazgCadW5Aybp+8U0cKsiN4
+	MZSNyNT0fGz+69VC3Go/gn3ooRj3fyza6oyTZqwXb80iEeKpTk+YUwIyXHkSuJmEQum0rdWWZcs
+	/U8/huWusoK/amrU1k1whnW5EtMtvt2YxRykMlppMS4VRXiynAZiO8rV5UroYPQjPhryNjszqM6
+	xiNifWvtD8kFeZclI3AyV7td47iyC/a6MydMYOeYGag6Ui4A5Uud1dOTf1IUsSVjmpVJ+Sokf7B
+	k8seaUXq/vf/XsgO4gucHTdyUqHZ4SQIYBoZcGG55mU3CPcIIttRklqiqRvz0v3ld+uuY/9Vsad
+	9HQsqxOjIiI9MohDLQ4FUP3/qzYW/sIGQmw7vr0M/ze8Dh2dKp2BwLU25a1bCg44A/zWVWV+H+g
+	U5wpGJ5l+avXS8Qwq7amx4oUSCFQyBzol5uDCVKSxpjATKOlwnEgb34n9Nqe9LTg==
+X-Received: by 2002:a05:620a:2683:b0:915:83fa:b3e0 with SMTP id af79cd13be357-936d1fdb95bmr2738326885a.5.1787021974874;
+        Mon, 17 Aug 2026 19:59:34 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-937033ceb9bsm191865685a.23.2026.08.17.19.59.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 19:59:34 -0700 (PDT)
+Date: Mon, 17 Aug 2026 22:59:31 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	syzbot+805630f1453e490427fa@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
+Message-ID: <3ec57a22-3096-418f-b10f-b0993a352007@rowland.harvard.edu>
+References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
 
-pthread_join() returns 0 on success or a positive error number on
-failure. It never returns a negative value, so the "if (ret < 0)"
-check in join_thread() is always false and the error path is dead
-code.
+On Mon, Aug 17, 2026 at 04:40:18PM -0400, Zi Yan wrote:
+> kmalloc is used to allocate physically contiguous memory for kernel
+> allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
+> the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
+> sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
+> because kmalloc allocates an order greater than MAX_PAGE_ORDER. Systems
+> with panic_on_warn=1 crash because of this WARN. Fix it by rejecting any
+> kmalloc size bigger than KMALLOC_MAX_SIZE.
+> 
+> Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher kmalloc requests")
+> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
+> Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> Cc: stable@vger.kernel.org
+> ---
+> It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadgetfs
+> requests excessively large memory from kmalloc. Instead of adding
+> __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
+> kmalloc to return NULL without a warning for this specific issue.
+> 
+> [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively large memory allocations")
 
-Use "if (ret)" instead to correctly detect thread join failures.
+Thanks for doing this.  If you like, I can write a follow-up patch to 
+remove the __GFP_NOWARN added in 4f2629ea67e72, now that it isn't needed 
+any more.
 
-Fixes: 93f2aa4ddd25 ("USB: ffs-test: FunctionFS testing program")
-Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
----
- tools/usb/ffs-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/usb/ffs-test.c b/tools/usb/ffs-test.c
-index 22b938fbdfb7..dd8a1d537971 100644
---- a/tools/usb/ffs-test.c
-+++ b/tools/usb/ffs-test.c
-@@ -473,7 +473,7 @@ static void join_thread(struct thread *t)
- {
- 	int ret = pthread_join(t->id, NULL);
- 
--	if (ret < 0)
-+	if (ret)
- 		err("%s: joining thread", t->filename);
- 	else
- 		debug("%s: joined\n", t->filename);
--- 
-2.43.0
-
+Alan Stern
