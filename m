@@ -1,92 +1,41 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D544D34A794
-	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 01:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809EE3C0633;
+	Wed, 19 Aug 2026 03:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787103012; cv=none; b=rGSNNx8HSqG24Hj1zay1sdiYdiOX+k7eM2ZbqwP6SubKqchFpE3TPLK+w4uXqEjFGLtqCIgK8mQe+P86E5oRFN+HS44daBJzX2yftxQtSOV8XgrN8P+3XaVDzFc2Zm8QQ1mlsbvXH7YJAJK+wFwfyoIan18QtnhyCqZHtKo8PnA=
+	t=1787108995; cv=none; b=BQFYX7Wvyj9CKoR4N6QddRfbKHTTirr8kDZXw/UR1FugvYmt3fbCwArHbmRqjhuwTIhlF9R0AspK5fIhRw4CvB/u08p7G1lYm4gSJLJL46Ge31hgIHtRdUoKF+In8/E81V/YFis7gvMSKVeBp6HJB1cv/5DUIL5ww2+yAYnR6Js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787103012; c=relaxed/simple;
-	bh=kIpCYSa6KIRZoVAecMSsPsTCIkgUczX3X6QWFI7vDno=;
+	s=arc-20240116; t=1787108995; c=relaxed/simple;
+	bh=+q6s3XYb86s8AlrnrvSPKRYnCR84B6LcMYwMMw0lBdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T239L1hPqLmfpGak1XnHIZpbdljDIn4iivBLuC/X1U3VS+xTLSj700+p0PE+eE/MPZnKB3hWD9Tlwrpetvh+/O908VFGXHG1xMxdIkYfCakmJPPDEMWbiIbUYmRERmfGQCo4UH4TBOWkS2hMMzbCDEhzP+MN2bTd4/Ouy/RneLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=HHhZTiYT; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=CFgm7OtGIQzYV9RSzUNtY0jnZBS7X6JxIwtx9bA9UGIa8OG7ZjF+26hBIzDkdLC+pwaswKp3FZ384m23KEmjqiGVNB3lRNeChlp2/0N+irt+RyKIBR/1SN8kKLsphFJMhc0AUCUE3DqCBxYT9nvuPvwVnoWQOIbXzFnSC86OWjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zmsuin2L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="HHhZTiYT"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-9309d4ea213so49253385a.1
-        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 18:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787103010; x=1787707810; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=J+ygC0wNxl2Z31GJ1PcaOL53f5ivFqBoZjXQriFfAg0=;
-        b=HHhZTiYTbzZZZj1N1/sczPHc3MxjI64wZ9UArhjyoQkP9h8jLXnsZYfrvlX9eZsmVO
-         VvUzVhBETuAmlw3fd6g5FGli4Xk1g3q30joVQFUGngrdsZY8d99PbR6hQlHjRZ1GDOg7
-         mzPoMHolJ1hMmjdM4cE0f8X/jSd0CnLPiMQ5chLT3r0oA/CANOaMtY1De83qXIH9GVpI
-         Mg0wFOcWzSyKDnoK3d6JwDqBti+sNOdHS8+PTw1T1tBAy4sJfJIVX+bA4XdCoOSk55pb
-         ujvrfwiGABoD3efC8ykaPTeklPnNQtWxZ8LhxPIGBXGleu3EA81Bl3snq35nV9xxhHwb
-         CW8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787103010; x=1787707810;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=J+ygC0wNxl2Z31GJ1PcaOL53f5ivFqBoZjXQriFfAg0=;
-        b=Q3f93YIH1jFUXaMYYJKO3vh0UXBbYtdek+Ecwg1ADmCACC7XqBaDLTGEIyRVQ6nMhL
-         uY0AIC660TZRhK27OqBUvGM/e1SW0G44w4DiSlSM4fKYjPvhDumKubQecCqvMzkV95p4
-         xN8AIjswbD1lQ1SzPobfqgRBDJHinfPOHkOzHD1HVsTwOfge95Lc4HjC3TgHkmA8ZDYt
-         U8d6C9N65E7R/C5wOJzdBhl6kq7uZ3KqOx8Eo4UO4zebWFsdrYQpqgeS1bjtKyv28yIp
-         7IFWv5N697mhseUEIGCXb4TqkAVc37b2LuH68nV5g8uc+kKuE6riL9IIjVZNZKeQ17zc
-         8IWA==
-X-Forwarded-Encrypted: i=1; AHgh+RoI076UmVjM2q0OoTK2CwCARxXwCrpKxo9hy9vO21XBU+rbOXyuPHK1dO3XLHZfo2jDY+ZUQukKy+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw2LYZ+d7zG+Ym23D/rdvBfweEkaQuDls0jL6FtxHpdkVN/tpE
-	vHINsyGBq/0zM5s0C/QNyGce4XEkOKCEd+0JV3oNz5ayB8nw8QqFL6A0b+5vwIrciQ==
-X-Gm-Gg: AR+sD11Uyg8AmUmyqVKBKajxHFFyF1/Pd8FIl9qxbk0XH9bai5Q1Q1bDeDUMdEoAEBk
-	2qVP7AzKg4e5IqwdvT3UZeXxV/YniMok9Oqhy/4TvxXTvzg1tGVJv1L9/Jvg+ys6VHQOrp9Uhso
-	MMyLxlLbx59E0XzAhJwC7lbCrr2qJqCBkevd9zU2gdexZm3JLfK7MNNA6ieXVMNAXw2JarU0OFr
-	KOqyni+r8K3lGBZP++p20dCgvu2rPH9STHNub3G8JD57+ou7Y3AuOYzJ+Ks4P/S11q5PFZJWoZl
-	APplClcItN+VItHGELtV9AcPyuc2DoVWXqSDYcc8CPQfhBq9B+T0U89RzlxlkSbAotFpGVL91Fu
-	I5kAuGMxeyxtIBz/ys4TowUmZgqyEGZYEBJOZ+w98zOnfjSb0Q2Rp3NGwCxrisBUoLGun4ge6UK
-	KV1AmEAa0m7S1l8QxCbzpnfezbAjr113P5VeEgn3kw1H4TGmw0aoE6hwPfeb3SGQ==
-X-Received: by 2002:a05:620a:4048:b0:92e:db54:a2aa with SMTP id af79cd13be357-9371e1f7a69mr163751085a.3.1787103008591;
-        Tue, 18 Aug 2026 18:30:08 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93720584d5dsm25685585a.36.2026.08.18.18.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 18:30:07 -0700 (PDT)
-Date: Tue, 18 Aug 2026 21:30:04 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
-	apopple@nvidia.com, byungchul@sk.com, david@kernel.org,
-	gourry@gourry.net, joshua.hahnjy@gmail.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	matthew.brost@intel.com, rakie.kim@sk.com,
-	syzkaller-bugs@googlegroups.com, ying.huang@linux.alibaba.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Message-ID: <b31f8a14-1488-4405-8196-504e82557ed6@rowland.harvard.edu>
-References: <20260816194213.0e813ed338144ebc81ed4050@linux-foundation.org>
- <472add4b-f16a-4b87-bbc3-98c8aa385cf5@rowland.harvard.edu>
- <EDCC14FA-F7D8-4F72-B780-37D09E26D16C@nvidia.com>
- <EECC6FB3-7559-4D22-B9DA-33E30E5EC181@nvidia.com>
- <7deabd9c-04d5-4a45-8b8a-39929c046152@rowland.harvard.edu>
- <A2BA0883-6B5D-4AB1-A7CF-6B9BDF27F439@nvidia.com>
- <2bf01548-723c-465d-8368-247a814f61eb@rowland.harvard.edu>
- <6FC11E12-9428-4975-B135-E24805C2D9BF@nvidia.com>
- <15b086cc-7f10-4766-9b0c-88c3302e7398@rowland.harvard.edu>
- <DKSGX4MUL58E.1QQZGHROS8EPS@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zmsuin2L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C131F000E9;
+	Wed, 19 Aug 2026 03:09:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787108993;
+	bh=EjXpmVwc0zbaT9bGNjPuUE7WnFRN81oK+1SwMsThV6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Zmsuin2LAx/PzRmFuEClQ+LOW9pUi7qAufg6isdG+jy8kTVjnOXKJs5nmfqIB68qX
+	 JKD8l/TDecLQWqimivrGk23rq8URU9li0oE1ouq5uNVbEvGhG4ZUEA4AjeYGd7ML4c
+	 j5h3V9AAlXjUJGlGOKe5UKEIdZbJEHfgvI2eBQsCaJNTXsnDHSEvMEWTmFSDFciqc3
+	 dbtpMFlgyYaLo+KNQCInfZh2x6PCxiOKsDQJmYB8ysO3c6FURrDP/Yj076+a+0nbX9
+	 KLQ9/Y5B0OvQGH/Z3j8p3+sVM4Drhpqk3eMS9agX1R8+3/sIABQX/riIr4QI8eKUBx
+	 Tl3pbfKir0ukw==
+Date: Tue, 18 Aug 2026 20:09:51 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: pawell@cadence.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, gary.yang@cixtech.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: cdnsp: fix wakeup from S3 after controller
+ context loss
+Message-ID: <aoUef79PQPB0CfiC@hu-petche-lv.qualcomm.com>
+References: <20260818-suspend_resume_fix-v2-1-4750091943df@cadence.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -95,45 +44,574 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DKSGX4MUL58E.1QQZGHROS8EPS@nvidia.com>
+In-Reply-To: <20260818-suspend_resume_fix-v2-1-4750091943df@cadence.com>
 
-On Tue, Aug 18, 2026 at 07:45:31PM -0400, Zi Yan wrote:
-> On Mon Aug 17, 2026 at 11:12 PM EDT, Alan Stern wrote:
-> > This WARN should be conditional on something indicating that the kernel 
-> > is meant for testing rather than production (not necessarily 
-> > CONFIG_EXPERT but something like it) because it does not indicate that 
-> > an operation has failed badly enough to leave the kernel in a 
-> > dangerously unstable state.  Rather, it indicates that a programmer has 
-> > tried to do something that can't possibly succeed.  The result should 
-> > not be dangerous because the caller should always check kmalloc()'s 
-> > return value.  If the caller is unable to recover from a memory 
-> > allocation failure then it is the caller's responsibility to WARN, not 
-> > kmalloc()'s.
+On 26-08-18 12:29:29, Pawel Laszczak via B4 Relay wrote:
+> From: Pawel Laszczak <pawell@cadence.com>
 > 
-> I agree with you that this situation, kmalloc cannot satisfy the
-> too-large-to-allocate request, is not fatal and is recoverable since the
-> caller handles NULL result. But without the warning, some callers have
-> no way to know if they are sending an unexpected/undesirable request
-> that might come from a bug in their code. With the patch, kmalloc
-> returning NULL means two ambiguous things: 1. the request cannot be
-> satisfied due to current memory system condition, e.g., insufficient
-> free memory; 2. the request itself is unreasonable/unexpected. It could
-> make debugging harder.
-
-That's exactly why the WARN should remain enabled in testing/development 
-kernels.  Just not in production kernels.
-
-> > The same is true for all other WARN statements.  If they merely indicate 
-> > a programming infelicity and not a dangerous failure then they should 
-> > not fire in production kernels.
+> CDNSP controller may lose its runtime register programming across S3
+> suspend/resume, depending on SoC power domain configuration. After
+> resume the operational and interrupter registers may contain reset
+> values, which prevents the gadget side from recovering correctly and
+> breaks wakeup from S3.
 > 
-> It is hard to tell whether a condition is dangerous or not. A caller
-> sending a too-large-to-allocate request can come from a miscalculation
-> or a wrong user input. It can also come from some data
-> corruption/overwrite, clobbering the request size itself.
+> On SoCs where the controller retains power during S3, the registers
+> are preserved and a Controller Restore State (CRS) sequence is used
+> instead of full reinitialization.
+> 
+> Fix this by detecting whether the controller lost its register context
+> after resume and handling both cases:
+> - If context was lost (CFG_3XPORT_U1_PIPE_CLK_GATE_EN set or power
+>   lost): reprogram the controller state required for normal operation,
+>   including the command ring, DCBAA pointer, doorbell base, event ring,
+>   ERST base/size and event ring dequeue pointer.
+> - If context was retained: restore saved registers and initiate
+>   Controller Restore State (CRS).
+> 
+> Move the basic controller register programming out of the one-time memory
+> initialization path and make it reusable from the resume path. Also
+> separate ring allocation from ring initialization so that rings can be
+> reinitialized without reallocating DMA memory.
+> 
+> Always perform the full suspend sequence regardless of the current link
+> state. Previously, if the device was already in U3, the suspend callback
+> returned early without saving registers or stopping the controller, which
+> could lead to commands being issued on a disabled slot during resume.
+> 
+> This fixes S3 resume on systems where the controller register context is
+> lost, while keeping the existing DMA allocations intact.
+> 
+> Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 
-Certainly.  But the mm subsystem can't tell which of these is the case; 
-it _has_ to leave the decision of how to handle the failure up to the 
-caller.
 
-Alan Stern
+The changes in this patch are big, do we really need to apply it from the cdns USB SSP
+introduced? How about just apply it from #v7.2?
+
+After Gary Yang tests this patch, I am okay with it.
+
+Peter
+
+> ---
+> Changes in v2:
+> - Clarify commit message to reflect SoC-dependent context loss behavior
+> - Fix cdnsp_irq_handler: return IRQ_HANDLED instead of IRQ_NONE when in_lpm is set
+> - Fix suspend: always perform full suspend sequence regardless of link state
+> ---
+> Changes in v2:
+> - Clarify commit message to reflect SoC-dependent context loss behavior
+> - Removed in_lpm from cdnsp_irq_handler - the code is unnecessary
+> - Fix suspend: always perform full suspend sequence regardless of link state
+> ---
+>  drivers/usb/cdns3/cdnsp-gadget.c | 183 +++++++++++++++++++++++++++++++++++++--
+>  drivers/usb/cdns3/cdnsp-gadget.h |  31 +++++++
+>  drivers/usb/cdns3/cdnsp-mem.c    |  98 ++++++++-------------
+>  3 files changed, 243 insertions(+), 69 deletions(-)
+> 
+> diff --git a/drivers/usb/cdns3/cdnsp-gadget.c b/drivers/usb/cdns3/cdnsp-gadget.c
+> index a5275c2fb43b..67b265b456a9 100644
+> --- a/drivers/usb/cdns3/cdnsp-gadget.c
+> +++ b/drivers/usb/cdns3/cdnsp-gadget.c
+> @@ -1338,7 +1338,6 @@ static int cdnsp_run(struct cdnsp_device *pdev,
+>  
+>  	cdnsp_gadget_ep0_desc.wMaxPacketSize = cpu_to_le16(512);
+>  
+> -
+>  	ret = cdnsp_start(pdev);
+>  	if (ret) {
+>  		ret = -ENODEV;
+> @@ -1837,6 +1836,82 @@ static void cdnsp_get_rev_cap(struct cdnsp_device *pdev)
+>  		 readl(&pdev->rev_cap->tx_buff_size));
+>  }
+>  
+> +static void cdnsp_set_event_deq(struct cdnsp_device *pdev)
+> +{
+> +	dma_addr_t deq;
+> +	u64 temp;
+> +
+> +	deq = cdnsp_trb_virt_to_dma(pdev->event_ring->deq_seg,
+> +				    pdev->event_ring->dequeue);
+> +
+> +	/* Update controller event ring dequeue pointer */
+> +	temp = cdnsp_read_64(&pdev->ir_set->erst_dequeue);
+> +	temp &= ERST_PTR_MASK;
+> +
+> +	/*
+> +	 * Don't clear the EHB bit (which is RW1C) because
+> +	 * there might be more events to service.
+> +	 */
+> +	temp &= ~ERST_EHB;
+> +
+> +	cdnsp_write_64(((u64)deq & (u64)~ERST_PTR_MASK) | temp,
+> +		       &pdev->ir_set->erst_dequeue);
+> +}
+> +
+> +static void cdnsp_add_interrupter(struct cdnsp_device *pdev)
+> +{
+> +	u64 erst_base;
+> +	u32 erst_size;
+> +
+> +	/* Set ERST count with the number of entries in the segment table. */
+> +	erst_size = readl(&pdev->ir_set->erst_size);
+> +	erst_size &= ERST_SIZE_MASK;
+> +	erst_size |= ERST_NUM_SEGS;
+> +	writel(erst_size, &pdev->ir_set->erst_size);
+> +
+> +	/* Set the segment table base address. */
+> +	erst_base = cdnsp_read_64(&pdev->ir_set->erst_base);
+> +	erst_base &= ERST_PTR_MASK;
+> +	erst_base |= (pdev->erst.erst_dma_addr & (u64)~ERST_PTR_MASK);
+> +	cdnsp_write_64(erst_base, &pdev->ir_set->erst_base);
+> +
+> +	/* Set the event ring dequeue address. */
+> +	cdnsp_set_event_deq(pdev);
+> +}
+> +
+> +/* Set up basic CDNSP registers */
+> +static void cdnsp_init(struct cdnsp_device *pdev)
+> +{
+> +	unsigned int val;
+> +	u64 val_64;
+> +
+> +	val = readl(&pdev->op_regs->config_reg);
+> +	val |= ((val & ~MAX_DEVS) | CDNSP_DEV_MAX_SLOTS) | CONFIG_U3E;
+> +	writel(val, &pdev->op_regs->config_reg);
+> +
+> +	/* Initialize the Command ring */
+> +	cdnsp_ring_init(pdev, pdev->cmd_ring);
+> +
+> +	/* Set the address in the Command Ring Control register */
+> +	val_64 = cdnsp_read_64(&pdev->op_regs->cmd_ring);
+> +	val_64 = (val_64 & (u64)CMD_RING_RSVD_BITS) |
+> +		 (pdev->cmd_ring->first_seg->dma & (u64)~CMD_RING_RSVD_BITS) |
+> +		 pdev->cmd_ring->cycle_state;
+> +	cdnsp_write_64(val_64, &pdev->op_regs->cmd_ring);
+> +
+> +	/* Set Device Context Base Address Array pointer */
+> +	cdnsp_write_64(pdev->dcbaa->dma, &pdev->op_regs->dcbaa_ptr);
+> +
+> +	/* Set Doorbell array pointer */
+> +	val = readl(&pdev->cap_regs->db_off);
+> +	val &= DBOFF_MASK;
+> +	pdev->dba = (void __iomem *)pdev->cap_regs + val;
+> +
+> +	/* Initialize the Primary interrupter */
+> +	cdnsp_ring_init(pdev, pdev->event_ring);
+> +	cdnsp_add_interrupter(pdev);
+> +}
+> +
+>  static int cdnsp_gen_setup(struct cdnsp_device *pdev)
+>  {
+>  	int ret;
+> @@ -1902,6 +1977,8 @@ static int cdnsp_gen_setup(struct cdnsp_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	cdnsp_init(pdev);
+> +
+>  	/*
+>  	 * Software workaround for U1: after transition
+>  	 * to U1 the controller starts gating clock, and in some cases,
+> @@ -2026,20 +2103,62 @@ static void cdnsp_gadget_exit(struct cdns *cdns)
+>  	cdns_drd_gadget_off(cdns);
+>  }
+>  
+> +static void cdnsp_save_registers(struct cdnsp_device *pdev)
+> +{
+> +	struct cdnsp_s3_save *s3 = &pdev->s3;
+> +
+> +	s3->command = readl(&pdev->op_regs->command);
+> +	s3->dnctrl = readl(&pdev->op_regs->dnctrl);
+> +	s3->dcbaa_ptr = cdnsp_read_64(&pdev->op_regs->dcbaa_ptr);
+> +	s3->config_reg = readl(&pdev->op_regs->config_reg);
+> +	s3->s3_erst_size = readl(&pdev->ir_set->erst_size);
+> +	s3->s3_erst_base = cdnsp_read_64(&pdev->ir_set->erst_base);
+> +	s3->s3_erst_dequeue = cdnsp_read_64(&pdev->ir_set->erst_dequeue);
+> +	s3->s3_irq_pending = readl(&pdev->ir_set->irq_pending);
+> +	s3->s3_irq_control = readl(&pdev->ir_set->irq_control);
+> +}
+> +
+> +static void cdnsp_restore_registers(struct cdnsp_device *pdev)
+> +{
+> +	struct cdnsp_s3_save *s3 = &pdev->s3;
+> +
+> +	writel(s3->command, &pdev->op_regs->command);
+> +	writel(s3->dnctrl, &pdev->op_regs->dnctrl);
+> +	cdnsp_write_64(s3->dcbaa_ptr, &pdev->op_regs->dcbaa_ptr);
+> +	writel(s3->config_reg, &pdev->op_regs->config_reg);
+> +	writel(s3->s3_erst_size, &pdev->ir_set->erst_size);
+> +	cdnsp_write_64(s3->s3_erst_base, &pdev->ir_set->erst_base);
+> +	cdnsp_write_64(s3->s3_erst_dequeue, &pdev->ir_set->erst_dequeue);
+> +	writel(s3->s3_irq_pending, &pdev->ir_set->irq_pending);
+> +	writel(s3->s3_irq_control, &pdev->ir_set->irq_control);
+> +}
+> +
+>  static int cdnsp_gadget_suspend(struct cdns *cdns, bool do_wakeup)
+>  {
+>  	struct cdnsp_device *pdev = cdns->gadget_dev;
+>  	unsigned long flags;
+> -
+> -	if (pdev->link_state == XDEV_U3)
+> -		return 0;
+> +	u32 val;
+> +	int ret;
+>  
+>  	spin_lock_irqsave(&pdev->lock, flags);
+>  	cdnsp_disconnect_gadget(pdev);
+>  	cdnsp_stop(pdev);
+> +
+> +	cdnsp_save_registers(pdev);
+> +
+> +	val = readl(&pdev->op_regs->command);
+> +	val |= CMD_CSS;
+> +	writel(val, &pdev->op_regs->command);
+> +
+> +	ret = readl_poll_timeout_atomic(&pdev->op_regs->status, val,
+> +					!(val & STS_SSS), 1,
+> +					20 * 1000);
+> +	if (ret)
+> +		ret = -EIO;
+> +
+>  	spin_unlock_irqrestore(&pdev->lock, flags);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static int cdnsp_gadget_resume(struct cdns *cdns, bool lost_power)
+> @@ -2047,12 +2166,63 @@ static int cdnsp_gadget_resume(struct cdns *cdns, bool lost_power)
+>  	struct cdnsp_device *pdev = cdns->gadget_dev;
+>  	enum usb_device_speed max_speed;
+>  	unsigned long flags;
+> +	bool wakeup = false;
+> +	u32 val;
+>  	int ret;
+>  
+>  	if (!pdev->gadget_driver)
+>  		return 0;
+>  
+>  	spin_lock_irqsave(&pdev->lock, flags);
+> +	val = readl(&pdev->port3x_regs->mode_2);
+> +
+> +	if (val & CFG_3XPORT_U1_PIPE_CLK_GATE_EN || lost_power) {
+> +		cdnsp_halt(pdev);
+> +		cdnsp_set_apb_timeout_value(pdev);
+> +
+> +		/* Reset the internal controller memory state and registers. */
+> +		ret = cdnsp_reset(pdev);
+> +		if (ret)
+> +			goto unlock;
+> +
+> +		val = readl(&pdev->port3x_regs->mode_2);
+> +		val &= ~CFG_3XPORT_U1_PIPE_CLK_GATE_EN;
+> +		writel(val, &pdev->port3x_regs->mode_2);
+> +
+> +		cdnsp_clear_cmd_ring(pdev);
+> +
+> +		memset(pdev->event_ring->first_seg->trbs, 0,
+> +		       sizeof(union cdnsp_trb) * (TRBS_PER_SEGMENT));
+> +
+> +		cdnsp_init(pdev);
+> +	} else {
+> +		ret = readl_poll_timeout_atomic(&pdev->op_regs->status, val,
+> +						!(val & STS_CNR), 1,
+> +						10 * 1000 * 1000);
+> +		if (ret) {
+> +			dev_err(pdev->dev, "ERROR: Controller not ready to work\n");
+> +			spin_unlock_irqrestore(&pdev->lock, flags);
+> +			return ret;
+> +		}
+> +
+> +		cdnsp_restore_registers(pdev);
+> +
+> +		/* Initiate Controller Restore State (CRS) */
+> +		val = readl(&pdev->op_regs->command);
+> +		val |= CMD_CRS;
+> +		writel(val, &pdev->op_regs->command);
+> +
+> +		ret = readl_poll_timeout_atomic(&pdev->op_regs->status, val,
+> +						!(val & STS_RSS), 1, 100000);
+> +		if (ret) {
+> +			dev_err(pdev->dev, "Restore state did not complete (timeout)\n");
+> +			ret = -ETIMEDOUT;
+> +			goto unlock;
+> +		}
+> +
+> +		wakeup = true;
+> +	}
+> +
+>  	max_speed = pdev->gadget_driver->max_speed;
+>  
+>  	/* Limit speed if necessary. */
+> @@ -2060,9 +2230,10 @@ static int cdnsp_gadget_resume(struct cdns *cdns, bool lost_power)
+>  
+>  	ret = cdnsp_run(pdev, max_speed);
+>  
+> -	if (pdev->link_state == XDEV_U3)
+> +	if (pdev->link_state == XDEV_U3 && wakeup)
+>  		__cdnsp_gadget_wakeup(pdev);
+>  
+> +unlock:
+>  	spin_unlock_irqrestore(&pdev->lock, flags);
+>  
+>  	return ret;
+> diff --git a/drivers/usb/cdns3/cdnsp-gadget.h b/drivers/usb/cdns3/cdnsp-gadget.h
+> index c44bca348a41..6c45fd3e4a9d 100644
+> --- a/drivers/usb/cdns3/cdnsp-gadget.h
+> +++ b/drivers/usb/cdns3/cdnsp-gadget.h
+> @@ -1353,6 +1353,34 @@ struct cdnsp_port {
+>  #define CDNSP_EXT_PORT_OFF(x)		((x) & 0xff)
+>  #define CDNSP_EXT_PORT_COUNT(x)		(((x) >> 8) & 0xff)
+>  
+> +/**
+> + * struct cdnsp_s3_save - register context saved before S3 suspend.
+> + * @command: Saved USB command register value.
+> + * @dnctrl: Saved device notification control register value.
+> + * @dcbaa_ptr: Saved Device Context Base Address Array pointer.
+> + * @config_reg: Saved configuration register value.
+> + * @s3_irq_pending: Saved interrupter pending register value.
+> + * @s3_irq_control: Saved interrupter control register value.
+> + * @s3_erst_size: Saved Event Ring Segment Table size.
+> + * @s3_erst_base: Saved Event Ring Segment Table base address.
+> + * @s3_erst_dequeue: Saved Event Ring Dequeue Pointer.
+> + *
+> + * Stores the controller register state that may be lost across S3
+> + * suspend/resume. The saved values are used to restore the CDNSP
+> + * operational and interrupter register programming after resume.
+> + */
+> +struct cdnsp_s3_save {
+> +	u32	command;
+> +	u32	dnctrl;
+> +	u64	dcbaa_ptr;
+> +	u32	config_reg;
+> +	u32	s3_irq_pending;
+> +	u32	s3_irq_control;
+> +	u32	s3_erst_size;
+> +	u64	s3_erst_base;
+> +	u64	s3_erst_dequeue;
+> +};
+> +
+>  /**
+>   * struct cdnsp_device - represent USB device.
+>   * @dev: Pointer to device structure associated whit this controller.
+> @@ -1388,6 +1416,7 @@ struct cdnsp_port {
+>   * @cmd: Represent all what is needed to issue command on Command Ring.
+>   * @event_ring: Event ring.
+>   * @erst: Event Ring Segment table
+> + * @s3:  Register values saved before entering S3.
+>   * @slot_id: Current Slot ID. Should be 0 or 1.
+>   * @out_ctx: Output context.
+>   * @in_ctx: Input context.
+> @@ -1447,6 +1476,7 @@ struct cdnsp_device {
+>  	struct cdnsp_command cmd;
+>  	struct cdnsp_ring *event_ring;
+>  	struct cdnsp_erst erst;
+> +	struct cdnsp_s3_save s3;
+>  	int slot_id;
+>  
+>  	/*
+> @@ -1510,6 +1540,7 @@ int cdnsp_endpoint_init(struct cdnsp_device *pdev,
+>  int cdnsp_ring_expansion(struct cdnsp_device *pdev,
+>  			 struct cdnsp_ring *ring,
+>  			 unsigned int num_trbs, gfp_t flags);
+> +void cdnsp_ring_init(struct cdnsp_device *pdev, struct cdnsp_ring *ring);
+>  struct cdnsp_ring *cdnsp_dma_to_transfer_ring(struct cdnsp_ep *ep, u64 address);
+>  int cdnsp_alloc_stream_info(struct cdnsp_device *pdev,
+>  			    struct cdnsp_ep *pep,
+> diff --git a/drivers/usb/cdns3/cdnsp-mem.c b/drivers/usb/cdns3/cdnsp-mem.c
+> index 5d8cdc91927d..0be917f52bbb 100644
+> --- a/drivers/usb/cdns3/cdnsp-mem.c
+> +++ b/drivers/usb/cdns3/cdnsp-mem.c
+> @@ -394,13 +394,6 @@ static struct cdnsp_ring *cdnsp_ring_alloc(struct cdnsp_device *pdev,
+>  	if (ret)
+>  		goto fail;
+>  
+> -	/* Only event ring does not use link TRB. */
+> -	if (type != TYPE_EVENT)
+> -		ring->last_seg->trbs[TRBS_PER_SEGMENT - 1].link.control |=
+> -			cpu_to_le32(LINK_TOGGLE);
+> -
+> -	cdnsp_initialize_ring_info(ring);
+> -	trace_cdnsp_ring_alloc(ring);
+>  	return ring;
+>  fail:
+>  	kfree(ring);
+> @@ -603,6 +596,7 @@ int cdnsp_alloc_stream_info(struct cdnsp_device *pdev,
+>  		if (!cur_ring)
+>  			goto cleanup_rings;
+>  
+> +		cdnsp_ring_init(pdev, cur_ring);
+>  		cur_ring->stream_id = cur_stream;
+>  		cur_ring->trb_address_map = &stream_info->trb_address_map;
+>  
+> @@ -696,6 +690,8 @@ static int cdnsp_alloc_priv_device(struct cdnsp_device *pdev)
+>  	if (!pdev->eps[0].ring)
+>  		goto fail;
+>  
+> +	cdnsp_ring_init(pdev, pdev->eps[0].ring);
+> +
+>  	/* Point to output device context in dcbaa. */
+>  	pdev->dcbaa->dev_context_ptrs[1] = cpu_to_le64(pdev->out_ctx.dma);
+>  	pdev->cmd.in_ctx = &pdev->in_ctx;
+> @@ -989,6 +985,8 @@ int cdnsp_endpoint_init(struct cdnsp_device *pdev,
+>  	if (!pep->ring)
+>  		return -ENOMEM;
+>  
+> +	cdnsp_ring_init(pdev, pep->ring);
+> +
+>  	pep->skip = false;
+>  
+>  	/* Fill the endpoint context */
+> @@ -1094,28 +1092,6 @@ void cdnsp_mem_cleanup(struct cdnsp_device *pdev)
+>  	pdev->active_port = NULL;
+>  }
+>  
+> -static void cdnsp_set_event_deq(struct cdnsp_device *pdev)
+> -{
+> -	dma_addr_t deq;
+> -	u64 temp;
+> -
+> -	deq = cdnsp_trb_virt_to_dma(pdev->event_ring->deq_seg,
+> -				    pdev->event_ring->dequeue);
+> -
+> -	/* Update controller event ring dequeue pointer */
+> -	temp = cdnsp_read_64(&pdev->ir_set->erst_dequeue);
+> -	temp &= ERST_PTR_MASK;
+> -
+> -	/*
+> -	 * Don't clear the EHB bit (which is RW1C) because
+> -	 * there might be more events to service.
+> -	 */
+> -	temp &= ~ERST_EHB;
+> -
+> -	cdnsp_write_64(((u64)deq & (u64)~ERST_PTR_MASK) | temp,
+> -		       &pdev->ir_set->erst_dequeue);
+> -}
+> -
+>  static void cdnsp_add_in_port(struct cdnsp_device *pdev,
+>  			      struct cdnsp_port *port,
+>  			      __le32 __iomem *addr)
+> @@ -1224,6 +1200,36 @@ static int cdnsp_setup_port_arrays(struct cdnsp_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static void cdnsp_initialize_ring_segments(struct cdnsp_device *pdev, struct cdnsp_ring *ring)
+> +{
+> +	struct cdnsp_segment *seg;
+> +
+> +	/* Only event ring does not use link TRB. */
+> +	if (ring->type == TYPE_EVENT)
+> +		return;
+> +
+> +	seg = ring->first_seg;
+> +
+> +	while (seg) {
+> +		struct cdnsp_segment *next = seg->next;
+> +
+> +		cdnsp_link_segments(pdev, seg, next, ring->type);
+> +		if (next == ring->first_seg)
+> +			break;
+> +
+> +		seg = next;
+> +	}
+> +
+> +	ring->last_seg->trbs[TRBS_PER_SEGMENT - 1].link.control |= cpu_to_le32(LINK_TOGGLE);
+> +}
+> +
+> +void cdnsp_ring_init(struct cdnsp_device *pdev, struct cdnsp_ring *ring)
+> +{
+> +	cdnsp_initialize_ring_segments(pdev, ring);
+> +	cdnsp_initialize_ring_info(ring);
+> +	trace_cdnsp_ring_alloc(ring);
+> +}
+> +
+>  /*
+>   * Initialize memory for CDNSP (one-time init).
+>   *
+> @@ -1235,10 +1241,8 @@ int cdnsp_mem_init(struct cdnsp_device *pdev)
+>  {
+>  	struct device *dev = pdev->dev;
+>  	int ret = -ENOMEM;
+> -	unsigned int val;
+>  	dma_addr_t dma;
+>  	u32 page_size;
+> -	u64 val_64;
+>  
+>  	/*
+>  	 * Use 4K pages, since that's common and the minimum the
+> @@ -1246,10 +1250,6 @@ int cdnsp_mem_init(struct cdnsp_device *pdev)
+>  	 */
+>  	page_size = 1 << 12;
+>  
+> -	val = readl(&pdev->op_regs->config_reg);
+> -	val |= ((val & ~MAX_DEVS) | CDNSP_DEV_MAX_SLOTS) | CONFIG_U3E;
+> -	writel(val, &pdev->op_regs->config_reg);
+> -
+>  	/*
+>  	 * Doorbell array must be physically contiguous
+>  	 * and 64-byte (cache line) aligned.
+> @@ -1261,8 +1261,6 @@ int cdnsp_mem_init(struct cdnsp_device *pdev)
+>  
+>  	pdev->dcbaa->dma = dma;
+>  
+> -	cdnsp_write_64(dma, &pdev->op_regs->dcbaa_ptr);
+> -
+>  	/*
+>  	 * Initialize the ring segment pool.  The ring must be a contiguous
+>  	 * structure comprised of TRBs. The TRBs must be 16 byte aligned,
+> @@ -1288,17 +1286,6 @@ int cdnsp_mem_init(struct cdnsp_device *pdev)
+>  	if (!pdev->cmd_ring)
+>  		goto destroy_device_pool;
+>  
+> -	/* Set the address in the Command Ring Control register */
+> -	val_64 = cdnsp_read_64(&pdev->op_regs->cmd_ring);
+> -	val_64 = (val_64 & (u64)CMD_RING_RSVD_BITS) |
+> -		 (pdev->cmd_ring->first_seg->dma & (u64)~CMD_RING_RSVD_BITS) |
+> -		 pdev->cmd_ring->cycle_state;
+> -	cdnsp_write_64(val_64, &pdev->op_regs->cmd_ring);
+> -
+> -	val = readl(&pdev->cap_regs->db_off);
+> -	val &= DBOFF_MASK;
+> -	pdev->dba = (void __iomem *)pdev->cap_regs + val;
+> -
+>  	/* Set ir_set to interrupt register set 0 */
+>  	pdev->ir_set = &pdev->run_regs->ir_set[0];
+>  
+> @@ -1315,21 +1302,6 @@ int cdnsp_mem_init(struct cdnsp_device *pdev)
+>  	if (ret)
+>  		goto free_event_ring;
+>  
+> -	/* Set ERST count with the number of entries in the segment table. */
+> -	val = readl(&pdev->ir_set->erst_size);
+> -	val &= ERST_SIZE_MASK;
+> -	val |= ERST_NUM_SEGS;
+> -	writel(val, &pdev->ir_set->erst_size);
+> -
+> -	/* Set the segment table base address. */
+> -	val_64 = cdnsp_read_64(&pdev->ir_set->erst_base);
+> -	val_64 &= ERST_PTR_MASK;
+> -	val_64 |= (pdev->erst.erst_dma_addr & (u64)~ERST_PTR_MASK);
+> -	cdnsp_write_64(val_64, &pdev->ir_set->erst_base);
+> -
+> -	/* Set the event ring dequeue address. */
+> -	cdnsp_set_event_deq(pdev);
+> -
+>  	ret = cdnsp_setup_port_arrays(pdev);
+>  	if (ret)
+>  		goto free_erst;
+> 
+> ---
+> base-commit: abe651837cb394f76d738a7a747322fca3bf17ba
+> change-id: 20260723-suspend_resume_fix-bfd5327d52aa
+> 
+> Best regards,
+> --  
+> Pawel Laszczak <pawell@cadence.com>
+> 
+> 
+
+-- 
+
+Thanks,
+Peter Chen
