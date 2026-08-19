@@ -1,171 +1,153 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011013.outbound.protection.outlook.com [52.101.62.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506BF47F78F
-	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 17:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787159948; cv=none; b=Mjy7BMmav4gqLL3R7zl/cbLJ+sJEqt76FA7NKxVz2Ag6XsX3L1AQQqnaKEVuY09FbdoPVoPI5IFpCf56Z6I4sDu2e0fsmN95byExBryTvr7DZ486IYoIYHKpPfh8XykTo7IiUWcL2mH/l8GRV3S7TWqt9c6wDMmhZaf89NLEL+0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787159948; c=relaxed/simple;
-	bh=us+SEeujoTGLyuvbfgmOwPmfxI85neAIP6WKlZDKv4A=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dIw6c95waRN/vnCPa77ee0bHVv+wvvu/20eJCHCReyO+9ax/IsnviJOfnD1q4A1fMdj2Nd/cLZh1AVGjQNLnQa/648vmn2O6KNvuObg203vYD11iKO4I7RlRnjcfIoaxBFYKyZRH4shNM2wsnUU106t5Zfj2GDKr6+pxCBAIiLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4ab4af22d09so1545927b6e.0
-        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:18:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787159926; x=1787764726;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1hmUOyv2zS057iLMKlIppxbaLAbSot00YxR6lPnh3v8=;
-        b=WeZO1J2XzzAMp/TpkDJy6kUWxcGZ6Z7edUUMD5a4cyvCDqbyThn7uAppCNcIDozptX
-         PgeL+Mp/Fe91wGIfsN6rRSOv4iZs8Npr90L2cMt2wCBEP+D1ZTBryzQT8M6RfH7gnr7C
-         gM3esCeik4dQo3FCjosdEX3SzSY33lKNvAT6Atap+G5h/wwq/YX4O20zLhQRUyfgprfl
-         7r/oJFkhthzjKuqyXVsajW9JJ7ZqJz/VtDAvzU6bWfogbJSFl9YjkLiszhf+1SO/ABLf
-         8QZK1GDI4ppIkeFbDiL0VGKpMd/ERzdljkasWPm8HIK4/rvNR3XQvkNepWalRAcpOy35
-         j5vw==
-X-Forwarded-Encrypted: i=1; AHgh+RoXKwW7xx/CfMSXI18UaP7K5rRjKmJOBZhlACOBjXPtfebsEhHuRtzKB3fz4VEzQC7qUC/dLaBHX+E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDcqhtwEf8g72P0wQ6C+Lvu+El0Eg0R3rHqh0YXz3rZ1cXnKQt
-	IMH5hshQehQQYHE9MwrGve8E4GVORrmM1RYGLe5SQk8D7XV5xNp4MvWP60gHu6T0J50mwqVeIAe
-	c3ELdF1QgppLi32oyOcc/c1SwKStJVFnNisnjZBFycfixTIS+EhVGrWz0uG0=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E27440622;
+	Wed, 19 Aug 2026 18:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787163743; cv=fail; b=qEyBINCxV/tT3qX2TgbYDlfU7rw8Z1AVLd2p8PzlY5PljAdiq/QgVxdSaB2Atgd9By3xEVTgODa+3tuElnCu1EqxK+cWSQhMElRhcrvhaHBFgED8Wx82hjsKezbUKJemp/lb4oXK89qQbg+FloBtaYkLqYSIp1fxsoNUzgOBcrw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787163743; c=relaxed/simple;
+	bh=UjCL45Gi2Rmon0r9pk+xEg80bnYvHBFqee87O3FkRD0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lxAVXW+IpVnJQ9TVKpRpi97xcWJ0xyv+E3+a0G+yYVonAQ1n8wTNRb97gWIaTjEpfAfKKle1VMZj5tESMlZYZ3Y6BkEzGH70Eumw/fnl/4jru9uPZNG4EFUF44/Ye1RFOT5pREUJwFd0RFJ6l79XFzg8scYLPYIRB0FedBX6e7A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QXESd0aR; arc=fail smtp.client-ip=52.101.62.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QXESd0aR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y30HINbHyp1S5Khkf/G0XQzlM9b6sVKzJucAVeMGoXrMCV8t9brF/d+M6w7FcCOxc7Ts9pCc3wCy+5nfDDXHzMtvT7DrOeFVMVXazjN3D3CoEd7clAjvKPkjA0HPRzn07emTsiRB5AbGga7slYTm6+anH4CJ12s4rT1YNkpVwgD4/98X5NyxrTnhRMjSNDA6/iBjnn1BGlulJW+g+JiLTiFpvOh4WwFiHJKIiIXxeKKiOwhkRmJwr7BViqAVZKsUISKGSRxr9bnbkSakMnvjOrNC5wVH+a3bWSRUKdOG/LZoJH1Kwgj2+mDOpFXanA1xTOPfQtUuZkFpTH0QjwEPSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gL9PCTY2V0AWLqCmZxD1PoHBFgxCd6gN1A4jZt569ds=;
+ b=xIl9cwBGGvdVne+1nOKgXq+RvZSSFlzO8eFaPuNffP9N79qcxyMU0nAudBBhEUn3fJaSfxfBxEAmKoJq+19wGx5n2ETM3c3BqXGSg28adiF7RGN4KGHGuFT91VgsUrpoNeaxVFZfItRcZEYUrSrRhacs7RzAyHNTk1YWzmh25gY9GPXKB5hyL1AaHc7D/nqK+y6x2zjtH5nJ4UFvK1wPGNmR6xXE/JFgoI/7bFsOtiyTGrz2NVnXYbZef3RBtZqXDoCJmio5EzTPI68/ZoOC3T0Qle//Vz1uIBSkqgRtm+l6Pep7fJDrE4WYKznkcYudWpgr4TqAFZ67aXZ+k4r/3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gL9PCTY2V0AWLqCmZxD1PoHBFgxCd6gN1A4jZt569ds=;
+ b=QXESd0aRapYKDsKjOO9coxQdoggPMUUjiflB0uw44SS6DCFnA56RqxowlM/PErnZMlued+g2loO2fW+MZLU2hy/eCm/pRrXQr372HY2sRN1f8fAC2ITnrvg6/ZoVEPMA42S0oa292cgsUlryfEGWINTAQj6MoiSi3Yl1pjdiT0E=
+Received: from DS7PR03CA0084.namprd03.prod.outlook.com (2603:10b6:5:3bb::29)
+ by CH1PPFF5B95D789.namprd12.prod.outlook.com (2603:10b6:61f:fc00::62a) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
+ 2026 18:22:14 +0000
+Received: from DS3PEPF0000C381.namprd04.prod.outlook.com
+ (2603:10b6:5:3bb:cafe::6) by DS7PR03CA0084.outlook.office365.com
+ (2603:10b6:5:3bb::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.8 via Frontend Transport; Wed, 19
+ Aug 2026 18:22:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ DS3PEPF0000C381.mail.protection.outlook.com (10.167.23.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.3 via Frontend Transport; Wed, 19 Aug 2026 18:22:13 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 19 Aug
+ 2026 13:22:13 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 19 Aug
+ 2026 13:22:12 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.45 via Frontend
+ Transport; Wed, 19 Aug 2026 13:22:10 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <peter.griffin@linaro.org>, <andre.draszik@linaro.org>,
+	<tudor.ambarus@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+	<gregkh@linuxfoundation.org>
+CC: <linux-arm-kernel@lists.infradead.org>,
+	<linux-samsung-soc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Radhey Shyam Pandey
+	<radhey.shyam.pandey@amd.com>
+Subject: [PATCH] usb: dwc3: google: Initialise probe properties with DWC3_DEFAULT_PROPERTIES
+Date: Wed, 19 Aug 2026 23:51:58 +0530
+Message-ID: <20260819182158.1351869-1-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:bc4:b0:496:a36:b5e5 with SMTP id
- 5614622812f47-4b2bcac63e5mr6842994b6e.17.1787159926444; Wed, 19 Aug 2026
- 10:18:46 -0700 (PDT)
-Date: Wed, 19 Aug 2026 10:18:46 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a85e576.f7a79266.2f965f.003f.GAE@google.com>
-Subject: [syzbot] [usb?] general protection fault in bus_remove_device
-From: syzbot <syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C381:EE_|CH1PPFF5B95D789:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c928f6e-991f-495d-b6d4-08defe1ecace
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|23010399003|376014|82310400026|1800799024|10067099003|11063799006|56012099006|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	hOPNj9vbvEluQuXnG+icNCPCsULtstUSa5UqcuFCpnrdnZ7+IH+eNumFsx0QX4BSQ7PivrjxeWMcNndCHz3Y9m/ZxiW1SVEsDd8zKj6DdWB30iy1FxUFgV97mEe5f+qyg8bUBpSaNaq4Q9VahhNTluBxqz5ib1Cy0tJHnhCe6Ij7Oek69yiU1n1LYtIDmhNC3tWFUnYnS1aucqr1l6xC36nvnz5/jtmb8d8qHqiBWb4kBeJDwKeRHPeWbDrsz3gpA4qjkh3cV7byvjWgpnIuYJGwAw8kKORvQjASezgqAqZ4YKcKh178uOlrRRreeBm6TLCNHw8DB04QIoJvdy6ecBpeWJ89FFCaQ7qcPM0lFbte1GLon3X69xDWO2+VHzmtiZeEGseCGJHU+TnmQcskzA0Nj32T+c9tegPTrwTxSEVzTAzLNvosfn+wCDb6QMsyVJKj6lw6KU8NRVZ8GM/GGW46SOV9ZLpUfkicJIz/c9Q6UVznti0aw0DpPVeVreH9Vmrv9oQymDN00sR4jan2Fl/a9iHWrcRJ2A73sEwlCTQJoG/bjfIuT6da15pyHl2tlJ/64AS9NDRcH7IZrb6T5SEkyDHBOac4vppLUjwNS6aa3DTC2BDX13xPrBR8ZgDU8XL56V7onjPxiU6qry8WYcPJqKWCNfMVfbZzkbklrpZdhTKZB1hOka4fX4zPr6f+8Rzle35aY16yia+2AWXp0g==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(82310400026)(1800799024)(10067099003)(11063799006)(56012099006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	FZq3qWN7nHbpjifKxhEsMWTTyaMelRXiocQlQm5cpPGjx6w/XPVe2tDdpSB8MubvHByXDo+VoC5P9IQS4pXfcJ4ESbVv+f0QlcbLW1cUY/ssQehWYxscvGCWTs45cyb+sb9JI2CwoCznKiM3SWeTn4XI/V+HyziOpO5TSi2w0vXxS1R1BnAUBSLpiMNw+kXHuozWioJRWT/d40epW/XMCHnzFHwmaKJcgSGQnFYUP13adeyq8obersxG7nG3m9BG4oFLWlI37uMy42m0432jRLyP/PLqBa1/rFZQkyqJxNchywzFJYS9kD9GNpuRM1vvyITu4wpzTsPkoyz8v/2OFNjfj4ZSFx3cf4CD7oncC56u3lxL+8D416KcI/nBrGC/rl0Rb1qFUXsLC1l4qZoCVEyHj+zNPbVMS8Is90k+cemdbuKGsz5IjG0CsazCYi1U
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 18:22:13.7452
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c928f6e-991f-495d-b6d4-08defe1ecace
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF0000C381.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFF5B95D789
 
-Hello,
+dwc3_google_probe() zero initialises struct dwc3_probe_data and never
+assigns its properties member. The unspecified state of gsbuscfg0_reqinfo
+is encoded as DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED (0xffffffff), not as
+zero, so dwc3_get_software_properties() reads the zeroed field as a value
+the glue explicitly requested:
 
-syzbot found the following issue on:
+	if (properties->gsbuscfg0_reqinfo !=
+	    DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED) {
+		dwc->gsbuscfg0_reqinfo = properties->gsbuscfg0_reqinfo;
+		return;
+	}
 
-HEAD commit:    15ef2f78c49d Merge tag 'input-for-v7.2-rc7' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11b16949580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1d67342c314f228d
-dashboard link: https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1198b279580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1598b279580000
+Two things follow. dwc3_config_soc_bus() programs GSBUSCFG0.REQINFO with
+zero on hardware that never asked for it, and the early return skips the
+walk over the parent devices, so a swnode or device tree supplied
+snps,gsbuscfg0-reqinfo would be ignored.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-15ef2f78.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/dc9c417e94c9/vmlinux-15ef2f78.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/db592e5f65db/bzImage-15ef2f78.xz
+Assign DWC3_DEFAULT_PROPERTIES so the unset fields carry their unspecified
+sentinels and the controller is left alone.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-
-usb 5-1: selecting invalid altsetting 0
-usb 5-1: USB disconnect, device number 2
-Oops: general protection fault, probably for non-canonical address 0xdffffc000000000b: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
-CPU: 1 UID: 0 PID: 29 Comm: kworker/1:0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
-Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 7c 10 0d
-RSP: 0018:ffffc90000687620 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff888036142880 RCX: 0000000000000000
-RDX: 000000000000000b RSI: ffffffff8bb263a5 RDI: 0000000000000058
-RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff2247f98
-R10: ffffffff9123fcc3 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000001 R14: ffffffff9123fc80 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880d5cde000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fff41160ff4 CR3: 0000000033bb7000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- klist_del lib/klist.c:230 [inline]
- klist_remove+0x14c/0x2e0 lib/klist.c:249
- __device_release_driver drivers/base/dd.c:1357 [inline]
- device_release_driver_internal+0x4fb/0x620 drivers/base/dd.c:1372
- bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
- device_del+0x376/0x9b0 drivers/base/core.c:3961
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
- hub_port_connect drivers/usb/core/hub.c:5415 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
- port_event drivers/usb/core/hub.c:5879 [inline]
- hub_event+0x1bb1/0x4420 drivers/usb/core/hub.c:5961
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
-Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 7c 10 0d
-RSP: 0018:ffffc90000687620 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff888036142880 RCX: 0000000000000000
-RDX: 000000000000000b RSI: ffffffff8bb263a5 RDI: 0000000000000058
-RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff2247f98
-R10: ffffffff9123fcc3 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000001 R14: ffffffff9123fc80 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880d5cde000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fff41160ff4 CR3: 000000002ccae000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	c1 ea 03             	shr    $0x3,%edx
-   3:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   7:	0f 85 74 01 00 00    	jne    0x181
-   d:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  14:	fc ff df
-  17:	4c 8b 23             	mov    (%rbx),%r12
-  1a:	49 83 e4 fe          	and    $0xfffffffffffffffe,%r12
-  1e:	49 8d 7c 24 58       	lea    0x58(%r12),%rdi
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 43 01 00 00    	jne    0x177
-  34:	4c 89 e7             	mov    %r12,%rdi
-  37:	4d 8b 74 24 58       	mov    0x58(%r12),%r14
-  3c:	e8                   	.byte 0xe8
-  3d:	7c 10                	jl     0x4f
-  3f:	0d                   	.byte 0xd
-
-
+Fixes: 8995a37371bf ("usb: dwc3: Add Google Tensor SoC DWC3 glue driver")
+Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/usb/dwc3/dwc3-google.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/usb/dwc3/dwc3-google.c b/drivers/usb/dwc3/dwc3-google.c
+index 60ee4cc99b28..a01ca23cb6a8 100644
+--- a/drivers/usb/dwc3/dwc3-google.c
++++ b/drivers/usb/dwc3/dwc3-google.c
+@@ -442,6 +442,7 @@ static int dwc3_google_probe(struct platform_device *pdev)
+ 	probe_data.dwc = &google->dwc;
+ 	probe_data.res = res;
+ 	probe_data.ignore_clocks_and_resets = true;
++	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+ 	ret = dwc3_core_probe(&probe_data);
+ 	if (ret)  {
+ 		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+base-commit: 6a746cd265aed59107ebdaa9ce039bb832922969
+-- 
+2.43.0
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
