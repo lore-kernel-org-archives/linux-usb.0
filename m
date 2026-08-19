@@ -1,87 +1,92 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D64480326;
-	Wed, 19 Aug 2026 15:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E8A484226;
+	Wed, 19 Aug 2026 16:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787154312; cv=none; b=A85cNOBEPaHVT/+J2ibRvc/LFOpdvP+yvQjsRZePfJ9GlLFeRtGzw9J56SD2R4s8cvRPhQaZlI+R7fbPsx90IvPE8QaNnBMCfZ6falhXG9aUX+s1Uyi5qg52IZgKrDCccJeIC0aqF/Xxp9wih5Gnp2eFrkCcjYJX+HkdSB7+GGM=
+	t=1787156187; cv=none; b=TS+LZeIKyy9bl2fXFnQ5KPbN9QOSzaW9PZcxLe4fdjeNv9xizwR8GnFMJyg5Yl9gE5mKK4Szmqw0axb2BrNgCN7kFV6k7F8yfrR/4OR2VkJhPwjIVBxpW0yynBzaSeEX9zSb+oc2qteRP4lnk7u3wDVVR8G0LuvEcXUMHiJIpxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787154312; c=relaxed/simple;
-	bh=bCFKEMuDZ6PIZowuuX/q/WWHi4ME0aIDO7xxYV+ZL68=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W/cdSZLSytHuGSa5fLEBnE4KDEYQhTBjYO4F5J4VNEAMM8owMyylYuRWxRNE1ejyhAjxxvZgdjYXsPew7Oymq5fdxChqOpx1tuYIdUGPfebOXRJaLXUxUBIQxJWErBKs2b5nqSIq+IIqYfeo0ObzjZo8HmxR+F6DkFDm5jAyAGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=ZguuqLgG; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="ZguuqLgG"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6620911A40D;
-	Wed, 19 Aug 2026 17:44:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787154301;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=jKrds4Vj9VpxWlbeCohHZvmSocW530LXUZIAJ3ynTZw=;
-	b=ZguuqLgG498/pjMsosn7OaBTD9B1+NF5ZsweITOEhJ4AJduSLZ2b3PMnCGUys3m+qOziXb
-	Vya4pIYMGVkAp2d5P1j1R942XY9FmvGh/clUY+zwgepGVFVNh8hLJCCFuFbHxf2sH3c9qu
-	LBo0VDhWdSaU1e+sM0tR6VB+qqrYwK6dSsDwmeaHcYYYnnEu2k5HfbFbXZ3P89LNCVNxfE
-	uVRF7DCqv3g899nR56jDa+gFcJyw/gvcaUJDrvUPgTL0EG9wvW6k6Ts0Wl8DVQaBRLpg8Q
-	Ey1Ny+HxFcVT2ckiCcnpK7xcQAAdoTDKNUqXn8ya3hN0hCR0fmDhUZBmH1nR8g==
-Message-ID: <23091037-bfeb-46ac-b17d-8b86394b119e@nabladev.com>
-Date: Wed, 19 Aug 2026 17:44:56 +0200
+	s=arc-20240116; t=1787156187; c=relaxed/simple;
+	bh=3KLwm+Up/J3dk8GPOsTdWJnJ0mzE3mh9rVfSAgDGrTA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MOvLL0EKG+7CRhqaaUCGNfDPseDtqLplZql6UB30mv0ZrJTx5JN8IreipEXi0HJh88yjD1AGmlTvyJ9UuL7Re5NhAX00b1Pvhm5ASUEjSLgIUTwsGuMx5ebaRlSPr/Pmau/1hRcJ+HC9pjmugAgBzawaxyCTvGeyipRttrliD8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wBXIX3N1oVqpIKpAA--.21275S3;
+	Thu, 20 Aug 2026 00:16:15 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app4 (Coremail) with SMTP id zi_KCgBXOzTL1oVqu6xQAw--.24027S2;
+	Thu, 20 Aug 2026 00:16:11 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: linux-usb@vger.kernel.org
+Cc: bryan.odonoghue@linaro.org,
+	heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: [PATCH] usb: typec: qcom-pmic: cancel reset_work on stop
+Date: Wed, 19 Aug 2026 16:14:48 +0000
+Message-Id: <20260819161448.76597-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/9] arm64: dts: phy: st: usb: Add STM32MP2 USB support
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-usb@vger.kernel.org
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
- Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260816213849.1044073-1-marex@nabladev.com>
- <61dc785c-bea1-4674-918d-0f38ea253a29@foss.st.com>
- <41e7978b-933d-4813-9158-00474f531476@nabladev.com>
- <6c900e6b-2f50-4ec2-aca4-3093479bba53@foss.st.com>
- <d6064380-2368-4131-8cde-44734f67028f@nabladev.com>
- <066ce020-6123-4aed-a069-67c51957173d@foss.st.com>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <066ce020-6123-4aed-a069-67c51957173d@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zi_KCgBXOzTL1oVqu6xQAw--.24027S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?8uUiygXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnXz+g1OQfMo27QHy5TwQyZxCzygzwZIYBFC/9NYw4QCzxm2VirDCk3cu+CdwQaX92QA/
+	9p+5Ncu/g/sD0FzsCDKp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoW7Cw4DuFW3CFWxJr45Kw4UAwc_yoW8JFyxpw
+	15JrW2kFyDWFZIv3s8XFsIvF15Wayqyry7A3yjg34SqF1Yq3WjyryjqF109F15CFW3Jry3
+	tFW7WFn8Aa45GwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AK
+	xVWUJVW8JwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
+	JbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
 
-On 8/19/26 5:19 PM, Fabrice Gasnier wrote:
+pdphy_stop() disables IRQs but leaves reset_work pending.  If the IRQ
+handler schedules it just before disable_irq(), the work runs after
+remove() frees the struct via devm.
 
-Hello Fabrice,
+Call cancel_work_sync() after disabling IRQs to close the window.
 
->> Maybe the DT syscfg node shouldn't be a plain syscon , but rather there
->> should be an actual driver which binds to the syscfg DT node and
->> configures all these hardware details early on boot ? The USB controller
->> drivers will start only later, when the syscfg configuration is already
->> set in the hardware by this (future) driver, since they depend on the
->> syscfg node and the PHY subnodes. Maybe that is the way to fix the MP21
->> without having USB controller glue ?
-> 
-> Hello Marek,
-> 
-> Ok, I'll think more about it regarding MP21. Let's continue on current
-> series without any additional glue driver for MP23/25.
-There is really no rush, if you can come up with something for MP21 that 
-does not require the controller glue, that would be real nice.
+This issue was found by an in-house static analysis tool.
 
-Thank you for your help !
+Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.6
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
+index c8b1463e6..abb9d0321 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
+@@ -544,6 +544,8 @@ static void qcom_pmic_typec_pdphy_stop(struct pmic_typec *tcpm)
+ 	for (i = 0; i < pmic_typec_pdphy->nr_irqs; i++)
+ 		disable_irq(pmic_typec_pdphy->irq_data[i].irq);
+ 
++	cancel_work_sync(&pmic_typec_pdphy->reset_work);
++
+ 	qcom_pmic_typec_pdphy_reset_on(pmic_typec_pdphy);
+ 
+ 	regulator_disable(pmic_typec_pdphy->vdd_pdphy);
+
