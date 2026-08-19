@@ -1,214 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f80.google.com (mail-ot1-f80.google.com [209.85.210.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675DC1A239A;
-	Wed, 19 Aug 2026 12:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367C839FCC4
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 14:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787142733; cv=none; b=r4Z6kRxi7fwo7jPnf0ZnGNL0RWHjEcfi8ByhpeF4o6xrJotTYdLKy19UYK4x8eYaI3EFNwYlPk5FrFnO84rlVNDqGgqK5KuHbfJ0z6TUM12CEyOMxMUmKo5fYDNQpZutgkjnyQzlK6oPK3RJKzVwNcvX2LOeuPkcKlJD12d1bH8=
+	t=1787151573; cv=none; b=MIi9mRJ4e4lbz9bkq1kgo2Y3ZleC3/ZKawrtLj/L3nPWXbNTBPi5gshqzTxrxwQTi+vWfrwUI+NBRPPCTbCp1tUv19XX4hLV4S2RdayfE4ASZTG1rIJntGNjEioNFzK22IeOIjJcqSwgvej/jECWZbSVDkZmdH+crgfuB55kDB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787142733; c=relaxed/simple;
-	bh=5awv0K86NtUvA5TxT3UGh/LUQAJH88EpiXJkQgp3P4Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHC1CJPxQy8CztBhLNyBi+G1+yVwC0/SQNFn4psbswmOUu+8IqP18YxANDNS0H1qqePTVFWolAPIcJjVoJ8+vMitJDA7CjbxppU0NKLYqvjreS9X5a70xde6GTqrQkLXaf1aB1ByFA/o/Yvr+p2/+oTZCE8RQsw4o3+1afUDYXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BKYuOGHa; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BKYuOGHa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787142731; x=1818678731;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5awv0K86NtUvA5TxT3UGh/LUQAJH88EpiXJkQgp3P4Q=;
-  b=BKYuOGHavLiFdLxlWl+C8Va4Y0chf4SNDsZgngTT6f4TmiPm6XW49v0Q
-   QkWwN16xs4J7KWe1Ln4ktdind0T+P9dD6OkFAeYYjMt0/R6BGznnxxWrd
-   mE7DttILioB82RKvhsTQjo2iScsJbMKOvgBoXhY6RNaBVihoozk624AO5
-   UzZaBg7zABhRveHY2ge0AAyjNAOBflt5aM+Bk9O5UNeHmQjwMRRp/Dc2T
-   QPc9FuwJ+8IdPjTTx/ClU+cvjrLAGHjEh5TJluyqzfdai91ztJHl6b6VB
-   de0/T+S0mw9TD6FO47sdO/6nys/3VpPOsHQbUkTkqW5mxBG8B7pvpaSW0
-   w==;
-X-CSE-ConnectionGUID: duARWLN8Sr2ms4Ad5kizmA==
-X-CSE-MsgGUID: 8iEswKVxR5y01nctUDZ0ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="91463674"
-X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="91463674"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 05:32:08 -0700
-X-CSE-ConnectionGUID: zRRwmVI+T2anVlPjL196gA==
-X-CSE-MsgGUID: G6Y0jIgGQdW7FlUGrM9KMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="263783774"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.137]) ([10.245.244.137])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 05:32:05 -0700
-Message-ID: <593d88f8-f719-4f95-bce6-22fb61686f13@linux.intel.com>
-Date: Wed, 19 Aug 2026 15:32:02 +0300
+	s=arc-20240116; t=1787151573; c=relaxed/simple;
+	bh=xLVVnMXFtBZhwnbOX/IEoysj2r0Tef/nLUVUGRfRAXA=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=ne/UDSIpdR2dQamvpnx1FzimdID5vqJj+jiFr+CBfsTKKvkZqaOkWrUvn2ji1C27sceHScDORaa+Y6CQjRgbuwLxBsEIYRNPO/YU9eFrUO8GmqwenLGeiBlrda1rPbGvKT0PT9++9snw7vpyGoHhOX2OsPS5m4PuWoJSmQl5csU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f80.google.com with SMTP id 46e09a7af769-7e9fbcd3a0eso1069213a34.1
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 07:59:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787151568; x=1787756368;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=isHhLMyavwT+iKBWg2LRM8s5OlYIWpavPTLLklw+Bas=;
+        b=KOjYIcLzaEnS8gcog4UW8WehLsvX9b4q3C1XAia/LPw7aXku3K+W16tBA1YTtPbTfi
+         NMD4c2mr0HMbYt0gPAB22m4jcBgKzk15ANmhqwPuE1cwIdyNii26QQE8t3At1rU+Hk6a
+         0fheP2pGF26l4yN6OngJ/vKQ3x/1CSFwJG69O22IUZxXs1xljUHXokolpfqqM1xEkwBE
+         AYIVL4MZ778wSjhUARf7YEsnCr1F/tLnNxB/SXV8E2y6qKj7hcp85WNaJWX5U8B+hKBq
+         S8b7yFh+JebK9NynVGraHvASj3Ykfx5huH8o6eN+k7H6dk0JmfwaybT77KAgqmefISX/
+         XaMw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/1ZRe7aeXLulvhbMUKlQUM0D8iXDGwHQkDOo4ljy8igqN3aak/oPgrgYhFQ/8HCwm/BQRYuhoRZg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxg+h5HC7fZYbk267B0/1E/Rhw9vuV2iraMbiS8q5dws7dLcS9r
+	Try7ULppOIrLs6vmYPosYD3U2cpC3D3JIv8q6iCo5w/vjbyusF3JXt7kduuqshX8QzeUX7tiV5b
+	cSHLoKBjKSA2HtIoh33ww3vkpB1f7sG/2NHYYyfxU3R6tiCjiZBuH32hHbdk=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] early: usb: xhci-dbc: Handle out of bounds xhci-xdbc
- capability
-To: Umang Jain <uajain@igalia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lucas De Marchi <demarchi@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-References: <20260720191249.1272328-1-uajain@igalia.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260720191249.1272328-1-uajain@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:f08:b0:6b1:327:e45 with SMTP id
+ 006d021491bc7-6b13c5c2f53mr4735791eaf.28.1787151568549; Wed, 19 Aug 2026
+ 07:59:28 -0700 (PDT)
+Date: Wed, 19 Aug 2026 07:59:28 -0700
+In-Reply-To: <6a6d3f99.13bfb6d0.1ecdd5.0254.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a85c4d0.c8649fcc.3bb87.0012.GAE@google.com>
+Subject: Re: [syzbot] [usb?] general protection fault in rebind_store
+From: syzbot <syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, i@zenithal.me, jeffinphilip14@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, shuah@kernel.org, 
+	skhan@linuxfoundation.org, stable@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, valentina.manea.m@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi
+syzbot has found a reproducer for the following issue on:
 
-On 7/20/26 22:12, Umang Jain wrote:
-> Currently, the early xhci-dbc assumes that the extended capability
-> can be mapped within the fixed boot time mappings dictated by
-> NR_FIX_BTMAPS.
-> 
-> This patch iterates over the PCI BAR address size to find and map
-> xhci-xdbc capability which could be out-of-bounds otherwise,
-> in xdbc_map_pci_mmio(). The iterations map the maximum allowed
-> boot time mappings (fixmap size) at a time and search for xhci-xdbc
-> capability offset, till the end of the bar address size.
-> 
-> This brings the need to track the early_ioremap() mapped size separately
-> hence, introduce additional struct member xhci_base_length in
-> struct xdbc_state.
-> 
-> Signed-off-by: Umang Jain <uajain@igalia.com>
-> ---
-> Link to earlier RFC:
-> https://lore.kernel.org/all/20260604144122.962236-1-uajain@igalia.com/
-> ---
->   drivers/usb/early/xhci-dbc.c | 94 +++++++++++++++++++++++++++++++++---
->   drivers/usb/early/xhci-dbc.h |  1 +
->   2 files changed, 87 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
-> index 41118bba9197..5e540b6bf962 100644
-> --- a/drivers/usb/early/xhci-dbc.c
-> +++ b/drivers/usb/early/xhci-dbc.c
-> @@ -35,10 +35,23 @@ static bool early_console_keep;
->   static inline void xdbc_trace(const char *fmt, ...) { }
->   #endif /* XDBC_TRACE */
->   
-> +/* Size of xHCI debug capability structure */
-> +#define XDBC_MAPPING_SIZE	56
+HEAD commit:    21d6ac051080 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=130c3a25580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
+dashboard link: https://syzkaller.appspot.com/bug?extid=af76b01c9a0f0ab60fb0
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15e47815580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15af7679580000
 
-I know spec says 56 bytes, but when looking at the Debug capability structure
-in xhci section 7.6.8. it looks like 64 bytes.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/88380e2ddcb9/disk-21d6ac05.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/5dba5c2896b7/vmlinux-21d6ac05.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/52ac739e37e0/Image-21d6ac05.gz.xz
 
-Addresses 3F-00H from the dbc ext cap offset
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com
 
-I'd change this to 64 just to be sure
+Unable to handle kernel paging request at virtual address dfff80000000001e
+KASAN: null-ptr-deref in range [0x00000000000000f0-0x00000000000000f7]
+Mem abort info:
+  ESR = 0x0000000096000005
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x05: level 1 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+  GCS = 0, Overlay = 0, DirtyBit = 0
+[dfff80000000001e] address between user and kernel address ranges
+Internal error: Oops: 0000000096000005 [#1]  SMP
+Modules linked in:
+CPU: 1 UID: 0 PID: 4959 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
+pstate: 03400005 (nzcv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : do_rebind drivers/usb/usbip/stub_main.c:204 [inline]
+pc : rebind_store+0xb8/0x204 drivers/usb/usbip/stub_main.c:264
+lr : spin_unlock include/linux/spinlock.h:390 [inline]
+lr : put_busid_priv drivers/usb/usbip/stub_main.c:85 [inline]
+lr : rebind_store+0x94/0x204 drivers/usb/usbip/stub_main.c:262
+sp : ffff80009a7579a0
+x29: ffff80009a7579a0 x28: ffff80009a757b68 x27: 1fffe00019788f80
+x26: 1fffe00019788fa9 x25: 1ffff00011d58696 x24: dfff800000000000
+x23: dfff800000000000 x22: 00000000000000f0 x21: ffff80008eac34b0
+x20: ffff0000c667d000 x19: 0000000000000004 x18: 00000000ffffffff
+x17: ffff80008a7d6000 x16: 0000000000000004 x15: ffff80008a35fda0
+x14: ffff80008a5d5e28 x13: 0000000000000001 x12: 0000000000000000
+x11: 0000000000000000 x10: 0000000000000001 x9 : dfff800000000000
+x8 : 000000000000001e x7 : 0000000000000000 x6 : 0000000000000000
+x5 : ffff80008a9961f0 x4 : 0000000000000008 x3 : ffff80008046a5e0
+x2 : 0000000000000001 x1 : 0000000000000001 x0 : 0000000000000001
+Call trace:
+ do_rebind drivers/usb/usbip/stub_main.c:204 [inline] (P)
+ rebind_store+0xb8/0x204 drivers/usb/usbip/stub_main.c:264 (P)
+ drv_attr_store+0x80/0xa4 drivers/base/bus.c:125
+ sysfs_kf_write+0xe0/0x108 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x260/0x3b8 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x51c/0xa0c fs/read_write.c:687
+ ksys_write+0x12c/0x228 fs/read_write.c:739
+ __do_sys_write fs/read_write.c:750 [inline]
+ __se_sys_write fs/read_write.c:747 [inline]
+ __arm64_sys_write+0x84/0x98 fs/read_write.c:747
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
+ el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
+ el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
+Code: 975283bb f94002a8 9103c116 d343fec8 (38786908) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	975283bb 	bl	0xfffffffffd4a0eec
+   4:	f94002a8 	ldr	x8, [x21]
+   8:	9103c116 	add	x22, x8, #0xf0
+   c:	d343fec8 	lsr	x8, x22, #3
+* 10:	38786908 	ldrb	w8, [x8, x24] <-- trapping instruction
 
-> +
-> +enum xdbc_capability_flags {
-> +	XDBC_CAP_FLAG_NONE		= 0,
-> +	XDBC_CAP_FLAG_LEGACY		= 1 << 0,
-> +	XDBC_CAP_FLAG_PROTOCOL		= 1 << 1,
-> +	XDBC_CAP_FLAG_DEBUG		= 1 << 2,
-> +};
-> +
->   static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
->   {
-> -	u64 val64, sz64, mask64;
-> +	u64 val64, sz64, mask64, fixmap_size, mapped_size;
-> +	enum xdbc_capability_flags cap_flags = XDBC_CAP_FLAG_NONE;
-> +	bool found_all_caps = false;
->   	void __iomem *base;
-> +	int offset;
->   	u32 val, sz;
->   	u8 byte;
->   
-> @@ -85,7 +98,72 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
->   
->   	xdbc.xhci_start = val64;
->   	xdbc.xhci_length = sz64;
-> -	base = early_ioremap(val64, sz64);
-> +
-> +	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
-> +	if (sz64 < fixmap_size) {
-> +		xdbc.xhci_base_length = sz64;
-> +		return early_ioremap(val64, sz64);
-> +	}
-> +
-> +	/*
-> +	 * Base address size is greater than fixed size boot mappings,
-> +	 * hence iterate over the region one fixmap_size at a time,
-> +	 * starting with XHCI_EXP_CAPS_DEBUG capability.
-> +	 */
-> +	base = early_ioremap(val64, fixmap_size);
-> +	offset = xhci_find_next_ext_cap(base, 0, 0);
-> +	mapped_size = fixmap_size;
-> +
-> +	while (mapped_size <= sz64) {
 
-Do you know if it ever had to go past first fixmap_size (first iteration)
-to find the XHCI_EXT_CAPS_DEBUG and the other needed capabilities?
-
-If not then we could maybe skip the feature to iterate over entire xdbc.xhci_length.
-Just check for the extended capabilities in first fixmap_size, and fail if not found there.
-
-> +		val = readl(base + offset);
-
-We should make sure offset < fixmap_size before reading 'base + offset'
-
-> +		switch (XHCI_EXT_CAPS_ID(val)) {
-> +		case XHCI_EXT_CAPS_DEBUG:
-> +			if (offset + XDBC_MAPPING_SIZE > fixmap_size) {
-> +				early_iounmap(base, fixmap_size);
-> +				base = early_ioremap(val64 + offset, XDBC_MAPPING_SIZE);
-> +
-> +				mapped_size += offset;
-> +				cap_flags = XDBC_CAP_FLAG_NONE;
-> +			}
-> +			cap_flags |= XDBC_CAP_FLAG_DEBUG;
-> +			break;
-> +		case XHCI_EXT_CAPS_PROTOCOL:
-> +			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
-> +			break;
-> +		case XHCI_EXT_CAPS_LEGACY:
-> +			cap_flags |= XDBC_CAP_FLAG_LEGACY;
-> +			break;
-> +		}
-> +
-> +		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
-> +		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
-> +		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
-> +			found_all_caps = true;
-> +			break;
-> +		}
-> +
-> +		/*
-> +		 * Find offset to next xhci-ext capability, remap if the offset
-> +		 * is out of bounds of the already mapped region.
-> +		 */
-> +		offset = xhci_find_next_ext_cap(base, offset, 0);
-> +		if (!offset) {
-
-xhci_find_next_ext_cap() only returns 0 if there are no extended capabilities left.
-(in cases where ID is set then it returns 0 if no extended capabilities with that ID are left)
-
-I think we need to do something like:
-
-if (!offset) {
-	break; /* exit, failed case */
-} else if (offset > fixmap_size) {
-	iounmap()
-	ioremap(val64 + mapped_size, fixmap_size)
-	...
-	OR just break/exit/fail if we decide to just check first fixmap_size
-}
-
-Thanks
-Mathias
-
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
