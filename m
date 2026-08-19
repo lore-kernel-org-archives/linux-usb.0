@@ -1,182 +1,145 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE4923ED60
-	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 19:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787167856; cv=pass; b=FHvbaY3Ffqs8IKPnKF7yDQd2QYQKa/SEJiFs6Rh+5tfueESeqakHiFEbBCz6IH0Go9lnaNWrVg+hasOakBLtEcUwnBvMII4q5vKz4vPGtY7pAiiB6UU3tC6JBuMCbBNrM7duukA44PkWtEmANTc574ZHWd5F0oc5p4o0x60HmfM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787167856; c=relaxed/simple;
-	bh=o0DSB0/8QMxjWA/9R98KwaTZYay/JjipjK8HHRnjHFU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=e9NallfhwyT9xAHfUWdOs7EJs5Fn/+5lJdTY9E2vVlUiYxael+dKCsZqxV+C4xZI0VjftQnD6lGLYNr7YuL1kSLqlhbPsLyduxi1fdMDBMw400UGBFCyO4VxxdUimQCrwnXbHK6+EoAtPsTgIv5tpL/lUvhkwQwejKQjwFh3ruU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OUndZYKS; arc=pass smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC36E7E0E4
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 20:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787173020; cv=none; b=c7Y6MGCMzIrlSmUiYeJMnTYw+ykFY8/g41SLm7cj4Xa9y96jxIyw/3J7kDw6y0mm0wjjBdgsdOWJ4dAKBLmjx2/fVlybtwZALjk4GSuXPj0nu0SmuMhWj9ws/NPieKGXabHwLIwtYU/FjKQRnygud3aY0UkZ7y9K2Qq1S7OaU+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787173020; c=relaxed/simple;
+	bh=Os5vXeijPOACtMf6ldU4PKq2AIjdi1dyq9Aw5PTVWzY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TO3kFqGm1tJfEXWEcls1XpY3VXl92kMOs4wDPEZw+Gnc9UweRWlI+K4TqZ+oCrsOhMj1uIpZZLufjI3/8YhNb1O3cqRLJkXMRL0KjA/N5I7wXHmV2Q86QAezsdOIquDxlLgCkO1jI+ENqKXLY6U6DMrv9P8qszhEFGD0FgVNPcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AQw9nckI; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OUndZYKS"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-841f1dfc30fso4137017b3.1
-        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 12:30:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787167852; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mEH2QmfqDUek/ED7zPk8SBYtE/p24RFj+D2/NNJKa60NZux0RxwC+u/1vlIPk9H12T
-         Je2ZoRJp9gHmGPrGFxGoqT2A4oGWHbF2JaiLbypLkhA0IBoAlUORXPJu1pKsOcq61v7d
-         1vIWoeD+lUKSqiB4RlBb9SWNwX11VfZWFDuQQKZEW6pRcey4cKfF9wWA1xz6/3EJWley
-         5sVifMtFJjAqcRwh3nLeb8XcsYxK5ja0Jre3XJGEMyWnydKdGXjWJAk9QFtUplc4waDb
-         DfiAEV1teAOFxAZ0vNDrmZrlBBA33CZIAEDM2pRRNeKittxNLwL26rKMn2jSCX52M8c3
-         YGxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=BULJ8hbnSbHu7w1OvVZ7GuC3YfVQUewJa4AKxr3oqPY=;
-        fh=NzeVwnKHNTSa0AafMjSuZWk4S6DcM/nBUypofGRLhgE=;
-        b=QdXjYa7Ha7dqQSqwBytme5ycY3UveuIFAaMUfSbGoAnbbwGKFcz0e8uSIZo7d5pM3E
-         70Tzwm5o4yuku1UDqG/LtpjtDJkhTnIpiftvxVSvuJVXEsEi3kRtheCvJIqAOecziVx6
-         8TZrP7E5uJIRQV6Y1b8MAXKF/dg2cOctq0KR/miXE6clmbHVtGToIQtuTwJd8/7925wq
-         pj0uRjYvbHjFirYNWbRhqbp1Y19sJMlYdjTsJ4YmXu0ZIYNBPl3bxhDnI9HMJjSZaN0x
-         LBZisI7rEqlOOOi+0W/9yAZ6ip3bud7mdwoS+5aZrWB+hSnxSMktCKuM3q9SazHvD8DU
-         JUPQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AQw9nckI"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b2a4359d16so1592180e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 13:56:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787167852; x=1787772652; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=BULJ8hbnSbHu7w1OvVZ7GuC3YfVQUewJa4AKxr3oqPY=;
-        b=OUndZYKSvTqf06PhtgMrqbLpxCSJPmLAMf2wRHklv2k0OwFAxXm1F4IjRd8yrGrRg2
-         CHuKoNm3D50DZr6e8oq8FIZ/OLJ8lra5Mj5QbLl9CvAXGhMeJ2Jfd6arOltCV/EP/xJE
-         fRsDxdgwxmYQyVH0kAlvTwNncKLS1XkLe2MEJtUmzyYSd2/qCEON0KxaaiahMAXSn5M5
-         esjof70oVFPKtcWQT1HpKDt0mJZHBsQh0i5b3zoqT2HNcKbTRglCOGaw1zucXm417CkE
-         fV5oY9VnlQNM7piJk1bcp3nz1Yz2QfjZuvtlAvxhelLe6ihuZXxKB+5UXxTlhU5qO1oi
-         WrPg==
+        d=gmail.com; s=20251104; t=1787173017; x=1787777817; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=8Ck5M2RQV75FIAXCjiKnVQG4eMmlUO09dKla/af+mCc=;
+        b=AQw9nckIsr0TnqmZlB7r7xnPINe68XmfVfwl0uRmluxIzLDnddHizvFdRYJJUHt0Zr
+         srZvBP6RPoliLnuKLruJ2mURWa/g0jsr7dqKq9jUJye3hpM71UI/IRT8+SGuyy6BizLE
+         yhP9L//fULrRNVLPWPzRrhF+VYywQ3V837KwpZSPAXUk+MlMedB83Ckzc2qdvO/HRGez
+         00kciY5lWpmR7KfBc7rsOPM7L5vGeP49iWcTMhqWdhuB6cpNmuQPXVlJj0CWQjAgYI7z
+         WPbMT5GNRRHIysRORm0ETVyhb7Icvctb/sfq12ibpxxFlCEq2qu45CkDnipFdkYkIKvM
+         JWJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787167852; x=1787772652;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BULJ8hbnSbHu7w1OvVZ7GuC3YfVQUewJa4AKxr3oqPY=;
-        b=K4YQdUb26mNAngxNtcgY6h6XMd6J19gl3BFDVQGZGHao00hXHO1BDFStmSn6TQ1ctJ
-         j7Z3/Jwtkr5ygvg3A0jon0e5YbLc82wX33SmRVQcU9BPIODnHF60U+xdZ/84n+sfmMrm
-         HrXKG2DkiVsrVLxh7wujjzyV+MC56ajo/mVN8bhZoQDMIo4+zom9fyS9lh1p6R6PhuYs
-         bEtQR0rKxmTuGnlNH8eWb+bRI++j6smh/TMmyAnu8SP4fEzn+TN6EAbQO1KZdveHkwRd
-         +p2437hb3QTD0ZMP02I2qim0ZbCXxjV9r0Os/ANAhCjqnX3VbVDMDSzaAF+WQNJgRH9U
-         bbdA==
-X-Gm-Message-State: AFuF++kWM/mWxnrff3EV1el7qDe7Dm/LFo/vmU9h/ZNPH6pFoCcve68d
-	QhaSZ8yhx1T3MIV7veTp8G23+LsK/PKgOOC2KkrDcplCnXDzLNKQ0d/yfYNDi5fA0zFbRJMamvR
-	RJty4eJ5gIBlY8LFgOCxk4KMSeS49g7EP/b3ceSbMRw==
-X-Gm-Gg: AR+sD11IZGTCAKV70EoVyZBGWfXDYpT7SdumfH4Y+8BdZZF652N9Nu4kGxDyvoTP+pA
-	Y6mo0MG5z+wtEIWdxJ+hVQjaICPyBpC4tJdLB+wOWBeCVBf/T4aT37X1//Z8qd1JJZFbdoumd/G
-	UgYxXIuFaLDA2BlHGnedI3UYcq8Ulhb+jvgM2PJU00gvRrvBfRpSGa5tpiXEn+RlZ082sehNnlJ
-	3TlOgzPt3YygJl/Jx328KUD8sq96AZDKm9ZwxJxjTReyWMv/iEhHC67FdAQhyU5HNxCYnipTiGh
-	Yx0TWVv06xLM7rrzi7xthnTfQ5Zp9si8oaYsFgF6LtMlkQ==
-X-Received: by 2002:a05:690c:b96:b0:82d:8dc0:9cf with SMTP id
- 00721157ae682-8470c1665aemr6746937b3.13.1787167852065; Wed, 19 Aug 2026
- 12:30:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787173017; x=1787777817;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=8Ck5M2RQV75FIAXCjiKnVQG4eMmlUO09dKla/af+mCc=;
+        b=PFOiIR6nJQC2aFLHlJMzI8a6miGXaLo79b8gAJEXW6i6PKfv9OTO2FNeDdPtNKWkJg
+         o/XRd7ICVo4DE8ohfdATNHPnPs8g4tBGod21AjVFfx9mc/gT/QlVYHsiFJLdrorMFDzf
+         CF7PMsCW0DbwwB6FDM9pLMq1ByHIFh/1IKYbOL232tGQKEGfudp7KWFuYADaiomFjoz2
+         RTzzSJxURuCv7YS12jS7NmnoGi68WuOJ1kYXiXbzDhtQzf7/B2UiUa3QXL9ks2npMdhM
+         gusVaCFZxqYLLJM6gN19PUAO+hxgDPd38qsdIgJG9w7w72M1fUEDGHM92hw28ws0IhMM
+         0O8A==
+X-Gm-Message-State: AOJu0Yx6TFD7LpkhTQuZS2FpiIhowEs2UAhsGOx7JEahRhievW75+wmv
+	ntf4G8AyU8qa5ZnBiXuZU8S0MV97HS3BHXLPo2ZZphELo5uFtL6rj3y+6H84jg==
+X-Gm-Gg: AR+sD10uUXeSHBHht/C9wjCa2SM6g/EayjxoiDSAGnOmwh28ATHwcvWyAZmV/BLa6YR
+	8EctKp4W4/zSAQme2NUlRiwFw0QtCBHojc6PNygc+cjPBkTCjNLrbHo9HEDpK4GZBrUSdVv99Q6
+	AyaDv8jMQjisYLVtDPtQhjzjFagfWKxH2k+of8QSNeEyVZrLDdzIr+z2W0UsIt9QilfujtmKQ8y
+	/vU9ypq7HasCtt7fnaX67Kr9TxUSM3/hodvJL3jyOOU9aEf8HoY05AZWSim1ZqWf8eGml9kPJCY
+	pApSzxEVSnIWsD6GDpzSJ67SmzIQ984EC6J4GVqS0kEXvpTAr/GoXnISN6FyC1z1U8BUY3KhDfe
+	s9TvE6vQUA1Z2NDsK5rMFIfW4sk54hKqO4jBDvhnBRT58ayQy/bcsF7xPl+MHJkIp0JYiDJq6zf
+	0CGqst4enOp4fnGWOmbnJW4sBlQna7Chcw7lphRWfq6+2vjVcO9O63M+SPjgqKWdHNpNm23k3BM
+	UWH8VVW
+X-Received: by 2002:a05:6512:10c3:b0:5b0:eda:de26 with SMTP id 2adb3069b0e04-5b478bcae85mr3036505e87.16.1787173016494;
+        Wed, 19 Aug 2026 13:56:56 -0700 (PDT)
+Received: from [192.168.243.250] ([94.229.19.199])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b4788dafe5sm768509e87.52.2026.08.19.13.56.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2026 13:56:55 -0700 (PDT)
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+Date: Wed, 19 Aug 2026 23:56:47 +0300
+Subject: [PATCH] usb: gadget: u_ether: replace memcpy() with
+ ether_addr_copy() for MAC
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Vanchez Rodriges <vrsmilemen4@gmail.com>
-Date: Wed, 19 Aug 2026 22:30:40 +0300
-X-Gm-Features: AcwNN1UKLAT24bdMuxdlLgk79Tqac4nP9-MIGhYwqYqm4Qx3VqxFGq2fPLPNl3s
-Message-ID: <CAEoJKMsytZcfNLBWezRGBUsmOYRBxFMoEnJoNin07AH+26x6PQ@mail.gmail.com>
-Subject: Subject: Built-in UVC camera never appears on the bus under Linux,
- port powered, works in Windows (Acer Nitro ANV16S-41)
-To: linux-usb@vger.kernel.org, Hans de Goede <hansg@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260819-gether_copy_ether_addr-v1-1-18a12e0175f1@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSwqEMBCE4atIrw0kWUjwKsMgeZTas1DpOKKId
+ 5+M7upb1H9ShjAytdVJgo0zz1OBqSuKo58GKE7FZLVttDNODVhHSBfn5eie6VMSBdP7pIM1Lmg
+ q50XQ836HX+/H+Rs+iOu/Rtf1A/AD2WN6AAAA
+X-Change-ID: 20260818-gether_copy_ether_addr-e1fad0b218b0
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Nikolay Kulikov <nikolayof23@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787173015; l=1935;
+ i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
+ bh=Os5vXeijPOACtMf6ldU4PKq2AIjdi1dyq9Aw5PTVWzY=;
+ b=Wa9t8EE+udfQ8SzjILOiXamB3qmrDWVicNE8WPFE/Q6v/U39fWZsLBm3CD3So6UkhEC+mDZTp
+ XPKN/r51v6NBXT9htXvTgzW3qn8iGTcQowd5W/1UBLstYBGe3w95FUs
+X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
+ pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-Hello,
+There is a function for copying a MAC address buffer in
+include/linux/etherdevice.h, so use it instead of memcpy().
 
-I am looking for advice on how to trace this further, not for a fix.
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+---
+ drivers/usb/gadget/function/u_ether.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On an Acer Nitro ANV16S-41 the built-in camera has never enumerated under
-Linux. The port it is wired to has power, but nothing answers on it. The same
-camera enumerates normally under Windows 11 on the same machine, on the same
-port, with the standard usbvideo class driver. So the module works and the
-difference is in how the two systems bring it up.
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index 59d85d6a84a8..62f95de03f32 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -779,7 +779,7 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
+ 			"using random %s ethernet address\n", "host");
+ 
+ 	if (ethaddr)
+-		memcpy(ethaddr, dev->host_mac, ETH_ALEN);
++		ether_addr_copy(ethaddr, dev->host_mac);
+ 
+ 	net->netdev_ops = &eth_netdev_ops;
+ 
+@@ -929,7 +929,7 @@ int gether_set_dev_addr(struct net_device *net, const char *dev_addr)
+ 	dev = netdev_priv(net);
+ 	if (get_ether_addr(dev_addr, new_addr))
+ 		return -EINVAL;
+-	memcpy(dev->dev_mac, new_addr, ETH_ALEN);
++	ether_addr_copy(dev->dev_mac, new_addr);
+ 	net->addr_assign_type = NET_ADDR_SET;
+ 	return 0;
+ }
+@@ -959,7 +959,7 @@ int gether_set_host_addr(struct net_device *net, const char *host_addr)
+ 	dev = netdev_priv(net);
+ 	if (get_ether_addr(host_addr, new_addr))
+ 		return -EINVAL;
+-	memcpy(dev->host_mac, new_addr, ETH_ALEN);
++	ether_addr_copy(dev->host_mac, new_addr);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(gether_set_host_addr);
+@@ -1001,7 +1001,7 @@ void gether_get_host_addr_u8(struct net_device *net, u8 host_mac[ETH_ALEN])
+ 	struct eth_dev *dev;
+ 
+ 	dev = netdev_priv(net);
+-	memcpy(host_mac, dev->host_mac, ETH_ALEN);
++	ether_addr_copy(host_mac, dev->host_mac);
+ }
+ EXPORT_SYMBOL_GPL(gether_get_host_addr_u8);
+ 
 
-Hardware
-  Model:   Acer Nitro ANV16S-41, board HWK / BRZ_SKF
-  BIOS:    INSYDE V1.14, EC 1.8
-  CPU:     AMD Ryzen 7 260
-  xHCI:    0000:64:00.4, root hubs usb5 (2.0) and usb6 (3.0), one port each
-  Camera:  USB 0408:4035, SunplusIT module, USB 2.0
+---
+base-commit: e6664f2b33db9b6811eb4cec109f06cb2b4f458d
+change-id: 20260818-gether_copy_ether_addr-e1fad0b218b0
 
-Kernels: 7.0.0-29, 7.0.0-28, 6.17.0-20, 6.17.0-14 (Ubuntu 24.04). Never seen
-on any of them.
+Best regards,
+--  
+Nikolay Kulikov <nikolayof23@gmail.com>
 
-Topology
-
-In the DSDT the camera is \_SB.PCI0.GP17.XHC1.RHUB.PRT1 with child nodes CAM0
-(_ADR 1) and CAM1 (_ADR 3). GP17 is 00:08.1, XHC1 is PCI 64:00.4. In Linux
-that is usb5-port1, connect_type "hardwired", state "not attached".
-usb6-port1 is "not used", so the module is a High Speed device.
-
-Windows uses exactly the same path:
-  PCIROOT(0)#PCI(0801)#PCI(0004)#USBROOT(0)#USB(1)
-  ACPI(_SB_)#ACPI(PCI0)#ACPI(GP17)#ACPI(XHC1)#ACPI(RHUB)#ACPI(PRT1)#ACPI(CAM0)
-
-Port registers
-
-Read after keeping the controller awake (echo on > power/control):
-
-  64:00.4 port01 : 0x0a0002a0  Speed=0 Link=RxDetect PP WCE WOE
-  64:00.4 port02 : 0x0a0002a0  Speed=0 Link=RxDetect PP WCE WOE
-
-  64:00.3 port01 : 0x00000e03  Speed=3 Link=U0 CCS PP PED   (working port)
-
-PP is set on both ports of the controller, CCS on neither.
-
-What was tried
-
-  - port disable/enable: portsc goes to Link=Disabled and back to RxDetect,
-    no device
-  - controller removed from the PCI bus and rescanned: comes back clean, no
-    device
-  - BIOS updated V1.01 -> V1.14, no change
-  - Fast Boot turned off in BIOS, no change
-  - warm reboot directly out of Windows into Linux, no change, so Windows
-    does not leave an enable bit behind in the EC
-
-What the firmware offers
-
-  - XHC1 has only _ADR. The port node has only _UPC and _PLD. There is no
-    _DSM, no power resource method and no other control for the camera
-  - no GpioIo resource exists in any of the 36 ACPI tables, only 18 GpioInt
-  - the EC RAM layout, about 130 fields, has no camera field, and none of the
-    38 _Qxx handlers relates to one
-  - the ACPI device set seen by Linux matches the one Windows sees, so
-    nothing is gated on _OSI
-
-The known uvcvideo quirks for 0408:4035 do not apply. Those fix the case
-where the device is visible in lsusb but fails at "Failed to query UVC probe
-control", and that fix has been in the kernel since 6.11. Here the device
-never reaches enumeration.
-
-Questions
-
-1. With PP set and CCS clear on a hardwired port, is there anything else on
-   the xHCI side worth reading or poking before concluding that the module
-   itself stays powered down?
-2. Is there a practical way to compare the port bring up sequence with what
-   Windows does, short of a hardware USB analyser?
-3. Has anyone seen an AMD platform where the internal camera needs a step
-   that is neither in ACPI nor in the EC?
-
-Related reports
-
-  microphone on the same machine, ALC245, all zeros:
-  https://lore.kernel.org/linux-sound/CAEoJKMvx4306roZyBX7bZjcRs1T0goH3-V+nauWYnSBJMJLP+A@mail.gmail.com/
-
-  Ubuntu bug, microphone:
-  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-7.0/+bug/2164573
-
-  Ubuntu bug, camera:
-  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-7.0/+bug/2164574
-
-A support request covering both devices was also filed with Acer.
-
-I can run any test on this machine and rebuild kernels if that helps.
-
-Thanks.
