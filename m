@@ -1,153 +1,182 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011013.outbound.protection.outlook.com [52.101.62.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E27440622;
-	Wed, 19 Aug 2026 18:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE4923ED60
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 19:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787163743; cv=fail; b=qEyBINCxV/tT3qX2TgbYDlfU7rw8Z1AVLd2p8PzlY5PljAdiq/QgVxdSaB2Atgd9By3xEVTgODa+3tuElnCu1EqxK+cWSQhMElRhcrvhaHBFgED8Wx82hjsKezbUKJemp/lb4oXK89qQbg+FloBtaYkLqYSIp1fxsoNUzgOBcrw=
+	t=1787167856; cv=pass; b=FHvbaY3Ffqs8IKPnKF7yDQd2QYQKa/SEJiFs6Rh+5tfueESeqakHiFEbBCz6IH0Go9lnaNWrVg+hasOakBLtEcUwnBvMII4q5vKz4vPGtY7pAiiB6UU3tC6JBuMCbBNrM7duukA44PkWtEmANTc574ZHWd5F0oc5p4o0x60HmfM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787163743; c=relaxed/simple;
-	bh=UjCL45Gi2Rmon0r9pk+xEg80bnYvHBFqee87O3FkRD0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lxAVXW+IpVnJQ9TVKpRpi97xcWJ0xyv+E3+a0G+yYVonAQ1n8wTNRb97gWIaTjEpfAfKKle1VMZj5tESMlZYZ3Y6BkEzGH70Eumw/fnl/4jru9uPZNG4EFUF44/Ye1RFOT5pREUJwFd0RFJ6l79XFzg8scYLPYIRB0FedBX6e7A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QXESd0aR; arc=fail smtp.client-ip=52.101.62.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1787167856; c=relaxed/simple;
+	bh=o0DSB0/8QMxjWA/9R98KwaTZYay/JjipjK8HHRnjHFU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=e9NallfhwyT9xAHfUWdOs7EJs5Fn/+5lJdTY9E2vVlUiYxael+dKCsZqxV+C4xZI0VjftQnD6lGLYNr7YuL1kSLqlhbPsLyduxi1fdMDBMw400UGBFCyO4VxxdUimQCrwnXbHK6+EoAtPsTgIv5tpL/lUvhkwQwejKQjwFh3ruU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OUndZYKS; arc=pass smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QXESd0aR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y30HINbHyp1S5Khkf/G0XQzlM9b6sVKzJucAVeMGoXrMCV8t9brF/d+M6w7FcCOxc7Ts9pCc3wCy+5nfDDXHzMtvT7DrOeFVMVXazjN3D3CoEd7clAjvKPkjA0HPRzn07emTsiRB5AbGga7slYTm6+anH4CJ12s4rT1YNkpVwgD4/98X5NyxrTnhRMjSNDA6/iBjnn1BGlulJW+g+JiLTiFpvOh4WwFiHJKIiIXxeKKiOwhkRmJwr7BViqAVZKsUISKGSRxr9bnbkSakMnvjOrNC5wVH+a3bWSRUKdOG/LZoJH1Kwgj2+mDOpFXanA1xTOPfQtUuZkFpTH0QjwEPSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gL9PCTY2V0AWLqCmZxD1PoHBFgxCd6gN1A4jZt569ds=;
- b=xIl9cwBGGvdVne+1nOKgXq+RvZSSFlzO8eFaPuNffP9N79qcxyMU0nAudBBhEUn3fJaSfxfBxEAmKoJq+19wGx5n2ETM3c3BqXGSg28adiF7RGN4KGHGuFT91VgsUrpoNeaxVFZfItRcZEYUrSrRhacs7RzAyHNTk1YWzmh25gY9GPXKB5hyL1AaHc7D/nqK+y6x2zjtH5nJ4UFvK1wPGNmR6xXE/JFgoI/7bFsOtiyTGrz2NVnXYbZef3RBtZqXDoCJmio5EzTPI68/ZoOC3T0Qle//Vz1uIBSkqgRtm+l6Pep7fJDrE4WYKznkcYudWpgr4TqAFZ67aXZ+k4r/3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gL9PCTY2V0AWLqCmZxD1PoHBFgxCd6gN1A4jZt569ds=;
- b=QXESd0aRapYKDsKjOO9coxQdoggPMUUjiflB0uw44SS6DCFnA56RqxowlM/PErnZMlued+g2loO2fW+MZLU2hy/eCm/pRrXQr372HY2sRN1f8fAC2ITnrvg6/ZoVEPMA42S0oa292cgsUlryfEGWINTAQj6MoiSi3Yl1pjdiT0E=
-Received: from DS7PR03CA0084.namprd03.prod.outlook.com (2603:10b6:5:3bb::29)
- by CH1PPFF5B95D789.namprd12.prod.outlook.com (2603:10b6:61f:fc00::62a) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
- 2026 18:22:14 +0000
-Received: from DS3PEPF0000C381.namprd04.prod.outlook.com
- (2603:10b6:5:3bb:cafe::6) by DS7PR03CA0084.outlook.office365.com
- (2603:10b6:5:3bb::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.8 via Frontend Transport; Wed, 19
- Aug 2026 18:22:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- DS3PEPF0000C381.mail.protection.outlook.com (10.167.23.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.339.3 via Frontend Transport; Wed, 19 Aug 2026 18:22:13 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 19 Aug
- 2026 13:22:13 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 19 Aug
- 2026 13:22:12 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.45 via Frontend
- Transport; Wed, 19 Aug 2026 13:22:10 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <peter.griffin@linaro.org>, <andre.draszik@linaro.org>,
-	<tudor.ambarus@linaro.org>, <Thinh.Nguyen@synopsys.com>,
-	<gregkh@linuxfoundation.org>
-CC: <linux-arm-kernel@lists.infradead.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Radhey Shyam Pandey
-	<radhey.shyam.pandey@amd.com>
-Subject: [PATCH] usb: dwc3: google: Initialise probe properties with DWC3_DEFAULT_PROPERTIES
-Date: Wed, 19 Aug 2026 23:51:58 +0530
-Message-ID: <20260819182158.1351869-1-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OUndZYKS"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-841f1dfc30fso4137017b3.1
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 12:30:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787167852; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mEH2QmfqDUek/ED7zPk8SBYtE/p24RFj+D2/NNJKa60NZux0RxwC+u/1vlIPk9H12T
+         Je2ZoRJp9gHmGPrGFxGoqT2A4oGWHbF2JaiLbypLkhA0IBoAlUORXPJu1pKsOcq61v7d
+         1vIWoeD+lUKSqiB4RlBb9SWNwX11VfZWFDuQQKZEW6pRcey4cKfF9wWA1xz6/3EJWley
+         5sVifMtFJjAqcRwh3nLeb8XcsYxK5ja0Jre3XJGEMyWnydKdGXjWJAk9QFtUplc4waDb
+         DfiAEV1teAOFxAZ0vNDrmZrlBBA33CZIAEDM2pRRNeKittxNLwL26rKMn2jSCX52M8c3
+         YGxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=BULJ8hbnSbHu7w1OvVZ7GuC3YfVQUewJa4AKxr3oqPY=;
+        fh=NzeVwnKHNTSa0AafMjSuZWk4S6DcM/nBUypofGRLhgE=;
+        b=QdXjYa7Ha7dqQSqwBytme5ycY3UveuIFAaMUfSbGoAnbbwGKFcz0e8uSIZo7d5pM3E
+         70Tzwm5o4yuku1UDqG/LtpjtDJkhTnIpiftvxVSvuJVXEsEi3kRtheCvJIqAOecziVx6
+         8TZrP7E5uJIRQV6Y1b8MAXKF/dg2cOctq0KR/miXE6clmbHVtGToIQtuTwJd8/7925wq
+         pj0uRjYvbHjFirYNWbRhqbp1Y19sJMlYdjTsJ4YmXu0ZIYNBPl3bxhDnI9HMJjSZaN0x
+         LBZisI7rEqlOOOi+0W/9yAZ6ip3bud7mdwoS+5aZrWB+hSnxSMktCKuM3q9SazHvD8DU
+         JUPQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787167852; x=1787772652; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=BULJ8hbnSbHu7w1OvVZ7GuC3YfVQUewJa4AKxr3oqPY=;
+        b=OUndZYKSvTqf06PhtgMrqbLpxCSJPmLAMf2wRHklv2k0OwFAxXm1F4IjRd8yrGrRg2
+         CHuKoNm3D50DZr6e8oq8FIZ/OLJ8lra5Mj5QbLl9CvAXGhMeJ2Jfd6arOltCV/EP/xJE
+         fRsDxdgwxmYQyVH0kAlvTwNncKLS1XkLe2MEJtUmzyYSd2/qCEON0KxaaiahMAXSn5M5
+         esjof70oVFPKtcWQT1HpKDt0mJZHBsQh0i5b3zoqT2HNcKbTRglCOGaw1zucXm417CkE
+         fV5oY9VnlQNM7piJk1bcp3nz1Yz2QfjZuvtlAvxhelLe6ihuZXxKB+5UXxTlhU5qO1oi
+         WrPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787167852; x=1787772652;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BULJ8hbnSbHu7w1OvVZ7GuC3YfVQUewJa4AKxr3oqPY=;
+        b=K4YQdUb26mNAngxNtcgY6h6XMd6J19gl3BFDVQGZGHao00hXHO1BDFStmSn6TQ1ctJ
+         j7Z3/Jwtkr5ygvg3A0jon0e5YbLc82wX33SmRVQcU9BPIODnHF60U+xdZ/84n+sfmMrm
+         HrXKG2DkiVsrVLxh7wujjzyV+MC56ajo/mVN8bhZoQDMIo4+zom9fyS9lh1p6R6PhuYs
+         bEtQR0rKxmTuGnlNH8eWb+bRI++j6smh/TMmyAnu8SP4fEzn+TN6EAbQO1KZdveHkwRd
+         +p2437hb3QTD0ZMP02I2qim0ZbCXxjV9r0Os/ANAhCjqnX3VbVDMDSzaAF+WQNJgRH9U
+         bbdA==
+X-Gm-Message-State: AFuF++kWM/mWxnrff3EV1el7qDe7Dm/LFo/vmU9h/ZNPH6pFoCcve68d
+	QhaSZ8yhx1T3MIV7veTp8G23+LsK/PKgOOC2KkrDcplCnXDzLNKQ0d/yfYNDi5fA0zFbRJMamvR
+	RJty4eJ5gIBlY8LFgOCxk4KMSeS49g7EP/b3ceSbMRw==
+X-Gm-Gg: AR+sD11IZGTCAKV70EoVyZBGWfXDYpT7SdumfH4Y+8BdZZF652N9Nu4kGxDyvoTP+pA
+	Y6mo0MG5z+wtEIWdxJ+hVQjaICPyBpC4tJdLB+wOWBeCVBf/T4aT37X1//Z8qd1JJZFbdoumd/G
+	UgYxXIuFaLDA2BlHGnedI3UYcq8Ulhb+jvgM2PJU00gvRrvBfRpSGa5tpiXEn+RlZ082sehNnlJ
+	3TlOgzPt3YygJl/Jx328KUD8sq96AZDKm9ZwxJxjTReyWMv/iEhHC67FdAQhyU5HNxCYnipTiGh
+	Yx0TWVv06xLM7rrzi7xthnTfQ5Zp9si8oaYsFgF6LtMlkQ==
+X-Received: by 2002:a05:690c:b96:b0:82d:8dc0:9cf with SMTP id
+ 00721157ae682-8470c1665aemr6746937b3.13.1787167852065; Wed, 19 Aug 2026
+ 12:30:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C381:EE_|CH1PPFF5B95D789:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c928f6e-991f-495d-b6d4-08defe1ecace
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|23010399003|376014|82310400026|1800799024|10067099003|11063799006|56012099006|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	hOPNj9vbvEluQuXnG+icNCPCsULtstUSa5UqcuFCpnrdnZ7+IH+eNumFsx0QX4BSQ7PivrjxeWMcNndCHz3Y9m/ZxiW1SVEsDd8zKj6DdWB30iy1FxUFgV97mEe5f+qyg8bUBpSaNaq4Q9VahhNTluBxqz5ib1Cy0tJHnhCe6Ij7Oek69yiU1n1LYtIDmhNC3tWFUnYnS1aucqr1l6xC36nvnz5/jtmb8d8qHqiBWb4kBeJDwKeRHPeWbDrsz3gpA4qjkh3cV7byvjWgpnIuYJGwAw8kKORvQjASezgqAqZ4YKcKh178uOlrRRreeBm6TLCNHw8DB04QIoJvdy6ecBpeWJ89FFCaQ7qcPM0lFbte1GLon3X69xDWO2+VHzmtiZeEGseCGJHU+TnmQcskzA0Nj32T+c9tegPTrwTxSEVzTAzLNvosfn+wCDb6QMsyVJKj6lw6KU8NRVZ8GM/GGW46SOV9ZLpUfkicJIz/c9Q6UVznti0aw0DpPVeVreH9Vmrv9oQymDN00sR4jan2Fl/a9iHWrcRJ2A73sEwlCTQJoG/bjfIuT6da15pyHl2tlJ/64AS9NDRcH7IZrb6T5SEkyDHBOac4vppLUjwNS6aa3DTC2BDX13xPrBR8ZgDU8XL56V7onjPxiU6qry8WYcPJqKWCNfMVfbZzkbklrpZdhTKZB1hOka4fX4zPr6f+8Rzle35aY16yia+2AWXp0g==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(82310400026)(1800799024)(10067099003)(11063799006)(56012099006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	FZq3qWN7nHbpjifKxhEsMWTTyaMelRXiocQlQm5cpPGjx6w/XPVe2tDdpSB8MubvHByXDo+VoC5P9IQS4pXfcJ4ESbVv+f0QlcbLW1cUY/ssQehWYxscvGCWTs45cyb+sb9JI2CwoCznKiM3SWeTn4XI/V+HyziOpO5TSi2w0vXxS1R1BnAUBSLpiMNw+kXHuozWioJRWT/d40epW/XMCHnzFHwmaKJcgSGQnFYUP13adeyq8obersxG7nG3m9BG4oFLWlI37uMy42m0432jRLyP/PLqBa1/rFZQkyqJxNchywzFJYS9kD9GNpuRM1vvyITu4wpzTsPkoyz8v/2OFNjfj4ZSFx3cf4CD7oncC56u3lxL+8D416KcI/nBrGC/rl0Rb1qFUXsLC1l4qZoCVEyHj+zNPbVMS8Is90k+cemdbuKGsz5IjG0CsazCYi1U
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 18:22:13.7452
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c928f6e-991f-495d-b6d4-08defe1ecace
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF0000C381.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFF5B95D789
+From: Vanchez Rodriges <vrsmilemen4@gmail.com>
+Date: Wed, 19 Aug 2026 22:30:40 +0300
+X-Gm-Features: AcwNN1UKLAT24bdMuxdlLgk79Tqac4nP9-MIGhYwqYqm4Qx3VqxFGq2fPLPNl3s
+Message-ID: <CAEoJKMsytZcfNLBWezRGBUsmOYRBxFMoEnJoNin07AH+26x6PQ@mail.gmail.com>
+Subject: Subject: Built-in UVC camera never appears on the bus under Linux,
+ port powered, works in Windows (Acer Nitro ANV16S-41)
+To: linux-usb@vger.kernel.org, Hans de Goede <hansg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-dwc3_google_probe() zero initialises struct dwc3_probe_data and never
-assigns its properties member. The unspecified state of gsbuscfg0_reqinfo
-is encoded as DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED (0xffffffff), not as
-zero, so dwc3_get_software_properties() reads the zeroed field as a value
-the glue explicitly requested:
+Hello,
 
-	if (properties->gsbuscfg0_reqinfo !=
-	    DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED) {
-		dwc->gsbuscfg0_reqinfo = properties->gsbuscfg0_reqinfo;
-		return;
-	}
+I am looking for advice on how to trace this further, not for a fix.
 
-Two things follow. dwc3_config_soc_bus() programs GSBUSCFG0.REQINFO with
-zero on hardware that never asked for it, and the early return skips the
-walk over the parent devices, so a swnode or device tree supplied
-snps,gsbuscfg0-reqinfo would be ignored.
+On an Acer Nitro ANV16S-41 the built-in camera has never enumerated under
+Linux. The port it is wired to has power, but nothing answers on it. The same
+camera enumerates normally under Windows 11 on the same machine, on the same
+port, with the standard usbvideo class driver. So the module works and the
+difference is in how the two systems bring it up.
 
-Assign DWC3_DEFAULT_PROPERTIES so the unset fields carry their unspecified
-sentinels and the controller is left alone.
+Hardware
+  Model:   Acer Nitro ANV16S-41, board HWK / BRZ_SKF
+  BIOS:    INSYDE V1.14, EC 1.8
+  CPU:     AMD Ryzen 7 260
+  xHCI:    0000:64:00.4, root hubs usb5 (2.0) and usb6 (3.0), one port each
+  Camera:  USB 0408:4035, SunplusIT module, USB 2.0
 
-Fixes: 8995a37371bf ("usb: dwc3: Add Google Tensor SoC DWC3 glue driver")
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
- drivers/usb/dwc3/dwc3-google.c | 1 +
- 1 file changed, 1 insertion(+)
+Kernels: 7.0.0-29, 7.0.0-28, 6.17.0-20, 6.17.0-14 (Ubuntu 24.04). Never seen
+on any of them.
 
-diff --git a/drivers/usb/dwc3/dwc3-google.c b/drivers/usb/dwc3/dwc3-google.c
-index 60ee4cc99b28..a01ca23cb6a8 100644
---- a/drivers/usb/dwc3/dwc3-google.c
-+++ b/drivers/usb/dwc3/dwc3-google.c
-@@ -442,6 +442,7 @@ static int dwc3_google_probe(struct platform_device *pdev)
- 	probe_data.dwc = &google->dwc;
- 	probe_data.res = res;
- 	probe_data.ignore_clocks_and_resets = true;
-+	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
- 	ret = dwc3_core_probe(&probe_data);
- 	if (ret)  {
- 		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+Topology
 
-base-commit: 6a746cd265aed59107ebdaa9ce039bb832922969
--- 
-2.43.0
+In the DSDT the camera is \_SB.PCI0.GP17.XHC1.RHUB.PRT1 with child nodes CAM0
+(_ADR 1) and CAM1 (_ADR 3). GP17 is 00:08.1, XHC1 is PCI 64:00.4. In Linux
+that is usb5-port1, connect_type "hardwired", state "not attached".
+usb6-port1 is "not used", so the module is a High Speed device.
 
+Windows uses exactly the same path:
+  PCIROOT(0)#PCI(0801)#PCI(0004)#USBROOT(0)#USB(1)
+  ACPI(_SB_)#ACPI(PCI0)#ACPI(GP17)#ACPI(XHC1)#ACPI(RHUB)#ACPI(PRT1)#ACPI(CAM0)
+
+Port registers
+
+Read after keeping the controller awake (echo on > power/control):
+
+  64:00.4 port01 : 0x0a0002a0  Speed=0 Link=RxDetect PP WCE WOE
+  64:00.4 port02 : 0x0a0002a0  Speed=0 Link=RxDetect PP WCE WOE
+
+  64:00.3 port01 : 0x00000e03  Speed=3 Link=U0 CCS PP PED   (working port)
+
+PP is set on both ports of the controller, CCS on neither.
+
+What was tried
+
+  - port disable/enable: portsc goes to Link=Disabled and back to RxDetect,
+    no device
+  - controller removed from the PCI bus and rescanned: comes back clean, no
+    device
+  - BIOS updated V1.01 -> V1.14, no change
+  - Fast Boot turned off in BIOS, no change
+  - warm reboot directly out of Windows into Linux, no change, so Windows
+    does not leave an enable bit behind in the EC
+
+What the firmware offers
+
+  - XHC1 has only _ADR. The port node has only _UPC and _PLD. There is no
+    _DSM, no power resource method and no other control for the camera
+  - no GpioIo resource exists in any of the 36 ACPI tables, only 18 GpioInt
+  - the EC RAM layout, about 130 fields, has no camera field, and none of the
+    38 _Qxx handlers relates to one
+  - the ACPI device set seen by Linux matches the one Windows sees, so
+    nothing is gated on _OSI
+
+The known uvcvideo quirks for 0408:4035 do not apply. Those fix the case
+where the device is visible in lsusb but fails at "Failed to query UVC probe
+control", and that fix has been in the kernel since 6.11. Here the device
+never reaches enumeration.
+
+Questions
+
+1. With PP set and CCS clear on a hardwired port, is there anything else on
+   the xHCI side worth reading or poking before concluding that the module
+   itself stays powered down?
+2. Is there a practical way to compare the port bring up sequence with what
+   Windows does, short of a hardware USB analyser?
+3. Has anyone seen an AMD platform where the internal camera needs a step
+   that is neither in ACPI nor in the EC?
+
+Related reports
+
+  microphone on the same machine, ALC245, all zeros:
+  https://lore.kernel.org/linux-sound/CAEoJKMvx4306roZyBX7bZjcRs1T0goH3-V+nauWYnSBJMJLP+A@mail.gmail.com/
+
+  Ubuntu bug, microphone:
+  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-7.0/+bug/2164573
+
+  Ubuntu bug, camera:
+  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-7.0/+bug/2164574
+
+A support request covering both devices was also filed with Acer.
+
+I can run any test on this machine and rebuild kernels if that helps.
+
+Thanks.
