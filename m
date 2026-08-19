@@ -1,143 +1,187 @@
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9683F1ABF
-	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5030143B496
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787135235; cv=none; b=exxNZhGP7lxXFMtD/IufHy5e15HSTzHB/97LOHlczmiBvVmlJA9hc7566DLtPkNpKego0921eMw7jWQoGJYVESsTKd0XNoYSjYrQMD0xrDh/YcDtD075OJwhkVU9p7bDGhvi4S1ki/wQvcThz/7xJdrfLWI8y0cCMZuTPU27OLo=
+	t=1787135664; cv=none; b=fMzZIhf9fw7RTlLYKzdbc0RvGl6CBhMf3yDvGSgPMqo2oGOds57990myHJ1XWnpimyJZhZHtzm+gG9lC/5PLi5meIAmk+Ya9apzM+YN+bFYUorZ2V/V8qQh0oEWqV5/CTAOBffu0FLqIkR74zvhQe0P41oApr0SOzzMGSRHmjf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787135235; c=relaxed/simple;
-	bh=Mk813TFCqqlmMVYF58q8Ra7/eYmWpuXZ8bzgguh1pHY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=GZjXVYwO2gR82WFaHf7jYRz3vM1TK7oYepGcnObreG4aLjeaLf3lEa/eyvJPrww/mp9B779marfLD9qSTC50vtcQmMYrVb6DbEpXPmhpEY01B5MCaJ8+wPB1E9GhtXrNFCX09ng0yGgZL4Z3xBgq1dgmQhG+mTiC22CbOgda9aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YEyBm0eq; arc=none smtp.client-ip=209.85.216.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com
+	s=arc-20240116; t=1787135664; c=relaxed/simple;
+	bh=PXWpCjYQtb6zdAWnCS3MdSSv+WWICh4QW5PHtuIey44=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bvqq5hRg4U7PXbsEcEssE/ieLOLuMAr+RyquVVKGlKaHViPcPnTmADlCS3cBPgwiI0FBMkQrxE9VzAkldBe8M+TQ9u7xXZV3TzihfGRZiLOAMW329kTyVSuELbx7ceTjm4QlUFEOIkS8JFIqK2hST4vxB5s+eSTHzMHJubGH97g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iQ3uiwfI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=alSwXv/a; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YEyBm0eq"
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e4758ab46so1535055a91.0
-        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 03:27:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iQ3uiwfI";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="alSwXv/a"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67JA7nTi2947171
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:34:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	L13q/JSCJFi8BVIktBNFVx6pTxQv8onyK90nXOfMrpc=; b=iQ3uiwfISB8NEXFN
+	BBZ2JTTXNVZle7DHl0JIfykM1VH/3KJSUZxJ00YcFFRxMyxTHRKBIebnxXnrLKtk
+	DFeriSAB88ugJFKz8joVuaYTTz5D6RzgbSX2vF0rqq+A/nZz8+MRLi+Cz1kmdSIq
+	MnPfy3EFdqtoxlXPMPl7Oy5ZaN9nqyM5J9fM5LBlCTUJMM9ZPzAC5l+tU744spgT
+	7f5I5W9JG5CV0S1kCFqWy0QlDHtrhw4JmonKntrS0AuFgF5jVKqd7khEZhZsZala
+	vQaiergA6/WafvV1vf4MmMmuXhvMO/U5M98N/ylYR1XKYkuwXia4xKt1AqSmLtZP
+	Ng08pw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4yfkaq7k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:34:22 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-8ebb599e528so1655826d6.1
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 03:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787135233; x=1787740033; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RsoC28vCQHKdnNG2zgOJgL5SSi8lYenXYvOZo5k+sWA=;
-        b=YEyBm0eqeq0ujLc/q9HnmeHFTX/4B8yTcMeEsh9oppaWse8XTsjmqnrnkE10TtR8uZ
-         exLpXZ7SbyVC0bNcdlE/lqhGE9PBSrNSxFlns//uh4x+I2CRW39YEaaUdF7JihSbVA/Y
-         LMejCJYkoABo+W3V49BwlnylTZlnh6fwVT07lUMwSa2u9dMGYFbrT+mrE3l8t1pkenwq
-         yC/48zdn+jN0K9hgzZXf+KYjVfzEG44E3t/ihKS2gkRNlty0cXN4vgvbeLmZ6Esb9hTj
-         vIpmXRbdDk2gXl/Ly8R2qHHL8eA7CmcQ/KPjCTYHuIgAzZuWexG4qTr6Wp/ZBM4jW4/T
-         0ULA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787135233; x=1787740033;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1787135661; x=1787740461; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RsoC28vCQHKdnNG2zgOJgL5SSi8lYenXYvOZo5k+sWA=;
-        b=B9x9tl/Rkw7zPD2M7Tcpt9jrfnpcMDURqOma0gFf3Y8Tnat9ygkrherrUiJwkWWdCs
-         b/u8TAir1wyUznwMIl7z68TJgMXWH433PfTcTEbtX+UwecY3o7lWAjSsTm2obtJK+ytN
-         JBkDLji9wqvhRsI9EJQZ2spCOs224Px89a/m6l6A1J8bZJiOZwE7Pe474dV7vB3CCA4b
-         6KBLlG26nITSisizias2UOGYsIA3kG3tAtBkUxe1rVqjplxXIZ+kDLSDd7THF4mcudTj
-         pcK605uhhc4KtON2bX8PzIdEKw3ax+hQyW+QpeiWDfSD03aZq2qUKODv1A1d53XZls2h
-         2bwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqoBGRoTCZ+haSqdPwd7ZY89EnaolA66psE9buL00BmLy7tdNWW0nZ4SCYP3Q5DPbgh+uHBCuwJdpk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1UlYiETYmLITxfMCAE1Jtw538N9ALOrdD0/cyjBw7XmvL3YNV
-	KYS+ucnU0NqQ2cm11kbegmHt3zy5hvZjhwgp0wMY2woRpRYzq36r5y/astMfF927YvjSK2KxMwb
-	C2sdfDxu7gWJePgshEHrT2HtMENfUtvkcmQ==
-X-Received: from pgla22.prod.google.com ([2002:a63:b56:0:b0:c99:5634:7551])
- (user=sonalipradhan job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a20:3ca1:b0:3c3:66c5:68d6 with SMTP id adf61e73a8af0-3cd00f77410mr6894163637.9.1787135233076;
- Wed, 19 Aug 2026 03:27:13 -0700 (PDT)
-Date: Wed, 19 Aug 2026 10:27:09 +0000
+        bh=L13q/JSCJFi8BVIktBNFVx6pTxQv8onyK90nXOfMrpc=;
+        b=alSwXv/aZkZrvlFtJ/Xo7AjPi4ru/aG+TUUD9Lh8wsW9urJJvXNWMt+Z4wFrtIygSZ
+         nH0QF3Y3gb1AUdSJtnjs96/rj4RT6EgU+x1kr78iHn1tFw1FxIdaTW+exWYOWzqsMd+T
+         O2hfF0Zv6IqfhO1WiGeVTvlSxDw91xfU6npBoPnD14VSwZFLCDylQf/ozKlNFS8c8jDr
+         t3qbjUUBUHZAdYFj6Q5XzjXWFV/SkpkQeTWei0qoEZmFdy4o5oOs6rvpVJiCLRg4hET/
+         svAhMx9LMp/0TopHcgOWqLG3ja72SP69xEgBPGMYhlxRZ2J73vgMafR/cCOGhlDLRPJj
+         thag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787135661; x=1787740461;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L13q/JSCJFi8BVIktBNFVx6pTxQv8onyK90nXOfMrpc=;
+        b=cJ3X2uaauu8D4jzPzhX3gmijNwHQ6OUNSjS4CwpHE/kKK1WaPodU+fqlx/eCSAg4Ff
+         JKfdnJq1Mdoh0/9jnDYJV7aUsScQ1e1+yek5T6fmhmRre6GaKOV9+X+gh5n6VYji5zy7
+         cP91VoQkd7UlPsT6sQNLQgrASptgDIxua4+Qwuwiwt8kiO4+vMxX9fbaB5K6cLSE/rXK
+         b0Gb7YXsSMwWXlwIA8/gcDoz/Bhoq5UueiBKn4NGeRezNvfcq7wvbJzkBluDgik7K9ww
+         RHNYRV1KQDD1n7uUINMDKF55Mam3jvwem9R+yySIbBzQPdh3gYIgn3njBJVIYGjHSKoA
+         o2Mg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq6asOGGL7jGB3aHhrECGAkDIExAdbe536Z5jhJehar0gDLyitdDz7pKk2++IrBAPRhnv1gwEH7CZ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBVqlyTtfCVDujn9m9fpyPDFA0wjsCTVkpWzsaeOxCtg8+uR0c
+	7XvNFEKKKU8zkAld7g56KQE6b2TMDPLOxT4HoviD5H8x8E/APYOxIgRqg8HNyn9ETmbuUQmXAvs
+	6u007ZTkiuwjT1EwW5ebP7EZWiMBbbMmeqwkIUEw39T8P0lRHa8cFNw7pcjEFA/E=
+X-Gm-Gg: AR+sD12SFp6XnsgOUSIj7kvxe6nT55OctpQ2nXxlpnrM89oqnZPvQqfigWOZnv6QtdG
+	WRC1IEMAgNTH6O98jjK7Prf9MVPzSQVJF3fMp++q8JHD6x1KtPox5iHbGGambsLDFWXgHhfR/oK
+	9JeOXF5tv5yVMYfpgXkf8StCunvFnFGcN020u8NfeFYZFCBNbsDbl7q0tgWJXWZ/gGSCMSbtQgR
+	NrInmca79UfFL5f9XZRJ9C/QSGeBY37p83usMFAvljnYIEhe0Ey15O8ui6ldAAWXryIOFo9qixs
+	Xgb5LiyuYLDWn2+UEhdsf4d5ANyuv39j6PnKhIH/YANvSWxNtzCo52hDnjvTAH1fDK52yvBjZWh
+	iPrt3KRVU6NmJnh5+evAp1Kpe
+X-Received: by 2002:a05:620a:839b:b0:92a:228:1bfc with SMTP id af79cd13be357-9371e6bf613mr231079185a.2.1787135661267;
+        Wed, 19 Aug 2026 03:34:21 -0700 (PDT)
+X-Received: by 2002:a05:620a:839b:b0:92a:228:1bfc with SMTP id af79cd13be357-9371e6bf613mr231076385a.2.1787135660855;
+        Wed, 19 Aug 2026 03:34:20 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b478853abasm423113e87.5.2026.08.19.03.34.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Aug 2026 03:34:19 -0700 (PDT)
+Message-ID: <0818e754-47f9-4b15-81c5-fe5294e536f0@oss.qualcomm.com>
+Date: Wed, 19 Aug 2026 12:34:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.737.g08866a6d13-goog
-Message-ID: <20260819102709.212646-1-sonalipradhan@google.com>
-Subject: [PATCH] usb: gadget: f_midi: fix UAF race during IN request handling
-From: Sonali Pradhan <sonalipradhan@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kees Cook <kees@kernel.org>, Victor Krawiec <victor.krawiec@arturia.com>, 
-	Fan Wu <fanwu01@zju.edu.cn>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	"Felipe F. Tonello" <eu@felipetonello.com>, Felipe Balbi <balbi@ti.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Sonali Pradhan <sonalipradhan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: tbt: Correct swapped TBT adapter type values
+To: Sven Peter <sven@kernel.org>, Benson Leung <bleung@chromium.org>,
+        Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+        Jameson Thies <jthies@google.com>,
+        Andrei Kuchynski
+ <akuchynski@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=PoGjqQM3 c=1 sm=1 tr=0 ts=6a8586ae cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=G0XHSz-fAAAA:8 a=Oh2cFVv5AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=zk36CDiEbYcLe4RSMnMA:9 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+ a=9GzJQMQvVMogKS571uVa:22 a=7KeoIwV6GZqOttXkcoxL:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE5MDA4MCBTYWx0ZWRfXzqeqL0e1I5d1
+ fpFtzCXZAfVBvuWd8dz0sVU1flDCefvLFVfdejI5DRwX+Kzx1Oz1D2k3Ei4JZ3GpLJ7yZBjTWai
+ DheEYhMw42E8QER9yQZNk1TSMeV3d+rPj2yJa8b4NKO9zMqIH+HmT3AcSjc+H0IumWTjdzR9ua5
+ UNlGyhF9Gh5QFqKTFofVQPnjzCYIFlM2QsJL7G/Wu/49+vwodMDDBvJCZkfLIAL6SLWYvQOo57z
+ FVO+pLu6GcvL0XJtvsc79hhB6xR4j38BCKg38/E8YbMvzoU/nEQ2khbcCftFKQ8IBnC69XEA4lW
+ WltUByohOYC6iWnHAwluhbFryEcPEHkGxCmRq6Qx9KfY8en4bpcZ6u+fKBY0ClUE6BkgBrHFohj
+ nbf0spp4/tq5nPrDK+wNSr8Ya4BsL8g5h5fNQXKDo1GMr46TDn3kHwnMiK1ugI6shKsOJ9Kzvvt
+ DkRT5lHmsykp9mLthBQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE5MDA4MCBTYWx0ZWRfXysHC8DQ15SxV
+ r/GaDnV7bG/6jnTyPrX6qHr0ntQmnCrCYimj91ZGjwswFPAhWYRjOZGbS2dGpTab56d8JHai0py
+ pn08mi47zA8m9X5rC1hO/kFH6cZ/sNI=
+X-Proofpoint-GUID: 2PGNz-IfdmRD2-YRyA_AN7wUeFfsRMax
+X-Proofpoint-ORIG-GUID: 2PGNz-IfdmRD2-YRyA_AN7wUeFfsRMax
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_03,2026-08-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 bulkscore=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608190080
 
-f_midi_disable() frees pre-allocated IN requests from in_req_fifo
-without holding midi->transmit_lock. Concurrent f_midi_transmit() or
-f_midi_complete() calls can then access these request buffers after they
-are freed, leading to a use-after-free.
+On 8/18/26 6:20 PM, Sven Peter wrote:
+> Table F-10 of the USB Type-C Cable and Connector Specification R2.5 on
+> page 412 defines bit 16 of the TBT3 Device Discover Mode VDO as 0 = TBT3
+> Adapter and 1 = TBT2 Legacy Adapter. Linux has those two swapped since
+> their original introduction in commit ca469c292edc ("usb: typec: Add
+> definitions for Thunderbolt 3 Alternate Mode").
+> 
+> ChromiumOS EC's include/usb_pd_tbt.h has them the correct way around
+> and references the USB Type-C ECN "Thunderbolt 3 Compatibility Updates"
+> as fixing an error where they were originally swapped which is presumably
+> where the wrong order originally came from.
+> 
+> I've also confirmed the correct mapping with an Apple Thunderbolt 3
+> to Thunderbolt 2 adapter which does set bit 16 in that VDO.
+> 
+> Swap the two values and update all users. Also rename the old defines
+> so that no user accidentally ends up with an inverted value.
+> No functional change.
+> 
+> Link: https://usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-25
+> Link: https://chromium.googlesource.com/chromiumos/platform/ec/+/db93814b6e73c8545d23714fe0674c10814d901a/include/usb_pd_tbt.h#90
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+> I ran into this when bringing up thunderbolt for Apple Silicon SoCs and
+> was very confused why the condition for "tbt2 adapter" vs "tbt3 adapter"
+> seemed to be backwards.
+> I think the qcom pmic_glink_altmode.c actually has a bug there that was
+> hidden and/or caused by the wrong values: It used to always set
+> TBT_ADAPTER_TBT3 which sounds plausible but actually claims to be a
+> legacy TBT2 adapter on the wire. I don't have the hardware or know the
+> intention there though.
+> The other users look correct to me since they just pass the value
+> through.
 
-Fix this by acquiring midi->transmit_lock in f_midi_disable() while
-releasing IN requests, and checking ep->enabled under midi->transmit_lock
-in f_midi_transmit() and f_midi_complete() before modifying requests.
+I ran into this in the past
 
-Fixes: e1e3d7ec5da3 ("usb: gadget: f_midi: pre-allocate IN requests")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sonali Pradhan <sonalipradhan@google.com>
----
- drivers/usb/gadget/function/f_midi.c | 22 +++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+https://lore.kernel.org/lkml/20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com/
 
-diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-index fba8cf787d6c..ee64147b12f1 100644
---- a/drivers/usb/gadget/function/f_midi.c
-+++ b/drivers/usb/gadget/function/f_midi.c
-@@ -280,9 +280,20 @@ f_midi_complete(struct usb_ep *ep, struct usb_request *req)
- 			/* We received stuff. req is queued again, below */
- 			f_midi_handle_out_data(ep, req);
- 		} else if (ep == midi->in_ep) {
-+			unsigned long flags;
-+
- 			/* Our transmit completed. See if there's more to go.
- 			 * f_midi_transmit eats req, don't queue it again. */
-+			spin_lock_irqsave(&midi->transmit_lock, flags);
-+			if (!ep->enabled) {
-+				spin_unlock_irqrestore(&midi->transmit_lock, flags);
-+				return;
-+			}
- 			req->length = 0;
-+			spin_unlock_irqrestore(&midi->transmit_lock, flags);
-+
- 			queue_work(system_highpri_wq, &midi->work);
- 			return;
- 		}
-@@ -420,6 +431,7 @@ static void f_midi_disable(struct usb_function *f)
- 	struct f_midi *midi = func_to_midi(f);
- 	struct usb_composite_dev *cdev = f->config->cdev;
- 	struct usb_request *req = NULL;
-+	unsigned long flags;
- 
- 	DBG(cdev, "disable\n");
- 
-@@ -431,8 +437,10 @@ static void f_midi_disable(struct usb_function *f)
- 	usb_ep_disable(midi->out_ep);
- 
- 	/* release IN requests */
-+	spin_lock_irqsave(&midi->transmit_lock, flags);
- 	while (kfifo_get(&midi->in_req_fifo, &req))
- 		free_ep_req(midi->in_ep, req);
-+	spin_unlock_irqrestore(&midi->transmit_lock, flags);
- 
- 	f_midi_drop_out_substreams(midi);
- }
-@@ -678,10 +686,11 @@ static void f_midi_transmit(struct f_midi *midi)
- 	unsigned long flags;
- 
- 	/* We only care about USB requests if IN endpoint is enabled */
--	if (!ep || !ep->enabled)
--		goto drop_out;
--
- 	spin_lock_irqsave(&midi->transmit_lock, flags);
-+	if (!ep || !ep->enabled) {
-+		spin_unlock_irqrestore(&midi->transmit_lock, flags);
-+		goto drop_out;
-+	}
- 
- 	do {
- 		ret = f_midi_do_transmit(midi, ep);
--- 
+where seems like back then I misinterpreted that the intel driver
+doesn't need changes.
+
+For the pg-altmode driver, looking at the FW interface I don't see
+any info being passed to the OS regarding tbt2 vs 3, so we should
+presumably always assume the latter (i.e. just fixing the header
+is enough).
+
+Konrad
