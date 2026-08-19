@@ -1,142 +1,87 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7FF3845B7
-	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 15:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D64480326;
+	Wed, 19 Aug 2026 15:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787152846; cv=none; b=IMrs0QeP1lEtwCXbGvsBq9UTeZ683Ahh4tAz0wum/qSeSOvBHzOjRiORXIm9Md8pKP7NgsMQlT5hlhaQDgiq+zfka7y/JaXwHlW/UYH9LSB2aA9z6zYYe3a7LWGt6EAK3a2EoYZmuigd/+hPyVecIeQ8TRrBaeRQcEZwPBKAoRQ=
+	t=1787154312; cv=none; b=A85cNOBEPaHVT/+J2ibRvc/LFOpdvP+yvQjsRZePfJ9GlLFeRtGzw9J56SD2R4s8cvRPhQaZlI+R7fbPsx90IvPE8QaNnBMCfZ6falhXG9aUX+s1Uyi5qg52IZgKrDCccJeIC0aqF/Xxp9wih5Gnp2eFrkCcjYJX+HkdSB7+GGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787152846; c=relaxed/simple;
-	bh=NktYR13aQGEZKI3EO5FCbGzBjpVy+3k0GIvRZjmI+vY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d1/EHnl1NNSf1CI2YdOP6Rhd5p8aOl94eNZh75RjhwVZkgnyLj9IScDlrb+OBsErVu2feTLOKgiMVBc8+hQFTKBjkBYZ34jjbIJlBxxTwbemOmPhKEcr+W7q3Kjzu6zzeQOBZF20uQdP+NNLqLeCPiKMqaA30bLYkSalP19BXUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dd6iIWOz; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787154312; c=relaxed/simple;
+	bh=bCFKEMuDZ6PIZowuuX/q/WWHi4ME0aIDO7xxYV+ZL68=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W/cdSZLSytHuGSa5fLEBnE4KDEYQhTBjYO4F5J4VNEAMM8owMyylYuRWxRNE1ejyhAjxxvZgdjYXsPew7Oymq5fdxChqOpx1tuYIdUGPfebOXRJaLXUxUBIQxJWErBKs2b5nqSIq+IIqYfeo0ObzjZo8HmxR+F6DkFDm5jAyAGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=ZguuqLgG; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dd6iIWOz"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cf6d65d8a7so13544615ad.0
-        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 08:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787152845; x=1787757645; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OWrkfvF0AtjljV0m6J5emA4PqOIDBL9kVxpQPrwf6n0=;
-        b=Dd6iIWOzy3GbggjuL47hl2sDCZumb4GQnaXyWMYEOvVlcEu+3b+/G+/jTz7EOE7T6Z
-         7XHQFcQGqvAJxq7zUFbOSUfyQvNXTXlnOIdpTCCYe8/XDIrD179TQp/1uItGVDm5G0VU
-         yjcC+rI8JjhFpRoiozaq9+EX5/EcUTGKtbalbnNGLi8g9ciV5NtCzp1VUj4SAB+Ow44R
-         w3/ZVmlTawrvTDnFyi8KtY6w+2+GMtysUMpSdfpFfJvy2eDdUGquI4rdIAeERtaM3Jdy
-         2aLIvTBbVXVsC6KB8tob9hH0NRazxltYp/O+hB2W85uS/NhTRnS3p1QaCGTJPrqOdvs7
-         Sxew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787152845; x=1787757645;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OWrkfvF0AtjljV0m6J5emA4PqOIDBL9kVxpQPrwf6n0=;
-        b=pKMZ3NYNGtQs/mBKW30KgA6TXO+RwN793qivRKtqp1iaVzwCUe+zxI5oC/9WMDxFrw
-         +J8lsA9Vhock1l0VxKhZU78oND7RauDrBS7Y689k91IdpU/qa2ZwwsGcALyrwRTN5Fdq
-         DIf7/I4Aov18Ne7i+kKzZSHt+nT5cK1kcBfSUFcYZVVf8mdhj/Ib9vXZrC5M+NX8RCGi
-         GmrsdkPDo0Nk4YMkSEzHRgCzqqA8ECM0Zd/FNviEw7Lj4ru5or2Bb+eTVPKiw8aQg35S
-         hEg1gV2Wd3Kd52mgxIHOqBFAHnoaGpB7w79uSl/IHkuDxeV0oUs4dFWIiwCAvGKosyJs
-         7Hpw==
-X-Forwarded-Encrypted: i=1; AHgh+RqlgvTain+HQ9SS/Z3tgRhw7K0Q7w5j0pA73iW+G7Zzhp4oRZp2OYo0C/UfTSnaEdVatDG6Jgfkc6c=@vger.kernel.org
-X-Gm-Message-State: AFuF++krJhLHrb/KkJD4J6sP9aRk0QKu7wtVsYRjFgmdD3Xvie7hBDYM
-	H1Yt5xkitYDB1F944HDro+af7yNDUSPYANPnYMa7V9/oASMhkD+SwDOp
-X-Gm-Gg: AR+sD12XnyUmi08QC2E0O5248prjCFVEPGhY0PciXfmlbiH/4uCbAntf/IJ48wsQdH/
-	lXPOTFN9g912GE8Z8vdpV3g3wYblfOssp/R2tScMMealQK7Hyohb0feWYhyRiIEUDfNpTkRd5XZ
-	tvpyjH2CcBiJMkOI9Yjun5mQYHq6SKLwCrCBl6xu05/qr5WfjPaPM0ie/bBDBayoA2UbO1x/YDB
-	Qemu+4NJS6Tlk18+aDKOBmSZFJhrmXJ5C31q13W+eVUgk+eMfRvoOx8jtsoHAfRonDcKAhR3wxO
-	Si2/ih5zuuGcAEYFRVD1eSHg66bWSxCUkYFvYvst3mIdKi2gP84XLyiVSLbSZijY44Ul8jZ888h
-	i6hqVOBD++eQPNp2bUcMHes1gLjQi2lVgnGw14mmTKOeSVJCmYTDs4mhN3MFV47/5oVRibMkdFT
-	EMgqpTJg+zRhQrSAQfnbCtZ41Tcityh2n+pmWLa7x4pcl1wPKLQtY4XPoL8atH40R6x7tQglOKr
-	yqNOA==
-X-Received: by 2002:a17:903:1987:b0:2ca:61bc:317c with SMTP id d9443c01a7336-2d601a8baf8mr98123875ad.13.1787152843091;
-        Wed, 19 Aug 2026 08:20:43 -0700 (PDT)
-Received: from localhost.localdomain ([188.253.118.67])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5c1ecb1c1sm27294945ad.66.2026.08.19.08.20.39
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 19 Aug 2026 08:20:42 -0700 (PDT)
-From: Chang Wu <kunjinkao.jp@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jan Remmet <j.remmet@phytec.de>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chang Wu <kunjinkao.jp@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: typec: hd3ss3220: track VBUS enable state per consumer
-Date: Wed, 19 Aug 2026 23:20:27 +0800
-Message-ID: <20260819152027.90994-1-kunjinkao.jp@gmail.com>
-X-Mailer: git-send-email 2.48.0
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="ZguuqLgG"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6620911A40D;
+	Wed, 19 Aug 2026 17:44:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787154301;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=jKrds4Vj9VpxWlbeCohHZvmSocW530LXUZIAJ3ynTZw=;
+	b=ZguuqLgG498/pjMsosn7OaBTD9B1+NF5ZsweITOEhJ4AJduSLZ2b3PMnCGUys3m+qOziXb
+	Vya4pIYMGVkAp2d5P1j1R942XY9FmvGh/clUY+zwgepGVFVNh8hLJCCFuFbHxf2sH3c9qu
+	LBo0VDhWdSaU1e+sM0tR6VB+qqrYwK6dSsDwmeaHcYYYnnEu2k5HfbFbXZ3P89LNCVNxfE
+	uVRF7DCqv3g899nR56jDa+gFcJyw/gvcaUJDrvUPgTL0EG9wvW6k6Ts0Wl8DVQaBRLpg8Q
+	Ey1Ny+HxFcVT2ckiCcnpK7xcQAAdoTDKNUqXn8ya3hN0hCR0fmDhUZBmH1nR8g==
+Message-ID: <23091037-bfeb-46ac-b17d-8b86394b119e@nabladev.com>
+Date: Wed, 19 Aug 2026 17:44:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/9] arm64: dts: phy: st: usb: Add STM32MP2 USB support
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-usb@vger.kernel.org
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
+ Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
+ Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260816213849.1044073-1-marex@nabladev.com>
+ <61dc785c-bea1-4674-918d-0f38ea253a29@foss.st.com>
+ <41e7978b-933d-4813-9158-00474f531476@nabladev.com>
+ <6c900e6b-2f50-4ec2-aca4-3093479bba53@foss.st.com>
+ <d6064380-2368-4131-8cde-44734f67028f@nabladev.com>
+ <066ce020-6123-4aed-a069-67c51957173d@foss.st.com>
+Content-Language: en-US
+From: Marek Vasut <marex@nabladev.com>
+In-Reply-To: <066ce020-6123-4aed-a069-67c51957173d@foss.st.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-regulator_is_enabled() reports the aggregate regulator state, not
-whether this consumer holds an enable reference. If another consumer
-enables VBUS first, the driver can skip its own regulator_enable() call
-and later attempt to drop a reference it never acquired, triggering an
-unbalanced regulator disable warning.
+On 8/19/26 5:19 PM, Fabrice Gasnier wrote:
 
-Track successful enable and disable calls locally. Keep the state
-unchanged when an operation fails so a later role or ID notification
-retries the operation while this consumer keeps balanced references.
+Hello Fabrice,
 
-Fixes: b3f9d6e491fd ("usb: typec: hd3ss3220: Check if regulator needs to be switched")
-Cc: stable@vger.kernel.org
-Link: https://github.com/qualcomm-linux/kernel/issues/472
-Signed-off-by: Chang Wu <kunjinkao.jp@gmail.com>
----
-Testing:
-- scripts/checkpatch.pl --strict: passed
-- Qualcomm CI checkpatch, sparse, DT and UAPI checks: passed
-- Not tested on hardware
+>> Maybe the DT syscfg node shouldn't be a plain syscon , but rather there
+>> should be an actual driver which binds to the syscfg DT node and
+>> configures all these hardware details early on boot ? The USB controller
+>> drivers will start only later, when the syscfg configuration is already
+>> set in the hardware by this (future) driver, since they depend on the
+>> syscfg node and the PHY subnodes. Maybe that is the way to fix the MP21
+>> without having USB controller glue ?
+> 
+> Hello Marek,
+> 
+> Ok, I'll think more about it regarding MP21. Let's continue on current
+> series without any additional glue driver for MP23/25.
+There is really no rush, if you can come up with something for MP21 that 
+does not require the controller glue, that would be real nice.
 
- drivers/usb/typec/hd3ss3220.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-index d0de5a2488f9..4eec90c82bae 100644
---- a/drivers/usb/typec/hd3ss3220.c
-+++ b/drivers/usb/typec/hd3ss3220.c
-@@ -62,6 +62,7 @@ struct hd3ss3220 {
- 	int id_irq;
- 
- 	struct regulator *vbus;
-+	bool vbus_enabled;
- };
- 
- static int hd3ss3220_set_power_opmode(struct hd3ss3220 *hd3ss3220, int power_opmode)
-@@ -208,7 +209,7 @@ static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
- {
- 	int ret;
- 
--	if (regulator_is_enabled(hd3ss3220->vbus) == on)
-+	if (hd3ss3220->vbus_enabled == on)
- 		return;
- 
- 	if (on)
-@@ -216,9 +217,13 @@ static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
- 	else
- 		ret = regulator_disable(hd3ss3220->vbus);
- 
--	if (ret)
-+	if (ret) {
- 		dev_err(hd3ss3220->dev,
- 			"vbus regulator %s failed: %d\n", on ? "enable" : "disable", ret);
-+		return;
-+	}
-+
-+	hd3ss3220->vbus_enabled = on;
- }
- 
- static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
-
-base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
--- 
-2.48.0
+Thank you for your help !
