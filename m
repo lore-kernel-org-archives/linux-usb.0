@@ -1,178 +1,310 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011055.outbound.protection.outlook.com [40.107.208.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A11227BB9;
-	Tue, 18 Aug 2026 23:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787096811; cv=fail; b=bxS0VG7GVgVLZ62gAdIeBatdojmL6O4QkHT/q7IXQ+oBwi/AWGjZ5Kd3KKFwYuza6VuX/9d4ukkENfy6GekiSiTdbDMJIoPW+LfERp64krFgH5lBeMElFx9VEgnqofU0LAlJgLswkyJ8/XQ8L2sZau2a3LYRQt9NDpjCMtECWSI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787096811; c=relaxed/simple;
-	bh=CXMOcrRWkyaynT0f7e9744wLlvFU1NIfUj0xDupywxw=;
-	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
-	 In-Reply-To:MIME-Version; b=QfXvwBS2sQs0I3KQGGHXsKPn2Fr8ZKpcQt3u5ZFLwau/ekGx4KRnovDOsFiyVaqrCOU5YKqdESY6m3xohdvSxF9m7hBQ+gReId5w8H8OzZjm2fssffNL9dg8BniTDo8jPftNpkoZD4A7Krwon9M9MnIX2i39RBMnfIMGNUEuqOs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=luem/KCI; arc=fail smtp.client-ip=40.107.208.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="luem/KCI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dzy7U1jhFn5FnIP5AWPwZj50ucVWa3XnvsZjuVbUZSNtFjwakB1eyqqO/+4h8+I5s2/dYAGpB9bZQ+pCisCa0Xe4uNSQGAW/V1Z+XHMuLOdRMPfGgW4MwjyXm8DU9bpBamjIOKGgZseDDvaT+L+h1l6G01+pkxFwe/H0BM2ZVXAYxa03gPuwtjslBWvR09NbsvH9c3KNXp6PoE8XE9PkCXkQgGyX0SMUkQM4JxUjt3eiSC819c7aI4lsg2muiJhaEJiJYba1prjGFvNTUcKPanDXWDxKu2o1M/VMsUKRRZaJtfBY+JKj7tUXOTqYP6LCS+ShVf8BC67PeMHFEsrEmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I4CSNdBZgMN5J7D61L2Gh6JE+2Brbvl6cJLQySMl9HA=;
- b=IhJrKLG1NQN8C3CFa9CJdPF/AwmorHjT9oDxjxuVbqUY4UcMbVjTGpwLDI5odRUWq0AFKutKC0g6ywG6BwA1khiutOARJdKhumyE6oqQx66fppEGoCttI3URBNqd4J7bH/MGA1PCaRor/HS8qPp3cNwqErejO8oPVrXqef1uWE0hfzGw3q9t8YvQZEunyJgGtTyIbWvgclSZ/CixqESyhOoDIfz2WIp6dQy7rU1Wwsc7SOWx8gAffV1HaBb0HWjjPSXairGHQhiLgqG8LfUZvt/oZZCJhkkG3bEuZvhFWu+VqTb1vLp21qfP3rNckN4UlnYz+TXzGerH/BeHQVAB/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I4CSNdBZgMN5J7D61L2Gh6JE+2Brbvl6cJLQySMl9HA=;
- b=luem/KCI0/Rlk5oAIycEr7GzTQeHOdxYuAEczC1WpaH7YgrFtEd63NR21FTEvUCAT0SV9J5UJ7Nl+yvpb7eTe0vxc0uU6/gUQOY2naLH8OdOhWbDpKwNg6X9/hIN6VAZDNj8l3+YRhTSDQlblotr2LGJPZk8pwwm4rTZBE+NRFrsf0TeFyN+YsJh5/2CjgieJY525/wbqMxiCqE+H/bbArFECuz5agyRXHI5cXRGTtIeEgXJe5484f0nGLvHcOwOW3BZbTg0yTJSh0nzOGm0A5IiIj1YnpZRfwC6cFpeUgyfVNWy2LjbhVDAW9HZy+4O4NvmaeEx9dpHtJ3e/gEs7Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by MN0PR12MB5835.namprd12.prod.outlook.com (2603:10b6:208:37a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Tue, 18 Aug
- 2026 23:46:46 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0339.007; Tue, 18 Aug 2026
- 23:46:46 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 18 Aug 2026 19:46:44 -0400
-Message-Id: <DKSGY288L1AM.3S7CDZZ3AAGD@nvidia.com>
-Cc: "Vlastimil Babka" <vbabka@kernel.org>, "Harry Yoo" <harry@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>, "Hao Li" <hao.li@linux.dev>,
- "Christoph Lameter" <cl@gentwo.org>, "David Rientjes"
- <rientjes@google.com>, "Roman Gushchin" <roman.gushchin@linux.dev>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
- <stable@vger.kernel.org>
-To: "Alan Stern" <stern@rowland.harvard.edu>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
-X-Mailer: aerc 0.21.0
-References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
- <3ec57a22-3096-418f-b10f-b0993a352007@rowland.harvard.edu>
-In-Reply-To: <3ec57a22-3096-418f-b10f-b0993a352007@rowland.harvard.edu>
-X-ClientProxiedBy: YQBP288CA0015.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c01:6a::12) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FFF3793A9
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 00:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787100280; cv=none; b=gIQzL5bKrwOqWXQhbbLuXLI81adql649mhyt5m4um8W05x1LTYH+rNOSaBrbYWNHlPvbRuwyzPnrkVkAm4Byq7N1f9gs9krpjgbYZwGapXNbu2JqEGa9b+3MxJMq/3kxKt1laEfPkBAZ1rOgx0nyFz/gEoOCgKh9Yt6LMXtERWY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787100280; c=relaxed/simple;
+	bh=h+6Ar+54DCDoW5o3Nu1nTXvMi9z8n3iKXGvExwQ3Vb0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=e5zn2N7gNOntaNVG+92jRpC2R8lcjtOuKBznT849JPSnLP7D6fCQj8B45H1OhJvbnraj9l6dw/gUM3PtZM/AT04/VJ5LZKfkGb9QDVJIQLLUBxUp6PotP6sQxaUEhNg3r4/DpmlZ3z4Z7HE8dTLTay7vy7QN2x1GW1to6i5p+tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4ab2d8e7e4cso176314b6e.1
+        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 17:44:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787100274; x=1787705074;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d+RyVSRQ4B6NK+eFZQtfkpYdku0aNWigf6JQlXynx5g=;
+        b=AF4nKVVhJbHZQCQni/2wPEd79erWxK2oVs35bEkMt2+8fgZeGXTQbQdnh/OgFonjmp
+         Iof2m9xFq6P4U5RiiY0x4prH5/1EInfNQiHpoU/69WuqufGpIjezLs25nupeRPV3mthF
+         dtBIO0XPRdk4a7gK5yPBzdTCGgXJE4ixppNTgrCf34VJ4J4rbyUSrnj4vsxQLi95vTss
+         g3z2ArS9xfohNTovMVsKSFAw70yLtKZa/9xYQpghxG9w/JUdGRaHYPR4jzEr/x/kWlsO
+         tPJWJq8aHeXIn6zRwfDjdU8k6wLLaAW7CQg6WVmv1Tr+dJNLOhmqmXDWVGymUIoeTCw/
+         WwhQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrWyIm1QHgDHpg5mdLbL08ZtOm+4FfJh9Pp/VhidhPkE1lt+m4iIV5LGZjGVUTsmLpE8ykPmHmkrUs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+oXgqQb42k/3RJ9farvZYrmqf8edWWglqp2maYnnyV0L+Yq26
+	rEJPguhYgO4IBeaUnSiQ0vgnhT6k5Hi6yKTGWvvO4P8pCvXpUeGYFRPgTsIZBShC81zhdDybAQq
+	Ltx3oDAlQcsFLWdeh3raMMQ9QKhQmHLEOHFIsi/U66ysi1bjRUFxBArh1yD0=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MN0PR12MB5835:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c050a47-3303-499e-9b9a-08defd82f6c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|23010399003|10067099003|56012099006|6133799003|4143699003|22082099003|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	rkgWzKQr52ThyZfL4PriC/tkHkUr6JmCjwhZsCKfXKp5o1wHj/Ky1+z11cNMg7E/qZfo5H0aUipKCGPmXRx7B3XSfoYRhE/nVwlOvqw/HnzRsQ7u3Z5lN+tCGHq2eOmrThWIpoJjQG6YfI0fV3zm1E8+am+5W5PP5/9LZOzvU+Eu7XdKEh/cY+lGDYi8E7ol7HefL6VHMbtlfkMqkdQCuqQXoMXUXJcQVmrT4WPvrSuuAl3FefuKgI1h/0K711oHyM0PXat7kEqEI7+24zsoO2z7ILuRU9A/g7zwhvi4vlrogq8fY1XARirynMTLspe8MT95Bu9/ehT3u91xROlt/AFCcbEg/eXCyq+Y34N+QJbiU9W5+w2UuaZggwxHBoGIMSTr3IbxyFKi3Vir/JdSI+GgQJZUjRqDyhL7M1TTIiTZXfsF/nb8q24t698CKAD4vt9CRz3WEzfoYnyfFYLMsqM/Bw+OML6Hk6X2uz4OMslTl442E+L4wiMb0p4IgGSpexLeQilm/SHuhoRjapYWqU3VAHWtSmU/xqTlnxEJ5jelJZfLAgpQe7L0ZKH2wOQmTOmqgNjsqOQ+i7AbVUrWzUkXFxViAV0oonOASXhauBmnhIJ10ywHauE6jZqnZbGYo/UnKf9DwadH1PEgLuMjfxGp2RqPh24Rx3YVZ5fCFOs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(23010399003)(10067099003)(56012099006)(6133799003)(4143699003)(22082099003)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGdFZ3d2bDZ3dU4wL284cHFWRFB3UEYrdndhN2VpN2NxM0hRMTQvUkV1cFht?=
- =?utf-8?B?QnBVZ2tQU1hscFUzak1FaUhWUEFZQXp0VFpmQlJjOEdkNC9MMkE5SEdWUXpr?=
- =?utf-8?B?Y1ZUYTdzVjdkajVTMzdYa3BveEQwUlV3TnEzdDVOMHo0V1lxVnZpemRxRS9J?=
- =?utf-8?B?eDN1QnIzb0xGeTMxWUk2aWZUUFQwbXJyamJFV2dibEl6eVJKcEd1U1ltU3U1?=
- =?utf-8?B?QkxBSTF0RHRickpLZ2NIMHlDTGNzZmZtU3g1OHNDVkNjbU4wTFcvWm1UM0pN?=
- =?utf-8?B?Nm1kV1QwS1lFdUdQcmNYT1lEOFZnZkNaRDlOTHV3VzdMMHdTU1VpbWd3Qnlz?=
- =?utf-8?B?R0ZrK092UXNRVVMwb3BtYzk3Ym1wVjE0cmdPUDdxYkxSMDVFWlVJR0ZmS1dL?=
- =?utf-8?B?VTBTQlJSa3k0L3FTTERZanlUREdCOHM4UlI4eEhHQzlYU29zU2RoaVJJL2NV?=
- =?utf-8?B?WXFENmFXK1pCU29pbW4zUWp2OHE4VStXL1lZT0EwZm5MbWViSjRMNzlScFha?=
- =?utf-8?B?SXVMcUxuSVFMWkVuVW5tY0dNdlp1Qm4vRmxPL0czdUZJSWhBbkF0K3ZWTEZm?=
- =?utf-8?B?UGdhODJ6VXJ3NmxQSUJ4OXhGMVdMVmdBTXlhanlMNGY0YjNYMU9aVnhUUDVC?=
- =?utf-8?B?cUJ4U25BQzlQWlN3N1IrYlJQWGsyejlWQitOUVQrRE9WcCtNeU84aDBDQngz?=
- =?utf-8?B?WjhXbUlyeG53WktMYkhBSWh3K29FTjBGaW9PR1lraFJ1OStZMmdyK3VLRnBx?=
- =?utf-8?B?WkN2OU5ieFdQTm5nQnBEUmlBOGg4cnY1NHkweG01NmJMS3ZWbEFkdG5VU2Y1?=
- =?utf-8?B?bVU5Z0h6RWg4ZmJSblUxcnBEcFNkdVNFNUozLzE5NHlFbCtvSkZoTnc3MThl?=
- =?utf-8?B?bG1hTTNCOGVINEFxY0Z0T1R4VG9iYTJBdUVqcHpoaXJPSHd1VTgrbHB6UlQy?=
- =?utf-8?B?UzM0NURLUEpYTkVMSXNsc0VBZlZJaDU4VmtwYW8xOE5qdVE1Wk5zcnlqSllR?=
- =?utf-8?B?MFdOUlFqM0lnd0E5d1dIMjB1amR1b2k0dGxYQm1uYUdoRURPZ1lTVHBzZkM2?=
- =?utf-8?B?bEFRa05aZCtPN0pHbVBJU3loUmZycnROejdkL2J0YStOdS92bkZ3RDUzbkFr?=
- =?utf-8?B?NTRsU2R2bm9wTGprWHAzMVFuZmxCK1l3NzBsTHl3c0xzNFVWNktvRmtSQk9h?=
- =?utf-8?B?SW1qRnlSOFZBUDRJbU1zdHR3OGh4WjNSdmNXN0V6RGFZakx5MjFhc1RqdVRG?=
- =?utf-8?B?eE1qMzlYUmh2WlNVb0NmUExMbll0ZXhiMzZ2dDV5Q2J4YURObnZFekRVRDVi?=
- =?utf-8?B?UEt4MFoydzg5cHlKUGZxdTNwK3hOQ0xhNUZjSFJVYXRuTXZMS3pZakJpTkNB?=
- =?utf-8?B?WlpibUp5SHN2bmgyYzMxQ29oNlF5dEpDVWlNc3orZVF0VWo0bHk5eU9aQ29W?=
- =?utf-8?B?QWRhc1B4Nmpncnh1Vm51Z0oybzVEOEZ1TExNbXAxUklJZG9RSTViRFVZd2Q3?=
- =?utf-8?B?czdJamt1aXllampLemJlYm5CQXNQZFkzdFo2cUVVMlluZkJoVjA5OVF5QVJ6?=
- =?utf-8?B?Z1RRejRUdDlGSThyaEM3WTNQYXQvZHpqWWNOa2hKbFRsMHo0MTQwOCt4bWk0?=
- =?utf-8?B?M1lTdGs5V0ZvNy83VHgzT0tJSEtZeGs1cEZrakdVSzFobDluenBpQllaTkpL?=
- =?utf-8?B?NmZvaHA3V1NqdUtRNzVaK1BFVGxXbFptZzVXL1h0Zmk2TEErTXh4RmlHNUxs?=
- =?utf-8?B?R0RmV0htWjJrNCtUZ0NvdW84MEhRenFKSW05K2RkM2ZVdGtXb3ZXd1lVM0Ny?=
- =?utf-8?B?bER0d0VSQnhIS29mbFhRZ0tSUThOM29yU2k4bGd0WXhuWTRvWkViTmx2cUJF?=
- =?utf-8?B?aXdhNkdVd3QveVVWZUwvR0wyUjlZN1ZkejZBbGp4bSs4QjJVbVpZc1pORUh2?=
- =?utf-8?B?TzdnMmRnb1dzaWlxbHc0Q3ZRdGg2cGY3SzFhNWZsMVpKZTMyU01obHRVVFF1?=
- =?utf-8?B?ZnY5TUtEeDEyTS9yZWV3TjZLa3ViaGdtMitVSUk4cFkwelBCRGtaQnN3elJX?=
- =?utf-8?B?UlpYOTQxVXByNmZ0a1JETUdCbFpMbHBNcUhNcnliSlhXVi9zTmVNWkM0MXBm?=
- =?utf-8?B?anVlK1NNaFNPU01MV1FuSHREZlVkczdONjJ6SXRyYW5TSVhzbGZCNzRSMjNz?=
- =?utf-8?B?MHNpbWZMSytycnR2dFBNNDNIemt2OHdrZHVVcXFhOG1wenQyakxVZlhkQ2Fj?=
- =?utf-8?B?d2hwaGNuMHRPeXRpRUpUZzl5cHpHVnBIMWh6ZFZZTTVocGFhZnorZmpCTWNt?=
- =?utf-8?Q?sdXx+/cVi8+HHzwQwK?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c050a47-3303-499e-9b9a-08defd82f6c2
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 23:46:46.1917
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XZpcrhwhwWIAvrSo5494CoMKdRiz8WsAzrzG0w6R2gmk0xBjpDjAWF66WH5aiaZB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5835
+X-Received: by 2002:a05:6808:c1f3:b0:486:8a11:6e8b with SMTP id
+ 5614622812f47-4b2bc8b90eemr762383b6e.2.1787100274352; Tue, 18 Aug 2026
+ 17:44:34 -0700 (PDT)
+Date: Tue, 18 Aug 2026 17:44:34 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a84fc72.f7a79266.2f965f.0036.GAE@google.com>
+Subject: [syzbot] [dri?] [usb?] KASAN: slab-out-of-bounds Read in drm_property_add_enum
+From: syzbot <syzbot+9ae8e7884e451eaed5b4@syzkaller.appspotmail.com>
+To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, rubenru09@aol.com, 
+	simona@ffwll.ch, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon Aug 17, 2026 at 10:59 PM EDT, Alan Stern wrote:
-> On Mon, Aug 17, 2026 at 04:40:18PM -0400, Zi Yan wrote:
->> kmalloc is used to allocate physically contiguous memory for kernel
->> allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc us=
-es
->> the page allocator and can only support up to KMALLOC_MAX_SIZE. For requ=
-est
->> sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
->> because kmalloc allocates an order greater than MAX_PAGE_ORDER. Systems
->> with panic_on_warn=3D1 crash because of this WARN. Fix it by rejecting a=
-ny
->> kmalloc size bigger than KMALLOC_MAX_SIZE.
->>=20
->> Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher k=
-malloc requests")
->> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->> Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@go=
-ogle.com/
->> Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->> Cc: stable@vger.kernel.org
->> ---
->> It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadgetfs
->> requests excessively large memory from kmalloc. Instead of adding
->> __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
->> kmalloc to return NULL without a warning for this specific issue.
->>=20
->> [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively larg=
-e memory allocations")
->
-> Thanks for doing this.  If you like, I can write a follow-up patch to=20
-> remove the __GFP_NOWARN added in 4f2629ea67e72, now that it isn't needed=
-=20
-> any more.
+Hello,
 
-Sure. Once the patch gets an Ack or Rb from a maintainer and Andrew
-picks it up, feel free to send a cleanup patch. Thanks.
+syzbot found the following issue on:
 
---=20
-Best Regards,
-Yan, Zi
+HEAD commit:    15ef2f78c49d Merge tag 'input-for-v7.2-rc7' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1128b279580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=65bd434865e8f85c
+dashboard link: https://syzkaller.appspot.com/bug?extid=9ae8e7884e451eaed5b4
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10342a25580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13616949580000
 
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-15ef2f78.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d8751b427e94/vmlinux-15ef2f78.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/42d53b06bdc7/bzImage-15ef2f78.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9ae8e7884e451eaed5b4@syzkaller.appspotmail.com
+
+usb 5-1: config 1 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 2
+usb 5-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+==================================================================
+BUG: KASAN: slab-out-of-bounds in strlen+0x93/0xa0 lib/string.c:402
+Read of size 1 at addr ffff888051428900 by task kworker/3:3/5802
+
+CPU: 3 UID: 0 PID: 5802 Comm: kworker/3:3 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ strlen+0x93/0xa0 lib/string.c:402
+ __fortify_strlen include/linux/fortify-string.h:218 [inline]
+ drm_property_add_enum+0x2d/0x590 drivers/gpu/drm/drm_property.c:396
+ drm_mode_create_tv_properties_legacy+0x3e9/0x4c0 drivers/gpu/drm/drm_connector.c:2216
+ gud_connector_add_tv_mode+0x1d7/0x2b0 drivers/gpu/drm/gud/gud_connector.c:402
+ gud_connector_add_properties drivers/gpu/drm/gud/gud_connector.c:525 [inline]
+ gud_connector_create drivers/gpu/drm/gud/gud_connector.c:680 [inline]
+ gud_get_connectors+0xbd9/0x1700 drivers/gpu/drm/gud/gud_connector.c:717
+ gud_probe+0x17aa/0x1c20 drivers/gpu/drm/gud/gud_drv.c:635
+ usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2703
+ usb_new_device include/linux/workqueue.h:714 [inline]
+ hub_port_connect drivers/usb/core/hub.c:5575 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event.cold+0x1e3/0xe90 drivers/usb/core/hub.c:5961
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 5802:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x2e5/0x6c0 mm/slub.c:5489
+ _kmalloc_noprof include/linux/slab.h:988 [inline]
+ gud_connector_add_tv_mode+0xac/0x2b0 drivers/gpu/drm/gud/gud_connector.c:385
+ gud_connector_add_properties drivers/gpu/drm/gud/gud_connector.c:525 [inline]
+ gud_connector_create drivers/gpu/drm/gud/gud_connector.c:680 [inline]
+ gud_get_connectors+0xbd9/0x1700 drivers/gpu/drm/gud/gud_connector.c:717
+ gud_probe+0x17aa/0x1c20 drivers/gpu/drm/gud/gud_drv.c:635
+ usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2703
+ usb_new_device include/linux/workqueue.h:714 [inline]
+ hub_port_connect drivers/usb/core/hub.c:5575 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event.cold+0x1e3/0xe90 drivers/usb/core/hub.c:5961
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff888051428800
+ which belongs to the cache kmalloc-256 of size 256
+The buggy address is located 0 bytes to the right of
+ allocated 256-byte region [ffff888051428800, ffff888051428900)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888051429600 pfn:0x51428
+head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x4fff00000000240(workingset|head|node=1|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 04fff00000000240 ffff88801bc42b40 ffffea0001437110 ffffea0001434390
+raw: ffff888051429600 000000080010000d 00000000f5000000 0000000000000000
+head: 04fff00000000240 ffff88801bc42b40 ffffea0001437110 ffffea0001434390
+head: ffff888051429600 000000080010000d 00000000f5000000 0000000000000000
+head: 04fff00000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000002
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5782, tgid 5782 (syz-executor), ts 56761436248, free_ts 56269161284
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3266 [inline]
+ allocate_slab mm/slub.c:3380 [inline]
+ new_slab+0xa2/0x640 mm/slub.c:3426
+ refill_objects+0xe3/0x410 mm/slub.c:7310
+ refill_sheaf mm/slub.c:2804 [inline]
+ __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4675
+ alloc_from_pcs mm/slub.c:4773 [inline]
+ slab_alloc_node mm/slub.c:4905 [inline]
+ __kmalloc_cache_noprof+0x479/0x6c0 mm/slub.c:5485
+ _kmalloc_noprof include/linux/slab.h:988 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ ____ip_mc_inc_group+0x40b/0x10d0 net/ipv4/igmp.c:1563
+ __ip_mc_inc_group net/ipv4/igmp.c:1601 [inline]
+ ip_mc_inc_group net/ipv4/igmp.c:1607 [inline]
+ ip_mc_up+0x154/0x390 net/ipv4/igmp.c:1912
+ inetdev_event+0x6c3/0x17f0 net/ipv4/devinet.c:1630
+ notifier_call_chain+0x99/0x3f0 kernel/notifier.c:85
+ call_netdevice_notifiers_info+0xbe/0x110 net/core/dev.c:2250
+ call_netdevice_notifiers_extack net/core/dev.c:2288 [inline]
+ call_netdevice_notifiers net/core/dev.c:2302 [inline]
+ __dev_notify_flags+0x12c/0x2e0 net/core/dev.c:9803
+ netif_change_flags+0x108/0x160 net/core/dev.c:9832
+ do_setlink.isra.0+0x1ac4/0x3e60 net/core/rtnetlink.c:3215
+ rtnl_changelink net/core/rtnetlink.c:3849 [inline]
+ __rtnl_newlink net/core/rtnetlink.c:4022 [inline]
+ rtnl_newlink+0x11c2/0x2380 net/core/rtnetlink.c:4159
+page last free pid 5782 tgid 5782 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1406 [inline]
+ __free_frozen_pages+0x79f/0x1090 mm/page_alloc.c:2950
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x47/0xf0 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x1a0/0x1f0 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:350
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4584 [inline]
+ slab_alloc_node mm/slub.c:4917 [inline]
+ __kmalloc_cache_noprof+0x265/0x6c0 mm/slub.c:5485
+ _kmalloc_noprof include/linux/slab.h:988 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ ref_tracker_alloc+0x190/0x590 lib/ref_tracker.c:270
+ __netdev_tracker_alloc include/linux/netdevice.h:4496 [inline]
+ netdev_hold include/linux/netdevice.h:4525 [inline]
+ netdev_hold include/linux/netdevice.h:4520 [inline]
+ register_netdevice+0x17e7/0x25a0 net/core/dev.c:11474
+ rtnl_newlink_create net/core/rtnetlink.c:3915 [inline]
+ __rtnl_newlink net/core/rtnetlink.c:4044 [inline]
+ rtnl_newlink+0x1df0/0x2380 net/core/rtnetlink.c:4159
+ rtnetlink_rcv_msg+0x95e/0xe90 net/core/rtnetlink.c:7076
+ netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
+ netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+ netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
+ netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
+ sock_sendmsg_nosec net/socket.c:775 [inline]
+ __sock_sendmsg net/socket.c:790 [inline]
+ __sys_sendto+0x48b/0x4e0 net/socket.c:2252
+ __do_compat_sys_socketcall net/compat.c:474 [inline]
+ __se_compat_sys_socketcall net/compat.c:422 [inline]
+ __ia32_compat_sys_socketcall+0x59a/0x770 net/compat.c:422
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:83 [inline]
+ __do_fast_syscall_32+0xe7/0x970 arch/x86/entry/syscall_32.c:307
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:332
+
+Memory state around the buggy address:
+ ffff888051428800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888051428880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff888051428900: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                   ^
+ ffff888051428980: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888051428a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
