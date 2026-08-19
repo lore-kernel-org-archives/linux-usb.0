@@ -1,105 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f11.google.com (mail-oi2-f11.google.com [74.125.231.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE43304BB2;
-	Wed, 19 Aug 2026 06:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F11E3D3317
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 06:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787122105; cv=none; b=p+l+qXC5kvB2Rr8hMEH/UpZRf9G9tOGEnuqhjMQEMHChgz8vIdnaBzGOrG9Z8s1r2ooHiGaG+aBwE6FsG88uyHhLG0AKbYHi5ZuZ8qoNrXo3jfXkNk56crpV5UFqZ8yAhVlDlpwkGO8/XSO3E6Ysq+0RQGuYzx6u9gLg9LCjmME=
+	t=1787122238; cv=none; b=UDgpaILxO9XW2cQdH4pwhE15/+vAtO3gXm+tE9iFH6ZB0h0UmW6TZh+VTuUPwedIXxOCsxkSWQ7Ai0y/h3/JJNxQ2pe0JVIsJu6djpc/K1SKQ8gsn7KpYv/i5LTVRHTLAqrOGFgd5RQ2LxckTG0e2QzAuCovcUJ0eWoa8NIZDwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787122105; c=relaxed/simple;
-	bh=wQHyLGESPH68wY+d+xwMRFArrHAFi+T8zmfJlOR20Bs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O/XSdQnl4sz4V9WSNcB+LV+PW6GmLv0rdZ7f58p/zWrUHI+ke/C8niz1N7DFM+DLy2SI23hpCVb1Dp1+wEq1W/oMZkIk1LrN29HonYDl14PEXt17NV5hbSs0jkXCaM8+ouf66yerfvUdHWuemNRydsj3eKafCoR2OrHrzAsfuQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxY2Ggte; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxY2Ggte"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F741F000E9;
-	Wed, 19 Aug 2026 06:48:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787122104;
-	bh=zNiG1hgVV74gYmbP47bMIwtTyThAgGJICdsIfO9pDjI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nxY2Ggte4S1bF6/f428LBhplxCT6ASV6xQzgpd+UYdYOhF8TKGkAzNkK/N2pCORud
-	 a214lyWlwvptxVPyHJs93o00h28j03xbo0CQRNEwgNCOt1hxn6ZQMPTKpVOh0MwgZD
-	 q9bKkI3mb80wRs5Lz6LqCPORa2Aeu/WbPgnIQw3arOetM1KNFt/NZhFXLz7a5ADFw2
-	 mGfc7pNWRcOXfC13MwJGh0lLy8Jy2l8gzKK1SYiharNVeVJCBCoiXfK9XwmsREyD2F
-	 84/Wry6GutpJ4Rm4w93K2/GT1tCDfH5dmDC8TP+V6R9hHS758n5riEn3Bd+K6acVqi
-	 OfV2RL8v5YgvQ==
-Date: Tue, 18 Aug 2026 23:48:22 -0700
-From: Peter Chen <peter.chen@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-	Stephen Boyd <stephen.boyd@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-phy@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Peter Chen <peter.chen@nxp.com>
-Subject: Re: [PATCH 07/10] usb: chipidea: msm: do not force the TX FIFO idle
- on HSIC instances
-Message-ID: <aoVRtt186dVs1sG1@hu-petche-lv.qualcomm.com>
-References: <20260810-msm8974-usb-hsic-v1-0-e5f93ea76ffa@oss.qualcomm.com>
- <20260810-msm8974-usb-hsic-v1-7-e5f93ea76ffa@oss.qualcomm.com>
+	s=arc-20240116; t=1787122238; c=relaxed/simple;
+	bh=q6ygtxCrhJfC9aYFm8ppas5s7/qfe+GU0wHw8fU0VHU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LBU2LWAPOoSlyaiz9uF99hHnyWkNJFitccmlpd76f9EpOWhbulBO8ywxvIy0iXLOPmdakbb8N14yNw/EoyUGEWE1+vSdWvp8TaELp1TxnDM19Zwape4PeiJEOS6T+Ng2YkpqyOPZNzRTThc9FBZy4b9bQdCC/BOcDf75FzgGHbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f11.google.com with SMTP id 5614622812f47-4af7193adb7so244709b6e.0
+        for <linux-usb@vger.kernel.org>; Tue, 18 Aug 2026 23:50:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787122235; x=1787727035;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Wxu/FpO8lAQ4l4YakyHtTDOfDut5q1C3byR/UEFIKPc=;
+        b=gjm8pE3Qpyl4THFAxCf8AtZEyJo37aOeyJxMWj5xtXjNoy7K8MRKpqVxoW/9cqmUuN
+         4b03C0n1pc2BHI6P7Vy2ykLHKP/9295DHev/bMBHkI8VcK8VZDfDehJQ1ude9x+Bwu/9
+         VfDCZdgoMf1HNVljGsJ6Zq3JSexu/THLvTyUyHbTY65EmHTPephsYjKZ15q9K8SnSR3P
+         U8KqXJ4x/ukO7Tx6X+R45bvg40oZi4+BhKfDkI8FlSKnQoxzx9qZeCPWNUrq0oyGNEn7
+         rXVohnA5xkOtCOibM3AVjzsLp3q+abIgj/k9O+voR7rs4jz5uR8yhI75Ce9vjh1xBXRO
+         OhQg==
+X-Forwarded-Encrypted: i=1; AHgh+RqjiTO0ZkNVyK7nSQBc6yDWBpT3QwYSLLYkM+gK8IoT2+9s7PWv+B+z+2K269BG9YLhdzUkNV87l+A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx42WoHW6QHzW4lzMx5Hr6gvib7idq0kDE/1Zi4yBsoq8B7WIyP
+	m139TXFAJRgl2Eg9XKGs2f5RK4bQSuwxngp6cQwHbN2RbNwOnUWykPmHDquJHpLKHr3lkI5C6yg
+	ffBgbcgdVfCNzMw4YuapsQQnFtqQ8beGTNHJf2MA+04i5pr0sCaeEs0E58nE=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260810-msm8974-usb-hsic-v1-7-e5f93ea76ffa@oss.qualcomm.com>
+X-Received: by 2002:a05:6808:1b8f:b0:4b1:9f12:e2f6 with SMTP id
+ 5614622812f47-4b2bcbdd19emr2057934b6e.19.1787122235427; Tue, 18 Aug 2026
+ 23:50:35 -0700 (PDT)
+Date: Tue, 18 Aug 2026 23:50:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a85523b.ae6ddae5.3da009.0008.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] memory leak in __usbhid_submit_report (2)
+From: syzbot <syzbot+e2c057ea576d2644e2be@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 26-08-10 18:42:11, Dmitry Baryshkov wrote:
-> The controller reset handler unconditionally clears
-> GENCONFIG[TXFIFO_IDLE_FORCE_DIS] as a workaround for an RX buffer
-> collision issue. The vendor HSIC host driver never applies this
+Hello,
 
-Why you said "vendor", it is just CI MSM glue driver.
+syzbot found the following issue on:
 
-> workaround on the HSIC instances and leaves the bit at its power-on
-> default (set), so clearing it makes the HSIC instance diverge from the
-> known-working configuration.
-> 
-> Skip the workaround for HSIC instances, like the neighbouring
-> GENCONFIG_2 write already does.
-> 
-> Fixes: 47654a162081 ("usb: chipidea: msm: Restore wrapper settings after reset")
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/usb/chipidea/ci_hdrc_msm.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/chipidea/ci_hdrc_msm.c b/drivers/usb/chipidea/ci_hdrc_msm.c
-> index 9a9410a814e5..69be194f8e27 100644
-> --- a/drivers/usb/chipidea/ci_hdrc_msm.c
-> +++ b/drivers/usb/chipidea/ci_hdrc_msm.c
-> @@ -108,8 +108,9 @@ static int ci_hdrc_msm_notify_event(struct ci_hdrc *ci, unsigned event)
->  		hw_write_id_reg(ci, HS_PHY_AHB_MODE, 0xffffffff, 0x8);
->  
->  		/* workaround for rx buffer collision issue */
-> -		hw_write_id_reg(ci, HS_PHY_GENCONFIG,
-> -				HS_PHY_TXFIFO_IDLE_FORCE_DIS, 0);
-> +		if (!msm_ci->hsic)
-> +			hw_write_id_reg(ci, HS_PHY_GENCONFIG,
-> +					HS_PHY_TXFIFO_IDLE_FORCE_DIS, 0);
+HEAD commit:    2f1baf1fc892 Merge tag 'trace-v7.2-rc7' of git://git.kerne..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14e2ca25580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=11ad91fcc8fa7933
+dashboard link: https://syzkaller.appspot.com/bug?extid=e2c057ea576d2644e2be
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14c6a949580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f43279580000
 
-So, it should be a standalone bug fix?
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3bba3e686406/disk-2f1baf1f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b8b74261d93c/vmlinux-2f1baf1f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/952847c3fd89/bzImage-2f1baf1f.xz
 
--- 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e2c057ea576d2644e2be@syzkaller.appspotmail.com
 
-Thanks,
-Peter Chen
+BUG: memory leak
+unreferenced object 0xffff8881279df600 (size 16):
+  comm "syz.5.22", pid 6103, jiffies 4294942311
+  hex dump (first 16 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 0):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __do_kmalloc_node mm/slub.c:5333 [inline]
+    __kmalloc_noprof+0x3bf/0x550 mm/slub.c:5359
+    __usbhid_submit_report+0x362/0x4c0 drivers/hid/usbhid/hid-core.c:541
+    usbhid_submit_report drivers/hid/usbhid/hid-core.c:640 [inline]
+    usbhid_request+0x5b/0xa0 drivers/hid/usbhid/hid-core.c:1303
+    hid_hw_request+0x3c/0x70 drivers/hid/hid-core.c:2521
+    hiddev_ioctl+0x33e/0x9d0 drivers/hid/usbhid/hiddev.c:726
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
