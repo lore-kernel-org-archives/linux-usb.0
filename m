@@ -1,248 +1,171 @@
-Received: from srv2.spambusters.email (srv2.spambusters.email [185.90.57.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105B63515F6
-	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 16:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.90.57.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506BF47F78F
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 17:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787157585; cv=none; b=Nq/VBKT6OEzmArlBSP8xnQsZ7bGsBNYVDuLW8zsDTY7xDRFfLfe+VSkf+pqOQTloHTH7FR1viHDROdbJ8mZ9lheb2xghpAwM6lQSLnjmfRws/Mnql/O+JKQDD6IqII9qhBnn/qLh5Ex5bx/CkgZYLfopfMB9t3cij70dgBHrGr0=
+	t=1787159948; cv=none; b=Mjy7BMmav4gqLL3R7zl/cbLJ+sJEqt76FA7NKxVz2Ag6XsX3L1AQQqnaKEVuY09FbdoPVoPI5IFpCf56Z6I4sDu2e0fsmN95byExBryTvr7DZ486IYoIYHKpPfh8XykTo7IiUWcL2mH/l8GRV3S7TWqt9c6wDMmhZaf89NLEL+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787157585; c=relaxed/simple;
-	bh=a+KrRSPmL8bBmb9GpPoUf0HdtjwwNZWqiTYKbN21sPY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ASKiRzAnpLbsFtdQlKjTYlHsX9jIZ8eE5nEOiOiFtdxduqXWMdlHyjGSkVDpCIC9G2TdTzkvXV2VLnRGwtMr5xovptj93Vz5ldvwNpKvTXmMyP1O0Zvl/vnb4DgzFykIivW6beLyLPI4O2QCmTcPTfU5BVfhDAQWKktqagb1/x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fonseca.com.pt; spf=pass smtp.mailfrom=fonseca.com.pt; dkim=pass (2048-bit key) header.d=fonseca.com.pt header.i=@fonseca.com.pt header.b=l4+DUJAF; arc=none smtp.client-ip=185.90.57.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fonseca.com.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fonseca.com.pt
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fonseca.com.pt header.i=@fonseca.com.pt header.b="l4+DUJAF"
-Received: from nv7.serverhs.org ([62.233.41.48])
-	by srv2.spambusters.email with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <pedro@fonseca.com.pt>)
-	id 1wwifL-002QQL-IH; Wed, 19 Aug 2026 16:57:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fonseca.com.pt; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=iHZsKJTDrjxEmPUqsLQ6LRP8LAPgMvY1w195E1rv5ko=; b=l4+DUJAFoCOTDgqvbjC2bDX5My
-	2DEfcU3d0+ZL1KG2Zk5JPTCdG1a7Pw7dCtzYf/jCwnvQD7MdqCWFNdF2PvljSUuTRY8T4NRWdrR54
-	YOFGdAcDzhvtYUOyN644uOt3XQAPmSxl8ahgxpkflfcGnJQjiYgdHxdCMagj5djsjmtOMDGEJDFsG
-	N4T747YSNT3pr23nOJI3TyEy2vlcecNClQL5J/nU4PaRQz5N9RP9bnO21w7PqLA8glvTuvtDsbLTq
-	LSZcSBIaKEwFClvpFrkdFDkRIsCDKWKDaMptBjC1QNTDFaoUgzCKOly07iKdjdaY9TcbRoMhnIjOA
-	8BprFHXA==;
-Received: from dsl-27-39.bl26.telepac.pt ([176.78.27.39]:42782 helo=[192.168.1.158])
-	by nv7.serverhs.org with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.99.5)
-	(envelope-from <pedro@fonseca.com.pt>)
-	id 1wwifK-0000000GU5s-14PP;
-	Wed, 19 Aug 2026 16:57:22 +0100
-Message-ID: <2664462f-1b66-4f66-b561-c072f041eaf0@fonseca.com.pt>
-Date: Wed, 19 Aug 2026 16:57:20 +0100
+	s=arc-20240116; t=1787159948; c=relaxed/simple;
+	bh=us+SEeujoTGLyuvbfgmOwPmfxI85neAIP6WKlZDKv4A=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dIw6c95waRN/vnCPa77ee0bHVv+wvvu/20eJCHCReyO+9ax/IsnviJOfnD1q4A1fMdj2Nd/cLZh1AVGjQNLnQa/648vmn2O6KNvuObg203vYD11iKO4I7RlRnjcfIoaxBFYKyZRH4shNM2wsnUU106t5Zfj2GDKr6+pxCBAIiLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4ab4af22d09so1545927b6e.0
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:18:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787159926; x=1787764726;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1hmUOyv2zS057iLMKlIppxbaLAbSot00YxR6lPnh3v8=;
+        b=WeZO1J2XzzAMp/TpkDJy6kUWxcGZ6Z7edUUMD5a4cyvCDqbyThn7uAppCNcIDozptX
+         PgeL+Mp/Fe91wGIfsN6rRSOv4iZs8Npr90L2cMt2wCBEP+D1ZTBryzQT8M6RfH7gnr7C
+         gM3esCeik4dQo3FCjosdEX3SzSY33lKNvAT6Atap+G5h/wwq/YX4O20zLhQRUyfgprfl
+         7r/oJFkhthzjKuqyXVsajW9JJ7ZqJz/VtDAvzU6bWfogbJSFl9YjkLiszhf+1SO/ABLf
+         8QZK1GDI4ppIkeFbDiL0VGKpMd/ERzdljkasWPm8HIK4/rvNR3XQvkNepWalRAcpOy35
+         j5vw==
+X-Forwarded-Encrypted: i=1; AHgh+RoXKwW7xx/CfMSXI18UaP7K5rRjKmJOBZhlACOBjXPtfebsEhHuRtzKB3fz4VEzQC7qUC/dLaBHX+E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDcqhtwEf8g72P0wQ6C+Lvu+El0Eg0R3rHqh0YXz3rZ1cXnKQt
+	IMH5hshQehQQYHE9MwrGve8E4GVORrmM1RYGLe5SQk8D7XV5xNp4MvWP60gHu6T0J50mwqVeIAe
+	c3ELdF1QgppLi32oyOcc/c1SwKStJVFnNisnjZBFycfixTIS+EhVGrWz0uG0=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: xhci: hard lockup on ASM2142 when Address Device command times
- out
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <16f65081-5a3c-4c30-9811-9017796a3373@fonseca.com.pt>
- <20260819171744.4bc8e8c6.michal.pecio@gmail.com>
-Content-Language: pt-PT, en-GB
-From: Pedro Fonseca <pedro@fonseca.com.pt>
-In-Reply-To: <20260819171744.4bc8e8c6.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Get-Message-Sender-Via: nv7.serverhs.org: authenticated_id: pedro@fonseca.com.pt
-X-Authenticated-Sender: nv7.serverhs.org: pedro@fonseca.com.pt
-X-SpamExperts-Domain: nv7.serverhs.org
-X-SpamExperts-Username: 62.233.41.48
-Authentication-Results: spambusters.email; auth=pass smtp.auth=62.233.41.48@nv7.serverhs.org
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: SB/global_tokens (0.000968367741332)
-X-Recommended-Action: accept
-X-Filter-ID: 9kzQTOBWQUFZTohSKvQbgI7ZDo5ubYELi59AwcWUnuVVEuMAi/3uaqBqb73aYIp6RHteoh0IbMNe
- AJwfWcrLOSu2SmbhJN1U9FKs8X3+Nt2FRO2jku9Ou67dCO0ib8TtCsSH2HEVBohCasKFQEzrqufH
- zJ6mVE7ewsipSVIfs4b+Oxk+pC/pnw7VJetyExsCS5+h1uiHzk/Rfxfh461YLyu3RZI1CD15pCOE
- 1vk99RMxqKIdDR6RVaf4xWSq5/wwdOtYechJ/ikE1WgRg4cS6IWYhudgXd4x16sWu5W5tfrUnnj/
- QpEdoUIl9Qx+dIhcrtVmombMJ4e2pn5C0yBMHZ0fE47nEjvubMSTLAkKCKefuLbx+lGq0svfyhth
- j0R6Iny++hg9dJLqN5zmWqF/oHgMZXS6X/fIHYslsKU0yPHM4JpSMI47HiFQBsGlm5Ay2op6Rhkg
- LjMjtw/4mxjlzG0EsPLrmM5WlT0oQmEihX1XamBLeqEzM7LsUIt0ZvGLIT5LUm075ewdrul30woF
- SbEXnztUC1bmnr5NdXiSNGFa9xbqyXm4K90IEHnZCdttupV1CRfHOwz2JiB69OsOFwi1QdP2KyHd
- 0gCsz3QL5HlFXjk86ke0DsUjvutWIVF5/m+qKE989e94cDCjpn7cuEUCkFG00o0dYRrfTmSDaBVG
- sVkHi3KzV2F7uDYQcqKMlm3dazyjiVxDag0+zn4/XdSNFEiA/wt11xDVn/Y7dsvW/Bw1qIHDo9Tc
- sksOa99k+/bMgw5nFFzOZY1qa53ZbuhWwibJwZRvHlb2Mga1NEp8Fni1aT3DfF5c88XE+0u6Wgzm
- KIE+B/BJ1OgYMjhCffeFTYlhvk1RsxCeadQiZolG3wJnHh/wY8Nxyu1BiIERlKeELwhSLdOWVXry
- hj9Ai6DGekMtXeif0eiY2gV/xdMFXTZ/Il1Q5UsZ411xD6DOGXEtTGpN3TdPH8CVaKJlYMDlJOe7
- wcpOyVqarp4A0JNRXxKF5tPxTxfD0dMN+t5ZOtN1LGeKMTiA83lWQLkYA0zyN54lLK0b9Z/zyvaQ
- G5suh1hDRkvjY50i7nSXPWtPt6oG8bUR0FG1ryJC4j97D06wZ0OLEKOfMvKoR0ESEohGsVkHi3Kz
- V2F7uDYQcqKMN2uWfIT56ef/wP/mGRvHhXKkwbQCTncSOx9zZlsBOUCVQQan+QF7W/Bk2eM2qSfr
-X-Report-Abuse-To: spam@srv2.spambusters.email
-X-Complaints-To: abuse@srv1.spambusters.email
+X-Received: by 2002:a05:6808:bc4:b0:496:a36:b5e5 with SMTP id
+ 5614622812f47-4b2bcac63e5mr6842994b6e.17.1787159926444; Wed, 19 Aug 2026
+ 10:18:46 -0700 (PDT)
+Date: Wed, 19 Aug 2026 10:18:46 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a85e576.f7a79266.2f965f.003f.GAE@google.com>
+Subject: [syzbot] [usb?] general protection fault in bus_remove_device
+From: syzbot <syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Michal,
+Hello,
 
-Thank you for taking the time to look into my email, it's very much 
-appreciated.
-My replies below.
+syzbot found the following issue on:
+
+HEAD commit:    15ef2f78c49d Merge tag 'input-for-v7.2-rc7' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11b16949580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1d67342c314f228d
+dashboard link: https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1198b279580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1598b279580000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-15ef2f78.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/dc9c417e94c9/vmlinux-15ef2f78.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/db592e5f65db/bzImage-15ef2f78.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
+
+usb 5-1: selecting invalid altsetting 0
+usb 5-1: USB disconnect, device number 2
+Oops: general protection fault, probably for non-canonical address 0xdffffc000000000b: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
+CPU: 1 UID: 0 PID: 29 Comm: kworker/1:0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
+Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 7c 10 0d
+RSP: 0018:ffffc90000687620 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffff888036142880 RCX: 0000000000000000
+RDX: 000000000000000b RSI: ffffffff8bb263a5 RDI: 0000000000000058
+RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff2247f98
+R10: ffffffff9123fcc3 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000001 R14: ffffffff9123fc80 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff8880d5cde000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fff41160ff4 CR3: 0000000033bb7000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ klist_del lib/klist.c:230 [inline]
+ klist_remove+0x14c/0x2e0 lib/klist.c:249
+ __device_release_driver drivers/base/dd.c:1357 [inline]
+ device_release_driver_internal+0x4fb/0x620 drivers/base/dd.c:1372
+ bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
+ device_del+0x376/0x9b0 drivers/base/core.c:3961
+ usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
+ usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5415 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event+0x1bb1/0x4420 drivers/usb/core/hub.c:5961
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
+Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 7c 10 0d
+RSP: 0018:ffffc90000687620 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffff888036142880 RCX: 0000000000000000
+RDX: 000000000000000b RSI: ffffffff8bb263a5 RDI: 0000000000000058
+RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff2247f98
+R10: ffffffff9123fcc3 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000001 R14: ffffffff9123fc80 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff8880d5cde000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fff41160ff4 CR3: 000000002ccae000 CR4: 0000000000352ef0
+----------------
+Code disassembly (best guess):
+   0:	c1 ea 03             	shr    $0x3,%edx
+   3:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   7:	0f 85 74 01 00 00    	jne    0x181
+   d:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  14:	fc ff df
+  17:	4c 8b 23             	mov    (%rbx),%r12
+  1a:	49 83 e4 fe          	and    $0xfffffffffffffffe,%r12
+  1e:	49 8d 7c 24 58       	lea    0x58(%r12),%rdi
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 43 01 00 00    	jne    0x177
+  34:	4c 89 e7             	mov    %r12,%rdi
+  37:	4d 8b 74 24 58       	mov    0x58(%r12),%r14
+  3c:	e8                   	.byte 0xe8
+  3d:	7c 10                	jl     0x4f
+  3f:	0d                   	.byte 0xd
 
 
-Once again, thank you.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-KR,
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-PF
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-On 19/08/2026 16:17, Michal Pecio wrote:
-> On Wed, 19 Aug 2026 11:35:40 +0100, Pedro Fonseca wrote:
->> I am hitting a reproducible hard lockup in xhci_hcd on an ASMedia
->> ASM2142/ASM3142 controller. It happened twice in three days on the
->> same kernel, and both times the machine lost all USB input and had
->> to be power-cycled.
-> Is this a regression or just using new hardware for the first time?
-Neither the kernel nor the controller is new, but the workload is: the 
-OnePlus 6T (the trigger device) first appears in my logs on 2026-08-15, 
-one day after I first booted 7.1.8-200.fc44 (Fedora). The earlier 
-kernels here (7.1.4, 7.1.5) were never exposed to this plug/unplug 
-pattern, so I can't call it a regression either way.
->
->> The two occurrences produced different backtraces, and I think
->> together they show both ends of the same deadlock: one caught the CPU
->> holding xhci->lock, the other caught a CPU spinning for it from hard
->> IRQ context.
-> Yes, a known bug when command abort fails and in some other cases.
-> The lock ought to be dropped while waiting, but this opens new race
-> conditions which will need to be analyzed and solved.
->
-> Not a deadlock, lock holder times out.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-Thanks, that matches what I see. It happened a third time today, and 
-this time the watchdog caught the holder side directly:
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-   Workqueue: events xhci_handle_command_timeout
-   RIP: 0010:delay_halt_mwaitx+0x39/0x40
-   Call Trace:
-    delay_halt.part.0+0x36/0x60
-    xhci_handshake+0x92/0x110
-    xhci_abort_cmd_ring.isra.0+0xda/0x1d0
-    xhci_handle_command_timeout+0x1b3/0x280
-    process_one_work+0x19e/0x390
-   xhci_hcd 0000:26:00.0: Abort failed to stop command ring: -110
-   xhci_hcd 0000:26:00.0: xHCI host controller not responding, assume dead
-   xhci_hcd 0000:26:00.0: HC died; cleaning up
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-Again exactly 19 seconds after a connect/disconnect cycle on 3-2.2.
-
->
->> Affected controller:
->>
->>     26:00.0 USB controller [0c03]: ASMedia Technology Inc. ASM2142/ASM3142
->>             USB 3.1 Host Controller [1b21:2142]
->>             Subsystem: Micro-Star International Co., Ltd. [MSI] [1462:7a32]
->>             Kernel driver in use: xhci_hcd
->>
->> Topology below it: a Genesys Logic hub (05e3:0610 USB2 / 05e3:0626
->> USB3) with a Ducky keyboard (04d9:0356) and a OnePlus 6T phone
->> (18d1:4ee7, ADB/charging mode) attached.
->>
->>     /:  Bus 003.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/2p, 480M
->>         |__ Port 002: Dev 002, If 0, Class=Hub, Driver=hub/4p, 480M
->>             |__ Port 002: Dev 003, If 0, Class=Vendor Specific Class,
->>                                          Driver=[none], 480M
->>             |__ Port 003: Dev 004, If 0, Class=HID, Driver=usbhid, 12M
->>             |__ Port 003: Dev 004, If 1, Class=HID, Driver=usbhid, 12M
->>             |__ Port 003: Dev 004, If 2, Class=HID, Driver=usbhid, 12M
->>
->>
->> Trigger
->> =======
->>
->> In both occurrences the lockup happens exactly 19 seconds after a fast
->> connect/disconnect cycle of the OnePlus 6T on port 3-2.2, behind the
->> Genesys hub. The phone re-enumerates repeatedly as ADB switches modes,
->> and the controller dies in the middle of a setup device command.
->>
->> It is not fully deterministic - it happened twice in roughly two days
->> of normal use, not on every plug event.
->>
->>
->> Occurrence 2 - 2026-08-19 10:45:05 (waiter side)
->> ================================================
->>
->> Aug 19 10:44:45 usb 3-2.2: new high-speed USB device number 13 using
->> xhci_hcd
->> Aug 19 10:44:45 usb 3-2.2: New USB device found, idVendor=18d1,
->> idProduct=4ee7, bcdDevice= 4.09
->> Aug 19 10:44:45 usb 3-2.2: Product: OnePlus 6T
->> Aug 19 10:44:45 usb 3-2.2: USB disconnect, device number 13
->> Aug 19 10:44:46 usb 3-2.2: new high-speed USB device number 14 using
->> xhci_hcd
->> Aug 19 10:45:05 watchdog: CPU11: Watchdog detected hard LOCKUP on cpu 11
->> [...]
->> Aug 19 10:45:05 xhci_hcd 0000:26:00.0: Abort failed to stop command
->> ring: -110
->> Aug 19 10:45:05 xhci_hcd 0000:26:00.0: xHCI host controller not
->> responding, assume dead
->> Aug 19 10:45:05 xhci_hcd 0000:26:00.0: HC died; cleaning up
->> Aug 19 10:45:05 xhci_hcd 0000:26:00.0: Timeout while waiting for setup
->> device command
->> Aug 19 10:45:05 usb 3-1: USB disconnect, device number 2
->> Aug 19 10:45:05 usb 4-2: USB disconnect, device number 2
->> Aug 19 10:45:05 usb 3-2: USB disconnect, device number 3
->> Aug 19 10:45:06 usb 3-2.2: device not accepting address 14, error -108
->> Aug 19 10:45:06 usb 3-2-port2: couldn't allocate usb_device
->> Aug 19 10:45:06 usb 3-2.3: USB disconnect, device number 12
-> Looks like a firmware bug, because ASMedia should internally time
-> out an Address Device command after 3 seconds. The only exception
-> I know is the old ASM1042 (waits forever and can't be aborted).
->
-> An interesting experiment would be to unplug the offending device
-> before abort timeout. This recovers even ASM1042, at least so long
-> as it's alive. You should see "error -71" and continued operation:
->
-> usb 3-2.2: device not accepting address 14, error -71
-I'll try that on the next occurrence and report back, it reproduces 
-every day or two, so it shouldn't take long.
-
-One data point in favour of your firmware-bug theory: on 08-15 the same 
-phone was plugged into the other xHCI on this board (AMD X370, 
-0000:03:00.0) and produced repeated "Device not responding to setup 
-address" + "device not accepting address, error -71" with no further 
-harm. The ASMedia is the only controller that wedges on it.
->
->> After the controller died, the second xHCI on this board (03:00.0, the
->> AMD X370 chipset one) also started failing while I was trying to plug
->> in a spare keyboard to reboot cleanly:
->>
->> Aug 19 10:45:52 usb 1-12: new full-speed USB device number 26 using xhci_hcd
->> Aug 19 10:45:57 usb 1-12: Device not responding to setup address.
->> Aug 19 10:45:58 usb 1-12: device not accepting address 26, error -71
->> Aug 19 10:45:58 usb 1-12: WARN: invalid context state for evaluate context command.
->> Aug 19 10:46:01 usb usb1-port12: attempt power cycle
->> Aug 19 10:49:32 usb 1-12: device not accepting address 29, error -71
->> Aug 19 10:49:59 xhci_hcd 0000:03:00.0: xHC error in resume, USBSTS 0x401, Reinit
->> Aug 19 10:49:59 usb usb1: root hub lost power or was reset
->> Aug 19 10:49:59 usb usb2: root hub lost power or was reset
-> Are you sure it's not a pre-existing, independent issue?
-You're right, it is. Checking older logs, port 1-12 was already throwing 
-those -71 errors on 08-15 with the same phone, days before the first 
-ASMedia lockup. So the 03:00.0 trouble is most likely the flaky 
-device/cable itself, independent of this bug. Sorry for the noise there.
->
->> I power-cycled the machine at 10:50.
-> Probably SSH would work over some PCI NIC.
-Yes. Even better: after today's occurrence I confirmed that a PCI remove 
-+ rescan of 0000:26:00.0 brings the controller back fully (all devices 
-re-enumerate) with no reboot needed, so I have a way to recover and keep 
-experimenting without power cycling.
-
->
-> Regards,
-> Michal
+If you want to undo deduplication, reply with:
+#syz undup
