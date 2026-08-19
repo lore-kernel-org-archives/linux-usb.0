@@ -1,52 +1,59 @@
 Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74C9389E07;
-	Wed, 19 Aug 2026 05:01:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1A538AC68;
+	Wed, 19 Aug 2026 05:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787115682; cv=none; b=oJ4uQcuCGq95YykrlJLRrIPpuBveRYNDOcDcpPTK5Y8D8QVAiuP0eJ5ZLZwrEYACaQB50B2KKMOOTL+XWW/bkEFbHOE+Ajk3BVA0gypYi/Qaps4tPO46sYXize5myeyEK/AJhA8D5tt0CAKROaHh95jJTl35IjbYKYUJ0AUiXMI=
+	t=1787115684; cv=none; b=fVjciCNkLhxueqmRudAGes+eow0k+I6GuEI8D2KwiFrFpO2fghRar0Xy64u6ys5jWnE759dZPe8AuwZeuSo6VyV+tk1ogAa8i3uaHiEgmZ+Yxk0l7g6qhqG12tr2GZvi0CTePuv2A9XFDNrsIH5j6mozN3SaBXxmYaK9TvPikGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787115682; c=relaxed/simple;
-	bh=6KMH5OhfrX7SFeNzd26K+AdF6JOU3HeAkmaXUMdqljw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hb0M7dlT9b6nLrg+l2kAU//h6jC+iq3CfOOikgxfgMHaFg6MCCNuZfBk/n1tCe6jfSSLyIHOZhTW9B72NbQu4RHg3PdrMmDUeXCLeOn5KFPsvFy3UHOUj1yBdsxuTkTwt9KGC9/dXymxtQMRHZPf5n/nM5XaE1z8I7cHjWUCVIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TfAEYsty; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=m3XtIsnq; arc=none smtp.client-ip=80.241.56.171
+	s=arc-20240116; t=1787115684; c=relaxed/simple;
+	bh=CAKpm6rmVqOqKWRzXe3ZmgkbPHOVGzJrGvnL46DVhpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=B0+NwOTuX2+UjBStN56f7sc5HJS8Yg2xU92O7kXTx45fdt7myJ9jQyJea6lxJtkjLiLILXzcPT8aU1CUjJ0UcOpPsULAVpGE/xy8YsdYArRLn/fsWKNMjBFq4032slE6aeyB0Gea+rFBS2akhIlu4BpzFiuwZ37G/ovQDKlo3t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NhrOlL2F; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UfmVh1m9; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TfAEYsty";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="m3XtIsnq"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NhrOlL2F";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UfmVh1m9"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hPvY91rKCzMlH3;
-	Wed, 19 Aug 2026 07:01:17 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hPvYD4tTYzMlH7;
+	Wed, 19 Aug 2026 07:01:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1787115677;
+	t=1787115680;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=kRDfDVCadi2L3uSfBeeR1zj3BzLKfkzJTUwD2VmS9XY=;
-	b=TfAEYstyI1Yu6hCDop7bLADOkg2uVUrzr3pkuuJ6EiHmoK9kHWOW/gAAv/uflyjZjYe0eX
-	JbXrvTcaU3tKQL3KETi1IevJf4xiFEsMs9095tZ/f+fNhLF+BwTM0BoqmO6EPFXAixtdj8
-	EFVVo3sVUxvoNODEd4La6odGx+SKlNCUuxoFzd5oB5eQ/wGfsgqsHTe9G4BLwjejdZPWEv
-	HauxyTF9KfgXM46iCqOX7ErOoCMIKN0lffanUay0IsADFEontgoza3QEv+XY3hqtcbB358
-	0+o/hqkCfP1NUzpOrj+bd76SOSUwct890b+HWu8ab/63YDAqjqR3jQLBvl1hBw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+00rveaFA8u8Fy7XodDbVmJUDIIjxe3qDtgo5Q2f9CM=;
+	b=NhrOlL2Fi9SIsQYwH1pMsVzsDc9LBHK+2BJHjbxxcip4AhKNjPAkHzyovHaIrpegzOnv7a
+	cTPW4NgVK0qvGiJlxIPJqwYaofcFsxc80SvJnJj829bEHAjGM2NwVoLALDXe705vHr2aL0
+	2O5GGAjaOp2GO+KCkUTHHy8JCJ7U2P0U78NDY+RXgYDZ3ed633mxgIo8PtUWRAlx2YR9tR
+	ozB6y40N1Z6yOZdHLNcebNSeV5Q7iE3D5HZlLIQRxL3XkaEje5Hfq4f1kcBELQ7fJrvJsU
+	25MbVNpHcOO7X34rHia35vp4tnv7Q/KY99GwXQFt5NRBAzbuFHNfainQGEsFWQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=UfmVh1m9;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1787115675;
+	t=1787115678;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=kRDfDVCadi2L3uSfBeeR1zj3BzLKfkzJTUwD2VmS9XY=;
-	b=m3XtIsnqt63Pky0hhU/zxAgSZp8aKDVYl02/UDKqvL3DUUTSYm7c/jnA24mQDIGxFWaUAg
-	hdZdqD8x25tAHqXMLT65kK/erXDU9VUw95fupfgn0w/4/QoCcdLruO7zUTVikswCpURqrK
-	ck5InbRIT3Tl3xrRUzDo/C9TD/BxpLDDxToADB5HFBLdiWqKEl/kzT5+yFLo5bPYpfAgDu
-	2kZdn7q94tTWUuhp5OM9hnqqitjPLw1GLB5O9oY+Zpa/CGsclfw0Po6L/QF1dNbu2NEj8W
-	WlxhvLrbsRxjypBDxbq05QK5/qneuxt5xttbtmFMeDBp7DQOyQWI2NQIMkouwA==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+00rveaFA8u8Fy7XodDbVmJUDIIjxe3qDtgo5Q2f9CM=;
+	b=UfmVh1m94pLwjxcOOocRcBmSI9jRfHGIwkCnSsuCeOz4ed2u5LLL2sM6ZDVMHTf99ouySX
+	sff1cuuFkqyoHDwpmQCgwmg3q4Yc/S11+qk4Ag+6GwlnmyCLzLQAK/pXpiylokGlDdgV+f
+	0avrYD2qE2KIS7kRTJmiyA89SBIA7ayTdhoLda6WcxqgfAAuTofo+RjWH57EEE4vOiR8cf
+	Xq1x//wEcrHs1uxCb2KcvtPkElJd2obSDWEVIdDnoKHmxsleg5rjVOZpdkyIX8+Ibgtk4a
+	u7UfvKt2+8teDjFoC4V67tCheyL9VWpT2EwPqnIJ9DwF4hj+vyJgYrNNjO05Jg==
 To: linux-usb@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+Cc: Thanh Quan <thanh.quan.xn@renesas.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -56,9 +63,11 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car Gen5 DWC3 xHCI USB controller
-Date: Wed, 19 Aug 2026 07:00:51 +0200
-Message-ID: <20260819050109.681890-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v4 2/2] usb: dwc3: dwc3-generic-plat: Add Renesas R-Car Gen5 DWC3 xHCI USB controller glue
+Date: Wed, 19 Aug 2026 07:00:52 +0200
+Message-ID: <20260819050109.681890-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260819050109.681890-1-marek.vasut+renesas@mailbox.org>
+References: <20260819050109.681890-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -66,13 +75,18 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: pdmorfqfqgighkoep6ca5adomi6z518s
-X-MBO-RS-ID: 8c46f315e8c66b61092
+X-MBO-RS-ID: 45dbe6c277725c11685
+X-MBO-RS-META: 8eh39ttggm169nx8bj3phkcpqppd7toc
+X-Rspamd-Queue-Id: 4hPvYD4tTYzMlH7
+
+From: Thanh Quan <thanh.quan.xn@renesas.com>
 
 The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
-controller with glue logic wrapper around them. Document the glue
-logic and DWC3 controller.
+controller with glue logic wrapper around them. Extend the generic
+DWC3 platform driver with Renesas R-Car Gen5 glue logic specifics.
 
+Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
+Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
 Cc: Conor Dooley <conor+dt@kernel.org>
@@ -86,90 +100,100 @@ Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 Cc: linux-usb@vger.kernel.org
 ---
-V2: Rework to use flat bindings for generic plat driver
-V3: - Support one or two PHYs to correctly describe the hardware
-    - Make maximum-speed optional
-V4: - Use ref: snps,dwc3-common.yaml and drop generic dr_mode/maximum-speed/phys/phy-names
-    - Switch to unevaluatedProperties: false
+V2: Extend dwc3-generic-plat driver instead
+V3: Handle maximum-speed as optional property, test for USB 3 PHY
+    non-presence to determine whether the controller is USB 2 only,
+    consider optional maximum-speed DT property, but if it is missing
+    then default to maximum controller capabilities based on the
+    presence of PHY phandles.
+V4: No change
 ---
- .../bindings/usb/renesas,rcar-gen5-dwc3.yaml  | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
+ drivers/usb/dwc3/dwc3-generic-plat.c | 60 ++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
-new file mode 100644
-index 0000000000000..a8a2f2d18cefc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/renesas,rcar-gen5-dwc3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+index ca69ac0eb07ce..dec89b068291a 100644
+--- a/drivers/usb/dwc3/dwc3-generic-plat.c
++++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+@@ -71,6 +71,60 @@ static int dwc3_eic7700_init(struct dwc3_generic *dwc3g)
+ 	return 0;
+ }
+ 
++static int dwc3_renesas_rcar_gen5_init(struct dwc3_generic *dwc3g)
++{
++	struct device *dev = dwc3g->dev;
++	struct platform_device *pdev = to_platform_device(dev);
++	enum usb_device_speed speed = usb_get_maximum_speed(dev);
++	bool usb2only = false;
++	void __iomem *glue;
 +
-+title: Renesas R-Car Gen5 DWC3 xHCI USB controller
++	/* Wireless USB is not supported */
++	if (speed == USB_SPEED_WIRELESS)
++		return dev_err_probe(dev, -EINVAL, "Wireless USB not supported\n");
 +
-+maintainers:
-+  - Marek Vasut <marek.vasut+renesas@mailbox.org>
++	/* No USB 3 PHY in DT means this is surely USB 2 controller */
++	if (device_property_match_string(dev, "phy-names", "usb3-phy") < 0)
++		usb2only = true;
 +
-+allOf:
-+  - $ref: snps,dwc3-common.yaml#
++	/*
++	 * Controller can be limited to USB 2 via optional maximum-speed DT
++	 * property. If the DT property is not present, default to maximum
++	 * controller capabilities.
++	 */
++	if (speed >= USB_SPEED_LOW && speed <= USB_SPEED_HIGH)
++		usb2only = true;
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: renesas,r8a78000-dwc3
-+      - const: renesas,rcar-gen5-dwc3
++	glue = devm_platform_ioremap_resource_byname(pdev, "glue");
++	if (IS_ERR(glue))
++		return PTR_ERR(glue);
 +
-+  reg:
-+    maxItems: 2
++	/*
++	 * The datasheet describes initialization procedure without full
++	 * information about the registers. Therefore, the source code is
++	 * based on the bare metal code shared by the board team.
++	 */
++	writew(0x211, glue + 0x26);
 +
-+  reg-names:
-+    items:
-+      - const: dwc3
-+      - const: glue
++	/* USB2 does need additional register programming. */
++	if (!usb2only)
++		return 0;
 +
-+  clocks:
-+    maxItems: 1
++	writew(0x11, glue + 0x81c);
++	writew(0x0, glue + 0x81a);
++	writew(0x1, glue + 0x802);
 +
-+  interrupts:
-+    maxItems: 1
++	usleep_range(10000, 20000);
 +
-+  power-domains:
-+    maxItems: 1
++	writew(0x0, glue + 0x802);
++	writew(0x1, glue + 0x2a);
++	writew(0x1, glue + 0x81a);
 +
-+  resets:
-+    maxItems: 1
++	usleep_range(10000, 20000);
 +
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - interrupts
-+  - phys
-+  - phy-names
-+  - power-domains
-+  - resets
++	return 0;
++}
 +
-+unevaluatedProperties: false
+ static int dwc3_spacemit_k1_init(struct dwc3_generic *dwc3g)
+ {
+ 	struct device *dev = dwc3g->dev;
+@@ -231,11 +285,17 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
+ 	.properties = DWC3_DEFAULT_PROPERTIES,
+ };
+ 
++static const struct dwc3_generic_config renesas_rcar_gen5_dwc3 = {
++	.init = dwc3_renesas_rcar_gen5_init,
++	.properties = DWC3_DEFAULT_PROPERTIES,
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    usb@c8800000 {
-+        compatible = "renesas,r8a78000-dwc3", "renesas,rcar-gen5-dwc3";
-+        reg = <0xc8800000 0x100000>, <0xc9c54000 0x2000>;
-+        reg-names = "dwc3", "glue";
-+        clocks = <&scmi_clk 336>;
-+        interrupts = <GIC_SPI 795 IRQ_TYPE_LEVEL_HIGH>;
-+        phys = <&usb30_phy>, <&mp_phy 2>;
-+        phy-names = "usb2-phy", "usb3-phy";
-+        power-domains = <&scmi_devpd 16>;
-+        resets = <&scmi_reset 336>;
-+    };
+ static const struct of_device_id dwc3_generic_of_match[] = {
+ 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
+ 	{ .compatible = "spacemit,k3-dwc3", },
+ 	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+ 	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
++	{ .compatible = "renesas,rcar-gen5-dwc3", &renesas_rcar_gen5_dwc3},
+ 	{ .compatible = "starfive,jhb100-dwc3", },
+ 	{ /* sentinel */ }
+ };
 -- 
 2.53.0
 
