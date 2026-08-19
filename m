@@ -1,136 +1,143 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB62E430CCE;
-	Wed, 19 Aug 2026 10:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9683F1ABF
+	for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 10:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787133877; cv=none; b=O4fwKhlhzDXVELQneCcA5WnGJAIGj1+1Xv5d/hRglEEmLGxDE2tOsjowlkNM7O9PMdV6rrcdEJNDoACjTchJ9yC2SpWrYxRGztBlFefoxiejm4FR4Ae9lRcd9S2G3nOzqOVR/3aHrioKcliNMLR+361QTlXpBmmcsGRozUyq7Fo=
+	t=1787135235; cv=none; b=exxNZhGP7lxXFMtD/IufHy5e15HSTzHB/97LOHlczmiBvVmlJA9hc7566DLtPkNpKego0921eMw7jWQoGJYVESsTKd0XNoYSjYrQMD0xrDh/YcDtD075OJwhkVU9p7bDGhvi4S1ki/wQvcThz/7xJdrfLWI8y0cCMZuTPU27OLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787133877; c=relaxed/simple;
-	bh=dWklmVe8KwQVC6jGgnEmYIYGNW9SUVJUYasxyPkMRRo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SAu027pyNf1kiW0zsBOdAdL1alo6L79OQsWaYuMVNSPSU4nscNBXuAhyNlOh00UxR+0YKZCAmjdycemVL5j2rLkyJTXz5ZpadM8pRRCiYeR+NJ+iNvFY3ESEGrQsCcl6qi3lepf8hbju5d++8tzq2FCI16DmKabX/0oMN9+71L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=W1lhcm/y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G2yhljNq; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1787135235; c=relaxed/simple;
+	bh=Mk813TFCqqlmMVYF58q8Ra7/eYmWpuXZ8bzgguh1pHY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=GZjXVYwO2gR82WFaHf7jYRz3vM1TK7oYepGcnObreG4aLjeaLf3lEa/eyvJPrww/mp9B779marfLD9qSTC50vtcQmMYrVb6DbEpXPmhpEY01B5MCaJ8+wPB1E9GhtXrNFCX09ng0yGgZL4Z3xBgq1dgmQhG+mTiC22CbOgda9aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YEyBm0eq; arc=none smtp.client-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="W1lhcm/y";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G2yhljNq"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A7D3D7A0089;
-	Wed, 19 Aug 2026 06:04:33 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 19 Aug 2026 06:04:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1787133873; x=1787220273; bh=8s
-	n7DGUxmgE2IcT/ZrBdvjCucGkYOdn7Gfkp0kMfPMY=; b=W1lhcm/ypHDcjcGnv6
-	p73JaofGfB0tDCNtHTE09NXf3FpFiJjfhXo/hjZknX1RPXTnNHd0o+HBxMvr2Hpb
-	Dr+mf+7Pf5df2zrA7uvVjkBoH0LABUFtWL8SAxrSutFRww0w3KFxctC5bOWfPqXU
-	3ptFkVP9F4FwIFWbZlQMeFMrIPt/GtyGSGBPiKUF1SYVgVNRgXH13k5b6+qfbku5
-	t8TD+ZVPWELjdotKjYODb/DGFY5S6ihKMD1f11FrDAgKzbmytm9X/Z8+q9OGsazE
-	4gxOvAvr+Onjgq/J5Ws06lRiojrPLiCzZeM1Xe/cO57oZyeTYex9lhaFaiWoEQZT
-	GTQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1787133873; x=1787220273; bh=8sn7DGUxmgE2IcT/ZrBdvjCucGkY
-	Odn7Gfkp0kMfPMY=; b=G2yhljNqUriJQ7gc0BxU0OmEmHYR2qaqSSHuVrATgu+L
-	hVYH9JOsVbgV/Z72NTtNPh4omunSRRVE848Jj2obTi/io4dVWvXldR5Npq9geQ5q
-	xoJtxGlL46mqJZO7XdlDiE+brVLIQxxwWhgQYTiGnxO78dwgdPQs3Ms4ZLPAfpBN
-	+/5g4hIQqoWs84KXXyLYGBqyhD78txbiS5fekQHt95l1JK5UZ2SY4N9lnTxhIbRR
-	zp16SRgIifatNihr+K4QRmPXTZc9uBc1nZdxz62HoT0MBRgNsHrpxRCUWfNjdVKg
-	esdiO/obAcJB4bZaar3wISAfidGcjDtPfvBUo3yM9Q==
-X-ME-Sender: <xms:sX-FaofMBHwzo_wowNYcKnqxwx7G1qoOMRUPLL5mHxoPkbLji2VckQ>
-    <xme:sX-FaoBtYJXeqeUFb_qJKX_sUZnGzJHd_jtoNVYhAQPmhX6Qe0T39FIQ2ryWMb04P
-    38By0TGMZE3kQZMbnjoogsVeVJj4kdegkxrZY2n04Uq8UNA4vI>
-X-ME-Received: <xmr:sX-Faj_VsNvW5hoEnZkKxKobRg4klubbhY3LpHFgIfszvqqG35WTxfzFk9u-IyU03yozKVMZuN6DrDIuERBl_5cWuK0Jd1c9KVd17xEIIjYoyKnOawI>
-X-ME-Proxy-Cause: dmFkZTGqShzFunr7Y+qIeUxGgcgkO8ao7UwquAqCgxQ09b82TrvEXrx2JbJCBGsIq79Drk
-    6Z+I0Pyx7JIRbfR2uGjR0I8pBAKwrQ9oIkOqHmPAznD9/0kl7wrw5DBQ77dQe6crRFjDXI
-    /DWm1DyweiQmLvLXgNnAvJR22w/QIivwZGukbBiMkwnaYc6NXUuCOTJN1VaE7A0X80btoF
-    9d2yMMul4Kt84E/V+EY/0VNMEoQ2Bs6Yxl574b7u9x1PRNln3D666HzsUh/qGvuEN9nbM/
-    inDJpHle52T25gTTPC7Io0hkDL4HuR/9uZS81sgF6NxEUIJqRo2BKSfOh7DUHuzayitRFR
-    cCJvBU7anxmEDp0vD/G6zTXQorRVVmbG9HMLNkkGDN+Xv7lsnc0jKlXYkFHhr3mhgFWVzd
-    ftOa+/+XJqz8v6indgy/liBiqSkAXWAm1G6geg/Ci9BdQtBGxfFJ6LsA1yFWvoWEgouAJC
-    2uPfybW5xvKQYPLlPIsRDZ1qPJuBpj3VOi2MaL/hqWrUaFlM906yW2yO4fY1EPomik+1b0
-    OnP7Us4lRR2HlwaNUalFxbN7InrHlngNXIxn3+3hhQeyzfr1OakEy2KiEV38WlGQZWK2JX
-    MMqCxUu5tdVjGOEZdNJNwI6R4V4qsw5doM1KX/4m1ELMoekcP/WxFumVAx8w
-X-ME-Proxy: <xmx:sX-FarKzi_COHhOfms19_fuuzEc7wP60OKGNG5kRtEo2R4T7ZPzvRw>
-    <xmx:sX-FakiC8HpiH8Pl-oxeZGxIOdalyVuVT_X2OMChZSrir6OrLwTyLQ>
-    <xmx:sX-Faj4PAROS_mzHoIUzrN3Th0VJbbN7I_uiYwANLs8RwAKDHyujgA>
-    <xmx:sX-FakbEX3-jEl-v-m2ilGewZ26thTXNdOtCE45j3ArqBYisvWxtEw>
-    <xmx:sX-FajZYOoFpcV-q5lnmGuOsnAwBNuoYDG1T9Y-QOBw0nRnJOT8bBt4B>
-Feedback-ID: i1d2843be:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Aug 2026 06:04:32 -0400 (EDT)
-From: Griffin Kroah-Hartman <griffin@kroah.com>
-Date: Wed, 19 Aug 2026 12:04:25 +0200
-Subject: [PATCH] usb: image: mdc800: change kmalloc() to kzalloc()
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YEyBm0eq"
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e4758ab46so1535055a91.0
+        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 03:27:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787135233; x=1787740033; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RsoC28vCQHKdnNG2zgOJgL5SSi8lYenXYvOZo5k+sWA=;
+        b=YEyBm0eqeq0ujLc/q9HnmeHFTX/4B8yTcMeEsh9oppaWse8XTsjmqnrnkE10TtR8uZ
+         exLpXZ7SbyVC0bNcdlE/lqhGE9PBSrNSxFlns//uh4x+I2CRW39YEaaUdF7JihSbVA/Y
+         LMejCJYkoABo+W3V49BwlnylTZlnh6fwVT07lUMwSa2u9dMGYFbrT+mrE3l8t1pkenwq
+         yC/48zdn+jN0K9hgzZXf+KYjVfzEG44E3t/ihKS2gkRNlty0cXN4vgvbeLmZ6Esb9hTj
+         vIpmXRbdDk2gXl/Ly8R2qHHL8eA7CmcQ/KPjCTYHuIgAzZuWexG4qTr6Wp/ZBM4jW4/T
+         0ULA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787135233; x=1787740033;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RsoC28vCQHKdnNG2zgOJgL5SSi8lYenXYvOZo5k+sWA=;
+        b=B9x9tl/Rkw7zPD2M7Tcpt9jrfnpcMDURqOma0gFf3Y8Tnat9ygkrherrUiJwkWWdCs
+         b/u8TAir1wyUznwMIl7z68TJgMXWH433PfTcTEbtX+UwecY3o7lWAjSsTm2obtJK+ytN
+         JBkDLji9wqvhRsI9EJQZ2spCOs224Px89a/m6l6A1J8bZJiOZwE7Pe474dV7vB3CCA4b
+         6KBLlG26nITSisizias2UOGYsIA3kG3tAtBkUxe1rVqjplxXIZ+kDLSDd7THF4mcudTj
+         pcK605uhhc4KtON2bX8PzIdEKw3ax+hQyW+QpeiWDfSD03aZq2qUKODv1A1d53XZls2h
+         2bwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqoBGRoTCZ+haSqdPwd7ZY89EnaolA66psE9buL00BmLy7tdNWW0nZ4SCYP3Q5DPbgh+uHBCuwJdpk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1UlYiETYmLITxfMCAE1Jtw538N9ALOrdD0/cyjBw7XmvL3YNV
+	KYS+ucnU0NqQ2cm11kbegmHt3zy5hvZjhwgp0wMY2woRpRYzq36r5y/astMfF927YvjSK2KxMwb
+	C2sdfDxu7gWJePgshEHrT2HtMENfUtvkcmQ==
+X-Received: from pgla22.prod.google.com ([2002:a63:b56:0:b0:c99:5634:7551])
+ (user=sonalipradhan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a20:3ca1:b0:3c3:66c5:68d6 with SMTP id adf61e73a8af0-3cd00f77410mr6894163637.9.1787135233076;
+ Wed, 19 Aug 2026 03:27:13 -0700 (PDT)
+Date: Wed, 19 Aug 2026 10:27:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260819-usb_misc_random-v1-1-43a0dcee3a32@kroah.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ5AMBBA4avIrDXRxv9VRERrMBIlHUQi7q5Yf
- ov3LmB0hAxlcIHDg5gW6yHDAMzY2gEFdd6gIpVGuczEzrqZiU3jWtsts4hlFkvdY6ETBb5aHfZ
- 0fseq/s27ntBs7wbu+wF6tOmrcwAAAA==
-X-Change-ID: 20260817-usb_misc_random-41741bfe9b52
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.737.g08866a6d13-goog
+Message-ID: <20260819102709.212646-1-sonalipradhan@google.com>
+Subject: [PATCH] usb: gadget: f_midi: fix UAF race during IN request handling
+From: Sonali Pradhan <sonalipradhan@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin@kroah.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787133872; l=1343;
- i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
- bh=dWklmVe8KwQVC6jGgnEmYIYGNW9SUVJUYasxyPkMRRo=;
- b=OYFcuDnZUJwIl7qkf6wzq35ugAPARCySu33T8pl1AcSbzRUEu1RXNY4WCUslGm8tKJ3j6oz8u
- sjRsBym0z6YCfV+pjdu3kjmcy7ZCT3DkrllOx5BGpJv/rNGhFLxX++M
-X-Developer-Key: i=griffin@kroah.com; a=ed25519;
- pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
+Cc: Kees Cook <kees@kernel.org>, Victor Krawiec <victor.krawiec@arturia.com>, 
+	Fan Wu <fanwu01@zju.edu.cn>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	"Felipe F. Tonello" <eu@felipetonello.com>, Felipe Balbi <balbi@ti.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Sonali Pradhan <sonalipradhan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Change the kmalloc() calls in usb_mdc800_init() for irq_urb_buffer and
-download_urb_buffer to kzalloc(), avoiding potential stack leaks if a
-shorter message is received in mdc800_usb_irq() and
-mdc800_usb_download_notify()
+f_midi_disable() frees pre-allocated IN requests from in_req_fifo
+without holding midi->transmit_lock. Concurrent f_midi_transmit() or
+f_midi_complete() calls can then access these request buffers after they
+are freed, leading to a use-after-free.
 
-Assisted-by: gkh_clanker_t1000
-Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+Fix this by acquiring midi->transmit_lock in f_midi_disable() while
+releasing IN requests, and checking ep->enabled under midi->transmit_lock
+in f_midi_transmit() and f_midi_complete() before modifying requests.
+
+Fixes: e1e3d7ec5da3 ("usb: gadget: f_midi: pre-allocate IN requests")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sonali Pradhan <sonalipradhan@google.com>
 ---
- drivers/usb/image/mdc800.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/function/f_midi.c | 22 +++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/image/mdc800.c b/drivers/usb/image/mdc800.c
-index ca287b770e8c..f7caa1c5cbb7 100644
---- a/drivers/usb/image/mdc800.c
-+++ b/drivers/usb/image/mdc800.c
-@@ -1000,13 +1000,13 @@ static int __init usb_mdc800_init (void)
- 	mdc800->downloaded = 0;
- 	mdc800->written = 0;
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index fba8cf787d6c..ee64147b12f1 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -280,9 +280,20 @@ f_midi_complete(struct usb_ep *ep, struct usb_request *req)
+ 			/* We received stuff. req is queued again, below */
+ 			f_midi_handle_out_data(ep, req);
+ 		} else if (ep == midi->in_ep) {
++			unsigned long flags;
++
+ 			/* Our transmit completed. See if there's more to go.
+ 			 * f_midi_transmit eats req, don't queue it again. */
++			spin_lock_irqsave(&midi->transmit_lock, flags);
++			if (!ep->enabled) {
++				spin_unlock_irqrestore(&midi->transmit_lock, flags);
++				return;
++			}
+ 			req->length = 0;
++			spin_unlock_irqrestore(&midi->transmit_lock, flags);
++
+ 			queue_work(system_highpri_wq, &midi->work);
+ 			return;
+ 		}
+@@ -420,6 +431,7 @@ static void f_midi_disable(struct usb_function *f)
+ 	struct f_midi *midi = func_to_midi(f);
+ 	struct usb_composite_dev *cdev = f->config->cdev;
+ 	struct usb_request *req = NULL;
++	unsigned long flags;
  
--	mdc800->irq_urb_buffer=kmalloc (8, GFP_KERNEL);
-+	mdc800->irq_urb_buffer=kzalloc (8, GFP_KERNEL);
- 	if (!mdc800->irq_urb_buffer)
- 		goto cleanup_on_fail;
- 	mdc800->write_urb_buffer=kmalloc (8, GFP_KERNEL);
- 	if (!mdc800->write_urb_buffer)
- 		goto cleanup_on_fail;
--	mdc800->download_urb_buffer=kmalloc (64, GFP_KERNEL);
-+	mdc800->download_urb_buffer=kzalloc (64, GFP_KERNEL);
- 	if (!mdc800->download_urb_buffer)
- 		goto cleanup_on_fail;
+ 	DBG(cdev, "disable\n");
  
-
----
-base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-change-id: 20260817-usb_misc_random-41741bfe9b52
-
-Best regards,
---  
-Griffin Kroah-Hartman <griffin@kroah.com>
-
+@@ -431,8 +437,10 @@ static void f_midi_disable(struct usb_function *f)
+ 	usb_ep_disable(midi->out_ep);
+ 
+ 	/* release IN requests */
++	spin_lock_irqsave(&midi->transmit_lock, flags);
+ 	while (kfifo_get(&midi->in_req_fifo, &req))
+ 		free_ep_req(midi->in_ep, req);
++	spin_unlock_irqrestore(&midi->transmit_lock, flags);
+ 
+ 	f_midi_drop_out_substreams(midi);
+ }
+@@ -678,10 +686,11 @@ static void f_midi_transmit(struct f_midi *midi)
+ 	unsigned long flags;
+ 
+ 	/* We only care about USB requests if IN endpoint is enabled */
+-	if (!ep || !ep->enabled)
+-		goto drop_out;
+-
+ 	spin_lock_irqsave(&midi->transmit_lock, flags);
++	if (!ep || !ep->enabled) {
++		spin_unlock_irqrestore(&midi->transmit_lock, flags);
++		goto drop_out;
++	}
+ 
+ 	do {
+ 		ret = f_midi_do_transmit(midi, ep);
+-- 
