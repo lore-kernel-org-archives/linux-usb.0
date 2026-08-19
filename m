@@ -1,35 +1,51 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A23489894;
-	Wed, 19 Aug 2026 16:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319BC3BE642;
+	Wed, 19 Aug 2026 16:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787156490; cv=none; b=j4ii69pmVQKQJ9SvAMj1LZT0WTGYlqV5OsnkUg2VyKUkt/0PclBNybxsm+DQIlSuQqwo4MW9EC81AZikin6xQgzbgjDyy4NGc5EzyxxYl5HgI3MNRjuLFj6JLDF5CA0Ow9aw8UNgFOhGQcahnCJgnHpo8I6Go0MErxGBPWcosjw=
+	t=1787157270; cv=none; b=gLL+aLErgKfnVofVYrkGtO+IUQ3GnKZnJpoj/TZsOIPkG3AUdbFuoeGOklqegahXwxcTbXvx+Rp0DXUUnqDWkfBV4vabDSPMCh1ytOlQKsj7FlpbXT0unjktCfUoAC/ZQzxKXqBhonkKh8yB4pkRuXCWhaw2qO81oxKJq3G3HAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787156490; c=relaxed/simple;
-	bh=PpZFtuIoTKyDwxjHax5jjMkVxp4w90jeEEsNoliWSa0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PlmOJZCgu407UEHAw1IT7iTw9maMJJ3o0GbxQKl48RA2dh+LrtC/wA0KumYZRoR2iAqvgOUx2zfA2mmpoWJjuKbBmMm9ziOA1SSQmanYLrmsVLJMv141HVBJhZ/ELX89Ogp/VmhrnImjWi9NG7c0UEgW22OLRMq3BdLPK0GkOhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wCHUX3_14VqJoapAA--.2143S3;
-	Thu, 20 Aug 2026 00:21:19 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgBXijH+14VqXrFQAw--.34652S2;
-	Thu, 20 Aug 2026 00:21:18 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
+	s=arc-20240116; t=1787157270; c=relaxed/simple;
+	bh=VZ6SU7fgxaBRHIImXTfPMsIVPQEGWCopFsKv7XsAanw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mf1P1Sedu1/yVzxwy4TUF1ApMOM5VO+ZJ7gqgEY1Rxxyj3Kxjq0Ftq03aMZ4p/A9EWyiBtBgsMI+ysJYxoHR5obn9YtLBkivO8sb0Mdtztv1GUpXAAD0ZbBcpa5O1zESm6NxQkfnP9cMnZqquOKnYAnACYp60HGX5FCwEJEdf10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=Cf3AHAWe; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="Cf3AHAWe"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C08C2119206;
+	Wed, 19 Aug 2026 18:34:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787157261; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=Hr9b/XLqf5ZDJpuwGVa2yy8IR3LSeHLObl789Jl3VYU=;
+	b=Cf3AHAWetSlup9payahjjVWstjoaf0V5y+LS0d0/1GDrDTiK6fMfQ1WTTNmfyWICctNfNE
+	UYiUyAtjL9XYUVtZXX3g6u2qDIQEue7FFN5v8LLJtXfXiW86QYTx3m0kAA368adcByqXgz
+	rAGKiLkMPdTKw6MACXBfE4pkoRPvk8Y3jy8GhP1+xNQnF1KDTbUCV4lztiP4SgvctR2XcP
+	LEerpPZvgynft54h4qD0vGmo7xWHIZQcDK2Z+zIRkeAOps57YW828vHcYuAn0YDj5uLgAh
+	/aKnAuVGcvvTAzJVLjfl13sKK9ffukPTi8/DeP4f3cnk6fSckIHgc/pv2AsCJg==
+From: Marek Vasut <marex@nabladev.com>
 To: linux-usb@vger.kernel.org
-Cc: bryan.odonoghue@linaro.org,
-	heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-arm-msm@vger.kernel.org,
+Cc: fabrice.gasnier@foss.st.com,
+	Marek Vasut <marex@nabladev.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	devicetree@vger.kernel.org,
+	kernel@dh-electronics.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH] usb: typec: qcom-pmic-typec: disable cc_debounce_dwork on stop
-Date: Wed, 19 Aug 2026 16:19:50 +0000
-Message-Id: <20260819161950.77858-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 1/4] dt-bindings: usb: Document ST UCPD
+Date: Wed, 19 Aug 2026 18:33:52 +0200
+Message-ID: <20260819163410.119755-1-marex@nabladev.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,84 +53,194 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgBXijH+14VqXrFQAw--.34652S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?75XOIgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnXz+g1OQfMo27QHy5TwQyZw9aOy/B7Vzi9F2BqiMai8zX9QFBDONEy5cQTGhGfC78tFp
-	zTnTfYHlKbj98dYeW/XN5RPxYw6l01w8CbPzC/8w
-X-Coremail-Antispam: 1Uk129KBj93XoWxWFyfGw1UtF18AFyDCw1Utwc_yoW5GryDpa
-	98trZrGrykGa9rXr9xtFsFvF4jga17Ar9rJ3y2g343tF1qqw1jyrWUtFyI9F15CFWxJFy3
-	tr43XFy3A3Z8WFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AK
-	xVWUJVW8JwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
-	JbIYCTnIWIevJa73UjIFyTuYvjxU7rcfUUUUU
+X-Last-TLS-Session-Version: TLSv1.3
 
-cc_debounce_dwork lives on the system workqueue but is armed from
-tcpm callbacks (set_cc/start_toggling).  Those callbacks run on tcpm's
-kthread worker which is only destroyed by tcpm_unregister_port(), after
-port_stop() has already returned, opening a potential race window where
-tcpm's worker flush re-arms the work.
+Document ST UCPD Type-C block. The UCPD integrates the physical
+layer of the Power Delivery (PD), with CC signaling method, for
+operation with Type-C cables. Vbus and Vconn control is performed
+using an external chip, usually ST TCPP01/TCPP02/TCPP03 or similar.
 
-Use disable_delayed_work_sync() in port_stop() to cancel any pending
-instance and prevent future schedule_delayed_work() calls from
-succeeding.  Also unwind a failed port_start() through port_stop(),
-which otherwise jumps straight to tcpm_unregister_port() and leaves
-the same window open after a failed probe.
-
-This issue was found by an in-house static analysis tool.
-
-Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
-Cc: stable@vger.kernel.org # v6.10+
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+Signed-off-by: Marek Vasut <marex@nabladev.com>
 ---
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c      | 3 +--
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 2 ++
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: devicetree@vger.kernel.org
+Cc: kernel@dh-electronics.com
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-usb@vger.kernel.org
+---
+ .../bindings/usb/st,stm32mp25-ucpd.yaml       | 154 ++++++++++++++++++
+ 1 file changed, 154 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/st,stm32mp25-ucpd.yaml
 
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-index 35320f89d..f42c9e65f 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-@@ -101,7 +101,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 
- 	ret = tcpm->port_start(tcpm, tcpm->tcpm_port);
- 	if (ret)
--		goto port_unregister;
-+		goto port_stop;
- 
- 	ret = tcpm->pdphy_start(tcpm, tcpm->tcpm_port);
- 	if (ret)
-@@ -117,7 +117,6 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 	tcpm->pdphy_stop(tcpm);
- port_stop:
- 	tcpm->port_stop(tcpm);
--port_unregister:
- 	tcpm_unregister_port(tcpm->tcpm_port);
- fwnode_remove:
- 	fwnode_handle_put(tcpm->tcpc.fwnode);
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-index 429bd42a0..fdc379fc4 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-@@ -694,6 +694,8 @@ static void qcom_pmic_typec_port_stop(struct pmic_typec *tcpm)
- 
- 	for (i = 0; i < pmic_typec_port->nr_irqs; i++)
- 		disable_irq(pmic_typec_port->irq_data[i].irq);
+diff --git a/Documentation/devicetree/bindings/usb/st,stm32mp25-ucpd.yaml b/Documentation/devicetree/bindings/usb/st,stm32mp25-ucpd.yaml
+new file mode 100644
+index 0000000000000..9b13efdc90597
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/st,stm32mp25-ucpd.yaml
+@@ -0,0 +1,154 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/st,stm32mp25-ucpd.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	disable_delayed_work_sync(&pmic_typec_port->cc_debounce_dwork);
- }
- 
- int qcom_pmic_typec_port_probe(struct platform_device *pdev,
++title: STMicroelectronics STM32MP25 UCPD Type-C controller
++
++maintainers:
++  - Marek Vasut <marex@nabladev.com>
++
++description:
++  The UCPD integrates the physical layer of the Power Delivery (PD),
++  with CC signaling method, for operation with Type-C cables. Vbus
++  and Vconn control is performed using an external chip, usually
++  ST TCPP01/TCPP02/TCPP03 or similar.
++
++properties:
++  compatible:
++    const: st,stm32mp25-ucpd
++
++  reg:
++    maxItems: 1
++
++  access-controllers:
++    maxItems: 1
++
++  clocks:
++    minItems: 2
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: apb
++      - const: ker
++
++  interrupts:
++    maxItems: 1
++
++  nvmem-cells:
++    maxItems: 1
++
++  nvmem-cell-names:
++    const: trim
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  reset-names:
++    const: phy
++
++  vconn-gpios:
++    description: GPIOs used to control CC1 and CC2 Vconn
++
++  vdd33-supply:
++    description: Regulator that supplies the CC lines driver
++
++  connector:
++    type: object
++    $ref: /schemas/connector/usb-connector.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      compatible:
++        const: usb-c-connector
++
++      power-role: true
++
++      typec-power-opmode: true
++
++    required:
++      - compatible
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - nvmem-cells
++  - nvmem-cell-names
++  - power-domains
++  - resets
++  - reset-names
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/st,stm32mp25-rcc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/reset/st,stm32mp25-rcc.h>
++
++    ucpd: phy@480a0000 {
++        compatible = "st,stm32mp25-ucpd";
++        reg = <0x480a0000 0x1000>;
++        access-controllers = <&rifsc 69>;
++        clocks = <&rcc CK_BUS_USBTC>, <&rcc CK_KER_USBTC>;
++        clock-names = "apb", "ker";
++        interrupts = <46 IRQ_TYPE_LEVEL_HIGH>;
++        nvmem-cells = <&ucpdtrim>;
++        nvmem-cell-names = "trim";
++        power-domains = <&cluster_pd>;
++        resets = <&rcc USBTC_R>;
++        reset-names = "phy";
++
++        vconn-gpios = <&tcpp 0 0>, <&tcpp 1 0>;
++        vdd33-supply = <&scmi_vdd33ucpd>;
++
++        connector {
++            compatible = "usb-c-connector";
++            label = "USB-C";
++            data-role = "dual";
++            power-role = "source";
++            self-powered;
++            vbus-gpios = <&gpioa 10 0>;
++            vbus-supply = <&reg_usbc_vbus>;
++
++            altmodes {
++                displayport {
++                    svid = /bits/ 16 <0xff01>;
++                    vdo = <0xffffffff>;
++                };
++            };
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    usbc0_hs_ep: endpoint {
++                        remote-endpoint = <&usb_drd0_hs_ep>;
++                    };
++                };
++                port@1 {
++                    reg = <1>;
++                    usbc0_ss_ep: endpoint {
++                        remote-endpoint = <&usb_drd0_ss_ep>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++                    usbc0_sbu_ep: endpoint {
++                        remote-endpoint = <&usb_sbu_ep>;
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.53.0
 
