@@ -1,57 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6253D3C81B5;
-	Wed, 19 Aug 2026 07:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67CE3DCDA3;
+	Wed, 19 Aug 2026 07:31:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787124538; cv=none; b=JpgyBoNrSp5pQ4nkorx2ylS9o/08HzznbAToe8Dkw2MpImVHowXtFSQKpPjYgixX8GygbVtsznne0baZKOIO4VaJTApmtnntYf52QFKdUQ6TykqYOlcOZIlOvy0k+P5PR8ffPOBiFwArTKkZoOnjEuJU8F5JpnKxtxNb2KKSZE8=
+	t=1787124699; cv=none; b=BNIuLysf3SkZekPIx4uu8oPVn9MS7wWIQW/djF+6utom0Q/dlXO7JrwYjFHrR47O3Oyih/701yiOQ4VCONvjkBfMzPk1+8Dy3d3+iZAGJqrf8WEAoGIy/Cr2J8EpmCNaG3mkexJaEFFpliM1bZLqNw3ZBcgxsdVNwsDq/Q1CbJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787124538; c=relaxed/simple;
-	bh=KvPwAk2TY4MSM1WnmG6/LrViwMvQr9kYyXkS6271FQI=;
+	s=arc-20240116; t=1787124699; c=relaxed/simple;
+	bh=/AV77nngDAMTr2yMd1BMXJXCCtriPp4MXTLmWc3GeHk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MjYPJvs2uj2/kzCaQha8BnKOuQyFOF983+/xH8o9ZGuQqUryu/5Dem3FdeCNET1cVOx+hNMay6/WTZeYQKv5fpH3UHSnL4WNeOkr3kghSAUPiYeNtaGfEZaEawVsif5b1tdb36EQqzP5G4w5TTuw+CbsBgo0iHjnwtiYLlYPCqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KicRI9RG; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=LkNOQRYhFLaw+q8FeTtV3pDpKF2WzCehw5CIkTKpPakPZUOgtwAPR8M7z5mDGgjCwsmDJxyWjSlXkbMFq1+A6zomsNfoV0tGD8pXbFfscflk227Z5uMsv836pnl6Z1CcOmMiomrRQbCx0i8hUU/qjuCgBHa5hoWtEDy3FtqfveI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hr0oUucK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KicRI9RG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02BEF1F000E9;
-	Wed, 19 Aug 2026 07:28:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hr0oUucK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE76C1F000E9;
+	Wed, 19 Aug 2026 07:31:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787124537;
-	bh=+c4hxv5iAZoAl6x2Vsz/LzNf0z4N+7E+7ULYEPv6Crw=;
+	s=k20260515; t=1787124696;
+	bh=3HC9hzqp25hJ9dnFkyg3+4PSSoZICNQ+8dExx/7chds=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KicRI9RGqR/qCu1MkdulTJy84Fb4AkP/xipZO2cpfo3I7e6tfyKokUDLhAh/XBKCw
-	 jj/e9/Z8fAr9XTlSURXYW75ag1DZoU5eHVGKztMlL1JN9XA58o4C0glgmYD7lWKTh/
-	 opmBGNch3Cp/opPlU/bv4dqToYYRnvENSso2o+fjLkPfLP3Mal8vncsCHL27uU4iBI
-	 TfEGx7co+XwL26ILXaFHc1NViD4MQxMG+jkrXHH9NgwwHgggA57W/8opNpJ9Vz6GMj
-	 ZKE8t39AUkdiv4/rXy3r0TyHSbOsvLAwdMxznYw4Wy/zDbBNts5MJwUq2e3r0i59ia
-	 Z1lwBjtNRMVsw==
-Date: Wed, 19 Aug 2026 00:28:54 -0700
+	b=Hr0oUucKoheS3zqBS3EqHM07soF7W/biU/1NSGlWU/Xxf+DOFemVcmIm5YosXdpMt
+	 PudcHgdJL6I3FxB67iBX3QCDqxCPrP7W0qBY9bLAcjGdg9rkT2o+yv0GHBoKWidKud
+	 g+42uBSMsj8mhX3xRGReSaqDSiCRKrVYtICbOzPbcjE8jfggnrp6RfOlkKZCr9mUR0
+	 3rAoXZNK53Idf331vcMLgnDdVf79nUKnPG0Dm5jUWeJN0W5uoHUBa9meWaqTZ4YaUO
+	 es6N/H67wYyf0LIJhnrEB/KA5OUrrx/oldcOnjadA7Cu9i1y1AZbOKPZ6frBmdjZsw
+	 iSFuK7EG3VRcw==
+Date: Wed, 19 Aug 2026 00:31:34 -0700
 From: Peter Chen <peter.chen@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-usb@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-	Stephen Boyd <stephen.boyd@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-phy@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Peter Chen <peter.chen@nxp.com>
-Subject: Re: [PATCH 08/10] usb: chipidea: host: calibrate the PHY after
- starting the host
-Message-ID: <aoVbNp0J2feQ3ezX@hu-petche-lv.qualcomm.com>
-References: <20260810-msm8974-usb-hsic-v1-0-e5f93ea76ffa@oss.qualcomm.com>
- <20260810-msm8974-usb-hsic-v1-8-e5f93ea76ffa@oss.qualcomm.com>
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Xu Yang <xu.yang_2@nxp.com>
+Subject: Re: [PATCH v9 1/3] usb: add missing headers transitively included by
+ <linux/phy/phy.h>
+Message-ID: <aoVb1kxR11yP0Uvv@hu-petche-lv.qualcomm.com>
+References: <20260810125614.441667-1-vladimir.oltean@nxp.com>
+ <20260810125614.441667-2-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -60,57 +50,131 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260810-msm8974-usb-hsic-v1-8-e5f93ea76ffa@oss.qualcomm.com>
+In-Reply-To: <20260810125614.441667-2-vladimir.oltean@nxp.com>
 
-On 26-08-10 18:42:12, Dmitry Baryshkov wrote:
-> Some PHYs need a final programming step after the host controller is
-> up: the Qualcomm HSIC PHY latches the device connect at the moment
-> HSIC mode is engaged, so that write must happen with the root port
-> already running, or an already-connected HSIC device (the strobe/data
-> lines have no hotplug) is never seen. The generic PHY framework
-> provides phy_calibrate() for exactly this kind of post-init fixup and
-> dwc3 already calls it; the chipidea host does not, leaving no place
-> for such PHY work.
+On 26-08-10 15:56:12, Vladimir Oltean wrote:
+> The chipidea ci_hdrc_imx driver uses regulator consumer API like
+> regulator_enable() but does not include <linux/regulator/consumer.h>.
 > 
-> Call phy_calibrate() once the HCD has been added, next to the existing
-> i.MX HSIC active-event hook which serves the same purpose. PHYs
-> without a calibrate op are unaffected.
+> The core USB HCD driver calls invalidate_kernel_vmap_range() and
+> flush_kernel_vmap_range(), but does not include <linux/highmem.h>.
 > 
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> The DWC3 gadget driver calls:
+> - device_property_present()
+> - device_property_count_u8()
+> - device_property_read_u8_array()
+> but does not include <linux/property.h>
+> 
+> Similarly, dwc3-imx uses device_property_read_bool() without including
+> <linux/property.h>.
+> 
+> The dwc3-generic-plat driver uses of_device_get_match_data() but does
+> not include <linux/of.h>.
+> 
+> In all these cases, the necessary includes were still provided somehow,
+> directly or indirectly, through <linux/phy/phy.h>. I found the following
+> command to be quite helpful in figuring out the include chain:
+> 
+> $ make KCFLAGS="-H" drivers/usb/dwc3/dwc3-imx.o
+> 
+> Since <linux/phy/phy.h> wants to drop the unnecessary includes, fill in
+> the required headers to avoid any breakage.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com> # dwc3
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+> Cc: Peter Chen <peter.chen@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Frank Li <Frank.Li@nxp.com>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Cc: Xu Yang <xu.yang_2@nxp.com>
 
-Acked-by: Peter Chen <peter.chen@kernel.org>
+Acked-by: Peter Chen <peter.chen@kernel.org> #chipidea part
 
 Peter
+> 
+> v7->v9: none
+> v6->v7:
+> - add drivers/usb/dwc3/dwc3-imx.c to the list of patched files
+> - collect tag from Greg, keeping it despite the new addition because the
+>   change is minor and in the same spirit as the rest
+> (https://lore.kernel.org/linux-phy/2026033028-squint-yield-4c23@gregkh/)
+> v2->v6: none
+> v1->v2: collect tag
 > ---
->  drivers/usb/chipidea/host.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/usb/chipidea/ci_hdrc_imx.c   | 1 +
+>  drivers/usb/core/hcd.c               | 1 +
+>  drivers/usb/dwc3/dwc3-generic-plat.c | 1 +
+>  drivers/usb/dwc3/dwc3-imx.c          | 1 +
+>  drivers/usb/dwc3/gadget.c            | 1 +
+>  5 files changed, 5 insertions(+)
 > 
-> diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-> index ced6076a8248..62bb2999edb6 100644
-> --- a/drivers/usb/chipidea/host.c
-> +++ b/drivers/usb/chipidea/host.c
-> @@ -15,6 +15,7 @@
->  #include <linux/regulator/consumer.h>
->  #include <linux/string_choices.h>
+> diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
+> index 282314eea7fc..1509b8ec630c 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_imx.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_imx.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/clk.h>
 >  #include <linux/pinctrl/consumer.h>
-> +#include <linux/phy/phy.h>
+>  #include <linux/pm_qos.h>
+> +#include <linux/regulator/consumer.h>
 >  
->  #include "../host/ehci.h"
+>  #include "ci.h"
+>  #include "ci_hdrc_imx.h"
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index 8e8a5f59b319..f7def9b116e0 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -10,6 +10,7 @@
+>   */
 >  
-> @@ -192,6 +193,9 @@ static int host_start(struct ci_hdrc *ci)
->  			(ci->platdata->flags & CI_HDRC_IMX_IS_HSIC))
->  			ci->platdata->notify_event
->  				(ci, CI_HDRC_IMX_HSIC_ACTIVE_EVENT);
-> +
-> +		if (ci->phy)
-> +			phy_calibrate(ci->phy);
->  	}
+>  #include <linux/bcd.h>
+> +#include <linux/highmem.h>
+>  #include <linux/module.h>
+>  #include <linux/version.h>
+>  #include <linux/kernel.h>
+> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+> index ca69ac0eb07c..2f2ae6f4704f 100644
+> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
+> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+> @@ -8,6 +8,7 @@
+>   */
 >  
->  	return ret;
-> 
+>  #include <linux/clk.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/reset.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/usb/dwc3/dwc3-imx.c b/drivers/usb/dwc3/dwc3-imx.c
+> index 973a486b544d..6e122674edaf 100644
+> --- a/drivers/usb/dwc3/dwc3-imx.c
+> +++ b/drivers/usb/dwc3/dwc3-imx.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/property.h>
+>  
+>  #include "core.h"
+>  #include "glue.h"
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index fa0f16ffafef..e70c17d50db8 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -10,6 +10,7 @@
+>  
+>  #include <linux/kernel.h>
+>  #include <linux/delay.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/platform_device.h>
 > -- 
-> 2.47.3
+> 2.34.1
 > 
 
 -- 
