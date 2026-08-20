@@ -1,101 +1,273 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E31A031327A;
-	Thu, 20 Aug 2026 13:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787234079; cv=none; b=VYN4qhQbpEFiM4SjO2zs4OIoC8SNWldIQ1YkR0zgriQ2pnN39VRWFYGVdSl+yQ0NM6QgS4NSzBmies6sGXPBwXbbJLXZTwIp6CnwphKX0GVHp8+AflIOmRehukcVsux70DRxPk8/UNs9lb+BYwKbXjVkuUw/n1hYHyLrop24AUA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787234079; c=relaxed/simple;
-	bh=EdlHy+FbipDz7p2bONSkEJpzLywLmtVwgsShP5wunkc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yt0y53ilq7gdLjFJP8gKp7Ww+LIhHZWUO1tOFHSomK83+0f1FhfNBU2Z9bupiFp0UKWx0b2/Dr+LkvRJJsrZw0m81a6XgBfAAf8Vf4fNSj0+Mxt0v6HTn2T2uMS1FSTvSPKiR2ULHRfZCMd4xZS6K3OSZh1zTHf2FZJ5aFvyzEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wBnEz0UB4dqvAauAA--.5984S3;
-	Thu, 20 Aug 2026 21:54:28 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app3 (Coremail) with SMTP id zS_KCgCXgncNB4dq4qKJBA--.53615S3;
-	Thu, 20 Aug 2026 21:54:28 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: linux-usb@vger.kernel.org
-Cc: bryan.odonoghue@linaro.org,
-	heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH v2 1/2] usb: typec: qcom-pmic-typec: disable cc_debounce_dwork on stop
-Date: Thu, 20 Aug 2026 13:53:06 +0000
-Message-Id: <20260820135307.153773-2-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260820135307.153773-1-fanwu01@zju.edu.cn>
-References: <20260819161950.77858-1-fanwu01@zju.edu.cn>
- <20260820135307.153773-1-fanwu01@zju.edu.cn>
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012060.outbound.protection.outlook.com [52.101.43.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C62F31E833;
+	Thu, 20 Aug 2026 13:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787234125; cv=fail; b=F2HDNaXC3q6t32yPWec2iYRdbIAOW6ZHGKRtIP+ppy5j20zt3eCTiXAMmu2xnZJaxgAUj8GMMqm/3t0ieS5WBETCw2vsDsEG7AMtW2SLdXPO7oklhCoNJ0kNYXFHuxmzzGOrNG4wI9Jla5GjskGjbZsYB+r0t3kVXDNfH1sMqGQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787234125; c=relaxed/simple;
+	bh=RcnpVmIBBelxzGxOf1h1a5aQiOICmJIb58JFMwmPK0Y=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=ladLaxD9KNEckWTg4jF2J40zo9tJ601rX9klEIuDp6KkyngoP6xy9oEpaVtoynOWDioXbaIRpJpo/nMvYWFgzNZW1PdhnAIlcATpNKQzy7EXmP15rz4KuA4d79LSSBIt2o+xYNnJeP5JPgZDAwqGeePxMIACWO+2XqyX7d8Zk3U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BQ9k/s5Y; arc=fail smtp.client-ip=52.101.43.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BQ9k/s5Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CaaYvG5XP/RYbQaukWnko8vjB6annPCbDCFVYE8sAS8e4dviP/aKKpeq5C9UaFJVvz+BIqYVPjAshP+IH5AXNeS3ktyksY5aVb58i8AjxSWDVnAVJCUbd5S+JEjtjFmnyW6OItBWwmguP+Y3keEKYT0oDFJALXekKsdKzyvUpT6tv1sSqLt3h73IuIoEaRaO22RUs8I/hJuGY3HSUrpL5Hgy2NB3dlCi+TzbrmajapbenvdtpmpDVOaet2zBaNCIroNZIghVAzu0ry58kBcH0bShKtuEdNqcn7DZtli0tXaqRTIK7F8YjJS+id/grAYh4FRJ8+mu41hlSpNTA96sXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MR0riYFoStxJ9ZDWdGWFDAfq9ysgw2/0WqpT2b8cRm0=;
+ b=klkPdjcU8tzZMNqaqSLprzChCdaRrXYONu3nYQeFj/N28My8Tl/sndlGY1IB1ApSBVL0dJxkWKWUlzndLsHZlwgSeNCvoyJYGTd4Kfx6JWRVj85ZbjE9oX2BjTXv1bYqcV9pMGMD5kuvZ+0vcndKJ7Fd8Z0t2O7YMIOe0l3K/RfD3pT8BsguQ39o06tv66TM3kebZ/YED88x2baEXaUpF7qL69bCk8MLSj0KRpEhL8RpwUrXYOu4fe4HdVg85BM+EUUPb/7I525KgUzJHtU1+46Ji/l5A8k6i7xMYdwgRaLLpyeexkwCvHJOc3PXiMw/ybSXDYWaM29AHtrhwuoaUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MR0riYFoStxJ9ZDWdGWFDAfq9ysgw2/0WqpT2b8cRm0=;
+ b=BQ9k/s5Y+Y1nS0jC1vncyi+yqDuiaGrgZZFejRRaNo8VcRwaalIsUl3cuP5pJ4MkmbSJlVln6pl+DIL1FVeTw33jVk2OS9zX+zORzEGetfIQJ1vNR8qiiSL/7z6Eb+iNVqq1ktzR8hznot7iZ2nVIzr3Y+FSp4ufRmWElt3j/mxL945qOcTIwYV19e1156EmkqgJolPi73vqxRMass/qfhuEtVSu9R2VVXD964xJyc0/vHc18ZQc7hGALr/jQPUjmHDJsFE5estd7/AA6gM3d456fewd9jdGDf7we2YRtxgrC8TmMu+0sMPlHDfpOEru2UuMswGfvf8kHwxe4IC6/Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by BY5PR12MB4049.namprd12.prod.outlook.com (2603:10b6:a03:201::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Thu, 20 Aug
+ 2026 13:55:20 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0339.008; Thu, 20 Aug 2026
+ 13:55:19 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Aug 2026 09:55:17 -0400
+Message-Id: <DKTTMAS94IMH.2C6ERY0ZIVWVZ@nvidia.com>
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Cc: <apopple@nvidia.com>, <byungchul@sk.com>, <david@kernel.org>,
+ <gourry@gourry.net>, <joshua.hahnjy@gmail.com>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <matthew.brost@intel.com>, <rakie.kim@sk.com>,
+ <syzkaller-bugs@googlegroups.com>, <ying.huang@linux.alibaba.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
+To: "Andrew Morton" <akpm@linux-foundation.org>, "syzbot"
+ <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>, "Alan Stern"
+ <stern@rowland.harvard.edu>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.22.0
+References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+ <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+In-Reply-To: <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+X-ClientProxiedBy: DM6PR03CA0076.namprd03.prod.outlook.com
+ (2603:10b6:5:333::9) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zS_KCgCXgncNB4dq4qKJBA--.53615S3
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?1xpyKQXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnZPoDCNGYdHSfuFmYJL54WNnH1O4G0enPJIj3LGmHDxOgkqcYy6hAI3JzeV6+CAacoqU
-	1X3/xAf4+zarVqYB1+2p9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoW7tw18CFWDtryxCr4kKFyUJwc_yoW8Xw1Dpa
-	s8KryDJrykWanFy3sIqF47ZF4UuanrA347G3y0g34ftF4qqw1UtrWUtr109Fy5CFsrJFya
-	vr4agFyaya4kWwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
-	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8aQ6JUUUUU==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|BY5PR12MB4049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fce1ceb-b7b2-4b2a-2f6f-08defec2abff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|1800799024|366016|376014|11063799006|10067099003|56012099006|4143699003|3023799007|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	9OOnFgs41SxyuJL8cGKFy6uXz1EewCBr1tKH4i7cGOM7jbLjg7D+4Ayak6o4Grfn3VxiifuaAPsDIV811Vy0W5bNZrNv0Tf5TIKY6r/t7ykXLkkeNncDt+Cdn065cc7bA9akEJFY/WtyUYbVYR3iuZMOYZYbokNxtKyIda+mQ4yvtLJZOU12AuWeFjHX/QChSaOBG0iyzbNsftDggFHInQqzuDkq19PkUAMh1ANfGDgRHZqAQTmqwmipKFy7e2lMaulqlIjAgzsGp/QRgBt0OLgF7xf/qacv3sV1HCCLcT22HDMTq81TXeFtaN8nEnibOjbQUtQ6CkO/P16YdwV3FLT8krpub6cyWWRKSrFfI8kaqCTelNdMsphVhJMrMfLZ6okYzCZd8y2bVguK7MHHU+VEjYLVJ/3QzvnviTkwEdDGHobw+XreJxvtHn0nYC6UavEu0UKB38mg7XTrUJ3VgLvVAfSw0pAnZjVO8xlJYFLLcpMwKxAYkp5JOiSKdAZT7Zc7uU76jW8DU5sYFFDGgAILj3h9d2VTzk157cc1owKACKyVX3Yb9a6j+sGCJqqSfAbjmJq0x1wj/xTiKmE9r/ZC3+4T1y3QLyQmaXFRNqKC5fLtGRQ7SRoS55TgMWTRKD/PGkOXChfznR5ULmOOektOjzIyuaa59BJHxgR8+QM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(366016)(376014)(11063799006)(10067099003)(56012099006)(4143699003)(3023799007)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RWdtemhzRGRUUytpUWorYk93U1dtL0o2d216cTVvV3ErOXhnYjdLa0VFNEp2?=
+ =?utf-8?B?a2JaV25sL2NsUWdRTDNuU1l4VUdFZS9aa1hiaUVrR21mZlRlaUNDZzdGWkNt?=
+ =?utf-8?B?bFM1bSswZFRhQTBweGdJSzlLc01FQVBKRzQ3WHY0NWt2WGgrQWtrL0NaSkJK?=
+ =?utf-8?B?cGFPT0l0Vi95MlJ6UFM4M2ZoRUl5cldzTnEyVHpkMGEwNmNQTDNZUUZ0aUVq?=
+ =?utf-8?B?L3RwQXdTMDM1M0lMOFdYWEt5UUNZeHk3UGFSZjBqR2R5diszYTFQanRsUmxS?=
+ =?utf-8?B?R1pMQUpodUc4elFyNDJCTjAwc3J4ejRwVmhpQTJLbW1sa0luZ05KT0l1ck9Z?=
+ =?utf-8?B?NExTK2RXb09LT0ZGUzF2YVNwdmZqeW00OC9kMnNpcFVIajNsVlF4Z0FnN1Z4?=
+ =?utf-8?B?K1lFYk5SS0dxWlYvOUoyR3VHcFN4dTJ6dEl4dXhtYUFqdGU2b0UvSmJoajlV?=
+ =?utf-8?B?Z2VsYnJRcWhxM3R5MzhER1M4VVo0KzlKQi8xS0JzN3dBeFI2dG9DZmlnZk93?=
+ =?utf-8?B?RkpTYW5ibDlHbFpFYk8rL0szU3ZFUTdPaXFWM2pEMzU3bmVLQ3FPanROc0tj?=
+ =?utf-8?B?TEJGTGR6NG0xM3FlY01NdUlWY0hxTVdhMjlHYzRtMUU1bVFLdjBhVDdab0l0?=
+ =?utf-8?B?bFhDc1p4bkhacU5aa0YwdldJQXBzSGx5YXVUR2plNU1nT3lkOGRSdERabXo1?=
+ =?utf-8?B?OWxFaHh1Z0pSendVK3B0M21WbVNhTVdydDF6VG1JS1BCdlFNTldxam4xTHNz?=
+ =?utf-8?B?STJEaHNRS2U1TkJaQnR0NFpRNHdONnZOUjIrUEhXanFWYXZmSnZQak1wKzky?=
+ =?utf-8?B?YmoyQnRIYVcyMWN6WWpOZjJZTlU0WDJmclJDcUVRY1M0MXVkSkdiRFk0V2dp?=
+ =?utf-8?B?Sy9TSDdnT0p1NE1jOWo5L05OdGxycG9pMGM1TXg5cHpNa053czRENTcxTUVE?=
+ =?utf-8?B?RjJZbExBbVpQSVdLL2lHYW4vYzY0L2ZEYm9HY1Z6cm9MKzQvMktWZG9uYlhP?=
+ =?utf-8?B?YWRHR3BWTXVlZlhPdE5ibzY3YlZqenBUQm9MUGlKaWJzNHJLYjFwQXJETXVu?=
+ =?utf-8?B?U1JCdXl0N1JqV0QrK3NYT1VlSEFRQmkrVTJHb3F2ZHlEbW1iUnV5N3MxQzAv?=
+ =?utf-8?B?blM2S1kwOVNnajlkVHhuckk5K2h4dis2WEdPcm9saGpKK09kV2VFOFJiekJF?=
+ =?utf-8?B?R1lrNXZXdjU0U3VOMVloVnZLRnZXOXlYNDB1ZUJ2YzJjNTFsTlQzVWVmcm11?=
+ =?utf-8?B?K3p6emJ2NmFKWmNJcUd3Zkc3NW0wYkJsQlBEcnZVcVlPRFVVemw4cDZ1bmhw?=
+ =?utf-8?B?UVh5N2c2UzZrdlMyNms3U01kL1JWQjRybk9rL0pLSUtHdXBDejFpQi81MGQv?=
+ =?utf-8?B?RlU5NW4xUjl3Y3ZsQmc1eUFKeFQrRUlWaFFLeWhWeStiSnVXcGlLYjRqMnZG?=
+ =?utf-8?B?VDdjQjRVWE81cFpONjU1Tm9aMWQ5Y1VoYWlIN0FnN1cvOHBqZ0dtdVN0aktZ?=
+ =?utf-8?B?M2p1VGZ6MFFtY2VKRXVoUy9EZTJRTHNxWTlVMklhVFNTaytxMWI3SUFTeFk5?=
+ =?utf-8?B?Z2hSbm9ZWUVxYWNIa1FqTHZXTW9RdFFsZXBEdzJkSThGYTc1MkhWWHJ2VU80?=
+ =?utf-8?B?dVArMGxCMWpIdTNnUFZZL1lKSlo2ZnhkWWxmdWU4Q1BJQXFVaHB5aTFGV05Z?=
+ =?utf-8?B?Y0NzYlBzb1l4UDBuSlpUQXBCYUpPTVBlS0VZNEZNVHF3US9YdTI1OEljYUNy?=
+ =?utf-8?B?VWdwNnhqMDlrU0J5YnFSKzE4dktYcDZFZyt0SlBiVXVnNnVjdnlLZnQvV2dF?=
+ =?utf-8?B?WHFOWEthdDNLMVJuQnd0eWJQWWhuMjVTdmMwSkFjY0FTVVE2ZFlEenZBV1o0?=
+ =?utf-8?B?ZEsvYnAzTDhVRFRwUkdXQVI2clMySGNqRldRK2w2clk1WjhxT2crM0thcnQ0?=
+ =?utf-8?B?MEpOUTVUN3JSRS9vUXg5Y01VRTRjWnl0V0RUcGlkMHU5b2pzN1JDaE9hVUQw?=
+ =?utf-8?B?U0VoOExXcUJJOGVoTG1XaUNOME9ZMEN4K2NoK2t3cVJaV01ZMWl1Uk5DczBw?=
+ =?utf-8?B?MlhodERqQXR3SWovSTFRMXVGZ0FsVXJqYWlDRVVFV3lsZm1Ya3JsMFhmOUx5?=
+ =?utf-8?B?Mjl2dHArOE9RT0F5S1ZERExqYk9xOHhkRUVLNmk3emFpWWl3WFFhOURnMFZ4?=
+ =?utf-8?B?cDVmYUxuK28rYkdZeDA2dHJBMHpsK3JXWGxDZzljR1RHdlpjemhhOVhrOHVw?=
+ =?utf-8?B?Zyt5RW41bVB4cjMvLzdCeFJCQ0tQQ3Axb0hGd1pkWjdvRmtJeDRoOVJWQlY2?=
+ =?utf-8?Q?Cw4jgzVkP+g4kQDAg0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fce1ceb-b7b2-4b2a-2f6f-08defec2abff
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 13:55:19.8122
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: owdXnw4b+pssDFuFIBrBlKx84jCXFJUqKWdhM8zUYqJgZhr17ATrVo1gwVoFdcB4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4049
 
-cc_debounce_dwork is queued from the set_cc() and start_toggling()
-callbacks, which run from TCPM's kthread worker.  port_stop() returns
-before tcpm_unregister_port() destroys that worker.  Flushing the worker
-during unregister may therefore run a callback which queues the delayed
-work after port_stop() has returned.
+On Sun Aug 16, 2026 at 4:52 PM EDT, Andrew Morton wrote:
+> On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e490427fa@sy=
+zkaller.appspotmail.com> wrote:
+>
+>> Hello,
+>>=20
+>> syzbot found the following issue on:
+>>=20
+>> HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.=
+or..
+>> git tree:       upstream
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=3D159274795800=
+00
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=3Da59830cba91a=
+1981
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=3D805630f1453e49=
+0427fa
+>> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e2=
+55-1~exp1~20260613092250.77), Debian LLD 22.1.8
+>>=20
+>> Unfortunately, I don't have any reproducer for this issue yet.
+>>=20
+>> Downloadable assets:
+>> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/=
+d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
+>> vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a/vmlin=
+ux-3d6d8176.xz
+>> kernel image: https://storage.googleapis.com/syzbot-assets/f6da706811f4/=
+bzImage-3d6d8176.xz
+>>=20
+>> IMPORTANT: if you fix the issue, please add the following tag to the com=
+mit:
+>> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+>>=20
+>> gadgetfs: bound to dummy_udc driver
+>> ------------[ cut here ]------------
+>> 1
+>> WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce/0x380=
+ mm/page_alloc.c:5280, CPU#0: syz.0.0/5319
+>
+> Thanks.  drivers/usb/gadget is the offender.
+>
+> Gemini sums it up well.  "ep_write_iter() needs a bounds check prior to
+> memory allocation".  https://share.gemini.google/5NzjyttO0ULc
+>
+> I expect an easy fix would be
+>
+> --- a/drivers/usb/gadget/legacy/inode.c~a
+> +++ a/drivers/usb/gadget/legacy/inode.c
+> @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct
+>  		return -EBADMSG;
+>  	}
+> =20
+> -	buf =3D kmalloc(len, GFP_KERNEL);
+> +	buf =3D kmalloc(len, GFP_KERNEL|__GFP_NOWARN);
+>  	if (unlikely(!buf)) {
+>  		mutex_unlock(&epdata->lock);
+>  		return -ENOMEM;
+>
+> or do what Gemini said.  Me, I'll add some cc's and run away.
 
-The delayed work can then run after devres has freed pmic_typec_port.
+Let=E2=80=99s do this instead of suppressing kmalloc WARNs. Since a similar=
+ WARN[1]
+showed up yesterday and that WARN is better handled by a bound check,
+I do not think we want to lose the WARN from kmalloc/the page allocator.
 
-Use disable_delayed_work_sync() in port_stop() to cancel a pending
-instance and prevent the TCPM callbacks from queueing another one.
+[1] https://lore.kernel.org/all/6a863306.ae6ddae5.3da009.0013.GAE@google.co=
+m/
 
-This issue was found by an in-house static analysis tool.
+Like the patch below:
 
-Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
-Cc: stable@vger.kernel.org # v6.10+
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+From 732ea7074854ac3495bbceb274cdd01966118e57 Mon Sep 17 00:00:00 2001
+From: Zi Yan <ziy@nvidia.com>
+Date: Thu, 20 Aug 2026 09:19:12 -0400
+Subject: [PATCH] USB: gadgetfs: do not WARN about excessively large memory
+ allocations
+
+GadgetFS passes an excessively large user input len to kmalloc and kmalloc
+gives a WARN (see below for details). Suppress it by passing __GFP_NOWARN
+to kmalloc used by both ep_write_iter() and ep_read_iter(). Follow the same
+method as commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively
+large memory allocations").
+
+kmalloc is used to allocate physically contiguous memory for kernel
+allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
+the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
+sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
+because kmalloc allocates an order greater than MAX_PAGE_ORDER.
+
+Fixes: b3c466ce5129 ("page allocator: do not sanity check order in the fast=
+ path")
+Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@googl=
+e.com/
+Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+Signed-off-by: Zi Yan <ziy@nvidia.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/gadget/legacy/inode.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-index 429bd42a0..fdc379fc4 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-@@ -694,6 +694,8 @@ static void qcom_pmic_typec_port_stop(struct pmic_typec *tcpm)
- 
- 	for (i = 0; i < pmic_typec_port->nr_irqs; i++)
- 		disable_irq(pmic_typec_port->irq_data[i].irq);
-+
-+	disable_delayed_work_sync(&pmic_typec_port->cc_debounce_dwork);
- }
- 
- int qcom_pmic_typec_port_probe(struct platform_device *pdev,
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/=
+inode.c
+index d87a8ab515107..278a0a2b39f4c 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -604,7 +604,7 @@ ep_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 		return -EBADMSG;
+ 	}
+=20
+-	buf =3D kmalloc(len, GFP_KERNEL);
++	buf =3D kmalloc(len, GFP_KERNEL | __GFP_NOWARN);
+ 	if (unlikely(!buf)) {
+ 		mutex_unlock(&epdata->lock);
+ 		return -ENOMEM;
+@@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct iov_iter *from=
+)
+ 		return -EBADMSG;
+ 	}
+=20
+-	buf =3D kmalloc(len, GFP_KERNEL);
++	buf =3D kmalloc(len, GFP_KERNEL | __GFP_NOWARN);
+ 	if (unlikely(!buf)) {
+ 		mutex_unlock(&epdata->lock);
+ 		return -ENOMEM;
+--=20
+2.53.0
+
+
+
+
+
+
+--=20
+Best Regards,
+Yan, Zi
 
