@@ -1,76 +1,163 @@
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+Received: from mail-oi2-f2.google.com (mail-oi2-f2.google.com [74.125.231.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4D24570C4
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 13:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB35470EAE
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 13:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787232604; cv=none; b=m1GW+eQd3VlikKewhrJ+LKQDYBHr9JQODPXCfYkqVx0rrAj+JTEJwY02gVpr49Uof7i60dd4DLQSlxcs8Edla90yfi3BIB+gxTgiXn4w9QnnWMEFI1piYq6P5TQS4D8apLFOanQFqKFKFLuLsMVY27vYc8xRnQqdqkM5SJX+VNQ=
+	t=1787233176; cv=none; b=JLZUgoVA8wCQmqss3s6wWa1LzWf5rlWKk1gCAj87Bg00ofP6KKV7D/pfrElrgELUupo8SB6jtaDQiwicVgCcRsd2Yvn2zU7ncglSNTVC/Rmkxe9JmrF0UA8Zqv3T8V4Xe9SxiDdPr68HoRGoELdLyRJneKDjbAgXr/laudfe75Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787232604; c=relaxed/simple;
-	bh=SKVgvqvuhm9IBWVinOe8HBmNSlYLuOSG+xFVlNe0444=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=dfOiUJ6JR6f1O85p9yrKipWb4tvJsuDDGOsZKJReFpl53VDye2Pt9bvvzemjONrN+4ukEKIs0H88zEov63UDWPZln6Dz3+4EnAL1bnbLOYQEDOMfr3/j7JDJNbkcdxvsm9SiuapKIyotem3Q1LkQAHMnI5DC3FbWLOaiFJhL6UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.72
+	s=arc-20240116; t=1787233176; c=relaxed/simple;
+	bh=TBCNXPP+6Ns8ThpweKL/Isd2spcys7/SdZej0P3TypY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=uIzBUZ4obEtJwlB47m2clS5m+ykROhBlOYQH/hIjJwYy5UPryWmL6U/D2i7GYRqySch4dRp3OVGTKi1UUV1k/qouIFKPiQlvQ/oXIHnviZHl6DR6atJahknXhxSRRDhEqqtaECC+/T/1nenvCUjkfNfkNWlR1lPaRzXagsmntX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7eb641eaf5eso2676840a34.1
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 06:30:03 -0700 (PDT)
+Received: by mail-oi2-f2.google.com with SMTP id 46e09a7af769-7edcd5f9e55so290575a34.1
+        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 06:39:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787232602; x=1787837402;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Zuse5bKsrwNJaMXcn2vwRNpL06e4Ab7iDiF20cDAlPk=;
-        b=mmYEeq08IYbe1bP5NXZzGN1eNGsdCJQD7L9bsWcMKc+Mvt/XGOWObOElpL8x+3j+oq
-         Vw4Iy365LwddcGBFqpRGJYOmaNvtKS/k3ZAWT97QURXzi7DZbMbS30mCKJfpXFKfgZ1s
-         BGItFJzT7SpQeyfddjwfntQOzCxbKH7BOcu5ad/Eg7BEMGugO24lWIonwpfswZx63pBo
-         JOzNtnNakFZ/u59xqSYia1jes1CXvkfZV/qqpYnhkEQQdxjICZ8bDEWfuO75xW3BosHU
-         p7ZQGVGhEN4wjUjMRLzwPCH6ZZzIiNgMegrHafev4vDuac85MkjVL5yxnbOgoOOJv1lU
-         Hz9w==
-X-Forwarded-Encrypted: i=1; AHgh+Rp53FVUwVG4HbTRNt5U0RO/KsE8Qth83rmkmYU6UJXFvta8L9Hw9wlFE0Ud4SiKyci8xtujfEVSJzo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXVaFif2a57hm52ovHMGwIk1fw5uqUsw0l1spDxLemxJhHuQFh
-	32Znyzvs04y/OL3k3MbHZ2PwuvFQ7xEzRAtXb4TClZtsFhEOKi4xXC+LG6YQQfWibWw3fZj2Lm2
-	rPesELkNsg5OlvX+qtIdQO3gKmjs9cb2dkJAVPbYocSonLdq3yuzkyZyDQQI=
+        d=1e100.net; s=20251104; t=1787233174; x=1787837974;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c6LkNuunz6xWwpy6Vq1vH+cXiP/yQYPzdHegzr2L3/g=;
+        b=i9bpm+Wrjw9REHaz+yk0nUtapsEoEVsAGk14dVVAto3/242d4Wd+Pu3YtB/KRe4G80
+         2ZWx+HRCqGudbOnAyGm3IRuysTS2x2dHLtvpMiw9ZeoQFm26tURNpDiBzPt3qxSS02Il
+         S+Sf88hPEiS5nwaLPsLrXzW1n9/hz29fcXgW9SBVvuWAf7h8Gpbx12HxK1Uaks026YLS
+         ce5HJQCf8Cnbq2/F0wHD0y5mOl8bZ++xnfT86sr+DFF981/KuOsewkwaRGBnPRgCFRUv
+         P6veZkazNLi7i0xGdOGq7dM6Osw2mq397nWaHB2JEdY+Ix9UpjsC+S5vyolV1rcTJqza
+         H4tA==
+X-Forwarded-Encrypted: i=1; AHgh+RrUA7RNKTD+j2fF74C/hTvLxzQhq8uhJJMos3dea4qxFiCIEbaTMaiZ0yi+ZFlbRtXiiElSRiWUPJA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+i33F+zcfPOo8y8CwtBuWZz1Mm7iVMh4hPYKWgJ7KCu4UUhT0
+	1uZQwViUJ9lKqgC1/pZHk9YrENThZK5bAm1VhE1jhLL7PiUGGgpWkMzZECN5cOKeTpKIRNjPbqj
+	nn5HNy6Cm/ekngx2hnpGOa3jVfRLVS9j7LW9W0OTzg0P01frZHY1Zcifb1pU=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1c9c:b0:6ac:b6c0:2c09 with SMTP id
- 006d021491bc7-6b13c2fd483mr11301174eaf.1.1787232602265; Thu, 20 Aug 2026
- 06:30:02 -0700 (PDT)
-Date: Thu, 20 Aug 2026 06:30:02 -0700
-In-Reply-To: <DKTSRH54U1QQ.994L7IJ2TT3I@nvidia.com>
+X-Received: by 2002:a05:6820:1988:b0:6a1:80a7:2c8d with SMTP id
+ 006d021491bc7-6b13c611146mr12149628eaf.32.1787233173881; Thu, 20 Aug 2026
+ 06:39:33 -0700 (PDT)
+Date: Thu, 20 Aug 2026 06:39:33 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a87015a.4d75e56a.c9a88.003f.GAE@google.com>
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-From: syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, apopple@nvidia.com, byungchul@sk.com, 
-	david@kernel.org, gourry@gourry.net, gregkh@linuxfoundation.org, 
-	joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-usb@vger.kernel.org, matthew.brost@intel.com, rakie.kim@sk.com, 
-	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com, 
-	ying.huang@linux.alibaba.com, ziy@nvidia.com
+Message-ID: <6a870395.ae6ddae5.3da009.001b.GAE@google.com>
+Subject: [syzbot] [dri?] [usb?] WARNING in drm_plane_create_rotation_property
+From: syzbot <syzbot+efe2810681f1b065d3a8@syzkaller.appspotmail.com>
+To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, rubenru09@aol.com, 
+	simona@ffwll.ch, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+syzbot found the following issue on:
 
-Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-
-Tested on:
-
-commit:         a4ff2be3 Merge tag 'v7.3-p1' of git://git.kernel.org/p..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=176bd679580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=29686c02180e4e86
-dashboard link: https://syzkaller.appspot.com/bug?extid=805630f1453e490427fa
+HEAD commit:    bdab5605259b usb: gadget: uvc: fix dangling pointers in uv..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=11595a79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
+dashboard link: https://syzkaller.appspot.com/bug?extid=efe2810681f1b065d3a8
 compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1455f815580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1278c679580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12496a25580000
 
-Note: testing is done by a robot and is best-effort only.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/2cb2fdbdd7b7/disk-bdab5605.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f801d31c2001/vmlinux-bdab5605.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9002a6e0ae14/bzImage-bdab5605.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+efe2810681f1b065d3a8@syzkaller.appspotmail.com
+
+usb 4-1: config 1 interface 0 altsetting 0 bulk endpoint 0x1 has invalid maxpacket 0
+usb 4-1: config 1 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 2
+usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+------------[ cut here ]------------
+rotation & ~supported_rotations
+WARNING: drivers/gpu/drm/drm_blend.c:309 at drm_plane_create_rotation_property+0x1aa/0x1f0 drivers/gpu/drm/drm_blend.c:309, CPU#1: kworker/1:1/28
+Modules linked in:
+CPU: 1 UID: 0 PID: 28 Comm: kworker/1:1 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:drm_plane_create_rotation_property+0x1aa/0x1f0 drivers/gpu/drm/drm_blend.c:309
+Code: 5d 41 5e c3 cc cc cc cc e8 93 16 74 fe 90 0f 0b 90 e9 a1 fe ff ff e8 85 16 74 fe 90 0f 0b 90 e9 ba fe ff ff e8 77 16 74 fe 90 <0f> 0b 90 e9 cd fe ff ff e8 49 85 dc fe eb 87 bb f4 ff ff ff eb b0
+RSP: 0018:ffffc900001e6eb0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888118438d60 RCX: ffffffff833ffcd6
+RDX: ffff8881026f1e00 RSI: ffffffff833ffe09 RDI: ffff8881026f1e00
+RBP: 0000000000000034 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000001 R14: 0000000000000000 R15: ffff888118438000
+FS:  0000000000000000(0000) GS:ffff888268733000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fba2f8fd2d8 CR3: 0000000117c22000 CR4: 00000000003506f0
+Call Trace:
+ <TASK>
+ gud_plane_add_properties drivers/gpu/drm/gud/gud_drv.c:292 [inline]
+ gud_probe+0x11a5/0x1c20 drivers/gpu/drm/gud/gud_drv.c:622
+ usb_probe_interface+0x386/0x9b0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2708
+ usb_new_device drivers/usb/core/hub.c:5833 [inline]
+ hub_port_connect drivers/usb/core/hub.c:5580 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
+ port_event drivers/usb/core/hub.c:5884 [inline]
+ hub_event.cold+0x51a/0xe9d drivers/usb/core/hub.c:5966
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
