@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C60838D40B;
-	Thu, 20 Aug 2026 06:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3052E8B67;
+	Thu, 20 Aug 2026 06:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787207324; cv=none; b=XJEwXC+1RuMU7bADARfq8RhG4EseyXcp7BoNs1PfyWH50guiErsQ2Q2k7OBwQdw4VfZGYbuaxiofr2AMrwmMu7y7e/sFhNmKn3wE6XrPJvnc/ZyKEbjP09gmD9nYMjlzzx4Opg5EWQdu75xg7u5JZtjtjp0Q2ttLNQP0s4CNAb8=
+	t=1787207484; cv=none; b=BRT1/a2zi8zow4f+UugPDQQ31YGDB9Ki82iLMA8KdTSfoRmiIwYB0nmxrKOheSj8Q56mE+KI0Mjuk2AEHZN1LNwaAii+ye1nsVov/98XaaKo8JUckpTgiWSuibdgfkOkWrliifRWYhgVlKQMcRfI0+F/A2gPQGLXSWLdLxLED5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787207324; c=relaxed/simple;
-	bh=J1AKMCBE3bPIPaNggPzo1OJ/xteef9PUl4v19wG9cAw=;
+	s=arc-20240116; t=1787207484; c=relaxed/simple;
+	bh=0rXnyV3lx30HYQ2HYQzIiv7xqXfy33xqwiRmVdB3n+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rOjy8tEcNr4kNE9eR+PfcPR2LB22CJjnB23hwP5gerIRYy02ViaONuoucPz4io2rf/GVtyin6CQTaCwTeBVNS5uDXQw/4vz6Bm7Iy4QwNtnEt9bTw4P2XzeRPMG/2DCqpEjJINhBkhltWR2PpFttMf06QPy48iou4kvg4WKz1fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/xXRtJP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VTNiiR6Ik/ZRgCZUTBB8yujKgxuDAqatjF1lK56Li1uMCT6Dt+HzUJe6k2/MiIEB+MNFDjvDKO3RQX7dXKoJ8rg9prjSwUV6xRioaVhJQuTbaHzo6sXLl+PiirSmfok/RgafjxsIyunA6ypI24uQGy8ivFjCaSB+xiYWCKs2cso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaY2PjZZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/xXRtJP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50EC01F000E9;
-	Thu, 20 Aug 2026 06:28:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaY2PjZZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F94A1F000E9;
+	Thu, 20 Aug 2026 06:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787207323;
-	bh=vlmGlFNqeaPwl+5piuF9Oww2cxWSjILVLUIq05ajKx8=;
+	s=k20260515; t=1787207483;
+	bh=900O3VEyybH1aCttG4gYFZ6ZQef1hSFgt0IBxSvtlbc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y/xXRtJPdu+wNOhk2rzvGUPK0kAKkpbyZJJQQP9+bQSM+6126S3dkhDTQJAgRABoC
-	 jg0GjJSsTuxAw+AfW3Q30OIu77nAaz6HblQS9iRTbDpFJkHataH95fj0hqAILXBdKB
-	 T/o8Y2a9n1foi842cogUUwUMZfabd6f50AQsxpRtsTtS/jZTfbiM6R6BmZgrC+xBC3
-	 kxLtitc7foU50DulIUpAdeCeddIw39V9+8u7u990YN6aYOzVTcsONnb36Ml0S96a7C
-	 8HSOsZCYTGRg4/bbO7RXax715Td8F3d6OtPXQVSFNvnBV+bsPV5DQNGyVVmGrJll1K
-	 puoLWTVMeqMYw==
-Date: Thu, 20 Aug 2026 08:28:38 +0200
+	b=XaY2PjZZh9/4Puww5cBXgf2vNZyzChaDGitUPW55YoiVWeG43wWZkATUbXMPiGFh1
+	 AvKoNnMJ5r/dAT7KfQHOKhXcZ2ur8f/+pDxD011cXKdoLb+R689Ss3xEu9ahJqUSxV
+	 5iimGhDvbUXtH0yz/xsFOON5tDgk4T7a1on+AHdh076JgIOLaRkVUK6NzMvUHkVJNw
+	 mnA+vstJwbWo2BfLTMrTWIi7rBvM6++bGCBH02a8X8mE7kQF28HqiDEfWZplpFq5OH
+	 i4rfpo9m42tmpqA1W/qFkXgJ07mEL2kFt8Fo14Cwsq1mHzIdVcd/Y9P/TJ37pTNHes
+	 MRfYRvVQef6yg==
+Date: Thu, 20 Aug 2026 08:31:18 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -37,11 +37,11 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
 	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH 02/10] dt-bindings: phy: qcom,ipq806x-usb-phy-hs:
- document the MSM8974 HS PHY
-Message-ID: <20260820-chirpy-hoatzin-of-education-2c9108@quoll>
+Subject: Re: [PATCH 03/10] dt-bindings: phy: qcom,ipq806x-usb-phy-ss: add
+ MSM8974 SS PHY
+Message-ID: <20260820-copperhead-of-pleasurable-wind-3db2a8@quoll>
 References: <20260810-msm8974-usb3-v1-0-1a47e1185524@oss.qualcomm.com>
- <20260810-msm8974-usb3-v1-2-1a47e1185524@oss.qualcomm.com>
+ <20260810-msm8974-usb3-v1-3-1a47e1185524@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,21 +50,20 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260810-msm8974-usb3-v1-2-1a47e1185524@oss.qualcomm.com>
+In-Reply-To: <20260810-msm8974-usb3-v1-3-1a47e1185524@oss.qualcomm.com>
 
-On Mon, Aug 10, 2026 at 02:42:32PM +0300, Dmitry Baryshkov wrote:
-> The MSM8974 DWC3 wrapper contains the same generation of Synopsys 28nm
-> HS PHY as IPQ806x, controlled through the QSCRATCH registers, but the
-> binding only covers IPQ806x, leaving the MSM8974 controller to run on
-> bootloader-configured PHY state.
-> 
-> Add the qcom,msm8974-usb-phy-hs compatible.
+On Mon, Aug 10, 2026 at 02:42:33PM +0300, Dmitry Baryshkov wrote:
+> The MSM8974 DWC3 wrapper contains the same QSCRATCH-controlled
+> SuperSpeed PHY as IPQ806x (SS_PHY_CTRL at qscratch + 0x30 with an
+> identical bit layout, CR protocol port for the lane registers). The
+> SoC-specific params differ from those specified for IPQ806x, so add new
+> compatible for the PHY on MSM8974.
 > 
 > Assisted-by: Claude:claude-fable-5
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
