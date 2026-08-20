@@ -1,111 +1,146 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B9340E8FA
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 10:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79A0411691
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 10:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787221106; cv=none; b=kgI4a2KYp+bZwfjpREpa7Ga3WbPAeeUzrfgT0lcG7Fuso+oNwxrgSvfFtKvKoxlWHO+177sP9/fpudn/b+5nKs4AcsWPIsTD+3pOESz/7ZvSCs/l/gjhZaYKUvRjHiNLikB9awRM6Bjk7QWsnbdDwm4+vR5IoBTU/t9PLJrzUA8=
+	t=1787221121; cv=none; b=NCmLgQfnJbA3XNAw/2QogNSIlcLZA8uDZ/xueaXqnkNQ7MtBecGQTtXBu0ZIopBiNzcTnVYB+RUzyo19k34HNHODqc/NaQXkbNEJEItyjb1OWEZBWdRbn8kudKCqjLJMFXorBGnlmfLvp8zey1AS1m2Tf//fEjalR1twDoCKDs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787221106; c=relaxed/simple;
-	bh=8MasO+dXRse9oNs8G6DKM2d+FNiyDBA15XhW4S0ONo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uOYV4p8leolrTDqpEAW0w/oDmE07TwB74azf4Y6sPmREltt5nFoqwYk1FlGd1z9OWp2KLxFxxY/dtnx9MNc1/vwo9Dn8VXfvMGw7PrmOppTL32FWYA9JzGm6HhgQvUPuGcV0h46iKZiJSG7MIeJfvYuToWzqpSKT95oxVsk5sQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sWZSoTg2; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787221121; c=relaxed/simple;
+	bh=oU8Q8cxZ9N9b+kZmjkv7HR2+ZdQQqp1Cz2rEVM7YSDc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u54Z1rcQsuB/2nPjYYUL8fq9VMXz55JYBn4fkc0+2s2F7fiKP7G6muLCK6L15ucTJyDK1S4SnL/1JmNoDioLEpWY+ICniTIqixikknt1YxLsmVhYBGiXQ1rURKEDS04PG2lFWj8tFgRiJcIKvr8X0hTA+JLXUJ/cJoULEdJ5MEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dj2HhQg0; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sWZSoTg2"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-383cb94f742so2228477a91.3
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 03:18:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dj2HhQg0"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-481412f1828so811565f8f.1
+        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 03:18:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787221100; x=1787825900; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8MasO+dXRse9oNs8G6DKM2d+FNiyDBA15XhW4S0ONo8=;
-        b=sWZSoTg2s+VBTR52EKuq8Tbyybd+SK8273NDcb7IGm0bbNbS9qoCd9HjgmauqeEBYC
-         Uclvcx9GylpMI4Hq2oh9nphRNdc4In646qItfdS2gHAKQxd77/TVTTW0mp7ecazD0bfX
-         wn0GpMIbJmcL+JZ+9+CdjQXslKrcOaVVwOQMGRtnpFqPcy6Uc5VrCw8MpmUpJJ+WyUlj
-         +UKZr/BVfo+9IOpRUOIvbYB8VB7FyThdPtMAE807JRt6oTI1WWkI3WYiRYjnqs7OWibg
-         01Qo5RIVIJawtotBqPc5lPo8xDT/sJnUWDlvJqO5H1Fl5xxMru1TiG1ZFCr9SQDdqFl/
-         YsZA==
+        d=linaro.org; s=google; t=1787221113; x=1787825913; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jTRsDr3KJBScAQEjpdGgc1pnZRQT2r5s5VcOgpe4HIo=;
+        b=dj2HhQg0Ugn/oZ0IO4A7m3B6+q3WUTqn2iVFeGDy5o6HM8tawbZ9BKIpZq/K4ex8md
+         TGy0Uzt0rb/KterUNN61Hm6014ZcCJyNlSILbBOWyBHSPMDD6ER2tD3JIDtU4Wjpb1O9
+         zjkDikGeYfdZkuu2et8GdGPVJkW+nWJFQeWooYsSPaxocu1Wn5q23AUvVg1xIyu/32Bl
+         qlXh/bt4jOBKr+T0DuE5QwofJrrfDTdEko9r62+dqmIfrDmvwZ/2VLoS2EqAr95prRNW
+         CqB+JPUP3exlldqo3zfz60Un18pxjw79qCL8OSvmSLgPjsQrOWa/HUlISosLYRlH95H/
+         u+OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787221100; x=1787825900;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8MasO+dXRse9oNs8G6DKM2d+FNiyDBA15XhW4S0ONo8=;
-        b=Fbhgv6i8BxsWBaRiEmq1KZP3aY/sMlzC/cZolKzoY6D0bmBAde0/kmyO7fgGPHK7bY
-         oE1WLmzZO5wNLrEY71tOZ5CefGfCDKIoYihaCmcXE6yJCl22m88PR0n/zLNuW2TKsF6e
-         HSnqDwwjuIsM138c04DZ3gjSUjuSc5RdItg0X4dHEewNOtOyGqop5VuYWnhyy8wsAvr4
-         RAM4YhCvyohs+n7bJTi9M5bPoVukPDQ+LRK3Eke4BTKBLojc5Ycr5c/i26clWI1Kq0/g
-         V5pHo9b5w72N2FDG60ykDuCEXtnSogc5REYXcG/9KAeNYxukP+dc9Rya+oh26zqit1kE
-         jwxA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr3CMVVcdXhtZpGpEthGGrfw3pXRfuKi4UPdPPPYNvyNK9Pa9wGpmOnUhFSkMNL3HYOBNdFJuLLS90=@vger.kernel.org
-X-Gm-Message-State: AFuF++mz5i6GEniPCTzL195hut8Er0Ez/9jjR96sudpV+5TOmCm7XMoc
-	vYJImxvxE9NkTngVWjBHynVfxMGedEoaqhdMGIFXVtLu9vvZeCGg7YDZ
-X-Gm-Gg: AR+sD101msdaaP8IMJCAB7o7aLchM9YwhcQTa/c5zom6ThsVnaqWUka0XrryQb2RUhg
-	ho7olAmk/ZxZMLztr3zfczH57E9PLIcbFlJiRpmszEuauIHrPhW8AYkoPJ5Cp9N5TjjZ2a4yFrT
-	0N4bG4/YV1RpWxGTtu5hNCDqs9heX5bpzTdTybgjoju5INRXr30MmPjAUVg01zYQ56F5oz29n9W
-	iDNJf9fRpvddulVVyf8CE5qT/7iMa8K6rsNE5h2QdebMpsGQk5fnJrAA199ikZqdI+WsmTFGE3f
-	78QZMX3ZsEjGclDe21n7dvabmYeG6lKR+SPgo34ZEOjo4q6oo9SseJQF1EsGJQ8i4uqO3FyU5be
-	CW6TPfGTvN6lDnDgcgAlCWLL8SwJkaE9XsVhCa8CzeqPpjmnaAiDMvzGSQ5UYUG7bzWfw8iFZJD
-	vKagxHAZUqOcMuhvoljzdBrxHEel9qwS7boBVfUO7OuDHD+ZWqzZ5nJQou+BDyIsRrwA7Y5/k=
-X-Received: by 2002:a17:90b:4a4b:b0:37c:607b:2cd9 with SMTP id 98e67ed59e1d1-3958054b82bmr19417140a91.0.1787221100254;
-        Thu, 20 Aug 2026 03:18:20 -0700 (PDT)
-Received: from Default ([2409:40f4:1024:6824:6cd5:fefe:4ae2:d94b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327c3fc6675sm22408447eec.13.2026.08.20.03.18.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 03:18:19 -0700 (PDT)
-From: Jeffin Philip <jeffinphilip14@gmail.com>
-To: jeffinphilip14@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	i@zenithal.me,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	shuah@kernel.org,
-	stable@vger.kernel.org,
-	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
-	valentina.manea.m@gmail.com
-Subject: [PATCH v3 0/2] usbip: usbip_host: remove legacy rebind_store in favor of drivers_probe
-Date: Thu, 20 Aug 2026 15:48:00 +0530
-Message-ID: <20260820101800.14650-1-jeffinphilip14@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260811160541.29461-1-jeffinphilip14@gmail.com>
-References: <20260811160541.29461-1-jeffinphilip14@gmail.com>
+        d=1e100.net; s=20251104; t=1787221113; x=1787825913;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jTRsDr3KJBScAQEjpdGgc1pnZRQT2r5s5VcOgpe4HIo=;
+        b=RnsTf0ygUbAjIM7/lE9cQQfFGHDcmhDZ+rQLxsLMg9o+oKLWkQ1TxpVeVDisAt+PJA
+         iwmpgTByKtGi0yJzb0yXGGb/JAC5GLgep3Qcp++cmdyX0JQ8Jbeu2GLN2I6kyhXZZLGN
+         sHZIJdiRETRYDdb7orGHiMReZyVcwxXDubCJ5lWr1lNW+IdnlGgrwa/tgGVdCmWbFvN7
+         5MFe+yr97kzlUs/PjEQhyvl5ez0+s0regCTGFqkZx+hdj9rQHjr8krPL6fgCZYr9uJPT
+         LToY3dGNX4wF++kpWa4CgzkgP9qAnjJ7ePAmWLPdDnsQ1Fo3WkkF3Lm3zRv9eKIVB5KY
+         +4Cw==
+X-Forwarded-Encrypted: i=1; AHgh+RorwZ/KxsLtGSPTOQzlI2AX3Y06r+qmW+dGLDzjBwrSpKiPUV8tsRu4fjTYTiK4q195yGg+3KPdtfI=@vger.kernel.org
+X-Gm-Message-State: AFuF++k0zwxIRd7hXunwOifCPY/ecY2os9UFa8CmVkeGAm+MGn7AUKhB
+	X5hkTlKjmxGwzTLdnXP66JFj+2gIhbLfk9vsym5g7IBRDwHn+5WIjdwns9SvjglPT0s=
+X-Gm-Gg: AR+sD11Uq0SGkZodVF6Zi7U+FuU/L+d9NwrnBkCZCFX/ZXe2WzrlrtyRo2Qs7vBJicu
+	s8lnULYlVbup73/qxgEejo6sXljt5LjjTL+T7SBtVxeVCyH1IUOCw+djlcbzn36aR9zHMGEX8Uz
+	EYetwje//hZuCUTPRJugDV2J+Logwj5JDSJxMfVztsho291sDukkys69OBHbn9+nwTEV36dtTok
+	yNsiwKUFyE1krqhYZYYQsr0DDxo1Z+ZIFabY6krFm9J0C/VGMlp6vZ0/eMauIQMYU15BUFn2nvZ
+	MX5fzkewF6IgKAnl/lx80VH7G6Ql+rPpXxPrGH1MxwXJ/K6K3Xo4zm2CADdNuGcAb1C+iGFo4nu
+	oB0toFUblVX4p6HuZM4Ssv5qdoRAC+cO6IKU2wq7ZUKWHBrntLkkhhyCNB5QFJQPyOsLoYFL6TI
+	u0WZhu4tWNvzlLgGD83pCWG5yvXjz1WkoJdjUpF/fHISSnBFYdnwXybmOza/w6+vMctmJem38j
+X-Received: by 2002:a05:6000:4918:b0:47f:8b9e:f44e with SMTP id ffacd0b85a97d-482b1fd48e7mr24038240f8f.12.1787221113240;
+        Thu, 20 Aug 2026 03:18:33 -0700 (PDT)
+Received: from [192.168.0.163] ([109.76.167.53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14c33b3sm10947026f8f.27.2026.08.20.03.18.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2026 03:18:32 -0700 (PDT)
+Message-ID: <3662ce56-7471-491f-b2db-7a87a4379099@linaro.org>
+Date: Thu, 20 Aug 2026 11:18:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: qcom-pmic-typec: disable cc_debounce_dwork on
+ stop
+To: Fan Wu <fanwu01@zju.edu.cn>, linux-usb@vger.kernel.org
+Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260819161950.77858-1-fanwu01@zju.edu.cn>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-GB
+In-Reply-To: <20260819161950.77858-1-fanwu01@zju.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 11 Aug 2026 21:35:39 +0530, Jeffin Philip wrote:
->do_rebind, which sleeps normally gets a mutex lock. However, it does not
->or should I say, cannot check for null udev between spin lock dropped in
->rebind_store and entering do_rebind. This is a potential race window
->already. So, even if we check for null udev under spinlock, we cannot do
->it outside. Regarding do_rebind, it is called during stub_device_rebind,
->but that function is called during module exit when all files are removed.
->So, do_rebind is not designed to work in a concurrent environment in the
->first place.
->
->We have a safer function that can already do what do_rebind does,
->drivers_probe. So, we use drivers_probe to rebind the device rather than
->use rebind_store.
->
->usbip tool references this function immediately after the device is unbound,
->which is safe for the tool itself but since we opted for drivers_probe, fix
->it by using drivers_probe rather than rebind_store after unbinding device
->which is more safer.
->
->Tested and working in both userspace via the tool and manually echoing
->the busid in the related nodes. rebind node is still left active with a
->warning to use drivers_probe upon encountering rebind_store.
+On 19/08/2026 17:19, Fan Wu wrote:
+> cc_debounce_dwork lives on the system workqueue but is armed from
+> tcpm callbacks (set_cc/start_toggling).  Those callbacks run on tcpm's
+> kthread worker which is only destroyed by tcpm_unregister_port(), after
+> port_stop() has already returned, opening a potential race window where
+> tcpm's worker flush re-arms the work.
+> 
+> Use disable_delayed_work_sync() in port_stop() to cancel any pending
+> instance and prevent future schedule_delayed_work() calls from
+> succeeding.  Also unwind a failed port_start() through port_stop(),
+> which otherwise jumps straight to tcpm_unregister_port() and leaves
+> the same window open after a failed probe.
 
-Friendly ping. Let me know if you want me to change anything.
+I'd prefer to see two patches broken at the "also" in the above statement.
 
-Thanks,
-Jeffin.
+> 
+> This issue was found by an in-house static analysis tool.
+> 
+> Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
+> Cc: stable@vger.kernel.org # v6.10+
+> Assisted-by: Codex:gpt-5.6
+> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+> ---
+>   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c      | 3 +--
+>   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 2 ++
+>   2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> index 35320f89d..f42c9e65f 100644
+> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> @@ -101,7 +101,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+>   
+>   	ret = tcpm->port_start(tcpm, tcpm->tcpm_port);
+>   	if (ret)
+> -		goto port_unregister;
+> +		goto port_stop;
+>   
+>   	ret = tcpm->pdphy_start(tcpm, tcpm->tcpm_port);
+>   	if (ret)
+> @@ -117,7 +117,6 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+>   	tcpm->pdphy_stop(tcpm);
+>   port_stop:
+>   	tcpm->port_stop(tcpm);
+> -port_unregister:
+>   	tcpm_unregister_port(tcpm->tcpm_port);
+>   fwnode_remove:
+>   	fwnode_handle_put(tcpm->tcpc.fwnode);
+> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> index 429bd42a0..fdc379fc4 100644
+> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> @@ -694,6 +694,8 @@ static void qcom_pmic_typec_port_stop(struct pmic_typec *tcpm)
+>   
+>   	for (i = 0; i < pmic_typec_port->nr_irqs; i++)
+>   		disable_irq(pmic_typec_port->irq_data[i].irq);
+> +
+> +	disable_delayed_work_sync(&pmic_typec_port->cc_debounce_dwork);
+>   }
+>   
+>   int qcom_pmic_typec_port_probe(struct platform_device *pdev,
+> 
+
