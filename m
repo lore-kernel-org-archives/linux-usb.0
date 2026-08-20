@@ -1,84 +1,74 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A51C4756C4
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A724756B0
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787234928; cv=none; b=VBQE6JqlBMXfg0ZpPaCDltIWeNRAT2TDtXbve4/5XQUkCwm8DG9PXxsNvRh3iLqVddHYFlQiIXcA2uqqzk8mvSZpkQZn8v+yDRrZODT4LxJmw6nKOLARA6ApQgB8pULglSMPCsYqgUxHcMIHeKno2zfHSZFFsi+ZeohH0jmGvak=
+	t=1787235917; cv=none; b=bQOXh/8qBU1IAO/uzrqB/rUvz+cxSJvAeuI1qA6czEKOHT+Zk1pibS8CScY4rcn48KDSomrb6yKg59aJBlQoenVvRyOnvJGjSBB0KKJPUk6PNDiO5e5c7ixlSppEmH7m/dko/CdXs7feO/mxdgdWeG1AbrMLypfZOT8ljvbjEbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787234928; c=relaxed/simple;
-	bh=vnIM5C5oVv6d96BpEn1Zg12+1o7YhUlUVPJYUvIoR4Y=;
+	s=arc-20240116; t=1787235917; c=relaxed/simple;
+	bh=nKJGR3k+2syYP4jawgeydmGZ4v27AsMklBl0NSZFHZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XyO77vrDXDNDosfctwxCWPUB+vmyS815d1N4UY347XhndMKvllIz3s/Z22GaDHHD863K/FaiQibaB3ebEBLEewLt5rUZymC2UPUV4hxbafBvgsSOZWo7XK2dZt6BLnNbD27B5eLfLwLxTeWiY6B8mVxQH0PaEPjDnvKsVX9yH3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=sE2Mw08b; arc=none smtp.client-ip=209.85.222.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=pCLCvZ83ZPWq4HlDoIifPookNLD4ItolPlU2wbulIH/VuOZ9EqtXwee9QaQrGF53qLeN4hB03IBF/ekIGlMH8hVMBf+5b8qZuf2d5YNYehsNO0yT/jTwk+zU1YJhs/KPxMnLZhle9nDGINqCog2fpCH/pUBg65ZS1tI37vylLeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=PZSTaRC/; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="sE2Mw08b"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-92e5c9211d2so189677485a.1
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 07:08:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="PZSTaRC/"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-527e352a167so14045231cf.1
+        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 07:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787234926; x=1787839726; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1787235913; x=1787840713; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BUHQsHuchonrURkQxPgRCit1CwRXgu+2A987yAr3ygo=;
-        b=sE2Mw08b73xAEg4/Aektfq55SblLKmeGAjPs2zBsPdYlVMkrhBK6/qlVbomKNmJWpD
-         /SPdRUk6PppHfIlqbAMdK2sNnd3Y/pqH/IKhAHt9EjjzzIDeugn/jCxGpFGm/FaEQXhm
-         Tyh76yy+AN5pkn7QzMiW5H1VrG8kqqreIF5du6/evN0CZ9cHk2hvxZWAVj1SOlKDjO4J
-         6KCR3Ja6Ornb2MVT9t4skVwJxdH9Tz1XjzpeEe7yYWpgkyki4ELusA2Am1qzae3/3Rir
-         mcyKvuKYFgNTaa8Pk4oiBKriGNvLlq36/IHz9Gw+4ErznkWAzOVqcNAuC9lW14HopiKA
-         9E9A==
+        bh=TOr8max4FuPVqm/XaKBw6uk0jprAw1pvs6KTbTAqIGg=;
+        b=PZSTaRC/mH7Vm29lYKv1NhxS0hTUIP+F3yzgWrHatuzbVhOG2p2PhjvHlclYz9mFmc
+         k1ZCk4MpqxQ9n2gX4Ynal5J4MpxSCbokucjIR2x2qFpM/+NhbqYxaFrMpwVScjkGU/rO
+         6gJfbx6VmZl2WS4kZjdDZbkaiCy+q3SpY+GO9fV8+NWiSsNgyBALcSod1v+y05WkDUCy
+         3rFDLjU9dpetGVy7Qb3sIAG7Ot8B3RSUmRV9ASIUj48uqto0v8D5N3UsJl8Uif57Xjln
+         1m1vbOBhaUl6hx/rwhZZArvDaBTPz08Z8NfQ/M3/AvvPR7QjLjCfo0QlndWb0zSZpBzl
+         qAjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787234926; x=1787839726;
+        d=1e100.net; s=20251104; t=1787235913; x=1787840713;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BUHQsHuchonrURkQxPgRCit1CwRXgu+2A987yAr3ygo=;
-        b=QfMX6kh3dnxs46pkfimfJeFcayNBffvdkaSx1/Tr9L2EVt9yy0aAGBa8HtFB9NQgYW
-         JWsk6ItYGa0KZMM8bNVZanQXsGSRdt6i6+T/MUO9UC3YJpunE/r2NtuB7p8AmYm0R0TT
-         G1n0KRIttoTCgkM3druLlMZs27LWcI3cIef7H8nrmz1MV1kacswbc5N+vTtfBIndPTO7
-         JfMCIboWxL4Vd457MBKN+QH2O/rQB2JkcBcGIaq1qSKayivoAOjuvAe4qPpaWi04+yGM
-         /ElmEgdyxwGkMbJ6L7u7ZMQs0BbhjRYkylDuXokhiAQTx5j9At3e68KVFd6dm5NvANgE
-         EnRQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrat0Mep1OW+CMFDmwuim2E3C6GlrBSv9pUMrlzEWYYOBV+2o7J2/OqADT5CpIZkX3WcCGv1+AmZTY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysUyvIEbjqHQhoAxoV6Mq427hnfKm6Zyl+GhB8tw6u6IwXYDrp
-	3xtzqPnj8ztQfLnaqs9KwxlIYC+ENOwwhbAkJbnJxF9lFZAav/fBqSY+1OXMkeX2ew==
-X-Gm-Gg: AR+sD12KY5gOp0WyziWI8moxUC16ScO+ZDbMyGFwanu8fLSiakYSEnCUR/GO3RoK2hy
-	2CVsGPVjc4a/yKQiaEjbG6LCb4RRYnkXycq6jXNS1yuAH6M/3OTudsh+/lcp/lwAIi2F6cr4wdx
-	UHODJf6uaUL9vFxYzmGHw2F1LAvNnRaWa565Hs1LJbVmL9uzic0lWhlmoiGgbUWKQIqDOFTy/P1
-	qni1RiNRuK516sxS2ZiLy6pEy7LYtEwCFueksB87ahLC8wE7JkOAYi50YeuVeZ5og+lg0fp9BEF
-	gvx+8x4bL6Yv1vLcg0jASHpy26d/cRmiuzFge0tZqZKLvD0whLnsR3e17BEAefrVG/56hX8qd8i
-	as3/v+uIsifLiUEBIKBDSbeId6VKknInD5Uf/R3PVKN7cAImqL5agk5VX9vheVUfXA5weGa6M+c
-	wwJ5KYATeQSnFX3y5OX6iCEwPcl1ezf0lZP1yc35Du2yp7hQIwJO0HhVbsMiwXgRjPCl645iW5h
-	t0YqZoWROUy
-X-Received: by 2002:a05:620a:460d:b0:936:7a55:f3ea with SMTP id af79cd13be357-9371e1de2b1mr1107961185a.8.1787234925972;
-        Thu, 20 Aug 2026 07:08:45 -0700 (PDT)
+        bh=TOr8max4FuPVqm/XaKBw6uk0jprAw1pvs6KTbTAqIGg=;
+        b=NGxqEI+GcBQBrfKwyjhlrNWMVsh/Ri0QFZ4tsHxqt4CtXkPwOHeg75/LjlxL6b8lvZ
+         DK2PxO52QT5TpogfnW1rfPJ4l1EOYwYq13ei0Pb7v/nBXHEXdWlEgc7ExAb8ldaAn6jk
+         1HQ408iRbr9WUGRaQNrnXnBbfm58PScC/gHmmtNxKqVBdUPIzeCkqTpyuffiq9/WhaAm
+         SSNMFYtNWdqXbz/Ont+anDSumP/KAydx4J1VGHp6QIJMSNUREy714X9GDEiDoZpv1gOu
+         mP4bxtK2GX8LmXZ8wFxztOBDID1rfsCcFIXewW/DOPdFB5vFdNBAe1byzTN4yAM2oDv4
+         cj6A==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4m2ur2WXUWNhUDj9BtQbuwjDCQ3o60lU2VHx/b73YjiaCDpDlpanW7LkJ0eOLV6nDspSJcR8nINM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrWepJUHuoP45Tbb8gUyhuCkdn+hPw7ygAUBEsSNgr20JNNyWu
+	ftWRsUxpYkezxkSwtXOSAWGkc1TOlS27ptNDnbJ6Pbp8yBGJN6IRHTC3rHKVluD6ag==
+X-Gm-Gg: AR+sD12rrYCtUZRzWInEYwk1S56HRhSpRs6j10gXbL5YSRCMPv76IbTXxz/Io1d6VSF
+	ObuMoWo++4xCs0cHHF7CzYVYnwo4mKUVLDJxnbeqqVauMqtx5/v3tD58SbA8DySGXlrHWNaMSWJ
+	rhBABCBNdyZhqISrv3/S86Sa+dvyJkAOu3DmanOCxaQ+O7N3j+vpBIBSpljOY/cTTzqV+5bNW3l
+	Rpzg4UCnQ7aL9GGJ1p496a9VQpv6kthBo6ubuUuvfEJdI3lUFPj07EdUpo2kR98I9G4l8jNVmh4
+	6W7h/ZO1tfLLhdJQw5EH2FIIG/5jb8gjGZO6tRLRm0H9/ofv+mtT0gughvx5nxQSCYKZm2w2Yl7
+	R23cL32aoneKugCo4drXz0blvmSmtNTqNoavXEOZfAl6lD6WawdoGrHU8Ohnpv4zI4ECWQAM2WE
+	9APy7RQBr9Kc9faljUhRezbCEbVDwCEJIXpMNm2hY2FIcTCpc2FGl9xThzjpXEkOW9OUmqEwQDU
+	NyRRCo=
+X-Received: by 2002:ac8:5a93:0:b0:51c:1532:ae93 with SMTP id d75a77b69052e-52dd5a2255dmr118169001cf.26.1787235912744;
+        Thu, 20 Aug 2026 07:25:12 -0700 (PDT)
 Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-937204aa8a6sm374906685a.11.2026.08.20.07.08.45
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5eee16e0sm39596346d6.17.2026.08.20.07.25.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 07:08:45 -0700 (PDT)
-Date: Thu, 20 Aug 2026 10:08:43 -0400
+        Thu, 20 Aug 2026 07:25:12 -0700 (PDT)
+Date: Thu, 20 Aug 2026 10:25:10 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <908a5b29-e6d8-4595-b451-6c328e25c60e@rowland.harvard.edu>
-References: <CAFmvuTVYt2bVaqcyJVUSvNZfss6yzVdPbA5Wk2dtr89w2tz+5w@mail.gmail.com>
- <483692a4-8fb7-419e-90d5-1784b71fbb9f@rowland.harvard.edu>
- <CAFmvuTXvwuUrfbvsAQ_VvC9jH5iS62J+Ei23TD0NfQ_igFRJ_A@mail.gmail.com>
- <6761b47f-0230-4f3e-942c-26ed8dd6d0d4@rowland.harvard.edu>
- <CAFmvuTW2cfj5dzkRR8ymenWoA7tw1WAYsMitorvppTwcZ+xfbg@mail.gmail.com>
- <e8655e37-02b3-40ef-9ce0-98c8fa25481d@rowland.harvard.edu>
- <15185c2d-4544-42cc-ba0a-79dd36e82a21@rowland.harvard.edu>
- <CAFmvuTU=t5TiZSpHmF1MXpVs+3K7G1VOTDeeazwGru4+1eozBg@mail.gmail.com>
- <cd57f283-71e6-4531-a311-1180ccc22ab8@rowland.harvard.edu>
- <CAFmvuTVH=mVMZNoYnU07_WA+cBc4m+UG2BBTLwF5KWhcj-z-KA@mail.gmail.com>
+To: liuqi <liuqi@longcheer.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb-storage: prevent concurrent URB submission in
+ usb_stor_msg_common
+Message-ID: <b0b85244-48dd-4ec7-9add-8649216c80d8@rowland.harvard.edu>
+References: <870f2627-aeaa-400e-9b6d-ee77eac42be6@mailsrv01.LongCheer.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -87,67 +77,62 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFmvuTVH=mVMZNoYnU07_WA+cBc4m+UG2BBTLwF5KWhcj-z-KA@mail.gmail.com>
+In-Reply-To: <870f2627-aeaa-400e-9b6d-ee77eac42be6@mailsrv01.LongCheer.net>
 
-On Thu, Aug 20, 2026 at 06:40:19PM +0900, Minseo Kim wrote:
-> Hi Alan,
+On Thu, Aug 20, 2026 at 12:03:45PM +0800, liuqi wrote:
+> From 054ed55aaa0d80edc93d25e4750d67e9064bb77f Mon Sep 17 00:00:00 2001
+> From: liuqi <liuqi@longcheer.com>
+> Date: Thu, 20 Aug 2026 11:28:43 +0800
+> Subject: [PATCH] usb-storage: prevent concurrent URB submission in
+>  usb_stor_msg_common
 > 
-> Thank you for the revised patch and for your kind words about the testing.
-> I applied it as posted to upstream v7.2-rc1, commit
-> dc59e4fea9d83f03bad6bddf3fa2e52491777482.
-> 
-> I did not reproduce the previously reported ep_unlink_worker() UAF with
-> this revision in the same directed cross-CPU diagnostic. I also reran the
-> original null-ptr-deref and UAF reproducers and the reproducers for the
-> earlier candidate-patch regressions, and did not observe their
-> corresponding KASAN signatures.
+> usb_stor_msg_common() only checks the ABORTING flag before submitting
+> the URB, but does not guard against concurrent submissions when a
+> previous URB is still in-flight (e.g., from a BULK_MAX_LUN probe
+> running in scan_dwork while scsi_eh also invokes the same function).
 
-Excellent!
+Why would the scsi_eh (or any other part of the SCSI stack) submit 
+commands before scsi_scan_host() has started?
 
-> > Nor any of the old lockdep violations, I trust.
-> 
-> In the matched runs, I did not observe any of the previously reported
-> LOCKDEP violations or any new violation attributable to this revision.
-> The only LOCKDEP warning I observed was a ctx_lock IRQ-state warning that
-> was also reproduced in matched runs on the unpatched kernel.
+> This leads to "URB submitted while active" warnings and -EINPROGRESS
+> returns when usb_submit_urb() detects an already-queued/in-flight URB.
 
-What was the cause of this warning?  If it is sufficiently 
-straightforward, maybe I can fix it as well.
-
-> > What happens if the aio is cancelled exactly between ep_aio()'s calls
-> > to kiocb_set_cancel_fn() and usb_ep_queue()?
-> 
-> I exercised this exact interval by pausing the submitting thread in a
-> return probe for kiocb_set_cancel_fn(), before control resumed in ep_aio()
-> and before usb_ep_queue() was called. I released the submit path either
-> when the return probe for ep_aio_cancel() ran or, separately, when the
-> return probe for __x64_sys_io_cancel() ran. Both release points produced
-> the same results described below.
-> 
-> When I allowed the queue operation to succeed, io_cancel() returned
-> -EINPROGRESS in both the PWRITE and PREAD cases. ep_aio() then replayed
-> the cancellation after the queue succeeded, and exactly one completion
-> event reported res=-ECONNRESET.
-> 
-> When I forced the queue operation to return -EINVAL, io_cancel() again
-> returned -EINPROGRESS in both cases, and exactly one completion event
-> reported res=-EINVAL.
-> 
-> I also tested a 64-byte PWRITE for which dummy_hcd completed the request
-> inside its queue callback. io_cancel() returned -EINPROGRESS, and exactly
-> one completion event reported res=64.
-
-Good, that's exactly what the results should be.
-
-> None of these tested orderings produced an additional completion event,
-> a KASAN report, or an Oops. In these tested orderings, the AIO_SUBMITTING
-> handling produced exactly one completion in each case: an early
-> cancellation was replayed after a pending queue succeeded, a failed queue
-> produced one completion with its error, and an immediate completion did
-> not produce a second completion.
-> 
-> I hope this answers the remaining question.
-
-Yes, it all sounds good.  This patch is just about ready for submission.
+Have you actually observed this happening?
 
 Alan Stern
+
+> Fix by using test_and_set_bit() on US_FLIDX_URB_ACTIVE to mutually
+> exclude concurrent submissions. If a URB is already active, return
+> -EAGAIN to the caller.
+> 
+> Reported-by: syzbot+22ea20ef3afb6785b122@syzkaller.appspotmail.com
+> Signed-off-by: liuqi <liuqi@longcheer.com>
+> ---
+>  drivers/usb/storage/transport.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
+> index f79b449d0..ffb1459d0 100644
+> --- a/drivers/usb/storage/transport.c
+> +++ b/drivers/usb/storage/transport.c
+> @@ -122,6 +122,16 @@ static int usb_stor_msg_common(struct us_data *us, int timeout)
+>  	if (test_bit(US_FLIDX_ABORTING, &us->dflags))
+>  		return -EIO;
+>  
+> +	/*
+> +	 * Prevent concurrent submissions of the same URB.
+> +	 * If a URB is already in-flight (e.g., from a previous
+> +	 * BULK_MAX_LUN probe running in scan_dwork while scsi_eh
+> +	 * also invokes the same function), reject new submissions.
+> +	 */
+> +	if (test_and_set_bit(US_FLIDX_URB_ACTIVE, &us->dflags))
+> +		return -EAGAIN;
+> +
+> +
+>  	/* set up data structures for the wakeup system */
+>  	init_completion(&urb_done);
+>  
+> -- 
+> 2.43.0
+> 
+
