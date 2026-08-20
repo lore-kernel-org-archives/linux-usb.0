@@ -1,195 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9E547ECCB;
-	Thu, 20 Aug 2026 21:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D683D3334
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 21:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787260686; cv=none; b=ZSw5m6K7Sboc6itZyMlQF7twdD2F8vC0eU8mPEUbFYZjKXY9uXn3WXPDhzUWPmQzYDyCruDtpahwUZnWzySa0djPJbwdvfdj6XJ2XihJEj/ys+0YsMwK+6PUUbUZse7tP1y7x4O/7rp0vXQZPSi1saRc7+XCEi1W+rbCsghmhCk=
+	t=1787260979; cv=none; b=BgjvFe3k/+uLjl9iLwdRubdKU0AktbbBZKMNFVzfAN/Q+ictkXZ6/x3gLSnF1xatZZ78fzmkKwRFHyFMU6SUp0hWtwTxbpadWuqZnFeUfW12U9fADh08yj47m37BUP7LooPIpO8bVVv5KLj1ocjUcTdBirIucymkTSuiS2lC0dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787260686; c=relaxed/simple;
-	bh=oSsU1SNlUI+iYmsPHyzirwXiLvA8vOIzjQUL65s252k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=glr6uqg+f2uO1dT4AgIgvmMJZUwXHepUjlu/NEdh6aJHvRTM2oOzLj8IP29ctOShgDVMrP6mJlQ5P4Jt696BS46V3ZS9Rnl7nCWj3K5YHf9gMqTbdsySQVKebN3ge8WY/4xatnaWmcPjfdgJIMXjU+ykxVxqzbLLsffCtRrx6SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGFYbPGk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787260979; c=relaxed/simple;
+	bh=HJQbxsoH0cwuqnv8/ixox7FiIthbzATvp6/cnyjjGYU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WUN8xns1aI7lkmRlkZtlhgkDY2Mm4EqXcMrZWoPNvAfeyIveTYfoOkfSwXFhhJAN6U5cFROaoi2iFp2O0OxytRdvqR3/0Nw5nIO7O+9wv3aBJULwEQ1PVkjWdbmWSbkOSqB9HEQwAcLFVsAy4KHpSjbvv72rCtwdyMshP13CA2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G33WI/ET; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGFYbPGk"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BB50C2BCB3;
-	Thu, 20 Aug 2026 21:18:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787260685;
-	bh=oSsU1SNlUI+iYmsPHyzirwXiLvA8vOIzjQUL65s252k=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=WGFYbPGkX3gnDcpQJlIKms/Cyv+nyLccSVanceqNY0gcxzB1JK1oVtjIWbHEckK3e
-	 4RLparPpBdv4u+ZoPd3gyiSVBe1N63gUFKP5ke/liki8cwVCIkXJn3AcCeWqwyNH0w
-	 cMQxFSsRW+xOCWa1zOcv+wzyTZbEva3tkcYFnSrSRKFfo2NPvLRUuMyyXN8Tnp/3He
-	 SioeBtRCMEKsMyLU/L4fPQXqwhRdIRU+0BkR93jWKgaFA90iM+W8Cj+Oe1Kz797iAG
-	 twyU3hUnDzJwMg1oWH5jCREyEa2ShSvMtxuScIwG/w1Sf18tb4tcOJjlMNR/PETUBD
-	 8DDGlXlocdsUQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63AE3C5DF8C;
-	Thu, 20 Aug 2026 21:18:05 +0000 (UTC)
-From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Date: Thu, 20 Aug 2026 21:17:58 +0000
-Subject: [PATCH] usb: typec: tcpm: Support native battery energy properties
- in battery AMS
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G33WI/ET"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE8F1F00ACF
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 21:22:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787260978;
+	bh=VJLcJmZ7PKLdiogUheBUseQCClad5bh7dSYg6Zcb9lA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=G33WI/ETVtK3djnOudzyTnd3jxLil4nNaQGs9fpWawPfDtgLh+rqL9iGXnUV+hZLD
+	 57JTJ558flF+OgpgNq5YNGbov39lYivMN/+JKYzrQQqVw3i+uQ1VXUPvX23zAHvRh4
+	 d41BWPC+w/vl06iOPkG6P3PMP1Dkbu1MZVRPyyJyi/gUFH7gLRGv2mJEjSFKCxva4K
+	 UcBlG2VmgIKgWLaxiw8wjp9prfI2MSuVk2356v3GFWXTowOyjpozXdZxjv7eN7uH9R
+	 G04pIrMQ7vIVeJWznsrlPZw6nb7ux9lNSHnLcS1CVmzFFrGAQx0hTh94FJZN+MDU4t
+	 MV2zHETalGCFw==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b01146b205so210767e87.2
+        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:22:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp3E9nJb8ori9doB290RQqJaj4J02anGpjIMmT8VK/5WR2nSdjGzDFGEubcT9UR4Y6RTkjt+lm05T4=@vger.kernel.org
+X-Gm-Message-State: AFuF++n81yB8HiXaBn21lwkmCIa60wVoNVYY0wDs5jA3aWo9wJudSch4
+	IJ6dOJjGF9HRVEmJDpGO29+hLTVaJyk0nwJR19LfuYbiopqBIHMpxFJSWvzQNOuyES4rzCHNt+k
+	FyznlDODknELxfdECFu+GDijmsFHg34s=
+X-Received: by 2002:a05:6512:3c98:b0:5b1:5fb6:5cf6 with SMTP id
+ 2adb3069b0e04-5b48421a6c2mr388620e87.17.1787260976694; Thu, 20 Aug 2026
+ 14:22:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260820-tcpm-energy-props-upstream-v1-1-0a0167863848@google.com>
-X-B4-Tracking: v=1; b=H4sIAAVvh2oC/x3MQQqDQAwAwK9Izg2kuyptv1I8LDZqDq4hsUUR/
- +7S41zmAGcTdnhVBxj/xGXJBfdbBf2U8sgon2IIFFp6BMK11xk5s407qi3q+FVfjdOMqX7G2MS
- BqKmhBGo8yPbP3915XjqptdtsAAAA
-X-Change-ID: 20260820-tcpm-energy-props-upstream-a493353f0054
-To: Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Amit Sunil Dhamne <amitsd@google.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787260685; l=4796;
- i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=3ujd4nj9Hfogfm+nYqmaVH090hvwF2tQMDh7GmzAo9w=;
- b=KFARS5HnKsDD8jDni0Aolvgr/9HPD5Rv/uHIRcq1Ptd7jRhmv7JzCgQaYilomlwSgi6WghH1D
- wzUAFXjvqLMCKgmZvfqocDBCROfMukZII3XilmZNMHUrTXJ2p3XT0BO
-X-Developer-Key: i=amitsd@google.com; a=ed25519;
- pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
-X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
- auth_id=262
-X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
-Reply-To: amitsd@google.com
+References: <20260812042842.15209-1-phucduc.bui@gmail.com> <20260812042842.15209-2-phucduc.bui@gmail.com>
+In-Reply-To: <20260812042842.15209-2-phucduc.bui@gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 20 Aug 2026 23:22:20 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iBTiz=q5Gyrw3tbyq8nQmCkcdP3Y4NA4i_2Qa1Qn2dPQ@mail.gmail.com>
+X-Gm-Features: AcwNN1UDN7rZHwlTLDGYe7_rY75ivBxiKIpjATkCxD6Ta0HOwsVH8As-3Siqjrc
+Message-ID: <CAJZ5v0iBTiz=q5Gyrw3tbyq8nQmCkcdP3Y4NA4i_2Qa1Qn2dPQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] thermal: hwmon: Remove redundant OOM message
+To: phucduc.bui@gmail.com
+Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, rafael@kernel.org, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Amit Sunil Dhamne <amitsd@google.com>
+On Wed, Aug 12, 2026 at 6:29=E2=80=AFAM <phucduc.bui@gmail.com> wrote:
+>
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>
+> Remove the dev_warn() after a failed devres_alloc(). This is
+> consistent with checkpatch's OOM_MESSAGE convention: no error
+> message is needed after a kzalloc()-style allocation failure.
+>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-Some fuel gauges report battery telemetry in energy rather than charge.
-Add support for querying native energy properties for Battery Status and
-Battery Capabilities AMS, falling back to calculating energy from charge
-and average voltage when primary properties are not supported.
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-+---------+--------------------+----------------------------------+
-| Sr. No. | Primary            | Fallback                         |
-+---------+--------------------+----------------------------------+
-| 1       | ENERGY_NOW         | CHARGE_NOW + VOLTAGE_AVG         |
-| 2       | ENERGY_FULL_DESIGN | CHARGE_FULL_DESIGN + VOLTAGE_AVG |
-| 3       | ENERGY_FULL        | CHARGE_FULL + VOLTAGE_AVG        |
-+---------+--------------------+----------------------------------+
-Note: All properties above are to be prefixed with POWER_SUPPLY_PROP_.
+and I'm assuming that this will be routed along with the rest of the series=
+.
 
-Closes: https://lore.kernel.org/all/amVJ1u67qHENBQ5l@venus/
-Suggested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Assisted-by: Gemini:gemini-3.1-pro
-Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 57 +++++++++++++++++++++++++++----------------
- 1 file changed, 36 insertions(+), 21 deletions(-)
+Thanks!
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index a8cd1959c426..0d7dc0b51c87 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -410,6 +410,9 @@ struct pd_timings {
- /* Convert microwatt to watt */
- #define UW_TO_W(pow)				(div_u64((pow), 1000000))
- 
-+/* Convert micro-Watt-hours to USB PD energy (increments of 0.1Wh) */
-+#define UWH_TO_PD_ENERGY(energy)		(UW_TO_W((u64)(energy) * 10))
-+
- /*
-  * As per USB PD Spec Rev 3.18 (Sec. 6.5.13.11), the number of fixed batteries
-  * that a port can be queried is restricted to 4.
-@@ -1580,8 +1583,7 @@ static u16 tcpm_charge_to_energy(int charge, int voltage)
- {
- 	u64 energy = div_u64((u64)charge * voltage, 1000000);
- 
--	/* Battery telemetry is reported in increments of 0.1Wh */
--	return (u16)UW_TO_W(energy * 10);
-+	return UWH_TO_PD_ENERGY(energy);
- }
- 
- static int tcpm_pd_send_batt_status(struct tcpm_port *port)
-@@ -1612,16 +1614,17 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
- 	else
- 		batt_present = val.intval > 0;
- 
--	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW,
--					&val);
-+	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_NOW, &val);
- 	if (!ret) {
--		charge_now = val.intval;
--		ret = power_supply_get_property(batt,
--						POWER_SUPPLY_PROP_VOLTAGE_AVG,
--						&val);
--		if (!ret)
--			present_charge = tcpm_charge_to_energy(charge_now,
--							       val.intval);
-+		present_charge = UWH_TO_PD_ENERGY(val.intval);
-+	} else {
-+		ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW, &val);
-+		if (!ret) {
-+			charge_now = val.intval;
-+			ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG, &val);
-+			if (!ret)
-+				present_charge = tcpm_charge_to_energy(charge_now, val.intval);
-+		}
- 	}
- 
- 	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_STATUS, &val);
-@@ -1678,19 +1681,31 @@ static int tcpm_pd_send_batt_cap(struct tcpm_port *port)
- 
- 	invalid_ref = false;
- 	batt = port->fixed_batt[batt_id];
--	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG,
--					&val);
--	if (!ret) {
--		vol = val.intval;
--		ret = power_supply_get_property(batt,
--						POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
--						&val);
-+
-+	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN, &val);
-+	if (!ret)
-+		design_cap = UWH_TO_PD_ENERGY(val.intval);
-+
-+	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_FULL, &val);
-+	if (!ret)
-+		charge_cap = UWH_TO_PD_ENERGY(val.intval);
-+
-+	if (design_cap != BATTERY_PROPERTY_UNKNOWN && charge_cap != BATTERY_PROPERTY_UNKNOWN)
-+		goto send_cap;
-+
-+	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG, &val);
-+	if (ret)
-+		goto send_cap;
-+
-+	vol = val.intval;
-+	if (design_cap == BATTERY_PROPERTY_UNKNOWN) {
-+		ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN, &val);
- 		if (!ret)
- 			design_cap = tcpm_charge_to_energy(val.intval, vol);
-+	}
- 
--		ret = power_supply_get_property(batt,
--						POWER_SUPPLY_PROP_CHARGE_FULL,
--						&val);
-+	if (charge_cap == BATTERY_PROPERTY_UNKNOWN) {
-+		ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_FULL, &val);
- 		if (!ret)
- 			charge_cap = tcpm_charge_to_energy(val.intval, vol);
- 	}
-
----
-base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
-change-id: 20260820-tcpm-energy-props-upstream-a493353f0054
-
-Best regards,
--- 
-Amit Sunil Dhamne <amitsd@google.com>
-
-
+> ---
+>  drivers/thermal/thermal_hwmon.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/thermal/thermal_hwmon.c b/drivers/thermal/thermal_hw=
+mon.c
+> index ec73d03a1e60..747ac87d1c37 100644
+> --- a/drivers/thermal/thermal_hwmon.c
+> +++ b/drivers/thermal/thermal_hwmon.c
+> @@ -269,10 +269,8 @@ int devm_thermal_add_hwmon_sysfs(struct device *dev,=
+ struct thermal_zone_device
+>
+>         ptr =3D devres_alloc(devm_thermal_hwmon_release, sizeof(*ptr),
+>                            GFP_KERNEL);
+> -       if (!ptr) {
+> -               dev_warn(dev, "Failed to allocate device resource data\n"=
+);
+> +       if (!ptr)
+>                 return -ENOMEM;
+> -       }
+>
+>         ret =3D thermal_add_hwmon_sysfs(tz);
+>         if (ret) {
+> --
+> 2.43.0
+>
