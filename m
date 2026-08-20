@@ -1,209 +1,164 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7CA476CC1
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA933372B26
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787236038; cv=none; b=YH+T30oGuSH12l8RAkHrR7vWEzc/O9uYmYCwodcFxSS67I0f2K9oUdQaqwVM+AdZ+0No7nEaKDTftf+3E9EH+TGtubVtq++uVEqlDU+9WgKnkuzkl3unEQ+TGWlcOGqHSvgLCOWTIbhbAoRyMxQTRlRISLWmZidYq6fDaI1apfs=
+	t=1787237452; cv=none; b=JOfBkSSeEwWslTSmCKwmLrx8nPQHgHuEVNirHJgIOvW//YXW5v5kNZRS7OvIEs2HcjURBI6fegW28XNBtrjcFz2o80SC3HvQzuKO0IcdX5Xr0vrLjbHiUUSOAoQGVIKDjWhbOCexz8dEJaNwYBBHYPU176o/qUjbB08xrdsceuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787236038; c=relaxed/simple;
-	bh=hDuzax798lLAoTw00xmbPO8biQL3Bx7FRwV7mv4L0A8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KUFIkIKzXzSV1zNshcuve4pCItCTeTMLKKb0lM/W1SI9r6GeQGps0qhMgxnMlrIeyovyBttFQpQ7SzpCyrrvZoA/WtYC8T52EyhIebemWiKr+YuBbvHzIeUa1CjpssrB1y/lDTMZpldiH+p3anNBSLz4rzuHTmGDRjAe4gDIneM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=mBZZXjV7; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1787237452; c=relaxed/simple;
+	bh=S6cUTVkOjnkG5QgtrHI21qh+KP1x4A77E9/b8qhFb/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=igLcQDGrClgj2z6Elevjxt8O8rBGzVIdxj3WYyDABEiXg3zk8dJOL8Ad+6S/lxDfaqXnREVTL7iItB0+w/3Sltdk2+UIarsR5LfplXwu54g8cesdUxhUI169YHb5dNuyXwZRkwL3cUdBi0Ve2uKQQI+R++GSfwqkllFNKWOYv/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CA2ONE0d; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=f391wzeC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="mBZZXjV7"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-930f4e5eed1so154174485a.2
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 07:27:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CA2ONE0d";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="f391wzeC"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67KE7qiw2444577
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:50:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=2X8TzexBQtwTv2/p71CBx5GD7JIkLjDcccl
+	sF+NZojg=; b=CA2ONE0duTxX4Q85+/itAjDjGLPQulXd6ih/a0pUMcBKFLgzas4
+	flmVnvBox3zbX68G9YHQPp2gfjjQ0wQi2aqTiAYkoy045pEZ+gATA5BabxpuxXoa
+	YLkDURHjWSiJ4KIeq8hNr4WCUL4RuCYhxXxHTO5NVPaXGkLHa3Syb+972OJ8I7DO
+	mYHbaRbTW5pN0nuXNbdK8QdzcQEx1wYZTlQnjyv/K4RBypWuHB0EfUIyp1uLGPFU
+	s5uyuC+VTEiAFtQLyKtEeNQhQE66ytP3QYkF7CVwjeDeOjhg62Gy6lWfTp/T7vXy
+	uXJclWdB6lY/OLJoEWoLaS6TMUNOF5rTU8Q==
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g5x05sj8a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:50:49 +0000 (GMT)
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7e9ee20bde0so3403462a34.2
+        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 07:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787236035; x=1787840835; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6WtOwLAxWd9JV0xL4eCgYozrhrxTZBTtuL9Rwu2zTYA=;
-        b=mBZZXjV7Wf9Gx4nDUKqUSBQqtziCaU3Rs71sF39xxOYVPkTveJCZ2hDRBzuSrQpwtG
-         EDEIdu1d4+grjttv+g7ZP+CLTNkTqTmW3XvpfqwufGN4jqF94IbeB+o9A6w5EG26LY6k
-         PJfHX43LYR9BWN7Uek9i3ng/LVMCeGOYY9s6GRPng9BnEu8UVVFim4RsQhnIS3AQMOdx
-         qL/I9PZKu7t2i/b24G3uNTvAhWn47YufJusnz27YTAgIggpP8p9iqV2Q1MJaiGcdAQ/f
-         nyuB3NNFuUR43x+q5cSu4LSjjnNLhGhnWsv599P+RjwOOjfsJeZR4Ww6+lOwmzcpOvoa
-         oXJQ==
+        d=oss.qualcomm.com; s=google; t=1787237449; x=1787842249; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2X8TzexBQtwTv2/p71CBx5GD7JIkLjDccclsF+NZojg=;
+        b=f391wzeCTuK8lIKqcTjHUE6pa0uKP68J/YUmmhFtyidfiezI2dHt2nQmYYK71eMgZx
+         85vHSEObmR/KSJtFSkX2wPb9AmrKkzthbbzl6IDUXYP2Do491+hVaSc8SjYfPp2XZTsG
+         dpDWa6OwMj/bwuiGhI3l/Wmb4cEKk4Mp2MHJ9A9Pr+9P4aCWpvhpSlkZ6vd0wKA14qGO
+         w5LgI2CgPe0wR1uq9eJ0hFBraocDXEnETvx/BJe+OqGo2dFC43S0eJorPAn/3UJaz+xj
+         mzFO4Of7LkwguUVhMnyAmsQCmQYVt+ny9RgpSrkqDUOybbDBJ5YiD8hzo414TpiYvkkK
+         7gJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787236035; x=1787840835;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=6WtOwLAxWd9JV0xL4eCgYozrhrxTZBTtuL9Rwu2zTYA=;
-        b=o4wRShAoKEkH1wny+/2oIvGZj3YbYoOvzePGnu7DwqHJ3OkxLMy8mAaThO/W+vWo2M
-         /Q9ND1GZruyrzLyLvZNzCYuFkkmWiABiJ7R/VMgVFTXSw+Q69fQxT5ZYbIgiDm53Vl0o
-         cfds8G+o9I63+8XlGaBmj8bMnbKJxoITBQAPz3Ujj3Mg0on6aC1NHsZBZoXRsZxq538/
-         wqu1YLuzqYO3QGm/5x0cCGnckZymPHpqDXkwq+5iAcM5LTRpdzDS6KnBzVLPT0hX7Erh
-         q1go/cq+QDiSbzX46RATI7hnHTB9ZEx8G5ovyKWxSAP6cEc1Jlq76C64dIOZGZnXS00y
-         /9oA==
-X-Forwarded-Encrypted: i=1; AHgh+RpH+QBGZ6vrMvvm4tlzQJXcRlWOdxx6rgiWeWRdAXfaqKFH/hUMOo0oTWPg0zSCjNDwVugeNJfVm3s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyv2ET6nZx2ERmO6wQVcaW5jEnBWW2qvFBdOobe5E2V9q6aicT5
-	GJ9h8DqZDG4dRd2k1iSwZOU+EysDuOPjt1+R9HikGaULrs2kXpJvZAjfC0eYO75jrA==
-X-Gm-Gg: AR+sD11vMw0F6wZsLqehYwE1rCQYtDZOD8W1gS9TaLKBu7PBzK4bGhylwq/e+0tFJhF
-	68ylYzYUcXdCc1LIigWOrfs1PDeLsPB3XG2oBAtV0XGFafTiUKQOqUtjCvTTCOny2RWNm9UhiGw
-	C2hKo3XUsKyBDz8SdjaJUbH5WcfA/xrH48wPyqYJPNvbHnOFHsHC/Wg8BZUBV7IOv5GOkXHFZXH
-	z8vu8TxYFDT0B59j66CzbHXY230yBCSIn1FEjtSz3naCCskA0VkIBfYTV8scC4LlTomrLqBvOCZ
-	XbGcEZnSbLpsIhv/nakQXMzVk7juR4bmRT9WIVxGuG0fYO1Sb5u7lYTHmYTTPqr/n/QvmrEy0t1
-	eo4PVUKReMhrvn0CL/Rggav9sXMZlN8CW8OOh6JiNtfx4OA692sS5KON7A90wJdx5SnO8sRVG5e
-	QwX4HsHG9RQyhwxgX4ECdpwiUWoepz0jRwPl6rQwcc0xOU1U6lrmuDeMktW7vJdy69pwea7ERWa
-	Cto1R8=
-X-Received: by 2002:a05:620a:458d:b0:92e:9d63:a700 with SMTP id af79cd13be357-9371e20500amr925016585a.9.1787236035215;
-        Thu, 20 Aug 2026 07:27:15 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93720595cddsm382561785a.41.2026.08.20.07.27.14
+        d=1e100.net; s=20251104; t=1787237449; x=1787842249;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2X8TzexBQtwTv2/p71CBx5GD7JIkLjDccclsF+NZojg=;
+        b=alCfA8NC1vpeVhNsKv1QuhuPqk5l2EiwmopBT4BkCrlllYWZ6B7gywdrsZDkHlS7El
+         7FqeMhcJfTxr9lXR/1XKvKxrlF/11NAl7inpDyzq70jsi3I1dExSNppv8yK825WQkUn9
+         6S//bOMvt9nq7PeUJrdjocI30w6Y/a0ahzDL2dgsUyuhIa1auFM2TLVBrm8O2WFF2Z2e
+         iYSywjDt1hkGXOiTjXSaNTgubTyWX+TlvmWDFUzOsXkn/W+R3ak84VQUeWdZKdlCTnmy
+         Igkv7UWoltmhxARx4do6lEKY25oy6cLwY9bCY0Y+pZmZbgVVu9IR+kUA4Jmb4863RNXk
+         dY1w==
+X-Gm-Message-State: AOJu0YzZyU5ysBc7GU4oaQ7FYlRoiklcjuTcHPoM9ImjpXbuHFAC6dHQ
+	AisjwgU3UrXi0lbAPWvRQptmdpeAXgm//iGVw3GvgHli4YSWOIQhGR8tcjKR2IJMmOfyL2BWLFZ
+	ME6qBbZnb3CdjB/yqGyts6ZB6bJExoARBBewnoP8932luNgjEKbPvp2SrxhHmhzw=
+X-Gm-Gg: AR+sD10IqL+O0Y/pG+xfu9u5ySz+qNPY1WDBNwI6k7dIJMR2H7enMmh3N2Qaz0IHF5d
+	B7LGJjfYuYIdOZY2kG6cEJp8lb6OhztFXQ+Mf1qv7zhWlP6dNE3ljlqOh1/gzg8ALEwYASFNXve
+	WdFejXderQ7tJ/xRTnOD2s+zr46RFyjoKNT4Fn4iLcIXFz0qOBlMlAg4wsbna8EMPS4qInTlWpa
+	x3hVgc04VF84j/LyaRA2yc1603GkqTqRsM5M3l4kh0/JvfolWQqrkEbr5+KBD9Cc8iEXSUkhl6G
+	sMRWbvfSCupYGwWKEWtgKSOAcf7eGvw0if8svKkDCD2ol+JTGDCexzGPEgM1jEHg7bIqNVKjqUn
+	Dc/UE+Q0EcV1MfFlr0IL6DhcPqlaY
+X-Received: by 2002:a05:6830:439e:b0:7f3:ff22:d8 with SMTP id 46e09a7af769-7f43fa82a2amr11733910a34.9.1787237448656;
+        Thu, 20 Aug 2026 07:50:48 -0700 (PDT)
+X-Received: by 2002:a05:6830:439e:b0:7f3:ff22:d8 with SMTP id 46e09a7af769-7f43fa82a2amr11733451a34.9.1787237444280;
+        Thu, 20 Aug 2026 07:50:44 -0700 (PDT)
+Received: from hu-akakum-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f440056836sm5147383a34.20.2026.08.20.07.50.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 07:27:14 -0700 (PDT)
-Date: Thu, 20 Aug 2026 10:27:12 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
-	Vlastimil Babka <vbabka@kernel.org>, apopple@nvidia.com,
-	byungchul@sk.com, david@kernel.org, gourry@gourry.net,
-	joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, matthew.brost@intel.com, rakie.kim@sk.com,
-	syzkaller-bugs@googlegroups.com, ying.huang@linux.alibaba.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Message-ID: <ffd191a0-17c1-4d23-a072-cdc6c9f7b4e2@rowland.harvard.edu>
-References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
- <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
- <DKTTMAS94IMH.2C6ERY0ZIVWVZ@nvidia.com>
- <DKTTPHY9SMDO.3R1VBEGOKR95N@nvidia.com>
+        Thu, 20 Aug 2026 07:50:43 -0700 (PDT)
+From: Akash Kumar <akash.kumar@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 0/3] Add usb-role-switch support for USB Type-C ports on Shikra
+Date: Thu, 20 Aug 2026 20:17:35 +0530
+Message-ID: <20260820145036.2035641-1-akash.kumar@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DKTTPHY9SMDO.3R1VBEGOKR95N@nvidia.com>
+X-Proofpoint-ORIG-GUID: gupfYVgV-tixoYOjkmCrxdCQno7X3SWx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDExMSBTYWx0ZWRfX7gD9Zuk9TD7R
+ 76q0y6jrpHtMi6DLAz270qDt2IYUY36XQorwIeOKfSdu3cNCv+wODSJE8EldM/6m9pEfEFmfKSN
+ Zi/jOByxOAVNJI8j+4YeLOHyFxYmHqaOkqTeK3nlW+8RP9ZiyFbneb7gp3IBjHPANfLDKwsx7NK
+ RKp/3xhRvC7m4VqtJwDK0xWsS16cFAK1KfBSomUftKf9ja5nCIKJ708l8wGupTY05bWghzrct8x
+ P+oEKyjxbdWeoruQaHBO/dGZfkZZasCcJOFYi4YFJNvd50y+K0gEOw10Z+bBXI5DYWeYTKX6Oct
+ fkwIT58KuLHYArta+tLen1kN394IzVd3+I196/SPyYhecDafFlwH5Cmzsf49p/dnOIn0sFmizWk
+ wdfvv5yneq3fpMD8IoR7oYAe3GWfZuwv+a5VieQ/azPR80+T/LFEmTjfjFoK4OBO1XOY4YMi/pS
+ Pgd32VVWfpowUuUweuQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDExMSBTYWx0ZWRfX4f/voM67mC/R
+ QLuYkJvpu2j1/magoHsGDts0QPnLKyaQk40qA3LkRZ1Vn/vvqbRuEQ/uFZpvTEZMzNtpoJowIr9
+ bC5zsksw1rJRHQlk7bPc2thqir2yFJ8=
+X-Authority-Analysis: v=2.4 cv=VfPH+lp9 c=1 sm=1 tr=0 ts=6a871449 cx=c_pps
+ a=+3WqYijBVYhDct2f5Fivkw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=nkNBJ8IO_oB5ijvGOQsA:9 a=eYe2g0i6gJ5uXG_o6N4q:22
+X-Proofpoint-GUID: gupfYVgV-tixoYOjkmCrxdCQno7X3SWx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_06,2026-08-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200111
 
-On Thu, Aug 20, 2026 at 09:59:27AM -0400, Zi Yan wrote:
-> +Vlastimil
-> 
-> On Thu Aug 20, 2026 at 9:55 AM EDT, Zi Yan wrote:
-> > On Sun Aug 16, 2026 at 4:52 PM EDT, Andrew Morton wrote:
-> >> On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com> wrote:
-> >>
-> >>> Hello,
-> >>> 
-> >>> syzbot found the following issue on:
-> >>> 
-> >>> HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.or..
-> >>> git tree:       upstream
-> >>> console output: https://syzkaller.appspot.com/x/log.txt?x=15927479580000
-> >>> kernel config:  https://syzkaller.appspot.com/x/.config?x=a59830cba91a1981
-> >>> dashboard link: https://syzkaller.appspot.com/bug?extid=805630f1453e490427fa
-> >>> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> >>> 
-> >>> Unfortunately, I don't have any reproducer for this issue yet.
-> >>> 
-> >>> Downloadable assets:
-> >>> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
-> >>> vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a/vmlinux-3d6d8176.xz
-> >>> kernel image: https://storage.googleapis.com/syzbot-assets/f6da706811f4/bzImage-3d6d8176.xz
-> >>> 
-> >>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> >>> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> >>> 
-> >>> gadgetfs: bound to dummy_udc driver
-> >>> ------------[ cut here ]------------
-> >>> 1
-> >>> WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce/0x380 mm/page_alloc.c:5280, CPU#0: syz.0.0/5319
-> >>
-> >> Thanks.  drivers/usb/gadget is the offender.
-> >>
-> >> Gemini sums it up well.  "ep_write_iter() needs a bounds check prior to
-> >> memory allocation".  https://share.gemini.google/5NzjyttO0ULc
-> >>
-> >> I expect an easy fix would be
-> >>
-> >> --- a/drivers/usb/gadget/legacy/inode.c~a
-> >> +++ a/drivers/usb/gadget/legacy/inode.c
-> >> @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct
-> >>  		return -EBADMSG;
-> >>  	}
-> >>  
-> >> -	buf = kmalloc(len, GFP_KERNEL);
-> >> +	buf = kmalloc(len, GFP_KERNEL|__GFP_NOWARN);
-> >>  	if (unlikely(!buf)) {
-> >>  		mutex_unlock(&epdata->lock);
-> >>  		return -ENOMEM;
-> >>
-> >> or do what Gemini said.  Me, I'll add some cc's and run away.
-> >
-> > Let’s do this instead of suppressing kmalloc WARNs. Since a similar WARN[1]
-> > showed up yesterday and that WARN is better handled by a bound check,
-> > I do not think we want to lose the WARN from kmalloc/the page allocator.
-> >
-> > [1] https://lore.kernel.org/all/6a863306.ae6ddae5.3da009.0013.GAE@google.com/
+The USB DT support series for Shikra ("Add DT Support for USB on
+Shikra") enabled both USB controllers in device mode, since role
+switching support was not yet present:
 
-Fair enough.
+https://lore.kernel.org/all/20260811-usb-shikra-v7-v7-2-753e928f37ae@oss.qualcomm.com/
 
-> > Like the patch below:
-> >
-> > From 732ea7074854ac3495bbceb274cdd01966118e57 Mon Sep 17 00:00:00 2001
-> > From: Zi Yan <ziy@nvidia.com>
-> > Date: Thu, 20 Aug 2026 09:19:12 -0400
-> > Subject: [PATCH] USB: gadgetfs: do not WARN about excessively large memory
-> >  allocations
-> >
-> > GadgetFS passes an excessively large user input len to kmalloc and kmalloc
-> > gives a WARN (see below for details). Suppress it by passing __GFP_NOWARN
-> > to kmalloc used by both ep_write_iter() and ep_read_iter(). Follow the same
-> > method as commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively
-> > large memory allocations").
-> >
-> > kmalloc is used to allocate physically contiguous memory for kernel
-> > allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
-> > the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
-> > sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
-> > because kmalloc allocates an order greater than MAX_PAGE_ORDER.
-> >
-> > Fixes: b3c466ce5129 ("page allocator: do not sanity check order in the fast path")
-> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> > Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
-> > Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> > Signed-off-by: Zi Yan <ziy@nvidia.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >  drivers/usb/gadget/legacy/inode.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-> > index d87a8ab515107..278a0a2b39f4c 100644
-> > --- a/drivers/usb/gadget/legacy/inode.c
-> > +++ b/drivers/usb/gadget/legacy/inode.c
-> > @@ -604,7 +604,7 @@ ep_read_iter(struct kiocb *iocb, struct iov_iter *to)
-> >  		return -EBADMSG;
-> >  	}
-> >  
-> > -	buf = kmalloc(len, GFP_KERNEL);
-> > +	buf = kmalloc(len, GFP_KERNEL | __GFP_NOWARN);
-> >  	if (unlikely(!buf)) {
-> >  		mutex_unlock(&epdata->lock);
-> >  		return -ENOMEM;
-> > @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct iov_iter *from)
-> >  		return -EBADMSG;
-> >  	}
-> >  
-> > -	buf = kmalloc(len, GFP_KERNEL);
-> > +	buf = kmalloc(len, GFP_KERNEL | __GFP_NOWARN);
-> >  	if (unlikely(!buf)) {
-> >  		mutex_unlock(&epdata->lock);
-> >  		return -ENOMEM;
+This series adds that role-switching support. On Shikra CQS/CQM
+platforms, usb-role-switch is handled by PM4125 on the primary
+Type-C port and Cypress PD controller CYPD6129 on the second Type-C
+port. On Shikra IQS platform, usb-role-switch is handled by Cypress
+PD controller CYPD6129 on both Type-C ports.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Patch 1 adds the device-tree binding for the CYPD6129/CYPD6229 dual
+Type-C PD controllers. Patch 2 adds the corresponding compatible
+strings to the ucsi_ccg driver's of_device_id table so it binds to
+boards describing these controllers. Patch 3 wires up the CYPD6129
+typec node on the affected Shikra boards and switches usb_1/usb_2 to
+OTG mode so role switching can take effect.
 
-Alan Stern
+Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
+
+---
+Akash Kumar (3):
+  dt-bindings: usb: Add Cypress cypd6129/cypd6229 Type-C controller
+  usb: typec: ucsi: ccg: Add support for cypd6129/cypd6229
+  arm64: dts: qcom: shikra: Wire up usb-role-switch for USB Type-C ports
+
+ .../bindings/usb/cypress,cypd6129.yaml        |  99 ++++++++++++++++
+ arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts   |  64 ++++++++++-
+ arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts   |  64 ++++++++++-
+ arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts   | 108 +++++++++++++++++-
+ drivers/usb/typec/ucsi/ucsi_ccg.c             |   2 +
+ 5 files changed, 324 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/cypress,cypd6129.yaml
+---
+base-commit: 96c901471bf7948b9b9f70d38ea11631a8c33b4c
+change-id: 20260820-shikra-usb-role-switch-a3f910b2b2b1
+lore link: https://lore.kernel.org/all/20260811-usb-shikra-v7-v7-0-753e928f37ae@oss.qualcomm.com/
+---
+2.43.0
+
