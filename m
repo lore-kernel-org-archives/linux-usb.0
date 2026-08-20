@@ -1,220 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0991CCA6F;
-	Thu, 20 Aug 2026 20:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9E547ECCB;
+	Thu, 20 Aug 2026 21:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787259271; cv=none; b=Z0/wX0JEvrtIxFhItO6bsAqRoiwWDErT0C5Al86ZY8WpAyqCDCvHGQUw7ifxjL890tsnNRleAg65pMNujmVrCYbF0Z2JYhRF6uQ5/Vwl12yUTTwg1MBic0jRq3MN5YQ+C4ILSOm0uRTz/8O785IHcpkGn7M/oVLL0knz2bAJ3qw=
+	t=1787260686; cv=none; b=ZSw5m6K7Sboc6itZyMlQF7twdD2F8vC0eU8mPEUbFYZjKXY9uXn3WXPDhzUWPmQzYDyCruDtpahwUZnWzySa0djPJbwdvfdj6XJ2XihJEj/ys+0YsMwK+6PUUbUZse7tP1y7x4O/7rp0vXQZPSi1saRc7+XCEi1W+rbCsghmhCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787259271; c=relaxed/simple;
-	bh=gjYv/sZPpauPPsmtrhwR2+Knfusl5yB+2Mm+ivh5DrE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=BrIX8yQT6rAch/UHgoRSzXIAZfYF+c89YllSVVVtx7OS8kqxK9vA+ocrheCe1/1yW1bT3R65QjWsL6lg9MwU7oph32hGF2X8t8+pq8xrzA11rQt0wbvhLpKlr2hjiLasKmQ557MncxWTWW8WAc6c7P7xscfXyDyLSUdJiH/F0cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BudRnSVp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787260686; c=relaxed/simple;
+	bh=oSsU1SNlUI+iYmsPHyzirwXiLvA8vOIzjQUL65s252k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=glr6uqg+f2uO1dT4AgIgvmMJZUwXHepUjlu/NEdh6aJHvRTM2oOzLj8IP29ctOShgDVMrP6mJlQ5P4Jt696BS46V3ZS9Rnl7nCWj3K5YHf9gMqTbdsySQVKebN3ge8WY/4xatnaWmcPjfdgJIMXjU+ykxVxqzbLLsffCtRrx6SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGFYbPGk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BudRnSVp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C5A1F000E9;
-	Thu, 20 Aug 2026 20:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787259269;
-	bh=+HEwizpIpYAsid9ngnnSHJ6MVcdntbVQLVVhuYpw6sc=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=BudRnSVplWNziID8uR4R1sNnzd3z9n16lGH1iJxaHdKx9llucyWsio5R+/bDIffZv
-	 6TNTbkGmCY0X0GjtrkIZNWqzsWbHkL/MfhRfgmMKnWi+8F591+MvjXMEuArrw4vmMR
-	 NnfLqw4gm80oDk9HoWWgkb4DZBR3kckFc12Jw/hF6ZXOJ5MAlBxQp0VxqA2o2PylsF
-	 sksMNu58wtvRPRRD6u7HPhr7bvGFOga50oclJAgMG9/mQUEXTanzLEvOHsCJ4ysvg+
-	 4YEdtI5tmGWtEtg1qnZjT/6deFnNyy1s8hL/cQJziurh5+ThSRZpVKNjEPY/HbzmmJ
-	 bo/Og7+FW9t7g==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGFYbPGk"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BB50C2BCB3;
+	Thu, 20 Aug 2026 21:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787260685;
+	bh=oSsU1SNlUI+iYmsPHyzirwXiLvA8vOIzjQUL65s252k=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=WGFYbPGkX3gnDcpQJlIKms/Cyv+nyLccSVanceqNY0gcxzB1JK1oVtjIWbHEckK3e
+	 4RLparPpBdv4u+ZoPd3gyiSVBe1N63gUFKP5ke/liki8cwVCIkXJn3AcCeWqwyNH0w
+	 cMQxFSsRW+xOCWa1zOcv+wzyTZbEva3tkcYFnSrSRKFfo2NPvLRUuMyyXN8Tnp/3He
+	 SioeBtRCMEKsMyLU/L4fPQXqwhRdIRU+0BkR93jWKgaFA90iM+W8Cj+Oe1Kz797iAG
+	 twyU3hUnDzJwMg1oWH5jCREyEa2ShSvMtxuScIwG/w1Sf18tb4tcOJjlMNR/PETUBD
+	 8DDGlXlocdsUQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63AE3C5DF8C;
+	Thu, 20 Aug 2026 21:18:05 +0000 (UTC)
+From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
+Date: Thu, 20 Aug 2026 21:17:58 +0000
+Subject: [PATCH] usb: typec: tcpm: Support native battery energy properties
+ in battery AMS
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 20 Aug 2026 22:54:26 +0200
-Message-Id: <DKU2J83B6IX6.2CG1WOB66WC39@kernel.org>
-Subject: Re: [PATCH v4] driver core: avoid klist_remove() on unattached
- knode_driver
-Cc: "Nguyen Quang Le Kien" <khiemtranzo532001@gmail.com>,
- <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com>,
- <stable@vger.kernel.org>, <linux-usb@vger.kernel.org>
-To: "Alan Stern" <stern@rowland.harvard.edu>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <2026082042-coma-moody-5b4e@gregkh>
- <20260820084557.129908-1-khiemtranzo532001@gmail.com>
- <DKTWKZFYC6TL.2ZESRE0NWAV2T@kernel.org>
- <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
-In-Reply-To: <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260820-tcpm-energy-props-upstream-v1-1-0a0167863848@google.com>
+X-B4-Tracking: v=1; b=H4sIAAVvh2oC/x3MQQqDQAwAwK9Izg2kuyptv1I8LDZqDq4hsUUR/
+ +7S41zmAGcTdnhVBxj/xGXJBfdbBf2U8sgon2IIFFp6BMK11xk5s407qi3q+FVfjdOMqX7G2MS
+ BqKmhBGo8yPbP3915XjqptdtsAAAA
+X-Change-ID: 20260820-tcpm-energy-props-upstream-a493353f0054
+To: Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Amit Sunil Dhamne <amitsd@google.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787260685; l=4796;
+ i=amitsd@google.com; s=20241031; h=from:subject:message-id;
+ bh=3ujd4nj9Hfogfm+nYqmaVH090hvwF2tQMDh7GmzAo9w=;
+ b=KFARS5HnKsDD8jDni0Aolvgr/9HPD5Rv/uHIRcq1Ptd7jRhmv7JzCgQaYilomlwSgi6WghH1D
+ wzUAFXjvqLMCKgmZvfqocDBCROfMukZII3XilmZNMHUrTXJ2p3XT0BO
+X-Developer-Key: i=amitsd@google.com; a=ed25519;
+ pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
+X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
+ auth_id=262
+X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
+Reply-To: amitsd@google.com
 
-On Thu Aug 20, 2026 at 7:22 PM CEST, Alan Stern wrote:
-> On Thu, Aug 20, 2026 at 06:14:37PM +0200, Danilo Krummrich wrote:
->> (Cc: linux-usb)
->>=20
->> On Thu Aug 20, 2026 at 10:45 AM CEST, Nguyen Quang Le Kien wrote:
->> > Fixes: 94e7b1c5ff20 ("[PATCH] Add a klist to struct device_driver for =
-the devices bound to it.")
->>=20
->> This is not the correct commit to reference, this commit seems fine.
->>=20
->> > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
->> > index 60c005223..4154b4499 100644
->> > --- a/drivers/base/dd.c
->> > +++ b/drivers/base/dd.c
->> > @@ -1354,7 +1354,8 @@ static void __device_release_driver(struct devic=
-e *dev, struct device *parent)
->> >  		device_unbind_cleanup(dev);
->> >  		device_links_driver_cleanup(dev);
->> > =20
->> > -		klist_remove(&dev->p->knode_driver);
->> > +		if (device_is_bound(dev))
->> > +			klist_remove(&dev->p->knode_driver);
->>=20
->> This looks like band-aid for the underlying design tension in the USB co=
-re
->> (which we should address instead) and does not belong in the driver core=
-.
->>=20
->> It's not visible from the above diff, but with this patch the control fl=
-ow
->> becomes:
->>=20
->> 	if (dev->driver) {
->> 		if (device_is_bound(dev))
->> 			klist_remove(&dev->p->knode_driver);
->> 		...
->> 	}
->>=20
->> but dev->driver already indicates that the device is bound to dev->drive=
-r in
->> this context.
->>=20
->> The reason we "need" this check regardless is that usb_driver_claim_inte=
-rface()
->> (ab)uses dev->driver to indicate that a certain USB driver claimed, or r=
-ather
->> reserved, this device.
->>=20
->> There are two cases in usb_driver_claim_interface():
->>=20
->>   (1) The device to claim is already registered with the driver core, in=
- which
->>       case device_bind_driver(dev) is called and dev->driver is correctl=
-y set
->>       during the bind attempt.
->>=20
->>   (2) The device to claim was not yet registered with the driver core. T=
-his can
->>       happen when the USB interface the driver actually binds to is regi=
-stered
->>       (and hence probed) before the additional interface the driver want=
-s to
->>       claim is registered. The USB core sets dev->driver independent of =
-the bind
->>       state to indicate it has reserved the interface.
->>=20
->> The first case is perfectly fine, but the issue with the second case is =
-that now
->> dev->driver is semantically overloaded:
->>=20
->> The USB core treats it as "dev is reserved for dev->driver" and the driv=
-er core
->> treats it as "dev is currently binding or bound to dev->driver", but tha=
-t's not
->> actually the case yet, since device_bind_driver() hasn't been called yet=
-.
->>=20
->> IOW, dev->driver should only be set under the device lock before calling
->> device_bind_driver(), and, in case of failure, should be cleared after
->> device_bind_driver() with the device lock still held.
->>=20
->> Besides the reported crash, another implication of this is that all othe=
-r
->> functions from device_release_driver() are called as well, even though
->> device_bind_driver() was never called before, and there is no guarantee =
-that
->> this does not cause other unexpected side effects already or in the futu=
-re.
->>=20
->> I think one solution could be to add a new claimed field to struct usb_i=
-nterface
->> to indicate that the interface is reserved for a certain driver and make
->> usb_device_match() reject the device if ever probed otherwise.
->>=20
->> Another solution (but that's a bit more work) would be to separate inter=
-face
->> registration from interface probing in usb_set_configuration(). Of cours=
-e that
->> needs help from the driver core as well, but it would also get us rid of=
- the
->> slightly odd situation that a driver may operate a claimed device alread=
-y, even
->> though it is not yet registered with the driver core.
->>=20
->> I'd suggest going for a claimed field in struct usb_interface first to f=
-ix the
->> immediate problem and then take it from there.
->>=20
->> That said, I wonder if there's more to think about with the
->> usb_driver_claim_interface() / usb_driver_release_interface() API.
->>=20
->> After having a brief look it seems that drivers have invented various di=
-fferent
->> approaches to protect against the case where userspace could write the c=
-laimed
->> interface's name to:
->>=20
->> 	/sys/bus/usb/drivers/<driver>/unbind
->>=20
->> I think this could be much cleaner if the driver core would support "cla=
-imed"
->> devices" natively. OTH, there's only ~20 drivers across USB and PnP thou=
-gh, so
->> probably not worth.
->
-> I don't object to the idea of adding a "claimed" field to usb_interface. =
-=20
->
-> However, isn't it true that the driver core has always supported the=20
-> idea of a driver being associated with a device before binding?  In=20
-> particular, __device_attach() specifically checks for dev->driver being=
-=20
-> already set.  If it is, the match and probe steps are skipped.
+From: Amit Sunil Dhamne <amitsd@google.com>
 
-Ah, I also wanted to add a comment about this, but forgot about it, sorry.
+Some fuel gauges report battery telemetry in energy rather than charge.
+Add support for querying native energy properties for Battery Status and
+Battery Capabilities AMS, falling back to calculating energy from charge
+and average voltage when primary properties are not supported.
 
-This was added ~25 years ago to be able to hardwire a system device to a
-specific driver, which less than a year after was replaced entirely by some=
-thing
-else and later converted back to a bus with proper match() logic. But the
-dev->driver special case in __device_attach() was never removed.
++---------+--------------------+----------------------------------+
+| Sr. No. | Primary            | Fallback                         |
++---------+--------------------+----------------------------------+
+| 1       | ENERGY_NOW         | CHARGE_NOW + VOLTAGE_AVG         |
+| 2       | ENERGY_FULL_DESIGN | CHARGE_FULL_DESIGN + VOLTAGE_AVG |
+| 3       | ENERGY_FULL        | CHARGE_FULL + VOLTAGE_AVG        |
++---------+--------------------+----------------------------------+
+Note: All properties above are to be prefixed with POWER_SUPPLY_PROP_.
 
-So, I guess it is fair to say it was always there, but the driver core does=
- not
-really handle dev->driver being set "randomly" outside of the bind/unbind
-lifecycle in general. It is expected that it is only set when the driver is
-actually bound (or binding).
+Closes: https://lore.kernel.org/all/amVJ1u67qHENBQ5l@venus/
+Suggested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Assisted-by: Gemini:gemini-3.1-pro
+Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 57 +++++++++++++++++++++++++++----------------
+ 1 file changed, 36 insertions(+), 21 deletions(-)
 
-One example is __device_release_driver(), if device_bind_driver() (or
-really_probe()) wasn't called, we should also not land within the
-if (dev->driver) conditional of __device_release_driver().
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index a8cd1959c426..0d7dc0b51c87 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -410,6 +410,9 @@ struct pd_timings {
+ /* Convert microwatt to watt */
+ #define UW_TO_W(pow)				(div_u64((pow), 1000000))
+ 
++/* Convert micro-Watt-hours to USB PD energy (increments of 0.1Wh) */
++#define UWH_TO_PD_ENERGY(energy)		(UW_TO_W((u64)(energy) * 10))
++
+ /*
+  * As per USB PD Spec Rev 3.18 (Sec. 6.5.13.11), the number of fixed batteries
+  * that a port can be queried is restricted to 4.
+@@ -1580,8 +1583,7 @@ static u16 tcpm_charge_to_energy(int charge, int voltage)
+ {
+ 	u64 energy = div_u64((u64)charge * voltage, 1000000);
+ 
+-	/* Battery telemetry is reported in increments of 0.1Wh */
+-	return (u16)UW_TO_W(energy * 10);
++	return UWH_TO_PD_ENERGY(energy);
+ }
+ 
+ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+@@ -1612,16 +1614,17 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+ 	else
+ 		batt_present = val.intval > 0;
+ 
+-	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW,
+-					&val);
++	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_NOW, &val);
+ 	if (!ret) {
+-		charge_now = val.intval;
+-		ret = power_supply_get_property(batt,
+-						POWER_SUPPLY_PROP_VOLTAGE_AVG,
+-						&val);
+-		if (!ret)
+-			present_charge = tcpm_charge_to_energy(charge_now,
+-							       val.intval);
++		present_charge = UWH_TO_PD_ENERGY(val.intval);
++	} else {
++		ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW, &val);
++		if (!ret) {
++			charge_now = val.intval;
++			ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG, &val);
++			if (!ret)
++				present_charge = tcpm_charge_to_energy(charge_now, val.intval);
++		}
+ 	}
+ 
+ 	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_STATUS, &val);
+@@ -1678,19 +1681,31 @@ static int tcpm_pd_send_batt_cap(struct tcpm_port *port)
+ 
+ 	invalid_ref = false;
+ 	batt = port->fixed_batt[batt_id];
+-	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG,
+-					&val);
+-	if (!ret) {
+-		vol = val.intval;
+-		ret = power_supply_get_property(batt,
+-						POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
+-						&val);
++
++	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN, &val);
++	if (!ret)
++		design_cap = UWH_TO_PD_ENERGY(val.intval);
++
++	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_FULL, &val);
++	if (!ret)
++		charge_cap = UWH_TO_PD_ENERGY(val.intval);
++
++	if (design_cap != BATTERY_PROPERTY_UNKNOWN && charge_cap != BATTERY_PROPERTY_UNKNOWN)
++		goto send_cap;
++
++	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG, &val);
++	if (ret)
++		goto send_cap;
++
++	vol = val.intval;
++	if (design_cap == BATTERY_PROPERTY_UNKNOWN) {
++		ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN, &val);
+ 		if (!ret)
+ 			design_cap = tcpm_charge_to_energy(val.intval, vol);
++	}
+ 
+-		ret = power_supply_get_property(batt,
+-						POWER_SUPPLY_PROP_CHARGE_FULL,
+-						&val);
++	if (charge_cap == BATTERY_PROPERTY_UNKNOWN) {
++		ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_FULL, &val);
+ 		if (!ret)
+ 			charge_cap = tcpm_charge_to_energy(val.intval, vol);
+ 	}
 
-Also note that usb_driver_claim_interface() is the only callsite in the ker=
-nel
-that does set dev->driver without a subsequent device_bind_driver() while
-holding the device lock.
+---
+base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
+change-id: 20260820-tcpm-energy-props-upstream-a493353f0054
 
-(Well, actually, after a thorough check, there's w1, which hardwires the
-w1_slave_driver, where it should actually use a trivial match() callback.)
+Best regards,
+-- 
+Amit Sunil Dhamne <amitsd@google.com>
 
-In general, matching should be done through the match() callback.
 
-> Are you saying that this code path should be removed as well?
-
-Yes, I think we should remove it. It's a rather error prone special case th=
-at
-can easily be handled with normal match() logic.
