@@ -1,121 +1,70 @@
-Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9033AEF46;
-	Thu, 20 Aug 2026 06:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D033403EE;
+	Thu, 20 Aug 2026 06:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787206286; cv=none; b=Dl8OHY7a8Kr2zFjntD5jxsknrQim0/ZX69kCM4jxOclhPCDi/WsM9G4z5hnervk9Jjycz78jNi6ZQlNSjcKq6Owx0LAnbLjRrx23axy9npVR42VG3Vyt2Rxci73Pdy4nUub/YOOK7NfvElR+/XL4f98E2i9vMi0gQm660ptfk7I=
+	t=1787207073; cv=none; b=WrG9zXmyJvU7Biy8NGpGJd7xd3QWS57t/KJs0UF1+tMkXDWfuuKszqyZfdHxHz5p6BY5fjf2BJrencNFdDQ2DvyyZf4H/D/A89mojSipmTn/NFBXA7Y+9yWJ29RFwNYkc1xycsGaWGsfsmr/CA4nb6xlgE+xSzc89zPZmmO54Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787206286; c=relaxed/simple;
-	bh=RxQNyWcv9GGDdXv1ahayBwYyR10+9rMXRdOwLVSK2wo=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=aDK5Jr6a8xeZfQUSa+HYRWgBq5APh8n6GXjx0VaHdbjGC6wiCqCuhLOZ2fsv5IcF8PHv8AvgWfbVh1VfqwEF0x/N+wKdzs7RfqH6qU9Y7ZEGyRD+9qSjb21+UVsiEaDNB06K0QCnFI8nd5iQzPZ73LbjnpUIksyyWlX8qtOlgIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Pl3moTN6; arc=none smtp.client-ip=203.205.221.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1787207073; c=relaxed/simple;
+	bh=mlZTKn7Wh/CrwHj/fF+ybvrzn/NEwEV6wLKYLNCAOy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e5vLaiQwy5g0/LS97hNPqSEucPlWzisQSjh1+zMmTftXpgo7BhVPepGfhhwEzIXUsNCXnFzQO/gx+FONGdRagpYVyou9rioaoVsPNkkHiwhgblK8/FcSvSzz+mLKWR6N8FjytRpYHSARjSUfbTjXpv5jsgEojinhS9g3rd36T60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZRpMfJ7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Pl3moTN6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1787206274; bh=tDDFVpb5nU4OHVJTKifhcGCq0cL2v97Qpp/ywaWvtm0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Pl3moTN6EJ457mXhWVKxtYMtYbR4lR3do+k3S7k0/9j1MT9p0G1R4B7MGvwS0HNo4
-	 31ZcKpBf3VSeDKZQoY1pXc5WkmrXLDIhHW0f+pdeRlkT2MFO8kKZ0xrP3Zy6cZ6Goy
-	 wh0yXe7daKzLOLI18Tw3RIC0RykdL7WK9oCuWA4c=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id 2CB39203; Thu, 20 Aug 2026 14:11:11 +0800
-X-QQ-mid: xmsmtpt1787206271to8dsduzn
-Message-ID: <tencent_0B76C5676E3DA13640962637444B28743709@qq.com>
-X-QQ-XMAILINFO: MqG4KXyEKpQyy3mlEP9GV8RwJBGgqgER31OD9q06MWkggXbaviYejocnRcuF92
-	 RL6O0m507cVO9HOmOuOpdsaKxDTSicdKovCgCM6v/z81HNa7dgbmXNQhJwbyaI1SxogM/ONaX5dD
-	 d/9l8Nv/2fEuMzrM2vTHVF7+PYflvuE3Cc8K0Xhq+xhBI4nI/+BVFZyJKhJNX087gMPjpLTIkgyP
-	 3PytSq+oSHBo9sZlNFqsZyVXCFhUfV9EZl2OBScrAKnDqi6ngDXlDDBorEe3t/ImHx5J7YJ25tX0
-	 BIj7FO+gY+b02FvSTZT5g7tAW+KRwZr1NmL1euW/IJBmwTZlxgclDJmswxXMAPcRvw5EIKmLPOK0
-	 3lTcWopL4uPucsPdr7TFVyYq+fu8pp6nLwNb09nhPL/HyXocq+RfKIFkWABBjzvQd0MXxg/cVmT3
-	 LllzVcEvncu6KXAzcIpsigUI3jz9Ax/ze+Zfo0XMsDUfaRwRZqq1udyiYUMdhKyXNjAVH0cdXRSr
-	 nR90FkAXA3fGdeG0OxQ48p/km01bUVK5vTUCk0up79eQStrG1CUUI+PuOI/LJMQ162T+RRSDIcr8
-	 d2K8Ef36lmDOCPVuh05653HT1AKPAXWZUk1TtXdRZwUEoKCUXWwdz/c7sg9GJqrEC+2KWSK3zat6
-	 IPbbUDeKsXKptrLC+JoVSqLDANcxbYU+Gz4VjFnbTQrnwm25jbvu77tBK3X7Av2Hm2Ob1qT1DJBS
-	 C1KMu7skE4W4obPPInJN5B7tllFBcldrY6cNLkpuxX7XIIfCt/i/sQ9wTLnKQ+jYskSuA0foXU8z
-	 UBfuEOYVrjo28A/3b+dxycJD2ur6Gpuq1Pu6Z11xP1VQQBVq1fn8oV2KSUu42eORqR2JflpH7OtC
-	 x3Zbe36JfifnyLS5Lh/xKspNuEUmvIKT8m3cZoPEoqzQI4F0l+UF95e0bFpAk/dOXOOvVnhB2YkH
-	 fd+bseQbxHOLqIFURjxRtuaR0jl+rOhhnQZG9TzKWfcKhr4tijztMCZZW7oMw4n1gqYSUFq6AiyM
-	 Buql7w5A0UB/8MNmiUpWSdIo9Wk88=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-Cc: dakr@kernel.org,
-	driver-core@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	rafael@kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] driver core: Do not remove the knode driver when autoprobe is disabled
-Date: Thu, 20 Aug 2026 14:11:11 +0800
-X-OQ-MSGID: <20260820061111.528389-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a85e576.f7a79266.2f965f.003f.GAE@google.com>
-References: <6a85e576.f7a79266.2f965f.003f.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZRpMfJ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E841F000E9;
+	Thu, 20 Aug 2026 06:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787207071;
+	bh=4Tr2TvcHct2iaowxE/CIb0nWUjbsxs6pAqdqYk4x4Ag=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hZRpMfJ7DC5PtzFxOh2c9L393T64/qALJf9bks2O/MwvjG0Z1NsP6A21dD3OaTGx9
+	 IEX1/jgaYrcfQFEfIWKjxQAV4lBiuNcGjOE0Xgs/WSkWgb+X/15Fpxx6UcLRKdyjLS
+	 AAgE/TZwVOwPWnSlD5hToIJ9e8Y0gnGe1wj2YrDPqnEvvmwkpo4IVJReerFhymLgGI
+	 3409c/nYB7KOtXY3sibj4efgSiLyb4EBxdwqhNJnYv5vpxvPh92psCml+Kx79+Rb+y
+	 lDa5XYk/nHlz/M1PeBYXE9fbFKDr2brVnAreMTWi8EyhJ2ZriyDtOfMhmJuhcAf2YF
+	 5h2vd7/GM4Tuw==
+Date: Thu, 20 Aug 2026 08:24:28 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Christian Marangi <ansuelsmth@gmail.com>, Andy Gross <agross@codeaurora.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 01/10] dt-bindings: usb: qcom,snps-dwc3: document the
+ MSM8974 controller
+Message-ID: <20260820-curly-loon-of-whirlwind-ad53fb@quoll>
+References: <20260810-msm8974-usb3-v1-0-1a47e1185524@oss.qualcomm.com>
+ <20260810-msm8974-usb3-v1-1-1a47e1185524@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260810-msm8974-usb3-v1-1-1a47e1185524@oss.qualcomm.com>
 
-After the user writes 0 to /sys/bus/usb/drivers_autoprobe, the USB device
-fails to undergo the probe process, and the user does not manually perform
-a bind operation.
+On Mon, Aug 10, 2026 at 02:42:31PM +0300, Dmitry Baryshkov wrote:
+> Add the qcom,msm8974-dwc3 compatible. The controller uses the same four
+> clocks as IPQ8074. Unlike other controllers, it has only 3 IRQs routed:
+> core, power event and HS PHY.
+> 
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/usb/qcom,snps-dwc3.yaml       | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 
-Consequently, the corresponding driver is not bound to the device; this
-leads to the removal of `dev->p->knode_driver` during driver release upon
-usb device disconnection, triggering [1].
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Add a check for knode_driver before removing it.
-
-[1]
-Oops: general protection fault, probably for non-canonical address 0xdffffc000000000b: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
-Call Trace:
- klist_del lib/klist.c:230 [inline]
- klist_remove+0x14c/0x2e0 lib/klist.c:249
- __device_release_driver drivers/base/dd.c:1357 [inline]
- device_release_driver_internal+0x4fb/0x620 drivers/base/dd.c:1372
- bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
- device_del+0x376/0x9b0 drivers/base/core.c:3961
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
- hub_port_connect drivers/usb/core/hub.c:5415 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
- port_event drivers/usb/core/hub.c:5879 [inline]
- hub_event+0x1bb1/0x4420 drivers/usb/core/hub.c:5961
-
-Fixes: 94e7b1c5ff20 ("[PATCH] Add a klist to struct device_driver for the devices bound to it.")
-Reported-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
-Tested-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- drivers/base/dd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 60c005223844..4154b44990b2 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -1354,7 +1354,8 @@ static void __device_release_driver(struct device *dev, struct device *parent)
- 		device_unbind_cleanup(dev);
- 		device_links_driver_cleanup(dev);
- 
--		klist_remove(&dev->p->knode_driver);
-+		if (device_is_bound(dev))
-+			klist_remove(&dev->p->knode_driver);
- 		device_pm_check_callbacks(dev);
- 
- 		bus_notify(dev, BUS_NOTIFY_UNBOUND_DRIVER);
--- 
-2.43.0
+Best regards,
+Krzysztof
 
