@@ -1,230 +1,220 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0E4387363
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 18:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0991CCA6F;
+	Thu, 20 Aug 2026 20:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787251097; cv=none; b=EXYnDHhrgEUj4PjUkuxN5QMo50bNhAA6CixmNL5+FegueBYmcjCMA2D4u3AdtXBxAX1gJg2SCR39bNCDZriqZwuGVfbRD9p2RtdtUZbOl8H0EtAKx2vqGbJqIkHNsXyxi6qPvN9aOhy7wKR8WVdj/nskIexzLdiBbNk4ReL6Jc0=
+	t=1787259271; cv=none; b=Z0/wX0JEvrtIxFhItO6bsAqRoiwWDErT0C5Al86ZY8WpAyqCDCvHGQUw7ifxjL890tsnNRleAg65pMNujmVrCYbF0Z2JYhRF6uQ5/Vwl12yUTTwg1MBic0jRq3MN5YQ+C4ILSOm0uRTz/8O785IHcpkGn7M/oVLL0knz2bAJ3qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787251097; c=relaxed/simple;
-	bh=fQ5f3+9GI85NgNrSAZm13wfXn7vkIjjblxUZUpisIjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n616x64QKGhXG9k1YMMaP5Nh/Er74vJQwhb0cPzO2xm17Ocld9rqqHuFFWgm++cQLyFnFpCvA+au4lcD47UWEcR7r1rjDL2IZ3Zy74o97op76582b/OgnZnFiOiqNjb2A3TjWrMEfZNUaLSXcL9FOd8BpAO7QkQPZ8Do3x240TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=H3VpsG3y; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ECAHNbMv; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787259271; c=relaxed/simple;
+	bh=gjYv/sZPpauPPsmtrhwR2+Knfusl5yB+2Mm+ivh5DrE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=BrIX8yQT6rAch/UHgoRSzXIAZfYF+c89YllSVVVtx7OS8kqxK9vA+ocrheCe1/1yW1bT3R65QjWsL6lg9MwU7oph32hGF2X8t8+pq8xrzA11rQt0wbvhLpKlr2hjiLasKmQ557MncxWTWW8WAc6c7P7xscfXyDyLSUdJiH/F0cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BudRnSVp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="H3VpsG3y";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ECAHNbMv"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67KIJBAd3009664
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 18:38:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=qc+7njUReQUFZe7+fYwWzGrp
-	ycZ78k0Mq9dJrYEsPJ0=; b=H3VpsG3yyz4jelTLI/7tvO6YKF+p2D3dbsBWlyk4
-	XT49xseBZPbYKsCp30ZDi+zFWxU+47EcX+BzcaRJwFYN4tQx8QK+xgIvjSPeRUni
-	WaG/9xVlxBC7cxB2udAeWxL0ZG4S3Ur3I/S2SDax5yoQnk6QMPwKi8kBaaEBoOU3
-	UBuhVndgannwJNTIAlBiSPEnASmDBM92Fe6fjhgWZ2AIaeEdT1EeDrZuuSNRRX4a
-	MAw2KJvGjRO4bRSTAKNs7KBsgoRSMHFqBJ2TWYKAwHjJ6zwkx8eUToyL6C/8FBQe
-	aSVZ89PtNidI/ftTeMncRxffBT+Ou0h+YXWvXT8j503rNQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g5x05tnyw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 18:38:14 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c1d7886cdso2420111cf.1
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 11:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787251094; x=1787855894; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qc+7njUReQUFZe7+fYwWzGrpycZ78k0Mq9dJrYEsPJ0=;
-        b=ECAHNbMvbeYWYAvH3edTwPIepF9xEXaM3zsnCOt+u9fcZRfBD4Qz7I0cysNXbqniJr
-         GrJcxB3SkCbmVEu4uUKeXuzO203q9dEckhIJLfcNhWLjMYpCfASGwhQ1gFtcm3bQhIaU
-         6dImfH0tdukhpy0C4ELce/nzYxmhN3aOUO1DrTmw8qzb8K4xnrhv3wtfqMEA3myhHcdm
-         YsFZ+hDg/+miKHMW4VoFQzrtNGBS0bHWM/00ymRHdAVE35R/jk/5KYGSNGJ5m7Q7NxEo
-         gYJGoA8TiLyqw58W9NwneMJpPkI0+7+8+boQGILucmajrffvKcn2UMFw9/lATD+j2Mfo
-         Lpxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787251094; x=1787855894;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qc+7njUReQUFZe7+fYwWzGrpycZ78k0Mq9dJrYEsPJ0=;
-        b=L70yWpVRhBgiE+/5CYBmKlQFX21+KZby0RuBBjAq4xnKbkP8k2x1iPUt4ag1u3Q1yp
-         4G/Ef0K426LYdxTmFoCEutv4JYp1ziLbien9aw725oVLmhfdrPs4NEB31c1Y1NOiB3Dk
-         +lg+50oBP6jqewUcaZAgZEkhnwi7r3JRXbKtVpMyVvrFMl4hyZO7WR7qJXN/5tMsFM8v
-         Fkzit1ovzCLvWgHdsN/cMHCh6u1CxExD4rmGReEXbWtvwDkdKleg8X57f1oaUxppeVFI
-         by2i3TXfYiV8JgOI2Pdv4176OJFZIAO97Hgmrpw4YkUluotVOHCCSVTl9aWkN2xdu8Or
-         sWLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoXcV/8xXYRbTxuxkpeMJSu0yp885dzPZSXo5vAooyPf6bg6fEVPeHQSt8yixqDOPB5mCkOW9y5ovk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyan6zRzgRZLpSFmrV+I5MDsxxUW0rKDkZB1wN1iUq9PcoVbX0K
-	s5q+tfyBBbNJzLNQ6pHC6GV5HJZTTniC7Gg5Vko9rTWwlFLE+AYQYHl9ElFYmlAvZPuCo8FEgQs
-	BO/Aej7N4fqPI7Lx9RPp5hcY408S018NTLt46YMKI+HRo6psFb5asde5djlJ6ykwHBcj8Vtk276
-	Fu
-X-Gm-Gg: AR+sD10ounzAh82m8iCTV5ipe2GIKmi6vSKxZFLJ22hgmJ7F7f9yrpu0KG5O50YBjtM
-	/zQBQSrb9Rz1FKOfYVa6LSxfkubBIflIjFhXH3wFb+i54zyWwmiJjc0UkXLq4XYknhd176iT6fq
-	BjDEIK5gAmyKNMGMK37Eb/P29NlrJp1o9tuxRFRMYTQvnIFaYFbRuI6cYFV5TuDKt8pqblzdfyd
-	CgALPTG81qbdCgU/hZgB8mEAjVj/+1F8ktYL/znMRuDWaioW713XCdSO50zrXw52NwOQD7YCU8f
-	5Rp86AyBg1dnY3SEUQv7yLuIyd92u2fTU0UFn2mNi6CA4MImx4oNTYzrJKjeYF9VjU5GLQXruyM
-	6t6nPHZXi9m0ppFE=
-X-Received: by 2002:ac8:5a46:0:b0:51c:f8f:13e with SMTP id d75a77b69052e-52df5a93f45mr2744351cf.40.1787251094334;
-        Thu, 20 Aug 2026 11:38:14 -0700 (PDT)
-X-Received: by 2002:ac8:5a46:0:b0:51c:f8f:13e with SMTP id d75a77b69052e-52df5a93f45mr2743681cf.40.1787251093676;
-        Thu, 20 Aug 2026 11:38:13 -0700 (PDT)
-Received: from oss.qualcomm.com ([188.27.161.240])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b29e19f2sm53748425e9.4.2026.08.20.11.38.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 11:38:12 -0700 (PDT)
-Date: Thu, 20 Aug 2026 21:38:10 +0300
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-To: Akash Kumar <akash.kumar@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: shikra: Wire up usb-role-switch
- for USB Type-C ports
-Message-ID: <7ahrj4udyuebngj3dqox643ou3byb23qkbf5yfcdqk2anvyo6e@tjqu2igyvwqh>
-References: <20260820145036.2035641-1-akash.kumar@oss.qualcomm.com>
- <20260820145036.2035641-4-akash.kumar@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BudRnSVp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C5A1F000E9;
+	Thu, 20 Aug 2026 20:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787259269;
+	bh=+HEwizpIpYAsid9ngnnSHJ6MVcdntbVQLVVhuYpw6sc=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=BudRnSVplWNziID8uR4R1sNnzd3z9n16lGH1iJxaHdKx9llucyWsio5R+/bDIffZv
+	 6TNTbkGmCY0X0GjtrkIZNWqzsWbHkL/MfhRfgmMKnWi+8F591+MvjXMEuArrw4vmMR
+	 NnfLqw4gm80oDk9HoWWgkb4DZBR3kckFc12Jw/hF6ZXOJ5MAlBxQp0VxqA2o2PylsF
+	 sksMNu58wtvRPRRD6u7HPhr7bvGFOga50oclJAgMG9/mQUEXTanzLEvOHsCJ4ysvg+
+	 4YEdtI5tmGWtEtg1qnZjT/6deFnNyy1s8hL/cQJziurh5+ThSRZpVKNjEPY/HbzmmJ
+	 bo/Og7+FW9t7g==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260820145036.2035641-4-akash.kumar@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: qvzxyXy54TctiTMNVQuZgBrJaBpFjM02
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDE0MCBTYWx0ZWRfX/M+hiA0TPrOu
- MUNhC6UdccNgdKBdVyew6TqEYT0zTMmZ3Bj63zLmaqPuVJca6C/1a5qjWGYKj/mTs+i/vYKu4S5
- 23yYDw3PHHzcnBdeLv0+6daj2+AWnkpyEqjbVmedxZUNcbGff8awWhKlHeB3Ya7n+ZWz+OTPDH9
- b8Mu1vk9kSkF6nW0F3QUvHDQgj7DDcLUGd9ifN56qFLcWqLY1EJg/rP5J87xI38yyHCYtBXQfu6
- hDrLpZJMt3P1dif0JWG9iWgzeH0V3uin1JRuOlF0rw6b3E0a31vyooF3a86nhbShu0qCDKJwlnm
- 5EO88GPDe3Esp8davn0B1ll6e/SfHqa8MFbpvkcJO2BeRbkWsmrVj+0K4EC6RgmBY0V1ZSy9OUR
- 6vSBN2naD9XlkaxDIkO2LNEdtXe2xI5S0ZwLk57ydvDcNVupy3Hc416AcR3BuCzsYMjILJn2HTT
- DN20tGpWd50KKYx0pHw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDE0MCBTYWx0ZWRfX/cdyrVWOMPpQ
- FO1R5jMUdd+qCOHNwu1XeOpPOurhpXTLL68wHyQDJFFTlTWKbpGAkZNjxk1N73gFxRolDq17ff8
- dDvvrA5RzMnt7l+5tJxIqGMM+JSAAOw=
-X-Authority-Analysis: v=2.4 cv=VfPH+lp9 c=1 sm=1 tr=0 ts=6a874997 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=wUpz7uCjLrEXi01cjX+DLw==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=Ba2XhVvwmFK6ezhSYYYA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: qvzxyXy54TctiTMNVQuZgBrJaBpFjM02
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-20_01,2026-08-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 malwarescore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200140
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Aug 2026 22:54:26 +0200
+Message-Id: <DKU2J83B6IX6.2CG1WOB66WC39@kernel.org>
+Subject: Re: [PATCH v4] driver core: avoid klist_remove() on unattached
+ knode_driver
+Cc: "Nguyen Quang Le Kien" <khiemtranzo532001@gmail.com>,
+ <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com>,
+ <stable@vger.kernel.org>, <linux-usb@vger.kernel.org>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <2026082042-coma-moody-5b4e@gregkh>
+ <20260820084557.129908-1-khiemtranzo532001@gmail.com>
+ <DKTWKZFYC6TL.2ZESRE0NWAV2T@kernel.org>
+ <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
+In-Reply-To: <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
 
-On 26-08-20 20:17:38, Akash Kumar wrote:
-> On Shikra CQS/CQM platforms, usb-role-switch is handled by PM4125 on
-> the primary Type-C port and Cypress PD controller CYPD6129 on the
-> second Type-C port. On Shikra IQS platform, usb-role-switch is
-> handled by Cypress PD controller CYPD6129 on both Type-C ports.
-> 
-> Add the CYPD6129 typec node under i2c3, wire its connector endpoints
-> to the corresponding DWC3 controller ports via remote-endpoint
-> phandles, and switch the associated USB controllers to OTG mode so
-> role switching can take effect.
-> 
-> Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts |  64 +++++++++++-
->  arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts |  64 +++++++++++-
->  arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts | 108 +++++++++++++++++++-
->  3 files changed, 223 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts b/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
-> index 3866ab8b0faa..c92ab8e6cc0c 100644
-> --- a/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
-> +++ b/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
-> @@ -42,6 +42,43 @@ &remoteproc_mpss {
->  	status = "okay";
->  };
->  
-> +&i2c3 {
-> +	status = "okay";
-> +
-> +	typec@40 {
-> +		compatible = "cypress,cypd6129";
-> +		reg = <0x40>;
-> +		interrupts-extended = <&tlmm 136 IRQ_TYPE_LEVEL_LOW>;
-> +		pinctrl-0 = <&usb0_intr_state>;
-> +		pinctrl-names = "default";
-> +
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		ccg_typec_con0: connector@0 {
-> +			compatible = "usb-c-connector";
-> +			reg = <0>;
-> +			label = "USB-C";
-> +			data-role = "dual";
-> +			power-role = "dual";
-> +			wakeup-source;
+On Thu Aug 20, 2026 at 7:22 PM CEST, Alan Stern wrote:
+> On Thu, Aug 20, 2026 at 06:14:37PM +0200, Danilo Krummrich wrote:
+>> (Cc: linux-usb)
+>>=20
+>> On Thu Aug 20, 2026 at 10:45 AM CEST, Nguyen Quang Le Kien wrote:
+>> > Fixes: 94e7b1c5ff20 ("[PATCH] Add a klist to struct device_driver for =
+the devices bound to it.")
+>>=20
+>> This is not the correct commit to reference, this commit seems fine.
+>>=20
+>> > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+>> > index 60c005223..4154b4499 100644
+>> > --- a/drivers/base/dd.c
+>> > +++ b/drivers/base/dd.c
+>> > @@ -1354,7 +1354,8 @@ static void __device_release_driver(struct devic=
+e *dev, struct device *parent)
+>> >  		device_unbind_cleanup(dev);
+>> >  		device_links_driver_cleanup(dev);
+>> > =20
+>> > -		klist_remove(&dev->p->knode_driver);
+>> > +		if (device_is_bound(dev))
+>> > +			klist_remove(&dev->p->knode_driver);
+>>=20
+>> This looks like band-aid for the underlying design tension in the USB co=
+re
+>> (which we should address instead) and does not belong in the driver core=
+.
+>>=20
+>> It's not visible from the above diff, but with this patch the control fl=
+ow
+>> becomes:
+>>=20
+>> 	if (dev->driver) {
+>> 		if (device_is_bound(dev))
+>> 			klist_remove(&dev->p->knode_driver);
+>> 		...
+>> 	}
+>>=20
+>> but dev->driver already indicates that the device is bound to dev->drive=
+r in
+>> this context.
+>>=20
+>> The reason we "need" this check regardless is that usb_driver_claim_inte=
+rface()
+>> (ab)uses dev->driver to indicate that a certain USB driver claimed, or r=
+ather
+>> reserved, this device.
+>>=20
+>> There are two cases in usb_driver_claim_interface():
+>>=20
+>>   (1) The device to claim is already registered with the driver core, in=
+ which
+>>       case device_bind_driver(dev) is called and dev->driver is correctl=
+y set
+>>       during the bind attempt.
+>>=20
+>>   (2) The device to claim was not yet registered with the driver core. T=
+his can
+>>       happen when the USB interface the driver actually binds to is regi=
+stered
+>>       (and hence probed) before the additional interface the driver want=
+s to
+>>       claim is registered. The USB core sets dev->driver independent of =
+the bind
+>>       state to indicate it has reserved the interface.
+>>=20
+>> The first case is perfectly fine, but the issue with the second case is =
+that now
+>> dev->driver is semantically overloaded:
+>>=20
+>> The USB core treats it as "dev is reserved for dev->driver" and the driv=
+er core
+>> treats it as "dev is currently binding or bound to dev->driver", but tha=
+t's not
+>> actually the case yet, since device_bind_driver() hasn't been called yet=
+.
+>>=20
+>> IOW, dev->driver should only be set under the device lock before calling
+>> device_bind_driver(), and, in case of failure, should be cleared after
+>> device_bind_driver() with the device lock still held.
+>>=20
+>> Besides the reported crash, another implication of this is that all othe=
+r
+>> functions from device_release_driver() are called as well, even though
+>> device_bind_driver() was never called before, and there is no guarantee =
+that
+>> this does not cause other unexpected side effects already or in the futu=
+re.
+>>=20
+>> I think one solution could be to add a new claimed field to struct usb_i=
+nterface
+>> to indicate that the interface is reserved for a certain driver and make
+>> usb_device_match() reject the device if ever probed otherwise.
+>>=20
+>> Another solution (but that's a bit more work) would be to separate inter=
+face
+>> registration from interface probing in usb_set_configuration(). Of cours=
+e that
+>> needs help from the driver core as well, but it would also get us rid of=
+ the
+>> slightly odd situation that a driver may operate a claimed device alread=
+y, even
+>> though it is not yet registered with the driver core.
+>>=20
+>> I'd suggest going for a claimed field in struct usb_interface first to f=
+ix the
+>> immediate problem and then take it from there.
+>>=20
+>> That said, I wonder if there's more to think about with the
+>> usb_driver_claim_interface() / usb_driver_release_interface() API.
+>>=20
+>> After having a brief look it seems that drivers have invented various di=
+fferent
+>> approaches to protect against the case where userspace could write the c=
+laimed
+>> interface's name to:
+>>=20
+>> 	/sys/bus/usb/drivers/<driver>/unbind
+>>=20
+>> I think this could be much cleaner if the driver core would support "cla=
+imed"
+>> devices" natively. OTH, there's only ~20 drivers across USB and PnP thou=
+gh, so
+>> probably not worth.
+>
+> I don't object to the idea of adding a "claimed" field to usb_interface. =
+=20
+>
+> However, isn't it true that the driver core has always supported the=20
+> idea of a driver being associated with a device before binding?  In=20
+> particular, __device_attach() specifically checks for dev->driver being=
+=20
+> already set.  If it is, the match and probe steps are skipped.
 
-AFAICT, this fails dtbs_check because it isn't allowed by the
-usb-connector.yaml.
+Ah, I also wanted to add a comment about this, but forgot about it, sorry.
 
-I see you added it in the example the new schema you added. That
-should've failed at dt_bindings_check.
+This was added ~25 years ago to be able to hardwire a system device to a
+specific driver, which less than a year after was replaced entirely by some=
+thing
+else and later converted back to a bus with proper match() logic. But the
+dev->driver special case in __device_attach() was never removed.
 
-Same comment for the other dtes files.
+So, I guess it is fair to say it was always there, but the driver core does=
+ not
+really handle dev->driver being set "randomly" outside of the bind/unbind
+lifecycle in general. It is expected that it is only set when the driver is
+actually bound (or binding).
 
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +
-> +					ucsi_ccg_port: endpoint {
-> +						remote-endpoint = <&usb_1_dwc3_hs>;
-> +					};
-> +				};
-> +			};
-> +		};
+One example is __device_release_driver(), if device_bind_driver() (or
+really_probe()) wasn't called, we should also not land within the
+if (dev->driver) conditional of __device_release_driver().
 
-Where is the second connector?
+Also note that usb_driver_claim_interface() is the only callsite in the ker=
+nel
+that does set dev->driver without a subsequent device_bind_driver() while
+holding the device lock.
 
-> +	};
-> +};
-> +
->  &sdhc_1 {
->  	vmmc-supply = <&pm4125_l20>;
->  	vqmmc-supply = <&pm4125_l14>;
-> @@ -58,6 +95,23 @@ &sdhc_1 {
->  	status = "okay";
->  };
->  
-> +&tlmm {
-> +	usb0_intr_state: usb0-intr-state {
-> +		pins = "gpio136";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-pull-up;
-> +	};
-> +};
-> +
-> +&usb_1 {
-> +	/delete-property/ dr_mode;
+(Well, actually, after a thorough check, there's w1, which hardwires the
+w1_slave_driver, where it should actually use a trivial match() callback.)
 
-I don't think this property is actually defined anywhere. I wonder which
-tree is this done on.
+In general, matching should be done through the match() callback.
+
+> Are you saying that this code path should be removed as well?
+
+Yes, I think we should remove it. It's a rather error prone special case th=
+at
+can easily be handled with normal match() logic.
