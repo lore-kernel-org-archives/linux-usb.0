@@ -1,79 +1,63 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066183AE191
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 06:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9033AEF46;
+	Thu, 20 Aug 2026 06:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787205930; cv=none; b=FwdlnvTN6a3RxapLKY9yj8HcW6FRwtYJQ3fDTzsoqJyhXm4boXwUGBNiccVnNQMs+XbzM4Hdq/SSSptPTByCgrydevy3KeBytpRjNnjIiuvWuFbzgtYNKXJrvD6686NcjnkwVBb0MT3FqWG1jvUqGj0fguKTAqcWtp4lmcQEatQ=
+	t=1787206286; cv=none; b=Dl8OHY7a8Kr2zFjntD5jxsknrQim0/ZX69kCM4jxOclhPCDi/WsM9G4z5hnervk9Jjycz78jNi6ZQlNSjcKq6Owx0LAnbLjRrx23axy9npVR42VG3Vyt2Rxci73Pdy4nUub/YOOK7NfvElR+/XL4f98E2i9vMi0gQm660ptfk7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787205930; c=relaxed/simple;
-	bh=eYK1djFVTbyqKFaZU9HtFwqYRLhPnK5ncij6Xl1RjbU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qkheaK5EdY7wn1yE92hkBCGLcQV4IlUzNywJK3sLHadFuZBrAPUjAZ+SSiincJLuRZkL8OnNv2zZUQRmTdJyXXkmFOTJyRKWLw1MRHT+zGfNad3KDTRPKiw1KPfh3WKuZ8oOw5VhlcDO+63Pbd/H+B8bk8pNcYxEkq7cWi3U9yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YbYdsK8S; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787206286; c=relaxed/simple;
+	bh=RxQNyWcv9GGDdXv1ahayBwYyR10+9rMXRdOwLVSK2wo=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=aDK5Jr6a8xeZfQUSa+HYRWgBq5APh8n6GXjx0VaHdbjGC6wiCqCuhLOZ2fsv5IcF8PHv8AvgWfbVh1VfqwEF0x/N+wKdzs7RfqH6qU9Y7ZEGyRD+9qSjb21+UVsiEaDNB06K0QCnFI8nd5iQzPZ73LbjnpUIksyyWlX8qtOlgIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Pl3moTN6; arc=none smtp.client-ip=203.205.221.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YbYdsK8S"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-381b831d535so2876326a91.0
-        for <linux-usb@vger.kernel.org>; Wed, 19 Aug 2026 23:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787205928; x=1787810728; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2EGmjeRO6ukc1KjTPIP5eSBiXKh14r6c1DZEAoUG4O8=;
-        b=YbYdsK8S9KY+FiqanagLfMl4ZwEvVWVAbFFNMTVD4T8lv8iWph+ilD0nEAOJ0346Th
-         WBNRYVWZZIMhDhWjQjU17Xw3/4ZzPrAvTPa6ESBFLOyKz48aeg/latjXMTjgC0cWSDnH
-         zWgX7dH9CiK+/8B+Uz3LoHCxzj2FQpP4uGzbe46ERxjmgqKqkXrPegbGXZ6sowcZSiBb
-         zroUccGw6pUYOeHLlx2OnFG7LRM2AfezTQFnaF3n534ayf9JP/uGqz26d9LIqai5Olup
-         fmNwN07SPW9I6UINvw1a6Tt4q/NOT5TsJXEUus9YS3VbCD3Ll0rf28EfQmmWRRhUcrqU
-         FQug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787205928; x=1787810728;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2EGmjeRO6ukc1KjTPIP5eSBiXKh14r6c1DZEAoUG4O8=;
-        b=rPqDKKg7u9SkC841jZzDLLf+fe2oB7fGrWw2O5cR2qQRzCq1HTMndCHtpV7MbB1YG0
-         s7ovNEHiWXIcx6SHyqE+TVWVBrGkcwp4/S7wYQtTE5ndgos1sIe9TSbnSbpVuIFcpymp
-         QytChABBiQYI1ahCvq8FfI5nLcaXvzU4zwk63tLtJ4ZAop9pV24X2MrXWj7eXc5Cca7X
-         t1KpAczdsZMwoDwlijx0QJfOBBxvDG64iAKYEBxdrmqgGWOxcn+pnW2nbl0ExwfgInJ/
-         W+b4wKOl9zEAjEbyIxJeyzdOqcwFnhdLRiIaLxJfcHQBZDs9EWJ7bdAeDtWYHeDgY8r6
-         5Kng==
-X-Forwarded-Encrypted: i=1; AHgh+RpTdnBSKMXEgvKAmOqUyjUgHx3GG+eNyUCKva5O0q5v24iwEpjDLTb0xGTjDkAZZyXkyc7chc3r+nM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mvlyu3l3TuMRd1USRkb8nnsMNOmPZHLOIvgVScE5eL9USXvgZW
-	+90b0gNUwDRcZsMTeREsqlOLiwggfBKxwOIIHniXdlOAKnUo5FPIwwIb
-X-Gm-Gg: AR+sD11wUkumIdZd50ErLDWkS0iYHV79M5Q3rLC7H9DKqzkRcWZ3vJ3PV2r+h3eFQOF
-	k2dzEXocDwa2mTuXaJlS0hA4P2Bn6VNTlbGZvqYuWYXaXcMrlrlmiN2+U6GiJPvad2btZPFLMpk
-	xKsMIpT3QGWDAzOApFeLwGPSYpMNzjyu+cgOeGLjZgccjY0VuN256da73Ro5bYXx8klB5hzDqTe
-	zR4Uc43IMkLHlTBEs0yi3Gt4DECdr+VaQPjd2Ano/JXiJ9h+PvcC56zbL+cA0kjVx5+FK5oqCBI
-	iuO2tFTGCnX4zyC35XfwbKlhwFMAZEyE/Y+Ujj18IBcS/vsoLjULrEvwYv7wEx06f5HfEeCsHkU
-	A6TXwwZXL7ilCRj0R08iVPImCdwFZoXO5dfeVp7N5XnY+ny93IyS6+AvkYRKDQFs1mqUI1DzyRi
-	z9N/feeM9uIbxr+V14E0j7QWs4eeeqXK4lvDRQ1zGgdg1JEAaVF5/ZyXM7AayN1KPio5oCxsEDL
-	eCxi0bpDlOJPDdJ8wM=
-X-Received: by 2002:a17:90a:e7cb:b0:38e:6f90:eabd with SMTP id 98e67ed59e1d1-39580aa5106mr19132702a91.5.1787205928192;
-        Wed, 19 Aug 2026 23:05:28 -0700 (PDT)
-Received: from ML-GYSUBT565.ECARX.COM.CN ([101.47.164.95])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bf14376asm13274417eec.24.2026.08.19.23.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 23:05:27 -0700 (PDT)
-From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org
-Cc: driver-core@lists.linux.dev,
-	linux-usb@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Pl3moTN6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1787206274; bh=tDDFVpb5nU4OHVJTKifhcGCq0cL2v97Qpp/ywaWvtm0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Pl3moTN6EJ457mXhWVKxtYMtYbR4lR3do+k3S7k0/9j1MT9p0G1R4B7MGvwS0HNo4
+	 31ZcKpBf3VSeDKZQoY1pXc5WkmrXLDIhHW0f+pdeRlkT2MFO8kKZ0xrP3Zy6cZ6Goy
+	 wh0yXe7daKzLOLI18Tw3RIC0RykdL7WK9oCuWA4c=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id 2CB39203; Thu, 20 Aug 2026 14:11:11 +0800
+X-QQ-mid: xmsmtpt1787206271to8dsduzn
+Message-ID: <tencent_0B76C5676E3DA13640962637444B28743709@qq.com>
+X-QQ-XMAILINFO: MqG4KXyEKpQyy3mlEP9GV8RwJBGgqgER31OD9q06MWkggXbaviYejocnRcuF92
+	 RL6O0m507cVO9HOmOuOpdsaKxDTSicdKovCgCM6v/z81HNa7dgbmXNQhJwbyaI1SxogM/ONaX5dD
+	 d/9l8Nv/2fEuMzrM2vTHVF7+PYflvuE3Cc8K0Xhq+xhBI4nI/+BVFZyJKhJNX087gMPjpLTIkgyP
+	 3PytSq+oSHBo9sZlNFqsZyVXCFhUfV9EZl2OBScrAKnDqi6ngDXlDDBorEe3t/ImHx5J7YJ25tX0
+	 BIj7FO+gY+b02FvSTZT5g7tAW+KRwZr1NmL1euW/IJBmwTZlxgclDJmswxXMAPcRvw5EIKmLPOK0
+	 3lTcWopL4uPucsPdr7TFVyYq+fu8pp6nLwNb09nhPL/HyXocq+RfKIFkWABBjzvQd0MXxg/cVmT3
+	 LllzVcEvncu6KXAzcIpsigUI3jz9Ax/ze+Zfo0XMsDUfaRwRZqq1udyiYUMdhKyXNjAVH0cdXRSr
+	 nR90FkAXA3fGdeG0OxQ48p/km01bUVK5vTUCk0up79eQStrG1CUUI+PuOI/LJMQ162T+RRSDIcr8
+	 d2K8Ef36lmDOCPVuh05653HT1AKPAXWZUk1TtXdRZwUEoKCUXWwdz/c7sg9GJqrEC+2KWSK3zat6
+	 IPbbUDeKsXKptrLC+JoVSqLDANcxbYU+Gz4VjFnbTQrnwm25jbvu77tBK3X7Av2Hm2Ob1qT1DJBS
+	 C1KMu7skE4W4obPPInJN5B7tllFBcldrY6cNLkpuxX7XIIfCt/i/sQ9wTLnKQ+jYskSuA0foXU8z
+	 UBfuEOYVrjo28A/3b+dxycJD2ur6Gpuq1Pu6Z11xP1VQQBVq1fn8oV2KSUu42eORqR2JflpH7OtC
+	 x3Zbe36JfifnyLS5Lh/xKspNuEUmvIKT8m3cZoPEoqzQI4F0l+UF95e0bFpAk/dOXOOvVnhB2YkH
+	 fd+bseQbxHOLqIFURjxRtuaR0jl+rOhhnQZG9TzKWfcKhr4tijztMCZZW7oMw4n1gqYSUFq6AiyM
+	 Buql7w5A0UB/8MNmiUpWSdIo9Wk88=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
+Cc: dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>,
-	syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-Subject: [PATCH v2] driver core: avoid klist_remove() on unattached knode_driver
-Date: Thu, 20 Aug 2026 14:05:23 +0800
-Message-Id: <20260820060523.55087-1-khiemtranzo532001@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260820055502.49963-1-khiemtranzo532001@gmail.com>
-References: <20260820055502.49963-1-khiemtranzo532001@gmail.com>
+	linux-usb@vger.kernel.org,
+	rafael@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] driver core: Do not remove the knode driver when autoprobe is disabled
+Date: Thu, 20 Aug 2026 14:11:11 +0800
+X-OQ-MSGID: <20260820061111.528389-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a85e576.f7a79266.2f965f.003f.GAE@google.com>
+References: <6a85e576.f7a79266.2f965f.003f.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -82,26 +66,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-usb_driver_claim_interface() sets dev->driver directly and skips
-device_bind_driver() when the interface is not yet registered, so the
-device can reach teardown with dev->driver set but knode_driver never
-added to the driver's klist_devices. __device_release_driver() then
-unconditionally calls klist_remove() on the unattached node, which
-dereferences a NULL klist pointer in klist_put() and crashes.
+After the user writes 0 to /sys/bus/usb/drivers_autoprobe, the USB device
+fails to undergo the probe process, and the user does not manually perform
+a bind operation.
 
-Only remove the node if the device is actually bound, mirroring the
-check device_is_bound() already provides for the driver core. This
-matches the existing guard on knode_bus in bus_remove_device().
+Consequently, the corresponding driver is not bound to the device; this
+leads to the removal of `dev->p->knode_driver` during driver release upon
+usb device disconnection, triggering [1].
 
+Add a check for knode_driver before removing it.
+
+[1]
+Oops: general protection fault, probably for non-canonical address 0xdffffc000000000b: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
+Call Trace:
+ klist_del lib/klist.c:230 [inline]
+ klist_remove+0x14c/0x2e0 lib/klist.c:249
+ __device_release_driver drivers/base/dd.c:1357 [inline]
+ device_release_driver_internal+0x4fb/0x620 drivers/base/dd.c:1372
+ bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
+ device_del+0x376/0x9b0 drivers/base/core.c:3961
+ usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
+ usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5415 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event+0x1bb1/0x4420 drivers/usb/core/hub.c:5961
+
+Fixes: 94e7b1c5ff20 ("[PATCH] Add a klist to struct device_driver for the devices bound to it.")
 Reported-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
 Closes: https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
-Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+Tested-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
  drivers/base/dd.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 60c005223..4154b4499 100644
+index 60c005223844..4154b44990b2 100644
 --- a/drivers/base/dd.c
 +++ b/drivers/base/dd.c
 @@ -1354,7 +1354,8 @@ static void __device_release_driver(struct device *dev, struct device *parent)
@@ -115,5 +117,5 @@ index 60c005223..4154b4499 100644
  
  		bus_notify(dev, BUS_NOTIFY_UNBOUND_DRIVER);
 -- 
-2.34.1
+2.43.0
 
