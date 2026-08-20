@@ -1,162 +1,165 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FFA47ACF7
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 15:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB344379C5D;
+	Thu, 20 Aug 2026 16:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787240843; cv=none; b=iMsEQDkkR039fNomRCJkwrsiHJJKXOXpMEsuCp/JzuIsHgUjp99f2yFOlmeI3BRp3JpxETxUOzJt/oMZeMv1i2wh0lggKDCr6Lm05ktywzJeSZdrGdWfontxCXJK1cl5AJvBEFBcgT0EXgb2ohY7QlbQ7xfSAciF1PFsDgM1Nng=
+	t=1787241621; cv=none; b=utiGloQCi23icxocWzkCfHysPXH4gFLl7kZcmPUkTq3yzodJaacONtwL0N1OzUwkYeWlYY4ScLuza2oxN48LWOiK5MrvgIbev0DNf/6yNp1YFOqiJnZgA9aEALGaVgxc4i7f9WQmwlggpCIwSMf7xbKl67X7oTAr23YiUEDoWtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787240843; c=relaxed/simple;
-	bh=i7llB6OCzgl8K4xcMP+HSalE94BC4IGWAu4nFa/K7+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFKTj2tnNdUNRNeFK5V3SFikSnLDQ5bNt8RJPivmkCKul8sSrDG/QSXZ5bfoGuXtjnKpSkXoFftk1dLnOpYs1e59GJssLFoOI5Qpz68cdLiid0K7S8ZX5SEUquZ9i5z7ssdyD/HyeVsAdWnRsGeQs1rU6n5PZ3s7vKOsYG6xA3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=EcA9QNoU; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1787241621; c=relaxed/simple;
+	bh=wDVBjf9Z4PU9X6ITXSmdywbYAfqbhR233atZ+eJoC40=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=GvMRFvY340s+5Eg5lKal4vIGAmV0/8JDUi+7L0kwJwJTiLXU/u+wO7xScv+kTnPc3ypBT/mO5eIOy+xdaxxvAumDSRtDm5EOdaCGV12Mqm1RLfmVU25lrJlAgArxiMK2P3suJ0K+bHax0IIfC9YoIf+r+jOOQ9+IR5ZsWTTFCZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=GTFwUKEN; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="EcA9QNoU"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5276d598b96so12729061cf.3
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 08:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787240829; x=1787845629; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fFQAUnoaVoRfpKF2nIQ/H52WHDVeMuXfhRa4awyUg9o=;
-        b=EcA9QNoUaM3WYBPYMgYsyBUukZsfAudvnEob89rN9Z8K/m2cJwC5hoaJRzGxjUDQVI
-         WmVrAu3LDM7eMFUUHzHfrH++rdzSS/L1Zd1J2VS/aY6VcwT1CtwLtFbewf1++6hj2Mxx
-         4kC3udF41OVVwg7oC/BPfbV85oiKgaLTYhe0OUGJIfe9AIhyiF2ncp773YIfRFzw00FC
-         uYpBUJJM0u4DYQeaHbwNpLsMdl7j7wG9tY84T2edWc96gtp6Hsd8dVWaHAyW0C0cIn86
-         wPF4jqjR3aaTr0Z813VHj8HOWs1n/QV2+NP1EoIUTnkGhBCkQ+9y6O8zBgcnwzaiTqWu
-         VY7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787240829; x=1787845629;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fFQAUnoaVoRfpKF2nIQ/H52WHDVeMuXfhRa4awyUg9o=;
-        b=pyNgMHp9z4Vgec11YRFIntvx/O+x6p0GPmypvnIGy4rg+EqgE3cU95rbK6zKb/sCj3
-         +VCBZa8g2OFUG8JfUagNAuYfvWt4lpJBj0jFpVQfCxYEzPE+er82Ho7xGKVLwJyBOkG3
-         Hgs6GM9xF1X+K4/hsFMPeM96F9zUCzJQx+VGkSzZvdpPCTs16ou8ATeo6tllukU1btdR
-         76XNCkZI3ft+c0BwUEQxAqCO1ogAdn7iVMOZDAT4NRcZ8WY3l1YkMJ/dDWXUdY2drsKH
-         dXV6CTZ1vS/AX9fbS3qZ1GGMYbmv8XbYPC8IEdJButWazgyj42tC4LJTUKNUNjGSwpiU
-         6l5w==
-X-Forwarded-Encrypted: i=1; AHgh+Rrn+iWBZrcTq7Jm0SPuoeABuhJGB/dICfRkY1862gfvcyaShjLx9N0nQ348VGS80muvEdAJZZRrhJA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybOORxLY2Mvv1go0SUBEd56zxgUnysDj5OfU+EYvMSK2q71n/a
-	kkQ9l1TfBrIaeSp3NEHcV/RwB50k8ZcW9yS9Oe+04m3EFGWNODDYJXRb4fm01gvXZQ==
-X-Gm-Gg: AR+sD11S7oGJ0nbefGAADw+3sG5utpaxX3oXvh96i6e8h5F0zU0nyzdMr7GHqHyOO0k
-	Yd2eSODOHvvcqALyv6P2ckakcHjvOyWPw9K4qoR+WAYu9LjNdjoVwEeIwf6Jze6zBCVG1Zf9QFL
-	ZMRMpLKMnrvFgCBRFZ3PlZRnIz0GMl5er8ZEWRRKT8NVsRzPBZt7hXe0BMNI1FLXjXqcFGnzVrG
-	aI+3gSrR7ECfBr0qX1KkBVmT3yRHCajRAauvR2ERVpiK3xmeXgN5AALZQhrbeLi2HTMpXwH5GLq
-	Qhv6vONNFDTB/oITdsgAQrEeZkjpYQi6IbZZ2CjafHQSrOIsu8YMGAeitssxkbfFrm8Wli468QT
-	zudHQhO2y3CVn2atN2DEZ/00giZP9W3E2JBqm8Adny7QUFdaNFWh+vCBI2Nc7mSs7XVcl8KTmle
-	gQU/2I72oH/k/jkyFK/SZMIwc5vhCZm1GAtVBhVZQFRk0MVZ9YdRJTul/3pTozK+NA82ebhQeAa
-	eYI6nSPr1UsgNHElC3i3oYOk9SrH5aN
-X-Received: by 2002:a05:622a:40c4:b0:52d:7c2f:7561 with SMTP id d75a77b69052e-52dd5cbe8ecmr135816691cf.41.1787240828678;
-        Thu, 20 Aug 2026 08:47:08 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52dd8598adcsm33056221cf.9.2026.08.20.08.47.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 08:47:08 -0700 (PDT)
-Date: Thu, 20 Aug 2026 11:47:05 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] USB: serial: fix driver deregistration order
-Message-ID: <2b757e10-c39d-48e5-8240-5390053f6f99@rowland.harvard.edu>
-References: <20260820145402.434447-1-johan@kernel.org>
- <20260820145402.434447-3-johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="GTFwUKEN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1787241616; x=1787846416; i=markus.elfring@web.de;
+	bh=wDVBjf9Z4PU9X6ITXSmdywbYAfqbhR233atZ+eJoC40=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=GTFwUKENybnI8rQW736emTszJtv5m6ojYIj0EW7R9MiludoaCOZPOv9SGbu+arJ7
+	 v9NgcX1JMAJWWUmdryIBsj9nZAzD1lvQ5xKAOvsclx1DBMHvYU5/2UEkNVdhfVZMU
+	 BNihlORJLhbNivgaKJd9DL7ftdUnZiaDu1O0G1Sey+YPk5nIIEOpGvTXdy0v+SgUP
+	 qJ25ej1Y7dQisZOSHNh0c+4UKeisC0jZAwHFtIoghvlMAptCjg2Lg2gABW/U5/5IJ
+	 Kpkk6OTXTRArqiAJe04YipzAWTVgCCWHJOh48f504LAFvF7uMIIY1cztXDUrS+PvW
+	 D8riBzpQU1rSOqerfA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M3Euv-1wxufd1dtd-00A1tF; Thu, 20
+ Aug 2026 18:00:16 +0200
+Message-ID: <1cebfec8-b63a-4fd8-8381-3ab88c24a091@web.de>
+Date: Thu, 20 Aug 2026 18:00:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260820145402.434447-3-johan@kernel.org>
+User-Agent: Mozilla Thunderbird
+To: Felix Gu <ustc.gu@gmail.com>, linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Vincent Shih <vincent.sunplus@gmail.com>, Vinod Koul <vkoul@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+References: <20260807-sunplus-v2-1-d5379c664dfc@gmail.com>
+Subject: Re: [PATCH v2 1/2] phy: sunplus: fix memory leak in update_disc_vol()
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260807-sunplus-v2-1-d5379c664dfc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GlP3Xw77BCkJq47kB1MeiOla1gma2Itzf5+fIpbe87GK4bGpU4F
+ HXHz+fpj0HuFALn+jf8ouVWe8t0k3zDbu1fSbGjcpE/OqtVbC4/Hx19OQ2V+HOp2Ccqg5KO
+ tC9AHeFwG3/L4cg+xLpO2ly1d3QPPL3r4WfvNPWBqlMF8j3dc4yK0zaoFF/dKmR6n4/2ngY
+ 0/CPHKU+W+Mix/kd+Lo0w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:QumMF9x9fK0=;AhIYA+erFWJvgWnFVXIFL6fhsfu
+ mI5CFzE8pPxr+omLBkzfgIajuoaGxT2qDf/MaCZ9VglS8lfiWV4co8DfozDZ5ZHw7WO07+6PZ
+ T/0WMoHBNC1V8A0KyATyhNN/PP0NzJLzHvHIvXeg3WcIZwabl3ua6gBm2dg8DG26aUgglpVOM
+ IKT/Cf6hq4sAcoEV4Hkd9oApdqVYR40nES3+0ZP1gguPX2MTm76E3BP192DKUuPBBBoH30lsj
+ WbsDtyqwouYAj29QXJX3y7XXtdFIRQl3BUS4ufZJ+jC3ttDltQIDOIaC6CUF4lWWWODenLMoW
+ W5SCictSR6WNe2D291xhB7pjj36jq7xFBcVyWlzJ/08D26dxbRNmoJkiELRlg/mAP8pYJ/Zwh
+ gAIHsxg9Ei+SUVo5MLNPYVGw/hQUrP3IBIwEl8Z9WZ81bza7bGUMupLMuEjDFds6DA2Qj8ovD
+ BfcICulthhpYbxXaVyI3q4mR0cf2FTOOaX8hzKsH/ohq3oPITHKTUOHYFicktXLCLmPFnYDQU
+ sS48uwbyousOalXjxPgo6KWcvBupBXLnLtvRrzBRUTsyCr5ZUxSNl9QrftFX3tIkEW+NdIq/l
+ ZThEr+7hdhFfcBTldOJhnYt4Jd0QrRBjB+/ckQQifI5mFflinZbaNmrFK3zcB/NlwFVgePZcR
+ OUpM1MuIvgW+/raQpY+bgi8U5UtZKvfVhGvke0907s0TN1M63dzQtgYJhh2NtgVLkpv1R5pxS
+ vrjNJ9yqP5RB8S87gwQ9RfHvWyjClkod5NpScPsXIFILNxelPtwTJV3ZbVn4IXLpi+LIlmdNs
+ +8vXawRsrHlvvPrNgxNuZmrNauNPe4j8vf96+m8aUztDcG+qCgrjqt9ErS410NO2uuabJPW5E
+ TGFXgJ9PMWpoR9AkJUiCV7zZJ/u2tqYu/uF730/l8QsADhGTISPrO4Fzzl6wyBLo0BU5yqrRs
+ DDk6rZdcemAXFPjyeEZzdIAAiGRvwQgdFIo4qfArMaKvGnPqzE+wMmYo9GXY7M7Bu1wrgCjju
+ amoXrSdQt2A0B66NVgdzqSeW/iPT4TW+cuyrTIMj6TAS60MGEiLH9Wlo767K9cXxzjpw1Z+L7
+ WzyC9PI/qrXfLWwI91yc0ii3O1c48wcDaPn6qCx6Vjj5Z4gqOnCT4s6OlHfjt5UMNBkGzkO1W
+ NfCYG7sLPgDk5IEwazJCSSQGE01/iepyqv+d0TuUdZtpK3+YwhpK3r3+k5LO7DprR0xcrBpdM
+ SH4A7UQlQAaisKgBPCFRRKFYxMeXIwYyY5RHc9ldM7r8Zs9FJsHxsm7qy/f/xAqDkxly5OBoT
+ 4hiKUZzdyRKAqoXOuM3LiQTQj9ocxHVlPVzJ1UtfMweliVdZdxAuRNQ8iOiixMmlKYPd17n0Q
+ cVOfwBNWmXrpnHkvTQBlWkWFUcHjiYFx0xD6xTTdhuEBXlNJGC99KuzAdXudrX+aTdpxsB3PE
+ hUcliOvinAgoSD0mdM8JiUlpHlUnWeZZRpCiFG++SfT5AjtqGwqQaQ6ZGRKwD9whyza4VWNY9
+ J5NFcMZveJwK1m5ANt9P1BQvqh7caVb4Lif+qkhPvwIhNDP2aPu9+y14ceyhCZkiOAwy5M+H1
+ byKS0GtqLQSGXaDRhemFeC8QxU5Fjd7JR1nOhmFLDWBZ6+shO4436F9lyn2GLHmyxsCfMBSde
+ 3whgDKhAByw8HxZFFb5zKXuvPUgqQWFQDNjkooYFrzw/hUcakBPj1YND5rjf1lNUlWoF9zHDL
+ BAjfs6SENW+sugm3SHTQiJMSWjAgoJF/BvQl6KnSKJP2jsslTN58HCukqoz0Oo9bt33XwvRRF
+ DbYW1ZWYm+PR2TfQgc4+eboiO8rTpwxijQYPN+rO/wQ3x5D6BfIX/2moumsrVfFzmtpo/VEDx
+ iO2cvDnqVApUd6biRMEPqGioEvRHu6CLfU/h9YPzwnoNv5V55IqfHOVat1z9zP5sNsMwqN+qM
+ KqlCk0XAlzeM4HbJbvmibBsjW+0/4R7RQkj0dOR3CvXKPXL+s2N68OvLJ5H/GUMP0roRWXyqv
+ 4lkndDP9F9s4hXziwXBjduDOnkfIgJczqwJBMidaoxaWrmWoU3xrldx8O4iykVCHIjFb5RMcB
+ kg8so2HM3Rdok/uCjVULe76CoALvEUNg+7LHTmhg11wCyhKJt1wtOIlSiqRoG8apcPG6PRd4r
+ a1lLntqWmbdll6FCVw75PIYsy+UG/g795yuhem/E2cjZGe2e5H+3gsJ5Ow9S+KrwKDvjlmgsJ
+ a93R9cVlOgpysFZAGkaTeLUUUs6p8xJCe01UNlcuRhk8rMWfvhVHMJF1cFrO+BMNIpfRCY2DD
+ YlYYL9x3rOOCy4+JdAT2+U7JczfbwyZrG8djCkNUGhS4/OROxyfSLD16uB2oOmwvvkj18kEHg
+ z7ajo86luRIf4zUXOkTyOvVbgVFITORrw7JFIwkMT3MIybt1bgULxCHkZ7Pq8J6reFAkVUbHq
+ ENtJTnju8bgUmpZUEkN9dz23K9VpKUaRE8bQrBWbCtqDs8jz8eS+Yj8z3Zsn1EXz2R8ZL4Z6H
+ e/xPYxAC9HVAD0nJZOQf7WE6q5V61/db61o2abfLLeGK2WmTs4V3qMKsWWVMVx8gKM552hXMf
+ vGIu+CWtJnksJPwj4WNe5klmKZ73NQYaXlLySUhK8sWc0YTpLiqm+Wzx/DMU4unlpbXCtbaY0
+ 2Sq7bGl6pxjgB9ZbtMtmUI6Yw69fF4LY8CrjJxcua0VCtvBuU3rLzZFkpatRjQALSShT/12ad
+ KjV6D+rPeKhf2M4CCSXHN/V1tc2snV3Z6/+jAPpHEvTWLHULIUlCVP9MBpJwCBQVcHIVh8d8z
+ nKqbUigWJOpDWmKsFhG5atTzs5Q0m7mt5MbFYEQSgRgYPg0J5+BkJcxUM6ycglHt+4Q7THd3s
+ WsIEx2D1pJ7ZG7tyPc4kaSCW9Mrn+mFl4lC+TvkW+9YYyncNZZIHdEnJC33Cf6kdiXa3g761Y
+ peKWgt0uhTR4LN/u7FNCE501hEkGYlWBd6sgZO/pjY2nXzudaUncrYNd9ts3Ih9+9bvDUGASt
+ l64rILUcVwR+oiuDdn+gRygQmLh8Otl4Q2N851/ZTBd/VdGz9stgNutCs2iMtFlXZkicZwiHg
+ ZdPU7npDP3ivFLSgXyBiBS37bkSB/LDswyHOqRq03CT0Xzox12PilTmKp+n6fPqvJNqlysqjR
+ /TV2wER4C/FXA2hyTOdwB2TgkIMr9/LF95w3vREuNzGQ3Q2UTK07PDmbjInPpMIG0wRSUlHAC
+ zMTXhHs/Yy6aw3pKQwYd2xZP0W6mpS8VoEnq221s+q2KenExnekJnyoO2IZrKc6dFMyeGtyJK
+ IsCYXFQ3MSfQkgKUlgxNaXsJunklsyrncqJ1erk+ZsQZsQLYK0uwZU2Z1pJhMs6BdAeMRIhse
+ iiom43dm9zTRS6gEPJdE1K288Ta55lsiCUlJ7fOkbHr58CWA4ynfhFZaVhW4jfcQf3XjWpegT
+ jnslify9ELH8top2c+IljTd5Bz2ubisisTmbO4Qgov20NHDajtgR1yR6rDrXukTtukspsGYvF
+ V2gUcLBk+Nhx6UvMbb+4WkDqiERM/3Z8GD+cGufscDmCjnC0xT7Jf0QXLWEdyI43Rne7vsaUT
+ WhMiB7Lkp+N22f5edQK607TxxJVhKH51c1isPEwrn+W/GgOEu7/B4JZgDZWRJGTioaVOJeXNu
+ d780g5tTtAefjj9YFYMpIBJOYRXi4Ws2Uc1kY4FwJVXSES4mSHt6Ih5HBZql/9QDIjjSej1Kh
+ xnEpfvBcSmGN23IxQIoppmA6A86oZgYWN8tB7ipDrlc9EBSS6zUu5NZxpeplfiUI6xAIAT9iL
+ HOt6RV7T4+sWyWUTzeZd0grxbvNCb4YlVAM6GA47Vab4YInUBDi6oiOykgge94NjFyvyA/J+D
+ r8Z25U/eBvof3k7kUgpdc67M/QaoDmWY0DH81CHaaLKYDtLLRhGcFN9Ru26vFkixdxvcbm+7z
+ jgBHScUlaDsrDDFEk5Eeotxd7T6OVwjEY5y79AyIrM2uaf0TL/zhMT1Amu/cjdocZQ16/rWS6
+ Jmt0a3Nfu4jR6gZKq4Kiqm/yHimrCw5t7o6xDxyPnDu1X0aS8iAN2pcWl9dE4/vo7yPMUA4MW
+ 8I+AlNOC2RayvH2ci+g8ekID9mMEJkFz5dmHocLvnDMyFfDxORSXW8RHX6ZiNEShPcfJt7jGs
+ ObgGMqJeHGtLfR+peIRxA7htp6XkOGkd9SLFI6tQJBHHqujPsYBQtC+5I4v0efNU3yPXXP0Rk
+ D932ytV4/eRJo8wttUwngJPE7Wykxfw8e36S/ZSe1zVeCNGeczlB7eb5574qkDQLbLXqLeqlu
+ AweO7Soh+xSK+rEMuVTZGMfUUF5hOy+i1qltfykYknT9AqXqBFs1vViHFrohgdsCWfPTsKuHB
+ rAxuEeH0oHADy/7fNdpaUhazvvzeQb4oqQwW3poMcaf4siSRTptXvm4krsYBcSQRwhC8r/NoF
+ qWcuI+0qcY3avRUKJKVO8DBiGaqkhkzOh3oz4pN2Ko1nDGDQ8rKO5iNhbFKaJh9pq+8BtY41x
+ KA/8H+nqd/aH1APU0Yb3OEPvRj4DY+pRO4+q0XL/whDIQW+7yZ/pAZ+IcGPG21pnG4uSjoSkE
+ tmTlXbvyBqQU3ko7LpLuZPSrz8MB3AgFBoUf1ZbVJEo1nwupSGFIZRf0SNe7sCTFfahfbTHqr
+ GfH9vtdErTVkMIKFtP0/FlaNHMJ3LJiitrulrOPTUUSIclLPeG1wlNhiYPLLyN1qfIHANMUf4
+ TUpZUWeuMNsSAGrZpcMIoPnJLU/5ydOdfS+IKYi5GLDrcU83spS/geP+HYP8p93Y09WieFGAv
+ 9U6zya6bK+gSKSkoik9zG+GPAHI82PBO1eToEFVwewyfj0bi4tmK+lkgEzrovHjBaSLQR0Z/2
+ YMDqIHzksx6DuTYqInEOLrRrfUd09+xB5nNBSt/xK34Hg396nJjHZMcyKlnF9zdLzvvRNFDuX
+ fQn/GMqZtyNR3e3EBT/+a/FQFkLnmLZGG0Lo83d8wgn+JMpW32f5l3s5b7iQmsGfY3m49ACRG
+ hkWgz8XHep6J7C73Aah33LbDWOycKFR+d31CChQpvSMoJsyIPKPazEIH6JCqAQTX/h6jbQepe
+ Ly2Syk83ufrY3fJ4kAoVoRYejgxk/SMFTXzPFW3x/wFz4oJJTris51dI/tPAMiTmwAyBfSmGb
+ 8Pt05tylfhbxkTBdy/ki0NE8p3o6h+kS9Dmgxk69hYkcMEtu5Is+fFcB+H1qQRCCeRIelSvb2
+ 8IFdxyG2r6yobgxwaakqVEBBP/bLfbckhvvN8xg7LOCx3mxs1HP0ggambX6Ig2guoLk05392N
+ 2jcUIo3uAgek/Z2cVJUsSUXH8iJp5w3MWsokCG2qjO+mw0TJr+pAKpKWJ9eXbasj/rTxohwtc
+ AB7iCI49n/XEp/CIElJ/lZ0xrdzdNX1RxKSi1FrlyXq8NETXhkoW6H98niwRbQiT4f1mMIK4O
+ znVJoIot2ryWr4W2yVI2de/Df4PoehNsCFJPrOjJ0usc9bwL3yO2LuFfuU+HAT4iq91VtIDwW
+ And9+7k1FYkl0IlXjvIeyYUSF5U4wXNzJl42fPP5iT9wEm6K71YZ3Ug3KNHfMjlhwcr8Bx4qZ
+ Zz0NMS5sIOfYxAhBaM2HrEHHKAK720x7BEtdKP+7wwvGReplHr5CkrZwjQ5k98Zp5t45H59M0
+ NkzIHXz5M9AWvBcjE+yVrYC7WMA8xU6vU5ydmhKf3Ua9/2egLwN2fVW/atA9wCtCPH09czJrn
+ dyXxZxJUrG6oa1BrCHTgZLw9SxinFUZsjADKOrM3F0YSn+JKjvTPaeAuARXr+pkh+ImIUY/Mv
+ h7AWlCm0OHQWUKBBfk/zqqdf8DiGr5O9t0TyTpYqhRaGFu1ZFU/xB0Wuc7BF429/1cA7kJJn5
+ /mVpNafCN08d9xQ8dNx7QqXOzxUWeKzcdvgtgC1F/bkdFUrxsNZBvM3MD4ra8YjscnCqnK1r/
+ vAsW80sm+xnD2us8cI+5PFyA74c3okzw8ELYpGCktd3TFoBtNbApYsdQuy8JR9ftb+QuipmRo
+ PZXL67yW76OZrJizxDZmUeA9zQoKPb+HiURMlnXpfzgOp0MUZ0MfbfoMieGjVw9euQQXraybW
+ 0BdP2PNQbVZ6NWfeQELdJ86q8ZNZa99gexpOspip5FYXBuxa9aahVyZt0MzVmExJgEuEMZAL+
+ dhWD1ld7Ic6vy/gfH8Gp7V/uuBDJLbI7ASLsBSeAV8FkhhEBv2Z25kdD/u+1npGg29EKrKP7e
+ 1SeGvM3IdZdqiDHU9Fe6neYIZstXK5Sdv9XB3ZGhAIrOdN4vt2kwNMEG9P8KX/qurzT4chhAG
+ C7MKsMxf5Adqn4SbOWkDiUfoPUjJUdSPeOBKEeZwaj5daU0oEfyQjNywrF58ApJ3VqgJBi52B
+ 27ddcHfUA4k+Li3+oBClNC2JwgkzHYRVpB+giLs9zVK7ZtsZR5cLHaNasGT4j2gCjGf2bAnq7
+ 3jpdkpcGrX1fgVqn/Afqxdrb8qlmdO/hrvl8adO0Qq+7bywAD+y+sVnmbgF2dktHDfsvaKCGj
+ kLWnDZw4vEIL0L4zvzb+Cqi0OhcZ8ne5tX6tjyef9asZAsdA3e4VsEr/oH3bcjQ/Iyos/01yi
+ D5OAzRvdvtl8ZZLcFLHA=
 
-On Thu, Aug 20, 2026 at 04:54:02PM +0200, Johan Hovold wrote:
-> USB serial driver modules register one driver for the USB bus and one or
-> more drivers for the ports on the USB serial bus.
-> 
-> When unloading a driver module, the USB driver must be deregistered
-> before the USB serial bus drivers so that I/O is stopped before
-> unbinding the ports to avoid use-after-free in completion handlers
-> accessing port data.
-> 
-> Note that the order does not matter currently in the registration error
-> path as the USB driver is not bound until after the USB serial drivers
-> have been registered.
+> nvmem_cell_read() returns a kmalloc'd buffer that update_disc_vol()
+> never freed. Free it after extracting the disconnect-voltage value.
 
-But __usb_serial_register_drivers() does usb_register(udriver) _before_ 
-calling usb_serial_register() for the serial_drivers.  Not _after_, as 
-claimed here.
+How do you think about to apply the attribute =E2=80=9C__free(kfree)=E2=80=
+=9D also in such
+a function implementation?
+https://elixir.bootlin.com/linux/v7.2/source/include/linux/slab.h#L596
 
-And if the order in the registration error path does not matter, why 
-does the patch change it?
-
-Or did you mean something else?
-
-Also, what about the failure mode described in 765e0ba62613?  Not to 
-mention that it seems odd to register a parent device driver after a 
-child device driver, rather than before.  Or to unregister them in the 
-reverse order.
-
-If the point is to avoid I/O operations completing after the device 
-structure has been deallocated, why not rely on the serial-bus drivers 
-to stop all their I/O when they are unbound?
-
-If these questions don't make sense, remember that I haven't done 
-serious work on this subsystem for 15 years or so and blame it on that.  
-:-)
-
-Alan Stern
-
-> Fixes: 765e0ba62613 ("usb-serial: new API for driver registration")
-> Cc: stable@vger.kernel.org	# 3.4
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/usb/serial/usb-serial.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-> index a4fbc849c0fa..08a9b6f8cf7d 100644
-> --- a/drivers/usb/serial/usb-serial.c
-> +++ b/drivers/usb/serial/usb-serial.c
-> @@ -1522,9 +1522,9 @@ int __usb_serial_register_drivers(struct usb_serial_driver *const serial_drivers
->  	return 0;
->  
->  err_deregister_drivers:
-> +	usb_deregister(udriver);
->  	while (sd-- > serial_drivers)
->  		usb_serial_deregister(*sd);
-> -	usb_deregister(udriver);
->  err_free_driver:
->  	kfree(udriver);
->  	return rc;
-> @@ -1543,9 +1543,15 @@ void usb_serial_deregister_drivers(struct usb_serial_driver *const serial_driver
->  {
->  	struct usb_driver *udriver = (*serial_drivers)->usb_driver;
->  
-> +	/*
-> +	 * The USB driver must be deregistered before the USB serial drivers
-> +	 * so that I/O is stopped before unbinding the ports.
-> +	 */
-> +	usb_deregister(udriver);
-> +
->  	for (; *serial_drivers; ++serial_drivers)
->  		usb_serial_deregister(*serial_drivers);
-> -	usb_deregister(udriver);
-> +
->  	kfree(udriver);
->  }
->  EXPORT_SYMBOL_GPL(usb_serial_deregister_drivers);
-> -- 
-> 2.54.0
-> 
+Regards,
+Markus
