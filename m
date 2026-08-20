@@ -1,138 +1,209 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A724756B0
-	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7CA476CC1
+	for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 14:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787235917; cv=none; b=bQOXh/8qBU1IAO/uzrqB/rUvz+cxSJvAeuI1qA6czEKOHT+Zk1pibS8CScY4rcn48KDSomrb6yKg59aJBlQoenVvRyOnvJGjSBB0KKJPUk6PNDiO5e5c7ixlSppEmH7m/dko/CdXs7feO/mxdgdWeG1AbrMLypfZOT8ljvbjEbg=
+	t=1787236038; cv=none; b=YH+T30oGuSH12l8RAkHrR7vWEzc/O9uYmYCwodcFxSS67I0f2K9oUdQaqwVM+AdZ+0No7nEaKDTftf+3E9EH+TGtubVtq++uVEqlDU+9WgKnkuzkl3unEQ+TGWlcOGqHSvgLCOWTIbhbAoRyMxQTRlRISLWmZidYq6fDaI1apfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787235917; c=relaxed/simple;
-	bh=nKJGR3k+2syYP4jawgeydmGZ4v27AsMklBl0NSZFHZQ=;
+	s=arc-20240116; t=1787236038; c=relaxed/simple;
+	bh=hDuzax798lLAoTw00xmbPO8biQL3Bx7FRwV7mv4L0A8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCLCvZ83ZPWq4HlDoIifPookNLD4ItolPlU2wbulIH/VuOZ9EqtXwee9QaQrGF53qLeN4hB03IBF/ekIGlMH8hVMBf+5b8qZuf2d5YNYehsNO0yT/jTwk+zU1YJhs/KPxMnLZhle9nDGINqCog2fpCH/pUBg65ZS1tI37vylLeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=PZSTaRC/; arc=none smtp.client-ip=209.85.160.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=KUFIkIKzXzSV1zNshcuve4pCItCTeTMLKKb0lM/W1SI9r6GeQGps0qhMgxnMlrIeyovyBttFQpQ7SzpCyrrvZoA/WtYC8T52EyhIebemWiKr+YuBbvHzIeUa1CjpssrB1y/lDTMZpldiH+p3anNBSLz4rzuHTmGDRjAe4gDIneM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=mBZZXjV7; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="PZSTaRC/"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-527e352a167so14045231cf.1
-        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 07:25:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="mBZZXjV7"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-930f4e5eed1so154174485a.2
+        for <linux-usb@vger.kernel.org>; Thu, 20 Aug 2026 07:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787235913; x=1787840713; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TOr8max4FuPVqm/XaKBw6uk0jprAw1pvs6KTbTAqIGg=;
-        b=PZSTaRC/mH7Vm29lYKv1NhxS0hTUIP+F3yzgWrHatuzbVhOG2p2PhjvHlclYz9mFmc
-         k1ZCk4MpqxQ9n2gX4Ynal5J4MpxSCbokucjIR2x2qFpM/+NhbqYxaFrMpwVScjkGU/rO
-         6gJfbx6VmZl2WS4kZjdDZbkaiCy+q3SpY+GO9fV8+NWiSsNgyBALcSod1v+y05WkDUCy
-         3rFDLjU9dpetGVy7Qb3sIAG7Ot8B3RSUmRV9ASIUj48uqto0v8D5N3UsJl8Uif57Xjln
-         1m1vbOBhaUl6hx/rwhZZArvDaBTPz08Z8NfQ/M3/AvvPR7QjLjCfo0QlndWb0zSZpBzl
-         qAjQ==
+        d=rowland.harvard.edu; s=google; t=1787236035; x=1787840835; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6WtOwLAxWd9JV0xL4eCgYozrhrxTZBTtuL9Rwu2zTYA=;
+        b=mBZZXjV7Wf9Gx4nDUKqUSBQqtziCaU3Rs71sF39xxOYVPkTveJCZ2hDRBzuSrQpwtG
+         EDEIdu1d4+grjttv+g7ZP+CLTNkTqTmW3XvpfqwufGN4jqF94IbeB+o9A6w5EG26LY6k
+         PJfHX43LYR9BWN7Uek9i3ng/LVMCeGOYY9s6GRPng9BnEu8UVVFim4RsQhnIS3AQMOdx
+         qL/I9PZKu7t2i/b24G3uNTvAhWn47YufJusnz27YTAgIggpP8p9iqV2Q1MJaiGcdAQ/f
+         nyuB3NNFuUR43x+q5cSu4LSjjnNLhGhnWsv599P+RjwOOjfsJeZR4Ww6+lOwmzcpOvoa
+         oXJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787235913; x=1787840713;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TOr8max4FuPVqm/XaKBw6uk0jprAw1pvs6KTbTAqIGg=;
-        b=NGxqEI+GcBQBrfKwyjhlrNWMVsh/Ri0QFZ4tsHxqt4CtXkPwOHeg75/LjlxL6b8lvZ
-         DK2PxO52QT5TpogfnW1rfPJ4l1EOYwYq13ei0Pb7v/nBXHEXdWlEgc7ExAb8ldaAn6jk
-         1HQ408iRbr9WUGRaQNrnXnBbfm58PScC/gHmmtNxKqVBdUPIzeCkqTpyuffiq9/WhaAm
-         SSNMFYtNWdqXbz/Ont+anDSumP/KAydx4J1VGHp6QIJMSNUREy714X9GDEiDoZpv1gOu
-         mP4bxtK2GX8LmXZ8wFxztOBDID1rfsCcFIXewW/DOPdFB5vFdNBAe1byzTN4yAM2oDv4
-         cj6A==
-X-Forwarded-Encrypted: i=1; AHgh+Rp4m2ur2WXUWNhUDj9BtQbuwjDCQ3o60lU2VHx/b73YjiaCDpDlpanW7LkJ0eOLV6nDspSJcR8nINM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrWepJUHuoP45Tbb8gUyhuCkdn+hPw7ygAUBEsSNgr20JNNyWu
-	ftWRsUxpYkezxkSwtXOSAWGkc1TOlS27ptNDnbJ6Pbp8yBGJN6IRHTC3rHKVluD6ag==
-X-Gm-Gg: AR+sD12rrYCtUZRzWInEYwk1S56HRhSpRs6j10gXbL5YSRCMPv76IbTXxz/Io1d6VSF
-	ObuMoWo++4xCs0cHHF7CzYVYnwo4mKUVLDJxnbeqqVauMqtx5/v3tD58SbA8DySGXlrHWNaMSWJ
-	rhBABCBNdyZhqISrv3/S86Sa+dvyJkAOu3DmanOCxaQ+O7N3j+vpBIBSpljOY/cTTzqV+5bNW3l
-	Rpzg4UCnQ7aL9GGJ1p496a9VQpv6kthBo6ubuUuvfEJdI3lUFPj07EdUpo2kR98I9G4l8jNVmh4
-	6W7h/ZO1tfLLhdJQw5EH2FIIG/5jb8gjGZO6tRLRm0H9/ofv+mtT0gughvx5nxQSCYKZm2w2Yl7
-	R23cL32aoneKugCo4drXz0blvmSmtNTqNoavXEOZfAl6lD6WawdoGrHU8Ohnpv4zI4ECWQAM2WE
-	9APy7RQBr9Kc9faljUhRezbCEbVDwCEJIXpMNm2hY2FIcTCpc2FGl9xThzjpXEkOW9OUmqEwQDU
-	NyRRCo=
-X-Received: by 2002:ac8:5a93:0:b0:51c:1532:ae93 with SMTP id d75a77b69052e-52dd5a2255dmr118169001cf.26.1787235912744;
-        Thu, 20 Aug 2026 07:25:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787236035; x=1787840835;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6WtOwLAxWd9JV0xL4eCgYozrhrxTZBTtuL9Rwu2zTYA=;
+        b=o4wRShAoKEkH1wny+/2oIvGZj3YbYoOvzePGnu7DwqHJ3OkxLMy8mAaThO/W+vWo2M
+         /Q9ND1GZruyrzLyLvZNzCYuFkkmWiABiJ7R/VMgVFTXSw+Q69fQxT5ZYbIgiDm53Vl0o
+         cfds8G+o9I63+8XlGaBmj8bMnbKJxoITBQAPz3Ujj3Mg0on6aC1NHsZBZoXRsZxq538/
+         wqu1YLuzqYO3QGm/5x0cCGnckZymPHpqDXkwq+5iAcM5LTRpdzDS6KnBzVLPT0hX7Erh
+         q1go/cq+QDiSbzX46RATI7hnHTB9ZEx8G5ovyKWxSAP6cEc1Jlq76C64dIOZGZnXS00y
+         /9oA==
+X-Forwarded-Encrypted: i=1; AHgh+RpH+QBGZ6vrMvvm4tlzQJXcRlWOdxx6rgiWeWRdAXfaqKFH/hUMOo0oTWPg0zSCjNDwVugeNJfVm3s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv2ET6nZx2ERmO6wQVcaW5jEnBWW2qvFBdOobe5E2V9q6aicT5
+	GJ9h8DqZDG4dRd2k1iSwZOU+EysDuOPjt1+R9HikGaULrs2kXpJvZAjfC0eYO75jrA==
+X-Gm-Gg: AR+sD11vMw0F6wZsLqehYwE1rCQYtDZOD8W1gS9TaLKBu7PBzK4bGhylwq/e+0tFJhF
+	68ylYzYUcXdCc1LIigWOrfs1PDeLsPB3XG2oBAtV0XGFafTiUKQOqUtjCvTTCOny2RWNm9UhiGw
+	C2hKo3XUsKyBDz8SdjaJUbH5WcfA/xrH48wPyqYJPNvbHnOFHsHC/Wg8BZUBV7IOv5GOkXHFZXH
+	z8vu8TxYFDT0B59j66CzbHXY230yBCSIn1FEjtSz3naCCskA0VkIBfYTV8scC4LlTomrLqBvOCZ
+	XbGcEZnSbLpsIhv/nakQXMzVk7juR4bmRT9WIVxGuG0fYO1Sb5u7lYTHmYTTPqr/n/QvmrEy0t1
+	eo4PVUKReMhrvn0CL/Rggav9sXMZlN8CW8OOh6JiNtfx4OA692sS5KON7A90wJdx5SnO8sRVG5e
+	QwX4HsHG9RQyhwxgX4ECdpwiUWoepz0jRwPl6rQwcc0xOU1U6lrmuDeMktW7vJdy69pwea7ERWa
+	Cto1R8=
+X-Received: by 2002:a05:620a:458d:b0:92e:9d63:a700 with SMTP id af79cd13be357-9371e20500amr925016585a.9.1787236035215;
+        Thu, 20 Aug 2026 07:27:15 -0700 (PDT)
 Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5eee16e0sm39596346d6.17.2026.08.20.07.25.11
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93720595cddsm382561785a.41.2026.08.20.07.27.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 07:25:12 -0700 (PDT)
-Date: Thu, 20 Aug 2026 10:25:10 -0400
+        Thu, 20 Aug 2026 07:27:14 -0700 (PDT)
+Date: Thu, 20 Aug 2026 10:27:12 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: liuqi <liuqi@longcheer.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb-storage: prevent concurrent URB submission in
- usb_stor_msg_common
-Message-ID: <b0b85244-48dd-4ec7-9add-8649216c80d8@rowland.harvard.edu>
-References: <870f2627-aeaa-400e-9b6d-ee77eac42be6@mailsrv01.LongCheer.net>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+	Vlastimil Babka <vbabka@kernel.org>, apopple@nvidia.com,
+	byungchul@sk.com, david@kernel.org, gourry@gourry.net,
+	joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, matthew.brost@intel.com, rakie.kim@sk.com,
+	syzkaller-bugs@googlegroups.com, ying.huang@linux.alibaba.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Message-ID: <ffd191a0-17c1-4d23-a072-cdc6c9f7b4e2@rowland.harvard.edu>
+References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+ <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+ <DKTTMAS94IMH.2C6ERY0ZIVWVZ@nvidia.com>
+ <DKTTPHY9SMDO.3R1VBEGOKR95N@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <870f2627-aeaa-400e-9b6d-ee77eac42be6@mailsrv01.LongCheer.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DKTTPHY9SMDO.3R1VBEGOKR95N@nvidia.com>
 
-On Thu, Aug 20, 2026 at 12:03:45PM +0800, liuqi wrote:
-> From 054ed55aaa0d80edc93d25e4750d67e9064bb77f Mon Sep 17 00:00:00 2001
-> From: liuqi <liuqi@longcheer.com>
-> Date: Thu, 20 Aug 2026 11:28:43 +0800
-> Subject: [PATCH] usb-storage: prevent concurrent URB submission in
->  usb_stor_msg_common
+On Thu, Aug 20, 2026 at 09:59:27AM -0400, Zi Yan wrote:
+> +Vlastimil
 > 
-> usb_stor_msg_common() only checks the ABORTING flag before submitting
-> the URB, but does not guard against concurrent submissions when a
-> previous URB is still in-flight (e.g., from a BULK_MAX_LUN probe
-> running in scan_dwork while scsi_eh also invokes the same function).
+> On Thu Aug 20, 2026 at 9:55 AM EDT, Zi Yan wrote:
+> > On Sun Aug 16, 2026 at 4:52 PM EDT, Andrew Morton wrote:
+> >> On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com> wrote:
+> >>
+> >>> Hello,
+> >>> 
+> >>> syzbot found the following issue on:
+> >>> 
+> >>> HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.or..
+> >>> git tree:       upstream
+> >>> console output: https://syzkaller.appspot.com/x/log.txt?x=15927479580000
+> >>> kernel config:  https://syzkaller.appspot.com/x/.config?x=a59830cba91a1981
+> >>> dashboard link: https://syzkaller.appspot.com/bug?extid=805630f1453e490427fa
+> >>> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> >>> 
+> >>> Unfortunately, I don't have any reproducer for this issue yet.
+> >>> 
+> >>> Downloadable assets:
+> >>> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
+> >>> vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a/vmlinux-3d6d8176.xz
+> >>> kernel image: https://storage.googleapis.com/syzbot-assets/f6da706811f4/bzImage-3d6d8176.xz
+> >>> 
+> >>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> >>> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> >>> 
+> >>> gadgetfs: bound to dummy_udc driver
+> >>> ------------[ cut here ]------------
+> >>> 1
+> >>> WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce/0x380 mm/page_alloc.c:5280, CPU#0: syz.0.0/5319
+> >>
+> >> Thanks.  drivers/usb/gadget is the offender.
+> >>
+> >> Gemini sums it up well.  "ep_write_iter() needs a bounds check prior to
+> >> memory allocation".  https://share.gemini.google/5NzjyttO0ULc
+> >>
+> >> I expect an easy fix would be
+> >>
+> >> --- a/drivers/usb/gadget/legacy/inode.c~a
+> >> +++ a/drivers/usb/gadget/legacy/inode.c
+> >> @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct
+> >>  		return -EBADMSG;
+> >>  	}
+> >>  
+> >> -	buf = kmalloc(len, GFP_KERNEL);
+> >> +	buf = kmalloc(len, GFP_KERNEL|__GFP_NOWARN);
+> >>  	if (unlikely(!buf)) {
+> >>  		mutex_unlock(&epdata->lock);
+> >>  		return -ENOMEM;
+> >>
+> >> or do what Gemini said.  Me, I'll add some cc's and run away.
+> >
+> > Let’s do this instead of suppressing kmalloc WARNs. Since a similar WARN[1]
+> > showed up yesterday and that WARN is better handled by a bound check,
+> > I do not think we want to lose the WARN from kmalloc/the page allocator.
+> >
+> > [1] https://lore.kernel.org/all/6a863306.ae6ddae5.3da009.0013.GAE@google.com/
 
-Why would the scsi_eh (or any other part of the SCSI stack) submit 
-commands before scsi_scan_host() has started?
+Fair enough.
 
-> This leads to "URB submitted while active" warnings and -EINPROGRESS
-> returns when usb_submit_urb() detects an already-queued/in-flight URB.
+> > Like the patch below:
+> >
+> > From 732ea7074854ac3495bbceb274cdd01966118e57 Mon Sep 17 00:00:00 2001
+> > From: Zi Yan <ziy@nvidia.com>
+> > Date: Thu, 20 Aug 2026 09:19:12 -0400
+> > Subject: [PATCH] USB: gadgetfs: do not WARN about excessively large memory
+> >  allocations
+> >
+> > GadgetFS passes an excessively large user input len to kmalloc and kmalloc
+> > gives a WARN (see below for details). Suppress it by passing __GFP_NOWARN
+> > to kmalloc used by both ep_write_iter() and ep_read_iter(). Follow the same
+> > method as commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively
+> > large memory allocations").
+> >
+> > kmalloc is used to allocate physically contiguous memory for kernel
+> > allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
+> > the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
+> > sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
+> > because kmalloc allocates an order greater than MAX_PAGE_ORDER.
+> >
+> > Fixes: b3c466ce5129 ("page allocator: do not sanity check order in the fast path")
+> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> > Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
+> > Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> > Signed-off-by: Zi Yan <ziy@nvidia.com>
+> > Cc: stable@vger.kernel.org
+> > ---
+> >  drivers/usb/gadget/legacy/inode.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+> > index d87a8ab515107..278a0a2b39f4c 100644
+> > --- a/drivers/usb/gadget/legacy/inode.c
+> > +++ b/drivers/usb/gadget/legacy/inode.c
+> > @@ -604,7 +604,7 @@ ep_read_iter(struct kiocb *iocb, struct iov_iter *to)
+> >  		return -EBADMSG;
+> >  	}
+> >  
+> > -	buf = kmalloc(len, GFP_KERNEL);
+> > +	buf = kmalloc(len, GFP_KERNEL | __GFP_NOWARN);
+> >  	if (unlikely(!buf)) {
+> >  		mutex_unlock(&epdata->lock);
+> >  		return -ENOMEM;
+> > @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct iov_iter *from)
+> >  		return -EBADMSG;
+> >  	}
+> >  
+> > -	buf = kmalloc(len, GFP_KERNEL);
+> > +	buf = kmalloc(len, GFP_KERNEL | __GFP_NOWARN);
+> >  	if (unlikely(!buf)) {
+> >  		mutex_unlock(&epdata->lock);
+> >  		return -ENOMEM;
 
-Have you actually observed this happening?
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
 Alan Stern
-
-> Fix by using test_and_set_bit() on US_FLIDX_URB_ACTIVE to mutually
-> exclude concurrent submissions. If a URB is already active, return
-> -EAGAIN to the caller.
-> 
-> Reported-by: syzbot+22ea20ef3afb6785b122@syzkaller.appspotmail.com
-> Signed-off-by: liuqi <liuqi@longcheer.com>
-> ---
->  drivers/usb/storage/transport.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
-> index f79b449d0..ffb1459d0 100644
-> --- a/drivers/usb/storage/transport.c
-> +++ b/drivers/usb/storage/transport.c
-> @@ -122,6 +122,16 @@ static int usb_stor_msg_common(struct us_data *us, int timeout)
->  	if (test_bit(US_FLIDX_ABORTING, &us->dflags))
->  		return -EIO;
->  
-> +	/*
-> +	 * Prevent concurrent submissions of the same URB.
-> +	 * If a URB is already in-flight (e.g., from a previous
-> +	 * BULK_MAX_LUN probe running in scan_dwork while scsi_eh
-> +	 * also invokes the same function), reject new submissions.
-> +	 */
-> +	if (test_and_set_bit(US_FLIDX_URB_ACTIVE, &us->dflags))
-> +		return -EAGAIN;
-> +
-> +
->  	/* set up data structures for the wakeup system */
->  	init_completion(&urb_done);
->  
-> -- 
-> 2.43.0
-> 
-
