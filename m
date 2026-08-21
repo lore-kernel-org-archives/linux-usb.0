@@ -1,149 +1,195 @@
-Received: from mail-oi2-f1.google.com (mail-oi2-f1.google.com [74.125.231.193])
+Received: from mail-oa2-f0.google.com (mail-oa2-f0.google.com [74.125.231.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DD93C585C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6E144780F
 	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 09:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.193
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787304164; cv=none; b=EpiCq9sWmPrdE7vAV5QiD5ZXZGcnfcALhehkPMEodOnd+BvOB1XkjL/VdomL7wrE6sBpM3mDKAIJ2OqEaWNOo4TP9aclSMaOD4aX2Pvk0m8Cu66n2Mw0mV9Zumi4YIuO4vcC+IqYphmwZdXMzPf8fwGgi/lzBv2Hzfh2i6GX59k=
+	t=1787304164; cv=none; b=Iwq3pc8uVY54GU5hWR3F29n3Io59oWmD5IsDqubLfy+ueqKNeCTf+SgaNOZObdaHNkreJ/pJxf9oQzqkaCm0Dg5qnLXebB1Sce20QWW3X7WOHwXJ00SySC/L4a1zRmoO2fzAWV80YcT+r2nwTMHlOTr/NGjKW0YIeBGlZpP4kv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787304164; c=relaxed/simple;
-	bh=R+Falvb7aeh3+wZfKYk5GYqgEeVUVSPc27M2lUs84RM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=q7ZLxRg1HtuNauF9LU6lJQUpob+E5NGlwhx4GUvCF2NOQY4ToJzhKhaNrUNxAR0Fk6XxpvU+J4Di3xWCA31DEF8dxeaLO61bBsfqi2TczrB5NR0rdwKo5ELcnF4NEhSeSqctzyMZoR/OMfCkrUt/S+pQkaucTvtW8c5SAw7/gac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.193
+	bh=R5Rw5uf8IBrEGuvOhi/19emRYQvLA01kgo7j3m3rfMo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=aXFjERYZ58ylYqypE3toy+wFB2DKuuTsQhtjxSH7YhSac2v47v1MmHSl6mdQ/+sixqQFJ7m9C2VqlVrH+GPxdNCZ0ZujFZPDfe5tVv327HHpXNJWy/XF+osGYV4k/b9tKUeAfNmynIlVRDG4GQ9+TruiA/Xv0rZ063sOxUtPefs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f1.google.com with SMTP id 5614622812f47-4960b753d6fso296853b6e.0
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 02:22:35 -0700 (PDT)
+Received: by mail-oa2-f0.google.com with SMTP id 586e51a60fabf-451e8472960so371720fac.1
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 02:22:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1787304152; x=1787908952;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6xwR6XCWe++xBJomhdq8XEB5t+E2N04ze3+6U8ntcwY=;
-        b=D/kuAMlNrRJvqaLO0YmiwYpStqxl7PnfR8Ci3ev4SnGAY6iT8rz5Chi2dBYZMIXVLI
-         NxP2dCL7GRugIy2nk1oP0a3eeoo157WeqIvgbnCYeoHE+HFg05/WS2xT4MJTrUn6AHhC
-         WunpOrMGdyIjTt96/A+v1C1VlRQPoW5q4EpxynHy5MpWcOdOG0jhuVbXMEUA+RzEdmEt
-         pcGQ4nHRjRrPidoHJ/sgRxOOi9qpIZ7pFKTgyNE+aQc9c/ZarhVe7fHlPp+7jep63b/G
-         EoPGTugDf18j8Q/GXeyoGGrGV/GMCWYe5OLkssd4Oi/ZvwVBXwu5uyY5w6qGiFWtrilk
-         wEwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoGbNMAdphC9CmpvqrJv+tRxjGsCWUlOeh/zFX2SCPVe2xpUWE+XAbsa/WzKw5A0noX2S7E8Mru7fQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqU5E61QAxxJCzP49nWDet6KBUqRITLycukgnxmmteBURVJTza
-	V7p6GiW+Pznl09gy02loPpkEdHwtHWt14rhBzwg9dCZAMmo+2KIbNMjcMiOD4B0dUpaLQj+mhZF
-	DnHgF/CvfWz4mteKdtZzPswcPdWRMr/iN5EChBkKt/iPLJPP1derNt1xfsW0=
+        bh=TRbj6Ao0AvB/wY388fSPnuMVW6hQ1b+Wdby5TiMnbLI=;
+        b=dKvx/GhxUhqieVF215C0A+uOEdaSf+5F/sN5J2CPMZvNpPxxjqR5i556vH4CVovNxq
+         69PP4z3145+v7RcWQeanGvLpzj2N/lshJvIZdldGqduyhWCpW2y0uqmBzIZxTypwmB69
+         yp1ZFaoG1Ge++9KNomWYT0M5qY/QFmt5vicD+xC0TLxgHHNZnLFW8OGJSir1d5apOzM8
+         zkYF90aqg2J0oFf5c7f/vdk/IpOBmdb7kcFCBsuWRWD/vqHQKFPHsJHalkLkKRlD1KTE
+         AtlK2WwzjY51ZWmUF2yufuWmFpba+83+QPt6l3+4mOwJx3pS314N0O9NxVI5wwW4n2ro
+         33IA==
+X-Forwarded-Encrypted: i=1; AHgh+RoNN4AoCJaOIDeenDhltf7VTQXxQIHokaPaY2ccQDCf1RZPCePf3EDHUjYHVH5FaFe7slGMwkuLRMY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLDv6psvf63PniEY/WzEiK8JJ8o/KCpq/P1RjIYIu2zYBiK3qO
+	pf95NGokU/QQ15UCn4DJB6W2KBUD3WrFb/A8OWJkxyiWQ3R4r1juJDg/B6OkhmBoiXPTgjeTsmV
+	iNhuH1UbSsk9DhMwQx5vurkzDmBuAoK7qqMKcA4Uf0k6Lf9jPnWia8Z+LH9w=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:308a:b0:497:df42:1e04 with SMTP id
- 5614622812f47-4b2ef4d45f6mr4569223b6e.18.1787304152203; Fri, 21 Aug 2026
+X-Received: by 2002:a05:6820:c2c7:10b0:6b1:858:28a9 with SMTP id
+ 006d021491bc7-6b159217ad4mr4029847eaf.9.1787304152442; Fri, 21 Aug 2026
  02:22:32 -0700 (PDT)
 Date: Fri, 21 Aug 2026 02:22:32 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8818d8.ae6ddae5.3da009.0030.GAE@google.com>
-Subject: [syzbot] [usb?] general protection fault in ucsi_acpi_probe
-From: syzbot <syzbot+23cf45a9fce78e4e0dc1@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <6a8818d8.ae6ddae5.3da009.0031.GAE@google.com>
+Subject: [syzbot] [usb?] INFO: trying to register non-static key in edge_bulk_in_callback
+From: syzbot <syzbot+763813d65c7e18c1b6d5@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, johan@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    4477a78374a5 Add linux-next specific files for 20260814
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=114036c6580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9b32a36dd637b06f
-dashboard link: https://syzkaller.appspot.com/bug?extid=23cf45a9fce78e4e0dc1
+HEAD commit:    dcb68831eac7 Merge tag 'block-7.2-20260815' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13c12679580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2ca5f2f2c4197664
+dashboard link: https://syzkaller.appspot.com/bug?extid=763813d65c7e18c1b6d5
 compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c60679580000
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/994c1c8c560e/disk-4477a783.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/cd54543d69ae/vmlinux-4477a783.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/407cdf8f3fc2/bzImage-4477a783.xz
+disk image: https://storage.googleapis.com/syzbot-assets/2f9d6a54222e/disk-dcb68831.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0b52c510b447/vmlinux-dcb68831.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f8d408f8474e/bzImage-dcb68831.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+23cf45a9fce78e4e0dc1@syzkaller.appspotmail.com
+Reported-by: syzbot+763813d65c7e18c1b6d5@syzkaller.appspotmail.com
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc00000000e5: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000728-0x000000000000072f]
-CPU: 1 UID: 0 PID: 5814 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 1 UID: 0 PID: 6693 Comm: kworker/u8:9 Not tainted syzkaller #0 PREEMPT(full) 
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:ucsi_acpi_probe+0x6c/0x4b0 drivers/usb/typec/ucsi/ucsi_acpi.c:199
-Code: 89 74 24 08 4c 8b 23 4c 89 e7 e8 ef df 54 fd 49 83 c4 f0 45 31 f6 84 c0 4d 0f 45 f4 49 81 c6 2c 07 00 00 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 28 84 c0 0f 85 16 04 00 00 41 8b 2e 31 ff 89 ee e8 cb
-RSP: 0018:ffffc9000272fab8 EFLAGS: 00010203
-RAX: 00000000000000e5 RBX: ffff88801db68430 RCX: ffff88807f249f40
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffff88802b52e5a3 R09: 1ffff110056a5cb4
-R10: dffffc0000000000 R11: ffffffff87e620e0 R12: fffffffffffffff0
-R13: dffffc0000000000 R14: 000000000000072c R15: 1ffff11003b6d086
-FS:  000055555ee6f500(0000) GS:ffff888124df8000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb722c70000 CR3: 0000000075912000 CR4: 00000000003526f0
+Workqueue: events_unbound nsim_dev_trap_report_work
 Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ assign_lock_key+0x133/0x150 kernel/locking/lockdep.c:984
+ register_lock_class+0xcc/0x2e0 kernel/locking/lockdep.c:1299
+ __lock_acquire+0xab/0x2cf0 kernel/locking/lockdep.c:5112
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:132 [inline]
+ _raw_spin_lock_irqsave+0x40/0x60 kernel/locking/spinlock.c:166
+ __wake_up_common_lock+0x30/0x1f0 kernel/sched/wait.c:124
+ process_rcvd_data drivers/usb/serial/io_edgeport.c:1735 [inline]
+ edge_bulk_in_callback+0x84d/0x1570 drivers/usb/serial/io_edgeport.c:721
+ __usb_hcd_giveback_urb+0x374/0x530 drivers/usb/core/hcd.c:1657
+ dummy_timer+0xa91/0x4cf0 drivers/usb/gadget/udc/dummy_hcd.c:2019
+ __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
+ __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2096
+ hrtimer_run_softirq+0x17a/0x240 kernel/time/hrtimer.c:2113
+ handle_softirqs+0x225/0x840 kernel/softirq.c:622
+ do_softirq+0x76/0xd0 kernel/softirq.c:523
+ </IRQ>
  <TASK>
- platform_probe+0xf9/0x190 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- device_driver_attach+0xe0/0x1d0 drivers/base/dd.c:1203
- bind_store+0x1d0/0x220 drivers/base/bus.c:267
- kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb722d9e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff7bf8acb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007fb723025fa0 RCX: 00007fb722d9e0d9
-RDX: 0000000000000007 RSI: 0000200000000180 RDI: 0000000000000004
-RBP: 00007fb722e35024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fb723025fac R14: 00007fb723025fa0 R15: 00007fb723025fa0
+ __local_bh_enable_ip+0xf8/0x130 kernel/softirq.c:450
+ local_bh_enable include/linux/bottom_half.h:33 [inline]
+ __alloc_skb+0x1ad/0x7a0 net/core/skbuff.c:699
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ nsim_dev_trap_skb_build drivers/net/netdevsim/dev.c:819 [inline]
+ nsim_dev_trap_report drivers/net/netdevsim/dev.c:876 [inline]
+ nsim_dev_trap_report_work+0x25f/0xb40 drivers/net/netdevsim/dev.c:922
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 1 UID: 0 PID: 6693 Comm: kworker/u8:9 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: events_unbound nsim_dev_trap_report_work
+RIP: 0010:__wake_up_common kernel/sched/wait.c:104 [inline]
+RIP: 0010:__wake_up_common_lock+0xd6/0x1f0 kernel/sched/wait.c:125
+Code: 0f 84 d4 00 00 00 44 8b 64 24 04 eb 13 48 ba 00 00 00 00 00 fc ff df 4c 39 fd 0f 84 ba 00 00 00 49 89 ee 48 89 e8 48 c1 e8 03 <80> 3c 10 00 74 12 4c 89 f7 e8 6c e0 94 00 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc90000a08920 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 000000000000000f RCX: 0000000000000001
+RDX: dffffc0000000000 RSI: 0000000000000004 RDI: ffffc90000a08880
+RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffff52000141110 R12: 0000000000000001
+R13: dffffc0000000000 R14: 0000000000000000 R15: ffff888053875518
+FS:  0000000000000000(0000) GS:ffff888125049000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fab789ad000 CR3: 0000000075f26000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ process_rcvd_data drivers/usb/serial/io_edgeport.c:1735 [inline]
+ edge_bulk_in_callback+0x84d/0x1570 drivers/usb/serial/io_edgeport.c:721
+ __usb_hcd_giveback_urb+0x374/0x530 drivers/usb/core/hcd.c:1657
+ dummy_timer+0xa91/0x4cf0 drivers/usb/gadget/udc/dummy_hcd.c:2019
+ __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
+ __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2096
+ hrtimer_run_softirq+0x17a/0x240 kernel/time/hrtimer.c:2113
+ handle_softirqs+0x225/0x840 kernel/softirq.c:622
+ do_softirq+0x76/0xd0 kernel/softirq.c:523
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xf8/0x130 kernel/softirq.c:450
+ local_bh_enable include/linux/bottom_half.h:33 [inline]
+ __alloc_skb+0x1ad/0x7a0 net/core/skbuff.c:699
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ nsim_dev_trap_skb_build drivers/net/netdevsim/dev.c:819 [inline]
+ nsim_dev_trap_report drivers/net/netdevsim/dev.c:876 [inline]
+ nsim_dev_trap_report_work+0x25f/0xb40 drivers/net/netdevsim/dev.c:922
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
  </TASK>
 Modules linked in:
 ---[ end trace 0000000000000000 ]---
-RIP: 0010:ucsi_acpi_probe+0x6c/0x4b0 drivers/usb/typec/ucsi/ucsi_acpi.c:199
-Code: 89 74 24 08 4c 8b 23 4c 89 e7 e8 ef df 54 fd 49 83 c4 f0 45 31 f6 84 c0 4d 0f 45 f4 49 81 c6 2c 07 00 00 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 28 84 c0 0f 85 16 04 00 00 41 8b 2e 31 ff 89 ee e8 cb
-RSP: 0018:ffffc9000272fab8 EFLAGS: 00010203
-RAX: 00000000000000e5 RBX: ffff88801db68430 RCX: ffff88807f249f40
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffff88802b52e5a3 R09: 1ffff110056a5cb4
-R10: dffffc0000000000 R11: ffffffff87e620e0 R12: fffffffffffffff0
-R13: dffffc0000000000 R14: 000000000000072c R15: 1ffff11003b6d086
-FS:  000055555ee6f500(0000) GS:ffff888124cf8000(0000) knlGS:0000000000000000
+RIP: 0010:__wake_up_common kernel/sched/wait.c:104 [inline]
+RIP: 0010:__wake_up_common_lock+0xd6/0x1f0 kernel/sched/wait.c:125
+Code: 0f 84 d4 00 00 00 44 8b 64 24 04 eb 13 48 ba 00 00 00 00 00 fc ff df 4c 39 fd 0f 84 ba 00 00 00 49 89 ee 48 89 e8 48 c1 e8 03 <80> 3c 10 00 74 12 4c 89 f7 e8 6c e0 94 00 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc90000a08920 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 000000000000000f RCX: 0000000000000001
+RDX: dffffc0000000000 RSI: 0000000000000004 RDI: ffffc90000a08880
+RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffff52000141110 R12: 0000000000000001
+R13: dffffc0000000000 R14: 0000000000000000 R15: ffff888053875518
+FS:  0000000000000000(0000) GS:ffff888125049000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb722fee000 CR3: 0000000075912000 CR4: 00000000003526f0
+CR2: 00007fab789ad000 CR3: 0000000075f26000 CR4: 00000000003526f0
 ----------------
 Code disassembly (best guess):
-   0:	89 74 24 08          	mov    %esi,0x8(%rsp)
-   4:	4c 8b 23             	mov    (%rbx),%r12
-   7:	4c 89 e7             	mov    %r12,%rdi
-   a:	e8 ef df 54 fd       	call   0xfd54dffe
-   f:	49 83 c4 f0          	add    $0xfffffffffffffff0,%r12
-  13:	45 31 f6             	xor    %r14d,%r14d
-  16:	84 c0                	test   %al,%al
-  18:	4d 0f 45 f4          	cmovne %r12,%r14
-  1c:	49 81 c6 2c 07 00 00 	add    $0x72c,%r14
-  23:	4c 89 f0             	mov    %r14,%rax
+   0:	0f 84 d4 00 00 00    	je     0xda
+   6:	44 8b 64 24 04       	mov    0x4(%rsp),%r12d
+   b:	eb 13                	jmp    0x20
+   d:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
+  14:	fc ff df
+  17:	4c 39 fd             	cmp    %r15,%rbp
+  1a:	0f 84 ba 00 00 00    	je     0xda
+  20:	49 89 ee             	mov    %rbp,%r14
+  23:	48 89 e8             	mov    %rbp,%rax
   26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 0f b6 04 28       	movzbl (%rax,%r13,1),%eax <-- trapping instruction
-  2f:	84 c0                	test   %al,%al
-  31:	0f 85 16 04 00 00    	jne    0x44d
-  37:	41 8b 2e             	mov    (%r14),%ebp
-  3a:	31 ff                	xor    %edi,%edi
-  3c:	89 ee                	mov    %ebp,%esi
-  3e:	e8                   	.byte 0xe8
-  3f:	cb                   	lret
+* 2a:	80 3c 10 00          	cmpb   $0x0,(%rax,%rdx,1) <-- trapping instruction
+  2e:	74 12                	je     0x42
+  30:	4c 89 f7             	mov    %r14,%rdi
+  33:	e8 6c e0 94 00       	call   0x94e0a4
+  38:	48                   	rex.W
+  39:	ba 00 00 00 00       	mov    $0x0,%edx
+  3e:	00 fc                	add    %bh,%ah
 
 
 ---
@@ -156,10 +202,6 @@ https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
 If the report is already addressed, let syzbot know by replying with:
 #syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
 If you want to overwrite report's subsystems, reply with:
 #syz set subsystems: new-subsystem
