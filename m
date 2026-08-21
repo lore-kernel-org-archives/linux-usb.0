@@ -1,28 +1,28 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012001.outbound.protection.outlook.com [52.101.66.1])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013019.outbound.protection.outlook.com [52.101.83.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770174DB575;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BE74D90C3;
 	Fri, 21 Aug 2026 16:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.1
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787329425; cv=fail; b=NKCe65AL3BDbhFTSxJOjmhcnmSiUXraMZTOvjpNkshloO5Hdp3lK2jk80aKoKw9zLMT0FAg963yRX1I5jFNPBCMRcx019xSUA/zWCQFOE9l2d5tijc9x9V3AsnkUOrWV8UjkZVXtyEnZSLBujS6ygYP3r4192zNJjWVnBkvLDsM=
+	t=1787329425; cv=fail; b=stbb/BbdMdIL2VZ93i2XfDx1tCQr64xPqq7twW1RikwgcjmrG3ngawIZD7QOtC2HL1al1djKqvy5lQaA8jGNg4ateg2ePfalUxvLAl/5aOyZBnpdoxM6zbqMmNXbo79JumPWbh3PeJwRxTKQzf4Kx0L42cWMPmBf1IvBPBN91qw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787329425; c=relaxed/simple;
-	bh=aj0YZtT24s8cuNQYQXlcykNyht6Rjr0BazpVqYF+Mgo=;
+	bh=KixLaK2yVgQ5c+3mcF/RIUgLPv1dpS3/Kmk+OSkJ/38=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=rvXeCYDEqwB/Kswjfoq0yTbTD01p6zj+E70e4Os7cCNYDlCnqnWHbqb7OZqb1QrR7Fc5Z3ontiiCmaBTfes0t3jrHVALykSlGS7KrqmXgXQsYrIJ1M6TtMQbeqheDM43b7DIyWpqMLAfi/pkMUUxX1TxnER9n2zopGz11xfhfq8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=TKI0rAaT; arc=fail smtp.client-ip=52.101.66.1
+	 In-Reply-To:To:CC; b=pveyT3671bGJAALDXQ5fmdUTsIbm2ykdGDF4W8Np6tY6gegMv9eXD3fxS5Nkj1iHjFD9UjqXEWN6OFDoCHdnU+Wa3bT08T66Vjlt57bxj9DT/XQxavU6KlKs/Xd0oRK8jhJnfhnqOj5+eeVv46A982HEbG6zYIj3ORjqA/gQsgU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=joo6P6s9; arc=fail smtp.client-ip=52.101.83.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="TKI0rAaT"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="joo6P6s9"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vt1NlrIix1Cvb/J8mI3Q3JKmii16qxL0XVO2Ka/6DdhnxS7PdOx2ih/X12kwgSWBPH1aKzm38DBLEWAXl9LKngYbtVGqPubYM5tyq5LVNqLhJkr3JCSJp0lMYz6xCufgdM0FXN5Mcq7AMuBq/Ae/1Yytch02Um1Eh6r2ZybJBOZrZ2EuAMfeaOH+32q68ti6GggTWjPjg8415ExnZp2aUo8W9Y/StK0zQPqlEcofj8ypckcdJRQIfme1aCz8yUXFlAP1sfV/uM0xxrN7CRZ4y5Y53tqOT242OqExrbuox3b72WhWOcYt9eOZR6cQvRUGSpcUP7snn8WdU25qkUaLEQ==
+ b=K8AuoJFDUruHF56v8YToRdI7ATADUM9xQbtuMcaqjS0bKhNoE1YvIWK/FxTTy835eWOSCpKr4FtBzdimH0e/zfe2wtIUEKZmBtMULoL2IShZsbc173+WrBxNeE7cq/8PnfTaW4EVY5ZTPiaCkmVes+GiMEyrS4bNaZe58XM+NAlAQWouNAc+ohPpHu7PVtkbEvqaUtzX/0MM+gQ6GOoRMismpTWT3HABUDNWDZ2YYJqF8MCKwgTPVEhiQ64CWkJviqBiDKNPMiuOTA8m2iGnQsvCrG1SI4lte5l1BPintAXAuPoy+OkIz0N237YV8LjwZyx0dSdY8U2vk5PR14lVNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hP7hhIf7wFwZnKEm8l5Z20gDmziBB27NVhkYA3BI8wM=;
- b=w35AnygJT6OEjIYEeWSHnTJj0mT6o2P1dazGY5RsL1UvgeGA9TFiAkPkmNfTe2p71E+yWy15KTiYcuYSfFY6tKEFKrvElyd5rSxfpCnRxH2ZSaKS7eEyazMcOodPwpJAPK7NUutjv6mA8FiarM3eJVuEbGtt794axiH/FsT3OwUBXUXuiaHRtzuHRd43ZX1iHikYrOtH+VVc75U7otiNGUtAfMbUrESn0kHRp4MJRZG9M5QFcIalqmx0lNd4s9u3Xxa+Lw5/LPgxYTiEH2/X5ajjn48eTIvb1wzXS1fav04vHtRNiEvs8o4r3mgG1emdMSgWN+DElzLqJXlVcxsl0w==
+ bh=+AQN/LmEjkXl9+Kd6JfWcg0tzy6nTxkHPIhw9kTWg+8=;
+ b=aKo/BM1h5Our8wr4++A4Ni8VOKlxxiSC2IKIJfKVKm0PXY30cG7uMLnyjpI3ipWMsvqXsRagUeO81ye4xy9VQ/9TZP+OaBofziten9F/tG6i1koQU6kydLji49B+3rX2dKEPC1vRZVtdBBL7o6ZNaFBP09X2ZJorvRgCumuR7SfFroS+MFp4F9/f8W1ipX2LyAmWEIMpzslarZnemVO3MWmZjcddl3Q0b+JuTnXjG5gyUVpHMLVjO99wSIGLZg620NKh1grhAKo8q1hGRsVdRSD3HorunNqMN1fSyMyheJsk8/VNSr+6tDQ61eq3QHKpeXJbrYclIi3r4wWjv5KoyQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  164.130.1.60) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
@@ -30,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hP7hhIf7wFwZnKEm8l5Z20gDmziBB27NVhkYA3BI8wM=;
- b=TKI0rAaTcwHVkzScvf3nW+zzPVgTCIr9JXO6M4AEXV73UcWY9ilOHDbElu1JSDC+lzY1wBf/GflIKY6g46LKaTf10shQSB0KUzHaACDO2FccqbGk+Tq82PXPpYRKGMByEXfTlef2v5CT9ebTguFfbsjDo4TX0ZDxWhfxPnqNOU8tQA4mc2aoGWC+XeKHH4IegBTlCiuPl3a26ErC6FJ8yWBOgvYoP2XjClPZ08nlHF1IPOzt27YucE/eVYLQQ+N8ccETsnWVO6T2ihdw9FeUAAtd4bPH6o7Xa4q81HRM95AjSMZq7GWAqePldcooKgU1/zfN8Not1UwLpyxh2hzjXg==
-Received: from DU2PR04CA0360.eurprd04.prod.outlook.com (2603:10a6:10:2b4::28)
- by AS4PR10MB5870.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:515::9) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=+AQN/LmEjkXl9+Kd6JfWcg0tzy6nTxkHPIhw9kTWg+8=;
+ b=joo6P6s9Xg/9zOXXoxxfzWhlpgN2BVnG+FpWTyjfqS0v+NNdikU6fWOysMY7YaLONZ5pVE0YTugjL4RHTaPrdZIANLiWg2qH8Y2tRrKlvRUZqyERxQ2RCwAOJoLzyp47VJqTAeRPwtlu///NN4CXRauzCt/wMsM8Oc6Uoo/N+uCy9adIXMyE/P9xomxyb4srkKl/oQE76g8vaIImt2DImMpihhVTt8pivC57ITTLtj3MtEMMz0LpSXrgNy15xzIxCQgJwff7ki8fuKO96Xkg1WtBw5RWOHKw3n+dnrX/cYYGe6qVv/Eb13cSxTQtXrGbKqSB5py5JMSDiI2nXPEaOQ==
+Received: from DU7PR01CA0025.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:50e::15) by VI1PR10MB3248.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:136::8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
- 2026 16:23:37 +0000
-Received: from DB1PEPF000509F3.eurprd02.prod.outlook.com
- (2603:10a6:10:2b4:cafe::a2) by DU2PR04CA0360.outlook.office365.com
- (2603:10a6:10:2b4::28) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 16:23:34 +0000
+Received: from DB1PEPF000509F7.eurprd02.prod.outlook.com
+ (2603:10a6:10:50e:cafe::22) by DU7PR01CA0025.outlook.office365.com
+ (2603:10a6:10:50e::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
- 21 Aug 2026 16:23:36 +0000
+ 21 Aug 2026 16:23:34 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
@@ -49,20 +49,21 @@ Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
  designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
  client-ip=164.130.1.60; helo=smtpO365.st.com;
 Received: from smtpO365.st.com (164.130.1.60) by
- DB1PEPF000509F3.mail.protection.outlook.com (10.167.242.149) with Microsoft
+ DB1PEPF000509F7.mail.protection.outlook.com (10.167.242.153) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 16:23:36 +0000
+ 15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 16:23:34 +0000
 Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
  (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
- 2026 18:28:35 +0200
+ 2026 18:28:34 +0200
 Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
- 2026 18:23:35 +0200
+ 2026 18:23:33 +0200
 From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Date: Fri, 21 Aug 2026 18:23:25 +0200
-Subject: [PATCH 14/16] arm64: dts: st: enable usb on stm32mp257f-ev1
+Date: Fri, 21 Aug 2026 18:23:23 +0200
+Subject: [PATCH 12/16] dt-bindings: phy: stm32: adapt usb2phy as syscon
+ child on stm32mp25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -71,7 +72,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-14-c5e27cbc0795@foss.st.com>
+Message-ID: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-12-c5e27cbc0795@foss.st.com>
 References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
 In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
@@ -92,145 +93,103 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509F3:EE_|AS4PR10MB5870:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8b9ef1e-23d5-4b36-d067-08deffa08d7c
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509F7:EE_|VI1PR10MB3248:EE_
+X-MS-Office365-Filtering-Correlation-Id: a88b99a2-f8b3-41d7-fff8-08deffa08c48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|7416014|376014|23010399003|1800799024|82310400026|921020|10067099003|11063799006|5023799004|56012099006|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|7416014|36860700016|23010399003|1800799024|82310400026|6133799003|56012099006|3023799007|10067099003|11063799006|18002099003|22082099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	kTsksAgAkvLgdkFAf7Qd+qZ7PwpNRghzOJVogq4/QTTOHLj76fmG5zxxAcoxq5N7aDUZolhJTrtGo1rYov6Tk9v6CFR60JM5wKZQpLTsP0vDxMlxekt280dW2gfZ+ayRlTN4TT3OjsAPq1zi+yOem/98R6YLH246Xths/KULq/KAkmaMVLYJVGenPw7yvOgNcYYROkVqEv4Dpm+zSwcMwXWPl9u6ecs0Rz7O4QJSpyPmCCv1qCOLGfnTPQOFd5ULKm5CK5R8Nz2bNL+qmauKusO5vHRn8EFAUp2Hc7ghhNLhlohzwgRZ3RM2BGeTFN8dQnjYP1fJKUNhJmKh0ByiE2EbkXv3dKBBARP8C6KP5b+w/InRbocZCTzzQd2yM+uEJ35bEvN1M/ZBQJmuTICumlIRj3KgqfUIvYs7aZrmqRWYHLajqN305Gnk0WNlpv3nXfQ7BvsuBxfba7q7zPC5X7Nqvan5IhZfTlUd/j464D1CdBk+Y4bIvtS/ClO0mV4lXUM+fteM3/4Lu2VQao7XAcOEvYkR0METdFTzuuBjXbIapjoOZ9hC6JBN6ZXlfGpqAEog9h4WLwZD9tOaH9VlRwmEdxZi/iioZJXMJi88jlrEDGiyHRPo05/Nu+V4l2o1Ze+WSlR7Xilm+C6jLX4JGAvxPTxck8ICWxyF3vVy8vYaWyYet/cB+Z3oxa3XDtaIlKxoT09OR/Su7vROcnWNAHsOlXxSoSuSTniBlMlv2nxHuw2awHSBLbWFwL0lrUWO
+	ip4HFVx7OOPQNepAD+1punN4kDp6E5BDRb0O96WszxEw9ACW6UfTJ7jJwPfdN1kjjgey/0oXphYs3aMztWydTg/zjFkC0W8KAe4mCKILJJwooBCcODx4Xl8W4czDEcuLZ14Ki+Y+lHRYE5mUzg8gfThBVwZUjqxCPXLyfODZqiyyf2I4pmvcv4Cti6FCoFnQBAZOtWVyo7YQDxCNfYKZvi7syvBdTfU3lWgWpDH9uilGyFt9O6aHm2zhEqXwqJs7CFhthSJs205NhSzkxhCezsDPhNpVQKAHVP9wKZ+pbDAK6KEUvrmlC6EknhCPEzR563pn604XNb5lzWoTUyqVNPCnfEGNMXwm4g/zGCYR8TAFbBgtzUwYIwICM/kd27wvM/eTdigAudJ4sFreTMTsoesrOgqh66uKXM+rnZUELRIrum9rFz5KOxlurfcQbGdeOs4UtmcwroySy75SCnaKtOLIglkQpm+LoOPRNswMKtJNIzoR1h5dG+qTPYFnYYMvdtpksin98GCZa1fc8C0p4zh7aDeGQakjuQVLq/phH8rUztjZIMCYrZGn2Nl2+xGNydFUc6h9OzWyu7BP995U5rXBFvF+DNVC5+TmodV0beFoLcVZ4nOChS7RbDsr15EwWHshxdNORw5wWJOMly1pKnwYKe/6IUOcaP4RHWFoTaCBLYHLkywpIL/az4i/1MM8aXMOKN8WW5Jj5TfYOJ5EJ7NDy4Yg4mCUWICucnuhzzPw3oL5ft9uWob2pC38cpMI
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(376014)(23010399003)(1800799024)(82310400026)(921020)(10067099003)(11063799006)(5023799004)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(23010399003)(1800799024)(82310400026)(6133799003)(56012099006)(3023799007)(10067099003)(11063799006)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	P+EAQV0LoafwRoUKmj7RFlW0mhjZI9Cyae00JCs2oShtpSv8FmqFnn3uI8N7WuJS+Rs2X26Jz5cbLkSdfPDliDpR82X3agb7+jU4ENGDjjk2StVD/zwefGDbm+xR18Tw6VL3AFm+i5b5bMpZDZxJu3lrSFTfwQALHEqoHhEg+QA0xJOpOg93+wVVjcGbnCw6S4awlefKlRb3eSiy4FQpDTUnIp2N/9F1pTfiBXK7Om3Za7S5754H9uCsVVLdAMDQ7ZsL+3TXXtoUT3C6OtJVOsAZcwPyOnuefXM6wifdt8TdZ6iQeLlWihdPWEAhiqYEO3nAXK8LtQMW3BbqpNv92W9/rKQbEH+n0DbUJUaBFt/nMEPQk42+lDkGWbHw11eTBBXZ29gxvsGQs6fCBxOSFf8bdtbBsQAKu2bI+YyexgldLWh3wqnZWtVLXe3cjM0f
+	d2IYHxjI3oQTUATc4aYwB69kISYCiT62rBt2rK6N1xLYsKtiTQvJVPScRx3tk/YbBG/uLGAQakDtRXHe4qEBUFlsLpwMvJgfD9KkzoV+/wr4NAEt33Qr7G3kfaWfKCWRWE6ymzftBdiWygde3pFtz9e9GDwvl3Ipa6zdC+rD9CKma00Ud1nonnkt6gGSXQoat8f/u/lypLTwWqGonUm1BxXXZsyVC3aGZk28pQnURvY6mN7oQDomBfrr+62K5684UhhMS3RiqJWuTNnzAZUX8ttJ5Ymo3c/sJPzR7Q2gujqoK2D5C1vO+7rX/CBapoq7XJeGZq1xU8WPTJ7yIbDsquBKd2dHPGSq8VNwHaD38KbLyY71fRlkQk2O2nFw8Cm0xxtiydfVsRWEQvGhhUCFqvZ4KAfWRgGY3WpYLdrdTgWgTh9mGQMoxwQbr5Rogwco
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:23:36.5558
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:23:34.5475
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8b9ef1e-23d5-4b36-d067-08deffa08d7c
+X-MS-Exchange-CrossTenant-Network-Message-Id: a88b99a2-f8b3-41d7-fff8-08deffa08c48
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509F3.eurprd02.prod.outlook.com
+	DB1PEPF000509F7.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5870
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3248
 
-STM32MP257F-EV1 board uses two USB controllers:
-- USB Host port, with external onboard HUB providing to connectors
-- USB Dual role Type-C port
-Both are capable of to operate in High-Speed mode.
-The Type-C port management is done through integrated UCPD controller
-and external TCPP03 I2C protection chip on I2C1.
+Adapt stm32-usb2phy since transition to syscon child node on stm32mp25.
+This is a temporary update, as it depends on Marek's series [1]. This
+should be dropped in later series revision.
+It's a precursor to validate further DT addition on USB and Type-C.
 
-Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
+Allow usb2phy to be a child node with reg and unit address.
+It replaces the st,syscfg phandle.
+Also adapt the example, e.g. stm32mp25-usb2phy1 address, clock and reset.
+
+[1] https://lore.kernel.org/linux-phy/20260816213849.1044073-2-marex@nabladev.com/
+
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 79 ++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ .../devicetree/bindings/phy/st,stm32-usb2phy.yaml    | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-index 14e033f365e3..6c2bfbf77aac 100644
---- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-+++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-@@ -253,6 +253,28 @@ phy0_eth2: ethernet-phy@1 {
- 	};
- };
+diff --git a/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml b/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+index ab6c943af9a2..3e8f57a46db3 100644
+--- a/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
++++ b/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+@@ -23,6 +23,8 @@ properties:
+       - st,stm32mp25-usb2phy1
+       - st,stm32mp25-usb2phy2
  
-+&i2c1 {
-+	pinctrl-names = "default", "sleep";
-+	pinctrl-0 = <&i2c1_pins_a>;
-+	pinctrl-1 = <&i2c1_sleep_pins_a>;
-+	clock-frequency = <400000>;
-+	status = "okay";
-+	/* spare dmas for other usage */
-+	/delete-property/dmas;
-+	/delete-property/dma-names;
++  reg: true
 +
-+	tcpp: typec@34 {
-+		compatible = "st,tcpp03";
-+		reg = <0x34>;
-+		enable-gpios = <&gpiog 2 GPIO_ACTIVE_HIGH>;
-+		interrupt-parent = <&gpiog>;
-+		interrupts = <1 IRQ_TYPE_EDGE_BOTH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&tcpp_flgn_pins_a>;
-+		status = "okay";
-+	};
-+};
-+
- &i2c2 {
- 	pinctrl-names = "default", "sleep";
- 	pinctrl-0 = <&i2c2_pins_a>;
-@@ -516,6 +538,27 @@ timer@11 {
- 	};
- };
+   "#phy-cells":
+     const: 0
  
-+&ucpd {
-+	st,tcpp = <&tcpp>;
-+	status = "okay";
-+
-+	connector {
-+		compatible = "usb-c-connector";
-+		label = "USB-C";
-+		data-role = "dual";
-+		power-role = "dual";
-+		try-power-role = "sink";
-+		typec-power-opmode = "1.5A";
-+		pd-disable;
-+		self-powered;
-+		port {
-+			typec_ep: endpoint {
-+				remote-endpoint = <&dwc3_ep>;
-+			};
-+		};
-+	};
-+};
-+
- &usart2 {
- 	pinctrl-names = "default", "idle", "sleep";
- 	pinctrl-0 = <&usart2_pins_a>;
-@@ -534,3 +577,39 @@ &usart6 {
- 	uart-has-rtscts;
- 	status = "disabled";
- };
-+
-+&usb2_phy1 {
-+	vdd33-supply = <&scmi_vdd3v3_usb>;
-+	status = "okay";
-+};
-+
-+&usb2_phy2 {
-+	vdd33-supply = <&scmi_vdd3v3_usb>;
-+	status = "okay";
-+};
-+
-+&usb3dr {
-+	maximum-speed = "high-speed";
-+	phys = <&usb2_phy2>;
-+	phy-names = "usb2-phy";
-+	usb-role-switch;
-+	status = "okay";
-+	port {
-+		dwc3_ep: endpoint {
-+			remote-endpoint = <&typec_ep>;
-+		};
-+	};
-+};
-+
-+&usbh_ehci {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+	/* onboard HUB */
-+	hub@1 {
-+		compatible = "usb424,2514";
-+		reg = <1>;
-+		vdd-supply = <&scmi_v3v3>;
-+		vdda-supply = <&scmi_v3v3>;
-+	};
-+};
+@@ -35,24 +37,16 @@ properties:
+   vdd33-supply:
+     description: Phandle to regulator providing 3V3 power supply to the USB2 HS PHY
+ 
+-  st,syscfg:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    description: Phandle to system configuration controller.
+-    items:
+-      - items:
+-          - description: phandle to syscfg
+-          - description: USB2PHY control offset within syscfg
+-
+   "#clock-cells":
+     const: 1
+ 
+ required:
+   - compatible
++  - reg
+   - "#clock-cells"
+   - "#phy-cells"
+   - clocks
+   - resets
+-  - st,syscfg
+   - vdd33-supply
+ 
+ additionalProperties: false
+@@ -62,12 +56,12 @@ examples:
+     #include <dt-bindings/clock/st,stm32mp25-rcc.h>
+     #include <dt-bindings/reset/st,stm32mp25-rcc.h>
+ 
+-    usb2_phy2: usb-phy {
++    usb2_phy2: phy@2400 {
+         compatible = "st,stm32mp25-usb2phy1";
++        reg = <0x2400 0x24>;
+         #clock-cells = <1>;
+         #phy-cells = <0>;
+-        clocks = <&rcc CK_KER_USB2PHY2>;
+-        resets = <&rcc USB2PHY2_R>;
+-        st,syscfg = <&syscfg 0x2800>;
++        clocks = <&rcc CK_KER_USB2PHY1>;
++        resets = <&rcc USB2PHY1_R>;
+         vdd33-supply = <&vdd33usb>;
+     };
 
 -- 
 2.43.0
