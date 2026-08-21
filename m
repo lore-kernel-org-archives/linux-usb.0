@@ -1,69 +1,68 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011032.outbound.protection.outlook.com [52.101.70.32])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012018.outbound.protection.outlook.com [52.101.66.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F674D90DF;
-	Fri, 21 Aug 2026 16:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54784D90AF;
+	Fri, 21 Aug 2026 16:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787329420; cv=fail; b=INiJiU83feRGPv6eKQccL1ldP1LG7uUt2005/aJAN6oH8E8yMs0BPMMqxlEx8ETPtcyPEBvtya7WNVGtuCEsNd6f0RkDbWrs/5CbrP3TYRLNCXVq8LnukH1GB/aAq1W+XMxw3H5Cbf2PXhH8VzPF1fFTlMWDQzw9z23Eu5DRIHY=
+	t=1787329419; cv=fail; b=J0pkgvDK12oa8u0T1FDMc5PYc/kygNfmQcsOdJgHnBAL7EUYDTexNbqCnqBotbiTSXq+x1tRUzrMiSyLyo/wYSR5Jtl5L0PFv6rkgsQMP/9Ei9wLjrsz99RXXAgWi2KiZ8J2E0hURsGF+yKTVsS08qs81Ivz74IzFMMUV+ATogM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787329420; c=relaxed/simple;
-	bh=jIqQNYxVOsuaWFbRBUWZhXJ2fDuUS5zaM0rLnbvuVUs=;
+	s=arc-20240116; t=1787329419; c=relaxed/simple;
+	bh=mTD4g/Zeuunvc8cRIhqipA7es0kWfrsKUOa5gKKNIh8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=WJthNoivucpJDwmIR5y9glbhgdIQTnoRIIyOZH60H5vQnKvDD7jb0L9aC1Nh07icrAkmX1h4ITksIzV0EhDo0ZUWTZZw1ANJ369ucIggIipkDJ6KNFga2LVcYoSu3OSId5xTPJeumQGWexhJYd7nJUW4xBMwsJSYw5G+dGLbBwY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=g0+kb3k2; arc=fail smtp.client-ip=52.101.70.32
+	 In-Reply-To:To:CC; b=mBo5JG5BXyXpdN2rwpIdlZEeUbjCK3752dOzCvuR6r6BIoIWhcBOjJJOKNnf4B2Pa70h1tIWXsEG8NikVCn8/tWLf094kjY4AlXkToLTJo74X1cb9+lUeMPfNJmmGqFY3HkyCe3vsACAjXMRjrffyTV3mEVwL252OFpuOXSLHDg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=jfHu6QLr; arc=fail smtp.client-ip=52.101.66.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="g0+kb3k2"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="jfHu6QLr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YQYtvOAFkMo25t6EyhWVnYsyBdckR7IWiN/toYTwIcn7kon+GaA+lnpX0r+a4pNY4lMtJ2h2HkWhQNg8MVoGkH5nFafGEUcTd81qt5A0YbARksDtPVAfuKT8T2cCdZVOeonTsWDBfznFUzDCCJ2eVkW7lMT9qCYkye+K/VsnGUvzSRPzCPfyRLPzAvUNA6fLvLw79n/hLMIpnNj/AFOSvWodCAb+Z27FmsiDwX5/8elt+9jw3ploq4jEo8gv67StL5xiMoBPeKErrgRfSy2K1cr05ZADxEycilZgcNsok7blt4INkm3MjY5N9ytDe6zsJnRYsk+Qw64q9PCMTutdAg==
+ b=jtuMxAcgPnoKRWSepnMCy6aBuCOvJH91gDCNYkxV1S3A1Jh3WNRsaE4Wb9mY830KdsKbMmOxwZ3LRp/s+M75EDs3C4PFVWPi2BKWGLqFmFw33wypH++/hbIh4EeHB/my4fqY4mjbpSmyJefbsN0h/ZQYPvc1gmMSzTiJCpsg/muu+OI5B6tMMT1gLwTBCpZhpTx5nfWc+bJNSbpvxBWUWGESzJyGt46/gz5PiGQuvyVGBRGcVWN8Rplw7JodD//zVXFHjEYqOH6i0Xo2mqh+xZHaMVZ94mm2Xeuiw43aEN7Uqy06skD/NoTUxq3qkZVADhh8Jf/HLHirBX8JZp5sLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bGJHE9Gp/IOSpQbUyxhMRCtrRoqngS7YQIEjV6X8pUQ=;
- b=Q2H7bR2oIsl3yY2oscHu7iWvPGDgKQe5FgsqAxr9Djfe/eVXZy1P/B5dK1F82z/TjQWIttCBfPvInR+VKpd6c2pjYv5RquOMSDxaLORG9LhlSZvNtHq9msrj9Sj1pEIthCwkgT1oWQhpt7TZdS8igPpMBNFlhlSbn113rikQ+tqK5W5hJtCtPxzbKY7VuYmN1TywSBa6gTwSz63qRCupmRBnw729xzxFDuOBOYpHcNP4cp6k8X73Wh2m7cFaPKBMXrIYYhUqv/6rWFvN2GvA213iujAi7buMpP3hhNAUDozGWJGgxIMxisO6ZTYmYxbVs8nSTWWWd0q7/cr+e+26hw==
+ bh=PjMNO7EktUvxGYtBKqvD7tirdylGJwh6hg7Nw0uiV3A=;
+ b=K3rkZ7u5Zv5iuDK8j8GlW1mrtTfi4XCubHftmuS0f5uUje4tfK5De/otHsW3ZxcA4LcIpN2jao4YtKSubmMoZw0Snc4QPgF7iXip2f2BZfdaEBKtifDBi3Nh60k5pQ3rGw9t4Wl8VryZzcej8v3OP2miONyZkTtJiBF92jr2h8GVo5Lox2fhlmMr5V7fUiSMVTmTo2NrudaOGlShqxriqQ+9qUHAe0yV5w2OwVJZQM6PRbnCOI8q11G1mEquIwchaNS+gFpiiUEt2TnSUtRdsmKlawnruyyvrLl1eCBi8DwzfGE1hLGHyzMQZWK9wElPXC6Fak5ekgmomeSsU/02OQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
+ 164.130.1.60) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bGJHE9Gp/IOSpQbUyxhMRCtrRoqngS7YQIEjV6X8pUQ=;
- b=g0+kb3k2HUtt9tSIia9sCEffMaxilyfTbCyrv+axIRSO1EX6UOwrVzgY20onJWIF2KVr46Gf8IDk64cLLImAYk7SSG/Wfssf+dQqNqDg60tP3GqBvjZkH4ejia6jB0iZtGarifPlNj44KbTZlR0HuU2z2Cf5A0hbTwm81yLJyDHdfeOhirr8yEtj7OY1pbM99cm0It5/tmujrXlxog3923GOFXyNKVcwlLMwUbuCW9IQzSjHIP7PtyfZXuTHxlLsHjqmLVoeoY+FF4a9n4KXctuJzSFA96HaGkY1us6asiHBXn0NujjCecjni/uDLFbcW59V8bPJ1IDcDo5OC9fm6A==
-Received: from AS4P190CA0021.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5d0::6)
- by DU0PR10MB6228.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3ef::10) with
+ bh=PjMNO7EktUvxGYtBKqvD7tirdylGJwh6hg7Nw0uiV3A=;
+ b=jfHu6QLrKrAXN5E8DuC7sKXUbhM/lWwS8ipjFQaP9JYOK6J+tWJNb8Y2ShhTcKff1UZgIPH39w8PFM96D/Yf5Cm/K3MledjetULe7psUBfR56SpryB7Jsg9dgUFnefs5joEnB1CbF2Zo9zsjpfl41Arn9QGKQPLJqTTK/v6XR6GhChaW5D5p93KW4Fp+ySdTQJOy81We9aB4CGCG9GI/1FA/u0msLydeWyzNNWLOCDTQki870lzv84uPyH3djayx9IPFdLa28tekbgPtC+nChi6t9qQke9LAR+/8/OITIgQOmH4FrKsdtPtZgVQyhLfT4IBetwfo7Sz4lzv/iaAcaQ==
+Received: from AM9P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::25)
+ by DU0PR10MB7215.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:449::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Fri, 21 Aug
  2026 16:23:31 +0000
-Received: from AMS0EPF00000197.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d0:cafe::9) by AS4P190CA0021.outlook.office365.com
- (2603:10a6:20b:5d0::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
+Received: from DB1PEPF000509F5.eurprd02.prod.outlook.com
+ (2603:10a6:20b:21d:cafe::4f) by AM9P192CA0020.outlook.office365.com
+ (2603:10a6:20b:21d::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.10 via Frontend Transport; Fri,
  21 Aug 2026 16:23:31 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
 Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- AMS0EPF00000197.mail.protection.outlook.com (10.167.16.219) with Microsoft
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ DB1PEPF000509F5.mail.protection.outlook.com (10.167.242.151) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 16:23:31 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
- 2026 18:29:06 +0200
+ 2026 18:28:31 +0200
 Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
- 2026 18:23:29 +0200
+ 2026 18:23:30 +0200
 From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Date: Fri, 21 Aug 2026 18:23:18 +0200
-Subject: [PATCH 07/16] dt-bindings: nvmem: st,stm32-romem: align
- patternProperties regex on nvmem-deprecated-cells.yaml
+Date: Fri, 21 Aug 2026 18:23:19 +0200
+Subject: [PATCH 08/16] arm64: dts: st: Add ucpd node on stm32mp251
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -72,7 +71,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-7-c5e27cbc0795@foss.st.com>
+Message-ID: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-8-c5e27cbc0795@foss.st.com>
 References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
 In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
@@ -94,62 +93,116 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF00000197:EE_|DU0PR10MB6228:EE_
-X-MS-Office365-Filtering-Correlation-Id: 623d2469-4bdb-42af-9e7f-08deffa08a2a
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509F5:EE_|DU0PR10MB7215:EE_
+X-MS-Office365-Filtering-Correlation-Id: ecddbb8a-899d-419e-a1b3-08deffa08a7a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700016|23010399003|1800799024|82310400026|56012099006|10067099003|11063799006|18002099003|22082099003|921020;
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|36860700016|23010399003|921020|6133799003|10067099003|56012099006|11063799006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	LfmjsHuPWhtfFsLIz8SBbIlUSQ85AReGZaEj2bXLQGpdbrKmcq+RUtmu2YDthOP6A0aDrsRCRe7q9rPxH+81AlRzckX3q5yUu0WMX/bFce+gpG87jBUV/oWhGp7Pw9+6YYqKsxuYmv+J1WRgwJogSwgo0F51bFfNUx3hokb8fd6yjdZJHWD3sgXnMVknqALX5WteBvNhJQJl8C221CEUJbVKwzZVYyZA1iNDF3T8QOF4fc6fE/ShcWHvzyk0CNmPxwz+HtRcpCWsnqzptBuClGkEu0m4szIytVsnEQ+dSehXFZnLIjegma6d4TAeWPwa6NdiFnM32tT37oUxXC1edW6GEVG0NIolvksDea3dgFVuOsyt3aU8p8Js4qNOCcRRpgxrKC62bvDjaOCO4rOEEMfOMhNP7+/xy6pUROzvS7mn673awds4lt3Omq4zOVmQt5d7VISL4IXJBCb2ZfJ22LbT1PdduIZL6hHtsGnqVCvTRPoFszsfcEIX9IU3nSREIdEbxHp13gBEb/VDDSTGi0JCkrJyMgFoKJydWNwxQSUJ6Oh55KRNDL+Lrb1zz/sNbzA3sOpqwqpd3NiiWlK2l10uZgPr8197yOEzjZzWmfn9VP0dKjXPd9IU0s2ZoL67NHn63b4KNuKqrU6PJzwh+DHHz33rpOmi9YaAb0RIeAO8fSG/DwvLx6OMZrNWnd/sZAyX8A5suwRSr9f5fxxu/LIajpLT/XyiZw/trnxZ/mdxSs3WFYhAhqBcM/iusjFj
+	NeHnumGhKI/sTZGQCuyVKxjcPg/q7HsBlnYInV+u9yprPH4mkGpGmNSVV/Xb5c/sL+YU5GJdzB3+OVYEfysCyRngYdiKz/+vXOdmsMbihzR83iJ5nSB3gpAFcqheI/BBJAQTqt4w2AhpJEqhFA7x+5y7wm3byH5Zc0MXpgiSd2MlRp8L8F5QPFZIbopV+KS8AK4z1HuBpFLMhdGNCG70T5af+LHeaPpD+vO0R1JBYSZkVKhTnz2Pi1vi2En9B8V/ih3DzTewtUjxuNI7fEXKi+ytcgsEy/MRTTYBVK5RtYMbVNr+5EBfJgQRGXkNDjzhE35ummxZUZcotnZ7IirVknIPuM6/HoOLihwkd66i10mcf7lsydxi8jKV5/nr5HWMvdLZwBIZleP/MQMQaWusieNE8foADLEIzXkNYWgGv/7961eJ8rF2cgeek6Ht+MhYpNWtMoUNnnetdO3bCmGM4P9T9N8UvYK2FX0beUx7eB10lr4/7tVOJETCj+ZqyjNQgB9UanW0CDoxcunuXqzxjkzGLvVpcUkAVar5Gu46IUi/QCjl03LXL+qtqHLGwHNIC4K93R357m6LFW3Rj48hIfhAiiCih7vijwaxj7rtrvm1t+hA1qm4T9TfSYedzBKFSQdEEw2nTMqPTCDdt2D5N+CoX7jawymmNpCeFFqTmeSgz4cdYa7nvLI/QPvz2VyLQ/OMDdG3NkYhYENlIS7Y6mNxtoS47ivPIjhvjfVc44Zg/8OumUbwKJxV5uRAMSfQ
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(23010399003)(1800799024)(82310400026)(56012099006)(10067099003)(11063799006)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700016)(23010399003)(921020)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	LcEV0YroSdxgwuMxFtxHSy5B+qqSSlyD6oU/yehzGMbH2NgXsz3ZrFVzQOpg5x8nOy8IVOxA8RYyF1bJVFTcnr98tzAAiwtBgKqxGiynzRUdWKuQ+sg8VAno4N2mCzPjnT1Eo0oE4W++0Ge2f/lS5Sk1RLSnJcpRRPiE9WykzklUDT3HcJVK0Kq35c+l+5eGvu+TfSTtYFB/fCD02MTjDcrU5HpeZq+i7j52GgqTEuIvQw6UO3XjGLo106QlNPESO9PXvKGuRhVBzjUZWtFmrqwl3SpTUGRSzatnRcWfVIsukxpYW9uBfSwcso/ehYJPn0YvMRe4UDUKty2RDG22xAnkk+26JOc57IHIQpg2lrNrrxBxokuVzBaHGrLu68b42ywUsC3ySs9S+ETNsfY+zHS9FmDAxML3Os7KQCPFgPg0kBKKl5zYyF405nu0Ahoe
+	owwSP0kfYwxHEqARu2MRXGG0owlIU8bTlDPHbv3CucvCvKt6/Re0cqFS2ENqbd9K+RJngMT0YHNl8xKzA77vGl3Qx0XZ4apsasJ7VEHOQ/NJ5ipgUtNQSeMcJq9SynziiSwekfnQDgoGLz/R00gW1zuFHUaJ95PgeM0Hbvid3VoEl2y5riZb8ctXMsRrMgRaRsU/tkR09dVdo/3SHXUwlRLmL2q9aTAYzelCVA1k5JH3vEjcobuYR7C6MSSFJSAjtl4jucAinBej58YKwTdvScy1OOwoj2GQSPjzSPTh0SG/CM5gV4hBa0Q/gqUC707coSCxtWf9edjJiMvPCSNFE6WdZ9N/VqsZ/Iw/9Uu2Cq+poN7WUAdqpZeSDRdm96sZGSC01poXNsHz/YFuiURv6KVx0RAiBzALTRhnG5Q2WBY4ce4NzpMGVMovCeeoHFED
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:23:31.0158
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:23:31.5158
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 623d2469-4bdb-42af-9e7f-08deffa08a2a
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecddbb8a-899d-419e-a1b3-08deffa08a7a
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF00000197.eurprd05.prod.outlook.com
+	DB1PEPF000509F5.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6228
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB7215
 
-Align the regex with the one used in nvmem-deprecated-cells.yaml
-("@[0-9a-f]+(,[0-7])?$") so both patternProperties definitions apply
-to the same set of node names.
+Describe UCPD bindings and nvmem cells to access trim values.
+This provides the PD and CC USB-C cable signaling functions.
 
-The patternProperties key only matched node names of the form
-"name@address" ("^.*@[0-9a-f]+$"). It did not match nodes using the
-extra unit-address index used to disambiguate cells sharing the same
-reg, e.g. "trim_rd_cc1@1e8,4", causing dtbs_check failures such as:
-
-efuse@44000000 (st,stm32mp25-bsec): Unevaluated properties are not
-allowed ('trim_rd_cc1@1e8,4', ...)
-
+Co-developed-by: Christian Bruel <christian.bruel@foss.st.com>
+Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
+Co-developed-by: Thomas Bourgoin <thomas.bourgoin@foss.st.com>
 Signed-off-by: Thomas Bourgoin <thomas.bourgoin@foss.st.com>
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
- Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/st/stm32mp251.dtsi | 51 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml b/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml
-index ab4cdc4e3614..a9988b1d63f5 100644
---- a/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml
-+++ b/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml
-@@ -31,7 +31,7 @@ properties:
-     maxItems: 1
+diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+index 9dc7a05fce99..be54dd56713b 100644
+--- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
++++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+@@ -1637,6 +1637,27 @@ dcmipp: dcmipp@48030000 {
+ 				status = "disabled";
+ 			};
  
- patternProperties:
--  "@[0-9a-f]+$":
-+  "@[0-9a-f]+(,[0-7])?$":
-     type: object
-     $ref: layouts/fixed-cell.yaml
-     unevaluatedProperties: false
++			ucpd: typec@480a0000 {
++				compatible = "st,stm32mp25-ucpd";
++				reg = <0x480a0000 0x400>;
++				interrupts-extended = <&exti1 46 IRQ_TYPE_LEVEL_HIGH>;
++				interrupt-names = "ucpd";
++				clocks = <&rcc CK_BUS_USBTC>, <&rcc CK_KER_USBTC>;
++				clock-names = "apb", "ker";
++				resets = <&rcc USBTC_R>;
++				reset-names = "ucpd";
++				nvmem-cells = <&ucpd_trim_rd_cc1 &ucpd_trim_rd_cc2
++					       &ucpd_trim_3a_cc1 &ucpd_trim_3a_cc2
++					       &ucpd_trim_1a5_cc1 &ucpd_trim_1a5_cc2>;
++				nvmem-cell-names = "trim_rd_cc1", "trim_rd_cc2",
++						   "trim_3a_cc1", "trim_3a_cc2",
++						   "trim_1a5_cc1", "trim_1a5_cc2";
++				ucpd-supply = <&scmi_vdd33ucpd>;
++				access-controllers = <&rifsc 69>;
++				power-domains = <&CLUSTER_PD>;
++				status = "disabled";
++			};
++
+ 			combophy: phy@480c0000 {
+ 				compatible = "st,stm32mp25-combophy";
+ 				reg = <0x480c0000 0x1000>;
+@@ -1818,10 +1839,40 @@ part-number-otp@24 {
+ 				reg = <0x24 0x4>;
+ 			};
+ 
++			ucpd_trim_3a_cc1: trim_3a_cc1@1bd,1 {
++				reg = <0x1bd 0x1>;
++				bits = <1 4>;
++			};
++
++			ucpd_trim_3a_cc2: trim_3a_cc2@1bf,1 {
++				reg = <0x1bf 0x1>;
++				bits = <1 4>;
++			};
++
+ 			package-otp@1e8 {
+ 				reg = <0x1e8 0x1>;
+ 				bits = <0 3>;
+ 			};
++
++			ucpd_trim_rd_cc1: trim_rd_cc1@1e8,4 {
++				reg = <0x1e8 0x1>;
++				bits = <4 4>;
++			};
++
++			ucpd_trim_1a5_cc1: trim_1a5_cc1@1e9,0 {
++				reg = <0x1e9 0x1>;
++				bits = <0 4>;
++			};
++
++			ucpd_trim_rd_cc2: trim_rd_cc2@1e9,4 {
++				reg = <0x1e9 0x1>;
++				bits = <4 4>;
++			};
++
++			ucpd_trim_1a5_cc2: trim_1a5_cc2@1ea,0 {
++				reg = <0x1ea 0x1>;
++				bits = <0 4>;
++			};
+ 		};
+ 
+ 		hdp: pinctrl@44090000 {
 
 -- 
 2.43.0
