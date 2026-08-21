@@ -1,120 +1,169 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3489835E1B9
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 16:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF9637A85D;
+	Fri, 21 Aug 2026 16:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787328241; cv=none; b=G2fvgIu1UnZYQKqjocLgC8g7PMbwuxbIJqLr6hAyltLnUagoQZu3p03Cu0wmDGbcslrYmA6zWZPY5noGxuG0ttjar0NyYucvwrTNnH/uSREJdGQ6sGcx59Pwb5rcFhsPXKe0tBNUnhZIVm2JmaCsHsR6+zswMObEoH7+oB7M+Uc=
+	t=1787328339; cv=none; b=KZJEuhfppBnBRCo4CeFYXr3p3QpPwQ4nZ0TxnlHtl4lyHtmS250eKzjJ2ydo7TW0IumNLYtEa8F60CFLtLy+FjQPNTTKT/j5iATy8Tk8QvZVP6GuybCbrGKYbsmPlfFNf+IgjBNLkvXQfed/+9V8ozlDb5PU/WfAFGZ0fQr1NIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787328241; c=relaxed/simple;
-	bh=dVjXaCbpv34VpouvyO/RjpGwp7IuWIhgtoJPQQB92E8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WNtVZ81W5fztXo6zQb/btOMY+wLceYDIVoHzxIcWtsjAFSSMSAqNZ+/UvoKYuarJHHxH6ogdzSVnmR5lagttRPk+8nk65tSsK8UD5D5G6iB/7yiUPyX5IhBnfmvcv+T8FNNTfknKYj1mUTbAbqLjbCZKILD+4hiRcWDHaECeZpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A6jpQtVy; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A6jpQtVy"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso190250066b.3
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 09:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787328238; x=1787933038; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=D0OTJRC2+2m5UgK2WX3qJ3+Vk6ajv1PtJWvl3y3MXZQ=;
-        b=A6jpQtVynGKWCQuHXp5+XKZ41iZ5CnjmrD7Mf5NVA8nfxkEg8zNKC/09NyKRPjqe/d
-         iErhIVscDAHJGyRDvovKoNann0XDd6MUNwM1DIIXNhhpfhG/QPD4a4OQ/QCnDMEOG7Hu
-         pgajWApcUjB6msCEKssezD9gBpop6eow0zb/rCnbyAR79qcidQF4i7w3FSkN+NoWJIqj
-         Bs5JB8BwYoK8GIZl7TffGIzcBz7mcXiP9byxab9mPGJzHzjfYscs/aKNygqJpntguu7I
-         wfy+Uus7m8SHpeC2PIhnDK9wImBZ57m8Jujxb3lKfTYKV5tSAgODTJTEimHuNfkMB3So
-         V67g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787328238; x=1787933038;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=D0OTJRC2+2m5UgK2WX3qJ3+Vk6ajv1PtJWvl3y3MXZQ=;
-        b=cPz0eMmZ+VFXrGYwiqGQjz5vhnmyW66pX5JYJFTVCh8UcpPk11tPnYijwXGMCKhGF6
-         uuJCQA4wEhAJa5xnsp8+uwTmMLymYss0PxCdErO26UAGJ/cWFyRjplqG7R4t08/1YNQ4
-         US9NlJU6XhTu3Aha0d/DMfKV0u2lnp8iAHg66dTRScvGv+8/uT1J3CxW0mHqCYL6Xpst
-         ApAysFHu/b5JTWHfzTsVU3K/86+11OPqHS2AivWhrg57V2eIjVQOq0U0dxnwsM59W/6R
-         2CQDZKZuUlmnnlVWZ6cWph42cGLeSW9hhyBHGzh3rupcmFapXKIHEmnTxi9dYka3ejYF
-         DtHg==
-X-Forwarded-Encrypted: i=1; AHgh+RpK3NH5sYKOQQ9u2bWn03J2ILCS08X0i9kdZ1h522PNmxWaD57XS78bKBYkT0oC+95x49FQIVG3XTM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nSUN4En0n+e5MiCHmE1MPn/69CtE5RI+FYmW/KK+58GWWOD3QF
-	OPoSsyEztTDWTZ6SXo0/9Ph/DphCtBI7PxPgFPGPNiqbhq+0PJTm+EIs
-X-Gm-Gg: AR+sD10yR3nDQHJMYvuIJxRqkRCYTxbUnAta4RCwdxoKM6/ApWCzhdpNfk6IRGnrl1y
-	RWJpPxiCoGwNcKIUtK7doFiO1gjQK12jIsUEFmluP4QgATVPP4Rrsf5nehui+W8muSqSYd0soC/
-	HSm6TlFm4m9EmPA20QHUxo4zg8KKk9mKOXcVkBNFLaS13IQ6oBnqs8+RPgbykciEQL45V7qh3mm
-	uYBoVaVQVe3hnMCp1g8LMxz2gs//6kVrE9LZqOrrPcdd3UTAbfWe4Fu51cZdtyCC3CvW+Z+yHRP
-	NaI0KCGTQ22A+dCcOXzYsatFmdGOBzCgAXcbEarydWYHLQO5xFaoVKkFJQWwgdwln7fiKoSTn5R
-	6asRlbKMYdxRc6bWVGEEyrHCp6cgEiVfPlwLglcXLOdxZKcOkWYJtspNwrjUX27dEuuLsVMAWSl
-	95mxMR9gc99LybwBRC2ynEZTV+D4yiOoOdId+ABereAYP/Evucm+0ynYM5/xrzxyf4K58=
-X-Received: by 2002:a17:907:3e03:b0:c20:1c9d:8d4b with SMTP id a640c23a62f3a-c246a30c350mr811080666b.2.1787328238214;
-        Fri, 21 Aug 2026 09:03:58 -0700 (PDT)
-Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24589e224dsm547071166b.2.2026.08.21.09.03.56
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 21 Aug 2026 09:03:57 -0700 (PDT)
-Date: Fri, 21 Aug 2026 18:03:50 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: Fix isochronous scheduling regression
-Message-ID: <20260821180350.3648f011.michal.pecio@gmail.com>
-In-Reply-To: <327f6412-5d07-4bee-a51c-06f1ce5823e6@rowland.harvard.edu>
-References: <20260821114706.34b095b1.michal.pecio@gmail.com>
-	<327f6412-5d07-4bee-a51c-06f1ce5823e6@rowland.harvard.edu>
+	s=arc-20240116; t=1787328339; c=relaxed/simple;
+	bh=wsxGeP7rgipdr+TKY4iho2X7a40FOLgC37V1bmceKCM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=WOlg43ce/hTl8QUMiBSBQoPJwkNTHMXVbnps92cAeyCL+glVV/XLPHIypTt1lKsjkIx4CdQxzSIC4y8RzGUH8WgK1uaF8PrQIepfZrqXNE5o6wjzMngqzAYmidweOYKJ4lJqT7+41MUDQPnqJ+5sSYdhLRTE8BDpzkFmcKJcnso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 206e2bb89d7a11f19a56ed5b684f684d-20260822
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:4c2032a0-32c2-47ad-9f33-c5b4ab8ef752,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:dc744a0eddf5bf02a9c2bd0423ec7d5b,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
+	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 206e2bb89d7a11f19a56ed5b684f684d-20260822
+X-User: lihaofeng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lihaofeng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 576014764; Sat, 22 Aug 2026 00:05:28 +0800
+From: Haofeng Li <lihaofeng@kylinos.cn>
+To: gregkh@linuxfoundation.org
+Cc: kees@kernel.org,
+	mlbnkm1@gmail.com,
+	christophe.jaillet@wanadoo.fr,
+	raoxu@uniontech.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	13266079573@163.com,
+	Haofeng Li <lihaofeng@kylinos.cn>
+Subject: [PATCH v2] usb: gadget: f_printer: prevent OOB write in GET_DEVICE_ID
+Date: Sat, 22 Aug 2026 00:05:17 +0800
+Message-Id: <20260821160517.3439548-1-lihaofeng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2026082154-estrogen-spoon-0a9e@gregkh>
+References: <2026082154-estrogen-spoon-0a9e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 21 Aug 2026 10:44:07 -0400, Alan Stern wrote:
-> Maybe it's time to correct the hcd_periodic_completion_in_progress() 
-> implementation.
-> 
-> For instance, we could add an atomic giveback_count field to the 
-> usb_host_endpoint struct.  The HCD would increment the field (while 
-> still holding its private lock) before doing a giveback, and 
-> __usb_hcd_giveback_urb() would decrement the field after calling the 
-> completion handler.
-> 
-> What do you think?
+printer_func_setup() services the Printer Class GET_DEVICE_ID request
+by echoing the PnP string previously stored in the gadget's configfs
+pnp_string attribute:
 
-I would go as far as incrementing it on successful usb_submit_urb() and
-completely doing away with those list_empty(td_list) checks in HCDs.
+	value = strlen(*dev->pnp_string);
+	buf[0] = (value >> 8) & 0xFF;
+	buf[1] = value & 0xFF;
+	memcpy(buf + 2, *dev->pnp_string, value);
 
-I wrote an xhci-only (less compilation and module reloading) prototype
-which relies on hijacking completions of isoc URBs for counting, it
-worked, results identical as with the standard solution in a few test
-runs with snd-usb-audio.
+The EP0 response buffer is exactly USB_COMP_EP0_BUFSIZ (4096) bytes,
+allocated once by composite_dev_prepare():
 
-Theoretical race condition: it seems we can't prevent new submissions
-after completion releases its lock and class driver considers the pipe
-idle, but before the counter is decremented to zero. That would be
-another case of "scheduling to the past" unexpectedly.
+	cdev->req->buf = kzalloc(USB_COMP_EP0_BUFSIZ, GFP_KERNEL);
 
-Seems low probability, but this type of bug hasn't existed so far, we
-generally have the opposite problem.
+The two-byte length prefix plus the string body must therefore fit
+into 4096 bytes.  pnp_string is stored via kstrndup(page, len,
+GFP_KERNEL) in f_printer_opts_pnp_string_store(); configfs passes at
+most PAGE_SIZE - 1 (4095) bytes down to the store callback, so a
+4095-byte string combined with the 2-byte length field makes the
+memcpy() write buf[2..4096], one byte past the end of the allocation.
 
-Or does it exist in non-BH HCDs?
+Attack chain (USB Printer gadget on the victim device):
 
-Maybe the documented API guarantee just isn't feasible?
+  1. pnp_string is set to a 4095-byte value through the gadget's
+     configfs attribute
+     (~/config/usb_gadget/<gadget>/functions/printer.usb0/pnp_string);
+     configfs accepts up to PAGE_SIZE - 1 bytes (fs/configfs/file.c).
+  2. The printer function is enabled and the gadget is bound to its
+     UDC.  An attacker in control of the connecting USB host sends a
+     Printer Class GET_DEVICE_ID request (bmRequestType=0xA1,
+     bRequest=0x00, wIndex pointing at the printer interface); the
+     usblp host driver also issues this request on enumeration.
+  3. composite_setup() -> printer_func_setup() -> memcpy(buf + 2,
+     pnp_string, 4095) performs a 4097-byte write into the 4096-byte
+     EP0 response buffer, overflowing the heap object by one byte and
+     potentially corrupting adjacent slab objects or allocator
+     metadata (CWE-787).
 
-Entirely out of the box alternative: new URB flag. And really, if
-only xhci-hcd existed, it wouldn't be hard to even implement explicit
-start_frame requests or hints as MOTU wished for, which would make
-the whole business of starting synchronized endpoints cleaner.
+With KASAN enabled the overflow is reliably reported (this is
+reproducible end to end with a configfs gadget + dummy_hcd):
 
-Regards,
-Michal
+	BUG: KASAN: slab-out-of-bounds in printer_func_setup+0x2ec/0x3c0
+	Write of size 4095 at addr ffff88818e461002
+
+Fix it at both ends:
+
+  - clamp the string length to USB_COMP_EP0_BUFSIZ - 2 in
+    printer_func_setup() so the copy can never exceed the EP0 buffer,
+    and
+  - reject pnp_string values longer than USB_COMP_EP0_BUFSIZ - 2 in
+    f_printer_opts_pnp_string_store() so an oversized string is never
+    stored in the first place.
+
+---
+
+The DeepSeek large language model assisted in finding this bug: it
+helped locate the unbounded memcpy() in printer_func_setup() and
+trace how pnp_string is stored via configfs.  I then reproduced
+the overflow with KASAN in a virtual machine.
+
+Assisted-by: opencode:deepseek-v4-flash-free
+Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
+---
+ drivers/usb/gadget/function/f_printer.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index 1857d786110b..4b28e73d35ca 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -1035,6 +1035,17 @@ static int printer_func_setup(struct usb_function *f,
+ 				break;
+ 			}
+ 			value = strlen(*dev->pnp_string);
++			/*
++			 * The EP0 response buffer is USB_COMP_EP0_BUFSIZ
++			 * bytes and the first two bytes hold the string
++			 * length, so at most USB_COMP_EP0_BUFSIZ - 2 bytes
++			 * of the PnP string can be copied.  A string stored
++			 * through configfs is at most USB_COMP_EP0_BUFSIZ - 1
++			 * bytes long, which would overflow the buffer by one
++			 * byte here, so clamp it before the memcpy() below.
++			 */
++			if (value > USB_COMP_EP0_BUFSIZ - 2)
++				value = USB_COMP_EP0_BUFSIZ - 2;
+ 			buf[0] = (value >> 8) & 0xFF;
+ 			buf[1] = value & 0xFF;
+ 			memcpy(buf + 2, *dev->pnp_string, value);
+@@ -1269,6 +1280,18 @@ static ssize_t f_printer_opts_pnp_string_store(struct config_item *item,
+ 
+ 	mutex_lock(&opts->lock);
+ 
++	/*
++	 * The string is echoed on the wire by the GET_DEVICE_ID request as
++	 * a two-byte length prefix followed by the string itself, and the
++	 * EP0 response buffer is only USB_COMP_EP0_BUFSIZ bytes, so a
++	 * longer string would make printer_func_setup() overrun that
++	 * buffer.  Reject it here as an additional line of defense.
++	 */
++	if (len > USB_COMP_EP0_BUFSIZ - 2) {
++		result = -EINVAL;
++		goto unlock;
++	}
++
+ 	new_pnp = kstrndup(page, len, GFP_KERNEL);
+ 	if (!new_pnp) {
+ 		result = -ENOMEM;
+-- 
+2.25.1
+
