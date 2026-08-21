@@ -1,64 +1,75 @@
-Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A33490BFE;
-	Fri, 21 Aug 2026 13:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C38324B33
+	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 13:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787317736; cv=none; b=cqFVF65CoeolvIxY0ucy8s0OzJaiXMNmBWvhI0x0C9cATTWbOHf++ZnGUJYcwNz1bguDLnoGUnMsPK3Fbwe5RMmrV85Syf9U9uJ8KjsAsEMXzpYAbTphQL1NYL23u/XkfWosFekJUcnpmE11yznVzattPC6WiULT6K/o2EFi9aQ=
+	t=1787320390; cv=none; b=IyEcLKoN7vzp+M/K1naeH0sTFKVBCDhndG4xE+RJ+QY/2ey9nk0lC6/ebDHFNBTPBAbfYIGMqUk1erJH8v2Fv5AIErGghfWE7roag6usiOhDe7SGR6eO2H4z4DwCzDY4NlLiTU5nprAcSdNORGrUzNbBaRm3RAHAazXGAzJknng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787317736; c=relaxed/simple;
-	bh=0wag83Q7tskPXJRBizXmK2wT/JnCcuZnkQswIB0zS1w=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=huGdgaJXh4qMJNfqLKw/CFwd3RrkwPZgrFu8CoGcnfsbAwfkCeDol81/gbwtEQSAdsbn2Ddc8D39lfUFrRuIxO+kODI4wLvRnBzZy2J4UrD4/G5w/wf8gD0Kl3hSbF0EQFKm+6iPvYV9CFj64cEfrfqsWXgl6wlF2CRbHs5kO0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=QZnXKY7g; arc=none smtp.client-ip=203.205.221.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1787320390; c=relaxed/simple;
+	bh=bcVIeuxH7OuUJ+wC/h6WnWnKDDC/AKdiFS2tnABFAgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qChJtYQ6aAoi4fKM9Aa3tIwDLma4J7mKqUu9Uz5rUbrGRhBS/KzvF7SqRaJGssy/+tu9N/9ZGlJSFlYm9SAfrd6eUYYmXLSuA5VGxpEuCx/eNT9DotZklOiPvaDTvt3qckcxEsHS+KyeOd08lwNor+y4LJOO2yb/DA2HOsSEze0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzW3s3Yp; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="QZnXKY7g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1787317712; bh=vqeUfK5KmqUcXVO9cY3trCzW9qBV9YNFh/9G5G055wM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QZnXKY7gnxFmE2yEMof32k6tFrfs6WupBCksRZCj28trALJkD/HtMHDHCCczg7bpO
-	 ydN+wYqyF/7FcO09r3SgmbmpJ/brZvc6zJTUy2KZJJ+aaFx/TyPGoeuqHCnGzrA83n
-	 tRizQd6ndbd4K7B9uaqnRSWLS4CKe8qP1Y9GxvfI=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id 21D10602; Fri, 21 Aug 2026 21:08:29 +0800
-X-QQ-mid: xmsmtpt1787317709t55j7padg
-Message-ID: <tencent_28325D965DCC99364FA08DA525A90DEC9207@qq.com>
-X-QQ-XMAILINFO: NbgegmlEc3JuGdP4hWhakNBXMy65moMuCxZXgNJkMQBus7/FXskc3c/O6RwqUA
-	 aGqjwp2MAtFdfQiZylfdwBTc/fR6HsQEErdj3DhqUpocsDUGsOHJJ1xqN3Isfi0xX/bujENPkR7j
-	 fhvku7v+u2xToIGu4fgoonZTdBSqVaqhnjJL0nWFuqhhWNqoin8zrgWgtOJeexBGkMuVHqgPWeMV
-	 VJYiE88bwF77qY1+KKen+4npJCBKj7++Hnh5W4gxbB1P1xqIQAJ3QKfjteDTMt2SmiZzKkXjI1Es
-	 92xC0lsUprfLRlyfoe7LYlKIGRBJ12ds9POYQ5/0aCUZeY+3bpumLzhZtQImUQ2rA8/XJZYTIcuZ
-	 O36pkgKZGvAI9x5xwPwV1oObbd2deEWHkNGEj1bqdz0+Htg+WKhcOVhE7QlhFf9rAcpS/sKrZGBh
-	 UkWloSaf3IzEkUi46pIcop1Z6wgJwh2xADPMwZ9Z0tRIAJhYiQfD5Uyr97CYhI7mpFVuu+BFd7uV
-	 yFG5S/vwrEqb4MDPsPa0w5qKZtuX6JAZnkDXvPNzVGlsN5IntMWf7fYu6dNSs9BNg2f6JlU7mNNE
-	 IQMncFWSekasXXYKT4KgJM0xlIrGRynxW5Su9a37VxpL2NzYKT5fkSwaV96vCarCdo6T9U3q39I2
-	 U3HhDLKCIrYAmI7UCa34b8zPuoH4rB8x6dOMT1HFcXH/AopqXN2zCeTPyMEceRIptCmZGyOC6o6W
-	 6FsbzErU/f1Fp8CxqVbKT5NwuRisbwfio2Sn5BgeCldbMlnO+lWgHHqi1I+MFnTdQOC+gg2+ft1m
-	 ve6s7KaoB67zqabj4c8uOWEeR+cE4lAAtZWNXoFy8E+JCGBHXS7h9sTR4pRJlgqbsWNMxcSv970X
-	 Nrqvz8T06us1yF0SSGCsJwM0QaOhMq3MYjH03BJqV3X/QqPfa3+AK67tT7fj0SWs7Qn/DMtrJm6X
-	 mvMzKaffMzsjK5eDCmR4yQzSvgB5Xj9XkbXwv+ApxbWc/zW0FvKBNesGm1KfdVhF6UoY/3cYAvry
-	 UTa2ifsf1OtU75emmfDeTrijZylbXUclR3jMlWGg==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+ecbb1750082f7528b507@syzkaller.appspotmail.com
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzW3s3Yp"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-381c51fde6bso1073453a91.2
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 06:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787320387; x=1787925187; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mtWi7dCSmO1v1H5hXBdpE85NppeNwpU1PcOyFZFGvPs=;
+        b=DzW3s3YpJ2GcnI1IJ1OFN6GgP4WkW/1LR5fDL2WFDyguj3eSqDymnOzUYTaHFkAHCX
+         LpJcGqxkosAGerwNukEKT9fOaMTyTCosH9ptphUBzS0rDIVHJx980k9jh6vpCNU/EfVa
+         abq4AGf5anILIkGQ4mucM4VQVBSb9kWd8M4NupglVUN88xT8WqXCtiHUy0d/IwsChhfH
+         WOwBkd9w8AXiijWrWmzdEMeYV+azpzxOjk6eUZiA+BONHYLB63Ybu9jCALBPL/JLL7bB
+         fJp9++L2WsA/jzVVRM+eaE7u5BhktCjBhVSDJdELGncj3enH328+nVW/2SXEIz/8wKIq
+         BfEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787320387; x=1787925187;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mtWi7dCSmO1v1H5hXBdpE85NppeNwpU1PcOyFZFGvPs=;
+        b=BALmvweveoSyv//5b8rS4pFdroLfbbVSGBors6YpR+g+b3851Dn8jdA8fY8tvSzVj4
+         0Q9+WiZT562hk1s61R/zMD1ZvSp34/Y6oudhqFN8mDCsFe/GmHkSvWZOI3JQiIKiRbFH
+         Hl7kZlKnw5M2fLfgPIbe0zlEg29SaYsoUclfnkzCYk2JA5GPR2PqoNMxdiYDyaYuc4IT
+         bedEEjVEvXDZskWael8fqxRku2eki/RDgIUT0o9RqjCvIif+c45n0H1a6ULaFySu2Pbe
+         6Ss7nUIiqiz5oEzZQokJbUxCs/bhuvUGF6RKx94BaksLvRXKIjFAcpZ//+vMv9G1Ljqg
+         J+Cw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6ToWmzWwE6CW+PPBetEyuO/lNCy2EMpl1b3wGginzYGfdwucOkwczeKiAVIpnD1TcX8P2wHRzyIQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++mT1Uzs3fFdJxQeFXHsEYMdPLhLfSU4UObrWfT/ewCaVFsJJrNm
+	mYtS9NdkP+UPX/YNWlna+ugSMUxcpuHrmzAGQ9rjaacHsjpC8wsZeI+I
+X-Gm-Gg: AR+sD13fsTypvzUfgBz60JjKcwFhktefKcLI10SogcSpXDxs9SyyXjLSsYtQxAk4gie
+	SglYxS+KXVRYFHS4XSpbXVF6Za2rIo+crwUajjU9alWMDNNdQFnuXW5xA3Stgcrrgmu7MRHWipL
+	kxsaZGRw1utCF3ZJfd3+Ex7d7SmAYO4CE59Ddcf27b55iK7ReYcoVkdBOj8T8V1MGuRlHUx9PDE
+	VI8f2M/ir9WlddI04SluOr6NoGyilt1WZ3EdlOOzvMc7PjClNgVE6lu0U+eKJQqly49dvLRaV+8
+	a5s3JJwYLIKZkgOP6rR/2ZyZ3WN7cd++Sddqx3RigVQXgPgIYORusKnTId6zpPMb1Bad2s5/+6D
+	8a1MzZ6FM0UQoxFK0M/ScVtdVe6p1zS6BzDgEMSqMWD4OwIQBnF+3z3feO5NAVLmMQpsM3Zlzd0
+	ACeq7AbROlYTmj8CS/9tChNJdXHoCDY5n3XSP2OL09nRuflM/caOXmFvBq0Z7t9gfz
+X-Received: by 2002:a17:90b:288a:b0:38e:b400:a860 with SMTP id 98e67ed59e1d1-395c3719f99mr12113635a91.13.1787320387327;
+        Fri, 21 Aug 2026 06:53:07 -0700 (PDT)
+Received: from Default ([2409:40f4:1021:524:57f0:975b:bd1e:1e04])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327d01ff056sm19947145eec.19.2026.08.21.06.52.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 06:53:06 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: heikki.krogerus@linux.intel.com
 Cc: gregkh@linuxfoundation.org,
-	kees@kernel.org,
-	valentina.manea.m@gmail.com,
-	shuah@kernel.org,
-	i@zenithal.me,
+	mika.westerberg@linux.intel.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] usbip: prevent the use of unavailable urb and hcpriv in tx
-Date: Fri, 21 Aug 2026 21:08:29 +0800
-X-OQ-MSGID: <20260821130828.41907-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a871611.4d75e56a.c9a88.0041.GAE@google.com>
-References: <6a871611.4d75e56a.c9a88.0041.GAE@google.com>
+	syzbot+520d7648a0d934061fb0@syzkaller.appspotmail.com,
+	Jeffin Philip <jeffinphilip14@gmail.com>,
+	syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: typec: fix null-pointer-dereference in wcove_typec_probe()
+Date: Fri, 21 Aug 2026 19:22:46 +0530
+Message-ID: <20260821135246.17907-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,129 +78,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A race condition between TX and RX causes the URB to enter an unstable
-state, triggering [1].
+dev_get_drvdata() on the parent device can return NULL if we attempt to
+bind our device as a root device with no parent. This causes a null pointer
+dereference when accessing pmic->regmap later as pmic uses the parent
+struct. Fix this by adding a NULL check for pmic and returning -ENODEV
+if to_platform_device() returns NULL for pmic.
 
-Similarly, a race condition exists between TX and URB reaping, leading
-to [2].
-
-In vhci_send_cmd_submit(), the URB refer count is temporarily incremented
-to prevent RX or the reaping process from prematurely freeing a URB that
-has not yet finished transmitting.
-
-The priv_lock is used to protect access to hcpriv, preventing it from being
-prematurely freed by RX while TX is unaware.
-
-[1]
-BUG: KASAN: slab-use-after-free in vhci_send_cmd_submit+0xed2/0x10c0 drivers/usb/usbip/vhci_tx.c:91
-Read of size 4 at addr ffff888022a66584 by task vhci_tx/6044
-Call Trace:
- vhci_send_cmd_submit+0xed2/0x10c0 drivers/usb/usbip/vhci_tx.c:91
- vhci_tx_loop+0xff/0x460 drivers/usb/usbip/vhci_tx.c:241
- 
-Allocated by task 6031:
- usb_alloc_urb+0x66/0xa0 drivers/usb/core/urb.c:75
- alloc_async drivers/usb/core/devio.c:408 [inline]
- proc_do_submiturb+0x741/0x3820 drivers/usb/core/devio.c:1780
- proc_submiturb drivers/usb/core/devio.c:2002 [inline]
- usbdev_do_ioctl drivers/usb/core/devio.c:2702 [inline]
- usbdev_ioctl+0x2adb/0x3aa0 drivers/usb/core/devio.c:2826
-
-Freed by task 6031:
- urb_destroy drivers/usb/core/urb.c:27 [inline]
- kref_put include/linux/kref.h:65 [inline]
- usb_free_urb.part.0+0xa5/0x110 drivers/usb/core/urb.c:96
- usb_free_urb+0x1f/0x30 drivers/usb/core/urb.c:95
- free_async+0x358/0x530 drivers/usb/core/devio.c:435
- proc_reapurbnonblock drivers/usb/core/devio.c:2129 [inline]
- usbdev_do_ioctl drivers/usb/core/devio.c:2621 [inline]
- usbdev_ioctl+0x2e7/0x3aa0 drivers/usb/core/devio.c:2826
-
-[2]
-BUG: KASAN: slab-use-after-free in vhci_send_cmd_submit+0xe87/0x1110
-Read of size 8 at addr ffff888020de4820 by task vhci_tx/9324
-Call Trace:
-vhci_send_cmd_submit drivers/usb/usbip/vhci_tx.c:158
-vhci_tx_loop drivers/usb/usbip/vhci_tx.c:256
-
-Allocated by task 9322:
-vhci_urb_enqueue drivers/usb/usbip/vhci_hcd.c:674
-usb_hcd_submit_urb drivers/usb/core/hcd.c:1542
-usb_submit_urb drivers/usb/core/urb.c:586
-proc_do_submiturb drivers/usb/core/devio.c:1968
-usbdev_ioctl drivers/usb/core/devio.c:2003
-
-Freed by task 9323:
-pickup_urb_and_free_priv drivers/usb/usbip/vhci_rx.c:46
-vhci_rx_loop drivers/usb/usbip/vhci_rx.c:66
-
-Fixes: ddeee0b2eec2 ("USB: usbfs: properly clean up the as structure on error paths")
-Fixes: 04679b3489e0 ("Staging: USB/IP: add client driver")
-Reported-by: syzbot+ecbb1750082f7528b507@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ecbb1750082f7528b507
-Tested-by: syzbot+ecbb1750082f7528b507@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Reported-by: syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=1a01783ea233350598b5
+Fixes: d2061f9cc32d ("usb: typec: add driver for Intel Whiskey Cove PMIC USB Type-C PHY")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
 ---
- drivers/usb/usbip/vhci_tx.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/usb/typec/tcpm/wcove.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/usbip/vhci_tx.c b/drivers/usb/usbip/vhci_tx.c
-index 32e6fabccf72..03fc070d5825 100644
---- a/drivers/usb/usbip/vhci_tx.c
-+++ b/drivers/usb/usbip/vhci_tx.c
-@@ -68,7 +68,9 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
- 		int ret;
- 		struct urb *urb = priv->urb;
- 		struct usbip_header pdu_header;
-+		unsigned long flags;
+diff --git a/drivers/usb/typec/tcpm/wcove.c b/drivers/usb/typec/tcpm/wcove.c
+index 0e5a3e277c3e..80bca8edeba6 100644
+--- a/drivers/usb/typec/tcpm/wcove.c
++++ b/drivers/usb/typec/tcpm/wcove.c
+@@ -612,6 +612,10 @@ static int wcove_typec_probe(struct platform_device *pdev)
+ 	int irq;
+ 	int ret;
  
-+		usb_get_urb(urb);
- 		txsize = 0;
- 		memset(&pdu_header, 0, sizeof(pdu_header));
- 		memset(&msg, 0, sizeof(msg));
-@@ -85,6 +87,7 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
- 		iov = kzalloc_objs(*iov, iovnum);
- 		if (!iov) {
- 			usbip_event_add(&vdev->ud, SDEV_EVENT_ERROR_MALLOC);
-+			usb_put_urb(urb);
- 			return -ENOMEM;
- 		}
- 
-@@ -92,7 +95,15 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
- 			urb->transfer_flags |= URB_DMA_MAP_SG;
- 
- 		/* 1. setup usbip_header */
-+		spin_lock_irqsave(&vdev->priv_lock, flags);
-+		if (!urb->hcpriv) {
-+			err = -EIO;
-+			spin_unlock_irqrestore(&vdev->priv_lock, flags);
-+			usb_put_urb(urb);
-+			goto err_iso_buffer;
-+		}
- 		setup_cmd_submit_pdu(&pdu_header, urb);
-+		spin_unlock_irqrestore(&vdev->priv_lock, flags);
- 		usbip_header_correct_endian(&pdu_header, 1);
- 		iovnum = 0;
- 
-@@ -127,6 +138,7 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
- 			if (!iso_buffer) {
- 				usbip_event_add(&vdev->ud,
- 						SDEV_EVENT_ERROR_MALLOC);
-+				usb_put_urb(urb);
- 				goto err_iso_buffer;
- 			}
- 
-@@ -143,8 +155,10 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
- 			       txsize);
- 			usbip_event_add(&vdev->ud, VDEV_EVENT_ERROR_TCP);
- 			err = -EPIPE;
-+			usb_put_urb(urb);
- 			goto err_tx;
- 		}
-+		usb_put_urb(urb);
- 
- 		kfree(iov);
- 		/* This is only for isochronous case */
++	/* check if we have a parent device first */
++	if (!pmic)
++		return -ENODEV;
++
+ 	wcove = devm_kzalloc(&pdev->dev, sizeof(*wcove), GFP_KERNEL);
+ 	if (!wcove)
+ 		return -ENOMEM;
 -- 
-2.43.0
+2.55.0
 
