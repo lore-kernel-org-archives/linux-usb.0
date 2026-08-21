@@ -1,156 +1,150 @@
-Received: from mail-oi2-f10.google.com (mail-oi2-f10.google.com [74.125.231.202])
+Received: from mail-oi2-f0.google.com (mail-oi2-f0.google.com [74.125.231.192])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2811641E6D9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6B141F5C4
 	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 08:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.202
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787299437; cv=none; b=Y/UUyAGOpgHwsl32MD7k6OjOposWDVE1Qq8DkG5k5GtxbFQ3gRiTsp4hwpEexV9kR1b8isCS23neIcfEzV36JUSzRmc9NZaYuTB1hXhTSvpZemRZaObJcdQQLZFR6G1Sms43dYd+K6PfUr3ukEFVtZSHlDOSNJvWmi1fyNoZQKE=
+	t=1787299438; cv=none; b=fPd5PwHf8+v7YXLzfbHWj+vRSYO3Gg4hBFnTOoK0W0hriNz0N5KKsdNzxgbCtJLe55ddz/Ft6ntw/px3WmJTi8wZ7fNH+S4wqRlhAmmKjmSobRlkI5bHSxSHBMdLo5qyBlIUen0awMnXMCM/gpyh6hNYALssH2FS0cDpo2UbmKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787299437; c=relaxed/simple;
-	bh=91vcAa08fll1O/f5FXUwyWq3RYQwt8HyKXSBhXsV4TE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=EelJKWgiTrA2yQdwjb7ooJT/mSsf58WUkO/Tk2NxOmKR8zoRhO/YP2WjZxlm4fN/2PK2Owggk37kApjN+KmWae29O/RTMGvHlSYCH3Z0M+3i/avsy4P+vp8KLlm66eTP2D4tyGBP5fDGrbV9nuxG8YMDP+sPyngGLVN6k3ZWkAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.202
+	s=arc-20240116; t=1787299438; c=relaxed/simple;
+	bh=SC1V826d5rQ5UNHdYXdBUIidaS9ihlZ/agq6g+E5dsI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=oyMkgD717i7XLgvTjU68lXaGP6QsTMUka0fBZs41/wHMpXhn3EvdbzdgnWYC5gOZpXmbPbYwW+W/LmBY805BGUmudKWjTFZvDYu90ymZ9qRZuWxxZf3jr/adqRbieeZ+I33nD+ORZ+xvr0QJuhk7v/fZ00RZzbrZtoGKfcAkJnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.192
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f10.google.com with SMTP id 46e09a7af769-7ee41f88c50so206650a34.1
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 01:03:55 -0700 (PDT)
+Received: by mail-oi2-f0.google.com with SMTP id 5614622812f47-4a41b6fb855so267134b6e.1
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 01:03:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1787299435; x=1787904235;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JWXMkc0RBu4NVj6unaj3RHfaLjWqc4HZCFGHR2Tn1UQ=;
-        b=SLEdIiMwXtfswOgIVP7Hw+yMNQ8IU67RYfMQ07Y7662eWKV5rWc2t2+3JdrOK6nf/B
-         UAQo+ezgTRIM5Utjyf4WvncdocaEYo51h39WoifjJTnll6YGvZTDDmIcBFC215MwZvkQ
-         rXjof7eSD27Tre21s1j2ehUefrK82K+u1C+lBbgmq7naa9jNwv2tjmEaUvSJwI0sEYGx
-         UoZvYMwpPpHxiaEq05UYrM5RZWg9M14FEXlNE4Rb7CxTue4CSo5uO8IvfUXWax4/6GYr
-         n9BthXsQyAD1cgFI1rRO098uKMVm5mkpKo2RhHYUcBgUBzxHOEBXrqJm2GXFhMcsKtAF
-         7Gww==
-X-Forwarded-Encrypted: i=1; AHgh+RrIWH9+12GaFx32kS/nt0ioyU+Sm5p6kwl2g3rIIigAR65DSDoIm6dpMpkzdiBgte1r//xq857EHUs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE1DwBOcFkFHH6oKk4E46I/oE3fibhFaD/V73y2bFSaNC2esxv
-	1EUdpkarKa/r4rhlyq7eTDtgkuiJiqMn1Xd8iwyLq6ngYhkTBPXv+aKenSsuAP5Z8jASXTrHJLc
-	W1Y4OmR8WizUAymMwinGpULWBgDbz3RPOsUd1ozUOCiFIAWhlXhucKg6WREg=
+        bh=AEYb6PmEIPOKrFbk1dO8B9Ev6hLrYRC4qxRczRoQl/s=;
+        b=bsncMswK5UIMwI2QWexJ+9BgJadlHj/vQkf0xasIUmbOawieh4TqjtDDw8eJEdUyQi
+         PNj9kbktw9TeNvn+AimDibSKrowOzheHHL5qPjmL1EPSNg4bj9dfZmLy1UfpXw6wPKD7
+         f0Z639IpdckHFzjpAeaLjqEBh3M6kr9LftfHbA1e4XDIea6vs5Fo2PC2KoFaHnHJQk3H
+         sQukiJNhwY/Tf7lvfnZR91v5lEnQ1JcfJevzv2vDfY4QIE31C8ULX7bESMhS8UjRAix/
+         FwSzMRL04SvzplQObJUQc2nP3SwrlfCcN5fjC5YDlwCfxusFcISB1l5jNEMwkXuTPN5j
+         djBg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/ki8TMlWP60Uxzkgq5RLyv1HAMZ9+yus2kelrx9OIXHPSzi2mTDDdXTquQHnaJd0hQR+weC+0HBM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgHRpbQaQSBl6U2S8DTIhpPF9Q5INdCgAsxjkIk3caAa7AZ4v5
+	2M40Bj8cl2Ww4pfJoMcS+mxT+ocRNPIWgI1v02wv0rzrA6BPwmBshmk3N5BOTHdnnvP70MqGgj0
+	Pwe8To9CO7hzQFWN5+mvXRdAwxzcg7kVpYID92RTiI4ycLv4EtsyvELd7hIM=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:5601:b0:6ae:6f38:dac with SMTP id
- 006d021491bc7-6b1592424ddmr2963325eaf.10.1787299435050; Fri, 21 Aug 2026
+X-Received: by 2002:a05:6808:2f08:b0:4b2:8d89:6a40 with SMTP id
+ 5614622812f47-4b2ef2c9cf7mr4717931b6e.7.1787299435386; Fri, 21 Aug 2026
  01:03:55 -0700 (PDT)
 Date: Fri, 21 Aug 2026 01:03:55 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a88066b.ae6ddae5.3da009.002c.GAE@google.com>
-Subject: [syzbot] [usb?] BUG: unable to handle kernel NULL pointer dereference
- in usb_reinit
-From: syzbot <syzbot+2ec7fc1793a63864d9d6@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Message-ID: <6a88066b.ae6ddae5.3da009.002d.GAE@google.com>
+Subject: [syzbot] [usb?] general protection fault in vhci_hcd_probe
+From: syzbot <syzbot+7300affe388249d66dfe@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, shuah@kernel.org, syzkaller-bugs@googlegroups.com, 
+	valentina.manea.m@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    21d6ac051080 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=17603a79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=2ec7fc1793a63864d9d6
+HEAD commit:    4477a78374a5 Add linux-next specific files for 20260814
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=12bed6c6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9b32a36dd637b06f
+dashboard link: https://syzkaller.appspot.com/bug?extid=7300affe388249d66dfe
 compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1177ea25580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10e03a79580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11e03a79580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/88380e2ddcb9/disk-21d6ac05.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5dba5c2896b7/vmlinux-21d6ac05.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/52ac739e37e0/Image-21d6ac05.gz.xz
+disk image: https://storage.googleapis.com/syzbot-assets/994c1c8c560e/disk-4477a783.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cd54543d69ae/vmlinux-4477a783.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/407cdf8f3fc2/bzImage-4477a783.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2ec7fc1793a63864d9d6@syzkaller.appspotmail.com
+Reported-by: syzbot+7300affe388249d66dfe@syzkaller.appspotmail.com
 
-EXT4-fs (nvme0n1p2): shut down requested (2)
-Aborting journal on device nvme0n1p2-8.
-Unable to handle kernel NULL poin
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000048
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
-  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-  GCS = 0, Overlay = 0, DirtyBit = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=00000001166e6000
-[0000000000000048] pgd=080000011da38403, p4d=080000011da38403, pud=080000011da3a403, pmd=0000000000000000
-Internal error: Oops: 0000000096000006 [#1]  SMP
-Modules linked in:
-CPU: 0 UID: 0 PID: 4939 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
-pstate: 83400005 (Nzcv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
-pc : __raw_readl arch/arm64/include/asm/io.h:84 [inline]
-pc : readl include/asm-generic/io.h:231 [inline]
-pc : usb_reinit_338x drivers/usb/gadget/udc/net2280.c:2243 [inline]
-pc : usb_reinit+0xbf4/0xfa0 drivers/usb/gadget/udc/net2280.c:2305
-lr : usb_reinit_338x drivers/usb/gadget/udc/net2280.c:2236 [inline]
-lr : usb_reinit+0xb6c/0xfa0 drivers/usb/gadget/udc/net2280.c:2305
-sp : ffff800096ac75a0
-x29: ffff800096ac75e0 x28: dfff800000000000 x27: ffff800087354e38
-x26: ffff800087354e80 x25: 0000000000000060 x24: 1fffe0001a4fd183
-x23: ffff0000d27e8c18 x22: 1fffe0001a4fd00b x21: 0000000000000011
-x20: ffff0000d27e8058 x19: ffff0000d27e8000 x18: 00000000ffffffff
-x17: ffff80008a7d6000 x16: 0000000000000004 x15: ffff80008a35fda0
-x14: ffff80008a5d5e28 x13: 0000000000000001 x12: 0000000000000000
-x11: 1fffe0001a4fd178 x10: 0000000000000003 x9 : 0000000000000000
-x8 : 0000000000000048 x7 : ffff800080aa1cb8 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : ffff8000835bf6bc
-x2 : 0000000000000000 x1 : ffff0000cd3d1d40 x0 : 0000000000000000
-Call trace:
- __raw_readl arch/arm64/include/asm/io.h:84 [inline] (P)
- readl include/asm-generic/io.h:231 [inline] (P)
- usb_reinit_338x drivers/usb/gadget/udc/net2280.c:2243 [inline] (P)
- usb_reinit+0xbf4/0xfa0 drivers/usb/gadget/udc/net2280.c:2305 (P)
- net2280_probe+0x5f4/0xef0 drivers/usb/gadget/udc/net2280.c:3712
- local_pci_probe+0xc8/0x158 drivers/pci/pci-driver.c:332
- pci_call_probe drivers/pci/pci-driver.c:394 [inline]
- __pci_device_probe drivers/pci/pci-driver.c:455 [inline]
- pci_device_probe+0x460/0x8d4 drivers/pci/pci-driver.c:489
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 1 UID: 0 PID: 5839 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:vhci_hcd_probe+0x47/0x3e0 drivers/usb/usbip/vhci_hcd.c:1367
+Code: ff 0b eb f9 49 8d 9e 80 00 00 00 48 89 d8 48 c1 e8 03 80 3c 28 00 74 08 48 89 df e8 33 86 59 fa 48 8b 1b 48 89 d8 48 c1 e8 03 <80> 3c 28 00 74 08 48 89 df e8 1b 86 59 fa 4c 8b 23 48 c7 c0 20 e5
+RSP: 0018:ffffc9000397fac0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88802a031f40
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88801c76c000
+RBP: dffffc0000000000 R08: ffff88802a6f9873 R09: 1ffff110054df30e
+R10: dffffc0000000000 R11: ffffffff87dcb110 R12: ffff88801c76c000
+R13: ffffffff8fc690a0 R14: ffff88801c76c000 R15: ffffffff87dcb110
+FS:  000055556104d500(0000) GS:ffff888124df8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fe52c870000 CR3: 0000000075d5a000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1507
  call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- device_driver_attach+0x58/0xac drivers/base/dd.c:1203
- bind_store+0xf4/0x14c drivers/base/bus.c:267
- drv_attr_store+0x80/0xa4 drivers/base/bus.c:125
- sysfs_kf_write+0xe0/0x108 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x260/0x3b8 fs/kernfs/file.c:345
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ device_driver_attach+0xe0/0x1d0 drivers/base/dd.c:1203
+ bind_store+0x1d0/0x220 drivers/base/bus.c:267
+ kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
  new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x51c/0xa0c fs/read_write.c:687
- ksys_write+0x12c/0x228 fs/read_write.c:739
- __do_sys_write fs/read_write.c:750 [inline]
- __se_sys_write fs/read_write.c:747 [inline]
- __arm64_sys_write+0x84/0x98 fs/read_write.c:747
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-Code: 9757676c f94002e8 91012108 d503201f (b9400115) 
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe52c99e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc9f637838 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007fe52cc25fa0 RCX: 00007fe52c99e0d9
+RDX: 0000000000000006 RSI: 00002000000000c0 RDI: 0000000000000004
+RBP: 00007fe52ca35024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fe52cc25fac R14: 00007fe52cc25fa0 R15: 00007fe52cc25fa0
+ </TASK>
+Modules linked in:
 ---[ end trace 0000000000000000 ]---
+RIP: 0010:vhci_hcd_probe+0x47/0x3e0 drivers/usb/usbip/vhci_hcd.c:1367
+Code: ff 0b eb f9 49 8d 9e 80 00 00 00 48 89 d8 48 c1 e8 03 80 3c 28 00 74 08 48 89 df e8 33 86 59 fa 48 8b 1b 48 89 d8 48 c1 e8 03 <80> 3c 28 00 74 08 48 89 df e8 1b 86 59 fa 4c 8b 23 48 c7 c0 20 e5
+RSP: 0018:ffffc9000397fac0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88802a031f40
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88801c76c000
+RBP: dffffc0000000000 R08: ffff88802a6f9873 R09: 1ffff110054df30e
+R10: dffffc0000000000 R11: ffffffff87dcb110 R12: ffff88801c76c000
+R13: ffffffff8fc690a0 R14: ffff88801c76c000 R15: ffffffff87dcb110
+FS:  000055556104d500(0000) GS:ffff888124df8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fe52c870000 CR3: 0000000075d5a000 CR4: 00000000003526f0
 ----------------
 Code disassembly (best guess):
-   0:	9757676c 	bl	0xfffffffffd5d9db0
-   4:	f94002e8 	ldr	x8, [x23]
-   8:	91012108 	add	x8, x8, #0x48
-   c:	d503201f 	nop
-* 10:	b9400115 	ldr	w21, [x8] <-- trapping instruction
+   0:	ff 0b                	decl   (%rbx)
+   2:	eb f9                	jmp    0xfffffffd
+   4:	49 8d 9e 80 00 00 00 	lea    0x80(%r14),%rbx
+   b:	48 89 d8             	mov    %rbx,%rax
+   e:	48 c1 e8 03          	shr    $0x3,%rax
+  12:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
+  16:	74 08                	je     0x20
+  18:	48 89 df             	mov    %rbx,%rdi
+  1b:	e8 33 86 59 fa       	call   0xfa598653
+  20:	48 8b 1b             	mov    (%rbx),%rbx
+  23:	48 89 d8             	mov    %rbx,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1) <-- trapping instruction
+  2e:	74 08                	je     0x38
+  30:	48 89 df             	mov    %rbx,%rdi
+  33:	e8 1b 86 59 fa       	call   0xfa598653
+  38:	4c 8b 23             	mov    (%rbx),%r12
+  3b:	48                   	rex.W
+  3c:	c7                   	.byte 0xc7
+  3d:	c0 20 e5             	shlb   $0xe5,(%rax)
 
 
 ---
