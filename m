@@ -1,96 +1,84 @@
-Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ssh247.corpemail.net (ssh247.corpemail.net [210.51.61.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1254D2BE65B
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 04:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D1A34DB56;
+	Fri, 21 Aug 2026 05:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787285881; cv=none; b=SvkJ39yO6nOY2p36jckbkNtTGwzzus1y2bEldqiFqqv2zlhD9K4uPih8nOnDlXXN6S9FE1zHvJoAj+WLCDxb/r/gr4GnmojV+naYFbI5tR3rGThw0oyyZ2u3A+LUU93wSOmNGg4diDnKWg3l5YzWWES/5qC8Ufeo46xUrD3283I=
+	t=1787289333; cv=none; b=S8eANFpbek5JAHWWLQPfGtLsJqgstR1BqvanRuD3jirh101Lh1ZvhzV7LJmMbjzHHLL+VeLFcVfSo7bnC2rGW26zCnmR0I76/KSxGwp4f+lZooUza6LIITkdvN192QQu/j0+p/dkrFYhRurGUJPd1AUoeoaQfh00iaW+9r91rGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787285881; c=relaxed/simple;
-	bh=Kaob0xBXv6KFmTVwNElHZy6JxuBgW/R+aOKPIun0ZVQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=g1IYa+ePDq7eBWw0mHc7WYkWmwxQg0kRPLRYvXMU9MZ5FzoTYXaRz2LbNmyKE6E1SXM5o2JHvIP0gMB5fNTPUQ4RF3YuEeewfAjnaV/GdZUS0LGC9PFIj3esssadCnw4u/7PQ0K4NpwRxySj5q0LN5PzjrnBJIFFDvNIU0Hy1g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Aae1+uXb; arc=none smtp.client-ip=95.215.58.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Aae1+uXb"
-X-Envelope-To: linux-usb@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Kaob0xBXv6KFmTVwNElHZy6JxuBgW/R+aOKPIun0ZVQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787285877; v=1; x=1787890677;
- b=Aae1+uXbkEO4RVKarSp5WBxgF7s/yh326qXFaSwhq6YwA/dKDUggAY58ObKPAqAbtMtfTTow
- S7JGWO+ZRsoAn7/Q4KB8x1poN901TmzSXM17C8bLd2lN3ZS9K3Bpemwzo4cdD6enr3hPfBc7EKe
- d+mrXbG58lwzDG96EOXnaBEA=
-X-Envelope-To: linux-usb@vger.kernel.org
-Received: from localhost (114.94.8.21)
-	by smtp.migadu.com with ESMTPS id 782bfd1962df596d;
-	Fri, 21 Aug 2026 04:17:56 +0000
-X-Mizu-Trace-ID: 782bfd1962df596d
-X-Migadu-Flow: FLOW_OUT
+	s=arc-20240116; t=1787289333; c=relaxed/simple;
+	bh=RzCA8Q5r6PCYwGE5ii3tF9ssY3PwmRTb3QhHCA0wOWA=;
+	h=Content-Type:MIME-Version:From:To:CC:In-Reply-To:References:
+	 Subject:Date:Message-ID; b=IVIHr1C8o78KpxuZXJC3hicy6KS6xzdWap1ERAque1ff9jycyMsTwHoUTgy8A1AJwjHnXd/ztI8a82py47+AFxeCbR2JBRwOz0mnDvq6/jNhd1E8sAz/9cj13vRzoH4bCEfpINaArkX9gzszPxeRh+ubgpSQiXMNCBl5LuEKqQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=longcheer.com; spf=pass smtp.mailfrom=longcheer.com; arc=none smtp.client-ip=210.51.61.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=longcheer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=longcheer.com
+Received: from mailsrv01.LongCheer.net
+        by ssh247.corpemail.net ((D)) with ESMTP (SSL) id 202608211314114182;
+        Fri, 21 Aug 2026 13:14:11 +0800
+Received: from [127.0.1.1] (172.16.9.238) by mailsrv01.LongCheer.net
+ (172.16.8.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.33; Fri, 21 Aug
+ 2026 13:14:11 +0800
+Content-Type: multipart/mixed;
+	boundary="===============8284776919896818264=="
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Aug 2026 12:17:53 +0800
-Message-Id: <DKUBYR4UOS5O.364CXD8TYLPI5@linux.dev>
-Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <spacemit@lists.linux.dev>, "Troy Mitchell"
- <troy.mitchell@linux.spacemit.com>, "linux-riscv"
- <linux-riscv-bounces@lists.infradead.org>
-Subject: Re: [PATCH 0/6] Add SpacemiT K1 USB2.0 controllers support
-From: "Ze Huang" <huang.ze@linux.dev>
-To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Ze Huang"
- <huang.ze@linux.dev>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Yixun Lan"
- <dlan@kernel.org>, "Xu Yang" <xu.yang_2@nxp.com>, "Peng Fan"
- <peng.fan@nxp.com>, "Peter Chen" <peter.chen@kernel.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Alexandre Ghiti" <alex@ghiti.fr>
-X-Mailer: aerc 0.21.0-146-gb5c16ebe1835
-References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com> <DKU91NS0JNRS.SLSXQO6JHRLM@linux.dev> <A048E078785BB086+381938ba-e0ab-4764-a5c4-9d2434d0abe3@linux.spacemit.com>
-In-Reply-To: <A048E078785BB086+381938ba-e0ab-4764-a5c4-9d2434d0abe3@linux.spacemit.com>
+MIME-Version: 1.0
+From: liuqi <liuqi@longcheer.com>
+To: <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <stable@vger.kernel.org>
+In-Reply-To: <870f2627-aeaa-400e-9b6d-ee77eac42be6@mailsrv01.LongCheer.net>
+References: <870f2627-aeaa-400e-9b6d-ee77eac42be6@mailsrv01.LongCheer.net>
+Subject: Re: [PATCH] usb-storage: prevent concurrent URB submission in usb_stor_msg_common
+Date: Fri, 21 Aug 2026 13:14:11 +0800
+Message-ID: <08b595fd-215e-400c-b090-df030f8f0ff8@mailsrv01.LongCheer.net>
+X-ClientProxiedBy: mailsrv01.LongCheer.net (172.16.8.231) To
+ mailsrv01.LongCheer.net (172.16.8.231)
+tUid: 202682113141257a998b9ef768ad2cfedb3704c4a103d
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
-On Fri Aug 21, 2026 at 11:28 AM CST, Junzhong Pan wrote:
-> On 8/21/2026 10:00 AM, Ze Huang wrote:
->> On Wed Aug 12, 2026 at 5:26 PM CST, Junzhong Pan wrote:
->>> The SpacemiT K1 SoC has two USB2.0 controllers, one has Dual-Role
->>> support, but the hardware has no internal OTG registers, the other is
->>> Host only. These controllers are compatible with Chipidea USB2 driver
->>> with some flags set and reset control support.
->>>
->>> This series is based on 7.2-rc1 and has been tested on Banana Pi F3
->>> development board.
->>>
->>> A self-powered USB device/hub is needed to test the host function of th=
-e
->>> dual-role controller on Banana Pi F3, a MINI-PCIe USB2.0 module (a
->>> cellular module e.g.) is needed to test the host only controller.
->>>
->>> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
->>=20
->> Tested on OrangePi RV2.
->>=20
->> To use USB2.0 Type-A port as host on this board, usb2_0 needs:
->>   - dr_mode =3D "host"
->>   - a vbus-supply regulator driving gpio126
->>=20
->> Tested-by: Ze Huang <huang.ze@linux.dev>
->>=20
->
-> Thanks, then I'll add rv2 dts node in the next version. Can you
-> test again later ?
+--===============8284776919896818264==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-Sure
+RnJvbSAyMTA0ZmM1N2FhY2M3NDE5N2FhODFhNzJkMjgzY2FkMzM1MWU1OWY5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBsaXVxaSA8bGl1cWlAbG9uZ2NoZWVyLmNvbT4KRGF0ZTogRnJp
+LCAyMSBBdWcgMjAyNiAxMzowODoxNiArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIHVzYi1zdG9yYWdl
+OiBzZXJpYWxpemUgZW5lX2dldF9jYXJkX3R5cGUoKSB3aXRoIGRldl9tdXRleApUbzogZ3JlZ2to
+QGxpbnV4Zm91bmRhdGlvbi5vcmcKQ2M6IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmcsCiAgICBz
+dGFibGVAdmdlci5rZXJuZWwub3JnCgpJbiBlbmVfdWI2MjUwX3Byb2JlKCksIHRoZSBjYXJkLXR5
+cGUgcHJvYmUgKGVuZV9nZXRfY2FyZF90eXBlKCkpIHVzZXMgdGhlCnVzYi1zdG9yYWdlIGJ1bGsg
+dHJhbnNmZXIgaGVscGVycyB3aGljaCByZXVzZSB1cy0+Y3VycmVudF91cmIuIEhvd2V2ZXIsCnVz
+Yl9zdG9yX3Byb2JlMigpIHNjaGVkdWxlcyBhIGRlbGF5ZWQgc2NhbiB3b3JrIChzY2FuX2R3b3Jr
+KSB0aGF0IGFsc28KdXNlcyBjdXJyZW50X3VyYiBmb3IgQnVsa19tYXhfbHVuKCkuIFRoZSBzY2Fu
+IHdvcmsgaXMgc2VyaWFsaXplZCB3aXRoCnVzLT5kZXZfbXV0ZXgsIGJ1dCB0aGUgcHJvYmUncyBl
+bmVfZ2V0X2NhcmRfdHlwZSgpIGNhbGwgaXMgbm90LgoKVGhpcyBsZWFkcyB0byAiVVJCIHN1Ym1p
+dHRlZCB3aGlsZSBhY3RpdmUiIHdhcm5pbmdzIHdoZW4gdGhlIGRlbGF5ZWQKc2NhbiBmaXJlcyBk
+dXJpbmcgdGhlIHByb2JlJ3MgZW5lX2dldF9jYXJkX3R5cGUoKSBleGVjdXRpb24uIFRoZSB3YXJu
+aW5nCnRyaWdnZXIgaXM6CgogIHVzYl9zdG9yX0J1bGtfbWF4X2x1bigpIC0+IHVzYl9zdG9yX21z
+Z19jb21tb24oKSAtPiB1c2Jfc3VibWl0X3VyYigpCgpObyBzY3NpX2VoIGludm9sdmVtZW50IHdh
+cyBvYnNlcnZlZCBpbiBzeXpib3QgbG9ncy4KCkZpeCBieSBzZXJpYWxpemluZyBlbmVfZ2V0X2Nh
+cmRfdHlwZSgpIHdpdGggdXMtPmRldl9tdXRleC4KClNpZ25lZC1vZmYtYnk6IGxpdXFpIDxsaXVx
+aUBsb25nY2hlZXIuY29tPgotLS0KIGRyaXZlcnMvdXNiL3N0b3JhZ2UvZW5lX3ViNjI1MC5jIHwg
+MiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvdXNiL3N0b3JhZ2UvZW5lX3ViNjI1MC5jIGIvZHJpdmVycy91c2Ivc3RvcmFnZS9lbmVfdWI2
+MjUwLmMKaW5kZXggMmNmZmM1NTlhLi4xM2IzMzJkMWQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNi
+L3N0b3JhZ2UvZW5lX3ViNjI1MC5jCisrKyBiL2RyaXZlcnMvdXNiL3N0b3JhZ2UvZW5lX3ViNjI1
+MC5jCkBAIC0yMzU4LDcgKzIzNTgsOSBAQCBzdGF0aWMgaW50IGVuZV91YjYyNTBfcHJvYmUoc3Ry
+dWN0IHVzYl9pbnRlcmZhY2UgKmludGYsCiAJCXJldHVybiByZXN1bHQ7CiAKIAkvKiBwcm9iZSBj
+YXJkIHR5cGUgKi8KKwltdXRleF9sb2NrKCZ1cy0+ZGV2X211dGV4KTsKIAlyZXN1bHQgPSBlbmVf
+Z2V0X2NhcmRfdHlwZSh1cywgUkVHX0NBUkRfU1RBVFVTLCBpbmZvLT5iYnVmKTsKKwltdXRleF91
+bmxvY2soJnVzLT5kZXZfbXV0ZXgpOwogCWlmIChyZXN1bHQgIT0gVVNCX1NUT1JfWEZFUl9HT09E
+KSB7CiAJCXVzYl9zdG9yX2Rpc2Nvbm5lY3QoaW50Zik7CiAJCXJldHVybiBVU0JfU1RPUl9UUkFO
+U1BPUlRfRVJST1I7Ci0tIAoyLjQzLjAKCg==
 
->
-> Thanks
+--===============8284776919896818264==--
