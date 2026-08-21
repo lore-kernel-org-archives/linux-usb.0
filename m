@@ -1,123 +1,215 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950EF3B05AD
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 15:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F3C4CA291
+	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 15:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787325183; cv=none; b=eM1EZFdfasE6/vxhXCCDita0wzQ3ywF79+64Yoe3XKtkMNXp6IMg8ELGVgjmGyUflo4VjCwkuxx68H82BIdJX8oBtT0PsopcfLekYzl3qjJclis52C1BwHn+lOcyuIlnQzAe9uRn7SlGj2c1i5fTuUOql26fBSu4wU+rtLOR1fQ=
+	t=1787325196; cv=none; b=j5JuBdNutjy0KTh0qLxq9O85AKbigkSYHkEVMrvzPz85PfOZYmoD1cDZ6m4e1FlYu902jaGxFfb6W8wSBITYc8M8NlfNI/HKstyaV5jDp2bPX5kp5K1h7kKJm5eGzOGxjqX+9Firp6TLaNCaWY0dNzTzZOfvxlOFP+GTyJ7Q3+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787325183; c=relaxed/simple;
-	bh=7PyrRMw9wW7xV59ftszCky4TbauN3P/DgotHc8GcRJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTtK6rSubwRebC1x9BlifWOlrJiXr8Eh7SuTDnB2daCP8Ap0ECPgnLOuIjwRxEN3OPnkG3J9Q8XqtRh9wT2scGWJrP1DBa4JhwamQ/66+Utxpgq2NsBVwJHaw94oTVNc1AJj6HVdIYkn1eXW6PXYrZpN0Z8z69h0SqcOxC/rQxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=LI0hDo9I; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1787325196; c=relaxed/simple;
+	bh=uIOylIHpYjvxJqaiphpiVhBroctbf/Z75sLexbG5d/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nQ0foRurbS5vlvf1tL2l/WcAvZiMUF1GjFyacdiPeT5H2SZAZ2fZUa2VUp5GNV7JokAGpXBDS1PvYTjFnlWHJqSC+hDHhyUDm6dT65aWeBS55uXoXEgFnfSla5utSzIk9lmkL1kq2Obp/fCDKbV/Y8YWAWhdaArVTVlUh5q+7Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuo+dmCQ; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="LI0hDo9I"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8ef7b7651ecso19130356d6.1
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 08:13:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuo+dmCQ"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49978908b35so7289235e9.0
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 08:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787325180; x=1787929980; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787325193; x=1787929993; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BcMxKm5nDd1kF3AkEvyGfAsjqHkfBXm/NNZRhfLOvTU=;
-        b=LI0hDo9IiOUAW8S6kepvUJEJE3TgNyDaXJhnA1cd/vKxsfeCX2KD+u+XBhaKjADS0n
-         dd25ep8eRFjwCWWM9I6VPrdF1zCoPDydvMD+OT8R+YlQuK2yjtDKS1dKVEfcT24vF0Qi
-         2+/34rvuKkwdrFZjZ2kHcNUnzt4791/suW8qI0OurV+6vIPoRsuPqxATUXVBYWVgl+IK
-         hNqrhJnf6bJZtKZbGX7c8uM/QbQcLRSQWmIgSqhJob5giiDWZ8DQrNXW8aZPD09J3s8Z
-         L8yXczZ2O6Gjjcod5cOVCNFWbnL3eamBIq2DBqv8nAKYkF6v69J4iTD3fnltM+2GOLZv
-         R5hg==
+        bh=pQVfUZyrHFxSk6Ytf8Px1CPoPWnrAzt+d/q0DUGzeh0=;
+        b=fuo+dmCQgiThiR3hgZ2kTtgfv2msLDrF2BI5C6rqx5fIFsUU8OQ5rey+k9q7L4LCF7
+         c/q2V2hFIu/wWKjTRZRLnLemQKy8X6xQhs4iOMusijTwndsBXKoYTsfNYeyx8f6yxmaG
+         mEES9tK/vSOgavU8HgMKdqhTRzd6cptrkirIbiOEN36LvHdxk9CKnD7Invyr4gKqWbCr
+         ZbatGm7NWXkGBsadhS92cZi83luGltYET62PFLewn8/kdee1alcMqrNTWcP1kfjLSQRo
+         37N8CusZKWtazQj1X3z6BuT0rlQFTYgW4fFwaY91sOmLTPf1UVWmQqnptF0HSUII2msg
+         m9Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787325180; x=1787929980;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787325193; x=1787929993;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BcMxKm5nDd1kF3AkEvyGfAsjqHkfBXm/NNZRhfLOvTU=;
-        b=kWF5gxxehnR73qXTGy15pKOt73yt7cL+4xSkW6PLQEKh7cA6Nb/s1JeUywvsDYfJGw
-         ae4r2JO1KYix5PVAY9p1iqQoHHFFe4l+4hnrIlC29jpO7MhJh+OhIpx7zV5OhkPyCI3J
-         xTarf0PMx5sq/KCu6pcSgZlOhTL3wai+5tJCV3+O+tjzH9Dnsp4ID3lcvG4W5EMCkE6K
-         WzqXNEhMblg39SP6DqDbSwb7a1PikVh3Q+F9PQo81ou+UuuQ021XBL7n8xvA1UT6G0m9
-         +sr1AtcrsITQeVTmUj5qBAJj5uUxkya5loTaY7lc/H22o6Btxk8ZpZbrYPQtLXmyGel3
-         pycQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrfULwyY9yasW0/MOlBJvE3mfbsGQOSn9mHGG+n+nRdkhmKxYBJl/t6ePvsxxHpBRPIE+6YqyuEFl4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBfYQ5xtokXcjfT8OqsHDFzpVNw6ySnunbFGxZDkAc2JGm1/9G
-	pzunJ70YP9X8nAMQMB30+eP/MPhzjfsZlfZAieOQakyk9OYkSVFNaXyE4JLFSbl+yg==
-X-Gm-Gg: AR+sD11D3+4rxyEsD3zaLzhMlFOUQNHPFzPuicBI2RE7yp2U6tSrqghtQtQ36MBTxNd
-	M4ESUWQ5fd55tNl0VPHMt/sD2Kbx3RKuZt9Nf2T4MLOAj9r39gA0blrsGdK8uV9cdaKrCc7ub7F
-	pm5iu0EKdO8/12VkUmAvTgegtmF40JH+N97kMcTo8joPDYt8QPzW/JdW5oyTKPL5ie29q4TNRKD
-	BCzi7eoujgTU44w4/lX1v7FNTpY7oBYoIvDp+tVcdn+tWhbqSdwNFC+SCr4fz4Stf7i0xvh12V9
-	OtDUJLFV4mhtI1fvl8fGFX82XkpLP2h2WLJN78LC5lnkJaY9ur+uFDS1aV8SRwgdzUSJlQLwilx
-	BELFKSDFPhzgmOE9qSZI8BOkRE15SyVJ9SOJK6uS2hS10ltITMNse8dFhiLhLgxUgnoi5GsH5dx
-	HsJZ5CYwjAFxUzu68HRZ5GahFxCBJgITVQ+usDUnQYQKse/xB2tG7E/CDqHOITxA==
-X-Received: by 2002:a05:6214:2f0c:b0:907:bf1e:f888 with SMTP id 6a1803df08f44-90c6ac0dab2mr151739786d6.17.1787325178792;
-        Fri, 21 Aug 2026 08:12:58 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5f2905d6sm64457626d6.29.2026.08.21.08.12.57
+        bh=pQVfUZyrHFxSk6Ytf8Px1CPoPWnrAzt+d/q0DUGzeh0=;
+        b=C+HBqrGxOH2VagceMeomRIp9CxqiNPxqs0pfNLoNH9Y4QxONl1Ems1il+kBDWVIqWb
+         MCBrSPOXkqCVZGbnGHm5sKlXHJ+/DGA3G/xyiplulaK0XfhRIRNqK3h616SiZuldx8oD
+         4ebNSgDyxUMYv+yHA3F95BvcZ/MqBRK8aoAC5wODTbxcfjhcPfSpOW5dfyjr5odm1qCI
+         7ntHMLU+TWMAarcUAHYvZdP6Q8MsY6bWWIif48zQdptXCCc3BdkOJLrJhMAOQ+5DGzLE
+         k4LaL5DjbEN85kWFuQ+C111WDco2EaIvPFK785+mVzWzYMgrAcUKdMT72Om7FMIl/kL0
+         pPWA==
+X-Forwarded-Encrypted: i=1; AHgh+RqJs3EyYCNOLdEviru4T8++j+Q9Pf4niqqtU+7vnMYTRr2Xl1VsQqVVpkQWq0h0tGCQtQKLTlvzQjs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2dN3WbrrgetdoOXniTQtzQPrfOrCM0M8xihGPWDvTjjhv4+ce
+	rXJNreBNmWcTcLyKbkkbgk2GYPPrQ2jqs4mqByECsWvphbPuicjjwkjd
+X-Gm-Gg: AR+sD122oMwpfFB7eHRWAV0wYQqJnY7r1BdIE2jeKppn2bL7h0Qr+HgXieNB62EesQI
+	G3nfWqNLytvu7+z2oYJBJigwiM7n2K61AU0B4o8/cVbOW2c/S9T80VxSkG151aTvyypvO2F6VGb
+	Oxd1+Y+84RR8eQMH14LzQLi7zzHM4ij0+nVDDpseaq+Hv7uL8o9Gm5gU2wgM9hphUO2c9XmOkJl
+	bzzEGAqQ61EYaHjl5fxdZhS6GSPwhBwhMwsxy0AaVCWit7uNMWU/kUZdasa78n0cgJ8XlEuIgvu
+	ndD/sfGBknkf8Mb1UPfXYYJ0zvBH9Ms/xvxXbHrsJdg2SBeFhflqGlSFt/VPW0r3U1qq7MC6aSb
+	X3TUW1lG0Ugz7uvOzwm78o1LgHCjdJRxlyigDq51Y3Rbddqwh2NuRnx7u75mcwUxkgTkND0N4fZ
+	1YlRXKAmxl6Zg1+VBFfRo97Zoc1gUtgUcJgL7UjZLsLQY4xKh1RMb7XAntuxrMSaKuqYJf52B31
+	dZKa0i5O1RdPlIhAA/4jJGlThMkcjF+Fsce
+X-Received: by 2002:a05:600c:3b08:b0:499:b402:6c0 with SMTP id 5b1f17b1804b1-499b830d671mr93768145e9.3.1787325192330;
+        Fri, 21 Aug 2026 08:13:12 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b90e3170sm36283225e9.5.2026.08.21.08.13.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 08:12:58 -0700 (PDT)
-Date: Fri, 21 Aug 2026 11:12:55 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Liu Qi <liuqi@longcheer.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+22ea20ef3afb6785b122@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] usb-storage: ene_ub6250: fix race between scan work
- and probe
-Message-ID: <586aa82d-73c8-4cf7-ae74-4568f97f68db@rowland.harvard.edu>
-References: <20260821090416.1247127-1-liuqi@longcheer.com>
+        Fri, 21 Aug 2026 08:13:12 -0700 (PDT)
+Date: Fri, 21 Aug 2026 16:13:10 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: "Zi Yan" <ziy@nvidia.com>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>, "syzbot"
+ <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+ <apopple@nvidia.com>, <byungchul@sk.com>, <david@kernel.org>,
+ <gourry@gourry.net>, <joshua.hahnjy@gmail.com>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <matthew.brost@intel.com>, <rakie.kim@sk.com>,
+ <syzkaller-bugs@googlegroups.com>, <ying.huang@linux.alibaba.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Message-ID: <20260821161310.28255793@pumpkin>
+In-Reply-To: <DKUOVAQ3T03S.14GFWAHY0I6HO@nvidia.com>
+References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+	<20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+	<20260821093039.04538795@pumpkin>
+	<DKUOVAQ3T03S.14GFWAHY0I6HO@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260821090416.1247127-1-liuqi@longcheer.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 21, 2026 at 05:04:16PM +0800, Liu Qi wrote:
-> ene_ub6250_probe() calls usb_stor_probe2(), which starts the usb-storage
-> infrastructure and schedules the delayed scan work.  The driver then
-> calls ene_get_card_type(), which sends an ENE command through
-> ene_send_scsi_cmd() and the usb-storage bulk transfer helpers.
-> 
-> Both the delayed scan work, through usb_stor_Bulk_max_lun(), and
-> ene_get_card_type() use us->current_urb.  The scan work serializes this
-> access with us->dev_mutex, but the ENE card-type probe does not.  If the
-> scan work runs while ene_get_card_type() is still using us->current_urb,
-> usb_submit_urb() warns that the URB is already active.
-> 
-> Serialize ene_get_card_type() with us->dev_mutex, matching the locking
-> used by the scan path.
-> 
-> Reported-by: syzbot+22ea20ef3afb6785b122@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=22ea20ef3afb6785b122
-> Assisted-by: Qwen:Qwen3.6
-> Signed-off-by: Liu Qi <liuqi@longcheer.com>
-> ---
+On Fri, 21 Aug 2026 10:24:36 -0400
+"Zi Yan" <ziy@nvidia.com> wrote:
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
->  drivers/usb/storage/ene_ub6250.c | 2 ++
->  1 file changed, 2 insertions(+)
+> On Fri Aug 21, 2026 at 4:30 AM EDT, David Laight wrote:
+> > On Sun, 16 Aug 2026 13:52:01 -0700
+> > Andrew Morton <akpm@linux-foundation.org> wrote:
+> >  
+> >> On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com> wrote:
+> >>   
+> >> > Hello,
+> >> > 
+> >> > syzbot found the following issue on:
+> >> > 
+> >> > HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.or..
+> >> > git tree:       upstream
+> >> > console output: https://syzkaller.appspot.com/x/log.txt?x=15927479580000
+> >> > kernel config:  https://syzkaller.appspot.com/x/.config?x=a59830cba91a1981
+> >> > dashboard link: https://syzkaller.appspot.com/bug?extid=805630f1453e490427fa
+> >> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> >> > 
+> >> > Unfortunately, I don't have any reproducer for this issue yet.
+> >> > 
+> >> > Downloadable assets:
+> >> > disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
+> >> > vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a/vmlinux-3d6d8176.xz
+> >> > kernel image: https://storage.googleapis.com/syzbot-assets/f6da706811f4/bzImage-3d6d8176.xz
+> >> > 
+> >> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> >> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> >> > 
+> >> > gadgetfs: bound to dummy_udc driver
+> >> > ------------[ cut here ]------------
+> >> > 1
+> >> > WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce/0x380 mm/page_alloc.c:5280, CPU#0: syz.0.0/5319    
+> >> 
+> >> Thanks.  drivers/usb/gadget is the offender.
+> >> 
+> >> Gemini sums it up well.  "ep_write_iter() needs a bounds check prior to
+> >> memory allocation".  https://share.gemini.google/5NzjyttO0ULc
+> >> 
+> >> I expect an easy fix would be
+> >> 
+> >> --- a/drivers/usb/gadget/legacy/inode.c~a
+> >> +++ a/drivers/usb/gadget/legacy/inode.c
+> >> @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct
+> >>  		return -EBADMSG;
+> >>  	}
+> >>  
+> >> -	buf = kmalloc(len, GFP_KERNEL);
+> >> +	buf = kmalloc(len, GFP_KERNEL|__GFP_NOWARN);
+> >>  	if (unlikely(!buf)) {
+> >>  		mutex_unlock(&epdata->lock);
+> >>  		return -ENOMEM;
+> >> 
+> >> or do what Gemini said.  Me, I'll add some cc's and run away.  
+> >
+> > Should there be a separate flags for 'request too large' and
+> > 'no memory available' ?  
 > 
-> diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-> index 2cffc559a..13b332d1d 100644
-> --- a/drivers/usb/storage/ene_ub6250.c
-> +++ b/drivers/usb/storage/ene_ub6250.c
-> @@ -2358,7 +2358,9 @@ static int ene_ub6250_probe(struct usb_interface *intf,
->  		return result;
->  
->  	/* probe card type */
-> +	mutex_lock(&us->dev_mutex);
->  	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf);
-> +	mutex_unlock(&us->dev_mutex);
->  	if (result != USB_STOR_XFER_GOOD) {
->  		usb_stor_disconnect(intf);
->  		return USB_STOR_TRANSPORT_ERROR;
-> -- 
-> 2.43.0
+> What flags? Are you suggesting kmalloc should return an ERR_PTR to
+> distinguish different error types?
+
+That would break to much...
+I was thinking of a GFP_NOWARN_TOOBIG.
+
+That isn't enough to change the errno though.
+But a smaller sanity limit may make sense anyway.
+
+David
+
+> 
+> >
+> > Although the errno for 'len too big' should probably be EINVAL
+> > not ENOMEM.
+> >
+> > David
+> >  
+> >> 
+> >>   
+> >> > Modules linked in:
+> >> > CPU: 0 UID: 0 PID: 5319 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+> >> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> >> > RIP: 0010:__alloc_frozen_pages_noprof+0x2ce/0x380 mm/page_alloc.c:5280
+> >> > Code: 74 10 4c 89 e7 89 54 24 0c e8 0e 2c 0e 00 8b 54 24 0c 49 83 3c 24 00 0f 85 ab fe ff ff e9 ac fe ff ff c6 05 95 d2 18 0e 01 90 <0f> 0b 90 e9 17 ff ff ff a9 00 00 08 00 48 8b 4c 24 10 4c 8d 44 24
+> >> > RSP: 0018:ffffc9000e13fa20 EFLAGS: 00010246
+> >> > RAX: ffffc9000e13fa00 RBX: 0000000000000013 RCX: 0000000000000000
+> >> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffc9000e13fa88
+> >> > RBP: ffffc9000e13fb08 R08: ffffc9000e13fa87 R09: 0000000000000000
+> >> > R10: ffffc9000e13fa60 R11: fffff52001c27f51 R12: 0000000000000000
+> >> > R13: 1ffff92001c27f48 R14: 0000000000040cc0 R15: dffffc0000000000
+> >> > FS:  00007f6f4a58c6c0(0000) GS:ffff88808c549000(0000) knlGS:0000000000000000
+> >> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> >> > CR2: 00002000000010a0 CR3: 000000004323d000 CR4: 0000000000352ef0
+> >> > Call Trace:
+> >> >  <TASK>
+> >> >  alloc_pages_mpol+0x212/0x380 mm/mempolicy.c:2490
+> >> >  ___kmalloc_large_node+0x4c/0x120 mm/slub.c:5274
+> >> >  __kmalloc_large_node_noprof+0x18/0x90 mm/slub.c:5305
+> >> >  __do_kmalloc_node mm/slub.c:5322 [inline]
+> >> >  __kmalloc_noprof+0x405/0x720 mm/slub.c:5359
+> >> >  _kmalloc_noprof include/linux/slab.h:992 [inline]
+> >> >  ep_write_iter+0x1bc/0x500 drivers/usb/gadget/legacy/inode.c:669
+> >> >  new_sync_write fs/read_write.c:595 [inline]
+> >> >  vfs_write+0x612/0xba0 fs/read_write.c:687
+> >> >  ksys_write+0x150/0x270 fs/read_write.c:739
+> >> >  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+> >> >  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+> >> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> >> > RIP: 0033:0x7f6f4979e0d9
+> >> > Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> >> > RSP: 002b:00007f6f4a58bfe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+> >> > RAX: ffffffffffffffda RBX: 00007f6f49a25fa0 RCX: 00007f6f4979e0d9
+> >> > RDX: 00000000ffffffb9 RSI: 0000000000000000 RDI: 0000000000000004
+> >> > RBP: 00007f6f49835024 R08: 0000000000000000 R09: 0000000000000000
+> >> > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> >> > R13: 00007f6f49a26038 R14: 00007f6f49a25fa0 R15: 00007ffc6cf49328
+> >> >  </TASK>
+> >> >     
+> >> 
+> >>   
+> 
+> 
+> 
+> 
+
