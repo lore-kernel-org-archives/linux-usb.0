@@ -1,145 +1,160 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41008490BE1
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 11:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D73743A7FA;
+	Fri, 21 Aug 2026 12:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787313191; cv=none; b=Lrh4nll1DyhSdtImQYWu29LzpK/C77u+eIob+ifnKqiA6cRhCKoVPK5pYVjQ2Mve+BGLmdQwBpGX1GIeSiTCRLRtiFnFwIv1HHBtvnOA3+y72WpFsdBnuz+BuyKbA/RBFU0aiRBceW9s/8C4WGna/PwCQTnMBxP1Gz9MzTtFPD8=
+	t=1787313966; cv=none; b=g1e4jd/DQp8Up0O7s1OmGZ6IXL9gnfB6ynmNiPV/I3ARH7vhNEbrud/f3MJDCqIXNvKbBZfC/lNYHo8x7sAzBuWDe8iFYw/Sd8VJOCsTaB9/mmOai/ZUlPGVMORxoBwhAcd092Uo7xK5WguEQs1xU1BdagT2JPQawLAdQilcdt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787313191; c=relaxed/simple;
-	bh=hS2sMFpEtT2i6rgxbrgizb2uT0qrjJ0FAx9982mu4X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vn6mAWJhwLHVWG+WVdq9czsKAEQe1lAsdOSR9xO4UqFVeGOnLY9Cpkwgpb95pLXYjKPMiOtnzqaaZCNqNs7ssxFbxL7WA4AOiVXeP9v9xF4Frr546pjlJOjR49F9oxTWKeWntpgckZRZxgXzIPmQrgjoN8rbfD1zfoobC2agHsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lrwSXMXG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Txy0grRy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787313966; c=relaxed/simple;
+	bh=EimKIep5NKqQ3S/tS+G7jJuIhqWPxhJwEzLvTnSW0N0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b/CVvaUZSft3DzdKU24SmsFgESS92fzEhAcQ3VsmiVFw2idDNZKOpvJhoZ2ahVhudGT656nUEMwnG+43tPoa9etP/C4nGdMx6ahrzQIdOnOLYS98aTiPg2GcjRQWC7ZzNrDUmruszkj+hdscba0zYZ5enjYD6rUtJxRBb61PrpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4PHe8Im; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lrwSXMXG";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Txy0grRy"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67LBqBWT1805133
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 11:53:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=fiHsyA/uvaGf+tBz3ZkBrolH
-	K313csHTuCFdKGCVS8A=; b=lrwSXMXGX7sAS2tyIXY8x4HEawITmyl5h2m7A6Hu
-	7ryP0GOgNlCn0s7S+bgn+rYWoqZEpzUOBc0ZLdxS6oqvqIHN3C6eXVxQPYRs6YgU
-	102MSnZuJ1YiJd3hvkPCfXLB+sWlYkN2YMC7qdhciHd9Cdpe0ehHzG1V5x06BXLQ
-	IvlWuF2bqyhN49kT/4g1DhuguBGjuXEW+hLoD198z2lSbkuynisgzkfpU7Lwo4t4
-	KQloQuJ8VnnUB4ImyWHysqh1D19c+WfKN1LWAgICnbxSJAdx0sBr0IbxzkxfVsBG
-	MDzWMjg/GNVeYmm2wtv1YZFQ52p28/Qi/DvqfQ1LVih2Qg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g6fbw9hkg-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 11:53:05 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-52d7b3b6aa2so11143231cf.1
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 04:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787313184; x=1787917984; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fiHsyA/uvaGf+tBz3ZkBrolHK313csHTuCFdKGCVS8A=;
-        b=Txy0grRy59X2kt2S2qxiMkM5N24kvY0Te7Je4wRl6FSiyyIgK825aVV0UFYZHnvZJV
-         bgt1zR/Hd13PSM/iWCAyvTBjkpPqlsczQ+bLYaUEerkRYw04s+2OTdSQmE9TsNs0hZAJ
-         5zVnOa/4pBc8pXUYLzhh1mW+uWkZ/rgmNyZEbtjRo9/cNbP7tO1smGWeRMUS47fb0d4S
-         1Es/HC8QWBeZ0Z0wjtqQ0YiLJFzPE6xiqPrOIQ73lEm74GEbgXfugeDy5kgiINB35jB9
-         iweD58RFWHDyZWoJB4eb4fs3gOzD6A6TF5CCKamebH9N/MH3djI3Cyge+ayr1Gk1mExE
-         XvTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787313184; x=1787917984;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fiHsyA/uvaGf+tBz3ZkBrolHK313csHTuCFdKGCVS8A=;
-        b=sfwLpoHFw3t28M6YLiD+Do1C1+DqaCwTqnWEhVuuiEyswiM1tbUaTsv6lynyfjXqhB
-         K/9o7FgUrSzNCJ5FE3UxdkscM28HpDel/lYqIsRRMZU1IleTN30T+wcjjp/CGRHBCiDV
-         SQNUylC/U8+oEYG3Tkio1cpA4BLPXqnYlzsOZ4cuww1yfifQavlK0oIrWfkm6UJ3cogx
-         x1CFGwyYabNLmttAy6n+6cDV9eYerj9VlLPAfgx/C+97gVZNnMPIAGIg3usJz3amC2nD
-         CKrMQ/hKqr+HaHhVpzVopUewKfWKqRB7TKy57UkAa9e20Ww+VcIo3fk/HBCs5+JzHYx0
-         78wQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpnuzF6dgzL3vawkMisMfoi7O40+uOnRJGjXqx0y2jVojCulHGFeFcUTept2NgW+286Ob/L9qNB5Xs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlVilVZFZpgi4tsfnVufC8mZGF+iHWFpLtZlI0rAjIZWiVU8x5
-	M09V9QnRdvwNxHXhS87cWfirfGwZqdfl+8u+souEKeFKth5XESFRl3hjrw6JkMd9zg+DU3WlnPf
-	GA3I2AfQ/CYIxBBSN7CzFCFG0PPRolopj7G3w7aNdAqgs1n50qWVOlnsVKVor3Pc=
-X-Gm-Gg: AR+sD13E3QaldeRGmKTVfLt2laNWqZpzYABt2Yi33fOsvIC4oj0SR2FSUwJazCcPYeO
-	OECwOWQfxrIVtxmSGwhM3Q0ClO3wfZn/eT3A5IXQMHEtnlTi4HkQSNMXCiX7hb++SMwwSKA1u+R
-	SiGuD3g5/iqrS6VKjHl9nb6cBpVBKV56N2keUiEECu874OGrtA/sbmO5uZ+ldxfL8kk3+BTeZhB
-	aaVgY+mGva3o4lpWyiCKwfOO+nUFQOBj0UZxn5wvaJTe8JHs0VZrTUErw2D4UA8yug70lkjcBgI
-	jRJxHK7UV4JWXxcLCMqR/G0NrQl5xQcFtVqEctI6AUJdL4wK/5mE2QyXYrMSlAk2kk8KFD+Pql9
-	HBlC2vdMOS5jt82I=
-X-Received: by 2002:a05:622a:1454:b0:51c:1e69:bcc9 with SMTP id d75a77b69052e-52df572bfa7mr38613941cf.12.1787313184231;
-        Fri, 21 Aug 2026 04:53:04 -0700 (PDT)
-X-Received: by 2002:a05:622a:1454:b0:51c:1e69:bcc9 with SMTP id d75a77b69052e-52df572bfa7mr38613471cf.12.1787313183707;
-        Fri, 21 Aug 2026 04:53:03 -0700 (PDT)
-Received: from oss.qualcomm.com ([188.27.161.240])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24591df739sm396902666b.49.2026.08.21.04.53.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 04:53:02 -0700 (PDT)
-Date: Fri, 21 Aug 2026 14:53:01 +0300
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-To: Akash Kumar <akash.kumar@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/3] usb: typec: ucsi: ccg: Add support for
- cypd6129/cypd6229
-Message-ID: <3gjsvsmuvmdgt5dmz32dkauyztnnr4i3m6k5gxvuigg43frf37@mzs43cpjrszu>
-References: <20260820145036.2035641-1-akash.kumar@oss.qualcomm.com>
- <20260820145036.2035641-3-akash.kumar@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4PHe8Im"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787313963; x=1818849963;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EimKIep5NKqQ3S/tS+G7jJuIhqWPxhJwEzLvTnSW0N0=;
+  b=J4PHe8ImnpAY9J+7Pu1Bpv/+Y9NvJMWmevdiwIqSGpGOaTKyhcLsmrUH
+   Vi2vm8zeHGUGAQ6Hkwlyv0FVmIoOMbhBoTkRX5ohej45RNgMbd2anct0g
+   oMCOYPNWb532rl7qqMz9JtwKvGk0xxT3PEi9ABhxuz5lg2NOHCL3dI6M5
+   10sH8zhCZIt9V0/dKlWDb0IX9TV2ZT1lK6W7cQVA4nsmsTVaN8Deaf1s5
+   ioN8tvp6vLDMlTI6RPMDy6HwT71D8K8iVnbVviogrk3IL+jDz/Tppw33g
+   VOr9HLpDThMcFkNSOO24quU8t2Erv6nfA/5FUQIF5/TqSkqQVJqQCwm3r
+   w==;
+X-CSE-ConnectionGUID: aayERrn3QYuNjZ+YgfqKhw==
+X-CSE-MsgGUID: J3eP8/kRSq2z+jEWvSLNzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="91675254"
+X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
+   d="scan'208";a="91675254"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 05:05:57 -0700
+X-CSE-ConnectionGUID: k8VlhBqCQt+KFrjWTo0lTQ==
+X-CSE-MsgGUID: b/rH7U2xRzWGM4V0yZA5GQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
+   d="scan'208";a="265045549"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.245.228]) ([10.245.245.228])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 05:05:56 -0700
+Message-ID: <6804ed57-8405-4310-a64f-20c400bffde0@linux.intel.com>
+Date: Fri, 21 Aug 2026 15:05:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260820145036.2035641-3-akash.kumar@oss.qualcomm.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODIxMDA5MCBTYWx0ZWRfX0JCRGbgDfS1f
- g3ZOk2URbbiNbNbGAVCDos9v3LCDIr3A/G36eLrGJ0nx37vPMPlvVZ028SjxSrPuF8l6iUoisKQ
- D080YeS3e+T/bSVuXIO3t4b761o8sBA=
-X-Proofpoint-ORIG-GUID: 6E0Z8pqklxqYsvJzuO6ZItMRhw3cFq-m
-X-Authority-Analysis: v=2.4 cv=L9AtheT8 c=1 sm=1 tr=0 ts=6a883c21 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=wUpz7uCjLrEXi01cjX+DLw==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=wQmYZ3ktDRVsrDT-OGkA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIxMDA5MCBTYWx0ZWRfX9yazJKd/KlzJ
- AtYlIT1falJQBSWrUZecdSwLqMs80vqvRxlD06QQJcLU4egme+T4yAU4+8zxcLlPPZ4VqR7SWSS
- FN0Po9JCzO8j5ZLpJsuJmYSz4Ne/c4hGTa19OcctoLQfPwPP5bjtCtbL+sYzN+D3CPAQHJMQZvt
- rknWPLV75Y7r3gNrFmCunKSq8mnK7fy8SjTzTvrq794BKicBD0TtjK5Qy8rb0mGkdA6ByYW/hvC
- IXG7e37SoktqgoUcs5QVE7QC4QOphTSeKN6nEnmSrfRxVrMOdAwdYM5sRmrA7Erg21mJTlXnz1H
- yRs+sp089VNZnGMiIPgj8MVIOMJr341kS861lBFpfKS7oslpBumaRC6MzNmuYYC9ckIxhVvDZ8Y
- 25kiQ1RaacW0aUEuwt5rVcZ/XHoO1WclK+ktzfS+1zmFxmtNLET87YFrIaYwosK/+QofQppx+Cc
- ycXg+9MbQGewgHyeMEg==
-X-Proofpoint-GUID: 6E0Z8pqklxqYsvJzuO6ZItMRhw3cFq-m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-21_04,2026-08-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608210090
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: Fix isochronous scheduling regression
+To: Michal Pecio <michal.pecio@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260821114706.34b095b1.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260821114706.34b095b1.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26-08-20 20:17:37, Akash Kumar wrote:
-> Add cypd6129 and cypd6229 compatible strings to the of_device_id
-> match table so the driver binds to boards describing these Cypress
-> PD controllers in their device tree. No other driver changes are
-> needed since the chip is accessed through the same generic UCSI/HPI
-> I2C register protocol as the existing cypd4226 support.
+On 8/21/26 12:47, Michal Pecio wrote:
+> An isoc URB without URB_ISO_ASAP should be scheduled immediately after
+> the previous one, unless it's the first submission or prior URBs have
+> completed without resubmitting and the endpoint became idle.
 > 
-> Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
+> An HCD_BH driver must consider URBs pending completion in the BH queue
+> in addition to its own queue. Regrettably, core doesn't provide much
+> information, we can only know if we are being called by completion now.
+> This issue is as old as HCD_BH, affects ehci-hcd too and has no known
+> reproducible impact, as drivers generally resubmit from completion.
+> 
+> A recent patch tried to address it by looking at xHCI HW state instead.
+> Obviously, HW has no knowledge of the BH giveback queue either, and the
+> whole solution amounts to testing whether prior URBs have been unlinked
+> instead of completing normally - then a new stream is assumed.
+> 
+> This leads to false negatives when a driver simply allows the endpoint
+> to empty out and begins a new stream. New URBs are scheduled into the
+> past and promptly fail with -EXDEV status, causing data loss and worse,
+> because drivers get confused by premature completion, particularly when
+> multiple endpoints are started at once and required to stay in sync.
+> 
+> snd-usb-audio underruns the OUT endpoint when userspace fails to supply
+> playback data in time. If this is detected in duplex mode, IN URBs are
+> unlinked and both streams restarted. OUT underruns again before IN even
+> begins, another recovery is attempted and the cycle repeats.
+> 
+> Fix this by using the best criteria we can muster, taken from ehci-hcd.
+> This brings false negative rate back to zero and false positive rate to
+> less than ever before in xhci-hcd. Traditional logic was equivalent to:
+> 
+> 	if (list_empty(&ep_ring->td_list) ||
+> 	    GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
+> 		// consider this URB a new stream
+> 
+> While free of false negatives, it had easily avoidable false positives:
+> * no check for completion in progress when the list is empty
+> * the ep_ctx check doesn't make up for it at all, but it adds a race -
+>    EP state can remain "stopped" for a while after the first submission
 
-This looks OK to me, so:
+I would still prefer:
+if (list_empty(&ep_ring->td_list) && GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
+to detect the start of a new isoch stream.
 
-Reviewed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
+It has zero false positives mid stream, and fixes the "stopped" state race case.
+
+I can't figure out when the false negatives it introduces is an issue.
+
+If you can show me a usecase where a driver or specification is designed to let an
+isoch endpoint intentionally run dry, leaving it in running/idle, and then continue
+queuing URBs expecting ASAP scheduling, then we can change it.
+
+UAC and UVC go to altsetting 0 and drop the isoch endpoint on stop/pause (says AI)
+> 
+> Link: https://lore.kernel.org/linux-usb/20260813005635.34750f8c.michal.pecio@gmail.com/
+> Fixes: add8469b3e00 ("xhci: fix frame id calculation and checks for isoc URBs")
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+> ---
+>   drivers/usb/host/xhci-ring.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index f27bc132d0e9..8b0c27d6f12d 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -4311,10 +4311,11 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
+>   	check_interval(urb, ep_ctx);
+>   
+>   	/*
+> -	 * Check if this starts the isoc data flow. Relies on hw setting ep ctx
+> -	 * state after doorbell ring. Consider adding list_empty(td_list) check
+> +	 * Schedule the URB discontiguously if all previous URBs have completed.
+> +	 * XXX core can't tell if completions are pending but not running yet.
+>   	 */
+> -	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
+> +	if (list_empty(&ep_ring->td_list) &&
+> +	    !hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep))
+>   		xep->next_uframe = -1;
+
+I don't know why we intentionally should introduce the false positive case,
+hiding a known issue.
+
+At least we should add a debug message so audio/video developers can find the reason for
+the glitches:
+
+if (list_empty(&ep_ring->td_list) &&
+     !hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep)) {
+	if (GET_EP_CTX_STATE(ep_ctx) == EP_STATE_RUNNING)
+		xhci_dbg(xhci, "Starting new isoc stream on running endpoint at uframe %d, killing sync...
+	xep->next_uframe = -1;
+}
+
+Thanks
+Mathias
