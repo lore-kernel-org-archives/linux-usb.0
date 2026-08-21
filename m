@@ -1,160 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D73743A7FA;
-	Fri, 21 Aug 2026 12:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969B471CE0
+	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 12:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787313966; cv=none; b=g1e4jd/DQp8Up0O7s1OmGZ6IXL9gnfB6ynmNiPV/I3ARH7vhNEbrud/f3MJDCqIXNvKbBZfC/lNYHo8x7sAzBuWDe8iFYw/Sd8VJOCsTaB9/mmOai/ZUlPGVMORxoBwhAcd092Uo7xK5WguEQs1xU1BdagT2JPQawLAdQilcdt0=
+	t=1787314356; cv=none; b=I6IMyiDV1p9oqKA1aweM6nWpxMzxnUCUQNAnNop3iTK34ThzOSZmZvzxS7YMZKFjQRIZo26pvO/+PGqMZgtDIACNJDuYsz5SBzj+wMkvToHHvLRgs7Vgu2ceCKIWyOwmpcLQMIlao8mEY0lT5rJKg3K51SbkDySx7PQKVTVM0gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787313966; c=relaxed/simple;
-	bh=EimKIep5NKqQ3S/tS+G7jJuIhqWPxhJwEzLvTnSW0N0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b/CVvaUZSft3DzdKU24SmsFgESS92fzEhAcQ3VsmiVFw2idDNZKOpvJhoZ2ahVhudGT656nUEMwnG+43tPoa9etP/C4nGdMx6ahrzQIdOnOLYS98aTiPg2GcjRQWC7ZzNrDUmruszkj+hdscba0zYZ5enjYD6rUtJxRBb61PrpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4PHe8Im; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787314356; c=relaxed/simple;
+	bh=oLUli+P8bzYCuTlCELw1c6zJxnu/hhj7hprjoNdvKtQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L7GWlL9B47VNLWzDvCPVWOWfVKyGG2+qFqkcLfTbGbQVSCvEN6NoLwOiiqC/LyWfQI+TapXXFh5o8Iw6+ZdfhkvHOKB92Ut9pKD+kme+IU8V2285KF7Dc/UykX/Pqcr2RH+ATKLWCdM6QlfDctUmF4JUjUOm7KRr2oEjjnziD0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dZU4pw1R; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4PHe8Im"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787313963; x=1818849963;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=EimKIep5NKqQ3S/tS+G7jJuIhqWPxhJwEzLvTnSW0N0=;
-  b=J4PHe8ImnpAY9J+7Pu1Bpv/+Y9NvJMWmevdiwIqSGpGOaTKyhcLsmrUH
-   Vi2vm8zeHGUGAQ6Hkwlyv0FVmIoOMbhBoTkRX5ohej45RNgMbd2anct0g
-   oMCOYPNWb532rl7qqMz9JtwKvGk0xxT3PEi9ABhxuz5lg2NOHCL3dI6M5
-   10sH8zhCZIt9V0/dKlWDb0IX9TV2ZT1lK6W7cQVA4nsmsTVaN8Deaf1s5
-   ioN8tvp6vLDMlTI6RPMDy6HwT71D8K8iVnbVviogrk3IL+jDz/Tppw33g
-   VOr9HLpDThMcFkNSOO24quU8t2Erv6nfA/5FUQIF5/TqSkqQVJqQCwm3r
-   w==;
-X-CSE-ConnectionGUID: aayERrn3QYuNjZ+YgfqKhw==
-X-CSE-MsgGUID: J3eP8/kRSq2z+jEWvSLNzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="91675254"
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="91675254"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 05:05:57 -0700
-X-CSE-ConnectionGUID: k8VlhBqCQt+KFrjWTo0lTQ==
-X-CSE-MsgGUID: b/rH7U2xRzWGM4V0yZA5GQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="265045549"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.245.228]) ([10.245.245.228])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 05:05:56 -0700
-Message-ID: <6804ed57-8405-4310-a64f-20c400bffde0@linux.intel.com>
-Date: Fri, 21 Aug 2026 15:05:53 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dZU4pw1R"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ceaf8a1265so10590315ad.2
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 05:12:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787314350; x=1787919150; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VigDYn6ALPC/LWfKMn5vGX78fbZhwGngiwf3ToGZ5uQ=;
+        b=dZU4pw1RQQCEZA/VIqpQWUlx4B/lFRiXY2Zw3mLr2hr9RuE6F7wL7LYrY35NxFq8Al
+         LNSwNJflCc3R2lMZ0Dd4Wrmtva+DGpH8LdC95aS0gH89Jq3jeLdskjUkns/nnhgArvxm
+         bcaMk51w/sspnuIyLBhtOu+T+T4q65CuYnYq5AiorXB9INPaMiO4W4dXsyoOZVkZ6TEY
+         wWWhJiFJA7ZYuhh1DO7wX0bQUtlvB4hTy+x0O36l9t72+z6W3Z9wmVLqSZqCPllVnFhO
+         NvKLmtCVl5c2SzKMh7oSzfRXul3MwYQbHrAkV+n/t5iHHbTbE1G9CNu8KXgofr3MAS+S
+         tpkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787314350; x=1787919150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VigDYn6ALPC/LWfKMn5vGX78fbZhwGngiwf3ToGZ5uQ=;
+        b=aE1PJLBchl5bjFfEYcFUUeXwkM0o3wjDdFRjes8/woEsVPdebuw9/YRuXlF5jufrq8
+         tG6FhRAFMCwB75jFD8tn7GDo66pzi6HQE6OR+iWFlZRqcaGDosQmZ88as4KY8+woLoaI
+         R1IHEJCGmOde9imHJOSO4BTg5ocCm/8VREGdoT3Vs9Vzy0sTh/ER7VgY05TDXLta9FFB
+         N7I6nDIkm5D45PNo5RHMtWZ76AItj5D+fS+rEnPH8yOamzMR12qrUTR1f0SfGBGYPEWt
+         ds1VxpJOtQXEi1rYERurO39UFf0g40upifm/UTBMJiEwTLAhz3+IMlSC/BVBQmQrF+4X
+         mhkA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1aDZbmteLNph4zRIk/Lwx9aI2/mJE5TXTlaPaeOYm9yntKN4yTlGdirLQX8p+Dc880GZnmxPbExo=@vger.kernel.org
+X-Gm-Message-State: AFuF++m3U5inho/QZ/ZGGTXheVgg290PqP+f7n+sDrcZ4QZQT8V/JcLJ
+	aMsKTUIBHpStdrDXilTbAwgS1C72WLQcynOEZ3b9Xyum+dALzZgSZcNY
+X-Gm-Gg: AR+sD12nb0hMLQ4atbPKV1nS4wW6R8q1xxQDBTicUm46CjbwWOcxe8kf0xFwBpt60yn
+	/SV+s0W/I2tnsZcyTZhhzuKefut4S8voloGvdm6BBnEBfm2M1+/bES6C+3fWJG0M07h8/+2gGi9
+	Fcyr9aQ0jS9a6mLykrcbnk3W3seo9OH2K8liy7a4CWG/EYM/ZtCpGChgb95NDnO2p96TrcA8DXt
+	ZKZotBq1eYnCwEm5tJHQTgmIkBzi33B49fZz076kIuP0MDr5LVkgM5t29o7UlLN9/WXkSB8iMch
+	uFRf0GOHWReyutJ54JJo6LOH8FHpgm3gprmQESY7Ogwi7mEcrWffCTtP/iPwq8g1oxLCOIOCt3i
+	Oe0zeZH8n3ZfVozbdLAnRa8TFGrlDPXe5qGa8kRWOaK+kR0ufmri52PQCUx8ZC7AMpPJtSwLO8u
+	4zRJ0CFSSuhjUlnuVw/S7qe+XgEkUOYZbHHe4PpCHJRmy2OSFB8yqMQWo1MuPqUOqtgw+vyc3pg
+	xuQajZaSQUQndKW2f4Sutul0mgQSb1Qhuow/59Wy0NrW7QUMmuLfBRfAJfdCspN
+X-Received: by 2002:a17:903:354b:b0:2d3:2e86:647a with SMTP id d9443c01a7336-2d64af6f896mr118723395ad.5.1787314350353;
+        Fri, 21 Aug 2026 05:12:30 -0700 (PDT)
+Received: from deepanshu-Legion-Pro-5-16AFR10.. ([2405:201:682f:383f:569e:7ed4:3735:ea2a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d62e3a1031sm18300385ad.57.2026.08.21.05.12.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 05:12:29 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: kees@kernel.org,
+	stern@rowland.harvard.edu,
+	lgs201920130244@gmail.com,
+	balbi@ti.com,
+	ribalda@kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+2ec7fc1793a63864d9d6@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: net2280: fix NULL pointer deref in usb_reinit_338x()
+Date: Fri, 21 Aug 2026 17:42:20 +0530
+Message-ID: <20260821121220.13006-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: Fix isochronous scheduling regression
-To: Michal Pecio <michal.pecio@gmail.com>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260821114706.34b095b1.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260821114706.34b095b1.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/21/26 12:47, Michal Pecio wrote:
-> An isoc URB without URB_ISO_ASAP should be scheduled immediately after
-> the previous one, unless it's the first submission or prior URBs have
-> completed without resubmitting and the endpoint became idle.
-> 
-> An HCD_BH driver must consider URBs pending completion in the BH queue
-> in addition to its own queue. Regrettably, core doesn't provide much
-> information, we can only know if we are being called by completion now.
-> This issue is as old as HCD_BH, affects ehci-hcd too and has no known
-> reproducible impact, as drivers generally resubmit from completion.
-> 
-> A recent patch tried to address it by looking at xHCI HW state instead.
-> Obviously, HW has no knowledge of the BH giveback queue either, and the
-> whole solution amounts to testing whether prior URBs have been unlinked
-> instead of completing normally - then a new stream is assumed.
-> 
-> This leads to false negatives when a driver simply allows the endpoint
-> to empty out and begins a new stream. New URBs are scheduled into the
-> past and promptly fail with -EXDEV status, causing data loss and worse,
-> because drivers get confused by premature completion, particularly when
-> multiple endpoints are started at once and required to stay in sync.
-> 
-> snd-usb-audio underruns the OUT endpoint when userspace fails to supply
-> playback data in time. If this is detected in duplex mode, IN URBs are
-> unlinked and both streams restarted. OUT underruns again before IN even
-> begins, another recovery is attempted and the cycle repeats.
-> 
-> Fix this by using the best criteria we can muster, taken from ehci-hcd.
-> This brings false negative rate back to zero and false positive rate to
-> less than ever before in xhci-hcd. Traditional logic was equivalent to:
-> 
-> 	if (list_empty(&ep_ring->td_list) ||
-> 	    GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-> 		// consider this URB a new stream
-> 
-> While free of false negatives, it had easily avoidable false positives:
-> * no check for completion in progress when the list is empty
-> * the ep_ctx check doesn't make up for it at all, but it adds a race -
->    EP state can remain "stopped" for a while after the first submission
+net2280_probe() only maps dev->llregs when the PLX_PCIE quirk bit is
+set. usb_reinit() dispatches to usb_reinit_338x() for any device that
+doesn't have PLX_LEGACY set, assuming such a device must have
+PLX_PCIE set (and thus llregs mapped). That assumption holds for
+every entry in the driver's pci_device_id table, but a forced driver
+bind (e.g. via sysfs bind/driver_override) can invoke probe() with
+quirks that have neither bit set, leaving llregs NULL and crashing
+in usb_reinit_338x() on the first readl().
 
-I would still prefer:
-if (list_empty(&ep_ring->td_list) && GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-to detect the start of a new isoch stream.
+Reject probe() early when quirks has neither PLX_LEGACY nor
+PLX_PCIE set, instead of proceeding into a reinit path that assumes
+one of them is always present.
 
-It has zero false positives mid stream, and fixes the "stopped" state race case.
+Fixes: adc82f77bee3 ("usb: gadget: net2280: Add support for PLX USB338X")
+Reported-by: syzbot+2ec7fc1793a63864d9d6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2ec7fc1793a63864d9d6
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+---
+ drivers/usb/gadget/udc/net2280.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-I can't figure out when the false negatives it introduces is an issue.
+diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
+index 7c5f30cfd24d..02d12c2ad58b 100644
+--- a/drivers/usb/gadget/udc/net2280.c
++++ b/drivers/usb/gadget/udc/net2280.c
+@@ -3708,6 +3708,17 @@ static int net2280_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		writel(0, &dev->usb->usbctl);
+ 	}
+ 
++	/* usb_reinit() dispatches on PLX_LEGACY vs PLX_PCIE and assumes
++	 * every non-legacy chip has llregs mapped (PLX_PCIE branch above).
++	 * A forced/mismatched driver bind can hand us quirks that satisfy
++	 * neither, so refuse to proceed rather than dereference NULL.
++	 */
++	if (!(dev->quirks & (PLX_LEGACY | PLX_PCIE))) {
++		ep_err(dev, "unsupported device (quirks=%#lx)\n", dev->quirks);
++		retval = -ENODEV;
++		goto done;
++	}
++
+ 	usb_reset(dev);
+ 	usb_reinit(dev);
+ 
+-- 
+2.43.0
 
-If you can show me a usecase where a driver or specification is designed to let an
-isoch endpoint intentionally run dry, leaving it in running/idle, and then continue
-queuing URBs expecting ASAP scheduling, then we can change it.
-
-UAC and UVC go to altsetting 0 and drop the isoch endpoint on stop/pause (says AI)
-> 
-> Link: https://lore.kernel.org/linux-usb/20260813005635.34750f8c.michal.pecio@gmail.com/
-> Fixes: add8469b3e00 ("xhci: fix frame id calculation and checks for isoc URBs")
-> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
-> ---
->   drivers/usb/host/xhci-ring.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> index f27bc132d0e9..8b0c27d6f12d 100644
-> --- a/drivers/usb/host/xhci-ring.c
-> +++ b/drivers/usb/host/xhci-ring.c
-> @@ -4311,10 +4311,11 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
->   	check_interval(urb, ep_ctx);
->   
->   	/*
-> -	 * Check if this starts the isoc data flow. Relies on hw setting ep ctx
-> -	 * state after doorbell ring. Consider adding list_empty(td_list) check
-> +	 * Schedule the URB discontiguously if all previous URBs have completed.
-> +	 * XXX core can't tell if completions are pending but not running yet.
->   	 */
-> -	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-> +	if (list_empty(&ep_ring->td_list) &&
-> +	    !hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep))
->   		xep->next_uframe = -1;
-
-I don't know why we intentionally should introduce the false positive case,
-hiding a known issue.
-
-At least we should add a debug message so audio/video developers can find the reason for
-the glitches:
-
-if (list_empty(&ep_ring->td_list) &&
-     !hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep)) {
-	if (GET_EP_CTX_STATE(ep_ctx) == EP_STATE_RUNNING)
-		xhci_dbg(xhci, "Starting new isoc stream on running endpoint at uframe %d, killing sync...
-	xep->next_uframe = -1;
-}
-
-Thanks
-Mathias
