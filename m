@@ -1,579 +1,271 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011008.outbound.protection.outlook.com [40.93.194.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203894C6EF8
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 14:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787321096; cv=none; b=RDAK9i1tjZnPMVV3Gdn3uBHDjx1LClhkeHChMDCEsQeMiXR3cAsUy9KTcRfV0qAekQvumMdC7dJFFoCpPqfB7chA2ct1v3BEwrFfeIU0+PPhXrpgsOAFyXAZqGlOW1cp0NWjFlzug+kAmfuP2kMOb9koHY1xSvF8ilzNbICZ5Q0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787321096; c=relaxed/simple;
-	bh=p5ms3ettnsZUkMaMVpgaQ1dF7NvICnT7m59e4toR5Yg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UEbOnQFLaDZvtS6UCBXJvCY/9/zUs8w+TbgbKbzq46A3XRjFEEThJ1k+O3pcG4oqyyloiodZhpcfHyBiyIf1K7i2Oved1+BFG08aEwYBDapreNM3S7q5lnfSAjlTRYKZm6uTwTZuJJ4Z50caiUrRYlWUZNQjKdU4RKxAHkhL/QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X6A93P90; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FLVrR6UZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00EE4B8DE0;
+	Fri, 21 Aug 2026 14:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787322301; cv=fail; b=PMB9Qo8LEjs7XHAN5egpimYkSKcEDoSHTT39IbPMa7KZMILdIF+IPO4d8Ole9pbah8tta0R8HZEgKpd6P/Sxq5/huaJt6KJmFXTj9G/0SPsI1+/k8SUcSiDvdCBvV10kS1I4bjOJPeKkDY0wM8wYU6MhxCwA+Ddl4D/nvvPa40k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787322301; c=relaxed/simple;
+	bh=JH2zo+zT4w74+lmEgDwnHKV3jnW2/ahpk3FKB90XNHo=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=FeySWMVQJlhYsCVw3FtufA1y2kEcnuf2D4azSwAnUNy8aA2iSays9vIR7v/0lrcK/ORC4TRAVi1fYsdOvtENOH9yASJ7TYDA4spaz6yUEWsk6PElkKbBjaKnOOLQR+1162U7RVdql1AjB0iSBHsSyMMMNVl6P7oTgAh2IIBlgj8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jzV7ECDf; arc=fail smtp.client-ip=40.93.194.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X6A93P90";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FLVrR6UZ"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67LCokLK2257264
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 14:04:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	UHxd2nhjsoPjXsrENyRfnR3wWpIKcv2XiaMwrKt9YmA=; b=X6A93P90A1+gXmS4
-	sQ924F9ZEelFEAAlsvB4FCYrHYhG0NuGkK3eEsWfX+keqmu3/7czdEeLWn8Y1wFe
-	q9GZE4sQGQm8pJ1Ffh3HutYRt6vqIDttCM4hi4LnwIou4j9ZsN1xwfyrcTZqrap4
-	UN41YUSI+I+eaqkXZCDgE9oLR+A6mnTeS4OlTIZMwfWx99BHGgamkVzEdSGJ35WK
-	YQFc8xiw7skv3h9dHeYiExDPHM8NMYEM1fMCAMgH5O8pYkE2hAx1p66LA05jDBrU
-	AK3ApYHkVlcCZFN3I8suAmVEwn+8iln3MvtOuMs5cjs/gEq29xr9pfZpXfAXKMgy
-	SzMMHg==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g6ecbaadb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 14:04:51 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so1514387a91.3
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 07:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787321091; x=1787925891; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UHxd2nhjsoPjXsrENyRfnR3wWpIKcv2XiaMwrKt9YmA=;
-        b=FLVrR6UZ3p/S/Zm52aiTRoUHFNApN3loZXRfCM4aIcSluznG3rj90jW4oJc58Ss0UH
-         BHUc8j48QZ547+vZPlExejp6l7NWJO+mXf2zf2WR+LV1FRrtx1BSBaf0WbpZh3cxb2gF
-         c8Z+e7O3PZp++uA8XDqMsIzG1RYgWop5yh9eAQ1E7dJOqpsUzJ93MsltfSl/IP9g2Kp8
-         o8cJCpxBhyqmvVc2ByhOabq3f55zgmfjn3rs9vLa2Zrls7pOmccXesus2MkagkO6y82h
-         J9q5sYzgacklNOsmmMd7jYrjeTx/u26ApZCgD46J9xyMqTVzromsrrCXDS6btuPH/Krx
-         jKyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787321091; x=1787925891;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UHxd2nhjsoPjXsrENyRfnR3wWpIKcv2XiaMwrKt9YmA=;
-        b=Q0+Sqz1PZ8UOc1gj7yPxUxcCTwzozYESxlmByIQhORu3z5PHDczg/STYWdCqlmfSjO
-         9IbT8O3UV8/QpJY4D5+7Zir/DBO20pEis5TPRO1/eRaqo+v+2ar6l8ZNUqfL10pGodcQ
-         QfudW4L8DwKxIRRqU9i4sEEn/VZOCkdhdhTygIlswN0Chb8PO7iYfORTFnjr8P+jQI5Z
-         7POp3uqMtqxmjx82y8Y6oTak6cKCegUJJ2H3RdYsk0rOxnqJRSfW0vNoPe7/hnz5L55G
-         Ay4Pt2WwJLCuuBF+bvUTmXCAfs7o3Da3ZL4Q1jxdzhsM4YVVkvjuXxTa8qMxEnsLPNNO
-         X1Ew==
-X-Gm-Message-State: AFuF++mYiHoxne42vc10UjsKRqUNF3YQy9SnqZCP1R7AWPul+sF41PSB
-	sGCxkrGQwBiifIkW9aLocNPg1Fm61vPsTgQ93M16zsR22WxlhPRLkjMo+GPWKeCuuc2UEAdB+Mp
-	vVDGQGrRwHyBuB1isG4Yiuek05pI8z3O9WjYWGZH/jzkLP9XIQvsSsA+UU4Mb5dU=
-X-Gm-Gg: AR+sD110KREnzEwiazltMlcT16ukONZjOJdbSpN96jb2tn3gLXTbp1ryPQpEa6v9yiI
-	Na2/ErhdJ28Ezxw22IUY9JBxKanppFGWxO9clrDY6sYu17SeKSUnQB0ZCm5IckJznCp4Lq2FQkU
-	nl1Te7QGvU4EAg6w9KvUpvxycRYWzRNp3V2vJt51NuPX3Wa26FkN2vN3Xg4DWP9JPfZIpQmrNPB
-	qSpwK9YMDKTcBbrteHXRqQxL0hUYXRuB0X3I1tzEzIqpl/WUVeX647qi5vNT6oDWjYf2jboVLWM
-	IhGcY7GMl7HPe0+0IMokoLwKmAwREm/uIsBx3hCB9pMhJKfHKozp0wuJo9E7Kgg3fW9UFqhHYyV
-	py0yzIZ4Q0eaDSWTvqUxMgQyeTIW8
-X-Received: by 2002:a17:90b:384d:b0:38e:7f1b:efa with SMTP id 98e67ed59e1d1-395c37130eamr10641007a91.11.1787321090596;
-        Fri, 21 Aug 2026 07:04:50 -0700 (PDT)
-X-Received: by 2002:a17:90b:384d:b0:38e:7f1b:efa with SMTP id 98e67ed59e1d1-395c37130eamr10640910a91.11.1787321090030;
-        Fri, 21 Aug 2026 07:04:50 -0700 (PDT)
-Received: from hu-akakum-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395c45530absm3331680a91.4.2026.08.21.07.04.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 07:04:49 -0700 (PDT)
-From: Akash Kumar <akash.kumar@oss.qualcomm.com>
-Date: Fri, 21 Aug 2026 19:34:33 +0530
-Subject: [PATCH v2 3/3] arm64: dts: qcom: shikra: Wire up usb-role-switch
- for USB Type-C ports
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jzV7ECDf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NVZUF5csB3h+wEh44MVC7+H1vYYLFeK+ZGXV/xCmqk3Qzn+zInIyoY5DrXjkB+9O6bPJ/vEN2YQMH2bXxYHbTOAXFlxeRUb/CVv5SIyQYXrKOIwXzygQwaoDV0EazkfqpnY8xPkaepDpv0Sw96bTinOtjplvFcXhuXQFdiGF02V8djskV9jmuYv5P97s1wv05do1HTvt0Ay3irNgdW4VqbLXKlg5wByfXpb2hiKnzqAsjh3Z6RTXYIrR3DsffauF2yyHHWz8eeBsT4X8er0CXnrBX5JWc8Rq4kucXFDvJhCjw0rtjnEPFpf+dl6TwKWMeq47BhLBERviIx06pBV5RQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Jwl0Ojc5DlQcGwW+CEMWKzfKrDDywfKjSAnRtWMucQ=;
+ b=RWRw4FDnElbduOgvbwtaZvKPwVErhtKoW/ONF4s7bk4XIJEev2h6TvF2PQt5n2mf003hOpveHVDvhKMiOXrGAd6TtRc7h+neBOmPvT4x7b+IzvJjdqxxU7R+rteuSrs4jm5u2ZcNHQd+RJnI+7AXvXdFNWisV83VD5T5mk5fj0q638UkdY7BXuNuYW8UZH6GVwINq8mCMfWIOKswebkd97v+uyfWXTeKPiN0LAO0JCzViysH++pPx1v3Jf45UJ2SAiBSALGiGrF8Wf8TNpcU6FEkFE3U5vBHgz2+l7bZQJKQfrX9mepvckekHDoa24xm0N8YdOrWhQszupFdsl1y9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Jwl0Ojc5DlQcGwW+CEMWKzfKrDDywfKjSAnRtWMucQ=;
+ b=jzV7ECDfafC9CJKhftGhLVW5f9ZVRwlit4dI+CKtwUmk4aVpkhZC7yDKtzpfDE8roGQQs0IqoolV+yoWiF8LyeNqLMJU4awqXmwT2lv/jGbeoZBRKgMaPjXwYTULuKLsh1TdwOQyEn9DHn828WsVGMxOst2LMc1Jfqhs++ZAPsG74ewA7hiD4n0Z7ogfqvsIaM/bNm3Nvqk96aky+4f4XmcGqmeeWqw1ECREcJWNQXsamDNfd0RmfTegur5zleqfado5X1oFGDlWxKO/SsJPnugrEpOXhdc4CpkDkWrCknkqZAMI3SAUnh+UqfEc/UjHJlRJeMDGxlP07N7p7pmoKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by CY5PR12MB6406.namprd12.prod.outlook.com (2603:10b6:930:3d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
+ 2026 14:24:43 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0339.010; Fri, 21 Aug 2026
+ 14:24:38 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 21 Aug 2026 10:24:36 -0400
+Message-Id: <DKUOVAQ3T03S.14GFWAHY0I6HO@nvidia.com>
+Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
+Cc: "syzbot" <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
+ <apopple@nvidia.com>, <byungchul@sk.com>, <david@kernel.org>,
+ <gourry@gourry.net>, <joshua.hahnjy@gmail.com>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <matthew.brost@intel.com>, <rakie.kim@sk.com>,
+ <syzkaller-bugs@googlegroups.com>, <ying.huang@linux.alibaba.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
+To: "David Laight" <david.laight.linux@gmail.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.22.0
+References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
+ <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
+ <20260821093039.04538795@pumpkin>
+In-Reply-To: <20260821093039.04538795@pumpkin>
+X-ClientProxiedBy: YQ1P288CA0007.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9e::12) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-shikra-usb-dt-v7-apply-v2-3-628885fc1d0e@oss.qualcomm.com>
-References: <20260821-shikra-usb-dt-v7-apply-v2-0-628885fc1d0e@oss.qualcomm.com>
-In-Reply-To: <20260821-shikra-usb-dt-v7-apply-v2-0-628885fc1d0e@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Akash Kumar <akash.kumar@oss.qualcomm.com>
-X-Mailer: b4 0.13.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIxMDEwOCBTYWx0ZWRfX1HEQjg1QtDyZ
- kHglxL8Rv+fwy9XBv2tF2Q+4TN6cCFAaiva3n4GJjTniTcfpqFYfOf11fimXZLTPv8v4aszLpQS
- U/cqi4sMWBtb3dkrKgIuiYGeBf5WIeFt0d7JJsatBM/B1C39bILhIKIcqavrHkSBt4NrO5q5H/W
- gG4ge13USneOwTKijn9t4qoqaPCZuhjgZlk8gckZHFG5+GGiYY+2q7V1qY2gtRUAtsWY9aqWhYv
- pCfaLCxcpcQ1Ue3I/IGsmsR2YJvC1g6WnSht9NYUKpjNewOvnoCdMe0vVfdQ56NuzWHgqPpu6gv
- XvgLhou94N7QHVSc7UQiEFp4hmQRpfZzsUhk3m+gZlzfwRmOWz+kIsltWHNLTzGIdnvS5IFx5do
- y2baSJhDxh5mqI7mkbSGXLhfJj3X6uBL64gEKn7T84zcFTY5t/iNMW62rxtFbd3Ck/QwpjpAK06
- GXn+EcT313XBFPtCQaA==
-X-Authority-Analysis: v=2.4 cv=e/s2j6p/ c=1 sm=1 tr=0 ts=6a885b03 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=OKfUiDEiIDe3Zo9lHMoA:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: Dh6yWpT539M0m07DdvXy_i7-omEo_FCx
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODIxMDEwOCBTYWx0ZWRfXy48acihnFCrp
- 6Gd/w1Xsf3HaRNwd5zriNyDltZXSpWvsEORxZ5sGcCOU/ekOaLjqJzTfV7QcPCH8iGJy5IDLguU
- eJaGo+6Iwo9DXteWyG8DSIUSBKjzDRQ=
-X-Proofpoint-ORIG-GUID: Dh6yWpT539M0m07DdvXy_i7-omEo_FCx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-21_04,2026-08-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 suspectscore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608210108
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CY5PR12MB6406:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fa3f5e5-5bec-4f7c-2e64-08deff8feeab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|18002099003|22082099003|3023799007|6133799003|56012099006|10067099003|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	t9aJ/9FmU39fI1Y9pbGwzF4T+baxpUQ78J9524vWYj/glCqBTt3hNSi5ztzOFjh4IskEdi08rdSln7OQPpU3X3bOcLQp3we1GPooftTe71sAdd5dOY0UGcROO17TS0uGKyZuLitt1Vea0R7iDT7pSfKzssAZGmjXbNhLOMYfydb/ITcewDKKkjLtNAAGIFaTvcr15iwGRyua/3fPaeGl2snlI2uy0BrURa5UA92SVih1ZxaF1lau1v4nnip2x3VHIkEmYIu/oA9n/nNl8+wuiMb/YEtAOqd541iRKZdP1XCR1ukL9gvS2P3IDxfsXAe0a059tct12YO7LF/P6HeezPK28bBAaNMmyCf0HHP1HiS//hLSWLa6V4LXgDmdrDl4MKp1XS1JQkEqimEojmGv1BT/JWsdcXiAs1SMK/CDOyJKd7gT1VD52tR3bEHYL149k+y8jmxIY3kvHos21JWjAvhK7diD+15W2Wybfxwqr+GVr76Fy67nwsvE1hWsM241QYTlJY8SbftGad59RLUUnkcWIv2QDKfT7wFYSelB1BfWeoYyitvFFhKoN9DVrrvZMXaV3ZgcKO5DwNHTahHPXSKxQ9SioxCNM9IK4a3I4oE4YZLgqnBZXf3U9osgv/HS1ygX7R5EjC9VynIbHOAGsA7oNd5aHnJcv+DqYbGtxUw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(18002099003)(22082099003)(3023799007)(6133799003)(56012099006)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TUhmZmdIVzlFR25uU0JsR1VNSDljdEs5Wm8xdXBmajNkdDdOVW1hSGpYa3FF?=
+ =?utf-8?B?UWZPMFZuRlJCNnUrZ0RwSENQTHNwWC91bWdGL01zNnpGSUUvaXJLWHdoM2Fi?=
+ =?utf-8?B?YitFckRWYzZxeXM0NWg0dlVyaUszSFYveGhIMlRXcnFpelBsaE1qMEdxVmhK?=
+ =?utf-8?B?SXBYZWFUOSt6VU4wUHNIMFJBaHB4SUlYSHYySVJKOVFoZXpJN0FsbFhCOTE0?=
+ =?utf-8?B?VU5GV0paV2FWbmFmSVIwKzluODJIRWh6bm56RU8xaGM2N2dXcUhzS2dDZkFB?=
+ =?utf-8?B?SzlGVkJQVWx5NGZhd3Y4cVFrZkZRUmVQOW9RNktvNjE4SkltRDNRZW85NC92?=
+ =?utf-8?B?QTVFNnB1NGU5aWVGbG43WkdON1YrWlFvK3RCZURSdzFPTSt3WVhrbVpPYnJa?=
+ =?utf-8?B?alNDYllQejlLMG9OZFN4V01GRGZOdSsxWXo5S3J0U2VuQlNFQ3VnenFJVWxa?=
+ =?utf-8?B?bEtLTEx0MmNLNURVUzIrckVDM3d5aXA0Y3JHVXl4SE16dmVQb090ekd5bkRl?=
+ =?utf-8?B?M3JmejhJZWEzbVZYNTg5QlFGbGZUM1I3MmVqY2JuT0VJS2dKd1NINy9MR1dv?=
+ =?utf-8?B?S1hMMHViUWQyR2RDc1oycEdiU1ZrWStSaEJMaFBoc0psaW5VTDRvd1FyY3pU?=
+ =?utf-8?B?bVdrZmVLRS9TUk8yM2EwOHBTYlcyeDZZWmJGOU4wTUwrc3hSSElxUjFlcmN3?=
+ =?utf-8?B?S1ZZY3pJTW9BbVV6QzVNR01nZjFqRjBla3VVZ0h3R2FFRHdjdTVTUFUzTWQ3?=
+ =?utf-8?B?ZHhOQkJjR0VMTEkxMkV2eUJsK1lqRjRWQlB1cFFKeS9iSnU1bm8wWmNmVmVs?=
+ =?utf-8?B?dmJSaEZLZ3NPcTV1UzAwU2dxajMycjQrUzR3RzFWc2dQMjgzM25YSHd3dklT?=
+ =?utf-8?B?RE9FSXcxYk5xMUZJbkw0aWJmY2dzS2dMQXF3TkQzVTgyRmJpSWRxN3JwY0ls?=
+ =?utf-8?B?ZWwyK2dqbGs2N2w2djh4a0wvaWhWaVpUblZJc3l5N3ZaeUxxQ051ZzE2cDYy?=
+ =?utf-8?B?NEhQRWZ3SU1yY2VaeElDcGd4RFVnUHNKM0J6blEwTHNvOTBQamp2RHFwRjI1?=
+ =?utf-8?B?a2lSWnBUVm9qMWpCVEszY1JqVEE5Nlc4OFJrM1kwUUhsMTh0V1c2Y1o3V09R?=
+ =?utf-8?B?aERDek5RcWozRTg1N1NOUERMQzBoUWdwWDlhTG1TVy9VVHB4cUN4VEt5UU82?=
+ =?utf-8?B?bkI5SmhtSGtwQXpNZUkrcnlucEdjTHNBWi94TW9ueHNXdDhyeEVlT2RvdnEr?=
+ =?utf-8?B?MWpId0JvNzZZN0hEYUZiTHIzOFo0UHJldllWVmFubElDSjRUbXVtR3lvTnVZ?=
+ =?utf-8?B?ZnBZWTJEOHpQNHloR3FZSURHZzU4ZGQ1ZHZsUmdjRC8vRnFraFFSTDJZaGw0?=
+ =?utf-8?B?bGs1d1RBMWU5MHVsT3o4enhORmdEMEUzUHhuZVhjOGhCb0NDTWRENWExQVc5?=
+ =?utf-8?B?QitXZGVDNGFsQldyR01xV2NyN1Y1YXlUNnRFYmI5anFqNHlUSk5rN0pRMlNU?=
+ =?utf-8?B?NTZqTFZ3WEJVRXdVY1RPK0tyUTgvVGVCZ0NTbzRDS29CNDFMQWp4cVlUOHhS?=
+ =?utf-8?B?VE5EaTFNM3FnNmh5OFFTSDVOdk1LQ2lQQkhmTW9OSWw3N3VWZTZiWHBqR1d0?=
+ =?utf-8?B?T0JLZjdQT3pXcHdWWHNJTjhpMWlCTVloTzNXZ054RllwaVlvbE5nSnlrWTI1?=
+ =?utf-8?B?U0tLSExVV0thU1VYYnFsbGU1ZG9yUHJSRjFvYWsycnV1MjdCVVJMOTc3R3VB?=
+ =?utf-8?B?QjRHbC9jOE5STmxsTnd5SXNBVFBwR09WL3ZYZUQxMVNBdlRsRjZveDZycm55?=
+ =?utf-8?B?cWFiQUJJMkxLSktYcTYxcUtTbWdyNjNFeDFvODhpck5wWWh1ZkVHTDNrdHA4?=
+ =?utf-8?B?S3FBQ3hDZjhKVVVtWHIxb2lpaWxTVUFwSXdoVlg3SkNiVDQ5SUFqSWp0b3RE?=
+ =?utf-8?B?ZWhzTzJseFBFeGRaMkxSaXhnYXpGcXNwY1RRRktvdzRiK3VaZ3FmK2dLcTJB?=
+ =?utf-8?B?RmJhcEN3emNhRzM4NVNCRjIwNEJtREs0RlpacWFlNnN5NkR4Y0s2MEZlQ3RI?=
+ =?utf-8?B?Wm1XOUt3OERoWXhON01qdG1XQjFRZGsvWTlmZkVRamV3STI5NlYremhDdFRt?=
+ =?utf-8?B?TjlrdTRGK1VXZ3BJTGdJYjFOSFJiYTVueXRBZzEycHdiUE1wR09IeFV1S2tO?=
+ =?utf-8?B?RS8vNkVscEw0bVAyV2xPNHcwQUxLVXd5eWhvbkduOWxGSzIvcU4vTkh6U1NE?=
+ =?utf-8?B?MFg5bk5FVWc4R1lhdlU5OVMwcHFlUGRTZkYyZTBKQlFJYityK0xIS292MENN?=
+ =?utf-8?Q?SshqEgrU08l70EcNxH?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fa3f5e5-5bec-4f7c-2e64-08deff8feeab
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 14:24:38.4057
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fd1UzCVS2JjEqulFz3M19y5jTT2chsl+c6Pnce4hYva7syNYKrXh5tOBaBGPm+x/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6406
 
-On Shikra CQS/CQM platforms, usb-role-switch is handled by PM4125 on
-the primary Type-C port and Cypress PD controller CYPD6129 on the
-second Type-C port. On Shikra IQS platform, usb-role-switch is
-handled by Cypress PD controller CYPD6129 on both Type-C ports.
+On Fri Aug 21, 2026 at 4:30 AM EDT, David Laight wrote:
+> On Sun, 16 Aug 2026 13:52:01 -0700
+> Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+>> On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e490427fa@s=
+yzkaller.appspotmail.com> wrote:
+>>=20
+>> > Hello,
+>> >=20
+>> > syzbot found the following issue on:
+>> >=20
+>> > HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kerne=
+l.or..
+>> > git tree:       upstream
+>> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D1592747958=
+0000
+>> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3Da59830cba9=
+1a1981
+>> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D805630f1453e=
+490427fa
+>> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6=
+e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+>> >=20
+>> > Unfortunately, I don't have any reproducer for this issue yet.
+>> >=20
+>> > Downloadable assets:
+>> > disk image (non-bootable): https://storage.googleapis.com/syzbot-asset=
+s/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
+>> > vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a/vml=
+inux-3d6d8176.xz
+>> > kernel image: https://storage.googleapis.com/syzbot-assets/f6da706811f=
+4/bzImage-3d6d8176.xz
+>> >=20
+>> > IMPORTANT: if you fix the issue, please add the following tag to the c=
+ommit:
+>> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+>> >=20
+>> > gadgetfs: bound to dummy_udc driver
+>> > ------------[ cut here ]------------
+>> > 1
+>> > WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce/0x3=
+80 mm/page_alloc.c:5280, CPU#0: syz.0.0/5319 =20
+>>=20
+>> Thanks.  drivers/usb/gadget is the offender.
+>>=20
+>> Gemini sums it up well.  "ep_write_iter() needs a bounds check prior to
+>> memory allocation".  https://share.gemini.google/5NzjyttO0ULc
+>>=20
+>> I expect an easy fix would be
+>>=20
+>> --- a/drivers/usb/gadget/legacy/inode.c~a
+>> +++ a/drivers/usb/gadget/legacy/inode.c
+>> @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct
+>>  		return -EBADMSG;
+>>  	}
+>> =20
+>> -	buf =3D kmalloc(len, GFP_KERNEL);
+>> +	buf =3D kmalloc(len, GFP_KERNEL|__GFP_NOWARN);
+>>  	if (unlikely(!buf)) {
+>>  		mutex_unlock(&epdata->lock);
+>>  		return -ENOMEM;
+>>=20
+>> or do what Gemini said.  Me, I'll add some cc's and run away.
+>
+> Should there be a separate flags for 'request too large' and
+> 'no memory available' ?
 
-Add the CYPD6129 typec node under i2c3, wire its connector endpoints
-to the corresponding DWC3 controller ports via remote-endpoint
-phandles, and switch the associated USB controllers to OTG mode so
-role switching can take effect.
+What flags? Are you suggesting kmalloc should return an ERR_PTR to
+distinguish different error types?
 
-Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts  |  84 ++++++++++++++++++++-
- arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi |  45 +++++++++++
- arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts  |  84 ++++++++++++++++++++-
- arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts  | 107 ++++++++++++++++++++++++++-
- 4 files changed, 309 insertions(+), 11 deletions(-)
+>
+> Although the errno for 'len too big' should probably be EINVAL
+> not ENOMEM.
+>
+> David
+>
+>>=20
+>>=20
+>> > Modules linked in:
+>> > CPU: 0 UID: 0 PID: 5319 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT=
+(full)=20
+>> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian=
+-1.16.3-2 04/01/2014
+>> > RIP: 0010:__alloc_frozen_pages_noprof+0x2ce/0x380 mm/page_alloc.c:5280
+>> > Code: 74 10 4c 89 e7 89 54 24 0c e8 0e 2c 0e 00 8b 54 24 0c 49 83 3c 2=
+4 00 0f 85 ab fe ff ff e9 ac fe ff ff c6 05 95 d2 18 0e 01 90 <0f> 0b 90 e9=
+ 17 ff ff ff a9 00 00 08 00 48 8b 4c 24 10 4c 8d 44 24
+>> > RSP: 0018:ffffc9000e13fa20 EFLAGS: 00010246
+>> > RAX: ffffc9000e13fa00 RBX: 0000000000000013 RCX: 0000000000000000
+>> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffc9000e13fa88
+>> > RBP: ffffc9000e13fb08 R08: ffffc9000e13fa87 R09: 0000000000000000
+>> > R10: ffffc9000e13fa60 R11: fffff52001c27f51 R12: 0000000000000000
+>> > R13: 1ffff92001c27f48 R14: 0000000000040cc0 R15: dffffc0000000000
+>> > FS:  00007f6f4a58c6c0(0000) GS:ffff88808c549000(0000) knlGS:0000000000=
+000000
+>> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> > CR2: 00002000000010a0 CR3: 000000004323d000 CR4: 0000000000352ef0
+>> > Call Trace:
+>> >  <TASK>
+>> >  alloc_pages_mpol+0x212/0x380 mm/mempolicy.c:2490
+>> >  ___kmalloc_large_node+0x4c/0x120 mm/slub.c:5274
+>> >  __kmalloc_large_node_noprof+0x18/0x90 mm/slub.c:5305
+>> >  __do_kmalloc_node mm/slub.c:5322 [inline]
+>> >  __kmalloc_noprof+0x405/0x720 mm/slub.c:5359
+>> >  _kmalloc_noprof include/linux/slab.h:992 [inline]
+>> >  ep_write_iter+0x1bc/0x500 drivers/usb/gadget/legacy/inode.c:669
+>> >  new_sync_write fs/read_write.c:595 [inline]
+>> >  vfs_write+0x612/0xba0 fs/read_write.c:687
+>> >  ksys_write+0x150/0x270 fs/read_write.c:739
+>> >  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>> >  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+>> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>> > RIP: 0033:0x7f6f4979e0d9
+>> > Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 8=
+9 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0=
+ ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+>> > RSP: 002b:00007f6f4a58bfe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+>> > RAX: ffffffffffffffda RBX: 00007f6f49a25fa0 RCX: 00007f6f4979e0d9
+>> > RDX: 00000000ffffffb9 RSI: 0000000000000000 RDI: 0000000000000004
+>> > RBP: 00007f6f49835024 R08: 0000000000000000 R09: 0000000000000000
+>> > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+>> > R13: 00007f6f49a26038 R14: 00007f6f49a25fa0 R15: 00007ffc6cf49328
+>> >  </TASK>
+>> >  =20
+>>=20
+>>=20
 
-diff --git a/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts b/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
-index 3866ab8b0faa..41290b562fa3 100644
---- a/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
-+++ b/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
-@@ -42,6 +42,51 @@ &remoteproc_mpss {
- 	status = "okay";
- };
- 
-+&i2c3 {
-+	status = "okay";
-+
-+	typec@40 {
-+		compatible = "cypress,cypd6129";
-+		reg = <0x40>;
-+		interrupts-extended = <&tlmm 136 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-0 = <&usb0_intr_state>;
-+		pinctrl-names = "default";
-+		wakeup-source;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		ccg_typec_con0: connector@0 {
-+			compatible = "usb-c-connector";
-+			reg = <0>;
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					ucsi_ccg_port: endpoint {
-+						remote-endpoint = <&usb_2_dwc3_hs>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&pm4125_hs_in {
-+	remote-endpoint = <&usb_1_dwc3_hs>;
-+};
-+
-+&pm4125_ss_in {
-+	remote-endpoint = <&usb_qmpphy_out>;
-+};
-+
- &sdhc_1 {
- 	vmmc-supply = <&pm4125_l20>;
- 	vqmmc-supply = <&pm4125_l14>;
-@@ -58,6 +103,23 @@ &sdhc_1 {
- 	status = "okay";
- };
- 
-+&tlmm {
-+	usb0_intr_state: usb0-intr-state {
-+		pins = "gpio136";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+};
-+
-+&usb_1 {
-+	/delete-property/ dr_mode;
-+};
-+
-+&usb_1_dwc3_hs {
-+	remote-endpoint = <&pm4125_hs_in>;
-+};
-+
- &usb_1_hsphy {
- 	vdd-supply = <&pm4125_l12>;
- 	vdda-pll-supply = <&pm4125_l13>;
-@@ -66,11 +128,14 @@ &usb_1_hsphy {
- 	status = "okay";
- };
- 
--&usb_qmpphy {
--	vdda-phy-supply = <&pm4125_l8>;
--	vdda-pll-supply = <&pm4125_l13>;
-+&usb_2 {
-+	/delete-property/ dr_mode;
- 
--	status = "okay";
-+	port {
-+		usb_2_dwc3_hs: endpoint {
-+			remote-endpoint = <&ucsi_ccg_port>;
-+		};
-+	};
- };
- 
- &usb_2_hsphy {
-@@ -80,3 +145,14 @@ &usb_2_hsphy {
- 
- 	status = "okay";
- };
-+
-+&usb_qmpphy_out {
-+	remote-endpoint = <&pm4125_ss_in>;
-+};
-+
-+&usb_qmpphy {
-+	vdda-phy-supply = <&pm4125_l8>;
-+	vdda-pll-supply = <&pm4125_l13>;
-+
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi b/arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi
-index 8ac42ff625a0..e4dd793c882b 100644
---- a/arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi
-+++ b/arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi
-@@ -85,6 +85,51 @@ &pm4125_resin {
- 	status = "okay";
- };
- 
-+&pm4125_typec {
-+	status = "okay";
-+
-+	connector {
-+		compatible = "usb-c-connector";
-+
-+		power-role = "dual";
-+		data-role = "dual";
-+		self-powered;
-+
-+		typec-power-opmode = "default";
-+		pd-disable;
-+
-+		vbus-supply = <&pm4125_vbus>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				pm4125_hs_in: endpoint {
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				pm4125_ss_in: endpoint {
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&pm4125_vbus {
-+	regulator-min-microvolt = <5000000>;
-+	regulator-max-microvolt = <5000000>;
-+	regulator-min-microamp = <500000>;
-+	regulator-max-microamp = <500000>;
-+
-+	status = "okay";
-+};
-+
- &pm8005_regulators {
- 	status = "disabled";
- };
-diff --git a/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts b/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts
-index 34568f1c7b63..36514a31d66e 100644
---- a/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts
-+++ b/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts
-@@ -42,6 +42,51 @@ &remoteproc_mpss {
- 	status = "okay";
- };
- 
-+&i2c3 {
-+	status = "okay";
-+
-+	typec@40 {
-+		compatible = "cypress,cypd6129";
-+		reg = <0x40>;
-+		interrupts-extended = <&tlmm 136 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-0 = <&usb0_intr_state>;
-+		pinctrl-names = "default";
-+		wakeup-source;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		ccg_typec_con0: connector@0 {
-+			compatible = "usb-c-connector";
-+			reg = <0>;
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					ucsi_ccg_port: endpoint {
-+						remote-endpoint = <&usb_2_dwc3_hs>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&pm4125_hs_in {
-+	remote-endpoint = <&usb_1_dwc3_hs>;
-+};
-+
-+&pm4125_ss_in {
-+	remote-endpoint = <&usb_qmpphy_out>;
-+};
-+
- &sdhc_1 {
- 	vmmc-supply = <&pm4125_l20>;
- 	vqmmc-supply = <&pm4125_l14>;
-@@ -58,6 +103,23 @@ &sdhc_1 {
- 	status = "okay";
- };
- 
-+&tlmm {
-+	usb0_intr_state: usb0-intr-state {
-+		pins = "gpio136";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+};
-+
-+&usb_1 {
-+	/delete-property/ dr_mode;
-+};
-+
-+&usb_1_dwc3_hs {
-+	remote-endpoint = <&pm4125_hs_in>;
-+};
-+
- &usb_1_hsphy {
- 	vdd-supply = <&pm4125_l12>;
- 	vdda-pll-supply = <&pm4125_l13>;
-@@ -66,11 +128,14 @@ &usb_1_hsphy {
- 	status = "okay";
- };
- 
--&usb_qmpphy {
--	vdda-phy-supply = <&pm4125_l8>;
--	vdda-pll-supply = <&pm4125_l13>;
-+&usb_2 {
-+	/delete-property/ dr_mode;
- 
--	status = "okay";
-+	port {
-+		usb_2_dwc3_hs: endpoint {
-+			remote-endpoint = <&ucsi_ccg_port>;
-+		};
-+	};
- };
- 
- &usb_2_hsphy {
-@@ -80,3 +145,14 @@ &usb_2_hsphy {
- 
- 	status = "okay";
- };
-+
-+&usb_qmpphy_out {
-+	remote-endpoint = <&pm4125_ss_in>;
-+};
-+
-+&usb_qmpphy {
-+	vdda-phy-supply = <&pm4125_l8>;
-+	vdda-pll-supply = <&pm4125_l13>;
-+
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts b/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts
-index 543d769125ef..ee0b55b2c462 100644
---- a/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts
-+++ b/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts
-@@ -42,6 +42,72 @@ &remoteproc_mpss {
- 	status = "okay";
- };
- 
-+&i2c3 {
-+	status = "okay";
-+
-+	typec@40 {
-+		compatible = "cypress,cypd6229", "cypress,cypd6129";
-+		reg = <0x40>;
-+		interrupts-extended = <&tlmm 50 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-0 = <&usb0_intr_state>;
-+		pinctrl-names = "default";
-+		wakeup-source;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		ccg_typec_con0: connector@0 {
-+			compatible = "usb-c-connector";
-+			reg = <0>;
-+			label = "USB2-Type-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					ucsi_ccg_port0_hs: endpoint {
-+						remote-endpoint = <&usb_2_dwc3_hs>;
-+					};
-+				};
-+			};
-+		};
-+
-+		ccg_typec_con1: connector@1 {
-+			compatible = "usb-c-connector";
-+			reg = <1>;
-+			label = "USB3-Type-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					ucsi_ccg_port_1_hs: endpoint {
-+						remote-endpoint = <&usb_1_dwc3_hs>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					ucsi_ccg_port_1_ss: endpoint {
-+						remote-endpoint = <&usb_qmpphy_out>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &sdhc_1 {
- 	vmmc-supply = <&pm8150_l17>;
- 	vqmmc-supply = <&pm8150_s4>;
-@@ -58,6 +124,25 @@ &sdhc_1 {
- 	status = "okay";
- };
- 
-+&tlmm {
-+	usb0_intr_state: usb0-intr-state {
-+		pins = "gpio50";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+};
-+
-+&usb_1 {
-+	/delete-property/ dr_mode;
-+
-+	status = "okay";
-+};
-+
-+&usb_1_dwc3_hs {
-+	remote-endpoint = <&ucsi_ccg_port_1_hs>;
-+};
-+
- &usb_1_hsphy {
- 	vdd-supply = <&pm8150_l4>;
- 	vdda-pll-supply = <&pm8150_l12>;
-@@ -66,11 +151,16 @@ &usb_1_hsphy {
- 	status = "okay";
- };
- 
--&usb_qmpphy {
--	vdda-phy-supply = <&pm8150_l6>;
--	vdda-pll-supply = <&pm8150_l12>;
-+&usb_2 {
-+	/delete-property/ dr_mode;
- 
- 	status = "okay";
-+
-+	port {
-+		usb_2_dwc3_hs: endpoint {
-+			remote-endpoint = <&ucsi_ccg_port0_hs>;
-+		};
-+	};
- };
- 
- &usb_2_hsphy {
-@@ -80,3 +170,14 @@ &usb_2_hsphy {
- 
- 	status = "okay";
- };
-+
-+&usb_qmpphy {
-+	vdda-phy-supply = <&pm8150_l6>;
-+	vdda-pll-supply = <&pm8150_l12>;
-+
-+	status = "okay";
-+};
-+
-+&usb_qmpphy_out {
-+	remote-endpoint = <&ucsi_ccg_port_1_ss>;
-+};
 
--- 
-2.43.0
+
+
+--=20
+Best Regards,
+Yan, Zi
 
