@@ -1,48 +1,48 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010050.outbound.protection.outlook.com [52.101.69.50])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013063.outbound.protection.outlook.com [52.101.83.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70964395AE9;
-	Fri, 21 Aug 2026 14:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392B147CC67;
+	Fri, 21 Aug 2026 14:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787323004; cv=fail; b=N3TYvibuWlN5LYudFwKDax1pYjWpWctKRZfcIY+f/6eCyMgrcTaymyylf/rbf6NStb5i2gsqqUrmj9K8JWCyH97zAlxKXhJGtSXcueZs0QEhnHrWvb+nUkmdb9HNNVtTEabxPirjmyH+0r85DL/cUQFYLMK+jSvHEQT9IBMuZOM=
+	t=1787323031; cv=fail; b=dlabq2lBOkUmVZYbUS31JXURih3zSc/X1WUFgDtjl19UEUtGsWTBPJIhjeqBQxfZ7IiQjt/7vsrZbpRVoTp/HbyYK0uUyyWBgbqTkTGMx3plyEh+x7mX4RyNe4LmyPDdwVAT77nU1liOPgaOmQE3zSA1MEhqiLcCiqXj7tTlHP4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787323004; c=relaxed/simple;
-	bh=MfrPXhk3mpGNsbOJKShwFZsSAGh2z3Zq7AIFb/n2UlA=;
+	s=arc-20240116; t=1787323031; c=relaxed/simple;
+	bh=7qRgZsMMQ1X4Ywz4gsitFxr4rFM0N8gFpO4PpZGnrbw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=I0RWSfKYcsncNpe0cB8TW1x/KUDwcSmhVstpFbXrMoskmRLhpj9Lg7FOUoOcbTJKMAF4fHP24SaTpvw+oHrzV52EbmxAnSKoD/6/r/Ia4t+L6RAA83gFS4MA2ySwZz20i0PN2IZsq7B1EE7Rpqyldp8VqlLloDRKvLu0p+F/+sQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=T4DvrrgN; arc=fail smtp.client-ip=52.101.69.50
+	 Content-Disposition:In-Reply-To:MIME-Version; b=algu+/6yH/kibBPBMJm/6UWZKewMgB0BYOus/PLCJpzxhEfGXNW3qPXVSUJ3DzIyjjW5sg3NpyWuSetn8C5BtYEO1NTVA1tA5YSOrcei/OFXDISJDYptkuGJdAcMPfUC4kdbdQGI9wkVhQJlEWI+q9R4TMlAcFDNPb2EM8/o00E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Uz1Jc5rr; arc=fail smtp.client-ip=52.101.83.63
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="T4DvrrgN"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Uz1Jc5rr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L9qnSRv5e7s5pCw12AE+s1vURuCJPPXsXlZyCzCzRcgAMaHobG+GO5UfsF1CQONtKZmRVHp8yMQaRSn6m/23X0aijNVSWGF2HM1Tkg4nWCaPce4n6duX6aB7ql8rEMa3zfpTQjNqMDFnyN0RN8vpYx4u6mXdL0i/T7/32zEOPMYD9LOvFYEq8Hl3p3uOclqbEjFiCRdHP0oC+ps3uFwvDV9uMuRAuzeqFGVY2OBJCDgtnfZUvPWCNnFvHq/BCocGwW6SI0PeMzloyh5tfbc22IevSNsF7UCMdA4yIGaTctPd2gF6gqmKi6Wv+7tUyHamzeKs89AjfhJp/DcFZiyeUg==
+ b=gPwUOqIdQ4TViVtLCbRgGN4JnHc1TvrMOxMeUfMefsAQaUF5HnZIoXwL/bCDKMaparJq2P/YpG4+01osfIim1iR8A8O8BrDvca+2akhKS0rr9V0tyzE4I8CRFl7ib9X3XbDQt1XKjRPln53LvogiG6acMhttKlUsbMenfRqpPQoqF5o82yAOWSmdk2VtVDF/RqAyEZsGf8wCasDuJkFQWWdsfIY7Yb1Gjqt27zfT4vqcJvS9ObmF7auwtYk3QDS5ZoIHCdEUOkw+5/23g2KNahVJFYU0wZ5Iy/CmrP04tkwFmcBzNET6qPNWx5UA5bZCRajBKZUNj9ANA2HaDvOy4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aCw6LQ8xkKOnUBwZtB/rTLtiWvUxekwk1ljq7Pw3iVA=;
- b=qyOKkd1s2HZyWCC63tdaFreKP2eSyQcL1+u2wh5a69gtVQJM8PKNQjGcNf1eBOgIufqLXVOIrOUqtawU/8VzlhdJEEX2m4N9MS4ceW5833sd2wLClA8zsRF8oCXFXUG0a6GWdOd/GUFdZCnB2SQwesIj0GfHx2JJrUPu+NahuD5mkSTWqeswrTY1h1napgg9rJW66feu4amISm8y56ZlsAslr08UCvRDtL5SKOhhsJmIP9BO5fmAjfkoNXZaNZWaH3Tx+l6QNqIEUiWJXUaOjg/crK3LQKVveQ31XmkcFCdOGVqvziOO86juBsRxwx0onMHWMjAmvhttoORzZhA9OQ==
+ bh=Vk3sAGUl/1bew7XTBMNaH+hIbZ1yV06SoOwjlxUAfbg=;
+ b=edp2X2uW74WdOV62flCNMtxn0RA/gnOZCrN2rJ2sqkfzIjBV8q/nKJapbinCQ6HIlL5ra5kbM/KV1cKAr+RhcEHC81g2eSK6F1l9yGtjlbHixZj8xM+Rx3HGqoLah/d4y/esZGZd++8eBf4KA550dAi5tYVy/pbmW5Q5NDSOqEkhQ+b1ckbS0sl/1kfiIn7R6WqLfeiviaybtN53ckNYo37g+bq/bw7o0aSYhF97r3iCh/825aUudWje89BjFQaubCp+Nc8q+b1obT7u5R17YihM8txEQ8MAin4LIEoWZXa5U7+Z1//w7DHNZJAK238Ai21OeQVhV0ubgoBQhl5q4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aCw6LQ8xkKOnUBwZtB/rTLtiWvUxekwk1ljq7Pw3iVA=;
- b=T4DvrrgNOQgMcCqgSvuDP0Tuk731CtBX6dpyBqqMGWsVukhN3aetXjpHAp7wBD+aoG3KpyrTikOUy+m1F9UaPyt66kn2r4Dae6SGH+2UBmxLs+1cDnBQwu5Izi3+bKP9YOzhpKmXKHEGSQBjm+9S+dRw/oyyMiWRtOs+LR8JXMY05+fF5WsXdAT6zB/atdLvo2Un/qf3fWfqEU1eKuxa0FS9X5zKZkVarEydA07d/YyTZ7Vqf7NAg9wCzOZhThnsCnG6+aIJuONe5ZkFgTHo7jpsbIQkJQ1vCkuq1b/H0c28u98QLq5AvysYeTMmeI2dhE5XGOLzDp9XbEwRUVItjQ==
+ bh=Vk3sAGUl/1bew7XTBMNaH+hIbZ1yV06SoOwjlxUAfbg=;
+ b=Uz1Jc5rrvDk40tB56lqhd6JOfiTcw/62BHDuGU8/5vid1jf9k70zVhzT/TqPpZiTWuqQuWgWKB+18jn233MED7oAOioGfZlX6c6d6RdDVSsABmIPWAiO90NlU7anfFPddL4hblVyn7+Xcl0RnzRAVPlbzVsTNW4dfP8uZeolXXTJjz/H/90OdioFp4xU3am5usK0RTGPKQoq+vJ39VbxMsSAq71OKtuDv0C99ASPkIFN3Bsr7LoVG0qGVM77mx79efv84rb7rWEdTdSOMSA7XOcGCOjw/AUxocd3kVAPjwYUysd/j+lO3kutVXjaxS1tt73vMiuO9PqaDNuHELvRmA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by DU0PR04MB9634.eurprd04.prod.outlook.com (2603:10a6:10:31c::20) with
+ by GV2PR04MB12293.eurprd04.prod.outlook.com (2603:10a6:150:32b::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
- 2026 14:36:40 +0000
+ 2026 14:37:05 +0000
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0339.008; Fri, 21 Aug 2026
- 14:36:40 +0000
-Date: Fri, 21 Aug 2026 09:36:31 -0500
+ 14:37:04 +0000
+Date: Fri, 21 Aug 2026 09:36:57 -0500
 From: Frank Li <Frank.li@oss.nxp.com>
 To: Xu Yang <xu.yang_2@oss.nxp.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -50,16 +50,16 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Michael Grzeschik <mgr@kernel.org>, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
 	Xu Yang <xu.yang_2@nxp.com>
-Subject: Re: [PATCH 2/2] usb: gadget: uvc: refactor video cleanup into
- uvcg_video_deinit()
-Message-ID: <aohib0yXT92apzfl@SMW015318>
+Subject: Re: [PATCH 1/2] usb: gadget: uvc: replace mutex lock/unlock with
+ scoped_guard in uvc_function_bind()
+Message-ID: <aohiiQXRp5QnX393@SMW015318>
 References: <20260821-usb-uvc-fixes-v1-0-80e6e279523d@nxp.com>
- <20260821-usb-uvc-fixes-v1-2-80e6e279523d@nxp.com>
+ <20260821-usb-uvc-fixes-v1-1-80e6e279523d@nxp.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821-usb-uvc-fixes-v1-2-80e6e279523d@nxp.com>
-X-ClientProxiedBy: SA0PR13CA0018.namprd13.prod.outlook.com
- (2603:10b6:806:130::23) To GV2PR04MB11799.eurprd04.prod.outlook.com
+In-Reply-To: <20260821-usb-uvc-fixes-v1-1-80e6e279523d@nxp.com>
+X-ClientProxiedBy: SA9PR11CA0027.namprd11.prod.outlook.com
+ (2603:10b6:806:6e::32) To GV2PR04MB11799.eurprd04.prod.outlook.com
  (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -68,157 +68,215 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DU0PR04MB9634:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b77e261-6182-4577-c036-08deff919cae
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV2PR04MB12293:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4422fd0-664a-44a9-8127-08deff91ab8c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|19092799006|1800799024|366016|6133799003|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003|3023799007;
+	BCL:0;ARA:13230040|366016|1800799024|19092799006|23010399003|376014|10067099003|6133799003|22082099003|18002099003|4143699003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	F4+HCAX4tUKOLccrXxc4O3ztg6avPita3DKXttmn8izWcFFrqGkznDBoQEkWVjxkDD9ubvcHVLAcHJnt2CQaisn92hoa4YINncRpumD6GHyK3hWJoyt2xbY072iQDcLzDeXUWtemgchPwQI47gsNys4qguwBwDi+2ioLfCJx0DTxcAV79TTKggwWEwqiTxiPXA0xMGFyEg9J/thiiPYZftHBv2MMoXDGxwOZNcoX00p1ffkCG4+aG9pzumY2ILlZJMrTKmArji8LNwrESTVtTD8SZ+kU0oBHIvaqq/WqFmdP/HbdMpA46YvNOXTsX+8qAu170NduQ2kAgVv6N7LbmlBTOUBu8Y0NUyD8EDdHqZnFL4BwR9vdZF910l9NNQayhv5w9SjkAS+h2wuPez0Vr4CkItFvLOZKxkPpvMdBUryyFbqMfHRFi9FZigFWZWvHVK1b9bNKfh3NzgjQuDbOSMYAfdA6A0udtxaKkFa/E9DMVMHrl+Sk5Odw68T6By531GkHV9GhE9j3egZ8lEFVyonEyTeILgf0GSac0VcfCH3aGTAkWsaLZeDHnqakONXiaKCmsSTBnj8/Ny8v9ChiWSSqrrjfzp/TyRGg7xqF4G0AtReM6MOYNNp1u2OOyiHPv/phcLn8x6kKvtH8ODkIOyZ73LXk/4ONbxRaXIzbzeM=
+	TIP3j2RMjPrDlVpGe4PXKXK5F4LXV9ngdYVQ/abJTvhFc301PdSP5xVQ/XVsFxU89d8nrXuXXIHbutXgOy4DnhRINgc9c3wP3sHaWcY3Yn0R+3zn0UfkD2i6VhnMtJTTj+XJQicr+bmDOj0W1iU+KRM9WKJpsqAWZgiQeFaewrBOpyihv8xJiogMs805l5Ubi7RXjjhGNv4kDoyFwUgLkJb7GFuf8wd076lt1UWq5Fa6lGMGp/I6pe40vhv24zmOVnXkfmU3sQeF2q5otY2HX5GlZGxSH+NET7ksAL5bQPF0nzXTjXXjd53CYkGQZhqG4O2Ol4T+H8ctuBAFlHSfnzqPUFzSBAK7ZKdwp5U15i4cVfA8eeVkpdAHQDObrqyJRmKrnC81AfiCvS4cnIaluDoHSftTNTHVYSAx93/TMapEJdMm6Z8QoUABDWg2WaSDM/RjtAbLtxfPjwfkBzIRwUu9xjzy45mGDSRAkOvLcr+9r0/W00RtihFHkvaJ4mZEy47Mw0nYhs0kXHY9lzE+4kcykwjwFTEizXBb7kys3wdT7jbrfnahKvkK+NvfIGUdjK8Weh9I7BBesFna0AfgsOzhQuCBRoDixqu1IF1GnN5a2sHUTlumHSwF1F9zSITFktZRWXcGYs6rHQFL6OeL5GGETgcehSuYgAxWoOUxU4U=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(19092799006)(1800799024)(366016)(6133799003)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(23010399003)(376014)(10067099003)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eLYjH8SR3iBsOjS0oF1vbgAUE/EyITB0DoVEuDSoOCIdIRnqNKfuFH+b5Fp0?=
- =?us-ascii?Q?FQazQKW39dmcgWzgvKvq9eBFsESb7Iyw2Az2QLVbHnm0JKt9dZ1rnvFQ+TUH?=
- =?us-ascii?Q?daT4RsxrxLQBD1AQ/5FHoip8CUzUXjG3J9MJCY7K/UwCtq51UoyZwsejzdTt?=
- =?us-ascii?Q?kVR4GEctUmrlKg0DixmXhsZIyrNZPGk/e8xt2F2OJbNaFPvQ+MMrJjQIgdrw?=
- =?us-ascii?Q?gvM8JGrhto/DljLTCbnPMn/tUTf22N5p+3DwynuFmIigyPPfvYmj5siiHqn+?=
- =?us-ascii?Q?Mdj3f0hcuR62VC1ZsuQXoXD6LrpH1bVf8ckYT60eKycfIk/jtcatoDLbjcy3?=
- =?us-ascii?Q?rVHdG/yfoyE5639oVOWuouREARUtNSOowHUPIvBtcZUhaUYcLmyrpd3ZTwjk?=
- =?us-ascii?Q?rqjYT23R05QGXRX71jQGSKKn05wctY0CzSO/77rwpImXDvjd2trzqegG0JHb?=
- =?us-ascii?Q?whYu0kI29m5UDfpf/kc9zR7I8oyFVD8pHkzIxKjWfTEeoKufU/4HFtCnZ6ZQ?=
- =?us-ascii?Q?ZVuCOP8pcX9xhSz8YbUBSoF/CCi/CGJ2XUCRt6WA+Cwy4g9smEdL0EyFw7Fo?=
- =?us-ascii?Q?uI1qU0uySjTkJm15JM+KmO8BAXEG1lUgJY9U8FinW/+Ny8BHHzP4E7zTZR5m?=
- =?us-ascii?Q?Cy4Nt4mcr9K36ZhnQgzzsxabLK6DXozWdiQteilfRAe1sTIaaSH1AC8j4pqM?=
- =?us-ascii?Q?/QsxoA0PkOmOkFLhlSqKZFVTKd+5ag3Vr+9iQ0tS6yayPpz2WWgI3JjYWJYf?=
- =?us-ascii?Q?rjrR7qcGm7WWTapoqZfvGbCJcHHoYm6ietV6o5OuaCw27295Fbbfz/XF3lXD?=
- =?us-ascii?Q?tnkSHllVnebm2QvRE4yFO9im7pLZ6TS4FPR8kprLqXmnRK12EWOWIOpZ191p?=
- =?us-ascii?Q?Z7mXJlzRULuJGxQ39COe4u3AbN6cksIucrK8NSK1WbAqtpFG57/2b+Sw2858?=
- =?us-ascii?Q?Y5rQXyeNQN++x1alFyKqYJ/sBaiuUU6gaMr37mg9F3XyRmVQOtrHSGKX9hA+?=
- =?us-ascii?Q?LYJC5NqYijzjAC1sWzw/hbAPmsSGkQGDU6/XhGKZeeGUDQfrSVL8GAFM/1Tn?=
- =?us-ascii?Q?cIa406OAKrJX7wBSaGIS7Sk9ldHJMiVO25aNmb/tUM2RvYkSSgxlbyl7bAq5?=
- =?us-ascii?Q?bdjcBIBBJNqZd4zZhiuoAOJe4BTmrglGxPpnoIF7OA/wV4P/Qf3Tmn+4IIGS?=
- =?us-ascii?Q?LR1ZyYu1FdsAUE4GbyvU3PNgScoVbz2idShPDTffJ26qAMVWL90156SpI1C0?=
- =?us-ascii?Q?ZTIyzWfovebpYTgwdi5eL3ziykEyixDhGm2necNqWvJ8OywAhQz4GgJDYYLf?=
- =?us-ascii?Q?5rDjxGZoBngNDqzdHKzl48OBIQiqB6v6kpVRCOaydRFEKou899Aj+s3yxRbb?=
- =?us-ascii?Q?a0i5ELx7G7hEl66xIZwHGExcf/dSgyzamlZnAq8qjvXaz5D+iIz5iLmFJe2/?=
- =?us-ascii?Q?PR5ybbvpLepgb8k4AumgPDUSwdSnmXgjuokmjzt1lfSEvoS0v/SpKLWXToyj?=
- =?us-ascii?Q?kDweTCMX02DltCjAQwJCoG6q6SnemIV4i14m9ohrUCPhwuH28qDsOiXFQR6A?=
- =?us-ascii?Q?cEx0mLhOSo/QNSp1bIyKa0KqO0GCJAq6NnmxHRvhQy+ih9jKjW4R+FntGKSb?=
- =?us-ascii?Q?sIGZ8pMuIwDBdv53jMzMcQ7CAsW33BMpkVpOYSw2EYJkdtGidc24eTH3jCvt?=
- =?us-ascii?Q?qpWx6YbXxQJtcKKfoMRAzyRgsly4xfhJcHLUOdqUq1jIRMx/jeMl+M8EDOCu?=
- =?us-ascii?Q?QmUKAWO5XK4OmC9K1wCOl+13BOfbj1W0L7rlbv2RCOXgZXgzlJ1Z?=
+	=?us-ascii?Q?AJbKUneS8wD/FukcRx4lmK6kiVB3VyU4q8e/TtpqOuOnHeL7Kijtn382weO3?=
+ =?us-ascii?Q?Qm6JUxjyLltM1uvN9ivk1txXhD9JUhi1wQn0LZ984YzMutplwmRJ9KQYVGnv?=
+ =?us-ascii?Q?OXT7s4jdXri3e2QkO/Knx4znNsX8pNIWYjzawVGJkbrQ5zqzC460L+za7NAm?=
+ =?us-ascii?Q?3gWlDehaz9c8xYUI4vfJJ87sKoTH99lkRJXQnNp7qr6sV9umfZrsPwi0O0GY?=
+ =?us-ascii?Q?sUlrY8oRDbxL7Zjs8SyaY/OUPXPRjqyKyHRuPy+QQ1uiC8IZnjOCuunXa5fR?=
+ =?us-ascii?Q?gzvpyWRqsr42xV+mGJmR5BFaE/yCk+NZGexFuYNs3H7DvRKS8Yw6XlBcGH81?=
+ =?us-ascii?Q?2p1iK0YRLRchGXr8m2EF7PxcIdJPcpYrDWom7Rpeb/JTRTAMn0P0WT/rD4BL?=
+ =?us-ascii?Q?y9JEOdfAFU8/kq3CFiCFLVbgy9jtow5ShXLsTDEyQZ8BpnduZKu3YYq1zsKB?=
+ =?us-ascii?Q?EXv3mBIadJuZ3WSlpTTu3EziRJg8WOPDkL7gSD4OONT0lcnRukyncbHVGfN3?=
+ =?us-ascii?Q?SwPJFGQ99AI+jvraMvaI4ddQzbo4lkeO3uRLDgTbJwoX9/J4RwHs5yhrIfyq?=
+ =?us-ascii?Q?FWITzQiDb1oPJRdDgm2Lh9qAwq2Zh81nbLzQF7CQ69v8uLYvM6BSWCLa+YEi?=
+ =?us-ascii?Q?4jlWLSIjzncg4luHmw+ws1o6JK2Evr9/JsHyPDPfhS1qFm102XLC0JaEfzSX?=
+ =?us-ascii?Q?n1bVNkvfaKP+w22D9LDZ0KdeH2cIxicZp0TxyC50X6qFMQejjJvAdZ3bJYG8?=
+ =?us-ascii?Q?Yz9BBT8VREQTR1s/aauiMdRm2vkI+ChSR92Q0drBwPI3wR+B+/xmVDx9oGqA?=
+ =?us-ascii?Q?P5ig3747UDyZLdsANoq9ybpv5S6L3c8BEzk4nEYwF+cPfDGEjHhO6JJ0+NrP?=
+ =?us-ascii?Q?HZ09jEfIYYkjK3G3kyE0ORK7cIGYbHLqeAHToVjwgSR71nJmmQgoT8kYyQFr?=
+ =?us-ascii?Q?MCdtZSi5UymfpqMtQUQeqsGkd4tSPn5L6vPyCDR99BGyX/X+Qu8potepltwj?=
+ =?us-ascii?Q?2K+mxQrakMpRXMEJcm22WJL4lhG+/wVhvAxBdR6Zy+/I0/vg5BcT4cJbUbYe?=
+ =?us-ascii?Q?/h9SaD9iiwvHnfwf6iFuj6EWEx1X9cyihqtU+QLQ4RQr07j8GJKB370fdT7D?=
+ =?us-ascii?Q?ZUUbwzhYOnQsYPzaM4SKzE59XhEyj+T0w2jzibhswLn/IHzeiGNaIwmK6cYr?=
+ =?us-ascii?Q?sHxgotezw8cUvRWth2zujU6E5VS2ZmMG+UsTBPUE+BNMj4QE3hsrN1t/yaRJ?=
+ =?us-ascii?Q?CF2WDetjlEdvkxLziDzCpHefyAhh5+QpX5SNV1sPJqzTQ9vVAHIw7O6RyDFh?=
+ =?us-ascii?Q?ETSAaLv8tyHO1RHGY7noyXCyOFvkSPdxRBnka2cJl53UoMvveNYaKhsxOMAF?=
+ =?us-ascii?Q?EL+0tMxSYwOAviJ9RtArFxBfzUlPOOQhToUiKj8vAvo7bt0zR1jOvtgBs2Lo?=
+ =?us-ascii?Q?A6sE/CUawHknNLeWrnB53CV77Uog85zDCgdwkSED/w5lvfWEQMXQhdsV567Q?=
+ =?us-ascii?Q?/6AQcHFug2q1BulWsxlol6RnQ1oCr/FLKc/J+SgesKMftj0/K/4pkjqtb04x?=
+ =?us-ascii?Q?QUWzGiQ0A6l+SZRR7TXva44q/yE+5yenz+AtoLhOPMDKsU8OjFluLL+5ukgJ?=
+ =?us-ascii?Q?0DIj6+r8uWF+CpuSnC1hz2UIMfzDi3Gdd+gRAm07SlVP9sICvhQz9lvAKP2a?=
+ =?us-ascii?Q?IYoPphJdCgLJE9fnCPTqqu/zIVWow+aYvy4bej+SInI60GrXo/bIMJmpM1a6?=
+ =?us-ascii?Q?66GI1Soytj89FGh5axFvMHS5yGyzGeSRWh1nicQgl61bIVSpJKGU?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b77e261-6182-4577-c036-08deff919cae
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4422fd0-664a-44a9-8127-08deff91ab8c
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 14:36:40.0098
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 14:37:04.9220
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kvI2N+kriZrMvIo+poQH/1y3NnZ731V+BAfGg7BY2tz3tvc3yVycdvcHoJtnSRy8JJIlKhJWfggcHX9z4n3qKLK32doRsGU6eE+XsgnOUTDvC9ZJDqVExF22wP7v9ZfO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9634
+X-MS-Exchange-CrossTenant-UserPrincipalName: yD2aaiTnz9b0UwmfALgk/noBKcMsLQSJRmvr6S/n6K30ipwZAjfYgELiI0trrGohVjNMdFnBr7LLyDwYKwJVoHpKjTTANKHFtWBNS0iIwY5/VDD5hQn//bkdj1O4APl+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB12293
 
-On Fri, Aug 21, 2026 at 04:22:37PM +0800, Xu Yang wrote:
+On Fri, Aug 21, 2026 at 04:22:36PM +0800, Xu Yang wrote:
 > From: Xu Yang <xu.yang_2@nxp.com>
 >
-> kthread_destroy_worker() was never called during unbind, leaving the
-> UVCG kthread running after the gadget function is unbound. Also, if
-> uvcg_video_init() or uvc_register_video() fails during bind, async_wq
-> and kworker were not cleaned up, causing resource leaks.
+> Commit 68aa70648b62 ("usb: gadget: uvc: hold opts->lock across XU walks
+> in uvc_function_bind") introduced an error_unlock label to release
+> opts->lock on failure paths. The label is misplaced between the return
+> statement and v4l2_error, causing it to fall through into v4l2_error
+> and call v4l2_device_unregister() on a device that was never registered.
 >
-> Both issues require the same teardown sequence: cancel the pending work,
-> destroy the kworker, and destroy the workqueue. Consolidate this logic
-> into a new uvcg_video_deinit() helper and call it from both
-> uvc_function_unbind() and the v4l2_error path in uvc_function_bind().
+> Replace the manual mutex_lock/unlock pair and the error_unlock label
+> with scoped_guard(mutex), removing the need for explicit lock cleanup on
+> error paths.
 >
-> In uvc_function_unbind(), uvcg_video_deinit() is placed after
-> video_unregister_device() to fix the ordering. Without this ordering,
-> tearing down the workers before unregistering the V4L2 device could lead
-> to use-after-free on video device resources still accessed by those
-> workers.
->
-> Fixes: f0bbfbd16b3b ("usb: gadget: uvc: rework to enqueue in pump worker from encoded queue")
+> Fixes: 68aa70648b62 ("usb: gadget: uvc: hold opts->lock across XU walks in uvc_function_bind")
 > Assisted-by: Claude:claude-sonnet-4.6
 > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 > ---
 
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
->  drivers/usb/gadget/function/f_uvc.c     |  7 ++-----
->  drivers/usb/gadget/function/uvc_video.c | 15 +++++++++++++++
->  drivers/usb/gadget/function/uvc_video.h |  1 +
->  3 files changed, 18 insertions(+), 5 deletions(-)
+>  drivers/usb/gadget/function/f_uvc.c | 80 +++++++++++++++++--------------------
+>  1 file changed, 36 insertions(+), 44 deletions(-)
 >
 > diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> index a4fb2790f4ff..fa2f9d0e4ce0 100644
+> index d1bf3ea75197..a4fb2790f4ff 100644
 > --- a/drivers/usb/gadget/function/f_uvc.c
 > +++ b/drivers/usb/gadget/function/f_uvc.c
-> @@ -879,6 +879,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
->  	return 0;
+> @@ -768,23 +768,17 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+>  	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+>  	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
 >
->  v4l2_error:
-> +	uvcg_video_deinit(&uvc->video);
->  	v4l2_device_unregister(&uvc->v4l2_dev);
->  error:
->  	if (uvc->control_req) {
-> @@ -1028,11 +1029,6 @@ static void uvc_function_unbind(struct usb_configuration *c,
->  		connected = uvc->func_connected;
->  	}
->
-> -	kthread_cancel_work_sync(&video->hw_submit);
-> -
-> -	if (video->async_wq)
-> -		destroy_workqueue(video->async_wq);
+> -	/*
+> -	 * Hold opts->lock across both the XU string-descriptor fixup below and
+> -	 * the descriptor-copy block further down.  Without this, configfs
+> -	 * uvcg_extension_drop() (which takes opts->lock) can race with the
+> -	 * list_for_each_entry() walks here and inside uvc_copy_descriptors(),
+> -	 * leading to a UAF on a freed struct uvcg_extension.  See
+> -	 * drivers/usb/gadget/function/uvc_configfs.c::uvcg_extension_drop().
+> -	 */
+> -	mutex_lock(&opts->lock);
 > -
 >  	/*
->  	 * If we know we're connected via v4l2, then there should be a cleanup
->  	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
-> @@ -1048,6 +1044,7 @@ static void uvc_function_unbind(struct usb_configuration *c,
+>  	 * XUs can have an arbitrary string descriptor describing them. If they
+> -	 * have one pick up the ID.
+> +	 * have one pick up the ID. Hold opts->lock here to avoid race with configfs
+> +	 * uvcg_extension_make() and uvcg_extension_drop().
+>  	 */
+> -	list_for_each_entry(xu, &opts->extension_units, list)
+> -		if (xu->string_descriptor_index)
+> -			xu->desc.iExtension = cdev->usb_strings[xu->string_descriptor_index].id;
+> +	scoped_guard(mutex, &opts->lock) {
+> +		list_for_each_entry(xu, &opts->extension_units, list)
+> +			if (xu->string_descriptor_index)
+> +				xu->desc.iExtension =
+> +					cdev->usb_strings[xu->string_descriptor_index].id;
+> +	}
 >
->  	device_remove_file(&uvc->vdev.dev, &dev_attr_function_name);
->  	video_unregister_device(&uvc->vdev);
-> +	uvcg_video_deinit(video);
+>  	/*
+>  	 * We attach the hard-coded defaults incase the user does not provide
+> @@ -795,7 +789,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+>  				 ARRAY_SIZE(uvc_en_us_strings));
+>  	if (IS_ERR(us)) {
+>  		ret = PTR_ERR(us);
+> -		goto error_unlock;
+> +		goto error;
+>  	}
+>
+>  	uvc_iad.iFunction = opts->iad_index ? cdev->usb_strings[opts->iad_index].id :
+> @@ -809,50 +803,50 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+>
+>  	/* Allocate interface IDs. */
+>  	if ((ret = usb_interface_id(c, f)) < 0)
+> -		goto error_unlock;
+> +		goto error;
+>  	uvc_iad.bFirstInterface = ret;
+>  	uvc_control_intf.bInterfaceNumber = ret;
+>  	uvc->control_intf = ret;
+>  	opts->control_interface = ret;
+>
+>  	if ((ret = usb_interface_id(c, f)) < 0)
+> -		goto error_unlock;
+> +		goto error;
+>  	uvc_streaming_intf_alt0.bInterfaceNumber = ret;
+>  	uvc_streaming_intf_alt1.bInterfaceNumber = ret;
+>  	uvc->streaming_intf = ret;
+>  	opts->streaming_interface = ret;
+>
+>  	/* Copy descriptors */
+> -	f->fs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_FULL);
+> -	if (IS_ERR(f->fs_descriptors)) {
+> -		ret = PTR_ERR(f->fs_descriptors);
+> -		f->fs_descriptors = NULL;
+> -		goto error_unlock;
+> -	}
+> +	scoped_guard(mutex, &opts->lock) {
+> +		f->fs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_FULL);
+> +		if (IS_ERR(f->fs_descriptors)) {
+> +			ret = PTR_ERR(f->fs_descriptors);
+> +			f->fs_descriptors = NULL;
+> +			goto error;
+> +		}
+>
+> -	f->hs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_HIGH);
+> -	if (IS_ERR(f->hs_descriptors)) {
+> -		ret = PTR_ERR(f->hs_descriptors);
+> -		f->hs_descriptors = NULL;
+> -		goto error_unlock;
+> -	}
+> +		f->hs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_HIGH);
+> +		if (IS_ERR(f->hs_descriptors)) {
+> +			ret = PTR_ERR(f->hs_descriptors);
+> +			f->hs_descriptors = NULL;
+> +			goto error;
+> +		}
+>
+> -	f->ss_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER);
+> -	if (IS_ERR(f->ss_descriptors)) {
+> -		ret = PTR_ERR(f->ss_descriptors);
+> -		f->ss_descriptors = NULL;
+> -		goto error_unlock;
+> -	}
+> +		f->ss_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER);
+> +		if (IS_ERR(f->ss_descriptors)) {
+> +			ret = PTR_ERR(f->ss_descriptors);
+> +			f->ss_descriptors = NULL;
+> +			goto error;
+> +		}
+>
+> -	f->ssp_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER_PLUS);
+> -	if (IS_ERR(f->ssp_descriptors)) {
+> -		ret = PTR_ERR(f->ssp_descriptors);
+> -		f->ssp_descriptors = NULL;
+> -		goto error_unlock;
+> +		f->ssp_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER_PLUS);
+> +		if (IS_ERR(f->ssp_descriptors)) {
+> +			ret = PTR_ERR(f->ssp_descriptors);
+> +			f->ssp_descriptors = NULL;
+> +			goto error;
+> +		}
+>  	}
+>
+> -	mutex_unlock(&opts->lock);
+> -
+>  	/* Preallocate control endpoint request. */
+>  	uvc->control_req = usb_ep_alloc_request(cdev->gadget->ep0, GFP_KERNEL);
+>  	uvc->control_buf = kmalloc(UVC_MAX_REQUEST_SIZE, GFP_KERNEL);
+> @@ -884,8 +878,6 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+>
+>  	return 0;
+>
+> -error_unlock:
+> -	mutex_unlock(&opts->lock);
+>  v4l2_error:
 >  	v4l2_device_unregister(&uvc->v4l2_dev);
->
->  	scoped_guard(mutex, &uvc->lock)
-> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> index 9ba09118bb74..002afca9141e 100644
-> --- a/drivers/usb/gadget/function/uvc_video.c
-> +++ b/drivers/usb/gadget/function/uvc_video.c
-> @@ -841,3 +841,18 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
->  	return uvcg_queue_init(&video->queue, uvc->v4l2_dev.dev->parent,
->  			V4L2_BUF_TYPE_VIDEO_OUTPUT, &video->mutex);
->  }
-> +
-> +void uvcg_video_deinit(struct uvc_video *video)
-> +{
-> +	kthread_cancel_work_sync(&video->hw_submit);
-> +
-> +	if (!IS_ERR_OR_NULL(video->kworker)) {
-> +		kthread_destroy_worker(video->kworker);
-> +		video->kworker = NULL;
-> +	}
-> +
-> +	if (video->async_wq) {
-> +		destroy_workqueue(video->async_wq);
-> +		video->async_wq = NULL;
-> +	}
-> +}
-> diff --git a/drivers/usb/gadget/function/uvc_video.h b/drivers/usb/gadget/function/uvc_video.h
-> index 8ef6259741f1..6c5481f107f9 100644
-> --- a/drivers/usb/gadget/function/uvc_video.h
-> +++ b/drivers/usb/gadget/function/uvc_video.h
-> @@ -18,5 +18,6 @@ int uvcg_video_enable(struct uvc_video *video);
->  int uvcg_video_disable(struct uvc_video *video);
->
->  int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc);
-> +void uvcg_video_deinit(struct uvc_video *video);
->
->  #endif /* __UVC_VIDEO_H__ */
+>  error:
 >
 > --
 > 2.34.1
