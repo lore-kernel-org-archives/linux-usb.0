@@ -1,271 +1,157 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011008.outbound.protection.outlook.com [40.93.194.8])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013059.outbound.protection.outlook.com [52.101.83.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00EE4B8DE0;
-	Fri, 21 Aug 2026 14:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6217D37AA95;
+	Fri, 21 Aug 2026 14:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787322301; cv=fail; b=PMB9Qo8LEjs7XHAN5egpimYkSKcEDoSHTT39IbPMa7KZMILdIF+IPO4d8Ole9pbah8tta0R8HZEgKpd6P/Sxq5/huaJt6KJmFXTj9G/0SPsI1+/k8SUcSiDvdCBvV10kS1I4bjOJPeKkDY0wM8wYU6MhxCwA+Ddl4D/nvvPa40k=
+	t=1787322805; cv=fail; b=Yj0fT+3lLTGHhYYNgk9BFrgChnJ410Wtlj1z1xHrUbJ79UbxQesXB3TTdLz29Q3xi8O3UT2LPDGxJo0EnKZ1zbV45RTmu+TnXBABelBAuQ+KsorEGMVHmxsiceiXyOSAaDQ1CA+cb6NMZr0t6XKiEi/bQZt/Xt7FUdTStnM0nF0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787322301; c=relaxed/simple;
-	bh=JH2zo+zT4w74+lmEgDwnHKV3jnW2/ahpk3FKB90XNHo=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=FeySWMVQJlhYsCVw3FtufA1y2kEcnuf2D4azSwAnUNy8aA2iSays9vIR7v/0lrcK/ORC4TRAVi1fYsdOvtENOH9yASJ7TYDA4spaz6yUEWsk6PElkKbBjaKnOOLQR+1162U7RVdql1AjB0iSBHsSyMMMNVl6P7oTgAh2IIBlgj8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jzV7ECDf; arc=fail smtp.client-ip=40.93.194.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1787322805; c=relaxed/simple;
+	bh=qYUx/wVuwE6nBwuy/GWrW1u9C0Jq7fIPJD4t305fRAI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=jDuohcam/neTHOM3ST/cje+csrASy2BuY4vq5yUa/jzTZS1T2b91+pR/MWJVdS4Iq0PArNxCfo6bfeFls+7bvxjmrR7MANkzqVkGEEEekLsYx+vQDB9CzU5qgZV+dTFYqkelTMnr75oWuLazb8Ma84ktZx2X+S9w0PZIBUDCndw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=JSGy3EmE; arc=fail smtp.client-ip=52.101.83.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jzV7ECDf"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="JSGy3EmE"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NVZUF5csB3h+wEh44MVC7+H1vYYLFeK+ZGXV/xCmqk3Qzn+zInIyoY5DrXjkB+9O6bPJ/vEN2YQMH2bXxYHbTOAXFlxeRUb/CVv5SIyQYXrKOIwXzygQwaoDV0EazkfqpnY8xPkaepDpv0Sw96bTinOtjplvFcXhuXQFdiGF02V8djskV9jmuYv5P97s1wv05do1HTvt0Ay3irNgdW4VqbLXKlg5wByfXpb2hiKnzqAsjh3Z6RTXYIrR3DsffauF2yyHHWz8eeBsT4X8er0CXnrBX5JWc8Rq4kucXFDvJhCjw0rtjnEPFpf+dl6TwKWMeq47BhLBERviIx06pBV5RQ==
+ b=qHmmUWV+EcT0/XBCEZRd+z8gfojuDU/Evy8NxEYqWLqgCm5rv0ZmHJRE+8vaqNuvhAQY78W5RSZ1BE9jjPWsZ0Ht/BSQcXWSEyffd5AyzwkdNIhb2b0GiF7cKHLN0L8mSlk7bW9LtJYBgYfkqGiHBoiwGyEMcrc64QYt54ci3kuLGan/cs9mdJCbt3GFPYSlzlUaaSOJNde4UBjC6hfCEjzx1u+AMp4qpxAB4XXUuO2WLwASTHoFEWDBL/L3IEX29nvk40XqsXLVyXKRDOb8VFt8yqoASYeqeZhSD8L7o7yBhpRU6ByFplsYgkSG5GKi1cCyR21icInmXtCMAlwnNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Jwl0Ojc5DlQcGwW+CEMWKzfKrDDywfKjSAnRtWMucQ=;
- b=RWRw4FDnElbduOgvbwtaZvKPwVErhtKoW/ONF4s7bk4XIJEev2h6TvF2PQt5n2mf003hOpveHVDvhKMiOXrGAd6TtRc7h+neBOmPvT4x7b+IzvJjdqxxU7R+rteuSrs4jm5u2ZcNHQd+RJnI+7AXvXdFNWisV83VD5T5mk5fj0q638UkdY7BXuNuYW8UZH6GVwINq8mCMfWIOKswebkd97v+uyfWXTeKPiN0LAO0JCzViysH++pPx1v3Jf45UJ2SAiBSALGiGrF8Wf8TNpcU6FEkFE3U5vBHgz2+l7bZQJKQfrX9mepvckekHDoa24xm0N8YdOrWhQszupFdsl1y9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ bh=dlqxPiL2yMPp/uA9p9dcGw/pfMS+LyRWmKmDEVRmwV8=;
+ b=MO30/Up64xstNIpvL5pR+K4GFFhF9h1CzOqvG2rzfmbKGJUMSqnGe2WkuV5MEeqymu3PDYqEqA5lL5ztIZwY2bjCW7NeH0HC2MY1cKiO+IoQYHlpWCe+ZTXvLlqX4LwYjsuE8YrQ8tIZ7dGoLnu0GbqNKaHVor6//SVd9MPaaB0qqqQjq7jIMhFVTpTqCfRvES1NNYMenxec5V37H6ETtuiUkCvc12nn5PUVxGcSSgOVJ6WG9B3lEW4BHNFic6NztZNcbKON898MTweT3UKhwMpTFEdIlv9Em1MDz8cFj6z/a8JLa5EHsQqRDSsYZ6kJXHiysUgr8Fhs4SEk970UOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.60) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Jwl0Ojc5DlQcGwW+CEMWKzfKrDDywfKjSAnRtWMucQ=;
- b=jzV7ECDfafC9CJKhftGhLVW5f9ZVRwlit4dI+CKtwUmk4aVpkhZC7yDKtzpfDE8roGQQs0IqoolV+yoWiF8LyeNqLMJU4awqXmwT2lv/jGbeoZBRKgMaPjXwYTULuKLsh1TdwOQyEn9DHn828WsVGMxOst2LMc1Jfqhs++ZAPsG74ewA7hiD4n0Z7ogfqvsIaM/bNm3Nvqk96aky+4f4XmcGqmeeWqw1ECREcJWNQXsamDNfd0RmfTegur5zleqfado5X1oFGDlWxKO/SsJPnugrEpOXhdc4CpkDkWrCknkqZAMI3SAUnh+UqfEc/UjHJlRJeMDGxlP07N7p7pmoKw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by CY5PR12MB6406.namprd12.prod.outlook.com (2603:10b6:930:3d::18) with
+ bh=dlqxPiL2yMPp/uA9p9dcGw/pfMS+LyRWmKmDEVRmwV8=;
+ b=JSGy3EmELIQ8q7a+wyl1rKfnPUakshICCJRVlFWagst0cceWq4F3EAW2bJv7opogFLGmveYy66XGBETYo3LAxEWqmnPXHpUBQu7rpSlt033dCMRpGXw68RYQPMfL/5HAadR3OrMBjtDC4fAki+JhjUIn5Zz/sw9vERa9i/SKneMYUQkdqatdiboev1aejvivMKGaIap9Ogg/K3g9+p1SouvdNOG4RouD00TO00BlIm+hQgOfoX32UrGaU5X/Aw/CdZH0SSQK/tyN0EKxtL1mrcuAclEzMquiBtpitVWj8DOdc4JGqWRMjg02tBSvdiVI5mC/ZPC0ZIBM4shcZK4tXw==
+Received: from AS4P191CA0016.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:5d9::11)
+ by AM0PR10MB3284.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:180::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
- 2026 14:24:43 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0339.010; Fri, 21 Aug 2026
- 14:24:38 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Aug 2026 10:24:36 -0400
-Message-Id: <DKUOVAQ3T03S.14GFWAHY0I6HO@nvidia.com>
-Subject: Re: [syzbot] [mm?] WARNING in ep_write_iter
-Cc: "syzbot" <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
- <apopple@nvidia.com>, <byungchul@sk.com>, <david@kernel.org>,
- <gourry@gourry.net>, <joshua.hahnjy@gmail.com>,
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <matthew.brost@intel.com>, <rakie.kim@sk.com>,
- <syzkaller-bugs@googlegroups.com>, <ying.huang@linux.alibaba.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
-To: "David Laight" <david.laight.linux@gmail.com>, "Andrew Morton"
- <akpm@linux-foundation.org>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com>
- <20260816135201.98590b17b526dda8c4ec9105@linux-foundation.org>
- <20260821093039.04538795@pumpkin>
-In-Reply-To: <20260821093039.04538795@pumpkin>
-X-ClientProxiedBy: YQ1P288CA0007.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c01:9e::12) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+ 2026 14:33:18 +0000
+Received: from AMS0EPF0000019A.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5d9:cafe::3e) by AS4P191CA0016.outlook.office365.com
+ (2603:10a6:20b:5d9::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
+ 21 Aug 2026 14:33:18 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ AMS0EPF0000019A.mail.protection.outlook.com (10.167.16.246) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 14:33:18 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
+ 2026 16:38:17 +0200
+Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
+ 2026 16:33:17 +0200
+From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Date: Fri, 21 Aug 2026 16:33:14 +0200
+Subject: [PATCH] usb: misc: onboard-hub: add support for Microchip USB2422
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260821-usb-onboard-hub-2422-v1-v1-1-d1cee9685524@foss.st.com>
+X-B4-Tracking: v=1; b=H4sIAKlhiGoC/yXMwQrCMAyA4VcZORtoQxnDVxEPa5q57NBKY4cw9
+ u5WPX6H/z/ApKoYXIcDquxqWnKHvwzA65wfgpq6gRyNbiKPzSKWHMtcE64tIgUi3D2OTI5dCBy
+ XBL1+Vln0/Tvf7n9bi5vw67uD8/wAiScTBXsAAAA=
+X-Change-ID: 20260821-usb-onboard-hub-2422-v1-6c20c044cbfd
+To: Matthias Kaehlcke <mka@chromium.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Fabrice
+ Gasnier" <fabrice.gasnier@foss.st.com>
+X-Mailer: b4 0.16.0
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CY5PR12MB6406:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fa3f5e5-5bec-4f7c-2e64-08deff8feeab
+X-MS-TrafficTypeDiagnostic: AMS0EPF0000019A:EE_|AM0PR10MB3284:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40d93627-cbfe-47f3-ae3a-08deff9124aa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|18002099003|22082099003|3023799007|6133799003|56012099006|10067099003|11063799006|4143699003;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|36860700016|82310400026|10067099003|11063799006|56012099006|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	t9aJ/9FmU39fI1Y9pbGwzF4T+baxpUQ78J9524vWYj/glCqBTt3hNSi5ztzOFjh4IskEdi08rdSln7OQPpU3X3bOcLQp3we1GPooftTe71sAdd5dOY0UGcROO17TS0uGKyZuLitt1Vea0R7iDT7pSfKzssAZGmjXbNhLOMYfydb/ITcewDKKkjLtNAAGIFaTvcr15iwGRyua/3fPaeGl2snlI2uy0BrURa5UA92SVih1ZxaF1lau1v4nnip2x3VHIkEmYIu/oA9n/nNl8+wuiMb/YEtAOqd541iRKZdP1XCR1ukL9gvS2P3IDxfsXAe0a059tct12YO7LF/P6HeezPK28bBAaNMmyCf0HHP1HiS//hLSWLa6V4LXgDmdrDl4MKp1XS1JQkEqimEojmGv1BT/JWsdcXiAs1SMK/CDOyJKd7gT1VD52tR3bEHYL149k+y8jmxIY3kvHos21JWjAvhK7diD+15W2Wybfxwqr+GVr76Fy67nwsvE1hWsM241QYTlJY8SbftGad59RLUUnkcWIv2QDKfT7wFYSelB1BfWeoYyitvFFhKoN9DVrrvZMXaV3ZgcKO5DwNHTahHPXSKxQ9SioxCNM9IK4a3I4oE4YZLgqnBZXf3U9osgv/HS1ygX7R5EjC9VynIbHOAGsA7oNd5aHnJcv+DqYbGtxUw=
+	zI1pX7j+O7G7T5C4Mh2bFzSEPrxJQaz++4BHDv/flKqb9n4BD6WuoHGc5uOMMkoaOWT5Yk6ho57T8yIIbrepUiOOs/rqCP/VaIyq80kybfB2LgxkasNWqAob64YD86q1mfP+OI4xoCrP1a6VS6KEDXVOuMLrPx5VD9bChNcx1hIcAaPpTuF0FYsfscJMDztQFOafJ/+6+mO6B74YRi18j2C0lIY/9KlXCZHv0GMvZfjbUzOP5Ncg/HYUyNtPfIQrZfG3SumlQdHe/8nHAmS1tCqsUSCYjjs6nmim4qAKsSr1RvYkzx5olVPbvQgJmx9ZVSAlZo8MRU9r3oTPDWVsVuEP9KVpmRClmRk7fYQrwIIv/fViWG3hGR+dIrv3N3hsrsiGM6ssEMjZTu36wWsT6ptrSQEbre9fF8Uf8uaZyoxT9RHrdCNLYVdbd0BPXpcctz/oc1n1+TK1EBgcsADShhVnRUU86YtsCvyC4STFWsSFw8y2Ng0l+gg65Game98Fw+/OoLFas7aISMZWoTWIhpO1cSATHvi11TP5yy85ST09uzaJfTM89dNAe9rMRLEyiR9WXGvu0d4C5wResByc72YfZ9qdeTyTzknDNbLsuS/7WZJrGyuKrmBjz4vDh8RrIT99U30uVgqdBa2xoAlfxSVzQ+8C+aXiYNpoYuWbPUow09aXif2b36Nn3OWiKH8molR83/dwMLMLcH7eGtHBBw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(18002099003)(22082099003)(3023799007)(6133799003)(56012099006)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(36860700016)(82310400026)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TUhmZmdIVzlFR25uU0JsR1VNSDljdEs5Wm8xdXBmajNkdDdOVW1hSGpYa3FF?=
- =?utf-8?B?UWZPMFZuRlJCNnUrZ0RwSENQTHNwWC91bWdGL01zNnpGSUUvaXJLWHdoM2Fi?=
- =?utf-8?B?YitFckRWYzZxeXM0NWg0dlVyaUszSFYveGhIMlRXcnFpelBsaE1qMEdxVmhK?=
- =?utf-8?B?SXBYZWFUOSt6VU4wUHNIMFJBaHB4SUlYSHYySVJKOVFoZXpJN0FsbFhCOTE0?=
- =?utf-8?B?VU5GV0paV2FWbmFmSVIwKzluODJIRWh6bm56RU8xaGM2N2dXcUhzS2dDZkFB?=
- =?utf-8?B?SzlGVkJQVWx5NGZhd3Y4cVFrZkZRUmVQOW9RNktvNjE4SkltRDNRZW85NC92?=
- =?utf-8?B?QTVFNnB1NGU5aWVGbG43WkdON1YrWlFvK3RCZURSdzFPTSt3WVhrbVpPYnJa?=
- =?utf-8?B?alNDYllQejlLMG9OZFN4V01GRGZOdSsxWXo5S3J0U2VuQlNFQ3VnenFJVWxa?=
- =?utf-8?B?bEtLTEx0MmNLNURVUzIrckVDM3d5aXA0Y3JHVXl4SE16dmVQb090ekd5bkRl?=
- =?utf-8?B?M3JmejhJZWEzbVZYNTg5QlFGbGZUM1I3MmVqY2JuT0VJS2dKd1NINy9MR1dv?=
- =?utf-8?B?S1hMMHViUWQyR2RDc1oycEdiU1ZrWStSaEJMaFBoc0psaW5VTDRvd1FyY3pU?=
- =?utf-8?B?bVdrZmVLRS9TUk8yM2EwOHBTYlcyeDZZWmJGOU4wTUwrc3hSSElxUjFlcmN3?=
- =?utf-8?B?S1ZZY3pJTW9BbVV6QzVNR01nZjFqRjBla3VVZ0h3R2FFRHdjdTVTUFUzTWQ3?=
- =?utf-8?B?ZHhOQkJjR0VMTEkxMkV2eUJsK1lqRjRWQlB1cFFKeS9iSnU1bm8wWmNmVmVs?=
- =?utf-8?B?dmJSaEZLZ3NPcTV1UzAwU2dxajMycjQrUzR3RzFWc2dQMjgzM25YSHd3dklT?=
- =?utf-8?B?RE9FSXcxYk5xMUZJbkw0aWJmY2dzS2dMQXF3TkQzVTgyRmJpSWRxN3JwY0ls?=
- =?utf-8?B?ZWwyK2dqbGs2N2w2djh4a0wvaWhWaVpUblZJc3l5N3ZaeUxxQ051ZzE2cDYy?=
- =?utf-8?B?NEhQRWZ3SU1yY2VaeElDcGd4RFVnUHNKM0J6blEwTHNvOTBQamp2RHFwRjI1?=
- =?utf-8?B?a2lSWnBUVm9qMWpCVEszY1JqVEE5Nlc4OFJrM1kwUUhsMTh0V1c2Y1o3V09R?=
- =?utf-8?B?aERDek5RcWozRTg1N1NOUERMQzBoUWdwWDlhTG1TVy9VVHB4cUN4VEt5UU82?=
- =?utf-8?B?bkI5SmhtSGtwQXpNZUkrcnlucEdjTHNBWi94TW9ueHNXdDhyeEVlT2RvdnEr?=
- =?utf-8?B?MWpId0JvNzZZN0hEYUZiTHIzOFo0UHJldllWVmFubElDSjRUbXVtR3lvTnVZ?=
- =?utf-8?B?ZnBZWTJEOHpQNHloR3FZSURHZzU4ZGQ1ZHZsUmdjRC8vRnFraFFSTDJZaGw0?=
- =?utf-8?B?bGs1d1RBMWU5MHVsT3o4enhORmdEMEUzUHhuZVhjOGhCb0NDTWRENWExQVc5?=
- =?utf-8?B?QitXZGVDNGFsQldyR01xV2NyN1Y1YXlUNnRFYmI5anFqNHlUSk5rN0pRMlNU?=
- =?utf-8?B?NTZqTFZ3WEJVRXdVY1RPK0tyUTgvVGVCZ0NTbzRDS29CNDFMQWp4cVlUOHhS?=
- =?utf-8?B?VE5EaTFNM3FnNmh5OFFTSDVOdk1LQ2lQQkhmTW9OSWw3N3VWZTZiWHBqR1d0?=
- =?utf-8?B?T0JLZjdQT3pXcHdWWHNJTjhpMWlCTVloTzNXZ054RllwaVlvbE5nSnlrWTI1?=
- =?utf-8?B?U0tLSExVV0thU1VYYnFsbGU1ZG9yUHJSRjFvYWsycnV1MjdCVVJMOTc3R3VB?=
- =?utf-8?B?QjRHbC9jOE5STmxsTnd5SXNBVFBwR09WL3ZYZUQxMVNBdlRsRjZveDZycm55?=
- =?utf-8?B?cWFiQUJJMkxLSktYcTYxcUtTbWdyNjNFeDFvODhpck5wWWh1ZkVHTDNrdHA4?=
- =?utf-8?B?S3FBQ3hDZjhKVVVtWHIxb2lpaWxTVUFwSXdoVlg3SkNiVDQ5SUFqSWp0b3RE?=
- =?utf-8?B?ZWhzTzJseFBFeGRaMkxSaXhnYXpGcXNwY1RRRktvdzRiK3VaZ3FmK2dLcTJB?=
- =?utf-8?B?RmJhcEN3emNhRzM4NVNCRjIwNEJtREs0RlpacWFlNnN5NkR4Y0s2MEZlQ3RI?=
- =?utf-8?B?Wm1XOUt3OERoWXhON01qdG1XQjFRZGsvWTlmZkVRamV3STI5NlYremhDdFRt?=
- =?utf-8?B?TjlrdTRGK1VXZ3BJTGdJYjFOSFJiYTVueXRBZzEycHdiUE1wR09IeFV1S2tO?=
- =?utf-8?B?RS8vNkVscEw0bVAyV2xPNHcwQUxLVXd5eWhvbkduOWxGSzIvcU4vTkh6U1NE?=
- =?utf-8?B?MFg5bk5FVWc4R1lhdlU5OVMwcHFlUGRTZkYyZTBKQlFJYityK0xIS292MENN?=
- =?utf-8?Q?SshqEgrU08l70EcNxH?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fa3f5e5-5bec-4f7c-2e64-08deff8feeab
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 14:24:38.4057
+	eYyioY3S2AhD2i7K2ulMieb2loZx3ABzTSDM0aWuwwvudlzn+nvRs3fMvsz9dcraFGA5cjgTCMgjV2a9VOfjvo+muLaiF9UhwxOL/HnXSMe7ob3fqZNKsr5pyRw97PI9860aflw7Bmd6RcYmtBi9G2RGTDcWCqsu/D3L9811O85d1sEVwZxiY9AjDxQFbCSqm7TC6gQb3xz4dcopgm+7BfdTZRvWXVE0Vj8ms0WxeGnIeZmWxY86ujHWTfRdjSnsRwOBd+gVWIheZImiwYor5UIkl7obiBRs3enEgtUJZs1PIqjO3Eg+5vEsMjBeZrkRH/eTcB/Ql3ivvx2qxror36mqO/MQb44pXw5Sdyimb+s6QsDBtHxYOra1EL1v7O/S+uO+q8lC8lyO1rmhJK8ydEiDwArQUB5gaokmlNzdFmdsWpPRErRRIp2voEY/dc2P
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 14:33:18.2802
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fd1UzCVS2JjEqulFz3M19y5jTT2chsl+c6Pnce4hYva7syNYKrXh5tOBaBGPm+x/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6406
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40d93627-cbfe-47f3-ae3a-08deff9124aa
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF0000019A.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3284
 
-On Fri Aug 21, 2026 at 4:30 AM EDT, David Laight wrote:
-> On Sun, 16 Aug 2026 13:52:01 -0700
-> Andrew Morton <akpm@linux-foundation.org> wrote:
->
->> On Sun, 16 Aug 2026 12:25:48 -0700 syzbot <syzbot+805630f1453e490427fa@s=
-yzkaller.appspotmail.com> wrote:
->>=20
->> > Hello,
->> >=20
->> > syzbot found the following issue on:
->> >=20
->> > HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kerne=
-l.or..
->> > git tree:       upstream
->> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D1592747958=
-0000
->> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3Da59830cba9=
-1a1981
->> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D805630f1453e=
-490427fa
->> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6=
-e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
->> >=20
->> > Unfortunately, I don't have any reproducer for this issue yet.
->> >=20
->> > Downloadable assets:
->> > disk image (non-bootable): https://storage.googleapis.com/syzbot-asset=
-s/d900f083ada3/non_bootable_disk-3d6d8176.raw.xz
->> > vmlinux: https://storage.googleapis.com/syzbot-assets/d19e0514c02a/vml=
-inux-3d6d8176.xz
->> > kernel image: https://storage.googleapis.com/syzbot-assets/f6da706811f=
-4/bzImage-3d6d8176.xz
->> >=20
->> > IMPORTANT: if you fix the issue, please add the following tag to the c=
-ommit:
->> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->> >=20
->> > gadgetfs: bound to dummy_udc driver
->> > ------------[ cut here ]------------
->> > 1
->> > WARNING: mm/page_alloc.c:5280 at __alloc_frozen_pages_noprof+0x2ce/0x3=
-80 mm/page_alloc.c:5280, CPU#0: syz.0.0/5319 =20
->>=20
->> Thanks.  drivers/usb/gadget is the offender.
->>=20
->> Gemini sums it up well.  "ep_write_iter() needs a bounds check prior to
->> memory allocation".  https://share.gemini.google/5NzjyttO0ULc
->>=20
->> I expect an easy fix would be
->>=20
->> --- a/drivers/usb/gadget/legacy/inode.c~a
->> +++ a/drivers/usb/gadget/legacy/inode.c
->> @@ -666,7 +666,7 @@ ep_write_iter(struct kiocb *iocb, struct
->>  		return -EBADMSG;
->>  	}
->> =20
->> -	buf =3D kmalloc(len, GFP_KERNEL);
->> +	buf =3D kmalloc(len, GFP_KERNEL|__GFP_NOWARN);
->>  	if (unlikely(!buf)) {
->>  		mutex_unlock(&epdata->lock);
->>  		return -ENOMEM;
->>=20
->> or do what Gemini said.  Me, I'll add some cc's and run away.
->
-> Should there be a separate flags for 'request too large' and
-> 'no memory available' ?
+Add support for the Microchip USB2422 USB2.0 Hub. It is similar to
+the USB2412. It provides two downstream ports. It is supplied by
+a single 3v3 power source, and provides a reset pin. So add the
+generic compatible, defined as "usbVID,PID", and reuse existing
+usb424_data.
+This hub can be found on stm32mp257f-dk board.
 
-What flags? Are you suggesting kmalloc should return an ERR_PTR to
-distinguish different error types?
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+---
+ drivers/usb/misc/onboard_usb_dev.c | 1 +
+ drivers/usb/misc/onboard_usb_dev.h | 1 +
+ 2 files changed, 2 insertions(+)
 
->
-> Although the errno for 'len too big' should probably be EINVAL
-> not ENOMEM.
->
-> David
->
->>=20
->>=20
->> > Modules linked in:
->> > CPU: 0 UID: 0 PID: 5319 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT=
-(full)=20
->> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian=
--1.16.3-2 04/01/2014
->> > RIP: 0010:__alloc_frozen_pages_noprof+0x2ce/0x380 mm/page_alloc.c:5280
->> > Code: 74 10 4c 89 e7 89 54 24 0c e8 0e 2c 0e 00 8b 54 24 0c 49 83 3c 2=
-4 00 0f 85 ab fe ff ff e9 ac fe ff ff c6 05 95 d2 18 0e 01 90 <0f> 0b 90 e9=
- 17 ff ff ff a9 00 00 08 00 48 8b 4c 24 10 4c 8d 44 24
->> > RSP: 0018:ffffc9000e13fa20 EFLAGS: 00010246
->> > RAX: ffffc9000e13fa00 RBX: 0000000000000013 RCX: 0000000000000000
->> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffc9000e13fa88
->> > RBP: ffffc9000e13fb08 R08: ffffc9000e13fa87 R09: 0000000000000000
->> > R10: ffffc9000e13fa60 R11: fffff52001c27f51 R12: 0000000000000000
->> > R13: 1ffff92001c27f48 R14: 0000000000040cc0 R15: dffffc0000000000
->> > FS:  00007f6f4a58c6c0(0000) GS:ffff88808c549000(0000) knlGS:0000000000=
-000000
->> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> > CR2: 00002000000010a0 CR3: 000000004323d000 CR4: 0000000000352ef0
->> > Call Trace:
->> >  <TASK>
->> >  alloc_pages_mpol+0x212/0x380 mm/mempolicy.c:2490
->> >  ___kmalloc_large_node+0x4c/0x120 mm/slub.c:5274
->> >  __kmalloc_large_node_noprof+0x18/0x90 mm/slub.c:5305
->> >  __do_kmalloc_node mm/slub.c:5322 [inline]
->> >  __kmalloc_noprof+0x405/0x720 mm/slub.c:5359
->> >  _kmalloc_noprof include/linux/slab.h:992 [inline]
->> >  ep_write_iter+0x1bc/0x500 drivers/usb/gadget/legacy/inode.c:669
->> >  new_sync_write fs/read_write.c:595 [inline]
->> >  vfs_write+0x612/0xba0 fs/read_write.c:687
->> >  ksys_write+0x150/0x270 fs/read_write.c:739
->> >  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->> >  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
->> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->> > RIP: 0033:0x7f6f4979e0d9
->> > Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 8=
-9 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0=
- ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
->> > RSP: 002b:00007f6f4a58bfe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
->> > RAX: ffffffffffffffda RBX: 00007f6f49a25fa0 RCX: 00007f6f4979e0d9
->> > RDX: 00000000ffffffb9 RSI: 0000000000000000 RDI: 0000000000000004
->> > RBP: 00007f6f49835024 R08: 0000000000000000 R09: 0000000000000000
->> > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
->> > R13: 00007f6f49a26038 R14: 00007f6f49a25fa0 R15: 00007ffc6cf49328
->> >  </TASK>
->> >  =20
->>=20
->>=20
+diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
+index 11508ed4df25..e226e63146e8 100644
+--- a/drivers/usb/misc/onboard_usb_dev.c
++++ b/drivers/usb/misc/onboard_usb_dev.c
+@@ -667,6 +667,7 @@ static const struct usb_device_id onboard_dev_id_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0620) }, /* Genesys Logic GL3523 USB 3.1 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0625) }, /* Genesys Logic GL3590 USB 3.2 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2412) }, /* USB2412 USB 2.0 HUB */
++	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2422) }, /* USB2422 USB 2.0 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2514) }, /* USB2514B USB 2.0 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2517) }, /* USB2517 USB 2.0 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2744) }, /* USB5744 USB 2.0 HUB */
+diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
+index 3523f8f8a149..e425a94e1175 100644
+--- a/drivers/usb/misc/onboard_usb_dev.h
++++ b/drivers/usb/misc/onboard_usb_dev.h
+@@ -137,6 +137,7 @@ static const struct onboard_dev_pdata xmos_xvf3500_data = {
+ static const struct of_device_id onboard_dev_match[] = {
+ 	{ .compatible = "usb-a-connector", .data = &usb_a_conn_data, },
+ 	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
++	{ .compatible = "usb424,2422", .data = &microchip_usb424_data, },
+ 	{ .compatible = "usb424,2514", .data = &microchip_usb2514_data, },
+ 	{ .compatible = "usb424,2517", .data = &microchip_usb424_data, },
+ 	{ .compatible = "usb424,2744", .data = &microchip_usb5744_data, },
 
+---
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+change-id: 20260821-usb-onboard-hub-2422-v1-6c20c044cbfd
 
-
-
---=20
-Best Regards,
-Yan, Zi
+Best regards,
+--  
+Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
