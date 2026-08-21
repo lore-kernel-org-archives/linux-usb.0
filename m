@@ -1,28 +1,28 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013035.outbound.protection.outlook.com [40.107.159.35])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010003.outbound.protection.outlook.com [52.101.84.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E493537F8;
-	Fri, 21 Aug 2026 16:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DF14D8DBF;
+	Fri, 21 Aug 2026 16:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.3
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787329413; cv=fail; b=mM+ec/+7pqGyKFrUxo4hm4zHY9l4M4ZPoNy4JxeUT35T7smUHVPHfJHaK6xDSQ4cVSVm5MUiWlIuFO1+NNXu5IvuN5pq5Tvx0cgtHVD9qklwTFQvE5qnuzAJto5Fz94PutRPrse7winE6+EUfob2kT1lNULoDJ+Q5Wgwfxyx7wk=
+	t=1787329416; cv=fail; b=OA3mheQ2wYdmgNyuYvr/OIAvedXIOeD/g+iyrvtO1SBdM96fp5OGOFNQlwuV56BjFXKjgUZQ+Hz52njGpNE0uuAtuKwV4VD+GZHFP0V/NtfXZ4cZQ+NO8+6qimoSurr92mOr42MhGaiRSLIYGoSRsh+ZHrBFvp5PfPaN9bQn+HY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787329413; c=relaxed/simple;
-	bh=PFTnaWa9skVrnM8KGVDW43X0ffby2OkpV7ipY4P6Twg=;
+	s=arc-20240116; t=1787329416; c=relaxed/simple;
+	bh=OefkLFegZdmJBSUs4K8UfD9eZ7CNoSRb1btkt5Lv0EU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=dYNNZikWJYLIs1B1FtLfPelvSmr0Ga8eG3ydFEEVyruXfn2NKQTMoT/TRPTgX6l0k6jj2V4cAGKvlDyvHex3wVt5KNeHt9fk622qdYulFYWLcbVOaEIl46DZ/uTlJnkxuGZ7ziwYTc8SJe1REZ+Hy65lrnNM8FWGfkdmrouRqfs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=A811sl3Q; arc=fail smtp.client-ip=40.107.159.35
+	 In-Reply-To:To:CC; b=HvIdsB+qWJhzIXqv2c2J5dKfuSwzNl8isj37RoGWA2m+Ph9m5AZMASb07McUHTKVVbHLzESrOUKsOztzdbTA6ndJMqq/j14zpHUN0pPwyW4fWyg4/k65+qrCrr+7NXR+PPgmKq3RNoybgHB9SZ3olYqMisLKezQoYLf29VZz16I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=lnOrqxn5; arc=fail smtp.client-ip=52.101.84.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="A811sl3Q"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="lnOrqxn5"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AMGcMMu8NtOCN2PLv6dJRLDmFcw5H5BXouRAC9MbyCnGYmt9fI7KnBMJNcTo7aOLrc9IQjTgnYmbU4NBnhn1W6oYbSLFA7cpuycTO0HSBao2j8gG+tA4K6TtkV1ygs2BFtk8GN1N7BLNdM1OEUYmA8o2LovaMkGHCpf6DjBM59mL79wl4V1jBuRWEtmQWF4s8leW05RGcePckovYIQDg6Y+pqiZC4DsLPI0QLsEIPEYWduYN/+KzDvWfZcRVQbDe782xtQeuDxCD3/ypmYlTXCHr3jibmWOocZ7FpOy4tyfySCW0wSbkcdtZpnV5Z7QHaTV2x2wNbx2QBbkpUhSHvw==
+ b=rxY1IhDCapHQjmrs8GmUWWkYXuo+15K1s8VXFunCRydoFmuOv3Zjdny8hNw9oK0JrdX3d7T9TZlwRM26d2Q3Ze+1Lg9RAWUWYGFK7HhQnZC3J493qq6OvWkjPhUU3tTECgyNOXlvz58cu2QZEO87uE87BAUlyGqtAtdTSw2C5IUFXexbDk0gBwaS99gisu6LhyB2SfybJcWev6N82+c0dA8UdckGofgruviHBVlZ2e3JsQumgv9WkZ0/NcgoZKDnOyNbrfZxWoZfFu8NUfQ0dh9Yra1Z8Dm+yGlZL41471PzsemHu9qusjtlrxTDbpdws7g0rRrY73xM/vLgy0JmVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qkNg7jjP5mA0oof1d2UsKe6h/yXFDlK4lanzZ9wSFqs=;
- b=CgVui3o8WhtrrWmJhlbmA8X2WQ7LhkcdZPakOcT1wVoqAUXTiTff/eO933v0Fx42bdYeaMnBsx97yRbuk/IDm1n38nqOKeGPwkSLviAV+GItZFtOq276wnCXSjwRTvqc5ARt5Haa/gn850BgeuH+VOgD0D0LZFDUg2TLuz14892pF7jAE7Z1t/AWtYvV80M8sm6OfRG6nCEId64xhwksmvW6nfAVZRMERk/pEtqIPlks6wAilWEez9Kua0FjPKSRNNuYl84KG491NeEVCIhzUUewW6NM1r++MyPW4SNvz6iq42pT/XYE2guhuAo7c7IrAH/0CROjSDzn+zbewaUNtw==
+ bh=4n2WO+OmiGTPpbURTDlLMo61fM4nwTSSJxwEpkn99Zc=;
+ b=wrlWM3eDrJSa1+5VoKVu/ii965psKblap+4eMUVM3eXCbNP2O68V6Vpt8srRzPfaRSQP2TJ4AtE/U04AYstQV0I5hDK3YDxB62tswyPxPnBQ0NUHZF+Bp03oHNakXx+u4h0/46HpL3/pI6/T79H2XoqUaRXcgkggkuI8k5rmigIoIa6JsyvsYi2wznAjqkJkPsBJsb5j39yb7LZ/q5iFZcQYvmjMH7t4Nlp1ARU1K1hMAUOofqvZgdUUHc5Prb+18IWGaRcELn9e2BySYYufyTlEoZxghOmWxORIcslUzB9Q5wwwF+hNe9jTNLlfHDNN0HDuzG5/ARtHHWp2PCuLBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  164.130.1.59) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
@@ -30,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qkNg7jjP5mA0oof1d2UsKe6h/yXFDlK4lanzZ9wSFqs=;
- b=A811sl3QzUpEObx1pRMecb1a9S9OnJjiI5L/jc5qrmQUQUSOlhu67YO0YScEFbiEdYo1HOvX7oGJESaw/2d6/xO1S0AwpvqRm7TwYG6DexhlfRaxqVBYhsIiHWk3FaUaFSza9vf9wbcNIgygaAG0M49cLK2syCrvzJkCJzXvLCyBhmKMR1SKuCcFl6QwF7ACA/9ExKHJWGk5VOmP/wt1yOwcBd12V8PcESJFrrYTveSLMh0Z/WC9HZNmbFGyDdN8kgP/TfcUPxmnsDKcmd75tJ+pI+21fOLCqLWG0sjWMfpiZRR9Qttc7KWj4oM4r/d7OeTRiU2eBo+RrstOa1ZCPA==
-Received: from AS4P250CA0013.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:5df::15)
- by GV1PR10MB7980.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:81::6) with
+ bh=4n2WO+OmiGTPpbURTDlLMo61fM4nwTSSJxwEpkn99Zc=;
+ b=lnOrqxn5lXy+kxe9BTBCX3l6tooor5lDQ4UwSf7TQmNTJ3ouHUTZ/N29G5PckcH0uKSsFKd3c0h8FEvU1SYPh1QteVLjVj4VuajJfZ/ESurTSWQUOkxkFz3eeb6PuiSBVZ1gitpbuxa2VNl7KAGs3ibmK2M7nfIEUF+11HnV2hZPvdMcUhHH82AmnJ+zr1uJbbTvZk4mAjknvhPTxwaZ8sgfaurMvRQOHUZmAVOXRSI5tkSP9PmdvHDy1BdToKk5Dqy4zqzgsKht7i3jG+MoE/cPN11k+56LsrwTulWMkmrfEPkZbvDKzE2gGAndVE6tMEV7hxGAid/c1fPRoHm3Fg==
+Received: from AS4P189CA0038.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5dd::10)
+ by DB8PR10MB3813.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:169::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
- 2026 16:23:26 +0000
-Received: from AMS0EPF00000190.eurprd05.prod.outlook.com
- (2603:10a6:20b:5df:cafe::73) by AS4P250CA0013.outlook.office365.com
- (2603:10a6:20b:5df::15) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 16:23:28 +0000
+Received: from AMS0EPF00000192.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5dd:cafe::1d) by AS4P189CA0038.outlook.office365.com
+ (2603:10a6:20b:5dd::10) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
- 21 Aug 2026 16:23:26 +0000
+ 21 Aug 2026 16:23:28 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
@@ -49,21 +49,21 @@ Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
  designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
  client-ip=164.130.1.59; helo=smtpO365.st.com;
 Received: from smtpO365.st.com (164.130.1.59) by
- AMS0EPF00000190.mail.protection.outlook.com (10.167.16.213) with Microsoft
+ AMS0EPF00000192.mail.protection.outlook.com (10.167.16.218) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 16:23:26 +0000
+ 15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 16:23:27 +0000
 Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
  (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
- 2026 18:29:01 +0200
+ 2026 18:29:03 +0200
 Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 21 Aug
- 2026 18:23:25 +0200
+ 2026 18:23:26 +0200
 From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Date: Fri, 21 Aug 2026 18:23:12 +0200
-Subject: [PATCH 01/16] dt-bindings: usb: st,tcpp: Document TCPP USB-C PD
- protection chip
+Date: Fri, 21 Aug 2026 18:23:14 +0200
+Subject: [PATCH 03/16] dt-bindings: usb: st,stm32-ucpd: Document STM32 UCPD
+ controller
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-1-c5e27cbc0795@foss.st.com>
+Message-ID: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-3-c5e27cbc0795@foss.st.com>
 References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
 In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
@@ -93,111 +93,184 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF00000190:EE_|GV1PR10MB7980:EE_
-X-MS-Office365-Filtering-Correlation-Id: 313408da-6dd7-40ed-cd70-08deffa08755
+X-MS-TrafficTypeDiagnostic: AMS0EPF00000192:EE_|DB8PR10MB3813:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7251fab6-c7a8-4bc5-11ab-08deffa08837
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|36860700016|82310400026|10067099003|11063799006|56012099006|3023799007|13003099007|22082099003|18002099003|921020;
+	BCL:0;ARA:13230040|376014|23010399003|7416014|36860700016|82310400026|1800799024|10067099003|56012099006|11063799006|3023799007|18002099003|22082099003|13003099007|921020;
 X-Microsoft-Antispam-Message-Info:
-	8cN9ijTmDysFU7KkX7XRr/ZJwhLNIy9Kxq/jZ6USNfZLCh9hdyrbfLnSXsruZq7mHLUW6w58jLF2bEd0PjtOSRezsgZD22iT+QFDnb8uWWBSBS/7gdNetcomMVnBWBBFLhNNhIXgSLrLJtWj4k6/cwKqzEU/LloFQDhK2FG48K7S9amdclPKMbNKDw50tkvLXFKz5BqDm9zp2Yp1kYQA/r9sB5VPVWJ9CTsnpcZxWLFOi0UUS04a/377ltEXhge6hA4C2EWKgI7ct8DkziFFiM4skXQOxdSfzClgKyyw+KSs18jh9YBac4QDqC0yRS7amvF5WlohPWrJyvDfvhSdZ6o+5Js0xnLBe/ePmOveRc3o7qajk10cCFari9Vz3/1q2dJg9qxxXJy7K4QAyuiYaJ35UgWgfIgHBK1uY8j4WCbur+ufuhcQe9du5gCOn5cu0WXg3O8WHqg6I+ujfez++pMDfc9/MfsCwZR4rpWwsRIoF+Y26N9kRwqVvu8xmp5si/QS7nkeAniyYZ8aNpokv0Hc3wZ3x1C65Ua7p+Zrdk2vHK2Ztj+rYtX3TKVhmQlyDLTg8r20xIvnbdUmt4kNI9995iBawrUEr8zkzoIqttJlFYCbEz08L3zI3Z3nrX6bap/EfaHOAI2NYNztDSzAiOHJuaJVED8IlsBXcw+Iyi74baW8zSv0302yHUEbjDImacVhpbVeDxhkoaqeZVeyxA==
+	X2cyMarq31fraXiPTFsTGxt8Hacime0izmnP8wF3+ts2UQUvUTahJB3wZzDuMBuP628e61W1KnWuci9AM3O/mOxRr+5d47Eh8+poZW9oboGfAEAd6PooWzbg05dhm8F6QbrdP02/fumD9f6qedV9G3Pko86UvE10g+NgyV4FbAFby4127XWisTPGKtMTCoSLAzOtOJ9RUZ7FnKrLn3a0fbKGcWIb6pkc56YmGxRjiLoS4HI8dXcf2IoSfc95bePWLQojBWJbYP7HvqxKn5TKyZqqxjm5XxQYuiYBQOQGZNyyoXq0XILPtDEL0idpJM+BHD+qqLgrjeNzdCFsljsBLZetbnww42kvgrRGGcPZZB1Q5aMTyfCNri4nJLAHciGWxHGeWOM0QYeTvwBcUCjoVIQEcF3Zn3d7ACQl0b7K5eu59w5albCZZJuBz05krG7v16tqbdHJlyrg1LYDFdFyjBnWqEZcrAw//5sHtfV5lKaNAceI2qHTJNCpCPYaQn1w0e0SvTJddq8g82zvxdZT4lob5R+kJihkAQagG3wzGy6xm6GOgt7YP4/nZVlvXX1gMsuDctJECX76Yo+IOJn7/hUyPFviM0Y4SZXjB9hDJ4o2BiRItJx6IFbtCdcWCAYQcutN6Cr81BE/HnPNBjQKr9Gov/UD0lWnR92dk4D/eRuVjwh0ABVqRxYQIahST9y8
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(36860700016)(82310400026)(10067099003)(11063799006)(56012099006)(3023799007)(13003099007)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(36860700016)(82310400026)(1800799024)(10067099003)(56012099006)(11063799006)(3023799007)(18002099003)(22082099003)(13003099007)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	R1RzGQctv1GymduJT6Kk4hR1qGJln+p3vlF6Rxu/W2nVN2tx2tRL+J05VbGlKTzLCbrHkhaE1mi0xoXliRY1HhUJF4ove1xYGJNnZHxPwZfGIiULH1VVVJ7JczE6fpm822VajKkhVPd7NyUILdM7KuPZqJIX3toYQTrHTLPfWR2Obbw7NVvW7jJ/r2GGzDaW2sqX+qAVVfrjeKgxx02SWvoT4JkTmiW/dVQ5mhy0dAPL+qpx5IdsoFw4zo2g14ZnkhNPbqGvNx2vxdZtg/VTZF6dYC5PEgSMt/WPvUS/r/z5S6Y9jqICpH5ovWNM7Bh8LOibAVKdSiNmRD9YawTjtfx3KwtHMlHimexuEhNZQYoYLjBI/LBvQ1bQIRu+25USQHxXPXlvNhKqySmoV9Kxl0rOQv5+L0I/CgVFQiJ/BoJNBD96yfKaWr7RGHYneZFU
+	oqxDwLKNGna4lnBuqWjOCP6mrUZ/dGwg1eTZTej62x9KjHGWZZHimZC9o92mirYpLmm8KEww9qyQkLFElthAx23iFzLquO77sAd59uBZEkV6matUBE/bIYuQqAm6bmrrveUUXj6wM9Z53V8jZ7AxegbxHitLXis+zWjLeApkF/qMOMxgxceKQe9DZpzw+dKaoaaSxHR7IAVyUcN6Fe0elgVrjH6S9A3SfELNz4j/1y5+KIBq0ydMdh9j9DSyr489g0c7DFAo7h+b+bl8ncfcHudHIavuj5ZraRmCuEpc+smnHbulEwZhOimxppdcVjbt20Q1CFNbXGLodQ3dNretWTJ4jNuj+i4GmpT2+6vOnowGpQkgSRZrq6OP5dh1SwUQuJ/sZavJRyew29mSA5LUaktkXYorfenlguiOpYi45BRrjBJ62VjDBCvLHB+M9s3d
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:23:26.2648
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:23:27.7494
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 313408da-6dd7-40ed-cd70-08deffa08755
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7251fab6-c7a8-4bc5-11ab-08deffa08837
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF00000190.eurprd05.prod.outlook.com
+	AMS0EPF00000192.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB7980
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3813
 
 From: Christian Bruel <christian.bruel@foss.st.com>
 
-Add binding documentation for the STMicroelectronics TCPP Type-C port
-controller. TCPP03 is a companion chip to interface and to protect
-UCB-C DRP port. It has been developed to be used with STM32
-family embedding the UCPD controller.
+Add support for the UCPD controller found in STM32MP25 platforms.
+
+Document the compatible "st,stm32-ucpd". This controller handles
+USB Type-C CC line management and USB PD.
+
+VBUS monitoring relies on external TCPP03 companion chip
 
 Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
- Documentation/devicetree/bindings/usb/st,tcpp.yaml | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ .../devicetree/bindings/usb/st,stm32-ucpd.yaml     | 134 +++++++++++++++++++++
+ 1 file changed, 134 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/st,tcpp.yaml b/Documentation/devicetree/bindings/usb/st,tcpp.yaml
+diff --git a/Documentation/devicetree/bindings/usb/st,stm32-ucpd.yaml b/Documentation/devicetree/bindings/usb/st,stm32-ucpd.yaml
 new file mode 100644
-index 000000000000..3224969359c6
+index 000000000000..d9b8253654a7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/st,tcpp.yaml
-@@ -0,0 +1,63 @@
++++ b/Documentation/devicetree/bindings/usb/st,stm32-ucpd.yaml
+@@ -0,0 +1,134 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/usb/st,tcpp.yaml#
++$id: http://devicetree.org/schemas/usb/st,stm32-ucpd.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: STMicroelectronics TCPP03 USB-C PD protection chip for DRP
++title: STM32 UCPD (USB Type-C and Power Delivery)
 +
 +maintainers:
 +  - Christian Bruel <christian.bruel@foss.st.com>
 +  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 +
 +description:
-+  TCPP03 is a companion chip to interface and to protect USB-C DRP port.
-+  It has been developed to be used with STM32 family embedding UCPD controller.
-+  Access from I2C interface with 2 read registers SR1/SR2 and 1 CR register.
++  STMicroelectronics USB Type-C and Power Delivery Port Controller
 +
 +properties:
 +  compatible:
-+    const: st,tcpp03
++    const: st,stm32mp25-ucpd
 +
 +  reg:
-+    description: I2C address
 +    maxItems: 1
 +
 +  interrupts:
 +    maxItems: 1
 +
-+  enable-gpios:
-+    description:
-+      GPIO pin connected to the TCPP_EN signal of the UCPD
++  interrupt-names:
++    const: ucpd
++
++  clocks:
++    items:
++      - description: APB Bus clock
++      - description: RCC kernel clock
++
++  clock-names:
++    items:
++      - const: apb
++      - const: ker
++
++  resets:
 +    maxItems: 1
 +
-+required:
-+  - compatible
-+  - reg
++  reset-names:
++    const: ucpd
 +
-+unevaluatedProperties: false
++  nvmem-cells:
++    maxItems: 6
++    description: Phandles to the trim values provided by otp
++
++  nvmem-cell-names:
++    maxItems: 6
++
++  st,tcpp:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      phandle to Type-C Port Protection companion chip.
++      Refer to ./st,tcpp.yaml
++
++  access-controllers:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  ucpd-supply:
++    description: phandle to the UCPD regulator supply.
++
++  vconn-cc1-gpios:
++    description: Vconn on CC1 gate enable GPIO.
++
++  vconn-cc2-gpios:
++    description: Vconn on CC2 gate enable GPIO.
++
++  vconn-supply:
++    description: phandle to the regulator supplying Vconn gates.
++
++  connector:
++    type: object
++    $ref: ../connector/usb-connector.yaml#
++    unevaluatedProperties: false
++    description: USB Type-C connector properties.
++
++required:
++  - clocks
++  - clock-names
++  - compatible
++  - connector
++  - interrupts
++  - interrupt-names
++  - resets
++  - reset-names
++  - reg
++  - st,tcpp
++
++additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/st,stm32mp25-rcc.h>
 +    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/reset/st,stm32mp25-rcc.h>
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++    typec@480a0000 {
++        compatible = "st,stm32mp25-ucpd";
++        reg = <0x480a0000 0x400>;
++        interrupts-extended = <&exti1 46 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "ucpd";
++        clocks = <&rcc CK_BUS_USBTC>, <&rcc CK_KER_USBTC>;
++        clock-names = "apb", "ker";
++        resets = <&rcc USBTC_R>;
++        reset-names = "ucpd";
++        access-controllers = <&rifsc 69>;
++        power-domains = <&d1_pd>;
++        ucpd-supply = <&scmi_vdd33ucpd>;
++        vconn-cc1-gpios = <&gpiof 5 GPIO_ACTIVE_HIGH>;
++        vconn-cc2-gpios = <&gpioc 3 GPIO_ACTIVE_HIGH>;
++        vconn-supply = <&vconn>;
++        st,tcpp = <&tcpp03>;
 +
-+        pinctrl-names = "default", "sleep";
-+        pinctrl-0 = <&i2c1_pins_a>;
-+        pinctrl-1 = <&i2c1_sleep_pins_a>;
-+        clock-frequency = <400000>;
-+
-+        typec@34 {
-+            compatible = "st,tcpp03";
-+            reg = <0x34>;
-+            enable-gpios = <&gpiog 2 GPIO_ACTIVE_HIGH>;
-+            interrupt-parent = <&gpiog>;
-+            interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&tcpp_flgn_pins_a>;
++        connector {
++            compatible = "usb-c-connector";
++            label = "USB-C";
++            power-role = "dual";
++            try-power-role = "sink";
++            data-role = "dual";
++            typec-power-opmode = "default";
++            pd-disable;
++            port {
++                endpoint {
++                    remote-endpoint = <&dwc3_ep>;
++                };
++            };
 +        };
 +    };
 
