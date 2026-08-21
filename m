@@ -1,123 +1,133 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD99470126
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 12:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337923F6601;
+	Fri, 21 Aug 2026 12:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787314764; cv=none; b=N0hmJ+lCj1zow6txZ5XaCxKeGEul+sQ/PQTkt+ZN8iY/LV05ta3ud9ue4GTKmRYmVce0yAcLuB8/CAsAQlT9CppeDAZiwZj+j6yENC2FJTY8xHMz46qvMmZ+d0aqADjD2BkarmuF4IAaLWZM0BC4iU0R6gdNyPvoaakEjPV4Rk0=
+	t=1787316696; cv=none; b=a3po4tPjGN+zZd2Ja9aAVoIF1lfNRlE0QkYepMoIZ73MPPRV39SgCcewzClMczRjBwZcGkQMbJA38g7Esc0+fkSt76hHy7gPKl+Hi277Iw+4MrGwMXmeA91wJcYSTqmjrzs8lOfVvOpce++tONhHR2idGT3xTnzXy0aW6nHAObk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787314764; c=relaxed/simple;
-	bh=/X7C+wc+bNlFX5VQk77g+9xZVi4dtlKTTZSaa/XXUjo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IGZM1rvukbxZQmrr9U5vY4Tb5bh/tPcGk6RB2T7aawpVpxZ3eUQ3lb6sgKaAie9SLFIzlDmkTDP9BpPflEGKHOUcWlNb/2Giis2S6Sg+DU7Vz0uwrnTX4ldN1WGKrBhdllvgrcgG1cNHjgmmNYEXEfTUa0MZFW3HRHiyi4fRkJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTUX8z4L; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787316696; c=relaxed/simple;
+	bh=QJuaHMEuRwA76XSJf4PU56qD5Sa3jKPZzZ8fGZULEmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PPawrbbMk2WntFfSBsyVWcEur3gBjH+mz5SO0i+hH4pg/E3kd+GusuBiAqV8ftQQ9dNZKSPf3j5XySVOSncj962c+ZLbCgkXXwXQOJJHwieYvWlCS2GE12r630LDv58UfVbiTkVY8wFqvunlsp7c62IIF/gwt1ovKH3hNcerKoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=G+1tk5O5; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTUX8z4L"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso7161025ad.3
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 05:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787314759; x=1787919559; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dtJmOeUQTMpLnSgDqruIxWyKaSSwGkNvswm0ArNYHq0=;
-        b=kTUX8z4LVIbDOjvIGKQ3RZzBcouFUNBOFtheQQ60KO6f0dLURBpM8ZTHs82IdCzlik
-         zQrDeTss/Ynt7i+9Tfzfj56pX3MmrIaf7UBAvLXJQwSfwYrg88MCGbvMYToaJR/++Lp1
-         LDmvtss1BHBHPlOM+RChsYMPHCBlatMheIqp2A0lxOnIlH5fozgFG9NL44KKYzq7hp/Z
-         dp+HVF2ntELkWrCp1JlUWxoe6JUq9P6QvoL+oCgXR2RLpnWP0xmyUYVPVRyDjW5zbh9U
-         NuDl4tKFRxcvYk3qDb+4INm3GwAcjcYh67SvxYAVvbD0GYiS8OijfHU5Y8IjbFlfS8gZ
-         eoEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787314759; x=1787919559;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dtJmOeUQTMpLnSgDqruIxWyKaSSwGkNvswm0ArNYHq0=;
-        b=qIaEvJBrWcPYysL+lPqm2RfuK+RAy2XZEcbqA765NwXg4Y2mKnyWUW5/utHC/Mr32V
-         glBXzcEowOmqq4Ebeb9rF1TQvw96kaPguMX6DWNDkqjwN11iwCOF8m2LyiVL6V7bpAtx
-         53zSqL8amABIPuOdzwOWOVvkDGlV5w0DD7wVzhz62MGSNrKxNU2hVzZZmb5OkynDCHny
-         DoGKTtOOzo29pzxyD+Dkj7v6WuWsBn63AoOzxcppMPa3oqYblpb+13/THk2c7WOHqrEc
-         3s+d0ZR9NhFilexpB/coXuzVD59S4VF9lRxFVvbLTY+rS1awWtQKcd2ZdDTHj6rokqdI
-         6p1g==
-X-Forwarded-Encrypted: i=1; AHgh+Rqo9P5M3l5K8lWcUT0pvbuXQ0SLMpBeCkOAEEiGfgPwx9LCfPsgGGOlEHRxu/TyeZwnp5JK+A0AosE=@vger.kernel.org
-X-Gm-Message-State: AFuF++l96hiEHu4toDEtq3i74COEP2coXnbvOBEDug/JTjg/YSftux5o
-	s7we00f+x8LrYB8CzSSKYDsMMtKLFTJhIEQ+gYjVn0I4GD5s3B3r4/EL
-X-Gm-Gg: AR+sD120TOawoFoLKf7T9dzCi+b5UphYcsXbE5uuGu9sbXBk4+sAumUGmIEC3t0/QXW
-	Fqxtp6RtAS77yrgUHUjotq1uX1kSEV5vSueC65fXIxq0FVyejTlJMejKhEml0XGzKd2rn6S2ZHT
-	9cMgJCXRA84PoBioh4W9XWLCVtELUz1F72dKykkgotP6zq3ccxOfzHkw6Wc0vKmyGejQgTQD62n
-	K3dfEEgcvKYQ57wnRV9cRpzniFihiLdm3jLE9QuqEd7XUYNl2DlPEC9WNLxrZlNarWqkC6L05h3
-	bxafcEQT05/UT5/LYYoRGFlcYWTxu9Pxf4kFjAfMKuDSyWfBm9zQixqJse2kpXjf9qDhFrZaL2U
-	VmKKqwg49xO9YxkswMT4gspcgQz7LPqfuIL1t2X5U61AUa++Q2aDQ0iQRyw/B4oQyjLQNjf38fv
-	GgivmgZQs/Tu12MwGsW5zCcBhV9jOh6U7yuzaYkjaFwrzbOHhRuwIU/5UfL3uYsqEn4wk3B7Pt+
-	WaaGjM5ioaBrEZZPCmec/0puuOV61Z7aKae5+659km8M3brDjQowg==
-X-Received: by 2002:a17:902:f70e:b0:2cf:afa5:b19a with SMTP id d9443c01a7336-2d64afd7c86mr127975675ad.11.1787314758722;
-        Fri, 21 Aug 2026 05:19:18 -0700 (PDT)
-Received: from deepanshu-Legion-Pro-5-16AFR10.. ([2405:201:682f:383f:569e:7ed4:3735:ea2a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bf1970b0sm27831246eec.29.2026.08.21.05.19.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 05:19:18 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: pooja.katiyar@intel.com,
-	johan@kernel.org,
-	pmenzel@molgen.mpg.de,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+23cf45a9fce78e4e0dc1@syzkaller.appspotmail.com
-Subject: [PATCH] usb: typec: ucsi_acpi: fix NULL pointer dereference in ucsi_acpi_probe()
-Date: Fri, 21 Aug 2026 17:49:09 +0530
-Message-ID: <20260821121909.13556-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="G+1tk5O5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=3SLCnubGY78/5xYtSrqKUUhnTDEvJu53SXE4sZhsa0w=; b=G+1tk5O5C4sW0JJeoP4FhNz0ra
+	+pbdLzqZbpEzP4QroBln6Nm8MxeAc3pTDFKTMnU8EnIMhwSxz9J8xhnOy6xvU8QnAnZes6tqkXpxy
+	UXDF7NViM6Jz8HXcf2on62i7KMANcsFlfSLmel/5kKgf+wX8jeyXaOWKzS7TyK/luH+0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wxOiS-000vqU-Kr; Fri, 21 Aug 2026 14:51:24 +0200
+Date: Fri, 21 Aug 2026 14:51:24 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Cc: "davem@davemloft.net" <davem@davemloft.net>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	nic_swsd <nic_swsd@realtek.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"bjorn@mork.no" <bjorn@mork.no>,
+	"pabeni@redhat.com" <pabeni@redhat.com>
+Subject: Re: [PATCH net-next] r8152: use GFP_NOIO during system suspend
+Message-ID: <29c03f4b-95d1-48c3-b8e0-f57ba2ffbaa9@lunn.ch>
+References: <20260810065741.4019-1-nic_swsd@realtek.com>
+ <918676ef-efcc-4524-a779-62eb2c3eb608@lunn.ch>
+ <c2cabf10d22145bbb6a527e702b14b6d@realtek.com>
+ <e5b2cc1bfc5448a6a4c14806b7e976ad@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e5b2cc1bfc5448a6a4c14806b7e976ad@realtek.com>
 
-ucsi_acpi_probe() dereferences the ACPI companion device pointer
-returned by ACPI_COMPANION() without checking it for NULL. While
-this driver is normally probed through ACPI device enumeration
-where a companion is always present, a platform_device can also be
-manually bound to any platform driver via the sysfs 'bind' file
-(bind_store() -> bus_find_device() -> driver_attach_device()),
-which matches purely on device name and bypasses ACPI matching.
+On Fri, Aug 21, 2026 at 03:30:54AM +0000, Chih Kai Hsu wrote:
+> > On Mon, Aug 11, 2026 at 02:03 AM +0800, Andrew Lunn wrote:
+> > > On Mon, Aug 10, 2026 at 02:57:41PM +0800, Chih Kai Hsu wrote:
+> > > > During system suspend, memory allocation with GFP_KERNEL can block
+> > > > waiting for I/O to complete. If that I/O depends on a device that is
+> > > > itself suspended, a deadlock results.
+> > > >
+> > > > Introduce RTL8152_SYSTEM_SUSPEND flag to track when the driver is
+> > > > operating in the system suspend/resume context. Set the flag at the
+> > > > start of rtl8152_system_suspend() and clear it at the end of
+> > > > rtl8152_system_resume(), following the same pattern used by
+> > > > SELECTIVE_SUSPEND for runtime suspend.
+> > > >
+> > > > In get_registers() and set_registers(), select GFP_NOIO when the
+> > > > flag is set so that the kmalloc and kmemdup calls in those paths do
+> > > > not trigger I/O reclaim.
+> > >
+> > > Do you have a reproducer for this? Or is it theoretical?
+> > >
+> > 
+> > It is theoretical.
+> > 
+> > > > @@ -8693,6 +8700,9 @@ static int rtl8152_system_resume(struct r8152
+> > *tp)
+> > > >               usb_submit_urb(tp->intr_urb, GFP_NOIO);
+> > > >       }
+> > > >
+> > > > +     clear_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags);
+> > > > +     smp_mb__after_atomic();
+> > > > +
+> > > >       return 0;
+> > > >  }
+> > > >
+> > > > @@ -8758,6 +8768,9 @@ static int rtl8152_system_suspend(struct r8152
+> > > > *tp)  {
+> > > >       struct net_device *netdev = tp->netdev;
+> > > >
+> > > > +     set_bit(RTL8152_SYSTEM_SUSPEND, &tp->flags);
+> > > > +     smp_mb__after_atomic();
+> > > > +
+> > > >       netif_device_detach(netdev);
+> > > >
+> > > >       if (netif_running(netdev) && test_bit(WORK_ENABLE,
+> > > > &tp->flags)) {
+> > >
+> > > It seems odd to me that every driver needs to track if it is in
+> > > suspend/resume or not. Doesn't the struct device tell you? Is there no global
+> > state somewhere?
+> > 
+> > I found
+> > https://elixir.bootlin.com/linux/v7.2-rc6/source/drivers/base/power/main.c#L
+> > 2343
+> > in the Linux source code.
+> > 
+> > pm_restrict_gfp_mask() is called before dpm_suspend(state). It removes
+> > __GFP_IO and __GFP_FS from the global gfp_t gfp_allowed_mask. Therefore, I
+> > think the driver can use GFP_KERNEL safely. Is this correct? Could you please
+> > provide any advice?
+> > 
+> > 
+> > >
+> > >        Andrew
+> > 
+> > Best,
+> > Chih-Kai
+> 
+> Hi Andrew,
+> 
+> Just a gentle ping on this patch.
+> Based on my previous observation, should the driver use GFP_NOIO explicitly?
 
-If ucsi_acpi is bound this way to a platform device with no ACPI
-companion, ACPI_COMPANION() returns NULL and the subsequent
-adev->dep_unmet access dereferences a NULL pointer, resulting in a
-general protection fault.
+Please try to answer the question yourself. There are lots of drivers
+out there. What do they do? What does the suspend/resume documentation
+say?
 
-Add a NULL check for adev immediately after it is obtained and
-before any resource allocation, returning -ENODEV to decline
-binding cleanly.
-
-Reported-by: syzbot+23cf45a9fce78e4e0dc1@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=23cf45a9fce78e4e0dc1
-Tested-by: syzbot+23cf45a9fce78e4e0dc1@syzkaller.appspotmail.com
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 18286d3e9cc5..9fe4ba43afea 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -196,6 +196,9 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
- 	acpi_status status;
- 	int ret;
- 
-+	if (!adev)
-+		return -ENODEV;
-+
- 	if (adev->dep_unmet)
- 		return -EPROBE_DEFER;
- 
--- 
-2.43.0
-
+	Andrew
