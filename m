@@ -1,200 +1,490 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198C6376A13
-	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 17:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787332684; cv=pass; b=NiaW2ZIiOxyuXeelp8tK5HUIn6qIQFqFHdPsCvmZsK7UUI2lxGdZap+qJVRpTGEtu2wWqqW6MWf8ykN5XAXVA8pdL0vHB3tQLRTcMg20Eai5UVc89diUiAdvyIPHOHWg41gUD2+lCXeQ6dLu38X9918MFfCgIwGL9hDyzUQkWw8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787332684; c=relaxed/simple;
-	bh=5BJ6vl3jYvm8+eoq/n1Zi6s8dTJJsKX1H6HW/szWkrA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vDQwTo513hTDlqc2SOKOHwQuIzWwt1M+cSWENZzPwjU6HrAAKN3wcNg28saqrxYqGOpreDYyXvo5FOVIR2rDSOR0PcZ93YoQY4iLALxV6uqdTfglvw9W2GbZU9RoMOl3UMJfTQtCN+cm19hxONAwK80YhWQSgXNAeG4vCQV7IfE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=maLjoGnX; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37841386C36
+	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 17:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787333717; cv=none; b=cLZc28aMRHY0IUK1mzbzNQz0JcpsOFNyfshX+aHkIjN93GULX/eHiAWi3WCpAeKkJBtopaWNk1QAjhVtM5MbnjvpktVvK4HWyFTbstiOkktSspEMFdrPmBrmJ2VpxJft3/2csEPoF8AJaL+o2Zai3zoIRXfyVmGzPwda77Hrf8A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787333717; c=relaxed/simple;
+	bh=W2i/4oXBc4jcToRZyw+M392zkPCZQvzMCxt70L2Q9WA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rjhDI/eXZQrJc+OhbWAzR/4It56HM+nVplbQK6OAcgko1HDSl0lm2+STMvcH8T03M91YC4VQ7I/U+HcIwkeqM1qupxBHbzm4oaNNEdoM3gq9ujV91dzk+fkqDd1cZsrEs1f13BfcntY6mKwHmFY8MShjpXW6mEWo0wCHQjNKsc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FaIZxCAr; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="maLjoGnX"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso204020666b.3
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 10:18:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787332680; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YqoSOoPnnjEMSVwANWq2p71WDLx2dAECWY+V8cUPzVsiqCPDZDyo0ZL5RvP1sGWlWS
-         mrlf+rc1O6pt/R2pkaC3L9VMQbJkcTHMJ51rfiQfEtaNDHNCnjwoEPO0/Jtdv644gLAE
-         jMc78tS1/2LKf9o7BRoS0VzDwEutAch76ko7zyGbIrKiNrVSUoa4JkJgnPehIroHjJdQ
-         dLPRwmNKWdUNVCluN9BuhWDeREpsIqlcjotB+5RT2f8iQdu/UTZx7Uspcc9o/E6zqyU2
-         D4f2eAAN9CvXuJ70Sf7uQef8bQvutSbxLiFWfLtlYC6xf5jIwxPRZkYhB/tYZrSakiYe
-         lV6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=a7EiPLlzbwPc3czPLxdKiQ9NmGH3ckuar+CTSrRgEhc=;
-        fh=etNYzN1bdJKtHezMlmlf1WGloJIA0V5RcvphbrtNE+o=;
-        b=NDiYDvNoNsB4dHvLdNX0mAc+WPv2ROjsFpKH3mQF/ryrYdVXMnIBJgnAc73yLoEEak
-         c1InlWVesZNJuv45M7/s+80yvwVi5vm62qJAkiHSeJT/WhUtirDI/rJASPHixA5oyyU6
-         t283rhlar/cq6sEQeFY+3nvVhvPc6xuDs3Tw9IWFTTWosb28Cd8cD9c9ApBBSjaifwxU
-         uFO9eSp4y6VpA9tn3kT3Fn1s4S9WKq5ARMGRBG8wiYw8rPuKXhbFENJJVcrnz4SqZmCI
-         hmF5Ri1/ZB1X/xPyqxAzgZhkPJLl5fxOTXvky/x/cWYNOFnkj9oW5gyqX8VU5/SEm/jZ
-         XC+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FaIZxCAr"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cf6d65d8a7so15226875ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 10:35:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1787332680; x=1787937480; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=a7EiPLlzbwPc3czPLxdKiQ9NmGH3ckuar+CTSrRgEhc=;
-        b=maLjoGnX8NeDXb0U9RStFtcmOVOh+6O+5/nmhqaSGhOeV77KjEmpHapTDiF5ZapirU
-         YueSAi2mGWQ/VmBWoriU4JH+k/1t5TB1zeBdsnJgPuHtmfi5r5XJ+y38mmKpVg3abePO
-         8bnhalSaBxo34OUpJ+BTS1sPD2ErkTV10vLs8j60nXcIaOooLG+9bMg99As6t9g66AV6
-         VySYhWNNMQjysFVenGOPlSXl1sT+mjNl8NAg8JFsS6d4FSQxQ4O34BUHz8m8cyzVSPgm
-         qHYSyMp5a5qTXcIE8bLIL52862yI6d0Lm/SeCJJYv1iXRBCPOaYcRbo95fmFnK88bvrF
-         oFNQ==
+        d=gmail.com; s=20251104; t=1787333707; x=1787938507; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aiYnoihfb/3QiAK3enly1uKch7RXRQpCp9dlQQb+5jc=;
+        b=FaIZxCArh9q81cNqGdTBleDApAaG90bqEjo9o8lwsEdkJ7mVzm6gbTs0O44Mm19Ft3
+         TcwvCM9GW1ITdqMpP00ySvNKX+Q3apchCzEmSZBNdNo/IoAQi8xYHtDNDzdUxGTFar1N
+         /UGsGosSGqFnKDJgC2SAtl4vsr3S1lW7sQ99/zo0Kb97M9SGYuBEGV8LWSz9sjiSE1Bx
+         7KZ1iOwNx+aFkHG17F9B7XXi6fYekHgA7RPJUYOeo/tzVGSHiA9a0G0xdtQSLqimwDrv
+         Szo3OgkJVhvc4SOeBFATo8fKdnDIWJv9SazNh/8crVYR3S7MhAwRuBdRQItgJzfTiTdM
+         dJSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787332680; x=1787937480;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a7EiPLlzbwPc3czPLxdKiQ9NmGH3ckuar+CTSrRgEhc=;
-        b=qtQca1Iqr5yE0oKebHvNzc7TfoN3AHIs9EjT8qy5ieZJ+E/hSkPfAYGCHFbEIdgwkS
-         FM6kFsgK12vOARYCrSpTYPtipFCpPVxV0zqGMus/hSlBq4zBQr41Ge53Fq8VDiGDiYJk
-         v5latqfWuvPaldRQ1XEGWWS+m2OFawCqfpIk2cFEWuxZf8p9bDNCMcuCxs2ufLZTCjQK
-         0T46QF3KOnnMXOK51xFYr5VF+gyDKmyuOF4AR4eCR8szl6/apctvdsEL3C0nKqrtcgw6
-         j7ja/xyxbv4wxLdv1UxuZrXBPISTdKbTS0RQ5Yl/EtgUmEyHUFDLrYAyzHaeiixSzGyA
-         719A==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1k1ogqPyaVdDP0L+GXWGytIHZ7CfGZwqPMFMlcdthCufsV/LkH9oukd/EMNSXhanj1yD9yYochy8=@vger.kernel.org
-X-Gm-Message-State: AFuF++nxckRIM0yDZIqE6cqPL/E1d3ZPs6zb5pHJkv/1CwVcH0V5Am2H
-	1+zZd4xoOR1O8JyfOv/DZOSubRpVESof5WYiqpVL6HD+uNNGmNfNn2OeP6g2BWCzPiAobJ7wLrC
-	acXW/jADx96RD1TRTIOUNRyeWaVtToC+sgxTuBd5Oww==
-X-Gm-Gg: AR+sD13g8cUrihzSeK45RqfGojlkMCeOE547MY1MH0OFoSrHn6dj9l82NncN86RNC5T
-	sq11y0QgMvAghzkwz/1HGDFH6H0mRYe8ld0MUfn6OoJgzaWzDASHAi6SNptKSBsT7IXMp0qXUtB
-	sPY32E+Hm3f0NcKMsBUc0laM4AhSnJlVieZ2vKfQAUeO2AnrDYtmEWzk38d5DeBuNrohtgsHr/+
-	j2uNwTf7H93MPRdeS1NbdXhhLGQIJR11RlDs87R7AmxyO9AmpLJzrwTskpYb3Dwf+CZmFurjSOV
-	U+5rxDcDvOBfdHPoJifDQ9KObh1CN7LUEDlE5ffNHsrLRgZI5xI1cTfqLOEO5ZJn+03+R8QMwjB
-	OTQ==
-X-Received: by 2002:a17:907:d501:b0:c21:9cf4:e1b0 with SMTP id
- a640c23a62f3a-c246a30a9f5mr868392666b.3.1787332680302; Fri, 21 Aug 2026
- 10:18:00 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787333707; x=1787938507;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aiYnoihfb/3QiAK3enly1uKch7RXRQpCp9dlQQb+5jc=;
+        b=DMK3ZsdrFPXO4Z/xxMsvMaz0ZBPG4bPIZ+ruu5879jOtdou6+CmgEncw9lMVXYbvGl
+         H62r7RaHOBunY1Oxpp8KsJWXTTuR8+AhGwI11OmSHgy0v2a6krAxlX9seyZXqSoj00PB
+         nUZ/0I/L+KLrliee/1Yp3ECRBbzP05t59hjjbqObHAeN1byM5AjNX6yuOFgsZwNE7UgJ
+         eLguTo35YozzKk63jF4Dtu1i2lDR5dWJ422NNjYCHGfbEFd/Ko6BsRs9yv01zvHfi9Pl
+         6mMXN2GBlmqWA+QkJ6h+G4Y1Mk6Pcu8elEMzECP6RvoIlYN9CWCG64B0SSJiw+oiqsGa
+         DgmA==
+X-Gm-Message-State: AFuF++mRhV7/kEtfxgtyGphwBsFMnfecsOeQx3y/DmAZR/8yS/eDt2FX
+	VjeAO0garjMJ8Mc8hnAUCd+Nkx7nXB6oovLb6berSEQ92Z8ew3drGhvt
+X-Gm-Gg: AR+sD11KJCQy309EpXHTNnznOOP30lsYh4++U3e6R5OUn6c3VX+I58STwT6W2zG7DLL
+	1QKwNDxzwPqOu9W1DsDhF9/M9XiUlPSvHFsp0qlIR34gJGa3q6yTREmGTdA5qs6/XtgjUOkqszf
+	sjH33LjCC/LmIrbUlGGmcbJ6fNsilt4IFq1i+Xupf5MPg0pKxDUUCTq48nD9kfHkAow8+jwvERw
+	zShui3ckqiz9Whe74M+HGMtU/+BKKkS+wjEug8h2SOT/6taabx0lvXLS5wTLlhQE3YZNSC/kyEZ
+	zhvTPhstHb5aEE5+bKsBvWuptthoXQOizGxzcLn37kNcdS7KV7nGERh7tbEwMo/oSry/ZI6IOx8
+	40j5q5OxrbaRSsR/OCErk1YJ7ngXdOhou2nOfXbJOSFbo1tb2DBi9sJsYzksjdnVBgjlZThWiKR
+	WGgwtBAVYqY4FiZA5fHdrgxdMLGpeRuUJOEuQ5tqnKbKkhcuB5BxKIpDqGjjQ1d9ULXRfoZ9VIr
+	bnpl7WJoNx1VWujUdtCkwxwQqZ+G6wLmovGG+omx5/VnVQ3diYk
+X-Received: by 2002:a17:90b:2d0e:b0:395:7fff:a08f with SMTP id 98e67ed59e1d1-395c2f65bfbmr15864724a91.0.1787333706630;
+        Fri, 21 Aug 2026 10:35:06 -0700 (PDT)
+Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395c4be666bsm4268193a91.11.2026.08.21.10.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 10:35:06 -0700 (PDT)
+From: hanzhijian <hanzhijian1991@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hanzhijian <hanzhijian1991@gmail.com>
+Subject: [PATCH] usb: host: octeon-hcd: fix kernel-doc comments
+Date: Sat, 22 Aug 2026 01:34:55 +0800
+Message-ID: <20260821173455.2219619-1-hanzhijian1991@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260821-hd3ss3220-regulators-v1-0-405e5c4fb306@flipper.net>
- <20260821-hd3ss3220-regulators-v1-2-405e5c4fb306@flipper.net> <TY3PR01MB11346E91C25009FE7C45387F986A32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346E91C25009FE7C45387F986A32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Fri, 21 Aug 2026 21:17:43 +0400
-X-Gm-Features: AcwNN1XgtySPeQ9oX-D97l_niNrZbC8_BAFYmBud5FSa8Z0I7DfTLaVwNVSieB4
-Message-ID: <CAKTNdwFnvV_uvz640+Dw+HfJd7LfQ7ym9+JogyASi5t-ch8DOw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] usb: typec: hd3ss3220: Add support for supply regulators
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+The file has 31 comments that start with "/**" but are not valid
+kernel-doc comments because they lack the "function_name() -" summary
+line.  scripts/kernel-doc reports "isn't a kernel-doc comment" for each
+of them, and they are silently dropped from the generated kernel
+documentation.
 
-On Fri, Aug 21, 2026 at 9:03=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
->
-> Hi Alexey Charkov,
->
-> Thanks for the patch.
->
-> > -----Original Message-----
-> > From: Alexey Charkov <alchark@flipper.net>
-> > Sent: 21 August 2026 17:17
-> > Subject: [PATCH 2/2] usb: typec: hd3ss3220: Add support for supply regu=
-lators
-> >
-> > HD3SS3220 requires VDD5 input to be present 2ms before VCC33 is applied=
-, or else it gets backpowered via
-> > the 3.3V rail in a non-functional state and wedges the I2C bus, bringin=
-g down all devices on it.
-> >
-> > Enable both regulators in the datasheet prescribed sequence if provided=
-.
-> >
-> > Signed-off-by: Alexey Charkov <alchark@flipper.net>
-> > ---
-> >  drivers/usb/typec/hd3ss3220.c | 32 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> >
-> > diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss322=
-0.c index
-> > d0de5a2488f9..b53455abc048 100644
-> > --- a/drivers/usb/typec/hd3ss3220.c
-> > +++ b/drivers/usb/typec/hd3ss3220.c
-> > @@ -49,6 +49,9 @@
-> >  #define HD3SS3220_REG_GEN_CTRL_MODE_SELECT_UFP               BIT(4)
-> >  #define HD3SS3220_REG_GEN_CTRL_MODE_SELECT_DRP               (BIT(5) |=
- BIT(4))
-> >
-> > +/* Minimum time VDD5 has to be stable before VCC33 starts ramping up *=
-/
-> > +#define HD3SS3220_TVDD5V_PG_US                               2000
-> > +
-> >  struct hd3ss3220 {
-> >       struct device *dev;
-> >       struct regmap *regmap;
-> > @@ -358,6 +361,31 @@ static irqreturn_t hd3ss3220_id_isr(int irq, void =
-*dev_id)
-> >       return IRQ_HANDLED;
-> >  }
-> >
-> > +/*
-> > + * Bring both supplies up in the order the datasheet asks for. Powerin=
-g
-> > +VCC33
-> > + * first can back-power the device in a non-functioning state, which
-> > +grounds
-> > + * the I2C bus and takes both this device and any others on the same
-> > +bus down  */ static int hd3ss3220_power_up(struct device *dev) {
-> > +     int ret;
-> > +
-> > +     ret =3D devm_regulator_get_enable(dev, "vdd5");
->
-> Maybe use optional API as existing dt users don't have this property defi=
-ned in DT.
+Add the missing function and enum name lines, and document the values
+of enum cvmx_usb_stage, so all these comments become valid kernel-doc
+and are included in the generated documentation.
 
-The optional API is explicitly for devices that can function without
-the respective supply entirely, which is not the case here (both lines
-have to be wired for the chip to work). If a board doesn't define this
-supply in its DT the "normal" API will auto-assign a dummy regulator
-and proceed.
+Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
+---
+ drivers/usb/host/octeon-hcd.c | 175 +++++++++++++++++++++-------------
+ 1 file changed, 110 insertions(+), 65 deletions(-)
 
-I got called out by Mark once [1] trying to shoehorn the _optional
-functions where they don't belong :)
+diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
+index 34ce771fa..2e222af0f 100644
+--- a/drivers/usb/host/octeon-hcd.c
++++ b/drivers/usb/host/octeon-hcd.c
+@@ -233,12 +233,23 @@ enum cvmx_usb_pipe_flags {
+ #define MAX_TRANSFER_PACKETS	((1 << 10) - 1)
+ 
+ /**
+- * Logical transactions may take numerous low level
+- * transactions, especially when splits are concerned. This
+- * enum represents all of the possible stages a transaction can
+- * be in. Note that split completes are always even. This is so
+- * the NAK handler can backup to the previous low level
+- * transaction with a simple clearing of bit 0.
++ * enum cvmx_usb_stage - Transaction stages
++ *
++ * Logical transactions may take numerous low level transactions, especially
++ * when splits are concerned. This enum represents all of the possible stages
++ * a transaction can be in. Note that split completes are always even. This
++ * is so the NAK handler can backup to the previous low level transaction
++ * with a simple clearing of bit 0.
++ *
++ * @CVMX_USB_STAGE_NON_CONTROL: Non-control transaction stage
++ * @CVMX_USB_STAGE_NON_CONTROL_SPLIT_COMPLETE: Non-control transaction stage,
++ *     split complete
++ * @CVMX_USB_STAGE_SETUP: Setup stage
++ * @CVMX_USB_STAGE_SETUP_SPLIT_COMPLETE: Setup stage, split complete
++ * @CVMX_USB_STAGE_DATA: Data stage
++ * @CVMX_USB_STAGE_DATA_SPLIT_COMPLETE: Data stage, split complete
++ * @CVMX_USB_STAGE_STATUS: Status stage
++ * @CVMX_USB_STAGE_STATUS_SPLIT_COMPLETE: Status stage, split complete
+  */
+ enum cvmx_usb_stage {
+ 	CVMX_USB_STAGE_NON_CONTROL,
+@@ -512,9 +523,10 @@ static void octeon_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
+ }
+ 
+ /**
+- * Read a USB 32bit CSR. It performs the necessary address swizzle
+- * for 32bit CSRs and logs the value in a readable format if
+- * debugging is on.
++ * cvmx_usb_read_csr32() - Read a USB 32bit CSR.
++ *
++ * It performs the necessary address swizzle for 32bit CSRs and logs the
++ * value in a readable format if debugging is on.
+  *
+  * @usb:     USB block this access is for
+  * @address: 64bit address to read
+@@ -527,9 +539,10 @@ static inline u32 cvmx_usb_read_csr32(struct octeon_hcd *usb, u64 address)
+ }
+ 
+ /**
+- * Write a USB 32bit CSR. It performs the necessary address
+- * swizzle for 32bit CSRs and logs the value in a readable format
+- * if debugging is on.
++ * cvmx_usb_write_csr32() - Write a USB 32bit CSR.
++ *
++ * It performs the necessary address swizzle for 32bit CSRs and logs the
++ * value in a readable format if debugging is on.
+  *
+  * @usb:     USB block this access is for
+  * @address: 64bit address to write
+@@ -543,8 +556,10 @@ static inline void cvmx_usb_write_csr32(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Return non zero if this pipe connects to a non HIGH speed
+- * device through a high speed hub.
++ * cvmx_usb_pipe_needs_split() - Check if a pipe needs split transactions
++ *
++ * Return non zero if this pipe connects to a non HIGH speed device through a
++ * high speed hub.
+  *
+  * @usb:    USB block this access is for
+  * @pipe:   Pipe to check
+@@ -559,6 +574,8 @@ static inline int cvmx_usb_pipe_needs_split(struct octeon_hcd *usb,
+ }
+ 
+ /**
++ * cvmx_usb_get_data_pid() - Get the correct PID for a pipe
++ *
+  * Trivial utility function to return the correct PID for a pipe
+  *
+  * @pipe:   pipe to check
+@@ -647,9 +664,10 @@ static void cvmx_fifo_setup(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Shutdown a USB port after a call to cvmx_usb_initialize().
+- * The port should be disabled with all pipes closed when this
+- * function is called.
++ * cvmx_usb_shutdown() - Shutdown a USB port
++ *
++ * Shutdown a USB port after a call to cvmx_usb_initialize(). The port should
++ * be disabled with all pipes closed when this function is called.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+@@ -679,9 +697,10 @@ static int cvmx_usb_shutdown(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Initialize a USB port for use. This must be called before any
+- * other access to the Octeon USB port is made. The port starts
+- * off in the disabled state.
++ * cvmx_usb_initialize() - Initialize a USB port for use.
++ *
++ * This must be called before any other access to the Octeon USB port is
++ * made. The port starts off in the disabled state.
+  *
+  * @dev:	 Pointer to struct device for logging purposes.
+  * @usb:	 Pointer to struct octeon_hcd.
+@@ -950,8 +969,9 @@ static int cvmx_usb_initialize(struct device *dev,
+ }
+ 
+ /**
+- * Reset a USB port. After this call succeeds, the USB port is
+- * online and servicing requests.
++ * cvmx_usb_reset_port() - Reset a USB port.
++ *
++ * After this call succeeds, the USB port is online and servicing requests.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  */
+@@ -983,9 +1003,10 @@ static void cvmx_usb_reset_port(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Disable a USB port. After this call the USB port will not
+- * generate data transfers and will not generate events.
+- * Transactions in process will fail and call their
++ * cvmx_usb_disable() - Disable a USB port.
++ *
++ * After this call the USB port will not generate data transfers and will not
++ * generate events. Transactions in process will fail and call their
+  * associated callbacks.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+@@ -1001,11 +1022,12 @@ static int cvmx_usb_disable(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Get the current state of the USB port. Use this call to
+- * determine if the usb port has anything connected, is enabled,
+- * or has some sort of error condition. The return value of this
+- * call has "changed" bits to signal of the value of some fields
+- * have changed between calls.
++ * cvmx_usb_get_status() - Get the current state of the USB port.
++ *
++ * Use this call to determine if the usb port has anything connected, is
++ * enabled, or has some sort of error condition. The return value of this
++ * call has "changed" bits to signal of the value of some fields have changed
++ * between calls.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+@@ -1031,9 +1053,10 @@ static struct cvmx_usb_port_status cvmx_usb_get_status(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Open a virtual pipe between the host and a USB device. A pipe
+- * must be opened before data can be transferred between a device
+- * and Octeon.
++ * cvmx_usb_open_pipe() - Open a virtual pipe between the host and a USB device.
++ *
++ * A pipe must be opened before data can be transferred between a device and
++ * Octeon.
+  *
+  * @usb:	     USB device state populated by cvmx_usb_initialize().
+  * @device_addr:
+@@ -1144,9 +1167,10 @@ static struct cvmx_usb_pipe *cvmx_usb_open_pipe(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Poll the RX FIFOs and remove data as needed. This function is only used
+- * in non DMA mode. It is very important that this function be called quickly
+- * enough to prevent FIFO overflow.
++ * cvmx_usb_poll_rx_fifo() - Poll the RX FIFOs and remove data as needed.
++ *
++ * This function is only used in non DMA mode. It is very important that this
++ * function be called quickly enough to prevent FIFO overflow.
+  *
+  * @usb:	USB device state populated by cvmx_usb_initialize().
+  */
+@@ -1190,8 +1214,9 @@ static void cvmx_usb_poll_rx_fifo(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Fill the TX hardware fifo with data out of the software
+- * fifos
++ * cvmx_usb_fill_tx_hw() - Fill the TX hardware FIFO
++ *
++ * Fill the TX hardware fifo with data out of the software fifos
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+  * @fifo:	    Software fifo to use
+@@ -1250,7 +1275,7 @@ static int cvmx_usb_fill_tx_hw(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Check the hardware FIFOs and fill them as needed
++ * cvmx_usb_poll_tx_fifo() - Check the hardware FIFOs and fill them as needed
+  *
+  * @usb:	USB device state populated by cvmx_usb_initialize().
+  */
+@@ -1286,7 +1311,7 @@ static void cvmx_usb_poll_tx_fifo(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Fill the TX FIFO with an outgoing packet
++ * cvmx_usb_fill_tx_fifo() - Fill the TX FIFO with an outgoing packet
+  *
+  * @usb:	  USB device state populated by cvmx_usb_initialize().
+  * @channel:	  Channel number to get packet from
+@@ -1338,8 +1363,10 @@ static void cvmx_usb_fill_tx_fifo(struct octeon_hcd *usb, int channel)
+ }
+ 
+ /**
+- * Perform channel specific setup for Control transactions. All
+- * the generic stuff will already have been done in cvmx_usb_start_channel().
++ * cvmx_usb_start_channel_control() - Setup a control transaction channel
++ *
++ * Perform channel specific setup for Control transactions. All the generic
++ * stuff will already have been done in cvmx_usb_start_channel().
+  *
+  * @usb:	  USB device state populated by cvmx_usb_initialize().
+  * @channel:	  Channel to setup
+@@ -1487,6 +1514,8 @@ static void cvmx_usb_start_channel_control(struct octeon_hcd *usb,
+ }
+ 
+ /**
++ * cvmx_usb_start_channel() - Start a channel
++ *
+  * Start a channel to perform the pipe's head transaction
+  *
+  * @usb:	  USB device state populated by cvmx_usb_initialize().
+@@ -1831,7 +1860,10 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+ }
+ 
+ /**
++ * cvmx_usb_find_ready_pipe() - Find a pipe ready to be scheduled
++ *
+  * Find a pipe that is ready to be scheduled to hardware.
++ *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @xfer_type:	 Transfer type
+  *
+@@ -1889,8 +1921,9 @@ static struct cvmx_usb_pipe *cvmx_usb_next_pipe(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Called whenever a pipe might need to be scheduled to the
+- * hardware.
++ * cvmx_usb_schedule() - Schedule a pipe
++ *
++ * Called whenever a pipe might need to be scheduled to the hardware.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @is_sof:	 True if this schedule was called on a SOF interrupt.
+@@ -2043,8 +2076,9 @@ static void octeon_usb_urb_complete_callback(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Signal the completion of a transaction and free it. The
+- * transaction will be removed from the pipe transaction list.
++ * cvmx_usb_complete() - Signal the completion of a transaction and free it.
++ *
++ * The transaction will be removed from the pipe transaction list.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe the transaction is on
+@@ -2100,8 +2134,9 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Submit a usb transaction to a pipe. Called for all types
+- * of transactions.
++ * cvmx_usb_submit_transaction() - Submit a usb transaction to a pipe.
++ *
++ * Called for all types of transactions.
+  *
+  * @usb:
+  * @pipe:	    Which pipe to submit to.
+@@ -2174,7 +2209,7 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+ }
+ 
+ /**
+- * Call to submit a USB Bulk transfer to a pipe.
++ * cvmx_usb_submit_bulk() - Call to submit a USB Bulk transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+  * @pipe:	    Handle to the pipe for the transfer.
+@@ -2198,6 +2233,8 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_bulk(
+ }
+ 
+ /**
++ * cvmx_usb_submit_interrupt() - Submit an interrupt transfer
++ *
+  * Call to submit a USB Interrupt transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+@@ -2223,7 +2260,7 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_interrupt(
+ }
+ 
+ /**
+- * Call to submit a USB Control transfer to a pipe.
++ * cvmx_usb_submit_control() - Call to submit a USB Control transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+  * @pipe:	    Handle to the pipe for the transfer.
+@@ -2254,6 +2291,8 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_control(
+ }
+ 
+ /**
++ * cvmx_usb_submit_isochronous() - Submit an isochronous transfer
++ *
+  * Call to submit a USB Isochronous transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+@@ -2281,11 +2320,12 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_isochronous(
+ }
+ 
+ /**
+- * Cancel one outstanding request in a pipe. Canceling a request
+- * can fail if the transaction has already completed before cancel
+- * is called. Even after a successful cancel call, it may take
+- * a frame or two for the cvmx_usb_poll() function to call the
+- * associated callback.
++ * cvmx_usb_cancel() - Cancel one outstanding request in a pipe.
++ *
++ * Canceling a request can fail if the transaction has already completed
++ * before cancel is called. Even after a successful cancel call, it may take
++ * a frame or two for the cvmx_usb_poll() function to call the associated
++ * callback.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe to cancel requests in.
+@@ -2330,8 +2370,9 @@ static int cvmx_usb_cancel(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Cancel all outstanding requests in a pipe. Logically all this
+- * does is call cvmx_usb_cancel() in a loop.
++ * cvmx_usb_cancel_all() - Cancel all outstanding requests in a pipe.
++ *
++ * Logically all this does is call cvmx_usb_cancel() in a loop.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe to cancel requests in.
+@@ -2354,7 +2395,7 @@ static int cvmx_usb_cancel_all(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Close a pipe created with cvmx_usb_open_pipe().
++ * cvmx_usb_close_pipe() - Close a pipe created with cvmx_usb_open_pipe().
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe to close.
+@@ -2376,8 +2417,10 @@ static int cvmx_usb_close_pipe(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Get the current USB protocol level frame number. The frame
+- * number is always in the range of 0-0x7ff.
++ * cvmx_usb_get_frame_number() - Get the current frame number
++ *
++ * Get the current USB protocol level frame number. The frame number is
++ * always in the range of 0-0x7ff.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+@@ -2585,7 +2628,7 @@ static void cvmx_usb_transfer_isoc(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Poll a channel for status
++ * cvmx_usb_poll_channel() - Poll a channel for status
+  *
+  * @usb:     USB device
+  * @channel: Channel to poll
+@@ -2927,10 +2970,12 @@ static void octeon_usb_port_callback(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Poll the USB block for status and call all needed callback
+- * handlers. This function is meant to be called in the interrupt
+- * handler for the USB controller. It can also be called
+- * periodically in a loop for non-interrupt based operation.
++ * cvmx_usb_poll() - Poll the USB block
++ *
++ * Poll the USB block for status and call all needed callback handlers. This
++ * function is meant to be called in the interrupt handler for the USB
++ * controller. It can also be called periodically in a loop for non-interrupt
++ * based operation.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+-- 
+2.43.0
 
-[1] https://lore.kernel.org/all/agUoq2N_nE_Sz0Z_@sirena.co.uk/
-
-> > +     if (ret)
-> > +             return dev_err_probe(dev, ret, "failed to enable VDD5\n")=
-;
-> > +
-> > +     /* Nothing to stagger against unless the board describes both rai=
-ls */
-> > +     if (device_property_present(dev, "vdd5-supply") &&
-> > +         device_property_present(dev, "vcc33-supply"))
-> > +             fsleep(HD3SS3220_TVDD5V_PG_US);
->
-> No need for fsleep for the consumers that does not have vdd5 and vcc33.
-
-Correct, hence the conditional.
-
-> > +     ret =3D devm_regulator_get_enable(dev, "vcc33");
->
-> Same here.
-
-Best regards,
-Alexey
