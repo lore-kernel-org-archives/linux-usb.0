@@ -1,81 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8BA3D73;
-	Fri, 21 Aug 2026 00:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A8D440654
+	for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 02:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787271062; cv=none; b=UU8Dsp+3jHA9pvpXuLL58odpyshDTTCmC9gSrtstSTGosVJj4vhFQYKVz/3C1KrFZlRJR/tQ3jE+v9zxS7zf0RdLLK00Hw6OIS3FqsdXcyz+lz9X9TXf2d08tbhsjPCZrgh+bU3sfqREzLWH9+NB89owUlhDFQ6sOyLUwJWdVD4=
+	t=1787277644; cv=none; b=UIkx+16S3BoDTJ9t6hedkPNmKR9wIQ1qrKitMiViRntYnq3IrZLAlR70j8jN1q7CfOfFojteVPgu7QIKEJvIcC1y0/r/byw08A7TFff3S3ZuC4TPYQuKQbcEN2grPouv2ZjJ1EMpKKCWQuf4wbbYQZaBnlbaj01KQf7cUdkTUl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787271062; c=relaxed/simple;
-	bh=eZUt8fPjYa1+DVmXshZcLojC+m0a0P2PjBRc5ew1EuU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OMVsiDA3YQuAoShPMldAjlpDmRZnqUAzbv3CKESmZDCOghK4RQZwSQvkgQFXFUarmALCQCjJVpGRrDFENAR7x+z651Is8YWP4V5gOnsGtWCB29lvxzYHGbmkvZeMImSAj7wCW8M1QaAMF2aA1bicA+tQFwQjFDeNUW2wQtu5ASE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJJ3HaHT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787277644; c=relaxed/simple;
+	bh=9ac753xghRJn/27tVS9JoobeWsB8lFA3MSTyYxuV/EI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=rM5fOnm+ZpPLb5HQpZhdpBXDyeXYP6mW1ukmMfyTlxs1Lv+0puXW0QwYyUI9CRGygjrrjBnOioWWhlBfU4eLyGoYq7abWQNIlLTSe+lpdNgGNaWmegq0EI0R5JLs1WMvLwjnUzIfqMoCkOfcojPwtVhpvQOVgZeyPwHeH6emmNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FcW9iiIG; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJJ3HaHT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5ACD1F000E9;
-	Fri, 21 Aug 2026 00:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787271060;
-	bh=t760hyY492cbUB8YsdFB9IQdPK8aCKhgkoFldCVEzfw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=cJJ3HaHTWtqX7DK/XgH1EYmv9t7SmWsVcZaVg04NPuMx63lLjQek8GPyb2JE+K2AO
-	 DstdhMKeny2LRWSEBEO/BgIyyl9SsZVrtIUalY/IfXjm4YMfP9fN3adxhTKpIOviyX
-	 YxWZ6aT+ex6BdHhRg0mARvHCD6jGchIcGuCO9Sv+GIVKQhhHSM8KCUaE666YHhsflE
-	 boAd/R9Zn1OZBNuwlYHMwZWp9k8wvds9qQtFVPvYqdXKl42yPo4udrWpp/z41QlCq7
-	 LQP6IuXRmICFEnd4y+x1ib1PRYNQ9LgLvOpz402gdB0wHh+BEV6hjw02+GlJ+27aAa
-	 e632Gnqq/lYag==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 1985D3924472;
-	Fri, 21 Aug 2026 00:10:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FcW9iiIG"
+X-Envelope-To: linux-usb@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=9ac753xghRJn/27tVS9JoobeWsB8lFA3MSTyYxuV/EI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787277640; v=1; x=1787882440;
+ b=FcW9iiIGHzYl31nZDMkmvL/8BBgE4iH2G4x3Hn44KuOl0mZ/S1yAqHnuWBMnqLGvju955qOo
+ lqspBEgAmAGpvFmlTWDJLHgegGLyUwPIVIpeS2YQPu/6tK4dU1ZcMUNCAEMvbUrnIZ5VTX99tzf
+ lkihv4PBg+asFcGN48d/R6tc=
+X-Envelope-To: linux-usb@vger.kernel.org
+Received: from localhost (114.94.8.21)
+	by smtp.migadu.com with ESMTPS id d136abca33384d49;
+	Fri, 21 Aug 2026 02:00:40 +0000
+X-Mizu-Trace-ID: d136abca33384d49
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: usb: cdc_ncm: add Apple MacBook Pro USB product ID
- 0x1902
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178727101062.546801.1501934338708694048.git-patchwork-notify@kernel.org>
-Date: Fri, 21 Aug 2026 00:10:10 +0000
-References: <20260816040426.57132-1-mehrdad@signeen.com>
-In-Reply-To: <20260816040426.57132-1-mehrdad@signeen.com>
-To: Mehrdad Afshari <mehrdad@signeen.com>
-Cc: oliver@neukum.org, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 21 Aug 2026 10:00:37 +0800
+Message-Id: <DKU91NS0JNRS.SLSXQO6JHRLM@linux.dev>
+Subject: Re: [PATCH 0/6] Add SpacemiT K1 USB2.0 controllers support
+From: "Ze Huang" <huang.ze@linux.dev>
+To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Yixun Lan" <dlan@kernel.org>, "Xu Yang" <xu.yang_2@nxp.com>, "Peng Fan"
+ <peng.fan@nxp.com>, "Peter Chen" <peter.chen@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
+ Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>
+Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <spacemit@lists.linux.dev>, "Troy Mitchell"
+ <troy.mitchell@linux.spacemit.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+X-Mailer: aerc 0.21.0-146-gb5c16ebe1835
+References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
+In-Reply-To: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
 
-Hello:
+On Wed Aug 12, 2026 at 5:26 PM CST, Junzhong Pan wrote:
+> The SpacemiT K1 SoC has two USB2.0 controllers, one has Dual-Role
+> support, but the hardware has no internal OTG registers, the other is
+> Host only. These controllers are compatible with Chipidea USB2 driver
+> with some flags set and reset control support.
+>
+> This series is based on 7.2-rc1 and has been tested on Banana Pi F3
+> development board.
+>
+> A self-powered USB device/hub is needed to test the host function of the
+> dual-role controller on Banana Pi F3, a MINI-PCIe USB2.0 module (a
+> cellular module e.g.) is needed to test the host only controller.
+>
+> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Tested on OrangePi RV2.
 
-On Sat, 15 Aug 2026 21:04:26 -0700 you wrote:
-> The cdc_devs[] quirk table special-cases the Mac CDC-NCM private
-> interface personality only for USB product ID 0x1905.
-> Some MacBook Pro models (e.g. M1 Max) connected over a
-> USB4/Thunderbolt 3/4 cable to a host whose Thunderbolt controller
-> lacks PCIe tunneling support (no NHI function, USB4-only mode)
-> present themselves with product ID 0x1902 instead,
-> using the same descriptor layout as 0x1905: a Communications
-> control interface with zero endpoints (no interrupt/status endpoint)
-> paired with a CDC Data interface, at
-> interface numbers 0 and 2.
-> 
-> [...]
+To use USB2.0 Type-A port as host on this board, usb2_0 needs:
+  - dr_mode =3D "host"
+  - a vbus-supply regulator driving gpio126
 
-Here is the summary with links:
-  - net: usb: cdc_ncm: add Apple MacBook Pro USB product ID 0x1902
-    https://git.kernel.org/netdev/net/c/746fc0787f61
+Tested-by: Ze Huang <huang.ze@linux.dev>
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> ---
+> Junzhong Pan (6):
+>       dt-bindings: usb: ci-hdrc-usb2: add spacemit,k1-usb2 compatible
+>       usb: chipidea: usb2: add optional reset support
+>       usb: chipidea: usb2: add SpacemiT K1 support
+>       riscv: dts: spacemit: add USB2.0 controller nodes for K1
+>       riscv: dts: spacemit: enable USB2.0 controllers on BananaPi F3
+>       riscv: defconfig: enable ChipIdea USB controller support
+>
+>  .../devicetree/bindings/usb/ci-hdrc-usb2.yaml      |  1 +
+>  arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts    | 16 +++++++++
+>  arch/riscv/boot/dts/spacemit/k1.dtsi               | 40 ++++++++++++++++=
+++++++
+>  arch/riscv/configs/defconfig                       |  4 +++
+>  drivers/usb/chipidea/ci_hdrc_usb2.c                | 16 +++++++++
+>  5 files changed, 77 insertions(+)
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260812-b4-spacemit-k1-usb2-97adfc283d58
+>
+> Best regards,
 
 
