@@ -1,155 +1,184 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F3935AC3C;
-	Fri, 21 Aug 2026 18:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF4F4078EE;
+	Fri, 21 Aug 2026 19:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787335291; cv=none; b=WRywea16kN5eBBnXn1H+qToVctLeRM/cc7XVkxVTKnDuVY+PFmq+8mkFDByq/gzuFYoaYFcoa3KXzVCpcEecKr7T7WpcUoygxzLK/mGw19gqdSj0YaRlC1oMS21/Iz1Jar0Z/tIFRDxBGI/7whzoWsJe1HEpyCtyTuQ/qgnjAvM=
+	t=1787340091; cv=none; b=VZy6CxjyW2WmqEtwHDXNi3h02n0+bF7utoFg9jW0CL7euTq2s2wHUq4kgwZJP2UuQz1+v7TdTHlxu0CFIcegz7g8XKMW8LtYQSBRQJF5c437JusqVOEuUB53Br12ntCnDMsINb1oKwhGOZNlV/uZ9sLhgDwB71K0kHDW/en5o8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787335291; c=relaxed/simple;
-	bh=62ivZA4S+oyJ94Eh3P6JURfq7lvvrdPP9ElZEDGgE7M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=evCTTXR8hHtBcxJ/CfwY/FgO005jhUR7IfyPzJhFuggcXFk5akK+ztkVlZ3zzLeHm2Igx9fPWI8KB68sibryogQ+hp1ZOhc0AOoj4X+PjVG/RpBh0J6cAFFbgBP+2JZ1BdHnIcC1hCr0f+HHsz4jI8+imHY7rk7Bl2XszTR0oBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 50bf32029d8a11f19a56ed5b684f684d-20260822
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:00889f7c-1699-495d-8726-31147472ba30,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:d48b94d7a2754f4249128363f404edce,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 50bf32029d8a11f19a56ed5b684f684d-20260822
-X-User: lihaofeng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lihaofeng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 867854817; Sat, 22 Aug 2026 02:01:21 +0800
-From: Haofeng Li <lihaofeng@kylinos.cn>
-To: stern@rowland.harvard.edu
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	13266079573@163.com,
-	Haofeng Li <lihaofeng@kylinos.cn>
-Subject: [PATCH v2] usb: storage: sddr09: fix OOB access in sddr09_read_map
-Date: Sat, 22 Aug 2026 02:01:16 +0800
-Message-Id: <20260821180116.3490884-1-lihaofeng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <05948dc6-b5f7-4916-8923-017f58fde4a2@rowland.harvard.edu>
-References: <05948dc6-b5f7-4916-8923-017f58fde4a2@rowland.harvard.edu>
+	s=arc-20240116; t=1787340091; c=relaxed/simple;
+	bh=W+jSF2/PQyIWS5jx2LYAKZmVdlWg4dx0QPg73MFnC2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o+PfZB6r1zl3MUT3qIeVDz7UC2zfLf7mOTaRk+ncpKVkkdy/fCkJmd6SolYOsRDzrdnPs374rt3gUcGncOyVObMgygi9cg7cggqTqAwGvdOThEeO09NOtljvZTbxgiuitRsYilGP5LAKkpk25E257XjJ2rkMS2P7PK+JpiOx1KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=hIRTAgDM; arc=none smtp.client-ip=212.227.126.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="hIRTAgDM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oldschoolsolutions.biz; s=s1-ionos; t=1787340070; x=1787944870;
+	i=jens.glathe@oldschoolsolutions.biz;
+	bh=W+jSF2/PQyIWS5jx2LYAKZmVdlWg4dx0QPg73MFnC2U=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=hIRTAgDM7JRrAPGEo+1dxcW8r0Sdm9OPOJFwunjvSxlQJw6qusf+sLkZohqZ8ZJV
+	 uOtOj5+lWauf+cVgYZaVG2tkPWZpKUhSZEsRW04xrkdIH1vjH9H1oC3WHfhVH3prf
+	 qUU3ebRbD2nztgUt9HeCSfYVZAjfknKsG5DXYJy3ovoon2VADg/KdgNPN5CLOh8Wv
+	 pZgURlUeay+p6Gzz1ryOdkI7NbKU/bsSkSpClFrVGZ+q3l+WBY7nyeryQbPPMP4b3
+	 58+3sgb1iurgq2s7KPYpu43kTVlp9ZnaI8IAncLMfLqMnvtJSqH5V8Lns1AriPeqx
+	 KcCu0QivU7krRtS9pA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MJmbB-1xDFKp1Ak5-00RAqH; Fri, 21
+ Aug 2026 21:21:10 +0200
+Message-ID: <8bdf6062-8ec2-4c30-8463-0368d3a0f1ce@oldschoolsolutions.biz>
+Date: Fri, 21 Aug 2026 21:20:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: mux: Fix typec_switch_match()
+To: Marek Vasut <marex@nabladev.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ kernel@dh-electronics.com, linux-kernel@vger.kernel.org
+References: <20260817182302.146546-1-marex@nabladev.com>
+ <aoSFjbydIiu4KyW0@venus> <dfac3134-920e-498e-a59b-720a6c51b82a@nabladev.com>
+ <1aeaa585-79f2-4f43-87b1-2ae3925b176c@oldschoolsolutions.biz>
+ <71fca17d-9b6b-4c9d-b595-ebd1dc6605de@nabladev.com>
+Content-Language: en-US
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <71fca17d-9b6b-4c9d-b595-ebd1dc6605de@nabladev.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:a6TAyRFwS9BnnIzj857LpTlBmY7jtBAF/1pziOtR27K+wUOJRXQ
+ wT0wULh7ul5+8itjVOX6OVYSoksrCOdwkkY73CigdpuV7Q7gjblXdi248SiXH5e5J8EsMKx
+ /jLOPu4abKeYYatY58s5ZB/yveRHfriVbdht1r4Cen6dB3+BjtCbqTeOt0wN8DuW7ald6KB
+ bpRY3Za0QdBm1aT6tSHZw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5K73dGz1qkA=;pIZSb1loKCDQMJRC5Jn11eMbKa3
+ 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
+ HuOPkDPpJFI6sTw5QqkKq+pFN2U6FfAD1PGwD2I=
 
-sddr09_read_map() builds the LBA <-> PBA translation tables while
-servicing READ_CAPACITY.  The logical block address assigned to each
-physical block is decoded from device-controlled redundancy data:
+Hi Marek,
 
-	lba = short_pack(ptr[7], ptr[6]);	/* 16-bit device value */
-	lba = (lba & 0x07FF) >> 1;		/* 0..1023 */
+On 8/18/26 19:43, Marek Vasut wrote:
+> On 8/18/26 7:05 PM, Jens Glathe wrote:
+>> Hi Marek,
+>>
+>> On 8/18/26 18:56, Marek Vasut wrote:
+>>> Hello Sebastian,
+>> [...]
+>>> Could you revert f576c75f95a5 ("Revert "usb: typec: mux: avoid=20
+>>> duplicated mux switches"") and apply the following patch (equivalent=
+=20
+>>> to this patch, applies to mux instead of switch) and see if that=20
+>>> fixes the T14s for you too then ? If yes, than, I think this might=20
+>>> be the proper fix rather than the revert:
+>>>
+>>> diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+>>> index 4a4297f15aad3..afa6fc1813978 100644
+>>> --- a/drivers/usb/typec/mux.c
+>>> +++ b/drivers/usb/typec/mux.c
+>>> @@ -294,6 +294,8 @@ static void *typec_mux_match(const struct=20
+>>> fwnode_handle *fwnode,
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev =3D class_find_device(&=
+typec_mux_class, NULL, fwnode,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mux_fwnode_match);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!dev)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return ERR_PTR(-EPROBE_DEFER);
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Skip duplicates */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < TYPEC_MUX=
+_MAX_DEVS; i++)
+>>> @@ -303,7 +305,7 @@ static void *typec_mux_match(const struct=20
+>>> fwnode_handle *fwnode,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 }
+>>>
+>>>
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return dev ? to_typec_mux_dev(de=
+v) : ERR_PTR(-EPROBE_DEFER);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return to_typec_mux_dev(dev);
+>>> =C2=A0}
+>>>
+>>> =C2=A0/**
+>>
+>> I will test that one with the=C2=A0f576c75f95a5=C2=A0reverted on the x1=
+p and=20
+>> sc8280xp boxes I have here, let's see. T14s G6 shouldn't be affected=20
+>> either way.
+>>
+>> with best regards
+> Thank you
 
-	if (lba >= 1000)
-		goto possibly_erase;
+I did the test: switch patch, revert f576c75f95a5, mux patch. Afterwards=
+=20
+let it run on the zoo here... ps883x devices are unaffected and work=20
+well, and your proposed mux patch appears to fix the problem with the=20
+gpio-sbu-mux, too. So it would be a good idea to do this instead of=20
+f576c75f95a5.
 
-	lba += 1000*(i/0x400);
+Tested on:
 
-	if (info->lba_to_pba[lba] != UNDEF)	/* heap OOB read */
-		...
-	info->pba_to_lba[i] = lba;
-	info->lba_to_pba[lba] = i;		/* heap OOB write */
+Lenovo IdeaCeentre mini 01q8x10 (ps8833)
 
-The tables are allocated with numblocks entries each, where numblocks
-is derived from the device-reported NAND chip geometry.  For the
-smallest chip in nand_flash_ids[] (1 MB: chipshift=20, pageshift=8,
-blockshift=4):
+Lenovo Thinkpad T14s G6 21N1 (ps8830)
 
-	numblocks = (1 << 20) >> (8 + 4) = 256
+Lenovo Ideapad Slim5 14q8x9 (gpio mux)
 
-so info->lba_to_pba[] only has indexes 0..255, while a hostile device
-may report any LBA up to 999 - the "lba >= 1000" check is the only
-limit on the value, and there is no check that lba < numblocks.  On a
-1 MB card indexes 256..999 (744 of them) index the table out of
-bounds, up to ~3 KB (744 * 4 bytes) past the end of the allocation.
+Lenovo Ideapad 5 2in1 14q8x9 (gpio mux)
 
-Attack chain (malicious USB storage device):
+Microsoft Windows Dev Kit 2023 (sc8280xp, gpio mux)
 
-  1. An attacker presents a USB Mass Storage device spoofing a unit
-     matched in sddr09_usb_ids, e.g. 0x04e6:0x0003 (SanDisk
-     ImageMate SDDR09) or 0x0781:0x0200, on the victim USB bus; the
-     device is enumerated as a normal storage device.
-  2. ums-sddr09 binds (sddr09_probe -> us->transport =
-     sddr09_transport) and the SCSI layer issues READ_CAPACITY, which
-     is handled via sddr09_get_cardinfo() (chip geometry from the
-     device ID, choosing numblocks) and sddr09_read_map().
-  3. The device reports a 1 MB chip (numblocks = 256) and fills the
-     per-block redundancy data with LBA values in the 256..999 range,
-     driving info->lba_to_pba[lba] and info->pba_to_lba[i] accesses
-     out of bounds: a heap OOB read used in the map-building
-     conditionals plus a heap OOB write of the loop index i (the
-     physical block number, 0..255) at an offset the attacker controls
-     via the reported LBA, corrupting adjacent heap memory.
+Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-The device-controlled inputs, the missing bound check and the OOB
-indexing are confirmed by end-to-end reproduction with a FunctionFS
-based malicious device emulator; the driver logged out-of-bounds
-indexes such as:
+with best regards
 
-	sddr09: LBA 256 seen for PBA -858993460 and 201
-	sddr09: LBA 258 seen for PBA 4513 and 203
+Jens
 
-Add the missing bounds check: since lba is unsigned it can only be
-too large, so bail out with "lba >= numblocks" and mark the physical
-block UNUSABLE instead of indexing the tables.  This mirrors the
-max_lba bounds checks already applied to the SCSI-address-derived LBA
-in sddr09_read_data()/sddr09_write_data() and in the related sddr55
-and alauda drivers.
-
-Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Assisted-by: opencode:deepseek-v4-flash-free
----
-
-Changes in v2:
-- Shorten the overly verbose comment.
-- Replace printk(KERN_WARNING ...) with dev_warn_ratelimited().
-- Add an Assisted-by: tag.
-
- drivers/usb/storage/sddr09.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/usb/storage/sddr09.c b/drivers/usb/storage/sddr09.c
-index 3d45e1b54c66..313313508bde 100644
---- a/drivers/usb/storage/sddr09.c
-+++ b/drivers/usb/storage/sddr09.c
-@@ -1339,6 +1339,15 @@ sddr09_read_map(struct us_data *us) {
- 
- 		lba += 1000*(i/0x400);
- 
-+		/* The LBA comes from the card and may exceed the table size */
-+		if (lba >= numblocks) {
-+			dev_warn_ratelimited(&us->pusb_dev->dev,
-+					"sddr09: Bad LBA %d for block %d exceeds the translation table size %d\n",
-+					lba, i, numblocks);
-+			info->pba_to_lba[i] = UNUSABLE;
-+			continue;
-+		}
-+
- 		if (info->lba_to_pba[lba] != UNDEF) {
- 			printk(KERN_WARNING
- 			       "sddr09: LBA %d seen for PBA %d and %d\n",
--- 
-2.25.1
