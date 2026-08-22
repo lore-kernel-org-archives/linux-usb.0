@@ -1,331 +1,120 @@
-Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4F22E0B71
-	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 03:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0A11DA62E
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 03:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787367989; cv=none; b=U5EFhX4zpYs33DyNmThHVhkrNQbCdbbzeEH+wCAWzPL/4jwJZ/G7ANC3qs1s2weQDttWEVF+yqC1pFB5QiaOTwP6owtCHDLRn56V85kSkV1gD723UlVPVrFxTQ7iaDcOZVnYu9m+BqYk9HJcUrQDVRelX2TtRxhzHEsotf1Sa68=
+	t=1787370380; cv=none; b=qlDD5k222coxGOUIFphOHqTDYwJXjGsSsZNtBwoox3X3SFndO5zlM/LE+rd+ofmmv9eJVppth0KyYBCOakFhG4F2qK4M1Mpmi5oNxT01Hrbg17DRCAB2100bXuzT75AeP/ER5SY8Lgd/HFGVmB0JdUZ+CDhinoXeh2zDSUefLKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787367989; c=relaxed/simple;
-	bh=H/sRIoPC2bwCyLfquEd9umCDV6qyuArKJhR3/M9ugT4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bamewvMyOJLj/nuwkQwJBLfSRUToEPKXwYBYtk3sHyV0mkGiPSoMJzY8Di8ELoKKbXyaPccBlFQ1cDFPN1GBwBPkTXuTk9PMEBDa7zeTuCe3Bm2QKios1iAH261Uxia2CoAinU6MCZytiwzUy0u+eHg2pEk9RLT0BBZEYKx8iZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4b28db6c77aso3019406b6e.3
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 20:06:27 -0700 (PDT)
+	s=arc-20240116; t=1787370380; c=relaxed/simple;
+	bh=z+TAOGYOtcu12SbF1K+K3yYGj291CeN7wZLybOW+9FI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rCCG33RKVP+uaTdJwiOOT8ugJVaOAkl82pkD8elQ9kWRK+vdniu4S8GRgwGkyqQ/VmmMtmbSBV0DhQMfEeRiWFBji8YP3vFaeSM0I6rYWimVa3ssCIGO6SmEJmkiwMbzsyYwSA9+NUVWVovQJWcNfU2UZYXXCKLPiN3qGetmU9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=llL0dia1; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="llL0dia1"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7eb29ed2bbdso1192959a34.2
+        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 20:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787370378; x=1787975178; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vstGHMul09KvLuSLJGGZQ3AA3r1UZzwZL60ziR6ObN0=;
+        b=llL0dia1hrGXkzdE83GfGbMLohVkcZUqOxMA6T6ezXIPebyR/fnRxH9Ch6cyxUP7TL
+         xF2KIEgbZW2mPJ6AsFbEEKYQV/VpxKDuzDxyFlo+Erc8yzUNvcbFZeEItmuQ37tUK7+H
+         5773WL65FoBtxzypTmLqvt34MXxGwkl2frdAyVdDPKlvc/meoPIUxMlQPIBaWFzPZ2E7
+         3GXS0PIGlWoihs5x1PGqI73R930D8NgN+yB0WIE4iMM+uVK5xU69+ALBFrSCZX/HiJ6W
+         Qzmj+h9b18afa0FoUqHFD22vgKkfw9I6k+vvgsHB8FR4a0vC0Qu0ajr9fDEhQb7Dl5CX
+         Gljg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787367986; x=1787972786;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SMIvYGCYFaWDPzeesgb/Ly0dZthLAEGfCukoHXE1QZQ=;
-        b=jz5VQLSeGlcDEekhmuhOGYhi7cMYn9Ln6TbtuwHhNUjltmH9qPk+UWMywRCFPjqCBO
-         m7gLl5eVOgStXrWJZTXFgofOWWiIPxDww/ytk9fI4iL3Z2n2KRk09VbzyaKpI6iCEbOq
-         tdw5WNIvWnHFgJm15NsuQKN5GEwuYpN6nYZ6/zy5o6dFHSfVlrp6f1dj1M6HZyPPvyGn
-         L1BjgC+0cx2ky2+IeHWcXg0k2PJzYem+jpCPEQqfstyVDyDSMFacRD+MGceVSHDgSk+X
-         UWW7/roeaV+jRzOz3n3Pg5eKETlEwACyI3pbTcwCKyd3SCAp91AaudEjQDCqfDhKRh0m
-         7o1w==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2bfm/wFJg7ddFSlpolYpUt9yE945YKRPqLQY17Gdn3toQoqMQgIXruls94kBGee55j6RMY7TaI+w=@vger.kernel.org
-X-Gm-Message-State: AFuF++mJsdJhLiLJ6g+olSfdK1mDrlCXwZbQLKJUQ6DfEHuiLVNwACZo
-	iR/3+ZnxNkN+Mdkf5P5mlceCx3+RyyFvKDrJ7vNdIDHNqyzunjdItJ0B0HLhb/TCTqpS1L3/cKq
-	+MxLufuU39APBYx+wnpXnwP10jZHyX+Oo2oLcoq/MkRYyJZnJ0MqgCCU7qaw=
+        d=1e100.net; s=20251104; t=1787370378; x=1787975178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vstGHMul09KvLuSLJGGZQ3AA3r1UZzwZL60ziR6ObN0=;
+        b=Fu6Zh2YJr3PtZBCRb5zSezpB2WIkME/qNnfPgoNPxhiPaadEyOBiRaFFE/nxDOICC0
+         B0kIB3BQ+ZzheVKrVbkfcl8yPvze/xEVQ3K3HXvMScJhTq4pxSyeP2ZJFxCf4jMEoDkt
+         E8I9+wcEnVLK9OazA50smZGUUJzKhig5k6WEKaqOAEuISj0Vte1aMdGhCdOaf4JQPNJa
+         CDhi6V420AAp/dzxT++567cXQ9c2SIyAIgfvC3rRRrchteMbTRKcLbtTLwBsEdFpHsrN
+         u8gmIWRzBsH9aJ9RjW2rQB6zEVeTVrZM9d6IDIWx94PYA/YNiW//Is5rc46VdaVBHYXM
+         dG5Q==
+X-Gm-Message-State: AFuF++nPfM8dWVNBn+IqhjVve/qG2/CRguDvHysdz5GrR+cibLjAuA5B
+	wGxl8wg7S45gV47Ke2zcizP/+dbFMVUjzpyeKbYCT8ZqB0BAt43+dIEt+tau2jgtIkk=
+X-Gm-Gg: AR+sD11+VDYR2eXKbyjHm4PdNBSTpXypX4wvsPRLVXs1RrUxraPODSmRCohVWe3yDGr
+	/vTSGxLm1YyPgVA03R6m4xYAYxKLwQgd93njdKnKBVdg2mx/S+CPEmmsQW66vJEadNbNeqNwNUp
+	oe5LITZPj4AoQ42VW0JrxKjgKAdvOR8P2Cw0NJzik1CweCaMzXLmxhPz+A6vvYKW/PpbWQGzRCG
+	tLm5PJsINpVMlKc8o//h87y6TV0rF6dP9Wg87ZbZJy4Ai9MTxunWvGLDTYr1qtZo/jgfv8fqu0z
+	ZDZu+CVereXwkMnuFPXBh5SyEDxBq+ckUeMSFag4/CSVHW4qM7AzOek++fg5wYMKFa2dDz+hkmH
+	nV3ZS8zs6Zi2VVA/gJKwD5ZIFmpsOq+ArbnzfpcspjBbEmV1OTKV5Xge+4mapHV04vo6lfCDCln
+	qfCRmHXS1tdxgs8t1Q0K3KgNzUnULexSazwrcOPTQCu+7I3hPerkAoeJ1QrHLnHZg05pBoc552h
+	BsFtf6BL+Qkwc0R4MzFW+aEBkgCLONLOtyKLRDafFFL9upF0Ck+
+X-Received: by 2002:a05:6a00:bb91:b0:84e:2382:f4f0 with SMTP id d2e1a72fcca58-851f9a4b169mr18015621b3a.4.1787363079384;
+        Fri, 21 Aug 2026 18:44:39 -0700 (PDT)
+Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520f03b250sm158740b3a.34.2026.08.21.18.44.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 18:44:39 -0700 (PDT)
+From: hanzhijian <hanzhijian1991@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hanzhijian <hanzhijian1991@gmail.com>,
+	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: loopback: fix memory leak on bind failure
+Date: Sat, 22 Aug 2026 09:44:27 +0800
+Message-ID: <20260822014427.2476530-1-hanzhijian1991@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:2f0d:b0:495:e5a5:d62 with SMTP id
- 5614622812f47-4b2ef1457cemr13450407b6e.6.1787367986679; Fri, 21 Aug 2026
- 20:06:26 -0700 (PDT)
-Date: Fri, 21 Aug 2026 20:06:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a891232.91706f20.16b6e3.02b0.GAE@google.com>
-Subject: [syzbot] [hwmon?] KASAN: slab-out-of-bounds Read in aqc_raw_event
-From: syzbot <syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com>
-To: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux@roeck-us.net, me@jackdoan.com, 
-	savicaleksa83@gmail.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+loopback_bind() assigns descriptors via usb_assign_descriptors() but the
+function has no unbind callback, so when configfs_composite_bind() fails
+after usb_add_function() succeeds (for example when
+usb_gadget_check_config() fails), purge_configs_funcs() only calls the
+unbind callback and the descriptors are never freed.
 
-syzbot found the following issue on:
+Add an unbind callback that calls usb_free_all_descriptors(), matching
+the pattern used by other functions such as f_acm, so the descriptors
+are released when the function is unbound.
 
-HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of ssh:/..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=16086e79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
-dashboard link: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14737679580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a22549580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/disk-e1e6e541.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/vmlinux-e1e6e541.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/db2c3a41df6d/bzImage-e1e6e541.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-out-of-bounds in get_unaligned_be16 include/linux/unaligned.h:48 [inline]
-BUG: KASAN: slab-out-of-bounds in aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
-BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
-Read of size 2 at addr ffff888108aba257 by task swapper/1/0
-
-CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- get_unaligned_be16 include/linux/unaligned.h:48 [inline]
- aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
- aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
- __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
- hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
- __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
- dummy_timer+0xdb2/0x36f0 drivers/usb/gadget/udc/dummy_hcd.c:2019
- __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
- __hrtimer_run_queues+0x462/0x9c0 kernel/time/hrtimer.c:2096
- hrtimer_run_softirq+0x17d/0x2c0 kernel/time/hrtimer.c:2113
- handle_softirqs+0x1dd/0x990 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x160/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
-Code: 60 ab 01 e9 83 f7 02 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 23 ef 09 00 fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
-RSP: 0018:ffffc9000013fe10 EFLAGS: 00000246
-RAX: 000000000004b053 RBX: ffff8881022d9e00 RCX: ffffffff877c9945
-RDX: 0000000000000000 RSI: ffffffff890f4061 RDI: ffffffff87b15700
-RBP: ffffed102045b3c0 R08: 0000000000000001 R09: ffffed103eae670d
-R10: ffff8881f573386b R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 1ffff92000027fc6 R15: dffffc0000000000
- arch_safe_halt arch/x86/include/asm/paravirt.h:62 [inline]
- default_idle+0x9/0x10 arch/x86/kernel/process.c:768
- default_idle_call+0x6c/0xb0 kernel/sched/idle.c:122
- cpuidle_idle_call kernel/sched/idle.c:199 [inline]
- do_idle+0x3a7/0x5b0 kernel/sched/idle.c:355
- cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:454
- start_secondary+0x21d/0x2d0 arch/x86/kernel/smpboot.c:312
- common_startup_64+0x13e/0x158
- </TASK>
-
-Allocated by task 23:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5334 [inline]
- __kmalloc_noprof+0x309/0x7c0 mm/slub.c:5359
- _kmalloc_noprof include/linux/slab.h:992 [inline]
- hcd_buffer_alloc+0x1f5/0x290 drivers/usb/core/buffer.c:134
- usb_alloc_coherent+0x5f/0xa0 drivers/usb/core/usb.c:1011
- hid_alloc_buffers drivers/hid/usbhid/hid-core.c:859 [inline]
- usbhid_start+0x5cf/0x23a0 drivers/hid/usbhid/hid-core.c:1108
- hid_hw_start+0x65/0x140 drivers/hid/hid-core.c:2428
- aqc_probe+0x1a5/0x3510 drivers/hwmon/aquacomputer_d5next.c:1536
- __hid_device_probe drivers/hid/hid-core.c:2829 [inline]
- hid_device_probe+0x50e/0x800 drivers/hid/hid-core.c:2866
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- hid_add_device+0x2bf/0x440 drivers/hid/hid-core.c:3010
- usbhid_probe+0xa64/0x10b0 drivers/hid/usbhid/hid-core.c:1452
- usb_probe_interface+0x386/0x9b0 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2708
- usb_new_device drivers/usb/core/hub.c:5833 [inline]
- hub_port_connect drivers/usb/core/hub.c:5580 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
- port_event drivers/usb/core/hub.c:5884 [inline]
- hub_event.cold+0x51a/0xe9d drivers/usb/core/hub.c:5966
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The buggy address belongs to the object at ffff888108aba200
- which belongs to the cache kmalloc-96 of size 96
-The buggy address is located 22 bytes to the right of
- allocated 65-byte region [ffff888108aba200, ffff888108aba241)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888108aba680 pfn:0x108aba
-flags: 0x200000000000200(workingset|node=0|zone=2)
-page_type: f5(slab)
-raw: 0200000000000200 ffff888100041280 ffff8881000401c8 ffffea00046bf250
-raw: ffff888108aba680 0000000800200017 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2c00(GFP_NOIO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 11, tgid 11 (kworker/0:1), ts 4259009323, free_ts 4258897945
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0xf25/0x3400 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x28f/0x2b90 mm/page_alloc.c:5304
- alloc_slab_page mm/slub.c:3266 [inline]
- allocate_slab mm/slub.c:3380 [inline]
- new_slab+0xa2/0x670 mm/slub.c:3426
- refill_objects+0xe3/0x410 mm/slub.c:7310
- refill_sheaf mm/slub.c:2804 [inline]
- __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4675
- alloc_from_pcs mm/slub.c:4773 [inline]
- slab_alloc_node mm/slub.c:4905 [inline]
- __kmalloc_cache_node_noprof+0x4b3/0x670 mm/slub.c:5504
- _kmalloc_node_noprof include/linux/slab.h:1193 [inline]
- __get_vm_area_node+0x101/0x330 mm/vmalloc.c:3237
- __vmalloc_node_range_noprof+0x228/0x1630 mm/vmalloc.c:4064
- __vmalloc_node_noprof+0xad/0xf0 mm/vmalloc.c:4165
- __vmalloc_noprof+0xa3/0x120 mm/vmalloc.c:4181
- pcpu_mem_zalloc+0x54/0xb0 mm/percpu.c:512
- pcpu_alloc_chunk mm/percpu.c:1449 [inline]
- pcpu_create_chunk+0x119/0x620 mm/percpu-vm.c:338
- pcpu_balance_populated mm/percpu.c:2073 [inline]
- pcpu_balance_workfn+0xb2c/0xdc0 mm/percpu.c:2215
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
-page last free pid 11 tgid 11 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1406 [inline]
- __free_frozen_pages+0x716/0xf50 mm/page_alloc.c:2950
- __kasan_populate_vmalloc_do mm/kasan/shadow.c:393 [inline]
- __kasan_populate_vmalloc+0x1ea/0x210 mm/kasan/shadow.c:424
- kasan_populate_vmalloc include/linux/kasan.h:580 [inline]
- alloc_vmap_area+0x95d/0x2bb0 mm/vmalloc.c:2145
- __get_vm_area_node+0x1ca/0x330 mm/vmalloc.c:3248
- __vmalloc_node_range_noprof+0x228/0x1630 mm/vmalloc.c:4064
- __vmalloc_node_noprof+0xad/0xf0 mm/vmalloc.c:4165
- __vmalloc_noprof+0xa3/0x120 mm/vmalloc.c:4181
- pcpu_mem_zalloc+0x54/0xb0 mm/percpu.c:512
- pcpu_alloc_chunk mm/percpu.c:1444 [inline]
- pcpu_create_chunk+0xce/0x620 mm/percpu-vm.c:338
- pcpu_balance_populated mm/percpu.c:2073 [inline]
- pcpu_balance_workfn+0xb2c/0xdc0 mm/percpu.c:2215
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Memory state around the buggy address:
- ffff888108aba100: 00 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc
- ffff888108aba180: 00 00 00 00 00 00 00 00 01 fc fc fc fc fc fc fc
->ffff888108aba200: 00 00 00 00 00 00 00 00 01 fc fc fc fc fc fc fc
-                                                 ^
- ffff888108aba280: 00 00 00 00 00 00 00 00 01 fc fc fc fc fc fc fc
- ffff888108aba300: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
-==================================================================
-----------------
-Code disassembly (best guess), 3 bytes skipped:
-   0:	e9 83 f7 02 00       	jmp    0x2f788
-   5:	0f 1f 00             	nopl   (%rax)
-   8:	90                   	nop
-   9:	90                   	nop
-   a:	90                   	nop
-   b:	90                   	nop
-   c:	90                   	nop
-   d:	90                   	nop
-   e:	90                   	nop
-   f:	90                   	nop
-  10:	90                   	nop
-  11:	90                   	nop
-  12:	90                   	nop
-  13:	90                   	nop
-  14:	90                   	nop
-  15:	90                   	nop
-  16:	90                   	nop
-  17:	90                   	nop
-  18:	f3 0f 1e fa          	endbr64
-  1c:	66 90                	xchg   %ax,%ax
-  1e:	0f 00 2d 23 ef 09 00 	verw   0x9ef23(%rip)        # 0x9ef48
-  25:	fb                   	sti
-  26:	f4                   	hlt
-* 27:	c3                   	ret <-- trapping instruction
-  28:	cc                   	int3
-  29:	cc                   	int3
-  2a:	cc                   	int3
-  2b:	cc                   	int3
-  2c:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-  33:	00 00 00
-  36:	66 90                	xchg   %ax,%ax
-  38:	90                   	nop
-  39:	90                   	nop
-  3a:	90                   	nop
-  3b:	90                   	nop
-  3c:	90                   	nop
-
-
+Reported-by: syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=28cf08dec5895bd562e6
+Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/usb/gadget/function/f_loopback.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index d2d07fb49..bf4038cfc 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -216,6 +216,11 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
+ 	return 0;
+ }
+ 
++static void loopback_unbind(struct usb_configuration *c, struct usb_function *f)
++{
++	usb_free_all_descriptors(f);
++}
++
+ static void lb_free_func(struct usb_function *f)
+ {
+ 	struct f_lb_opts *opts;
+@@ -442,6 +447,7 @@ static struct usb_function *loopback_alloc(struct usb_function_instance *fi)
+ 
+ 	loop->function.name = "loopback";
+ 	loop->function.bind = loopback_bind;
++	loop->function.unbind = loopback_unbind;
+ 	loop->function.set_alt = loopback_set_alt;
+ 	loop->function.disable = loopback_disable;
+ 	loop->function.strings = loopback_strings;
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
