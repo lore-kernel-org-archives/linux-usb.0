@@ -1,192 +1,124 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CEF493627;
-	Sat, 22 Aug 2026 07:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40D1349CE8;
+	Sat, 22 Aug 2026 07:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787384831; cv=none; b=RbTxlt4ucXAUMbKjo1HDG0j97zLLcTD8wBJxOUaqSqWE6BkR1J5gJxnMq0Kge2P2bRmfgtJQRt3Y33P9mMs1MS8XDwcjElf3xOzt3u9jGWAlDBUndtnaXZ25LeUnyufTy+w/nqF7L3CHWElwiYYEXFpuzPD2S2OhQMRWUvvHPaE=
+	t=1787384898; cv=none; b=S+BG22FGK6mNhSLwidNLwj11GEi9gBtqb4B7O1O8zxzpHh7zk6u1V3nWg478bfR7YEU8kiVjWhgjCp+7XlPHKjvHaRY9kmcqzjsKf+qT9PRDjTlUq7MSQ+hhViYKpuStHAc4psyC93vlKLJaNiPiyBx9bOiQgrZ2VGufmOTVlec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787384831; c=relaxed/simple;
-	bh=XP7Qzuffo0HnaPFdTdsrqwk+8FhP6K5NxTnc4IZ8GFk=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=MiOF3z7aq9fj1gAVwq2IhsSVy5i3XxpRFCHPiHWUHLLmOpLLpzfjli+qjSST6k+RdKKnBb9gDJ09rCOvNs2FAP3SF0Sri4O+QPzdp49tXYX2jxAjVQMxEXSqrGOOl8awtoZtWJPTmb1BR9cuCCdWz6vu+d4S7nTIGPSFuZiTkjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=OEfr690B; arc=none smtp.client-ip=162.62.57.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1787384898; c=relaxed/simple;
+	bh=MI/aQvPVfPBCeDSzjkwc78B/FinAxNtT3gTBeJuBA5w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W+CoeyEmUb++1yFQEbXp6DDAPA6E3PvpMb87T79oBdBBpkk1oX9VZQngIcvmypyFSHLC8Jq5EtrEkqWziqz89H/CT/GNAvNbMvtG7bv6RfuIwfiEH4wXqScQi3blmCbq/EDX8gxDkYFjsJb6yeWtk818BcLcpi+w0WhShoQlUd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=D/95uWDm; arc=none smtp.client-ip=212.227.126.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="OEfr690B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1787384822; bh=gsO+ZwiV+djW3LDSkDwM3XD9MS+eMEnhdat63Xzd7SE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OEfr690BHTQPXlg8a0rlZ7xBrhHXKTjMuZ9VAipsz5Q637XsF0ozBZgq1av0UW+yY
-	 eQbqTtUdYDWRQX7En7kfjo5oBP3CAoL/T4ueJ3y6vCimxgqc2XkkN/Cgk8NrqhpiQ1
-	 kc3dooZ3RfxHDK7oJLxy0ncSJDG09/g18o9ji1No=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id B6DA32EE; Sat, 22 Aug 2026 15:45:45 +0800
-X-QQ-mid: xmsmtpt1787384745tjdz9rkho
-Message-ID: <tencent_D74E75F577C166FC3CBB36B6966836D44A09@qq.com>
-X-QQ-XMAILINFO: MMwjR1C73eIs750eVfvBSTwsHfkf2sWGylw+1mLd2CDf1iUfttVtiyWWzwHLbT
-	 fufhIVyW8qndCDN8dZdeTGgsXDmGL3U95QWuEU+F04a7f1pRiGVebp883HcISFwqxgVd0bhHYX1s
-	 eRe/loshKInur3319OFYbQMuP72DPIKlpQ+uDFHKIFSQ/RK9JF3sSGK+QnSUFqFi5C9VBP9IkzMu
-	 gE2YCE2iiUEBwRCJbcOjMy/95GCZAZItOXERy/lG7I9JJO8wDUSohOqc8looIKl1ubnAj3t/yz0X
-	 GveILq0TdVJPkCfYV00HGKh8sRpKkp+zKrsOhaouZIfJWp5AW7xS6WZzTzY+r3NM7TrbwUXUyn6m
-	 NdoBLHxqB5+NxAJgODxY5t/1p0C/DK73cpCckvjA19SJiQZfpdIb/BNgCsIpz4jSWHlqmRbhYPsS
-	 esO9X0mMFyjN+p6abWjA5+mVp6dIzQV+u9QfmT/PnMcHZNBckhOFk971S6POWQNRWdbuzlreBewI
-	 E8tYoenrDhSYOY1DrDljVHk+CIgJp94a+0UhAx6Fb30zB1hAq5fqQGjubMg3bJsnJYM3G7Gn+wXX
-	 M/YmWuoQIISQEc7Z0D4X6Ksyyjrcy+EksJxuUr+gAbuF5c0TJrBderf7FLP8unW1h0tZGNsU4z3o
-	 8XbAj6Nz5nimtQ21DYW4YdQquNIP4k1z1+MAFxdvotwE5aS/Cr+1a2cL12W1V2XBw5BRiWsU3jJC
-	 4ErCbu7pBsIK7m2vrD6dQlxvesfWhnQg4ZM1o/hGOmPqI/Y8xEVoo21lvwCvbVjCaNnykkCZL5qR
-	 zeXJVz4/4Ibt6FppFqlbLbmuWo0sqAf3KIk208HVh+3bH9ahYlTt0bdyySqsMfoHz5bxQiBlvrr9
-	 qE6vJkctM/7d4oQjKW3EeNZzN05U/TCvt+L0ri5oXAxYT0isQ+CE0ahLKZRt7uh0GY+gJVOFtuE3
-	 f01Ht2ZuiNyQbWWu5vqDwb0qI8BWU63cYUIWgQlxBgRs8i9JBamJIiydUy6+iKuEMMKMEeK2C6Kj
-	 kwpQjPLn5k6kt9fEJK4y36t0KuBnqpkURubCfljQ==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: Edward Adam Davis <eadavis@qq.com>
-To: sashiko-bot@kernel.org
-Cc: linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@roeck-us.net,
-	me@jackdoan.com,
-	savicaleksa83@gmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH v2] hwmon: valid the data size before reading the sensor data
-Date: Sat, 22 Aug 2026 15:45:45 +0800
-X-OQ-MSGID: <20260822074544.73445-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260822054428.D55F71F000E9@smtp.kernel.org>
-References: <20260822054428.D55F71F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="D/95uWDm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oldschoolsolutions.biz; s=s1-ionos; t=1787384881; x=1787989681;
+	i=jens.glathe@oldschoolsolutions.biz;
+	bh=MI/aQvPVfPBCeDSzjkwc78B/FinAxNtT3gTBeJuBA5w=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=D/95uWDmpjTyiQmsHaaYwLVKBIVB++W/lK00QfKfn32mO68ryPnAFz45Jt0qTuu1
+	 ZjC5BCveZuPNFrPUQIsAcltoyEua/u4X48gSzp0GOyimnGXRfSP4DpU/s4vcxULTK
+	 Lbj/U5fkDI7yOUQzn1bnWNO2lI5E/1X9cjcJuNoSBK9ZM1nK5JIj0MqmE3L93ZItH
+	 fqPQbOr7CDh/jYzraBUqii3kAzrrM1sOrGJZwdyYBYiZ68DG/BUBWGjJalRnY36nD
+	 SwRKTv3exTmoPYCzZ3iqbN+Uz3+TBO810Clg8WJQI7EBQA2L1gonsu/nppo9zwFLR
+	 HizGF6UV9UQk3IoVqg==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N0WwO-1wldHY3Rtk-014F4b; Sat, 22
+ Aug 2026 09:48:00 +0200
+Message-ID: <ef89a8ba-af41-425a-90e5-77061fec3f9f@oldschoolsolutions.biz>
+Date: Sat, 22 Aug 2026 09:47:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: mux: avoid duplicated mux switches
+To: Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org
+Cc: stable@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ kernel@dh-electronics.com, linux-kernel@vger.kernel.org
+References: <20260822072556.490594-1-marex@nabladev.com>
+Content-Language: en-US
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <20260822072556.490594-1-marex@nabladev.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zAb9tValz/hqkmVMlt/xm6apfcKsza9+II/rUly8dq1Ci78Wpe5
+ RFwfvViquajJji15774QvMVVIGqtKeUlxD8eLhJlGbcGJDtxLs9BBbxTZSDV7UdUgSEhXZI
+ rNUfOCmST1WZlFfCjYfZVNLINf8UjXwYvBBsUEV59KV8p4gjUHDpuyGQXUrk2PFiVyKWq6r
+ gwjN4McpsK7Au8cumndwA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:LV/h/mf4Y+c=;YUBrpIPxY5sAiBHSLVOhEtHHHXT
+ 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
+ ueW6GhOqXWgqNLJFWarhU7+yGB4venpPe8okRwI=
 
-The user-forged sensor data is only 65 bytes long; however, aqc_raw_event()
-fails to handle cases where the sensor data length is too small when reading
-the data, resulting in [1] during the read process.
+Hi Marek,
 
-Add a data size check, if the size is less than that required for the
-specific data item to be read, abort the sensor data read operation.
+On 8/22/26 09:24, Marek Vasut wrote:
+> This is a re-application of b145c3f29d62 ("usb: typec: mux: avoid
+> duplicated mux switches"), with fix derived from usb: typec: mux:
+> Fix typec_switch_match() .
+>
+> Fixes: f576c75f95a5 ("Revert "usb: typec: mux: avoid duplicated mux swit=
+ches"")
+> - Extensive test by Jens https://lore.kernel.org/all/8bdf6062-8ec2-4c30-=
+8463-0368d3a0f1ce@oldschoolsolutions.biz/
+>
+I applied both patches and compared to my tip of tree, same except for a=
+=20
+newline. Also did a test on the Lenovo X13s (sc8280xp, gpio mux).=20
+Therefore justified:
 
-[1]
-BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
-Read of size 2 at addr ffff888108aba257 by task swapper/1/0
-Call Trace:
- get_unaligned_be16 include/linux/unaligned.h:48 [inline]
- aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
- aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
- __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
- hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
- __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-Fixes: 0e35f63f7f4e ("hwmon: add driver for Aquacomputer D5 Next")
-Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
-Tested-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-v1 -> v2: change to check the data item and update comments
+with best regards
 
- drivers/hwmon/aquacomputer_d5next.c | 73 +++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+Jens
 
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index 1ca70e726298..c6fe36abfe56 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -1324,6 +1324,76 @@ static const struct hwmon_chip_info aqc_chip_info = {
- 	.info = aqc_info,
- };
- 
-+static bool aqc_raw_data_valid(struct aqc_data *priv, int size)
-+{
-+	int off;
-+	char *msg;
-+
-+	if (!priv)
-+		return false;
-+
-+	off = priv->serial_number_start_offset + SERIAL_PART_OFFSET;
-+	if (off >= size) {
-+		msg = "serial number start offset";
-+		goto invalid;
-+	}
-+
-+	off = priv->firmware_version_offset;
-+	if (off >= size) {
-+		msg = "firmware version offset";
-+		goto invalid;
-+	}
-+
-+	/* Physical temperature sensor readings data size check*/
-+	if (priv->num_temp_sensors > 0) {
-+		off = priv->temp_sensor_start_offset +
-+		      (priv->num_temp_sensors - 1) * AQC_SENSOR_SIZE;
-+
-+		if (off >= size) {
-+			msg = "temp sensor start offset";
-+			goto invalid;
-+		}
-+	}
-+	/* Virtual temperature sensor readings data size check*/
-+	if (priv->num_virtual_temp_sensors > 0) {
-+		off = priv->virtual_temp_sensor_start_offset +
-+		      (priv->num_virtual_temp_sensors - 1) * AQC_SENSOR_SIZE;
-+
-+		if (off >= size) {
-+			msg = "virtual temp sensor start offset";
-+			goto invalid;
-+		}
-+	}
-+	/* Fan speed and related readings data size check */
-+	if (priv->num_fans > 0) {
-+		int fan_off = priv->fan_sensor_offsets[priv->num_fans - 1];
-+
-+		off = fan_off + priv->fan_structure->power;
-+		if (off >= size) {
-+			msg = "fan power offset";
-+			goto invalid;
-+		}
-+
-+		off = fan_off + priv->fan_structure->voltage;
-+		if (off >= size) {
-+			msg = "fan voltage offset";
-+			goto invalid;
-+		}
-+
-+		off = fan_off + priv->fan_structure->curr;
-+		if (off >= size) {
-+			msg = "fan curr offset";
-+			goto invalid;
-+		}
-+	}
-+
-+	return true;
-+invalid:
-+	pr_debug("data size (%d) is less than the %s, %s\n",
-+		 size, msg, __func__);
-+	return false;
-+}
-+
- static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
- {
- 	int i, j, sensor_value;
-@@ -1334,6 +1404,9 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
- 
- 	priv = hid_get_drvdata(hdev);
- 
-+	if (!aqc_raw_data_valid(priv, size))
-+		return 0;
-+
- 	/* Info provided with every report */
- 	priv->serial_number[0] = get_unaligned_be16(data + priv->serial_number_start_offset);
- 	priv->serial_number[1] = get_unaligned_be16(data + priv->serial_number_start_offset +
--- 
-2.43.0
 
