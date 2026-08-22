@@ -1,208 +1,179 @@
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CFC37755C;
-	Sat, 22 Aug 2026 14:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A960F328B7F
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 14:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787407540; cv=none; b=LoV12zjCHgj9ESDjtjvYxIj8D6SSLvCCjTjpC0OPIwUDEHg84HkTpmqpC+uW4Uhg6DNjEzaWy206wifJlXeoywuD5UBLVmoSjLJiTZNc9A7W8VgkYRqckXpkLGU5m7R1MyNL1vZg8FDfxNGBL0pR+0VcODCcghH7NMeTGBVO3Gs=
+	t=1787408692; cv=none; b=kwTaf5d7yp+avvqtaiLIZ8TFrzwOpmqZgW//sgM/O3wDtiQGwy2BVpa4dZAeQX2k7HGDNtHbbenNsdEy/Ja/TlboHHOYK38j76yQgRtlRDXGzSYwN0iRdF1DQB5bOypXPYnyQ7Cc1oDwINLH+6fLcbe/TxkGffD5SKa3lNOYUcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787407540; c=relaxed/simple;
-	bh=KGiCOZS8kERx8kfMf60v2mw/RupajdLO8c2xUpyJGl4=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=gobn/j/vLxSOFWd0CTxs+IxHbezDQPLaIK/m8aC/zeNpu5Ptdj9I27YZ5NM4g053AMxcoS6qP2DUvI8r71ooOHUPZZsIlB7ez2pTpCI+ZQBAGZCrO1iXKo0bF94GNfj/az1gW68XYvaAsoG2ztPAOSSlg3zQGf5rwux7CUjfup0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=U817WLZM; arc=none smtp.client-ip=203.205.221.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1787408692; c=relaxed/simple;
+	bh=eCKQa8sPvVLE0aadh+4FERv9QWuY2OaSqBKT6ngDEU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=UwxNe8AcS7VKtfnHXu7wn8lY8U3/VELnt/BcqD4gtEegPvXW5Tkl/xMelGLTAnEbp6RxuDsb/4erxSMpyc2++ipoTxSGPtD9c6HVc6yztjkOBMzrd/hFZjA0+KlHKQKhFgJmLUdoKYZS7wkt8fet7jSfhGjCi1XxdhmoV/q6YRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRZNVUgE; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="U817WLZM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1787407531; bh=ayWFH8lg+cV+7MtbfXcuspaQjvqArQfxMK8dBwUoI+g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=U817WLZMuY3eKZwiZ5FWi4O5OKmmmYaAvbisqfR/Z+FOAPpaSpZOUG0cbKo7Gsszw
-	 iTzQoxxbEnYRvoke50jyhsJp+5Ozmw5Oo+GLx23Xf8Zbsqmb3qhqD3JunP2x4p5Snx
-	 AUtZ9uCXeXi7wZKiQoFBMD0+epVHqSdJIPwu4xBw=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 15BA18B1; Sat, 22 Aug 2026 22:05:27 +0800
-X-QQ-mid: xmsmtpt1787407527teaasgipo
-Message-ID: <tencent_5F7DC370E96643AEA458177FB76E86C8F305@qq.com>
-X-QQ-XMAILINFO: ND6iFS8+YfQb6EKkgoFEmBQi39Q1RkOdnCgUJLgnQXULb6hfVcoKv4kiWHaVVE
-	 aljn+o5n+z3FTcykek1BAycmHENPv1AhnOZkzpZ/c9lGTaQmpQySlh/yo1xivvnMGNQrcqM6Yo0S
-	 DCLZ5vkxejwLjvj6FOIjlgUT/16fXSjY4Hw4apCPdijhVNaX636EnqNEpL3qOugeXBqn+EqXO8uv
-	 Lac8+mzDN9rLbjwN9GZmJb09rmRgWVQ8N6/R3ikMUdIuUmBT7muWocpfc4urxx+n2uvj+UTNqt4H
-	 W/7IRIFIOcEUtyqvvEf7+KDm/K8qm2187sbtWpm2GxJx5yuPlLntELwV48mf77Ve0V44uq6Bl6Ws
-	 Ww0hSSkixFAJkobbKwaq+hqCAT84AgR15I7mN6wqxx5bss1NptncY6O3U0xX2YOZXhmIsS8YUVLE
-	 gwEFB5JmUsAwvegvUTlSvDQ8IvigVcDLikNGyVC8Tu+66x9/nUDL/Oaquzbb0TCtSHZvcMOHmgm4
-	 fVxOy5oB9UXD5vfBDrADDPFFGWgTVzcXeKjbSvBuCO5+/bgH375l8okXcd9YyQF73EwJozoOc76X
-	 K34/pFJpSKlcjQsofcoCyRYKPBZ0y9TXQpBfT0hQQgOsPsncfcali6b/fkMkx1phv/Bpc/Sz+p40
-	 nsAoYxvXUvtQs2fN7LBSqDj7i1LKhJZuORPaLdiPTlcz1xsXWxyv0tLSbt3BQBwQsqI2+szVmsbD
-	 voaizJNBrgsnMlwQf3btr4DMiFa83yg46zFuJTuwu5AUKbYwk56wYUDeBLxVJLxu5QNbegS75y0B
-	 tkVgSq3g8oGmQfT2nJmdGm6oarSPEUr9hxIp/wUOHXefDeYD1Am7/r014mE7Mfxp+HjUsEuP1pqC
-	 ARljrcfMaTxs1eJYbOJZPagcjPqx+EjyfqQG6Yj1w8LOl6Rozx1eDH8DtxBY+GGDwNM745fSfTj8
-	 OUvfihQw6gJdbyTuoKFs0jASNZKRm0LNEixcFfU/EDS+JakmccKFG7zx8VrZzUVZVuYzA3wEm8zU
-	 gqbzS7p9xdY0u6Bn0ELuThmZyI1vGJ8qrKx6BSQncjCkrzzgWtWxoDyv7wX9USKYcqAAtZA0SYzB
-	 hY0n7bOczg3ky34U1KyUXq7Eji+gRpQIx4xPAauzg5x4qBW2TloMo1qSgX0g==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: eadavis@qq.com
-Cc: gregkh@linuxfoundation.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	sashiko-bot@kernel.org,
-	sashiko-reviews@lists.linux.dev,
-	me@jackdoan.com,
-	savicaleksa83@gmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH v5] hwmon: (aquacomputer_d5next) valid the data size before reading the sensor data
-Date: Sat, 22 Aug 2026 22:05:28 +0800
-X-OQ-MSGID: <20260822140527.91597-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <tencent_6A66F77626CA5371C36D2968E3AEC4409705@qq.com>
-References: <tencent_6A66F77626CA5371C36D2968E3AEC4409705@qq.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRZNVUgE"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so29869485ad.1
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:24:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787408690; x=1788013490; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v01jTITvsIhpWfIBYLPGITnVsOTLsugEpP/iOU7pKDs=;
+        b=ZRZNVUgEZaduFJEH9FnODqZj4I37AqTfwmqVsAuu7sFhmKoJsiSmMfq92Gt/5aGQPd
+         tIY6htAAPv9xZE2HDCzf4pMb2MtDXeZtKiw+nR4wKTfgT0tCTgrXG0VxMtEriNYsO8jN
+         x08Tv+fgdlne2ngY2lVMomTIoy3aaqSp69V+YZ7eWs50prokrr36OxY+OdhhhDwxrT3t
+         qWBT1riwNn5Hhj8wjKIjJ+95a49nQ2NgEy2cGs55N8QMUY+UH9PnzPVRh5unBmOTOgDA
+         smH9fJTh5oFaK52x4JjlHu2WkYd9jsN3JIACW3513weLf9VZwsHTlvbE7Nhh3paDzkdQ
+         K6Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787408690; x=1788013490;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=v01jTITvsIhpWfIBYLPGITnVsOTLsugEpP/iOU7pKDs=;
+        b=nqiE2RNqziIJ5QcOEm8DVpZ4KBYqrOQ1CeYxhT7TLkQc4SUG7gIIHZoha4oCF28Ddh
+         +asVzGA9mSNIOu+8gZSMpat2oxmbJYmxk+iHxrQ/43nnenr59sVWeq+p0iJsld8gLiuz
+         XhOtbfGRf/S5IP9vyODsRDDGtKZvJ7rz4iovTdTrPdKukIoNk+T9SZmpmXtQB+4uRU0x
+         w/tWPLnEzIRTvgmrnf5Skw+PIUCgRd2fPPJvkYL4QehvWwP5MdmvvYVveW9QL2IknWDv
+         4YczkOzSCZ+duIQbKTFv+OJ+qA12FZJgLYZOqmMgLhTbkjwrnHBAR6ckU6ehaw/Uy8z9
+         smhA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro44dYgukyP7zWxBjwgjMHkOANox7O/qPF7ovG55qYSc8ZWIxXvo59FURih/n4SbvvLsqCk99mVcaE=@vger.kernel.org
+X-Gm-Message-State: AFuF++lG+/7cJKYvs5c0drfb3nJPEhG5Lr8RhVpsDSg+doSCowU5JkOi
+	QHZaSiU+UuDvp5tGK/yge110+G8CCH2c9djnuMxHrELr0xscimyeCVku
+X-Gm-Gg: AR+sD11dZ4FI3YHqHq/XZtHzGYQ1I5eAo8kzUQsrA1MVqdKqcIEZBu4SPOrhY43Hz+h
+	MF2n1zOQ9IvVAtFfEwBUzwvJuEKo1cS7HK9FtilEeWb4Tk+xISGDUvida8012jMxqTJl/0cp3tt
+	9Pw2ach6XLcINRVkZFHkV7JAIEf7bxreqhdTJaAfjyI4tUaseREHevTe03z+RMrEqpiH0dxrwbE
+	GPr8o1YpT0VfAHynMXxDyzVfntAh/nI7Ocs9TPcLTWvB8vIIz4oOs3VMrGRTMPsqNhLTtqe54Zw
+	q5sp8wCj5xmO0X+l66WmsjsFTSFYQP79BI0nrLkoLsVm51PrM/EFOmYjsZbc5zOIKcZ1HEq110f
+	TWxsNqsaH5Jz6/0V+oklbspJ45GQvG5/uGhJtMzVrvgM/vp3ZbTbustYRs6XV86uYx24nAIul/h
+	ntBoOAju7qnmxt5usVjkkBoO//ybtSMj/0bdgKcV6iyIk8EHBZI0li/QoLN4gTp/2NgCWjdcf7Q
+	ohWRYNQOR64pQAQ0Y/HkzONZpJHYivI8C2uxQ==
+X-Received: by 2002:a17:902:ceca:b0:2d6:6953:717b with SMTP id d9443c01a7336-2d670c81ef4mr96366965ad.10.1787408689821;
+        Sat, 22 Aug 2026 07:24:49 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f923f2c0sm11448999eec.30.2026.08.22.07.24.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Aug 2026 07:24:49 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <df9b143b-42fd-44a0-b6e7-d66b6ecd51fe@roeck-us.net>
+Date: Sat, 22 Aug 2026 07:24:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [hwmon?] KASAN: slab-out-of-bounds Read in aqc_raw_event
+To: Aleksa Savic <savicaleksa83@gmail.com>,
+ syzbot <syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com>,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, me@jackdoan.com, syzkaller-bugs@googlegroups.com
+References: <6a891232.91706f20.16b6e3.02b0.GAE@google.com>
+ <1506eaff-db5e-407a-a09c-d7a6b070c9cb@roeck-us.net>
+ <2aabcaaa-f6b6-4375-a773-690305b1979f@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <2aabcaaa-f6b6-4375-a773-690305b1979f@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The user-forged sensor data is only 65 bytes long; however, aqc_raw_event()
-fails to handle cases where the sensor data length is too small when reading
-the data, resulting in [1] during the read process.
+On 8/22/26 01:07, Aleksa Savic wrote:
+> On 8/22/26 6:02 AM, Guenter Roeck wrote:
+>> Aleksa,
+>>
+>> On 8/21/26 20:06, syzbot wrote:
+>>> Hello,
+>>>
+>>> syzbot found the following issue on:
+>>>
+>>> HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of ssh:/..
+>>> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/ gregkh/usb.git usb-testing
+>>> console output: https://syzkaller.appspot.com/x/log.txt?x=16086e79580000
+>>> kernel config:  https://syzkaller.appspot.com/x/.config? x=8bdeea7ee6735f91
+>>> dashboard link: https://syzkaller.appspot.com/bug? extid=9ee5f5dc18673d6b2f37
+>>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+>>> syz repro:      https://syzkaller.appspot.com/x/repro.syz? x=14737679580000
+>>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a22549580000
+>>>
+>>> Downloadable assets:
+>>> disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/ disk-e1e6e541.raw.xz
+>>> vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/ vmlinux-e1e6e541.xz
+>>> kernel image: https://storage.googleapis.com/syzbot-assets/ db2c3a41df6d/bzImage-e1e6e541.xz
+>>>
+>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>>> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
+>>>
+>>> ==================================================================
+>>> BUG: KASAN: slab-out-of-bounds in get_unaligned_be16 include/linux/ unaligned.h:48 [inline]
+>>> BUG: KASAN: slab-out-of-bounds in aqc_raw_event drivers/hwmon/ aquacomputer_d5next.c:1345 [inline]
+>>> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/ hwmon/aquacomputer_d5next.c:1327
+>>
+>> The problem is that syzkaller sends a bad (short) report.
+>> aqc_raw_event() needs to validate the report size and bail out
+>> if it is short. The fix should be straightforard if it is known
+>> what the minimum report size is. D5NEXT_CTRL_REPORT_SIZE ?
+>>
+>> Thanks,
+>> Guenter
+> 
+> We do know sizes of control (setting) reports since we send them through priv->buffer, but aqc_raw_event() gets sensor reports and their length can vary per device. I don't have an exact list for all devices since I don't have them all myself. We'll need to verify that what we receive in aqc_raw_event() is >= the minimum offset we want to read sensor values from.
 
-Add a data size check, if the size is less than that required for the
-specific data item(includes: Physical/Virtual temperature sensor, Flow
-sensor, Fan speed and related, etc.) to be read, abort the sensor data
-read operation.
+Agreed. We'll need something like min_raw_report_size per device.
+It doesn't have to be accurate, just large enough to cover all values
+that are extracted from the report. I think for D5 that would be
+110 (D5NEXT_PUMP_OFFSET + 3), but I may have miscalculated it.
 
-[1]
-BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
-Read of size 2 at addr ffff888108aba257 by task swapper/1/0
-Call Trace:
- get_unaligned_be16 include/linux/unaligned.h:48 [inline]
- aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
- aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
- __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
- hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
- __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
-
-Fixes: 0e35f63f7f4e ("hwmon: add driver for Aquacomputer D5 Next")
-Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
-Tested-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-v1 -> v2: change to check the data item and update comments
-v2 -> v3: check all sub items and update subject
-v3 -> v4: add speed and flow check
-v4 -> v5: remove dbg msg and update comments
-
- drivers/hwmon/aquacomputer_d5next.c | 81 +++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
-
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index 1ca70e726298..352b227c3015 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -1324,6 +1324,84 @@ static const struct hwmon_chip_info aqc_chip_info = {
- 	.info = aqc_info,
- };
- 
-+/* aqc_raw_data_valid()
-+ * Does not support special-case sensor readings data size check
-+ */
-+static bool aqc_raw_data_valid(struct aqc_data *priv, int size)
-+{
-+	int off, fan_off, i;
-+
-+	if (!priv)
-+		return false;
-+
-+	/* +1 for get_unaligned_be16(), it reads 2 bytes */
-+	off = priv->serial_number_start_offset + SERIAL_PART_OFFSET + 1;
-+	if (off >= size)
-+		goto invalid;
-+
-+	off = priv->firmware_version_offset + 1;
-+	if (off >= size)
-+		goto invalid;
-+
-+	/* Physical temperature sensor */
-+	for (i = 0; i < priv->num_temp_sensors; i++) {
-+		off = priv->temp_sensor_start_offset + i * AQC_SENSOR_SIZE + 1;
-+
-+		if (off >= size)
-+			goto invalid;
-+	}
-+
-+	/* Virtual temperature sensor */
-+	for (i = 0; i < priv->num_virtual_temp_sensors; i++) {
-+		off = priv->virtual_temp_sensor_start_offset +
-+		      i * AQC_SENSOR_SIZE + 1;
-+
-+		if (off >= size)
-+			goto invalid;
-+	}
-+
-+	/* Fan speed and related */
-+	if (!priv->fan_structure)
-+		goto flow;
-+
-+	for (i = 0; i < priv->num_fans; i++) {
-+		fan_off = priv->fan_sensor_offsets[i] + 1;
-+		off = fan_off + priv->fan_structure->speed;
-+		if (off >= size)
-+			goto invalid;
-+
-+		off = fan_off + priv->fan_structure->power;
-+		if (off >= size)
-+			goto invalid;
-+
-+		off = fan_off + priv->fan_structure->voltage;
-+		if (off >= size)
-+			goto invalid;
-+
-+		off = fan_off + priv->fan_structure->curr;
-+		if (off >= size)
-+			goto invalid;
-+	}
-+
-+flow:
-+	/* Flow sensor */
-+	for (i = 0; i < priv->num_flow_sensors; i++) {
-+		off = priv->flow_sensors_start_offset + i * AQC_SENSOR_SIZE + 1;
-+		if (off >= size)
-+			goto invalid;
-+	}
-+
-+	if (priv->power_cycle_count_offset != 0) {
-+		off = priv->power_cycle_count_offset + 3;
-+		if (off >= size)
-+			goto invalid;
-+	}
-+
-+	return true;
-+invalid:
-+	return false;
-+}
-+
- static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
- {
- 	int i, j, sensor_value;
-@@ -1334,6 +1412,9 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
- 
- 	priv = hid_get_drvdata(hdev);
- 
-+	if (!aqc_raw_data_valid(priv, size))
-+		return 0;
-+
- 	/* Info provided with every report */
- 	priv->serial_number[0] = get_unaligned_be16(data + priv->serial_number_start_offset);
- 	priv->serial_number[1] = get_unaligned_be16(data + priv->serial_number_start_offset +
--- 
-2.43.0
+Thanks,
+Guenter
 
