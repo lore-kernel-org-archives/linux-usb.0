@@ -1,128 +1,163 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85863349CE8
-	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89FF2E2DDD
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787385174; cv=none; b=XeeXHNGdJAjTX8WM8r7SMCOXYsoe9uZBRYxDn2R6I39a2PN1n5KIejTV7hWWjnWcmRN4UCEt6p8Db1RAJpjlvrFw5VosNhZBCdymCJxInJ2EmawDE9UYIRqipr14W6uLdlRoAq+XxW1wY4t393A0pERfoy2FMerTzUdheN5ENsc=
+	t=1787385306; cv=none; b=MUaLl+Q3JOOSLbD7ic1mcJfnkpbIVh10OQFsPfvfDzOVJPwGRpuJvs6eXlv0nl+jYsfwKKinkhNrhTp/v37dhynxt9Kgc9QdYIG+QCG+6ETICcN8UeIKH11UIyTbUiibfDAY9N+yRddg/b5QlfTUD4lWR7LG/GoHFLzX9pQ7z1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787385174; c=relaxed/simple;
-	bh=XgYVXwC6Qbtpg1jrCFNAUGWaPBGKnylLGiRS03qHRuI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ufet1uBWqoOZIH0bsIER6IwABqMVEUiocSPmk2gO6h0BEWDWtahhPJ5Mfv0aoSzfirWJEGexRROveDoNp38Y981b+ZMLF2UQ9GzW1jF7b9AHrUcL8LnYSJ80r2WU3HCZsBlICkfQBNLSfW9X0vLNs8Zmq54SjeVtzii0bc6YuCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPx0Q1YU; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1787385306; c=relaxed/simple;
+	bh=POYaXGWfU39vm4D5fBYAmYDLChP1wCY+TCa+U2uqVZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NpdY8IUljxaVo97ntoUd49TFaiNpI5ZQER8VfJYiFFlAT1oaJyFDIsIL5K38yHfQNO+Yf6mQ0W1pHBKdOtzAPjdNDrEF27on/eZnWrB5EfzwjQ2wJ+Nx0KmeTp9AzW8wBnEuF4xlH6WGqi/7hqBLpfXYY6kueFZBmJFfLZnM/u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cYuQEgJO; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPx0Q1YU"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51bfa429aa6so16524891cf.0
-        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 00:52:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cYuQEgJO"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2caced6038eso18428045ad.0
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 00:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787385169; x=1787989969; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bGwg1zuDZKdGriy8KZp6u78c5XQmmAncdFIw6xyowec=;
-        b=iPx0Q1YUwDzRvZpfNK5FadAiUeQUPrLA94vZtVeRO1wVwdH1R4SD7yPt2yxafyBFfV
-         wW3CaJUqW6j2ONyPpEoqLMEDbPfd3AXYcCFbkb43sER7WfdMnUy5POzAsV4dV8KOxiaL
-         pJ2WsTiNP332xNE0mNTqzjR5o4Myl1sCvJa/Uy3dz9aiEj2xPyitFwj5PIru/SKC0Is/
-         wWQNkoSHxCgVrowsrsbpQBBWYclSA9O1h76RFNy3dsxv0sZxf/MQmkyq6Ph81k68DmrQ
-         lVuao/ofdWgpeDUTyLhP7LANkchbMWfuDNQN8Be2fVd/bw10MlOn8mCEWn4n5Kmq9CQY
-         sNrA==
+        d=gmail.com; s=20251104; t=1787385304; x=1787990104; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=addUntxabwjA+hDdpAXnZycZm8RYTIvP5o5VxHMOpF4=;
+        b=cYuQEgJOdW71VYvjiIaeD5EEfnbdlPOFPFG8mMGBad23CTgTBWKuk66lbZtiW2/CiX
+         3atzvN0UqytF0Uwdd33hXyE6xv0/glMopzrlzYR9iaOsElSZ7ww0qspkHwWY69mD0+j+
+         KBpQ826cJEL0n+MDUE0Clvqwr27wb7pRP02hEmqWiFoTgFuvx+J7EBAyVL6BIEXkuGW3
+         bCn5oBQ6bXO0rKwbey3CUNZEM8oTq6MMYd5m/MHSFg2omY26y2GKWIytMdLoHGqpL7oP
+         t3I9Su2G8W5LtVFuzxXOUDIpKipMR2EAQ+xtbnE89aa+LZgqiIFiRlVioznxBRQ5z6La
+         /pAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787385169; x=1787989969;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bGwg1zuDZKdGriy8KZp6u78c5XQmmAncdFIw6xyowec=;
-        b=WkP0oJdJ28XCA29p4rOtSSmUWNocqhJLWJiBg+8oO22JoLfESmTu3514aQOQv+z9t9
-         4TZAmaHbpvJFG6/TYrrtp4ptmpPrSr5XKZNJ6eBCUoRd49VKmuExA8dwJVJTjSaEw6aJ
-         /e67KBReJXsCphmgJhG93P02NCn3czeAgSAcr95JsAXedyzb9kwNBAWG0+kL9sRE+2sw
-         mvHpNUN38LK5SLNkREC8cdoHHlSn2jjRk/L8KkEV0VPZEe8WOaJzekRGZqCVxsZ+IVmj
-         Zzr3Is6DWVopqEFVybSWFPdQTa9A7KBS1XXD+iZfrxIcf7xvp6WkmQAiOJljrijrzXpj
-         GbDg==
-X-Forwarded-Encrypted: i=1; AHgh+RpEnJZD/f/Yit54alDslQ8auiBUZBF24D5Kw5zVftOBqhPH/Zd64l3KfQa+Mo9hnIQT0mgn8soa6Ws=@vger.kernel.org
-X-Gm-Message-State: AFuF++kQEM9w3/hYVCHn6hO7JlGsrRrzKCRrLpr5Ui6YTdDxHB78Q/Aa
-	cwgAWcoswWmHCpF79GqC+dAlJX1EmKT5zjghD85bSvSbZGhOFBVzKKwv
-X-Gm-Gg: AR+sD11ZH2pRhmCM/FMTItOTeIJ+dbRhg57vFGzuc8efw9SMUW+dMNPVOHMX9M0mtWR
-	wWX/Wi2GovSwkMz5hczNze8LN532sd7eDDBsiolN64AiT+6LSniVh4byo7QD4iDM8FOCmESLbdL
-	ZRP8tp4fmb005je96N1/3j8P4VphT+leYzHpJe9X6+068806bdjVkGep+Q9qXMBUbMz/2zbyoiV
-	8cE3iZRVPeWSDOjjevVbm2hGZ/jalj6uP5eY9hpq1yo3oumKrwEGs0DdbcF+KS0Lq0pGRaPndbj
-	9utdpemYZAM/t4vw6H03U94MLF0rJJOQiryE2fiYmSZIl7l0UTN+MH+/hZmmV6H0bm+jEE3Frbv
-	PZbDLV4ruWQmRd8Nz6nFxyvq1qZyuDmBoozOAmdIxEj3vzk5L0gXDBjdpzRygPobpIVi83jA6Zz
-	Rt5kLGbcekiCE1fiZJBFhi5QJxmycipOVioq81Ff422xpwjhS3bxxYUuhndZJNG4c0xvDJ/bA16
-	ifvzqtw2CzuItwKCMfcQm0IAELuDmCxgHwc+eNZ0jz5XIVTHC/IrJQ=
-X-Received: by 2002:a05:6214:2d4a:b0:8f1:74b0:a4ec with SMTP id 6a1803df08f44-90c811e5bdcmr112300816d6.4.1787385169528;
-        Sat, 22 Aug 2026 00:52:49 -0700 (PDT)
-Received: from KernDev (pool-72-83-148-136.washdc.fios.verizon.net. [72.83.148.136])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c93a5e82asm8436346d6.40.2026.08.22.00.52.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 00:52:49 -0700 (PDT)
-From: Alexander Bendezu <alexanderbendezu10@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrzej Pietrasiewicz <andrzej.p@samsung.com>,
-	Felipe Balbi <balbi@ti.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Alexander Bendezu <alexanderbendezu10@gmail.com>,
-	syzbot+3a0d6aa450317f25e501@syzkaller.appspotmail.com
-Subject: [PATCH] usb: gadget: f_phonet: fix out-of-bounds read in ifname_show
-Date: Sat, 22 Aug 2026 07:52:30 +0000
-Message-ID: <20260822075230.70609-1-alexanderbendezu10@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1787385304; x=1787990104;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=addUntxabwjA+hDdpAXnZycZm8RYTIvP5o5VxHMOpF4=;
+        b=ZSFV2pLC/2SMe36igpZYIcHsokl6F9fwWW9tbBaiakJda0KjrVv3dl4U93KDep9AuZ
+         iHJsitv0G1g8XXXhkTuNdqE9qaQH4kzk4dKcB9aKsKSr3rWYYWvXWq+nntlfL7CTmtEh
+         bYsoC8QuQJSmBoKghBij2CuUu/i63SdnhX7Eh1sMZf9UfVRG1+YutMxL+OzWGkmscKAS
+         Smgawd/U2AaYDGYo/TreFHNQGugf2/SkFtTuNl50HsRd4pGWUruHXk9KHhj7Bjnshn5Q
+         txuxii4RKXCO7tT3lCpBBrp5dj3Lc/5Tk4hpp+/HlMPN/0Cv+Na2S9LY8jeymdImTTFQ
+         18Uw==
+X-Forwarded-Encrypted: i=1; AHgh+Rqkte2X5p9Ha7TjxZRTRjQzl+Orgft/ZBMtBHu8m0XOGNfPZeW8js8ykIFJaHSVAStJ4DP60ytCVlA=@vger.kernel.org
+X-Gm-Message-State: AFuF++nsz0cHPTu8sGxZ5vMBN1zyAC0Vwq1AkmN9IugSgrhnQiWld2G+
+	Rs/Cv6LrafvoY9XvrXekYTWhyB+hy41KW4/TeQanw177WBDh+IJ9xsLw
+X-Gm-Gg: AR+sD12/8TJ14DoE2V/cXjPgwDbZ3/yynzHtMI1PgMZo/3FgcvtXNfGekQtIQvnVtwI
+	ZjzUQgWoZyHUWimzFNruR1wLBDMl1e6+KqhJfO+cZOJFm3eOMrp4fr2MSrr3Wdz7lYOtIu9Lnd/
+	zYZByCxUVsUBnGV1EyhRPsH8DHiiY30UlEOSBie4KYbA1a/9k0K2sJVUQxQe6pgMQz2d+M/b3h0
+	w/7ubAXz9T/m8rYamvMY8/NSeaZXbQc9kJwjNMUgYo17zaLEX/55ERg05qkICCf1dmTbmYCUXU6
+	jXw07Y1B4oHR0ZcPsgho73RuRInA3yPYzUTRXyO+38ibCddNWawnXooa8bbzpOcY+M3HyIbchfb
+	r7Qzo18N8WEEgexdmDIlsts29YY/5FS3E7mTvEl219KyzG8sN/YRuMGqa19CI0Jkt6xehuTHwN1
+	UQ62+pDQxiW54MaPjYNEjsGh2eKxI4NOZKgkewK4WuVPlqKNhQLaJoCxWF/cC5lEQe/Py95l0rl
+	tVk/rc0lW/Z69DkNbytJ0oamDNPAmN96sEQog==
+X-Received: by 2002:a17:902:ef47:b0:2d0:401c:2edc with SMTP id d9443c01a7336-2d61a032207mr248213275ad.1.1787385304004;
+        Sat, 22 Aug 2026 00:55:04 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90c0de2sm4085772eec.8.2026.08.22.00.54.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Aug 2026 00:55:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6fbb0f5b-ea29-41c6-8b13-c15e83af71d1@roeck-us.net>
+Date: Sat, 22 Aug 2026 00:54:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hwmon: valid the data size before reading the sensor
+ data
+To: Edward Adam Davis <eadavis@qq.com>, sashiko-bot@kernel.org
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, me@jackdoan.com, savicaleksa83@gmail.com,
+ syzkaller-bugs@googlegroups.com
+References: <20260822054428.D55F71F000E9@smtp.kernel.org>
+ <tencent_D74E75F577C166FC3CBB36B6966836D44A09@qq.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <tencent_D74E75F577C166FC3CBB36B6966836D44A09@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The f_phonet_ifname_show() function incorrectly used gether_get_ifname(),
-which casts the net_device private data to 'struct eth_dev'. Since the
-Phonet gadget only allocates a small 'struct phonet_port' for its private
-data, this resulted in a KASAN slab-out-of-bounds read when accessing
-dev->ifname_set.
+On 8/22/26 00:45, Edward Adam Davis wrote:
+> The user-forged sensor data is only 65 bytes long; however, aqc_raw_event()
+> fails to handle cases where the sensor data length is too small when reading
+> the data, resulting in [1] during the read process.
+> 
+> Add a data size check, if the size is less than that required for the
+> specific data item to be read, abort the sensor data read operation.
+> 
+> [1]
+> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
+> Read of size 2 at addr ffff888108aba257 by task swapper/1/0
+> Call Trace:
+>   get_unaligned_be16 include/linux/unaligned.h:48 [inline]
+>   aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
+>   aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
+>   __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
+>   hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
+>   __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
+>   usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+> 
+> Fixes: 0e35f63f7f4e ("hwmon: add driver for Aquacomputer D5 Next")
+> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
+> Tested-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+> v1 -> v2: change to check the data item and update comments
 
-Fix this by safely reading the network device name directly using
-netdev_name() and dropping the u_ether.h include, completely avoiding
-the invalid struct cast.
+Please stop sending me AI generated patches. Whatever model you are using
+has no clue what it is doing.
 
-Fixes: 0736390bea65 ("usb-gadget/f_phonet: use per-attribute show and store methods")
-Reported-by: syzbot+3a0d6aa450317f25e501@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3a0d6aa450317f25e501
-Signed-off-by: Alexander Bendezu <alexanderbendezu10@gmail.com>
----
- drivers/usb/gadget/function/f_phonet.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
-index b1ee9a7c2e94..a17e74bcc07c 100644
---- a/drivers/usb/gadget/function/f_phonet.c
-+++ b/drivers/usb/gadget/function/f_phonet.c
-@@ -13,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/device.h>
- 
-+#include <linux/rtnetlink.h>
- #include <linux/netdevice.h>
- #include <linux/if_ether.h>
- #include <linux/if_phonet.h>
-@@ -600,7 +601,13 @@ static const struct configfs_item_operations phonet_item_ops = {
- 
- static ssize_t f_phonet_ifname_show(struct config_item *item, char *page)
- {
--	return gether_get_ifname(to_f_phonet_opts(item)->net, page, PAGE_SIZE);
-+	struct net_device *net = to_f_phonet_opts(item)->net;
-+	int ret;
-+
-+	rtnl_lock();
-+	ret = scnprintf(page, PAGE_SIZE, "%s\n", netdev_name(net));
-+	rtnl_unlock();
-+	return ret;
- }
- 
- CONFIGFS_ATTR_RO(f_phonet_, ifname);
--- 
-2.53.0
+Guenter
 
