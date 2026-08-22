@@ -1,61 +1,75 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F28439D6DA;
-	Sat, 22 Aug 2026 07:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85863349CE8
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787384961; cv=none; b=f/S8UUWXhWi0OIdq+Z+/fvmcNoYLe2/7enVrkwYZBasDR9Ll48Zmy7N06/t9PmPnL6uwRHz/qDUmJy9xvuebrO+5lqFhLY5lVSs7PoG9yP9Z/4dPJa7AY+snRjuI8FoRMr1hbc7x/UKNG43XxHJ7KFil3VM/lxtXGMQTdDZwgjg=
+	t=1787385174; cv=none; b=XeeXHNGdJAjTX8WM8r7SMCOXYsoe9uZBRYxDn2R6I39a2PN1n5KIejTV7hWWjnWcmRN4UCEt6p8Db1RAJpjlvrFw5VosNhZBCdymCJxInJ2EmawDE9UYIRqipr14W6uLdlRoAq+XxW1wY4t393A0pERfoy2FMerTzUdheN5ENsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787384961; c=relaxed/simple;
-	bh=lo+bVsOiYO/Z2VxIj1b0oDGqFL0Lti58jQnXmOd1qC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TOH6xQKkQXAYvRDoMc6e3TXzHqtriaqeyxQhkbsQ0bwcU5hKpczJrrRG6fpRhQiKBnz/V/MQfn4HGn3mwTNYivCR+/Rj6YYmtPcx6BJDtBN3HgaCP2vfFSybdb1UIoVANPLoxq6glArQswUrmpT54mWdHTK9GQMhspQXyxmKXhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=i/SXzMS2; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1787385174; c=relaxed/simple;
+	bh=XgYVXwC6Qbtpg1jrCFNAUGWaPBGKnylLGiRS03qHRuI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ufet1uBWqoOZIH0bsIER6IwABqMVEUiocSPmk2gO6h0BEWDWtahhPJ5Mfv0aoSzfirWJEGexRROveDoNp38Y981b+ZMLF2UQ9GzW1jF7b9AHrUcL8LnYSJ80r2WU3HCZsBlICkfQBNLSfW9X0vLNs8Zmq54SjeVtzii0bc6YuCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPx0Q1YU; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="i/SXzMS2"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A91EB11C820;
-	Sat, 22 Aug 2026 09:49:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787384953; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=wof+pJXbG+zlMHLSCaXku6i83ZCIZasPbrJqZbEELpI=;
-	b=i/SXzMS2497Cc0QdRlNDbeEU+Rjr90khaCqVDwmkNLiyuE4YbxeUlT36FVfeAn9tdD+kay
-	QEDR0EjhKXcMG9HMOeYwNWe2FuUrX+qUeNMmIBUINrgTvJm/kCrmCrDtqb1n6Y1E0SwdLU
-	QBkWiE8xiawG+heEtjif4+UF7C8Y1a9Epsvtl8CDLGrFkl3lp3hyeC+le5hwdhQqxRM1aT
-	P8H4xOv+AEgw1iCj2NazF0Zf7VB27tgjwNxTsXlXvI7nGDS+BuLZFSv8anvYjRF35IhVlg
-	l5qt2z9jH8fWY58WSCSm69gpA8cJGivp2zaGa0hGkPWP+FtbmikeuaYV5mcJiw==
-From: Marek Vasut <marex@nabladev.com>
-To: linux-usb@vger.kernel.org
-Cc: fabrice.gasnier@foss.st.com,
-	Pankaj Dev <pankaj.dev@st.com>,
-	Marek Vasut <marex@nabladev.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Christian Bruel <christian.bruel@foss.st.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rahul Kumar <rahul.kumar05@st.com>,
-	Rob Herring <robh@kernel.org>,
-	Rosen Penev <rosenp@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	devicetree@vger.kernel.org,
-	kernel@dh-electronics.com,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPx0Q1YU"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51bfa429aa6so16524891cf.0
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 00:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787385169; x=1787989969; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bGwg1zuDZKdGriy8KZp6u78c5XQmmAncdFIw6xyowec=;
+        b=iPx0Q1YUwDzRvZpfNK5FadAiUeQUPrLA94vZtVeRO1wVwdH1R4SD7yPt2yxafyBFfV
+         wW3CaJUqW6j2ONyPpEoqLMEDbPfd3AXYcCFbkb43sER7WfdMnUy5POzAsV4dV8KOxiaL
+         pJ2WsTiNP332xNE0mNTqzjR5o4Myl1sCvJa/Uy3dz9aiEj2xPyitFwj5PIru/SKC0Is/
+         wWQNkoSHxCgVrowsrsbpQBBWYclSA9O1h76RFNy3dsxv0sZxf/MQmkyq6Ph81k68DmrQ
+         lVuao/ofdWgpeDUTyLhP7LANkchbMWfuDNQN8Be2fVd/bw10MlOn8mCEWn4n5Kmq9CQY
+         sNrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787385169; x=1787989969;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bGwg1zuDZKdGriy8KZp6u78c5XQmmAncdFIw6xyowec=;
+        b=WkP0oJdJ28XCA29p4rOtSSmUWNocqhJLWJiBg+8oO22JoLfESmTu3514aQOQv+z9t9
+         4TZAmaHbpvJFG6/TYrrtp4ptmpPrSr5XKZNJ6eBCUoRd49VKmuExA8dwJVJTjSaEw6aJ
+         /e67KBReJXsCphmgJhG93P02NCn3czeAgSAcr95JsAXedyzb9kwNBAWG0+kL9sRE+2sw
+         mvHpNUN38LK5SLNkREC8cdoHHlSn2jjRk/L8KkEV0VPZEe8WOaJzekRGZqCVxsZ+IVmj
+         Zzr3Is6DWVopqEFVybSWFPdQTa9A7KBS1XXD+iZfrxIcf7xvp6WkmQAiOJljrijrzXpj
+         GbDg==
+X-Forwarded-Encrypted: i=1; AHgh+RpEnJZD/f/Yit54alDslQ8auiBUZBF24D5Kw5zVftOBqhPH/Zd64l3KfQa+Mo9hnIQT0mgn8soa6Ws=@vger.kernel.org
+X-Gm-Message-State: AFuF++kQEM9w3/hYVCHn6hO7JlGsrRrzKCRrLpr5Ui6YTdDxHB78Q/Aa
+	cwgAWcoswWmHCpF79GqC+dAlJX1EmKT5zjghD85bSvSbZGhOFBVzKKwv
+X-Gm-Gg: AR+sD11ZH2pRhmCM/FMTItOTeIJ+dbRhg57vFGzuc8efw9SMUW+dMNPVOHMX9M0mtWR
+	wWX/Wi2GovSwkMz5hczNze8LN532sd7eDDBsiolN64AiT+6LSniVh4byo7QD4iDM8FOCmESLbdL
+	ZRP8tp4fmb005je96N1/3j8P4VphT+leYzHpJe9X6+068806bdjVkGep+Q9qXMBUbMz/2zbyoiV
+	8cE3iZRVPeWSDOjjevVbm2hGZ/jalj6uP5eY9hpq1yo3oumKrwEGs0DdbcF+KS0Lq0pGRaPndbj
+	9utdpemYZAM/t4vw6H03U94MLF0rJJOQiryE2fiYmSZIl7l0UTN+MH+/hZmmV6H0bm+jEE3Frbv
+	PZbDLV4ruWQmRd8Nz6nFxyvq1qZyuDmBoozOAmdIxEj3vzk5L0gXDBjdpzRygPobpIVi83jA6Zz
+	Rt5kLGbcekiCE1fiZJBFhi5QJxmycipOVioq81Ff422xpwjhS3bxxYUuhndZJNG4c0xvDJ/bA16
+	ifvzqtw2CzuItwKCMfcQm0IAELuDmCxgHwc+eNZ0jz5XIVTHC/IrJQ=
+X-Received: by 2002:a05:6214:2d4a:b0:8f1:74b0:a4ec with SMTP id 6a1803df08f44-90c811e5bdcmr112300816d6.4.1787385169528;
+        Sat, 22 Aug 2026 00:52:49 -0700 (PDT)
+Received: from KernDev (pool-72-83-148-136.washdc.fios.verizon.net. [72.83.148.136])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c93a5e82asm8436346d6.40.2026.08.22.00.52.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2026 00:52:49 -0700 (PDT)
+From: Alexander Bendezu <alexanderbendezu10@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrzej Pietrasiewicz <andrzej.p@samsung.com>,
+	Felipe Balbi <balbi@ti.com>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v3 9/9] arm64: dts: st: Add USB nodes on stm32mp251
-Date: Sat, 22 Aug 2026 09:46:42 +0200
-Message-ID: <20260822074816.548662-10-marex@nabladev.com>
+	syzkaller-bugs@googlegroups.com,
+	Alexander Bendezu <alexanderbendezu10@gmail.com>,
+	syzbot+3a0d6aa450317f25e501@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: f_phonet: fix out-of-bounds read in ifname_show
+Date: Sat, 22 Aug 2026 07:52:30 +0000
+Message-ID: <20260822075230.70609-1-alexanderbendezu10@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260822074816.548662-1-marex@nabladev.com>
-References: <20260822074816.548662-1-marex@nabladev.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,135 +77,52 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-From: Pankaj Dev <pankaj.dev@st.com>
+The f_phonet_ifname_show() function incorrectly used gether_get_ifname(),
+which casts the net_device private data to 'struct eth_dev'. Since the
+Phonet gadget only allocates a small 'struct phonet_port' for its private
+data, this resulted in a KASAN slab-out-of-bounds read when accessing
+dev->ifname_set.
 
-Add USB controller and PHY nodes to stm32mp251 DT.
-This includes two USB 2.0 FEMTO PHYs, USB 2.0 host
-controller and DWC3 DRD controller nodes.
+Fix this by safely reading the network device name directly using
+netdev_name() and dropping the u_ether.h include, completely avoiding
+the invalid struct cast.
 
-Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
-Co-developed-by: Marek Vasut <marex@nabladev.com>
-Signed-off-by: Marek Vasut <marex@nabladev.com>
+Fixes: 0736390bea65 ("usb-gadget/f_phonet: use per-attribute show and store methods")
+Reported-by: syzbot+3a0d6aa450317f25e501@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3a0d6aa450317f25e501
+Signed-off-by: Alexander Bendezu <alexanderbendezu10@gmail.com>
 ---
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Christian Bruel <christian.bruel@foss.st.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Pankaj Dev <pankaj.dev@st.com>
-Cc: Rahul Kumar <rahul.kumar05@st.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Rosen Penev <rosenp@gmail.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: kernel@dh-electronics.com
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-phy@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-usb@vger.kernel.org
----
-V2: - Fix up Sob/Cdb lines
-    - Move PHY into syscfg subnode
-    - Turn st,stm32mp25-syscfg into simple-mfd
-    - Use clock-cells = <1> to discern OSC and future PLL clock from the PHY
-V3: - Describe OHCI clock as the CMN clock
-    - Fix up Sob/Cdb lines further
----
- arch/arm64/boot/dts/st/stm32mp251.dtsi | 65 +++++++++++++++++++++++++-
- 1 file changed, 64 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_phonet.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-index 6e985f115b195..dd2f7ddd9b634 100644
---- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-@@ -1746,6 +1746,47 @@ stmmac_axi_config_1: stmmac-axi-config {
- 				};
- 			};
+diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
+index b1ee9a7c2e94..a17e74bcc07c 100644
+--- a/drivers/usb/gadget/function/f_phonet.c
++++ b/drivers/usb/gadget/function/f_phonet.c
+@@ -13,6 +13,7 @@
+ #include <linux/module.h>
+ #include <linux/device.h>
  
-+			usbh_ohci: usb@482e0000 {
-+				compatible = "generic-ohci";
-+				reg = <0x482e0000 0x1000>;
-+				access-controllers = <&rifsc 63>;
-+				clocks = <&usb2_phy1 1>, <&rcc CK_BUS_USB2OHCI>;
-+				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy1>;
-+				phy-names = "usb";
-+				resets = <&rcc USBH_R>;
-+				status = "disabled";
-+			};
-+
-+			usbh_ehci: usb@482f0000 {
-+				compatible = "generic-ehci";
-+				reg = <0x482f0000 0x1000>;
-+				access-controllers = <&rifsc 63>;
-+				clocks = <&usb2_phy1 0>, <&rcc CK_BUS_USB2EHCI>;
-+				companion = <&usbh_ohci>;
-+				interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy1>;
-+				phy-names = "usb";
-+				resets = <&rcc USBH_R>;
-+				status = "disabled";
-+			};
-+
-+			usb3dr: usb@48300000 {
-+				compatible = "st,stm32mp25-dwc3";
-+				reg = <0x48300000 0x100000>;
-+				access-controllers = <&rifsc 66>;
-+				clocks = <&rcc CK_KER_USB2PHY2>,
-+					 <&rcc CK_BUS_USB3DR>,
-+					 <&rcc CK_KER_USB2PHY2>;
-+				clock-names = "ref", "bus_early", "suspend";
-+				interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy2>, <&combophy PHY_TYPE_USB3>;
-+				phy-names = "usb2-phy", "usb3-phy";
-+				resets = <&rcc USB3DR_R>;
-+				st,syscfg = <&syscfg 0x4800>;
-+				status = "disabled";
-+			};
-+
- 			pcie_ep: pcie-ep@48400000 {
- 				compatible = "st,stm32mp25-pcie-ep";
- 				reg = <0x48400000 0x100000>,
-@@ -2002,9 +2043,31 @@ exti1: interrupt-controller@44220000 {
- 		};
++#include <linux/rtnetlink.h>
+ #include <linux/netdevice.h>
+ #include <linux/if_ether.h>
+ #include <linux/if_phonet.h>
+@@ -600,7 +601,13 @@ static const struct configfs_item_operations phonet_item_ops = {
  
- 		syscfg: syscon@44230000 {
--			compatible = "st,stm32mp25-syscfg", "syscon";
-+			compatible = "st,stm32mp25-syscfg", "syscon", "simple-mfd";
- 			reg = <0x44230000 0x10000>;
- 			#clock-cells = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
+ static ssize_t f_phonet_ifname_show(struct config_item *item, char *page)
+ {
+-	return gether_get_ifname(to_f_phonet_opts(item)->net, page, PAGE_SIZE);
++	struct net_device *net = to_f_phonet_opts(item)->net;
++	int ret;
 +
-+			usb2_phy1: phy@2400 {
-+				compatible = "st,stm32mp25-usb2phy1";
-+				reg = <0x2400 0x24>;
-+				#phy-cells = <0>;
-+				#clock-cells = <1>;
-+				clocks = <&rcc CK_KER_USB2PHY1>;
-+				resets = <&rcc USB2PHY1_R>;
-+				status = "disabled";
-+			};
-+
-+			usb2_phy2: phy@2800 {
-+				compatible = "st,stm32mp25-usb2phy2";
-+				reg = <0x2800 0xc>;
-+				#phy-cells = <0>;
-+				#clock-cells = <1>;
-+				clocks = <&rcc CK_KER_USB2PHY2EN>;
-+				resets = <&rcc USB2PHY2_R>;
-+				status = "disabled";
-+			};
- 		};
++	rtnl_lock();
++	ret = scnprintf(page, PAGE_SIZE, "%s\n", netdev_name(net));
++	rtnl_unlock();
++	return ret;
+ }
  
- 		pinctrl: pinctrl@44240000 {
+ CONFIGFS_ATTR_RO(f_phonet_, ifname);
 -- 
 2.53.0
 
