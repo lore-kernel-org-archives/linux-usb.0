@@ -1,69 +1,69 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A960F328B7F
-	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 14:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AA03DA5B0
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 14:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787408692; cv=none; b=kwTaf5d7yp+avvqtaiLIZ8TFrzwOpmqZgW//sgM/O3wDtiQGwy2BVpa4dZAeQX2k7HGDNtHbbenNsdEy/Ja/TlboHHOYK38j76yQgRtlRDXGzSYwN0iRdF1DQB5bOypXPYnyQ7Cc1oDwINLH+6fLcbe/TxkGffD5SKa3lNOYUcM=
+	t=1787408773; cv=none; b=raNBaSOxQS7AyeEVyxLwKOPWyUHSZGn3vCfsAI3O0gPTMwt8GZM4RsygGzkgfPrmRnwLL8Zl6sTSyN5a0PX6yUf7W9D1Et8kFdGGBRF6n5LcwlTF1kLyc8oOlEXLbM8PD4cH0kszBuGwzm6EaA5YDNnudZaJgIO/jbTvjn1E4rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787408692; c=relaxed/simple;
-	bh=eCKQa8sPvVLE0aadh+4FERv9QWuY2OaSqBKT6ngDEU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=UwxNe8AcS7VKtfnHXu7wn8lY8U3/VELnt/BcqD4gtEegPvXW5Tkl/xMelGLTAnEbp6RxuDsb/4erxSMpyc2++ipoTxSGPtD9c6HVc6yztjkOBMzrd/hFZjA0+KlHKQKhFgJmLUdoKYZS7wkt8fet7jSfhGjCi1XxdhmoV/q6YRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRZNVUgE; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1787408773; c=relaxed/simple;
+	bh=D9P13HZLz2tXpulE4iL5mbSlf5R4Da4cdrXGawoW90o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Psw2PXCRJtCzf0aXEtYIlB5ioRMwcvJlpE5vAPv2xDcyVJLBLCTgvHtU5aL4vGRD+Sj9c0kxmK2woU1QVkB35EX3BJ0q4bJthmi6YQfL3JqoxCkbK8rn0TJcmFKUlXs1IgDMLIxyH8hNiaKpJu7JyJK1xXZKJ+Lm293h2hzo3XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4KWgXFI; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRZNVUgE"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so29869485ad.1
-        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:24:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4KWgXFI"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ca12086c06eso1528109a12.0
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787408690; x=1788013490; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787408758; x=1788013558; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=v01jTITvsIhpWfIBYLPGITnVsOTLsugEpP/iOU7pKDs=;
-        b=ZRZNVUgEZaduFJEH9FnODqZj4I37AqTfwmqVsAuu7sFhmKoJsiSmMfq92Gt/5aGQPd
-         tIY6htAAPv9xZE2HDCzf4pMb2MtDXeZtKiw+nR4wKTfgT0tCTgrXG0VxMtEriNYsO8jN
-         x08Tv+fgdlne2ngY2lVMomTIoy3aaqSp69V+YZ7eWs50prokrr36OxY+OdhhhDwxrT3t
-         qWBT1riwNn5Hhj8wjKIjJ+95a49nQ2NgEy2cGs55N8QMUY+UH9PnzPVRh5unBmOTOgDA
-         smH9fJTh5oFaK52x4JjlHu2WkYd9jsN3JIACW3513weLf9VZwsHTlvbE7Nhh3paDzkdQ
-         K6Jw==
+        bh=lyWb3rtx8eCSA0XJUKHW0Z9SW4v0CMFCGQPdVFOD9AE=;
+        b=W4KWgXFIN+Vw/vpC3AZuZYPfepGGmnt3EOhR6PbpBisFylHN21uqTjcQN4GsHgy4Tf
+         Ssj71PgK1MAVzPKb6bS+FhHohXSX41zdzM8D4Uijl7PXJV/duA3liCAtUp7tvlazJnCu
+         NkrQS+Vv78RZXvu+bQvwSs5lz95MqzFoSC5y3bD3JCz7fVtaAG0g9rZhCSVgjAN+4TpD
+         Ub5IlM3boLHYM52cmx+Mkqsypj234vl8VeQ5Qau/jTibWpmgn1az2GsDS2HM6m0ay5iR
+         ClbpOdKZDi89m0c4D+M9Z6tYFOZO6V5aVvslNevSb7T0gPzuk/H6TKxXta/yoWYtKk4i
+         4LMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787408690; x=1788013490;
+        d=1e100.net; s=20251104; t=1787408758; x=1788013558;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v01jTITvsIhpWfIBYLPGITnVsOTLsugEpP/iOU7pKDs=;
-        b=nqiE2RNqziIJ5QcOEm8DVpZ4KBYqrOQ1CeYxhT7TLkQc4SUG7gIIHZoha4oCF28Ddh
-         +asVzGA9mSNIOu+8gZSMpat2oxmbJYmxk+iHxrQ/43nnenr59sVWeq+p0iJsld8gLiuz
-         XhOtbfGRf/S5IP9vyODsRDDGtKZvJ7rz4iovTdTrPdKukIoNk+T9SZmpmXtQB+4uRU0x
-         w/tWPLnEzIRTvgmrnf5Skw+PIUCgRd2fPPJvkYL4QehvWwP5MdmvvYVveW9QL2IknWDv
-         4YczkOzSCZ+duIQbKTFv+OJ+qA12FZJgLYZOqmMgLhTbkjwrnHBAR6ckU6ehaw/Uy8z9
-         smhA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro44dYgukyP7zWxBjwgjMHkOANox7O/qPF7ovG55qYSc8ZWIxXvo59FURih/n4SbvvLsqCk99mVcaE=@vger.kernel.org
-X-Gm-Message-State: AFuF++lG+/7cJKYvs5c0drfb3nJPEhG5Lr8RhVpsDSg+doSCowU5JkOi
-	QHZaSiU+UuDvp5tGK/yge110+G8CCH2c9djnuMxHrELr0xscimyeCVku
-X-Gm-Gg: AR+sD11dZ4FI3YHqHq/XZtHzGYQ1I5eAo8kzUQsrA1MVqdKqcIEZBu4SPOrhY43Hz+h
-	MF2n1zOQ9IvVAtFfEwBUzwvJuEKo1cS7HK9FtilEeWb4Tk+xISGDUvida8012jMxqTJl/0cp3tt
-	9Pw2ach6XLcINRVkZFHkV7JAIEf7bxreqhdTJaAfjyI4tUaseREHevTe03z+RMrEqpiH0dxrwbE
-	GPr8o1YpT0VfAHynMXxDyzVfntAh/nI7Ocs9TPcLTWvB8vIIz4oOs3VMrGRTMPsqNhLTtqe54Zw
-	q5sp8wCj5xmO0X+l66WmsjsFTSFYQP79BI0nrLkoLsVm51PrM/EFOmYjsZbc5zOIKcZ1HEq110f
-	TWxsNqsaH5Jz6/0V+oklbspJ45GQvG5/uGhJtMzVrvgM/vp3ZbTbustYRs6XV86uYx24nAIul/h
-	ntBoOAju7qnmxt5usVjkkBoO//ybtSMj/0bdgKcV6iyIk8EHBZI0li/QoLN4gTp/2NgCWjdcf7Q
-	ohWRYNQOR64pQAQ0Y/HkzONZpJHYivI8C2uxQ==
-X-Received: by 2002:a17:902:ceca:b0:2d6:6953:717b with SMTP id d9443c01a7336-2d670c81ef4mr96366965ad.10.1787408689821;
-        Sat, 22 Aug 2026 07:24:49 -0700 (PDT)
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lyWb3rtx8eCSA0XJUKHW0Z9SW4v0CMFCGQPdVFOD9AE=;
+        b=h4xWNpeJ9sGfCLh75UtcrFLjuOWro37UI78F/Nm8lEU77MG5mk0iqfpzMvmIOmQvmr
+         HqMKxHqT+NlycE1aftKfiUmJ6y352lOVRaDfU+pbpbXIxJ6zNs+DvA51JjtmNanFNyu1
+         uRmKMjCnH8Nhpdk5caHQbGZ1PffLIwqsJs9J2UfPpuHpRkNDugGR6AA1cj4wL7fDCDmj
+         H4dpUkS4mYaErbekRhGsOIn/hRCxmWDy564sgoS0dtqvMC8qGA2FCSFfngIMgIeDt8Ke
+         CJNIwMXTqSqMpABrpdnGz0VROLqcZhSZoIseBLn8J2H/F02NxYRmajCTfdYl/GdEMAVQ
+         sX5Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8tlDPWYu3nDs+EKFL/8jYjSMQJqPHv/pCRPTPNmDCfny6ctbQeNH/iUjqswng98nkpYUgxZ6RG1c=@vger.kernel.org
+X-Gm-Message-State: AFuF++nNJhEf0vconxCZyCzXnEhJSW39G1kvIAsOMX9fK/Sjy2lQnV8D
+	Qk5MQmejg4Q4VFOcUcyMjZibcdGChge6VNr0Ahh6k+0eca4RhWp2eijR
+X-Gm-Gg: AR+sD13aWW0BOpaSXW/AEyCN7u7uuNCuyV5GvZssGuqamkty9q9E8OiLbWdtZalclBJ
+	77FMo9lw7hL/Lo1RtLECKOR58oIAwr46pIZeWBOTDGwSq372JLzn8XyVu+G6J24vy7AUj8IyjCP
+	s3t9dGWs/WbaZv4xv0ahNhSJ9/asW/AbCyNFztlaVpj/IowXXwhiu1MLfouqoUoQMIWkrqb/hEl
+	8mdQSWKI3s7rBVf39q5rt4cMkhcw2PX65KgcTqJMxqtwFsFtwt0SfyOP2Nl/ULH6Q6DzpEWwbcC
+	qNTQKb8yTRczQgDWkqYLOpZsXt0lnWckR6iSa+vNxGjzTGyTz5NAGvIk+hrdjm2PwuG6LRw60l6
+	p9++v1c8SNYDRWDvoEtPbY+oZa6TRIs/r+850KD3NjMCRhuGooU0hcPluTctX9lj8PVwJGlD8dt
+	qe5+qNbY5HEwRMo8z4+Xba7uxn4IGOd8Yl7oq/diaoTZbfOa75NtfcohfMDaNjm6hJKzSitjNn3
+	ydoaF93WBbTaVyoTDE8SH6E3wOMUIWwDOL+PA==
+X-Received: by 2002:a05:6a21:8cc9:b0:3c3:a3f4:5485 with SMTP id adf61e73a8af0-3cd4ba0d216mr12137711637.6.1787408758156;
+        Sat, 22 Aug 2026 07:25:58 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f923f2c0sm11448999eec.30.2026.08.22.07.24.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f909adc8sm7995795eec.2.2026.08.22.07.25.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Aug 2026 07:24:49 -0700 (PDT)
+        Sat, 22 Aug 2026 07:25:57 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <df9b143b-42fd-44a0-b6e7-d66b6ecd51fe@roeck-us.net>
-Date: Sat, 22 Aug 2026 07:24:47 -0700
+Message-ID: <cfd8fe7e-77a3-477c-852d-de59fb5bb40c@roeck-us.net>
+Date: Sat, 22 Aug 2026 07:25:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -71,14 +71,15 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [hwmon?] KASAN: slab-out-of-bounds Read in aqc_raw_event
-To: Aleksa Savic <savicaleksa83@gmail.com>,
- syzbot <syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com>,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, me@jackdoan.com, syzkaller-bugs@googlegroups.com
-References: <6a891232.91706f20.16b6e3.02b0.GAE@google.com>
- <1506eaff-db5e-407a-a09c-d7a6b070c9cb@roeck-us.net>
- <2aabcaaa-f6b6-4375-a773-690305b1979f@gmail.com>
+Subject: Re: [PATCH v5] hwmon: (aquacomputer_d5next) valid the data size
+ before reading the sensor data
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: gregkh@linuxfoundation.org, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev, me@jackdoan.com,
+ savicaleksa83@gmail.com, syzkaller-bugs@googlegroups.com
+References: <tencent_6A66F77626CA5371C36D2968E3AEC4409705@qq.com>
+ <tencent_5F7DC370E96643AEA458177FB76E86C8F305@qq.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -124,56 +125,45 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <2aabcaaa-f6b6-4375-a773-690305b1979f@gmail.com>
+In-Reply-To: <tencent_5F7DC370E96643AEA458177FB76E86C8F305@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 8/22/26 01:07, Aleksa Savic wrote:
-> On 8/22/26 6:02 AM, Guenter Roeck wrote:
->> Aleksa,
->>
->> On 8/21/26 20:06, syzbot wrote:
->>> Hello,
->>>
->>> syzbot found the following issue on:
->>>
->>> HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of ssh:/..
->>> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/ gregkh/usb.git usb-testing
->>> console output: https://syzkaller.appspot.com/x/log.txt?x=16086e79580000
->>> kernel config:  https://syzkaller.appspot.com/x/.config? x=8bdeea7ee6735f91
->>> dashboard link: https://syzkaller.appspot.com/bug? extid=9ee5f5dc18673d6b2f37
->>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
->>> syz repro:      https://syzkaller.appspot.com/x/repro.syz? x=14737679580000
->>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a22549580000
->>>
->>> Downloadable assets:
->>> disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/ disk-e1e6e541.raw.xz
->>> vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/ vmlinux-e1e6e541.xz
->>> kernel image: https://storage.googleapis.com/syzbot-assets/ db2c3a41df6d/bzImage-e1e6e541.xz
->>>
->>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->>> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
->>>
->>> ==================================================================
->>> BUG: KASAN: slab-out-of-bounds in get_unaligned_be16 include/linux/ unaligned.h:48 [inline]
->>> BUG: KASAN: slab-out-of-bounds in aqc_raw_event drivers/hwmon/ aquacomputer_d5next.c:1345 [inline]
->>> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/ hwmon/aquacomputer_d5next.c:1327
->>
->> The problem is that syzkaller sends a bad (short) report.
->> aqc_raw_event() needs to validate the report size and bail out
->> if it is short. The fix should be straightforard if it is known
->> what the minimum report size is. D5NEXT_CTRL_REPORT_SIZE ?
->>
->> Thanks,
->> Guenter
+On 8/22/26 07:05, Edward Adam Davis wrote:
+> The user-forged sensor data is only 65 bytes long; however, aqc_raw_event()
+> fails to handle cases where the sensor data length is too small when reading
+> the data, resulting in [1] during the read process.
 > 
-> We do know sizes of control (setting) reports since we send them through priv->buffer, but aqc_raw_event() gets sensor reports and their length can vary per device. I don't have an exact list for all devices since I don't have them all myself. We'll need to verify that what we receive in aqc_raw_event() is >= the minimum offset we want to read sensor values from.
+> Add a data size check, if the size is less than that required for the
+> specific data item(includes: Physical/Virtual temperature sensor, Flow
+> sensor, Fan speed and related, etc.) to be read, abort the sensor data
+> read operation.
+> 
+> [1]
+> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
+> Read of size 2 at addr ffff888108aba257 by task swapper/1/0
+> Call Trace:
+>   get_unaligned_be16 include/linux/unaligned.h:48 [inline]
+>   aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
+>   aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
+>   __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
+>   hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
+>   __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
+>   usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+> 
+> Fixes: 0e35f63f7f4e ("hwmon: add driver for Aquacomputer D5 Next")
+> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
+> Tested-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+> v1 -> v2: change to check the data item and update comments
+> v2 -> v3: check all sub items and update subject
+> v3 -> v4: add speed and flow check
+> v4 -> v5: remove dbg msg and update comments
+> 
 
-Agreed. We'll need something like min_raw_report_size per device.
-It doesn't have to be accurate, just large enough to cover all values
-that are extracted from the report. I think for D5 that would be
-110 (D5NEXT_PUMP_OFFSET + 3), but I may have miscalculated it.
+Your code was and remains way too complicated.
 
-Thanks,
 Guenter
 
