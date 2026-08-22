@@ -1,200 +1,317 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECCB32B13B;
-	Sat, 22 Aug 2026 20:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE48493627
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 20:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787430430; cv=none; b=Pp885HY7dxI9RpI16FS/9Y47LO8FBtIkwSCmOxsA7zeg1HNtFFJGS50ojs4lFgDyxEjMIxTqmYiOOvQxpuzSFLf8AJBp5eK4jVCTX/FvMQQetQ0UqpxgToyv03LLQnNimK5WV5eOAzdJzSPaBk4wxBsgtAMpoVJmfcQd8y6+vKg=
+	t=1787431112; cv=none; b=QE81jYfwrvURMTtTdjKqgeJya5ddT5uB9Wzl+nTQ+0yYeXOkjIpZqviysAUe0hbd+VCE259IWfTEoPPT6/Q48/gsxOWNrIc0NJKSylflCKu2aKukXI6oeWOpbBAeHe+evKR9tm+lOFRJ8pshDKQGrtCLqCr9yH14VtPAOYKmbvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787430430; c=relaxed/simple;
-	bh=Jne0vSjTk8urRwY5DnbFtjbr5xlZHXztOyzs97q4oQY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dIYLrqYF1RS0v77X2N9gTIZQaQPB5QLHajfkAR5pUTme9sl6LdOP1oRinsfN2zUVV6phqRRD6K4LmcbPof8ul760OJ3r2VfOvjoRXEuSJesYOLSSBtC9bIbjZxiNOHcAYoM27VAI09L8eEgWWpvXuwCLSjMHxlXhhhpOCXGVMZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: d615d66c9e6711f19a56ed5b684f684d-20260823
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:90de4038-0780-4861-a7bc-a714c868c02c,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:9ba4a6d5fb5dd4ba335854e6e60fc36d,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d615d66c9e6711f19a56ed5b684f684d-20260823
-X-User: lihaofeng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lihaofeng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 547001008; Sun, 23 Aug 2026 04:27:03 +0800
-From: Haofeng Li <lihaofeng@kylinos.cn>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	xu.yang_2@nxp.com,
-	Randy Dunlap <rdunlap@infradead.org>,
-	hhhuuu@google.com,
-	kees@kernel.org,
-	kai.aizen.dev@gmail.com,
-	andriy.shevchenko@intel.com,
-	christophe.jaillet@wanadoo.fr,
-	dan.scally@ideasonboard.com,
-	linux-kernel@vger.kernel.org,
-	13266079573@163.com,
-	Haofeng Li <lihaofeng@kylinos.cn>
-Subject: [PATCH v2] usb: gadget: f_uvc: fix Extension Unit descriptor heap overflow
-Date: Sun, 23 Aug 2026 04:26:59 +0800
-Message-Id: <20260822202659.4168893-1-lihaofeng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260822194705.4151650-1-lihaofeng@kylinos.cn>
-References: <20260822194705.4151650-1-lihaofeng@kylinos.cn>
+	s=arc-20240116; t=1787431112; c=relaxed/simple;
+	bh=xasbg8xg0V6mGthcRH9BjgxbF+lt+jr2vn8oSbt+EtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GQ6C/DtkhonqSUufkvrZrl5omSVoRKjueDoAkReqTFki44023+2sH20XP73Rn0BOwpx5uhfD+DRjDa9Ujq8hgcV5vi0O/1ggebZ7fsZHC6abmYOJn9vor07t8DqvgkKuY9j/XqhUuX4zH5zilS9ic7eeFrYa/3xgiFBbeZbSqkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R4SorSJy; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R4SorSJy"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-836ccf53ef9so17680897b3.1
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 13:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787431110; x=1788035910; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c/0oonYeNYdcmlvpj9HRZq3vqMjbDlIOZXAp4v7qnLg=;
+        b=R4SorSJyx8vdsG2w2+waSm0h/E97IV8//WY7meWyWFfc3jvEZ/VZ8xW/b/zmGpoM/n
+         M/mSEyPxIfC4sfS9KgGfDAJ1YbUWbAb5LSdQV+XJDZDoDRdubDC4+FZ4pPk/nR7M65mW
+         /bkGR8RUEg5QkU0ZzzUfq9uXc8HjixD/9pLq8GBhcQFBrus6zm/J2R5H0cRun7dn3HD4
+         kUil0FMIOlI/a2/QbDjbkrjl1m+LLfWL5EHsImLtVHTu4gkLgzYDwYMgcVNHvAAxjDLF
+         /NuOwyhwoUmi3yWZiHa8eQuNc5FRWITtNcWznPd0Xwgo4TmhgxRwyiCfQM7puXB9u1vM
+         rJ9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787431110; x=1788035910;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=c/0oonYeNYdcmlvpj9HRZq3vqMjbDlIOZXAp4v7qnLg=;
+        b=Xck9qIRzd84HJMBKGvSkDrW8B9dSA4wjV0aQ4fMuK0gTlrzS0WgXggvIZVYAjn9tKx
+         ZMx9PVaG4ZpLtV47QyjSU02yKvCCo6p2+GhPOCkMom9N6Tbys08f/pNO3WCBF51elBNb
+         mEaSIsuKNxSrJAIMFV+No5gagdS6PCHps2mluKXlwNczTmM4Y5OaeJ8BATjRe076PWr3
+         aSy6DKqRDRGxV1lYXiO0aSg6i6+RGpSPB8wAMnCMUDda24AC9VIdRGxykFj1aj2sLu5u
+         nlbfhuW5H9nPb9cE/ZBW2hlD/m1cEZnILexOQiHAm/E2iivjp1faV8lxWJ0lY+9pErq1
+         o15A==
+X-Forwarded-Encrypted: i=1; AHgh+Rpwjhw4dkbAbIds7tzYpEFYcMyKSAoXar+B8vbc/ebI7Vo6EsWKDoJ5NnkRbL0JXQV4U10pVyXLV7o=@vger.kernel.org
+X-Gm-Message-State: AFuF++m/kVUiQ1o0Afm8zsv3714LcK5evbsElEjBCInoOSooQ9w3lw1r
+	HrSqobzCt0/dEVpTfjylnYjeGVqdOF14awbOtkWlMQDacZQbDloMVN9F
+X-Gm-Gg: AR+sD10WPXLOJZO/rnDgqiti4Zb+mMVdSanJlbF/ANrfSR6j3+mU8qnq567QG4gKVga
+	XGXsOkOxQEnkXenLWdyfFBYJajlh0nIaRUWtTbtcUIvfUf5EA763JTwOj1/m9ss7b2T0LNDcKR2
+	yOAP/Gs8g3i9tqJnRlGcZaiRmO0NiaAZxmXEIK2/3jmINGYzjwGyagg2uW4GnG7lWAvaBhWdYYB
+	+CrL71h+wiYRw0pLwC/5Gh1D58hsdP1OjdHZykwaank7+lB0vBOuhN/WNDE4q5DRIKUWjLIY1Vi
+	QfgT0s847ZORy1VG12mvr02P8t8I9yJT4fvE+yE61rs+T2ODWIHXnVhKOFY5uXDqqdpW3m10WQx
+	sOdf7DZkS1+50mlKKL+o1stS+lpx0lpPOCSBzjGuFXopjXnte5hZrwvBJ+QPTm4iIDw32xPBPsV
+	VJcxAvLcVvGTZCHdNSewsS7Hamr5OCZcZmYQ/7ZJ9Pv36qzuqtd/UcQt/I4VQrCM6DP+vddmUxw
+	KmrGoadMZx8gBpGegJsjUsmSQnPusxx+MY/l5w3PgkIBBXOvnmO5UyYeSItRgku5pCKmFqatqe5
+	3aIpG8IllSZR4Z+Wmd5yAQs6rEtKpR/K4+vVxLCOGdZ3luN8M9KsMyP+BAdVUbGZfm0jzd69SYB
+	w+yJOJlAmG/3uZPVGXHdWDtJZn79D48Cv9eD39kxK1EFcgLo0ofNCE323hXYjENJNvgzi2dhcUf
+	KMIJBXC8OcswfR4dua
+X-Received: by 2002:a05:690c:580d:b0:845:d58c:cc8 with SMTP id 00721157ae682-849f4a7ae61mr44731597b3.20.1787431109746;
+        Sat, 22 Aug 2026 13:38:29 -0700 (PDT)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (c-76-108-143-213.hsd1.fl.comcast.net. [76.108.143.213])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cac4ef4edsm14125047b3.45.2026.08.22.13.38.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2026 13:38:29 -0700 (PDT)
+From: Jason Colapietro <jasoncola1@gmail.com>
+To: shuah@kernel.org, skhan@linuxfoundation.org, valentina.manea.m@gmail.com
+Cc: greg@kroah.com, i@zenithal.me, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6] usbip: make remote list honor parsable output
+Date: Sat, 22 Aug 2026 16:38:28 -0400
+Message-ID: <178743110815.11397.14988078342421111980@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-An Extension Unit descriptor is 24 + bNrInPins + bControlSize bytes long
-(UVC_DT_EXTENSION_UNIT_SIZE(p, n)), where bNrInPins and bControlSize are
-configfs attributes each accepted over the full 0..255 range by
-kstrtou8().  uvc_configfs stores the computed size in the u8 bLength
-field of the descriptor, so once 24 + p + n exceeds 255 it silently
-wraps: p = n = 255 describes a 534-byte descriptor with bLength = 22.
+The -p option is accepted in every list mode and `usbip help list`
+documents it as "Parsable list format", but it only ever reached the
+local (-l) and gadget (-d) paths. list_exported_devices() never took
+the flag, so -r ignores it and always prints the human-readable report.
 
-uvc_copy_descriptors() reserves xu->desc.bLength bytes per Extension Unit
-in the descriptor buffer it allocates at bind time, but
-UVC_COPY_XU_DESCRIPTOR() copies the real descriptor contents, i.e.
-22 + bNrInPins + 1 + bControlSize + 1 bytes.  With the wrapped length the
-copy overruns the allocation by up to 512 bytes.
+Both commands below pass -p, and only the local one honors it:
 
-Attack chain (write access to a UVC gadget's configfs attributes; no
-race, no USB traffic, a single bind triggers it):
+  $ usbip list -p -l
+  busid=1-2#usbid=1a86:55d4#
+  busid=2-1#usbid=0627:0001#
 
-    echo 255 > .../functions/uvc.0/extensions/ext.0/b_nr_in_pins
-    echo 255 > .../functions/uvc.0/extensions/ext.0/b_control_size
-      -> uvcg_extension_b_nr_in_pins_store() /
-         uvcg_extension_b_control_size_store()
-      -> bLength = UVC_DT_EXTENSION_UNIT_SIZE(255, 255) wraps to 22
-    bind the gadget to a UDC
-      -> uvc_function_bind() -> uvc_copy_descriptors()
-      -> kmalloc() sized using the wrapped bLength: 22 bytes for the XU
-      -> UVC_COPY_XU_DESCRIPTOR() writes the real 534 bytes into that
-         slot (22-byte head, 255 baSourceID, bControlSize, 255
-         bmControls, iExtension)
-      -> heap out-of-bounds write during bind
+  $ usbip list -p -r localhost
+  Exportable USB devices
+  ======================
+   - localhost
+          2-3: ATECH FLASH TECHNOLOGY : Kingston SNA-DC/U (11b0:6298)
+             : /sys/devices/pci0000:00/0000:00:1d.7/usb2/2-3
+             : (Defined at Interface level) (00/00/00)
 
-Reproduced on 7.2.0+: a stock build (FORTIFY on) can derive the remaining
-allocation size at the bmControls memcpy and BUGs in __fortify_panic()
-during bind - a deterministic kernel crash; with FORTIFY disabled for the
-file, KASAN reports "slab-out-of-bounds Write of size 255" in
-uvc_copy_descriptors() against the kmalloc-192 descriptor buffer.
+`usbip list -r <host>` and `usbip list -p -r <host>` produce
+byte-identical output, so a script has to scrape the decorated report
+instead: the column padding, the " - <host>" banner, the blank line
+between devices and the per-interface lines. That is what the reporter
+hit in bugzilla 219502.
 
-Reject combinations whose descriptor does not fit into bLength at all four
-configfs entry points that can grow an Extension Unit (b_nr_in_pins,
-b_control_size, ba_source_id, bm_controls), and make uvc_copy_descriptors()
-refuse an Extension Unit whose bLength does not match its contents instead
-of overflowing the buffer.
+Use one file-scope flag for the list command and honor it in the remote
+listing path. Emit the same busid and usbid record used for local
+devices while continuing to consume every interface record from the
+server. After the change -r produces the record shape -l already does:
 
-Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
-Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
-Assisted-by: opencode:deepseek-v4-flash-free
+  $ usbip list -p -r 127.0.0.1
+  busid=1-1#usbid=0781:5583#
+  busid=1-2#usbid=046d:c52b#
+
+so the obvious loop works against a remote host:
+
+  for b in $(usbip list -p -r "$host" | sed 's/^busid=//; s/#.*//'); do
+          usbip attach -r "$host" -b "$b"
+  done
+
+Without -p the remote output is unchanged.
+
+Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
+Assisted-by: LLM
+Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
 ---
-Changes in v2:
-- reword a comment per Randy Dunlap: "The descriptor length must fit
-  into the one-byte bLength field".
+v5 -> v6:
+- Fold a condensed before/after into the commit message, as Shuah asked
+  for on v2. No code changes; the diff is identical to v5.
+- Restore the Assisted-by tag, in the format required by
+  Documentation/process/coding-assistants.rst. v2 carried it as
+  "Assisted-by: Codex:gpt-5", which predates that document.
 
- drivers/usb/gadget/function/f_uvc.c        |  6 ++++++
- drivers/usb/gadget/function/uvc_configfs.c | 25 ++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+Tooling disclosure, per Documentation/process/generated-content.rst: an
+AI coding assistant was used for the original code change, and in this
+revision to rewrite the commit message so it carries the before/after
+requested on v2. The code is byte-identical to v5. checkpatch.pl
+--strict reports no errors, and the patch applies cleanly with git am
+onto mainline.
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 73dc7e42875f..0d3432f80cae 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -598,6 +598,12 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+v4 -> v5:
+- Drop Cc: stable@vger.kernel.org. This changes the user-visible output
+  of "usbip list -r -p", so it is not a stable backport candidate.
+
+v3 -> v4:
+- Make parsable file-scope instead of passing it through list helpers.
+- Drop the option-ordering change to preserve existing behavior.
+
+Two behaviours I checked beyond the output quoted above:
+
+- The connection stays in sync. Interface records are still read from
+  the socket in parsable mode, only the printf is suppressed. To confirm
+  that rather than assert it, I had the test server withhold the final
+  4-byte usbip_usb_interface record for 3 seconds: the patched client
+  with -p blocks for the full 3 seconds, so it really is draining every
+  record.
+
+- With no exported devices, -p prints nothing on stdout ("no exportable
+  devices found on <host>" still goes to stderr), so stdout stays clean.
+
+Testing disclosure: my checkout is on macOS, so I have not run a native
+USB/IP stack end to end. The output above comes from building the real
+usbip_list.c, usbip_network.c, usbip_common.c and names.c against a stub
+libudev -- the remote path never calls udev, and the stubs abort if
+reached -- and pointing that binary at a small mock usbipd answering
+OP_REQ_DEVLIST with a real OP_REP_DEVLIST payload. The -p -l side is a
+second build with a fake udev backend presenting the same devices. So it
+is the real listing path over a real socket, but not usbip-host or
+usbip-vudc on hardware. I am happy to redo the runs on a Linux box, or
+to wait for someone with a usbip setup to confirm, before this goes in.
+
+v5: https://lore.kernel.org/r/20260816041518.48053-1-jasoncola1@gmail.com
+v4: https://lore.kernel.org/r/20260812210326.21485-1-jasoncola1@gmail.com
+ tools/usb/usbip/src/usbip_list.c | 48 +++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 19 deletions(-)
+
+diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
+index 3d810bcc..482f11d7 100644
+--- a/tools/usb/usbip/src/usbip_list.c
++++ b/tools/usb/usbip/src/usbip_list.c
+@@ -36,6 +36,8 @@ static const char usbip_list_usage_string[] =
+ 	"    -l, --local            List the local USB devices\n"
+ 	"    -d, --device           List the local USB gadgets bound to usbip-vudc\n";
+ 
++static bool parsable;
++
+ void usbip_list_usage(void)
+ {
+ 	printf("usage: %s", usbip_list_usage_string);
+@@ -80,9 +82,11 @@ static int get_exported_devices(char *host, int sockfd)
+ 		return 0;
  	}
  
- 	list_for_each_entry(xu, uvc->desc.extension_units, list) {
-+		/* Mismatched bLength would overflow the buffer sized after it */
-+		if (xu->desc.bLength !=
-+		    UVC_DT_EXTENSION_UNIT_SIZE(xu->desc.bNrInPins,
-+					       xu->desc.bControlSize))
-+			return ERR_PTR(-EINVAL);
-+
- 		control_size += xu->desc.bLength;
- 		bytes += xu->desc.bLength;
- 		n_desc++;
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 70a1415ea401..d5ba9c409983 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -845,6 +845,15 @@ static ssize_t uvcg_extension_b_num_controls_store(struct config_item *item,
+-	printf("Exportable USB devices\n");
+-	printf("======================\n");
+-	printf(" - %s\n", host);
++	if (!parsable) {
++		printf("Exportable USB devices\n");
++		printf("======================\n");
++		printf(" - %s\n", host);
++	}
+ 
+ 	for (i = 0; i < reply.ndev; i++) {
+ 		memset(&udev, 0, sizeof(udev));
+@@ -98,9 +102,14 @@ static int get_exported_devices(char *host, int sockfd)
+ 		usbip_names_get_class(class_name, sizeof(class_name),
+ 				      udev.bDeviceClass, udev.bDeviceSubClass,
+ 				      udev.bDeviceProtocol);
+-		printf("%11s: %s\n", udev.busid, product_name);
+-		printf("%11s: %s\n", "", udev.path);
+-		printf("%11s: %s\n", "", class_name);
++		if (parsable) {
++			printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
++			       udev.idVendor, udev.idProduct);
++		} else {
++			printf("%11s: %s\n", udev.busid, product_name);
++			printf("%11s: %s\n", "", udev.path);
++			printf("%11s: %s\n", "", class_name);
++		}
+ 
+ 		for (j = 0; j < udev.bNumInterfaces; j++) {
+ 			rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
+@@ -116,10 +125,12 @@ static int get_exported_devices(char *host, int sockfd)
+ 					uintf.bInterfaceClass,
+ 					uintf.bInterfaceSubClass,
+ 					uintf.bInterfaceProtocol);
+-			printf("%11s: %2d - %s\n", "", j, class_name);
++			if (!parsable)
++				printf("%11s: %2d - %s\n", "", j, class_name);
+ 		}
+ 
+-		printf("\n");
++		if (!parsable)
++			printf("\n");
+ 	}
+ 
+ 	return 0;
+@@ -150,7 +161,7 @@ static int list_exported_devices(char *host)
  }
- UVCG_EXTENSION_ATTR(b_num_controls, bNumControls);
  
-+/* The descriptor length must fit into the one-byte bLength field */
-+static int uvcg_extension_check_size(u8 nr_in_pins, u8 control_size)
-+{
-+	if (UVC_DT_EXTENSION_UNIT_SIZE(nr_in_pins, control_size) > 255)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
- /*
-  * In addition to storing bNrInPins, this function needs to realloc the
-  * memory for the baSourceID array and additionally expand bLength.
-@@ -877,6 +886,10 @@ static ssize_t uvcg_extension_b_nr_in_pins_store(struct config_item *item,
- 		goto unlock;
- 	}
+ static void print_device(const char *busid, const char *vendor,
+-			 const char *product, bool parsable)
++			 const char *product)
+ {
+ 	if (parsable)
+ 		printf("busid=%s#usbid=%.4s:%.4s#", busid, vendor, product);
+@@ -158,13 +169,13 @@ static void print_device(const char *busid, const char *vendor,
+ 		printf(" - busid %s (%.4s:%.4s)\n", busid, vendor, product);
+ }
  
-+	ret = uvcg_extension_check_size(num, xu->desc.bControlSize);
-+	if (ret)
-+		goto unlock;
-+
- 	tmp_buf = krealloc_array(xu->desc.baSourceID, num, sizeof(u8),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!tmp_buf) {
-@@ -930,6 +943,10 @@ static ssize_t uvcg_extension_b_control_size_store(struct config_item *item,
- 		goto unlock;
- 	}
+-static void print_product_name(char *product_name, bool parsable)
++static void print_product_name(char *product_name)
+ {
+ 	if (!parsable)
+ 		printf("   %s\n", product_name);
+ }
  
-+	ret = uvcg_extension_check_size(xu->desc.bNrInPins, num);
-+	if (ret)
-+		goto unlock;
-+
- 	tmp_buf = krealloc_array(xu->desc.bmControls, num, sizeof(u8),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!tmp_buf) {
-@@ -1055,6 +1072,10 @@ static ssize_t uvcg_extension_ba_source_id_store(struct config_item *item,
- 	if (ret)
- 		goto unlock;
+-static int list_devices(bool parsable)
++static int list_devices(void)
+ {
+ 	struct udev *udev;
+ 	struct udev_enumerate *enumerate;
+@@ -229,8 +240,8 @@ static int list_devices(bool parsable)
+ 					strtol(idProduct, NULL, 16));
  
-+	ret = uvcg_extension_check_size(n, xu->desc.bControlSize);
-+	if (ret)
-+		goto unlock;
-+
- 	iter = source_ids = kcalloc(n, sizeof(u8), GFP_KERNEL);
- 	if (!source_ids) {
- 		ret = -ENOMEM;
-@@ -1134,6 +1155,10 @@ static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
- 	if (ret)
- 		goto unlock;
+ 		/* Print information. */
+-		print_device(busid, idVendor, idProduct, parsable);
+-		print_product_name(product_name, parsable);
++		print_device(busid, idVendor, idProduct);
++		print_product_name(product_name);
  
-+	ret = uvcg_extension_check_size(xu->desc.bNrInPins, n);
-+	if (ret)
-+		goto unlock;
-+
- 	iter = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
- 	if (!bm_controls) {
- 		ret = -ENOMEM;
+ 		printf("\n");
+ 
+@@ -246,7 +257,7 @@ err_out:
+ 	return ret;
+ }
+ 
+-static int list_gadget_devices(bool parsable)
++static int list_gadget_devices(void)
+ {
+ 	int ret = -1;
+ 	struct udev *udev;
+@@ -307,8 +318,8 @@ static int list_gadget_devices(bool parsable)
+ 					le16toh(idProduct));
+ 
+ 		/* Print information. */
+-		print_device(busid, idVendor_buf, idProduct_buf, parsable);
+-		print_product_name(product_name, parsable);
++		print_device(busid, idVendor_buf, idProduct_buf);
++		print_product_name(product_name);
+ 
+ 		printf("\n");
+ 
+@@ -333,7 +344,6 @@ int usbip_list(int argc, char *argv[])
+ 		{ NULL,       0,                 NULL,  0  }
+ 	};
+ 
+-	bool parsable = false;
+ 	int opt;
+ 	int ret = -1;
+ 
+@@ -354,10 +364,10 @@ int usbip_list(int argc, char *argv[])
+ 			ret = list_exported_devices(optarg);
+ 			goto out;
+ 		case 'l':
+-			ret = list_devices(parsable);
++			ret = list_devices();
+ 			goto out;
+ 		case 'd':
+-			ret = list_gadget_devices(parsable);
++			ret = list_gadget_devices();
+ 			goto out;
+ 		default:
+ 			goto err_out;
 -- 
-2.25.1
+2.50.1 (Apple Git-155)
+
 
