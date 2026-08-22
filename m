@@ -1,45 +1,44 @@
 Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0203905F4;
-	Sat, 22 Aug 2026 07:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F28439D6DA;
+	Sat, 22 Aug 2026 07:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787384956; cv=none; b=HtpYt0xhNferfUDvvX/juR3X7TwxjOd0UGkRjbKHazjNVriQv7U8l+9KhksvArkjcKM1M5L3e5ocjGV8+6/brSSfE9iJtKLMnO47luxFCVk3AH1e4pLSNW8Zw6wbkjWl/hAxxgpYzCOU5eXaRoiMBYoQ2FyYLOExYM2qhYHRHCw=
+	t=1787384961; cv=none; b=f/S8UUWXhWi0OIdq+Z+/fvmcNoYLe2/7enVrkwYZBasDR9Ll48Zmy7N06/t9PmPnL6uwRHz/qDUmJy9xvuebrO+5lqFhLY5lVSs7PoG9yP9Z/4dPJa7AY+snRjuI8FoRMr1hbc7x/UKNG43XxHJ7KFil3VM/lxtXGMQTdDZwgjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787384956; c=relaxed/simple;
-	bh=oYGopDZtlez8Lg9IrQfwe3oP/GawgCa43UVMfMdy5sA=;
+	s=arc-20240116; t=1787384961; c=relaxed/simple;
+	bh=lo+bVsOiYO/Z2VxIj1b0oDGqFL0Lti58jQnXmOd1qC4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cY0fduhKDKokZvuqMw6PBfrEGdagXHxnpfmFiB7Wg0h4VcJhLYZQl0Dfn4BpeKjX12atjwLzmkmwLpjHd+lW4Wm+yJBhPMLGFN/EQ0toKRz4CxYrZdyR2ivQdxls8LqiFtwHETeb+R034KrZq2CEbj0eMoOkk2M5DPGRU3zF94s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=cbo9CniP; arc=none smtp.client-ip=178.251.229.89
+	 MIME-Version; b=TOH6xQKkQXAYvRDoMc6e3TXzHqtriaqeyxQhkbsQ0bwcU5hKpczJrrRG6fpRhQiKBnz/V/MQfn4HGn3mwTNYivCR+/Rj6YYmtPcx6BJDtBN3HgaCP2vfFSybdb1UIoVANPLoxq6glArQswUrmpT54mWdHTK9GQMhspQXyxmKXhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=i/SXzMS2; arc=none smtp.client-ip=178.251.229.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="cbo9CniP"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 457FA11C81C;
-	Sat, 22 Aug 2026 09:49:07 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="i/SXzMS2"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A91EB11C820;
+	Sat, 22 Aug 2026 09:49:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787384948; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1787384953; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=iBhqzMVK5zne1S+uuCopXVke1Xrx6/v2FxnVelrP7A4=;
-	b=cbo9CniPneGqLQ+3ou3fWIwu7D3bQ+UoK6xdmhAy5rbbD3n1zUDQmDMRr+HBYmojY+MmXW
-	vO+GsEvesHtYeWQSqgjCNyM4JSht8KPQNRpd50KBy1GfsNgqNf02yCiVzZMexAyi/PvgRH
-	vJ/xa2rip71/W0+Pf/Vk2wZdH90e0thCcAcIW70ns0uuaAr3Txvy0DbD07t/qwwrSdrmJk
-	hHjD57CoEzML5AbNWQfTojEBwBAD3cSNO4gpAZeSTJXoEOgLCRl3KfgNxBjYeGJ3tko6+t
-	ri09T+/C0QsmHwOEnaorXApnHWzS1BR5HJEpAZ+k4Qc3xykyvP5kfIaTvQkWWw==
+	bh=wof+pJXbG+zlMHLSCaXku6i83ZCIZasPbrJqZbEELpI=;
+	b=i/SXzMS2497Cc0QdRlNDbeEU+Rjr90khaCqVDwmkNLiyuE4YbxeUlT36FVfeAn9tdD+kay
+	QEDR0EjhKXcMG9HMOeYwNWe2FuUrX+qUeNMmIBUINrgTvJm/kCrmCrDtqb1n6Y1E0SwdLU
+	QBkWiE8xiawG+heEtjif4+UF7C8Y1a9Epsvtl8CDLGrFkl3lp3hyeC+le5hwdhQqxRM1aT
+	P8H4xOv+AEgw1iCj2NazF0Zf7VB27tgjwNxTsXlXvI7nGDS+BuLZFSv8anvYjRF35IhVlg
+	l5qt2z9jH8fWY58WSCSm69gpA8cJGivp2zaGa0hGkPWP+FtbmikeuaYV5mcJiw==
 From: Marek Vasut <marex@nabladev.com>
 To: linux-usb@vger.kernel.org
 Cc: fabrice.gasnier@foss.st.com,
+	Pankaj Dev <pankaj.dev@st.com>,
 	Marek Vasut <marex@nabladev.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Francois Choleau <francois.choleau@st.com>,
 	Christian Bruel <christian.bruel@foss.st.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pankaj Dev <pankaj.dev@st.com>,
 	Rahul Kumar <rahul.kumar05@st.com>,
 	Rob Herring <robh@kernel.org>,
 	Rosen Penev <rosenp@gmail.com>,
@@ -51,9 +50,9 @@ Cc: fabrice.gasnier@foss.st.com,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v3 8/9] arm64: dts: st: Add USB nodes on stm32mp231
-Date: Sat, 22 Aug 2026 09:46:41 +0200
-Message-ID: <20260822074816.548662-9-marex@nabladev.com>
+Subject: [PATCH v3 9/9] arm64: dts: st: Add USB nodes on stm32mp251
+Date: Sat, 22 Aug 2026 09:46:42 +0200
+Message-ID: <20260822074816.548662-10-marex@nabladev.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260822074816.548662-1-marex@nabladev.com>
 References: <20260822074816.548662-1-marex@nabladev.com>
@@ -66,14 +65,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add USB controller and PHY nodes to stm32mp231 DT.
+From: Pankaj Dev <pankaj.dev@st.com>
+
+Add USB controller and PHY nodes to stm32mp251 DT.
 This includes two USB 2.0 FEMTO PHYs, USB 2.0 host
 controller and DWC3 DRD controller nodes.
 
-Co-developed-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Co-developed-by: Francois Choleau <francois.choleau@st.com>
-Signed-off-by: Francois Choleau <francois.choleau@st.com>
+Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
+Co-developed-by: Marek Vasut <marex@nabladev.com>
 Signed-off-by: Marek Vasut <marex@nabladev.com>
 ---
 Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
@@ -100,31 +99,22 @@ Cc: linux-usb@vger.kernel.org
 ---
 V2: - Fix up Sob/Cdb lines
     - Move PHY into syscfg subnode
-    - Turn st,stm32mp23-syscfg into simple-mfd
+    - Turn st,stm32mp25-syscfg into simple-mfd
     - Use clock-cells = <1> to discern OSC and future PLL clock from the PHY
-V3: - Drop combophy which is not present on MP23
-    - Describe OHCI clock as the CMN clock
+V3: - Describe OHCI clock as the CMN clock
+    - Fix up Sob/Cdb lines further
 ---
- arch/arm64/boot/dts/st/stm32mp231.dtsi | 67 +++++++++++++++++++++++++-
- 1 file changed, 66 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/st/stm32mp251.dtsi | 65 +++++++++++++++++++++++++-
+ 1 file changed, 64 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp231.dtsi b/arch/arm64/boot/dts/st/stm32mp231.dtsi
-index 4505fc0e3b537..314a514f31024 100644
---- a/arch/arm64/boot/dts/st/stm32mp231.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp231.dtsi
-@@ -7,6 +7,7 @@
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/regulator/st,stm32mp25-regulator.h>
- #include <dt-bindings/reset/st,stm32mp25-rcc.h>
-+#include <dt-bindings/phy/phy.h>
- 
- / {
- 	#address-cells = <2>;
-@@ -862,6 +863,48 @@ stmmac_axi_config_1: stmmac-axi-config {
- 					snps,wr_osr_lmt = <0x7>;
+diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+index 6e985f115b195..dd2f7ddd9b634 100644
+--- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
++++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+@@ -1746,6 +1746,47 @@ stmmac_axi_config_1: stmmac-axi-config {
  				};
  			};
-+
+ 
 +			usbh_ohci: usb@482e0000 {
 +				compatible = "generic-ohci";
 +				reg = <0x482e0000 0x1000>;
@@ -159,22 +149,22 @@ index 4505fc0e3b537..314a514f31024 100644
 +					 <&rcc CK_KER_USB2PHY2>;
 +				clock-names = "ref", "bus_early", "suspend";
 +				interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>;
-+				maximum-speed = "high-speed";
-+				phys = <&usb2_phy2>;
-+				phy-names = "usb2-phy";
++				phys = <&usb2_phy2>, <&combophy PHY_TYPE_USB3>;
++				phy-names = "usb2-phy", "usb3-phy";
 +				resets = <&rcc USB3DR_R>;
 +				st,syscfg = <&syscfg 0x4800>;
 +				status = "disabled";
 +			};
- 		};
- 
- 		bsec: efuse@44000000 {
-@@ -1062,9 +1105,31 @@ exti1: interrupt-controller@44220000 {
++
+ 			pcie_ep: pcie-ep@48400000 {
+ 				compatible = "st,stm32mp25-pcie-ep";
+ 				reg = <0x48400000 0x100000>,
+@@ -2002,9 +2043,31 @@ exti1: interrupt-controller@44220000 {
  		};
  
  		syscfg: syscon@44230000 {
--			compatible = "st,stm32mp23-syscfg", "syscon";
-+			compatible = "st,stm32mp23-syscfg", "syscon", "simple-mfd";
+-			compatible = "st,stm32mp25-syscfg", "syscon";
++			compatible = "st,stm32mp25-syscfg", "syscon", "simple-mfd";
  			reg = <0x44230000 0x10000>;
  			#clock-cells = <0>;
 +			#address-cells = <1>;
