@@ -1,32 +1,32 @@
 Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574C139CD07;
-	Sat, 22 Aug 2026 07:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92DB391E4B;
+	Sat, 22 Aug 2026 07:48:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787384928; cv=none; b=S+6qm4UD4QJETphf7aIB/jLmYj7tAMIYsEIUWaplEe4Hkx6/AlDYGYQztjb/JZ5imCGScybhyGbssk7T1e/UrUMCbtNS5dZL6zkLNA+OS1KEEdy10yyIm75oEiBf4iqwE5Xb9PxzLQIqvxcYyS49uKZwHHnX17dqj67c/dAA9zw=
+	t=1787384934; cv=none; b=ju6M6Cf7jVmZvEZf2CHWPi48OHzAYM9X/WH+eQu3djPdXuDBGpLWRC9hEvAzLGmAWHCroOcIYvLyMLwxHqPiaYwMbwf9u5qipomf/k1bPyrHboLFJIRnRe3ItvzQ2/nJ1hOw46h6kzoODO3QjoYkfS7IGKbsZdGt65CGLVisTYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787384928; c=relaxed/simple;
-	bh=If2FdZ9BGo1yLUfe0QteMQiFtqkY7f1v4K1/I3pzohw=;
+	s=arc-20240116; t=1787384934; c=relaxed/simple;
+	bh=eQZzTX69ZNqNqAVNaiEOHKkGcpWQykz0c0VoBBtx8WY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lb9jnTru/DH9D6vG46++I+YOeo4WlqF8MaI1T7WyCSxBrKfw72RrszXe6bJboi/x46huc8Yx8muHoanjAxLaL+pTZBG3xVJLERc52VXfUymHHfB7w95QCdSUhf5FvpXVvLnK/De5MeGaa+LeXJjSG4gx3jKZqSDTXjncyfttbOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=bT1KYw9m; arc=none smtp.client-ip=178.251.229.89
+	 MIME-Version; b=b2aSI7pQnkED3xJ28FVAF7Uw/SBAINYPnAai2pCOW3CVIC+ZaIX1j9t1+WErf2N79WNNWNJpfpH5dadlDCzrzu/FXQ6gGr5PbtcBdzQrI15zdY+hNsazHoX9mmVGx8ElZcFpgtkfttk/ibsxacz6SUoo1nlcufuh51GLk+MAbUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=hxqyHfyc; arc=none smtp.client-ip=178.251.229.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="bT1KYw9m"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4BCD111C814;
-	Sat, 22 Aug 2026 09:48:40 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="hxqyHfyc"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D7BF411C817;
+	Sat, 22 Aug 2026 09:48:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787384921; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1787384926; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=dHGNNdjbX2tcoPtYPHkVrNbZLNhLOGaAgeIztRF8jLc=;
-	b=bT1KYw9mntE9tY1XNkNwqA1habI1lUnirgFsZeHcc8peXSwITWlHphNPPELgwwR5OI6BEd
-	g2aBHRmLKWs8gce7qanmB4Vnyo2iglC5rjCROWX1QH48Mr4kfAC7T8MqfD5aFRw8ZC/LCd
-	H2yDRbMpvQtrC0C/IWkZIAW4fvNyf6lskcRV9VFYMGUtR5nDr5LAwdSvJ7NYKZaeS3zNB0
-	d+RwyxFYw+KV2k/e7NXHfJJQJWqgh32HPpTwNjKjEVENKGwT5KYJjZt5yDph2Tn11pjEe9
-	uyPMEdgLmXORXTTZ0vo3+KDKgJgRnKOh+0h5fj2bU5QfwmMg2lpcw0LFeelmVA==
+	bh=oSf/Qc+FVc/kqJH918JkgIf54jA4VBkL3h/ZDBCPZbQ=;
+	b=hxqyHfycLXWCe1z+CA64ka4fT/oY2RmS4jJsP6+qVvd9+JuMRPLZyW8Zx88kzoGBzUCc/u
+	ujUIGoJJMJBmNPXe/MJ2JyZEdqEObr/iYucJGJyYhsNOYiGPyYpug5jHBtSYxBfBIxAFvU
+	PbNszxxGjbkm1woedkd0MSqK/kPKo1asNvZeDZwIx6GbzVFhn/KRbGHUJf+Xbt/No/EjyO
+	ZVQAta6bn9bXUe0cYG23kIVeV590xYeULeVlhGmOI2UPZK/qxghinGmXJEv3E2mu50WKC1
+	/JRmvmAQA0tCMRJ6Em7MxLX7p7i9nvFsg0V8PnAbeSxMSdvaeWyXIKB691MfJA==
 From: Marek Vasut <marex@nabladev.com>
 To: linux-usb@vger.kernel.org
 Cc: fabrice.gasnier@foss.st.com,
@@ -50,9 +50,9 @@ Cc: fabrice.gasnier@foss.st.com,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v3 3/9] dt-bindings: usb: generic-ehci: Document access-controllers property
-Date: Sat, 22 Aug 2026 09:46:36 +0200
-Message-ID: <20260822074816.548662-4-marex@nabladev.com>
+Subject: [PATCH v3 4/9] dt-bindings: usb: generic-ohci: Document access-controllers property
+Date: Sat, 22 Aug 2026 09:46:37 +0200
+Message-ID: <20260822074816.548662-5-marex@nabladev.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260822074816.548662-1-marex@nabladev.com>
 References: <20260822074816.548662-1-marex@nabladev.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Document the access-controllers for EHCI USB controllers in case
+Document the access-controllers for OHCI USB controllers in case
 access checks need to be performed to use them.
 
 Signed-off-by: Marek Vasut <marex@nabladev.com>
@@ -95,16 +95,16 @@ Cc: linux-usb@vger.kernel.org
 V2: No change
 V3: No change
 ---
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 3 +++
+ Documentation/devicetree/bindings/usb/generic-ohci.yaml | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index ae9fb70d0212c..6bca56681cdfe 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -80,6 +80,9 @@ properties:
-     minItems: 1
-     maxItems: 2
+diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+index 322808aaa2839..8e3522a3faa76 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+@@ -65,6 +65,9 @@ properties:
+   reg:
+     maxItems: 1
  
 +  access-controllers:
 +    maxItems: 1
