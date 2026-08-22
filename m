@@ -1,75 +1,147 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD30368263;
-	Sat, 22 Aug 2026 20:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE84433A9CB;
+	Sat, 22 Aug 2026 20:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787428891; cv=none; b=iNUlnDK+a1Y4tJgLds2RoyKW27hMX4v6/I3PZh23vsi1y0WO/pa5aqcCpmDUu14aPsKOVnxbagC7/CCViKwQIjC/APJpD8gi6k1/jE9GOzbGp/wjaY7pArV/guRB5L2pMeV8RxJB1RjWQgiBWXxYo5207N1rIWmmMSDk9vmGvCc=
+	t=1787430187; cv=none; b=cU32Aob/bD6e7QQtqMB+FABLr4s7N2gGlHuVN+rLDYeNYStcMhJ7D68IFbylqAD7YotIPI94Txu992bPdPdoXPS6YhAvN7hTXGfhQUDQwfGDQbmUoTWtMZXOGOfJ4EMJenE5gyqGkYqG9s+KkFL9OW1bwBWP0SzBhyVAZHGCVzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787428891; c=relaxed/simple;
-	bh=4w2TKp3z3xfToHE6p+N0VHmScZDsashSRE/FsEMIaSE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mBWhlSr3MFpZaXiX+9mXQggo4IzP4b0E52W+h6VnUnOjAMF/6l6quHHkmvLA7sGuxjhbVo84DTtk/patDYg3Ll8APHyxjgMnTAnRpCC+7VQ4T7X/PAV+8IK8/ViYQKoWz2WxbUhyCIghQrJ7F9dIDhjSznAxNF5VPg/rhS9hD5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b/cJBHEt; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b/cJBHEt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=n4ShKP9zyoA3Kx+vFqTOd8FRYE2qHo6HeEdDzOzbmTY=; b=b/cJBHEtD36dClLtkdbttCMsHI
-	JbQPu5F1Gxq7ky0MTzTUIlmg2rCPorn7+f6VXsi7H+OXW0cwLJIfVA2iIBwKegtqjOrli7HzaEwi4
-	ZI12bHj4KW+Mxy0368XWM7juJXW35C9ueIi7a1HJnLutl646YVF0TfbQrd/fN5JHLSFEp2MolT0Zh
-	iA625ynoqQWWG+VNo5FaJAlDrQwXa9RVHBuN9gejkcicZsYkL/zuUg46ru7pPE7BdMEP0F4YcyY/h
-	NqHQsLBM0Ra89zcgSpxVFFDH6aAgTM+W0SrMpOZspUpi/Vjfr5Mo67Dj1oeNPc6MkvC1u2OEDqh4p
-	J1u3LGfQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxru4-0000000Elco-0Zix;
-	Sat, 22 Aug 2026 20:01:20 +0000
-Message-ID: <bccf64d8-d7f2-46e9-b3e2-5605decad9d6@infradead.org>
-Date: Sat, 22 Aug 2026 13:01:19 -0700
+	s=arc-20240116; t=1787430187; c=relaxed/simple;
+	bh=i1/OdJTULeQadISS4NWY/R3kadShy8DLHMx2FwyChZw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pD6rUguFEr3vtSZXGMxGhfeLsc4KI2bcTPQjJihCrxdRfXAIrd0EGRqaUJYkE5dwn0lfyBJbx8JzmFU+7tGUXQVj7vernRW5Vvjt6JxG3NLbj3SQ6+vc4q2nPUeGyJg4ltJ4iwOndhjRWCOj0BMFzNn0HeyCqEXEH/sz+seeaRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from wasted (91.78.19.215) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Sat, 22 Aug
+ 2026 23:22:52 +0300
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>
+CC: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+Subject: [PATCH] r8152: simplify loops in generic_ocp_{read,write}()
+Date: Sat, 22 Aug 2026 23:21:54 +0300
+Message-ID: <20260822202155.18632-1-s.shtylyov@auroraos.dev>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: gadget: f_uvc: fix Extension Unit descriptor heap
- overflow
-To: Haofeng Li <lihaofeng@kylinos.cn>, gregkh@linuxfoundation.org,
- xu.yang_2@nxp.com
-Cc: hhhuuu@google.com, kees@kernel.org, kai.aizen.dev@gmail.com,
- andriy.shevchenko@intel.com, christophe.jaillet@wanadoo.fr,
- dan.scally@ideasonboard.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, 13266079573@163.com
-References: <20260822194705.4151650-1-lihaofeng@kylinos.cn>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260822194705.4151650-1-lihaofeng@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
 
+In generic_ocp_{read,write}(), the *while* loops look very strange:
+the last iteration is executed differently to the prior ones, doing
+some useless assignments before *break*. Move the code for the last
+iteration out of the loop bodies, dropping the pointless statements
+as well...
 
+Found by Linux Verification Center (linuxtesting.org) with the Svace
+static analysis tool.
 
-On 8/22/26 12:47 PM, Haofeng Li wrote:
-> +/* The descriptor must fit into the one-byte bLength field */
+Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
 
-          descriptor length must fit
-?
+---
+ drivers/net/usb/r8152.c | 67 ++++++++++++++++-------------------------
+ 1 file changed, 26 insertions(+), 41 deletions(-)
 
-> +static int uvcg_extension_check_size(u8 nr_in_pins, u8 control_size)
-> +{
-> +	if (UVC_DT_EXTENSION_UNIT_SIZE(nr_in_pins, control_size) > 255)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index f61686433031..de9738bdce85 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -1431,27 +1431,19 @@ static int generic_ocp_read(struct r8152 *tp, u16 index, u16 size,
+ 	if ((u32)index + (u32)size > 0xffff)
+ 		return -EPERM;
+ 
+-	while (size) {
+-		if (size > limit) {
+-			ret = get_registers(tp, index, type, limit, data);
+-			if (ret < 0)
+-				break;
+-
+-			index += limit;
+-			data += limit;
+-			size -= limit;
+-		} else {
+-			ret = get_registers(tp, index, type, size, data);
+-			if (ret < 0)
+-				break;
++	while (size > limit) {
++		ret = get_registers(tp, index, type, limit, data);
++		if (ret < 0)
++			goto error1;
+ 
+-			index += size;
+-			data += size;
+-			size = 0;
+-			break;
+-		}
++		index += limit;
++		data += limit;
++		size -= limit;
+ 	}
+ 
++	ret = get_registers(tp, index, type, size, data);
++
++error1:
+ 	if (ret == -ENODEV)
+ 		rtl_set_unplug(tp);
+ 
+@@ -1498,31 +1490,24 @@ static int generic_ocp_write(struct r8152 *tp, u16 index, u16 byteen,
+ 		if (byen != BYTE_EN_DWORD)
+ 			size -= 4;
+ 
+-		while (size) {
+-			if (size > limit) {
+-				ret = set_registers(tp, index,
+-						    type | BYTE_EN_DWORD,
+-						    limit, data);
+-				if (ret < 0)
+-					goto error1;
+-
+-				index += limit;
+-				data += limit;
+-				size -= limit;
+-			} else {
+-				ret = set_registers(tp, index,
+-						    type | BYTE_EN_DWORD,
+-						    size, data);
+-				if (ret < 0)
+-					goto error1;
+-
+-				index += size;
+-				data += size;
+-				size = 0;
+-				break;
+-			}
++		while (size > limit) {
++			ret = set_registers(tp, index, type | BYTE_EN_DWORD,
++					    limit, data);
++			if (ret < 0)
++				goto error1;
++
++			index += limit;
++			data += limit;
++			size -= limit;
+ 		}
+ 
++		ret = set_registers(tp, index, type | BYTE_EN_DWORD, size, data);
++		if (ret < 0)
++			goto error1;
++
++		index += size;
++		data += size;
++
+ 		/* Set the last DWORD */
+ 		if (byen != BYTE_EN_DWORD)
+ 			ret = set_registers(tp, index, type | byen, 4, data);
 -- 
-~Randy
-
+2.55.0
