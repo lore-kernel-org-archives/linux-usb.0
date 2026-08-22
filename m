@@ -1,196 +1,130 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE78279DAD
-	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 06:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553D549362B
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787380892; cv=none; b=oZnqRC56i2gQvTRH8lTnN0myTSc13y0hK1sf16mYkAhxEAHZd0HdNyivNVhfiehjPKcm2C/xasbIIdaU/liYgx1u1hnX4/uJYNuys+Jhww9efbSA9yfhBUqIy/TZQDngzF4BNWzSiFtRfxIfUhkcqgRBPLtiYX9M431Cv51pjJ0=
+	t=1787383548; cv=none; b=p4TCI5A+ArkkC+0nyY+/KWiIwKgX5dWFWhbtgSGcgSswXhc74PCjIOyy01TQdRkpFgpjELIJk0UZFLb4+jUZ+KIHN6XVjU0AzR1m2JzsnQvBA8p+fmzUQ5xUtlM45nHos4Y5whqJDkdV9uY4twlOjz/FaPPJrC2cEnFAhKZ1CvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787380892; c=relaxed/simple;
-	bh=YVESCf53Dri2xvlCXdT41rLz5OnYtPY6IBylHezXqtI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZreT6wGKCTVeeUKoRuf/GCAoTaBOCUyNVkVR14pU+vpTFVkN5NZyhiHtZf+8TpvCWCdiWV7pF7m2L0og661Qo3TEUovAzoO10JXVlOgbzRwiIwI+QbKlCPWVQLdPNkvn8t4kTKDoJG3Ct2I7lvcyhvXqCJm0k6k96ABr/TtXZ9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NfEDRwn5; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1787383548; c=relaxed/simple;
+	bh=hyxZhfDeVcalwy27wsRwyBVA5Q7pX9rRDd5SmhuLmb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KArSUeb9p3c6/wjTfRl0zwAajYssKsljnUrJcUGNfSvZnHt/bZ1fY92R7omll2P+TPqKfSo5tzj7eYpyQyxbKf+ZvCYlI8eDb1cHqKosY/tS467Bfgc5Ec6ezVWapYcLFszlROCEUuNgSf51hog2v6wZGfR+IG5H2aOrWkUOZ+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IV4FxCom; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NfEDRwn5"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cace91f112so19658635ad.0
-        for <linux-usb@vger.kernel.org>; Fri, 21 Aug 2026 23:41:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IV4FxCom"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a17211b9ecso4898587a12.2
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 00:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787380889; x=1787985689; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hT272b+xP/3P06nzY+sRl9xegCb5CD+byjSp3zmNmGg=;
-        b=NfEDRwn5dqFamYnNV1FrRp4S9tIEBt4frat4j5oMP+cjnisnfLtiX1YW/ihnzhQQxX
-         YUaJCSoQEJX3eMNdE3+nOxTh0jO/Wl6a3pqWNaesuKi+r2ztFU3VbNzEuSeJX4uhBUdY
-         hQmy5j/suiCXV+QVdVwKi93FZek1Lyix2bCRzPgmz+hI2cAO5kWALjuui8sOGidz633x
-         1wPsGCmsDvFV6N92bc9RQe10hUlYJEc/Sew6pBdH6li2mVwgh43rsEUNVKD9RFHa/Zjr
-         n/eqGSy2wm3V6ipZSRoZS8Wq9e+PP1kDz1OVV2cQ21HrDsVxC4yb+52/SOoclUCigj9M
-         Agsw==
+        d=gmail.com; s=20251104; t=1787383545; x=1787988345; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oIRcL9S/iutKspX/CdL15orPpbTC4tSNioHS0WckQzA=;
+        b=IV4FxComoe6quoAOMZPb16rtDj734oMmj4lV42i6LTTt1VVmL7OKtZeuFDJGZN0yVC
+         OPbXxf2oxAWTXsrMEqQ2VtM1Nnwmpxji0dmYbd9ZO0ukxL4XrTWXYIM0IoSYZjB9z6W3
+         NHUxwUGdJ/h8MWJ0OBwsoSekb5swIsGURusxEjujpViGt0DtvqPZ8uCrZKhutvmK5etF
+         1opUCSurbAbeoGSvjEeDjOCgB7seylIT+PkmljnztjLbdmIiP4fIiYSQ2s/9D8b3ClLT
+         WJSsGX1B9SUZz1W4Pex1A3F9o4RSjY42Bbt32jwAuOOwfodWuNGLk3aGJqcc3OO5hKC+
+         U4eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787380889; x=1787985689;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=hT272b+xP/3P06nzY+sRl9xegCb5CD+byjSp3zmNmGg=;
-        b=biaMwat/9p7SlkzyfWxRvXxlof53lu/812ZjnVsK5uXa5mUd0K7inFQW9yiQDQ5ltc
-         0kQKyhXqYomqwDwt1ZE3AFPdHATFw3n9da64TnC+1G6CIdD9asReldZa+76p6fH0FlL/
-         x7YyXJGsxYzNg1VPu3AGGGF05wJlSTXJhjlix79z9FVSGEvq98ZGs4nMOhfY/VvFSMo2
-         8oApljVm7Ihg1+ixX5jCf3ZMZqeVOQkUdLx/TcF3v0lUig2t2Hnj6qZZ7HMeRehVTGIS
-         ZhTq2Rscs3j2JTg+ohmjyz1mFe+Rg34hUGFBJfUKLWeioCS0PV7OMl+ElMZBq6UvnmJ8
-         msyA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqmpoa+8QiBeYxRkpHcwKQ1tjKmoCvfNEX9lFRkpbaey21gSZ/J/Kn4f7Iu92RtAJKvAmJqx5720F8=@vger.kernel.org
-X-Gm-Message-State: AFuF++nnP727+DnzCZ2+p1F5ezuqd4zJkPReJ2rFiwTN5TxG9hkyfJRQ
-	7+DBUhO8IUfCfTtg733Ov7oKo+FXIg0gCbFH7GoqXzB4LD+Eqe5vlypD
-X-Gm-Gg: AR+sD114leWAdvGkRB2CAf+0hb20+7bKEH6htmNhQa0It10yUQPt5hflpA2yOLREYrI
-	C0Hcd3FlcvBopYQsB6XS2Eg+6jAs9/4VvVZtkrgOZmIyWjpamgs1OGjFHka4f9qbzwEiKd5pjFB
-	qtVkaJrFBT0CP8JLVrzuMmpUrKVAaKYSs3YCKJTnoBJAyMH5qqRUDCGGmpIrrIz/ssCrcTBHdv6
-	BS4CRWxpnK8w+hSO2uwlwjFsp8ecfkkLZ0/7s6ZKEwZWrvkvDgKhYKFay4Gr1AljeEkP98e4Dq4
-	Rt0Rm02zXe4sfcmACsqSxIrU5bHHZ/GE96elG048wXqli7L+1xN4CuI2AIorngR6nfFHTOjsCnM
-	qSIChFMyHoaOiML5c+9RhlYu32373a6mGVaNa33KFJIdqeUuh3+qUFeLuw8F144BqsGSzhjw7z6
-	U9X293E04HSHd0CT4pp4IgAJpwDzX40MSvZdt+qUSd4u2E1HLobhKdvwQh5nv9SpW+b3DhoJlOG
-	SxbzltVDGi2kxQ8OPbzshAnZIzlmwekfDt9FA==
-X-Received: by 2002:a17:90b:3dc5:b0:37f:be6c:f3f2 with SMTP id 98e67ed59e1d1-395dee7e2dfmr7910740a91.2.1787380889381;
-        Fri, 21 Aug 2026 23:41:29 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f9209743sm5110372eec.21.2026.08.21.23.41.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Aug 2026 23:41:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <31df411d-e257-458d-98e5-c2920915294d@roeck-us.net>
-Date: Fri, 21 Aug 2026 23:41:26 -0700
+        d=1e100.net; s=20251104; t=1787383545; x=1787988345;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oIRcL9S/iutKspX/CdL15orPpbTC4tSNioHS0WckQzA=;
+        b=Kd/pKIZBy6Lc4J54xm9NEhbpDhftIBIQ8s2Xhq1UJ4qBDH/wklMRZWxJmMcB80Fkmi
+         GmXVNKtDSWsegcCDcEliu1/8lvTySFn9UteQH/TSPhCr5zg8gqpC2oW4K3GISJ5WDfAN
+         Jo7ZgB1Pg3BNBA08WINiDpWY26kWOtt/t5gV2OWuT6l2KVGs3LPsDl9/PIJbcbEnjk/4
+         ogs8q0nWdHtFguqaYfkI7uoXxsopgwnXkhtnddG1YAwBYS9ifrODZ808mXTr5lUBBPPC
+         spMHkEYbieuxF05EXufYkNY+ni9HrJo2lxfFQ3trOS5SHcizdVKQea4cqzvEVkaLeVm4
+         RUbg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2lkSsa6oL+vsqy5Fa/0IYiR18Z+q7zoipwBPtswLSRCtkK5GXxy1euTVZZFS/Xkkx66KqYowDN18=@vger.kernel.org
+X-Gm-Message-State: AFuF++kgVUebLFN6A/R0WBzmm1WfE4Nnn5PLnGYVBttoIzyvN0uAyPQF
+	p7v+ujvm+rXmvrh0/K7oWWwlG4dAFaaht3f4yGyaJcscdML7DoK0TqlBTJhQ4g==
+X-Gm-Gg: AR+sD10flRPpEn1kPze2fxN5PIO/7S3LT3A80oT7cLA3hPZxSjV5p5LFo6CvUs27geR
+	tY9GuXhJBPBtLcIeUUDwghqnE7g/1w88PAEhco+zlykyLrQ9sa9C41V3kzmPPaSuLQShn54qRVR
+	Gzook1VNOgVQij6siuwT3m1LYDMlbzU3c83cP5hHeXwDPHHVubvvxQQqIj41TV3Nk6U8Z7I84Aj
+	+GNJWpa7+MDKRiGO8sGz8TWOJuQ8CYOds8DQpHP9uZb+ggu9uVvQCrv/quiKmbovs+Z08iDVW+n
+	1BPMXRJzA+KL8N1tRK261yjfNuq4EfajM+o8cuB4ubjOwZXPqEX1Y3XrdFwc4M8/MIoDAOoBstO
+	iaXy+4Jeepq25ucPfknLhuYbjVkF6ViyqtmWGPVox8isWg6Kw3lTBYYVMXlgNOfg7ep01UfspAK
+	+n33W9vhTYzGdM87Tq6KP2DAecyF2z7qSjAoBi/MG6nuM1xRnKmEllP7QSpxSmqv1zenQ=
+X-Received: by 2002:a17:907:9495:b0:c1c:3b06:ed1b with SMTP id a640c23a62f3a-c246a6736a2mr1136365966b.22.1787383545332;
+        Sat, 22 Aug 2026 00:25:45 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249606b696sm215784866b.7.2026.08.22.00.25.44
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 22 Aug 2026 00:25:44 -0700 (PDT)
+Date: Sat, 22 Aug 2026 09:25:41 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: =?UTF-8?B?0JTQvNC40YLRgNC40Lk=?= <senior.joker2009@yandex.ru>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [BUG] xhci: repeated URB cancel on UVC status interrupt EP
+ (0x83) loops for ~15s, stalls camera - Intel Cannon Point-LP [8086:9ded]
+Message-ID: <20260822092541.1bcc6dae.michal.pecio@gmail.com>
+In-Reply-To: <cd7e86de-f7e6-4cff-b171-24891ef30bd3@yandex.ru>
+References: <1551785954451@mail.yandex.ru>
+	<20260815215259.014cc324.michal.pecio@gmail.com>
+	<fa17985f-fe64-4f23-9b71-9a244db2f64c@yandex.ru>
+	<20260818000909.31af0ae3.michal.pecio@gmail.com>
+	<358afe43-5f0f-41f6-89cc-129b20ef7641@yandex.ru>
+	<20260818232945.2c67b15b.michal.pecio@gmail.com>
+	<f4eb5fa3-3c91-4c7c-b709-b493a0563e66@linux.intel.com>
+	<cd7e86de-f7e6-4cff-b171-24891ef30bd3@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: valid the data size before reading the sensor data
-To: Edward Adam Davis <eadavis@qq.com>,
- syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, me@jackdoan.com, savicaleksa83@gmail.com,
- syzkaller-bugs@googlegroups.com
-References: <6a891232.91706f20.16b6e3.02b0.GAE@google.com>
- <tencent_8FCF9A8DDF25A10DCC12265DF45DBE995307@qq.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <tencent_8FCF9A8DDF25A10DCC12265DF45DBE995307@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Subject is supposed to be "hwmon: (driver) Description".
+On Sat, 22 Aug 2026 02:37:28 +0300, =D0=94=D0=BC=D0=B8=D1=82=D1=80=D0=B8=D0=
+=B9 wrote:
+> At 640x480 YUYV and a requested 30 fps, with
+> exposure_dynamic_framerate=3D1, a normal 120-frame run timed out after
+> 45.034 seconds with rc=3D124.
+>=20
+> With exposure_dynamic_framerate=3D0, the camera is no longer completely
+> stuck, but the video is still not usable as a smooth stream:
 
-On 8/21/26 22:34, Edward Adam Davis wrote:
-> The user-forged sensor data is only 65 bytes long; however, aqc_raw_event()
-> fails to handle cases where the sensor data length is smaller than the buffer
-> size when reading the data, resulting in [1] during the read process.
-> 
+Not sure what this is, possibly V4L2_CID_EXPOSURE_AUTO_PRIORITY, which
+maps to UVC_CT_AE_PRIORITY_CONTROL. From UVC 1.1 spec:
 
-The device simulated by syzbot is D5 next, and its control buffer size is
-0x329 or 809. I _asked_ earlier if that is the value to check against,
-but did not claim that this is actually the case.
+The Auto-Exposure Priority Control is used to specify constraints on
+the Exposure Time Control when the Auto-Exposure Mode Control is set to
+Auto Mode or Shutter Priority Mode. A value of zero indicates that the
+frame rate must remain constant. A value of 1 indicates that the frame
+rate may be dynamically varied by the device. The default value is zero
+(0).
 
-We know that the report must be much longer than 65 bytes. D5NEXT_PUMP_OFFSET
-is 0x6c = 108, and the field is two bytes long, meaning the report size
-must be at least 110 bytes long. What we do not know is its actual length.
+I have no idea what this means and how the camera is expected to keep
+constant framerate if exposure gets longer than frame period, or why
+wouldn't it keep constant framerate when exposure time is shorter.
 
-> Add a check for the data size, if it less than the buffer size, the sensor
-> data read is aborted.
->
+Not sure why this seems to affect isoc endpoint behavior. Maybe it was
+just random run-to-run variation? See below:
 
-Apparently Sashiko is aware that this is wrong - not only is the report size
-smaller than 809 bytes, but apparently buffer_size is not even set for all
-supported devices.
+> * One 120-frame run completed in 15.109 seconds, giving an effective
+>  =C2=A0 7.94 delivered fps and 304 skipped sequence numbers.
+> * Five consecutive restart runs all completed with rc=3D0, but their
+>  =C2=A0 effective delivered rates ranged from 3.71 to 21.08 fps.
+=20
+> With uvcvideo trace=3D0x400, both values of
+> exposure_dynamic_framerate selected the same streaming configuration:
+>=20
+> Device requested 3072 B/frame bandwidth
+> Selecting alternate setting 7 (3072 B/frame bandwidth)
+> Allocated 5 URB buffers of 32x3072 bytes each
 
-Please do not submit a patch to fix this problem if you can not test if
-the code actually works.
+640x480 YUYV at 30fps is 2.3KB per ESIT. For a smaller altsetting,
+you need lower resolution or framerate, or compression like MJPEG.
 
-Thanks,
-Guenter
-
-> [1]
-> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
-> Read of size 2 at addr ffff888108aba257 by task swapper/1/0
-> Call Trace:
->   get_unaligned_be16 include/linux/unaligned.h:48 [inline]
->   aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
->   aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
->   __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
->   hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
->   __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
->   usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
-> 
-> Fixes: 0e35f63f7f4e ("hwmon: add driver for Aquacomputer D5 Next")
-> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
-> Tested-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->   drivers/hwmon/aquacomputer_d5next.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-> index 1ca70e726298..1cc6c220ffe9 100644
-> --- a/drivers/hwmon/aquacomputer_d5next.c
-> +++ b/drivers/hwmon/aquacomputer_d5next.c
-> @@ -1334,6 +1334,9 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
->   
->   	priv = hid_get_drvdata(hdev);
->   
-> +	if (size < priv->buffer_size)
-> +		return 0;
-> +
->   	/* Info provided with every report */
->   	priv->serial_number[0] = get_unaligned_be16(data + priv->serial_number_start_offset);
->   	priv->serial_number[1] = get_unaligned_be16(data + priv->serial_number_start_offset +
-
+Regards,
+Michal
