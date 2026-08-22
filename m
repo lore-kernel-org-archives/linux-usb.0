@@ -1,35 +1,67 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2EF38AC78;
-	Sat, 22 Aug 2026 08:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB713ACA71
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 08:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787386003; cv=none; b=YBJpTFdtobCY8FpXmh0Q+1FmiW6vBh7uD2xMCvlM+TIOJZq6736c0IA9pOBiQkNGxykBrYt65evKlfWRLcwHhZ1dHPNBH7aLTbmKq1/tc5zqoEXc5i5kQ+pe/cYqh0Z8dV2mnAxgTGJ83CJvmgiYLamedS3k8OqCA4T3nFMFIHg=
+	t=1787386045; cv=none; b=FzZ9JExxengeyq3n2gecuL9ZpMjAGmssO6O7nraDh1uESBrWnGz5AHDVMyHWuPAGuZ5xzPo4ZeT+GXVhn6nIdcass5iyZdVKk/ToKyhg311xrfaIBjL1Z3KFMp+4VuvER9MfoVgrGXqGIGexeAFMFo+6mWMJorwJXqp3b7dMvq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787386003; c=relaxed/simple;
-	bh=6ClyeeOBoL6+kFHFMqy1AFNbQvMMepYkuXuRBkyJL54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fU2A3eCqxPCjTTXuBaCL7y+m8rVnekI/CjmR3jUKgD6uVq4oUf22QzMCRoCufzZW3KPjjJ3cvg3l3iUKFVW3SieKLQatJVGsAUfgfS1u3pWsy1SU3M3QAsOH+2NE7mekCvi+x1jc9+Q2cHnAA2KG5OQ/yShW14Yi5gbjNSnaGNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=g+MhuVhV; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1787386045; c=relaxed/simple;
+	bh=YHCQPbeVa/qsJYN1kGy1DK69Sy793FGSalaVd1bq4a8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
+	 In-Reply-To:Content-Type; b=JS7hV12/lc2pqtpSzb+jCgmH3zuMmQL9KboIIQ04sTTqEmVvwJkqyT6QO6lilMNVhpfZENeHDqigOdbraLhlNR7lW6g1yDC1A3YpQ/69ax6RjxohO8V1CjqlxNZReR766sEjlSmc/5VCI/JnfcjWJS273AsEYvOGaK4XprwsqNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oz2Z8KMH; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="g+MhuVhV"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 69245118FDF;
-	Sat, 22 Aug 2026 10:06:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787385995;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=jCwh8xNxdzRiIF4fIfO5lO+8y8fSkbAZsHzuhzc4330=;
-	b=g+MhuVhVf1YfhIjLCZgDsWM9rFrQH8ihTRGK5615Z/lCio+JL1tXMdBOL2qjaexVa1r60P
-	q4Jo66Tvp9/lg5W6sMgD8VkkyN9JO7srePls/Bkp2kxedo2Q2Q+jUaE9iWhQNmGmZ4Z4vB
-	rNwW7d7SzqupE2niUTOVeKqDaz8DHRx4KhY4MeZhoEtNUJTpYVeaFy3qObSe7LQXc0SMeX
-	KYqLfKQlfutP4pJlTlWwK+kwXOXnqouiKa97HDD/dWksFxhGl+Ojnd13F5dImxvNWTdAhN
-	4Eb1AZd7RlcSo86FxhpRvSYXpF01oLkaS1U9pfLBMxoT833mhJzgkCuD8FwfkA==
-Message-ID: <472aba70-5216-46d0-8b9a-0a322d1d968e@nabladev.com>
-Date: Sat, 22 Aug 2026 10:06:31 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oz2Z8KMH"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a3e145e1bfso2384660a12.1
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 01:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787386042; x=1787990842; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:to:subject:from:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IiLtBWKTPWNJSp/wkwtBEljpdTSGgD9pmHCNo8TEl9s=;
+        b=Oz2Z8KMHTLx5soduir4uU7OZK1iLDas0Gtz0zFRBCSUm3r1k8cOqF5qAZBQAzZMeUs
+         ZivmJsKK0v3rLVZTu42/EmpELB+NMNJ1MNJlDJUOZPV1gBG0mJLtOfMY2w53oXcxXYwH
+         hoRemuFWfhHqV0FXKxSQShSgmj23SpQXTJjFjqnj5aD8YUQs02mXe6CocjbUZiaceZJm
+         QGkyTSeNHH7FTA2Id5FPTHHSx65vw67p41w6N0uxtY4AIfSzhLa6e8WzS1sh4b9QKiep
+         4hs9k+tDFSsJ1GXoyRgj5T7+r+i6Jre+1M0AiBQQxHhaHiOaKLrwL9puEUkOJWdiRghz
+         MasA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787386042; x=1787990842;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IiLtBWKTPWNJSp/wkwtBEljpdTSGgD9pmHCNo8TEl9s=;
+        b=bIxGbB+hK5njMFUQITaj19STcBefW07Gy0i+pnob+LomODNoVaSO5uYuVgBMma6ZTM
+         9RCKMZbjTn3wFsDQh1sdwiCZD4VnAXPrHoO+yxBejFUGccadj6rjVQZsbdGrxwNDDczf
+         B70jTN+D3Kb6vk1Eu0rv8o/7CyaGe1Cx7UwpliAm+tioCWfAIdIaEH/fW6qO/w5zguUE
+         ZLVHJmmnVUiAT8QqGAW4k0pHKgr8UxGlDUeXr41hjKeFRLTdjZbvzRYS25Rjq1DE1g0M
+         ja4wHlCYgop6pmyNYYVmPoMhBzx17irwpZZRN4+5eoMxkPcg5E3cHaHjVAcBsRyYS+MB
+         qNOA==
+X-Forwarded-Encrypted: i=1; AHgh+RqLDx8Tr04YWUbPoZcVASoLOMEfKkMuQbjjtQNtX4aG07V9+0BcSFF/P05Q/s5DVOe74uJf30cfJ2Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++mrt9vd/vMfExpldeHhBbNuaywctLZRyTrzrGtzVsV+PnPDktFd
+	vS2Enf8HW4uM3jjD38K/1oJrNLZaFk85eE3aC1B2C989yj+wnl8E2HRt
+X-Gm-Gg: AR+sD10a3uP2GV+1addEIlkvycstI82CwnkgTU3s2Jrioukv5YcoAL+wE3EfQ6j6pj3
+	oMX+CV8YhHSAfc2GgFnrME7osf9zUKxlzKbSmuiX4/5QW9IXQQONy1lFpwYiEgfyitd9Ve/jpI7
+	bptpOxQXhlgXAOdieaDdiRlo4i9bF8xxd79oxXB8vpiNph6acSkVkg8fo93v1/s3y+Wq+KJVkg+
+	86851wp+Roth4yO9r8LWpbOoQlHzl3y/woJNgFP0vQjznI0ldW7lTTqrQNeTa7yNcPsn9cke9uN
+	ccMVB/4GKClazAURrYx2JY5dXGjOd6bLFjN9pLhK4OnW/puypEZapd5YKbDOB6D5bYBBpciollK
+	M0gULDFBRibSkZW6ngLFgTa8+0/DY1pFhR+L96oSojT48K4UW740j2gP29rISytSk9gtCJPMmLp
+	xRS43n9/y4rrLSLRjdV9TZxdCIb/Iu1A38rtGuDfnw2hUEjyBJpphZD+Si97HBOPPtyQuH1ePX7
+	R112kxV7Oz6OE4lghoc45+hrbPPDPyTqUymiYUkWPXK
+X-Received: by 2002:a05:6402:4348:b0:6a4:21c6:1d14 with SMTP id 4fb4d7f45d1cf-6a42eeb21b4mr15003960a12.0.1787386041628;
+        Sat, 22 Aug 2026 01:07:21 -0700 (PDT)
+Received: from [192.168.0.32] (cable-178-148-247-5.dynamic.sbb.rs. [178.148.247.5])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff178289sm10950928a12.30.2026.08.22.01.07.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Aug 2026 01:07:21 -0700 (PDT)
+Message-ID: <2aabcaaa-f6b6-4375-a773-690305b1979f@gmail.com>
+Date: Sat, 22 Aug 2026 10:07:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,47 +69,75 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: mux: avoid duplicated mux switches
-To: Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
- linux-usb@vger.kernel.org
-Cc: stable@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- kernel@dh-electronics.com, linux-kernel@vger.kernel.org
-References: <20260822072556.490594-1-marex@nabladev.com>
- <ef89a8ba-af41-425a-90e5-77061fec3f9f@oldschoolsolutions.biz>
+From: Aleksa Savic <savicaleksa83@gmail.com>
+Subject: Re: [syzbot] [hwmon?] KASAN: slab-out-of-bounds Read in aqc_raw_event
+To: Guenter Roeck <linux@roeck-us.net>,
+ syzbot <syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com>,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, me@jackdoan.com, syzkaller-bugs@googlegroups.com
+References: <6a891232.91706f20.16b6e3.02b0.GAE@google.com>
+ <1506eaff-db5e-407a-a09c-d7a6b070c9cb@roeck-us.net>
 Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <ef89a8ba-af41-425a-90e5-77061fec3f9f@oldschoolsolutions.biz>
+In-Reply-To: <1506eaff-db5e-407a-a09c-d7a6b070c9cb@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-On 8/22/26 9:47 AM, Jens Glathe wrote:
-
-Hello Jens,
-
-> On 8/22/26 09:24, Marek Vasut wrote:
->> This is a re-application of b145c3f29d62 ("usb: typec: mux: avoid
->> duplicated mux switches"), with fix derived from usb: typec: mux:
->> Fix typec_switch_match() .
->>
->> Fixes: f576c75f95a5 ("Revert "usb: typec: mux: avoid duplicated mux 
->> switches"")
->> - Extensive test by Jens https://lore.kernel.org/ 
->> all/8bdf6062-8ec2-4c30-8463-0368d3a0f1ce@oldschoolsolutions.biz/
->>
-> I applied both patches and compared to my tip of tree, same except for a 
-> newline. Also did a test on the Lenovo X13s (sc8280xp, gpio mux). 
-> Therefore justified:
+On 8/22/26 6:02 AM, Guenter Roeck wrote:
+> Aleksa,
 > 
-> Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> On 8/21/26 20:06, syzbot wrote:
+>> Hello,
+>>
+>> syzbot found the following issue on:
+>>
+>> HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of 
+>> ssh:/..
+>> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/ 
+>> gregkh/usb.git usb-testing
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=16086e79580000
+>> kernel config:  https://syzkaller.appspot.com/x/.config? 
+>> x=8bdeea7ee6735f91
+>> dashboard link: https://syzkaller.appspot.com/bug? 
+>> extid=9ee5f5dc18673d6b2f37
+>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils 
+>> for Debian) 2.44
+>> syz repro:      https://syzkaller.appspot.com/x/repro.syz? 
+>> x=14737679580000
+>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a22549580000
+>>
+>> Downloadable assets:
+>> disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/ 
+>> disk-e1e6e541.raw.xz
+>> vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/ 
+>> vmlinux-e1e6e541.xz
+>> kernel image: https://storage.googleapis.com/syzbot-assets/ 
+>> db2c3a41df6d/bzImage-e1e6e541.xz
+>>
+>> IMPORTANT: if you fix the issue, please add the following tag to the 
+>> commit:
+>> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
+>>
+>> ==================================================================
+>> BUG: KASAN: slab-out-of-bounds in get_unaligned_be16 include/linux/ 
+>> unaligned.h:48 [inline]
+>> BUG: KASAN: slab-out-of-bounds in aqc_raw_event drivers/hwmon/ 
+>> aquacomputer_d5next.c:1345 [inline]
+>> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/ 
+>> hwmon/aquacomputer_d5next.c:1327
 > 
-> with best regards
+> The problem is that syzkaller sends a bad (short) report.
+> aqc_raw_event() needs to validate the report size and bail out
+> if it is short. The fix should be straightforard if it is known
+> what the minimum report size is. D5NEXT_CTRL_REPORT_SIZE ?
+> 
+> Thanks,
+> Guenter
 
-Thank you !
+We do know sizes of control (setting) reports since we send them through 
+priv->buffer, but aqc_raw_event() gets sensor reports and their length 
+can vary per device. I don't have an exact list for all devices since I 
+don't have them all myself. We'll need to verify that what we receive in 
+aqc_raw_event() is >= the minimum offset we want to read sensor values from.
 
--- 
-Best regards,
-Marek Vasut
+Thanks,
+Aleksa
