@@ -1,33 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3152475D0;
-	Sat, 22 Aug 2026 07:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2904F1E5B70
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787383698; cv=none; b=k/mH3q/p/5Pv76cphhW89kO3Or0NickOwTb82ZVUJm2WvktInc9+efzepoM8lgObhmVaKUEa0Xkm3CaIuLOXWmqRwQ3sGIKDdU+XM5T10lmafls8jFO5CcBhtZv6zi6mzeGYh4c2se5iQc2yKcHiOMwhCoKkdNpeW2wS6GLlJbw=
+	t=1787384495; cv=none; b=jqtRhGWlR89k/m2D+pf2tZTVkSHvk3677yFT3o3fmtYfi3mgCeCwx32tXijKVJwDodNJ9XCn4ytlMcJPzFPmm5hU8StG+HpcTkhLYVLXUpMRDjQjznphfV9ynDBllVUKdNCVYB7tq97k8KkOUmRZ0l1AhwnXCQSjiwWfDzo4CLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787383698; c=relaxed/simple;
-	bh=oEPCxmlMiQDC/jc58/v02is5aSxljKGvcjtGWcP136A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZVsfkBdJavyDCi30c1XmN4rKlfhZGGsmjdTZHBEWNhOS6psB7T/xz1sDcqnBJjJDAYFcUvgVTgZmZ1eiRsYKs7u+zQe4+lIrdF6Lo0DWuC1nJQIsf7HcMHybkjlfZF3CePs0ViE/F02Z3yKU3zuNbEs5yw2Nn4sRtu7b4FqK8Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTgt7+Xc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787384495; c=relaxed/simple;
+	bh=5mAzRCEYRhaocg8XqLXvjnsy+Su+AGzrVysjpoeVEkY=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=mD8L8Iv/b+5ogeZNuE5WUcnD0YB7B71jw+Yk+ztW5NgOIPHigkO/oMx9a+du9+hqcIbn3cDn20XYBAZLP16/Tf/9ntHfG/rADXTyvydiWgGjf6WxSseLUlu4hugA5GKJM9Ze7r4fsmvA5ScXN19z0i9cHyDE1+urCYbeOmSBKn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=CiWL/fdS; arc=none smtp.client-ip=178.154.239.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTgt7+Xc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3C2B1F000E9;
-	Sat, 22 Aug 2026 07:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787383696;
-	bh=zoyg9tDcqSP32PikNEbdsojOFRXroqmGh2a+jLRJlR4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=QTgt7+XcJRB5w8VYmQk904bwW7lt2vamXm7poD1+CB7ak3Hkak+nSVVq1ydhqEU45
-	 ONclfaJZKoKpW5Be09Kx5dBn+oo2gFv9d8ijYvXPO8pQv1m/VSXWZ0GpFRdpoP1tVi
-	 txAUCrnIMbpuH5kRBcgU4V8rkGL8VTAarmB4Zfn78eS5ehYPo7u6VaLJyMBJVPfKPB
-	 Eb6LKHJpzZYPKVglcFpEq4NUe9S3DbCPnoAgSv/FM1U7KYuI2jjKgLrMQACEJIUrOQ
-	 wqGStNxLOYNUDCJYxcix98x9nPLxgAeTv14AD6m9a709R7Q3s1POPoK1Ky447s3Ndl
-	 jlPZy40qnqkiQ==
-Message-ID: <8054f9c4-e17f-4b4f-aabe-3939c65f8f24@kernel.org>
-Date: Sat, 22 Aug 2026 09:28:07 +0200
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="CiWL/fdS"
+Received: from mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net [IPv6:2a02:6b8:c15:340d:0:640:ad51:0])
+	by forward501a.mail.yandex.net (postfix) with ESMTPS id C16AB810B0;
+	Sat, 22 Aug 2026 10:41:28 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net (smtp) with ESMTPSA id RfTSNoUf6mI0-KMJh0jgr;
+	Sat, 22 Aug 2026 10:41:28 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1787384488; bh=T8gbKAfSQ7ljwVZTJNTLfSDtjVYeziGFUmyCLnkCAM0=;
+	h=In-Reply-To:Cc:Date:References:To:Subject:Message-ID:From;
+	b=CiWL/fdS8iv4+jzB//qEyGwtOhDAX30r+Sm6rnekoxcOM4bbRNBKi0AAc0Q5nHApa
+	 vDmXvJytsXvkL/FSF+nngQ7dM9d1tilRYwtxRQ/RV8BFS6TJm5aFKNmSivMqm9Qomb
+	 WV72O1hg4tQl0wNsmlcTSYlVaz02jmTUT+Sbj8RU=
+Authentication-Results: mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Content-Type: multipart/mixed; boundary="------------92LoYnhMzpiVD0VDDrmTK1Nb"
+Message-ID: <0ea518e1-8f64-4b35-8e0f-fc8ec0463491@yandex.ru>
+Date: Sat, 22 Aug 2026 10:41:27 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,89 +39,147 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/16] arm64: configs: enable usb and its dependencies
- used on stm32mp25
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Marek Vasut <marex@nabladev.com>, Vinod Koul <vkoul@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
-References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
- <20260821-ucpd-host-fusb340-v7-2-rfc-v1-16-c5e27cbc0795@foss.st.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [BUG] xhci: repeated URB cancel on UVC status interrupt EP (0x83)
+ loops for ~15s, stalls camera - Intel Cannon Point-LP [8086:9ded]
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+References: <1551785954451@mail.yandex.ru>
+ <20260815215259.014cc324.michal.pecio@gmail.com>
+ <fa17985f-fe64-4f23-9b71-9a244db2f64c@yandex.ru>
+ <20260818000909.31af0ae3.michal.pecio@gmail.com>
+ <358afe43-5f0f-41f6-89cc-129b20ef7641@yandex.ru>
+ <20260818232945.2c67b15b.michal.pecio@gmail.com>
+ <f4eb5fa3-3c91-4c7c-b709-b493a0563e66@linux.intel.com>
+ <cd7e86de-f7e6-4cff-b171-24891ef30bd3@yandex.ru>
+ <20260822092541.1bcc6dae.michal.pecio@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-16-c5e27cbc0795@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?0JTQvNC40YLRgNC40Lk=?= <senior.joker2009@yandex.ru>
+In-Reply-To: <20260822092541.1bcc6dae.michal.pecio@gmail.com>
 
-On 21/08/2026 18:23, Fabrice Gasnier wrote:
-> Enable USB drivers used on stm32mp25 reference design boards.
-> In addition to the USB HighSpeed and SuperSpeed PHY drivers,
-> enable the USB Type-C related drivers used on those boards e.g. UCPD,
-> external TCPP i2c protection chip and FUSB340 SuperSpeed mux.
-> 
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> ---
->  arch/arm64/configs/defconfig | 6 ++++++
->  1 file changed, 6 insertions(+)
+This is a multi-part message in MIME format.
+--------------92LoYnhMzpiVD0VDDrmTK1Nb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Subject prefix is imprecise - you update one config, not configs. Look
-at git history how this should be named - arm64: defconfig:
+Hi Michal,
 
-Also, you completely missed company name - it's not your private config
-- and actual name of upstream boards using it.
+Thanks. Yes, exposure_dynamic_framerate appears to be
+V4L2_CID_EXPOSURE_AUTO_PRIORITY / UVC_CT_AE_PRIORITY_CONTROL.
 
-Best regards,
-Krzysztof
+I agree that the Linux A/B captures are not sufficient to prove that
+this control directly affects the number of Missed Service Errors. The
+results without tracing varied substantially between runs, from 3.71
+to 21.08 delivered fps, so some of the difference between 4260 and
+1514 MSEs may be run-to-run variation.
+
+The Windows comparison makes the control interesting, but does not
+establish the Linux xHCI mechanism: under the same bright lighting,
+Windows delivered 6.95 fps with Low Light Compensation enabled and
+29.88 fps with it disabled, followed by 40 successful stream restarts.
+
+I repeated the 320x240 YUYV, 30 fps test with
+exposure_dynamic_framerate=0 and successfully captured the uvcvideo
+trace=0x400 output this time.
+
+The run completed with rc=0 and delivered 300 buffers in 31.065
+seconds, corresponding to an effective delivered rate of 9.66 fps.
+There were 620 reported sequence gaps, so only 32.61% of the observed
+sequence positions were delivered.
+
+Despite the lower resolution, the camera selected exactly the same USB
+streaming configuration as at 640x480:
+
+Device requested 3072 B/frame bandwidth
+Selecting alternate setting 7 (3072 B/frame bandwidth)
+Allocated 5 URB buffers of 32x3072 bytes each
+
+Therefore, lowering the resolution to 320x240 did not cause the device
+to select a smaller or power-of-two payload size. It also did not solve
+the practical frame-delivery problem. This result consequently does
+not directly test the power-of-two packet-size hypothesis, because the
+camera still requests 3072 bytes for this mode.
+
+Regards,
+Dmitry
+
+
+22.08.2026 10:25, Michal Pecio пишет:
+> On Sat, 22 Aug 2026 02:37:28 +0300, Дмитрий wrote:
+>> At 640x480 YUYV and a requested 30 fps, with
+>> exposure_dynamic_framerate=1, a normal 120-frame run timed out after
+>> 45.034 seconds with rc=124.
+>>
+>> With exposure_dynamic_framerate=0, the camera is no longer completely
+>> stuck, but the video is still not usable as a smooth stream:
+> Not sure what this is, possibly V4L2_CID_EXPOSURE_AUTO_PRIORITY, which
+> maps to UVC_CT_AE_PRIORITY_CONTROL. From UVC 1.1 spec:
+>
+> The Auto-Exposure Priority Control is used to specify constraints on
+> the Exposure Time Control when the Auto-Exposure Mode Control is set to
+> Auto Mode or Shutter Priority Mode. A value of zero indicates that the
+> frame rate must remain constant. A value of 1 indicates that the frame
+> rate may be dynamically varied by the device. The default value is zero
+> (0).
+>
+> I have no idea what this means and how the camera is expected to keep
+> constant framerate if exposure gets longer than frame period, or why
+> wouldn't it keep constant framerate when exposure time is shorter.
+>
+> Not sure why this seems to affect isoc endpoint behavior. Maybe it was
+> just random run-to-run variation? See below:
+>
+>> * One 120-frame run completed in 15.109 seconds, giving an effective
+>>     7.94 delivered fps and 304 skipped sequence numbers.
+>> * Five consecutive restart runs all completed with rc=0, but their
+>>     effective delivered rates ranged from 3.71 to 21.08 fps.
+>   
+>> With uvcvideo trace=0x400, both values of
+>> exposure_dynamic_framerate selected the same streaming configuration:
+>>
+>> Device requested 3072 B/frame bandwidth
+>> Selecting alternate setting 7 (3072 B/frame bandwidth)
+>> Allocated 5 URB buffers of 32x3072 bytes each
+> 640x480 YUYV at 30fps is 2.3KB per ESIT. For a smaller altsetting,
+> you need lower resolution or framerate, or compression like MJPEG.
+>
+> Regards,
+> Michal
+--------------92LoYnhMzpiVD0VDDrmTK1Nb
+Content-Type: application/gzip; name="320x240-altsetting-final.tar.gz"
+Content-Disposition: attachment; filename="320x240-altsetting-final.tar.gz"
+Content-Transfer-Encoding: base64
+
+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
+UAAA
+
+--------------92LoYnhMzpiVD0VDDrmTK1Nb--
