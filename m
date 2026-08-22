@@ -1,35 +1,33 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6179E242D67;
-	Sat, 22 Aug 2026 07:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3152475D0;
+	Sat, 22 Aug 2026 07:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787383657; cv=none; b=B6ntIbk62O0WbpMfBPOkQfeLBx1sXc2eGW9vLFUkTwIS+ddjdTJEPS6QXP65EyJu0zKIkVfM8TGBOwxU/2YgW3FnZ5aHDbMnWHb9izMh1N8e3R7aGn7uMtaFVjyxq3ru97YEhA8hUG0OqbETMjhSHFmCXtR1ibht90p+FsyWYGc=
+	t=1787383698; cv=none; b=k/mH3q/p/5Pv76cphhW89kO3Or0NickOwTb82ZVUJm2WvktInc9+efzepoM8lgObhmVaKUEa0Xkm3CaIuLOXWmqRwQ3sGIKDdU+XM5T10lmafls8jFO5CcBhtZv6zi6mzeGYh4c2se5iQc2yKcHiOMwhCoKkdNpeW2wS6GLlJbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787383657; c=relaxed/simple;
-	bh=bZ+8K8moF/xhkQZUa9W7qKgwkPBkm6VkpbP9ct4r2zA=;
+	s=arc-20240116; t=1787383698; c=relaxed/simple;
+	bh=oEPCxmlMiQDC/jc58/v02is5aSxljKGvcjtGWcP136A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mus8U3y2B6f1znqLz8/7thIJopS5A73v+cHjFbSUhgA/ndVZhhVLwQVTjxezl47QnjQiNJFUPxl9Ht4qQVZUy589JNniTX0+wSsFVIHSszIddxl+i7mG14rOwvu4BpddqXrCHtWADuUGkuqYW13XiGuVm+CIQq5eg2tPw14oTME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=kRhkf5A9; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	 In-Reply-To:Content-Type; b=ZVsfkBdJavyDCi30c1XmN4rKlfhZGGsmjdTZHBEWNhOS6psB7T/xz1sDcqnBJjJDAYFcUvgVTgZmZ1eiRsYKs7u+zQe4+lIrdF6Lo0DWuC1nJQIsf7HcMHybkjlfZF3CePs0ViE/F02Z3yKU3zuNbEs5yw2Nn4sRtu7b4FqK8Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTgt7+Xc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="kRhkf5A9"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EF14B11BFED;
-	Sat, 22 Aug 2026 09:27:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787383650;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=VI7q7G8yrGn302joTFqpsFX5cLv1APrnDTVCO6Dyevc=;
-	b=kRhkf5A9Q83jInKZJ4Cix9tqR3Axh0+2WtZ8dtJSNTUxb7kSUUqy/YQbKDa8i6pYgnqL02
-	r3VflU7/b5DysF7CgFfgMCNcoKwnRmXwVMh/NKYUKdmVjhJjqJLBXOyHbxsEj6PKtRu8MV
-	yKpRKGTxQGIp1A2dmxlq8XyY2Zxg2Xx/8kU4vlNWnhMuSQydeoVDUofhFHodDksDOi9Jwe
-	Ceu8Z2iZ2CbsFkXUQdxf2HrWAZS1NQ33m4S8UX9saa31zS5VHgOsFRKkaL8r3gQOudt+eB
-	m4Hob3h8qP+yLnuhbPFOCyaCcFqbCaJYsEmfZjoQNJ/D4eYBLpIK0nRvRzc4Bg==
-Message-ID: <cb989d6a-19e6-47f9-b656-9790c19ad875@nabladev.com>
-Date: Sat, 22 Aug 2026 09:27:28 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTgt7+Xc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3C2B1F000E9;
+	Sat, 22 Aug 2026 07:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787383696;
+	bh=zoyg9tDcqSP32PikNEbdsojOFRXroqmGh2a+jLRJlR4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QTgt7+XcJRB5w8VYmQk904bwW7lt2vamXm7poD1+CB7ak3Hkak+nSVVq1ydhqEU45
+	 ONclfaJZKoKpW5Be09Kx5dBn+oo2gFv9d8ijYvXPO8pQv1m/VSXWZ0GpFRdpoP1tVi
+	 txAUCrnIMbpuH5kRBcgU4V8rkGL8VTAarmB4Zfn78eS5ehYPo7u6VaLJyMBJVPfKPB
+	 Eb6LKHJpzZYPKVglcFpEq4NUe9S3DbCPnoAgSv/FM1U7KYuI2jjKgLrMQACEJIUrOQ
+	 wqGStNxLOYNUDCJYxcix98x9nPLxgAeTv14AD6m9a709R7Q3s1POPoK1Ky447s3Ndl
+	 jlPZy40qnqkiQ==
+Message-ID: <8054f9c4-e17f-4b4f-aabe-3939c65f8f24@kernel.org>
+Date: Sat, 22 Aug 2026 09:28:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,55 +35,89 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: mux: Fix typec_switch_match()
-To: Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
+Subject: Re: [PATCH 16/16] arm64: configs: enable usb and its dependencies
+ used on stm32mp25
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Christian Bruel <christian.bruel@foss.st.com>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- kernel@dh-electronics.com, linux-kernel@vger.kernel.org
-References: <20260817182302.146546-1-marex@nabladev.com>
- <aoSFjbydIiu4KyW0@venus> <dfac3134-920e-498e-a59b-720a6c51b82a@nabladev.com>
- <1aeaa585-79f2-4f43-87b1-2ae3925b176c@oldschoolsolutions.biz>
- <71fca17d-9b6b-4c9d-b595-ebd1dc6605de@nabladev.com>
- <8bdf6062-8ec2-4c30-8463-0368d3a0f1ce@oldschoolsolutions.biz>
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Marek Vasut <marex@nabladev.com>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
+References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
+ <20260821-ucpd-host-fusb340-v7-2-rfc-v1-16-c5e27cbc0795@foss.st.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <8bdf6062-8ec2-4c30-8463-0368d3a0f1ce@oldschoolsolutions.biz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-16-c5e27cbc0795@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 8/21/26 9:20 PM, Jens Glathe wrote:
+On 21/08/2026 18:23, Fabrice Gasnier wrote:
+> Enable USB drivers used on stm32mp25 reference design boards.
+> In addition to the USB HighSpeed and SuperSpeed PHY drivers,
+> enable the USB Type-C related drivers used on those boards e.g. UCPD,
+> external TCPP i2c protection chip and FUSB340 SuperSpeed mux.
+> 
+> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+> ---
+>  arch/arm64/configs/defconfig | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-Hello Jens,
+Subject prefix is imprecise - you update one config, not configs. Look
+at git history how this should be named - arm64: defconfig:
 
->>> I will test that one with the f576c75f95a5 reverted on the x1p and 
->>> sc8280xp boxes I have here, let's see. T14s G6 shouldn't be affected 
->>> either way.
->>>
->>> with best regards
->> Thank you
-> 
-> I did the test: switch patch, revert f576c75f95a5, mux patch. Afterwards 
-> let it run on the zoo here... ps883x devices are unaffected and work 
-> well, and your proposed mux patch appears to fix the problem with the 
-> gpio-sbu-mux, too. So it would be a good idea to do this instead of 
-> f576c75f95a5.
-> 
-> Tested on:
-> 
-> Lenovo IdeaCeentre mini 01q8x10 (ps8833)
-> 
-> Lenovo Thinkpad T14s G6 21N1 (ps8830)
-> 
-> Lenovo Ideapad Slim5 14q8x9 (gpio mux)
-> 
-> Lenovo Ideapad 5 2in1 14q8x9 (gpio mux)
-> 
-> Microsoft Windows Dev Kit 2023 (sc8280xp, gpio mux)
-> 
-> Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-Thank you for testing , I have submitted:
+Also, you completely missed company name - it's not your private config
+- and actual name of upstream boards using it.
 
-https://lore.kernel.org/linux-usb/20260822072556.490594-1-marex@nabladev.com/
+Best regards,
+Krzysztof
