@@ -1,169 +1,183 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AA03DA5B0
-	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 14:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B851A6800
+	for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 18:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787408773; cv=none; b=raNBaSOxQS7AyeEVyxLwKOPWyUHSZGn3vCfsAI3O0gPTMwt8GZM4RsygGzkgfPrmRnwLL8Zl6sTSyN5a0PX6yUf7W9D1Et8kFdGGBRF6n5LcwlTF1kLyc8oOlEXLbM8PD4cH0kszBuGwzm6EaA5YDNnudZaJgIO/jbTvjn1E4rQ=
+	t=1787425019; cv=none; b=Yykn6ldCI7gfwQhLFKbzcxQEQwjCV4SPBI+WJKPeozqqeZ7lTwf9hio23ekiQo0z+MgloWd+2UDA/joQg+h7PDCLO5+x5N2Q72IBJBYVJN/9XoOtJnZAH9/gfW0kdaRvuFC8QpQapxgkkFc+HxMwFuA2wFQEmgMOh1wICz4hnvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787408773; c=relaxed/simple;
-	bh=D9P13HZLz2tXpulE4iL5mbSlf5R4Da4cdrXGawoW90o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Psw2PXCRJtCzf0aXEtYIlB5ioRMwcvJlpE5vAPv2xDcyVJLBLCTgvHtU5aL4vGRD+Sj9c0kxmK2woU1QVkB35EX3BJ0q4bJthmi6YQfL3JqoxCkbK8rn0TJcmFKUlXs1IgDMLIxyH8hNiaKpJu7JyJK1xXZKJ+Lm293h2hzo3XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4KWgXFI; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787425019; c=relaxed/simple;
+	bh=OTbgWP2M75pSB6GIeAgyZBFrJQXqOoYxWhQqOl2bHaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qSbxLe7hYcBeThdhUuKTfpSuP6LwMF/ygn2U06WLxhKTtX9eFDVxKwmWGecmM3TEsj3lrNZG9P8FueMo/Srqm8nK196ZqfozVx/NGaTngW0Gfm1q6fa1ISNYIRNVb2hpqdVkAimWJ4ztoh/Zoj9mfLEC3G4TYtd0JGG1/GxSgX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=rifgcjAY; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4KWgXFI"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ca12086c06eso1528109a12.0
-        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 07:26:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="rifgcjAY"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92e55b62640so100152685a.0
+        for <linux-usb@vger.kernel.org>; Sat, 22 Aug 2026 11:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787408758; x=1788013558; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lyWb3rtx8eCSA0XJUKHW0Z9SW4v0CMFCGQPdVFOD9AE=;
-        b=W4KWgXFIN+Vw/vpC3AZuZYPfepGGmnt3EOhR6PbpBisFylHN21uqTjcQN4GsHgy4Tf
-         Ssj71PgK1MAVzPKb6bS+FhHohXSX41zdzM8D4Uijl7PXJV/duA3liCAtUp7tvlazJnCu
-         NkrQS+Vv78RZXvu+bQvwSs5lz95MqzFoSC5y3bD3JCz7fVtaAG0g9rZhCSVgjAN+4TpD
-         Ub5IlM3boLHYM52cmx+Mkqsypj234vl8VeQ5Qau/jTibWpmgn1az2GsDS2HM6m0ay5iR
-         ClbpOdKZDi89m0c4D+M9Z6tYFOZO6V5aVvslNevSb7T0gPzuk/H6TKxXta/yoWYtKk4i
-         4LMA==
+        d=rowland.harvard.edu; s=google; t=1787425016; x=1788029816; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=smkrzl7ozY5l2VwKJB6Y7nX8lLqncIOpy+cHfZxKdmg=;
+        b=rifgcjAYkRHueV0QGoqygRy5qU9SDJM5o7Hd9m7GoKVdzM+eHjJEmgboW+0hc3EJJO
+         Z6n5A6K2oiPuwuzqyr2/fRG3rNSD0J9vCRc7Hk5xHvkl+KHnQ6ukNDgJ6wJ0ok3B4DIr
+         LaHDZAW4BJvJ0LcmA76xGZo+MjGmyg8he0X226rJUcieK+flhVZ7LxgPDItoVROyOnM4
+         K918ca2Tj5JOI1ftRianU24LGlQu6E912QV3iWtWSs2uFCUkHG8wTyBLR+ZF9aLue3Gd
+         91f828N8LHKGLZ9m9V2erNYegjfcyEyiuNJHwJmfoqvuT5WzuVJjUbsWV+/JNtFwJvkQ
+         tLCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787408758; x=1788013558;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=lyWb3rtx8eCSA0XJUKHW0Z9SW4v0CMFCGQPdVFOD9AE=;
-        b=h4xWNpeJ9sGfCLh75UtcrFLjuOWro37UI78F/Nm8lEU77MG5mk0iqfpzMvmIOmQvmr
-         HqMKxHqT+NlycE1aftKfiUmJ6y352lOVRaDfU+pbpbXIxJ6zNs+DvA51JjtmNanFNyu1
-         uRmKMjCnH8Nhpdk5caHQbGZ1PffLIwqsJs9J2UfPpuHpRkNDugGR6AA1cj4wL7fDCDmj
-         H4dpUkS4mYaErbekRhGsOIn/hRCxmWDy564sgoS0dtqvMC8qGA2FCSFfngIMgIeDt8Ke
-         CJNIwMXTqSqMpABrpdnGz0VROLqcZhSZoIseBLn8J2H/F02NxYRmajCTfdYl/GdEMAVQ
-         sX5Q==
-X-Forwarded-Encrypted: i=1; AHgh+Ro8tlDPWYu3nDs+EKFL/8jYjSMQJqPHv/pCRPTPNmDCfny6ctbQeNH/iUjqswng98nkpYUgxZ6RG1c=@vger.kernel.org
-X-Gm-Message-State: AFuF++nNJhEf0vconxCZyCzXnEhJSW39G1kvIAsOMX9fK/Sjy2lQnV8D
-	Qk5MQmejg4Q4VFOcUcyMjZibcdGChge6VNr0Ahh6k+0eca4RhWp2eijR
-X-Gm-Gg: AR+sD13aWW0BOpaSXW/AEyCN7u7uuNCuyV5GvZssGuqamkty9q9E8OiLbWdtZalclBJ
-	77FMo9lw7hL/Lo1RtLECKOR58oIAwr46pIZeWBOTDGwSq372JLzn8XyVu+G6J24vy7AUj8IyjCP
-	s3t9dGWs/WbaZv4xv0ahNhSJ9/asW/AbCyNFztlaVpj/IowXXwhiu1MLfouqoUoQMIWkrqb/hEl
-	8mdQSWKI3s7rBVf39q5rt4cMkhcw2PX65KgcTqJMxqtwFsFtwt0SfyOP2Nl/ULH6Q6DzpEWwbcC
-	qNTQKb8yTRczQgDWkqYLOpZsXt0lnWckR6iSa+vNxGjzTGyTz5NAGvIk+hrdjm2PwuG6LRw60l6
-	p9++v1c8SNYDRWDvoEtPbY+oZa6TRIs/r+850KD3NjMCRhuGooU0hcPluTctX9lj8PVwJGlD8dt
-	qe5+qNbY5HEwRMo8z4+Xba7uxn4IGOd8Yl7oq/diaoTZbfOa75NtfcohfMDaNjm6hJKzSitjNn3
-	ydoaF93WBbTaVyoTDE8SH6E3wOMUIWwDOL+PA==
-X-Received: by 2002:a05:6a21:8cc9:b0:3c3:a3f4:5485 with SMTP id adf61e73a8af0-3cd4ba0d216mr12137711637.6.1787408758156;
-        Sat, 22 Aug 2026 07:25:58 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f909adc8sm7995795eec.2.2026.08.22.07.25.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Aug 2026 07:25:57 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <cfd8fe7e-77a3-477c-852d-de59fb5bb40c@roeck-us.net>
-Date: Sat, 22 Aug 2026 07:25:55 -0700
+        d=1e100.net; s=20251104; t=1787425016; x=1788029816;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=smkrzl7ozY5l2VwKJB6Y7nX8lLqncIOpy+cHfZxKdmg=;
+        b=eeoXrLzGhpdGVOJlHPtNzz1PdJPOLRqyrpZD5+FxmcjoeXIEQODaNShthKG7oXdoo7
+         9B9T3drnp76X9FV/1aM2bhx6wyic9mXHY87qZV4ZgWIaF8Vgk4DYD8KTXSiPaptiOHvf
+         44J7ERni3yPWMoEEIgH6gOgHkEeszNIV9xpgeqP7qgDXknS6KrbXrtZOjWMiYYllJeIv
+         CF1zaUNuK1Pr7pSHPwL8A1WPbhUOUjVInkDxmocVnysGdxt2BlXo3AaBKrrhPchPoSE+
+         PGNaZ7X58SEpql1M5tD5uobdDKGb03CXdM0HMYRC4kf8SpdH+gXsWNswboHlAuXdPD6o
+         bzzw==
+X-Forwarded-Encrypted: i=1; AHgh+RpcEz29finOc+hNLnaWvn9iboKNk7GtXpLGRcgSb1OVmB9A2siSFMgvg4ruDmI+o8RwUcQ/A3M9Ugc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mir3mg6rpcogouePYk54PApAceG88VyRMmVwwz+lof7F8TOFcq
+	C66nrcvw0q7hlfGer9jgLbJtCzhfywrwGPgWLv1cc/PbzI/yC0REW8hsCgKP7L2WMA==
+X-Gm-Gg: AR+sD11YT1+7mpJglBOZ0V8ebj2jbn9b3I70tzYOBeqtsV8EK7jjTrNg4b7V8Iop1dY
+	DKwbQzfVMRCZ42eww0cV+km+edRIWumPUwugLn/7L+KwYNBPi2harIIwqKRteSmIwaI+o8nvq2U
+	/zH/9lxUa0XfTlnvP/qXdNxs27EFJ61BoO7ZghedBuRtuTBcZfBtkrHhmm/iPWAitzpQzjwXOBa
+	HcGqEtFnQbpdjNUltLq53PM7exOxTNoUqRmPd8YJTlZiwcsn+ub6ImQogNgM+7CqBWJ1fEKpBa0
+	zn9VqQoi7O5qcaoBBDcVQv37VreEq+oEtrsNXxwF2OxuPAPciHm0lzmQoolSgztmws4yKKPMUDY
+	l1j0bDMEGFhEiaK1OjZIN/NyUTBUY1b+wjHY8xDs69u/5iHe8fqOrMglMUHcfLr76e9lnsrbVck
+	nEc64bISIbAg9bCzTYTa7UzY+4bOrqBr0hkQWnaPddWYNabRRb4kx3kyQBtlUTTgYn2MXlv9Z5
+X-Received: by 2002:a05:620a:2b94:b0:936:dc4c:3bf4 with SMTP id af79cd13be357-93746948d8bmr681389485a.28.1787425015657;
+        Sat, 22 Aug 2026 11:56:55 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93749adeee6sm166269585a.15.2026.08.22.11.56.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2026 11:56:54 -0700 (PDT)
+Date: Sat, 22 Aug 2026 14:56:52 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Haofeng Li <lihaofeng@kylinos.cn>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	13266079573@163.com
+Subject: Re: [usb-storage] [PATCH v2] usb: storage: sddr09: fix OOB access in
+ sddr09_read_map
+Message-ID: <aac40fcc-9721-491e-8517-3288d34a6c73@rowland.harvard.edu>
+References: <05948dc6-b5f7-4916-8923-017f58fde4a2@rowland.harvard.edu>
+ <20260821180116.3490884-1-lihaofeng@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] hwmon: (aquacomputer_d5next) valid the data size
- before reading the sensor data
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: gregkh@linuxfoundation.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev, me@jackdoan.com,
- savicaleksa83@gmail.com, syzkaller-bugs@googlegroups.com
-References: <tencent_6A66F77626CA5371C36D2968E3AEC4409705@qq.com>
- <tencent_5F7DC370E96643AEA458177FB76E86C8F305@qq.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <tencent_5F7DC370E96643AEA458177FB76E86C8F305@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821180116.3490884-1-lihaofeng@kylinos.cn>
 
-On 8/22/26 07:05, Edward Adam Davis wrote:
-> The user-forged sensor data is only 65 bytes long; however, aqc_raw_event()
-> fails to handle cases where the sensor data length is too small when reading
-> the data, resulting in [1] during the read process.
+On Sat, Aug 22, 2026 at 02:01:16AM +0800, Haofeng Li wrote:
+> sddr09_read_map() builds the LBA <-> PBA translation tables while
+> servicing READ_CAPACITY.  The logical block address assigned to each
+> physical block is decoded from device-controlled redundancy data:
 > 
-> Add a data size check, if the size is less than that required for the
-> specific data item(includes: Physical/Virtual temperature sensor, Flow
-> sensor, Fan speed and related, etc.) to be read, abort the sensor data
-> read operation.
+> 	lba = short_pack(ptr[7], ptr[6]);	/* 16-bit device value */
+> 	lba = (lba & 0x07FF) >> 1;		/* 0..1023 */
 > 
-> [1]
-> BUG: KASAN: slab-out-of-bounds in aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
-> Read of size 2 at addr ffff888108aba257 by task swapper/1/0
-> Call Trace:
->   get_unaligned_be16 include/linux/unaligned.h:48 [inline]
->   aqc_raw_event drivers/hwmon/aquacomputer_d5next.c:1345 [inline]
->   aqc_raw_event+0x213e/0x25d0 drivers/hwmon/aquacomputer_d5next.c:1327
->   __hid_input_report.constprop.0+0x319/0x470 drivers/hid/hid-core.c:2168
->   hid_irq_in+0x55d/0x710 drivers/hid/usbhid/hid-core.c:287
->   __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
->   usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+> 	if (lba >= 1000)
+> 		goto possibly_erase;
 > 
-> Fixes: 0e35f63f7f4e ("hwmon: add driver for Aquacomputer D5 Next")
-> Reported-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=9ee5f5dc18673d6b2f37
-> Tested-by: syzbot+9ee5f5dc18673d6b2f37@syzkaller.appspotmail.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> 	lba += 1000*(i/0x400);
+> 
+> 	if (info->lba_to_pba[lba] != UNDEF)	/* heap OOB read */
+> 		...
+> 	info->pba_to_lba[i] = lba;
+> 	info->lba_to_pba[lba] = i;		/* heap OOB write */
+> 
+> The tables are allocated with numblocks entries each, where numblocks
+> is derived from the device-reported NAND chip geometry.  For the
+> smallest chip in nand_flash_ids[] (1 MB: chipshift=20, pageshift=8,
+> blockshift=4):
+> 
+> 	numblocks = (1 << 20) >> (8 + 4) = 256
+> 
+> so info->lba_to_pba[] only has indexes 0..255, while a hostile device
+> may report any LBA up to 999 - the "lba >= 1000" check is the only
+> limit on the value, and there is no check that lba < numblocks.  On a
+> 1 MB card indexes 256..999 (744 of them) index the table out of
+> bounds, up to ~3 KB (744 * 4 bytes) past the end of the allocation.
+> 
+> Attack chain (malicious USB storage device):
+> 
+>   1. An attacker presents a USB Mass Storage device spoofing a unit
+>      matched in sddr09_usb_ids, e.g. 0x04e6:0x0003 (SanDisk
+>      ImageMate SDDR09) or 0x0781:0x0200, on the victim USB bus; the
+>      device is enumerated as a normal storage device.
+>   2. ums-sddr09 binds (sddr09_probe -> us->transport =
+>      sddr09_transport) and the SCSI layer issues READ_CAPACITY, which
+>      is handled via sddr09_get_cardinfo() (chip geometry from the
+>      device ID, choosing numblocks) and sddr09_read_map().
+>   3. The device reports a 1 MB chip (numblocks = 256) and fills the
+>      per-block redundancy data with LBA values in the 256..999 range,
+>      driving info->lba_to_pba[lba] and info->pba_to_lba[i] accesses
+>      out of bounds: a heap OOB read used in the map-building
+>      conditionals plus a heap OOB write of the loop index i (the
+>      physical block number, 0..255) at an offset the attacker controls
+>      via the reported LBA, corrupting adjacent heap memory.
+> 
+> The device-controlled inputs, the missing bound check and the OOB
+> indexing are confirmed by end-to-end reproduction with a FunctionFS
+> based malicious device emulator; the driver logged out-of-bounds
+> indexes such as:
+> 
+> 	sddr09: LBA 256 seen for PBA -858993460 and 201
+> 	sddr09: LBA 258 seen for PBA 4513 and 203
+> 
+> Add the missing bounds check: since lba is unsigned it can only be
+> too large, so bail out with "lba >= numblocks" and mark the physical
+> block UNUSABLE instead of indexing the tables.  This mirrors the
+> max_lba bounds checks already applied to the SCSI-address-derived LBA
+> in sddr09_read_data()/sddr09_write_data() and in the related sddr55
+> and alauda drivers.
+> 
+> Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Assisted-by: opencode:deepseek-v4-flash-free
 > ---
-> v1 -> v2: change to check the data item and update comments
-> v2 -> v3: check all sub items and update subject
-> v3 -> v4: add speed and flow check
-> v4 -> v5: remove dbg msg and update comments
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+> Changes in v2:
+> - Shorten the overly verbose comment.
+> - Replace printk(KERN_WARNING ...) with dev_warn_ratelimited().
+> - Add an Assisted-by: tag.
 > 
-
-Your code was and remains way too complicated.
-
-Guenter
-
+>  drivers/usb/storage/sddr09.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/sddr09.c b/drivers/usb/storage/sddr09.c
+> index 3d45e1b54c66..313313508bde 100644
+> --- a/drivers/usb/storage/sddr09.c
+> +++ b/drivers/usb/storage/sddr09.c
+> @@ -1339,6 +1339,15 @@ sddr09_read_map(struct us_data *us) {
+>  
+>  		lba += 1000*(i/0x400);
+>  
+> +		/* The LBA comes from the card and may exceed the table size */
+> +		if (lba >= numblocks) {
+> +			dev_warn_ratelimited(&us->pusb_dev->dev,
+> +					"sddr09: Bad LBA %d for block %d exceeds the translation table size %d\n",
+> +					lba, i, numblocks);
+> +			info->pba_to_lba[i] = UNUSABLE;
+> +			continue;
+> +		}
+> +
+>  		if (info->lba_to_pba[lba] != UNDEF) {
+>  			printk(KERN_WARNING
+>  			       "sddr09: LBA %d seen for PBA %d and %d\n",
+> -- 
+> 2.25.1
