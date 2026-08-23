@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE6829ACCD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAD5310645;
 	Sun, 23 Aug 2026 16:10:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787501415; cv=none; b=YmQG7RsG83lXQkQv09oW9pTIDXi/wS8aYYYnsqqvu3Us2Zj3KN3jA/Mz5/C4KEHxEuylFAGf50wcN8lP2KoQ7vUtWaU0Vs5ur+IukqA9+miv4ikGQ5/QsVXe+YTnrDbALG049WFgT0xv0JfJI6ImcQRbYdcaUL9XPyJM5aaa7zE=
+	t=1787501415; cv=none; b=mYx1O0AiOe/4XG66NSPjGKz4rGHhP7RFqD4U45sPJViu7IQrprXevrGTNMP8LpQlCum37SPAeW2G/saNBgqiwfNTtj0aaO/kMraz7FdlltmCjdIcE3amch7vHBqVI6OCkZQVOtaWAYKMiCTOvHmmc9iJD3INDvE80y001Uora70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787501415; c=relaxed/simple;
-	bh=VJZIeF5PZQvYQEjzLXTR8wV0qkJBVGUXFDvmExnY1Y4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gGHBYM9OBDUsyF1zGJqN7Rw4f7LrmyUt30DGsgQHOwm+dn1r4dI9EPI1/5+w6fstTOl8cM8KgmePDcEgv30dNzKodbodIegsDDdq1WX5e2g8qSKNTSMy41OJ8T6ZzAt64fZpFHScr2eCImX3J6Ax0WaPnwfs1IsFr2qi5C4LEHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j89KZNTO; arc=none smtp.client-ip=10.30.226.201
+	bh=SXsFoeeEfcibtEXf8lradzcC9odTvodt9bD65D+EBQM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WvD1XzZ875Ex5FO7qmL5Lzj8+bfx7PhTBoWg6mwHyOin5nquWiqElDuBiDsRXrAX+ojjCdBeFOpa0hR8Ms7P040tWLE7xuDlZSgq/STs7tdJ6LyY8qgWHougNE1ZrLuz1WpUAA9zTfDoZ7tLCX9M2zYeoEL2jseihm8lqQFRMXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFB6xExP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j89KZNTO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4EFDBC2BD01;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFB6xExP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0FD9BC2BCB8;
 	Sun, 23 Aug 2026 16:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1787501415;
-	bh=VJZIeF5PZQvYQEjzLXTR8wV0qkJBVGUXFDvmExnY1Y4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=j89KZNTOlyTs4ANQEZohXumrAV9AnB89vtKxXmdV90C1O5g+g0H2A6ep22vzdFbT9
-	 GLCXIk3mcCGNrZQvxIvOsX3bMbUUadC40bbQgGUTJ8KpSr0Om/zqNLNcVpE+WW98BQ
-	 vl8nzy1DGAQiQjLAhaP13RwA8qvmiZEh54FvWnyY+7uJnXHpMQhaHeEc1olOXiGs4i
-	 uYYBHkbmcKXvgd/yOhwJgYwVoYlpw30TIQiy7Vav7/gxLsi2YKnzQ26YPe+wUEGqjg
-	 oPsvu7/Bch1w23wrvDugut5tnjZT8ciJ+2yFZ7gcRklJ18s01Cem6M5FbSNGSuxURQ
-	 5PidKCaNO1Lfw==
+	bh=SXsFoeeEfcibtEXf8lradzcC9odTvodt9bD65D+EBQM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=oFB6xExPpIF/bmPlQf/xKkBy/MBvfKjbowszh4jctCqnOQYI1fgHuR9ELgcPcXWci
+	 3e6ql06GCjzrIkJvoOTWGtkB12w0qA0SAPfxrz7d+5cxSkt9P7sMwrv4OCjPuLR6De
+	 E3N1QK66QU0orjcwxDINjG2pVMyB+80ALq51JxcPyyZpX+rLIcQ7BNiCi82pKiRqoY
+	 Pf9X08wHfk/KP+aMNjppXN2vSPr13YzsnX3B/jJpNJCbq0xev+G589ZsVZIPc4p+5x
+	 5IWEnSmXm30y28D325bspNSps3D3XR9Mxo2iP9VKxnWpjuSxxzIjMLsWFA/q7xNlRk
+	 EQkCixoJ27KjQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38AF5C5DF81;
-	Sun, 23 Aug 2026 16:10:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA26C5DF8C;
+	Sun, 23 Aug 2026 16:10:14 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sun, 23 Aug 2026 18:09:16 +0200
-Subject: [PATCH v2 3/7] thunderbolt: Fix domain reference leak when DPRX
- read is canceled
+Subject: [PATCH v2 0/7] thunderbolt: Fix DP tunnel teardown while an async
+ DPRX read is running
+Date: Sun, 23 Aug 2026 18:09:13 +0200
+Message-Id: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,9 +41,11 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260823-b4-tbt-fixes-v2-3-26a18a426c9f@kernel.org>
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
-In-Reply-To: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/1WNQQ7CIBREr9L8td8AabG68h6miwK/LWpaA0g0D
+ XcXaly4fJmZNyt4cpY8nKoVHEXr7TJnELsK9NTPI6E1mUEwIVnLG1Q1BhVwsC/y2AvZHnkrGZc
+ G8uThaAvy4tJ92T/VlXQojtKYrA+Le29/kZfeT334V0eODMmQEbXkQzPo843cTPf94kboUkof/
+ iyIHLsAAAA=
+X-Change-ID: 20260815-b4-tbt-fixes-a2689186016d
 To: Andreas Noever <andreas.noever@gmail.com>, 
  Mika Westerberg <westeri@kernel.org>, 
  Yehezkel Bernat <YehezkelShB@gmail.com>
@@ -52,118 +54,78 @@ Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
  linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  stable@vger.kernel.org, Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3650; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2420; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=VJZIeF5PZQvYQEjzLXTR8wV0qkJBVGUXFDvmExnY1Y4=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ1a3dLzuu8h3bg9L7s6bFXBQrvwj+2LdSe+3pAXWn0ov9
- WZmWDe1o5SFQYyLQVZMkWX7fnvTJw/fCC7ddOk9zBxWJpAhDFycAjCRgxYM/13aRFye1d6tjVK+
- bC7Ses0lbOq30vd3pq6YeVz6fLBN3lyG/xH3nJee5Ttjqm+82+7a2i4bt3dLn96atHjCdMXrARM
- Mb7EBAA==
+ bh=SXsFoeeEfcibtEXf8lradzcC9odTvodt9bD65D+EBQM=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ1a3tN35H1OSouYdErSLb7aRvf/Lr99llnRhuco5rWyGq
+ IWWH6w6SlkYxLgYZMUUWbbvtzd98vCN4NJNl97DzGFlAhnCwMUpABPhEWb4K51ypP/0tt8Gfxyy
+ 9mYE/nM2lHolU2W0xS6jXn+RjEXkdUaGe64bz22ouD196XHV15ps8TvZv732rtQMz/i1g3OXl8t
+ 9dgA=
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-tb_tunnel_one_dp takes a domain reference which is only dropped once
-tb_dp_tunnel_active has run on the work queue. If that work is
-cancelled that reference is leaked. Since
-commit f5cc545f5969 ("thunderbolt: Wait for tb_domain_release() to
-complete when driver is removed") instead of just leaking memory this
-now also blocks in the completion wait forever when unbinding the
-driver.
+Hi,
 
-This can be triggered whenever a DP tunnel is torn down before the DPRX
-read has completed, e.g. by unplugging within the timeout, and then
-unbinding the driver.
+This series contains a bunch of fixes related to teardown while an async
+DPRX read is running. I ran into some of these while bringing up the
+Apple Silicon NHI and just haven't implemented DP tunneling support yet
+such that the DPRX capabilities read can never complete and will always
+time out.
 
-That reference only exists to keep the domain around while the DPRX work
-is scheduled so let the work itself own it: take it in tb_dp_dprx_start
-and drop it in both places that end the work. Get/put are then paired
-inside the same file and it doesn't matter anymore if the callback ever
-runs.
+None of it is specific to that hardware though so I figured it
+makes sense to already send them out.
 
-Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sven Peter <sven@kernel.org>
+Best,
+
+Sven
+
 ---
- drivers/thunderbolt/tb.c     |  6 +-----
- drivers/thunderbolt/tunnel.c | 12 +++++++++---
- 2 files changed, 10 insertions(+), 8 deletions(-)
+Changes in v2:
+- Make the DP tunnel activation callback mandatory. The DPRX
+  caps are now always read inside dprx_work which now also happens to
+  discovered tunnels when they are activated again after hibernation
+  restore.
+- Mark discovered tunnels as active
+- Add a cleanup commit to drop the callback data that's always the same now
+- Tear down DP tunnels that are inactive in tb_stop instead of
+  exposing tb_tunnel_cancel_dprx.
+- Use "router" instead of "switch" in the subject
+- Added comments how these issues can be reproduced
+- Link to v1: https://patch.msgid.link/20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 29b9879c40d8..ef4413581b2a 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -1966,8 +1966,6 @@ static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
- 		tb_dp_resource_unavailable(tb, in, "DPRX negotiation failed");
- 	}
- 	mutex_unlock(&tb->lock);
--
--	tb_domain_put(tb);
- }
- 
- static void tb_tunnel_one_dp(struct tb *tb, struct tb_port *in,
-@@ -2028,8 +2026,7 @@ static void tb_tunnel_one_dp(struct tb *tb, struct tb_port *in,
- 	       available_up, available_down);
- 
- 	tunnel = tb_tunnel_alloc_dp(tb, in, out, link_nr, available_up,
--				    available_down, tb_dp_tunnel_active,
--				    tb_domain_get(tb));
-+				    available_down, tb_dp_tunnel_active, tb);
- 	if (!tunnel) {
- 		tb_port_dbg(out, "could not allocate DP tunnel\n");
- 		goto err_reclaim_usb;
-@@ -2050,7 +2047,6 @@ static void tb_tunnel_one_dp(struct tb *tb, struct tb_port *in,
- 	tb_tunnel_put(tunnel);
- err_reclaim_usb:
- 	tb_reclaim_usb3_bandwidth(tb, in, out);
--	tb_domain_put(tb);
- err_detach_group:
- 	tb_detach_bandwidth_group(in);
- err_dealloc_dp:
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index 1f978fddaeed..00c5a1933544 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -1108,15 +1108,17 @@ static void tb_dp_dprx_work(struct work_struct *work)
- 
- 	tunnel->callback(tunnel, tunnel->callback_data);
- 	tb_tunnel_put(tunnel);
-+	tb_domain_put(tb);
- }
- 
- static int tb_dp_dprx_start(struct tb_tunnel *tunnel)
- {
- 	/*
--	 * Bump up the reference to keep the tunnel around. It will be
--	 * dropped in tb_dp_dprx_stop() once the tunnel is deactivated.
-+	 * Bump up the references to keep the tunnel and the domain around
-+	 * until the work has run or has been canceled.
- 	 */
- 	tb_tunnel_get(tunnel);
-+	tb_domain_get(tunnel->tb);
- 
- 	tunnel->dprx_started = true;
- 	tunnel->dprx_timeout = dprx_timeout_to_ktime(dprx_timeout);
-@@ -1127,11 +1129,15 @@ static int tb_dp_dprx_start(struct tb_tunnel *tunnel)
- 
- static void tb_dp_dprx_stop(struct tb_tunnel *tunnel)
- {
-+	struct tb *tb = tunnel->tb;
-+
- 	if (tunnel->dprx_started) {
- 		tunnel->dprx_started = false;
- 		tunnel->dprx_canceled = true;
--		if (cancel_delayed_work(&tunnel->dprx_work))
-+		if (cancel_delayed_work(&tunnel->dprx_work)) {
- 			tb_tunnel_put(tunnel);
-+			tb_domain_put(tb);
-+		}
- 	}
- }
- 
+To: Andreas Noever <andreas.noever@gmail.com>
+To: Mika Westerberg <westeri@kernel.org>
+To: Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>
+Cc: asahi@lists.linux.dev
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
--- 
-2.55.0
+---
+Sven Peter (7):
+      thunderbolt: Hold a router reference for each path hop
+      thunderbolt: Make the DP tunnel activation callback mandatory
+      thunderbolt: Fix domain reference leak when DPRX read is canceled
+      thunderbolt: Don't access a DP tunnel after its DPRX read was canceled
+      thunderbolt: Mark discovered tunnels as active
+      thunderbolt: Tear down inactive DP tunnels when the domain is stopped
+      thunderbolt: Drop the DP tunnel activation callback data
+
+ drivers/thunderbolt/path.c   | 21 +++++++++++++
+ drivers/thunderbolt/tb.c     | 34 ++++++++++++++-------
+ drivers/thunderbolt/test.c   | 49 ++++++++++++++++++++++-------
+ drivers/thunderbolt/tunnel.c | 73 ++++++++++++++++++++++++++------------------
+ drivers/thunderbolt/tunnel.h | 12 +++-----
+ 5 files changed, 131 insertions(+), 58 deletions(-)
+---
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+change-id: 20260815-b4-tbt-fixes-a2689186016d
+
+Best regards,
+--  
+Sven Peter <sven@kernel.org>
 
 
