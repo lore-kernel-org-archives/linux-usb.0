@@ -1,133 +1,151 @@
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCD8363C60
-	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 18:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4B93AEF4C;
+	Sun, 23 Aug 2026 19:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787511222; cv=none; b=MYqF8SpHWMLUq8bbHxz4Mxg4mtZY9+IrZ3Ouyv0sXzFh3u1g+zY0oFb6LtJ8BuzLxLK0YI67xRGMV0kRT5RFHaUjbp317rbb3tj5RUYFkwvuAn5rcaN4W0SRg8TkJw3e9V8vuxEbZV4TKmxScsyMg1T1sGCEqo2I6OksRuw6BpM=
+	t=1787514616; cv=none; b=JdAK5BU82d2GColPkdDshWHV7UpUh0LKPDJfwXeqbgvKW7mfiYPv8Jo8LRMdWCuxp7UKAkj+Frd9By9Rrc5wSx/MjItCLilDP2PoYLA7oevpKk/qv8xgS0GVoWV32vbfB6+S2ZufPT09Q+IlnZULff4701h+Ga/cWc2cptJOtSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787511222; c=relaxed/simple;
-	bh=WTksam5mMLhz7n6lMlgAb94sGR5kh2LCcO7+DRlNbCs=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fH8ehIp8tG+VLIeapw1b23XLFG5JW2C+JEdJdtU5/VdK1g2ftSS+ohpm+fI8BZ+XGptagboDyGqioR/reUTzOJzZKgzKII8PAM2vSJ+9nNHimF/Fffp+8PGRoVgB39A5N0Fev2D8SkLISfs/zNJGOd44DSNJMv/CX1Rn/QKSlL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4ab260600easo7424380b6e.1
-        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 11:53:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787511220; x=1788116020;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pQNESQLTwJVhBbULXD8kpwkLCSyER8yPmkxG+TsSPnM=;
-        b=RlF0Tw1jvKZJP2dkN0uywtGXnmPbUxx+dyDACkFBpZHEPNzUkcTbn00xA58G24Jc2d
-         z6Y1jXyGUWagag58//wofaX7MDQ80UBLmo+TA4bTsjt7duRoTKY7m2ifvQpCQHRVKDzP
-         o1O8MhryUHDbyf5wnrubePyH9yAYzU4s7zKiNHiFwmJeohNSiIiq2j14HG0oqvZ8JIIL
-         Rmkwr/j/g5rg+/WxO/E9rHp50vt8/fAPA1UxyuJWywG0eCkLgjTdItUrV50wD+pV0AQT
-         N35CQOtJN6sWT/R1E51z0srwIAlEi7IMM73BavWEESIm++gxd1XK8xCpHNRiH0N14M9U
-         WFTQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqBV5Ac/VbAucnjDKKIYQlS1/6uglkYEtI91hEC5mHAl7taEyMzffeGl3sQQcR51g521eUpbT63HYY=@vger.kernel.org
-X-Gm-Message-State: AFuF++lhqM3doZ4DwJ0Y1sM0jrfm7PbHgVgCPHWKbpAvpWcGVpADno6t
-	kZMn3HLI08y1lsZQlrkaaYZxmXUR52U6VVKIccxUren5CNdUr3ZUGgs4EHYRMjrcBwgUPBq2q/9
-	iHXDlpmNPSrIQwynP7j5VGpQEtUqZI/otgQlaqbaeHE3Rperd2CF/gdNg+OQ=
+	s=arc-20240116; t=1787514616; c=relaxed/simple;
+	bh=rX+v7xxXwzLAYpmhtlb2z6doTB3XCvraR4aE3uvDS2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+Zmcu6gu4HFQbWCxcUuHlM0xIvX/ucymK+k9RhEhwtK0Vtpg1hlNlBWeOY+Z232ElFBhG6bisqRYXQa8vY3iR8lyvQ96VsNGAT6NTr8y/TuEdVRFVfwpXLHA6zGR9/SDwKOV//blfLBX7cQdKrdhd4r079ZBYcNZ2gYJ1ItC3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=VZfZauhO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=guCDXltv; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="VZfZauhO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="guCDXltv"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id CE575EC01A5;
+	Sun, 23 Aug 2026 15:50:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sun, 23 Aug 2026 15:50:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1787514609; x=1787601009; bh=pQKnZDxeoh
+	OW6VM9kosMPFjb8ePOTXj9OU7E2dBPW+s=; b=VZfZauhOQaHcDD8Lq8LM/pmZRd
+	nVazpJ3BCIwRX/Qs6S7KcQ2+vHU9whE6khErzX15mJvKhJNNDR1kHXsnbaIuSr63
+	ufMFACxLFA/pGpgb/d0g82CSsnF4C/RYjv2EzPVOLMB2A8kLR4zLLm/wPo54XWV4
+	qMqpqTjV3O5x9bXwqHH32eoJOvK8ugiMSQRaTZZrusq9zRJOu7mP+ZdfEvljP0Be
+	Z44uCmxynw8U0WxlexsqOw7KHQJC/rnvfhm3H/+h7jNlopWnWIokyxLxeWHswC1s
+	j/OM+c6eX8hNxGLzOWFAKPd/33OvACno6Gr5Ama9/JolSXdIjONy5534plNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1787514609; x=1787601009; bh=pQKnZDxeohOW6VM9kosMPFjb8ePOTXj9OU7
+	E2dBPW+s=; b=guCDXltvLKP7vB0PN4d07t+niTl0JA3Qfc7bREgejZ2KZi7KtC9
+	A411G8OJSSoKNah1UOk9uqu48gieBEyy7BwhG40emz1OamaGD/I+zICMh3s1GrXs
+	TpDnD737hgaIA7dvmUzG+oPpphL/yV3Ni3SWEJewRk+EKUm+pYtskg0GgvzVzLp9
+	ZbOVlsEr3sFXzUD8N5sfMFYx/H9quBr/iwf44FVzQ0YlldFeMUapV3BLylRX3Dhj
+	CnnfoMOw9axJRseXi2UmW27pULYWbbVEol37pvxauFlox64mPH10RR3c6r1usBO+
+	GBffrMDlgKr8J/0KJh34FTm4qUkdW3kakmg==
+X-ME-Sender: <xms:8E6LagQGo4DwS3TBlmbpTE42HpdjKzh9ymQ0Ah0MnwzAVXQHhWyTzA>
+    <xme:8E6LaiW7_CKQJRYKjeGpimug3E8_JVZcEegpCj08ztaaWkVawy_qv4XpoZgn5T4VB
+    oY7_dEO850_dDmiDMT0WLOFuN9ZsmHUnc3w52meOArWDxM1ly5UNDo>
+X-ME-Received: <xmr:8E6Laq9su9Idxv2ABaAxtsxKU71lXplROg2C2JtLbkuCVpqdO8liyuyILsYhPwFQ_JD_6sbBjQ_2x0iSbecH57V_5T_ik_aXExA>
+X-ME-Proxy-Cause: dmFkZTEgrk7A58agCDVcNKxfDluB8i4Efx5YmwwxBhKTud2OzRsywHdKffRyobKFKCEKCN
+    sFUvmCo4CAyvgWf8Bhyvpt1YqjWK0/zcxoheKuyfThaV90hW6k4ZwLacDrMYlDkYiyNLIH
+    JG8iJMtaEI9BE9iq0OnlzxBqW6RC89CZ6zkqicfRmy26QD0sBvT+orAIi6LQJ/VOsMdZaK
+    k8mjSks0botyaotjJUIYa1tv1VudpwFM1ueAKcPDNZTnyZbacbxa3+muVRw+J+Ut/nR9Th
+    hMxbEidqEtF7AeZ80LvKooHB4sGQ0PeUrfDqXi8IMk0oXfUah52Ah7YzF0p1upWm0ZbOZF
+    PcGUpKXYmSm/t3EUE9UPI6snQUdMyiLFe3bXljxhLBx1wum8yHUD+b6gP7Me4egyhjvmvE
+    XxjzrW27GaV569oHAqf5U41kIBrB5gwo1EZVQexNzlvIAjd+0AvfBED1odPK+G41dP8tut
+    VH1DL69/eYg/xuFZUkC0hYcOkFQ/ahxQPpyZeWuZZhJ4QrYzONfJ3Fjbk0nG1/XxDU7ZoQ
+    w9tVPfeZ0ijoneq/kV+dwKh1za6hURDCdyGmB2RaTHrq7njqcy9EDGGWFMWtzIVUqwN6I7
+    DJl4p5QPkPE1CkVS7kNu7TBitX44daVRMiTK2nroH5xrJK7xMT25llwNqUgQ
+X-ME-Proxy: <xmx:8E6Laq0RglNLJUS8M7oBoAB3bwqZ4Z6C-2bCnZsqHcgpyvuox5AR5A>
+    <xmx:8E6LancJ9EIBYVPcOisEWNhOB4i43xgWxfeglfz1K-BBTF8_JoKoNg>
+    <xmx:8E6LapCR41oWBXbNDsFgq-cAlDsov___sf5DhW6f5UPzbhHCOxLNyQ>
+    <xmx:8E6Lam9-01NBZiS6Y9r7gWfc9ey2GJcGtvqQOv5z8098NlmqwSnj6g>
+    <xmx:8U6Laruj9DN9mm4zjg8UOMRpgH4lJrT19_MbtFw5OkN0MGUCz_v865xz>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 23 Aug 2026 15:50:07 -0400 (EDT)
+Date: Sun, 23 Aug 2026 21:50:05 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH v5 2/3] usb: typec: tipd: Factor out i2c specifics
+Message-ID: <20260823195005.GA773834@robin.jannau.net>
+References: <20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech>
+ <20260821-tipd-ace3-v5-2-3244ed3bdc3f@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:4704:b0:4ab:224d:6dd6 with SMTP id
- 5614622812f47-4b2cddd4647mr25073978b6e.15.1787511220196; Sun, 23 Aug 2026
- 11:53:40 -0700 (PDT)
-Date: Sun, 23 Aug 2026 11:53:40 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8b41b4.dbb3a75c.13dd47.0052.GAE@google.com>
-Subject: [syzbot] [net?] [usb?] UBSAN: shift-out-of-bounds in vcc_connect
-From: syzbot <syzbot+6665d3db5fef15914802@syzkaller.appspotmail.com>
-To: 3chas3@gmail.com, davem@davemloft.net, edumazet@google.com, 
-	horms@kernel.org, kuba@kernel.org, linux-atm-general@lists.sourceforge.net, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260821-tipd-ace3-v5-2-3244ed3bdc3f@chaosmail.tech>
 
-Hello,
+On Fri, Aug 21, 2026 at 10:26:20AM +0200, Sasha Finkelstein wrote:
+> From: Alyssa Milburn <amilburn@zall.org>
+> 
+> Make the core driver more bus-agnostic to prepare for SPMI variants of
+> the tipd chip
+> 
+> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  drivers/usb/typec/tipd/Kconfig    |   8 +++--
+>  drivers/usb/typec/tipd/Makefile   |  11 ++++---
+>  drivers/usb/typec/tipd/core.c     | 230 ++++++++++++++++++++++++-----------------------------------------------------------------------------------------------------------------------
+>  drivers/usb/typec/tipd/i2c.c      | 106 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/usb/typec/tipd/tps6598x.h | 123 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 280 insertions(+), 198 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 522f56742aa9..36fccd45858b 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -2085,33 +1950,14 @@ static const struct tipd_data tps25750_data = {
+>  	.connect = tps6598x_connect,
+>  };
+>  
+> -static const struct of_device_id tps6598x_of_match[] = {
+> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
+> -	{ .compatible = "ti,tps66993", &tps66993_data},
+> -	{ .compatible = "apple,cd321x", &cd321x_data},
+> -	{ .compatible = "ti,tps25750", &tps25750_data},
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+> -
+> -static const struct i2c_device_id tps6598x_id[] = {
+> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
+> -	{ }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+> -
+> -static struct i2c_driver tps6598x_i2c_driver = {
+> -	.driver = {
+> -		.name = "tps6598x",
+> -		.pm = &tps6598x_pm_ops,
+> -		.of_match_table = tps6598x_of_match,
+> -	},
+> -	.probe = tps6598x_probe,
+> -	.remove = tps6598x_remove,
+> -	.id_table = tps6598x_id,
+> +const struct tipd_data *tipd_hw_variants[] = {
+> +	[TIPD_VARIANT_CD321X] = &tipd_cd321x_data,
+> +	[TIPD_VARIANT_TPS6598X] = &tipd_tps6598x_data,
+> +	[TIPD_VARIANT_TPS66993] = &tipd_tps6598x_data,
 
-syzbot found the following issue on:
+this should be &tipd_tps66993_data
 
-HEAD commit:    bd5f485f3f02 Merge tag 'soc-arm-7.3' of git://git.kernel.o..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=16736e79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6d6c2a05eaadaf10
-dashboard link: https://syzkaller.appspot.com/bug?extid=6665d3db5fef15914802
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133f2549580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2da33ef8d789/disk-bd5f485f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7e8921e0c1e1/vmlinux-bd5f485f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c7e5335b79c8/bzImage-bd5f485f.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+6665d3db5fef15914802@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-UBSAN: shift-out-of-bounds in net/atm/common.c:381:10
-shift exponent -1 is negative
-CPU: 0 UID: 0 PID: 6073 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
- __ubsan_handle_shift_out_of_bounds+0x279/0x2a0 lib/ubsan.c:494
- __vcc_connect net/atm/common.c:381 [inline]
- vcc_connect.cold+0xe0/0x123 net/atm/common.c:498
- pvc_bind+0x33f/0x460 net/atm/pvc.c:52
- __sys_bind_socket net/socket.c:1945 [inline]
- __sys_bind_socket net/socket.c:1937 [inline]
- __sys_bind+0x1a9/0x260 net/socket.c:1976
- __do_sys_bind net/socket.c:1981 [inline]
- __se_sys_bind net/socket.c:1979 [inline]
- __x64_sys_bind+0x72/0xb0 net/socket.c:1979
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f6a3099e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff44bcea08 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
-RAX: ffffffffffffffda RBX: 00007f6a30c25fa0 RCX: 00007f6a3099e0d9
-RDX: 000000000000000c RSI: 0000200000000100 RDI: 0000000000000004
-RBP: 00007f6a30a35024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f6a30c25fac R14: 00007f6a30c25fa0 R15: 00007f6a30c25fa0
- </TASK>
----[ end trace ]---
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Janne
