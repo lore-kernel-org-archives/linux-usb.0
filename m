@@ -1,124 +1,115 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward200a.mail.yandex.net (forward200a.mail.yandex.net [178.154.239.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E313563FB
-	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 17:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D10A3346BE
+	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 17:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787504732; cv=none; b=Z8qp6WE8PFwX8wzE2g/U4IVMA19oaqAArWd9Fe4jJDAr3wKtTT1e/pCwI6tBoDoaRKBY6pRVBnklr59Q+PFzXF/Me56UeE5mF0iYhuXZVrWV5kkqs9qefDiqvdu8YTtsaYQx+RioeiBHe8G6rtgwXv9BdAMzEJovNsHka5lVCbQ=
+	t=1787505325; cv=none; b=KJucM7r+bFMn5ZG2CQbItcm8vkQz2sunWFS+yw0S9wE2YBxU3IjyGeT/Hp/aJ+sTBH5Tbl6Owv1aZyyIBpYpfjzu+vEwDCowx+F2TNGndqpXDwXoG8kRHGgKsCduYw3Bf1efJs5U7T8sieYLvubkBt4j/ltVmMTAjJGgNRM2iUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787504732; c=relaxed/simple;
-	bh=tZ3kOiXAkP3ZajzR9DGtBNJIg33EF2ByFAZEw7fsQVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DT1iPqkJGVEw6Iz5sPD4ihyGeVqNas/yqzbS7C+x3B1VlvF8KcpRLk3yBilPu6JqfdkZSaiWIRH3tPa3yAHgzjBRpoOSXz2qTSTMoyOMTxh7aUU32MerFKguRFhF0+qWQWDRbNbEbNO7RmVBl2JTklDJiCaS71p1aUUfriylXfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IMBzUQdt; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787505325; c=relaxed/simple;
+	bh=l/TH0P6NHckfNTOVfMrf2tL1foeMjYSY2cw0A8LBgPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=p2tquJLVf7VCVhow20DlIjSwO/cgGeScnvM7yrVTvBsJAoCUZC1tORccTLP4vbEVwc93yzW3FZWI+RU5uZTFrrYe88hSlBPKnH6b+BtKt1h7dNl2taxrSC1cUCAOSk8F7YLYdmLOdWoRuvC7WwNxnNS0+FtGytvVBkmRjK5K4tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=ruCksvKV; arc=none smtp.client-ip=178.154.239.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMBzUQdt"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ce98cb8165so25181535ad.1
-        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 10:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787504729; x=1788109529; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pYrUZlO7IqIkRYhROYYB/AOAuFYaRX4X5UCYzj5mFMc=;
-        b=IMBzUQdtLJ+6V/GO1zZOcwtv+iGs3xmZT8AZUqYbjDExUonMHcjuWfklNcJecR2BCg
-         Jd1KnLrhRjGmE+PslLtYNI9i/yra8VGUFzc31aF2fSJjqm1Jj+Si3ZK8EGf5PNuPFfWM
-         MGsw2hRPyLol20NDBQXIN8SvBl//QMbW0eoBmB+DuuS91oQk9iqgQ/o6ys3D2a+6NMUz
-         1lqtYjVpW17z5oWqM+F+EIS1ofXj1n6fPH4HnZcha8MApRnVavJ9G7YroDQfL1Q3WD/G
-         Xfs+Wo1E4fE3vaZsQ/ng3CLyqZeSDuiqHyTBSZ1aeJrZNvIpGZPHcz46V6jT8i71BXUH
-         e1ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787504729; x=1788109529;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pYrUZlO7IqIkRYhROYYB/AOAuFYaRX4X5UCYzj5mFMc=;
-        b=iglgMRrV1xdcUl89ne9oDvq4W5rGzBElZZwBEyOD/jajZYHBsk71wFGfYb1dtFnvqz
-         mxzXdO1Mz5ctkRBQj0wr1qTOxxPXfOs3trDqZQLA5l2B/GUzLa/dKzmfE2J3AXuYkSdm
-         tbfwSyzeaCuFXwOb2PCB9jauIjpKcrXe6ILsNPx8X6hkE46ExCLcUStpcfj1pTwaZv1I
-         p+LrO0sRsoAjNbTpxJk4XLSthZHLHG70KTmZwHHGNg8NKNPGS9tybuxk0JIqKf9QPW9D
-         HpGDtz2pzob4LsBwpissyLv+OrP0Gm521x45yW6y2YPISzio5Oiss8DxYolteWrX9Ha1
-         xF1Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrIa5TOTtj71WcD0Q4bppzlLFsZmcEBWrr7CPqayFIGgWhGuRDkO53Q0M8FM2l7bpHWghuB1GKtyFo=@vger.kernel.org
-X-Gm-Message-State: AFuF++mb1vxiEkrXcaVNIN7L+BnSt8sOCd/oJ7u6DU2+wyl/HchSHmFX
-	aUaC2iWTS3e9fd5p/RkOTa88GxDCB9sq9iQDZXA+8xC3JB878bP9DUTm
-X-Gm-Gg: AR+sD12kxfpamrVP4SkMQ8iuF8Aacn5sKVQyLgA20HXy3aX2sG3rcUf+kbnTEIcEZiT
-	pPHETxmFwNW7CCPSKOG+Dt8xGKE/WhBloFTGAwO6mB/XZeUHa+QaPEFq8A82e4vlnsNDs0GW6WX
-	jYIHCSzPv9SIB+uJDK3SCK1CpUsOLgk8YR0zSR7YSrOdD+LtYlje7TEQs9tUGvAyGhsRqsk9TZa
-	3G2QhtQlxd9ql/qx6LHfDZAy9SM48D43vqPhHNkCvvqEXZ4eQhvT/qpanEa5HHl8PZZDFC/95Mz
-	gmjiVp5KavgeJ5anHx1ENXqS9WcgxNYw8rCHfmD7hFUlwNTGg6X9eI9yXt0iSMv9zT9J+hQj7OK
-	I8VTkY+VYdrzzWrYneNu3EjiMsWpIeifVmQuDFwM3vn0OnDXbxp/dBUw7PF5I3KxIGvS9eF+gYV
-	iKdfFz+PCKaCCr/XHuunZH2lNGUBb1DKbzD9UbhQ7o+asbKxTzLYOAm/gF7NFJq6y7KezveRGN6
-	lMxU0GN+SGU/dWYZxKEQ+M1nsiA
-X-Received: by 2002:a17:903:b45:b0:2ce:a6a4:451b with SMTP id d9443c01a7336-2d61a183641mr202719365ad.11.1787504729357;
-        Sun, 23 Aug 2026 10:05:29 -0700 (PDT)
-Received: from localhost ([2409:40c4:35d:a0d7:1d3:cd30:d9bc:b5a9])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d36f9sm26172029eec.16.2026.08.23.10.05.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 10:05:28 -0700 (PDT)
-Date: Sun, 23 Aug 2026 22:35:24 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>, 
-	Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org, regressions@lists.linux.dev, 
-	stable@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Mario Limonciello <mario.limonciello@amd.com>, Forest <forestix@gaga.casa>, 
-	Slavik Dev <developer.slavik@gmail.com>, Mathieu Fluhr <mathieu.fluhr@gmail.com>
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-Message-ID: <aoser8dLytrwqBC2@eggarch>
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
- <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
- <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
- <aosGtkE_diwVJJtB@eggarch>
- <20260823174059.46fec036.michal.pecio@gmail.com>
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="ruCksvKV"
+Received: from forward100a.mail.yandex.net (forward100a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d100])
+	by forward200a.mail.yandex.net (postfix) with ESMTPS id DF564C30D6
+	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 20:15:09 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:ba1f:0:640:6bea:0])
+	by forward100a.mail.yandex.net (postfix) with ESMTPS id 576E4C0449;
+	Sun, 23 Aug 2026 20:15:02 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (smtp) with ESMTPSA id 0FeRqtZeQKo0-vnHFgmbP;
+	Sun, 23 Aug 2026 20:15:01 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1787505301; bh=PryXxOhFEZUgDL162wMBCrifHiGUkXsLqlF6hq/3DE8=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=ruCksvKVIkilgrQ0Gv/C902i83jFKS42WYUiS8UWEFAxyeIkMEWYPQiHne3qwpD77
+	 a5/8rzGFict0m3loE4JW6Xv+EHGoXU90viirEU85VK8aaSABhVIOn77iAGW4YuXpLr
+	 KSZKl9nyazN82yGCNZrOtcaOesxdwtlnGYQ38kcQ=
+Authentication-Results: mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH] usb: gadget: dummy_hcd: add tick_us module parameter for
+Date: Sun, 23 Aug 2026 17:15:00 -0000
+Message-ID: <178750530003.146199.10916428504166445366@yandex.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260823174059.46fec036.michal.pecio@gmail.com>
 
-On Sun, Aug 23, 2026 at 05:40:59PM +0200, Michal Pecio wrote:
-> But I'm not sure what you mean by "1Hz stress loop" and why is slowing
-> down the suspend/resume cycles or moving suspend from close() call into
-> a work supposed to create problems?
-> 
-> I would naively think that doing things *too fast* is more likely to
-> trigger races and break the HW. The whole issue smells like a HW bug,
-USB2 roothubs still do 30 ms cycles and are harmless, only stretched SS
-ones kill the box. So if speed were the issue the faster ones would be
-dying first and pre regression kernels ran fine.
+From: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+Date: Sun, 23 Aug 2026 17:12:49 +0000
+Subject: [PATCH] usb: gadget: dummy_hcd: add tick_us module parameter for
+ timer-rate tuning
 
-About 1Hz, adb scans the bus once a second,
-every open resumes the root hub and host controller out of D3 and close
-puts it back this existed before regression too but with 30 ms of
-close() and slept for rest of the second and now it keeps it
-in D0 well after close(), the suspend itself happening later from the
-delayed work, so this d3 - d0 - d3 trip of ~230ms repeats on
-each scan. That's the loop I meant.
+The simulated controller completes URBs on a hrtimer armed at a fixed
+125 us (one high-speed microframe). Against a permanently polled HID
+interrupt endpoint this creates a self-sustaining pendulum at ~8 kHz:
+every completion triggers an immediate resubmit, which rearms the
+timer. The rate is unconditional - it does not depend on traffic.
 
-> Can it not become a problem for external hubs, under other workloads?
-Possibly yes, but nobody reported that so I'd rather scope where the
-harm is proven.
+On timer-rate-sensitive platforms (observed: one consumer AM4 board,
+BIOS current, stock kernel) this pendulum co-existing with a live
+Bluetooth session behind the same xHCI controller results in a hard,
+below-software platform hang: printk, SysRq, NMI and both watchdogs
+die in the same instant, with no panic, no MCE, and empty pstore.
+13 occurrences over 5 days, fully reproducible; the same workload
+with the pendulum slowed to 1000 us (this parameter) ran ~8 hours
+with zero hangs, and USB-cable sessions (identical gadget traffic,
+no BT co-existence) never hung.
 
-> Also, what if we connect a downstream SS hub to the root hub? Will this
-> not cause the root hub to stay awake for 200ms again? Problem is back?
-The root hub itself skips the hold since the check is on its own parent,
-but it will be kept awake anyway while the downstream hub or devices are
-in use which is normal activity based PM.
-If heavy polling behind a real hub ever causes trouble that's probably a
-xhci/platform level fix anyways since real hubs can't really just drop
-the hold.
+Nothing else in the driver's behaviour depends on the exact tick:
+the bandwidth model accounts per-frame budget regardless of how
+often frames are simulated, so a larger tick trades latency
+(1 ms added worst case at tick_us=3D1000) for interrupt-rate headroom.
 
-Regards,
-Lovekesh
+Default keeps the current 125 us behaviour bit-for-bit.
+
+Signed-off-by: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+---
+ drivers/usb/gadget/udc/dummy_hcd.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dumm=
+y_hcd.c
+index c0e40fa..f185b87 100644
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -51,7 +51,7 @@
+ #define POWER_BUDGET	500	/* in mA; use 8 for low-power port testing */
+ #define POWER_BUDGET_3	900	/* in mA */
+=20
+-#define DUMMY_TIMER_INT_NSECS	125000 /* 1 microframe */
++#define DUMMY_TIMER_INT_NSECS	((u64)tick_us * NSEC_PER_USEC)
+=20
+ static const char	driver_name[] =3D "dummy_hcd";
+ static const char	driver_desc[] =3D "USB Host+Gadget Emulator";
+@@ -79,6 +79,12 @@ module_param_named(is_high_speed, mod_data.is_high_speed, =
+bool, S_IRUGO);
+ MODULE_PARM_DESC(is_high_speed, "true to simulate HighSpeed connection");
+ module_param_named(num, mod_data.num, uint, S_IRUGO);
+ MODULE_PARM_DESC(num, "number of emulated controllers");
++
++static unsigned int tick_us =3D 125;
++module_param(tick_us, uint, 0644);
++MODULE_PARM_DESC(tick_us,
++		"enqueue-to-completion latency of the simulated controller, in microsecond=
+s (default 125, one high-speed microframe);"
++		" larger values slow the internal timer pendulum and reduce its interrupt-=
+rate pressure on the host platform");
+ /*-------------------------------------------------------------------------*/
+=20
+ /* gadget side driver data structures */
+--=20
+2.43.0
+
