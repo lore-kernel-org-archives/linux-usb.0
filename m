@@ -1,118 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1762F5A0E;
-	Sun, 23 Aug 2026 17:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412CA2FD7C3;
+	Sun, 23 Aug 2026 18:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787506192; cv=none; b=nB5KUyheQanneQwnQUZEUBEfu8X/b4JeUzJ/1psC3ZNZFtEC6x3r8pSjXsQbmePKhotBkqdDHcoVU1Q5qGelvVCctxyd6Yuu3PjlgLJ/8BBBh8XpSohvpwM0QsBOoidgbR+HVd1JvAXGMAgKvUrCu9ab/Sy7Hqu9DfMLP9isS7M=
+	t=1787508016; cv=none; b=n3ukWF25P1mDb3TBBv7A/zAOPTiGHXi8ABIRboUxGIU7swapg6pvT0ykR4sX4xuMJc4gTWUeNqnTBFPwYBzDb3SkfZ/+EHJg0Vq2jxL/xyyAp0CNhMl8kP71er5AVppI/I6DYjoNoYwZmLRHk6ebBKrO4g83rS2xu8/1LsQPgg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787506192; c=relaxed/simple;
-	bh=jmM5SXJ1QM0unKtzepjLGi1QGthhDRbAYwRI3IPLqc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQCoikiLGLAYPNNEP5V7w2R9EC9DavJnVaqe7r4btbOO2W1dbFlOd58AAJKQ/Esr51Hg0cFxATJZg/nw+8YnAHMlC9heJLRxEyJj4OS2Byr5J/1ivEB+Euh/1taGikvZRYb2hFujIN45lnU0WGy1BGb0P42uLJy1kNgO04r8nec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kvh+riaE; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kvh+riaE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787561F000E9;
-	Sun, 23 Aug 2026 17:29:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787506190;
-	bh=s/X4uoXU1lSsTreDd4JtMNx12If+u9/RDGV3FNS1Sf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kvh+riaE8ySP8Sxq6Bnm0tgug2Dnral/1xux4lVSi8SpNWlha1TTyIWZ4d8gfjB2+
-	 PFlPQECbSReptY31ls86nTuvE8507LN3tjCUyrYeqiQI0WYgXqZj0dFbyXl5U2bgVW
-	 6FSknV/FAM1rKNKxGrVqHlCH9JdP6fjhP4Nv49K0=
-Date: Sun, 23 Aug 2026 19:28:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: syzbot <syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com>,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] INFO: task hung in unbind_store
-Message-ID: <2026082333-persuader-overturn-8205@gregkh>
-References: <6a8adc31.ae6ddae5.3da009.0064.GAE@google.com>
- <2026082307-negligent-lusty-750a@gregkh>
- <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
+	s=arc-20240116; t=1787508016; c=relaxed/simple;
+	bh=97QDPfohEIIivZd/werejf8J7hDmTG5Q1TT2BdkFizc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fmKq/y8ernJsHEB96e9f7yBMvW7KCHziNo03dijWrgdRHjR2cZKW2bYkms87OMgLjU2pINcyBOSvNYF+9ASLkSGX1FcNAo9GfDtNLdtDSRiiabA0SlkLwuwUUQMqAOH1LW0Uuf0wZQraggscvy+EcO/NuDoKBBhD1KIcbnv0yHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from [192.168.2.104] (91.78.10.7) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Sun, 23 Aug
+ 2026 21:00:06 +0300
+Message-ID: <8d9b19aa-c44a-47d0-aef9-9cf5e639f1e7@auroraos.dev>
+Date: Sun, 23 Aug 2026 21:00:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] r8152: simplify loops in generic_ocp_{read,write}()
+To: David Laight <david.laight.linux@gmail.com>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>
+References: <20260822202155.18632-1-s.shtylyov@auroraos.dev>
+ <bf541361-3d57-4e53-8c67-78b474b420a2@auroraos.dev>
+ <20260823091131.0254d6ab@pumpkin>
+ <4a7604ab-c6ef-4552-b63b-3e7146ff42d0@auroraos.dev>
+ <20260823105110.231a88bc@pumpkin>
+Content-Language: en-US
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+In-Reply-To: <20260823105110.231a88bc@pumpkin>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
 
-On Sun, Aug 23, 2026 at 10:40:03AM -0400, Alan Stern wrote:
-> On Sun, Aug 23, 2026 at 01:46:43PM +0200, Greg KH wrote:
-> > On Sun, Aug 23, 2026 at 04:40:33AM -0700, syzbot wrote:
-> > > Hello,
-> > > 
-> > > syzbot found the following issue on:
-> > > 
-> > > HEAD commit:    e8bf40d15402 Merge tag 'chrome-platform-firmware-v7.3' of ..
-> > > git tree:       upstream
-> > > console+strace: https://syzkaller.appspot.com/x/log.txt?x=13e9f679580000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=1941312e3e971b07
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=fd7be5ad9795b7f29df3
-> > > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a75679580000
-> > > 
-> > > Downloadable assets:
-> > > disk image: https://storage.googleapis.com/syzbot-assets/7df7b958efe0/disk-e8bf40d1.raw.xz
-> > > vmlinux: https://storage.googleapis.com/syzbot-assets/cefbf90e524a/vmlinux-e8bf40d1.xz
-> > > kernel image: https://storage.googleapis.com/syzbot-assets/37a530b91001/bzImage-e8bf40d1.xz
-> > > 
-> > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > > Reported-by: syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com
-> > > 
-> > > INFO: task syz.4.23:6285 blocked for more than 143 seconds.
-> > >       Not tainted syzkaller #0
-> > > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > > task:syz.4.23        state:D stack:27592 pid:6285  tgid:6285  ppid:6213   task_flags:0x400140 flags:0x00080002
-> > > Call Trace:
-> > >  <TASK>
-> > >  context_switch kernel/sched/core.c:5510 [inline]
-> > >  __schedule+0x17d4/0x5630 kernel/sched/core.c:7239
-> > >  __schedule_loop kernel/sched/core.c:7316 [inline]
-> > >  schedule+0x164/0x2b0 kernel/sched/core.c:7331
-> > >  schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7388
-> > >  __mutex_lock_common kernel/locking/mutex.c:726 [inline]
-> > >  __mutex_lock+0x7c1/0x1550 kernel/locking/mutex.c:821
-> > >  device_lock include/linux/device.h:1104 [inline]
-> > >  __device_driver_lock drivers/base/dd.c:1170 [inline]
-> > >  device_release_driver_internal+0x93/0x880 drivers/base/dd.c:1369
-> > >  unbind_store+0x1a1/0x1d0 drivers/base/bus.c:244
-> > 
-> > Ok, I'm going to add a new TAINT flag for when unbind is written to as
-> > that is obviously not a normal operation and is only for debugging
-> > things by kernel developers.  Adding loads of work-arounds in the kernel
-> > for this not-real-workload-path is just not required.
-> > 
-> > If syzbot could stop hitting this path, that would be great, as it's a
-> > root-only thing for debugging and not something "real".
+On 8/23/26 12:51 PM, David Laight wrote:
+[...]
+
+>> On 8/23/26 11:11 AM, David Laight wrote:
+>> [...]
+>>
+>>>>> In generic_ocp_{read,write}(), the *while* loops look very strange:
+>>>>> the last iteration is executed differently to the prior ones, doing
+>>>>> some useless assignments before *break*. Move the code for the last
+>>>>> iteration out of the loop bodies, dropping the pointless statements
+>>>>> as well...
+>>>>>
+>>>>> Found by Linux Verification Center (linuxtesting.org) with the Svace
+>>>>> static analysis tool.
+>>>>>
+>>>>> Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+>>>>
+>>>>    Actually, scratch this patch -- it's not entirely correct... :-/
+>>>>
+>>>> [...]
+>>>>
+>>>>> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c>>> index f61686433031..de9738bdce85 100644
+>>>>> --- a/drivers/net/usb/r8152.c
+>>>>> +++ b/drivers/net/usb/r8152.c
+>>>>> @@ -1431,27 +1431,19 @@ static int generic_ocp_read(struct r8152 *tp, u16 index, u16 size,
+>>>>>     if ((u32)index + (u32)size > 0xffff)
+>>>>>             return -EPERM;
+>>>>>
+>>>>> -   while (size) {
+>>>>> -           if (size > limit) {
+>>>>> -                   ret = get_registers(tp, index, type, limit, data);
+>>>>> -                   if (ret < 0)
+>>>>> -                           break;
+>>>>> -
+>>>>> -                   index += limit;
+>>>>> -                   data += limit;
+>>>>> -                   size -= limit;
+>>>>> -           } else {
+>>>>> -                   ret = get_registers(tp, index, type, size, data);
+>>>>> -                   if (ret < 0)
+>>>>> -                           break;
+>>>>> +   while (size > limit) {
+>>>>> +           ret = get_registers(tp, index, type, limit, data);
+>>>>> +           if (ret < 0)
+>>>>> +                   goto error1;
+>>>>>
+>>>>> -                   index += size;
+>>>>> -                   data += size;
+>>>>> -                   size = 0;
+>>>>> -                   break;
+>>>>> -           }
+>>>>> +           index += limit;
+>>>>> +           data += limit;
+>>>>> +           size -= limit;
+>>>>>     }
+>>>>>
+>>>>
+>>>>    I forgot to check size for 0 here...
+>>>
+>>> I don't think it can be zero - assuming it isn't zero on entry.
+>>
+>>    Even if so, anyways it can -- if size % limit == 0 on entry...
 > 
-> Actually, I could imagine people wanting to use unbind for a real 
-> purpose -- you could consider it to be a more specific form of modprobe 
-> blacklisting.
+> Not with the 'size > limit' check at the top of the loop.
 
-If you want to do that, just don't load the module :)
+   Ah, indeed, I didn't realize this check is also "strange": the
+code of the last iteration gets always executed, even if !(size %
+limit)... Anyway, the current code is safe against !size on entry
+and mine is not. I think I should play safe and keep that behavior...
 
-> The bind attribute is the one which really should taint the kernel, 
-> because it bypasses the normal matching checks.  Also, all the numerous 
-> syzbot bug reports coming out lately have involved weird bind 
-> operations, not unbind.  Unbind should pretty much always work.
+[...]
 
-"always work" is tough due to the races that can, and will, happen for
-many non-hotplugged bus devices, as syzbot is finding now.  We shouldn't
-require this, as again, it's a debugging thing.
-
-bind is used by the virtio people for some reason, but yes, I will be
-glad to taint at that point as well.  I'll look into doing that after
--rc1 is out.
-
-thanks,
-
-greg k-h
+MBR, Sergey
