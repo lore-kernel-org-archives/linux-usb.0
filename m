@@ -1,151 +1,196 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4B93AEF4C;
-	Sun, 23 Aug 2026 19:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8EA238D54
+	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 19:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787514616; cv=none; b=JdAK5BU82d2GColPkdDshWHV7UpUh0LKPDJfwXeqbgvKW7mfiYPv8Jo8LRMdWCuxp7UKAkj+Frd9By9Rrc5wSx/MjItCLilDP2PoYLA7oevpKk/qv8xgS0GVoWV32vbfB6+S2ZufPT09Q+IlnZULff4701h+Ga/cWc2cptJOtSQ=
+	t=1787514928; cv=none; b=PeAaOODdLTQQ9fMnJJVfe+MciJVh5Dhrq2YP/ThAr33tMkiWnXXGamXTj9JpNdd7I3PRz0Yq/6oH8GCXpc0q5OyaHIxiGOKjHYZxyf8ggo+22DOt/xSA3Zx98WWeuzzUuq3hQpXJo1diILhK4hT24fJ6OZUR0Q0A67nKrKnuTlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787514616; c=relaxed/simple;
-	bh=rX+v7xxXwzLAYpmhtlb2z6doTB3XCvraR4aE3uvDS2o=;
+	s=arc-20240116; t=1787514928; c=relaxed/simple;
+	bh=sE/AeBVT5uCAOR6H88Bpd+YsMDgwg3PiE7ny53YJmx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+Zmcu6gu4HFQbWCxcUuHlM0xIvX/ucymK+k9RhEhwtK0Vtpg1hlNlBWeOY+Z232ElFBhG6bisqRYXQa8vY3iR8lyvQ96VsNGAT6NTr8y/TuEdVRFVfwpXLHA6zGR9/SDwKOV//blfLBX7cQdKrdhd4r079ZBYcNZ2gYJ1ItC3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=VZfZauhO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=guCDXltv; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTrzmsvP8s3czrcl/ZIpPHtkAvYF/DRNezeoAfruR3ep8EK5r+zkmJSrNpp0DYM1foyGBugXpfUqs5qvEU7BWkf6a8d991YpuvYjh8uWAU0ss8lhcsGpU/gfSCksk/3e9zQWXmO6ZNkxCyb6k62xSOCHC/NzVkof4/LJ7F93x7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=M4pmbu98; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="VZfZauhO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="guCDXltv"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id CE575EC01A5;
-	Sun, 23 Aug 2026 15:50:09 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sun, 23 Aug 2026 15:50:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1787514609; x=1787601009; bh=pQKnZDxeoh
-	OW6VM9kosMPFjb8ePOTXj9OU7E2dBPW+s=; b=VZfZauhOQaHcDD8Lq8LM/pmZRd
-	nVazpJ3BCIwRX/Qs6S7KcQ2+vHU9whE6khErzX15mJvKhJNNDR1kHXsnbaIuSr63
-	ufMFACxLFA/pGpgb/d0g82CSsnF4C/RYjv2EzPVOLMB2A8kLR4zLLm/wPo54XWV4
-	qMqpqTjV3O5x9bXwqHH32eoJOvK8ugiMSQRaTZZrusq9zRJOu7mP+ZdfEvljP0Be
-	Z44uCmxynw8U0WxlexsqOw7KHQJC/rnvfhm3H/+h7jNlopWnWIokyxLxeWHswC1s
-	j/OM+c6eX8hNxGLzOWFAKPd/33OvACno6Gr5Ama9/JolSXdIjONy5534plNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1787514609; x=1787601009; bh=pQKnZDxeohOW6VM9kosMPFjb8ePOTXj9OU7
-	E2dBPW+s=; b=guCDXltvLKP7vB0PN4d07t+niTl0JA3Qfc7bREgejZ2KZi7KtC9
-	A411G8OJSSoKNah1UOk9uqu48gieBEyy7BwhG40emz1OamaGD/I+zICMh3s1GrXs
-	TpDnD737hgaIA7dvmUzG+oPpphL/yV3Ni3SWEJewRk+EKUm+pYtskg0GgvzVzLp9
-	ZbOVlsEr3sFXzUD8N5sfMFYx/H9quBr/iwf44FVzQ0YlldFeMUapV3BLylRX3Dhj
-	CnnfoMOw9axJRseXi2UmW27pULYWbbVEol37pvxauFlox64mPH10RR3c6r1usBO+
-	GBffrMDlgKr8J/0KJh34FTm4qUkdW3kakmg==
-X-ME-Sender: <xms:8E6LagQGo4DwS3TBlmbpTE42HpdjKzh9ymQ0Ah0MnwzAVXQHhWyTzA>
-    <xme:8E6LaiW7_CKQJRYKjeGpimug3E8_JVZcEegpCj08ztaaWkVawy_qv4XpoZgn5T4VB
-    oY7_dEO850_dDmiDMT0WLOFuN9ZsmHUnc3w52meOArWDxM1ly5UNDo>
-X-ME-Received: <xmr:8E6Laq9su9Idxv2ABaAxtsxKU71lXplROg2C2JtLbkuCVpqdO8liyuyILsYhPwFQ_JD_6sbBjQ_2x0iSbecH57V_5T_ik_aXExA>
-X-ME-Proxy-Cause: dmFkZTEgrk7A58agCDVcNKxfDluB8i4Efx5YmwwxBhKTud2OzRsywHdKffRyobKFKCEKCN
-    sFUvmCo4CAyvgWf8Bhyvpt1YqjWK0/zcxoheKuyfThaV90hW6k4ZwLacDrMYlDkYiyNLIH
-    JG8iJMtaEI9BE9iq0OnlzxBqW6RC89CZ6zkqicfRmy26QD0sBvT+orAIi6LQJ/VOsMdZaK
-    k8mjSks0botyaotjJUIYa1tv1VudpwFM1ueAKcPDNZTnyZbacbxa3+muVRw+J+Ut/nR9Th
-    hMxbEidqEtF7AeZ80LvKooHB4sGQ0PeUrfDqXi8IMk0oXfUah52Ah7YzF0p1upWm0ZbOZF
-    PcGUpKXYmSm/t3EUE9UPI6snQUdMyiLFe3bXljxhLBx1wum8yHUD+b6gP7Me4egyhjvmvE
-    XxjzrW27GaV569oHAqf5U41kIBrB5gwo1EZVQexNzlvIAjd+0AvfBED1odPK+G41dP8tut
-    VH1DL69/eYg/xuFZUkC0hYcOkFQ/ahxQPpyZeWuZZhJ4QrYzONfJ3Fjbk0nG1/XxDU7ZoQ
-    w9tVPfeZ0ijoneq/kV+dwKh1za6hURDCdyGmB2RaTHrq7njqcy9EDGGWFMWtzIVUqwN6I7
-    DJl4p5QPkPE1CkVS7kNu7TBitX44daVRMiTK2nroH5xrJK7xMT25llwNqUgQ
-X-ME-Proxy: <xmx:8E6Laq0RglNLJUS8M7oBoAB3bwqZ4Z6C-2bCnZsqHcgpyvuox5AR5A>
-    <xmx:8E6LancJ9EIBYVPcOisEWNhOB4i43xgWxfeglfz1K-BBTF8_JoKoNg>
-    <xmx:8E6LapCR41oWBXbNDsFgq-cAlDsov___sf5DhW6f5UPzbhHCOxLNyQ>
-    <xmx:8E6Lam9-01NBZiS6Y9r7gWfc9ey2GJcGtvqQOv5z8098NlmqwSnj6g>
-    <xmx:8U6Laruj9DN9mm4zjg8UOMRpgH4lJrT19_MbtFw5OkN0MGUCz_v865xz>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 23 Aug 2026 15:50:07 -0400 (EDT)
-Date: Sun, 23 Aug 2026 21:50:05 +0200
-From: Janne Grunau <j@jannau.net>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alyssa Milburn <amilburn@zall.org>
-Subject: Re: [PATCH v5 2/3] usb: typec: tipd: Factor out i2c specifics
-Message-ID: <20260823195005.GA773834@robin.jannau.net>
-References: <20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech>
- <20260821-tipd-ace3-v5-2-3244ed3bdc3f@chaosmail.tech>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="M4pmbu98"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51bfa429aa6so21465641cf.0
+        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 12:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1787514926; x=1788119726; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TYDMSaZfqlke/cTNoW6dHQJ4b8R/xo2ZcKlABOWXmtk=;
+        b=M4pmbu98adRisEqy4RyWrMyT6tE/PPEu9cDME2VoJc9MNySoiJ266OWr5eObQXyLx6
+         Rioh+4w3nkrMjbEzF1UAy4yDviSGtrWafq6g3JIXncv8a21m5R8FlOifDYxedXfS+88S
+         pDF0jBgZTmH1fD4VSoEU4oblsgwlbJf4TxdMV1YKz3pKOidrOw+zuS7kXDymlLaY9+Jl
+         5/uHWpPVFVJKTAnLSO6Ah6jRT2y7Zmdeq1RUqs//OBIYEEu7C2IwNRdiJKnimyMomYo2
+         CaynV/v8nM/BURrNgntzDvQdXT0FBzScUGxfXHfuNninfth8g7uNgvQkbnpGsRZrgELG
+         EZvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787514926; x=1788119726;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TYDMSaZfqlke/cTNoW6dHQJ4b8R/xo2ZcKlABOWXmtk=;
+        b=XQB13N7+wSKp7Xbq4AKIRGEuakvEJ6UNMLdZ3PdjFMPpTTD/wlXQhGHptqO4I53HbG
+         cA0VD4vIDO6P6YMZB0RPY+Uc0juC+F059T9Kp49hPKnXL7AaM6FLVr/6Vn7ma+TxTOsC
+         n39tYeZn8o/wRNFa7EyH1GSEfNGpdWlqWuar6MTMscTTYWEL7Zi1PvsGkWZycO8GLTZj
+         IZgTvmUS2yMpMqD+gWIPDq8W9TqZQ7fYNxTsvMV+IQ7VvV+PlurMN5DmzPVQDpmPRlS0
+         R4U95zYny0TDdcE6oQCyxg/J9TihwV88jpV5pVG8bKb0VPXMBgX5Rg8gySSPHz8a79cQ
+         rFAw==
+X-Gm-Message-State: AFuF++nSpLbcqaNJS+tVmpwuz+hKta9LCYtaKdlp5Ixb+J/dgK/ZSGAz
+	OfujaqvnX0Ha2wpXw/6FNgord2D7g4Wic648S6g5rNdJmrJE6eGLlPorXcGj0kNV6MYeLYTLNYe
+	AKQpUSg==
+X-Gm-Gg: AR+sD13hckzj8sMzTFBkDITtgZPsQb1hfDIScMrb8h8D+1rWCWQ2Sg+Ztq0BjEN4HyJ
+	SzVAfxIepMCIPOS6pD/Z9QeG+qLTxLAXfY/OiaAt0wspzBkp/2JXEWOReoiOzcQo0IsWKvgDp94
+	viacaS3ej4eXsrEUl4jPuyf0I3HHUZ5nhAZY401OslCAh1ILCuZfZb6JCiIV17TOnzJj2eS21qX
+	0FrgkB9iAabLuqyMsVrX3GjK39xxTH4owJqiKbnSKHEFQi6p6LGe7c0fWIjJSM5UcuEFhVAhzil
+	jUTLNiNvqz8d0TaHRV3DIcObCW32AAC5/D7tWcRvPXXOmiuGkpFTlafnBvUmDoqYW9gjZqeZC2F
+	mXn9y8lNuSKwHdGzZZPFJWCSqkEWpoEqB3E/+9sUJjiTMiYMCQkyHRiCzO6X63l4ENUJvnblR6L
+	R0AZAPunyEiCN175fMDF0WWyHvwbxuS729KtolxgNSt8JHWslwMDZdWttGYsG347EMKzkCWayae
+	A==
+X-Received: by 2002:a05:622a:4d89:b0:52d:3483:ed0a with SMTP id d75a77b69052e-52de33af2aemr300761831cf.18.1787514925931;
+        Sun, 23 Aug 2026 12:55:25 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09aae6f4sm34470011cf.16.2026.08.23.12.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 12:55:24 -0700 (PDT)
+Date: Sun, 23 Aug 2026 15:55:20 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+Cc: linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] usb: gadget: dummy_hcd: add tick_us module parameter for
+Message-ID: <f58263d6-72bc-4a4e-9d92-1c50a31048ad@rowland.harvard.edu>
+References: <178750530003.146199.10916428504166445366@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821-tipd-ace3-v5-2-3244ed3bdc3f@chaosmail.tech>
+In-Reply-To: <178750530003.146199.10916428504166445366@yandex.ru>
 
-On Fri, Aug 21, 2026 at 10:26:20AM +0200, Sasha Finkelstein wrote:
-> From: Alyssa Milburn <amilburn@zall.org>
+On Sun, Aug 23, 2026 at 05:15:00PM -0000, Mikhail Zubenko wrote:
+> From: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+> Date: Sun, 23 Aug 2026 17:12:49 +0000
+> Subject: [PATCH] usb: gadget: dummy_hcd: add tick_us module parameter for
+>  timer-rate tuning
 > 
-> Make the core driver more bus-agnostic to prepare for SPMI variants of
-> the tipd chip
+> The simulated controller completes URBs on a hrtimer armed at a fixed
+> 125 us (one high-speed microframe). Against a permanently polled HID
+> interrupt endpoint this creates a self-sustaining pendulum at ~8 kHz:
+> every completion triggers an immediate resubmit, which rearms the
+> timer. The rate is unconditional - it does not depend on traffic.
+
+That is not a correct description of the situation.
+
+The dummy_hcd timer rearms itself every time it triggers, so long as 
+there are any active URBs.  The rate does depend on the traffic, in the 
+sense that if there are no pending URBs (and hence no traffic) then the 
+timer does not run.  But if there are any URBs, even if there is no 
+actual traffic, the timer will run at the same fixed rate.
+
+And you shouldn't call it a pendulum.  It's not a pendulum, it's a 
+timer.  (The word "pendulum" implies notions of harmonic -- or nearly 
+harmonic -- motion which do not apply to a timer.)
+
+> On timer-rate-sensitive platforms (observed: one consumer AM4 board,
+> BIOS current, stock kernel) this pendulum co-existing with a live
+> Bluetooth session behind the same xHCI controller results in a hard,
+
+What do you mean by "the same xHCI controller"?  dummy-hcd does not use 
+any xHCI controllers.
+
+> below-software platform hang: printk, SysRq, NMI and both watchdogs
+> die in the same instant, with no panic, no MCE, and empty pstore.
+> 13 occurrences over 5 days, fully reproducible; the same workload
+> with the pendulum slowed to 1000 us (this parameter) ran ~8 hours
+> with zero hangs, and USB-cable sessions (identical gadget traffic,
+> no BT co-existence) never hung.
 > 
-> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> Nothing else in the driver's behaviour depends on the exact tick:
+> the bandwidth model accounts per-frame budget regardless of how
+> often frames are simulated, so a larger tick trades latency
+> (1 ms added worst case at tick_us=1000) for interrupt-rate headroom.
+
+Slowing down the timer means that the emulation will not act in real 
+time at the same speed as a physical device would.  That's not 
+necessarily bad; it's just something for users to be aware of.
+
+> Default keeps the current 125 us behaviour bit-for-bit.
+> 
+> Signed-off-by: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
 > ---
->  drivers/usb/typec/tipd/Kconfig    |   8 +++--
->  drivers/usb/typec/tipd/Makefile   |  11 ++++---
->  drivers/usb/typec/tipd/core.c     | 230 ++++++++++++++++++++++++-----------------------------------------------------------------------------------------------------------------------
->  drivers/usb/typec/tipd/i2c.c      | 106 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/usb/typec/tipd/tps6598x.h | 123 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 280 insertions(+), 198 deletions(-)
+>  drivers/usb/gadget/udc/dummy_hcd.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 522f56742aa9..36fccd45858b 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -2085,33 +1950,14 @@ static const struct tipd_data tps25750_data = {
->  	.connect = tps6598x_connect,
->  };
+> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+> index c0e40fa..f185b87 100644
+> --- a/drivers/usb/gadget/udc/dummy_hcd.c
+> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
+> @@ -51,7 +51,7 @@
+>  #define POWER_BUDGET	500	/* in mA; use 8 for low-power port testing */
+>  #define POWER_BUDGET_3	900	/* in mA */
 >  
-> -static const struct of_device_id tps6598x_of_match[] = {
-> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
-> -	{ .compatible = "ti,tps66993", &tps66993_data},
-> -	{ .compatible = "apple,cd321x", &cd321x_data},
-> -	{ .compatible = "ti,tps25750", &tps25750_data},
-> -	{}
-> -};
-> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
-> -
-> -static const struct i2c_device_id tps6598x_id[] = {
-> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
-> -	{ }
-> -};
-> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
-> -
-> -static struct i2c_driver tps6598x_i2c_driver = {
-> -	.driver = {
-> -		.name = "tps6598x",
-> -		.pm = &tps6598x_pm_ops,
-> -		.of_match_table = tps6598x_of_match,
-> -	},
-> -	.probe = tps6598x_probe,
-> -	.remove = tps6598x_remove,
-> -	.id_table = tps6598x_id,
-> +const struct tipd_data *tipd_hw_variants[] = {
-> +	[TIPD_VARIANT_CD321X] = &tipd_cd321x_data,
-> +	[TIPD_VARIANT_TPS6598X] = &tipd_tps6598x_data,
-> +	[TIPD_VARIANT_TPS66993] = &tipd_tps6598x_data,
+> -#define DUMMY_TIMER_INT_NSECS	125000 /* 1 microframe */
+> +#define DUMMY_TIMER_INT_NSECS	((u64)tick_us * NSEC_PER_USEC)
+>  
+>  static const char	driver_name[] = "dummy_hcd";
+>  static const char	driver_desc[] = "USB Host+Gadget Emulator";
+> @@ -79,6 +79,12 @@ module_param_named(is_high_speed, mod_data.is_high_speed, bool, S_IRUGO);
+>  MODULE_PARM_DESC(is_high_speed, "true to simulate HighSpeed connection");
+>  module_param_named(num, mod_data.num, uint, S_IRUGO);
+>  MODULE_PARM_DESC(num, "number of emulated controllers");
+> +
+> +static unsigned int tick_us = 125;
+> +module_param(tick_us, uint, 0644);
 
-this should be &tipd_tps66993_data
+Why did you not follow the pattern of the other module parameters and 
+make tick_us a member of the dummy_hcd_module_parameters structure?
 
-Janne
+Also, there's no reason for the timer delay to be 125 us when 
+is_high_speed and is_super_speed are false.  The default delay should be 
+1000 us in that case.  More generally, it should depend on the speed of 
+the attached gadget.  However, this is not a very important point; 
+probably nobody wants to emulate a full-speed (USB 1.1) host controller 
+these days -- but as long as the is_high_speed parameter exists, we 
+ought to take it into account.
+
+Furthermore, the entire calculation of "total" (the data transfer limit) 
+at the start of dummy_timer() is wrong, because the value is calculated 
+for one frame, not one microframe.  Any change to the timer rate ought 
+to fix this up as well.  Maybe as a second patch.
+
+> +MODULE_PARM_DESC(tick_us,
+> +		"enqueue-to-completion latency of the simulated controller, in microseconds (default 125, one high-speed microframe);"
+> +		" larger values slow the internal timer pendulum and reduce its interrupt-rate pressure on the host platform");
+
+I don't like this description.  It should be something more like "Length 
+in microseconds of an emulated microframe (default is 125, larger values 
+reduce the interrupt-rate pressure on the host platform)".  No need to 
+mention latency or pendulums.
+
+(In fact, it might be better to make this parameter a slow-down factor 
+rather than an absolute number.  A percentage, perhaps -- 200 would mean 
+that an emulated microframe elapses every 250 real us instead of 
+every 125 us.  But that's purely a matter of taste.)
+
+Don't you want to do any checking on the value of the module parameter?  
+You certainly wouldn't want it to be set to 0! -- and probably not to 
+any value smaller than 125.
+
+Also, since the value will be variable rather than constant, you should 
+pre-compute the delay length once and store the result for later use, 
+instead of asking the computer to figure out 
+ns_to_ktime(DUMMY_TIMER_INT_NSECS) over and over again.  In fact, you 
+should get rid of the DUMMY_TIMER_INT_NSECS macro entirely.
+
+Alan Stern
