@@ -1,136 +1,177 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E008A2E738F
-	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 15:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787498282; cv=none; b=Ogr7oQCAEsbf7pbqyQY1Jmz4JBHGeIm62UjvpeoWvcHn+ZVSOoPr7t3KxgeN9V47yTv989bhevHRZpUiNq/6dKi0kjQpial83G23lBRh364Hc3yPbdKZkK87QkjuCtEj3oAV9u1YUMjKUMv37ZSDYCO9BO6piqdPt0XRys61gzk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787498282; c=relaxed/simple;
-	bh=6lN12AIgQiPJz2Kow1rLb4w6YVrECt7pOuPq56ji09c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gRqS1ZDa6wEJM9grCSSjaRW1G9+AZrraaj0Ao8XRHQlmAbMqALZ0nVukFSR6YAkdHblBqtRKxlW2vD0k5ncJJbdE9kRVDe81TZ/RQI66scY/0nV7oplcRTDmydKU248wnphBIs+LwR9VJ/Cyv9kXYNlHOpQvCptfi4O4UFPLzwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iz5uzO+f; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CEA1F5834
+	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 15:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787498694; cv=pass; b=ggwcDBYxXu8VvBkLOBenv/HjR3Vmba7bM1zAE7qXfXAJEQSVJrtVBOd5F15poFCQbuNlaq1Bp0kHDNynn1Bh26Jy/QCVGnHI/KXo6wyBr4LR6JGqi2dpB/2tXgfjiC3IQ86PhU8WrA3R9cQX9p247YSWodSXsMVPe+13QyEaN1g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787498694; c=relaxed/simple;
+	bh=/FVjCV2dDHJsQGhC6PflAhRNp3MozOqai329s9Bmjho=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=XGkY+l5GdPET5mMO+AFNUXe2pIhRhpO5hKqS19O/YUqpLYt88ffmUJ4430z41eWJVSnl0RV6uMACBvUzdOIT1ZmBx8Da8pVUo9uZ6HcCottMMymgDoAyXfUt2qfRD3asyQO0DfSl9OB+ngfpdgN2U4iWxfWUQgbhfrsxpxX+8DI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+We2+jj; arc=pass smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iz5uzO+f"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38759bcd877so3043520a91.2
-        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 08:18:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+We2+jj"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38e7109321dso1703304a91.3
+        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 08:24:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787498692; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Vlg2I4FONqADDDsWTrJbx0DERa6VgrD+jbcIIY5y1bHWw+VAtP0KK1yLEjrSTW4iMS
+         ElE7lE88qLOWz5Dj/fpTkgcX3mUNobI9p205P2rCJMbCw0dv+XAmAd6FQx0KdazmcB3g
+         kpVpeV9kjVRWvCzZxZkmvhX6toxiwbsoaaZupN8Vuz7E5UpdZYalA2lgnZFY8Z27yd0F
+         bSwVmRUyhSJCqCNDwauitRjk++1lcoW1Tz8+W6Dj0zyjlfoED2hhuy+1sfL9zGoACIfY
+         OCzzpo/eU9fiGyOSzVCP4fZBpBj3+A+hQWHd4vXfErqIBbGhc9wxV0CYhmmGHodIfPsV
+         io4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=o/rsVqEXqt/LBY8IhUeCC4OyHwNQ1pTzJ7cKscOB+6g=;
+        fh=O2IiVwOv2nS03XKHFs4H6qzdw9UGXaHNPuIUwz7Mf4E=;
+        b=YXtjQ8eGHsPwtBHa+S1OO1FHl4MxcGdz8eMR6xpf9OHLWQHkn+xTtFi4qzfQRT/b17
+         U0zQJYmg9AGW5DIlz3T/EKTHLWrfXIsxGbMmhx8RK3/zKEVSH21Rl6l+1j29A1uttH7L
+         86d7AsLeJ8GqOFdXeUgs5MmAYcVqRI/XiQMH54bofewW+MqD8sbIfgWv/zUShzLUxuUM
+         1K5QzKEzRe77Bdh09nAI4uwgPnkCD6EqblsNEi6hlNJK+EdNKOpQNo9UbvnNvLEfUOMr
+         DwGuZuEzvweELyP/ynbESg6SDtiDjvT5UWjjm8oQbVUWCl3mw2DV5F2GVUh/yUar7Tvc
+         G5Qg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787498280; x=1788103080; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8+kkSUH6z+rcpiejvViicwcB0HlF0dRs5GEUbWGBoZ0=;
-        b=iz5uzO+f/JjrZnOHtid3n7AtIomaL56xyEjyFGS2oGmdk2VYNYsr3VSCC12Nr8g2bQ
-         5JbPM6xaUZEvZ7xHmwO8sB/vNHulqs/MgMnHY73TMY/I+1IR/eBSqEC98Xw1AzeBLBSF
-         wYS2nzBAEiWxn16KET/i0+sE7Oz/Nr8s9BE6PH6C8Ev2NmjG0F87wqaOmtUc2N3zrwW6
-         pXj2w0zYwz/wQzcEcexCQfaZrOkhYHW+NOZMebFhq1i1vM8JxwJbGZr+0upmLy2d6dFH
-         BkMhV8i4rjK02jxIJlYi6gWCVPWumjoiFbKkICbhr+s77u8lI/KH/40n6kHMVNZclEtT
-         sYtw==
+        d=gmail.com; s=20251104; t=1787498692; x=1788103492; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=o/rsVqEXqt/LBY8IhUeCC4OyHwNQ1pTzJ7cKscOB+6g=;
+        b=f+We2+jjZt1CudmkpnN35IVbNePcWku41qaPcVkV8g39BnJKQrCNDlzySuW+7ha3Jg
+         RSrhuZA43J84slj9LD7/qfwT8Of92Y3vZreQnaJdc3XRyeW9FUr0w4E9AoUDMDF5+MzJ
+         dEBVCDqwPOChfuVHcbWKoBjHS0MWIP/3uCnO0EFyuRiYBYrWTcntjQBezMCLJlw5gL6g
+         9kVlDxjthuq7F1GiIMLzWpP2edMLYvc5vwDSPrwMPPVVxoID0eaB3WI07T4GWm14Z3Ln
+         pth0Rgguz8ngFGnInJQ6rVYI92yHdOrydWZa7UQ4hSkxVIVKJhXyMrdXu8D6tkkWyS+H
+         S3Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787498280; x=1788103080;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8+kkSUH6z+rcpiejvViicwcB0HlF0dRs5GEUbWGBoZ0=;
-        b=YK7DcYC4oHBHwxHjkTOQAvFrcG0fgm2c2ahq2Tltio3Y770q+IWuqA48CAX2v73xKN
-         yBHYeOvfpw/vaFIEM9+4Yq0GmCfkn9o8qrTINY2PYYr0zbUH1OQ6f5fBueuQV2yxaFX4
-         xlT8WPiqvf2CkesJEj8aHmqVNqwN2e4sJ8keaMQbn9gLkSqtTaY3VPSzZMLpK+cJda2T
-         Sh0neK5mQ4hrMnA5GrX6ApXlOmEY3/ZLWRcDeMRSCFnYUrdJ9FnWZUwBRUgWKLCWciE/
-         kHmJTyIQTVzB9F3N11K2p3SMmglJHcA9QBGl5BsXXYRwDZEdkvV1MEoiepbrM5iqr9fa
-         FZNw==
-X-Forwarded-Encrypted: i=1; AHgh+RoJ814pC2LmXfUfvsog1S68NExGDgLTeAK+QYvjjIuX+X7pcEw3PU3W8Z6zIFNK7L3xI5TGdyrBYDs=@vger.kernel.org
-X-Gm-Message-State: AFuF++n4KMNg2QL1NWbSNqvoBFe83wSDyCbSpmg24jgMVXBR0YVzybpF
-	nRSHh/eUm4On91UQ9Hk0j0sAkQ/N3yBMJBRwnyb2txbMu2A4jBALUV2c
-X-Gm-Gg: AR+sD11j+G70WEnK4bTQEivpsM/zgDW/YQTANJa9jGAxmKQW8NYCbdlFIJMJxIqZuH7
-	+yliWSYhHEVHSwSBlYlSqxupu3EIFDsrsRo7TuI9pr6b0qw8PmN3GZWyoHizihCDcS4ZOvDPZGX
-	cZMYFGYdECd72WJFc3PkSBQMGxxSoNOX6Ydm+PFA9mkEaVGnAJgJz/8rWocm2fnjgDduz+a5eBN
-	O1r1OxgEHPd5CkxJhlBMstkULKS6wKwOTeH/jA6JZHpA9uDQNS1m8NUkhccwqve0R3WIitOoyzS
-	TDJVm87i0s1VHtUF6zs8ZDgnlAD0fNAJQc7Y5XIzkCFU7zC8k2dQOgKYeMnPNKmlYrZoSgflIph
-	HCtL0vZyyfx12nXZwo2n0JIW0WxuolcYqenh75/S0Qu175VDTDzmpbw+rmL9oQQ6nYrxI87iEBp
-	0PgmK/HED5g2GUI/eFnmoKbgp3zfvMs/INq/Byrt4kO7t7PSpsJ86SDT7iT1rWDEI76uhJyNHeJ
-	wyPY3Y0BszJNgxVLJr/KioE9mLZNLM=
-X-Received: by 2002:a17:90b:3883:b0:380:540:d499 with SMTP id 98e67ed59e1d1-395def03e79mr20461038a91.6.1787498279919;
-        Sun, 23 Aug 2026 08:17:59 -0700 (PDT)
-Received: from localhost ([2409:40c4:10ff:376f:bea1:1f87:a96a:c2c3])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141860ec7f7sm17786260c88.6.2026.08.23.08.17.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 08:17:59 -0700 (PDT)
-Date: Sun, 23 Aug 2026 20:47:55 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, 
-	linux-usb@vger.kernel.org, regressions@lists.linux.dev, stable@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
-	Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>, 
-	Michal Pecio <michal.pecio@gmail.com>, Mathieu Fluhr <mathieu.fluhr@gmail.com>
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-Message-ID: <aosGtkE_diwVJJtB@eggarch>
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
- <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
- <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
+        d=1e100.net; s=20251104; t=1787498692; x=1788103492;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=o/rsVqEXqt/LBY8IhUeCC4OyHwNQ1pTzJ7cKscOB+6g=;
+        b=q9OSqakkuap5xX/d1awQ0TObZrzMQUMoBE/cBA5DBpWaHjdS1CpkY/9xwUhjSFAfjk
+         EQ7HbiuujcUEfKgJUphniiC4X0kn8rcbfig8DpIywbh/9CUIKs93HUsqYUk9mUHkKLvr
+         5qfJ2EXOZlIVFoirLNSS09LTIw3O3SirTWbig+nTlm1t5dizbygzJKU1nNPlw4UY6jY7
+         i99HHBIEXBI37L6rvzXR6QXgnb82OUl0FhB5l7d1LaYlwuZ7NYtHvt98d37BNOYNckBg
+         Ibwrie51aFwBhzF6mqiHBHORrrWsQEcHs7tu3VdAA+QUeXf9NMJisyAcOQ4rZLqSv+yr
+         nD+A==
+X-Gm-Message-State: AFuF++kvn+sm59ocF4rf3mKsL41NUf7LC6ZvRdIZR0vwZvfolnGDnwcA
+	zmeOeTHAIy/NLznLvZfr6eaPcLtx5joi/4qy0cYvkE80yUm3Dj7YOsnaOH6H9cQtSjQuzFRaR3t
+	6muRiPAXdhuVBKjo9S/8JaTdD6PCQvvy8MayoO/c=
+X-Gm-Gg: AR+sD12yALizK8ZI1iVd3iEDTvzlwQUcqZT359kGElXgRgVO5HtKlzXKwcKyOYUYQzx
+	ztv7uD/fXjCswo155qGriNGnOt5Xfo7iqMDGGngfTIzt8M6JJIDP2Dk6gkg0AU5wvjIiZh8rC6G
+	rZ4oWq/bw5ZdCEfzJroiT5DIE73ST9KAU/3cZIy8ShDTAukRXtYfBqvSd3GMOlzFmA2cgI1Q7Vh
+	fjvsNUpoIo1bD2VKCmWo2kc3kqxRNWau/3o95bkOch7HM3+wNKcRWgeo36BHGF1I41DCog7ZTFp
+	J0OemB9Z70QiJCG2QDmFEuxiiGFqemaeq3MlvYAAmzc3nJMbxswxkj7wUBvfrrN4tp3k1KGkxM0
+	nWqLnZxkcOFCZonCT3ClJ3opnAqI85g==
+X-Received: by 2002:a17:90b:53c3:b0:38e:5c6:4db9 with SMTP id
+ 98e67ed59e1d1-395c39cbc42mr36614552a91.11.1787498692054; Sun, 23 Aug 2026
+ 08:24:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
+From: Dennis Wang <wqingxmu@gmail.com>
+Date: Sun, 23 Aug 2026 23:24:40 +0800
+X-Gm-Features: AcwNN1WRNtkb7XBZiu8lfWGYRthEaiaI5t-JlaEKxfUtHUUCgf1AkXiobwJKUv4
+Message-ID: <CAOX-mXs0ZjpiLtviUDqHLrzWh2Dyz+Y9gZUcenW_yV4iQUa=7g@mail.gmail.com>
+Subject: thunderbolt: DP tunnel activation not retried when display NAKs while
+ settling after link reset (Apple Studio Display XDR 2026 on Panther Lake)
+To: linux-usb@vger.kernel.org
+Cc: mika.westerberg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Aug 23, 2026 at 12:36:55PM +0200, Thorsten Leemhuis wrote:
-> that ticket apparently didn't help. And no other fix is in sight, or am
-> I missing something?
-> 
-> Mathias reverting the culprit in mainline a option to resolve this (I
-> assume it is not, but I'm asking just to be sure)?
-I don't think a revert is needed here, we're just trading one regression
-for another.
-Commit 8f5b7e2bec1c introduced the 200ms hold for all superspeed hubs,
-but it's only useful for external ones. Root hubs are superspeed hubs
-too so they go through the same code, but there's nothing useful for
-the hold to do there:
-A root hub has no upstream suspended hub whose wake propagation we need
-to wait for and xhci already handles late USB3 link training itself.
+Hi,
 
-Also hubs have a 0 second autosuspend delay (596d789a211d), so this hold
-is the only thing stretching the awake window.
+On most cold boots of this machine the connection manager gives up
+permanently on DP tunnel establishment while the attached display is
+still settling after the host-side link reset (the display stays powered
+across host reboots; what matters seems to be whether it has recently
+completed a successful bring-up with some host). Recovery only happens if
+the display times out (tens of seconds) and resets its own TB link, producing
+a fresh hotplug; when that doesn't happen the screen stays black until the
+cable is replugged. The same display on a macOS host connects immediately,
+and "warming" the display on a Mac and then replugging it into this Linux
+host also connects immediately - so this looks like a host-side retry-policy
+difference rather than a link-capability problem.
 
-and anything opening or closing /dev/bus/usb nodes auto resumes and auto
-suspends the whole host controller, adb's periodic enumeration does that
-so on the reported affected systems every SS roothub cycle grows from
-~30 to ~235ms (from the dynamic debug traces in
-https://lore.kernel.org/all/qc0nhk9c6l0a08bkfeplrm3qjssgrjkvkp@sonic.net/)
-which makes suspend move from close() call into delayed work and results
-in the ~1Hz stress loop described upthread.
+Hardware
+--------
+- Host: ASUS NUC 16 Pro, Core Ultra X9 388H (Panther Lake),
+  integrated TB4 host router (8086:e433 DMA0), Intel retimer 8087:d9c
+- Display: Apple Studio Display XDR (2026 model, TB5 upstream, 5K@120,
+  internal hub is Intel JHL9480 Barlow Ridge [8086:5786])
+- Cables tested:
+  * Apple passive TB5 cable  -> link trains Gen3 x2 (40G total)
+  * generic USB4 20G cable   -> link trains Gen2 x2 (20G total)
+- Kernel: 7.1.8-arch1-3 (Arch Linux), xe graphics
+- Software CM; bw_alloc_mode active; display requests TWO DP tunnels
+  (main sink 12750 Mb/s with DSC for 5K120, second sink)
 
-I think skipping the hold for hubs without a parent device, i.e. keep TB
-dock behaviour everywhere it matters, should fix this.
+Failure case (cold boot, TB5 cable, default loglevel)
+-----------------------------------------------------
+[  289.341041] thunderbolt 0-1: new device found, vendor=0x1 device=0x8024
+[  289.341073] thunderbolt 0-1: Apple Studio Display XDR
+[  289.342256] thunderbolt 0000:00:0d.2: 1: failed to enable TMU
+[  289.342321] thunderbolt 0000:00:0d.2: 1: USB3 tunnel creation failed
+[  289.342383] thunderbolt 0000:00:0d.2: 1:11: DP tunnel activation
+failed, aborting
+   (x4)
+[  289.342748] thunderbolt 0-1: device disconnected
+[  289.343325] thunderbolt 0-1: new device found ...      (bounces to 0-3)
+[  289.363303] thunderbolt 0000:00:0d.2: 0:10 <-> 3:12 (DP): not
+enough bandwidth
+[  289.363367] thunderbolt 0000:00:0d.2: 3:12: DP tunnel activation
+failed, aborting
+   ... at least ~54 s of silence, no retry from the CM ...
+[  343.614848] thunderbolt 0-3: device disconnected       (display firmware
+[  348.801013] thunderbolt 0-1: new device found ...       resets itself)
+   ... this attempt succeeds silently, display lights up
+(Note: early timestamps above are journald ingest times - root fs is
+encrypted, so initramfs-stage kmsg is re-stamped after unlock.)
 
-Patch below could any of the reporters test it?
+xe reports matching "[CONNECTOR:512:DP-1] commit wait timed out" +
+intel_dp_link_check WARNs during the failed window.
+
+Observations
+------------
+1. Every failed attempt ends at tb_tunnel_one_dp() ->
+   "DP tunnel activation failed, aborting". Nothing is rescheduled;
+   the only recovery path is a fresh hotplug generated by the display
+   itself. On a bad day the display doesn't reset and the black screen
+   is permanent (needs replug / display power cycle).
+2. Hot-plug of the warm display succeeds 100% of the time on both cables
+   (40G on the TB5 cable, 5K120 DSC fine).
+3. A successful cold boot captured with thunderbolt.dyndbg=+p (USB4 20G
+   cable) still shows 2 disconnect/reconnect cycles and one transient
+   "not enough bandwidth" for the second DP tunnel before converging -
+   success vs failure appears to be the same bounce loop with a lucky
+   final iteration, not a different path.
+4. thunderbolt.clx=0 makes the "failed to enable TMU" line disappear but
+   does not change the user-visible behavior.
+
+Question
+--------
+Would a bounded retry with backoff in the DP tunnel setup path be an
+acceptable direction? I.e. on activation failure / NO_BANDWIDTH in
+tb_tunnel_one_dp(), schedule delayed work that re-runs tb_tunnel_dp()
+a few times (cancelled on unplug) instead of aborting permanently.
+Notably the driver already applies exactly this pattern to
+bandwidth-allocation requests that arrive before the tunnel is active
+(TB_BW_ALLOC_RETRIES, 50 ms backoff in tb_queue_dp_bandwidth_request());
+tunnel establishment just has no equivalent today.
+I'm happy to test patches on this hardware, and can provide:
+- full dyndbg log of the successful cold boot (3900 lines, on hand)
+- dyndbg capture of a failing cold boot (can reproduce)
+- anything else that helps (this combination - Panther Lake TB4 host +
+  Barlow Ridge based TB5 display - is probably rare right now)
 
 Thanks,
-DrEggCake
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index d92bf887739d..f642ea0c31dc 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -1346,7 +1346,8 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
- 		device_unlock(&hdev->dev);
- 	}
- 
--	if (type == HUB_RESUME && hub_is_superspeed(hub->hdev)) {
-+	if (type == HUB_RESUME && hub->hdev->parent &&
-+	    hub_is_superspeed(hub->hdev)) {
- 		/* give usb3 downstream links training time after hub resume */
- 		usb_autopm_get_interface_no_resume(
- 			to_usb_interface(hub->intfdev));
+Dennis Wang
