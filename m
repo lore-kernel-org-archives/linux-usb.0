@@ -1,121 +1,133 @@
-Received: from mail.auroraos.dev (unknown [95.181.193.9])
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412CA2FD7C3;
-	Sun, 23 Aug 2026 18:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCD8363C60
+	for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 18:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787508016; cv=none; b=n3ukWF25P1mDb3TBBv7A/zAOPTiGHXi8ABIRboUxGIU7swapg6pvT0ykR4sX4xuMJc4gTWUeNqnTBFPwYBzDb3SkfZ/+EHJg0Vq2jxL/xyyAp0CNhMl8kP71er5AVppI/I6DYjoNoYwZmLRHk6ebBKrO4g83rS2xu8/1LsQPgg4=
+	t=1787511222; cv=none; b=MYqF8SpHWMLUq8bbHxz4Mxg4mtZY9+IrZ3Ouyv0sXzFh3u1g+zY0oFb6LtJ8BuzLxLK0YI67xRGMV0kRT5RFHaUjbp317rbb3tj5RUYFkwvuAn5rcaN4W0SRg8TkJw3e9V8vuxEbZV4TKmxScsyMg1T1sGCEqo2I6OksRuw6BpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787508016; c=relaxed/simple;
-	bh=97QDPfohEIIivZd/werejf8J7hDmTG5Q1TT2BdkFizc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fmKq/y8ernJsHEB96e9f7yBMvW7KCHziNo03dijWrgdRHjR2cZKW2bYkms87OMgLjU2pINcyBOSvNYF+9ASLkSGX1FcNAo9GfDtNLdtDSRiiabA0SlkLwuwUUQMqAOH1LW0Uuf0wZQraggscvy+EcO/NuDoKBBhD1KIcbnv0yHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
-Received: from [192.168.2.104] (91.78.10.7) by exch16.corp.auroraos.dev
- (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Sun, 23 Aug
- 2026 21:00:06 +0300
-Message-ID: <8d9b19aa-c44a-47d0-aef9-9cf5e639f1e7@auroraos.dev>
-Date: Sun, 23 Aug 2026 21:00:05 +0300
+	s=arc-20240116; t=1787511222; c=relaxed/simple;
+	bh=WTksam5mMLhz7n6lMlgAb94sGR5kh2LCcO7+DRlNbCs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fH8ehIp8tG+VLIeapw1b23XLFG5JW2C+JEdJdtU5/VdK1g2ftSS+ohpm+fI8BZ+XGptagboDyGqioR/reUTzOJzZKgzKII8PAM2vSJ+9nNHimF/Fffp+8PGRoVgB39A5N0Fev2D8SkLISfs/zNJGOd44DSNJMv/CX1Rn/QKSlL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4ab260600easo7424380b6e.1
+        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 11:53:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787511220; x=1788116020;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pQNESQLTwJVhBbULXD8kpwkLCSyER8yPmkxG+TsSPnM=;
+        b=RlF0Tw1jvKZJP2dkN0uywtGXnmPbUxx+dyDACkFBpZHEPNzUkcTbn00xA58G24Jc2d
+         z6Y1jXyGUWagag58//wofaX7MDQ80UBLmo+TA4bTsjt7duRoTKY7m2ifvQpCQHRVKDzP
+         o1O8MhryUHDbyf5wnrubePyH9yAYzU4s7zKiNHiFwmJeohNSiIiq2j14HG0oqvZ8JIIL
+         Rmkwr/j/g5rg+/WxO/E9rHp50vt8/fAPA1UxyuJWywG0eCkLgjTdItUrV50wD+pV0AQT
+         N35CQOtJN6sWT/R1E51z0srwIAlEi7IMM73BavWEESIm++gxd1XK8xCpHNRiH0N14M9U
+         WFTQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqBV5Ac/VbAucnjDKKIYQlS1/6uglkYEtI91hEC5mHAl7taEyMzffeGl3sQQcR51g521eUpbT63HYY=@vger.kernel.org
+X-Gm-Message-State: AFuF++lhqM3doZ4DwJ0Y1sM0jrfm7PbHgVgCPHWKbpAvpWcGVpADno6t
+	kZMn3HLI08y1lsZQlrkaaYZxmXUR52U6VVKIccxUren5CNdUr3ZUGgs4EHYRMjrcBwgUPBq2q/9
+	iHXDlpmNPSrIQwynP7j5VGpQEtUqZI/otgQlaqbaeHE3Rperd2CF/gdNg+OQ=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] r8152: simplify loops in generic_ocp_{read,write}()
-To: David Laight <david.laight.linux@gmail.com>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>
-References: <20260822202155.18632-1-s.shtylyov@auroraos.dev>
- <bf541361-3d57-4e53-8c67-78b474b420a2@auroraos.dev>
- <20260823091131.0254d6ab@pumpkin>
- <4a7604ab-c6ef-4552-b63b-3e7146ff42d0@auroraos.dev>
- <20260823105110.231a88bc@pumpkin>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
-In-Reply-To: <20260823105110.231a88bc@pumpkin>
+X-Received: by 2002:a05:6808:4704:b0:4ab:224d:6dd6 with SMTP id
+ 5614622812f47-4b2cddd4647mr25073978b6e.15.1787511220196; Sun, 23 Aug 2026
+ 11:53:40 -0700 (PDT)
+Date: Sun, 23 Aug 2026 11:53:40 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8b41b4.dbb3a75c.13dd47.0052.GAE@google.com>
+Subject: [syzbot] [net?] [usb?] UBSAN: shift-out-of-bounds in vcc_connect
+From: syzbot <syzbot+6665d3db5fef15914802@syzkaller.appspotmail.com>
+To: 3chas3@gmail.com, davem@davemloft.net, edumazet@google.com, 
+	horms@kernel.org, kuba@kernel.org, linux-atm-general@lists.sourceforge.net, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
- exch16.corp.auroraos.dev (10.189.209.38)
 
-On 8/23/26 12:51 PM, David Laight wrote:
-[...]
+Hello,
 
->> On 8/23/26 11:11 AM, David Laight wrote:
->> [...]
->>
->>>>> In generic_ocp_{read,write}(), the *while* loops look very strange:
->>>>> the last iteration is executed differently to the prior ones, doing
->>>>> some useless assignments before *break*. Move the code for the last
->>>>> iteration out of the loop bodies, dropping the pointless statements
->>>>> as well...
->>>>>
->>>>> Found by Linux Verification Center (linuxtesting.org) with the Svace
->>>>> static analysis tool.
->>>>>
->>>>> Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
->>>>
->>>>    Actually, scratch this patch -- it's not entirely correct... :-/
->>>>
->>>> [...]
->>>>
->>>>> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c>>> index f61686433031..de9738bdce85 100644
->>>>> --- a/drivers/net/usb/r8152.c
->>>>> +++ b/drivers/net/usb/r8152.c
->>>>> @@ -1431,27 +1431,19 @@ static int generic_ocp_read(struct r8152 *tp, u16 index, u16 size,
->>>>>     if ((u32)index + (u32)size > 0xffff)
->>>>>             return -EPERM;
->>>>>
->>>>> -   while (size) {
->>>>> -           if (size > limit) {
->>>>> -                   ret = get_registers(tp, index, type, limit, data);
->>>>> -                   if (ret < 0)
->>>>> -                           break;
->>>>> -
->>>>> -                   index += limit;
->>>>> -                   data += limit;
->>>>> -                   size -= limit;
->>>>> -           } else {
->>>>> -                   ret = get_registers(tp, index, type, size, data);
->>>>> -                   if (ret < 0)
->>>>> -                           break;
->>>>> +   while (size > limit) {
->>>>> +           ret = get_registers(tp, index, type, limit, data);
->>>>> +           if (ret < 0)
->>>>> +                   goto error1;
->>>>>
->>>>> -                   index += size;
->>>>> -                   data += size;
->>>>> -                   size = 0;
->>>>> -                   break;
->>>>> -           }
->>>>> +           index += limit;
->>>>> +           data += limit;
->>>>> +           size -= limit;
->>>>>     }
->>>>>
->>>>
->>>>    I forgot to check size for 0 here...
->>>
->>> I don't think it can be zero - assuming it isn't zero on entry.
->>
->>    Even if so, anyways it can -- if size % limit == 0 on entry...
-> 
-> Not with the 'size > limit' check at the top of the loop.
+syzbot found the following issue on:
 
-   Ah, indeed, I didn't realize this check is also "strange": the
-code of the last iteration gets always executed, even if !(size %
-limit)... Anyway, the current code is safe against !size on entry
-and mine is not. I think I should play safe and keep that behavior...
+HEAD commit:    bd5f485f3f02 Merge tag 'soc-arm-7.3' of git://git.kernel.o..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=16736e79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6d6c2a05eaadaf10
+dashboard link: https://syzkaller.appspot.com/bug?extid=6665d3db5fef15914802
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133f2549580000
 
-[...]
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/2da33ef8d789/disk-bd5f485f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7e8921e0c1e1/vmlinux-bd5f485f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c7e5335b79c8/bzImage-bd5f485f.xz
 
-MBR, Sergey
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6665d3db5fef15914802@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+UBSAN: shift-out-of-bounds in net/atm/common.c:381:10
+shift exponent -1 is negative
+CPU: 0 UID: 0 PID: 6073 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
+ __ubsan_handle_shift_out_of_bounds+0x279/0x2a0 lib/ubsan.c:494
+ __vcc_connect net/atm/common.c:381 [inline]
+ vcc_connect.cold+0xe0/0x123 net/atm/common.c:498
+ pvc_bind+0x33f/0x460 net/atm/pvc.c:52
+ __sys_bind_socket net/socket.c:1945 [inline]
+ __sys_bind_socket net/socket.c:1937 [inline]
+ __sys_bind+0x1a9/0x260 net/socket.c:1976
+ __do_sys_bind net/socket.c:1981 [inline]
+ __se_sys_bind net/socket.c:1979 [inline]
+ __x64_sys_bind+0x72/0xb0 net/socket.c:1979
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6a3099e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff44bcea08 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+RAX: ffffffffffffffda RBX: 00007f6a30c25fa0 RCX: 00007f6a3099e0d9
+RDX: 000000000000000c RSI: 0000200000000100 RDI: 0000000000000004
+RBP: 00007f6a30a35024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f6a30c25fac R14: 00007f6a30c25fa0 R15: 00007f6a30c25fa0
+ </TASK>
+---[ end trace ]---
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
