@@ -1,58 +1,70 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A65F46AF31;
-	Mon, 24 Aug 2026 17:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23892222D0
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 17:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787591100; cv=none; b=o/uC7y9UCg8DPMt1AePLvYOmTMR6FUDmNqev82VZqdErGQWE23ERKqnm5XSVOb/xK+S4I0ecpwrMS9h1Ca/im2nAOM5FPOqAA4Ozx5uX6O+sE612ivq4GgTG1bR9WiJgNgfjux6YYVdf4G1tvFCcyn1rQ7km9sFB56Z8TLD8ngI=
+	t=1787592944; cv=none; b=AbT6+CrtJFIkHTxXMUpzMEftB94NIL0tCzGYgpBA75U62SAlDTCMOfF9DC6h3Tm5I3uJl/t9gB3GdZMx02xh78CiD1AQdXCKm2YhnYdrlvHsBXAD7ZynOJ4mkuWWffgJVdoG88W0aZ1CTSMqJOJChNnNaGCLH5miGmWe9kjHE/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787591100; c=relaxed/simple;
-	bh=G/me3LHfBUuzpn2DDkF7CZaGgU2p7vjA8yk8hft6mm0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=H9SWccpks3eE06/96T1pLxMMZ1bZMIUZzzenkwUfye80y66WQwwqUbEl2107/4fJ5pXzVKR9MsU5dlXadm/Yx6hKSy53utTQNpqNA7rlm0emvLLoANp6CtHd3vXeILJYlTYddblvBx2J7NOFnZ1z4340TsASWmjJ2UQmPHDygxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: e92555309fdd11f19a56ed5b684f684d-20260825
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:727308e7-413a-4a32-bcb2-60a8cca12529,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:ad2fbeabeed0f4ca0759e012c658d90c,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e92555309fdd11f19a56ed5b684f684d-20260825
-X-User: lihaofeng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lihaofeng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 152646855; Tue, 25 Aug 2026 01:04:47 +0800
-From: Haofeng Li <lihaofeng@kylinos.cn>
-To: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org
-Cc: dan.scally@ideasonboard.com,
-	andriy.shevchenko@intel.com,
-	xu.yang_2@nxp.com,
-	hhhuuu@google.com,
-	kees@kernel.org,
-	kai.aizen.dev@gmail.com,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	linux-kernel@vger.kernel.org,
-	13266079573@163.com,
-	Haofeng Li <lihaofeng@kylinos.cn>
-Subject: [PATCH v4] usb: gadget: f_uvc: fix Extension Unit descriptor heap overflow
-Date: Tue, 25 Aug 2026 01:04:42 +0800
-Message-Id: <20260824170442.1980191-1-lihaofeng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260824094456.1562456-1-lihaofeng@kylinos.cn>
-References: <20260824094456.1562456-1-lihaofeng@kylinos.cn>
+	s=arc-20240116; t=1787592944; c=relaxed/simple;
+	bh=Nw0DRedBYzolQ7WXd/SeuzHQmuqN21p0vRotfK3j6Ag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ji4KRRBLwolQdiNSLrmztcSKxS3WwEq7CGrweXPqB8YYoDzbJ2IRgl+WBdn/MByyRIxcYeM9tOJFn4L2uYg8mqeJgcuB00Keo/epcfrtGq4PfBeExo8FngjbH3MrEGY24c2X0H3JoFvce7OKUM9UYMQt/ZhZQtBNpvwFpxlWD1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riff.dk; spf=none smtp.mailfrom=riff.dk; dkim=pass (2048-bit key) header.d=riff-dk.20251104.gappssmtp.com header.i=@riff-dk.20251104.gappssmtp.com header.b=Q0p4629j; arc=none smtp.client-ip=209.85.215.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riff.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=riff.dk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=riff-dk.20251104.gappssmtp.com header.i=@riff-dk.20251104.gappssmtp.com header.b="Q0p4629j"
+Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-ca80d708489so129915a12.1
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 10:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riff-dk.20251104.gappssmtp.com; s=20251104; t=1787592939; x=1788197739; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UAEjNZe/XuL6CzRDuKZSmqtfFizitJQ3K/rinr4JC6s=;
+        b=Q0p4629jVSwZj5kIOeBtapb52h+LKCsxnJ4bfQgsvx1b/Hck2bETmFHp5EXpcnrtbi
+         6qGju91ml/Sn3F+/eAQmecnLtbmXev7MvZ1yNwjMNtZfrS3TaMdYkLzUdYhl5YmNrOMz
+         +nQGfMtb1rpZoP9D7MLMXnD0c/SI5WczhtEkHypLqK7qQxZ8QXSIQ3HnnnY7PgF/mpPq
+         k+ee+5lVv/+joD4SiCigHu7n3NPX8WR0kOPsAbofrEXOEklxN9Ihauc37yUsKc+IROf3
+         nEJKNndzRyw4mICDAk14tY86Zl3UB92i59R1SWlOd65i1kaiHPU9M54uvo4QQsdby6Ry
+         2eMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787592939; x=1788197739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UAEjNZe/XuL6CzRDuKZSmqtfFizitJQ3K/rinr4JC6s=;
+        b=feBAqVZ/loMMrNihkrndN5tayY4AlSPbw079IqALzKgn+NUh5pQl5Qz5NLMYjFnHQC
+         UKbVEhiXw8v18nk9hZ2YT8ysnP1+uQKDfPDJBRrMgHHPZWfvicgheUCnsXPZ2qKgf1tF
+         dgL6ZGAi1u2pmwjwJAXYxLIzteiSwATSQy+aOl5B2z9PRMQw4ArB775VTNqoj0p5C0ah
+         UiGvKlBT0zAkDnxqBJjnAateJ9Q7OHVPoQgpdVLtEKlU8VHGlnznbRLQpiA4QqWAHldY
+         cxZmrorTOPmC5I3x2SBavsgl9sC0MYfG8T4pM3V0/N7HZbUTsBHIs4k86HLVyeuYeMsn
+         deZQ==
+X-Gm-Message-State: AFuF++nh4xdnBx9n71A7pKXAvgOCRJLx37NuKlf32xabgv3XnxxhA1Uz
+	AgnveQJBB49jP/hp7x7Jkrw1Zo9RafAoRjSfuThYXMitlmsShQPoFK3ErLCrtqJywuH75ti1dTy
+	z8yEfbvQFZ+l5
+X-Gm-Gg: AR+sD12xEe/HolfPDGQ9QntxvKoMFsbxPunWkuw7DkT9NEV9VEmk98lU1TsYvQyh66o
+	6o7olXS/HAcj1Nd3xmHykNNi+mdpNYuQ1oVJUNqeMJ08vB4hYGO+lO0Vwq2Vk8O2UCthJ8IPFjy
+	ADGjEf3Rd2VWrb3cqTVkOFRzWUWfeEouvD4iwmPWniLj+HPO2PYIZDAHgl53/y4UVFgYmGhHyCX
+	T1nyVps0JFUHLPFsh4mnTWNzfyw89BI498KtOHjTXLXumb3YUnXSFBjZGqfX+V8LXLLMD6RbxCl
+	juzJYj25euucjrasobRbXB6K+l3iV0LhnF95t4fdZASe2RkqriwQ7j8GDg+/kTI2+U1avbKIWdN
+	MvFToJZvLmKhfYVoApb2hk9RBmIPsKy2rSoG6QV0AFKHAuxyShI7i7TNHVX25bwmQST82gvovGh
+	lXMQ3FzcMWu9Uw6uDUwUmNBkCs6L6ykeWGaiYQ7ruJVimSLyyazSWLcJriOk8/HUtYmyLkPPI=
+X-Received: by 2002:a17:90b:2e0f:b0:37e:1620:dabc with SMTP id 98e67ed59e1d1-3964543b889mr1183666a91.0.1787592938925;
+        Mon, 24 Aug 2026 10:35:38 -0700 (PDT)
+Received: from jrx1.tailbfbe03.ts.net ([2603:8000:8e00:53bb:97c9:95f6:460d:335])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d36f9sm41328033eec.16.2026.08.24.10.35.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 10:35:38 -0700 (PDT)
+From: Jacob Riff <jacob@riff.dk>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Huang Wei <huangwei@kylinos.cn>
+Subject: [PATCH v2] usb: typec: ucsi: retry init when the PPM answers early commands incorrectly
+Date: Mon, 24 Aug 2026 10:35:36 -0700
+Message-ID: <20260824173536.2395830-1-jacob@riff.dk>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,150 +73,94 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An Extension Unit descriptor is 24 + bNrInPins + bControlSize bytes long
-(UVC_DT_EXTENSION_UNIT_SIZE(p, n)), where bNrInPins and bControlSize are
-configfs attributes each accepted over the full 0..255 range by
-kstrtou8().  uvc_configfs stores the computed size in the u8 bLength
-field of the descriptor, so once 24 + p + n exceeds 255 it silently
-wraps: p = n = 255 describes a 534-byte descriptor with bLength = 22.
+On some platforms the PPM is not ready to answer commands correctly
+for a short window during boot. On the Lenovo ThinkPad X1 Carbon
+Gen 14 (21V7, tested on BIOS 1.12 and 1.14) roughly half of all boots
+fail ucsi_init() with either -ENODEV (GET_CAPABILITY completes but
+reports zero connectors) or -EINVAL (a standard command is rejected,
+logged as "possible UCSI driver bug"). The failure is not a timeout:
+increasing the sync command completion wait does not change the rate.
 
-uvc_copy_descriptors() reserves xu->desc.bLength bytes per Extension Unit
-in the descriptor buffer it allocates at bind time, but
-UVC_COPY_XU_DESCRIPTOR() copies the real descriptor contents, i.e.
-22 + bNrInPins + 1 + bControlSize + 1 bytes.  With the wrapped length the
-copy overruns the allocation by up to 512 bytes.
+Since ucsi_init_work() only requeues on -EPROBE_DEFER, a single bad
+answer during that window leaves UCSI dead for the whole session, so
+Type-C events are never handled again; most visibly, the machine
+silently never resumes charging after the charger is replugged.
+Manually reloading ucsi_acpi a few seconds later has succeeded on
+every attempt observed, which suggests simply retrying is enough.
 
-Attack chain (write access to a UVC gadget's configfs attributes; no
-race, no USB traffic, a single bind triggers it):
+Retry -ENODEV and -EINVAL the same way as the role switch wait, log
+the retries at debug level, keep the loud report for the case where
+the retries are exhausted, and note when init only succeeded after
+retrying.
 
-    echo 255 > .../functions/uvc.0/extensions/ext.0/b_nr_in_pins
-    echo 255 > .../functions/uvc.0/extensions/ext.0/b_control_size
-      -> uvcg_extension_b_nr_in_pins_store() /
-         uvcg_extension_b_control_size_store()
-      -> bLength = UVC_DT_EXTENSION_UNIT_SIZE(255, 255) wraps to 22
-    bind the gadget to a UDC
-      -> uvc_function_bind() -> uvc_copy_descriptors()
-      -> kmalloc() sized using the wrapped bLength: 22 bytes for the XU
-      -> UVC_COPY_XU_DESCRIPTOR() writes the real 534 bytes into that
-         slot (22-byte head, 255 baSourceID, bControlSize, 255
-         bmControls, iExtension)
-      -> heap out-of-bounds write during bind
+Tested on the affected machine: across 8 consecutive boots with this
+patch, 5 hit the failure (matching the historical ~50-60% rate) and
+all 5 recovered on the first retry ("PPM init succeeded after 2
+attempts"). 0 of 8 boots ended with UCSI unusable, where ~5 of 8
+would have without the patch.
 
-Reproduced on 7.2.0+: a stock build (FORTIFY on) can derive the remaining
-allocation size at the bmControls memcpy and BUGs in __fortify_panic()
-during bind - a deterministic kernel crash; with FORTIFY disabled for the
-file, KASAN reports "slab-out-of-bounds Write of size 255" in
-uvc_copy_descriptors() against the kmalloc-192 descriptor buffer.
-
-Reject combinations whose descriptor does not fit into bLength at all four
-configfs entry points that can grow an Extension Unit (b_nr_in_pins,
-b_control_size, ba_source_id, bm_controls), and make uvc_copy_descriptors()
-refuse an Extension Unit whose bLength does not match its contents instead
-of overflowing the buffer.
-
-Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
-Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
-Assisted-by: opencode:deepseek-v4-flash-free
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+Signed-off-by: Jacob Riff <jacob@riff.dk>
 ---
-Changes in v2:
-- reword a comment per Randy Dunlap: "The descriptor length must fit
-  into the one-byte bLength field".
+v2: no functional change; resent without the RFC tag.
+  - Rebased on usb-next; applies unchanged.
+  - Discussion on v1: Huang Wei asked whether the -EINVAL retry should
+    distinguish a not-ready PPM from a genuine driver bug, since
+    ucsi_read_error() maps UCSI_ERROR_INVALID_CON_NUM /
+    UNREGONIZED_CMD / INVALID_CMD_ARGUMENT to -EINVAL. The two cases
+    are indistinguishable by error code here, so the patch relies on
+    context and persistence instead: the retry exists only in the
+    ucsi_init_work() path, it is bounded, and the dev_err() in
+    ucsi_read_error() is untouched and still fires on the first
+    occurrence. No code change resulted.
 
-Changes in v3:
-- Add a warning message when the descriptor size is rejected, as suggested
-  by Dan Scally.
+v1: https://lore.kernel.org/linux-usb/20260815005724.8741-1-jacob@riff.dk/
 
-Changes in v4:
-- Remove the blank line inside the sign-off block.
- drivers/usb/gadget/function/f_uvc.c        |  6 +++++
- drivers/usb/gadget/function/uvc_configfs.c | 28 ++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
-
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 73dc7e42875f..0d3432f80cae 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -598,6 +598,12 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 	}
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2212,18 +2212,36 @@
+ 	int ret;
  
- 	list_for_each_entry(xu, uvc->desc.extension_units, list) {
-+		/* Mismatched bLength would overflow the buffer sized after it */
-+		if (xu->desc.bLength !=
-+		    UVC_DT_EXTENSION_UNIT_SIZE(xu->desc.bNrInPins,
-+					       xu->desc.bControlSize))
-+			return ERR_PTR(-EINVAL);
-+
- 		control_size += xu->desc.bLength;
- 		bytes += xu->desc.bLength;
- 		n_desc++;
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 70a1415ea401..b52c9cf2b715 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -845,6 +845,18 @@ static ssize_t uvcg_extension_b_num_controls_store(struct config_item *item,
- }
- UVCG_EXTENSION_ATTR(b_num_controls, bNumControls);
- 
-+/* The descriptor length must fit into the one-byte bLength field */
-+static int uvcg_extension_check_size(u8 nr_in_pins, u8 control_size)
-+{
-+	if (UVC_DT_EXTENSION_UNIT_SIZE(nr_in_pins, control_size) > 255) {
-+		pr_warn("uvc: Extension Unit descriptor size (%u + %u) does not fit into bLength\n",
-+			nr_in_pins, control_size);
-+		return -EINVAL;
+ 	ret = ucsi_init(ucsi);
+-	if (ret)
+-		dev_err_probe(ucsi->dev, ret, "PPM init failed\n");
++	if (!ret) {
++		if (ucsi->work_count)
++			dev_info(ucsi->dev,
++				 "PPM init succeeded after %u attempts\n",
++				 ucsi->work_count + 1);
++		return;
 +	}
-+
-+	return 0;
-+}
-+
- /*
-  * In addition to storing bNrInPins, this function needs to realloc the
-  * memory for the baSourceID array and additionally expand bLength.
-@@ -877,6 +889,10 @@ static ssize_t uvcg_extension_b_nr_in_pins_store(struct config_item *item,
- 		goto unlock;
+ 
+-	if (ret == -EPROBE_DEFER) {
+-		if (ucsi->work_count++ > UCSI_ROLE_SWITCH_WAIT_COUNT) {
+-			dev_err(ucsi->dev, "PPM init failed, stop trying\n");
++	/*
++	 * On some platforms the PPM is not ready to answer commands
++	 * correctly for a short window during boot: standard commands are
++	 * rejected or GET_CAPABILITY reports zero connectors, seen as
++	 * -EINVAL or -ENODEV from ucsi_init(), and a retry moments later
++	 * succeeds (observed on Lenovo ThinkPad X1 Carbon Gen 14, where
++	 * this affects roughly half of all boots). Retry those like the
++	 * USB role switch wait instead of giving up on the first attempt.
++	 */
++	if (ret == -EPROBE_DEFER || ret == -ENODEV || ret == -EINVAL) {
++		if (ucsi->work_count++ < UCSI_ROLE_SWITCH_WAIT_COUNT) {
++			dev_dbg(ucsi->dev, "PPM init failed (%pe), retrying\n",
++				ERR_PTR(ret));
++			queue_delayed_work(system_dfl_long_wq, &ucsi->work,
++					   UCSI_ROLE_SWITCH_INTERVAL);
+ 			return;
+ 		}
+-
+-		queue_delayed_work(system_dfl_long_wq, &ucsi->work,
+-				   UCSI_ROLE_SWITCH_INTERVAL);
++		dev_err(ucsi->dev, "PPM init failed, stop trying\n");
++		return;
  	}
- 
-+	ret = uvcg_extension_check_size(num, xu->desc.bControlSize);
-+	if (ret)
-+		goto unlock;
 +
- 	tmp_buf = krealloc_array(xu->desc.baSourceID, num, sizeof(u8),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!tmp_buf) {
-@@ -930,6 +946,10 @@ static ssize_t uvcg_extension_b_control_size_store(struct config_item *item,
- 		goto unlock;
- 	}
++	dev_err_probe(ucsi->dev, ret, "PPM init failed\n");
+ }
  
-+	ret = uvcg_extension_check_size(xu->desc.bNrInPins, num);
-+	if (ret)
-+		goto unlock;
-+
- 	tmp_buf = krealloc_array(xu->desc.bmControls, num, sizeof(u8),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!tmp_buf) {
-@@ -1055,6 +1075,10 @@ static ssize_t uvcg_extension_ba_source_id_store(struct config_item *item,
- 	if (ret)
- 		goto unlock;
- 
-+	ret = uvcg_extension_check_size(n, xu->desc.bControlSize);
-+	if (ret)
-+		goto unlock;
-+
- 	iter = source_ids = kcalloc(n, sizeof(u8), GFP_KERNEL);
- 	if (!source_ids) {
- 		ret = -ENOMEM;
-@@ -1134,6 +1158,10 @@ static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
- 	if (ret)
- 		goto unlock;
- 
-+	ret = uvcg_extension_check_size(xu->desc.bNrInPins, n);
-+	if (ret)
-+		goto unlock;
-+
- 	iter = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
- 	if (!bm_controls) {
- 		ret = -ENOMEM;
--- 
-2.25.1
+ /**
 
+base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
