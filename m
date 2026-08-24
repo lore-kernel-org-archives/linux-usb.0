@@ -1,103 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f0.google.com (mail-oi2-f0.google.com [74.125.231.192])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E03438034;
-	Mon, 24 Aug 2026 14:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBCA2D7380
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 14:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787580829; cv=none; b=h5m3VM106ub6SzcCXWmfc7epXaTDvSHAzVqRjL80t3NR2tQJNKGuQQAW/56T4wIsqG7KBrxZ+x8i5RAttbGLEUVrMe2o4yAC1V1g5l/MM3Ko5i+kBwsj14f27AJ8wP0c5K5sOr0IVOsakK/QiNnDskzj5jQkDoJ42Sgs6Lk3Mec=
+	t=1787580938; cv=none; b=dylLY2qqRdGtwJsqSuo77BCAGYUU2YeVH0D/Pl1uSgQ665rGJdupDanSOlBP02sU6hg3M6pJoyGICiTujKgsOh0JBLxl86Rkdlw0bP0FHKK9PhL7TMfc7BiJjhwF8UHMDrEXbBy2S6H26+YL0RyWP2QHCTuKRpuLp5JSVu6qY+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787580829; c=relaxed/simple;
-	bh=/QskKS6MjCp216FH1IJ1L28MiOIGz6sp5k0gybneMng=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PV9/YHHrjjnDLDW18cDrqnr42uCvlYsRMxjJayvaTC1c1RKmXGe3LipuHm+uzklfHYhRS3EoypnbAMhxR4mJznSESYuWB/DeoHnC/6zol7V0TzUlmcufuRJ/SY8HoVmupvB77Z64flmP1WIyG1g9a8XCh5GMY3WELVNChmUrycw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJcFO4ax; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJcFO4ax"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81751F000E9;
-	Mon, 24 Aug 2026 14:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787580827;
-	bh=XqRGZUwWZm3USp2izXfh+KeicXJvzanQzOa9UHk69Qw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GJcFO4ax3+t5BTyG+XWmAJkIYMdJI2IVc/wWOg6h14/XfLgp2ZnTI40IPV4/3EPp+
-	 56H1HEimibhIZ0yoRowNL3NnKy0DiitQ4Tg+LFaG2bp23V3VI3JMleKXM8Qeg9LX7p
-	 7ZfZfZdPxnVtZeqIPqqDtPmU06tPPbSqrEIhnlWIbHu+J9aL1BvO2Cv3pvHhYcyPSE
-	 u+fQ8l+Ikj/PjZPKmq2ZXJm12JGqwAXMb8bhQygWms7TtW244CYwRqtr2ISyz7oiKv
-	 8DmyUBgMcQwj1zmSgrYkcm4qv9MZqEC4TzvX9etT/Oosfoi7wJik95M2BtHaE60pAu
-	 dz7RXlfyyeLug==
-Message-ID: <b15f514d-d7de-46b7-8b78-fa21515f1fe2@kernel.org>
-Date: Mon, 24 Aug 2026 16:13:44 +0200
+	s=arc-20240116; t=1787580938; c=relaxed/simple;
+	bh=rLMheNznZJmNpnLmvy1g5vyO1AY4iNFH8Be1EMrypKg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZYfVd6N6j6dcDrYATXXficmoWdHAO79iUTEVJW096j3RaYeLitcpK/Z6Wu58kAnynQroxzylUFBYAAtaEpYwUHz23aEaG6E+BWItxbVgd+d4cuh/0Fe/jrPr+yhNSvXKIv1I3HmWFdYNFXCnCW5RrEAvdVQXCy+QdSdXU9vlNy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.192
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f0.google.com with SMTP id 5614622812f47-4a49b13b745so1221132b6e.0
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 07:15:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787580936; x=1788185736;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zjtSZ0Hk74hXFJV7KOTWyhOW5rok74z5TqFOPkrY64s=;
+        b=WQa7VibMCIICJv0G3yYVd1NvmfYbAVmmhWqEy5vGWkhWyan7LeISeR0xZxpGbkowm+
+         iBzdPLRv6QwyAhNprKB8n5aEgdTWl3d692x0OhZ3YvGvolBwni0pDGjCIzLjXMwQPzzq
+         woSjxtV+e/ry+MQGEDVoYZLwSMEG8ibHqfRto9PcjNyJjabwMqh8clkPeZEdrsS10qRe
+         g4h46dp/qjnMSG8KFWL6CtAkJle54BQsvmbQhESeVPnaSIHVKmxHoKzIVN/xJB4W+edR
+         JVnM7MU/pVcwhMNBNr0UHYG6qd2MahliLwLSuiyX0xYikIFfPENi8gCBBYHSbSx/qFqk
+         fZWA==
+X-Forwarded-Encrypted: i=1; AHgh+RqzrL8sfv2xAgQ9HxW67PthkV/4Wk7jMqbWo2pMMo8Gn59qJC2FvtuYrmXJIsMdGtdMP6omhN3lY1I=@vger.kernel.org
+X-Gm-Message-State: AFuF++mk/gNtAGuIgxEYpQmNDuaR8g94aNgpPFwfNyNa0F99fUxJvgAA
+	JDJUozJEGtL9KlRFJl0qn6KfVph8xzUbK+4FjfqOxstHNGxhUwFpPZaRUmZlnRoYYzDdTDtByWN
+	cDxgQgvkALbDsAU9hW+Fg+O3TZ193wAixpfweHf6JFzhtnQSb8k8VG/JrFtQ=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] thunderbolt: Make the DP tunnel activation
- callback mandatory
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>,
- asahi@lists.linux.dev, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
- <20260823-b4-tbt-fixes-v2-2-26a18a426c9f@kernel.org>
- <20260824104546.GG893316@black.igk.intel.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260824104546.GG893316@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6808:4f69:b0:4a4:a930:1f76 with SMTP id
+ 5614622812f47-4b2ef3387cfmr26663246b6e.11.1787580936043; Mon, 24 Aug 2026
+ 07:15:36 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:15:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8c5208.dbb3a75c.7844.0005.GAE@google.com>
+Subject: [syzbot] [usb?] [input?] INFO: task hung in usb_set_configuration
+From: syzbot <syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of ssh:/..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=143df815580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
+dashboard link: https://syzkaller.appspot.com/bug?extid=c22bb42560ec86726aba
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1783ba25580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/disk-e1e6e541.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/vmlinux-e1e6e541.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/db2c3a41df6d/bzImage-e1e6e541.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com
+
+INFO: task kworker/0:2:733 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:2     state:D
+ stack:26352 pid:733   tgid:733   ppid:2      task_flags:0x4208060 flags:0x00080000
+Workqueue: usb_hub_wq hub_event
+
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0xdd/0x2c0 kernel/sched/core.c:7326
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7383
+ __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+ __mutex_lock+0xccc/0x1bd0 kernel/locking/mutex.c:821
+ uevent_net_broadcast_untagged lib/kobject_uevent.c:317 [inline]
+ kobject_uevent_net_broadcast lib/kobject_uevent.c:410 [inline]
+ kobject_uevent_env+0xba8/0x18b0 lib/kobject_uevent.c:611
+ device_add+0x1173/0x1970 drivers/base/core.c:3738
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2708
+ usb_new_device drivers/usb/core/hub.c:5833 [inline]
+ hub_port_connect drivers/usb/core/hub.c:5580 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
+ port_event drivers/usb/core/hub.c:5884 [inline]
+ hub_event.cold+0x51a/0xe9d drivers/usb/core/hub.c:5966
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Showing all locks held in the system:
+7 locks held by kworker/0:1/11:
+ #0: 
+ffff8881062b0540
+ (
+(wq_completion)usb_hub_wq
+){+.+.}-{0:0}
+, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
+ #1: 
+ffffc900000bfd18
+ (
+(work_completion)(&hub->events)
+){+.+.}-{0:0}
+, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
+ #2: 
+ffff88810b3051d8
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-On 8/24/26 12:45, Mika Westerberg wrote:
-> On Sun, Aug 23, 2026 at 06:09:15PM +0200, Sven Peter wrote:
->> tb_tunnel_alloc_dp() takes an optional callback which is run from
->> dprx_work once the DPRX capabilities read has completed. Without that
->> callback tb_dp_dprx_start() reads the capabilities synchronously and
->> never queues the work. It however always takes a tunnel reference which
->> is only dropped by dprx_work itself or by tb_dp_dprx_stop() when
->> cancel_delayed_work() actually canceled that work. That reference is
->> thus leaked for every tunnel without a callback.
->>
->> The only tunnels without one are those from tb_tunnel_discover_dp(),
->> which are activated again when restoring from hibernation.
->> Pass the callback to tb_tunnel_discover_dp() as well and drop the
->> synchronous path such that the DPRX capabilities are always read from
->> dprx_work. Hibernation restore then also no longer blocks for up to 12
->> seconds while waiting for that read to complete.
->>
->> Also fix up the KUnit tests.
->>
->> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Sven Peter <sven@kernel.org>
->> ---
->>   drivers/thunderbolt/tb.c     |  4 +++-
->>   drivers/thunderbolt/test.c   | 37 +++++++++++++++++++++++-----------
->>   drivers/thunderbolt/tunnel.c | 47 ++++++++++++++++++++++++--------------------
->>   drivers/thunderbolt/tunnel.h |  8 +++++---
->>   4 files changed, 60 insertions(+), 36 deletions(-)
->>
->> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
->> index f43f2d952372..29b9879c40d8 100644
->> --- a/drivers/thunderbolt/tb.c
->> +++ b/drivers/thunderbolt/tb.c
->> @@ -89,6 +89,7 @@ static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port,
->>   				       const char *reason);
->>   static void tb_queue_dp_bandwidth_request(struct tb *tb, u64 route, u8 port,
->>   					  int retry, unsigned long delay);
->> +static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data);
-> If possible move the whole function here instead of forward declaration.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-It calls a bunch of helpers that are only defined further down and I'd 
-have to move all of them as well (or forward declare them which defeats 
-the purpose of doing that)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-Sven
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
