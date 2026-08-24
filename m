@@ -1,141 +1,114 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C3040B6FC
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 11:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787571398; cv=pass; b=ECHnBygXkx5IFsPyI+0UFhrYbOkMaQW8M8eV2sASrktGPln+g8sBhowKPnw4kaW48038Y903+ovzGT+3uYCJoxjwjADlk2/yTLnCp8aKQGdaVz/PhcBSon/SEUKiv93de8x2sn0tNplo8J5/ujP+MTj68dp+gSGQIJkB5CfBqRU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787571398; c=relaxed/simple;
-	bh=FLR8gNeFJ9TssEfTR8tSkoTtg4StSpJ+7GNVLjYl8Vg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T01Wj1Fd+gSGubz3WlKxMMwx41I7+tI/fQAPzhpD6zIq7HTaU33lJHAp3jSvtH0rDeHonFAsbZsOZvv/t41BJrBwCmcw0EFfaIO231CqIY9ob291sZ5c5jHidbWMi0tcqOG6NhKF5wIZBG5iaxl4MDYQTV17cf4UDgL1gWF0U7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFt7WRk9; arc=pass smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06D840B104;
+	Mon, 24 Aug 2026 11:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787571485; cv=none; b=HvAaFUVCNcn1Pt/67jk4TO14FBmRkmG5Gm0UZmixHA+P6BUSsfOFSj61QA87A3LQGsMqFXzsGOnmtth4thYuon1R/x3ALpogg3EDc++2FNtZbI8P22H4b19Q4mQVPy2x/hVxM1pVk9zAOACdolbSRALXbpgWqkMDZ2Fx8XJZEXY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787571485; c=relaxed/simple;
+	bh=eaRibzZOI4YUd0JJtNw6YOBGcNU3+xlM6gRdCa+m2Qs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VsA9SFi1iF5CPL8LYuh/Iowe2UR+U5kXlMIqEtPD6zmnxxWmtP1S2WUBkCwYFkGdVDEuDJK1QQxOkab2hXmIhWgxIeM0Coj0Jc9fMr/n0REjLt01rwaTXYjUrXfMaizn/cu4dfOQPuFle42mS5OcCrjrvzAyM/7y9/4vbGcUcps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXlMMzXi; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFt7WRk9"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cf4c37dbe6so2261535ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 04:36:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787571396; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Rt2HkBjfidVPlrDUobGw6dWMk4/k2CTMGBL6wiIscY8kZzjcED5SdRTwLqzQpNuE3y
-         ZaWKOP6LKbqFG7whk6DcNeBJOoNJMxy7/N1RBkgsW/ityWU3scT1dLREnjyhRT1QJwSg
-         nlYXczqW65X1tRHhQ44CMu9U/DI3p7t5UXsh5dlMEJrAhGwz3euP8B9AIZcrv3NkkJAQ
-         +8qesRvpLFNyHJPI8p8zPZIGjyyMfqF+K0wFR7JzqDPCB6Aynqt1AdT0ARC6HPKqA30G
-         geC5ZMvnPLFqVhbAaqmCCljfkmK/ILTMBcCahkBRmhhKQrVLiemB/gBYa5fnau5UzHUT
-         62CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FLR8gNeFJ9TssEfTR8tSkoTtg4StSpJ+7GNVLjYl8Vg=;
-        fh=q/aYiZ8VNy9IuTgJtBmgOy2Vnjqr0hXuQRw2SHNVUn0=;
-        b=O3sYWJTLRhWMw36RXEFIQX2KeQflX4UbR4imYDGeqRO2BR/c2u26YfbnX+u/KdvOQM
-         RArr7ON4sbth5XRemnrafHZjODILxqEAgBp2Tjqi+IpKb+m1pX0RpiO4RPTfO8Hwhw1d
-         IP3jtB77XS7kz1o/uDD+ZKhpLNnvYaggWa9UQ7Mz1Sh0ydmA1s4Cim2nHAddmPKyT0Ol
-         7zr7EXyQqIhifgLv6NVl2b4qdDitLzf/qmdrHSnfTBkWZvrLGJ2EtjuGBGUH06q+s/A6
-         E/Riy4VfD3QWwwnRP/KwsI4aPA8qMwXSKsXFFsCzb34106DH1FTefIfG/X8cQAZf/2C6
-         k2AA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787571396; x=1788176196; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FLR8gNeFJ9TssEfTR8tSkoTtg4StSpJ+7GNVLjYl8Vg=;
-        b=YFt7WRk9Nw5n+i/byMsiEaa4pUCFMwIOshTiaBYfmARkFAcX/qqf8idooFji7JpJ4V
-         8I34V5VPE/KG8FVWrMOwRcHp0UY7rjPa7LnUR+B2rG5woJ3E9vuC/Eh2yg/2usdoBvp/
-         sgDBOYdtWrBqrUWgwPwBFa0oDvKfFJLzefi2in5uq4x8w4fS8H4cBSKU8F9Y2M+WR8RF
-         QkcAvfYl7OjkWvMO/Tb3tcOzaneE014I+i3hMlZOBVF9dLsLPSrerORIU6H1VrLq3Jh1
-         krdI/j7GbiJT+hC7CSjdD2Uv42ryCAzdRaCZFoOZqJ9FlvCJBlxcPbPAHtRNv4k09cv3
-         hG5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787571396; x=1788176196;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FLR8gNeFJ9TssEfTR8tSkoTtg4StSpJ+7GNVLjYl8Vg=;
-        b=Ab/FfqzZywU3v1USwdOGbrMMiNu0COTmMjIaGXXPCesHOdOTN/WDhgYdNs6mW28Z63
-         voh1bLQ4WBwrYSWM2ZEwVlqI4ft/fNeEYwYx9p7ZCJknmyuhuLGBaCLmzKo9CEWxWYwI
-         IyuNBi0S1e75rBV7Rj+mENBzNwSlIQ/T3JigSFtBGL2U6NDWW6IwMlk+ghlgNnp5Tjgf
-         IqqyeZzm0hlrPb4uHS1dsg3spsUDwxejx3rIzllKKforW9TbcnQYhZwa3i3Cu5lvqE7a
-         setxCyAG7XlqM8SvEBfKc8vDQmpKaorFMGon3fE6s7RzD2Ec6EhB27BnbW66dO+xrsbS
-         aZMQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3czxiDjJJ5MHEgykkj/iTMkQjTRSIpDalguE/gbtcY6U5M4zSYIOD1vtqmnwCXmAzQDbrh0256OU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mN4ANm+gtrXfhRei0gLnnCggTJMulwIKgKkWCSF++P3RN7iX2M
-	t4mFOVGwlZhqalmDiFPKa5nVtyuqPbuIXLr5E6BLAb4YeQlPaYPLyxIu7giVDlfu612VmSEpX1o
-	JDMNrmB5HRlJcNJgb0iAMqwOhEkDKYPo=
-X-Gm-Gg: AR+sD12UAAe1zfOMxMZpeJktm9bb5mcRDBu7Xdb2qOcghVw9/WB4hwzLXiRE+ZzQY/q
-	ScHLfRhmzniRgXU1F1KPUfovQR179IjhFWFYGtNpmmmCIodscibVFTRDPFOR8+vu1Q1hYLhNg+f
-	ym+kWGCC1tsea0lB1IXa1pKVvs9L3lacdqOmW0x1FbHHnTh++BSXsHUgNy0m3q6aT1VS9fHiMSi
-	midy2eyLJ7EZZGumj7qz7w2QJ7ZqiyTVyYafWIM8zMFyStyeDS3Z/60cJSA74wOq3mmXuOQmVDL
-	udd/fpngfaL4JmwwkmtdM4fSi6PjqcZN/iqi/d+q2dCBZAGBOYRNovLftfVQzOrNT9RsGDTwzk6
-	roeaV+F76lEYHI0ePMo07JFlKOAzF/kcArxdlP8RmNWIBMwaDU8ELuEiaOd0qQLQ9TgQtS/w=
-X-Received: by 2002:a17:902:fc4d:b0:2c9:e846:a582 with SMTP id
- d9443c01a7336-2d64a9a668bmr222250785ad.0.1787571396025; Mon, 24 Aug 2026
- 04:36:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXlMMzXi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787571483; x=1819107483;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eaRibzZOI4YUd0JJtNw6YOBGcNU3+xlM6gRdCa+m2Qs=;
+  b=aXlMMzXiQKHRNvubvjAdMnaLWbCX9pjmZi60+qAMzrKgZpGkBYUsJGhY
+   oD3AYJfWRUvH+dphSuxnuu+DUOWHNyeO9u0qCWx5SZRXJnn7TboRBQRXv
+   pB/8T25goCp7pndr/yaOQ0cqWsbrhkkyO6QPgcKCs0TFGpRN3+qBJ+8Qi
+   SdMyAHATbXsm+SoIMH2+loAtAwG4lpWBm5QuA9jVlTT0eGRyFTz2DdCrV
+   LdKuxyNyesD0gd52KcbvEa+ltDT14Sj8+Zgs0qnE9hLiDZ0evghCsfz6E
+   ePVcM0IKSTorj2R2r6Zzl73t+bRn48uU6hh3yEiPWpJagb2KylJRmm+e6
+   Q==;
+X-CSE-ConnectionGUID: Xr/OCrlDT5WiXR9ncNPeUA==
+X-CSE-MsgGUID: dF3RLXeeQGS1XygMsNUcLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="113552970"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="113552970"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 04:38:02 -0700
+X-CSE-ConnectionGUID: O1u0tRQxSMKyOcwPk2GUZw==
+X-CSE-MsgGUID: 1rOKWyhnR7+fhkdOnNJoIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="290500688"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2026 04:38:00 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id A77EE99; Mon, 24 Aug 2026 13:37:59 +0200 (CEST)
+Date: Mon, 24 Aug 2026 13:37:59 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Konrad Dybcio <konradybcio@kernel.org>, asahi@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] thunderbolt: Hold a router reference for each
+ path hop
+Message-ID: <20260824113759.GH893316@black.igk.intel.com>
+References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
+ <20260823-b4-tbt-fixes-v2-1-26a18a426c9f@kernel.org>
+ <20260824104237.GF893316@black.igk.intel.com>
+ <295cce78-47d2-4a6e-af90-696edb60a05d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org> <20260824-unique-ref-v20-6-490735672187@kernel.org>
-In-Reply-To: <20260824-unique-ref-v20-6-490735672187@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 24 Aug 2026 13:36:22 +0200
-X-Gm-Features: AcwNN1XvVB-Mna-bMRr_-WAakhrdmhTEWRag6uYdZi5jKauuC-nwA9j0nxkTDxw
-Message-ID: <CANiq72mPLrKQMzb37ow2969m5r3Z2Kh_4LHERUun6ALw3ea6tg@mail.gmail.com>
-Subject: Re: [PATCH v20 6/8] rust: Add missing SAFETY documentation for `ARef` example
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Oliver Mangold <oliver.mangold@pm.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <295cce78-47d2-4a6e-af90-696edb60a05d@kernel.org>
 
-On Mon, Aug 24, 2026 at 1:19=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
->
-> From: Oliver Mangold <oliver.mangold@pm.me>
->
-> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
->
-> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+Hi,
 
-Please see/link https://github.com/Rust-for-Linux/linux/issues/351.
+On Mon, Aug 24, 2026 at 01:06:12PM +0200, Sven Peter wrote:
+> So unfortunately the entire USB hardware is best described as horribly
+> broken :(
 
-Thanks!
+:-(
 
-Cheers,
-Miguel
+> For USB2 already we only ever receive a single hotplug interrupt in dwc3. If
+> the first device is unplugged and another one plugged in nothing happens.
+> The only way around that is to tear down dwc3/xhci and the PHY completely,
+> assert all external reset lines and then bring them up again.
+> Upstream drivers/usb/dwc3/dwc3-apple.c contains more details in the very
+> first comment at the top.
+> 
+> With USB4 this gets a bit worse: There's a block called "ACIO" (Apple
+> Converged I/O) which can only be brought up correctly after the PHY has been
+> switched to Thunderbolt/USB4 mode. This block has a co-processor which then
+> exposes the host router, NHI, IOMMU, etc. to our address space.
+> We then have to write cable information into a vendor-specific capabilities
+> register and only then do we get the hotplug event and the link comes up.
+> This register appears to be effectively write-once after each boot of the
+> co-processor. If I try to write 0 that still works but trying to write the
+> value for the next connection then crashes the co-processor with a very
+> helpful message along the lines of "assert 4357 violated".
+> So there's no way around first tearing everything down, then shutting down
+> the co-processor and the entire ACIO block and then finally bringing it all
+> up again after the next cable is connected. I've tried to find ways around
+> this but didn't succeed without documentation and could only reproduce what
+> XNU does.
+
+Thanks for sharing the interesting details! I totally understand the pain
+of reverse engineering things. The initial USB4/TB driver was also result
+of a huge reverse engineering effort by Andreas Noever, but it was and
+still is functional, and we still support Apple TB1/2 hardware (although
+not too much testing is done these days, I fire up my Cactus Ridge based
+Mac maybe once a year).
+
+But okay it does not sound like the PC ACPI hotplug "solution" we had at
+least. It's just a much more complex subsystem with many interactions that
+need to be done in certain order which is not documented anywhere ;-)
