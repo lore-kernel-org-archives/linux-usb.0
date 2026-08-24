@@ -1,208 +1,164 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49DC3F58E8;
-	Mon, 24 Aug 2026 09:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5103F58E0
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 10:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787564721; cv=none; b=Bs/PnY45iwSXFLbfsPDVfGzwoghG3N4sy+acg2d1DyaXrMG021aUU43NheW+jl9uzCCRdnU+axp1QmZHYSv+ZiO02DNISGLMJS3c+EvoH9Ugld9hTahHoGdJbWCb0SpGyYUGTew4AxYp50EPTIXJ295BW9Yrp3JTXxNZAV/QZoo=
+	t=1787566075; cv=none; b=tfOuutpgFcM6c0ZYWnHnEoGadfAP3yuXkoiFDqRQI6c5ccSBOg+JpU7Mfoq1/1NXnZvHz2NaEe1AMU/PZOQuTF2lhKvURZwZrJrEV/hrGfQCspk0a7DVFCtambNpcxAqXsJP0sdD4nzF36Zv7K8NGzUImftYiyq6uUXDJvLF/PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787564721; c=relaxed/simple;
-	bh=2JduL2U239n+Znn5+rKqOeu2QG1IAzqdilzbrvHkf/w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=N/bdr698JhA+8e+x/m5CNuOlB6lnQmOp7MOTRdRLcpUs43ugHvwn1wJEz5ivXPsPbh2KJ2pDcwoGVSwjFNaGvgexoGltq/O7JdGgiI/VjkDQx4xsFrx3E/PPFX3uyNF5mTGkR34+uOdckQobtIYsXz98+JmJ4hCfiaBI4DaBIuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7d796c3c9fa011f19a56ed5b684f684d-20260824
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:a9eb1b07-2cca-4515-9057-543007dc1a56,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:437b3101a4208faaa8dea3525f5eac7c,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 7d796c3c9fa011f19a56ed5b684f684d-20260824
-X-User: lihaofeng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lihaofeng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 907624019; Mon, 24 Aug 2026 17:45:07 +0800
-From: Haofeng Li <lihaofeng@kylinos.cn>
-To: dan.scally@ideasonboard.com,
-	gregkh@linuxfoundation.org,
-	xu.yang_2@nxp.com
-Cc: lihaofeng@kylinos.cn,
-	hhhuuu@google.com,
-	kees@kernel.org,
-	kai.aizen.dev@gmail.com,
-	andriy.shevchenko@intel.com,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	13266079573@163.com
-Subject: [PATCH v3] usb: gadget: f_uvc: fix Extension Unit descriptor heap overflow
-Date: Mon, 24 Aug 2026 17:44:56 +0800
-Message-Id: <20260824094456.1562456-1-lihaofeng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <49d881a6-6ada-4801-bbaf-097b08623137@ideasonboard.com>
-References: <49d881a6-6ada-4801-bbaf-097b08623137@ideasonboard.com>
+	s=arc-20240116; t=1787566075; c=relaxed/simple;
+	bh=8sdhYAkfd5CXdWcVIF2M2CKslqItKWDWERLCoumPlUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQh9xiarjfkfVtHpH0yJG0ezROISfnSZphJGNSMNDL4ZEs6k7+Am1D0qmCs4EUAT6jK2q4w5iID4dZDxGc8DPihfqJSJTUviBo5zrg1RJp6NKJ77zwZHrvxuzCclEfnrXapbu5Kx4lmpOsThfi5gTK25qLmFaoVshLdVro5ez6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ITvdznnR; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ITvdznnR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787566074; x=1819102074;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8sdhYAkfd5CXdWcVIF2M2CKslqItKWDWERLCoumPlUY=;
+  b=ITvdznnRtYQUFfmmrecLhS/yrJcgdpn0rBOMpzFa87m2iA2XfVpan7hW
+   gPdntUyROIdxrXuxcZHesdx2jfws8RnPpJlECsSdG24QOlFDK40zOzk3P
+   4AzTb6p8jT26aYynUO8R65qIQ4eGwGCztYFWQMR4yQ3NsGI9oI3oIbsB8
+   cWnOJT3n5HuN4zHJExNIAbnl/yzmE9jF61g12+U8Zv2XzcD8GPf+tjmDM
+   tkebbLMO8i6gFknPfDf+Cif1ItAXWJeRxptqLb0qMQxHtHtLVTyOFHnQl
+   462Xvk7W9LQ2lMwhov8BAYl1Fz1xX2TIdcx7Wbo4wC5ANKzvb8e7HgFPa
+   Q==;
+X-CSE-ConnectionGUID: /kngO2bDT9qN1XGAijWBbQ==
+X-CSE-MsgGUID: GwwI//M9RsOiFTUF8tuRMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="105390733"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="105390733"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 03:07:53 -0700
+X-CSE-ConnectionGUID: +ztQ8CqBQbW/Rpum2YTz0Q==
+X-CSE-MsgGUID: UCpTVlzoQym8ID7lcDvCcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="290485417"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2026 03:07:51 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 2ABE699; Mon, 24 Aug 2026 12:07:50 +0200 (CEST)
+Date: Mon, 24 Aug 2026 12:07:50 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Dennis Wang <wqingxmu@gmail.com>
+Cc: linux-usb@vger.kernel.org, Imre Deak <imre.deak@intel.com>
+Subject: Re: thunderbolt: DP tunnel activation not retried when display NAKs
+ while settling after link reset (Apple Studio Display XDR 2026 on Panther
+ Lake)
+Message-ID: <20260824100750.GC893316@black.igk.intel.com>
+References: <CAOX-mXs0ZjpiLtviUDqHLrzWh2Dyz+Y9gZUcenW_yV4iQUa=7g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOX-mXs0ZjpiLtviUDqHLrzWh2Dyz+Y9gZUcenW_yV4iQUa=7g@mail.gmail.com>
 
-An Extension Unit descriptor is 24 + bNrInPins + bControlSize bytes long
-(UVC_DT_EXTENSION_UNIT_SIZE(p, n)), where bNrInPins and bControlSize are
-configfs attributes each accepted over the full 0..255 range by
-kstrtou8().  uvc_configfs stores the computed size in the u8 bLength
-field of the descriptor, so once 24 + p + n exceeds 255 it silently
-wraps: p = n = 255 describes a 534-byte descriptor with bLength = 22.
+Hi,
 
-uvc_copy_descriptors() reserves xu->desc.bLength bytes per Extension Unit
-in the descriptor buffer it allocates at bind time, but
-UVC_COPY_XU_DESCRIPTOR() copies the real descriptor contents, i.e.
-22 + bNrInPins + 1 + bControlSize + 1 bytes.  With the wrapped length the
-copy overruns the allocation by up to 512 bytes.
+On Sun, Aug 23, 2026 at 11:24:40PM +0800, Dennis Wang wrote:
+> Hi,
+> 
+> On most cold boots of this machine the connection manager gives up
+> permanently on DP tunnel establishment while the attached display is
+> still settling after the host-side link reset (the display stays powered
+> across host reboots; what matters seems to be whether it has recently
+> completed a successful bring-up with some host). Recovery only happens if
+> the display times out (tens of seconds) and resets its own TB link, producing
+> a fresh hotplug; when that doesn't happen the screen stays black until the
+> cable is replugged. The same display on a macOS host connects immediately,
+> and "warming" the display on a Mac and then replugging it into this Linux
+> host also connects immediately - so this looks like a host-side retry-policy
+> difference rather than a link-capability problem.
+> 
+> Hardware
+> --------
+> - Host: ASUS NUC 16 Pro, Core Ultra X9 388H (Panther Lake),
+>   integrated TB4 host router (8086:e433 DMA0), Intel retimer 8087:d9c
+> - Display: Apple Studio Display XDR (2026 model, TB5 upstream, 5K@120,
+>   internal hub is Intel JHL9480 Barlow Ridge [8086:5786])
+> - Cables tested:
+>   * Apple passive TB5 cable  -> link trains Gen3 x2 (40G total)
+>   * generic USB4 20G cable   -> link trains Gen2 x2 (20G total)
+> - Kernel: 7.1.8-arch1-3 (Arch Linux), xe graphics
+> - Software CM; bw_alloc_mode active; display requests TWO DP tunnels
+>   (main sink 12750 Mb/s with DSC for 5K120, second sink)
+> 
+> Failure case (cold boot, TB5 cable, default loglevel)
+> -----------------------------------------------------
+> [  289.341041] thunderbolt 0-1: new device found, vendor=0x1 device=0x8024
+> [  289.341073] thunderbolt 0-1: Apple Studio Display XDR
+> [  289.342256] thunderbolt 0000:00:0d.2: 1: failed to enable TMU
+> [  289.342321] thunderbolt 0000:00:0d.2: 1: USB3 tunnel creation failed
+> [  289.342383] thunderbolt 0000:00:0d.2: 1:11: DP tunnel activation
+> failed, aborting
+>    (x4)
+> [  289.342748] thunderbolt 0-1: device disconnected
+> [  289.343325] thunderbolt 0-1: new device found ...      (bounces to 0-3)
+> [  289.363303] thunderbolt 0000:00:0d.2: 0:10 <-> 3:12 (DP): not
+> enough bandwidth
+> [  289.363367] thunderbolt 0000:00:0d.2: 3:12: DP tunnel activation
+> failed, aborting
+>    ... at least ~54 s of silence, no retry from the CM ...
+> [  343.614848] thunderbolt 0-3: device disconnected       (display firmware
+> [  348.801013] thunderbolt 0-1: new device found ...       resets itself)
+>    ... this attempt succeeds silently, display lights up
+> (Note: early timestamps above are journald ingest times - root fs is
+> encrypted, so initramfs-stage kmsg is re-stamped after unlock.)
+> 
+> xe reports matching "[CONNECTOR:512:DP-1] commit wait timed out" +
+> intel_dp_link_check WARNs during the failed window.
+> 
+> Observations
+> ------------
+> 1. Every failed attempt ends at tb_tunnel_one_dp() ->
+>    "DP tunnel activation failed, aborting". Nothing is rescheduled;
+>    the only recovery path is a fresh hotplug generated by the display
+>    itself. On a bad day the display doesn't reset and the black screen
+>    is permanent (needs replug / display power cycle).
+> 2. Hot-plug of the warm display succeeds 100% of the time on both cables
+>    (40G on the TB5 cable, 5K120 DSC fine).
+> 3. A successful cold boot captured with thunderbolt.dyndbg=+p (USB4 20G
+>    cable) still shows 2 disconnect/reconnect cycles and one transient
+>    "not enough bandwidth" for the second DP tunnel before converging -
+>    success vs failure appears to be the same bounce loop with a lucky
+>    final iteration, not a different path.
+> 4. thunderbolt.clx=0 makes the "failed to enable TMU" line disappear but
+>    does not change the user-visible behavior.
+> 
+> Question
+> --------
+> Would a bounded retry with backoff in the DP tunnel setup path be an
+> acceptable direction? I.e. on activation failure / NO_BANDWIDTH in
+> tb_tunnel_one_dp(), schedule delayed work that re-runs tb_tunnel_dp()
+> a few times (cancelled on unplug) instead of aborting permanently.
+> Notably the driver already applies exactly this pattern to
+> bandwidth-allocation requests that arrive before the tunnel is active
+> (TB_BW_ALLOC_RETRIES, 50 ms backoff in tb_queue_dp_bandwidth_request());
+> tunnel establishment just has no equivalent today.
+> I'm happy to test patches on this hardware, and can provide:
+> - full dyndbg log of the successful cold boot (3900 lines, on hand)
+> - dyndbg capture of a failing cold boot (can reproduce)
+> - anything else that helps (this combination - Panther Lake TB4 host +
+>   Barlow Ridge based TB5 display - is probably rare right now)
 
-Attack chain (write access to a UVC gadget's configfs attributes; no
-race, no USB traffic, a single bind triggers it):
+[Added Imre.]
 
-    echo 255 > .../functions/uvc.0/extensions/ext.0/b_nr_in_pins
-    echo 255 > .../functions/uvc.0/extensions/ext.0/b_control_size
-      -> uvcg_extension_b_nr_in_pins_store() /
-         uvcg_extension_b_control_size_store()
-      -> bLength = UVC_DT_EXTENSION_UNIT_SIZE(255, 255) wraps to 22
-    bind the gadget to a UDC
-      -> uvc_function_bind() -> uvc_copy_descriptors()
-      -> kmalloc() sized using the wrapped bLength: 22 bytes for the XU
-      -> UVC_COPY_XU_DESCRIPTOR() writes the real 534 bytes into that
-         slot (22-byte head, 255 baSourceID, bControlSize, 255
-         bmControls, iExtension)
-      -> heap out-of-bounds write during bind
+There was recently another report about the same monitor but we could not
+root cause the issue because the reporter had to return the display. I
+think the problem happened also when plugging the monitor in after the
+system was already up.
 
-Reproduced on 7.2.0+: a stock build (FORTIFY on) can derive the remaining
-allocation size at the bmControls memcpy and BUGs in __fortify_panic()
-during bind - a deterministic kernel crash; with FORTIFY disabled for the
-file, KASAN reports "slab-out-of-bounds Write of size 255" in
-uvc_copy_descriptors() against the kmalloc-192 descriptor buffer.
-
-Reject combinations whose descriptor does not fit into bLength at all four
-configfs entry points that can grow an Extension Unit (b_nr_in_pins,
-b_control_size, ba_source_id, bm_controls), and make uvc_copy_descriptors()
-refuse an Extension Unit whose bLength does not match its contents instead
-of overflowing the buffer.
-
-Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
-Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
-Assisted-by: opencode:deepseek-v4-flash-free
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
----
-Changes in v2:
-- reword a comment per Randy Dunlap: "The descriptor length must fit
-  into the one-byte bLength field".
-
-Changes in v3:
-- Add a warning message when the descriptor size is rejected, as suggested
-  by Dan Scally.
- drivers/usb/gadget/function/f_uvc.c        |  6 +++++
- drivers/usb/gadget/function/uvc_configfs.c | 28 ++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
-
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 73dc7e42875f..0d3432f80cae 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -598,6 +598,12 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 	}
- 
- 	list_for_each_entry(xu, uvc->desc.extension_units, list) {
-+		/* Mismatched bLength would overflow the buffer sized after it */
-+		if (xu->desc.bLength !=
-+		    UVC_DT_EXTENSION_UNIT_SIZE(xu->desc.bNrInPins,
-+					       xu->desc.bControlSize))
-+			return ERR_PTR(-EINVAL);
-+
- 		control_size += xu->desc.bLength;
- 		bytes += xu->desc.bLength;
- 		n_desc++;
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 70a1415ea401..b52c9cf2b715 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -845,6 +845,18 @@ static ssize_t uvcg_extension_b_num_controls_store(struct config_item *item,
- }
- UVCG_EXTENSION_ATTR(b_num_controls, bNumControls);
- 
-+/* The descriptor length must fit into the one-byte bLength field */
-+static int uvcg_extension_check_size(u8 nr_in_pins, u8 control_size)
-+{
-+	if (UVC_DT_EXTENSION_UNIT_SIZE(nr_in_pins, control_size) > 255) {
-+		pr_warn("uvc: Extension Unit descriptor size (%u + %u) does not fit into bLength\n",
-+			nr_in_pins, control_size);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * In addition to storing bNrInPins, this function needs to realloc the
-  * memory for the baSourceID array and additionally expand bLength.
-@@ -877,6 +889,10 @@ static ssize_t uvcg_extension_b_nr_in_pins_store(struct config_item *item,
- 		goto unlock;
- 	}
- 
-+	ret = uvcg_extension_check_size(num, xu->desc.bControlSize);
-+	if (ret)
-+		goto unlock;
-+
- 	tmp_buf = krealloc_array(xu->desc.baSourceID, num, sizeof(u8),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!tmp_buf) {
-@@ -930,6 +946,10 @@ static ssize_t uvcg_extension_b_control_size_store(struct config_item *item,
- 		goto unlock;
- 	}
- 
-+	ret = uvcg_extension_check_size(xu->desc.bNrInPins, num);
-+	if (ret)
-+		goto unlock;
-+
- 	tmp_buf = krealloc_array(xu->desc.bmControls, num, sizeof(u8),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!tmp_buf) {
-@@ -1055,6 +1075,10 @@ static ssize_t uvcg_extension_ba_source_id_store(struct config_item *item,
- 	if (ret)
- 		goto unlock;
- 
-+	ret = uvcg_extension_check_size(n, xu->desc.bControlSize);
-+	if (ret)
-+		goto unlock;
-+
- 	iter = source_ids = kcalloc(n, sizeof(u8), GFP_KERNEL);
- 	if (!source_ids) {
- 		ret = -ENOMEM;
-@@ -1134,6 +1158,10 @@ static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
- 	if (ret)
- 		goto unlock;
- 
-+	ret = uvcg_extension_check_size(xu->desc.bNrInPins, n);
-+	if (ret)
-+		goto unlock;
-+
- 	iter = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
- 	if (!bm_controls) {
- 		ret = -ENOMEM;
--- 
-2.25.1
-
+Can you provide a full dmesg of the cold boot with dyndgb enabled? Please
+also add "drm.debug=0x10e" in the command like so we can get the graphics
+side logs as well.
