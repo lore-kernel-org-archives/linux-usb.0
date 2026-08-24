@@ -1,99 +1,170 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32788346E67
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 07:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3F33A6B85
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 07:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787557627; cv=none; b=MZ3GH/CLmR/ZsxQw/7BsDCQVusOR6Vvb6Scpm/R0JSDvbVBV8+iONdlT0t170w95sr3078frtDi2lT56+F5vs97JyHxg1Sr5UhqpBnarfpv3X+CEWefgaBQw0uG8HM28ioKfGyP9SEHhjIBbWorq9k7rDyDkT3Ztgkr6xcLqkUw=
+	t=1787558399; cv=none; b=R05Ao69T3A4AfcFNmVTvlvCzAf5E9OGcq2Y2td9ibfp52iGY13yx3WVL1L/3+++aK/cPLOt9sYNBhdfy5tOuV8ycnEO0eUW+tslRBMpfwd0NDOSxT7kPJPsKcyDNi+rt571aqkCNerAdGNXI5cS+dpKLH09+7RNcEuqHlgiigcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787557627; c=relaxed/simple;
-	bh=o7Ey87ju4LDetm2YcfYnI4gNiACJzvnjsA0ht6b+JOY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Ml3pYnBjzvAu/JfaQkMCwLmI0OQ9OKgA/B305nIvmPefLz8247rU7rnYnUSShgWql3LdRBerLi2rgdCimMOwc6a3UoVZuJbg4X6Y3iE/eKrH2vU5/+XzY9vB5eRXv5L3dn9ZkrFhT7KE10tuggr9mmzrPEoPxpo8iJJxorFXShE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxAD6GO3; arc=none smtp.client-ip=209.85.208.50
+	s=arc-20240116; t=1787558399; c=relaxed/simple;
+	bh=+aUQRaCJEiOlOXPCqhnqzr2GzBTvKrS5uoneUccI4pc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=uTkh2yFgyb+VKkv7gYUQ3gmzk1XmLL/2NpQct1lPcE/flqZi0N4LTCx/NxvY22MvycNCzkbzQWInxbyFVSc5kIthfMh8t4m9JWMBrvvcdhUM0Q6BwKO7MwETgOtFVxGRPuM+Aatsm3SLA0D7PgofzStpPnS2dM7Hpc53g48z4DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AulkzfBx; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxAD6GO3"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a0de062db5so5549729a12.1
-        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 00:47:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AulkzfBx"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c20fb91ed0fso474174666b.3
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 00:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787557624; x=1788162424; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o7Ey87ju4LDetm2YcfYnI4gNiACJzvnjsA0ht6b+JOY=;
-        b=cxAD6GO3sjOB7VLp8y+U9dcSofBzChL4V9w5xOVowcZmQnc6tJ2wWA7cAfX8vTH8DJ
-         HUzUJJvZEfcAPRd2rAIGl9WOdScZgTLfyNCK80NQUs38ta5DyuNhgBhazjyGA8KXVKdZ
-         ABU0Lt7zTDTZkBGXSWksLF8UZxyzfWLU9IzrFQTcVwQ4c3b7tFJ2FaHGonSIo3lkxKkY
-         A/N+apTOGF4mNOMJSahm/8EvrSk19BGN7/qTmWJQlXjLdPwkXCsobZd3exKfqhwKj1Tk
-         ZxBodgfWoLfl6HsD6hv4IaqMI27yaqUPOzqQtzwEC60nXddnt+urSUgvEWiqvuIvLmZH
-         NHMw==
+        d=gmail.com; s=20251104; t=1787558389; x=1788163189; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WttKNsbulNL5/elFBjAMNMa3KXVDrXB8+BjVRa3s9Y4=;
+        b=AulkzfBx7W3CRKwgjgfhSTAqtZOVxbWsgTisYfefgHo12nPOuGQfk0e3xOcgDYRlVM
+         HyBgGGR8SmRd5npnByxerOiACw25aGR06upTFR36TYXE0FArId8+Ld54zWeqeWTbSjkV
+         3snNezq6+pj9qQNjl/n6UgIIIUFacPVUH1Uge6gz+z/KNyOSiE68bYccfzwlhr3QVtMq
+         nLMMPmfeXiZhdRYAKIxhVtzQJLlePE28bMRBC4OcV2uCaZ5RmNJii2HTLSQxrHWttkqZ
+         U/ipenfVxtqZtCNvqQJUJp5qur1jxAMqCDJdeogfVWtwl97F0Dh3tl13Izhad18bD4iQ
+         iZZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787557624; x=1788162424;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=o7Ey87ju4LDetm2YcfYnI4gNiACJzvnjsA0ht6b+JOY=;
-        b=DuMUvP045BgZ5K+qLGYIrWP0kSzLxaVNSYEUc/FGJnrp/fME4K1bqyQ/cgmapo83h7
-         68Ocay88myNhaRF6PaNDNaDx632aKB3YCcp3ZNTW4ZykrJGdl63Gk+e8qr4/k5Xm4CKZ
-         A7VFiBpu1v+UFKRbfPcHqlmIrtC4DTF1zEImUzQP4JHoMZmZQFqr/UtlD+hxFHceu6GQ
-         J32oGSRse8MjWceYVcSO3wDHck4XYP4BO3b6pCsxyj/3yoNn9roVWdQhku/lrZoZRby6
-         F3T9EJ8tej5mhmSxYMKxbmmQqlBX7z9Ry2e0Tj+Bv2Hc4WYwbze8/TvDQlWxkJ5PdF7+
-         1HKA==
-X-Forwarded-Encrypted: i=1; AHgh+RqdiVULJQZkyK1oSLrAptJmkQPSWnfhXwWlAbQeEXgvNcsIgv9MbVSITCEyase/sE8hH+RD+qb0IZk=@vger.kernel.org
-X-Gm-Message-State: AFuF++mxhnZInQxhA2Yu7y9T2sBK7Vmq5f+kvi6JyQFsaFaXMdkQmc4O
-	Tm6hmMwdH9414EOE3sb7FCF4MKHYdRlSYmIHc9NUokJOh/DExcB17wsz
-X-Gm-Gg: AR+sD10fUogPqYDZEwwZJdvSIralpTvvx4mA1S+HZPBf21dk/9UYd1RuV4bO4oi4gi6
-	kCHDwRbIcIKuPxnWUXVPo3YV5CngA7d5h4B2v+zF7vg5QawQmn+P9f8HP73vgrqxEw8GktIoYT/
-	1V+BZ0ww8lnH1vGHeg7HQDUFbcoMNCm+wJYRKhKevYQbwwsUm3UyihRK2QGXwV3+JqjihrlCKDG
-	d6mQpUtgV9seQNbSxsydTFldtpAQkRsMXVD/6UpAJP5HiGvxUZQRjLgroqw02yZh1Pza7tzj2Dn
-	9CT6CwK58w7+e/qYLRCBuR3c0p61jjGWAAipoAOH3tKZfZILHUa+JDBPfA4VmPuwD6s0x72PF7V
-	q5sP13PKcD7dDZM4AJj79BJVMBiqaLpuCJJdZDPI5hYuj4aJ2AuFMsklwnD10Bx3I/kjdWlYqvc
-	hS/RHc/Hfgdcho5JWScYqb1Um4HtoBdj1010KJ8XUmuDa5LtrNHd/ROqNv6pUDcj8IZu3aiwUSt
-	tLxmQcvcw+lzcG35UHMGBtfS5os1VhJ+m8k/teSeDVW5Qo7B4pru68Op4PK
-X-Received: by 2002:a05:6402:27c6:b0:6a3:f34d:8f67 with SMTP id 4fb4d7f45d1cf-6a42f19fca6mr26412323a12.5.1787557624189;
-        Mon, 24 Aug 2026 00:47:04 -0700 (PDT)
-Received: from [192.168.1.187] ([188.192.159.165])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a5b93f3acdsm726997a12.19.2026.08.24.00.47.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2026 00:47:03 -0700 (PDT)
-Message-ID: <26b990b8-51ce-4303-9dc1-c41bfce69900@gmail.com>
-Date: Mon, 24 Aug 2026 09:47:02 +0200
+        d=1e100.net; s=20251104; t=1787558389; x=1788163189;
+        h=content-transfer-encoding:content-type:mime-version:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=WttKNsbulNL5/elFBjAMNMa3KXVDrXB8+BjVRa3s9Y4=;
+        b=hzeAI1RcjKgvvTQjidQeEC4U+Hb79zrV/1wLGYRERzaLO/gD9hHlVYRPsy5EuH0ZZE
+         rnynNS5sAag+TOvPKUwNYl4zZYlEtYTCkWx67IF5AYRVnh7PEbDwA63lp48iqfGgQiyP
+         LLlJldAjmMFVFpFtB7KB8KBmZRgmk1f5QNRnwaPB6gHRcbQYD8Ns1oXk16DAylpWDVnH
+         6+6+2wR941Fg/Jp9Hs6SSfm1jxjiYNc+YRK904TEXYV3Not4KX5LGxMz2PN0Rt2ATYun
+         xQbaNnZDASVN2fjkoYH69A+e5XpzX6TZ+AUSaTKsjrVwqn5yPx4j6WUfKU8N2lXFlx1j
+         JNRw==
+X-Gm-Message-State: AFuF++kd6E7U5CZD6miuUB0/mS/bq7rS0StFYZTtf+kPCnPUeyBEVjgU
+	DZbJFjIBaCOZBKI+cmsgFCPw0M7wsC+35SOUGfPMHd5hgc9Ugn4kGsz3ml/LjQ==
+X-Gm-Gg: AR+sD11UNnGoYhXc2rcQvIHKs7OPehehuf4Ojg+FGZM1OUpIudP56098zsz7Jr9omRa
+	epmObT4Sgux0i4EYuZxpQgEbjisjLDBhQ9P4MHmdE3mjr0XaFrvzw3fmmdBfE4an0SeAOJQlpBk
+	kL/BPvocXnzAJB8RrN3JP+GiixHildsIigqbgj7RZKPXX/H5S6gi3ArGtz/s5sH0x2dlRdFZpgn
+	lvjDZ0L60yrJdLxXqDulyZQEVycdDapoqRdcq2ZecvQohD6YVSIEuyAW6x41wvLsEeDrOfQr67C
+	mshD/TOPY3l4PFrnvg1LFcIG7YTL23GVXxIlff6A43XqHWe0Cp+/r4rGOUzkGf8FSFHeDMU/bSC
+	wHAd5yHR7otfnlBOKMdW+SWl7jhSJ3QEv5c07Rqf4FLEOQMoQFbxC8z5f6nl3KrBfKq72FlKPZu
+	KgiL8EzgQaYhLwuwCqA9/Q2ZzuXN3ZdLPoFsFquTgbab5gCBZokYPygwOPAh6nyINukJg=
+X-Received: by 2002:a17:907:8b8a:b0:c05:b9db:68cc with SMTP id a640c23a62f3a-c2469f7b668mr2755707566b.0.1787558388709;
+        Mon, 24 Aug 2026 00:59:48 -0700 (PDT)
+Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249629a901sm1262228266b.25.2026.08.24.00.59.47
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 24 Aug 2026 00:59:48 -0700 (PDT)
+Date: Mon, 24 Aug 2026 09:59:44 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Pedro Fonseca <pedro@fonseca.com.pt>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: xhci: Unlock for command abort polling
+Message-ID: <20260824095944.1c8335fa.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: gadget: f_ncm: Restart timer when eth_start_xmit()
- fails
-To: Francesco Lavra <flavra@baylibre.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kuen-Han Tsai <khtsai@google.com>, Kees Cook <kees@kernel.org>,
- raub camaioni <raubcameo@gmail.com>,
- Sonali Pradhan <sonalipradhan@google.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260727165441.1969927-1-flavra@baylibre.com>
-Content-Language: en-US
-From: Felix Schladt <felix.schladt@gmail.com>
-In-Reply-To: <20260727165441.1969927-1-flavra@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Francesco,
+xhci_abort_cmd_ring() requests abort, waits for the CRR bit to clear,
+drops xhci->lock and waits for the Command Ring Stopped event.
 
-I tested this patch on a Raspberry Pi 4B running Linux 6.12.105 built
-with Yocto, using the f_ncm USB gadget.
+The CRR wait timeout is 5 seconds as suggested by xHCI 4.6.1.2, which
+means that if the xHC fails to complete the operation at all, we poll
+with the lock held and IRQs disabled for several seconds. If any other
+CPU tries to acquire the lock, it will spin likewise. IRQs get delays,
+drivers log errors, tasks freeze, it's a mess.
 
-Without the patch, I can reproducibly observe multi-second TX stalls
-under sustained network traffic.
-With the patch applied, I can no longer reproduce the issue.
+So drop the lock earlier, before waiting for the CRR bit. It should be
+safe - the sole caller sets cmd_ring_state to CMD_RING_STATE_ABORTED
+before calling us, which will prevent others from ringing the command
+doorbell and interfering with the abort. Queuing new commands during
+this time poses no danger, and if the command we try to abort actually
+completes concurrently, existing code already needs to deal with this.
+And in my testing it does - it's trivial to trigger this on ASM1042,
+where Address Device can't be aborted, but it completes as soon as the
+offending device is unplugged, including during abort attempt.
 
-Tested-by: Felix Schladt <felix.schladt@gmail.com>
+Note that the lock still covers reinit_completion(), so it won't race
+with complete() being called by the event handler. And works are not
+reentrant, so another timeout can't expire while the lock is dropped.
+We will configure timeout anew when restarting the ring.
 
-Thanks,
-Felix
+One other difference is that now we also drop the lock if abort fails.
+This too should be harmless. Commands queued during this time will be
+released like any other pending commands. If the aborted command does
+complete before we regain the lock, it's a waste, but not regression.
+
+Reported-by: Pedro Fonseca <pedro@fonseca.com.pt>
+Link: https://lore.kernel.org/linux-usb/16f65081-5a3c-4c30-9811-9017796a3373@fonseca.com.pt/
+Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+---
+
+This has been annoying me and various others for years, only the latest
+incident is listed above.
+
+I expected a nightmare of race conditions, but after finally taking a
+serious look I think it really is quite simple. It helps that the lock
+was already being dropped and existing code seems to handle it fine.
+
+ drivers/usb/host/xhci-ring.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 8b0c27d6f12d..44a0f89110a1 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -494,7 +494,7 @@ static int xhci_abort_cmd_ring(struct xhci_hcd *xhci, unsigned long flags)
+ 	struct xhci_segment *new_seg	= xhci->cmd_ring->deq_seg;
+ 	union xhci_trb *new_deq		= xhci->cmd_ring->dequeue;
+ 	u64 crcr;
+-	int ret;
++	int ret, completed;
+ 
+ 	xhci_dbg(xhci, "Abort command ring\n");
+ 
+@@ -521,25 +521,27 @@ static int xhci_abort_cmd_ring(struct xhci_hcd *xhci, unsigned long flags)
+ 	 * In the future we should distinguish between -ENODEV and -ETIMEDOUT
+ 	 * and try to recover a -ETIMEDOUT with a host controller reset.
+ 	 */
++	spin_unlock_irqrestore(&xhci->lock, flags);
+ 	ret = xhci_handshake(&xhci->op_regs->cmd_ring,
+ 			CMD_RING_RUNNING, 0, 5 * 1000 * 1000);
+-	if (ret < 0) {
+-		xhci_err(xhci, "Abort failed to stop command ring: %d\n", ret);
+-		xhci_halt(xhci);
+-		xhci_hc_died(xhci);
+-		return ret;
+-	}
+ 	/*
+ 	 * Writing the CMD_RING_ABORT bit should cause a cmd completion event,
+ 	 * however on some host hw the CMD_RING_RUNNING bit is correctly cleared
+ 	 * but the completion event in never sent. Wait 2 secs (arbitrary
+ 	 * number) to handle those cases after negation of CMD_RING_RUNNING.
+ 	 */
+-	spin_unlock_irqrestore(&xhci->lock, flags);
+-	ret = wait_for_completion_timeout(&xhci->cmd_ring_stop_completion,
++	if (ret >= 0)
++		completed = wait_for_completion_timeout(&xhci->cmd_ring_stop_completion,
+ 					  msecs_to_jiffies(2000));
+ 	spin_lock_irqsave(&xhci->lock, flags);
+-	if (!ret) {
++
++	if (ret < 0) {
++		xhci_err(xhci, "Abort failed to stop command ring: %d\n", ret);
++		xhci_halt(xhci);
++		xhci_hc_died(xhci);
++		return ret;
++	}
++	if (!completed) {
+ 		xhci_dbg(xhci, "No stop event for abort, ring start fail?\n");
+ 		xhci_cleanup_command_queue(xhci);
+ 	} else {
+-- 
+2.48.1
