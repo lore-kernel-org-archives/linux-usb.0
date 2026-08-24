@@ -1,136 +1,210 @@
-Received: from mail.auroraos.dev (unknown [95.181.193.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F6C45C70E;
-	Mon, 24 Aug 2026 16:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A65F46AF31;
+	Mon, 24 Aug 2026 17:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787587225; cv=none; b=qEEE87i6KLSBh8cIvccFUBRn/oPKDK1X7ROx+Yi30h/IzivKRCmF2MfHQ+OF67tJywaKMjQjgn3SkoPiQu+Bhz3WTejb+na29REBZ5J07fE7niTKOIFvtqAJ5YgVDWVxM+AUcm67ggYE3bMfL8ywCh6DGJKvy0YmQwDnz36PUlU=
+	t=1787591100; cv=none; b=o/uC7y9UCg8DPMt1AePLvYOmTMR6FUDmNqev82VZqdErGQWE23ERKqnm5XSVOb/xK+S4I0ecpwrMS9h1Ca/im2nAOM5FPOqAA4Ozx5uX6O+sE612ivq4GgTG1bR9WiJgNgfjux6YYVdf4G1tvFCcyn1rQ7km9sFB56Z8TLD8ngI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787587225; c=relaxed/simple;
-	bh=iKmxx7O9Rt8AB+jQPOKu/wJ4vzGU8H4Qko8Ft9yudMA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tzQ4VbXwU2/clkkBdEvrrbQYUuHvLKjdoLCsnngnLCSc/CZS/zpnMazfXLcSgxCzdGIwHTUi+RvcN4TZngcJvlFljVjDl4uu1fTFAwpnc+fR+BY3D08dA16EGKEl9EsHpw3iaVb4nlc2EO5Ye+GGU559t2cXVtaKqUVQlplcKQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
-Received: from [192.168.2.104] (91.79.18.3) by exch16.corp.auroraos.dev
- (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Mon, 24 Aug
- 2026 19:00:09 +0300
-Message-ID: <eff53efb-9838-418b-ac9d-f592a15ea76a@auroraos.dev>
-Date: Mon, 24 Aug 2026 19:00:09 +0300
+	s=arc-20240116; t=1787591100; c=relaxed/simple;
+	bh=G/me3LHfBUuzpn2DDkF7CZaGgU2p7vjA8yk8hft6mm0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=H9SWccpks3eE06/96T1pLxMMZ1bZMIUZzzenkwUfye80y66WQwwqUbEl2107/4fJ5pXzVKR9MsU5dlXadm/Yx6hKSy53utTQNpqNA7rlm0emvLLoANp6CtHd3vXeILJYlTYddblvBx2J7NOFnZ1z4340TsASWmjJ2UQmPHDygxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: e92555309fdd11f19a56ed5b684f684d-20260825
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:727308e7-413a-4a32-bcb2-60a8cca12529,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:ad2fbeabeed0f4ca0759e012c658d90c,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
+	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e92555309fdd11f19a56ed5b684f684d-20260825
+X-User: lihaofeng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lihaofeng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 152646855; Tue, 25 Aug 2026 01:04:47 +0800
+From: Haofeng Li <lihaofeng@kylinos.cn>
+To: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org
+Cc: dan.scally@ideasonboard.com,
+	andriy.shevchenko@intel.com,
+	xu.yang_2@nxp.com,
+	hhhuuu@google.com,
+	kees@kernel.org,
+	kai.aizen.dev@gmail.com,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	linux-kernel@vger.kernel.org,
+	13266079573@163.com,
+	Haofeng Li <lihaofeng@kylinos.cn>
+Subject: [PATCH v4] usb: gadget: f_uvc: fix Extension Unit descriptor heap overflow
+Date: Tue, 25 Aug 2026 01:04:42 +0800
+Message-Id: <20260824170442.1980191-1-lihaofeng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260824094456.1562456-1-lihaofeng@kylinos.cn>
+References: <20260824094456.1562456-1-lihaofeng@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] r8152: simplify loops in generic_ocp_{read,write}()
-To: Michal Pecio <michal.pecio@gmail.com>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>
-References: <20260822202155.18632-1-s.shtylyov@auroraos.dev>
- <20260822230326.5d642593.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
-In-Reply-To: <20260822230326.5d642593.michal.pecio@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
- exch16.corp.auroraos.dev (10.189.209.38)
+Content-Transfer-Encoding: 8bit
 
-On 8/23/26 12:03 AM, Michal Pecio wrote:
+An Extension Unit descriptor is 24 + bNrInPins + bControlSize bytes long
+(UVC_DT_EXTENSION_UNIT_SIZE(p, n)), where bNrInPins and bControlSize are
+configfs attributes each accepted over the full 0..255 range by
+kstrtou8().  uvc_configfs stores the computed size in the u8 bLength
+field of the descriptor, so once 24 + p + n exceeds 255 it silently
+wraps: p = n = 255 describes a 534-byte descriptor with bLength = 22.
 
-[...]
+uvc_copy_descriptors() reserves xu->desc.bLength bytes per Extension Unit
+in the descriptor buffer it allocates at bind time, but
+UVC_COPY_XU_DESCRIPTOR() copies the real descriptor contents, i.e.
+22 + bNrInPins + 1 + bControlSize + 1 bytes.  With the wrapped length the
+copy overruns the allocation by up to 512 bytes.
 
->> In generic_ocp_{read,write}(), the *while* loops look very strange:
->> the last iteration is executed differently to the prior ones, doing
->> some useless assignments before *break*. Move the code for the last
->> iteration out of the loop bodies, dropping the pointless statements
->> as well...
->>
->> Found by Linux Verification Center (linuxtesting.org) with the Svace
->> static analysis tool.
->>
->> Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
->>
->> ---
->>  drivers/net/usb/r8152.c | 67 ++++++++++++++++-------------------------
->>  1 file changed, 26 insertions(+), 41 deletions(-)
->>
->> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
->> index f61686433031..de9738bdce85 100644
->> --- a/drivers/net/usb/r8152.c
->> +++ b/drivers/net/usb/r8152.c
->> @@ -1431,27 +1431,19 @@ static int generic_ocp_read(struct r8152 *tp, u16 index, u16 size,
->>       if ((u32)index + (u32)size > 0xffff)
->>               return -EPERM;
->>
->> -     while (size) {
->> -             if (size > limit) {
->> -                     ret = get_registers(tp, index, type, limit, data);
->> -                     if (ret < 0)
->> -                             break;
->> -
->> -                     index += limit;
->> -                     data += limit;
->> -                     size -= limit;
->> -             } else {
->> -                     ret = get_registers(tp, index, type, size, data);
->> -                     if (ret < 0)
->> -                             break;
->> +     while (size > limit) {
->> +             ret = get_registers(tp, index, type, limit, data);
->> +             if (ret < 0)
->> +                     goto error1;
->>
->> -                     index += size;
->> -                     data += size;
->> -                     size = 0;
->> -                     break;
->> -             }
->> +             index += limit;
->> +             data += limit;
->> +             size -= limit;
->>       }
->>
->> +     ret = get_registers(tp, index, type, size, data);
->> +
->> +error1:
->>       if (ret == -ENODEV)
->>               rtl_set_unplug(tp);
-> 
-> Looks like it could be shorter still.
-> 
-> s/limit/chunk/
-> 
-> while (size) {
->         if (size < chunk)
->                 chunk = size;
->         ret = get_registers(tp, index, type, chunk, data);
->         if (ret < 0)
->                 break;
->         index += chunk;
->         data += chunk;
->         size -= chunk;
-> }
+Attack chain (write access to a UVC gadget's configfs attributes; no
+race, no USB traffic, a single bind triggers it):
 
-   That's definitely better, thank you! :-)
-   I'll rewrite the patch along these lines, mentioning you in the
-Suggested-by tag...
+    echo 255 > .../functions/uvc.0/extensions/ext.0/b_nr_in_pins
+    echo 255 > .../functions/uvc.0/extensions/ext.0/b_control_size
+      -> uvcg_extension_b_nr_in_pins_store() /
+         uvcg_extension_b_control_size_store()
+      -> bLength = UVC_DT_EXTENSION_UNIT_SIZE(255, 255) wraps to 22
+    bind the gadget to a UDC
+      -> uvc_function_bind() -> uvc_copy_descriptors()
+      -> kmalloc() sized using the wrapped bLength: 22 bytes for the XU
+      -> UVC_COPY_XU_DESCRIPTOR() writes the real 534 bytes into that
+         slot (22-byte head, 255 baSourceID, bControlSize, 255
+         bmControls, iExtension)
+      -> heap out-of-bounds write during bind
 
-> Then it could be do-while, because we know size > 0, though
-> I suppose compilers may figure it out themselves anyway.
+Reproduced on 7.2.0+: a stock build (FORTIFY on) can derive the remaining
+allocation size at the bmControls memcpy and BUGs in __fortify_panic()
+during bind - a deterministic kernel crash; with FORTIFY disabled for the
+file, KASAN reports "slab-out-of-bounds Write of size 255" in
+uvc_copy_descriptors() against the kmalloc-192 descriptor buffer.
 
-   I'd prefer to leave handling of !size as it is now, so I'll
-keep using the *while* loop...
+Reject combinations whose descriptor does not fit into bLength at all four
+configfs entry points that can grow an Extension Unit (b_nr_in_pins,
+b_control_size, ba_source_id, bm_controls), and make uvc_copy_descriptors()
+refuse an Extension Unit whose bLength does not match its contents instead
+of overflowing the buffer.
 
-> Regards,
-> Michal
+Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
+Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
+Assisted-by: opencode:deepseek-v4-flash-free
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+---
+Changes in v2:
+- reword a comment per Randy Dunlap: "The descriptor length must fit
+  into the one-byte bLength field".
 
-MBR, Sergey
+Changes in v3:
+- Add a warning message when the descriptor size is rejected, as suggested
+  by Dan Scally.
+
+Changes in v4:
+- Remove the blank line inside the sign-off block.
+ drivers/usb/gadget/function/f_uvc.c        |  6 +++++
+ drivers/usb/gadget/function/uvc_configfs.c | 28 ++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 73dc7e42875f..0d3432f80cae 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -598,6 +598,12 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+ 	}
+ 
+ 	list_for_each_entry(xu, uvc->desc.extension_units, list) {
++		/* Mismatched bLength would overflow the buffer sized after it */
++		if (xu->desc.bLength !=
++		    UVC_DT_EXTENSION_UNIT_SIZE(xu->desc.bNrInPins,
++					       xu->desc.bControlSize))
++			return ERR_PTR(-EINVAL);
++
+ 		control_size += xu->desc.bLength;
+ 		bytes += xu->desc.bLength;
+ 		n_desc++;
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index 70a1415ea401..b52c9cf2b715 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -845,6 +845,18 @@ static ssize_t uvcg_extension_b_num_controls_store(struct config_item *item,
+ }
+ UVCG_EXTENSION_ATTR(b_num_controls, bNumControls);
+ 
++/* The descriptor length must fit into the one-byte bLength field */
++static int uvcg_extension_check_size(u8 nr_in_pins, u8 control_size)
++{
++	if (UVC_DT_EXTENSION_UNIT_SIZE(nr_in_pins, control_size) > 255) {
++		pr_warn("uvc: Extension Unit descriptor size (%u + %u) does not fit into bLength\n",
++			nr_in_pins, control_size);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /*
+  * In addition to storing bNrInPins, this function needs to realloc the
+  * memory for the baSourceID array and additionally expand bLength.
+@@ -877,6 +889,10 @@ static ssize_t uvcg_extension_b_nr_in_pins_store(struct config_item *item,
+ 		goto unlock;
+ 	}
+ 
++	ret = uvcg_extension_check_size(num, xu->desc.bControlSize);
++	if (ret)
++		goto unlock;
++
+ 	tmp_buf = krealloc_array(xu->desc.baSourceID, num, sizeof(u8),
+ 				 GFP_KERNEL | __GFP_ZERO);
+ 	if (!tmp_buf) {
+@@ -930,6 +946,10 @@ static ssize_t uvcg_extension_b_control_size_store(struct config_item *item,
+ 		goto unlock;
+ 	}
+ 
++	ret = uvcg_extension_check_size(xu->desc.bNrInPins, num);
++	if (ret)
++		goto unlock;
++
+ 	tmp_buf = krealloc_array(xu->desc.bmControls, num, sizeof(u8),
+ 				 GFP_KERNEL | __GFP_ZERO);
+ 	if (!tmp_buf) {
+@@ -1055,6 +1075,10 @@ static ssize_t uvcg_extension_ba_source_id_store(struct config_item *item,
+ 	if (ret)
+ 		goto unlock;
+ 
++	ret = uvcg_extension_check_size(n, xu->desc.bControlSize);
++	if (ret)
++		goto unlock;
++
+ 	iter = source_ids = kcalloc(n, sizeof(u8), GFP_KERNEL);
+ 	if (!source_ids) {
+ 		ret = -ENOMEM;
+@@ -1134,6 +1158,10 @@ static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
+ 	if (ret)
+ 		goto unlock;
+ 
++	ret = uvcg_extension_check_size(xu->desc.bNrInPins, n);
++	if (ret)
++		goto unlock;
++
+ 	iter = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
+ 	if (!bm_controls) {
+ 		ret = -ENOMEM;
+-- 
+2.25.1
 
