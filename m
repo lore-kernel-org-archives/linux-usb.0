@@ -1,185 +1,379 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2C740B10E;
-	Mon, 24 Aug 2026 11:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDF93EF0A6;
+	Mon, 24 Aug 2026 11:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787569892; cv=none; b=PDde/s5WIaeK+8Xmw/tnBap5u6vSmSqnoGtRkUPhvLFJvM4oJH+Zb9O0pmROpsapm5ywq+0wp93oTJNUFdtMVY6z1IDS3dXF4EPjcSC5Ux4Jfkt6Xv8GJIFO53JS2UqYZo9EerZMIlXIjV6Q4tGh6OUldEJkd41fPKsQ7qKRFqQ=
+	t=1787570335; cv=none; b=WjiVRYblt3LGFnElolwjVooYxeVkWOGCoIf2M16bAMeqLKTkAvuCX+st4Jq+vygU5DadEJdJRhHQEzcfiW7kA+AJLce5otHHqIyaVbt2wnHXzpqJWk7wbyav/FogC0s3EDXYaP6SDaJajAKZxcwczrQuYJR0kv9iqAZZjF4dEMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787569892; c=relaxed/simple;
-	bh=+tG4pu31H5xVvb6jM4fQ7Ch7Jv2e11Wy7ZfO3PfnW6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PXXRRziTkXyyqXNMyvqXi/IEVxRf9vdsO4v/4wPDApY9Uabu85Z09ZclkhjMXYklAaQEFdaRwGBpjjkGBCTWTOUsKt+9Md1zr93flfGmxmwJOSQzVGhux/Uv5UtTECnMUuZb60Fz+nTn0j+Nzp4FZJVSBVmv1+l1mkfD2KGAfag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpzd4FxY; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787570335; c=relaxed/simple;
+	bh=FqNgKrXDIDlNBJAVOF/eN4RowgtxLQyzOYJqyvOoOPA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Iw0p4QIrWc7seJ6lG0Zg/a5jjix3Pr4YaXY1WA7vAd9HwLiHTEUTL+MzNVLS3eUc8N5ndTJ9ATYdZtvhchhChTohMWbSVxoVFrNVtteA3+fdWLiM8TI65n9atn0MasldpOvSLGImJwi7PQfmkrvqII3WUB/fwIYB+BWQEgA0dI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw0PQSv+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpzd4FxY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787569890; x=1819105890;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+tG4pu31H5xVvb6jM4fQ7Ch7Jv2e11Wy7ZfO3PfnW6E=;
-  b=gpzd4FxYqdqF6zZjT/qp58yoBsZSWzse1IdaYt5WSZc8uvxKVd4NY+9G
-   43JJard5wvkabjbSWEmTbFuTkt0QSv+OqBAoz1zW91FunukZLGMoLSelH
-   4SWUweeHJEJa9155K/nPL8Yl5/hKFNQBMiVegyjp1XrYvW+Wfri0XnXII
-   7A0kDLoULI7+Zh5gtzp0EwULOD1tWHqziOliRA6nsTW2RI0ul5412pI9p
-   EVTxT2DqFCcSwWD0oTZ0FdD1pm6XlVyx/iLsYehAGRbvcaW50GVhzZe7+
-   RqZll64IzsuSMhPoDoJ2NCRkqHHpmTcY3ZAPU5+OnC+qU4i9X4JwRWlQE
-   Q==;
-X-CSE-ConnectionGUID: wkMyaOjVRAimaC1gjHVfiA==
-X-CSE-MsgGUID: SQuSN6AnRy2+N+G1VMhDIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87877711"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="87877711"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 04:11:30 -0700
-X-CSE-ConnectionGUID: XbRj2YKRRi63mty0OVNtZA==
-X-CSE-MsgGUID: MnPCSsbfSsWDscbIEDVv2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="296870508"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 24 Aug 2026 04:11:27 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id D24A599; Mon, 24 Aug 2026 13:11:25 +0200 (CEST)
-Date: Mon, 24 Aug 2026 13:11:25 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tbt: Correct swapped TBT adapter type values
-Message-ID: <aowm3TvXYnUv78FM@black.igk.intel.com>
-References: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw0PQSv+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED21E1F000E9;
+	Mon, 24 Aug 2026 11:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787570332;
+	bh=ZPgpXhjxhEp6fWTX8R/4rZ+5C7Ou3ihy4+RxC5piU2s=;
+	h=From:Subject:Date:To:Cc;
+	b=Vw0PQSv+m2sSzvQdhc4TDb0WDpr+01fCnuvdB15EljTpcaVG/CEZNCfXWJ18k5cbf
+	 rOM4RvQstU8ej522JYaq1Etl32edd5rr+086wK9VM4+aqaF6vTU8E0DOnalaNhx3jp
+	 CcAavN0ecOpT3H/9Kwb2ewJ4YT6rlPnWPja4eN2SjTMIWcZqBRxjkUXBb1FPlQvowP
+	 YqaOw6mAMGYokPf2fOJvcjbWayBJBot2697U53Tdxhj5oDq2rtGx9+FTuZw4c74g9o
+	 SpopHBJEYYTLBcS2C3NJvK9ARiG/g2czjvAYSwrTb5vuirgjpPYogCE+s7598wpTb0
+	 n+cNxWlsPznsg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Subject: [PATCH v20 0/8] rust: add `Ownable` trait and `Owned` type
+Date: Mon, 24 Aug 2026 13:17:52 +0200
+Message-Id: <20260824-unique-ref-v20-0-490735672187@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGAojGoC/2XOPW7DMAwF4KsEmquC+pc69R5BBkuiEqGFncqN0
+ SLw3UtnqR2PfMT3yDsbsVUc2dvhzhpOdaxDT4OElwNLl64/I6+ZAiZBGlBg+K2vXzfkDQuXoaR
+ snSkBAyNwpbD+PNqOJ5ovdfwe2u+jfBJ6iZceCxL0uod2HLhwKcqAsUsxvn9g6/HzdWhntjRNw
+ qy0hK02pH1QmL2NYFPaa7vWT7ct6SRFV1IUwme11+5f2+fPHWkXdVJZBgUx7LVfaWm22pPWCDY
+ aH2zWbq/DWtutDqQpd6nzPpdcNnqe5z8COcD13gEAAA==
+X-Change-ID: 20250305-unique-ref-29fcd675f9e9
+To: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Lyude Paul <lyude@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+ Carlos Llamas <cmllamas@google.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
+ Ira Weiny <iweiny@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>, 
+ Oliver Mangold <oliver.mangold@pm.me>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ Asahi Lina <lina+kernel@asahilina.net>, 
+ Igor Korotin <igor.korotin@linux.dev>, 
+ Andreas Hindborg <a.hindborg@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12294;
+ i=a.hindborg@kernel.org; h=from:subject:message-id;
+ bh=FqNgKrXDIDlNBJAVOF/eN4RowgtxLQyzOYJqyvOoOPA=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqjChsf8CMKbtoVQ11KhWy3uKfRya4/CJC7zafO
+ zeTkhrgEwiJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCaowobAAKCRD6UCkIqsW9
+ 0BIXD/4/h22+gOTb1sZHiEYU947FTv3rFPNwyrNF4963NKrXxxhP6qYXQjZs1ypmmhbM/oTCtFD
+ BAP71XODOpghHN2mb17Z/0OX4r1AN0uOKpDbmZSK3HfZYEYGWURO7Sc5Rj2KUSJ8uAzDFWAynVK
+ eKcMb/AfqyvnatdFGv3vxWvx7108a5vSISch1AxfACDfx8Kd0tT7Rc0wPZtN/jvOSHUVEXORNAP
+ IvMutAiF5X6KUuQw0XkxNh1y7uP3ezQ7zc2pvPxmJSrXBLL0h46O9WUiK72DnfHhlX6mk+T5rQs
+ P235JkLHBM/zu7iSnyAFSyXOOytkjWlJIB4bn6M5t3dSfqN9nndZCV4md1AytCMy9BnUwpnJ6h8
+ 5OHmWRYxqtv0AJCBKG8+nlPoIAQfCgqSkDXN8C8omy0AChQVOReNsgF1+4uoknuA3/yzqfGN9Ki
+ reEcMZuZq8q6dVCFaw3gsrBPdlWKKR2uMHTCFhB4yD0c4q680X4D2uGszzk1AUltO/yy6CrthMX
+ sqy+/Mw4U/5vx07ZLK4fxN2W0RMNoOhUjCosJI4xE3qFCJelKVHmEm5ktciDlZ2gXgP8yuTjeEh
+ nikWM5q1evHTccgrTLzlouSMTQHNwnVVvHWHqvUWTpkkU2Rd8HUd2BrUP7qhbqziwkOrcjgeM8q
+ XogP2ZfLfiTfAqA==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-On Tue, Aug 18, 2026 at 06:20:03PM +0200, Sven Peter wrote:
-> Table F-10 of the USB Type-C Cable and Connector Specification R2.5 on
-> page 412 defines bit 16 of the TBT3 Device Discover Mode VDO as 0 = TBT3
-> Adapter and 1 = TBT2 Legacy Adapter. Linux has those two swapped since
-> their original introduction in commit ca469c292edc ("usb: typec: Add
-> definitions for Thunderbolt 3 Alternate Mode").
-> 
-> ChromiumOS EC's include/usb_pd_tbt.h has them the correct way around
-> and references the USB Type-C ECN "Thunderbolt 3 Compatibility Updates"
-> as fixing an error where they were originally swapped which is presumably
-> where the wrong order originally came from.
-> 
-> I've also confirmed the correct mapping with an Apple Thunderbolt 3
-> to Thunderbolt 2 adapter which does set bit 16 in that VDO.
-> 
-> Swap the two values and update all users. Also rename the old defines
-> so that no user accidentally ends up with an inverted value.
-> No functional change.
-> 
-> Link: https://usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-25
-> Link: https://chromium.googlesource.com/chromiumos/platform/ec/+/db93814b6e73c8545d23714fe0674c10814d901a/include/usb_pd_tbt.h#90
-> Signed-off-by: Sven Peter <sven@kernel.org>
+Add a new trait `Ownable` and type `Owned` for types that specify their
+own way of performing allocation and destruction. This is useful for
+types from the C side.
 
-Shouldn't this be marked as a fix?
+Implement `ForeignOwnable` for `Owned`.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Convert `Page` to be `Ownable` and add a `from_raw` method.
 
-> ---
-> I ran into this when bringing up thunderbolt for Apple Silicon SoCs and
-> was very confused why the condition for "tbt2 adapter" vs "tbt3 adapter"
-> seemed to be backwards.
-> I think the qcom pmic_glink_altmode.c actually has a bug there that was
-> hidden and/or caused by the wrong values: It used to always set
-> TBT_ADAPTER_TBT3 which sounds plausible but actually claims to be a
-> legacy TBT2 adapter on the wire. I don't have the hardware or know the
-> intention there though.
-> The other users look correct to me since they just pass the value
-> through.
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 2 +-
->  drivers/soc/qcom/pmic_glink_altmode.c   | 2 +-
->  drivers/usb/typec/mux/intel_pmc_mux.c   | 2 +-
->  include/linux/usb/typec_tbt.h           | 4 ++--
->  4 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> index c0806c562bb9..79968edc16ed 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -586,7 +586,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
->  	data.device_mode = TBT_MODE;
->  
->  	if (pd_ctrl->control_flags & USB_PD_CTRL_TBT_LEGACY_ADAPTER)
-> -		data.device_mode = TBT_SET_ADAPTER(TBT_ADAPTER_TBT3);
-> +		data.device_mode = TBT_SET_ADAPTER(TBT_ADAPTER_TYPE_TBT2_LEGACY);
->  
->  	/* Cable Discover Mode VDO */
->  	data.cable_mode = TBT_MODE;
-> diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
-> index 619bad2c27ee..8d4f54c160c5 100644
-> --- a/drivers/soc/qcom/pmic_glink_altmode.c
-> +++ b/drivers/soc/qcom/pmic_glink_altmode.c
-> @@ -215,7 +215,7 @@ static void pmic_glink_altmode_enable_tbt(struct pmic_glink_altmode *altmode,
->  
->  	/* Device Discover Mode VDO */
->  	tbt_data.device_mode = TBT_MODE;
-> -	tbt_data.device_mode |= TBT_SET_ADAPTER(TBT_ADAPTER_TBT3);
-> +	tbt_data.device_mode |= TBT_SET_ADAPTER(TBT_ADAPTER_TYPE_TBT2_LEGACY);
->  
->  	/* Cable Discover Mode VDO */
->  	tbt_data.cable_mode = TBT_MODE;
-> diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
-> index 219a32da1348..b63114575a78 100644
-> --- a/drivers/usb/typec/mux/intel_pmc_mux.c
-> +++ b/drivers/usb/typec/mux/intel_pmc_mux.c
-> @@ -346,7 +346,7 @@ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
->  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
->  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
->  
-> -	if (TBT_ADAPTER(data->device_mode) == TBT_ADAPTER_TBT3)
-> +	if (TBT_ADAPTER(data->device_mode) == TBT_ADAPTER_TYPE_TBT2_LEGACY)
->  		req.mode_data |= PMC_USB_ALTMODE_TBT_TYPE;
->  
->  	if (data->cable_mode & TBT_CABLE_OPTICAL)
-> diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
-> index 0b570f1b8bc8..7bdf3795ae50 100644
-> --- a/include/linux/usb/typec_tbt.h
-> +++ b/include/linux/usb/typec_tbt.h
-> @@ -27,8 +27,8 @@ struct typec_thunderbolt_data {
->  /* TBT3 Device Discover Mode VDO bits */
->  #define TBT_MODE			BIT(0)
->  #define TBT_ADAPTER(_vdo_)		FIELD_GET(BIT(16), _vdo_)
-> -#define   TBT_ADAPTER_LEGACY		0
-> -#define   TBT_ADAPTER_TBT3		1
-> +#define   TBT_ADAPTER_TYPE_TBT3		0
-> +#define   TBT_ADAPTER_TYPE_TBT2_LEGACY	1
->  #define TBT_INTEL_SPECIFIC_B0		BIT(26)
->  #define TBT_VENDOR_SPECIFIC_B0		BIT(30)
->  #define TBT_VENDOR_SPECIFIC_B1		BIT(31)
-> 
-> ---
-> base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-> change-id: 20260818-b4-tbt-legacy-fix-d6e71ac4bb6a
-> 
-> Best regards,
-> --  
-> Sven Peter <sven@kernel.org>
-> 
+Add the trait `OwnableRefCounted` that allows conversion between
+`ARef` and `Owned`. This is analogous to conversion between `Arc` and
+`UniqueArc`.
 
--- 
-heikki
+Patches 1-4 implement `Ownable` and applies it to `Page`. These patches
+can be merged on their own.
+
+Patches 5-7 add `Ownable` -> `ARef` interop and can be merged later if
+consensus on their shape cannot be reached.
+
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+Changes in v20:
+- Fix a few copy/paste errors in safety comments (Sashiko).
+- Use `self.page.get()` rather than `Opaque::cast_into` (Alice).
+- Add a space between generics in a comment (Sashiko).
+- Change a safety comment to reference Box rather than KBox (Sashiko).
+- Link to v19: https://msgid.link/20260626-unique-ref-v19-0-2607ca88dfdf@kernel.org
+
+Changes in v19:
+- Update `workqueue.rs` and the `aref` module docs to use `RefCounted` instead of `AlwaysRefCounted` (Sashiko).
+- Remove the default `OwnableRefCounted::into_shared` implementation to keep the trait safe (Sashiko).
+- Fix the `ARef<Self>` rustdoc link (Sashiko).
+- Reuse `Owned::into_raw`/`from_raw` in the `ForeignOwnable` implementation (Gary).
+- Link to v18: https://msgid.link/20260625-unique-ref-v18-0-4e06b5896d47@kernel.org
+
+Changes in v18:
+- Rebase on `rust-next` (2026-06-24).
+- Drop the `'static` bound on `ForeignOwnable for Owned` (Gary).
+- Make `Ownable::release` take a raw pointer instead of `&mut self` (Alice, Sashiko).
+- Drop `types::ARef` re-export (Alice).
+- Drop unneeded `#[repr(transparent)]` on `Owned` (Gary).
+- Fix `FOREIGN_ALIGN` for `Owned` to report the pointee alignment (Sashiko).
+- Remove `BorrowedPage`; use `&Page` directly (Alice).
+- Update Rust Binder for the `Owned<Page>` conversion (Alice).
+- Update `pwm.rs` for the `RefCounted`/`AlwaysRefCounted` split (Sashiko).
+- Fix documentation nits: missing `// INVARIANT:` comments, stale `Page` docs, and a stray `mut` (Sashiko).
+- Expand the `use` statements touched by the rename patch to the multi-line style (Onur).
+- Link to v17: https://msgid.link/20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org
+
+Changes in v17:
+- Rebase on v7.1-rc2.
+- Reorder patches so that `Ownable` can merge without `OwnableRefCounted` (Alice).
+- Add `#[inline]` directives to short functions added by the series (Gary).
+- Link to v16: https://msgid.link/20260224-unique-ref-v16-0-c21afcb118d3@kernel.org
+
+Changes in v16:
+- Simplify pointer to reference cast in `Page::from_raw`.
+- Use `NonNull<Page>` rather than `Owned<Page>` for `BorrowedPage` internals.
+- Use "convertible to reference" wording when converting pointers to references.
+- Fix formatting for `Page::from_raw` docs.
+- Leave imports alone when adding safety comment to aref example.
+- Use `KBox::into_nonnull` for examples.
+- Add patch for `KBox::into_nonnull`.
+- Change invariants and safety comments of `Ownable` and make the trait safe.
+- Make `Ownable::release` take a mutable reference.
+- Fix error handling in example for `Ownable`
+- Link to v15: https://msgid.link/20260220-unique-ref-v15-0-893ed86b06cc@kernel.org
+
+Changes in v15:
+- Update series with original SoB's.
+- Rename `AlwaysRefCounted` in `kernel::usb`.
+- Rename `Owned::get_pin_mut` to `Owned::as_pin_mut`.
+- Link to v14: https://msgid.link/20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org
+
+Changes in v14:
+- Rebase on v6.19-rc7.
+- Rewrite cover letter.
+- Update documentation and safety comments based on v13 feedback.
+- Update commit messages.
+- Reorder implementation blocks in owned.rs.
+- Update example in owned.rs to use try operator rather than `expect`.
+- Reformat use statements.
+- Add patch: rust: page: convert to `Ownable`.
+- Add patch: rust: implement `ForeignOwnable` for `Owned`.
+- Add patch: rust: page: add `from_raw()`.
+- Link to v13: https://lore.kernel.org/r/20251117-unique-ref-v13-0-b5b243df1250@pm.me
+
+Changes in v13:
+- Rebase onto v6.18-rc1 (Andreas's work).
+- Documentation and style fixes contributed by Andreas
+- Link to v12: https://lore.kernel.org/r/20251001-unique-ref-v12-0-fa5c31f0c0c4@pm.me
+
+Changes in v12:
+-
+- Rebase onto v6.17-rc1 (Andreas's work).
+- moved kernel/types/ownable.rs to kernel/owned.rs
+- Drop OwnableMut, make DerefMut depend on Unpin instead. I understood
+  ML discussion as that being okay, but probably needs further scrunity.
+- Lots of more documentation changes suggested by reviewers.
+- Usage example for Ownable/Owned.
+- Link to v11: https://lore.kernel.org/r/20250618-unique-ref-v11-0-49eadcdc0aa6@pm.me
+
+Changes in v11:
+- Rework of documentation. I tried to honor all requests for changes "in
+  spirit" plus some clearifications and corrections of my own.
+- Dropping `SimpleOwnedRefCounted` by request from Alice, as it creates a
+  potentially problematic blanket implementation (which a derive macro that
+  could be created later would not have).
+- Dropping Miguel's "kbuild: provide `RUSTC_HAS_DO_NOT_RECOMMEND` symbol"
+  patch, as it is not needed anymore after dropping `SimpleOwnedRefCounted`.
+  (I can add it again, if it is considered useful anyway).
+- Link to v10: https://lore.kernel.org/r/20250502-unique-ref-v10-0-25de64c0307f@pm.me
+
+Changes in v10:
+- Moved kernel/ownable.rs to kernel/types/ownable.rs
+- Fixes in documentation / comments as suggested by Andreas Hindborg
+- Added Reviewed-by comment for Andreas Hindborg
+- Fix rustfmt of pid_namespace.rs
+- Link to v9: https://lore.kernel.org/r/20250325-unique-ref-v9-0-e91618c1de26@pm.me
+
+Changes in v9:
+- Rebase onto v6.14-rc7
+- Move Ownable/OwnedRefCounted/Ownable, etc., into separate module
+- Documentation fixes to Ownable/OwnableMut/OwnableRefCounted
+- Add missing SAFETY documentation to ARef example
+- Link to v8: https://lore.kernel.org/r/20250313-unique-ref-v8-0-3082ffc67a31@pm.me
+
+Changes in v8:
+- Fix Co-developed-by and Suggested-by tags as suggested by Miguel and Boqun
+- Some small documentation fixes in Owned/Ownable patch
+- removing redundant trait constraint on DerefMut for Owned as suggested by Boqun Feng
+- make SimpleOwnedRefCounted no longer implement RefCounted as suggested by Boqun Feng
+- documentation for RefCounted as suggested by Boqun Feng
+- Link to v7: https://lore.kernel.org/r/20250310-unique-ref-v7-0-4caddb78aa05@pm.me
+
+Changes in v7:
+- Squash patch to make Owned::from_raw/into_raw public into parent
+- Added Signed-off-by to other people's commits
+- Link to v6: https://lore.kernel.org/r/20250310-unique-ref-v6-0-1ff53558617e@pm.me
+
+Changes in v6:
+- Changed comments/formatting as suggested by Miguel Ojeda
+- Included and used new config flag RUSTC_HAS_DO_NOT_RECOMMEND,
+  thus no changes to types.rs will be needed when the attribute
+  becomes available.
+- Fixed commit message for Owned patch.
+- Link to v5: https://lore.kernel.org/r/20250307-unique-ref-v5-0-bffeb633277e@pm.me
+
+Changes in v5:
+- Rebase the whole thing on top of the Ownable/Owned traits by Asahi Lina.
+- Rename AlwaysRefCounted to RefCounted and make AlwaysRefCounted a
+  marker trait instead to allow to obtain an ARef<T> from an &T,
+  which (as Alice pointed out) is unsound when combined with UniqueRef/Owned.
+- Change the Trait design and naming to implement this feature,
+  UniqueRef/UniqueRefCounted is dropped in favor of Ownable/Owned and
+  OwnableRefCounted is used to provide the functions to convert
+  between Owned and ARef.
+- Link to v4: https://lore.kernel.org/r/20250305-unique-ref-v4-1-a8fdef7b1c2c@pm.me
+
+Changes in v4:
+- Just a minor change in naming by request from Andreas Hindborg,
+  try_shared_to_unique() -> try_from_shared(),
+  unique_to_shared() -> into_shared(),
+  which is more in line with standard Rust naming conventions.
+- Link to v3: https://lore.kernel.org/r/Z8Wuud2UQX6Yukyr@mango
+
+To: Danilo Krummrich <dakr@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+To: Uladzislau Rezki <urezki@gmail.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+To: Boqun Feng <boqun@kernel.org>
+To: Gary Guo <gary@garyguo.net>
+To: Björn Roy Baron <bjorn3_gh@protonmail.com>
+To: Benno Lossin <lossin@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+To: Trevor Gross <tmgross@umich.edu>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+To: Tamir Duberstein <tamird@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+To: Onur Özkan <work@onurozkan.dev>
+To: Lyude Paul <lyude@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arve Hjønnevåg <arve@android.com>
+To: Todd Kjos <tkjos@android.com>
+To: Christian Brauner <brauner@kernel.org>
+To: Carlos Llamas <cmllamas@google.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Dave Ertman <david.m.ertman@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+To: Serge Hallyn <sergeh@kernel.org>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Jan Kara <jack@suse.cz>
+To: Igor Korotin <igor.korotin@linux.dev>
+To: Viresh Kumar <vireshk@kernel.org>
+To: Nishanth Menon <nm@ti.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+To: Krzysztof Wilczyński <kwilczynski@kernel.org>
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+To: Ira Weiny <iweiny@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: rust-for-linux@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-block@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-pwm@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+
+---
+Andreas Hindborg (3):
+      rust: alloc: add `KBox::into_non_null`
+      rust: implement `ForeignOwnable` for `Owned`
+      rust: page: add `from_raw()`
+
+Asahi Lina (2):
+      rust: types: Add Ownable/Owned types
+      rust: page: convert to `Ownable`
+
+Oliver Mangold (3):
+      rust: rename `AlwaysRefCounted` to `RefCounted`.
+      rust: Add missing SAFETY documentation for `ARef` example
+      rust: Add `OwnableRefCounted`
+
+ drivers/android/binder/page_range.rs |  10 +-
+ rust/kernel/alloc/allocator.rs       |  19 +-
+ rust/kernel/alloc/allocator/iter.rs  |   6 +-
+ rust/kernel/alloc/kbox.rs            |   9 +
+ rust/kernel/auxiliary.rs             |  10 +-
+ rust/kernel/block/mq/request.rs      |  19 +-
+ rust/kernel/cred.rs                  |  16 +-
+ rust/kernel/device.rs                |  12 +-
+ rust/kernel/device/property.rs       |  11 +-
+ rust/kernel/drm/device.rs            |   9 +-
+ rust/kernel/drm/gem/mod.rs           |  16 +-
+ rust/kernel/fs/file.rs               |  23 ++-
+ rust/kernel/i2c.rs                   |  13 +-
+ rust/kernel/lib.rs                   |   1 +
+ rust/kernel/mm.rs                    |  22 ++-
+ rust/kernel/mm/mmput_async.rs        |  12 +-
+ rust/kernel/opp.rs                   |  16 +-
+ rust/kernel/owned.rs                 | 373 +++++++++++++++++++++++++++++++++++
+ rust/kernel/page.rs                  | 136 +++++--------
+ rust/kernel/pci.rs                   |  10 +-
+ rust/kernel/pid_namespace.rs         |  15 +-
+ rust/kernel/platform.rs              |  10 +-
+ rust/kernel/pwm.rs                   |  12 +-
+ rust/kernel/sync/aref.rs             |  84 +++++---
+ rust/kernel/task.rs                  |  13 +-
+ rust/kernel/types.rs                 |  12 ++
+ rust/kernel/usb.rs                   |  17 +-
+ rust/kernel/workqueue.rs             |   8 +-
+ 28 files changed, 728 insertions(+), 186 deletions(-)
+---
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+change-id: 20250305-unique-ref-29fcd675f9e9
+
+Best regards,
+--  
+Andreas Hindborg <a.hindborg@kernel.org>
+
+
