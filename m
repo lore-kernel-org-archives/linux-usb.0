@@ -1,67 +1,87 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013065.outbound.protection.outlook.com [40.107.162.65])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF89376475;
-	Mon, 24 Aug 2026 13:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787577574; cv=fail; b=rMy866We36a+gtX8RDzlSbuBpp8Bi6PAxpyS/4gWjrkNop/6y4Zp52BD/kYkjIxYCg6hrtmqo3ol2hiJJ3YlwmthkYJrjci1+txBSz0ilRX5XwiTQpSPOBAmvMMH1q7zpw61cKFgJny39iHmNlV7LDj0wx0Jks4++qVpoHQdWiA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787577574; c=relaxed/simple;
-	bh=sYgS4LphnQScVc3JuWUdecQkyQbpO4xnm6uTJi8LYrA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=eUGa/mtBKkjZELo1+eQnEBMv8aEcSfEtQB6a+yjdRdkJAjZYpZK1U07pHg3ibqef51MFtiaokiwCzMsmLm0HNBsBa3qiv55bAG5zLlrYktU4J1ZDg4C7f3saOv5HXDCpHjneKcKLz0CIgagdBeEZfIbmdqOVsEslSqHWEe5KtzM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=NaQoMwwb; arc=fail smtp.client-ip=40.107.162.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9164140EB9D
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 13:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787579083; cv=none; b=Qopb2T+edZx2EbdFX1m8a8+1AttPJZ7fYh7hLikhQSZ4u3PBN0Ti/+/ybdxQ9jgZptZ4faIqBFVpJBBEpJP0QOED91RLzAUoeLXGDnvE5y+G2LYwMbu5s0cW4vojjTg/3cm3rdkSEgq/3P8a1LYP9jUJqNyGS2thgCrl/CzPUvk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787579083; c=relaxed/simple;
+	bh=hv/JP8KtSbG5GQgDD9yQqGtkwO9PPFQFjzg9Nd11E1U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p4moqzTiBQjHRplsfb4SoL2ijZBPwF01Lf9+IgJFG0mw6v7PV9lRKf1OxRcXjodIswK5SFeqW9t7HNW1EYebazNIab1Soh9qRu5Z86zxgdm3R0SUWNvXSPN38eTu/WdHAqHBsLziv/cWVPuvuB/k+j7RAIubcG+TuQTFbvTpzVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KwwZxt21; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=h8r0Zoaj; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="NaQoMwwb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rfjVAVqSU8aYdjj2UcjvMmMs9AAhMqB+Y9lXrk/uBCUg2G6OLvo7C+16XbpujCA0BeaPGKqXPh5zTAcMMKgJGfNCcaJ/GKZAcH5crtzPVWcp2BuZe+5cDW3SPH42o5psfATwa9yiYZRuAQdA9EK/u22thRePIt6OUHrntmGgSIql47MxCm7jnqnoyamedmXDMFDqLxpeOOWZb6r8q1B2VtdTCkTEbEOTg8pFlNzXYqUT48lxZM5U8au5BEeI27/TcBZ5P0BXPwrz7vduNY9A5CmqEKC1Eg6B18Xpo0QbEaAaGySR1+eapcBL+wdO5r9mKVUPeMv1rsA1B0uqJqvH0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wCzOjEA9OywrEATDl45R1TfXZBBJe+6tm4EMtmxJt4w=;
- b=URgoKEyZIdkzbVm20saGD0aoN2QEeJjyPlWQ3UtQQ9/OMkrdlc8m49zyr+l8UBYAv5OYe+prksZwL2WdDnEiOC4NID3N6l2yUQP+0AT0xfw3OuhXPFov4VrNdUYCe5nFh/9hNZ5I2fktBuFlImyZETSD4UkJgYPElHP/hpMP3Wu3y4kUaRtjwYDo75dbo8ge2igJHQNuCRbfh8tIxKZmsZNPhz0CKSPikoNoo2sTZpu7nboOnBE0Mf9MYdnYqST6KYfyQpKtm3R7Nz4Z3btncypz6S6vEAaTVhOZGp3MLImShqbP4eIZLq80amUTmpeTBzNlTWNYxPJJZapLmrInHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.60) smtp.rcpttodomain=nabladev.com smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wCzOjEA9OywrEATDl45R1TfXZBBJe+6tm4EMtmxJt4w=;
- b=NaQoMwwbQFks28EXWVzr1ItwOWJItlXZoJWDR28rVJvDY2ZXcPRkZqapD0m31LSpWc/SDL4YKq981TLsA9Uvhmu/R9V+Cc4AMgX5E62NgtU33oYolySK+nbObzk7WQelSdDFMLcmvnbKSh+B0IcA3SdJ1O0qW9V3RdUAWDbMJrT1w4vT3JkGrIajFES5wg6pkcsg71t0dTsen9qa7omio8fW4RpMOIgYWnH67nwM4AGt1978dJsNGmYDdL3I0Ja8sSbV34syhl1N+RofgthZRR1elzeihsOWtIQJxoEjIbTeN6ccmnXQihUyBxWbr6u4/oiIIcPo3Jzajnz9D6zSyg==
-Received: from AS4PR10CA0023.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5d8::15)
- by DB4PR10MB6144.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:388::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
- 2026 13:19:25 +0000
-Received: from AM4PEPF00027A65.eurprd04.prod.outlook.com
- (2603:10a6:20b:5d8:cafe::77) by AS4PR10CA0023.outlook.office365.com
- (2603:10a6:20b:5d8::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.12 via Frontend Transport; Mon,
- 24 Aug 2026 13:19:24 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.60; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.60) by
- AM4PEPF00027A65.mail.protection.outlook.com (10.167.16.86) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Mon, 24 Aug 2026 13:19:24 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
- (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Mon, 24 Aug
- 2026 15:24:43 +0200
-Received: from [10.48.86.251] (10.48.86.251) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Mon, 24 Aug
- 2026 15:19:23 +0200
-Message-ID: <a6c55491-7cbe-4856-bb45-b7f5872966fc@foss.st.com>
-Date: Mon, 24 Aug 2026 15:19:21 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KwwZxt21";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="h8r0Zoaj"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OCv16A2854131
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 13:44:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	LacD9V3RBfY2cXXFYkLOfiCCuGzuDZ67e0ihEQlRc8c=; b=KwwZxt21D3myEBAm
+	7DSZX8i8f0fMaPlwsDRkV8fx9kZ2ZROElB13OvNg4neVfR4vswEuzbtke7fOs0JZ
+	GcgCVqqzDEPprFEGJCfXkZXjYw99FdivGdY6ZGOeJgYD4JpUOLzLarWYuwYu5smB
+	zAsCj2DCR56DyLGV/CL9OaPK59bYAD1ov/nbXd1Ji4ss3cTuKOS90wWT044pYWpg
+	mtCnaNt6RHKGDsYjGIC9Y/Sf8RAGsW+beqGyIfRpX7arTWj4BjxL8YIiDk/Io1Jy
+	GE9HH+aFvTI3sWxh6IHNkvltdPsPGtaQ8YBFR366fypckhMla48UUZp9R+J71KlL
+	Pt4VUA==
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8gqn9s8q-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 13:44:38 +0000 (GMT)
+Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-97c3746cd0bso45059241.0
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 06:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787579078; x=1788183878; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LacD9V3RBfY2cXXFYkLOfiCCuGzuDZ67e0ihEQlRc8c=;
+        b=h8r0Zoajedv9kyh+8ujt38E3Neti5hAd9/HCNHJDc8dDj3ikzVaY4Lb2qYtbEbb1O8
+         4v+dJz1qMIIAlYghieb4zhUwGWDTIJlssIpadbFaqk0OazdK6hiYkvAGisc2iNGDHAJG
+         sJO7fBsHr42/OQtiMRyqXMEUn9pYd5jH3ShoSzd1CYdlFimqm+MKW7F5Sj8E8+qmkGxM
+         6eZU8sCRclJOndeZWhbGWo0S6g2Rq2Tk4LrLaj8WziUopOxFh0CklDul7PfNGShlbM0O
+         4XHOFeD6hrhpdc5qC2zq4MZJ5/WLSzMgIoFhiNMb6O0YZ30Ywf6TBMI+lUY4N361mHfw
+         hyMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787579078; x=1788183878;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LacD9V3RBfY2cXXFYkLOfiCCuGzuDZ67e0ihEQlRc8c=;
+        b=UXrYwA9VCAE3IiokfP+Se6xs4n7z5Du9F8BeC+71DIeyoYvKEawtKXS2eckSGU9Zdz
+         SVDrYr7tJW5Le7HTg8uMrohcP3v5ZJ0EcMXYn2PHUSe9xCSqST191pPzyY7vfQhTGTFG
+         TvAuJ8dYIHm3ENjpKt4tGC9GXSrvPYu/f9ju5EnHYiO1JunyJQyVWBouA61hS0ISdzKS
+         GVmKRqSXeCEkwZ3I4uJxEWacClYTjKQNImeSbluE+HnSAU8QVDYWfq/ZakgF1eFxqtsG
+         VEsxqrroE7fhBUwkRvfEda9NnjZ2LdJ2WPfaN8NTLUI2uDKDXWoMuGrYPyfSDruPOJI8
+         O53Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrwCOhW7T/lC9Bzkdwl8rXHGUx2sAXFL36vunjwvYW+GNq89oMeLBnBCnoJDwrBpBxNRzOZABCYDFY=@vger.kernel.org
+X-Gm-Message-State: AFuF++miygd1p74vQUTvEhfvWTx1YajAGwaJUI4b4DOYcRVYtvP+m3R1
+	vD0fCPAJ4OM1Dowh+5/5q7lMyRbCrByZUIfydMqjCOXvdKr57RBbl8NW48b6/YbG1cRxeMJQIPH
+	idbDthWbFEf5p0AZf5PXdyiBx9ydO7InfBgZdjkJqvikL3zOr2GMDckrXKDatEio=
+X-Gm-Gg: AR+sD10Mza0iok8WOohviFiweM4tQprdNhkQQqJDxcKeelM0aEGsDhY487L8U5UjVdc
+	Io2fhpLmQKHa8p1/JL8Dge6192ALuHXseDqdB+k1a8GVDgUXW08ZyZIcSM6p8MSYGgt7iATrSdw
+	7d2XFFtbJpZy7c0LfPJ0MvihuU/+xuq7PIy9++O4s/4hBFqpFnxoB5o8tN5neX4at0bCg2G0u/x
+	Hqbd7iLAYwap7WHBtkK5XkFXTfSlvu3oWyyYSurCo9RphrueyL4qOVXFQIYwSMIzeB6IoOxAKMw
+	5W/KpuU8AoyC5WL87jp7BkGaQc7G0lyQtkSYGuqkz3K3B1FK4JHgJRD6YQIP88cDsb3oBSGHnGc
+	OxdHDDLKQvcRNA6K8vPUV7lw9
+X-Received: by 2002:a05:6102:f90:b0:779:7d3b:1398 with SMTP id ada2fe7eead31-77a5edee8a5mr3943898137.0.1787579077830;
+        Mon, 24 Aug 2026 06:44:37 -0700 (PDT)
+X-Received: by 2002:a05:6102:f90:b0:779:7d3b:1398 with SMTP id ada2fe7eead31-77a5edee8a5mr3943880137.0.1787579077333;
+        Mon, 24 Aug 2026 06:44:37 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e1aeab9sm10043455a12.22.2026.08.24.06.44.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Aug 2026 06:44:36 -0700 (PDT)
+Message-ID: <c0215cd9-3973-4306-85e9-d58674d6bc83@oss.qualcomm.com>
+Date: Mon, 24 Aug 2026 15:44:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,193 +89,88 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 9/9] arm64: dts: st: Add USB nodes on stm32mp251
-To: Marek Vasut <marex@nabladev.com>, <linux-usb@vger.kernel.org>
-CC: Pankaj Dev <pankaj.dev@st.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Christian Bruel
-	<christian.bruel@foss.st.com>, Conor Dooley <conor+dt@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Rahul Kumar <rahul.kumar05@st.com>,
-	Rob Herring <robh@kernel.org>, Rosen Penev <rosenp@gmail.com>, Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>, Vinod Koul <vkoul@kernel.org>,
-	<devicetree@vger.kernel.org>, <kernel@dh-electronics.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-phy@lists.infradead.org>, <linux-stm32@st-md-mailman.stormreply.com>
-References: <20260822074816.548662-1-marex@nabladev.com>
- <20260822074816.548662-10-marex@nabladev.com>
+Subject: Re: [PATCH v6 4/9] usb: misc: qcom_eud: add per-path role switch
+ support
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Peter Chen
+ <peter.chen@kernel.org>, Rob Herring <robh@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260811213610.2956147-1-elson.serrao@oss.qualcomm.com>
+ <20260811213610.2956147-5-elson.serrao@oss.qualcomm.com>
 Content-Language: en-US
-From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-In-Reply-To: <20260822074816.548662-10-marex@nabladev.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260811213610.2956147-5-elson.serrao@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A65:EE_|DB4PR10MB6144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ae98eac-9034-48a7-d332-08df01e2515e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|7416014|82310400026|1800799024|23010399003|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	LKGQ+lukUjNcB/acinK9XiWx0Er1ZaghSyPB3U3Oyc0R37PMJDZ1Qhux0tf/rDUQviTeZT41VTyEa1OGA9A31IuNPR4Bx8dHx8pZRMtERXWvkoTrUgPwiy3FF2qgWBcr4jN9LaCZhzic28g9EmA072gD5Ix91x6G4dgK8TtBBStVfOKIICmftBKbJUbI2KvPMOTpfdh+TOW6WHL/zvWUBfw5XhSuEzIJrM4l2f8WRtpkkXXnw3TJi/aF49eJSBf7z9ejyMozkCfC0TqOJsKyeKaR1xh9BfZ4R1vKBI37xvCq0mMnLDuijYK3HiVaAdgXe/uO5wutqAesHCtD398DxhVqzQ9VmChYXlwhwJG9EPRq/W+060iiU2dhUJZpJp8qu3SuXtjWGwz5kiNpQE4M5rk9dKIbs/YiPoHgnWlZAKIVbjiDoHlqISzH4G9PF48nMJQ0JWGYjWRY9YZ8WQZOGLNkTBuaZkwbgT0WBdloaAR2jRotsliRj7uP1VMXbSZWmsJvJ1ZbW21izrPFQ/jJoORrQtNbU7Twl0qwtESBqrzaLeGe5YypAyHFEisPtU62A740TVe9I46DJJ+YyIJnf07zO+X+gQhZQAwl08kguO+LwmAL9cs1PAerjb464GuvydQysRdJz2dsAScxzG03KsEAblN1mV49/Wkb/UK8ERqTFOKePQladEYlAypBsiC4ylJCWTfbjhVXklECN8pqcQ==
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(82310400026)(1800799024)(23010399003)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	cv0BORWU0EyZsxx0XHEogXXuVtrSdzd9Z6EMbF0qMZsy4+eSoaVypQ4KZYzs7e/kw8/QZBTFOV6Z3CM9jFO/6fjtPy9xbx9jfVXhYKPBZ9NXDGPPZtaQa6vM7SHElE8MGmoP6fmvh1Qy6bGkH9dNHQ/d6W9XPLhs+j9rQ18mg+jm7D8BVFkh7/KmY30e2dST9PoC9wDPYol7768b/fSyF7LFOW6kf18Z0uwrsSBart3wCpPVK/h/ZYs6cuS1/9OLdA2VON1ViaQ7bvuG/4Z0eYU560tyx7JKfkPEBeETtR8FN0f3+1CfZCqnkCZcJCi181mBDhKu+JRQ26TSwdvgoWAm/U3tWsdc2a2l7mc8pZmBxo4kQM9Q0Dbd2RcIwsgKASOTjLjnNyrTzl+T+77PXr3F3XWzse5+ZkqpcQdWTKveQFyVu1QAzAc0NdSzOH4X
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 13:19:24.8401
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae98eac-9034-48a7-d332-08df01e2515e
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A65.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR10MB6144
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDExNSBTYWx0ZWRfXwHNcHs6NyaUY
+ /OHEKK8dE7YQCEzomWwyBIE0MgYdtfj/Mr9cqCPzHK1GKNWCTF3s6bYoAbnpKuGGtFvfECs7ssq
+ pvMUekJxWYUESpKWUix3wrASr8d8Wuw=
+X-Proofpoint-GUID: Mwo3nZm7eYewKFyGRVlmdM5pyIuMJFLo
+X-Authority-Analysis: v=2.4 cv=fqXsol4f c=1 sm=1 tr=0 ts=6a8c4ac6 cx=c_pps
+ a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=zBKxk7NNTVBP4RM8Aw0A:9 a=QEXdDO2ut3YA:10 a=1WsBpfsz9X-RYQiigVTh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDExNSBTYWx0ZWRfX641s33PqnYpe
+ P9mQL39EnzIE8okhrALAIVsTlepIVjKwyuxZDESs8zpHk/5d3N824/U/tAfgYVyjUW2CgH2nA1x
+ le6exyqSWPA/Rh9qwDwmEYBNG8UfilFgkNJNzab94QFseL2tvx7WqKnirOyFoRJC2WNB3gpaEyu
+ psKXFyTOzBHQTZxEJEf78z+E0tn8C/oSz89LzdLuNQ4VDIuApjqPU3IJ8VhmT1gStmdFxJvFeTj
+ Qv3R83XBLdTbZkngEWIMimY2y2eRoBc7XIIHvrw/to3PSRkgNnN203eT1ELFJE01pkAzPwp4YQ+
+ piCgik/FwxfCOPZ/CeA0ENk9/OulXXub/jOEMzmw/2vUIkGz3sY/jBknJM9OOCouNh4ppFFyXRq
+ OfE1E/EzxxXlSQ1heSX9ywm/1pGm9z0mJ2FBwvH5SgE7to+qcWwfKMDoWzvtscYYPJIMrU3+PLc
+ Utk0xnH3KWQIr3dT4ZA==
+X-Proofpoint-ORIG-GUID: Mwo3nZm7eYewKFyGRVlmdM5pyIuMJFLo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-24_04,2026-08-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 phishscore=0 clxscore=1015
+ spamscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240115
 
+On 8/11/26 11:36 PM, Elson Serrao wrote:
+> The EUD hardware can support multiple High-Speed USB paths, each connected
+> to different USB controllers. The current implementation uses a single
+> chip-level role switch, which cannot properly handle multi-path
+> configurations where each path needs independent role management. Since
+> EUD is physically present between the USB connector and the controller,
+> it should also relay the role change requests from the connector.
 
+[...]
 
-On 8/22/26 09:46, Marek Vasut wrote:
-> From: Pankaj Dev <pankaj.dev@st.com>
-> 
-> Add USB controller and PHY nodes to stm32mp251 DT.
-> This includes two USB 2.0 FEMTO PHYs, USB 2.0 host
-> controller and DWC3 DRD controller nodes.
-> 
-> Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
-> Co-developed-by: Marek Vasut <marex@nabladev.com>
-> Signed-off-by: Marek Vasut <marex@nabladev.com>
-> ---
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Christian Bruel <christian.bruel@foss.st.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Pankaj Dev <pankaj.dev@st.com>
-> Cc: Rahul Kumar <rahul.kumar05@st.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Rosen Penev <rosenp@gmail.com>
-> Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: kernel@dh-electronics.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-usb@vger.kernel.org
-> ---
-> V2: - Fix up Sob/Cdb lines
->     - Move PHY into syscfg subnode
->     - Turn st,stm32mp25-syscfg into simple-mfd
->     - Use clock-cells = <1> to discern OSC and future PLL clock from the PHY
-> V3: - Describe OHCI clock as the CMN clock
->     - Fix up Sob/Cdb lines further
-> ---
->  arch/arm64/boot/dts/st/stm32mp251.dtsi | 65 +++++++++++++++++++++++++-
->  1 file changed, 64 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-> index 6e985f115b195..dd2f7ddd9b634 100644
-> --- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-> +++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-> @@ -1746,6 +1746,47 @@ stmmac_axi_config_1: stmmac-axi-config {
->  				};
->  			};
->  
-> +			usbh_ohci: usb@482e0000 {
-> +				compatible = "generic-ohci";
-> +				reg = <0x482e0000 0x1000>;
-> +				access-controllers = <&rifsc 63>;
-> +				clocks = <&usb2_phy1 1>, <&rcc CK_BUS_USB2OHCI>;
-> +				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-> +				phys = <&usb2_phy1>;
-> +				phy-names = "usb";
-> +				resets = <&rcc USBH_R>;
-> +				status = "disabled";
-> +			};
+> +	if (!strcmp(dr_mode, "host"))
+> +		path->curr_role = USB_ROLE_HOST;
+> +	else if (!strcmp(dr_mode, "peripheral"))
+> +		path->curr_role = USB_ROLE_DEVICE;
+> +	else
+> +		path->curr_role = USB_ROLE_NONE;
 > +
-> +			usbh_ehci: usb@482f0000 {
-> +				compatible = "generic-ehci";
-> +				reg = <0x482f0000 0x1000>;
-> +				access-controllers = <&rifsc 63>;
-> +				clocks = <&usb2_phy1 0>, <&rcc CK_BUS_USB2EHCI>;
-> +				companion = <&usbh_ohci>;
-> +				interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-> +				phys = <&usb2_phy1>;
-> +				phy-names = "usb";
-> +				resets = <&rcc USBH_R>;
-> +				status = "disabled";
-> +			};
-> +
-> +			usb3dr: usb@48300000 {
-> +				compatible = "st,stm32mp25-dwc3";
-> +				reg = <0x48300000 0x100000>;
-> +				access-controllers = <&rifsc 66>;
-> +				clocks = <&rcc CK_KER_USB2PHY2>,
-> +					 <&rcc CK_BUS_USB3DR>,
-> +					 <&rcc CK_KER_USB2PHY2>;
-> +				clock-names = "ref", "bus_early", "suspend";
-> +				interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>;
-> +				phys = <&usb2_phy2>, <&combophy PHY_TYPE_USB3>;
-> +				phy-names = "usb2-phy", "usb3-phy";
-> +				resets = <&rcc USB3DR_R>;
-> +				st,syscfg = <&syscfg 0x4800>;
-> +				status = "disabled";
-> +			};
-> +
->  			pcie_ep: pcie-ep@48400000 {
->  				compatible = "st,stm32mp25-pcie-ep";
->  				reg = <0x48400000 0x100000>,
-> @@ -2002,9 +2043,31 @@ exti1: interrupt-controller@44220000 {
->  		};
->  
->  		syscfg: syscon@44230000 {
-> -			compatible = "st,stm32mp25-syscfg", "syscon";
-> +			compatible = "st,stm32mp25-syscfg", "syscon", "simple-mfd";
->  			reg = <0x44230000 0x10000>;
->  			#clock-cells = <0>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +
-> +			usb2_phy1: phy@2400 {
-> +				compatible = "st,stm32mp25-usb2phy1";
-> +				reg = <0x2400 0x24>;
-> +				#phy-cells = <0>;
-> +				#clock-cells = <1>;
-> +				clocks = <&rcc CK_KER_USB2PHY1>;
-> +				resets = <&rcc USB2PHY1_R>;
-> +				status = "disabled";
-> +			};
-> +
-> +			usb2_phy2: phy@2800 {
-> +				compatible = "st,stm32mp25-usb2phy2";
-> +				reg = <0x2800 0xc>;
+> +	/* No role switch needed for fixed role controllers */
+> +	if (path->curr_role != USB_ROLE_NONE) {
+> +		of_node_put(controller_node);
+> +		return 0;
+> +	}
 
-Hello Marek,
+IIUC think this is a bit of a convoluted way intending to say:
 
-Similar to stm32mp231: should update size ?
+if dr_mode != effectively_otg
+	return
 
-				reg = <0x2800 0x10>;
+I don't think there's much of a better choice in APIs here, so let's
+maybe just do something like:
 
-Thanks & BR,
-Fabrice
+if (host || peripheral)
+	return 0;
 
-> +				#phy-cells = <0>;
-> +				#clock-cells = <1>;
-> +				clocks = <&rcc CK_KER_USB2PHY2EN>;
-> +				resets = <&rcc USB2PHY2_R>;
-> +				status = "disabled";
-> +			};
->  		};
->  
->  		pinctrl: pinctrl@44240000 {
+directly (i.e. without making ROLE_NONE the "desired case" as that
+is very much not obvious)
 
+Konrad
