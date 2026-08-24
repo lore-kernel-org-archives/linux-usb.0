@@ -1,221 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635DC409121;
-	Mon, 24 Aug 2026 11:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2C740B10E;
+	Mon, 24 Aug 2026 11:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787569578; cv=none; b=YHohmUuhUWmLT49XKbIxpxW8TmEe3ZDz2go82O/YlUOFL/EHsPeVC6uFniR7qzSw9qd8HcgQzq2KEPkf/aFal/+rs4qBHGaprAf0ujwVOloUjfK991LWTF+iRFA/IaWxjIh9QTBMR0o4DviiRxiUkI/k6vt8sR/GrMP5VR98Uwk=
+	t=1787569892; cv=none; b=PDde/s5WIaeK+8Xmw/tnBap5u6vSmSqnoGtRkUPhvLFJvM4oJH+Zb9O0pmROpsapm5ywq+0wp93oTJNUFdtMVY6z1IDS3dXF4EPjcSC5Ux4Jfkt6Xv8GJIFO53JS2UqYZo9EerZMIlXIjV6Q4tGh6OUldEJkd41fPKsQ7qKRFqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787569578; c=relaxed/simple;
-	bh=cdNbg7ierzQ4SVqvczdngiZomV/AJvrAnFnUZFFGlVk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dYWwI/q6vKfxK0YYdVfoUBtElWNCX34X0y/FydCTm0CKbq0EHEu71HnVvielM0hdxhv8fulox5HsLeWl1BjsfsOKPvHqR/1gvI71VnC8sWgiHFQGHi2GK7lOpHo0jPnbW8B4VIfRTayZjqRxhPnMmPdeAxSjkucadtU7AfRy+LU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwV/J4Aq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787569892; c=relaxed/simple;
+	bh=+tG4pu31H5xVvb6jM4fQ7Ch7Jv2e11Wy7ZfO3PfnW6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PXXRRziTkXyyqXNMyvqXi/IEVxRf9vdsO4v/4wPDApY9Uabu85Z09ZclkhjMXYklAaQEFdaRwGBpjjkGBCTWTOUsKt+9Md1zr93flfGmxmwJOSQzVGhux/Uv5UtTECnMUuZb60Fz+nTn0j+Nzp4FZJVSBVmv1+l1mkfD2KGAfag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpzd4FxY; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwV/J4Aq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E7E31F00A3A;
-	Mon, 24 Aug 2026 11:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787569576;
-	bh=YIW9cDWMhEnjUil/FTCyHPfyEMgCmBZe7DzJHN1+g9o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mwV/J4AqfZ7bGlyOcS6CjfOdHCZbZ/smQgCVNwcxgZ2Fiwpw+3OLWD4gtk83e4QId
-	 FsQtS9OgtXG4SNhznzIcdn03DWmVHKukB/+b3voqdEmy+ZBbfPA0cWJHmPg1o7a9Ht
-	 r8P5o8EDYBd5jCg8ekXEA5qfXdNHotU7jgAlyuL19WSVINyrD07U/5IwkQnpahL4wc
-	 EoQ7MG+B+M+SVlCKDHuYIqnlDUOMBgI5SocFD2lH6YOE6luEIPi/MIYsv3m2k8ttvm
-	 e0yHx9CfLAfYWc7H26T/B2HmE58wk7jCKW8G29sQA2JNw60tjsFIl6EoMi9kYbWmsH
-	 osuWyKCA34UiQ==
-Message-ID: <295cce78-47d2-4a6e-af90-696edb60a05d@kernel.org>
-Date: Mon, 24 Aug 2026 13:06:12 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpzd4FxY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787569890; x=1819105890;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+tG4pu31H5xVvb6jM4fQ7Ch7Jv2e11Wy7ZfO3PfnW6E=;
+  b=gpzd4FxYqdqF6zZjT/qp58yoBsZSWzse1IdaYt5WSZc8uvxKVd4NY+9G
+   43JJard5wvkabjbSWEmTbFuTkt0QSv+OqBAoz1zW91FunukZLGMoLSelH
+   4SWUweeHJEJa9155K/nPL8Yl5/hKFNQBMiVegyjp1XrYvW+Wfri0XnXII
+   7A0kDLoULI7+Zh5gtzp0EwULOD1tWHqziOliRA6nsTW2RI0ul5412pI9p
+   EVTxT2DqFCcSwWD0oTZ0FdD1pm6XlVyx/iLsYehAGRbvcaW50GVhzZe7+
+   RqZll64IzsuSMhPoDoJ2NCRkqHHpmTcY3ZAPU5+OnC+qU4i9X4JwRWlQE
+   Q==;
+X-CSE-ConnectionGUID: wkMyaOjVRAimaC1gjHVfiA==
+X-CSE-MsgGUID: SQuSN6AnRy2+N+G1VMhDIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87877711"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="87877711"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 04:11:30 -0700
+X-CSE-ConnectionGUID: XbRj2YKRRi63mty0OVNtZA==
+X-CSE-MsgGUID: MnPCSsbfSsWDscbIEDVv2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="296870508"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 24 Aug 2026 04:11:27 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id D24A599; Mon, 24 Aug 2026 13:11:25 +0200 (CEST)
+Date: Mon, 24 Aug 2026 13:11:25 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tbt: Correct swapped TBT adapter type values
+Message-ID: <aowm3TvXYnUv78FM@black.igk.intel.com>
+References: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] thunderbolt: Hold a router reference for each path
- hop
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>,
- asahi@lists.linux.dev, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
- <20260823-b4-tbt-fixes-v2-1-26a18a426c9f@kernel.org>
- <20260824104237.GF893316@black.igk.intel.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260824104237.GF893316@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
 
-Hi,
+On Tue, Aug 18, 2026 at 06:20:03PM +0200, Sven Peter wrote:
+> Table F-10 of the USB Type-C Cable and Connector Specification R2.5 on
+> page 412 defines bit 16 of the TBT3 Device Discover Mode VDO as 0 = TBT3
+> Adapter and 1 = TBT2 Legacy Adapter. Linux has those two swapped since
+> their original introduction in commit ca469c292edc ("usb: typec: Add
+> definitions for Thunderbolt 3 Alternate Mode").
+> 
+> ChromiumOS EC's include/usb_pd_tbt.h has them the correct way around
+> and references the USB Type-C ECN "Thunderbolt 3 Compatibility Updates"
+> as fixing an error where they were originally swapped which is presumably
+> where the wrong order originally came from.
+> 
+> I've also confirmed the correct mapping with an Apple Thunderbolt 3
+> to Thunderbolt 2 adapter which does set bit 16 in that VDO.
+> 
+> Swap the two values and update all users. Also rename the old defines
+> so that no user accidentally ends up with an inverted value.
+> No functional change.
+> 
+> Link: https://usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-25
+> Link: https://chromium.googlesource.com/chromiumos/platform/ec/+/db93814b6e73c8545d23714fe0674c10814d901a/include/usb_pd_tbt.h#90
+> Signed-off-by: Sven Peter <sven@kernel.org>
 
+Shouldn't this be marked as a fix?
 
-On 8/24/26 12:42, Mika Westerberg wrote:
-> Hi,
->
-> On Sun, Aug 23, 2026 at 06:09:14PM +0200, Sven Peter wrote:
->> tb_stop drops the reference to all DP tunnels but does not deactivate
->> them, thus nothing cancels a dprx_work still in flight (which holds its
->> own tunnel reference) and the tunnel can outlive tb_switch_remove. The
->> HopID releases in tb_path_free then operate on freed IDAs and trigger
->> warnings like
->>
->>    ida_free called for id=8 which is not allocated.
->>
->> This can be triggered by unbinding the driver while a DP tunnel is still
->> waiting for the DPRX capabilities read to finish. On the Apple NHI
->> unplugging the cable runs into just that reliably because the read can
->> never finish right now and because the unplug powers down the
->> entire USB4 complex and removes the NHI device.
-> Thanks for adding this.
->
-> Is this behaviour due to something missing still on PM side or this is how
-> it is designed to work on Apple silicon? This resembles the early PC way
-> where ACPI dealt with all the hotplug PCIe stuff and the host router was
-> only present when a cable was connected. I would kind of expect that Apple
-> did this using "RTD3" way so keeping the host router present and the OS
-> then deals with putting it into D3 and back.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-So unfortunately the entire USB hardware is best described as horribly 
-broken :(
-For USB2 already we only ever receive a single hotplug interrupt in 
-dwc3. If the first device is unplugged and another one plugged in 
-nothing happens. The only way around that is to tear down dwc3/xhci and 
-the PHY completely, assert all external reset lines and then bring them 
-up again.
-Upstream drivers/usb/dwc3/dwc3-apple.c contains more details in the very 
-first comment at the top.
+> ---
+> I ran into this when bringing up thunderbolt for Apple Silicon SoCs and
+> was very confused why the condition for "tbt2 adapter" vs "tbt3 adapter"
+> seemed to be backwards.
+> I think the qcom pmic_glink_altmode.c actually has a bug there that was
+> hidden and/or caused by the wrong values: It used to always set
+> TBT_ADAPTER_TBT3 which sounds plausible but actually claims to be a
+> legacy TBT2 adapter on the wire. I don't have the hardware or know the
+> intention there though.
+> The other users look correct to me since they just pass the value
+> through.
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 2 +-
+>  drivers/soc/qcom/pmic_glink_altmode.c   | 2 +-
+>  drivers/usb/typec/mux/intel_pmc_mux.c   | 2 +-
+>  include/linux/usb/typec_tbt.h           | 4 ++--
+>  4 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index c0806c562bb9..79968edc16ed 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -586,7 +586,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+>  	data.device_mode = TBT_MODE;
+>  
+>  	if (pd_ctrl->control_flags & USB_PD_CTRL_TBT_LEGACY_ADAPTER)
+> -		data.device_mode = TBT_SET_ADAPTER(TBT_ADAPTER_TBT3);
+> +		data.device_mode = TBT_SET_ADAPTER(TBT_ADAPTER_TYPE_TBT2_LEGACY);
+>  
+>  	/* Cable Discover Mode VDO */
+>  	data.cable_mode = TBT_MODE;
+> diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
+> index 619bad2c27ee..8d4f54c160c5 100644
+> --- a/drivers/soc/qcom/pmic_glink_altmode.c
+> +++ b/drivers/soc/qcom/pmic_glink_altmode.c
+> @@ -215,7 +215,7 @@ static void pmic_glink_altmode_enable_tbt(struct pmic_glink_altmode *altmode,
+>  
+>  	/* Device Discover Mode VDO */
+>  	tbt_data.device_mode = TBT_MODE;
+> -	tbt_data.device_mode |= TBT_SET_ADAPTER(TBT_ADAPTER_TBT3);
+> +	tbt_data.device_mode |= TBT_SET_ADAPTER(TBT_ADAPTER_TYPE_TBT2_LEGACY);
+>  
+>  	/* Cable Discover Mode VDO */
+>  	tbt_data.cable_mode = TBT_MODE;
+> diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+> index 219a32da1348..b63114575a78 100644
+> --- a/drivers/usb/typec/mux/intel_pmc_mux.c
+> +++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+> @@ -346,7 +346,7 @@ pmc_usb_mux_tbt(struct pmc_usb_port *port, struct typec_mux_state *state)
+>  	req.mode_data = (port->orientation - 1) << PMC_USB_ALTMODE_ORI_SHIFT;
+>  	req.mode_data |= (port->role - 1) << PMC_USB_ALTMODE_UFP_SHIFT;
+>  
+> -	if (TBT_ADAPTER(data->device_mode) == TBT_ADAPTER_TBT3)
+> +	if (TBT_ADAPTER(data->device_mode) == TBT_ADAPTER_TYPE_TBT2_LEGACY)
+>  		req.mode_data |= PMC_USB_ALTMODE_TBT_TYPE;
+>  
+>  	if (data->cable_mode & TBT_CABLE_OPTICAL)
+> diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
+> index 0b570f1b8bc8..7bdf3795ae50 100644
+> --- a/include/linux/usb/typec_tbt.h
+> +++ b/include/linux/usb/typec_tbt.h
+> @@ -27,8 +27,8 @@ struct typec_thunderbolt_data {
+>  /* TBT3 Device Discover Mode VDO bits */
+>  #define TBT_MODE			BIT(0)
+>  #define TBT_ADAPTER(_vdo_)		FIELD_GET(BIT(16), _vdo_)
+> -#define   TBT_ADAPTER_LEGACY		0
+> -#define   TBT_ADAPTER_TBT3		1
+> +#define   TBT_ADAPTER_TYPE_TBT3		0
+> +#define   TBT_ADAPTER_TYPE_TBT2_LEGACY	1
+>  #define TBT_INTEL_SPECIFIC_B0		BIT(26)
+>  #define TBT_VENDOR_SPECIFIC_B0		BIT(30)
+>  #define TBT_VENDOR_SPECIFIC_B1		BIT(31)
+> 
+> ---
+> base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+> change-id: 20260818-b4-tbt-legacy-fix-d6e71ac4bb6a
+> 
+> Best regards,
+> --  
+> Sven Peter <sven@kernel.org>
+> 
 
-With USB4 this gets a bit worse: There's a block called "ACIO" (Apple 
-Converged I/O) which can only be brought up correctly after the PHY has 
-been switched to Thunderbolt/USB4 mode. This block has a co-processor 
-which then exposes the host router, NHI, IOMMU, etc. to our address space.
-We then have to write cable information into a vendor-specific 
-capabilities register and only then do we get the hotplug event and the 
-link comes up. This register appears to be effectively write-once after 
-each boot of the co-processor. If I try to write 0 that still works but 
-trying to write the value for the next connection then crashes the 
-co-processor with a very helpful message along the lines of "assert 4357 
-violated".
-So there's no way around first tearing everything down, then shutting 
-down the co-processor and the entire ACIO block and then finally 
-bringing it all up again after the next cable is connected. I've tried 
-to find ways around this but didn't succeed without documentation and 
-could only reproduce what XNU does.
-
-
->
->> Take or release a reference for both ports of each hop whenever the
->> HopIDs are allocated or released to ensure they have the same lifetime.
->>
->> The KUnit tests allocate their switches without ever registering them so
->> initialize the embedded struct device there as well to make these
->> references work.
->>
->> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Sven Peter <sven@kernel.org>
->> ---
->>   drivers/thunderbolt/path.c | 21 +++++++++++++++++++++
->>   drivers/thunderbolt/test.c | 12 ++++++++++++
->>   2 files changed, 33 insertions(+)
->>
->> diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
->> index b2c322e76b8a..02c5e7a2101e 100644
->> --- a/drivers/thunderbolt/path.c
->> +++ b/drivers/thunderbolt/path.c
->> @@ -196,6 +196,12 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
->>   		path->hops[i].out_port = out_port;
->>   		path->hops[i].next_hop_index = next_hop;
->>   
->> +		/* Keep the ports alive, see tb_path_free() */
->> +		if (alloc_hopid) {
->> +			tb_switch_get(path->hops[i].in_port->sw);
->> +			tb_switch_get(path->hops[i].out_port->sw);
->> +		}
-> I wonder if we can put this in tb_port_alloc_in/out_hopid() instead? That
-> would be more "natural" IMHO.
-
-Sure, I'll give it a try.
->
->> +
->>   		tb_dump_hop(&path->hops[i], &hop);
->>   
->>   		h = next_hop;
->> @@ -323,6 +329,10 @@ struct tb_path *tb_path_alloc(struct tb *tb, struct tb_port *src, int src_hopid,
->>   		path->hops[i].out_port = out_port;
->>   		path->hops[i].next_hop_index = out_hopid;
->>   
->> +		/* Keep the ports alive, see tb_path_free() */
->> +		tb_switch_get(path->hops[i].in_port->sw);
->> +		tb_switch_get(path->hops[i].out_port->sw);
->> +
->>   		in_hopid = out_hopid;
->>   	}
->>   
->> @@ -356,6 +366,17 @@ void tb_path_free(struct tb_path *path)
->>   			if (hop->out_port)
->>   				tb_port_release_out_hopid(hop->out_port,
->>   							  hop->next_hop_index);
->> +			/*
->> +			 * Only drop the switch references after both HopIDs
-> Let's use "router" universally.
-
-Sure!
-
->
->> +			 * have been released: the path may be freed after the
->> +			 * switch was already removed (e.g. asynchronous DP
->> +			 * tunnel teardown) and these references are what
->> +			 * keeps the ports and their HopID IDAs alive.
->> +			 */
->> +			if (hop->in_port)
->> +				tb_switch_put(hop->in_port->sw);
->> +			if (hop->out_port)
->> +				tb_switch_put(hop->out_port->sw);
->>   		}
->>   	}
->>   
->> diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
->> index 05652ee82fbf..034c56845380 100644
->> --- a/drivers/thunderbolt/test.c
->> +++ b/drivers/thunderbolt/test.c
->> @@ -33,6 +33,11 @@ static void kunit_ida_init(struct kunit *test, struct ida *ida)
->>   	kunit_alloc_resource(test, __ida_init, __ida_destroy, GFP_KERNEL, ida);
->>   }
->>   
->> +static void tb_test_switch_release(struct device *dev)
->> +{
->> +	/* The memory is owned by KUnit, nothing to do here */
->> +}
->> +
->>   static struct tb_switch *alloc_switch(struct kunit *test, u64 route,
->>   				      u8 upstream_port, u8 max_port_number)
->>   {
->> @@ -44,6 +49,13 @@ static struct tb_switch *alloc_switch(struct kunit *test, u64 route,
->>   	if (!sw)
->>   		return NULL;
->>   
->> +	/*
->> +	 * The paths take a reference to their switches and those devices
->> +	 * have to be initialized for that to work.
->> +	 */
->> +	sw->dev.release = tb_test_switch_release;
->> +	device_initialize(&sw->dev);
-> The idea was that we don't use this as real device but if we go this route
-> then I think we should call put_device() to release it and check for any
-> subtleties device_initialize() possibly does.
-
-Ack.
-
-
-Best,
-
-
-Sven
-
+-- 
+heikki
