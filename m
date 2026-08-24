@@ -1,164 +1,230 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [178.154.239.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C86E3F12E0
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 09:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361973F3270
+	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 09:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787562889; cv=none; b=I6kS2/BBY8uCcFHtMilpZ/FZ+LmetRaRtVvKpoVGEmmnJ46nWEa+skg4cdR0DUXdTDgufNPF85k+FGXCWVscWGFxBxbduGjdxl8TTAbchYUz28XjG2oGZoI2sPpSLhs7elBSeYW05PblX4gGRRzFaOY9RW2T5RE22BkHwG3IaXM=
+	t=1787563131; cv=none; b=kkn0D/lexVkR5drX01BQ+6D1ImUtsUXSbn9RRqhmFZc1GyXJIXR2dKC01JRghbcNdkob/7/MfMPH0PYEsQep7fUKA0eW/FMHeNOqn5E6wMTIf73Z+NWIvDdAjSXeseEcYzSecDwRuFXUbPEBlm/2B6k9Gq6u3PAbBL4utrmsUyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787562889; c=relaxed/simple;
-	bh=wjBDqucFrRC45yMGo+rPsfNjFdgM9qjfUM6yowFCPEI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y0iZaqaeIIOktZBQxYC/XJY6IvKNoXlEDZZTuh+A2NgGIdm5dX2xIryz9URoqqz0LSi8BJMadFYPuMRRtqVXm7jJht0IgwAVIciCSDjDtHX0/UhME5h4nbKtNkmViXWMm7+if316ywlfU6NZbu0aV0xxGcRMwueRdDDmyIMN+yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=asRfMmz1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XngAxgv2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787563131; c=relaxed/simple;
+	bh=ngTkV8IADONCroO1CG+Uyy4MuFfm2yr1Pp9PT/xI58k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dBkRr0JuuZEJF0z9FVukXG79vVQqXyx/cbkeqo4+LKjZxSc3pTQt+CgRepHyyygJRXVnbaQVMeATrvfQjVrWnPuXbTyzSVHjal6a2ASMEpuDGG6/N1PnFI9Sge9CKTSHxtjLTsogdZvCA15b6wtYod9iiVO4GAtxKDnLQELk54A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=nZ7pVWa5; arc=none smtp.client-ip=178.154.239.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="asRfMmz1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XngAxgv2"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67O99CfT2083024
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 09:14:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yVKjACmPCTwpOjPO5Zsk93gqawR7eD8Uoji5YK6o2TQ=; b=asRfMmz1E44tekbH
-	Ma9yQg4lA4ttV10merKpK2tz1tKnR/6PvbKaPam9uuz3egvVxWZ47SUN8GZCKD0v
-	urQ2BDB3M2fWaSp+OWhbOxqcAN1N1onYVt9A6i00gDni3XZ3KeqIet8XeJRtoKNh
-	gi/5Strk4pGU6rvxbQ2qXu4Sxsv4fsgyyvzw91nLkIVFkoBCncReOrdFwvQ20jxz
-	ek4YyLfJhp4ZAO9Dywd1PQQSYHWszfJpSgObyU+QTORik6tnSGRBTl3XXtqutFh1
-	ZKGwtKf3xhOg/OV0K4Gh5Fn7CVBpcX/8vbF4ee8ZM/aCgG8Cqai8QVH2kLFRWis0
-	w0V9gQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8hbtggjc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 09:14:47 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-52845bd815bso6355991cf.0
-        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 02:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787562887; x=1788167687; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yVKjACmPCTwpOjPO5Zsk93gqawR7eD8Uoji5YK6o2TQ=;
-        b=XngAxgv2wV61myCR5t68nqUxfGQUdAkipXjy9K2u0oaRzNbAO2voZAezV1crNnVaR9
-         asr2KctNPoY3DA3aOsGVL7RMml2ZE6qE/HHwtijtyWHmOv4AbQUiqcseiNuVWUt6Qijq
-         8HJuA8x6/DQdXDBSQECqn7LNz4Je3kbGJmifRuGVKWa8RaKH6dlaEzORKxXIFZEwJXhl
-         CksadqcnmaB68JeQO/lZY+05HrKq3nB/M2OS2e+WuinBf9V9yEQxfZpLEW2SKGrkmJSp
-         aAw59yKtcrCoeuqnkh4wVCQNyEdoR+9rFDvZGbDFiy9gJxt8eW0SPQZC4hbNv+4yKLeu
-         SWyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787562887; x=1788167687;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yVKjACmPCTwpOjPO5Zsk93gqawR7eD8Uoji5YK6o2TQ=;
-        b=e2ygB7JZfGjUKmsJKV7dXx6hJWEzvyQpr063csAQCrY4UF/i7Ittp24o36ahUin1YT
-         mG+fT3H2dO47EDSKWgWF7t9PokU69qM/7DOrCwyFkIRFPF1YEXUKCxFTNM4hRW3SBt3Z
-         OUQLBNBD+UMlEVDi5n6pqJ6DFDB9RkA0N4F0dtmD0JOQlcNs4EtBykxXz/S/hML41FII
-         4Uq2eZgEWiFHzu+JEcRcyZ2LCs9hyBV14cT+0XMEynyRGsDi14I5rVHRVfzOOqKbJaQ2
-         lCNzzPoZB0Mkd3CMT2AbY9kceKwg5Sxxi9FRWWcbMPovIFfURJ1TOmIjfqe+pUACndSl
-         E9vw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp9dlHemecqoGYH0WRewEiQzzRU2EXpCf+MMRXbDXWZG1U41/Lu8UFwSzpL+62bOMy+Xv1C+F47tOQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++nohpCbqLa+XSOTHFaUHjUXB7EjcsmANh89jSk6glIJAX0Sw8D2
-	3+g5iboYi5qVllk7Jars/DT5mAqlBWITdnRFqFnmPQV/I317vPy5ci4R2itygpIwgAx9TlEdu9n
-	uvtSwgg7o0qseAbAxgOXB72EJADudIpIe4lM56SaUdkN0wgQPBumBbAZXHauzsWI=
-X-Gm-Gg: AR+sD13ItvqtgG/zRru+wDc79DQYX2p+BnVpmf28vqlWazaPnkfcAwwvGSqOlD3z6LB
-	B0mPPmNkKA7iZTGCuE60oMxOhh/0TxQFOh3NnsK8dmKTSroFM/4jVYwL476HshRz2uv2McgonCS
-	BemjX6Xt+CC9UXeCujy5PjSD892XSrxrgtVyiW+8xhMyfjYIPOCnf8UrboI3h3F5hROLJGrPSVf
-	PKUR03y9GhpQWDtHCQdDVnmHFg98rOCeLmMvpyd0ycCdn8JngLSNJ4fT1pjKEAMmrk4WjBUJxt0
-	riwED4cY9UPxCAEHsTzhkh5pBHbB1YQaI9VHYVBUIRSUqLxRcCYXusTPqCsYeISdJ3v2w7l9DIp
-	grI1fUbuIHgskwhHLUBrtHmok
-X-Received: by 2002:ac8:5f50:0:b0:51b:f40b:2faf with SMTP id d75a77b69052e-52df5a35311mr168245931cf.4.1787562886780;
-        Mon, 24 Aug 2026 02:14:46 -0700 (PDT)
-X-Received: by 2002:ac8:5f50:0:b0:51b:f40b:2faf with SMTP id d75a77b69052e-52df5a35311mr168245651cf.4.1787562886372;
-        Mon, 24 Aug 2026 02:14:46 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2496296a46sm1295602866b.21.2026.08.24.02.14.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2026 02:14:45 -0700 (PDT)
-Message-ID: <5ee26dfc-1924-47b2-87ba-ef15faa2d324@oss.qualcomm.com>
-Date: Mon, 24 Aug 2026 11:14:43 +0200
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="nZ7pVWa5"
+Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net [IPv6:2a02:6b8:c23:4403:0:640:bf85:0])
+	by forward502b.mail.yandex.net (postfix) with ESMTPS id C5BFA80A00;
+	Mon, 24 Aug 2026 12:12:24 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (smtp) with ESMTPSA id MCXPApneImI0-CCW5itAW;
+	Mon, 24 Aug 2026 12:12:24 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1787562744; bh=PMKMvAJ25G3eXSPZP/0OhE3g6GNSR30qMPTaSpL3AHU=;
+	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
+	b=nZ7pVWa5GE440t+o1ODVargmD/twZLG5+n7B6UtIl3NJwSbhMTKp23LG0UwPFa3Mi
+	 Na+g4Qf3z6Q4vS/2y8UkjLT/Lgu0OXgEA0qTdX8VYo97gy6TBrYut/SCz6sID3rBuk
+	 75wWmMZTtz5tQjuXoQPHfykRKE6cguJUOGG5qPI8=
+Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v3] usb: gadget: dummy_hcd: add tick_us module parameter for
+ timer-rate tuning
+Date: Mon, 24 Aug 2026 09:12:22 -0000
+Message-ID: <178756274250.132278.16353756984865264330@yandex.ru>
+In-Reply-To: <178750530003.146199.10916428504166445366@yandex.ru>
+References: <178750530003.146199.10916428504166445366@yandex.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/9] usb: misc: qcom_eud: add per-path High-Speed PHY
- control
-To: Elson Serrao <elson.serrao@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Peter Chen
- <peter.chen@kernel.org>, Rob Herring <robh@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260811213610.2956147-1-elson.serrao@oss.qualcomm.com>
- <20260811213610.2956147-4-elson.serrao@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260811213610.2956147-4-elson.serrao@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDA3OSBTYWx0ZWRfX7kNvgWrwJNYR
- OcIRxTy4KYMdavoJCK52R1b99iYPCJcchsRpKwW/dwZi/lKuoNHzMj753KEzTuZ5bp/oiKN9pIR
- ZzfbQeygO5fQmjMpYnzQaCWg6OekGyZVPhbrpgSYmUtDQag7p9OLzB/37kmcxbnXYHP0acqgMZT
- 4KngXis5g5ncem7CKaJHfGTCv0x/FRYiShyoFbH+/DA3MYpbBoRu0c6WQxf0h33+/f9HFAY0Iqr
- RgAFXT220E1HzxaOIGXOwCMJPSgXxAVk2eLgFbQ+SIWKI9m7gA1eGWSWoqV14Na33xxy0Q8QwtS
- Y1N/kH6izTJgJr0ligYQyGl+Ov5FYecoFeR6fJwIrgMb5W0z4/yVmP/aKhP/ObvDPxvb7mIYvo2
- QftsBEXV4rYBen4jdP51nq/RuDBHDJYTaJtKcgjMqvvWVD4Buw92nNyD6VQVa3zJBeAgl7cFhFP
- LP2uQ/6kikNIJ7LbLMw==
-X-Authority-Analysis: v=2.4 cv=JL0LdcKb c=1 sm=1 tr=0 ts=6a8c0b87 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3IDAERHfcDOGiZqD5XsA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDA3OSBTYWx0ZWRfX9kMA8A7DyEer
- YGvCdqOVQ5kl2Rb8j8DHjQ36eGcVm5nkMsXNMP/BzD2HcuKYfkwahGhPWKVzbnC+kfdcuxNjs5h
- UdalF7vT7PT/OoaBjFbSuHobSVaZkXI=
-X-Proofpoint-GUID: OsIPprRS_ylck6yBH9A9HyUosnwdSez0
-X-Proofpoint-ORIG-GUID: OsIPprRS_ylck6yBH9A9HyUosnwdSez0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-24_03,2026-08-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- adultscore=0 bulkscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240079
 
-On 8/11/26 11:36 PM, Elson Serrao wrote:
-> EUD hardware can support multiple High-Speed USB paths, each routed
-> through its own PHY. The active path is selected in hardware via the
-> EUD_PORT_SEL register. As a High-Speed hub, EUD requires access to
-> the High-Speed PHY associated with the active path. To support this
-> multi-path capability, the driver must manage PHY resources on a
-> per-path basis, ensuring that the PHY for the currently selected
-> path is properly initialized and powered.
-> 
-> This patch restructures the driver to implement per-path PHY management.
-> The driver now powers the appropriate PHY based on the selected and
-> enabled UTMI path, ensuring correct operation when EUD is enabled.
-> 
-> Historically, EUD appeared to work on single-path systems because the
-> USB controller kept the PHY initialized. However, EUD is designed to
-> operate independently of the USB controller and therefore requires
-> explicit PHY control for proper operation.
-> 
-> Reviewed-by: Peter Chen <peter.chen@kernel.org>
-> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
-> ---
+dummy_hcd services URB completions from an hrtimer callback that
+rearms itself with a fixed 125 us delay (one high-speed microframe)
+for as long as any URBs are queued.  Against a permanently polled HID
+interrupt endpoint the queue never drains, so the timer runs at ~8 kHz
+regardless of actual traffic.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+On timer-rate-sensitive platforms (observed on one consumer AM4 board
+with a current BIOS and a stock kernel) this timer rate co-existing
+with a live Bluetooth session on the machine's real xHCI controller
+resulted in a hard, below-software platform hang: printk, SysRq, NMI
+and both watchdogs died in the same instant, with no panic, no MCE,
+and empty pstore.  13 occurrences over 5 days, reliably reproducible
+with that configuration (hangs within 20 min to 2.5 h of uptime).
+The same workload with the emulated microframe lengthened to 1000 us
+(this parameter) ran ~8 hours with zero hangs, and USB-cable sessions
+(identical gadget traffic, no Bluetooth co-existence) never hung.
 
-Konrad
+Note that lengthening the emulated microframe makes the emulation run
+slower than a physical device would; users of the parameter trade
+that emulation fidelity for interrupt-rate headroom.
+
+The per-frame bandwidth budget in dummy_timer() does not scale with
+the emulated microframe length; making that accounting microframe-
+correct is planned as a follow-up patch.  Otherwise nothing in the
+driver's behaviour depends on the emulated microframe length.
+
+Default keeps the current 125 us behaviour bit-for-bit (and defaults
+to 1000 us for full-speed emulation, where the natural unit is the
+1-ms frame).  Values below 125 are rejected.
+
+Signed-off-by: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
+
+Changes in v2 (addressing Alan Stern's review):
+- reword the description: the timer rearms while URBs are queued, not
+  an unconditional "pendulum"; drop the word entirely
+- clarify the xHCI wording: the Bluetooth session lives on the
+  machine's real xHCI controller (platform-level co-existence)
+- move tick_us into dummy_hcd_module_parameters with a custom setter
+  (module_param_cb) that rejects values < 125
+- speed-aware default: 125 us for high/super-speed, 1000 us for
+  full-speed emulation
+- reword MODULE_PARM_DESC per review ("length in microseconds of an
+  emulated microframe")
+- pre-compute the delay into a ktime_t (timer_interval) at setup;
+  remove the DUMMY_TIMER_INT_NSECS macro; explicit (u64) cast so the
+  tick_us * NSEC_PER_USEC product does not overflow on 32-bit
+- parameter is 0444 (load-time only): a runtime write would not
+  affect live controllers
+- note the emulation-fidelity tradeoff and the per-frame budget
+  follow-up in the commit message
+---
+ drivers/usb/gadget/udc/dummy_hcd.c | 47 ++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dumm=
+y_hcd.c
+index c0e40fa..0884090 100644
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -51,7 +51,6 @@
+ #define POWER_BUDGET	500	/* in mA; use 8 for low-power port testing */
+ #define POWER_BUDGET_3	900	/* in mA */
+=20
+-#define DUMMY_TIMER_INT_NSECS	125000 /* 1 microframe */
+=20
+ static const char	driver_name[] =3D "dummy_hcd";
+ static const char	driver_desc[] =3D "USB Host+Gadget Emulator";
+@@ -66,6 +65,31 @@ struct dummy_hcd_module_parameters {
+ 	bool is_super_speed;
+ 	bool is_high_speed;
+ 	unsigned int num;
++	unsigned int tick_us;
++};
++
++/*
++ * Length in microseconds of an emulated microframe.  The default (125,
++ * one high-speed microframe) preserves the historical timer rate; larger
++ * values slow the emulated controller down and reduce its interrupt-rate
++ * pressure on the host platform.  Values below 125 are rejected.
++ */
++static int tick_us_set(const char *val,
++		const struct kernel_param *kp)
++{
++	unsigned int v;
++	int ret =3D kstrtouint(val, 0, &v);
++
++	if (ret < 0 || v < 125) {
++		pr_err("dummy_hcd: tick_us must be >=3D 125\n");
++		return -EINVAL;
++	}
++	return param_set_uint(val, kp);
++}
++
++static const struct kernel_param_ops tick_us_ops =3D {
++	.set =3D tick_us_set,
++	.get =3D param_get_uint,
+ };
+=20
+ static struct dummy_hcd_module_parameters mod_data =3D {
+@@ -79,6 +103,9 @@ module_param_named(is_high_speed, mod_data.is_high_speed, =
+bool, S_IRUGO);
+ MODULE_PARM_DESC(is_high_speed, "true to simulate HighSpeed connection");
+ module_param_named(num, mod_data.num, uint, S_IRUGO);
+ MODULE_PARM_DESC(num, "number of emulated controllers");
++module_param_cb(tick_us, &tick_us_ops, &mod_data.tick_us, 0444);
++MODULE_PARM_DESC(tick_us,
++		"Length in microseconds of an emulated microframe (default 125 for high/su=
+per-speed emulation, 1000 for full-speed); larger values reduce the interrupt=
+-rate pressure on the host platform");
+ /*-------------------------------------------------------------------------*/
+=20
+ /* gadget side driver data structures */
+@@ -244,6 +271,7 @@ struct dummy_hcd {
+ 	struct dummy			*dum;
+ 	enum dummy_rh_state		rh_state;
+ 	struct hrtimer			timer;
++	ktime_t				timer_interval;	/* emulated microframe length */
+ 	u32				port_status;
+ 	u32				old_status;
+ 	unsigned long			re_timeout;
+@@ -1329,7 +1357,7 @@ static int dummy_urb_enqueue(
+ 	/* kick the scheduler, it'll do the rest */
+ 	if (!dum_hcd->timer_pending) {
+ 		dum_hcd->timer_pending =3D 1;
+-		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
++		hrtimer_start(&dum_hcd->timer, dum_hcd->timer_interval,
+ 				HRTIMER_MODE_REL_SOFT);
+ 	}
+=20
+@@ -2029,7 +2057,7 @@ return_urb:
+ 			dum_hcd->rh_state =3D=3D DUMMY_RH_RUNNING) {
+ 		/* want a 1 msec delay here */
+ 		dum_hcd->timer_pending =3D 1;
+-		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
++		hrtimer_start(&dum_hcd->timer, dum_hcd->timer_interval,
+ 				HRTIMER_MODE_REL_SOFT);
+ 	}
+=20
+@@ -2509,6 +2537,7 @@ static DEVICE_ATTR_RO(urbs);
+ static int dummy_start_ss(struct dummy_hcd *dum_hcd)
+ {
+ 	hrtimer_setup(&dum_hcd->timer, dummy_timer, CLOCK_MONOTONIC, HRTIMER_MODE_R=
+EL_SOFT);
++	dum_hcd->timer_interval =3D ns_to_ktime((u64)mod_data.tick_us * NSEC_PER_US=
+EC);
+ 	dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
+ 	dum_hcd->stream_en_ep =3D 0;
+ 	INIT_LIST_HEAD(&dum_hcd->urbp_list);
+@@ -2538,6 +2567,7 @@ static int dummy_start(struct usb_hcd *hcd)
+=20
+ 	spin_lock_init(&dum_hcd->dum->lock);
+ 	hrtimer_setup(&dum_hcd->timer, dummy_timer, CLOCK_MONOTONIC, HRTIMER_MODE_R=
+EL_SOFT);
++	dum_hcd->timer_interval =3D ns_to_ktime((u64)mod_data.tick_us * NSEC_PER_US=
+EC);
+ 	dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
+=20
+ 	INIT_LIST_HEAD(&dum_hcd->urbp_list);
+@@ -2828,6 +2858,17 @@ static int __init dummy_hcd_init(void)
+ 		return -EINVAL;
+ 	}
+=20
++	/*
++	 * The emulated microframe length defaults to one high-speed
++	 * microframe (125 us).  When neither is_high_speed nor
++	 * is_super_speed is set the emulation is full-speed, where the
++	 * natural scheduling unit is the 1-ms frame, so default to
++	 * 1000 us instead.
++	 */
++	if (!mod_data.tick_us)
++		mod_data.tick_us =3D (mod_data.is_super_speed ||
++				    mod_data.is_high_speed) ? 125 : 1000;
++
+ 	for (i =3D 0; i < mod_data.num; i++) {
+ 		the_hcd_pdev[i] =3D platform_device_alloc(driver_name, i);
+ 		if (!the_hcd_pdev[i]) {
+--=20
+2.43.0
+
+
