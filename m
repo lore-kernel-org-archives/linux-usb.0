@@ -1,103 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9E53F12E2;
-	Mon, 24 Aug 2026 12:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6327E41D21F;
+	Mon, 24 Aug 2026 12:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787575817; cv=none; b=IgjV9XuMWDYqFxRbxpZuDTJCgRtgXRMZoZ1ENWmiy3ScDjtuALkSedDWnWvHzc8W1ZFITIHneULrwa+Pl4LxhDAC1GVIgIUSdOAYxukb1mUyIGNxXLmieqBuqOqazIXomaPuXXrDMUtURHnybZg5WOMwrJPm0KujPFHjweQC14E=
+	t=1787576221; cv=none; b=bY2wQEBXNzKXt7JosllY84o8LFiPF9JHberDogGHwZ0OUHM7NHWR1BmhdmKukE42BeutrDFe/OSFkMrzT6Vc0OC2ZS05MiKKCkbOO+j9gOAzrMRUtm0ThrOgCxMILCra433oDu4lMJo3OwBFad9N9CmZLIztYbczwLrRUxrq72U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787575817; c=relaxed/simple;
-	bh=8dyoGwYqE0+oRO6D3D9z7RssrqIoCJbmCBSreTo1NAM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k2CK4X2OwGWi7/xcWlrtVbdxrDKvqsC6GAf8JwHkAIGsuRwBgzLPvyoAgtU4c2N6542YxTj8S5E0Wm2OUszufoFIPmWZF99UUjrgyg18u519CNz6zbMzYEXawlvw3O3LdAiIzPWS+w4/A+q309aiWq4hr0uZ9L0qrI/JB1RTIWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdMhbhYF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787576221; c=relaxed/simple;
+	bh=GgpHYAT/E86CmboL+Xoz12ZWwa8Ooc4QRV1wrzF0WsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KvaZAbJQNvEkjMiuVndrkE9yWDZRALmWPGZjpACiwbp+lyJRbqHhqvxnFCVpqqLmszu2eA56ehoFSm9EVWYj705U7BjeL4GnGscld+sfCw/W9as/7QXQfYFEqsdTu44IuTGuIyq6fNI4q7O8Wr5hWp58wMKfthdVxLhsmN0z41w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxNinfIo; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdMhbhYF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A0C01F00A3D;
-	Mon, 24 Aug 2026 12:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787575816;
-	bh=MZoj6aqj5U4tkAqvvKrf5s16sOmkfsLcKydVscu9oUo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HdMhbhYFiAxTvLaBruA4+2xYgwpDB1+h9q8noenekDfsbZPf5jQzN8J7IysEsmfaE
-	 WGLUjWdT1LBt2ZlpG5eUILxsQBtaRgaN1FByMQjjJX2pNc1Q1d8++g3AX5UUPqW7Hk
-	 jIRH8ShhSK0bCI/ZlUZc1IxlPUESt1FM43GTahz4g2UlKmmdqRsQMQuk8OYW4AqDzj
-	 cdL583jH7G2XgSKqaWcgY57OPTf4lLubqVLt7PuY3CF1Anqjdw3prQkIPeHgyJnLI9
-	 kcZALF6GJ5nZXYlOHL/QPhiYle6dVXbbh5ywq0YgbC3Rcxo+b7b5GrmLObCZQMoJ5g
-	 GUuiwlj51hWXQ==
-Message-ID: <ad7fba18-57d0-4f04-9c31-7ada3daf2d41@kernel.org>
-Date: Mon, 24 Aug 2026 14:50:12 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxNinfIo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787576219; x=1819112219;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GgpHYAT/E86CmboL+Xoz12ZWwa8Ooc4QRV1wrzF0WsQ=;
+  b=JxNinfIoHwRqJyuEaKwWDgdaHUstLJEpwoNF9MWVW5Yj1YV4c9Nn+j0d
+   HDNvLsZjYvYC+u4d1nfkTlueJIDgOMaT90wUmHwXlHnjWfyFTR9lgYzH/
+   2dhsMk+MNc2U5qcD/nzwWQzrG7dUbUqY8pOfmTsOzH2aYRSdWCq5H43Fx
+   uyCuflQJn6Qik3WSpLqOkY5vCXUx35GMftjEQEsr1oZkyCCCk32jvWZXl
+   E3qHALJedHigv+SKWJQwxKlHrxDxWn6+PzuBbmNNZqNflusrwFrtEtTvt
+   YBX2slk4puqOvGc7ADR2Y8ljO99npHb2yj4dt2EDhDoocb8KHTdfgFZXZ
+   w==;
+X-CSE-ConnectionGUID: 4Q4DB1I0S8WR9zrTmb54gw==
+X-CSE-MsgGUID: vdhqwfPqStS6wArwUpWVJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="110808580"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="110808580"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 05:56:58 -0700
+X-CSE-ConnectionGUID: GQg1CTjrRGyeN7lykMCahw==
+X-CSE-MsgGUID: ZIO7cRbWT8G6R45+CbAyPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="267555812"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa009.jf.intel.com with ESMTP; 24 Aug 2026 05:56:55 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 92B9C99; Mon, 24 Aug 2026 14:56:54 +0200 (CEST)
+Date: Mon, 24 Aug 2026 14:56:54 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Alexey Charkov <alchark@flipper.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: typec: hd3ss3220: Add support for supply
+ regulators
+Message-ID: <aow_lhZd3etwHVzl@black.igk.intel.com>
+References: <20260821-hd3ss3220-regulators-v1-0-405e5c4fb306@flipper.net>
+ <20260821-hd3ss3220-regulators-v1-2-405e5c4fb306@flipper.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] thunderbolt: Hold a router reference for each path
- hop
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>,
- asahi@lists.linux.dev, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
- <20260823-b4-tbt-fixes-v2-1-26a18a426c9f@kernel.org>
- <20260824104237.GF893316@black.igk.intel.com>
- <295cce78-47d2-4a6e-af90-696edb60a05d@kernel.org>
- <20260824113759.GH893316@black.igk.intel.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260824113759.GH893316@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821-hd3ss3220-regulators-v1-2-405e5c4fb306@flipper.net>
 
+On Fri, Aug 21, 2026 at 08:16:35PM +0400, Alexey Charkov wrote:
+> HD3SS3220 requires VDD5 input to be present 2ms before VCC33 is applied,
+> or else it gets backpowered via the 3.3V rail in a non-functional state
+> and wedges the I2C bus, bringing down all devices on it.
+> 
+> Enable both regulators in the datasheet prescribed sequence if provided.
+> 
+> Signed-off-by: Alexey Charkov <alchark@flipper.net>
 
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-On 8/24/26 13:37, Mika Westerberg wrote:
-> Hi,
->
-> On Mon, Aug 24, 2026 at 01:06:12PM +0200, Sven Peter wrote:
->> So unfortunately the entire USB hardware is best described as horribly
->> broken :(
-> :-(
->
->> For USB2 already we only ever receive a single hotplug interrupt in dwc3. If
->> the first device is unplugged and another one plugged in nothing happens.
->> The only way around that is to tear down dwc3/xhci and the PHY completely,
->> assert all external reset lines and then bring them up again.
->> Upstream drivers/usb/dwc3/dwc3-apple.c contains more details in the very
->> first comment at the top.
->>
->> With USB4 this gets a bit worse: There's a block called "ACIO" (Apple
->> Converged I/O) which can only be brought up correctly after the PHY has been
->> switched to Thunderbolt/USB4 mode. This block has a co-processor which then
->> exposes the host router, NHI, IOMMU, etc. to our address space.
->> We then have to write cable information into a vendor-specific capabilities
->> register and only then do we get the hotplug event and the link comes up.
->> This register appears to be effectively write-once after each boot of the
->> co-processor. If I try to write 0 that still works but trying to write the
->> value for the next connection then crashes the co-processor with a very
->> helpful message along the lines of "assert 4357 violated".
->> So there's no way around first tearing everything down, then shutting down
->> the co-processor and the entire ACIO block and then finally bringing it all
->> up again after the next cable is connected. I've tried to find ways around
->> this but didn't succeed without documentation and could only reproduce what
->> XNU does.
-> Thanks for sharing the interesting details! I totally understand the pain
-> of reverse engineering things. The initial USB4/TB driver was also result
-> of a huge reverse engineering effort by Andreas Noever, but it was and
-> still is functional, and we still support Apple TB1/2 hardware (although
-> not too much testing is done these days, I fire up my Cactus Ridge based
-> Mac maybe once a year).
+> ---
+>  drivers/usb/typec/hd3ss3220.c | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+> index d0de5a2488f9..b53455abc048 100644
+> --- a/drivers/usb/typec/hd3ss3220.c
+> +++ b/drivers/usb/typec/hd3ss3220.c
+> @@ -49,6 +49,9 @@
+>  #define HD3SS3220_REG_GEN_CTRL_MODE_SELECT_UFP		BIT(4)
+>  #define HD3SS3220_REG_GEN_CTRL_MODE_SELECT_DRP		(BIT(5) | BIT(4))
+>  
+> +/* Minimum time VDD5 has to be stable before VCC33 starts ramping up */
+> +#define HD3SS3220_TVDD5V_PG_US				2000
+> +
+>  struct hd3ss3220 {
+>  	struct device *dev;
+>  	struct regmap *regmap;
+> @@ -358,6 +361,31 @@ static irqreturn_t hd3ss3220_id_isr(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +/*
+> + * Bring both supplies up in the order the datasheet asks for. Powering VCC33
+> + * first can back-power the device in a non-functioning state, which grounds
+> + * the I2C bus and takes both this device and any others on the same bus down
+> + */
+> +static int hd3ss3220_power_up(struct device *dev)
+> +{
+> +	int ret;
+> +
+> +	ret = devm_regulator_get_enable(dev, "vdd5");
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to enable VDD5\n");
+> +
+> +	/* Nothing to stagger against unless the board describes both rails */
+> +	if (device_property_present(dev, "vdd5-supply") &&
+> +	    device_property_present(dev, "vcc33-supply"))
+> +		fsleep(HD3SS3220_TVDD5V_PG_US);
+> +
+> +	ret = devm_regulator_get_enable(dev, "vcc33");
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to enable VCC33\n");
+> +
+> +	return 0;
+> +}
+> +
+>  static int hd3ss3220_probe(struct i2c_client *client)
+>  {
+>  	struct typec_capability typec_cap = { };
+> @@ -379,6 +407,10 @@ static int hd3ss3220_probe(struct i2c_client *client)
+>  	if (IS_ERR(hd3ss3220->regmap))
+>  		return PTR_ERR(hd3ss3220->regmap);
+>  
+> +	ret = hd3ss3220_power_up(hd3ss3220->dev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/* For backward compatibility check the connector child node first */
+>  	connector = device_get_named_child_node(hd3ss3220->dev, "connector");
+>  	if (connector) {
+> 
+> -- 
+> 2.54.0
 
-Hah, nice! I wasn't aware the initial version of this driver was built 
-for Apple hardware!
-Let's see if we can the Apple Silicon changes into a shape where they 
-still work 10+ years from now as well :-)
-
-
-Sven
-
+-- 
+heikki
