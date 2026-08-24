@@ -1,122 +1,164 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SY2PR01CU004.outbound.protection.outlook.com (mail-australiaeastazon11021140.outbound.protection.outlook.com [40.107.39.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C40F25A640
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 00:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787531393; cv=none; b=qiHlWchMGtiYNvSAjYFy+gu3iWL6f3E15HTc0qk0lAzfNmpkJPS+NrnUxKS8bwJ3lXT70uMirNLeeyStYEwrGsLgcFDry4oX/k45gnqEb9lEak/d4yE+0RmZp/Ns5ZZYtzP2tJrjdPxtjiAaakGAcnKsS278uANRzrJrSKVwZ8U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787531393; c=relaxed/simple;
-	bh=S2VVXIm9NXC1/7S/os++vXO4y8V6rLx/oQUPCR5sBQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m1ZaDBIPI36DXGLP472TtVa6Tu1ERD/nPVk2qKWgVHASwPm4yO6fGXzJZ02SNW1AStnXOlwyfpeHSr6eXU3EbeyFKdkSYFhWu/U77472aVYnmYinbSKdpEv+XGSmhXNkVRZ9ar7JHy1hPC7hyv5fd6wNJlVpyY1vE/pAdYmwZ5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=tFfgQyKk; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EBD33FE15;
+	Mon, 24 Aug 2026 02:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.39.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787539947; cv=fail; b=bHeOYEsp2hu1b6d07pE7UfL1A5xegOOfgAvUR5rG4MhdYTMVQx8Bzt/IP01jH1UKmCyM6TdAljbYKLqXelbNRaJGX5ACEjMjKh2WVyCl3JlsdWW7r32NIcA8L9IKWK2jGrwcSsI6Rf3AqP2GZKvOIg/1QOguOs7COQjRoH7S5rQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787539947; c=relaxed/simple;
+	bh=MRsdAqyYRfZBGYHzyNzvAX1pXZ7kILdyY+fok1CxoMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=iSUlQBhVdGoqQ1ZTciGo48FxJC1gKRcr9WY8KlnJIOqXadfmzf6mJ2sf8HKWq+3e0dUoiQXoqDsQ4rsJT5DjF2hMaSjAFu66Kz4OaElX3Mi+xieQC6hpX2UGFh5XHDGkYEYEBZjJlcAxoNR4OyzUy54huHK8a6PHtbpZBjiHeGw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=heitbaum.com; spf=pass smtp.mailfrom=heitbaum.com; dkim=pass (2048-bit key) header.d=heitbaum.com header.i=@heitbaum.com header.b=hvnEovih; arc=fail smtp.client-ip=40.107.39.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=heitbaum.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heitbaum.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="tFfgQyKk"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-527e352a167so18079381cf.1
-        for <linux-usb@vger.kernel.org>; Sun, 23 Aug 2026 17:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787531389; x=1788136189; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u0oyaTfgHNj82lNrvA/IiuK50TaUKsX5aQhkbMM0CdQ=;
-        b=tFfgQyKkG21HQZUundOLVyqOin2qKQ0MJFBydV2CDA5QHCmIlcsjIhV/BfJWaqQxHo
-         c8CaVoSwIMkY7EElZQ4zoKc/jfPoG1EhUYofuBoJAS2p88D+mWVuBTc4NlB3WknYMQnG
-         6CVEYBIBs2UfV2ck/b46KWUOw0hYGaqcJkZFNLlDGKQszYWc9j7jNzTcAFDww538Ptx0
-         Perjv2XhvK1hAxxbwy+PYBpa+qAu8fayVv9ruZPYg8Rt/+yBmpm17opEXVyL/0nvyq5I
-         hwx04qBMuiZAVeKC/8+uYHRvN5G7wgC5qEnKx8gALxBuByLdkwc+Rm3oFTsfHGdUBM12
-         VdRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787531389; x=1788136189;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u0oyaTfgHNj82lNrvA/IiuK50TaUKsX5aQhkbMM0CdQ=;
-        b=SslOcHLq+i6eB4Mb5uJ0V1iqNXydudxY93qlhy95w8cstm4wNHjdsMy++B1AL4mLuK
-         PoIAb9l11yGfO8LAit/Boz4BC+3zC+Ke5LzKmYmx+ZPuVgJo8tmD3kvD9WCy0voGmOP+
-         GL6FnUO+JOqYKf2BRgLsqz6M0HjY0qjWmFAMLUtwSQMVt4Vd72Fe6wj41mMAPO72GtZA
-         dkL9Sx0ch5aBwO0C0Flf147eM5gHez7uguRsT8cLLPubKvCSvem0QNC88kcO5WD0muVB
-         0dY8pOZUSUd+TQ+7AziXNaLuX/sPL9JCdXlZnmE6KjWcoWORwGa7pyyZ4PeMd1y/2iS4
-         LC3A==
-X-Forwarded-Encrypted: i=1; AHgh+Rq8VffcZ6E9Dw4p4+yFoJEs2++Ic1cVYOzU0UaiXuVr5Da+zQ6V3A6GzfVSLY0l8pN4DZJUoovVnNo=@vger.kernel.org
-X-Gm-Message-State: AFuF++nxXfO1/YB8z4DbhBGOgm4dsnF4R2dNFSNSouVKaibxT9+L990k
-	KkboAO24l2lsy7r+yDp8xw4hTefF7x0h2saCu6QgpDox+Sb+VQc82Vg+Al8A6yET33dbdKhoMuu
-	4uBSsrg==
-X-Gm-Gg: AR+sD12UZlMfz36TltCuxeE8oXj+OG13EhMyFhH1MrbM8KVmyS9xrTnnIMURa+oDPUj
-	5bZPt2HQ7PcnhVxtHm1WOq3ulB0gYvpoXXy4dEim+ggNQEGqsX2N3opi04QFsOIOZxvgoAzhQTz
-	iXoMZx7j5YumlR/dS4Bbi8qap0w/4oL41IYQnfGDhIY8LblZ4qyNnQ574c3/a7kgvPI/X2//0h9
-	NIRjtyG+ct+u7ZiUfBblzUhsXqn1XCe/a8BzaYvkW01VZMBXfl/w/Z6r+IT6WPWQW1tjO8F3KWt
-	laJ/YmD9TPeoheoD8vZvhZ8FzMhRDo4n4tNR5Pd3sZrNP0pUQ3sv4tXebxUvhTlqWRcHMcMp848
-	do6l7LfbxRjXwnN69Yw29oAzJUmOhFZxipitG0cQ3e9t5JnTL4vLlgpGracjmf4F6DpVAxyqqwO
-	aIkvT2qL6nvdx8FreDhXY9h5+g5lZnM9RuJutD2WlAlxU6tz9X3DmZWlpkW80idzU6KCa5nejl
-X-Received: by 2002:a05:622a:4083:b0:52b:6543:d8b with SMTP id d75a77b69052e-52df573954amr253830641cf.12.1787531388897;
-        Sun, 23 Aug 2026 17:29:48 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09ae7211sm36723671cf.26.2026.08.23.17.29.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 17:29:47 -0700 (PDT)
-Date: Sun, 23 Aug 2026 20:29:45 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: syzbot <syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com>,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] INFO: task hung in unbind_store
-Message-ID: <190b86c3-5332-4d77-920c-a845f8a01b2c@rowland.harvard.edu>
-References: <6a8adc31.ae6ddae5.3da009.0064.GAE@google.com>
- <2026082307-negligent-lusty-750a@gregkh>
- <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
- <2026082333-persuader-overturn-8205@gregkh>
+	dkim=pass (2048-bit key) header.d=heitbaum.com header.i=@heitbaum.com header.b="hvnEovih"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nVAhMkHuvpiHSJ2GiG7jcLoyw6KCBgE114EtpXGXIEqNjTyMH7olVUYFEZLNwkw1tDutVk+ABAtE4ROEE0GmY8n7TXgkUDrvdnXyOgDL1o0E5+DRkvxDkYlElNk/tGQoa1FjS5NA5qMSe42+OgckmayCLjNbH9y0awOQDmVWM0dHN1rDYfTxGmfugGDqrEhdvdKIEPH3LaK06s0qheh7xK+Od/8lcMqG7dfmZrk+PLHIGftnLvTAkUsSX3rHBZbgN1L93l+kKHODJs6hxln2Ei54FwzkH+kIzaBtrjQ0eJSHpd9sHG3McSGKC+A/Vyu/kZNtkwZ+NkrvzHm+SyixWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ty1dFSmK9iDqtrDTj5CGrLjcwyllpR5d9hg9DhTllUo=;
+ b=QQEBPypbrKRo5oyPgTdbTY/SxPeNyEJuCHZWtEbBLqH1HyE0ps58I/icGHgQyjjFuTn3TlO2ii2dwBqJ0wFPL/WnYLtv2jCTHbjrb/Sk/FtbrlbyJG+tlN3eTP92F/Oa6HVBxHNLO35ui09ZGj1beIX0pKStSJFSyy/DOwGa8UAfkbXQZ89wHyesm7s2sMmOkcSUPoHsjcB4HdZ/qKfC7vFQ2wlYeZvCqXZHzaY8Jp6OCWLd78U24Gfa/XvaHXJZ/pB0Oc2GTaG1HQ1woKxHETKSTCsiZututh7UyhTGsGG6fiMtQbBuH9brBAvCTN67K786Dy3meSzSIZUdcQx30g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=heitbaum.com; dmarc=pass action=none header.from=heitbaum.com;
+ dkim=pass header.d=heitbaum.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heitbaum.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ty1dFSmK9iDqtrDTj5CGrLjcwyllpR5d9hg9DhTllUo=;
+ b=hvnEovihfuGBqteyRo0hA+l67PeEMLuREFln6OOIFY4UeUqQDkrC0JxkU048H2G536Izr9v30np3HwEavfcARZMWuqMEuJJxhD29SDFA7lio643X62wH8XmysfJ1ehgi76siOQSegHK9c/LHhWoHLBQDN7iyjCuoirYJVHNf5PJCTHO8x4VdKjjkeLbK5DtaeBoaIo0YqdlVmXRlkWtCEl6mecrzIT2NP+Aj/r7gRv+InR5+vdxX7P9EkuffUyKdi2Rnt+QIskfB/go+lUyIqTPQbe36wuZ4E14GRmMvQSv3R9rVTvdTrQyrsajZrmq488m2bRiX5nNkfZIDWNbvPw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=heitbaum.com;
+Received: from SY7P282MB4909.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:279::22)
+ by SYYP282MB1167.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:be::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.12; Mon, 24 Aug 2026 02:52:19 +0000
+Received: from SY7P282MB4909.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::21b6:91f8:614d:1fdd]) by SY7P282MB4909.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::21b6:91f8:614d:1fdd%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 02:52:19 +0000
+Date: Mon, 24 Aug 2026 02:52:02 +0000
+From: Rudi Heitbaum <rudi@heitbaum.com>
+To: Matthias Kaehlcke <mka@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heiko Stuebner <heiko@sntech.de>, linux-usb@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	rudi@heitbaum.com
+Subject: [PATCH] usb: onboard_dev: add the Rockchip rk1808
+Message-ID: <aouw7rH6FZxscUTO@0d3a7a881997>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: MEWP282CA0215.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:220:1ec::20) To SY7P282MB4909.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:279::22)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026082333-persuader-overturn-8205@gregkh>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SY7P282MB4909:EE_|SYYP282MB1167:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7cfef0c-f7fb-4c3b-5775-08df018ab6fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|10067099003|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	aeJ1u2afrLjXKtXnkJDw1M7fxIYPM2GrddxHirzpIb4Y7P8sdBIjAYXyH5bPt8s7dHfwPDOc0gq66fZMECa0DCFyJK5AKa5qWy0wba0iEDYy+uKlr8BeViomB7WhP+rAIOek0tD58+qJHVOYWArN1Kfsws/EeCdsz609Rm1kdF4da9wAADYTUPbqFNtM0IBv4/LvDM6Gw3Wrs6BHudfUhx6WXq5erAz2MaGBjfVy92hW6N2xHE7amvoZVJKIcYnZE6qdUBVbO5PsOhBwwWeabIR/6myNvUIe3MKVkIdjeYQyLkNOR6qGqRQ2RUFKeS7lkFDCtiLVFEAT+NhsfeDIPhGPlHYhg0yUv2YchvP5aPV6r3DwDOUYwp/TlUqvktfVKyg1lorH0r44UUexQCT3cGd7JxgR9SMHEOXnPvF/MduJ54jAjJa3miEmUEssmzOz63S0C4ZwCm2mm4wG65M0QYXOKZtSKmddaRn5quDVlsob5ojIhTCX1hYL8JPEqRnNCuR3zFBMud2ftB2646LGnOiscsuXzK6K2+DQJQeY6KKJEygcTENKWk35raESrqx/LqPFjv8LHjeAa0UWFPFJdu67vHEKm7ogq3rBH4c34qaA0aLDepHr1PxOuCPzroCQgC246EkyOS0p8dZSrAZBvTiGIMA45/9SMZaPHdD64Pk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SY7P282MB4909.AUSP282.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(10067099003)(56012099006)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1AkQ3irEDhOLoLfLPcy8ycmCdviIKX/M01KsjAO4sV+XUnoHiumzq+oCQdxz?=
+ =?us-ascii?Q?1C/WHfBRtWdAqYMln07tSXrYKm5uMHf0kZDX3pZKpw3bOixSCxSJwTdtNRLr?=
+ =?us-ascii?Q?Yf48IyinzJ1hc65AhDQ50yJWhhXax1yjEtRGgDQPvnQw5G9tpy2imJyhhROq?=
+ =?us-ascii?Q?+PLilanV+66nR60oUVQmjEcpmc9bgSV+YFpa2E4a9+VpOfyml+NqMgevr6Wa?=
+ =?us-ascii?Q?cHE7zF99LG5MDkxAGuaPGzyRJiZV4cVUN5QEz4bUkqYA2OXjNuJ7ShQhYwUy?=
+ =?us-ascii?Q?a4/ncfVfzUmCGn2orNUWsYoXLqHBHpM7GvLag+A6Ru4Urk66E6s3uf9YAhEv?=
+ =?us-ascii?Q?6Iw5rEiywW+onTD3TH5iY31TN9y2qgdWDskGND62LRmfXTpgKMHKPTdxAEUe?=
+ =?us-ascii?Q?EEpxRrEMVE1opRZm7slP77waQP36Vnf2vcasUT3+lNMgB5ZeF0iefAXnH7gi?=
+ =?us-ascii?Q?o5LccIdEuxnuM0IArGJ9DEa7OrUW4P7qfEqmdWde8TMuteVMOm8Rw9bPewki?=
+ =?us-ascii?Q?puOTm7TufXlnea7mlbJwKAI3nkOIprIKaPlWnzINTweqdhB1h6rOgVh3nZse?=
+ =?us-ascii?Q?nCDu/tQntiFZZ/huKd52NJKaj9+jJI5RetHFzviYdJ4hOvvQCu66ZIPaveYz?=
+ =?us-ascii?Q?rt4LcFyvU6aSIAfg/w2jv1U6upwKH/1Rg3xw2m/gvn0M+25aYxcD6FFw4G3h?=
+ =?us-ascii?Q?ACRVP2saAepppyIss5ChdLL62cfNeqOzDOIrQCOziw3o1gLilK/6z2ytCz5w?=
+ =?us-ascii?Q?q3BpqlgElacuObWu3XUUGwtQmbYqPOQnhzF/XaT6+HrfCJrLXtb4mAi6V/kI?=
+ =?us-ascii?Q?v8mGkHzlQ4qQP8SueQWkridoFa4X8DW2EQ4npkY3AVkua1XU0SQZQ4ig98jg?=
+ =?us-ascii?Q?asMz8tICZd9n5lZvN0hGWRlKMHRvM3vD5kdotn6sQdVWRfiS5Vp0MxJSHSnr?=
+ =?us-ascii?Q?GnBtM3OH5frnBv6JnTuhLesFCwttfDV8ynj4Zaqu57lEYYrWm8ulCGXQJikv?=
+ =?us-ascii?Q?L8+oryRYEuNtDNGopHpR5GBQFPqKa6fJKuJfS3vKhvRSIM4Zx/sBVG9/Y0SK?=
+ =?us-ascii?Q?RUXF6QSZs34gSJ66j6x9TAgBnb4WjjfILZuesr3kVbToFgwWPG6ge+Vo+Y6m?=
+ =?us-ascii?Q?tIKKH3hZayAMrIKMb2zL71uUkHx1j1x+cbeQexnN8yngRTELFhSR6F0pfmrI?=
+ =?us-ascii?Q?fXvyPFDIBccBnX6qJsnRFavx9txjt4SdOJ7LV8b16XdHUJiWt7jzfapUqxS1?=
+ =?us-ascii?Q?q/pPGsbsUT5Jbt5HZ4UBuxERFSmrtZDt+6RQMEySGckADlR7FFnQnSwIZ2aT?=
+ =?us-ascii?Q?laJv/oWg3R8pkLnASd7wvH8ZaBfAbK2EnFdxXQo5RA2DMzBAOt0nTcL1KHaZ?=
+ =?us-ascii?Q?ZsDkdSk5yCXHnGYiJ+ba5bPFqqzuQZbs8EdApmiiAy0UA3CNVLBJGpDBqaY8?=
+ =?us-ascii?Q?4VRYl2LzjTbSqWUW08iEuzPNWrnO88YzlrbTADkzZkSYEv5jTMOoMCTzVn3h?=
+ =?us-ascii?Q?2oTzL0diEiEJ1zNPHGRYylFvMdXn3DoJ/vooRoVEGXSjRkqcPDtlP4bUdGwK?=
+ =?us-ascii?Q?TI3Tx0bbjbpO/EkPEdaD7+4bxbd/ip+PDvr+meGeS94gULolCF/DjNJHRhRY?=
+ =?us-ascii?Q?3TUXSaIi+PMQjVwekOvCEhaQZJErrF9JutfktobSdKpExRDysmwuamSHAto6?=
+ =?us-ascii?Q?FDcnn5m2P6CMW11ty1FDMvdORciqcwxpCigX/YWhPRPvq2ju?=
+X-OriginatorOrg: heitbaum.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7cfef0c-f7fb-4c3b-5775-08df018ab6fa
+X-MS-Exchange-CrossTenant-AuthSource: SY7P282MB4909.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 02:52:19.7956
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 35ffebb5-7282-4da6-8519-efab29b0108e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TfrEVvf08ElYS0Lq5R2x9jXJDCiYa9YCns6xDZsk6rSY1nTRkwmx/jwQt3F3ji8bE09YixRIFXZRgkAn4LGnKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SYYP282MB1167
 
-On Sun, Aug 23, 2026 at 07:28:10PM +0200, Greg KH wrote:
-> On Sun, Aug 23, 2026 at 10:40:03AM -0400, Alan Stern wrote:
-> > On Sun, Aug 23, 2026 at 01:46:43PM +0200, Greg KH wrote:
-> > > Ok, I'm going to add a new TAINT flag for when unbind is written to as
-> > > that is obviously not a normal operation and is only for debugging
-> > > things by kernel developers.  Adding loads of work-arounds in the kernel
-> > > for this not-real-workload-path is just not required.
-> > > 
-> > > If syzbot could stop hitting this path, that would be great, as it's a
-> > > root-only thing for debugging and not something "real".
-> > 
-> > Actually, I could imagine people wanting to use unbind for a real 
-> > purpose -- you could consider it to be a more specific form of modprobe 
-> > blacklisting.
-> 
-> If you want to do that, just don't load the module :)
+The rk1808 is the npu die in an rk3399pro package. It is wired to one
+of the usb3 controllers rather than to an external port, and it needs
+its reference clock running before it will boot, which is exactly what
+this driver exists to do for onboard devices.
 
-No, because unbinding is more precise.  You can unbind a driver from one 
-particular device.  Not loading the module affects all the devices the 
-driver might bind to.
+It takes no supply from the driver: the rails are sequenced elsewhere.
+Only the clock matters here, and that is already optional and handled
+generically.
 
-> > The bind attribute is the one which really should taint the kernel, 
-> > because it bypasses the normal matching checks.  Also, all the numerous 
-> > syzbot bug reports coming out lately have involved weird bind 
-> > operations, not unbind.  Unbind should pretty much always work.
-> 
-> "always work" is tough due to the races that can, and will, happen for
-> many non-hotplugged bus devices, as syzbot is finding now.  We shouldn't
-> require this, as again, it's a debugging thing.
+Two ids, because the die changes identity as it boots: 180a while it is
+in maskrom and then in the rockusb loader, 1808 once it is running.
 
-If a driver does not support hotplugging, shouldn't it disable the bind 
-and unbind attributes?  (Is that possible?  If not, it should be.)
+Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
+---
+ drivers/usb/misc/onboard_usb_dev.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-But if a driver does support hotplugging, unbinding it should definitely 
-work every time.
+diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
+index 3523f8f8a149..e07f509ac751 100644
+--- a/drivers/usb/misc/onboard_usb_dev.h
++++ b/drivers/usb/misc/onboard_usb_dev.h
+@@ -134,6 +134,12 @@ static const struct onboard_dev_pdata xmos_xvf3500_data = {
+ 	.is_hub = false,
+ };
+ 
++static const struct onboard_dev_pdata rockchip_rk1808_data = {
++	.reset_us = 0,
++	.num_supplies = 0,
++	.is_hub = false,
++};
++
+ static const struct of_device_id onboard_dev_match[] = {
+ 	{ .compatible = "usb-a-connector", .data = &usb_a_conn_data, },
+ 	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
+@@ -167,6 +173,8 @@ static const struct of_device_id onboard_dev_match[] = {
+ 	{ .compatible = "usb2109,817", .data = &vialab_vl817_data, },
+ 	{ .compatible = "usb2109,2817", .data = &vialab_vl817_data, },
+ 	{ .compatible = "usb20b1,0013", .data = &xmos_xvf3500_data, },
++	{ .compatible = "usb2207,1808", .data = &rockchip_rk1808_data, },
++	{ .compatible = "usb2207,180a", .data = &rockchip_rk1808_data, },
+ 	{ .compatible = "usb3431,6241", .data = &corechips_sl6341_data, },
+ 	{ .compatible = "usb3431,6341", .data = &corechips_sl6341_data, },
+ 	{ .compatible = "usb5986,1198", .data = &bison_intcamera_data, },
+-- 
+2.53.0
 
-Alan Stern
