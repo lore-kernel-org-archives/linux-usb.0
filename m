@@ -1,230 +1,177 @@
-Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [178.154.239.146])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazolkn19012054.outbound.protection.outlook.com [52.103.20.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361973F3270
-	for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 09:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.146
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787563131; cv=none; b=kkn0D/lexVkR5drX01BQ+6D1ImUtsUXSbn9RRqhmFZc1GyXJIXR2dKC01JRghbcNdkob/7/MfMPH0PYEsQep7fUKA0eW/FMHeNOqn5E6wMTIf73Z+NWIvDdAjSXeseEcYzSecDwRuFXUbPEBlm/2B6k9Gq6u3PAbBL4utrmsUyc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787563131; c=relaxed/simple;
-	bh=ngTkV8IADONCroO1CG+Uyy4MuFfm2yr1Pp9PT/xI58k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dBkRr0JuuZEJF0z9FVukXG79vVQqXyx/cbkeqo4+LKjZxSc3pTQt+CgRepHyyygJRXVnbaQVMeATrvfQjVrWnPuXbTyzSVHjal6a2ASMEpuDGG6/N1PnFI9Sge9CKTSHxtjLTsogdZvCA15b6wtYod9iiVO4GAtxKDnLQELk54A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=nZ7pVWa5; arc=none smtp.client-ip=178.154.239.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDFF374A0B;
+	Mon, 24 Aug 2026 09:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787563406; cv=fail; b=eSzZdcBW0UHN5Tbg8eW3zfGuzbPFdI0pO2Koh6CAi/6tyDxlrMtukjKNnls5V0yed5NP3gIiPPInLxcHtgzmljkyYU0cKVd86sFbgSdDXGeTPBMEnYpvb6oV/E0Q9zqVwoX+13gL6bp62Ef4wo1nRKciZO7yjq4SWJpMlocn3W4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787563406; c=relaxed/simple;
+	bh=2wjXakoPjYidF7YhD4fOvyqAmqBpBGbvB8TNKWLPDzY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=lFw+KsbAfvG5TpJalUpf8CFNMsaxGxn9wZxKnkJdkiGu24HW78FoI0vJKIbtgG/eTJSZxawUZXxcKz/e4SpcwNwIQVtR0VhCDzYqU1wmfv7w/dwKe5MEC2wNyQwxPv3ao2I3YDLdSKOhDLTy+JTn1d8yTnfFJOhShRbYoILDQ5E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=p4DQe0II; arc=fail smtp.client-ip=52.103.20.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="nZ7pVWa5"
-Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net [IPv6:2a02:6b8:c23:4403:0:640:bf85:0])
-	by forward502b.mail.yandex.net (postfix) with ESMTPS id C5BFA80A00;
-	Mon, 24 Aug 2026 12:12:24 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (smtp) with ESMTPSA id MCXPApneImI0-CCW5itAW;
-	Mon, 24 Aug 2026 12:12:24 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1787562744; bh=PMKMvAJ25G3eXSPZP/0OhE3g6GNSR30qMPTaSpL3AHU=;
-	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
-	b=nZ7pVWa5GE440t+o1ODVargmD/twZLG5+n7B6UtIl3NJwSbhMTKp23LG0UwPFa3Mi
-	 Na+g4Qf3z6Q4vS/2y8UkjLT/Lgu0OXgEA0qTdX8VYo97gy6TBrYut/SCz6sID3rBuk
-	 75wWmMZTtz5tQjuXoQPHfykRKE6cguJUOGG5qPI8=
-Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
-To: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v3] usb: gadget: dummy_hcd: add tick_us module parameter for
- timer-rate tuning
-Date: Mon, 24 Aug 2026 09:12:22 -0000
-Message-ID: <178756274250.132278.16353756984865264330@yandex.ru>
-In-Reply-To: <178750530003.146199.10916428504166445366@yandex.ru>
-References: <178750530003.146199.10916428504166445366@yandex.ru>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="p4DQe0II"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yf7jbmJdkt3Q2j4O9/C0MewH2N4EgudJ84v8viPFlsk0p5/wCSJTKEl1xx+YfuOeNouwMe6zh76MtXXL4zhivMjdLAO8n7fvIF+ZsZe++BD8fb8H9/81xrbswSn16d4+Y4dKEWea5kj/qe45CKsCAghzdvydT2+ARB08GmQXJmLIl7gXUw00jq7AQAWCWH0z7vJ9eqIujCn2fqO2DJCbkakJ5Hxx4Pem16YqBiS79AQRofDnyJC3mgm6hUhAvy1VK3fiEqrMvf9slmU3S+9bkAdQIqgYCemOsxlpzca5YE405bHKacpha+5omhvuCAsT5LfpozKUcur7JB4LXG37hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A5DO86lDxe+hl5guOZhl5sXCeO8/9oxZTUJtTv6hxAQ=;
+ b=VgD2kzLugZWSOuEzxTZJYycziHUGZGQBRXh/i0q0h7s4f79/4uzomYEpqYVk2OrAoepfUkbyFa0nPuvZiwpGquGO6XrtsnteAU+9CjP2GTOgFkDVoCLX4CcZaCa4eLRIfw7Y7SF932sUMr2HYGDXGJ2tiaJ1o2jJ0K3M2/JQoVGaDr4ZPZXNDxkxKkOUAUkrqxYkKUc3DM8vrTOUKGR7BmjZQ2MstoamJQLxbPVSdEWLfMkupBLTQHXYKJ0WgamVtbtjBe5OdGATXQGcaP9xFwSQ0KRJB9tDN0n2wnxVs4D5iziStkadYf4Ej2PFHlnid+fXPoz1AsVaLZ/AXJCX2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A5DO86lDxe+hl5guOZhl5sXCeO8/9oxZTUJtTv6hxAQ=;
+ b=p4DQe0IIiLI+cf1LZhkDMytdRwsIquFpJZOUFZ14BOGrmMGdjT8ac94+hmCPPROt7EUcpnEMNiVCfR65qnBItrh1E+cxH8bc2uttHQ5LAm/sUHUFU3deXCI94VApYjEFWkdrPnj7DZTs82L0b7zPSrNiTKsXW05T5Odc+U5owkhD5Y9loUx7zUIx5+yPmrDIgGDgQOH/yy5DjJNWPG2iSlcFIgAglwEKfDUmvac0w0vI2KbzQTrz0R8L1/1cllLx/TN8vOunncdHV+pnltt6OPdtSW+E/shxX2NTJ4Ye9zymtLFTIXEsKbUcQSV2756Jh9idcKT8qagQr8+NWEiGbg==
+Received: from SN7PR19MB6736.namprd19.prod.outlook.com (2603:10b6:806:263::12)
+ by EAYPR19MB129701.namprd19.prod.outlook.com (2603:10b6:303:2e4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
+ 2026 09:23:18 +0000
+Received: from SN7PR19MB6736.namprd19.prod.outlook.com
+ ([fe80::4b6c:b84f:b71c:d0a]) by SN7PR19MB6736.namprd19.prod.outlook.com
+ ([fe80::4b6c:b84f:b71c:d0a%3]) with mapi id 15.21.0315.011; Mon, 24 Aug 2026
+ 09:23:18 +0000
+Message-ID:
+ <SN7PR19MB673604430A26373A840F691E9DA02@SN7PR19MB6736.namprd19.prod.outlook.com>
+Date: Mon, 24 Aug 2026 13:22:54 +0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/14] arm64: dts: qcom: ipq5332: Add clocks required
+ for USB3 support
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Praveenkumar I
+ <quic_ipkumar@quicinc.com>, Varadarajan Narayanan <quic_varada@quicinc.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com>
+ <20260812-ipq5018-usb3-v2-8-8f355d7ff0ef@outlook.com>
+ <2e9f6fe9-31ab-4107-a623-b15470fe68de@oss.qualcomm.com>
+Content-Language: en-US
+From: George Moussalem <george.moussalem@outlook.com>
+In-Reply-To: <2e9f6fe9-31ab-4107-a623-b15470fe68de@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2P153CA0026.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::18) To SN7PR19MB6736.namprd19.prod.outlook.com
+ (2603:10b6:806:263::12)
+X-Microsoft-Original-Message-ID:
+ <b4b575e2-6604-421b-9800-bc1413e32004@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR19MB6736:EE_|EAYPR19MB129701:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3bc34a8-a414-4bf7-0b55-08df01c15537
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799012|8060799015|37011999003|51005399006|15080799012|24021099003|23021999003|6090799003|5072599009|25010399006|40105399003|2607281247196008|3412199025|440099028;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UndDVzVEVitWVXlSdnppMzdtVGdHZnF6MzVOcGVjQ204aTZyNjVnditqdVkx?=
+ =?utf-8?B?RE9vMFpvanY5d1hiVzVTQ3JTMmtsSW5RT3hVMENMZWV3MlpGWnh0eXVRdG9F?=
+ =?utf-8?B?UlRMR0JEOVFpUDJZTXBnZko2dmFkK1RCaHJWVkxiYS9XNDZudC85R2ZLaENU?=
+ =?utf-8?B?eXV3N2tQdUxld0Ezek04M0VRV0VQRGNCeWVaOFVlYlVlUk5iMHNJNGszVnE4?=
+ =?utf-8?B?UFEwSDFkb25NNEEvWXlKWDB3UGFEWlVVWU1INVpIZ001NCt6eWd2MGNURDVG?=
+ =?utf-8?B?b0tIUmM4MUlTc0h1TURIMlVPaXRYcWxXVzlwRSt1LzlJTEYvU0craDZPTEZn?=
+ =?utf-8?B?SlpBaE1PL3pvNmFlNG80bHh4eUFhejhIOFpKeG56cFpoK2U0VnVWZWJ4bDQ0?=
+ =?utf-8?B?M1pyM1ZpVGtXaTFwR1FvdVpweFVlcmNWNUdBY0toRjN4RWdaRzNQTXBLU3V2?=
+ =?utf-8?B?YTVNcHV4UXRmQ00zbXAyZnEybk5ZbVBTa0tqTG82TXRGbXRRWGtSVVhMS2F3?=
+ =?utf-8?B?ZEY5R0JuKy9KMStxaEM1NGRKeVAwdGN4dFlVV1hmclNRTEZXb1FmQlZ2ZCtu?=
+ =?utf-8?B?bjFHTkdndXE2WHUraXFrZ1pXNzVheWFQbHk4ZFVldk1KREI5WEdJZ05HZTly?=
+ =?utf-8?B?emtmb093bHJjNW1obktRT2hhMGVJaXY2SWlpeW9MVDBoQlpZZUx6aUJVdzY3?=
+ =?utf-8?B?cnk3WlNzZmhmSWttSUROOGs2U0FVV3lIVk83bWxFb3RSL1BxNlpsZmFreWlO?=
+ =?utf-8?B?ZjRkS3duOS8yRStjWWY4ZjdmQ0o2WnRVTXpWOXN0am4wTzVZQksvZE9xckJN?=
+ =?utf-8?B?alYwcGJGdXdRYnpLeVhTWVlmVXFPSUR5Uzl5ZmpNeDBLa2J5SGprM2d3Zm9T?=
+ =?utf-8?B?ZUJUOEh6R01uZkNYcko3NTZoNms1SFF2ZGtGT1BJSjVueERMUFNScENReExT?=
+ =?utf-8?B?L3ZoUW9TREFaNk1tdmxGdW1NdEtzMU91VDVmZTJtQzdDVDYzMjVHa2NlRjJE?=
+ =?utf-8?B?bVgvSFFwWkIxOUxxbmVFTWVFdkNWOUkvdStUMFpFT0VqdVV4ZmtNTVlYcDZS?=
+ =?utf-8?B?ckl2NEwwT1F1bS9kZHFsc1E3a3c3Y1hWZnBUSlR2QmV5L0VMSTRQQitCVW52?=
+ =?utf-8?B?M1doMDZXdUo4Y3FoWVVPU3R3NVI3aWd4dlhkOHN2VGdQTFdybVovbEJwcjRt?=
+ =?utf-8?B?QUFaeXlnVXNWSm9uUVRhVytQbUNUM2REYS9zNWc5NEpGWUVUUHUrOXFGTnB1?=
+ =?utf-8?B?d0NaU3lSUlJMZG9EMWhjU3l4dmxuMk5hdkJvUGhKbWpDZ3JTdVJVYmpUVTFJ?=
+ =?utf-8?Q?IGI8/ndpxRDAtWDnXV3fDSPz5AZX4DBOlY?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M1dRWEwzMDZLTmxsOHM4bWdZUVUrTlJrUWV0MXdCSzhaL2JYdXA4Ym5DNFlI?=
+ =?utf-8?B?bGRWVGg0SFA1WGpVSm83NEZOVDhwdEhaL1dUczJlK0NOczhYRGZrREZlKy9C?=
+ =?utf-8?B?QTRWaTRvWGF0NTdVcTFFWTc5SEpXSStiQU1nRXJkMFRJMjhJek0yT0s2VDFT?=
+ =?utf-8?B?MFNLNDFka3ZnNmk3VU9MZlZ3N1dUK0xLdjBmUEl3eUFibENoM0liT2UybXV3?=
+ =?utf-8?B?RVdxazMrMmxzMUdBbVA4QnF6N3RueFlrL3B5MVp1T0NPUzVVL0FCTDZQVy9W?=
+ =?utf-8?B?WFJ0K2xMRnlCbElJQWJ6UnVHOHZBQ1ZaRmdEREh5N0h5bGtUUys1ZG1wUUxB?=
+ =?utf-8?B?Mk0xK1JrVWluMnFQdEVYbU1zMS84YkZ4KzZCMjNzVkFkWjd2b2hwYjFqYlhi?=
+ =?utf-8?B?aVo1RmlRZzJqeTd3MExQN0VWNzRKdzcyQlFhbjNFcGk2V2x5bXBBUTEyZmJr?=
+ =?utf-8?B?WHpZa24wRnJrS3NrVjBJbllqeXZMOFdTWHlyUy9QcjMyYWRIUGU0NWhueDVM?=
+ =?utf-8?B?b3lIWUgwR2cxZWZFdytybHVVc1Zrd2xDM3d6NjE2UlJ1L0I2c1d0aDFJRUZw?=
+ =?utf-8?B?N1doQjZsUWhiK2o0NFNtcWl1c1ZXRGVRYWlNTld6cHFHOE96OUtBREtGQytv?=
+ =?utf-8?B?Ti9aMVFyTmh1b3NSWjRuYUc2ejZrWitvV1RKWWd5L1VpbVlDUEJUQWZOMzN4?=
+ =?utf-8?B?QUtrTW9JYmF1by9vcXJaK2hSelJFVjlwUDJjQXZXZUtIdkFGV1VtajZrejZV?=
+ =?utf-8?B?R2prbDRRbXNvT1NVY3BKWlNGT1cwRWJMNkxiK1pIcWQ2ZU9iekIwK2NWL2dh?=
+ =?utf-8?B?bVVQNGF1SXVuZDdLenlodDloV2Y3YzlXZnFNRGhhTis1SVFVWTN0dDQzZFda?=
+ =?utf-8?B?eVl3QjB3UXFSSDZCT2doYm1VN1d0SWM4RnhDTGRkOVBBZzU0SkVaajJPL3lT?=
+ =?utf-8?B?TDVJTno4b3dTN0J2WUpmZ2FpVjNHbDYwYUUrUTdkR3VjZDFRV09jNFZTV0I2?=
+ =?utf-8?B?bjhrSTlZTG5VdzZhWlYvYVdpS1NobmdOMWdrTkNaZTZ0dkExSHNZaUNUL1JC?=
+ =?utf-8?B?Zm13N2p6TlZQUVNXTXd3SUFSczFtT0pSNVdYZndZK2N6dXlOa1RpZCtaazNX?=
+ =?utf-8?B?OEZGZHNQMHRXTTdVckNZT3pIcXhlL3hQSHRUY0RLZy9WNnBWZ3pVYnVYYTAz?=
+ =?utf-8?B?VkNZS0RMUkFLL1RMT2k1VjRocVJsd3NEV2xlOXBmcTMrVU80NUlyN3A0VXcr?=
+ =?utf-8?B?L2NsR1RDSDFBdUk1SmtBTFMxcjYydXllMlhJcHdNM0ZZOEZxN3ZVNkNhSnlR?=
+ =?utf-8?B?UWdQV1A5R0ZLeFZ5TWphUWtIQkVkMjMxM2E3Y1BLYTZWYXN6ejhxNE5WSE5F?=
+ =?utf-8?B?NVYrRGF5Zm4renpBVHdyY3dvcGJMUzVCQXdjNGNXU1c3NTYydFRyZ1V4K3Rq?=
+ =?utf-8?B?MWhmcXBsY05RZlFnZWpFamo0K1Q0MEVScHdZUmRlMCtGTWJzVTIxVW5tUEVz?=
+ =?utf-8?B?Sks2WlFoVVhOSmZJSVI3cytwdEN0d25oVVp0Q1pBZ0dNU0luQ3FKVnZCdTJJ?=
+ =?utf-8?B?ZU4wSkRjQUR1REJYdjcrRjd2a0U4YXppaGNRUzZTWkZxQXdCdEphMWlSL2Rh?=
+ =?utf-8?B?TmhZL2RqWHJuL3IxWkdiODFzL0RnMjhTcTdPSVZ4UGJCRENqYWxyeGV3bFhK?=
+ =?utf-8?B?YW5tdTJOakM2cy9qZWNFZWpob0V3WkthWmMwNWZLY2RzWWpiRHhzQldQdENZ?=
+ =?utf-8?B?UHJHdEFpMEM3c3lKN3dQelRVMnJ4OXVpTkYzS1Vkcm9SeG4wdGcrelhsSm40?=
+ =?utf-8?B?OEFYbzRkUUQxd3FmTXNQYzEza0x6T01GZTB4UkxBdWZKbnUvWkNLL2hib1Nh?=
+ =?utf-8?B?Q1ludWJEUjRkMG5nd1grczU4ek9tbFlTQnd1Tkg2ZXlQN0E9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3bc34a8-a414-4bf7-0b55-08df01c15537
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR19MB6736.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 09:23:18.4808
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: EAYPR19MB129701
 
-dummy_hcd services URB completions from an hrtimer callback that
-rearms itself with a fixed 125 us delay (one high-speed microframe)
-for as long as any URBs are queued.  Against a permanently polled HID
-interrupt endpoint the queue never drains, so the timer runs at ~8 kHz
-regardless of actual traffic.
+On 8/24/26 13:02, Konrad Dybcio wrote:
+> On 8/12/26 11:34 AM, George Moussalem via B4 Relay wrote:
+>> From: Praveenkumar I <quic_ipkumar@quicinc.com>
+>>
+>> Add aux and lfps clocks to USB controller node for Super-Speed support.
+>>
+>> Signed-off-by: Praveenkumar I <quic_ipkumar@quicinc.com>
+>> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+>> ---
+> 
+> Is the GCC_USB0_PIPE_CLK not necessary too?
 
-On timer-rate-sensitive platforms (observed on one consumer AM4 board
-with a current BIOS and a stock kernel) this timer rate co-existing
-with a live Bluetooth session on the machine's real xHCI controller
-resulted in a hard, below-software platform hang: printk, SysRq, NMI
-and both watchdogs died in the same instant, with no panic, no MCE,
-and empty pstore.  13 occurrences over 5 days, reliably reproducible
-with that configuration (hangs within 20 min to 2.5 h of uptime).
-The same workload with the emulated microframe lengthened to 1000 us
-(this parameter) ran ~8 hours with zero hangs, and USB-cable sessions
-(identical gadget traffic, no Bluetooth co-existence) never hung.
+No, not necessary as the PIPE clock is managed by the PHY (see patch 3)
+directly which provides it in the first place.
 
-Note that lengthening the emulated microframe makes the emulation run
-slower than a physical device would; users of the parameter trade
-that emulation fidelity for interrupt-rate headroom.
+> 
+> Konrad
 
-The per-frame bandwidth budget in dummy_timer() does not scale with
-the emulated microframe length; making that accounting microframe-
-correct is planned as a follow-up patch.  Otherwise nothing in the
-driver's behaviour depends on the emulated microframe length.
-
-Default keeps the current 125 us behaviour bit-for-bit (and defaults
-to 1000 us for full-speed emulation, where the natural unit is the
-1-ms frame).  Values below 125 are rejected.
-
-Signed-off-by: Mikhail Zubenko <misha.zubenko.01@yandex.ru>
-
-Changes in v2 (addressing Alan Stern's review):
-- reword the description: the timer rearms while URBs are queued, not
-  an unconditional "pendulum"; drop the word entirely
-- clarify the xHCI wording: the Bluetooth session lives on the
-  machine's real xHCI controller (platform-level co-existence)
-- move tick_us into dummy_hcd_module_parameters with a custom setter
-  (module_param_cb) that rejects values < 125
-- speed-aware default: 125 us for high/super-speed, 1000 us for
-  full-speed emulation
-- reword MODULE_PARM_DESC per review ("length in microseconds of an
-  emulated microframe")
-- pre-compute the delay into a ktime_t (timer_interval) at setup;
-  remove the DUMMY_TIMER_INT_NSECS macro; explicit (u64) cast so the
-  tick_us * NSEC_PER_USEC product does not overflow on 32-bit
-- parameter is 0444 (load-time only): a runtime write would not
-  affect live controllers
-- note the emulation-fidelity tradeoff and the per-frame budget
-  follow-up in the commit message
----
- drivers/usb/gadget/udc/dummy_hcd.c | 47 ++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dumm=
-y_hcd.c
-index c0e40fa..0884090 100644
---- a/drivers/usb/gadget/udc/dummy_hcd.c
-+++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -51,7 +51,6 @@
- #define POWER_BUDGET	500	/* in mA; use 8 for low-power port testing */
- #define POWER_BUDGET_3	900	/* in mA */
-=20
--#define DUMMY_TIMER_INT_NSECS	125000 /* 1 microframe */
-=20
- static const char	driver_name[] =3D "dummy_hcd";
- static const char	driver_desc[] =3D "USB Host+Gadget Emulator";
-@@ -66,6 +65,31 @@ struct dummy_hcd_module_parameters {
- 	bool is_super_speed;
- 	bool is_high_speed;
- 	unsigned int num;
-+	unsigned int tick_us;
-+};
-+
-+/*
-+ * Length in microseconds of an emulated microframe.  The default (125,
-+ * one high-speed microframe) preserves the historical timer rate; larger
-+ * values slow the emulated controller down and reduce its interrupt-rate
-+ * pressure on the host platform.  Values below 125 are rejected.
-+ */
-+static int tick_us_set(const char *val,
-+		const struct kernel_param *kp)
-+{
-+	unsigned int v;
-+	int ret =3D kstrtouint(val, 0, &v);
-+
-+	if (ret < 0 || v < 125) {
-+		pr_err("dummy_hcd: tick_us must be >=3D 125\n");
-+		return -EINVAL;
-+	}
-+	return param_set_uint(val, kp);
-+}
-+
-+static const struct kernel_param_ops tick_us_ops =3D {
-+	.set =3D tick_us_set,
-+	.get =3D param_get_uint,
- };
-=20
- static struct dummy_hcd_module_parameters mod_data =3D {
-@@ -79,6 +103,9 @@ module_param_named(is_high_speed, mod_data.is_high_speed, =
-bool, S_IRUGO);
- MODULE_PARM_DESC(is_high_speed, "true to simulate HighSpeed connection");
- module_param_named(num, mod_data.num, uint, S_IRUGO);
- MODULE_PARM_DESC(num, "number of emulated controllers");
-+module_param_cb(tick_us, &tick_us_ops, &mod_data.tick_us, 0444);
-+MODULE_PARM_DESC(tick_us,
-+		"Length in microseconds of an emulated microframe (default 125 for high/su=
-per-speed emulation, 1000 for full-speed); larger values reduce the interrupt=
--rate pressure on the host platform");
- /*-------------------------------------------------------------------------*/
-=20
- /* gadget side driver data structures */
-@@ -244,6 +271,7 @@ struct dummy_hcd {
- 	struct dummy			*dum;
- 	enum dummy_rh_state		rh_state;
- 	struct hrtimer			timer;
-+	ktime_t				timer_interval;	/* emulated microframe length */
- 	u32				port_status;
- 	u32				old_status;
- 	unsigned long			re_timeout;
-@@ -1329,7 +1357,7 @@ static int dummy_urb_enqueue(
- 	/* kick the scheduler, it'll do the rest */
- 	if (!dum_hcd->timer_pending) {
- 		dum_hcd->timer_pending =3D 1;
--		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-+		hrtimer_start(&dum_hcd->timer, dum_hcd->timer_interval,
- 				HRTIMER_MODE_REL_SOFT);
- 	}
-=20
-@@ -2029,7 +2057,7 @@ return_urb:
- 			dum_hcd->rh_state =3D=3D DUMMY_RH_RUNNING) {
- 		/* want a 1 msec delay here */
- 		dum_hcd->timer_pending =3D 1;
--		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-+		hrtimer_start(&dum_hcd->timer, dum_hcd->timer_interval,
- 				HRTIMER_MODE_REL_SOFT);
- 	}
-=20
-@@ -2509,6 +2537,7 @@ static DEVICE_ATTR_RO(urbs);
- static int dummy_start_ss(struct dummy_hcd *dum_hcd)
- {
- 	hrtimer_setup(&dum_hcd->timer, dummy_timer, CLOCK_MONOTONIC, HRTIMER_MODE_R=
-EL_SOFT);
-+	dum_hcd->timer_interval =3D ns_to_ktime((u64)mod_data.tick_us * NSEC_PER_US=
-EC);
- 	dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
- 	dum_hcd->stream_en_ep =3D 0;
- 	INIT_LIST_HEAD(&dum_hcd->urbp_list);
-@@ -2538,6 +2567,7 @@ static int dummy_start(struct usb_hcd *hcd)
-=20
- 	spin_lock_init(&dum_hcd->dum->lock);
- 	hrtimer_setup(&dum_hcd->timer, dummy_timer, CLOCK_MONOTONIC, HRTIMER_MODE_R=
-EL_SOFT);
-+	dum_hcd->timer_interval =3D ns_to_ktime((u64)mod_data.tick_us * NSEC_PER_US=
-EC);
- 	dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
-=20
- 	INIT_LIST_HEAD(&dum_hcd->urbp_list);
-@@ -2828,6 +2858,17 @@ static int __init dummy_hcd_init(void)
- 		return -EINVAL;
- 	}
-=20
-+	/*
-+	 * The emulated microframe length defaults to one high-speed
-+	 * microframe (125 us).  When neither is_high_speed nor
-+	 * is_super_speed is set the emulation is full-speed, where the
-+	 * natural scheduling unit is the 1-ms frame, so default to
-+	 * 1000 us instead.
-+	 */
-+	if (!mod_data.tick_us)
-+		mod_data.tick_us =3D (mod_data.is_super_speed ||
-+				    mod_data.is_high_speed) ? 125 : 1000;
-+
- 	for (i =3D 0; i < mod_data.num; i++) {
- 		the_hcd_pdev[i] =3D platform_device_alloc(driver_name, i);
- 		if (!the_hcd_pdev[i]) {
---=20
-2.43.0
+Best regards,
+George
 
 
