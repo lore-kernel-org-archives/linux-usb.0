@@ -1,121 +1,123 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306887E105;
-	Tue, 25 Aug 2026 09:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFC33F328F
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 10:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787651277; cv=none; b=IjayPoFG41PRP7p95CaOT2XmvVhBIyeZ6RC58toMpDZoEMDRUehTivhZiJrygHiPEmOVFlCzKxxvx/I+MEXxpnZloSjK/SdFGmH3cw6adHk8J8VQ8sCvbR+bFcWvU/qzV4RJqjBvvQZe3r8vluVmzIKCLN3ziKmnDV7M6+xrB7E=
+	t=1787652398; cv=none; b=lhbWrpC7MWkMRYJwEkGCWa666kSpNsudGsu0+kxcsgqlF0rOhyE22NKi8igSotE8JU/tugsyegpWPNQGa/ugq67kU399xCLEBy5bLPhye919+HlRBCh2jKwNGV5EeYaud89khOzgMtuT8NETnUaMam1ihnninU8hPtMUKpD/E3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787651277; c=relaxed/simple;
-	bh=g0J/1MS8UMzUAxeUaFyl1gUC0Pk1ruRRb6ovv6hPxQU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FEE5T/nrpkzfH8BY3U7G/jT7igmr6NdMieJqI+uD6tidriKY0MSg0rm3Ds78o5Zr9mNU6EqHNsHrKHmsbS9tYupFEoemRB2w3t8pI8+70rJHlM2PH/KVbUpYdEoUdxhyQNfuWuwNf5L2X3/hnHVP2GGmUg9sagtBTZJZpdb+PLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=FJ86VyC1; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1787652398; c=relaxed/simple;
+	bh=+O4TG5OTvpzqzT/cUA9OzfVxWnNFyW0F+ybzoMguOEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iITj7iOzNpgzPjL9FgSYSLqv/pXUjYNqP0rK64/0hYgXAiiewIZYRYV2Sl1GDF9CMQ6JxHbqd9RcCQLRWd72CbPNArz3nwbdcxR8Pz7QLJTzuW7FzNitDaIXYDMY7mQFOlZczoviXi/mwpPlpkPsM/ooA70Nvm5ONtCQH/cQe7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBbBem1f; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="FJ86VyC1"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 441FE11C187;
-	Tue, 25 Aug 2026 11:47:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787651270;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=5JNIKTk99mqX00p9EnKMWbWpSfVVLgeAoJqGdZVoMMw=;
-	b=FJ86VyC1TPOUb77sWpRnoea6tlZBvYmblAYhnllz8Flz1PEpParjwdM16bQAIXKkT7GAkE
-	XXDix7PGuR/qBJhFMIhY6COUahTYhjlA/q9ZvV8S+c/RmKCynKgaRqn1S3gics8Bk1o2nP
-	vcD6YyZxSLj7lQM3AIK7kxQF5UkGtCo/I3tiT/uye7RMic5eWiGzwFjPAmbsPP0G3CvwJg
-	WivJduJcOmrUVPQS9ErUNzPJzedQmhf4RQIgVsD/PI8R0I3+pAXYwosQ1IFYksCVc7RN01
-	J83hjGHVA3k+nX6YqbtmsCFB7qhuuEczTZTg+3E7yaA1Fivmi8/BqJOQoWr9qw==
-Message-ID: <ad353c4d-c6c8-4ff1-993f-e50b156a4401@nabladev.com>
-Date: Mon, 24 Aug 2026 16:53:23 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBbBem1f"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ce87c7e3bbso50121905ad.1
+        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 03:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787652396; x=1788257196; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lV6nQecXjHtcQsqEmzr+clL9T3RLWY/CJqTB6zRiV+8=;
+        b=YBbBem1foyHKgWaNkHrx20djA9aNCGAImRlkSbjvAEKSQdYYry0Yui9/7pkPFexshv
+         GbOAS2ShY1wyolYXSjYMivQiM5m6ZNRKw9VrzNTNGnDExYjWU4tm3yDTG6Dh7ABibuey
+         n+6wh7RJGmkhO1vogtS0+LkrHfNJV2EwQZh5EoCpnv0+TStwutW6X19CpjmyPVlVQQv8
+         o2apgt0PGGpWC9OjQejG5NIXJ85Fo1yAqaLXuA7A6CPZl0PLiQki1DEu1FjnHzmwBJKD
+         JvPuKe18PAZkpMhJ6T/SRGRhEkgJz4brfM92Lj/1etCfwMujALIpyeL8uAoHU2yRcoVt
+         R+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787652396; x=1788257196;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lV6nQecXjHtcQsqEmzr+clL9T3RLWY/CJqTB6zRiV+8=;
+        b=oQWi7UOa9HLdl06qU/izCS0753bfn7p0Wwe/HJtRhQFyxIgpTtr+VeQK4sQwPkIxeF
+         aUZcHD/iZTTaznUKzwscsRBtdY4kYfGfZKdvP0iN0V1TDQjd3AYLa7EK9xO9EXEu2JNF
+         RroXjAW7a0U+f7Oy37kPEZz2fkyzU3qH7BA6YHytgHnsmJexjDC+nSSDNqqh7XkoyvHr
+         HvzrccHpXoKtQoFVAvkiRtmp6ujxUGrkxeKtVuI/L2UuNLwHQtNqI+8fWeTaqBaaruyd
+         vwNDjb7Yen7wx9G6LxSytAAdJIObkAI8mYWn+2Fzgm2Aa5kURoeUKdLI3xyOY07x4F2H
+         fBcQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp25o7FcOLn23JJU+gDhbP6ukPi6ZVvxZhzaieZ1r1LpUL1HXLiop3ZeSr2+csiRpHwIKcX9vYwCP4=@vger.kernel.org
+X-Gm-Message-State: AFuF++lJeNiU2pc3cxK8OlqUlTrZiLtpJEFgz/msqstPtPXhNujq91Wu
+	oAuYJOsIrWMoHCn399Gu3Cz0YoRg2ztjD5OE0cCRRUyx9oEpEMLx0Ub9
+X-Gm-Gg: AR+sD12QKEgDyq4ZmolCn9ZM7dnXcaeathKncsdGWG7n1xIXWvWxeFBKultEWZ3Glk2
+	wTNqcyhtfahZMbYxXGqSi7PRPYg75uhDzCtbylTowZ2THd/LVcTa6qfHyuKxnUCsBrlTbvx8X43
+	/2rgXHpj9L9xN4jpgDVmVvEj7F65cVw7bRrtwbcxWPrDFfdVLnX0oyIJwlVg9rgcCiRHBF+e8RU
+	n/6nYHYPj9QVikFDjMRyifsqHrqoKh6xKFxrmJ33AdEfjwbG0frUBrBgdT0nxxom7K/BuUvA1q3
+	Cy8+4sx8WDW+CC8cavW0ZvuvmBxR9KiXKt01mvAOt40Zb/pmRfsr9v7dZaPTtFlyWwJ2RDNHf9U
+	5fZJBnu1zIjHNo69iRuGTYXbyGG7YnGIy6L3roEqGJzsxBtY0eQS8urHT/1LrRQvtT3v6wZHU3v
+	h8FapkHXMZeK6yozVp0fvAxSdGkLGKKh4Gqb0UuKWeFEJ8rfxsd+ndNDwquaiBqXfdItS4KyoGv
+	cST3aVTTzTV1cdd8063z7D56BquizKe
+X-Received: by 2002:a17:902:e785:b0:2ca:6eca:492f with SMTP id d9443c01a7336-2d64b0e2c7fmr671003895ad.14.1787652395985;
+        Tue, 25 Aug 2026 03:06:35 -0700 (PDT)
+Received: from localhost ([2409:40c4:101c:e5a9:a28f:e499:1b07:43b3])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f8e2a730sm37287178eec.0.2026.08.25.03.06.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 03:06:35 -0700 (PDT)
+Date: Tue, 25 Aug 2026 15:36:32 +0530
+From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+To: Mathieu Fluhr <mathieu.fluhr@gmail.com>
+Cc: Michal Pecio <michal.pecio@gmail.com>, 
+	Thorsten Leemhuis <regressions@leemhuis.info>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
+	linux-usb@vger.kernel.org, regressions@lists.linux.dev, stable@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+	Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
+Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
+ triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
+ (bisected to aec11e5f9c45)
+Message-ID: <ao1ovvdPAy6n_F7I@eggarch>
+References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
+ <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
+ <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
+ <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
+ <aosGtkE_diwVJJtB@eggarch>
+ <20260823174059.46fec036.michal.pecio@gmail.com>
+ <aoser8dLytrwqBC2@eggarch>
+ <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] phy: stm32: Add support for ST STM32MP25
- USB2-FEMTO PHY
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-usb@vger.kernel.org
-Cc: Pankaj Dev <pankaj.dev@st.com>, Rahul Kumar <rahul.kumar05@st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260822074816.548662-1-marex@nabladev.com>
- <20260822074816.548662-3-marex@nabladev.com>
- <b470667d-6a15-4eb1-9332-07f25f069b3f@foss.st.com>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <b470667d-6a15-4eb1-9332-07f25f069b3f@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
 
-On 8/24/26 3:17 PM, Fabrice Gasnier wrote:
-
-[...]
-
-Hello Fabrice,
-
->> +static int stm32_usb2phy1_init(struct phy *phy)
+On Mon, Aug 24, 2026 at 09:37:55PM +0200, Mathieu Fluhr wrote:
+> Yes. As mentioned, I first thought that the emulator itself triggered that by
+> doing something that the CPU did not like.To be honest, I barely play with old
+> Android versions anymore, but seeing that I could reproduce it even with
+> Android 13 or 14 made me suspicious.
 > 
-> Hello Marek,
+> I _guess_ Google implemented a workaround inside adb for version Android
+> 15 since using this version, it remains stable for more than 2 hours.
 > 
-> Could same init routine may be used for both PHYs ?
-> See below comment.
+> But, in the end, the situation is that from a simple user account having access
+> to some usb plugged in devices (I usually add my user account to the plugdev
+> group and use some known udev rules to access my Android tests devices),
+> you have a way to crash the complete system.
 > 
->> +{
->> +	struct stm32_usb2phy *phy_dev = phy_get_drvdata(phy);
->> +	int ret;
->> +
->> +	ret = stm32_usb2phy_enable(phy_dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	phy_dev->is_init = true;
->> +
->> +	return 0;
->> +}
->> +
->> +static int stm32_usb2phy2_init(struct phy *phy)
->> +{
->> +	struct stm32_usb2phy *phy_dev = phy_get_drvdata(phy);
->> +	int ret;
->> +
->> +	ret = stm32_usb2phy_enable(phy_dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	if (phy_dev->mode != PHY_MODE_INVALID) {
+> > Opinions seem to vary on whether CPU load must be present or absent.
 > 
-> The only difference is here. On the PHY#1 the mode should never change
-> e.g. mode == PHY_MODE_INVALID. So same routine may be used for both PHYs ?
+> On my side (and I am here only speaking about my TR. I don't know about
+> other Ryzen CPUs), I can't reproduce it under load, and one condition to
+> reproduce it is my CPU going in C2 state.
+> -> I did a 2:30 hour test using several youtube videos playing at the same
+> time on my desktop, also stressing the emulator with some 3D Mark runs
+> (as mentioned, I first suspected the nvidia driver to be faulty). As long as my
+> computer was busy everything went fine. But then I let it stand still for a few
+> minutes, and it just crashed.
+> 
+> If you need me to do some further tests or experiments, let me know. I will
+> be more than happy to play the guinea pig here.
+Was this result after applying the small patch I sent above?
 
-Since there are separate ops for each PHY, I opted for avoiding this 
-conditional on a PHY where the conditional makes no sense, hence the two 
-separate init functions.
-
->> +		ret = stm32_usb2phy_set_mode(phy, phy_dev->mode, USB_ROLE_NONE);
->> +		if (ret) {
->> +			stm32_usb2phy_disable(phy_dev);
->> +			return ret;
->> +		}
->> +	}
->> +
->> +	phy_dev->is_init = true;
->> +
->> +	return 0;
->> +}
-[...]
+Regards,
+Lovekesh
