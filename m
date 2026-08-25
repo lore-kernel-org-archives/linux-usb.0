@@ -1,87 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614073C09F9
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 19:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117FA3403F4
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 19:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787684902; cv=none; b=B00+zUKsOr2zAXqcRIRJHnWBTzAkInreGtpFN8B10m6gBpmb2XEGfsLGpbXv6RFfuNyxahaqVUP3fEKQMgOzGkQAVDW27z2SefwqxSQt1RDdHJcB8Ye8/w92FhbXJ9n1XUEeLCIStVBWLa5sV31/blCHnR+3Je7At9pYvmj4Kb4=
+	t=1787684954; cv=none; b=nnP9rH+nSZfGedwJYmEHk0QmlET3PW9VuZeqI82D2o/uxj+CDQI+xPvzD5CsN3AXt2PW6rJ+aIhRjViLC2TMQI6B2nzKm/+7VWdVhFVaKRBtJUUAGNTeVccNb9hyj5M5uLr4spyVaTyHN7yOaLLEwJtXYx9DpJAlJfteGbrq1Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787684902; c=relaxed/simple;
-	bh=SVIp1/ypegL3NavvfNvnqOgLYfPj8K94lMWHpRsBqDM=;
+	s=arc-20240116; t=1787684954; c=relaxed/simple;
+	bh=54fx7/1MhDCKQgMrG6dJOr+lw4T2NnxLn8gzlzkgMq4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aYy1PqsTbFu+xvM3Dk5c6+I1x8DIGfYzTZzmSD8PC/NaiBuAa0CQijhq51lIYzCV+TOK1MggiIA4Yb/hQjXw+7mExa0tN4CQtYgN8gOdo6jURLRR6k8sVHWc7jNeb4gTkyzk0P3irgEb9Q/+YtdoOqUSiAxxBtnVJsHqTV0njPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dfnL5Evg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZArpJHQQ; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=dHgPNDuH2V4PbKvy/Ad2ml4CPvhQwA7VICnAoBe2z0UmIv3ipRjtyCiLAzeFpnq+n9jBUjdA0/Q9TmDCpIdXAvxYLjxXQ4EKZclY6bIUWKEm1pbidb5z8WaL6caRdhIiHSqLBkf9IpVtyWiDD/etm3qbre9UrynyI8p2gzWFYX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=el4jWjve; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=A6LjY5ZQ; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dfnL5Evg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZArpJHQQ"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67PHdGAT1572710
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 19:08:20 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="el4jWjve";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="A6LjY5ZQ"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67PHdNl13222202
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 19:09:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1+VZQz1EO95LVa82uLNBtP4B0GN+MmEpuJbHIDvbjX8=; b=dfnL5EvgWT2qv0+0
-	ntW3UQ7JqG5kOQXYGz+0IXUdJ0QlyUWHxYkv9ZWNLF/xCuci+6X8Rp7Q4tpZkWEY
-	vYSexF366dt2sa/x1Y8WP+Jw9o4XuHPMJdAp2cDRWdNGZDahy70r5GfF1uWFgRp1
-	KRJBpWQVRqVkdg0qrrxx0VFXv05gHd5Vh4RCuZ8YoQ6yxy80hBFNJEpEu8U4+uL7
-	z1+KIIA/EdpyGhuyu0frHQF0Oib8m6FgKSsCQNJaLNjv42I+zBL6t6imY9Db78d2
-	8d+n5VeRfWZppCcwvyaXtw+vNFo2cH7blEHBMd9MqBw3raP0Tkyx0RXeksgNm/wU
-	uu09gA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9fgr8ccy-1
+	QhQeQs6iukOPc54XzBtdmkp7GWu3IZZHouTapaF13WM=; b=el4jWjve8Wz0IOGo
+	i42UC51PHw5jIQtWHHdRgRx4muDCOFCueVj+Zp9SdVpC5hzcSwOYBH0d91JS8VSD
+	2P7WxkFIoNeqtvxhp/DiHnW7KMhN1IY6vAZDl+aj16qUGT60qxa4vNXIffRw95V6
+	Z74lhF998N8Oz+MM2wmul2xsVwkCqpo39W+4zatnh/nrDDq2i6LnyzuFvObfHF5v
+	Gs1+fSV9UC4c9Q6yoSCKfaVigoqYaT8By+OaD/LSgnx9nCm/uxNHaUxHor5o/H1F
+	k1ibOpo7tEuUGPCz2umFgWYtUxp2Bk0jPi3H6+NeGMAmoFfETGoXXaGQp15tVD3K
+	mM1oUA==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9fgxgcpc-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 19:08:20 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d6ae2a942dso3329265ad.3
-        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 12:08:20 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 19:09:12 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc1a439db36so86608a12.2
+        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 12:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787684895; x=1788289695; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1787684951; x=1788289751; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1+VZQz1EO95LVa82uLNBtP4B0GN+MmEpuJbHIDvbjX8=;
-        b=ZArpJHQQ51qQ85Sr0ONAFf6K8ON2Z/2wpMJay4DsQAXnr38qVSZorZ2btROZVbZPFi
-         GS4mLYpMOm85ulWKieGhlJcZf+Vp+R/aiGpwxlFawShKvSPv+FBck74XkSLlsO+icj9I
-         mwXVjBmQQ3Fek7202rZVF+Zel3OMueC9D4GIcV2TI6+5PAPu23CIcHESRvqOIlm7PmPf
-         nc0Zw0zEHROFGf1HLoJi458EOdGCU8hs4KDLTSp4G4n8FrKuY84ch0+KpwCtJCdh6XUI
-         kSDQKZXObub19lcnhpbDoVWRrAgdT2Z8ESKgEPktjONhuebuXD4erdFxLiT0826MDWHs
-         Wwkg==
+        bh=QhQeQs6iukOPc54XzBtdmkp7GWu3IZZHouTapaF13WM=;
+        b=A6LjY5ZQEOaA3chaQ+SP2fRZ7LsVlPqvs9cqEfp2WbEyvB8GhN5J6ssCtVtLBUC6EQ
+         Fg+mQErK8WMD5QXDdIvO7n6WLPNJaoSIbsieR5HeeL2t1AfPfniilzY5hzjA165XPYFn
+         T1PNFl0FbAjeaw7Odt6bClcTDxMMnMh+jJpXOAnLT10nqDhE7qTXPDxf/b8zlNxJ3cBv
+         5rwOzNT15YIYtJGy2oLA5pAOlJkzsyTeYxotD5HCuq5Tt3C6ZC1LLnrYpdwIr09bFNHQ
+         7/9IgMg/4Cu4SZWlJrDzsrb7wjp/FdfRukFa0GsOYIEBLxGPkbiDCB2OfZBzF5O1dmZs
+         Lh4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787684895; x=1788289695;
+        d=1e100.net; s=20251104; t=1787684951; x=1788289751;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1+VZQz1EO95LVa82uLNBtP4B0GN+MmEpuJbHIDvbjX8=;
-        b=L6QV8Ka7QdHEL137wT7CXHLQzfSA8TAjCAzUmxpYuo6ZCXOY9E/8wSk1HrCUTA+/xf
-         hOi5OoE1yrixN9FO4vscih9fYW335r2y8bhpmfauVK7YMVxZKWXqQZLWsZfMXeANA/pJ
-         gUE4OUf9578mLAxWYCJjsELVwzeXctE4gVvs3J28m2TJmPiCDpRvuMtkm6KTeDXG1xpH
-         NSlmLYeeBtSzgMuALd2715zsnOHQM0a60P1cnDYWIkL2YvYl6cBnE5T7LXwcB2kWzYwn
-         YOlxwjz4q0heFLImgoouBlmzh3d+2qpnnfn7nj9tWreTR0/an9hRCOphOnZQ1HfjV6zE
-         Q3WQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rocf7HosI52Nv+tOcRx6Ixx3hzglJqvdcTejcqU6Cea9J98K+wLzdz0n9WHyA57f09AxT0LcUAMgf0=@vger.kernel.org
-X-Gm-Message-State: AFuF++lV5p8zroD5MklGz9bfcUePaapluk2h+QgqaSV2G1o1ycwlh0P5
-	JjhLY8HHVywqFbhtKuD/qBS041ljegQbsgwXtWUHlEFaYs57HCWTAi/4oXcyoYw/cRc6rnepFHe
-	x2TQ8bDASbJ2gr7DAkOUWGpxusRX5Sfn/vLZAVsHDZ8Oxk/bnhyBiZ6dbCmytOtQ=
-X-Gm-Gg: AR+sD11J/98AuJvYphyAKNqPiBVpQ6l5iuAzwJVkEhQyOhglqSYFMLP90wrAzD4o35l
-	5S2DNtDtr+y3VXACK5jwTpEr1ZneoJ1C4EWnc8fUXxyGfhSEvKHu756i8uDN1Z7Er80X8rpQC8+
-	DVmuAIU24JWx7v5xvhww46K0sw9Rsx4yirTdGZH2O51qzxGjxqzss4UGUU0w5I16wKZszo57BR0
-	sfnVwzl/tTg2SFvh0k3AP1uceV4hQfi3+xoRuQdP/AjaaQtLEI7WYt/zS5cujPoIh0tWm1A9Cx/
-	78UqtmvgRfKymGymHB+yiNOBQjy0MhxcpRE0HE58/k6szJmbmq1Qa9mH8qMou3lxVHXcxGvpXAa
-	iIUpYVwQyeoahd7dxqacxcB4wS4j/TT9OQRtKIUEOJ0NdBeM=
-X-Received: by 2002:a17:903:40c6:b0:2c9:b396:1a55 with SMTP id d9443c01a7336-2d707b9ad9amr6997645ad.12.1787684893854;
-        Tue, 25 Aug 2026 12:08:13 -0700 (PDT)
-X-Received: by 2002:a17:903:40c6:b0:2c9:b396:1a55 with SMTP id d9443c01a7336-2d707b9ad9amr6994405ad.12.1787684892301;
-        Tue, 25 Aug 2026 12:08:12 -0700 (PDT)
+        bh=QhQeQs6iukOPc54XzBtdmkp7GWu3IZZHouTapaF13WM=;
+        b=QWjQN4ysnUi0kOwho0zMdMEXB841QnMds9bbo+SmrrucxwRnXcHtxl77nBifB4xyv8
+         aIH69nuWPOkPvcF886GdnfYOwsnmKS0T1Ecdd9fBwx4Cl6AoW0hxgTupS377GLQOsm9h
+         Aiv4nKFWIAoXwiGQ52fGra6jirQm3QEEtRZIJe9ve6pdGQ+57WMODpJ53hCfhF5/NWa3
+         TSd/kmUqSJoS3rqwuUksndiHuu3n2kJ3TrrpilcsBN4TB5u1VljnGKHuUu455Ll3RKwu
+         bcBfofLU6FGE39hOgfzSmWoXzpKz83AD+ySZ+D9JCQWPBxs2D3TTeRvMfriP/+BlkboQ
+         wYnA==
+X-Forwarded-Encrypted: i=1; AHgh+RoTnVqBlgupb+fR5zEAsCUnf+RPwoh0Q/V3ut31/QUT1zorRaJJnXZFR/AF9oadQ+vZf6urJRvT3tw=@vger.kernel.org
+X-Gm-Message-State: AFuF++kIORZXeNTWb17il7wZedLCYIF5E8/6N/sQM5XUz/3B2KmRT/qN
+	HFTA+gctWg3wCXKRqiSVDcSUAZb+mt4NYdYyuKbGOFemDxUMMan8wbjNcvKEmDX0uXAKoCIPmjr
+	QBKzocjE1hslTKB7p7namDIv51APJ4Rm2svk9CkjtaTnChLJrhnGWLSgt/V1U5OU=
+X-Gm-Gg: AR+sD129J29JcAy1M7Bxnf+UI2iuMzekhOY9tQnOXLzUrqq2T2K/IT15lUnHu+OiBwy
+	FARXAeJXuYpANNySjHKTK5ihjLbVGYNL+dpzZPk8KY8cZDEzm795mDID4qSbgSJyjt6WIZhyMkO
+	o8F2lHejopj3e0+o1lUdmZ3tghWlB/C1tbW+pdSlD1gViuXYy2pwRKRlyJJZQaKa3kROFfwlFSn
+	dqXBmJ6RUBr0BU4bJxHc9tJK9Ve0i4vg81NhlXkuVdKOMHx4HIh585/fKZyo+7U2HhF1U4rq+vl
+	bE0EVUdR9C6XtqimFQJQrTE34eDV4NyWhecyftDYSiENKKj5ElpbbmJ9NXCJN1t0aPB8dQsETbH
+	HO14aQ84qOQWg8xsNXQgqizyVC7fdwWPt1J7wyFDgHTkYuLE=
+X-Received: by 2002:a05:6a20:20c3:b0:3cd:20e4:2aad with SMTP id adf61e73a8af0-3cf7596a64fmr1339903637.4.1787684951525;
+        Tue, 25 Aug 2026 12:09:11 -0700 (PDT)
+X-Received: by 2002:a05:6a20:20c3:b0:3cd:20e4:2aad with SMTP id adf61e73a8af0-3cf7596a64fmr1339796637.4.1787684951025;
+        Tue, 25 Aug 2026 12:09:11 -0700 (PDT)
 Received: from [10.73.194.28] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283d7303a2sm1029362eec.10.2026.08.25.12.08.11
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283d730c57sm1091912eec.12.2026.08.25.12.09.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 12:08:11 -0700 (PDT)
-Message-ID: <25ebe180-a620-4170-92f7-fda6c55a4129@oss.qualcomm.com>
-Date: Tue, 25 Aug 2026 12:08:10 -0700
+        Tue, 25 Aug 2026 12:09:10 -0700 (PDT)
+Message-ID: <cba2704c-b3c9-4f61-8852-9799a1a8b7d0@oss.qualcomm.com>
+Date: Tue, 25 Aug 2026 12:09:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -91,99 +91,143 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
  path
-To: Michal Pecio <michal.pecio@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
 Cc: Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sound@vger.kernel.org
 References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
- <20260825094327.606072e9.michal.pecio@gmail.com>
+ <87o6eqsbgu.wl-tiwai@suse.de>
 Content-Language: en-US
 From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-In-Reply-To: <20260825094327.606072e9.michal.pecio@gmail.com>
+In-Reply-To: <87o6eqsbgu.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: QsI2bhJItP7a1X6_ZA60pyQczI-LmkWN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDE2MyBTYWx0ZWRfX1pmsRjqUT6bR
- GzDqCbn9ph75p68Ul9eJoc9G4XYI3fwOZRK+Xw3jeeP4Apv3HP1SHlJxyHp1SLxhMUSBPiq26iC
- /b7DGiDaGcjPCIIVONK0dBqX7D0IsLodugneOoMd8Mz+nlPVXBk2VydWDCHlATsWaPI3spOK7Ja
- vcCl6bbELl2DvRvVVK3CgmQWHNvAzL6ve71lml4bNyZtGJDew6BinyHUnSZGXH0fWOAvx7eEk93
- FI7keNzLPg1mrp8FQDg+qayGnanaKM7O+7+3Tp5wxMaARu/7WXwqTPe76jgigYH7ME5+zojrtSk
- hbW6LJU0XBYakPgkpTJZGZK0Adzr51ZAq7JSe72L6GoCKgqBazK0jiw6mmj28Vg6aJqgph0xRGw
- c8mOlgr5MJe+xJzBaWjC3gtsAiVx/lEVoojLZzQaZcT7DS9yneZUHMEUDCkzFJKCYxMigc5MsZD
- BXJISpA2wUN/zqPt+yw==
-X-Authority-Analysis: v=2.4 cv=d8LFDxjE c=1 sm=1 tr=0 ts=6a8de824 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=MqZiLWae c=1 sm=1 tr=0 ts=6a8de858 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
  a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=0ebt7_R2-KkC6wfP1x8A:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-ORIG-GUID: QsI2bhJItP7a1X6_ZA60pyQczI-LmkWN
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDE2MyBTYWx0ZWRfX0rMx9kc74gEn
- zKCIjCYoKiIxpzlE1vmIhOtCRx4xIia6mBeihUEOSvBi/egd54BLO8Ne9AfhraRrFQczNXgH2L1
- yMWlfmK3IYbJ0mamwFmoJmI5J5rNYSs=
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=5kBUKlsEpMLtOZ44VFUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-ORIG-GUID: LfldNyty_DqW9V7qnfvnPJLu8dXpMB_Z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDE2MyBTYWx0ZWRfX1UgVq9IH0KJo
+ RlOVpnoz5RHx7JUifIgA2IY08NHJ0To825JzsDo1yCpfstUTS8kJutvSp4Nj/3Gl7MQ8Jye8TcK
+ gdU29zmtJq6CnEmHn+3VzqZlhhtQqSz9RSNuS0fgd3miMgrRUxhrGxetnkxrPnBJrGgIhO6/eEQ
+ Xmx6U2CwGKLZgI90aHVHJvDoIrmjKef2rRPfOsiZGbw2pKjiaupOocXs2llsukfBi8drfRxqPvT
+ WDTLOOzR3cmLibOEJTNmvPjbpR6xFy2GaTqgrOdd/FMScS5LcytX9HspPbiSnDJVhjDuNmSw/Cz
+ 4rRqNH54ggrxE27SyudSc9MyXWMupJQ6GrYjy5FQgmsKA0CL06kr+U+qbRDMhJ/I1BH5N/drkJN
+ X0wLpDZsQNQeeXY4MFmCqaOBTup/Xem/otnE46Rnyk9ohneCY2AObr45/daZHDWIDVDFkrcn+Gj
+ Nk3iQ5Z/jN+Kng2lFNw==
+X-Proofpoint-GUID: LfldNyty_DqW9V7qnfvnPJLu8dXpMB_Z
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDE2MyBTYWx0ZWRfX77I8Ssxmhe+U
+ hnuxITB9vEoM5B4UTB2klVDBa/G0Y2v120YPTUom/OvcnIxxdZJ8+Aid+2oVPeMVk5hS2t8iuIm
+ AeK0CGHh49R0R/n5PPY/geJaLDg7NHU=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-25_05,2026-08-24_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 adultscore=0 spamscore=0 clxscore=1015
+ spamscore=0 impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608250163
 
 
 
-On 8/25/2026 12:43 AM, Michal Pecio wrote:
-> Hi,
-> 
-> On Mon, 24 Aug 2026 19:06:54 -0700, Wesley Cheng wrote:
+On 8/25/2026 4:09 AM, Takashi Iwai wrote:
+> On Tue, 25 Aug 2026 04:06:54 +0200,
+> Wesley Cheng wrote:
+>>
 >> On some environments, 16kB pages can be enabled from the Linux subsystem,
 >> which manages the IOMMU mappings for the audio DSP within the system.  In
 >> the current design, the following assumptions break when 16k pages are
 >> utilized:
 >>    1. xHCI ring size is equal to PAGE_SIZE
 >>    2. Ring addresses start at the beginning of a page
-> 
-> FYI it's worse than you think - xhci_ring_to_sgtable() returns wrong
-> data and uses some allocation out of bounds on these systems. Quickly
-> scanning through the patch I haven't noticed any changes there.
-> 
-
-Hi Michal,
-
-Thanks for the review.
-
-I had a tidbit that I tested that addressed an OOB condition, but as it 
-currently stands, that API should be working properly, if TRB segment size 
-== page size.  Hence, why I left it out as a change.
-
-The OOB condition I saw was that when 16k pages were used (w/o this 
-series), since specified rings can exist at a page offset, that offset 
-information is never populated, so we might be mapping the incorrect range.
-
-Regardless, I'll introduce that change in the next revision, since that's 
-information that shouldn't be left out.
-
+>>
 >> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
 >> set with a 16k granular, which is a problem, as several xHCI rings could
 >> exist on the same page.  This is because the rings are currently allocated
 >> from the segment_pool.  Hence, potentially mapping non USB audio related
 >> rings into the region accessible by the audio DSP.
+>>
+>> To mitigate this, this series introduces the alignment_req parameter.
+>> Before the USB audio offload path is enabled, the USB audio data
+>> streams/endpoint are not active.  Only when the class driver issues a
+>> usb_set_interface() call (done from snd_usb_endpoint_prepare()), will the
+>> xHCI allocate the transfer ring resources.  By setting the alignment_req
+>> beforehand, when allocating the ring segment, it can fulfill the audio DSP
+>> alignment requirements by allocating DMA-able memory on the fly (based on
+>> what is being requested) versus fetching it from the segment pool.
+>> Likewise, keep track of if memory was dynamically allocated to handle the
+>> free path properly.  The function call flow will now look like the
+>> following:
+>>
+>> handle_uaudio_stream_req()
+>>    │
+>>    ▼
+>> enable_audio_stream(subs, ..., pcm_card_num)
+>>    │
+>>    ├─ xhci_sideband_add_endpoint(sb, data_ep, PAGE_SIZE)
+>>    │    │  alignment_req == PAGE_SIZE
+>>    │    ▼
+>>    │  sb->alignment_req = alignment_req
+>>    │
+>>    ├─ snd_usb_endpoint_prepare(chip, data_endpoint)
+>>    │     → xhci_check_bandwidth() → xhci_endpoint_init())
+>>    │    ▼
+>>    xhci_endpoint_init(..., ep_index, ...)
+>>    │    if (sideband && sideband->alignment_req)
+>>    │        new_ring = xhci_ring_alloc(xhci, 2, ring_type, max_packet,
+>>    │                                    sideband->alignment_req, mem_flags)
+>>    │    ▼
+>>    xhci_ring_alloc(..., alignment_req, ...)
+>>    │    ring->alignment_req = alignment_req
+>>    │    ▼
+>>    xhci_alloc_segments_for_ring(xhci, ring, flags)
+>>    │    xhci_segment_alloc(xhci, ..., ring->alignment_req, flags)
+>>    │    ▼
+>>    xhci_segment_alloc(..., alignment_req, flags)
+>>         if (alignment_req > TRB_SEGMENT_SIZE)
+>>             seg->trbs = dma_alloc_coherent(dev, alignment_req, &dma, flags)
+>>         else
+>>             seg->trbs = dma_pool_zalloc(xhci->segment_pool, ...)
+>>
+>> Similar logic is added for the secondary interrupter path as well.  The USB
+>> offload class driver calls xhci_sideband_create_interrupter(), which will
+>> be responsible for allocating the secondary event ring.  The same
+>> alignment_req parameter is passed, and during xHCI event ring creation, the
+>> same set of APIs are utilized, so the runtime memory allocation is already
+>> handled.
+>>
+>> This was confirmed to work on the SM8350 MTP platform, with the
+>> CONFIG_ARM64_16K_PAGES config enabled, alongside tinyaudio binaries:
+>>
+>> tinymix -D 0 set 513 1  (Enables USB_RX multimedia#1 path)
+>> tinyplay -D 0 -d 0....  (Routes PCM data to ASoC platform sound card)
+>>
+>> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+>> ---
+>> Wesley Cheng (2):
+>>        xhci: sideband: support page-aligned ring segment allocation
+>>        ALSA: usb-audio: qcom: request page-aligned xHCI ring buffers
 > 
-> If that's a security or reliability concern, perhaps each sideband
-> instance should create its own DMA pool, as opposed to allocating every
-> ring segment on a separate page?
+> I guess your first patch alone breaks the build, and this is bad for
+> bisection.  When you change the API, the callers should be addressed
+> in the same commit altogether in order to keep the stuff working
+> during the transition.
 > 
 
-This is an interesting suggestion.  Let me take a look at it more and get 
-back to you.
+Hi Takashi,
+
+Understood, I will figure out how to adjust these patches so that 
+incremental builds don't break on the next revision.
 
 Thanks
 Wesley Cheng
 
-> I suppose each 'xhci_ring' could keep a pointer to its segment pool and
-> things would work for everyone, with very few changes.
 > 
-> Regards,
-> Michal
+> thanks,
+> 
+> Takashi
 
