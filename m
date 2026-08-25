@@ -1,94 +1,66 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022086.outbound.protection.outlook.com [52.101.101.86])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012012.outbound.protection.outlook.com [40.107.209.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1335470421;
-	Tue, 25 Aug 2026 13:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22706390613;
+	Tue, 25 Aug 2026 13:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787665032; cv=fail; b=N2BUJzMx5rrBf1CYe4YRrhJpZBzOxRhsMc38f3Ejg+jU33ajoti8jZ3hEjAbl+l4ygyGflFmcwUCbFiYTRGGTuBis8ku3TRYWbniLr0+UeM7BoEYqHOepdbGI0Xol5JlFKebrvJfb9sUsPpL3/R+GSe97uNoV5gfTV8mXx4hGG8=
+	t=1787665930; cv=fail; b=onedylM58wsVFbaXjQTHScHj7OWpY0Y9YewNWo2+5aQWIu7mQGXIe0/I9p/p+Kh172TjjosYTBRY8GfyWooJ7YExCPjSrNY40NoMek7I0SRjXjhuwYeVNJ3z8W2FZUBK1vWDRayzLrQVGcxpm75XrVutkSOuHqa5E8l9e3XZ/Wk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787665032; c=relaxed/simple;
-	bh=Zy+OOeDq3ZYpZkQ98k7kLPeUBp8dalKmgW1we7zpO7Y=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=umBe4VOMsa0VsXh6HV6Wi0HzPH5n8YsylIpxz1LtN6CpLOnaC5R13+FYoUN0vOU3U+beS1qSts3c2xAStlNLrZ/ljpD9PJpIZGn5csCQYX2EjvXSjtfbg0RCEEOUtSZe8Ny+tDTwOWPUs1IyqYw61ihXcLjcP9+rUhuCjtOVCLg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=uz8eUJa+; arc=fail smtp.client-ip=52.101.101.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1787665930; c=relaxed/simple;
+	bh=leiTfwND/Yk0Xa/Bi9qWCFnigCht5vgUp0zNffEpLEI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hZl7x021CiImv+RaEByhCuOWQqlada9Cu7KCAPX8iNQNRGZK8aX6sIpV4Ghj+mh2mCn38ir5YfyP1qF4O8WNV6mpCMIcFBxvzAVeVHSkqgK3y6SD9yZT4K/VkMjC7kRmntAuDCPqGVJexGLK9AevuqEvObvvxOSyEVk8DZRgp2M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sSYdSK2C; arc=fail smtp.client-ip=40.107.209.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="uz8eUJa+"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sSYdSK2C"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=soPK5Hzeh1Ma2hiY3VvNvVd65OXdpJG9p0x9/kryqMmqLV8keCsb6ujUQ8BdHsMlIjPMU/OT0LczFuEOD0i52V6NihZ8OEYsCNKTVTWSQdJEIdzuuRZouuwboyVWNfl4Vp06W/TAZfEuq5C/hjeyr6UtlY05eiQae+hjLwMbyjR/vrUHYthdLLDbinY1/h06c8qIfVeHZBFPPBXu86H/5rg7dlJsYVswPuMZI5EF+r15oX8v0qq8GAK0kVKh7gNiuZdWTLYFGk8u4+S789KB+dU6gfC8BcuWQCi0PovsFQgc794BjLs/N8S72NY6ZxnAghByVGFXkXV32TuRSh8izQ==
+ b=cagbIzceSn9ko1pw5RuuQ/dbJeE+Yo0Z6AMEOKDzfYNI1eaHitQYv2NO0kjNaboPYOKlKRZ+y4uByWBAKXmzi911X6NxQdfkcxidzrh7GRLQmuBJF+nf0UmhvH4fKoW1I5G/AJxsdqZy8OF4QEyuw5b/GAEVbJdTM+3erb1amQtica0GjM4Dltyp5zdYeX124LWhJQid2uDacU4d9a5LU3uo2OZ9hH/lvCJNZ2nBsBfwesmvZXLe5ki6WeuuPzt3ml5si/KPC+zg7v21d19w4wzVVJJaQN04TmKX01PjNdBsNQZRUugXhLihu5TLDskdkIlZuR1/26OReauCNJ9RfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ya9oRL8hQP+2VLtBxg6F1Mzaryv1xrYEgcVxsJjZcJ8=;
- b=Ukpy0hvJt/zFRT7icrDACplAs+vmDny/IoIE09uGM0I/G89/fXluOcirb/IiyDhkUOJzb0+W1spGLB4zt82ircFJZL8rDZ+Egjn6B+QC7Q07o/8ROyxs0QEObWaDMKo1vScA/nthmfic1NhPxSOD1t8YG+ELk7EZQC54fJ9jtmv7dtAdkQ/P3wSFNc+YEMq/f0W0UgoWORw64xL8Ut/ThQKH8yVGPFnR4xF7WUjp06XZHBohfbNxGkctT1vOr3eIGM3DmfYl9q+J61fo/zr6grfo+3mvrFkW7Ox8lJop8mj40ZvV/w5x3nYxrAXG4nRMSXHFGvMCEMdOvLEI2w4iTQ==
+ bh=GVnZYTKYJRbmLPmKQXvuQuLawy2TSr+nD6Qj6rT0Pug=;
+ b=ERKrU2Q9pKfPlkBjciykUliJ6RsTc7oPF/brLQv39nCc/Kh3YSiH/hDYReGSPkerEVYWIagQRMYmxzmJ/p1zKCb201wUxv075sA/yR76xn5L9Fmz8hx6Y6kRgJrs+LX0BhXCHPqY+7+aEiVsCpg5xA/dmGOHbR9JKDADrLiGNTaJDyMAAW3ttrbGf+M6xAO1qoEMnv0MKwEb2kHx6O+vOMnlXOMK+VY64q362jk+bOZy7AsNrrZKA7ujlnxo25LTc/5CRUCPTP8tCYShiwuDyDryIAtYzYl/VEPCLK7Hfe7qnrdvYYLHx5a0iTd58CeeBw327KlmCaGNQ18rApd1WQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ya9oRL8hQP+2VLtBxg6F1Mzaryv1xrYEgcVxsJjZcJ8=;
- b=uz8eUJa+6rfo6qLAawCaUbE6dE3IhmFU1x7osIlmNjCzo+EC9qU1wV2n5ALAwfHLh/+qM/L3seqLbbMM/0SAyFjIvAkJrk8q/XoXLlkK9QXSGN0COVVFP1dc7EnP6NSjFKk2rSRuNOPT8a4S1IEv2ab5kvGbgJxP1iDOJtdubsk=
+ bh=GVnZYTKYJRbmLPmKQXvuQuLawy2TSr+nD6Qj6rT0Pug=;
+ b=sSYdSK2CmshdPrb6MKrsuCLs3F3WI8/g7a89k66TFSOCbMH4Zu05w8BsNWHraWwRnVLAZCU/IdVDOguJWnb9EIdPcBNVhU05CluBULm2ZVa0IUCViHzAaDJa/vKPFlbuOZZNKGHwBCWa0NdNZjqyTUCnhqTkHj7CwtqPuHyhYvA=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWLP265MB2929.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:cb::11) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
+ by IA1PR12MB6459.namprd12.prod.outlook.com (2603:10b6:208:3a9::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Tue, 25 Aug
- 2026 13:37:06 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0360.005; Tue, 25 Aug 2026
- 13:37:06 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 25 Aug 2026 14:37:05 +0100
-Message-Id: <DKY2D3AP6PZG.9RIX8KB3FF7P@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Andreas Hindborg"
- <a.hindborg@kernel.org>
-Cc: "Lorenzo Stoakes" <ljs@kernel.org>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Uladzislau
- Rezki" <urezki@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Tamir Duberstein" <tamird@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Lyude Paul" <lyude@redhat.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?=
- <arve@android.com>, "Todd Kjos" <tkjos@android.com>, "Christian Brauner"
- <brauner@kernel.org>, "Carlos Llamas" <cmllamas@google.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>,
- "Leon Romanovsky" <leon@kernel.org>, "Paul Moore" <paul@paul-moore.com>,
- "Serge Hallyn" <sergeh@kernel.org>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, "Igor Korotin"
- <igor.korotin@linux.dev>, "Viresh Kumar" <vireshk@kernel.org>, "Nishanth
- Menon" <nm@ti.com>, "Stephen Boyd" <sboyd@kernel.org>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, "Pavel Tikhomirov" <ptikhomirov@virtuozzo.com>,
- "Michal Wilczynski" <m.wilczynski@samsung.com>, "Ira Weiny"
- <iweiny@kernel.org>, "Philipp Stanner" <phasta@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <driver-core@lists.linux.dev>,
- <linux-block@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <linux-usb@vger.kernel.org>, "Oliver Mangold"
- <oliver.mangold@pm.me>
-Subject: Re: [PATCH v20 7/8] rust: Add `OwnableRefCounted`
-X-Mailer: aerc 0.22.0
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-7-490735672187@kernel.org>
- <DKY1WYBNR288.36W5V60TR81MG@kernel.org>
-In-Reply-To: <DKY1WYBNR288.36W5V60TR81MG@kernel.org>
-X-ClientProxiedBy: LO4P123CA0560.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:33b::18) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 13:52:04 +0000
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0315.012; Tue, 25 Aug 2026
+ 13:52:04 +0000
+Message-ID: <6bd28d35-354b-4de4-9097-b9fc7286a8a2@amd.com>
+Date: Tue, 25 Aug 2026 08:51:58 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] thunderbolt: Fix deadlock in tb_domain_reset_interface()
+ during hot-unplug
+To: "Martinez, Juan" <Juan.Martinez@amd.com>,
+ "westeri@kernel.org" <westeri@kernel.org>
+Cc: "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+ "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR04CA0106.namprd04.prod.outlook.com
+ (2603:10b6:806:122::21) To PH8PR12MB6914.namprd12.prod.outlook.com
+ (2603:10b6:510:1cb::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -96,145 +68,237 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWLP265MB2929:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55cd4131-fb3b-4955-65fb-08df02adf49c
+X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|IA1PR12MB6459:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b07335f-9ec0-431b-5b98-08df02b00b7e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|7416014|376014|366016|1800799024|10067099003|6133799003|3023799007|22082099003|18002099003|4143699003|56012099006;
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|10067099003|11063799006|56012099006|6133799003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	pI7vH5zk0fwrZi33VGpjVwtMdNELTnTL14q7n2jxhjyNl0rVT1z7TMUWa8wCH4Ki0nlr/kHq3quHHfIGlpluPf+96fZlgn1d7pSznlUUacjYP9H8ZbzPBHwaLBcMrmdp9n5hxMwRa7IvKWt/RbhJ+UxwelLgqIJyad0xNozwtTD9sbxIith8ugiyZOjD80CNlt5xMzXAIR06/iPKo+hd7LcSOuvKA9O276R1CBzui18rHlnTlOUH2PaHOePw5VnfXQwKesJkKF/4d5zjchi5q7qFveq5yVnUzyyVp/kvKHKRIZCb73xn4tuCUYY1k8wYXvy0G9gaOaFMGE4B2vhbNt+HVAz0E2GwK3+1/d3WavLMZZNyYAHWqWOfMmACzj+ONlLWxZcAKwqN22fVFQ7Yiic4Wy2f+nJ3fHRvDEOqHVKeXQJd9HhpQGXJWLTr00sBzPW+0omei7YMDT0uWp9bB3MpxpP0cAqkDv0v+0kf2FQOfLZ3jqpceejh5AdftoM3zbnKg5Iw/W7Q6xhY8waqWcKuQWt5yj2Xzmn+wtucKOpjlkY+Q9l2xP1ddHUgUii1CqBaTCKjpROW0mi2khMffHn7GyuBP9Z1qU12JVhY2p/l4RJU/y3tCLPVezF39PsEk6Or0cfsOsuk6JdRVzPEAMTjkevcZyo7yHZJ5uJ6wuQ=
+	PAMcueQ+vLa6N9uVhpeyAPFckjtAvLbmA8IcKddw5rwE4z4hwTCU0zDn3IPP0twA7e99i6sriVOgPuJUs/xVxWRysLR6EPJ1TaD3ljLA3Nt2tYY9D8rYsiGqak5LESi4KCiLdz7Rb/F93+HXIzNKS5/suZp6c1RX518SUMr8BIazJf0s3FlYJA9wgnE6LLGyu/sNJVbbQXKpw07LKm9k7uvilZ5evgim3fVYyMBfu6twZDjrfrKPsntAo6Y5W3uPchzQkdwYIaELzCoNXt6G8p/CY5fpjHOBKi/9AdRE9RGbHxuGvl05fNRPozCUEgmhKqNcmIHglq7pFLV2E4ntPPGKBjM/8NSmRk+mI9GG+b2iDR5EoIUPIkV7w8oU3oQh4bRGWp0enpCM2vABheQGWvnPZkg+XTBVjwuh1aL0AJZe8FHU16xGJMzWiQUAK8EbVQ1jN4jMPCyDMIgDlD1IAS34mpNmwVX+lqGU05PnDpVWMiuIhB9POqvdcTCRby7t1fWX07WyJyKEMMOX3z5dvakCFe/0OEXTB3fIFiNNBirn2cAqvi71iF1mgs29BMrY1KUfEoWZQ6nAAVBzHN/kWysRqETzl9w2vVGqdzbOc5CYxgERnnQcFo3RIIVWpeJ9
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(7416014)(376014)(366016)(1800799024)(10067099003)(6133799003)(3023799007)(22082099003)(18002099003)(4143699003)(56012099006);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(10067099003)(11063799006)(56012099006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Vi8zVjk3R2ZrTnVvNVFLbG1tOGU3dVNDS1ZqdDVKSkNmdEVmMnZTQXJPYTRC?=
- =?utf-8?B?TmNya3lVekd2WWtWcTJPM1J3THJpMGZYM213U1htQWxuMWNWL0E2eEpHUmFy?=
- =?utf-8?B?VGlXSHQwelNzYitSZUhGaHZic2d4YVl4NW1vTnR5eEY0QXBtc1dEejVkaFNh?=
- =?utf-8?B?Mm5iNi9xK3VxY3E1VTRHQjdDdVdGWGMrdlpCN2s0U210U3Nkc0p2TUxqY2hz?=
- =?utf-8?B?dUd0bkhFbXc4TCtwMXRJVm9IL3Y3T25nWjN2eUJuWEM0cVV3bWtBVHBkL09K?=
- =?utf-8?B?blNUNFB3UTlKVDhtZnNDcEFnd3p5b3BQb1pQeEdiY0R2UldhS0lwOTBVSmhw?=
- =?utf-8?B?eWdkS0ppeDZ1SkZybDhYQW5tRGY5U0FsS2NIL0xHcCtBUGIzTUgrdmZMR3dC?=
- =?utf-8?B?STFzVzgxMnpCSndobjRVZ1J5bC9iWUZZMFlUc0IxMTlyRXdCbmhFYk9Eb0F0?=
- =?utf-8?B?V0E4Yk1QWmdrYmdxUmxmOXJaclVRbzVEd0RYSEtOMDRMNmN6a1VyelJzTG9a?=
- =?utf-8?B?b1oyc0NHRVdvNFlGNU0rVDlEbnlHbmxQb2poRXJIS2RPZGF0Zk84ZmZHZTRp?=
- =?utf-8?B?Q2ovOHB4c3l4UEoramJJK1hSWDlzWXU0SmtoSFQ3SjVCWFJ5dEd4am4zZ0Ni?=
- =?utf-8?B?TzNIeXlZT3NVVWdHdVQ0KzlIdnFXQ2hQWlpVL0VQdkxQMUZjaTV0TnhHZ29D?=
- =?utf-8?B?VS9XSUp2NUJMWjVHV1o3WWw3MU9VOURLaVpaSTQ4OWNvakVZdk51ckN0Vm9n?=
- =?utf-8?B?TjQwVGUzWDQwNzhVWU03bXlqZEJUdkY1NE9tZncvU3hRN0kxa3V3M2EvaXFQ?=
- =?utf-8?B?MHZXY2RZM0FLQzI2K0Z5QzM2eCtsaFIwWDlITkZUcWNtcDc3Qmo2RE5lUEZR?=
- =?utf-8?B?WUtsYWlBZjJNUjlIT1JIWHlvbUF1V3g0L281enQzM2g3bVYxWkNibjFTNEEy?=
- =?utf-8?B?VDY5a2ZwUGRzS3FGTUFhOXB1SmNMMllzMUhxTE1QSHJ6TUQzRkMwYkhhQWRy?=
- =?utf-8?B?dnpqVWRIaDAzMWU0bmZjYnd5dmdtMEpaOTVsY0QwZGFtL01YYnNwVnM0b2l0?=
- =?utf-8?B?RFR4UHBRZDUvVENEQnlPVW1kOEV2VFdVY2hmWlZwMG0rMUZuRFV3dWZpSVpo?=
- =?utf-8?B?dDNLNktBaTMreDUzY1BQdy9FS21VeFR4WHlsWTF5VlFIZ3JFSVArc2d5UWhx?=
- =?utf-8?B?QmJvTW50SDdYTjhhclA5d2tOZ0ZobWtzZ2tBUVNPUG1KRzJOeithQkVqeW9K?=
- =?utf-8?B?Y1p5NmpNcDZGeTFuZ1ptUDdEUWUySkc4L1FheGE5NytXVVZyK1I3UmRFWGdB?=
- =?utf-8?B?MXhzTXNKdml2TUl4M0hGaDZsanBPOUtUTTJRRHJndFVsNUp2U3NKZERuOGlt?=
- =?utf-8?B?RFF3a3FQUGtkbWxucUZFRHZYdTIwZ2w5SXhiOXBQeUJURG5OVFhJd2h5dFNY?=
- =?utf-8?B?WlRXdE13OEM4eEJDMEhZaFByaHdHMWtrRHdoMTJDMjhyTXExZTNmd2VsOE1Q?=
- =?utf-8?B?c200S015TEFxQ2FoNWVRblRVeXpwMjV2WEJlbVlHTndMb2lRVCtMMmlFMFFo?=
- =?utf-8?B?VlVHSWxUc282aVVnZXBJWjZpZTlrYURaRkVXUEJIcE84bjdaQnhyOVNaTDNQ?=
- =?utf-8?B?Vk00V1RpWEtoL3B6ZEorZUl5Z1o3RkNjeDBLQ2ZQYXZPZ1pvWTFudzBDdlFq?=
- =?utf-8?B?QWkyczY1ZS9LcFRXRkR5VlZYWXdnOWJCQjVNOTBjV0ZyV2R2d2RTdWdBdHNS?=
- =?utf-8?B?eWs1U0EwYWFSR0xhbDFUWktBZ2tjZlpRYm12eTZ0eENRTUR0K0hnZEYya0FQ?=
- =?utf-8?B?eUh0K3dDNjlJOTNYRjhnMFZoczI5RDN0ZDUyNEw3TFFGNUsrTENRMW4yNXRp?=
- =?utf-8?B?Z005MTR5OXNOdzZxVll1RkdkNFlkNmExV3FrRTZUU0pTcWhIc210MXhDM1M3?=
- =?utf-8?B?UGdzSnZKWU9ad3M4ZENtSDJub0kxRDFhcVlaM0V2M1Vqcy9zeWVZS0h3NHZL?=
- =?utf-8?B?ckh4YTVZcXBTRWV5TWFnaGRsQVVxbjlUcDkrck1QbnBncXRrUU5NUHJ5bDdt?=
- =?utf-8?B?TG1KM2JYNlUrVUFibzdXU0FzNE8wV1ZacmJPbWVGQmFvOVpKUDZSbFpkTFZK?=
- =?utf-8?B?bGIwVUJSQXRIbWJQWVpCNTIrUnkzUUpYWnlac0hxVGwzcURJZDlQblAvODdk?=
- =?utf-8?B?cmRwK1BvZzNvaGsyRTVtUGNNWWtxQkxZL0pnd0I5RncxZ3NHNXJoWFZCbTVp?=
- =?utf-8?B?TS9PMlJidExtL2cwam0vQTBCOXZhWk9EOXhwcHJsYXNxd2VvQUt5NVJxazNM?=
- =?utf-8?B?VlZ1WmZnWS9mT3E2ejN5ZDk3WnY3cU1JQlJ0Y1pxU1VVbXh5M0Y2QT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55cd4131-fb3b-4955-65fb-08df02adf49c
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+	=?utf-8?B?eFJ2MHgzZGtvZ1VPSWhYdUF3Z0Y4QldCcjZUZE1RUGZIdW5aMy9ndmVvVjQ1?=
+ =?utf-8?B?aVlNa0FEVFNGbWNvd0k0SDZtUWE5S2ZKbTAwUjBQeXFRcXVmMVgzZXpEVHJa?=
+ =?utf-8?B?ZFVOSkU0Y2dFWUM1RkV3MkNWeStrSTExdUg3WVUzMVJFQURjUHptbTVxeE5R?=
+ =?utf-8?B?Yyt3RFdLdWJFV0xOV1JXMFN5YlRKYWhjZjhzRno2Z2VsY3Fwc2FzbmRUZndM?=
+ =?utf-8?B?aUhrKzF4SDJwUXZkREpoeUcrTGhxQkV5L1BOZEV0ZjV1ZFk0SEY2MU5zeHQr?=
+ =?utf-8?B?VDJVMXA5dUpyTThyUlFMNTRtcml2c2EvdThNekNSUDFhTkMyUkpIUUNOa01w?=
+ =?utf-8?B?V3JGMzFqM1RJU21HVkdFelFJQUt3VWdMdTA3MHNaazE0V1pEazVhVitCZmhx?=
+ =?utf-8?B?c2RQVFFrQ3YvNlh6VnQ2R0dybVR0RVh0Tm9oaWJYRTByb2ZBMUZrWFJ4alUx?=
+ =?utf-8?B?MHp6dEs2WmxSN3RjZEp0MlZuUjJHK09oTDAyRzV3Ui85ZWMrbjI2OFR1WGhz?=
+ =?utf-8?B?ZEVLQitUTXZCbjljQUVYVmp3d2pQTUxSVTFGOFQwdTdldGJJbmJGS242UFNz?=
+ =?utf-8?B?RGJ2REdiVE04WlJDTitvNVFOalVPSlpTVEsvbE0xbTQ5ZmxuQjJ4eVhOVGg1?=
+ =?utf-8?B?U2REd2xVUDJEdXR3Y2JSdGtWdkZrTG03RjRYeDNCRjhkY2FsVDhuQ2R0S3NZ?=
+ =?utf-8?B?TitKdVVzRncweUt1eTFJZ050QkZmL0ZCZ2lhcExKWHh3YkU1ZGVWeTZ6OHA1?=
+ =?utf-8?B?N053QWpveTlUYmd2eUNaK1o3R1NrT1VESHp2WEpiYzg0bkxJZnFXMjY5WjhY?=
+ =?utf-8?B?S0g1SmxRQUltKzdQYWFtYXJTOUVvQklRUkZoeFR1RjVMSFNIOEczUHNJNFY3?=
+ =?utf-8?B?dmd3OUw4cTU0MWlGZ3Y3TldtbEFEMlhXRmZvMXRiVVdZVHJZWkRyK2hEWFdG?=
+ =?utf-8?B?UVBrcEZ3azJMdzhRMTRSdUJkVk96NjROVFBYWEU1TEVXRytpc010WjBYZitw?=
+ =?utf-8?B?ckxmQThjS3VvQ05WS2M0VjNRY1BQU25Na0ZJS0ZCYWU1SFc1Smp6QktwNUNM?=
+ =?utf-8?B?VFFMazh5TnVCaDhNU0pGN2ZQVEN3a05aNFRNMkVzZjRtSzRSOU8xeUhUV1VE?=
+ =?utf-8?B?YURLQ3ByTDZPRmthQ3JsdjRBWTBsdkJIcG9TYjFuKzg0bWdCRVpLcElGeGZJ?=
+ =?utf-8?B?SHBVUEkzQWlJdnd5ZnhjUUUwcXJZQm0yWG5nNHFGTE5hcUszU1dRL0t2MjU3?=
+ =?utf-8?B?Wk1FcStIZWFpdTdGeDVCcm9mb0Qzdmk4WFZWVlR4dnFkdVA3Y2h3SFV1dG1O?=
+ =?utf-8?B?Q1IxdXRaWWdvd1RtWGxiZm5rMGhBclFjNDBpa1BpWUNkS0w0bFBpd0tPYXpE?=
+ =?utf-8?B?M1RWell5dllrUStBNkRGcHBkMEtoMjdlVndPSFk1R1B5RFNLc0dVUmZneHNn?=
+ =?utf-8?B?U0tTR3VScXNvdFYvVUZQZVByZ0lITG5oUG9Vd3JkUFlrekZWTWUzWGY4am9p?=
+ =?utf-8?B?aXFGd0dpR0ZYSlJLa1FHdHFaSnJ6NVFqbVdRTG1LN2lVT1BVMG8yejFKSmhI?=
+ =?utf-8?B?Z2JsMG1jTWFLMFQ4bS9iSThhMjRkaG1WS0hndklQZkUzS011R2hVVDFUNytD?=
+ =?utf-8?B?bTY2cElabkNoVmc3UGVpWmwwVHZBWjdMcy9CSDJOb3h5bUk1c2pRR3E2bVRj?=
+ =?utf-8?B?OEx4RWtQb0plbU1WdkR2TVgxQ2JodEhpUTdDc0poVjNlc1U5YU4zanlranZt?=
+ =?utf-8?B?NW5oSklOVkZoQTdFYjd5MlJvSTR5bVlGdjgwajgwN3ZWeXV2V0FJR21JKyt2?=
+ =?utf-8?B?Q0FGQXFKMlVMNjd6U3krODFoMFozcnIyK2V1eklPN08renVscDNhcVZGYllT?=
+ =?utf-8?B?WlFBb05xMnltVmhsRmE2bklERi9yNXF2N2dYZUdHK0xjSElxamNHRnROV0Y5?=
+ =?utf-8?B?Mm1uZXRZT3Y0K1BpUS9pRlllaktrems3ZitBYzlKVmQzNnNpN0E1MmFzb3V2?=
+ =?utf-8?B?ZzI1YTBSbExoZXZWN0JvdURFd0JqZE5ZcVNyOEMrVzNBQWIrVEt4ckZwTVRE?=
+ =?utf-8?B?WXZ5OTVRRlJhayt6S3duUDFmaWNSSFZaWjBiOG9vSVJRN0F4ejJmTTNQVEIx?=
+ =?utf-8?B?RVF6eHJReXZDb2JqRVhRZE5jWUZGNGprdnQxbEp5ZThpS0h5cktXWGRhWUlj?=
+ =?utf-8?B?bHdtMVFDaTNNR3lET2V5TFNBc1VUMExtTkluQ2NxVUwwRklSclUzVVFQQWlX?=
+ =?utf-8?B?Sjl0NWRDVytGd2ZSRXd6SlljekI2anlTZzkvdWMyVTJPTmx1REVIL0FGck1G?=
+ =?utf-8?B?MjUzblhHSDQ4WnlITmdMT2RUR0dFRFJMZUNxQ21UTFFKQzJkS21QZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b07335f-9ec0-431b-5b98-08df02b00b7e
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 13:37:06.7305
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 13:52:04.2157
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ALYGD5KXtFjCjlHERzfTe5xeiAY16ZVzMXD5zwRYCceH7qCL+ulKruVPV4cG6JZttYO2EAq7s80+lbqKyFH9dg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2929
+X-MS-Exchange-CrossTenant-UserPrincipalName: CIfCuGVVO5HJfE04In+SaYxVNSAGfGYqKW26dID1qh5SOcYRbT0AWfXfzZ23WswVLeLvrdo5KS3zGjZqFzbwUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6459
 
-On Tue Aug 25, 2026 at 2:16 PM BST, Danilo Krummrich wrote:
-> On Mon Aug 24, 2026 at 1:17 PM CEST, Andreas Hindborg wrote:
->> +/// struct Foo {
->> +///     refcount: Cell<usize>,
->> +/// }
->> +///
->> +/// impl Foo {
->> +///     fn new() -> Result<Owned<Self>> {
->> +///         // We are just using a `KBox` here to handle the actual all=
-ocation, as our `Foo` is
->> +///         // not actually a C-allocated object.
->> +///         // INVARIANT: We initialize `refcount` to 1, satisfying the=
- invariants.
->> +///         let result =3D KBox::new(
->> +///             Foo {
->> +///                 refcount: Cell::new(1),
->> +///             },
->> +///             flags::GFP_KERNEL,
->> +///         )?;
->> +///         let result =3D KBox::into_non_null(result);
->> +///         // SAFETY:
->> +///         //  - We just allocated the `Self`, thus it is valid and we=
- own it.
->> +///         //  - We can transfer this ownership to the `from_raw` meth=
-od.
->> +///         Ok(unsafe { Owned::from_raw(result) })
->> +///     }
->> +/// }
->> +///
->> +/// // SAFETY: We increment and decrement each time the respective func=
-tion is called and only free
->> +/// // the `Foo` when the refcount reaches zero.
->> +/// unsafe impl RefCounted for Foo {
->> +///     fn inc_ref(&self) {
->> +///         self.refcount.replace(self.refcount.get() + 1);
->> +///     }
->> +///
->> +///     unsafe fn dec_ref(this: NonNull<Self>) {
->> +///         // SAFETY: By requirement on calling this function, the ref=
-count is non-zero,
->> +///         // implying the underlying object is valid.
->> +///         let refcount =3D unsafe { &this.as_ref().refcount };
->> +///         let new_refcount =3D refcount.get() - 1;
->> +///         if new_refcount =3D=3D 0 {
->> +///             // The `Foo` will be dropped when `KBox` goes out of sc=
-ope.
->> +///             // SAFETY: The [`KBox<Foo>`] is still alive as the old =
-refcount is 1. We can pass
->> +///             // ownership to the [`KBox`] as by requirement on calli=
-ng this function,
->> +///             // the `Self` will no longer be used by the caller.
->> +///             unsafe { KBox::from_raw(this.as_ptr()) };
->> +///         } else {
->> +///             refcount.replace(new_refcount);
->> +///         }
->> +///     }
->> +/// }
->
-> This is valid as Foo is !Sync, but I think it does look racy on casual re=
-ading
-> and possibly even encourages people to do the wrong thing, i.e. to peek a
-> reference count and subsequently act on the read value.
->
-> Besides that, if the value can't be shared across tasks it's not overly u=
-seful
-> in the kernel to reference count it in the first place. Do you have a bet=
-ter
-> example for this?  Maybe a broken down version of the one that motivates =
-the
-> patch?
+On 8/24/26 10:03 PM, Martinez, Juan wrote:
+>>From 6add8f1c36c672e59f5acfd4e1dd267fd4df727a Mon Sep 17 00:00:00 2001
+> From: Juan Martinez <juan.martinez@amd.com>
+> Date: Mon, 24 Aug 2026 14:00:13 -0500
+> Subject: [PATCH] thunderbolt: Fix deadlock in tb_domain_reset_interface()
+>   during hot-unplug
 
-I think the series is very old and might even predate the `sync::Refcount`.=
- But
-given that we have that type now, the example should do the correct thing a=
-nd
-use that instead.
+Something funny here with the whitespace.
 
-Best,
-Gary
+> 
+> The AMD host-interface reset quirk introduced a deadlock during physical
+> cable disconnect. The tb_handle_hotplug() workqueue holds tb->lock for
+> the entire hotplug operation. When an XDomain is unplugged:
+> 
+> 1. tb_handle_hotplug() acquires tb->lock
+> 2. Sets xd->is_unplugged = true
+> 3. Calls tb_xdomain_remove() which unbinds service drivers
+> 4. Service removal triggers tbnet_remove() -> tbnet_tear_down()
+> 5. tbnet_tear_down() calls tb_xdomain_disable_paths()
+> 6. tb_domain_disconnect_xdomain_paths() calls the CM callback
+> 7. tb_disconnect_xdomain_paths() sees is_unplugged=true, skips teardown
+> 8. tb_domain_reset_interface() tries to acquire tb->lock -> DEADLOCK
+> 
+> The callback intentionally skips teardown during unplug because the
+> hotplug handler will perform the actual teardown later via
+> __tb_disconnect_xdomain_paths(). The reset must follow the same pattern.
+> 
+> Fix by:
+> - Adding __tb_domain_reset_interface_locked() for callers that already
+>    hold tb->lock
+> - Skipping reset in tb_domain_disconnect_xdomain_paths() when the
+>    callback was a no-op due to is_unplugged
+> - Calling the locked reset helper after __tb_disconnect_xdomain_paths()
+>    in tb_handle_hotplug()
+> - Keeping the locking wrapper for normal teardown paths (netdev stop,
+>    DMA test completion)
+> 
+> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+
+What tree did you base this off of?  I tried on thunderbolt.git/next 
+(86feaba911f2f1a540a7695c8f4a98fd0fd60ac4 / tag 
+thunderbolt-for-v7.3-rc1,) but it doesn't apply:
+
+❮ b4 shazam -sl 
+https://lore.kernel.org/linux-usb/DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com/
+Looking up 
+https://lore.kernel.org/all/DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com/
+Grabbing thread from 
+lore.kernel.org/all/DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com/t.mbox.gz
+Checking for newer revisions
+Grabbing search results from lore.kernel.org
+Analyzing 1 messages in the thread
+Looking for additional code-review trailers on lore.kernel.org
+Analyzing 0 code-review messages
+Checking attestation on all messages, may take a moment...
+---
+   [PATCH] thunderbolt: Fix deadlock in tb_domain_reset_interface() 
+during hot-unplug
+     + Link: 
+https://patch.msgid.link/DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com
+     + Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+   ---
+   NOTE: install dkimpy for DKIM signature verification
+---
+Total patches: 1
+---
+Applying: thunderbolt: Fix deadlock in tb_domain_reset_interface() 
+during hot-unplug
+Patch failed at 0001 thunderbolt: Fix deadlock in 
+tb_domain_reset_interface() during hot-unplug
+error: patch failed: drivers/thunderbolt/domain.c:787
+error: drivers/thunderbolt/domain.c: patch does not apply
+error: patch failed: drivers/thunderbolt/tb.h:792
+error: drivers/thunderbolt/tb.h: patch does not apply
+hint: Use 'git am --show-current-patch=diff' to see the failed patch
+hint: When you have resolved this problem, run "git am --continue".
+hint: If you prefer to skip this patch, run "git am --skip" instead.
+hint: To restore the original branch and stop patching, run "git am 
+--abort".
+hint: Disable this message with "git config set advice.mergeConflict false"
+
+Nonetheless; directionally it makes sense.  Can you please rebase and 
+send a v2 for review?
+> ---
+>   drivers/thunderbolt/domain.c | 27 ++++++++++++++++++++++++---
+>   drivers/thunderbolt/tb.c     |  2 ++
+>   drivers/thunderbolt/tb.h     |  1 +
+>   3 files changed, 27 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+> index f46b8b2ee6e1..1f0588bae366 100644
+> --- a/drivers/thunderbolt/domain.c
+> +++ b/drivers/thunderbolt/domain.c
+> @@ -787,11 +787,21 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   			transmit_ring, receive_path, receive_ring);
+>   }
+>   
+> -static void tb_domain_reset_interface(struct tb *tb)
+> +/**
+> + * __tb_domain_reset_interface_locked() - Reset host interface with lock held
+> + * @tb: Domain to reset
+> + *
+> + * Resets the host interface for AMD USB4 routers that require it after
+> + * DMA path teardown. Caller must hold tb->lock.
+> + */
+> +void __tb_domain_reset_interface_locked(struct tb *tb)
+>   {
+>   	struct tb_nhi *nhi = tb->nhi;
+>   
+> -	guard(mutex)(&tb->lock);
+> +	lockdep_assert_held(&tb->lock);
+> +
+> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+> +		return;
+>   
+>   	/* The reset clears the ring state so stop the control channel */
+>   	tb_ctl_stop(tb->ctl);
+> @@ -799,6 +809,12 @@ static void tb_domain_reset_interface(struct tb *tb)
+>   	tb_ctl_start(tb->ctl);
+>   }
+>   
+> +static void tb_domain_reset_interface(struct tb *tb)
+> +{
+> +	guard(mutex)(&tb->lock);
+> +	__tb_domain_reset_interface_locked(tb);
+> +}
+> +
+>   /**
+>    * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+>    * @tb: Domain disabling the DMA paths
+> @@ -831,7 +847,12 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
+> +	/*
+> +	 * Only reset if teardown actually occurred. During physical unplug,
+> +	 * is_unplugged is set and the callback skips teardown - reset will
+> +	 * be done by tb_handle_hotplug() after actual path teardown.
+> +	 */
+> +	if (!xd->is_unplugged)
+>   		tb_domain_reset_interface(tb);
+>   
+>   	return 0;
+> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> index d18bcca0b6e6..2370d8669156 100644
+> --- a/drivers/thunderbolt/tb.c
+> +++ b/drivers/thunderbolt/tb.c
+> @@ -2489,6 +2489,8 @@ static void tb_handle_hotplug(struct work_struct *work)
+>   			tb_xdomain_remove(xd);
+>   			port->xdomain = NULL;
+>   			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
+> +			/* Reset host interface after DMA path teardown (AMD quirk) */
+> +			__tb_domain_reset_interface_locked(tb);
+>   			tb_xdomain_put(xd);
+>   			tb_port_unconfigure_xdomain(port);
+>   		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index 798840b24d2a..9243073cae06 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -792,6 +792,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   				       int transmit_path, int transmit_ring,
+>   				       int receive_path, int receive_ring);
+>   int tb_domain_disconnect_all_paths(struct tb *tb);
+> +void __tb_domain_reset_interface_locked(struct tb *tb);
+>   
+>   static inline struct tb *tb_domain_get(struct tb *tb)
+>   {
+
