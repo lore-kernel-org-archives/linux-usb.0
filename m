@@ -1,93 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEED61FCE;
-	Tue, 25 Aug 2026 05:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8521E0DE8
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 05:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787634769; cv=none; b=YmOk1f8qG3k1QXx94dOOzBoZGSlBKTJCClf3HOGGvTR96TWoiCN/1+fsTAJ+EqCZhliQ3Vp8s51uk+0bRuGBYgm8Iu716fTLPkKRTeETrciKZzz8T1aJyIOAc9aGb1Ynf0h2aq7Fez/u07ohSGpKXj5Y4vEt0hyycHU/GiNbNlo=
+	t=1787634811; cv=none; b=dQmMdu9La+GMlu9GJG0Q1A3D6NwZbrl3bZLZIobBqQSHxAXpJeYNgO7eRxG/2Ku8AHu5deXIj4jQEC9QGe4z91PdiPKZ/OoaxM8FfNoM7zU1m3OLeAHo7h3fONBNTtJGp6nZAIjNtnKQPfiZEdb2zX9R7swukraWFKI3PBEnE8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787634769; c=relaxed/simple;
-	bh=MRCf7eCThAO7A+U8cmPm9hmnIT5mafRy/QU1wCCCzoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=msGevNLoW3LEVhulLdUostbuDWtol9HzVBVP6sM0i9WhcUgLOOcn8n3CrVjUrDSbjE6WOpv5+ExpKp8t2RApIwpsJeeokkAB+X9CrXjlf7RiEGbX2SoiVZXQJS3bV35ev8jYRg7GdlQSSp2coZutCnqXiSihmqPGk2VamBXjlqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BkHI3TsO; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BkHI3TsO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A2A1F000E9;
-	Tue, 25 Aug 2026 05:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787634767;
-	bh=jsue9NmQQ5qqCa2scGSeG7VvIZy1SQTrcL5VDepieHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BkHI3TsOTVW1bSyIeJQCTR4koLPYsF3y91mCvzPozfUIDulLy/csM2JF+8CQ2lc36
-	 RO8iZ7Dx9nhIdonWj+MGna4gRFC+jQvTc1ffGPe5OwwfI2LFt6ajRa/s6c8uRuaD3w
-	 D+B2emObkd2dXi6tKlwxt+uru7alNrksPG/wsJi8=
-Date: Tue, 25 Aug 2026 07:11:06 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: syzbot <syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com>
-Cc: heikki.krogerus@linux.intel.com, jeffinphilip14@gmail.com,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	mika.westerberg@linux.intel.com, stable@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] general protection fault in wcove_typec_probe
-Message-ID: <2026082540-tarantula-gigantic-b786@gregkh>
-References: <6a88012e.dbb3a75c.13dd47.0007.GAE@google.com>
- <6a8d0f6c.dbb3a75c.7844.001d.GAE@google.com>
+	s=arc-20240116; t=1787634811; c=relaxed/simple;
+	bh=kd4raqozJlF8oJwm/9iR6Iz+KK4sFDkFgm3aPOtZ4Hs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=M3hxArolY1kUYeSW0fUkriuO2qC+CsOmQX3CNulXM4K1TMQOhQS8uxAAb2gCz/H9nKFVP27D5yNhA0BDmsS+EwxFVP5AmOUpBcaLCWsuhyXne3visWqtmZZE0dO9o/Gfe4VwysMn2nh7uDyjs4zJYN6srRy7zc5vhMO8LYmcpj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4ab2d72ff13so1610764b6e.0
+        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 22:13:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787634808; x=1788239608;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Dxj/XHg//d6B5CRWxpPSb7UrRCmb/zUQgh32C4WER+M=;
+        b=K+jkxew4Ksdp6MykmVsscjQEzYK0I1N/dYEhwABhWiFZtfg3fGhWuAINK+Yi6G4gwY
+         HZgNbJBtGUxbcGdTDPeOUkX9To/iOypSR4hX1TkcY9E32fviO8Fdxqfref2544PuYY4v
+         d44lt8r5eXGOk7hPHKD1Ntzi1E8StayPFjA9NabSYlhT1ZFN1et7B+tsZPR4KnMKfvUf
+         QCB3M92sw8xF0nM46VbEI+5PxyrX3xyeoIL9exu7v30xtsELP1ROLM20uCqxbahne7Ic
+         DsOFG7IlZeJg1bv5QJMmms4bV8ncw3Bb+IcDz7RxqSvzwXQBmsdMZ+5as6hVZK+MNawG
+         +NjQ==
+X-Forwarded-Encrypted: i=1; AHgh+RokcXKeNnReMAezjyCs3b4zl1AhkoIE+L6dmgfgwc6rj4SkXtcRTG/gaebfnoD5D13FNSLI/DVxXvU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nYT0BOukibXVthW5kEANNg64ADWAsEdnp1zbPdYuT82QK1oFTf
+	D/aRZy01D/dVExBHLK4r6tkHOKpUJXE1Ta/vyyzNtdmOxwTAtjKNeTPt+ilhzXrUbxOzg490ELg
+	HUE7tCrUTi2Z3uwyrFtI0E59QqUEH1Nx7IL4MOx0KIDH0TwnIoQgfq9x5LsY=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a8d0f6c.dbb3a75c.7844.001d.GAE@google.com>
+X-Received: by 2002:a05:6808:f92:b0:4b1:540a:df99 with SMTP id
+ 5614622812f47-4b35078eac6mr3792930b6e.21.1787634808491; Mon, 24 Aug 2026
+ 22:13:28 -0700 (PDT)
+Date: Mon, 24 Aug 2026 22:13:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8d2478.a5a502ce.31d34.001f.GAE@google.com>
+Subject: [syzbot] [usb-storage?] WARNING in usb_stor_scan_dwork/usb_submit_urb
+From: syzbot <syzbot+50c258b43e6a020d124f@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, stern@rowland.harvard.edu, 
+	syzkaller-bugs@googlegroups.com, usb-storage@lists.one-eyed-alien.net
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 24, 2026 at 08:43:40PM -0700, syzbot wrote:
-> syzbot has found a reproducer for the following issue on:
-> 
-> HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git.ke..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1253719e580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3e64b1bf01d830ed
-> dashboard link: https://syzkaller.appspot.com/bug?extid=1a01783ea233350598b5
-> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> userspace arch: i386
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17491979580000
-> 
-> Downloadable assets:
-> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-66498c75.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/5ce4685e13ba/vmlinux-66498c75.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/6a32d8e997a7/bzImage-66498c75.xz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com
-> 
-> Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-> CPU: 0 UID: 0 PID: 5912 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> RIP: 0010:wcove_typec_probe+0xdb/0x780 drivers/usb/typec/tcpm/wcove.c:621
-> Code: 48 c1 ea 03 80 3c 02 00 0f 85 af 05 00 00 48 8d 7d 08 4d 89 af 88 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 05 00 00 49 8d bf 90 00 00 00 48 8b 6d 08 48
-> RSP: 0018:ffffc90002f6faf8 EFLAGS: 00010202
-> RAX: dffffc0000000000 RBX: ffff8880226c1000 RCX: 0000000000000000
-> RDX: 0000000000000001 RSI: 0000000000000001 RDI: 0000000000000008
-> RBP: 0000000000000000 R08: 0000000000000004 R09: 0000000000000000
-> R10: ffff888014243883 R11: 000000000000001f R12: ffffffff904a7ea8
-> R13: ffff8880226c1010 R14: ffff8880142438c0 R15: ffff888014243838
-> FS:  0000000000000000(0000) GS:ffff888096982000(0063) knlGS:00000000f67e5b40
-> CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-> CR2: 0000000032e24008 CR3: 000000004e2f1000 CR4: 0000000000352ef0
-> Call Trace:
->  <TASK>
->  platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
->  call_driver_probe drivers/base/dd.c:628 [inline]
->  really_probe+0x241/0xa60 drivers/base/dd.c:706
->  __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
->  device_driver_attach+0xd1/0x220 drivers/base/dd.c:1203
->  bind_store+0xf4/0x190 drivers/base/bus.c:267
+Hello,
 
-Please do not think that this is a valid path for syzbot to be
-fuzzing...
+syzbot found the following issue on:
 
+HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of ssh:/..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=168c0179580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
+dashboard link: https://syzkaller.appspot.com/bug?extid=50c258b43e6a020d124f
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/disk-e1e6e541.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/vmlinux-e1e6e541.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/db2c3a41df6d/bzImage-e1e6e541.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+50c258b43e6a020d124f@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+URB ffff888103ab5d00 submitted while active
+WARNING: drivers/usb/core/urb.c:379 at usb_submit_urb+0x1689/0x19b0 drivers/usb/core/urb.c:379, CPU#0: kworker/0:4/5231
+Modules linked in:
+CPU: 0 UID: 0 PID: 5231 Comm: kworker/0:4 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: events_freezable usb_stor_scan_dwork
+RIP: 0010:usb_submit_urb+0x168c/0x19b0 drivers/usb/core/urb.c:379
+Code: 00 48 8b 04 24 48 8b 90 b0 00 00 00 e9 70 ff ff ff bb ed ff ff ff e9 ac f1 ff ff e8 ce 9a ba fc 48 8d 3d 67 f4 00 06 48 89 de <67> 48 0f b9 3a bb f0 ff ff ff e9 8e f1 ff ff c7 44 24 30 00 00 00
+RSP: 0018:ffffc90002dafa48 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888103ab5d00 RCX: dffffc0000000000
+RDX: ffff888119261e00 RSI: ffff888103ab5d00 RDI: ffffffff8afa6e20
+RBP: 1ffff920005b5f5c R08: 0000000000000002 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88813cc60fb0
+R13: ffff88813cc60f28 R14: ffffc90002dafb00 R15: ffff888103ab5d00
+FS:  0000000000000000(0000) GS:ffff888268633000(0000) knlGS:0000000000000000
+Call Trace:
+ <TASK>
+ usb_stor_scan_dwork+0x1e6/0x2c0 drivers/usb/storage/usb.c:988
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 48 8b             	add    %cl,-0x75(%rax)
+   3:	04 24                	add    $0x24,%al
+   5:	48 8b 90 b0 00 00 00 	mov    0xb0(%rax),%rdx
+   c:	e9 70 ff ff ff       	jmp    0xffffff81
+  11:	bb ed ff ff ff       	mov    $0xffffffed,%ebx
+  16:	e9 ac f1 ff ff       	jmp    0xfffff1c7
+  1b:	e8 ce 9a ba fc       	call   0xfcba9aee
+  20:	48 8d 3d 67 f4 00 06 	lea    0x600f467(%rip),%rdi        # 0x600f48e
+  27:	48 89 de             	mov    %rbx,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	bb f0 ff ff ff       	mov    $0xfffffff0,%ebx
+  34:	e9 8e f1 ff ff       	jmp    0xfffff1c7
+  39:	c7                   	.byte 0xc7
+  3a:	44 24 30             	rex.R and $0x30,%al
+  3d:	00 00                	add    %al,(%rax)
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
