@@ -1,118 +1,122 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EAB3A4F50;
-	Tue, 25 Aug 2026 15:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D824E3F0749
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 15:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787671097; cv=none; b=jFfQPN5yqtAuPfrKDSKtNN8YqfWBVrs2ytZZZmE/3N6GriEQK+R7FF567rJht9rtRCigXSsFAgAHEEtoDivy49cbIppDdclvgvugG+RfSDsllqxzGNItbx0p9kwOie+rSyJEJ4DlyrYFGo56TWtSO5+XMRowCyliFAkgesf2inI=
+	t=1787672427; cv=none; b=Qnyx7uiOkMW3bv+sSJcqmHmbdDbZhkCiDI0AQhlnWf+m0z63hgAmreAVefXBxeDOqvZ3jc4RAlTX8mh6M/pPawv2C0yduqGUKUqYN4kBasmF8nDU3h4p8atzAzX+1AAVbgTe2exU+rje3xIX7nj7z6jwoprZBeJklVJzLT2Wlvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787671097; c=relaxed/simple;
-	bh=npgZoPCsvXA/jh1+JnEqd3XtEC+lPaJtAyQSWuC8u5Y=;
+	s=arc-20240116; t=1787672427; c=relaxed/simple;
+	bh=oKnmmfSnKENC1pGST488qKeWHu84ymkuy5ddsymmdmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=my7BMHGrbD77TMmK+yE2mg33nI48b3xVu5CoG9LRpVAcHHxvW+895nHzJ9Jdj79+vVUfyrwlqQVYcea5npL1MyD/crUnOqn3ZkvWbrItz1+JdMvgRYR5g5RZ0JjQXWMHXmBGGODk/5lmnaY3RFS3O69mkAomwzJWdB6aOY5mLRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gq82Z/Ly; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xKGYC7H5; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=DZ/HXEwWWGV7UyVULKEZkTKBdi3H31LlE1e2cioOLrilhqllWRPzXmr8ZyYyieVklR9XgxDPpewAVF9j0hlT7Qq9aySyriJEX79E4e0KmOeeZ/vWD9tYg34u/XxPPZJPjz16GYpo2f/OffRzmgg4fBxye9aVCzCFEX+cgwGqwws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=RT0+stcl; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gq82Z/Ly";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xKGYC7H5"
-Date: Tue, 25 Aug 2026 17:18:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787671093;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dsJ1+OuR6QB2L873ffkYbq+WpmuwWk6zhvfXZRn54n4=;
-	b=Gq82Z/Ly4X5NfZjO5d14YPENObGXO/r8C63dmMoomYrGB6B6fn/wInoYaAg9tpWdCKOdWp
-	3JoWytu7x+WenxFF+AanPcE/MJe2GhpVDXJmDRvxhXLlJgwLU4DwR97RI9t6sUE7ucuTmm
-	2QyfKj4kt8yle/lGtaTsT6YhhBQBq4KYajWzQJheT9ZACKpzV6T7ikfrQDlltkSMbHy5Jl
-	DRiXpb0rBuOJzUDbyOSBRQFiTjT9BXBi7/pz3++PEkl1d5OC/PhE0anEtkank01kYbGs+3
-	iyZp0avaNMzmpDsI5pvK/jlBYyvkcaZ6awFEb2/ttKaXn9pR+i5cIDixLr+wLQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787671093;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dsJ1+OuR6QB2L873ffkYbq+WpmuwWk6zhvfXZRn54n4=;
-	b=xKGYC7H5LxToZ4FZKXekev9IczdRULeVZye2c2mzyGOPFfFYVy32GvW6mYRcNCl0OCIB6b
-	IfpXD7UmkprSTJBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Marco Crivellari <marco.crivellari@suse.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Petko Manolov <petkan@nucleusys.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
- work on system_dfl_long_wq
-Message-ID: <20260825151812.4aJyFUgE@linutronix.de>
-References: <20260720100902.155605-1-marco.crivellari@suse.com>
- <20260720100902.155605-6-marco.crivellari@suse.com>
- <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="RT0+stcl"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f1a8e914a9so36880376d6.1
+        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 08:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1787672425; x=1788277225; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6C8GAW/W3Y755pjJOjVw1oaoPt23Wt5Y/hdfEapPovQ=;
+        b=RT0+stcly+Wwz5wDVd14J1SNB+5KlluFDKXb5cNZM4TSMGVdMzyNwSrYzfedW+P7XO
+         0KSvunCBjGRkI5O8tp5qbbPM+nSukhq3O4hPieC0iTzPbz0XJyquCCEvZsU9pQqJXWpc
+         G0LfSzxXkbGtZarzP+JPY/cJXkJ/qUP7BeOIhUPuOmLVrqqSUp1ugEqef7izGeHOV9QW
+         T6+SzZKU6MxbFzjBvq3RtmhStU1ucOrNQjP8qSBbcuBRTaJPGgjqT38HEJMyd+nq9Vfi
+         oFTaEv3X+ulLfrlPRGOoJ6+idVr95Z4txCtuhJe2TwDEXToIK5aVXo9RrY1fmB8jr5Tb
+         LbTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787672425; x=1788277225;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6C8GAW/W3Y755pjJOjVw1oaoPt23Wt5Y/hdfEapPovQ=;
+        b=gaS16dkLJH3hwSePpk1ywliyW5rV6uVi0r7Z5dkcwQ6Vrr38AATKO5vgRJ6Ieob1kn
+         9P5yBi6ZqAfeUeXyNvbehVjqFOwJa7AoUx00+pueAdaoE9Bpsi6CsRNQP0Nb67tgmScF
+         ZMw8MFkDbeAtfwOhIsnG4/Ftyg/c1P10m26iHRX4MBxiFMZoi4NzPPW/PWn+IEd6z9/n
+         aiYGOOdGITqsaQSpv+dO8oCo4bRc9VaG6AzhZzKVqKtbh+JnzsUGtx5vyFa+66I3Xwxx
+         9mwQl8ydA47wGMt3qdVzodsilzpk8FsLfc/xZm4T9Z6b7Fe2grqcvNFsdeWPhnJ78fXo
+         xQtA==
+X-Forwarded-Encrypted: i=1; AHgh+RoQj/It7RYrOEa0G45sh34HrFSZAy6SN8rmmg/KDDh58PWZcMkAQ0xUbyrcQkPB37Et4tZoG1hNWHc=@vger.kernel.org
+X-Gm-Message-State: AFuF++lUm9fRGeJ+umU9PJl2OioihOJ6OIShljJNwNYk99heVF1JdzHi
+	dhR7USqYbNepblPkdFdpYaXIHFrSbEsJ5tEBXr2mMK5Q5hSEyOobFDL9yCBg31KW6w==
+X-Gm-Gg: AR+sD11zXIiWk7XX5w1bGQMfUUqcA3/DIUaYgqt5g4zS7Sm6VpVfxJVvkeIX3vVGF4P
+	b9wRMPf+ShcNlFy1S+6MckVndOLs3D35OQmvDxA2pXh3UYjRm/h8Pxp3WxAwONbgkXcqhcoSpTx
+	UMERJX7n/kBCKYIM+vWCXSLhX+BaooH4r3yomZFPSGUxuWE6/rcpuK1Ba7i8tgL/EUGFNQTa4QP
+	UjJ82g4iM2IOLOyWNyhNabmlO0xAumIzWa3BHB+hJ0qTgfR97BQ5lFyYE6tSJXEAQHEx9Dlu7+U
+	lHaU66E2YrdbB4Wx8CjZOcOXVeOmBSRX7Pmar37E/XvJuS/Gqfywg4r7M56qlSd86/zwIBKaDjY
+	lih7EjRCdyDF43HuYZBiK5IM8mTVjKdrSt6CnOzjAp5oZWdQ1D/lGg8noIimY+RZ1moDCUQOTPA
+	a5402y2pk5wC/amc/dERcm6CTYgrudjclW2iixydbQepPVIecA1j5xpOnHa8z+C0bLwM0T82USy
+	5dTmg==
+X-Received: by 2002:ad4:5d47:0:b0:907:5cea:2f00 with SMTP id 6a1803df08f44-90cb77d1d1dmr75837926d6.5.1787672424744;
+        Tue, 25 Aug 2026 08:40:24 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90cc62282casm2177246d6.0.2026.08.25.08.40.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 08:40:24 -0700 (PDT)
+Date: Tue, 25 Aug 2026 11:40:21 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+Cc: jjy600901@snu.ac.kr, brauner@kernel.org, eulgyukim@snu.ac.kr,
+	gregkh@linuxfoundation.org, jack@suse.cz, kees@kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	mjguzik@gmail.com, viro@zeniv.linux.org.uk, stable@vger.kernel.org
+Subject: Re: [PATCH] USB: gadget: fix NULL pointer dereference in
+ gadget_dev_ioctl()
+Message-ID: <13476f66-13e2-4625-9169-61af0596f6e0@rowland.harvard.edu>
+References: <20260824113510.1141236-1-jjy600901@snu.ac.kr>
+ <20260825105801.319997-1-lovekeshsolanki00@gmail.com>
+ <903f6c28-57f1-4aa2-a111-910fcfbee52b@rowland.harvard.edu>
+ <ao2mZdrHdkRTypkU@eggarch>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
+In-Reply-To: <ao2mZdrHdkRTypkU@eggarch>
 
-On 2026-07-22 10:29:50 [+0200], Oliver Neukum wrote:
-> On 20.07.26 12:08, Marco Crivellari wrote:
-> Hi,
-Hi Oliver,
-
-> > Since the workqueue work doesn't rely on per-cpu variables, there is no
-> > obvious reason that justify the use of a per-cpu workqueue. So change
-> > system_long_wq with system_dfl_long_wq so that the work may benefit from
-> > scheduler task placement.
+On Tue, Aug 25, 2026 at 07:59:43PM +0530, Lovekesh Solanki wrote:
+> Thanks for the review,
 > 
-> these changes are problematic, although they look like a good cleanup
-> in first place. But the test you are using to determine whether USB
-> devices need their own work queue is incomplete because you are not
-> considering the reason they allocate their own work queues.
-
-This driver does not using its own workqueue.
-
-> These drivers have their own work queues because they are part of the block layer.
-> USB devices can share a device with a block device (storage & UAS) and
-> USB devices have common, per device operations, in particular reset
-> and runtime power management and disconnect handling. Because these operations
-> can be necessary to complete block IO neither they nor anything
-> they depend on can use IO to allocate memory. That is they need to
-> perform any memory allocation with GFP_NOIO or GFP_ATOMIC.
-
-This is a networking driver. It has nothing to do with storage and UAS.
-It uses USB, yes.
-
-> That is also true for any operation on a work queue they need to wait
-> for to make progress. That means you cannot limit your check to per-cpu
-> variables. You also need to check for such dependencies. In particular
-> any usage of flush_work() on such queues can deadlock, if you use
-> common queues.
-
-It has nothing to do with per-CPU variables. In fact its
-queue_delayed_work(,, CARRIER_CHECK_DELAY) usage already ensures that it
-can be executed on a random and not on the submitting CPU.
-
-> Please refrain from making such changes unless you have fully analyzed
-> the dependencies.
-
-Did you refer to the wrong patch? As far as this patch goes I can not
-reason why you assume Marco did not fully analyze the dependencies. I
-don't see anything wrong with this patch.
-
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-> 	Regards
-> 		Oliver
+> On Tue, Aug 25, 2026 at 09:14:37AM -0400, Alan Stern wrote:
+> > Why does it matter that you read dev->gadget before the state check 
+> > rather than after?  If it doesn't matter, there's no reason to mention 
+> > it in the patch description.
+> The order of reading it doesn't matter. The important part is to read it
+> while holding the lock, perhaps the wording is unclear, I'll reword it
+> in v2.
 > 
+> > Also, why does it matter that gadgetfs_bind() writes dev->gadget without 
+> > holding the lock?  Again, the description shouldn't mention things that 
+> > don't matter.
+> Because ioctl can get a stale dev->gadget before dev->lock, while
+> dev->state is checked after acquiring the lock, which is the cause.
 
-Sebastian
+But those facts would remain true even if gadgetfs_bind() were to write 
+dev->gadget while holding the lock, wouldn't they?  So the fact that the 
+lock isn't held during the write makes no difference to your patch.
+
+> Is the reference to gadgetfs_bind() unncessary? Or this part of the
+> explanation is irrelvant?
+
+Yes, it is irrelevant, for the reason just explained.
+
+Alan Stern
+
+> > Why did you add this test for gadget being non-NULL?  Is there any way 
+> > it could possibly be NULL at this point?
+> It seems it doesn't matter since if read is correct it can't be NULL, it
+> was an initial attempt to fix but its unnecessary now, I'll remove that
+> as well.
+> 
+> Regards,
+> Lovekesh
