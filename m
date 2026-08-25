@@ -1,489 +1,259 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010019.outbound.protection.outlook.com [52.101.56.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8980930569A
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 02:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787623627; cv=none; b=AnGX4vSrTNa1rkhlv1WUXmPz24KAcNXy1gey4dISgK436faz74vHnUPZboLxlPx3Jw9h+q9bE4FJhhaI94aTCPVtacftsiAJ6U6arU9uvfS1gkYT99UfwBZI1D9sDlzgycRiNsHF+rVFUYDBPJCHi9Yy2cpH2NI42F4H5hWJWKk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787623627; c=relaxed/simple;
-	bh=IZhmY8lAjfPFB+VNxnCYr/qjCC7hbRpe/+XO+aXiA+U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SDEyhQTan4hOgvqDSsAcQ2bE6r+/GLwSYlgQk+pzaJcMm1hXvZsjAe4ckUzil4dWwwZb+n9joK4/aQICCahoafnljbT35THRVDsApdzgBxi2UHomzPphjMjpXHhfzKmK2KIHYnjCr/HYnTtSn63Wwdq6kyNyfHhq+EYyiu3VlTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AGUH3t3J; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=T3FsvbpE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F897274FD1;
+	Tue, 25 Aug 2026 03:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787627046; cv=fail; b=tYkGNnJ9TAMQVFGJPOCbQPVGw3o6iQa+/PePo1TDsWJHuyOmaXKJkNCaeaimKdS1850XTiprGueC1vpRegAGkRKpCnKvg+ITHTo/jbOBdzjjzS0F0WXOgH5UHFh7rtb9lSCbRbjXhFzJ8Xzmc5o36v0L4k7ToEKQyF1whfNvr18=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787627046; c=relaxed/simple;
+	bh=hQTV6t4zlKISMQk70tTCeXozEZnhJ8Geaw18KNqERl4=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=eqy09j9jVxGoauyXJZW0lC2duSHWc7UKMZJP0sDVu+QEX6s6psJcOLQeF+b84xSkF0o7XpfD5KO9dxOk5il48eo2YyB40rUMQeSPNkyvzklsbv7ZSbgYlaix+kMfPyb3ivXbGAmZ0MJunq3KWy1LEsC7vEfJn5oAnM6bnugJ6qs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AhlS7SCs; arc=fail smtp.client-ip=52.101.56.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AGUH3t3J";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="T3FsvbpE"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67ONLaAo1239986
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 02:07:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	q2iYO/r/HmJr9Cxtr5ffY+0uSqlQMOAULDrmT9AVeec=; b=AGUH3t3JO4IRoCDd
-	RhORHKQ8HVzrWkXjMOgrHRC5fiafMpvT1M/G/A+udp3sVxCE6D/bSKEqr1xGDF8F
-	4kEiPNjuhJ0LlcWpbBXMODU0hXh0XxLS4T3sy1TRowb0DHxHOwp5VED5R7t8AVI6
-	YzYK05ywgCXCfxfoO2vQXINWfBMi/FGcw3pCpRqFC8BTHWjCrelbDNUoA/c77FQP
-	YugnYqcddqNMEb1E3gxiwhRWQ/DlLQf1MgLJXJL2BUudA8c3trt3jfVbc8wcl43Q
-	FkzyAxvE2vraP9fNGPiU+lL9SYgV01uyli+fdO1P2TUCKihQFSfK0Rgf6hOxEEPi
-	a+R+fw==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8swr9r14-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 02:07:04 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cbedfa3898aso3978294a12.3
-        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 19:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787623622; x=1788228422; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=q2iYO/r/HmJr9Cxtr5ffY+0uSqlQMOAULDrmT9AVeec=;
-        b=T3FsvbpE407LxbGwLrZ8yHGe28ZusyfVsQkPTiZnS6m4oY9OW8QBPKY61+XdpOI6DY
-         EobcV5AFW3yFFVmy6VsDQaFmZ2AGpQGP+Lubq0LEdbIdeqiwvhxmJL3Hp8JZBKmrrcUG
-         T6wSvfyFZiH+j6rT9P4CnTr2NcduBql/Oow8LILPRgBo5EtNVopiyGSOUnRXlk8VcPTc
-         SeF9oHu+NIc+vFCrqEMuolxxWUfAYzvPN1BPqPguRlFqpCZ89tfDOCJ2ViaqXmC5TORZ
-         a0NUU6L2PXJPynzUyYPFYGOYPv0zLIAWpO/Ilax1e9P89VBqk0OZe9IcgrK9PmrIBC5q
-         oobQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787623622; x=1788228422;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=q2iYO/r/HmJr9Cxtr5ffY+0uSqlQMOAULDrmT9AVeec=;
-        b=YQ6jP2UH34dBA1rpl80oWMp9J17YvDj5ZP6yXWDdrxCOzVFo35g+sI+ZQPAlr0fAGx
-         oWBI+T8HCOCdbD8d1cpGUrFTtX5OroAAiJPwrd3v1tJgYJMoWXifg803fVzSssNE0Zm0
-         Ih3QXlEg2XcAW2N/IpBlCC9A7QfelvloPJHalJ4OEZgt9uc/cXI+kHMGm5QmbRLRd8Cq
-         UFO17ZEefGSnOh5g2ibLnuSLgB3O/XvECU4dWfdCUTy38kmSfBSgNhSFRe6nUZjBk0YU
-         YzQiIOdQAkh7qZDtBfMQpjIjeVJXi+AV4R0sj39tutAuCQkHRrjt7GBQWWlmH7AAbPhW
-         kDZg==
-X-Gm-Message-State: AFuF++lF8ftbIRkmLyNSfeHziS+xl717M99roffBRdZ4uxqPRgxl0kN0
-	cr6t3Y6xIj0n57qW2awm5joFukvPjf4LO1Je/N/vMVetOHQZABXmR6H2Q9EIEMqUi7/wVvMEvaP
-	F5xZrBEo9D90AwfcXNQpcKqS8YBOjT51lJVhHRG9zNU2OYEaaCYmeh3TBRvjuiQzthR+mePU=
-X-Gm-Gg: AR+sD11MbIWwk2nsiHlF3wKPNgLfv+KsNtwh6LPnphXOzYNz3oVRGpVpMCUrTkntue/
-	VZkBNHtmRZFZPU3lRfrcdulTLAxawmLk73sj17YWwknsbSLy1M49yQSbS8FlUXPcTV+pq+UXLB/
-	E3lnD/rN34LrwznZa2gqsT7lvCN6gWcaI0dCCrd9nFZPuFnDSgehnI5cnlzlYtMNHQeKCWn5TRn
-	2dSeTZFLoGKs9Y4i1D5a81MAeF0tdEo4Oet/DOEM/5w5fenjYFIdSkRNIXWtWfvrspWQmqJ65Om
-	MO1ItFt4Y0gPVW7zGkO+9CfVgUxFI4MygNJWPuyhsdqd+bxukLFBzisarkFUQxZx23Ek4J0d6QD
-	Ef1x7E/CWiTz/l8iNy8NVwkmWprKhBcbK3vdwlVyphX9DykXpTxhC
-X-Received: by 2002:a05:6a20:6f8f:b0:3c3:a31b:3949 with SMTP id adf61e73a8af0-3cd911bf820mr6335031637.11.1787623622233;
-        Mon, 24 Aug 2026 19:07:02 -0700 (PDT)
-X-Received: by 2002:a05:6a20:6f8f:b0:3c3:a31b:3949 with SMTP id adf61e73a8af0-3cd911bf820mr6334918637.11.1787623621734;
-        Mon, 24 Aug 2026 19:07:01 -0700 (PDT)
-Received: from hu-wcheng-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d33dcsm39442376eec.18.2026.08.24.19.06.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 19:06:59 -0700 (PDT)
-From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Date: Mon, 24 Aug 2026 19:06:55 -0700
-Subject: [PATCH 1/2] xhci: sideband: support page-aligned ring segment
- allocation
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AhlS7SCs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uJBxTdcrfdu3cJS13vvSzyOWN6VdklJbu5W23e1vjDz7U35Hou3aTEtOmo5UTSt4pJF0NARpQsnv+V0nlZ/kfsRO44A4CDiY4VFyS21zCvQKV4BLrYV1Vt1tyBqh4t4NkGMJLIyHGbgaE53ciRnVCYwWGWqViyDG1mh1Bps8EkD26bF8uk9JlzfJoXwlSzjoXCGN5MulWC35n/ul/CzX3eQk8ukClmV17oKVx3IsxJmcdpf5ZjCIdUSk6+3KBU9GdCj525x6h6xapFw8Bx0Cl0sELeU5XssFCUqzbYK1XaOVuuYpTISyuJK+/pmAgL2SCwPf+hfmIkQSxx2c9sBalA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZGr1JXS8wpipC1fVnRJE7fZfAdRhrITick7vDjw/vS8=;
+ b=uj0sSjttyu23aI8V7MV/39eXs1L84agM7JMefrCvMePOyS49spnV1V5IJiY6k09qh3krqfP5L4gU/gpJhDw6Cs8OUtdKLI+XyBy6r5jCX+9pqYtXPjeGepWhafbzEch6B+zWr2a94NaMSVP4pgNDAq8fES6QhQrd6D9aPUK3hP/PyT09ATKzRk6XrirWrdD2nGnJWZta2M/cvlEXH35gA/l0RpuEoC52nJxYsLwvywAv99NZ/HsmJ9wKEHXk3CKx8JJB65QD0WiwjdvLoIZqT8Hep2R2xB42DRI4aEArPK157A/Om7WBuI3iHjGv+pzUUDvFbtiJwSmjMqdwqPDLYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZGr1JXS8wpipC1fVnRJE7fZfAdRhrITick7vDjw/vS8=;
+ b=AhlS7SCslSZwyL3vLNe89LIIyqSwjRSaF1SDI4Dqi2PckN7zuMotOsw6mElSLUUrLLaE5Lj1c3Jee+BxQN5sR6ewq1KKI0rcz1pBKm0NYjwphbAK+t1BsBRlTVJUD+46mvM//PQwRB/LKy6Pjlcn6T0XbJTS+RzE9C4B1z3tDDE=
+Received: from DM4PR12MB6134.namprd12.prod.outlook.com (2603:10b6:8:ad::16) by
+ MN0PR12MB6151.namprd12.prod.outlook.com (2603:10b6:208:3c5::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 03:04:01 +0000
+Received: from DM4PR12MB6134.namprd12.prod.outlook.com
+ ([fe80::3db6:cf8a:e0d5:e8ed]) by DM4PR12MB6134.namprd12.prod.outlook.com
+ ([fe80::3db6:cf8a:e0d5:e8ed%6]) with mapi id 15.21.0339.012; Tue, 25 Aug 2026
+ 03:03:59 +0000
+From: "Martinez, Juan" <Juan.Martinez@amd.com>
+To: "westeri@kernel.org" <westeri@kernel.org>
+CC: "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] thunderbolt: Fix deadlock in tb_domain_reset_interface()
+ during hot-unplug
+Thread-Topic: [PATCH] thunderbolt: Fix deadlock in tb_domain_reset_interface()
+ during hot-unplug
+Thread-Index: AQHdND2w5mY+ZSCtYkqs7TW2BgBW/Q==
+Date: Tue, 25 Aug 2026 03:03:59 +0000
+Message-ID:
+ <DM4PR12MB6134B3493ED0534463F86496F1AF2@DM4PR12MB6134.namprd12.prod.outlook.com>
+Accept-Language: en-US, es-CU
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Enabled=True;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SetDate=2026-08-25T03:03:58.737Z;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Name=AMD
+ General;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_ContentBits=1;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR12MB6134:EE_|MN0PR12MB6151:EE_
+x-ms-office365-filtering-correlation-id: e3ddba92-039e-4cbf-337a-08df0255824f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|11063799006|56012099006|38070700021|6133799003|10067099003;
+x-microsoft-antispam-message-info:
+ dQ+7xz0ygDU9AK6KwbpejVvexPL1s0WNrdzjPSAEpHCWAjcqJQ171a4LTte6rBtS1Oi8XnPPQLuMThuIbOQ0rbBcMNlEjI+DX/7mhEkSRKtRffgUGu/QhtxQ8bFI2Cjl23X8qkb02f/2zO9bJxuwETMYWYRRwelkGDTuMYBtmrro10sO+i17tRRJ+4GMPfT/XSvfi6cDp1SfPbdgtE01+DstmaOniFe8MgLMkm6pNK3K3ElKaNusFvObl0SoeeNca172ad+HFUWGMrUuFqfHncMC8O2dfJiNST8+3T9fwz+lW6mhm8IEMUjPGl5r9rGR5w/SPqJZCaKKBYBlU/smdgSPDtu4puVuwlit4YfIC6g9pa8c6rtfeV0IXCvIoocEuqqA5y3lPHbUoe/HL5f6fTYa0RMqiUBv7EFUbdauUsZi5YjcoDZcXRuRx+dnTEvoZYiYUcBraJJOx0U1QE/UvHl/8WAOh9k5eR1hvljmGNKcMEWs411iGfjh6GbZQIlqkqvVq7iGzbUDGGjrUBFSsPmtKLJSKsapq9Lw8JJcfHQM/qBRef8mYya4RHR38ikWt07f8vwalQK195wWpodHkI+ymIZEdE7iS97jHsKLjG1pzHmhFvU9JCns/y3Z+CfYkJnMJiKoEGQczifEC/o6ZjAyUyIYV69tG7R4wKEZekVSssiGohwDX/b6ruShMUHnTKNRu41dTwUtxQupq+OBp1viWqYLLF/lx8FXTf8LTco=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6134.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(11063799006)(56012099006)(38070700021)(6133799003)(10067099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?qb/4vS054cDgrlXC+a0HtO9qrYd/fiDGM2LqxXX6YpVYQ7u0438sApdg5X?=
+ =?iso-8859-1?Q?p9zuKJK5mT+a/LA86W5DrIbeW9SmFVUInu6IGk/jGUFjb5b7ExTL+gkeIk?=
+ =?iso-8859-1?Q?djiRsI50ONtyyCivBbXBRYC3D2uHkrJhqX+/lyUN+/9kY99IMCxyEtorfJ?=
+ =?iso-8859-1?Q?Rg5s8Z/Vyg08VM+hNdplQYZ3U2cetisbh8PbfmVRkqCHBikzirc8xGTUAW?=
+ =?iso-8859-1?Q?p63CSKl+IycJ58nV/jv97c0guqRw7zqtBUEXrsEiHBN/sffSuI80JuvpYs?=
+ =?iso-8859-1?Q?ckdpdkyV9qXLE9l18kpSjIaeazho5WDLneCYd+SsCJDOk/BDJjjBILKE5J?=
+ =?iso-8859-1?Q?bD1KdYp9+AicTtRkvGfLNYi710Sfgn+0bSYHfageqnDDET1Jwrs9rtUy9v?=
+ =?iso-8859-1?Q?IXhPKWUlmVTeJhehh7SEsgN/hqS1/lOAXrvZmfe9ThxoCsv1XsR98qKHBG?=
+ =?iso-8859-1?Q?cqzqXyOIKI5JDwvki75OB+3CKHptH+fbMccisJKreKbEelXh1qsD9P9uqg?=
+ =?iso-8859-1?Q?sx9qub9c3FPM7FD8hccf2l7lP9k60xH6Olazz9e0sVkM98OTkRfYUkLU77?=
+ =?iso-8859-1?Q?PE3nMdddhZ+NHOwSbNSCnYOpfUKCe2HwaRk91O3un624BPlbBW7X2PSZNx?=
+ =?iso-8859-1?Q?OREqV6oIWzdtkS0uptCUdgtIUCnhWmowd0wSZd9CgAxpkaCESfg2ZwwqEu?=
+ =?iso-8859-1?Q?XjHbI4Qq4hJRvmgV+TsbjvAqnM/j6cxSE4ocXt2S/dV3TiV8oJ8E1sQTH5?=
+ =?iso-8859-1?Q?MV303r7YsmAPRMh208cGHuyuGyupGjlscn3kRZpEbJ0Ml1M3yEiPEJSas8?=
+ =?iso-8859-1?Q?c1c2IV55a1X4o0Q0Fb+NPupcPcHrRyc5HwXEnnAJZ/tO5ka2McxPpuMKWY?=
+ =?iso-8859-1?Q?6Rj1GLmJ58RDaew3byojtivSGaEU5zOS6YEJY29GHA9FKgh3rCZ4kk3aqt?=
+ =?iso-8859-1?Q?C8VpOiE54FZwBJNmWvvdGhuAYCwI3AsDnWbkQ1uztTtMCAwr1zH1rOfVWy?=
+ =?iso-8859-1?Q?6Q7fpRLGFV09wcK7iYtsiAxaYv8WnH9Kwzflt62IZu+C8GGeU55eWAqFBJ?=
+ =?iso-8859-1?Q?4gd/OMOcmKMKQu6lHg70fQ5lw1YoLfZzhH7hRR+CJCgJR2seS/tVzf3EGI?=
+ =?iso-8859-1?Q?Lo+D56TMtz/dmxqrWLt/YRB7kec9XmXt7K/DkNzj9aX5HU2BMbdNC0sY0N?=
+ =?iso-8859-1?Q?3Cr4EptIAmEv1WCQqXcYV/zyAD+Q7NFWSS6g6f5AxNtjMDw3V3QjSx4qH6?=
+ =?iso-8859-1?Q?eGXzSW+/2ivlrlKB8SYBs0G+PMyf4AUTkL4NZHuww8q7nhX6JtUHY2AhS6?=
+ =?iso-8859-1?Q?FH3btdKFDKfm2g15jtdJ+eBKJdNDh+/EhoUqt/cceNV2UKmltS2mTfFImn?=
+ =?iso-8859-1?Q?r4O2U1InjHW1GY5UtMTWsVk+L6Tvpzh9wrNgUDtrPFFlgA/b6rKaWQfOEi?=
+ =?iso-8859-1?Q?nWdaT5ZUWgBKemDk0Fb03tpjlATcvVG4Yhsmf+SdhccDoiXliBpRijXf3c?=
+ =?iso-8859-1?Q?yF2znP2gdthWPTE4auW7wd0b8/gli5DQhgyOJpGRB2oPB5vD45/DCWuMyN?=
+ =?iso-8859-1?Q?Mx0BWo0Ta/3xHlzsCi/nD1w0IbRGBnhwiSHDJjoERKbGQeRpZIdZe1Z2fz?=
+ =?iso-8859-1?Q?PwZ/af+bfKlRxbi6vJhJ/ewB02Jo4udgas7wKRTANS+AEodGE2H7xawEzF?=
+ =?iso-8859-1?Q?mQpxsgrQLh2NZOiz3DwGjColr3I9Ji9d9orTTA6arFErmd9XbQQoVhD1GA?=
+ =?iso-8859-1?Q?yYS5GbL0npCuU68BZpdCYzVdQa0k4a7ZDjP2TSeijCWSdu?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260824-16k_offload_v1_b4-v1-1-49a6be60ca30@oss.qualcomm.com>
-References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
-In-Reply-To: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Proofpoint-ORIG-GUID: eJcFBgtRgr-2iCzdVZSVqObqYkJI772b
-X-Proofpoint-GUID: eJcFBgtRgr-2iCzdVZSVqObqYkJI772b
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDAxNiBTYWx0ZWRfX4K7/yBZD2TCY
- /LpeN5HQFGjpQgQYb8Z21OSmOL2wWFBUaaHvYA6AAekmxd6TI9R7foc3L9184PKs+OyFlFtzEWL
- 54gbJy9bUQvQIExIenKAKdDFOyta/rY=
-X-Authority-Analysis: v=2.4 cv=TqPWQjXh c=1 sm=1 tr=0 ts=6a8cf8c8 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=RFEkg1aCLAsbH47RIloA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDAxNiBTYWx0ZWRfX5opNI+Mu9s3d
- GgINaFePaUMYbOJVWM/xjdCx7RwIxbEM02gPvJfV9TAR0GBydV2vtU/xGv6Pdr+t0BK/V0x/LPd
- 79oLSVUs0DYenRsanO/bwbvN9h+UfTwAJR2dmDaG0DWGYkMWpQskQeOovIYjRu+Fi43jkKdSMdR
- BpOAmauvCXZsP7WCsqNlVaBo5AT7xWbPKU3GL9sXJFZQSN2s7lAOHJn05tgRIcm4LQzelkfDT+2
- iFG6SPv5qmRT7MFvstuyANEGISRe8NDxGAFPgBexS/EffCxttXWBndJXp4Mc90iScT79nfCet5f
- sypgprMjFRbKvS0V3Vethe2hq7rxBF8rkXrtpoMg30flzsp4vcw3repI4ZtmlZdLeiZOMsB5n1A
- ATjQn/bBs4Q/R+tjUYlJhUeEx4oR1egY8075yXhjjqr3MZZz/bWwU0v2M8M22nuZn/0UU3ePjLk
- 58W4jCzitFXzDNTBzSQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-24_07,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 malwarescore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1011 suspectscore=0 priorityscore=1501
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608250016
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6134.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3ddba92-039e-4cbf-337a-08df0255824f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2026 03:03:59.1090
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XBUoRxIg/Etg1UHfmWRUQJdKQ5SScb4m8582sXHD0jJmbAuIcBs6AOp6a/+JB0U9JzSyLYI6NK7RPjYmNnWNjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6151
 
-Ring segments are normally allocated from a shared DMA pool sized and
-aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
-larger PAGE_SIZE (e.g. 16K or 64K page arches), a segment can end up
-at a non-page-aligned offset within its enclosing CPU page.
-
-A sideband client that maps a ring buffer directly via the IOMMU
-(which operates at page granularity) needs the ring to start at a
-page boundary and occupy whole pages, otherwise the IOVA it is given
-does not correspond to the actual start of the ring.
-
-Add an alignment_req parameter to the ring/segment allocation path
-(xhci_ring_alloc(), xhci_segment_alloc(), xhci_endpoint_init(),
-xhci_alloc_interrupter(), xhci_create_secondary_interrupter()) and to
-the sideband API (xhci_sideband_add_endpoint(),
-xhci_sideband_create_interrupter()) so a sideband client can request
-a specific alignment for its endpoint ring and interrupter event
-ring. When the requested alignment exceeds TRB_SEGMENT_SIZE, allocate
-the segment directly with dma_alloc_coherent() at that size instead of
-from the shared pool. Store the alignment requirement on struct
-xhci_ring so later segments added via ring expansion keep the same
-alignment for the life of the ring.
-
-Assisted-by: Claude:claude-sonnet-5
-Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
----
- drivers/usb/host/xhci-mem.c       | 70 ++++++++++++++++++++++++++++-----------
- drivers/usb/host/xhci-sideband.c  |  9 +++--
- drivers/usb/host/xhci.h           | 11 ++++--
- include/linux/usb/xhci-sideband.h |  7 ++--
- 4 files changed, 70 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 7a21ac81f9c8..5f09b36c127b 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -15,6 +15,7 @@
- #include <linux/dmapool.h>
- #include <linux/dma-mapping.h>
- #include <linux/bitfield.h>
-+#include <linux/usb/xhci-sideband.h>
- 
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -30,6 +31,7 @@
- static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 					       unsigned int max_packet,
- 					       unsigned int num,
-+					       unsigned int alignment_req,
- 					       gfp_t flags)
- {
- 	struct xhci_segment *seg;
-@@ -40,7 +42,14 @@ static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 	if (!seg)
- 		return NULL;
- 
--	seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
-+	if (alignment_req > TRB_SEGMENT_SIZE) {
-+		seg->trbs = dma_alloc_coherent(dev, alignment_req, &dma, flags);
-+		if (seg->trbs)
-+			seg->alloc_size = alignment_req;
-+	} else {
-+		seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
-+	}
-+
- 	if (!seg->trbs) {
- 		kfree(seg);
- 		return NULL;
-@@ -50,7 +59,10 @@ static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 		seg->bounce_buf = kzalloc_node(max_packet, flags,
- 					dev_to_node(dev));
- 		if (!seg->bounce_buf) {
--			dma_pool_free(xhci->segment_pool, seg->trbs, dma);
-+			if (seg->alloc_size)
-+				dma_free_coherent(dev, seg->alloc_size, seg->trbs, dma);
-+			else
-+				dma_pool_free(xhci->segment_pool, seg->trbs, dma);
- 			kfree(seg);
- 			return NULL;
- 		}
-@@ -65,7 +77,11 @@ static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg)
- {
- 	if (seg->trbs) {
--		dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
-+		if (seg->alloc_size)
-+			dma_free_coherent(xhci_to_hcd(xhci)->self.sysdev,
-+					  seg->alloc_size, seg->trbs, seg->dma);
-+		else
-+			dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
- 		seg->trbs = NULL;
- 	}
- 	kfree(seg->bounce_buf);
-@@ -334,7 +350,7 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci, struct xhci_ring
- 	struct xhci_segment *prev;
- 	unsigned int num = 0;
- 
--	prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
-+	prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, ring->alignment_req, flags);
- 	if (!prev)
- 		return -ENOMEM;
- 	num++;
-@@ -343,7 +359,8 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci, struct xhci_ring
- 	while (num < ring->num_segs) {
- 		struct xhci_segment	*next;
- 
--		next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
-+		next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num,
-+					  ring->alignment_req, flags);
- 		if (!next)
- 			goto free_segments;
- 
-@@ -370,7 +387,8 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci, struct xhci_ring
-  * See section 4.9.1 and figures 15 and 16.
-  */
- struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
--				  enum xhci_ring_type type, unsigned int max_packet, gfp_t flags)
-+				  enum xhci_ring_type type, unsigned int max_packet,
-+				  unsigned int alignment_req, gfp_t flags)
- {
- 	struct xhci_ring	*ring;
- 	int ret;
-@@ -382,6 +400,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
- 
- 	ring->num_segs = num_segs;
- 	ring->bounce_buf_len = max_packet;
-+	ring->alignment_req = alignment_req;
- 	INIT_LIST_HEAD(&ring->td_list);
- 	ring->type = type;
- 	if (num_segs == 0)
-@@ -421,6 +440,7 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct xhci_ring *ring,
- 
- 	new_ring.num_segs = num_new_segs;
- 	new_ring.bounce_buf_len = ring->bounce_buf_len;
-+	new_ring.alignment_req = ring->alignment_req;
- 	new_ring.type = ring->type;
- 	ret = xhci_alloc_segments_for_ring(xhci, &new_ring, flags);
- 	if (ret)
-@@ -663,7 +683,7 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
- 
- 	for (cur_stream = 1; cur_stream < num_streams; cur_stream++) {
- 		stream_info->stream_rings[cur_stream] =
--			xhci_ring_alloc(xhci, 2, TYPE_STREAM, max_packet, mem_flags);
-+			xhci_ring_alloc(xhci, 2, TYPE_STREAM, max_packet, 0, mem_flags);
- 		cur_ring = stream_info->stream_rings[cur_stream];
- 		if (!cur_ring)
- 			goto cleanup_rings;
-@@ -1007,7 +1027,7 @@ int xhci_alloc_virt_device(struct xhci_hcd *xhci, int slot_id,
- 	}
- 
- 	/* Allocate endpoint 0 ring */
--	dev->eps[0].ring = xhci_ring_alloc(xhci, 2, TYPE_CTRL, 0, flags);
-+	dev->eps[0].ring = xhci_ring_alloc(xhci, 2, TYPE_CTRL, 0, 0, flags);
- 	if (!dev->eps[0].ring)
- 		goto fail;
- 
-@@ -1486,11 +1506,20 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
- 	if (usb_endpoint_xfer_control(&ep->desc) && xhci->hci_version >= 0x100)
- 		avg_trb_len = 8;
- 
--	/* Set up the endpoint ring */
--	virt_dev->eps[ep_index].new_ring =
--		xhci_ring_alloc(xhci, 2, ring_type, max_packet, mem_flags);
--	if (!virt_dev->eps[ep_index].new_ring)
--		return -ENOMEM;
-+	if (virt_dev->eps[ep_index].sideband && virt_dev->eps[ep_index].sideband->alignment_req) {
-+		virt_dev->eps[ep_index].new_ring =
-+			xhci_ring_alloc(xhci, 2, ring_type, max_packet,
-+					virt_dev->eps[ep_index].sideband->alignment_req,
-+					mem_flags);
-+		if (!virt_dev->eps[ep_index].new_ring)
-+			return -ENOMEM;
-+	} else {
-+		/* Set up the endpoint ring */
-+		virt_dev->eps[ep_index].new_ring =
-+			xhci_ring_alloc(xhci, 2, ring_type, max_packet, 0, mem_flags);
-+		if (!virt_dev->eps[ep_index].new_ring)
-+			return -ENOMEM;
-+	}
- 
- 	virt_dev->eps[ep_index].skip = false;
- 	virt_dev->eps[ep_index].next_uframe = -1;
-@@ -2291,7 +2320,8 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
- }
- 
- static struct xhci_interrupter *
--xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
-+xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs,
-+		       unsigned int alignment_req, gfp_t flags)
- {
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	struct xhci_interrupter *ir;
-@@ -2307,8 +2337,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
- 	ir = kzalloc_node(sizeof(*ir), flags, dev_to_node(dev));
- 	if (!ir)
- 		return NULL;
--
--	ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, flags);
-+	ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, alignment_req, flags);
- 	if (!ir->event_ring) {
- 		xhci_warn(xhci, "Failed to allocate interrupter event ring\n");
- 		kfree(ir);
-@@ -2356,7 +2385,8 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num)
- 
- struct xhci_interrupter *
- xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
--				  u32 imod_interval, unsigned int intr_num)
-+				  u32 imod_interval, unsigned int intr_num,
-+				  unsigned int alignment_req)
- {
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
- 	struct xhci_interrupter *ir;
-@@ -2367,7 +2397,7 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
- 	    intr_num >= xhci->max_interrupters)
- 		return NULL;
- 
--	ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
-+	ir = xhci_alloc_interrupter(xhci, segs, alignment_req, GFP_KERNEL);
- 	if (!ir)
- 		return NULL;
- 
-@@ -2485,7 +2515,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 		goto fail;
- 
- 	/* Set up the command ring to have one segments for now. */
--	xhci->cmd_ring = xhci_ring_alloc(xhci, 1, TYPE_COMMAND, 0, flags);
-+	xhci->cmd_ring = xhci_ring_alloc(xhci, 1, TYPE_COMMAND, 0, 0, flags);
- 	if (!xhci->cmd_ring)
- 		goto fail;
- 
-@@ -2498,7 +2528,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	if (!xhci->interrupters)
- 		goto fail;
- 
--	xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
-+	xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, 0, flags);
- 	if (!xhci->interrupters[0])
- 		goto fail;
- 
-diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-index a5deeee4d5dc..471219d7d86d 100644
---- a/drivers/usb/host/xhci-sideband.c
-+++ b/drivers/usb/host/xhci-sideband.c
-@@ -144,7 +144,8 @@ EXPORT_SYMBOL_GPL(xhci_sideband_notify_ep_ring_free);
-  */
- int
- xhci_sideband_add_endpoint(struct xhci_sideband *sb,
--			   struct usb_host_endpoint *host_ep)
-+			   struct usb_host_endpoint *host_ep,
-+			   unsigned int alignment_req)
- {
- 	struct xhci_virt_ep *ep;
- 	unsigned int ep_index;
-@@ -171,6 +172,7 @@ xhci_sideband_add_endpoint(struct xhci_sideband *sb,
- 	if (sb->eps[ep_index] || ep->sideband)
- 		return -EBUSY;
- 
-+	sb->alignment_req = alignment_req;
- 	ep->sideband = sb;
- 	sb->eps[ep_index] = ep;
- 
-@@ -322,7 +324,8 @@ EXPORT_SYMBOL_GPL(xhci_sideband_check);
-  */
- int
- xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
--				 bool ip_autoclear, u32 imod_interval, int intr_num)
-+				 bool ip_autoclear, u32 imod_interval, int intr_num,
-+				 unsigned int alignment_req)
- {
- 	if (!sb || !sb->xhci)
- 		return -ENODEV;
-@@ -337,7 +340,7 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
- 
- 	sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
- 						   num_seg, imod_interval,
--						   intr_num);
-+						   intr_num, alignment_req);
- 	if (!sb->ir)
- 		return -ENOMEM;
- 
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index c7bfa7f028d3..e356405c6351 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1290,6 +1290,10 @@ struct xhci_segment {
- 	void			*bounce_buf;
- 	unsigned int		bounce_offs;
- 	unsigned int		bounce_len;
-+	/* nonzero if trbs was allocated via dma_alloc_coherent() at this size,
-+	 * instead of from xhci->segment_pool
-+	 */
-+	unsigned int		alloc_size;
- };
- 
- enum xhci_cancelled_td_status {
-@@ -1377,6 +1381,7 @@ struct xhci_ring {
- 	unsigned int		stream_id;
- 	unsigned int		num_segs;
- 	unsigned int		bounce_buf_len;
-+	unsigned int		alignment_req;
- 	enum xhci_ring_type	type;
- 	u32			old_trb_comp_code;
- 	struct radix_tree_root	*trb_address_map;
-@@ -1823,7 +1828,8 @@ int xhci_endpoint_init(struct xhci_hcd *xhci, struct xhci_virt_device *virt_dev,
- 		struct usb_device *udev, struct usb_host_endpoint *ep,
- 		gfp_t mem_flags);
- struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
--		enum xhci_ring_type type, unsigned int max_packet, gfp_t flags);
-+		enum xhci_ring_type type, unsigned int max_packet,
-+		unsigned int alignment_req, gfp_t flags);
- void xhci_ring_free(struct xhci_hcd *xhci, struct xhci_ring *ring);
- int xhci_ring_expansion(struct xhci_hcd *xhci, struct xhci_ring *ring,
- 		unsigned int num_trbs, gfp_t flags);
-@@ -1865,7 +1871,8 @@ void xhci_free_port_bw_ctx(struct xhci_hcd *xhci,
- 		struct xhci_container_ctx *ctx);
- struct xhci_interrupter *
- xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
--				  u32 imod_interval, unsigned int intr_num);
-+				  u32 imod_interval, unsigned int intr_num,
-+				  unsigned int alignment_req);
- void xhci_remove_secondary_interrupter(struct usb_hcd
- 				       *hcd, struct xhci_interrupter *ir);
- void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
-index 005257085dcb..8ab4e1cb0fc6 100644
---- a/include/linux/usb/xhci-sideband.h
-+++ b/include/linux/usb/xhci-sideband.h
-@@ -62,6 +62,7 @@ struct xhci_sideband {
- 	struct usb_interface		*intf;
- 	int (*notify_client)(struct usb_interface *intf,
- 			     struct xhci_sideband_event *evt);
-+	unsigned int			alignment_req;
- };
- 
- struct xhci_sideband *
-@@ -72,7 +73,8 @@ void
- xhci_sideband_unregister(struct xhci_sideband *sb);
- int
- xhci_sideband_add_endpoint(struct xhci_sideband *sb,
--			   struct usb_host_endpoint *host_ep);
-+			   struct usb_host_endpoint *host_ep,
-+			   unsigned int alignment_req);
- int
- xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
- 			      struct usb_host_endpoint *host_ep);
-@@ -94,7 +96,8 @@ static inline bool xhci_sideband_check(struct usb_hcd *hcd)
- 
- int
- xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
--				 bool ip_autoclear, u32 imod_interval, int intr_num);
-+				 bool ip_autoclear, u32 imod_interval, int intr_num,
-+				 unsigned int alignment_req);
- void
- xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
- int
-
--- 
-2.34.1
-
+From 6add8f1c36c672e59f5acfd4e1dd267fd4df727a Mon Sep 17 00:00:00 2001=0A=
+From: Juan Martinez <juan.martinez@amd.com>=0A=
+Date: Mon, 24 Aug 2026 14:00:13 -0500=0A=
+Subject: [PATCH] thunderbolt: Fix deadlock in tb_domain_reset_interface()=
+=0A=
+ during hot-unplug=0A=
+=0A=
+The AMD host-interface reset quirk introduced a deadlock during physical=0A=
+cable disconnect. The tb_handle_hotplug() workqueue holds tb->lock for=0A=
+the entire hotplug operation. When an XDomain is unplugged:=0A=
+=0A=
+1. tb_handle_hotplug() acquires tb->lock=0A=
+2. Sets xd->is_unplugged =3D true=0A=
+3. Calls tb_xdomain_remove() which unbinds service drivers=0A=
+4. Service removal triggers tbnet_remove() -> tbnet_tear_down()=0A=
+5. tbnet_tear_down() calls tb_xdomain_disable_paths()=0A=
+6. tb_domain_disconnect_xdomain_paths() calls the CM callback=0A=
+7. tb_disconnect_xdomain_paths() sees is_unplugged=3Dtrue, skips teardown=
+=0A=
+8. tb_domain_reset_interface() tries to acquire tb->lock -> DEADLOCK=0A=
+=0A=
+The callback intentionally skips teardown during unplug because the=0A=
+hotplug handler will perform the actual teardown later via=0A=
+__tb_disconnect_xdomain_paths(). The reset must follow the same pattern.=0A=
+=0A=
+Fix by:=0A=
+- Adding __tb_domain_reset_interface_locked() for callers that already=0A=
+  hold tb->lock=0A=
+- Skipping reset in tb_domain_disconnect_xdomain_paths() when the=0A=
+  callback was a no-op due to is_unplugged=0A=
+- Calling the locked reset helper after __tb_disconnect_xdomain_paths()=0A=
+  in tb_handle_hotplug()=0A=
+- Keeping the locking wrapper for normal teardown paths (netdev stop,=0A=
+  DMA test completion)=0A=
+=0A=
+Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA=
+ path teardown for AMD USB4 routers")=0A=
+Signed-off-by: Juan Martinez <juan.martinez@amd.com>=0A=
+---=0A=
+ drivers/thunderbolt/domain.c | 27 ++++++++++++++++++++++++---=0A=
+ drivers/thunderbolt/tb.c     |  2 ++=0A=
+ drivers/thunderbolt/tb.h     |  1 +=0A=
+ 3 files changed, 27 insertions(+), 3 deletions(-)=0A=
+=0A=
+diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c=0A=
+index f46b8b2ee6e1..1f0588bae366 100644=0A=
+--- a/drivers/thunderbolt/domain.c=0A=
++++ b/drivers/thunderbolt/domain.c=0A=
+@@ -787,11 +787,21 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, st=
+ruct tb_xdomain *xd,=0A=
+ 			transmit_ring, receive_path, receive_ring);=0A=
+ }=0A=
+ =0A=
+-static void tb_domain_reset_interface(struct tb *tb)=0A=
++/**=0A=
++ * __tb_domain_reset_interface_locked() - Reset host interface with lock h=
+eld=0A=
++ * @tb: Domain to reset=0A=
++ *=0A=
++ * Resets the host interface for AMD USB4 routers that require it after=0A=
++ * DMA path teardown. Caller must hold tb->lock.=0A=
++ */=0A=
++void __tb_domain_reset_interface_locked(struct tb *tb)=0A=
+ {=0A=
+ 	struct tb_nhi *nhi =3D tb->nhi;=0A=
+ =0A=
+-	guard(mutex)(&tb->lock);=0A=
++	lockdep_assert_held(&tb->lock);=0A=
++=0A=
++	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))=0A=
++		return;=0A=
+ =0A=
+ 	/* The reset clears the ring state so stop the control channel */=0A=
+ 	tb_ctl_stop(tb->ctl);=0A=
+@@ -799,6 +809,12 @@ static void tb_domain_reset_interface(struct tb *tb)=
+=0A=
+ 	tb_ctl_start(tb->ctl);=0A=
+ }=0A=
+ =0A=
++static void tb_domain_reset_interface(struct tb *tb)=0A=
++{=0A=
++	guard(mutex)(&tb->lock);=0A=
++	__tb_domain_reset_interface_locked(tb);=0A=
++}=0A=
++=0A=
+ /**=0A=
+  * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain=0A=
+  * @tb: Domain disabling the DMA paths=0A=
+@@ -831,7 +847,12 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, =
+struct tb_xdomain *xd,=0A=
+ 	if (ret)=0A=
+ 		return ret;=0A=
+ =0A=
+-	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)=0A=
++	/*=0A=
++	 * Only reset if teardown actually occurred. During physical unplug,=0A=
++	 * is_unplugged is set and the callback skips teardown - reset will=0A=
++	 * be done by tb_handle_hotplug() after actual path teardown.=0A=
++	 */=0A=
++	if (!xd->is_unplugged)=0A=
+ 		tb_domain_reset_interface(tb);=0A=
+ =0A=
+ 	return 0;=0A=
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c=0A=
+index d18bcca0b6e6..2370d8669156 100644=0A=
+--- a/drivers/thunderbolt/tb.c=0A=
++++ b/drivers/thunderbolt/tb.c=0A=
+@@ -2489,6 +2489,8 @@ static void tb_handle_hotplug(struct work_struct *wor=
+k)=0A=
+ 			tb_xdomain_remove(xd);=0A=
+ 			port->xdomain =3D NULL;=0A=
+ 			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);=0A=
++			/* Reset host interface after DMA path teardown (AMD quirk) */=0A=
++			__tb_domain_reset_interface_locked(tb);=0A=
+ 			tb_xdomain_put(xd);=0A=
+ 			tb_port_unconfigure_xdomain(port);=0A=
+ 		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {=0A=
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h=0A=
+index 798840b24d2a..9243073cae06 100644=0A=
+--- a/drivers/thunderbolt/tb.h=0A=
++++ b/drivers/thunderbolt/tb.h=0A=
+@@ -792,6 +792,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, s=
+truct tb_xdomain *xd,=0A=
+ 				       int transmit_path, int transmit_ring,=0A=
+ 				       int receive_path, int receive_ring);=0A=
+ int tb_domain_disconnect_all_paths(struct tb *tb);=0A=
++void __tb_domain_reset_interface_locked(struct tb *tb);=0A=
+ =0A=
+ static inline struct tb *tb_domain_get(struct tb *tb)=0A=
+ {=0A=
+-- =0A=
+2.34.1=0A=
+=0A=
