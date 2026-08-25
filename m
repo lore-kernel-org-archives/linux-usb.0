@@ -1,111 +1,255 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16E335C68D
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 07:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787643815; cv=none; b=KBlARBZm1DpRz5cpr5krZcRgz/b6xscypeeuiTJRJ1mwxs7RBG7OndGusp7unjmLOqQnB42K4c5gugdQwh+JIjpQH6AVy/A5JH3jK9Cd6KUcfhmvVvVaEY1MFS/TppIEegjikvkVHgFeJOux/X0x6K4Fy+ub69FOo7FCqZKfu/M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787643815; c=relaxed/simple;
-	bh=sLg8Ckk/hQ3NBVs8nL/RdwFJItCXw1At4jpUvXP85Gc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nBGwqRsAx3HVgPMB1YIZUiYw0wQfSdNWpqinjca4FRydx0nSdIpGNm46Yjb+O4hXldB0muKTBOtSzGOerbB1LJmsdMd5X9J0jpZtntVVNinS3kXe2ObLp5UIqPvxUPBJJf7aRV3T6vcAgQQ1qnswsvwpwAu/BwLTdK8NzkthWic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gWJZ9te8; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2E4326938
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 08:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787648288; cv=pass; b=PYqfkDSwVH1L72Ud3r2U20Z1hs900DNnF8NNLg9CAQnzC+5TBIXcA25UWPFcgsLaZ6lQDzRCRI0aZzVmKRX0g2iqGGObgNZu3bQEMOadbNl6S3XZFFvkZI0tKddVxeeYTw7wQwW/Eo31OkAeSFRhABOQ5fUG7eWOEJLQxgfe3jE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787648288; c=relaxed/simple;
+	bh=hv7psFl3Ws9ReChTvMwa0l+kAvHLDTCuxuec1CNlfM0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d5Ad1j9j7SbWHZuiylurBbrktMHOa5kDsjxrlD2xg+ys4ZvGbinD71hAFzyFIkmxUyic2SDt+9ZIPfPND5Jp13lCHhhyLmwGuMmQjWaLIDfl+ZRFOt9TqZ4nkFKuvTE/SOaJzcE9y+v/75QBVxUVUZxTW5GCEnnwh/v8yUlw0vY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y7sOk6Nv; arc=pass smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWJZ9te8"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c16794450aeso646345366b.2
-        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 00:43:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y7sOk6Nv"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39dbe684115so4865311fa.1
+        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 01:58:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787648284; cv=none;
+        d=google.com; s=arc-20260327;
+        b=c/hXqjN/Q/TrAfV/3ZV6pK9kcVrLRWqBdOBmjCm8H7IM3kUkXhSGROlCv9HmuJjExH
+         KKHXww9T6A2GU/XyXrV20q76rj0k+Nve+gO1DBDasYGL4JLLqAtNzS9C5MpI87X2Ecbt
+         zA8bT+r/hwZB+DGpOxNhmfDbMfKTrPJtykUCu5eB26Qx6e6d3XLNdu3GsUgf59ECDnKN
+         NpzWBU3XW9srbbVPlXcCzpuDy1Bf45jLD+yC8YuLpllQ//0wR3qEWqqzANce3sZKW3/z
+         t88oMNGNrj9+l/kzICZ5GiUL3qeN4wZISr5JSJQsf7yHTKoTXARPjMKihTUCELjlgZa7
+         Gwhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5ezw+lHG90KyeeujMITgw3JFtWqOY7cmyGIM6ONzm1c=;
+        fh=jD8xeHIEMTSWfcs27RGatzWnKBLYCtHxy3bVxwIUs1E=;
+        b=pG5bKlbsopBc9jYHlCGwOq2yPrt9UXLxF79yjnsvOhLKp8jy/WPiZ7YYkW+L5AHbxB
+         +JVAxMzUQAgz9oeyNSV+QPYzlRr5rPbNvShc9qZN6aeV3NqyGC1ech0HbsT4ujYsn3hj
+         DWZgnHGbXj9+A7RD0eNsekdGCg4obrdUUhhoqZBvv6tsu6csAQv0CNgvw/QMOy/YWCeT
+         nMhyMe55LQJ4Y3RkVhOa3N2uZTKQPxGEQmPQXNkpjy+An+JI+E4CInYg8VFBheY/CdeL
+         EnraGaqtele9nRObukn77jEfsbi1SaOFXSCPrs5x2W6yEPYbqLjXWdN/mqy7mgf2mDBy
+         cn8Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787643812; x=1788248612; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787648284; x=1788253084; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=53BGkIX3YCtdYzektyoVFu0+GpJUKht1d2NbX/XeaVI=;
-        b=gWJZ9te8J4edl5o0rlinczfhmd7/K7qHnv6x2x1sG8TrApK4meazHAymh4Li+euUky
-         q86pykaLRU7ZpeN5cmKXTSS+b3A32FDA24UL0nzk4vWx7KLLEwRISsWeqi7FGkVVbKE4
-         l9bkwmBEhXTMv04T2ESX4s7EvwMq1L5ZwYpcOs3Tic5Jpw/ZnE4Ox/fBJ8iKw2sXnGD+
-         opa/TPH60fDQNQzpMSEI4+cbjgihYFtfOIVhN9POHLImbFPz2VtHgAX4xzBcpcMp4W6e
-         9LogdN+f7AdE/N0RcdawYLTporRMuFC84g8rN6X7NHceNfZWV2q+CrOlUOCKCfR/wNpi
-         9cZg==
+        bh=5ezw+lHG90KyeeujMITgw3JFtWqOY7cmyGIM6ONzm1c=;
+        b=Y7sOk6Nv8fIOfg6wic3A4ZRsv32+C4wbxkO4Tym5+kUVrfw0wHxBSGudIiAF0lG6xQ
+         rUMduuLjyzlm2A4iJbzOUBsHSsWQYkNqL6M/MYkzVMM9CWfdc8Rr6ePyxrxlNVJw0IOV
+         y+AvAke4Nt3VyJvLJlYVTX9/xIbezq4jbHPx3dT6isxPkaYm/gaXkZUTI6+tNCEyisGA
+         FCMi33wgt3wxO9SitmcgJZaf8ml4e0Vr5E8IGnnMHtJ/HTuoJ4tzBaEbfuofd/ymMYkR
+         ocZtN8/oD3hhB9U/yh/oR5p8+IKZnmCPFT/9fyahpuIHR0rBUkorzRu0Z8v2EXrQdIHz
+         5RzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787643812; x=1788248612;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787648284; x=1788253084;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=53BGkIX3YCtdYzektyoVFu0+GpJUKht1d2NbX/XeaVI=;
-        b=crLSM45DFegtujd4mW5F22GgTh2nmhNMPOS6dzBW4m7+YkccGjx8FQ05hm7f/Eyk6K
-         goVs3xUzA+eD7xaRBVKR8+ygbakuFEm33RlOy9L1PGl4eCHEwFGdRKXgpEeLKa3Q59hI
-         fcsLYC+CZGwGmKvtRBhnAvLOVQHvLS2ZIxgioR6fT6MqiLHZp1acnTiXoy0pAZFNBq3K
-         MDFg6ofxSkCfsucWbqoc3BDZPX3uwFQMF9RwdKNoQcGXCt/lbaplqmN264SgtVxPegva
-         8x6S97/FK7iJknGF3PVO9RzYi7YFnQJexf5jek+Sgb81at5aEONVSJx66XcR9TBLng7j
-         EeuQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrL5f3oad8UAC00l4wofj7n8afuevStgNLW6s50grL9xmX9k07+AAQgJhyABXjmVyeCpOLLb/flNX4=@vger.kernel.org
-X-Gm-Message-State: AFuF++nTF1hT4dujPYltEVOHfGKZshF6J34NL+O/cW0JLE3B/CZLaNea
-	mF2+/RyKvn106t47h5kflbGs+TOyDT0G6ygVZATnTSejBRmw82mURB2l
-X-Gm-Gg: AR+sD10wGPjUnvz22fB2MbtkZsvH47BC8YwaPVmWtI1boFpnnlHevWTh+gstt13ULiG
-	T4l9CSHsAeyt+Fty9Mm4P6plUTobHlGN4HynNT6eLlEgbR7Dowl+82LPCjjjfMH1PV1zbMMsa4d
-	1OzxsqIjrZkr7mgnzAlB03JmCEu2//Vrv6XjqI0eC/VQpzND8b/EQxWRR52o97lLW0Wxbxti5zt
-	IgnBu9/W+eP8t7oN8FwlHoBVMn2GCjMGJP2nGb9/GfEGSqohoSBvbJbH7zYe6QPuMVZM7JlkBdu
-	gCUy2hi9YdL0hpYtwvEFj+hOMaSh/pyeZy5n7yJ1ulq/lIHEbD94+Hc8Upxp8BIh+5DQuZfhHhR
-	0Jk+OMHqaplYIWmRFkwcA3OWUP5q7E356beoM+IJsnKYfItmjsbEcGwYSzDYYALTLII5Pl+Ph9t
-	lNzgJCkEqrDxmIGiIOaDqQ70E2zJn6jRzvAt5ST14yMBJCBe3JEoXZsId61MFHK7yGd74=
-X-Received: by 2002:a17:907:72c5:b0:c24:d6f0:1223 with SMTP id a640c23a62f3a-c24d6f20633mr953718966b.12.1787643811777;
-        Tue, 25 Aug 2026 00:43:31 -0700 (PDT)
-Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f9cbcsm1852865066b.29.2026.08.25.00.43.30
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 25 Aug 2026 00:43:31 -0700 (PDT)
-Date: Tue, 25 Aug 2026 09:43:27 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
- path
-Message-ID: <20260825094327.606072e9.michal.pecio@gmail.com>
-In-Reply-To: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
-References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+        bh=5ezw+lHG90KyeeujMITgw3JFtWqOY7cmyGIM6ONzm1c=;
+        b=YErBLnZasBaKo9Qv9wU/lug89WoKNpvnUB+EgkqNqjl+Co5YZcO3CKiZPTGeR2c7eJ
+         0BHI7f0wh9R4zN8WkymYH9kOni6nguRR8ap2/fq64cz+Q4SdW2hqhjko/2KkEVDzthiV
+         PF7hLVXq4j55K9sQYESl5snKDNyvRIXWP2FtMdL63TxhTOV98JjJR+LG2ttjzpUNDPv/
+         TgiamdFrPzWJWZjjqZk0qI2IZaM/FylG8attQz9xj1LjTJ3q9LYvQqSITg/qxraCv9c9
+         b235ui3ULHoBN23p+3p49YQPdauOHczLE031rtjyqaDI44zoh4OMkbnX8SWTdkI7o2us
+         4nBw==
+X-Forwarded-Encrypted: i=1; AHgh+RoGPZbt3U366t3BRU9KJRBteyiqGgF4JoncSEj+606b7zWKi4fEmVKTq9KvgFGHY1CK6fJO19fNk4o=@vger.kernel.org
+X-Gm-Message-State: AFuF++mklStMalf2jEXNc5lfHT0c0xIaH4ov3nKIUZGxpRpFkjrEPHqB
+	Sv2i5KlOJ/9hTxVKOmXbIi4s7mIxjzFpfrmfOwQ8CyYwr5BEui2nvHV4Lh5QWkzqZBtG6OO/GVc
+	Z6/N7C8hFopcyphVjiizhg2inTae5jmE=
+X-Gm-Gg: AR+sD129v9QYecftmE2bTktg44Ss3T5/6Cu1GxI179abTL8R/ZEtGLofKlUUhBX1jLV
+	5k8dhzivIkoU7h1KV+1EGNxo6pIzJagzoG7mDLUi2bZNqaobR5K6mRV8wXkH9SIOVUdi0IuK6sj
+	Um0aXQUPtigv2d3JcbwKB3UB1+0C1b8NPJhGY7y+dwAsDlSVbW/1DlaMe/rO1E6LrMIbKR60x1u
+	zpnaYtMcGTpjMYz+1AL+LjjKdEPrI3K366/RjA2M6goe4T+siE6gc8/27mq3m3+otQtgM7IuBPV
+	nKCpJocGOA1CgGo9rPGNxFh2M+btcSq2hszN5VgeDwHUnfb9rI8dFoJ93ioj1xoX6P54cKsZGGF
+	AVg==
+X-Received: by 2002:a05:651c:a338:b0:3a1:7927:c302 with SMTP id
+ 38308e7fff4ca-3a1eda808acmr10530241fa.2.1787648283761; Tue, 25 Aug 2026
+ 01:58:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
+ <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
+ <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
+ <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info> <aosGtkE_diwVJJtB@eggarch>
+ <20260823174059.46fec036.michal.pecio@gmail.com> <aoser8dLytrwqBC2@eggarch>
+ <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com> <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
+In-Reply-To: <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
+From: Mathieu Fluhr <mathieu.fluhr@gmail.com>
+Date: Tue, 25 Aug 2026 10:57:52 +0200
+X-Gm-Features: AcwNN1VgQYuPNfWZAsoIgdXuYlvjSNx0u-75mKCYFe6GTjYsbwfcHq3iOmLOPQM
+Message-ID: <CAPyJwA9GvqeaBYhN56L1S9YW-rwWgFejrcNcE=54DQC3Eaqxww@mail.gmail.com>
+Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
+ triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
+ (bisected to aec11e5f9c45)
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, Michal Pecio <michal.pecio@gmail.com>, 
+	Thorsten Leemhuis <regressions@leemhuis.info>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
+	linux-usb@vger.kernel.org, regressions@lists.linux.dev, 
+	stable@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+> The behavior that is described here sounds like a platform firmware bug
+> Are you on the latest BIOS available from your OEM?
 
-On Mon, 24 Aug 2026 19:06:54 -0700, Wesley Cheng wrote:
-> On some environments, 16kB pages can be enabled from the Linux subsystem,
-> which manages the IOMMU mappings for the audio DSP within the system.  In
-> the current design, the following assumptions break when 16k pages are
-> utilized:
->   1. xHCI ring size is equal to PAGE_SIZE
->   2. Ring addresses start at the beginning of a page
+Ywa, And I even rolled back 2 BIOS before, All 3 are showing the issue...
+...even the exact same one (with the exact same CMOS settings) that I
+used in 2024 without any single issue.
 
-FYI it's worse than you think - xhci_ring_to_sgtable() returns wrong
-data and uses some allocation out of bounds on these systems. Quickly
-scanning through the patch I haven't noticed any changes there.
+> Can you please confirm:
+> Your CPU model number/codename
+AMD Ryzen Threadripper 7870X 32.Cores
 
-> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
-> set with a 16k granular, which is a problem, as several xHCI rings could
-> exist on the same page.  This is because the rings are currently allocated
-> from the segment_pool.  Hence, potentially mapping non USB audio related
-> rings into the region accessible by the audio DSP.
+mathieu@ubuntu:~$ cat /proc/cpuinfo
+processor : 0
+vendor_id : AuthenticAMD
+cpu family : 25
+model : 24
+model name : AMD Ryzen Threadripper 7970X 32-Cores
+stepping : 1
+microcode : 0xa10810c
+cpu MHz : 2188.582
+cache size : 1024 KB
+physical id : 0
+siblings : 64
+core id : 0
+cpu cores : 32
+apicid : 0
+initial apicid : 0
+fpu : yes
+fpu_exception : yes
+cpuid level : 16
+wp : yes
+flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt
+pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology
+nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor
+ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx
+f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a
+misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core
+perfctr_nb bpext perfctr_llc mwaitx cpuid_fault cpb cat_l3 cdp_l3
+hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall
+fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq
+rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw
+avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc
+cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf
+xsaveerptr rdpru wbnoinvd amd_ppin cppc arat npt lbrv svm_lock
+nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter
+pfthreshold avic vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku
+ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg
+avx512_vpopcntdq la57 rdpid overflow_recov succor smca fsrm flush_l1d
+debug_swap
+bugs : sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass srso
+spectre_v2_user tsa vmscape
+bogomips : 7988.27
+TLB size : 3584 4K pages
+clflush size : 64
+cache_alignment : 64
+address sizes : 52 bits physical, 57 bits virtual
+power management: ts ttp tm hwpstate cpb eff_freq_ro [13] [14]
+[..]
 
-If that's a security or reliability concern, perhaps each sideband
-instance should create its own DMA pool, as opposed to allocating every
-ring segment on a separate page?
+2. Your OEM (from /sys/class/dmi/id)
+I am using an ASUS Pro WS TRX50-SAGE WIFI
 
-I suppose each 'xhci_ring' could keep a pointer to its segment pool and
-things would work for everyone, with very few changes.
+root@ubuntu:/home/mathieu# cat /sys/class/dmi/id/board*
+Default string
+Pro WS TRX50-SAGE WIFI
+231230340100705
+ASUSTeK COMPUTER INC.
+Rev 1.xx
 
-Regards,
-Michal
+3. OEM BIOS version (from /sys/class/dmi/id)
+root@ubuntu:/home/mathieu# cat /sys/class/dmi/id/bios*
+02/03/2026
+13.17
+American Megatrends Inc.
+1317
+
+4. AGESA version (see commit bc91133e260c8113c1119073c03b93c12aa41738 if
+the OEM didn't tear it out.  Otherwise look in BIOS menus)?
+
+The BOIS shoes this information (I also put the ones from previous
+BIOS I tested):
+BIOS 1317: ComboSP6PI 1.0.0.1e
+BIOS 1203: ComboSP6PI 1.0.0.1a Patch A
+BIOS 0803: StormPeakPI_1.1.0.0g
+
+On Tue, Aug 25, 2026 at 12:09=E2=80=AFAM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+>
+>
+> On 8/24/26 14:37, Mathieu Fluhr wrote:
+> >> The issue is obviously a severe HW malfunction (you mentioned MCEs, th=
+e
+> >> Ryzen CPUs simply totally locked up), triggered by poking certain xHCI
+> >> controllers on the I/O die of these CPUs in some wrong way.
+> >
+> > Yes. As mentioned, I first thought that the emulator itself triggered t=
+hat by
+> > doing something that the CPU did not like.To be honest, I barely play w=
+ith old
+> > Android versions anymore, but seeing that I could reproduce it even wit=
+h
+> > Android 13 or 14 made me suspicious.
+> >
+> > I _guess_ Google implemented a workaround inside adb for version Androi=
+d
+> > 15 since using this version, it remains stable for more than 2 hours.
+> >
+> > But, in the end, the situation is that from a simple user account havin=
+g access
+> > to some usb plugged in devices (I usually add my user account to the pl=
+ugdev
+> > group and use some known udev rules to access my Android tests devices)=
+,
+> > you have a way to crash the complete system.
+> >
+> >> Opinions seem to vary on whether CPU load must be present or absent.
+> >
+> > On my side (and I am here only speaking about my TR. I don't know about
+> > other Ryzen CPUs), I can't reproduce it under load, and one condition t=
+o
+> > reproduce it is my CPU going in C2 state.
+> > -> I did a 2:30 hour test using several youtube videos playing at the s=
+ame
+> > time on my desktop, also stressing the emulator with some 3D Mark runs
+> > (as mentioned, I first suspected the nvidia driver to be faulty). As lo=
+ng as my
+> > computer was busy everything went fine. But then I let it stand still f=
+or a few
+> > minutes, and it just crashed.
+> >
+> > If you need me to do some further tests or experiments, let me know. I =
+will
+> > be more than happy to play the guinea pig here.
+> >
+> The behavior that is described here sounds like a platform firmware bug
+> to me.  Are you on the latest BIOS available from your OEM?
+>
+> Can you please confirm:
+>
+> 1. Your CPU model number/codename
+> 2. Your OEM (from /sys/class/dmi/id)
+> 3. OEM BIOS version (from /sys/class/dmi/id)
+> 4. AGESA version (see commit bc91133e260c8113c1119073c03b93c12aa41738 if
+> the OEM didn't tear it out.  Otherwise look in BIOS menus)?
+>
