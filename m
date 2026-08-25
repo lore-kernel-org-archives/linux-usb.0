@@ -1,135 +1,202 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500EA3E16A9
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 11:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17883955EB;
+	Tue, 25 Aug 2026 11:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787656044; cv=none; b=HcVkEBQnMChp09h2K6Iz5XWK0e7QyUm5s7XDVJ5fuiIn0otSog4lHE39m4eETl5r5rQ0ZeaVx7NmZ9wsTz4K8wEtQwfqBMYpzylmWGlQ3NlJs9kKFFMxmZoT8sjeMu0b61CV96PCF/uCPr6+BeCy6c0NDHNE2IgWThNA+8SpFbE=
+	t=1787656193; cv=none; b=YaCdP1wYJXfnafRS5t5BgoN8qD/waugZBrSlB3Cwd4YKEc3QVLbkv3Kljb8hhNz/+H7ERSPXMdrx6xWEn/NS71PS1i3dB18Mti/BoDT/bGj2x7ao7pfDnDH/sdLjwg7CK9fXI6s4PZmxNjq4+sMZZXu0oxERXwbk/kMTDFgy82k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787656044; c=relaxed/simple;
-	bh=FbsJrNLWRnA5FZelNcQumZAVr9SQGildHFWErfp7iE4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZpgLk8Zt2N4/rtAf5Owkuh4LzadkGXHSo3J1xe62xCeYqy05Y3BJL+2DNuSXVYU+3mjNgpoHRI7oybvDio6kWlHnNniCwsjPTbYQqH+cOlnEgCVGTrEIhh0w9m2stcJXi2L16URd5uCj7lmg+pvOe1/YWCA8/I6bj+1TX3iyIOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uq6ZO6My; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787656193; c=relaxed/simple;
+	bh=v6SKz/QSgRHXGIUo1eEuETY+0V6EHZTt5iHjhXxsvyk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N9Tep2kPCfmFbD1qCp6wFqXSrBz6sih/RSSOBtjncqIFWJlybArFxmZ0GrNeSm9nlLY3ZVaQqoeuEjEd903EVs/uDI7ArZ3BHPyup75tBpRa3pZ7Sh/zn2Op0PuBU6jFgFpKYBR9uuF56bWbXf/Q/eN5mWP9c2oCE9uG1FoKIdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V37jzsVe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bizvjyRx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KX8oeYje; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ISQnX6wt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uq6ZO6My"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so4160319a91.2
-        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 04:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787656043; x=1788260843; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ygSmQPvZ/Nd116NGGtGNonu+zeK52756mGmLYMo4WT0=;
-        b=Uq6ZO6My62FnBKE7nPkf5mwsA9naTz0tJPh9eaoazG5ZLko1o/HI/H6LzTDaHWpY0M
-         heou2eemSfYbu5qUMgCWZsrXBZg5eUjkhnC6bVCg3H8TfDNcPX6gN8a0PgvkKIBpweWx
-         0pShRP8GfFtFF9kPhowYheCgRJ1/DNR6T1pFvkURafpAeiQgIaa5VuuO7mAduZLbSxRY
-         7HmMbTK84EB4z+w1xOGmAlyRrehCVqqMJyue0d/CljLGVNNJ+SrQe7Bg4TVIUr6qrTtm
-         /WmJimHNGfblbd+2ZBndzXCGM3GQCV2TVs5nsKT0/mKtbMf9OmIkCnyiOaPSDlUQrUEn
-         LBUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787656043; x=1788260843;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ygSmQPvZ/Nd116NGGtGNonu+zeK52756mGmLYMo4WT0=;
-        b=d/Eb9xgMAoOu8dlGw+bvEZy/fT4kj+XF2QDYeJdOpNulfoCV27s+bTMIENAcyGUvLh
-         NSqVE1CJ9T5vCpJGNY05g2CWBJjIrcqVi06B8zR9ETdssEbbYUXZgngScs93UqYcQFq1
-         bAtz+OSDV/UTiU5dtPumk5hP/iTpvF5uao4LLeO7pworjb9rptL1od6bi1FUcWWJnNSK
-         BhjO5MX2u+aTYRa6wypiH2lWC2Qj8gGPX8a5PnDFfZdr+xIGDntboT4CMz1glUtgL5Jw
-         z4un7MzJyqKvE6RT5Mr90A6nykhXGKIB1/1SndkQVhZG35hZAdAFY1+ek5qRzjJFgyVh
-         5czg==
-X-Forwarded-Encrypted: i=1; AHgh+RrMQojJkkEssjLyVKjWyLLjjg1uN8D5cqMPEkyPg+UwIjb97TZbFB6UBrpbayNsoNA/xtoj3TA+0yY=@vger.kernel.org
-X-Gm-Message-State: AFuF++mfCpxPMio6SMWLS5SckBXHQ0+RjmRdGq7S4AwXSufPBlDT+w7o
-	GN7EvLr7LrdNWEU//PP7sTgtOnKhaj1/hbTSYe0MbgGEfbDDZx5/4biP
-X-Gm-Gg: AR+sD112I/Mv93tt1lrxpRQOO/XtEaAUHJsVm/6EzcRbR6xSK7+TuEz5vxoMxoAKYrV
-	Tq8hxcNGiP8lDGERiqBuqulgio/Q67GfIXT7wWdZuLz05XZPUNuUQj+KrnQctsIQhV6rX8+qPzB
-	jQwrQNoDuUg9YwihNQ9Ikp56Y7vTv+BBlXYXqyRi8Cu50hK1qgOAVLHdkWXmc4Jv/SutbiH8Vcn
-	aBFNKrefXxtvCUhkGldqJOi8+0JxE4Am1AFTX/iz67Fyuobiv7UtcGzfNWYxTB6GDokTNBC3Q6w
-	Vp26HrKOS63bWliDIsI1+ZXUoFNjf0bmp8Oun2fzo68OYRTxbSWI7nhr8D0iac4QAcs4a+IbuF0
-	YlC4PjMuyxNh7M+Ll+uqW+kNo8iyi8VWVt7A+ryu5SBa86XOq4CuCW26LJICSFaEvrCxfxUI7R/
-	gvn5jF5P2QqIFcbUC1Da6wisn6rFggVj2JTLT+oF5hHn8sSxCwmBqkP66WNww2dXn+hfLnJc5da
-	Nu0S8VLPoNKj3Kaxjx7GdlQFnhrF5QzxKe5IBmsLuuS
-X-Received: by 2002:a17:90b:2685:b0:380:21b7:e727 with SMTP id 98e67ed59e1d1-396465587c5mr11510630a91.14.1787656042512;
-        Tue, 25 Aug 2026 04:07:22 -0700 (PDT)
-Received: from localhost ([2409:40c4:101c:e5a9:a28f:e499:1b07:43b3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d36f9sm54570232eec.16.2026.08.25.04.07.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 04:07:21 -0700 (PDT)
-Date: Tue, 25 Aug 2026 16:37:15 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: jjy600901@snu.ac.kr
-Cc: brauner@kernel.org, eulgyukim@snu.ac.kr, gregkh@linuxfoundation.org, 
-	jack@suse.cz, kees@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mjguzik@gmail.com, stern@rowland.harvard.edu, 
-	viro@zeniv.linux.org.uk, stable@vger.kernel.org
-Subject: Re: [PATCH] USB: gadget: fix NULL pointer dereference in
- gadget_dev_ioctl()
-Message-ID: <ao128wxaVmFhhohL@eggarch>
-References: <20260824113510.1141236-1-jjy600901@snu.ac.kr>
- <20260825105801.319997-1-lovekeshsolanki00@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V37jzsVe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bizvjyRx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KX8oeYje";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ISQnX6wt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B1F2886E49;
+	Tue, 25 Aug 2026 11:09:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787656185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=V37jzsVePOqYnGPrKsE/k/5qDTqf9hn1n5S70EFbyOgt4Tl+HqMEb9hCPZKbW7uTPVnFoQ
+	Ya7Rd73WClJgaKJptm0SuK/ns5BD84MPlUmG10qewtUHTWUiDHG9RhQkxefJJLoH3tpl+4
+	Slnuuf7BxcpDCBSomFv0U9NwSwMIZA8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787656185;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=bizvjyRxlFwsfD5PMUJQwiBfbJ4MoklgAV/Xjj9kyjTqmrPNEiUqzJpAiAOY41X3opB1IV
+	9FsqcVqlB9enYPCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787656181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=KX8oeYjeDDeEBvy1/cJq5fTCoFfHbG1Qmd1OpxpvnQODBGbBVNFSzB8SKk9NyQRXezqiOd
+	CGb8dh/sWbygQo3mIq0xvshnBwpq0FMc7rNRE+4NdHfNkYbHr8m/KdavSulwV6qt0ryr0Y
+	IvFC5nFS/LMZlLq+FtKK1b9wuzct0VY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787656181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=ISQnX6wtuudLeuS6PrHD39UHxX1p4/MSTK0dMUV4nXHnpWD08afpduEkdZ9NjIJfdK5Z7A
+	N5KlIuNeh6sJHKCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92FC513332;
+	Tue, 25 Aug 2026 11:09:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NNEwI/V3jWrxLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 11:09:41 +0000
+Date: Tue, 25 Aug 2026 13:09:37 +0200
+Message-ID: <87o6eqsbgu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload path
+In-Reply-To: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260825105801.319997-1-lovekeshsolanki00@gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,qualcomm.com:email];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-On Tue, Aug 25, 2026 at 04:28:01PM +0530, Lovekesh Solanki wrote:
-> gadget_dev_ioctl() reads dev->gadget outside the dev->lock, while
-> gadgetfs_bind() writes it without holding the lock. A concurrent
-> bind can update dev->gadget and dev->state under the lock while the
-> ioctl thread holds a stale NULL copy, causing a NULL pointer
-> dereference at offset 0x28 (gadget->ops->ioctl).
+On Tue, 25 Aug 2026 04:06:54 +0200,
+Wesley Cheng wrote:
 > 
-> Read dev->gadget inside the locked region, before the state check,
-> so the state and gadget pointer are always consistent.
+> On some environments, 16kB pages can be enabled from the Linux subsystem,
+> which manages the IOMMU mappings for the audio DSP within the system.  In
+> the current design, the following assumptions break when 16k pages are
+> utilized:
+>   1. xHCI ring size is equal to PAGE_SIZE
+>   2. Ring addresses start at the beginning of a page
 > 
-> Cc: stable@vger.kernel.org
-> Reported-by: Eulgyu Kim <eulgyukim@snu.ac.kr>
-> Link: https://lore.kernel.org/all/20260824160022.2378192-1-jjy600901@snu.ac.kr/
-> Reported-by: Jaeyoung Chung <jjy600901@snu.ac.kr>
-> Link: https://lore.kernel.org/all/20260824160022.2378192-1-jjy600901@snu.ac.kr/
-> Signed-off-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
+> set with a 16k granular, which is a problem, as several xHCI rings could
+> exist on the same page.  This is because the rings are currently allocated
+> from the segment_pool.  Hence, potentially mapping non USB audio related
+> rings into the region accessible by the audio DSP.
+> 
+> To mitigate this, this series introduces the alignment_req parameter.
+> Before the USB audio offload path is enabled, the USB audio data
+> streams/endpoint are not active.  Only when the class driver issues a
+> usb_set_interface() call (done from snd_usb_endpoint_prepare()), will the
+> xHCI allocate the transfer ring resources.  By setting the alignment_req
+> beforehand, when allocating the ring segment, it can fulfill the audio DSP
+> alignment requirements by allocating DMA-able memory on the fly (based on
+> what is being requested) versus fetching it from the segment pool.
+> Likewise, keep track of if memory was dynamically allocated to handle the
+> free path properly.  The function call flow will now look like the
+> following:
+> 
+> handle_uaudio_stream_req()
+>   │
+>   ▼
+> enable_audio_stream(subs, ..., pcm_card_num)
+>   │
+>   ├─ xhci_sideband_add_endpoint(sb, data_ep, PAGE_SIZE)
+>   │    │  alignment_req == PAGE_SIZE
+>   │    ▼
+>   │  sb->alignment_req = alignment_req
+>   │
+>   ├─ snd_usb_endpoint_prepare(chip, data_endpoint)
+>   │     → xhci_check_bandwidth() → xhci_endpoint_init())
+>   │    ▼
+>   xhci_endpoint_init(..., ep_index, ...)
+>   │    if (sideband && sideband->alignment_req)
+>   │        new_ring = xhci_ring_alloc(xhci, 2, ring_type, max_packet,
+>   │                                    sideband->alignment_req, mem_flags)
+>   │    ▼
+>   xhci_ring_alloc(..., alignment_req, ...)
+>   │    ring->alignment_req = alignment_req
+>   │    ▼
+>   xhci_alloc_segments_for_ring(xhci, ring, flags)
+>   │    xhci_segment_alloc(xhci, ..., ring->alignment_req, flags)
+>   │    ▼
+>   xhci_segment_alloc(..., alignment_req, flags)
+>        if (alignment_req > TRB_SEGMENT_SIZE)
+>            seg->trbs = dma_alloc_coherent(dev, alignment_req, &dma, flags)
+>        else
+>            seg->trbs = dma_pool_zalloc(xhci->segment_pool, ...)
+> 
+> Similar logic is added for the secondary interrupter path as well.  The USB
+> offload class driver calls xhci_sideband_create_interrupter(), which will
+> be responsible for allocating the secondary event ring.  The same
+> alignment_req parameter is passed, and during xHCI event ring creation, the
+> same set of APIs are utilized, so the runtime memory allocation is already
+> handled.
+> 
+> This was confirmed to work on the SM8350 MTP platform, with the 
+> CONFIG_ARM64_16K_PAGES config enabled, alongside tinyaudio binaries:
+> 
+> tinymix -D 0 set 513 1  (Enables USB_RX multimedia#1 path)
+> tinyplay -D 0 -d 0....  (Routes PCM data to ASoC platform sound card) 
+> 
+> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 > ---
->  drivers/usb/gadget/legacy/inode.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-> index d87a8ab51510..e9f7d7c1a6a3 100644
-> --- a/drivers/usb/gadget/legacy/inode.c
-> +++ b/drivers/usb/gadget/legacy/inode.c
-> @@ -1251,14 +1251,15 @@ ep0_poll (struct file *fd, poll_table *wait)
->  static long gadget_dev_ioctl (struct file *fd, unsigned code, unsigned long value)
->  {
->  	struct dev_data		*dev = fd->private_data;
-> -	struct usb_gadget	*gadget = dev->gadget;
-> +	struct usb_gadget	*gadget;
->  	long ret = -ENOTTY;
->  
->  	spin_lock_irq(&dev->lock);
-> +	gadget = dev->gadget;
->  	if (dev->state == STATE_DEV_OPENED ||
->  			dev->state == STATE_DEV_UNBOUND) {
->  		/* Not bound to a UDC */
-> -	} else if (gadget->ops->ioctl) {
-> +	} else if (gadget && gadget->ops->ioctl) {
->  		++dev->udc_usage;
->  		spin_unlock_irq(&dev->lock);
->  
-> -- 
-> 2.55.0
+> Wesley Cheng (2):
+>       xhci: sideband: support page-aligned ring segment allocation
+>       ALSA: usb-audio: qcom: request page-aligned xHCI ring buffers
 
-Apologies, the Link tag is wrong, correct one is
-https://lore.kernel.org/all/20260824113510.1141236-1-jjy600901@snu.ac.kr/
-Should I send a v2 with fixed tag?
+I guess your first patch alone breaks the build, and this is bad for
+bisection.  When you change the API, the callers should be addressed
+in the same commit altogether in order to keep the stuff working
+during the transition.
 
-Regards,
-Lovekesh
+
+thanks,
+
+Takashi
