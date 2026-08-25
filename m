@@ -1,152 +1,73 @@
-Received: from mail-oi2-f10.google.com (mail-oi2-f10.google.com [74.125.231.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A082EEE75
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 03:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBFC2472A2;
+	Tue, 25 Aug 2026 03:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787629423; cv=none; b=RltzMf7TLbQ11m1uZuSnEjVYT+aYUdXNR3OExIc1kPXpoIo9es5Srs0Lz7gGAPLRBS14LbUn1GiVgqyT7dqNysYhYdrAXKdA+tqrUGZVcdzK6KReRD2l1+1QhL/GjASnBGOw9L7SVynGstSxVkxTAHq3WHIrS8AELTjsGU3oLJc=
+	t=1787629898; cv=none; b=LOB+N0saLnDSrMHXwDbY7fHKzRpLBgYdnpcOENfa05Oy7zwN5fJo6gOVGCYw02+4vZNWsyYL9Ze67HENDegszmzMNPNEN8loOWY32+yPqhMTyQIEjY5WhzJn5UfuZKsuJ8fl+nlCIj0gyrJH3HeQJYHwbA89YAfXgT8fqe1vNLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787629423; c=relaxed/simple;
-	bh=Q0tS7aUlqWs1+Sv1rMy8/xQ7sdBcjXYL5fPPpYfKWnM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=tdrWjSrIZGaOamMcSXkt4/YuVdICKZbLJSj2loCORUeSceYYFkxaGUgV42MzaoOXDO/dftFG8jpoFAl0L/UoS3+6h11VbOha6V09NUzM/lImREKrxjxdmd5ZOJPnpy/qmdfurIhoksdpgMxm6Q/UTqGpPfLBtdbKJiWmBP055eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f10.google.com with SMTP id 46e09a7af769-7f193d62888so630025a34.1
-        for <linux-usb@vger.kernel.org>; Mon, 24 Aug 2026 20:43:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787629420; x=1788234220;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZjpD2FQJ+/ueSJRioL530ZfyPsRnYCZF2fy/pO8aPtQ=;
-        b=csWIHI2wAFaBhgf8NXsyWxdlQdEEJ7NA32qWq8C5v/6j/pDq+sycXXwUIC1ySay5T8
-         Q7OZC7WM7vFw6Llh5Yte7Jv9HJ8DNffBBQupPsm8jtKqkUbKTPzGIgZtMWOGwc15PIa8
-         aEujEs5LjfOIgZkOnb4EdUnsyyY4R/pdowE2tuYPpVhGJ4VX5NevEPnxOgqlSLfFbRsa
-         20A11Cv2hECe3V2NrsX7ReqWkTCZkI0TI2b78b1ua5gyvnvly9e1bIySxW0WsvWROLg6
-         5dgNhdO2yTpGGmMdrxZDb3EvLf3pRnAnhHjOvtFU/hYSaC/UF2BOLl/gJMkRxqHcx532
-         ELIQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpzstHLqX/fdGqG/LJOmyejnLMtGLMglEijg4d4oxug5IzPKOqQ3K0aICeQ8oq633nr7CzrUdHVCxk=@vger.kernel.org
-X-Gm-Message-State: AFuF++nmsy3E/SUbVxfGRlrZOu9TdJmVole1jUqINxFKfZIV2Ie425W+
-	/jRNvyEgSsNO5Uj2TuKRDcL2a9ixOaa8dUWJRk/ALJrdE0tRVJoL4b0in3rESDZTu+NdapbU6wR
-	77i+it73GgbirqzhYDat6ToCV/a5njFoByeqVIQYSffuD0fFZJyA7KDxQXvM=
+	s=arc-20240116; t=1787629898; c=relaxed/simple;
+	bh=EWl9tU7uAxMxpmhrblRcqWKpYmo6e+/ZDUowduUAxPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WlA2Ey6ySVzjDjr1w+mw0xoewyph2Km2n1a6CFjk5AdUVlltOQt2dDG9wY/k6zjeVwxl1qauC3iSVRXBCgt0tMmU8DWuDHv/8mrGEuiAJVcM7a3sspS3cEQZriNyBNE0wnajQeSg8P9nQuwaS//w5TAoezoqoUOuXFYx3UuWWjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kroLM6T3; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kroLM6T3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787629897; x=1819165897;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EWl9tU7uAxMxpmhrblRcqWKpYmo6e+/ZDUowduUAxPo=;
+  b=kroLM6T3iAv5FdSQNbWp4et2fxsy63SWjQUCGx1bGht/7g2neyb8rNzO
+   vSrkjaRqqOb4eVzXYAc9eSyxydtId1xHWJO+BO/x5TAC+XF/WVbWSelJc
+   OKgaESjXlNFQVUFgQBkDNxBZ6VKh9BZoclIq2XfkTVIbiWCdQbaOjoWDM
+   gmYG+LJMvvLaAonabmNg05S5yy/CjqnwZYD40RQOddik6uGG+8cPPjK8l
+   ghub5xQRG7nsC//bQNPuNiGJ6FrKCs5aKp1OWt6XqRqh3h3jo8BgBajtm
+   Nhjka4Z1NBCbMm9GHpM5dFpnWNdTFroewxOyw3Y9/qDkIg+OowJoNrd9N
+   Q==;
+X-CSE-ConnectionGUID: iNgGfuk9TGmejPxYcW6DXw==
+X-CSE-MsgGUID: Gdz3Fut1Sd+I59YFiuOdxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98426554"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="98426554"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:51:37 -0700
+X-CSE-ConnectionGUID: ERZPrgQsSaeg8RRnlwuHmg==
+X-CSE-MsgGUID: MFHycAsVS4CiO0YjoE2S/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="269124170"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Aug 2026 20:51:35 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id E306399; Tue, 25 Aug 2026 05:51:33 +0200 (CEST)
+Date: Tue, 25 Aug 2026 05:51:33 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v9 0/3] Add Apple T2 NHI Device links
+Message-ID: <20260825035133.GK893316@black.igk.intel.com>
+References: <20260824184305.1234-1-atharvatiwarilinuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4c89:b0:6b1:5b3e:13a3 with SMTP id
- 006d021491bc7-6b16b42654emr20396820eaf.30.1787629420739; Mon, 24 Aug 2026
- 20:43:40 -0700 (PDT)
-Date: Mon, 24 Aug 2026 20:43:40 -0700
-In-Reply-To: <6a88012e.dbb3a75c.13dd47.0007.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8d0f6c.dbb3a75c.7844.001d.GAE@google.com>
-Subject: Re: [syzbot] [usb?] general protection fault in wcove_typec_probe
-From: syzbot <syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, 
-	jeffinphilip14@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mika.westerberg@linux.intel.com, 
-	stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260824184305.1234-1-atharvatiwarilinuxdev@gmail.com>
 
-syzbot has found a reproducer for the following issue on:
+On Mon, Aug 24, 2026 at 02:42:53PM -0400, Atharva Tiwari wrote:
+> This series adds support for Device linking on Titan ridge, and
+> Icelake, which are used exclusively on Apple T2 machines.
 
-HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git.ke..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1253719e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3e64b1bf01d830ed
-dashboard link: https://syzkaller.appspot.com/bug?extid=1a01783ea233350598b5
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17491979580000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-66498c75.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5ce4685e13ba/vmlinux-66498c75.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6a32d8e997a7/bzImage-66498c75.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com
-
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-CPU: 0 UID: 0 PID: 5912 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:wcove_typec_probe+0xdb/0x780 drivers/usb/typec/tcpm/wcove.c:621
-Code: 48 c1 ea 03 80 3c 02 00 0f 85 af 05 00 00 48 8d 7d 08 4d 89 af 88 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 05 00 00 49 8d bf 90 00 00 00 48 8b 6d 08 48
-RSP: 0018:ffffc90002f6faf8 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff8880226c1000 RCX: 0000000000000000
-RDX: 0000000000000001 RSI: 0000000000000001 RDI: 0000000000000008
-RBP: 0000000000000000 R08: 0000000000000004 R09: 0000000000000000
-R10: ffff888014243883 R11: 000000000000001f R12: ffffffff904a7ea8
-R13: ffff8880226c1010 R14: ffff8880142438c0 R15: ffff888014243838
-FS:  0000000000000000(0000) GS:ffff888096982000(0063) knlGS:00000000f67e5b40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 0000000032e24008 CR3: 000000004e2f1000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
- device_driver_attach+0xd1/0x220 drivers/base/dd.c:1203
- bind_store+0xf4/0x190 drivers/base/bus.c:267
- drv_attr_store+0x74/0xb0 drivers/base/bus.c:125
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
- __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf6feefec
-Code: Unable to access opcode bytes at 0xf6feefc2.
-RSP: 002b:00000000f67e550c EFLAGS: 00000292 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 0000000080000400
-RDX: 0000000000000007 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:wcove_typec_probe+0xdb/0x780 drivers/usb/typec/tcpm/wcove.c:621
-Code: 48 c1 ea 03 80 3c 02 00 0f 85 af 05 00 00 48 8d 7d 08 4d 89 af 88 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 05 00 00 49 8d bf 90 00 00 00 48 8b 6d 08 48
-RSP: 0018:ffffc90002f6faf8 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff8880226c1000 RCX: 0000000000000000
-RDX: 0000000000000001 RSI: 0000000000000001 RDI: 0000000000000008
-RBP: 0000000000000000 R08: 0000000000000004 R09: 0000000000000000
-R10: ffff888014243883 R11: 000000000000001f R12: ffffffff904a7ea8
-R13: ffff8880226c1010 R14: ffff8880142438c0 R15: ffff888014243838
-FS:  0000000000000000(0000) GS:ffff888096a82000(0063) knlGS:00000000f67e5b40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 00007f45dd833708 CR3: 000000004e2f1000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	48 c1 ea 03          	shr    $0x3,%rdx
-   4:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   8:	0f 85 af 05 00 00    	jne    0x5bd
-   e:	48 8d 7d 08          	lea    0x8(%rbp),%rdi
-  12:	4d 89 af 88 00 00 00 	mov    %r13,0x88(%r15)
-  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  20:	fc ff df
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 7f 05 00 00    	jne    0x5b3
-  34:	49 8d bf 90 00 00 00 	lea    0x90(%r15),%rdi
-  3b:	48 8b 6d 08          	mov    0x8(%rbp),%rbp
-  3f:	48                   	rex.W
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+We are in the middle of merge window, nobody is taking any patches at this
+time. Only after v7.3-rc1 is released. Please be patient.
