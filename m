@@ -1,111 +1,123 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E9734EF1F
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 10:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA30339281D;
+	Tue, 25 Aug 2026 10:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787652921; cv=none; b=jtPQTUT0BvDddj1qZ3SNsphk87lqobzZNe9r8UEXevsj4tiotPc5mJUmATAOmD+4xerY4b0osYfegTcV+Ukmf2MT2KaOMyUo9bBXVpPwLhg5Z7+XlPvXLJmkDjFsei0dqjbOoI2PMlJudaIPbGjXB4LlivUoIpC5i7hLA2xT1I4=
+	t=1787654583; cv=none; b=Q3HA+gr/WXrN7d+oCGQE4aJc9YJnm2/U7g056w4uDsAdzVp4h19YVzV0d3OMlkZ17/qPTknaPX5jaB3cDI5r3A8zHI+3Otk6WrBSvn0Up5c0t8FEXpmYL9BA6fSgNXsDOAsR9xquiNQSqqlJ0KfoUlobGUHA0dljFiyASPYbF2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787652921; c=relaxed/simple;
-	bh=tvZn/DMGKqbYfXmiEXnBW9Jf8jg1KanjiDCL69cMdX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LMzu89kOS61txHczXzf+LVgO2HeD35S1AnINVO29cGvMm3Z9MqfHetNtJ9sstFZAYWNwh6ztOXA0jwO3zvVq2qjXHTbXA8YlexZMPIrBAf7fGHqHel0FZo2hzTbpIsZ+Kt+2jWYnh/5dDE1aRZ4JIWVLm+0eynTtCqAHJu+kGoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HN1COI2f; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787654583; c=relaxed/simple;
+	bh=urk0+Er5ux8uZwdpteslcND66gV+vT/aS5AwzhbtppI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KZ07jM6iP6FNOkh1MXlEaw8lCcqPUZFYJyA+0MDa72MY7T24EONp3XreSdxY9Enn/sTZo9rSiC4CZeROBHdgqVi9xwcUeU6BgEQ22zTMQ+aX/6DFwcaBxRYvON6Dfe8ZM0G0ziZDWNN5bxTCbfceMabB1qP+NfLosOknBlRERbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gTlYL7sy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HN1COI2f"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cbee3777e1cso2821364a12.3
-        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 03:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787652920; x=1788257720; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t/2kEnaWyYQdlZqHnH4m5uiHvxgG16cMzCUkrsocMZc=;
-        b=HN1COI2fUevhDRatIMcA+EelMC+p5KlZVqE18Vj4wQsyVMsq3a+LolXiMqa1+shIF3
-         PFYOt2jvH1H258f9EEDfzDCnGeK+6Bt2OWJBQjcueVAojyllKCa+hdTRU3L5etuDcedU
-         NPtDmDR5VcXydX2o9YW7P0lWuiyO1HoQc0069IGKCPYO1N28ILspCyTdiHhqUNABYqZb
-         f2QCPNz5LOas7RrLoIb2BUFdlrm+efbt2SviCMAvVfNociPX8K7RlSoecplwYSfdR7pA
-         yPeN2wVVLQOq0JId7rpXelpl8qh9rFb21MMxQ+WG+PFbxd3A1PcHWuAUBKswGIeeEQ1P
-         gzxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787652920; x=1788257720;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=t/2kEnaWyYQdlZqHnH4m5uiHvxgG16cMzCUkrsocMZc=;
-        b=lPjI07VJyTlLyEWZ7LGBqB7HFqPF5EtkLp4TdhD0xyGZ/rpU14zsS8I9Xla2xtiT7P
-         edpuabaTvr/riS7zAmMezVmH1lOm8xXxuWPCA0c4uI4sSGpxxcJ8WcB8osjjF00Q+ybz
-         R+sI+MwKGiaXjOH9lXXK6om+G/q0KwK03zm+QS3ZAMC4A6Dslxo4UfdjpUe4DnUWU1a6
-         i+uqNAu5mL5/RvkP15xD+1h1uK+ZUmdM+xr+wanpWkFl2+rSghMrDWpFCLZ4ZwKpXlvD
-         RHWKqRm8NdGhwkDefNgecIV7ipnvw2sUdZ4gJsEiSuwZAsGi6pEah5iNjMtixHRV/RnR
-         wbXg==
-X-Forwarded-Encrypted: i=1; AHgh+RqKzmcaeNc1h9dGmblQOCy47XVMtTgc6yVZlfrV2ZRIrshjAHCxkaoi//701rZLBYakU3x3lo62v2k=@vger.kernel.org
-X-Gm-Message-State: AFuF++nzFV0TyUFcsTlyjjVyt10UAwwC0wuwA1lHAfSnT7Hrz6XyKtnA
-	nI4vD3j6BokfkyzSeF3Ra8cffsCC7igh1KSQeuI8PlOZC/0P/M9ipDtH
-X-Gm-Gg: AR+sD12TzJ5Kz0JpI0yIbTy+hRdleaLvBtrSHu4hfAZ+jCBT9ujuLDncfoZG553gUzQ
-	1IHryEPvEl/PzcZn8iyz35/5UobEC56ZOCwZxLKs6GXKiEYNsUX30cvE7FbXRGqJmnvH4egWL2+
-	vTxlJl4Ah+yhxHYAkN+2bP0L2wcvI5KtQXwrLlDjlte7iXNlx+oiSv8kRK0w2pX6Lt6fa7iaxwR
-	vHDp1pMZlohtUCQS8/tzRcIjxRWiH+b5pvA8bzgV7NvGZUd8ByakqA0ULxqZsGkRCOCCZ8TxNKc
-	x/9TOo57lety/FmFeVuVTLWcgEbVec0q1z1bn3X0uj32RICC9npfAHbmNQ9BseORwrd5vg1Pjen
-	CJoW+5ppIx0Ph+aXxPApvjSLIm7SnWVxewJkON+6CM4ru00b1p55MJ1c0A+cKenFMKKnrWu5j36
-	Z/m4sjm8OrVqb5xD6kZD7wat32MLjDH31J0HTFcbMQdxmFIvkLMAVv5trzbhGszt8mXSP1sz3Za
-	OqbkocQdB5W7SIN6Susqylj34Qb1tLq
-X-Received: by 2002:a17:90b:53c7:b0:38e:5c6:4db9 with SMTP id 98e67ed59e1d1-396464a15f2mr11505556a91.11.1787652919563;
-        Tue, 25 Aug 2026 03:15:19 -0700 (PDT)
-Received: from localhost ([2409:40c4:101c:e5a9:a28f:e499:1b07:43b3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d2d1esm36749172eec.17.2026.08.25.03.15.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 03:15:18 -0700 (PDT)
-Date: Tue, 25 Aug 2026 15:45:15 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Mathieu Fluhr <mathieu.fluhr@gmail.com>, 
-	Michal Pecio <michal.pecio@gmail.com>, Thorsten Leemhuis <regressions@leemhuis.info>, 
-	Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org, regressions@lists.linux.dev, 
-	stable@vger.kernel.org, linux-kernel@vger.kernel.org, Forest <forestix@gaga.casa>, 
-	Slavik Dev <developer.slavik@gmail.com>
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-Message-ID: <ao1qAlO8t9N3kfbZ@eggarch>
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
- <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
- <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
- <aosGtkE_diwVJJtB@eggarch>
- <20260823174059.46fec036.michal.pecio@gmail.com>
- <aoser8dLytrwqBC2@eggarch>
- <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
- <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gTlYL7sy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5E96DC2BCB8;
+	Tue, 25 Aug 2026 10:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787654583;
+	bh=urk0+Er5ux8uZwdpteslcND66gV+vT/aS5AwzhbtppI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=gTlYL7syGgUi6OXyj7PutwwPu3Z0qfYXWvoW8gNfLwZcFRQewALrhB7G/GImVdenp
+	 aBPp2LsX95qlpqFSbUxfs4YMei+Uj2z6j7VKg/ktuYB5Y1T23Nq9E25pXyA5otlsPN
+	 mpo9LjNAd5izQ73sIY5rYsT0wenfggdpXCrIeed2fBwmqQRgBjXvRzFBb19h0V2F0/
+	 /pex8RZVtyyAfwWXe7g33W9s8dKjyc3lF7D7HzT7eWZCCN4GVDT/cotlYOhkYM8fzl
+	 sz7gqmjP7yfw/ELqpED78T0dY2D8aQa8wEsSs/bLcvGvFtk2y0b39Lc3o/IFS1ikZx
+	 EdaKG0RI7uUog==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DB5C5DF94;
+	Tue, 25 Aug 2026 10:43:03 +0000 (UTC)
+From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
+Subject: [PATCH 0/9] Flatten USB Controller Nodes on IPQ SoCs
+Date: Tue, 25 Aug 2026 14:42:25 +0400
+Message-Id: <20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDCyNT3cyCQt20nMSSktQ83dLiJN1k8xTzNEPTNGNLMzMloK6CotS0zAq
+ widGxtbUA43iwHmEAAAA=
+X-Change-ID: 20260825-ipq-flatten-usb-c7d7f15f3966
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
+ George Moussalem <george.moussalem@outlook.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787654580; l=2592;
+ i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
+ bh=urk0+Er5ux8uZwdpteslcND66gV+vT/aS5AwzhbtppI=;
+ b=5MUNm4XTglR3MnPNMCiGyPVCu3gYeBKDunI6KDhxtgjdz9hLea2nEfjxrD2ySHsP1OUN4R7Ys
+ mG2EXgCETBSDKMsLmr3FvtbSXtrvuOfgtpfCruJrJ6JGerATzxrp+77
+X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
+ pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
+X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
+ with auth_id=364
+X-Original-From: George Moussalem <george.moussalem@outlook.com>
+Reply-To: george.moussalem@outlook.com
 
-On Mon, Aug 24, 2026 at 05:09:02PM -0500, Mario Limonciello wrote:
-> The behavior that is described here sounds like a platform firmware bug to
-> me.  Are you on the latest BIOS available from your OEM?
-> 
-> Can you please confirm:
-> 
-> 1. Your CPU model number/codename
-> 2. Your OEM (from /sys/class/dmi/id)
-> 3. OEM BIOS version (from /sys/class/dmi/id)
-> 4. AGESA version (see commit bc91133e260c8113c1119073c03b93c12aa41738 if the
-> OEM didn't tear it out.  Otherwise look in BIOS menus)?
-Though the issue's only reproducible in kernels including commmit
-8f5b7e2bec1c36, which their bisection showed too.
+Add property to select UTMI as reference clock for the DWC3 core to
+calculate the right values for the period and frame length adjustment.
 
-Could the trigger not be the 200ms SS hold?
+Flatten usb controller node and update to using latest bindings and
+flattened driver approach.
 
-Regards,
-Lovekesh
+In addition, set the right UTMI clock rate and override any clock
+rate inherited from the bootloader.
+
+I've split these patches from a larger patch set to add USB3 support on
+IPQ5018 and IPQ5332 SoCs where these patches are required to ensure new
+functionality is added to the new flattened driver and binding model.
+
+link: https://lore.kernel.org/all/20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com/
+
+Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+---
+George Moussalem (9):
+      dt-bindings: usb: qcom,snps-dwc3: Add ability to select UTMI as reference clock
+      usb: dwc3: core: Allow glue layer to pass reference clock
+      usb: dwc3: qcom: Add support for selecting UTMI as reference clock
+      arm64: dts: qcom: ipq5018: Flatten usb controller node
+      arm64: dts: qcom: ipq5332: Flatten usb controller node
+      arm64: dts: qcom: ipq5424: Flatten usb controller nodes
+      arm64: dts: qcom: ipq6018: Flatten usb controller nodes
+      arm64: dts: qcom: ipq8074: Flatten usb controller nodes
+      arm64: dts: qcom: ipq9574: Flatten usb controller node
+
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    |   9 ++
+ arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts     |   6 +-
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi              |  52 +++++-----
+ arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts        |   6 +-
+ arch/arm64/boot/dts/qcom/ipq5332.dtsi              |  58 +++++------
+ arch/arm64/boot/dts/qcom/ipq5424-rdp466.dts        |  12 +--
+ arch/arm64/boot/dts/qcom/ipq5424.dtsi              |  89 ++++++++--------
+ arch/arm64/boot/dts/qcom/ipq6018.dtsi              |  99 +++++++++---------
+ arch/arm64/boot/dts/qcom/ipq8074.dtsi              | 112 ++++++++++-----------
+ arch/arm64/boot/dts/qcom/ipq9574-rdp-common.dtsi   |   6 +-
+ arch/arm64/boot/dts/qcom/ipq9574.dtsi              |  42 ++++----
+ drivers/usb/dwc3/core.c                            |  12 +++
+ drivers/usb/dwc3/core.h                            |   2 +
+ drivers/usb/dwc3/dwc3-qcom.c                       |  14 +++
+ drivers/usb/dwc3/glue.h                            |   2 +
+ 15 files changed, 257 insertions(+), 264 deletions(-)
+---
+base-commit: 4b18edbd8e70f7e6860d56370f13244896d0f95c
+change-id: 20260825-ipq-flatten-usb-c7d7f15f3966
+
+Best regards,
+-- 
+George Moussalem <george.moussalem@outlook.com>
+
+
