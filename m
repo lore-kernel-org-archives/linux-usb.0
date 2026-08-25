@@ -1,121 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AB232D7F8;
-	Tue, 25 Aug 2026 09:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74EB38736E;
+	Tue, 25 Aug 2026 09:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787648861; cv=none; b=b0zQGsdH1cL9QL8qiuFDjmEiOR/o8R4n1mT+GTmm5Ytli/wSgmkTJpmo77ZWHEDffXzTMNcfkUr0MB2ouj3L25CrdjrW3o8AMWjhkVNA5DJN/pMi5e4hJPz/rFmWwtMe/FXzqIjoxkclLWl5yphrH/nGeKD6ANub7M/rwFrsRSw=
+	t=1787648974; cv=none; b=MCOA40ftias8jJnbAHSGCPbteDXpPMzvr3KQw9UT+PM+rO9f9hqYcuQGywKQwREXfxUcnJvEjuaX5Ul6yk+PzeT2pchnQLLtGjwDRtVwfV3unoRFm6/tL06jNUH7+n4wmjz8EtAdBWEjQQU664wLTkQ7SmonYYmVGdur07F8oag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787648861; c=relaxed/simple;
-	bh=5j9NgmfhwMy8iFyGp5BxhBVyjLSpkpEkQCOlZ/dKhcY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=scZcTWpaSiEPCrMTIYh3CeS09aeCRGu2aY3QV/3KbsdaNNJEJxittS6bP1pwQQvslLf5jA5k+r+TBG2/e0dOoZ3KfujOfdtXC74WZAvDZycAjZyUzIBhSwtvoZvKi79BsqpeTjXke12G3rmxDo5z4O+sDVDC8DtXUhijNrqwSmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sR76LBce; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787648974; c=relaxed/simple;
+	bh=CkjGispeNeATmQv6Xi2E8JuUM/PZSRCjFjw3y9D6BVA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=l1ixgUn2CgJ7dx9L87Mf+SrdPVGhC9hJU9uGeo5lOCZf/e7wRHBMSsvHqy+gxtosdILJjsqM/Jh+QxBmBLLlp4UEeAgfGSzzo7zg+xJrDCU0rl9cgKqqYfodz9IxuEHwL0QEuYSiqujO6JlwTBcKaXwMweYoPEf39cD05DjWdd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=BCALfqP2; arc=none smtp.client-ip=203.205.221.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sR76LBce"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847051F00A3D;
-	Tue, 25 Aug 2026 09:07:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787648860;
-	bh=MREykWfpWMIjM4Zk6oIsfpcL2CpkEZKmclpnMSs7jO0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=sR76LBceeEt7OrTJOZOalKxPl+kgPghiI1Gb/5V4nYcczS4a+8+QoEvbEWd1O7Ngk
-	 w/7b2hIsNHV4HCfgKMqSGfAAbNVGdVUkbzpIPvarsxwS2WxyWPCOOeZreZcxJKc5bR
-	 w5ePRtlNxwMuaQxTd1EQBZrXwcE4b0Ie5J7VEyxM=
-Date: Tue, 25 Aug 2026 11:07:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aleksandr Nogikh <nogikh@google.com>
-Cc: syzbot <syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com>,
-	heikki.krogerus@linux.intel.com, jeffinphilip14@gmail.com,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	mika.westerberg@linux.intel.com, stable@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	syzkaller <syzkaller@googlegroups.com>
-Subject: Re: [syzbot] [usb?] general protection fault in wcove_typec_probe
-Message-ID: <2026082507-ecosystem-giant-0b79@gregkh>
-References: <6a88012e.dbb3a75c.13dd47.0007.GAE@google.com>
- <6a8d0f6c.dbb3a75c.7844.001d.GAE@google.com>
- <2026082540-tarantula-gigantic-b786@gregkh>
- <CANp29Y5YH=O35brw55HFo_hVmFDz5Y4Yw7buBc-rOjETU2DNjg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="BCALfqP2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1787648962; bh=CkjGispeNeATmQv6Xi2E8JuUM/PZSRCjFjw3y9D6BVA=;
+	h=Date:To:Cc:From:Subject;
+	b=BCALfqP2vbIhClaX7zj1wTl3ZYCRYTNjxr9qQv7U2HTO/d1LjENGnQe4p79GJXyhA
+	 Y3b3OZ5MZToXhZKuU0x1w0UJ3ARdLE+vU+cwYKoVNsS7jjRjdq7WRV4bu8V6x+BCR3
+	 QMX5wQRKuAPvB4Kg5bN5bpyWlQRrG4Ekvgs0PG3k=
+Received: from [192.168.255.10] ([111.206.145.19])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 254B40F8; Tue, 25 Aug 2026 17:09:20 +0800
+X-QQ-mid: xmsmtpt1787648960tu4luly1m
+Message-ID: <tencent_0F874E79839C91CD14A58265BF7B6D89850A@qq.com>
+X-QQ-XMAILINFO: N/WmRbclY25G1B4NRc14k3FrqnI2CHxVBIriFmfn/o48iNol2hRC1Is6Gb/VDR
+	 K00i3wgfIL4X554ikRxU1aqvPJd/3ScsA6XpQvH/hytEAtpa0XMgEQqxVLACRlDAwxfSjGoPgqD0
+	 qYPBc+3hhvLRjkEwLu4FlQV0mqclohscnoSbgGy7IEdc5UgTJ0rWGRWu3l+6j6hdoebN893bTEkD
+	 cU7NWcbYhQLBiUj9LmAoxmd9JkOcNS3RpYLkZqXS3yVimUFkETmcSalhEQbVG2oAsnRFrQUmWscJ
+	 95zBfpIgUTNsOrkyPmnWsI1T57WyFngD2DdcoFodAn1VaWPoYQeOj2+sOYnaB/3418IcAPPVR1K5
+	 G17a61PuPw8FqWC18NFJRzjg//z3UF+0n3HC4190CEU9HTiVPtkk4PHS9vo+joSj6sXRyUeAE/uS
+	 c3TGlLjpUAYkx+EPABiZWZa51ZAoCXSipyLz906S5BREylbLFV+poZ88qkYFvW0cSevSt8D7fhTQ
+	 8xYLK1qkL0cP4QMIopaECSEJRx6t2OXMIuK7wrM4LTsiQwwxhu9TdBNhc8rA6L+z3Dzhc4YP61TC
+	 FL39omy5S2VMKjj6zOxGpi3dWsMRyqfFUH0wkYogKZG9+bmpAMerEJj6sJAQn771e9+PAnhadRZk
+	 hUnrygd5e1HTsFRZ5C9ETowBbzQd5SJ+vEdPKcOlxyleUnHJJsw/kHYqwAMND4g5SJE0hAi3pVll
+	 3vHPXCQRVYR0fW3grO6afCSuMQgYKxJlaLYuWYYXt8d1V98Td8kvLvHkrePIUA87yWaL03RPniLw
+	 AbvWwDfavlekFRd+gd3hJ1fCLjZnPio/P2wi0x3XxjejD7E5HQQA+1NP8LoGSfdv8cKwRyaV21R6
+	 EmVOYNxFG2ExxA17m+DZKABBU3XRcFm2ycSADY7hra8/DcpkM368knby2AGNF8lbWiRGD7EiAF0G
+	 nj3uNfwIQAtn02+hQ1LSOU7soZR2SAXKSCRQ5/Ea9UTzkEwjIJdSnLxknEQzmITkVQSI8N+4neix
+	 r1DxvVq1suQp55fVaqRP67g7s2+zq+ocNvaqVpb2H7Ga6rBmCvjjMuM2xR7dbxP8RWKy48o9Mau+
+	 /jXt2nkPU7a3aT5BwykutwlY39+g==
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-OQ-MSGID: <f865a9a9-7f9c-4a6a-a1be-b4a4203d7c26@qq.com>
+Date: Tue, 25 Aug 2026 17:09:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+To: mathias.nyman@intel.com, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Yang Zi <2959243019@qq.com>
+Subject: [PATCH] usb: xhci: Fix lockdep warning when entering test mode
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANp29Y5YH=O35brw55HFo_hVmFDz5Y4Yw7buBc-rOjETU2DNjg@mail.gmail.com>
 
-On Tue, Aug 25, 2026 at 11:04:54AM +0200, Aleksandr Nogikh wrote:
-> Hi Greg,
-> 
-> On Tue, Aug 25, 2026 at 7:12 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Mon, Aug 24, 2026 at 08:43:40PM -0700, syzbot wrote:
-> > > syzbot has found a reproducer for the following issue on:
-> > >
-> > > HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git.ke..
-> > > git tree:       upstream
-> > > console output: https://syzkaller.appspot.com/x/log.txt?x=1253719e580000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=3e64b1bf01d830ed
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=1a01783ea233350598b5
-> > > compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> > > userspace arch: i386
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17491979580000
-> > >
-> > > Downloadable assets:
-> > > disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-66498c75.raw.xz
-> > > vmlinux: https://storage.googleapis.com/syzbot-assets/5ce4685e13ba/vmlinux-66498c75.xz
-> > > kernel image: https://storage.googleapis.com/syzbot-assets/6a32d8e997a7/bzImage-66498c75.xz
-> > >
-> > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > > Reported-by: syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com
-> > >
-> > > Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-> > > KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-> > > CPU: 0 UID: 0 PID: 5912 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full)
-> > > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> > > RIP: 0010:wcove_typec_probe+0xdb/0x780 drivers/usb/typec/tcpm/wcove.c:621
-> > > Code: 48 c1 ea 03 80 3c 02 00 0f 85 af 05 00 00 48 8d 7d 08 4d 89 af 88 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 05 00 00 49 8d bf 90 00 00 00 48 8b 6d 08 48
-> > > RSP: 0018:ffffc90002f6faf8 EFLAGS: 00010202
-> > > RAX: dffffc0000000000 RBX: ffff8880226c1000 RCX: 0000000000000000
-> > > RDX: 0000000000000001 RSI: 0000000000000001 RDI: 0000000000000008
-> > > RBP: 0000000000000000 R08: 0000000000000004 R09: 0000000000000000
-> > > R10: ffff888014243883 R11: 000000000000001f R12: ffffffff904a7ea8
-> > > R13: ffff8880226c1010 R14: ffff8880142438c0 R15: ffff888014243838
-> > > FS:  0000000000000000(0000) GS:ffff888096982000(0063) knlGS:00000000f67e5b40
-> > > CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-> > > CR2: 0000000032e24008 CR3: 000000004e2f1000 CR4: 0000000000352ef0
-> > > Call Trace:
-> > >  <TASK>
-> > >  platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
-> > >  call_driver_probe drivers/base/dd.c:628 [inline]
-> > >  really_probe+0x241/0xa60 drivers/base/dd.c:706
-> > >  __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
-> > >  device_driver_attach+0xd1/0x220 drivers/base/dd.c:1203
-> > >  bind_store+0xf4/0x190 drivers/base/bus.c:267
-> >
-> > Please do not think that this is a valid path for syzbot to be
-> > fuzzing...
-> >
-> 
-> Can you please elaborate on this?
-> Do you mean driver binding sysfs interface in general or something
-> more specific?
+xhci_enter_test_mode() and xhci_set_port_power() are annotated
+__must_hold(&xhci->lock), yet both drop the lock in the middle of the
+function: xhci_enter_test_mode() around the slot-disable loop (because
+xhci_disable_and_free_slot() takes the lock itself and can sleep) and
+xhci_set_port_power() around the ACPI power-state calls.
 
-That is the specific thing, don't have syzbot do random bind/unbind
-calls, having it attempt to bind any random driver to any random
-hardware device.  That's not how bind/unbind is supposed to work at all,
-it's for developers who "know what they are doing" and you get to keep
-the broken system if you mess it up.
+xhci->lock is also taken from hardirq context in xhci_irq(), so it is a
+hardirq-safe lock.  Dropping it with spin_unlock_irqrestore() re-enables
+interrupts while the lock is still held, and lockdep's
+trace_hardirqs_on() -> mark_held_locks() then records the lock as
+HARDIRQ-ON-W, which conflicts with the IN-HARDIRQ-W usage registered by
+xhci_irq():
 
-Same for unbind.
+    inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
 
-This is a root-only api for that reason.
+Fix this by releasing the lock *before* re-enabling interrupts (and, on
+the way back, disabling interrupts before re-acquiring the lock), so the
+hardirq-safe lock is never held with IRQs enabled.  Also drop the
+incorrect __must_hold() annotations and pass the saved IRQ state by
+value so these helpers cannot clobber the caller's flags.
 
-thanks,
+This patch is tentative and needs maintainer review.
 
-greg k-h
+Signed-off-by: Yang Zi <2959243019@qq.com>
+---
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index b0264bd8577a..c28d278f45b0 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -638,12 +638,19 @@ struct xhci_hub *xhci_get_rhub(struct usb_hcd *hcd)
+ 
+ /*
+  * xhci_set_port_power() must be called with xhci->lock held.
+- * It will release and re-acquire the lock while calling ACPI
+- * method.
++ * It drops the lock while calling the ACPI method, which may sleep, and
++ * re-acquires it before returning.
++ *
++ * The lock is released *before* interrupts are re-enabled because
++ * xhci->lock is also taken in hardirq context (xhci_irq()) and must never
++ * be held with IRQs enabled.
++ *
++ * @flags is passed by value: it is the IRQ state saved by the caller's
++ * spin_lock_irqsave() and must not be clobbered by the lock/irqsave dance
++ * below, so the caller can later restore it with spin_unlock_irqrestore().
+  */
+ static void xhci_set_port_power(struct xhci_hcd *xhci, struct xhci_port *port,
+-                bool on, unsigned long *flags)
+-    __must_hold(&xhci->lock)
++                bool on, unsigned long flags)
+ {
+     struct usb_hcd *hcd;
+     u32 temp;
+@@ -665,13 +672,15 @@ static void xhci_set_port_power(struct xhci_hcd *xhci, struct xhci_port *port,
+         xhci_portsc_writel(port, temp & ~PORT_POWER);
+     }
+ 
+-    spin_unlock_irqrestore(&xhci->lock, *flags);
++    spin_unlock(&xhci->lock);
++    local_irq_restore(flags);
+     temp = usb_acpi_power_manageable(hcd->self.root_hub,
+                      port->hcd_portnum);
+     if (temp)
+         usb_acpi_set_power_state(hcd->self.root_hub,
+                      port->hcd_portnum, on);
+-    spin_lock_irqsave(&xhci->lock, *flags);
++    local_irq_save(flags);
++    spin_lock(&xhci->lock);
+ }
+ 
+ static void xhci_port_set_test_mode(struct xhci_hcd *xhci, u16 test_mode, int portnum)
+@@ -689,15 +698,24 @@ static void xhci_port_set_test_mode(struct xhci_hcd *xhci, u16 test_mode, int po
+         xhci_start(xhci);
+ }
+ 
++/*
++ * xhci_enter_test_mode() is called with xhci->lock held. It drops the lock
++ * around the slot-disable loop because xhci_disable_and_free_slot() takes
++ * xhci->lock itself and can sleep, then re-acquires it for the remainder of
++ * the function. The lock is released before interrupts are re-enabled since
++ * xhci->lock is also taken in hardirq context (xhci_irq()).
++ *
++ * @flags is passed by value so the caller's saved IRQ state is preserved.
++ */
+ static int xhci_enter_test_mode(struct xhci_hcd *xhci, u16 test_mode, int portnum,
+-                unsigned long *flags)
+-    __must_hold(&xhci->lock)
++                unsigned long flags)
+ {
+     int i, retval;
+ 
+     /* Disable all Device Slots */
+     xhci_dbg(xhci, "Disable all slots\n");
+-    spin_unlock_irqrestore(&xhci->lock, *flags);
++    spin_unlock(&xhci->lock);
++    local_irq_restore(flags);
+     for (i = 1; i <= xhci->max_slots; i++) {
+         if (!xhci->devs[i])
+             continue;
+@@ -707,7 +725,8 @@ static int xhci_enter_test_mode(struct xhci_hcd *xhci, u16 test_mode, int portnu
+             xhci_err(xhci, "Failed to disable slot %d, %d. Enter test mode anyway\n",
+                  i, retval);
+     }
+-    spin_lock_irqsave(&xhci->lock, *flags);
++    local_irq_save(flags);
++    spin_lock(&xhci->lock);
+     /* Put all ports to the Disable state by clear PP */
+     xhci_dbg(xhci, "Disable all port (PP = 0)\n");
+     /* Power off USB3 ports*/
+@@ -1463,7 +1482,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+              * However, hub_wq will ignore the roothub events until
+              * the roothub is registered.
+              */
+-            xhci_set_port_power(xhci, port, true, &flags);
++            xhci_set_port_power(xhci, port, true, flags);
+             break;
+         case USB_PORT_FEAT_RESET:
+             portsc |= PORT_RESET;
+@@ -1514,7 +1533,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+             if (test_mode > USB_TEST_FORCE_ENABLE ||
+                 test_mode < USB_TEST_J)
+                 goto error;
+-            retval = xhci_enter_test_mode(xhci, test_mode, portnum, &flags);
++            retval = xhci_enter_test_mode(xhci, test_mode, portnum, flags);
+             break;
+         default:
+             goto error;
+@@ -1581,7 +1600,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+             xhci_disable_port(xhci, port);
+             break;
+         case USB_PORT_FEAT_POWER:
+-            xhci_set_port_power(xhci, port, false, &flags);
++            xhci_set_port_power(xhci, port, false, flags);
+             break;
+         case USB_PORT_FEAT_TEST:
+             retval = xhci_exit_test_mode(xhci);
+
+
