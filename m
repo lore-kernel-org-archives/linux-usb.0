@@ -1,81 +1,67 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010046.outbound.protection.outlook.com [52.101.56.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FA448F83F
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 20:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787688887; cv=none; b=ORcqr3nPUw6BMhPMjFmMvDdB+pFbTMUcMlnKL1bxouFPpfbzLAfkqQkoRts3U+TBOkmgfecODNkdrO3kjVROfxyQpjeD5FnddC7sj1BCWC4FhDrEVvTRYC9i+VJ7/H42Dti5XWGWho/uAk8NEzPriEJmSfiIWTYgBUnSOxWcbmc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787688887; c=relaxed/simple;
-	bh=/vTICs4rfZnQqWAY7jp6Xx8e1B3/4HZ5WGwfLBmD4E8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bzRRrJmGRswDSALe5cSfMGPJsQ/rlQKREXtXaffAl9JxT8jFZJzupKv6rpFWTl6UezxnHFVb7iurgkgn33d1A7OLHEh7oFpAPzJpWqHcZ2Hoohe3M9JKjmPFdsb5871XqZM0imM9uSpqOgxQT+02c8EP3HPlXJjEUrDytJvC048=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=no13wnrI; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77E539281D;
+	Tue, 25 Aug 2026 21:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787694200; cv=fail; b=BjjtzWJZhrjZi2c8fk+BXU/K2lsMMibLag+oc7lMoKPmm5xU8O5UA91x5V7wiKq1pLaBsqo22aTPFzLu7Fq7foPQvwDaoF7Cn/F88G0Bpw/LVn04d6J6uAEl5kSyi08u8nPfottBfdmDzbL3szAvl+yB/lugIo3/YWozU5gyU70=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787694200; c=relaxed/simple;
+	bh=jyMWYwm7NmQ8N+ngbg5eTtgNvTSi6dGIPaJRhPegk1A=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iiKSZH909UHZj9Z7RjnjwSH62zgK70QBlBJGr65sWeY0x25BRAQEEmtzR879QyMwCEGWQdKja6nrcdJIiZuztrbrbdOXak/XFt/fcV+QDnz8fbniK309B9h2iV5r1Hr3qDET1Xbh+3U3O9RRCil8kk96JNo808gxAzndJowJf6k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=XgLH2rIW; arc=fail smtp.client-ip=52.101.56.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="no13wnrI"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954dff6536so861525e9.0
-        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 13:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787688884; x=1788293684; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hWvvM2eJTieYNAJ1IrJEwIoJaD0ytMJ17q0W4sd4AmA=;
-        b=no13wnrIWtL13vXQkmEAVFZmcye2xYOSzJISNBI57Ca0fAuh4FptkhTEq0nMYKx0fF
-         Z6MwIYliX/WttdhybRmVClrS9Z4h+G94ZpgMGul8Hbcy3ZkejzgImBezpdqYP2PoGUb2
-         pF3csgsWluJ3rxOcegCGElricJwL6t+E5rrGC+Csz9OHotPPJHZjj7nECzDilNVt6SAO
-         C+xD263FqgJfde4TpFcIiujJY/YLLns0pWumU5qfoovrbxt/IfOgozxy8RCAbV/6auwB
-         LIdxSIk4DqZX5FTr2SB7WoKHHqitAMyw8LGhE8ieeaSNCt1eVZXmclI0tODNQ0KSVyeu
-         8e2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787688884; x=1788293684;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hWvvM2eJTieYNAJ1IrJEwIoJaD0ytMJ17q0W4sd4AmA=;
-        b=XIpMoNgkLeLgXQ2ABjp/ET+L7IZsEe4ePq9cGgpYrH04keUmNeJpb5GDcR4gD7/uBh
-         s/acJhtzEjzoGJEvH9vcHhoC3JESLvfQtIqhSEkMe+YLEZCoUuazLRyIjuy7bXMPwFBc
-         Ft465/3Pn6vl0tKy5b5uth/OsMAIADqwH5465mgvkiJVCtGbKovxatvlNtFRBWoYQ99c
-         SlOs0UjtU2bGZnHlUYc6yHYfwsDBiiCgixuYC7J5jmwmfBh7zUuIuEJzavLwqV9X3ot7
-         BPaY/9ol3AWM5MQWNzla4tYeKcc+ea1Z0rrC21zdt+hvNs43MWfiOBbQdJ3lFwFyB0ft
-         f83A==
-X-Forwarded-Encrypted: i=1; AHgh+RrGJyFnmE/pEwjOdZXG6vCCKd9E2zz1Eb0vYZKZbAsrSHfhfCZnmggHijGKuzyuy0I14LPvZ8GRm/o=@vger.kernel.org
-X-Gm-Message-State: AFuF++nuLsjWivT4u5GCRSSmpytlFlloNlXvM1huOuCBHQQtZYefUfza
-	LFngf8tC8ZzzGAbHvzvipZA71/bo9f9uEL9TWKdUie9uv/uhLC05fyuq
-X-Gm-Gg: AR+sD13SXL3sFNteLei4Xup8Emh1TjJpkqczuX6BKHenwxe7hb0vysvYM6n9U/z9Qge
-	OyA9um44wbFCbo/p8cvGrXNoAFzqzK9OUStP/cigE+z/dOwgrOLTC0jLrboqmUDyOO0wjaT9nsl
-	xJ+15RnJAON6/s2pdQvpkH2C7jQjBHBWBVe0I6vX2MBtSE3Hl4CvzaNsYOK4ytoIZdWP3mx7QUt
-	iiAXvLIC8NGb2D2MTU8885KoC8Gi98EnCZ59PEU51IF7Vc8B4urGv/MJZYSRS1yDoMuLMhZs8kL
-	VA8SxqxDNgDjqpyMDI3ZU023WT7hXMIocsU+myJWnlWmqcUUMxoxNio5mtT/DWlGoNtAZ9kRNpA
-	Hos9fqn9PaBBLjGWMC7EyF6LH7DxEf8ngT0f7CSebPCktv6rMqvv7uICztAgM14WoAvalmoMlun
-	wE71oKlBoJYIQypZYd7Aa1iOT86KGLonoyxcpOjDnYB7jI7ZaWbYIXyPts2yEykTuVH8UUbsqAS
-	WPjwrOawczhYBapXttXHMMBvJSjno3OEubOSfbuYtlApo9H5YS9DTn6Mk5me+x1buloof4VbUcZ
-	KPskG4MQn9iCMcGXnJq7AqY4o9sPIs4TD1xsknAUEdHgQhr9
-X-Received: by 2002:a05:600c:811a:b0:499:db9b:f253 with SMTP id 5b1f17b1804b1-499dc6ec214mr15659295e9.3.1787688883796;
-        Tue, 25 Aug 2026 13:14:43 -0700 (PDT)
-Received: from scambox.localdomain (5-198-68-184.static.kc.net.uk. [5.198.68.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dc960e80sm5050435e9.1.2026.08.25.13.14.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 13:14:43 -0700 (PDT)
-From: Edward Blair <edward.blair@gmail.com>
-To: linux-acpi@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: rafael@kernel.org,
-	lenb@kernel.org,
-	heikki.krogerus@linux.intel.com,
-	mika.westerberg@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Edward Blair <edward.blair@gmail.com>
-Subject: [PATCH v2 2/2] usb: typec: ucsi: add ITE885x I2C transport driver
-Date: Tue, 25 Aug 2026 21:14:26 +0100
-Message-ID: <20260825201426.47030-3-edward.blair@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260825201426.47030-1-edward.blair@gmail.com>
-References: <20260825201426.47030-1-edward.blair@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="XgLH2rIW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZAYuMd2vJ3O/t1d2GSayvZcTUnFxiX372ZClJKOWXbskM6DV7g7fgbAYxqjS7KX9J0JNLLUdujyx3NuWrgDafMyr1hapll0Q+I7mTIiymVJMVVb1UqTmERH690PYSZwU7+1oLNW2nYogSt/d/R++xX/SSSbNGCo2EwlURn84LPyl4CPw5O/gwIwOBi85zT1q/NrXc+JVpOT4sV/bf3WTejlZhFF40rQGZ5TAQeRbwfypE+A//TtBZrHD69MneolpZ3VO1XkmgcGbIjTIXA8hBkwxcxxNjZIs1gylOtXqcV9VI8XvC0t9trzjiquHCgD8cAgC1mRIKXoiPj++NqjGCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W+MhIejXhceTKgL3vZhGDh7PDw4O2wOGN+P+AGHiyZU=;
+ b=ttI3+SNJtWhmFhnwWevREYDjpUlCQ4QUIA76GeNQ+VYh3w6MUkbkfLnz2zQ4NupIK7755M1ijtY0ghRPWaeeBx0V8b/G9fdlzMIlzNabqediggTBNOB3JUl8UL7o9vBLsS4tZMwpwm4tOaG7kwjvyODUfBNZsj1mnWfPpkTm78IU2v/oj2G8+UgIiQXRXs5vZ9UkfwN9uxFQhpP170O9wGfJ0QDeUcxT1LCFErxzXx2/AyG5RMv6jWakRFcI2bvlTJOP2zJPZjxkjpgSaQmAPUMvl2qPg+HYjdOcUagDxZXC7svv8Q5n/hsQg8wL/P5p7gSjVUpPnVY2LZiOx6LBwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 149.199.90.133) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W+MhIejXhceTKgL3vZhGDh7PDw4O2wOGN+P+AGHiyZU=;
+ b=XgLH2rIWFiEWh8t7LAZH0k3XDbwVFF9sp0J8nOxaayuc3H3dGJ2n3QwEXbfu6FTUYKoDwBMpgCe5BOyuqMlsfmNKcStKWZITL+alJEn4usL5FqA1UdF2tKDxEPXB+WsLbY4/IdkbuvMqyV/FY3xi5pEdopGTAo21y5XugsACE8k=
+Received: from BN9PR03CA0169.namprd03.prod.outlook.com (2603:10b6:408:f4::24)
+ by SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 25 Aug
+ 2026 21:43:08 +0000
+Received: from BN3PEPF0000B069.namprd21.prod.outlook.com
+ (2603:10b6:408:f4:cafe::3b) by BN9PR03CA0169.outlook.office365.com
+ (2603:10b6:408:f4::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.12 via Frontend Transport; Tue,
+ 25 Aug 2026 21:43:08 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 149.199.90.133) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=amd.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ amd.com discourages use of 149.199.90.133 as permitted sender)
+Received: from satlexmb07.amd.com (149.199.90.133) by
+ BN3PEPF0000B069.mail.protection.outlook.com (10.167.243.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.0 via Frontend Transport; Tue, 25 Aug 2026 21:43:07 +0000
+Received: from jprecision.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 25 Aug
+ 2026 16:43:06 -0500
+From: <juan.martinez@amd.com>
+To: <westeri@kernel.org>
+CC: <andreas.noever@gmail.com>, <YehezkelShB@gmail.com>,
+	<Basavaraj.Natikar@amd.com>, <Sanath.S@amd.com>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <mario.limonciello@amd.com>
+Subject: [PATCH v2] thunderbolt: Fix tb->lock deadlock during hot-unplug on AMD USB4 routers
+Date: Tue, 25 Aug 2026 16:42:37 -0500
+Message-ID: <20260825214237.4179813-1-juan.martinez@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -83,459 +69,158 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B069:EE_|SJ0PR12MB6760:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce87158e-ed29-449d-ecc3-08df02f1da0b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|82310400026|36860700016|56012099006|11063799006|18002099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	jEsP4VJrHHyxiFKqMfkBfn1befiHG/exZQTusPSQAIstkFXlLZO+mD/jrHBwFzKoxloreh11TMu809sHZqxtyvAl1NjdfoDEqssjh5gJXEHwpE55IqXpa9uPLoBFychEgHCORvrioPFLSHmMm4QjkfMELAGJm9q1u9kmuA2tOo4Ta+U2ksqHMiq4aNeFP8HPji7OVXMdemmBWSzdh7J0CYlbM92Pm1vkVr024UwcBA3Bbj4fK64+IbqDJdgCJctnvYjv66lPzYChIxlpfUdlgPKswSi5VnBd3lw/KXyRwekwAWv5r1G0GR4XI0XlcNal9Cfs2cVBz2+4Epz8Ik2XXlMUPDth8nCxwTRkbCNTtG6DU0n5TFg8J7J4tqa5iysLIvxgHT7t20WdrtjjbETHWYf7b629WcHuYnYiBjDRdQ2fQeBAosl19EUYiqLbzsjvQJysoza2ZPWuCVVKqFVb9xFA986M8iLAiKxb+uyntQiLA31eXH2yCXOV0TKcz0jnE04OrKKq9lf1SFKaUrVZmy+b+8g2WpzlZ2O/ZxsqsAu0kVCFdt8k/Vg2Gmqgcy7eO9B14uFPuSEq/KaKWsFeaepk5EIBMn80kaTw7AXxrhWZe0Xm88qQQ4y6MwE+jjV9XLKeKhMq3e3BGnP9K6Q0UYmzxD4i6osz6D4bIJruccs=
+X-Forefront-Antispam-Report:
+	CIP:149.199.90.133;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:unknown-90-133.xilinx.com;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(56012099006)(11063799006)(18002099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	4IVslosBilnoGW9or2AVB4YygVesduD62Cmo+ggVowqKKbLPzQUOemu1vFz6sOv8zJ2U1frQ2jJxna86XzHpAlbeqHZthc1eaCzHsdXHoM0m6v4TtSg0ymSajSidFGOi0/Haa8Uud8kXb74iomj4QmD2e9fv26hqJnlbGgqEt+pw5KACH1qY+lxbLERWDSYnb/308L0RhLHoNBwqtpdXublIwL3G/Wh3SWv/b/7nFxstaP4bF6NZCxIGkDLtBigHJt0mqfojnqIQKw9/aGP1Gaso//FOVoOOVgQ7WekEUVezEHYtteQg1hIgCb8O0RmbCP7lIlDMuxONsa3xmrtKcErv66u05IVb6vJTZCOnGbadPNfTaWP49ac+QEgJfYxeb2pNAV+x6d3zX2rjr0L0GFv4D+B3XU8DprpFOnx4WH9Liqz/cXWLh+f07AkMVCbe
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 21:43:07.6763
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce87158e-ed29-449d-ecc3-08df02f1da0b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[149.199.90.133];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B069.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6760
 
-Add a UCSI transport driver for ITE8853 and ITE8800 through ITE8805
-USB Type-C controllers found on desktop motherboards.
+From: Juan Martinez <juan.martinez@amd.com>
 
-These controllers expose CCI, MESSAGE_IN and CONTROL at ITE-specific I2C
-offsets and signal UCSI and vendor events through a shared interrupt
-status register. Read and cache each complete UCSI event before
-acknowledging it so command data remains coherent between the interrupt
-handler and UCSI core.
+Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+DMA path teardown for AMD USB4 routers") introduced a deadlock when
+physically unplugging a Thunderbolt cable on AMD systems.
 
-The interface does not expose a VERSION register and does not accept
-PPM_RESET over I2C. Report UCSI 1.0, limit MESSAGE_IN to its 16-byte
-window and handle PPM_RESET locally, matching the vendor driver's
-behavior.
+The problem occurs because tb_handle_hotplug() holds tb->lock while
+processing the unplug event. When it removes the XDomain services,
+tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+tb_domain_reset_interface(). That function tries to acquire tb->lock
+via guard(mutex), but the hotplug worker already holds it, causing a
+self-deadlock.
 
-Signed-off-by: Edward Blair <edward.blair@gmail.com>
+The deadlock manifests as a complete network hang because
+tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+all network operations system-wide.
+
+The existing code already handles this scenario partially: when
+xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+skips the DMA teardown because the hotplug handler will do it later
+via __tb_disconnect_xdomain_paths(). However, the reset was still
+being called unconditionally.
+
+Fix this by:
+1. Splitting tb_domain_reset_interface() into a locked inner function
+   __tb_domain_reset_interface_locked() and a locking wrapper
+2. Skipping the reset in tb_domain_disconnect_xdomain_paths() when
+   xd->is_unplugged is true (matching the existing teardown skip logic)
+3. Calling __tb_domain_reset_interface_locked() from tb_handle_hotplug()
+   after __tb_disconnect_xdomain_paths() where the actual DMA teardown
+   happens and tb->lock is already held
+
+This preserves the reset behavior for normal shutdown paths while
+avoiding the deadlock during physical cable unplug.
+
+Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+Signed-off-by: Juan Martinez <juan.martinez@amd.com>
 ---
- drivers/usb/typec/ucsi/Kconfig    |  11 +
- drivers/usb/typec/ucsi/Makefile   |   1 +
- drivers/usb/typec/ucsi/ucsi_ite.c | 395 ++++++++++++++++++++++++++++++
- 3 files changed, 407 insertions(+)
- create mode 100644 drivers/usb/typec/ucsi/ucsi_ite.c
+ drivers/thunderbolt/domain.c | 26 +++++++++++++++++++++-----
+ drivers/thunderbolt/tb.c     |  1 +
+ drivers/thunderbolt/tb.h     |  1 +
+ 3 files changed, 23 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-index 87dd992a4..3819c4f73 100644
---- a/drivers/usb/typec/ucsi/Kconfig
-+++ b/drivers/usb/typec/ucsi/Kconfig
-@@ -104,4 +104,15 @@ config UCSI_HUAWEI_GAOKUN
- 	  To compile the driver as a module, choose M here: the module will be
- 	  called ucsi_huawei_gaokun.
+diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+index 12c88509a54f..253ea8c6b757 100644
+--- a/drivers/thunderbolt/domain.c
++++ b/drivers/thunderbolt/domain.c
+@@ -788,14 +788,19 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 			transmit_ring, receive_path, receive_ring);
+ }
  
-+config UCSI_ITE
-+	tristate "UCSI Interface Driver for ITE885x"
-+	depends on ACPI && I2C
-+	help
-+	  This driver enables UCSI support on platforms that expose an ITE8853
-+	  or ITE8800-ITE8805 USB Type-C controller over I2C, commonly found
-+	  on ASUS Z690/Z790/X670E motherboards.
-+
-+	  To compile the driver as a module, choose M here: the module will be
-+	  called ucsi_ite.
-+
- endif
-diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-index c7e38bf01..9bc1d6bbb 100644
---- a/drivers/usb/typec/ucsi/Makefile
-+++ b/drivers/usb/typec/ucsi/Makefile
-@@ -28,3 +28,4 @@ obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
- obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
- obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
- obj-$(CONFIG_UCSI_HUAWEI_GAOKUN)	+= ucsi_huawei_gaokun.o
-+obj-$(CONFIG_UCSI_ITE)			+= ucsi_ite.o
-diff --git a/drivers/usb/typec/ucsi/ucsi_ite.c b/drivers/usb/typec/ucsi/ucsi_ite.c
-new file mode 100644
-index 000000000..16b22c77f
---- /dev/null
-+++ b/drivers/usb/typec/ucsi/ucsi_ite.c
-@@ -0,0 +1,395 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+-static void tb_domain_reset_interface(struct tb *tb)
 +/*
-+ * UCSI I2C transport driver for ITE885x USB-C controllers
++ * __tb_domain_reset_interface_locked - Reset host interface (lock held)
 + *
-+ * ITE8853/ITE8800-ITE8805 are UCSI-compliant USB-C controllers found on
-+ * desktop motherboards. They communicate over I2C using UCSI registers at
-+ * ITE-specific offsets and signal events through a vendor interrupt register.
++ * Caller must hold tb->lock. Used by hotplug path where lock is already held.
 + */
-+
-+#include <linux/acpi.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+
-+#include "ucsi.h"
-+
-+#define ITE_REG_CCI		0x84
-+#define ITE_REG_MESSAGE_IN	0x88
-+#define ITE_REG_CONTROL		0x98
-+#define ITE_REG_INT_ACK		0xbc
-+#define ITE_REG_INT_STATUS	0xbd
-+
-+#define ITE_INT_VENDOR_ALERT	BIT(0)
-+#define ITE_INT_CCI		BIT(1)
-+#define ITE_INT_MASK		(ITE_INT_VENDOR_ALERT | ITE_INT_CCI)
-+
-+#define ITE_MESSAGE_IN_MAX_LEN	0x10
-+
-+enum ucsi_ite_event {
-+	ITE_EVENT_NONE,
-+	ITE_EVENT_CCI,
-+	ITE_EVENT_VENDOR,
-+};
-+
-+struct ucsi_ite {
-+	struct i2c_client *client;
-+	struct ucsi *ucsi;
-+	struct mutex event_lock;	/* Serializes IRQ and polling */
-+	struct mutex received_lock;	/* Protects CCI and message_in */
-+	u8 message_in[ITE_MESSAGE_IN_MAX_LEN];
-+	u32 cci;
-+	bool registered;
-+};
-+
-+static int ucsi_ite_read(struct ucsi_ite *ite, u8 reg, void *val, size_t len)
++void __tb_domain_reset_interface_locked(struct tb *tb)
+ {
+ 	struct tb_nhi *nhi = tb->nhi;
+ 
+-	if (!nhi->ops->reset_interface)
+-		return;
++	lockdep_assert_held(&tb->lock);
+ 
+-	guard(mutex)(&tb->lock);
++	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
++		return;
+ 
+ 	/* The reset clears the ring state so stop the control channel */
+ 	tb_ctl_stop(tb->ctl);
+@@ -803,6 +808,17 @@ static void tb_domain_reset_interface(struct tb *tb)
+ 	tb_ctl_start(tb->ctl);
+ }
+ 
++static void tb_domain_reset_interface(struct tb *tb)
 +{
-+	struct i2c_client *client = ite->client;
-+	struct i2c_msg msgs[] = {
-+		{
-+			.addr = client->addr,
-+			.len = 1,
-+			.buf = &reg,
-+		},
-+		{
-+			.addr = client->addr,
-+			.flags = I2C_M_RD,
-+			.len = len,
-+			.buf = val,
-+		},
-+	};
-+	int ret;
++	struct tb_nhi *nhi = tb->nhi;
 +
-+	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-+	if (ret == ARRAY_SIZE(msgs))
-+		return 0;
++	if (!nhi->ops->reset_interface)
++		return;
 +
-+	ret = ret < 0 ? ret : -EIO;
-+	dev_err_ratelimited(&client->dev,
-+			    "register 0x%02x read failed: %d\n", reg, ret);
-+	return ret;
++	guard(mutex)(&tb->lock);
++	__tb_domain_reset_interface_locked(tb);
 +}
 +
-+static int ucsi_ite_write(struct ucsi_ite *ite, u8 reg, const void *val,
-+			  size_t len)
-+{
-+	struct i2c_client *client = ite->client;
-+	u8 buf[sizeof(u64) + 1];
-+	struct i2c_msg msg = {
-+		.addr = client->addr,
-+		.len = len + 1,
-+		.buf = buf,
-+	};
-+	int ret;
-+
-+	if (len > sizeof(buf) - 1)
-+		return -EINVAL;
-+
-+	buf[0] = reg;
-+	memcpy(&buf[1], val, len);
-+
-+	ret = i2c_transfer(client->adapter, &msg, 1);
-+	if (ret == 1)
-+		return 0;
-+
-+	ret = ret < 0 ? ret : -EIO;
-+	dev_err_ratelimited(&client->dev,
-+			    "register 0x%02x write failed: %d\n", reg, ret);
-+	return ret;
-+}
-+
-+static int ucsi_ite_process_event(struct ucsi_ite *ite, u32 *cci)
-+{
-+	u8 message_in[ITE_MESSAGE_IN_MAX_LEN] = {};
-+	__le32 raw_cci;
-+	u8 status;
-+	u8 len = 0;
-+	int event;
-+	int err = 0;
-+	int ret;
-+
-+	mutex_lock(&ite->event_lock);
-+
-+	ret = ucsi_ite_read(ite, ITE_REG_INT_STATUS, &status, sizeof(status));
-+	if (ret)
-+		goto out_unlock;
-+
-+	status &= ITE_INT_MASK;
-+	if (!status) {
-+		mutex_lock(&ite->received_lock);
-+		*cci = ite->cci;
-+		mutex_unlock(&ite->received_lock);
-+		ret = ITE_EVENT_NONE;
-+		goto out_unlock;
-+	}
-+
-+	if (status & ITE_INT_CCI) {
-+		err = ucsi_ite_read(ite, ITE_REG_CCI, &raw_cci,
-+				    sizeof(raw_cci));
-+		if (!err) {
-+			*cci = le32_to_cpu(raw_cci);
-+			len = UCSI_CCI_LENGTH(*cci);
-+
-+			if (len > sizeof(message_in)) {
-+				len = sizeof(message_in);
-+				*cci &= ~GENMASK(15, 8);
-+				*cci |= UCSI_SET_CCI_LENGTH(len);
-+			}
-+			if (len) {
-+				err = ucsi_ite_read(ite, ITE_REG_MESSAGE_IN,
-+						    message_in, len);
-+			}
-+		}
-+	}
-+
-+	/* Acknowledge each latched event with the value expected by the PPM. */
-+	if (status & ITE_INT_VENDOR_ALERT) {
-+		u8 ack = ITE_INT_VENDOR_ALERT;
-+
-+		ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-+		if (ret)
-+			goto out_unlock;
-+	}
-+
-+	if ((status & ITE_INT_CCI) && !err) {
-+		u8 ack = ITE_INT_CCI;
-+
-+		ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-+		if (ret)
-+			goto out_unlock;
-+	}
-+
-+	if (err) {
-+		ret = err;
-+		goto out_unlock;
-+	}
-+
-+	if (status & ITE_INT_CCI) {
-+		mutex_lock(&ite->received_lock);
-+		ite->cci = *cci;
-+		memset(ite->message_in, 0, sizeof(ite->message_in));
-+		memcpy(ite->message_in, message_in, len);
-+		mutex_unlock(&ite->received_lock);
-+		event = ITE_EVENT_CCI;
-+	} else {
-+		mutex_lock(&ite->received_lock);
-+		*cci = ite->cci;
-+		mutex_unlock(&ite->received_lock);
-+		event = ITE_EVENT_VENDOR;
-+	}
-+
-+	ret = event;
-+
-+out_unlock:
-+	mutex_unlock(&ite->event_lock);
-+	return ret;
-+}
-+
-+static int ucsi_ite_read_version(struct ucsi *ucsi, u16 *version)
-+{
-+	/* The ITE interface does not expose a VERSION register. */
-+	*version = UCSI_VERSION_1_0;
-+	return 0;
-+}
-+
-+static int ucsi_ite_read_cci(struct ucsi *ucsi, u32 *cci)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+
-+	mutex_lock(&ite->received_lock);
-+	*cci = ite->cci;
-+	mutex_unlock(&ite->received_lock);
-+
-+	return 0;
-+}
-+
-+static int ucsi_ite_poll_cci(struct ucsi *ucsi, u32 *cci)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+	int ret;
-+
-+	ret = ucsi_ite_process_event(ite, cci);
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static int ucsi_ite_read_message_in(struct ucsi *ucsi, void *val, size_t len)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+
-+	if (len > sizeof(ite->message_in))
-+		return -EINVAL;
-+
-+	mutex_lock(&ite->received_lock);
-+	memcpy(val, ite->message_in, len);
-+	mutex_unlock(&ite->received_lock);
-+
-+	return 0;
-+}
-+
-+static int ucsi_ite_async_control(struct ucsi *ucsi, u64 command)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+	__le64 raw_command = cpu_to_le64(command);
-+	int ret;
-+
-+	if (UCSI_COMMAND(command) == UCSI_PPM_RESET) {
-+		/* The PPM handles reset internally; do not write it over I2C. */
-+		mutex_lock(&ite->event_lock);
-+		mutex_lock(&ite->received_lock);
-+		ite->cci = UCSI_CCI_RESET_COMPLETE;
-+		memset(ite->message_in, 0, sizeof(ite->message_in));
-+		mutex_unlock(&ite->received_lock);
-+		mutex_unlock(&ite->event_lock);
-+		return 0;
-+	}
-+
-+	mutex_lock(&ite->event_lock);
-+	mutex_lock(&ite->received_lock);
-+	ite->cci = 0;
-+	memset(ite->message_in, 0, sizeof(ite->message_in));
-+	mutex_unlock(&ite->received_lock);
-+	ret = ucsi_ite_write(ite, ITE_REG_CONTROL, &raw_command,
-+			     sizeof(raw_command));
-+	mutex_unlock(&ite->event_lock);
-+
-+	return ret;
-+}
-+
-+static const struct ucsi_operations ucsi_ite_ops = {
-+	.read_version = ucsi_ite_read_version,
-+	.read_cci = ucsi_ite_read_cci,
-+	.poll_cci = ucsi_ite_poll_cci,
-+	.read_message_in = ucsi_ite_read_message_in,
-+	.sync_control = ucsi_sync_control_common,
-+	.async_control = ucsi_ite_async_control,
-+};
-+
-+static irqreturn_t ucsi_ite_irq(int irq, void *data)
-+{
-+	struct ucsi_ite *ite = data;
-+	u32 cci;
-+	int ret;
-+
-+	ret = ucsi_ite_process_event(ite, &cci);
-+	if (ret == ITE_EVENT_NONE)
-+		return IRQ_NONE;
-+	if (ret < 0)
-+		return IRQ_HANDLED;
-+
-+	if (ret == ITE_EVENT_CCI)
-+		ucsi_notify_common(ite->ucsi, cci);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void ucsi_ite_destroy(void *data)
-+{
-+	struct ucsi_ite *ite = data;
-+
-+	if (ite->registered)
-+		ucsi_unregister(ite->ucsi);
-+	ucsi_destroy(ite->ucsi);
-+}
-+
-+static int ucsi_ite_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct ucsi_ite *ite;
-+	u32 cci;
-+	int ret;
-+
-+	if (client->irq <= 0)
-+		return dev_err_probe(dev, -ENODEV, "no IRQ provided\n");
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-+		return dev_err_probe(dev, -EOPNOTSUPP,
-+				     "adapter does not support I2C transfers\n");
-+
-+	ite = devm_kzalloc(dev, sizeof(*ite), GFP_KERNEL);
-+	if (!ite)
-+		return -ENOMEM;
-+
-+	ite->client = client;
-+	mutex_init(&ite->event_lock);
-+	mutex_init(&ite->received_lock);
-+	i2c_set_clientdata(client, ite);
-+
-+	ite->ucsi = ucsi_create(dev, &ucsi_ite_ops);
-+	if (IS_ERR(ite->ucsi))
-+		return dev_err_probe(dev, PTR_ERR(ite->ucsi),
-+				     "failed to create UCSI interface\n");
-+
-+	ret = devm_add_action_or_reset(dev, ucsi_ite_destroy, ite);
-+	if (ret)
-+		return ret;
-+
-+	ucsi_set_drvdata(ite->ucsi, ite);
-+
-+	ret = devm_request_threaded_irq(dev, client->irq, NULL,
-+					ucsi_ite_irq, IRQF_ONESHOT,
-+					dev_name(dev), ite);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to request IRQ\n");
-+
-+	ret = ucsi_ite_process_event(ite, &cci);
-+	if (ret < 0)
-+		dev_warn(dev, "initial event processing failed: %d\n", ret);
-+
-+	ret = ucsi_register(ite->ucsi);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to register UCSI interface\n");
-+
-+	ite->registered = true;
-+	return 0;
-+}
-+
-+static int ucsi_ite_suspend(struct device *dev)
-+{
-+	struct ucsi_ite *ite = dev_get_drvdata(dev);
-+	int ret;
-+
-+	disable_irq(ite->client->irq);
-+	ret = ucsi_suspend(ite->ucsi);
-+	if (ret)
-+		enable_irq(ite->client->irq);
-+
-+	return ret;
-+}
-+
-+static int ucsi_ite_resume(struct device *dev)
-+{
-+	struct ucsi_ite *ite = dev_get_drvdata(dev);
-+
-+	enable_irq(ite->client->irq);
-+	return ucsi_resume(ite->ucsi);
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(ucsi_ite_pm, ucsi_ite_suspend,
-+				ucsi_ite_resume);
-+
-+static const struct acpi_device_id ucsi_ite_acpi_ids[] = {
-+	{ "ITE8853" },
-+	{ "ITE8800" },
-+	{ "ITE8801" },
-+	{ "ITE8802" },
-+	{ "ITE8803" },
-+	{ "ITE8804" },
-+	{ "ITE8805" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, ucsi_ite_acpi_ids);
-+
-+static struct i2c_driver ucsi_ite_driver = {
-+	.driver = {
-+		.name = "ucsi_ite",
-+		.acpi_match_table = ucsi_ite_acpi_ids,
-+		.pm = pm_sleep_ptr(&ucsi_ite_pm),
-+	},
-+	.probe = ucsi_ite_probe,
-+};
-+module_i2c_driver(ucsi_ite_driver);
-+
-+MODULE_AUTHOR("Edward Blair <edward.blair@gmail.com>");
-+MODULE_DESCRIPTION("UCSI I2C transport driver for ITE885x USB-C controllers");
-+MODULE_LICENSE("GPL");
+ /**
+  * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+  * @tb: Domain disabling the DMA paths
+@@ -835,7 +851,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
++	if (!xd->is_unplugged)
+ 		tb_domain_reset_interface(tb);
+ 
+ 	return 0;
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index b7cc6894a598..89dfb3381345 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -2489,6 +2489,7 @@ static void tb_handle_hotplug(struct work_struct *work)
+ 			tb_xdomain_remove(xd);
+ 			port->xdomain = NULL;
+ 			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
++			__tb_domain_reset_interface_locked(tb);
+ 			tb_xdomain_put(xd);
+ 			tb_port_unconfigure_xdomain(port);
+ 		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 4373336d9425..2e6e0920cb1f 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -789,6 +789,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
+ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 				    int transmit_path, int transmit_ring,
+ 				    int receive_path, int receive_ring);
++void __tb_domain_reset_interface_locked(struct tb *tb);
+ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 				       int transmit_path, int transmit_ring,
+ 				       int receive_path, int receive_ring);
 -- 
-2.55.0
+2.43.0
 
