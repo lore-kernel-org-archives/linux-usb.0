@@ -1,73 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBFC2472A2;
-	Tue, 25 Aug 2026 03:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8101949365A;
+	Tue, 25 Aug 2026 04:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787629898; cv=none; b=LOB+N0saLnDSrMHXwDbY7fHKzRpLBgYdnpcOENfa05Oy7zwN5fJo6gOVGCYw02+4vZNWsyYL9Ze67HENDegszmzMNPNEN8loOWY32+yPqhMTyQIEjY5WhzJn5UfuZKsuJ8fl+nlCIj0gyrJH3HeQJYHwbA89YAfXgT8fqe1vNLk=
+	t=1787633771; cv=none; b=j6+dSg+D6AOSBayFNODxJHlC9pn7X9MjfE0aEw5DdkoyMScuOjKTzctYAPZGMJ6IfR9/fc+36jGE6ELHHbpc1ZzH7pDVHuevMBLSDCulAESEjXD02sWAPcH5+fxfF4FRFfBRQRZ7uuGZpppX3qUsUnR0NYjk0jSwd6FkQ6CPO4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787629898; c=relaxed/simple;
-	bh=EWl9tU7uAxMxpmhrblRcqWKpYmo6e+/ZDUowduUAxPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WlA2Ey6ySVzjDjr1w+mw0xoewyph2Km2n1a6CFjk5AdUVlltOQt2dDG9wY/k6zjeVwxl1qauC3iSVRXBCgt0tMmU8DWuDHv/8mrGEuiAJVcM7a3sspS3cEQZriNyBNE0wnajQeSg8P9nQuwaS//w5TAoezoqoUOuXFYx3UuWWjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kroLM6T3; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kroLM6T3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787629897; x=1819165897;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EWl9tU7uAxMxpmhrblRcqWKpYmo6e+/ZDUowduUAxPo=;
-  b=kroLM6T3iAv5FdSQNbWp4et2fxsy63SWjQUCGx1bGht/7g2neyb8rNzO
-   vSrkjaRqqOb4eVzXYAc9eSyxydtId1xHWJO+BO/x5TAC+XF/WVbWSelJc
-   OKgaESjXlNFQVUFgQBkDNxBZ6VKh9BZoclIq2XfkTVIbiWCdQbaOjoWDM
-   gmYG+LJMvvLaAonabmNg05S5yy/CjqnwZYD40RQOddik6uGG+8cPPjK8l
-   ghub5xQRG7nsC//bQNPuNiGJ6FrKCs5aKp1OWt6XqRqh3h3jo8BgBajtm
-   Nhjka4Z1NBCbMm9GHpM5dFpnWNdTFroewxOyw3Y9/qDkIg+OowJoNrd9N
-   Q==;
-X-CSE-ConnectionGUID: iNgGfuk9TGmejPxYcW6DXw==
-X-CSE-MsgGUID: Gdz3Fut1Sd+I59YFiuOdxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98426554"
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="98426554"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:51:37 -0700
-X-CSE-ConnectionGUID: ERZPrgQsSaeg8RRnlwuHmg==
-X-CSE-MsgGUID: MFHycAsVS4CiO0YjoE2S/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="269124170"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Aug 2026 20:51:35 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id E306399; Tue, 25 Aug 2026 05:51:33 +0200 (CEST)
-Date: Tue, 25 Aug 2026 05:51:33 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v9 0/3] Add Apple T2 NHI Device links
-Message-ID: <20260825035133.GK893316@black.igk.intel.com>
-References: <20260824184305.1234-1-atharvatiwarilinuxdev@gmail.com>
+	s=arc-20240116; t=1787633771; c=relaxed/simple;
+	bh=bOiKqTbNqhKOzwGIa2mnMr3nUQjsJF8X0XooeIvVpLA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VpU15/XD8wL7ePHLPvymnE4MTgI/7OXoNprEq/x83S60Mjluwo5b1gbEWZppxCZrC6r6W36GYstQh906gYzXxW6oXkvXaMU+wdNaYLAJ/D5R0uvpxIPud9A2BgWX/p3oGK8KeOpDEh+h2v+uQHgGqV6tMNqkBYIM6Uy6dweIEO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S.localdomain (unknown [36.110.52.2])
+	by APP-01 (Coremail) with SMTP id qwCowAB3Su5dII1qGUx9Bg--.42058S2;
+	Tue, 25 Aug 2026 12:55:57 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: westeri@kernel.org,
+	andreas.noever@gmail.com,
+	YehezkelShB@gmail.com,
+	isaac.hazan@intel.com
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH] thunderbolt: dma_test: Tear down DMA paths before stopping the rings
+Date: Tue, 25 Aug 2026 11:47:59 +0800
+Message-ID: <20260825034759.5403-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260824184305.1234-1-atharvatiwarilinuxdev@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAB3Su5dII1qGUx9Bg--.42058S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr4kWF1xKF43ZF4kur4fGrg_yoW8CF48pF
+	WY9Fyjyr4xZa4xAFyDGF18ZF15ArsxAFZ7CryrK3yS9r15KayIqFWkKrW0qrn7GrW8Xws2
+	vF4IvrWfWw1UXr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUvXd8UUU
+	UU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAEKA2qM4MUiigABsu
 
-On Mon, Aug 24, 2026 at 02:42:53PM -0400, Atharva Tiwari wrote:
-> This series adds support for Device linking on Titan ridge, and
-> Icelake, which are used exclusively on Apple T2 machines.
+dma_test_stop_rings() stops the RX and TX rings before calling
+tb_xdomain_disable_paths().  tb_ring_stop() zeroes the ring's descriptor
+base and the cancellation callbacks unmap and free the frame buffers, so
+by the time __tb_path_deactivate_hop() polls the hop's 'pending' bit any
+data still in flight has nowhere to drain to; on ASMedia ASM4242-class
+host routers the bit never clears and every teardown burns the full
+500 ms timeout.  This is the same defect as the one in tbnet_tear_down(),
+fixed as CVE-2026-74691 ("net: thunderbolt: Tear down DMA paths before
+stopping the rings").
 
-We are in the middle of merge window, nobody is taking any patches at this
-time. Only after v7.3-rc1 is released. Please be patient.
+Move the tb_xdomain_disable_paths() call before the tb_ring_stop() calls
+in dma_test_stop_rings(), so in-flight data drains while the rings are
+still active, and only then stop the rings and free the frame buffers.
+
+Fixes: edc0f494ed966 ("thunderbolt: Add DMA traffic test driver")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+---
+ drivers/thunderbolt/dma_test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/thunderbolt/dma_test.c b/drivers/thunderbolt/dma_test.c
+index 7877319b1b03..4acce31f1397 100644
+--- a/drivers/thunderbolt/dma_test.c
++++ b/drivers/thunderbolt/dma_test.c
+@@ -215,11 +215,6 @@ static void dma_test_stop_rings(struct dma_test *dt)
+ {
+ 	int ret;
+ 
+-	if (dt->rx_ring)
+-		tb_ring_stop(dt->rx_ring);
+-	if (dt->tx_ring)
+-		tb_ring_stop(dt->tx_ring);
+-
+ 	ret = tb_xdomain_disable_paths(dt->xd, dt->tx_hopid,
+ 				       dt->tx_ring ? dt->tx_ring->hop : -1,
+ 				       dt->rx_hopid,
+@@ -227,6 +222,11 @@ static void dma_test_stop_rings(struct dma_test *dt)
+ 	if (ret)
+ 		dev_warn(&dt->svc->dev, "failed to disable DMA paths\n");
+ 
++	if (dt->rx_ring)
++		tb_ring_stop(dt->rx_ring);
++	if (dt->tx_ring)
++		tb_ring_stop(dt->tx_ring);
++
+ 	dma_test_free_rings(dt);
+ }
+ 
+-- 
+2.25.1
+
