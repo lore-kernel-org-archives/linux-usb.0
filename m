@@ -1,147 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4E538F938;
-	Tue, 25 Aug 2026 11:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028FD13777E
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 11:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787657374; cv=none; b=GYFTNE4OZkHzPzAyKOnpyziXpvc6YQHjpNhRHJb59pzrwZ30tVz0X3TsGX9B8a5+6WrHAglyD+kuGMjmAqy7IwvnWJc+Ndoi4dHmsxGZNMnMmyQzqRK2SfgjSHsQb81UbjuoF6On1SiXiFkuaRdY8Usu5EvNbklVLO0i3JWR18k=
+	t=1787657488; cv=none; b=DVDB/hUevfn8EsTK1um0m7FWxXl358bKyeyGHBIpDRwfBQB2C1w13kist7VrkNe3hsDVAt77aHTHspR8oH2mwSOvsvGfx5G1Ua3PcQVV/ibjN1U+KUymBG8Ma5OWZkQtvzqCwyH3AjyNTicO1ZWxtbSWco3PqiXT5BmhmHcp1yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787657374; c=relaxed/simple;
-	bh=ccocoJo7X2WLUZPkZftVJBl56ZPJ4K0PqwIZB/iLZm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AQg19C6xMHF5vhwq43JL+zUMaCSvWCdvYGZ9Rw8X2Eng65rBHwP0I5wL79i5kdnMQI0J+IgLhIfjOQjtIpPdReb9zFGh5LtMtxEkfl/Hwl/cCoXVF+nnSDHHpWBrRh3NiNsnCRQWsBzPB60vwhDDtm1xYDJ0vZwO93dU6+g9zkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnz19v03; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787657488; c=relaxed/simple;
+	bh=A+VI6FEKedo1QLCIxNChC2rNT1vVIplncqNzyqLRPeg=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=E56BflF0r/jTB3lwgn01tCbruCSkXizDOM19cpV31YICtgiKciFI6vRaHS3lCUpFD3fo3zgOrHAzAdkJuFoJ4J5A4udaj3TDNaZiD8eNJy/0iCB8O4HqPi6J1zai2r9iwSUNUE22V3WrYcqhmCXXLYJWzE4BEOcQU1y5dFtx8JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rcr5EFR3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnz19v03"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787657371; x=1819193371;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ccocoJo7X2WLUZPkZftVJBl56ZPJ4K0PqwIZB/iLZm8=;
-  b=fnz19v03E1QFVQKmtGMQ14ZpI2MM3Fc5OQnFQt2VYv8c8LGnA7WB3Urk
-   anRFinuvNHGBlqXlFTQuCQNquW93CzXDy+Er0UBvoqCFOqafIsTw1/fVm
-   GXLbs8cnXSph1CL+I7wRWoP8XnZi5mknixfQe1a6v3GpfDMMmoNb+J6IL
-   eyaG6OpkJavATZDciOLk9JLfk00Nf2W65AWIppG/+4Adt63eTmsfLObmH
-   DdTW0sr9NgDFn9AUI79vPeEv5psxMigSJ48GdEwL83RDHgEq+8WC6AA99
-   /ZoCBtYUhPZHx9eNN0/lqkscDHVzP+ted1SPiUEtItbJJmepr/izGVF9G
-   g==;
-X-CSE-ConnectionGUID: m4ptcBkvRDW3Uz670N3Sfg==
-X-CSE-MsgGUID: 3cMihiUxTkarkyF+hQar5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88042335"
-X-IronPort-AV: E=Sophos;i="6.25,242,1779174000"; 
-   d="scan'208";a="88042335"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 04:29:31 -0700
-X-CSE-ConnectionGUID: 66Tqw21HRkyNb6kjpmzZig==
-X-CSE-MsgGUID: fb6JKisdQPSGBiIsIlPjEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,242,1779174000"; 
-   d="scan'208";a="261134812"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.83]) ([10.245.245.83])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 04:29:29 -0700
-Message-ID: <3d38c703-8d10-4017-812a-cf6b335ef496@linux.intel.com>
-Date: Tue, 25 Aug 2026 14:29:22 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rcr5EFR3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 826FBC2BCB8
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 11:31:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787657487;
+	bh=A+VI6FEKedo1QLCIxNChC2rNT1vVIplncqNzyqLRPeg=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Rcr5EFR351Ecf7rJXSSbaIxTArSugSnTMUzbEI4fboxnbN9uFeFo8fIVdV3G1KDby
+	 WgJKG+2hHUfjTHqOpOa8KWNIw3OC7ZeI+tDi32tJIeKnMPec9+as0z1KXjWIdfE4vX
+	 dSkB+oZ4D4Zje/tNsFSpY5+x+j3LfKQckem8LUZ7R0jlKJmWaEHKFCAP67magOiOOC
+	 nvlU9FVTFTt7AFq6KkRw01/dm2Uc+jJ75ePjIfanvMecu/fz9RDVBqXmOVYz92TJlt
+	 lqoFQkn+NlF1I0iXA0lIYAQ/vXGhkMyh4aDVWEQo4E0/HDE5EAFIq11PnNAN5PrY+1
+	 nF6b8BGFl5byA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 5FF90C41612; Tue, 25 Aug 2026 11:31:27 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220936] ASMedia ASM4242 USB 3.2 xHCI Controller gives command
+ timeout
+Date: Tue, 25 Aug 2026 11:31:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220936-208809-DW0wIdH6Jf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220936-208809@https.bugzilla.kernel.org/>
+References: <bug-220936-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: Fix lockdep warning when entering test mode
-To: Yang Zi <2959243019@qq.com>, mathias.nyman@intel.com,
- gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <tencent_0F874E79839C91CD14A58265BF7B6D89850A@qq.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <tencent_0F874E79839C91CD14A58265BF7B6D89850A@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 8/25/26 12:09, Yang Zi wrote:
-> xhci_enter_test_mode() and xhci_set_port_power() are annotated
-> __must_hold(&xhci->lock), yet both drop the lock in the middle of the
-> function: xhci_enter_test_mode() around the slot-disable loop (because
-> xhci_disable_and_free_slot() takes the lock itself and can sleep) and
-> xhci_set_port_power() around the ACPI power-state calls.
-> 
-> xhci->lock is also taken from hardirq context in xhci_irq(), so it is a
-> hardirq-safe lock.  Dropping it with spin_unlock_irqrestore() re-enables
-> interrupts while the lock is still held, and lockdep's
-> trace_hardirqs_on() -> mark_held_locks() then records the lock as
-> HARDIRQ-ON-W, which conflicts with the IN-HARDIRQ-W usage registered by
-> xhci_irq():
-> 
->      inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220936
 
-This sounds odd, shouldn't spin_unlock_irqresore() first release the
-spinlock and then enable interrupts?
+--- Comment #8 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+"Clearing Run/Stop failed" is same thing as "xHC CMD_RUN timeout", somebody
+reworded the error message, that's all. The chip should stop operation with=
+in
+16ms of clearing the Run/Stop bit, but it still hasn't after 64ms.
 
-Wouldn't this be an issue for every driver that shares a spinlock
-in interrupt context and elsewhere?
+Passing quirks=3D0x20000 parameter to xhci_hcd increases the timeout furthe=
+r to
+640ms, so you could try that.
 
-spinlock_api_smp.h has:
+The issue occurs during PCI auto PM attempt (shutting down the whole contro=
+ller
+when all USB devices are idle) if you are seeing the message in normal
+operation. Does it also show up when suspending the system?
 
-static inline void __raw_spin_unlock_irqrestore(raw_spinlock_t *lock,
-unsigned long flags)
-	__releases(lock)
-{
-         spin_release(&lock->dep_map, _RET_IP_);
-         do_raw_spin_unlock(lock);
-	local_irq_restore(flags);
-         preempt_enable();
-}
+Can we know if there are successful suspend/resume cycles, or does it fail =
+on
+the first try every time? Enabling this will produce some debug info in dme=
+sg:
 
+echo 'func xhci_suspend +p' >/proc/dynamic_debug/control
+echo 'func xhci_resume +p' >/proc/dynamic_debug/control
 
-To be fair it looks odd on a uniprocessor system:
+The cause may be some remaining bug in the chip's FW or possibly out of spec
+behavior by the kernel. For one, USB subsystem is not particularly good at
+stopping drivers from trying to communicate with suspended devices and some
+particular drivers may have bugs like that. The issue would go away when the
+offending device is disconnected.
 
-spinlock_api_up.h:
+Are you able to compile and test patches?
 
-#define __UNLOCK_IRQRESTORE(lock, flags, ...) \
-   do { local_irq_restore(flags); __UNLOCK(lock, ##__VA_ARGS__); } while (0)
+--=20
+You may reply to this email to add a comment.
 
-Are you running this on a single processor system?
-
-> Fix this by releasing the lock *before* re-enabling interrupts (and, on
-> the way back, disabling interrupts before re-acquiring the lock), so the
-> hardirq-safe lock is never held with IRQs enabled.  Also drop the
-> incorrect __must_hold() annotations and pass the saved IRQ state by
-> value so these helpers cannot clobber the caller's flags.
-> 
-> This patch is tentative and needs maintainer review.
-> 
-> Signed-off-by: Yang Zi <2959243019@qq.com>
-> ---
-> diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-> index b0264bd8577a..c28d278f45b0 100644
-> --- a/drivers/usb/host/xhci-hub.c
-> +++ b/drivers/usb/host/xhci-hub.c
-> @@ -638,12 +638,19 @@ struct xhci_hub *xhci_get_rhub(struct usb_hcd *hcd)
->   
->   /*
->    * xhci_set_port_power() must be called with xhci->lock held.
-> - * It will release and re-acquire the lock while calling ACPI
-> - * method.
-> + * It drops the lock while calling the ACPI method, which may sleep, and
-> + * re-acquires it before returning.
-> + *
-> + * The lock is released *before* interrupts are re-enabled because
-> + * xhci->lock is also taken in hardirq context (xhci_irq()) and must never
-> + * be held with IRQs enabled.
-> + *
-> + * @flags is passed by value: it is the IRQ state saved by the caller's
-> + * spin_lock_irqsave() and must not be clobbered by the lock/irqsave dance
-> + * below, so the caller can later restore it with spin_unlock_irqrestore().
-
-The caller should restore it to the flags value set during latest spin_lock_irqsave()
-which is during the lock/irqsace dance.
-
-Thanks
-Mathias
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
