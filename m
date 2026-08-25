@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA39D3D669F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E443B3DD84C;
 	Tue, 25 Aug 2026 10:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787654583; cv=none; b=OGAqXV4XFqAfT1aEUaEOMAFzPCckjwQuyjlZz9mSi2PtthPryaNlJbTTd5Xq+M1q+o1MQThyL+Wpdl0xNnbgI49a5Znte6PnQi0KxFgm2TUgM4ic7bslA8CbofDX4UuSI9VKCgQg3kA6LTiQodczbsV/5pyaK3g24hIbGW7q7rk=
+	t=1787654584; cv=none; b=ZTOW5pvKglBXwGLkXB8fvtMQTEpyE/AfO+hl0YQZchR9s4z3193hIx0c15ZBVowNowtY5DeCPQczkRkDmj0GujnvhOtwVR0Txh/2ADaZYEOxL/ZTHEJBkgrlSZQUBRaTajeMYgf+CPrUgQquzO0kjYoujRnrU7Fz8jhFEgHhdto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787654583; c=relaxed/simple;
-	bh=CoY8MC/CiohEkIO0woh3W7ToV/HZWV2HpXzffodCVGU=;
+	s=arc-20240116; t=1787654584; c=relaxed/simple;
+	bh=tCAzbInnhvFDL9buuYL7KdkaisjuGMRVdXRk4no9M1o=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=neRyK7czF3bipGTdDEkcE+Fznw5HwP+4j+RATwK8sEVoaoNfiDScnht6CcTPaj8Ute+K+54/QvvvV+KthAdtBdPCc26bGOrUApNzySygbZuVEdtKeJ/n4ebaxM+wt1VdcLbCCLz9K6UJFiLVw46A9zQ28uCtFI9FCH9g9H9iTh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXi2KDBn; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=MFRQULOWS6BU3LId+p5LQLbQlNcVIy02extaE1MS73M5u4dVgvHsI9CpJQIdQr3qI8yo7oGgojMLFa1ZEcUgaiNeWHvc3ddlf4hMQVgBejX3c6/TPiLiHivbwz7sQxui1TS2wUaAF6zyAlwCPUkkn5wNa6H6+sl3ghMxVyWXPSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlG0zXY1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXi2KDBn"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 61083C2BCF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlG0zXY1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88F4BC4AF0C;
 	Tue, 25 Aug 2026 10:43:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1787654583;
-	bh=CoY8MC/CiohEkIO0woh3W7ToV/HZWV2HpXzffodCVGU=;
+	bh=tCAzbInnhvFDL9buuYL7KdkaisjuGMRVdXRk4no9M1o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dXi2KDBnpXPK2Qy1FmdqBt7NXzaRClX1vDgz5Pkf26FETh0FItmvXwWqNhfVIfT++
-	 IgdQZER0Xbe4XKN5cI412XeNSiGJKdat6ttx+pyJS874EZqXSYJ33JDq05eCbKzS5b
-	 Q2evRDpXbjPxltpM4QQoa24LJmlFJVbxcSnMaujWrLBhV19KCy0gZ9VUqJEFpmJJId
-	 0jG14JgnEZ5/dH8AF6eMsZEYqBHkV4hGuSLpWhu1KnODDM/584+oM5Gqo2ROk81PJu
-	 Wp78bDXpp6kdLKVnB380AmyhVII1Y9F2J0yT6+iHBh0h+xPlrgI3WiJ2oZdUeGQ+dn
-	 sJu6td99tecbw==
+	b=IlG0zXY1/GhTOJrJPvzL8HYOA+U7SZR6xpdQIAXmP4lPrZatQ3AVbRxEwWg7LDv0P
+	 Y2K7hPcFJQWg7+26rmAgxZoB99v+FapQCKHJZ7vt0v0p1KR4bA8MWqTKNo6e1szCJP
+	 jOKdrFgz4slFBeP07zFjSYEg27HndtAqxqGYqln29XbEMSXwU3kRTxMbCVS5MiutQB
+	 Jm5+wADXEQ0iS6jQKtze/7YsXEtT8fcvM4dKhpCi9F7p8iGTYVjlcQSrua920bAz0F
+	 6OaFwIfs4r7Laaxr6Z3+EzdEfO+LB8GaqMi6vhlFAhfQGwQxGInnQXqxSwIdvlJ2KO
+	 jiDO/xgxer3Vg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38FEDC61DB4;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C969C61DBE;
 	Tue, 25 Aug 2026 10:43:03 +0000 (UTC)
 From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
-Date: Tue, 25 Aug 2026 14:42:26 +0400
-Subject: [PATCH 1/9] dt-bindings: usb: qcom,snps-dwc3: Add ability to
- select UTMI as reference clock
+Date: Tue, 25 Aug 2026 14:42:29 +0400
+Subject: [PATCH 4/9] arm64: dts: qcom: ipq5018: Flatten usb controller node
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260825-ipq-flatten-usb-v1-1-5c1f3170bbe9@outlook.com>
+Message-Id: <20260825-ipq-flatten-usb-v1-4-5c1f3170bbe9@outlook.com>
 References: <20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com>
 In-Reply-To: <20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -53,13 +52,14 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
- George Moussalem <george.moussalem@outlook.com>
+ George Moussalem <george.moussalem@outlook.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787654580; l=2093;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787654580; l=3394;
  i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
- bh=PpmFa72hwQoy5I4zpkHd0b3hra/QO3YfJD1WlPOqoa4=;
- b=EuVX9KSNZOwoA0oaPoUM8tQBGYI6bSeOyFoi0yRtwHUcr0O+MAF2deFukun0alQeBviIQSN4B
- 2YaYa9tHmR7DjbZ/uO/BfKDesBD0tj1LuB8LDkFsbLqH8Kd0RFvc0OB
+ bh=6BPO4AvL6INquHSJlpPKSSxHp8SiLg7eyZ/yhHtV55Y=;
+ b=8vEyC0VPHc1y7QMH615ImRYE50Z5BNY/kBik5KwdvozQ205D7c30TKizD66zv05NONmKt1TUN
+ ooZtrR4g/pXA8a68DHjR5z5nsXMImUsOwf1igUbTV6c9zCLCluPZL7p
 X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
  pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
 X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
@@ -69,53 +69,116 @@ Reply-To: george.moussalem@outlook.com
 
 From: George Moussalem <george.moussalem@outlook.com>
 
-Add ability to select the UTMI clock as reference clock which is passed
-by the glue layer to the DWC3 core to calculate the reference clock
-period and frame length adjustment based on its clock rate.
+Flatten usb controller node and update to using latest bindings and
+flattened driver approach.
 
-In the flattened snsp-dwc3 model, it is currently not possible to pass a
-reference clock that differs from the default since:
-commit 613a2e655d4d ("usb: dwc3: core: Expose core driver as library")
+Add property to select UTMI as reference clock for the DWC3 core to
+calculate the right values for the period and frame length adjustment.
 
-This prevents moving chipsets such as IPQ5018, IPQ6018, IPQ5332, IPQ5424
-and IPQ9574 with a reference clock rate different from 19.2 MHz from
-moving to the flattened model.
-
-The Qualcomm takes care of clock and resets management itself and sets
-the ignore_clocks_and_resets flag in dwc3_probe_data to true, so the
-core doesn't acquire the reference clock from the devicetree.
-
-The existing DT property 'snps,quirk-ref-clk-period-ns' has been
-deprecated.
-
-So, add a property to select the UTMI clock used by many (if not all)
-Qualcomm USB controllers as the reference clock.
+In addition, set the right UTMI clock rate and override any clock
+rate inherited from the bootloader.
 
 Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts |  6 +--
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi          | 52 ++++++++++++--------------
+ 2 files changed, 26 insertions(+), 32 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-index ea60f7220afe..aa263dfd42a1 100644
---- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-@@ -155,6 +155,15 @@ properties:
-       HS/FS/LS modes are supported.
-     type: boolean
+diff --git a/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts b/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
+index 33eef92b19b1..8efb2b21ed9e 100644
+--- a/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
++++ b/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
+@@ -110,11 +110,9 @@ data-pins {
+ };
  
-+  qcom,select-utmi-as-ref-clk:
-+    description:
-+      If present, pass the UTMI clock as the reference clock to the DWC3 core to
-+      use its clock rate to calculate the reference clock period and frame
-+      length adjustment in GUCTL and GFLADJ registers. This is needed when these
-+      values based on the standard clock rate deviate from the hardware default
-+      values. If not set, the hardware default values are used.
-+    type: boolean
+ &usb {
+-	status = "okay";
+-};
+-
+-&usb_dwc {
+ 	dr_mode = "host";
 +
-   wakeup-source: true
++	status = "okay";
+ };
  
- required:
+ &usbphy0 {
+diff --git a/arch/arm64/boot/dts/qcom/ipq5018.dtsi b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
+index 4fc627b47fe7..71834606535e 100644
+--- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
++++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
+@@ -580,16 +580,9 @@ qpic_nand: spi@79b0000 {
+ 			status = "disabled";
+ 		};
+ 
+-		usb: usb@8af8800 {
+-			compatible = "qcom,ipq5018-dwc3", "qcom,dwc3";
+-			reg = <0x08af8800 0x400>;
+-
+-			interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>,
+-				     <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
+-				     <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-names = "pwr_event",
+-					  "dp_hs_phy_irq",
+-					  "dm_hs_phy_irq";
++		usb: usb@8a00000 {
++			compatible = "qcom,ipq5018-dwc3", "qcom,snps-dwc3";
++			reg = <0x08a00000 0xfc100>;
+ 
+ 			clocks = <&gcc GCC_USB0_MASTER_CLK>,
+ 				 <&gcc GCC_SYS_NOC_USB0_AXI_CLK>,
+@@ -599,30 +592,33 @@ usb: usb@8af8800 {
+ 				      "iface",
+ 				      "sleep",
+ 				      "mock_utmi";
++			assigned-clocks = <&gcc GCC_USB0_MOCK_UTMI_CLK>;
++			assigned-clock-rates = <60000000>;
++
++			interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "dwc_usb3",
++					  "pwr_event",
++					  "dp_hs_phy_irq",
++					  "dm_hs_phy_irq";
+ 
+ 			resets = <&gcc GCC_USB0_BCR>;
+ 
++			phys = <&usbphy0>;
++			phy-names = "usb2-phy";
++
+ 			qcom,select-utmi-as-pipe-clk;
+-			#address-cells = <1>;
+-			#size-cells = <1>;
+-			ranges;
++			qcom,select-utmi-as-ref-clk;
+ 
+-			status = "disabled";
++			tx-fifo-resize;
++			snps,is-utmi-l1-suspend;
++			snps,hird-threshold = /bits/ 8 <0x0>;
++			snps,dis_u2_susphy_quirk;
++			snps,dis_u3_susphy_quirk;
+ 
+-			usb_dwc: usb@8a00000 {
+-				compatible = "snps,dwc3";
+-				reg = <0x08a00000 0xe000>;
+-				clocks = <&gcc GCC_USB0_MOCK_UTMI_CLK>;
+-				clock-names = "ref";
+-				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
+-				phy-names = "usb2-phy";
+-				phys = <&usbphy0>;
+-				tx-fifo-resize;
+-				snps,is-utmi-l1-suspend;
+-				snps,hird-threshold = /bits/ 8 <0x0>;
+-				snps,dis_u2_susphy_quirk;
+-				snps,dis_u3_susphy_quirk;
+-			};
++			status = "disabled";
+ 		};
+ 
+ 		intc: interrupt-controller@b000000 {
 
 -- 
 2.53.0
