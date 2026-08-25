@@ -1,255 +1,179 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2E4326938
-	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 08:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4FD3E49DB
+	for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 09:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787648288; cv=pass; b=PYqfkDSwVH1L72Ud3r2U20Z1hs900DNnF8NNLg9CAQnzC+5TBIXcA25UWPFcgsLaZ6lQDzRCRI0aZzVmKRX0g2iqGGObgNZu3bQEMOadbNl6S3XZFFvkZI0tKddVxeeYTw7wQwW/Eo31OkAeSFRhABOQ5fUG7eWOEJLQxgfe3jE=
+	t=1787648709; cv=pass; b=EoDocMT94lqIsG1Q/ZXn0sHGyaOKY1NdqepsHFDwIafLu/rXjW6K8+PdeDd/yt2wneI6Xq23KIYrnQ9GCjPmvVPO6Ze0QNjJ8kT+VdDwhbW+oTmUGQ077FWCDzUIrQJK1UWwu2fJXzy03VCnPSA64zbyeyEhyqjvykHiJ0yEJJg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787648288; c=relaxed/simple;
-	bh=hv7psFl3Ws9ReChTvMwa0l+kAvHLDTCuxuec1CNlfM0=;
+	s=arc-20240116; t=1787648709; c=relaxed/simple;
+	bh=ePuHPz3IUOn/zqxGX9xHVY/XTOEU15Ejbga5U1h1HjA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d5Ad1j9j7SbWHZuiylurBbrktMHOa5kDsjxrlD2xg+ys4ZvGbinD71hAFzyFIkmxUyic2SDt+9ZIPfPND5Jp13lCHhhyLmwGuMmQjWaLIDfl+ZRFOt9TqZ4nkFKuvTE/SOaJzcE9y+v/75QBVxUVUZxTW5GCEnnwh/v8yUlw0vY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y7sOk6Nv; arc=pass smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=A0BYCLD+bR9EkTXJmQd0OO3N5dcQAOG+A4tdGO9zLt5ZjP9THNVDCFGZ9ONZ9MLblvcC15nVThj2NyIZSpM2uISy+MF5yBf98gcFWwa7+W5SwR+8CDzOQVy3ay503RGfx102udWgVA6RGD/d/odpR5s3fyDSF6t5/zeJ6f4zfSE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V2Yl2j78; arc=pass smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y7sOk6Nv"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39dbe684115so4865311fa.1
-        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 01:58:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787648284; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V2Yl2j78"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-455ca262ccbso3742116fac.1
+        for <linux-usb@vger.kernel.org>; Tue, 25 Aug 2026 02:05:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787648706; cv=none;
         d=google.com; s=arc-20260327;
-        b=c/hXqjN/Q/TrAfV/3ZV6pK9kcVrLRWqBdOBmjCm8H7IM3kUkXhSGROlCv9HmuJjExH
-         KKHXww9T6A2GU/XyXrV20q76rj0k+Nve+gO1DBDasYGL4JLLqAtNzS9C5MpI87X2Ecbt
-         zA8bT+r/hwZB+DGpOxNhmfDbMfKTrPJtykUCu5eB26Qx6e6d3XLNdu3GsUgf59ECDnKN
-         NpzWBU3XW9srbbVPlXcCzpuDy1Bf45jLD+yC8YuLpllQ//0wR3qEWqqzANce3sZKW3/z
-         t88oMNGNrj9+l/kzICZ5GiUL3qeN4wZISr5JSJQsf7yHTKoTXARPjMKihTUCELjlgZa7
-         Gwhw==
+        b=dTC2cEJ8uImsZXjLUdidZTF9xijD9EkdgyzygfmtCad18aSGx5Koi4mMwkPjv87/e2
+         L+EDzuJ4z7jzpp8kPKwCdWBKWaQgnxlqsGQWJbmCFZqTlkHkbSloDCO6j1Cn+4/xgYAm
+         mTnXKVLHIeLizNqz7xUr4YXzpH/dmvhYmmzrqFUqMMbq71Aed9ZycBubt0rGotoMPHww
+         nsey9va4GZ2tlZHcYKR0a6BCwyn68/ZeOVSZyFvW7GJ9FCWyhZxkL3XjvCzmSvUGNdDE
+         dzU66H8KEbdOtKnUDZIk2EhsiG5Mn70GkazZId0cRyAfoXdZG4LfBbDURwTTRuyE/OZe
+         cZqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=5ezw+lHG90KyeeujMITgw3JFtWqOY7cmyGIM6ONzm1c=;
-        fh=jD8xeHIEMTSWfcs27RGatzWnKBLYCtHxy3bVxwIUs1E=;
-        b=pG5bKlbsopBc9jYHlCGwOq2yPrt9UXLxF79yjnsvOhLKp8jy/WPiZ7YYkW+L5AHbxB
-         +JVAxMzUQAgz9oeyNSV+QPYzlRr5rPbNvShc9qZN6aeV3NqyGC1ech0HbsT4ujYsn3hj
-         DWZgnHGbXj9+A7RD0eNsekdGCg4obrdUUhhoqZBvv6tsu6csAQv0CNgvw/QMOy/YWCeT
-         nMhyMe55LQJ4Y3RkVhOa3N2uZTKQPxGEQmPQXNkpjy+An+JI+E4CInYg8VFBheY/CdeL
-         EnraGaqtele9nRObukn77jEfsbi1SaOFXSCPrs5x2W6yEPYbqLjXWdN/mqy7mgf2mDBy
-         cn8Q==;
+        bh=yXP5ICtDHoTENRbX0dZZlEib6eWsD00QduAdB9iB3C0=;
+        fh=fL0rdvlCyOVSzCTzaaCxI8w4yJq8iu2kHsUOu2uuJl4=;
+        b=r30J9BletTCoGj3uxpEeNtSrtmXwATtwAoZoe5A+XVw+ze5C/pCmnjVsi4cQyWMPO1
+         0O7GqmYgGSK6+CaUb00+yAM2VzgtaRqLfDs3El96nGdTl3xBpGJfGGQGkqbNU7k7TX7J
+         2Wd6ykbvtLz7x5efSnCT1PLVxIpwqTl+gZH6GkPzJul6Ea8vPJrpUKazk3im2sjhY4e1
+         h3c/VOff0I8+zi9yMB0PCyhmJ7Gd1sEaDfdhsUi+hhWfUqP3JkX80F0/3Qx8soA7sYve
+         wCCM/q/UWfHKF49xokNGgIOC0AE8i9UisFVkWyVKNKLR9wSDabm34DQJfcLPxIa2XvbQ
+         ettw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787648284; x=1788253084; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787648706; x=1788253506; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=5ezw+lHG90KyeeujMITgw3JFtWqOY7cmyGIM6ONzm1c=;
-        b=Y7sOk6Nv8fIOfg6wic3A4ZRsv32+C4wbxkO4Tym5+kUVrfw0wHxBSGudIiAF0lG6xQ
-         rUMduuLjyzlm2A4iJbzOUBsHSsWQYkNqL6M/MYkzVMM9CWfdc8Rr6ePyxrxlNVJw0IOV
-         y+AvAke4Nt3VyJvLJlYVTX9/xIbezq4jbHPx3dT6isxPkaYm/gaXkZUTI6+tNCEyisGA
-         FCMi33wgt3wxO9SitmcgJZaf8ml4e0Vr5E8IGnnMHtJ/HTuoJ4tzBaEbfuofd/ymMYkR
-         ocZtN8/oD3hhB9U/yh/oR5p8+IKZnmCPFT/9fyahpuIHR0rBUkorzRu0Z8v2EXrQdIHz
-         5RzA==
+        bh=yXP5ICtDHoTENRbX0dZZlEib6eWsD00QduAdB9iB3C0=;
+        b=V2Yl2j78/XJtHzwQpkk7cNU0r81/66tuBkte0wmmCxgFy00d8k3gaoJi0HWbI4mYYd
+         EjkD6oluVxOkA3wTMP1Vq+n3U+i4V0b/SnO1rwoxX8+lfpSGRqmeapJqI3z2WwBp5bE8
+         pm3BzM0K31t/y5/o5Q7DXGAKoXMdi9ualN2IE9A2/ndO6tv/Dp846KP7/ikoBFkh1dHu
+         SA3wsEMkmypc4nlOs3+XcuvQ7sYZWc6glftnoPL4h6xLev1kbgZE7q1TYSPHqQ8qq4Lv
+         kqGcinqrG8Ye9SiJ2k8WiYS3xkYQIpvpMXunqArjv5O3SZvVKMT2Cp4sK4QaI4CE0PrQ
+         0F9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787648284; x=1788253084;
+        d=1e100.net; s=20251104; t=1787648706; x=1788253506;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5ezw+lHG90KyeeujMITgw3JFtWqOY7cmyGIM6ONzm1c=;
-        b=YErBLnZasBaKo9Qv9wU/lug89WoKNpvnUB+EgkqNqjl+Co5YZcO3CKiZPTGeR2c7eJ
-         0BHI7f0wh9R4zN8WkymYH9kOni6nguRR8ap2/fq64cz+Q4SdW2hqhjko/2KkEVDzthiV
-         PF7hLVXq4j55K9sQYESl5snKDNyvRIXWP2FtMdL63TxhTOV98JjJR+LG2ttjzpUNDPv/
-         TgiamdFrPzWJWZjjqZk0qI2IZaM/FylG8attQz9xj1LjTJ3q9LYvQqSITg/qxraCv9c9
-         b235ui3ULHoBN23p+3p49YQPdauOHczLE031rtjyqaDI44zoh4OMkbnX8SWTdkI7o2us
-         4nBw==
-X-Forwarded-Encrypted: i=1; AHgh+RoGPZbt3U366t3BRU9KJRBteyiqGgF4JoncSEj+606b7zWKi4fEmVKTq9KvgFGHY1CK6fJO19fNk4o=@vger.kernel.org
-X-Gm-Message-State: AFuF++mklStMalf2jEXNc5lfHT0c0xIaH4ov3nKIUZGxpRpFkjrEPHqB
-	Sv2i5KlOJ/9hTxVKOmXbIi4s7mIxjzFpfrmfOwQ8CyYwr5BEui2nvHV4Lh5QWkzqZBtG6OO/GVc
-	Z6/N7C8hFopcyphVjiizhg2inTae5jmE=
-X-Gm-Gg: AR+sD129v9QYecftmE2bTktg44Ss3T5/6Cu1GxI179abTL8R/ZEtGLofKlUUhBX1jLV
-	5k8dhzivIkoU7h1KV+1EGNxo6pIzJagzoG7mDLUi2bZNqaobR5K6mRV8wXkH9SIOVUdi0IuK6sj
-	Um0aXQUPtigv2d3JcbwKB3UB1+0C1b8NPJhGY7y+dwAsDlSVbW/1DlaMe/rO1E6LrMIbKR60x1u
-	zpnaYtMcGTpjMYz+1AL+LjjKdEPrI3K366/RjA2M6goe4T+siE6gc8/27mq3m3+otQtgM7IuBPV
-	nKCpJocGOA1CgGo9rPGNxFh2M+btcSq2hszN5VgeDwHUnfb9rI8dFoJ93ioj1xoX6P54cKsZGGF
-	AVg==
-X-Received: by 2002:a05:651c:a338:b0:3a1:7927:c302 with SMTP id
- 38308e7fff4ca-3a1eda808acmr10530241fa.2.1787648283761; Tue, 25 Aug 2026
- 01:58:03 -0700 (PDT)
+        bh=yXP5ICtDHoTENRbX0dZZlEib6eWsD00QduAdB9iB3C0=;
+        b=SDeKDZNJ/XG/wDTa3d0c8xHTCZQhlpTh1PSDsUksT6H97JidyKmu/qHzKf5QXRqB6D
+         PhWQfXUF8G7zaeXE7xaDn8hrjTbBoAagJSttYwK6L771oKBflVh/F25Py0kH1V97wWbt
+         90lDQakKyGiwqFTz2JJnNUZIt1OcE3Zw33s4UimnjrsVNKKhEqbOtKxJu0/f6b9D0JC/
+         3xEYdN38sW3g8e7cPZgvxDDG108HfNICzg9r5S3WQGG2A9t+j79zQUZh11MWceKM7sgJ
+         0cVTTdhqshlJMINmmDPZxSCF/kruTedhhYuUI8IRjJq0qgi11MWeGPYi2WVB0fSv2EN1
+         kW6w==
+X-Forwarded-Encrypted: i=1; AHgh+RrBhbpTPRTskz5CWbBz9yt3x5hg1obPv/SQVGId9jFvJzmeUClku3oGHmn3jMOw9fOf9g1Tm9jv38w=@vger.kernel.org
+X-Gm-Message-State: AFuF++nzQBDXJr9QuIeqna4N4QO65X2OTZTluXE3HQ8nfgjFi5XpbNzw
+	f37+hvXQO3wS5/kQWR8eU3rJWAa6pS6LHbKqdbQl27VbelJO0c4W1F8huwt0vwsM66zEdJKc7YH
+	XQflC6ZsBOLDb/79l5PzT8SYwdaSQPCo/QXDxPRqN
+X-Gm-Gg: AR+sD124EbwYIuCVUmGBVHPBoRBe5lLzRk6VG1m9N79OK7Vehq5VMWJDC5ldIM8Lg3I
+	YHtUYI9kJb16OgwUIpy9PhWbv8F6NDboITy5PSsqO98Rit4pB/6TPAtQOnFlIXIkXnGlPzNZJzv
+	4dO/UNohE8L6yXJG8ozTy0IBR3UkBbyPqqBpz9DPwjofh9sRhPk8uZ+GmplvJLiqPRl+Ce8vewa
+	JqOPs9c6uXGOPhp+Fd9JCbwNiyLesHF4nJG1PwIcOysilHfKCXqLeu9W1UNYGaFtWJTIkpLtlsw
+	y1eOzPIcFEneqPgmYkQZ+CW5bD73bgNxF1+6oGgZnhRtgFLyB6ZnzxayvbQ1iV0HkvQUejHgjQr
+	6fPiBnX25OQoiOhMWvjWqDXJ7vGRdZmfnL8IOUuVsfhlOjxbI1RxoNUTthuYMs2w1DB4/rBps3+
+	ux2cwzl0bYyllarZ8CAbgjaKA=
+X-Received: by 2002:a05:6820:1c98:b0:6b1:409f:3824 with SMTP id
+ 006d021491bc7-6b1990acf23mr556931eaf.14.1787648705846; Tue, 25 Aug 2026
+ 02:05:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
- <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
- <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info> <aosGtkE_diwVJJtB@eggarch>
- <20260823174059.46fec036.michal.pecio@gmail.com> <aoser8dLytrwqBC2@eggarch>
- <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com> <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
-In-Reply-To: <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
-From: Mathieu Fluhr <mathieu.fluhr@gmail.com>
-Date: Tue, 25 Aug 2026 10:57:52 +0200
-X-Gm-Features: AcwNN1VgQYuPNfWZAsoIgdXuYlvjSNx0u-75mKCYFe6GTjYsbwfcHq3iOmLOPQM
-Message-ID: <CAPyJwA9GvqeaBYhN56L1S9YW-rwWgFejrcNcE=54DQC3Eaqxww@mail.gmail.com>
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, Michal Pecio <michal.pecio@gmail.com>, 
-	Thorsten Leemhuis <regressions@leemhuis.info>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
-	linux-usb@vger.kernel.org, regressions@lists.linux.dev, 
-	stable@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
+References: <6a88012e.dbb3a75c.13dd47.0007.GAE@google.com> <6a8d0f6c.dbb3a75c.7844.001d.GAE@google.com>
+ <2026082540-tarantula-gigantic-b786@gregkh>
+In-Reply-To: <2026082540-tarantula-gigantic-b786@gregkh>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Tue, 25 Aug 2026 11:04:54 +0200
+X-Gm-Features: AcwNN1WmaoJsOSdeJp-RaXzMW2D833rZFMXrhzKAoqWgErgpY0dkISiynVPJotI
+Message-ID: <CANp29Y5YH=O35brw55HFo_hVmFDz5Y4Yw7buBc-rOjETU2DNjg@mail.gmail.com>
+Subject: Re: [syzbot] [usb?] general protection fault in wcove_typec_probe
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: syzbot <syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com>, 
+	heikki.krogerus@linux.intel.com, jeffinphilip14@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	mika.westerberg@linux.intel.com, stable@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, syzkaller <syzkaller@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> The behavior that is described here sounds like a platform firmware bug
-> Are you on the latest BIOS available from your OEM?
+Hi Greg,
 
-Ywa, And I even rolled back 2 BIOS before, All 3 are showing the issue...
-...even the exact same one (with the exact same CMOS settings) that I
-used in 2024 without any single issue.
-
-> Can you please confirm:
-> Your CPU model number/codename
-AMD Ryzen Threadripper 7870X 32.Cores
-
-mathieu@ubuntu:~$ cat /proc/cpuinfo
-processor : 0
-vendor_id : AuthenticAMD
-cpu family : 25
-model : 24
-model name : AMD Ryzen Threadripper 7970X 32-Cores
-stepping : 1
-microcode : 0xa10810c
-cpu MHz : 2188.582
-cache size : 1024 KB
-physical id : 0
-siblings : 64
-core id : 0
-cpu cores : 32
-apicid : 0
-initial apicid : 0
-fpu : yes
-fpu_exception : yes
-cpuid level : 16
-wp : yes
-flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
-pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt
-pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology
-nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor
-ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx
-f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a
-misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core
-perfctr_nb bpext perfctr_llc mwaitx cpuid_fault cpb cat_l3 cdp_l3
-hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall
-fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq
-rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw
-avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc
-cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf
-xsaveerptr rdpru wbnoinvd amd_ppin cppc arat npt lbrv svm_lock
-nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter
-pfthreshold avic vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku
-ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg
-avx512_vpopcntdq la57 rdpid overflow_recov succor smca fsrm flush_l1d
-debug_swap
-bugs : sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass srso
-spectre_v2_user tsa vmscape
-bogomips : 7988.27
-TLB size : 3584 4K pages
-clflush size : 64
-cache_alignment : 64
-address sizes : 52 bits physical, 57 bits virtual
-power management: ts ttp tm hwpstate cpb eff_freq_ro [13] [14]
-[..]
-
-2. Your OEM (from /sys/class/dmi/id)
-I am using an ASUS Pro WS TRX50-SAGE WIFI
-
-root@ubuntu:/home/mathieu# cat /sys/class/dmi/id/board*
-Default string
-Pro WS TRX50-SAGE WIFI
-231230340100705
-ASUSTeK COMPUTER INC.
-Rev 1.xx
-
-3. OEM BIOS version (from /sys/class/dmi/id)
-root@ubuntu:/home/mathieu# cat /sys/class/dmi/id/bios*
-02/03/2026
-13.17
-American Megatrends Inc.
-1317
-
-4. AGESA version (see commit bc91133e260c8113c1119073c03b93c12aa41738 if
-the OEM didn't tear it out.  Otherwise look in BIOS menus)?
-
-The BOIS shoes this information (I also put the ones from previous
-BIOS I tested):
-BIOS 1317: ComboSP6PI 1.0.0.1e
-BIOS 1203: ComboSP6PI 1.0.0.1a Patch A
-BIOS 0803: StormPeakPI_1.1.0.0g
-
-On Tue, Aug 25, 2026 at 12:09=E2=80=AFAM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
+On Tue, Aug 25, 2026 at 7:12=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
+> On Mon, Aug 24, 2026 at 08:43:40PM -0700, syzbot wrote:
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git=
+.ke..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D1253719e580=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D3e64b1bf01d=
+830ed
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D1a01783ea2333=
+50598b5
+> > compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for=
+ Debian) 2.44
+> > userspace arch: i386
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D174919795=
+80000
+> >
+> > Downloadable assets:
+> > disk image (non-bootable): https://storage.googleapis.com/syzbot-assets=
+/d900f083ada3/non_bootable_disk-66498c75.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/5ce4685e13ba/vmli=
+nux-66498c75.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/6a32d8e997a7=
+/bzImage-66498c75.xz
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the co=
+mmit:
+> > Reported-by: syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com
+> >
+> > Oops: general protection fault, probably for non-canonical address 0xdf=
+fffc0000000001: 0000 [#1] SMP KASAN NOPTI
+> > KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+> > CPU: 0 UID: 0 PID: 5912 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT=
+(full)
+> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-=
+1.16.3-2 04/01/2014
+> > RIP: 0010:wcove_typec_probe+0xdb/0x780 drivers/usb/typec/tcpm/wcove.c:6=
+21
+> > Code: 48 c1 ea 03 80 3c 02 00 0f 85 af 05 00 00 48 8d 7d 08 4d 89 af 88=
+ 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 =
+0f 85 7f 05 00 00 49 8d bf 90 00 00 00 48 8b 6d 08 48
+> > RSP: 0018:ffffc90002f6faf8 EFLAGS: 00010202
+> > RAX: dffffc0000000000 RBX: ffff8880226c1000 RCX: 0000000000000000
+> > RDX: 0000000000000001 RSI: 0000000000000001 RDI: 0000000000000008
+> > RBP: 0000000000000000 R08: 0000000000000004 R09: 0000000000000000
+> > R10: ffff888014243883 R11: 000000000000001f R12: ffffffff904a7ea8
+> > R13: ffff8880226c1010 R14: ffff8880142438c0 R15: ffff888014243838
+> > FS:  0000000000000000(0000) GS:ffff888096982000(0063) knlGS:00000000f67=
+e5b40
+> > CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+> > CR2: 0000000032e24008 CR3: 000000004e2f1000 CR4: 0000000000352ef0
+> > Call Trace:
+> >  <TASK>
+> >  platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
+> >  call_driver_probe drivers/base/dd.c:628 [inline]
+> >  really_probe+0x241/0xa60 drivers/base/dd.c:706
+> >  __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
+> >  device_driver_attach+0xd1/0x220 drivers/base/dd.c:1203
+> >  bind_store+0xf4/0x190 drivers/base/bus.c:267
 >
+> Please do not think that this is a valid path for syzbot to be
+> fuzzing...
 >
-> On 8/24/26 14:37, Mathieu Fluhr wrote:
-> >> The issue is obviously a severe HW malfunction (you mentioned MCEs, th=
-e
-> >> Ryzen CPUs simply totally locked up), triggered by poking certain xHCI
-> >> controllers on the I/O die of these CPUs in some wrong way.
-> >
-> > Yes. As mentioned, I first thought that the emulator itself triggered t=
-hat by
-> > doing something that the CPU did not like.To be honest, I barely play w=
-ith old
-> > Android versions anymore, but seeing that I could reproduce it even wit=
-h
-> > Android 13 or 14 made me suspicious.
-> >
-> > I _guess_ Google implemented a workaround inside adb for version Androi=
-d
-> > 15 since using this version, it remains stable for more than 2 hours.
-> >
-> > But, in the end, the situation is that from a simple user account havin=
-g access
-> > to some usb plugged in devices (I usually add my user account to the pl=
-ugdev
-> > group and use some known udev rules to access my Android tests devices)=
-,
-> > you have a way to crash the complete system.
-> >
-> >> Opinions seem to vary on whether CPU load must be present or absent.
-> >
-> > On my side (and I am here only speaking about my TR. I don't know about
-> > other Ryzen CPUs), I can't reproduce it under load, and one condition t=
-o
-> > reproduce it is my CPU going in C2 state.
-> > -> I did a 2:30 hour test using several youtube videos playing at the s=
-ame
-> > time on my desktop, also stressing the emulator with some 3D Mark runs
-> > (as mentioned, I first suspected the nvidia driver to be faulty). As lo=
-ng as my
-> > computer was busy everything went fine. But then I let it stand still f=
-or a few
-> > minutes, and it just crashed.
-> >
-> > If you need me to do some further tests or experiments, let me know. I =
-will
-> > be more than happy to play the guinea pig here.
-> >
-> The behavior that is described here sounds like a platform firmware bug
-> to me.  Are you on the latest BIOS available from your OEM?
->
-> Can you please confirm:
->
-> 1. Your CPU model number/codename
-> 2. Your OEM (from /sys/class/dmi/id)
-> 3. OEM BIOS version (from /sys/class/dmi/id)
-> 4. AGESA version (see commit bc91133e260c8113c1119073c03b93c12aa41738 if
-> the OEM didn't tear it out.  Otherwise look in BIOS menus)?
->
+
+Can you please elaborate on this?
+Do you mean driver binding sysfs interface in general or something
+more specific?
+
+--=20
+Aleksandr
