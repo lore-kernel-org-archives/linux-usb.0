@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1D8278161;
-	Tue, 25 Aug 2026 07:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038DA1F8AC5;
+	Tue, 25 Aug 2026 07:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787642756; cv=none; b=JDZLza3wTiuezvHWctYYcuLZDRlLE8EjjMbLjrNZSa43HqvzvN8WjBl6/QfgfuBzrZWPW5XPGLsouQZ018PVlAf2eRYC93eMpqmum8Uqk9lzYDTGZLpUv4bVkbhLfORyzZ6N5DCxFDfTqnZGO9eQHYa5qx8KVugPJNeXFUSTBFI=
+	t=1787643051; cv=none; b=FTF+0ctvLmKmGA5MAFoLXXKy6pHmQudfH7/R06F1yu6U1nNZfGi9xc9wgUJG+5ihs6Z2CwQQZ0F113OoXldfa74vE7OhhrYER9bxA451lhPntgKDP5R18cXu9+3LNw+Q8Hk/IaryGGtEjFQSjeJwzrP38HNEbGp2/iFEK/p5zHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787642756; c=relaxed/simple;
-	bh=6rhHqbhsmO3nEZpu0O+SfH9DxG5zRmxNXQXLSh5LnDs=;
+	s=arc-20240116; t=1787643051; c=relaxed/simple;
+	bh=QRhaetnr5dvXWUt2/loaGtyg4ajORbE+32Pj46Fthzs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G7X2QroxVaAE82WJJ8NLdE25m8Mqwi/SmaZEYF+I6LnJU5G/icw0Q+rwxOyvvV9Lq8cRTMqGyCGBhY9BuRJoDUprew9bMwkxq7QuUb8jYlCuX+ZEC+zeHgDJ9HBYNv4hPRNOcss8rCj5VBmf6nLWqXxDO1SE45tNmomwQVJCrNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SBA0zdHX; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=BLbVnprVzbTWx6crIY2NFnEXmxjwNQKatWCjKXpMh3K2f6yuxY803ChlhgBRpXHQWNXPeCSz7V2dml934UTcC/kVAFe3Pv4EhlkB67mc80+EoWEdJakEqT8j6o9m/nCy1VcxX0Aqgg/QwIxX23F2TJCHqOoCoLkQSO+k0NC3Hts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AyPa5ah7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SBA0zdHX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 317411F000E9;
-	Tue, 25 Aug 2026 07:25:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AyPa5ah7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE331F00A3A;
+	Tue, 25 Aug 2026 07:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787642754;
-	bh=iw7ig1nBWwDOgig5MGbpeUny59pNTqocOkrOscFg5pM=;
+	s=k20260515; t=1787643049;
+	bh=uuXiUy/mo4zS7CNiKkv5yN4lCSFFdGmDc27Uqex7dWo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SBA0zdHXb1wQtPI1j8bhwB0Tgd9IfEAlBL7rsfV+X+iw0MqA4UsdGw/f5rLI3qMI2
-	 Bk24fjfAygsiCvgwfDsUZrtf5F08u+7L5/GKPA9Dhmod0Ca7dg/eSQ5IVd/Z9repx3
-	 Suo96MswWlaa7xapefaAbynI9e7heetZ3GHGGW4Sxok5syypv4tE5dN7wjQTWY8qov
-	 dXThagyFG2fuR3bOwedXFd/p+SkrksJTJAchJzCkwZfDDHaBX6QyKPmLJbt//uNyoM
-	 USKB8L2BUaa3GaCfB2Qzj59ZAq3vT0+s6SZur9Fqn5BrBpZPgaeaovM+/zoLztyxmV
-	 a1crtMbXuyQPA==
-Message-ID: <82a44ee0-4e83-4ceb-a062-25b810396968@kernel.org>
-Date: Tue, 25 Aug 2026 09:25:47 +0200
+	b=AyPa5ah7qypNW8PYuDY34n4aRS9tFalyjWgL3NSphXx040+gld04q4vJ6dn8Vl78u
+	 BGEgU4qkFaMN/qkyCiFcqmR1czJ2LsQjGU16o9nv/qkehoEv6r1RNQZNLRSyFY8cO/
+	 8tjTsolK7g3+pF0SjcSG3MKIuE33xiPnZ+Rm67Bml3UY4x3om2fdrSUqtRP26Jw1fx
+	 F9+c7xCY8h0ugH4GTS547hI0n38ZU21StFqFni2H/2Wu4Tqd0hmI3qtt3N+9Udcche
+	 WOc+PBDgFn6RryOWw/gZFwyAgsISlG+KW2R08YNTTxDbg2Qus1cQuJD85sfMHPrFAO
+	 QnGL05SDRlYQA==
+Message-ID: <97c6e78b-9dc2-4349-a548-6a6ff0829f4e@kernel.org>
+Date: Tue, 25 Aug 2026 09:30:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: usb: Add Cypress cypd6129/cypd6229
- Type-C controller
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: shikra: Wire up usb-role-switch
+ for USB Type-C ports
 To: Akash Kumar <akash.kumar@oss.qualcomm.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -47,7 +47,7 @@ To: Akash Kumar <akash.kumar@oss.qualcomm.com>,
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <20260821-shikra-usb-dt-v7-apply-v2-0-628885fc1d0e@oss.qualcomm.com>
- <20260821-shikra-usb-dt-v7-apply-v2-1-628885fc1d0e@oss.qualcomm.com>
+ <20260821-shikra-usb-dt-v7-apply-v2-3-628885fc1d0e@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,67 +93,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260821-shikra-usb-dt-v7-apply-v2-1-628885fc1d0e@oss.qualcomm.com>
+In-Reply-To: <20260821-shikra-usb-dt-v7-apply-v2-3-628885fc1d0e@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 21/08/2026 16:04, Akash Kumar wrote:
-> Add the device-tree binding documentation for the Cypress cypd6129
-> and cypd6229 dual Type-C PD controllers. These are used on Shikra
-> CQM/CQS/IQS platforms to handle usb-role-switch for the USB Type-C
-> ports over an I2C interface, similarly to the existing cypd4226
-> binding.
+> On Shikra CQS/CQM platforms, usb-role-switch is handled by PM4125 on
+> the primary Type-C port and Cypress PD controller CYPD6129 on the
+> second Type-C port. On Shikra IQS platform, usb-role-switch is
+> handled by Cypress PD controller CYPD6129 on both Type-C ports.
 > 
-> cypd6229 is a variant of cypd6129 and is described with a
-> "cypress,cypd6129" fallback compatible string.
+> Add the CYPD6129 typec node under i2c3, wire its connector endpoints
+> to the corresponding DWC3 controller ports via remote-endpoint
+> phandles, and switch the associated USB controllers to OTG mode so
+> role switching can take effect.
 > 
 > Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
 > ---
->  .../devicetree/bindings/usb/cypress,cypd6129.yaml  | 107 +++++++++++++++++++++
->  1 file changed, 107 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/cypress,cypd6129.yaml b/Documentation/devicetree/bindings/usb/cypress,cypd6129.yaml
-> new file mode 100644
-> index 000000000000..43e2c1902fd1
-> --- /dev/null
+>  arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts  |  84 ++++++++++++++++++++-
+>  arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi |  45 +++++++++++
+>  arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts  |  84 ++++++++++++++++++++-
+>  arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts  | 107 ++++++++++++++++++++++++++-
+>  4 files changed, 309 insertions(+), 11 deletions(-)
 
-So another v2? Which one should be reviewed?
-
-Does `b4 diff` work? Try yourself.
-
-Qualcomm has extensive internal guideline, why aren't you following it?
-
-
-> +++ b/Documentation/devicetree/bindings/usb/cypress,cypd6129.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/cypress,cypd6129.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cypress cypd6129/cypd6229 Type-C Controller
-> +
-> +maintainers:
-> +  - Akash Kumar <akash.kumar@oss.qualcomm.com>
-> +
-> +description:
-> +  The Cypress cypd6129 and cypd6229 are dual Type-C PD controllers that are
-> +  controlled via an I2C interface.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: cypress,cypd6129
-> +      - items:
-> +          - const: cypress,cypd6229
-> +          - const: cypress,cypd6129
-
-Where in your changelog did you explain reasons of creating completely
-new binding file instead of adding this to existing binding like it was
-in v1?
-
-Really, what is happening in this patchset?
+Why are you combining DTS in USB patchset? I asked Qualcomm many times
+already. Don't.
 
 Best regards,
 Krzysztof
