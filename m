@@ -1,63 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEF03B52F4;
-	Tue, 25 Aug 2026 19:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A88C3446AD;
+	Tue, 25 Aug 2026 19:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787687507; cv=none; b=eYGqZrETaa90VSe2zYzdr8AfEFOoBYzmk3jVShcZBi2yAoFoICMR2Syri8xV5Th9awa3n2ehlgeCCljBn9f2SHjOnxAoeCmOnQoNIVsMoZ4MceooVOtHwZ+MzqZ3bPrbOSau7LjD2mPSfZ2p2mh0blZ3x4ZqUXIoxtzL/cTn34M=
+	t=1787687900; cv=none; b=HhZ9DhJ3/S3Ts3W0MUdGv1aUq+3IVaaMX2TVuqiMILeHCs3819YlAcqRljq4DZv5eSnMJ/5X4pGMnacU0Ylxh+wlElh/iTioNn52HsF8TLdJ0aBq0POVbnOPxP5kMAtC+uN8I6pOaoPdw8gfTNg5wfZljk60yo7mquDEjjPeqQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787687507; c=relaxed/simple;
-	bh=XhaaguO0xDBUDCeDT4fZIm4iZ8xB82AQCkqECwm+b3A=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=eG3eBYut01jpntA8Z4tV/0KdY2UrSeqd93fNYNYIh3aXfFWkOeroW/HeB8QA8073au4B+hUqs7zXa4DMGmIhqexkUZPrQDOb0vyPreFIgtoh/FnaCCVi6mAIVUiYK8sk3ejbaHpEFHO/Ev17Bml4Du2mG3cD2hFDMaqyUrysPf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZA9mCokp; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZA9mCokp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A0901F000E9;
-	Tue, 25 Aug 2026 19:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787687503;
-	bh=tNEWRgBQcWoXD/vAiijQ2tqXtmMM/DRTJw/hKV7aL20=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=ZA9mCokpZBihTAPmIOGIBPBwk9XspamOwbTu18CSf9xDvT5ucb2bjq7cRk/eupYrK
-	 +NITPlZGJn6edrsXJuLsOyRJ550zQTLXH4YSAO7PcSy+UbkMU9Vm6e9rEbCEPmBp2c
-	 wxdyZ01nWfxn02GBVzl0J/x/ZyMBF7cQV9pYg9BqnV1Re1/tm016DTA9pHxZ0/tcnY
-	 s+uh/vZBx/uzZ7gfXTmEyg4nV93wYJhydRTTHBkav5hORC8oGnFNDQn72c/dgMFhYx
-	 fTuoRy8bycIS7qCGsxBbDdAuYzk3OTviH05KnxadnSVP6EpswtP3kIeB5n8pLg3fgP
-	 c+cvXRZAk1NxQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 938AD39253CD;
-	Tue, 25 Aug 2026 19:50:51 +0000 (UTC)
-Subject: Re: [GIT PULL] USB/Thunderbolt driver updates for 7.3-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ao2lTODMw1_aPWRP@kroah.com>
-References: <ao2lTODMw1_aPWRP@kroah.com>
-X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ao2lTODMw1_aPWRP@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc1
-X-PR-Tracked-Commit-Id: e1e6e541c5c9cf548e9fdc35fc26808c82074440
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f4d50813c0958b7d6bc79a7e0a77193372cbfd03
-Message-Id: <178768745006.4034242.14668110468680079944.pr-tracker-bot@kernel.org>
-Date: Tue, 25 Aug 2026 19:50:50 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+	s=arc-20240116; t=1787687900; c=relaxed/simple;
+	bh=Vjj6oayBhOBd5PFC7i7R009f/ucKF+GNdanNAaDGQuE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I3/sVXYJWX5cv/of+Ifg/QPZiPyLFUf145mC//A5NRIMSRlEaKHP0VE/Dk4HXa4188Vpp6GPI0WxsUfDDa644D5HVKKwE716NKMdzHWLu18M8sX1Mk9MjHrbHY8sWwf4V6zW8JTYBN+GfG5aWUmSrngTAAgzY20twa8Qll333MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from wasted (91.79.41.14) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Tue, 25 Aug
+ 2026 22:58:04 +0300
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>
+CC: Sergey Shtylyov <s.shtylyov@auroraos.dev>, Michal Pecio
+	<michal.pecio@gmail.com>
+Subject: [RFC net-next v2] r8152: simplify loops in generic_ocp_{read,write}()
+Date: Tue, 25 Aug 2026 22:57:35 +0300
+Message-ID: <20260825195736.56257-1-s.shtylyov@auroraos.dev>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
 
-The pull request you sent on Tue, 25 Aug 2026 16:23:08 +0200:
+In generic_ocp_{read,write}(), the *while* loops look very strange:
+the last iteration is implemented differently to the previous ones
+(doing some useless assignments before *break*) for no good reason.
+Merge the different iterations into one, using the local variables
+in the loop bodies...
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc1
+Found by Linux Verification Center (linuxtesting.org) with the Svace
+static analysis tool.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f4d50813c0958b7d6bc79a7e0a77193372cbfd03
+Suggested-by: Michal Pecio <michal.pecio@gmail.com>
+Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
 
-Thank you!
+---
+ drivers/net/usb/r8152.c | 55 +++++++++++++----------------------------
+ 1 file changed, 17 insertions(+), 38 deletions(-)
 
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index f61686433031..af3d7dcb2f14 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -1432,24 +1432,15 @@ static int generic_ocp_read(struct r8152 *tp, u16 index, u16 size,
+ 		return -EPERM;
+ 
+ 	while (size) {
+-		if (size > limit) {
+-			ret = get_registers(tp, index, type, limit, data);
+-			if (ret < 0)
+-				break;
+-
+-			index += limit;
+-			data += limit;
+-			size -= limit;
+-		} else {
+-			ret = get_registers(tp, index, type, size, data);
+-			if (ret < 0)
+-				break;
++		u16 n = min(size, limit);
+ 
+-			index += size;
+-			data += size;
+-			size = 0;
++		ret = get_registers(tp, index, type, n, data);
++		if (ret < 0)
+ 			break;
+-		}
++
++		index += n;
++		data += n;
++		size -= n;
+ 	}
+ 
+ 	if (ret == -ENODEV)
+@@ -1499,28 +1490,16 @@ static int generic_ocp_write(struct r8152 *tp, u16 index, u16 byteen,
+ 			size -= 4;
+ 
+ 		while (size) {
+-			if (size > limit) {
+-				ret = set_registers(tp, index,
+-						    type | BYTE_EN_DWORD,
+-						    limit, data);
+-				if (ret < 0)
+-					goto error1;
+-
+-				index += limit;
+-				data += limit;
+-				size -= limit;
+-			} else {
+-				ret = set_registers(tp, index,
+-						    type | BYTE_EN_DWORD,
+-						    size, data);
+-				if (ret < 0)
+-					goto error1;
+-
+-				index += size;
+-				data += size;
+-				size = 0;
+-				break;
+-			}
++			u16 n = min(size, limit);
++
++			ret = set_registers(tp, index, type | BYTE_EN_DWORD,
++					    n, data);
++			if (ret < 0)
++				goto error1;
++
++			index += n;
++			data += n;
++			size -= n;
+ 		}
+ 
+ 		/* Set the last DWORD */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.55.0
