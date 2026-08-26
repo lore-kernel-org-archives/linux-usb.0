@@ -1,144 +1,99 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CC33EB0F3
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 21:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB2C488237;
+	Wed, 26 Aug 2026 21:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787778191; cv=none; b=SE9TtNRm2aFlfyOGpB6n7zvJKcFxna0SYM/MSgDg1gtOjW0VboHTgJpAFDsWtl34IWYAumd+9JKtmYwp4r/u5hXNP67EWc3DXb2RKX4h/26B8VtBjVdEsOckeT1bay1ceBNieWB94G9vGiMpjxuIIShBvb1GbOh04SeNbo/RVAo=
+	t=1787778887; cv=none; b=KggONjrz9Lli+enRP1Z93DSfk9zS53JYMrl8yDFY7a9/FkRFuZPuQzqwtRq6p+VZ1irOeVanLjzAmTPMUZGKTChRW+6/kpmGMpQED2iZmoND14ZlPU4IudImfFV+HegR+cPmXFPt9JLT0JCRDjDPKlx8h6QXY6L1usLXJW9/zlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787778191; c=relaxed/simple;
-	bh=G95DSJvyvHD4TuyBwIEBp3aTZlrEO0waUgZ97+t02SE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dxqHvMAwlfPVIymwgkPRgp/4QeLEruyVU4SspYYD4s3znt4X2WPoNxDGDJmFKI/ASC3+PS5//JRKnPAXeqFoZ/r0yhypkJ3aFxgZGHc1kxTumNDS1Ti0hPUwBmF/uuImXWsWWIS9y/oPeYyKwRnFXknoPeLTQJcitqMb9wi2Obg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ey0ti1W8; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1787778887; c=relaxed/simple;
+	bh=oJA4xPT2ANoR9sRkaZJee8iJemXWJTIkOmbADhg3dT8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=DoXwdfCe38Cp8yjcItebTjSX9cU+PAf1ZtTe8q2WucBcXxFfkWgNuOYoyJ6x0WG0+4zYWKL4NhHQb6RSnedjb1GgFjSjKPryLdYUT2NoD1sNVpfJ8sgOyhUPRp/5BMFY4XvKuUOYLa5Pp3rZ9RqayAZNkCHaQ0r+tfzaoeKiByI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CT/ytiss; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ey0ti1W8"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ceaf8a1265so173465ad.2
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 14:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787778189; x=1788382989; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LjM9GmdvyoqfoPm8mJ1pDYW08lI1V210DwwMkEe2Ph0=;
-        b=ey0ti1W8Fqt6eYwkxHe8/9accoG/aNgjIXYvmPZwZjWWkgpJae8DwtBvi5ko7Xz7JY
-         jCFCA3GqejcgkHhAAfWj64jyUAtjGpU/giFdlpGuHR/gLjM41wMggL0crZm/azQjq0WG
-         LdzzzViCUwgVwSITo8N+t20jIlaGLnAs/9je5Pke4ogFvE4rBrrfXWDWu9W4hQ44mf5z
-         RlsviL9MMd8QSjFYokQ8y3Vt3xnJTUoSZoZAEDTCkn9o83gdSQAo2fJh0JiMUCezOKfs
-         xyUU7HExsE9ur9Vi5IxcS/x6Vy0eqdQHGTs8FxtHNt5yDlK7hVP38mfZiM7w8vFDjsX7
-         Aw+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787778189; x=1788382989;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LjM9GmdvyoqfoPm8mJ1pDYW08lI1V210DwwMkEe2Ph0=;
-        b=qRDLHfWyMWJDBM5FTgNJiDcKzexmHEfNd4ZRxCuwYZmnpZJXghuw1fxW3XmyAS9nrW
-         ukfzuKtOeHVaQ6Jd6HWAV+q7fGF6VLRzQ14uqCoSfnju5rMpq2sMq9tPDGeuBd6L3CEa
-         vNDb3y8M0fPttj1JOzdjiv1uYkT+/wls8VgO5TFt9bhgm9UDyPAtRM3d2806Lry9F/EK
-         mE7gSGDZey1wMDuVP6aGiiKBnSPMonpJVv+c8dV4BvtyBjDzuyqHkOttgTRqQvSUv+Q0
-         OIjRRRY54lT1NVQ8cQ0RpTdwqYPZfkuS4uL0GSZh9EX+Agw43EIl0AmS+SqXZHHC1gCY
-         zStA==
-X-Forwarded-Encrypted: i=1; AHgh+RqxHll6lcEuima3cYiDlJJPQHRgLJJBP3ljMweHCPXT9Pu4h0UZZAIHluTABpX+c1TxK9rI7WMdWOs=@vger.kernel.org
-X-Gm-Message-State: AFuF++m+6glTLUeNTg0aZdP+eLfTQFlTjfSbWVwEiBxwqcNFBAoq/AT4
-	lABBL6dZPYuH8UTtLlFsHnUsGuWQieBC+YV02fZ3mWuNXepF3A57HjF1BFoZhEauUQ==
-X-Gm-Gg: AR+sD12RmCq6JScnJInMiIZwoHhqfnFLnlADttfLKdbm6YtszmwvjIuljlHQpEmjnMb
-	koGk44Ku+arNW9WjAqK0XHNgf2yTX+aaobSx5b1TbUdU7t2sO96UvtaCD2zNGOXhUb6Yp0j97wV
-	DLm4ywnry8Bj1mWMORRAhSYrxu972Sl9s9w0F79sm/VnoZzq09IvUtDMYNrrskZwCDAImEcAARj
-	yaWW9gs2uVQ3TuPFH0ulqZUAoEepHl7QDw5Lx5w419Y8aSxkBpYPCwDloO479pK31Mf0+7ux+nP
-	M+9xJUTIPGlAFaRw3WDL4wo68mzP9viVXibftx70vMVhdIOC7WyG1aeppmx1lTQJL5+XkkAva+u
-	OCbo8JsL2GrWImNnFmh42/oEiSw4plCgu391z+VdEl0QGP6WAyXprpms6G9+hdQKRxFA7J5w70y
-	YAMvczPkUUCq05VOQcPggLwWFZ319SpWR3+xq+PuQu71PThWc/LhCQxaMV7eF5NN54Wj+OEU8Y9
-	qP2CSw6mENgq9/24UffpQ==
-X-Received: by 2002:a17:902:f549:b0:2ca:481:de45 with SMTP id d9443c01a7336-2d707a501e5mr124136705ad.6.1787778188443;
-        Wed, 26 Aug 2026 14:03:08 -0700 (PDT)
-Received: from google.com (51.86.127.34.bc.googleusercontent.com. [34.127.86.51])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d704c1a0a2sm10897065ad.66.2026.08.26.14.03.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 14:03:06 -0700 (PDT)
-Date: Wed, 26 Aug 2026 21:03:04 +0000
-From: Benson Leung <bleung@google.com>
-To: Jameson Thies <jthies@google.com>
-Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bleung@chromium.org,
-	gregkh@linuxfoundation.org, akuchynski@chromium.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v1] usb: typec: ucsi: displayport: Fix OOB altmode array
- index
-Message-ID: <ao9UiKAEtsyEt7ZZ@google.com>
-References: <20260825234545.2076049-1-jthies@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CT/ytiss"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805A21F000E9;
+	Wed, 26 Aug 2026 21:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787778884;
+	bh=oJA4xPT2ANoR9sRkaZJee8iJemXWJTIkOmbADhg3dT8=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To;
+	b=CT/ytiss34RQH9eyKLnihn6aSo8N+mrrK+odduV6P+fOyv6ijeDj/MHEpHsiZceTh
+	 Hcxwq3EjokKxu2EFp03LSt+aQsi/BX7T4dxrTTYxTIPXrKvxO5CtMIOGeYzFHvsYRv
+	 P4L1zRddbXbZMn+oiva9Em/MD4CAO/+HGY20f8YXhFvbZbbznQ9zZKw+rxZcpWBR7N
+	 v6ZrPvcWzCeosMltL99UV7zlkWQbUnebuHZ4+UmjCzKyq6TqeXe9uKOzGs9D7zuVCA
+	 SgmXqPqRloNw1awrk7pgtGwJMCqorXe79Vc0VNByQ2Qzag0I9hbqEcS3ZrnZdQgb8i
+	 ocMXFzvjepVQw==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gz09TSVTsWtWbuFW"
-Content-Disposition: inline
-In-Reply-To: <20260825234545.2076049-1-jthies@google.com>
-
-
---gz09TSVTsWtWbuFW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 26 Aug 2026 23:14:41 +0200
+Message-Id: <DKZ6PZV65PYX.3M9UEZC4ZMLLC@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v4] driver core: avoid klist_remove() on unattached
+ knode_driver
+Cc: "Alan Stern" <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>,
+ <syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com>,
+ <stable@vger.kernel.org>, <linux-usb@vger.kernel.org>
+To: "Akihiko Kai" <khiemtranzo532001@gmail.com>
+References: <2026082042-coma-moody-5b4e@gregkh>
+ <20260820084557.129908-1-khiemtranzo532001@gmail.com>
+ <DKTWKZFYC6TL.2ZESRE0NWAV2T@kernel.org>
+ <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
+ <DKU2J83B6IX6.2CG1WOB66WC39@kernel.org>
+ <CAEe5be5OjseCMxGQP=QMd1L-muOTDguaay_-21moS1+xRNNNyw@mail.gmail.com>
+In-Reply-To: <CAEe5be5OjseCMxGQP=QMd1L-muOTDguaay_-21moS1+xRNNNyw@mail.gmail.com>
 
-On Tue, Aug 25, 2026 at 11:45:45PM +0000, Jameson Thies wrote:
-> The UCSI displayport driver indexes the connector's port altmode array
-> with the GET_CURRENT_CAM response after checking it is not 0xff. The
-> port altmode array is UCSI_MAX_ALTMODES elements long. If the PPM
-> returns an invalid GET_CURRENT_CAM response above UCSI_MAX_ALTMODES and
-> not equal to 0xff, the kernel may crash with an array index OOB error.
->=20
-> Update the UCSI displayport driver to verify the current cam is less
-> than UCSI_MAX_ALTMODES before accessing the port altmode array.
->=20
-> Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mode")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jameson Thies <jthies@google.com>
+On Mon Aug 24, 2026 at 6:47 AM CEST, Akihiko Kai wrote:
+> On Fri, Aug 21, 2026 at 03:54:44AM +0200, Danilo Krummrich wrote:
+>> usb_driver_claim_interface() is the only callsite in the kernel that
+>> does set dev->driver without a subsequent device_bind_driver().
+>
+> Small correction, I think there are a few more. usb_port
+> (drivers/usb/core/port.c:782) sets dev->driver before device_register(),
+> and usb_port_driver has no ->match and no ->probe, so it depends entirely
+> on the __device_attach() dev->driver path to get bound. ccwgroup
+> (drivers/s390/cio/ccwgroup.c:385) and pata_parport
+> (drivers/ata/pata_parport/pata_parport.c:515) do the same. So that path
+> doesn't look USB-claim-specific, and if we ever want to remove it,
+> usb_port would need a ->match() first.
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
+Good catch, I think those should be fixed as well.
 
+I had a brief look at the usb_port one and it should be exactly the same ca=
+se as
+w1, which I already fixed [1]. Actually, it is even simpler, usb_device_mat=
+ch()
+can just handle the usb_port_device_type, as the USB core already does for =
+other
+device types. I can send a patch for this later on.
 
-> ---
->  drivers/usb/typec/ucsi/displayport.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucs=
-i/displayport.c
-> index 7067f2561b84..8d2032d0762c 100644
-> --- a/drivers/usb/typec/ucsi/displayport.c
-> +++ b/drivers/usb/typec/ucsi/displayport.c
-> @@ -74,7 +74,7 @@ static int ucsi_displayport_enter(struct typec_altmode =
-*alt, u32 *vdo)
->  		cur =3D 0xff;
->  	}
-> =20
-> -	if (cur !=3D 0xff) {
-> +	if (cur < UCSI_MAX_ALTMODES) {
->  		ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0 : -EBUSY;
->  		goto err_unlock;
->  	}
->=20
-> base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
-> --=20
-> 2.55.0.860.g4b6b3295ed-goog
->=20
+[1] https://lore.kernel.org/driver-core/20260820225430.1847356-1-dakr@kerne=
+l.org/
 
---gz09TSVTsWtWbuFW
-Content-Type: application/pgp-signature; name=signature.asc
+> For the root cause, what about this: in usb_driver_claim_interface(),
+> when the interface isn't registered yet, just don't set dev->driver --
+> record the claim on struct usb_interface instead. Then, once the
+> interface gets added in usb_set_configuration(), bind it explicitly with
+> device_bind_driver(). That skips ->probe, which is exactly what
+> usb_audio's claim-now-bind-later needs, and it also attaches
+> knode_driver so teardown is safe. The __device_attach() path can stay
+> for w1/ccwgroup/pata_parport.
+>
+> Does that sound reasonable?
 
------BEGIN PGP SIGNATURE-----
+I'd prefer to get rid of the dev->driver path in __device_attach(), I think
+there's no reason not to use the common match() path instead.
 
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCao9UiAAKCRBzbaomhzOw
-wgCoAP4vqDkDyluInYvf3CtI7ierjfnXdyn9lyg3gLa1LpKzLAEAg29Lc21QUG3O
-a/cl6MGV6xYVAH0zkyRyP62oiHFrmgA=
-=CSC7
------END PGP SIGNATURE-----
-
---gz09TSVTsWtWbuFW--
+So, for a fix that also goes into stable trees what you propose sounds
+reasonable, but eventually we should use the match() infrastructure instead=
+.
