@@ -1,124 +1,126 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399BD397936
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 07:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD19C35C683;
+	Wed, 26 Aug 2026 07:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787727602; cv=none; b=BZJGGV3cuz+/BZCJJ6u5oFnpaeGkuruJa0917BrGQA7F3k7Z4pcKGnNvmNkfGlUzeS2evsd/9fhPK11fDgkOZhlqF/Gx+96HpzEKDGm9ZjfipMnyapyUXSXPhr4mvb/Vl8leX56zrAcQax3dlvJ15vxayl/KZChArgQQgYBIPx8=
+	t=1787727649; cv=none; b=ARe4wMT+BOGk41lRNDhjTXTIriXLMBcTCQ+F6PixOOxExTUDEChZD95vuHMQBonXPG7Vvlr1KScge79SjVEbpX5tjFksH2ly7/r3Blc+EiT3EWh8WTVK0QH3fCctKiVxaGL9ee3pR6mcLJoSsbkg2kAOHuxC38eQ1P2mBPEhi4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787727602; c=relaxed/simple;
-	bh=LP+CjnPTNKJTOh9M44NP04G+M4Hbff+bxYnyBcwSMCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fg7mWtKQso93FXQ1MwupmlSUIm6m0IRnw3qKH2B9xYnuL13LtGPHi9IBRg6HYyRSrXWOeNxuYkaFIUdKwcr71ERtbDFE8K30SBTwHpRGaKV/BoqmkNA6euGCq3w/RD08ygjKmvgR6YVtF+KRJKduUe47RO+p0Dc5DpVraBIkbVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rmdo7CJZ; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787727649; c=relaxed/simple;
+	bh=CMnXLSx6Sn5rJ5SaXWN0rtTV/wvYfi2F25uSQg5lroQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V0l8OBsW7NQBMFVCBV3Y1fJADBbXpuqhp90SvL69HU+tsM9OYI7zuluLnX9ALHzCDhksckSwXrNdckMKpHBC9SixMk5AUTVmIgii7cvNRYTOLDfYHQN7EXBALr2zhZMLUeOUVK3ers2qdzlhL87om63gUd86RUnvy68ovGCrPiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=LDG3bX3n; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rmdo7CJZ"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a173ad7cf4so967998a12.3
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 00:00:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787727599; x=1788332399; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WauUjNIZUT9UpQVIgggxGeGxRKN9frgsdAp/zagOntA=;
-        b=rmdo7CJZpHR25vsrePOxBFmoNzU9CeCqJIDRuYtMkL+HCbbpOE+ZsUHi9i86MZM2pV
-         902Ie7moc1Qi4JP8zY3ACU7Z14NVnW7qHwI7a2v3MoMfS2DFrgW7gajNdztzt4rO2l4l
-         f+exzOtVBYf8w0KY8SFMSLP8s6uGMCesWbgEsNUyuDIpBxpzWwFLe5qPyv7OONltBxiN
-         JG3tzXj53hz06CMzpcu3U17Amc3mK1q0fPPBOffBRp301L8uEr56NUa3/SoOwOU2iTn6
-         L3SgmVdMbraliotZjwKoiUdSkgBvcdfeE+GABeeSeR/yVVV3yQBx5HGtoaxtf2WELIhU
-         uYBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787727599; x=1788332399;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WauUjNIZUT9UpQVIgggxGeGxRKN9frgsdAp/zagOntA=;
-        b=BBqRSHWBfpwLPdtd1tod47RnZ0t4xGZJupQ8EAncDSWzNDwJl27E1CN9phwWqcwWq3
-         InfLO+piqGWyQmYkVxORr7GBtkTfAp9IJ8EGxDfUZNrgVMum315OMOJX0iia/7HiNtde
-         eGfLBC7anCmZ11LQ717jMXzI2od9kf/s53lh54Lj8i2/sW9sfUB7Smm7pG0SQuZCfGO5
-         89N+fdHvVFGMpnu0RClMe1QM98giSTLBAgBC4Ge+8+9RzN4Mb40mHAdXy3Car/zR1CK4
-         /jct6VqH9YN0veKN61QY2x+1FWfxyoRLyIURtw3MrSIkko1SsL7PIg1TPuqoHs2qkEa+
-         hSXg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2bKPi8C5fOOBYgwnzE82NDMJKVEnMmwcjUzALV6BNPxrVzF3I1NkRur0bkzvCUqYIw6xsLkytSGU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mWwF7e2z/2KOB/txEEdvownLVV17udhvDdI+3rEYRRdRXcB+4f
-	aI0JOEp5Joru8RjfTyn6a8DdvEIksC2PlKYkkN6oFl1QPNjwQF/d+5l1
-X-Gm-Gg: AR+sD138GekwBxe7Oug20oRlUwQ1/68Yn4LQkewBEmPIaMpXrrhDTBasjwtWvbPyv10
-	jkVjiqUQVVxoJjE4LzKWajEdeVqpJt4DvwvDynwWwnNc834TUkCWePNrFuz2MbrkJyCjgwrWG1d
-	jlllIfc6PYUiRQyaTJ8okt6DTz3pQKyNSVXcnEAwuzidx4Cyw2UXdCLc0t4YucCjl3ixHsm3WHF
-	M4I6Uohvj25Xi9EYsC7R18xW+0sEu+IgsfDZRP60xcbYzOsj6H/+dhEVWxhOs39ulV0hqA4oovt
-	iM8D//DNuYbV78aR7WmKLASpK9LH4Nt6GK8RqVetLkHI8voNRvso8+km9Ht1vMgON4Bh6K/lVYX
-	Bo8X6bfmw2ELoimIhme/blihA+Y2cCbXHB+YxMahYzp2SfieyqiyTZL3TaNZgjojmrD6eIghthh
-	9PmKYP7Oi9X4g2m1hIqK7O93hf0jU/El0minkePb3i/zxwBtZv0n/FMsmMx/rO/+Nje18p
-X-Received: by 2002:a05:6402:1f01:b0:6a1:b0b:bc2 with SMTP id 4fb4d7f45d1cf-6a5df65b8c9mr6399127a12.10.1787727599087;
-        Tue, 25 Aug 2026 23:59:59 -0700 (PDT)
-Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a5de8d0b71sm2826662a12.9.2026.08.25.23.59.56
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 25 Aug 2026 23:59:57 -0700 (PDT)
-Date: Wed, 26 Aug 2026 08:59:53 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Mathieu Fluhr <mathieu.fluhr@gmail.com>, Lovekesh Solanki
- <lovekeshsolanki00@gmail.com>, Thorsten Leemhuis
- <regressions@leemhuis.info>, Mathias Nyman <mathias.nyman@linux.intel.com>,
- linux-usb@vger.kernel.org, regressions@lists.linux.dev,
- stable@vger.kernel.org, linux-kernel@vger.kernel.org, Forest
- <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-Message-ID: <20260826085953.7f8e3949.michal.pecio@gmail.com>
-In-Reply-To: <f6f2f984-f31b-42c9-b120-6c179803dd2b@amd.com>
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
-	<CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
-	<CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
-	<07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
-	<aosGtkE_diwVJJtB@eggarch>
-	<20260823174059.46fec036.michal.pecio@gmail.com>
-	<aoser8dLytrwqBC2@eggarch>
-	<CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
-	<226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
-	<CAPyJwA9GvqeaBYhN56L1S9YW-rwWgFejrcNcE=54DQC3Eaqxww@mail.gmail.com>
-	<f6f2f984-f31b-42c9-b120-6c179803dd2b@amd.com>
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="LDG3bX3n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1787727640;
+	bh=qL9k2UjdGtOcNDAG485lFdrXLHwG6ZNnL+8BxlJZ71A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=LDG3bX3nLbZn6k47/x8tGsTvqjLdtmeNaa6x861PL84zwNsafWduuIOTyeOptO99W
+	 vyG21AdFLxdnba3WfsSpan46N96TVFXRSeQ4iFi8NEekZkmREYfkjTWcMCBQhr/KzC
+	 8YFKvL1V4RFtYqMLSKpzdmB918oJzEdDWfrS6sMY=
+Received: from [198.18.0.1] ([58.206.203.238])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id 269020E; Wed, 26 Aug 2026 15:00:38 +0800
+X-QQ-mid: xmsmtpt1787727638t6j51abmk
+Message-ID: <tencent_73FAA277D81B3C4771D63F33904760133A08@qq.com>
+X-QQ-XMAILINFO: N6D9E5+XF5AcFq5a8YMIgyiakv14LGnE3GBDEU6UotNlIf9LswlkdLrrr3sL+5
+	 B2/R4JWHqb+nOvanjcSKDLB1BcPYLlAaWPohH6rOlgH6Ogr5ndWiRUhLBu2gnaWyQ1S0gZdEpLK+
+	 Vskv58Sj31lLH+lhNS2WNQNMSIsagzRUUEhAt4eJ2zzA4r6LkFBuqmnysgLxIMFz98Ky+ZkWF+TM
+	 c7FrXYjiCV5A1X+njXbn6EfxVwFLcbHmArK3AvkxRpsSe72e+NDgFDNckBXKe5F2odOQbZxGKy9H
+	 tB0ZGCs4gy+QkGa0H1fRhYtQ/f8SRn7O2neb2xQSydmwEK8zeIz4KOR5TlONpFqr72J+Upjtu99F
+	 Edr+hYfAIK+v7lakoqMDQdmyeUw+KEBlbWnxi5RnD1OIeHnb1O8fSaTj5/zp5hwAte2rMD7yEK2P
+	 mt2fjus/SGXzaLf+cB3mc7vBdS3eDnervR0MhrRTTXRUvkkeh8tGcw1Nqj73s8iJeb/y67I0Kx1y
+	 +SP4LaRIE6TTTEayjqbstDuj3XcP1PUDT2p0sl++sNi3TEtCcZqCXgG8KwWZsKsTH1c91ZD4lnWQ
+	 Qhfjbv8HbDS12MPoTfnCzC9ITSUhQyb88PhHaHjdKt8Q+XCVqtgrwpNY7KkcvRKP1oU1AKExv+3k
+	 Z1RPH4IdNTmq/3OyDJ7rh0r0a/UgRXAhpX/azGwTfidLo6DIm2mRxWhAYJ0BG9ezU0FIxJ7SzN75
+	 xt2ceksajbLPGCmSkjS4zNNqnd6R3In3Is2GvtVSpIGizFu+KepijBL/UPU0Caqh43nM2rb+XwMx
+	 XYlm6ElOx1BCZlKGp/rSYTkCTxev0rFNPm0t/VxYIijC2ejOm+6poI3Ohf6Gzz7GjRiYJr1ksUpN
+	 jATXYZKgO5aYip59xHNmOaVBA2RhCQJAJmpPwe+7ou1hu8xi+ezoR+f7PmnjEd0VXugQRGhvumtP
+	 BbL5r3uxGNJGxp5/HU7VnIscfAfqg8EkocX2ofh5+RVwqjGHzLiCTLHfMlRVZOe7Odui8x3dNehD
+	 eWBC1OD3xrYXrp5BwFN2njQ3GVMIeCr0WwAmt5ruPr7gg82AWUnA7c1woKT3Rs/6bNerLGX+Z/9u
+	 7uGnvm78jkWKjJee66gVwcWM1795S/gLHn3WFY061C3R6g81U5oBda1uW+1lh0AFJaqK2A
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-OQ-MSGID: <a983219e-82b4-4148-a858-e97d7960df49@foxmail.com>
+Date: Wed, 26 Aug 2026 15:00:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: gadget: goku_udc: fix kobject warning on probe
+ failure
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Felipe Balbi <balbi@kernel.org>,
+ Peter Chen <peter.chen@nxp.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+References: <tencent_0AE8C419FE6042BA8081E98C88BA604FF00A@qq.com>
+ <2026082616-glue-atlas-0cfd@gregkh>
+From: Cheng Lingfei <chenglingfei@foxmail.com>
+In-Reply-To: <2026082616-glue-atlas-0cfd@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Aug 2026 22:14:32 -0500, Mario Limonciello wrote:
-> This isn't a BIOS regression, it's been around since the beginning on 
-> this threadripper model but it was harder to trigger.
-> The Linux kernel changes in the bisect exposed a platform issue.
+On 8/26/2026 2:11 PM, Greg Kroah-Hartman wrote:
+> On Wed, Aug 26, 2026 at 11:35:58AM +0800, Cheng Lingfei wrote:
+>> goku_probe() calls goku_remove() when hardware initialization fails, but
+>> the gadget device is initialized only near the end of probe. As a result,
+>> goku_remove() calls usb_del_gadget_udc(), which drops a reference to an
+>> uninitialized gadget device and triggers a kobject warning.
+>>
+>> Initialize the gadget device immediately after allocating the controller,
+>> but add it only after all hardware resources have been acquired. Track the
+>> gadget and proc entry registration state so goku_remove() can safely clean
+>> up both partial probe state and a fully initialized device.
+>>
+>> Use the split gadget removal API and drop the final gadget reference only
+>> after all hardware resources have been released.
+>>
+>> Also obtain the controller from the embedded gadget device in the release
+>> callback. Driver data is set on the PCI device rather than the gadget
+>> device, so using dev_get_drvdata() there fails to free the controller.
+>>
+>> Use a per-device name for the debug proc entry so that multiple
+>> controllers can be registered without colliding on /proc/driver/udc.
+>>
+>> Fixes: 3301c215a2bb ("USB: UDC: Expand device model API interface")
+>> Reported-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=06ec7624018233e17113
+>> Tested-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+>>
+>> Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
 > 
-> The workaround you can do for now is to disable runtime PM on the
-> XHCI controller to avoid triggering it.  But it's a platform issue.
+> No Assisted-by: line?
 > 
-> For a proper fix you need to reach out to ASUS to get an AGESA
-> upgrade. You can ask them to reach out to AMD if they need
-> assistance/guidance on the versions that contain the fix for this.
-> You can share this thread with them for reference.
+> And do you see this happening in a real device and not just a fake one?
+> 
+> And why is this driver using proc at all, shouldn't that be in debugfs
+> instead?
+> 
+> thanks,
+> 
+> greg k-h
 
-This sounds like it's a known FW bug, so I suppose the exact failure
-mechanism is known too. Is it triggered just by putting that PCI
-function into D3 at a "wrong" time, or is there any USB/xHCI layer
-involvement, particularly anything out of spec by software?
+Thanks for the review.
 
-I ask because we know one case where dodgy SW actions cause some AMD
-xHCI to malfunction, but the problem is contained in the USB layer and
-the affected xHC doesn't bring down the whole SoC.
+I do not have TC86C001 hardware. The issue was reproduced only by
+syzbot, whose reproducer binds goku_udc to unrelated QEMU PCI devices
+through the PCI new_id interface.
 
-Any thoughts about the patch which reduces suspend delay for root hubs
-specifically? It restores the original timing of PCI resume/suspend
-cycles, at least as long as there are no external hubs connected, and
-has just been reported to mitigate this problem.
+The probe cleanup path itself can also be reached on real hardware if
+one of the probe steps fails, but I cannot claim that the issue has
+been reproduced on real hardware.
 
-Regards,
-Michal
+The proc entry is legacy diagnostic code from this old driver, so I
+agree that debugfs is the appropriate interface. I will rework the
+patch accordingly and send a v2.
+
+I will also add the missing Assisted-by line.
+
