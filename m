@@ -1,195 +1,220 @@
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296F43F6618
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 16:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A49F3812F6
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 17:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787762995; cv=none; b=kRfE5/qKmTI8DLCmvaytY7joA1cglms/VSZIIXKX5CLR1t3XeQSOM1IqxaZQb55QzebxZh9Arc44PfqMangC32kfue2pt+WUPVc9ZlDgimGcuK4u0gp9zGRUnwu1JOO/eU1afpLQZBfZaF2LtuUPdUS+gNH+WJzuJd4hUYyaAYk=
+	t=1787763821; cv=none; b=ougERZkYRduuLlhBg/7PKp6XPudEAR997AK6zrXuJbh/KLoyKoKzgdFlsbz+JjbxOD7PJ6WB9CpG7JWoO51aalryF/ac9T19FKXJqvq6UNjO8JzL1QvoCPHlSnDCF/Wte7ZIoJNFUIFzr5RErxNgk2/qxZkLIRIPx8EEwvpDiiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787762995; c=relaxed/simple;
-	bh=phsbyYf7Boh6K8o1ijxZ80eQZFGXbuMPeGJ9bwUfdkY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=cSak4KawF7H09DYk8sq0IyLK2g6n7wwq44mJcjabeYOuNvgoG9wchg/ijyz6IULwuOaWQ4t4+LNxlnrXxRUlr0UyK9eYTArh3uAnLEznNRgrrmmMw3XCG7unTTu5yFjWRT0oy7EspWcTF8A2qwCwt0/a77mblbufD7mpovD0Pmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-466d41a1d9aso303395fac.0
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 09:49:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787762976; x=1788367776;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+	s=arc-20240116; t=1787763821; c=relaxed/simple;
+	bh=iRMieqTLpzSimePtFDUM7IYXtNUy6nl19l5tmntBsn4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i7haXKCCGvb2pC2M2iYrNNZGdV4T9WGuNHsxuvR9vhaIp1UlUgT44+e0L1Te0AbRSGF4nMeLg9GBVYePyud/LdlUlMe/KxXVnh3GlgAvLVVxuqzrwOK5T9PDLsWSO3qPJGTfqZaWWCnU9InXWYFIC9uGn97qK6p5N/QXKMhjzn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j1rUq9sn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FSp0i27d; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j1rUq9sn";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FSp0i27d"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67QGuj1E343353
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 17:03:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=LmNdSIC3rzSREG9XYk3I/s
+	eFKqFe5W7iVUlByjfc2Dw=; b=j1rUq9snaiDIcZ6SEq9t2TXHxtklK1pG8UhQob
+	2UhM0tvdZrziTJ5arh3qGxCfH8oSDzYB/NFFF60yBHSlnFk19CwvDSMMD+GilijR
+	4xgZXCaYrsvE/lZ9dM9vPDy7fpgxXuyyihjNoXQy5d4s93wcVGLnbw2aJ8v3jMNo
+	wsRz9urpM7g7wVUUm3NyEqzixjaEzIDf2O/Y+TNs/os1aNjctsaVvL+Tbup6IQ0N
+	x6dylSdEVLj+xNpjNmLJZb9+NXYoI1OHoRWOoRtMGDfp8rnY+8yX4pB7mDoJ92zC
+	qxniy484VPWps9AnsimkpmX537ZTnBSVnAbs/X3LTyamMQ4A==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9utht78a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 17:03:17 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d001671a54so24105355ad.2
+        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 10:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787763797; x=1788368597; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=hM5n+FIa5Wh0Q3xyXi+CMf3mznCub4whjLl+zoYHlTQ=;
-        b=DT+IFO1jtfTUUWFmUMJRalnFTzLwUjdmMz3mhGgM0P+pVPe+c3VCut1TQw2pjgaWZh
-         Eodi3CcfJquqY5SiCK5Oc5DyTjme7CLg4Lf/n9kBrrJIaE2ewe4Mi5KmwIk7sI+usxkW
-         Dkq1+xdfWXbl7lA0+OhFi70ntEgRGkSGZTxVQ2sgMyqVPq98GIFmofXbyM7lG+lld149
-         cUNdaMFx0aKdk+cry/NoinxsmbfBKe4ZUBamLVPIYlTJNpO3dL13gGtL2EnhY7BGAPDu
-         IezEl3855qYzZcYco7a+5xnFMd8BU1UfnIBq6VoVKenskOFbrC1MklB9kpUh99jFXljl
-         Gqdg==
-X-Forwarded-Encrypted: i=1; AHgh+RpNUfaePdL7iRx/uUEGJV/q6xyURg6x6F4CqX9+hOKMQu70xSLFwHHjHOxdABiMl2MKJsc5VeO9QsE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mZ71yuqG+AoJLwQ+5b8WX7/gjb7MSR1+BnLvuSuquW7yiIHkcY
-	gj1cvFDAs06KmPNp4uqh+/0XVx8ZbP4s0TUHldrwzhGfAklCf8wCEanWl5Kf0fEnbgenD0vKG7p
-	A89C9sGP9MLyx3pc6xMVkOXmS/vRlT7JXtfY+dvdRBM1AzwxCO/Kx1gPCke4=
+        bh=LmNdSIC3rzSREG9XYk3I/seFKqFe5W7iVUlByjfc2Dw=;
+        b=FSp0i27dAtnrl1UYb6hVj/O9XcJi9LyzVo8MCtvBLWrhNwDWE2rUiNDEq/KOlT5D92
+         wdFqApxNyfZ8MHmUPyDe+gt17WWfzIfRA1zL6q48tT8G6SDulqQAQfJoCHy4SM+LaGvj
+         m2vMubk4kQp/89KEppYk6tLfit8+HqWcydTldmN7mp0dbXnWxcMNyeJ9E4tNy+LYSvKI
+         9GY1qOCx3hiLMq4rbQIKLgv3qiyuJdW5844gVILDgOwAp7+QBI8TCiTT7/50HwSdu2wa
+         /Vgza0YIo8DtYkIGAcwekg7gwtNyh8kEzcG0A7Vik9kSC7vB6/xWl7Xo1c3/GQEMXDf1
+         EJdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787763797; x=1788368597;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LmNdSIC3rzSREG9XYk3I/seFKqFe5W7iVUlByjfc2Dw=;
+        b=mN3+szx8PItkAM0Bb8IbqWkbeFUfvfsfg1eRcyrLZWgcKHbS3RAwtfTGp9oOSoD1sb
+         bx9j8hG/baX/DbBnX9N0h1X8WVAT147T7J6gaHgSnWOiMvy+6GaikV8/U7KWymT1Bi7a
+         ZrXssCkUn7tbLD+Drd74yN1+hl5CAT/RaOtOFCG3Q96ZTAtIcmkBh/QH3LCCobrn9oct
+         jaToJFx/sEO/F9EvOa+IigP/KJzl7p7JUsMr16cmDnN4+WPSPGiPCflz/DztTxsr3NJT
+         9OLX3D5FDPdYJZ8gGDpKc/MgNqfUA/XFYegrphFg3Lr5+VkgKMtH9llSd1KctcQYFgQe
+         cQdA==
+X-Forwarded-Encrypted: i=1; AHgh+RpOMQsRwlP83OZYjZwNbUyUyh8n9i1AtfEg+4e/ON+gLTpD98pk3UhaXMvUHHmmJNGvBWZCCOTsgfE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kvT6s1Lj91ohSAbCiJ4K2MG1zdQx6WMtWrUljwfoSHLDFxBLyD
+	fGdFkFMmrXDgognbeTYOiRRM9pItoGWUZnSBYZQ/szBMuK2qPYbLipDWP2bC30phrAsxjgxzZZ1
+	BH+GjdsLctZo65P6l32t51neg/LqhoEqmHM5GDTFO3tHoh5JG+nmc4Pue3AHI69E=
+X-Gm-Gg: AR+sD12hjtJnE4sLZUZMHzvhBmXmBG7VhZHju1rOiIA/9h5bt8IgW1cX0S1cLlLhueo
+	14ARMt8wzJHrfQoap0VSKN6SC7kpz4mrnYiIDEmK389G1PN03Nudx555LsiK0CCJJmkjh5ZNlHs
+	tAsUKnIO8BDcOStW5frTLUHvZp4mohNOg0Lnb4gW/r3ZtRZzXKBwBqfWyxhViwc/U5azJvTvzcH
+	tYx2WT8rGksag3Ui6cinjwIPx8IlubxjlYvg4beVMM/cagSvmfJ7QfnOqoQYKyQnOgSCuHIzVr2
+	oIKOgPgR9gYkyzrDGgwqzHkZTgnwstgYPmtI/Yl/dq0QGwXZAKsveWWGytf2bsE1/BgTTJ22MVA
+	VaJkjeAHF44GPqMU2m6jF12ELiLYEAxIlv4aM+mtOXF8hK5b9W4MXZQQzeKb3aTzT0R/KDQ==
+X-Received: by 2002:a17:903:32c9:b0:2c9:df1b:e948 with SMTP id d9443c01a7336-2d7079eb7e9mr147013055ad.4.1787763796671;
+        Wed, 26 Aug 2026 10:03:16 -0700 (PDT)
+X-Received: by 2002:a17:903:32c9:b0:2c9:df1b:e948 with SMTP id d9443c01a7336-2d7079eb7e9mr147011215ad.4.1787763795999;
+        Wed, 26 Aug 2026 10:03:15 -0700 (PDT)
+Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d70498ca3csm9938285ad.31.2026.08.26.10.03.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 10:03:15 -0700 (PDT)
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: [PATCH v6 0/5] Modify interrupt handling for eUSB2 Phy targets
+Date: Wed, 26 Aug 2026 22:32:50 +0530
+Message-Id: <20260826-eusb2-interrupt-v6-v6-0-ae2601cfa80c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4def:b0:6b1:5c1b:582f with SMTP id
- 006d021491bc7-6b1a0388a21mr7741330eaf.5.1787762976565; Wed, 26 Aug 2026
- 09:49:36 -0700 (PDT)
-Date: Wed, 26 Aug 2026 09:49:36 -0700
-In-Reply-To: <6a68bbd5.073198cf.94f0f.004a.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8f1920.1d9ded08.62e62.00b7.GAE@google.com>
-Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Read in stub_rx_loop
-From: syzbot <syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, shuah@kernel.org, syzkaller-bugs@googlegroups.com, 
-	valentina.manea.m@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADocj2oC/yXMQQ6CQAxG4auQrm0CDUyMVzEuHPzRuhhJO0NIC
+ Hd3xOW3eG8jhymcLs1GhkVdP6kinBoaX/f0BOujmqSV0J5lYBSPwpoyzMqceQk8SAT6KH0nHdV
+ wNky6HtPr7W8v8Y0x/0607185v8h0dgAAAA==
+X-Change-ID: 20260825-eusb2-interrupt-v6-52bee4b24121
+To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+        Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787763791; l=3052;
+ i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
+ bh=iRMieqTLpzSimePtFDUM7IYXtNUy6nl19l5tmntBsn4=;
+ b=8Hi4lnh+nhaU79Mve1F6xuAiE8FRDM3Pl+datid4o4gWdyBZ7IBa2TC2v8D88KUqqgVqCJZ1y
+ xkQA4nXpFsPA90gB99x/0WHHlpaKcPLf9VQEBfW0iMvXn4WYU5qehdr
+X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
+ pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
+X-Authority-Analysis: v=2.4 cv=EMA2FVZC c=1 sm=1 tr=0 ts=6a8f1c55 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=xjCIpWma6R3UThYtaJkA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-ORIG-GUID: EyPjcC6HszIgfCYozH24pEbaPS4OAAJv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI2MDE0MSBTYWx0ZWRfX59i/AhgFbsSJ
+ ughmib1GZPX2lBuv0TspPM1SY3Bc/4EDESnD0T1E3RUVEP+HfNbtPcClluL9qDMhEEQB9815j3s
+ VPV0qdLNl43bc/55sPCMmFEc/H7r23itgrGSfMjhuFcPj0b49f0Hz4JM5B6wE6EUQQADhOZbKO5
+ y33SRIfJNGoSqeVG76+0Z2un/srCOGfFt+Oavv8joqxqfIMvVeUx0r5OaAulJo4a1bDVvlo0Ks4
+ N94jOgaNPwgIMbjNDgPHpwvBhEcl7GzBFYcdcxXsL4gt5lbgBJHyAJWABKaJDzBldhzWE1M7KRs
+ vjD91uRvrN8ER2TUd+iHcHPRv3whRvCwC5KcwIyfVFr/1xLBpE+sE86L1fzZ5Pgh6teWPumHmPb
+ Bb6TtJAjpMcFZEmiyGxoD715HBGTLpzWT9ULK9R90nRvZLSFjn+F+y5gvw9vUqmTbWWL/RIj88P
+ hIgQ73iMDr+WE+hqARA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI2MDE0MSBTYWx0ZWRfXz8M4s4HGYzAq
+ t1hpxqhOrFGMibgkAtGM34VJPOovBvddBDpcLaUml1G7RljzkFuf7exQaYhzvmuwNYK0u635niL
+ TiDJcm+DSJs8583hSSfZMoqEaNV5A7c=
+X-Proofpoint-GUID: EyPjcC6HszIgfCYozH24pEbaPS4OAAJv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-26_05,2026-08-26_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0
+ clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608260141
 
-syzbot has found a reproducer for the following issue on:
+eUSB2 targets handle wakeup interrupts differently depending on device
+speed when operating in host mode.
 
-HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=151ce979580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
-dashboard link: https://syzkaller.appspot.com/bug?extid=06fa667a0931a3430026
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13a28d49580000
+According to the eUSB2 specification, remote wakeup signaling in host
+mode is detected via different data-line assertions based on the
+connected device speed.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com
+When a low-speed device is connected, the host repeater drives eD+ to
+logic '1' upon detecting a K-state on the USB lines during remote wakeup
+(eUSB2 specification, Section 5.5.14).
 
-==================================================================
-BUG: KASAN: slab-use-after-free in stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
-BUG: KASAN: slab-use-after-free in stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
-BUG: KASAN: slab-use-after-free in stub_rx_loop+0x2d3b/0x31c0 drivers/usb/usbip/stub_rx.c:707
-Read of size 4 at addr ffff888034999db0 by task stub_rx/6028
+When a full-speed or high-speed device is connected, the host repeater
+drives eD- to logic '1' upon detecting a K-state on the USB line during
+remote wakeup (eUSB2 specification, Sections 5.5.15 and 5.5.18).
 
-CPU: 0 UID: 0 PID: 6028 Comm: stub_rx Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
- stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
- stub_rx_loop+0x2d3b/0x31c0 drivers/usb/usbip/stub_rx.c:707
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
+Since the eUSB2 PHY's "DP" and "DM" interrupt lines monitor the eD+ and
+eD- line states, configure the wakeup interrupts accordingly
 
-Allocated by task 6028:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:340 [inline]
- __kasan_slab_alloc+0x89/0x90 mm/kasan/common.c:366
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4586 [inline]
- slab_alloc_node mm/slub.c:4919 [inline]
- kmem_cache_alloc_noprof+0x26b/0x6a0 mm/slub.c:4933
- stub_priv_alloc drivers/usb/usbip/stub_rx.c:314 [inline]
- stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:490 [inline]
- stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
- stub_rx_loop+0x638/0x31c0 drivers/usb/usbip/stub_rx.c:707
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+Add support for a new phy "type" attribute to be set by eusb2 phy drivers
+and be read by consumers (in this case usb controller) and act accordingly
 
-Freed by task 6029:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2678 [inline]
- slab_free mm/slub.c:6372 [inline]
- kmem_cache_free+0x127/0x6b0 mm/slub.c:6499
- stub_free_priv_and_urb+0x427/0x570 drivers/usb/usbip/stub_main.c:321
- stub_send_ret_submit+0xecf/0x1810 drivers/usb/usbip/stub_tx.c:333
- stub_tx_loop+0xe2/0x3e0 drivers/usb/usbip/stub_tx.c:437
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+Changes in v6:
+- Update commit messages to reflect why new EUSB2 phy type is added
+- Update phy reading via index rather than by name
+- Remove redundant header files in phy driver changes
 
-The buggy address belongs to the object at ffff888034999d80
- which belongs to the cache stub_priv of size 64
-The buggy address is located 48 bytes inside of
- freed 64-byte region [ffff888034999d80, ffff888034999dc0)
+Link to v5:
+https://lore.kernel.org/all/20260723-eusb2-int-handling-v5-v5-0-f32ea6c1a318@oss.qualcomm.com/
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888034999e00 pfn:0x34999
-flags: 0xfff00000000200(workingset|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000200 ffff8881016c7540 ffff88802aafa948 ffff88802aafa948
-raw: ffff888034999e00 000000080020001c 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 6028, tgid 6028 (stub_rx), ts 78215496489
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x110d/0x35b0 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3267 [inline]
- allocate_slab mm/slub.c:3382 [inline]
- new_slab+0xa5/0x640 mm/slub.c:3428
- refill_objects+0xe3/0x410 mm/slub.c:7305
- refill_sheaf mm/slub.c:2805 [inline]
- __pcs_replace_empty_main+0x372/0x680 mm/slub.c:4677
- alloc_from_pcs mm/slub.c:4775 [inline]
- slab_alloc_node mm/slub.c:4907 [inline]
- kmem_cache_alloc_noprof+0x46e/0x6a0 mm/slub.c:4933
- stub_priv_alloc drivers/usb/usbip/stub_rx.c:314 [inline]
- stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:490 [inline]
- stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
- stub_rx_loop+0x638/0x31c0 drivers/usb/usbip/stub_rx.c:707
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-page last free pid 15 tgid 15 ts 77527058318 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1418 [inline]
- __free_frozen_pages+0x79f/0x10f0 mm/page_alloc.c:2962
- __pagetable_free include/linux/mm.h:3745 [inline]
- pagetable_free include/linux/mm.h:3769 [inline]
- pagetable_dtor_free include/linux/mm.h:3868 [inline]
- __tlb_remove_table include/asm-generic/tlb.h:221 [inline]
- __tlb_remove_table_free mm/mmu_gather.c:228 [inline]
- tlb_remove_table_rcu+0x2cf/0x380 mm/mmu_gather.c:291
- rcu_do_batch kernel/rcu/tree.c:2645 [inline]
- rcu_core+0x5a2/0x10e0 kernel/rcu/tree.c:2897
- handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
- __do_softirq kernel/softirq.c:679 [inline]
- invoke_softirq kernel/softirq.c:519 [inline]
- __irq_exit_rcu+0x194/0x210 kernel/softirq.c:767
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:784
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+Changes in v5:
+- Add support for phy "type" attribute and set it from m31 and snps eusb2
+phy probes.
+- Removed adding a new binding property
 
-Memory state around the buggy address:
- ffff888034999c80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888034999d00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888034999d80: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-                                     ^
- ffff888034999e00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888034999e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
+Link to v4:
+https://lore.kernel.org/all/20260709-eusb2-interrupt-handling-v5-v4-0-d4f993925608@oss.qualcomm.com/
 
+Changes in v4:
+- Moved to using binding approach as suggested by Thinh
 
+Link to v3:
+https://lore.kernel.org/all/20260511094422.3561509-1-krishna.kurapati@oss.qualcomm.com/
+
+Changes in v3:
+- Removed multiple glymur-dwc3-mp pdata entries
+- Replaced use of ternary operators with if-else
+
+Link to v2:
+https://lore.kernel.org/all/20260505194242.1947891-1-krishna.kurapati@oss.qualcomm.com/
+
+Changes in v2:
+- Updated commit message
+- added supported eUSB2 targets
+
+Link to v1:
+https://lore.kernel.org/all/20260502095616.666938-1-krishna.kurapati@oss.qualcomm.com/
+
+Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Krishna Kurapati (5):
+      dt-bindings: phy: Add PHY_TYPE_EUSB2 definition
+      include: linux: phy: Add phy attribute "type" and associated helpers
+      phy: snps-eusb2: Set phy type to EUSB2
+      phy: qcom: m31-eusb2: Set phy type to EUSB2
+      usb: dwc3: qcom: Modify interrupt handling for eUSB2 Phy targets
+
+ drivers/phy/phy-snps-eusb2.c              |  2 +
+ drivers/phy/qualcomm/phy-qcom-m31-eusb2.c |  2 +
+ drivers/usb/dwc3/dwc3-qcom.c              | 63 +++++++++++++++++++++++--------
+ include/dt-bindings/phy/phy.h             |  1 +
+ include/linux/phy/phy.h                   | 27 +++++++++++++
+ 5 files changed, 80 insertions(+), 15 deletions(-)
+---
+base-commit: ba8376e8c76c6512c98949dffbf4ded0b782a365
+change-id: 20260825-eusb2-interrupt-v6-52bee4b24121
+
+Best regards,
+--  
+Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+
