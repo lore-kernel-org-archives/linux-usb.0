@@ -1,216 +1,143 @@
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593803DA7C0
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 11:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08C83AAF67;
+	Wed, 26 Aug 2026 11:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787744976; cv=none; b=OzgZHp9uenMIvnLJ9na2dwJr6ugyk4tV+K4pIFZ/c439EqSKIdR+uvCJIwBNU8/o6JAPWs3oEqmlFXmrg0Cixpphrl9dK82gg1u8m6icruZdDqFMxg0Y6YSp/ssyuAFayP8G+Q/6Zt4+KHqo7XdoojsqthiwyUBfrDgWhlTF/kc=
+	t=1787745259; cv=none; b=FVQpN5GrGN/4BxgHHGY5ANtF75nHy8hxcb3pIMMNCsexbltBLguGfa9FTWHjHcAoqH5y4P3pM96hKe+zFs+PsCRr6xOQLoRBvITlRrEk3WvQFkMxLXl1MuOrpFO01hYLj/3XDNqrQ2Gq3t//NGfy0UrRLHrJOE30g0HLMGpOv1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787744976; c=relaxed/simple;
-	bh=fH+Bx/zPNzpm8DG3lBQUI2o39SbWFvFhmQ9Dv6A1mOU=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=su19QZekY+RwYb2NLqhAXKCtihmSNPV6E/CHWOQUAKvZ4POharZBquHBMwlH0zjL9803wqfaRkSoUa16qhT9XGjz0lJK8/tQNdWGGaTGXo15yzwCq0KYyw5qqb0oV2ggjteuuKYgoO4i+bcDV4gnuGlBdi1wE+pQUAT7oqWEUDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-4488f192768so1790585fac.0
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 04:49:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787744973; x=1788349773;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u8dulTw8brdlXx+wY3t/avB2SGweGAEea9zHwvrnDp8=;
-        b=Ao7BlntvYzWxHYlkt/vIsM0ZL+NbncynVfjBEMH0C062wbmHzxZtASH0mZwFGDv2iP
-         2EAW2qDKNtoYEpk0la4kCRHroDbC1l511BI/E2JnI7edrq5+j2fyzOBa7dxjXSIYb96L
-         jSK3awvNg+usS4VCGVDGMmaxX0kEc7pP1YC6xIC13LWAq/GeFuh+EKTg1ZWCoS8tlfiB
-         6lZ8vqaHjYjcn8K2BeUm/B+xyaBraZJbKgj7NGKL/RzRqaJftMPkyvVC2b//+KoygLj2
-         Daxs29GghaQMKw/kxITu2/0a+0rz0AWxWue0o/3wru3N5vx8OTwzB23e1f2OnlomvJ18
-         Q5gA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9w436bs7JM3Fbl16GrcOH99H29953sds8dTJzqPAY7eQAJHNwAyBBv8FLfN55bGxSsaTEQg2jXkk=@vger.kernel.org
-X-Gm-Message-State: AFuF++leWHL1KeAu+pc8Z/1f4GFxR+PlyohWchOI2yEsCuQSaRrZ4ivY
-	dpqm8JiL3+UKxU4HwsGT8TGrY7iS1TXBhgwT+0hLgAc4w74RO4HVvqYD/mXfaiC+KxoE5sARGn9
-	fDDoK6f/5OrFktoekOXQRXVxulOccwz34pSTPOnvmd1WHTe2cpc86zqxRuXc=
+	s=arc-20240116; t=1787745259; c=relaxed/simple;
+	bh=2I4V+5nZftFyPygSOefb1nzxpoXWZ0cDxtu+pufa3Bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mOamRxa+nyNUSrq1AKcCMUcGaJhWFs1H0nZtE7e3l2fhEPwn8iSTHkTMf6R1MY+rKR3vfx6r/LksuQUECUwRz14Hy0sgcbzN336wC0h2Iu3ehMLMRAHCAdy6jCr+6Ao12ZsxVJutj7LrO6bDTHrLe6UuVVB9Nr0v10glTPmbLDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ydHlwx7Y; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ydHlwx7Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 883601F000E9;
+	Wed, 26 Aug 2026 11:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787745258;
+	bh=zw2nAj6IlO6lwe7kWBG2krhlNtFNkwtviRZlhMibaJk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ydHlwx7YiEkk76m3Xmoc7IWEmHxXnoTMom/PQoFao5hKuhrp2yfvu/fV989xxXoFy
+	 xU6j3iz1lp2jvoX4laP1mHOJoeho4IF1ISDN0NFg7ryuUfNNu4HO6/Nz5zOoqDu9Yh
+	 YhCI+b1BKsA05suxKCumMArw84XfIUH+apcst/dI=
+Date: Wed, 26 Aug 2026 13:54:16 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] module: pull out add_taint_module() to be public
+Message-ID: <2026082606-hemlock-aggregate-8b6c@gregkh>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+ <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
+ <lnbvi6d72t7zdc3w7yc34y4hyf6gnuduqpqk4q3vqzypw23j37@5zh62c4wyr6i>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:858e:10b0:6b1:6f3d:2069 with SMTP id
- 006d021491bc7-6b1a03ba182mr4435521eaf.10.1787744973270; Wed, 26 Aug 2026
- 04:49:33 -0700 (PDT)
-Date: Wed, 26 Aug 2026 04:49:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8ed2cd.1d9ded08.62e62.00a8.GAE@google.com>
-Subject: [syzbot] [usb?] KASAN: stack-out-of-bounds Write in append_midi1_out_jack
-From: syzbot <syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <lnbvi6d72t7zdc3w7yc34y4hyf6gnuduqpqk4q3vqzypw23j37@5zh62c4wyr6i>
 
-Hello,
+On Wed, Aug 26, 2026 at 07:13:36AM -0400, Aaron Tomlin wrote:
+> On Wed, Aug 26, 2026 at 11:19:32AM +0200, Greg Kroah-Hartman wrote:
+> > Other kernel code might want to call add_taint_module() so pull it out
+> > and make it global.  If modules are not enabled, this defaults to a call
+> > to add_taint(), so all is fine.
+> > 
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  include/linux/module.h |  8 ++++++++
+> >  kernel/module/main.c   | 13 +++++++++++--
+> >  2 files changed, 19 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index 96cc98568eea..25221539e645 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -29,6 +29,7 @@
+> >  #include <linux/srcu.h>
+> >  #include <linux/static_call_types.h>
+> >  #include <linux/dynamic_debug.h>
+> > +#include <linux/panic.h>
+> >  
+> >  #include <linux/percpu.h>
+> >  #include <asm/module.h>
+> > @@ -770,6 +771,8 @@ static inline bool is_livepatch_module(struct module *mod)
+> >  
+> >  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
+> >  
+> > +void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok);
+> > +
+> >  #else /* !CONFIG_MODULES... */
+> >  
+> >  static inline struct module *__module_address(unsigned long addr)
+> > @@ -877,6 +880,11 @@ static inline bool module_is_coming(struct module *mod)
+> >  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
+> >  {
+> >  }
+> > +
+> > +static inline void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok)
+> > +{
+> > +	add_taint(flag, lockdep_ok);
+> > +}
+> >  #endif /* CONFIG_MODULES */
+> >  
+> >  #ifdef CONFIG_SYSFS
+> > diff --git a/kernel/module/main.c b/kernel/module/main.c
+> > index d0e1e0bd2ad0..99cedb961898 100644
+> > --- a/kernel/module/main.c
+> > +++ b/kernel/module/main.c
+> > @@ -191,8 +191,17 @@ static inline int strong_try_module_get(struct module *mod)
+> >  		return -ENOENT;
+> >  }
+> >  
+> > -static inline void add_taint_module(struct module *mod, unsigned flag,
+> > -				    enum lockdep_ok lockdep_ok)
+> > +/**
+> > + * add_taint_module: add a taint flag if not already set for a specific module
+> > + * @mod: pointer to the module that caused the problem
+> > + * @flag: one of the TAINT_* constants.
+> > + * @lockdep_ok: whether lock debugging is still OK.
+> > + *
+> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> > + */
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok)
+> >  {
+> >  	add_taint(flag, lockdep_ok);
+> >  	set_bit(flag, &mod->taints);
+> > 
+> > -- 
+> > 2.55.0
+> > 
+> 
+> Hi Greg,
+> 
+> I believe Sashiko [1] found a few valid concerns.
+> 
+> [1]: https://sashiko.dev/#/message/20260826102921.5B81B1F000E9%40smtp.kernel.org
+> 
 
-syzbot found the following issue on:
+Yes it did, will fix that up for v2.
 
-HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=12dd6979580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
-dashboard link: https://syzkaller.appspot.com/bug?extid=c35f34092a4bc9855be6
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17040579580000
+thanks,
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: stack-out-of-bounds in append_midi1_out_jack.isra.0+0x38c/0x470 drivers/usb/gadget/function/f_midi2.c:1713
-Write of size 1 at addr ffffc90003277880 by task syz-executor119/6000
-
-CPU: 2 UID: 0 PID: 6000 Comm: syz-executor119 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- append_midi1_out_jack.isra.0+0x38c/0x470 drivers/usb/gadget/function/f_midi2.c:1713
- f_midi2_create_usb_configs+0x748/0xdf0 drivers/usb/gadget/function/f_midi2.c:1815
- f_midi2_bind+0x1d12/0x2770 drivers/usb/gadget/function/f_midi2.c:2013
- usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
- bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
- bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
- driver_register+0x1e2/0x360 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0x132/0x210 drivers/usb/gadget/udc/core.c:1752
- gadget_dev_desc_UDC_store+0x1b0/0x2e0 drivers/usb/gadget/configfs.c:300
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fe46da0d9f7
-Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007fff00e4dd80 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0000555572ba4400 RCX: 00007fe46da0d9f7
-RDX: 000000000000000b RSI: 0000555572ba67e3 RDI: 0000000000000004
-RBP: 0000555572ba67e3 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 00007fff00e4ddf0
-R13: 0000555572ba6770 R14: 00007fe46da70cc0 R15: 0000000000000002
- </TASK>
-
-The buggy address belongs to stack of task syz-executor119/6000
- and is located at offset 440 in frame:
- f_midi2_bind+0x0/0x2770 drivers/usb/gadget/function/f_midi2.c:1768
-
-This frame has 6 objects:
- [32, 36) 'sw'
- [48, 56) 'card'
- [80, 88) 'ump'
- [112, 128) 'string_fn'
- [144, 160) 'strings'
- [176, 440) 'config'
-
-The buggy address belongs to a 8-page vmalloc region starting at 0xffffc90003270000 allocated at kernel_clone+0x176/0x9d0 kernel/fork.c:2772
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x7ff248b6b pfn:0x50a87
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000000000 dead000000000100 dead000000000122 0000000000000000
-raw: 00000007ff248b6b 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x29c2(GFP_NOWAIT|__GFP_HIGHMEM|__GFP_IO|__GFP_FS|__GFP_ZERO), pid 5768, tgid 5768 (syz-executor), ts 51046718723
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x110d/0x35b0 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
- alloc_pages_mpol+0x201/0x550 mm/mempolicy.c:2495
- alloc_pages_noprof+0x1a/0x160 mm/mempolicy.c:2586
- vm_area_alloc_pages mm/vmalloc.c:3690 [inline]
- __vmalloc_area_node mm/vmalloc.c:3915 [inline]
- __vmalloc_node_range_noprof+0xdcc/0x1460 mm/vmalloc.c:4105
- __vmalloc_node_noprof+0xad/0xf0 mm/vmalloc.c:4166
- alloc_thread_stack_node kernel/fork.c:359 [inline]
- dup_task_struct kernel/fork.c:930 [inline]
- copy_process+0x803/0x8370 kernel/fork.c:2139
- kernel_clone+0x176/0x9d0 kernel/fork.c:2772
- __do_sys_clone+0xd9/0x120 kernel/fork.c:2914
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 5748 tgid 5748 ts 50853501051 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1418 [inline]
- free_pages_prepare+0x586/0xe00 mm/page_alloc.c:1463
- __free_contig_range_common+0x14f/0x250 mm/page_alloc.c:7060
- __free_contig_range mm/page_alloc.c:7105 [inline]
- free_pages_bulk+0x12a/0x200 mm/page_alloc.c:5322
- vm_area_free_pages+0xad/0x2b0 mm/vmalloc.c:3462
- vfree mm/vmalloc.c:3511 [inline]
- vfree+0x108/0x730 mm/vmalloc.c:3485
- kcov_put kernel/kcov.c:447 [inline]
- kcov_put kernel/kcov.c:443 [inline]
- kcov_close+0x34/0x60 kernel/kcov.c:554
- __fput+0x3ff/0xb50 fs/file_table.c:512
- task_work_run+0x150/0x240 kernel/task_work.c:233
- exit_task_work include/linux/task_work.h:40 [inline]
- do_exit+0x951/0x2ae0 kernel/exit.c:1008
- do_group_exit+0xd5/0x2a0 kernel/exit.c:1151
- get_signal+0x1ec7/0x21e0 kernel/signal.c:3046
- arch_do_signal_or_restart+0x91/0x7e0 arch/x86/kernel/signal.c:337
- __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
- exit_to_user_mode_loop+0x139/0x700 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
- do_syscall_64+0x661/0x790 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffffc90003277780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc90003277800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffffc90003277880: f3 f3 f3 f3 f3 f3 f3 f3 f3 00 00 00 00 00 00 00
-                   ^
- ffffc90003277900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc90003277980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+greg k-h
