@@ -1,174 +1,199 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEFD361978
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 16:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787760209; cv=pass; b=kZkbi0ifucLwB95UEHVTao1+N70qkxo9iVTs4grJsXfPtpDoBrGrUtstFr0+ErDp01PY4BdEV/IEtq9SCsdhnyQLkUUJhxU9dVBl5JfDUDh/2kiyfyD8tSLWhSyPk/Izd70cmcOtSiTz9lCth3GEMDOgIHVFI3PmniHegUPYLPA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787760209; c=relaxed/simple;
-	bh=uYFdFW6deGwNCuRXWE33qO5lp6MMBOGHlKlJNVvT82g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dnfMoh2+vOtpegJgkQMZy6tglJ/8bU1am4YhpJo/4g72E9Kovg+BtlSVGAmnFsjvww+xrHXl5/uus1dCAXNCvvInHPV601fYCWeSFS/XZxKyTV0Gy+9E7mCVPSxfAIM6kQK94qdpp7d4thmXda7kC7j9YgC+4aXP4HItbYZ0I7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBO6Xvx7; arc=pass smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3EB323417
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 16:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787761874; cv=none; b=lxWyJl+JD599Qm1bpAiq/39Xa2T/EZASSmEd2FnUT5HldShyA9UAkUvN/QLz+ifLPGHlC4x7meOAUKA4cxb8zfS214an2twNqsI03m/YPrhaJhk3bgfyn4iB/kXRU0TGeTHd5DONpAtMMPgeWKwQqvYa6GLhfbPcRzdewnF8nR0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787761874; c=relaxed/simple;
+	bh=js22L9kkegNeyF2N6EUzZPmTxGqw6C/kJ930hsuHuFY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mbIu5XsY27uhNKM/iCvXezZ8VgSiu65IL0WEl6fNsnM3XklFWiO/UgCqUn5GyOOB5FU4K4DwG5f0wn4IN83WVfL0O+KKxlHAjhx82qEdTL5BVhQIWsYDYucDBEI+Drm/Dp9utM14rni2vnCmoYTUvbqIrD2gxTtxOtlOfRiTA0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=BwfrhT+0; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBO6Xvx7"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3a1f75277f3so9049781fa.0
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 09:03:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787760199; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DRRXJuqy83FhFcJ7grIsr3GCHHXVgAjcuqmFRinX6rettIgke3IEOCoZ/4Y53qHdFw
-         qfOYexk66BiDm1XaT4jG9xd9ltPkzFC+bIcXoYznsfBWuOD8pVb3aX1SADKkJp1JVXyc
-         7PTvvqd5eG6TjsGXwL0eiNyhejVgOS+vV4gcO4DSjUxUFF/XVMC7UxdOSZjPIewNFMDg
-         S6+1dZBPHlNwixoUVhqiH40Q5cYDKZQ+9EOYwqNJWxPAGMaeSBkKJv0tc414u+ZmMbiv
-         HLpkpwTwEbZJqy0EE5pag8f8sFm/rYm5YvLFg1Zy9DvqtW5UY09TBOh+hm7oO54Pa+3Z
-         4Rjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uYFdFW6deGwNCuRXWE33qO5lp6MMBOGHlKlJNVvT82g=;
-        fh=kwHZZ+SYJ1+l44VyyHQDq+ApKT0HBy0IhgMqbiq8S0U=;
-        b=Vb/CM1W4+2WOzM5gePwybCyALFiov3ZPgOD/5Ydwu46rme1ZJMMp/hodUkNGPqrVh+
-         E33j0XFLswdloJtj5JSf1Y+l2gVWkQyUvDsLhdzVnGKdygkS/ES8J1QIeFL3x8Q4D2jJ
-         fgEeNLdkg8c0AggQlFvOpACSP7g/cNkioIwmctwe2R4bOwXc1mDN/3+cjFCa3TUcMXjT
-         Ko06FUFgkrnogDEKerFtt9yfoFdRgWkfQgjFDM3euttrqON1+T/kOnWpYuPee0HC4cYa
-         96L84EX6kz2beblOj0MPNOnawayAGUwDtfu499ZuJuHsK9iNHKRSv9RyvlslBlOAY2fO
-         TvIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="BwfrhT+0"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-499b57cf2f3so493305e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 09:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787760199; x=1788364999; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uYFdFW6deGwNCuRXWE33qO5lp6MMBOGHlKlJNVvT82g=;
-        b=jBO6Xvx7RsJ6daoO9ux7RccUIWoR274y4P/QKLXA7yiKYnKY6a5vMzT7T7Z4GlCdUB
-         Y+2x+OxPA2nkkG37yq6L9IBtIPhMjnZ0AJk2eAQ+27gquitNYDmEX5wE2/YdFFC9jIkZ
-         uP2Wf/xQNax2ey+J08fZQMBWw0xxIRUTn+GO5K2yTjsLl7jQVJYeY3DyFZWlEugxVWvs
-         2RJBLr2IgHL9kJNLxgZDWBWl6HCfFKqztNwxN/hzQhXNaphXExhSaNt0m27e3h9bimPs
-         YyA8UaaGF02pbD0Kn30QD7wfbeaN2xHoQe5LBJ7RvEPv2kNjUtR+55lVB6BAcgJtg9ZA
-         oJRA==
+        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1787761871; x=1788366671; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r1p4Ix1lIWqwmdxGTuB/bpTq19/XoCgreFlH2DPS6K4=;
+        b=BwfrhT+0k3ds5CnU0txQ9qEHl3LGOUuao5dlAUjr2G4WsIlXiPRPsbqaJ8ATQ/+6kx
+         Sb3DbLVYRpnlniDYr3VvoDJx9V+zC1QqzRqrppkRREdI6XiVhLfK+Mrxx8IrKnj8mIy4
+         CzsJULSA9l0i4l3KS4W91XY0+ULaowstLwJvAMklD8HBknv+CzXVZBnhBuPG/CvNA5MC
+         NtkTE7vgW0++s7Np7vXK5vEaWhuvazHqgohsgz0gbr5Mq8me0DtlYCNoBRNRa4vDVQT7
+         9llD8JOPLNEeV9FyHhxt4BolSBuhj91T8UoPZqVJ9mFzZBloUkixSh85dHNfr1QNfby1
+         LfNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787760199; x=1788364999;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uYFdFW6deGwNCuRXWE33qO5lp6MMBOGHlKlJNVvT82g=;
-        b=sq36z8DI2lEAXrtrTLEnNJ8KGUOEm2A7KgtjbT27n8lF1DdyC0eQuOq2OQxBENC/JL
-         kY1/aJfWQV5UE6TfdFXq6732lApEG1/VAucMlNcrK9IN20FUslazKSwCfIilAWH41BGp
-         /89kXP5aaQZC1ESk+WAzMJqVIYWdaR00M9ivpgYgtUCjMDyQpTHsvDr0OabchcJ7/+0a
-         utVOhx2U4TXyQsoqEO7FKcgIwcbXUYl3mTD+44k+HiN7YuxN2aZQ1WTweT328BWjPVLx
-         OhfdeFnFHkIh0tCC5Y8p5x3s2zYlGzEEFop2D0vZNWr8Ux+Lsl4RohCotLIagvFU9U+/
-         vciQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpk3ZjvegqCr+sL4rtqKQk30i263oSDNLDdieW4gr3md6hBhkYln+ONO0BwrcXo4sY/VXZfxjKMCnY=@vger.kernel.org
-X-Gm-Message-State: AFuF++kDZZzSowx6EgJ88ZiNtHwkN0uSJm/2xMV1rRbvxwWA5Rv9db6m
-	sADndgtE9sw/9pZa3roBgeem4zUACVgUF+b5eVfTJILcpUYGfG6IZempz/KTztXZ6FgP1hqr6Jv
-	LhfBtkkGRnzdk6AnpEjkLhzO+i6kTy8U=
-X-Gm-Gg: AR+sD1056sIa+5dGw8QvCeX0cpGBgsnly1mOy4mQIBu2cQa6NVaEZQ0p8AZqgqn4D8M
-	E+f+XfA/rFgPPppKH3TDdF2iL1v4aXHUQkBpJHc6PFgTavPUamseqWUyVHTxJ6q1h4ImnonbYju
-	SGiWVMEHbUxZRKMHX+gQ78lC8yfIKdTqST9Ix+sWKrt4K7A0D2M1wIsd+PvvEN0TFpStDJRo2Ah
-	x6JfkRzs/+e4GV/2zxuzpOAt3Uc4OaPnDmyRSE0+bLlg4tsgzxipQn3Oae1Fi3On5A8dbjgMIFC
-	wLNpA5eEnCxqy+tvOxPJDUH9AO/9+AC4tt94M2F2dUu+nfM55e9lhXPba79XTToTI1ECEWM2bLm
-	q
-X-Received: by 2002:a05:651c:a10d:20b0:3a1:476:74b3 with SMTP id
- 38308e7fff4ca-3a1fd6605afmr15291371fa.9.1787760198919; Wed, 26 Aug 2026
- 09:03:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787761871; x=1788366671;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r1p4Ix1lIWqwmdxGTuB/bpTq19/XoCgreFlH2DPS6K4=;
+        b=Vx51x9EGfnLW47O1LXgMRlx35XgF43Z+MIv/8/ewI9SVQFNexlEksZoQIVmwZd5h2R
+         gdVTcBzeXJzSh5ZgTnLdqA4jNGFZ+keR1hG14mECwu3cpBDNyGhz93bpMCa5kH3xhFP3
+         T+L0sdl2oC1xTaEAIK32ugU07lZc2S3lUh62ZhnTPpRsZ5M12KVeLny/tt0cImHX8Fzq
+         Q7VEmrynswGLhWbbL2ylIUH2qSsuKiexfMkuKtyHXkBsCwiijdEGf04CnTiby2qDq6pq
+         vb6b6DTtcTnKWeAdTgb/4LxfWFnxEzEP3mYvACucXlRM9DMvNWEggx4e4ER5GfKPtCFg
+         bZWQ==
+X-Gm-Message-State: AFuF++mGGewN/I9nD6sEDan9B0tY1qnF+9cZteGU6Ylc6Fujh5kdn6xk
+	na85B4lwoVDC2GqCAJC2oITmNaRp2C7wrzZrUQfShSDxOv2EF6kC3BzksmNzQwLOAWuyhqT4H2T
+	tdJ4ZJDFL
+X-Gm-Gg: AR+sD11YtQ4HXlQ1AC5/eEybr2MHjO/3NJW6imRTTWRCyqFb22cvYAsk71as+F9r61O
+	sE+pj8pQ+rJsy7dPQP/iLc1pVXzsq8M4PZZORylq0vh2fCJbSGv8npSv5HaZR8lPTEuOu/lon81
+	aaeFraoVOg73H1EDCmFsAAxNzQR17SLAm4xUTAEVbNXuMEDIuVqaWjUzoHbFNm0Duwkfbfe55uL
+	Rt7+4wV+brTktCEdvAbWDz5In5ZONYabSv4cARpRJYnHJMv2SSsGZt0ZxsZiTASGvYdD7n2ahqd
+	HOzSpqPOMXKg7h0xbvbKaI/NHy7Q64hlPUBmEr9qJXaype3kSDglB6g9f7Axl7RALljWYUnLSsA
+	H4+P9k9wt9uzss7zAr2sLSeiW1j0LiLt+uqNBopnZXgUqQiy30rdvG7rIt5yhk+8nf9EOgemW/b
+	fI7NqmJ54rtg+XgOSuDglK9nyJeJUBvJWvrX4UIUp5x5PbcCeoEFLT1jjYrSmXwUt2dPVQKwlCw
+	IxWiWPArfUXM2ztJuXQ/FG1WyhDu1eQx5hq
+X-Received: by 2002:a05:600c:3151:b0:499:a5cb:b7c0 with SMTP id 5b1f17b1804b1-49b0deb14d0mr4628125e9.3.1787761870622;
+        Wed, 26 Aug 2026 09:31:10 -0700 (PDT)
+Received: from axion.fireburn.co.uk ([2a01:4b00:d309:1c00:caf1:6b20:8531:818c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dc9b83aesm31202705e9.12.2026.08.26.09.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 09:31:09 -0700 (PDT)
+From: Mike Lothian <mike@fireburn.co.uk>
+To: linux-usb@vger.kernel.org
+Cc: Mike Lothian <mike@fireburn.co.uk>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v3 0/5] rust: usb: host-side abstractions for a bulk-endpoint driver
+Date: Wed, 26 Aug 2026 17:30:36 +0100
+Message-ID: <20260826163101.4168-1-mike@fireburn.co.uk>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
- <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
- <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info> <aosGtkE_diwVJJtB@eggarch>
- <20260823174059.46fec036.michal.pecio@gmail.com> <aoser8dLytrwqBC2@eggarch>
- <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
- <ao1ovvdPAy6n_F7I@eggarch> <CAPyJwA-QALkCQn8J1+=U-nuE_7WSEPhVcUEKb+MMYMaA_1AVjQ@mail.gmail.com>
- <ao7aLXk9q_v_jEyX@eggarch> <d5a395f7-06ad-401a-b026-e975f620f017@linux.intel.com>
-In-Reply-To: <d5a395f7-06ad-401a-b026-e975f620f017@linux.intel.com>
-From: Mathieu Fluhr <mathieu.fluhr@gmail.com>
-Date: Wed, 26 Aug 2026 18:03:06 +0200
-X-Gm-Features: AcwNN1VMj1i9qHLHYCgFf_wI4NJMgmrhr4t1IuAyWuVvRr1oKaUch4AAYMJyJrg
-Message-ID: <CAPyJwA8CNeUnh2kzYktF8OR2T2QnVNN9EUnrUci7_419bF4QDw@mail.gmail.com>
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, Michal Pecio <michal.pecio@gmail.com>, 
-	Thorsten Leemhuis <regressions@leemhuis.info>, linux-usb@vger.kernel.org, 
-	regressions@lists.linux.dev, stable@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
-	Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> Mathieu, would it be possible to test different values for
-> USB_SS_PORT_U0_WAKE_TIME in hub.c? Especially 120ms is interesting.
+Host-side USB abstractions for a driver whose device is a bulk-endpoint pipe
+rather than a class device
 
-I reverted to the stock version of hub.c, and changed the
-USB_SS_PORT_U0_WAKE_TIME to 120.
--> No crash for 1 hour, but I will test this deeper this evening.
+  Revocable typed interface I/O, so an interface cannot be used after the core
+    has taken it back
+  Reusable URBs and persistent bulk queues, which is what keeps a video stream
+    in flight without allocating per transfer
+  The device descriptor fields a driver needs to identify hardware before it
+    decides to drive it, and a queue-readiness check
+  A device id constructor matching on vendor together with interface class,
+    subclass and protocol, for a composite device whose function is not
+    identified by the product id alone
+  Letting a driver keep its interface usable while unbinding, so teardown can
+    still talk to the device it is releasing
 
-Where I am a bit puzzled is that Mario Limoncello from AMD just confirmed
-that this was a platform issue, only affecting StormPeak, for which AMD alr=
-eady
-has a fix.... Or maybe there are more than one issue here?
+Changes since v2:
 
-On Wed, Aug 26, 2026 at 3:40=E2=80=AFPM Mathias Nyman
-<mathias.nyman@linux.intel.com> wrote:
->
-> On 8/26/26 15:35, Lovekesh Solanki wrote:
-> > On Tue, Aug 25, 2026 at 11:43:22PM +0200, Mathieu Fluhr wrote:
-> >> The patch you sent makes the issue go away. I am now running the exact=
- same
-> >> scenario for 2 hours, without any crash.
-> > That's good, thanks for confirming.
-> >
-> >> However, I am not sure if this can qualify for a proper fix, since I
-> >> do not have any
-> >> external hub connected to my motherboard: All my USB devices are direc=
-tly
-> >> plugged into root hubs (and at the moment, there is only a keyboard an=
-d a
-> >> mouse).
-> > Yeah that's the point it only skips the 200ms hold for root hubs. The
-> > external hubs still get their fair hold since a parent exists for them.
-> > So external hubs are completely unaffected by this patch.
-> >
-> > On 'proper fix', I think it is, even if we keep this bug seperate for a
-> > moment, it makes sense to not give root hubs hold they don't need.
-> >
-> > I'd love to hear more thoughts on the patch.
-> >
->
-> Roothub needs some time to settle as well, but 200ms might be excessive.
->
-> xHC can triggers wake (PME) when a connected USB3 device starts signallin=
-g wake,
-> but port registers changes are not always visible to driver before link t=
-raining
-> between roothub and device is successful.
->
-> My educated guess is that 120ms should always be enough for the roothub.
-> This is also the lecagy msleep() still apparently left in xhci resume
-> to detect port changes in xhci runtime resume if there are USB3 devices.
-> That msleep was supposed to be removed now that we got the hub changes.
->
-> This 120ms can probably be further tuned for roothub in some cases,
-> especially if resume is due to userspace action instead of xHC wake signa=
-l (PME).
->
-> Mathieu, would it be possible to test different values for
-> USB_SS_PORT_U0_WAKE_TIME in hub.c? Especially 120ms is interesting.
->
-> See when system no longer crashes
->
-> Thanks
-> Mathias
->
+  v2 10/11, "keep usb::Device private and gate ...", is dropped entirely.
+    Oliver Neukum was right that it was conceptually wrong: USB does device
+    level operations, and hiding that behind an interface is a layering
+    violation. Device stays public
+  as_bound() is gone from both the binding and the driver. Danilo Krummrich's
+    point stands: needing an unsafe as_bound() means the design or the
+    infrastructure is wrong, not that the escape hatch is needed
+  reset_configuration() is gone, and set_interface() now exists in two
+    correctly scoped forms, one on Interface<Bound> taking an altsetting and
+    one on Device taking interface plus altsetting
+  What replaces the concealment is lifecycle gating: an adapter-owned,
+    revocable I/O window that is valid across probe, suspend, reset, resume and
+    disconnect and invalid outside them. That is the interval in which I/O is
+    legal, which is narrower than "the interface is bound"
+  There is no private URB implementation. Colin Braun's URB RFC is carried
+    unchanged as the foundation and this builds on it
+  A topology walk and a device-removal notifier were written after v2 and are
+    not here. They existed for a second consumer that is not part of this
+    posting, so nothing in what is sent would call them
+
+Alan Stern's lifecycle point is what makes device access from an interface
+sound, and is worth restating because the whole shape depends on it: an
+unconfigured device has no interfaces, so an interface that exists implies a
+configured device
+
+v2: https://lore.kernel.org/r/20260703030020.2694-1-mike@fireburn.co.uk
+
+The rest of the posting, which is one series per subsystem:
+
+  rust-core, 9 patches, rust-for-linux and linux-kernel
+  https://lore.kernel.org/r/20260826162851.2497-1-mike@fireburn.co.uk
+  rust-crypto, 2 patches, linux-crypto and rust-for-linux
+  https://lore.kernel.org/r/20260826163004.3365-1-mike@fireburn.co.uk
+  rust-usb, 5 patches, this one
+  rust-drm, 23 patches, to dri-devel and rust-for-linux, not sent yet
+  rust-firmware, 1 patch, to linux-kernel and rust-for-linux, not sent yet
+  drm-vino, 13 patches, to dri-devel, not sent yet
+
+Vino is the user for all of them. The abstractions themselves are generic and
+carry no knowledge of DisplayLink
+
+The whole thing is one branch, base and prerequisites included, which is the
+quickest way to read it:
+
+  git clone -b vino-v3 https://github.com/FireBurn/linux
+  cd linux
+  make LLVM=1 rustavailable
+  make LLVM=1 -j$(nproc)
+  make LLVM=1 -j$(nproc) modules
+
+CONFIG_RUST=y and CONFIG_DRM_VINO=m are the two to set; DRM_VINO selects the
+rest of what it needs
+
+It is the exact tree these patches were generated from, at 4c9ba407018e, the
+drm-rust-next tip of 2026-08-06. drm-next has moved on since, and this follows
+drm-rust-next deliberately: the KMS layer underneath this work lives only there,
+and that tree picks up drm-next on its own schedule
+
+Two commits on the branch are not in any of the series above, because they
+enable no part of Vino: a scheduler call site that stops compiling under the
+locking-guard series, and the Kms associated type Tyr needs once the KMS
+registration trait requires one
+
+It applies to the base above plus this, and nothing else:
+
+  Colin Braun, rust: usb: add usb request block abstractions
+  https://lore.kernel.org/r/20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com
+
+The reference branch also carries Boqun Feng's counted interrupt disabling
+series, which SpinLockIrq needs. One patch of it is already in tip locking/core
+as e901c1510e24
+
+These patches were written with the assistance of Claude (Anthropic), used
+through Claude Code as an interactive coding assistant, across the design, the
+implementation and the tests. Every patch it contributed to carries an
+Assisted-by trailer. The Signed-off-by is mine: I have reviewed and tested what
+is here and I stand behind it
+
+Mike Lothian (5):
+  rust: usb: add revocable typed interface I/O
+  rust: usb: add reusable URBs and persistent bulk queues
+  rust: usb: expose device descriptor fields and queue readiness
+  rust: usb: add a vendor-and-interface-info device id constructor
+  rust: usb: let a driver keep its interface usable while unbinding
+
+ 3 files changed, 1553 insertions(+), 26 deletions(-)
+
+base-commit: 4c9ba407018e8deb06dbc643112bac8f40404f95
+prerequisite-message-id: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
