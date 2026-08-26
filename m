@@ -1,136 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7081F2D94BA;
-	Wed, 26 Aug 2026 02:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D41EFF93
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787711396; cv=none; b=TtOZVU6sVIp+UudvhoVzdd/zdVCYxfosmH/hxLDo/BDXOGfaZdiru6oWb9tWHRbUKxPN+icAcpjBvhIkbimzZvRS0z+hvCQK129Gd42NWv2IPLHG5IuS4JR2Suz/24Fx1JjdkKdi5+LUJDo4k9CdFNKU6qwC9+k6Jz0DJ5V8+x0=
+	t=1787711632; cv=none; b=Mn5XyDu1zx1ooYar7oDh5dGqwauGXrAvwKm2eKZDW6uCs6KuDy//AGS7x9T0/OMqRD6y7HPRlBCA+iUHUwyi/iUsSs28aG57FSbzoKx5KYmmeECQfjwA0xbYtcdibxZL1xYkF1plXjJMjGak4ySK+5Y4z6ccrv6rDM8lnxF6clY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787711396; c=relaxed/simple;
-	bh=X2ec9v8RPCMda8wVyRX/2lZAFeiR6yn8kMoM7ghLQwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UvPbE2fRoAm7KdddTJFEbmZApDFBCVIRPN2cSLioXUrGhLzHMIFUhiG/vcqmVAQr89KhSlhN7dkpjLbqrhg2LK/ZKDKPPPFUHnhpdAiWUKfGUdkIkzXKH5WXZ0cRAtyNXV4dzLPhx6B5/4EyiROQp/e6HObpKEkN75ZsB4wsL84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SfEFPMiG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787711632; c=relaxed/simple;
+	bh=EqVAHhSvC0xvJ3tZOwXzvGfdbjWtgA1xxgEs+V3nF2g=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fK7jSRFLEyuXIocGfjhfpmMYoPEUrkjUxvdxRyOYNpQ8AU6jHPjna8n6MkORGAAMMxWskZF/5VEuNM/ZL82COuFmx9tWwAX4JBY/SvcqflP0fsYXi+/UPtZk1qQoix8OqyttnCSMIKM3gKMR1dRM5pISb34FTJzDtrEA79J6E64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5IlBVjv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SfEFPMiG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A391F000E9;
-	Wed, 26 Aug 2026 02:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787711395;
-	bh=LvvSjxsE/3Zh4EU/6GDU0Z9Y1XZ0BSrpsU7F1TSPU/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SfEFPMiGzmfAwQZNZYEFtCQeSgPFehjKGNhNMga85Sm3S2LEtH3epm5/RbY5y/Fyu
-	 ktyywc+gTMo2PCcPki8k8htkitJ3+h5ysJKTBpthrvKoSl7O6enBxjeQdYVr0hRR/G
-	 heXr9tMW7GNwDBqABGmdmvjKSXKZX0W/OgzDnf/ku9s+eB/aSZLeiTo6tJzPryF6lQ
-	 nt1WMlx12xTLnVefE4eHpZvGI1RE/jKqVrN9mf8SpcPFjXM9wjRr/NKzIYRybki2Kv
-	 wtRHW8A7KOl3uwDykF/QvE1WcS1jE9uq0tUfyffBj5197hewEBQ3+RO62N/LeRdUWN
-	 W9sQPs+SIBHYA==
-Date: Tue, 25 Aug 2026 19:29:53 -0700
-From: Peter Chen <peter.chen@kernel.org>
-To: Jie Deng <dengjie03@kylinos.cn>
-Cc: pawell@cadence.com, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: cdns3: Fix NULL pointer dereference in
- cdns3_pci_probe
-Message-ID: <ao5PoUihfGkPGeSJ@hu-petche-lv.qualcomm.com>
-References: <20260810023626.70669-1-dengjie03@kylinos.cn>
- <154cb7e0-f2ae-4ed4-b661-0904a12b9e06@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5IlBVjv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 89D4FC2BCB8
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787711631;
+	bh=EqVAHhSvC0xvJ3tZOwXzvGfdbjWtgA1xxgEs+V3nF2g=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=C5IlBVjvjJ5bx6SrO4ohAh1Y9YVcPB37xkrWnFHV7SLEdN3zD5E+b6LIDzKTuXoez
+	 az2Ump96V3a8wX1Nk3lD6skKbzvsNrz+DLSEPeuzJErO1dLf/pF0iGkuJFr0+yUh1g
+	 G7d0VV1o99yTe6IVrXYZkzjy4OkmIKy+XXaN7GwA4azObiK1fUW0iQvW8HDrzeopQ7
+	 rXzX2PBDwy0/nKHJA+yimcceZVX5mpTCt5232Obz8cuAIEG9Urss2rq5zwKqKy9axK
+	 nvbLTshpvwGPm9/yZBl9hD1+8zchAqxtMkJsTr2bGKnx6Vcx1wFiNvGqF2MT+3fhiF
+	 sbgXszsmBKH5g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 681F2C41613; Wed, 26 Aug 2026 02:33:51 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221142] ucsi_acpi actively breaks USB-C PD charging on Lenovo
+ Legion Pro 7 (Arrow Lake)
+Date: Wed, 26 Aug 2026 02:33:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: trivial
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alex@alstergee.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221142-208809-cvqCzywdgA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221142-208809@https.bugzilla.kernel.org/>
+References: <bug-221142-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <154cb7e0-f2ae-4ed4-b661-0904a12b9e06@kylinos.cn>
 
-On 26-08-25 14:50:55, Jie Deng wrote:
-> Hi Peter,
-> Thanks for the review.
-> I've sent the v2 with the Fixes tag updated to 7733f6c32e36
-> ("usb: cdns3: Add Cadence USB3 DRD Driver") and your Acked-by
-> added, per your suggestion:
-> 
->   v2 patch:
-> https://lore.kernel.org/all/20260810023626.70669-1-dengjie03@kylinos.cn/
-> 
-> Could you please help pick it up when you get a chance?
-> Thanks,
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
 
-Hi Jie,
+--- Comment #2 from Alstergee (alex@alstergee.com) ---
+Hi Wei,
 
-Usually, Greg will queue it.
+Thanks for picking this up! Here's the DMI information:
 
-Peter
-> 在 2026/8/10 10:36, Jie Deng 写道:
-> > The Cadence USBSS controller is a two-function PCI device. The first
-> > probed function allocates the driver data and stores it with
-> > pci_set_drvdata(), while the second function reuses it via
-> > pci_get_drvdata() when pci_is_enabled() reports that the first
-> > function has already been probed.
-> > 
-> > When the second function is probed while the first one has been
-> > enabled but has not yet set its driver data, pci_get_drvdata()
-> > returns NULL, and the subsequent wrap->devfn assignment dereferences
-> > a NULL pointer and crashes the kernel.
-> > logs:
-> > Call trace:
-> >    cdns3_pci_probe+0xa4/0x300
-> >    local_pci_probe+0x44/0xa8
-> >    pci_call_probe+0x54/0x158
-> >    pci_device_probe+0x84/0x100
-> >    really_probe+0x184/0x3d0
-> >    __driver_probe_device+0x80/0x178
-> >    driver_probe_device+0x44/0xe8
-> >    __driver_attach+0xec/0x1f8
-> >    bus_for_each_dev+0x7c/0xe0
-> >    driver_attach+0x28/0x38
-> >    bus_add_driver+0x110/0x238
-> >    driver_register+0x64/0x128
-> >    __pci_register_driver+0x50/0x60
-> >    cdns3_pci_driver_init+0x28/0x38
-> >    do_one_initcall+0x5c/0x280
-> >    do_initcalls+0x104/0x1d8
-> >    kernel_init_freeable+0x140/0x218
-> >    kernel_init+0x28/0x1f8
-> >    ret_from_fork+0x10/0x20
-> > 
-> > Return -EPROBE_DEFER in this case so that probing is retried after
-> > the first function has completed its probe.
-> > 
-> > Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-> > Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
-> > Acked-by: Peter Chen <peter.chen@kernel.org>
-> > ---
-> > Changes in v2:
-> > - Fix the wrong Fixes tag: 8bc1901ca7b0 was reverted, use 7733f6c32e36
-> >    which introduced the driver in the current tree (per Peter Chen's review)
-> > - Add Acked-by from Peter Chen
-> > 
-> >   drivers/usb/cdns3/cdns3-pci-wrap.c | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3-pci-wrap.c
-> > index eb5760f75b9d..fd06a3d8e638 100644
-> > --- a/drivers/usb/cdns3/cdns3-pci-wrap.c
-> > +++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
-> > @@ -96,6 +96,11 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
-> >   	if (pci_is_enabled(func)) {
-> >   		wrap = pci_get_drvdata(func);
-> > +		if (!wrap) {
-> > +			dev_err(&pdev->dev,
-> > +				"second function not initialized, retrying\n");
-> > +			return -EPROBE_DEFER;
-> > +		}
-> >   	} else {
-> >   		wrap = kzalloc_obj(*wrap);
-> >   		if (!wrap)
+`sudo dmidecode -t system`:
 
--- 
+    Handle 0x0001, DMI type 1, 27 bytes
+    System Information
+        Manufacturer: LENOVO
+        Product Name: 83F5
+        Version: Legion Pro 7 16IAX10H
+        Serial Number: <redacted>
+        UUID: <redacted>
+        Wake-up Type: Power Switch
+        SKU Number: LENOVO_MT_83F5_BU_idea_FM_Legion Pro 7 16IAX10H
+        Family: Legion Pro 7 16IAX10H
+
+Contents of the requested `/sys/class/dmi/id/` files:
+
+    sys_vendor       =3D LENOVO
+    product_name     =3D 83F5
+    product_version  =3D Legion Pro 7 16IAX10H
+    product_family   =3D Legion Pro 7 16IAX10H
+    product_sku      =3D LENOVO_MT_83F5_BU_idea_FM_Legion Pro 7 16IAX10H
+    board_name       =3D LNVNB161216
+    board_version    =3D SDK0T76461 WIN
+
+Additional context that may be useful for matching:
+
+    bios_vendor      =3D LENOVO
+    bios_version     =3D Q7CN78WW
+    bios_date        =3D 04/07/2026
+    board_vendor     =3D LENOVO
+    chassis_vendor   =3D LENOVO
+    chassis_type     =3D 10  (Notebook)
+
+The BIOS has been updated since I filed the report (Q7CN44WW -> Q7CN78WW,
+April 2026). Symptoms are unchanged =E2=80=94 ucsi_acpi still returns empty=
+ PDO
+data and interferes with EC-side PD negotiation; blacklisting ucsi_acpi
+still fully restores charging.
+
+Also worth noting: the AMD variant of this laptop is DMI product 83RU
+(Legion Pro 7 16AFR10H, BIOS prefix SMCN). It uses the same EC firmware
+(ITE IT5508, EC ID 0x5508) and the community reports the same PD
+negotiation failure there. It might be worth matching both product names
+in the quirk if that's how the LG gram quirk is structured.
+
+Currently running Ubuntu 26.04.1 LTS, kernel 7.0.0-30-generic.
 
 Thanks,
-Peter Chen
+
+Alex Bartz
+eleso.app
+FestivalWiFiGuys.com
+Alstergee.com
+[image: mobilePhone] +1 (801) 808-1498 <+1%20(801)%20808-1498>
+[image: emailAddress] alex@alstergee.com <alex@festivalwifiguys.com>
+
+
+CONFIDENTIAL & PRIVILEGED: This communication and any attachments may
+contain information that is confidential, privileged, and/or exempt
+  from disclosure under applicable law. If you are not the intended
+recipient, any review, use, dissemination, distribution, or copying is
+  strictly prohibited. If you received this in error, please notify the
+sender immediately and permanently delete all copies.
+
+
+On Mon, Aug 17, 2026 at 3:20=E2=80=AFAM <bugzilla-daemon@kernel.org> wrote:
+
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
+>
+> Wei Huang (huangwei@kylinos.cn) changed:
+>
+>            What    |Removed                     |Added
+>
+> -------------------------------------------------------------------------=
+---
+>                  CC|                            |huangwei@kylinos.cn
+>
+> --- Comment #1 from Wei Huang (huangwei@kylinos.cn) ---
+> Hi Alstergee,
+>
+> Thanks for the detailed report, and for verifying that blacklisting
+> ucsi_acpi restores normal PD negotiation on this machine.
+>
+> The cleanest way forward is a DMI quirk for this model in
+> drivers/usb/typec/ucsi/ucsi_acpi.c - there is already a quirk mechanism
+> there, used for a similar EC firmware problem on LG gram laptops. To
+> write the quirk, I need the exact DMI identification strings of the
+> machine, which are not part of the report.
+>
+> Could you please attach the output of:
+>
+>     sudo dmidecode -t system
+>
+> Alternatively, the contents of these files:
+>
+>     /sys/class/dmi/id/sys_vendor
+>     /sys/class/dmi/id/product_name
+>     /sys/class/dmi/id/product_version
+>     /sys/class/dmi/id/product_family
+>     /sys/class/dmi/id/product_sku
+>     /sys/class/dmi/id/board_name
+>     /sys/class/dmi/id/board_version
+>
+> With that information I can prepare a patch and submit it upstream.
+>
+> Thanks!
+>
+> --
+> You may reply to this email to add a comment.
+>
+> You are receiving this mail because:
+> You are on the CC list for the bug.
+> You reported the bug.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
