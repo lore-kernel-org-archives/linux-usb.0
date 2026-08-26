@@ -1,39 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8186393DEF;
-	Wed, 26 Aug 2026 06:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867FC3932C3;
+	Wed, 26 Aug 2026 06:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787724763; cv=none; b=EA1Mdi0kDus6JJFa8fW0bur6hV1aj8MIa6yWqPHkIujDpLJ1ZEfNWAasPAlxMvId45OuGB7grrCTPfYS6SAxLOCttvYqk5v2xJWKXhqRIyKu2WwoTlad9LAKGf+fgdskauT81aM/vA6ncS5E8Eh8Us5rEf5SKk21OdlV2QBUP3o=
+	t=1787725308; cv=none; b=b/SYTnyMy4OrXKTss65ZlnQs+AEewRx7Ow8wguqxMPHr5QRh/pVxli2u8YvbnOZYQa/TfGpCw/mFtmeyxLJy5ynioXdU2lAp5EfMM2Ld8+yFQ81Vk6Ua0MBeEgnOi8nmAX9YijNVEnqsXnhTxmvs+pm6Bi/1OUpGvlUCPLtgKpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787724763; c=relaxed/simple;
-	bh=2bioAY5z0ROLaaveBiRi3hJa524Ucai3iadKkmwZvDY=;
+	s=arc-20240116; t=1787725308; c=relaxed/simple;
+	bh=A17v4SPaETOxoBOMvNXuU7TvtvaC7bGSpL6fHzx7FK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RfQPkx+MndiSH6ptlQiV4J5if5rseWUoC8NBuAWFZhMTdAWUSaePl3U7pUljlEYMHxRSPjDLQii2IZFqDFaa9o3tZohSDbR0zxVC46+dbfFVMt32Go2qQihN7VqcNt8n5KvDXOms8Z/L5vBOQ+BycR+25riv0CnsrhoskUHCoXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=keKhtRF/; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=taD+nOsInBhjbu5LIKmQmjF8qjWA0MKiwGvJmv2VrggxUWuWBP1MKnJMIjUDsAsq9aFxe+rpGXXtJfh79cj383jzmW06QIGsX083nBc3WkZirHTxbWpQ7QRIz1OHzGLYFaDKyEb2LL/15aH9XuethiInh2fZnxVWlk7cULA5KMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ve5ex1SP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="keKhtRF/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C2A1F000E9;
-	Wed, 26 Aug 2026 06:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787724761;
-	bh=gHhyNXONb2rsob/LcF6ETrv9CS1FZCNcPEOogta3fdc=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ve5ex1SP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 095C31F000E9;
+	Wed, 26 Aug 2026 06:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787725307;
+	bh=rZDOG1xYcK+nhmg3NO0cjCOpH6cOyb7hTnClj24ugSM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=keKhtRF/kBm6d7tozt3sjSBlF1ErdQGcRXMozP+lLqPtxxengSN/mdF9uYPbbNOkD
-	 ddu/rAZIxj7eGJXRsLiBQBMUZXKsHBua6vn/LoGT3Q6lfGZHf0tfPPhmpEl/6/e8yv
-	 sxmtkcUGdl27E4SygmhHG+a9DkDIdcHVfzfLpDUA=
-Date: Wed, 26 Aug 2026 08:11:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Cheng Lingfei <chenglingfei@foxmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Felipe Balbi <balbi@kernel.org>,
-	Peter Chen <peter.chen@nxp.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: gadget: goku_udc: fix kobject warning on probe
- failure
-Message-ID: <2026082616-glue-atlas-0cfd@gregkh>
-References: <tencent_0AE8C419FE6042BA8081E98C88BA604FF00A@qq.com>
+	b=Ve5ex1SP/TOTa89zwiLprH5XZtSFsb39yrBehYlQ8BrYv3F6BAP/MnvgOiwifoyO/
+	 KDTPqLt6AKyXqEyQJryNMDC/TRcS5jP0Svmr2AoP/uS8lzWiEc/1WvqK9xHPV2d7po
+	 Ax5H0cilC/qaMDBQMnobAk3Aqmx+0FQLx5pYdloDiyyTgdhpRSXcc+KV1wm+a7daw1
+	 B5D0qoNjvIKDgUrYcrOC5KCMIQl0zkgUVeptY7vhoQLa/NMVNA8z9VOuavOcLCztXp
+	 KRlV/mhqrCGAEqK/SthgyjD+MWLmx5ZkULgE9+OdRUKteZXOAhRr9lN35xQc98Aarp
+	 UMOpVopdNzR7g==
+Date: Wed, 26 Aug 2026 06:21:43 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Sven Peter <sven@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tbt: Correct swapped TBT adapter type values
+Message-ID: <ao6F9_7DfZx-xNNJ@google.com>
+References: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,43 +51,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_0AE8C419FE6042BA8081E98C88BA604FF00A@qq.com>
+In-Reply-To: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
 
-On Wed, Aug 26, 2026 at 11:35:58AM +0800, Cheng Lingfei wrote:
-> goku_probe() calls goku_remove() when hardware initialization fails, but
-> the gadget device is initialized only near the end of probe. As a result,
-> goku_remove() calls usb_del_gadget_udc(), which drops a reference to an
-> uninitialized gadget device and triggers a kobject warning.
+On Tue, Aug 18, 2026 at 06:20:03PM +0200, Sven Peter wrote:
+> Table F-10 of the USB Type-C Cable and Connector Specification R2.5 on
+> page 412 defines bit 16 of the TBT3 Device Discover Mode VDO as 0 = TBT3
+> Adapter and 1 = TBT2 Legacy Adapter. Linux has those two swapped since
+> their original introduction in commit ca469c292edc ("usb: typec: Add
+> definitions for Thunderbolt 3 Alternate Mode").
 > 
-> Initialize the gadget device immediately after allocating the controller,
-> but add it only after all hardware resources have been acquired. Track the
-> gadget and proc entry registration state so goku_remove() can safely clean
-> up both partial probe state and a fully initialized device.
+> ChromiumOS EC's include/usb_pd_tbt.h has them the correct way around
+> and references the USB Type-C ECN "Thunderbolt 3 Compatibility Updates"
+> as fixing an error where they were originally swapped which is presumably
+> where the wrong order originally came from.
 > 
-> Use the split gadget removal API and drop the final gadget reference only
-> after all hardware resources have been released.
+> I've also confirmed the correct mapping with an Apple Thunderbolt 3
+> to Thunderbolt 2 adapter which does set bit 16 in that VDO.
 > 
-> Also obtain the controller from the embedded gadget device in the release
-> callback. Driver data is set on the PCI device rather than the gadget
-> device, so using dev_get_drvdata() there fails to free the controller.
+> Swap the two values and update all users. Also rename the old defines
+> so that no user accidentally ends up with an inverted value.
+> No functional change.
 > 
-> Use a per-device name for the debug proc entry so that multiple
-> controllers can be registered without colliding on /proc/driver/udc.
-> 
-> Fixes: 3301c215a2bb ("USB: UDC: Expand device model API interface")
-> Reported-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=06ec7624018233e17113
-> Tested-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
-> 
-> Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
+> Link: https://usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-25
+> Link: https://chromium.googlesource.com/chromiumos/platform/ec/+/db93814b6e73c8545d23714fe0674c10814d901a/include/usb_pd_tbt.h#90
+> Signed-off-by: Sven Peter <sven@kernel.org>
+...
+>  drivers/platform/chrome/cros_ec_typec.c | 2 +-
 
-No Assisted-by: line?
-
-And do you see this happening in a real device and not just a fake one?
-
-And why is this driver using proc at all, shouldn't that be in debugfs
-instead?
-
-thanks,
-
-greg k-h
+For cros_ec_typec.c,
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
