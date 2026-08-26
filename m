@@ -1,38 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78B2209F43
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993E864AA4
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 03:02:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787712645; cv=none; b=G5CBJpUJ0pGOl0wFNsmIz1fsEmzZs/mo0jzA3sNczFZ1C7/DrEw+LDhuFH5i4wclXvOaBPY+dN3mWaVmqGfw6CfY8FtyBAPNZX7IxAd7zPojrHZYlA6W/VgQ+1TN3NU/PrUyHjvqjLmYTt8xGRQMAlyPLyH5nLxaQzUFcHfKfuo=
+	t=1787713347; cv=none; b=aoUq29pEgxyBms7XAffNLVwzqZG8dLfW8ZqJRm0RyvTDnff/Y4AvmQ7kFQt6kfWEYcXgeiD0EOYMa2EGuAPdCpTqXGNeOYY8JgVkC36L4KfPK3TZMhqyrNTY9SmpBcyYcmPzfrD6Y4HJy5p30m7zF3Znm8hK0vdGs8VOpMGanyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787712645; c=relaxed/simple;
-	bh=3IQgZY7Hw7DBVb/yh5yB22pDuVVbGJ1zTXKb4YZ3hq0=;
+	s=arc-20240116; t=1787713347; c=relaxed/simple;
+	bh=YrGbFb17cRKlajaFbeicA4QbnRh0khz+5wtzwCDo3qk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uQOEJqWgjqBfXEEJbbrrp24YX4OThUQglaLCiJydesGqOdOBEBzgZJC/yRypcJF+kwPKTKUFLholyiI8WhCx0IetyhgDuDSGQBN2eZWwpg8gT3sWFV8azjuiRjZlkz24/Qyi5r2dovzXhX4hnxgLDG/tyH4B/23GE3KAO5r9hBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hBARBXvO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=chsj5EDEAFADqcM9ZDO9q5uAfUD6/cDXzllaB+ExA3FOi5wFO1Vj60AqGtjzb0vPblsJ2ce/zcKiXln48dw0bqtIwQHST3yloBlCjQzC8iSu56pgMsOPtCofxplDy8aa6OCie7BSVi8Z758tE+4eK3FAUTxR5Zv4iIozv8+OddQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQ/J5s7J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hBARBXvO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5857BC2BCFA
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:50:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQ/J5s7J"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 22AF9C2BCB8
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 03:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787712645;
-	bh=3IQgZY7Hw7DBVb/yh5yB22pDuVVbGJ1zTXKb4YZ3hq0=;
+	s=k20201202; t=1787713347;
+	bh=YrGbFb17cRKlajaFbeicA4QbnRh0khz+5wtzwCDo3qk=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=hBARBXvOGwrkdQF6cbY018eZsm74qL0wCSVk8pn0ez4DhcJxAZ02hxPc0N+a0d980
-	 BadJ+1NjUTGrri/SV5bU8a+2nKqI0UCi3ChM7fdV/lNKzO0rXO05gmGDbv1V4Tt9/X
-	 dlkLEaFrbhRa7E5q3Phdaw5Hxr8RXa8IULsGQgU3glU8ocRSyR6BTvNQjQ0yP5LM0K
-	 vzq1AFoI4LY318h52p77wkUDT2fBLlliBJA7MbcdJM5/nqiWYruzGtjVxZqL7YtV15
-	 gDExNjePRc4Uk3D4yzn25YBUy0cGyH+vZ8Xs3eyTis/8NvlqB8zvKGVml3iiD+ZXK+
-	 cgBvuI5LsXBKw==
+	b=OQ/J5s7J/5J3hNg1YMopDa2HzRRKfqBrG4ORreHREi/jbzWHmnsBGixQCeWR1k66/
+	 FKPxm1rrUR+m1VajsCRIxkoJiVnw/GwxorbSOE10IEjWe8p4an+EI4OkZQ7BEqOH4h
+	 O2e4CPL9NEbPIIyaK7clE0yxO0wS3bq2Zt2SbpCz8kf0AyvY5dPiVOqmRpEHaAlDcO
+	 Tf2dq/0ELsqfvPAvHRb3Tbzz+PAyDf9U02FaA+o2nLJsOZnOmKYYFqJ7VXHD6jmLxG
+	 qXUtJ77MJOGhwL1Ug9KCPn5hSNGw2NGBCFlI1v4fXms4oXqDxwrhos46h/fa6Mq4XQ
+	 QS9gaIhUqHO/A==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 3D28FC41613; Wed, 26 Aug 2026 02:50:45 +0000 (UTC)
+	id 00693C4160E; Wed, 26 Aug 2026 03:02:26 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
-Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
- breaks functionality of Owon VDS1022
-Date: Wed, 26 Aug 2026 02:50:45 +0000
+Subject: =?UTF-8?B?W0J1ZyAyMjE3NDBdIHVjc2lfYWNwaSBQUE0gaW5pdCBmYWlsZWQg?=
+ =?UTF-8?B?KC1FVElNRURPVVQpIG9uIFRoaW5rUGFkIEUxNCBHZW4gNyAoQU1EKSDigJQg?=
+ =?UTF-8?B?YmxvY2tzIFVTQi1DIGRvY2sgZW51bWVyYXRpb24=?=
+Date: Wed, 26 Aug 2026 03:02:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -40,7 +41,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
+X-Bugzilla-Severity: blocking
 X-Bugzilla-Who: huangwei@kylinos.cn
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -48,9 +49,9 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220193-208809-alPLqUHNlH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
-References: <bug-220193-208809@https.bugzilla.kernel.org/>
+Message-ID: <bug-221740-208809-fT5ZS6BwiX@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221740-208809@https.bugzilla.kernel.org/>
+References: <bug-221740-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -62,40 +63,38 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221740
 
---- Comment #4 from Wei Huang (huangwei@kylinos.cn) ---
-Hi leStoppe,
+--- Comment #3 from Wei Huang (huangwei@kylinos.cn) ---
+Hi Shofiq,
 
-Quick update: the patch you tested is currently under review on the
-linux-usb mailing list. To finalize it, the USB serial maintainer
-(Johan Hovold) needs a few details about the VDS1022:
+Good news - the patch discussed above has been accepted upstream.
 
-1. Which userspace software do you use to talk to the VDS1022? In
-   particular, is it a libusb-based tool (e.g. the Python 'vds1022'
-   package)? This matters because once a kernel driver claims the USB
-   interface, libusb can no longer access the device - which is the
-   most likely explanation for the breakage you reported.
+It was reviewed by the USB Type-C subsystem maintainer (Heikki
+Krogerus) and merged into the mainline kernel during the 7.3 merge
+window:
 
-2. Could you please attach the output of:
+    usb: typec: ucsi: use UCSI_TIMEOUT_MS for sync command completion
+=20=20=20
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3Deb4573cf2fd8
 
-       lsusb -v -d 5345:1234
+What this means for you:
 
-   for the VDS1022 (or the full 'lsusb -v' output if that fails)? The
-   interface class reported in the descriptors decides how narrowly
-   the driver match can be defined.
+  - The fix is included in v7.3-rc1 and will be part of the final 7.3
+    release.
+  - The patch is also queued for backport to the supported stable
+    series (it carries a Cc: stable tag), so it should reach
+    distribution kernels in due course.
 
-3. Does the VDS1022 support the same SCPI command set as the HDS200
-   series over its serial interface?
+Once you get a chance to run a 7.3-rc1 or newer kernel (or a stable
+release containing the backport) with your dock, it would be great if
+you could confirm that UCSI initializes and the dock enumerates
+correctly. If everything works, this bug can be closed as RESOLVED
+CODE_FIX.
 
-I asked these questions on the mailing list thread as well, but in case
-replying there is inconvenient, answering here is perfectly fine - I
-will forward the information to the thread.
-
-A reworked version of the patch (v2) is already prepared and will be
-submitted as soon as this information is available.
-
-Thanks a lot for your help!
+Thanks again for the thorough report - it made diagnosing this much
+easier.
 
 --=20
 You may reply to this email to add a comment.
