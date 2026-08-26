@@ -1,78 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67432D662F;
-	Wed, 26 Aug 2026 04:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8F036F411;
+	Wed, 26 Aug 2026 05:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787719174; cv=none; b=j4CLV3XANxO0ynmbowrJCyS6XITDytCU3ZYf7umAg7TVSsSAIHUQabJ8k7lKn0uNprTULPd2ALdedrnbGYPxj/lizKmK05OdRfDnXZ1AqG4pgSfSaje34E5pN22b6Tiqm59rbGYf1n7iHJyUbf2H1TEton5okjLiFZA2A8I7Aow=
+	t=1787721853; cv=none; b=m+eD71DjSvZZARTk0f8osMeKl3t2ukCQUYoVTi4qDgtvsZJ+6c3RK9Bi8AR6WqMzv4jbnUCVcxrac1qqrzVOYtAj3tQojhqnDpCQWdwypxUC/MnCifARQuSGhOePapdUzmLhWQdUOjOurG88KnzcMtYPjieSJXENK3m3859jApM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787719174; c=relaxed/simple;
-	bh=8ytuA+T5Tytz6F7rz8yPoAsf8h6STdlzBbBmS0gAyV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H8s4vaqLTPs75bIT9wKuF6/V8cny9LLPOfANQ4ZpEnbG85ckYPRZoREOKPTHl7jEOWTow4jjclXZEPmJLa2DW1SKVQDACIKYDPnO62vAElsVyuqnyvZ2QUOZbVG0Y5JPvk0ujQ4FbpeJneLLI0MYZOGFptJ19/An3059TzXuqL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAQDgucf; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787721853; c=relaxed/simple;
+	bh=oO9E+8r+ZMGNs7fAE1Zxve1IX3zNEnFwfXvKKlJp5uk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R/jTSwW9vStd/PRhwrGUx3qIIMaPuwwoYfL2GxoLAXgabUl2xCmKw1vzVTiZJ4mP0LV7ySDuPdRPLe5lJS5TXz71kCUPK79JtBQPzqj2oH3tfhm1S9MBvBcpTCaA6sDqXhmAsmkQyOP43AbVFlTG4x9l6gq5AAaCHUi+Qh2DKP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=SgB5V+kV; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAQDgucf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787719173; x=1819255173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8ytuA+T5Tytz6F7rz8yPoAsf8h6STdlzBbBmS0gAyV8=;
-  b=gAQDgucfNpgXmbxSBTKv2NBAxgu2upWms3sjjdmmrT6QAYfe0JbX8tdK
-   M+OAmqbsRlpw8LSrUIFboamuu7M4PlmBsY2pbXdOGNXBcMnARerO+mNTj
-   3zODNVmmCnHGYi/c6Sl+G+ukaf+ycu80LApCPnmretmm0l6iRGsKwqRb1
-   hKFnqllqVXVy9j5t4x+ucSiDwyLfvr/ev17u7lhj9svkhDk3+tjYhYsrz
-   EcwS65pg2V/rk0W3pcQemxUDHdEAmoJ/fAB9m5jcCkiMlt1+ihfvIo8hK
-   k8d912BTageI19T4mb7/uCOVSUPAXDnukzXYrzvLgdF76ne7Skr2eIizy
-   Q==;
-X-CSE-ConnectionGUID: HL1hZ9CgSHmZ+z+4FCMV3Q==
-X-CSE-MsgGUID: HFJ5IsM9TQapSYaA7bLotw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="98867579"
-X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
-   d="scan'208";a="98867579"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 21:39:32 -0700
-X-CSE-ConnectionGUID: RHUMZXEzSq67Dw5tq2wM8w==
-X-CSE-MsgGUID: HEOx8XOEQ2WbdkuYKgNq3g==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Aug 2026 21:39:30 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 23F1A99; Wed, 26 Aug 2026 06:39:29 +0200 (CEST)
-Date: Wed, 26 Aug 2026 06:39:29 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: syzbot <syzbot@kernel.org>
-Cc: syzkaller-bugs@googlegroups.com, Marco Elver <elver@google.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	linux-usb@vger.kernel.org, Mika Westerberg <westeri@kernel.org>,
-	linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-Subject: Re: [PATCH] thunderbolt: Validate BAR 0 resource type and size
-Message-ID: <20260826043929.GM893316@black.igk.intel.com>
-References: <9e0d4fdc-4e1d-4195-80c0-7a70d34d1fc2@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="SgB5V+kV"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 88B1711CD1B;
+	Wed, 26 Aug 2026 07:23:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787721845;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=2WSTUnZav2cMaC3lE9hNS4oPzqnlu3+rzaCPWkt1SOA=;
+	b=SgB5V+kVDU3Rbwyt5YDztBKpw5w3bCaY/NaJLEoUSnYv5RF8KkTsPjBLYgf6WdvrQQQRN6
+	TQnxR6vFZIbXu2WU3XhLRdCGlZrrqeZqnYugUzR2UV5Db0/wyLEMw7amUYvf7tpO/vHVuZ
+	M762/dVL8XjlfBvDQpj9KpdCetUnoxsV6+Yb/BlJp2d1+dV6S0/OMbIKMSYmEubTuOqMA2
+	sneMy9vaW9ysQCMzPOnErbH37R9w8n1RF4njsV07UrOuphkasFnwSS9xazXtUaf/LycV9x
+	8ay/Ta6w7KmkKX+Tj49TfiL576C7IfaXtDV+ImgUmJhC7qSTPhHoHsXGB93hug==
+Message-ID: <75025cb5-20d8-4f80-98ad-77438b0fd5ef@nabladev.com>
+Date: Wed, 26 Aug 2026 07:23:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9e0d4fdc-4e1d-4195-80c0-7a70d34d1fc2@mail.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] usb: dwc3: dwc3-generic-plat: Add ST STM32MP2 DWC3
+ xHCI USB controller glue
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
+ Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
+ Rosen Penev <rosenp@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@dh-electronics.com" <kernel@dh-electronics.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>
+References: <20260812010157.1772849-1-marex@nabladev.com>
+ <20260812010157.1772849-7-marex@nabladev.com> <ao42hJmXCG9thL9J@vbox>
+Content-Language: en-US
+From: Marek Vasut <marex@nabladev.com>
+In-Reply-To: <ao42hJmXCG9thL9J@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
+On 8/26/26 2:44 AM, Thinh Nguyen wrote:
 
-On Tue, Aug 25, 2026 at 04:09:37PM +0000, syzbot wrote:
-> From: Marco Elver <elver@google.com>
+Hello Thinh,
+
+>>   static const struct of_device_id dwc3_generic_of_match[] = {
+>>   	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
+>>   	{ .compatible = "spacemit,k3-dwc3", },
+>>   	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+>>   	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
+>>   	{ .compatible = "starfive,jhb100-dwc3", },
+>> +	{ .compatible = "st,stm32mp25-dwc3", &stm32mp25_dwc3 },
+>>   	{ /* sentinel */ }
+>>   };
+>>   MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
+>> -- 
+>> 2.53.0
+>>
 > 
-> The thunderbolt driver can crash with a page fault if it binds to an
-> arbitrary PCI device (e.g., via sysfs driver_override) that has an I/O port
-> BAR at index 0 instead of an MMIO BAR.
+> Did you compile test each patch? This one fails to include bitfield.h
+> for FIELD_PREP().
+I did, on arm64, hmmm. Let me explicitly include bitfield.h in V4 .
 
-Well, if you bind it to a random PCIe device you get what you asked for.
-This is specifically the reason we have the PCI IDs and the like in the
-drivers. Anything outside of that you need to know what you are doing.
+Thank you!
