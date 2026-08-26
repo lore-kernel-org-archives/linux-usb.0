@@ -1,270 +1,165 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012015.outbound.protection.outlook.com [40.107.200.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f8.google.com (mail-oi2-f8.google.com [74.125.231.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459FE30C179;
-	Wed, 26 Aug 2026 22:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787781761; cv=fail; b=cfJCuS/xrbWOv7ApvUtPHQud+FdqohLKtnJ1TaxmJFPx2UO5EKuWmqLwa42d7R808I6aqqr9CsPUpgCzWppLtlLVtDbLgDTxIqCqhGwHWoCRarUiookY/CJDuD6kmapQ7nlsrfujEzIxHREjgEeiGBS89VpFabbK2NnFqGbLBhk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787781761; c=relaxed/simple;
-	bh=BnF0AEomnI9ASTUR/AFJNm92NUMpTHEGSkDW5l7VO2o=;
-	h=Content-Type:Date:Message-Id:From:Subject:Cc:To:References:
-	 In-Reply-To:MIME-Version; b=axWyNSPHQ9fqk5e5bVnsOnYJjAG1613srckcT2464mxXDJZ7M4XiITfixs059mS0gdFLL79L0baP+9jS/OfXWPE3If5XjkJpeZpbVAlKCnalwWDRe2EyaDpxHPhbZA/K1Yq3/JxQv17JnowrlU//OAiUxMryfhtJixBod2QqiO4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=P1LGlMEy; arc=fail smtp.client-ip=40.107.200.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="P1LGlMEy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n3eENLuAw9vZ3YaW62DX0UBiaxpzNMaHAbZMG2yRoTUAz8BcLnwX6DoamRDssBBySBJVnx/rfYXlMDJUdN60uAPcSsN8Mu1ikSw5gSVAib55ry828rR164kEpFl42kp8ZFRD21g0qbIIErSKrhcGQl5vfgsoNxZWvS3z7Vyg6w0HctTrNr+diZgRXqWOBfTwWPB7nZVOn8oCWw0k5bQoKdKb7gZmvU6JsZNOvaWGSkgh2Qf/q9mjPoAkLuNQPjyQ1p+ElxpzYpVQP1p3K/NgSW0SVDxGmqTRamcdXOkC4n1pBQmNfC0xRg+IfgmLa7Zlpc60USDiFafvcM17T9F9LA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VwAvnB1W2isvSDRP8aE6X1X2isY9R7l0nl7t6WxuF94=;
- b=eVQu7DrOJk8fSuyO83Ae76wNtzl/lTk2wUYDPjqwmUCIoUT6u/b/YmnbsXBdk4blmNt+IAWUj9oyarvKy/n4mf834xGMjY4j7z32A/VCcCrM9PFQe3zxbXvDVI/XWmQUQbYDh3Erj2tnYO+EAKAlx5dCVnzH2fkxMKIKusxNVGce1m8fuCAvlkco9NnoqO6GiGs4RiUhwwiVsh2HxrimPtaGwEm2epjAPEou6a7Y+8tKT3HxLleQZPiJI0rB1e2uMmMIPvkGliQVu8PKPoePUQ0K+yBwgTL/EDOHR3zFyFcU9HjymISQlNidWOMdI3NdIY8voZjnjxYaHnREqHdU2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VwAvnB1W2isvSDRP8aE6X1X2isY9R7l0nl7t6WxuF94=;
- b=P1LGlMEyPYnkp5LTr9S6yFrSTIPAIRaMAfECXhCPVgAvnFS8ZDBg5uNiGFiM5wXCOOj0FtQasQAeVV0ROTDXpNRaS+IEAuwUHIHdc6bG/eeWi0bLURzkvsieQsMkGeCzLapO9qhSUqoHG+zl9yW69Ilb7/1jIYPxt3KF83HEDhRb8TiSK5JUMPedWWqS3aJRFq64cun8W8zM7LxRExq5lOGnZ1SjrdJTwPQjgQtAto9Rn2NcfcwnZldGNBY+wJ8dkBgCGzCCt0qXbmZyeUK8doG+OCgL8bjwTYTTJh49bp3DIZu/S/kAvvXlVNdr8nwOzzk2SviAIq5QdQamEMlPpA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SN7PR12MB7881.namprd12.prod.outlook.com (2603:10b6:806:34a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.8; Wed, 26 Aug
- 2026 22:02:35 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0360.006; Wed, 26 Aug 2026
- 22:02:35 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 26 Aug 2026 18:02:31 -0400
-Message-Id: <DKZ7QMMZPL21.20QCG4B32HCYJ@nvidia.com>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
-Cc: "Harry Yoo" <harry@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Hao Li" <hao.li@linux.dev>, "Christoph
- Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
- Gushchin" <roman.gushchin@linux.dev>, "Alan Stern"
- <stern@rowland.harvard.edu>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <syzbot+805630f1453e490427fa@syzkaller.appspotmail.com>,
- <stable@vger.kernel.org>
-To: "David Laight" <david.laight.linux@gmail.com>, "Vlastimil Babka (SUSE)"
- <vbabka@kernel.org>
-X-Mailer: aerc 0.22.0
-References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
- <82f138f5-11d4-4839-94a3-c226fd982715@kernel.org>
- <20260826143644.5b3de07a@pumpkin>
-In-Reply-To: <20260826143644.5b3de07a@pumpkin>
-X-ClientProxiedBy: CY5PR15CA0142.namprd15.prod.outlook.com
- (2603:10b6:930:67::8) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838CD40DB4B
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 22:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.200
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787782954; cv=none; b=eD78ZWaIxLgE405gmuyIhrQIeRqzFdV2LbAdThTz/FBHHep6iv3aDs4d9iPqO4TWZwDUCavB51QzNJ4L2bx2R8ZRSq54EnKabJMIWk8kvMNm1iPOpCOiNAr+kxM3iSkJf4Ev+kqC7sLVXITB1xD4e/UD0eGBmkILlUffkK5LF+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787782954; c=relaxed/simple;
+	bh=krTUWyTjFfNUvNAas2FH261nlZ1YuUcBeN6XdjGxIhM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=FL766jgcJ9ZarJrxhGfuecf147djYQuVWxqoOqg44IbTH+NMx/ZxrIpZAAwKMCwVSkl2xnHRB6CLnUOPpRzumsEnXUpcCrfVNaG4Xkd+nc7BIGyh0dfTXFPPFn2frUVb2nqpAfPrO+nMOqBPAZQA2a0LfTWzo3riWnUlOlMsMt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f8.google.com with SMTP id 46e09a7af769-7f3a9f626a1so643183a34.0
+        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 15:22:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787782951; x=1788387751;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Y3Eieam+i47nsBCoX/y9GEyUNYggaF/JmMEBhjWIWLs=;
+        b=SK9vn2g8T1hIJPnfdvMwdjE2UjCRftzXFZ7MlDl2eUwBNu48VxxeNX6Ikm8KcDZ6Js
+         f+DX9HWRKqf2hwhkqe7ba/CLCHqiCBepENsPA/BerzuN/YDh2LJn5GbwYTAgPPUdEOSq
+         M3VwTeVxwQ8wJ98KQMocwe9N7NPOkAcXeP/R9kxQ0ArBX5KPSK0w+73WT0XwPXT3a2Kx
+         Az/OoMPUnAR9Sx73gdOWTJzGELTXTLm7mNEr1QYhwZJGo6P3oCtwxRGiNd7gEYzELFQK
+         yMel5pl34nX47U8eXU082u+mK1ufqCrMmbx/IwkcRVvEKB5gU85h8kodGOdmtbg0QN6/
+         HO1A==
+X-Forwarded-Encrypted: i=1; AHgh+RpNACIHPKrUfoJU0m3lDWSjfV0P8q0ci9g5/Rm0FfMRqjblWzOafM1xyUym9FwsANd3JUbSFG2xevE=@vger.kernel.org
+X-Gm-Message-State: AFuF++nc6EWixsLF2dDUof6SLMOVNvLB0YMkq9IAiw/HcGs10yziNp7I
+	TPlmMrqgNrL8Aw2l1Iv741GCsmdd8LfBUtO1SjUBnNFSnxTK/quKevl3clZtx9nSi6ctqwdBoDi
+	ecORxu5wxbwGYSvNexJK3ZJ4YPMnEoh8yo14ZuNduoyMZXHxKcxXlgSM5f1o=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SN7PR12MB7881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87213d27-b360-4ede-fa00-08df03bdbc10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|4143699003|11063799006|56012099006|10067099003|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	rCirTUjrsDLiRUHqnms1Uz4XylXv5JXlaOZcqbmz6E1nx4VbW6S10iiSppFiLkR+dI1PQSmk1+A8z5osXQ3Zc/Hi2nrBKiqPHM233jbInL6sWnzVu5sbf5Ok2U6p91tIFaJ7ogAsJWgP8qA//NanqO4mxkFdNrGezCZ1ptCzmivGgbiTAyZ+aL7+8YWEvAn2YqdRViDi1t1xOu+P2fiEkii8zn1sRN9pX92L/RQO3dU3+2bG3JItDWahJJjVB7KnM5KmMvlBxcVVilJcSRCuRxr1bg77f0gTZJRMLtBiR+6Xm81QBSGd47eiB268TxOQQLLuz6jxdh+PmHG1C6yBm2mkONtEJBpD7klO14RQwFmvq+NxW9lI+xfIIlBzKB1Yrh0PeuJdC9znXZa/LjrAS6fwF+BT5fj4ygYECuS3DsSCIEp7kzbw+7fmLtWXAQJCp89ZBCieHSQE4YRgTWgnPh1Q/l2AsJ+CCG1SZPtvrYWhLsoSNmtX5f2fcHPsk+2M9x7bB0cmvLoRKU/VMC3RDnAjAHH/3meLpUjctOydD5cJ7cf9AW1He6NVZAME62G58J3SF2vchYWoJiwFnBSj4ZyPg5RsApvEwmiOzEqPU+64TvL+kVQP+i77tZ57FlLgX465aF37xVwGd9V7KBorcoCYhBNWQ24XjtHKboQiqpE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(4143699003)(11063799006)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K2VxUzNPY2Q1Z0p3Uk9pdm5ERC9OK0s2RDA1NzQ1Zm9HN0VVbnExL2RDcDhS?=
- =?utf-8?B?TjhwUnphdERXRDZqSG55eUZsdUZDU3psdnAwWDJ1bDhnUDVUb2tnTUhaeWhE?=
- =?utf-8?B?cjhWNTczdnpNdm9uMnphTGVEZ0szelkvY3hhcXNjNFNZc0ZuNkJvSTIwS2hq?=
- =?utf-8?B?enVUbnFxTFJzdlorWllxU1gxNXRXMmJaNmJlYzJTWG9PWmh1aUJBOXRnczNV?=
- =?utf-8?B?WTBITnFqcVFWSFBNYm1hRHg5RjZsVC9vZ3hTcnBqeWVQTnhUZTBZNjVFQnJn?=
- =?utf-8?B?MEJ6S2pTbmJkdk5JSktCYlZERTRyazVBMTgxWDhBcWpjNWpmU1lCVGhrdjFL?=
- =?utf-8?B?anIwN2o0L3lrRWgvaU9odk5EK2w2Vk9lWjY3WFZ0U3c0SEtNZkNkT0hZNXk2?=
- =?utf-8?B?dVFLeTNESHhzc1JvNWlST0ZPMW9Ba092RUkyL3RVVGxNKzNrK2hOMzVxbFZu?=
- =?utf-8?B?d2MyNjArNk56QTJYRFlKbm9MeUhVVENlTlg5N3E5VDFkZjNLZG5tb1Y0SHFJ?=
- =?utf-8?B?YTdQdzJMVUlQeE5DemhZVnFHdVlsbjA3ajFoSm1NSDVibEEyWnV3Wjhlalc2?=
- =?utf-8?B?ZlZwQmIrK25SemVNS2JQalRLNW4xVHpMSk5FZVJsVk5zZUdMTmRvSERHRHBk?=
- =?utf-8?B?Z1pWL0hxaDdFUXVVZUZwSmJZblVLU2dGVjZweDg5QUxQM282THNKL2RpSkJV?=
- =?utf-8?B?UlUvQ3QzN0JaS1pSTzBnZ0pyc3d0aFUwS3lub2FGeDQwQ0J1Vlc1Q2FFVFJ6?=
- =?utf-8?B?YWg5VFJ0QjZNTk93ZmtwdlIxOVNUTFl4OHhrYVdWc1NjaTc2WlozYVhDUTJw?=
- =?utf-8?B?VVNMVHZkN3JmbmtzbCtSM1ppbFBrSmRMczJGZU1Kb09PbkdPRHh6RTFxOXA1?=
- =?utf-8?B?YXRoWDBGRENCNGpoU3ErVVpoRk5wOHVPK1NWNVVBZWZxb0h3M2hBcDBSQlM1?=
- =?utf-8?B?dmJFWEdrc1dpT0RTTUZPVnJ6c1dXaHFsQit5M09UMlB3Ymk0dW9nWU1hc29P?=
- =?utf-8?B?N0FyYWFJNGlTUkVZazNsU2p6SDQ5NFNuUkNtVXpJaUNNTzJDMGluWHYzUlVu?=
- =?utf-8?B?Um5YU29CdFlDenN1bWd4TXdHeElQRld2eFpqWFMyOTh5RW8wcE82elJzMGw5?=
- =?utf-8?B?bHVldGxZcER3Mzc3RmVXU0hkTTVMQndhK3o5VEdVaEN6S3VRcGNsUFlaRlpX?=
- =?utf-8?B?NXAzV0FyeDFvMGpIcG9Rd2VyUlV1QkJCdVZ0enZ1SEpZSzhRVVBoZEhYWExh?=
- =?utf-8?B?SGtRbyszRFZvV1Q1bEZkTjl4bXJLZHZsY1RINitpd3VhQVYvUHBxdm1MR1p4?=
- =?utf-8?B?TFc0YWhjUlBpVGZmemtPOXpCalRTOTNsYXpRMGJhYVpUbk9ValRtSXFxcnVl?=
- =?utf-8?B?Y2t3LytxcGdYcW9vSnh1VDUvbEVuUWV5Z2NSZGZNeXdoRDNXSDB4Sk9iQWVs?=
- =?utf-8?B?LzdDSHlVVnNhTlFFcWMvcmFwbTN2V0dmZVV2dGZJWnhSc0lWRGE0UXYydnhF?=
- =?utf-8?B?bXVBem9IWTYySnY2Y083bU1OelB4b1ZmNjJPbDRVdmhyZzc4VUdmaHJJUUFD?=
- =?utf-8?B?ZVNvRU5Zdk50TzBPNWk1V2ZWVFl6RHQzY3pQWENXL0FSMEl1elpVOVFmSTJn?=
- =?utf-8?B?MHRQajFxM3FiUFdiWitJRFdTTmJrT3JJUGdaZWk0bXM3UjI1V3N0MGI0bHkw?=
- =?utf-8?B?YmtIeGE3RkVlLzFKQ3ZmaDZ3SDBSN3dvbFBwRnRhdjBhY29yNm1CeDVFUW1w?=
- =?utf-8?B?OEcvZjIxa1RFZjZOK28yRDVCVVVwY1YrQlVmYXhMaHhrYUMzbFhvbGNwWm91?=
- =?utf-8?B?MXdwdDNtcDZZYXFZalkvMXpKRkpCWjNiVGpxMFFuZWhDT0RCMnJiVk4wM0pQ?=
- =?utf-8?B?WGpnZ1ZKd2R2M2hSSjRjUnVZaVpCME5SckNZN1lqWG9OVFhMOXRxb2tSczkx?=
- =?utf-8?B?UXZIRFNDTUpxUmNTaHlVZ3lmclVpaS9oT09DalFteTlzVFlZVmt0aDZZcEor?=
- =?utf-8?B?YmZnNXdQVkVzU0lWSEh4MWNQdmlSUkxvNHlSRExlVnU4SW93dXNrOUVTVnBv?=
- =?utf-8?B?cUJyZWVNci9aSlRVYXhIL04rTmROaTlqdHN4RGUvUnprelNPYTJvUml6b2pO?=
- =?utf-8?B?a1plVjdSVVB5VFFsaVQzc1pFNzdxSmNsSVlGUW0yZ3YyaUhUZzBORUJQc2xU?=
- =?utf-8?B?VnB4N3FqUWRDMnlnYVM1WCsrRCtmZWNobzg0aGdJdFM4MitYZG94UnVsMXA1?=
- =?utf-8?B?U1o1SUtyMy8wNDRIZG9kTi9RNjFKSDFjeElsaGFrMWpZcFc1d01YSDVodlVR?=
- =?utf-8?Q?fn9+c7vBESz+fyXDFe?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87213d27-b360-4ede-fa00-08df03bdbc10
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 22:02:35.0184
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gnOtxdnyRwQFvjvsIDyQ1ZDKXVplK9Zy57yNePVo50Aj/TRTd6mESL+87kQNCIm7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7881
+X-Received: by 2002:a05:6820:3407:20b0:6b1:9944:552b with SMTP id
+ 006d021491bc7-6b1a047f077mr7824802eaf.19.1787782951350; Wed, 26 Aug 2026
+ 15:22:31 -0700 (PDT)
+Date: Wed, 26 Aug 2026 15:22:31 -0700
+In-Reply-To: <6a802643.9ebadd4d.20b15e.000a.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8f6727.50659fcc.60cd.0008.GAE@google.com>
+Subject: Re: [syzbot] [input?] [usb?] WARNING: ODEBUG bug in corsair_remove
+From: syzbot <syzbot+0a031a76585d1c7e737d@syzkaller.appspotmail.com>
+To: bentiss@kernel.org, ccc194101@163.com, chenchangcheng@kylinos.cn, 
+	jeffinphilip14@gmail.com, jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed Aug 26, 2026 at 9:36 AM EDT, David Laight wrote:
-> On Wed, 26 Aug 2026 11:28:12 +0200
-> "Vlastimil Babka (SUSE)" <vbabka@kernel.org> wrote:
->
->> On 8/17/26 22:40, Zi Yan wrote:
->> > kmalloc is used to allocate physically contiguous memory for kernel
->> > allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc =
-uses
->> > the page allocator and can only support up to KMALLOC_MAX_SIZE. For re=
-quest
->> > sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
->> > because kmalloc allocates an order greater than MAX_PAGE_ORDER. System=
-s
->> > with panic_on_warn=3D1 crash because of this WARN. Fix it by rejecting=
- any
->> > kmalloc size bigger than KMALLOC_MAX_SIZE.
->> >=20
->> > Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher=
- kmalloc requests")
->> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->> > Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@=
-google.com/
->> > Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->> > Signed-off-by: Zi Yan <ziy@nvidia.com>
->> > Cc: stable@vger.kernel.org
->> > ---
->> > It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadget=
-fs
->> > requests excessively large memory from kmalloc. Instead of adding
->> > __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
->> > kmalloc to return NULL without a warning for this specific issue.
->> >=20
->> > [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively la=
-rge memory allocations") =20
->>=20
->> So I checked and for kvmalloc() we have in __kvmalloc_node_noprof()
->>=20
->>         /* Don't even allow crazy sizes */
->>         if (unlikely(size > INT_MAX)) {
->>                 WARN_ON_ONCE(!(flags & __GFP_NOWARN));
->>                 return NULL;
->>         }
->>=20
->> This comes from Linus in commit 7661809d493b4. I'd do the same thing her=
-e
->> then. Thus there would be a useful warning for e.g. development mistakes
->> resulting in the size to be unexpectedly high.
+syzbot has found a reproducer for the following issue on:
 
-You mean kmalloc should also have this check?
+HEAD commit:    45c13f3f9e3b Merge tag 'hwlock-v7.3' of git://git.kernel.o..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=120b399e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9b0fc292fc5639c
+dashboard link: https://syzkaller.appspot.com/bug?extid=0a031a76585d1c7e737d
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=170de979580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12479625580000
 
->>=20
->> Callers passing size that comes from userspace or similar untrusted sour=
-ce
->> can either pass __GFP_NOWARN or sanitize the size to what they expect to=
- be
->> sane (which is context dependent and I assume actually way lower than
->> kmalloc limits in practice). Note that passing even sizes within but clo=
-se
->> to/at the limit, trusting blindly some external source, can succeed the
->> allocations but effectively DoS the system with heavy reclaim/compaction=
-. So
->> caller sanitization should still be preferred IMHO.
->
-> Indeed, and sanitising the values early on saves all the size_add() and
-> size_mult() operations (that are just saturating maths) but still let
-> through the 'DoS the system' sizes.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ac6556827073/disk-45c13f3f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/01ff014f18d2/vmlinux-45c13f3f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/77e9c6302a14/bzImage-45c13f3f.xz
 
-Yes, I am all for santizing inputs.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0a031a76585d1c7e737d@syzkaller.appspotmail.com
 
-> Mostly the actual maximum size is actually small. I suspect limits like
-> 64k, 1M or 16M would be appropriate.
-
-I agree that the limit you suggested is better. One thing to consider is
-that Mike is converting all __get_free_pages() to kmalloc[1], so the
-limit might end up to be 2^MAX_PAGE_ORDER, matching the page allocator
-limit.
-
-[1] https://lore.kernel.org/all/aip7Y3UHmXsdX8OH@kernel.org/
-
->
-> David
->
->> Some of the recent
->> arguments from Linus [1] would apply to this too, I think.
->>=20
->> [1]
->> https://lore.kernel.org/all/CAHk-=3DwiSmgwwLKCqJwGS-dVHnSLU8W+7q1UQq-G9=
-=3DTBGGZbuhQ@mail.gmail.com/
->>=20
->> > ---
->> >  mm/slub.c | 7 ++++++-
->> >  1 file changed, 6 insertions(+), 1 deletion(-)
->> >=20
->> > diff --git a/mm/slub.c b/mm/slub.c
->> > index 0337e60db5ace..a3071f4ef1945 100644
->> > --- a/mm/slub.c
->> > +++ b/mm/slub.c
->> > @@ -5263,7 +5263,12 @@ static void *___kmalloc_large_node(size_t size,=
- gfp_t flags, int node)
->> >  {
->> >  	struct page *page;
->> >  	void *ptr =3D NULL;
->> > -	unsigned int order =3D get_order(size);
->> > +	unsigned int order;
->> > +
->> > +	if (size > KMALLOC_MAX_SIZE)
->> > +		return NULL;
->> > +
->> > +	order =3D get_order(size);
->> > =20
->> >  	if (unlikely(flags & GFP_SLAB_BUG_MASK))
->> >  		flags =3D kmalloc_fix_flags(flags);
->> >=20
->> > ---
->> > base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
->> > change-id: 20260817-limit_kmalloc_size-3a4a2c73beac
->> >=20
->> > Best regards,
->> > -- =20
->> > Yan, Zi
->> >  =20
->>=20
->>=20
+usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 4-1: config 0 descriptor??
+corsair 0003:1B1C:1B02.0001: hidraw0: USB HID v0.00 Device [HID 1b1c:1b02] on usb-dummy_hcd.3-1/input0
+corsair 0003:1B1C:1B02.0001: Failed to get K90 initial state (error -71).
+usb 4-1: USB disconnect, device number 2
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object: ffff888122562ac8 object type: work_struct hint: k90_record_led_work+0x0/0x1f0 drivers/hid/hid-corsair.c:710
+WARNING: lib/debugobjects.c:629 at debug_print_object+0x198/0x2b0 lib/debugobjects.c:629, CPU#1: kworker/1:0/24
+Modules linked in:
+CPU: 1 UID: 0 PID: 24 Comm: kworker/1:0 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:debug_print_object+0x1a5/0x2b0 lib/debugobjects.c:629
+Code: b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 4f 48 8d 3d d8 94 38 08 41 56 48 8b 14 ed 40 aa d2 87 4c 89 e6 <67> 48 0f b9 3a 58 83 05 f2 ef 33 08 01 48 83 c4 18 5b 5d 41 5c 41
+RSP: 0018:ffffc9000019f1e8 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: ffffc9000019f2d0 RCX: 0000000000000000
+RDX: ffffffff87d2a980 RSI: ffffffff87d2a520 RDI: ffffffff8b1a2d60
+RBP: 0000000000000003 R08: ffff888122562ac8 R09: ffffffff87a8ade0
+R10: 0000000000000001 R11: 0000000000000000 R12: ffffffff87d2a520
+R13: ffffffff87a8ae20 R14: ffffffff85fa07c0 R15: ffffc9000019f2e8
+FS:  0000000000000000(0000) GS:ffff8882684eb000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055e4079ef1d0 CR3: 0000000116d44000 CR4: 00000000003506f0
+Call Trace:
+ <TASK>
+ __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
+ debug_check_no_obj_freed+0x4da/0x630 lib/debugobjects.c:1201
+ slab_free_hook mm/slub.c:2679 [inline]
+ slab_free mm/slub.c:6499 [inline]
+ kfree+0x3b2/0x650 mm/slub.c:6792
+ k90_cleanup_macro_functions drivers/hid/hid-corsair.c:547 [inline]
+ corsair_remove+0xfa/0x2f0 drivers/hid/hid-corsair.c:602
+ hid_device_remove+0xd1/0x200 drivers/hid/hid-core.c:2897
+ device_remove+0xcb/0x180 drivers/base/dd.c:616
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
+ bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
+ device_del+0x376/0x9b0 drivers/base/core.c:3965
+ hid_remove_device drivers/hid/hid-core.c:3126 [inline]
+ hid_destroy_device+0x19c/0x240 drivers/hid/hid-core.c:3148
+ usbhid_disconnect+0xa0/0xe0 drivers/hid/usbhid/hid-core.c:1479
+ usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:461
+ device_remove drivers/base/dd.c:618 [inline]
+ device_remove+0x12a/0x180 drivers/base/dd.c:610
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
+ bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
+ device_del+0x376/0x9b0 drivers/base/core.c:3965
+ usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
+ usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2350
+ hub_port_connect drivers/usb/core/hub.c:5420 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
+ port_event drivers/usb/core/hub.c:5884 [inline]
+ hub_event+0x1d46/0x4510 drivers/usb/core/hub.c:5966
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3387
+ process_scheduled_works kernel/workqueue.c:3470 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3551
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	b8 00 00 00 00       	mov    $0x0,%eax
+   5:	00 fc                	add    %bh,%ah
+   7:	ff                   	lcall  (bad)
+   8:	df 48 89             	fisttps -0x77(%rax)
+   b:	fa                   	cli
+   c:	48 c1 ea 03          	shr    $0x3,%rdx
+  10:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+  14:	75 4f                	jne    0x65
+  16:	48 8d 3d d8 94 38 08 	lea    0x83894d8(%rip),%rdi        # 0x83894f5
+  1d:	41 56                	push   %r14
+  1f:	48 8b 14 ed 40 aa d2 	mov    -0x782d55c0(,%rbp,8),%rdx
+  26:	87
+  27:	4c 89 e6             	mov    %r12,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	58                   	pop    %rax
+  30:	83 05 f2 ef 33 08 01 	addl   $0x1,0x833eff2(%rip)        # 0x833f029
+  37:	48 83 c4 18          	add    $0x18,%rsp
+  3b:	5b                   	pop    %rbx
+  3c:	5d                   	pop    %rbp
+  3d:	41 5c                	pop    %r12
+  3f:	41                   	rex.B
 
 
-
-
---=20
-Best Regards,
-Yan, Zi
-
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
