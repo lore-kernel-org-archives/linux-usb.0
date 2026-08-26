@@ -1,182 +1,134 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF00E42641B
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 13:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFE741CB31;
+	Wed, 26 Aug 2026 13:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787751412; cv=none; b=r2vA19uOhmv2OrHrnwDYawQhNqwfQ8h5sHG6UCFAulJlwCQcRcSqBx4fk8UWzcL8WF79QxMeABBLPL0JlpRKeAMFGQCBMYxGWSdr4L3LL06YQWNxMlHwCkbWwiQ6pBWPF261QBBxpl5N8Yvg5KqS4zOfgKI2fblKhgWN4JZHsUo=
+	t=1787751433; cv=none; b=spdZ6TsEZ3zgD2iPZpCevH6sPWudrwfmZE9ICxXskhwqYqHgVNpyWypGmYm45ST0t/h97pPutk27p4gumLSLpcvoEDaOYyOTQ1D9LTpozBpOTZGsz2g8dOzr6Yx7Q4LAsUcDnqakTPdgHmqI1g9EtZYuvkjgxkCOno1HACwlyek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787751412; c=relaxed/simple;
-	bh=jqpOnMHgbbqDbuHS/I7m/d6Hc9Shph1tNa+wCHuPmCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pbSP7sdqsvtvWCoucHlaI9lq5W8SxtYLhdc2Le6RdoRyi6IQkv3o9sAC5hvKo9TIh+VnMck8TED/fC9olEZ/bgJLE3iC65TnQ9uYOLtm9qZeGiRTjWRv/D8qqudCcN98gp+SlfNg11SlalafO3iw9ao/z+NQU3CqN4ABSG6KoVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0X27YGa; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0X27YGa"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4956869750eso5882065e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 06:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787751408; x=1788356208; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iac2l5x1G2euKklhoCcR1PZsgghWHKyc8OBHeXTFnfU=;
-        b=T0X27YGax8RU3tu9hj0Mc1HCf2lCtyvyZ9eZ6xCMpXPRYo3Ju6EgoaJaLpopJ5ACc/
-         sPCKvvBg9mxYdwODcSWe6+uUFSg6XLjZe7xSK9SCcDsszdC9GPFHvAPXeh4bFmhnyBmr
-         QhTzoU4GMOPwgO+ocXG+oUBhrVs+KmUMQ0kSJB7JculCooPGHYIGTq/hDHgUq8r10VwB
-         id9ep8zzvGpkWMfYKI5cF16ASCZCijRGYDoSsJTFWOcqn6hHd1mfXAkpFPdfEE+OliG5
-         cwP+LK03V/glWmkAPZJ1aVLMN/hFvfk5GZ1wK2VZCmioyR3lgic2NwOnSIF0XayOqK8c
-         EfAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787751408; x=1788356208;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iac2l5x1G2euKklhoCcR1PZsgghWHKyc8OBHeXTFnfU=;
-        b=bKCd064fEJZCyK2VoglWCfBhrJqaVv4bwOYX+29aZEW2QBr5Jfg55TRlJx2tufH2bp
-         XwfU7w3mIOXrL/ax8e9xv8VK3opHChZOg4dBMMKP8gLHztJJbPcnRxCWBU0wrXS1+2/+
-         rxPWuvETNQxApaqgRKrpjTxaMP8RFvjJCs897Ft8WZ5fJv0M0ljLf8lj5GZKEMmGKt+T
-         wXTQ/lXAIcJcNv74fh++0x98Khhw5H3MfgBjzyi/0cGo2LP90RJtmEQD5qlwPTx0u26r
-         V5raIcmydrH+yhPrB+BRqWHkzxyAQxeU2sOs6p1vGzhHfv9KYXEC3+gGAYd0lG4BLsUp
-         ae0g==
-X-Forwarded-Encrypted: i=1; AHgh+Rq36h21tmNPlVDwYoS3vsuII89GmReG/N/pDIfOmsqeZTNeUlJUBTGEZtQ6A0J9uLxXdZjT51PV78c=@vger.kernel.org
-X-Gm-Message-State: AFuF++nhHrCUHMCmGCrVIRb/3ER6NKR+dusXAB6ThKU1V3RDPlVWymcz
-	rc905d6KcX6ysX8G8+nUfbkt5DfyjfBkwWpYbaU1DRQ0Lj2BfeTCOTQK
-X-Gm-Gg: AR+sD11DUwGtfqXNDmhvd9KoqOeq0mt6HLF+evZPTvtqKLJ8YQBXGdxB54deTbL/YtY
-	DZO0Kk7ILprs1CSwXujYdi7Co6y6OkNubAbun6DBE24lYHHT1cAWAQ2OitmJNszRKo6sqWqF9KK
-	nJraIsaqJ6Jk3h1c5SoJAM/LU5vo0hETl7OoUoGZTyT5Dhe8WDzjkC1dlIb583JyAcUJZQnZ/nn
-	cbU8jPvXOfWL5eunawL+I6KSbn22YjIpDa1BsSZfRiRcyiSIlV8xpOHzsm4sXMEUatyz238a+Qm
-	ckKQqvTeBzFiC5p9OxjEKs2h8GTH0F1mDJ+o7YpCHJ2Whh0onsli+gu5dM0W27cz1KiBkN97UgB
-	zA3C9RWr/ze4ntfuJqoUMQHdSXhzwWulQpReq+GZ8QRRRJCcmbJFauj3VPpaJPFXtEky4PRC6qf
-	qopCPRFPXvlLz6tC+3ZAt8r6mYjlJZyI9yxDOpFhBgz1BEUwiYUV37jm5x0wp447DgrmfizT6VC
-	3HFl1cNeJh+b6Sq3tX/fM3UqQ==
-X-Received: by 2002:a05:600c:a0d:b0:499:bdf1:7578 with SMTP id 5b1f17b1804b1-499dc6e9b00mr69476415e9.3.1787751407615;
-        Wed, 26 Aug 2026 06:36:47 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dcad0cbasm26303825e9.10.2026.08.26.06.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 06:36:47 -0700 (PDT)
-Date: Wed, 26 Aug 2026 14:36:44 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, Christoph Lameter
- <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman Gushchin
- <roman.gushchin@linux.dev>, Alan Stern <stern@rowland.harvard.edu>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- syzbot+805630f1453e490427fa@syzkaller.appspotmail.com,
- stable@vger.kernel.org
-Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
-Message-ID: <20260826143644.5b3de07a@pumpkin>
-In-Reply-To: <82f138f5-11d4-4839-94a3-c226fd982715@kernel.org>
-References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
-	<82f138f5-11d4-4839-94a3-c226fd982715@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1787751433; c=relaxed/simple;
+	bh=edcuadEQQZoJqhB/CJLlSfSPaw6Yh4H+GVgSCAzV/g0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V2nDmfc84Oc3/36NVccWySnht9pncdEmh6hKKr/6R/zECY57h5cooOb5tAVkPVH3IPluyxBE9szM0FVYn4k1qgndGhfr0+R4gyh2AmuzV5UhEp+9R4+Xo4PWmjUj02qmHS/ZuWJxjI20x0DlAo1in+Ba2kcpW690dyGE6XW3KdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 38a54f5ea15311f19a56ed5b684f684d-20260826
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:660a4d18-75d1-4c04-9e5a-21cf54bbacd2,IP:0,U
+	RL:25,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:50
+X-CID-META: VersionHash:7db8b62,CLOUDID:ed915de6e1983984ef9bbabfbe3989ca,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:ni
+	l,URL:11|85|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 38a54f5ea15311f19a56ed5b684f684d-20260826
+X-User: lihaofeng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lihaofeng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 240944388; Wed, 26 Aug 2026 21:37:02 +0800
+From: Haofeng Li <lihaofeng@kylinos.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haofeng Li <13266079573@163.com>
+Subject: [PATCH] usb: gadget: uac1/uac2: reject more than UAC_MAX_RATES sample rates
+Date: Wed, 26 Aug 2026 21:37:00 +0800
+Message-Id: <20260826133700.3798444-1-lihaofeng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Aug 2026 11:28:12 +0200
-"Vlastimil Babka (SUSE)" <vbabka@kernel.org> wrote:
+The UAC1_RATE_ATTRIBUTE / UAC2_RATE_ATTRIBUTE configfs store loops parse
+a comma-separated sample-rate list with
 
-> On 8/17/26 22:40, Zi Yan wrote:
-> > kmalloc is used to allocate physically contiguous memory for kernel
-> > allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
-> > the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
-> > sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
-> > because kmalloc allocates an order greater than MAX_PAGE_ORDER. Systems
-> > with panic_on_warn=1 crash because of this WARN. Fix it by rejecting any
-> > kmalloc size bigger than KMALLOC_MAX_SIZE.
-> > 
-> > Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher kmalloc requests")
-> > Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> > Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
-> > Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
-> > Signed-off-by: Zi Yan <ziy@nvidia.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> > It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadgetfs
-> > requests excessively large memory from kmalloc. Instead of adding
-> > __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
-> > kmalloc to return NULL without a warning for this specific issue.
-> > 
-> > [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively large memory allocations")  
-> 
-> So I checked and for kvmalloc() we have in __kvmalloc_node_noprof()
-> 
->         /* Don't even allow crazy sizes */
->         if (unlikely(size > INT_MAX)) {
->                 WARN_ON_ONCE(!(flags & __GFP_NOWARN));
->                 return NULL;
->         }
-> 
-> This comes from Linus in commit 7661809d493b4. I'd do the same thing here
-> then. Thus there would be a useful warning for e.g. development mistakes
-> resulting in the size to be unexpectedly high.
-> 
-> Callers passing size that comes from userspace or similar untrusted source
-> can either pass __GFP_NOWARN or sanitize the size to what they expect to be
-> sane (which is context dependent and I assume actually way lower than
-> kmalloc limits in practice). Note that passing even sizes within but close
-> to/at the limit, trusting blindly some external source, can succeed the
-> allocations but effectively DoS the system with heavy reclaim/compaction. So
-> caller sanitization should still be preferred IMHO.
+    while ((token = strsep(&split_page, ",")) != NULL) {
+        ...
+        opts->name##s[i++] = num;
+    }
 
-Indeed, and sanitising the values early on saves all the size_add() and
-size_mult() operations (that are just saturating maths) but still let
-through the 'DoS the system' sizes.
-Mostly the actual maximum size is actually small. I suspect limits like
-64k, 1M or 16M would be appropriate.
+without checking the running index against UAC_MAX_RATES (10).  The
+storing arrays (c_srates / p_srates in struct f_uac1_opts /
+struct f_uac2_opts) have exactly UAC_MAX_RATES entries, so an 11th
+token already writes past the array, and feeding more tokens (the
+configfs write limit is 4096 bytes, i.e. up to ~2000 rates) walks past
+the whole opts object into the surrounding kernel heap.
 
-David
+Attack chain (no USB host/device involved; the caller only needs
+configfs write access to the gadget function, e.g. for the kernel to
+issue the echo):
 
-> Some of the recent
-> arguments from Linus [1] would apply to this too, I think.
-> 
-> [1]
-> https://lore.kernel.org/all/CAHk-=wiSmgwwLKCqJwGS-dVHnSLU8W+7q1UQq-G9=TBGGZbuhQ@mail.gmail.com/
-> 
-> > ---
-> >  mm/slub.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/mm/slub.c b/mm/slub.c
-> > index 0337e60db5ace..a3071f4ef1945 100644
-> > --- a/mm/slub.c
-> > +++ b/mm/slub.c
-> > @@ -5263,7 +5263,12 @@ static void *___kmalloc_large_node(size_t size, gfp_t flags, int node)
-> >  {
-> >  	struct page *page;
-> >  	void *ptr = NULL;
-> > -	unsigned int order = get_order(size);
-> > +	unsigned int order;
-> > +
-> > +	if (size > KMALLOC_MAX_SIZE)
-> > +		return NULL;
-> > +
-> > +	order = get_order(size);
-> >  
-> >  	if (unlikely(flags & GFP_SLAB_BUG_MASK))
-> >  		flags = kmalloc_fix_flags(flags);
-> > 
-> > ---
-> > base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-> > change-id: 20260817-limit_kmalloc_size-3a4a2c73beac
-> > 
-> > Best regards,
-> > --  
-> > Yan, Zi
-> >   
-> 
-> 
+    echo 1,1,1,1,1,1,1,1,1,1,2,... > .../functions/uac1.NAME/c_srate
+      -> f_uac1_opts_c_srate_store()
+      -> opts->c_srates[i++] = num for i = 10, 11, ...  (unbounded)
+      -> out-of-bounds heap write (index into a 10-element int array)
+
+Reproduced on kernel 7.2.0+ (KASAN + UBSAN + slub_debug=Z).  An
+1801-token write to uac1/c_srate yields
+
+    BUG: KASAN: slab-out-of-bounds in f_uac1_opts_c_srate_store
+    Write of size 4 ... f_uac1_opts_c_srate_store -> configfs_write_iter
+
+and the exact array boundary is caught for the three remaining
+attributes with 11 tokens:
+
+    UBSAN: array-index-out-of-bounds ... index 10 is out of range for
+           type 'int [10]'
+      in f_uac1_opts_p_srate_store / f_uac2_opts_c_srate_store /
+         f_uac2_opts_p_srate_store
+
+plus: the 1800+ token variant plows through several slab objects, and
+the kfree() of the duplicated token buffer afterwards enters a
+pathological spin under slub_debug=Z, demonstrating live corruption of
+the downstream heap.
+
+Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
+Assisted-by: opencode:deepseek-v4-flash-free
+---
+ drivers/usb/gadget/function/f_uac1.c | 4 ++++
+ drivers/usb/gadget/function/f_uac2.c | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
+index 85c502e98f57..de34891163ef 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -1614,6 +1614,10 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+ 		if (ret)						\
+ 			goto end;					\
+ 									\
++		if (i >= UAC_MAX_RATES) {				\
++			ret = -E2BIG;					\
++			goto end;					\
++		}							\
+ 		opts->name##s[i++] = num;				\
+ 		ret = len;						\
+ 	};								\
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 897787d0803c..02fb27daf04a 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -2032,6 +2032,10 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ 		if (ret)						\
+ 			goto end;					\
+ 									\
++		if (i >= UAC_MAX_RATES) {				\
++			ret = -E2BIG;					\
++			goto end;					\
++		}							\
+ 		opts->name##s[i++] = num;				\
+ 		ret = len;						\
+ 	};								\
+-- 
+2.25.1
 
