@@ -1,140 +1,118 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483A340B116
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 17:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0777F376A1B
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 18:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787764211; cv=none; b=s5yQm2ylLj9oS4MkszZX9mgXUYw6Sfuhmx6+4A2xvO4xBJRRBtiipgbQeI2WNkvdO7wfL3mHLCULsfQkM8vzZx+TNo5bcQMi8Hvx0uN05gwhuHt5lM/MLV5K3RNQ1Us+yc4JD9XNu3TY9tC5CCbCgPlZOgQ9NxeJ1iZ/U57vjjY=
+	t=1787767891; cv=none; b=EzRCz71IpxTNsouTdaIKRxZW8ZSOgiK0nrCXUiaUmeVyOZAmyTV3s0k0Ponz7FV6b9RD4r8YBuJ7jM61pIV+7VWCqGm70EzfFOno6nsfRkIMlzN2PtHixnIaVoOX+M7rQhuk9ru3sD3fQAv5KA0xLy/7NAsItOpoBtFAf6qPeqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787764211; c=relaxed/simple;
-	bh=HryDV6+5qMbLhZY2KERuGiFp2ZKXAOvyWcXmP57Eq3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hr7fqkYK15OnbRKhlcUkExZbOK9Gun/F9C/OxIM4cTheAn3SrLY4MlHqqcapWQHMyrtnTDZM0q2Y85HkZJk/wnQvHjKypDABHgom3cCITbJvc/sMDEgRI1ou8knmB+vWUJloUvbTObXTcl32KiupMY/bv/Fn4xA2ru1xIHBn6Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDZeQKGj; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1787767891; c=relaxed/simple;
+	bh=hTwLH6239DZe5yRPzb2V1G2GAB6G4ulnXpvuKPufiFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OrYZWwbVGQRFUh8TNckLqKocgrvQtLsExc8n7jHMw51rZdieo2JHKCK23ikpox0jrXy2NX4KBa5ESLDbdvG9k5L6coU2ny5WwS4CU+1TIX2dkPpOxaCa6jPaNfX/BmuA9PWm2Z9j22BqHbNkVg6JvR8Zw5ep8EtTImWcUoapUAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RuAY91T2; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDZeQKGj"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a1542cdb53so1444658a12.2
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 10:09:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RuAY91T2"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8487b7b3fc8so923225b3a.3
+        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 11:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787764179; x=1788368979; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787767874; x=1788372674; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=TJATd1QCK8mzBoL2c8+JxSkXmq9RldTbZrwKcwNjBmk=;
-        b=kDZeQKGjuHP6Ge59bPmUk6WLTc+NcJVo2XZ1RnDwli+aHKDJAUteHSksxGVCdR8du1
-         bAlX3fA2NcX3AnXBJU7KEwF8QJ82o0afYQ1yoEks10qxCmhjvFJyMRhxUyWrzvpO6Sj4
-         e56n85zapKxQLnEDpayB4Oo7O6hkMgnqLhzRvOI04G80GgjzotdM7u+jrApjqOUiDekE
-         Sw2qaevbutXor/bcuUNh6UvAQfGa0s64DntC/iy122R2E8qD+Bri8AsE9m8N9GCtjPlL
-         X93R02CxR8/3bjmcG4FiYQ3CDYiqIG5ZYYxovOiOxNEKcoITwgL6IdaAjbpsaqtLPPzt
-         JmUA==
+        bh=cD3ENK5Zz4cqB8cAmknAH7JmVcmInLZ6RJTKj7LW1gE=;
+        b=RuAY91T2VT7db4CGw4AR51PDL+85j6oXkjMPaLH2/s1nxhrYPR8B/EXMR32BTrWAiv
+         15TIkfG3CpxQ0TL425qNPYlA1xVp/lY93yC/KTzu1adajr0zloMRzEeiJcs0V63QmZxb
+         53Y2F4nhZWzC5N/YRjPDS1X5IfdsA5FFJVNOJsCd8dyOtYYz4jYoEzLnpZP9rBSZ0LcF
+         RDvr4gqCw93QoJZHC82D8ksZsFBbLWm8noxekevS0Bez3Y1H34mfK/KSQ8QauLLxQ3NP
+         4hHpBWmsXDTbvb5jn7P6zLmMtL4lNbvBpixJcR1oY+1rLNaNRGEzMhHfcUOlZLBZTSvJ
+         I5Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787764179; x=1788368979;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787767874; x=1788372674;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TJATd1QCK8mzBoL2c8+JxSkXmq9RldTbZrwKcwNjBmk=;
-        b=aTjcdlwWuLvzqkjPpZBAxuIZccS8Wz4EHbDyQvswb17GvXNPO5BFdlVW6Wc2HNzTbM
-         RPo17jKM/Zzpiy0mLqYYNDYJdmNe/cmLsOYsKmu3LoIgLPEdHhgZIptJGYCw8Y4V3DO1
-         ajGi8F3kfrClBjqfPOLvG8m3UC9a0b3JEjzEpDFzQIR8PeidwGoFS90giQIzPd7Cqn2s
-         G7f2okg9b393uRgo4eA7EAbpyNuhtQ084ei99seNP6VNfBFOUowOZ5vy0kCbIir1yTJu
-         2G6R7Q6vZVYT6qAwZH2nsPr7wBjmJMg5hSfLxcWJIMCVEnfJaygdNyrLhyyIOPITA88x
-         ao2A==
-X-Forwarded-Encrypted: i=1; AHgh+RpI0XI7PhVIXvVpiRBKUj3YdPepXbT74YtJETJ7731mOytNX023qEmEMNftqeuVAQsdZhcWjlW1Gv4=@vger.kernel.org
-X-Gm-Message-State: AFuF++mUTZc76aiLeyIn0F+6QSBvrDC48Loa4WhZDXAzgxAT3EyyDu3x
-	ttBbLQR/R9XOjyPmcQmRmGVGfKIaSLdljY5DUKUaqQgWGISiF9cjo6B7
-X-Gm-Gg: AR+sD12fOqPh98DY7dT4fvF3Nt0lJMgSAcLS7M273GhZCDzMo1eBM3I5XABqRCkbNtP
-	/cT8DuY1bKq8N+xOakmuWj+XrqofV9/Jt9k176dU1BxGJx4j2nT1U1efOQXwxWCwAjAC4QmqnKW
-	W3y1qL2G+Tv1WoIPbophkGCZrj3hsbrMLfoXx064iWorqy5zmH8kQ8hfMTS25T5k+BUtm2ZkAQQ
-	HgAHhDOFrPwGgfxrBM0Wypy4LTs5fwqP5ODaQH5f0J94hjXbAWZ3/6p0exkbm4+sjG3emQUtevv
-	VsY5RR4LopB8PGoUn9amAEDcfCvAT5ZvujghuthztwEV3/IfUa3ms1IYMgRbktnfg9tqZtajCiW
-	mseDqGnEhv95AEUm059Aaac4NOxmuJejxizwaJD7mZW8cvwSIXE6W84cooLlHcC1Xbm5lajAeN3
-	QNbcd04/RXZ7me8gOpLfZsjvNLUrdcS0F7f/06XZJHzLOzx3rTDgRM6NNLG9RX/KM8Ad4=
-X-Received: by 2002:a05:6402:a0d9:b0:6a1:f092:3c1e with SMTP id 4fb4d7f45d1cf-6a5df6410cemr9897163a12.13.1787764179194;
-        Wed, 26 Aug 2026 10:09:39 -0700 (PDT)
-Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a5edef3c26sm2563163a12.17.2026.08.26.10.09.37
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 26 Aug 2026 10:09:38 -0700 (PDT)
-Date: Wed, 26 Aug 2026 19:09:34 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <20260826190934.5042b344.michal.pecio@gmail.com>
-In-Reply-To: <2026082634-cloak-ambush-3861@gregkh>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
-	<20260826153311.6340efcd.michal.pecio@gmail.com>
-	<2026082658-statue-census-dc39@gregkh>
-	<20260826173549.18c8a89c.michal.pecio@gmail.com>
-	<2026082634-cloak-ambush-3861@gregkh>
+        bh=cD3ENK5Zz4cqB8cAmknAH7JmVcmInLZ6RJTKj7LW1gE=;
+        b=a90CK8bErwQvVn+5OIAaCntRmNzvwmPh0mqHf+CYiJbJmMhumn5F+Q3dNBmtPso4s9
+         a0hphxteYq6/2UWXweDHViK4YE1vLfakvSCVkqRPbNx9FoIPY8TfjJs22mcTIyhmTOyG
+         5rgPi9fy8a2yNqGVOv3WFPAuLJhgAHE77wv1d9W/hqSb6s3Wo1Im/VVsumSAvfplRaqb
+         IZSxS8HtUhUW3TdaI5Dbrl9PLJcSVCPEGJqtfrWKQ1mutZ6OOTqzR/e7kGNMCpaJcr0c
+         0IN/9h6zQo/+QQQfEPuVDnolstlXj3biH80BdAb9XIk+VSzmRSja/qzcIhgkWqFaMJLW
+         vsIQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrxVWRJ//ITo44FCBbv86YTZkdcZSlVk3g88DzAgy1Aq1UJDgd0KfZq+dZQNqNJk75aKBIlW7IzNuo=@vger.kernel.org
+X-Gm-Message-State: AFuF++nuDj3ueotHJXdHBwq30p5XsSCRHkYex7EDw1hbNzLM2+MMUHyu
+	RUNdnx6nff8k49UpfW8c4ePa4MOMmoqOHuies/3+3t0HSVxaS7UXZFh/
+X-Gm-Gg: AR+sD13jait888J1PY327PSqhX813YPaTkbFtfWQyBRIDzReJ5iqk2GTfSehMcDNgbY
+	9n9iZxJ5RlHgw7eZ3l/HXyZFDYeowN3yC7rxqrYHG2aGZ1KVeHBr2jDzZ/qFobsUFGqKYGIx+zN
+	jEjPwYQV6P3vRkP7WmKWqksyTeLlIbsHwitrxBgeFRvn2cTfrzUJo/gLGtFrV6Wuz1HMsr6FZD1
+	jTSeB9x1lYxuPsDo1v41urWSIEDQ7C2HjKuAmNZ3RHFueL3vY980KC6LDRHbaTzvd+l877WHIYv
+	NVgTVPIawmvILhh5BOrDcf1LhCPIhajKHQuwhneI861borUvRVnGXIIkNPgUn8qRh58WmmzriHq
+	uzPP4rSrQ/dQU2pHrdMFBEGhKBskWdWsEHbZ7C9bqWJcBiFrGuNqJ+zOd+hk3134gZz51s1oume
+	f5CBp+MJhmvcXneSgdplmJjaWr7f6Z+phDahb5TDIwy/r6v7yCbs7qdh+PMZzN4pjzcVccqyZbd
+	cmuhvC0um3IEcrl/iGDnrLQA/UHh5S8
+X-Received: by 2002:a05:6a20:6a09:b0:3cb:8810:631d with SMTP id adf61e73a8af0-3cf7596814emr15778521637.1.1787767873764;
+        Wed, 26 Aug 2026 11:11:13 -0700 (PDT)
+Received: from localhost ([2409:40c4:3158:4e86:4090:3289:19be:7446])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32854db74eesm957162eec.18.2026.08.26.11.11.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 11:11:13 -0700 (PDT)
+Date: Wed, 26 Aug 2026 23:41:09 +0530
+From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Mathieu Fluhr <mathieu.fluhr@gmail.com>, 
+	Michal Pecio <michal.pecio@gmail.com>, Thorsten Leemhuis <regressions@leemhuis.info>, 
+	linux-usb@vger.kernel.org, regressions@lists.linux.dev, stable@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
+	Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
+Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
+ triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
+ (bisected to aec11e5f9c45)
+Message-ID: <ao8bM2SrASNh2u84@eggarch>
+References: <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
+ <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
+ <aosGtkE_diwVJJtB@eggarch>
+ <20260823174059.46fec036.michal.pecio@gmail.com>
+ <aoser8dLytrwqBC2@eggarch>
+ <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
+ <ao1ovvdPAy6n_F7I@eggarch>
+ <CAPyJwA-QALkCQn8J1+=U-nuE_7WSEPhVcUEKb+MMYMaA_1AVjQ@mail.gmail.com>
+ <ao7aLXk9q_v_jEyX@eggarch>
+ <d5a395f7-06ad-401a-b026-e975f620f017@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d5a395f7-06ad-401a-b026-e975f620f017@linux.intel.com>
 
-On Wed, 26 Aug 2026 17:44:06 +0200, Greg Kroah-Hartman wrote:
-> On Wed, Aug 26, 2026 at 05:35:49PM +0200, Michal Pecio wrote:
-> > You can't bind random drivers to random devices out of the box,
-> > you need ID overrides. And then you don't need to bind manually,
-> > the kernel will happily select the wrong driver by default.
-> > 
-> > Authors of the recent xhci and thunderbolt patches admitted that
-> > 'driver_override' was involved in both cases.  
+On Wed, Aug 26, 2026 at 04:40:14PM +0300, Mathias Nyman wrote:
+> Roothub needs some time to settle as well, but 200ms might be excessive.
 > 
-> I'll be glad to taint if driver_override is also written to, but it's
-> bind() that triggers the actual action happening.  Or so the traces
-> show.
-
-Well, I suppose probe() is the first victim to crash in such cases.
-
-But if Syzbot is binding random drivers to random devices, the obvious
-solution is to ban 'driver_override'. Using that is just cheating.
-
-If it still manages to crash drivers by binding them to appropriate
-devices then I would say it will finally be doing its job right :)
-
-> > Meanwhile, Syzbot also found a stupid write to freed memory in USB
-> > core when HCs are unbound. You may say it doesn't matter, but:
-> > 
-> > * USB HCs are hotpluggable thunderbolt "gadgets" these days  
+> xHC can triggers wake (PME) when a connected USB3 device starts signalling wake,
+> but port registers changes are not always visible to driver before link training
+> between roothub and device is successful.
 > 
-> We support PCI devices being removed, but that falls under the PCI
-> hotplug rules/requirements, right?  Anyway, sure, we can fix those bugs
-> when found, but that's not the majority of what we are seeing at the
-> moment.  Look at all of the dumb platform drivers that are getting hit
-> with this on the syzbot reports...
+> My educated guess is that 120ms should always be enough for the roothub.
+> This is also the lecagy msleep() still apparently left in xhci resume
+> to detect port changes in xhci runtime resume if there are USB3 devices.
+> That msleep was supposed to be removed now that we got the hub changes.
 > 
-> > * there were plans to alter this code so that UAF is triggered by
-> >   hot removal of the USB device, not its parent HC  
-> 
-> I don't understand what you mean by this.
+> This 120ms can probably be further tuned for roothub in some cases,
+> especially if resume is due to userspace action instead of xHC wake signal (PME).
+So the patch I sent above unintentionally brought the total hold from hub
+and xhci side down to 120ms, which worked.
 
-There are ideas to change some code to use per-device data instead of
-per-HCD data. Coincidentally, Syzbot found that this use races with
-freeing the HCD and it would also race with freeing the device, making
-the UAF easier to trigger after proposed changes.
+And the correct fix would be to bring USB_SS_PORT_U0_WAKE_TIME down to
+120ms and clean up the msleep from xhci_resume?
 
-I gave it as an example of Syzbot doing something useful with 'unbind'
-when it isn't wasting time on driver overrides.
+I can prepare a patch that addresses both if you'd like.
 
 Regards,
-Michal
+Lovekesh
