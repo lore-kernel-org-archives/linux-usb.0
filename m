@@ -1,82 +1,53 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp153-171.sina.com.cn (smtp153-171.sina.com.cn [61.135.153.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCEF42E438
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 13:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEC6432E80
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 13:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787751916; cv=none; b=rBaw3HP1uVOh1zO1iyVIQjgWQ+Rk8a0AfLNeyNE/KmQpALcpH92RPyHOOjZelCP7OpKb8eaO97sFsPPWckwLQNmt1kybHv8cuEhPVf5bsB9qBgvdX8nW6TuIF+wLaKurKB5f7Tq+CoVf8lG4S1uNIYmn/BfdTYI9sP4L48CAzqU=
+	t=1787751998; cv=none; b=EtCMaGGBkJS/UHEkuQx8akhxt558j21vIEMjm5oit0gYsrCKmNJ0FzVplUt/HUmtV/UxjuyNb0DaxsEr0zVqNH0cqboDNBIGdiog+Tbf6BNliEMTukAXJ3kBc6+tY/caES5Js1sckIvqZdwIWeHhV1FxeGC3USj2IarCNzdnBv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787751916; c=relaxed/simple;
-	bh=vuGhCPpXhEKiyjkY2Zl3bS9XBYK46CjoNqSao+yAVu8=;
+	s=arc-20240116; t=1787751998; c=relaxed/simple;
+	bh=vjBCB430kjBJcDqoeYHpDPSeornI00GA9WQkFh4Zs1U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uVwjJG4x5YsdVNwgR966lECkry0UMFbqvXaqDK0xQG3rdlq0ofF9ma4BBnWOrKMkrIvWVRDzqBaDW+FMCQGcQ8OAeEKcVI362Wp3oJ8AExaKk0mRQULYyPQnXZR5dgUfK1mw9O1iwcDrq7JHbQtsBCYoWhxXntmfR4KRk0AGJuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com; spf=pass smtp.mailfrom=jphein.com; dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b=wtWd7BXq; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jphein.com
+	 MIME-Version; b=Dzxs2OnsMlUfCQaISIIwnCpRa1rzY+t5prNcZouqGHJeidtNgMHJA8yOKudwsOeVwqBBLW1TsFx3UkdwgS6vkuo8ENZdqEJ+qr83cxq8crRKdfYK4Ki9VCNbmRbF+xWemdxcovu7uYPJgXwWm0nFXW9SA0N0+ir7i932VWX1/og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=UJlWi63e; arc=none smtp.client-ip=61.135.153.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b="wtWd7BXq"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cace91f112so11984825ad.0
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 06:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jphein.com; s=google; t=1787751904; x=1788356704; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=L7hvoCmTHP0bqd1CBKEjrUbKs431WZODQPlvf5quuUI=;
-        b=wtWd7BXqhwkGy78fxUY8cme46V0g1zj670eyV6qDzLqQlqmMvc8uYL5sDFZEaXV265
-         /AhX89YkuAJ7Zc2KsvP2OptVaPmUK0cDtTJS4M1VbdnuH1QkrfRQJkjrvNoTTFVffQTP
-         puSao9vfdcN8if1Jk2ENQ/bKLrWy57yAedfRv4gjseForU/WCtGnesAvSehnyDTRNvti
-         UF4LaXEPxklCF7jdFF7Ip7mpqs9L/XuQuqo6msGTQsI+qnQwwEVy7E9fQo+g2QPRMBcZ
-         OtykHFOdVsCuT/tKOyKcA06U2NxAJap3pvjabAzVvJ1pY3P+EuiWl6laHu5PTDziK87A
-         0GRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787751904; x=1788356704;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L7hvoCmTHP0bqd1CBKEjrUbKs431WZODQPlvf5quuUI=;
-        b=LCiwtnMTI1Zj1uRP5ug4Reb1CPQQrye0LZGWAY2kZffxF28116sgdlzSEZP2Q6iCE/
-         YktulI2NWvR5XMzscnNmWtGFNmlLWXk0LGuEDfMU+QwcW2tyl92gVH4CW84e1gaTyqxz
-         n3XxUV5f5W9/ByoA5JkvMS5M6I4ZPxDmiWdi0ZFAqF8l0YvD7k6h6B9jaZgig4ObGf1I
-         KVlVJVWy/hDY6g1hSW7hMZlQQtz2MlGXjP/Ozsvk6/7GXG9EDomghWP9omh+t+2ejW1b
-         me/lwQN9VFiiKQEvnEqM/C+ZPGklxBw9IQPPzUU9q6SsP0JU5Z302rLA7tWuU6uz8wre
-         1sww==
-X-Forwarded-Encrypted: i=1; AHgh+Ro5LdCoRHD4051doQmzoSiNzaaY/KrWEpuc2cAGAV5LemS7cQ0IufiyU4XP06YjvHMKzSVFjlJyKtQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++n8WJwHTj+vRxpMcrpYOq6sVhQwt8KHP9i2NdsyLGzlM6pqoFsq
-	vd5qa1wYrBBWE75OhCWdiMfHTOE/URrKbz5RjwsCjYi/RhOp4VX7d+37swaIbZVZXQ==
-X-Gm-Gg: AR+sD107/EPsIfJTA0rz78r9yUi7+hG7bFHOqvKEX4p5e8hw5ATahcNtVKKSpmfa//R
-	VaPTveMAvHc8wyAkV+hndnoEn5wnERa4/ex7N4Yu3aB1unn5HmvhCO6z5hK5dhwF3FKv7UesQc8
-	jxYFIILMbmOXBWoi7xO9gVKm/W0CpA+Beo9T5RpOsPVYwd0MwVLd/5CTBN+J0c8PD7V8xY1fsMH
-	TjDjo0vgxyjHR8l7iYp7Ng0QMTjuVoDK7cCM32OfvqauNBkJggSesmeuyOFMZO68ub5a1GbRE3P
-	uc1wvfRe83niwCCbid3p8oIYWXym/DAfxVBsArBFgoxigQKfnKxc7/wK0AwvcYACnednOG+bfna
-	kmNidLLMcUkTja7qw1WJ9xTlUWZ8rMHdrloJxAyWzdA0BN/X5IQkxDODuUHm0aF+7E/gQQWwaga
-	4mbzddWAA/fM7hIpqYBeVTa12YTeeYhLtxrlFKkj5agaBPUewU0R3ChCfNzl+QRb/ivTrKJCm9t
-	qJubNz9dmdCCPD0Zux7MDG6CAQZkNwkjn8GkNWHUfCNasYBFkkym3zcKvCgVgLPxnhtbdi1SyxZ
-	JctS
-X-Received: by 2002:a17:903:1b08:b0:2d0:cc92:f7af with SMTP id d9443c01a7336-2d707b7f5bemr132617665ad.9.1787751903533;
-        Wed, 26 Aug 2026 06:45:03 -0700 (PDT)
-Received: from katana.lan ([108.74.4.89])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283d60b539sm8356719eec.1.2026.08.26.06.45.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 06:45:03 -0700 (PDT)
-From: JP Hein <jp@jphein.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: JP Hein <jp@jphein.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] media: uvcvideo: add UVC_QUIRK_CTRL_THROTTLE for fragile firmware
-Date: Wed, 26 Aug 2026 06:45:01 -0700
-Message-ID: <20260826134501.1726230-1-jp@jphein.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260427083553.36ff4731.michal.pecio@gmail.com>
-References: <20260331003806.212565-1-jp@jphein.com> <20260427083553.36ff4731.michal.pecio@gmail.com>
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="UJlWi63e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1787751988;
+	bh=ovGITEti4J9Rnl7+RVVU2fKKifFicuhKM+nQonZVdp4=;
+	h=From:Subject:Date:Message-ID;
+	b=UJlWi63erOl9VsGWLuwxcwkdkMWQ0nWRSBY7dJizomO5wxvHw9u7c53k04rI1Vmlf
+	 zTBpYkLSAC6fZPSnW0CMcxgMQb7HJW5Z9ff1MoaGMB++fOtEjR490O5Y8R1URNdZN1
+	 ey+IZ/BB/JhiWNRiUvkHtDBN3CLx6zk+NJZdFzH0=
+X-SMAIL-HELO: lxu-ped-host..
+Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
+	by sina.com (10.54.253.34) with ESMTP
+	id 6A8EEE1F00002C52; Wed, 26 Aug 2026 21:46:15 +0800 (CST)
+X-Sender: eadavis@sina.com
+X-Auth-ID: eadavis@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=eadavis@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=eadavis@sina.com
+X-SMAIL-MID: 8075436291634
+X-SMAIL-UIID: B3325EF238494AB1ACE5BF025CA54881-20260826-214615-1
+From: Edward Adam Davis <eadavis@sina.com>
+To: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
+Cc: gregkh@linuxfoundation.org,
+	kees@kernel.org,
+	tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] usb: gadget: midi2: prevent in/out jack from oob
+Date: Wed, 26 Aug 2026 21:46:06 +0800
+Message-ID: <20260826134606.127250-1-eadavis@sina.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a8ed2cd.1d9ded08.62e62.00a8.GAE@google.com>
+References: <6a8ed2cd.1d9ded08.62e62.00a8.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -85,119 +56,83 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Michal,
+The increment of config->jack_out in append_midi1_out_jack() lacked
+bounds checking, triggering issue [1] when the value approached the
+limit MAX_CABLES.
 
-Three updates: the stock reproduction I owed you, a correction to my own
-endpoint labeling that touches earlier mails, and what looks like a separate
-usb-core regression on 7.x that you (or Greg's list) should probably see.
+A similar out-of-bounds issue exists in append_midi1_in_jack(), so it
+is being fixed as well.
 
---- 1. Stock-kernel reproduction, full usbmon (2026-08-25) ---
+Before incrementing jack_out/in, the code now checks if the value has
+reached the upper limit MAX_CABLES; if so, it exits and returns -EINVAL.
 
-Ubuntu kernel 7.0.0-30 (upstream 7.0.12 uvcvideo), no out-of-tree module of
-any kind, camera on a 20-minute-old enumeration, video + microphone both
-streaming in a WebRTC call. The controller died mid-call. usbmon was running
-on the bus for the whole call (168MB, preserved).
+Additionally, the jack_id assignment is moved to occur after the jack_out
+bounds check to prevent wasting IDs on invalid increments.
 
-Wire sequence, same two-phase lock I described on 06-13, now on stock:
+[1]
+BUG: KASAN: stack-out-of-bounds in append_midi1_out_jack.isra.0+0x38c/0x470 drivers/usb/gadget/function/f_midi2.c:1713
+Write of size 1 at addr ffffc90003277880 by task syz-executor119/6000
+Call Trace:
+ append_midi1_out_jack.isra.0+0x38c/0x470 drivers/usb/gadget/function/f_midi2.c:1713
+ f_midi2_create_usb_configs+0x748/0xdf0 drivers/usb/gadget/function/f_midi2.c:1815
+ f_midi2_bind+0x1d12/0x2770 drivers/usb/gadget/function/f_midi2.c:2013
+ usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ 
+Fixes: 856fa444b098 ("usb: gadget: midi2: Dynamically create MIDI 1.0 altset descriptors")
+Reported-by: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c35f34092a4bc9855be6
+Tested-by: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@sina.com>
+---
+ drivers/usb/gadget/function/f_midi2.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-  t0        app stops the stream; video URBs unlink cleanly (last frame
-            completes status 0)
-  t0+1ms    SET_INTERFACE alt0 (iface 1) submitted        -- Phase 1
-  t0+5.16s  still unanswered; driver unlinks it (-2)
-            (06-13 measured 5.4s; 05-30 measured 5.1-5.5s. Same number.)
-  t0+5.16s  COMMIT_CONTROL SET_CUR submitted              -- Phase 2
-  ...       COMMIT never completes. dmesg shows the escalation:
-            "Timeout while waiting for evaluate context command"
-            "Abort failed to stop command ring: -110"
-            "xHCI host controller not responding, assume dead" -> HC died
-  t0+23.6s  everything on the bus reaps -108/-2; the hung COMMIT
-            error-completes and prints the familiar
-            "Failed to set UVC commit control : -110" post-mortem.
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+index 19fdac024343..06a3add05447 100644
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -1675,11 +1675,15 @@ static int append_midi1_in_jack(struct f_midi2 *midi2,
+ 				struct midi1_cable_mapping *map,
+ 				unsigned int type)
+ {
+-	struct usb_midi_in_jack_descriptor *jack =
+-		&config->jack_ins[config->jack_in++];
+-	int id = ++config->jack_id;
++	struct usb_midi_in_jack_descriptor *jack;
++	int id;
+ 	int err;
+ 
++	if (config->jack_in >= MAX_CABLES)
++		return -EINVAL;
++
++	id = ++config->jack_id;
++	jack = &config->jack_ins[config->jack_in++];
+ 	jack->bLength = 0x06;
+ 	jack->bDescriptorType = USB_DT_CS_INTERFACE;
+ 	jack->bDescriptorSubtype = USB_MS_MIDI_IN_JACK;
+@@ -1700,11 +1704,15 @@ static int append_midi1_out_jack(struct f_midi2 *midi2,
+ 				 struct midi1_cable_mapping *map,
+ 				 unsigned int type, unsigned int source)
+ {
+-	struct usb_midi_out_jack_descriptor_1 *jack =
+-		&config->jack_outs[config->jack_out++];
+-	int id = ++config->jack_id;
++	struct usb_midi_out_jack_descriptor_1 *jack;
++	int id;
+ 	int err;
+ 
++	if (config->jack_out >= MAX_CABLES)
++		return -EINVAL;
++
++	id = ++config->jack_id;
++	jack = &config->jack_outs[config->jack_out++];
+ 	jack->bLength = 0x09;
+ 	jack->bDescriptorType = USB_DT_CS_INTERFACE;
+ 	jack->bDescriptorSubtype = USB_MS_MIDI_OUT_JACK;
+-- 
+2.43.0
 
-Through Phase 1 and Phase 2 the microphone's iso endpoint streamed
-healthily to within a few ms of HC death (sequence numbers advancing,
-status 0). Control plane dead, data plane flowing -- consistent with
-everything since 05-30.
-
-Same afternoon, two more commit-control stalls on fresh enumerations were
-caught early by my userspace watchdog (camera-only port cycle, no HC
-death), also captured. So: the lock reproduces on stock, and -110/-32
-remain "who reaped the hung COMMIT first", as before.
-
-One honesty note on that day: the machine was concurrently in a CPU/memory
-saturation incident (order-9 allocation fallbacks in uvc_alloc_urb_buffers
-in the same window). I don't think it changes the mechanism -- the wire
-signature is identical to the June captures taken at normal load -- but
-the unusual event *frequency* that day shouldn't be read as clean data.
-
---- 2. Correction: EP 0x82 is the microphone, not video ---
-
-I mislabeled an endpoint in my 06-06 and 06-13 mails and want it on the
-record straight. From the descriptors and the wire:
-
-  0x81  iso, wMaxPacketSize 0x400, 32 packets/URB, ~1MB buffers  = VIDEO
-  0x82  iso, wMaxPacketSize 0x0c4 (196), 1 packet/URB @1ms       = AUDIO
-        (196B payloads are plainly 48kHz S16 stereo PCM on the wire)
-  0x85  interrupt, the wBytesPerInterval 8-vs-64 descriptor case = STATUS
-
-So in my earlier mails: the "healthy iso video streaming through the
-control stall" was the *microphone*; and the 06-06 "timeout: still 12
-active urbs on EP #82" hang was the *microphone* endpoint, which also
-means the mic was in active use in that crash. The two-phase structure
-and ordering are unchanged (control plane leads, data follows), but any
-reasoning that leaned on "video specifically wedges" should be discarded
--- in the 08-25 stock capture, video had already stopped cleanly before
-Phase 1, and audio was the surviving stream.
-
---- 3. EP5 on stock: still no flood ---
-
-The 08-25 stock capture has EP 0x85 at 5 events total across the whole
-call -- every one a teardown artifact (2x ENOENT unlink, ESHUTDOWN at HC
-death). Zero short-packet completions. That closes the loop from 06-13:
-the absence of an EP5 COMP_SHORT_PACKET flood is now demonstrated on
-stock as well, so hypothesis A (EP5 underallocation -> ring congestion)
-is out on both driver variants. The lock is (B): a device/controller
-reconfiguration hang independent of the EP5 descriptor bug.
-
---- 4. Separate finding: NO_LPM quirk not applied on 7.x ---
-
-While investigating I found the merged quirk from patch 1 of my series
-(usb-core quirks table entry for 1532:0e05, USB_QUIRK_NO_LPM) does not
-take effect on the 7.0 kernels I can test:
-
-  - the entry is present in 7.0 sources (drivers/usb/core/quirks.c), and
-    'k' still maps to USB_QUIRK_NO_LPM in the dynamic-quirk parser;
-  - I additionally boot with usbcore.quirks=1532:0e05:k (verified live in
-    /sys/module/usbcore/parameters/quirks);
-  - yet after every enumeration the device shows
-    power/usb3_hardware_lpm_u1 = enabled, and the sysfs quirks attribute
-    reads 0x10 only (the RESET quirk my udev rule adds) -- no 0x100.
-
-So this camera -- quirked upstream precisely because LPM destabilises its
-firmware -- has been running with U1 active on every 7.x kernel here. I
-can't yet say whether that raised the lock's frequency (see the load
-caveat above), but a merged NO_LPM quirk silently not applying seems
-worth a report to linux-usb regardless of this camera; I intend to send
-one after bisecting whether it's the static table, the dynamic parser, or
-the application point in hub.c that regressed. If you've seen anything
-like this on 7.x I'd be glad of a pointer. As a stopgap I now call
-usb_disable_lpm() from a local uvcvideo build's probe for this device,
-and the device then holds u1/u2 disabled.
-
---- Still owed ---
-
-Item 3 from my last mail (A/B on your 6.17-xhci-test branch) is still
-open, with a wrinkle: my stock baseline has moved to 7.0, so a 6.17 A/B
-would no longer be apples-to-apples. If you have (or want) a 7.x rebase
-of the test patch I'll run it; otherwise I can boot the old 6.17 pair and
-accept the version skew for the comparison.
-
-Captures + analysis: https://github.com/jphein/kiyo-xhci-fix
-  crash-evidence/auto-captures/CRASH-20260825T212701Z-4events.txt.gz
-      (stock HC death, full call, 168MB raw / 34MB gz)
-  crash-evidence/auto-captures/CRASH-20260825T213016Z-*.gz, -213154Z-*.gz,
-      -220834Z-*.gz  (same-day precursor stalls, incl. one on the local
-      LPM-workaround build)
-  crash-evidence/2026-08-25-stock-hc-crash/  (watchdog dump + notes)
-
-JP
