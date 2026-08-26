@@ -1,92 +1,85 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F813B774B;
-	Wed, 26 Aug 2026 08:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823523822B1;
+	Wed, 26 Aug 2026 08:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787733982; cv=none; b=CLJAmkYPVnq7tpkyK/KRCP8F3q5HBQ4JIend7hQffCGboFMnuDaWdCB8RyDhAUoX3g5jclB7puSkv54kJLe48zVN00kxDzPOnbh4d/65H87b7OUsNe/X2PPXbXgUFMXF1FjVwx8hpcVAnwLGDs53gWvqsGa5+zvxZ6I5xytjckc=
+	t=1787734785; cv=none; b=FCLZxBCC9EBnTRwTy79+dCGGgGod1Ufh83pUCpuPLjDq3ct7FiQzn0sfgFuoHitN/NbU90ugsucVZ7OPGPHANn1okUSrCJocq4u73RG6oHHIkti/qNHcW5M0kW0yPLCspJM/8IFRLLufNAzwH8SKG35tmkrktXowODVHSVEUKk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787733982; c=relaxed/simple;
-	bh=eIP0HkhWAexec9N06c9IDEi+2q1dEs5bMJNydZjpQW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tFffzbO+CzYKkQ3mEJoF88v/S6QVJ3+CaJmH5ZxF4XgjY+d2/sJ2IdHr3B1wyjTTg9CcARjLh1c+H7rqQh5VfCkwlayt8ZV9WoxFMaRbClm5aVQOC6L6yOk9BBdhooKIhhxl7A4U2k5dKgA4UnQ/vPLaDNJYBp8Lm9BvVdsID+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2dPG9Y9m; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=AE9g/STC; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2dPG9Y9m";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AE9g/STC"
-Date: Wed, 26 Aug 2026 10:46:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1787733977;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qkNUwTlcunTbZN49eaJoUvCru6l5C3KsF/2xP4pYHPM=;
-	b=2dPG9Y9mFmiSTLAoiWyVqzULOb9b5FhvQpmOWR3QpQZ5jBwPXxyj9nlzdQk+2/idBi3fjY
-	2thp2z3gpLAtLAj2nQL6A8B6EpR6lMKmHZU86uLTlb9yH+8M4vaXmyrwhj2aDX3MwBNrQ4
-	e8O3W4MxpYC+don9XTOcAPjbR0diNLcd33A5F21/e241WvLf5cE99+Lvg4v3Gtn/xJo+qd
-	EKFRbKtVpGRPJ3AZL2i3BGmS2TFyqQp8bUZLAM++Ex7uSJC4Ti5WAivlLdeLX7+yS9J2l5
-	hRkEVT3yA8yldXNGnEBv42UBugypjn3icL/OeFKAu62VNF3jdk6q9i7rwGyhnQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1787733977;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qkNUwTlcunTbZN49eaJoUvCru6l5C3KsF/2xP4pYHPM=;
-	b=AE9g/STCzgj1xQPtEoA4JeFnD6giKhOZV/EfzMuBsTN/6LRykSLpn3HUNRKustx4GsYQpo
-	JPw2X1wsx0SoW9Cg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Greg KH <gregkh@linuxfoundation.org>, Yuho Choi <dbgh9129@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, sebastian.reichel@collabora.com,
-	tglx@kernel.org, alchark@flipper.net, u.kleine-koenig@baylibre.com,
-	ustc.gu@gmail.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] usb: typec: fusb302: Free log buffers on exit
-Message-ID: <20260826084616.V9emV9vv@linutronix.de>
-References: <20260807203403.1011343-1-dbgh9129@gmail.com>
- <2026080802-finicky-exclaim-0def@gregkh>
+	s=arc-20240116; t=1787734785; c=relaxed/simple;
+	bh=AqBVwdExD0vBEXXdbAOAWtw/zVnUr8eBQmC0hW2f9X0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VqbMWmpLPdcDa96Dh01PTg5cpykORJpnmbOrjbZPOB08S98aLxuz5NpfxlQJ/QM8niqKJXdTZFLJZSxZFXp+BuU9VrgjLKu1GQidgJRl8rHbzToNx3OrUVcg+CQzhWSBNB3QVrghWwIImFNHwoXQsRamsOVYZMf6pyieu2lepWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 753e36dca12c11f19a56ed5b684f684d-20260826
+X-CID-CACHE: Type:Local,Time:202608261653+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:2d3924ee-0e59-4cc9-ab54-0ba8006190d7,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:074f485fac49b0734e9a3dd889a43fd6,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 753e36dca12c11f19a56ed5b684f684d-20260826
+X-User: dengjie03@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1501693354; Wed, 26 Aug 2026 16:59:34 +0800
+From: Jie Deng <dengjie03@kylinos.cn>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jie Deng <dengjie03@kylinos.cn>
+Subject: [PATCH] usb: core: Ignore remote wakeup for Fintek ttyUSB device to fix S3 auto-wakeup
+Date: Wed, 26 Aug 2026 16:59:24 +0800
+Message-Id: <20260826085924.2083522-1-dengjie03@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2026080802-finicky-exclaim-0def@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On 2026-08-08 09:10:28 [+0200], Greg KH wrote:
-> > --- a/drivers/usb/typec/tcpm/fusb302.c
-> > +++ b/drivers/usb/typec/tcpm/fusb302.c
-> > @@ -223,7 +223,16 @@ static void fusb302_debugfs_init(struct fusb302_chip *chip)
-> >  
-> >  static void fusb302_debugfs_exit(struct fusb302_chip *chip)
-> >  {
-> > +	int i;
-> > +
-> >  	debugfs_remove(chip->dentry);
-> > +
-> > +	mutex_lock(&chip->logbuffer_lock);
-> > +	for (i = 0; i < LOG_BUFFER_ENTRIES; i++) {
-> > +		kfree(chip->logbuffer[i]);
-> > +		chip->logbuffer[i] = NULL;
-> > +	}
-> > +	mutex_unlock(&chip->logbuffer_lock);
-> 
-> As you are tearing things down here, and there is no actual user, why is
-> the lock needed?  And if so, can you just use a guard() instead?
+The Fintek ttyUSB device (VID: 0x1934, PID: 0x1202)
+has wake-up capability enabled by default, and changes
+in the RTS/DTR signals can trigger a remote wake-up.
+This behavior causes the system to be automatically
+woken up from S3 (Suspend to RAM) state unexpectedly.
 
-That is correct. The whole thing is about vanish so locking is not
-needed.
-Looking at the actual user of that buffer, I'm curious if it wouldn't be
-better to use dev_err()/ dev_info() for some of the output and other
-which are just pure informative/ debug kind of information, hide behind
-a trace event which can be enabled if needed.
+To prevent this unwanted auto-wakeup and ensure the system
+can stay suspended, add the USB_QUIRK_IGNORE_REMOTE_WAKEUP
+quirk to the device entry in usb_quirk_list.
 
-> thanks,
-> 
-> greg k-h
+Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+---
+ drivers/usb/core/quirks.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Sebastian
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index b5b577f0b931..b0856e05580e 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -528,6 +528,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	{ USB_DEVICE(0x1908, 0x1315), .driver_info =
+ 			USB_QUIRK_HONOR_BNUMINTERFACES },
+ 
++	/* Fintek ttyUSB Device */
++	{ USB_DEVICE(0x1934, 0x1202), .driver_info =
++		USB_QUIRK_IGNORE_REMOTE_WAKEUP },
++
+ 	/* Protocol and OTG Electrical Test Device */
+ 	{ USB_DEVICE(0x1a0a, 0x0200), .driver_info =
+ 			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
+-- 
+2.25.1
+
