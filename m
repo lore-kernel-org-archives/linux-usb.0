@@ -1,118 +1,108 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A939F5733E;
-	Wed, 26 Aug 2026 03:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8047D18C008
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 03:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787716034; cv=none; b=uSQy9y7nFfVY7COMzI4fpk5G8vN+Y19Jy7lz6kaSO10q7uh996gT4aI1CyVLG8dU6Rt0XNqlkY7iBRRKa0SYRblGx8MTr/JDSUuYvKGdZ/lv4DyuLnAC82+f9+/bTOiFhZEy9TN6/2a/CWbmclSkp8GHfPPqMuxSYqElHVrlUsM=
+	t=1787716538; cv=none; b=biYCiJkkcPElkMpZoYkiUlG9XT/sobaGWGkb4HoBimKwge13ri+olhdTANz3t3AeEEj10ZaBXBMexgFCd+hMxzn3LxxMH2SkNGXWaRRxxjdxTAjXvjjEQ1JfMdY2U+AimOdAo59Nvap8afz+4L4lEdMm19zH647ygC6HJJK/2w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787716034; c=relaxed/simple;
-	bh=3OHcOsxoydDiByqI7XObvVTJ62CbTVQq18RDHUOLoe4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C36xDLoVI7h//v+LFtiKwMNl1TKpMPutQPY5y7alF27184NHTx9F/FvoBH6hyP7hR9M5pFiLI66j1FuZ/JS+bMsXOQ8iOX0ZAYyaZD2dquqyqyhNAOHo5lf3ogA/8fAvp8PPYBjrn7e01bgj/yOh4Zs2H6ATZEYqxDkPDdVSA/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: cba3e14ca10011f19a56ed5b684f684d-20260826
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:7b35d4eb-c01a-4205-9cee-d481923b43e6,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:-45
-X-CID-META: VersionHash:7db8b62,CLOUDID:e1f963a741f65c52c65a5864092f7bbd,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:1|-100,
-	IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: cba3e14ca10011f19a56ed5b684f684d-20260826
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 2009750874; Wed, 26 Aug 2026 11:47:01 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: heikki.krogerus@linux.intel.com
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Huang Wei <huangwei@kylinos.cn>,
-	Alex Bartz <alex@alstergee.com>
-Subject: [PATCH] usb: typec: ucsi: do not register UCSI on Lenovo Legion Pro 7 16IAX10H
-Date: Wed, 26 Aug 2026 11:46:58 +0800
-Message-Id: <20260826034658.2170407-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1787716538; c=relaxed/simple;
+	bh=JyY6JGr+jPbcAP9NCmiZu8QgkqL+g/U8FWK9cX4+dgQ=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uVYgWbsl2fBbItM9fHPqUyNj8J4Fs09nenHne0pXu5q8m1HhoYUVu2tlAdgL8MHlfGgxtCtT4tHJ2p5c1CtcLvKHh2dAaftUQMZmGE/QITiSZdlrjvRyIvJCR7e//rqvVLxow6iq0GwLaPEpWCrR/ce41BNupcbfaJoWg9GTQq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7ddYzib; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7ddYzib"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 049ACC2BCF6
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 03:55:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787716538;
+	bh=JyY6JGr+jPbcAP9NCmiZu8QgkqL+g/U8FWK9cX4+dgQ=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=c7ddYzibAkm8ixV1QoGvv+jnez0E5evRudq+pCKWZPkgjDYewcn7w5KdEigIMnUiB
+	 Urw7Rz02+pr3u6O7mWB8v4Xij9tvUF2OHrQZjAJw+B/NyEFUb/CjoKU8rs+AzxrwZZ
+	 cWInRiZoWEkQAOGXJiB0TYmIWQGsj+UoFSe59OX8QyFhkThHaYKBJ/kIO1NG6ISjY2
+	 FCU2yrj7BGoJStHR8SP6049OUxEkCVBhA8x2w7XVcf65DwI4BNGQs+xwScz/W69c6L
+	 7cChVZH3ZcpR81adMESF6jq/rHSqn0E3SlWOG8bJlH2vE/g4M09n7Odi5zrIPLQNn7
+	 mjTy/LQ9/DMtw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id D5B4AC41613; Wed, 26 Aug 2026 03:55:37 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221142] ucsi_acpi actively breaks USB-C PD charging on Lenovo
+ Legion Pro 7 (Arrow Lake)
+Date: Wed, 26 Aug 2026 03:55:37 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: trivial
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: huangwei@kylinos.cn
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221142-208809-tgSbbsa8BS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221142-208809@https.bugzilla.kernel.org/>
+References: <bug-221142-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The EC firmware of the Lenovo Legion Pro 7 16IAX10H (DMI product name
-83F5) has a broken UCSI implementation: GET_PDOS returns no source
-capabilities, GET_CONNECTOR_STATUS reports an incomplete RDO, and any
-UCSI traffic disturbs the EC's autonomous USB-C Power Delivery
-negotiation. With ucsi_acpi bound, chargers connect only briefly and
-then drop, and voltage_now reads 0; with the driver blacklisted, the
-EC negotiates full PD contracts on its own and charging works normally.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
 
-The problem is unaffected by BIOS updates up to Q7CN78WW (2026-04).
-The AMD sibling Legion Pro 7 16AFR10H (product name 83RU) reportedly
-uses the same EC firmware, but it is left out of the quirk until the
-failure is confirmed on that model.
+--- Comment #3 from Wei Huang (huangwei@kylinos.cn) ---
+Hi Alstergee,
 
-Skip probe on this machine, which is equivalent to the blacklist
-workaround the reporter verified to restore charging.
+Thanks for the detailed DMI info - and for the note about the AMD
+sibling (83RU). I've kept the quirk to 83F5 for now, since the failure
+is only confirmed on your model; 83RU can be added once someone
+confirms it there.
 
-Reported-by: Alex Bartz <alex@alstergee.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221142
-Signed-off-by: Huang Wei <huangwei@kylinos.cn>
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+A patch has been submitted to the linux-usb mailing list:
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 18286d3e9cc5..9f36f8cfce4a 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -173,6 +173,21 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
- 	{ }
- };
- 
-+/*
-+ * Platforms with a completely broken UCSI implementation in firmware.
-+ * Do not register UCSI at all on these machines.
-+ */
-+static const struct dmi_system_id ucsi_acpi_ignore[] = {
-+	{
-+		/* Lenovo Legion Pro 7 16IAX10H: broken EC UCSI firmware */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83F5"),
-+		},
-+	},
-+	{ }
-+};
-+
- static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
- {
- 	struct ucsi_acpi *ua = data;
-@@ -199,6 +214,12 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
- 	if (adev->dep_unmet)
- 		return -EPROBE_DEFER;
- 
-+	if (dmi_check_system(ucsi_acpi_ignore)) {
-+		dev_info(&pdev->dev,
-+			 "UCSI implementation in firmware is broken, ignoring\n");
-+		return -ENODEV;
-+	}
-+
- 	ua = devm_kzalloc(&pdev->dev, sizeof(*ua), GFP_KERNEL);
- 	if (!ua)
- 		return -ENOMEM;
--- 
-2.25.1
+    usb: typec: ucsi: do not register UCSI on Lenovo Legion Pro 7 16IAX10H
+=20=20=20
+https://lore.kernel.org/linux-usb/20260826034658.2170407-1-huangwei@kylinos=
+.cn/
 
+It adds a DMI quirk that makes ucsi_acpi skip binding on this model,
+which is functionally the same as the blacklist workaround you already
+verified - the module can stay loaded, but it will not touch the EC's
+UCSI mailbox.
+
+If you have a chance to test it (build a kernel with the patch applied,
+make sure ucsi_acpi is no longer blacklisted, and reboot), the
+confirmation I'd need is:
+
+  - a dmesg line like:
+        ucsi_acpi USBC000:00: UCSI implementation in firmware is broken,
+ignoring
+  - normal PD charging restored (voltage_now non-zero, chargers hold).
+
+If that works, it would help to have a formal Tested-by tag from you,
+which lets the subsystem maintainer pick the fix up directly. Just reply
+with:
+
+    Tested-by: Alex Bartz <alex@alstergee.com>
+
+Thanks again for the quick and thorough help!
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
