@@ -1,56 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D41EFF93
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78B2209F43
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:50:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787711632; cv=none; b=Mn5XyDu1zx1ooYar7oDh5dGqwauGXrAvwKm2eKZDW6uCs6KuDy//AGS7x9T0/OMqRD6y7HPRlBCA+iUHUwyi/iUsSs28aG57FSbzoKx5KYmmeECQfjwA0xbYtcdibxZL1xYkF1plXjJMjGak4ySK+5Y4z6ccrv6rDM8lnxF6clY=
+	t=1787712645; cv=none; b=G5CBJpUJ0pGOl0wFNsmIz1fsEmzZs/mo0jzA3sNczFZ1C7/DrEw+LDhuFH5i4wclXvOaBPY+dN3mWaVmqGfw6CfY8FtyBAPNZX7IxAd7zPojrHZYlA6W/VgQ+1TN3NU/PrUyHjvqjLmYTt8xGRQMAlyPLyH5nLxaQzUFcHfKfuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787711632; c=relaxed/simple;
-	bh=EqVAHhSvC0xvJ3tZOwXzvGfdbjWtgA1xxgEs+V3nF2g=;
+	s=arc-20240116; t=1787712645; c=relaxed/simple;
+	bh=3IQgZY7Hw7DBVb/yh5yB22pDuVVbGJ1zTXKb4YZ3hq0=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fK7jSRFLEyuXIocGfjhfpmMYoPEUrkjUxvdxRyOYNpQ8AU6jHPjna8n6MkORGAAMMxWskZF/5VEuNM/ZL82COuFmx9tWwAX4JBY/SvcqflP0fsYXi+/UPtZk1qQoix8OqyttnCSMIKM3gKMR1dRM5pISb34FTJzDtrEA79J6E64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5IlBVjv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=uQOEJqWgjqBfXEEJbbrrp24YX4OThUQglaLCiJydesGqOdOBEBzgZJC/yRypcJF+kwPKTKUFLholyiI8WhCx0IetyhgDuDSGQBN2eZWwpg8gT3sWFV8azjuiRjZlkz24/Qyi5r2dovzXhX4hnxgLDG/tyH4B/23GE3KAO5r9hBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hBARBXvO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5IlBVjv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 89D4FC2BCB8
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:33:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hBARBXvO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5857BC2BCFA
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 02:50:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787711631;
-	bh=EqVAHhSvC0xvJ3tZOwXzvGfdbjWtgA1xxgEs+V3nF2g=;
+	s=k20201202; t=1787712645;
+	bh=3IQgZY7Hw7DBVb/yh5yB22pDuVVbGJ1zTXKb4YZ3hq0=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=C5IlBVjvjJ5bx6SrO4ohAh1Y9YVcPB37xkrWnFHV7SLEdN3zD5E+b6LIDzKTuXoez
-	 az2Ump96V3a8wX1Nk3lD6skKbzvsNrz+DLSEPeuzJErO1dLf/pF0iGkuJFr0+yUh1g
-	 G7d0VV1o99yTe6IVrXYZkzjy4OkmIKy+XXaN7GwA4azObiK1fUW0iQvW8HDrzeopQ7
-	 rXzX2PBDwy0/nKHJA+yimcceZVX5mpTCt5232Obz8cuAIEG9Urss2rq5zwKqKy9axK
-	 nvbLTshpvwGPm9/yZBl9hD1+8zchAqxtMkJsTr2bGKnx6Vcx1wFiNvGqF2MT+3fhiF
-	 sbgXszsmBKH5g==
+	b=hBARBXvOGwrkdQF6cbY018eZsm74qL0wCSVk8pn0ez4DhcJxAZ02hxPc0N+a0d980
+	 BadJ+1NjUTGrri/SV5bU8a+2nKqI0UCi3ChM7fdV/lNKzO0rXO05gmGDbv1V4Tt9/X
+	 dlkLEaFrbhRa7E5q3Phdaw5Hxr8RXa8IULsGQgU3glU8ocRSyR6BTvNQjQ0yP5LM0K
+	 vzq1AFoI4LY318h52p77wkUDT2fBLlliBJA7MbcdJM5/nqiWYruzGtjVxZqL7YtV15
+	 gDExNjePRc4Uk3D4yzn25YBUy0cGyH+vZ8Xs3eyTis/8NvlqB8zvKGVml3iiD+ZXK+
+	 cgBvuI5LsXBKw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 681F2C41613; Wed, 26 Aug 2026 02:33:51 +0000 (UTC)
+	id 3D28FC41613; Wed, 26 Aug 2026 02:50:45 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
-Subject: [Bug 221142] ucsi_acpi actively breaks USB-C PD charging on Lenovo
- Legion Pro 7 (Arrow Lake)
-Date: Wed, 26 Aug 2026 02:33:51 +0000
+Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
+ breaks functionality of Owon VDS1022
+Date: Wed, 26 Aug 2026 02:50:45 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: trivial
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alex@alstergee.com
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: huangwei@kylinos.cn
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221142-208809-cvqCzywdgA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221142-208809@https.bugzilla.kernel.org/>
-References: <bug-221142-208809@https.bugzilla.kernel.org/>
+Message-ID: <bug-220193-208809-alPLqUHNlH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
+References: <bug-220193-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -62,125 +62,40 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
 
---- Comment #2 from Alstergee (alex@alstergee.com) ---
-Hi Wei,
+--- Comment #4 from Wei Huang (huangwei@kylinos.cn) ---
+Hi leStoppe,
 
-Thanks for picking this up! Here's the DMI information:
+Quick update: the patch you tested is currently under review on the
+linux-usb mailing list. To finalize it, the USB serial maintainer
+(Johan Hovold) needs a few details about the VDS1022:
 
-`sudo dmidecode -t system`:
+1. Which userspace software do you use to talk to the VDS1022? In
+   particular, is it a libusb-based tool (e.g. the Python 'vds1022'
+   package)? This matters because once a kernel driver claims the USB
+   interface, libusb can no longer access the device - which is the
+   most likely explanation for the breakage you reported.
 
-    Handle 0x0001, DMI type 1, 27 bytes
-    System Information
-        Manufacturer: LENOVO
-        Product Name: 83F5
-        Version: Legion Pro 7 16IAX10H
-        Serial Number: <redacted>
-        UUID: <redacted>
-        Wake-up Type: Power Switch
-        SKU Number: LENOVO_MT_83F5_BU_idea_FM_Legion Pro 7 16IAX10H
-        Family: Legion Pro 7 16IAX10H
+2. Could you please attach the output of:
 
-Contents of the requested `/sys/class/dmi/id/` files:
+       lsusb -v -d 5345:1234
 
-    sys_vendor       =3D LENOVO
-    product_name     =3D 83F5
-    product_version  =3D Legion Pro 7 16IAX10H
-    product_family   =3D Legion Pro 7 16IAX10H
-    product_sku      =3D LENOVO_MT_83F5_BU_idea_FM_Legion Pro 7 16IAX10H
-    board_name       =3D LNVNB161216
-    board_version    =3D SDK0T76461 WIN
+   for the VDS1022 (or the full 'lsusb -v' output if that fails)? The
+   interface class reported in the descriptors decides how narrowly
+   the driver match can be defined.
 
-Additional context that may be useful for matching:
+3. Does the VDS1022 support the same SCPI command set as the HDS200
+   series over its serial interface?
 
-    bios_vendor      =3D LENOVO
-    bios_version     =3D Q7CN78WW
-    bios_date        =3D 04/07/2026
-    board_vendor     =3D LENOVO
-    chassis_vendor   =3D LENOVO
-    chassis_type     =3D 10  (Notebook)
+I asked these questions on the mailing list thread as well, but in case
+replying there is inconvenient, answering here is perfectly fine - I
+will forward the information to the thread.
 
-The BIOS has been updated since I filed the report (Q7CN44WW -> Q7CN78WW,
-April 2026). Symptoms are unchanged =E2=80=94 ucsi_acpi still returns empty=
- PDO
-data and interferes with EC-side PD negotiation; blacklisting ucsi_acpi
-still fully restores charging.
+A reworked version of the patch (v2) is already prepared and will be
+submitted as soon as this information is available.
 
-Also worth noting: the AMD variant of this laptop is DMI product 83RU
-(Legion Pro 7 16AFR10H, BIOS prefix SMCN). It uses the same EC firmware
-(ITE IT5508, EC ID 0x5508) and the community reports the same PD
-negotiation failure there. It might be worth matching both product names
-in the quirk if that's how the LG gram quirk is structured.
-
-Currently running Ubuntu 26.04.1 LTS, kernel 7.0.0-30-generic.
-
-Thanks,
-
-Alex Bartz
-eleso.app
-FestivalWiFiGuys.com
-Alstergee.com
-[image: mobilePhone] +1 (801) 808-1498 <+1%20(801)%20808-1498>
-[image: emailAddress] alex@alstergee.com <alex@festivalwifiguys.com>
-
-
-CONFIDENTIAL & PRIVILEGED: This communication and any attachments may
-contain information that is confidential, privileged, and/or exempt
-  from disclosure under applicable law. If you are not the intended
-recipient, any review, use, dissemination, distribution, or copying is
-  strictly prohibited. If you received this in error, please notify the
-sender immediately and permanently delete all copies.
-
-
-On Mon, Aug 17, 2026 at 3:20=E2=80=AFAM <bugzilla-daemon@kernel.org> wrote:
-
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
->
-> Wei Huang (huangwei@kylinos.cn) changed:
->
->            What    |Removed                     |Added
->
-> -------------------------------------------------------------------------=
----
->                  CC|                            |huangwei@kylinos.cn
->
-> --- Comment #1 from Wei Huang (huangwei@kylinos.cn) ---
-> Hi Alstergee,
->
-> Thanks for the detailed report, and for verifying that blacklisting
-> ucsi_acpi restores normal PD negotiation on this machine.
->
-> The cleanest way forward is a DMI quirk for this model in
-> drivers/usb/typec/ucsi/ucsi_acpi.c - there is already a quirk mechanism
-> there, used for a similar EC firmware problem on LG gram laptops. To
-> write the quirk, I need the exact DMI identification strings of the
-> machine, which are not part of the report.
->
-> Could you please attach the output of:
->
->     sudo dmidecode -t system
->
-> Alternatively, the contents of these files:
->
->     /sys/class/dmi/id/sys_vendor
->     /sys/class/dmi/id/product_name
->     /sys/class/dmi/id/product_version
->     /sys/class/dmi/id/product_family
->     /sys/class/dmi/id/product_sku
->     /sys/class/dmi/id/board_name
->     /sys/class/dmi/id/board_version
->
-> With that information I can prepare a patch and submit it upstream.
->
-> Thanks!
->
-> --
-> You may reply to this email to add a comment.
->
-> You are receiving this mail because:
-> You are on the CC list for the bug.
-> You reported the bug.
+Thanks a lot for your help!
 
 --=20
 You may reply to this email to add a comment.
