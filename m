@@ -1,115 +1,125 @@
-Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761363EB0F3;
-	Wed, 26 Aug 2026 10:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEEC3EDAB8;
+	Wed, 26 Aug 2026 10:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787741408; cv=none; b=rHsm6RO6kyFHumBarce5o4eNoBKWkmzzp0PC5rS6pfgTiY9lOATduNq8H4FzV7NfAn9cTShES+uhYQN2ldU7h9K/5Bvw/Yz+W7+HIYobI9cb+kvNYq636J+hHYEx8tAtmiocL/WXXmfI5sl2SzIw8p45r4mu8B7z63yMU3MlBBQ=
+	t=1787741604; cv=none; b=L+Hzz+FDnEyJGPXDcArO5W+kxeiEjm3nZfBniiNOIqJrvC9TGWdY7To1+qJA3Ugh6hqJJ1xUyOZlje5xNObqbEoxBycCSRuhLupBHi47tIX1+FDCzdayr9O2LhI2/IGh3S4eEutvlLT147XdSdVGNXsQlao4jpFbUdg9d0EeCxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787741408; c=relaxed/simple;
-	bh=9z2zkWsuAuKanUzbPAvqpovEWzEhdlO/dA+mIkH5d5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V0fc+OYPu2cq2sLOnc6y2l6Ux9i09U4GfkRTlq2kwrIa0NxdLjdsbDEh1v4nnjK95pwdd3PwSc30l8ULk1TABECfTp0O1twjqd71J/cy2cmIw3i3GqwNSJ4F7Dr9XugyTxsesA4mqoLhQGJLqAzVWWCQIqAYWxg56Ag4tnLeYTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=SRc/8n8c; arc=none smtp.client-ip=203.205.221.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1787741604; c=relaxed/simple;
+	bh=+Nm/GOdv7sAy5pNIxnamaskmo0BNDubXQZQmnNJ/oU4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sLpNlJIEqoIheQBv5J+GecW+ySzvoyXJMtnhYNuXzSO9W3w536Ly1Lx0NEcUVROrzBV2NtgKkGLmVUr7JuBN0MWpYXCKoR9lC0ueu+/Hlf3HYOplq996P5i+snxPkQGy0sX4zLtrWFAouVCD3stsFdPExgQqSQSDji2Zmh3mD1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=P0tonfCE; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="SRc/8n8c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1787741383;
-	bh=jTEc/AoPDOnywj8iUCyxPPaWp9bRNRr7l05zNDCxh1w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SRc/8n8c1MvKVp5qXfvTX8JSLZsajzXdBGEmQUSvJBbz0i5PAGWp+KgHW3kjkHpdg
-	 tCGpWwg2tXP8Y86K5uwgnR5WncuBjbzmKA8/oTot7gVXlEN7rv4v3gHmPKKOSN0dha
-	 J3SUBdff2CG6Re3y3AnM1d21Ofqfim+pNgESvKTU=
-Received: from [198.18.0.1] ([58.206.203.238])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id C692CC4F; Wed, 26 Aug 2026 18:49:41 +0800
-X-QQ-mid: xmsmtpt1787741381tobzcy4f3
-Message-ID: <tencent_BF146C430745F413BB9A67220EEC6701B205@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJ0/2ej69KZyKW7whX1PZhkKGC9DoiwWSILhqtGVmoHFXHKwGPAD
-	 l+YlZ7Kses9LBMhBYv3odfSw9u/4I6ErYEBMhO6vR+TzWlhxnzAZzz4EZjfsFSatVSImsbK/bGPC
-	 kTcC3JYlCP4EYfrXg/HgPFWxRyMNOaOgIkLWqTJj022faEiDSEn9yI2rXwbyNmqHTqwmxFnlJo4v
-	 dihVTUzghNkAYki8gJP/1x/I3aJ6YXxqX4+IFC516xC+roMLvIM/nfjK9TmygQQNHhi/Un/pIRDj
-	 Z2krEcBiTXZzTAOIoR/8tHt7uVdEPbKeg0Qj5O5UTY4pNTz486S48I+Ktjm+q6DHaR2E5PPz4ozd
-	 2KgEVhZUDeuT/gJaPS+jq3VEHUN42YRxqmm44mq6tZcY7VBuBcArQ30DQIzIdKqrirurvieoMgYJ
-	 7qfEgEQYtPGfUECi49CDY8n784MMtg8fuLP9JTy5ItsFIVRlpOO6l/YKJc8cYPyqph+jaqvbUBoR
-	 JDzVk5CT/PFwgVM7qYamkaNqhWRnodnZxq/FqO62ENWZz1CrMVuHKlR0m23CTqZHfNvaYzDu7ziC
-	 vjyVC+bjDEpmfYvgNl2jYFePyMyAqweJVDNIADM2yYdqYJueyT/Fu5o7E14o4i4HAmx0tP9CPlBs
-	 aG5Z1NBN4gKLlJZ65KH4pdI7rSSXm2YVq25TGM5fbVwwyMTwFJRRzeG/ZP1OfVK3bqi1vKkfUOAo
-	 0kEbqGaIefmDlWsYsusvsClsvE1IUu1dzgUiyR4u4xBii7DvjlYG1Munc5Yw9MHVgxqWn6I6cRBp
-	 ej0+g023OOhBGWa8A0zDBgkaof+Rwsc8kNxoMwbv8dC1ovUPcWMf+78mY29D2tOaJt4Q+Itu0Kx8
-	 ckIyZiTrvkWH4fSElKeVBs1A55n52Z2oufvftqaK91Te/OT3C8zS0yk7QvHLTT1XWamhgbtJ4KkL
-	 c1H/6ozKlQXUCoNUJKcCXF5lueWAfwfuskNq66yIcW2tOWVoH+JQZMfMsWferIj9ZYGWv2vSBSN7
-	 35usbOT7AaRMjKz5EPPupAU/6HPaMatPjN1PQoQ9O4AAYyRumu92QkLuZztrWTU9YR+H6sK+snQ/
-	 //M2AHAj9EbSPTvYpfBAIU0/BYOw==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-OQ-MSGID: <715084c7-8e33-464a-be00-11c19f484f42@foxmail.com>
-Date: Wed, 26 Aug 2026 18:49:39 +0800
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="P0tonfCE"
+Received: by chaosmail.tech (Postfix) id BC8521CB862;
+	Wed, 26 Aug 2026 10:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1787741582;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AWLz/nx/HKW4l1MsmrOvAL31GIJPVq9zkyA7xVp6kj4=;
+	b=P0tonfCEY8CQIPzuHFbedZAz1sASaNl7V2heq5flYm92JTd3od0V5E+qhkNifvm89W7ha7
+	hQ2v74ZBSqOSUAFmDZATgsfcOXpNdkno9CjF+SwoN8c+uJUljtdvbY4ysspCs6vdNrSNF5
+	xJefk9dYJgUC/w3JqmyyeSyOt0t3+M4=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Subject: [PATCH v6 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
+Date: Wed, 26 Aug 2026 12:52:56 +0200
+Message-Id: <20260826-tipd-ace3-v6-0-e919f39a93a2@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] usb: gadget: goku_udc: move debug output to
- debugfs
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Felipe Balbi <balbi@kernel.org>,
- Peter Chen <peter.chen@nxp.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260826-b4-fix-usb-v3-0-b28366e817f3@foxmail.com>
- <tencent_D7673CCE71B03F2C90CD60873AB4A245D808@qq.com>
- <2026082625-stoneware-trailside-ff19@gregkh>
-From: Cheng Lingfei <chenglingfei@foxmail.com>
-In-Reply-To: <2026082625-stoneware-trailside-ff19@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23Pz07EIBAG8FfZcBYDDAOtJ9/DeODPYDG63ZTaa
+ DZ9d2E9iLHHL8zvm+HKCi2ZCns4XdlCWy55Ptdg7k4sTO78QjzHmpkSygirkK/5ErkLBFyMwie
+ 0ghKOrM5fFkr589b19PyTy4d/pbC2gjYx5bLOy9dt2Sbb3FHvJrngFupLBCNhcI/1krm8u/x2v
+ 1KYWCvfVM9tz1XlEjSOaH00gIccfvkgZM/rx/gAoJKi4HQKh1z33PRct+PHAdFLFKPUhxw7rv5
+ sx8pBaU0RfAyQ/vF9378BW0gRn7UBAAA=
+X-Change-ID: 20260725-tipd-ace3-090bf570ef59
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
+ Alyssa Milburn <amilburn@zall.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787741581; l=2748;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=+Nm/GOdv7sAy5pNIxnamaskmo0BNDubXQZQmnNJ/oU4=;
+ b=5v4h96Y8mqlUwq5S3dXU0kOJBkEhi7ujShT5XKrhHBAv/bKLjugB087hLtxVsF1llNGcVS4re
+ p0GXWVOH2uMCuvMt+tr60XAlXRFteswN9aSXD8Gf2zZhv1gsoCvvijt
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-On 8/26/2026 5:25 PM, Greg Kroah-Hartman wrote:
-> On Wed, Aug 26, 2026 at 05:15:06PM +0800, Cheng Lingfei wrote:
->> goku_udc exposes diagnostic state through /proc/driver/udc. The single
->> global proc entry collides when more than one controller is probed and
->> triggers a proc registration warning.
->>
->> The data is intended only for debugging and is not a userspace ABI. Move it
->> under the USB debugfs root and use the PCI device name for a per-device
->> directory. Create the file only after the UDC has been registered.
->>
->> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Link: https://lore.kernel.org/2026082616-glue-atlas-0cfd@gregkh
->> Assisted-by: Codex:gpt-5.6
->> Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
->> ---
->>   drivers/usb/gadget/udc/goku_udc.c | 47 +++++++++++++++++++++++++++------------
->>   drivers/usb/gadget/udc/goku_udc.h |  5 ++++-
->>   2 files changed, 37 insertions(+), 15 deletions(-)
-> 
-> Slow down please.  There's no rush here at all, and by flooding us with
-> new revisions it doesn't actually allow anyone to review previous ones,
-> AND it shows you are just pumping out LLM-generated stuff without all
-> that much thought.
-> 
-> Please wait a few days at the very least before doing new versions of
-> patch sets.
-> 
-> As pennance, please go and review some outstanding USB patches on the
-> mailing list, to reduce our review load :)
-> 
-> thanks,
-> 
-> greg k-h
+Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
+variant that wraps the tps6598x core register set with a SPMI based
+regmap-like protocol, first appearing in Apple M3 devices. This series
+first makes the core parts bus-agnostic, and then adds the new SPMI
+interface as a custom regmap implementation.
 
-Understood, sorry for the noise and the rapid rerolls!
+To simplify the merge strategy, the device tree entries will be sent
+in a future patch series.
 
-I will slow down, give everyone time to review, and take a look at other
-patches on the list as well.
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+Changes in v6:
+- Fix rebase issues
+- Link to v5: https://patch.msgid.link/20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech
 
-Thanks for the guidance!
+Changes in v5:
+- Rebase on usb-next
+- Link to v4: https://patch.msgid.link/20260806-tipd-ace3-v4-0-79855b150914@chaosmail.tech
 
--- 
+Changes in v4:
+- Unexport variant data
+- One more debugfs-safety fix
+- Link to v3: https://patch.msgid.link/20260801-tipd-ace3-v3-0-8332f2eca4fc@chaosmail.tech
+
+Changes in v3:
+- Restore accidentally deleted static
+- Fix building with tracepoints
+- Sleep the device on failed probe
+- Link to v2: https://patch.msgid.link/20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech
+
+Changes in v2:
+- Use a -core module instead of building everything twice
+- Fix completion handling
+- Make regmaps debugfs-safe
+- Link to v1: https://patch.msgid.link/20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech
+
+---
+Alyssa Milburn (1):
+      usb: typec: tipd: Factor out i2c specifics
+
+Sasha Finkelstein (2):
+      dt-bindings: usb: tps6598x: Add sn201202x/ACE3
+      usb: typec: tipd: Add sn201202x support
+
+ Documentation/devicetree/bindings/usb/apple,sn201202x.yaml |  78 +++++++++++++++++++++++++++++++
+ MAINTAINERS                                                |   2 +
+ drivers/usb/typec/Makefile                                 |   1 +
+ drivers/usb/typec/tipd/Kconfig                             |  20 +++++++-
+ drivers/usb/typec/tipd/Makefile                            |  14 ++++--
+ drivers/usb/typec/tipd/core.c                              | 247 +++++++++++++++++++++++--------------------------------------------------------------------------
+ drivers/usb/typec/tipd/i2c.c                               | 107 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tipd/spmi.c                              | 300 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tipd/tps6598x.h                          | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 9 files changed, 705 insertions(+), 196 deletions(-)
+---
+base-commit: 3d9eeb336131bc5a174367c384fa00c15c8744fd
+change-id: 20260725-tipd-ace3-090bf570ef59
+
 Best regards,
-Cheng Lingfei
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
