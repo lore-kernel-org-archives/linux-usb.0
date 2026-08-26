@@ -1,146 +1,195 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281E13A7F51
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 16:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296F43F6618
+	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 16:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787761905; cv=none; b=oZ5kO1zLbkpFfEeyVj8LtizSzXxCtueyAtAHKa0gkqcb5b0O9xVjHpbeI8Tfok0Iz6MvrQnLULLHWYCmdLUgAf1CaADhv+YLGKzTgKd6jzfXk8aNGSxxdAtu56vd67TrcMS9JkYVDVeghlR8X7ssFVbO3zMDBSCoL9KAXDneQFQ=
+	t=1787762995; cv=none; b=kRfE5/qKmTI8DLCmvaytY7joA1cglms/VSZIIXKX5CLR1t3XeQSOM1IqxaZQb55QzebxZh9Arc44PfqMangC32kfue2pt+WUPVc9ZlDgimGcuK4u0gp9zGRUnwu1JOO/eU1afpLQZBfZaF2LtuUPdUS+gNH+WJzuJd4hUYyaAYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787761905; c=relaxed/simple;
-	bh=5JUivoyhL/eFA3z1wzR8eXGOYWpIX0QOjpm+5X1M89U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IrTiQeVCwl+aRLZzkdASjgCo88MdjqISjU/DYVcw8CROSRmlJCBaFQtGhtshIF4Vvey4dxhLRLrcHxD25dROObI7vgQSdH5Vab4I9dyKgL8KM6oDPbiS3lKuiN2Q06yjirs3M9FaYOWHFDaltx4Vcf2wSaBKUIoRDCid0pXxFv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=l62fSSEv; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="l62fSSEv"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-499d1ab3f9dso3993975e9.3
-        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 09:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1787761902; x=1788366702; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zNZLQEVLi7AF6T2ecrRF6uxN2Gce7/nJnEoP7xr5640=;
-        b=l62fSSEvzQydR0K2XmNXurF14Z1QDh6NOUaQb6k3XHtpC5Mc2i0ftZr9eCFQz3LGqJ
-         35qLKyJcYAtBTstIB+MZ5AhR93Oy4Jkgc210QFpZyDEbxib6BagpUANnmNTf+S0SuaA6
-         HQs+Gp0GoRidk5qsHihxZPjY4LGBS/I43nLC0GbQC3aJ+06vP+fpOraiJn3b9+pvJA+m
-         oWTkDDAF3fd7DKzP3N83GogJHZYCpCoialvtR2hP1PtUg4IK41ZOKKD6jYXfliNbS9g9
-         61g2q2AJiwnWVla3Hf5TjoaEcVMdaCqpyt2w+IxFngIXttgDZgkbJiBe7ILaV41xETUO
-         olxQ==
+	s=arc-20240116; t=1787762995; c=relaxed/simple;
+	bh=phsbyYf7Boh6K8o1ijxZ80eQZFGXbuMPeGJ9bwUfdkY=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=cSak4KawF7H09DYk8sq0IyLK2g6n7wwq44mJcjabeYOuNvgoG9wchg/ijyz6IULwuOaWQ4t4+LNxlnrXxRUlr0UyK9eYTArh3uAnLEznNRgrrmmMw3XCG7unTTu5yFjWRT0oy7EspWcTF8A2qwCwt0/a77mblbufD7mpovD0Pmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-466d41a1d9aso303395fac.0
+        for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 09:49:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787761902; x=1788366702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zNZLQEVLi7AF6T2ecrRF6uxN2Gce7/nJnEoP7xr5640=;
-        b=fbsT6hgP5Esgzbdjx+UqLIR8VG+cr7b8Fipbvqt4tK5Yp+MCsPD8PCj+v2kyv6tJGl
-         d1TKvhq+VNShV5oEcn/09YeSmECRnXOe92fp23cKDJZgzA1vyNB+dy+PArCkGBLS0oAU
-         ntOmy3vdd0Fr4O0UE3Ln2QDdneNdBONzbTUHBONz5LJNpVoSf0O7f2BPyf1c14zyxpTx
-         dKZyLg5Qws+6oA9zbD+GJ05i9f9O+HVomHiYazxkUiZs9487D7WkJxhKvUVm1cmALEVl
-         xCWwAsIKhS2+6T/8xbXxvQ2gXoQMik6x2PkSibQKmwh3S1Isz3enmT00k+MZWzuL3+Ob
-         P8gA==
-X-Gm-Message-State: AFuF++keNLUtRXcFX7Ba2LEucVdV/RrlavG5yQu0+Fvtt7pd1PrvVSGv
-	mhZhU1Bs7fW1nU9T9y/aqx2Pfoo3Uf7S7tno/OObzJ9nXCcpW1mInPguINVw2tx0bJjikRC1Ujo
-	sDBO3OIEF
-X-Gm-Gg: AR+sD11Y3TSVpwPrO5uVlnlouq8yHNKMZBBNX/23HvYQuXmmlhIL1Z7A/mhw+j8NJ3P
-	5wgkt+ZRNxBM3pWJMgCH+lrrAtjkd0qDt39NQNkbIPEsXsEyYXKB6onnmiKPovoS8zbq9lOvGY2
-	jlGek2q02zKe4VSjDESEoxNOaetiRdSceui7gO901b1oKe6bYT51IVFu2AmrdkpXa16UivlLGjq
-	9iFOfQegye4Tna5R2mQSDIJWV9RHl9mh9Lx8i7BqrfDMepGgR9mUEb6iBLeKioIDGAw8xVCoM6C
-	w36475+rvPgwlMmMbymMhKZDLZeHzLNIFmMnOVjgZ5imVwQU8+iRfbSOcsZp96ghpXlUdNVP0HT
-	wsVIzlO1wqgSIVekjq1IIyf+AXnBclcG0A95uJ8WZgdhGeAe52eyNypm3QtLEyFJOCmxdYgPYXA
-	z2qZXQEaVjf/zzKeafto6rq6GLGquElRPpAdw5QTkUpYnsJaccDEal9qJ4JmTQ6+c4ElU0Mnst2
-	s8x/LC5eKS+8twZeYomSb8BAO54zZKQy78i
-X-Received: by 2002:a05:600c:860b:b0:499:726a:a017 with SMTP id 5b1f17b1804b1-499dc6e0040mr88950875e9.1.1787761902407;
-        Wed, 26 Aug 2026 09:31:42 -0700 (PDT)
-Received: from axion.fireburn.co.uk ([2a01:4b00:d309:1c00:caf1:6b20:8531:818c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dc9b83aesm31202705e9.12.2026.08.26.09.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 09:31:41 -0700 (PDT)
-From: Mike Lothian <mike@fireburn.co.uk>
-To: linux-usb@vger.kernel.org
-Cc: Mike Lothian <mike@fireburn.co.uk>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Colin Braun <colinbrauncl@gmail.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] rust: usb: let a driver keep its interface usable while unbinding
-Date: Wed, 26 Aug 2026 17:30:41 +0100
-Message-ID: <20260826163101.4168-6-mike@fireburn.co.uk>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260826163101.4168-1-mike@fireburn.co.uk>
-References: <20260826163101.4168-1-mike@fireburn.co.uk>
+        d=1e100.net; s=20251104; t=1787762976; x=1788367776;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=hM5n+FIa5Wh0Q3xyXi+CMf3mznCub4whjLl+zoYHlTQ=;
+        b=DT+IFO1jtfTUUWFmUMJRalnFTzLwUjdmMz3mhGgM0P+pVPe+c3VCut1TQw2pjgaWZh
+         Eodi3CcfJquqY5SiCK5Oc5DyTjme7CLg4Lf/n9kBrrJIaE2ewe4Mi5KmwIk7sI+usxkW
+         Dkq1+xdfWXbl7lA0+OhFi70ntEgRGkSGZTxVQ2sgMyqVPq98GIFmofXbyM7lG+lld149
+         cUNdaMFx0aKdk+cry/NoinxsmbfBKe4ZUBamLVPIYlTJNpO3dL13gGtL2EnhY7BGAPDu
+         IezEl3855qYzZcYco7a+5xnFMd8BU1UfnIBq6VoVKenskOFbrC1MklB9kpUh99jFXljl
+         Gqdg==
+X-Forwarded-Encrypted: i=1; AHgh+RpNUfaePdL7iRx/uUEGJV/q6xyURg6x6F4CqX9+hOKMQu70xSLFwHHjHOxdABiMl2MKJsc5VeO9QsE=@vger.kernel.org
+X-Gm-Message-State: AFuF++mZ71yuqG+AoJLwQ+5b8WX7/gjb7MSR1+BnLvuSuquW7yiIHkcY
+	gj1cvFDAs06KmPNp4uqh+/0XVx8ZbP4s0TUHldrwzhGfAklCf8wCEanWl5Kf0fEnbgenD0vKG7p
+	A89C9sGP9MLyx3pc6xMVkOXmS/vRlT7JXtfY+dvdRBM1AzwxCO/Kx1gPCke4=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:4def:b0:6b1:5c1b:582f with SMTP id
+ 006d021491bc7-6b1a0388a21mr7741330eaf.5.1787762976565; Wed, 26 Aug 2026
+ 09:49:36 -0700 (PDT)
+Date: Wed, 26 Aug 2026 09:49:36 -0700
+In-Reply-To: <6a68bbd5.073198cf.94f0f.004a.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8f1920.1d9ded08.62e62.00b7.GAE@google.com>
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Read in stub_rx_loop
+From: syzbot <syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, shuah@kernel.org, syzkaller-bugs@googlegroups.com, 
+	valentina.manea.m@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-The USB core kills every outstanding URB and disables an interface's
-endpoints before it calls any driver callback. A driver with something
-left to say to the device on the way out therefore cannot say it: the
-transfer names an endpoint that no longer exists and is refused.
+syzbot has found a reproducer for the following issue on:
 
-Expose the core's soft-unbind flag as a driver constant. Setting it
-defers that teardown until the callbacks return, which makes cancelling
-outstanding transfers the driver's own responsibility.
+HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=151ce979580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
+dashboard link: https://syzkaller.appspot.com/bug?extid=06fa667a0931a3430026
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13a28d49580000
 
-This matters to a driver that leaves the device in a state a user can
-see. A display bridge that simply stops sending pixels leaves the
-monitor lit on whatever it decoded last.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
+==================================================================
+BUG: KASAN: slab-use-after-free in stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
+BUG: KASAN: slab-use-after-free in stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
+BUG: KASAN: slab-use-after-free in stub_rx_loop+0x2d3b/0x31c0 drivers/usb/usbip/stub_rx.c:707
+Read of size 4 at addr ffff888034999db0 by task stub_rx/6028
+
+CPU: 0 UID: 0 PID: 6028 Comm: stub_rx Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
+ stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
+ stub_rx_loop+0x2d3b/0x31c0 drivers/usb/usbip/stub_rx.c:707
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 6028:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:340 [inline]
+ __kasan_slab_alloc+0x89/0x90 mm/kasan/common.c:366
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4586 [inline]
+ slab_alloc_node mm/slub.c:4919 [inline]
+ kmem_cache_alloc_noprof+0x26b/0x6a0 mm/slub.c:4933
+ stub_priv_alloc drivers/usb/usbip/stub_rx.c:314 [inline]
+ stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:490 [inline]
+ stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
+ stub_rx_loop+0x638/0x31c0 drivers/usb/usbip/stub_rx.c:707
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 6029:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2678 [inline]
+ slab_free mm/slub.c:6372 [inline]
+ kmem_cache_free+0x127/0x6b0 mm/slub.c:6499
+ stub_free_priv_and_urb+0x427/0x570 drivers/usb/usbip/stub_main.c:321
+ stub_send_ret_submit+0xecf/0x1810 drivers/usb/usbip/stub_tx.c:333
+ stub_tx_loop+0xe2/0x3e0 drivers/usb/usbip/stub_tx.c:437
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff888034999d80
+ which belongs to the cache stub_priv of size 64
+The buggy address is located 48 bytes inside of
+ freed 64-byte region [ffff888034999d80, ffff888034999dc0)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888034999e00 pfn:0x34999
+flags: 0xfff00000000200(workingset|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000200 ffff8881016c7540 ffff88802aafa948 ffff88802aafa948
+raw: ffff888034999e00 000000080020001c 00000000f5000000 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 6028, tgid 6028 (stub_rx), ts 78215496489
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x110d/0x35b0 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3267 [inline]
+ allocate_slab mm/slub.c:3382 [inline]
+ new_slab+0xa5/0x640 mm/slub.c:3428
+ refill_objects+0xe3/0x410 mm/slub.c:7305
+ refill_sheaf mm/slub.c:2805 [inline]
+ __pcs_replace_empty_main+0x372/0x680 mm/slub.c:4677
+ alloc_from_pcs mm/slub.c:4775 [inline]
+ slab_alloc_node mm/slub.c:4907 [inline]
+ kmem_cache_alloc_noprof+0x46e/0x6a0 mm/slub.c:4933
+ stub_priv_alloc drivers/usb/usbip/stub_rx.c:314 [inline]
+ stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:490 [inline]
+ stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
+ stub_rx_loop+0x638/0x31c0 drivers/usb/usbip/stub_rx.c:707
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+page last free pid 15 tgid 15 ts 77527058318 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0x79f/0x10f0 mm/page_alloc.c:2962
+ __pagetable_free include/linux/mm.h:3745 [inline]
+ pagetable_free include/linux/mm.h:3769 [inline]
+ pagetable_dtor_free include/linux/mm.h:3868 [inline]
+ __tlb_remove_table include/asm-generic/tlb.h:221 [inline]
+ __tlb_remove_table_free mm/mmu_gather.c:228 [inline]
+ tlb_remove_table_rcu+0x2cf/0x380 mm/mmu_gather.c:291
+ rcu_do_batch kernel/rcu/tree.c:2645 [inline]
+ rcu_core+0x5a2/0x10e0 kernel/rcu/tree.c:2897
+ handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x194/0x210 kernel/softirq.c:767
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:784
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+Memory state around the buggy address:
+ ffff888034999c80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888034999d00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888034999d80: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+                                     ^
+ ffff888034999e00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888034999e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
 ---
- rust/kernel/usb.rs | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index b2a0fb104ddf..1d8f5bc8a545 100644
---- a/rust/kernel/usb.rs
-+++ b/rust/kernel/usb.rs
-@@ -107,6 +107,7 @@ unsafe fn register(
-             (*udrv.get()).pre_reset = Some(Self::pre_reset_callback);
-             (*udrv.get()).post_reset = Some(Self::post_reset_callback);
-             (*udrv.get()).id_table = T::ID_TABLE.as_ptr();
-+            (*udrv.get()).set_soft_unbind(T::SOFT_UNBIND as core::ffi::c_uint);
-         }
- 
-         // SAFETY: `udrv` is guaranteed to be a valid `DriverType`.
-@@ -474,6 +475,19 @@ pub trait Driver {
-     /// The table of device ids supported by the driver.
-     const ID_TABLE: IdTable<Self::IdInfo>;
- 
-+    /// Whether the USB core must leave this interface usable until the driver has let go of it.
-+    ///
-+    /// By default the core kills every outstanding URB and disables the interface's endpoints
-+    /// *before* it calls any driver callback, so a driver that has something to say to the device
-+    /// on the way out cannot say it: the transfer is refused with [`ENOENT`] because the endpoint
-+    /// it names no longer exists. Setting this defers that teardown until after the callbacks
-+    /// return, which makes cancelling outstanding transfers the driver's own responsibility.
-+    ///
-+    /// Only useful to a driver that leaves the device in a state a user can see -- a display that
-+    /// otherwise goes on scanning out its last frame, an interface that must be told to power
-+    /// down.
-+    const SOFT_UNBIND: bool = false;
-+
-     /// USB driver probe.
-     ///
-     /// Called when a new USB interface is bound to this driver.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
