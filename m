@@ -1,244 +1,261 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012006.outbound.protection.outlook.com [52.101.53.6])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B571DD0EF;
-	Wed, 26 Aug 2026 03:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787714082; cv=fail; b=A6oGE1fnDj9gtkYUJrgAtpWfXR4WH2UwcCVYtIUKibdmQ9P2peOd+5z+D/00dqeM2id0WST/IPSjdkrRrW2ZE/0G5KKDqWS0pvnwR7A0mQCC9F0jHtj+iWJRKXq4T+7MmYHCJ3LdX8t5Lt/ZLBC2k0hSbKfIDkCq0Iu/iJPxqlw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787714082; c=relaxed/simple;
-	bh=G/kjhJ3YvCrpzwViDlE+FZXGIZWqpe0aAWPiCiFOwiY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pos7UpVLfkBYgBiWXhq6dZ8aSRP5S4ux4bbEX5afnOqYCiZ1IvwTP3DmMiNOXoW9rrw0yGWHdSffOTN5Wf6CowW9P/nZhJnUSW7xzjuh5LnpgM36YgMTzZDaLXjkd+R3wYbHsz4i32g4EcV92CfbO9RP9emisw/PlfKDKZAjk2I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rnXMHGCH; arc=fail smtp.client-ip=52.101.53.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B44430BBBF;
+	Wed, 26 Aug 2026 03:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787715371; cv=none; b=ipGGqyrWxnjM564oxNFzUgTlOY82ENSSq90G9dmYIdgEBdbfOQFXTSJRgHCuCdNSVMTi1Nk8NHV0Kuti4kAuShzy7eV3N2hsd3LTn6g7GSEztBV/XUTAmMjg5z90hCcOVTHkx4yHkiL/MQBdfhe5oJOsyJoOJ7vVPPg9+x8HayI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787715371; c=relaxed/simple;
+	bh=pT2kRI7nk6B0XNhqRiDni/PI606Buu039BwlmwG5YOo=;
+	h=Message-ID:From:Date:Subject:MIME-Version:Content-Type:To:Cc; b=Hn4zzkns6MMJf4Sv0UHMNh18Nh4StFkxzUBeHo+kwklUz74u3L/Rv48xzUjniw6jfgbJ0bdMLgU4o1APlMx7qqJAa5PEUsrZjYuOcZ3ddrfEFfDF52bIHgr2rujiyZuebcp3bJyvhTRRntnwbIAmPfudirUz66V6m5mC+HhfSiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=s8wRoEFi; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rnXMHGCH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k4cPIv/z90wqv3z1CErb+vvghre4C4Fyp5hlThnzON6b2usq8Ha3QgslnO+2iDJrk3lnQYElkMHxDT3g9PDFaB7+tOZ246aZlgFhRaMZKMhu6FW427Ep5YzVyK6nj3lb5ZeV5tMUmNRE+KVOOm90T3SSfrYOnKxGOsqegdHCxAHr2aUjO7U49RIvnPQCPHO5l0ixeD2yDigvlG8c8f77RZfTV9B4LTkoKXFpebbxRAJLMziIPAARRTkf9VDNszRgd6iMi2GJSTC58B7kxbQs1+RIwZpIEZHWwK/XzDkw7ojs+vx+NMbB/RdHVkEF2AV1L/zCTuBMudpUl0j5lz3Paw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6icZwu9KbpmS1uTfiwbXJncCtj0zSfVfaUaNx+j7s6g=;
- b=A5y5C3a2Dcpt7Mdz3KzFlAmBk/8hjZfdtWysS3OMyhePBUkqPVLue1WcwrKObW8wSHU428ANX2D4oLZJLE2xmjVDn1pCCT+2o/okfnRkStAZk7DRTmYV/GFjgh7MNIAujDLjkMbtyGSwotHkZL9R4gS4VEYH671rN+iKIQR1d26OQ/vmzlvjiX4qTdAb6zWSsayDw0fwQgsiuBZ7r61ZYDf7V2SzqFQsfZaNgQXClPh3kqDalr3DYXDG23ydK5akF/2BvyjyksV8m+xDdYAGyQHqGxyQxbuPT9ZPxkkScswE+pDboHuR35qgrDln3r1oLFrfOCXkoHoqQ39kRc/C8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6icZwu9KbpmS1uTfiwbXJncCtj0zSfVfaUaNx+j7s6g=;
- b=rnXMHGCHbEnBTQsdRsStboCs8BHxZBvLqiKJg4bY3PZO7v9NB96k6zeGZhYLkv825nfGUh8uXHqTIYndZ3YyIV6+jg0UsPF6sOrAZCfjcbDVWsT6vHO5GLmJDwkx2kqq2QRjtijvLCiSme9Co2eMaVRyvRTuv1TdDmPYT786kqc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
- by PH8PR12MB7253.namprd12.prod.outlook.com (2603:10b6:510:226::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.7; Wed, 26 Aug
- 2026 03:14:35 +0000
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0315.012; Wed, 26 Aug 2026
- 03:14:35 +0000
-Message-ID: <f6f2f984-f31b-42c9-b120-6c179803dd2b@amd.com>
-Date: Tue, 25 Aug 2026 22:14:32 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-Content-Language: en-US
-To: Mathieu Fluhr <mathieu.fluhr@gmail.com>
-Cc: Lovekesh Solanki <lovekeshsolanki00@gmail.com>,
- Michal Pecio <michal.pecio@gmail.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org,
- regressions@lists.linux.dev, stable@vger.kernel.org,
- linux-kernel@vger.kernel.org, Forest <forestix@gaga.casa>,
- Slavik Dev <developer.slavik@gmail.com>
-References: <CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com>
- <CAPyJwA9R=p8_uxyYODb00g_nUq26SRsWHBGgAAJnR0YMTRRo4A@mail.gmail.com>
- <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
- <aosGtkE_diwVJJtB@eggarch> <20260823174059.46fec036.michal.pecio@gmail.com>
- <aoser8dLytrwqBC2@eggarch>
- <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
- <226b2f34-fa25-4ca6-8afb-0b3dc942715c@amd.com>
- <CAPyJwA9GvqeaBYhN56L1S9YW-rwWgFejrcNcE=54DQC3Eaqxww@mail.gmail.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <CAPyJwA9GvqeaBYhN56L1S9YW-rwWgFejrcNcE=54DQC3Eaqxww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0140.namprd13.prod.outlook.com
- (2603:10b6:806:27::25) To PH8PR12MB6914.namprd12.prod.outlook.com
- (2603:10b6:510:1cb::21)
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="s8wRoEFi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1787715362;
+	bh=faAhhzYjT9hlzVBDEPU+ZQBSgld45YbwHqgeyUCtdoE=;
+	h=From:Date:Subject:To:Cc;
+	b=s8wRoEFi44oxnJwnS3x13JPXNnvN9ke3Zhubh6vuy+PSr3GAoKfOgHUQByA/GKo/I
+	 JFkRdCAzmiLvngFvEDA2LJMH/lBiq4mxUv52z0DXLeMKigebOAxk0yKJtodB1Py803
+	 M2TKJGaUkYkgXyBUQrhbvktl7iX9VD+3KrGmzLZM=
+Received: from [127.0.1.1] ([2001:da8:283:e049::9:8de6])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 8FB9D2AD; Wed, 26 Aug 2026 11:35:59 +0800
+X-QQ-mid: xmsmtpt1787715359tf6r36bqe
+Message-ID: <tencent_0AE8C419FE6042BA8081E98C88BA604FF00A@qq.com>
+X-QQ-XMAILINFO: Nm45YswcjhU8bQCgp1hnIzfCrWXwKqomSlCcYDYh7lKenkoNffiGmJIcFXivbZ
+	 dQ3wlH89I4geETZZP7DshwO4MUMmQ5QH+zvsNWQHmKxCZKA7s2/Jd8iyaB7zVw91rBegKXolCNka
+	 H+81xiurhkdB7tnRslKtaFEGEZRdaa1rMZiTUJLYhuGbjIGNfCyAArg+0e/GyS6S4+aVINWf0HFP
+	 h7r43iw68q/lyhG24McI1wk11HGE3L76boE6Y0nwLxGuHZSEbTEpPKqbfZJH/OPYGRoJff8mrh07
+	 66omza2nL2mus3zO2mqxpmHsBfp8RiAE5bEFafgRkDNe9Zj1soHiZjVglnrT0lJHZnOpD0xrUuAu
+	 IFbasennI2wlByf+wuttBcTSPRzgFPq3yy+Vp/OcgaIGT6MHHUZHm5IM2cA4t0stZOSKs8txNmas
+	 Bu28VvO6ZZBYRByeIIpBevBMyQR8CRJFCbhvP/V2TuCP9auzlE3Vl+/g/ISVrq5w+laTFZkRgJMr
+	 nyyN8O0JmiKNT+zGzdWiYhns7jArMPj0GSoA10xdrTltH5JrQ1tOrGK71Y3nF97neexeQsfGLsnU
+	 o3Ez/BoLFTDVfHkoLC1Tgk9FHcX9he6cE2uyOllq6XvLTt+t6jlqIe0Wt59Ox989rfVhfIZqsUTt
+	 vQ8ErjF9jAXnYdHtgFeqcfGz4Sz07LVugaj1yNVisiTaN3noAfKuNREoyVJVLdC1mkOe1MkPHY2K
+	 keZvgVTBwp00ulV+Xziyix+xHu3ZYLKgX++3AoP0eY8OtXzQvh3Cu0GEjQIHTND1DcPRG5R/U89k
+	 XTztosxw24T9kwf52IZ9yJR/eelXBMfCmQ73Ze1XTru6WgsWY8z7Y+Dlo9t7BgCXvpMBfT8G8kek
+	 KhqhBKHRLCpc61UInUE2XCcAuCCljkeG1op886JZgbwVujlDD21EUc/yMY9nttSuSn5vYRmETZoO
+	 ln8NIuh1yR7Eq2xFdPpCteDNRFudlTTt+Y46rLJkhEO/0GS+BWG1SCcWOdXoqxHqyFlVOSxFn+W+
+	 peDzmWs3nad4OoJJzM4itZ6XToaEkk8PRDBQ3ZZ/l74o9be3gOiExQM0h2YGxoSkCOQtlmyiT5Xn
+	 s2SX7Nck5FQur5hVUSXsM9WA1wnaQYQGxnG+xAsOYOC0D9yNSE1LLhdh/iG9lkWtDE6sO3224ts3
+	 FqhC1mm1plb0lMIaMskz1FvAFPSH+fhHfAD/k=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Cheng Lingfei <chenglingfei@foxmail.com>
+Date: Wed, 26 Aug 2026 11:35:58 +0800
+Subject: [PATCH] usb: gadget: goku_udc: fix kobject warning on probe
+ failure
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|PH8PR12MB7253:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8026dbf6-05fb-43b0-03fb-08df03202757
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|6133799003|10067099003|56012099006|4143699003|11063799006|5023799004|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	WM0iJA5FsJLeXr9mhZaOQTpoEey1vA+PgwNsvJK1bQbPucBYcpaykanOv7pfXMKXnMJT/TWHTF7sTpypHk3PQsmVHzUHSRTIFCgmCdfKPpeWEzIiVSRZ7+T5nJA5db0jnhdAVIIU3RdWPVm1kS28JWRFzShmqEtB4T+oBlRpNhRszoDpdTQC/hl6lZWGUuyGhcBGT54NxdNcu+Us8x9/8u4tRi0xHxNTiLpAmh+z4Bc+zOoHmNSJv/QtkI8pq2/aGxwkeNByCNFXasr7iGY/A2F8q58b6cRhj3IgEdhkNQmO0WnbQbz3BiH4j8gj3wahEuSVn9WYuAyFtRdhQQR550BWgGv/XmwHyajf+9WTxCve7ALM+O8ebLaNfb1aZl2MCnhtaGxRECv4TD7ABv2R3guRySXEcGe/LaSpSQCFmLEECWeHWQUbeGUTj+0zA7aTqY0lfCphCGl1WawBe8h1Tl3iuFaeYPrz0ApP1poQ85cYi84695AfM+/mtUYnj5PNAvGiac+IlIicRZuag7/nX0Czb0KuhxAfe72q/zqLEQYhEXIC6o9LlpDsba6VIYi3EIE/VBIGlxJvHOpSI8nfEpIF3LlF6Jrn8aFSlQzChG5WaLDmKnR8wfg7RWSDMc7OCaxjS2xei1RQI6Yr1MuglONZ/kwn10POmeBE8FkGhQA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(6133799003)(10067099003)(56012099006)(4143699003)(11063799006)(5023799004)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZktGbk1qeHZ1bG5haDdqTGpFcWphZmFMMUtIZDRjdlFabW5qZTR0UWRwdGkz?=
- =?utf-8?B?cFpKRjhUNlR3b0NUeWZxRlVrZnAraXpNcm9uSUVXazRFQ1NxTmRFOUJ3c0ps?=
- =?utf-8?B?N2wyNklOU1dXMjRFZ3VSRmVRYWRicElRZ0V4Szh0SjkvbERjY0FQVWJZSFlN?=
- =?utf-8?B?Q2tZYzZRSngzRnNsdTdFMGxrVTA1djhFOHJ0dHN6Q3BHRHEzcS9EWXR1TkpH?=
- =?utf-8?B?YWptcSsyMDFkam91VWFnTHdlUVUzNlY4S1J2VW51bnYxMFJ2eG1mMHUyRnlS?=
- =?utf-8?B?Z2hBdlYydVZTTXdtRjc2MytZUWVDYnV5K0lET0ZhNkgzam9KUDgvTUlYMVA0?=
- =?utf-8?B?TWgyR1NpbURoVnFmeGxxbmRrK0JEY3oxNGlMTTlxQTE2Y1hEWDVBTmI3YlNX?=
- =?utf-8?B?ZVM0QkhCWWhyNGYzR3NabjdIbHdlR01nZEowRFZ2UDE2MENrblAxenlMbHZ2?=
- =?utf-8?B?N0hyZmFvRURBbm1RMzNwMWtVa3d0WFpQKzQ4TVB4MlBUWlZSV1FhNjFDSFVU?=
- =?utf-8?B?b0hvcFR2NHdLang3QlJnck5qdWU2VXBaTS82VXR1L1VBZnZ3Vnc3UEZaTzNM?=
- =?utf-8?B?N1p2ZUZoZUFTY2VtUEg0dG5PeExqbUg4ZTVOcWJjeDZLbDA5YjlzbXBCMzRk?=
- =?utf-8?B?RlpjbVQyRXRFYkd3Y2tRdTNENENzV0lLa1ZGMW1kUG1pbHNHL0hleXVVUTJ2?=
- =?utf-8?B?azM2L2R1blN6WnozUDFqOEloSVplckIxOXEySUk0N2RBYWVoWi9PakY1WlVD?=
- =?utf-8?B?TzJEaWp6Q0VaQ1J4SDNNTFFiQ3cwVU9Ob2dySU5oUEhLWklPYnFrSWpaVW1S?=
- =?utf-8?B?WS9RSkV3bG1CTHFvZDdKM0RJcEI5Yy9LMyt0Wk9rcnR1aHFDRXRwQ0RPbVBZ?=
- =?utf-8?B?VWJmK3pCWFVpbzV2MmVRQ3ZsZkhxalpRUytUeFA2NjYyMXQ1NDVRbWtHRDUz?=
- =?utf-8?B?aWJXU3lVa2p2dWVPbjVEcUZneGdMWDFWanViWFdjaXJHMCtpL3c4UFdyTi9s?=
- =?utf-8?B?V3JrYlRDL3V0RHV5S0ppc1NLQ3A4T0RnUU5HdmNyeGlnNXYzM2NQWHpranRn?=
- =?utf-8?B?NmZObElPaWNFWnc5NzR3SlJZMXFsZWNKQjFQa2RwVzBJekppRUh6VmpVSTQy?=
- =?utf-8?B?cmVDYWRDc0c0RzBVZlA4UkUrejZxOGpkMTAvOEl0MVczdkNxUHpRVWU3NnJC?=
- =?utf-8?B?UUpFYWxITjVGWFVFWXBMZUd1Ukt4aXJxa090a0NYZWtjK1g5eWdnWmpEWVF4?=
- =?utf-8?B?MCszcVViN2ZMdGgvY2ZWWFViMkI3UXgwVldNa1JucHYwZlJpWTZ0QmRBRHNT?=
- =?utf-8?B?dFRKWE9rMmxKSFBZaUxtbXZnTkNLdDFlMGJ6Z3d6WTJzckhibnkzaFo0ak1X?=
- =?utf-8?B?MWtGMzI4dHNFd1FPb2pLUi9uMjUvVFJFWHJzemRBaHZpdGpJU2RLN0tyVWFr?=
- =?utf-8?B?M0ZiV2dEVVkrVjN1S2h1cGIwZHluak5ubHRsZ0hiRno2RVN1WUVZT2lzTVE5?=
- =?utf-8?B?NUhwbnZwZkpKVFBqekpzSjZNTkxid0R1SFJ1T1Rxb1NwMWpTMTdFMjUxYU1x?=
- =?utf-8?B?ZGhkVVQrZGdEUnFxR056UFovc2svb3I2TXFnWFh4aVNxYUpWbGxLYjFaMmFS?=
- =?utf-8?B?TEFjWmRKU2ZuKzZyd1pCQ2E5VFYzRHdJUzdxcWZ3OTdEdkVmaGFjVU1tWS8x?=
- =?utf-8?B?c1UrNVY4VWtUL2M5ellsWTdzZDVEcDNWY3pZcEtHcHZBV1IrdWFHMmV4R2V5?=
- =?utf-8?B?WXZaSVpNNCs4ZGVZSGw5cm8wTjloY2ROK09nL2l4WTZOVEI0Wmk4R2dTRVhR?=
- =?utf-8?B?bktiU3dXTXgrU2xydDE1SHF4eFVGUm9wTWxsTHNZWFJOeTJiQzdLQkxmbGtL?=
- =?utf-8?B?QVNPVE1FYVNTT2NuWFYzeUd2MXBWRU82SVE4SCswbUFBTU9WWHQvQ0lZWWdv?=
- =?utf-8?B?dWN3MXB1UzNNclN2Q3dqT0lxN3l4OFR5ZkpQaFFneGZOUWhORG0yOUMzR0RY?=
- =?utf-8?B?cXZ4MUNsQzVNNTZTcDJjcWRHZnZuVjQxeUY2NDQ3eFJGTUVJYm5FU09NQk1H?=
- =?utf-8?B?Q3l6RDJKRHowTzJGei9lSUZYbTc5dHJrT0ROdEp2RVdiMWZ2OHhnbDZmQWV6?=
- =?utf-8?B?cUIwbE9lTkpuVHNyRndkSnIvOHc3bmxQZFJsNUozZ2hzQXhOQzVNZHdhUlNV?=
- =?utf-8?B?U2JOMm94VkVZbE95SDRFOXhWbE9iUVlteFY1bjRDT3JMeHlGTWx0ZldFY2dF?=
- =?utf-8?B?a2llRnRiNnRNSUlMQUdselU2Mi9LTUcrTTJ6Nkpxck5uTWZjVlJ1MWlKNUFk?=
- =?utf-8?B?SGp2SFRKM0ZwdjhmSVZ2aitpN3lmYUhyZVdNVmdEMXlpUXJvWFM3UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8026dbf6-05fb-43b0-03fb-08df03202757
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 03:14:34.9451
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UrZPESk8Yru3j0j9kRoqrXPGC1wepJ0gwFpUZ7sd6g5Yoq7n8i9q1qOF2EuXl4Nlvj5bgW7tqmDi9bBhHYcLGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7253
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-OQ-MSGID: <20260826-b4-fix-usb-v1-1-a090b5b3534c@foxmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ5AMBCF4as0szZJ25SIq4iF1mAskA4iEXdXL
+ L+8vP8CocgkUKkLIh0svMwJJlMQxnYeCLlLBqttoUtboHfY84m7eAymdb3Odd6VAdJhjZSmL1Y
+ 3v2X3E4XtLcB9P5+emKluAAAA
+X-Change-ID: 20260826-b4-fix-usb-c1a4f0505d8c
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Alan Stern <stern@rowland.harvard.edu>, Felipe Balbi <balbi@kernel.org>, 
+ Peter Chen <peter.chen@nxp.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzbot+06ec7624018233e17113@syzkaller.appspotmail.com, 
+ Cheng Lingfei <chenglingfei@foxmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787715359; l=5823;
+ i=chenglingfei@foxmail.com; s=20260824; h=from:subject:message-id;
+ bh=pT2kRI7nk6B0XNhqRiDni/PI606Buu039BwlmwG5YOo=;
+ b=gnbyZcdUfyyF+SR4b2V5Jn6gbP4uHpvOlXlUyg6ZqlT9mftWxW0zsm/06r/dwVvojasklRmkn
+ JKKlFskFaN9Agnf2pSpG+o5doFo0TcAzEr8comhp7EjWRsmlkGC1Glj
+X-Developer-Key: i=chenglingfei@foxmail.com; a=ed25519;
+ pk=jJFtzwUiUOhTRJNlFx9WjsWHIYGk49Br17a7AD8MH2I=
 
+goku_probe() calls goku_remove() when hardware initialization fails, but
+the gadget device is initialized only near the end of probe. As a result,
+goku_remove() calls usb_del_gadget_udc(), which drops a reference to an
+uninitialized gadget device and triggers a kobject warning.
 
+Initialize the gadget device immediately after allocating the controller,
+but add it only after all hardware resources have been acquired. Track the
+gadget and proc entry registration state so goku_remove() can safely clean
+up both partial probe state and a fully initialized device.
 
-On 8/25/26 03:57, Mathieu Fluhr wrote:
->> The behavior that is described here sounds like a platform firmware bug
->> Are you on the latest BIOS available from your OEM?
-> 
-> Ywa, And I even rolled back 2 BIOS before, All 3 are showing the issue...
-> ...even the exact same one (with the exact same CMOS settings) that I
-> used in 2024 without any single issue.
-> 
->> Can you please confirm:
->> Your CPU model number/codename
-> AMD Ryzen Threadripper 7870X 32.Cores
-> 
-> mathieu@ubuntu:~$ cat /proc/cpuinfo
-> processor : 0
-> vendor_id : AuthenticAMD
-> cpu family : 25
-> model : 24
-> model name : AMD Ryzen Threadripper 7970X 32-Cores
-> stepping : 1
-> microcode : 0xa10810c
-> cpu MHz : 2188.582
-> cache size : 1024 KB
-> physical id : 0
-> siblings : 64
-> core id : 0
-> cpu cores : 32
-> apicid : 0
-> initial apicid : 0
-> fpu : yes
-> fpu_exception : yes
-> cpuid level : 16
-> wp : yes
-> flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
-> pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt
-> pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology
-> nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor
-> ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx
-> f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a
-> misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core
-> perfctr_nb bpext perfctr_llc mwaitx cpuid_fault cpb cat_l3 cdp_l3
-> hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall
-> fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq
-> rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw
-> avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc
-> cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf
-> xsaveerptr rdpru wbnoinvd amd_ppin cppc arat npt lbrv svm_lock
-> nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter
-> pfthreshold avic vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku
-> ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg
-> avx512_vpopcntdq la57 rdpid overflow_recov succor smca fsrm flush_l1d
-> debug_swap
-> bugs : sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass srso
-> spectre_v2_user tsa vmscape
-> bogomips : 7988.27
-> TLB size : 3584 4K pages
-> clflush size : 64
-> cache_alignment : 64
-> address sizes : 52 bits physical, 57 bits virtual
-> power management: ts ttp tm hwpstate cpb eff_freq_ro [13] [14]
-> [..]
-> 
-> 2. Your OEM (from /sys/class/dmi/id)
-> I am using an ASUS Pro WS TRX50-SAGE WIFI
-> 
-> root@ubuntu:/home/mathieu# cat /sys/class/dmi/id/board*
-> Default string
-> Pro WS TRX50-SAGE WIFI
-> 231230340100705
-> ASUSTeK COMPUTER INC.
-> Rev 1.xx
-> 
-> 3. OEM BIOS version (from /sys/class/dmi/id)
-> root@ubuntu:/home/mathieu# cat /sys/class/dmi/id/bios*
-> 02/03/2026
-> 13.17
-> American Megatrends Inc.
-> 1317
-> 
-> 4. AGESA version (see commit bc91133e260c8113c1119073c03b93c12aa41738 if
-> the OEM didn't tear it out.  Otherwise look in BIOS menus)?
-> 
-> The BOIS shoes this information (I also put the ones from previous
-> BIOS I tested):
-> BIOS 1317: ComboSP6PI 1.0.0.1e
-> BIOS 1203: ComboSP6PI 1.0.0.1a Patch A
-> BIOS 0803: StormPeakPI_1.1.0.0g
-> 
-This isn't a BIOS regression, it's been around since the beginning on 
-this threadripper model but it was harder to trigger.
-The Linux kernel changes in the bisect exposed a platform issue.
+Use the split gadget removal API and drop the final gadget reference only
+after all hardware resources have been released.
 
-The workaround you can do for now is to disable runtime PM on the XHCI 
-controller to avoid triggering it.  But it's a platform issue.
+Also obtain the controller from the embedded gadget device in the release
+callback. Driver data is set on the PCI device rather than the gadget
+device, so using dev_get_drvdata() there fails to free the controller.
 
-For a proper fix you need to reach out to ASUS to get an AGESA upgrade.
-You can ask them to reach out to AMD if they need assistance/guidance on 
-the versions that contain the fix for this.  You can share this thread 
-with them for reference.
+Use a per-device name for the debug proc entry so that multiple
+controllers can be registered without colliding on /proc/driver/udc.
+
+Fixes: 3301c215a2bb ("USB: UDC: Expand device model API interface")
+Reported-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=06ec7624018233e17113
+Tested-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+
+Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
+---
+ drivers/usb/gadget/udc/goku_udc.c | 40 +++++++++++++++++++++------------------
+ drivers/usb/gadget/udc/goku_udc.h |  8 ++++++--
+ 2 files changed, 28 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/goku_udc.c b/drivers/usb/gadget/udc/goku_udc.c
+index ac2a984c2f87..7af6da63e83b 100644
+--- a/drivers/usb/gadget/udc/goku_udc.c
++++ b/drivers/usb/gadget/udc/goku_udc.c
+@@ -20,6 +20,7 @@
+ // #define	VERBOSE		/* extra debug messages (success too) */
+ // #define	USB_TRACE	/* packet-level success messages */
+ 
++#include <linux/container_of.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+@@ -1052,8 +1053,6 @@ static inline const char *dmastr(void)
+ 
+ #ifdef CONFIG_USB_GADGET_DEBUG_FILES
+ 
+-static const char proc_node_name [] = "driver/udc";
+-
+ #define FOURBITS "%s%s%s%s"
+ #define EIGHTBITS FOURBITS FOURBITS
+ 
+@@ -1701,7 +1700,7 @@ static irqreturn_t goku_irq(int irq, void *_dev)
+ 
+ static void gadget_release(struct device *_dev)
+ {
+-	struct goku_udc	*dev = dev_get_drvdata(_dev);
++	struct goku_udc *dev = container_of(_dev, struct goku_udc, gadget.dev);
+ 
+ 	kfree(dev);
+ }
+@@ -1714,12 +1713,13 @@ static void goku_remove(struct pci_dev *pdev)
+ 
+ 	DBG(dev, "%s\n", __func__);
+ 
+-	usb_del_gadget_udc(&dev->gadget);
++	if (dev->added)
++		usb_del_gadget(&dev->gadget);
+ 
+ 	BUG_ON(dev->driver);
+ 
+ #ifdef CONFIG_USB_GADGET_DEBUG_FILES
+-	remove_proc_entry(proc_node_name, NULL);
++	proc_remove(dev->proc_entry);
+ #endif
+ 	if (dev->regs)
+ 		udc_reset(dev);
+@@ -1736,6 +1736,8 @@ static void goku_remove(struct pci_dev *pdev)
+ 	dev->regs = NULL;
+ 
+ 	INFO(dev, "unbind\n");
++
++	usb_put_gadget(&dev->gadget);
+ }
+ 
+ /* wrap this driver around the specified pci device, but
+@@ -1748,19 +1750,19 @@ static int goku_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	unsigned long		resource, len;
+ 	void __iomem		*base = NULL;
+ 	int			retval;
++#ifdef CONFIG_USB_GADGET_DEBUG_FILES
++	char			proc_node_name[64];
++#endif
+ 
+ 	if (!pdev->irq) {
+ 		printk(KERN_ERR "Check PCI %s IRQ setup!\n", pci_name(pdev));
+-		retval = -ENODEV;
+-		goto err;
++		return -ENODEV;
+ 	}
+ 
+ 	/* alloc, and start init */
+ 	dev = kzalloc_obj(*dev);
+-	if (!dev) {
+-		retval = -ENOMEM;
+-		goto err;
+-	}
++	if (!dev)
++		return -ENOMEM;
+ 
+ 	pci_set_drvdata(pdev, dev);
+ 	spin_lock_init(&dev->lock);
+@@ -1771,6 +1773,8 @@ static int goku_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	/* the "gadget" abstracts/virtualizes the controller */
+ 	dev->gadget.name = driver_name;
+ 
++	usb_initialize_gadget(&pdev->dev, &dev->gadget, gadget_release);
++
+ 	/* now all the pci goodies ... */
+ 	retval = pci_enable_device(pdev);
+ 	if (retval < 0) {
+@@ -1815,21 +1819,21 @@ static int goku_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 
+ #ifdef CONFIG_USB_GADGET_DEBUG_FILES
+-	proc_create_single_data(proc_node_name, 0, NULL, udc_proc_read, dev);
++	snprintf(proc_node_name, sizeof(proc_node_name), "driver/goku_udc-%s",
++		 pci_name(pdev));
++	dev->proc_entry = proc_create_single_data(proc_node_name, 0, NULL,
++						  udc_proc_read, dev);
+ #endif
+ 
+-	retval = usb_add_gadget_udc_release(&pdev->dev, &dev->gadget,
+-			gadget_release);
++	retval = usb_add_gadget(&dev->gadget);
+ 	if (retval)
+ 		goto err;
++	dev->added = 1;
+ 
+ 	return 0;
+ 
+ err:
+-	if (dev)
+-		goku_remove (pdev);
+-	/* gadget_release is not registered yet, kfree explicitly */
+-	kfree(dev);
++	goku_remove(pdev);
+ 	return retval;
+ }
+ 
+diff --git a/drivers/usb/gadget/udc/goku_udc.h b/drivers/usb/gadget/udc/goku_udc.h
+index 70023d401079..0ca2d49d25ba 100644
+--- a/drivers/usb/gadget/udc/goku_udc.h
++++ b/drivers/usb/gadget/udc/goku_udc.h
+@@ -247,7 +247,12 @@ struct goku_udc {
+ 					got_region:1,
+ 					req_config:1,
+ 					configured:1,
+-					enabled:1;
++					enabled:1,
++					added:1;
++
++#ifdef CONFIG_USB_GADGET_DEBUG_FILES
++	struct proc_dir_entry		*proc_entry;
++#endif
+ 
+ 	/* pci state used to access those endpoints */
+ 	struct pci_dev			*pdev;
+@@ -286,4 +291,3 @@ struct goku_udc {
+ 	xprintk(dev , KERN_WARNING , fmt , ## args)
+ #define INFO(dev,fmt,args...) \
+ 	xprintk(dev , KERN_INFO , fmt , ## args)
+-
+
+---
+base-commit: 3aa1dcaa4f6f5ae08936491e08bd456f331f2d40
+change-id: 20260826-b4-fix-usb-c1a4f0505d8c
+
+Best regards,
+--  
+Cheng Lingfei <chenglingfei@foxmail.com>
+
