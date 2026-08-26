@@ -1,138 +1,119 @@
-Received: from smtp153-171.sina.com.cn (smtp153-171.sina.com.cn [61.135.153.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEC6432E80
-	for <linux-usb@vger.kernel.org>; Wed, 26 Aug 2026 13:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881FE439F91;
+	Wed, 26 Aug 2026 14:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787751998; cv=none; b=EtCMaGGBkJS/UHEkuQx8akhxt558j21vIEMjm5oit0gYsrCKmNJ0FzVplUt/HUmtV/UxjuyNb0DaxsEr0zVqNH0cqboDNBIGdiog+Tbf6BNliEMTukAXJ3kBc6+tY/caES5Js1sckIvqZdwIWeHhV1FxeGC3USj2IarCNzdnBv4=
+	t=1787753478; cv=none; b=qbDPhRG+LvSWD2QgqGzBT7jjHFgoeC4z13IeHrlsdSSMh5AjJ/5Fqfx6CY1jOFdeDnE8Ui7qp7VbWax5gQR61/SN3tBuHO6MaWMsOs4v6bDGXencz5FKiUBRKBhyCtVecYzJW6lLwV1sNZ9T6ML44vTsIOa8hXUZHDipp6De5Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787751998; c=relaxed/simple;
-	bh=vjBCB430kjBJcDqoeYHpDPSeornI00GA9WQkFh4Zs1U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dzxs2OnsMlUfCQaISIIwnCpRa1rzY+t5prNcZouqGHJeidtNgMHJA8yOKudwsOeVwqBBLW1TsFx3UkdwgS6vkuo8ENZdqEJ+qr83cxq8crRKdfYK4Ki9VCNbmRbF+xWemdxcovu7uYPJgXwWm0nFXW9SA0N0+ir7i932VWX1/og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=UJlWi63e; arc=none smtp.client-ip=61.135.153.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1787753478; c=relaxed/simple;
+	bh=C2wFX4a7JH+wAsDrmBFi2nJ+gTPgJlOiAawjFmE9MPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QxtYJMUC3czFOhCAmwWt0oQWRNhDBV6QWTp8ZvgurwzgMIWNdw4RwRP+EEzMB+eCxZYRaM1elTBiY7S2yb9cD9obc+HZhnR9rpIp/qQqKFl5A2tbt5HpTGs91KwyElRRsPYOpP6u9JvPdqamCc7ufdMAF5nJR6WHt6zgEvPT9qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2IecTteg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="UJlWi63e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1787751988;
-	bh=ovGITEti4J9Rnl7+RVVU2fKKifFicuhKM+nQonZVdp4=;
-	h=From:Subject:Date:Message-ID;
-	b=UJlWi63erOl9VsGWLuwxcwkdkMWQ0nWRSBY7dJizomO5wxvHw9u7c53k04rI1Vmlf
-	 zTBpYkLSAC6fZPSnW0CMcxgMQb7HJW5Z9ff1MoaGMB++fOtEjR490O5Y8R1URNdZN1
-	 ey+IZ/BB/JhiWNRiUvkHtDBN3CLx6zk+NJZdFzH0=
-X-SMAIL-HELO: lxu-ped-host..
-Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
-	by sina.com (10.54.253.34) with ESMTP
-	id 6A8EEE1F00002C52; Wed, 26 Aug 2026 21:46:15 +0800 (CST)
-X-Sender: eadavis@sina.com
-X-Auth-ID: eadavis@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=eadavis@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=eadavis@sina.com
-X-SMAIL-MID: 8075436291634
-X-SMAIL-UIID: B3325EF238494AB1ACE5BF025CA54881-20260826-214615-1
-From: Edward Adam Davis <eadavis@sina.com>
-To: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
-Cc: gregkh@linuxfoundation.org,
-	kees@kernel.org,
-	tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] usb: gadget: midi2: prevent in/out jack from oob
-Date: Wed, 26 Aug 2026 21:46:06 +0800
-Message-ID: <20260826134606.127250-1-eadavis@sina.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a8ed2cd.1d9ded08.62e62.00a8.GAE@google.com>
-References: <6a8ed2cd.1d9ded08.62e62.00a8.GAE@google.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2IecTteg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A89C31F000E9;
+	Wed, 26 Aug 2026 14:11:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787753475;
+	bh=CrzOdB/wPEZMMB6aZYaBXZVWcP1Br6WDZGYvIB/24Ik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=2IecTtegQL4jO7bnZ4BG17uFcbFjqVTY+aUCBHHmVCvIYgVmNLXtA69pnYufrrMn6
+	 gSja34YePJxcZ50PEINz1/plmIZCgpjoKZBnueDfFFnWjQ7lc2RVo9mR7pj68TAmAM
+	 GOTZrOqZnhHMo+tW8UDagy2n5N7SPxjf1ExGITls=
+Date: Wed, 26 Aug 2026 16:11:12 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: syzbot <syzbot+1a01783ea233350598b5@syzkaller.appspotmail.com>,
+	heikki.krogerus@linux.intel.com, jeffinphilip14@gmail.com,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	mika.westerberg@linux.intel.com, stable@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzkaller <syzkaller@googlegroups.com>
+Subject: Re: [syzbot] [usb?] general protection fault in wcove_typec_probe
+Message-ID: <2026082602-compile-bogged-877d@gregkh>
+References: <6a88012e.dbb3a75c.13dd47.0007.GAE@google.com>
+ <6a8d0f6c.dbb3a75c.7844.001d.GAE@google.com>
+ <2026082540-tarantula-gigantic-b786@gregkh>
+ <CANp29Y5YH=O35brw55HFo_hVmFDz5Y4Yw7buBc-rOjETU2DNjg@mail.gmail.com>
+ <2026082507-ecosystem-giant-0b79@gregkh>
+ <CANp29Y5hnOWaqGw8BbPu1TCr00TbvNRciYvs_VCd6Jtk=8kSPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANp29Y5hnOWaqGw8BbPu1TCr00TbvNRciYvs_VCd6Jtk=8kSPg@mail.gmail.com>
 
-The increment of config->jack_out in append_midi1_out_jack() lacked
-bounds checking, triggering issue [1] when the value approached the
-limit MAX_CABLES.
+On Wed, Aug 26, 2026 at 03:26:23PM +0200, Aleksandr Nogikh wrote:
+> On Tue, Aug 25, 2026 at 11:07 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Aug 25, 2026 at 11:04:54AM +0200, Aleksandr Nogikh wrote:
+> > > Hi Greg,
+> > >
+> > > On Tue, Aug 25, 2026 at 7:12 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > >
+> < .. >
+> > > >
+> > > > Please do not think that this is a valid path for syzbot to be
+> > > > fuzzing...
+> > > >
+> > >
+> > > Can you please elaborate on this?
+> > > Do you mean driver binding sysfs interface in general or something
+> > > more specific?
+> >
+> > That is the specific thing, don't have syzbot do random bind/unbind
+> > calls, having it attempt to bind any random driver to any random
+> > hardware device.  That's not how bind/unbind is supposed to work at all,
+> > it's for developers who "know what they are doing" and you get to keep
+> > the broken system if you mess it up.
+> >
+> > Same for unbind.
+> >
+> > This is a root-only api for that reason.
+> 
+> Thanks for clarifying!
+> 
+> Some context from the syzkaller side:
+> Restricting the fuzzer is always tricky, especially when the
+> problematic operation is just opening a file and writing to it.
+> 
+> We normally constrain openat to:
+> 1) An allowlist of safe absolute paths (so it won't open /dev/mem,
+> etc.), blocking any other path starting with '/'.
+> 2) Relative paths under CWD (so we can still fuzz normal file operations).
+> 
+> Here the problem is that one can mount sysfs under CWD, which leaves
+> syzkaller full access to everything inside it.
+> 
+> Tightening the access to /bind, /unbind, /driver_override sounds
+> reasonable, but trying to catch all workarounds purely in userspace
+> (e.g., creating symlinks to these paths before opening them) will
+> easily turn into a whack-a-mole.
+> 
+> Would you be open to adding some kernel config option or a boot
+> parameter to disable manual sysfs driver bind/unbind and
+> driver_override? We had a similar problem with writing to a block
+> device while a filesystem was being mounted, which was perfectly
+> solved by CONFIG_BLK_DEV_WRITE_MOUNTED.
 
-A similar out-of-bounds issue exists in append_midi1_in_jack(), so it
-is being fixed as well.
+I've submitted a patch to taint the kernel if these files are written
+to, so that should "catch" syzbot and let you know to ignore these
+reports if it runs into them:
+	https://lore.kernel.org/r/20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org
 
-Before incrementing jack_out/in, the code now checks if the value has
-reached the upper limit MAX_CABLES; if so, it exits and returns -EINVAL.
+Is that sufficient?
 
-Additionally, the jack_id assignment is moved to occur after the jack_out
-bounds check to prevent wasting IDs on invalid increments.
+If not, no, I really don't want to make a kernel config option just for
+this type of thing.
 
-[1]
-BUG: KASAN: stack-out-of-bounds in append_midi1_out_jack.isra.0+0x38c/0x470 drivers/usb/gadget/function/f_midi2.c:1713
-Write of size 1 at addr ffffc90003277880 by task syz-executor119/6000
-Call Trace:
- append_midi1_out_jack.isra.0+0x38c/0x470 drivers/usb/gadget/function/f_midi2.c:1713
- f_midi2_create_usb_configs+0x748/0xdf0 drivers/usb/gadget/function/f_midi2.c:1815
- f_midi2_bind+0x1d12/0x2770 drivers/usb/gadget/function/f_midi2.c:2013
- usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- 
-Fixes: 856fa444b098 ("usb: gadget: midi2: Dynamically create MIDI 1.0 altset descriptors")
-Reported-by: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c35f34092a4bc9855be6
-Tested-by: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@sina.com>
----
- drivers/usb/gadget/function/f_midi2.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+thanks,
 
-diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
-index 19fdac024343..06a3add05447 100644
---- a/drivers/usb/gadget/function/f_midi2.c
-+++ b/drivers/usb/gadget/function/f_midi2.c
-@@ -1675,11 +1675,15 @@ static int append_midi1_in_jack(struct f_midi2 *midi2,
- 				struct midi1_cable_mapping *map,
- 				unsigned int type)
- {
--	struct usb_midi_in_jack_descriptor *jack =
--		&config->jack_ins[config->jack_in++];
--	int id = ++config->jack_id;
-+	struct usb_midi_in_jack_descriptor *jack;
-+	int id;
- 	int err;
- 
-+	if (config->jack_in >= MAX_CABLES)
-+		return -EINVAL;
-+
-+	id = ++config->jack_id;
-+	jack = &config->jack_ins[config->jack_in++];
- 	jack->bLength = 0x06;
- 	jack->bDescriptorType = USB_DT_CS_INTERFACE;
- 	jack->bDescriptorSubtype = USB_MS_MIDI_IN_JACK;
-@@ -1700,11 +1704,15 @@ static int append_midi1_out_jack(struct f_midi2 *midi2,
- 				 struct midi1_cable_mapping *map,
- 				 unsigned int type, unsigned int source)
- {
--	struct usb_midi_out_jack_descriptor_1 *jack =
--		&config->jack_outs[config->jack_out++];
--	int id = ++config->jack_id;
-+	struct usb_midi_out_jack_descriptor_1 *jack;
-+	int id;
- 	int err;
- 
-+	if (config->jack_out >= MAX_CABLES)
-+		return -EINVAL;
-+
-+	id = ++config->jack_id;
-+	jack = &config->jack_outs[config->jack_out++];
- 	jack->bLength = 0x09;
- 	jack->bDescriptorType = USB_DT_CS_INTERFACE;
- 	jack->bDescriptorSubtype = USB_MS_MIDI_OUT_JACK;
--- 
-2.43.0
-
+greg k-h
