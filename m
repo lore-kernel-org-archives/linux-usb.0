@@ -1,125 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B24338737B;
-	Thu, 27 Aug 2026 07:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447C23DA7F8
+	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 08:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787816838; cv=none; b=RZVjKJh92uD1msLGin+utF0yEZK0mncKsNejUlnlbjJC1kSz+ncUuhyKnPZ+yss/NzgfFveeO2FsJl4VCw/kHg98+fYKYGx5JKt9upcW0pbU6bJOAJd/XVD4+sgf8zxJHVk04/bhpG/zZ2D+IiXjmmdIQIzFmZ5UxfLAMEwcN4Q=
+	t=1787818614; cv=none; b=fs9EXfLqlu4YUf5lkrn0KSz7wId0h8Qy4Fc5Wc1pa4eNx0fjN5sOCI68QeVy/+/010/UuvCvRl5xoVCYcJ1aTg+jzPoGFgUmSBZ11JgRkYN+bEPGildgmAfXouGWDD0x0eNH6enX8oEjrqzlfWymueA3Lzm1lqbwsYnTopD3OaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787816838; c=relaxed/simple;
-	bh=D9iRynStFiinHNFk3YUubpgCjzHKcAiB1h/04CNvTa8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U3zaHU+Ncb6Km0NDV/4uv+OcUVSS/sjnrQq0EAq4Ws44Y6tO4XTRUKh1bidpx9jnyaJ1ZUnKHpWmwQaakk7wSnAeO1CC3VsUH6HrKejLzXHXKNx+MQ3/SUbYUiNmomTmQYy/ZAUynkpXhlWAv0BkmQhf9q4rOWfH/IWLxILO8pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXJQAfnV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787818614; c=relaxed/simple;
+	bh=Wa7EMNtS/SBStCyHa0wWvJVG0R2Xdy1a2EIB8SPizDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rlv7y/7o+eGpwHn2zPnNh2chqw5OjJVpJh6XipP5UI3koAKN0zqd2OhpRNzPuEf+JBU2R0FilDwEL5gNSl57AhSCsoFyYeORZsj5JOS6Oakc6vNkl0gEUxSJlU7/kRjgMdQf0Wp+w6ARDSf94q1S1FgevhDcEmRGkfJPwGxvzLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKooWkvH; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXJQAfnV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4451F00A3A;
-	Thu, 27 Aug 2026 07:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787816834;
-	bh=HAx27bjYWIezR+l7iw/n59Tjpp+JZqYjQalST4GROaY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jXJQAfnVvTVWEWNE4VPcqMrW72bz1eQ9s0q/9pxGB/zaGdI3wBRdVVIhDL5nvhCmY
-	 lC3j0jOHD+sfzJqcAIE01FVPTZ5zMFBDKqvdCxB4RdEUGSVHfsxj9pAUyDem3DiiDc
-	 Cs/0u+1y1bxBZ0NGH32qI+TEeFnu2EmwnR4ii55QrS9wtra/TlmA1P96dBkZ2ounLw
-	 KWrarGBk+zvC9/3bFuYSbxLGuHNb/v8r0LAC3s1+v8nHQmhrn8SW4gcaOnq9pU2cJ/
-	 y0Lk4h7yDpuPuQXAVg9pKeTOuPqRAwSr8o0SOA8bMx6ZPREh+zz8paYvSEhJSAIbRr
-	 KJlwyQO2cFMPQ==
-Message-ID: <c4684212-f44a-4aff-a02d-f3f26095ebc1@kernel.org>
-Date: Thu, 27 Aug 2026 09:47:08 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKooWkvH"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso1630149a91.3
+        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 01:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787818612; x=1788423412; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wvUOAOKXuBQHrhv/+0psbsiL2fO8oAFnkMuF5lJmkVc=;
+        b=mKooWkvHIue0C1aY3KZJijANtpHuFWEfvOY1RPCxRb5myPsWV/cBHu/FnN+jqJU4Nt
+         N8ETBSCZKUtNs2lDpiKU/lUZUnrphkST1iAXfMo7sAH1gGc+KkYbTnSQ3hxN9r+hajRM
+         3J6dQ+Ut3EbK55WsyyOFWwkS0NrK4A6W6T6s4/keSmpjcQOUtNDK2oz1dvF4LnCxtcWf
+         tCNDo1+JsqFgQarJPNXu/0pvJ7JY+Gkdw/KIP/wSyfdKFz6pCi1X/TFTV1ZQhz3ZvlOl
+         h6ksG5tCLPVVT0NnLCdSMGF0n9/+O2CnqaKg/8Dm6a8eI/ygZa8t2iM32TRak7wN5puW
+         uLfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787818612; x=1788423412;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wvUOAOKXuBQHrhv/+0psbsiL2fO8oAFnkMuF5lJmkVc=;
+        b=eCdr61dfc8HfiYlccxW/HqY3ZJYrVmjDzFrdkgljBy6l47sqILhWaprPQrQ6mlWlyL
+         Wv90KSeUxIQcrFPuGuuaT8+7zTwYMq1fLwj3hsYzw1Ks/w2e3pVs8Pp5xDx9FIIDA0ZV
+         nBaVzOJH2icBudC/2jxu/65DBQtdpxo+dB2mL3wYBp0qEj85jh1smZr7rCa6la7sGiBQ
+         k/ofeiMsTOK1Nf0fg3RTHdkamuxfq1+mgG+nbVe/y48cjuixMpwqmzc2Tztf/U7Pjwmq
+         iPE5LJ0DFuqolMYxaiL2xicN/6e8aqaeHO1zeZ7hqSAMtne1bC9TIF90CdXC4xBtOHFn
+         5mOQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqDzSL1UdbCAcqyBFb6+wJ7EaQz9/5GzYFPVaBkOwlRo447q4ZnNi0CGCu3URfZ5kfagA7Ektu7Y1Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++lKggBB1ORpVgFKjxkFGJciCd/fujNEaDrVWb+klSj2ivcu+05e
+	4zLSGF6fi3xruw1nMrMitbIPt0G+r4MBUewvYxTShWHvfjZhErHrdo6Ik1WnvQ==
+X-Gm-Gg: AR+sD13J3n0e3JY+h4tNaGeU187/Odpp94GEfJ7t4rXYVfrBACOXe6jjamw2iau1Uxl
+	AKQVg/94S8ekFgw3AIFgFXDvX0ciEq+tRp80Yhod/1V3DFEx52o1/M4j03Iw1RI9c61ADYBT0/Z
+	oIz0cCa7GF0JF2KBnHpy3MSDGeNW5rI4m5WOxk0MtMnMdCDyddmz69GjCtroIkPaxTigrBT2tPB
+	/60+QaAi3KWI/y15oYipZOxabhqfpmyfcvT6ne/yftMZsE7+cSYpqjmXwLDbk6kEYHQW2uLR9xe
+	/WYnErXXoHJOH68rW2zA8iwlTvxJEuAjbx+D/mXgic2U3k7rdDN9gC7URWp0wsKxDjGy4HenjuP
+	2gvXPCD6NP8jzfK1uDcm8wT9AIxAfoljUNgEoYq8Q7JC2AjQ+lML9X+0FHVDa3FOHRRN/RwUNlF
+	4sQ0/zjbubJ1TC7PFbKWBHug/zHqkFQTQpCz3xvjC9ocMXv1MXKNhz+k2KNT9ZqfI19XvYSqnlz
+	V41
+X-Received: by 2002:a17:90b:4a50:b0:392:b509:b1a5 with SMTP id 98e67ed59e1d1-3966d48c3e9mr24352683a91.14.1787818612187;
+        Thu, 27 Aug 2026 01:16:52 -0700 (PDT)
+Received: from Default ([2409:40f4:1015:7531:12c9:ad3b:96d3:4379])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141a8eefd98sm26865924c88.3.2026.08.27.01.16.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 01:16:51 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: syzbot+d632e93ffcd1452bc61e@syzkaller.appspotmail.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: KASAN: slab-use-after-free Read in roccat_open
+Date: Thu, 27 Aug 2026 13:46:39 +0530
+Message-ID: <20260827081639.17185-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <6a8fd9c8.50659fcc.60cd.000e.GAE@google.com>
+References: <6a8fd9c8.50659fcc.60cd.000e.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
-To: Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- syzbot+805630f1453e490427fa@syzkaller.appspotmail.com, stable@vger.kernel.org
-References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
- <82f138f5-11d4-4839-94a3-c226fd982715@kernel.org>
- <ao9dPUpHxP5uOOcw@MacBook-Air.tail10959e.ts.net>
- <DKZ7J9HNUDR6.BP9KG5Q7HYMJ@nvidia.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Content-Language: en-US
-In-Reply-To: <DKZ7J9HNUDR6.BP9KG5Q7HYMJ@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/26/26 11:52 PM, Zi Yan wrote:
-> On Wed Aug 26, 2026 at 5:47 PM EDT, Harry Yoo wrote:
->> On Wed, Aug 26, 2026 at 11:28:12AM +0000, Vlastimil Babka (SUSE) wrote:
->>> On 8/17/26 22:40, Zi Yan wrote:
->>>> kmalloc is used to allocate physically contiguous memory for kernel
->>>> allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
->>>> the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
->>>> sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
->>>> because kmalloc allocates an order greater than MAX_PAGE_ORDER. Systems
->>>> with panic_on_warn=1 crash because of this WARN. Fix it by rejecting any
->>>> kmalloc size bigger than KMALLOC_MAX_SIZE.
->>>>
->>>> Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher kmalloc requests")
->>>> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->>>> Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
->>>> Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
->>>> Signed-off-by: Zi Yan <ziy@nvidia.com>
->>>> Cc: stable@vger.kernel.org
->>>> ---
->>>> It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadgetfs
->>>> requests excessively large memory from kmalloc. Instead of adding
->>>> __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
->>>> kmalloc to return NULL without a warning for this specific issue.
->>>>
->>>> [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively large memory allocations")
->>>
->>> So I checked and for kvmalloc() we have in __kvmalloc_node_noprof()
->>>
->>>         /* Don't even allow crazy sizes */
->>>         if (unlikely(size > INT_MAX)) {
->>>                 WARN_ON_ONCE(!(flags & __GFP_NOWARN));
->>>                 return NULL;
->>>         }
->>>
->>> This comes from Linus in commit 7661809d493b4. I'd do the same thing here
->>> then.
->>
->> But the purpose of this patch is to avoid the warning in the page
->> allocator. Should we fix this in the caller (gadgetfs) then? 
-> 
-> It is fixed by: https://lore.kernel.org/all/20260820223719.A4A3C1F000E9@smtp.kernel.org/
-> 
-> Please disregard this patch, but we can keep the discussion going.
+#syz test: upstream 903c1cf6dff9
 
-I still think this patch has some value if done as proposed above. Yes
-in practice it will just replace the page allocator's warning with a
-different warning, but IMHO it's "nicer" if kmalloc() sanitizes its own
-requests to the page allocator, using the KMALLOC_MAX_SIZE value.
-
->>
->>> Thus there would be a useful warning for e.g. development mistakes
->>> resulting in the size to be unexpectedly high.
->>>
->>> Callers passing size that comes from userspace or similar untrusted source
->>> can either pass __GFP_NOWARN or sanitize the size to what they expect to be
->>> sane (which is context dependent and I assume actually way lower than
->>> kmalloc limits in practice). Note that passing even sizes within but close
->>> to/at the limit, trusting blindly some external source, can succeed the
->>> allocations but effectively DoS the system with heavy reclaim/compaction. So
->>> caller sanitization should still be preferred IMHO. Some of the recent
->>> arguments from Linus [1] would apply to this too, I think.
->>>
->>> [1]
->>> https://lore.kernel.org/all/CAHk-=wiSmgwwLKCqJwGS-dVHnSLU8W+7q1UQq-G9=TBGGZbuhQ@mail.gmail.com/
-> 
-> 
-> 
-> 
-
+diff --git a/drivers/hid/hid-roccat.c b/drivers/hid/hid-roccat.c
+index 4f15eb951039..505844890ed3 100644
+--- a/drivers/hid/hid-roccat.c
++++ b/drivers/hid/hid-roccat.c
+@@ -236,6 +236,7 @@ static int roccat_release(struct inode *inode, struct file *file)
+                        hid_hw_close(device->hid);
+                } else {
+                        roccat_free_device(device);
++                       devices[minor] = NULL;
+                }
+        }
+ 
