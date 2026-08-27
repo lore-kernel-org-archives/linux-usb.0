@@ -1,146 +1,111 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CBB48C3E3
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 17:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787851891; cv=pass; b=eKMLLrp3KraORCuIyZwVypCAEM69zFWFAuZEZHvf12iQAntcMtGDN+WrDtUAhkxECxlO8zMWs9JGNvKnXa4zzAj5soECyzF37Xoid2CNh6DbOH3chZ9Qw2hDSvdgLDLQgEog1KrXTx+65MnMbtnq0V+X+u3Bc6aNvGxSGHbgOWg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787851891; c=relaxed/simple;
-	bh=fi3xXx9lmMzosKdhDR5Rz7ejkV2wx9RBdSDmpnPGy/I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RLVbgApnHSrD1tzX1YB7biw3QXJ4gCtGE/1Y9hoUmlpWapQc8uHy3+6QD+vFV3hdtTBeY8OUBGfCmc/dWdHj/eauoQen4Cy6/eSaS8g0+y7RdxMclpc+K47L/v8YCojzAoWgO5evj2WG6Rzbdo6ZRuNjMncjEXcAT6GdS4Ft61E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=jON3D1qh; arc=pass smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67F136F915
+	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 17:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787853436; cv=none; b=q0/wNUWvq97LzaKrRcchFHa15anq8mvoEAZcsTJmj4Ww8PJDx204292vuDZAnExevlkIC7oQdggwaA+uWrgZ6GgUXaG0OQMu3TsPWYK3JC4WBuI0k0TvjdJPuCzfNFVbFqBOynbHQkR5QaoSPlhA2dptfaMGtHwq3xTpnCpVbWQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787853436; c=relaxed/simple;
+	bh=ErDkx2iyQEuZbMjHNFnxMQebJBQaigVzsGOKEKGfRwc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qJpzus0BTkKt6kjNWvIzXjTq0ezfg6hlpzs+vq3MPEjt9svHeGKJ3oXqUdkV/jlX2o3KYRAKqe1jyVUx1MvA7qiUwiMQOhNQeZPI7Of5O1WuwvM/5RnNMhnem+iTdsoB/D0U4iDzUeZQsNYPQMaj5tQfQGN/iXk0kQzj7jG47lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRhbs2Kx; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="jON3D1qh"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc1e1ff659bso150675a12.0
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 10:31:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787851889; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YXTWX4CgceLaS5DtJ9rnZ9dgS9WJdDNRcVY9u6L1GocxmBTy74kH/yEtIl1d9kEB2d
-         3yAY4SEMAwX+ohFUnYlxvt046v9xFhflmmOrPuPu/AavNW7kx7BgtS02y18C4jiOXYqo
-         M035WKUWBgYI1Xk4UhPS3CgvpBIxHjqxXeuSvvcqHyJ1AYbGC0rNFxHs2nIhu0lrHh9F
-         hzbC77w1uqVSsn4rBxjjtshDGd6d6xjg7entQptxVeCPFI2+rUC+llNeN5oJpRm1ykNx
-         NUARyGs/i8HQi+Y9CbA8DGK+kAbBQOadgNxwTcvKBzExUeuPW33R9j+svsX6RBPOYcui
-         2Lrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KkgVLt4NrfCVE7i/NEEAS+hRQSbquCyjXQQNoGs7LPU=;
-        fh=M6EtqxbPhkZTRnAD888enWBRWhiL26cu5/6Y2P5kJ7E=;
-        b=prA8mUMHjrts82Yqgvb6JV7fT2rhEa1+0XBhUwu53vARcHq3hBCam9mXCtbdA4NK6Y
-         ndXWrijE02hwwhMDGG4wQPI/6uq6A1cF8CCU74ZI9Bxm1q/jzrngo3UB7hJ0kiHFEN7F
-         L9H1OM//9A07NKDGE8TbQJhH9MsWuTGMis9tGCwHlVoR3bCBRKyKfYHm0JR/55pg3nvZ
-         gwVx7LsvWbNIfQsezjILSbDbKbx9ws3uucZLyMFF08mIj1pCOcdOKWQKdjWyeIjU80ra
-         0VK1A306w7qM0r+9UP8UPRNGgvaMzag6vVZxUqUn9b/aSozuV19gbiztkJOKUVwmxy76
-         j+YQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRhbs2Kx"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47db714766aso971667f8f.0
+        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 10:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1787851889; x=1788456689; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KkgVLt4NrfCVE7i/NEEAS+hRQSbquCyjXQQNoGs7LPU=;
-        b=jON3D1qhVdf0/iNyzFEtCCbR9adPrP+3opOujs0W6rCQhssamMz4m2arjThZYqzDRv
-         J5b+raZS5sNUAFLXlYhOrmq9IXNCysRRr/4apVXLhTzsYVvqPVq8QgmGsHGd8fSrbgm9
-         L0W5e+9cE6pb3PHxq6PibVUcPjldw0Cl13mAGJuFQJnsGmja9j1w0qJ80yrsSOPsMn7t
-         nOCwLE5pm/NJv/MnaN6qeoxWmOW6d2Wlz7fTMpznZX2tWhP0xIDXFpxcVa9m2d0VxRhs
-         yya6eZ+Hxmx4y/kuXUqxIQqQsl9QWsrK8m2wBjCQklx1Ps5lhyPNBA1OFwWcpJv5jbzi
-         Q1VQ==
+        d=gmail.com; s=20251104; t=1787853433; x=1788458233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YNXzX2LjDvZcxZQqc0tIk0RIG7mCEmpN4a6lNUWarzw=;
+        b=HRhbs2KxlbQGfZ+miGEUrNeZwkvH1zykLsar0c7OnUaWfVff+BN2lrXf/col5Dcocn
+         xbzfhDA+Oqdat1Ylyck6VdZ4QtxO7EZJa4Ca8FF+v7EeJpFlqw0icEEPSWgFz33n4Qo2
+         GJY4R7prpqwam4S+bskUWxWUubz0kcuB5cc6ojmnj27MDMsQ0FjmlQjVvS10o7dlF57X
+         gl6nXagfM4mVhdbuiM6+PqyxVdHcQTlBTX60QZgLM/OAxkoF9SKnaaIYl87ahIdm31yh
+         XBxupiQfxxHYiKsCL8NDqZohkIBVvgWWonrrR6/cT6IMebgyWf7QhAFiy8pBh/EydKFo
+         9hXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787851889; x=1788456689;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KkgVLt4NrfCVE7i/NEEAS+hRQSbquCyjXQQNoGs7LPU=;
-        b=EzJ05sEp3PnFmML9IlIfxpErVAC7lgm6XliR6hFl7rno15TutFpFyct9BBeRP9TsEM
-         SYkaQQJ2rz93hwcIMS3m6xuVL3fl3OlIpWB9NLZetzQIL2t4DBZ5khtVFJyFNzFFgKp+
-         P+IgLrnCY3Z8In9uMxmS6Xcjn/sCozcMKVnp356Otdb/rGAgLhvU47aPEfbTXiHXnLFG
-         BmZuoCpcNaEcHSsDyj08DANgwI+a+mpnIJxbRp1puPOm6ZLXlDoVjkjpuAKEpkl+HgPD
-         FAY2Nrr+MWxj0Qiism+HoyNXvKgsiTTfFMiyPOQOs3mzM9WPmv+gF27cIg9holxw/PfI
-         2e3w==
-X-Forwarded-Encrypted: i=1; AHgh+RpUcqeFTT4C9gRnse9bB/R2fbSglh4kNHLtFfetAoE5AvZFy4/DPtqzetcfdVdGaHdfOEC7F5jIbco=@vger.kernel.org
-X-Gm-Message-State: AFuF++l1j0q7c9gp9F42JwUb8/8LA1Ti5h8EjB4CVDXvdKlhdrVTI4pS
-	RGt2p63hP/Ptuny8a2r6RMNRvNScSE7POnhaX0sz3Zf6Z7mz58lBOX+0xkCg49GJGczl9Ye+k9b
-	hN1FFWYj3K8cwxCFJ8Sod31vwcr4MMGjnRjQslKQ/
-X-Gm-Gg: AR+sD13LNfwM0vXCJFHxN4LRtWZTDdn9vZG1WbBbWuD0eLhg+moiltiG3W8KPGTLLTf
-	UqjsdTp5B0TXeH/MPwWaSXHdF0ko5DzHlSLYGjDBRiS7rxeCvOMm+rXId0IberDlR+vgBvNjDD9
-	9mw9RnvMF1q3Lg4sDW65aTh2psL2EGFIvBkwaGuxNxBbrQWS5EKCbxiVUY314ps71IcCn99AcdA
-	esDxXMuGObdFAHHw0qjQ73ORmHNQK5R+CpBYw8P3cS7qIdWDluTktwugATluVRQ5R5Rb8gnz3vl
-	itZgo1WTDr1zgW9WA61rpTPg1IomfCxupGFa2B3BpzwnrFkQKbKLMxWTt3fAwjBg35rkAhDnoim
-	AkRWI/IBOLEzYf6zmBeEo7sLS0nxvo6g84+M=
-X-Received: by 2002:a05:6a21:3390:b0:3cd:7ba2:e669 with SMTP id
- adf61e73a8af0-3d2686a3386mr834940637.10.1787851889149; Thu, 27 Aug 2026
- 10:31:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787853433; x=1788458233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YNXzX2LjDvZcxZQqc0tIk0RIG7mCEmpN4a6lNUWarzw=;
+        b=pEf0fu3ON54DvBtDm5/UeldDnNDj2jWaYjYDks+4IwkE9ScMq+ANraVaoLqXanB4H1
+         Ota/eDb/iE7j/Pnp2cuLPO26QrQ61yFv9ucWQJeNpkWKfKlcZpqWAKa5Nhz+9Jo5Q0gr
+         oBSVPGvEVFaNMjINMBVQcpOKX7BIhIqkggWZUXAELPHKD9hmh0bduFzxvpErqQhbkcv3
+         RD7SBBjO/w4QlZLC0sdxHCbtdGgJMHeAyPwZkTwJpCK35HHNG8eptkA64edF7yLIhwvr
+         hM3KUOgOPCK8bx9b/ICjQJ9J44OGkrjuNFjJr7FGu83JM5Axl/JZB79aa18MV2hCixTs
+         odug==
+X-Gm-Message-State: AFuF++m4ujY7L8iDYE+dsxb9jPUy8moXdgVFKwepm1b6FX0I7AKJSF8n
+	3Xafqp/w59WbG63doEc8+6PXsqkoE+xWMEzt5sJb7swAdS5ydUy1uRSa
+X-Gm-Gg: AR+sD1181A/FA+EUYbHgqUkDkQu3bVwbGR/mDLMIrQkmNLWM73jWnmVaKPHQlJUpC+1
+	Gd7t0gh5XTzqlBaLxmtW7/Jldp85b1dw2uxOrZvBAKbWqEWY5vxeIfWfpnelicHTPihHDIq4A1M
+	CbwoB3QI95NMLekvyOTK9csemEDxf5w4GVhx4hVMxpF4no9g1sse5j3+bh3qFWCWKtonYcp0+Zd
+	Vcvh5yjd9wZELEo2ERhTW1rz7hW5U23DF08pXXm8C+QIdPXugWr00WuamsBrnn88b/gBinHr4Wk
+	avBGD4LIobq362kr9eEUU0QmmrPJXN5T3j7QByuRcKMJKyppYbrD6yytLb8wchjE03SlDmZ6ZeN
+	GUb4G7Gxn5T68bazm5lG64k+y++6bWnoaCpOourgDK4vrE09c9JJljFipAGDk+P3yD0/+5lNHDZ
+	3Sn87YgSU9jh6sBpUT7UwifdL4rNlQqbJjAcH0rWOBiASnaEHOUoRmhg/MXZNV3Zak0CfcIKm2v
+	o9ra3h2pBrr7AljqWzlG+S2cicTSoSylq/c82C1yg0T
+X-Received: by 2002:a05:600c:1c28:b0:49b:8f5e:51fb with SMTP id 5b1f17b1804b1-49b91a5899fmr16419615e9.3.1787853432548;
+        Thu, 27 Aug 2026 10:57:12 -0700 (PDT)
+Received: from il-orgads-lp.corp.audiocodes.com ([134.231.187.64])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4961004bsm82921295e9.4.2026.08.27.10.57.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 10:57:10 -0700 (PDT)
+From: Orgad Shaneh <orgads@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Orgad Shaneh <orgads@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/3] usb: octeon-hcd: fix the FIFO-flush timeout computation
+Date: Thu, 27 Aug 2026 20:57:00 +0300
+Message-ID: <20260827175703.1549-1-orgads@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh> <2026082732-flaccid-overpay-0985@gregkh>
-In-Reply-To: <2026082732-flaccid-overpay-0985@gregkh>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Thu, 27 Aug 2026 10:31:18 -0700
-X-Gm-Features: AcwNN1UH6rQHNXhcYdg99UoLIjWRDePA68176IBEWq-kIwPF2BtV8uwj4x4omdw
-Message-ID: <CAPpSM+RJKziJf7enrZ5FMy-uxJp1Fy1M_acVXy+v3WskU7jJXw@mail.gmail.com>
-Subject: Re: [BUG] drivers/usb: out-of-bounds in xhci_queue_bulk_tx()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: co <co+fd80bc5967eb22c3@bugs.sh>, linux-usb@vger.kernel.org, 
-	Mathias Nyman <mathias.nyman@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Th
+cvmx_wait_tx_rx() computes its 100us deadline from
+(u64)octeon_get_clock_rate - the address of the function, not its
+return value; the parentheses have been missing since the
+CVMX_WAIT_FOR_FIELD32 macro became a function. The cast makes it
+compile silently, and the resulting deadline is effectively infinite.
 
-On Thu, Aug 27, 2026 at 5:50=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Aug 27, 2026 at 12:43:58PM +0000, co wrote:
-> > We found a bug reachable in:
-> >
-> >     path    drivers/usb/host
-> >     crash   out-of-bounds in xhci_queue_bulk_tx()
-> >     commit  bd5f485f3f02 ("Merge tag 'soc-arm-7.3' of git://git.kernel.=
-org/pub/scm/linux/kernel/git/soc/soc")
-> >
-> > Config, environment, the sanitizer report and a C reproducer follow.
-> >
-> > =3D=3D Notes =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >     If you patch the bug based on our artifacts, a tag would be
-> >     appreciated:
-> >
-> > Reported-by: co+fd80bc5967eb22c3@bugs.sh
-> >
-> >     Everything in this mail is validated by the reproducer below.
-> >
-> >     We also hold an LLM-generated root-cause analysis and a candidate
-> >     patch. The patch passes an A/B test: the same reproducer panics the
-> >     unpatched kernel and runs clean on the patched one. Neither has had
-> >     human review, so both still require validation before you send or
-> >     apply them. Available on:
-> >
-> >         patch.diff  https://bugs.sh/b/fd80bc5967eb22c3/patch.diff
-> >         report.md   https://bugs.sh/b/fd80bc5967eb22c3/report.md
->
-> Please validate and ensure that this is correct before sending this to
-> us.  No need for us to dig through random web links, right?
->
-Thanks for your feedback, Greg.
+On a healthy controller the flush bit clears on the first read and
+nothing is noticed. On a controller whose PHY did not come up (for
+example when the reference-clock configuration is wrong for the board),
+txfflsh/rxfflsh never clear and probe spins forever in __delay() -
+observed as a hard hang with a soft-lockup splat on a CN5020 board,
+where the board watchdog then resets the system with no console output.
 
-We are working on making reports public. Sorry for the inconvenience.
-We'll stop sending bug reports before we fix the issue.
+Call the function, restoring the 100us timeout the code always
+intended.
 
-Xiang
+Fixes: 3e195a80e096 ("Staging: octeon-usb: Replaces CVMX_WAIT_FOR_FIELD32 macro with a function")
+Cc: stable@vger.kernel.org
+Signed-off-by: Orgad Shaneh <orgads@gmail.com>
+---
 
-> thanks,
->
-> greg k-h
->
+diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
+--- a/drivers/usb/host/octeon-hcd.c
++++ b/drivers/usb/host/octeon-hcd.c
+@@ -578,7 +578,7 @@
+ 	int result;
+ 	u64 address = CVMX_USBCX_GRSTCTL(usb->index);
+ 	u64 done = cvmx_get_cycle() + 100 *
+-		   (u64)octeon_get_clock_rate / 1000000;
++		   (u64)octeon_get_clock_rate() / 1000000;
+ 	union cvmx_usbcx_grstctl c;
+ 
+ 	while (1) {
+-- 
+2.47.0
