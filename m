@@ -1,128 +1,119 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CEC24E4C6
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 22:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDBB32BF4B;
+	Thu, 27 Aug 2026 23:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787870857; cv=none; b=ZqsvcKPjHIRzf1PTg5AJ1euLCMKK6u755Jy753Xo+wx71u2Jcju5xNvQAJUSLZS2JQAfFA6UQfy008FTx8dpT186oVSzO2q20mD6mkYajOvFkWwxp30cpNU3LLUt9hDYbDKyUUs8THLJXxRkBdP16KdtPnZI+n7Jy/F7EZD1u80=
+	t=1787872468; cv=none; b=GC/VXffzmIrqayLJatL4y5YPJkBNvAxWivQ4x7Wjp30FjVzBu1ypKVvvHWVAijwyv0Gwz86M5zM0PGxacF/tKeNIuxcvtpsB7IEcX/n4ZyPkama/QWeH0wuP4z+9hJY6R9ooiSWIUpWgD8a85ak9xAf8uSW+BAHwnsFvUfAg4D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787870857; c=relaxed/simple;
-	bh=T2BKiFvfJn+RaV+W7Rcx/o6DGVKSv+XWpdwGMyeXZv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ks4KJuxVolYbXNvyfCzIaejM8mxCYVDIzlGdtJL9hetyMNDrQKr+6D2sbeH7Qvh0SeOdWjzdzRzGnth2QSb9D2JXDLZN060vajcWmcktgRAf4Shpab6hvA88hf7xe2HFYOTusN1z43AJlOPJ4S2kp5VOYWPldXycpiFeyxoYajg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWK/+xV6; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787872468; c=relaxed/simple;
+	bh=U04iR+qtdCoxG9gK1Z5LrwRMGX8xdLDMkZOI3f7jHsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NTPNa4IDUNj3OLz2pvRB/etnOR9+xZPM+pFm++54ADpIqXnWTqZfq6LYaqi8rIJ23rGBD5bjpbI9n5A0CY08Pa2v0RV3UiCLY07pFAvozR/NcNl/8YLcuqOF8MKXRHqP5Qu+UIWmGrPBw3Khd/N+aEvBw5WCIwFPUPkcpwJT0p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=i7CL2o6S; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWK/+xV6"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49554ebb87dso3184625e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 15:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787870854; x=1788475654; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sDawldYj0ov87+hPrFEFIlqPjSaLjrm7NxAEAuLWWEU=;
-        b=MWK/+xV6e2g94y1PYvFxVFpCFzqGsRtOSWaQzsX5kRlX9XR+ET/UYNiSybWDol3BgH
-         4CpK+I+FsgZQYiSMWCQZUMYWKVCUmI3/GR4T1+sK9CopaQ+0Y3fwRFUvc4JZnzyUeCWE
-         5ITjVvhqNKlfpmCa0KUvJNzgBMLtdMSfXUOtvD6i8lJhIioTw2nniHShsAz8G9d6yMFH
-         q4hW08BSeKUHTnTfdCVgluYvuACVmEMhZkTnc77H1wKovA4ekq00WiKVPDcX8EnHObW+
-         qxKawe5QsmvwHV6mRPztONVU3qh2oQb2Hrf6dzSGU4iLsLt5mVAtXzVrUItHGk6lq5X0
-         dX6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787870854; x=1788475654;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sDawldYj0ov87+hPrFEFIlqPjSaLjrm7NxAEAuLWWEU=;
-        b=gjtT7Lyph0c5w9ZfrFHOooqc2lb2YtdDxxZ8P2WPJTNU64dGj86K9VQwfyASqymKZ6
-         yD03e3sf6Nv+1Yi1hqP9kGhFX93NDnlZJfEIHEdtJ8KZr1lfoKCKDel/WViDeCwJMOWc
-         18A48ALIa+8JAO47YIZV599JRsJfEK5pdOrPY1k7Bo1FzOOIxHmHbU34Sw08OPlI5UJ5
-         G0XBkzWrPV1mIbQVfg8FXPxf+dGOepqxOB7vUzgRjGXJXXjMzlC53Xec+wJxsdzPckIZ
-         0UVGc3CIAhyJL3J6WK5pj4pt9dsfr+fgiF7rnnkR7glTLy07LcQ/CUVK/jPPwTG9NM3y
-         5U3g==
-X-Gm-Message-State: AFuF++kS+IhuROcOKVLoTeMK1zGZH+6N0Po1k7eGBq30FDmbjjiN+53w
-	ldmWrnfzV6bdwXJJL7G8l/K20CGGc6BHPLRdl+bx+VN/XkSMmGj0kAyj
-X-Gm-Gg: AR+sD1246iypSD1mGXkIFPkGwjT5IFe1UhiOz5uLc4UQjop3veObD5LDfQAaVuBjaR7
-	PsJKzjbi4F6soG56JQ9zRaALKO8pKRi0t6fJqnroje4NvGcWsNQ/eUfDCtLtKKfSYsopRi2gFMm
-	2b9DOJQqCIqi3sceST1jXze1kGVOZw0Kcbta5h1M/YBLcpwruVbovB4wQhMY37WHWYSi4rId9EN
-	jOb/ELi70uREv8lYUM6/ZQOX4Z4AXzQs3xRHNtk9SjIV0FWtdvDfUcgOQzmcDzlxry+HDFiDry6
-	5uny+daygU1EruO/pCG+Sh/cqDIoYgrLQH40NJIzJSAjin8jTTSKdkDcNAUqBqrxWzzaFy9D6s1
-	69LZjVIbqMZojvfT+hlG9zRhI3ZPeKcvAxvL3lmRqCNvCNR3EakvTIGYZWX7vQOoVbOQcM2E67X
-	f7rWP7ZDEfv7Na4WVWctUuGWbWiZTHulUFAEFSdYRiPdIXXDSFg2YoO5Wv3peph38QnXE=
-X-Received: by 2002:a05:600c:4fcb:b0:499:db27:7b1 with SMTP id 5b1f17b1804b1-49b91c62d9bmr23550655e9.15.1787870853909;
-        Thu, 27 Aug 2026 15:47:33 -0700 (PDT)
-Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e28f231dsm11339075f8f.31.2026.08.27.15.47.32
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 27 Aug 2026 15:47:33 -0700 (PDT)
-Date: Fri, 28 Aug 2026 00:47:29 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: co <co+fd80bc5967eb22c3@bugs.sh>
-Cc: linux-usb@vger.kernel.org, "Mathias Nyman" <mathias.nyman@intel.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [BUG] drivers/usb: out-of-bounds in xhci_queue_bulk_tx()
-Message-ID: <20260828002440.312ec0b6.michal.pecio@gmail.com>
-In-Reply-To: <D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh>
-References: <D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh>
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="i7CL2o6S"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C1AA711C5D3;
+	Fri, 28 Aug 2026 01:14:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787872460;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=gjJ6weS85s22FsCPd+HQktbWCP2SfOGkFBLAdeRpKpo=;
+	b=i7CL2o6SLSrZdwX0d5+AsU2vabHXYQ1NNmnV/xx2ISa23sMUmdIGRb53cNIhJNGVbZsTdx
+	WAdF9ERf6Uf1CaoM097RPCbumDaf+d475mXRefKf7E7+X43sCbomSMuwll7k0fkXQffzdB
+	SBs+jMee+mA+bafgxAFrGyRltI7WCGMsa1gPCTxJpGarj6jWNq8H4dKdfA97nEK9HNF9m6
+	+eoWKLE7AVgdSFiIdQW8feBK8viOr+0M1k4N8Bivc0VUQEMLpewdXAcly+bg2aBeCZgbl9
+	h8RkaXiO6LcP9y7SaIxMYoqAi+28TMwMG5q2J5j9uzvv/EIWpD+n0M2ipwuSbA==
+Message-ID: <84bd4b0b-69c3-451e-9e0b-690191f52537@nabladev.com>
+Date: Fri, 28 Aug 2026 01:14:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/9] dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO
+ PHY
+To: Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org
+Cc: fabrice.gasnier@foss.st.com, Pankaj Dev <pankaj.dev@st.com>,
+ Rahul Kumar <rahul.kumar05@st.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260822074816.548662-1-marex@nabladev.com>
+ <20260822074816.548662-2-marex@nabladev.com>
+ <7a16614a-bd1b-462a-be13-4a9c22aa588e@kernel.org>
+ <34c48ff1-524f-4d24-b53f-99e7171d08db@nabladev.com>
+ <25e10cfe-40dc-45f4-8a92-cd81263420ea@kernel.org>
+Content-Language: en-US
+From: Marek Vasut <marex@nabladev.com>
+In-Reply-To: <25e10cfe-40dc-45f4-8a92-cd81263420ea@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, 27 Aug 2026 12:43:58 +0000, co wrote:
-> We found a bug reachable in:
+On 8/27/26 11:33 PM, Krzysztof Kozlowski wrote:
+> On 27/08/2026 16:53, Marek Vasut wrote:
+>> On 8/27/26 2:54 PM, Krzysztof Kozlowski wrote:
+>>> On 22/08/2026 09:46, Marek Vasut wrote:
+>>>> +description:
+>>>> +  USB2 PHY block in STM32 is attached to USB 2.0 Host controller and
+>>>> +  USB 2.0 side of DWC3 DRD controller, and provides the USB LS/FS/HS
+>>>> +  connectivity. Both PHYs are the FEMTO-PHY, but their configuration
+>>>> +  bits in the system control register are different for each variant.
+>>>> +
+>>>> +maintainers:
+>>>> +  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+>>>> +  - Marek Vasut <marex@nabladev.com>
+>>>> +  - Pankaj Dev <pankaj.dev@st.com>
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>> +      - st,stm32mp25-usb2phy1
+>>>> +      - st,stm32mp25-usb2phy2
+>>>> +
+>>>> +  "#clock-cells":
+>>>> +    const: 1
+>>>> +
+>>>
+>>> As pointed out by different patchset built on top of it, this is wrong.
+>>
+>> What is wrong in this (V3) of the patchset ? I think the ST patches were
+>> fixing up V2 and what they were fixing up is already fixed here in V3.
 > 
->     path    drivers/usb/host
->     crash   out-of-bounds in xhci_queue_bulk_tx()
->     commit  bd5f485f3f02 ("Merge tag 'soc-arm-7.3' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc")
-> 
-> Config, environment, the sanitizer report and a C reproducer follow.
-> 
-> == Notes ===============================================================
->     If you patch the bug based on our artifacts, a tag would be
->     appreciated:
-> 
-> Reported-by: co+fd80bc5967eb22c3@bugs.sh
-> 
->     Everything in this mail is validated by the reproducer below.
-> 
->     We also hold an LLM-generated root-cause analysis and a candidate
->     patch. The patch passes an A/B test: the same reproducer panics the
->     unpatched kernel and runs clean on the patched one. Neither has had
->     human review, so both still require validation before you send or
->     apply them. Available on:
-> 
->         patch.diff  https://bugs.sh/b/fd80bc5967eb22c3/patch.diff
->         report.md   https://bugs.sh/b/fd80bc5967eb22c3/report.md
+> Probably I got confused... but I had impression the ST patches were
+> adding here "reg" property, no?
+It is there in V3:
 
-I for one have clicked that random web link, the patch boils down to
-
--       max_pkt = xhci_usb_endpoint_maxp(urb->dev, urb->ep);
-+       max_pkt = ring->bounce_buf_len;
-
-and sure, xhci_usb_endpoint_maxp() returns the "raw" out of spec value
-from the descriptor, while bounce_buf_len is "sanitized", which means a
-constant value of 512 for high-speed devices, since the driver doesn't
-actually use out of spec max packet sizes on bulk endpoints (except for
-SuperSpeed?), see xhci_endpoint_init().
-
-The sanitized value is used to size bounce buffers and also programmed
-into the HW, so it would make sense to use it here too.
-
-And if anyone wonders how such a descriptor can reach HCDs,
-
-  fb5ee84ea72c USB: Accept bulk endpoints with 1024-byte maxpacket
-
-So this kind of weird device (no idea what they are) plus bad luck with
-its driver submitting scatter-gather URBs could result in a bad day.
-
-Regards,
-Michal
+"
++  "#clock-cells":
++    const: 1
++
++  "#phy-cells":
++    const: 0
++
++  reg: <------------------ HERE
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
+"
