@@ -1,193 +1,185 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72214A33E3
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 17:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EA94D2ECB
+	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 18:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787853451; cv=none; b=OKeuUxdeAmKhEBAmUCGoF/oCFTEe5ud5ddVS8I+Op8qWK9aQKvfimFuWTG46GoiBcaIXs5VThhxQjdL+NnvKUVLZMTXEko3xtSshdpBF4KiriafIOjVpzuRpTpjBjuaRpjGytHxfNM3VOO90jsErwQFrTGqTwNYsmNlpU9KFPr4=
+	t=1787856694; cv=none; b=kL52Vgqb1ltjSBSwvEZv3nNIPMugzg+yQJMH2v1SXA8Vonq7AHkhmX7u43ceOB4FMdTHLHOB2i49Awd8BVpJelEIpgnCWTbDK7fUJMFXCCopz4NTi9Jjt+nI84JiHHQTOOXGRvURw2Q8MvlstF/e33cy2eFVN3MDb+dRVDZ8dXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787853451; c=relaxed/simple;
-	bh=cFow8mmsLDB07/zPkXTBq2WrPcE7xOsvUQjMsrTrXWs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zli+M9HyW+Gi8n5bBk/6rdfImNcQlAdO2dV12eplJFM3uQpaXAwp3FZlz6198tf6KyYoYntGmghaoCzp3qq5rlOG7EGvdcJpNx0oWXU51xelOD/WEiTC9hF/SlqpkVIF/7S0efqGP/btr3o1I2VR4dN/adE9CoMZMZkqlCaDlnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PUSjaNvh; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PUSjaNvh"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49557167508so409815e9.1
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 10:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787853437; x=1788458237; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=msHPXb4xVBASBxcWVm54PW2v9v50vhp0zhhZwzN3qSA=;
-        b=PUSjaNvhEkxvyklQhOhDRqGu23QEbTAfqH7yftfT3dpnRSbKZDmqc70cRC0ZLlVa+m
-         DqnvVfQ5mcrGDIugJujWkftY7f5gGN/nD23nGXf8e/hIKzUNblksrVUoviNNUTxA+vPr
-         kFxdXyI3A1+DivHwlb05OTFtGm/n72NAQCkcYmhXFWno+y4TLapeFdf8jnr0T2SMjHYw
-         v+61zO5Tuw3RrXOegPxg2wqNf7EofnsVVFH5hB1cXfRQSI1Pyk/RJFsHPD/qjrprpz4q
-         onVN7NhYepJvkDX+XhV62EYos3Tck0bWicSR1v35kxakvQhq4tylAULHs9/S9dJZ0AaC
-         fJVQ==
+	s=arc-20240116; t=1787856694; c=relaxed/simple;
+	bh=T0zbqyrpRp1FvWAidlSqqYWCdrdXzxoIeclqnFv8mOc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=a1xQGiRDqI2nXx2KdnJgqmsMx2N2Y5KEqIoc1NobrhMSC7NeL99jihZJe5RGwEygdMbnJLFOmL7Mh5qVURbr8K0/pTveYjOTFSnTAGsc7YeAUhby2qEr0S/xloOF8lw7fYXeGSQclXUP/voeKvEJqt2la8Pg9RJYYX2zxX77tfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-49ec9d117f2so6105b6e.0
+        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 11:51:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787853437; x=1788458237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=msHPXb4xVBASBxcWVm54PW2v9v50vhp0zhhZwzN3qSA=;
-        b=G94hXREpuOPXUCOmAhaHvUSM8I4GZnvAJrFGOWRaXBDrLivGod4dmPzs5I0PK6YDKB
-         v9WrnyMdNzYlFwEcVfLVCVPfZcR2nBWq/Qegddh6Hcc6d24kUl9vtTJviRfFpjFctid7
-         VhQBlT7aZM6wfnzKmRAm+mUs0RhfX3726UwQNnPwvNX8Q4fknL7aKk0r1T/3YbdK9RSy
-         nN/w7Z432jQ7/Bk2ECoteFUE9KdXVr7c40EIaD69Wk0LndwK8UOSqPJeQZf1+jUm58qy
-         KVxv4uu9BqjmZuqDDovfNsr5EgMQQWpHNkocdsuVIKldVYhmUCiYzCTbVNSWCOahlzti
-         wJMw==
-X-Gm-Message-State: AFuF++kqPE310ZK981O8pzRvJwZGH2ZJDkiOE9OC4TRVdk55sIuJeOfv
-	zjI5QiQ6NXIXrwMghXbCJo9MPCBkIqfavEZ1L2/KW7yMarldybReEuSr
-X-Gm-Gg: AR+sD12fWWd8apoeFf6denFrzjCbof0R3DMKjgHHN9EGNRihsz1NGoZrCl889Mzj6rx
-	6g4UMMH1gitue4By9D5s226ENAZv/LPif0fwEb4z35ttWOk8yv9NAF5I+VSQU7ugM5Z2SeaMy99
-	npym8rRhOQmLGGo7InyPZHtqSlqmhekaecgTPp4LoRBpg1yMG3uk6UUMy0masVzRRQR0UCJdSwo
-	g+VjxPQC3G7C3zkH8KcKI+Q6/TldxijYUW1Frvfeczl8B4pHE25Tvw4DrnVxtCbAOnOpdmjV8KJ
-	7TCDQnz+WpnsN8jm/yua/tF3b2Iw1qoZXNjmFG1Vv6+a3GyYulGWdKgCSqN7qrdu7hh0WQ2ynzE
-	4KnZgusSYFZZcJ2K9EOHbNG1E6s2W+jeJT/xbO2wtdBYmrn1tSnuYYg3CeptXY0rO7HL+yoNeVh
-	O3waaRfbiWdsJ3k3oCkhUrEQfDflTIY4E8c9CSj/PQMBJ+uNqrkMHpy4mKKgY/xCCedPHcF5uXr
-	hyyKcd8ZmQhVJFrY7Dd4NFRw5gLSVv1krtczNx8Hd9l
-X-Received: by 2002:a05:600c:4452:b0:493:f140:c3fb with SMTP id 5b1f17b1804b1-49b91c2e42bmr10483065e9.7.1787853436758;
-        Thu, 27 Aug 2026 10:57:16 -0700 (PDT)
-Received: from il-orgads-lp.corp.audiocodes.com ([134.231.187.64])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4961004bsm82921295e9.4.2026.08.27.10.57.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 10:57:15 -0700 (PDT)
-From: Orgad Shaneh <orgads@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Orgad Shaneh <orgads@gmail.com>
-Subject: [PATCH 3/3] usb: octeon-hcd: sleep on an hrtimer for far-off periodic transfers
-Date: Thu, 27 Aug 2026 20:57:02 +0300
-Message-ID: <20260827175703.1549-3-orgads@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260827175703.1549-1-orgads@gmail.com>
-References: <20260827175703.1549-1-orgads@gmail.com>
+        d=1e100.net; s=20251104; t=1787856691; x=1788461491;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=p7ZvPJUSXVravWyacYbLAbOm1boAfna4m6XSSgskkGE=;
+        b=TjjX0l0OJXm3onHgJJ8+3OjQZDqfBJGO8NPCOY0fSMkmz9cjBzSTzFZbV/dnQYuizk
+         1nuqS1UyhV5xxTRLoPqlBBfkj5K6gh131p6B9pzD6B6YOFoP14O8NgD47M0fHWxywKbV
+         I1BfuB3HkDB/alGS3K7ricf++TozPjlWXJ5VPMOmyi0oH9jJVyIKxi8ali5yg651rVnX
+         +XgHsUQBZZFhDE33Oep7La5PBKqsoyLT8k1R4X0hy/Erlfq2wmJLW+SoufRAHmDrsYy9
+         E3Q6LXrGzwcemud896jYk6PEJTEU5n+ryjLrNpm+VobUWq0E3idikzO9GHstJvaMuwS9
+         9BIQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro6TOcytkCi+SMnKn+RPEpmlcDK5uYk3kWttJxyYn69Q6wCLVSjrNlcHcb6PrKNtFxim4vT1LzJtAI=@vger.kernel.org
+X-Gm-Message-State: AFuF++kPxtZvCl/SuhSM+i5HvxhNYN0C1qORt4qNKSBJCFyge9hAs1q1
+	/p8hv824AzPQ7S/xVf5UoD42Bja/eOHopxOvjBCvKR7fXR30GxdSMJ4JUiLT7iapKK5jsQx5zoR
+	y2X6RUnE8p+NukL199F0hryrKHQbJVpXMRHAWcpOCNI7tDDxgGWu8PXNSdoM=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:4f5e:b0:4b3:7aeb:1b73 with SMTP id
+ 5614622812f47-4b397f72c9emr1072227b6e.2.1787856690892; Thu, 27 Aug 2026
+ 11:51:30 -0700 (PDT)
+Date: Thu, 27 Aug 2026 11:51:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a908732.1d9ded08.62e62.00d7.GAE@google.com>
+Subject: [syzbot] [usb?] [dri?] WARNING in drm_mode_config_validate
+From: syzbot <syzbot+901485725495f4729987@syzkaller.appspotmail.com>
+To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, rubenru09@aol.com, 
+	simona@ffwll.ch, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 
-cvmx_usb_schedule() enables the SOF interrupt whenever any pipe has
-next_tx_frame in the future, and leaves it enabled until the transfer
-is due. An interrupt endpoint keeps such a deadline pending
-permanently, so a single attached hub (status pipe polled every 256ms)
-costs an interrupt on every SOF - 8000/s in high-speed mode, forever.
-On a 500MHz CN5020 that is measurably ~20% of one core spent counting
-frames.
+Hello,
 
-The frame counter is resynchronized from HFNUM at the top of every
-poll, so the driver does not actually need to see every SOF to know
-when a deadline arrives. Sleep on an hrtimer when the nearest deadline
-is more than a few frames away (one high-speed frame is 125us) and
-keep SOF interrupts only for deadlines that are imminent - or far
-enough away to risk the 16383-frame HFNUM wrap, where the interrupt
-path still tracks the counter extension.
+syzbot found the following issue on:
 
-Measured on a CN5020 board with one 4-port hub attached and idle:
-8200 -> 4 USB interrupts/s, with no change in enumeration or transfer
-behavior.
+HEAD commit:    45c13f3f9e3b Merge tag 'hwlock-v7.3' of git://git.kernel.o..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=10ad399e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9b0fc292fc5639c
+dashboard link: https://syzkaller.appspot.com/bug?extid=901485725495f4729987
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17af0579580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17639625580000
 
-Signed-off-by: Orgad Shaneh <orgads@gmail.com>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ac6556827073/disk-45c13f3f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/01ff014f18d2/vmlinux-45c13f3f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/77e9c6302a14/bzImage-45c13f3f.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+901485725495f4729987@syzkaller.appspotmail.com
+
+usb 4-1: config 1 interface 0 altsetting 0 bulk endpoint 0x1 has invalid maxpacket 0
+usb 4-1: config 1 interface 0 altsetting 0 has 1 endpoint descriptor, different from the interface descriptor's value: 2
+usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+------------[ cut here ]------------
+[PLANE:35:plane-0] pixel format with alpha exposed but blend mode not setup
+WARNING: drivers/gpu/drm/drm_mode_config.c:872 at validate_blend_mode_for_alpha_formats drivers/gpu/drm/drm_mode_config.c:872 [inline], CPU#1: kworker/1:0/24
+WARNING: drivers/gpu/drm/drm_mode_config.c:872 at drm_mode_config_validate+0xfb4/0x1be0 drivers/gpu/drm/drm_mode_config.c:938, CPU#1: kworker/1:0/24
+Modules linked in:
+CPU: 1 UID: 0 PID: 24 Comm: kworker/1:0 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:validate_blend_mode_for_alpha_formats drivers/gpu/drm/drm_mode_config.c:872 [inline]
+RIP: 0010:drm_mode_config_validate+0xfbb/0x1be0 drivers/gpu/drm/drm_mode_config.c:938
+Code: 00 49 8b 57 18 48 89 f8 48 c1 e8 03 0f b6 04 28 84 c0 74 08 3c 03 0f 8e 00 0b 00 00 48 8d 3d fc 06 ce 07 41 8b b7 c8 00 00 00 <67> 48 0f b9 3a e9 fa fd ff ff 48 8b 5c 24 20 e8 31 3d 68 fe 48 8d
+RSP: 0018:ffffc9000019edd0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: ffff888108692dc0 RSI: 0000000000000023 RDI: ffffffff8b1a99a0
+RBP: dffffc0000000000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffffed102175f9ca
+R13: ffffed102175f9cb R14: 0000000000000001 R15: ffff88810bafcd60
+FS:  0000000000000000(0000) GS:ffff8882684eb000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000000000 CR3: 0000000119ed8000 CR4: 00000000003506f0
+Call Trace:
+ <TASK>
+ drm_dev_register+0x56e/0x7b0 drivers/gpu/drm/drm_drv.c:1077
+ gud_probe+0x17f4/0x1c20 drivers/gpu/drm/gud/gud_drv.c:646
+ usb_probe_interface+0x386/0x9b0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3776
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3776
+ usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2708
+ usb_new_device drivers/usb/core/hub.c:5833 [inline]
+ hub_port_connect drivers/usb/core/hub.c:5580 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
+ port_event drivers/usb/core/hub.c:5884 [inline]
+ hub_event.cold+0x51a/0xe9d drivers/usb/core/hub.c:5966
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3387
+ process_scheduled_works kernel/workqueue.c:3470 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3551
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 49 8b             	add    %cl,-0x75(%rcx)
+   3:	57                   	push   %rdi
+   4:	18 48 89             	sbb    %cl,-0x77(%rax)
+   7:	f8                   	clc
+   8:	48 c1 e8 03          	shr    $0x3,%rax
+   c:	0f b6 04 28          	movzbl (%rax,%rbp,1),%eax
+  10:	84 c0                	test   %al,%al
+  12:	74 08                	je     0x1c
+  14:	3c 03                	cmp    $0x3,%al
+  16:	0f 8e 00 0b 00 00    	jle    0xb1c
+  1c:	48 8d 3d fc 06 ce 07 	lea    0x7ce06fc(%rip),%rdi        # 0x7ce071f
+  23:	41 8b b7 c8 00 00 00 	mov    0xc8(%r15),%esi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	e9 fa fd ff ff       	jmp    0xfffffe2e
+  34:	48 8b 5c 24 20       	mov    0x20(%rsp),%rbx
+  39:	e8 31 3d 68 fe       	call   0xfe683d6f
+  3e:	48                   	rex.W
+  3f:	8d                   	.byte 0x8d
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
---- a/drivers/usb/host/octeon-hcd.c
-+++ b/drivers/usb/host/octeon-hcd.c
-@@ -378,8 +378,22 @@
- 	struct cvmx_usb_transaction *active_split;
- 	struct cvmx_usb_tx_fifo periodic;
- 	struct cvmx_usb_tx_fifo nonperiodic;
-+	struct hrtimer sof_timer;
- };
- 
-+static int cvmx_usb_poll(struct octeon_hcd *usb);
-+
-+static enum hrtimer_restart octeon_usb_sof_timer(struct hrtimer *t)
-+{
-+	struct octeon_hcd *usb = container_of(t, struct octeon_hcd, sof_timer);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&usb->lock, flags);
-+	cvmx_usb_poll(usb);
-+	spin_unlock_irqrestore(&usb->lock, flags);
-+	return HRTIMER_NORESTART;
-+}
-+
- /*
-  * This macro logically sets a single field in a CSR. It does the sequence
-  * read, modify, and write
-@@ -1908,6 +1922,7 @@
- 	int channel;
- 	struct cvmx_usb_pipe *pipe;
- 	int need_sof;
-+	u64 min_due;
- 	enum cvmx_usb_transfer ttype;
- 
- 	if (usb->init_flags & CVMX_USB_INITIALIZE_FLAGS_NO_DMA) {
-@@ -1948,15 +1963,33 @@
- 	 * future that might need to be scheduled
- 	 */
- 	need_sof = 0;
-+	min_due = ~0ull;
- 	for (ttype = CVMX_USB_TRANSFER_CONTROL;
- 	     ttype <= CVMX_USB_TRANSFER_INTERRUPT; ttype++) {
- 		list_for_each_entry(pipe, &usb->active_pipes[ttype], node) {
--			if (pipe->next_tx_frame > usb->frame_number) {
--				need_sof = 1;
--				break;
--			}
-+			if (pipe->next_tx_frame > usb->frame_number &&
-+			    pipe->next_tx_frame < min_due)
-+				min_due = pipe->next_tx_frame;
- 		}
- 	}
-+	if (min_due != ~0ull) {
-+		u64 delta = min_due - usb->frame_number;
-+
-+		/*
-+		 * frame_number is resynced from HFNUM on every poll, so a
-+		 * deadline that is many frames away does not need an
-+		 * interrupt on every SOF to count them down - sleep on the
-+		 * timer instead and keep SOF interrupts for deadlines within
-+		 * a few frames. Stay well below the 16383-frame wrap of
-+		 * HFNUM. One (micro)frame is 125us in high-speed mode.
-+		 */
-+		if (delta <= 4 || delta > 8000)
-+			need_sof = 1;
-+		else
-+			hrtimer_start(&usb->sof_timer,
-+				      ns_to_ktime((delta - 2) * 125000),
-+				      HRTIMER_MODE_REL);
-+	}
- 	USB_SET_FIELD32(CVMX_USBCX_GINTMSK(usb->index),
- 			cvmx_usbcx_gintmsk, sofmsk, need_sof);
- }
-@@ -3646,6 +3679,8 @@
- 	usb = (struct octeon_hcd *)hcd->hcd_priv;
- 
- 	spin_lock_init(&usb->lock);
-+	hrtimer_setup(&usb->sof_timer, octeon_usb_sof_timer, CLOCK_MONOTONIC,
-+		      HRTIMER_MODE_REL);
- 
- 	usb->init_flags = initialize_flags;
- 
-@@ -3696,6 +3731,7 @@
- 	unsigned long flags;
- 
- 	usb_remove_hcd(hcd);
-+	hrtimer_cancel(&usb->sof_timer);
- 	spin_lock_irqsave(&usb->lock, flags);
- 	status = cvmx_usb_shutdown(usb);
- 	spin_unlock_irqrestore(&usb->lock, flags);
--- 
-2.47.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
