@@ -1,114 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D18E30E0FE;
-	Thu, 27 Aug 2026 19:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35654A23;
+	Thu, 27 Aug 2026 19:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787859283; cv=none; b=WAK0rhSiGaFcbi+Fp3Kg/4x6qoLfcN97jpUHejImU07fUX3g5Kn6TpI2D1rPiitbS8rlOq/qHVD5jc71moQQUvUUzOydQOgqWBsW8GUZN0IpcflP+X6p+93J7j9mKwDTP326EAYQXOWIB48c1QxTskGYjjYCKL2LuqBTEXaZL2k=
+	t=1787860271; cv=none; b=JCe5lyCfNvyPsDiDQ/wO/W0EC4Ir3tYsKjjWs3x9I1aLhlyfGbTT0vFy8WZqDbmg4pwedoSjM+VFsPpk9bMYX7w/0QSO1xzzx+BFtfJOYAmj/SfDnhceRljcwCCLuOTmbPK95C/P3zjkv4Vja94KMAcFugqzfTce4/v73fGhJ6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787859283; c=relaxed/simple;
-	bh=5pDmZX89itqKoKJ9A3hSOA9iC6V/f0PzaEuakE3HF34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZViLdyzR2h0P6vn+G00Ka3VT9pc73mfMGZxKPmEZtp3sN1MHSa/GZeAJmjcBVKS+sxcwiajSHajSEEEtwR/jeIFFKcHKEbyk59rkh5mGnm0vCmXOxejqVghTZTV9j28gTntVsb69tzOnUvV+TQs08bczifwcSyZHZxXdcfpLsBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTRs+Evx; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787860271; c=relaxed/simple;
+	bh=gi6EEfn42pmfbo6G8w4gmk8Zbb1EMivO/F4J2vz5bVk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=VzpI6EGkQnTmF5/2e8lSA6kQsWkLmNM7gKB4La8+ooPJR9oQ6NBgbg4f4mnqKd6u4ukDfTQHttfNTfu6eytR/pMkwkiizCxUqKtQNcYgBlADlNjCWYrRlWJ2vjJ8ZxhQfdKKNjJzLxLdRufluVN7yZ37ubVvQNKYNgf52HbLbUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5GrJ/I1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTRs+Evx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787859282; x=1819395282;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5pDmZX89itqKoKJ9A3hSOA9iC6V/f0PzaEuakE3HF34=;
-  b=aTRs+Evxx+GWKQVIK6FSbtiLbk7EFqBvzChvaKT3IeIy17afM2uPgDuu
-   aU0cZg+Ch1e1JcIo5INc5fLd127s+JESQKylL38EsD+9/BV3+mN0Y3a1d
-   uJl49uOmq8/95bu8hSTfQf4BEKDg6XdYaic+/feLaOIrA9YUgCYyBuFe5
-   05VoC8099RsjQp7rwN6yAYwJqFvAwo9lAn1cOi7eMJZxMTFziaMeTNwUB
-   6JfMaiaj4L/OcHpdal3Cp5mxWbwer6gDb3jyPMiFEbsq/vCTe6635ZBG7
-   1cVAn+PRzkHAcq8QNasW3S7g3k+zYvf2fLKBrutSgwq+0ZhEdbPwZeoTB
-   A==;
-X-CSE-ConnectionGUID: n/kDvqfSSmatzSScWywNLg==
-X-CSE-MsgGUID: fXwSJEloQGK/y3dVBPQlFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="75909793"
-X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="75909793"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:34:39 -0700
-X-CSE-ConnectionGUID: 5BP2QpfsQZG8Dn/MRn243Q==
-X-CSE-MsgGUID: TfbbbNvwT7qLxPE0sE3hNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="272181922"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO [10.245.244.166]) ([10.245.244.166])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:34:37 -0700
-Message-ID: <6ef9d29e-e0f1-4807-b7aa-ee0b54861fa8@linux.intel.com>
-Date: Thu, 27 Aug 2026 22:34:28 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5GrJ/I1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 676B31F000E9;
+	Thu, 27 Aug 2026 19:51:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787860265;
+	bh=Mr1qnd8CrWymBtTapPQOUTLOI46O+x38oadzGcyvHW0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=g5GrJ/I1AQpFylWAExHK0NaYy/QTD0oYY8EM2itWTRZU++N2nUZYf59Z+4Xlb3k60
+	 qHk1odNVSvtldALHeHJqhEGLrT111SQtHf8baVeltYVooHIHOsW4hFUcLFTAgXO3w1
+	 uOB1F3LaDsJcnOgbkLzryvrHL5dw52c+7S6Tt/ijx2c0CdrfJu9Lq+GNvHtkrDG/eg
+	 +5yIBifw7C0padc929GiPwVIv5EUxONM9WerQZEk0i9lZVun9JTlE59C4vIH/sJkHq
+	 o+ZD2Kxl8EPgZoYmCg8kH4E18rrOpZZB9FYm0zpM213R2onKHJ9HWIOmfwWwDq8+0h
+	 z1qTS4JhlRITw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 197A83809A8D;
+	Thu, 27 Aug 2026 19:50:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] 6.12.36+: usb: hub: post-resume delayed work
- triggers > uncorrected MCE / data fabric sync flood on Threadripper 7970X >
- (bisected to aec11e5f9c45)
-To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-Cc: Mathieu Fluhr <mathieu.fluhr@gmail.com>,
- Michal Pecio <michal.pecio@gmail.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>, linux-usb@vger.kernel.org,
- regressions@lists.linux.dev, stable@vger.kernel.org,
- linux-kernel@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>,
- Forest <forestix@gaga.casa>, Slavik Dev <developer.slavik@gmail.com>
-References: <CAPyJwA9P48LDcOr7u_iT1WPFBCHxh9w6cxFvyi5GS3syM6crbQ@mail.gmail.com>
- <07435e6b-ee30-4c85-8c8b-0ce3a4ead1d9@leemhuis.info>
- <aosGtkE_diwVJJtB@eggarch> <20260823174059.46fec036.michal.pecio@gmail.com>
- <aoser8dLytrwqBC2@eggarch>
- <CAPyJwA8m_Xd2oyV1i9k+-6f7A-j0FiC97yXL=Ci8ZAErs5W4vA@mail.gmail.com>
- <ao1ovvdPAy6n_F7I@eggarch>
- <CAPyJwA-QALkCQn8J1+=U-nuE_7WSEPhVcUEKb+MMYMaA_1AVjQ@mail.gmail.com>
- <ao7aLXk9q_v_jEyX@eggarch>
- <d5a395f7-06ad-401a-b026-e975f620f017@linux.intel.com>
- <ao8bM2SrASNh2u84@eggarch>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <ao8bM2SrASNh2u84@eggarch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] usb: atm: usbatm: fix invalid ci_range initialization
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178786021064.1820029.761555165031523021.git-patchwork-notify@kernel.org>
+Date: Thu, 27 Aug 2026 19:50:10 +0000
+References: <20260826133258.8306-1-kartikey406@gmail.com>
+In-Reply-To: <20260826133258.8306-1-kartikey406@gmail.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+Cc: duncan.sands@free.fr, 3chas3@gmail.com, gregkh@linuxfoundation.org,
+ edumazet@google.com, horms@kernel.org, linux-usb@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+6665d3db5fef15914802@syzkaller.appspotmail.com
 
-On 8/26/26 21:11, Lovekesh Solanki wrote:
-> On Wed, Aug 26, 2026 at 04:40:14PM +0300, Mathias Nyman wrote:
->> Roothub needs some time to settle as well, but 200ms might be excessive.
->>
->> xHC can triggers wake (PME) when a connected USB3 device starts signalling wake,
->> but port registers changes are not always visible to driver before link training
->> between roothub and device is successful.
->>
->> My educated guess is that 120ms should always be enough for the roothub.
->> This is also the lecagy msleep() still apparently left in xhci resume
->> to detect port changes in xhci runtime resume if there are USB3 devices.
->> That msleep was supposed to be removed now that we got the hub changes.
->>
->> This 120ms can probably be further tuned for roothub in some cases,
->> especially if resume is due to userspace action instead of xHC wake signal (PME).
-> So the patch I sent above unintentionally brought the total hold from hub
-> and xhci side down to 120ms, which worked.
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 26 Aug 2026 19:02:58 +0530 you wrote:
+> syzbot reported a shift-out-of-bounds in __vcc_connect():
 > 
-> And the correct fix would be to bring USB_SS_PORT_U0_WAKE_TIME down to
-> 120ms and clean up the msleep from xhci_resume?
-
-120ms for the USB3 roothub, I'd keep the 200ms for external hubs
-
+>   UBSAN: shift-out-of-bounds in net/atm/common.c:382:32
+>   shift exponent -1 is negative
+>   CPU: 0 UID: 0 PID: 5987 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full)
+>   Hardware name: Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
+>   Call Trace:
+>    <TASK>
+>    dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>    ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
+>    __ubsan_handle_shift_out_of_bounds+0x36d/0x400 lib/ubsan.c:494
+>    __vcc_connect+0x14b4/0x19c0 net/atm/common.c:382
+>    vcc_connect+0x328/0x8f0 net/atm/common.c:498
+>    pvc_bind+0x272/0x380 net/atm/pvc.c:52
+>    __sys_bind+0x2e3/0x410 net/socket.c:1976
+>    __x64_sys_bind+0x7a/0x90 net/socket.c:1979
+>    ...
 > 
-> I can prepare a patch that addresses both if you'd like.
+> [...]
 
-Sounds good, but better to split the hub and xhci changes into separate patches.
+Here is the summary with links:
+  - [v2] usb: atm: usbatm: fix invalid ci_range initialization
+    https://git.kernel.org/netdev/net/c/a60fd8c6dbaa
 
-The hub.c tuning might end up in stable as it mitigates the issue seen on
-unfixed AMD based platform.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks
-Mathias
 
