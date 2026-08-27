@@ -1,208 +1,123 @@
-Received: from mail-oa2-f1.google.com (mail-oa2-f1.google.com [74.125.231.65])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5AE4D9917
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 18:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC6842668C
+	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 19:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787856828; cv=none; b=B6AJXiyxZqrc8d9WAN+8OlDxyuVdyPvLz68bjJkECoJDGh6M+FDs4LejQXbUJGK8t/dm/1h/EZz0UVZJMIBJFNuOH9czXzqNzYiwqMoyVUso7ZKtMBg/JV81dedYM9dRXuZmC6UzfPjnvN5LTJywSkUTcxd0TI6DFe9duLuboRs=
+	t=1787857619; cv=none; b=WBtrc6DuKxEgL7YWX3+LxvL5mFK1YfF58247JTJsbtCoxtVVH7DsTxwVlf/zmxC3vGVxrbVgAvu6sKbZNmi6hmPO8/Y3lJn8orcsS/MkDR3ZdawnLO8u0of2wVbFxGl42pTSEuIRAe0Yx1Z5dCDh/Yy/TVp8QbQS71JmRBHghfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787856828; c=relaxed/simple;
-	bh=3evSWErH5X9gbxTM+X5A5VAKoMQxNhR3lW84sXuwYgA=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=uEOfJZosZTci1XMXWBRHHju+b8m9maT0rqcXV0zLeimRxOkxteXg42CbER2nZv0zMCKKxs+i3MzzyjA4y2xCtc6+o+iGmKN/pRWfBVUHbam0lO6/uKYrtgi0SR2cnsGaFUsSPl9hiRv1hHmXlYOkn6KBq9gxmV54WKjRS79QnkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f1.google.com with SMTP id 586e51a60fabf-4489b7aa0e7so2614fac.1
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 11:53:26 -0700 (PDT)
+	s=arc-20240116; t=1787857619; c=relaxed/simple;
+	bh=pzJEecE88unv5hwvpYlWQPdf7Vo4wY8J4FgxcB/2nvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pApT2s18XhM5n6YfXsKNl7ytfp/Nwjbj/PIcj+jmaPrCXtfGXrezqpjStxL+jRpBtu+azva9wWgmADetCHTMp2/bXd9mZN9o3gTUGAMrsPdr0sAjMek8W/BRiazVrMtP055cUIOjyktxVTOXEeEQcnPg7cTAV1UuWy2gu5aQj3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJ2QQ6yT; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJ2QQ6yT"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-482e2fdf6ebso167163f8f.1
+        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 12:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787857616; x=1788462416; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ye/9ulKBaC7alnS77GSpaMa7bLzaEniiM9r+DAjS4/o=;
+        b=cJ2QQ6yT7HN0Icpr2XOW9cAcXLkyEWtZTvJb8XGtmAmcUbq0CgiT3iFQRlUJB6+LHK
+         zXGvRoY4Hi81I1o/eujkj85md8dtiGwp/yl4qm0EEwgggriioRnkEmidpM5N4s1g85XL
+         ZVwvHAnbLYSaH/EqCxM8TKoW44t2Fir+NqfOawJaAMrVfqrLzKG5C+w9FGq+7FJv1aOB
+         kYFc4iVqQgJU3xYPchySVTWRMrplUEWNyqxYJcpg/GEmOohvKK3jCI73Cec9ECxxVVQo
+         JqX/ibPXh7X5qqb106kdsXOGMGoVuMR9kcjLXxywGDYn5XyIHOsdwgpBwvkKwI20Ljp1
+         FU4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787856804; x=1788461604;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7ClyFyv+LzA9R4j6L5nlr5tYhByGpJNxBtzqsdMJIEs=;
-        b=r/HWeTcPkJJhpW3a/SPgpN4Lr9FfaMJy1+b0B/Fdk0tLiMPewTCHJ2uS3jgULJb/eV
-         1QUGffHUB2uKZhaoVNYh00Ci8Hms4kh9unLZ6x+G7/MpYeqD1ojM5FfXmwaK7N/YKcoG
-         F5tcn1CNvSE/N18+SQc7sFCwf8yA+Tsl3O7PsuJVH+YgeTuLQH/wq2hcbaB51ntwzteL
-         umDOqE2mUDtq8wDWlBrhPsFWBgagaqO0nGSBJItQom9W5F3ULT995akCby0utkVHDCUM
-         aOY0InqS1Ba9NFZowrls+Dgv6EX1CqTFQAJmq5J5ghWuBZUcYRdoNeIqtfozsUx5YWJs
-         Y8Wg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5OUjbMf0tI0h1Z/vkQfp/j7OPRClyPm5OviK/W33lXrluphd42XtLpt5f6KZJJm6ps4NgVNM4i7g=@vger.kernel.org
-X-Gm-Message-State: AFuF++lM6u7kpZVUFJyJcp15sV7GQ9tX2FVNbhYCxQg9H1RsgqYje8++
-	iWI60brHKWSbZ5cjcL54bl+lU8SPMZx9YqkrRjpvQr0Q7pjyodPktB9Ky3Wk7hoqzrxfPLdbQmE
-	UDLezKZWBrdd1VfCgmlue6iwOZGlrhBPsc9UhuIX040mdgLCoWfN1KTlVqrA=
+        d=1e100.net; s=20251104; t=1787857616; x=1788462416;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ye/9ulKBaC7alnS77GSpaMa7bLzaEniiM9r+DAjS4/o=;
+        b=S5jAWqYAdsz6p+Xo2prWYkcA5Wb/4KQPfjAe6mHkIL1E6RLEBtKcRaBOcBzG2C+xdR
+         wQWQVpI48ZVD1z+8Q3Ge4B4M/rhr0a3AUQtJ+kpXGks7KFszXgJD8WwrUxcxDu7aOxZu
+         NVlsUHwIiSRaNrSUgRUIJDgkK3773xsoud9lcWrFbNyfGaMIvvgHHZBRwKdXj3wJw38O
+         HSMg2V7lmKjbKPSsfyDrmFq2yGpWRJ/dL5gzx6gTAUz3f6fbVsmxI1Pi554hkQ4hAegZ
+         pZMq8dhbPAMdZUpr1ULuf7rAuZNQJXGtUfk4KsSUYk40EbgC1j68bj7yuS70DJMzblKm
+         ZBXQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqhaGO/DYZaIiug9JxVJ0FnHidjqU0BvYmdQq4UbQZLhfrNhI7NEoL72Uyw+KIsiqSnFZ6NlQ14M1U=@vger.kernel.org
+X-Gm-Message-State: AFuF++lcK1BTv14OW+rpvURhZpg/kRftiGW7l74ARuKHA62+emmvpmyT
+	PC2NC7Psi4CXz2+g/Sh/jH0PpZ9m452XAyfyeXAKclnAr4iJVWHwCmUH
+X-Gm-Gg: AR+sD1143uv4iSvzaJEEWuoPojmqb3fmrGPVG/cYp4ztVytRSMoNf0fDEhtironnLaO
+	FAzCqBBnlgBLwG+ioDOZhg6kigcWvunB5SphJxVfOScA28yE5K2nrhK0tnNLi89nq1dtU70ml43
+	RmjHftvNZJovJK+9fOqRlQty3240vNeO8wwv9FGUqIQAKb0t0JAOFIKHOUJ+kIox8/14EPhhWqx
+	BGSLrfPWCr3rsxwLrSq+KihCuV12QErTl4cANuyqREW6B0cRqGNS+nLS5IDwLuFG0CJOOPOdaFi
+	ljDV6rEflARQ+t8ExpAiCKObwZ2Qqyd4BZbemvd2MmZc9mXjPZl+VZNGoJAeCq3PZ56v6zbuPDx
+	wUT95aG+5/xVanRy7EFT2Lc9MOQbdBDWhRxzLThP2Xcx58C/5nefpVZ2CoyLWZgT61WnZpHKJqE
+	lcNCkQd1QsPYqK/9wE/RrIfO8jFcgE5o2BmejTHVIUuS2xOZP8hREm2V2otqZj+lmJsRWSvqPtv
+	G+QrDNENg==
+X-Received: by 2002:adf:e00f:0:10b0:482:a9d7:7ced with SMTP id ffacd0b85a97d-482f79b2420mr1034763f8f.14.1787857616265;
+        Thu, 27 Aug 2026 12:06:56 -0700 (PDT)
+Received: from VivoBook-ASUS-X712UA-M712UA.lan ([2a00:f44:c90:ce5e:8e8e:8023:a4fb:572e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e2756112sm11992439f8f.0.2026.08.27.12.06.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 12:06:55 -0700 (PDT)
+From: Stanislaw Pal <kuncy7@gmail.com>
+To: George Moussalem <george.moussalem@outlook.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Praveenkumar I <praveenkumar.i@oss.qualcomm.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>,
+	Nitheesh Sekar <quic_nsekar@quicinc.com>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/12] Enable USB3 for Qualcomm IPQ5018
+Date: Thu, 27 Aug 2026 21:06:47 +0200
+Message-ID: <20260827190647.807193-1-kuncy7@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com>
+References: <20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1787:b0:6b1:3f1e:64a6 with SMTP id
- 006d021491bc7-6b1c6700c7bmr561031eaf.23.1787856803909; Thu, 27 Aug 2026
- 11:53:23 -0700 (PDT)
-Date: Thu, 27 Aug 2026 11:53:23 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9087a3.4d659fcc.734b4.0012.GAE@google.com>
-Subject: [syzbot] [usb?] [input?] INFO: task hung in trigger_card_free
-From: syzbot <syzbot+a149ad38eaf1930d3e31@syzkaller.appspotmail.com>
-To: anna-maria@linutronix.de, frederic@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, tglx@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Tested this revision on IPQ5018 hardware - a TP-Link Archer AX55 v1,
+backported onto 6.18.44. Both radios on this board are on AHB and PCIe
+is unused, so nothing else contends for the SS PHY; the combo driver is
+exercised purely on its USB3 side here.
 
-syzbot found the following issue on:
+Two USB 3.2 gen 1 sticks, all enumerating SuperSpeed (speed=5000,
+version=3.20, 5000M in lsusb -t):
 
-HEAD commit:    2709dd5ae32f Merge tag 'sched-urgent-2026-08-22' of git://..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=17f7a415580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b0978f5ed2905b98
-dashboard link: https://syzkaller.appspot.com/bug?extid=a149ad38eaf1930d3e31
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15418979580000
+  - hot-plug, both sticks;
+  - warm reboot with the stick inserted - SuperSpeed 0.8 s after xHCI
+    registers;
+  - cold power-on with the stick inserted - same, no fall back to
+    480M;
+  - 130 MB/s sustained over a 3 GB raw read, unchanged from the
+    previous revision on the same stick;
+  - no USB or xHCI error in dmesg across the whole run.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/1b8578cfc5d0/disk-2709dd5a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/08516f9ee501/vmlinux-2709dd5a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/94796f512f2e/bzImage-2709dd5a.xz
+I also exercised the vdd-supply path that patch 12 adds to the RDP432-C2,
+since enable/disable sits in phy_init/phy_shutdown and that is the code
+this revision rewrites: unbinding dwc3-qcom drops the port's 5 V rail and
+the device disappears, re-binding brings it back at SuperSpeed 1.8 s
+later. Works on this board too.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a149ad38eaf1930d3e31@syzkaller.appspotmail.com
+I do not have an IPQ5332, so the combo PHY's PCIe side and the 5332
+instance are untested by me.
 
-INFO: task syz.0.17:5991 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.0.17        state:D stack:25192 pid:5991  tgid:5991  ppid:5810   task_flags:0x400140 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5520 [inline]
- __schedule+0x1259/0x6920 kernel/sched/core.c:7270
- __schedule_loop kernel/sched/core.c:7347 [inline]
- schedule+0xdd/0x2c0 kernel/sched/core.c:7362
- schedule_timeout+0x1b2/0x280 kernel/time/sleep_timeout.c:75
- do_wait_for_common kernel/sched/completion.c:100 [inline]
- __wait_for_common+0x2e7/0x4c0 kernel/sched/completion.c:121
- snd_card_free sound/core/init.c:665 [inline]
- trigger_card_free+0x127/0x190 sound/core/init.c:868
- release_nodes+0xa5/0x120 drivers/base/devres.c:546
- devres_release_all+0x112/0x180 drivers/base/devres.c:576
- device_unbind_cleanup+0x81/0x270 drivers/base/dd.c:597
- __device_release_driver drivers/base/dd.c:1354 [inline]
- device_release_driver_internal+0x4c4/0x620 drivers/base/dd.c:1372
- unbind_store+0xf8/0x110 drivers/base/bus.c:244
- drv_attr_store+0x74/0xb0 drivers/base/bus.c:125
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f948ef9e0d9
-RSP: 002b:00007ffeb02836d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f948f225fa0 RCX: 00007f948ef9e0d9
-RDX: 000000000000000b RSI: 00002000000002c0 RDI: 0000000000000003
-RBP: 00007f948f035024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f948f225fac R14: 00007f948f225fa0 R15: 00007f948f225fa0
- </TASK>
-
-Showing all locks held in the system:
-locks held by kworker/u8:1/13: 4, last CPU#0:
- #0: ffff88801c08c140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x1466/0x1b10 kernel/workqueue.c:3362
- #1: ffffc90000127d08 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work+0xa2c/0x1b10 kernel/workqueue.c:3363
- #2: ffffffff8ec7a830 (cpu_hotplug_lock){++++}-{0:0}, at: static_key_disable+0x12/0x20 kernel/jump_label.c:247
- #3: ffffffff8ef3d400 (jump_label_mutex){+.+.}-{4:4}, at: jump_label_lock kernel/jump_label.c:27 [inline]
- #3: ffffffff8ef3d400 (jump_label_mutex){+.+.}-{4:4}, at: static_key_disable_cpuslocked+0x110/0x1c0 kernel/jump_label.c:238
-locks held by khungtaskd/31: 1, last CPU#1:
- #0: ffffffff8ede9d40 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8ede9d40 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff8ede9d40 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x3d/0x184 kernel/locking/lockdep.c:6793
-locks held by getty/5355: 2, on CPU#1:
- #0: ffff88803848c0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
- #1: ffffc900032332e8 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x419/0x14e0 drivers/tty/n_tty.c:2211
-locks held by syz.0.17/5991: 3, on CPU#1:
- #0: ffff8880302a4460 (sb_writers#8){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #1: ffff8880273d4080 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x2c2/0x5f0 fs/kernfs/file.c:336
- #2: ffff8880338ca138 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #2: ffff8880338ca138 (&dev->mutex){....}-{4:4}, at: __device_driver_lock drivers/base/dd.c:1171 [inline]
- #2: ffff8880338ca138 (&dev->mutex){....}-{4:4}, at: device_release_driver_internal+0xb2/0x620 drivers/base/dd.c:1369
-
-=============================================
-
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 31 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- nmi_cpu_backtrace.cold+0x12d/0x151 lib/nmi_backtrace.c:123
- nmi_trigger_cpumask_backtrace+0x21f/0x2a0 lib/nmi_backtrace.c:66
- trigger_all_cpu_backtrace include/linux/nmi.h:164 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x141/0x190 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xcb1/0x1030 kernel/hung_task.c:561
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 1 to CPUs 0:
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
-Code: 08 a1 02 e9 43 4f 03 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 83 e0 21 00 fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
-RSP: 0018:ffffffff8ea07cf0 EFLAGS: 00000246
-RAX: 00000000002e8403 RBX: ffffffff8ea91500 RCX: ffffffff8bc9c115
-RDX: 0000000000000001 RSI: ffffffff8e3dfa2f RDI: ffffffff8c619080
-RBP: fffffbfff1d522a0 R08: 0000000000000001 R09: ffffed101708678d
-R10: ffff8880b8433c6b R11: 0000000000000001 R12: 0000000000000000
-R13: 0000000000000000 R14: 1ffffffff1d40fa2 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff888123b88000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffe96a6cff8 CR3: 000000007cb49000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- arch_safe_halt arch/x86/include/asm/paravirt.h:62 [inline]
- default_idle+0x9/0x10 arch/x86/kernel/process.c:768
- default_idle_call+0x6c/0xb0 kernel/sched/idle.c:122
- cpuidle_idle_call kernel/sched/idle.c:199 [inline]
- do_idle+0x3ae/0x5b0 kernel/sched/idle.c:355
- cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:454
- rest_init+0x2d3/0x2e0 init/main.c:723
- start_kernel+0x48e/0x490 init/main.c:1181
- x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
- x86_64_start_kernel+0x12b/0x130 arch/x86/kernel/head64.c:291
- common_startup_64+0x13e/0x158
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Tested-by: Stanislaw Pal <kuncy7@gmail.com>
