@@ -1,123 +1,146 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B773859D4;
-	Thu, 27 Aug 2026 17:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787850064; cv=none; b=svxc3rzFgLPfqPgsPeos82YDdAWtUkI8ddqbMXLyUgb3Ri/gKE/Db3eoXGHGDqGDR9bMxCwtmAGR5Dal5UMf1vtiAGENgyxGY7M/1ypkIMWgrn2Hofh20SXa0/NthJX3j+s3foj7fld6xhNsBetomy2RXVv0geEFGKaY+s/8ewE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787850064; c=relaxed/simple;
-	bh=hQk5qeUVo9BQ2yw1VhAcNzwnwAePCbrZFzJLkEp7GxM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AWoNTBbYLHqGF1tb1do4UGTCJSTG1M934q7rbysRldKyxN1rKWi0f0geydVfGUeBrRqZUauBnA3ixXIAbzYrV+ZQKyI1M44n/W2mKL72aF+6vEE7WlcTt2VB862sjf4u7hFFhsz1spiA4Iw19DGfpq8JkLCbp/ccQE6TUPJx6Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=XFaEo5+3; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CBB48C3E3
+	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 17:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787851891; cv=pass; b=eKMLLrp3KraORCuIyZwVypCAEM69zFWFAuZEZHvf12iQAntcMtGDN+WrDtUAhkxECxlO8zMWs9JGNvKnXa4zzAj5soECyzF37Xoid2CNh6DbOH3chZ9Qw2hDSvdgLDLQgEog1KrXTx+65MnMbtnq0V+X+u3Bc6aNvGxSGHbgOWg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787851891; c=relaxed/simple;
+	bh=fi3xXx9lmMzosKdhDR5Rz7ejkV2wx9RBdSDmpnPGy/I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RLVbgApnHSrD1tzX1YB7biw3QXJ4gCtGE/1Y9hoUmlpWapQc8uHy3+6QD+vFV3hdtTBeY8OUBGfCmc/dWdHj/eauoQen4Cy6/eSaS8g0+y7RdxMclpc+K47L/v8YCojzAoWgO5evj2WG6Rzbdo6ZRuNjMncjEXcAT6GdS4Ft61E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=jON3D1qh; arc=pass smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="XFaEo5+3"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A81211D061;
-	Thu, 27 Aug 2026 19:00:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1787850056;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=7V05cWEhDJOIL3jV+PILUA2/oARzJG7AGMv5EpJMUbc=;
-	b=XFaEo5+34Mllhz+TYYXDDc5LVW3eTq3XprquZjmo3/8fJxWSMmE4YBR4beBWqKt6TeHV4Y
-	y4rVMhgdN+41NJ7As+u3AvDOmkP9QxWs5o7NPlW/UEplcSobe0QbLzBI8H3Un99TuXWCbP
-	/mo+iwOGSpmTaQjX7UNIV5WGhkZL3vTnMgbsIxGKXf6vuO6LFwxEwVpXWZOv4jPvEQlFps
-	9DQa1jKE2wyjAHccidt3l7fwiQ0nmSqk4o4BpyprnOebRiRNpmFyB92cPKVRKKIHXs3cgX
-	v6EsrWPyifrNDPtlNqvtRWXxOKzclnVl/v+7h2cgHSnTwOBFE/QPRBzh4OlPxg==
-Message-ID: <0825c182-7eba-47d7-9b1c-6979aac1dd96@nabladev.com>
-Date: Thu, 27 Aug 2026 18:52:20 +0200
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="jON3D1qh"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc1e1ff659bso150675a12.0
+        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 10:31:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787851889; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YXTWX4CgceLaS5DtJ9rnZ9dgS9WJdDNRcVY9u6L1GocxmBTy74kH/yEtIl1d9kEB2d
+         3yAY4SEMAwX+ohFUnYlxvt046v9xFhflmmOrPuPu/AavNW7kx7BgtS02y18C4jiOXYqo
+         M035WKUWBgYI1Xk4UhPS3CgvpBIxHjqxXeuSvvcqHyJ1AYbGC0rNFxHs2nIhu0lrHh9F
+         hzbC77w1uqVSsn4rBxjjtshDGd6d6xjg7entQptxVeCPFI2+rUC+llNeN5oJpRm1ykNx
+         NUARyGs/i8HQi+Y9CbA8DGK+kAbBQOadgNxwTcvKBzExUeuPW33R9j+svsX6RBPOYcui
+         2Lrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KkgVLt4NrfCVE7i/NEEAS+hRQSbquCyjXQQNoGs7LPU=;
+        fh=M6EtqxbPhkZTRnAD888enWBRWhiL26cu5/6Y2P5kJ7E=;
+        b=prA8mUMHjrts82Yqgvb6JV7fT2rhEa1+0XBhUwu53vARcHq3hBCam9mXCtbdA4NK6Y
+         ndXWrijE02hwwhMDGG4wQPI/6uq6A1cF8CCU74ZI9Bxm1q/jzrngo3UB7hJ0kiHFEN7F
+         L9H1OM//9A07NKDGE8TbQJhH9MsWuTGMis9tGCwHlVoR3bCBRKyKfYHm0JR/55pg3nvZ
+         gwVx7LsvWbNIfQsezjILSbDbKbx9ws3uucZLyMFF08mIj1pCOcdOKWQKdjWyeIjU80ra
+         0VK1A306w7qM0r+9UP8UPRNGgvaMzag6vVZxUqUn9b/aSozuV19gbiztkJOKUVwmxy76
+         j+YQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=asu.edu; s=google; t=1787851889; x=1788456689; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KkgVLt4NrfCVE7i/NEEAS+hRQSbquCyjXQQNoGs7LPU=;
+        b=jON3D1qhVdf0/iNyzFEtCCbR9adPrP+3opOujs0W6rCQhssamMz4m2arjThZYqzDRv
+         J5b+raZS5sNUAFLXlYhOrmq9IXNCysRRr/4apVXLhTzsYVvqPVq8QgmGsHGd8fSrbgm9
+         L0W5e+9cE6pb3PHxq6PibVUcPjldw0Cl13mAGJuFQJnsGmja9j1w0qJ80yrsSOPsMn7t
+         nOCwLE5pm/NJv/MnaN6qeoxWmOW6d2Wlz7fTMpznZX2tWhP0xIDXFpxcVa9m2d0VxRhs
+         yya6eZ+Hxmx4y/kuXUqxIQqQsl9QWsrK8m2wBjCQklx1Ps5lhyPNBA1OFwWcpJv5jbzi
+         Q1VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787851889; x=1788456689;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KkgVLt4NrfCVE7i/NEEAS+hRQSbquCyjXQQNoGs7LPU=;
+        b=EzJ05sEp3PnFmML9IlIfxpErVAC7lgm6XliR6hFl7rno15TutFpFyct9BBeRP9TsEM
+         SYkaQQJ2rz93hwcIMS3m6xuVL3fl3OlIpWB9NLZetzQIL2t4DBZ5khtVFJyFNzFFgKp+
+         P+IgLrnCY3Z8In9uMxmS6Xcjn/sCozcMKVnp356Otdb/rGAgLhvU47aPEfbTXiHXnLFG
+         BmZuoCpcNaEcHSsDyj08DANgwI+a+mpnIJxbRp1puPOm6ZLXlDoVjkjpuAKEpkl+HgPD
+         FAY2Nrr+MWxj0Qiism+HoyNXvKgsiTTfFMiyPOQOs3mzM9WPmv+gF27cIg9holxw/PfI
+         2e3w==
+X-Forwarded-Encrypted: i=1; AHgh+RpUcqeFTT4C9gRnse9bB/R2fbSglh4kNHLtFfetAoE5AvZFy4/DPtqzetcfdVdGaHdfOEC7F5jIbco=@vger.kernel.org
+X-Gm-Message-State: AFuF++l1j0q7c9gp9F42JwUb8/8LA1Ti5h8EjB4CVDXvdKlhdrVTI4pS
+	RGt2p63hP/Ptuny8a2r6RMNRvNScSE7POnhaX0sz3Zf6Z7mz58lBOX+0xkCg49GJGczl9Ye+k9b
+	hN1FFWYj3K8cwxCFJ8Sod31vwcr4MMGjnRjQslKQ/
+X-Gm-Gg: AR+sD13LNfwM0vXCJFHxN4LRtWZTDdn9vZG1WbBbWuD0eLhg+moiltiG3W8KPGTLLTf
+	UqjsdTp5B0TXeH/MPwWaSXHdF0ko5DzHlSLYGjDBRiS7rxeCvOMm+rXId0IberDlR+vgBvNjDD9
+	9mw9RnvMF1q3Lg4sDW65aTh2psL2EGFIvBkwaGuxNxBbrQWS5EKCbxiVUY314ps71IcCn99AcdA
+	esDxXMuGObdFAHHw0qjQ73ORmHNQK5R+CpBYw8P3cS7qIdWDluTktwugATluVRQ5R5Rb8gnz3vl
+	itZgo1WTDr1zgW9WA61rpTPg1IomfCxupGFa2B3BpzwnrFkQKbKLMxWTt3fAwjBg35rkAhDnoim
+	AkRWI/IBOLEzYf6zmBeEo7sLS0nxvo6g84+M=
+X-Received: by 2002:a05:6a21:3390:b0:3cd:7ba2:e669 with SMTP id
+ adf61e73a8af0-3d2686a3386mr834940637.10.1787851889149; Thu, 27 Aug 2026
+ 10:31:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] phy: stm32: Add support for ST STM32MP25
- USB2-FEMTO PHY
-To: Vinod Koul <vkoul@kernel.org>
-Cc: linux-usb@vger.kernel.org, fabrice.gasnier@foss.st.com,
- Pankaj Dev <pankaj.dev@st.com>, Rahul Kumar <rahul.kumar05@st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- devicetree@vger.kernel.org, kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com
-References: <20260822074816.548662-1-marex@nabladev.com>
- <20260822074816.548662-3-marex@nabladev.com> <apBfHzD5TfryaEW0@vaman>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <apBfHzD5TfryaEW0@vaman>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh> <2026082732-flaccid-overpay-0985@gregkh>
+In-Reply-To: <2026082732-flaccid-overpay-0985@gregkh>
+From: Xiang Mei <xmei5@asu.edu>
+Date: Thu, 27 Aug 2026 10:31:18 -0700
+X-Gm-Features: AcwNN1UH6rQHNXhcYdg99UoLIjWRDePA68176IBEWq-kIwPF2BtV8uwj4x4omdw
+Message-ID: <CAPpSM+RJKziJf7enrZ5FMy-uxJp1Fy1M_acVXy+v3WskU7jJXw@mail.gmail.com>
+Subject: Re: [BUG] drivers/usb: out-of-bounds in xhci_queue_bulk_tx()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: co <co+fd80bc5967eb22c3@bugs.sh>, linux-usb@vger.kernel.org, 
+	Mathias Nyman <mathias.nyman@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/27/26 6:00 PM, Vinod Koul wrote:
+Th
 
-[...]
+On Thu, Aug 27, 2026 at 5:50=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Aug 27, 2026 at 12:43:58PM +0000, co wrote:
+> > We found a bug reachable in:
+> >
+> >     path    drivers/usb/host
+> >     crash   out-of-bounds in xhci_queue_bulk_tx()
+> >     commit  bd5f485f3f02 ("Merge tag 'soc-arm-7.3' of git://git.kernel.=
+org/pub/scm/linux/kernel/git/soc/soc")
+> >
+> > Config, environment, the sanitizer report and a C reproducer follow.
+> >
+> > =3D=3D Notes =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >     If you patch the bug based on our artifacts, a tag would be
+> >     appreciated:
+> >
+> > Reported-by: co+fd80bc5967eb22c3@bugs.sh
+> >
+> >     Everything in this mail is validated by the reproducer below.
+> >
+> >     We also hold an LLM-generated root-cause analysis and a candidate
+> >     patch. The patch passes an A/B test: the same reproducer panics the
+> >     unpatched kernel and runs clean on the patched one. Neither has had
+> >     human review, so both still require validation before you send or
+> >     apply them. Available on:
+> >
+> >         patch.diff  https://bugs.sh/b/fd80bc5967eb22c3/patch.diff
+> >         report.md   https://bugs.sh/b/fd80bc5967eb22c3/report.md
+>
+> Please validate and ensure that this is correct before sending this to
+> us.  No need for us to dig through random web links, right?
+>
+Thanks for your feedback, Greg.
 
->> +static int stm32_usb2phy_enable(struct stm32_usb2phy *phy_dev)
->> +{
->> +	const struct stm32mp2_usb2phy_hw_data *phy_data = phy_dev->hw_data;
->> +	unsigned int refsel;
->> +	unsigned long rate;
->> +	int ret;
->> +
->> +	/* Check if a phy is already init or clkpll in use */
->> +	if (atomic_inc_return(&phy_dev->en_refcnt) > 1)
->> +		return 0;
->> +
->> +	rate = clk_get_rate(phy_dev->phyref);
->> +	if (rate == 19200000)
->> +		refsel = 0;
->> +	else if (rate == 20000000)
->> +		refsel = 1;
->> +	else if (rate == 24000000)
->> +		refsel = 2;
->> +	else
->> +		return -EINVAL;
-> 
-> Would a switch not be better here?
+We are working on making reports public. Sorry for the inconvenience.
+We'll stop sending bug reports before we fix the issue.
 
-I think here it is a matter of taste, switch would use a few more lines, 
-so would a look up table. If you insist on a switch, I'll turn this into 
-a switch.
+Xiang
 
-[...]
-
->> +static int stm32_usb2phy2_init(struct phy *phy)
->> +{
->> +	struct stm32_usb2phy *phy_dev = phy_get_drvdata(phy);
->> +	int ret;
->> +
->> +	ret = stm32_usb2phy_enable(phy_dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	if (phy_dev->mode != PHY_MODE_INVALID) {
->> +		ret = stm32_usb2phy_set_mode(phy, phy_dev->mode, USB_ROLE_NONE);
->> +		if (ret) {
->> +			stm32_usb2phy_disable(phy_dev);
->> +			return ret;
->> +		}
->> +	}
-> 
-> so what is the diff b/w these two phys that we need to check invalid
-> only here?
-For this particular case -- One PHY is connected to host-only EHCI/OHCI 
-controller, so it does not do mode set. The other PHY is connected to 
-DWC3 DRD controller which can do either Host/Peripheral and does mode 
-set, but that can only be done if a valid mode is already configured. 
-Hence the conditional here.
-
-[...]
+> thanks,
+>
+> greg k-h
+>
