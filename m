@@ -1,89 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35654A23;
-	Thu, 27 Aug 2026 19:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7A2371D01;
+	Thu, 27 Aug 2026 20:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787860271; cv=none; b=JCe5lyCfNvyPsDiDQ/wO/W0EC4Ir3tYsKjjWs3x9I1aLhlyfGbTT0vFy8WZqDbmg4pwedoSjM+VFsPpk9bMYX7w/0QSO1xzzx+BFtfJOYAmj/SfDnhceRljcwCCLuOTmbPK95C/P3zjkv4Vja94KMAcFugqzfTce4/v73fGhJ6Y=
+	t=1787861110; cv=none; b=bZYA9BoYyv8fdeSNY4ytU5nHSkKv8FbarOdELN/FcD3mBHaUI5YxG7Uc1ht8oGLoYG/ufL0WoJGXhRvlEPXAjttPlnyxGr7tCe9jtC+dAD5SsxXGAGyCboExso5pqoHGLd8myfwSIdQntZKJBVUOE3weKM3NHv6aWks7R/YMn7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787860271; c=relaxed/simple;
-	bh=gi6EEfn42pmfbo6G8w4gmk8Zbb1EMivO/F4J2vz5bVk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=VzpI6EGkQnTmF5/2e8lSA6kQsWkLmNM7gKB4La8+ooPJR9oQ6NBgbg4f4mnqKd6u4ukDfTQHttfNTfu6eytR/pMkwkiizCxUqKtQNcYgBlADlNjCWYrRlWJ2vjJ8ZxhQfdKKNjJzLxLdRufluVN7yZ37ubVvQNKYNgf52HbLbUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5GrJ/I1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787861110; c=relaxed/simple;
+	bh=ZyZVrFLZWf8aItalWsTwEJWsealVHGSumyNJEWF6u7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUed1q5h2NE1Zm7C7Zn6fEmeoZ83laeO2rfu1+hf7CBifgKfO8rP3MKOx2xrhyjn9Uu9vU0F4+J1qpkrHARJ0vNG1UCOVYrs/c+1YslagfjjK6ml15Fsv7b7VHIV9CcHLX/F4maVmQWaCXpGxA+HMrrXBf0fJnI8NLJT0dN/s/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ltq2hm3f; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5GrJ/I1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 676B31F000E9;
-	Thu, 27 Aug 2026 19:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787860265;
-	bh=Mr1qnd8CrWymBtTapPQOUTLOI46O+x38oadzGcyvHW0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=g5GrJ/I1AQpFylWAExHK0NaYy/QTD0oYY8EM2itWTRZU++N2nUZYf59Z+4Xlb3k60
-	 qHk1odNVSvtldALHeHJqhEGLrT111SQtHf8baVeltYVooHIHOsW4hFUcLFTAgXO3w1
-	 uOB1F3LaDsJcnOgbkLzryvrHL5dw52c+7S6Tt/ijx2c0CdrfJu9Lq+GNvHtkrDG/eg
-	 +5yIBifw7C0padc929GiPwVIv5EUxONM9WerQZEk0i9lZVun9JTlE59C4vIH/sJkHq
-	 o+ZD2Kxl8EPgZoYmCg8kH4E18rrOpZZB9FYm0zpM213R2onKHJ9HWIOmfwWwDq8+0h
-	 z1qTS4JhlRITw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 197A83809A8D;
-	Thu, 27 Aug 2026 19:50:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ltq2hm3f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787861106; x=1819397106;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZyZVrFLZWf8aItalWsTwEJWsealVHGSumyNJEWF6u7U=;
+  b=Ltq2hm3fEKxq9QL4UbcJcbDDn9OXbeOvlpU1w25m0R2SpPM7Jm1yD6Ul
+   a5Pqaba0vCMH9zCTrNrY9nZPbTiBRUREpjZqaXAj8QKmzrGQ9fL2o3OXN
+   D+zoc2z44ASyQx9wdZGEHY5UYaEAyd/pESUH+suQRocKvTbsG/elpUWIP
+   EZSS8SIvLUzXuxC5v4J5K2qFyijgI7+oXF86zQQiI9CQwnYPPdsDUNc+b
+   WxCjHzj2bOk6SCDyipzDKJYsTawAHIoSAPk52BXK9CUa/hkEiqtp7Fok9
+   icsFJV10MXMH3Cj7YqmuDFAna5MhOtZ3X3ejmLWctwo/vkTJYtlxyItBQ
+   A==;
+X-CSE-ConnectionGUID: pyhWnAD7RJuD2dul27hxHg==
+X-CSE-MsgGUID: NssOaErITdi8p1FHe7D64w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="99038212"
+X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
+   d="scan'208";a="99038212"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 13:04:38 -0700
+X-CSE-ConnectionGUID: eDMt6mGBSXuKhmtqGpriRw==
+X-CSE-MsgGUID: HBBfwf0YQOWpUuHIswziDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
+   d="scan'208";a="267987125"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.24])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 13:04:36 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id DEB9C121BD8;
+	Thu, 27 Aug 2026 23:04:31 +0300 (EEST)
+Date: Thu, 27 Aug 2026 23:04:31 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org,
+	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] gpio: usbio: Remove bouncing maintainer
+Message-ID: <apCYT42UKw9V-u5Z@kekkonen.localdomain>
+References: <20260827155127.2334936-1-dave.hansen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] usb: atm: usbatm: fix invalid ci_range initialization
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178786021064.1820029.761555165031523021.git-patchwork-notify@kernel.org>
-Date: Thu, 27 Aug 2026 19:50:10 +0000
-References: <20260826133258.8306-1-kartikey406@gmail.com>
-In-Reply-To: <20260826133258.8306-1-kartikey406@gmail.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: duncan.sands@free.fr, 3chas3@gmail.com, gregkh@linuxfoundation.org,
- edumazet@google.com, horms@kernel.org, linux-usb@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+6665d3db5fef15914802@syzkaller.appspotmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260827155127.2334936-1-dave.hansen@linux.intel.com>
 
-Hello:
+Hi Dave,
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 26 Aug 2026 19:02:58 +0530 you wrote:
-> syzbot reported a shift-out-of-bounds in __vcc_connect():
+On Thu, Aug 27, 2026 at 08:51:27AM -0700, Dave Hansen wrote:
+> The email for Israel Cepeda is bouncing. Remove the entry.
 > 
->   UBSAN: shift-out-of-bounds in net/atm/common.c:382:32
->   shift exponent -1 is negative
->   CPU: 0 UID: 0 PID: 5987 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full)
->   Hardware name: Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
->   Call Trace:
->    <TASK>
->    dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
->    ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
->    __ubsan_handle_shift_out_of_bounds+0x36d/0x400 lib/ubsan.c:494
->    __vcc_connect+0x14b4/0x19c0 net/atm/common.c:382
->    vcc_connect+0x328/0x8f0 net/atm/common.c:498
->    pvc_bind+0x272/0x380 net/atm/pvc.c:52
->    __sys_bind+0x2e3/0x410 net/socket.c:1976
->    __x64_sys_bind+0x7a/0x90 net/socket.c:1979
->    ...
+> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>
+> Cc: Hans de Goede <hansg@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+
+I've posted this
+<URL:https://lore.kernel.org/linux-usb/20260803164533.58833-1-sakari.ailus@linux.intel.com/>
+earlier but I guess it hasn't been merged yet.
+
+> ---
+>  MAINTAINERS | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> [...]
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 24ca91ce5d865..7f147a95940ee 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13521,7 +13521,6 @@ F:	Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+>  F:	drivers/platform/x86/intel/uncore-frequency/
+>  
+>  INTEL USBIO USB I/O EXPANDER DRIVERS
+> -M:	Israel Cepeda <israel.a.cepeda.lopez@intel.com>
+>  M:	Hans de Goede <hansg@kernel.org>
+>  R:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>  S:	Maintained
 
-Here is the summary with links:
-  - [v2] usb: atm: usbatm: fix invalid ci_range initialization
-    https://git.kernel.org/netdev/net/c/a60fd8c6dbaa
-
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Kind regards,
 
-
+Sakari Ailus
