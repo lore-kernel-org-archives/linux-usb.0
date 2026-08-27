@@ -1,129 +1,108 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from mout-b-105.mailbox.org (mout-b-105.mailbox.org [195.10.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E495377EAF
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 15:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ECE1862;
+	Thu, 27 Aug 2026 15:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.10.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787845124; cv=none; b=Ucu8ZXhvYaOahoNX/Ft0ePTS9xqbwFFyewDjkQzmfeAmRbvd1RigzSqL3YW0IbsUUh4inFjxdsbd/ybOHIXOOQbZRGVsRR0UAQJGKJdS//aOqc+eKzrfC3vgjr6Tw7MRznM8PM3SlUsyiNf1BPd0KIY6vIt2vYD8wzAmfGuw3es=
+	t=1787845863; cv=none; b=jhT+UqwPdiSQLeO5fHYCl+VYUBPjvCnQG4LWBO/Xr1jDEBijIP10sR7JDdbFFVrG4bO/52WRxO47o9+yobymnHgn3mS6pwRFCOwAwyEn8/7OupHST2NDe5XXOGqosfb6PvjZJWk/8N/aeEumOT9U0He4IpmdCofigsNRyCiLuv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787845124; c=relaxed/simple;
-	bh=O/L393Y8wt0Jh0lNgZkAqeKjjksUueUuRLg9cgvdUP0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=G6oE69JjfIdcI2Yi75cW9Ho0hvn4zrL8GKak0rFapcyGyCxJ/VspCFMnCb5tEur0EBr970gkWsrmFKhUUyD+De6EwdJz5+A5QcgDLo1Tkdf8ePET8gPEYcVbFzrxoNpGeqkIpFB/Pj8huuuVRsmy1Ih3V64CCIi1E/3I1h3XJ1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=DyPi8nu3; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=dQ40SozU; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1787845863; c=relaxed/simple;
+	bh=hJFzBlJooUj9tMP3pBp8imx/OWxNH+mZjIyHiIkw7DI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rxd2yCRdSQE4U9h6uCdb4nkwk8/q5FTSAgravYFUB1gp+nZlwxpKrL56rJK/kSMhyO3SxXv4Al9ZB4oTnX6OMXca63Pze3sL/xL9/Pea+wpKlSzl2DLUJKDwjmCT39hFOZI2+WCVNXXusIe/2hR03ZPb39wprhoesi8vuWZPAz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com; spf=pass smtp.mailfrom=mandelbit.com; dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b=q6LIjY6o; arc=none smtp.client-ip=195.10.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mandelbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="DyPi8nu3";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="dQ40SozU"
-Message-ID: <c9fb1eaa-9c88-4942-b6c5-9f7efbe1a133@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1787845116;
+	dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b="q6LIjY6o"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-b-105.mailbox.org (Postfix) with ESMTPS id 4hW5Q715KNz9rvZ;
+	Thu, 27 Aug 2026 17:43:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
+	s=MBO0001; t=1787845391;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=O/L393Y8wt0Jh0lNgZkAqeKjjksUueUuRLg9cgvdUP0=;
-	b=DyPi8nu3Uxq9N2Aduw77p3nACxmZRkyWQlfJWx+t/yCLjLU7Urh5pcUQAPK08xEQ8JA0z/
-	DtWZbVG8xGW8VOfLoWCCn48VBL2mJSBuckg1q7yWkBiyD6wRu/IJfWX2kUqthmH6aNtarF
-	J+67d37f5lVeUHV73qT4W+2ZZVaw53PNqK9pGOuwfu4erd0QsOIyvvrubDlmb7cEDAYtEP
-	T3qiK6iK8BKKaidN5RSdpez8kQHW/POqbNKcu1paevoJ8pIXA3gBmTReduJw5K00AvODeg
-	oo4rDJI3QZ604jIgPsMSlRP2kw2hod8zcCpzFstLLyHn/GV+GURLN9ZApi/hI+t51BwHnc
-	R7bOCSjMJ/JKuYugs5pgXBrine76g2PA58bFvNBt+NTboGLIHGVSGwRC30NkFUP25OTgMx
-	CUoUi0K44QmyHKCV9TajyYOd3lOQCJzth1GlvxerlBI8KL2Yd2ARooSKb5ZLKkBZjOFSlu
-	IgjiHAANJrSLLWE9EqadoSa3vavz1SgdFIbxFIodOiESWY0zysfNT4ch/5Hfc/fFt1Dvvi
-	C+YOv7HocNTqt665VQdLU/Y255eAi9IZaNk6MXUNTWd/OTKgy40fiiFFSLTkdzuDIK3EUJ
-	Sg5sOAn+m87HDz/hlOAu9qLWvxvGvEaxa+xZdnY02wR0TdQ4qfVEo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1787845116;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=O/L393Y8wt0Jh0lNgZkAqeKjjksUueUuRLg9cgvdUP0=;
-	b=dQ40SozUBeCU21BSA5ytwi8e49c/63KsB8qZ0yXs1q/LqgbCDrY5rhhs0s6mJOVT9/u9Og
-	zMSTmm9kAoAI6hDQ==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=martin smtp.mailfrom=martin@archlinux.org
-Date: Thu, 27 Aug 2026 17:38:35 +0200
+	bh=+WUyt0i+GSy2Gq4Mu2qBP0O11Puo1gl4vVXEYTcZH7E=;
+	b=q6LIjY6ou2T1gmaRHTci14DgO7omruedHRTLJyx2DpsJe5EipztVpTzRbbDoqlZr9nmTVF
+	3Y3nQWBhIGITdaifNHrvzv/INCP8rW11sPpT9Tg1Ob8xAOE5n9ehpVCNdKwzvJLt4Rixe9
+	yrMBOhgSjUz/gPXmD58ISfgi70M4p7/fSZ4n5p7t9vlrOe2xZ4SKpjQpgYjDvXpAp456Uf
+	GRvhNABCgPiazVHStvFjggVi+7ogCFmzWOQd/i3cR0t5ZsNYXI7rHhXG/rOhrdMPluNW64
+	RnRvjbsTgPwlTsJ6WN89D4w7CcRhmGYXP0t95dP80/PO7gPRywG6vu8Ycsk1Sw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of ralf@mandelbit.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=ralf@mandelbit.com
+From: Ralf Lici <ralf@mandelbit.com>
+To: stable@vger.kernel.org
+Cc: regressions@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ran Wang <ran.wang_1@nxp.com>,
+	Duoming Zhou <duoming@zju.edu.cn>,
+	linux-usb@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Ben Hutchings <ben@decadent.org.uk>
+Subject: [REGRESSION] 6.1.y/6.6.y: fsl-usb fails to build
+Date: Thu, 27 Aug 2026 17:43:00 +0200
+Message-ID: <20260827154302.706689-1-ralf@mandelbit.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Martin Rys <martin@archlinux.org>
-Subject: [PATCH] USB: Improve "New device found" printout message
-To: linux-usb@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4hW5Q715KNz9rvZ
 
 Hi,
 
-it's my first time posting on any Linux mailing list, hopefully am doing
-everything right.
+While working on some backport patches for an out-of-tree module and
+looking for the exact versions containing the disable_delayed_work_sync
+symbol, I stumbled upon occurrences of that function on longterm v6.1
+and v6.6 in drivers/usb/phy/phy-fsl-usb.c despite not being declared or
+defined anywhere. In fact, disable_delayed_work_sync was introduced by
+upstream commit 86898fa6b8cd ("workqueue: Implement disable/enable for
+(delayed) work items") and is only available since v6.10. Neither 6.1.y
+nor 6.6.y defines it.
 
-While checking out dmesg I saw that there's an extra space after
-"bcdDevice=":
-  usb 1-5.2: New USB device found, idVendor=0583, idProduct=a000,
-bcdDevice= 1.00
-  usb 1-5.2: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+Consequently, kernels built with CONFIG_FSL_USB2_OTG fail with:
 
-Turns out that was introduced in
-https://github.com/torvalds/linux/commit/73c6d3b284cf7b31c03fdaa2476f48f8da0932f8
-(USB: announce bcdDevice as well as idVendor, idProduct.), as it was
-trying to keep the same formatting as `lsusb -v`:
+drivers/usb/phy/phy-fsl-usb.c:990:2: error: call to undeclared function 'disable_delayed_work_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  990 |         disable_delayed_work_sync(&fsl_otg_dev->otg_event);
+      |         ^
+drivers/usb/phy/phy-fsl-usb.c:990:2: note: did you mean 'cancel_delayed_work_sync'?
+include/linux/workqueue.h:470:13: note: 'cancel_delayed_work_sync' declared here
+  470 | extern bool cancel_delayed_work_sync(struct delayed_work *dwork);
+      |             ^
 
-  idProduct          0x0276 GXT 165 Gaming Mouse
-  bcdDevice            1.00
-  iManufacturer           1 SINOWEALTH
+I reproduced the failure on PowerPC using corenet64_smp_defconfig with
+CONFIG_FSL_USB2_OTG=m, building drivers/usb/phy/phy-fsl-usb.o with
+Clang.
 
- but lsusb presumably uses %2x to have a fixed-width text, so the number
-of spacing it needs to do so it all lines up under a monospace font is
-predictable.
+AFAICT, in 6.1.y, the regression was introduced in v6.1.160 by commit
+4476c73bbbb0 ("usb: phy: fsl-usb: Fix use-after-free in delayed work
+during device removal") and remains present in v6.1.185.
 
-In dmesg, it just causes it to look odd if there's no character in the
-first hex slot, as "12.00" looks fine, but " 1.00" does not.
+In 6.6.y, it was introduced in v6.6.120 by commit 319f7a85b3c4 ("usb:
+phy: fsl-usb: Fix use-after-free in delayed work during device removal")
+and remains present in v6.6.154.
 
-While staring at this I've also noticed that there's a comma instead of
-a colon after the first message, so I've fixed that up too.
+Note that the same problem was pointed out by Ben Hutchings during the
+5.10.y review:
+https://lore.kernel.org/all/d147f0eb71f9cefbfb7605e95d98564d7f0ed346.camel@decadent.org.uk/
 
-Martin
+The corresponding patches were dropped from 5.10.y and 5.15.y, but
+appear to have been retained in 6.1.y and 6.6.y.
 
+Simply replacing disable_delayed_work_sync with cancel_delayed_work_sync
+at its current location may not be sufficient: it looks like the delayed
+work can also be scheduled from fsl_otg_set_host and from the IRQ
+handler but I'm not familiar with this part of the kernel.
 
+Cheers!
 
-From a0bc389b6bf4641fbd894f8acd4c1c5709728862 Mon Sep 17 00:00:00 2001
-From: Martin Rys <martin@archlinux.org>
-Date: Thu, 27 Aug 2026 17:05:45 +0200
-Subject: [PATCH] USB: Improve "New device found" printout message
-
-Use colon instead of comma like the later message does.
-
-Do not print a useless space after `bcdDevice=` - this was introduced as
-the formatting was copied from `lsusb -v` printout, but that one has
-preceding spaces, this one does not.
-
-Signed-off-by: Martin Rys <martin@archlinux.org>
----
- drivers/usb/core/hub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 3345b3298daf..c382215a1177 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2411,7 +2411,7 @@ static void announce_device_ids(struct usb_device
-*udev)
-        u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
- 
-        dev_info(&udev->dev,
--               "New USB device found, idVendor=%04x, idProduct=%04x,
-bcdDevice=%2x.%02x\n",
-+               "New USB device found: idVendor=%04x, idProduct=%04x,
-bcdDevice=%x.%02x\n",
-                le16_to_cpu(udev->descriptor.idVendor),
-                le16_to_cpu(udev->descriptor.idProduct),
-                bcdDevice >> 8, bcdDevice & 0xff);
--- 
-2.55.0
-
-
+-- 
+Ralf Lici
+Mandelbit Srl
