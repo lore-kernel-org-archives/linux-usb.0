@@ -1,52 +1,62 @@
-Received: from mout-b-105.mailbox.org (mout-b-105.mailbox.org [195.10.208.50])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ECE1862;
-	Thu, 27 Aug 2026 15:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.10.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A2E484220;
+	Thu, 27 Aug 2026 15:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787845863; cv=none; b=jhT+UqwPdiSQLeO5fHYCl+VYUBPjvCnQG4LWBO/Xr1jDEBijIP10sR7JDdbFFVrG4bO/52WRxO47o9+yobymnHgn3mS6pwRFCOwAwyEn8/7OupHST2NDe5XXOGqosfb6PvjZJWk/8N/aeEumOT9U0He4IpmdCofigsNRyCiLuv4=
+	t=1787845889; cv=none; b=SthSiaD3t8OcVdp4F8uasT//VPsTy6HdRjBF5Kfjjc1pEVUTSoQsAkDeRsgoZ59TwIuOSxoWc+vyk0gXaaKcQXYnRvn4NejmuNjV56ATRa4WRfxfxRWLCl0lolv/Uo+pKyZ4+GLiFHrKQe5v6/gUERKBw5CUA3kJe0zZ4NncOyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787845863; c=relaxed/simple;
-	bh=hJFzBlJooUj9tMP3pBp8imx/OWxNH+mZjIyHiIkw7DI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rxd2yCRdSQE4U9h6uCdb4nkwk8/q5FTSAgravYFUB1gp+nZlwxpKrL56rJK/kSMhyO3SxXv4Al9ZB4oTnX6OMXca63Pze3sL/xL9/Pea+wpKlSzl2DLUJKDwjmCT39hFOZI2+WCVNXXusIe/2hR03ZPb39wprhoesi8vuWZPAz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com; spf=pass smtp.mailfrom=mandelbit.com; dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b=q6LIjY6o; arc=none smtp.client-ip=195.10.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mandelbit.com
+	s=arc-20240116; t=1787845889; c=relaxed/simple;
+	bh=IFBIz/CJUudVZpZ9GfA5YS3dq79+i7KWAO8EhYGguRY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CSaobVXIoMQM7xfaFuMLptJGap1FIsqGQAa6tqpbHiTZ4WKWocvPGYGuZYHa8dGyuT7O1VM7PSmxm3en3hSJjgnWIv69hXfcCuRu3WldOXVmLsNznruvNvp7LMrCgR5OI5OkSYY40VJJQFwxGFNrQT2/Trio0/HeapSoKnoZphw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDhDD6Wu; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b="q6LIjY6o"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-b-105.mailbox.org (Postfix) with ESMTPS id 4hW5Q715KNz9rvZ;
-	Thu, 27 Aug 2026 17:43:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
-	s=MBO0001; t=1787845391;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+WUyt0i+GSy2Gq4Mu2qBP0O11Puo1gl4vVXEYTcZH7E=;
-	b=q6LIjY6ou2T1gmaRHTci14DgO7omruedHRTLJyx2DpsJe5EipztVpTzRbbDoqlZr9nmTVF
-	3Y3nQWBhIGITdaifNHrvzv/INCP8rW11sPpT9Tg1Ob8xAOE5n9ehpVCNdKwzvJLt4Rixe9
-	yrMBOhgSjUz/gPXmD58ISfgi70M4p7/fSZ4n5p7t9vlrOe2xZ4SKpjQpgYjDvXpAp456Uf
-	GRvhNABCgPiazVHStvFjggVi+7ogCFmzWOQd/i3cR0t5ZsNYXI7rHhXG/rOhrdMPluNW64
-	RnRvjbsTgPwlTsJ6WN89D4w7CcRhmGYXP0t95dP80/PO7gPRywG6vu8Ycsk1Sw==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of ralf@mandelbit.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=ralf@mandelbit.com
-From: Ralf Lici <ralf@mandelbit.com>
-To: stable@vger.kernel.org
-Cc: regressions@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDhDD6Wu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787845887; x=1819381887;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IFBIz/CJUudVZpZ9GfA5YS3dq79+i7KWAO8EhYGguRY=;
+  b=aDhDD6Wu7egRjyQyISCaZxXydDqLeboy2HXAuDrmE/x3JxL12ZTFKnER
+   97R48KL3i4d95XGpm5n5548vV6AUdhTweUSeEmdJNz2JPRb/6W64nNv85
+   sNJNKTaG6QvE4JX5XW8Y/T86mlRozGQYdMWHx+Z9FiFVYU5CE2SECC+V2
+   gi/eUEsVDADnpsWHUUUW3R3/0Jsm1pyOHQ209qaxgnr5FK9jjzS6k5C7E
+   EI1UwiPXijZVUtlU8c8KVLefVArhFT+1n59DcwT/W/z4ElNYaXoTQKVOX
+   CrhcB9FJQcLooihYOOuYsBf1vXBbFScf4rqkzyECg93Be/M6ZDrzYj1tN
+   w==;
+X-CSE-ConnectionGUID: IvCl0qcxTfyDuf5GDmK5Tw==
+X-CSE-MsgGUID: 7xbt1XWxSUaJCq6l0Faegg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="99510545"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="99510545"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 08:51:26 -0700
+X-CSE-ConnectionGUID: Z896Bc9oTsShcrVyB+H0GQ==
+X-CSE-MsgGUID: ZcyVbgBTQGCCUMTwjYGYeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="297793924"
+Received: from smtp.ostc.intel.com ([10.54.69.131])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 08:51:26 -0700
+Received: from ray2.intel.com (unknown [10.125.109.108])
+	by smtp.ostc.intel.com (Postfix) with ESMTP id BA6D35E92;
+	Thu, 27 Aug 2026 08:51:25 -0700 (PDT)
+From: Dave Hansen <dave.hansen@linux.intel.com>
+To: linux-kernel@vger.kernel.org
+Cc: Dave Hansen <dave.hansen@linux.intel.com>,
+	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ran Wang <ran.wang_1@nxp.com>,
-	Duoming Zhou <duoming@zju.edu.cn>,
-	linux-usb@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Ben Hutchings <ben@decadent.org.uk>
-Subject: [REGRESSION] 6.1.y/6.6.y: fsl-usb fails to build
-Date: Thu, 27 Aug 2026 17:43:00 +0200
-Message-ID: <20260827154302.706689-1-ralf@mandelbit.com>
+	linux-usb@vger.kernel.org
+Subject: [PATCH] gpio: usbio: Remove bouncing maintainer
+Date: Thu, 27 Aug 2026 08:51:27 -0700
+Message-ID: <20260827155127.2334936-1-dave.hansen@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -54,55 +64,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4hW5Q715KNz9rvZ
 
-Hi,
+The email for Israel Cepeda is bouncing. Remove the entry.
 
-While working on some backport patches for an out-of-tree module and
-looking for the exact versions containing the disable_delayed_work_sync
-symbol, I stumbled upon occurrences of that function on longterm v6.1
-and v6.6 in drivers/usb/phy/phy-fsl-usb.c despite not being declared or
-defined anywhere. In fact, disable_delayed_work_sync was introduced by
-upstream commit 86898fa6b8cd ("workqueue: Implement disable/enable for
-(delayed) work items") and is only available since v6.10. Neither 6.1.y
-nor 6.6.y defines it.
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-Consequently, kernels built with CONFIG_FSL_USB2_OTG fail with:
-
-drivers/usb/phy/phy-fsl-usb.c:990:2: error: call to undeclared function 'disable_delayed_work_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-  990 |         disable_delayed_work_sync(&fsl_otg_dev->otg_event);
-      |         ^
-drivers/usb/phy/phy-fsl-usb.c:990:2: note: did you mean 'cancel_delayed_work_sync'?
-include/linux/workqueue.h:470:13: note: 'cancel_delayed_work_sync' declared here
-  470 | extern bool cancel_delayed_work_sync(struct delayed_work *dwork);
-      |             ^
-
-I reproduced the failure on PowerPC using corenet64_smp_defconfig with
-CONFIG_FSL_USB2_OTG=m, building drivers/usb/phy/phy-fsl-usb.o with
-Clang.
-
-AFAICT, in 6.1.y, the regression was introduced in v6.1.160 by commit
-4476c73bbbb0 ("usb: phy: fsl-usb: Fix use-after-free in delayed work
-during device removal") and remains present in v6.1.185.
-
-In 6.6.y, it was introduced in v6.6.120 by commit 319f7a85b3c4 ("usb:
-phy: fsl-usb: Fix use-after-free in delayed work during device removal")
-and remains present in v6.6.154.
-
-Note that the same problem was pointed out by Ben Hutchings during the
-5.10.y review:
-https://lore.kernel.org/all/d147f0eb71f9cefbfb7605e95d98564d7f0ed346.camel@decadent.org.uk/
-
-The corresponding patches were dropped from 5.10.y and 5.15.y, but
-appear to have been retained in 6.1.y and 6.6.y.
-
-Simply replacing disable_delayed_work_sync with cancel_delayed_work_sync
-at its current location may not be sufficient: it looks like the delayed
-work can also be scheduled from fsl_otg_set_host and from the IRQ
-handler but I'm not familiar with this part of the kernel.
-
-Cheers!
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 24ca91ce5d865..7f147a95940ee 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13521,7 +13521,6 @@ F:	Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+ F:	drivers/platform/x86/intel/uncore-frequency/
+ 
+ INTEL USBIO USB I/O EXPANDER DRIVERS
+-M:	Israel Cepeda <israel.a.cepeda.lopez@intel.com>
+ M:	Hans de Goede <hansg@kernel.org>
+ R:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ S:	Maintained
 -- 
-Ralf Lici
-Mandelbit Srl
+2.43.0
+
