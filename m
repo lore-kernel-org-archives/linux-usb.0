@@ -1,130 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010010.outbound.protection.outlook.com [52.101.193.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578441A6806;
-	Thu, 27 Aug 2026 21:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787866513; cv=none; b=nbkQ1okI26PtHtOlUdxWns5+X77ta+2ofIf9Ww0IsjlAIAzWhUf4XGLeFmADdnvT29jfYhKoOL3OI186IFXPBwvTv8S0RfZBlr06+GE3FsVE2IpHoahQw88HzF4ykz8nsiYygaQ3A8tP41XECPtOReBWrOH+33Sk3QfL2ON7mJE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787866513; c=relaxed/simple;
-	bh=iDG3uG/NsgmUQeqNnURTGnpePLGCtwQ+EDifwqxWHFk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BGWkWuQtBOCD8YSI7lQHazgn+73sJJ77xAzDj97ieaf/9uk/Jy4ZTGtkuQaa/hwg++HLGo2wtFz5/7gsglxI4TDDJ2C6C+HoncvEsPNr5vm76qO+TVUvL2eqlfevVW6YJELkQsWvmE5hYfn4B8uiEWXbMtBWhN9ShFE7kVLanbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kv31tegt; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D2E3F107D;
+	Thu, 27 Aug 2026 21:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787867885; cv=fail; b=M4By1RsBDHWvJsNKVNTi1lV/zz7ErfpsNy20ZHr42VFyaMOxxdHil+QrvQqazU89D5xMNZp8cWG8Q1eSQB8a869t56j5mmDx4iLn5EzjYDOhX6K7qWU57k1rrls2BbsnM1B1SGiHu+HHaYFMKq0/+5taGaA2Jn2lHGK/49HUQ5I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787867885; c=relaxed/simple;
+	bh=bU8OUGx0xY5JQU2WVI3SVDKcVEi5wsmq3y+ylCDl+h0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XZJlMvSKEL5vS0rjixWubtKqdyk186uugrF0yvPLg+XSgAoHDfxJlpb/0y7hlVNvTZYFOJHhEftOBoMUB2LzgKtwXRo/0p5PNFyGbpvv/6rFX+ejsmxzlBCrc54xXAzHam9XqvYe4fY72FeU9zubkwLJa8dkoa2vhYzsd1jnB4M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AlYEXMFl; arc=fail smtp.client-ip=52.101.193.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kv31tegt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B061F000E9;
-	Thu, 27 Aug 2026 21:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787866511;
-	bh=fMgwm7oAdbEbWShlMjn5W9P2IwFpciRIvrfJQ3hlebs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Kv31tegt83bsz+VlPCa34qRYWSmnWi5RV8Xs155GFSTnKHvQIbr2IokQ0nBGQCBcj
-	 e70dR8XXatKAmItuZF9ah71o499QQRbJYkHL5H8RCz1J+4ZiPbH49KVhHAm1OZH3yL
-	 FbcDzmBahzHi9083Jj4sD6b9eV1C4Pxt5p4zXxqSK9ZcvGLeCCmM0t3SJgmReEzsVT
-	 H6sV9jF+zGY+ln3GNPdx3VEaijc04/g4lAT4rE6odXvGx1dTcYXX5sB+OUNYme1ijN
-	 B51dmO0oeMMBotXi1AZsK9tmEjMOEJxWscPji4rEiexejSp+u17Fj0HKCLjqN6UjfI
-	 /Rfn+NkzAXzQQ==
-Message-ID: <3264c2d2-4c53-44c0-8164-d2d83f75c175@kernel.org>
-Date: Thu, 27 Aug 2026 23:35:01 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AlYEXMFl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E4pO3To7m1xwsT0eggjkW/YlRuWD8J087S/O1dzSngYZHsv43HrVOj4j3lQe1m4TK9hM/nOz/AeX1h9ejIIb+x570xABE4vNyIW9HxX1wSl4kB8kMDYAEzNoSCfO+dsEgVZrPKdfp6Q91/w+Vm22DeMTvvyJh+EoL7bZNyi30lT/jevh+A1DxNt5FnSBIFS1Tv7N7hGZMT2bkFKlYn2dW3odQxwE+7uw0Xkzq0X3K62QxbpqCYvGwJocFsh5UnAfQ8x1TQ/t7LRWgEnreQSCZuUf3jKw9jxCOgc1q+jShQOuOm4itfgXSAz0eYstaA6zKQ+PWt5oebw24JIn2t2psQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hr+tRUTBxfChYYrqsfE2mtJOq1Hu+UAagWa+RLx8UKc=;
+ b=cSq2u9d5vF/f+aPM3jWMPSOQFrrI4sYnwq8TRKK8ZX81EEtC9XQlbJ7lxNpyLn/GLfhJsGpCw6oNi3Msfn4XU0vgXCWqnMMQHiZE3NzsyUiTzA0TuXg9pTyUF6E87yo1yRmdUXfqSFh7NKLB5jh2Mz7cmsNm0ZtuvMGeVLltuyWP36kRnOq1KcmmUo5qjLxToXmfbAZoSFmrl7nt4x+JMxX9d/kSAgpcXc291KrrW4OqQryYjLy6Q1HzBaAG37C3QRESvYvrC6EzT3PaIXMYhu248HA0BIsP8h4P8geqiaHV24rBCMeE5baheRee5Qxe/b14NQoLN4NBalO2q92X0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hr+tRUTBxfChYYrqsfE2mtJOq1Hu+UAagWa+RLx8UKc=;
+ b=AlYEXMFlw8w+9RR6ofChif1r+OcHNrzPbcuuSpMaHPfcQ62dY0rX70nhNqklw+aF7x57zzUzo/WCotyB2Stp6NNcDJQUiIEEh5x8gPCKFTqTRIXtf/uEt96fSBrVOCJWjRMKmbTawQJxVURwX/IigC4o0pmnv0KC69K1WK5zIB8=
+Received: from SJ0PR13CA0024.namprd13.prod.outlook.com (2603:10b6:a03:2c0::29)
+ by DSWPR12MB999129.namprd12.prod.outlook.com (2603:10b6:8:36d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Thu, 27 Aug
+ 2026 21:57:53 +0000
+Received: from SJ1PEPF0000231B.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c0:cafe::8) by SJ0PR13CA0024.outlook.office365.com
+ (2603:10b6:a03:2c0::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.7 via Frontend Transport; Thu, 27
+ Aug 2026 21:57:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF0000231B.mail.protection.outlook.com (10.167.242.232) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Thu, 27 Aug 2026 21:57:52 +0000
+Received: from jprecision.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 27 Aug
+ 2026 16:57:51 -0500
+From: Juan Martinez <juan.martinez@amd.com>
+To: <westeri@kernel.org>
+CC: <mario.limonciello@amd.com>, <andreas.noever@gmail.com>,
+	<YehezkelShB@gmail.com>, <Basavaraj.Natikar@amd.com>, <Sanath.S@amd.com>,
+	<linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Juan Martinez
+	<juan.martinez@amd.com>
+Subject: [PATCH v3] thunderbolt: Fix tb->lock deadlock during hot-unplug on AMD USB4 routers
+Date: Thu, 27 Aug 2026 16:57:40 -0500
+Message-ID: <20260827215740.415496-1-juan.martinez@amd.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260825214237.4179813-1-juan.martinez@amd.com>
+References: <20260825214237.4179813-1-juan.martinez@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/9] dt-bindings: arm: stm32: Switch
- st,stm32mp23/25-syscfg into simple-mfd
-To: Marek Vasut <marex@nabladev.com>
-Cc: linux-usb@vger.kernel.org, fabrice.gasnier@foss.st.com,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
- Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260822074816.548662-1-marex@nabladev.com>
- <20260822074816.548662-8-marex@nabladev.com>
- <20260827-skilled-optimal-shellfish-c548e5@quoll>
- <9b197208-dbb4-44dd-b0c0-b4dcaa57c403@nabladev.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <9b197208-dbb4-44dd-b0c0-b4dcaa57c403@nabladev.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231B:EE_|DSWPR12MB999129:EE_
+X-MS-Office365-Filtering-Correlation-Id: e47c948b-6134-41e3-25a5-08df04863e73
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|1800799024|376014|10067099003|22082099003|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	4d+HeYVtelZDYThiPZJa5Ayhpv7ajmg89PH+JGrOtmUFYjKFeKo4PS+Z9ETTIk+2iI8hA7P7QXjF/qQcyqmbojM256GFH9k3g7KUGKrOFfr6c6V7oSz+/5MRqcYBHivak03QlSTf77rKTrWz/Tb+m7iEwJFnsrZc6Q0USVDA9gaqS+cvjojla5dKs+b4it/VmCBHHHmi9K9PovmySPRDMex41drTp2bMCzvkSct9Snt7H9XrWJXkA8p9lpdXh0VKqYKGiehPnB2ls1KykP0M06k9RZMahiXzgRvz7e8jyEqQeWdYOTfngOM3wzlIeFsXQ0sz9vAhUPYCZWS4msvi/Hb0dJwumYmzbr6bCA3Zri5YH7r/6UUmG3ghWiBQqjsllCdni1MeJ/OCIo28/OfUidjgMyq4EIjvdCZ3hOdo+6w6i9Wg6S8IbilSrXQQxkC6wqpw8c6n9Nrt1449rZRrhaKa70Tu1nmJSmhPY2saepAWgAjquzgOneBZDNDJwPX40lFpp8AqrWYr1oqiGhAF4aM2YO2Mcr0pjL1oxVc5KE++do5OhKwyxObCj+uD9SLMuEpWPnEVVBxIyOWaXNSrv/hN4Ml2ngXm5F4n+9jlSAVIuD8U6WOhIXuoJAVKK8oyO6Fqm9u4V8kdQEOKIqoYbHLTlpcMjhOdGN4+V6uCAOSLB5hIlUu6ARD+is1ncwE7vghCjHgYXKnUYLoASYb6dw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(1800799024)(376014)(10067099003)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	iu2BNXBCJOchP1USjJSsarxOspGtseJc0JMZTZCMIi/FvRb9RSYLv5GbXbARQ+ohkpFldR+iab1WT8WLAI6KD4VJ22HgU0G0Og9UFGzyts80F0VFpt+MYLYZ2babfrTXC8K+j8tpbzLGEKg/04QcJ+As577SBtr5jLtXEbJG4uvD4m5c9WRsOzeJh3Pw3OrCD6usPp4X67zV8c8zQNGFDO003A9Ni7DToXFfo6sEpOD+JE3lEQ32OSfJ8ZoY5HPsGbVdm7uR3j6lblRkiDjHYylWYhSB8zomBviNz265a421c4hXbe80ZbTSTi/sKjwS0spLzNh4v8R3lk3hlLc+yfxhlh4WA1i6pZJrbr3co87Mx6uX99dmdIfbHz05CgqRBj3DfZ9TT+Ssm0OswylYcHS7goz/MaK0hEZPCE4v7I7+m/xpfbkmGv+N/4x8CVtn
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2026 21:57:52.8497
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e47c948b-6134-41e3-25a5-08df04863e73
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF0000231B.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR12MB999129
 
-On 27/08/2026 17:04, Marek Vasut wrote:
-> On 8/27/26 3:07 PM, Krzysztof Kozlowski wrote:
->>
->> OTOH2, you have now patchset dependency which is nowwhere explained.
->> Merging constraints are the most important part of cover letter so must
->> be clearly stated. IMO, should be stated also here, because many
->> maintainers do not read cover letters. Or just decouple dependencies
->> with using 'compatibles' pattern (see Qualcomm msm/mdss display
->> bindings).
-> I wonder, wouldn't it be better to write a driver which binds to 
-> st,stm32mp25-syscfg , handles the SYSCFG clock, and does some 
-> of_platform_populate() to bring up the PHYs (DT subnodes) ?
-> 
-> I think that would resolve the ABI break problem, since we wouldn't need 
-> the simple-mfd compatible anymore. And it would also correctly handle 
-> the SYSCFG clock.
-> 
-> What do you think ?
+Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+DMA path teardown for AMD USB4 routers") introduced a deadlock when
+physically unplugging a Thunderbolt cable on AMD systems.
 
-Yes, it is better and more flexible approach. Solves ABI impact.
+The problem occurs because tb_handle_hotplug() holds tb->lock while
+processing the unplug event. When it removes the XDomain services,
+tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+tb_domain_reset_interface(). That function tries to acquire tb->lock
+via guard(mutex), but the hotplug worker already holds it, causing a
+self-deadlock.
 
-Best regards,
-Krzysztof
+The deadlock manifests as a complete network hang because
+tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+all network operations system-wide.
+
+The existing code already handles this scenario partially: when
+xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+skips the DMA teardown because the hotplug handler will do it later
+via __tb_disconnect_xdomain_paths(). However, the reset was still
+being called unconditionally.
+
+Fix this by:
+1. Splitting tb_domain_reset_interface() into a locked inner function
+   __tb_domain_reset_interface_locked() and a locking wrapper
+2. Skipping the reset in tb_domain_disconnect_xdomain_paths() when
+   xd->is_unplugged is true (matching the existing teardown skip logic)
+3. Calling __tb_domain_reset_interface_locked() from tb_handle_hotplug()
+   after __tb_disconnect_xdomain_paths() where the actual DMA teardown
+   happens and tb->lock is already held
+
+This preserves the reset behavior for normal shutdown paths while
+avoiding the deadlock during physical cable unplug.
+
+Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+---
+ drivers/thunderbolt/domain.c | 26 +++++++++++++++++++++-----
+ drivers/thunderbolt/tb.c     |  1 +
+ drivers/thunderbolt/tb.h     |  1 +
+ 3 files changed, 23 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+index 12c88509a54f..8f33baafe9ae 100644
+--- a/drivers/thunderbolt/domain.c
++++ b/drivers/thunderbolt/domain.c
+@@ -788,14 +788,19 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 			transmit_ring, receive_path, receive_ring);
+ }
+ 
+-static void tb_domain_reset_interface(struct tb *tb)
++/*
++ * __tb_domain_reset_interface_locked - Reset host interface (lock held)
++ *
++ * Caller must hold tb->lock. Used by hotplug path where lock is already held.
++ */
++void __tb_domain_reset_interface_locked(struct tb *tb)
+ {
+ 	struct tb_nhi *nhi = tb->nhi;
+ 
+-	if (!nhi->ops->reset_interface)
+-		return;
++	lockdep_assert_held(&tb->lock);
+ 
+-	guard(mutex)(&tb->lock);
++	if (!nhi->ops->reset_interface || !(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
++		return;
+ 
+ 	/* The reset clears the ring state so stop the control channel */
+ 	tb_ctl_stop(tb->ctl);
+@@ -803,6 +808,17 @@ static void tb_domain_reset_interface(struct tb *tb)
+ 	tb_ctl_start(tb->ctl);
+ }
+ 
++static void tb_domain_reset_interface(struct tb *tb)
++{
++	struct tb_nhi *nhi = tb->nhi;
++
++	if (!nhi->ops->reset_interface)
++		return;
++
++	guard(mutex)(&tb->lock);
++	__tb_domain_reset_interface_locked(tb);
++}
++
+ /**
+  * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+  * @tb: Domain disabling the DMA paths
+@@ -835,7 +851,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
++	if (!xd->is_unplugged)
+ 		tb_domain_reset_interface(tb);
+ 
+ 	return 0;
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index b7cc6894a598..89dfb3381345 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -2489,6 +2489,7 @@ static void tb_handle_hotplug(struct work_struct *work)
+ 			tb_xdomain_remove(xd);
+ 			port->xdomain = NULL;
+ 			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
++			__tb_domain_reset_interface_locked(tb);
+ 			tb_xdomain_put(xd);
+ 			tb_port_unconfigure_xdomain(port);
+ 		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 4373336d9425..2e6e0920cb1f 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -789,6 +789,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
+ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 				    int transmit_path, int transmit_ring,
+ 				    int receive_path, int receive_ring);
++void __tb_domain_reset_interface_locked(struct tb *tb);
+ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 				       int transmit_path, int transmit_ring,
+ 				       int receive_path, int receive_ring);
+-- 
+2.43.0
+
