@@ -1,187 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ED01A6806;
-	Thu, 27 Aug 2026 21:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE0F360EF9;
+	Thu, 27 Aug 2026 21:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787865384; cv=none; b=E4dKQ3GkQRZTmJfr+a5abtvLCixdrFgiwqMaQCjJr06GVqZOQT6OsybD5ZlAj0jJb0f7IkrNVBt4ZbuGymfplfH9R5zzzXNcOlbtkpkHapTZRfLEe4T/GOISLc6MSWIng2sciK4GLu7G6ZOWgz3Grce2R4WUKrf/2+85IPL2Z68=
+	t=1787866422; cv=none; b=nMXAig6gJshJWd10SEOx993ziSJUKhqllJDhKmGHNFh6AMLdScuHwQwJCRC8Lk/5EYlLqkB9YrY4tXJD3ascFPT+DQj7CC0a79lx2Xj25gCFlD6xyzA7D/FIRZmvw65MDavuR6wbCvdnGAgI6znidzeZR2uAeLq3YNpOB/dTL74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787865384; c=relaxed/simple;
-	bh=5+u3IiiS1gjuh/J7N55q0qfKgrmm2bxsgXAIyLjW3AQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Bf3bo0a7e7B8JxB5GjUInKBrva3+jDatOwsaGYIBH9BOsVEtfw7lsBLxKA1HHxNTwXrCgvcpBZMN/aVZOgN9k4WJ+TnjaXTnFcX4SnyIYwWNWeat3AXMYI475zm06R0llTIXO3bnztISyCAEozXD9/vCQbZKjwuzpHY+9t9Wtsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a8qn3Zcf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787866422; c=relaxed/simple;
+	bh=PQlOu+VW03V27gxX2cArVMUwaepjRL7qZlU23drSTik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TOF5P/EztIVyXzzk3whAC5gL2fZean/XGmyEI0jZ1Mb0giQkNwijrWd3LFcbT6BeKB82oGO/jnFB3xvvv+JSB/f3q5qjg+PyRmXqHp1Oqg3KdTilxNXtTBgc3nHae5Fta/+Geqr7XubkH9HbO+S6znUrzNrc9JHOpd5nQaWpkd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fw1+9sqr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a8qn3Zcf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 13CE4C19425;
-	Thu, 27 Aug 2026 21:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787865384;
-	bh=5+u3IiiS1gjuh/J7N55q0qfKgrmm2bxsgXAIyLjW3AQ=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=a8qn3Zcfrax2SbRw3UFD+sX1Vt9hLQkPdz739mHuaDkvkUfkVwcA3cI1YkkLDS1OX
-	 bneUv0O9/uQro4r/J7KEepcLNgi2zfPbehCL8TL07cNgxvzs57TnptSNz2pACVRwS2
-	 3wy5ywwGhRpzIWbD5RmNECaMjewra2qf5S02y7LQnSI1SO6pQfFAn53WqwzJcPNtaV
-	 +uShVt7El5+Z39OLpPEI/m0EW7yAgH/QLU1ZXUt3R7b/TvcsyLb/cje0VQLVXxqtAl
-	 GelDIICOlzCM2E/V7KhkGJojb81n3YXyD7RXPUzxoeJ8NHhP8P0ovDPsmJJ7ZPtmnT
-	 BjQPTwh5dKcKA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5097C61DC2;
-	Thu, 27 Aug 2026 21:16:23 +0000 (UTC)
-From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Date: Thu, 27 Aug 2026 21:16:17 +0000
-Subject: [PATCH] usb: typec: tcpm: constrain TCPM_SOURCING_VBUS event
- handling
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fw1+9sqr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD031F000E9;
+	Thu, 27 Aug 2026 21:33:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787866420;
+	bh=Zwa9OildEt0/MBeKDzpiohQ2SGijo2Fqu8IR99Uz1bc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Fw1+9sqrLMgXn3ctkUbjhc4YaXPZA1bFizV1DDiocqaZcwOSj61O5UvptVU+MXrw3
+	 cHGuihh2s2WoNOH9f3D0QpemTdvRptaPyCKtIZMFbkXD9d/VMxFXfayWNN9FfRYI+L
+	 /S0vXfrJBDpVaovIu3iLv/4ZkcuNbg9CQUPwPHAK0QoPAOAZJTDdYcE1sps1QFi4K9
+	 cuz8oC5sptjv4ph7YeH38O0eI/GK9/KhbXsQY5pz0pC38yvEn3f8nZ6Vx55+uE5YU1
+	 1netFCyUhW11Rs/X3hU2T3XdxwORVGU2xfVSfh3PQHcy4+A+h6kKSeJCCwEiPPSpFu
+	 2/2SZU3rzGGVA==
+Message-ID: <25e10cfe-40dc-45f4-8a92-cd81263420ea@kernel.org>
+Date: Thu, 27 Aug 2026 23:33:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/9] dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO
+ PHY
+To: Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org
+Cc: fabrice.gasnier@foss.st.com, Pankaj Dev <pankaj.dev@st.com>,
+ Rahul Kumar <rahul.kumar05@st.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260822074816.548662-1-marex@nabladev.com>
+ <20260822074816.548662-2-marex@nabladev.com>
+ <7a16614a-bd1b-462a-be13-4a9c22aa588e@kernel.org>
+ <34c48ff1-524f-4d24-b53f-99e7171d08db@nabladev.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <34c48ff1-524f-4d24-b53f-99e7171d08db@nabladev.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260827-sourcing-vbus-v1-1-9be1aca991a0@google.com>
-X-B4-Tracking: v=1; b=H4sIACCpkGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDCyNz3eL80qLkzLx03bKk0mJdyzQL8+RkkyQzI1NzJaCegqLUtMwKsHn
- RsbW1ABFhy4VfAAAA
-X-Change-ID: 20260827-sourcing-vbus-9f87cc4b6257
-To: Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
- stable@vger.kernel.org, Amit Sunil Dhamne <amitsd@google.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787865383; l=5389;
- i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=gaGRedxsfMiw49b510/kkrdqTxwg1oPfINQUp7PootY=;
- b=9iW5Sva4MeTGBN2PD1qqfEDMcVLM+9SZtj+/C5hSg1WJV+vOJ1WpGFPJgrp+SL6UljSVtLMN4
- 43SijATKFW0DYOOd2acHxdPS5r0i1pxT5u/A4F3oSSDxxkLuH6dg0sl
-X-Developer-Key: i=amitsd@google.com; a=ed25519;
- pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
-X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
- auth_id=262
-X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
-Reply-To: amitsd@google.com
 
-From: Amit Sunil Dhamne <amitsd@google.com>
+On 27/08/2026 16:53, Marek Vasut wrote:
+> On 8/27/26 2:54 PM, Krzysztof Kozlowski wrote:
+>> On 22/08/2026 09:46, Marek Vasut wrote:
+>>> +description:
+>>> +  USB2 PHY block in STM32 is attached to USB 2.0 Host controller and
+>>> +  USB 2.0 side of DWC3 DRD controller, and provides the USB LS/FS/HS
+>>> +  connectivity. Both PHYs are the FEMTO-PHY, but their configuration
+>>> +  bits in the system control register are different for each variant.
+>>> +
+>>> +maintainers:
+>>> +  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+>>> +  - Marek Vasut <marex@nabladev.com>
+>>> +  - Pankaj Dev <pankaj.dev@st.com>
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - st,stm32mp25-usb2phy1
+>>> +      - st,stm32mp25-usb2phy2
+>>> +
+>>> +  "#clock-cells":
+>>> +    const: 1
+>>> +
+>>
+>> As pointed out by different patchset built on top of it, this is wrong.
+> 
+> What is wrong in this (V3) of the patchset ? I think the ST patches were 
+> fixing up V2 and what they were fixing up is already fixed here in V3.
 
-When a sink detach occurs while waiting for TX send status, the old
-TCPM_SOURCING_VBUS event along with TCPM_VBUS_EVENT and TCPM_CC_EVENT
-can be queued in port->pd_events. Because TCPM_SOURCING_VBUS is
-evaluated after TCPM_VBUS_EVENT and TCPM_CC_EVENT in
-tcpm_pd_event_handler(), a stale TCPM_SOURCING_VBUS event can override
-the detach handling and incorrectly set port->vbus_source and
-port->vbus_present to true.
-
-Add a state guard to check that the port is either operating as a
-Source (tcpm_port_is_source(port)) or in a Fast Role Swap (FRS) state
-up to FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED before processing
-TCPM_SOURCING_VBUS. Otherwise, discard and log the event.
-
-Log snippet for error condition before fix:
-[72792.204955] state change SRC_ATTACHED -> SRC_STARTUP [rev3 NONE_AMS]
-[72792.204960] sourcing vbus
-[72792.204962] VBUS on
-[72792.204970] AMS POWER_NEGOTIATION start
-[72792.204974] cc:=4
-[72792.205319] state change SRC_STARTUP -> AMS_START [rev3 POWER_NEGOTIATION]
-[72792.205325] state change AMS_START -> SRC_SEND_CAPABILITIES [rev3 POWER_NEGOTIATION]
-[72792.205332] PD TX, header: 0x11a1
-[72792.216911] PD TX complete, status: 2
-[72792.216957] pending state change SRC_SEND_CAPABILITIES -> SRC_SEND_CAPABILITIES @ 150 ms [rev3 POWER_NEGOTIATION]
-[72792.218005] VBUS off
-[72792.218013] pending state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED @ 650 ms [rev3 POWER_NEGOTIATION]
-[72792.218020] VBUS VSAFE0V
-[72792.218024] state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED [rev3 POWER_NEGOTIATION]
-[72792.218458] CC1: 2 -> 0, CC2: 0 -> 0 [state SNK_UNATTACHED, polarity 0, disconnected]
-[72792.218467] VBUS on --> VBUS left on
-[72792.218980] disable vbus discharge ret:0
-[72792.235193] Start toggling
-
-After fix:
-[ 1195.291691] state change SRC_ATTACHED -> SRC_STARTUP [rev3 NONE_AMS]
-[ 1195.291698] sourcing vbus
-[ 1195.291700] VBUS on
-[ 1195.291707] AMS POWER_NEGOTIATION start
-[ 1195.291710] cc:=4
-[ 1195.291758] state change SRC_STARTUP -> AMS_START [rev3 POWER_NEGOTIATION]
-[ 1195.291794] state change AMS_START -> SRC_SEND_CAPABILITIES [rev3 POWER_NEGOTIATION]
-[ 1195.291798] PD TX, header: 0x11a1
-[ 1195.297056] PD TX complete, status: 2
-[ 1195.297092] pending state change SRC_SEND_CAPABILITIES -> SRC_SEND_CAPABILITIES @ 150 ms [rev3 POWER_NEGOTIATION]
-[ 1195.297177] VBUS off
-[ 1195.297184] pending state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED @ 650 ms [rev3 POWER_NEGOTIATION]
-[ 1195.297227] CC1: 2 -> 0, CC2: 0 -> 0 [state SRC_SEND_CAPABILITIES, polarity 0, disconnected]
-[ 1195.307469] cc:=2
-[ 1195.307544] pending state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED @ 650 ms [rev3 POWER_NEGOTIATION]
-[ 1195.307555] Discarding sourcing vbus! Invalid state SRC_SEND_CAPABILITIES
-[ 1195.957636] state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED [delayed 650 ms]
-[ 1195.957732] disable vbus discharge ret:0
-[ 1195.970196] Start toggling
-[ 1195.970468] VBUS off
-[ 1196.051637] VBUS off
-[ 1196.051642] VBUS VSAFE0V
-
-Fixes: 8dc4bd073663 ("usb: typec: tcpm: Add support for Sink Fast Role SWAP(FRS)")
-Cc: stable@vger.kernel.org
-Assisted-by: Gemini:gemini-3.1-pro
-Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 28 ++++++++++++++++++++++------
- 1 file changed, 22 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index a8cd1959c426..2d6b14aa2085 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -7119,16 +7119,32 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
- 			}
- 		}
- 		if (events & TCPM_SOURCING_VBUS) {
--			tcpm_log(port, "sourcing vbus");
- 			/*
- 			 * In fast role swap case TCPC autonomously sources vbus. Set vbus_source
--			 * true as TCPM wouldn't have called tcpm_set_vbus.
-+			 * true conditionally as TCPM wouldn't have called tcpm_set_vbus.
-+			 * If TCPM calls tcpm_set_vbus to source vbus, vbus_source would already
-+			 * be true.
- 			 *
--			 * When vbus is sourced on the command on TCPM i.e. TCPM called
--			 * tcpm_set_vbus to source vbus, vbus_source would already be true.
-+			 * When TCPM_FRS_EVENT and TCPM_SOURCING_VBUS arrive simultaneously,
-+			 * handling TCPM_FRS_EVENT above transitions the state to AMS_START
-+			 * with upcoming_state FR_SWAP_SEND.
- 			 */
--			port->vbus_source = true;
--			_tcpm_pd_vbus_on(port);
-+
-+			if (tcpm_port_is_source(port) ||
-+			    tcpm_port_is_debug_source(port) ||
-+			    (port->state == AMS_START && port->upcoming_state == FR_SWAP_SEND) ||
-+			    port->state == FR_SWAP_SEND ||
-+			    port->state == FR_SWAP_SEND_TIMEOUT ||
-+			    port->state == FR_SWAP_SNK_SRC_TRANSITION_TO_OFF ||
-+			    port->state == FR_SWAP_SNK_SRC_NEW_SINK_READY ||
-+			    port->state == FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED) {
-+				tcpm_log(port, "sourcing vbus");
-+				port->vbus_source = true;
-+				_tcpm_pd_vbus_on(port);
-+			} else {
-+				tcpm_log(port, "Discarding sourcing vbus! Invalid state %s",
-+					 tcpm_states[port->state]);
-+			}
- 		}
- 		if (events & TCPM_PORT_CLEAN) {
- 			tcpm_log(port, "port clean");
-
----
-base-commit: 45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
-change-id: 20260827-sourcing-vbus-9f87cc4b6257
+Probably I got confused... but I had impression the ST patches were
+adding here "reg" property, no?
 
 Best regards,
--- 
-Amit Sunil Dhamne <amitsd@google.com>
-
-
+Krzysztof
