@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9896A3502A3;
-	Thu, 27 Aug 2026 12:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A5A35E1A8;
+	Thu, 27 Aug 2026 12:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787835264; cv=none; b=SApk4JuWQMU/2LA/sYT34Egx72r8IZrxID5hqeG6gzVbImYJtqWVWKTkFbwCUSTgVHzTZD8NkyeD26Op3ZFDTYxQ30bwiUR5hLQ8WTMtYjBk3gydpqW37v3nnBMzvTsc3SrLOPlutvb3OuonIAwLmAqobi3nVUilq0IcoNaMEOQ=
+	t=1787835302; cv=none; b=laku+vicH2q/Vv78TDQRr9PAuX6ajg6w1aYzCQy/S4nd3RS2noZE/cBC61ADEHtqCKtr/AUfZW7xHG7/ljJ3P2poILJ2G0NmgIRnsfhnWQzy/X2wx0PSuyWQb1m6hdjEq1OAGDaX9qg/ugjxQGe4psEf+FOiqcO6NDQ0FpdHtAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787835264; c=relaxed/simple;
-	bh=A0/qap9UcAnSVxZ5ThI7uhhvqHWcDg8LWFbKS9aK/70=;
+	s=arc-20240116; t=1787835302; c=relaxed/simple;
+	bh=U7C7BGMQfeCN0ZLAIAJVcxIudB1QZqmK4amq6u8Djtk=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=S9j1TnKV8tE6jWKJugHe4vGmoovbWP8KxnFVJ7Hl+dtVZXCNTvCKJeQvAGNIY3oU+kUiVWZ8w6Ix2lWaXBf3Fxkf3P3ftOxwZrk8BOMAWiVY3Ulc0lSXltBcvKJmd9jYI7rl/6KR1G+ywJvAVnjUzOI2xrFcW8LToBLfiNNoFY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONpxtrfQ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=jD1URSOI4VZKj4sOBQGI2w8laXRcdDH5uP4hMN+8SzJxQtf+2S7mC+e6WuJDa6YEa26F0Pq7XsropzmAp0igpUaGchcl5hJR2GZzv5/aScHpdqhdcE6tuPoJh9/Ij+hQz+Kf+4ZPznMexz93XyqSe2VCNFM//T0Z2LTFDnIBDhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rv4x/ZaV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONpxtrfQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714831F000E9;
-	Thu, 27 Aug 2026 12:54:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rv4x/ZaV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 715881F000E9;
+	Thu, 27 Aug 2026 12:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787835249;
-	bh=QHoz3+dW3lmDZqwR40fXQYUTjQnfABthjdrZbUjdxbM=;
+	s=k20260515; t=1787835272;
+	bh=Uab8XixMvl9fuY0KTPgI320rplR35se7Iqz6tpNjBCE=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=ONpxtrfQma7sxTDXhoAsRq6MYVtzajmL1GgXgW3j/bivlBBZqiIf2NsJQ5k/51ZIA
-	 ja35rCBrsr1Xxtwrv7l/rOnIsJWivW7mrB0gTXnVEcG4JlBvbCGC5FHGQnCYmYLSJC
-	 gw4PU4icYTz+ftqgz9WB194GH03/hTW7foigud3UoNnt8OTPvj1ALofEJfGLiicT8Q
-	 hwNpmg+SgLjfssCBmk22bKdb0UN8SOgF2m4h6Cj5U3NZbdhj68qEwRPyzNH3t7/1fF
-	 f5l8Z269mgiLtqxa7a6woEiDMOg9qd7HojqRxSacfOzA921xAG+iQ8o1R+BUFcOu+n
-	 4bCYCrwtWCbSg==
-Message-ID: <7a16614a-bd1b-462a-be13-4a9c22aa588e@kernel.org>
-Date: Thu, 27 Aug 2026 14:54:01 +0200
+	b=Rv4x/ZaVFpTSo4AHkZkrENSB9tv5PXzGFPfMZWB22kKGvg8QgDIVS57Icl5/o9njd
+	 0riRj0Wh4BWBdImoNQ9Ev/fFw2D8XnYa/neEZ/ZjFsXspHFQhVJcrWGYnE4Z0/iEGm
+	 jiz94IUyYRGs6BSJzBCORdG/BcTEBnskLp29463UdYEUT5i7l83wWiVKCSvCrVW/k+
+	 QokL3jaZxJdmhoxbPvgFibVrFnEzJP9xaFX8mN0Y2h8W4GYgdCn4k4uqwVmUdK4nBm
+	 95het6GEaNUA0huXs5y/UjuH6qvPlGI+mnHoXOLMkJdN+4f5twFjO0ybTfKDQ7yHAC
+	 ojTbJU4UM1AEw==
+Message-ID: <1a534147-b183-41d3-9c35-4b0e7d0ce15e@kernel.org>
+Date: Thu, 27 Aug 2026 14:54:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -36,26 +36,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v3 1/9] dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO
- PHY
-To: Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org
-Cc: fabrice.gasnier@foss.st.com, Pankaj Dev <pankaj.dev@st.com>,
- Rahul Kumar <rahul.kumar05@st.com>,
- =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Conor Dooley <conor+dt@kernel.org>,
+Subject: Re: [PATCH 12/16] dt-bindings: phy: stm32: adapt usb2phy as syscon
+ child on stm32mp25
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260822074816.548662-1-marex@nabladev.com>
- <20260822074816.548662-2-marex@nabladev.com>
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Marek Vasut <marex@nabladev.com>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
+References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
+ <20260821-ucpd-host-fusb340-v7-2-rfc-v1-12-c5e27cbc0795@foss.st.com>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -100,37 +98,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260822074816.548662-2-marex@nabladev.com>
+In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-12-c5e27cbc0795@foss.st.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/08/2026 09:46, Marek Vasut wrote:
-> +description:
-> +  USB2 PHY block in STM32 is attached to USB 2.0 Host controller and
-> +  USB 2.0 side of DWC3 DRD controller, and provides the USB LS/FS/HS
-> +  connectivity. Both PHYs are the FEMTO-PHY, but their configuration
-> +  bits in the system control register are different for each variant.
-> +
-> +maintainers:
-> +  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> +  - Marek Vasut <marex@nabladev.com>
-> +  - Pankaj Dev <pankaj.dev@st.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - st,stm32mp25-usb2phy1
-> +      - st,stm32mp25-usb2phy2
-> +
-> +  "#clock-cells":
-> +    const: 1
+On 21/08/2026 18:23, Fabrice Gasnier wrote:
+> Adapt stm32-usb2phy since transition to syscon child node on stm32mp25.
+> This is a temporary update, as it depends on Marek's series [1]. This
+> should be dropped in later series revision.
+> It's a precursor to validate further DT addition on USB and Type-C.
+> 
+> Allow usb2phy to be a child node with reg and unit address.
+> It replaces the st,syscfg phandle.
+> Also adapt the example, e.g. stm32mp25-usb2phy1 address, clock and reset.
+> 
+> [1] https://lore.kernel.org/linux-phy/20260816213849.1044073-2-marex@nabladev.com/
+> 
+
+Why PHY patch is squashed into USB patchset? Do not mix up subsystems.
+
+> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+> ---
+>  .../devicetree/bindings/phy/st,stm32-usb2phy.yaml    | 20 +++++++-------------
+
+There is no such file.
+
+>  1 file changed, 7 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml b/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+> index ab6c943af9a2..3e8f57a46db3 100644
+> --- a/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/st,stm32-usb2phy.yaml
+> @@ -23,6 +23,8 @@ properties:
+>        - st,stm32mp25-usb2phy1
+>        - st,stm32mp25-usb2phy2
+>  
+> +  reg: true
 > +
 
-As pointed out by different patchset built on top of it, this is wrong.
-
-I do not understand why Fabrice Gasnier cannot reply HERE that this is
-wrong and instead another patch is sent for in-flight code. That's not
-your Marek problem, but lack of responsible review from ST...
+NAK
 
 Best regards,
 Krzysztof
