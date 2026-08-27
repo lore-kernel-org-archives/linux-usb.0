@@ -1,112 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp153-165.sina.com.cn (smtp153-165.sina.com.cn [61.135.153.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7542D259C9C
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 00:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195F225333F
+	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 01:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787789902; cv=none; b=nqYBXJw9LLg2D6biCK42L8yW5m6Z13QpimhzynJQ1wUBUI9m4rI4uHJf9Vp8FpVsKdbuzj+ed1KDJPtTt2QRD49/krui/ikZDZPfLNqEOP3xFybMb9jYBg5r3ysE49N6okA30ZnpCKjBy01rTMHbhs2VFcpvqDV1PTfHIPh3MDo=
+	t=1787793728; cv=none; b=kgxfp86NK9/vmzqca3iCFhQa2mD14Y+s4IxF4ipkEXtBEy5nvmeWU7F3ta08R7QTT494Au2OLtNzofKSr2d9TVx7L5oq2xddy98AV1uXsjhE4wo1jDd/5rPMcgtDQ6d7IrmRXMHKB8E3hGiagSv7oTvhpa7qkQLpUg0jOt/A4OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787789902; c=relaxed/simple;
-	bh=txaV0Yx1LpqfFzoxuh95Pfymkl4nzpNGzDci6aTOHS4=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TMjoSK58oPCLOuel72Av0lebkjWyFyGYP9HK0QAWAT8cvDSnEwHSmh8u0cF4v3wG/lPhjW/boQM1wOnp9RGIyB8amk0yu3j6Ti3OuYy9EVbn3kwXQTcIwk+ivNU3vTUD1FUvWoeBKd2laZRm3sTp66dgZ7wI3XTIC8vk7lswd1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O16TzT6M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787793728; c=relaxed/simple;
+	bh=yhf5Ls84xb0/YZwUOsBoga31kGHBT2Vd0FH8biQ6HaY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=F+WXZFNdeZWzeJitiZKy7FmIQz4S9azzAO5R1/C1pJkRM6QZ9gLguIhJTrmos5vHCSnjai6iREDOEdmildjSMpUD+uc55JOw38KT/0VwNCw8S3+jyBp9gdyWNAsXgi6iwJUcMncDjxU/RIcF3+n8iLbrsfKif8Uk87nRtONnZW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=GM5dfmNY; arc=none smtp.client-ip=61.135.153.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O16TzT6M"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D045C2BCB9
-	for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 00:18:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787789902;
-	bh=txaV0Yx1LpqfFzoxuh95Pfymkl4nzpNGzDci6aTOHS4=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=O16TzT6MyrXVCByfZmCG8kNaOwbPpSwnZYAI4xR8mSp2tbdstTfcelTsHJ9xoMnCC
-	 uNyOWZfjKWi+cdNyJjoI7J5s3c/OstZ8FufLJcWjqceGGvSD8DU/AYQHutimFyKyac
-	 aSZHTUcXh/V8GykuxAhU1cHcKdBsDElQMGWC9KGkr/t651XELPRxZU6GYCAFUnAHEi
-	 xgbKB/GKoaCY+xQ+Vw3x0sv7u0WgIDZ2R6uhDJqU0YyiPMkJa7NF5cpLKuxwYR7qPO
-	 lKN0B213KM9oZji43f99G/UjTK11lP90u9m8cQ+xNwisII4gOWzJ6xx7IqldVJqJGr
-	 GokOCgI8OdofQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E737FC41614; Thu, 27 Aug 2026 00:18:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220936] ASMedia ASM4242 USB 3.2 xHCI Controller gives command
- timeout
-Date: Thu, 27 Aug 2026 00:18:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stuart.a.hayhurst@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220936-208809-kxf35QnXza@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220936-208809@https.bugzilla.kernel.org/>
-References: <bug-220936-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="GM5dfmNY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1787793721;
+	bh=69qLh8EeIZ5aLPcwqXu/mKGH3VIeMnWhYQZeUdr4/RA=;
+	h=From:Subject:Date:Message-ID;
+	b=GM5dfmNYwDfdBoNoofd12YJMb6px1VRTK/W3paencj30e9mRR2xfwOkUKcETOxdPD
+	 iFqbd2tVnjmKw56tpA9LItAvHSa2lKRb8AvUBUe0CIEZAThQmcSW7D0FXr73DEnppf
+	 4n/iQ/kgtpKrBA+sGOjaI8dvB89o+EuGSMzQuAL8=
+X-SMAIL-HELO: lxu-ped-host..
+Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
+	by sina.com (10.54.253.32) with ESMTP
+	id 6A8F913200004E5F; Thu, 27 Aug 2026 09:21:56 +0800 (CST)
+X-Sender: eadavis@sina.com
+X-Auth-ID: eadavis@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=eadavis@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=eadavis@sina.com
+X-SMAIL-MID: 3743344456686
+X-SMAIL-UIID: 3FB25119A80B497392AB0B22052E266E-20260827-092156-1
+From: Edward Adam Davis <eadavis@sina.com>
+To: syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com
+Cc: gregkh@linuxfoundation.org,
+	i@zenithal.me,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	shuah@kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	valentina.manea.m@gmail.com,
+	suwan.kim027@gmail.com
+Subject: [PATCH] usbip: prevent priv from uaf in cmd submit
+Date: Thu, 27 Aug 2026 09:21:53 +0800
+Message-ID: <20260827012153.138991-1-eadavis@sina.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a8f1920.1d9ded08.62e62.00b7.GAE@google.com>
+References: <6a8f1920.1d9ded08.62e62.00b7.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220936
+The num_urbs is 1, and the request is not special, so it is not tweaked.
+After stub_complete() executes, priv is added to the tx queue.
+stub_tx_loop() immediately dequeues it and frees priv; the subsequent
+loop iteration then checks priv->num_urbs, which ultimately triggers [1].
 
---- Comment #9 from Stuart Hayhurst (stuart.a.hayhurst@gmail.com) ---
-Hi,
+Use num_urbs directly to avoid accessing the already-freed priv.
 
-Thanks for the suggestions. I had small amount of time so I enabled the deb=
-ug
-info and it seems that it does have some successful suspend resume cycles. =
-All
-the debug info also made me realise that the Steam flatpak wakes up (all?) =
-the
-USB controllers and then they autosuspend again, which is what was usually
-triggering the bug on my system.
+[1]
+BUG: KASAN: slab-use-after-free in stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
+Read of size 4 at addr ffff888034999db0 by task stub_rx/6028
+Call Trace:
+ stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
+ stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
+ stub_rx_loop+0x2d3b/0x31c0 drivers/usb/usbip/stub_rx.c:707
 
-I did manage to open and close Steam without any issue maybe 10 or so times,
-then I unbound and rebound the controller and it immediately failed on the =
-next
-Steam launch. So I suppose sometimes the controller just behaves (totally?)
-fine, and other times fails easily?
+Allocated by task 6028:
+ stub_priv_alloc drivers/usb/usbip/stub_rx.c:314 [inline]
+ stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:490 [inline]
+ stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
+ stub_rx_loop+0x638/0x31c0 drivers/usb/usbip/stub_rx.c:707
 
-> Passing quirks=3D0x20000 parameter to xhci_hcd increases the timeout
+Freed by task 6029:
+ stub_free_priv_and_urb+0x427/0x570 drivers/usb/usbip/stub_main.c:321
+ stub_send_ret_submit+0xecf/0x1810 drivers/usb/usbip/stub_tx.c:333
+ stub_tx_loop+0xe2/0x3e0 drivers/usb/usbip/stub_tx.c:437
 
-I'll give it a try and report back when I have some time, hopefully at the
-weekend
+Fixes: ea44d190764b ("usbip: Implement SG support to vhci-hcd and stub driver")
+Reported-by: syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=06fa667a0931a3430026
+Signed-off-by: Edward Adam Davis <eadavis@sina.com>
+---
+ drivers/usb/usbip/stub_rx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Does it also show up when suspending the system?
+diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c
+index 1e9ae578810d..85370b3bc600 100644
+--- a/drivers/usb/usbip/stub_rx.c
++++ b/drivers/usb/usbip/stub_rx.c
+@@ -606,7 +606,7 @@ static void stub_recv_cmd_submit(struct stub_device *sdev,
+ 		return;
+ 
+ 	/* urb is now ready to submit */
+-	for (i = 0; i < priv->num_urbs; i++) {
++	for (i = 0; i < num_urbs; i++) {
+ 		if (!is_tweaked) {
+ 			ret = usb_submit_urb(priv->urbs[i], GFP_KERNEL);
+ 
+-- 
+2.43.0
 
-I hadn't noticed it, but I'd only been able to test it on boots where it di=
-dn't
-immediately get killed by Steam autolaunching. I'll give it a try again, and
-also try unbinding then binding the controller again since that seemed to g=
-et
-the controller to fail on the next suspend / resume cycle (Steam launch) wh=
-en
-it was behaving.
-
-> Are you able to compile and test patches?
-
-Yep
-
-
-Stuart
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
