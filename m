@@ -1,204 +1,188 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FA23822AA
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 17:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2E0353A74;
+	Fri, 28 Aug 2026 18:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787939461; cv=none; b=IGwBsmqUj3pCfzs3c9tHMHBXp4OjAxogXMscwaEx2goUTcPgemmys0LXShAXjrruVY3giCJNXVi91l9AsZifH9S3v5pr80uuQPsLOapkPW/ltUZWi0cB1eZO8B81FuuiB8N5UCB0A+qCsKmzIEvoGAciwxxSdGXQiDCaQ1glqwA=
+	t=1787941469; cv=none; b=gXxCeIhxp1CDmbdiJi27b11RLxWsxscZX2Bm9c+/ms29moEbnn2zbMEP67kHgFxf5l+Q/CR1Pi+CJKDK3jSGq4Bo2t5gm1OzoMl5JWWx1jgQPWn8ziHxy2IigosYxaqs5zbi0XngFsPvPdOwVIghMpQ8Lr+EUtAInyYNdopLqW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787939461; c=relaxed/simple;
-	bh=rIQghz1DdBqWmQCzB2UZAKvYVAzvTlzPkeyezBhS2hM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hO+jI+/V/i0bet6bB01ab504boCbAEfjQK2VON9ni5BI/2l5XlNF6FSLehJofftxsrn/fMKCmwfj9DQE4l5OHUnKYZQJ7CfCJvMEOcZ+4und60yZ9KOmGpjJ7AQ3e6b7Nu+eJxUqPv+WzbXEs4PtI3TKhOgcV059Joyt1rcbakY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KIjSZK74; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NIp5mvcR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787941469; c=relaxed/simple;
+	bh=rRAjI+E54HifwY+wCFY2p/lBznJUa27ntiEiBqTO+R0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qliyW7/+fuH4JBhIPPePAAHrjHPh2vUP7rHF76nhdyIPZdc6uNE09Q6EIrL5zif8x1xU8galRxX81Bu+Y0HtssSt8bzj8mXfvMcYrFL/ivmalp/BXNuyUQwIO2NlV1iA1ib7BaNN2GIG/pIjoO1HbIXDDja+Z6lCINmUnTzGX3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WN/n1R2f; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lCoRsHUW; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KIjSZK74";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NIp5mvcR"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67SGK6qo3418635
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 17:50:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	v/OxxXV9WtxfoOsHrFSeDk4/H9j66TfeNbkxSbwQuzw=; b=KIjSZK74jDbrkl6X
-	sFtBt8IqND77X7UIXtKK33M5WQbN56AdcNzvWsp/uYLfKD8H1EL52xzqL1UFZMjn
-	uMsKw+fEce6lilkYuuR74yxa0ERjCQMb5L21QsypQuo2So591WTUT6vLQ7g6CNX3
-	ITjWhIIa3vENHANfOX0B6po5j7pJKo39u0l4aNHbuABV2TkfNICvzHytf7iB/lEk
-	ecDd20JUWTgtgRnaSJCPs+33ymh61bC8vls794CA+40FN4Wf+dvAP3hLzahsv5CX
-	ik5rjBDRPXzs4j/3qfphrvc30SzOj2Og/5hL6ZJZ3mUFWrF7c3VdpPABW2ZlZ9l7
-	0fqtQA==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gb1v3be6f-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 17:50:58 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38e22137fb3so2197044a91.0
-        for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 10:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787939457; x=1788544257; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v/OxxXV9WtxfoOsHrFSeDk4/H9j66TfeNbkxSbwQuzw=;
-        b=NIp5mvcREgpYBbkTbG9qe2Vl8GUdeUhB9AzQlYXSr5UlWslaWqo0FoZvXda9Dr5mC2
-         ety4Bs+8CtwWNMlyr+QQSZXiICUwJ5jviibQ3VFJVnId2Qk+sHR81u4F+g4KAgFKgXmb
-         Ozw2zUFt9/pOX/2ZDRjdlEDabUtfrqrftr0eTKuruoqMRnDWrC4Wj5bh6x0k8mvEFh3g
-         dXzsEFDo0MqBEVwdlapRLinBMrTh2phivh0QCdAZuD9NIKjAG7OFVd2hpW68mjW+UTeC
-         5ZjmPCgy65p+qUCKtTdgOd0US7GBoQoevtN/tFpo7ytTdMdFx48hcik3V8XbSw3yF1EQ
-         VDWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787939457; x=1788544257;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=v/OxxXV9WtxfoOsHrFSeDk4/H9j66TfeNbkxSbwQuzw=;
-        b=Mq7PXF9EVIFyV/m7J/mzvZIhpnlI6TTbob61/6b31BeWfRJBUF+0Q8jGjne2lGTT/Q
-         0ukEOR4KgCobvfxHx5HyIMUOw93qt1lv7AYafzB9PhUe+OxMAq+qkkSS0+EqFcE2OTCa
-         HKxMdOsk+w3A/rYkX2L63kcXeMmm3JR2HrNBLei0cdcYzTFb8waoX36v61cia7KPwlqm
-         iRPMCOoIiQIZzaiTkT+EYxcxCXuUGWh+1ZGiSvJOrfhvbAsTW2idrQRC0hCqILWmrq8L
-         IMlYMYFTC3g/wZrodBTDuBmLOWDi6b6JyWKI8ya0TUcb5KgSY60NLzhbyvJZ3y9SGMwg
-         BS4A==
-X-Forwarded-Encrypted: i=1; AKwUvBxjVre2/Xk9Wm5p3DxOCuq1zXkH6/AWxwgqLpgZC73Sep/fyQo8qr6zaPGBxReOOI9fPnNJFZZVOb8=@vger.kernel.org
-X-Gm-Message-State: AFuF++msjGbQF6ub19df1WDyduZADYBVTeUUpcYk+iTJ0x8jbBQWumzs
-	al4o/19knFuhtEaW69NpqpAMKGBaUQC9oG8Ra+bYuM/lxoiKh0z1clxdI7D7KAyQvHK+R4aLUmT
-	ddHHuPDp53USJ9oIUo2WM7+XibAO6fM3BbkrfWiwsVEdBKzAyue4WkX/kC0Air3g=
-X-Gm-Gg: AYBFou2ulsoBEAwZfbVHWx0NHcrgrlgzqU2kB80YCPARMEp/s+4XlzDTa1DQEIDgrat
-	pkv9PEqR4cAQjg45p76Bel86fDznizpCIFAILgdIlF2qtn4R6Ssp2x/GZlTJv/DAI1gwNdIfmO2
-	0kpKCUuo0Ao1/0kf2SiErTnpsKBvLGKZTzT9x2fWs0YYj9llMlrJYuVzmkB7hv5vJwghxS1xq4e
-	5R0jT1OAH5SI+emqs1KbUaBehH4xugY7dtsteZl9i+LJyeMS7DQcR2iynzVKa77+3IDdvbi4fU0
-	Hq35HV3CICTaaPZYI7uwsCbZdc5HfOa9rMIyU9pshzgIxSrzU65n++CYQTOylsU6LCx+9Qt0/Gj
-	QJJqZll5+ff9U1tjE/zn94ItOL67LO+t/K5sSVpSGJ8M/ApvJ1jrOHP+zK/7vKCFEn70=
-X-Received: by 2002:a17:90b:1d04:b0:398:9bd4:d13 with SMTP id 98e67ed59e1d1-3989bd40d7fmr2370347a91.18.1787939457154;
-        Fri, 28 Aug 2026 10:50:57 -0700 (PDT)
-X-Received: by 2002:a17:90b:1d04:b0:398:9bd4:d13 with SMTP id 98e67ed59e1d1-3989bd40d7fmr2370286a91.18.1787939456661;
-        Fri, 28 Aug 2026 10:50:56 -0700 (PDT)
-Received: from [192.168.1.5] ([122.177.243.62])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0fcfa3asm8082192a91.6.2026.08.28.10.50.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2026 10:50:56 -0700 (PDT)
-Message-ID: <26da98ca-8074-4116-a1cb-291f306f55bf@oss.qualcomm.com>
-Date: Fri, 28 Aug 2026 23:20:50 +0530
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WN/n1R2f";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="lCoRsHUW"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hWmxh1hrZzKmLq;
+	Fri, 28 Aug 2026 20:24:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1787941464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UiPol/RgkHdv2e1z3rus8Wikod0VrFjR9pZAE8QgYxU=;
+	b=WN/n1R2fAQVmDIRrSIH3a5bLnovTfd+KRbHnRP+dyTfdSg4saq6sRcNQDYIrmslYtbXp9B
+	9KXAPKWSgWf/UUymc1qkHwvzkTz0Jjb048y1IRhB7ZWa7BwuTX3UXQwHk8o8E+t6Ji5Nax
+	sMnlTu6H8oE+hfP8lbfN/JbEXl11F+XXPfkCu99Xi0hwk+spsFShcjzADePBBX0WlRD0OF
+	2I3E9E1mwk2J7Drw6uZQrUDvi4ylOJCCVq7hr2UQ5/cglr7AB97pKgfCboVQENUnK4cELj
+	YXOrruqJPftniRdZaSyLOPi8qXK7DzSGaZnDI592lBnyhrtemxbjOaPPsuqiYg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=lCoRsHUW;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1787941462;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UiPol/RgkHdv2e1z3rus8Wikod0VrFjR9pZAE8QgYxU=;
+	b=lCoRsHUWksbNfwM6fjODcqZ/+Vi4s98x1nLBr1Ci3rqlVP1IU6qPIfE2/aLtXVmUNADTQV
+	u9AlsUPnkQkJjjvYAbORzsxtBaTtFU8hvBas7nFXfc467hm1RAOruqandzVKgte/smPf7q
+	yBqi0nGAbUFtG8ccxm65gIQ1uixXRxM40oK/Tjmu0+9C6nfsL5yMI9GxmZaGrLtD2RafuN
+	2IfWIeiYxVk9L76Er4Kxpksj9ODdjAm2aIkKLJDNMxbPQ4HMbk59NdP3697nE+maZebUOL
+	gwm9oZfdiSnI3GwerGc+fjNcwbQr+bls9lWfRVK43IVLhRMyWxFaoY1Fl5zbnA==
+To: linux-usb@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v5 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car Gen5 DWC3 xHCI USB controller
+Date: Fri, 28 Aug 2026 20:23:24 +0200
+Message-ID: <20260828182415.388367-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: usb: xhci: add xhci-no-soft-retry-quirk
-To: Matt Eaton <linux@divinehawk.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260828-xhci-no-soft-retry-v1-0-b9c264b56601@divinehawk.com>
- <20260828-xhci-no-soft-retry-v1-1-b9c264b56601@divinehawk.com>
- <1aa6d82a-0d35-45a4-9ebd-1c3d8929e611@kernel.org>
- <CABUBpLfsjscV1-ftUPjKbL4EYq-9NSHYSCGJ_vqStM7k4FtkdA@mail.gmail.com>
- <14fd70cb-d07a-456f-9800-d3ece4039529@kernel.org>
- <CABUBpLfH+bi3Q5hD+WWG0QnyCfmQMRt9TkUN+zC1pvH44ez90w@mail.gmail.com>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <CABUBpLfH+bi3Q5hD+WWG0QnyCfmQMRt9TkUN+zC1pvH44ez90w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI4MDE1NSBTYWx0ZWRfXySsj3MiicRk7
- zWuQDsQALztGzsvlYh85xRIIirOn5UWg3IVT/Wa2Zy7fxhbNSrDaeQDx+rckZF8wRoIq8tbFpsD
- pHk0ai1rH14QT2viKEZyvmVOuWyBOXERP2mc7f8IbB0mm2d1nI/Jw1A7XNX9xvJmeToBCq2X5i3
- OFyCEQkbFteMFtwm1FDZNsqCIMMmJ54AAKuvZ8cLfeD9yoZt0ohXcr+MuZu0/pw/jiEMfNt07k7
- /Kk4mpVSBtlKC3LqB2TwcvTzp9eKxGRFAKuDXAdNdKzgtG8OYUNB0Py5P7Yx/cuef17tFD6dHVH
- 6JWcW8Tj/ERTlQ21fbG3pZxRjf30z50tLAmhh0yq+aSRLSv0DYPh7YWNJ3LaavvRusSIE0q8sNb
- G9VQcH8fOsf4BIONX1CmBBM/qlZ4jTQacIVfrviqDqN6u1ISotGLGOGaGUSFOOscUp4n8jfqtNd
- 31Fov7jSzg7NSINLi+Q==
-X-Proofpoint-ORIG-GUID: KOmgZxMIZ22r5YToXXTfL6d8RXYLmd-Z
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI4MDE1NSBTYWx0ZWRfX75hyD/q6peFS
- ypYNw+GPkAe37lbkr/TWXItJdjWdAJmFFB2SF28HFx+Lc8JDpszZqrNGe1GIOhk1P8dH6N/an3a
- GO1ry/LNEdIiqFSQN0UYsQfzyer1Kz8=
-X-Authority-Analysis: v=2.4 cv=faedDUQF c=1 sm=1 tr=0 ts=6a91ca82 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=Ypuo+zZCpu048z3kylcvuA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Chss0xDGAAAA:8 a=_7onyXRF9wsX3SFU1x0A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
- a=VZ1z_dUGxXw8Qzmhq9nZ:22
-X-Proofpoint-GUID: KOmgZxMIZ22r5YToXXTfL6d8RXYLmd-Z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-28_05,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0
- lowpriorityscore=0 suspectscore=0 adultscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608280155
+X-MBO-RS-META: f7ghc5jbexoh8g6s5g8bz3pk659zocgc
+X-MBO-RS-ID: 19b0700d4c8741c4a2b
+X-Rspamd-Queue-Id: 4hWmxh1hrZzKmLq
 
+The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
+controller with glue logic wrapper around them. Document the glue
+logic and DWC3 controller.
 
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+---
+V2: Rework to use flat bindings for generic plat driver
+V3: - Support one or two PHYs to correctly describe the hardware
+    - Make maximum-speed optional
+V4: - Use ref: snps,dwc3-common.yaml and drop generic dr_mode/maximum-speed/phys/phy-names
+    - Switch to unevaluatedProperties: false
+V5: - Limit maximum PHY count to 2
+---
+ .../bindings/usb/renesas,rcar-gen5-dwc3.yaml  | 76 +++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
 
-On 8/28/2026 9:37 PM, Matt Eaton wrote:
-> On Fri, Aug 28, 2026 at 3:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 28/08/2026 15:18, Matt Eaton wrote:
->>> On Fri, Aug 28, 2026 at 2:39 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>
->>>> On 28/08/2026 14:37, Matt Eaton via B4 Relay wrote:
->>>>> From: Matt Eaton <linux@divinehawk.com>
->>>>>
->>>>> Document the xhci-no-soft-retry-quirk property, added in the
->>>>> following patch.
->>>>>
->>>>> snps,dwc3-common.yaml refs usb-xhci.yaml for every dr_mode other than
->>>>> peripheral, so a host-mode dwc3 node inherits it and dt_binding_check
->>>>> accepts it there.
->>>>
->>>> I do not understand how this sentence is relevant. Please describe the
->>>> hardware needing this.
->>>
->>> I came across this while porting the UniFi Travel Router (IPQ4018),
->>> the stock Qualcomm kernel is 4.4.60 which predates the soft retry
->>> code. The command ring hangs if you disconnect the device while it's
->>> transmitting. Reproducible consistently when using USB to tether to a
->>> phone.
->>>
->>>>>
->>>>> Signed-off-by: Matt Eaton <linux@divinehawk.com>
->>>>> ---
->>>>>   Documentation/devicetree/bindings/usb/usb-xhci.yaml | 4 ++++
->>>>>   1 file changed, 4 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
->>>>> index 4238ae896ef6..5d67a41658f7 100644
->>>>> --- a/Documentation/devicetree/bindings/usb/usb-xhci.yaml
->>>>> +++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
->>>>> @@ -25,6 +25,10 @@ properties:
->>>>>       description: Set if the controller has broken port disable mechanism
->>>>>       type: boolean
->>>>>
->>>>> +  xhci-no-soft-retry-quirk:
->>>>> +    description: Set if the controller cannot perform xHCI Soft Retry correctly
->>>>
->>>> Why isn't this implied by compatible? Looks like controller's property.
->>>
->>> The xhci device is created by dwc3 core as a child device, and so
->>> xhci_plat_probe() is used. I think a DT property is the right
->>> approach, similar to quirk-broken-port-ped, but to set
->>> XHCI_NO_SOFT_RETRY.
->>
->> Linux driver behavior should not matter here. DT property for telling
->> Linux what to do is not the right approach. As I said, it's implied by
->> compatible unless you bring hardware reasons why it is not. Driver
->> reasons don't matter.
-> 
-> Will rework without DT property. Appreciate the feedback!
-> 
-If you have any upstream QC target that needs this, you can use the 
-following patch as reference:
+diff --git a/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
+new file mode 100644
+index 0000000000000..c8a770d7e0241
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-dwc3.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/renesas,rcar-gen5-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Gen5 DWC3 xHCI USB controller
++
++maintainers:
++  - Marek Vasut <marek.vasut+renesas@mailbox.org>
++
++allOf:
++  - $ref: snps,dwc3-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - const: renesas,r8a78000-dwc3
++      - const: renesas,rcar-gen5-dwc3
++
++  reg:
++    maxItems: 2
++
++  reg-names:
++    items:
++      - const: dwc3
++      - const: glue
++
++  clocks:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  phys:
++    minItems: 1
++    maxItems: 2
++
++  phy-names:
++    minItems: 1
++    maxItems: 2
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - interrupts
++  - phys
++  - phy-names
++  - power-domains
++  - resets
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    usb@c8800000 {
++        compatible = "renesas,r8a78000-dwc3", "renesas,rcar-gen5-dwc3";
++        reg = <0xc8800000 0x100000>, <0xc9c54000 0x2000>;
++        reg-names = "dwc3", "glue";
++        clocks = <&scmi_clk 336>;
++        interrupts = <GIC_SPI 795 IRQ_TYPE_LEVEL_HIGH>;
++        phys = <&usb30_phy>, <&mp_phy 2>;
++        phy-names = "usb2-phy", "usb3-phy";
++        power-domains = <&scmi_devpd 16>;
++        resets = <&scmi_reset 336>;
++    };
+-- 
+2.53.0
 
-https://lore.kernel.org/all/20260723-dwc3-skip-init-quirk-v1-1-97682bb44ebd@oss.qualcomm.com/
-
-Regards,
-Krishna,
