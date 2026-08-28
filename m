@@ -1,114 +1,76 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A80449B2F;
-	Fri, 28 Aug 2026 12:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A645317C211
+	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 12:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787919290; cv=none; b=PFRwP2cV9p5ID7fzp8Jcbt2CeMkjUgg1YOPX0sOYMYwJozwFy0VlYQv36G5VGOPDmVxc/D3gqw70lZOjMPjlvQgHSxEL3g++htIfvmge0ywJ9tZONar28x3SlqI2Sw2lBnNMB0ZZryBOGJXkh+9J5CGE9uKifV7U51a7yK6tTJU=
+	t=1787919594; cv=none; b=dgamf1zJrJfcLC6gnxKYLQpF8btD3tMr1hsuww/XjbhdaR7l5b6rn/FrVyhnKsY0qLPON/fQzI/HGnSlJPCpnqjeMehLPSMKbYhABT1k1F2g5vA9atVaDG+ztO//ZhDK72VbHfKxG5QBr58GYq3mQ1UrkC1XkrXdMJnYiwbHJWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787919290; c=relaxed/simple;
-	bh=P/m70n2jgQfbGmIHTqiYcqbL5X6LYUYH4JoBQU3+Ric=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NQiC4H460iHUClxS57Hegzj3HlYDeIXUxbWFm9Tr2KQqFzaWc8kkuVMMvm3WzMJst68l8dYeaF/Q9vQbmNktonvXaahuXV3k5TgvAI9N6LIEtlauVvez3IkG4wawwowV51X67ui+0zYzOCDWtnnAIL6godG/HJ6b1sqU/oBk0QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ZNaQRRzJ; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1787919594; c=relaxed/simple;
+	bh=r0zsjWtnL0Py9D9YrddnHzB6TOqGGUmSgGPEybwkyHY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QVRsISVsQGBgGW+WeNkeC4FfE0WuN9azjFRlX8oHu03mdAJQn7o6jieZRqXBWbb6IhSq4pnNcKvim1DPr7OW/KOnUoWGL65G+/LGBWcvkfBfYazMsRPu2xDMpBX373jh/RWIrl5gexeKg7LInOJZfJkMFfMKw5wh3ePN0iw8z1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oH3EOKSa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ZNaQRRzJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=msvDF/LcXKGcuEENSdT1nkJoOjtd4vV0hLHcxOpOB/Y=; b=ZNaQRRzJ6UqWH8EuUm79pM+zlc
-	Gd/esYsnOYqhYI2iVEjEAB9i584MruJIlnem5CqaHGU91jt/WCjkeZkjmFXrHJUSnZDFduLW8eGJp
-	rX7r+7aPLUk1s/t4EQRVmgTWA6kua4gZrfcjhwKNrUTUxrtQ+ufikb7K1ZHK2CFu77NrZqcfJHtR/
-	iDkE/JqPz5aLRXLLkTdg14II7gx05qL8vtvlmJgtP0LgJptN2vCP5jB6ar0H9s3eBGghQMNQIpTN0
-	E1uPFBV6EFZLTCYRnie2bgBGB7XIXR+FNA3jBpjk+IpRMDHxpQyaBvV+Gex6C+IDq4carWtV8SN3Y
-	5hnak8uw==;
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Rudi Heitbaum <rudi@heitbaum.com>
-Cc: Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: onboard_dev: add the Rockchip rk1808
-Date: Fri, 28 Aug 2026 14:14:22 +0200
-Message-ID: <4512468.iIbC2pHGDl@diego>
-In-Reply-To: <apFpPP1O45BWXDv5@5be1eda4e59e>
-References:
- <aouw7rH6FZxscUTO@0d3a7a881997> <5096877.GXAFRqVoOG@phil>
- <apFpPP1O45BWXDv5@5be1eda4e59e>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oH3EOKSa"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9EBF0C2BCFC
+	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 12:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787919592;
+	bh=r0zsjWtnL0Py9D9YrddnHzB6TOqGGUmSgGPEybwkyHY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=oH3EOKSa0GfCIZ8IHxJcSPu83d4AZjRKQeIszVz7sE0ZtGB6arOrshlkFGJa8xZuT
+	 WpHPI23os+XJ5FrRqWm+2mMbbUAfTWQPsvvSqguvjE5l1aG0s7PJ9mUYLEdkhCnD8l
+	 snRTAgSolj9BuBRLUSWEOCWBtIoRwFMHnypU4dFIO8hI/fM+rJ38+/yoRJa80oALl8
+	 8F9bHvT2Eh5f1qqdvCuVJu462og8iOuJ2yowMvhVnSu3rCSl19Oqw33+HeJE2PS36O
+	 5wyuE9GUbyUvnADWn9VQzaqmaON6BjUhs3Ktma5G5II6EXnFRq/qKPsqLT+d9NwXyf
+	 XllWbkpe6GryA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 8C030C53BC5; Fri, 28 Aug 2026 12:19:52 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
+ polling of USB devices on AMD platforms
+Date: Fri, 28 Aug 2026 12:19:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: voltara@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-221103-208809-66PZfc2MVj@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
+References: <bug-221103-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Hi Rudi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
 
-Am Freitag, 28. August 2026, 12:55:56 Mitteleurop=C3=A4ische Sommerzeit sch=
-rieb Rudi Heitbaum:
-> On Thu, Aug 27, 2026 at 03:25:23PM +0200, Heiko Stuebner wrote:
-> > Am Montag, 24. August 2026, 04:52:02 Mitteleurop=C3=A4ische Sommerzeit =
-schrieb Rudi Heitbaum:
-> > > The rk1808 is the npu die in an rk3399pro package. It is wired to one
-> > > of the usb3 controllers rather than to an external port, and it needs
-> > > its reference clock running before it will boot, which is exactly what
-> > > this driver exists to do for onboard devices.
-> > >=20
-> > > It takes no supply from the driver: the rails are sequenced elsewhere.
-> > > Only the clock matters here, and that is already optional and handled
-> > > generically.
-> >=20
-> > the "elsewhere" might need a bit more explanation to verify it's the ri=
-ght
-> > implementation. Even if the regulators are always-on or something, we
-> > still want the supplies defined - for future uses.
->=20
-> As follow up on the bringup of the Rock-Pi-N10, the proposed change to th=
-e dtsi
-> for the rk3399pro-vmarc-som is here, but needs the provision of the usb f=
-irst.
-> https://github.com/heitbaum/linux/commit/6b114b6fff4022c330003d7f70ce0991=
-5ffd774f
+--- Comment #29 from Andrew Skalski (voltara@gmail.com) ---
+Created attachment 310747
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310747&action=3Dedit
+lspci -vvv from affected wrx90 system
 
-I might have formulated that strangly, what I meant was, who is enabling
-the power supplies.
+--=20
+You may reply to this email to add a comment.
 
-The "NPU Power" part of any rk3399pro schematics (should) list 5 power
-supplies for the NPU block itself:
-
-NPU_LOGIC_VDD
-    --> regulator likely named NPU_VDD_LOG_S0
-        --> enabled by NPU_PWREN_2 gpio fixed regulator
-
-NPU_EFUSE_VQPS
-    --> regulator likely named NPU_VCC1V8_EFUSE
-        --> enabled by NPU_EFUSE_EN_H gpio fixed regulator
-
-NPU_CORE_VDD
-    --> regulator likely named NPU_VDD_S0
-        --> TCS4525 regulator with voltage being set via the i2c controller
-             inside the NPU - but enabled by the NPU_PWREN_6 gpio from
-             core RK3399.
-
-NPU_CPU_VDD
-    --> regulator likely named NPU_VDD_CPU_S0
-        --> enabled by NPU_PWREN_4 gpio fixed regulator
-
-NPU_ADC_AVDD_1V8
-    --> regulator likely named NPU_VCC_1V8_S3
-        --> enabled by NPU_PWREN_3 gpio fixed regulator
-
-Naming might vary, I found just some EVB schematics.
-
-Someone needs to enable these, so the question was, who is doing that?
-
-Thanks
-Heiko
-
-
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
