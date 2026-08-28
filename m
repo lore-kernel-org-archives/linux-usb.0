@@ -1,67 +1,115 @@
-Received: from server2.peakatel.com (server2.peakatel.com [102.130.118.9])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4B1181334
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 10:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=102.130.118.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C903BE146;
+	Fri, 28 Aug 2026 10:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787912666; cv=none; b=bHl27n4f0fVkG/37uXOoepRawRbUb+nH/6payZDodWLZse9cuTUCMyrbGnGJAYMvgs5Ke0OF4QxUVWnfzj4oc8DAWi1b6nPHwxcxPn7FNYKBPdGdwdO5ndPZCKP8Aa/ZpmyWfU0zn47f8k166yFMgyRizETMt2afyq/AayXIceo=
+	t=1787913113; cv=none; b=WiAGHwdfe6JygUXS2QsvN3KG0MwPydQlUavt5RYuZwAA+QGF7IsrzqoZeoa0GkZcKkw+FVew9hnJnsT4ZtS8+fhaHq1Zc/DO7cEcGo6tiFkv8QgjaTur3v3kQbdT1ePfopfbfJlXRnT+S1wHPL77q212MFIHjv/NemPJ83ma9Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787912666; c=relaxed/simple;
-	bh=JaouZ2JFyD6mM5cLBRbJpXpzUQ6r1jPNxEQkP+RtYJ4=;
-	h=Message-ID:From:To:Subject:Date:MIME-Version:Content-Type; b=Rrj4LYNJV5zTF2RYAmgV9XewKFfFaIy2rW8svYcvNkXNqE9DBzNvXHSZoTzwhhglh0E/H4wtSAncaIzCJPfoIqIS8dsrNq5ZLXxbsGyl/iuCliC7H1YrawbewDfer6UWU9xvK7F9rQWAN3OmYlBVQ+gXCO08cwnPNTkq7riq7V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=snyc.org.sz; spf=pass smtp.mailfrom=snyc.org.sz; dkim=pass (2048-bit key) header.d=snyc.org.sz header.i=@snyc.org.sz header.b=SKA0SDV3; arc=none smtp.client-ip=102.130.118.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=snyc.org.sz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snyc.org.sz
+	s=arc-20240116; t=1787913113; c=relaxed/simple;
+	bh=tycX6rDGVDnqUzXGzft8UrFrEKQ7OK0AvtUifPdMAF0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kjhQ4cHMvIY9fu6Sb6HzbZTyfLDjclwRY8Ez+/9rzKAaNIbKAZF3uvxOIdVplXG44ys1cmWbNEX9Ik5MkwThP7N2i/NjZiKm89aJlI1Wyp2FtahiD9Iq0sVCbygy4RvOFFMnfDxV9z47AsgAxVkrqycNMdNJcragFBrvUJOY1Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ctmxte7V; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=snyc.org.sz header.i=@snyc.org.sz header.b="SKA0SDV3"
-Received: from houmdiz (unknown [185.184.171.186])
-	by server2.peakatel.com (Postfix) with ESMTPSA id 9E153A743C
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 12:14:38 +0200 (SAST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=snyc.org.sz; s=202304;
-	t=1787912079; bh=JaouZ2JFyD6mM5cLBRbJpXpzUQ6r1jPNxEQkP+RtYJ4=;
-	h=Reply-To:From:To:Subject:Date:From;
-	b=SKA0SDV3KxRSZczJ12bK1R4TB4q9GmKLaKuIE5FIGpQHvFQtuCjUIQg5jxd0EAye3
-	 gsDl+2pAATC991vLFBCZTQ69fu+Wtmc3YAjadS8hPeZNLP/eyvC5d9j1G3mBcwtyQw
-	 DC2vNVrkVrCkbckOIU200RLJZGzcKQtBVGBW1/LND+Nd2x8omJTbD8o+VndRhqFWjF
-	 tfRE74FptAlKxdw04AUpISmBg78y5jYbx02Cd91g+yw+LErZyJS4v1H/A9rAUCRARL
-	 RzdvTp+/PvWVdxM/+q/sX9WZReQXPTfaLpRXEKQ3BBoorcovq0XbTbIUfz8bJY99C3
-	 PNnw0BaTfxHlg==
-Message-ID: <a653cd8175b1f8b3903ee74cb87953596d008859@snyc.org.sz>
-Reply-To: =?utf-8?B?0J/QvtC90L7QvNCw0YDQtdC90LrQviDQktGW0YLQsNC70ZbQuSDQntC70LU=?=
-	=?utf-8?B?0LrRgdCw0L3QtNGA0L7QstC40Yc=?= <kahc@vimk.com.ua>
-From: =?utf-8?B?0J/QvtC90L7QvNCw0YDQtdC90LrQviDQktGW0YLQsNC70ZbQuSDQntC70LU=?=
-	=?utf-8?B?0LrRgdCw0L3QtNGA0L7QstC40Yc=?= <ceo@snyc.org.sz>
-To: linux-usb@vger.kernel.org
-Subject: =?utf-8?B?0JHRg9C00Ywg0LvQsNGB0LrQsCwg0L/QtdGA0LXQtNC30LLQvtC90ZbRgg==?=
-	=?utf-8?B?0Ywg0L3QsNC8INGC0LXRgNC80ZbQvdC+0LLQviDigJQg0LTQt9Cy0ZbQvQ==?=
-	=?utf-8?B?0LrQuCDQtNC+INCS0LDRgSDQt9Cw0LvQuNGI0LDRjtGC0YzRgdGPINCx0LU=?=
-	=?utf-8?B?0Lcg0LLRltC00L/QvtCy0ZbQtNGWLiAg?=
-Date: Fri, 28 Aug 2026 13:14:36 +0300
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ctmxte7V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=I4
+	N8gzh34TI4s9xtonIahAOEOyG3JFBd/5w0IEWxzdw=; b=ctmxte7VTqPZfHLDUH
+	qSPlOfreNlz3vxDreQ9CQ7w4dognsWsVp83ezPsYhkSNh4aF3tvtRLKwfkaLP37t
+	+LvNB1+AjJRcyctC4dkIQrHrkWNAMhJ30eyhcgs58+GBAaHN2pSbM9DSX7ZdT89C
+	53RzD6hQpvLn+zhaQPjjvQhSM=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAnfhtxY5FqOxmtOg--.5497S2;
+	Fri, 28 Aug 2026 18:31:13 +0800 (CST)
+From: oushixiong1025@163.com
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] usb: mtu3: fix double dereference in mtu3_log_ep trace event
+Date: Fri, 28 Aug 2026 18:31:10 +0800
+Message-Id: <20260828103110.893817-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgAnfhtxY5FqOxmtOg--.5497S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJw15CFyxXr1kWFW5Wr4Durg_yoW5Gr1fpa
+	yfuF9rKF4ktwsFvF4kZ34FyFZ0vrWFvFyrKryxu3s5Z3WS9FnxtFs7tryF9ryqkrWrCFy7
+	JF1qkryrX3Wj937anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UKXd8UUUUU=
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbC-hHzA2qRY3FYVQAA37
 
-=D0=94=D0=BE=D0=B1=D1=80=D0=B8=D0=B9 =D0=B4=D0=B5=D0=BD=D1=8C,  =D0=BC=D0=
-=B8 =D0=BD=D0=B5 =D0=BC=D0=BE=D0=B6=D0=B5=D0=BC=D0=BE =D0=B4=D0=BE=D0=B4=D0=
-=B7=D0=B2=D0=BE=D0=BD=D0=B8=D1=82=D0=B8=D1=81=D1=8F =D0=B4=D0=BE =D0=92=D0=
-=B0=D1=81, =D1=82=D0=BE=D0=BC=D1=83 =D0=BF=D1=80=D0=BE=D1=88=D1=83 =D0=9D=
-=D0=95=D0=92=D0=86=D0=94=D0=9A=D0=9B=D0=90=D0=94=D0=9D=D0=9E =D0=BF=D0=B5=
-=D1=80=D0=B5=D0=B4=D0=B7=D0=B2=D0=BE=D0=BD=D0=B8=D1=82=D0=B8 =D0=BC=D0=B5=
-=D0=BD=D1=96 =D0=B7=D0=B0 =D0=BD=D0=BE=D0=BC=D0=B5=D1=80=D0=BE=D0=BC (073=
-) 641-73-44.
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-=D0=97 =D0=BF=D0=BE=D0=B2=D0=B0=D0=B3=D0=BE=D1=8E,
-=D0=9F=D0=BE=D0=BD=D0=BE=D0=BC=D0=B0=D1=80=D0=B5=D0=BD=D0=BA=D0=BE =D0=92=
-=D1=96=D1=82=D0=B0=D0=BB=D1=96=D0=B9 =D0=9E=D0=BB=D0=B5=D0=BA=D1=81=D0=B0=
-=D0=BD=D0=B4=D1=80=D0=BE=D0=B2=D0=B8=D1=87
-(067) 995-08-92
-(073) 641-73-44
+TP_printk() dereferences the gpd_ring pointer stored in the entry
+via &__entry->gpd_ring->dma, which may point to freed memory when
+the trace record is read later. Store the dma address in the entry
+and print that instead.
 
+This is detected at boot:
 
+  TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
+  ------------[ cut here ]------------
+  Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
+  WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x138/0x140, CPU#0: swapper/0/0
+  Call trace:
+   test_double_dereference+0x138/0x140 (P)
+   trace_event_raw_init+0x350/0x5b8
+   event_init+0x38/0xb0
+   trace_event_init+0xf4/0x5c8
+   trace_init+0x30/0x6b8
+   start_kernel+0x4a4/0x8d8
+   __primary_switched+0x88/0x98
+  TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
+  TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
+
+Fixes: 83374e035b62 ("usb: mtu3: add tracepoints to help debug")
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/usb/mtu3/mtu3_trace.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
+index 89870175d635..041e730c88a6 100644
+--- a/drivers/usb/mtu3/mtu3_trace.h
++++ b/drivers/usb/mtu3/mtu3_trace.h
+@@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__field(unsigned int, flags)
+ 		__field(unsigned int, direction)
+ 		__field(struct mtu3_gpd_ring *, gpd_ring)
++		__field(dma_addr_t, gpd_dma)
+ 	),
+ 	TP_fast_assign(
+ 		__assign_str(name);
+@@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__entry->flags = mep->flags;
+ 		__entry->direction = mep->is_in;
+ 		__entry->gpd_ring = &mep->gpd_ring;
++		__entry->gpd_dma = mep->gpd_ring.dma;
+ 	),
+ 	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
+ 		__get_str(name), usb_ep_type_string(__entry->type),
+ 		__entry->maxp, __entry->slot,
+ 		__entry->mult, __entry->maxburst,
+-		__entry->gpd_ring, &__entry->gpd_ring->dma,
++		__entry->gpd_ring, &__entry->gpd_dma,
+ 		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
+ 		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
+ 		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
+-- 
+2.25.1
+
+No virus found
+		Checked by Hillstone Network AntiVirus
 
