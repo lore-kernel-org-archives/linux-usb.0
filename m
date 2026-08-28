@@ -1,122 +1,102 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75D32D0C7E
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 05:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787895300; cv=pass; b=AldvfNAMgzzvrfYYXeYJg1pawQ9uFR19XrwwzbShVble9TvwWyep7vVXGQs2xl2/rOk1mASHoB+zzVzXs77QBIY43ptdYY89WfFNzcTJefg1JedK6JxI3QW8ixUUgg+NqfsifjyY3G36QteppoAmWf409mJVFUezIZ3GWI/+uQ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787895300; c=relaxed/simple;
-	bh=sO5dSXBaHvsFXkX2Tziwa0K3ga1aeB/vw+imQuoh05A=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=c4bCSeCL+AcsUiCmrci+qHIDmv/7sBoNS9CVc0uxnI9EEZLYjXhWMPQbXqVesEjC3Gwr06jr6PuEbPW5gKaddnbZnjcu1ro8+BuJ55vBPlW1nZNPYLkmi0KAJd17hI3hdWoiDkM6sVHI5yr0vjjZP3Qb0UsE5OyeRgb/UNXrino=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=oPztFiqe; arc=pass smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="oPztFiqe"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3968e063f84so574958a91.0
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 22:34:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787895298; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fDthLt0ZPZgmW22r03hjuPc/h453Nngz+EHs7Om5Zwjac/wrko7MKNh9ucgZCI6xiu
-         smI4AmTASCEfoyRbworIxhjY8kKssI/a0irK7h7aBXuZyJB67VYcQneynAzgj1QHFuBS
-         mYPD3HsqtoXQmpulUxHrbANVY9cu3t1w15cNZY4gcu2aAEcR0Wz5/zsat/rcrcPOqMh1
-         ymoCdveFYJxPutE0dn/yODS2j9EV00DHe0EfQvUIZ5MbUUFtdbkq8jeXQtmLZvieFA2H
-         CDLnzqYibOlJusA4UwLaPHHfKtSK4rUrKu03+cVaqh8x3HIAq19ahtfMIzRpCGx0K5ac
-         q7cQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=MDPyu9NJUwBSIvoRoRLkuEmxgNNfQg32MOjandJIVTk=;
-        fh=z48fTMCKMPs/3ftW0otw9UWFJIfAVctXEaT34+GNy2s=;
-        b=XmGPQ7Hi1PLmLJZrxS6Ca6tUqXKy7BdJwSKPzWrx8NdIVbhHJmYwIItqSqU6Wc5mlN
-         YUrdDL1BpQAfQqFZ2yIt0+8JOlnE8TTUgvQyQ70m8ujOaPNtw7As19cGl7qv6JXNSqW1
-         dXqSGIDtajsxAmpYMqJ8gq2hZPZK3PlxWI6XZWhr6KYPepB8W8TIWp7FIbVpoy81OnUA
-         f/UoNDy5gEI8w1widrOzgMGFeJzeEjlzOT+Kdr+F7dIpzaMwDevlCKfJ9H67lBA2HiYD
-         AhxFDOyae5SEo4TxCssnien4pYDnsHjjkB36pCqZSJajHhyUUSVw00mWNkg0CDpBGvkB
-         T0RA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1787895298; x=1788500098; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MDPyu9NJUwBSIvoRoRLkuEmxgNNfQg32MOjandJIVTk=;
-        b=oPztFiqeU2/8NvmWKsButQVdy+hAjB+dV6W2E+EeysZVNDYSc1FjLcLGyaKui3MzUk
-         RYP3Cjcv1Jx6E0Ige019QdOz1T3JtvVDk004w4tbB4MWg1S2GCFeBKOeXurIDWIhoojz
-         7OzHN5si/8+0+BeMzEzMNNbBzktHkX9Qd2Ww3nq03WkJDLodw7ZeS+f8zxFo2gAh0U3z
-         R032LAjXPopmI6YvC4XkOraQj4Hvqhh3zwM5tiAtAW0qi0Z5oTuywClH572L0RA/+SrL
-         QyVImnK1IFwb7zO9PNNf7xbJfh9uhgJDKyrunlwvx4WYSXyujC/qij9jBjyhbnDZwktO
-         flbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787895298; x=1788500098;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MDPyu9NJUwBSIvoRoRLkuEmxgNNfQg32MOjandJIVTk=;
-        b=d5HOeUrgw5E5hiCHN51Iec1DcGTD8Q4RfPi5ZjkrBan6qMkY5K+U4TTZRjm9ovBtnX
-         b7OheuiXebfWKEbN/6Ej4iAIr34KXc1p06wON0Q+RNXWvKuzc1jdAVWxQ7Ze8Y5JQO5F
-         q1buSFjGA0+tDQXhNYXoLcJ4kiYYyvMa5d4Vqbee1/2nnaiOIf/EvXo90X7KUJ+CC20G
-         ZpK1KKgpGbcz8uNZanUrs4oJqKFOewfQGZPpZgCxTJQr7KB83CXwSChq+BI8Jztxrkff
-         G+yXVMpfRxjsQyVFY50BzmeDgPk8O1ecxfikFs5tC3btD2A8Q24BguvKFlZlhkO3JDal
-         cqTA==
-X-Forwarded-Encrypted: i=1; AHgh+RpzgDtDgSG2/jSi4Zm03ofImGexD0+nZSkr1JrR9f3275EQNz9iUXPNXMLaqBBf7oRSC5MgS9R/edU=@vger.kernel.org
-X-Gm-Message-State: AFuF++n6fPBLpWHGv3LfEEeDMEHNCCbadNaFujaVXRmII8YC9zHq7MR0
-	CPU0eFiCMfFCktz12ecxMpT6z5g4+6WMA+tgaWenQe7PszkFFU3adzai6O7TK9Xdsrt2EUB7oWL
-	J80Lg/5tiRD3QvBpE3t+WvDj5RUpu5B/UqMi06xBp
-X-Gm-Gg: AR+sD11+g+fEC3Rj5MxAu3scxiRVIwfN6IubyiPqK4XQRDnrGvrRz94fe1fzQODV7K8
-	9WeOEqDmZsd8TL68nJe/C1XoMsb80pWasN/nwKeVXNWz2wMlh5f0XdtaX0dE43o9TMzqTKaOvTt
-	Qsk2Pe4idssm3D6p06Po1irBqSiFquhgSBIP6bTo3slCLx0u7Y02/AB00/uiXilZBQa5ZmcCydT
-	d4BX4zufQRlzGDNpMiNiEKri0O+h8FLlGwO6ZFCEuULFwU2y6H+hd/kZhH7FVxipjd6Oji90EDq
-	tHBNws/pto41LisuwmTelCH9nXBX5Ktidtt/gqB24SBd0zKxD4gOoZzaymhfo21pUR/QcnNQ73h
-	sxC4veEtPh9kO0WM7zrfCMlQv9E4Y199pqg==
-X-Received: by 2002:a17:90b:4a8c:b0:392:6638:2e6a with SMTP id
- 98e67ed59e1d1-396d0f69d10mr7205264a91.13.1787895297054; Thu, 27 Aug 2026
- 22:34:57 -0700 (PDT)
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 22:34:56 -0700
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 22:34:56 -0700
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-X-Mailer: git-send-email 2.53.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB89A3AE713
+	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 05:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787895377; cv=none; b=nx+QWsG3kjWokCeF8Xw35ASsbrR1kEhr3W+eVBvP/sIcGct5KUziu4qKS73CUNPoXhGHcUGSdHqX26BIbi/OOzp6qy/QPKWT80TxXuB3xBw/bgSOA+6sCvgjGgBKUvMkp3xc9aiJEesES34GAu2OFL9sGW1zf6XUs3bCdw3L2V4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787895377; c=relaxed/simple;
+	bh=t9sIabV1uiTZnL8NOjqeEDzsea6FejLC2Qdu1B8lanM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X87k/QTV0uIdJyiPvuWpaZ0ZG5orG6oMBtSLVLIKN3iTUTr7dK5KzZRTFtMg6URP/W9ULzUfbtnhlVT6m7Fs7nI/+lRd4HDzRcN8imgjRKb9MBun2Jzl/dRn8waCsMcJ77W1tUVXs3hObMDHCA88bkQd0B5QVyjBEGInlFDxSRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A07FF1F000E9;
+	Fri, 28 Aug 2026 05:36:13 +0000 (UTC)
+Date: Fri, 28 Aug 2026 07:36:11 +0200
+From: Greg KH <greg@kroah.com>
+To: CO <co@bugs.sh>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [BUG] drivers/usb: out-of-bounds in xhci_queue_bulk_tx()
+Message-ID: <2026082816-jolly-unskilled-5d6e@gregkh>
+References: <CAPpSM+RJKziJf7enrZ5FMy-uxJp1Fy1M_acVXy+v3WskU7jJXw@mail.gmail.com>
+ <010001a04618ab57-c1bc8a0a-2b93-430f-989d-69a19d05d56a-000000@email.amazonses.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 27 Aug 2026 22:34:56 -0700
-X-Gm-Features: AcwNN1Wfzp6gNlZZMQnQaX8vcqcoxNhl1n6Biw_pymg2M1kxA9FjqGACk_v-958
-Message-ID: <CA+0ovCi63OBqOySpNgU5xND840CDhi3B1dp1QsxhmcOOo-7w1w@mail.gmail.com>
-Subject: [BUG] ci_hdrc_add_device -- KASAN slab-out-of-bounds reading a
- FOREIGN device's platform_data
-To: Peter Chen <peter.chen@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: falemi@asu.edu, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <010001a04618ab57-c1bc8a0a-2b93-430f-989d-69a19d05d56a-000000@email.amazonses.com>
 
-Hello,
+On Fri, Aug 28, 2026 at 02:00:17AM +0000, CO wrote:
+> On Thu, Aug 27, 2026 at 10:31 AM Xiang Mei <xmei5@asu.edu> wrote:
+> >
+> > Th
+> >
+> > On Thu, Aug 27, 2026 at 5:50 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Thu, Aug 27, 2026 at 12:43:58PM +0000, co wrote:
+> > > > We found a bug reachable in:
+> > > >
+> > > >     path    drivers/usb/host
+> > > >     crash   out-of-bounds in xhci_queue_bulk_tx()
+> > > >     commit  bd5f485f3f02 ("Merge tag 'soc-arm-7.3' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc")
+> > > >
+> > > > Config, environment, the sanitizer report and a C reproducer follow.
+> > > >
+> > > > == Notes ===============================================================
+> > > >     If you patch the bug based on our artifacts, a tag would be
+> > > >     appreciated:
+> > > >
+> > > > Reported-by: co+fd80bc5967eb22c3@bugs.sh
+> > > >
+> > > >     Everything in this mail is validated by the reproducer below.
+> > > >
+> > > >     We also hold an LLM-generated root-cause analysis and a candidate
+> > > >     patch. The patch passes an A/B test: the same reproducer panics the
+> > > >     unpatched kernel and runs clean on the patched one. Neither has had
+> > > >     human review, so both still require validation before you send or
+> > > >     apply them. Available on:
+> > > >
+> > > >         patch.diff  https://bugs.sh/b/fd80bc5967eb22c3/patch.diff
+> > > >         report.md   https://bugs.sh/b/fd80bc5967eb22c3/report.md
+> > >
+> > > Please validate and ensure that this is correct before sending this to
+> > > us.  No need for us to dig through random web links, right?
+> Hi Greg,
+> 
+> Thanks for the feedback, and sorry for the noise. Sending these before
+> we had settled the format and talked to maintainers was our mistake.
+> 
+> Let me make sure we understood your suggestions.
+> 
+> # What we understood
+> 
+> You want patches that a human has verified, and you do not want to
+> have to follow links to find out what a report says. We should not
+> have sent what we sent.
 
-As part of the kernel research at ASU's SEFCOM
-lab, we hit the crash below. Crash reports can be found here:
+That is correct, would you want anything different if we were to send
+stuff to you?
 
-  https://github.com/farhad-alemi/public_bug_reports/tree/main/150-usb-chipidea-foreign-platform_data-oob/
+> # Until then
+> 
+> We have stopped. No further reports go out until the format is one
+> that does not waste your time. 19 reports went out in a single batch
+> without a person releasing them, which was our process failure.
+> That is fixed, and we would rather settle the format with you before
+> we start again.
 
-  BUG: KASAN: slab-out-of-bounds in ci_hdrc_add_device+0xb76/0xd10
-  Read of size 4 at addr ffff88810e9061c8 by task repro/9505
-  Call Trace:
-   ci_hdrc_add_device+0xb76/0xd10
-   ci_hdrc_usb2_probe+0x22d/0x370
-   platform_probe+0xf9/0x190
-   really_probe+0x267/0xaf0
-   __driver_probe_device+0x1e2/0x350
-   device_driver_attach+0xe0/0x1d0
-   bind_store+0x1d0/0x220
-   kernfs_fop_write_iter+0x3af/0x540
-   vfs_write+0x61d/0xb90
-   ksys_write+0x150/0x270
+Just use our normal development process of sending patches, there's no
+need to change anything here as it's working quite well (fastest rate of
+change of any project with the most contributors...)
 
-Our reproducer.c is available upon request.
+thanks,
 
-Happy to test a patch if that would help.
-
-Regards,
+greg k-h
