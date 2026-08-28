@@ -1,171 +1,98 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9DA3403FF
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 05:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3933B5301;
+	Fri, 28 Aug 2026 05:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787895817; cv=none; b=VYnsxc2vd23VgictjsEcQw9UP2Z5QDLFtWUb11Jfbs8mBx8RbTrKJRr2pfb3Nng5TzWxbtZkhJV/U9UHmHIEIsJvcCCQ+MSKZQCwjgerY8OVG264OVI9kuRZy/uafpxSVOwGEVVXxibzwUQYSFBZBu0JpkJSmWavRnr9xjQ7yGQ=
+	t=1787895889; cv=none; b=gvwU53jI+PpBIDAPnKFeCQJurt1NnacaNKSvYe8vMifXb7ARUWtLyagHGU5CeHB5XlytIb7RxLVdINkKXu+cDwQxGjpxIuo6sZfqHKBlQ3Gu2aLbCdgGY6PDg1QCTKcnlxBxWXL5ouCdlivhUAh7bzYQ8a0TQ8kmTlANd5vPstM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787895817; c=relaxed/simple;
-	bh=+WyHdsc2R5oGgZyaymcpA5PBb3YSTzd3Q2ag3IxV6oU=;
+	s=arc-20240116; t=1787895889; c=relaxed/simple;
+	bh=gKB11iauUYqAFuZdmCa0SgKfhqnT4MjvPDo1r6eRrIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=opGTWnSd0MYCEpRzw0lOcttZIQinn85EY1iLFiR3SW2PS9YZO2ccOiVPpESm7WpjGMLbVg6ryMQijlKU1Qx/pFL7Ggbx4dGfpzmZPwVmn6BZy0k/CyGr3mVAGeB1DceGwUHEf51vMRqE9Ip4Wm6RTbGiGZLEIXCsYL5EfvAK498=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=BFhfmvQR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=K8NOeZ82; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=u+8lwsahq0ZObdmAvrB+LC1XjbxaC9akErmWKZHb2g7xgJaLLkr8qcaeZ6jZPGzdN0ccVZlxiv87fTrLdgAGa14bKTYQWXSfkuIU4Pu6Qlsj0zCWBAbolOuJgzWlrpgK53yspUyNPpwR+REUDZLNwY6tYt1/RuLE3vFbE0dp5Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N8+uxbg2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="BFhfmvQR";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K8NOeZ82"
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 07149EC00C7;
-	Fri, 28 Aug 2026 01:43:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Fri, 28 Aug 2026 01:43:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1787895814;
-	 x=1787982214; bh=IDEXL/Vx9nC5mlnl6aTUmeF35DHNOGaVcgy7eTr4B8c=; b=
-	BFhfmvQRfJewWdIR9znPtxnXdeHJp3SgY0fFAyZUviLkKy8jnEEFzqSHQl/oIaRz
-	fn02+5btygpBs5oFP9/pvkuH/zXIbXxvoctcNkmuFnLtfW9jbHA3CPm1pFgN23Q4
-	IYS7USdlqEHng5yU3k5fdhZk0KhBlswBKmp5x3upMdOtyWmnNCm8NDLpIlHJC8M4
-	oHojg6e8CF4WkU99qw6g1q4OL53D8EHWm8okMQj/yTauNdSC1SpWgg4o3PXcs6mZ
-	4VQQuCfzH8r6N7po7iPNguV+6bekCp7RCl837vRFIQmGTMyUPNsHKTFnfIvo5g2M
-	k0+E3fsNoOxWxIzv/eHPCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787895814; x=
-	1787982214; bh=IDEXL/Vx9nC5mlnl6aTUmeF35DHNOGaVcgy7eTr4B8c=; b=K
-	8NOeZ82WLnyOurTdmgcAlyP8lEL18UWdr9TmMmIAidbOIC3/TSx74rGfk4J1BGgE
-	D0Zbs6CJKZ+lTPXienFsp3OxvHMOvdso23tvOtck5UfJlJQa1mefZUejeI3ZFQvF
-	0fiX/eJOTfj63QzpVigKS3qfxJfolt5oJ09Q06R6Xo/wRCi01pmW42euJ5ateFme
-	JGXp3M+ZZkcg8kgnb8A4cHuQTFbYgAkSq9T8hlhd9Ok2Hzf2aRidL1XLN0k6/mFT
-	xc1SQBUWdAb48CPR73U/uD2v9DNCO5l9OEOvzmNHmpuBlQ2XGLQxshWqTvymaKdd
-	HNr4yNrTbfuARa4EtZcGw==
-X-ME-Sender: <xms:BSCRamD0y9MFFEX8mqAhXDIDDja2_mTo1rT8WO2ggReVqV8xthTMPQ>
-    <xme:BSCRauVaBc2l0O7nDjvrtJXbWDPGLn44-vkwCExFhgIuA42Py_wwBvDbM0efkU30M
-    H2FsAcEZMmRHzHT1WdW1xjQyRw45Zg5wG___DW86lBd7uDMeA>
-X-ME-Received: <xmr:BSCRakCnTikIGDUq0R3UfFeXG94UtTfGDrq0olUk9CvnQ9P2UjPolK85byC1NxEwzu5oDfCu-ccAGU0UJHXQcpZ0Qa20uREwlPYN6kzv1fw>
-X-ME-Proxy-Cause: dmFkZTFuSCEpVXy9s/D/R7zZs0qe1IEKNMZcviLDtWcMlkBRxwjIDag09EUCdg3wy8wMeq
-    usrFrB3kyLT3QANvyXkBQwRcYeTuVLVHaMx+lEWGl0N5bqKc5l0gJE80b3hCXcgkMm1XgI
-    7z1qMDrKP0/qlpWik1COglO42xjy8wrlHWxgiYDn0X+5S3K4gA5n7Kuuw0K7EfTi46HGD9
-    CE3fKXFGkaoAyXDRZpPFoTNKenmrJVkLoGgDY0N0lGR+ZkpUa3SpHLJ+NTszHRvkcJfZ5z
-    SGgNN403y3cBsBA9S4cA7Xb3T9qkIFnZiboaRn/OPQM1LYnXDw6UKE10UUhpGsQfF3BdQs
-    maGKQBkxGaqPJw8ICxxEvWrm/Hqnm8mbRaPXV18nB/NvacOcdWEfock9FhU0LkJaIMyyjw
-    sVXsF4VUR7tRYLZoL+4Jbyt2fpjYWgfR6SymziLAZy04VIT0DZy79uOgQgacp6wkQMMnVs
-    knI+scB2mOkZwfAt33HS/Sztoao3T6/I/TZ/BwYt5nUdkv5qh+A3MfW6rtLQrKt9pTtAgf
-    vYwOqOmTsJuPcynI4iDZSwX3djDSkQUBXEhPmKThv0zQ3AVmRWQ9MjDNw71MFiIlk8zhZc
-    DEmAkEMnZT0wpRe3nw0HBhJ4tQGO44wDAR2V9wsaAFxP4exW9HiEzQTcXcvg
-X-ME-Proxy: <xmx:BSCRah8EVz7qVJPxof7V_a2YeRyGFkX35hLhlGCSB7rYHq8536I2PQ>
-    <xmx:BSCRarGuP-9b-5fDSRdNp7dzpRTD90iA-YngaKki-0bsrfL3icKZmA>
-    <xmx:BSCRavNNabkO3wxiyazbVpjaudVOhpzXFIALm8fdqH9qAFhfcAPemw>
-    <xmx:BSCRalcV9cb_BAza2QcAVGbP3gkHcSsjnGfxSYeH831KCkoH1P8x0Q>
-    <xmx:BiCRagK7V5XjZdhBfUIRaAOf8acCr78KCodeck2F5fE1bE4hGWrqKCUs>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Aug 2026 01:43:33 -0400 (EDT)
-Date: Fri, 28 Aug 2026 07:43:31 +0200
-From: Greg KH <greg@kroah.com>
-To: Martin Rys <martin@archlinux.org>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: [PATCH] USB: Improve "New device found" printout message
-Message-ID: <2026082855-repave-condition-9f2c@gregkh>
-References: <c9fb1eaa-9c88-4942-b6c5-9f7efbe1a133@archlinux.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N8+uxbg2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81041F000E9;
+	Fri, 28 Aug 2026 05:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787895887;
+	bh=JZ8jkENwhXSI17hcjxLdU7YO7IQjlwVthIoqDgQePP8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=N8+uxbg2iVPFHvllbLKHUnWT5PT9AiI3kkwQKtwzlyhFPH+gYXTCVQ7SXN73RQbwS
+	 /B/YQ2m4nD0QSIH5yIkuRaY6k5GOxwjuHrx8EAmschXAZ7RRHzZCtTDJx+szg2Z4Vb
+	 e/rNbkM9TR9p5ZcKkOQsS+lK1GfRw71dmZbjgRgI=
+Date: Fri, 28 Aug 2026 07:44:44 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ralf Lici <ralf@mandelbit.com>
+Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
+	Ran Wang <ran.wang_1@nxp.com>, Duoming Zhou <duoming@zju.edu.cn>,
+	linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	Ben Hutchings <ben@decadent.org.uk>
+Subject: Re: [REGRESSION] 6.1.y/6.6.y: fsl-usb fails to build
+Message-ID: <2026082858-footing-calorie-a196@gregkh>
+References: <20260827154302.706689-1-ralf@mandelbit.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c9fb1eaa-9c88-4942-b6c5-9f7efbe1a133@archlinux.org>
+In-Reply-To: <20260827154302.706689-1-ralf@mandelbit.com>
 
-On Thu, Aug 27, 2026 at 05:38:35PM +0200, Martin Rys wrote:
+On Thu, Aug 27, 2026 at 05:43:00PM +0200, Ralf Lici wrote:
 > Hi,
 > 
-> it's my first time posting on any Linux mailing list, hopefully am doing
-> everything right.
+> While working on some backport patches for an out-of-tree module and
+> looking for the exact versions containing the disable_delayed_work_sync
+> symbol, I stumbled upon occurrences of that function on longterm v6.1
+> and v6.6 in drivers/usb/phy/phy-fsl-usb.c despite not being declared or
+> defined anywhere. In fact, disable_delayed_work_sync was introduced by
+> upstream commit 86898fa6b8cd ("workqueue: Implement disable/enable for
+> (delayed) work items") and is only available since v6.10. Neither 6.1.y
+> nor 6.6.y defines it.
 > 
-> While checking out dmesg I saw that there's an extra space after
-> "bcdDevice=":
->   usb 1-5.2: New USB device found, idVendor=0583, idProduct=a000,
-> bcdDevice= 1.00
->   usb 1-5.2: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+> Consequently, kernels built with CONFIG_FSL_USB2_OTG fail with:
 > 
-> Turns out that was introduced in
-> https://github.com/torvalds/linux/commit/73c6d3b284cf7b31c03fdaa2476f48f8da0932f8
-> (USB: announce bcdDevice as well as idVendor, idProduct.), as it was
-> trying to keep the same formatting as `lsusb -v`:
+> drivers/usb/phy/phy-fsl-usb.c:990:2: error: call to undeclared function 'disable_delayed_work_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>   990 |         disable_delayed_work_sync(&fsl_otg_dev->otg_event);
+>       |         ^
+> drivers/usb/phy/phy-fsl-usb.c:990:2: note: did you mean 'cancel_delayed_work_sync'?
+> include/linux/workqueue.h:470:13: note: 'cancel_delayed_work_sync' declared here
+>   470 | extern bool cancel_delayed_work_sync(struct delayed_work *dwork);
+>       |             ^
 > 
->   idProduct          0x0276 GXT 165 Gaming Mouse
->   bcdDevice            1.00
->   iManufacturer           1 SINOWEALTH
+> I reproduced the failure on PowerPC using corenet64_smp_defconfig with
+> CONFIG_FSL_USB2_OTG=m, building drivers/usb/phy/phy-fsl-usb.o with
+> Clang.
 > 
->  but lsusb presumably uses %2x to have a fixed-width text, so the number
-> of spacing it needs to do so it all lines up under a monospace font is
-> predictable.
+> AFAICT, in 6.1.y, the regression was introduced in v6.1.160 by commit
+> 4476c73bbbb0 ("usb: phy: fsl-usb: Fix use-after-free in delayed work
+> during device removal") and remains present in v6.1.185.
 > 
-> In dmesg, it just causes it to look odd if there's no character in the
-> first hex slot, as "12.00" looks fine, but " 1.00" does not.
+> In 6.6.y, it was introduced in v6.6.120 by commit 319f7a85b3c4 ("usb:
+> phy: fsl-usb: Fix use-after-free in delayed work during device removal")
+> and remains present in v6.6.154.
 > 
-> While staring at this I've also noticed that there's a comma instead of
-> a colon after the first message, so I've fixed that up too.
+> Note that the same problem was pointed out by Ben Hutchings during the
+> 5.10.y review:
+> https://lore.kernel.org/all/d147f0eb71f9cefbfb7605e95d98564d7f0ed346.camel@decadent.org.uk/
+> 
+> The corresponding patches were dropped from 5.10.y and 5.15.y, but
+> appear to have been retained in 6.1.y and 6.6.y.
+> 
+> Simply replacing disable_delayed_work_sync with cancel_delayed_work_sync
+> at its current location may not be sufficient: it looks like the delayed
+> work can also be scheduled from fsl_otg_set_host and from the IRQ
+> handler but I'm not familiar with this part of the kernel.
 
-Cool, but this all doesn't belong here, the patch changelog should
-contain enough information for us to understand this.
-
-> 
-> Martin
-> 
-> 
-> 
-> >From a0bc389b6bf4641fbd894f8acd4c1c5709728862 Mon Sep 17 00:00:00 2001
-> From: Martin Rys <martin@archlinux.org>
-> Date: Thu, 27 Aug 2026 17:05:45 +0200
-> Subject: [PATCH] USB: Improve "New device found" printout message
-
-The patch shouldn't be part of the middle of the email, just send it on
-it's own.  See lots of examples on the mailing list for how that looks.
-
-> 
-> Use colon instead of comma like the later message does.
-> 
-> Do not print a useless space after `bcdDevice=` - this was introduced as
-> the formatting was copied from `lsusb -v` printout, but that one has
-> preceding spaces, this one does not.
-> 
-> Signed-off-by: Martin Rys <martin@archlinux.org>
-> ---
->  drivers/usb/core/hub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 3345b3298daf..c382215a1177 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -2411,7 +2411,7 @@ static void announce_device_ids(struct usb_device
-> *udev)
->         u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
->  
->         dev_info(&udev->dev,
-> -               "New USB device found, idVendor=%04x, idProduct=%04x,
-> bcdDevice=%2x.%02x\n",
-> +               "New USB device found: idVendor=%04x, idProduct=%04x,
-> bcdDevice=%x.%02x\n",
->                 le16_to_cpu(udev->descriptor.idVendor),
->                 le16_to_cpu(udev->descriptor.idProduct),
->                 bcdDevice >> 8, bcdDevice & 0xff);
-> -- 
-> 2.55.0
-
-The patch is line-wrapped and whitespace damaged and can't be applied.
-Perhaps use a tool like git send-email or b4 to send it?
+Can you just send patches to revert the offending commits?  Or we can
+just ignore it as it's been this way for a while and no one has noticed
+which implies to me that no one builds these modules for these arches on
+these very old kernel trees :)
 
 thanks,
 
