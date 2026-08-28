@@ -1,179 +1,181 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FDB470428
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 14:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFB843CE6D;
+	Fri, 28 Aug 2026 14:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787926213; cv=none; b=sDyf+nsoHV54xSZR5vkmZ6mF1w7xfQoLrFW8qu3kfpMkePO9DqNQ17UlbwrGGZn6/wv9i2w/YcXk6UuhmxrPNn+4eu/9QMb9LsjgTf0jpgMROiruDlM2ahmXcDP0U4gA1mzECdIlXAhNpfwzdCISxQ08uRHRVbGWkaZjY4mD3zQ=
+	t=1787929127; cv=none; b=WXZ2uli2sMFIuu90sXadk1EuW0wqPrgpIyAEx/qCUyDulA398MlIQAlwxLGxvoXEwpRFM0Mf1iLWAy8ZyC3adT4hev2rWfPT6WrX90n2WubI7M/PWw6+2/C4zBkfscvDAPRu1CBc5BfhCFJYg/RiCUwCBUPVKZHBXbgUvR/4Rx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787926213; c=relaxed/simple;
-	bh=ZNKccxZiCzly9I5k80F35B1pc+eR7vQ/qDH/pYuN0m8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ip60nSKABlJorQ6YZbygGj64MZVPpMi2C95LHZsTnzn3roFV6r75cjXlE2zwOwYy1O5QKLNVIUBBs8ubSV97qYDOsrXY7zK2itFxtxurUqO+8B5rk2JUwZRcincsedRKdDLu6qZd2lkdSs1LIhgBstXcV8YsWXmHhSfsOTzv9E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=TvOCVadC; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1787929127; c=relaxed/simple;
+	bh=hTFP47AvnYEQMlF2SecKaz9yq+IFHH0SegM4sJFxZLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cQOQ3QzGydz+62b2fTxP06sGpHSteSldSr9AjqE8jZEudb+Q4xbiXrstI3YfyC6sChfte0GdxF9EZDD2qE+IVOSY1nfgOw59Pnqdvg/fywXvEzDB8hM/JmZtf7W8zE+6CcwrGaoE18p8Y1Ctlg6QfXFt8Bxv9wfe/IJ35JB9fFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwPgn4e+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="TvOCVadC"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-936dfd009d1so182714485a.1
-        for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 07:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1787926208; x=1788531008; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DMTxMAG/rJvYI6GDoxI7NDM2NcdqW0dm+aSGvfT6mdk=;
-        b=TvOCVadC1WTItmA22XmsKcrfeIiy/ML5wGK/co9em10igxF8Yku06eJvoOSCxyfrLM
-         fIZPDzlOkzXWr6E4yojYGEar2yz//3QL4Mp4AKxHagEAGXH1pxkXXaNVgyB8uS3MC96+
-         i1keVpSBwc8qJIrsDzJlmVsdqxnrWCvYHrp5qXZRWDlE1Epweu4GrJvH0h5k3zVW/Wxf
-         lU8YKakaJHNa393oM/EPH9qpc5nHpoy+2igaJ4Exjf65vyi2GYneEQZBuOPj3zolNdBb
-         FwOUHD6H+esaqClg4YssScg5kZassGR2pTAWGWuvWF9pgjZj8JOs9RVqqFRo8tYnIlTg
-         CEzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787926208; x=1788531008;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DMTxMAG/rJvYI6GDoxI7NDM2NcdqW0dm+aSGvfT6mdk=;
-        b=V9cuOdtgo0dX9lWchCjGHfxmAqqBXRvI3kWYcySpqnwXPDVWUmIxh7q8ZJrJ2AtFWK
-         ns993HEsd59H/KhwgPVJvNPiKYY7loQgxsYNz2OwAYjepubBsj7GIwB18+ZFzVaSg+gh
-         xQTgTkuhlF+KJkXK+41xQpENy03bOpuKZAsdwOYAnDPpL9QYVPrr/538MI5MrAbvOavs
-         nH45J7C8vD9w/VeKFhmLxgpV4HKswHINEkITgRUv3qSr/OzDqB5xNV5tZiPT1HD399S6
-         +E7Oe27WZ8dieTxvcOGeqFvVlOQqHEKbe1QhqKuOhDYtGWF2wwG7zeNGzMb9J2pJRpfm
-         sBcQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrhuz0T6WpaQCQvb3S9bDgz2mDKn9j360aPDivrb99eOP83YFrEYxZHytNdkeETWqdisMAlBO+RwaM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mk3Js/AaEwcXi09P5uJxhcdW20mmURpgujGtI01z3jl3XhOIyS
-	xcbYP+0evYiR1Q5qREnPPv2GSa1KwMrW1SI7UvDRZGpw1C71wDcoXSUEPJmXxh1Q4g==
-X-Gm-Gg: AR+sD12/2EMzn4oMVHS7iUWSuTbZBqiDXK3oGB5GFJWfTNJEdFVcFdLmoDurJUZ6P6W
-	AkajdiqEapeKk1BMFA4TMs7N0xrJzb4VvMR6JKgrWBCDGO8UC0XJsSaNov5psAvrBwoQvodrpi2
-	Ji51sOl3KGKTkeHb2WdWVG6lDAYtT7Mx/Ffe3iK5AjjUW+m2Sta7We2QR3/xxOiEyrF7q0TPCFP
-	Nj1J9nU9iRyHksQ9HnxtDe+Hh39RNe38l3sX8rYBf9m8Mhr/j/0ASyS+HxbAr5GKfnsZuS8Ap61
-	NLnWF0ImN+z5boiMiv4b4ihenlyDMOgXCej/rgRGEE1oU26k5WqQ+Uqfa0KbJ6YjY+niNfu0cSF
-	O7kikkvCrEpYLFxnWf6CTjsjTLPGp8rrzn9qVtRrbDSIebNGxJ+DgTGY76HJ5y0bbL7SFyx6T/x
-	SUBe6KgFg1OWj3hY77lddwLomPnPw+Dw71r2OWtkBtDnQf15cQ89031m5FRCYIWsJRNsJeLEKbg
-	PkpT3E=
-X-Received: by 2002:a05:620a:1588:b0:930:9cbc:7121 with SMTP id af79cd13be357-93900131031mr1301468585a.3.1787926205824;
-        Fri, 28 Aug 2026 07:10:05 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90ce4460e0dsm15997766d6.11.2026.08.28.07.10.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 07:10:04 -0700 (PDT)
-Date: Fri, 28 Aug 2026 10:10:01 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Petko Manolov <petkan@nucleusys.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
- work on system_dfl_long_wq
-Message-ID: <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
-References: <20260720100902.155605-1-marco.crivellari@suse.com>
- <20260720100902.155605-6-marco.crivellari@suse.com>
- <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
- <20260825151812.4aJyFUgE@linutronix.de>
- <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
- <20260828094318.bOajNBno@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwPgn4e+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC9A1F000E9;
+	Fri, 28 Aug 2026 14:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787929125;
+	bh=74Fj7tL96kGwBLO/hArSSyCch8gm1RowcBdTkqeKx+A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WwPgn4e+trs/BZwls4wxpRFxK9REZMof7hb21Ppo2q66+K9DsCie8wCr5rlENlCD3
+	 7xRwQdhchci/f4l6nq94TkKZZv+V/5L1PlbCFhselAhfX8di3TkFtTV6xg6LZCzbwF
+	 ALr9rMohE0wvyIGL4aFroAr5++8Z9Ud2GZ8Rptvt2ojtPhLUHy22YkbNrsfqpm6yKP
+	 VYdYuDQGNp/pA8WE9MpJT5ZRnP0cfhhPA4PFCnyA0KV8EVN0+GzjcjcliNX9o2kuXS
+	 0b2/hyly6VBi2wLH5cY2jQKGQFGhFmBD3cVvbWel4UhqVBUGEf9PNJs3QQ4vFWO/3A
+	 inhldz1ZwbDEA==
+Message-ID: <f91bdb9a-bcfb-4f37-8163-19ce7ebe0d46@kernel.org>
+Date: Fri, 28 Aug 2026 09:58:44 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260828094318.bOajNBno@linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] thunderbolt: Fix tb->lock deadlock during hot-unplug
+ on AMD USB4 routers
+Content-Language: en-US
+To: westeri@kernel.org
+Cc: andreas.noever@gmail.com, YehezkelShB@gmail.com,
+ Basavaraj.Natikar@amd.com, Sanath.S@amd.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Juan Martinez <juan.martinez@amd.com>
+References: <20260827215740.415496-1-juan.martinez@amd.com>
+ <20260828051903.485922-1-juan.martinez@amd.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260828051903.485922-1-juan.martinez@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 28, 2026 at 11:43:18AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-08-27 12:01:02 [-0400], Alan Stern wrote:
-> > > > These drivers have their own work queues because they are part of the block layer.
-> > > > USB devices can share a device with a block device (storage & UAS) and
-> > > > USB devices have common, per device operations, in particular reset
-> > > > and runtime power management and disconnect handling. Because these operations
-> > > > can be necessary to complete block IO neither they nor anything
-> > > > they depend on can use IO to allocate memory. That is they need to
-> > > > perform any memory allocation with GFP_NOIO or GFP_ATOMIC.
-> > > 
-> > > This is a networking driver. It has nothing to do with storage and UAS.
-> > > It uses USB, yes.
-> > 
-> > Ah, but a composite USB device can have both a networking interface and 
-> > a mass-storage interface.
+
+
+On 8/28/26 00:19, Juan Martinez wrote:
+> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+> DMA path teardown for AMD USB4 routers") introduced a deadlock when
+> physically unplugging a Thunderbolt cable on AMD systems.
 > 
-> okay.
+> The problem occurs because tb_handle_hotplug() holds tb->lock while
+> processing the unplug event. When it removes the XDomain services,
+> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+> tb_domain_reset_interface(). That function tries to acquire tb->lock
+> via guard(mutex), but the hotplug worker already holds it, causing a
+> self-deadlock.
 > 
-> > Suppose you have such a device, and suppose the disk attached to its 
-> > mass-storage interface contains a swap partition.  Now suppose the 
-> > device is being reset, and as part of the preparation for that reset the 
-> > networking driver needs to flush its workqueue.  This means waiting 
-> > until the work routines that are already running have completed.
+> The deadlock manifests as a complete network hang because
+> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+> all network operations system-wide.
 > 
-> The individual functions are usually independent. But if the USB core
-> would reset the whole device it would reset each function.
+> The existing code already handles this scenario partially: when
+> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+> skips the DMA teardown because the hotplug handler will do it later
+> via __tb_disconnect_xdomain_paths(). However, the reset was still
+> being called unconditionally.
 > 
-> > Since it's a general-purpose workqueue, you don't know what those work 
-> > routines are going to do.  One of them might try to allocate memory 
-> > using GFP_KERNEL.  Suppose that in order to satisfy the memory request, 
-> > the kernel decides it needs to write some pages to the swap partition on 
-> > the USB mass-storage interface.  But the mass-storage driver is stuck; 
-> > it can't do anything until the device reset finishes.  Deadlock.
+> Fix this by:
+> 1. Splitting tb_domain_reset_interface() into a locked inner function
+>     __tb_domain_reset_interface_locked() and a locking wrapper
+> 2. Skipping the reset in tb_domain_disconnect_xdomain_paths() when
+>     xd->is_unplugged is true (matching the existing teardown skip logic)
+> 3. Calling __tb_domain_reset_interface_locked() from tb_handle_hotplug()
+>     after __tb_disconnect_xdomain_paths() where the actual DMA teardown
+>     happens and tb->lock is already held
 > 
-> So you are saying, the USB-storage device is in reset and we wait until
-> the networking part finishes its workqueue flush. That flush is stuck
-> behind behind a memory allocation which waits on the storage device. So
-> any URB passed to usb_submit_urb() just waits for the reset to complete?
+> This preserves the reset behavior for normal shutdown paths while
+> avoiding the deadlock during physical cable unplug.
 > 
-> > That's why USB drivers have to use their own workqueues.
+> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+
+Looks good to me now, thanks for iterating.
+
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+
+Mika,
+
+The quirk this is fixing came in 7.3 cycle.  So this patch should also 
+go to -fixes for 7.3 cycle.
+
+> ---
+>   drivers/thunderbolt/domain.c | 20 +++++++++++++++++---
+>   drivers/thunderbolt/tb.c     |  1 +
+>   drivers/thunderbolt/tb.h     |  1 +
+>   3 files changed, 19 insertions(+), 3 deletions(-)
 > 
-> While this does make sense I don't see how this is related to this
-> patch. The pegasus driver uses `system_long_wq'. This is a system wide
-> workqueue_struct and is not limited to USB or this driver.
-> This workqueue is per-CPU meaning if you enqueue the work item on CPU3
-> it will be executed on CPU3. However pegasus uses a delayed work item
-> and the timer can fire on any CPU so even if it is enqueued on CPU3 it
-> could be executed on CPU1.
+> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+> index 12c88509a54f..4cef9f4de523 100644
+> --- a/drivers/thunderbolt/domain.c
+> +++ b/drivers/thunderbolt/domain.c
+> @@ -788,14 +788,22 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   			transmit_ring, receive_path, receive_ring);
+>   }
+>   
+> -static void tb_domain_reset_interface(struct tb *tb)
+> +/*
+> + * __tb_domain_reset_interface_locked - Reset host interface (lock held)
+> + *
+> + * Caller must hold tb->lock. Used by hotplug path where lock is already held.
+> + */
+> +void __tb_domain_reset_interface_locked(struct tb *tb)
+>   {
+>   	struct tb_nhi *nhi = tb->nhi;
+>   
+> +	lockdep_assert_held(&tb->lock);
+> +
+>   	if (!nhi->ops->reset_interface)
+>   		return;
+>   
+> -	guard(mutex)(&tb->lock);
+> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+> +		return;
+>   
+>   	/* The reset clears the ring state so stop the control channel */
+>   	tb_ctl_stop(tb->ctl);
+> @@ -803,6 +811,12 @@ static void tb_domain_reset_interface(struct tb *tb)
+>   	tb_ctl_start(tb->ctl);
+>   }
+>   
+> +static void tb_domain_reset_interface(struct tb *tb)
+> +{
+> +	guard(mutex)(&tb->lock);
+> +	__tb_domain_reset_interface_locked(tb);
+> +}
+> +
+>   /**
+>    * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+>    * @tb: Domain disabling the DMA paths
+> @@ -835,7 +849,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
+> +	if (!xd->is_unplugged)
+>   		tb_domain_reset_interface(tb);
+>   
+>   	return 0;
+> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> index b7cc6894a598..89dfb3381345 100644
+> --- a/drivers/thunderbolt/tb.c
+> +++ b/drivers/thunderbolt/tb.c
+> @@ -2489,6 +2489,7 @@ static void tb_handle_hotplug(struct work_struct *work)
+>   			tb_xdomain_remove(xd);
+>   			port->xdomain = NULL;
+>   			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
+> +			__tb_domain_reset_interface_locked(tb);
+>   			tb_xdomain_put(xd);
+>   			tb_port_unconfigure_xdomain(port);
+>   		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index 4373336d9425..2e6e0920cb1f 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -789,6 +789,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
+>   int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   				    int transmit_path, int transmit_ring,
+>   				    int receive_path, int receive_ring);
+> +void __tb_domain_reset_interface_locked(struct tb *tb);
+>   int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   				       int transmit_path, int transmit_ring,
+>   				       int receive_path, int receive_ring);
 
-It doesn't matter what CPU the work item runs on.  Here's the deadlock 
-sequence, in brief:
-
-	USB device reset cannot proceed until network interface's
-	->pre_reset() method returns.
-
-	The ->pre_reset() method cannot return until its call to
-	flush_workqueue() returns.
-
-	flush_workqueue() cannot return until the already executing
-	work item finishes.
-
-	The work item cannot finish until its kmalloc() call returns.
-
-	kmalloc() won't return until the kernel can free up memory by 
-	writing some pages to the swap partition.
-
-	The write to the swap partition cannot take place until the
-	usb_storage/uas driver carries it out.
-
-	usb_storage/uas cannot do anything until the USB device reset
-	is finished.
-
-> Therefore the suggested change system_long_wq -> system_dfl_long_wq
-> should not make a difference here: it is a different workqueue and it is
-> unbound (instead of per-CPU) but given the usage it is unchanged but
-> more obvious. Also its usage recommendations (use this for long running
-> items) is the same.
-> 
-> The plan is remove system_long_wq from the tree.
-
-The point Oliver was making is that the driver shouldn't be using a 
-general-purpose workqueue at all.  Switching from one general-purpose 
-workqueue to another ignores this point; it's not the right thing to do.
-
-Alan Stern
