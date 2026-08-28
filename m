@@ -1,152 +1,163 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD2943785F;
-	Fri, 28 Aug 2026 11:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B1B3D5666;
+	Fri, 28 Aug 2026 12:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787917346; cv=none; b=NMSja8rehVynZjIOJE7DfkQK5WFVp9eHkAklFn58KqKWtZ8/ytcRMrPW6YSdNT/kyPNI+aGG+8R5iTouNsLfQWvieU/tcfuY188dwrfDDnASkqiP2iEDzIBbPHIZo7cSibtcXT6tzyA61HiXr/ATY52eQVucJrR+oX7cw9WJQQU=
+	t=1787918886; cv=none; b=P3kNghz7Xu8TAy3YnhmHB65cMQ2TLDuR52f3fYUGhxveGjLaoVveXNmMEYZbTAMqEvOlzK0DR8bCq6ZSq6Y7EnwdCPp/9Mw6bcIRRO6MijMzJ/h2DDd4LD15m0EWSssIb26GGSUMbYryW2B18468o+gHJZM75nOANwzMpQS1sLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787917346; c=relaxed/simple;
-	bh=UrRRrRGioU2jwFOT4R0dWftSuqJLymr8z94go2/Ju7k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mtNBbk0D04mNkZVrpynqBLTncHSzNpOzD/h+rRExK4In4Becq+MEJGVMPE5BVpzgedbh+EFv3im7splmTG/v9XwdNhDDQGbyMsMd/XvF0aarKSbvTGR3FbnCwPKdeahZKgHt0CC8V55vQksfINYXcVJ0QcPijtDr7zCoAZVBk1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowABnO+8SdJFqoBO+Bg--.43429S2;
-	Fri, 28 Aug 2026 19:42:10 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@kernel.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
+	s=arc-20240116; t=1787918886; c=relaxed/simple;
+	bh=LKTkxqKoon7duy6pNbYXhkMUtZoZS0ltoY5rlOlTRgA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Tft3n/aFclMAV/Emgm3YcwP7Vu3GYMMdULigaVCV+SuDgP6602OJqJr89Vw+/4sLTIzuRzQbhOhyK9kPucAUnkQSgEFhbXd8JIxfDVfbqrC/fZV3DXDNs1eU2br5OFGRbJ3LhvpjPG7F70sXKCs9l4d3Hfhm7qkWgvO1d2QNV+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z9qgkhSP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z2QK+7fw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D2DkS627; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bz00pIu/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z9qgkhSP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z2QK+7fw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D2DkS627";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bz00pIu/"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F260221AD;
+	Fri, 28 Aug 2026 12:07:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787918868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PT+v/CY/k+PNsmOPqSO0u5nrIh+MELSj7465HIkYP7k=;
+	b=Z9qgkhSP/HuhbkEe4nf6TjiexQ7lKokBV/m6gi/RSIB/W+mHtVxuQhEHyzkns525SnLUM9
+	HqruPPbccYMMQBPB2BtRHSpUQwA0oVOlVkkoNIwUIKZzXcllhuJBnBXfLgynC+uWwsw2wR
+	32x/K61QS2qZ7iBGZtfSfspjeFvf4L8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787918868;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PT+v/CY/k+PNsmOPqSO0u5nrIh+MELSj7465HIkYP7k=;
+	b=z2QK+7fwdr82oIt2tV1gPlpAOUOjRiXunenLrN7OjdXL2xwM6GmPx5hK1cEHdMiWW3v2pc
+	mos2LjjQrlVd0vCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787918864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PT+v/CY/k+PNsmOPqSO0u5nrIh+MELSj7465HIkYP7k=;
+	b=D2DkS627pb8L3rTQmO92ZOVY4qHJ9RFx/hMDiLLKwTCuKbmZmlE3tQPVbic7o9/D47MIMc
+	YZ4mZTEBuh9/JsF0u6Seda6xUu+5P8puE40H1N74CGZe9IQXQsyI1rkDfdM8wzJcaiwCRv
+	vuf7Z6Dh/8ndteaFkXSRGagQSSDSZ3U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787918864;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PT+v/CY/k+PNsmOPqSO0u5nrIh+MELSj7465HIkYP7k=;
+	b=bz00pIu/SlG3F22lYiOY1ifuJqDEmzXflLD3Xur5JnfeVrbm1EGV2Zz5zHk6QWLqyonwXW
+	tcTScKYB8aVDOsDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3B9D13515;
+	Fri, 28 Aug 2026 12:07:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id z3tyMg96kWo9HAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 28 Aug 2026 12:07:43 +0000
+Date: Fri, 28 Aug 2026 14:07:43 +0200
+Message-ID: <87cxv2v46o.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edward Adam Davis <eadavis@sina.com>
+Cc: syzbot+c35f34092a4bc9855be6@syzkaller.appspotmail.com,
+	gregkh@linuxfoundation.org,
+	kees@kernel.org,
+	tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] usb: gadget: tegra-xudc: Unwind device-mode power failures
-Date: Fri, 28 Aug 2026 19:42:08 +0800
-Message-ID: <20260828114208.49341-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] usb: gadget: midi2: prevent in/out jack from oob
+In-Reply-To: <20260826134606.127250-1-eadavis@sina.com>
+References: <6a8ed2cd.1d9ded08.62e62.00a8.GAE@google.com>
+	<20260826134606.127250-1-eadavis@sina.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnO+8SdJFqoBO+Bg--.43429S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF4ktF4ftFWxtF1kZw1kZrb_yoW5Cr17pa
-	1jgFW5J3ykX3sxKFnaq3yqvr15G3ykG348X34Iyay29rsrK34DJry7trWIqFW8Gr93Jr4j
-	yr4xK342yr9rWF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUYf
-	HjUUUUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[sina.com];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[c35f34092a4bc9855be6];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_ENVRCPT(0.00)[sina.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
 
-The Tegra XUDC role worker ignores runtime-PM, PHY power and PHY mode
-failures while entering device mode, and sets current_device_mode even
-after an incomplete transition.
+On Wed, 26 Aug 2026 15:46:06 +0200,
+Edward Adam Davis wrote:
+> 
+> The increment of config->jack_out in append_midi1_out_jack() lacked
+> bounds checking, triggering issue [1] when the value approached the
+> limit MAX_CABLES.
+> 
+> A similar out-of-bounds issue exists in append_midi1_in_jack(), so it
+> is being fixed as well.
+> 
+> Before incrementing jack_out/in, the code now checks if the value has
+> reached the upper limit MAX_CABLES; if so, it exits and returns -EINVAL.
+> 
+> Additionally, the jack_id assignment is moved to occur after the jack_out
+> bounds check to prevent wasting IDs on invalid increments.
 
-Acquire runtime PM with pm_runtime_resume_and_get(), unwind each
-completed PHY and pad operation on failure, and only publish
-current_device_mode after all steps succeed.  The worker logs the error.
-This is an RFC because the asynchronous role request has already
-completed and maintainers may prefer retry or desired-role state
-handling beyond local rollback.
+I think the bug is rather the arrays are too small; they should have
+been twice as the jacks can be added from both input and output.
 
-The issue was identified via static analysis and manually reviewed.
+Both append_midi1_out_jack() and append_midi1_in_jack() are called
+from the loops of midi2->num_midi1_out and midi2->num_midi1_in
+counts, and they are properly upper-bound to MAX_CABLES.
 
-Assisted-by: LLM
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 38 ++++++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 9 deletions(-)
+Could you check whether the fix below works instead?
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index e9d33be02866..41015e5dc089 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -696,28 +696,43 @@ static void tegra_xudc_restore_port_speed(struct tegra_xudc *xudc)
- 	xudc_writel(xudc, val, SSPX_CORE_CNT72);
- }
- 
--static void tegra_xudc_device_mode_on(struct tegra_xudc *xudc)
-+static int tegra_xudc_device_mode_on(struct tegra_xudc *xudc)
- {
- 	int err;
- 
--	pm_runtime_get_sync(xudc->dev);
-+	err = pm_runtime_resume_and_get(xudc->dev);
-+	if (err < 0)
-+		return err;
- 
- 	tegra_phy_xusb_utmi_pad_power_on(xudc->curr_utmi_phy);
- 
- 	err = phy_power_on(xudc->curr_utmi_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "UTMI power on failed: %d\n", err);
-+		goto power_down_pad;
- 
- 	err = phy_power_on(xudc->curr_usb3_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "USB3 PHY power on failed: %d\n", err);
-+		goto power_off_utmi;
- 
- 	dev_dbg(xudc->dev, "device mode on\n");
- 
--	phy_set_mode_ext(xudc->curr_utmi_phy, PHY_MODE_USB_OTG,
--			 USB_ROLE_DEVICE);
-+	err = phy_set_mode_ext(xudc->curr_utmi_phy, PHY_MODE_USB_OTG,
-+			       USB_ROLE_DEVICE);
-+	if (err < 0)
-+		goto power_off_usb3;
- 
- 	xudc->current_device_mode = true;
-+
-+	return 0;
-+
-+power_off_usb3:
-+	phy_power_off(xudc->curr_usb3_phy);
-+power_off_utmi:
-+	phy_power_off(xudc->curr_utmi_phy);
-+power_down_pad:
-+	tegra_phy_xusb_utmi_pad_power_down(xudc->curr_utmi_phy);
-+	pm_runtime_put(xudc->dev);
-+	return err;
- }
- 
- static void tegra_xudc_device_mode_off(struct tegra_xudc *xudc)
-@@ -779,11 +794,16 @@ static void tegra_xudc_usb_role_sw_work(struct work_struct *work)
- {
- 	struct tegra_xudc *xudc = container_of(work, struct tegra_xudc,
- 					       usb_role_sw_work);
-+	int err;
- 
--	if (xudc->device_mode)
--		tegra_xudc_device_mode_on(xudc);
--	else
-+	if (xudc->device_mode) {
-+		err = tegra_xudc_device_mode_on(xudc);
-+
-+		if (err)
-+			dev_err(xudc->dev, "failed to enter device mode: %d\n", err);
-+	} else {
- 		tegra_xudc_device_mode_off(xudc);
-+	}
- }
- 
- static int tegra_xudc_get_phy_index(struct tegra_xudc *xudc,
--- 
-2.43.0
 
+thanks,
+
+Takashi
+
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -1634,8 +1634,8 @@ struct f_midi2_usb_config {
+ 
+ 	/* MIDI 1.0 jacks */
+ 	unsigned char jack_in, jack_out, jack_id;
+-	struct usb_midi_in_jack_descriptor jack_ins[MAX_CABLES];
+-	struct usb_midi_out_jack_descriptor_1 jack_outs[MAX_CABLES];
++	struct usb_midi_in_jack_descriptor jack_ins[MAX_CABLES * 2];
++	struct usb_midi_out_jack_descriptor_1 jack_outs[MAX_CABLES * 2];
+ };
+ 
+ static int append_config(struct f_midi2_usb_config *config, void *d)
