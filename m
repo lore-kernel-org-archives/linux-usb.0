@@ -1,189 +1,90 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C374C23909C
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 01:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787879091; cv=pass; b=dZhG/kRsg7eAXL8CUH3lToHwEMYxFQBlVIEezHOMIzcNvTczy81h9ktAhH+ngCfh14rWNQfIIV16Cx6eY2ORa2LUZGyZlAPTUStpG+K53nxe/4HRlYOMfqhVTM7UyolEig+zgQqdyL3nOkdPQSS7VJrQ9s0PEiRgRgfXmm47uWQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787879091; c=relaxed/simple;
-	bh=Xh+I7qWrmeJkKs1sM2KOcgK+92BgW2u83x3A9zVLiFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hFlTVxQORj8tg7jdr8upbWcrIY52Jzz2cioyUfWTTT6JWhUfj+RFccDG2v57XpO22GeYNdAr9D4RJXrxSSGWtq4kzFu8SFg3DVctQsPwx/HNRYvXpyIyWsZ5ndeYQHvPxYV0wEMEN4NiIUXm7ZVYRELzVA0xHVsqENwMGnh9iwI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZLDEQkY; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB452BE02D;
+	Fri, 28 Aug 2026 01:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787880104; cv=none; b=N5GUn3fW5u1PKrhggdyi4HtPBnyMItip6DCpaFZHLJrK67CKyq0tc3M5FpowtP/jOssm7z1CXnn/yB/EJKKGvQg909etvrn1TDRzZjMNHS4Lt7Sjnzazn/BhWN9SHpUGPtw7voL3AHj9+i4/qlOTHav6ZUjosaqcwe4AXdJ7csk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787880104; c=relaxed/simple;
+	bh=aIckynKWDUzQUw0mQ6DliNym+pfa5mWNQiS7sM/h+ng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ToVRk6Ud2PiVvojI/mjVIRu7I92fTTAGtKtQXhah8jgzq87UYPf17tFoyyGcO9DdLQJf/96GhaB+5R0m/tIkqtD9xUBxB/vt+xoYCR53eECSsPJXGUYBLZUbx2dZD9jHV5vOy9pqlXgM0XHjX1OjAxX3meWIl2K+oTKdDIJmdlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=UO87sDGL; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZLDEQkY"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5b4a95ab94fso1717692e87.0
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 18:04:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787879087; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R/bdx4ssPi95AyJpKzc4ZKGHO5++0hcRZWA2j5yU/pCPwzrInam1eXHyAlKZE6c+Xk
-         AezOdzL2LGZq2kmP57E/6vH8kzogQqzFAGI8QP/JsdhVgTANmJubqYPyUTJuMmNfWa4x
-         QQ1ZETJWuEbwtnQBCiUxlZ+73tDmcSVW4RjLzhvGXIKbQ2LhhryHlyU8jY6+ma4aJ75X
-         B3P48IRsOIOyOjZ/Sa+/H/tyEv9Jo3bE1w0tRvbw6t8JgGCsZkn8qKQYC0p0Ihn7IlMV
-         ASYEek0/6yFBtpduGLrR37YUghoDA8Pz0W3OXEbfKgpzEUyYvundcS+L+TYyDR8AnAoo
-         CAgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HRaT6MIiOdH60GOdGmwPWtS4IR3twdkYWfXwIpNDtus=;
-        fh=+DvEhc4KMa+Tl20N0vkMvP+mbrEqgf3FB56kDRyBgvc=;
-        b=bS5nvE53OgfRKphS/7KeURNFb8fP8xiLmDvm2MWqxqM5r6refDOPi81JHVsGd3FsF/
-         kZuhm4Z2ofMbSW4rAurPikgY40j4eCo63gIFL2N+3M+iDju0SxljsSttPRSgjLEPfNkK
-         rz5LE8qwjiLuRvJ2jqbC/eTu+e9DRnS4ga+z419hPO2pnSyxrXCVR6QeXTN9w79Nrmkg
-         fRRIGbLzPF/jWNQ/WaryzrCHp4QLLWUjTQgW2VpfIUi8QdTdNfxEeefgJAUbATkLNfxM
-         3XKWel9rI/wZu25ju1/En5eDygcRgqgcxZTKO11y2hrwSShNADQ3ktr+b6QiSJ0TLvJA
-         3zgA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787879087; x=1788483887; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HRaT6MIiOdH60GOdGmwPWtS4IR3twdkYWfXwIpNDtus=;
-        b=mZLDEQkYJ/Sj25n9bfeDF1sNeVap/EQf9cZmwaeckgjfZpmlKS13nxNAGYQQiSgwwf
-         v6fnHsofjCZRpaaxsSmmNU4T2pLC7n/2F2pNlAh9BRxfBX+nA+mUHKmweSYg/BX9IuRI
-         rB7AZOU9fysTs1c+ulSGRmczFO+7yQWKUAgCKuF9W0RrGD0W1yznFHJ8UW0VuJZxouZT
-         EdWqgRhqnhwnJUj8ShJ5KZrC0PpALr0p0asCO0AWXxjZ6mqAlKnUK4JQ1uVGObcHEUj5
-         N4sIRYHUrpJ9IHceUP+VtVQDlBhY2gZWvMWOPg6GfsoGGzk77uAFDDlO16zvKY6EecTC
-         TZFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787879087; x=1788483887;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HRaT6MIiOdH60GOdGmwPWtS4IR3twdkYWfXwIpNDtus=;
-        b=Uwk9H8iY/SCOwlZMeDszjJ0Ez4TSBtwwADi35dfQEMzWPgM8SbGPQmPW2ZqJN0K/y+
-         1sgH260uXeDKjmxFGzoAw9GFP+VkyMMVV22szg2/cpuqusHMeGpzRiifdRhg+XH1EAtI
-         Znj6vkHqfsW48buDiNWpluZe/HxwPsCVVQLgTEgMNl1U7hlGdGBOM6+UhTrY1NasGccx
-         b/sjBbwk7a4Exb0xTnJBNfB87CwhHGHUDYiv+Y/OeLsr+54tfKPYm0Qgw/zFOvxGWBKV
-         1qYeIXU2r7bT6vYYjmdd0kiEFtcXXBkQOGkg9XwPUnfNBTP6ejIbA9lVC6fjSwTy6KIs
-         BZQg==
-X-Forwarded-Encrypted: i=1; AHgh+RoUwCm2fgLmSKSxiaZ6eu+imvowxAINZBUkSJz0l+B71xLCjeCZURG3R8Cj4uw0V5Ut92RpXK9hVc4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lynePxXRSZbN166m3qPTwVaQvCI0rkqA9U6dGHdzUPNpT0xHyU
-	0L7cK6GzmVo3Ustsgd/SjGhTnP3vknTSPGHb+uzpAftEw393al5FNfPhzuLfcjhSl9GWexAb0qd
-	GGrvdv7wB1b/Zn9NlCsQ9w3e6ExyqvcM=
-X-Gm-Gg: AR+sD120ZyQgi7UPcor1/I6i1V/PqsLo5mIxTdJzR8b9wIzE6fw9MMS3hKdYBhNweIb
-	p0+KZfAXTaBWtcke88TNMqRsS8YUt+Kf7ovipJhiXYAMAG14fSb+rz5Z9sYGdjI/ovgsQHqrczr
-	UVOSoxez5q6EqMg70N9VN2r59+TaFskQVd8QJIAJwo8I3dku5WjuE3aO3RGMCrZ/MFyIWb41p0j
-	eTXwAVb4t88JUAsiSiUiGfRj+2MtQySxoCudWu87oWQ5E653g3lPDLvcyx8FF8XDAj6wfexEQx2
-	cgy7BKXPjxUHjqG/Mr537uI53BgcYsJmzf0Db7eWhWiCVxvnSaB2B/O9K01fiyKMo4bmPnmbo8h
-	2Bn7H+6SgmCQJPYd879ACpnbugWVItgns85NVNoPnL9MXu1ZrR2YwgGqIl1LQ
-X-Received: by 2002:a05:6512:1183:b0:5b4:af24:3612 with SMTP id
- 2adb3069b0e04-5b4afef0305mr2135966e87.20.1787879086471; Thu, 27 Aug 2026
- 18:04:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="UO87sDGL"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1D07811D0C5;
+	Fri, 28 Aug 2026 03:21:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787880096;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=cmYwe1UVmG+P6y8XZ0jgJInhQsv9JOJ7agmlWn6XZjI=;
+	b=UO87sDGL3sBebpYqbD84s1YbNO4v7eideJxNY6dAzQ6IOvkH76bWtZG9ZkbU/+bUSwVzNt
+	Jko19H/EExvQs6ppzLw0S0m0jmTbw4d1Cye00HzCjVIUJL36mQGcX7aZuKts88CMXbyn5s
+	MpFmTPw2O9lWMM9KPFJHdcMR9GwDleVcEofgmGINwuD4uDVbUnrnnbp5ZYGGU+EF6zc8O2
+	1tFLtU1LP/xwfHIuDWc56Pe4jsYycG8BWnh5IMszwMWREgXFFKhWimYSytyHGNF73OUNWo
+	rGRuxTcenwER1IUlcXJ4bsjZ1++zCCDNR9D5qvNZkn8Y+J7gOtV0IcZuxtZGrw==
+Message-ID: <202b1b0d-5ccd-4fcf-bc7b-bc013dd84774@nabladev.com>
+Date: Fri, 28 Aug 2026 03:03:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260825201426.47030-1-edward.blair@gmail.com>
- <ca37dbf2-0949-401b-a1bc-c714a1c451e0@gmx.de> <CAJDQNggKFhJ=YKanKWmG_hRi98nRi-8Wa19D7mqU1MuM2dF=vQ@mail.gmail.com>
-In-Reply-To: <CAJDQNggKFhJ=YKanKWmG_hRi98nRi-8Wa19D7mqU1MuM2dF=vQ@mail.gmail.com>
-From: Edward Blair <edward.blair@gmail.com>
-Date: Fri, 28 Aug 2026 02:04:34 +0100
-X-Gm-Features: AcwNN1UV8tR9FZvMUvIaGMdgAsZ2UHlnLfWSykB4VKQK7lgAutcjQT7QOYFtH_w
-Message-ID: <CAJDQNgiYYQW1N94cTSD-Naph9h44OXZpsZVySi=7sgpcQ21yYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add UCSI I2C transport driver for ITE885x USB-C controllers
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
-	lenb@kernel.org, heikki.krogerus@linux.intel.com, 
-	mika.westerberg@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 7/9] dt-bindings: arm: stm32: Switch
+ st,stm32mp23/25-syscfg into simple-mfd
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-usb@vger.kernel.org, fabrice.gasnier@foss.st.com,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Pankaj Dev <pankaj.dev@st.com>,
+ Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>,
+ Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260822074816.548662-1-marex@nabladev.com>
+ <20260822074816.548662-8-marex@nabladev.com>
+ <20260827-skilled-optimal-shellfish-c548e5@quoll>
+ <9b197208-dbb4-44dd-b0c0-b4dcaa57c403@nabladev.com>
+ <3264c2d2-4c53-44c0-8164-d2d83f75c175@kernel.org>
+Content-Language: en-US
+From: Marek Vasut <marex@nabladev.com>
+In-Reply-To: <3264c2d2-4c53-44c0-8164-d2d83f75c175@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Let's try that again.. without gmail's html...
-
-Thanks, that makes sense. I can rework patch 1 to add MSFT8000 to
-ignore_serial_bus_ids[] in acpi_device_enumeration_by_parent(). This
-keeps the ACPI device present while preventing its SerialBus resources
-from being instantiated as bus clients.
-
-If that sounds reasonable, it seems like a good middle ground between
-v1 and v2: it preserves v1's enumeration behaviour while handling the
-device generically in the ACPI core, without the ITE-specific x86
-status override added in v2.
-
-Thanks,
-Edward
-
-
-On Fri, 28 Aug 2026 at 01:58, Edward Blair <edward.blair@gmail.com> wrote:
->
-> Thanks, that makes sense. I can rework patch 1 to add MSFT8000 to ignore_serial_bus_ids[] in acpi_device_enumeration_by_parent(). This keeps the ACPI device present while preventing its SerialBus resources from being instantiated as bus clients.
->
-> If that sounds reasonable, it seems like a good middle ground between v1 and v2: it preserves v1's enumeration behaviour while handling the device generically in the ACPI core, without the ITE-specific x86 status override added in v2.
->
-> Thanks,
-> Edward
->
-> On Thu, 27 Aug 2026 at 23:30, Armin Wolf <W_Armin@gmx.de> wrote:
+On 8/27/26 11:35 PM, Krzysztof Kozlowski wrote:
+> On 27/08/2026 17:04, Marek Vasut wrote:
+>> On 8/27/26 3:07 PM, Krzysztof Kozlowski wrote:
+>>>
+>>> OTOH2, you have now patchset dependency which is nowwhere explained.
+>>> Merging constraints are the most important part of cover letter so must
+>>> be clearly stated. IMO, should be stated also here, because many
+>>> maintainers do not read cover letters. Or just decouple dependencies
+>>> with using 'compatibles' pattern (see Qualcomm msm/mdss display
+>>> bindings).
+>> I wonder, wouldn't it be better to write a driver which binds to
+>> st,stm32mp25-syscfg , handles the SYSCFG clock, and does some
+>> of_platform_populate() to bring up the PHYs (DT subnodes) ?
 >>
->> Am 25.08.26 um 22:14 schrieb Edward Blair:
+>> I think that would resolve the ABI break problem, since we wouldn't need
+>> the simple-mfd compatible anymore. And it would also correctly handle
+>> the SYSCFG clock.
 >>
->> > Some ASUS desktop boards describe the same ITE USB-C controller twice
->> > in ACPI: as an MSFT8000 Resource Hub Proxy and as an ITE885x device at
->> > the same I2C address. If the RhProxy node claims the address first, the
->> > ITE device cannot be registered. Only the ITE node provides the
->> > interrupt required by this transport.
->> >
->> > Patch 1 marks the RhProxy node absent only when its I2C resource exactly
->> > matches a supported ITE node which also has an interrupt.
->>
->> AFAIK the MSFT8000 device is used to grant userspace applications under Windows
->> access to I2C, SPI, UART and GPIO resources. Since we already provide those functions
->> natively i suggest that we generally ignore MSFT8000 devices when checking for resource
->> conflicts.
->>
->> Thanks,
->> Armin Wolf
->>
->> > Patch 2 adds the ITE885x UCSI transport. These controllers use
->> > ITE-specific offsets for CCI, MESSAGE_IN, CONTROL and interrupt
->> > handling. They do not expose a VERSION register or accept PPM_RESET
->> > over I2C.
->> >
->> > The register layout and reset behaviour were checked against the ITE
->> > Windows driver supplied for this board.
->> >
->> > Tested on an ASUS ROG Strix Z790-E Gaming WiFi with ITE8853:
->> >
->> > - Built and booted on x86_64.
->> > - ucsi_ite bound to ITE8853:00 without the previous -EBUSY failure.
->> > - /sys/class/typec/port0 was registered.
->> > - USB-C attachment detection worked.
->> > - No UCSI, ITE or Type-C initialization errors were logged.
->> >
->> > Suspend/resume and the ITE8800 through ITE8805 IDs have not been tested.
->> >
->> > Changes since v1:
->> >
->> > - Move the duplicate-device quirk from the I2C core to the ACPI x86
->> >    status-override code, as suggested by Mika and Heikki.
->> > - Correctly identify MSFT8000 as a Resource Hub Proxy.
->> > - Restrict the quirk to exact matching I2C resources.
->> > - Use devm_request_threaded_irq(), as suggested by Heikki.
->> > - Rebase onto Linux 7.2 and update for the current UCSI API.
->> > - Read and cache complete UCSI events before acknowledging them.
->> > - Match the vendor transport's MESSAGE_IN and PPM_RESET behaviour.
->> >
->> > Link: https://lore.kernel.org/all/20260314013157.7181-1-edward.blair@gmail.com/
->> >
->> > Edward Blair (2):
->> >    ACPI: x86: hide duplicate RhProxy node for ITE UCSI controllers
->> >    usb: typec: ucsi: add ITE885x I2C transport driver
->> >
->> >   drivers/acpi/x86/utils.c          | 151 ++++++++++++
->> >   drivers/usb/typec/ucsi/Kconfig    |  11 +
->> >   drivers/usb/typec/ucsi/Makefile   |   1 +
->> >   drivers/usb/typec/ucsi/ucsi_ite.c | 395 ++++++++++++++++++++++++++++++
->> >   4 files changed, 558 insertions(+)
->> >   create mode 100644 drivers/usb/typec/ucsi/ucsi_ite.c
->> >
->> >
->> > base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
+>> What do you think ?
+> 
+> Yes, it is better and more flexible approach. Solves ABI impact.
+All right, let's do that.
