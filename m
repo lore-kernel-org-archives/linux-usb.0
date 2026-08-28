@@ -1,85 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FF03CA481;
-	Fri, 28 Aug 2026 05:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EB43101B2
+	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 05:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787895939; cv=none; b=ZwMTP9qRhtbgNC+hLptze4ahkRtcBKT8nMTutJrqolzgL5vGAYZd5TDBIgKThRes+L20bRgXCluJmTJtasXlVfmXutPdsCA/uk5WS3tGsHPCFepFMJaxBfnZzPp9ZHwJ8zIco+rAJxbnGFcXJwjcjNDuzuI2xfvAOcYx8yfhvWE=
+	t=1787896321; cv=none; b=b+Z95PzbJYtU1EefvkffNeJ4upy/+Gq8q5pX/JW5DLwoHF2/Z1lbbijBO+f0ZeD0dvTKS4LuupVoKih7mFf2CJCCwb0b2cvEjKuRUk2LAnDgsO9zptIO299aYvSg+FXyy76GXe7+7MqJt17jje5FQ5wuv72rWKO6vtaA4C+s5bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787895939; c=relaxed/simple;
-	bh=hUV/KjrY8fo7ZKGnxXAXZbcqEoUZlRt2hrAcV1t4j6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uG6ax/D4/A7Ek34gfJthO9EaU6r4p3obTDmwP5dTSdSggNeeGqKwOXUsb8Cj0nj6QCJajYZh7332QDGEP47sJ+9TYDByVXoe3j/PmkMDtz/jXCBDA5PakyhQPOI1gKgFZxHTHp/On5+Id9w5TVw0mYiatCypmziYJHCPZNU6whM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QnpOaL3a; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787896321; c=relaxed/simple;
+	bh=mhO40c1ipJKGhmU1oEMgT0Ag+GKapa4oSRv7NTVXgAw=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Yd5yJQ5nxpu3Q83dClm1JH6Yw+ETLFxE9s5/0nfFg416L++tuPYUhMuY7i1g1p0v2OZA+YgkyyDntU7xhGyZbIQcqmfI6dCd3ThJQDmLd0uTTlXA9uj8/EwJIpcgZ0/w38DjX/j9eYK2FUxhdL82BVY3iIVC1MyBhi8WZUUoRRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YbTvfizt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QnpOaL3a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCBC1F000E9;
-	Fri, 28 Aug 2026 05:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787895938;
-	bh=t83oAOUbyAv4w2doI/vnkGuH77V6ZSnrl3EO9OJrlTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QnpOaL3a/Aaq4F39vAU0hiVTvG14mtxrb6CIyhxedEsltIlWnFbb37BuEZDTdiMtp
-	 z9eIZRwft2t58UrwHh/MLMi+1uTpbMf78cz1jRyPdBElccRzbFwqLM8G8Ai0/E+8He
-	 goXFSZBpiVJ9ha4dAQkoFMCNqpD0J1jNBWE2FIuA=
-Date: Fri, 28 Aug 2026 07:45:35 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Farhad Alemi <farhad.alemi@berkeley.edu>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, falemi@asu.edu,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] platform_get_irq_byname_optional -- dwc3-haps registers
- IRQ 0, WARN on first gadget init
-Message-ID: <2026082856-exhume-footbath-5a28@gregkh>
-References: <CA+0ovCh2o46zgc5Be_Z5=6NNJTKnd3W29zeMJ+gBCgL+4fFLAg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YbTvfizt"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D7B1C19425
+	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 05:52:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787896321;
+	bh=mhO40c1ipJKGhmU1oEMgT0Ag+GKapa4oSRv7NTVXgAw=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=YbTvfiztChEQWfGBSZDqM3U9a2NeocE7eg8afTbyF2+nqvuY0ARUrycEjE2WUfIBg
+	 9Nk13vKQSylgqy3/hB7bK2ihHKe9Z07+lvN2CdjfnwwtcxpAAzxP238Ldb3d/FDaDu
+	 J1zrBdZSIM7ftgdars+EsfwLjaswqsrgzgHHhr9udNxCojfgmXL9q1uuv/vfd20yZX
+	 tst9snijht1scnYZXl/SPWiTQNbP1UwNbu5hs2Q6GKQTWvjRrWXKyqpzNpPlrCNnDV
+	 naaJus/LF0/r/kfbJv5XEnLMZCsTzHwnIC+7BdjlyZg4y/T/Ee+3L6aGJcqDNutxFQ
+	 XzOA3IhltyxZQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 1DB2FC433E1; Fri, 28 Aug 2026 05:52:01 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
+ polling of USB devices on AMD platforms
+Date: Fri, 28 Aug 2026 05:52:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lovekeshsolanki00@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-221103-208809-SIVtOctUKa@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
+References: <bug-221103-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+0ovCh2o46zgc5Be_Z5=6NNJTKnd3W29zeMJ+gBCgL+4fFLAg@mail.gmail.com>
 
-On Fri, Aug 28, 2026 at 05:34:05AM +0000, Farhad Alemi wrote:
-> Hello,
-> 
-> As part of the kernel research at ASU's SEFCOM
-> lab, we hit the crash below. Crash reports can be found here:
-> 
->   https://github.com/farhad-alemi/public_bug_reports/tree/main/149-usb-dwc3-haps-registers-irq-0/
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
 
-Digging through random urls isn't that helpful to us, please include all
-of the needed information in the email itself.
+Lovekesh Solanki (lovekeshsolanki00@gmail.com) changed:
 
-Remember, some of us get 1000+ emails a day to handle :(
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |lovekeshsolanki00@gmail.com
 
-> 
->   dwc3 dwc3.2.auto: Configuration mismatch. dr_mode forced to gadget
->   0 is an invalid IRQ number
->   WARNING: drivers/base/platform.c:492 at
-> platform_get_irq_byname_optional+0x1ed/0x220, CPU#1: repro/9498
->   Call Trace:
->    platform_get_irq_byname_optional+0x1ed/0x220
->    dwc3_gadget_init+0x607/0x2170
->    dwc3_core_init_mode+0x2f8/0x790
->    dwc3_core_probe+0x2345/0x2850
->    dwc3_probe+0x100/0x150
->    platform_probe+0xf9/0x190
->    really_probe+0x267/0xaf0
->    __driver_probe_device+0x1e2/0x350
->    driver_probe_device+0x4f/0x240
->    __device_attach_driver+0x270/0x410
->    bus_for_each_drv+0x258/0x2f0
->    __device_attach+0x2c5/0x450
-> 
-> Our reproducer.c is available upon request.
-> 
-> Happy to test a patch if that would help.
+--- Comment #28 from Lovekesh Solanki (lovekeshsolanki00@gmail.com) ---
+It may be worth getting full acpidump from the affected machine, could it be
+possible the xhci controller is left inaccessible or in some weird state af=
+ter
+power state transition?
 
-Please send a patch.
+and also output of lspci -vvv?
 
-thanks,
+Thanks,
+Lovekesh
 
-greg k-h
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
