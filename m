@@ -1,33 +1,35 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFB843CE6D;
-	Fri, 28 Aug 2026 14:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A8647254B;
+	Fri, 28 Aug 2026 14:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787929127; cv=none; b=WXZ2uli2sMFIuu90sXadk1EuW0wqPrgpIyAEx/qCUyDulA398MlIQAlwxLGxvoXEwpRFM0Mf1iLWAy8ZyC3adT4hev2rWfPT6WrX90n2WubI7M/PWw6+2/C4zBkfscvDAPRu1CBc5BfhCFJYg/RiCUwCBUPVKZHBXbgUvR/4Rx8=
+	t=1787929148; cv=none; b=AIUT8yjL1Nqzfjx7jwHlQAjo/5gCMi4eIClCYpqyDcAqPi+M7133g4eXMD9RtGs//1kQTdfRLo/0CQSiOgWt0fLRVNcixV7UDCtCFn8q8ykXxFLvWyCMeYqNLRlpbHWfNVWHOtnx7Tf3P7bDF4FIyHkjqzSJmJOFYQ3oQD7MPqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787929127; c=relaxed/simple;
-	bh=hTFP47AvnYEQMlF2SecKaz9yq+IFHH0SegM4sJFxZLs=;
+	s=arc-20240116; t=1787929148; c=relaxed/simple;
+	bh=mnQooKYMLOZHLETIwP6VUnvGzdNDZhZ7NJn7ueBXhkM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cQOQ3QzGydz+62b2fTxP06sGpHSteSldSr9AjqE8jZEudb+Q4xbiXrstI3YfyC6sChfte0GdxF9EZDD2qE+IVOSY1nfgOw59Pnqdvg/fywXvEzDB8hM/JmZtf7W8zE+6CcwrGaoE18p8Y1Ctlg6QfXFt8Bxv9wfe/IJ35JB9fFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwPgn4e+; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=YS9A0eCEg8r1DowB93MErxFxu7a3R0V0abtNVIKjJZQPLrCbvmjbw73yR77thdnl4EXxsp3zoZ92AyksxpxzwhBCfwffKnrCotGQD94AVWyHDyI8ciV+F525GsJrtm5GHJQwpHjKIhS6riTDWvsCUy+DwwoEPPy17h0t+iAL+H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=XqLoC7Jg; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwPgn4e+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC9A1F000E9;
-	Fri, 28 Aug 2026 14:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787929125;
-	bh=74Fj7tL96kGwBLO/hArSSyCch8gm1RowcBdTkqeKx+A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WwPgn4e+trs/BZwls4wxpRFxK9REZMof7hb21Ppo2q66+K9DsCie8wCr5rlENlCD3
-	 7xRwQdhchci/f4l6nq94TkKZZv+V/5L1PlbCFhselAhfX8di3TkFtTV6xg6LZCzbwF
-	 ALr9rMohE0wvyIGL4aFroAr5++8Z9Ud2GZ8Rptvt2ojtPhLUHy22YkbNrsfqpm6yKP
-	 VYdYuDQGNp/pA8WE9MpJT5ZRnP0cfhhPA4PFCnyA0KV8EVN0+GzjcjcliNX9o2kuXS
-	 0b2/hyly6VBi2wLH5cY2jQKGQFGhFmBD3cVvbWel4UhqVBUGEf9PNJs3QQ4vFWO/3A
-	 inhldz1ZwbDEA==
-Message-ID: <f91bdb9a-bcfb-4f37-8163-19ce7ebe0d46@kernel.org>
-Date: Fri, 28 Aug 2026 09:58:44 -0500
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="XqLoC7Jg"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7485E11BF2A;
+	Fri, 28 Aug 2026 16:58:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787929140;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=gWcirtnE4uDumZP9/67ZFWrDNIg5Dw/DiSxWsTPXR2M=;
+	b=XqLoC7JgsFzdFUgssNqhfzVLUmYOC5RCZ1t6okz+Y21f0IuelwW9oEPd9b58KckRre8eUB
+	AuN5DJ3tcANd75GqgVNeJL4pzeH6KoOVSDS8NfshPXE8ZaVnqhld/P3n65fG04uWwMzfTY
+	wy/3RFFXO61FCKPSPPGcLeW0vkV3G2e3ulwLUK5qF94AltCAfYArFkgnmCVq8rvZBNDI4O
+	YzH7tMwq23u7qtlLilxNHh8goVYrmaQjlsS50OFQ4Z6/VC1RRK6F6dzogjWeTC3uwdRgas
+	WiF8M9GGeFb1iB4nZgCx6HVVnAKZYD2Q7oVIF3GnXtbWVhddMyyi0RX/vOKvxQ==
+Message-ID: <de23791b-0464-43c4-b0bc-cf3763956dd2@nabladev.com>
+Date: Fri, 28 Aug 2026 15:11:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,147 +37,47 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] thunderbolt: Fix tb->lock deadlock during hot-unplug
- on AMD USB4 routers
+Subject: Re: [PATCH v3 1/9] dt-bindings: phy: Document ST STM32MP25 USB2-FEMTO
+ PHY
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-usb@vger.kernel.org, fabrice.gasnier@foss.st.com,
+ Pankaj Dev <pankaj.dev@st.com>, Rahul Kumar <rahul.kumar05@st.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Bruel <christian.bruel@foss.st.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Rosen Penev <rosenp@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260822074816.548662-1-marex@nabladev.com>
+ <20260822074816.548662-2-marex@nabladev.com>
+ <20260828-sepia-vulture-of-glamour-ef861f@quoll>
 Content-Language: en-US
-To: westeri@kernel.org
-Cc: andreas.noever@gmail.com, YehezkelShB@gmail.com,
- Basavaraj.Natikar@amd.com, Sanath.S@amd.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Juan Martinez <juan.martinez@amd.com>
-References: <20260827215740.415496-1-juan.martinez@amd.com>
- <20260828051903.485922-1-juan.martinez@amd.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260828051903.485922-1-juan.martinez@amd.com>
+From: Marek Vasut <marex@nabladev.com>
+In-Reply-To: <20260828-sepia-vulture-of-glamour-ef861f@quoll>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-
-
-On 8/28/26 00:19, Juan Martinez wrote:
-> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
-> DMA path teardown for AMD USB4 routers") introduced a deadlock when
-> physically unplugging a Thunderbolt cable on AMD systems.
+On 8/28/26 11:11 AM, Krzysztof Kozlowski wrote:
+> On Sat, Aug 22, 2026 at 09:46:34AM +0200, Marek Vasut wrote:
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  vdd33-supply:
+>> +    description: Phandle to regulator providing 3V3 power supply to the USB2 HS PHY
+>> +
+>> +required:
+>> +  - compatible
+>> +  - "#clock-cells"
+>> +  - "#phy-cells"
 > 
-> The problem occurs because tb_handle_hotplug() holds tb->lock while
-> processing the unplug event. When it removes the XDomain services,
-> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
-> tb_domain_reset_interface(). That function tries to acquire tb->lock
-> via guard(mutex), but the hotplug worker already holds it, causing a
-> self-deadlock.
-> 
-> The deadlock manifests as a complete network hang because
-> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
-> all network operations system-wide.
-> 
-> The existing code already handles this scenario partially: when
-> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
-> skips the DMA teardown because the hotplug handler will do it later
-> via __tb_disconnect_xdomain_paths(). However, the reset was still
-> being called unconditionally.
-> 
-> Fix this by:
-> 1. Splitting tb_domain_reset_interface() into a locked inner function
->     __tb_domain_reset_interface_locked() and a locking wrapper
-> 2. Skipping the reset in tb_domain_disconnect_xdomain_paths() when
->     xd->is_unplugged is true (matching the existing teardown skip logic)
-> 3. Calling __tb_domain_reset_interface_locked() from tb_handle_hotplug()
->     after __tb_disconnect_xdomain_paths() where the actual DMA teardown
->     happens and tb->lock is already held
-> 
-> This preserves the reset behavior for normal shutdown paths while
-> avoiding the deadlock during physical cable unplug.
-> 
-> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
-> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
-
-Looks good to me now, thanks for iterating.
-
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-
-Mika,
-
-The quirk this is fixing came in 7.3 cycle.  So this patch should also 
-go to -fixes for 7.3 cycle.
-
-> ---
->   drivers/thunderbolt/domain.c | 20 +++++++++++++++++---
->   drivers/thunderbolt/tb.c     |  1 +
->   drivers/thunderbolt/tb.h     |  1 +
->   3 files changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-> index 12c88509a54f..4cef9f4de523 100644
-> --- a/drivers/thunderbolt/domain.c
-> +++ b/drivers/thunderbolt/domain.c
-> @@ -788,14 +788,22 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   			transmit_ring, receive_path, receive_ring);
->   }
->   
-> -static void tb_domain_reset_interface(struct tb *tb)
-> +/*
-> + * __tb_domain_reset_interface_locked - Reset host interface (lock held)
-> + *
-> + * Caller must hold tb->lock. Used by hotplug path where lock is already held.
-> + */
-> +void __tb_domain_reset_interface_locked(struct tb *tb)
->   {
->   	struct tb_nhi *nhi = tb->nhi;
->   
-> +	lockdep_assert_held(&tb->lock);
-> +
->   	if (!nhi->ops->reset_interface)
->   		return;
->   
-> -	guard(mutex)(&tb->lock);
-> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
-> +		return;
->   
->   	/* The reset clears the ring state so stop the control channel */
->   	tb_ctl_stop(tb->ctl);
-> @@ -803,6 +811,12 @@ static void tb_domain_reset_interface(struct tb *tb)
->   	tb_ctl_start(tb->ctl);
->   }
->   
-> +static void tb_domain_reset_interface(struct tb *tb)
-> +{
-> +	guard(mutex)(&tb->lock);
-> +	__tb_domain_reset_interface_locked(tb);
-> +}
-> +
->   /**
->    * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
->    * @tb: Domain disabling the DMA paths
-> @@ -835,7 +849,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   	if (ret)
->   		return ret;
->   
-> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
-> +	if (!xd->is_unplugged)
->   		tb_domain_reset_interface(tb);
->   
->   	return 0;
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index b7cc6894a598..89dfb3381345 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -2489,6 +2489,7 @@ static void tb_handle_hotplug(struct work_struct *work)
->   			tb_xdomain_remove(xd);
->   			port->xdomain = NULL;
->   			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
-> +			__tb_domain_reset_interface_locked(tb);
->   			tb_xdomain_put(xd);
->   			tb_port_unconfigure_xdomain(port);
->   		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index 4373336d9425..2e6e0920cb1f 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -789,6 +789,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
->   int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   				    int transmit_path, int transmit_ring,
->   				    int receive_path, int receive_ring);
-> +void __tb_domain_reset_interface_locked(struct tb *tb);
->   int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   				       int transmit_path, int transmit_ring,
->   				       int receive_path, int receive_ring);
-
+> reg should be required, usually. If it is not, please explain why in the
+> commit msg.
+Fixed in V4, thanks !
