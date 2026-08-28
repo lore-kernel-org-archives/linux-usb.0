@@ -1,115 +1,100 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from mail-24421.protonmail.ch (mail-24421.protonmail.ch [109.224.244.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C903BE146;
-	Fri, 28 Aug 2026 10:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F273559E1;
+	Fri, 28 Aug 2026 10:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787913113; cv=none; b=WiAGHwdfe6JygUXS2QsvN3KG0MwPydQlUavt5RYuZwAA+QGF7IsrzqoZeoa0GkZcKkw+FVew9hnJnsT4ZtS8+fhaHq1Zc/DO7cEcGo6tiFkv8QgjaTur3v3kQbdT1ePfopfbfJlXRnT+S1wHPL77q212MFIHjv/NemPJ83ma9Fw=
+	t=1787913753; cv=none; b=UGwAEiEfaD4F9IjjrA3jln8foqyJ2OtTefMXdB4/43s9Flp0QQq7FbtFz9foD82xiETT4NP3PlYshTL/oHRFh7f03KCbI0v4s74HszfmksVX42ojRdqae7LF4cky/2jD7NgBJCjx8EsUOTu8abg7L16pejXXN45FEAiMkCClhRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787913113; c=relaxed/simple;
-	bh=tycX6rDGVDnqUzXGzft8UrFrEKQ7OK0AvtUifPdMAF0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kjhQ4cHMvIY9fu6Sb6HzbZTyfLDjclwRY8Ez+/9rzKAaNIbKAZF3uvxOIdVplXG44ys1cmWbNEX9Ik5MkwThP7N2i/NjZiKm89aJlI1Wyp2FtahiD9Iq0sVCbygy4RvOFFMnfDxV9z47AsgAxVkrqycNMdNJcragFBrvUJOY1Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ctmxte7V; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1787913753; c=relaxed/simple;
+	bh=N4//OBVNGsKj/i+4jkWI/PIZiBgVARKAjYKLYZdPUJ4=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=H1OcSMvSnUDxcYxInwaUeV+cjuejsxGo+6l6vc8ikzSClwxFJlW6Tgyn+NbaySw5pfnfou9wEDu9zTYN/VhU3YevW3sbdZVcTq0I5nIQ2+0kIrQs3sCFSuw0gqkt4llIYep8cwjGOd6Bt0zDPanPFmoZ2oekRbL9SUX/1VrfAiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ghoul.dev; spf=pass smtp.mailfrom=ghoul.dev; dkim=pass (2048-bit key) header.d=ghoul.dev header.i=@ghoul.dev header.b=ZvLFb9xT; arc=none smtp.client-ip=109.224.244.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ghoul.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghoul.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ctmxte7V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=I4
-	N8gzh34TI4s9xtonIahAOEOyG3JFBd/5w0IEWxzdw=; b=ctmxte7VTqPZfHLDUH
-	qSPlOfreNlz3vxDreQ9CQ7w4dognsWsVp83ezPsYhkSNh4aF3tvtRLKwfkaLP37t
-	+LvNB1+AjJRcyctC4dkIQrHrkWNAMhJ30eyhcgs58+GBAaHN2pSbM9DSX7ZdT89C
-	53RzD6hQpvLn+zhaQPjjvQhSM=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgAnfhtxY5FqOxmtOg--.5497S2;
-	Fri, 28 Aug 2026 18:31:13 +0800 (CST)
-From: oushixiong1025@163.com
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] usb: mtu3: fix double dereference in mtu3_log_ep trace event
-Date: Fri, 28 Aug 2026 18:31:10 +0800
-Message-Id: <20260828103110.893817-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=ghoul.dev header.i=@ghoul.dev header.b="ZvLFb9xT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ghoul.dev;
+	s=protonmail2; t=1787913736; x=1788172936;
+	bh=Arqne3nbSe+5ZeHEigAEU+L4k/Z7lCBK3b7SPge5ayg=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=ZvLFb9xTMmh1fSCpo6vs0slLzvprMpTeXQQSJgupT36B8uk2F1XhnN7cRDbRWODqO
+	 YNWfLf+36B0abTt2nPTUV1q/fOF5O+SQD+0xNMCKauaWxkSwXBwv1DegY7Bz+1o/Gy
+	 ZGJYoXT9k7rSjNrVXOZYSGnllwCUBEBzB95OVL+tbbyH3ChPUJNHJ8sgiyhZrsXW4p
+	 LZ8yWcc0X2xtAuCe1Ol3r/IhEvtq5GGq4fpb/fRb27dP947+7fY2qv2TyMa3sV+hSM
+	 4a+lyemJC3oXAwFEaYZt6wwQV/Nu6OF9HW3MvNv36zfXM+0HgZs3YRB6QB2xglhGKP
+	 zyGGE41NnNsig==
+Date: Fri, 28 Aug 2026 10:42:10 +0000
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+From: Ahmed Yaseen <yaseen@ghoul.dev>
+Cc: Denis Benato <denis.benato@linux.dev>, Antheas Kapenekakis <lkml@antheas.dev>, =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>, regressions@lists.linux.dev, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, Ahmed Yaseen <yaseen@ghoul.dev>
+Subject: [PATCH v2 0/1] HID: usbhid: skip interrupt IN polling for devices with no input reports
+Message-ID: <20260828104159.62399-1-yaseen@ghoul.dev>
+Feedback-ID: 177610485:user:proton
+X-Pm-Message-ID: b22a264b94d2d5a2cd1438a923e522816256e6da
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgAnfhtxY5FqOxmtOg--.5497S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJw15CFyxXr1kWFW5Wr4Durg_yoW5Gr1fpa
-	yfuF9rKF4ktwsFvF4kZ34FyFZ0vrWFvFyrKryxu3s5Z3WS9FnxtFs7tryF9ryqkrWrCFy7
-	JF1qkryrX3Wj937anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UKXd8UUUUU=
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbC-hHzA2qRY3FYVQAA37
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+On some ASUS ROG N-Key keyboards, a second input-less interface is
+exposed for RGB control. Polling this interface causes keypress reports
+on the first keyboard interface to be dropped: a lost key-down drops a
+letter, a lost key-up leaves the key stuck. Any hidraw reader opening
+the node is enough to trigger it, including SDL/Steam Input or a plain
+cat.
 
-TP_printk() dereferences the gpd_ring pointer stored in the entry
-via &__entry->gpd_ring->dma, which may point to freed memory when
-the trace record is read later. Store the dma address in the entry
-and print that instead.
+This patch skips the poll if no input reports exist for an interface. A
+device with no input reports has no benefit from being polled, so
+instead of adding a new quirk, I have opted to skip it entirely.
 
-This is detected at boot:
+Devices other than the ASUS ones are unaffected. HID core already
+discards whatever arrives on the interrupt IN endpoint of an interface
+that declares no input reports: hid_get_report() matches nothing, so
+neither ->raw_event() nor hidraw and hiddev are ever reached.
 
-  TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-  ------------[ cut here ]------------
-  Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-  WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x138/0x140, CPU#0: swapper/0/0
-  Call trace:
-   test_double_dereference+0x138/0x140 (P)
-   trace_event_raw_init+0x350/0x5b8
-   event_init+0x38/0xb0
-   trace_event_init+0xf4/0x5c8
-   trace_init+0x30/0x6b8
-   start_kernel+0x4a4/0x8d8
-   __primary_switched+0x88/0x98
-  TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
-  TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
+The affected machines are 2024-2025 Strix SCAR 16/18 (G635L/G835L) and
+G16/G18 (G615L/G815L) laptops, and the bug is widely reported across
+distributions, so I would appreciate this being considered for the
+current cycle. Reports:
 
-Fixes: 83374e035b62 ("usb: mtu3: add tracepoints to help debug")
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/usb/mtu3/mtu3_trace.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+https://discuss.cachyos.org/t/keyboard-input-issues-on-asus-rog-strix-16-20=
+25-with-cachyos-during-gaming/30823
+https://github.com/ublue-os/bazzite/issues/4590
 
-diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
-index 89870175d635..041e730c88a6 100644
---- a/drivers/usb/mtu3/mtu3_trace.h
-+++ b/drivers/usb/mtu3/mtu3_trace.h
-@@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
- 		__field(unsigned int, flags)
- 		__field(unsigned int, direction)
- 		__field(struct mtu3_gpd_ring *, gpd_ring)
-+		__field(dma_addr_t, gpd_dma)
- 	),
- 	TP_fast_assign(
- 		__assign_str(name);
-@@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
- 		__entry->flags = mep->flags;
- 		__entry->direction = mep->is_in;
- 		__entry->gpd_ring = &mep->gpd_ring;
-+		__entry->gpd_dma = mep->gpd_ring.dma;
- 	),
- 	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
- 		__get_str(name), usb_ep_type_string(__entry->type),
- 		__entry->maxp, __entry->slot,
- 		__entry->mult, __entry->maxburst,
--		__entry->gpd_ring, &__entry->gpd_ring->dma,
-+		__entry->gpd_ring, &__entry->gpd_dma,
- 		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
- 		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
- 		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
--- 
-2.25.1
+v1: https://lore.kernel.org/all/20260605113952.38435-1-yaseen@ghoul.dev
 
-No virus found
-		Checked by Hillstone Network AntiVirus
+Changes since v1:
+- Added a short comment above the condition in usbhid_open() explaining
+  the reason for skipping there.
+- Added Cc: stable@vger.kernel.org; v1 was not marked for backport. The
+  bug reaches every tree carrying 4ac74ea68f64, i.e. v7.0 onwards.
+- Added Link: tags for two of the downstream bug reports.
+- No functional change: the hunk is byte-identical to v1 apart from the
+  new comment, so the Tested-by and Reviewed-by tags carry over.
+
+Since v1, this patch has been adopted by three downstream kernels, with
+no regressions reported by any user since:
+- OGC kernel: from v7.1.3-ogc5 (2026-07-21) onwards
+- Nobara kernel: from 7.1.4 onwards
+- G14 kernel: from 7.1.4 onwards
+
+Ahmed Yaseen (1):
+  HID: usbhid: skip interrupt IN polling for devices with no input
+    reports
+
+ drivers/hid/usbhid/hid-core.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+--=20
+2.55.0
+
 
