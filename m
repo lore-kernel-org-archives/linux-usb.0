@@ -1,48 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1904824E4C6;
-	Fri, 28 Aug 2026 09:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656223B4E88;
+	Fri, 28 Aug 2026 09:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787908542; cv=none; b=uM4hPp685kdJ5jdI4YlXf7WSz0W2v/pUWfYjs3net2f31141+Rm7O2U788o6uD0XpHQrpdT5munC4m79kZFRLHm7e2WdegzJiYfM5RUaGKoG6KbizCqYp587Jo8vfkN07XetUHuv3cTdqC9rn6lNd+jUF3dzZEt0JluW8gznATU=
+	t=1787910204; cv=none; b=Y71UUNdEFAv5YkF5GUeyMeUWk7/7hfKH9PrhhOi2DMEJtwa+Pt4cksAfSX6KPlxoLHf5EstUmEOAjSJ8+Llttk2OvZw5X+PnlILRg3MSfwgtXjJ7GIs8PCYgJJSVGNnw2AIHwUWpv/KB15weu3ZkWtqWU0BMjVFwrKChj7l60oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787908542; c=relaxed/simple;
-	bh=joTa+aA87n5FHwG5f29JGzpn0F/DcR2PpkEJKKsA/XI=;
+	s=arc-20240116; t=1787910204; c=relaxed/simple;
+	bh=hfeoNiAXpofN56qgXyvfF/HSqnz59+ctNIfUn3H9PtQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MXFF0YOLrFZUZREW+sYo8AGajY0M1n4YPJDG3pxBkh4df3ePk7g6t+5szmEvX1l9n9e2KVaOTo2p7MdUTy71eBP7k9H4PR5CcfMOrCSPjNJ1xwL9I9F1ELCriHQfd4xDJg4Zm9mM9q9tfgBbHdNJabU9tzlSN8ov2OVka2ODp8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwBtwHrp; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zz4ATo9aIdNGPl4rEcc9px833ZvGtfbHv7qv5dQEbCzVTdEVQ/rnuFGweiuAoqolCyD447SwpgQ341VRNOqEYoW8SZGlzTgvzn1zkduTOot5i9QPiRBmDiYrI0b3nRBsqdM1g6qdaIrXURPWjsRbsPkkk23Qe1WPktlXcw7E0QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=45o+Yljh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=J7SSjOvo; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwBtwHrp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84D801F000E9;
-	Fri, 28 Aug 2026 09:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787908537;
-	bh=WJNyvam/TtvWT9CJFPp25i1xg+QAJMyXxSbtCFngQEA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bwBtwHrplo0MqMZ/i1Jl3lgV8BAaxpSqNtPGwa9HxzmGCvoEvNCJDYv9/MwkNTZk3
-	 um08+x2LtBx1MrjuXZE5MwNOe3hxYv1ZvqjIVxX+Iejb6uoRbIGVy4NasZ+QUjx8Vp
-	 bK7jC8KjGPn/RmAe0eEdaELgOwyyZsn5qxuJTS0ixU/u/ltD+HKNWBFetDxoWVwm/K
-	 67Udx9oJ9MGQRyJ6UT3BMBIRa/b46qFGhgB+ctJLSn/RUJUvYk457JvLNqHNihD+Ln
-	 vKWplwD72TgaCNTijybmAyONWP0dQm63z5gxMU2nV//Xv3ENIE40bxMqRzcq2B0GuB
-	 fU/t8e/XAQmNg==
-Date: Fri, 28 Aug 2026 11:15:33 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Marek Vasut <marex@nabladev.com>
-Cc: linux-usb@vger.kernel.org, fabrice.gasnier@foss.st.com, 
-	Pankaj Dev <pankaj.dev@st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Christian Bruel <christian.bruel@foss.st.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Rahul Kumar <rahul.kumar05@st.com>, Rob Herring <robh@kernel.org>, Rosen Penev <rosenp@gmail.com>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org, 
-	kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v3 9/9] arm64: dts: st: Add USB nodes on stm32mp251
-Message-ID: <20260828-blue-caterpillar-from-shambhala-5c5dbb@quoll>
-References: <20260822074816.548662-1-marex@nabladev.com>
- <20260822074816.548662-10-marex@nabladev.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="45o+Yljh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J7SSjOvo"
+Date: Fri, 28 Aug 2026 11:43:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1787910200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pjRHFhHriioVeDp+1zYDfvO+9D3/XP/DtK0lE0wEdBg=;
+	b=45o+Yljhyc3s4BUwME1WMOaYN9eCn7pyf4yobL669RIzcBYx+SfQ1wLLfU6yE2h+hxItjf
+	C4f+B0YZtQVz3cnCqOvHqGm2GwDWjs70GbluAcXc1KOugpwD/QbpItO2TJBEBkOSezf47R
+	cYddf5TFsQUHqF/Bg9N0x9G3dccYdWVrO1myP2YwcurMmcVban6fRs+J8IVSz0cKfhuPJz
+	xR9Ackm9tEATPULMf6imMQdPrgbkx35+uAtW6fCrdmA75A/eFp51ttYJTGYiUX5tnmHp9s
+	t5x3l0TOdYIvTQppNR/qZyI0pn+An6p1cz022T40uDNGtIoUX6PmQXVhHskEtA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1787910200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pjRHFhHriioVeDp+1zYDfvO+9D3/XP/DtK0lE0wEdBg=;
+	b=J7SSjOvoFsBHMldr7g2u9ONRUja7c8TygPTZx8/uOsiCpvh6b+U2t5PEBF1mIR0KhltRim
+	KcBFeJE3RXQBOEAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Petko Manolov <petkan@nucleusys.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
+ work on system_dfl_long_wq
+Message-ID: <20260828094318.bOajNBno@linutronix.de>
+References: <20260720100902.155605-1-marco.crivellari@suse.com>
+ <20260720100902.155605-6-marco.crivellari@suse.com>
+ <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
+ <20260825151812.4aJyFUgE@linutronix.de>
+ <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,73 +65,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260822074816.548662-10-marex@nabladev.com>
+In-Reply-To: <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
 
-On Sat, Aug 22, 2026 at 09:46:42AM +0200, Marek Vasut wrote:
-> From: Pankaj Dev <pankaj.dev@st.com>
+On 2026-08-27 12:01:02 [-0400], Alan Stern wrote:
+> > > These drivers have their own work queues because they are part of the block layer.
+> > > USB devices can share a device with a block device (storage & UAS) and
+> > > USB devices have common, per device operations, in particular reset
+> > > and runtime power management and disconnect handling. Because these operations
+> > > can be necessary to complete block IO neither they nor anything
+> > > they depend on can use IO to allocate memory. That is they need to
+> > > perform any memory allocation with GFP_NOIO or GFP_ATOMIC.
+> > 
+> > This is a networking driver. It has nothing to do with storage and UAS.
+> > It uses USB, yes.
 > 
-> Add USB controller and PHY nodes to stm32mp251 DT.
-> This includes two USB 2.0 FEMTO PHYs, USB 2.0 host
-> controller and DWC3 DRD controller nodes.
+> Ah, but a composite USB device can have both a networking interface and 
+> a mass-storage interface.
 
-This looks early unwrapped.
+okay.
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+> Suppose you have such a device, and suppose the disk attached to its 
+> mass-storage interface contains a swap partition.  Now suppose the 
+> device is being reset, and as part of the preparation for that reset the 
+> networking driver needs to flush its workqueue.  This means waiting 
+> until the work routines that are already running have completed.
 
-> 
-> Signed-off-by: Pankaj Dev <pankaj.dev@st.com>
-> Co-developed-by: Marek Vasut <marex@nabladev.com>
-> Signed-off-by: Marek Vasut <marex@nabladev.com>
-> ---
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Christian Bruel <christian.bruel@foss.st.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Pankaj Dev <pankaj.dev@st.com>
-> Cc: Rahul Kumar <rahul.kumar05@st.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Rosen Penev <rosenp@gmail.com>
-> Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: kernel@dh-electronics.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-usb@vger.kernel.org
-> ---
-> V2: - Fix up Sob/Cdb lines
->     - Move PHY into syscfg subnode
->     - Turn st,stm32mp25-syscfg into simple-mfd
->     - Use clock-cells = <1> to discern OSC and future PLL clock from the PHY
-> V3: - Describe OHCI clock as the CMN clock
->     - Fix up Sob/Cdb lines further
-> ---
->  arch/arm64/boot/dts/st/stm32mp251.dtsi | 65 +++++++++++++++++++++++++-
->  1 file changed, 64 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-> index 6e985f115b195..dd2f7ddd9b634 100644
-> --- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-> +++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-> @@ -1746,6 +1746,47 @@ stmmac_axi_config_1: stmmac-axi-config {
->  				};
->  			};
->  
-> +			usbh_ohci: usb@482e0000 {
-> +				compatible = "generic-ohci";
+The individual functions are usually independent. But if the USB core
+would reset the whole device it would reset each function.
 
-So probably this answers my previous email about USB binding - you
-really should have a specific front compatible. That specific compatible
-also would narrow flexible properties, like clocks and reg.
+> Since it's a general-purpose workqueue, you don't know what those work 
+> routines are going to do.  One of them might try to allocate memory 
+> using GFP_KERNEL.  Suppose that in order to satisfy the memory request, 
+> the kernel decides it needs to write some pages to the swap partition on 
+> the USB mass-storage interface.  But the mass-storage driver is stuck; 
+> it can't do anything until the device reset finishes.  Deadlock.
 
-Best regards,
-Krzysztof
+So you are saying, the USB-storage device is in reset and we wait until
+the networking part finishes its workqueue flush. That flush is stuck
+behind behind a memory allocation which waits on the storage device. So
+any URB passed to usb_submit_urb() just waits for the reset to complete?
 
+> That's why USB drivers have to use their own workqueues.
+
+While this does make sense I don't see how this is related to this
+patch. The pegasus driver uses `system_long_wq'. This is a system wide
+workqueue_struct and is not limited to USB or this driver.
+This workqueue is per-CPU meaning if you enqueue the work item on CPU3
+it will be executed on CPU3. However pegasus uses a delayed work item
+and the timer can fire on any CPU so even if it is enqueued on CPU3 it
+could be executed on CPU1.
+
+Therefore the suggested change system_long_wq -> system_dfl_long_wq
+should not make a difference here: it is a different workqueue and it is
+unbound (instead of per-CPU) but given the usage it is unchanged but
+more obvious. Also its usage recommendations (use this for long running
+items) is the same.
+
+The plan is remove system_long_wq from the tree.
+
+> Alan Stern
+
+Sebastian
