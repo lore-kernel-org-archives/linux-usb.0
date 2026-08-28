@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFFA44CAF9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B152244CF22;
 	Fri, 28 Aug 2026 12:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787920685; cv=none; b=Aat0Hf9iq9qpB9CTeLWyRV5+nSMSnmA35+6w9e4MKkTE5Vm0UEGgZLF/ANuy/xavxSxLtNKNE73W/rTymL3lKiRM7zaqxBxCM+D5LypwJ/beSHtUlvZ3vj7KcIYgJ2OG9UB7SadZe/WVTZbnXI9ABW6vs9TOP9WnHIcAvJt4TfY=
+	t=1787920685; cv=none; b=DQJjduoiJPwxh33uofORpqb82ofVUQegfcppDc3Eg17QaX44ai3vhuDsOTXQ3JyP1Ci0vVgJWIpTyZmwB9lzIhCufI34yRWWQ14Dj+2xzl5ohAq7i9FtqAvwers90uCEs3G0etkMEF1caVltGFooaCK0hy6IU0GmdXKQy+4O7m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787920685; c=relaxed/simple;
-	bh=7pQpTq5IN5nNQXVBYSrc2iT7EUm4FhFeefaSgd6m7LI=;
+	bh=qu+f/ob1NHeg8faEQQMQA0WwruoStEI6iaJ2DsXt0GA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=O4hHAyy/IAMfWh7cHkAuIvlcgU9S8LZzJ+O+99s7BYI5pOlj1grG87zjiUYZneCtjWoyqXlq9qzWac3h6JCe5HhDJqXZVY7AFz6tFMTlZ27wNxq20X4uagAroQvI5b3kp5UTkGrS941njAuWGwgUo10Zu8dfimRrdYG5CaEakxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWObOXTs; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=C/8HOxqovg55tYTSR1Q53LMAwKJRhBfof0/cJc0FUenj5GRPB49QGAjl7UZFQTmOhTD79SchmOeuLeyqM2YUGTbrLNbYSBYoChNp4dc1m99hlVmHh4EK3V8fdEpJrRCRdU/zaLFo9p3bgNdt2QvsaIFfLpgkWzLrrcyJwSbWpV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0tB00j5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWObOXTs"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DD24C2BCF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0tB00j5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D193C2BCF4;
 	Fri, 28 Aug 2026 12:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1787920682;
-	bh=7pQpTq5IN5nNQXVBYSrc2iT7EUm4FhFeefaSgd6m7LI=;
+	bh=qu+f/ob1NHeg8faEQQMQA0WwruoStEI6iaJ2DsXt0GA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VWObOXTsS0S/lxYVq/WQaeek0sFtgI7wOlsNoWrpeF348/qABHLNbMuUDmNn47GDY
-	 jpSueXCmY1wAWNsrMgWcds05IY+tJxn1NxV9GPr9V3vjWbh1t2DlhqYFgPrQWwgCEE
-	 mFN2gzKHUIlvWvykKVufIN9zIKkbKj0p832pCEQ+MhriV+ctCJSzyJieV6KDrRRR9D
-	 nQANTATWL4LUh91dSqJz6OaTMowgdqEvHoSaFptEN3UTO/qrBE8mtXCQlxyxTcvRCe
-	 v11J6WB0ztIB2GGOYkAGTcy5cQ3AOQVeQK7Urw9h6JbkVKW53wI7ob06Xn/3ZSjjDT
-	 3bI2awAlIL+aA==
+	b=V0tB00j5t/SahuR5LXvA0t0Qq2eJ2BHdlDVWZCHD2P36RCFIDu4BkLjmMiGRCGpEN
+	 RW5dldGi4NFK25wNmVTHePYHzrSGW8L/R3liquYRY9ih3zWDt0g3YiEf9uk/YDIT9G
+	 cXBV0ZsRV/nVZc+uK2nPSfAiXGKp61DSyslYGEli+qyAUlZ2QdX/e/3kkUJmUsYffu
+	 d9PJNqPRUPzlb7LT6vjlGZTCOokyV6ZDOkz63iYoHeqkNUxjAgQi/i2F4F9GgVb4v1
+	 BU5LPoAwv/x5c8svt5l/FEw05wWzUucjD1/yszDZVxJb0ZwkZeVe6mpp7cPAwVT7m/
+	 ZiELqrUIDW44w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C861C61DB9;
-	Fri, 28 Aug 2026 12:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F021EC61DCB;
+	Fri, 28 Aug 2026 12:38:01 +0000 (UTC)
 From: Matt Eaton via B4 Relay <devnull+linux.divinehawk.com@kernel.org>
-Date: Fri, 28 Aug 2026 14:37:56 +0200
-Subject: [PATCH 2/2] usb: xhci-plat: add xhci-no-soft-retry-quirk device
- property
+Date: Fri, 28 Aug 2026 14:37:55 +0200
+Subject: [PATCH 1/2] dt-bindings: usb: xhci: add xhci-no-soft-retry-quirk
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260828-xhci-no-soft-retry-v1-2-b9c264b56601@divinehawk.com>
+Message-Id: <20260828-xhci-no-soft-retry-v1-1-b9c264b56601@divinehawk.com>
 References: <20260828-xhci-no-soft-retry-v1-0-b9c264b56601@divinehawk.com>
 In-Reply-To: <20260828-xhci-no-soft-retry-v1-0-b9c264b56601@divinehawk.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -50,11 +49,11 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Matt Eaton <linux@divinehawk.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787920681; l=1564;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787920681; l=1049;
  i=linux@divinehawk.com; s=20260828; h=from:subject:message-id;
- bh=hre3DhXtEdMtBActPCAC6ChtUOOZ9DzGbOAgxtv43Gk=;
- b=XAbaNZQo5priU8H5STolVWtvAB0wfYM/0PrITDc5tHB9fDkQ4+lyydfBmcHBIOMcyT9qf2EkL
- raRHLj6xlj3DLGYY5Or4LjFYOureX42HUbMEc7/Yqx3RBz6V+id0N1G
+ bh=QfcjNB9WKVLLNE8Ksp+rel4ttvk1LueifZBC6xUC6/I=;
+ b=7bkqOqUwaiqf0pG/quRnR30HZug1ImL+eIStoZTr1pcQwXeyvUthSfBuffaR840E25OSzpsnw
+ aOM0yODmwLMDMVNflgrbnu9rjZYg34P5NU0Mv+NHuGC4grY6nzAXgo9
 X-Developer-Key: i=linux@divinehawk.com; a=ed25519;
  pk=UG4KnKXGwxjTNdirUPh/nySblET4aRxWYWSMTQwzlMw=
 X-Endpoint-Received: by B4 Relay for linux@divinehawk.com/20260828 with
@@ -64,40 +63,33 @@ Reply-To: linux@divinehawk.com
 
 From: Matt Eaton <linux@divinehawk.com>
 
-XHCI_NO_SOFT_RETRY exists for hosts that can't perform xHCI 1.0 Soft Retry
-correctly, but it's only reachable from xhci-pci, matched against two AMD
-Promontory PCI ids. Platform hosts have no way to ask for it.
+Document the xhci-no-soft-retry-quirk property, added in the
+following patch.
 
-Add it as a device property, the same way as quirk-broken-port-ped and its
-neighbors. It's opt-in, so no existing platform is affected.
-
-Needed for the Synopsys DWC3 on a Qualcomm IPQ4019, whose command ring
-wedges when a Stop Endpoint command lands on a just-soft-retry-reset
-endpoint -- exactly what unplugging a device mid-transfer triggers:
-
-xhci-hcd xhci-hcd.1.auto: xHCI host not responding to stop endpoint command
-xhci-hcd xhci-hcd.1.auto: xHCI host controller not responding, assume dead
-xhci-hcd xhci-hcd.1.auto: HC died; cleaning up
+snps,dwc3-common.yaml refs usb-xhci.yaml for every dr_mode other than
+peripheral, so a host-mode dwc3 node inherits it and dt_binding_check
+accepts it there.
 
 Signed-off-by: Matt Eaton <linux@divinehawk.com>
 ---
- drivers/usb/host/xhci-plat.c | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/usb/usb-xhci.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 6fd595f81a30..22057493f935 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -265,6 +265,9 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
- 		if (device_property_read_bool(tmpdev, "quirk-broken-port-ped"))
- 			xhci->quirks |= XHCI_BROKEN_PORT_PED;
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+index 4238ae896ef6..5d67a41658f7 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+@@ -25,6 +25,10 @@ properties:
+     description: Set if the controller has broken port disable mechanism
+     type: boolean
  
-+		if (device_property_read_bool(tmpdev, "xhci-no-soft-retry-quirk"))
-+			xhci->quirks |= XHCI_NO_SOFT_RETRY;
++  xhci-no-soft-retry-quirk:
++    description: Set if the controller cannot perform xHCI Soft Retry correctly
++    type: boolean
 +
- 		if (device_property_read_bool(tmpdev, "xhci-sg-trb-cache-size-quirk"))
- 			xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
- 
+   imod-interval-ns:
+     description: Interrupt moderation interval
+     default: 5000
 
 -- 
 2.43.0
