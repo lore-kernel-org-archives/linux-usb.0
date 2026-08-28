@@ -1,147 +1,119 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C073AAF4B
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 06:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787897799; cv=pass; b=maTjkRHObg4hssfH0iD05R4dQVUmd2dJLIP0qrY7phUN5cWk7MX1pAfezePVkcw+FgWLSghI7Kg98klBPLRrPXasr95tvT0oH5vj8mipAu6M1MxvlI6baPxOQyUCqlIeZDidoa+5Vrn20g1C8vak6wLtO97oo3rlhS86I8rJ6fY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787897799; c=relaxed/simple;
-	bh=xoMiV9pBhr3XdnzLt7GGRC4M0vLljGvUyUzXHHfPtsQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VbrlXl9V18smsQgIMqWHrNJFX+kQqZMfqSFBHeQ2Tn8Sjv1eD4/gWM7Rn2rrYgE06qSkoQry+Zih68Dgw11Zrpl5g1v14FNfSC8P2IN8xecGgLOvtrtJYbtVR85GU1xHJZ9xa95+JWhUCIAzp89wRQksizGWToXfaReQxKH+J9o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=NND2t35b; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5303CAA38
+	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 06:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787897917; cv=none; b=uGspBdgeJ5w/aRnK58DSlOEhA1p4r4ts2vCvToJsSQPloivGMXKHL2WIAzMCgbtRIihKOHDcJUjMMIpSO3DUq6AemMl4VLKX1VQU0qRueVp24knCXro+1xUmwh/rDqlA25a1dbrspOrS0vOpm60W8MGCQuNiU+4zFKMnuETs2Ck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787897917; c=relaxed/simple;
+	bh=OeN0Lav0sDKSoCcN2RqkRGO8fc4vJdxOu6ngp7tAmD4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L55Ho/Bt/uZVVk5B6DMe4YsYTdPmcWw7IrCGyzAYj7tBbQLuI5SO75KD+A/WpMfVbQjfN81kNzsnVkUcRYMqRedlpmDUGiWZi7bz7a8tn0tRGlX91/5Z77sNe5nyi4QdFCG/E4voF0mmlm575sO7lrniFa/4sDvi/TtnJKp9lI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2gGftgl; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="NND2t35b"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d7195706f1so7471645ad.0
-        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 23:16:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787897796; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ocEeC3tzTm25oiuHMWQq+oU5PQNkU0FPVNocr4Y0x+dPca8reXBTL77et86TyK2zOT
-         j35ELVxjdqbOpbgeSws31hz5dQLMYoM+LgIeTRSysu3ZtHzHiQ63vPpEqeaYajOQiw8s
-         aqhxXnE+mP+/xW1KlsCcXUZ6IaXMI1mMxzxDdyncyoQsVAEcFVfW/F2VwMQZCvneRbXE
-         Qdna9tL5SIe+WIVg+7bD725hL0OJs4EfyGzwDtiNgwodNSBi+wj8T81UhrgJ7xQ8lLfU
-         Qep5UyNNueeHF/uuhMGWZk7t0wzd2QL66SzyJ20dSJbNgfz1FseIWV6SCg8+40zB+S96
-         Wb4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sflMmxyu0cD4KSTlFZjH7uOclQyjcfSGu1IXDQSkpX0=;
-        fh=czHbWFEPuZYyY5xPaRT5b6jPsmFpS2hb3M6sc7pSj1Y=;
-        b=ZYpAstCaOCDFOLKIl1nG5m7m424gEz4r/+D5X70Q1t0lXEAfyOK0Q6oX1coUU51hQY
-         F+Ovnuv7/xUHey/nCOGWD7O5nU2px2RW7w58PQRU6iAmbG4Zc7ssI+cnlIHrVMoRAliP
-         CaTeywPo4wM2sRpjPOuyJxwhnemz5g0FL4/D5oOfRmE+ZYRzKX8fiamOO/z7H4SXG0U4
-         ae61jk3nFQL+1ra6aqTQxWu0M0ZBdzvjJPxfRacl15A6p0zdj8hjag3+XRQ1b50s9IvE
-         /vNx2k2sP37JazyxnwTxTI39kS7RtVyYsH5wpZaxl2vkNnTLa47Tu1grxdPo+x9dKRLV
-         xT5g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2gGftgl"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3964e480f76so935416a91.1
+        for <linux-usb@vger.kernel.org>; Thu, 27 Aug 2026 23:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1787897796; x=1788502596; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sflMmxyu0cD4KSTlFZjH7uOclQyjcfSGu1IXDQSkpX0=;
-        b=NND2t35bzFhYdKArGYhMr+2WTbTIAkJ8Fw4Skou7TtZGW40Q35u0YdV1hdVx6jhWnA
-         rA9T2e3f/oHtTN0DpLEKlIqOOgDd8Eebhr4bF3iMHDPFttP5FZZaGqNlC0DpSwSfqETi
-         R8ItiRI0vy4BwYXvfVl4wvupyUN6UzBj5nlXjAoC56M8AqY9IECOhQC+NMt8rsf9Khi2
-         zG0HVSRguedbYAuNXFh9wROG0QbnFNpkRm7hJLYOBDR90n1L7p7rJf7VFT/FVl7+N+Mf
-         /d2Z6KSKunWTImE0DZnGKC0sYAAYV3cObKo/h5DPfV+hWwlUKOhWPngG/ADiagXo+skM
-         DhCw==
+        d=gmail.com; s=20251104; t=1787897915; x=1788502715; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=a4KnJNHHlG1FDDJ6KhAC+DODrr7DQNNSCNVhvaZK7wI=;
+        b=b2gGftglJxt7/TbatfiGK6bz/WoPKtINp/JpY0l2FIwyK7I5Bp4OQh1pEW90atOqcD
+         tX0jiua4IOFtaoNfGdIHxXmxdlJxlRETox2zJk+YEWBdW/CuSYz43tDOUeWh91sZeA+9
+         kdV2JxjQSE6uM+OfVa2It4cuBs5t++8GPb9m1pUBHXwgQ1ascBZjh84bjQM//7oK3lII
+         TIuu9cTxCtr5Ymb7rzAyZIuqX5rWCTOfKymxnYg/YvclnbtT/U7fCukrEgXhEqLouUR+
+         GpxUmk9amdoxoNIPnbxyiFVuli++o7oltX7yiP15KQJ7cKTV7cVri93gdk6TTP7h7RNr
+         qcAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787897796; x=1788502596;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sflMmxyu0cD4KSTlFZjH7uOclQyjcfSGu1IXDQSkpX0=;
-        b=LI2ZqnYZaUu875Pl4jEskepElNHBrWhipnyF82NBa7Zp65J7B8zJ4ngY5fudnIeeID
-         uQnxFIqJFdmFFqJQ8ajzHrerFm320EG7omqwyQX9jYqmuIR6FWwAfds21n2BwrJRz6cU
-         EOXz2PRDuRKNNY0h2U2x70XjpdJsBlpSvMTnykotUA2eXeT64/TvLqSx73c35aOa2Lhg
-         LP8UEQO+U/ojp7ZCKMLM9NpyyU6iMamVmZ65H9WSccyWnnOT5GkRPXEzLtcXha21VSjJ
-         L6G8FRHmSDsP9dAUPSsuX1n2YVqwrRU7BzP/1I+fP809san7l/hm7rDLjO2zObvvE98T
-         /bTg==
-X-Forwarded-Encrypted: i=1; AHgh+RobFca+ThZ6eQSQLlZrI/1nJ2yLTR9NH0roFT69/oMeFFfrARFgWSIY45m9KkytKQ4JbQWgKz/W2lk=@vger.kernel.org
-X-Gm-Message-State: AFuF++mehNLGRPfqMAGVrzL9n/1MxyQtSFZ5ax3N/52Q2nbKJRoIXNZM
-	6Qe8Z8QcVTdhCOe7W07FqDd0GDbB3NVXqJf2z5DK179PjtpaSih3ikdNwGj236HCrnE2h9/JwrA
-	Ngtao3ig1+U4jfxUnWSUWHIeqfsDU+eAT41VhObvG
-X-Gm-Gg: AR+sD11eT/PZNJZw6RhK5uR27ZDKM809Eqjy2VDPhamx88P5HuzNuWVjQG+t6WBKHEU
-	vSyJnAGSVPJPda+H9ieXqTMxNeiXUQXrb5ELhSweZSa2W+/czSnjPPcN+ynAl9bzYTx/zk6qiQa
-	i8fZcp7Ue+hUNkXBwTCJ8S1TROzGqjbfGBDkAdutPBTLUJFgqdZFL4p0GMw1ROM7S2VA3pG5c8l
-	o7pHJveGn2uC+4/7RzqHjENEgnynQxYx6ufbmmFSOaJM2+CIzIR6xSSr/kURJYBkfBrpOw9+xiD
-	t2YUTORRkjeFjILslWCh3O0EdTsAZ+crrPuHz/r1rqyUpM/j/AH7FOvo4AkCWY6NwHT/hzVmo2l
-	XZJmENuHvLZq/g11iLpyn8uDJjq7UpbKYAJuJy8tIYUH6ViQ0/j6QuHW6BI3FxAY=
-X-Received: by 2002:a17:90b:440c:b0:381:6c5:3f63 with SMTP id
- 98e67ed59e1d1-396d0eab08bmr9179421a91.6.1787897795025; Thu, 27 Aug 2026
- 23:16:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787897915; x=1788502715;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=a4KnJNHHlG1FDDJ6KhAC+DODrr7DQNNSCNVhvaZK7wI=;
+        b=oGkRZdXkOCZ41Pj1fhXhMbikVPungXR1fHZgB0pHwvCWLFo45npo0C4ZLpDPKc44l9
+         Ru8BiRnnDCzLzu5cjifOxqJIr5fJgNcVjXETLdH4Ry5ma1fDMyS3GQUvTKyd2qrrPnrZ
+         oQ2EVYGpZVkoDcMlV6gjTn8hPoHu5No7DTpJ6LelBuHeie1V68EXYBWKwSPNucP0Ijys
+         1lQ6T+Nauy2aBffXwvcLjDE46HhcvqKS9kMkK+WJ+So0hAc/yAnYtDjSWXoezo2Q0Ju2
+         zMAg1wz2PoNhMyyPjBMyJPvH1AVPI9mxmKxMV+EDGxyactLNaxV8CiWzqgfWdNDrLy/B
+         QL6A==
+X-Gm-Message-State: AFuF++nnpTnMZ6sFUkGMOwlU1nGxFVy8u834UNzvsGeMXEve5SKU4A/8
+	ly2gSS2T0jt0U9sD32dAN17J2wZ/tj+8T1FbDjRv8rla/AiZCNLNIMun
+X-Gm-Gg: AR+sD13OqMw/vG8iXC8yAkSozQgNm/haF8RuBxudON/bHYYg7tp8YbHiQALZO4x6DTh
+	gu3mgvmJDm1bCd2jhgyN+Pd4qQA7WVWIeYXPrwoDznblI+mK783RDQlX1VgZeeqrkIYvXvf+LdY
+	60AKfOKWXhUHfhc8wx4noGCE2tPYF+T0R0gc8rMy2hzj8OMBqeXDmVdEQ2ntzK+xsU6AOqeZiW/
+	gcbs21XKZNR8NVVHF3cUCtvZLAeMyewjNKOqM78UYA/2sjpQK2/gQFJ0ahGnJFIkaD+FGg9bxkK
+	wBDNRuYppCpyNWOUH2rd1JzvD5U+uRoQ82huJtXBDaRbtyRdzUT0pWat8J2S+tziCzRo+JJV3mx
+	WRWchkPXriP3fWnsV/EgBODcEkRaV18wrfocUzDdfBu3A/WHbIzTIrYfc2HSXjakGX0Sz3gwn/I
+	zrZL21VQlW4dWDNzSvek3SxtuKonTjoBxHA4qt9aSO3IZI1WeijCtXeszD+Cpb
+X-Received: by 2002:a17:90b:1f86:b0:396:4cbf:45a2 with SMTP id 98e67ed59e1d1-396d0ff5bb9mr10023490a91.14.1787897915157;
+        Thu, 27 Aug 2026 23:18:35 -0700 (PDT)
+Received: from tradnomic.. ([2601:646:8300:7570:53eb:e6f6:37c3:14bb])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396d22eacbfsm793778a91.0.2026.08.27.23.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 23:18:34 -0700 (PDT)
+From: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rafael Alejandro Diaz Cruz <rafad900@gmail.com>,
+	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+Subject: [PATCH usb-next v1] USB: gadgetfs: Fix use-after-free in gadgetfs_kill_sb
+Date: Thu, 27 Aug 2026 23:18:29 -0700
+Message-ID: <20260828061829.566256-1-rafad900@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+0ovCh2o46zgc5Be_Z5=6NNJTKnd3W29zeMJ+gBCgL+4fFLAg@mail.gmail.com>
- <2026082853-proofing-pungent-4e23@gregkh>
-In-Reply-To: <2026082853-proofing-pungent-4e23@gregkh>
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-Date: Thu, 27 Aug 2026 23:16:24 -0700
-X-Gm-Features: AcwNN1VKlBjci1xgsuY-L9s1bkbRjRQnZ-ek12mQnwOMDHFbKaacflx2cNEeSn8
-Message-ID: <CA+0ovChEnx=kEPqK025rVH9EXRBk-dvSTts8+2ufw6bmt7nrvg@mail.gmail.com>
-Subject: Re: [BUG] platform_get_irq_byname_optional -- dwc3-haps registers IRQ
- 0, WARN on first gadget init
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, falemi@asu.edu, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Greg,
+When gadgetfs_fill_super() fails, it's error path calls
+put_dev() which drops refcount inside the_device to 0
+and frees the objet. But the_device pointer is not
+cleared, leading to point at freed memory.
 
-You're right; sorry. I've stopped sending.
+VFS will then call gadgetfs_kill_sb() after mount
+failure leading to put_dev() to be called on the
+already freed pointer.
 
-I'll resend individually, with the reproducer inline, and a proposed fix wh=
-ere I
-can write one. If you'd rather prefer that these not go to
-the lists at all, say so and I'll drop it.
+Fix by setting the_device = NULL during error path
+before calling put_dev() inside gadgetfs_fill_super()
+so that gadgetfs_kill_sb() skips put_dev().
 
-On Thu, Aug 27, 2026 at 11:12=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Aug 28, 2026 at 05:34:05AM +0000, Farhad Alemi wrote:
-> > Hello,
-> >
-> > As part of the kernel research at ASU's SEFCOM
-> > lab, we hit the crash below. Crash reports can be found here:
-> >
-> >   https://github.com/farhad-alemi/public_bug_reports/tree/main/149-usb-=
-dwc3-haps-registers-irq-0/
-> >
-> >   dwc3 dwc3.2.auto: Configuration mismatch. dr_mode forced to gadget
-> >   0 is an invalid IRQ number
-> >   WARNING: drivers/base/platform.c:492 at
-> > platform_get_irq_byname_optional+0x1ed/0x220, CPU#1: repro/9498
-> >   Call Trace:
-> >    platform_get_irq_byname_optional+0x1ed/0x220
-> >    dwc3_gadget_init+0x607/0x2170
-> >    dwc3_core_init_mode+0x2f8/0x790
-> >    dwc3_core_probe+0x2345/0x2850
-> >    dwc3_probe+0x100/0x150
-> >    platform_probe+0xf9/0x190
-> >    really_probe+0x267/0xaf0
-> >    __driver_probe_device+0x1e2/0x350
-> >    driver_probe_device+0x4f/0x240
-> >    __device_attach_driver+0x270/0x410
-> >    bus_for_each_drv+0x258/0x2f0
-> >    __device_attach+0x2c5/0x450
-> >
-> > Our reproducer.c is available upon request.
-> >
-> > Happy to test a patch if that would help.
->
-> Again, see my prior emails.  No idea why you are still sending these
-> out, do we need to set a ban on this address to our lists?
->
-> greg k-h
+Reported-by: syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=4a5c87a01894ca37f25c
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+---
+ drivers/usb/gadget/legacy/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index d87a8ab51510..77efa984ce84 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -2059,6 +2059,7 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+ 	rc = gadgetfs_create_file(sb, CHIP, dev, &ep0_operations);
+ 	if (rc) {
+ 		put_dev(dev);
++		the_device = NULL;
+ 		goto Enomem;
+ 	}
+ 
+@@ -2066,6 +2067,7 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+ 	 * from binding to a controller.
+ 	 */
+ 	the_device = dev;
++	get_dev(dev);
+ 	rc = 0;
+ 	goto Done;
+ 
+-- 
+2.43.0
+
