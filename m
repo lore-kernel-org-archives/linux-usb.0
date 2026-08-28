@@ -1,190 +1,92 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E814582C7
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 15:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A585E306775;
+	Fri, 28 Aug 2026 15:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787930069; cv=none; b=YueqPmBRsQHsSvpft508Ez6GWg9FMp1aLzb8Jmsu0Xf7Y1OpFvi+HHvpbv+zpoVNlpTphlU0VBvPTuQ4a/9qDarci1bkJzXVVLRySC25XJSUw1z6si7ROzVwVAajx4bPdgdDnFsiNmWDktsRK8/EWsfgFTlqFytcniqzueTMU2o=
+	t=1787930503; cv=none; b=Xz62EEioL4RWgpjSj8sZPzOCm/xmdwVIBZKZwq9TjyC3DdBOAmA/eX4GXTcGlYVNfNRDLtPEPl3Bn8aYRgiRwQcRjvDYVf0OQeUJi8OeqiZQbX7QMO2vuaAeZC9Qsk/OEMe8cXym7eu/4HaLHRkpJf5qvZk4m3ClEp1wyg+f7M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787930069; c=relaxed/simple;
-	bh=bxkizeat5GUcIP4sFJ+GCIBzsET33wm+HcTeHEwKYLY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dA/eiRS4g4tDIofp0QYzdJJeu5oupQ/VjBiLM8izQddBngo7yTm6cXa2Q5TToFtwkWJNhsT7ne1S2sKkwvKsr6qtNIKlAQB7shzr6XRiA4cu8R0FdHO851hynCGqiDtbu4vk37x/PWHqGVEPBy/fkI6CFqHFtL3cFDmC4GfoaCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4b3b05aa29dso26109b6e.0
-        for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 08:14:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787930066; x=1788534866;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=F35JUbY5RodIRW30ZhUW7omH8qQRFCxSw/t423wJwO0=;
-        b=RiWZhxR2Nd2yNy7JXfewPgzdCUK0z7jn3tq8hf/OGUrFoCP/XG5EZkXyiG0vQzukWa
-         oMEW/gqi62m7aCpffpCv4moDPZ6ETkI3MyQKHfenslgGJeLkJjuYRlkcxAQ7VsuZZdR1
-         D49UMJa/xoRVwNk2C0Z4HOPyP9G0P4ysMJodk4U28kEBdEmityBXHGqk770dhoAZhHJo
-         I6veK2kpHvpd+UuCaKGXb9ilCbhRLCTScs+WemaQTBsyyldoTs3KMxC/Bri71/WJsVdX
-         WmM5YjgW259/fZcDI+kDhQOVezdXb6o+LsK+MSIJPRb2PUrSWDn/jdk0+sx7NqPNLAQ8
-         Ntxw==
-X-Forwarded-Encrypted: i=1; AHgh+RoSNdX54arRfcC+Hlo9aInWEdAxsvhfuXMDaVegS5Vg/inRRzo3b2bgnEHEkT57msTaFtawiDmTo3s=@vger.kernel.org
-X-Gm-Message-State: AFuF++n/GhpYeESCnInQmbuvb5DiYvy7zhLyljuOH0pRWsNPCmswQUKe
-	x9PCdnldqyLxOEeff0sXPZb+229yuu3bLYy2iZsMysJyNeOZVsT1m6AbvoUFsMbAZytr6CvD3cE
-	R9Tmb25zmufdEWulhYxwxzFkaphJ+FE1Zkvimz42za9i5P/J1St0xWpPYp40=
+	s=arc-20240116; t=1787930503; c=relaxed/simple;
+	bh=sA3njYVC28W7mw3gyfP0oATUO0bmd1xuckBZOcY01AI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LQbCNessgPcP2W7cuj+MHWNYKOYRl9U2PpNB+JoaUIg1f6oZjkdvfJ3KsOh01BxvmKJBaurILNq5nhKNX8Uru9/ooc8wk4tM578AshB5F0mHd/qVeJjeHmBxEhA5rUILUnmD+NbuKnh5z3hC09iUXSbUM8ozz0iA0o9UetAu+j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=iyYX//EC; arc=none smtp.client-ip=178.251.229.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="iyYX//EC"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0A85211C69A;
+	Fri, 28 Aug 2026 17:21:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1787930495; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=1Lhf28p1KpUv8PgegBMsP1d1gnOFYTeDBzEP/RItsI8=;
+	b=iyYX//ECqZvLfseXzTmTgvjkD1MsiuGO7BUIVM0E+5/rABdyJaMbg1N0SCYf+mvByRPOzb
+	eTc4lVLeacXAZPJHydblJGzbs6vn7pRv8044aXC7QfeueocOGYX/hAldtW6DF71fFwcnlr
+	C1gUJqjXtGeocmqQ1KEcGxq/UufdEBaiXVqdDoyhfocAPXS3DeGGh0kiGBXZpqpb5wvoAN
+	q+5Ve+Pfsod7xHrWqJh4vIYmdWaukA5UVkweftd6eSiI7Lc2kBnYdYnFH7MXvQjWx7cjrQ
+	d7S8T5YD7wUUeIEyPi0eeR+SeetPdk2IxdXPDpqajQdfhiVZefz03FWyt20YCg==
+From: Marek Vasut <marex@nabladev.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marex@nabladev.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v2 1/3] dt-bindings: usb: generic-ehci: Document ST STM32MP1 SoC compatibles
+Date: Fri, 28 Aug 2026 17:21:15 +0200
+Message-ID: <20260828152130.176171-1-marex@nabladev.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c173:b0:492:c9a4:2104 with SMTP id
- 5614622812f47-4b37c999474mr12651871b6e.10.1787930066527; Fri, 28 Aug 2026
- 08:14:26 -0700 (PDT)
-Date: Fri, 28 Aug 2026 08:14:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a91a5d2.4d659fcc.734b4.0021.GAE@google.com>
-Subject: [syzbot] [input?] [usb?] KASAN: slab-use-after-free Read in k90_backlight_work
-From: syzbot <syzbot+abcedffc9201f2bb66c2@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello,
+Document SoC compatibles for ST STM32MP13xx and STM32MP15xx series of
+SoC, so they can be used as more accurate compatible in SoC DTSI. The
+SoC DTSI currently use plain "generic-ehci" which is not future proof.
 
-syzbot found the following issue on:
-
-HEAD commit:    73e3f0710014 Merge tag 'nfs-for-7.3-1' of git://git.linux-..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17a76579580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9efed59cf70d6280
-dashboard link: https://syzkaller.appspot.com/bug?extid=abcedffc9201f2bb66c2
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ef9dc2fd7978/disk-73e3f071.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1de9c5b90e55/vmlinux-73e3f071.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/79167e663675/bzImage-73e3f071.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+abcedffc9201f2bb66c2@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in k90_backlight_work+0x174/0x1c0 drivers/hid/hid-corsair.c:209
-Read of size 1 at addr ffff888026a23b00 by task kworker/1:3/5600
-
-CPU: 1 UID: 0 PID: 5600 Comm: kworker/1:3 Tainted: G             L      syzkaller #0 PREEMPT_{RT,(full)} 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Workqueue: events k90_backlight_work
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- k90_backlight_work+0x174/0x1c0 drivers/hid/hid-corsair.c:209
- process_one_work kernel/workqueue.c:3387 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
- kthread+0x38b/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 11427:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x3d5/0x680 mm/slub.c:5563
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- k90_init_backlight drivers/hid/hid-corsair.c:430 [inline]
- corsair_probe+0x627/0xbc0 drivers/hid/hid-corsair.c:589
- __hid_device_probe drivers/hid/hid-core.c:2839 [inline]
- hid_device_probe+0x46a/0x870 drivers/hid/hid-core.c:2878
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- hid_add_device+0x272/0x3e0 drivers/hid/hid-core.c:3065
- usbhid_probe+0x9dc/0xde0 drivers/hid/usbhid/hid-core.c:1452
- usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- usb_new_device+0x99a/0x1680 drivers/usb/core/hub.c:2708
- hub_port_connect drivers/usb/core/hub.c:5580 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
- port_event drivers/usb/core/hub.c:5884 [inline]
- hub_event+0x28cf/0x4cf0 drivers/usb/core/hub.c:5966
- process_one_work kernel/workqueue.c:3387 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
- kthread+0x38b/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Freed by task 11427:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6499 [inline]
- kfree+0x1c5/0x6d0 mm/slub.c:6792
- hid_device_remove+0xc8/0x1d0 drivers/hid/hid-core.c:2897
-
-
+Signed-off-by: Marek Vasut <marex@nabladev.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-usb@vger.kernel.org
+---
+V2: Place ST below Socionext
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index ae9fb70d0212c..5d9dfea8e2160 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -55,6 +55,8 @@ properties:
+               - rockchip,rk3588-ehci
+               - snps,hsdk-v1.0-ehci
+               - socionext,uniphier-ehci
++              - st,stm32mp13-ehci
++              - st,stm32mp15-ehci
+           - const: generic-ehci
+       - items:
+           - enum:
+-- 
+2.53.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
