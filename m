@@ -1,90 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146072652B2
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 12:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFFA44CAF9;
+	Fri, 28 Aug 2026 12:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787920106; cv=none; b=QlRv8MzAH62t9ymXlRMp4MgX4uvMPGWoUTXVti8AmbDvXlay0fa/9rUlEge1d6+M7fGIlYojocy1K5dG554VyW+KkuuJzJdIMoEgJv07MsGu72Ebly7TF9atBrniLXa27WiB/gE7HxiaF+n852rIPF2Yul+tYIIlkd0whr4IXWw=
+	t=1787920685; cv=none; b=Aat0Hf9iq9qpB9CTeLWyRV5+nSMSnmA35+6w9e4MKkTE5Vm0UEGgZLF/ANuy/xavxSxLtNKNE73W/rTymL3lKiRM7zaqxBxCM+D5LypwJ/beSHtUlvZ3vj7KcIYgJ2OG9UB7SadZe/WVTZbnXI9ABW6vs9TOP9WnHIcAvJt4TfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787920106; c=relaxed/simple;
-	bh=SjkYqKn9F/QvF427TosDzcd0ybI8tKFawjy0Op0L/eo=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=C3Xc787NmwbtS5/M035tQZRlHvFCXVEEJnSSkG/R0waSwDn70DDtuWO6aw3U3KrVgoTkY0KVHi5W8fkSgbFFRLcWb1y4Ed5j4qe5XYqbEPGdcAspAKOAvvl93kiHAbk9IJTjpwsq+sDkJCVDHZEiNEfzYIk3WsXe6K8AtjaF9Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKatTznU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787920685; c=relaxed/simple;
+	bh=7pQpTq5IN5nNQXVBYSrc2iT7EUm4FhFeefaSgd6m7LI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=O4hHAyy/IAMfWh7cHkAuIvlcgU9S8LZzJ+O+99s7BYI5pOlj1grG87zjiUYZneCtjWoyqXlq9qzWac3h6JCe5HhDJqXZVY7AFz6tFMTlZ27wNxq20X4uagAroQvI5b3kp5UTkGrS941njAuWGwgUo10Zu8dfimRrdYG5CaEakxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWObOXTs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKatTznU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BDB16C2BCC7
-	for <linux-usb@vger.kernel.org>; Fri, 28 Aug 2026 12:28:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWObOXTs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DD24C2BCF6;
+	Fri, 28 Aug 2026 12:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787920103;
-	bh=SjkYqKn9F/QvF427TosDzcd0ybI8tKFawjy0Op0L/eo=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=SKatTznU0cxy1ZvEH/GiuDd+978tajUnK9CCpiVsnfGywaUhEK8qGfHZf1xF0/SLg
-	 5YfzwbS68XKkLRM1pcqfGHwbKZ/n8NuV0/BhpnkqMpzk25uC4TGuR1PXSjYoMBNfrd
-	 up2A8JI3gvMxjU+4PYf6iVJdrh5RXQBPPqcM1wG3vUIamuxrqEJ2cAgxd0dd7fTZrc
-	 Km8IJaGVH45Ik5QRZgYF9+Ddntd3BPpJH4BRydCWyE/9uK5ekGTWkEfXivDFN5rEvz
-	 it0k/gVPgRyVOOKDAC3XdKbrpjqPjUWezDSumlZFMNyTojf6pTsgs+xMYBMMTB/WBh
-	 tSrDg7iBefBmQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id AC1AAC433E1; Fri, 28 Aug 2026 12:28:23 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
- polling of USB devices on AMD platforms
-Date: Fri, 28 Aug 2026 12:28:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: voltara@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221103-208809-Z4bn5qhIIA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
-References: <bug-221103-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=k20201202; t=1787920682;
+	bh=7pQpTq5IN5nNQXVBYSrc2iT7EUm4FhFeefaSgd6m7LI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=VWObOXTsS0S/lxYVq/WQaeek0sFtgI7wOlsNoWrpeF348/qABHLNbMuUDmNn47GDY
+	 jpSueXCmY1wAWNsrMgWcds05IY+tJxn1NxV9GPr9V3vjWbh1t2DlhqYFgPrQWwgCEE
+	 mFN2gzKHUIlvWvykKVufIN9zIKkbKj0p832pCEQ+MhriV+ctCJSzyJieV6KDrRRR9D
+	 nQANTATWL4LUh91dSqJz6OaTMowgdqEvHoSaFptEN3UTO/qrBE8mtXCQlxyxTcvRCe
+	 v11J6WB0ztIB2GGOYkAGTcy5cQ3AOQVeQK7Urw9h6JbkVKW53wI7ob06Xn/3ZSjjDT
+	 3bI2awAlIL+aA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C861C61DB9;
+	Fri, 28 Aug 2026 12:38:02 +0000 (UTC)
+From: Matt Eaton via B4 Relay <devnull+linux.divinehawk.com@kernel.org>
+Date: Fri, 28 Aug 2026 14:37:56 +0200
+Subject: [PATCH 2/2] usb: xhci-plat: add xhci-no-soft-retry-quirk device
+ property
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260828-xhci-no-soft-retry-v1-2-b9c264b56601@divinehawk.com>
+References: <20260828-xhci-no-soft-retry-v1-0-b9c264b56601@divinehawk.com>
+In-Reply-To: <20260828-xhci-no-soft-retry-v1-0-b9c264b56601@divinehawk.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Matt Eaton <linux@divinehawk.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787920681; l=1564;
+ i=linux@divinehawk.com; s=20260828; h=from:subject:message-id;
+ bh=hre3DhXtEdMtBActPCAC6ChtUOOZ9DzGbOAgxtv43Gk=;
+ b=XAbaNZQo5priU8H5STolVWtvAB0wfYM/0PrITDc5tHB9fDkQ4+lyydfBmcHBIOMcyT9qf2EkL
+ raRHLj6xlj3DLGYY5Or4LjFYOureX42HUbMEc7/Yqx3RBz6V+id0N1G
+X-Developer-Key: i=linux@divinehawk.com; a=ed25519;
+ pk=UG4KnKXGwxjTNdirUPh/nySblET4aRxWYWSMTQwzlMw=
+X-Endpoint-Received: by B4 Relay for linux@divinehawk.com/20260828 with
+ auth_id=982
+X-Original-From: Matt Eaton <linux@divinehawk.com>
+Reply-To: linux@divinehawk.com
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
+From: Matt Eaton <linux@divinehawk.com>
 
---- Comment #30 from Andrew Skalski (voltara@gmail.com) ---
-Created attachment 310748
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310748&action=3Dedit
-acpidump from affected wrx90 system
+XHCI_NO_SOFT_RETRY exists for hosts that can't perform xHCI 1.0 Soft Retry
+correctly, but it's only reachable from xhci-pci, matched against two AMD
+Promontory PCI ids. Platform hosts have no way to ask for it.
 
-The "lspci -vvv" and "acpidump" outputs are now attached.
+Add it as a device property, the same way as quirk-broken-port-ped and its
+neighbors. It's opt-in, so no existing platform is affected.
 
-In my previous comment where I mentioned the "Refused to change power state
-from D0 to D3hot" message, I forgot to say that I saw that message only rar=
-ely.
+Needed for the Synopsys DWC3 on a Qualcomm IPQ4019, whose command ring
+wedges when a Stop Endpoint command lands on a just-soft-retry-reset
+endpoint -- exactly what unplugging a device mid-transfer triggers:
 
-By relative frequency, here's what I generally see in "dmesg -W" output on
-serial console:
+xhci-hcd xhci-hcd.1.auto: xHCI host not responding to stop endpoint command
+xhci-hcd xhci-hcd.1.auto: xHCI host controller not responding, assume dead
+xhci-hcd xhci-hcd.1.auto: HC died; cleaning up
 
-Most of the time: nothing
-Occasionally: "Long readout interval, skipping watchdog check: cs_nsec:
-1528817647 wd_nsec: 1528818397"
-Rarely: "Refused to change power state from D0 to D3hot"
+Signed-off-by: Matt Eaton <linux@divinehawk.com>
+---
+ drivers/usb/host/xhci-plat.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 6fd595f81a30..22057493f935 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -265,6 +265,9 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
+ 		if (device_property_read_bool(tmpdev, "quirk-broken-port-ped"))
+ 			xhci->quirks |= XHCI_BROKEN_PORT_PED;
+ 
++		if (device_property_read_bool(tmpdev, "xhci-no-soft-retry-quirk"))
++			xhci->quirks |= XHCI_NO_SOFT_RETRY;
++
+ 		if (device_property_read_bool(tmpdev, "xhci-sg-trb-cache-size-quirk"))
+ 			xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
+ 
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+2.43.0
+
+
