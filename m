@@ -1,214 +1,140 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153DB3F1041;
-	Fri, 28 Aug 2026 08:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468073EB11C;
+	Fri, 28 Aug 2026 08:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787906125; cv=none; b=jZK+fSXXRVhniKyoNSgjtxX3/nFYsgsOae4lGfO3PgqShfNH+QoHZ8MFOTaP8MDhQLe/pp4HUZQ6LeYtqu+PjgJvVOxnLzXtYmtGVSvtPkvLQmDxLGUVY3/eAwwQXVSaoc6DgliKmTeoHs9MpCkQnq1T88ThdA0K7a4iXYbLTi4=
+	t=1787906712; cv=none; b=a3XoMp8398lBvfZVtCJQga5Z6dVfu4mENU/kgWrZ5Bq+rYS4MpqIDFAtM/9h/4l2SmLZttouWTUFTWy1Bgj79oe4Wz3YPfY8pBMbfrFpgGdpmi5E10XCGnywX136XOGS31gpxZ1zmn74q018dgWUY0fq0ujohHuYZYQ3KtUkgo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787906125; c=relaxed/simple;
-	bh=ZO+LkM0dkO22JWA0FjU9pp94bR2+COyhsRYmBwN+KzQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g8UMxtDQeIyrbIUwVxh2No8wA8uLlGqeVVv1FEQFspBNODxSxJxqL5XjIRLgXvc4QlzCoL+QsfWD38E3VQdA+mnOApuy5Y/fJlW/NFMd+cAf+oHBsqQdzIBdn4D/WT9zyB6XhSOaXtCFMJ9MnsPala2rFZPort1rN24FST52bmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 618c94b8a2bb11f19a56ed5b684f684d-20260828
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:d3c2faac-2398-4f14-9e11-70dbef2ada3c,IP:15,
-	URL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:15
-X-CID-INFO: VERSION:1.3.19,REQID:d3c2faac-2398-4f14-9e11-70dbef2ada3c,IP:15,UR
-	L:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:15
-X-CID-META: VersionHash:7db8b62,CLOUDID:36576e26400a3f964a10286cc98ed3b4,BulkI
-	D:2608281635153C6BL0I1,BulkQuantity:0,SF:17|19|66|78|102|127|136|850|865|8
-	98,TC:nil,Content:0|15|50,EDM:5|-100,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,
-	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-	,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 618c94b8a2bb11f19a56ed5b684f684d-20260828
-X-User: wangyan01@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <wangyan01@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 485604598; Fri, 28 Aug 2026 16:35:10 +0800
-From: Wang Yan <wangyan01@kylinos.cn>
-To: gregkh@linuxfoundation.org
-Cc: haoxiang_li2024@163.com,
-	kees@kernel.org,
-	wangyan01@kylinos.cn,
-	lihaofeng@kylinos.cn,
-	linux-usb@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: fsl_qe_udc: bound RX frame copies to the request's remaining space
-Date: Fri, 28 Aug 2026 16:34:45 +0800
-Message-Id: <20260828083445.221036-1-wangyan01@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1787906712; c=relaxed/simple;
+	bh=AAxyp5gX71pB4dDjXWfErO4JILb3/9AF+dsB4mTitNY=;
+	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=Mppdd8bR9QNmCbuUd16wcsDL5hevnmyP4mMk2Lzvwgda4gA1efELSQYAWMhqkxV9xCLbTT2kBNdieFhvR7ppZA0lfrVCEbQGYbvxJGyj43nIPYwStI+WKiym0K992O6e6YqvWC0Ajz1U0JUwrwV+DTNDwkyhRxduRdmnsx9CvAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6I2CXuA; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6I2CXuA"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1313A1F000E9;
+	Fri, 28 Aug 2026 08:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787906709;
+	bh=6CtsLsRv78fXIZdE60pKI9RNtwYPJaFaX7sffE6oBmU=;
+	h=From:To:Cc:Subject:Date;
+	b=D6I2CXuAO++bNllg457qC06oA3hSKuPW2TNI+8oQDpXG5BXzNxET8W1vRgB8OAUtJ
+	 fWuwP/frUCBLUEto1t1GEuStl0R+E5BJuCrIdIyRp+AmeLRS3MyyW2zc0uDd84MtXp
+	 FyDsSyFoZMwcuwME5Igv/lYLxjAAJx4TQZlOLRgtPuFEmtAOgGtxuX5D5M7YZhx1SM
+	 XwO8I8uMndOrCCkaooAPtk1tIIJhTw4EJfBqIptPRCNXl0UC+MYBAnNdEC3cMOuVS2
+	 oetYcqAiZ0j2qsxabC+t4SfrZZRAJTe0IZLc/WP/h/QAdNOMm/bJNc20PRVRQQVMf7
+	 K2u4awWihFJcw==
+From: "syzbot" <syzbot@kernel.org>
+To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Alan Stern" <stern@rowland.harvard.edu>, <usb-storage@lists.one-eyed-alien.net>, "Shichao Lai" <shichaorai@gmail.com>
+Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
+Subject: [PATCH] usb-storage: alauda: Track media_initialized per port
+Message-ID: <ea864031-b1e2-4b78-ab3a-58adf681efc6@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Date: Fri, 28 Aug 2026 08:45:09 +0000 (UTC)
 
-qe_ep_rxframe_handle() and ep_req_rx() copy the received USB frame into
-the active gadget request with
+From: Aleksandr Nogikh <nogikh@google.com>
 
-    cp = req->req.buf + req->req.actual;
-    if (cp) {
-        memcpy(cp, pframe->data, fsize);
-        req->req.actual += fsize;
-        if (fsize < ep->ep.maxpacket || req->req.actual >= req->req.length)
-            /* complete */
-    }
+Commit 16637fea001a ("usb-storage: alauda: Check whether the media is
+initialized") added a `media_initialized` boolean to `struct alauda_info`
+to prevent `uzonesize` from remaining 0 on initialization failure. However,
+`media_initialized` is shared between both LUNs (XD and SM media ports)
+supported by the Alauda driver.
 
-where fsize = frame_get_length(pframe) = hardware-reported frame length
-minus USB_CRC_SIZE (2).  The length comes from the received OUT packet
-on the wire (host-controlled for a device in peripheral mode), while the
-request buffer is sized by the gadget driver.  Nothing guarantees
-fsize <= req->req.length - req->req.actual, so a frame bigger than the
-request's remaining space is memcpy()'d past the buffer, and
-req->req.actual is bumped past req->req.length.
+When the kernel probes LUN 0, it successfully initializes the media and
+sets `media_initialized = true`. When it subsequently probes LUN 1,
+`alauda_check_media()` sees that `media_initialized` is already true, skips
+the initialization for LUN 1, and leaves its `uzonesize` as 0. Later, when
+a read/write command is issued to LUN 1, the driver attempts to divide by
+`uzonesize` in `alauda_read_data()`, resulting in a divide-by-zero
+exception:
 
-Attack chain (device in USB gadget/peripheral mode; attacker is the USB
-host):
+Oops: divide error: 0000 [#1] SMP KASAN NOPTI
+CPU: 1 UID: 0 PID: 5849 Comm: usb-storage Not tainted
+RIP: 0010:alauda_read_data drivers/usb/storage/alauda.c:954 [inline]
+RIP: 0010:alauda_transport+0xbd6/0x43a0 drivers/usb/storage/alauda.c:1187
+Call Trace:
+ <TASK>
+ usb_stor_invoke_transport+0x115/0x1a40 drivers/usb/storage/transport.c:611
+ usb_stor_control_thread+0x44c/0x8f0 drivers/usb/storage/usb.c:462
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
-    malicious host -> OUT packet on a QE/CPM endpoint
-      -> qe_udc_irq() -> rx_irq() -> qe_ep0_rx()/qe_ep_rx()
-      -> ep_rx_tasklet() -> qe_ep_rxframe_handle() (or ep_req_rx())
-      -> fsize = packet length - 2 (e.g. 64 for a 66-byte frame)
-      -> request has req.length = 64, req.actual = 63 (1 byte left)
-      -> memcpy(req.buf + 63, pframe->data, 64)
-      -> 63 bytes past the request buffer
+To fix this, move the `media_initialized` boolean from `struct alauda_info`
+to `struct alauda_media_info` so that each LUN tracks its initialization
+state independently. Additionally, explicitly set `media_initialized =
+false` when no media is present or before calling `alauda_init_media()`.
+This ensures that if initialization fails halfway through, the driver won't
+accidentally trust stale data from a previously inserted card.
 
-The same correction applies to the ep_req_receive() -> ep_req_rx()
-path.  The upstream requests are queued by the gadget layer (ep_queue);
-nothing in __qe_ep_queue() guarantees the buffer can absorb one max
-packet, so the short-request state is reachable with ordinary gadgets.
+Fixes: 16637fea001a ("usb-storage: alauda: Check whether the media is initialized")
+Assisted-by: Gemini:gemini-3.7-flash Gemini:gemini-3.1-pro-preview syzbot
+Reported-by: syzbot+dc208a8cf8d37cf3e5ac@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=dc208a8cf8d37cf3e5ac
+Link: https://syzkaller.appspot.com/ai_job?id=87935d94-4387-493a-8061-bcb7752c517c
+Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
 
-Reproduced deterministically (user-space ASAN re-extraction of the
-exact source path; the fsl_qe_udc driver cannot be built/loaded on
-x86_64 because USB_FSL_QE requires FSL_SOC/QUICC_ENGINE/CPM and
-!64BIT): with req.buf = 64 bytes, req.actual = 63 and fsize = 64,
-both extracted paths (oepparsing the kernel lines for
-qe_ep_rxframe_handle() :914 and ep_req_rx() :1521) fail under
-AddressSanitizer with
-
-    ERROR: AddressSanitizer: heap-buffer-overflow ... WRITE of size 64
-    located 0 bytes after 64-byte region
-
-while the same code with the remaining-capacity check added produces no
-ASAN report at all.
-
-Signed-off-by: Wang Yan <wangyan01@kylinos.cn>
-Assisted-by: opencode:deepseek-v4-flash-free
 ---
- drivers/usb/gadget/udc/fsl_qe_udc.c | 64 ++++++++++++++++++++++++-----
- 1 file changed, 53 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/fsl_qe_udc.c b/drivers/usb/gadget/udc/fsl_qe_udc.c
-index 603c77ff129f..bed7edd293a5 100644
---- a/drivers/usb/gadget/udc/fsl_qe_udc.c
-+++ b/drivers/usb/gadget/udc/fsl_qe_udc.c
-@@ -911,16 +911,37 @@ static int qe_ep_rxframe_handle(struct qe_ep *ep)
+diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
+index 691fe4700..807492f75 100644
+--- a/drivers/usb/storage/alauda.c
++++ b/drivers/usb/storage/alauda.c
+@@ -96,6 +96,8 @@ struct alauda_media_info {
  
- 		cp = (u8 *)(req->req.buf) + req->req.actual;
- 		if (cp) {
--			memcpy(cp, pframe->data, fsize);
--			req->req.actual += fsize;
--			if ((fsize < ep->ep.maxpacket) ||
--					(req->req.actual >= req->req.length)) {
-+			if (req->req.actual >= req->req.length ||
-+			    fsize > req->req.length - req->req.actual) {
-+				/*
-+				 * The host sent a frame larger than the
-+				 * request can hold; drop it and complete with
-+				 * -EOVERFLOW instead of copying past the
-+				 * request buffer.
-+				 */
-+				dev_err(ep->udc->dev,
-+					"%s: rx frame %u exceeds remaining %u\n",
-+					ep->name, fsize,
-+					req->req.length - req->req.actual);
-+				qe_frame_clean(pframe);
- 				if (ep->epnum == 0)
- 					ep0_req_complete(ep->udc, req);
- 				else
--					done(ep, req, 0);
-+					done(ep, req, -EOVERFLOW);
- 				if (list_empty(&ep->queue) && ep->epnum != 0)
- 					qe_eprx_nack(ep);
-+			} else {
-+				memcpy(cp, pframe->data, fsize);
-+				req->req.actual += fsize;
-+				if ((fsize < ep->ep.maxpacket) ||
-+						(req->req.actual >= req->req.length)) {
-+					if (ep->epnum == 0)
-+						ep0_req_complete(ep->udc, req);
-+					else
-+						done(ep, req, 0);
-+					if (list_empty(&ep->queue) && ep->epnum != 0)
-+						qe_eprx_nack(ep);
-+				}
- 			}
- 		}
+ 	u16 **lba_to_pba;		/* logical to physical block map */
+ 	u16 **pba_to_lba;		/* physical to logical block map */
++
++	bool media_initialized;
+ };
+ 
+ struct alauda_info {
+@@ -105,8 +107,6 @@ struct alauda_info {
+ 	unsigned char sense_key;
+ 	unsigned long sense_asc;	/* additional sense code */
+ 	unsigned long sense_ascq;	/* additional sense code qualifier */
+-
+-	bool media_initialized;
+ };
+ 
+ #define short_pack(lsb,msb) ( ((u16)(lsb)) | ( ((u16)(msb))<<8 ) )
+@@ -471,6 +471,7 @@ static int alauda_check_media(struct us_data *us)
+ 		|| ((status[1] & 0x01) == 0)) {
+ 		usb_stor_dbg(us, "No media, or door open\n");
+ 		alauda_free_maps(&MEDIA_INFO(us));
++		MEDIA_INFO(us).media_initialized = false;
+ 		info->sense_key = 0x02;
+ 		info->sense_asc = 0x3A;
+ 		info->sense_ascq = 0x00;
+@@ -478,12 +479,13 @@ static int alauda_check_media(struct us_data *us)
  	}
-@@ -1518,15 +1539,36 @@ static int ep_req_rx(struct qe_ep *ep, struct qe_req *req)
  
- 				cp = (u8 *)(req->req.buf) + req->req.actual;
- 				if (cp) {
--					memcpy(cp, pframe->data, fsize);
--					req->req.actual += fsize;
--					if ((fsize < ep->ep.maxpacket)
--						|| (req->req.actual >=
--							req->req.length)) {
-+					if (req->req.actual >= req->req.length ||
-+					    fsize > req->req.length - req->req.actual) {
-+						/*
-+						 * The host sent a frame
-+						 * larger than the request
-+						 * can hold; drop it and
-+						 * complete with -EOVERFLOW
-+						 * instead of copying past
-+						 * the request buffer.
-+						 */
-+						dev_err(udc->dev,
-+							"%s: rx frame %u exceeds remaining %u\n",
-+							ep->name, fsize,
-+							req->req.length - req->req.actual);
-+						qe_frame_clean(pframe);
- 						finish_req = 1;
--						done(ep, req, 0);
-+						done(ep, req, -EOVERFLOW);
- 						if (list_empty(&ep->queue))
- 							qe_eprx_nack(ep);
-+					} else {
-+						memcpy(cp, pframe->data, fsize);
-+						req->req.actual += fsize;
-+						if ((fsize < ep->ep.maxpacket)
-+							|| (req->req.actual >=
-+								req->req.length)) {
-+							finish_req = 1;
-+							done(ep, req, 0);
-+							if (list_empty(&ep->queue))
-+								qe_eprx_nack(ep);
-+						}
- 					}
- 				}
- 				qe_ep_toggledata01(ep);
--- 
-2.25.1
+ 	/* Check for media change */
+-	if (status[0] & 0x08 || !info->media_initialized) {
++	if (status[0] & 0x08 || !MEDIA_INFO(us).media_initialized) {
+ 		usb_stor_dbg(us, "Media change detected\n");
+ 		alauda_free_maps(&MEDIA_INFO(us));
++		MEDIA_INFO(us).media_initialized = false;
+ 		rc = alauda_init_media(us);
+ 		if (rc == USB_STOR_TRANSPORT_GOOD)
+-			info->media_initialized = true;
++			MEDIA_INFO(us).media_initialized = true;
+ 		info->sense_key = UNIT_ATTENTION;
+ 		info->sense_asc = 0x28;
+ 		info->sense_ascq = 0x00;
 
+
+base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+-- 
+See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
+The person who has signed off on the patch is responsible for
+addressing comments.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
