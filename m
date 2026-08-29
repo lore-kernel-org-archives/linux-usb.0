@@ -1,209 +1,223 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D083BB669
-	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 16:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF934052D3
+	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 16:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788019686; cv=none; b=JpIvXO4UKWaS7wmmWN6mxJhIiA+ZjK30hwCZhgTnG9meWBbLmyRuP95d8HvywGmP+ATUVywwDskgNOCkg/KNN4MZfSVQQmEAe/B+P7aDovFpyTS7K1GOW4qIbZXhCDZVSxIrHcjUo13akHC/JLqFamMrEP7NwZ43myfLdEjnWpU=
+	t=1788020381; cv=none; b=q9M/303uE4srOmBx5E9HQNTaoJSsz/tZFbGr1EZWEXPqpN9VnBmU6Jk2/cjQBI3tonvZUCrg446zj1yXvzfqY/mhS43zPUrKwSzyX2VaqNGcjnzxRUHg4SOreeM6nK0Nca+1J0YobvkGOi0A94ZvPFgUiTUKzSOpIe7xyLvL8vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788019686; c=relaxed/simple;
-	bh=jQSyP8+U7c9uD/qVhiaf5UWCI99IjG2iqT44kQWk8TQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A3mV/6tk2LAs4nXlzFoBEe+XEDfuYQ+/4DbiuA5KwM8AtNViSw5TLicIIlkZDAQmcLAJevU6Qn8zak/wtxlWTc0CI8P52IS4zhPqYJAGjQeuXyLypwCc9D7wOrIV9pC+MeB4wFbz67eP2iDJlv1IxVwAnaW2I5yuS0FHznqPMZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=XQ43c005; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788020381; c=relaxed/simple;
+	bh=9UlldyNWYOhvwGQWlGOcYCfrx71AurAvRd95Y/8YG5A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uUveYQlyJoot0SUNCoeOsVd9k+jdVLX9d0N0ICbDMmpkXqSts/C3E4LkC0oxz24DdBd4yIXM8E3FT1aKKUCw5AXPHSpeyyu/XXMbIU5JgpV83FMovl2qSOn0UmfbROWHG5VDyW8RMvt3C7+LdEvZ5Uubsd1yGpOjeer+v8gpOXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ACHs0bwl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YjM3G9aK; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="XQ43c005"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-52d5bfa4bafso22886931cf.3
-        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 09:08:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ACHs0bwl";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YjM3G9aK"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TE26Bn1495302
+	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 16:19:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JRa4eiF0jOBt+z+yd1SxFPDbNFX363osG4c75Cuyzho=; b=ACHs0bwlUchPj/G7
+	NbQtDzX3srWCZ4FuxB3/Sg58RAj37S3qp54Jb98BzhGR7rZmOC3XTc9+H0Iv5Hqx
+	IKBGzth63axI+tElBM2OsfDfFXXgYFQjU+4uwApuiqCKt+Ohk8sEr4CmFg0lrl1J
+	YeVTzRLD1l2sVqslbGoKMhZVHfUZr/OGEcGa57IpblLIk1of8C2fdHZBuDXp5D6T
+	U2tE4yvvnw99I+1iat40LIohoZCLbvZ3fxmvWnQbL9n0kFAPaTzwdAA0Slt5MoR/
+	FEPg+jXBBu8CyRol/TCR1Ma41IY9eM5sGdeIPeLbUlGLcC7itD1LHJ+138JVrTrd
+	uC7WAg==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gbr6ds7qk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 16:19:28 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c85798977dcso2640826a12.0
+        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 09:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788019684; x=1788624484; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cv18aybuGBm7/t0+rnhtd1UHtg1560Ay8t97cC9ypmg=;
-        b=XQ43c005HbAFRXLC/1C3GnXpq95SbvAjmQETKYjV4PMnkBE/GTCWc5Vnneu+XKRfqO
-         EMs9CbB+e03H8WbxF3DXturbkWAzzrR0MI1WnIm+cmhLiPX1FoaA4yIN7/q4FvGfFbeQ
-         BfQwweJdq0/BECyj2Iuc0zqYsRyaHaiKeMFy7s/GWfCKBs6z2QtY7RSbqIviDlAwm6/5
-         n2e+8j2J75qzdoA8AgjPSU/Mu8qQXKxyZp64IOEFg4oOaIfVFQKOKSgWIw+tnX1SH9hS
-         Kz7A/xjuT11zQrZOvKLswMikWUKduTR8ireNifh4yM7JgzUijsv+lby72hKs4WapjfLe
-         3Q0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788019684; x=1788624484;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1788020367; x=1788625167; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cv18aybuGBm7/t0+rnhtd1UHtg1560Ay8t97cC9ypmg=;
-        b=F4bgGUXsGi0TV15dLOduQUHawQGHUBEUQrgGjVVPUTMYFLSZwOm3eBtXjdRBylFnFU
-         QIkOOPeOvaJ3BaS71Re9EpjU/yMyLIk7TQ9g9LW5ELiseBUNC8ukT7dmfudTwvuL7RmC
-         LFrP/MOf45cJAuKKwhXrcaiNKdqAXJmD1UUGR1Oj2FhVd+ddq/rOPII5+Fetvok63fbH
-         NnzwPhm02ix7evb5Op0u2wU4wWdY1g1PTf/O7cPN1UGflqXyyQNsIv/S6x9P9cVlUW//
-         TwQNtMgIIaYjj4SjWSCOu0XmNHiG/ZitqkQcwJJCUP93NYw8Q1xhc/TVIaDBCSGcyx5T
-         +YkQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqJYhUtgTnysbIOTOiNJRQjqh1qWCsKyyTrpe+vDAKSQ6BX7BxA6u5qrbuH5Bjayrhvx1W9BnAP4O8=@vger.kernel.org
-X-Gm-Message-State: AFuF++lVOwD3uhfoWnZAR++xk4eSrVlkWlIyPug/GG17S4NXCfG5lhJY
-	zDPI79HXdOejBARL5QCrgbFU28K5I0qUWlwB9vVdmGzNdcUiU2y3M8jZXajoAvb1CQ==
-X-Gm-Gg: AR+sD13NQBObrzgaCZ8cuRUfoWwA15tWDiD7MO7dIym/aM4FIs9HdxhhnT4aQRV9xCj
-	gE628VR7qrqvkuX+JZarwHc0JCZn0N8q2DfER4Wo5SBTsOnyaRxTsla5bI5nFGWCwMp3spbBZln
-	iMKhLc7VRm5WYOykQ6H8BQLE6JwexXRXRvZcM7eFsjAYkcL+Zw2Jc0YOhSIjIl1eVynqYoA5Ek7
-	xXXWPtujl/fJcHBpizsgg1G8N9EIaUyD/9W+ZxZbSUWEwyNd391qennEi/QsutMI+JjcBIK8xKZ
-	0wrZfbp7XSuCEeIO1roQzf87ldhvUN5CzTSevNsqDkzGG2WmDXem6MrchcfuFlcl3LFsdjXYXJx
-	4TfvWIl7+YUue2OGvS/R+zWdxP8OTz3jsyiKcU2sAQ/3+rmcY4G66YQ5tfpeZgtS+w06PJixulT
-	hGT95xrFre4/carWmPZPu6TiC5RJGYSopS/fGQiKdXXqU8zR1G9BG4MluBSemNZQ==
-X-Received: by 2002:a05:620a:a18f:20b0:937:e422:85cd with SMTP id af79cd13be357-939137af78dmr1341500885a.7.1788019683790;
-        Sat, 29 Aug 2026 09:08:03 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-939173a6be1sm391717585a.27.2026.08.29.09.08.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 09:08:03 -0700 (PDT)
-Date: Sat, 29 Aug 2026 12:08:00 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: neck3922@gmail.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
-References: <CAFmvuTW2cfj5dzkRR8ymenWoA7tw1WAYsMitorvppTwcZ+xfbg@mail.gmail.com>
- <e8655e37-02b3-40ef-9ce0-98c8fa25481d@rowland.harvard.edu>
- <15185c2d-4544-42cc-ba0a-79dd36e82a21@rowland.harvard.edu>
- <CAFmvuTU=t5TiZSpHmF1MXpVs+3K7G1VOTDeeazwGru4+1eozBg@mail.gmail.com>
- <cd57f283-71e6-4531-a311-1180ccc22ab8@rowland.harvard.edu>
- <CAFmvuTVH=mVMZNoYnU07_WA+cBc4m+UG2BBTLwF5KWhcj-z-KA@mail.gmail.com>
- <908a5b29-e6d8-4595-b451-6c328e25c60e@rowland.harvard.edu>
- <CAFmvuTU5HnBKbve=v_C7Mhw2586rR_8qsRNua2XPokgKy_o31w@mail.gmail.com>
- <0305182d-5914-4022-a0a6-1ab4221b0a6c@rowland.harvard.edu>
- <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com>
+        bh=JRa4eiF0jOBt+z+yd1SxFPDbNFX363osG4c75Cuyzho=;
+        b=YjM3G9aKidFx80o/tBIKaV8Ep45eeaLVUppmkJMCRWdBVP9O1x0iyDGmvuciZn9Hlm
+         c1F3zzC80Yuy7A8Rg9MNqJrasJOwkWLIXdhQoXHSHk7glaOkggXO6ksZSXMUhzu3doEf
+         21UkxQjWA8zli4VorJGKZHFz5eUuOrZlE7PwHVKgOdj7Uch9WN6woxiOATQI6RMx9qoa
+         KHeyRM1SslzQ6pzZWxcynw/4DaX3+dztUDw+8h5BOx6v+rRiaeHuJWRSMhzRhAx8ychD
+         sjiaCazLXzGf3m7O+zy3CbBkPkIR3sp3THTCJ8GfiI8jQHHKgQi4CbA6Yv8IT1k0F133
+         gfKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788020367; x=1788625167;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JRa4eiF0jOBt+z+yd1SxFPDbNFX363osG4c75Cuyzho=;
+        b=OSXYrPDsPYpYa9whwuQ5Ld3QCGvwj4RVBJTubGpXWyYpjmvoMpLEzFF3McY4yS7ThQ
+         H0WRYRNlvh2RxiSsOI8dhIZYFbC3wDY3cgKEB709pUqR+TsvL+12vHFWJwPldf5SYvvi
+         U8JPzmqzBmDpWsMKFRi31D2IRpyWW/tAX6+IMekWsa2UFXLQOG28dTGL+SK/1wP5sErf
+         S/1Med2LJ0vg7NGMPwvqdsJikrPBvlfpUlyJQoXlx0hC3bL+5kWMbB6EwW2Kb2sjTJO2
+         e9OAXkjO1kacWTCLM4zYgiWF7SnQvaBxqlmSrYOM9IpiJ7JBnEpKN/WFQ/NZn+SKeTH/
+         O7UA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpk/nXtno+4y/clOiUF0XGL/IbPqwnHuVkBmjHuqcKc6FmhTBaSNwlUALxLX4H2uwimyIh6L995Fe4=@vger.kernel.org
+X-Gm-Message-State: AFuF++moIKbvLGmqhaAMX1g0vUqQPQQ1SxWA7/Xtqcj0SokkfitlvkY5
+	Stvf75PWP0A/RO53YbWxC7Dvo/v7RTWwWynuim7DLUxoaJk+owMBIr71HZkCknZwnQBbGlCOhEk
+	g/1LCmLx49eLAfrjayKgF7H79/zbFWrQK8SIw7qgQatcfe7tjwu8HlzxPb1/5ezg=
+X-Gm-Gg: AR+sD13sYbd36CRzle9jucVLzmWSz4YF6VIvyvG6o+BzuOgDOX3+fyjUpn2N9ry+Tsd
+	3jcNA3L4AU5U2wsTrpaswKYsWD0K3l8Afoo4wOAP1CvHed4DeeRE+2swm9sm4w44W9qlrpp/PBY
+	KUjeREXOMNzOBfRs6pMg09O0/BMWYYsv/0r/PC59Joy2BB4XK9WPKaBYe+ch2A7q1EILB0b2KVk
+	InmMhIqCyP0lQymEmNjJikJxzvwee4HJ6m/nc7bBkPjvEvy/KFZ9J5jvDPWy7nmQqfPp5Y8b1gq
+	14B4fyzZM5XAbnBrXvD+f2m9jLHEXNrI9/HzloLX1IMuiseGv+7gZZdoBG9GTLLQ0UUeqFZ6MJL
+	7uK1WVqNowiVr+eWaPDKEBQbs5wJK4WhCCXFK9YGKIBbWFKhUFrWQP/w45WYtAfomLv0=
+X-Received: by 2002:a05:6a20:72a4:b0:3d3:ae40:51e4 with SMTP id adf61e73a8af0-3d3ae4056c9mr10116770637.24.1788020367525;
+        Sat, 29 Aug 2026 09:19:27 -0700 (PDT)
+X-Received: by 2002:a05:6a20:72a4:b0:3d3:ae40:51e4 with SMTP id adf61e73a8af0-3d3ae4056c9mr10116726637.24.1788020367068;
+        Sat, 29 Aug 2026 09:19:27 -0700 (PDT)
+Received: from [192.168.1.5] ([122.177.241.61])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc1f330f85fsm1839168a12.9.2026.08.29.09.19.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 Aug 2026 09:19:26 -0700 (PDT)
+Message-ID: <d801ecb2-587f-480a-878e-8426239b7690@oss.qualcomm.com>
+Date: Sat, 29 Aug 2026 21:49:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] usb: dwc3: dwc3-generic-plat: Add Renesas R-Car
+ Gen5 DWC3 xHCI USB controller glue
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Thanh Quan <thanh.quan.xn@renesas.com>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-usb@vger.kernel.org,
+        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260828184212.395082-1-marek.vasut+renesas@mailbox.org>
+ <20260828184212.395082-2-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+In-Reply-To: <20260828184212.395082-2-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDE0MSBTYWx0ZWRfXwSSRhG3TvPOj
+ KW996C9cgNo7vpX+T7/siXsILY8cTWvyoGAOUz03UYwCEpESS+HVpf8s/5xH3Dqo4Z13o0HsETL
+ jLz1MOTlWIRjoH+fRW3mVaLS2ZFgugnnZcK7Bg8sHzlLekSqiTv+CkCScldD2sp3OdVVAHDBTcQ
+ Ey8A5Pj0LGliVpQUko+i7ExijU5IhE22QN+9i+NLKx2gAGTtZv75JxZwDnwSovy8l+kTLFC/Od4
+ QdZrGcDLgrRkO0d8+a+x93/MwM0YGElFRE65ZkD7srNHNdoHs4pnqg0UBWsYhZr2PW/xqL/u2qR
+ WPQpeME/7yuw2CFaNortTpe7DUBLo8iwdYljpcpLS0Js/Sd4ACI0h96eAj+EDhJDRV3x9/0HjL+
+ Mh8qam2L/NYD+tbHyFBNHCqMOkf1KBE/bG1pruj2aTKV364FX+xxu5xqdmvj8WwM5c8A1FfzStH
+ FknVaMMcr2Durwv6o3Q==
+X-Proofpoint-GUID: EY-iFpxZt22DVlPZ-scVnQjc0V8z6f6o
+X-Authority-Analysis: v=2.4 cv=Zakt8MVA c=1 sm=1 tr=0 ts=6a930690 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=PZ14JaS8AzYbITig/tPzRA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=yC-0_ovQAAAA:8 a=b3CbU_ItAAAA:8 a=9smufsHQ1aYfdmuKAZkA:9 a=QEXdDO2ut3YA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22 a=Rv2g8BkzVjQTVhhssdqe:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDE0MSBTYWx0ZWRfXzqhpqlRtA1ge
+ edhSjc32E3IZ64Q5iBL90E3Xwa3IUecwNVuXxPwFLt7433P1NEytAamBT7Okszdl40hgNSt4Vh1
+ Q7hntPugLbSf1d+R34IW5JwKSNHr3Jo=
+X-Proofpoint-ORIG-GUID: EY-iFpxZt22DVlPZ-scVnQjc0V8z6f6o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-29_04,2026-08-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608290141
 
-On Fri, Aug 28, 2026 at 03:30:10PM -0500, neck3922@gmail.com wrote:
-> Hi Alan,
+
+
+On 8/29/2026 12:11 AM, Marek Vasut wrote:
+> From: Thanh Quan <thanh.quan.xn@renesas.com>
 > 
-> Thank you for the revised patch and for explaining the intended use of
-> the saved endpoint.
+> The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
+> controller with glue logic wrapper around them. Extend the generic
+> DWC3 platform driver with Renesas R-Car Gen5 glue logic specifics.
 > 
-> I applied the patch as posted to upstream v7.2-rc1, commit
-> dc59e4fea9d83f03bad6bddf3fa2e52491777482.
-> 
-> I first tested your revision unchanged. The IRQ-state fix and saved
-> endpoint behaved as intended. The exact pre-queue cancellation matrix
-> produced exactly one expected completion in every case, with no KASAN,
-> Oops, or LOCKDEP output. The original ep_aio_cancel() null-ptr-deref
-> and UAF signatures, the earlier ep_aio() submit-path regressions, and the
-> teardown NULL-endpoint failure did not recur in these tests.
+> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
+> Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
 
-All good results.
+[...]
 
-> > I think it will still be necessary to flush the workqueue after
-> > destroy_ep_files() runs.  The best way to check whether this is needed
-> > would be to put a long delay right at the start of ep_unlink_worker()
-> > and then run a test where during that delay, the test program closes its
-> > open files, unmounts the directory, and unloads the gadgetfs module.
-> 
-> Using CONFIG_USB_GADGETFS=m on the posted revision, I inserted a
-> diagnostic 15-second delay at the entry of ep_unlink_worker(). While the
-> worker was delayed, the test process had no open /dev/gadget/* file
-> descriptors, GadgetFS unmounted successfully, the gadgetfs module
-> reference count reached zero, and rmmod succeeded before the delay ended.
-> The delay was diagnostic only.
-> 
-> When the delayed worker resumed, the kernel warned and then panicked. The
-> serial log showed an unresolved work-function address and identified
-> gadgetfs as the last unloaded module:
-> 
->   Modules linked in: dummy_hcd [last unloaded: gadgetfs(O)]
-> 
-> Thus, in this path, a running unlink_work item does not pin the gadgetfs
-> module. Teardown must quiesce pending or running GadgetFS AIO work before
-> module unload, or otherwise retain the module until that work completes.
+> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+> index ca69ac0eb07ce..e8586c40d5006 100644
+> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
+> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+> @@ -71,6 +71,55 @@ static int dwc3_eic7700_init(struct dwc3_generic *dwc3g)
+>   	return 0;
+>   }
+>   
+> +static int dwc3_renesas_rcar_gen5_init(struct dwc3_generic *dwc3g)
+> +{
+> +	struct device *dev = dwc3g->dev;
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	enum usb_device_speed speed = usb_get_maximum_speed(dev);
+> +	bool usb2only = false;
+> +	void __iomem *glue;
+> +
+> +	/* Wireless USB is not supported */
+> +	if (speed == USB_SPEED_WIRELESS)
+> +		return dev_err_probe(dev, -EINVAL, "Wireless USB not supported\n");
+> +
+> +	/* No USB 3 PHY in DT means this is surely USB 2 controller */
+> +	if (device_property_match_string(dev, "phy-names", "usb3-phy") < 0)
+> +		usb2only = true;
+> +
 
-Indeed.  Quiescing won't be easy to do; it will just have to wait until 
-the work is complete.  In other words, flush the workqueue.
+Why not just set the maximum-speed property to "high-speed" instead of 
+checking for "usb3-phy". That would be more clean.
 
-> While rerunning the directed cross-CPU test from my previous message, I
-> found that the underlying lifetime race involving ep_unlink_worker()
-> remained:
-> 
->   BUG: KASAN: slab-use-after-free in ep_unlink_worker
->   Read of size 8
->   drivers/usb/gadget/legacy/inode.c:489
-> 
-> The faulting statement was:
-> 
->   put_ep(priv->epdata);
-> 
-> After AIO_UNLINK_DONE was published, completion work could free priv
-> before the unlink worker's final accesses through priv. Saving epdata and
-> ep before usb_ep_dequeue() eliminated the failure in the directed test.
+> +	if (speed >= USB_SPEED_LOW && speed <= USB_SPEED_HIGH)
+> +		usb2only = true;
 
-Ah, yes.  I should have realized that last time.  I just didn't think 
-hard enough about how the ordering could interact with those tests at 
-the end of ep_unlink_worker().  (Or maybe I did and then forgot to 
-include the changes into the patch -- I can't remember.)  Anyway, my 
-version of the patch has been updated accordingly.
+And this check can be removed as well if we use "maximum-speed" property 
+in DT.
 
-> Based on our discussion and the results above, I prepared the cumulative
-> patch below, incorporating your latest revision. It also fixes an
-> existing native PREAD issue: the to_free predicate could skip copying an
-> ITER_UBUF payload while still reporting success.
+> +
+> +	glue = devm_platform_ioremap_resource_byname(pdev, "glue");
+> +	if (IS_ERR(glue))
+> +		return PTR_ERR(glue);
+> +
+> +	/*
+> +	 * The datasheet describes initialization procedure without full
+> +	 * information about the registers. Therefore, the source code is
+> +	 * based on the bare metal code shared by the board team.
+> +	 */
+> +	writew(0x211, glue + 0x26);
+> +
+> +	/* USB2 does need additional register programming. */
+> +	if (!usb2only)
+> +		return 0;
+> +
+> +	writew(0x11, glue + 0x81c);
+> +	writew(0x0, glue + 0x81a);
+> +	writew(0x1, glue + 0x802);
+> +
+> +	usleep_range(10000, 20000);
+> +
+> +	writew(0x0, glue + 0x802);
+> +	writew(0x1, glue + 0x2a);
+> +	writew(0x1, glue + 0x81a);
+> +
+> +	usleep_range(10000, 20000);
+> +
 
-I'm not sure what you're referring to.  Are you saying that this test
-in ep_read_iter():
+Use #defines for register offsets and register values like in 
+dwc3_eic7700_init.
 
-		if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
+Regards,
+Krishna,
 
-is wrong, for example, the && should be || ?  In fact, I don't 
-understand the reason for the iter_is_ubuf() check at all.
-
-Note that to_free isn't a predicate; rather it's a pointer to a copy of 
-an iov_iter structure.
-
-> During development and validation, I found two further ordering issues.
-> In the existing completion ordering, request cleanup could overlap
-> usb_ep_disable() during final endpoint release.
-
-Yes, I know.  I understood that it was okay to call 
-usb_ep_free_request() after usb_ep_disable().  Was that wrong?  Did you 
-see it create any problems?
-
-Note that usb_ep_disable() doesn't return until all the requests queued 
-for that endpoint have completed.  So ep_aio_complete() will have run, 
-but the work routines may still be pending.
-
->  Separately, an
-> intermediate cumulative version allowed gadgetfs_unbind() to pass the
-> completion-work flush before a callback had queued that work.
-
-This is probably because you were flushing the workqueues at the wrong
-time.
-
-For the final submission, I think the workqueue management stuff should 
-go into its own separate patch.  Straightening out the various AIO races 
-is already complicated enough by itself.
-
->  The
-> resulting patch addresses all three issues and applies directly to
-> upstream v7.2-rc1.
-
-I'll review the patch later.  For now, there's two things to mention.
-First, when you create your patches, it would help to add the -p
-option to the diff command.
-
-Second, why did you change ep_aio_complete() to make it queue up
-ep_user_copy_worker() even when nothing needed to be copied to
-userspace?  It's a bad idea to run a workqueue routine if it isn't
-necessary.
-
-Alan Stern
