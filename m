@@ -1,81 +1,106 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48582749DA
-	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 18:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C82AD2C;
+	Sat, 29 Aug 2026 19:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788029223; cv=none; b=dq/YoKU0EKGzjILrxp60gc2tCdKGviO19F2dRtlf2Cun8VOL2J/hkKqE4sQDqMU398SjM9Gb85cJJeim+hEFPJNa/IRwDL14M9gR2DOssVlfmHGCwSX7H1ALifDLLAQiL1g5J1ZQXo0DQdDuvEI/R/4QD/W5PuRORmMCLd6KEhM=
+	t=1788031914; cv=none; b=ku7+Wc75bCyYVsjqLHQFO40ud7rNzhVCdF6tC25X3Czfm3GPxhW3rud8Y5sC3ntoCKaQ+4jDIymiV9GcxBpXzRn5JfvJJtBGFblQ+Ptv99XWVQNX9WY0jXPgMn9CkNB64sLKU1IyfgqfWydrbBbcvw2SvGajoifiFK5IZOUdOm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788029223; c=relaxed/simple;
-	bh=LzI9SmF8HYAv6jCAvykWh0daMwL4YdLHHgeK6i4A/Yw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ML7KRdU040jWpuImzXZ6ZAqHlMHo94ycQ0AdoqB4Ko7jC2FD1svbPMJNv/d5UJLCREdZa6c/5U4tl01tkpFRvMF2jilbsA0MszWrOK8Y0eVU+kl5DZIzBef2bOj+CGzdXATeZI8laeJ5UstYZWfTUffq3o7+6z8TEHmoGBMx1L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=zVRpmJC7; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=bKj+/1sB; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1788031914; c=relaxed/simple;
+	bh=zWA0e3paKnXOqIGFnWjHF3VMRHadOpn9Ntl94B44z5U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sR6+r4GoLthKZmGndRqcqjeBOj1pi99c8FY4N248ir6+7D1QokBq/q8+u6IlgGYaKtDRqwhyjmQGEOXGe3sqgLahhDl6QwhKMuxLJn4hqozqwzPeXWyylGEyZf6Sblqz4UW4c6bekua7wVed75y30EcnyGDmjbRCW+v1qq6sg3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+ZLXK75; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="zVRpmJC7";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="bKj+/1sB"
-Message-ID: <ddc6c7fe-9bfd-466e-b1f0-8fadda8070d6@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1788029215;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d19ZKfIMt+U6tFeohDaydnDrFf2gDOkZcLU58US3VSA=;
-	b=zVRpmJC7CuIzcV7MjxOY/ZFZly5WH73rv/UQxmwixV1nb6GE2U0aBHFBRzTX/nSa5gqQ5i
-	hk82StdtJfYTnp53KYTmmUTr2I7nQs2IGNYtFXkEvsLDXtd3VuEQXj/vjnCniLDXvP2bwT
-	QegEWCOPdqs0i+2iAcqfEQl682aYlGtpjhQLPw4w0rn8DhHwF486yL7VtzqEs5gdDtcakK
-	2Hp5+D9o4EYOGNYlWTi2qgXTh9I4tMbiyfjvw/x1XBCsqT6HQrO2xsMh6kicdHFdOWzHIL
-	aZ4+1P9WE74RflZoQOu7lar+gxe9C3QHl2w95d/wH1ZmHGHN1ZY+mRZ+m7453wAN9Y0Gbk
-	1Vw7eC3JKdmfNmPUESIYYC81Ddtu+b3cSwV7+DQDXIU5Nx5bed3gsnzglEOkXLuLIPgYxT
-	8flW2Pdhg6ZH8Onb2AngeTStuJ2TaX3UobsKMAYPz0jskHBUUetj3f9gKHcGNcnWtyFWbl
-	SNW0re1hivt0HzTxPvyzG1MYcUO9mgZHQolulThHCgcZYWuJNWet5tP6weCM8WjbtLeM/k
-	Y+RDAOM1iTqU6WoizgnaYfn/++2whXPMsXYgpJxjlXGP/N3JOF0p+/qdIgsXBVpHhTOUhA
-	nwuclB+CbzBUh2MX4IGJf0O8UGIdz4Nw8yMEd7d5Q1vPQCCD3FUMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1788029215;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d19ZKfIMt+U6tFeohDaydnDrFf2gDOkZcLU58US3VSA=;
-	b=bKj+/1sBOxEsoLrKkkvAC0Z8fh/mpYhelb8o0kTas1DliVyf9GqwVRcqHHmBHkNSk7Qlq5
-	oyOsQRHSTFvqA3Cw==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=martin smtp.mailfrom=martin@archlinux.org
-Date: Sat, 29 Aug 2026 20:46:54 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+ZLXK75"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BD5AC2BCB9;
+	Sat, 29 Aug 2026 19:31:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788031914;
+	bh=zWA0e3paKnXOqIGFnWjHF3VMRHadOpn9Ntl94B44z5U=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=s+ZLXK75FoQM+CDGHrtNdSmeUPX7sRnzOJfEVEfNy+ShaNrwZKB9sjUNg6wu61afG
+	 Jc139cV7x7nOkahL8FlFlNXEYK/jqH9JRgd3ca24/UfrUw59LTqUkQB+RLPdGqEcdT
+	 BNFyKMjIEbWwTsw1IjITxUt3l8MF4gaqYePOBe7QcY6u2Bd4o3LOwgJlhbFbVKQFmK
+	 p5QDuDTMdFmUDD7RwIKPsnWLhC1kLpN4H/G3KM4vL7KTfhSP+jhfPvQPgYoyg0NaNy
+	 1CzBgWcPF2IjMrEft3Q4m8KeqJ7UkcIXWkZJbUISqNtrWb5Q9XQMhRhx/Ua7kpGZEA
+	 tKX/vbgJ2KTpw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B733C61DD6;
+	Sat, 29 Aug 2026 19:31:54 +0000 (UTC)
+From: Matt Eaton via B4 Relay <devnull+linux.divinehawk.com@kernel.org>
+Subject: [PATCH 0/2] ARM: dts: qcom: ipq4019: migrate USB to qcom,snps-dwc3
+Date: Sat, 29 Aug 2026 21:31:24 +0200
+Message-Id: <20260829-ipq4019-dwc3-migration-v1-0-cc66b54ce21c@divinehawk.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] USB: Improve "New device found" printout message
-To: Greg KH <greg@kroah.com>
-Cc: linux-usb@vger.kernel.org
-References: <c9fb1eaa-9c88-4942-b6c5-9f7efbe1a133@archlinux.org>
- <2026082855-repave-condition-9f2c@gregkh>
-Content-Language: en-US
-From: Martin Rys <martin@archlinux.org>
-In-Reply-To: <2026082855-repave-condition-9f2c@gregkh>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIwzk2oC/yXMTQ6DIBBA4auQWTsJ0JZIr2K6oDDqmIgU7E9iv
+ HtpXX6L9zYolJkKXMUGmV5ceIkVqhHgRxcHQg7VoKU2stUWOT3OUlkMb3/CmYfs1pqgv5C0pjX
+ OugA1Tpl6/vzH3e1wed4n8uvvBvv+BUx4EEd6AAAA
+X-Change-ID: 20260829-ipq4019-dwc3-migration-c5e09686a9ad
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Matt Eaton <linux@divinehawk.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788031913; l=1536;
+ i=linux@divinehawk.com; s=20260828; h=from:subject:message-id;
+ bh=zWA0e3paKnXOqIGFnWjHF3VMRHadOpn9Ntl94B44z5U=;
+ b=9f+XEHPhEA/ioFMP3AAehqUvv8yDsQJIYgEi19TaElsbHSKfxoyM2+smbqfM7oCi4jkRWAKDt
+ xsyDRGt8OgyBpEdTEvhpkRiExp3s0xGBkaO5l3G8gU7Es9CB9Pf6SS8
+X-Developer-Key: i=linux@divinehawk.com; a=ed25519;
+ pk=UG4KnKXGwxjTNdirUPh/nySblET4aRxWYWSMTQwzlMw=
+X-Endpoint-Received: by B4 Relay for linux@divinehawk.com/20260828 with
+ auth_id=982
+X-Original-From: Matt Eaton <linux@divinehawk.com>
+Reply-To: linux@divinehawk.com
 
-> Cool, but this all doesn't belong here, the patch changelog should contain enough information for us to understand this.
-> The patch shouldn't be part of the middle of the email, just send it on it's own.  
-> See lots of examples on the mailing list for how that looks.
+The ipq4019 USB nodes still use the legacy qcom,dwc3 glue, which
+describes the DWC3 core as a child node. qcom,snps-dwc3 embeds it in the
+glue device instead, so the two nodes collapse into one.
 
-Got it, I've resent an amended version as a new v2 thread.
+Patch 1 relaxes the interrupt requirements for qcom,ipq4019-dwc3. The
+binding groups it with platforms supplying five or six named interrupts,
+but neither mainline nor Qualcomm's own vendor devicetree specifies wakeup
+interrupts for this SoC, so the migrated devicetree fails dtbs_check
+without it.
 
-> The patch is line-wrapped and whitespace damaged and can't be applied.
-> Perhaps use a tool like git send-email or b4 to send it?
+Patch 2 does the migration, and moves the ap120c-ac SS phy override up to
+the parent node since the child's label goes away with it.
 
-I have attempted to prevent this, but since I have somehow glossed over the email client configuration page in the docs the first time, 
-I've failed to apply *all* the needed Thunderbird changes.
+Patch 1 is for the USB tree, patch 2 for the qcom tree.
 
-I've actually tested it this time, which I should have done in the first place.
+This is a prerequisite for setting per-SoC properties from the qcom glue,
+which the legacy path has no mechanism for.
 
-Martin
+Tested on a Ubiquiti UniFi Travel Router.
+
+Signed-off-by: Matt Eaton <linux@divinehawk.com>
+---
+Matt Eaton (2):
+      dt-bindings: usb: qcom,snps-dwc3: relax interrupt requirements for ipq4019
+      ARM: dts: qcom: ipq4019: migrate USB to the qcom,snps-dwc3 glue
+
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    | 23 ++++++++++-
+ arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtsi |  4 --
+ arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi           | 46 ++++++++--------------
+ 3 files changed, 37 insertions(+), 36 deletions(-)
+---
+base-commit: 18f7fcd5e69a04df57b563360b88be72471d6b62
+change-id: 20260829-ipq4019-dwc3-migration-c5e09686a9ad
+
+Best regards,
+--  
+Matt Eaton <linux@divinehawk.com>
+
+
