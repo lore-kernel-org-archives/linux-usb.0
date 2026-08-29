@@ -1,542 +1,154 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAAE3AFAFA
-	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 14:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4A63B47E3
+	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 15:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788015349; cv=none; b=mcNzg5iivoAiSxZwY9x+USqvRKCzGJU8TqgAsWg5nyYzPHDymYqS+aC8oBtPJd96ilQz+4n+vGZXtfniS/GDX2r3Bml6Lls1F9xXN9FDhWu3nlf288U954Xy4qCZXt8K3EDriRf2seGYk6Y7Ka2sCY140wawFcRXJKJA0xy8oq0=
+	t=1788015930; cv=none; b=RjIfk/u2YZYwwg2YFrqEf9N7ca8moZA6FGAA0rctSz+Gdj2hXXcfljniRbSNO90IM9VbdqYPhZm4Ld76BCz0pxbDJQRmAuNyURRavQDz45vVV0OApBmbvuQriX2FqUIW4Wjn6qIloBZRaI4E2Pq27CmArFWqUXvn9n7DNUq8Q6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788015349; c=relaxed/simple;
-	bh=/vTICs4rfZnQqWAY7jp6Xx8e1B3/4HZ5WGwfLBmD4E8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BTZHhsk0d4TGqVkHMEB2qveQi1i3SfvVOItUFBs0rQgKUXEDsPY7gYprf/szwvbRAaGokXR9oUUetYm4BnAvB4WD3+pONbOeJEiCJqdvjuZsPr9JRD1VYZ+JbC47ta42WJXIKtzeVthCsvQ4aDjpzxPo+BvaqALMfNj4a90q/P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxI8IhEa; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788015930; c=relaxed/simple;
+	bh=QTFugN3XEm5Io2UG/Z7aka8kxCbDYn3ZHIkEujYiBAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bj+rvDiz0GotInp6OP25Bw/5uGNd4nMBEw2b33pvnufmbDoXJ/UjDFoQh6W8Hb5L0tDRx56p7dEHx5la/L6rkclsa4Nc6TYahWdlvEHSpjKj7gAj1M1iwbqWibrou0+tciCGO2pDcV1sJGsp3tCMEYnAe/yNQTbt1YJAsESVAtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=nswK7NuY; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxI8IhEa"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48433f36a21so172027f8f.1
-        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 07:55:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="nswK7NuY"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c0c45c580so16242821cf.0
+        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 08:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788015342; x=1788620142; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hWvvM2eJTieYNAJ1IrJEwIoJaD0ytMJ17q0W4sd4AmA=;
-        b=LxI8IhEaRcCv/USJRr6AWkPIjVDb29OsZEz72n8PUHT9Yjr3sXKXKYr+YFY3hf7pbh
-         qG2MqPuBe+DsSdqWNNj1NvtB1tXhh1/N8bWD/KYpif5+u1ecQF1Hhc5Txo7Mb00eInUq
-         aD+eB+CcvB+QgL4RI+WLrd4OxXHe33pM+kMPYy4I3Maz7hytie/THxNy+GKWHXxkmmEI
-         4GwoZWhfv7U8StrYqGHfPB5OVqZwT3Sw47bb4O1AQ/BUNKK51XCUltyFCwRYh4Mm0uG6
-         vhwd4h7RT/z+v2qJtL1MPRleemOgXqQPu9FjU2bfPCCJrmTdSQvrX5B/vAN447AJke4G
-         Gsxw==
+        d=rowland.harvard.edu; s=google; t=1788015927; x=1788620727; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mmph9+pVk/2tp5+TOCdi/jGTsY2OdEHY2KXUFQ9mzGE=;
+        b=nswK7NuYqzH0yShtO2hnLfONHKXPw7G7cl6NlpQLseTLfNGaTMDIxcztxeSdgo/DPX
+         VlDoYvf9nqIA1KOItBtKW6fjn45xrpSgMAvPTNzi5YXf0hcjychwGPTsb9K5mDzQgTW6
+         Ec1AOHxxddyn3EtaKxy4xMiORxmEder7l4jg/wK2+7gTFkKyJbXdIh+60WjUbC4jDFw4
+         8WTiQxoVYnu5/dq5aTy2BrJtQ8xu20klhZfh5zKLW3ckLZNY9QLEs5W/M+9Ww8a0MdlY
+         J6xzdvhsLxEPn3l92OsfECrcDM0l/Ihj+uIFxjkLSZVehESK1PtxjbD8YDrw2WFVMd8q
+         uXrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788015342; x=1788620142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hWvvM2eJTieYNAJ1IrJEwIoJaD0ytMJ17q0W4sd4AmA=;
-        b=fdMGkEBh01PAYEH27p+aQrUkrIJ2gXabW+oehkgLc/7xe8PNB/oVp25z2fnDpZwdxl
-         gTqs/hLj6QS55wW/AYiFvW1Ij04twOVbljEVPj4f1cRJV20HKtK3z3OW/QrGthShirt/
-         z5RVmp2M0sW78/KwCvttt/cO+m3JQSi6nDWjpQ6mrs3WilTCU+623Vd02hfH9ycd9/Qm
-         ZL4rMrfHqKZfmRkarZiWUFLBcw4BOa/Akeeug1mRpPtil9vUZLwXvK3WCeI7IbnHUgNJ
-         a9t7VWC/eiukleXk9FvAlepAsiz3svTBAXqlKABZnguQND0nT85uNIaP6jXirqCXWhK9
-         xowQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqqy1jAKQDeWQbPdROxCf9m0IZGkxFlok4qelFwKr9Nc4kIbMg5/+1S5JGyxTpjH3PgEiCVI3F9dl0=@vger.kernel.org
-X-Gm-Message-State: AFuF++nP7fK+sJebP8myFewXR52C2c7jw+jK5PpDq+ZdA9+5gzRSrSB2
-	Nb3UVL7ZTXm2jUvxBQOXvBWaNBHl4DImrywdhaSjZBZToTex+r3/ozuM
-X-Gm-Gg: AR+sD1057eMZJIxzcoTv9N+bDxg8qqf3eMDWXEtrUTg3gmA93lulVl3yhODpR+7p7AW
-	kfNRXQNoKMN4WsMMkAmHfoHfA1xVtmhAKYDufFQ9MhrZwCBWvmEcrpcOtUley9mp3BRT4MiZGb0
-	ZVxJqL9hF2xYIAgtN1JzEtOmUSKYQ1JQQtC74mP7V4UP7FS416nLPgbsAqRwTzZdv+FAEy8BvI0
-	WyepmZSMmSwLnG49Ld8KVgP7Cf8edtiyUUKqfLX51xNhX7Mxnf81MZZwJ/V2DOQcvvYTqj8SjMg
-	o4QnXtw69dpGKjIyJbfPJcjTnBL9pIt7gz0CRecyryqNWwzbC3vOMLJCx74UMfaTa2J9TnfQ+Lf
-	Gz25bxX56911eDREDCzeyByLqtRfqA59rgGBB9fieFH/AFoZU06atjYZcPglFKsstaBGTONC+J8
-	6C1NriYSryZ7RDfeigY1vtjkmM40OTdS+hlbxEAf4YCe+K+achQXf1Xxy2jQY1PrDf664aDo29g
-	kUo8J1BHqddKeQcSh7rXcXn9QzpsL7xR/PfF7YALCxKjRCXXCAfRMVauDG2zaKsHc/cIqgcWDyX
-	8zxR4GP+i/uOXgvCBju5W7rPxnHw6cBk54KzqkXGYmI1+J1J
-X-Received: by 2002:a05:600c:4683:b0:493:f783:c46a with SMTP id 5b1f17b1804b1-49cca3125c5mr89260385e9.6.1788015341806;
-        Sat, 29 Aug 2026 07:55:41 -0700 (PDT)
-Received: from scambox.localdomain (5-198-68-184.static.kc.net.uk. [5.198.68.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4dfdf00csm195113255e9.14.2026.08.29.07.55.41
+        d=1e100.net; s=20251104; t=1788015927; x=1788620727;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mmph9+pVk/2tp5+TOCdi/jGTsY2OdEHY2KXUFQ9mzGE=;
+        b=nlL6l0wYClVMmPKlAVvoMVy+SMN8bi5g+2fEJSv4MAU6HqA6NzUJXrlytIBN98wnbA
+         L5gG2CYqMJQq3JCyvK4BJOjrDkzNGRQyq1p5wFxxVx2qquGuOr/5V9R/kgp0amBqOMaH
+         jZqoqEydrCZ9nGohdAbsrAhGWk9xV8NobCfgiIRPzto6uwsJ1KgOemg3xddyQH7IJ2qC
+         9n21sd0RpudMWx+buBJknFlfvuR7kWbD5N57KIYrEr4DLLCcdS4v4NAV/wJHFXKmCYL9
+         TF4gMOVsrChjrxKtvHgHh5l+9zKVX2dYzhLAJqHMD7tInHHJXbyw+3ezqRUTESGjZkza
+         BVzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrpRODc3qb6vZSWxw7jZ6qMAMT4JuVoXJUsGsrjDt4Pe1kuhFrl2Hr5ABQ5YfAS+s6fGZ7FbNY8xKc=@vger.kernel.org
+X-Gm-Message-State: AFuF++nGZg6Rdo7/ckegwfK3CunThA6g56ymBKdt/zAFAG9y3GJ5p8a4
+	uEFjDUNYTv/aUwWtznbU+pzVjQb6+Et3lE+DIcA/GNhAPIpEN5OnLxpdQky15MitTg==
+X-Gm-Gg: AR+sD11ku0VnJZq4rd5r6HITAuApRNMqm1reeFLMLAmnxSi4b5wBs+UeY49N+fOuDqz
+	i0I1anNLSaAkLNb4AJQdxpHmHGmSxhtqHueCS8Z/CL+qQHFMqByYZ7j41HuWFqMri/uHGKbw3zj
+	Ri1l5CUOVAK/SsB5UBX+/mCd9iFkZU20weAr8ABRSjpQ+fWOKxVbxha6SlJS0I+2JkwrQvSAPAa
+	T7kG2prFWMb/xDjBbf/Ok2wfV3c/PWJ3cwulrVB+uYceH1EooieDxuivKU9/cozZ5iotxbNmfgZ
+	y9mfdW8TBAM/u6k72Tq8zg6r0bC6xVK68eYDOjAgjR3PBdFsFvcvDkcx81SwhaJM4SxXCjXl52A
+	YCwg6DNfaiNEWYlkZjpP1B4RZJfCzmst5F7ovvdB4OYcr/hpIpDGMHEaJ9K11RT1t4Mw9XWx2UV
+	OxDGkR+ZKNGbYseJTNxCrMzU7nveZBOVuoagvEogs9mhebKbOsLtIRGwdbT0rKDw==
+X-Received: by 2002:ac8:7c4a:0:b0:52d:7b2a:938 with SMTP id d75a77b69052e-52fb9379683mr161723911cf.6.1788015927082;
+        Sat, 29 Aug 2026 08:05:27 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90ce87695bfsm31568456d6.12.2026.08.29.08.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 07:55:41 -0700 (PDT)
-From: Edward Blair <edward.blair@gmail.com>
-To: linux-acpi@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: rafael@kernel.org,
-	lenb@kernel.org,
-	heikki.krogerus@linux.intel.com,
-	mika.westerberg@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	W_Armin@gmx.de,
+        Sat, 29 Aug 2026 08:05:26 -0700 (PDT)
+Date: Sat, 29 Aug 2026 11:05:23 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Edward Blair <edward.blair@gmail.com>
-Subject: [PATCH v3 2/2] usb: typec: ucsi: add ITE885x I2C transport driver
-Date: Sat, 29 Aug 2026 15:55:16 +0100
-Message-ID: <20260829145516.13500-3-edward.blair@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260829145516.13500-1-edward.blair@gmail.com>
-References: <20260829145516.13500-1-edward.blair@gmail.com>
+	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+Subject: Re: [PATCH usb-next v2] USB: gadgetfs: Fix use-after-free in
+ gadgetfs_kill_sb
+Message-ID: <991f3432-02af-47e7-b470-b21d36d09ac5@rowland.harvard.edu>
+References: <20260829011901.325379-1-rafad900@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260829011901.325379-1-rafad900@gmail.com>
 
-Add a UCSI transport driver for ITE8853 and ITE8800 through ITE8805
-USB Type-C controllers found on desktop motherboards.
+On Fri, Aug 28, 2026 at 06:19:01PM -0700, Rafael Alejandro Diaz Cruz wrote:
+> When gadgetfs_fill_super() fails, it's error path calls
+> put_dev() which drops refcount inside the_device to 0
+> and frees the objet. But the_device pointer is not
+> cleared, leading to point at freed memory.
+> 
+> VFS will then call gadgetfs_kill_sb() after mount
+> failure leading to put_dev() to be called on the
+> already freed pointer.
+> 
+> Fix by setting the_device = NULL during error path
+> before calling put_dev() inside gadgetfs_fill_super()
+> so that gadgetfs_kill_sb() skips put_dev().
+> 
+> However, if the fault injection from syzbot failed 
+> and it began the open()/write()/close()/unmount()
+> sequence then close() and umount() will each trigger
+> the refcount to drop once via put_dev(). This will 
+> still cause UAF since refcount is only incremented 
+> once on creation but decremented twice. 
 
-These controllers expose CCI, MESSAGE_IN and CONTROL at ITE-specific I2C
-offsets and signal UCSI and vendor events through a shared interrupt
-status register. Read and cache each complete UCSI event before
-acknowledging it so command data remains coherent between the interrupt
-handler and UCSI core.
+I don't understand this last paragraph at all.  What fault injection 
+from syzbot are you talking about?  The earlier part of the description 
+doesn't mention syzbot at all.
 
-The interface does not expose a VERSION register and does not accept
-PPM_RESET over I2C. Report UCSI 1.0, limit MESSAGE_IN to its 16-byte
-window and handle PPM_RESET locally, matching the vendor driver's
-behavior.
+Why do you spell "unmount" the first time with an 'n' but "umount" the 
+second time without an 'n'?
 
-Signed-off-by: Edward Blair <edward.blair@gmail.com>
----
- drivers/usb/typec/ucsi/Kconfig    |  11 +
- drivers/usb/typec/ucsi/Makefile   |   1 +
- drivers/usb/typec/ucsi/ucsi_ite.c | 395 ++++++++++++++++++++++++++++++
- 3 files changed, 407 insertions(+)
- create mode 100644 drivers/usb/typec/ucsi/ucsi_ite.c
+Is there any reason why close and unmount shouldn't both do a 
+put_dev()?  Doesn't the open increment the refcount to 2, so close 
+and unmount will set it to 0, causing a deallocation but not a UAF?
 
-diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-index 87dd992a4..3819c4f73 100644
---- a/drivers/usb/typec/ucsi/Kconfig
-+++ b/drivers/usb/typec/ucsi/Kconfig
-@@ -104,4 +104,15 @@ config UCSI_HUAWEI_GAOKUN
- 	  To compile the driver as a module, choose M here: the module will be
- 	  called ucsi_huawei_gaokun.
- 
-+config UCSI_ITE
-+	tristate "UCSI Interface Driver for ITE885x"
-+	depends on ACPI && I2C
-+	help
-+	  This driver enables UCSI support on platforms that expose an ITE8853
-+	  or ITE8800-ITE8805 USB Type-C controller over I2C, commonly found
-+	  on ASUS Z690/Z790/X670E motherboards.
-+
-+	  To compile the driver as a module, choose M here: the module will be
-+	  called ucsi_ite.
-+
- endif
-diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-index c7e38bf01..9bc1d6bbb 100644
---- a/drivers/usb/typec/ucsi/Makefile
-+++ b/drivers/usb/typec/ucsi/Makefile
-@@ -28,3 +28,4 @@ obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
- obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
- obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
- obj-$(CONFIG_UCSI_HUAWEI_GAOKUN)	+= ucsi_huawei_gaokun.o
-+obj-$(CONFIG_UCSI_ITE)			+= ucsi_ite.o
-diff --git a/drivers/usb/typec/ucsi/ucsi_ite.c b/drivers/usb/typec/ucsi/ucsi_ite.c
-new file mode 100644
-index 000000000..16b22c77f
---- /dev/null
-+++ b/drivers/usb/typec/ucsi/ucsi_ite.c
-@@ -0,0 +1,395 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * UCSI I2C transport driver for ITE885x USB-C controllers
-+ *
-+ * ITE8853/ITE8800-ITE8805 are UCSI-compliant USB-C controllers found on
-+ * desktop motherboards. They communicate over I2C using UCSI registers at
-+ * ITE-specific offsets and signal events through a vendor interrupt register.
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+
-+#include "ucsi.h"
-+
-+#define ITE_REG_CCI		0x84
-+#define ITE_REG_MESSAGE_IN	0x88
-+#define ITE_REG_CONTROL		0x98
-+#define ITE_REG_INT_ACK		0xbc
-+#define ITE_REG_INT_STATUS	0xbd
-+
-+#define ITE_INT_VENDOR_ALERT	BIT(0)
-+#define ITE_INT_CCI		BIT(1)
-+#define ITE_INT_MASK		(ITE_INT_VENDOR_ALERT | ITE_INT_CCI)
-+
-+#define ITE_MESSAGE_IN_MAX_LEN	0x10
-+
-+enum ucsi_ite_event {
-+	ITE_EVENT_NONE,
-+	ITE_EVENT_CCI,
-+	ITE_EVENT_VENDOR,
-+};
-+
-+struct ucsi_ite {
-+	struct i2c_client *client;
-+	struct ucsi *ucsi;
-+	struct mutex event_lock;	/* Serializes IRQ and polling */
-+	struct mutex received_lock;	/* Protects CCI and message_in */
-+	u8 message_in[ITE_MESSAGE_IN_MAX_LEN];
-+	u32 cci;
-+	bool registered;
-+};
-+
-+static int ucsi_ite_read(struct ucsi_ite *ite, u8 reg, void *val, size_t len)
-+{
-+	struct i2c_client *client = ite->client;
-+	struct i2c_msg msgs[] = {
-+		{
-+			.addr = client->addr,
-+			.len = 1,
-+			.buf = &reg,
-+		},
-+		{
-+			.addr = client->addr,
-+			.flags = I2C_M_RD,
-+			.len = len,
-+			.buf = val,
-+		},
-+	};
-+	int ret;
-+
-+	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-+	if (ret == ARRAY_SIZE(msgs))
-+		return 0;
-+
-+	ret = ret < 0 ? ret : -EIO;
-+	dev_err_ratelimited(&client->dev,
-+			    "register 0x%02x read failed: %d\n", reg, ret);
-+	return ret;
-+}
-+
-+static int ucsi_ite_write(struct ucsi_ite *ite, u8 reg, const void *val,
-+			  size_t len)
-+{
-+	struct i2c_client *client = ite->client;
-+	u8 buf[sizeof(u64) + 1];
-+	struct i2c_msg msg = {
-+		.addr = client->addr,
-+		.len = len + 1,
-+		.buf = buf,
-+	};
-+	int ret;
-+
-+	if (len > sizeof(buf) - 1)
-+		return -EINVAL;
-+
-+	buf[0] = reg;
-+	memcpy(&buf[1], val, len);
-+
-+	ret = i2c_transfer(client->adapter, &msg, 1);
-+	if (ret == 1)
-+		return 0;
-+
-+	ret = ret < 0 ? ret : -EIO;
-+	dev_err_ratelimited(&client->dev,
-+			    "register 0x%02x write failed: %d\n", reg, ret);
-+	return ret;
-+}
-+
-+static int ucsi_ite_process_event(struct ucsi_ite *ite, u32 *cci)
-+{
-+	u8 message_in[ITE_MESSAGE_IN_MAX_LEN] = {};
-+	__le32 raw_cci;
-+	u8 status;
-+	u8 len = 0;
-+	int event;
-+	int err = 0;
-+	int ret;
-+
-+	mutex_lock(&ite->event_lock);
-+
-+	ret = ucsi_ite_read(ite, ITE_REG_INT_STATUS, &status, sizeof(status));
-+	if (ret)
-+		goto out_unlock;
-+
-+	status &= ITE_INT_MASK;
-+	if (!status) {
-+		mutex_lock(&ite->received_lock);
-+		*cci = ite->cci;
-+		mutex_unlock(&ite->received_lock);
-+		ret = ITE_EVENT_NONE;
-+		goto out_unlock;
-+	}
-+
-+	if (status & ITE_INT_CCI) {
-+		err = ucsi_ite_read(ite, ITE_REG_CCI, &raw_cci,
-+				    sizeof(raw_cci));
-+		if (!err) {
-+			*cci = le32_to_cpu(raw_cci);
-+			len = UCSI_CCI_LENGTH(*cci);
-+
-+			if (len > sizeof(message_in)) {
-+				len = sizeof(message_in);
-+				*cci &= ~GENMASK(15, 8);
-+				*cci |= UCSI_SET_CCI_LENGTH(len);
-+			}
-+			if (len) {
-+				err = ucsi_ite_read(ite, ITE_REG_MESSAGE_IN,
-+						    message_in, len);
-+			}
-+		}
-+	}
-+
-+	/* Acknowledge each latched event with the value expected by the PPM. */
-+	if (status & ITE_INT_VENDOR_ALERT) {
-+		u8 ack = ITE_INT_VENDOR_ALERT;
-+
-+		ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-+		if (ret)
-+			goto out_unlock;
-+	}
-+
-+	if ((status & ITE_INT_CCI) && !err) {
-+		u8 ack = ITE_INT_CCI;
-+
-+		ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-+		if (ret)
-+			goto out_unlock;
-+	}
-+
-+	if (err) {
-+		ret = err;
-+		goto out_unlock;
-+	}
-+
-+	if (status & ITE_INT_CCI) {
-+		mutex_lock(&ite->received_lock);
-+		ite->cci = *cci;
-+		memset(ite->message_in, 0, sizeof(ite->message_in));
-+		memcpy(ite->message_in, message_in, len);
-+		mutex_unlock(&ite->received_lock);
-+		event = ITE_EVENT_CCI;
-+	} else {
-+		mutex_lock(&ite->received_lock);
-+		*cci = ite->cci;
-+		mutex_unlock(&ite->received_lock);
-+		event = ITE_EVENT_VENDOR;
-+	}
-+
-+	ret = event;
-+
-+out_unlock:
-+	mutex_unlock(&ite->event_lock);
-+	return ret;
-+}
-+
-+static int ucsi_ite_read_version(struct ucsi *ucsi, u16 *version)
-+{
-+	/* The ITE interface does not expose a VERSION register. */
-+	*version = UCSI_VERSION_1_0;
-+	return 0;
-+}
-+
-+static int ucsi_ite_read_cci(struct ucsi *ucsi, u32 *cci)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+
-+	mutex_lock(&ite->received_lock);
-+	*cci = ite->cci;
-+	mutex_unlock(&ite->received_lock);
-+
-+	return 0;
-+}
-+
-+static int ucsi_ite_poll_cci(struct ucsi *ucsi, u32 *cci)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+	int ret;
-+
-+	ret = ucsi_ite_process_event(ite, cci);
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static int ucsi_ite_read_message_in(struct ucsi *ucsi, void *val, size_t len)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+
-+	if (len > sizeof(ite->message_in))
-+		return -EINVAL;
-+
-+	mutex_lock(&ite->received_lock);
-+	memcpy(val, ite->message_in, len);
-+	mutex_unlock(&ite->received_lock);
-+
-+	return 0;
-+}
-+
-+static int ucsi_ite_async_control(struct ucsi *ucsi, u64 command)
-+{
-+	struct ucsi_ite *ite = ucsi_get_drvdata(ucsi);
-+	__le64 raw_command = cpu_to_le64(command);
-+	int ret;
-+
-+	if (UCSI_COMMAND(command) == UCSI_PPM_RESET) {
-+		/* The PPM handles reset internally; do not write it over I2C. */
-+		mutex_lock(&ite->event_lock);
-+		mutex_lock(&ite->received_lock);
-+		ite->cci = UCSI_CCI_RESET_COMPLETE;
-+		memset(ite->message_in, 0, sizeof(ite->message_in));
-+		mutex_unlock(&ite->received_lock);
-+		mutex_unlock(&ite->event_lock);
-+		return 0;
-+	}
-+
-+	mutex_lock(&ite->event_lock);
-+	mutex_lock(&ite->received_lock);
-+	ite->cci = 0;
-+	memset(ite->message_in, 0, sizeof(ite->message_in));
-+	mutex_unlock(&ite->received_lock);
-+	ret = ucsi_ite_write(ite, ITE_REG_CONTROL, &raw_command,
-+			     sizeof(raw_command));
-+	mutex_unlock(&ite->event_lock);
-+
-+	return ret;
-+}
-+
-+static const struct ucsi_operations ucsi_ite_ops = {
-+	.read_version = ucsi_ite_read_version,
-+	.read_cci = ucsi_ite_read_cci,
-+	.poll_cci = ucsi_ite_poll_cci,
-+	.read_message_in = ucsi_ite_read_message_in,
-+	.sync_control = ucsi_sync_control_common,
-+	.async_control = ucsi_ite_async_control,
-+};
-+
-+static irqreturn_t ucsi_ite_irq(int irq, void *data)
-+{
-+	struct ucsi_ite *ite = data;
-+	u32 cci;
-+	int ret;
-+
-+	ret = ucsi_ite_process_event(ite, &cci);
-+	if (ret == ITE_EVENT_NONE)
-+		return IRQ_NONE;
-+	if (ret < 0)
-+		return IRQ_HANDLED;
-+
-+	if (ret == ITE_EVENT_CCI)
-+		ucsi_notify_common(ite->ucsi, cci);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void ucsi_ite_destroy(void *data)
-+{
-+	struct ucsi_ite *ite = data;
-+
-+	if (ite->registered)
-+		ucsi_unregister(ite->ucsi);
-+	ucsi_destroy(ite->ucsi);
-+}
-+
-+static int ucsi_ite_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct ucsi_ite *ite;
-+	u32 cci;
-+	int ret;
-+
-+	if (client->irq <= 0)
-+		return dev_err_probe(dev, -ENODEV, "no IRQ provided\n");
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-+		return dev_err_probe(dev, -EOPNOTSUPP,
-+				     "adapter does not support I2C transfers\n");
-+
-+	ite = devm_kzalloc(dev, sizeof(*ite), GFP_KERNEL);
-+	if (!ite)
-+		return -ENOMEM;
-+
-+	ite->client = client;
-+	mutex_init(&ite->event_lock);
-+	mutex_init(&ite->received_lock);
-+	i2c_set_clientdata(client, ite);
-+
-+	ite->ucsi = ucsi_create(dev, &ucsi_ite_ops);
-+	if (IS_ERR(ite->ucsi))
-+		return dev_err_probe(dev, PTR_ERR(ite->ucsi),
-+				     "failed to create UCSI interface\n");
-+
-+	ret = devm_add_action_or_reset(dev, ucsi_ite_destroy, ite);
-+	if (ret)
-+		return ret;
-+
-+	ucsi_set_drvdata(ite->ucsi, ite);
-+
-+	ret = devm_request_threaded_irq(dev, client->irq, NULL,
-+					ucsi_ite_irq, IRQF_ONESHOT,
-+					dev_name(dev), ite);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to request IRQ\n");
-+
-+	ret = ucsi_ite_process_event(ite, &cci);
-+	if (ret < 0)
-+		dev_warn(dev, "initial event processing failed: %d\n", ret);
-+
-+	ret = ucsi_register(ite->ucsi);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to register UCSI interface\n");
-+
-+	ite->registered = true;
-+	return 0;
-+}
-+
-+static int ucsi_ite_suspend(struct device *dev)
-+{
-+	struct ucsi_ite *ite = dev_get_drvdata(dev);
-+	int ret;
-+
-+	disable_irq(ite->client->irq);
-+	ret = ucsi_suspend(ite->ucsi);
-+	if (ret)
-+		enable_irq(ite->client->irq);
-+
-+	return ret;
-+}
-+
-+static int ucsi_ite_resume(struct device *dev)
-+{
-+	struct ucsi_ite *ite = dev_get_drvdata(dev);
-+
-+	enable_irq(ite->client->irq);
-+	return ucsi_resume(ite->ucsi);
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(ucsi_ite_pm, ucsi_ite_suspend,
-+				ucsi_ite_resume);
-+
-+static const struct acpi_device_id ucsi_ite_acpi_ids[] = {
-+	{ "ITE8853" },
-+	{ "ITE8800" },
-+	{ "ITE8801" },
-+	{ "ITE8802" },
-+	{ "ITE8803" },
-+	{ "ITE8804" },
-+	{ "ITE8805" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, ucsi_ite_acpi_ids);
-+
-+static struct i2c_driver ucsi_ite_driver = {
-+	.driver = {
-+		.name = "ucsi_ite",
-+		.acpi_match_table = ucsi_ite_acpi_ids,
-+		.pm = pm_sleep_ptr(&ucsi_ite_pm),
-+	},
-+	.probe = ucsi_ite_probe,
-+};
-+module_i2c_driver(ucsi_ite_driver);
-+
-+MODULE_AUTHOR("Edward Blair <edward.blair@gmail.com>");
-+MODULE_DESCRIPTION("UCSI I2C transport driver for ITE885x USB-C controllers");
-+MODULE_LICENSE("GPL");
--- 
-2.55.0
+Why is the refcount incremented upon creation?  Normally refcounts are 
+created with an initial value of 1 so they don't need to be incremented.
 
+> Reported-by: syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=4a5c87a01894ca37f25c
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+> ---
+>  drivers/usb/gadget/legacy/inode.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+> index d87a8ab51510..77efa984ce84 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
+> @@ -2059,6 +2059,7 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+>  	rc = gadgetfs_create_file(sb, CHIP, dev, &ep0_operations);
+>  	if (rc) {
+>  		put_dev(dev);
+> +		the_device = NULL;
+>  		goto Enomem;
+>  	}
+>  
+> @@ -2066,6 +2067,7 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+>  	 * from binding to a controller.
+>  	 */
+>  	the_device = dev;
+> +	get_dev(dev);
+
+Does this have something to do with that mysterious last paragraph in 
+the description?  I can't see any relation between the two.  In 
+particular, that paragraph doesn't say anything about adding a 
+get_dev().
+
+Alan Stern
+
+>  	rc = 0;
+>  	goto Done;
+>  
+> -- 
+> 2.43.0
