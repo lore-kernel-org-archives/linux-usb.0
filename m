@@ -1,319 +1,143 @@
-Received: from mail-oi2-f5.google.com (mail-oi2-f5.google.com [74.125.231.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D86344D99
-	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 19:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AF23812D1;
+	Sat, 29 Aug 2026 20:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788032546; cv=none; b=n4jOXNT6FqRku1SlvLlCZwAQoMuVniB8RfhlyvwVryaPXFkT0M3i4LKB06NCtBKh/u9Hb02/ez6sNksv+zMMllAn+O/2SPJSIgmrDjXcMFd2VvBwnqqCupK96j5PoADhvl7t3tX8tTImU9KLcQk+XARw3VBYUc0i1T2jya7cO+M=
+	t=1788033856; cv=none; b=S2jP4BIWXcQSBRwtpfIdIVWX9GzqU7T/zLxXtIAK70gx5cxOegm22tCTc05HnmHHGvD5mUbORzxZQmxZZIN0e5ifPiX+wzq6pBzHrsk6XkGt0vt4ovRlZetc2AAGfVXVJjaHW5p9vTBvnJum0fNHHhmQfIOfV2QlQyF24HWgEZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788032546; c=relaxed/simple;
-	bh=k0FiHL7zb0VcpJ1YIXi7ZhMDgu/z9UgZ/RLbSYHVwSo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=klGs01yWl/QTCcnoNwk7jn7JqfTYti4BA+V4gshmL8vrkUBFiogNwfBKKNH0wKOuhZykEdNN1P4HAoj94SnhW5TpUaNov7j5hMxomfqw8FJ8WGSZeUJ73zWkXZU8bejJN5asfIsybhCD/XI2Nt8/9SYmTIPdX3+dI9IoMfV/KvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f5.google.com with SMTP id 006d021491bc7-6b149ddb8a5so17229eaf.1
-        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 12:42:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788032544; x=1788637344;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FgGAEc6tgDgVeHJOxVNevJhdTjr5Q/Z/SHLlOeuVhKA=;
-        b=co3SWqinFvfiOPMPuff/XIEjREIW/5DT8DyeU5j7B0wOqOQKueqHsrtBUmnNeJLBYW
-         TV1qZMkJmHQfP1pBwk478DcRyJZQzlTBawpX/S123F7noI5/R2a2y1fQBto52pnhN2tw
-         MTJVeB0slygiGD2SZyKK6mSNXEcU0NzPXHBl4dSf8Nw+OEA97c6fTAQsfd3xP507AJo0
-         5+tQf9b0/Ehp+XK92yEulVtLFAYQn6RChF81IAx5UAzbTY0OQiUunYLRLxG4BBqYiUjP
-         QttAvjV2uRGPzROdUBPn/IwMFkRjgzHJchD7lao4UowTYHKGumx3M4VXM8602uiLx/BP
-         tvAw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0nEp8i9cD0rZTRj8Z/IKy3aw1lm1zfD9AL9fcNgNindUpYA8kSE3x0ksmn63F67RVuqR0lohJ4pw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lETvkjlbYr4iH0g7wVAk6MTNHhajIO3S7UTcziBphFNrQNWJKA
-	fbBePtcfgzWksPcR/6zL0KOZUPqkGsAvE4eBLSwTPMSM7RonNjONCbemRN+YnWm9zc5Xbgh1AWe
-	Ln0oE4iyWcRCcUIJjs8tRib2vDhgmd+bbe0Gg1w1CVw+5E3hFYLTaRRbl+bo=
+	s=arc-20240116; t=1788033856; c=relaxed/simple;
+	bh=CKY7e3bB5GlmgcceIuLJLrwmWVVlfIcFh0TCPWYRpPY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=X6lGKjm5BDoG0yP9kENuGfDoitEnUxV0moa+69OHMnMbZruyVC4jr+1ul6VvGCnU+h1P2cllzGg5tKayrTGDCKZtEV/+xQiNSo80Q0MO/L7uKpyL2upzEs5xag0bdGhidrMfRNMEcyEBtlUytHTPwFwe9aDNWxxRBQgDo2irpik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZ1xQW7S; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZ1xQW7S"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D8BF8C2BCFB;
+	Sat, 29 Aug 2026 20:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788033855;
+	bh=CKY7e3bB5GlmgcceIuLJLrwmWVVlfIcFh0TCPWYRpPY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=rZ1xQW7SrW3rn3PVb2t8rlBSZK5BlDEP65TufvoRA+UjSeA+RCUGGWRIZZPb6QspW
+	 KbaOKpv0Hct7WDz2U+WkS7xvqNGo2gxtLWIiWr+0XN8qOvkINmXRu701gsudONzRMy
+	 HJpLbhWF2VeEHZ4pr6tAk2qTI1LQKbbZLCh0hmg//VTjrkcMsd0W3MRaBft87Qxbzl
+	 p2fqZGrcFwPT491L0XbHHnPVk8Ye/HWoxfaiNw2kvsUbuLnjR37OW0DBdoGTWgmiYh
+	 fF9pBlCjhCgnBTgR6Vo8YeK2o9101jZmrfOka9ZjJCSiInc97E8NVqa6ngvfj5S2Oj
+	 rk4ayUYoHe8Qw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C838AC61DCB;
+	Sat, 29 Aug 2026 20:04:15 +0000 (UTC)
+From: Matt Eaton via B4 Relay <devnull+linux.divinehawk.com@kernel.org>
+Date: Sat, 29 Aug 2026 22:04:12 +0200
+Subject: [PATCH v2 3/3] usb: dwc3: qcom: set xhci_no_soft_retry for IPQ4019
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:52d5:b0:6b1:3534:a5b8 with SMTP id
- 006d021491bc7-6b1c66161d9mr12613999eaf.15.1788032543934; Sat, 29 Aug 2026
- 12:42:23 -0700 (PDT)
-Date: Sat, 29 Aug 2026 12:42:23 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a93361f.08e933ee.dbf97.009b.GAE@google.com>
-Subject: [syzbot] [usb?] possible deadlock in fifo_open (2)
-From: syzbot <syzbot+e6737343c72c2accf79e@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260829-xhci-no-soft-retry-v2-3-0efe22f1c2f8@divinehawk.com>
+References: <20260829-xhci-no-soft-retry-v2-0-0efe22f1c2f8@divinehawk.com>
+In-Reply-To: <20260829-xhci-no-soft-retry-v2-0-0efe22f1c2f8@divinehawk.com>
+To: Mathias Nyman <mathias.nyman@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Matt Eaton <linux@divinehawk.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788033855; l=3072;
+ i=linux@divinehawk.com; s=20260828; h=from:subject:message-id;
+ bh=pZdj9EBvPXV7nO9flwfMVrSwQKB9H/3tZS+G/WrrLgA=;
+ b=cXcKD/TOysPCU/i/CcnxXTgpuqlAXCyvLvU+XVNC3ebgO4vj85HYdu/8ui3f0jqTTgg+O6gzi
+ 4+TPh3rVV7NAAB/BBF/9JD0DLvk5w+7U9hAhq6qIPsfNSN7Ta/f8vQf
+X-Developer-Key: i=linux@divinehawk.com; a=ed25519;
+ pk=UG4KnKXGwxjTNdirUPh/nySblET4aRxWYWSMTQwzlMw=
+X-Endpoint-Received: by B4 Relay for linux@divinehawk.com/20260828 with
+ auth_id=982
+X-Original-From: Matt Eaton <linux@divinehawk.com>
+Reply-To: linux@divinehawk.com
 
-Hello,
+From: Matt Eaton <linux@divinehawk.com>
 
-syzbot found the following issue on:
+The dwc3 instances on IPQ4019 mishandle xHCI 1.0 Soft Retry. A Stop
+Endpoint command that lands on a just-soft-retry-reset endpoint wedges
+the command ring, and the stop-endpoint watchdog kills the host five
+seconds later:
 
-HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1140199e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
-dashboard link: https://syzkaller.appspot.com/bug?extid=e6737343c72c2accf79e
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+xhci-hcd xhci-hcd.1.auto: xHCI host not responding to stop endpoint command
+xhci-hcd xhci-hcd.1.auto: xHCI host controller not responding, assume dead
+xhci-hcd xhci-hcd.1.auto: HC died; cleaning up
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Reproducible by unplugging a USB-tethered phone mid-transfer. The port
+stays dead until the platform device is rebound. The controller itself
+is alive throughout, hence the -110 timeout rather than -ENODEV.
+Qualcomm's 4.4 vendor kernel predates Soft Retry entirely, so it has
+never been able to hit this.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-818bebeb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6e4100526b12/vmlinux-818bebeb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/723c4783ee96/bzImage-818bebeb.xz
+This is a property of the IP rather than of any board, so it is carried
+as match data on the SoC compatible.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e6737343c72c2accf79e@syzkaller.appspotmail.com
+Both dwc3 nodes on this SoC share the compatible, so both get the quirk.
+Measured on the usb2 instance, which drives the external port; the usb3
+instance on the board under test hosts a soldered Bluetooth radio that
+is never unplugged, so it cannot reach the trigger in normal use.
 
-9p: Bad value for 'version'
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Tainted: G             L     
-------------------------------------------------------
-syz.8.3362/18795 is trying to acquire lock:
-ffff88805662e860 (&pipe->mutex){+.+.}-{4:4}, at: fifo_open+0x139/0xb40 fs/pipe.c:1235
-
-but task is already holding lock:
-ffff88802b41f920 (&common->filesem){++++}-{4:4}, at: fsg_store_file+0x193/0x450 drivers/usb/gadget/function/storage_common.c:452
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #5 (&common->filesem){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5886 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       fsg_store_cdrom+0xe2/0x190 drivers/usb/gadget/function/storage_common.c:478
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #4 (&p->frag_sem){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5886 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       flush_write_buffer fs/configfs/file.c:205 [inline]
-       configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #3 (&buffer->mutex#2){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5886 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
-       configfs_read_iter+0x79/0x6f0 fs/configfs/file.c:86
-       __kernel_read+0x397/0xad0 fs/read_write.c:532
-       integrity_kernel_read+0x7e/0xb0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm+0x25e/0x350 security/integrity/ima/ima_crypto.c:222
-       ima_calc_file_hash+0x1e3/0x380 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x94f/0xb30 security/integrity/ima/ima_api.c:300
-       process_measurement+0xdfe/0x2350 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xc4/0x210 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x5cd/0x2440 fs/namei.c:5000
-       do_file_open+0x20e/0x430 fs/namei.c:5029
-       do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x12d/0x210 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #2 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5886 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
-       process_measurement+0x5ab/0x2350 security/integrity/ima/ima_main.c:319
-       ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xc4/0x210 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x5cd/0x2440 fs/namei.c:5000
-       do_file_open+0x20e/0x430 fs/namei.c:5029
-       file_open_name+0x1c3/0x3e0 fs/open.c:1375
-       filp_open+0x2e/0x50 fs/open.c:1392
-       kernel_read_file_from_path_initns+0xec/0x240 fs/kernel_read_file.c:159
-       fw_get_filesystem_firmware drivers/base/firmware_loader/main.c:549 [inline]
-       _request_firmware+0x733/0x13c0 drivers/base/firmware_loader/main.c:873
-       request_firmware+0x35/0x50 drivers/base/firmware_loader/main.c:948
-       reg_reload_regdb+0x85/0x460 net/wireless/reg.c:1067
-       genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:800 [inline]
-       __sock_sendmsg net/socket.c:815 [inline]
-       ____sys_sendmsg+0xa4d/0xbe0 net/socket.c:2713
-       ___sys_sendmsg+0x190/0x1e0 net/socket.c:2767
-       __sys_sendmsg+0x160/0x210 net/socket.c:2799
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (cb_lock){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5886 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:800 [inline]
-       __sock_sendmsg net/socket.c:815 [inline]
-       sock_sendmsg+0x394/0x410 net/socket.c:838
-       splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1fa0 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&pipe->mutex){+.+.}-{4:4}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
-       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
-       validate_chain kernel/locking/lockdep.c:3924 [inline]
-       __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5253
-       lock_acquire kernel/locking/lockdep.c:5886 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
-       fifo_open+0x139/0xb40 fs/pipe.c:1235
-       do_dentry_open+0x6ab/0x14d0 fs/open.c:996
-       vfs_open+0x82/0x3f0 fs/open.c:1101
-       do_open fs/namei.c:4837 [inline]
-       path_openat+0x19fa/0x2440 fs/namei.c:5000
-       do_file_open+0x20e/0x430 fs/namei.c:5029
-       file_open_name+0x1c3/0x3e0 fs/open.c:1375
-       filp_open+0x2e/0x50 fs/open.c:1392
-       fsg_lun_open+0x9e/0x7b0 drivers/usb/gadget/function/storage_common.c:199
-       fsg_store_file+0x1e7/0x450 drivers/usb/gadget/function/storage_common.c:455
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &pipe->mutex --> &p->frag_sem --> &common->filesem
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&common->filesem);
-                               lock(&p->frag_sem);
-                               lock(&common->filesem);
-  lock(&pipe->mutex);
-
- *** DEADLOCK ***
-
-locks held by syz.8.3362/18795: 5, last CPU#0:
- #0: ffff888034a2c9b0 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x2aa/0x380 fs/file.c:1259
- #1: ffff8880238a2460 (sb_writers#18){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #2: ffff88803d2cde80 (&buffer->mutex#2){+.+.}-{4:4}, at: configfs_write_iter+0x76/0x4e0 fs/configfs/file.c:226
- #3: ffff88803c8bd070 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
- #3: ffff88803c8bd070 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
- #4: ffff88802b41f920 (&common->filesem){++++}-{4:4}, at: fsg_store_file+0x193/0x450 drivers/usb/gadget/function/storage_common.c:452
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 18795 Comm: syz.8.3362 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2059
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2191
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
- check_prevs_add kernel/locking/lockdep.c:3300 [inline]
- validate_chain kernel/locking/lockdep.c:3924 [inline]
- __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5253
- lock_acquire kernel/locking/lockdep.c:5886 [inline]
- lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
- fifo_open+0x139/0xb40 fs/pipe.c:1235
- do_dentry_open+0x6ab/0x14d0 fs/open.c:996
- vfs_open+0x82/0x3f0 fs/open.c:1101
- do_open fs/namei.c:4837 [inline]
- path_openat+0x19fa/0x2440 fs/namei.c:5000
- do_file_open+0x20e/0x430 fs/namei.c:5029
- file_open_name+0x1c3/0x3e0 fs/open.c:1375
- filp_open+0x2e/0x50 fs/open.c:1392
- fsg_lun_open+0x9e/0x7b0 drivers/usb/gadget/function/storage_common.c:199
- fsg_store_file+0x1e7/0x450 drivers/usb/gadget/function/storage_common.c:455
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f485679e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f4857660028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f4856a25fa0 RCX: 00007f485679e0d9
-RDX: 0000000000000005 RSI: 00002000000003c0 RDI: 0000000000000003
-RBP: 00007f4856835024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f4856a26038 R14: 00007f4856a25fa0 R15: 00007ffd7288fbb8
- </TASK>
-mass_storage.0/lun.0: unable to open backing file: file0
-
-
+Suggested-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Signed-off-by: Matt Eaton <linux@divinehawk.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/usb/dwc3/dwc3-qcom.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index ac68b4218b56..1edf75696e45 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -607,8 +607,19 @@ static struct dwc3_glue_ops dwc3_qcom_glue_ops = {
+ 	.pre_run_stop	= dwc3_qcom_run_stop_notifier,
+ };
+ 
++/*
++ * The dwc3 instances on IPQ4019 mishandle xHCI Soft Retry: a Stop
++ * Endpoint command landing on a just-soft-retry-reset endpoint wedges the
++ * command ring and the host is killed by the stop-endpoint watchdog.
++ */
++static const struct dwc3_properties dwc3_qcom_ipq4019_properties = {
++	.gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED,
++	.xhci_no_soft_retry = 1,
++};
++
+ static int dwc3_qcom_probe(struct platform_device *pdev)
+ {
++	const struct dwc3_properties *properties;
+ 	struct dwc3_probe_data	probe_data = {};
+ 	struct device		*dev = &pdev->dev;
+ 	struct dwc3_qcom	*qcom;
+@@ -704,7 +715,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	probe_data.dwc = &qcom->dwc;
+ 	probe_data.res = &res;
+ 	probe_data.ignore_clocks_and_resets = true;
+-	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
++
++	properties = of_device_get_match_data(dev);
++	probe_data.properties = properties ? *properties : DWC3_DEFAULT_PROPERTIES;
++
+ 	ret = dwc3_core_probe(&probe_data);
+ 	if (ret)  {
+ 		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+@@ -839,6 +853,7 @@ static const struct dev_pm_ops dwc3_qcom_dev_pm_ops = {
+ };
+ 
+ static const struct of_device_id dwc3_qcom_of_match[] = {
++	{ .compatible = "qcom,ipq4019-dwc3", .data = &dwc3_qcom_ipq4019_properties },
+ 	{ .compatible = "qcom,snps-dwc3" },
+ 	{ }
+ };
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+-- 
+2.43.0
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
