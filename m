@@ -1,185 +1,176 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB3D328611;
-	Sat, 29 Aug 2026 09:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BF930FF1D
+	for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 10:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787996101; cv=none; b=rQmPFDgIy49IopD4yi84fQ4it3e72YJCTsOjPsrxaI6qhh40WXMnWtT68dhnmbGhtQChUtGCH7lGVlRgs8HYbcYmywlFVy6Dqr07uWjaSm5+gz8aNuVINJ8XoA5xH6Dub1vuYQR0JbNR5nFbmnmW5kwVcYefj55/JNqRgM+cyiQ=
+	t=1787997824; cv=none; b=nbnV+cETbq77xW/RVqDTFfvS0V7aKVv4vYbo7WW9uycQZ9ZRdiHM6w0/JNuH0hke7TP8utwH2kjxDSuMTkCTxNI7e21ZbgVr4ooCEiiAz4Mj4ya3bVGm0bu7MVUcmnv/BAJtiSL7X9uUt1A6ELbF6WH9toyG6181qq7aBFQJdys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787996101; c=relaxed/simple;
-	bh=BR/LqOPk0RDAOLrsALcIpnNEQFYMLtvBgIIirpHr8wI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XRu2rMAGocD1N2klUc31NvtjV90M1R6YSeMxpaPj9yzjg8SlsH5yjs+8i9Dj/7Fb11A4qpAJW+3dNLXvLf/ZbwqIk7PUAaq6Cv41mbY1OsSbjYhNB/wlBj4IcBlGQS7hyPRRNqRzaemzW1M8FWXmBFyj0oi5e+nSrxQgEw2zVs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=cJV/dhe0; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1787997824; c=relaxed/simple;
+	bh=ZJlPTeTkTl84V1BFFYQh/dfDP2K84VCKo6miLZPZcR8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DSTSsf0X0fNVXX7j4ao+fdtcKof1Ugk/UnLmZQCSTPUYWXOGfVuQ5x5vp2t53QrjHy9jMzvVt4EXdTdfckVRbcOB75q7GHYCwil6VcTTGrqVyIlWrNuKmIvojg6d3mC7MlnRSOxlc+7F3K6/eMeB958mAZsglmkkTuzirkCYBAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AXmuo9yw; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="cJV/dhe0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1787996067;
-	bh=0PuWcwip6JcJo9sARTYnMIqkzQJvUceiNAvwxSOqEdU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To;
-	b=cJV/dhe0PkAo+29kPJtmNVx55dWgc3sfCGNG1oGHbl4mWuQZMrxEFqBVhzNVzXPQC
-	 sQmFaccGS9DcBKXsYeGQNPmOxtW4ylBr+gwWNv0il5lNrX9NP5MWUscl86YWMNGNW0
-	 1H3DaLq84tDA5W2H1ZiYsRM8vi0EOUNYOe18blfQ=
-X-QQ-mid: esmtpsz10t1787996063t4f4ae30d
-X-QQ-Originating-IP: bHFmHQV2y5Io5Zuo3VJUTChZNFdGAVEBf23y5X+76qc=
-Received: from [192.168.1.100] ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 29 Aug 2026 17:34:21 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2601375684384682277
-EX-QQ-RecipientCnt: 6
-Message-ID: <4028ADCCD8D1A8F8+ffb2a2cd-1c21-401e-baeb-3d042fbbe484@linux.spacemit.com>
-Date: Sat, 29 Aug 2026 17:34:21 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AXmuo9yw"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so16426195e9.1
+        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 03:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787997821; x=1788602621; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u/rWH3ByeNUWPLygXnrE3S/P4geWzis3M/3IKa9BnQc=;
+        b=AXmuo9yw1xi7QnralWCWWL91ao7LA5q3BMMKyzCRiOZsb1PxLivBAG/Gf8RVrCAH0S
+         OImv7Z+4ptpKEkeidyjBKBZpJdv5qf7Xlsdabx3HqkWqV6fVAJ0b1LPbXZMLxY4BD7gz
+         bRoX1EgARET53waQ7StTkaR3cBMOOtjQFbtZnFULMkn3nLlF+aij5aF5fYHEswgfPr2+
+         2rJ/7Sf9fnlbBT189LtDC8w/vKKKqTaxSc65DM5h6p8cRnh0zRu/oTFB5hDI6k1Wdq4I
+         kNBpJsx+jSAxpZFlnyV7TlK88Cotbh8OUt1hCcV/B3bZOXqQjNTctu/2NbQi4/B9eAbH
+         GrYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787997821; x=1788602621;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u/rWH3ByeNUWPLygXnrE3S/P4geWzis3M/3IKa9BnQc=;
+        b=VwlK1GJgZOgyM0lVW3uIi9QFzUMPsvYC+xOEivyMk4ZpbCKCdD90NIqdWbBy+rbkKv
+         8sm0ucBKuvrOySyc9wiZOQZR1e0Ovdjtpw1R9sKuNctNZj3PhMy7ubPjj/AWhnhuSo3U
+         yocTiz8Qzstwf7djVs7ioRmpUiFI6GH2tXkY43eOssW1TkMgoRMtAJ60iDuVOH1GjWoB
+         mpMVfjpCF5GDpZhRW2jVAPMPylPGTpFX+ysFjFVw/vIYwSamEk0P1mMxr98odQesFOIZ
+         6QKijLeiVFM5iy+RuOtbSh7dNf4KMz20KZfyWikUJmaYA7+YxTEx5tirPcLALTPq4rsM
+         ypsw==
+X-Gm-Message-State: AFuF++mPz1QptzjHBxmSS2Gw9q9HK9NBXsz9RmdR+O6Rqcp6xFjqUitg
+	PE1QvLcstV5nGeXuzCbZLOkNkKhKv6VVCRCPLSpCIkwNFsU24jrWAasc
+X-Gm-Gg: AR+sD13Xjwrwu9q91qFJwKb7PWHdJAOl4pnd2vH4TtHzv8ODrhpTwUi1JRK4aChF1+G
+	e8mcAEfFiAi5ndXVU3WOpizP8Q3CnTssiGuei8W9QwgS+dEa2zPWbhKmaSmiEZuXrh+RlzpL/Bg
+	MeKoelWvLfeyHSkceCGMoDkdUeP93Z+fyNrQF8Cx65Roxd24Y/P+V3NgZ/5ZME3rRp5gXgfyjre
+	6dFR2QN0Un9cthKhz5WGmnRxy3ok8wOysPG2BL1q3KwheOGVUmrmS7gwYUP/hDBoCjXocYkpnVw
+	OroubsNg8hSsEto7mVn5q66OfjrlFgIfPiA0jWRWjnHG2hNah3yc18wHJviy03k7TYB18OpAIzV
+	21Gr3WHg2tr0k8CNLQLc+A1ezcL3xr5k6aNq+cbDPWnrDtUAZb55DXmzyiFpye00nN5LFCuhpDE
+	+qbmIqH6LmOczHc+R5nLdze4HVWFewEqTAqevxa/TtPOXtWhQ2SVkO1/lGe5IPJ3gmy7tU6DR6N
+	9ru4jKSRKr8GoQ0XNjKBYhdpruZ
+X-Received: by 2002:a05:600c:c4a7:b0:495:5d6d:9cc1 with SMTP id 5b1f17b1804b1-49cca26ceeemr79124365e9.0.1787997821309;
+        Sat, 29 Aug 2026 03:03:41 -0700 (PDT)
+Received: from cachyos ([105.158.202.217])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cca1ed292sm66211735e9.8.2026.08.29.03.03.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Aug 2026 03:03:40 -0700 (PDT)
+From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
+Subject: [RFC PATCH 0/1] RME Babyface Pro FS driver (proprietary mode)
+Date: Sat, 29 Aug 2026 11:03:32 +0100
+Message-ID: <20260829100333.32933-1-i.bahloul01@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-Subject: Re: [RFC PATCH] usb: dwc3: core: resume xHCI child on runtime resume
- in host mode
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "troy.mitchell@linux.spacemit.com" <troy.mitchell@linux.spacemit.com>,
- "peixin.xie@linux.spacemit.com" <peixin.xie@linux.spacemit.com>
-References: <20260811090817.109350-1-panjunzhong@linux.spacemit.com>
- <ao-QDVibwU90yPm_@vbox>
- <8F4C0C8A8DA2D71A+7c57de3c-1f36-4e5b-b5e3-0eeb6ca88006@linux.spacemit.com>
- <apDJbcrAgzcFRLZM@vbox>
-Content-Language: en-US
-In-Reply-To: <apDJbcrAgzcFRLZM@vbox>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: MYfgaE2Hdx7cKiuVvA+ITC61TYM2Zxb1qNUXwgcKGhLKqFIRyZQ0gcgd
-	59deBlb4x8j+3Pj/ZaNkcMEHZosb7oFsqLfX99vk5YpC7pLMblKcvrkPY+wXtX26NIj/jp/
-	4mnmMQjF70bIfPtRFdXpkU3zgYHol+FSy9PpnC6pVsB6BURLGIzhNbpRvcLNvjP8WaD9eX9
-	PzP+MsV5WE0gQkwq0MZEZ58KUyLJzbn17Sr3pClo7JJrXFjnZIkz9hHHKa7+T3s8Oka+h0i
-	TpM0ryAfuoMGGK02LzNws6WnrtUXJ6+O5hE9yLSJqHNbuO2XD2OKBLT5YXBmOmfY7ND5gxf
-	fWUTyDYoXjEma0ORfQrcCDkIoYjcs+GdR9vlzQQO0ESOgiARdc+OhpK5zq9oSmosSlQtppu
-	X3GOftUvyOa3jQPPvOHvdR16hkMaYhbHBk603OmIXpLmlKCRL4tBDMKFtB2JJyIbpZxx79N
-	oQvVGVrVzdWWO7udOHk4RSXEGSvglxgaMTPi/OnEwJOSuviGSuNtzh6if+KTLPLKFlkwPcT
-	ZHDaRE+feTW2x8+mUbds1P5i6iTsfs8kFw+1EfnZfgRrrQpyysAILYzlr5WJ9xigmAdFKNm
-	0pUxfKSW3+/aTFktLKd+IWrj6B375NkHzms9YZ5Jkh1h3rurhQCNtLMwMbgdwagAA6C6rl8
-	5xpiKF7JBD5Ea3WHT2zK72W5znPAP95aS1K33l+PwS0ZFgaRt66yujg5N20wjw/eR06nUwX
-	bGH2By5T4pwOex5zWXxp3j0QH5So/B56aQ/F05ojYeFH0NN7T6w27sZB+RTztDixD4pnHm6
-	6nsJEJWScVwGea1OgU8PCYXraicukHEarQWAtOsvhhgzx2qcIfr3nCYmy6TwC00RhqIalBB
-	IjEijhQ3A2EqiR1Tubnc24Hj5THOYMDlTfkQrj/mr3I3TN6UtZze1P0uKQfnSgQt4jI6kmu
-	zndGbwRcBbotgTszYKiR6828Oj4klf9h63fKWHaPKJnOYptnCWK5+y6WDQFc4ZrF3OVY90P
-	VXOc26TRM8I6aie30eKU975F9KDFl504nmb3+jYoHqTVo5SRCHqSRyuNAgiSOwK8mkNoZxL
-	A==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
 
-Hi Thinh,
+Hi,
 
-On 8/28/2026 7:42 AM, Thinh Nguyen wrote:
-> On Thu, Aug 27, 2026, Junzhong Pan wrote:
->>
->> On 8/27/2026 10:11 AM, Thinh Nguyen wrote:
->>> Hi,
->>>
->>> On Tue, Aug 11, 2026, Junzhong Pan wrote:
->>>> USB controller runtime suspend halts the controller on disconnection.
->>>> It relies on platforms with custom connection notification to start
->>>> the controller again.
->>>>
->>>> The host branch of dwc3_runtime_resume() does nothing currently. There
->>>> are two paths that can trigger a runtime resume of the dwc3 core in
->>>> host mode:
->>>>
->>>> (a) Wake lands on the xHCI child (DT platforms, e.g. Qualcomm, i.MX8MP)
->>>>     A platform wakeup IRQ fires and the glue handler calls
->>>>     pm_runtime_resume(&xhci->dev). Runtime PM walks upward, resumes
->>>>     the dwc3 parent first, then resumes xHCI. Both wake correctly.
->>>>
->>>> (b) Wake lands on the dwc3 parent (ACPI platforms)
->>>>     When an ACPI Notify(ACPI_NOTIFY_DEVICE_WAKE) targets the dwc3
->>>>     parent device -- for example via a Generic Event Device on a
->>>>     hardware-reduced platform where dwc3 is enumerated as an ACPI
->>>>     device without a glue driver -- the ACPI core turns this into
->>>>     pm_request_resume(dwc3_dev). Runtime PM does not propagate resume
->>>>     downward, so the xHCI child stays suspended. Root hub polling is
->>>>     never re-armed, and a device plugged in while suspended is silently
->>>>     dropped.
->>>
->>> Good catch.
->>>
->>>>
->>>> This patch fills in the host branch to cover case (b) by requesting an
->>>> async resume of the xHCI child so xhci_resume() can restore the port
->>>> state machine and re-arm root hub polling. Async is required to avoid
->>>> deadlocking on the parent's own rpm_resume() re-entry.
->>>>
->>>> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
->>>> ---
->>>> base-commit: d58772d8520c7ef247c4b95c9bd76d3a25da9ff5
->>>>  drivers/usb/dwc3/core.c | 12 ++++++++++++
->>>>  1 file changed, 12 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->>>> index ceb49f2f8004..bce56765ad90 100644
->>>> --- a/drivers/usb/dwc3/core.c
->>>> +++ b/drivers/usb/dwc3/core.c
->>>> @@ -2668,6 +2668,18 @@ int dwc3_runtime_resume(struct dwc3 *dwc)
->>>>  		}
->>>>  		break;
->>>>  	case DWC3_GCTL_PRTCAP_HOST:
->>>> +		/*
->>>> +		 * Only the xHCI child's resume re-arms root hub polling, which
->>>> +		 * is what rediscovers a device plugged in while suspended.
->>>> +		 * Runtime PM never resumes children on its own, so request it
->>>> +		 * here. This has to be asynchronous: resuming the child
->>>> +		 * synchronously would deadlock because rpm_resume() tries to
->>>> +		 * resume the parent before the child, and here the parent's
->>>> +		 * own callback has not returned yet.
->>>> +		 */
->>>
->>> This note sounds as if this is needed to all cases, but you're only
->>> describing only case b) here. Can you also mention for case a) that
->>> there maybe an extra resume work call.
->>
->> Will do.
->>
->>>
->>> Would be nice for it to be cleaner without the extra call, but I think
->>> it should be fine.
->>
->> I guess we could do this: after this merged, we patch those platform
->> drivers(case a) to drop their existing workaround hack, dwc3 will
->> take over it's child xhci in this wakeup resume path, they just wake
->> dwc3. That makes things consistent. What do you think?
->>
-> 
-> That would need to be validated on a case-by-case basis. Also, regarding
-> testing, I assume this change has been tested on real hardware. If so,
-> which platform(s) were tested?
+I'm sending this as an RFC for a driver I've been working on for the
+RME Babyface Pro FS in its proprietary USB mode (VID 0x2a39, PID
+0x3fc0). In that mode the PCM stream runs on interrupt endpoints
+(interface 5, ep 0x01 OUT / 0x82 IN) instead of the class-compliant
+isochronous path, so it can't be handled as a quirk on top of
+snd-usb-audio. It needs a standalone driver, and I modeled it on
+snd-usb-caiaq, which is the existing in-tree precedent for
+interrupt-based USB audio streaming. The driver is hardware-validated
+on a real unit and the code is checkpatch, sparse and W=1 clean.
 
-Yes, I have tested on SpacemiT K3 Pico‑ITX , ACPI boot with a GED
-Device to Nofity dwc3 node（HID 808622B7）of wakeup, and also DT boot
-cases.
+The vendor protocol (control requests, register map, front-panel
+readback) was reverse-engineered from Windows USB captures and
+verified bit by bit on hardware. The capture analysis, the calibrated
+laws, and a userspace reference implementation live in the sibling
+TuxMix repo (https://github.com/ismail-bahloul/TuxMix). This driver is
+the kernel side of that effort.
 
-As for the DT boot(using modified dwc3-generic-plat driver), I verified
-the extra call is handled well by pm framework checking RPM_ACTIVE. I
-will mention this on next send.
+What's included:
 
-I have also tested the extra call removed case by using a similar code
-of qcom/imx8mp, but just replace the xhci->dev with dwc->dev, it works
-find. But if need to send those patches, testing for regression helps
-are still needed from who have these two platforms available I think?
+ - Interrupt-URB PCM streaming, full-duplex, 2-12 channels, S24_LE,
+   9 sample rates from 32 to 192 kHz across 3 USB bandwidth classes.
+ - ALSA mixer: 6 output masters and mutes, the 6x14 crosspoint routing
+   matrix, 4 mic/instrument preamp gains with phantom power and PAD,
+   pitch/varispeed, loopback, and a few device-specific toggles
+   (AN 1>2, input link, MS processor, DIM, width, FX send).
+ - Front-panel emulation. The unit has no onboard DSP for its own
+   panel, so the host mirrors TotalMix's role: it translates physical
+   wheel/button events into mixer writes and exposes the decoded panel
+   state as read-only ALSA controls.
+ - A hardware 3-band plus low-cut parametric EQ for the 4 analog-input
+   strips, computed in fixed-point (no FPU use) and uploaded as
+   coefficient blocks.
+ - Mixer-state persistence across interface re-probes and system
+   suspend/resume, because the firmware has no state readback of its
+   own.
 
-> 
-> BR,
-> Thinh
+Validation: a full-duplex sweep across the whole rate x period matrix
+with a signal-integrity tap, start/stop stress (30 cycles), mixer-state
+restore across an interface unbind/rebind, and a mid-stream disconnect.
+All of that runs through the automated regression suite kept in the
+driver's development tree.
 
-Best regards.
+Known limitations, stated up front:
+
+ - USB autosuspend is not supported yet. I disable it explicitly
+   (usb_disable_autosuspend at probe, balanced at disconnect) rather
+   than ship something untested. The front-panel poll and keepalive
+   work items run continuously, and nothing pairs usb_autopm_get/put
+   around the stream, so an autosuspend request could race a live
+   stream. S3 suspend/resume works and is tested. Full autosuspend
+   (pausing the panel/keepalive work plus autopm pairing) is a
+   follow-up.
+ - A few protocol items aren't fully pinned down, but they don't affect
+   the shipped controls; the relevant paths are hardware-verified. They
+   are documented as open in PROTOCOL.md: the preamp readback index
+   semantics (0x003F vs 0x0000), a width strip-ownership edge case, and
+   the exact high-frequency warping of the EQ coefficient computation
+   versus TotalMix's curve.
+ - The latency profile is selected at load time via the frames_per_urb
+   and nurbs module params. Default is 256 frames/URB, matching
+   TotalMix's 256-sample buffer; frames_per_urb=16 nurbs=16 gives a
+   0.33 ms monitoring-grade floor. Changing profile currently means a
+   module reload. A runtime reconfiguration (like RME's own Fireface
+   USB Settings panel) is a post-merge follow-up.
+
+This is an RFC. I'm mainly after feedback on the interrupt-URB PCM
+design, the control naming and topology, the two-file split, and
+whether a subdirectory (sound/usb/babyfacepro/) is the right layout.
+I sent it as a single patch (4651 lines, 7 files) because that's how a
+wholesale new-driver addition is usually submitted, but I can split it
+into a series if that's preferred.
+
+Thanks for reading,
+Ismaïl
+
+Ismaïl Bahloul (1):
+  ALSA: usb: add RME Babyface Pro FS driver (proprietary mode)
+
+ MAINTAINERS                             |    6 +
+ sound/usb/Kconfig                       |   18 +
+ sound/usb/Makefile                      |    2 +-
+ sound/usb/babyfacepro/Makefile          |    2 +
+ sound/usb/babyfacepro/babyfacepro-ctl.c | 2782 +++++++++++++++++++++++
+ sound/usb/babyfacepro/babyfacepro.c     | 1449 ++++++++++++
+ sound/usb/babyfacepro/babyfacepro.h     |  391 ++++
+ 7 files changed, 4649 insertions(+), 1 deletion(-)
+ create mode 100644 sound/usb/babyfacepro/Makefile
+ create mode 100644 sound/usb/babyfacepro/babyfacepro-ctl.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.h
+
+-- 
+2.55.0
 
