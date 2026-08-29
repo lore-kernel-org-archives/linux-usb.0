@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C82AD2C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BB52D0605;
 	Sat, 29 Aug 2026 19:31:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788031914; cv=none; b=ku7+Wc75bCyYVsjqLHQFO40ud7rNzhVCdF6tC25X3Czfm3GPxhW3rud8Y5sC3ntoCKaQ+4jDIymiV9GcxBpXzRn5JfvJJtBGFblQ+Ptv99XWVQNX9WY0jXPgMn9CkNB64sLKU1IyfgqfWydrbBbcvw2SvGajoifiFK5IZOUdOm8=
+	t=1788031914; cv=none; b=Ns748A1Nsc1xB57x8nPzZ9HTRF+AxLAlBWH5GrQn2ckpd4gL16bljC/BP0IEjI5i1ZglT/wxhSbC0kw6TPlHBXci5Ra68k0nZzf0taFk83SC7vPt+G0veEt0/kWMaLVwksBowuZR1f9THL7IHGfkXZZEnhC06+4ueIs+Nx+tPbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788031914; c=relaxed/simple;
-	bh=zWA0e3paKnXOqIGFnWjHF3VMRHadOpn9Ntl94B44z5U=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sR6+r4GoLthKZmGndRqcqjeBOj1pi99c8FY4N248ir6+7D1QokBq/q8+u6IlgGYaKtDRqwhyjmQGEOXGe3sqgLahhDl6QwhKMuxLJn4hqozqwzPeXWyylGEyZf6Sblqz4UW4c6bekua7wVed75y30EcnyGDmjbRCW+v1qq6sg3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+ZLXK75; arc=none smtp.client-ip=10.30.226.201
+	bh=15opzRmKqGl0xbyqqgk5uEP/W3AXIwkst/G6x0dFFB4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FzrqsEDzJLVJf6svvAyg8RXZxYy+EvtRejsejJYGfI23hE0nJyD24M+Q1ZARaG4bT1lc+uWsKYoncS2YnBsxyDeoavTESuZlG03/guw4OjePQ4YugsqfSE9TtIokoGdkGKgIABELfHKy3nP0/GgqvdnYPDtNVBKAxyG20edokp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQ0xyrBA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+ZLXK75"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BD5AC2BCB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQ0xyrBA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 97ACCC4AF0B;
 	Sat, 29 Aug 2026 19:31:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788031914;
-	bh=zWA0e3paKnXOqIGFnWjHF3VMRHadOpn9Ntl94B44z5U=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=s+ZLXK75FoQM+CDGHrtNdSmeUPX7sRnzOJfEVEfNy+ShaNrwZKB9sjUNg6wu61afG
-	 Jc139cV7x7nOkahL8FlFlNXEYK/jqH9JRgd3ca24/UfrUw59LTqUkQB+RLPdGqEcdT
-	 BNFyKMjIEbWwTsw1IjITxUt3l8MF4gaqYePOBe7QcY6u2Bd4o3LOwgJlhbFbVKQFmK
-	 p5QDuDTMdFmUDD7RwIKPsnWLhC1kLpN4H/G3KM4vL7KTfhSP+jhfPvQPgYoyg0NaNy
-	 1CzBgWcPF2IjMrEft3Q4m8KeqJ7UkcIXWkZJbUISqNtrWb5Q9XQMhRhx/Ua7kpGZEA
-	 tKX/vbgJ2KTpw==
+	bh=15opzRmKqGl0xbyqqgk5uEP/W3AXIwkst/G6x0dFFB4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=kQ0xyrBAr6xhcm058pMw2uuybm33kgCW3clUvv8ywPdOpF25a53yNfQ3S+cqt/Q+3
+	 vSmkAq0DvYCqJebDchE9gytbxGLULliG5yOFbFkIqCBdqsFe6PGyk6Uu+Jdc1cTh8d
+	 Jx0bTYsYXlEecyPxZCtLmebCBkmy/TdaRsFRTLhO17xY7MXysHJN6Z90NlyIg2qdmW
+	 PSF8huGmOce9FUiAsDmHanjSEk+zja0nLlCckDXHjTYx/0CQpfJTDnBvLlu3iUTXkA
+	 DD1t0LJaS05sgFXm+X1fMJ/esMtgh9Sz8iPll4mKYr/2+keLfYUmTSaP5CG5lSKS//
+	 QvAAYUzZIF8ag==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B733C61DD6;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5CBC61DD9;
 	Sat, 29 Aug 2026 19:31:54 +0000 (UTC)
 From: Matt Eaton via B4 Relay <devnull+linux.divinehawk.com@kernel.org>
-Subject: [PATCH 0/2] ARM: dts: qcom: ipq4019: migrate USB to qcom,snps-dwc3
-Date: Sat, 29 Aug 2026 21:31:24 +0200
-Message-Id: <20260829-ipq4019-dwc3-migration-v1-0-cc66b54ce21c@divinehawk.com>
+Date: Sat, 29 Aug 2026 21:31:26 +0200
+Subject: [PATCH 2/2] ARM: dts: qcom: ipq4019: migrate USB to the
+ qcom,snps-dwc3 glue
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,10 +41,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIwzk2oC/yXMTQ6DIBBA4auQWTsJ0JZIr2K6oDDqmIgU7E9iv
- HtpXX6L9zYolJkKXMUGmV5ceIkVqhHgRxcHQg7VoKU2stUWOT3OUlkMb3/CmYfs1pqgv5C0pjX
- OugA1Tpl6/vzH3e1wed4n8uvvBvv+BUx4EEd6AAAA
-X-Change-ID: 20260829-ipq4019-dwc3-migration-c5e09686a9ad
+Message-Id: <20260829-ipq4019-dwc3-migration-v1-2-cc66b54ce21c@divinehawk.com>
+References: <20260829-ipq4019-dwc3-migration-v1-0-cc66b54ce21c@divinehawk.com>
+In-Reply-To: <20260829-ipq4019-dwc3-migration-v1-0-cc66b54ce21c@divinehawk.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
@@ -53,11 +53,11 @@ Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Matt Eaton <linux@divinehawk.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788031913; l=1536;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788031913; l=3659;
  i=linux@divinehawk.com; s=20260828; h=from:subject:message-id;
- bh=zWA0e3paKnXOqIGFnWjHF3VMRHadOpn9Ntl94B44z5U=;
- b=9f+XEHPhEA/ioFMP3AAehqUvv8yDsQJIYgEi19TaElsbHSKfxoyM2+smbqfM7oCi4jkRWAKDt
- xsyDRGt8OgyBpEdTEvhpkRiExp3s0xGBkaO5l3G8gU7Es9CB9Pf6SS8
+ bh=AUKeyMHeQyiAGw9bR6BmQ2bzc7i1QB5Ai04Aihce1dI=;
+ b=y2qzS66wPsaJTc6QXTrq4Q9IK8Jc7ccrse2Ady6RWm5+fNjE0NFDSr6SPW7Ga4gSKxuC+b8v1
+ 96MTGP0srhUBKqL1arpuMskHscT92SLgx89nLxu5FRqEjFJ3yloFCIq
 X-Developer-Key: i=linux@divinehawk.com; a=ed25519;
  pk=UG4KnKXGwxjTNdirUPh/nySblET4aRxWYWSMTQwzlMw=
 X-Endpoint-Received: by B4 Relay for linux@divinehawk.com/20260828 with
@@ -65,42 +65,122 @@ X-Endpoint-Received: by B4 Relay for linux@divinehawk.com/20260828 with
 X-Original-From: Matt Eaton <linux@divinehawk.com>
 Reply-To: linux@divinehawk.com
 
-The ipq4019 USB nodes still use the legacy qcom,dwc3 glue, which
-describes the DWC3 core as a child node. qcom,snps-dwc3 embeds it in the
-glue device instead, so the two nodes collapse into one.
+From: Matt Eaton <linux@divinehawk.com>
 
-Patch 1 relaxes the interrupt requirements for qcom,ipq4019-dwc3. The
-binding groups it with platforms supplying five or six named interrupts,
-but neither mainline nor Qualcomm's own vendor devicetree specifies wakeup
-interrupts for this SoC, so the migrated devicetree fails dtbs_check
-without it.
+The legacy qcom,dwc3 glue describes the DWC3 core as a child node and
+populates it with of_platform_populate(). qcom,snps-dwc3 embeds the core
+in the glue device instead, so the two nodes collapse into one and the
+unit address moves to the core base.
 
-Patch 2 does the migration, and moves the ap120c-ac SS phy override up to
-the parent node since the child's label goes away with it.
+The QSCRATCH register block sits at a fixed 0xf8800 from the core base on
+this SoC, which is what dwc3-qcom.c already assumes, so no driver change
+is needed:
 
-Patch 1 is for the USB tree, patch 2 for the qcom tree.
+  usb3: 0x8a00000 + 0xf8800 = 0x8af8800
+  usb2: 0x6000000 + 0xf8800 = 0x60f8800
 
-This is a prerequisite for setting per-SoC properties from the qcom glue,
-which the legacy path has no mechanism for.
+Both match the addresses the wrapper nodes used before.
 
-Tested on a Ubiquiti UniFi Travel Router.
+The usb3_dwc label goes away with the child node, so the ap120c-ac
+override of the SS phy moves up to the parent.
 
 Signed-off-by: Matt Eaton <linux@divinehawk.com>
 ---
-Matt Eaton (2):
-      dt-bindings: usb: qcom,snps-dwc3: relax interrupt requirements for ipq4019
-      ARM: dts: qcom: ipq4019: migrate USB to the qcom,snps-dwc3 glue
-
- .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    | 23 ++++++++++-
  arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtsi |  4 --
  arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi           | 46 ++++++++--------------
- 3 files changed, 37 insertions(+), 36 deletions(-)
----
-base-commit: 18f7fcd5e69a04df57b563360b88be72471d6b62
-change-id: 20260829-ipq4019-dwc3-migration-c5e09686a9ad
+ 2 files changed, 16 insertions(+), 34 deletions(-)
 
-Best regards,
---  
-Matt Eaton <linux@divinehawk.com>
+diff --git a/arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtsi b/arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtsi
+index be76bc39ac27..49c8ce80ac14 100644
+--- a/arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtsi
++++ b/arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtsi
+@@ -260,10 +260,6 @@ &usb3_hs_phy {
+ 
+ &usb3 {
+ 	status = "okay";
+-
+-	};
+-
+-&usb3_dwc {
+ 	phys = <&usb3_hs_phy>;
+ 	phy-names = "usb2-phy";
+ };
+diff --git a/arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi b/arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi
+index 8eeaab1c0be1..18c386ae9af7 100644
+--- a/arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi
++++ b/arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi
+@@ -654,26 +654,19 @@ usb3_hs_phy: usb-phy@a6000 {
+ 			status = "disabled";
+ 		};
+ 
+-		usb3: usb@8af8800 {
+-			compatible = "qcom,ipq4019-dwc3", "qcom,dwc3";
+-			reg = <0x8af8800 0x100>;
+-			#address-cells = <1>;
+-			#size-cells = <1>;
++		usb3: usb@8a00000 {
++			compatible = "qcom,ipq4019-dwc3", "qcom,snps-dwc3";
++			reg = <0x8a00000 0xf8c00>;
++			interrupts = <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "dwc_usb3";
+ 			clocks = <&gcc GCC_USB3_MASTER_CLK>,
+ 				 <&gcc GCC_USB3_SLEEP_CLK>,
+ 				 <&gcc GCC_USB3_MOCK_UTMI_CLK>;
+ 			clock-names = "core", "sleep", "mock_utmi";
+-			ranges;
++			phys = <&usb3_hs_phy>, <&usb3_ss_phy>;
++			phy-names = "usb2-phy", "usb3-phy";
++			dr_mode = "host";
+ 			status = "disabled";
+-
+-			usb3_dwc: usb@8a00000 {
+-				compatible = "snps,dwc3";
+-				reg = <0x8a00000 0xf8000>;
+-				interrupts = <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>;
+-				phys = <&usb3_hs_phy>, <&usb3_ss_phy>;
+-				phy-names = "usb2-phy", "usb3-phy";
+-				dr_mode = "host";
+-			};
+ 		};
+ 
+ 		usb2_hs_phy: usb-phy@a8000 {
+@@ -686,26 +679,19 @@ usb2_hs_phy: usb-phy@a8000 {
+ 			status = "disabled";
+ 		};
+ 
+-		usb2: usb@60f8800 {
+-			compatible = "qcom,ipq4019-dwc3", "qcom,dwc3";
+-			reg = <0x60f8800 0x100>;
+-			#address-cells = <1>;
+-			#size-cells = <1>;
++		usb2: usb@6000000 {
++			compatible = "qcom,ipq4019-dwc3", "qcom,snps-dwc3";
++			reg = <0x6000000 0xf8c00>;
++			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "dwc_usb3";
+ 			clocks = <&gcc GCC_USB2_MASTER_CLK>,
+ 				 <&gcc GCC_USB2_SLEEP_CLK>,
+ 				 <&gcc GCC_USB2_MOCK_UTMI_CLK>;
+ 			clock-names = "core", "sleep", "mock_utmi";
+-			ranges;
++			phys = <&usb2_hs_phy>;
++			phy-names = "usb2-phy";
++			dr_mode = "host";
+ 			status = "disabled";
+-
+-			usb@6000000 {
+-				compatible = "snps,dwc3";
+-				reg = <0x6000000 0xf8000>;
+-				interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
+-				phys = <&usb2_hs_phy>;
+-				phy-names = "usb2-phy";
+-				dr_mode = "host";
+-			};
+ 		};
+ 	};
+ };
+
+-- 
+2.43.0
 
 
