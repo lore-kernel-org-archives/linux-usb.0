@@ -1,91 +1,93 @@
 Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E599138B142
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 07:56:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D20C280037
+	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 08:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788076586; cv=none; b=ZNcGBzSJkynA10rd1nMS734DXw4EFpxE6q/uzIgtkJclNyD4x7B5AAAPfHI3h1YY1YvwjOY2x5SRculzsKFOtkkz+ULWt5JeXlMMOPFSTGStSTpHEuEpc1gn3qDIBwK5OnnrOg/gupFKDS/ah2o47BmhbyZevgxeLcV7ouY/VHQ=
+	t=1788076979; cv=none; b=eyrJAgh1oy8icp18fSIROfg+V/qdpzanIEEQpM/lCFls9wQnyRD72ebetzfn4PxzB6pLT3cfZi3QIIFCrPvrGMPNNrj0ESP5tQau789Q8185dyQFI1fWfzOeGKhTCb5bGa5vKA5Pc9usUxghpWe3i/+Afoq5sOdUdNHKTvT0oEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788076586; c=relaxed/simple;
-	bh=GNk83XD89rgVkp3PZ/KCyKHjLHTjzWpDI2Y3kZ/bQRk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E1k/Wv2q698pWFDKQhNOiXqrwIROa8RRPC7BmS6UPlNOuXY6k/JAizfxuJ75Cfh7E1N1AZXn2RtJcxEhzQ1/PFpUeGU28YQB3QaWLB/dPNdezDir+fi/ixpkzwbPRmxDiYqWdPRYemwIZjwT6p8dXDHM0AL2T9RuAYySyafQ3N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=DVXAf/Am; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=evMWj8y7; arc=none smtp.client-ip=95.216.189.61
+	s=arc-20240116; t=1788076979; c=relaxed/simple;
+	bh=7JhQB1J2e/AouynrAhPw48pZUT1f2MJaBGPTfTBIU7Q=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=khOV+A+dtMtmxlcWzuYgZ5bsUOn1qmHJmNi9jhtBJCUiLKiVdtorR7Z99zlRXr66fRBGqxdF42I2tfnhsCKD8971+B5llrz4m465efat+y8+baPI74wIp/JdyEUQkxgsjioHqwcpw8/LItr/aYAuLpGmAc+Kph3tvFdUg2YgsfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=d1x4mK12; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=aEgpFSei; arc=none smtp.client-ip=95.216.189.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="DVXAf/Am";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="evMWj8y7"
-Message-ID: <85d0669f-9e7b-4e53-a403-3b6021c837ed@archlinux.org>
+	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="d1x4mK12";
+	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="aEgpFSei"
+Message-ID: <94a023c9-80de-4c84-85bf-7846de97c240@archlinux.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1788076577;
+	s=dkim-rsa; t=1788076970;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gQEgixGQ2AenYO5RWnth4Ex7GNWXe9h/fv8CfOLHbb0=;
-	b=DVXAf/AmTYvZmHnKHAoqW+UQ4t115B12b2DZUsAXpHQ5T6HT8eS+6ybVTjwHGH1NJInKLk
-	LzeM31UWcs8eQjq/UL1SPIpcBwxztCnfk1XTgm5pWqJ/JDBS61EWaxXSP5J441K2Nr1SMK
-	5IfUDVY7GUQu8IXfFg42xolzqEjm3k0/2lSTAlP5V6/Fum4hLpS/Qf4IV8kCgX//6qjsm8
-	o6RgjzIOa9hKe1jRhUFKxGdbBtOSqAjq31AOPGLTw4lT45uyPHweMY8bTCDYJ1bmStnmai
-	ACLVN+mn96zPhxRTbTdg2zPtxtcNUb0zoALJc0lL7PElV93NuItZ8iAVStLahpzNshR9Bb
-	1abYrRUbiqNaql81VrhPHXtZM6Or8PdRqAfYwvGtoavWIZ5qvso8fVCUqFObB1fHCOj3dX
-	lmc6YNxBpj8yxoKWjq18ZPry9v0Za2AST35afeLKEE6WgYsMlBpHIgtz9C8VaUq04w73YL
-	CvMCHhn6wvn3FraAek5r87W2Ks/CGFqVGTj+9gzB0FNHciK3uOwQIl3nN8SldX7erAz79N
-	6nsdTSBk2v5VNWGUloPvmYhycjXiAApQsFn/robxzpLEWJixQ7AMuankBA8uec2dluttrl
-	Zv/U7qqc2EfLWGbKp/2YT11mVBfqafriXzZTMMcFHjm4Ry3Jp3rz4=
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UXVp8OkAbdXycC3l74NgkfdKkojdNhGGUoZ8Pdc1Xis=;
+	b=d1x4mK12XbGRSLoWLiXBjLmnMHYY5fu4eL+lJn35Io/FbVE5K6AtLIrZUAtcJgjFjXM0rs
+	0EUnB7fiK+AasRRPv3G0Smwijc+U08udiwtRTVcg0Lwqc8bicvPuMJOucn82R0OIRbY9HW
+	wplOhPqNcLmvlQPX+lzAB0q8+qPRUpJdkG4MRKXiU0A2x8JaCIml1rTv1BV83UjeMovsB2
+	t2XJKjC1aKoFa56U9v5sLDj4WLzdYJL88QSc3wUIZG+mSQ9ZgiZFt8lv0FowYys+XHPQ/l
+	yLxmBL2aaVox8KWtE84rrCGJI5pT+TkROZ1OuuFR2DOKbHT/5t0laGXVAI63vKKyV/ACAE
+	NZPW9xDdlbLE1nmAW41khM5sqBJu/zEK6pls139b2bOGa/84Iht/rpo129LHMV8CP30gqk
+	xzOAecVl5opbiuhOsWeFfVAOn6PPStUEsVqbMHauyxpeYYpGyh2S7TmAHos3M5teMM/L22
+	rO/kYuulFgM8aWW4l4o0R2PHNzoTtXF0VDsM2Ox+dY2Kk/6tQsTFWWwEIRaPbRKIAgWOlr
+	M3keegpsM+C17Y6RJLW/v/7ieNGdZc67X5jncoiQLiPN9f1X8X15d33oUnPfxUD4bW+4Nt
+	N1hqx8+yl6dtECrL+oWf2DpcGhrzqi/f4BMJuML1h+So8fzL7fxhw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1788076577;
+	s=dkim-ed25519; t=1788076970;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gQEgixGQ2AenYO5RWnth4Ex7GNWXe9h/fv8CfOLHbb0=;
-	b=evMWj8y72Lv20P/3kXwxkm2IKCiASY6o/JaVUelUztDazLlQ4pPTTk/uTiqoQ7TvzJ1sxc
-	hiGdhK3iQB1hXuBw==
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UXVp8OkAbdXycC3l74NgkfdKkojdNhGGUoZ8Pdc1Xis=;
+	b=aEgpFSei6G19ya6B/dngKlB17kNi1dKCc6Pm7HSD8KxolhdWkhmhx82VRfinRwk4O56CI+
+	ic/RHXJsSAD7f9AQ==
 Authentication-Results: mail.archlinux.org;
 	auth=pass smtp.auth=martin smtp.mailfrom=martin@archlinux.org
-Date: Sun, 30 Aug 2026 09:56:15 +0200
+Date: Sun, 30 Aug 2026 10:02:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] USB: Improve "New device found" printout message
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-References: <6323ed34-7954-4f0b-b6c5-8e1b1ffc1648@archlinux.org>
- <2026083045-antitrust-sacrifice-ffa9@gregkh>
 Content-Language: en-US
+To: linux-usb@vger.kernel.org
 From: Martin Rys <martin@archlinux.org>
-In-Reply-To: <2026083045-antitrust-sacrifice-ffa9@gregkh>
+Subject: [PATCH v3] USB: Improve "New device found" printout message
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-> Nit, why is this in the body of the email?
+Use a colon instead of a comma, like the debug message after this one
+does.
 
-It's the raw output from `git format-patch -1 HEAD -v2`.
+Do not print a space after `bcdDevice=`. This was introduced as the
+formatting was copied from `lsusb -v` printout, but lsusb output has
+preceding spaces, this message does not, so it ends up looking odd.
 
-Other than by implication in the "canonical patch format" section, 
-neither of these docs seem to have a mention to delete any of the 
-4 lines that I could find:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-https://www.kernel.org/doc/html/latest/process/email-clients.html
+Previously the output ended up looking like
+`idProduct=a000, bcdDevice= 1.00` if the first hex character of
+bcdDevice was 0.
 
-I see that the first line is some compatibility start of message marker,
-so I am guessing that's not needed in any case when using Thunderbird.
+Signed-off-by: Martin Rys <martin@archlinux.org>
+---
+v2 -> v3: No code changes, amended the commit message harder, now passing checkpatch
+v1 -> v2: No code changes, only amended commit message and hopefully sending it proper now.
 
-Not that it's important, but is it possible to keep the Date: in, 
-to retain the commit message time?
+ drivers/usb/core/hub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Please wrap your changelog text at 72 columns.  I thought checkpatch.pl
-> would warn about this, did it not?
-It indeed does - I wrongly assumed it only covers the actual code changes,
-so I didn't think to run it after adding the commit message.
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 3345b3298daf..c382215a1177 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2411,7 +2411,7 @@ static void announce_device_ids(struct usb_device *udev)
+ 	u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
 
-Will run it on any change from now on, and I'll resend the patch wrapped shortly.
-
-Thank you,
-Martin
+ 	dev_info(&udev->dev,
+-		"New USB device found, idVendor=%04x, idProduct=%04x, bcdDevice=%2x.%02x\n",
++		"New USB device found: idVendor=%04x, idProduct=%04x, bcdDevice=%x.%02x\n",
+ 		le16_to_cpu(udev->descriptor.idVendor),
+ 		le16_to_cpu(udev->descriptor.idProduct),
+ 		bcdDevice >> 8, bcdDevice & 0xff);
+--
+2.55.0
