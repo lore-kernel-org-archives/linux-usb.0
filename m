@@ -1,111 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541BB35975
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 21:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E0D3148D9;
+	Sun, 30 Aug 2026 22:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788126669; cv=none; b=e9PzftR24jjP6XhNpw6dix5mS7RvSN3heFdmv0ts21+2VfE2fLeypCGsmoQ9qBLiX6tXD+bAz8bv5gj24inH+5v10txiYPosRxvCdbjQh1JlQZc/48KIRz7qgWJddIvgndj6HhRQRsdJCW94FsaMvBpuHW4/9oUF2jl8aZlTdXQ=
+	t=1788128677; cv=none; b=KK/FWU5+dcS6u4qsj7r4Y72wG8+AsMFrgvqUh6jEphPlGR12b1EdZYQmq6lXeIymjJcpuVADtkIZbhMCPNs4FOzRu2yAC68ps8R3FffyAxv4vIbgKDbH4Oz33mIui/TSJWJJzUrddak72QDtwaJEmn5OdmPdPSK4EafaRzE738U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788126669; c=relaxed/simple;
-	bh=WiGbA7gD1KgrRpzTpRmlaZNCRu/Jrat5YaZxBqUuwvo=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=M68ovjvxWfIhIUx9ZbZi3j+32QdmBw372jpZPRl457CCLma1umRICfdWRGYm3YRA6aqbDN1hE6QNoJxU4T0denY/1P/A8ri4fBYZxkcGrj+hs7DPE61VKPpMguUfG+wZpwjKKGQ+n7SEHl00x0bh7s8C7hT7wnDbQ0fdbQs91Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LvjgCUxl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788128677; c=relaxed/simple;
+	bh=Q+VueVM+ZCBGB71Hp7ffTjEo2CC9oUTu9+qzp+qp+eU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CsUIYelB9iAR2ijrZ9w2BW9KPh754wxwCkHZ2/vabLe+ntkxQ0loGPFAXhGFyvnA1kZI7EIkoKZ/2IrHuRgOlJY8h30z2yW0teZtlw0ZAAq1R8jUASo2/jnlOoVOA41LOcnQMmH9/XA5LIXuLXWR1WAvCOrxVWJHzB1lLgeq/nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPnq0r0G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LvjgCUxl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D7A9C2BD00
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 21:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788126669;
-	bh=WiGbA7gD1KgrRpzTpRmlaZNCRu/Jrat5YaZxBqUuwvo=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=LvjgCUxl+jt6ZsxCvCjUaG+56c0SnzTcFfEl1YkEcYhsE+WJPDvrJ2n7Hz1rpVTvB
-	 5k4WT4FwGzuM9pQdPTKW9hyxjyxEtIS1hkXF+qqVaKg5RoZehRrDVHf5iSt+oAFA1Q
-	 0Nr/0xO8Aa5gQnQYUxz8VfmftPaEjDhcr2yORHvkaOFwzCvRBPmUVldgIgO+lqr0UC
-	 eG/5gS+n0dDLvhMgtRjzs13wiR6405qwrsvkZNzPWCkYXCmPkYXu6HnbuscVwBMqlD
-	 2JfJ1KdXTlVe8VkzVDbECdJbexVyKyz7vi7RNZz5IKHihpkbAPI7mbF/BvqdESjbkC
-	 Pauk3OYXJGWCQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id F184BC53BBF; Sun, 30 Aug 2026 21:51:08 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
- polling of USB devices on AMD platforms
-Date: Sun, 30 Aug 2026 21:51:08 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: voltara@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221103-208809-ihEU1YJ6yw@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
-References: <bug-221103-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPnq0r0G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A182C1F000E9;
+	Sun, 30 Aug 2026 22:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788128676;
+	bh=SZpitwboTbsLvtto0EA/iyiWtyh0MZutPxVZMuk2gc0=;
+	h=From:Subject:Date:To:Cc;
+	b=lPnq0r0GDVr/HEvkLE59KuAD9GxDlQXnjHfkf4tlffAM8SVsvbF0ilTUxUkxH71Gy
+	 YyCt4UdLUL0B08wOlMHSSZaBXxXariT0fwMB8y3JufbpqZKezFlFhq4AQDn1zYh1Mf
+	 dUMlCb3+QNedVsgawhPKnznsT4efcuDtG09AMaveLpk1SteuTkOxhpB7y3YNrHXrnA
+	 u3nYgHFcnSoUWpHYlMf8CFjfBz0VJ03E0LuhltNV9ucSMps0NhYF01aZSa4TxSxfks
+	 z7DW0ryNxs1u1v5//92njCK2GwQ1+nmq6DDXsXjgZM+iVjDXvGJvrU88f3LLzPLw8L
+	 u2uVyF6EK++YA==
+From: Linus Walleij <linusw@kernel.org>
+Subject: [PATCH 0/3] Modernize the Faraday FOTG210 driver
+Date: Mon, 31 Aug 2026 00:24:18 +0200
+Message-Id: <20260831-gemini-usb-fotg2-v1-0-8a8ee12c4b32@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MPQqAMAxA4atIZgM1Ba1eRRz8SWsGq7QqgvTuF
+ sdveO+FyEE4Qle8EPiWKLvPqMoC5nX0jlGWbCBFtSKl0fEmXvCKE9r9dITaNJrV0pIxI+TsCGz
+ l+Zf9kNIHqCeM3GIAAAA=
+X-Change-ID: 20260203-gemini-usb-fotg2-3873e0d9288a
+To: Alan Stern <stern@rowland.harvard.edu>, 
+ Daniel Palmer <daniel@thingy.jp>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Linus Walleij <linusw@kernel.org>
+X-Mailer: b4 0.16.0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
+Replace the private FOTG210 EHCI fork with the common EHCI core and
+quirks for its shifted or missing registers, integrated transaction
+translator, speed reporting, and reset sequence.
 
---- Comment #33 from Andrew Skalski (voltara@gmail.com) ---
-(In reply to Micha=C5=82 Pecio from comment #32)
-> Your finding is curious. Does it mean it would still work if you add
-> msleep(10) immediately before the failing line and not earlier?
+This is a late reaction to a comment from Daniel Palmer in 2023:
+https://lore.kernel.org/linux-usb/CAFr9PXmVXqAX73VUzAt_M2yPN93in9Y_LHyYcEA1Dfj_m_4ZHA@mail.gmail.com/
 
-Yes it works there as well, except you need to use mdelay instead of msleep=
-.=20
-For that reason, and because xhci_set_cmd_ring_deq is used elsewhere, I mov=
-ed
-the msleep just outside the atomic section in xhci_resume for the proof of
-concept.
+The fork was originally made from the v3.7 EHCI core driver. Arguably
+this was a bad idea since it copied over 5000 lines of code. Correct the
+mistake by using the maintained common implementation.
 
-The reason I tried adding the delay was because I noticed enabling debug
-logging made the problem go away.  This made me suspect the lockup was timi=
-ng
-related.
+Also clean up fixed-role initialization, power and resource handling,
+UDC lifecycle, and system sleep handling. The binding and Gemini board
+updates are split into a separate series.
 
-Thanks for the link to the other bug reports.  I'll have a read through the=
-m.
+Tested on the D-Link DIR-685.
 
+Assisted-by: LLM
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Linus Walleij (3):
+      usb: ehci: support controllers with non-standard registers
+      usb: fotg210: use the common EHCI core
+      usb: fotg210-udc: fix endpoint and resource handling
 
-On a separate topic, I did some further investigation into my crashes to ti=
-e up
-some loose ends about the trigger:
+ drivers/usb/fotg210/Kconfig        |    2 +
+ drivers/usb/fotg210/fotg210-core.c |  276 +-
+ drivers/usb/fotg210/fotg210-hcd.c  | 5672 +-----------------------------------
+ drivers/usb/fotg210/fotg210-hcd.h  |  689 -----
+ drivers/usb/fotg210/fotg210-udc.c  |   97 +-
+ drivers/usb/fotg210/fotg210-udc.h  |    2 +-
+ drivers/usb/fotg210/fotg210.h      |   26 +-
+ drivers/usb/host/ehci-dbg.c        |    3 +-
+ drivers/usb/host/ehci-hcd.c        |   31 +-
+ drivers/usb/host/ehci-hub.c        |  100 +-
+ drivers/usb/host/ehci-timer.c      |    3 +-
+ drivers/usb/host/ehci.h            |   55 +-
+ 12 files changed, 520 insertions(+), 6436 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260203-gemini-usb-fotg2-3873e0d9288a
 
-1) I'm pretty confident that it's just the two "1022:14c9" controllers that=
- are
-causing my crashes.  I have been running an unpatched kernel with
-'/sys/bus/pci/devices/<pci-id>/power/control =3D=3D on' just for those two,=
- and it
-has been perfectly stable.
+Best regards,
+--  
+Linus Walleij <linusw@kernel.org>
 
-2) The crashes that resulted from plugging in USB devices were somewhat of a
-red herring.  A daemon on my system (colord) was reacting to the plug event=
-s by
-scanning everything in /dev/bus/usb.  So in all cases the underlying trigger
-was actually the same: resuming the "1022:14c9" controllers by accessing th=
-eir
-device nodes in /dev/bus/usb.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
