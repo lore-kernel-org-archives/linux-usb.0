@@ -1,213 +1,150 @@
-Received: from mail-oa2-f1.google.com (mail-oa2-f1.google.com [74.125.231.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ABC3A5421
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 12:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5936380FC4;
+	Sun, 30 Aug 2026 12:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788094231; cv=none; b=OkNVd3jEwiQfShfJlXnjREE9QV3MObTqPQYO45RDe+52gLL/6J8xopOzsE1SL9Z9uUa/t1Zykcu1NIzjQcHLDD1hTi5/jERvZUnqYwprpGXyvEOENR03OpFMU7S7GCkroBFEGoh8LYjgUpl7gw0YZ5shlbKEDung2xFUIvDUSzo=
+	t=1788094359; cv=none; b=rwt41IWHTYYdVOvTRqLjGgwC2EypWfPgBxVMo1AtJHpU4T6hi5Bh6oS/OrhQsHofMVdEi5ZdjFB7dQdzogiO7aWn+84mLpB3bk6JcZCYpWCnhOfRxjPa7uP/l5J0MJSzIPjeQlqoJC0sXIv8o1sfB1G5ESvLSSZ3CuqPQv9fgig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788094231; c=relaxed/simple;
-	bh=C6E7Y94FP+suWFyULPZWMPFn3OYYCjHsZw7LbY90qHY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DtHIw/SDRx6nbqKT5qAnWBwOlvOECk02vJlyeIU/dYHsNE98jbaSglP4m5Rxm86tmKfdH2AmfrDsCmkj9g/yRKNbH6FXQ05GdUklZcs2KDIEujEtMQY5vzFl+IoTjMUqKfQP/mpjJyt0HOZqZ1RNHIDpiqBiDv07Y0j8LqcnkPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f1.google.com with SMTP id 586e51a60fabf-4489b7aa0e7so690943fac.1
-        for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 05:50:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788094228; x=1788699028;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/XI9Sq1kNaZAPWZ2QuqGzoa86CKZO8KeH/ZtsnkY1c4=;
-        b=D1d2PSzoks5H3GsjJKU+3ujpnKNkTGY63E7CC/Tql43ueUlUfmmwhHHq+OaW5CpC8H
-         dAiNN0nhRCzVJJZKjEXPoBPaCdmYTxLRMq+8UNsdu/NLS7ye1elR0HErMSfikTOC94c8
-         3gdWaYSPqs/uMe43S3O6QP6TnqbpXrY7p3Viz7rZwjwCpAvVUqbszSOmijRlwc5ljqa7
-         nwJe+l0E2a4Cc61yNwj6T0ho9fQzyF5Lni0vpkFzdbus8TK4JPbMSDXkPZzdE3qyA6rj
-         s6z/F9KKxjRlRPZwABLJU3a9ito+xSRpme/Q930zHEq6T0obvkVN3vBEgY13Ulj8Lzyk
-         Dq+w==
-X-Forwarded-Encrypted: i=1; AHgh+RqWQiDYHr69+AgBwut8E0jnufBc0agiQ9BDfQy/qp81pYN5IBM5IfY4M4jZjg72c4xHUCz/r2K305k=@vger.kernel.org
-X-Gm-Message-State: AFuF++lgn8h0yBfIrSDSNK0V02ycw6M4mLD892CWGrncYQ1TAPfeoZy/
-	oA+ig6bBE5gW3JDMrkrowGOXg4OD1TxQS85lUGXbBGH+aiDsxpy2CE+icsP/EfbKKJ4YYMd6pMd
-	9ZdY5pjF1KKOGa1HvZz+0yq5SQQeCjP97PKhApmchZ03oOGuhTeLIGV9/wXM=
+	s=arc-20240116; t=1788094359; c=relaxed/simple;
+	bh=iC2ZlVDKAp88eC+e69DyRcAQpxMmjyiZKGKKx0sRvgk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ltfwCTD4ljWWpgUgi5cOxOGzeng1DTfqypQU0GpEO6S0YbuzGEhMhvGAIquYYZ28THmoUahWIP8YqpcYVsq3cka3qgZ+XaEOHPaJoKQPZp72shgmS/mjQJT/eSmjeTIR5CW1gyWxu+hL7Gfn0YkuA1ylAgGuCtH/9D59UYH1bY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wrcyrobq; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wrcyrobq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00161F000E9;
+	Sun, 30 Aug 2026 12:52:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788094357;
+	bh=t+w2XNkCWNOAyz8LeQ5op7kMySPGtAcuPEqaVAY2YEI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WrcyrobqCjymKqD9XkqUts7JrHZIY+yyBn+aDdn3CLT3xjJJAq1YINb7It1NcM/eX
+	 8nFvixT1w2I8Ge0X4dZr1qlypupLyOzqKtJbId2XRFZvkt1NRoYP8pE+TFj4OE4g9A
+	 aXXHuMhgC2YDxTSZdWTUERO/WjDR6lfFwxA5YWoif09eZ4nUrtJXlSRl4iC77X9TLJ
+	 j54EeBjTfyBctaq8kxLZ/XsgaYwPyR/Ukpw9rMOGN2d1qhcJqXmCf3xykzJTb97TSx
+	 Eb4LysfruHTXGuJqiiRHcIwy2pkgLJSDRKnVdWWW5rsXLLb5lxYIbHCg/Gyr6h+0wU
+	 kbmM2LlD14/GQ==
+Date: Sun, 30 Aug 2026 12:52:32 +0000
+From: Harry Yoo <harry@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzbot+805630f1453e490427fa@syzkaller.appspotmail.com, stable@vger.kernel.org
+Subject: Re: [PATCH] mm/slab: reject unsupported kmalloc sizes
+Message-ID: <apQnNhrsBfGm40Lz@dev>
+References: <20260817-limit_kmalloc_size-v1-1-5bef487701cc@nvidia.com>
+ <82f138f5-11d4-4839-94a3-c226fd982715@kernel.org>
+ <ao9dPUpHxP5uOOcw@MacBook-Air.tail10959e.ts.net>
+ <DKZ7J9HNUDR6.BP9KG5Q7HYMJ@nvidia.com>
+ <c4684212-f44a-4aff-a02d-f3f26095ebc1@kernel.org>
+ <DKZUH9SFMP6H.1ZMKA92IHQLG2@nvidia.com>
+ <c9c11ca3-8f78-4086-8549-5e99a4d79feb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:2229:b0:496:2b3:ae71 with SMTP id
- 5614622812f47-4b39839d589mr22177376b6e.18.1788094228273; Sun, 30 Aug 2026
- 05:50:28 -0700 (PDT)
-Date: Sun, 30 Aug 2026 05:50:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a942714.4d659fcc.734b4.003a.GAE@google.com>
-Subject: [syzbot] [usb?] [nfc?] [net?] memory leak in nci_send_cmd
-From: syzbot <syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
-	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
-	oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c9c11ca3-8f78-4086-8549-5e99a4d79feb@kernel.org>
 
-Hello,
+On Thu, Aug 27, 2026 at 06:49:33PM +0200, Vlastimil Babka (SUSE) wrote:
+> On 8/27/26 17:51, Zi Yan wrote:
+> > On Thu Aug 27, 2026 at 3:47 AM EDT, Vlastimil Babka (SUSE) wrote:
+> >> On 8/26/26 11:52 PM, Zi Yan wrote:
+> >>> On Wed Aug 26, 2026 at 5:47 PM EDT, Harry Yoo wrote:
+> >>>> On Wed, Aug 26, 2026 at 11:28:12AM +0000, Vlastimil Babka (SUSE) wrote:
+> >>>>> On 8/17/26 22:40, Zi Yan wrote:
+> >>>>>> kmalloc is used to allocate physically contiguous memory for kernel
+> >>>>>> allocations. For requests larger than KMALLOC_MAX_CACHE_SIZE, kmalloc uses
+> >>>>>> the page allocator and can only support up to KMALLOC_MAX_SIZE. For request
+> >>>>>> sizes bigger than KMALLOC_MAX_SIZE, the page allocator can emit a WARN
+> >>>>>> because kmalloc allocates an order greater than MAX_PAGE_ORDER. Systems
+> >>>>>> with panic_on_warn=1 crash because of this WARN. Fix it by rejecting any
+> >>>>>> kmalloc size bigger than KMALLOC_MAX_SIZE.
+> >>>>>>
+> >>>>>> Fixes: aadb4bc4a1f9 ("SLUB: direct pass through of page size or higher kmalloc requests")
+> >>>>>> Reported-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> >>>>>> Closes: https://lore.kernel.org/all/6a820ebc.9ebadd4d.20b15e.001b.GAE@google.com/
+> >>>>>> Tested-by: syzbot+805630f1453e490427fa@syzkaller.appspotmail.com
+> >>>>>> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> >>>>>> Cc: stable@vger.kernel.org
+> >>>>>> ---
+> >>>>>> It fixes a page allocator warning (order > MAX_PAGE_ORDER) when gadgetfs
+> >>>>>> requests excessively large memory from kmalloc. Instead of adding
+> >>>>>> __GFP_NOWARN to suppress the warning, as was done for usbfs[1], change
+> >>>>>> kmalloc to return NULL without a warning for this specific issue.
+> >>>>>>
+> >>>>>> [1] commit 4f2629ea67e72 ("USB: usbfs: Don't WARN about excessively large memory allocations")
+> >>>>>
+> >>>>> So I checked and for kvmalloc() we have in __kvmalloc_node_noprof()
+> >>>>>
+> >>>>>         /* Don't even allow crazy sizes */
+> >>>>>         if (unlikely(size > INT_MAX)) {
+> >>>>>                 WARN_ON_ONCE(!(flags & __GFP_NOWARN));
+> >>>>>                 return NULL;
+> >>>>>         }
+> >>>>>
+> >>>>> This comes from Linus in commit 7661809d493b4. I'd do the same thing here
+> >>>>> then.
+> >>>>
+> >>>> But the purpose of this patch is to avoid the warning in the page
+> >>>> allocator. Should we fix this in the caller (gadgetfs) then? 
+> >>> 
+> >>> It is fixed by: https://lore.kernel.org/all/20260820223719.A4A3C1F000E9@smtp.kernel.org/
+> >>> 
+> >>> Please disregard this patch, but we can keep the discussion going.
+> >>
+> >> I still think this patch has some value if done as proposed above. Yes
+> >> in practice it will just replace the page allocator's warning with a
+> >> different warning, but IMHO it's "nicer" if kmalloc() sanitizes its own
+> > 
+> > And SLAB maintainers will be Cc'd. :)
+> 
+> For some people it doesn't matter if it's SLAB or PAGE ALLOCATOR :D
+> 
+> >> requests to the page allocator, using the KMALLOC_MAX_SIZE value.
+> > 
+> > Like this? Or the exact pattern as kvmalloc() is preferred?
+> 
+> LGTM.
 
-syzbot found the following issue on:
+Looks good to me too.
 
-HEAD commit:    73ae59e97596 Merge tag 'erofs-for-7.3-rc1-2' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e70d49580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=563582168294b9d9
-dashboard link: https://syzkaller.appspot.com/bug?extid=b197a0fb4e741cc5030e
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11df1625580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=148b6979580000
+> Should return NULL even with __GFP_NOWARN or if the warning has fired
+> and won't again, and AFAICS this does.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0e5c9cbfb31a/disk-73ae59e9.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/481171cf3bc4/vmlinux-73ae59e9.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/9df84fec3c49/bzImage-73ae59e9.xz
+Right.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com
+> The kvmalloc() pattern predates WARN_ON_ONCE_GFP addition, I think.
+> 
+> > diff --git a/mm/slub.c b/mm/slub.c
+> > index 0337e60db5ace..b562f2a6fbbee 100644
+> > --- a/mm/slub.c
+> > +++ b/mm/slub.c
+> > @@ -5263,7 +5263,12 @@ static void *___kmalloc_large_node(size_t size, gfp_t flags, int node)
+> >  {
+> >  	struct page *page;
+> >  	void *ptr = NULL;
+> > -	unsigned int order = get_order(size);
+> > +	unsigned int order;
+> > +
+> > +	if (WARN_ON_ONCE_GFP(size > KMALLOC_MAX_SIZE, flags))
+> > +		return NULL;
+> > +
+> > +	order = get_order(size);
+> >  
+> >  	if (unlikely(flags & GFP_SLAB_BUG_MASK))
+> >  		flags = kmalloc_fix_flags(flags);
+> > 
+> > 
 
-BUG: memory leak
-unreferenced object 0xffff88810a94e600 (size 240):
-  comm "syz.6.23", pid 5954, jiffies 4294942380
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 40 38 2b 81 88 ff ff 00 00 00 00 00 00 00 00  .@8+............
-  backtrace (crc 98a4d7):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4696 [inline]
-    slab_alloc_node mm/slub.c:4996 [inline]
-    kmem_cache_alloc_node_noprof+0x39f/0x440 mm/slub.c:5068
-    __alloc_skb+0xdc/0x4e0 net/core/skbuff.c:704
-    alloc_skb include/linux/skbuff.h:1384 [inline]
-    nci_skb_alloc include/net/nfc/nci_core.h:330 [inline]
-    nci_send_cmd+0x46/0x110 net/nfc/nci/core.c:1397
-    nci_reset_req net/nfc/nci/core.c:167 [inline]
-    __nci_request net/nfc/nci/core.c:108 [inline]
-    nci_open_device net/nfc/nci/core.c:503 [inline]
-    nci_dev_up+0x1b6/0x690 net/nfc/nci/core.c:643
-    nfc_dev_up+0xca/0x160 net/nfc/core.c:118
-    nfc_genl_dev_up+0x3d/0x70 net/nfc/netlink.c:775
-    genl_family_rcv_msg_doit+0x12e/0x1a0 net/netlink/genetlink.c:1114
-    genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-    genl_rcv_msg+0x302/0x440 net/netlink/genetlink.c:1209
-    netlink_rcv_skb+0x89/0x1c0 net/netlink/af_netlink.c:2556
-    genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-    netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-    netlink_unicast+0x38f/0x4e0 net/netlink/af_netlink.c:1345
-    netlink_sendmsg+0x335/0x690 net/netlink/af_netlink.c:1900
-    sock_sendmsg_nosec net/socket.c:800 [inline]
-    __sock_sendmsg net/socket.c:815 [inline]
-    ____sys_sendmsg+0x54a/0x580 net/socket.c:2713
-    ___sys_sendmsg+0x101/0x140 net/socket.c:2767
-    __sys_sendmsg+0xcd/0x140 net/socket.c:2799
-    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
-
-BUG: memory leak
-unreferenced object 0xffff888109c4bc80 (size 704):
-  comm "syz.6.23", pid 5954, jiffies 4294942380
-  hex dump (first 32 bytes):
-    20 00 01 01 00 00 00 00 00 00 00 00 00 00 00 00   ...............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace (crc 40ddf9):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4696 [inline]
-    slab_alloc_node mm/slub.c:4996 [inline]
-    kmem_cache_alloc_node_noprof+0x39f/0x440 mm/slub.c:5068
-    kmalloc_reserve+0xd2/0x1b0 net/core/skbuff.c:615
-    __alloc_skb+0x15d/0x4e0 net/core/skbuff.c:715
-    alloc_skb include/linux/skbuff.h:1384 [inline]
-    nci_skb_alloc include/net/nfc/nci_core.h:330 [inline]
-    nci_send_cmd+0x46/0x110 net/nfc/nci/core.c:1397
-    nci_reset_req net/nfc/nci/core.c:167 [inline]
-    __nci_request net/nfc/nci/core.c:108 [inline]
-    nci_open_device net/nfc/nci/core.c:503 [inline]
-    nci_dev_up+0x1b6/0x690 net/nfc/nci/core.c:643
-    nfc_dev_up+0xca/0x160 net/nfc/core.c:118
-    nfc_genl_dev_up+0x3d/0x70 net/nfc/netlink.c:775
-    genl_family_rcv_msg_doit+0x12e/0x1a0 net/netlink/genetlink.c:1114
-    genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-    genl_rcv_msg+0x302/0x440 net/netlink/genetlink.c:1209
-    netlink_rcv_skb+0x89/0x1c0 net/netlink/af_netlink.c:2556
-    genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-    netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-    netlink_unicast+0x38f/0x4e0 net/netlink/af_netlink.c:1345
-    netlink_sendmsg+0x335/0x690 net/netlink/af_netlink.c:1900
-    sock_sendmsg_nosec net/socket.c:800 [inline]
-    __sock_sendmsg net/socket.c:815 [inline]
-    ____sys_sendmsg+0x54a/0x580 net/socket.c:2713
-    ___sys_sendmsg+0x101/0x140 net/socket.c:2767
-    __sys_sendmsg+0xcd/0x140 net/socket.c:2799
-
-BUG: memory leak
-unreferenced object 0xffff88810aa0d700 (size 240):
-  comm "syz.0.26", pid 5976, jiffies 4294942681
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 a0 5b 28 81 88 ff ff 00 00 00 00 00 00 00 00  ..[(............
-  backtrace (crc cdb4723c):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4696 [inline]
-    slab_alloc_node mm/slub.c:4996 [inline]
-    kmem_cache_alloc_node_noprof+0x39f/0x440 mm/slub.c:5068
-    __alloc_skb+0xdc/0x4e0 net/core/skbuff.c:704
-    alloc_skb include/linux/skbuff.h:1384 [inline]
-    nci_skb_alloc include/net/nfc/nci_core.h:330 [inline]
-    nci_send_cmd+0x46/0x110 net/nfc/nci/core.c:1397
-    nci_reset_req net/nfc/nci/core.c:167 [inline]
-    __nci_request net/nfc/nci/core.c:108 [inline]
-    nci_open_device net/nfc/nci/core.c:503 [inline]
-    nci_dev_up+0x1b6/0x690 net/nfc/nci/core.c:643
-    nfc_dev_up+0xca/0x160 net/nfc/core.c:118
-    nfc_genl_dev_up+0x3d/0x70 net/nfc/netlink.c:775
-    genl_family_rcv_msg_doit+0x12e/0x1a0 net/netlink/genetlink.c:1114
-    genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-    genl_rcv_msg+0x302/0x440 net/netlink/genetlink.c:1209
-    netlink_rcv_skb+0x89/0x1c0 net/netlink/af_netlink.c:2556
-    genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-    netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-    netlink_unicast+0x38f/0x4e0 net/netlink/af_netlink.c:1345
-    netlink_sendmsg+0x335/0x690 net/netlink/af_netlink.c:1900
-    sock_sendmsg_nosec net/socket.c:800 [inline]
-    __sock_sendmsg net/socket.c:815 [inline]
-    ____sys_sendmsg+0x54a/0x580 net/socket.c:2713
-    ___sys_sendmsg+0x101/0x140 net/socket.c:2767
-    __sys_sendmsg+0xcd/0x140 net/socket.c:2799
-    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+Cheers,
+Harry / Hyeonggon
