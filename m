@@ -1,116 +1,75 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1C03BBFB6
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 16:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B352A3BED7B
+	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 17:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788107090; cv=none; b=uKFcNi92XgusHmI5H+x3c6GO8G+WifX8vdFviKFNprRVDkloeHztP25DUvI0Ys9BAzyeOw1uXPUp45THRGHA7NCh85gbMGGNfqA11sfthPHq0qs8BNA6kiGMSF0bb9bhWB9JvZjdrmv4fXK5iIpdddOKJEdkV37/D9SVyXX15RI=
+	t=1788109805; cv=none; b=RRFeYm+IMgk+qzfltXz8ff4NJf4Z7VKUFkUL9Yp2M7UaZhnpBkRJmA7gZtpXzFBHZBVaS17P8MjlQo3qPyk1wRBm0c1jXSXi1EJl0WScdnf5EuFoYHA9jWsvXid8u/hZZu2mLkpENwLqPV9C6mboXWX9r0uRNGwjwI/3tm4bWl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788107090; c=relaxed/simple;
-	bh=wd4/Np9BcKgCQVe8dzA/j4ReDI2xnURtUc5ruSckYZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCQGebpRcBpP62PDfmkiQ6g158CB/W/Yuxr1DUwUVSsCYFcaHFsm+IzDKpDu7RilD+x5rtTkLk0JAlP2vY7sCeqynRf5XOc/858OaZjoW/8OwsWYGEZV/g75G0YqFwZXYaHc0Az47W1RAcz37v4ech9vSifa2pFZk4SWXMpxHQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q0zqLHRP; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q0zqLHRP"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-398ba166ce3so755684a91.1
-        for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 09:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788107088; x=1788711888; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9uoOcHIFQQdBWhdhIIcmPfZrkUN2MX77IqhljKCPDFs=;
-        b=Q0zqLHRPkU/cKQ2pboJU+wNDp9U9QRIfbF1N+vrdYwdw09KvpxCxldeakOZakYUevd
-         C2rQMt2P0f5PdDEnVqURuBGCqG2EN7+HCEIndGVUJ4V65XTpA1Ziys4DIC2VoLya4ULy
-         lgTxMTJQropDd1f1F8G5oF7w4TFzwPgwPQfjGVIHH0OYNinUQc4ugARsLVqVOooS3P/3
-         Ec4MJY/RF86dU2i3fmnP33P9+U5JehNQ+9lebyA8rU+gt4OBYvG8UPs1ErTcZZXJ0mR3
-         3j5N5+Q4E4x7E0+Bq1bLopgZSQqW8X3yRcN3gPJ6FXZfYF8eGQjE50AIP2HiQTJtGLKF
-         ty3w==
+	s=arc-20240116; t=1788109805; c=relaxed/simple;
+	bh=8tYTZVigH+IKsJ6R7MXBMSyCGu+Bip0+FdZw/et+q0A=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Nsohy4VCzJ2BREYSVL08eEIo90Wep1GysQDbhxt9YdAST9WwAbZUh+5GO52S0CZLpZ63HqmvhI1ju03Ut5cSr09fZysNEvkQFEmOYaKY6MKu1coAIkzsHzpb2nMNYNP6gnFag8R//fz6nt8s9hlveTxJfapJG212Poa77cj40+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b37733badcso4834631b6e.1
+        for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 10:10:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788107088; x=1788711888;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9uoOcHIFQQdBWhdhIIcmPfZrkUN2MX77IqhljKCPDFs=;
-        b=UGb0NBnDPuxWcUVWCM8zqFayiB5tcGfVEXzCBmM5aYxYhlrua1Ykee1flH1SYUZebS
-         Bi4XBnffATTTQ19E6pSK7RMerKIdLJvj9v2MJeLgEn+Dirwf7Qhk6Snys6jp1y8YxUR7
-         rI/edomEtwZ2uTOoLt7q2nWRVBe7j5JlKeX+aBMsoh3QvMfNioX0cyzGzJHak8kIUXcS
-         Bcwg1DPyN9Gz3XmHTtls/fdrKCbR7Mj3tF4sPT6otIrAex8/JXdy2U2NIpe+21nwwsO+
-         2VsN3SukQUxwKGVXzrh9Vhk5XN9owHjI7fQrkMhrZ6p5S8eBqsThoGOEs/8k1rs6Y9QL
-         zD6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwCWSmtPAgfZUGtL8c2Q90z5l+hzLlxeT2E424MbzDbarb/ISvSa8cgguyScydXFtWWtxSfuohLQOA=@vger.kernel.org
-X-Gm-Message-State: AFuF++lls55riiXAzk4+Vu5tRIoIkQ9MXMGiCB9JwQ9H7MJsGZrCg3J9
-	kWVaHKKJIToLRaSqThOmDyKzjqCxRY6ghS/IcDlG6cHC4dolgT6ODDoa
-X-Gm-Gg: AYBFou2GBE7kz920tQMy5gGhs1GG1eaCFMNisDkLvmFKDwQzoVeF1xo3SkvhEdsTQkl
-	tBPbUhv+Ry5XhuwZVs4T3U+TrPBF6Rg8PLhSMGrNUmd/IfpDBjGQdioivDmsTCBl2Csk5fLq+V2
-	R1IKx1X6sUUaYt2vi110cZ4mqm7mKyvAsJaDRQrIox21iOkRD0CfZw7HdjfJtVIoeDpeBq7WtML
-	kLvDmyxRSlItY7UsDkHk4bn7NuKBlecgK8l5Yx3mS6JWlXpQ+PVMsGijYxC+pYesXtV7Tcz0gof
-	OWSYVd+jayAnY4reOUBSpCdJcge3We6p08onMcQY57KUw7tABE3nf0+BdGEsqkoIH+g8qqiT1ER
-	eTwJEqvEl+06tzTzbdrlaFAxsxb22sH06549GV3/c4q0J+h+zOKU9Dm/tvreKDpHGgRhf50ksOq
-	MbKA20sDSeoxFGOYEngyZUqfKMt4YnJtZazA69IGxv3fgwPC7S8eHNsHlMBtktcYRJVg==
-X-Received: by 2002:a17:90a:38a3:b0:398:d6e8:f84e with SMTP id 98e67ed59e1d1-398d6e8ffbamr3534533a91.9.1788107088286;
-        Sun, 30 Aug 2026 09:24:48 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:fcb:65b0:addd:e3f8])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f9e907fsm21087126eec.25.2026.08.30.09.24.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 09:24:47 -0700 (PDT)
-Date: Sun, 30 Aug 2026 21:54:19 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: syzbot <syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com>
-Cc: davem@davemloft.net, david@ixit.cz, edumazet@google.com,
-	horms@kernel.org, krzk@kernel.org, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
-	pabeni@redhat.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] [nfc?] [net?] memory leak in nci_send_cmd
-Message-ID: <apRZM5ZkGw7KQq4-@user>
-References: <6a942714.4d659fcc.734b4.003a.GAE@google.com>
+        d=1e100.net; s=20251104; t=1788109802; x=1788714602;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=FQe/FqEO+AeJSc0FYnCV3mBpcPBh5PcEEwWnwiwVIJQ=;
+        b=hakfnjdG+DZ+ZEWpm6A6AKchIk//hJNEbF9XD7VDabRo9jmxCnqu5ErACz41j+iTbW
+         EH64OMTcyeX89JhyeZEGq4x36y7mG9mKaPbxUOclOTh4SPwqNkt1ApQS+9bvDJwfZe9J
+         4EXJNUs0WXZAgkC+Zjcu726jsb0jE7h45GVaj2tHgifjHzEvBKSA7DW62mS///QSuu0F
+         fkMIa+8Rfm0uNbMNqxDPbHUaaHEJjPPVZEOMNS1ANVt9GVPGPmxUChG5CEnzPdf8Pe85
+         qrIzWUMmyyZtnqd1tgsHdJkE9eqefBg08CiVTYcS5FwKamGLlASQ6Wmfrs/xwjJdLD8h
+         LtQw==
+X-Forwarded-Encrypted: i=1; AHgh+RrvaC5TPuNyOpvKhjcJ6B4EHv2igZ1nal13TyZxF3+MwSESCx+5NgMG+bePZOXTzZbQjxfQCa7p25E=@vger.kernel.org
+X-Gm-Message-State: AFuF++n61b+rKL7Gj4b/yifqUuVEDdZ9tutmXLY6mkK814Xmp+2ImTd7
+	wFHf3gpBEkBS2Pl/jcbtmsW49gqSEOl0bwMncShjaEFAKaPbST1Py0wBksKjDvhYZ1nWcDwvPQn
+	ni3VlzKYsVNPJ1d5TAgefdNX01VhxXWsgjdz28LDmi4YTcMZOJES8tvaP+iI=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a942714.4d659fcc.734b4.003a.GAE@google.com>
+X-Received: by 2002:a05:6808:190f:b0:4b3:74d0:6ef7 with SMTP id
+ 5614622812f47-4b398037cdamr19722620b6e.4.1788109802772; Sun, 30 Aug 2026
+ 10:10:02 -0700 (PDT)
+Date: Sun, 30 Aug 2026 10:10:02 -0700
+In-Reply-To: <apRZM5ZkGw7KQq4-@user>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a9463ea.1d9ded08.62e62.011f.GAE@google.com>
+Subject: Re: [syzbot] [usb?] [nfc?] [net?] memory leak in nci_send_cmd
+From: syzbot <syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, pavankumaryalagada@gmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 73ae59e975966d24e32926247ddb45a537ebe184
+Hello,
 
-diff --git a/drivers/nfc/nfcmrvl/usb.c b/drivers/nfc/nfcmrvl/usb.c
-index c7f2afe00b93..7a4094797ba4 100644
---- a/drivers/nfc/nfcmrvl/usb.c
-+++ b/drivers/nfc/nfcmrvl/usb.c
-@@ -224,12 +224,16 @@ static int nfcmrvl_usb_nci_send(struct nfcmrvl_private *priv,
-        unsigned int pipe;
-        int err;
- 
--       if (!drv_data->bulk_tx_ep)
-+       if (!drv_data->bulk_tx_ep) {
-+               kfree_skb(skb);
-                return -ENODEV;
-+       }
- 
-        urb = usb_alloc_urb(0, GFP_ATOMIC);
--       if (!urb)
-+       if (!urb) {
-+               kfree_skb(skb);
-                return -ENOMEM;
-+       }
- 
-        pipe = usb_sndbulkpipe(drv_data->udev,
-                                drv_data->bulk_tx_ep->bEndpointAddress);
-@@ -254,6 +258,7 @@ static int nfcmrvl_usb_nci_send(struct nfcmrvl_private *priv,
-                                "urb %p submission failed (%d)\n", urb, -err);
-                kfree(urb->setup_packet);
-                usb_unanchor_urb(urb);
-+               kfree_skb(skb);
-        } else {
-                usb_mark_last_busy(drv_data->udev);
-        }
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
+Reported-by: syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com
+Tested-by: syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com
+
+Tested on:
+
+commit:         73ae59e9 Merge tag 'erofs-for-7.3-rc1-2' of git://git...
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=13247379580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=563582168294b9d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=b197a0fb4e741cc5030e
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=14287379580000
+
+Note: testing is done by a robot and is best-effort only.
