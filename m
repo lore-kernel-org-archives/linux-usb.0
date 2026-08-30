@@ -1,107 +1,115 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE6C1DE894
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 09:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788082400; cv=pass; b=mci3vtQ/FaMbWA2Tw/TN3GjAfa2bDEE2kJjcffA2kVOctSrRZgTmEU/YGi8eUTdHGAnnjjqe1MUAao4NRsuOYg37yTMbaiqItN5PzZueLcns3yuYyk7u+uEaTmP2H9DVB/6i1k64rczdFWBHYIjkYj2Czf3INHE7/ADyUJ1Gr8k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788082400; c=relaxed/simple;
-	bh=XjkYzubNknDxtSLcJD0OSIc3FWWZftOwgASfjFMJ1JI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bP/6TVNUBgoxq5vnhxwaQEMOnMKPSaGQute8BQP4jMIy7Vso3Za99rVGR3LCoIE25r95wgaCimXPgyHKPLv7JoxBALTz90jXGAF2Wrdp9FnKQxvKb3pSG0C5X5lYalKVaMtCU89MnU1TtTzCSP51TOkhSCsv80Rf7MxVCGtn5Vw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=divinehawk.com; spf=pass smtp.mailfrom=divinehawk.com; arc=pass smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=divinehawk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=divinehawk.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c2531f453eeso387832166b.3
-        for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 02:33:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788082396; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DhoeAd+s6cnqAllW6OpV4fu4UogBz38MT/R4MrNbC9CXlnZezDv+vZeT3fEhmYq40t
-         3WCITin0XMXUm/mL/+tBrO/gzpLM2Y/lRc1BxSvir5DV0TbJTHO6NEPRmTYyFwvV044B
-         /pEBP5SySV8dnIlphCj/oNqtiM7PfTil4YQo4cJBeu7zJoETNFMsN4FwtzOvsKnSXAkO
-         Zb5NUx7maGU12phKdAR4feNYZk2uti8jpEKhBR1j9WjY51a90w9riYwlu7BNlYqDkgEI
-         p/r7Gab4wmYh3IX8n9acZCirbmtZ4gLjaLCSu6Po28Hm3+cl0kJurb/Av5GsPLCL1ay7
-         DWNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=4S/Q8LsIlAtco+cE6yiBQGlAUU2xKF533bVW2yFHbcQ=;
-        fh=8TquWwlyQ8yMQbWVewV9fDlePD3DPpZOAigMTaz3Sp4=;
-        b=ay23snTWC1uGS1u+tjjEb615VNWwDU6mWq3UA/QxeanMWtSSrcnPVuoMQI31gXuy4S
-         zfhaEDP9ScV/+2eL195xKq5MKcYLgcFFUScc7fp7Bs6IItsmq1TxTnGTCVFiONpX+iFO
-         vgE1W+c28UVj9hZjKQrijGuCN/GHaEDTF7WpD8cIoEqy8P4MY9Zfa4oQ9+VoPiD5CG+h
-         i/MUYGPwcTQgBQokepf6/XSgKrs++dmXFmWnlP1M37BU3QfNVJU41jO9TyvjnpCXdZWN
-         0CFtQTVbp0I6+EshESkILPlw5OoYGEoGS+v8MsDBuO4h6eNsXEDXVSe0tNoDKYNGxAgH
-         qdCg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788082396; x=1788687196;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4S/Q8LsIlAtco+cE6yiBQGlAUU2xKF533bVW2yFHbcQ=;
-        b=WV5lWTzY0K1Bn1dTlOTHyylwnDY/br86ftPZZqoZqRtYM/0hUOmU2c6/XE5748W/LY
-         d5ANm/oeNA5PDX5UdBtAD01rPF/fRInq+h7nJjOn1eeWNlKQsPr87fZLMbKDIyM5y+t7
-         EvlzSVCHiZrvEVOsBsqbqy+Nw/ej/lTG6ruvnc+7uAjktsS507SdWiRL0HOVxIQf0l1A
-         m0nOZ0Z5LGN9sR30H0fAT0CfNIcP2fnv/H/hnbCHyEzSYAEb8kovjYbyS/OvH4YYN+W/
-         EIO2/21nP1+YBo40K++toM+cXP0LnNdgh0XNBOc+lkbT7n9WDyRBcBXYGxQRRTG+cxRB
-         zH5Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rrozx6ykFOUWvKUAmPnujgzvateWuf46Q8ridFlAUWwwCNx0vws8RizlrUSHFFmRiUOPOKg5kRj/BQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lxxJ9dSy/i6e5BBbOxG21ePK4mlx2xZzDHEDjecPbZPZ+KNyL8
-	wr6CaUw4YdciM2rZX8PjHviPKU2aJGfGrIAt7H9RzxB+rBZC8sO0o8B4QKKVPDPFSd0oNypjrjK
-	jhl2kzAeda1b6Avzm8cjMPW83R0iwAiM2xhbWX/NR
-X-Gm-Gg: AR+sD116GVudJVgD0iOlpPMdfHAVz4mSaa+zDdKn3n+V9tAnd0g68+1pgtErOze/EMS
-	b3iyDmsA+Q1fouIUsyQjafqC0tRQH/9EepykzsNi63Q89RAFhQVS1tI8U/XmzMqNVSGn28XSvAL
-	1mlp5tNwDBXA/bKXr5cZ/8ehTu8G3PrZVXHG2AjPjCl84SvdTe+5U9cVBSh7HmmjHkgR0uqE+C/
-	9iNSU5bm/HDjULxLOiyAJI/n2okYAT6tf8k2k/90Huj7ApcOZOV96+hvSsd0muxDIDUvxby2rSR
-	n8TbiOhkU+LJw8GwQTQ2ZxbuaQba63EqqTHOHmEAuDO6KRt8pXw81MyVlXdC2jPNOexiRQdLxPt
-	8EP6QdvkI28gGO4rTDktCHBVbTLsrgboRYac=
-X-Received: by 2002:a17:907:7a13:b0:c25:2e93:289e with SMTP id
- a640c23a62f3a-c25571deb5fmr1292724366b.16.1788082396393; Sun, 30 Aug 2026
- 02:33:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4462225B0AA;
+	Sun, 30 Aug 2026 09:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788082880; cv=none; b=bzjCVOe/Yg4vZlPIks/YrINb0h2F1xMC76Q5e17neiv21TNsl5t+pAaia6PSnIeUBtMTSPD3x9as/e8kO5vhMdQD6Uzg16PRfO2Ty+rxj1Yvbb4tIufllPccm1fY57jItnWA20yBxBsPvpU5zF9PypXC7WkCB1RqCnHpLtFKl4o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788082880; c=relaxed/simple;
+	bh=FIOSq77btE2jEexpcIy0sQV3ik8NzDiD46Hdfrpksg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nK6fr31JTAhh0HxxkPHmsAz5XU2R4+QCTK7v6TdkBbta5vq25Al63qYTjBgd/rZ83Pu2a4GZ9ITofavvYd8xYlmIgn0TY4nN9MRVdzsjUMMRSDs4tp3UIYq6nKMHLOWrXHgZz1rtEAXhVG35yD410wOIl5WEaKXnbmFiu9FZgFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ESAbBCyY; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ESAbBCyY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5951E1F000E9;
+	Sun, 30 Aug 2026 09:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788082878;
+	bh=yrc5OceLOqYuhC0Jhzc+o7Zvca1fcHD8ktpQZihCCtg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ESAbBCyYgALcwK7zibx+GrVKsxlHvPM8SMaXok2ncxpKFSjL85J6vSBgH6uPB99cN
+	 6D98nbGGcoWWTooFlOv9gjeCY9RD2W0oGv+2gc5cywkk+pXkeBSl8/TBQB1M4FJX7k
+	 uW67kI2dC9fboPwzT+0ZZVvvpjC0JQ4oQ95sMd41V5cibQBxV1SZzj+Ov4WbDzdxeE
+	 uj8OSRJUAphJt2LQFG3w+iC0MrxJjKQHU78h6catQFtQ107t0EY9A1g9ulaVq1efOH
+	 OP2Kl6ebI3AlhelBlhUAbdsii2bAuUN7VUzjanLFuzBBEjdGeqJWMOCOhpSi2ZAhGt
+	 vcsY9G5+4xy0A==
+Date: Sun, 30 Aug 2026 11:41:14 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: George Moussalem <george.moussalem@outlook.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>
+Subject: Re: [PATCH 1/9] dt-bindings: usb: qcom,snps-dwc3: Add ability to
+ select UTMI as reference clock
+Message-ID: <20260830-primitive-faithful-mouse-cdd1e8@quoll>
+References: <20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com>
+ <20260825-ipq-flatten-usb-v1-1-5c1f3170bbe9@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260829-xhci-no-soft-retry-v2-0-0efe22f1c2f8@divinehawk.com> <20260829-xhci-no-soft-retry-v2-2-0efe22f1c2f8@divinehawk.com>
-In-Reply-To: <20260829-xhci-no-soft-retry-v2-2-0efe22f1c2f8@divinehawk.com>
-From: Matt Eaton <linux@divinehawk.com>
-Date: Sun, 30 Aug 2026 11:33:05 +0200
-X-Gm-Features: AcwNN1XMIbCJzCRFD4Hg1pCFjnrmfyXU44jNCBVbq9X8JPUOmt7-zWV52VzJ6iE
-Message-ID: <CABUBpLfK=w6e-M_TV4BfwX7EsUCLaZO7_GN9_506yHvBFEWJEg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] usb: dwc3: add xhci_no_soft_retry software property
-To: linux@divinehawk.com
-Cc: Mathias Nyman <mathias.nyman@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260825-ipq-flatten-usb-v1-1-5c1f3170bbe9@outlook.com>
 
-On Sat, Aug 29, 2026 at 10:04=E2=80=AFPM Matt Eaton via B4 Relay
-<devnull+linux.divinehawk.com@kernel.org> wrote:
->
-> From: Matt Eaton <linux@divinehawk.com>
->
-> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-> index c5674161b2b0..e22a8dc5d090 100644
-> --- a/drivers/usb/dwc3/host.c
-> +++ b/drivers/usb/dwc3/host.c
-> @@ -130,7 +130,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
->
->  int dwc3_host_init(struct dwc3 *dwc)
->  {
-> -       struct property_entry   props[6];
-> +       struct property_entry   props[7];
-I think this should be props[8] now as it should have been props[7]
-before (latent bug?), with the last entry being NULL to satisfy
-property_entries_dup(). I can do a patch v3.
+On Tue, Aug 25, 2026 at 02:42:26PM +0400, George Moussalem wrote:
+> Add ability to select the UTMI clock as reference clock which is passed
+> by the glue layer to the DWC3 core to calculate the reference clock
+> period and frame length adjustment based on its clock rate.
+> 
+> In the flattened snsp-dwc3 model, it is currently not possible to pass a
+> reference clock that differs from the default since:
+> commit 613a2e655d4d ("usb: dwc3: core: Expose core driver as library")
+> 
+> This prevents moving chipsets such as IPQ5018, IPQ6018, IPQ5332, IPQ5424
+> and IPQ9574 with a reference clock rate different from 19.2 MHz from
+> moving to the flattened model.
+> 
+> The Qualcomm takes care of clock and resets management itself and sets
+> the ignore_clocks_and_resets flag in dwc3_probe_data to true, so the
+> core doesn't acquire the reference clock from the devicetree.
+> 
+> The existing DT property 'snps,quirk-ref-clk-period-ns' has been
+> deprecated.
 
-Regards,
-Matt
+There is no such property.
+
+
+> 
+> So, add a property to select the UTMI clock used by many (if not all)
+> Qualcomm USB controllers as the reference clock.
+> 
+> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+> ---
+>  Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+> index ea60f7220afe..aa263dfd42a1 100644
+> --- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+> @@ -155,6 +155,15 @@ properties:
+>        HS/FS/LS modes are supported.
+>      type: boolean
+>  
+> +  qcom,select-utmi-as-ref-clk:
+> +    description:
+> +      If present, pass the UTMI clock as the reference clock to the DWC3 core to
+> +      use its clock rate to calculate the reference clock period and frame
+> +      length adjustment in GUCTL and GFLADJ registers. This is needed when these
+> +      values based on the standard clock rate deviate from the hardware default
+> +      values. If not set, the hardware default values are used.
+
+Sashiko comment seems valid. You describe Linux behavior. In your commit
+msg you mention that clock cannot be passed since commit 613a2e655d4d,
+which is a driver commit. So trivial answer would be: if issue was
+caused by driver commit, then fix is within driver, not bindings.
+
+Maybe there is different issue which is not purely-driver specific, but
+I did not get that from description.
+
+For example, if given SoC has different rates, then the SoC-specific DWC
+compatible defines which clock to use and you do not need such property.
+
+Best regards,
+Krzysztof
+
