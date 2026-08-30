@@ -1,93 +1,112 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D20C280037
-	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 08:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B477082D;
+	Sun, 30 Aug 2026 08:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788076979; cv=none; b=eyrJAgh1oy8icp18fSIROfg+V/qdpzanIEEQpM/lCFls9wQnyRD72ebetzfn4PxzB6pLT3cfZi3QIIFCrPvrGMPNNrj0ESP5tQau789Q8185dyQFI1fWfzOeGKhTCb5bGa5vKA5Pc9usUxghpWe3i/+Afoq5sOdUdNHKTvT0oEM=
+	t=1788077447; cv=none; b=GMTKNDjdQYCTz0ZPo8lpgiITnHN0XxZNvL+yBRjAHSbynY8AJaAshv8CWXD1UwGJC79cUpoL1l0w0BXmIRKcrZ1+9lpnQdrdiA+iA/dRYLA/EIeeoCQRx9sGOZHr17ivz0uP26vXQTk/VIUDjbfFL3PQ+rAZ/1OwySUPXeRQorM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788076979; c=relaxed/simple;
-	bh=7JhQB1J2e/AouynrAhPw48pZUT1f2MJaBGPTfTBIU7Q=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=khOV+A+dtMtmxlcWzuYgZ5bsUOn1qmHJmNi9jhtBJCUiLKiVdtorR7Z99zlRXr66fRBGqxdF42I2tfnhsCKD8971+B5llrz4m465efat+y8+baPI74wIp/JdyEUQkxgsjioHqwcpw8/LItr/aYAuLpGmAc+Kph3tvFdUg2YgsfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=d1x4mK12; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=aEgpFSei; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1788077447; c=relaxed/simple;
+	bh=Kugud/CgGGMJXt8tPet7f59Mo21uBHH22x8PS9SKOO8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Woh0jykFvPJla43Sdn+wrYZUUPpCe2JdanthHaYjHmcEv7DtNYtfrcomeOTAD4mo+8Gmgy9ypMjdwmNyuUJQFGOCP+0vzWKq4zwZbTWKVVKbUmb5Mv/l0H1a1Aeu56hm2cWPHAJ9HnJ0DLeR21/gnqcXVeiY3XL+vHAYKZBKgeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+CnEfqt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="d1x4mK12";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="aEgpFSei"
-Message-ID: <94a023c9-80de-4c84-85bf-7846de97c240@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1788076970;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=UXVp8OkAbdXycC3l74NgkfdKkojdNhGGUoZ8Pdc1Xis=;
-	b=d1x4mK12XbGRSLoWLiXBjLmnMHYY5fu4eL+lJn35Io/FbVE5K6AtLIrZUAtcJgjFjXM0rs
-	0EUnB7fiK+AasRRPv3G0Smwijc+U08udiwtRTVcg0Lwqc8bicvPuMJOucn82R0OIRbY9HW
-	wplOhPqNcLmvlQPX+lzAB0q8+qPRUpJdkG4MRKXiU0A2x8JaCIml1rTv1BV83UjeMovsB2
-	t2XJKjC1aKoFa56U9v5sLDj4WLzdYJL88QSc3wUIZG+mSQ9ZgiZFt8lv0FowYys+XHPQ/l
-	yLxmBL2aaVox8KWtE84rrCGJI5pT+TkROZ1OuuFR2DOKbHT/5t0laGXVAI63vKKyV/ACAE
-	NZPW9xDdlbLE1nmAW41khM5sqBJu/zEK6pls139b2bOGa/84Iht/rpo129LHMV8CP30gqk
-	xzOAecVl5opbiuhOsWeFfVAOn6PPStUEsVqbMHauyxpeYYpGyh2S7TmAHos3M5teMM/L22
-	rO/kYuulFgM8aWW4l4o0R2PHNzoTtXF0VDsM2Ox+dY2Kk/6tQsTFWWwEIRaPbRKIAgWOlr
-	M3keegpsM+C17Y6RJLW/v/7ieNGdZc67X5jncoiQLiPN9f1X8X15d33oUnPfxUD4bW+4Nt
-	N1hqx8+yl6dtECrL+oWf2DpcGhrzqi/f4BMJuML1h+So8fzL7fxhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1788076970;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=UXVp8OkAbdXycC3l74NgkfdKkojdNhGGUoZ8Pdc1Xis=;
-	b=aEgpFSei6G19ya6B/dngKlB17kNi1dKCc6Pm7HSD8KxolhdWkhmhx82VRfinRwk4O56CI+
-	ic/RHXJsSAD7f9AQ==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=martin smtp.mailfrom=martin@archlinux.org
-Date: Sun, 30 Aug 2026 10:02:49 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+CnEfqt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD4D51F000E9;
+	Sun, 30 Aug 2026 08:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788077446;
+	bh=roA3pn9tytWMEXCOgBxbLuMlI73dGfxw422usJPW7ws=;
+	h=From:Subject:Date:To:Cc;
+	b=g+CnEfqtLN6YUoq+dT274N/zsTIZktli69oN0lC8EXm6TfKebORKrOjPyJ5V4Hc1/
+	 7ZJRxEfuZwTEBu8hxRmGCytaJh7VHkbyVkTRhm8wbUxHObSYkTvyz5jyH9LaBs+hDb
+	 IQHVTJO1tqpCZY2nfl5rug+O+lNQzgt+NmKtUbxmTN7KtIzvKocteZOpga8xLeN9O0
+	 dbATn+SstNgbhJi3do34ibCrnWKCajk1PwKSqhAXeZLFGGJ28250c+zUNC7YUXn+bc
+	 8O/dYy95oiKmlzSTKtwDFRdUKO8NlAdZphtdTa9D8UWr4jwZ3IdJhCs5+f/JSUOVrH
+	 uRSbGkLeJTJ0A==
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Subject: [PATCH 0/4] USB: replace page allocator calls with kmalloc()
+Date: Sun, 30 Aug 2026 11:10:36 +0300
+Message-Id: <20260830-usb-v1-0-aa349c302246@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Language: en-US
-To: linux-usb@vger.kernel.org
-From: Martin Rys <martin@archlinux.org>
-Subject: [PATCH v3] USB: Improve "New device found" printout message
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMzQ7CIBAE4Fdp9iwGMP6+SuNhgUXWAxq2mCZN3
+ 71Qj99kZhYQKkwCj2GBQj8W/uQGcxjAJ8wvUhyawWp70Td7V1WcwqDPltDEiAFa81so8ry/jM+
+ /pbo3+alPe8OhkHIFs0892nk9nmBdN1ZD0b6CAAAA
+X-Change-ID: 20260829-usb-ad052ea1ffad
+To: Chas Williams <3chas3@gmail.com>, Duncan Sands <duncan.sands@free.fr>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Johan Hovold <johan@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+ Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ accessrunner-general@lists.sourceforge.net, 
+ linux-atm-general@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org
+X-Mailer: b4 0.17-dev
 
-Use a colon instead of a comma, like the debug message after this one
-does.
+This is a (small) part of larger work of replacing page allocator calls
+with kmalloc.
 
-Do not print a space after `bcdDevice=`. This was introduced as the
-formatting was copied from `lsusb -v` printout, but lsusb output has
-preceding spaces, this message does not, so it ends up looking odd.
+My initial intention a few month ago was to remove ugly casts [1], but then
+willy pointed out that Linus objected to something like this [2] and it
+looks like more than a decade old technical debt.
 
-Previously the output ended up looking like
-`idProduct=a000, bcdDevice= 1.00` if the first hex character of
-bcdDevice was 0.
+Largely, anything that doesn't need struct page (or a memdesc in the
+future) should just use kmalloc() or kvmalloc() to allocate memory.
+kmalloc() guarantees alignment, physical contiguity and working
+virt_to_phys() and beside nicer API that returns void * on alloc and
+doesn't require to know the allocation size on free, kmalloc() provides
+better debugging capabilities than page allocator.
 
-Signed-off-by: Martin Rys <martin@archlinux.org>
+Another thing is that touching these allocation sites gives the reviewers
+opportunity to see if a PAGE_SIZE buffer is actually needed or maybe
+another size is appropriate.
+
+For larger allocations that don't need physically contiguous memory
+kvmalloc() can be a better option that __get_free_pages() because under
+memory pressure it's is easier to allocate several order-0 pages than a
+physically contiguous chunk with the same number of pages.
+
+And last, but not least, removing needless calls to page allocator should
+help with memdesc (aka project folio) conversion. There will be way less
+places to audit to see if the user was actually using struct page.
+
+The patches are deliberately kept small: each one deals with a single
+driver or subsystem and with a single type of allocation, so that every
+conversion can be reviewed, and if needed reverted, on its own.
+
+[1] https://lore.kernel.org/all/20251018093002.3660549-1-rppt@kernel.org/
+[2] https://lore.kernel.org/all/CA+55aFwp4iy4rtX2gE2WjBGFL=NxMVnoFeHqYa2j1dYOMMGqxg@mail.gmail.com/
+
+Note that the buffers in usb/core/buffer.c and usb/mon/mon_bin.c are left
+
+alone: they are mapped to userspace and thus really need struct page.
+
 ---
-v2 -> v3: No code changes, amended the commit message harder, now passing checkpatch
-v1 -> v2: No code changes, only amended commit message and hopefully sending it proper now.
+Mike Rapoport (Microsoft) (4):
+      USB: usbfs: replace __get_free_page() with kmalloc()
+      USB: cxacru: replace __get_free_page() with kmalloc()
+      USB: speedtch: replace __get_free_page() with kmalloc()
+      USB: serial: wwan: replace __get_free_page() with kmalloc()
 
- drivers/usb/core/hub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/atm/cxacru.c      | 16 ++++++++--------
+ drivers/usb/atm/speedtch.c    |  4 ++--
+ drivers/usb/core/devio.c      |  4 ++--
+ drivers/usb/serial/usb_wwan.c |  6 +++---
+ 4 files changed, 15 insertions(+), 15 deletions(-)
+---
+base-commit: 1b78070aaef63512688aebfbc82365ef9d6660f1
+change-id: 20260829-usb-ad052ea1ffad
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 3345b3298daf..c382215a1177 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2411,7 +2411,7 @@ static void announce_device_ids(struct usb_device *udev)
- 	u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
-
- 	dev_info(&udev->dev,
--		"New USB device found, idVendor=%04x, idProduct=%04x, bcdDevice=%2x.%02x\n",
-+		"New USB device found: idVendor=%04x, idProduct=%04x, bcdDevice=%x.%02x\n",
- 		le16_to_cpu(udev->descriptor.idVendor),
- 		le16_to_cpu(udev->descriptor.idProduct),
- 		bcdDevice >> 8, bcdDevice & 0xff);
 --
-2.55.0
+Sincerely yours,
+Mike.
+
