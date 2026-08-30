@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2720B29E10B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D6F2EEE66;
 	Sun, 30 Aug 2026 20:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788121184; cv=none; b=RkB4aXpCTb5aw2RNophcOZ94ZzUEaLtT2JCk6zZrqC2Gd34apmlMcm5CPNij33dJfsE/STR+xEP/l9VkdOyEuuQaaEbeB64ynyGso0G+VHgsUT3TdFRqo6yIolcooz3w15obOrE+zP36wnchpAuKD0B6r07cS3Nt0QvzZ090+rw=
+	t=1788121184; cv=none; b=PQNbAPjdKsAFLWDaJdpE1jqYBFbgDq3HMy9EXK+f2r764+CyUvWtsH04p9bfoOQqCSPQNMFPBNX4SvptOArHFPgIW//7GMEBIW86cO8VZQb8fbM7V0PJRnwEAgrnshunxVSJEciepU4H/oIe+gk82O5CTvmcy6MRQUDOERLd5rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788121184; c=relaxed/simple;
-	bh=Z/X9kjcmeLmtqycvOGjKq9M9vj51vtH8rcG6ltPIT9Y=;
+	bh=ST4ik3WBagvYGb9odthpBturzioGl2ubZbVZscCANes=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pT9AnnQcAJ8hSWL1dGzL1815Iyb8DTLqLfYTC4eDlvbKCQ6tOJWpP7rfLEmU98K9GzYLgbA+DupbHDd/8h4YVbV/AYzLkSoGui4TAhAgEOp7b8E/WRSaD8Hj7n8JTJfvuygtRzZg6ZveaH0RZoWvjs5BHJw7UPPA5BcLBPxR0Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RF+uFW4t; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=o0VWLuueh2qy86Mkpesfn4I7mK+3yEqHJBWrN4jVRQRqtn7doGcWTfoiABnLDBfUgWpOheITCe756fW+2vh9GW8Aunif8TR6U3YZQQ6T9EbqUAr2axn305PeI/paXJ3baVlT/D8xxFSJ6eNpnx/5AVCa3LrbclQhNCR4qFPWNZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=il+834lR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RF+uFW4t"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D81ADC2BCFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="il+834lR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F0DF0C2BD05;
 	Sun, 30 Aug 2026 20:19:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788121184;
-	bh=Z/X9kjcmeLmtqycvOGjKq9M9vj51vtH8rcG6ltPIT9Y=;
+	bh=ST4ik3WBagvYGb9odthpBturzioGl2ubZbVZscCANes=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RF+uFW4tf/L0zt+C19M4sYzH7626tW0hv+gHHhbOIRNC2mH5C4I0GQHV4/dU80XkX
-	 FFJT+BfiwKJ/7scCKXUDgCK0YPHrjfnbbDWdEmLjeYwF0v9zRemWmlAOe+WqOivuVE
-	 O8TRa7jsrGX7kSM7wKbf6vHWhA5PHwwARDrwJp3WlAc4jmWKekZEHoeFGRKlAtYlm/
-	 goseh2TQx5DCp0tX1xJrLGgPRBaEr7lxiPjTDuyeg7UtUXm+nlzIGAWeYHmKlmabDi
-	 spBWJ08OFx9d6pJZaOdVoyovA8TdfSjHicfzFQFXLHamEsQUA9t9lVOWPVVBwiU1g+
-	 74OTG64YFiExQ==
+	b=il+834lR+fWeOP4pJPPnSK6EDG91BxP5ko5nafIyH7USSuZl9kwerhiSFA6APWiIO
+	 PCdmAgG6lQVahHs8iYNWXB0VmoEPx7qu3ZEwoRRIkZJQqGvQ2YqfpuipCRAkCaTaWv
+	 xDeMNTYvcTsuaEafMnf8s3uC01WMPs4aXnqKoM8obnc1yrgA9Ws0ZV+kKlvKyciJ1Z
+	 3jbaqIN5GVBV9WEMH0kY+B4jsstBIBQTqV5Fm3cLEbO4sM7HYp8lV+KfKZpQG1BUmi
+	 IUHlA4sA7ke1n2TXRrMNHQHLbRkLb3Qa+CcCK1yeeMlphO/HhQDwUlvYfEoe8TJl76
+	 CAQImfT+Gp6qg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7AD7C61DEB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA0EEC61DF1;
 	Sun, 30 Aug 2026 20:19:43 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sun, 30 Aug 2026 22:19:20 +0200
-Subject: [PATCH 02/19] usb: typec: Add thunderbolt switch
+Date: Sun, 30 Aug 2026 22:19:22 +0200
+Subject: [PATCH 04/19] dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt
+ NHI
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260830-b4-apple-soc-tbt-v1-2-44bc9348683c@kernel.org>
+Message-Id: <20260830-b4-apple-soc-tbt-v1-4-44bc9348683c@kernel.org>
 References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
 In-Reply-To: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -57,413 +58,214 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12799; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6395; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=Z/X9kjcmeLmtqycvOGjKq9M9vj51vtH8rcG6ltPIT9Y=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ9aUCcHWpgFB25RYyi/ki3/Rmyr4VZzhaqCdd7i6oYX6h
- J+hZVodpSwMYlwMsmKKLNv325s+efhGcOmmS+9h5rAygQxh4OIUgInor2NkeHe1JXxjx2XZCQym
- lyqtzx7VOPN00f+L64V3zq+e4RJl+piRYdsjictXytiuMm5/s2/m/blS9rm8DXfOZJX+D1JOmbV
- 9OzsA
+ bh=ST4ik3WBagvYGb9odthpBturzioGl2ubZbVZscCANes=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9aUCSEBrgwKebrpG/+knlBjvKEQsijsQnr6Me4rogLlM
+ /6+DWjpKGVhEONikBVTZNm+3970ycM3gks3XXoPM4eVCWQIAxenAEzkZTfD/4zUd9GLIzY+Znz1
+ wFnrxf49lxcm73i47Qfz1YOS15pEOK0Y/ru/Nnrv5OPcFmm+9Pe5g4X3WD6vWve9YvnyN1NjWWJ
+ +P+YFAA==
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-On Apple Silicon the USB4/Thunderbolt host router can only be brought
-up after the Type-C PHY has been configured and requires cable details
-known only to the Type-C port controller.
+The Native Host Interface (NHI) provides the TX and RX rings used by the
+software connection manager on Apple Silicon SoCs.
 
-The existing orientation switch only forwards the cable orientation.
-The mode switch also forwards most of the required details but
-represents devices which configure or route the Type-C signal path. The
-ACIO host router is a consumer of that path and has additional ordering
-requirements: it has to be started after the PHY has been configured
-and stopped again before the PHY is disabled.
+The NHI is part of the ACIO host router and is exposed to the main SoC
+bus while the ACIO co-processor is running.
 
-The mode switch code calls all handlers in the same order both when
-entering and leaving a mode and cannot express this reverse teardown
-order. Treating ACIO as another mode switch could therefore leave the
-NHI active after its PHY has been disabled, which can result in an
-asynchronous SError or a SoC watchdog reset.
+T6000 and T6020 use one DART stream for the TX and RX control rings and
+one shared by all other rings, which are used for XDomain connections.
+This likely improves the isolation of those host-to-host connections.
 
-Add a separate Thunderbolt switch which Type-C port drivers can use to
-forward the negotiated Thunderbolt or USB4 cable details and explicitly
-order host router setup and teardown around the mode switch. This is
-similar to a USB role switch: each connection has exactly one host
-router and the callback controls the lifetime of that functional
-controller instead of configuring a signal mux.
+The M3 generation uses a slightly insane set of 24 IOMMU entries. These
+are probably one DART stream for each TX and RX ring.
 
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/typec/mux.c       | 201 ++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/mux.h       |  12 +++
- include/linux/usb/typec_mux.h | 114 ++++++++++++++++++++++++
- 3 files changed, 327 insertions(+)
+ .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml | 151 +++++++++++++++++++++
+ MAINTAINERS                                        |   2 +
+ 2 files changed, 153 insertions(+)
 
-diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index 9b908c46bd7d..8339846ba355 100644
---- a/drivers/usb/typec/mux.c
-+++ b/drivers/usb/typec/mux.c
-@@ -479,6 +479,207 @@ void *typec_mux_get_drvdata(struct typec_mux_dev *mux_dev)
- }
- EXPORT_SYMBOL_GPL(typec_mux_get_drvdata);
+diff --git a/Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-nhi.yaml b/Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-nhi.yaml
+new file mode 100644
+index 000000000000..a80c8db3ef51
+--- /dev/null
++++ b/Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-nhi.yaml
+@@ -0,0 +1,151 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/thunderbolt/apple,t8103-usb4-nhi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Silicon USB4/Thunderbolt Native Host Interface (NHI)
++
++maintainers:
++  - Sven Peter <sven@kernel.org>
++
++description: |
++  On Apple Silicon SoCs the Native Host Interface (NHI) is part of the ACIO
++  host router. It provides the transmit and receive rings used by the software
++  connection manager.
++
++  The ACIO co-processor exposes its registers to the main SoC bus while it is
++  running. The NHI is therefore represented as a child of the ACIO node.
++
++properties:
++  compatible:
++    oneOf:
++      - const: apple,t8103-usb4-nhi
++      - items:
++          - enum:
++              - apple,t6000-usb4-nhi
++              - apple,t6020-usb4-nhi
++              - apple,t6030-usb4-nhi
++              - apple,t6031-usb4-nhi
++              - apple,t8112-usb4-nhi
++              - apple,t8122-usb4-nhi
++          - const: apple,t8103-usb4-nhi
++
++  reg:
++    items:
++      - description: NHI registers with the transmit and receive rings
++      - description:
++          Protocol Defined Field (PDF) bitmasks selecting which frames are
++          accepted by each receive ring
++
++  reg-names:
++    items:
++      - const: nhi
++      - const: pdf
++
++  interrupts:
++    description:
++      One interrupt for each of the 12 transmit rings followed by one for each
++      of the 12 receive rings.
++    maxItems: 24
++
++  interrupt-names:
++    items:
++      - const: txring0
++      - const: txring1
++      - const: txring2
++      - const: txring3
++      - const: txring4
++      - const: txring5
++      - const: txring6
++      - const: txring7
++      - const: txring8
++      - const: txring9
++      - const: txring10
++      - const: txring11
++      - const: rxring0
++      - const: rxring1
++      - const: rxring2
++      - const: rxring3
++      - const: rxring4
++      - const: rxring5
++      - const: rxring6
++      - const: rxring7
++      - const: rxring8
++      - const: rxring9
++      - const: rxring10
++      - const: rxring11
++
++  iommus:
++    minItems: 1
++    maxItems: 24
++    description: |
++      T8103 and T8112 use a single IOMMU for all DMA transactions.
++
++      T6000 and T6020 use two IOMMUs: The first is used for transmit ring 0
++      and receive ring 0 which carry control traffic. The second is shared by
++      all other rings which are only used for XDomain connections to other
++      hosts.
++
++      T6030, T6031 and T8122 use 24 IOMMUs. These are most likely one DART
++      stream for each of the 12 transmit and 12 receive rings.
++
++  apple,thunderbolt-drom:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    description:
++      DROM of the host router built by the bootloader from Apple's Device Tree.
++
++  apple,tunable-nhi:
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    items:
++      items:
++        - description: Register offset
++        - description: Mask of bits to clear
++        - description: Bits to set
++    description: |
++      List of (register offset, mask, value) tuples copied from Apple's Device
++      Tree, converted by the bootloader and used to configure the NHI after
++      the co-processor has booted.
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - interrupt-names
++  - iommus
++  - apple,thunderbolt-drom
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - apple,t6030-usb4-nhi
++              - apple,t6031-usb4-nhi
++              - apple,t8122-usb4-nhi
++    then:
++      properties:
++        iommus:
++          minItems: 24
++          maxItems: 24
++    else:
++      if:
++        properties:
++          compatible:
++            contains:
++              enum:
++                - apple,t6000-usb4-nhi
++                - apple,t6020-usb4-nhi
++      then:
++        properties:
++          iommus:
++            minItems: 2
++            maxItems: 2
++      else:
++        properties:
++          iommus:
++            maxItems: 1
++
++additionalProperties: false
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3a19da74d00c..bb26036a043f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2658,6 +2658,7 @@ F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
+ F:	Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml
+ F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
+ F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
++F:	Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-nhi.yaml
+ F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	Documentation/hwmon/macsmc-hwmon.rst
+@@ -27215,6 +27216,7 @@ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git
+ F:	Documentation/admin-guide/thunderbolt.rst
++F:	Documentation/devicetree/bindings/thunderbolt/
+ F:	drivers/thunderbolt/
+ F:	include/linux/thunderbolt.h
  
-+/* ------------------------------------------------------------------------- */
-+
-+struct typec_thunderbolt_switch {
-+	struct typec_thunderbolt_switch_dev *sw_dev;
-+};
-+
-+static int thunderbolt_switch_fwnode_match(struct device *dev,
-+					   const void *fwnode)
-+{
-+	if (!is_typec_thunderbolt_switch_dev(dev))
-+		return 0;
-+
-+	return device_match_fwnode(dev, fwnode);
-+}
-+
-+static void *typec_thunderbolt_switch_match(const struct fwnode_handle *fwnode,
-+					    const char *id, void *data)
-+{
-+	struct device *dev;
-+
-+	if (id && !fwnode_property_present(fwnode, id))
-+		return NULL;
-+
-+	dev = class_find_device(&typec_mux_class, NULL, fwnode,
-+				thunderbolt_switch_fwnode_match);
-+
-+	return dev ? to_typec_thunderbolt_switch_dev(dev) :
-+		     ERR_PTR(-EPROBE_DEFER);
-+}
-+
-+/**
-+ * fwnode_typec_thunderbolt_switch_get - Find USB4/Thunderbolt switch
-+ * @fwnode: The caller device node
-+ *
-+ * Finds a USB4/Thunderbolt switch linked with @fwnode. Returns a
-+ * reference to the switch on success, NULL if no matching connection
-+ * was found, or ERR_PTR(-EPROBE_DEFER) when a connection was found but
-+ * the switch has not been enumerated yet.
-+ */
-+struct typec_thunderbolt_switch *
-+fwnode_typec_thunderbolt_switch_get(struct fwnode_handle *fwnode)
-+{
-+	struct typec_thunderbolt_switch_dev *sw_dev;
-+	struct typec_thunderbolt_switch *sw;
-+	void *match;
-+
-+	match = fwnode_connection_find_match(fwnode, "thunderbolt-switch", NULL,
-+					     typec_thunderbolt_switch_match);
-+	if (!match)
-+		return NULL;
-+	if (IS_ERR(match))
-+		return ERR_CAST(match);
-+	sw_dev = match;
-+
-+	sw = kzalloc_obj(*sw);
-+	if (!sw) {
-+		put_device(&sw_dev->dev);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	sw->sw_dev = sw_dev;
-+	WARN_ON(!try_module_get(sw_dev->dev.parent->driver->owner));
-+
-+	return sw;
-+}
-+EXPORT_SYMBOL_GPL(fwnode_typec_thunderbolt_switch_get);
-+
-+/**
-+ * typec_thunderbolt_switch_put - Release handle to USB4/Thunderbolt switch
-+ * @sw: USB4/Thunderbolt switch
-+ *
-+ * Decrements the reference count of @sw and releases the handle.
-+ */
-+void typec_thunderbolt_switch_put(struct typec_thunderbolt_switch *sw)
-+{
-+	if (IS_ERR_OR_NULL(sw))
-+		return;
-+
-+	module_put(sw->sw_dev->dev.parent->driver->owner);
-+	put_device(&sw->sw_dev->dev);
-+	kfree(sw);
-+}
-+EXPORT_SYMBOL_GPL(typec_thunderbolt_switch_put);
-+
-+/**
-+ * typec_thunderbolt_switch_set - Forward cable details to USB4/Thunderbolt switch
-+ * @sw: USB4/Thunderbolt switch
-+ * @data: Cable state and details
-+ *
-+ * Called by the Type-C port driver to forward the cable details
-+ * out-of-band to the switch handler whenever a USB4/Thunderbolt
-+ * connection comes up or goes away.
-+ */
-+int typec_thunderbolt_switch_set(struct typec_thunderbolt_switch *sw,
-+				 const struct typec_thunderbolt_switch_data *data)
-+{
-+	if (IS_ERR_OR_NULL(sw))
-+		return 0;
-+
-+	return sw->sw_dev->set(sw->sw_dev, data);
-+}
-+EXPORT_SYMBOL_GPL(typec_thunderbolt_switch_set);
-+
-+static void typec_thunderbolt_switch_release(struct device *dev)
-+{
-+	kfree(to_typec_thunderbolt_switch_dev(dev));
-+}
-+
-+const struct device_type typec_thunderbolt_switch_dev_type = {
-+	.name = "thunderbolt_switch",
-+	.release = typec_thunderbolt_switch_release,
-+};
-+
-+/**
-+ * typec_thunderbolt_switch_register - Register USB4/Thunderbolt switch
-+ * @parent: Parent device
-+ * @desc: USB4/Thunderbolt switch description
-+ *
-+ * This function registers a handler for USB4/Thunderbolt mode switching
-+ * which Type-C port drivers use to forward the cable details once a
-+ * USB4/Thunderbolt connection comes up.
-+ */
-+struct typec_thunderbolt_switch_dev *
-+typec_thunderbolt_switch_register(struct device *parent,
-+				  const struct typec_thunderbolt_switch_desc *desc)
-+{
-+	struct typec_thunderbolt_switch_dev *sw_dev;
-+	int ret;
-+
-+	if (!desc || !desc->set)
-+		return ERR_PTR(-EINVAL);
-+
-+	sw_dev = kzalloc_obj(*sw_dev);
-+	if (!sw_dev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	sw_dev->set = desc->set;
-+
-+	device_initialize(&sw_dev->dev);
-+	sw_dev->dev.parent = parent;
-+	sw_dev->dev.fwnode = desc->fwnode;
-+	sw_dev->dev.class = &typec_mux_class;
-+	sw_dev->dev.type = &typec_thunderbolt_switch_dev_type;
-+	sw_dev->dev.driver_data = desc->drvdata;
-+	ret = dev_set_name(&sw_dev->dev, "%s-thunderbolt-switch",
-+			   desc->name ? desc->name : dev_name(parent));
-+	if (ret) {
-+		put_device(&sw_dev->dev);
-+		return ERR_PTR(ret);
-+	}
-+
-+	ret = device_add(&sw_dev->dev);
-+	if (ret) {
-+		dev_err(parent, "failed to register switch (%d)\n", ret);
-+		put_device(&sw_dev->dev);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return sw_dev;
-+}
-+EXPORT_SYMBOL_GPL(typec_thunderbolt_switch_register);
-+
-+/**
-+ * typec_thunderbolt_switch_unregister - Unregister USB4/Thunderbolt switch
-+ * @sw_dev: USB4/Thunderbolt switch
-+ *
-+ * Unregister switch that was registered with
-+ * typec_thunderbolt_switch_register().
-+ */
-+void typec_thunderbolt_switch_unregister(struct typec_thunderbolt_switch_dev *sw_dev)
-+{
-+	if (!IS_ERR_OR_NULL(sw_dev))
-+		device_unregister(&sw_dev->dev);
-+}
-+EXPORT_SYMBOL_GPL(typec_thunderbolt_switch_unregister);
-+
-+/**
-+ * typec_thunderbolt_switch_set_drvdata - Assign private data to the switch
-+ * @sw_dev: USB4/Thunderbolt switch
-+ * @data: Private data
-+ */
-+void typec_thunderbolt_switch_set_drvdata(struct typec_thunderbolt_switch_dev *sw_dev,
-+					  void *data)
-+{
-+	dev_set_drvdata(&sw_dev->dev, data);
-+}
-+EXPORT_SYMBOL_GPL(typec_thunderbolt_switch_set_drvdata);
-+
-+/**
-+ * typec_thunderbolt_switch_get_drvdata - Get the private data from the switch
-+ * @sw_dev: USB4/Thunderbolt switch
-+ *
-+ * Returns the private data previously assigned with
-+ * typec_thunderbolt_switch_set_drvdata().
-+ */
-+void *typec_thunderbolt_switch_get_drvdata(struct typec_thunderbolt_switch_dev *sw_dev)
-+{
-+	return dev_get_drvdata(&sw_dev->dev);
-+}
-+EXPORT_SYMBOL_GPL(typec_thunderbolt_switch_get_drvdata);
-+
- const struct class typec_mux_class = {
- 	.name = "typec_mux",
- };
-diff --git a/drivers/usb/typec/mux.h b/drivers/usb/typec/mux.h
-index 58f0f28b6dc8..a2c92cab1211 100644
---- a/drivers/usb/typec/mux.h
-+++ b/drivers/usb/typec/mux.h
-@@ -23,5 +23,17 @@ extern const struct device_type typec_mux_dev_type;
- 
- #define is_typec_switch_dev(dev) ((dev)->type == &typec_switch_dev_type)
- #define is_typec_mux_dev(dev) ((dev)->type == &typec_mux_dev_type)
-+#define is_typec_thunderbolt_switch_dev(dev) \
-+	((dev)->type == &typec_thunderbolt_switch_dev_type)
-+
-+struct typec_thunderbolt_switch_dev {
-+	struct device dev;
-+	typec_thunderbolt_switch_set_fn_t set;
-+};
-+
-+#define to_typec_thunderbolt_switch_dev(_dev_) \
-+	container_of(_dev_, struct typec_thunderbolt_switch_dev, dev)
-+
-+extern const struct device_type typec_thunderbolt_switch_dev_type;
- 
- #endif /* __USB_TYPEC_MUX__ */
-diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-index aa9ebb7e2fe0..0726407bb624 100644
---- a/include/linux/usb/typec_mux.h
-+++ b/include/linux/usb/typec_mux.h
-@@ -6,6 +6,7 @@
- #include <linux/err.h>
- #include <linux/property.h>
- #include <linux/usb/typec.h>
-+#include <linux/usb/typec_tbt.h>
- 
- struct device;
- struct typec_mux;
-@@ -141,4 +142,117 @@ static inline struct typec_mux *typec_mux_get(struct device *dev)
- 	return fwnode_typec_mux_get(dev_fwnode(dev));
- }
- 
-+struct typec_thunderbolt_switch;
-+struct typec_thunderbolt_switch_dev;
-+
-+enum typec_thunderbolt_switch_state {
-+	TYPEC_THUNDERBOLT_SWITCH_OFF,
-+	TYPEC_THUNDERBOLT_SWITCH_TBT,
-+	TYPEC_THUNDERBOLT_SWITCH_USB4,
-+};
-+
-+/**
-+ * struct typec_thunderbolt_switch_data - Type-C Thunderbolt/USB4 Switch Data
-+ * @state: Switch state (TBT, USB4, or OFF)
-+ * @orientation: Orientation of the connection
-+ * @tbt: Thunderbolt 3 specific data, only valid in
-+ *	 TYPEC_THUNDERBOLT_SWITCH_TBT
-+ * @usb4: Enter_USB data, only valid in TYPEC_THUNDERBOLT_SWITCH_USB4
-+ */
-+struct typec_thunderbolt_switch_data {
-+	enum typec_thunderbolt_switch_state state;
-+	enum typec_orientation orientation;
-+	union {
-+		struct typec_thunderbolt_data tbt;
-+		struct enter_usb_data usb4;
-+	};
-+};
-+
-+typedef int (*typec_thunderbolt_switch_set_fn_t)(struct typec_thunderbolt_switch_dev *sw,
-+						 const struct typec_thunderbolt_switch_data *data);
-+
-+/**
-+ * struct typec_thunderbolt_switch_desc - USB4/Thunderbolt switch description
-+ * @fwnode: The fwnode the switch is associated with
-+ * @set: Callback invoked with the cable details on connection changes
-+ * @name: Optional switch name, the parent device name is used if not set
-+ * @drvdata: Private data
-+ */
-+struct typec_thunderbolt_switch_desc {
-+	struct fwnode_handle *fwnode;
-+	typec_thunderbolt_switch_set_fn_t set;
-+	const char *name;
-+	void *drvdata;
-+};
-+
-+#if IS_ENABLED(CONFIG_TYPEC)
-+
-+struct typec_thunderbolt_switch *
-+fwnode_typec_thunderbolt_switch_get(struct fwnode_handle *fwnode);
-+void typec_thunderbolt_switch_put(struct typec_thunderbolt_switch *sw);
-+int typec_thunderbolt_switch_set(struct typec_thunderbolt_switch *sw,
-+				 const struct typec_thunderbolt_switch_data *data);
-+
-+struct typec_thunderbolt_switch_dev *
-+typec_thunderbolt_switch_register(struct device *parent,
-+				  const struct typec_thunderbolt_switch_desc *desc);
-+void typec_thunderbolt_switch_unregister(struct typec_thunderbolt_switch_dev *sw);
-+
-+void typec_thunderbolt_switch_set_drvdata(struct typec_thunderbolt_switch_dev *sw,
-+					  void *data);
-+void *
-+typec_thunderbolt_switch_get_drvdata(struct typec_thunderbolt_switch_dev *sw);
-+
-+#else
-+
-+static inline struct typec_thunderbolt_switch *
-+fwnode_typec_thunderbolt_switch_get(struct fwnode_handle *fwnode)
-+{
-+	return NULL;
-+}
-+
-+static inline void
-+typec_thunderbolt_switch_put(struct typec_thunderbolt_switch *sw)
-+{
-+}
-+
-+static inline int
-+typec_thunderbolt_switch_set(struct typec_thunderbolt_switch *sw,
-+			     const struct typec_thunderbolt_switch_data *data)
-+{
-+	return 0;
-+}
-+
-+static inline struct typec_thunderbolt_switch_dev *
-+typec_thunderbolt_switch_register(struct device *parent,
-+				  const struct typec_thunderbolt_switch_desc *desc)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+
-+static inline void
-+typec_thunderbolt_switch_unregister(struct typec_thunderbolt_switch_dev *sw)
-+{
-+}
-+
-+static inline void
-+typec_thunderbolt_switch_set_drvdata(struct typec_thunderbolt_switch_dev *sw,
-+				     void *data)
-+{
-+}
-+
-+static inline void *
-+typec_thunderbolt_switch_get_drvdata(struct typec_thunderbolt_switch_dev *sw)
-+{
-+	return NULL;
-+}
-+
-+#endif /* CONFIG_TYPEC */
-+
-+static inline struct typec_thunderbolt_switch *
-+typec_thunderbolt_switch_get(struct device *dev)
-+{
-+	return fwnode_typec_thunderbolt_switch_get(dev_fwnode(dev));
-+}
-+
- #endif /* __USB_TYPEC_MUX */
 
 -- 
 2.55.0
