@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0624327C0D;
-	Sun, 30 Aug 2026 20:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF8C332EC5;
+	Sun, 30 Aug 2026 20:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788121184; cv=none; b=uuSvbe3gvvO/zyaQerEKasT9Fzs91awE4UyspTYhKXJqJ10YmjFj3Bo0ftHmJM9vDnFR/wftLpWh0WLXGlhNxErbGeeb1BWc5eAlFeRriFj9E3QdL0ugg8gXWPACXvKA+Gzc4CHM8ixT2B2eLRFAZ/prpkp4GjzMxHO8Ws6bZ7s=
+	t=1788121185; cv=none; b=lVr3so1EJK5G427gsKUlQlngxw1x51vAiZUQhxOy+xjrPaq39YzFKDvwuItKZ9GuZfgKhbOWO+kUeRvGCOc9IAAOrViaIwrbaT+aoemOVMbsZ9JNol5+k/DgXimYYtFGQvi3UUyxPO6cdDg9eGfmR4508O0xZ9RzJLhKfkSVtf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788121184; c=relaxed/simple;
-	bh=fHahmFpaRK/QzRyP/N5khiYGfLDf/FCodhzsWEEVc74=;
+	s=arc-20240116; t=1788121185; c=relaxed/simple;
+	bh=yLZzvweLjoBBYhWj4yAiYhV53Thr+IzutEkoNWzH/mU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lI0/2BDoYGDusR/s7b5DxBiSYC6ytnLkumV0I0jotF9cMejCBMbRtJdjtybmaHtvO8VJnXCqwIGU8q9S72gomUe7faTfrLl/9fCRj0a93gPR26IAzQI9RelOcznALEBKbZahlFbjFHkBkEO9LxBkoQRVK1dWPmun3xU85OTYOIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLL+W8SC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=iI/Yut4gJE1KtbY7RDsng07BkXmfvrwe4ZIAzVX8egqSF1Kr8I2cGzPuZv2Ss345xPg8binN6u4LF6bkEsvfQ9+1LrIvkHApYwg2dwEbLlWDqZGbaYd70RjvRdLiZc9iGCNScsYQ5FXXzqn5brxzPL/7iU5IAzAYcsPBEnSyqNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K5IQo6/2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLL+W8SC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 76ACDC4AF12;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K5IQo6/2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DB111C4AF4D;
 	Sun, 30 Aug 2026 20:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788121184;
-	bh=fHahmFpaRK/QzRyP/N5khiYGfLDf/FCodhzsWEEVc74=;
+	bh=yLZzvweLjoBBYhWj4yAiYhV53Thr+IzutEkoNWzH/mU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=QLL+W8SCtbzHLmaWH8f9mhQ0np6S+9YeNXAi9MxCsIo4aCDulu68bxTHGK/IyvyJZ
-	 CAwL8nbPK4bNs1dsmL2z2xd2KvvwujBWfWdlQDOZp/Ry5TePMTIX0a3xWVZjkAGxnR
-	 ebRqMW7mA/v1IrzjI2/YkbqgB+NuQ9cHpoUkoqlZZuUCrSTiGQ6SlLV+irQfK190KA
-	 7K/FS2JY+F/m2vYsQMSnJyekqwqDc23+RB3aMpCgxVH+lIH9bKIAOpGnBPGg6zt2Cg
-	 eMU1r5ctzw8g/uTbrCUqIsTb/lFYnrlveXpmq+qly0o2VPi67qDQkxPytIXDZC10rD
-	 r8hgLEOioMzLw==
+	b=K5IQo6/2KjiuDg4JiKaO9StPJ7B7aoYzgwk/rfs+zrHztkVJv44jUt0USKxcf63ze
+	 cWEsQ4V/hzoVag43lvJb0mAml0DBTeZzRuND+joF38FoYz8HtG5/z0Cp0cqEQ6YSzO
+	 5WFgmHk5U591YYIo2J/W3I8JL3XX4eZnXuoorsWghsgyyWPhbLeIin47i/ZZR4zUlr
+	 AWud6SQj4rWMT82M9NxEW8Uy8IhiDoEWE4BsHLrVyAxkZkLnaTKzkm1bjNPnu01kkt
+	 oXuvDVxiMuY7UXMHOil9+5fRJZSpDx6LXxZ+EPDyyL1gjfwtXCs3t1zqenwSmW3eZQ
+	 SSXtkwv30TP0Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63826C61DF1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3940C61DF0;
 	Sun, 30 Aug 2026 20:19:44 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sun, 30 Aug 2026 22:19:29 +0200
-Subject: [PATCH 11/19] thunderbolt: Add ring_interrupt_mask to tb_nhi_ops
+Date: Sun, 30 Aug 2026 22:19:33 +0200
+Subject: [PATCH 15/19] thunderbolt: Export symbols required by the Apple
+ Silicon driver
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260830-b4-apple-soc-tbt-v1-11-44bc9348683c@kernel.org>
+Message-Id: <20260830-b4-apple-soc-tbt-v1-15-44bc9348683c@kernel.org>
 References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
 In-Reply-To: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -57,87 +58,121 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2828; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3480; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=fHahmFpaRK/QzRyP/N5khiYGfLDf/FCodhzsWEEVc74=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ9aUCREWl/bNOCe1Y6lknuKLLfMeyczdwRo/J/XDc7/WQ
- JttQpphHaUsDGJcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJMMsxMvycsSqXo/5Zxowv
- eysPF+u5nXs4XXn68aOddXuVKj/zsvxg+GewNcWrJz2kzevG0+CIpuXb53BNqj54WHCn5apPpRu
- fSDMAAA==
+ bh=yLZzvweLjoBBYhWj4yAiYhV53Thr+IzutEkoNWzH/mU=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9aUCVGxa+/vjl/00ytg7Ty7ZUkmM0LkbPpUQ41LnwrW9
+ 38NX7C7o5SFQYyLQVZMkWX7fnvTJw/fCC7ddOk9zBxWJpAhDFycAjARtxqG/6X8P3eYqC1OmNtf
+ eCrcdPU+yfiVH33cd1a6Lp7p9Jztvysjw67stwyKu+ID5Z/zzDBL2H3v9amI6cwLNledCeHdH/p
+ EjA8A
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Masking ring interrupts works differently on the Apple NHI as well. Add
-an optional tb_nhi_ops hook for it which falls back to the standard
-USB4 NHI method when it is not set.
+The driver for the ACIO host router complex on Apple Silicon SoCs can
+be built as a module and needs tb_probe() and the domain functions to
+register its NHI with the software connection manager as well as
+tb_switch_find_vse_cap(), tb_cfg_write() and tb_port_unlock() to
+configure the cable details for its co-processor and to unlock the
+lane ports. Restrict these exports to the thunderbolt_apple module to
+keep them internal to the Thunderbolt subsystem.
 
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/thunderbolt/nhi.c | 12 ++++++++++--
- drivers/thunderbolt/nhi.h |  4 ++++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ drivers/thunderbolt/cap.c    | 2 ++
+ drivers/thunderbolt/ctl.c    | 2 ++
+ drivers/thunderbolt/domain.c | 2 ++
+ drivers/thunderbolt/switch.c | 1 +
+ drivers/thunderbolt/tb.c     | 2 ++
+ 5 files changed, 9 insertions(+)
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 3a3d334e69fd..3cb69deec63e 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -422,6 +422,14 @@ static void __ring_interrupt_mask(struct tb_ring *ring, bool mask)
- 	iowrite32(val, ring->nhi->iobase + reg);
- }
+diff --git a/drivers/thunderbolt/cap.c b/drivers/thunderbolt/cap.c
+index 4ab22d5291ac..e000a53e5e75 100644
+--- a/drivers/thunderbolt/cap.c
++++ b/drivers/thunderbolt/cap.c
+@@ -6,6 +6,7 @@
+  * Copyright (C) 2018, Intel Corporation
+  */
  
-+static void nhi_ring_interrupt_mask(struct tb_ring *ring, bool mask)
-+{
-+	if (ring->nhi->ops->ring_interrupt_mask)
-+		ring->nhi->ops->ring_interrupt_mask(ring, mask);
-+	else
-+		__ring_interrupt_mask(ring, mask);
-+}
-+
- /* Both @nhi->lock and @ring->lock should be held */
- static void __ring_interrupt(struct tb_ring *ring)
++#include <linux/export.h>
+ #include <linux/slab.h>
+ #include <linux/errno.h>
+ 
+@@ -254,3 +255,4 @@ int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec)
+ 
+ 	return -ENOENT;
+ }
++EXPORT_SYMBOL_FOR_MODULES(tb_switch_find_vse_cap, "thunderbolt_apple");
+diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+index cd47b627f97b..b2a6b300e934 100644
+--- a/drivers/thunderbolt/ctl.c
++++ b/drivers/thunderbolt/ctl.c
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/crc32.h>
+ #include <linux/delay.h>
++#include <linux/export.h>
+ #include <linux/slab.h>
+ #include <linux/pci.h>
+ #include <linux/dmapool.h>
+@@ -1159,6 +1160,7 @@ int tb_cfg_write(struct tb_ctl *ctl, const void *buffer, u64 route, u32 port,
+ 	}
+ 	return res.err;
+ }
++EXPORT_SYMBOL_FOR_MODULES(tb_cfg_write, "thunderbolt_apple");
+ 
+ /**
+  * tb_cfg_get_upstream_port() - get upstream port number of switch at route
+diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+index 12c88509a54f..477a64258b87 100644
+--- a/drivers/thunderbolt/domain.c
++++ b/drivers/thunderbolt/domain.c
+@@ -490,6 +490,7 @@ int tb_domain_add(struct tb *tb, bool reset)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL_FOR_MODULES(tb_domain_add, "thunderbolt_apple");
+ 
+ /**
+  * tb_domain_remove() - Removes and releases a domain
+@@ -514,6 +515,7 @@ void tb_domain_remove(struct tb *tb)
+ 
+ 	device_unregister(&tb->dev);
+ }
++EXPORT_SYMBOL_FOR_MODULES(tb_domain_remove, "thunderbolt_apple");
+ 
+ /**
+  * tb_domain_suspend_noirq() - Suspend a domain
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index ef267f40c103..db675e4f0bc2 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -627,6 +627,7 @@ int tb_port_unlock(struct tb_port *port)
+ 		return usb4_port_unlock(port);
+ 	return 0;
+ }
++EXPORT_SYMBOL_FOR_MODULES(tb_port_unlock, "thunderbolt_apple");
+ 
+ static int __tb_port_enable(struct tb_port *port, bool enable)
  {
-@@ -429,7 +437,7 @@ static void __ring_interrupt(struct tb_ring *ring)
- 		return;
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 7ab53a30fe30..6a1f49c473eb 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -6,6 +6,7 @@
+  * Copyright (C) 2019, Intel Corporation
+  */
  
- 	if (ring->start_poll) {
--		__ring_interrupt_mask(ring, true);
-+		nhi_ring_interrupt_mask(ring, true);
- 		ring->start_poll(ring->poll_data);
- 	} else {
- 		schedule_work(&ring->work);
-@@ -450,7 +458,7 @@ void tb_ring_poll_complete(struct tb_ring *ring)
- 	spin_lock_irqsave(&ring->nhi->lock, flags);
- 	spin_lock(&ring->lock);
- 	if (ring->start_poll)
--		__ring_interrupt_mask(ring, false);
-+		nhi_ring_interrupt_mask(ring, false);
- 	spin_unlock(&ring->lock);
- 	spin_unlock_irqrestore(&ring->nhi->lock, flags);
++#include <linux/export.h>
+ #include <linux/slab.h>
+ #include <linux/errno.h>
+ #include <linux/delay.h>
+@@ -3442,3 +3443,4 @@ struct tb *tb_probe(struct tb_nhi *nhi)
+ 
+ 	return tb;
  }
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index 035cee433a3c..5f70d7ddc2e2 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -73,6 +73,9 @@ struct tb_nhi_ring_layout {
-  * @ring_interrupt_active: NHI specific hook to activate/deactivate the
-  *			   interrupt of a single ring. If not set the
-  *			   standard USB4 NHI registers are used.
-+ * @ring_interrupt_mask: NHI specific hook to mask/unmask the interrupt of a
-+ *			 single ring. If not set the standard USB4 NHI
-+ *			 registers are used.
-  * @is_present: Whether the device is currently present on the parent bus
-  * @init_interrupts: NHI specific interrupt initialization hook
-  * @reset_interface: Resets the host interface
-@@ -89,6 +92,7 @@ struct tb_nhi_ops {
- 	int (*request_ring_irq)(struct tb_ring *ring, bool no_suspend);
- 	void (*release_ring_irq)(struct tb_ring *ring);
- 	void (*ring_interrupt_active)(struct tb_ring *ring, bool active);
-+	void (*ring_interrupt_mask)(struct tb_ring *ring, bool mask);
- 	bool (*is_present)(struct tb_nhi *nhi);
- 	int (*init_interrupts)(struct tb_nhi *nhi);
- 	void (*reset_interface)(struct tb_nhi *nhi);
++EXPORT_SYMBOL_FOR_MODULES(tb_probe, "thunderbolt_apple");
 
 -- 
 2.55.0
