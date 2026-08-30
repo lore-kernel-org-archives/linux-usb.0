@@ -1,182 +1,337 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazolkn19013091.outbound.protection.outlook.com [52.103.20.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f2.google.com (mail-oi2-f2.google.com [74.125.231.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6BB1A6828;
-	Sat, 29 Aug 2026 23:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788047846; cv=fail; b=hgUcYaKWV4FUvPvMbiKqrd83UjnkmN15RDBbO8k6mgq5sDeqTnRDw6GZwI22RjCn9nanxNyH6KnLgcc53D3Mfsa2zJIxuJRBU+XJOJEBeb8udz1acMuQUaC3u0ywyb8dV9nAZ6oa8r2UBUAMFvP6nJve/PGS5M1Zfg8MarSGxPE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788047846; c=relaxed/simple;
-	bh=p0BUMy68ilSOileIZLeaE0KxOG/l9H/yDBfIDzlqoIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Gqx53U215j2Cg1xxqIlMVkx8/99+p0eMIhgYlooEJWxv6YWO3FYPa9FpPz+zYzDJCARXZUaOBJfnyO2kzsYJc5OKhKwK9340Mnl8z1VBRyN2k9HJZvGzjKPs0PNoz8GnesgTt2q+y0rvay56z2lUmpmf0sfSwx23yAfty9Yr8L8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=n/VnDt/B; arc=fail smtp.client-ip=52.103.20.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="n/VnDt/B"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rD+votjsu0tAG6Vr99FJgnll2SslhfL+NyWWRwpmvGof80e/YoP+pNj3We1woRY/tmQpco7YB7mee10BrZ40DXtBUYB45zDnuH3Bjd30EnG4ZlYW+Zp03nLIGa5xQotxKOweaPrB3U2kKiNEHrSeeIbskXchVdjVJxMqETeifeLE++FlaNnn0VFyVEu6/33Kkj+L8yBcg7+P9dDdSFjELeq0xhNTnPY01I7rV4Sl243XWZN1kHhAO5vlO99ZT2iFCoAGh/d870dxp7KvMYsusBPETYWfGjzLToo/Z0Jlx/EH5tW9G1+Nir8OLubFE10j53pYLiMgX06QZuRFV1eKHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FJjEZ0rTsy9aR/2a/YbPKlwwHR1E8wA3xsHxqSIZ4AM=;
- b=Bqs4u2hUFMXXlRHF/IabgD5tgtpFsJ9SRFDcEZ9fCuYLSJ4GyOHGo9U4OoCy3GIhUnyIoRAcbiSovUj9YQTdB9McqKGnfiLsNsxpduy7U32aUJgfbGrV0wO97bgSAYiJRt1/0PDN5EfvOn2aXSJXWBtk0YXDpQXR2xpAkfAX7rxG58t8kl4hKQasIpCxmxUvFwwcyhUaCywhKdAvOhc5IQBrndcN4P1RAa5JgjSOsoG8w2KqK+ap6p986k8AOJd00wpFPmAQVm6uxVDeXNCs1HB6KOcLj2XemcqxWYvx8bfWF8TSQZiSD7gi6a02xSsQcsDSPo4vrjabX8sWm3tgpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FJjEZ0rTsy9aR/2a/YbPKlwwHR1E8wA3xsHxqSIZ4AM=;
- b=n/VnDt/B7Mekf5SjNpMeLhxV/NVX7+4sj3Y4E5lnqQVwfAZIew5VtM1M0jS6NV3qEGSgxWGfxRJ07ko0QgeyTBvA9RwFJtB66NU7Q9x0aXiNrHdZBBhhefXWlqgJ8jZyglMbpv7z1PHO2cNDmVCk94WF0U/Jtzo1sGZtXT4dIGHZZlQY3WUA9ATYVZiUq1wRSoZ0qsGjyhpSIaM3XSOfYusg8TS4pnWNQOneheOmHizsYAhpWocBifeipBxeQ6yKAPbdYi+d/p44NshM+SBxp2CaapzOdEOSjrRwAWcExjYfm6sVggL8IIvn5q2+7IcEif71BFQSNZuGmDt/ChoX6w==
-Received: from DM6PR02MB6377.namprd02.prod.outlook.com (2603:10b6:5:1d0::21)
- by CH3PR02MB9423.namprd02.prod.outlook.com (2603:10b6:610:122::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.11; Sat, 29 Aug
- 2026 23:57:22 +0000
-Received: from DM6PR02MB6377.namprd02.prod.outlook.com
- ([fe80::2e44:289a:989f:b69c]) by DM6PR02MB6377.namprd02.prod.outlook.com
- ([fe80::2e44:289a:989f:b69c%6]) with mapi id 15.21.0360.008; Sat, 29 Aug 2026
- 23:57:22 +0000
-From: Amaan Lalani <zlzzm2014@outlook.com>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Amaan Lalani <zlzzm2014@outlook.com>
-Subject: [PATCH] thunderbolt: Reset downstream port after failed link restore
-Date: Sat, 29 Aug 2026 16:57:05 -0700
-Message-ID:
- <DM6PR02MB63772452BC9DE8C5C79BE421A0AB2@DM6PR02MB6377.namprd02.prod.outlook.com>
-X-Mailer: git-send-email 2.55.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MW4PR03CA0319.namprd03.prod.outlook.com
- (2603:10b6:303:dd::24) To DM6PR02MB6377.namprd02.prod.outlook.com
- (2603:10b6:5:1d0::21)
-X-Microsoft-Original-Message-ID:
- <20260829235705.22062-1-zlzzm2014@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B87C8CE
+	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 00:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788048278; cv=none; b=aKFxODURhcdpn0Cpt8czJSvvsmd63B1r25icRm8BH59WEPnN7MI6R4ddnm35cqw41tqA0gkmRUdFXZ49qMq7d4UM0xHYDFsZ/jBV6AiFHH6tavv70B0cKYRk1peglTLUlLBTl1bqV6XgmsKwNIW2dZKQjJyRr7IQoTlxOtUhQk4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788048278; c=relaxed/simple;
+	bh=h0cLZNbIO9EpQcmI/Lgesza1J8PK+C/w3hpTts1hOuE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=YBOgfp+sctzkQPb58fSudDj/HJRlTCzNB1VkLzaef0VrVKpZxzzjSUbHbE+cSh/i1QAoQTZlluPmSmfK5xLsGF28zhPMnPgEZvkRa3M/iALvBq/+ouxqco+k3GjN2dvT2cwCaVxuXDqOqqoq/1hKhl0H/iPtHa2bE7c9GA4OdRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f2.google.com with SMTP id 5614622812f47-495d5d27acfso1136073b6e.1
+        for <linux-usb@vger.kernel.org>; Sat, 29 Aug 2026 17:04:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788048275; x=1788653075;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HTr545jna5OarBhaxCWTMLAe80kQW9kEMW42OJalPm4=;
+        b=GXOM08A62GR02OmkOprfs5VNyNgMOEnj2iW756DE+ppvkZYios3M9SSt4VjDIJT3TZ
+         iKU5TKY4F2OBsZFswU5AfOzdLlFxIjgbYlK+qrW46jSXpgTmu0R0xd84ksFw18i65LS8
+         wL5Uhp264Fy69o8vyWZXDcHVazKib7xAWwKut3v2DQBYo359OG64+f6kNI64EaAPnehS
+         GFJWtTbVdHtzIApgwUxCDPP6O3whTeCkVf+9VPN1R+vTaN/39QpmasTcOIzdUAJeNxAl
+         KfeBH2zq4xDum0xKkMnfwZlbK+GsnAb8hWydLsgbZV22jgzVPgqjxXi9Snzf9KyM2euJ
+         mlRg==
+X-Forwarded-Encrypted: i=1; AHgh+Rowtg3eSnujhmyF+xqr+2v41sl+bVPOoWNL/fh6FQttPnPnnI5cBzJAHWKZTp6GsGNMaE6qAwX0a0o=@vger.kernel.org
+X-Gm-Message-State: AFuF++nbE6K5s0ngCc2OHnVuPNHZeeohNuxGyX6TEqi3PRKdHA2OWc9h
+	IIWrANcIHXVjXwtbFZcM5v9J88d4MXlHa4At2YMZZwGxve9t4zm8amc5/unU/KCrcTmHOrHlJ0k
+	ITOFFQ6pu+a+y6ywqhMwrVo9QhGx4uprfyxi/YsiJ6BwIiBlD3ZxUGlDhgpE=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6377:EE_|CH3PR02MB9423:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2d419e3-075f-49a1-679c-08df0629447f
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|21061999006|8022599003|25010399006|5072599009|5062599005|19110799012|8060799015|23021999003|24021099003|15080799012|3412199025|26104999009|440099028|2607281247196008|3071699003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?TWIwhoiqW34kPmpVncSSeE/5qigmoFsXfSBUIDwjud/0Hriuw8+Y4GDMt+cc?=
- =?us-ascii?Q?+6dneNuzzsMWFJiPZRpNaljyZjnRY/zIs2UEkLYL7tT8UVhrH8wT+Mx4QorR?=
- =?us-ascii?Q?jXM4oBAeftfVLNRNnRORMjovTqusnoxg7HpW/K+VJoKy5yPstXtnSlEgdeaY?=
- =?us-ascii?Q?ZOHAl8aRwsX6WnjejopcRjqLmX/ELPODIViTDJGJKE/WMDqxjuZI0ZszMuo8?=
- =?us-ascii?Q?dAplPXMdt+P413ka4D9/Cx1c+bwVhl1ifOucPfIFTrUM2Rn4mToYrRaR3ucS?=
- =?us-ascii?Q?rczWRBopAdJ9Ajk0byOPzjiIlxvxcMuonVOFj9e6A8/lT79rB60KiH9zFfO+?=
- =?us-ascii?Q?G1gdwr0Adg5tfjqYX9LheObj6N7VBUqLXcEP8d+FvcBNXosyBiys8BktSekg?=
- =?us-ascii?Q?ygzUJBVD1FhpL318enyVI+eA92zz22hy4tm1uMH+/evb5y6GuwLeOhc4pnOL?=
- =?us-ascii?Q?YJwitH2mjp2Ckil2eiklpMzULkfzOJdRhDue/H1brGsowtKw09ue0uu4kFQj?=
- =?us-ascii?Q?tydy20GwzaUpqlvAL8Tva2GMBot9yvK6RSrW0QfCTL7wGjmd9IgKcbOleU4Z?=
- =?us-ascii?Q?u1jDaNnONM1ATDO9OKGoy2Gh2yOHLiELsZQC5v/bOHcg9p9LMI28COonBTin?=
- =?us-ascii?Q?KDw8ehiWhUk5amIVCWsnS7BTU6HWbdZgX0QpLmPEuo54o2OtNzVg3aWRWtFf?=
- =?us-ascii?Q?smCmBNzhgDP0W3M3qY9xgXbsBowVPybtm9gwkh5K16MroYuy+Gx7CpAsrSuL?=
- =?us-ascii?Q?WrslprYTZ7nts5z5u26Nd6PLAZYSjfY3zPitsJ+vxW2Ahl9OdR/nfUAM+Bvh?=
- =?us-ascii?Q?7tnX91QnCCEq2yqvOzsLXxg4ptI+7maII+oXZ1gXyVvYIZAApMb6sI7AQmgr?=
- =?us-ascii?Q?9sjYo/HF9Q1NkPt4vUS9tH36RZKdzZ3xKMCeqr9LJjDEK4kawTPDhfeom0a6?=
- =?us-ascii?Q?uOc2w5rdXBeKk4n7J8lzPPctC7Z5qaPuRZHEfoOovQ/qqDBWGhl9c/vWK3Mm?=
- =?us-ascii?Q?pXLCBkk5ASgot4qNNO3ZEOnKjg=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bVXnJawxM/X4lFbl+2RfjEl8MVB1JHJXuQ+EFalrrCf03KttEQ2KtZGKfl59?=
- =?us-ascii?Q?ErwtRCavXR5KYf6Q1cOOO4rXE83L6KITElcmaxsGVAlEPlByOgGbv50TuJ4W?=
- =?us-ascii?Q?v2y2+v1F5RhAZFbC5FRPKNYWBUQM5GpBGRkbbj1MPyk//VyHmragh6LHE3pR?=
- =?us-ascii?Q?HOvyAlryaj+mKLMy+OhXQ0UKOGyIHqrCLgIu5785as7TgINSvzBOa6fqZLJC?=
- =?us-ascii?Q?KJ2VGytNOskqpMOgwW/4GVhlvGAAPjZ5HCiLQWlQle9+ycns6nvfJpMOTmG2?=
- =?us-ascii?Q?BgtV67amCHTehbaapmyLnH8cHFAAk2cUwvaWEM8iYqRVBHOxHKqMokeGUnKp?=
- =?us-ascii?Q?HkZp75dIFWWD8/Mn3a+54ChJK7nqzYNqa82O9IVkofrpNqWfbXX1WwLnHJz7?=
- =?us-ascii?Q?7Yqm6SojStAYCaF03Y8KPLToOJtekM2AjIGha4WQzuCGrtfE/sxy0iy5y568?=
- =?us-ascii?Q?7w8BgrAWXEs8iRlz0QER6v9MRuSAxt7zLD8MS8owhqXAkuWb4XMa6LxT0gEM?=
- =?us-ascii?Q?g81lgu7nvVV5DK6KuMLcviPXXn0LVI4vlRyFGtUXP7K6FLVYK7/YPuYI+Nrl?=
- =?us-ascii?Q?zODRr2BKTfsXw+2s6WWcjg61fetpoX+mNZdeBtjcHr5Fh4F3CQyJcgcE8Z/m?=
- =?us-ascii?Q?RRqh0kpqUB17dK+AShNKZHiG1evYqu4++EOcBfmj5AVhEco7fOvW5hKM/+GT?=
- =?us-ascii?Q?G4/s4bQKpPLEy49+akPTluenPtM20UmPNWMZbcwcNPXHk2W6zHmJUCnFzWYX?=
- =?us-ascii?Q?cI4fPeem6a9v4NmYtE9IuIFm5x/N30/jirauQAevybxrcDuR2RP/dN9Gg51c?=
- =?us-ascii?Q?XLTfDTG7agvJYxMpKZGTwDJ3nRag93zqS5bqvyYN3NcQ4q0Az4xik+4a+Lyw?=
- =?us-ascii?Q?q1g4pr6c5z+LlEbtsIwZsJ4it4fg9xRrZIjImyivcUaxSdXz3mqIIiyHWUp6?=
- =?us-ascii?Q?H2YnwvmKf6TwxHq2CzgWMSL2UBKG7Z3Z4NdkD/SAFnvbTSVDEcUQPvQ2mDTt?=
- =?us-ascii?Q?CFAG81DLrBQJp0AA9zPx2rshUme9mbTvpRlzaP/QkjF1bTgUwhqlT9vYMmw3?=
- =?us-ascii?Q?P5ymIz+hURyrQJPbZfhuPAmcRmeAf0xuPtF7jIV2IvyVxsmu1r+Flowujvb4?=
- =?us-ascii?Q?sDg72lnPxypbSO6UmL9wGKrewXyVNS60iGHuS8dmAH4lyY+h4IFRIfiKt4M3?=
- =?us-ascii?Q?rZhATtwDnZr+sy8B9gGUzlO/WUacILxg9tn7Blh3znkKs8xrpNnIkBTC9Q3F?=
- =?us-ascii?Q?cOEZEZ9YxDDzMFYLhykXN54HEaFREmCSp7ELc19JaLJ5oZpbKrcyDThXXQOk?=
- =?us-ascii?Q?eKt6+lRY6lret3p4R5C7rmLkauPZPsXN6+xxVbT7QLeZniOEP4ohUUmAJuxh?=
- =?us-ascii?Q?FsQggW+LkaCoArgBO7E3ZL76RvWB?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2d419e3-075f-49a1-679c-08df0629447f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB6377.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2026 23:57:22.7623
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR02MB9423
+X-Received: by 2002:a05:6809:3cd:10b0:4b5:5bfb:f25c with SMTP id
+ 5614622812f47-4b55bfbfccbmr3577365b6e.21.1788048275642; Sat, 29 Aug 2026
+ 17:04:35 -0700 (PDT)
+Date: Sat, 29 Aug 2026 17:04:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a937393.1d9ded08.62e62.0113.GAE@google.com>
+Subject: [syzbot] [usb?] [input?] KASAN: slab-use-after-free Read in k90_record_led_work
+From: syzbot <syzbot+0b8bff5929865345b29e@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-A directly connected Thunderbolt device may fail to restore
-its link after a runtime suspend, therefore leaving the connection
-unusable.
+Hello,
 
-Reset the downstream port when the link restoration fails. This drives
-SBTX low, causing the partner to observe a USB4 disconnect and allowing
-the Type-C/PD firmware to renegotiate the connection. For dual-mode
-devices, this may allow the connection to fall back to native USB3.x.
+syzbot found the following issue on:
 
-Tested on a Microsoft Surface Pro 11 with a UGreen Thunderbolt
-4 external NVMe enclosure, where the device successfully reconnects as a
-USB3 device when the Thunderbolt 4 link fails to recover.
+HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11e57549580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=eb409d4da8c3b304
+dashboard link: https://syzkaller.appspot.com/bug?extid=0b8bff5929865345b29e
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Signed-off-by: Amaan Lalani <zlzzm2014@outlook.com>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c7e63332dd55/disk-66498c75.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0bb4ee047025/vmlinux-66498c75.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4bea2f3b309e/bzImage-66498c75.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0b8bff5929865345b29e@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in k90_record_led_work+0x19a/0x1e0 drivers/hid/hid-corsair.c:235
+Read of size 1 at addr ffff88805dc14300 by task kworker/0:[  120.589162][    T9] Read of size 1 at addr ffff88805dc14300 by task kworker/0:0/9
+
+CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: events k90_record_led_work
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ k90_record_led_work+0x19a/0x1e0 drivers/hid/hid-corsair.c:235
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+ kthread+0x38b/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 5718:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x3d5/0x680 mm/slub.c:5563
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ k90_init_macro_functions drivers/hid/hid-corsair.c:474 [inline]
+ corsair_probe+0x21c/0xbc0 drivers/hid/hid-corsair.c:584
+ __hid_device_probe drivers/hid/hid-core.c:2839 [inline]
+ hid_device_probe+0x46a/0x870 drivers/hid/hid-core.c:2878
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3776
+ hid_add_device+0x272/0x3e0 drivers/hid/hid-core.c:3065
+ usbhid_probe+0x9dc/0xde0 drivers/hid/usbhid/hid-core.c:1452
+ usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3776
+ usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3776
+ usb_new_device+0x99a/0x1680 drivers/usb/core/hub.c:2703
+ hub_port_connect drivers/usb/core/hub.c:5575 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event+0x28cf/0x4cf0 drivers/usb/core/hub.c:5961
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+ kthread+0x38b/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 5718:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6499 [inline]
+ kfree+0x1c5/0x6d0 mm/slub.c:6792
+ k90_cleanup_macro_functions drivers/hid/hid-corsair.c:547 [inline]
+ corsair_remove+0xfd/0x260 drivers/hid/hid-corsair.c:602
+ hid_device_remove+0xc8/0x1d0 drivers/hid/hid-core.c:2897
+ device_remove drivers/base/dd.c:616 [inline]
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
+ bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+ device_del+0x528/0x8f0 drivers/base/core.c:3965
+ hid_remove_device drivers/hid/hid-core.c:3126 [inline]
+ hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3148
+ usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
+ usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:618 [inline]
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
+ bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+ device_del+0x528/0x8f0 drivers/base/core.c:3965
+ usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
+ usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5415 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5961
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+ kthread+0x38b/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ insert_work+0x3d/0x330 kernel/workqueue.c:2272
+ __queue_work+0xd4b/0x1120 kernel/workqueue.c:2448
+ queue_work_on+0x106/0x1d0 kernel/workqueue.c:2501
+ led_classdev_unregister+0x113/0x270 drivers/leds/led-class.c:632
+ k90_cleanup_macro_functions drivers/hid/hid-corsair.c:544 [inline]
+ corsair_remove+0xd7/0x260 drivers/hid/hid-corsair.c:602
+ hid_device_remove+0xc8/0x1d0 drivers/hid/hid-core.c:2897
+ device_remove drivers/base/dd.c:616 [inline]
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
+ bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+ device_del+0x528/0x8f0 drivers/base/core.c:3965
+ hid_remove_device drivers/hid/hid-core.c:3126 [inline]
+ hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3148
+ usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
+ usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:618 [inline]
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
+ bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+ device_del+0x528/0x8f0 drivers/base/core.c:3965
+ usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
+ usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5415 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+ port_event drivers/usb/core/hub.c:5879 [inline]
+ hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5961
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+ kthread+0x38b/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff88805dc14000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 768 bytes inside of
+ freed 1024-byte region [ffff88805dc14000, ffff88805dc14400)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x5dc10
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x80000000000040(head|node=0|zone=1)
+page_type: f5(slab)
+raw: 0080000000000040 ffff88813ffb9dc0 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+head: 0080000000000040 ffff88813ffb9dc0 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+head: 0080000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1386, tgid 1386 (kworker/u8:12), ts 119040566074
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2591/0x2600 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x230/0x5c0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d8/0x350 mm/slub.c:7410
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x339/0x690 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_noprof+0x54b/0x790 mm/slub.c:5439
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ ieee802_11_parse_elems_full+0x14b/0x2de0 net/mac80211/parse.c:1071
+ ieee802_11_parse_elems net/mac80211/ieee80211_i.h:2548 [inline]
+ ieee80211_inform_bss+0x163/0x10d0 net/mac80211/scan.c:79
+ rdev_inform_bss net/wireless/rdev-ops.h:418 [inline]
+ cfg80211_inform_single_bss_data+0xd98/0x1bf0 net/wireless/scan.c:2410
+ cfg80211_inform_bss_data+0x263/0x3cc0 net/wireless/scan.c:3266
+ cfg80211_inform_bss_frame_data+0x3c7/0x840 net/wireless/scan.c:3358
+ ieee80211_bss_info_update+0x791/0xa50 net/mac80211/scan.c:230
+ ieee80211_rx_bss_info net/mac80211/ibss.c:1065 [inline]
+ ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1546 [inline]
+ ieee80211_ibss_rx_queued_mgmt+0x1ce3/0x2c40 net/mac80211/ibss.c:1573
+ ieee80211_iface_process_skb net/mac80211/iface.c:1769 [inline]
+ ieee80211_iface_work+0x78a/0x1010 net/mac80211/iface.c:1823
+ cfg80211_wiphy_work+0x29e/0x420 net/wireless/core.c:541
+page last free pid 5696 tgid 5696 ts 118905325757 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xf8e/0x1070 mm/page_alloc.c:2962
+ __slab_free+0x250/0x2a0 mm/slub.c:5815
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x360/0x690 mm/slub.c:5010
+ alloc_filename fs/namei.c:147 [inline]
+ do_getname+0x2e/0x250 fs/namei.c:187
+ class_filename_flags_constructor include/linux/fs.h:2587 [inline]
+ do_readlinkat+0xc8/0x510 fs/stat.c:569
+ __do_sys_readlink fs/stat.c:605 [inline]
+ __se_sys_readlink fs/stat.c:602 [inline]
+ __x64_sys_readlink+0x7f/0x90 fs/stat.c:602
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff88805dc14200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88805dc14280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff88805dc14300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff88805dc14380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88805dc14400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
 ---
- drivers/thunderbolt/switch.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 404c0693df50..7b88aa75a07a 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -3600,7 +3600,27 @@ int tb_switch_resume(struct tb_switch *sw, bool runtime)
- 
- 		if (tb_wait_for_port(port, true) <= 0) {
- 			tb_port_warn(port,
--				     "lost during suspend, disconnecting\n");
-+				    "lost during suspend, disconnecting\n");
-+			/*
-+			 * If a directly connected USB4/thunderbolt device did not restore
-+			 * its link after a runtime suspend, assert a downstream
-+			 * port reset. This drives SBTX low and makes the partner
-+			 * observe a real USB4 disconnect. A dual-mode device and
-+			 * the Type-C/PD firmware will then try to renegotiate
-+			 * the connection in a native USB 3.x mode.
-+			 *
-+			 * Restrict this to the host router's downstream port.
-+			 * Resetting an intermediate router would not cause the Type-C
-+			 * to be renegotiated.
-+			 */
-+			if (runtime && !tb_route(sw) &&
-+			    tb_switch_is_usb4(sw) && port->cap_usb4) {
-+				err = tb_port_reset(port);
-+				if (err)
-+					tb_port_warn(port,
-+						     "failed to reset port for USB3 fallback: %d\n",
-+						     err);
-+			}
- 			if (tb_port_has_remote(port))
- 				tb_sw_set_unplugged(port->remote->sw);
- 			else if (port->xdomain)
--- 
-2.55.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
