@@ -1,74 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0014E3A9631;
-	Sun, 30 Aug 2026 09:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F108C4086A
+	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 11:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788082982; cv=none; b=CdAqJjpSfR2fppOgW+8kNehbK1eXH1fpTpdMutDx7t7nGz6BZqtftB1v33OUoklpSac0o151/LKAZoBtJSVC8xtUCNU7lnzXek17AXhJCMOmx0el5/SgcdFZGc5aNYEzz41K7xfdtS1ld7xSDCsyQP/Vt2IHqFH140yDy5PPtyQ=
+	t=1788087928; cv=none; b=F5ByVS4DaQGlrm8fGtqhuIEdgo5PLLFDWZMyWtWItIpKRpjYbw00XBbZvFLbe3AMvQVOIRfJDWV85J3VeMkDs3wq0ULZCb3H0PT7P8G6jm+OpK6DLPft0q/GT2p3jPdfdF2ijs3S7Ibeuoz94LkvhC0VjN+Dgy9ryUIwKn0SBOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788082982; c=relaxed/simple;
-	bh=e6Q0w8FJOUBWAQuSBaiTnBEiYjdsjgdLxFaRxl7MeVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNl6c1lXZs13pRwwDUa8QZScuTCT+fgVVzg1q8MTjTSKu8fBXsuCEup95kUBjPn6Qn3uQqQVW0B4YQIPlADhBCJnHnUTCOB541pt1fs5NaGhsP3OxvOSM47wh4UKmoMr6f/t0iyRx1rfDTI/oUqF/TcbOoUnSThqdFRX0UEg9Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mz2IqBJz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788087928; c=relaxed/simple;
+	bh=U2b7LRX/BTUhzdCjs0L5TVAublRN9bouxckBn7xG4gU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mwyOx9T97RkVZM5iCOmlE/X7CgWqipqNmygMhgQIcx6f6Z8cRWWkbcTy4wubqYJUlTJa37V23tNcJIFruox8e/Ibf0rd79xfu7Hj2zpAlbF39OLd2SiCs01INS0cs6e3IVd/vM4VVGoUWpFybyNCKNSXpOKlGG1Jl/PVv0PRIBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TY2zzvlk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mz2IqBJz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4381F000E9;
-	Sun, 30 Aug 2026 09:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788082979;
-	bh=KSzrSUzfrVyz+3h5TAg7uiKzQIyKJXzhhPFii6440X4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mz2IqBJzIytQ9vMUd4C28TDgR4Qg4nlAV18vUV1gxriuK+c7OClRlu74v4EuhbIfS
-	 wpjxgA0gqEmVuZboqWfWix3iKJkE1xUfKrXQH6AMtO9wQ6tqUENMr1HedEuGNjGKyh
-	 OqV56xTOjCb7tax0pMPGHJw0igRiFB3Y86riMxSW8szbzxTAUf9WtSV29bKf6X0SAE
-	 QPfTTGVE3l62n998IcD1+nSP86Fek6F/+k+m9w09cATZIuzCiWkXjYM6NlKU8UYIK0
-	 vVcOf03qM2og+k8fL6zm6tvkxg2yc+GS8MslTp509glWp4r/8NgiYwuOAY0ik3CFSf
-	 6Huv74fPC1j2Q==
-Date: Sun, 30 Aug 2026 11:42:55 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: George Moussalem <george.moussalem@outlook.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>
-Subject: Re: [PATCH 2/9] usb: dwc3: core: Allow glue layer to pass reference
- clock
-Message-ID: <20260830-fragrant-jolly-snail-eadb92@quoll>
-References: <20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com>
- <20260825-ipq-flatten-usb-v1-2-5c1f3170bbe9@outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TY2zzvlk"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B5BAC2BCC7
+	for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 11:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788087927;
+	bh=U2b7LRX/BTUhzdCjs0L5TVAublRN9bouxckBn7xG4gU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=TY2zzvlkv7UheMdS6275rBLMKnX71ibyqpgaIuyO+/6xl6RxOFPBhlmacWcShLJGP
+	 ytY9JzV4VXUNhkmrfIwvUld7n/IxMPSi/4oQUg9Tshitq8ffk+rrMxKWyzFH+IcZZW
+	 Ttcv+/ifv6/QABNMhuPiC7PNAqzZ5EfC3zR7xiw7klUXbu2/5UhnoXDn/Y4Q62wHMW
+	 rs4a4bAKpYWOUnqRvrc5E7L6+nNgD+StSWY0i87YIz5eqMa50W8ehlV7ohU/F/l0xL
+	 d/bMSv6zpI+iKSqBTPs9hPCUAbg6T9Lp55VT3yGxBE9llkcH2BaVZUQypDHRanNaiW
+	 6MJwk8Pk2DxqQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 4B333C41613; Sun, 30 Aug 2026 11:05:27 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220936] ASMedia ASM4242 USB 3.2 xHCI Controller gives command
+ timeout
+Date: Sun, 30 Aug 2026 11:05:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stuart.a.hayhurst@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220936-208809-dzLcf1Clq0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220936-208809@https.bugzilla.kernel.org/>
+References: <bug-220936-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260825-ipq-flatten-usb-v1-2-5c1f3170bbe9@outlook.com>
 
-On Tue, Aug 25, 2026 at 02:42:27PM +0400, George Moussalem wrote:
-> Add ability to pass a reference clock from the glue layer to the DWC3
-> core driver. The core calculates the reference clock period and frame
-> length adjustment based on the reference clock rate.
-> 
-> In the flattened snsp-dwc3 model, it is currently not possible to pass a
-> reference clock that differs from the default since:
-> commit 613a2e655d4d ("usb: dwc3: core: Expose core driver as library")
-> 
-> The new glue layers (incl. Qualcomm's) set the ignore_clocks_and_resets
-> flag in dwc3_probe_data to true, which disables the core driver's clock
-> management, thus it also doesn't acquire the reference clock from the
-> devicetree needed in dwc3_ref_clk_period.
-> 
-> There's an existing DT property 'snps,quirk-ref-clk-period-ns', but
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220936
 
-Where? git grep gave me zero results.
+--- Comment #10 from Stuart Hayhurst (stuart.a.hayhurst@gmail.com) ---
+> Passing quirks=3D0x20000 parameter to xhci_hcd increases the timeout
 
-Best regards,
-Krzysztof
+I still get the error with xhci_hcd.quirks=3D0x20000
 
+> Does it also show up when suspending the system?
+
+Yes, but it doesn't seem to be consistent
+
+
+I still don't have a 100% reliable reproducer, some boots it's completely f=
+ine
+with no errors until shutdown if at all. Other boots it fails within 30
+seconds.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
