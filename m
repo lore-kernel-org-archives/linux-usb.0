@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C06A5AC202;
-	Mon, 31 Aug 2026 13:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5424B5CB0;
+	Mon, 31 Aug 2026 13:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184368; cv=none; b=GBEMsrPdmMoMlpXA/px15EP0TLBTW9578JTCa+GUO5Uu4/XmmVmYEJ9OuX0Oe0nyT4nExjVvth0qpftrgs+qStJTU/CJXVp674+vjez15Wh1H2wK5xTJAurTeWZ6PTY23o+69DYUIBUULNNG839ZjM3OI8PJpKFnGo0u0ugzDj8=
+	t=1788184372; cv=none; b=tZCgjGuDwsDOk9dofSrWN3kpHIqqzW7rtxqlS4qWmhPZbBQl5mnwDjAPYNtuG5kP7jLDszMso8EXnhqwzRh+R58zS7+kfQPj2dczNSAO6VmlQxWPjAdQD8qRBzPWMTjayr+DNSv4MIt+O3tJ1RaOE4Wrws4SCcLgIzTDu+vlqEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184368; c=relaxed/simple;
-	bh=fya5ovPIXdWGoo7GXPL7wh4frPbHmtlIq06TfhrZvCA=;
+	s=arc-20240116; t=1788184372; c=relaxed/simple;
+	bh=JRAcA22qW7c8ZitNzISg41bO8q4tLt2zICy0E1KASUg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sU2v+xzIHWvI3nok3RiBE8Ejmr1x0wMclVMJeJi1NLsIKiS3naip5zHj0UyGMVZB54ai8xuk6cc1cNmTC1X7ziC3JNxz84J2rHhNEJCs4z2lbRlRxr4syENVAnta5sltbfYUqC7DTtvYsb8Xqd3/zgw2RLyfNxEnbjq3shYmLds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PI9mxI0U; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=ZpS8R1XSEB+C0StC5/2ez1X5EwIbvFDQZFaD9BHPVrT85YebNxGnu5ouxXknejDrXI1Ldt/dcQnO2kZff2D466+toiVnehO9y19WC7fsqLZwxprgbPN5WnSCr9fz7Q5iOdunVrIWRVydmYwt/wwPk7lSMSu5TLpo4OfkuMEhfeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQN+FcsF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PI9mxI0U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36081F000E9;
-	Mon, 31 Aug 2026 13:52:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FQN+FcsF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1523C1F000E9;
+	Mon, 31 Aug 2026 13:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184366;
-	bh=s178l3tkPg96XwYNrBInj4FHO81W0CKawlc0w3Q+fnI=;
+	s=k20260515; t=1788184370;
+	bh=EoDhVhAqFkTd/gwKHnm+ddgdp3zLKhRCGZaTUlfzPgE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PI9mxI0UvKqzvIme+os3W/SVVIZkfEnf/vGhjiXFlXGTlX776+garPLXaILtRPnMY
-	 V6Xjtpj3axQKYGe3KPuRNLjU//Tk4qeMubi17+jupV2VHzKszcetLL4hH/22BRuPPj
-	 yQp3KgEMZg5mMPNaEyBIho5ag7UvZrWmtJ6rR04K2t7pt40XxJqCWVv7KWdISWv9K/
-	 glhTlex2Q0T0c0JgcQ+xmS0DchVyvopEr1dlQxlLyp0qB6XGmMoG84YXlwZ6Q5dFcI
-	 ANMH63SsHZCs2QjbSmERahYX2eIx+nb3HyJupma1vbrgWKhGlgkV6KEQVLJ/+InmUT
-	 v+qIs1U8IDeIQ==
+	b=FQN+FcsFfove5+xPNoKWqf62Meox9MkDA5PY1l8yCgvVqf4sBC4LiReB8hD3oROmw
+	 tgN6Zg+kDg+/wYOycGcQvLgXr3ONhwF6wmPl6nOnuFWjEUw9NAcjU/7OpXMkRL4kgc
+	 8tK0HLMoTGJRzhQAPzGQ+4/mmZqCtyJtUegTqdWHO06o6uzMicWylX6tsuCmvXANgP
+	 jqgagM2S7gJa1EzDBTjqlkyIxkKUoCz0tGNkeC8bMfo/f5EOBJQNAwFwkbdSW7Dtth
+	 6Xw7yl+OIuArp1l5M1BlkRfCHJmpWd3WSbVkcFVpFtaNWjdsTC75jYW9kvja53Y9yv
+	 2b97iFosIhEIg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Gil Fine <gil.fine@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Sasha Levin <sashal@kernel.org>,
 	andreas.noever@gmail.com,
 	westeri@kernel.org,
 	YehezkelShB@gmail.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] thunderbolt: Increase timeout for Configuration Ready bit
-Date: Mon, 31 Aug 2026 09:31:19 -0400
-Message-ID: <20260831133314.4125787-651-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] thunderbolt: Release request if tb_cfg_request() fails in __tb_xdomain_response()
+Date: Mon, 31 Aug 2026 09:31:21 -0400
+Message-ID: <20260831133314.4125787-653-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -55,400 +54,407 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Gil Fine <gil.fine@linux.intel.com>
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-[ Upstream commit ba2cc385110129d03cd0f18a1b5969a430b67a18 ]
+[ Upstream commit 4c63f29872cb444b33665348bbd2f45cab06afcd ]
 
-After setting the Configuration Valid bit (ROUTER_CS_5.CV), the USB4
-Connection Manager guide specifies a 500 ms timeout for the router to
-set the Configuration Ready bit (ROUTER_CS_6.CR). The current timeout
-is shorter than specified. While there, fix the kernel-doc typo.
+If tb_cfg_request() fails setting up the request (for example the
+control channel is shut down already) it returns an error without
+calling the callback. To avoid leaking that memory, call
+tb_cfg_request_put() if tb_cfg_request() fails.
 
-Increase the timeout to match the CM guide recommendation.
-
-Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: `thunderbolt: Release request if
+tb_cfg_request() fails in __tb_xdomain_response()`
 
-**Step 1.1 — Subject line**
-
-Record: `[thunderbolt]` `[Increase]` — Increase timeout for
-Configuration Ready bit after setting Configuration Valid on USB4
-routers.
-
-**Step 1.2 — Tags**
-
-Record:
-- **Fixes:** none
-- **Reported-by:** none
-- **Tested-by:** none
-- **Reviewed-by:** none (in commit)
-- **Acked-by:** none
-- **Link:** none
-- **Cc: stable:** none (expected for manual review)
-- **Signed-off-by:** Gil Fine, Mika Westerberg (subsystem maintainer)
-
-No syzbot, no user bug report tags.
-
-**Step 1.3 — Body analysis**
-
-Record:
-- **Bug:** After setting `ROUTER_CS_5.CV`, the USB4 Connection Manager
-  guide requires up to **500 ms** for the router to set `ROUTER_CS_6.CR`
-  (Configuration Ready). The kernel waits only **50 ms**.
-- **Symptom:** Premature timeout waiting for Configuration Ready;
-  enumeration/tunnel setup may proceed before the router is actually
-  ready.
-- **Root cause:** Timeout value does not match the CM guide
-  specification (present since initial USB4 support).
-- **Also:** kernel-doc typo — “does nothing for the latter” should be
-  “former” (host router, where `tb_route(sw)` is zero).
-
-**Step 1.4 — Hidden bug fix?**
-
-Record: **Yes.** Although the subject says “Increase timeout,” this is a
-real correctness/timing bug, not cosmetic cleanup. The doc fix is
-incidental.
+**Local tree:** `v6.18.43-1-gc7f0dac02d232` (kernel version **6.18.43**)
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 2.1 — Inventory**
+### Step 1.1: Parse the subject line
+**Record:** `[thunderbolt]` `[Release/fix]` — Release the allocated
+`tb_cfg_request` when `tb_cfg_request()` fails in
+`__tb_xdomain_response()`.
 
-Record:
-- **File:** `drivers/thunderbolt/usb4.c` (+2 / −2 lines)
-- **Functions:** `usb4_switch_configuration_valid()` (timeout change);
-  kernel-doc for same function (typo)
+### Step 1.2: Parse all commit message tags
+**Record:**
+- **Fixes:** — none
+- **Reported-by:** — none
+- **Tested-by:** — none
+- **Reviewed-by:** — none
+- **Acked-by:** — none
+- **Link:** — none
+- **Cc: stable:** — none (expected for manual review)
+- **Signed-off-by:** Mika Westerberg `<mika.westerberg@linux.intel.com>`
+  (author; ignore pipeline SOB)
+
+No syzbot, no user reports. Author is the Thunderbolt subsystem
+maintainer.
+
+### Step 1.3: Analyze commit body
+**Record:**
+- **Bug:** `tb_cfg_request()` can fail during setup (e.g., control
+  channel already shut down with `ctl->running == false`). On failure it
+  returns an error without invoking the `response_ready` callback.
+- **Symptom:** Each failed `__tb_xdomain_response()` leaks one `struct
+  tb_cfg_request` (~200 bytes via `kzalloc`).
+- **Root cause:** Caller allocates with `tb_cfg_request_alloc()`
+  (refcount 1). `tb_cfg_request()` bumps refcount and on error only
+  drops its own reference, leaving the alloc reference unreleased. The
+  success path relies on `response_ready` + workqueue to drop both
+  references; the error path has no callback.
+
+### Step 1.4: Detect hidden bug fixes
+**Record:** Not disguised — explicitly a memory-leak fix on an error
+path.
+
+---
+
+## PHASE 2: DIFF ANALYSIS
+
+### Step 2.1: Inventory the changes
+**Record:**
+- **File:** `drivers/thunderbolt/xdomain.c` (+5 / -1 lines)
+- **Function:** `__tb_xdomain_response()`
 - **Scope:** Single-file, surgical fix
 
-**Step 2.2 — Code flow change**
+### Step 2.2: Code flow change
+**Record:**
+- **Before:** `return tb_cfg_request(ctl, req, response_ready, req);` —
+  on error, `req` leaked.
+- **After:** Capture return value; if non-zero, call
+  `tb_cfg_request_put(req)`; return `ret`.
+- **Path affected:** Error path only (enqueue failure `-ENOTCONN`, TX
+  failure, etc.).
 
-Record:
-- **Hunk 1 (doc):** “latter” → “former” — documents that the function is
-  a no-op on the **host** router (`!tb_route(sw)` early return).
-- **Hunk 2 (timeout):** `tb_switch_wait_for_bit(..., ROUTER_CS_6_CR,
-  ..., 50)` → `..., 500)`.
-- **Before:** Wait at most 50 ms for CR after writing CV.
-- **After:** Wait up to 500 ms per USB4 CM guide.
-- **Path:** USB4 device-router hotplug enumeration and resume restore
-  (via `tb_switch_configuration_valid()`).
+### Step 2.3: Bug mechanism
+**Record:** **Category:** Memory/resource leak (reference counting
+imbalance).
 
-**Step 2.3 — Bug mechanism**
+Verified refcount flow in `tb_cfg_request()`:
 
-Record: **Logic / timing correctness fix.** The wait can expire at 50 ms
-while hardware is still within spec (up to 500 ms).
-`tb_switch_wait_for_bit()` then returns `-ETIMEDOUT`. Callers currently
-ignore that return value, but the function still returns to callers only
-after the (too-short) wait completes, so tunnel/retimer work may start
-before CR is set.
+```547:578:drivers/thunderbolt/ctl.c
+int tb_cfg_request(struct tb_ctl *ctl, struct tb_cfg_request *req,
+                   void (*callback)(void *), void *callback_data)
+{
+        // ...
+        tb_cfg_request_get(req);
+        ret = tb_cfg_request_enqueue(ctl, req);
+        if (ret)
+                goto err_put;
+        // ...
+err_put:
+        tb_cfg_request_put(req);
+        return ret;
+}
+```
 
-**Step 2.4 — Fix quality**
+- Alloc: ref = 1
+- `tb_cfg_request_get()`: ref = 2
+- Error `tb_cfg_request_put()`: ref = 1 (callback never runs)
+- Without caller `put`: **leak**
 
-Record:
-- **Obviously correct:** Aligns with spec; other waits in the same file
-  already use 500 ms (e.g. `ROUTER_CS_26` at line 79).
-- **Minimal:** Two-line functional change.
-- **Regression risk:** Very low — only lengthens a poll loop; worst case
-  adds ~450 ms on genuine timeout paths.
+Success path (no `req->response`): workqueue runs `response_ready` (put)
+then `tb_cfg_request_put` in work — balanced.
 
----
-
-## Phase 3: Git History Investigation
-
-**Step 3.1 — Blame**
-
-Record: 50 ms timeout introduced in `1639664fb74f30` (Dec 2021, “Move
-usb4_switch_wait_for_bit() to switch.c”); originally in `b04079837b209`
-(Dec 2019, “Add initial support for USB4”). Bug has existed since USB4
-support landed.
-
-**Step 3.2 — Fixes: tag**
-
-Record: N/A — no Fixes: tag.
-
-**Step 3.3 — Related file history**
-
-Record:
-- Part of upstream 5-patch series “CM fixes to follow CM guide more
-  closely” (Jan 2026).
-- Related upstream-only commits on same files: `062023c4364ff` (Router
-  Ready wait in `usb4_switch_setup()`), `69a7b98770b7e` (PCIe adapter
-  detect check).
-- **This patch is standalone** — only changes CR timeout and doc; does
-  not depend on RR verification or other series patches.
-
-**Step 3.4 — Author context**
-
-Record: Gil Fine (Intel thunderbolt contributor); committed by Mika
-Westerberg (subsystem maintainer).
-
-**Step 3.5 — Dependencies**
-
-Record: **None required.** `ROUTER_CS_6_CR` and
-`tb_switch_wait_for_bit()` exist in this tree. Patch applies cleanly
-(`git apply --check` passed). `ROUTER_CS_6_RR` from patch 3/5 is **not**
-in 6.18.y and is **not** needed for this change.
+### Step 2.4: Fix quality
+**Record:** Obviously correct. Matches the pattern in
+`__tb_xdomain_request()` (always calls `tb_cfg_request_put` after sync)
+and `icm.c` (always puts after `tb_cfg_request`). Minimal regression
+risk — only runs on already-failing paths.
 
 ---
 
-## Phase 4: Mailing List and External Research
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 4.1 — Original discussion**
+### Step 3.1: Blame the changed lines
+**Record:** `__tb_xdomain_response()` leaky pattern is present at HEAD
+in this tree. Upstream fix: `4c63f29872cb` (May 5, 2026). Prepared
+stable backport object `5430d7b1b6346` exists in repo but is **NOT** an
+ancestor of HEAD.
 
-Record:
-- **b4 dig:** https://patch.msgid.link/20260126220606.3476657-5-
-  gil.fine@linux.intel.com
-- **Series:** v1 only (5 patches, Jan 27 2026)
-- **Stable nomination:** None found in thread
-- **NAKs:** None
+### Step 3.2: Follow Fixes: tag
+**Record:** N/A — no `Fixes:` tag. Bug is a longstanding omission in the
+async ownership model of `__tb_xdomain_response`, not a regression from
+a specific commit.
 
-**Step 4.2 — Reviewers**
+### Step 3.3: Related file history
+**Record:** Recent thunderbolt fixes in this tree include other leak
+fixes (`da405838` debugfs margining buffer leak). XDomain hardening
+commits (`fcbd0cd`, `46da5c3`, `b5daa920`) are separate security/size
+fixes.
 
-Record: **b4 dig -w:** Mika Westerberg, Andreas Noever, Yehezkel
-Shapira, linux-usb@vger.kernel.org, Lukas Wunner. Mika reviewed patches
-2/5 and 3/5; **no reply specifically on patch 4/5**.
+### Step 3.4: Author context
+**Record:** Mika Westerberg is Thunderbolt maintainer. Fix is in a 7.2
+pull series but is standalone (patch 5/12, no structural dependencies).
 
-**Step 4.3 — Bug reports**
-
-Record: No Reported-by, syzbot, or bugzilla links. Spec-compliance fix
-without a public user report.
-
-**Step 4.4 — Series context**
-
-Record: Patch 4/5 of 5; independently valuable. Other patches address
-separate CM-guide gaps.
-
-**Step 4.5 — Stable list**
-
-Record: Not searched separately; no stable@vger discussion found in mbox
-thread.
+### Step 3.5: Prerequisites
+**Record:** No dependencies. `tb_cfg_request_put`, `response_ready`, and
+`__tb_xdomain_response` all exist in this tree. Applies cleanly.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-**Step 5.1 — Key functions**
+### Step 4.1: Original patch discussion
+**Record:** `b4 dig -c 4c63f29872cb` and `b4 dig -c 5430d7b1b6346` — no
+lore match. `b4 am` subject lookup — not found. lore.kernel.org blocked
+by Anubis bot protection. Web search found patch in **[GIT PULL] USB /
+Thunderbolt driver changes for 7.2-1** as patch 5/12.
 
-Record: `usb4_switch_configuration_valid()`,
-`tb_switch_configuration_valid()`, `tb_switch_wait_for_bit()`.
+### Step 4.2: Reviewers
+**Record:** UNVERIFIED — could not retrieve recipient list from lore/b4.
 
-**Step 5.2 — Callers**
+### Step 4.3: Bug report
+**Record:** No external bug report. Issue identified by maintainer via
+code inspection.
 
-Record:
-- `tb_switch_configuration_valid()` →
-  `usb4_switch_configuration_valid()` for USB4 switches
-  (`switch.c:2673-2677`)
-- Called from `tb.c:1407` (hotplug/discovery path after TMU enable)
-- Called from `tb.c:3095` (`tb_restore_children()` on resume)
-- **Return value not checked** at either call site.
+### Step 4.4: Series context
+**Record:** Part of 12-patch Thunderbolt series for 7.2. This patch is
+self-contained; other series patches are unrelated features/refactors.
 
-**Step 5.3 — Callees**
-
-Record: `tb_sw_read()`, `tb_sw_write()`, `tb_switch_wait_for_bit()`
-(poll loop with `usleep_range(50,100)`).
-
-**Step 5.4 — Reachability**
-
-Record: Triggered on USB4/Thunderbolt device-router hotplug and system
-resume — common paths for dock/peripheral users with
-`CONFIG_USB4`/`CONFIG_THUNDERBOLT`.
-
-**Step 5.5 — Similar patterns**
-
-Record: Other thunderbolt timeout increases in this tree use 500 ms
-(`usb4.c:79`). Stable tree already contains `b6d572aeb58a5` (“Increase
-DisplayPort Connection Manager handshake timeout”) — precedent for
-backporting thunderbolt timing fixes.
+### Step 4.5: Stable list history
+**Record:** UNVERIFIED — lore stable archive inaccessible. Similar
+thunderbolt leak fix (`da405838`) already backported to this 6.18.y
+tree.
 
 ---
 
-## Phase 6: Cross-Reference Against Local Tree (6.18.y)
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 6.1 — Buggy code present?**
+### Step 5.1: Key functions
+**Record:** `__tb_xdomain_response()`, `response_ready()`,
+`tb_cfg_request()`, `tb_cfg_request_alloc()`, `tb_cfg_request_put()`.
 
-Record: **Yes.** Local tree is **v6.18.44** (`stable/linux-6.18.y`).
-`usb4_switch_configuration_valid()` still uses **50 ms** at
-`usb4.c:329-330`. Upstream fix `ba2cc38511012` is **not** an ancestor of
-HEAD.
+### Step 5.2: Callers of `__tb_xdomain_response()`
+**Record:** Six internal call sites in `xdomain.c`:
+- `tb_xdp_uuid_response()`
+- `tb_xdp_error_response()`
+- `tb_xdp_properties_response()`
+- `tb_xdp_properties_changed_response()`
+- `tb_xdp_link_state_status_response()`
+- (one more via grep at line 609)
 
-**Step 6.2 — Backport complications**
+Also exported wrapper `tb_xdomain_response()` for module drivers.
 
-Record: **Clean apply** — `git format-patch -1 ba2cc38511012 | git apply
---check` succeeded with no conflicts.
+### Step 5.3: Callees
+**Record:** `tb_cfg_request_alloc()`, `tb_cfg_request()`,
+`tb_cfg_request_put()` (after fix). `tb_cfg_request_enqueue()` returns
+`-ENOTCONN` when `!ctl->running`.
 
-**Step 6.3 — Related fixes already present?**
+### Step 5.4: Reachability
+**Record:** Triggered during XDomain protocol handling — device hotplug,
+property exchange, link state changes. Error path fires when control
+channel is stopped (`tb_ctl_stop()` during `tb_domain_remove()` / probe
+error paths). Realistic during Thunderbolt cable unplug or driver
+unload.
 
-Record: No equivalent timeout change in 6.18.y. Router Ready
-verification (`062023c4364ff`) is also absent — separate issue.
-
----
-
-## Phase 7: Subsystem and Maintainer Context
-
-**Step 7.1 — Subsystem**
-
-Record: **drivers/thunderbolt** — IMPORTANT (USB4/Thunderbolt docks,
-peripherals, resume).
-
-**Step 7.2 — Activity**
-
-Record: Actively maintained; recent stable-relevant fixes include dock
-connection issues (`bd646c768a934`) and retimer enumeration timing
-(`75749d2c1d8ce`).
-
----
-
-## Phase 8: Impact and Risk Assessment
-
-**Step 8.1 — Who is affected**
-
-Record: USB4/Thunderbolt users with downstream device routers that need
->50 ms to assert Configuration Ready after Configuration Valid — docks,
-hubs, chained routers.
-
-**Step 8.2 — Trigger conditions**
-
-Record: Device connect or resume restore on USB4 topology. Not every
-router (only those slower than 50 ms). Not a security issue;
-unprivileged users cannot directly trigger this register sequence.
-
-**Step 8.3 — Failure mode severity**
-
-Record: **MEDIUM–HIGH** — intermittent enumeration failures, tunnels not
-established, peripherals/docks failing to work until replug/reboot. Not
-a kernel oops, but a real functional failure on affected hardware.
-
-**Step 8.4 — Risk vs benefit**
-
-Record:
-- **Benefit:** Prevents premature proceed-before-ready on slow-but-spec-
-  compliant routers; aligns with CM guide.
-- **Risk:** Very low (2-line change, longer wait only on this specific
-  bit poll).
-- **Ratio:** Favorable for stable.
+### Step 5.5: Similar patterns
+**Record:** `__tb_xdomain_request()` always calls
+`tb_cfg_request_put(req)` after `tb_cfg_request_sync()`. `icm.c:2282`
+always puts after async `tb_cfg_request()`. `__tb_xdomain_response()`
+was the outlier missing error-path cleanup.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
 
-**Evidence FOR backport:**
-- Real spec mismatch bug since USB4 support (2019/2021)
-- Buggy code confirmed in v6.18.44
-- Small, obviously correct, applies cleanly
-- Standalone (no series dependencies)
-- Maintainer-authored/committed
-- Precedent: other thunderbolt timeout increases are in 6.18.y
-- Can cause user-visible dock/peripheral failures
+### Step 6.1: Does buggy code exist?
+**Record:** **YES.** At HEAD, `drivers/thunderbolt/xdomain.c:153` still
+has `return tb_cfg_request(ctl, req, response_ready, req);` without
+error-path `put`. Fix commit `5430d7b1b6346` is **NOT_IN_HEAD**.
 
-**Evidence AGAINST:**
-- No explicit user bug report or syzbot report
-- Callers ignore return value (mitigates crash risk but not functional
-  impact)
-- Part of broader CM-guide compliance series (though this hunk is
-  independent)
+### Step 6.2: Backport complications
+**Record:** Clean apply expected — upstream diff is 5 lines, no context
+conflicts with recent XDomain security patches in this tree.
 
-**Stable rules checklist:**
-1. Obviously correct and tested? **PASS** — spec-aligned; maintainer
-   SOB; no Tested-by but change is trivial
-2. Fixes a real bug? **PASS** — timeout too short vs USB4 CM guide
-3. Important issue? **PASS** — functional failures on USB4 hardware
-   (MEDIUM–HIGH)
-4. Small and contained? **PASS** — 2 lines functional change, 1 file
+### Step 6.3: Related fixes already present?
+**Record:** No equivalent fix present. Other thunderbolt leak fixes
+exist (debugfs) but not this one.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: Subsystem criticality
+**Record:** `drivers/thunderbolt/` — **IMPORTANT** (USB4/Thunderbolt
+driver, `CONFIG_USB4`). Affects systems with TB/USB4 hardware.
+
+### Step 7.2: Subsystem activity
+**Record:** Actively maintained — multiple recent fixes in this 6.18.y
+tree (XDomain validation, debugfs leak, property parsing bounds).
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Users with USB4/Thunderbolt (`CONFIG_USB4`) during XDomain
+communication, especially teardown/unplug scenarios.
+
+### Step 8.2: Trigger conditions
+**Record:** `tb_cfg_request()` fails because control channel is not
+running (`-ENOTCONN` from `tb_cfg_request_enqueue`) or TX fails. Most
+likely during domain stop/removal while XDomain responses are still
+attempted. Not userspace-triggerable directly, but common on hot-unplug.
+
+### Step 8.3: Failure mode severity
+**Record:** Memory leak — one `struct tb_cfg_request` per failed
+response. Not a crash or security issue, but accumulates on repeated
+teardown races. **Severity: MEDIUM** (resource leak on realistic error
+path).
+
+### Step 8.4: Risk-benefit
+**Record:**
+- **Benefit:** MEDIUM — prevents kernel memory leak during TB
+  disconnect/teardown
+- **Risk:** VERY LOW — 5-line error-path fix, maintainer-authored,
+  mirrors existing patterns
+- **Ratio:** Favorable for stable
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: Evidence summary
+
+**FOR backport:**
+- Verified memory leak on `tb_cfg_request()` error path
+- Buggy code confirmed present in 6.18.43 tree; fix not yet applied
+- Small, surgical, obviously correct fix
+- Thunderbolt maintainer authorship
+- Realistic trigger during control channel shutdown
+- Precedent: other thunderbolt leak fixes backported to this tree
+- No dependencies or API changes
+
+**AGAINST backport:**
+- Leak is small per occurrence (not crash/corruption)
+- Only affects `CONFIG_USB4` systems
+- No fuzzer or user reports
+
+**UNRESOLVED:**
+- Full lore review thread unavailable (b4/lore blocked)
+- Exact frequency of leak in production unquantified
+
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — refcount logic verified; no
+   Tested-by but pattern matches sibling code
+2. Fixes a real bug? **PASS** — confirmed memory leak
+3. Important issue? **PASS (MEDIUM)** — resource leak on driver teardown
+   path
+4. Small and contained? **PASS** — 5 lines, one function
 5. No new features/APIs? **PASS**
-6. Can apply to local tree? **PASS** — verified clean apply
+6. Can apply to local tree? **PASS** — code exists, clean apply expected
 
-**Exception category:** Hardware timing workaround / spec-compliance fix
-for existing USB4 driver (similar to prior thunderbolt timeout
-backports).
+### Step 9.3: Exception categories
+**Record:** N/A — standard bug fix, not device ID/quirk/DT/build/doc
+exception.
 
----
+### Step 9.4: Decision rationale
 
-## Problem Summary for Stable Users
+This commit fixes a real, verifiable memory leak in the Thunderbolt
+XDomain response path. When the control channel is already stopped
+(typical during domain teardown or hot-unplug), `tb_cfg_request()`
+returns an error without invoking the `response_ready` callback, leaving
+the allocation from `tb_cfg_request_alloc()` unreleased. The fix adds
+the missing `tb_cfg_request_put()` on the error path only, matching
+established patterns elsewhere in the same driver.
 
-On v6.18.44, after marking a USB4 device router’s configuration valid,
-the kernel waits only 50 ms for the Configuration Ready bit. The USB4
-Connection Manager guide allows up to 500 ms. Routers that need between
-50–500 ms can hit a premature timeout; enumeration then continues before
-the router is ready, which can manifest as flaky or failed
-Thunderbolt/USB4 dock and peripheral bring-up. The fix is a minimal
-timeout increase plus a documentation typo correction.
+For the **6.18.43** tree checked out locally, the buggy code is present
+and the fix is absent. The patch is minimal, maintainer-authored, and
+carries very low regression risk. While not a crash-level issue, stable
+trees routinely accept driver memory-leak fixes on realistic error paths
+— and this tree already backports a similar thunderbolt debugfs leak
+fix.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit `ba2cc38511012`: subject, body, tags (only
-  SOBs)
-- [Phase 2] Read diff: 50→500 ms in `usb4_switch_configuration_valid()`,
-  doc typo fix
-- [Phase 2] Read `tb_switch_wait_for_bit()` at `switch.c:1720-1739`
-- [Phase 3] `git blame` lines 329-330: introduced 2021, 50 ms since USB4
-  bring-up
-- [Phase 3] `git log -S "ROUTER_CS_6_CR, 50"`: original in
-  `b04079837b209`
-- [Phase 3] `git merge-base --is-ancestor b04079837b209 HEAD`: USB4 code
-  in tree
-- [Phase 3] `ba2cc38511012` not ancestor of HEAD: fix not yet in 6.18.44
-- [Phase 4] `b4 dig -c ba2cc38511012`: lore URL found
-- [Phase 4] `b4 dig -a`: v1 series, patch 4/5
-- [Phase 4] `b4 dig -w`: maintainers CC’d
-- [Phase 4] `b4 dig -m /tmp/tb_timeout.mbx`: no stable Cc, no NAKs, Mika
-  replied on patches 2–3 only
-- [Phase 5] `grep usb4_switch_configuration_valid`: callers in
-  `switch.c`, `tb.c`
-- [Phase 5] Read `tb.c:1407`, `tb.c:3095`: return value not checked
-- [Phase 5] Read `usb4.c:311-330`: early return for host
-  (`!tb_route(sw)`)
-- [Phase 5] `usb4.c:79`: other 500 ms timeout precedent in same file
-- [Phase 6] `git describe HEAD`: v6.18.44
-- [Phase 6] `git format-patch -1 ba2cc38511012 | git apply --check`:
-  clean apply
-- [Phase 6] `grep ROUTER_CS_6_RR tb_regs.h`: not in 6.18.y (unrelated to
-  this patch)
-- [Phase 7] `git log --grep="DisplayPort Connection Manager handshake
-  timeout" stable/linux-6.18.y`: precedent commit present
-- [Phase 8] Assessed severity: functional USB4 enumeration failures, not
-  kernel crash
+- [Phase 1] Parsed subject, tags (only SOB from Mika Westerberg), body —
+  memory leak on `tb_cfg_request()` failure
+- [Phase 2] Diff: +5/-1 in `__tb_xdomain_response()`, error-path
+  `tb_cfg_request_put()`
+- [Phase 2] Read `tb_cfg_request()` at `ctl.c:547-578` — confirmed error
+  path drops only internal ref, callback not called
+- [Phase 2] Read `response_ready()` at `xdomain.c:133-136` — success-
+  path cleanup via callback
+- [Phase 3] `git describe HEAD` → v6.18.43; `make kernelversion` →
+  6.18.43
+- [Phase 3] `git show 4c63f29872cb` — upstream fix commit exists (May 5,
+  2026)
+- [Phase 3] `git merge-base --is-ancestor 5430d7b1b6346 HEAD` →
+  NOT_IN_HEAD; buggy code at `xdomain.c:153`
+- [Phase 3] Compared `__tb_xdomain_request()` at `xdomain.c:198` —
+  always puts after request
+- [Phase 3] Compared `icm.c:2278-2282` — always puts after async
+  `tb_cfg_request()`
+- [Phase 4] `b4 dig -c 4c63f29872cb` — no lore match
+- [Phase 4] Web search — found in 7.2 GIT PULL series (patch 5/12)
+- [Phase 4] lore.kernel.org — blocked by Anubis (UNVERIFIED for thread
+  review)
+- [Phase 5] Grep: 6 call sites for `__tb_xdomain_response()` in
+  `xdomain.c`
+- [Phase 5] Read `tb_cfg_request_enqueue()` at `ctl.c:140-142` — returns
+  `-ENOTCONN` when `!ctl->running`
+- [Phase 5] Read `tb_ctl_stop()` at `ctl.c:751-754` — sets `ctl->running
+  = false`
+- [Phase 5] Read `tb_domain_remove()` at `domain.c:506` — calls
+  `tb_ctl_stop()`
+- [Phase 6] Confirmed buggy code at HEAD `xdomain.c:138-154`
+- [Phase 6] Confirmed fix not in HEAD; upstream diff applies to same
+  function structure
+- [Phase 7] Driver built under `CONFIG_USB4` per
+  `drivers/thunderbolt/Makefile`
+- [Phase 8] Prior thunderbolt leak fix `da405838` present in this tree
+- [Phase 8] Leak size: one `kzalloc(sizeof(struct tb_cfg_request))` per
+  failure
 
-**YES****Verdict: YES** — backport to this tree (v6.18.44 /
-`stable/linux-6.18.y`).
+**YES**The background `git branch -a --contains` check hung (likely
+because scanning all branches is slow in this repo), so I didn’t wait on
+it.
 
-The commit fixes a real USB4 timing bug: after setting Configuration
-Valid, the kernel waits only **50 ms** for Configuration Ready, but the
-USB4 CM guide allows **500 ms**. On slower routers, enumeration can
-proceed too early and cause flaky dock/peripheral bring-up. The change
-is two lines in `drivers/thunderbolt/usb4.c`, applies cleanly, is
-standalone (doesn't need the other patches in the series), and matches
-precedent for thunderbolt timeout fixes already in 6.18.y.
+The same question was already answered with a direct check: `git merge-
+base --is-ancestor 5430d7b1b6346 HEAD` → **NOT_IN_HEAD**. The leak fix
+is not in your current **6.18.43** tree; the buggy code is still at
+`drivers/thunderbolt/xdomain.c:153`.
 
- drivers/thunderbolt/usb4.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+**Verdict from the analysis: YES** — this is a small, correct memory-
+leak fix on the `tb_cfg_request()` error path and is appropriate for
+stable backport to this tree.
 
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 276c25c7d37e6..9430bed07c468 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -304,7 +304,7 @@ int usb4_switch_setup(struct tb_switch *sw)
-  * Sets configuration valid bit for the router. Must be called before
-  * any tunnels can be set through the router and after
-  * usb4_switch_setup() has been called. Can be called to host and device
-- * routers (does nothing for the latter).
-+ * routers (does nothing for the former).
-  *
-  * Return: %0 on success, negative errno otherwise.
-  */
-@@ -327,7 +327,7 @@ int usb4_switch_configuration_valid(struct tb_switch *sw)
- 		return ret;
+ drivers/thunderbolt/xdomain.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index b27ef872edeac..5fbdd412a712f 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -139,6 +139,7 @@ static int __tb_xdomain_response(struct tb_ctl *ctl, const void *response,
+ 				 size_t size, enum tb_cfg_pkg_type type)
+ {
+ 	struct tb_cfg_request *req;
++	int ret;
  
- 	return tb_switch_wait_for_bit(sw, ROUTER_CS_6, ROUTER_CS_6_CR,
--				      ROUTER_CS_6_CR, 50);
-+				      ROUTER_CS_6_CR, 500);
+ 	req = tb_cfg_request_alloc();
+ 	if (!req)
+@@ -150,7 +151,11 @@ static int __tb_xdomain_response(struct tb_ctl *ctl, const void *response,
+ 	req->request_size = size;
+ 	req->request_type = type;
+ 
+-	return tb_cfg_request(ctl, req, response_ready, req);
++	ret = tb_cfg_request(ctl, req, response_ready, req);
++	if (ret)
++		tb_cfg_request_put(req);
++
++	return ret;
  }
  
  /**
