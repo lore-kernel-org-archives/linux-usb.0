@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ABB517BCD;
-	Mon, 31 Aug 2026 13:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A5A522EC5;
+	Mon, 31 Aug 2026 13:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183810; cv=none; b=S/yxAAMR4DB9PyGcRqRg7DrDoH0O8EMOjkI/DPvR0Q452Gz2wrUzs3ivEbHIbNqUeZuI3kd1s+7GeCnGdDNcelvWqARkYYdFHsLrDs9BoAduGoZx8vjSlAXyTNEhM06Aaa/78Yzbr2YyrVn9zDZAUp4rrTcvs9TQOjuZCiPkR+I=
+	t=1788183856; cv=none; b=twX2vAK8w9PtnzvGNfiFXEv5B+uu4SXwgEvgNDVCwph7YR0PnHGjqm8QPVAzMZ7gqwu9veAShQdgoWF2nmvC0pB5m1+2EIfVbKlfwx7Faqe1sT5Oshg8J3JMRCYKqvg5H5CCWgLo2/uIXkZqEf37RILvlWXEbJEsfH1hthRTJ4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183810; c=relaxed/simple;
-	bh=sfbeHYVURt/JMyaDFoxCdkiRi4qgIwKulZlT+yhFceE=;
+	s=arc-20240116; t=1788183856; c=relaxed/simple;
+	bh=YzomyiaSSYlSEVqtsSwnQ1VSK21Q6sA+HUUrTBdFNvI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BYT5tRblKowHFb9GiN4+mdR/CsSu41ytugpcQ95G7dAHBT0Cj0txPeCPpKWxyF18VC43uxx6z8ACDq+A+o8QDKg3UTg6eZ+TR0BYVMUlLA/0UG1qYmKZzXgKM31PndXsu1ppdiHnlidcqJj3jzJSgHQZRlz7akal93i6O7GAtjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z4qcZKEb; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=FmgKCBBgrKGE8S8abDY00x+OZY1zvuGfPi1JMCT9K+JdaWRwsp5razy7UugVJqfXfg2/ggjSwn3AUAJPhMCPvY7pWZ05+g//BqPriDPLd1PHo5sOW9iqDMz8zhaU1XylKtkodcrey64HsDjIGpicO5pJnmd9/0dnZ20pfOFqm6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGrsBYIC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z4qcZKEb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AFC41F00A3E;
-	Mon, 31 Aug 2026 13:43:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGrsBYIC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CC601F000E9;
+	Mon, 31 Aug 2026 13:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183806;
-	bh=w5aSWtgEz4L2lqYN/2TLjCfJYpJbQprr2NkSEkimnV0=;
+	s=k20260515; t=1788183853;
+	bh=gey/pA+MqLSign78ltl1Z+G5U1XGzfWV9TBfTmZofj8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Z4qcZKEbKsc3a5ckvEYqFSm+G+8gY28V0EZoCu1V7vSh09L6kJTAXw8s9fB9hEPRJ
-	 FjF4gmIOGGkh1OIPL6l9fGKRHjuZ98lFZVBCJQ93JAhQthQlCdtQS241bdgL/X5CPo
-	 sX7gbPnqfRh0LUkJLnQh2i+1dppB/MxVqey3+AKZwyp4dn+slwRs1FLLpABhbaWRM6
-	 MsD61+UYEHLAYjgTgxtU6DohtWDjkK1ENZCUoQQfgreMWkN7nSkF1E7VzXi8xEJMev
-	 LFcJ/bMnOSjI5s3Kb0tBzN2osvIHrTHLJpiuNP0m82Zs58iM4QQMURpt+p1P8SlGb6
-	 QppkeqHggm2ew==
+	b=GGrsBYICdmnzHpkk8pJtbeu44an+jR8Ikh6BsEZxLJGuT/MDHDiBD+woyHCTrb7hA
+	 slW6LSry5tFgl84XeZG9vbfMT1IUacGNyCUs7TxpLl6AqSdNWJdCeZK+b4QvJvt2wo
+	 BUVTzANrACxhP4IvMx10MzeZ3918WMd9p900CeXPngHE56tpAg6oU+MBBiZLvI6/Oj
+	 GM2JhSFL4SYLBIB0JbLu6LCrvmbi+t0ebfixcItvQpmDA8vsBzTQIFJwWUNSbXT3lx
+	 zApQkqjM3rdL9BYlZbaROjYG0i5upuZIAOtivjAKH5zI31lpR2IKNzQHEAuF9LNm3x
+	 IYwAGM0D+H3NQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>,
+Cc: Michal Pecio <michal.pecio@gmail.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
+	mathias.nyman@intel.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] usb: core: hcd: fix possible deadlock in rh control transfers
-Date: Mon, 31 Aug 2026 09:25:44 -0400
-Message-ID: <20260831133314.4125787-316-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] usb: xhci: Improve Soft Retries after short transfers
+Date: Mon, 31 Aug 2026 09:26:11 -0400
+Message-ID: <20260831133314.4125787-343-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -52,23 +54,17 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Oliver Neukum <oneukum@suse.com>
+From: Michal Pecio <michal.pecio@gmail.com>
 
-[ Upstream commit d5559f43d76b398392b26a15cbc16d731969cd1c ]
+[ Upstream commit e765ab012f73717238c95ab9c34bfc3c767fa48c ]
 
->From within the SCSI error handler memory allocations must not
-trigger IO. Handling errors in UAS and the storage driver may
-involve resetting a device. The thread doing the reset itself
-relies on VM magic. However, that is insufficient, as resetting
-a device involves resuming it. Resumption as well as resetting
-involves conrol transfers to the parent of the device to be reset.
-That may be a root hub. Hence usbcore must heed the flags passed
-to usb_submit_urb() processing control transfers to root hubs.
+A short transfer is a successful one, so reset the error count.
+Otherwise, endpoints which always complete short are limited to
+three retries per endpoint life rather than per URB.
 
-The problem exist since the storage driver has been merged.
-
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Link: https://patch.msgid.link/20260429094413.181038-1-oneukum@suse.com
+Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://patch.msgid.link/20260603091132.1110849-7-mathias.nyman@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -77,378 +73,379 @@ LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
 
-### Step 1.1: PARSE THE SUBJECT LINE
-**Record:** `[usb: core: hcd]` `[fix]` — fix possible deadlock in root-
-hub (rh) control transfers.
+**Step 1.1 – Subject line**
 
-### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-**Record:**
-- **Fixes:** — not present (expected for manual review)
-- **Reported-by:** — none
-- **Tested-by:** — none
-- **Reviewed-by / Acked-by:** — none
-- **Link:**
-  `https://patch.msgid.link/20260429094413.181038-1-oneukum@suse.com`
-- **Cc: stable@vger.kernel.org** — not present (not a negative signal)
-- **Signed-off-by:** Oliver Neukum `<oneukum@suse.com>`, Greg Kroah-
-  Hartman `<gregkh@linuxfoundation.org>`
-- **Notable:** Greg K-H merge; same author (Oliver Neukum) has prior USB
-  deadlock fixes nominated for stable (e.g. UAS EH deadlock, commit
-  `f6cc6093a729e`)
+Record: `[usb: xhci]` `[Improve]` – Improve soft-retry error counting
+after short bulk/interrupt transfers.
 
-### Step 1.3: ANALYZE THE COMMIT BODY TEXT
-**Record:**
-- **Bug:** SCSI error-handler context must not perform allocations that
-  trigger I/O. USB storage/UAS error recovery can reset devices;
-  reset/resume issues control transfers to the parent hub, which may be
-  the root hub. `usbcore` ignored `mem_flags` from `usb_submit_urb()`
-  for root-hub control transfers.
-- **Symptom:** Possible deadlock when storage error recovery resets a
-  device on a root-hub port.
-- **Root cause:** `rh_call_control()` hardcodes `kzalloc(...,
-  GFP_KERNEL)` while callers (e.g. `usb_start_wait_urb()`) submit with
-  `GFP_NOIO`.
-- **Version info:** “The problem exist since the storage driver has been
-  merged” — longstanding, not a recent regression.
+**Step 1.2 – Tags**
 
-### Step 1.4: DETECT HIDDEN BUG FIXES
-**Record:** Not disguised — explicit deadlock fix. Propagating
-`mem_flags` is the correct API behavior documented in
-`drivers/usb/core/urb.c`.
+Record:
+- `Signed-off-by: Michal Pecio <michal.pecio@gmail.com>` (author)
+- `Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>` (xHCI
+  maintainer)
+- `Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>` (USB
+  maintainer)
+- `Link: https://patch.msgid.link/20260603091132.1110849-7-
+  mathias.nyman@linux.intel.com` (patch 7/7 in a series)
+- No `Fixes:`, `Reported-by:`, `Cc: stable`, `Tested-by:`, or `Reviewed-
+  by:` tags
+
+**Step 1.3 – Body analysis**
+
+Record:
+- **Bug:** `ep->err_count` is not cleared on `COMP_SHORT_PACKET`, even
+  though a short transfer is a successful completion.
+- **Symptom:** Endpoints that routinely complete short are limited to
+  three soft retries over the endpoint’s lifetime, not per URB/transfer.
+- **Root cause:** `err_count` is reset on `COMP_SUCCESS` but not on
+  `COMP_SHORT_PACKET`, so successful short transfers do not reset the
+  counter.
+- **Version info:** None in the message.
+
+**Step 1.4 – Hidden bug fix?**
+
+Record: **Yes.** Although the subject says “Improve,” this is a
+correctness bug in xHCI soft-retry error accounting, not a cosmetic
+cleanup.
 
 ---
 
 ## Phase 2: Diff Analysis
 
-### Step 2.1: INVENTORY THE CHANGES
-**Record:**
-- **Files:** `drivers/usb/core/hcd.c` only (~15 lines changed)
-- **Functions:** `rh_call_control()`, `rh_urb_enqueue()`,
-  `usb_hcd_submit_urb()`
-- **Scope:** Single-file surgical fix
+**Step 2.1 – Inventory**
 
-### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-**Record:**
-- **Hunk 1 (`rh_call_control`):** Before: `kzalloc(tbuf_size,
-  GFP_KERNEL)`. After: `kzalloc(tbuf_size, mem_flags)` with new `gfp_t
-  mem_flags` parameter.
-- **Hunk 2 (`rh_urb_enqueue`):** Before: calls `rh_call_control(hcd,
-  urb)` without flags. After: passes `mem_flags` through.
-- **Hunk 3 (`usb_hcd_submit_urb`):** Before: `rh_urb_enqueue(hcd, urb)`
-  drops caller flags. After: `rh_urb_enqueue(hcd, urb, mem_flags)` —
-  matches the non-root-hub path that already passes `mem_flags` to
-  `hcd->driver->urb_enqueue()`.
+Record:
+- **Files:** `drivers/usb/host/xhci-ring.c` (+1 line)
+- **Function:** `process_bulk_intr_td()`
+- **Scope:** Single-file, one-line surgical fix
 
-### Step 2.3: IDENTIFY THE BUG MECHANISM
-**Record:**
-- **Category:** Deadlock / incorrect GFP context in block/SCSI error-
-  recovery path
-- **Mechanism:** `usb_submit_urb(urb, GFP_NOIO)` →
-  `usb_hcd_submit_urb(urb, mem_flags)` → for root-hub devices,
-  `rh_call_control()` allocated with `GFP_KERNEL`, which can trigger
-  reclaim/I/O. In SCSI error-handler context (recovering a stuck block
-  device), that can deadlock waiting on I/O from the same device stack.
+**Step 2.2 – Code flow change**
 
-### Step 2.4: ASSESS THE FIX QUALITY
-**Record:**
-- **Quality:** Obviously correct — mirrors existing non-root-hub
-  behavior; minimal change
-- **Regression risk:** Very low — only affects root-hub control path;
-  honors caller intent
-- **Red flags:** None
+Record:
+- **Before:** `COMP_SHORT_PACKET` sets `td->status = 0` only;
+  `ep->err_count` is unchanged.
+- **After:** `COMP_SHORT_PACKET` also sets `ep->err_count = 0`, matching
+  `COMP_SUCCESS`.
+- **Path:** Bulk/interrupt transfer completion in
+  `process_bulk_intr_td()`, called from `handle_tx_event()` for non-
+  control, non-isoc endpoints.
+
+**Step 2.3 – Bug mechanism**
+
+Record: **Logic / error-recovery bug.** `MAX_SOFT_RETRY` is 3. On
+`COMP_USB_TRANSACTION_ERROR`, `ep->err_count` is incremented; if it
+exceeds 3, soft retry is skipped and the error path proceeds without
+`xhci_handle_halted_endpoint(..., EP_SOFT_RESET)`. Successful
+completions should reset the counter, but short completions did not.
+
+**Step 2.4 – Fix quality**
+
+Record:
+- **Obviously correct:** Short packet is a successful transfer
+  (`td->status = 0`); resetting `err_count` matches `COMP_SUCCESS` and
+  the design intent.
+- **Minimal:** One line.
+- **Regression risk:** Very low; only resets a counter on a success
+  path.
 
 ---
 
 ## Phase 3: Git History Investigation
 
-### Step 3.1: BLAME THE CHANGED LINES
-**Record:**
-- `kzalloc(tbuf_size, GFP_KERNEL)` introduced in `e57e780b346a72` (“usb:
-  rh_call_control tbuf overflow fix”, 2013-08-13)
-- Buggy pattern present since 2013; relevant since USB storage error
-  paths use `GFP_NOIO`
+**Step 3.1 – Blame**
 
-### Step 3.2: FOLLOW THE FIXES: TAG
-**Record:** No `Fixes:` tag — N/A
+Record:
+- Soft retry introduced in `f8f80be501aa2` (2018): `ep_ring->err_count =
+  0` on `COMP_SUCCESS`.
+- `err_count` moved to endpoint in `a1575120972ec` (Nov 2022, backported
+  with `Cc: stable`).
+- `COMP_SHORT_PACKET` handling dates to 2017; never reset `err_count`.
+- Bug present since soft-retry accounting was added (~2018).
 
-### Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-**Record:** Recent `hcd.c` changes are unrelated (SuperSpeed root hub
-wMaxPacketSize, kcov, dma-noncoherent API). Standalone fix, not part of
-a series.
+**Step 3.2 – Fixes: tag**
 
-### Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-**Record:** Oliver Neukum is an experienced USB contributor; prior
-stable-nominated deadlock fixes in USB storage/UAS (`f6cc6093a729e`).
+Record: N/A – no `Fixes:` tag.
 
-### Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-**Record:** No dependencies — self-contained signature/plumbing change
-within one file. Applies standalone.
+**Step 3.3 – Related file history**
+
+Record:
+- Related short-packet work by Michal Pecio: `9e3a28793d2fd` (“Fix Short
+  Packet handling rework ignoring errors”), affecting UAC, UVC, serial,
+  UAS.
+- This fix is standalone; no dependency on other series patches for
+  correctness.
+
+**Step 3.4 – Author context**
+
+Record: Michal Pecio is an active xHCI contributor; Mathias Nyman is the
+xHCI maintainer. Both signed off.
+
+**Step 3.5 – Dependencies**
+
+Record: **Standalone.** One-line addition; no new symbols or structures.
+Patch 7/7 in submission, but this hunk is self-contained.
 
 ---
 
 ## Phase 4: Mailing List and External Research
 
-### Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
-**Record:** `b4 dig -c` failed (commit not in this tree).
-Lore/patch.msgid.link fetch blocked (403/Anubis). **UNVERIFIED:** full
-review thread content.
+**Step 4.1 – Original discussion**
 
-### Step 4.2: CHECK WHO REVIEWED THE PATCH
-**Record:** **UNVERIFIED** (thread inaccessible). Greg K-H merge is a
-strong quality signal.
+Record: Link points to patch 7/7 in a Mathias Nyman series (2026-06-03).
+`b4 dig` did not find the committed hash (commit not in this tree).
+`patch.msgid.link` and `lore.kernel.org` were blocked (403/Anubis).
+Discussion content could not be fetched.
 
-### Step 4.3: SEARCH FOR THE BUG REPORT
-**Record:** No external bug report or syzbot link. Mechanism explained
-in commit message and verifiable in code.
+**Step 4.2 – Reviewers**
 
-### Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-**Record:** Standalone 1-patch fix; related theme with author’s UAS EH
-deadlock fix but independent.
+Record: UNVERIFIED from lore. Commit has SOBs from author, xHCI
+maintainer, and USB maintainer.
 
-### Step 4.5: CHECK STABLE MAILING LIST HISTORY
-**Record:** **UNVERIFIED** (could not search lore). No evidence against
-stable suitability.
+**Step 4.3 – Bug report**
+
+Record: No external bug report or syzbot link. Bug inferred from code
+analysis and commit message.
+
+**Step 4.4 – Series context**
+
+Record: Patch 7/7; this change does not appear to require earlier series
+patches.
+
+**Step 4.5 – Stable list**
+
+Record: UNVERIFIED – could not search lore stable archives due to access
+restrictions.
 
 ---
 
 ## Phase 5: Code Semantic Analysis
 
-### Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-**Record:** `rh_call_control()`, `rh_urb_enqueue()`,
-`usb_hcd_submit_urb()`
+**Step 5.1 – Key functions**
 
-### Step 5.2: TRACE CALLERS
-**Record:**
-- `usb_hcd_submit_urb()` ← `usb_submit_urb()` (`drivers/usb/core/urb.c`)
-- `usb_submit_urb(urb, GFP_NOIO)` used widely in block/storage paths:
-  - `usb_start_wait_urb()` → `usb_control_msg()` path (`message.c:62`)
-  - `usb_stor_msg_common()` → `transport.c:143`
-  - `hub.c` hub operations (`usb_clear_port_feature`, port reset/resume)
-- SCSI error handler → `eh_device_reset_handler` → e.g.
-  `uas_eh_device_reset_handler()` → `usb_reset_device()` (`uas.c:796`),
-  or `usb_stor_port_reset()` → `usb_reset_device()` (`transport.c:1455`)
-- `usb_reset_device()` performs hub port reset/resume; parent may be
-  root hub → root-hub control transfers
+Record: `process_bulk_intr_td()`, caller `handle_tx_event()`.
 
-### Step 5.3: TRACE CALLEES
-**Record:** `rh_call_control()` calls `kzalloc()` (the problematic
-allocation), `usb_hcd_link_urb_to_ep()`, hub descriptor handling.
+**Step 5.2 – Callers**
 
-### Step 5.4: FOLLOW THE CALL CHAIN
-**Record:**
+Record: `handle_tx_event()` is the main xHCI transfer-event handler,
+invoked from the xhci interrupt path for every bulk/interrupt transfer
+completion. High-traffic, common path.
+
+**Step 5.3 – Callees**
+
+Record: On transaction error with `err_count <= MAX_SOFT_RETRY`, calls
+`xhci_handle_halted_endpoint(..., EP_SOFT_RESET)`. When limit exceeded,
+soft retry is skipped and `finish_td()` runs with `-EPROTO`.
+
+**Step 5.4 – Reachability**
+
+Record: **Highly reachable.** Any bulk/interrupt endpoint can hit this.
+Critically, in `handle_tx_event()`:
+
+```2707:2712:drivers/usb/host/xhci-ring.c
+        case COMP_SUCCESS:
+                if (EVENT_TRB_LEN(le32_to_cpu(event->transfer_len)) !=
+0) {
+                        trb_comp_code = COMP_SHORT_PACKET;
+                        xhci_dbg(xhci, "Successful completion on short
+TX for slot %u ep %u with last td comp code %d\n",
+                                 slot_id, ep_index,
+ep_ring->old_trb_comp_code);
+                }
 ```
-SCSI EH thread → eh_device_reset_handler → usb_reset_device()
-  → hub_port_reset / usb_port_resume → usb_control_msg /
-usb_submit_urb(GFP_NOIO)
-    → usb_hcd_submit_urb(mem_flags=GFP_NOIO) → rh_urb_enqueue →
-rh_call_control
-      → kzalloc(GFP_KERNEL)  [BUG]
-```
-Reachable from normal storage error recovery on root-hub ports (common
-on laptops/embedded).
 
-### Step 5.5: SEARCH FOR SIMILAR PATTERNS
-**Record:** `usb_reset_device()` already uses `memalloc_noio_save()` as
-a partial workaround (`hub.c:6384–6436`), but root-hub path still
-violated the explicit `GFP_NOIO` contract. Non-root-hub `urb_enqueue`
-already honors `mem_flags`; root hub was the outlier.
+Short transfers reported as `COMP_SUCCESS` are converted to
+`COMP_SHORT_PACKET` before `process_bulk_intr_td()` runs. So the
+`COMP_SUCCESS` `err_count` reset does **not** apply to short transfers
+on typical hosts; they go through `COMP_SHORT_PACKET` without resetting
+the counter.
+
+**Step 5.5 – Similar patterns**
+
+Record: `ep->err_count = 0` exists only on `COMP_SUCCESS` in
+`process_bulk_intr_td()`. `handle_transferless_tx_event()` increments
+`err_count` on stream transaction errors but never resets it on success.
+This fix addresses the bulk/intr path only.
 
 ---
 
-## Phase 6: Cross-Referencing Against the Local Tree
+## Phase 6: Cross-Reference Against Local Tree
 
-### Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-**Record:** **YES.** Tree is **v6.18.44** (`VERSION=6`, `PATCHLEVEL=18`,
-`SUBLEVEL=44`). Buggy code at `hcd.c:489` (`kzalloc(tbuf_size,
-GFP_KERNEL)`) and `hcd.c:1540` (`rh_urb_enqueue(hcd, urb)` without
-`mem_flags`). Fix not yet applied.
+**Step 6.1 – Buggy code in this tree?**
 
-### Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-**Record:** Expected **clean apply** — local file matches the “before”
-state in the provided diff; low recent churn in this area.
+Record: **Yes.** Local tree is **v6.18.44** (`git describe HEAD`, `make
+kernelversion`). At lines 2572–2574, `COMP_SHORT_PACKET` does not reset
+`ep->err_count`. The candidate commit is not yet applied.
 
-### Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-**Record:** No equivalent fix found (`grep` for
-`rh_call_control.*mem_flags` returns nothing). `usb_reset_device()`’s
-`memalloc_noio_save()` workaround exists but does not replace this fix.
+**Step 6.2 – Backport complications**
+
+Record: **Clean apply expected** – single line in a stable function with
+no recent churn at that hunk.
+
+**Step 6.3 – Related fixes already present?**
+
+Record: `git log --grep='Soft Retries'` returned nothing. No equivalent
+fix in this tree.
 
 ---
 
 ## Phase 7: Subsystem and Maintainer Context
 
-### Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-**Record:** **USB core** (`drivers/usb/core/`) — **CORE/IMPORTANT**.
-Affects all USB users; deadlock hits common storage error-recovery path.
+**Step 7.1 – Subsystem**
 
-### Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-**Record:** Actively maintained; Greg K-H USB tree. Fix addresses
-longstanding API inconsistency.
+Record: `drivers/usb/host/` – USB xHCI host controller driver.
+**Criticality: IMPORTANT** (core USB path for most modern systems).
+
+**Step 7.2 – Activity**
+
+Record: Active subsystem; recent xhci fixes include HCE interrupt storm,
+memory leaks, and short-packet handling.
 
 ---
 
 ## Phase 8: Impact and Risk Assessment
 
-### Step 8.1: DETERMINE WHO IS AFFECTED
-**Record:** Users with USB mass-storage/UAS devices, especially on root-
-hub ports, during I/O errors triggering SCSI error-handler device reset.
+**Step 8.1 – Who is affected**
 
-### Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-**Record:** Storage I/O error → SCSI EH device/bus reset → USB port
-reset/resume on root hub. Not every boot, but realistic during error
-recovery. Unprivileged users can trigger via normal block I/O to USB
-storage.
+Record: Users of xHCI with bulk/interrupt endpoints that complete short
+(serial, UVC, UAC, storage status pipes, interrupt IN with fixed
+buffers). Essentially all xHCI users with typical USB devices.
 
-### Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-**Record:** **Deadlock / hung task** in SCSI error-handler context —
-**CRITICAL** (storage stuck, system may require reboot; no clean
-recovery).
+**Step 8.2 – Trigger conditions**
 
-### Step 8.4: CALCULATE RISK-BENEFIT RATIO
-**Record:**
-- **Benefit:** HIGH — prevents real deadlock in error recovery
-- **Risk:** VERY LOW — ~15 lines, propagates existing parameter, matches
-  non-root-hub behavior
-- **Ratio:** Strongly favors backport
+Record:
+- Endpoint sees successful short transfers (very common).
+- Plus occasional `COMP_USB_TRANSACTION_ERROR` (transient bus errors).
+- After 3 such errors, `err_count` stays elevated because short
+  successes never reset it.
+- **Likelihood:** Moderate for long-lived endpoints with occasional bus
+  noise.
+
+**Step 8.3 – Failure mode severity**
+
+Record:
+- Soft retry stops after 3 transaction errors over endpoint lifetime.
+- Subsequent errors skip `EP_SOFT_RESET` and proceed to error completion
+  / harder recovery.
+- **Severity: MEDIUM-HIGH** – device malfunction, transfer failures,
+  possible disconnect; not a kernel oops, but real user-visible USB
+  breakage.
+
+**Step 8.4 – Risk vs benefit**
+
+Record:
+- **Benefit:** HIGH for affected endpoints – restores intended per-
+  transfer error accounting.
+- **Risk:** VERY LOW – one line, mirrors existing `COMP_SUCCESS`
+  behavior.
+- **Ratio:** Strong benefit, minimal risk.
 
 ---
 
 ## Phase 9: Final Synthesis
 
-### Step 9.1: COMPILE THE EVIDENCE
+**Step 9.1 – Evidence**
 
-**FOR backport:**
-- Real deadlock in SCSI/USB storage error recovery
-- CRITICAL severity (system hang)
-- Small, surgical, obviously correct
-- Buggy code confirmed in v6.18.44
-- Honors documented `GFP_NOIO` contract in `urb.c`
-- Greg K-H merged; author has track record of similar stable fixes
-- No new features/APIs
+**FOR:**
+- Real, long-standing logic bug in soft-retry accounting
+- Affects a very common path (short bulk/interrupt transfers)
+- `handle_tx_event()` converts success-with-remaining to
+  `COMP_SHORT_PACKET`, so most short transfers hit the buggy path
+- After 3 transaction errors, error recovery degrades permanently for
+  that endpoint
+- One-line, obviously correct fix
+- Signed off by xHCI and USB maintainers
+- Bug present in v6.18.44; fix applies cleanly
 
-**AGAINST backport:**
-- No syzbot/user report (mechanism-based fix)
-- Mailing list review details unverified
+**AGAINST:**
+- No syzbot report or user bug report in commit message
+- Failure mode is degraded recovery, not kernel crash
+- Lore discussion could not be verified
 
 **UNRESOLVED:**
-- Full lore review thread inaccessible
+- Full mailing-list review thread inaccessible
+- No explicit stable nomination found
 
-### Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **PASS** — logic is clear; Greg K-H
-   merge
-2. Fixes a real bug affecting users? **PASS** — SCSI EH + USB storage
-   reset path
-3. Important issue? **PASS** — deadlock/hang, CRITICAL
-4. Small and contained? **PASS** — single file, ~15 lines
-5. No new features or APIs? **PASS** — internal plumbing only
-6. Can apply to local tree? **PASS** — buggy code present; clean apply
-   expected
+**Step 9.2 – Stable rules checklist**
 
-### Step 9.3: EXCEPTION CATEGORIES
-**Record:** N/A — standard bug fix, not a quirk/ID/DT/docs exception.
+1. Obviously correct and tested? **PASS** – logic is clear; maintainer
+   SOBs present; no runtime test cited.
+2. Fixes a real bug affecting users? **PASS** – short transfers are
+   routine; error accounting is wrong.
+3. Important issue? **PASS (MEDIUM-HIGH)** – USB communication failures
+   on common device classes.
+4. Small and contained? **PASS** – 1 line, 1 file.
+5. No new features or APIs? **PASS**.
+6. Can apply to local tree? **PASS** – buggy code confirmed in v6.18.44.
 
-### Step 9.4: Problem Summary for Stable Users
+**Step 9.3 – Exception categories**
 
-When USB storage error recovery resets a device on a root-hub port,
-control transfers to the root hub go through `rh_call_control()`, which
-ignored the caller’s `GFP_NOIO` and allocated with `GFP_KERNEL`. That
-can trigger I/O during reclaim while the SCSI error handler is trying to
-recover the same block device — a classic deadlock. The fix threads
-`mem_flags` from `usb_hcd_submit_urb()` through `rh_urb_enqueue()` into
-`rh_call_control()`, matching behavior already used for non-root-hub
-devices.
+Record: None (not device ID, quirk, DT, build, or docs). Standard bug
+fix.
+
+**Step 9.4 – Decision rationale**
+
+This is a clear correctness bug in xHCI error recovery. Because
+`handle_tx_event()` rewrites success-with-short-data to
+`COMP_SHORT_PACKET`, the existing `err_count` reset on `COMP_SUCCESS`
+does not cover the common short-transfer case. Endpoints that routinely
+short-packet can exhaust their three soft retries permanently after only
+three transient transaction errors, causing degraded USB error recovery.
+The fix is minimal, obviously correct, and low risk.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject, tags, body from provided commit message
-- [Phase 1] Identified Link tag; no Fixes/Reported-by/syzbot
-- [Phase 2] Diff analysis: 3 functions changed in `hcd.c`; `GFP_KERNEL`
-  → `mem_flags` in `kzalloc`
-- [Phase 3] `git describe HEAD`: v6.18.44
-- [Phase 3] `git blame -L 488,489 hcd.c`: `GFP_KERNEL` since
-  `e57e780b346a72` (2013)
-- [Phase 3] `git log --oneline -20 -- drivers/usb/core/hcd.c`: no
-  duplicate fix
-- [Phase 3] Author history: Oliver Neukum UAS deadlock fix
-  `f6cc6093a729e` with `Cc: stable`
-- [Phase 4] `b4 dig -c HEAD`: no match (commit not in tree) — expected
-- [Phase 4] `b4 dig -c f6cc6093a729e -w`: b4 works; related author patch
-  found
-- [Phase 4] Lore/patch.msgid.link fetch: **UNVERIFIED** (403/bot
-  protection)
-- [Phase 5] `grep usb_submit_urb.*GFP_NOIO`: storage, hub, message paths
-  confirmed
-- [Phase 5] Traced `uas_eh_device_reset_handler` → `usb_reset_device`
-  (`uas.c:796`)
-- [Phase 5] Traced `usb_stor_port_reset` → `usb_reset_device`
-  (`transport.c:1455`)
-- [Phase 5] Read `usb_start_wait_urb`: `usb_submit_urb(urb, GFP_NOIO)`
-  (`message.c:62`)
-- [Phase 5] Read `urb.c:349-350`: documents `GFP_NOIO` for block/storage
-  error paths
-- [Phase 5] Read `usb_reset_device`: `memalloc_noio_save()` at
-  `hub.c:6384` (partial workaround, not substitute)
-- [Phase 6] Confirmed buggy code at `hcd.c:489`, `814-819`, `1539-1540`
-- [Phase 6] `grep rh_call_control.*mem_flags`: no match — fix not
-  present
-- [Phase 8] Failure mode: deadlock in SCSI EH — CRITICAL
+- **[Phase 1]** Parsed subject, tags, and body from provided commit
+  message.
+- **[Phase 2]** Confirmed diff: +1 line `ep->err_count = 0` in
+  `COMP_SHORT_PACKET` case.
+- **[Phase 3]** `git blame -L 2560,2595 drivers/usb/host/xhci-ring.c`:
+  soft retry from 2018, `err_count` on endpoint from 2022.
+- **[Phase 3]** `git show f8f80be501aa2`: original soft retry added
+  `err_count` reset on `COMP_SUCCESS` only.
+- **[Phase 3]** `git show a1575120972ec`: moved `err_count` to endpoint;
+  had `Cc: stable`.
+- **[Phase 3]** `git log --oneline -20 -- drivers/usb/host/xhci-ring.c`:
+  recent xhci activity confirmed.
+- **[Phase 4]** `b4 dig`: no match (commit not in tree).
+  Lore/patch.msgid.link: blocked (403/Anubis). **UNVERIFIED:** review
+  thread content.
+- **[Phase 5]** `grep process_bulk_intr_td`: called from
+  `handle_tx_event()` line 2982.
+- **[Phase 5]** Read `handle_tx_event()` lines 2707–2712: `COMP_SUCCESS`
+  with remaining length converted to `COMP_SHORT_PACKET`.
+- **[Phase 5]** `grep err_count drivers/usb/host/`: only reset on
+  `COMP_SUCCESS` in xhci-ring.c.
+- **[Phase 6]** `git describe HEAD` → v6.18.44; `make kernelversion` →
+  6.18.44.
+- **[Phase 6]** Read lines 2572–2574: bug present (no reset on
+  `COMP_SHORT_PACKET`).
+- **[Phase 6]** `git log --grep='Soft Retries'`: no existing fix in
+  tree.
+- **[Phase 8]** `MAX_SOFT_RETRY` = 3 in `drivers/usb/host/xhci.h` line
+  1272.
+- **[Phase 8]** Read `COMP_USB_TRANSACTION_ERROR` path: when `err_count
+  > 3`, soft retry skipped.
 
 **YES**
 
- drivers/usb/core/hcd.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/usb/host/xhci-ring.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index e11a8818af74a..4f198351ca9bb 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -450,7 +450,8 @@ rh_string(int id, struct usb_hcd const *hcd, u8 *data, unsigned len)
- 
- 
- /* Root hub control transfers execute synchronously */
--static int rh_call_control (struct usb_hcd *hcd, struct urb *urb)
-+static int rh_call_control(struct usb_hcd *hcd,
-+		struct urb *urb, gfp_t mem_flags)
- {
- 	struct usb_ctrlrequest *cmd;
- 	u16		typeReq, wValue, wIndex, wLength;
-@@ -485,8 +486,8 @@ static int rh_call_control (struct usb_hcd *hcd, struct urb *urb)
- 	 * tbuf should be at least as big as the
- 	 * USB hub descriptor.
- 	 */
--	tbuf_size =  max_t(u16, sizeof(struct usb_hub_descriptor), wLength);
--	tbuf = kzalloc(tbuf_size, GFP_KERNEL);
-+	tbuf_size = max_t(u16, sizeof(struct usb_hub_descriptor), wLength);
-+	tbuf = kzalloc(tbuf_size, mem_flags);
- 	if (!tbuf) {
- 		status = -ENOMEM;
- 		goto err_alloc;
-@@ -811,12 +812,13 @@ static int rh_queue_status (struct usb_hcd *hcd, struct urb *urb)
- 	return retval;
- }
- 
--static int rh_urb_enqueue (struct usb_hcd *hcd, struct urb *urb)
-+static int rh_urb_enqueue(struct usb_hcd *hcd,
-+		struct urb *urb, gfp_t mem_flags)
- {
- 	if (usb_endpoint_xfer_int(&urb->ep->desc))
- 		return rh_queue_status (hcd, urb);
- 	if (usb_endpoint_xfer_control(&urb->ep->desc))
--		return rh_call_control (hcd, urb);
-+		return rh_call_control(hcd, urb, mem_flags);
- 	return -EINVAL;
- }
- 
-@@ -1537,7 +1539,7 @@ int usb_hcd_submit_urb (struct urb *urb, gfp_t mem_flags)
- 	 */
- 
- 	if (is_root_hub(urb->dev)) {
--		status = rh_urb_enqueue(hcd, urb);
-+		status = rh_urb_enqueue(hcd, urb, mem_flags);
- 	} else {
- 		status = map_urb_for_dma(hcd, urb, mem_flags);
- 		if (likely(status == 0)) {
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 2bb7569c95054..3f1a6089a01ce 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2570,6 +2570,7 @@ static void process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 		td->status = 0;
+ 		break;
+ 	case COMP_SHORT_PACKET:
++		ep->err_count = 0;
+ 		td->status = 0;
+ 		break;
+ 	case COMP_STOPPED_SHORT_PACKET:
 -- 
 2.53.0
 
