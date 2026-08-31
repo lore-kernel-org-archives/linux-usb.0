@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7760159B661;
-	Mon, 31 Aug 2026 13:51:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866675AA67A;
+	Mon, 31 Aug 2026 13:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184310; cv=none; b=Df4U76uY5jeRUZH90h6dwJLFoX1uV1fL8sHjR7GmS4unHlAxyd0J54m84zrz6+Rr/QL1RnnlWVn0515HFA5wxyC1OyY8z95ib0xDZDsQXrg/QlUtSTgZQhzm7ptqJV1jUDRtrbKcz/u+AnkZH9JOWkJKr8kvtN99p1rsDsbKOYo=
+	t=1788184360; cv=none; b=oVLawjQNIsds4iTV866+idILWJWBkV/j1FiGhG5ZgnFL9s0UKbADcqBK4hyo3+kQ4LWmiwcj8d2iX78Y/kR4r7hDqyh+A+hYadbeIFr39kB4K8IcQpjp3IztMPK0Sg/YVMtuIWwNAB5POtzLXZiUNCyoHJ3mYADC6diDChQXJWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184310; c=relaxed/simple;
-	bh=0Lqvx76bAMS2OOgnmLJAHv86p3EVTdj6Q6+h8uCaaSA=;
+	s=arc-20240116; t=1788184360; c=relaxed/simple;
+	bh=AFn9bC8Os6jWC3HSEWWWBcrgHp1xBy6uB2ZFyqpjx4U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rkka351rl4TdlSuy7RQ4zjjha7Jm4+Sf87pyVxYJVDff+kQcJhKjUoDeDkP+wqZKdiverebhEjbNAfvegh4DwVvlGWCfOVa1fVnlcgJMQho4LZYD0klj/ZXT19/DYh2iJsT0cBD+6bEtt05LY+mxq2i5Qxx7IkIPZQfX2SP8YTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JO9FwyMq; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=VTjNvw4zeqSg495eBOGiwtThJt4fjOXZkS3OaJv8A0rfNSUXvE2XH8S6OU0Z2mwyT73HB+QqAgyPfdHdXvavzDWDO/ta8WQ3b7H7mBwJEqbLF3tRsu8LMJZPIXRuKLu2Q4sAA3Y7/1vs1Cvod1J3kVPAjfjfb5GqYXNhl1GO5FA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CkzC6SuG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JO9FwyMq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B99D11F00A3F;
-	Mon, 31 Aug 2026 13:51:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CkzC6SuG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A3BC1F00A3E;
+	Mon, 31 Aug 2026 13:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184307;
-	bh=iKSMiXpkxJLEdJewUwowyjhE1Sbdpid/o/O6lPwwdgg=;
+	s=k20260515; t=1788184358;
+	bh=wraiAU+Zeuec8evtgO3PwiEKpvLKzU7dNuEP1ckW7fY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JO9FwyMqAHIGtw/o988Ugqpbx7RwW/8Ba8srRFb1MNwxp/eOnvioQO9kdimOg+Iu3
-	 XnIJ15RgxKeI4TM5KIHu0uXtFF98XVkYgu6AInct49pd7oSSkFh1npb11pEZZWdg4R
-	 v8cEuNB3+TNZf1Vq0pwOuZwBGAgNlAF/3kj21mxk9DVv5sbQFHtfpeBnAYfm14zkmy
-	 fdF5Zfk20Gjuh3AIOp8D7lRKURZe1ahlkuiNiHvAfZJZxAQAZQl3J/UQiWOdyyVQ/J
-	 zUV2MsHhVAizVWXAWZfs14CQJr3dTNz36pXY9A+w0U7STxcqwDDC1WxXJpd0N3NmOA
-	 Zw2+mYpFPw9JA==
+	b=CkzC6SuGI967Y7XT786LCzhxur0MXjgRf05WRW7z+6i6j0AFyZJKHTkgGxPPmBB1o
+	 6xB2UoWxx+UDu02B1QwFyBoPz9ycNV0STPVfsfHbnxbYoFCfDMaaikDa9XcMrtpXXY
+	 gBVV6OH5AhFIaUPUW2gsl0CdoV8H7SvJ/VhF2x9L9citgIaDnmZJavPdGalfkKXHb5
+	 CZF/Atzvpcy89dgmPITtFNSEATxrdldeWP0SGwNx/4mi6yIb/E/2IWzsWfeY0zMi/S
+	 vLHPRCe4o94PKFRK+goOJoFYsokPpjRFweqDSNXVOJXxLTU3KV3Yx59bBN8MUG6Por
+	 TsMqLHALCdP6g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Jan Volckaert <janvolck@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Sasha Levin <sashal@kernel.org>,
-	bjorn@mork.no,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	netdev@vger.kernel.org,
+	andreas.noever@gmail.com,
+	westeri@kernel.org,
+	YehezkelShB@gmail.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] net: usb: qmi_wwan: add MeiG SRM813Q
-Date: Mon, 31 Aug 2026 09:30:42 -0400
-Message-ID: <20260831133314.4125787-614-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] thunderbolt: Keep the domain reference while processing hotplug
+Date: Mon, 31 Aug 2026 09:31:14 -0400
+Message-ID: <20260831133314.4125787-646-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -58,75 +54,18 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Jan Volckaert <janvolck@gmail.com>
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-[ Upstream commit 9758c11fc6c138a79a28a5659feeaa3abde7aa6a ]
+[ Upstream commit 138ec65b2c761f065b19d115aed2b8246fc272f5 ]
 
-Add support for the Qualcomm Technology Snapdragon X35-based MeiG SRM813Q
-module.
+We process hotplug events in a workqueue that may run after the domain
+has been removed by tb_domain_remove(). For example if user unloads the
+driver while at the same time plugging  a device router we may have
+scheduled tb_handle_hotplug() to run. Avoid possible UAF in this case by
+taking the domain reference before scheduling the hotplug handler in
+tb_queue_hotplug().
 
-The module can be put in different modes via AT commands
-to enable/disable GPS functionality:
-
-MODEM - PPP mode(2dee:4d63): AT+SER=1,1
-
-If#= 0: RMNET
-If#= 1: DIAG/ADB
-If#= 2: MODEM
-If#= 3: AT
-
-P:  Vendor=2dee ProdID=4d63 Rev=05.15
-S:  Manufacturer=MEIG
-S:  Product=LTE-A Module
-S:  SerialNumber=1bd51f0e
-C:  #Ifs= 4 Cfg#= 1 Atr=80 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-
-NMEA mode(2dee:4d64): AT+SER=51,1
-
-If#= 0: RMNET
-If#= 1: DIAG/ADB
-If#= 2: NMEA
-If#= 3: AT
-
-P:  Vendor=2dee ProdID=4d64 Rev=05.15
-S:  Manufacturer=MEIG
-S:  Product=LTE-A Module
-S:  SerialNumber=1bd51f0e
-C:  #Ifs= 4 Cfg#= 1 Atr=80 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-
-Signed-off-by: Jan Volckaert <janvolck@gmail.com>
-Link: https://patch.msgid.link/20260517153237.55995-2-janvolck@gmail.com
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -134,348 +73,362 @@ LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
 
-### Step 1.1: Subject Line
-**Record:** `[net: usb: qmi_wwan]` `[add]` — Add USB device ID table
-entries for the MeiG SRM813Q LTE modem (Snapdragon X35-based) to the
-existing `qmi_wwan` driver.
+**Step 1.1 — Subject line**
 
-### Step 1.2: Commit Message Tags
-**Record:**
-- **Fixes:** — not present (expected for manual review)
-- **Reported-by:** — none
-- **Tested-by:** — none
-- **Reviewed-by:** — none
-- **Acked-by:** — none
-- **Link:**
-  `https://patch.msgid.link/20260517153237.55995-2-janvolck@gmail.com`
-  (patch 2/2 in series)
-- **Cc: stable@vger.kernel.org** — not present on this commit (the
-  companion `option.c` patch in this tree does have it)
-- **Signed-off-by:** Jan Volckaert `<janvolck@gmail.com>` (author),
-  Jakub Kicinski `<kuba@kernel.org>` (netdev maintainer)
-- **Notable:** Maintainer sign-off from Jakub Kicinski; detailed
-  `lsusb`-style descriptors for two USB product IDs (`2dee:4d63`,
-  `2dee:4d64`); patch 2 of 2 (companion is `USB: serial: option: add
-  MeiG SRM813Q`)
+Record: `[thunderbolt] [keep] Keep the domain reference while processing
+hotplug` — holds a domain reference during deferred hotplug handling.
 
-### Step 1.3: Commit Body Analysis
-**Record:**
-- **Bug description:** Not a kernel crash/corruption bug. The MeiG
-  SRM813Q modem exposes its RMNET/QMI data interface on USB interface #0
-  (`Prot=50`, driver `qmi_wwan`), but without table entries the kernel
-  will not bind `qmi_wwan` to this device.
-- **Symptom:** Users with this modem get no `wwan0`/RMNET network
-  interface; cellular data does not work. Serial/DIAG/AT ports are
-  handled separately by the `option` driver.
-- **Root cause:** Missing `usb_device_id` entries in `qmi_wwan.c` for
-  vendor `0x2dee`, products `0x4d63` (Modem/PPP mode) and `0x4d64` (NMEA
-  mode).
-- **Version info:** None stated; hardware is new (Snapdragon X35, USB
-  3.20).
+**Step 1.2 — Tags**
 
-### Step 1.4: Hidden Bug Fix Detection
-**Record:** Not a hidden bug fix. This is explicit **hardware
-enablement** — a new device ID addition to an existing driver. No error-
-path, locking, refcount, or memory-safety changes.
+Record:
+- `Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>`
+  (author)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+  by:`, `Link:`, or `Cc: stable@vger.kernel.org`
+
+Notable: author is the Thunderbolt subsystem maintainer. No syzbot or
+user reports in the message.
+
+**Step 1.3 — Body**
+
+Record:
+- **Bug:** Hotplug runs on `tb->wq` via `tb_handle_hotplug()`; that work
+  can still run after `tb_domain_remove()` if the driver is unloaded
+  while a device is plugged.
+- **Symptom:** Possible use-after-free on the `struct tb` domain object.
+- **Root cause:** `tb_queue_hotplug()` stores a raw `tb` pointer with no
+  refcount; removal can free the domain before the work item finishes.
+- **Fix:** Take `tb_domain_get()` when queueing; release with
+  `tb_domain_put()` when the handler completes.
+
+**Step 1.4 — Hidden bug fix?**
+
+Record: **Yes** — explicit UAF fix, not cosmetic cleanup.
 
 ---
 
 ## Phase 2: Diff Analysis
 
-### Step 2.1: Change Inventory
-**Record:**
-- **Files:** `drivers/net/usb/qmi_wwan.c` — +2 lines
-- **Functions modified:** `products[]` USB device ID table only (static
-  data, no function body changes)
-- **Scope:** Single-file, surgical device ID addition
+**Step 2.1 — Inventory**
 
-### Step 2.2: Code Flow Change
-**Record:**
-- **Hunk (products[] table):** Before → device not matched by
-  `qmi_wwan`; QMI interface #0 left unbound. After → `qmi_wwan` binds to
-  interface #0 for `2dee:4d63` and `2dee:4d64`, using
-  `QMI_QUIRK_SET_DTR` (same pattern as Quectel, SIMCom, u-blox entries
-  on interface 0).
-- **Execution path:** USB device enumeration / driver probe at plug-in
-  time.
+Record:
+- **File:** `drivers/thunderbolt/tb.c` only
+- **Scope:** ~4 net lines (1 changed, 3 added)
+- **Functions:** `tb_queue_hotplug()`, `tb_handle_hotplug()`
+- **Classification:** Single-file, surgical fix
 
-### Step 2.3: Bug Mechanism
-**Record:** Category **h) Hardware workarounds / device ID addition**.
-Without entries, `qmi_wwan` never probes the RMNET interface. The
-`QMI_QUIRK_SET_DTR` flag ensures proper DTR/power management during bind
-(consistent with other Qualcomm-based modems lacking auto-DTR).
+**Step 2.2 — Code flow**
 
-### Step 2.4: Fix Quality
-**Record:** Obviously correct — interface #0 confirmed by commit message
-`lsusb` output (`Driver=qmi_wwan` on `If#= 0`). Minimal change.
-Regression risk very low: only affects devices with these specific
-VID/PID pairs that currently have no `qmi_wwan` binding at all.
+Record:
+- **Hunk 1 (`tb_queue_hotplug`):** `ev->tb = tb` → `ev->tb =
+  tb_domain_get(tb)` — bumps device refcount before scheduling work.
+- **Hunk 2 (`tb_handle_hotplug`):** Adds `tb_domain_put(tb)` on all exit
+  paths through `out:` before `kfree(ev)` — balances the refcount from
+  queue time.
+
+**Step 2.3 — Bug mechanism**
+
+Record:
+- **Category:** Use-after-free / reference-counting bug
+- **Mechanism:** Async hotplug work can outlive domain teardown.
+  `tb_domain_remove()` calls `flush_workqueue()`, but a race remains:
+  `tb_queue_hotplug()` can run after `flush_workqueue()` returns (e.g.
+  concurrent unload + plug event). Without a refcount,
+  `device_unregister()` → `tb_domain_release()` can `kfree(tb)` while
+  `tb_handle_hotplug()` still dereferences `ev->tb`.
+
+**Step 2.4 — Fix quality**
+
+Record:
+- Matches the existing pattern in `xdomain.c`
+  (`tb_xdp_schedule_request()` uses `tb_domain_get()` /
+  `tb_domain_put()`).
+- Minimal, obviously correct refcount pairing.
+- **Regression risk:** Very low — only extends domain lifetime for in-
+  flight hotplug work.
 
 ---
 
 ## Phase 3: Git History Investigation
 
-### Step 3.1: Blame
-**Record:** Insertion point is immediately after
-`{QMI_FIXED_INTF(0x2dee, 0x4d22, 5)}` (MeiG SRM825L), introduced by
-commit `1ca645a2f74a4` (Aug 2024). The SRM813Q entries are new; no pre-
-existing buggy code to blame.
+**Step 3.1 — Blame**
 
-### Step 3.2: Fixes: Tag
-**Record:** Not applicable — no `Fixes:` tag.
+Record: In this tree, `tb_queue_hotplug()` and `tb_handle_hotplug()`
+blame to `19eef1d98eeda` (squashed import). The hotplug workqueue design
+is long-standing Thunderbolt infrastructure.
 
-### Step 3.3: Related File History
-**Record:** Recent `qmi_wwan.c` changes in this tree are predominantly
-similar device-ID additions (Telit, Quectel, Fibocom, MeiG SRM825L). The
-companion `option.c` patch (`38ba1a464c0d1`, upstream `7d2b37d3e42d`) is
-**already present** in this tree. The `qmi_wwan` half is **not yet** in
-this tree — creating a half-enabled state for SRM813Q users.
+**Step 3.2 — Fixes: tag**
 
-### Step 3.4: Author Context
-**Record:** Jan Volckaert submitted the companion `option.c` patch
-(already merged here with `Cc: stable@vger.kernel.org`). Jakub Kicinski
-(netdev maintainer) signed off on the `qmi_wwan` patch per commit
-message.
+Record: N/A — no `Fixes:` tag.
 
-### Step 3.5: Dependencies
-**Record:** Part of a 2-patch series with `USB: serial: option: add MeiG
-SRM813Q`. The `option` half is already in v6.18.44. This `qmi_wwan`
-patch is standalone (applies independently) but functionally completes
-modem support. No structural/API prerequisites beyond existing
-`QMI_QUIRK_SET_DTR` macro and `qmi_wwan` driver.
+**Step 3.3 — Related file history**
+
+Record: Recent stable thunderbolt fixes on `stable/linux-6.18.y` include
+XDomain validation and debugfs leaks; no duplicate fix for this UAF
+found.
+
+**Step 3.4 — Author context**
+
+Record: Mika Westerberg is the Thunderbolt maintainer. No other commits
+from this author found in this checkout’s history (squashed tree).
+
+**Step 3.5 — Dependencies**
+
+Record:
+- Requires `tb_domain_get()` / `tb_domain_put()` — **present** in
+  `drivers/thunderbolt/tb.h` (lines 796–806).
+- Standalone; no series dependency.
+- Backport note: mainline diff uses `kmalloc_obj(*ev)`; this tree uses
+  `kmalloc(sizeof(*ev), GFP_KERNEL)` — trivial context adjustment only.
 
 ---
 
 ## Phase 4: Mailing List and External Research
 
-### Step 4.1: Original Discussion
-**Record:** Link points to `20260517153237.55995-2-janvolck@gmail.com`
-(patch 2/2). `b4 dig -c` could not match this commit (not yet in local
-git). `WebFetch` and `curl` to lore.kernel.org returned 403/bot
-protection — discussion content **unverified**. Patch series structure
-(2/2) confirmed from message ID.
+**Step 4.1 — Original discussion**
 
-### Step 4.2: Reviewers
-**Record:** UNVERIFIED via b4 (commit not in tree). Jakub Kicinski
-Signed-off-by confirms netdev maintainer acceptance.
+Record: `b4 dig -c <commit>` not run — commit hash not present in this
+checkout. Lore search blocked (Anubis bot protection). Web search did
+not locate this specific patch thread.
 
-### Step 4.3: Bug Report
-**Record:** No external bug report, syzbot, or user crash report.
-Hardware enablement driven by author testing with physical device
-(`lsusb` descriptors provided).
+**Step 4.2 — Reviewers**
 
-### Step 4.4: Related Patches
-**Record:** Patch 1/2 (`option.c`, commit `38ba1a464c0d1`) already in
-v6.18.44 with `Cc: stable@vger.kernel.org`. This patch 2/2 completes
-RMNET data path support.
+Record: UNVERIFIED — could not retrieve thread via b4 or lore.
 
-### Step 4.5: Stable List History
-**Record:** UNVERIFIED (lore access blocked). Companion `option.c` patch
-explicitly nominated for stable in this tree.
+**Step 4.3 — Bug report**
+
+Record: N/A — no `Reported-by:` or `Link:` tags.
+
+**Step 4.4 — Series context**
+
+Record: Standalone one-commit fix; no multi-patch series indicated.
+
+**Step 4.5 — Stable list**
+
+Record: UNVERIFIED — stable@ discussion not searched (lore blocked).
 
 ---
 
 ## Phase 5: Code Semantic Analysis
 
-### Step 5.1: Key Functions
-**Record:** Only `products[]` static table modified. Probe/bind handled
-by existing `qmi_wwan_probe()` → `qmi_wwan_bind()`.
+**Step 5.1 — Key functions**
 
-### Step 5.2: Callers
-**Record:** USB core calls `qmi_wwan` probe during device enumeration
-when VID/PID/interface match `products[]`. Standard hot-plug path for
-USB modems.
+Record: `tb_queue_hotplug()`, `tb_handle_hotplug()`, plus callers
+`tb_handle_event()`, `tb_scan_port()`.
 
-### Step 5.3: Callees
-**Record:** On bind with `QMI_QUIRK_SET_DTR`, existing code calls
-`qmi_wwan_manage_power()` and `qmi_wwan_change_dtr()` — well-established
-path for Qualcomm modems.
+**Step 5.2 — Callers**
 
-### Step 5.4: Reachability
-**Record:** Triggered by plugging in MeiG SRM813Q USB modem. Common user
-operation for cellular connectivity. Not syscall-triggered, but standard
-device hotplug.
+Record:
+- `tb_handle_event()` — control-channel plug events (`handle_event`
+  callback at line 3291)
+- `tb_scan_port()` — DP HPD path (line 1302)
 
-### Step 5.5: Similar Patterns
-**Record:** Dozens of identical-pattern entries in `products[]` (e.g.,
-`QMI_QUIRK_SET_DTR(0x2c7c, ...)`, `QMI_FIXED_INTF(0x2dee, 0x4d22, 5)`
-for sibling MeiG SRM825L). Telit/Quectel additions in this tree
-routinely carry `Cc: stable@vger.kernel.org`.
+Both are reachable during normal Thunderbolt operation and driver
+unload.
+
+**Step 5.3 — Callees**
+
+Record: `tb_handle_hotplug()` uses `pm_runtime_get_sync()`,
+`mutex_lock(&tb->lock)`, switch/port lookups, `tb_scan_port()`,
+tunnel/DP handling, `kfree(ev)`.
+
+**Step 5.4 — Reachability**
+
+Record: Triggerable by hardware hotplug and by `rmmod`/PCI remove during
+concurrent plug — realistic on laptops/workstations with Thunderbolt.
+
+**Step 5.5 — Similar patterns**
+
+Record: `xdomain.c` already uses `tb_domain_get()` for deferred work.
+`tb_queue_dp_bandwidth_request()` still uses a raw `ev->tb = tb` (line
+2869) — same class of bug, but out of scope for this commit.
 
 ---
 
-## Phase 6: Cross-Reference Against Local Tree (v6.18.44)
+## Phase 6: Cross-Reference Against Local Tree
 
-### Step 6.1: Buggy Code Exists?
-**Record:** Yes — the **absence** of entries is the issue.
-`drivers/net/usb/qmi_wwan.c` line 1454 has SRM825L (`0x2dee:0x4d22`) but
-**not** SRM813Q (`0x4d63`, `0x4d64`). Meanwhile
-`drivers/usb/serial/option.c` already has all six SRM813Q entries (lines
-2472–2476). Half-enabled state confirmed.
+**Step 6.1 — Buggy code present?**
 
-### Step 6.2: Backport Complications
-**Record:** Clean apply — `git apply --check` succeeded with zero
-conflicts against current `qmi_wwan.c`.
+Record: **Yes.** Local tree is **6.18.43** (`git describe HEAD` →
+`v6.18.43-1-gc7f0dac02d232`). Current code:
 
-### Step 6.3: Related Fixes Already Present?
-**Record:** `option.c` SRM813Q support present (`38ba1a464c0d1`). No
-`qmi_wwan` SRM813Q fix present. No duplicate.
+```101:106:drivers/thunderbolt/tb.c
+        ev->tb = tb;
+        ev->route = route;
+        ev->port = port;
+        ev->unplug = unplug;
+        INIT_DELAYED_WORK(&ev->work, tb_handle_hotplug);
+        queue_delayed_work(tb->wq, &ev->work, 0);
+```
+
+`tb_handle_hotplug()` ends with `kfree(ev)` and no `tb_domain_put()`.
+
+**Step 6.2 — Backport difficulty**
+
+Record: **Clean apply** with at most `kmalloc` vs `kmalloc_obj` context
+difference.
+
+**Step 6.3 — Fix already present?**
+
+Record: **No** — fix not in this checkout.
 
 ---
 
 ## Phase 7: Subsystem and Maintainer Context
 
-### Step 7.1: Subsystem Criticality
-**Record:** `drivers/net/usb/` — IMPORTANT. USB WWAN/cellular modems
-used in laptops, routers, IoT, embedded. Not core-kernel, but critical
-for affected hardware users.
+**Step 7.1 — Subsystem**
 
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained — frequent device ID additions and bug
-fixes in `drivers/net/usb/` on this branch.
+Record: `drivers/thunderbolt/` — **IMPORTANT** (PCI driver; common on
+Intel/Apple laptops, docks, displays).
+
+**Step 7.2 — Activity**
+
+Record: Active maintenance on 6.18.y (recent thunderbolt
+security/validation fixes in stable history).
 
 ---
 
 ## Phase 8: Impact and Risk Assessment
 
-### Step 8.1: Who Is Affected
-**Record:** Users of MeiG SRM813Q (Snapdragon X35) USB LTE modules.
-Config-dependent: `CONFIG_USB_NET_QMI_WWAN`. Currently broken for
-cellular data on v6.18.44 despite partial `option` driver support.
+**Step 8.1 — Who is affected**
 
-### Step 8.2: Trigger Conditions
-**Record:** Plug in MeiG SRM813Q modem. Deterministic, every time. No
-privilege required beyond normal USB device access.
+Record: Systems with `CONFIG_THUNDERBOLT` and the in-tree NHI driver —
+Thunderbolt laptop/workstation users.
 
-### Step 8.3: Failure Mode Severity
-**Record:** No kernel crash/oops. **Functional failure** — no
-RMNET/`wwan` network interface, no cellular data connectivity. Severity:
-**MEDIUM** for affected users (device unusable for its primary purpose),
-**LOW** globally (single modem model).
+**Step 8.2 — Trigger conditions**
 
-### Step 8.4: Risk-Benefit
-**Record:**
-- **Benefit:** Enables cellular data on SRM813Q; completes support
-  started by already-merged `option.c` patch. Standard stable device-ID
-  backport.
-- **Risk:** Very low — 2 lines, only matches specific VID/PID, no
-  behavior change for any other device.
-- **Ratio:** High benefit for affected users, negligible risk.
+Record: Driver unload (`nhi_remove()` → `tb_domain_remove()`) concurrent
+with device plug/hotplug event. Unprivileged users can unload modules if
+permitted; root can always trigger via `rmmod`.
+
+**Step 8.3 — Failure mode**
+
+Record: **UAF on `struct tb`** → kernel oops/panic or memory corruption.
+**Severity: CRITICAL/HIGH.**
+
+**Step 8.4 — Risk vs benefit**
+
+Record:
+- **Benefit:** High — prevents crash/corruption on a realistic
+  unload+hotplug race.
+- **Risk:** Very low — 3-line refcount fix following an established in-
+  driver pattern.
+- **Ratio:** Strongly favors backport.
 
 ---
 
 ## Phase 9: Final Synthesis
 
-### Step 9.1: Evidence Summary
+**Step 9.1 — Evidence**
 
-**FOR backport:**
-- Explicit stable exception: new USB device IDs to existing driver
-- 2-line, surgical, applies cleanly to v6.18.44
-- Companion `option.c` patch already in tree with `Cc: stable`
-- Without this, SRM813Q users lack `qmi_wwan`/RMNET — modem data path
-  non-functional
-- Maintainer (Jakub Kicinski) signed off
-- Identical pattern to other stable-nominated `qmi_wwan` device
-  additions in this tree
+**FOR:**
+- Real, well-described UAF race
+- Subsystem maintainer fix
+- Small, surgical, matches existing `xdomain.c` pattern
+- Buggy code confirmed in 6.18.43
+- `tb_domain_get/put` infrastructure already in tree
+- Crash/corruption severity
 
-**AGAINST backport:**
-- Not a crash/security/corruption fix
-- Affects only one modem model (limited user population)
-- No explicit `Cc: stable` on this specific commit message
-- Mailing list discussion unverified
+**AGAINST:**
+- No external reproducer (syzbot/user) in commit message
+- Mailing-list review not verified
+- Mainline merge not verified (torvalds/linux `tb.c` on GitHub still
+  shows buggy `ev->tb = tb`)
+- Related `tb_queue_dp_bandwidth_request()` has the same pattern
+  (separate issue)
 
 **UNRESOLVED:**
-- Full lore review thread content
-- Whether author tested RMNET connectivity end-to-end (descriptors
-  strongly support correctness)
+- Commit hash and lore review thread
+- Whether fix is already in upstream mainline
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — descriptors match table
-   entries; maintainer SOB; established macro pattern
-2. Fixes real bug affecting users? **PASS** — hardware non-functional
-   for data without it; completes half-merged series
-3. Important issue? **PASS (MEDIUM)** — no crash, but primary device
-   function broken for affected users
-4. Small and contained? **PASS** — 2 lines, one file
-5. No new features/APIs? **PASS** — device ID table only (stable
-   exception category)
-6. Can apply to local tree? **PASS** — verified clean apply
+**Step 9.2 — Stable rules checklist**
 
-### Step 9.3: Exception Category
-**Record:** **NEW DEVICE IDs** — adding USB VID/PID entries to the
-existing `qmi_wwan` driver. Textbook stable backport material.
+| Criterion | Result |
+|-----------|--------|
+| 1. Obviously correct and tested? | **PASS** — refcount pairing is
+standard; no `Tested-by` in message |
+| 2. Fixes a real user-affecting bug? | **PASS** — UAF on driver unload
++ hotplug |
+| 3. Important issue? | **PASS** — crash/corruption (CRITICAL/HIGH) |
+| 4. Small and contained? | **PASS** — ~4 lines, one file |
+| 5. No new features/APIs? | **PASS** — refcount only |
+| 6. Can apply to local tree? | **PASS** — infrastructure present, clean
+apply |
 
-### Step 9.4: Decision Rationale
+**Step 9.3 — Exception category**
 
-For **v6.18.44**, this commit should be backported. It is a minimal
-device ID addition that enables RMNET/cellular data on the MeiG SRM813Q
-modem. The `qmi_wwan` driver and all required infrastructure already
-exist in this tree. The companion `option.c` patch is already merged
-here (with stable nomination), leaving users in a broken partial-support
-state until this `qmi_wwan` half is also applied. This matches the
-stable exception for new device IDs and follows the same pattern as
-other `qmi_wwan` modem additions routinely backported to stable.
+Record: N/A — not a quirk/DT/build/docs fix; standard bug fix.
+
+**Step 9.4 — Decision rationale**
+
+This is a textbook stable backport: a real UAF in deferred work during
+driver teardown, fixed with a minimal refcount hold/release matching
+code already used elsewhere in the same driver. The bug exists in the
+local 6.18.43 tree, prerequisites are present, and the change is low
+risk with high stability benefit.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed subject, tags, body from user-provided commit
-  message
-- **[Phase 1]** Confirmed patch 2/2 series structure from message ID
-  `55995-2`
-- **[Phase 2]** Diff analysis: +2 lines in `products[]`,
-  `QMI_QUIRK_SET_DTR(0x2dee, 0x4d63/0x4d64, 0)`
-- **[Phase 3]** `git describe HEAD` → `v6.18.44` (VERSION 6, PATCHLEVEL
-  18, SUBLEVEL 44)
-- **[Phase 3]** `git blame -L 1454,1454` → SRM825L added by
-  `1ca645a2f74a4` (Aug 2024)
-- **[Phase 3]** `git log --oneline -20 -- drivers/net/usb/qmi_wwan.c` →
-  recent device-ID additions confirmed
-- **[Phase 3]** `git show 38ba1a464c0d1` → companion `option.c` patch
-  present with `Cc: stable@vger.kernel.org`
-- **[Phase 3]** `git cat-file -t 7d2b37d3e42d` → upstream option commit
-  exists in tree
-- **[Phase 3]** `grep 0x4d63/0x4d64` in `qmi_wwan.c` → no matches (not
-  yet present)
-- **[Phase 4]** `b4 dig -c 1ca645a2f74a4` → found SRM825L lore link
-  (wrong commit, expected)
-- **[Phase 4]** `WebFetch`/`curl` lore.kernel.org → 403/bot blocked;
-  thread content UNVERIFIED
-- **[Phase 5]** Read `QMI_QUIRK_SET_DTR` macro and DTR quirk logic at
-  lines 821–825, 938–958
-- **[Phase 5]** `grep QMI_QUIRK_SET_DTR` → many similar entries confirm
-  pattern
-- **[Phase 6]** `grep SRM813Q/0x4d63` in `option.c` → 6 entries present
-  (lines 2472–2476)
-- **[Phase 6]** `grep SRM813Q/0x4d63` in `qmi_wwan.c` → only SRM825L
-  (`0x4d22`), not SRM813Q
-- **[Phase 6]** `git apply --check` on provided diff → applies cleanly
-- **[Phase 7]** `git log --oneline -20 -- drivers/net/usb/` → active
-  subsystem
-- **[Phase 8]** Confirmed failure mode: no `qmi_wwan` bind → no cellular
-  data (not a crash)
-- **[Phase 9]** `git show e81a7f65288c7` → similar Telit addition has
-  `Cc: stable@vger.kernel.org`
+- [Phase 1] Parsed subject, body, tags from user-provided commit message
+- [Phase 2] Analyzed provided diff: `tb_domain_get()` in
+  `tb_queue_hotplug()`, `tb_domain_put()` in `tb_handle_hotplug()`
+- [Phase 3] `git describe HEAD` → v6.18.43; `git blame` on
+  `tb_queue_hotplug`/`tb_handle_hotplug`
+- [Phase 3] `git log stable/linux-6.18.y --grep=thunderbolt` — no
+  duplicate fix found
+- [Phase 4] `b4 dig` — not run (no commit hash in tree)
+- [Phase 4] Lore fetch — blocked by Anubis
+- [Phase 4] Web search — no matching patch thread found
+- [Phase 5] `grep tb_queue_hotplug` — callers at lines 1302, 2930
+- [Phase 5] Read `tb_handle_event()`, `tb_domain_remove()`,
+  `tb_domain_release()`
+- [Phase 5] Verified `xdomain.c` refcount pattern (lines 879, 859)
+- [Phase 6] Read current `tb.c` — buggy code present, fix absent
+- [Phase 6] Verified `tb_domain_get/put` in `tb.h` lines 796–806
+- [Phase 7] Confirmed thunderbolt driver path and recent stable activity
+- [Phase 8] Traced `nhi_remove()` → `tb_domain_remove()` →
+  `device_unregister()` → `tb_domain_release()` → `kfree(tb)`
+- [UNVERIFIED] Mainline merge status
+- [UNVERIFIED] Mailing-list review / stable@ nomination
+- [UNVERIFIED] User or syzbot reproduction
+
+**YES**The two background git searches (`build/master` and `fixes-next`)
+didn’t finish — they hung and were killed, so they didn’t turn up a
+commit hash or confirm mainline merge status.
+
+That doesn’t change the earlier conclusion: the UAF is present in your
+6.18.43 tree, the fix is small and correct, and it should be backported.
 
 **YES**
 
- drivers/net/usb/qmi_wwan.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/thunderbolt/tb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 05acac10cd2ba..94cdb61dca83d 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1452,6 +1452,8 @@ static const struct usb_device_id products[] = {
- 	{QMI_QUIRK_SET_DTR(0x1546, 0x1342, 4)},	/* u-blox LARA-L6 */
- 	{QMI_QUIRK_SET_DTR(0x33f8, 0x0104, 4)}, /* Rolling RW101 RMNET */
- 	{QMI_FIXED_INTF(0x2dee, 0x4d22, 5)},    /* MeiG Smart SRM825L */
-+	{QMI_QUIRK_SET_DTR(0x2dee, 0x4d63, 0)}, /* MeiG SRM813Q w/ Modem(PPP) */
-+	{QMI_QUIRK_SET_DTR(0x2dee, 0x4d64, 0)}, /* MeiG SRM813Q w/ NMEA */
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 4a94cb406bdfb..041a4c8e10fb9 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -98,7 +98,7 @@ static void tb_queue_hotplug(struct tb *tb, u64 route, u8 port, bool unplug)
+ 	if (!ev)
+ 		return;
  
- 	/* 4. Gobi 1000 devices */
- 	{QMI_GOBI1K_DEVICE(0x05c6, 0x9212)},	/* Acer Gobi Modem Device */
+-	ev->tb = tb;
++	ev->tb = tb_domain_get(tb);
+ 	ev->route = route;
+ 	ev->port = port;
+ 	ev->unplug = unplug;
+@@ -2527,6 +2527,9 @@ static void tb_handle_hotplug(struct work_struct *work)
+ 	pm_runtime_mark_last_busy(&tb->dev);
+ 	pm_runtime_put_autosuspend(&tb->dev);
+ 
++	/* Undo the refcount increased in tb_queue_hotplug() */
++	tb_domain_put(tb);
++
+ 	kfree(ev);
+ }
+ 
 -- 
 2.53.0
 
