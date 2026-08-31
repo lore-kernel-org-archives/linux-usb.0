@@ -1,82 +1,87 @@
 Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D7341D225
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 15:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A6B471CFC
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 15:42:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788190924; cv=none; b=lfdT9c1qm53kRYPZuTwwRw92qfTpxx9jx2zaM6InNBVoCH4LieGrIZSRbWCtQCKSIKdHl+yPj0SKNurcSohB5yD/raZrAzUSOl0UaI5eU5yB3Whw4D539LzS83okUWplywSsWZMuCALUozd2B4+GqKKlxLwZ9hhdbkqzhUJCJH4=
+	t=1788190925; cv=none; b=LN5pQoK9hPm02MtxgUuMcXPklPTnj8Y1IjjBHWHuL/03ZNtQzNA+Hm0POtlp9AXN3CwbMToUeNP03payUzmI+03D+TvagYoVffjkfNnfTFtfBdL4dwxio9OJPVzW7et81RZo2QIy3Dif2oP5a59gy5qJBknqvxNiEBKsEjf+MK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788190924; c=relaxed/simple;
-	bh=m/nmGoRtIqubxQfOUHezH0/02hIqusNx1rSVN//wVHw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jpajMEEo1hW9UjYHlRNyiq4K9BTpORZPi/AkFUrYOHaUZYbXLEXH+dac+6qaCYb/nb4Wfrf/QNQsEF7aSigwGhcC8v0xmmMWkz2C1ppiQ+DdT8zm3hV3EiqztG0eG6qOoS9Ol5rU5nzFUpFFeNyoIz5skTnvm1DWsv1tNQrUnx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=nAWoBpeZ; arc=none smtp.client-ip=185.125.188.122
+	s=arc-20240116; t=1788190925; c=relaxed/simple;
+	bh=VH8QZ7cKZhiK44QMVjMrGW5MytTxffMIdFgoMOpFUJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oRuZcTLfbGuZ11U/iIJwEI8SS3+6/lEYGPUx9IzRDjzs/IL5k62sN3JeInXybHqCAISkwd40uIg8PvHVjhNd7me+GRt6MTb5E0Bvrq8IUP2pVQ6DogpnaDeuloO3m7kT1vi+ygRKuMttvEvTIdIzlZnaKSPfOrX23pGJgm7U6PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=Ga4lGr9I; arc=none smtp.client-ip=185.125.188.122
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="nAWoBpeZ"
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="Ga4lGr9I"
 Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 40D143F676
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 15:41:54 +0000 (UTC)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 5929C3FBDC
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 15:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1788190914;
-	bh=hTGVz/KajS5V31QIqGkSFaGqj1Av1QbPqyAWIWp1oOo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
-	b=nAWoBpeZb2yp6P3bbP0mE2XvimHa03Clw4jcRiry9K6DdFQgI/jXr4vXuQ47kGLPy
-	 2Aw8RJ28ltLXUVJaSoy0CTQktM7x+XDFYRjhrHYA0+F/x9JqzMEjnUPY4cDCbAmpPT
-	 ARDywYihNY6/T+6yu0AMj37uKuNei1SitkJO4hLL5DofKWWlUOk9wHTnU+WVoUifSD
-	 LbaHGlnX8j3MhFuuRlCCLc237t4Rel/vON4C86zOTOpNFEqT/VdqJj5NtqDfog+pqN
-	 zftukyfL7LJf4+LRRoJedEefprbPb8SEam395hjDXO+zt/MZ+b0G48gLlwMrwWW4+V
-	 CIIV7gNcH217NS8q0tqxWNV6vy4dRbXDko/Xrf5N/1CsDj7Hp1dVVqihOXcMq+fZh2
-	 efLlUsC3PSG10NKznC6Q6CM644fAVkdjiUE6/sXNHzZptgWBVhxOCvUJPcaCp50Irs
-	 OvFSxH1VCG1dXj72J5sM0KHm5IiR2cu20rAH/q4zYmsDrYsB6/O1kuEkvJgHbOS/10
-	 mUEgzRPJznLKEWDgQDrbL4XpUuShwsmPIehXsglHNSlboYpGbai9OMyD+UW3j4yLaP
-	 6iNcDUpF+97SauLP0aAwYtd5W4qQ5VM/WeQP7sEtx3GuTfqHCjFL7JxhGPC0PP7Q4G
-	 dwK+vl1m/DidKX9Cuma2fgpw=
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-398d0010cfaso2955441a91.3
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 08:41:54 -0700 (PDT)
+	s=20251003; t=1788190921;
+	bh=1GfGefQ9EUED0C8C1WTtZnhklJ50/jiUaV3tIS7bBow=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version;
+	b=Ga4lGr9IFlt+vLCQ/Lm4CqAV6RUjdx+FvJKvphha472o2p5ALfZkwboYvobG1cUDv
+	 z3yr9nX91kgurJ5VfRelcnh81vL4ucoqdUKhKcnocRWbvyxzFEcS8gWZfmFHAwud7i
+	 Pfm+59hroNYH3kmfU118mFKJG5c9EbTSNFQlQz3XjEP7CapxHh+/rqcT4mgYbMM2st
+	 WpYFAwHsfgkejlt2wiUesTjWp8pMG95LuTyCfAtk90uW8XZH3mQ/TSKgE3/G8XWumn
+	 75AiYUvaZ+ptJwJjnhiHAiFl5m+hmn7lnxGEvJ/R1ciE6EYzkvfF9xj9fwP7GNYpdB
+	 lvsG4pAsTvwWO+dOhPJiIyh8j/6wZVjgvmeBwdHPg+J6I4rOWO3wCzmXo6zXLH8Vhs
+	 yLOiEJSBgsCjXdeEmSJGC/jjxkb9WwTr4OaO8NoZrjbiEs+IuvlsY2oSJ5IieSCAYy
+	 tO8qRjY1CnQYKlu9JpApXKkKmzGIBSsbYaitArStQ9FUuNSrSXIlTOMRNCFRHdeLls
+	 aTGx7kr81Dy8QJF0YaqCo9xbpozPRpXhS0JfFVJBz4lhCWhZeqvt+VsH9DwM+vM5Zn
+	 T0liKnEq//KE1Gl2+ei0KxJV3f/FpYoCBTj2ZzIwUZitDgRerVHmVQeDGdgXy5toOa
+	 Tmwk8hK13xSBvYZF9AAX0LsQ=
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e54b6556aso4968644a91.2
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 08:42:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788190912; x=1788795712;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hTGVz/KajS5V31QIqGkSFaGqj1Av1QbPqyAWIWp1oOo=;
-        b=bjwGEX/EI2yfUaoxzXNcpN4lFPwc2/2DFH5bzUDy81Kg1bWJCxR+uD+vKgRcHkSPz5
-         yGiDR7LAJLn8E6FQmpJU610KbofITXEM4If89bkDk5JfPK3lniLuFthXJEuKHkfCXpse
-         5GQKBJ8v6saxes3PHvnNtrqYZNKruSP/ltvxCrKYzsW5/YyOhFzoDD1xGIIAq94RQdpH
-         biDP9O7ZcGmCvOXq8kLQTJWTXxCGOP29kozY0XdXjAvb/3011+eftFnEKzmISp9fZbv3
-         TWgSyKmr+BJKPI+pZpKf7pJDKVPYz5sn/6Ed4PyuGq74CyKqB4CmSPHjk8VZdMgZmkha
-         TQKw==
-X-Gm-Message-State: AFuF++nmSgHrTe8hvArmUXQcQbVwPV4Mpnr3iYrv9BTsQxhueQKKN7LT
-	xP1UTEAEb0udewIdld78Nm4R3lPepcxn6hfv9XGdLVDZG/3OlfyMpk5uEuIfWTixTsSiieDkklK
-	Ap3Lj35B/1cqAZ+rqSqqM3t7iHFfYNyojX3ZSf3CXagBImPCJUifyZwgP7HmLmDQblTmagU9IXj
-	CeXQ==
-X-Gm-Gg: AYBFou17cOk8fFC8u5k7Z4fpiGvnZ+XzKs6Z1aNU40rhdXwP2swsC/uS4QEfdZqy+5V
-	1BLylQWfvPnlUBbsxjDPDOoPFk6XCXmIvb6go1fDC5sa17UDF7fEWLjybSxFXGW8oNr0zbSRhaj
-	rkxa4WOeSml1XLKiAHTpgGQnig6i8J3610kAPKEARmGH5IBLOdHhCErCO//D30Oju+/8Er6dB7o
-	PvlqoYTn5VxVjazA4/OOseaKqPnniLVpCCysS641oUl0ohFXvEGNS1tvoGqOa9fdC+uE/BoGuZc
-	54s0xdL0fHnW8XQR8RQdVnHUuwqSGwjcmYDOa7YQ3t/FHuIej2Zzqud+V7DZwHabCsQlaD4qJ8T
-	eSb9rxihSHgBnQGNM2q2bgrdI2QorakAazutAAlr8uyy5EJtNuTFoSA==
-X-Received: by 2002:a17:90a:d887:b0:392:b509:b1a5 with SMTP id 98e67ed59e1d1-39907e0f87bmr2255758a91.14.1788190912262;
-        Mon, 31 Aug 2026 08:41:52 -0700 (PDT)
-X-Received: by 2002:a17:90a:d887:b0:392:b509:b1a5 with SMTP id 98e67ed59e1d1-39907e0f87bmr2255684a91.14.1788190911820;
-        Mon, 31 Aug 2026 08:41:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788190920; x=1788795720;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1GfGefQ9EUED0C8C1WTtZnhklJ50/jiUaV3tIS7bBow=;
+        b=Iwgf6U1/n/S3FBs5EIb5D/Zq9hlyq38veuAXX74B/YnE/RIhba8IeJO9pnKRuwdEKc
+         Um3h0b4jhGSPY8WHTQiKu8yGwHjiBf/wTc3C7SilhWqcI6eh0an2/t0HR4eau0Y0IUpF
+         NWzxwuRrXxfW4vZi8KdfYYMJZNu/89ax4UCvmTzo9U1EZyOZQHZHGO1XtpTm0veWfWAb
+         f+h58EevB5qU2hKD5kOsNdQr5q1e0S3/4viMSLPGFadWXqtq01nrY9Np3BIH9yGQJ860
+         dyQPmrG5undckoIieIqn0n0yhIkXXOWGnDycxL+MTY/CBHX6nfsBgoRfACJW87SAvRCp
+         GIzg==
+X-Gm-Message-State: AFuF++lw9qwPVZusNgc9zVIF30UEnmYeM+tuTiaz8oK/SDXFNfvDo+Ni
+	Tnn65TqoZ/3EbPzmzdstmjmnrq7Dwd3K3eGfUg2C6XjbG2mNodaIZLYa60//fAkopwaDSK12cnZ
+	qV4TbG6N04yZhlb6+9xAXAY/X28GejbmSnJPH2zZqOwD/Pi7hCtwLufCXUycDtO+VN34M4Z2Uck
+	g5nZuuvUFucQ==
+X-Gm-Gg: AYBFou3Rg57m7x53TCNZHqlVuJ3KDtxI6Ose35kd4B8adlZyjpYt9YilZOmhWaftaVw
+	hM5+OyRrxcAG6M/rGiInXOvRbzF6FURxFCQ+p1Bx16tsf0LJqkJpCwxtjmlN4vEai+IAHM8XPuh
+	Sqp8rf0YAZFkq/F42wmdsr7ny9BLtia9djTTARWKYIrUiBo4YAuewLcUBIVhyVN8uc13EIAiyf/
+	y0i02NiCp6MgDOnvT6yZh56Mcp/hQoo12qRnhhxc/YqYAfMRpMDhsD8e/7pvTALsSV4Xp8cuwIG
+	zKPAtLCJSYczsiPQtgeY8iA6/ZIreC2cXxqnWWqtKkyMSJJINhyczgrKncIdTLzDVnpuJstAAr3
+	uJWYv/scIM3srZNNyGxGS+qG/Eg9FYucKnZoC2Ib9k4qGVB7XvRobcA==
+X-Received: by 2002:a17:90b:4c0b:b0:398:9c0c:7c72 with SMTP id 98e67ed59e1d1-3989c0c7ffemr25989483a91.25.1788190918875;
+        Mon, 31 Aug 2026 08:41:58 -0700 (PDT)
+X-Received: by 2002:a17:90b:4c0b:b0:398:9c0c:7c72 with SMTP id 98e67ed59e1d1-3989c0c7ffemr25989439a91.25.1788190918432;
+        Mon, 31 Aug 2026 08:41:58 -0700 (PDT)
 Received: from resolute-linux.lxd (211-75-139-218.hinet-ip.hinet.net. [211.75.139.218])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d62b807sm36228a91.16.2026.08.31.08.41.49
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d62b807sm36228a91.16.2026.08.31.08.41.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 08:41:50 -0700 (PDT)
+        Mon, 31 Aug 2026 08:41:57 -0700 (PDT)
 From: Aristo Chen <aristo.chen@canonical.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Aristo Chen <aristo.chen@canonical.com>
-Subject: [PATCH v1 0/3] usb: gadget: fix WebUSB landing page handling
-Date: Mon, 31 Aug 2026 15:39:36 +0000
-Message-ID: <20260831154139.55811-1-aristo.chen@canonical.com>
+	Aristo Chen <aristo.chen@canonical.com>,
+	=?UTF-8?q?J=C3=B3=20=C3=81gila=20Bitsch?= <jgilab@gmail.com>
+Subject: [PATCH v1 2/3] usb: gadget: composite: fix WebUSB URL descriptor length handling
+Date: Mon, 31 Aug 2026 15:39:38 +0000
+Message-ID: <20260831154139.55811-3-aristo.chen@canonical.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831154139.55811-1-aristo.chen@canonical.com>
+References: <20260831154139.55811-1-aristo.chen@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -85,60 +90,109 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Three fixes for the WebUSB landing page path, found while reading
-webusb_landingPage_store() and the descriptor emission that consumes
-what it stores.  The first two are bugs, the third is the cleanup that
-made the second one easier to see.
+The bound passed to strnlen() subtracts the descriptor header twice:
 
-Patch 1 stores the landing page without a NUL terminator when the URL
-is exactly WEBUSB_URL_RAW_MAX_LENGTH bytes, because the buffer is sized
-to hold the longest legal URL and nothing more.  webusb_landingPage_show()
-then reads past the end of that array.  It currently stops in the zeroed
-padding before the next member, so nothing is disclosed, but the
-terminator that ought to stop it is simply absent.  A 260 byte URL is
-legitimate, since after the "https://" prefix is stripped it is exactly
-a 255 byte descriptor, so the buffer gains a byte for the terminator
-rather than the limit losing one.
+	landing_page_length = strnlen(cdev->landing_page,
+		sizeof(url_descriptor->URL)
+		- WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH + landing_page_offset);
 
-Patch 2 fixes the emission side.  The strnlen() bound subtracts the
-descriptor header from a field that already excludes it, and the host's
-w_length is folded into the URL length, which conflates how much URL
-there is, how large the descriptor is, and how many bytes were asked
-for.  The result is a URL copy bounded by the request rather than by
-URL[], a u8 bLength that wraps for w_length 256..259, a bLength that
-describes the transfer instead of the descriptor, and a reply longer
-than the data stage for w_length below 3.  Computing the URL length
-once and clamping only the reply removes all four.
+URL[] is already declared as U8_MAX - WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH
+bytes, so it does not include the header, and subtracting the header
+again leaves room for three bytes fewer than the descriptor can carry.
 
-Patch 3 drops a dead store in webusb_landingPage_store() and renames the
-variable to what it actually holds.  No functional change.
+That is normally masked by the w_length handling below it, which folds
+the host's requested length into the URL length:
 
-The two fixes are independent; patch 2 is correct with or without patch
-1 applied.  Only patch 3 depends on ordering, and it is last.
+	landing_page_length = w_length
+		- WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH + landing_page_offset;
 
-I do not have a WebUSB host handy, so the descriptor arithmetic in patch
-2 was checked by transcribing the before and after logic into userspace
-and sweeping every (URL, w_length) pair up to USB_COMP_EP0_BUFSIZ: no
-copy past URL[], no bLength wrap, no reply exceeding w_length, and
-bLength always equal to the true descriptor size.  The store side was
-modelled the same way, with the existing behaviour first read off the
-webusb/landingPage attribute of a running kernel so the model could be
-checked against it: patch 3 changes nothing observable, and patch 1
-changes nothing but the terminator.
+Doing so conflates three separate quantities, namely how much URL there
+is, how large the descriptor is, and how many bytes the host asked for.
+It gets all three wrong:
 
-Aristo Chen (3):
-  usb: gadget: configfs: fix WebUSB landing page missing NUL terminator
-  usb: gadget: composite: fix WebUSB URL descriptor length handling
-  usb: gadget: configfs: drop dead store in webusb_landingPage_store()
+ - the emitted URL length becomes w_length - header, bounded by the
+   request rather than by sizeof(url_descriptor->URL), so a host asking
+   for w_length between 256 and 259 has up to 256 bytes copied into the
+   252 byte URL[] and bLength, a u8, wraps to 0 or 3.  cdev->req->buf is
+   USB_COMP_EP0_BUFSIZ bytes, so nothing outside the request buffer is
+   touched, but the descriptor is malformed.
 
+ - bLength ends up describing the transfer instead of the descriptor.
+   WebUSB defines it as the size of the descriptor, so a full length
+   landing page requested with w_length 4 must still report bLength 255
+   while transferring four bytes; instead it reports 4.
+
+ - for w_length below WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH the reply is
+   the three byte header, which is more than the host's data stage.
+
+Compute the URL length once, bounded only by sizeof(url_descriptor->URL),
+build the descriptor from it, and shorten the reply alone with
+min_t(u16, w_length, ...) the way the rest of composite_setup() already
+does.  A 260 byte "https://" landing page is now emitted as 252 URL
+bytes with bLength 255, and short requests are answered with a correctly
+sized descriptor truncated to what was asked for.
+
+Fixes: 93c473948c58 ("usb: gadget: add WebUSB landing page support")
+Signed-off-by: Aristo Chen <aristo.chen@canonical.com>
+---
  drivers/usb/gadget/composite.c | 33 ++++++++++++++++++---------------
- drivers/usb/gadget/configfs.c  | 22 ++++++++++------------
- include/linux/usb/composite.h  |  2 +-
- include/linux/usb/webusb.h     |  5 ++++-
- 4 files changed, 33 insertions(+), 29 deletions(-)
+ 1 file changed, 18 insertions(+), 15 deletions(-)
 
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index df39e3487c1f..6c8e15faee6a 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -2151,7 +2151,7 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 		    w_index == WEBUSB_GET_URL &&
+ 		    w_value == WEBUSB_LANDING_PAGE_PRESENT &&
+ 		    ctrl->bRequest == cdev->b_webusb_vendor_code) {
+-			unsigned int	landing_page_length;
++			unsigned int	url_length;
+ 			unsigned int	landing_page_offset;
+ 			struct webusb_url_descriptor *url_descriptor =
+ 					(struct webusb_url_descriptor *)cdev->req->buf;
+@@ -2169,24 +2169,27 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 				url_descriptor->bScheme = WEBUSB_URL_SCHEME_NONE;
+ 			}
+ 
+-			landing_page_length = strnlen(cdev->landing_page,
+-				sizeof(url_descriptor->URL)
+-				- WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH + landing_page_offset);
+-
+-			if (w_length < WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH)
+-				landing_page_length = landing_page_offset;
+-			else if (w_length <
+-				 WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH + landing_page_length)
+-				landing_page_length = w_length
+-				- WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH + landing_page_offset;
++			/*
++			 * The scheme prefix is encoded in bScheme and is not
++			 * emitted, so URL[] bounds what is left of the URL.
++			 */
++			url_length = strnlen(cdev->landing_page,
++					     sizeof(cdev->landing_page));
++			url_length -= landing_page_offset;
++			if (url_length > sizeof(url_descriptor->URL))
++				url_length = sizeof(url_descriptor->URL);
+ 
+ 			memcpy(url_descriptor->URL,
+ 				cdev->landing_page + landing_page_offset,
+-				landing_page_length - landing_page_offset);
+-			url_descriptor->bLength = landing_page_length
+-				- landing_page_offset + WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH;
++				url_length);
++			url_descriptor->bLength = url_length
++				+ WEBUSB_URL_DESCRIPTOR_HEADER_LENGTH;
+ 
+-			value = url_descriptor->bLength;
++			/*
++			 * bLength describes the descriptor, not the transfer,
++			 * so only the reply is shortened to what was asked for.
++			 */
++			value = min_t(u16, w_length, url_descriptor->bLength);
+ 
+ 			goto check_value;
+ 		}
 -- 
 2.53.0
 
