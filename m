@@ -1,183 +1,144 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D34A3D810C;
-	Mon, 31 Aug 2026 11:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788177499; cv=none; b=fLTxcPc8H9iCVbryIiNhoWiNsrpfNiOf49WEmG6MYYiCyoLi7HC8vuk+Hi/L+Bfs0GqWMCq/JdCsN4EPk/T+LjaGMEqNOM5Oyq2rbgKun1c4l2e/Pfkeyn4JenH8ZNo2QcEzWsCJS15Mp2yJYj0KPx94RFdy8tbBi+zUScT9Mps=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788177499; c=relaxed/simple;
-	bh=BZM0zPycUPGlC/MQ4i0mFQQT4axjWRXiEB0nk7replg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=KYYD29nYraQ2cbnCG+ew+YSEhfTyvpvWACplMfoVp8EKlQsJDC0QkZ2QpaPyusv9tcqY9vujG3sEoAR0mFGWWGGVmGgRb0o4jqTddV6IxHKIOKhvdrNhK6NGNbpFOJmPMkEjwKNwo8DktaThekqG2+KG5fbYCJP5DPyGGsB1AA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=TojKNeFL; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=ac1XFzCm; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1612EBB8D
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 12:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788178949; cv=pass; b=ONr3Y+ghsM6zwCOMvuXr6usKe0nb4HF2VipiPOlR482tt1Mj2yBDNcMKHkvvGaZby6ny2R9Kf7bjLjn5a4llYN+U6odG+cTRz3ARxEx4R8sJVzWxcY1HUq+dbkIy1aj9yG58T9PKOczP7BJa28I919f6sjV0Kh2EfJCh2DvIUHI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788178949; c=relaxed/simple;
+	bh=tSgrJxOrJ3U7RFQ7EE7Oj1TvEromsWTjU7w5aS2v4Dc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=af9irzudO8O6A0jnDWB4dntCczcfbSTGdKNxpxzHxv0u/UWcBF+M3VZ4ss/H+aYdvyunOw9QmdpixTA9rLUNtdb91qBilH6NBx8JX9B9LMpc8aVCoAV4UdVxqtQN1+R+OYIyM9Lx0CbfbrtExmH0YJnNWxoRiYN2Ehamc3LucVs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EaW5dcOv; arc=pass smtp.client-ip=74.125.224.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="TojKNeFL";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="ac1XFzCm"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788177459; bh=gDgWYp6lSGpR6Fw4ej7gEz6
-	7vDzTKUrZGtKES2IVKQg=; b=TojKNeFLwNuQE6peaoJwLfn1QfCJKAChrpGKoICfFIdi7DNnq3
-	dVEXSHWA9NPUaT4vk+ihaG6QgeF99KKnAgzNAZCeu0pbM1HSTEuMTHsMQOFhODM/QfJa8T4toAI
-	OD7EQpPEmlJO2rc/6ou3ZfY34ZXMBOE4lLop0cdszHfcoA0nmsjEUPkemMjMMiBIKGXPaWFHY5S
-	HwVlGa8MmIbFyOAHnRzlnlLyw1u0j1IB+qyuVkZopn9TmeonddprA8qOF68VKxloLhFF6DNhXmP
-	uHbGZ6I85C8W9uHUwqC80EMrLpeB7U01+eoqMmPNImSshpWh9XVN/Lf2tUqr6CpnCNg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788177459; bh=gDgWYp6lSGpR6Fw4ej7gEz6
-	7vDzTKUrZGtKES2IVKQg=; b=ac1XFzCm3bZtmJFVyK3OJH9PpZ3CAQjQolLZ639XEusiSiHMQD
-	1GTg+BDw+gi07o+cXflyAPQgZn3WXv4uEDBg==;
-Date: Mon, 31 Aug 2026 12:57:40 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_0/2=5D_driver_co?=
- =?US-ASCII?Q?re=3A_add_TAINT=5FFORCED=5FBIND_fo?=
- =?US-ASCII?Q?r_when_userspace_manually_messes_with_devices_and_drivers?=
-In-Reply-To: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
-References: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
-Message-ID: <9AB1C455-143A-4583-AC25-F6989EADBD6D@mainlining.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EaW5dcOv"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-66dee7a0c09so2297339d50.0
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 05:22:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788178947; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XIrkjeQgEdx5SEHGNOJgVKEFMz7AqP11gzv+4lOE3Y2FIgmm0LZ8ptgX9iMI0zAOyL
+         vmPa3TGV7K6Uz4jEd4G9KisUTVEiEbrLqIQnjzWcp+7o0iUrnCCjdjxXpmxIgQSCvGlx
+         43XTHGCIPaLQukOIYxzgiSrwpyV2GXT0wQz2qdeP9ZtYeLrOqsZydoodcmVTbcQA6TcD
+         1DZ3uw4OcMtgf3QHJylkxt1p+qK7vhjB7v3w4LVjg1YtADMttXFjKXtuXAoodpx9si5V
+         JZW4sQJKUcSkMu5ik5FAKA2zqoC9sRfUrWBr+Ce21oaFUeap6MpEGTbmzg3+JInkLset
+         arqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tSgrJxOrJ3U7RFQ7EE7Oj1TvEromsWTjU7w5aS2v4Dc=;
+        fh=3SmnNtosiTWFe1DxlxaTcNVNqowhIkeI96SWYwZr7LM=;
+        b=mt5+mm3H07vpqv1aI1CdJQwKhTi0NZWW2jZ+mE83XF4K6q1+cgPpVo8cifN/potbCp
+         WmalyO94lp4R7Bpa4lwb6YuxJh4TjQ4vjS2I2Mn3NdHxuV1l6oog4ZgLvNocOAWMrhO/
+         86AjiERRY08diClf2LV9kKZ5IBMBalEMY4g82xpphr4EsSX6mtfuzigH4zilspseWobp
+         toqFdh8nJK0JZSbjgFSjJDDIMS/0EwQK+akZBm3v7n4X6la6ME11rkDeXM7lXf0fmbyM
+         c+6g55yItU6YED/O9LvJX7LUPonPDPZN5q02gAJDiWX0kTeR1r06WiAwcb7YHiqodJlF
+         s25Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788178947; x=1788783747; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tSgrJxOrJ3U7RFQ7EE7Oj1TvEromsWTjU7w5aS2v4Dc=;
+        b=EaW5dcOvEFk/KTJeuvzfX8H88VWNyq6B0gF26rZ7bjseZnZ2U69B644WNUzEmhoUeg
+         R6T5jzRTwK2waZm9Ak/IEugDkNu0mu0LBLMCKgRYyd9TTeOqnArM/jPCIhtHErj85m9v
+         qaG3XvN2sfqo3PnML1blyjX0QUmsJGUIM2KqHzFs2eoQMOj9oQWSyeCJxs5uAQtypsGx
+         MBkiWNpVx6DnPvBrblo7FPYcy36ibLDpLBdT8DTEyQO3xqpEn1r+WgBi9MFCH01urm/m
+         y7QkpRQjy+OTUS8+74zoxRN7NE/fesE9De9GrGDp2d71u0ojOtNRfiq8oMKo59rvwSQh
+         qhzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788178947; x=1788783747;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tSgrJxOrJ3U7RFQ7EE7Oj1TvEromsWTjU7w5aS2v4Dc=;
+        b=hjzme9NxGtGxk1uSOMlE8nqwG0B/hIz1TruNKtaIz1nVMTy4GuQDo/Ng9syQUMmVM8
+         AeniP2XxvjiUCVZ8YrxWsYXh9LTWWnThM+tCUT/kaTxfu8eetxekJVT/LWNYSfJAhCr8
+         DnylTMvFoFuQ4hFL5w/soIW8D89yjuy4WqbsLq7ZC1mA8nOqKFHyJbaMQS60O+jkIgZm
+         bFTaU2O6281Xw+FTwYBQOChnMm1GrJzH1FBQLL8rsXycHGQnV7nuMta1+f+oW5seuyf/
+         wq+AunTKd5/02fEBYH56oyu/4VO5e8wohhh7Xlf970a9bFtncQCS34x6scqYwGosqj5m
+         uS9w==
+X-Forwarded-Encrypted: i=1; AKwUvByT1gTA0+MNcJpHggdCK2IqkanTgvsQsHKXe9/RqbJ8U+5RsIeJyBCW296ggrbWJMRUDMedTsUXp9Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++l1h6AS2X5SmaBc+3zza0Y7r5TxWVoybFxsliS/pYKqRtRNQjPa
+	GiJvSrE3saUlLpfrDDevLpYiFExMK2qXJBz87rxSQ4eH9hanv4FtxkJUxPuhkatx8MakERCpXvI
+	U6SASU06uwxHYE6DFzjH8kB84BDMxx8Y=
+X-Gm-Gg: AYBFou1d423vLyZlXYMa70mQAvl98EAqr/6bu6HoukIfdXm+ksbnxmyxhEVCrxRxHUP
+	zFq+s7romh7BsFVSrtLv0ipefdsjqmYG151vdZd4AEmbD/3rp96tFwnQySLjbikdgaorIX/0EuB
+	iFoRGAtE06jVoGNCN/cdPBYM1y1HChxq9pA5noYwtzx4axaKEuONOmnlqlmmtZkd39nvFEbnN4P
+	mKlpjGDS4Q7WU/7TKNS05iez7L9TUyDGc8aDM7uLGI8ECXGOfRTzu0hTsCJ8YqL38X8rXYs6cGH
+	hL4UX5/1ZzjeuR+5ohnEN39D2pG4RuBmbRPBFp3ntr0C+EQgwdOXMWPd7/fhKUJ0wzLSFD8Tslv
+	dPITQDV+b8f3+rpO00sL8qUF5GoRODKG/8Q==
+X-Received: by 2002:a05:690e:1248:b0:66b:1421:45a with SMTP id
+ 956f58d0204a3-66e4c65bf8amr7596387d50.7.1788178947190; Mon, 31 Aug 2026
+ 05:22:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <20260816061034.17769-1-kartikey406@gmail.com> <2026083154-choice-platform-51c9@gregkh>
+In-Reply-To: <2026083154-choice-platform-51c9@gregkh>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Mon, 31 Aug 2026 17:52:15 +0530
+X-Gm-Features: AcwNN1XTBkudp1aNX14_rGhl3HkgH0yayASMF94zLItoEAu-SwNFkmZ_PazQ9b8
+Message-ID: <CADhLXY6MN1E2xfnhodGg7SH4DnjF8uYVBDtJfqGXTXNeKdgxDw@mail.gmail.com>
+Subject: Re: [PATCH v3] usbip: vhci_hcd: let the driver core manage the sysfs attributes
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me, 
+	yuyang.du@intel.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 31 August 2026 11:51:45 BST, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->The ability to add and remove devices from a driver through the sysfs
-
-Hello hello hello!!
-
-Right, this may not be a maintainer preference, but this patch is well
-needed, and well beneficial.
-
-Please bare I'm on a well deserved vacation, so I didn't review this super
-vigourisly.
-
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-
-
->"bind" and "unbind" files was created all those decades ago as a way
->that kernel developers can iterate faster, and provide a debugging way
->for users to attempt to add a new device to a driver without having to
->rebuild their kernel.
+On Mon, Aug 31, 2026 at 3:36=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
->This api over the years has been abused and recently come under a major
->fuzzing "attack" through tools like syzbot which decided that it would
->attempt to just randomly bind any driver to any type of device, causing
->loads of unneeded errors and pointless kernel patches to be generated by
->unsuspecting new developers.
+> On Sun, Aug 16, 2026 at 11:40:34AM +0530, Deepanshu Kartikey wrote:
+> > The vhci attribute group is created in vhci_start() and removed in
+> > vhci_stop(), guarded by usb_hcd_is_primary_hcd(). Both run from
+> > usb_add_hcd()/usb_remove_hcd(), which are called once per hcd, so the
+> > attach attribute is live while only one of the two hcds exists: it is
+> > created during the first usb_add_hcd() before vhci_hcd_ss is set, and i=
+t
+> > survives the first usb_put_hcd() on removal. A concurrent write to atta=
+ch
+> > can therefore reach a NULL or freed vhci_hcd_ss.
+> >
+> > Register the group as dev_groups on the platform driver instead, so the
+> > driver core creates the files before probe and removes them after remov=
+e
+> > returns, and drop the sysfs_create_group()/sysfs_remove_group() calls f=
+rom
+> > the driver. The attributes have always been created only on vhci_hcd.0;
+> > an is_visible() callback keeps them there.
+> >
+> > vhci_init_attr_group() is moved into vhci_hcd_init() ahead of
+> > platform_driver_register() so the group is populated before the core
+> > reads it. The attribute array is still built at runtime because the
+> > number of status attributes comes from CONFIG_USBIP_VHCI_NR_HCS and the
+> > preprocessor cannot emit a variable number of __ATTR() declarations.
+> >
+> > Fixes: 1c9de5bf4286 ("usbip: vhci-hcd: Add USB3 SuperSpeed support")
+> > Reported-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3D8753715f05759f1a10de
+> > Tested-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
+> > Link: https://lore.kernel.org/all/20260815143427.19066-1-kartikey406@gm=
+ail.com/T/ [v1]
+> > Link: https://lore.kernel.org/all/20260816015051.13184-1-kartikey406@gm=
+ail.com/T/ [v2]
+> > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> > ---
 >
->Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
->will be set on the driver if the bind/unbind sysfs files are ever
->written to.  This lets kernel developers "know" that a user is
->attempting to do something that is not normal, and as such, if the
->kernel breaks they get to keep the shiny pieces laying around on the
->floor.
->
->The flag is 'Y' which was unused, and can remembered as the user is
->"yeeting" the device being operated on here (thrown with force without
->regard for the thing being thrown).
->
->Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
->as many times crashes/oops/warnings/failures happen within the callback,
->and the taint flag needs to be there to show what was being attempted.
->If it were to be set after the callback happens, the oops report would
->not properly reflect what foolishness was being attempted.
->
->Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
->the tool from hitting bind/unbind, should be run with panic_on_taint
->enabled so that they fall over and don't continue on, thinking that they
->actually found a real issue.
->
->Userspace operations that rely on the bind/unbind files to work around
->the lack of will to upgrade a kernel image to a newer version with
->proper support for new devices, or the lack of will to submit valid
->device ids to driver authors, will still work properly, but now the
->kernel will be flagged in a way that will show that perhaps those users
->should reconsider their behavior and work to have the drivers properly
->support these devices in a "native" manner.
->
->Finally, the bind/unbind files can find real use-after-free issues with
->some drivers by forcing the process to happen virtually without having
->to rely on manual removal processes.  Those real bugs should still be
->worked on, but by adding this taint flag, developers can more easily
->determine bug reports that are actually worth looking at.
->
->Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->---
->Changes in v2:
->- rebase on 7.3-rc1
->- Add changelog text to describe panic_on_taint and how it should be set
->  for tools like syzbot.
->- Add changelog text to describe why 'Y' was picked.
->- Fixes based on sashiko review:
->  - Make add_taint_module() handle a NULL for module pointer, fixing a
->    problem with built-in drivers.
->  - Fix up prototype for when CONFIG_MODULES is disabled so it will
->    actually build properly.
->  - rst table header fixes.
->- Link to v1: https://patch.msgid.link/20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org
->
->To: Luis Chamberlain <mcgrof@kernel.org>
->To: Petr Pavlu <petr.pavlu@suse.com>
->To: Daniel Gomez <da.gomez@kernel.org>
->To: Sami Tolvanen <samitolvanen@google.com>
->To: Aaron Tomlin <atomlin@atomlin.com>
->To: Jonathan Corbet <corbet@lwn.net>
->To: Shuah Khan <skhan@linuxfoundation.org>
->To: Randy Dunlap <rdunlap@infradead.org>
->To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->To: "Rafael J. Wysocki" <rafael@kernel.org>
->To: Danilo Krummrich <dakr@kernel.org>
->To: Steven Rostedt <rostedt@goodmis.org>
->To: Masami Hiramatsu <mhiramat@kernel.org>
->To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
->Cc: linux-modules@vger.kernel.org
->Cc: linux-kernel@vger.kernel.org
->Cc: linux-doc@vger.kernel.org
->Cc: driver-core@lists.linux.dev
->Cc: linux-trace-kernel@vger.kernel.org
->
->---
->Greg Kroah-Hartman (2):
->      module: pull out add_taint_module() to be public
->      driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers
->
-> Documentation/admin-guide/tainted-kernels.rst | 52
-> ++++++++++++++-------------
-> drivers/base/bus.c                            |  3 ++
-> include/linux/module.h                        | 10 ++++++
-> include/linux/panic.h                         |  3 +-
-> include/trace/events/module.h                 |  3 +-
-> kernel/module/main.c                          | 16 +++++++--
-> kernel/panic.c                                |  5 +--
-> tools/debugging/kernel-chktaint               |  8 +++++
-> 8 files changed, 69 insertions(+), 31 deletions(-)
->---
->base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
->change-id: 20260825-bind_taint-d4077b870bc4
->
->Best regards,
->--  
->Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Did you forget an Assisted-by: tag?
 >
 
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+Thanks for reminding me. I will add it and send patch v4.
+
+Deepanshu
