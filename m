@@ -1,84 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA1C4B203C
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 15:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEC33BED30;
+	Mon, 31 Aug 2026 16:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788191507; cv=none; b=VGTCTO/WNimTSoPrx3gnKAvIoM8Y7xHCkeDLLLP/I67aGyQyIgxa67YcpkbpgcNJJt9Aet2ip29YPQ1Rfi4QmivYN5cPqA1uebVdECL/hEC+lJ7cXAfKZUEDJfJpaC+xMIB8TpFX/BJxs7e4tyjRJQQ0aXP7gU5JzPhwZeOYLD4=
+	t=1788192233; cv=none; b=i9qPGNU4fRh7700/Z0XkiOA0YOhUiF4i20HG9oEG9IVV+CSzSWQXfvu/eD4L5Ao/rJU8IQZxNVOTi+ufpOKtIjfvkeFueoQxnD4Wutb4+yysChLGw6UwTNNyI6wG9UOk2pszB+C3AvQ8AzGddp5fHxXS4UjZBSRRHw0yRdbsqzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788191507; c=relaxed/simple;
-	bh=YWvMmPloiPAXbnv9J4/gjUmr5lyfPF72HyHHzTWZ/Vk=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DA1zoNJAYs2cxxFvOVS41nyCtr7CNjZk6EVajFwBYaU/biImWfkNFGE6yUnaaNcuZsOmMboCqVslLl2a/4nWmJU5/Z8h0Bg+/A4T2+ZgKJ6thvNc4Pf+EAX+/OTqT5uzO3vR1w2iKoqzZeV6nP3e6jaVEIm0/9IDL4oQ/LOzPG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLP95mZU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788192233; c=relaxed/simple;
+	bh=iu2xRQDwbrZbuhsKydR44Ey/k/7LXVHvnC2Z96F7B20=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ty1PPsKpR+An0+3ujrc1UugFmoIBbf80I7e6KqiAwoClw/dUfaipclMXVuKz04z6V+HBM79NYdMNs4A99bb8Sfa2DXAg8NAsAxauQBTwrfscPZy4bn2aMb/7btd/HHM4nsAgeG+Df5IQi0QNa7o++FH4EnMAx/0WwV2h7OTHyKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=g+4h03cs; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=g+4h03cs; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLP95mZU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2348CC2BCF4
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 15:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788191507;
-	bh=YWvMmPloiPAXbnv9J4/gjUmr5lyfPF72HyHHzTWZ/Vk=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=FLP95mZU4paiR5R5BeBp2mNECHHkZpk3uFfPpJIzg3xZYCQhG1hkX+h/RmdyKl+4E
-	 5MyNxWyKaApip0BNwwyP6pNqw/6ywGb+PESUwVjQ0quHH1JbWPjuNyHpjXVRbjW1DI
-	 AhXlAgmA5Wc/eJn5XZQolcnmYGJdKeg/sodEA0caZcKa2tlCAtiY1Ugbr6hnAVFv0l
-	 cDUIjk5v+irL4Qg+nwVNxLKhiZB8itatkxPsvf8DymW0slS8ECRZ+EI2ztkvn11PJB
-	 ugANHhSvkEmae9JkX2ErxyWtkDvMNYZfAmy8qdIUfTvDc8YZfTar/q37QuAHlgNKia
-	 vPhBdMPDjJO8Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 13C09C41612; Mon, 31 Aug 2026 15:51:47 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
- polling of USB devices on AMD platforms
-Date: Mon, 31 Aug 2026 15:51:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: voltara@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221103-208809-njhe3vydcw@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
-References: <bug-221103-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="g+4h03cs";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="g+4h03cs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1788192229;
+	bh=iu2xRQDwbrZbuhsKydR44Ey/k/7LXVHvnC2Z96F7B20=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=g+4h03csre1RVWFtS1jpPRXdF/qBcvxfVCNFi5g0HujUtOQ4TT7IeDfAf0Zko8UDI
+	 8UFR6zoPOevDz2VCfyHF7spTUqXgbHsGxWM+14VtYAcB54PZhR9aA63iGvkXoFJurJ
+	 ne/LWR6WcXutRptR4pnTo5QHFWRUtVMvWhUpAWY7zoM14e2ZhceFIg47U/coMLSFvF
+	 ZaO/LOSaIOD3gpagQYGRRVZRyfJ/SGAYl58Foa2oFoPkNVuQOFc9YCpJAxwQ09kuIC
+	 B4qL0gVxIdz7avfK5xLHSefhnB8puy/s/fPuM8INfJBtI3glFO4e9Sle3MSHLBg4eG
+	 DbvhipXOFuQHA==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id EB9F13ECAC; Mon, 31 Aug 2026 16:03:49 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1788192229;
+	bh=iu2xRQDwbrZbuhsKydR44Ey/k/7LXVHvnC2Z96F7B20=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=g+4h03csre1RVWFtS1jpPRXdF/qBcvxfVCNFi5g0HujUtOQ4TT7IeDfAf0Zko8UDI
+	 8UFR6zoPOevDz2VCfyHF7spTUqXgbHsGxWM+14VtYAcB54PZhR9aA63iGvkXoFJurJ
+	 ne/LWR6WcXutRptR4pnTo5QHFWRUtVMvWhUpAWY7zoM14e2ZhceFIg47U/coMLSFvF
+	 ZaO/LOSaIOD3gpagQYGRRVZRyfJ/SGAYl58Foa2oFoPkNVuQOFc9YCpJAxwQ09kuIC
+	 B4qL0gVxIdz7avfK5xLHSefhnB8puy/s/fPuM8INfJBtI3glFO4e9Sle3MSHLBg4eG
+	 DbvhipXOFuQHA==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id DF67D3EC8B;
+	Mon, 31 Aug 2026 16:03:48 +0000 (UTC)
+Message-ID: <540fabbf-2f28-48bc-b765-e865de854401@birger-koblitz.de>
+Date: Mon, 31 Aug 2026 18:03:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v8 06/15] ax88179_178a: Add HW support for
+ AX179A-based chips
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
+References: <20260831-ax88179a-v8-0-de905f2ee426@birger-koblitz.de>
+ <20260831-ax88179a-v8-6-de905f2ee426@birger-koblitz.de>
+ <af3f05e6-f5dc-459f-ac2a-5e7aedbf8ba3@lunn.ch>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <af3f05e6-f5dc-459f-ac2a-5e7aedbf8ba3@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
+On 31/08/2026 4:30 pm, Andrew Lunn wrote:
+>> +static void ax88179a_status(struct usbnet *dev, struct urb *urb)
+>> +{
+>> +	struct ax88179_data *data = dev->driver_priv;
+>> +	struct ax88179_int_data *event;
+>> +	u32 link;
+>> +
+>> +	if (urb->actual_length < 8)
+>> +		return;
+>> +
+>> +	event = urb->transfer_buffer;
+>> +	le32_to_cpus((void *)&event->intdata1);
+>> +
+>> +	link = (((__force u32)event->intdata1) & AX_INT_PPLS_LINK) >> 16;
+>> +
+>> +	if (netif_carrier_ok(dev->net) != link) {
+> 
+> phylink will not like this. It is supposed to be in control of the
+> carrier.
+> 
+>> +		usbnet_link_change(dev, link, 1);
+> 
+> This also seems to change the carrier under some conditions.
+> 
+>> +		phylink_mac_interrupt(data->phylink);
+> 
+> Is this not sufficient to make phylink change the carrier once the
+> status has been read from the PHY?
+Yes, indeed. This is actually the only thing that needs to be done
+in ax88179a_status(). Will fix in the next round.
 
---- Comment #35 from Andrew Skalski (voltara@gmail.com) ---
-(In reply to Micha=C5=82 Pecio from comment #34)
-> Makes sense, I only suggested the alternative placement to confirm that t=
-his
-> line is really the trigger and not merely a timing accident.
+Birger
 
-I went back and double-checked the effect of different mdelay/msleep
-placements, and I no longer believe the xhci_read_64 call is involved.  So I
-will need to do more building & testing to find out what's really happening=
-.=20
-(Thankfully it will be much less time consuming now that I have my rebuild
-streamlined.)
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
