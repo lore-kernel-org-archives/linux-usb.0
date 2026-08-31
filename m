@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E803E0C66;
-	Mon, 31 Aug 2026 10:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93511241686;
+	Mon, 31 Aug 2026 10:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788171108; cv=none; b=DsxOzvK0AijRUGolpaqiNbg8svCG60+eqVmNkUZix5as1vS46Jf7saP6cJG+1yjSUbb6Q6ZhpViXimeYLF2f8Rno/CSCYjbf5Fla8bNWxKt1vmZRwgdmprjs0Q9Lt/rinxFMCQD+TaO/N6hYucC0RbWp80Bc0KQwnyKgUd8fhQY=
+	t=1788171327; cv=none; b=W7/jgEjO+oxLUtMyxOBgAdBt7XbcXreTglgpT/sm8D+6L475o/kvgddMmTBuTFS5tWBYb3gatYSTMa9cXiGRydQLNMUCHpIwAvZW0yNbMS+5sqiZg+pMt90WN6jM7C6bWYFgrwDQGCOOoQafylMsuwUjsDgTssmInFXFidOzRv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788171108; c=relaxed/simple;
-	bh=R6i1b3kmagfcuP2WEJQ9jGBoNwBsUHK51DBR877oN9I=;
+	s=arc-20240116; t=1788171327; c=relaxed/simple;
+	bh=IXG+GKUyyJjrxe9twLgNYgPzeEFT4c+gyE7g5/OFmDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvJ/tE9NY6osvKXdQ7BmDkzHJYQ8zxwvDbZimdRkQQlOLpOMtfucEmu1+aHosNRMmuxRn/DZA9WD0JOQC454JA/tHviE9wwwjTKR9LEoLHwG27exOmse3EhrFml38j5SHFHNj9CHswM63LvLozEe5WD4+Y4RCIaQon0zOGyHV/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyLUO7ci; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=uWoWzg8oNuPKvHHai3Ukz7At0DYQJZGNFpqyxWrcFBZzwyT6m3qjgZLlW7do1WJdgVApwZ96ykqRj/cMxGvH5Hl9SPCyNmzSkTnxTxt2MhYNPd7j86emkRDN/CqyIlo+Lc01+30RohJLGfjBZspHqICcV8nHrnm+f5VYdo/n6Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhuP+gAq; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyLUO7ci"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhuP+gAq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788171106; x=1819707106;
+  t=1788171325; x=1819707325;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R6i1b3kmagfcuP2WEJQ9jGBoNwBsUHK51DBR877oN9I=;
-  b=QyLUO7ci53ttsXjjamYy60mAljTVLLtqJdHd90bPY1S9vqezPFl0LsU+
-   PptC7u1vudUqwbMlEG1mJ6e5f/5WST0IKkeHLLq5dk/5x1rgNGhH6dPmS
-   CZMAtcfyCns825z1Eps5Gpfeg7hL+2vjRfMBMRqZ54IfNpTlf+mc4sngf
-   kSRQsPIfdVTryvETJljd/y/mR3UM25bt7p7al/E6efD9J8CpZ+wB4+YpB
-   DFoz5BEDCR1i2eyTflh6ZB7S4nGoty0d6V/vic2UvO07godUisy0dEJO8
-   pAA5Vk5cO6DY+jlESWdw+hURJjQgeWkMr91XgSZAM7oEJkcq/mUJRmh+w
-   A==;
-X-CSE-ConnectionGUID: FPg7hfwKTay71Ver5SyCNw==
-X-CSE-MsgGUID: oFyPD7bTRIa1DkHzlmif6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92385744"
+  bh=IXG+GKUyyJjrxe9twLgNYgPzeEFT4c+gyE7g5/OFmDw=;
+  b=JhuP+gAqMi83crVfRPjw1hn5BktkI9EQVoWVu9wawSbnH/NyDlhdyOb0
+   95ZGYEZp38QeSf4rY+afLL04PH4PHZKPZlebi+UPdGApHkkLfIYGkUkp0
+   Cxk0cEco2DrmsW8za8c64BSRFwkJCPQTBKxD6clKtI5zXIHzgDVBU8odo
+   oiz3x4fP6cCxxuqfN4MhqPlydNJBRz6DNr7EEwO9nKhb2Otcjhw7KD8Mg
+   QxyuBrfwekbaULGc0oeV+Mfk4nd2XlImb+1h52vmPQ3A7wpZIEdiMjXtJ
+   wGzluOYtucnpt3RmNFgb+TajmCxiSnepXbYExHZmp3tfwmHMwEmeFbh85
+   w==;
+X-CSE-ConnectionGUID: BGwg7DYbShmzOGdKc4coeA==
+X-CSE-MsgGUID: YFm8US73TU2WInn26lbALg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99238311"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="92385744"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:11:45 -0700
-X-CSE-ConnectionGUID: NQiBLmBJR0SITzkx3RqqNA==
-X-CSE-MsgGUID: HsdZcrEOSFuKRd3NEqvn+w==
+   d="scan'208";a="99238311"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:15:24 -0700
+X-CSE-ConnectionGUID: RuryocMyTQ6u3/7Updke9Q==
+X-CSE-MsgGUID: /tD+9s2cTDSJppAAFmHccQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="265515034"
+   d="scan'208";a="292261761"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 03:11:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 31 Aug 2026 03:15:22 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 456E499; Mon, 31 Aug 2026 12:11:42 +0200 (CEST)
-Date: Mon, 31 Aug 2026 12:11:42 +0200
+	id A00F499; Mon, 31 Aug 2026 12:15:21 +0200 (CEST)
+Date: Mon, 31 Aug 2026 12:15:21 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v3 2/2] usb: typec: mux: gpio-sbu: enable when only used
- for orientation
-Message-ID: <apVTXnBDf20PcLgo@black.igk.intel.com>
-References: <20260826-usb-fusb340-v1-v3-0-11927682504d@foss.st.com>
- <20260826-usb-fusb340-v1-v3-2-11927682504d@foss.st.com>
+To: Huang Wei <huangwei@kylinos.cn>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alex Bartz <alex@alstergee.com>
+Subject: Re: [PATCH v2] usb: typec: ucsi: do not register UCSI on Lenovo
+ Legion Pro 7 16IAX10H
+Message-ID: <apVUOYIMOMBVpXWB@black.igk.intel.com>
+References: <20260826034658.2170407-1-huangwei@kylinos.cn>
+ <20260826133118.3327816-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,82 +63,84 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260826-usb-fusb340-v1-v3-2-11927682504d@foss.st.com>
+In-Reply-To: <20260826133118.3327816-1-huangwei@kylinos.cn>
 
-On Wed, Aug 26, 2026 at 02:16:36PM +0200, Fabrice Gasnier wrote:
-> When used as orientation-switch only (no mode-switch, e.g. no altmode),
-> the optional enable gpio remains disabled.
-> Enable it from the switch_set() routine, in this case, when the
-> orientation is set and the enable-gpios property has been provided.
-> Move enable GPIO configuration after the swapped configuration has
-> been done, to avoid possible glitches in case both signals are changed.
+On Wed, Aug 26, 2026 at 09:31:18PM +0800, Huang Wei wrote:
+> The EC firmware of the Lenovo Legion Pro 7 16IAX10H (DMI product name
+> 83F5) has a broken UCSI implementation: GET_PDOS returns no source
+> capabilities, GET_CONNECTOR_STATUS reports an incomplete RDO, and any
+> UCSI traffic disturbs the EC's autonomous USB-C Power Delivery
+> negotiation. With ucsi_acpi bound, chargers connect only briefly and
+> then drop, and voltage_now reads 0; with the driver blacklisted, the
+> EC negotiates full PD contracts on its own and charging works normally.
 > 
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+> The problem is unaffected by BIOS updates up to Q7CN78WW (2026-04).
+> The AMD sibling Legion Pro 7 16AFR10H (product name 83RU) reportedly
+> uses the same EC firmware, but it is left out of the quirk until the
+> failure is confirmed on that model.
+> 
+> Skip probe on this machine, which is equivalent to the blacklist
+> workaround the reporter verified to restore charging.
+> 
+> Reported-by: Alex Bartz <alex@alstergee.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221142
+> Tested-by: Alex Bartz <alex@alstergee.com>
+> Signed-off-by: Huang Wei <huangwei@kylinos.cn>
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+I'm not sure about the dev_info message. Otherwise this is good:
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
-> Changes in v3
-> - Fix missed v2 update on probing mode-switch property.
-> Changes in v2
-> - fix issues reported by Sashiko: probe mode-switch property before
->   registering Type-C switch, to avoid possible race. Configure enable
->   GPIO after swapp GPIO has been configured, in case both transition.
+> Changes in v2:
+> - Add Tested-by tag from Alex Bartz, who verified the quirk on his
+>   machine (out-of-tree build, runtime module swap, PD charging held
+>   across the reload).
 > ---
->  drivers/usb/typec/mux/gpio-sbu-mux.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  drivers/usb/typec/ucsi/ucsi_acpi.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
-> diff --git a/drivers/usb/typec/mux/gpio-sbu-mux.c b/drivers/usb/typec/mux/gpio-sbu-mux.c
-> index 1834f1a2dd9d..b1aa976aca24 100644
-> --- a/drivers/usb/typec/mux/gpio-sbu-mux.c
-> +++ b/drivers/usb/typec/mux/gpio-sbu-mux.c
-> @@ -17,6 +17,7 @@ struct gpio_sbu_mux {
+> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> index 18286d3e9cc5..9f36f8cfce4a 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> @@ -173,6 +173,21 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
+>  	{ }
+>  };
 >  
->  	struct typec_switch_dev *sw;
->  	struct typec_mux_dev *mux;
-> +	bool mode_switch;
->  
->  	struct mutex lock; /* protect enabled and swapped */
->  	bool enabled;
-> @@ -40,19 +41,24 @@ static int gpio_sbu_switch_set(struct typec_switch_dev *sw,
->  		enabled = false;
->  		break;
->  	case TYPEC_ORIENTATION_NORMAL:
-> +		if (!sbu_mux->mode_switch)
-> +			enabled = true;
->  		swapped = false;
->  		break;
->  	case TYPEC_ORIENTATION_REVERSE:
-> +		if (!sbu_mux->mode_switch)
-> +			enabled = true;
->  		swapped = true;
->  		break;
->  	}
->  
-> -	if (enabled != sbu_mux->enabled)
-> -		gpiod_set_value_cansleep(sbu_mux->enable_gpio, enabled);
-> -
->  	if (swapped != sbu_mux->swapped)
->  		gpiod_set_value_cansleep(sbu_mux->select_gpio, swapped);
->  
-> +	/* If both enabled and swapped transition, set enable GPIO after to avoid glitches */
-> +	if (enabled != sbu_mux->enabled)
-> +		gpiod_set_value_cansleep(sbu_mux->enable_gpio, enabled);
+> +/*
+> + * Platforms with a completely broken UCSI implementation in firmware.
+> + * Do not register UCSI at all on these machines.
+> + */
+> +static const struct dmi_system_id ucsi_acpi_ignore[] = {
+> +	{
+> +		/* Lenovo Legion Pro 7 16IAX10H: broken EC UCSI firmware */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "83F5"),
+> +		},
+> +	},
+> +	{ }
+> +};
 > +
->  	sbu_mux->enabled = enabled;
->  	sbu_mux->swapped = swapped;
+>  static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
+>  {
+>  	struct ucsi_acpi *ua = data;
+> @@ -199,6 +214,12 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
+>  	if (adev->dep_unmet)
+>  		return -EPROBE_DEFER;
 >  
-> @@ -120,6 +126,7 @@ static int gpio_sbu_mux_probe(struct platform_device *pdev)
->  	sw_desc.fwnode = dev_fwnode(dev);
->  	sw_desc.set = gpio_sbu_switch_set;
->  
-> +	sbu_mux->mode_switch = device_property_read_bool(dev, "mode-switch");
->  	sbu_mux->sw = typec_switch_register(dev, &sw_desc);
->  	if (IS_ERR(sbu_mux->sw))
->  		return dev_err_probe(dev, PTR_ERR(sbu_mux->sw),
-> 
+> +	if (dmi_check_system(ucsi_acpi_ignore)) {
+> +		dev_info(&pdev->dev,
+> +			 "UCSI implementation in firmware is broken, ignoring\n");
+> +		return -ENODEV;
+> +	}
+> +
+>  	ua = devm_kzalloc(&pdev->dev, sizeof(*ua), GFP_KERNEL);
+>  	if (!ua)
+>  		return -ENOMEM;
 > -- 
-> 2.43.0
+> 2.25.1
 
 -- 
 heikki
