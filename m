@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4B73F8229;
-	Mon, 31 Aug 2026 12:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF003D6688;
+	Mon, 31 Aug 2026 12:30:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788179354; cv=none; b=al+IWX/yqs4plgbxX0ut9C3zvVl5uUKShE1F0sVgB86G8l6hbe4Rf/x0R1pO00XWHE2bEL1Fr5R63r7wBp3rKs9KPg3Zpb08lzIAuDD6szQTzpcPOvcwpsttZmd1fW9+noq9qJpulYpYpDZ3aHq/79T9WggGNw9zVDt5hefR3/0=
+	t=1788179434; cv=none; b=AiVy/GSegUdss7Q4n2amCCqOTlyxnJkcVnPQLLewO+tCOOg8fQCL+YN7HyKl7s9eB4VVgnQyeW/K1kWpLX8dppXnQSvegAs/upx3fukQp/ZUvuUF0TkVQCwI/bdftq6PJip71NSwFBeNF4xYZXSzqKOqryLf/iJogmZviep6zL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788179354; c=relaxed/simple;
-	bh=l0MaT3Pi5uGiiDDeoLkgWy81tFD6Pr72ylJ0STO1Rdw=;
+	s=arc-20240116; t=1788179434; c=relaxed/simple;
+	bh=P/nUJsislhQJX34fx8Kb2B0lT8SzGNMs1GAHnBSrlJQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=twReWTBjB9/9AHjB5PhNixE+z2T55/5s0ZBU3t9Wps4uk/eC1vtLQq4i9AzUjHo7vB9sPmOM+OxJOmyecasvj5x7QhljKhJPBTeJAARZqJuGmhXDcOWkPkb+2c++ULBTP4UmO04WqnPn4athUMCoYeWRG3+J9XDs0AAL1gFx+5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw3J2rS+; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=e73aKuKZO+bj99DIXIa10mVuYgQXMfbQ3wFh/tlZ4zFsFHPJSYubkcvMq+af9jTPoYuex0+VW7ForAod76/ZkTXEVXnQyh0X1V7WMp11d8hqyWHvdwhOKsUkSBzpRtg2EHJWerzef8IXTWjJZWZV0BEPIOAvKjTR3wHkiZ8aW3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+KSjRfR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw3J2rS+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7521F00A3D;
-	Mon, 31 Aug 2026 12:29:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+KSjRfR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70FA81F000E9;
+	Mon, 31 Aug 2026 12:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788179353;
-	bh=pF4kOkSCUH1iTDUi4spzxRIPp4bQpWG7tkUadCgCnL4=;
+	s=k20260515; t=1788179432;
+	bh=o0j9vXuew8PzdgEF/ZP3ym0lz6xPW5nlKTzSfWn7rN0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Vw3J2rS+laMQGfFMoFUIJtgUo6tMgUjqGl32F7sQVP+OzNsmzJatbCw8V2/o+bN98
-	 Um/J3ap9cA1qWX+UVgEcjTWa8O86b7kBvEp5qVzMZ1Dz8VwMcQn8RA9We/gyWFC+rh
-	 fuscV1fqNSx0aAW8rH3K0IksR7p6YlArO7/zpzPYfkJWUQuKJZfRkMgVnZHibVANQF
-	 Y/pYN7HS9FPHxcNqn9VyqbCqJUfIEWB76svnDGhVN4i55n8B2RpOf+hPStgu26T86b
-	 2WPUPZesnyyXf+gXSMjDpxb6LfTEFA9TKbcw9ldgn9CIO4nn+CFfaI1K9+ttmnqeUu
-	 3s997cvwqFYlA==
-Message-ID: <cc52ff33-3da4-492e-80cd-ba2b1711bfed@kernel.org>
-Date: Mon, 31 Aug 2026 14:29:07 +0200
+	b=G+KSjRfRvJBfjsqM2aTWTeCVZQEMsuPITbqdm7+NO/bGl5UDQzJoqteEUbVi70uYH
+	 2xwLIuX9+NUotx2n1s6Rd0MF/hlF4pkUoRdpSv1W5QVZPOGEbkQsxtZH2Ve5uhgN/b
+	 AYmHSQfXDYsy+d9eZskq/ZYtWb86TuT3qFboG71HaO/b3pPhHqaCvH0HDEwqfdAc/K
+	 EzgjSQI6akWXpMqfXGIZOCrox3k//voklpB2cZuaRJxqyQ6uzTaGrDqNa7ecGGLhkO
+	 VtKPezGZ7XqAErXAU7MAnAS1uCkDqspI6aX4cFyZg6txeFJGz6IBaoBM6ko/SaIh9x
+	 k2QdOnINQWScw==
+Message-ID: <d69efb1c-4ab3-4148-8b98-035377852da6@kernel.org>
+Date: Mon, 31 Aug 2026 14:30:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,18 +35,27 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding
- for non-MP controllers
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Wesley Cheng <wesley.cheng@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260828081542.52796-1-krishna.kurapati@oss.qualcomm.com>
- <20260831-messy-ebony-warthog-cfd727@quoll>
- <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
+Subject: Re: [PATCH v3 01/12] dt-bindings: phy: qcom,ipq5332-uniphy-pcie:
+ Change to PCIe/USB3 combo PHY
+To: George Moussalem <george.moussalem@outlook.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Praveenkumar I <praveenkumar.i@oss.qualcomm.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>,
+ Nitheesh Sekar <quic_nsekar@quicinc.com>,
+ Wesley Cheng <quic_wcheng@quicinc.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com>
+ <20260825-ipq5018-usb3-v3-1-39be0955a6aa@outlook.com>
+ <20260828-wisteria-fennec-from-arcadia-a44ebe@quoll>
+ <SN7PR19MB6736B881B203BF5746F0DEE39DAC2@SN7PR19MB6736.namprd19.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,71 +101,52 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
+In-Reply-To: <SN7PR19MB6736B881B203BF5746F0DEE39DAC2@SN7PR19MB6736.namprd19.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 31/08/2026 11:03, Krishna Kurapati wrote:
-> 
-> 
-> On 8/31/2026 2:07 PM, Krzysztof Kozlowski wrote:
->> On Fri, Aug 28, 2026 at 01:45:42PM +0530, Krishna Kurapati wrote:
->>> Currently for Glymur non-multiport USB controllers, number of interrupts
->>> are limited to a maximum of "5". Either hs_phy_irq or ss_phy_irq are to be
->>> present.
+On 28/08/2026 12:51, George Moussalem wrote:
+> On 8/28/26 14:09, Krzysztof Kozlowski wrote:
+>> On Tue, Aug 25, 2026 at 04:37:18PM +0400, George Moussalem wrote:
+>>> This PHY is a PCIE/USB3 multi-purpose PHY. Initial support was added for
+>>> PCIe only, so rename the binding and add support for USB3 PHY mode.
 >>>
->>> Mark glymur non-multiport controllers to support a maximum of 6 interrupts
->>> including the hs_phy_irq and ss_phy_irq.
->>
->> Why?
->>
+>>> The PCIe and USB physical pads are muxed and selection is done via a
+>>> control register in TCSR. Add a new property to the binding to enable
+>>> switching the default PCIe mux selection to USB3 mode.
 >>>
->>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+>>> In addition, USB3 mode requires a 5V supply, so add a vdd-supply
+>>> property for it.
+>>>
+>>> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 >>> ---
->>> Changes in v2:
->>> - Modified commit text indicating the issue in max interrupt-names for
->>>    Glymur non-mp controllers.
+>>>  .../bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml | 109 ----------------
+>>>  .../phy/qcom,ipq5332-uniphy-pcie-usb3-phy.yaml     | 141 +++++++++++++++++++++
+>>>  include/dt-bindings/phy/phy-qcom-qmp.h             |   4 +
+>>>  3 files changed, 145 insertions(+), 109 deletions(-)
 >>>
->>> Link to v1:
->>> https://lore.kernel.org/all/20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualcomm.com/
->>> ---
->>>   Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>> index ea60f7220afe..3bef18f9557e 100644
->>> --- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>> +++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>> @@ -524,7 +524,6 @@ allOf:
->>>           compatible:
->>>             contains:
->>>               enum:
->>> -              - qcom,glymur-dwc3
->>>                 - qcom,milos-dwc3
->>>                 - qcom,x1e80100-dwc3
->>>       then:
->>> @@ -547,6 +546,7 @@ allOf:
->>>             contains:
->>>               enum:
->>>                 - qcom,eliza-dwc3
->>> +              - qcom,glymur-dwc3
->>>                 - qcom,ipq4019-dwc3
->>>                 - qcom,ipq8064-dwc3
->>>                 - qcom,kaanapali-dwc3
+>>> diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml
+>>> deleted file mode 100644
+>>> index 6e9df81441e9..000000000000
 >>
->> This changes the ABI without an explanation.
->>
-> As per the harware specification, the controllers do have both 
-> hs_phy_irq and ss_phy_irq. Hence wanted the binding to capture that 
-> info. Will update the commit message accordingly.
+>> Please do not rename the binding. Old name was correct. New one is not,
+>> otherwise please point me to the compatible like that.
+> 
+> I thought we had come to the conclusion it's the same device in the
+> discussion in v2:
+> https://lore.kernel.org/all/gn43qixdtbq5iyfqvzibdtx4lmwpkt2ieahr7oqsxxjfpldb6d@xbxhbdrq4e6b/
 > 
 
-So the change in 99df63d20dabda8d7ae01bcca7cdb1e92110a555 was
-incomplete? Lack of context here is not helping.
+How is it relevant to renaming of the file?
 
-If they have these IRQs but it does not matter, then it is not a good
-reason to change ABI and you should just add the clock as optional to
-the end. Was this binding already released? I think yes.
+> I've split up this series into 3 as in the cover letter:
+> 1. Flatten USB Controller Nodes on IPQ SoCs
+>    link:
+> https://lore.kernel.org/r/20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com
+> 2. Enable USB3 for Qualcomm IPQ5018 (this patch series)
+> 3. Enable USB3 for Qualcomm IPQ5332 (to be submitted)
+
+How is this relevant?
 
 Best regards,
 Krzysztof
