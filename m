@@ -1,77 +1,71 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083EA3D0914
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 08:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F118D3D16EF
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 08:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788165696; cv=none; b=jqseKBM+DvLPYCJ4V50lohcOvB0Vx66Mh6bpu3Db63Z7rMAOb8TnikZ55wVoODtRocL1Vlg6B5z9xhKJIpRjtXcRh5zLq+xlX4Jnd0qPrhTZEAhyKr9UOs3FeWK8NH2TiMJ2sFDGEnS/AIP/jqs7oT9ZyLO0omwALkqr02S4O1Y=
+	t=1788165859; cv=none; b=nOlM8w5wJOp6K0q04rw7nlHiZDMxnqi8qqEITnvi0DgEiU80M+7dg1Cwobk4TaZ2FyhIfvvxVYr0xznHHPaD6tOD7pKwoi0r10bqN/bLQ8u8fiR4WM9M6HJiCsdPX1Lzf8OVGi+Y+38QikyHDKG9SxJuMenNswwjFB8jD2fKR04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788165696; c=relaxed/simple;
-	bh=to6zl/n2CMI8LEhJSWsLmG+6IaLANuFS6dLWdh6lZl0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c7UNPq5SLL+WUBY1Q54wnCyae4Gnby2egCxmUQxr8vtlYG8XbA3Rwj8/PdPLnWr4ud0pM/Uhuk/COLXQVgrP52TlNAI887hKelzoXQ2Y9QDeLTkR+MVtSO0RfiECOPNwt69laOSHgSYP0DyhExCF+0W0IscjeQwgZqtEYd31lkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IHXWP9Xt; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1788165859; c=relaxed/simple;
+	bh=EyX8qvocRRT4z+7IIC/7oHq63cyTz6iY0KWcwy2pMe8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oV4/jcwcL1qwhCp0jIdfdPvDPkEdyH/ZOSEzFb7NEkdHJ0EiA1XborsQh/RAXRW+bn809b4DpXQNzZS0mY1IxV+/2MtFApnAwRj62gV8HdBRoHpteqTftW5940Z3ltOJ+D3nouttBS3PRhk7BDsWibyKfXhq5ON181eyEwxWW9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFffVMkN; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IHXWP9Xt"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2d712281f8bso35476615ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 01:41:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFffVMkN"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-398a4dcf289so2361440a91.2
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 01:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788165694; x=1788770494; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788165857; x=1788770657; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nqfdJve8Ni4RVv0b2fgjV6qAXoGzSYyxkoSoeuiqXN4=;
-        b=IHXWP9Xtlg3hy0oWbqLNzxTIS7X8CestPW4oRm4nMAYsj1MGwbC2c0B+IIrw84e5Yp
-         g85KtM6u9VkvFpK1CKZ+Z7oEG4gesiDVZziiPYvQbz28vQK0f4WCc7mrwdsh5BrEqJQG
-         v4Rf4+JUnFvvKMzClZAjQ7V6tPHguqZ8kKx4eBBBhpZE0d81EUjsteQ0n6Y0C+e8eXZt
-         03ejxkEdzIC1ymT7C5fuqf5ixGUWU+LPQTtK4xcQLIc21SL8v5mhUPZaC8O4SlCdlBFQ
-         e3zUbQm+GbQs0RJI23LyVpTLKAjvUg9szcBc9JdCf04x1J6CrBse3JdEb0ccXo6Tenqo
-         RjTQ==
+        bh=MDVn5ErxJ0Fjvf5gqyhUkfteNgBIOZxlcmjpqwkLy4o=;
+        b=LFffVMkNlwDGM9qUdafm7euTwYuV3Yus3MXloOqMgX3a8ZbMXhgI4Gaoq1F/vub08P
+         XpYUoN/Qy6YIfvgN3lYDdS3okcwOjIYEWfKD0zZ54y7zo2gM9YcpCLe36zetmc+vQceM
+         7QzUEJihMQDscQZxvopPDnzIvWUbSQhB8kphbj6Nl2kgH2jLfuTiKRNa7QeC/81yTGsC
+         O6YqpaxgMMuqSVBfxG1+4Uwpji/Fz4ckkmnXWYPffwhkYcYYJ1RzftWT83Bc7YSOS6rt
+         0GKjp4UHkeW+FFJu/OW93AT3vl5qcJYCKtROHyWNesIANUqYJhFgpgSDUpw1o0nYpDfo
+         jn/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788165694; x=1788770494;
+        d=1e100.net; s=20251104; t=1788165857; x=1788770657;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nqfdJve8Ni4RVv0b2fgjV6qAXoGzSYyxkoSoeuiqXN4=;
-        b=ite8AHFDAQYktJzll9w4XiWgQ6b0i6lVQEWzKH1j9mMsPDCmEQJn8sWS+6aMGShhhQ
-         SVBJjXJSh8tLfi9krIJ+FprsV9UEuZ6gHULt2wk2u81fFDTB138HjYieAyV9NoTmGSzy
-         S6jr3vZMGIBZJYmcsDC3BDy7OQJZ/Cz1g04Pa1V7QAACIEz9/r3FAO4I0kCjLVwxiqtc
-         4Mbz//nFfEmmmr0wl/ER7mAu1vX30gBVUoQ0x7bwbhdJ2x1xJpos1YN+FMfokQsnRgfs
-         vx7eCcHeeD1lkRdmGSOUzHpQnIfO/6FhxmQBDKM4G34s/Pn0zlcPwUCHWwe9P0gDdeII
-         VumA==
-X-Forwarded-Encrypted: i=1; AKwUvBz76JqC4C2hj7fd2L7nK8LA3JZbVTJ0vbi4Un8qeAow+zaFaiBqlBAa4LmWuc+t0SUJCiMKw94HeeI=@vger.kernel.org
-X-Gm-Message-State: AFuF++nRuEApYGVXk5rvuteP9Tzh3kfgR7saVvhVRZNsH7fOf7SvASbj
-	Zoao80lhEEPI7BYZechxwoQPN9QYFCqpciGBcqa/RQibh+wZRNOVUe/C
-X-Gm-Gg: AYBFou2XPBiwJ9kyjKQf19stKJEhuYfuQtAzHZOsZ7q2BycUhjSl6iNugF/OyKIq7OU
-	G0qbynuRjBk61qwGCJa4p3zxX5dOyonskz9xt4PVlAEH4JvmvvlPsT4BsK8tGxUWmK/enMvxD58
-	ngOa9jsI+iC+4MUcTVEKF/gr8G0ZDdIktek8YA3quVsXRewWzdL4QF0rHuqgsWDbqWfNlsaspqm
-	o3BTTEEIabpRxzxfNaKzW0YmJe0+7eOMsrj8jg3hqVwv7koSzdPYUA/5Dz3vz4aVxOZGmQeVmkn
-	GPJgzVwUpMEpJVxfzddfKs83wSkYiuJrIbriJIIATugjQNCamZ4XfpIUSPqn2BnLL1Zib8vGfay
-	jWcvIt08rVVGc8HwAYQUGXOZDLkpJTemwQBeQ7N1RcXnsssIBTR1cOqadI2ql1zD6yuzHFHu753
-	kp3cmGkvgQHafSLxzr6zMSHAWxMKzf+RD3JxPyS5mRfGrOh9K+FcHaip4Yheq5EOa3oDD9v3XpC
-	/BP+ZnvKKedXbsASOZ6AqxcVE4ObbPaWhyzDZU+bA==
-X-Received: by 2002:a17:90b:3c89:b0:398:9be8:ea66 with SMTP id 98e67ed59e1d1-398f86c802fmr2915772a91.19.1788165694102;
-        Mon, 31 Aug 2026 01:41:34 -0700 (PDT)
+        bh=MDVn5ErxJ0Fjvf5gqyhUkfteNgBIOZxlcmjpqwkLy4o=;
+        b=koCyYypocGPgd/yYGh+7AzTfuTqcfKOTENAdaGxlQS6ZRhDfG9Q5QxKl79r9jwJL5P
+         2SxwJuhVuJ5Y9wKwigoxdEOthZybEEorKvFdVXPCpSfYJUALIAZGJz/mcENP11mNxqkd
+         4hCHVlKBPzQgi7N8T0dSAIM0YGxE+KRNoLFUJToRoQKJuaYFmPCSORQelZWNyWWJhK42
+         xe8G/WP5HufOaaZMISxf+LXZaSQrMiLoD9v/XmI36cOSbmpnfKHoeTnvtw9gSoBg/E1i
+         6FoyQEkYZnRmSf3UhCqAbDVOxRyGudUj3DmJkvOs2PSlMs5cSDIyTVmEsW2no+f3LMhn
+         SCzg==
+X-Forwarded-Encrypted: i=1; AKwUvBy3zJPzmfmtvyygWFzxu0tPNvX2zEMFginSblP0FX2Ej/+8kmUIbEFpD0a8Sj26uDIuULbUADpskgg=@vger.kernel.org
+X-Gm-Message-State: AFuF++lojQt8JMuoUOlOX8GPFGd79L7iw4HXnPmjPk6EXq8neVt4Gr6Z
+	AEByJwZoGmy3Nk1Jw2Wx5lp8yuuFXTRAcU+lnsGBLhqFOflPCmxPPRF4
+X-Gm-Gg: AYBFou3DICDP9ux+KN28nK+YyRwOhjvrMc4RS2NhqA13Ti1csx4YuYQ0bpN1fECfeYz
+	pRiZaJcfJa4xIuoWGqnfuhcIWLWmXGTUpIS5AX7DX294pRoEml4Ti+GPmDnEBEe8DL7J8J/uRcy
+	3b1DB6XbRgAb5vg4Oe0ZfucNqVBjt88mh0otJUQ+O7MvXvduIc8CU9WStx350DeOpPXmyJosniM
+	C0Nv3/knT/C/mGEur8+jeI56NS46fJXZsfwTUdXSl9g6+/hMWIiHzaDTFXFwUUrNoldMkXKDrQt
+	enlFOj/3IB7E3x4wji7SLxlvOYtKA0uac6C03ANYhOL/BKdxwzLVGwgXgFh1xFNslmMI8igJfst
+	fnrQYjLyG0BuK/0L2eYYM4dF6mUA9hCp6AsbG5vzi8vqyGHGQ6GRY0kayUY2A+QHHY0r0Kdq4Z0
+	M/QjatZ2QPVCGfw2aDEf8vVLxiW7cM6DS9ti/XmpEnbRdc6JqR4Y2OduFpYo1/p0y5Zy80TjzzR
+	6B5cNDZcpqBnm/kmH3EZg1rqBO9W3tngcPJa1Zv3Q==
+X-Received: by 2002:a17:90b:3c89:b0:398:a2ed:7b5c with SMTP id 98e67ed59e1d1-398f88f2e0bmr2977653a91.24.1788165857075;
+        Mon, 31 Aug 2026 01:44:17 -0700 (PDT)
 Received: from ian-lin-DREAMBOOK-PRO-14V.. ([2401:e180:8832:3ee7:cbb8:f1fb:c6e2:ba18])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0fd5c34sm20592434a91.8.2026.08.31.01.41.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b1ac3cbbsm20142625a91.17.2026.08.31.01.44.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 01:41:33 -0700 (PDT)
+        Mon, 31 Aug 2026 01:44:16 -0700 (PDT)
 From: Ian Lin <jisayme@gmail.com>
-To: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Johan Hovold <johan@kernel.org>,
-	netdev@vger.kernel.org,
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Ian Lin <jisayme@gmail.com>
-Subject: [PATCH net-next v3] net: usb: qmi_wwan: add Compal EXM-G1x support
-Date: Mon, 31 Aug 2026 16:41:24 +0800
-Message-ID: <20260831084124.65074-1-jisayme@gmail.com>
+Subject: [PATCH v3] USB: serial: option: add Compal EXM-G1x support
+Date: Mon, 31 Aug 2026 16:44:05 +0800
+Message-ID: <20260831084405.65506-1-jisayme@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -82,7 +76,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 The Compal EXM-G1x is a Qualcomm SDX12-based LTE modem. Add support for
-its QMI WWAN interface 8 using the DTR quirk.
+its vendor-specific serial interfaces with protocols 0x30, 0x40, and
+0x60.
+
+Relevant output from usb-devices:
+
+T:  Bus=04 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  4 Spd=5000 MxCh= 0
+D:  Ver= 3.20 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
+P:  Vendor=04b7 ProdID=8217 Rev=05.04
+S:  Manufacturer=COMPAL
+S:  Product=EXM-G1x
+C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
+I:  If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+I:  If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+I:  If#= 4 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+I:  If#= 8 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
 
 Tested on a Compal EXM-G1x modem.
 
@@ -90,31 +100,33 @@ Assisted-by: Codex:GPT-5
 Signed-off-by: Ian Lin <jisayme@gmail.com>
 ---
 v3:
-  - base on net-next and mark the target tree in the subject
+  - base on usb-next
   - add AI assistance attribution
   - post as a fresh thread
-v2: https://lore.kernel.org/20260828082309.12513-1-jisayme@gmail.com/
-  - split QMI WWAN support into a separate patch
-  - identify the Qualcomm SDX12 chipset
-  - keep the device entry sorted and add the product name
+v2: https://lore.kernel.org/20260828082645.13018-1-jisayme@gmail.com/
+  - split USB serial support into a separate patch
+  - identify the Qualcomm SDX12 chipset and include usb-devices output
+  - keep the device entries sorted and add the product name
 v1: https://lore.kernel.org/20260828075644.6228-1-jisayme@gmail.com/
 
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/serial/option.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 8178a8758..fdfdcf24d 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1446,6 +1446,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0316, 3)},	/* Quectel RG255C */
- 	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0104, 4)},	/* Fibocom NL678 series */
- 	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0112, 0)},	/* Fibocom FG132 */
-+	{QMI_QUIRK_SET_DTR(0x04b7, 0x8217, 8)},	/* Compal EXM-G1x */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b5, 0)},	/* Foxconn T77W968 LTE with eSIM support*/
- 	{QMI_FIXED_INTF(0x2692, 0x9025, 4)},    /* Cellient MPL200 (rebranded Qualcomm 05c6:9025) */
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index fd8f96294..8713f8b93 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2541,6 +2541,9 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(UNISOC_VENDOR_ID, TOZED_PRODUCT_LT70C, 0xff, 0, 0) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(UNISOC_VENDOR_ID, UNISOC_PRODUCT_UIS7720, 0xff, 0, 0) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(UNISOC_VENDOR_ID, LUAT_PRODUCT_AIR720U, 0xff, 0, 0) },
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x04b7, 0x8217, 0xff, 0xff, 0x30) },	/* Compal EXM-G1x */
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x04b7, 0x8217, 0xff, 0xff, 0x40) },
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x04b7, 0x8217, 0xff, 0xff, 0x60) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x1bbb, 0x0530, 0xff),			/* TCL IK512 MBIM */
+ 	  .driver_info = NCTRL(1) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x1bbb, 0x0640, 0xff),			/* TCL IK512 ECM */
 
-base-commit: 1bb784eb6e38fd73143f021608e4ef3095d0c0d7
+base-commit: 15734de99517b0c81a1a5a3bccaff4593ef8d953
 -- 
 2.43.0
