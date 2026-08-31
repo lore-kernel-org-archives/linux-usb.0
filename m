@@ -1,108 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CC42C15A5;
-	Mon, 31 Aug 2026 10:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C213A39CD18;
+	Mon, 31 Aug 2026 10:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788172634; cv=none; b=FqN2fZu3z5Sqj+XP2fOqvNzgIGSDuRweASePPHHncrgP8ViZJj+1MQ38F8fBTDciHFrfuqA7z3udmH6yYsDdafT7MRiPJcmJpbQx0Pv5o4fc9fnrOgNltBhA+JrPz7XFy0ShmJdoiX28nTyWTB76eUMOfI6j05WOgptTN21kZQg=
+	t=1788173063; cv=none; b=AW+w1U/WfYRkZw08rDPsdY8hPlKvXIRrv68dKLtJz2ow16bMmHziV9EzMcblPYAAHE9gKKEWHvb1VSlWn2yIw25s+rzfCFXp8PApeuvMPZrFFj84KpdoTMlpCvQfaZo7bdspVax3IN3xICaoVvw4wgSjhY1d5Dfg25s9wHXKMHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788172634; c=relaxed/simple;
-	bh=+UoDTFhAEDQzXAzl1odwHhUN4copmwFG2NFdJ5FgILc=;
+	s=arc-20240116; t=1788173063; c=relaxed/simple;
+	bh=Y1F5dbjdfte0Q9rjiepAAJ9fRyvAt+kZxrnQn9fZtL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J0Pm3+Hb09Gfv0IqnAfGPI6iWRrDa7j8XGm+B6hHajGG7GOQcGqPW7QjOCQVBUFIK8dQMFJ16EzojeupU/bI9RyVBULqh6C8R/F/7+7JvwhoquYYI0pm/r9piXB+wwEo+oYTSRYd5pb1fqXK5psWk/E7LwfNwVYM/T2v68/DJXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXU/ze68; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NFw+4UEN/zorexJu4lba67PdvcIhIffZfr2jHarPyi50+InxOc7YOSlvxEWi0vYtpVoCj2vTolBpl8anHN9Bnw0OEuRPXXvGaVaPpRimAllVbdzGIjEoGZ1tFgWnXQ6BsyuNBMzPgQY4JnCWkMBPqVzU9UVhNVUijzV2AZvhJIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG3GtoQX; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXU/ze68"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG3GtoQX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788172632; x=1819708632;
+  t=1788173062; x=1819709062;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+UoDTFhAEDQzXAzl1odwHhUN4copmwFG2NFdJ5FgILc=;
-  b=iXU/ze68TY/haykXMYiL2kMjiDV7apRnmXwUhtNlkRZlUw+3LFwr31AP
-   gHjkV7z//AzMtalzU9XOUG6rFozUApj0dz7A7qnCvFOYC8ljtbQ81B6FO
-   mez8YRAhtgdtBINaqSAz9TrWCEB5xh6UyrRuneTtJTuVoD8TeTlg5UwzO
-   kEhIUrgjg5W2WJ8EX3q4k+HuHB3vbZcb+OPQ7GsJyRacFvEgvhGWjmsHv
-   HokC6C1dE11TU6yAc5Gg8mrRs9vl9fmob2dPQF5aDXfW47tXl4I0uk2dC
-   LenuXx1/p/e+98tjkBDso4In327qtJ/ijAeeGPFaw+Du6Vzp2qKpg8jgZ
-   g==;
-X-CSE-ConnectionGUID: guzEz+sOStS+CDhqkSCPAQ==
-X-CSE-MsgGUID: SAnRAo4IQBmHAfFrA8jVkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88625975"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Y1F5dbjdfte0Q9rjiepAAJ9fRyvAt+kZxrnQn9fZtL0=;
+  b=nG3GtoQXKud0VSHBwGTWGGh+e81dzpxNVdr4FS5IS8YhMohjiJ8REoys
+   0Q82PNfu9QAw26LL/evl/skyu6b6F5pgSNpV8MJ0N6gvGMSfXrMKVRKrL
+   JHTLpJ1X2idclsoi7IptqOmDpTf9SYd6A5zv1RJKcb513rWo6Ss2JJvm+
+   MFPtfq6V1bbdM2hcwkdf8c5PpFwcbX50caXsuwX+LTGAs/Nh0fON0Yuio
+   2mrsPe4DQWTG34MeC56TMg+O56qm3XIr2WE7McnG+eJ+xSofxUR4jiGGk
+   Kdf6VPii+kQzwGv+ngfcdWA1ayfngQ8E/Frn8CrCFqhOdTm0Jlmo/oORa
+   w==;
+X-CSE-ConnectionGUID: GCZ+6accR7SV+WHZSLTeDg==
+X-CSE-MsgGUID: EbFbse/tQ/yEtTvC4ckQXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="87712588"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88625975"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:37:11 -0700
-X-CSE-ConnectionGUID: C3vtV/PkR+SNUpmCECnThw==
-X-CSE-MsgGUID: fPIdlb/+RYKfwrbVnoKNyQ==
+   d="scan'208";a="87712588"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:44:21 -0700
+X-CSE-ConnectionGUID: oCgYAhwUTpSosmKo/3Q6UA==
+X-CSE-MsgGUID: 4K0S2USlTOeDM89t6S2euw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="268807521"
+   d="scan'208";a="298679250"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 31 Aug 2026 03:37:09 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2026 03:44:18 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 7E13899; Mon, 31 Aug 2026 12:37:08 +0200 (CEST)
-Date: Mon, 31 Aug 2026 12:37:08 +0200
+	id F29A699; Mon, 31 Aug 2026 12:44:16 +0200 (CEST)
+Date: Mon, 31 Aug 2026 12:44:16 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Jameson Thies <jthies@google.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bleung@chromium.org, gregkh@linuxfoundation.org,
-	akuchynski@chromium.org, stable@vger.kernel.org
-Subject: Re: [PATCH v1] usb: typec: ucsi: displayport: Fix OOB altmode array
- index
-Message-ID: <apVZVCzUEXp1Ahv2@black.igk.intel.com>
-References: <20260825234545.2076049-1-jthies@google.com>
+To: amber.kao@ite.com.tw
+Cc: jeson.yang@ite.com.tw, Yaode.Fang@ite.com.tw,
+	gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bling.Chiang@ite.com.tw, Eric.Su@ite.com.tw, doreen.lin@ite.com.tw
+Subject: Re: [PATCH v7 2/2] usb: typec: ucsi: Add ITE IT8851/IT8853 Type-C PD
+ controller driver
+Message-ID: <apVbAAlKuUBwWd8K@black.igk.intel.com>
+References: <20260807-ucsi-itepd-v7-0-998ac11ed0ef@ite.com.tw>
+ <20260807-ucsi-itepd-v7-2-998ac11ed0ef@ite.com.tw>
+ <anw73Ps2KgcwP4iZ@black.igk.intel.com>
+ <cfa598562b904c0e84f8527e481c5579@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260825234545.2076049-1-jthies@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cfa598562b904c0e84f8527e481c5579@ite.com.tw>
 
-On Tue, Aug 25, 2026 at 11:45:45PM +0000, Jameson Thies wrote:
-> The UCSI displayport driver indexes the connector's port altmode array
-> with the GET_CURRENT_CAM response after checking it is not 0xff. The
-> port altmode array is UCSI_MAX_ALTMODES elements long. If the PPM
-> returns an invalid GET_CURRENT_CAM response above UCSI_MAX_ALTMODES and
-> not equal to 0xff, the kernel may crash with an array index OOB error.
+Hi Amber,
+
+On Thu, Aug 27, 2026 at 08:52:12AM +0000, amber.kao@ite.com.tw wrote:
+> Hi Heikki,
 > 
-> Update the UCSI displayport driver to verify the current cam is less
-> than UCSI_MAX_ALTMODES before accessing the port altmode array.
+> Thank you for the review! Also, noted on your comment regarding the changelog
+> in the cover letter—I will make sure to reply to questions in the original
+> threads for future submissions.
 > 
-> Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mode")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jameson Thies <jthies@google.com>
-> ---
->  drivers/usb/typec/ucsi/displayport.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
-> index 7067f2561b84..8d2032d0762c 100644
-> --- a/drivers/usb/typec/ucsi/displayport.c
-> +++ b/drivers/usb/typec/ucsi/displayport.c
-> @@ -74,7 +74,7 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
->  		cur = 0xff;
+> I have a quick question about my next steps. I am planning to add a new
+> feature that builds on top of this current series. Since I really don't want
+> to delay or affect the progress of merging this v7 patch, would you recommend
+> that I wait until this series is fully merged into the tree before submitting
+> the new feature, or is it okay to send it out now as a separate series?
 
-Can you remove the above line while at it?
+No top-posting on the ml.
 
->  	}
->  
-> -	if (cur != 0xff) {
-> +	if (cur < UCSI_MAX_ALTMODES) {
-
-Shouldn't that be the other way around?
-
->  		ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
->  		goto err_unlock;
->  	}
+It should be okay to make a note about the dependency on previously sent patches
+that the maintainer has not yet picked in the cover-letter.
 
 Thanks,
+
+> Thanks,
+> Amber
 
 -- 
 heikki
