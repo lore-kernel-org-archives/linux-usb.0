@@ -1,149 +1,129 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [185.244.194.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB633E3D93
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 11:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176149; cv=pass; b=G9yp+V5jLuvFMZwOLltU8Ryo35Q3qqmXoy7Q0n+Fjev8o5xAQSh4B2HQfkA6CeQJWU5Ro42/9D2s4FcLwS5hNNGA3Ey2VaOYc/KkvHPrK+gZ0xIpYtabvaIwYfjs8DaIkLSDcbiYxMCypFs5SyUSbl4zWkvemSk5PYjstToLVZc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176149; c=relaxed/simple;
-	bh=iVsFzxcjtXpLLAPWir7xOZsYFnrqAkLPip0NYRBrV0g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D0++Eszal3Gp8Fl0vOwtkw1BhmThqp9mKf1cc9WLMA4PLLDXLnz/MlMHqkbB58Gjel3V5G9dn33YQWefr2fAqK5ouByQnqifJHyYwy2+FlmKmoDy46m3Fu2Vcbysq7tabUP/89TfnXXc0dXI6oFH4558LhpOpG9v86DofHRsGAU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F5P5uRTu; arc=pass smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEC83DDDBB;
+	Mon, 31 Aug 2026 11:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.244.194.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788176229; cv=none; b=GVGY3NtB4rYvo6EZkXMtr6ji+ZIe1zSnBb4qeFJNlCn+XU2RjXQp2J0CZJZPuR/gzqbUt0h34gNcTnMhHOmnfNmEjo8+TXdNwAJdK4ybY3OG29UII8dtnlpZmAEOWM1orjz5IuyC/L2uVVRZj+YI54HvObDUEP2DyV+2UhRfkc4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788176229; c=relaxed/simple;
+	bh=isZVwDijBk+KIQv2RGLafI4Iqn0cjmx/Un6NCE5US+k=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BN+36fAOhM6zyxjJatFu/WrLmGaCeyQbGVde+7EZcnwwYPJ8YZy5RbVIgOwx7qb2C74dY6188Pr1xZlM/w6CNg2/g1xUjHT5cIQdGlzZOrOiykl2UAo0zFPaqdfvD23WKIXNXvDXYj4MMhiyK+DPG6qW8iDKQfrVk5GpvUxlWY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=fihkREt2; arc=none smtp.client-ip=185.244.194.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F5P5uRTu"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84fa3b14ee1so2975093b3a.0
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 04:35:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788176147; cv=none;
-        d=google.com; s=arc-20260327;
-        b=O1w5Tc+PCGGI11YSVotj2S0LKvN2/qcL8nl3vH3nxiBCz9fLc6V2Gv7gHzSesz444r
-         Wss+yH5JfuHBPNvd0p7/R3H21RgYi18+ZEZlkq4t57HmjKEezdVgNFmWBHPzcPmBjxBf
-         mchPtzjBD87yl5Qs914I7KthHm7MzeCvqUd9a7L1b7pMD+zVxzxmVrXqHON8Teo6vhoI
-         lxEUEa2D8XLiq8Cav7TeQHZOv5suf4MVsSVZOEYkpSyfKo6JGDq2ur8r6bmzRBCtFa70
-         nvLOdOapbeIkT83R6hdf+miSsQBkHahodEBKOPT5Pg17jXINjeFqsRa5rU862/MZr2zU
-         3eVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=v1+kYYpmqjR7YioulSNP/VCyRhVs3EIdV4wSWvdX0GY=;
-        fh=u7blKcrtwGrHvISXjAh8g535OyEDNC7LJI5ej4WVd90=;
-        b=B1DQNDB4zsiDM53a2uDTYL54dDBRPRLrISIQlnDVOdRtpDEPtka/yjXDhqq9MP89Ei
-         pOz6U6Z/Qo8s4So1xvYW8oa5WNdD+FEMql+wl0vJZXgqZvtNPN7QtXVnOo61dA4tnqZ6
-         0QyoCuF+64Fk45p8e6RDZYySDH9i1819to1jn4ehiBenEiTs810fIejPhylGyA7N56Yt
-         6CvOL1nrMcQ4D/1H/wscZDsJM0Ei7IdFikuPG1zm3alfaCV1cXsIwz+cBfuATUwZSd6N
-         ngjtUKIjXMbIdIXWJjZVLmrbhMUuDPKS/hHzD2eiX8QjBNUWMEjwNmTP8Z0J8uO42xgb
-         yraA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788176147; x=1788780947; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v1+kYYpmqjR7YioulSNP/VCyRhVs3EIdV4wSWvdX0GY=;
-        b=F5P5uRTuy6Gr8DiIlS+YqcTbkx0JynRSTtPY/5B9qaEDclVB4axwWdZkjkR5INgKkZ
-         7XpD4zJi98JBjHl2Z0Fnb+23h6VLc09Vs30W/hhwmorYvAc9evyznQOlTlywqv9sDKO5
-         dQ4KIozJWrZnxq+sOiZh8Ohzl+VVMDqyQNM2I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788176147; x=1788780947;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v1+kYYpmqjR7YioulSNP/VCyRhVs3EIdV4wSWvdX0GY=;
-        b=nxrn4nhuyCh0gAhK4b4I8iPw8YsVqJl39aQf2Fakh0kLovYtN0qjzWlZ7zTNGF5jmK
-         41umZw4RJLxyo986QLqI+F9+RSl10+1sb0hx3Jnn2425lyIlMkqWYJ6ayt0Dazes7/o7
-         7teqRKBwKR/Ww3VrkTjUd67XWbN0yXf8qCnQJgf/USQ4ss05fXSu4xlUnXu1paqGQxyT
-         KpH+Ffcqpw3AWiL8nCtJtiHU955/GH4AcE3SdeXDxmdNGcf+yp+suuYU+fFev+15oalA
-         x+DsyDT6KMXEYHEGk7orD4va3sC4vC3dH6/M3+LuV7tXgIq8Ljp3OL21m6IB7rOzuoEp
-         nQ7Q==
-X-Forwarded-Encrypted: i=1; AHgh+Ro289Nrzic9xFnQ4Yn8VPAUTvx7hIO9n80Ldobwp1SsFKbxnAj32+Z0EnsZ/tJ8mxESXCmfjI3hejE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mdVKXiHXLOyaF46K0rUHuMW9l49RcGGAdvVXFnbOwwAussURuX
-	bM/lQIIkhMw3PKjOEf+U8uOnsr87jyvXpbiuX5otKAhGD5JpJCbPLTdj3M+dHLBBfYPUF5JnKSJ
-	68TRow9ptKdag3wd7WFdeu5lTkP1Jm5pQi4rGn6J0
-X-Gm-Gg: AR+sD11D6fLfQ6icVKmcJiqtCTMY5V2WBDIfPeCMWTOjxDuM4GTtivUvfkuxJhhUK8D
-	G+tiFwnehwzm2jPvzxaV59Ktdz0TQK63VlYqYBemFfC8E2ZIj0hNqmUUvFJdtOyzYX8TQH4g76r
-	ONSGK6w+dHjGUajFgiBUjoMsmgDLak768JVybv+Nq09i9+ErMCe8jrXveuZMFr+MhrXUgPYnXAL
-	Sx1J5AqNxXz8nVW5d9fmpH1DW8eAkSjpts9AHN0lHs6+HX+Wu56qVjG/NMOcAH2CTIZl5GFyKDJ
-	nEy4ARwJGD/PIMl8wxHIHDF7vVbDW3Ss8vJphB/wIwVkfN72khQ+i70ewjU6iMh4DL7gEsGvNqo
-	=
-X-Received: by 2002:a05:6a00:9090:b0:853:50f2:9c03 with SMTP id
- d2e1a72fcca58-85b5a546d3amr655244b3a.11.1788176146691; Mon, 31 Aug 2026
- 04:35:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="fihkREt2"
+Received: from relay01-mors.netcup.net (localhost [127.0.0.1])
+	by relay01-mors.netcup.net (Postfix) with ESMTPS id 4hYRmK119Hz9CT8;
+	Mon, 31 Aug 2026 13:37:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1788176225;
+	bh=isZVwDijBk+KIQv2RGLafI4Iqn0cjmx/Un6NCE5US+k=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=fihkREt250jiS8Md9ecfUy9x38LM4O+gDnJAZsl1FkOo6Mn0Bw762d4IR6ZsoyTyE
+	 V7SwPd9FrNF3mbjZGPmncZtpxELwR4QydiP++RKffzLrr3V6P0AsJu/EvnMbYpYeFI
+	 QSUHr6lPNrH/QgT6YwGBvJ9Jo6riS/oLA6NmeKvebTXo0ouiliAs8ygjWAcZiQKWxd
+	 f9yhUu5Bo4jd/JjAX9y5hUKeuwOCKgOntNO47yDcEE0lf4tRLzfyIKkQ5yehzZaDVf
+	 0pa73uFd//NbMXTDFPHmqhOT1hT1eBDs9QRH7cixGliEYrD0h02DVommjyvGYkGNZ8
+	 rOGkw62X4UiRg==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by relay01-mors.netcup.net (Postfix) with ESMTPS id 4hYRlS5GnBz7y7g;
+	Mon, 31 Aug 2026 13:36:20 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4hYRlR1Jlvz8sgW;
+	Mon, 31 Aug 2026 13:36:19 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 43C7C5F98B;
+	Mon, 31 Aug 2026 13:36:14 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <89d99e3a-0f67-4116-a262-98be59f76f5d@leemhuis.info>
+Date: Mon, 31 Aug 2026 13:36:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260825234545.2076049-1-jthies@google.com> <apVZVCzUEXp1Ahv2@black.igk.intel.com>
-In-Reply-To: <apVZVCzUEXp1Ahv2@black.igk.intel.com>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Mon, 31 Aug 2026 13:35:35 +0200
-X-Gm-Features: AcwNN1UG8a3e-ri9A1fYCTOuTDVKemg5UPzTBUYjlI4nabQw-8x155-qLxr9oOg
-Message-ID: <CAMMMRMdiAF1Kx9CAwZrWCiLGjrzVnoQ_Rm-m-UXSAF+fhS+y2A@mail.gmail.com>
-Subject: Re: [PATCH v1] usb: typec: ucsi: displayport: Fix OOB altmode array index
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bleung@chromium.org, gregkh@linuxfoundation.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: fix maximum event ring segments calculation
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Pierre-David Belanger <pierredavidbelanger@gmail.com>,
+ Shixiong Ou <oushixiong1025@163.com>
+Cc: Shixiong Ou <oushixiong@kylinos.cn>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Niklas Neronin <niklas.neronin@linux.intel.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+References: <20260828105926.930033-1-oushixiong1025@163.com>
+ <20260830031233.1810986-2-pierredavidbelanger@gmail.com>
+ <64a7ce30-b346-4e94-974f-f30893d66829@leemhuis.info>
+ <81ddd491-1ec3-4a0c-90b3-6a286ff1a908@linux.intel.com>
+ <1c855bb3-2bac-4f25-b97f-3a7436a6291b@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <1c855bb3-2bac-4f25-b97f-3a7436a6291b@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <178817617477.3414618.9641711164375870603@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: 43C7C5F98B
+X-NC-CID: 4ULurhGSr1QWexU9BvtvXiI4DTx6gifNl9q5coIrUCuzMvfKd8I=
 
-On Mon, Aug 31, 2026 at 12:37=E2=80=AFPM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Tue, Aug 25, 2026 at 11:45:45PM +0000, Jameson Thies wrote:
-> > The UCSI displayport driver indexes the connector's port altmode array
-> > with the GET_CURRENT_CAM response after checking it is not 0xff. The
-> > port altmode array is UCSI_MAX_ALTMODES elements long. If the PPM
-> > returns an invalid GET_CURRENT_CAM response above UCSI_MAX_ALTMODES and
-> > not equal to 0xff, the kernel may crash with an array index OOB error.
-> >
-> > Update the UCSI displayport driver to verify the current cam is less
-> > than UCSI_MAX_ALTMODES before accessing the port altmode array.
-> >
-> > Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mod=
-e")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Jameson Thies <jthies@google.com>
-> > ---
-> >  drivers/usb/typec/ucsi/displayport.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/u=
-csi/displayport.c
-> > index 7067f2561b84..8d2032d0762c 100644
-> > --- a/drivers/usb/typec/ucsi/displayport.c
-> > +++ b/drivers/usb/typec/ucsi/displayport.c
-> > @@ -74,7 +74,7 @@ static int ucsi_displayport_enter(struct typec_altmod=
-e *alt, u32 *vdo)
-> >               cur =3D 0xff;
->
-> Can you remove the above line while at it?
->
-> >       }
-> >
-> > -     if (cur !=3D 0xff) {
-> > +     if (cur < UCSI_MAX_ALTMODES) {
->
-> Shouldn't that be the other way around?
->
 
-Looks fine, but shouldn't we return an error if an invalid value is
-received, similar to the Thunderbolt implementation?
 
-        if (cur !=3D 0xff) {
-                if (cur >=3D UCSI_MAX_ALTMODES ||
-dp->con->port_altmode[cur] !=3D alt)
-                        ret =3D -EBUSY;
-                else
-                        ret =3D 0;
-                goto err_unlock;
+On 8/31/26 13:28, Thorsten Leemhuis wrote:
+> On 8/31/26 11:21, Mathias Nyman wrote:
+>> On 8/31/26 09:55, Thorsten Leemhuis wrote:
+>>> On 8/30/26 05:12, Pierre-David Belanger wrote:
+>>>> The failure on 08dbfad3f504:
+>>>>
+>>>>    xhci_hcd 0000:00:04.0: xHCI Host Controller
+>>>>    xhci_hcd 0000:00:04.0: new USB bus registered, assigned bus number 1
+>>>>    xhci_hcd 0000:00:04.0: Failed to allocate interrupter erst
+>>>>    xhci_hcd 0000:00:04.0: can't setup: -12
+>>>>    xhci_hcd 0000:00:04.0: USB bus 1 deregistered
+>>>>    xhci_hcd 0000:00:04.0: init 0000:00:04.0 fail, -12
+>>>>    xhci_hcd 0000:00:04.0: probe with driver xhci_hcd failed with
+>>>> error -12
+>>> Sadly this missed -rc1, wonder why it wasn't submitted for it to prevent
+>>> more people from running into this, but whatever, that's ship has sailed.
+>>
+>> Looks like at least QEMU and Mediatek users were hit by this issue.
+> 
+> Ahh, good to known. And thx for sending one of the fixes to Greg
+> meanwhile (saw that by chance).
+>> Note that this is a v7.3-rc1 regression which was found during merge
+>> window for v7.3-rc1.
+>> v7.3-rc1 came out a few hours ago.
+>> I can't resolve it much earlier than this.
+> Out of curiosity: why?
+> 
+> Just ignore the question if it was something like "real life got in the
+> way" or "it fell through the cracks" -- that's how it is sometimes, no
+> worries. But in other cases I'd be glad if you could take a few minutes
+> if you have them to satisfy my curiosity, as in preparation for a
+> maintainer summit proposal I sent[1] I'm just trying to understand
+> better why regression fixes sometimes take quite a while from submission
+> to landing in mainline
 
-Thanks,
-Andrei
+For the record (sorry, this should have bin in above mail!), as it might
+sound hostile without context, as obviously there would not have been
+enough time to fix this if the issue would only have become known during
+the end of the merge window. But that is not the case here afaics
+(please correct me if I'm wrong!), as the first patch to fix this was
+afaics submitted on 2026-08-20:
+
+https://lore.kernel.org/linux-usb/7e6648ad-7459-4248-8c6c-227cfc2586d8@linux.intel.com/
+
+> [1]
+> https://lore.kernel.org/all/75dc0e2d-2deb-4776-977c-1de7c33465e1@leemhuis.info/
+
+Ciao, THorsten
