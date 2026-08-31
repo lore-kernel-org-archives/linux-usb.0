@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D524C6F12;
-	Mon, 31 Aug 2026 13:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6B84DF4A5;
+	Mon, 31 Aug 2026 13:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183542; cv=none; b=D+Q3Hz/msiPGMlSG1DvPrYd2vIFwxP8BAR3xJ9UfBkcXezYZA/Gf+1Ls5YU+a6+Avj/bLvKtLMMbmGCnER7pZCBYzTETQUsR9bhjZIblaGTYkn569bCGYqDlJ8q0fxQr7PI32k5FZPhUDq7/fTP7sjHflwWBmkGUwg9aLOnJW6M=
+	t=1788183584; cv=none; b=eDtF0V0HswzOs4hxTTtLv1ORBVohrxhxIrubMEdRIwAsLm6M96yLu/0NIHh18+g5eina+Bhs4uxIKr+fZZHma06iLn/7pKbMx4TqbDGIYMqFgBmDtOstv1LzWh28KLsFVSjJShFhmQyB+8iQKqPAdFdDjphj7S+wmZgetmw1VLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183542; c=relaxed/simple;
-	bh=xR89S1Mm+gl9/HBPQ/qei1iWoGU90o0dvqEhyqubgGw=;
+	s=arc-20240116; t=1788183584; c=relaxed/simple;
+	bh=NQNeAiCxThbAM87/kRb4hAAa0wmiok6S/jJut0bLhCs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kRteTuBv6OM9tucivYguXGIyaHLZ5kMIgzc0/+MTNx5A+2h3Rfy7rqW8Aqv32OUaMc5L+5Bc4rVU+ZW4LldJ5+Q6tY7+X3cAyvcxqtZUN4X58n0bUBaTzVVuzADtfV+Y3/5eS/mUYvC1f6JD2nvrqOXU7WN5xCCn/IKF72v2TQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0tzdx1P; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=KiqympbwVXwONQe1/k0LzWUZd0uit/kcG+NbE85Y2YJ2aU5pxmOY8BwjvXgLRgtrA21QG1Cm89Jj9umtmmKoLfGHYn0uH8XVucDK/9CJHTsFc4Pc6peE62jboHWqeBsrqNHV/b3NSl9MUEjFKRY1gXeGUAHhIL5ZJeSObooA38M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSkA1a6y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0tzdx1P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977171F000E9;
-	Mon, 31 Aug 2026 13:38:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSkA1a6y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D6DB1F00ADB;
+	Mon, 31 Aug 2026 13:39:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183539;
-	bh=jD+RyzpZVTssGjSqCfPu7u3PzHrNFB2E/eA6V7M3Y0Y=;
+	s=k20260515; t=1788183582;
+	bh=jR1/wuPn/1SFN5+Sk8Tes+Wj3LOxpbIQR0arzMeFJgA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i0tzdx1PfB8MB5MNHwaeKyQI+Sj50u+dkC6d/1to3oSnlrDQLGwJTpq3Apy3aJ8qf
-	 sh1oxbb/PJp0lycIhgjfFhkrz9jy2kgPkjsTrGgN5F1ut+Owjbff1XRa1nKrfsnTAF
-	 NqtHjV37e0VVzbKBTEJvz/2h0ZqpuOgx2uZCbnup9Xc4L1Lx7+3CJ/4R+Mpz9eYayW
-	 40YjmRhtedvguZoMCPPGl4R93XbgsBMGUrxgJgR/bPMFttWjBRBY8JNg0FE1Z49uwE
-	 Nmtb+zm48JgwG8qsyGpuwvvxVp05BuyygjPtm5eJ0P4J8MJgttnoebvgK4YzF1ECFK
-	 1O2dQ27CS4+Hg==
+	b=iSkA1a6yEAhf2v0txq0yUIHWAX3NsVYW4KqZzWTY+U5OGGcTrjXpGtnu0zblrMyzU
+	 NS/vUq2HgpTwI2Rf6Dh3GIs70WihhZLJbRDnyAQUhAn5XSs3nhYIYcZ5cI4Shdc3af
+	 GcGN0BKVcM73QISzaT8JnKUr9b7lntloMvzI7rtwFJzrJpcakY/njynRKQMN6v7JGX
+	 MjkEBTsXENPMCJjQlR2GDeopvbBnl4OHpkAfa9wYcqTHD+tYJ8V/QuuO/Sxdjaomyk
+	 ypHdyU4s6lveNuE2wkQ7ZWJonFE3Biy9poZqbtw2XvcVaIgrDCBqj+ROREdYrRN4Q5
+	 kR2eIj2grBHpw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
+Cc: Maoyi Xie <maoyixie.tju@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	andreas.noever@gmail.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com,
+	neal_liu@aspeedtech.com,
+	joel@jms.id.au,
+	linux-aspeed@lists.ozlabs.org,
 	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] thunderbolt: Keep XDomain reference during the lifetime of a service
-Date: Mon, 31 Aug 2026 09:23:05 -0400
-Message-ID: <20260831133314.4125787-157-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] usb: gadget: aspeed_udc: avoid past-the-end iterator in dequeue
+Date: Mon, 31 Aug 2026 09:23:29 -0400
+Message-ID: <20260831133314.4125787-181-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,436 +58,397 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+From: Maoyi Xie <maoyixie.tju@gmail.com>
 
-[ Upstream commit 8b4060998637f06975fceee9b73845d8672d411e ]
+[ Upstream commit e2ffaac1884b921b8ec2b3a964c6a8b5d610bf4b ]
 
-This is needed because we release the service ID in tb_service_release()
-and the ID array is owned by the parent XDomain.
+ast_udc_ep_dequeue() declares the loop cursor `req` outside the
+list_for_each_entry(). After the loop it tests `&req->req != _req`
+to decide whether the request was found. If the queue holds no
+match, `req` is past-the-end. It then aliases
+container_of(&ep->queue, struct ast_udc_request, queue) via offset
+cancellation. Whether that synthetic address equals `_req` depends
+on heap layout. The function can return 0 without dequeueing
+anything.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Default `rc` to -EINVAL and set it to 0 only inside the match
+branch. `req` is no longer read after the loop, so the past-the-end
+dereference goes away. No extra cursor variable or post-loop test
+is needed.
+
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Suggested-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+Link: https://patch.msgid.link/20260521065428.3261238-1-maoyixie.tju@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: `usb: gadget: aspeed_udc: avoid past-the-end
+iterator in dequeue`
 
-### Step 1.1: Parse the Subject Line
-**Record:** `[thunderbolt]` `[keep]` — Keep an XDomain reference for the
-full lifetime of a Thunderbolt service device.
-
-### Step 1.2: Parse All Commit Message Tags
-**Record:**
-- **Fixes:** — absent (expected for manual review)
-- **Reported-by:** — absent
-- **Tested-by:** — absent
-- **Reviewed-by:** — absent
-- **Acked-by:** — absent
-- **Link:** — absent
-- **Cc: stable@vger.kernel.org** — absent (not a negative signal)
-- **Signed-off-by:** Mika Westerberg \<mika.westerberg@linux.intel.com\>
-  (subsystem maintainer)
-
-No syzbot, no multi-reporter tags. Author is the Thunderbolt maintainer.
-
-### Step 1.3: Analyze Commit Body
-**Record:**
-- **Bug:** `tb_service_release()` calls `ida_free(&xd->service_ids,
-  ...)`, but `service_ids` is owned by the parent XDomain. The XDomain
-  can be freed before the service’s final `release` callback runs.
-- **Symptom:** Use-after-free when freeing the service ID during service
-  teardown (potential crash / memory corruption).
-- **Version info:** Not stated in the commit message.
-- **Root cause (author):** Missing explicit XDomain reference for the
-  service’s lifetime.
-
-### Step 1.4: Detect Hidden Bug Fixes
-**Record:** Not disguised — this is an explicit lifetime/reference-
-counting bug fix, not cleanup or optimization.
+**Local tree:** `v6.18.44` (`stable/linux-6.18.y`, detached HEAD)
+**Fix commit on master:** `e2ffaac1884b9` (not present in this tree)
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 2.1: Inventory the Changes
+### Step 1.1: Subject line
+**Record:** `[usb: gadget: aspeed_udc]` **`avoid`** — fix incorrect
+post-loop use of a `list_for_each_entry()` cursor in
+`ast_udc_ep_dequeue()`.
+
+### Step 1.2: Tags
 **Record:**
-- **File:** `drivers/thunderbolt/xdomain.c` (+2 lines net)
-- **Functions modified:** `tb_service_release()`, `enumerate_services()`
-- **Scope:** Single-file, surgical fix (2 meaningful lines)
+- **Suggested-by:** Alan Stern `<stern@rowland.harvard.edu>` (USB
+  maintainer)
+- **Suggested-by:** Andrew Jeffery `<andrew@codeconstruct.com.au>`
+  (Aspeed contributor)
+- **Signed-off-by:** Maoyi Xie, Greg Kroah-Hartman
+- **Link:** https://patch.msgid.link/20260521065428.3261238-1-
+  maoyixie.tju@gmail.com
+- No `Fixes:`, `Reported-by:`, `Cc: stable`, `Reviewed-by:`, or `Tested-
+  by:` tags
+- Notable: suggestions from core USB and Aspeed reviewers; patch went
+  through v1→v3 on list
 
-### Step 2.2: Code Flow Change (per hunk)
-
-**Hunk 1 — `tb_service_release()`:**
-- **Before:** Frees service ID from parent XDomain’s IDA, frees service
-  memory; no XDomain refcount drop.
-- **After:** Same, then calls `tb_xdomain_put(xd)` to release the
-  reference taken at enumeration.
-- **Path:** Service device final release callback (after last
-  `put_device()` on the service).
-
-**Hunk 2 — `enumerate_services()`:**
-- **Before:** `svc->dev.parent = &xd->dev` (bare pointer, no refcount).
-- **After:** `svc->dev.parent = get_device(&xd->dev)` (holds XDomain
-  alive).
-- **Path:** XDomain service enumeration during property exchange /
-  reconnect.
-
-### Step 2.3: Bug Mechanism
-**Record:** **Reference counting / use-after-free fix.**
-
-Mechanism verified against the driver core:
-1. `enumerate_services()` registers child service devices parented under
-   the XDomain.
-2. `tb_service_release()` accesses `xd->service_ids` via `ida_free()`.
-3. `tb_xdomain_release()` destroys that IDA with
-   `ida_destroy(&xd->service_ids)`.
-4. On `device_unregister(service)`, `device_del()` immediately calls
-   `put_device(parent)` (see `drivers/base/core.c:3983`), dropping the
-   parent reference acquired in `device_add()` — even if the service
-   device struct still exists because something holds an extra
-   reference.
-5. `tb_xdomain_remove()` unregisters all services, then unregisters the
-   XDomain; the XDomain can reach refcount zero and run
-   `tb_xdomain_release()` while a service device is still pending final
-   release.
-6. When `tb_service_release()` finally runs, `xd` and `xd->service_ids`
-   may already be freed → UAF.
-
-The fix holds an independent XDomain reference from enumeration until
-`tb_service_release()`.
-
-### Step 2.4: Fix Quality Assessment
+### Step 1.3: Body analysis
 **Record:**
-- **Quality:** Obviously correct; standard `get_device()` /
-  `put_device()` pairing via `tb_xdomain_put()`.
-- **Scope:** Minimal; no API changes.
-- **Regression risk:** Very low. Refcount is balanced: one
-  `get_device()` at parent assignment, one `tb_xdomain_put()` at service
-  release. `device_add()`/`device_del()` continue to manage their own
-  parent reference separately.
+- **Bug:** After `list_for_each_entry()` finds no match, `req` is a
+  past-the-end sentinel. Post-loop `&req->req != _req` uses that invalid
+  cursor via `container_of()` offset arithmetic.
+- **Symptom:** `ast_udc_ep_dequeue()` can return `0` (success) without
+  dequeuing anything.
+- **Root cause:** `rc` defaults to `0`; the post-loop pointer comparison
+  is unreliable when the iterator is past-the-end.
+- **Version info:** None explicit; driver has been in-tree since 5.19.
+
+### Step 1.4: Hidden bug fix?
+**Record:** Yes — clearly a logic/correctness bug in the USB gadget
+dequeue API, not cosmetic cleanup. Matches the established idiom in
+sibling `aspeed-vhub` and `pch_udc` drivers.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 2: DIFF ANALYSIS
 
-### Step 3.1: Blame the Changed Lines
-**Record:** `git blame` attributes current `tb_service_release()` /
-`enumerate_services()` code to commit `19eef1d98eeda` in this tree
-(stable history is squashed; that commit message is unrelated). The
-service/XDomain code is present and has the buggy pattern. Approximate
-introduction: with the XDomain service enumeration infrastructure
-(present in this 6.18.y tree).
+### Step 2.1: Inventory
+**Record:**
+- **File:** `drivers/usb/gadget/udc/aspeed_udc.c` (+2 / −5 lines)
+- **Function:** `ast_udc_ep_dequeue()`
+- **Scope:** Single-file, surgical fix
 
-### Step 3.2: Follow the Fixes: Tag
-**Record:** No `Fixes:` tag present — step not applicable.
+### Step 2.2: Code flow change
+**Record:**
+- **Before:** `rc = 0`; on match, dequeue and `break`; after loop, if
+  `&req->req != _req` then `rc = -EINVAL` (reads past-the-end `req`).
+- **After:** `rc = -EINVAL`; on match, dequeue, set `rc = 0`, `break`;
+  no post-loop read of `req`.
+- **Path affected:** Error/normal dequeue path when the requested
+  `usb_request` is not on the endpoint queue.
 
-### Step 3.3: File History for Related Changes
-**Record:** Recent thunderbolt commits in this tree include XDomain
-security hardening (`b5daa920f44cb`, `46da5c3ea011e`, `fcbd0cdab9283`,
-etc.). This fix is **standalone** (2 lines, no structural
-prerequisites). Related stable series patches (debugfs unregister,
-delayed-work UAF) are separate; this commit does not depend on them.
+### Step 2.3: Bug mechanism
+**Record:** **Category (g) logic/correctness fix** — violates
+`usb_ep_dequeue()` contract (must return negative error if request is
+not active on endpoint). The post-loop test uses an invalid list
+iterator, producing unreliable success/failure results.
 
-### Step 3.4: Author's Other Commits
-**Record:** Mika Westerberg is the Thunderbolt subsystem maintainer. No
-other commits by this author found in this tree’s `drivers/thunderbolt/`
-log (history is compressed).
-
-### Step 3.5: Prerequisite Commits
-**Record:** No dependencies. `tb_xdomain_get()`/`tb_xdomain_put()`,
-`tb_service_parent()`, `enumerate_services()`, and
-`ida_alloc`/`ida_free` on `xd->service_ids` all exist in this tree.
-Patch applies to current `xdomain.c` with only the two line changes
-(candidate diff uses `kzalloc_obj`; local tree uses `kzalloc` —
-unrelated context, no conflict).
+### Step 2.4: Fix quality
+**Record:** Obviously correct; matches `pch_udc_pcd_dequeue()` and
+`ast_vhub_epn_dequeue()` patterns. Minimal regression risk — only
+changes return value for the not-found path to the correct `-EINVAL`.
 
 ---
 
-## Phase 4: Mailing List and External Research
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 4.1: Original Patch Discussion
-**Record:** `b4 dig` could not be run — commit hash is not in this
-checkout. lore.kernel.org returned 403 (bot protection). **Ratatoskr
-stable-queue archives** show this exact patch nominated for multiple
-stable trees:
-- `[PATCH 5.10.y 1/3] thunderbolt: Keep XDomain reference during the
-  lifetime of a service`
-- `[PATCH 5.15.y 3/6] ...`
-- `[PATCH 6.6.y 4/7] ...`
+### Step 3.1: Blame
+**Record:** Buggy code introduced in `055276c132056` (“usb: gadget: add
+Aspeed ast2600 udc driver”, May 2022, landed in 5.19). Present unchanged
+in this tree at lines 697–713.
 
-Part of a broader Thunderbolt XDomain stability series (`Stable-dep-of:
-2c5d2d3c3f70` on related patches).
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag. Introducing commit is
+`055276c132056`, confirmed ancestor of HEAD.
+
+### Step 3.3: Related file history
+**Record:** Recent `aspeed_udc.c` changes are other small fixes
+(endpoint validation, DMA, spinlock). No duplicate fix for this issue.
+Standalone one-patch fix (v3 is final applied form).
+
+### Step 3.4: Author context
+**Record:** Maoyi Xie is not the driver author (Neal Liu) but submitted
+a focused fix with guidance from Alan Stern and Andrew Jeffery. Greg K-H
+committed to mainline.
+
+### Step 3.5: Dependencies
+**Record:** None. Self-contained; no prerequisite commits. Applies
+cleanly to current `6.18.y` file.
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+### Step 4.1: Original discussion
+**Record:** `b4 dig -c e2ffaac1884b9` → [PATCH v3] thread at https://pat
+ch.msgid.link/20260521065428.3261238-1-maoyixie.tju@gmail.com. Series:
+v2 (2026-05-19), v3 (2026-05-21, applied version). Alan Stern reviewed
+v1 and suggested the correct loop/return-value idiom; Andrew Jeffery
+suggested v3’s `rc = -EINVAL` default shape.
 
 ### Step 4.2: Reviewers
-**Record:** UNVERIFIED — could not fetch lore thread or run `b4 dig -w`.
-Author is subsystem maintainer.
+**Record:** `b4 dig -w`: CC’d Greg Kroah-Hartman, Alan Stern, Andrew
+Jeffery, Neal Liu, linux-usb, linux-aspeed, linux-arm-kernel.
+Appropriate maintainer coverage.
 
-### Step 4.3: Bug Report
-**Record:** No external bug report referenced. Bug identified by code
-analysis / disconnect teardown path.
+### Step 4.3: Bug report
+**Record:** No syzbot/bugzilla report. Bug identified via code review
+(Alan Stern). Severity: API contract violation with potential request-
+lifecycle confusion.
 
-### Step 4.4: Related Patches / Series
-**Record:** Related stable patches in the same series (debugfs
-unregister, remove without holding `tb->lock`, delayed-work UAF) are
-complementary but **this commit is independently correct and
-applicable**. Greg’s Linux 6.18.44 announcement (2026-08-09 per
-Ratatoskr) suggests the broader series is heading into 6.18.y.
+### Step 4.4: Series context
+**Record:** Standalone fix; v3 is the committed version. No other
+patches required.
 
-### Step 4.5: Stable Mailing List History
-**Record:** Stable nominations confirmed via Ratatoskr for 5.10.y,
-5.15.y, 6.6.y at minimum. Direct lore stable-list search UNVERIFIED
-(403).
+### Step 4.5: Stable list history
+**Record:** No `Cc: stable` nominations found in thread (`grep -i
+stable` on saved mbox). Not a negative signal per instructions.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-**Record:** `tb_service_release()`, `enumerate_services()`,
-`tb_xdomain_remove()`, `tb_xdomain_release()`, `tb_service_parent()`.
+### Step 5.1: Key functions
+**Record:** `ast_udc_ep_dequeue()` modified; registered in
+`ast_udc_ep_ops.dequeue`.
 
-### Step 5.2: Trace Callers
+### Step 5.2: Callers
+**Record:** Called via `usb_ep_dequeue()` in
+`drivers/usb/gadget/udc/core.c`, which dispatches to `ep->ops->dequeue`.
+Gadget function drivers call this from disconnect/cancel paths:
+`composite.c`, `f_fs.c`, `u_audio.c`, `f_mass_storage.c`, `f_ecm.c`,
+`u_serial.c`, `raw_gadget.c`, etc. Callable from process or interrupt
+context per `core.c` documentation.
+
+### Step 5.3: Callees
+**Record:** On successful match: `list_del_init()`, `ast_udc_done()`
+(unmap + completion callback). Fix only changes behavior when no match
+is found.
+
+### Step 5.4: Reachability
+**Record:** Reachable whenever a USB gadget function cancels an in-
+flight request on an Aspeed UDC endpoint — common during teardown, error
+recovery, or userspace interrupt (e.g. FunctionFS). Requires
+`CONFIG_USB_ASPEED_UDC` on `ARCH_ASPEED` (AST260x BMC SoCs).
+
+### Step 5.5: Similar patterns
+**Record:** `aspeed-vhub` `ast_vhub_epn_dequeue()` already uses `rc =
+-EINVAL` + separate iterator (`epn.c:472–488`). `pch_udc_pcd_dequeue()`
+uses same pattern (`pch_udc.c:1862–1878`). `aspeed_udc` was the outlier.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+
+### Step 6.1: Buggy code exists?
+**Record:** **Yes.** Current tree at
+`drivers/usb/gadget/udc/aspeed_udc.c:697–713` has `int rc = 0` and post-
+loop `if (&req->req != _req)`. Fix commit `e2ffaac1884b9` is **not** an
+ancestor of HEAD (`merge-base` check failed).
+
+### Step 6.2: Backport complications
+**Record:** Clean apply expected — 7-line hunk, no structural conflicts.
+File has had only minor unrelated changes since driver addition.
+
+### Step 6.3: Related fixes already present?
+**Record:** None found for this issue.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: Subsystem criticality
+**Record:** **drivers/usb/gadget** — IMPORTANT for Aspeed BMC/embedded
+platforms using USB gadget mode; peripheral globally but significant for
+OpenBMC/AST260x deployments.
+
+### Step 7.2: Subsystem activity
+**Record:** Driver actively maintained with several post-introduction
+fixes in this tree (DMA, spinlock, endpoint validation). Bug predates
+all of them.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Users of AST260x SoCs with `CONFIG_USB_ASPEED_UDC` running
+USB gadget functions (mass storage, ECM, UAC, FunctionFS, etc.).
+
+### Step 8.2: Trigger conditions
+**Record:** `usb_ep_dequeue()` called with a `usb_request` not currently
+queued on that endpoint — happens during disconnect, I/O cancellation,
+or race between completion and cancel. Not every boot, but a normal
+operational path. Unprivileged users can trigger via gadget
+configfs/functionfs on systems exposing gadget to userspace.
+
+### Step 8.3: Failure mode severity
+**Record:** False success (`0` returned, nothing dequeued) → callers
+assume request canceled. Example in `u_audio.c:455–463`: on success,
+request is not freed but pointer is cleared; completion may still fire
+later → request lifecycle confusion, potential use-after-free or double-
+free depending on caller. **Severity: HIGH** (correctness bug with
+memory-safety consequences possible); not a guaranteed crash on every
+call.
+
+### Step 8.4: Risk-benefit
 **Record:**
-- `enumerate_services(xd)` — called from XDomain property update path
-  (line 1497).
-- `tb_service_release()` — device core release callback for
-  `tb_service_type`.
-- `tb_xdomain_remove()` — called on XDomain disconnect; unregisters all
-  child services then the XDomain.
-
-Callers of `tb_xdomain_remove()` include ICM and core Thunderbolt
-disconnect paths — common during cable unplug / peer host disconnect.
-
-### Step 5.3: Trace Callees
-**Record:** `ida_free()`, `ida_destroy()`, `get_device()`,
-`tb_xdomain_put()` (wraps `put_device()`), `device_register()`,
-`device_unregister()`.
-
-### Step 5.4: Call Chain / Reachability
-**Record:**
-```
-Thunderbolt disconnect / XDomain removal
-  → tb_xdomain_remove()
-    → device_for_each_child_reverse(..., unregister_service)
-      → device_unregister(service)  [parent ref dropped in device_del]
-    → device_unregister(xd)
-      → tb_xdomain_release()  [ida_destroy(&xd->service_ids)]
-  → (later) tb_service_release()  [ida_free on possibly freed xd]  ← BUG
-```
-**Userspace-reachable:** Yes — triggered by Thunderbolt hot-unplug /
-peer disconnect while a service device has lingering references (driver
-binding, `get_device()` holders, etc.). Not theoretical.
-
-### Step 5.5: Similar Patterns
-**Record:** XDomain itself correctly uses `get_device(parent)` at
-allocation (`xdomain.c:2016`). Services were the missing symmetric case.
-`tb_service_get()`/`tb_service_put()` exist for service devices but did
-not protect the parent XDomain.
+- **Benefit:** HIGH for affected hardware — restores correct
+  `usb_ep_dequeue()` semantics
+- **Risk:** VERY LOW — 5-line idiom change, well-reviewed, matches
+  sibling drivers
+- **Ratio:** Strongly favors backport
 
 ---
 
-## Phase 6: Cross-Referencing Against the Local Tree
+## PHASE 9: FINAL SYNTHESIS
 
-### Step 6.1: Does the Buggy Code Exist?
-**Record:** **YES.** Local tree is **6.18.43** (`git describe HEAD` →
-`v6.18.43-1-gc7f0dac02d232`, `make kernelversion` → `6.18.43`).
-
-Current buggy code verified:
-
-```1006:1015:drivers/thunderbolt/xdomain.c
-static void tb_service_release(struct device *dev)
-{
-        struct tb_service *svc = container_of(dev, struct tb_service,
-dev);
-        struct tb_xdomain *xd = tb_service_parent(svc);
-
-        tb_service_debugfs_remove(svc);
-        ida_free(&xd->service_ids, svc->id);
-        kfree(svc->key);
-        kfree(svc);
-}
-```
-
-```1120:1124:drivers/thunderbolt/xdomain.c
-                svc->id = id;
-                svc->dev.bus = &tb_bus_type;
-                svc->dev.type = &tb_service_type;
-                svc->dev.parent = &xd->dev;
-                dev_set_name(&svc->dev, "%s.%d", dev_name(&xd->dev),
-svc->id);
-```
-
-No `get_device(&xd->dev)` on parent assignment; no `tb_xdomain_put(xd)`
-in release. Fix is **not** already present (`git log --grep` and `git
-log -S "svc->dev.parent = get_device"` returned nothing).
-
-### Step 6.2: Backport Complications
-**Record:** **Clean apply expected** — 2 lines in one file, matching
-current code structure. No refactor conflicts in the target hunks.
-
-### Step 6.3: Related Fixes Already Present?
-**Record:** No — grep and git searches found no prior application of
-this fix or equivalent `tb_xdomain_put` in `tb_service_release`.
-
----
-
-## Phase 7: Subsystem and Maintainer Context
-
-### Step 7.1: Subsystem and Criticality
-**Record:** `drivers/thunderbolt/` — **IMPORTANT** (Thunderbolt/USB4
-XDomain networking and device interconnection; not core kernel, but
-affects real hardware on laptops/workstations).
-
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained in this tree — multiple recent XDomain
-security/stability fixes (packet validation, bounds checking, property
-parsing).
-
----
-
-## Phase 8: Impact and Risk Assessment
-
-### Step 8.1: Who Is Affected
-**Record:** Users with `CONFIG_THUNDERBOLT` and active XDomain
-connections (Thunderbolt networking, cross-host services). Driver-
-specific but affects a widely deployed laptop/workstation feature.
-
-### Step 8.2: Trigger Conditions
-**Record:** XDomain removal/disconnect while a service child device
-still has refcount > 1 after `device_unregister()`. Realistic during
-hot-unplug, peer shutdown, or driver teardown races. Unprivileged users
-can trigger disconnect by unplugging cable.
-
-### Step 8.3: Failure Mode Severity
-**Record:** **Use-after-free** on `xd->service_ids` during `ida_free()`
-→ kernel oops / memory corruption. **Severity: HIGH to CRITICAL.**
-
-### Step 8.4: Risk-Benefit Ratio
-**Record:**
-- **Benefit:** HIGH — prevents UAF crash on a real disconnect path.
-- **Risk:** VERY LOW — 2-line refcount fix, maintainer-authored, already
-  queued for multiple stable trees.
-- **Ratio:** Strongly favors backport.
-
----
-
-## Phase 9: Final Synthesis
-
-### Step 9.1: Evidence Compiled
+### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Real UAF on XDomain disconnect teardown path (verified via code +
-  driver-core semantics).
-- Buggy code confirmed present in 6.18.43.
-- Minimal, obviously correct fix (2 lines).
-- Thunderbolt maintainer authorship.
-- Already nominated for stable on 5.10.y, 5.15.y, 6.6.y (Ratatoskr).
-- Standalone — no prerequisite commits required.
-- Part of broader XDomain stability effort heading into 6.18.y.
+- Real bug present since driver introduction (2022)
+- Buggy code confirmed in `v6.18.44`
+- Can return false success on dequeue failure — API contract violation
+- USB maintainers (Alan Stern) and Aspeed developers guided the fix
+- Tiny, surgical, obviously correct change
+- Sibling `aspeed-vhub` already uses correct pattern
+- Gadget callers depend on accurate dequeue return values
 
 **AGAINST backport:**
-- Config-specific (`CONFIG_THUNDERBOLT`) — affects subset of users, not
-  all kernels.
-- No syzbot/user crash report attached (but mechanism is clear from
-  code).
+- Limited to `CONFIG_USB_ASPEED_UDC` platforms (not universal)
+- No syzbot/CVE report; false-success case may be uncommon in practice
+- No explicit stable nomination in mailing list
 
-**UNRESOLVED:**
-- Full lore review thread (403 blocked).
-- Exact upstream commit SHA (not in this checkout).
+**Unresolved:** Exact frequency of spurious success in production
+(address-coincidence scenario); not needed to justify fix given clear
+API bug.
 
-Neither unresolved item weakens the technical case.
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — standard UDC idiom; reviewed
+   by Alan Stern and Andrew Jeffery; committed by Greg K-H
+2. Fixes a real bug affecting users? **PASS** — incorrect dequeue return
+   value on Aspeed UDC
+3. Important issue? **PASS** — request lifecycle / potential UAF;
+   severity HIGH for affected configs
+4. Small and contained? **PASS** — 1 file, net −3 lines
+5. No new features or APIs? **PASS**
+6. Can apply to local tree? **PASS** — driver and buggy code both
+   present; clean apply
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — standard refcount pattern;
-   maintainer-authored; stable-queue nominations imply review.
-2. Fixes a real bug affecting users? **PASS** — UAF on Thunderbolt
-   XDomain disconnect.
-3. Important issue? **PASS** — UAF / potential crash (HIGH-CRITICAL).
-4. Small and contained? **PASS** — 2 lines, one file.
-5. No new features or APIs? **PASS** — refcount fix only.
-6. Can apply to local tree? **PASS** — code exists; clean 2-line apply.
+### Step 9.3: Exception categories
+**Record:** N/A (not device ID, quirk, DT, build, or docs — standard
+driver bug fix).
 
-### Step 9.3: Exception Categories
-**Record:** Not applicable (not a device ID, quirk, DT, build, or docs
-fix — standard bug fix).
-
-### Step 9.4: Decision Rationale
-
-This commit fixes a genuine use-after-free: `tb_service_release()`
-accesses the parent XDomain’s `service_ids` IDA after the XDomain may
-already have been destroyed during disconnect teardown, because
-`device_del()` drops the parent reference at unregister time rather than
-at final service release. The fix is minimal, self-contained, and the
-buggy code is present in this 6.18.43 tree. Stable maintainers have
-already nominated it for multiple older stable branches.
+### Step 9.4: Decision rationale
+This tree (`6.18.y`) ships the Aspeed UDC driver with a dequeue bug that
+has existed since the driver was added. The fix restores correct
+`usb_ep_dequeue()` behavior using the same pattern as other UDC drivers
+in-tree. It is small, reviewed by USB subsystem experts, and prevents
+callers from mis-handling requests that were never dequeued. The
+hardware scope is narrow but the fix is trivial and the failure mode is
+serious enough for stable.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed subject, tags, body; no Fixes/Reported-by/Link
-  tags; author is Mika Westerberg.
-- **[Phase 2]** Read full diff; confirmed 2-line refcount fix in
-  `tb_service_release()` and `enumerate_services()`.
-- **[Phase 3]** `git blame` on xdomain.c service code; `git log -S`
-  searches; no fix already in tree.
-- **[Phase 4]** lore.kernel.org: 403 Forbidden. Ratatoskr: stable
-  nominations found for 5.10.y/5.15.y/6.6.y. `b4 dig`: not run (no
-  commit hash in tree).
-- **[Phase 5]** Traced call chain through `tb_xdomain_remove()` →
-  `device_unregister()` → `tb_xdomain_release()` vs deferred
-  `tb_service_release()`.
-- **[Phase 5]** Verified `device_del()` calls `put_device(parent)` at
-  `drivers/base/core.c:3983`.
-- **[Phase 5]** Verified `tb_xdomain_release()` calls
-  `ida_destroy(&xd->service_ids)` at `xdomain.c:1883`.
-- **[Phase 6]** `git describe HEAD` → v6.18.43; `make kernelversion` →
-  6.18.43.
-- **[Phase 6]** Read current `xdomain.c` — buggy pattern confirmed, fix
-  absent.
-- **[Phase 6]** Verified `tb_xdomain_get`/`tb_xdomain_put` exist in
-  `include/linux/thunderbolt.h:325-336`.
-- **[Phase 7]** Thunderbolt subsystem active with recent XDomain fixes
-  in this tree.
-- **[Phase 8]** Assessed UAF severity as HIGH-CRITICAL on disconnect
-  path.
+- **[Phase 1]** Parsed commit message and tags from user query and `git
+  show e2ffaac1884b9`
+- **[Phase 2]** Read diff; confirmed changes in `ast_udc_ep_dequeue()`
+  at lines 691–716
+- **[Phase 3]** `git blame`: buggy code from `055276c132056` (May 2022,
+  5.19)
+- **[Phase 3]** `git merge-base --is-ancestor 055276c132056 HEAD`:
+  driver present in tree
+- **[Phase 3]** `git merge-base --is-ancestor e2ffaac1884b9 HEAD`: fix
+  **not** in tree (exit 1)
+- **[Phase 3]** `git log --oneline -20 --
+  drivers/usb/gadget/udc/aspeed_udc.c`: no duplicate fix
+- **[Phase 4]** `b4 dig -c e2ffaac1884b9`: found v3 thread URL
+- **[Phase 4]** `b4 dig -a`: v2 and v3 revisions listed
+- **[Phase 4]** `b4 dig -w`: Greg K-H, Alan Stern, Andrew Jeffery CC'd
+- **[Phase 4]** Saved mbox; read Alan Stern review suggesting correct
+  idiom
+- **[Phase 4]** `grep -i stable` on mbox: no stable nomination
+- **[Phase 5]** `grep usb_ep_dequeue`: multiple gadget function driver
+  call sites
+- **[Phase 5]** Read `core.c:331–338`: dispatch wrapper
+- **[Phase 5]** Read `aspeed-vhub/epn.c:472–488`: correct sibling
+  pattern
+- **[Phase 5]** Read `pch_udc.c:1862–1878`: correct peer pattern
+- **[Phase 5]** Read `u_audio.c:455–463`: caller behavior on dequeue
+  return value
+- **[Phase 6]** `git describe HEAD`: `v6.18.44`
+- **[Phase 6]** `make -s kernelversion`: `6.18.44`
+- **[Phase 6]** Confirmed buggy code at `aspeed_udc.c:697–713` in
+  working tree
+- **[Phase 6]** `git log master --oneline --grep past-the-end`: fix
+  exists on master only
+- **[Phase 7]** Read `Kconfig:407–418`: `CONFIG_USB_ASPEED_UDC` depends
+  on `ARCH_ASPEED`
 
-**YES**The analysis is done for **6.18.43**.
+**YES**The commit should be backported to this tree (`v6.18.44` /
+`stable/linux-6.18.y`).
 
-**Verdict: YES** — backport this commit.
+`ast_udc_ep_dequeue()` in `aspeed_udc.c` can return success without
+actually dequeuing a request when the target isn’t on the endpoint
+queue, because it reads a past-the-end `list_for_each_entry()` cursor
+after the loop. The fix is small (default `rc` to `-EINVAL`, set `0`
+only on match) and matches the pattern already used in `aspeed-vhub` and
+`pch_udc`.
 
-It fixes a real use-after-free: when an XDomain disconnects,
-`tb_service_release()` can call `ida_free()` on the parent XDomain’s
-`service_ids` after that XDomain has already been torn down. The fix is
-small (two lines: `get_device()` on parent assignment,
-`tb_xdomain_put()` in release), applies cleanly here, and the buggy code
-is present in this tree.
+The buggy code is present here; the fix (`e2ffaac1884b9`) is on master
+but not in this stable branch. It affects AST260x BMC systems using
+`CONFIG_USB_ASPEED_UDC` and can confuse gadget callers that rely on
+`usb_ep_dequeue()` return values during cancel/teardown.
 
- drivers/thunderbolt/xdomain.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+**YES**
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 5fbdd412a712f..fed0fae2a6299 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1029,6 +1029,7 @@ static void tb_service_release(struct device *dev)
- 	ida_free(&xd->service_ids, svc->id);
- 	kfree(svc->key);
- 	kfree(svc);
-+	tb_xdomain_put(xd);
- }
+ drivers/usb/gadget/udc/aspeed_udc.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 353bfb1ff0a12..0b994afab0478 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -694,7 +694,7 @@ static int ast_udc_ep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ 	struct ast_udc_dev *udc = ep->udc;
+ 	struct ast_udc_request *req;
+ 	unsigned long flags;
+-	int rc = 0;
++	int rc = -EINVAL;
  
- const struct device_type tb_service_type = {
-@@ -1137,7 +1138,7 @@ static void enumerate_services(struct tb_xdomain *xd)
- 		svc->id = id;
- 		svc->dev.bus = &tb_bus_type;
- 		svc->dev.type = &tb_service_type;
--		svc->dev.parent = &xd->dev;
-+		svc->dev.parent = get_device(&xd->dev);
- 		dev_set_name(&svc->dev, "%s.%d", dev_name(&xd->dev), svc->id);
+ 	spin_lock_irqsave(&udc->lock, flags);
  
- 		tb_service_debugfs_init(svc);
+@@ -704,14 +704,11 @@ static int ast_udc_ep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ 			list_del_init(&req->queue);
+ 			ast_udc_done(ep, req, -ESHUTDOWN);
+ 			_req->status = -ECONNRESET;
++			rc = 0;
+ 			break;
+ 		}
+ 	}
+ 
+-	/* dequeue request not found */
+-	if (&req->req != _req)
+-		rc = -EINVAL;
+-
+ 	spin_unlock_irqrestore(&udc->lock, flags);
+ 
+ 	return rc;
 -- 
 2.53.0
 
