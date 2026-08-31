@@ -1,399 +1,586 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7FE42CAF6
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 13:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183026; cv=pass; b=eiBt+5TqyKlAW68wApu7dYlAMuuoSfQSIdfqAcJ9KUtbv2b1nwvCM7Qaiz/AEoHRXZKDQWfPX3kWmlogJXzj6qzRktH3MKL/i9DjIcMp6mKKGKy233n4lIHmjU1NSP6yImKY1DlSg9g/YNYDDgAemMHDeHOcZsYMjFFZutdVL/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183026; c=relaxed/simple;
-	bh=ukTYMNbuwE/keazidIyB1jBFFdn8dCj3wKE9nrANL8A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nuZQmuV8EfDAE8PjZCerp5oq12rrK1t1qQpZ7uFovIdquXXdSvYSALqGwcehRxkVTF16m1IIPxqU8aVDpqmQD4Q/1QeXpGiAzNg59frXIQK4TvBLn2gYW7Tkr/szbKk4euX3RubQIRKg/KKwEhAXzl9Hg8W3Z0p/Mb945WUVLg0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJliYGQ8; arc=pass smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7904F472F8E;
+	Mon, 31 Aug 2026 13:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788183322; cv=none; b=tMjh1WrPvpMGEt2ynFDXaXHZGO9PF1KvdMPLFU0KoBtpRl18ZJB76HDqX1pdG2Gla+PiKn51KQCdWUuWQuOrv8D9xwoOt20ZpjgKAvV67QIO3zmEZpgu9W/t6znGJyfb3noolvJIjxh1586wxJURSB9KS5ee/fOxdnAAjCcx98o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788183322; c=relaxed/simple;
+	bh=GEfuo7jybmwEdA+J3urxirNsvp1rfz4AJmXJBTtIAd0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G+P3GTAkIS2UFvAKD6OaQ/4dMg4ufDV431/pE/nZlId7z/JAcxCyYnibxCTBbLh0XAbAYXyWWsiz9AsYeqzJuv9qZWBOi1QxBpQxCD0YObt40rdvrpszoN5Mp5p0Cbor6oko2ErIBMvLg/qSwBheIiO0BA+R8uEcXdT8y9dXylA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hnGn9/cl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJliYGQ8"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-90e7bde5596so20768286d6.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 06:30:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788183023; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ptq3JhO+1wqIjKxFyC8pRWW1gv6riyoRg+PL9VLCMcF7tgvstH4Ligi/FLw0q8tmrg
-         Q7SsEJYm+usGlZRDQjC0KaDj4j3EGA7E7v5Nt8VMySuDEBL5vxy2pB5hJ79+edBBpXA6
-         wIa9ECRUh2mrZe0gcZj12CwmLW3r9qDcXFLptPsFnZNMxI2OhMHjZ+7jxE9tl+seSflw
-         bHRs5/QLua7wiza5IqAmBEYBMTnbVhp/rb9ooGStCHuKNzIeZp68O1/rYC6HlSHvixYl
-         T2Zpy/WB1zkUexpW2ueFjikX+Kii8UG0abdzdypXCgv4k/nBNb5QJTnfryWb/ddT3Yv3
-         xRug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ffwSQjuOFPtOoE2npfL854hjC1DceBLovGgAXn3l8KY=;
-        fh=2HUmhMqQ3m/fqGwG51LvdaMqlOGtwqrGu+yR2ZmSS2E=;
-        b=UmAqVK10QoyWHQjHhxypAB9XLpXlgh8daQT0Db0+oWhhOsb+qesmH28KheOWjSaHjQ
-         uDunhCZyE9L/gUXEuHZBC4fq43jyIjFlfKr15MBW2+o1Xb+vvov1nITX+hetk7usqT84
-         6xzzpoaHZq3r4GzLkIcLT6Mc05ZzQ9WLP+ncTOPm845P7xu1svHp+Np3ut84fO/aOqqG
-         kq/554gMFrxWR8Cmf1cNKfNxAcVQKWpUGbl8lHSeJtI8yhZacfRPm8FzfKYlVMqWYBlX
-         2uFPX8/7j++7tbWB96EXbwUrB2ybV2yFJypLEJdQMi97FRzNT5pPKzL4yumxNzPz1YnR
-         2c1w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788183023; x=1788787823; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ffwSQjuOFPtOoE2npfL854hjC1DceBLovGgAXn3l8KY=;
-        b=DJliYGQ8k4OlyS4zyhr1c62DiYtyzjLAr7A59gK0dZZZ9Bzdd4bRQ1/gDdU8xig9E3
-         1TwQ4Q1IIZG9NUSpn9zeAunjfxeQ7HBnxTBYMINOZ+0fdnp60JnUpp8F1Q981TcPDi/Y
-         Y2E6AOmtqayoE75FvA7/9fKegm1SUCNoX74T+W/i52xYIsDrFpqplLFtNshv4BUYsjQ6
-         NHPlqqFay/yhA17XkfJ/BPHsRYuYZeh1iMQT2FZrRON+QX8ZoHKSWM7heRQAOINfeWrL
-         TEfLwgd92MfYBSuYiP4xnHwMIKHYMSnHVJUU2vzBwgjDNr3T9CeadGiO5I9imE299koJ
-         rcKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788183023; x=1788787823;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ffwSQjuOFPtOoE2npfL854hjC1DceBLovGgAXn3l8KY=;
-        b=gB/5/TcVuaTwxEjVrd+PK51lIPH2LcqOUPJPAPjftFoF9ZvDE1zQrdlWJooXOHYv9G
-         ybCbTQ3t5MDI8P7+jvjS5VDu89XY5jGiTcOJG7ld6M7Hq1fhNWDipvXXlBczhgSAZ9qH
-         WPbIjt8M6Xunvh3ZBeWkTQp6B1JXAMjaxTB8opru0jpY+aOkz+feXSsyDNiPBVjKorKX
-         YokYCgF7I083RFGQP/0ySjsWdolb98uZ/I37r98cwoQzKQm0tdckrNg4c+3isGlRCoQq
-         osmbiexNU19WDWIiejtGPfS4hKcHjwxMM2bW62KEEXAEBw8HINEDHeeVkl8XLazMmrOs
-         dOGg==
-X-Forwarded-Encrypted: i=1; AKwUvByr2nCrWeRSoIyFlpd8VC4rzOd4qM0AxBPaPFROSu5tDTy/nnLDyw5/KLj5pfJuGay3PLQdR3pFUPE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mNpbLIBDBVzywOcYqmcCkn2k1IzgG34AhJm6P/lhYyNvT/e90e
-	vAZnIb0e8SSp5IWINVypVgLajhMwGuLgHI5GqYRehT3AcNyrSfFiMImGEZ2UQqIts7aV8njlHoe
-	ekXWaqHLwF2AdnE9n336+yR20oneIla0dOeLEQgE=
-X-Gm-Gg: AYBFou3TkxOr3ObjFFkTdAoZg8unG0tG0+JguAqB33c8/XvGDRVVQaVDoi9BOfh/X5U
-	cvLzgfOBpjqFPAsLMAHfTX/1wZPWhFF1t16C3DEEqEZFwA6l+jaQjX6MA9q6wG8qAoJUtwpjNQM
-	EDomz/usygsmURt40LdyqFu2Wqskq28N5WjfHeO4amJg8KoHhKdkuMpTHmEjQckLmhhj6zaZq7x
-	/jTUWoP3+TxdUwSIbG+mvs9fWpbA7treu0xFX26S6Vfbl6eK1lnDvtbcUfMHKk9lVhlYOSrFNKS
-	oGsIBNibBFPtUB6ooPbXs/0mzMuQXyyNSupUNPEh0BMt
-X-Received: by 2002:a05:6214:4902:b0:90a:9683:841c with SMTP id
- 6a1803df08f44-90ce0e56f1fmr341815876d6.6.1788183022595; Mon, 31 Aug 2026
- 06:30:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hnGn9/cl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4290F1F000E9;
+	Mon, 31 Aug 2026 13:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183320;
+	bh=auyLa4LJUekJJ7/dH68FyslgfszJS2Q1yk4nVhb69iQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=hnGn9/clEiXtYH8Ezb5RuBMupn5s4X5MEobhDEmTd2NwO6m3b0uKZC47YQZCs32zz
+	 bdi65vN8QBuDP6HXslneQWp29htk3Wm8TGAFgmno59uFBj9Cf5zixKC/uxq70dTnRj
+	 ZgkwbuYi9t3aUfWddaDYOcZx35+gEeJPOrbsIxqMZ47OiEqzuLGm2739mD41V+rALY
+	 V476wiyCVh7c7reKFSNom/S/2p5qcGIvMoVJui04Ah89jKksGQoBt1AmNJApGs1Rzp
+	 K+c3jBQlY6F3/2GX0v2Uys06h9UvDTonJAZXoWyeQBkZDsY0BwnGi9dZ4vUfSiBGDv
+	 pGQf3j00MSQbw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Niklas Neronin <niklas.neronin@linux.intel.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	mathias.nyman@intel.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18] usb: xhci: remove legacy 'num_trbs_free' tracking
+Date: Mon, 31 Aug 2026 09:21:46 -0400
+Message-ID: <20260831133314.4125787-78-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFmvuTW2cfj5dzkRR8ymenWoA7tw1WAYsMitorvppTwcZ+xfbg@mail.gmail.com>
- <e8655e37-02b3-40ef-9ce0-98c8fa25481d@rowland.harvard.edu>
- <15185c2d-4544-42cc-ba0a-79dd36e82a21@rowland.harvard.edu>
- <CAFmvuTU=t5TiZSpHmF1MXpVs+3K7G1VOTDeeazwGru4+1eozBg@mail.gmail.com>
- <cd57f283-71e6-4531-a311-1180ccc22ab8@rowland.harvard.edu>
- <CAFmvuTVH=mVMZNoYnU07_WA+cBc4m+UG2BBTLwF5KWhcj-z-KA@mail.gmail.com>
- <908a5b29-e6d8-4595-b451-6c328e25c60e@rowland.harvard.edu>
- <CAFmvuTU5HnBKbve=v_C7Mhw2586rR_8qsRNua2XPokgKy_o31w@mail.gmail.com>
- <0305182d-5914-4022-a0a6-1ab4221b0a6c@rowland.harvard.edu>
- <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com> <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
-In-Reply-To: <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
-From: Minseo Kim <neck3922@gmail.com>
-Date: Mon, 31 Aug 2026 22:30:08 +0900
-X-Gm-Features: AcwNN1Wq_S7MiOAXMOhN6vmDcQ9_uKea2tOoUBUY8l9Ww_ZqHOKke57SfoVMvxg
-Message-ID: <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF in ep_aio_cancel()
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Alan,
+From: Niklas Neronin <niklas.neronin@linux.intel.com>
 
-Thank you for the comments and for pointing out where my explanation was
-unclear.
+[ Upstream commit 7ee645963075651d72f8d85bee428a9b7f1f148c ]
 
-> Are you saying that this test in ep_read_iter():
->
->         if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
->
-> is wrong, for example, the && should be || ?
+Keeping track of free TRBs in a ring by adding and subtracting each time
+a enqueue or dequeue pointer is modified has proven to be buggy and
+complicated, especially over long periods of time.
+The xhci driver has already moved to calculating free TRBs dynamically
+based on ring size and the enqueue/dequeue positions.
 
-No. The && condition should remain as it is. dup_iter() copies the iterator
-state into priv->to. In my tests, native PREAD and a one-segment PREADV use=
-d
-ITER_UBUF. Since ITER_UBUF has no separate iovec array to duplicate,
-dup_iter() returned NULL while the copied iterator remained valid. My
-two-segment PREADV test used ITER_IOVEC; there, a NULL return would mean th=
-at
-allocation of the duplicated iovec array failed. The iter_is_ubuf() check
-therefore distinguishes the valid NULL return for ITER_UBUF from an allocat=
-ion
-failure in the ITER_IOVEC case. In a control build using ||, valid PREAD an=
-d
-both one- and two-segment PREADV submissions failed with -ENOMEM.
+The DbC path is the last user of 'num_trbs_free'. Rather than maintaining
+two separate accounting mechanisms, remove the field entirely and switch
+DbC to use xhci_num_trbs_free(). Since 'num_trbs_free' undercounts by one,
+and xhci_num_trbs_free() does not, the check for sufficient free TRBs is
+adjusted.
 
-The issue I observed was instead in the later completion test:
+Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://patch.msgid.link/20260603091132.1110849-3-mathias.nyman@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-        if (priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) {
+LLM Generated explanations, may be completely bogus:
 
-As I understand it, this later test treats a NULL to_free pointer as meanin=
-g
-that no userspace copy is needed. In this path, however, to_free stores the
-pointer returned by dup_iter() and tracks separately allocated iterator
-backing, rather than whether the saved iterator has a destination.
+## Phase 1: Commit Message Forensics
 
-For this issue, the relevant change was to base the later copy decision on
-iov_iter_count(&priv->to); I did not change the ep_read_iter() condition. W=
-ith
-the original test, native PREAD reported res=3D511 while the destination bu=
-ffer
-remained unchanged. After this change, native PREAD and one-segment PREADV
-copied the payload correctly, and two-segment PREADV continued to work.
+**Step 1.1 — Subject line**
 
-My previous description of to_free as a predicate was inaccurate. I was
-referring to its later completion-side use as a copy/no-copy indicator.
+Record: `[usb: xhci]` `[remove]` — remove legacy `num_trbs_free`
+tracking from the xHCI DbC (Debug Capability) path.
 
-> I understood that it was okay to call usb_ep_free_request() after
-> usb_ep_disable(). Was that wrong? Did you see it create any problems?
+**Step 1.2 — Tags**
 
-Your understanding matches the behavior I observed under dummy_hcd. For bot=
-h
-PWRITE and PREAD, I kept a completed, unqueued request allocated until afte=
-r
-usb_ep_disable() returned, with no intervening usb_ep_dequeue(). In each ca=
-se,
-the request completed exactly once with the expected result; the subsequent
-usb_ep_free_request() produced no KASAN report or Oops.
+Record:
+- `Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>`
+  (author)
+- `Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>` (xHCI
+  maintainer)
+- `Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>` (USB
+  maintainer)
+- `Link: https://patch.msgid.link/20260603091132.1110849-3-
+  mathias.nyman@linux.intel.com`
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+  by:`, or `Cc: stable@vger.kernel.org`
+- Ignore `[Upstream commit ...]` and pipeline `Signed-off-by: Sasha
+  Levin` per instructions
 
-Separately, in an intermediate version I observed usb_ep_free_request()
-running while usb_ep_disable() was still in progress. Because that version
-moved normal request cleanup into a worker, I used the existing endpoint mu=
-tex
-to prevent the worker's usb_ep_free_request() call from overlapping endpoin=
-t
-disable while I investigated the ordering. The mutex eliminated the overlap=
-,
-but I did not reproduce a failure without it, so these tests did not establ=
-ish
-that the serialization was required.
+Notable: maintainer sign-offs only; no explicit reporter or stable
+nomination.
 
-The endpoint-use ordering I could reproduce in a directed dummy_hcd diagnos=
-tic
-was different: without waiting for unlink work before endpoint disable,
-ep_unlink_worker() could call usb_ep_dequeue() while usb_ep_disable() was i=
-n
-progress. In matched PWRITE and PREAD tests, the variant without the
-pre-disable unlink-work wait produced this overlap; with the wait retained,
-usb_ep_dequeue() completed before usb_ep_disable() began.
+**Step 1.3 — Body**
 
-I did not reproduce a KASAN report, Oops, or userspace failure from the
-concurrent dequeue/disable overlap itself. I retained the pre-disable wait =
-in
-the narrower test version as a conservative interpretation of the
-usb_ep_disable() requirement that no other task be using the endpoint when =
-it
-is called.
+Record:
+- **Bug:** Manual `num_trbs_free` increment/decrement on enqueue/dequeue
+  is buggy and drifts over long runtimes.
+- **Symptom:** Incorrect free-TRB accounting can cause DbC to believe
+  the transfer ring is full and refuse new transfers (`failed to queue
+  trbs` in related DbC fixes).
+- **Root cause:** DbC was the last user of legacy counter-based
+  accounting; the rest of xHCI already uses dynamic
+  `xhci_num_trbs_free()`.
+- **Fix:** Remove `num_trbs_free` field entirely; DbC uses
+  `xhci_num_trbs_free()`. Comparison adjusted from `< num_trbs` to `<=
+  num_trbs` because legacy counter undercounted by one.
+- **Versions:** No explicit version range in message.
 
-> This is probably because you were flushing the workqueues at the wrong
-> time.
+**Step 1.4 — Hidden bug fix?**
 
-Yes. In the callback-gate test, the relevant workqueue flush returned
-while the completion callback was stopped before queueing its follow-up wor=
-k.
-In the narrower test version, I incremented aio_producers before
-usb_ep_queue() and decremented it only after the callback had either queued
-the required follow-up work or completed the immediate AIO result without
-leaving deferred work to publish. If usb_ep_queue() failed, the submission
-path decremented it directly. With that change, gadgetfs_unbind() remained
-blocked in the producer wait while the callback was gated. It proceeded to
-flush the completion workqueue only after the callback queued the follow-up
-work.
+Record: **Yes.** Despite “remove legacy tracking” wording, this fixes
+incorrect ring-space accounting — the same class of bug fixed for main
+transfer rings in `2710f8186f889` (“Stop unnecessary tracking of free
+trbs in a ring”), with a user report and bugzilla for that path.
 
-In the delayed-worker test, module unload completed before the running
-unlink_work returned. This confirmed that module unload must not complete
-while such work is still running.
+---
 
-> For the final submission, I think the workqueue management stuff should
-> go into its own separate patch.
+## Phase 2: Diff Analysis
 
-Separating the workqueue management changes from the AIO race fixes makes
-sense. Thank you also for the reminder about -p.
+**Step 2.1 — Inventory**
 
-> Second, why did you change ep_aio_complete() to make it queue up
-> ep_user_copy_worker() even when nothing needed to be copied to
-> userspace?
+Record:
+| File | Change |
+|------|--------|
+| `xhci-dbgcap.c` | −4 manual counter ops, +1 dynamic check |
+| `xhci-mem.c` | −6 (init of `num_trbs_free`) |
+| `xhci-ring.c` | `static` → exported `xhci_num_trbs_free()` |
+| `xhci.h` | Remove struct field, add prototype |
 
-My reason for routing every completion through ep_user_copy_worker() was to
-make a common deferred completion and request-cleanup stage visible to a
-workqueue flush during teardown, not because every request needed a userspa=
-ce
-copy. In the normal non-unlink path of that cumulative design, the worker
-released the USB request and epdata reference before calling ki_complete(),
-and then published AIO_GIVEN_BACK. Since ki_complete() could drop the last =
-AIO
-file reference and allow ep_release() to begin, the intent was to prevent
-teardown from passing the completion-work flush before that cleanup had
-finished. A gate placed between cleanup and ki_complete() confirmed that th=
-e
-flush covered this no-copy PWRITE cleanup: unbind reached
-flush_workqueue(gadgetfs_copy_wq) but did not return until the worker was
-released.
+- Net: ~12 lines removed, ~3 added
+- Functions: `xhci_dbc_queue_trb()`, `xhci_dbc_queue_bulk_tx()`,
+  `dbc_handle_xfer_event()`, `xhci_initialize_ring_info()`,
+  `xhci_num_trbs_free()`
+- Scope: **single-subsystem surgical fix** (xHCI DbC only)
 
-I agree that using the worker for every completion was broader than necessa=
-ry
-for copy handling. The narrower behavior I tested retains aio_producers but
-queues copy work only when iov_iter_count(&priv->to) and req->actual are bo=
-th
-nonzero. Nonzero PREAD and the one- and two-segment PREADV cases invoked th=
-e
-copy worker, while PWRITE, PWRITEV, and zero-length reads and writes did no=
-t.
-This indicates that no-copy paths do not need ep_user_copy_worker() merely =
-for
-copy handling. Their cleanup ordering and the separate teardown lifetime
-issue can be considered independently of that routing decision.
+**Step 2.2 — Code flow per hunk**
 
-Looking back, trying to address all of the observed issues in one cumulativ=
-e
-patch made it harder to separate and review the purpose of each change.
-Considering the issues independently may also make it easier to identify a
-simpler approach for some of them. I hope these clarifications and test
-results are useful.
+Record:
+1. **`xhci_dbc_queue_trb()`** — Before: decrement `num_trbs_free` on
+   enqueue. After: no manual accounting; enqueue pointer only.
+2. **`xhci_dbc_queue_bulk_tx()`** — Before: `ring->num_trbs_free <
+   num_trbs` → `-EBUSY`. After: `xhci_num_trbs_free(ring) <= num_trbs` →
+   `-EBUSY`.
+3. **`dbc_handle_xfer_event()`** — Before: `num_trbs_free++` on
+   completion and stale-stall giveback. After: no manual increments;
+   pointer-based calculation handles it.
+4. **`xhci_initialize_ring_info()`** — Before: initialize
+   `num_trbs_free`. After: removed.
+5. **`xhci_num_trbs_free()`** — Before: `static`. After: non-static +
+   header export for DbC use.
 
-Thank you again for your comments.
+**Step 2.3 — Bug mechanism**
 
-Best regards,
-Minseo Kim
+Record: **Logic/correctness fix — stale manual counter accounting.**
+- Legacy path manually `++`/`--` on queue/complete/stall paths.
+- Counter can drift from actual ring state (noop TRBs, stall handling,
+  long-lived sessions) — same failure mode fixed on main transfer rings
+  in `fe82f16aafda` / `2710f8186f889`.
+- Dynamic `xhci_num_trbs_free()` derives free space from enqueue/dequeue
+  pointers and ring geometry.
 
-2026=EB=85=84 8=EC=9B=94 30=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 1:08, A=
-lan Stern <stern@rowland.harvard.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Fri, Aug 28, 2026 at 03:30:10PM -0500, neck3922@gmail.com wrote:
-> > Hi Alan,
-> >
-> > Thank you for the revised patch and for explaining the intended use of
-> > the saved endpoint.
-> >
-> > I applied the patch as posted to upstream v7.2-rc1, commit
-> > dc59e4fea9d83f03bad6bddf3fa2e52491777482.
-> >
-> > I first tested your revision unchanged. The IRQ-state fix and saved
-> > endpoint behaved as intended. The exact pre-queue cancellation matrix
-> > produced exactly one expected completion in every case, with no KASAN,
-> > Oops, or LOCKDEP output. The original ep_aio_cancel() null-ptr-deref
-> > and UAF signatures, the earlier ep_aio() submit-path regressions, and t=
-he
-> > teardown NULL-endpoint failure did not recur in these tests.
->
-> All good results.
->
-> > > I think it will still be necessary to flush the workqueue after
-> > > destroy_ep_files() runs.  The best way to check whether this is neede=
-d
-> > > would be to put a long delay right at the start of ep_unlink_worker()
-> > > and then run a test where during that delay, the test program closes =
-its
-> > > open files, unmounts the directory, and unloads the gadgetfs module.
-> >
-> > Using CONFIG_USB_GADGETFS=3Dm on the posted revision, I inserted a
-> > diagnostic 15-second delay at the entry of ep_unlink_worker(). While th=
-e
-> > worker was delayed, the test process had no open /dev/gadget/* file
-> > descriptors, GadgetFS unmounted successfully, the gadgetfs module
-> > reference count reached zero, and rmmod succeeded before the delay ende=
-d.
-> > The delay was diagnostic only.
-> >
-> > When the delayed worker resumed, the kernel warned and then panicked. T=
-he
-> > serial log showed an unresolved work-function address and identified
-> > gadgetfs as the last unloaded module:
-> >
-> >   Modules linked in: dummy_hcd [last unloaded: gadgetfs(O)]
-> >
-> > Thus, in this path, a running unlink_work item does not pin the gadgetf=
-s
-> > module. Teardown must quiesce pending or running GadgetFS AIO work befo=
-re
-> > module unload, or otherwise retain the module until that work completes=
-.
->
-> Indeed.  Quiescing won't be easy to do; it will just have to wait until
-> the work is complete.  In other words, flush the workqueue.
->
-> > While rerunning the directed cross-CPU test from my previous message, I
-> > found that the underlying lifetime race involving ep_unlink_worker()
-> > remained:
-> >
-> >   BUG: KASAN: slab-use-after-free in ep_unlink_worker
-> >   Read of size 8
-> >   drivers/usb/gadget/legacy/inode.c:489
-> >
-> > The faulting statement was:
-> >
-> >   put_ep(priv->epdata);
-> >
-> > After AIO_UNLINK_DONE was published, completion work could free priv
-> > before the unlink worker's final accesses through priv. Saving epdata a=
-nd
-> > ep before usb_ep_dequeue() eliminated the failure in the directed test.
->
-> Ah, yes.  I should have realized that last time.  I just didn't think
-> hard enough about how the ordering could interact with those tests at
-> the end of ep_unlink_worker().  (Or maybe I did and then forgot to
-> include the changes into the patch -- I can't remember.)  Anyway, my
-> version of the patch has been updated accordingly.
->
-> > Based on our discussion and the results above, I prepared the cumulativ=
-e
-> > patch below, incorporating your latest revision. It also fixes an
-> > existing native PREAD issue: the to_free predicate could skip copying a=
-n
-> > ITER_UBUF payload while still reporting success.
->
-> I'm not sure what you're referring to.  Are you saying that this test
-> in ep_read_iter():
->
->                 if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
->
-> is wrong, for example, the && should be || ?  In fact, I don't
-> understand the reason for the iter_is_ubuf() check at all.
->
-> Note that to_free isn't a predicate; rather it's a pointer to a copy of
-> an iov_iter structure.
->
-> > During development and validation, I found two further ordering issues.
-> > In the existing completion ordering, request cleanup could overlap
-> > usb_ep_disable() during final endpoint release.
->
-> Yes, I know.  I understood that it was okay to call
-> usb_ep_free_request() after usb_ep_disable().  Was that wrong?  Did you
-> see it create any problems?
->
-> Note that usb_ep_disable() doesn't return until all the requests queued
-> for that endpoint have completed.  So ep_aio_complete() will have run,
-> but the work routines may still be pending.
->
-> >  Separately, an
-> > intermediate cumulative version allowed gadgetfs_unbind() to pass the
-> > completion-work flush before a callback had queued that work.
->
-> This is probably because you were flushing the workqueues at the wrong
-> time.
->
-> For the final submission, I think the workqueue management stuff should
-> go into its own separate patch.  Straightening out the various AIO races
-> is already complicated enough by itself.
->
-> >  The
-> > resulting patch addresses all three issues and applies directly to
-> > upstream v7.2-rc1.
->
-> I'll review the patch later.  For now, there's two things to mention.
-> First, when you create your patches, it would help to add the -p
-> option to the diff command.
->
-> Second, why did you change ep_aio_complete() to make it queue up
-> ep_user_copy_worker() even when nothing needed to be copied to
-> userspace?  It's a bad idea to run a workqueue routine if it isn't
-> necessary.
->
-> Alan Stern
+**Step 2.4 — Fix quality**
+
+Record:
+- **Obviously correct:** Reuses the same mechanism already used for
+  command/transfer rings in this tree.
+- **Minimal:** Removes duplicate accounting; no new APIs beyond
+  exporting an existing function.
+- **Regression risk:** Low. Comparison operator change (`<` → `<=`) is
+  documented compensation for the one-TRB undercount in legacy init (`-
+  1` in `xhci-mem.c:325`).
+
+---
+
+## Phase 3: Git History Investigation
+
+**Step 3.1 — Blame**
+
+Record: `num_trbs_free` initialization dates to `b008df60c6369b` (Andiry
+Xu, 2012-03-05). Legacy accounting has been present since early xHCI;
+main path stopped using it in `2710f8186f889` (2023). DbC retained it
+until this commit.
+
+**Step 3.2 — Fixes: tag**
+
+Record: Not applicable — no `Fixes:` tag. Related introducing/fix
+commits in tree:
+- `2710f8186f889` — main path moved to dynamic calculation (in tree)
+- `fe82f16aafda` — original transfer-ring accounting bug (user report,
+  Cc: stable)
+- `a5c98e8b13985` — DbC ring-full workaround on reconnect (in tree, Cc:
+  stable)
+
+**Step 3.3 — Related file history**
+
+Record: Recent DbC fixes in this tree include `a5c98e8b13985` (ring full
+after reconnects), `f3d12ec847b94` (stall race), `2bbd38fcd2967`
+(resume). This commit is standalone (not “patch X/Y”); `5adc1cc038f44`
+(off-by-one in `xhci_num_trbs_free`) is already present. No other series
+dependency.
+
+**Step 3.4 — Author context**
+
+Record: Niklas Neronin is an active Intel xHCI contributor
+(`931e468764b22`, `ff9a09b3e09c7`, etc.). Mathias Nyman is the xHCI
+maintainer and authored the original transfer-ring accounting fix.
+
+**Step 3.5 — Prerequisites**
+
+Record:
+- `xhci_num_trbs_free()` exists (static) in `xhci-ring.c:342` —
+  **present**
+- `2710f8186f889` main-path refactor — **present**
+- `5adc1cc038f44` off-by-one fix — **present**
+- DbC support (`dfba2174dc42`, 2017) — **present**
+- Patch applies cleanly (`git apply --check` passed)
+- **Standalone:** yes
+
+---
+
+## Phase 4: Mailing List and External Research
+
+**Step 4.1 — Original discussion**
+
+Record: `b4 dig -c 9e332a74fa0de` → https://patch.msgid.link/20260521080
+426.258909-1-niklas.neronin@linux.intel.com. Single-patch submission
+(not a multi-revision series). Mbox downloaded; no review replies,
+stable nominations, or NAKs in thread.
+
+**Step 4.2 — Reviewers**
+
+Record: `b4 dig -w` shows CC to `mathias.nyman@linux.intel.com` and
+`linux-usb@vger.kernel.org`. Mathias Nyman Signed-off-by on committed
+version.
+
+**Step 4.3 — Bug reports**
+
+Record: No `Reported-by:` or syzbot link for this commit. Related bug
+context from `fe82f16aafda` / bugzilla #217242 applies to the same
+accounting mechanism on transfer rings. Related DbC symptom documented
+in `a5c98e8b13985`: `"failed to queue trbs"`.
+
+**Step 4.4 — Series context**
+
+Record: Commit Link references `...1110849-3-...` (possibly part of a
+3-patch series on a later submission), but the committed diff is self-
+contained. No other patches required.
+
+**Step 4.5 — Stable list**
+
+Record: Not searched on lore stable (WebFetch blocked). No stable
+nomination in commit or mbox thread. Not a negative signal per
+instructions.
+
+---
+
+## Phase 5: Code Semantic Analysis
+
+**Step 5.1 — Key functions**
+
+Record: `xhci_dbc_queue_bulk_tx()`, `dbc_handle_xfer_event()`,
+`xhci_num_trbs_free()`, `dbc_ep_do_queue()`.
+
+**Step 5.2 — Callers**
+
+Record:
+- `xhci_dbc_queue_bulk_tx()` ← `dbc_ep_do_queue()` ← `dbc_ep_queue()`
+  (TTY/gadget write path)
+- `dbc_handle_xfer_event()` ← event polling workqueue in DbC
+- `xhci_num_trbs_free()` also used in `xhci-ring.c:3328` for command-
+  ring space checks
+
+Impact surface: **CONFIG_USB_XHCI_DBGCAP** users only; not general USB
+hot path.
+
+**Step 5.3 — Callees**
+
+Record: `xhci_num_trbs_free()` walks ring segments using `enqueue`,
+`dequeue`, `enq_seg`, `deq_seg`. `count_trbs()`, `xhci_dbc_queue_trb()`,
+`xhci_dbc_giveback()` on queue/complete paths.
+
+**Step 5.4 — Reachability**
+
+Record: Triggered when DbC is configured and TTY I/O is active over USB3
+debug port. Requires `CONFIG_USB_XHCI_DBGCAP=y` and hardware with xHCI
+DbC. Not a general syscall path, but reachable by any user with debug-
+cable access and DbC enabled.
+
+**Step 5.5 — Similar patterns**
+
+Record: Main xHCI path already uses `xhci_num_trbs_free(ep_ring) <=
+num_trbs` at `xhci-ring.c:3328`. This commit aligns DbC with that
+pattern and removes the last manual counter user.
+
+---
+
+## Phase 6: Cross-Reference Against Local Tree (v6.18.44)
+
+**Step 6.1 — Buggy code present?**
+
+Record: **Yes.** Local tree is `v6.18.44` / `6.18.44`. Commit
+`9e332a74fa0de` is **not** an ancestor of HEAD. Legacy code present at:
+- `xhci-dbgcap.c:263,284,785,850`
+- `xhci-mem.c:325`
+- `xhci.h:1380`
+
+**Step 6.2 — Backport complications**
+
+Record: **Clean apply expected.** `git apply --check` on the patch
+succeeded with no conflicts. File structure matches upstream diff
+context.
+
+**Step 6.3 — Related fixes already present?**
+
+Record: `a5c98e8b13985` (DbC ring reinit on disconnect) is in tree —
+symptom workaround for ring-full case. This commit addresses the
+underlying accounting mechanism. The dynamic-calculation infrastructure
+(`xhci_num_trbs_free`, `2710f8186f889`) is already in tree. This
+specific DbC migration is **not** yet applied.
+
+---
+
+## Phase 7: Subsystem and Maintainer Context
+
+**Step 7.1 — Subsystem**
+
+Record: **drivers/usb/host (xHCI DbC)** — IMPORTANT for developers using
+USB3 debug port; PERIPHERAL for general production workloads (optional
+Kconfig, default off).
+
+**Step 7.2 — Activity**
+
+Record: xHCI DbC actively maintained — 10+ DbC commits in recent history
+on `xhci-dbgcap.c`.
+
+---
+
+## Phase 8: Impact and Risk Assessment
+
+**Step 8.1 — Who is affected**
+
+Record: Users with `CONFIG_USB_XHCI_DBGCAP=y` on xHCI hosts with DbC
+hardware — kernel developers, early-debug/remote-console setups. Not
+universal.
+
+**Step 8.2 — Trigger conditions**
+
+Record:
+- Long-running DbC sessions
+- Stall/no-op TRB handling paths
+- Repeated connect/disconnect (partially mitigated by `a5c98e8b13985`,
+  but accounting drift can occur in other paths)
+- Likelihood: low-to-moderate for active DbC users over time; not every
+  boot
+
+**Step 8.3 — Failure mode severity**
+
+Record:
+- **Failure:** DbC returns `-EBUSY`, prints `"failed to queue trbs"`,
+  debug port stops accepting I/O
+- **Severity: MEDIUM** — functional failure of debug infrastructure; not
+  kernel crash, deadlock, data corruption, or security issue
+- Does not affect normal USB device operation
+
+**Step 8.4 — Risk/benefit**
+
+Record:
+- **Benefit:** Prevents false ring-full conditions; completes removal of
+  known-buggy accounting (same class as stable-worthy
+  `fe82f16aafda`/`2710f8186f889`)
+- **Risk:** Very low — 15-line net deletion, uses existing tested
+  function, maintainer-reviewed
+- **Ratio:** Moderate benefit for small DbC user base, very low risk
+
+---
+
+## Phase 9: Final Synthesis
+
+**Evidence FOR backport:**
+- Fixes real accounting bug (same mechanism as user-reported transfer-
+  ring bug)
+- Small, surgical, applies cleanly to v6.18.44
+- All prerequisites already in tree
+- DbC ring-full fixes already accepted for stable (`a5c98e8b13985` with
+  Cc: stable)
+- xHCI maintainers (Nyman, Kroah-Hartman) signed off
+- Removes duplicate/error-prone code path
+
+**Evidence AGAINST backport:**
+- Only affects optional `CONFIG_USB_XHCI_DBGCAP` (debug feature)
+- No explicit user report or syzbot for this specific DbC commit
+- Failure mode is debug-port unusability, not crash/corruption/security
+- Symptom partially mitigated by existing `a5c98e8b13985` reconnect
+  workaround
+
+**Unresolved questions:**
+- No review-thread discussion beyond sign-offs
+- Exact long-run drift scenarios for DbC not documented with a specific
+  reporter
+
+**Stable rules checklist:**
+1. Obviously correct and tested? **PASS** — reuses proven
+   `xhci_num_trbs_free()`, maintainer SOBs; no Tested-by
+2. Fixes a real bug? **PASS** — legacy counter drift is a documented
+   real bug class
+3. Important issue? **PASS (borderline)** — debug infrastructure
+   failure, not crash/corruption; comparable to memory-growth fix that
+   went stable for main path
+4. Small and contained? **PASS** — 4 files, ~15 lines net
+5. No new features/APIs? **PASS** — refactor only; exporting existing
+   function is not a userspace API
+6. Can apply to local tree? **PASS** — verified clean apply
+
+**Exception category:** None (not device ID, quirk, DT, build, or docs).
+
+---
+
+## Problem Summary for Stable Users
+
+The xHCI driver stopped using manual `num_trbs_free` counter tracking
+for normal transfer/command rings in 2023 because it drifted over time
+(user-reported memory growth from unnecessary ring expansion). DbC (USB3
+debug port / `ttyDBC`) was left on the old mechanism. Over long
+sessions, especially with stall/no-op TRB edge cases, the counter can
+desync from actual ring state, causing DbC to falsely report the ring as
+full and refuse transfers with `"failed to queue trbs"`. This commit
+switches DbC to the same dynamic calculation used everywhere else — a
+low-risk completion of an already-stable refactoring.
+
+For v6.18.44 specifically: the buggy code exists, prerequisites are
+present, the patch applies cleanly, and related DbC ring-full fixes are
+already in this tree.
+
+## Verification
+
+- [Phase 1] Parsed commit `9e332a74fa0de` message and tags via `git
+  show`
+- [Phase 2] Full diff analyzed via `git show 9e332a74fa0de -p`
+- [Phase 3] `git describe HEAD` → `v6.18.44`; `make kernelversion`
+  equivalent from Makefile → 6.18.44
+- [Phase 3] `git merge-base --is-ancestor 9e332a74fa0de HEAD` → exit 1
+  (not in tree)
+- [Phase 3] `git blame` on `xhci-mem.c:325` → `b008df60c6369b` (2012)
+- [Phase 3] `2710f8186f889`, `5adc1cc038f44`, `dfba2174dc42` confirmed
+  ancestors of HEAD
+- [Phase 3] `git log --grep='num_trbs_free'` found related history
+- [Phase 4] `b4 dig -c 9e332a74fa0de` → lore URL found
+- [Phase 4] `b4 dig -m /tmp/xhci_num_trbs.mbox` → mbox downloaded, no
+  review replies or stable CC
+- [Phase 4] WebFetch of lore URLs blocked (403/Anubis); used b4 mbox
+  instead
+- [Phase 5] `grep num_trbs_free` / `grep xhci_num_trbs_free` in
+  `drivers/usb/host/`
+- [Phase 5] Read `xhci-dbgcap.c`, `xhci-ring.c:342-370`, `xhci-
+  ring.c:3328`, `Kconfig` for `USB_XHCI_DBGCAP`
+- [Phase 6] Buggy code confirmed present at lines listed above
+- [Phase 6] `git apply --check` on patch → clean apply
+- [Phase 6] `a5c98e8b13985` confirmed in tree with Cc: stable and
+  `"failed to queue trbs"` symptom
+- [Phase 8] Failure mode: false `-EBUSY` on DbC queue → debug port
+  stops; severity MEDIUM
+
+**YES**The analysis is done for **usb: xhci: remove legacy
+'num_trbs_free' tracking** on the **v6.18.44** tree.
+
+**Summary:** This is a small DbC-only fix that drops manual TRB free-
+space counting (known to drift) and uses the existing
+`xhci_num_trbs_free()` path instead. The buggy code is still present in
+this tree, prerequisites are already there, and the patch applies
+cleanly. Main downside: it only affects `CONFIG_USB_XHCI_DBGCAP` users,
+and the failure mode is the debug port stopping with `"failed to queue
+trbs"`, not a crash or data corruption.
+
+**Recommendation: YES** for backport to this stable tree.
+
+ drivers/usb/host/xhci-dbgcap.c | 5 +----
+ drivers/usb/host/xhci-mem.c    | 6 ------
+ drivers/usb/host/xhci-ring.c   | 2 +-
+ drivers/usb/host/xhci.h        | 2 +-
+ 4 files changed, 3 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
+index ecda964e018ac..e2e0694d0c22a 100644
+--- a/drivers/usb/host/xhci-dbgcap.c
++++ b/drivers/usb/host/xhci-dbgcap.c
+@@ -260,7 +260,6 @@ xhci_dbc_queue_trb(struct xhci_ring *ring, u32 field1,
+ 	trace_xhci_dbc_gadget_ep_queue(ring, &trb->generic,
+ 				       xhci_trb_virt_to_dma(ring->enq_seg,
+ 							    ring->enqueue));
+-	ring->num_trbs_free--;
+ 	next = ++(ring->enqueue);
+ 	if (TRB_TYPE_LINK_LE32(next->link.control)) {
+ 		next->link.control ^= cpu_to_le32(TRB_CYCLE);
+@@ -281,7 +280,7 @@ static int xhci_dbc_queue_bulk_tx(struct dbc_ep *dep,
+ 
+ 	num_trbs = count_trbs(req->dma, req->length);
+ 	WARN_ON(num_trbs != 1);
+-	if (ring->num_trbs_free < num_trbs)
++	if (xhci_num_trbs_free(ring) <= num_trbs)
+ 		return -EBUSY;
+ 
+ 	addr	= req->dma;
+@@ -782,7 +781,6 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
+ 		}
+ 		if (r->status == -COMP_STALL_ERROR) {
+ 			dev_warn(dbc->dev, "Give back stale stalled req\n");
+-			ring->num_trbs_free++;
+ 			xhci_dbc_giveback(r, 0);
+ 		}
+ 	}
+@@ -847,7 +845,6 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
+ 		break;
+ 	}
+ 
+-	ring->num_trbs_free++;
+ 	req->actual = req->length - remain_length;
+ 	xhci_dbc_giveback(req, status);
+ }
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 6e5b6057de79e..7f8c4a680832d 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -317,12 +317,6 @@ void xhci_initialize_ring_info(struct xhci_ring *ring)
+ 	 * handling ring expansion, set the cycle state equal to the old ring.
+ 	 */
+ 	ring->cycle_state = 1;
+-
+-	/*
+-	 * Each segment has a link TRB, and leave an extra TRB for SW
+-	 * accounting purpose
+-	 */
+-	ring->num_trbs_free = ring->num_segs * (TRBS_PER_SEGMENT - 1) - 1;
+ }
+ EXPORT_SYMBOL_GPL(xhci_initialize_ring_info);
+ 
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 3f1a6089a01ce..859680bc74a2c 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -339,7 +339,7 @@ static struct xhci_segment *trb_in_td(struct xhci_td *td, dma_addr_t suspect_dma
+  * Only for transfer and command rings where driver is the producer, not for
+  * event rings.
+  */
+-static unsigned int xhci_num_trbs_free(struct xhci_ring *ring)
++unsigned int xhci_num_trbs_free(struct xhci_ring *ring)
+ {
+ 	struct xhci_segment *enq_seg = ring->enq_seg;
+ 	union xhci_trb *enq = ring->enqueue;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 4cd4cb0e431d1..64f4207270f32 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1377,7 +1377,6 @@ struct xhci_ring {
+ 	u32			cycle_state;
+ 	unsigned int		stream_id;
+ 	unsigned int		num_segs;
+-	unsigned int		num_trbs_free; /* used only by xhci DbC */
+ 	unsigned int		bounce_buf_len;
+ 	enum xhci_ring_type	type;
+ 	u32			old_trb_comp_code;
+@@ -1953,6 +1952,7 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+ void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
++unsigned int xhci_num_trbs_free(struct xhci_ring *ring);
+ int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 			    int suspend, gfp_t gfp_flags);
+ void xhci_process_cancelled_tds(struct xhci_virt_ep *ep);
+-- 
+2.53.0
+
