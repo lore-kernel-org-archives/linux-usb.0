@@ -1,102 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930DF56C634;
-	Mon, 31 Aug 2026 13:48:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9E05762AB;
+	Mon, 31 Aug 2026 13:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184106; cv=none; b=sLl321Gs93yycx5DAVj6D1ReuAA+RiZsdgT7HCZbpG7bFf2ewFvZ/aBvDir1fXVWxBQJ/HcZtm3sK1Gd5B+SXVw1skT67jqbs9lFJx4V2BoXRS06Y+avKgEk5ddWsCure15rnWOwY/LDXJC3eYfxhEjGmShwd3U1h+jDsFRNFCw=
+	t=1788184155; cv=none; b=d2SEsugMy2lo11hPBJ0m4YynKQkTBYatSmAC7m4TQq70RQMM9ldeXzSwBb+wQA1/2LiZCLkGzTrZqWrMoQ9EAd5l10j0CzHKAfxn29JtnMc5WxI03dn583/N/LmhmgjtDB++gcYoIbyzm3nAPt4HqSVyfmRH8Rmc7sELOp2zJS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184106; c=relaxed/simple;
-	bh=yBaSaM5g6nYdAQw8v5Byml+3Xg5e4QK6cEjOHqaSsH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DFA86hlRJEgR4m7i6i9qarCH4LJ6ooCcJUPWASHM28xScbktZdNGxlcX1uxDqpt+BtjMKM5iF3Quu3oKiX6teuYTElrptH0BVFocF4DFAx659ylJKm/LTdLp+L++yrjFaVT9v072uT9cu4RF7wrkri1Iiysq3Q+6epJFjYJIn8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4t+0c6v; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788184155; c=relaxed/simple;
+	bh=we7/sGcmEB5nvAErT7wHuq+La6JCVtVp0ENMTZqmdJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m+vZLuRJk4q8Hi0Z7ouM+Jj/szVPi7g4/2/uncyKir2YmTphKp7ww7IUSe0frCpakVPKD4afKRGhRQtUHI+LCM5PlwwBqNMwK+a0T6jT6O6Z0ThMfDT438LYkCqi0EwzZ8t0yKOhRC3TbUi9pPAlXeiY13+7d/Xc1rThglpjuJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSpCn9Hj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4t+0c6v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47FD81F00A3D;
-	Mon, 31 Aug 2026 13:48:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSpCn9Hj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE591F000E9;
+	Mon, 31 Aug 2026 13:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184104;
-	bh=Uk2bfsWBqIOKDY5IOy+LzNuDq986xnkLRGje+YX7MIs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N4t+0c6vwrVPLkV3wIdx5fWJsiDvmlsQ9BjoZtlcDpxm/yB+ixqhe59tBxkwmQVNk
-	 XaRA1W00l7nT5A9OgNs5IQt+iX7KQjOJtWUVHw4Yh1G3tWsxzv30RmKhjUPyZEzpSB
-	 p+0zG7t7NyqJlJL+h2fq1PzQG2PDGAQAKvFebdE+YXQ7/0z618SHBRMV2HtqiKpcbp
-	 GATaMtn0Pm/Y1KjRt00KiyIxPkUPexC2YensDJo6ZLyu2qEp89/+e8DV1TafoI6P7w
-	 OQcikH298PL88SCvCjvr8b0Z3+JUPH3y6SeRVZKNi24+r4tnTdzpDUgVkdIZnbxtff
-	 eGa5UKRoQpJkg==
-Date: Mon, 31 Aug 2026 08:48:23 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bhargav Joshi <j.bhargav.u@gmail.com>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, Vinod Koul <vkoul@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Siewior <bigeasy@linutronix.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Ravi B <ravibabu@ti.com>, Kumar Gupta <ajay.gupta@ti.com>,
-	Sergei Shtylyov <sshtylyov@ru.mvista.com>,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-omap@vger.kernel.org,
-	goledhruva@gmail.com, m-chawdhry@ti.com, daniel.baluta@gmail.com,
-	simona.toaca@nxp.com
-Subject: Re: [PATCH v2 0/7] dt-bindings: usb: ti: Convert AM33xx/DA8xx MUSB
- bindings to DT schema
-Message-ID: <20260831134823.GB733140-robh@kernel.org>
-References: <20260818-ti-am33-usb-v2-0-66fd44d66824@gmail.com>
+	s=k20260515; t=1788184153;
+	bh=eMfgeDBHC7Y+1FXjCNguhMHe/Bn4MgSkBitNQjV8cE4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=hSpCn9Hjz5fWitanSz4Uitn7yHUbSuhm1FlviE6JMzFgbmtXR1KtQxXQ3N73IL3XJ
+	 AXDPlb+Hp6OiSuZzq5gXqOmjgyp5SGR+VUQyIzJMaM9FWgS50LI1sxvjpPMfC76aGv
+	 9a799b532WZ1HmSoZIzuk9tH3lJIkyHdU5+NiX8WBPqZhkeg4qG6rf+6PyAMtyO2bE
+	 nsvDz2j0rQXhqV0Gj3dQMhuNHfCqmBleesfgb9Redw6q97S7DJDGUTzc6zrPlDii4Y
+	 uMPYmCkZZ80s8Nul2mBsQI3TuU3eus1yMORxKw0CgmnwUsOM3pW0CgIYkynXPjYZSM
+	 GV5OALygpBZWw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Sasha Levin <sashal@kernel.org>,
+	andreas.noever@gmail.com,
+	westeri@kernel.org,
+	YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-5.10] thunderbolt: Set tb->root_switch to NULL when domain is stopped
+Date: Mon, 31 Aug 2026 09:29:11 -0400
+Message-ID: <20260831133314.4125787-523-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260818-ti-am33-usb-v2-0-66fd44d66824@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2026 at 07:58:42PM +0530, Bhargav Joshi wrote:
-> This patch series converts the legacy TI AM33xx, DM816, and DA8xx
-> USB/MUSB text bindings to modern DT schema.
-> 
-> The legacy am33xx-usb.txt and da8xx-usb.txt bindings was historically
-> structured as a single, monolithic file that documented the entire USB
-> subsystem (the wrapper, core MUSB controller, PHY, and control module)
-> all together. This series converts that monolithic text binding into
-> proper, distinct DT schema files for each hardware component.
-> 
-> Patches in this series:
-> 1. dt-bindings: dma: ti,cppi41: Convert to DT schema
-> 2. dt-bindings: phy: ti,am335x-usb-phy: Convert to DT schema
-> 3. ARM: dts: ti: am335x: Fix redundant interrupts property in USB nodes
-> 4. dt-bindings: usb: ti,musb-am33xx: Convert to DT schema
-> 5. dt-bindings: usb: ti,am335x-usb-ctrl-module: Convert to DT schema
-> 6. dt-bindings: usb: ti,am33xx-usb: Convert to DT schema
-> 7. dt-bindings: usb: ti,da830-musb: Convert to DT schema
-> 
-> Signed-off-by: Bhargav Joshi <j.bhargav.u@gmail.com>
-> ---
-> Changes in v2:
-> - patch 1: add interrupts as required property for am335x-cppi41
-> - patch 4,7: add pattern constraint for dma-names
-> - patch 6: remove deprecated property ti,hwmods from required
-> - Link to v1: https://lore.kernel.org/r/20260818-ti-am33-usb-v1-0-69ac5f92df45@gmail.com
-> 
-> ---
-> Bhargav Joshi (7):
->       dt-bindings: dma: ti,cppi41: Convert to DT schema
->       dt-bindings: phy: ti,am335x-usb-phy: Convert to DT schema
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-These 2 can be sent on their own.
+[ Upstream commit e56249d8a68e712f3b60e1f3fdbb5b4fea146468 ]
 
->       ARM: dts: ti: am335x: Fix redundant interrupts property in USB nodes
->       dt-bindings: usb: ti,musb-am33xx: Convert to DT schema
->       dt-bindings: usb: ti,am335x-usb-ctrl-module: Convert to DT schema
->       dt-bindings: usb: ti,am33xx-usb: Convert to DT schema
->       dt-bindings: usb: ti,da830-musb: Convert to DT schema
+Similarly what we do with the firmware connection manager. This makes
+tb_xdp_handle_request() return error to the remote host. However, we
+need to make sure we keep the uuid alive so that we can reply until the
+whole domain is released.
+
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+The background `git branch -a --contains` lookup timed out — this repo
+has too many branches for that to finish quickly.
+
+The analysis itself is complete. **Verdict: YES** for backport to this
+tree (`linux-6.18.y` at v6.18.43).
+
+The fix is missing from your current checkout and from
+`stable/linux-6.18.y`, but is already present in mainline
+(`origin/master`). It's a small teardown fix: `tb_stop()` leaves a
+dangling `tb->root_switch` after switch removal, which can cause a UAF
+crash when in-flight XDomain request work runs during driver unload. The
+patch mirrors what `icm_stop()` already does and applies cleanly
+here.The `git branch -a --contains e56249d8a68e7` lookup timed out again
+— too many branches in this repo for that to finish in a reasonable
+time.
+
+I checked the important branches directly instead: the fix is **not** in
+your current `6.18.43` checkout or `stable/linux-6.18.y`, but **is** in
+`origin/master`. That supports the earlier **YES** backport verdict.
+
+ drivers/thunderbolt/tb.c      | 1 +
+ drivers/thunderbolt/xdomain.c | 6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 041a4c8e10fb9..b516b1ad83a19 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -2952,6 +2952,7 @@ static void tb_stop(struct tb *tb)
+ 		tb_tunnel_put(tunnel);
+ 	}
+ 	tb_switch_remove(tb->root_switch);
++	tb->root_switch = NULL;
+ 	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
+ }
+ 
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index fed0fae2a6299..1eb149445fa05 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -756,7 +756,7 @@ static void tb_xdp_handle_request(struct work_struct *work)
+ 
+ 	mutex_lock(&tb->lock);
+ 	if (tb->root_switch)
+-		uuid = tb->root_switch->uuid;
++		uuid = kmemdup(tb->root_switch->uuid, sizeof(*uuid), GFP_KERNEL);
+ 	else
+ 		uuid = NULL;
+ 	mutex_unlock(&tb->lock);
+@@ -870,6 +870,7 @@ static void tb_xdp_handle_request(struct work_struct *work)
+ 	}
+ 
+ out:
++	kfree(uuid);
+ 	kfree(xw->pkg);
+ 	kfree(xw);
+ 
+@@ -2344,6 +2345,9 @@ static struct tb_xdomain *switch_find_xdomain(struct tb_switch *sw,
+ {
+ 	struct tb_port *port;
+ 
++	if (!sw)
++		return NULL;
++
+ 	tb_switch_for_each_port(sw, port) {
+ 		struct tb_xdomain *xd;
+ 
+-- 
+2.53.0
+
