@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D051C3002B3;
-	Mon, 31 Aug 2026 12:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4B73F8229;
+	Mon, 31 Aug 2026 12:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788179183; cv=none; b=uURbfZJzLp/O9xa/7EIPbFff/668zUlq/P4KWSkIviuwfrhNptptWP6yIAs4oDKyK6cf4i4DGmAhGLOakI8gQ4RLepIKjMyfoSV8tUlJ8U1DDcWeEhdk2vlxxt3cN6i2PitFvDq0j0N9hZPjJSy3qRcDBQlhRkQGarDHKRD5WCQ=
+	t=1788179354; cv=none; b=al+IWX/yqs4plgbxX0ut9C3zvVl5uUKShE1F0sVgB86G8l6hbe4Rf/x0R1pO00XWHE2bEL1Fr5R63r7wBp3rKs9KPg3Zpb08lzIAuDD6szQTzpcPOvcwpsttZmd1fW9+noq9qJpulYpYpDZ3aHq/79T9WggGNw9zVDt5hefR3/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788179183; c=relaxed/simple;
-	bh=kqWZdUbO/cevyKrTmPu/qX0VrhuKHsW+ejvoqp0b2q4=;
+	s=arc-20240116; t=1788179354; c=relaxed/simple;
+	bh=l0MaT3Pi5uGiiDDeoLkgWy81tFD6Pr72ylJ0STO1Rdw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rs/tEEldWhJVTQ3lJXudYhhXI7YqAV0yC88sjOQqKMZ9XVyD5/MAgzGOyQI2qoauSzqa0tFa4S33Ycvv13AVs5YlFpz/yKyjFmpoHhVwGB1UtApT38D6BctS3uf3EAEhgI27T65DZVdErxHMouBxXLmMmLOKx+WhRFe6k9JuFKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z7uTbC96; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=twReWTBjB9/9AHjB5PhNixE+z2T55/5s0ZBU3t9Wps4uk/eC1vtLQq4i9AzUjHo7vB9sPmOM+OxJOmyecasvj5x7QhljKhJPBTeJAARZqJuGmhXDcOWkPkb+2c++ULBTP4UmO04WqnPn4athUMCoYeWRG3+J9XDs0AAL1gFx+5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw3J2rS+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z7uTbC96"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB721F000E9;
-	Mon, 31 Aug 2026 12:26:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw3J2rS+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7521F00A3D;
+	Mon, 31 Aug 2026 12:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788179181;
-	bh=eb/WOth3QHO7b2deSxPg2dsGsdtW//M9kO5/XINCZpI=;
+	s=k20260515; t=1788179353;
+	bh=pF4kOkSCUH1iTDUi4spzxRIPp4bQpWG7tkUadCgCnL4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Z7uTbC96vMB8wTVL82TboFu9v1N8bt+8twm2O7gvFvF7kEmHuIr9Rl+AulS3n1IAs
-	 0CXgzb1OQGD9VQjEblJQDZmdgIKFx5FZph+EVNuWndP2kIuf8TjRHB4JD5oqDuv7WT
-	 Kp64BqL7hRxVIQ3cvSOv8tjHz33G3tcB5klMAPJFDRWNsOEVo84Ae2jOPE+mNJN+bR
-	 fG9fvOrra5AjTTQyxv15QIwb1VZNgc8ka+69FLbsFR8UT2284r4fNNyfpG8VAcABCC
-	 eIZGFqji+hAm/3OziDk9GLwVwNIADVYVCnUwyRBov9+ESQdEQZZY/x1zjGPWGqH/rd
-	 sN+B2NglngGOQ==
-Message-ID: <d8376922-bdd1-44ce-8985-3a0fcfb1d587@kernel.org>
-Date: Mon, 31 Aug 2026 14:26:13 +0200
+	b=Vw3J2rS+laMQGfFMoFUIJtgUo6tMgUjqGl32F7sQVP+OzNsmzJatbCw8V2/o+bN98
+	 Um/J3ap9cA1qWX+UVgEcjTWa8O86b7kBvEp5qVzMZ1Dz8VwMcQn8RA9We/gyWFC+rh
+	 fuscV1fqNSx0aAW8rH3K0IksR7p6YlArO7/zpzPYfkJWUQuKJZfRkMgVnZHibVANQF
+	 Y/pYN7HS9FPHxcNqn9VyqbCqJUfIEWB76svnDGhVN4i55n8B2RpOf+hPStgu26T86b
+	 2WPUPZesnyyXf+gXSMjDpxb6LfTEFA9TKbcw9ldgn9CIO4nn+CFfaI1K9+ttmnqeUu
+	 3s997cvwqFYlA==
+Message-ID: <cc52ff33-3da4-492e-80cd-ba2b1711bfed@kernel.org>
+Date: Mon, 31 Aug 2026 14:29:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,22 +35,18 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] dt-bindings: usb: qcom,snps-dwc3: Add ability to
- select UTMI as reference clock
-To: George Moussalem <george.moussalem@outlook.com>
+Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding
+ for non-MP controllers
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Wesley Cheng <wesley.cheng@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org,
  linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>
-References: <20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com>
- <20260825-ipq-flatten-usb-v1-1-5c1f3170bbe9@outlook.com>
- <20260830-primitive-faithful-mouse-cdd1e8@quoll>
- <SN7PR19MB6736260F96F41BC5B5F726C39DAA2@SN7PR19MB6736.namprd19.prod.outlook.com>
+ linux-kernel@vger.kernel.org
+References: <20260828081542.52796-1-krishna.kurapati@oss.qualcomm.com>
+ <20260831-messy-ebony-warthog-cfd727@quoll>
+ <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,115 +92,71 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <SN7PR19MB6736260F96F41BC5B5F726C39DAA2@SN7PR19MB6736.namprd19.prod.outlook.com>
+In-Reply-To: <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 30/08/2026 15:17, George Moussalem wrote:
-> On 8/30/26 13:41, Krzysztof Kozlowski wrote:
->> On Tue, Aug 25, 2026 at 02:42:26PM +0400, George Moussalem wrote:
->>> Add ability to select the UTMI clock as reference clock which is passed
->>> by the glue layer to the DWC3 core to calculate the reference clock
->>> period and frame length adjustment based on its clock rate.
+On 31/08/2026 11:03, Krishna Kurapati wrote:
+> 
+> 
+> On 8/31/2026 2:07 PM, Krzysztof Kozlowski wrote:
+>> On Fri, Aug 28, 2026 at 01:45:42PM +0530, Krishna Kurapati wrote:
+>>> Currently for Glymur non-multiport USB controllers, number of interrupts
+>>> are limited to a maximum of "5". Either hs_phy_irq or ss_phy_irq are to be
+>>> present.
 >>>
->>> In the flattened snsp-dwc3 model, it is currently not possible to pass a
->>> reference clock that differs from the default since:
->>> commit 613a2e655d4d ("usb: dwc3: core: Expose core driver as library")
->>>
->>> This prevents moving chipsets such as IPQ5018, IPQ6018, IPQ5332, IPQ5424
->>> and IPQ9574 with a reference clock rate different from 19.2 MHz from
->>> moving to the flattened model.
->>>
->>> The Qualcomm takes care of clock and resets management itself and sets
->>> the ignore_clocks_and_resets flag in dwc3_probe_data to true, so the
->>> core doesn't acquire the reference clock from the devicetree.
->>>
->>> The existing DT property 'snps,quirk-ref-clk-period-ns' has been
->>> deprecated.
+>>> Mark glymur non-multiport controllers to support a maximum of 6 interrupts
+>>> including the hs_phy_irq and ss_phy_irq.
 >>
->> There is no such property.
->>
+>> Why?
 >>
 >>>
->>> So, add a property to select the UTMI clock used by many (if not all)
->>> Qualcomm USB controllers as the reference clock.
->>>
->>> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+>>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 >>> ---
->>>  Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 9 +++++++++
->>>  1 file changed, 9 insertions(+)
+>>> Changes in v2:
+>>> - Modified commit text indicating the issue in max interrupt-names for
+>>>    Glymur non-mp controllers.
+>>>
+>>> Link to v1:
+>>> https://lore.kernel.org/all/20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualcomm.com/
+>>> ---
+>>>   Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
 >>>
 >>> diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>> index ea60f7220afe..aa263dfd42a1 100644
+>>> index ea60f7220afe..3bef18f9557e 100644
 >>> --- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
 >>> +++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>> @@ -155,6 +155,15 @@ properties:
->>>        HS/FS/LS modes are supported.
->>>      type: boolean
->>>  
->>> +  qcom,select-utmi-as-ref-clk:
->>> +    description:
->>> +      If present, pass the UTMI clock as the reference clock to the DWC3 core to
->>> +      use its clock rate to calculate the reference clock period and frame
->>> +      length adjustment in GUCTL and GFLADJ registers. This is needed when these
->>> +      values based on the standard clock rate deviate from the hardware default
->>> +      values. If not set, the hardware default values are used.
+>>> @@ -524,7 +524,6 @@ allOf:
+>>>           compatible:
+>>>             contains:
+>>>               enum:
+>>> -              - qcom,glymur-dwc3
+>>>                 - qcom,milos-dwc3
+>>>                 - qcom,x1e80100-dwc3
+>>>       then:
+>>> @@ -547,6 +546,7 @@ allOf:
+>>>             contains:
+>>>               enum:
+>>>                 - qcom,eliza-dwc3
+>>> +              - qcom,glymur-dwc3
+>>>                 - qcom,ipq4019-dwc3
+>>>                 - qcom,ipq8064-dwc3
+>>>                 - qcom,kaanapali-dwc3
 >>
->> Sashiko comment seems valid. You describe Linux behavior. In your commit
->> msg you mention that clock cannot be passed since commit 613a2e655d4d,
->> which is a driver commit. So trivial answer would be: if issue was
->> caused by driver commit, then fix is within driver, not bindings.
-> 
-> The issue stems from collapsing the snps and dwc nodes into one: the
-> same clock was passed as "mock_utmi" in snps and as "ref" in the dwc
-> child node. In the flattened model, this causes two issues:
-> 1. the core driver gets the ref clock by name ("ref") but you would
-> break the binding by changing the clock name from mock_utmi to ref and
-> perhaps causes backwards compatibility issues.
-
-Driver can also take mock_utmi if this is exactly the same clock input.
-
-> 2. Even if you change the clock name, the new qcom glue layer sets
-> ignore_clocks_and_resets to true in the probe_data struct which means
-> the core driver doesn't acquire and manage the clocks/resets.
-
-That's a driver problem and can be solved in the driver.
-
-> 
+>> This changes the ABI without an explanation.
 >>
->> Maybe there is different issue which is not purely-driver specific, but
->> I did not get that from description.
->>
->> For example, if given SoC has different rates, then the SoC-specific DWC
->> compatible defines which clock to use and you do not need such property.
+> As per the harware specification, the controllers do have both 
+> hs_phy_irq and ss_phy_irq. Hence wanted the binding to capture that 
+> info. Will update the commit message accordingly.
 > 
-> That was possible in the 'old' way because it was allowed to pass the
-> same clock as both the mock_utmi and ref clock, albeit in different
-> nodes targeting snps and dwc respectively.
-> 
-> To solve it in the driver itself means we'd need to create compatible
-> specific match data structs which currently aren't in the driver and all
 
-Which is standard way for all the drivers. DT is not a way of workaround
-for driver problems.
+So the change in 99df63d20dabda8d7ae01bcca7cdb1e92110a555 was
+incomplete? Lack of context here is not helping.
 
-> SoCs that require it (at least the ones in this series) wouldn't be able
-> to just use qcom,snps-dwc as the fallback. This would increase
-> complexity of the driver (which now is nice and simple) and would
-> require a change to the bindings too.
-> In addition, for some SoCs such as IPQ6018, we'd need two compatibles
-> because it has two USB controllers and only one of them requires setting
-> the ref clock.
-> 
-> Kindly advise so I can adjust v-next of the series accordingly.
-You did not describe the actual hardware problem. So far you said that
-combining DTS nodes and specific driver code needs this property, but
-these are not valid reasons. If your driver behaves not as you wish,
-e.g. passes ignore_clocks_and_resets, then just change that. Or handle
-that different clock.
-
-Otherwise what is needed is to describe actual hardware configuration,
-hardware problem being represented by this DT property.
+If they have these IRQs but it does not matter, then it is not a good
+reason to change ABI and you should just add the clock as optional to
+the end. Was this binding already released? I think yes.
 
 Best regards,
 Krzysztof
