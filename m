@@ -1,196 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F463D25A2;
-	Mon, 31 Aug 2026 11:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC71A26B2CE;
+	Mon, 31 Aug 2026 11:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788174510; cv=none; b=toK6B0eJUveHE/SlZmRdzQcI5lKpxQVG3nhLiANDdvHpqWxFX2Xb8hRUztDowyV+bxVLqeXhX/wVBQRRf9oHDLqVejkUI5x+4mTfrBy+m87vdxJdXBYFcYrqIb0WCA2NMRmCbo2i9h9CpITJ8lJAhV4I8yHKlddLRhjYlg2UupI=
+	t=1788174694; cv=none; b=uOcZ9DIKCLDaw501SUV7EHITvNkniLAwbQzhd4SuxVNwu4wplhh6iKgBnP7r+5Dw5ZB4mNItjckFSzwvAcPnsAVOpNHa3Hcv/h6/sDb4GulYiC3ZuBXOYcx8DrLI1n5X3Cpf4ygVlBa9ihmu/DPiatyKW0vL1HS4Kz3OIJ0RK9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788174510; c=relaxed/simple;
-	bh=kKccmS7eRB4L4HV9y+iO1p2KE3KISTsfA84ty4yDud4=;
+	s=arc-20240116; t=1788174694; c=relaxed/simple;
+	bh=kym/LrhV/aYD7QLsJyv8b/49ADHeyC0z+mmkTMQEI0I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D/nov2cxFuDerpVdGRNNlSubFdc2oRl5GR4d3vF4SviXBKY3Dk20AbafchPnpqeJqXDMBENokchpgs7gkUieRKa9zEDSgs90UqaDG6nvZphabMonNzgeFR4GMDdp8XmcvwfGZJ/D85UHxyxaQNn3WkfovvQ4yWRh0Zi3RrprWgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZcN8ZnQ; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=TLFJ1JkfediljAza+IMVTXn2ondMr9sWJuYvG1Nx7NsfB56ni5vKASNEwuavMUCk/rNTA7ZOrnAFaNlfFRK+2z29d2uNh8oG7l3XwwhW30T2Wj5rb3dZEEsuffuyw2qFQvs5ZSvU3x58JJl09+sVj+e3bSx0JJMYP4DRZitychU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIU1nWyV; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZcN8ZnQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIU1nWyV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788174509; x=1819710509;
+  t=1788174692; x=1819710692;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kKccmS7eRB4L4HV9y+iO1p2KE3KISTsfA84ty4yDud4=;
-  b=IZcN8ZnQv1sATJFI9KAF6nQ2oJtjb1M0A1Qw+9ETjFeBM1Bqx/bb7MEH
-   U9udUFUOIwwCc8BCNVLibXPFviIaq3oKtEJ2kOSa9REi/ZDiTV+OEwSsR
-   xGtqdVvne8J1To/bTowC4rgmOPK8hT4oib/UQyMP/40PplN3oVKtXfJv9
-   4coFi9f+u//GWvgKnJcbe7GIApm9x0xkccL8O3NVnHHc7/7b+0Id/3s8B
-   G08IMG3TPl3RTOayA8hC90jKycMEE/4tczkELms76Eg5v6qMFdPt+BSeG
-   yMdhfEcU0sQtlVVBwNRIr9kZlyU4MCLH/PBldu+Qe7xIjhHkDfYGIBrsw
-   g==;
-X-CSE-ConnectionGUID: F7HrEydsRLmiiBt6k0FRfg==
-X-CSE-MsgGUID: pXI87qnTTNm8v66eukO/xA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="91090870"
+  bh=kym/LrhV/aYD7QLsJyv8b/49ADHeyC0z+mmkTMQEI0I=;
+  b=AIU1nWyVuhoyvKyjIOeqUSa0iesXEjeKVq6wHWgm3CvQerRWKMfw+HMc
+   dpbMRM2ZjmHmbUvISu5sbj0+chZE5ODJObSEJe3IwtH8i7JdEeSjn17IF
+   HKysUPMpTsvXw1fGrcgSX3VrOJc4HkYqPOeIEAwuv4Oh3DNUCB/V9mXGz
+   J7LmKdZUO6CLhVnL4kCBQAxH+YSz+YNZeYRfAm0Hu/WyWA7ZTHhDEE92w
+   f2eBlU0JevQIgMhmyJq2bcHFsBqPqlafo/c1nx4C2EW8yvE7gGeWTKlsO
+   POvZ+n/HJxI4wqprfZsUvtMpGQ0cNKe1537MoLlxbgJs15oh51BSUs3tM
+   Q==;
+X-CSE-ConnectionGUID: +LGk/kcTQlaIezbOZoDMCQ==
+X-CSE-MsgGUID: /LZ5wrI3QUOvpJAQbyBq5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88432200"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="91090870"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:08:27 -0700
-X-CSE-ConnectionGUID: XGnTctFpS4SC13sVYf6UTQ==
-X-CSE-MsgGUID: 3K+Ytra7RRe0WshVcLUWaA==
+   d="scan'208";a="88432200"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:11:32 -0700
+X-CSE-ConnectionGUID: SvHFtj21RH6jp6nsfUkA7w==
+X-CSE-MsgGUID: 5gDXYUL3SrCjlWveFNTg6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="266965622"
+   d="scan'208";a="265528315"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 31 Aug 2026 04:08:24 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id E272A99; Mon, 31 Aug 2026 13:08:23 +0200 (CEST)
-Date: Mon, 31 Aug 2026 13:08:23 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: amitsd@google.com
-Cc: Badhri Jagan Sridharan <badhri@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: constrain TCPM_SOURCING_VBUS event
- handling
-Message-ID: <apVgp-eSmlF3-XKA@black.igk.intel.com>
-References: <20260827-sourcing-vbus-v1-1-9be1aca991a0@google.com>
+  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 04:11:30 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id E3A0199; Mon, 31 Aug 2026 13:11:28 +0200 (CEST)
+Date: Mon, 31 Aug 2026 13:11:28 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Juan Martinez <juan.martinez@amd.com>
+Cc: westeri@kernel.org, mario.limonciello@amd.com, andreas.noever@gmail.com,
+	YehezkelShB@gmail.com, Basavaraj.Natikar@amd.com, Sanath.S@amd.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] thunderbolt: Fix tb->lock deadlock during hot-unplug
+ on AMD USB4 routers
+Message-ID: <20260831111128.GH124825@black.igk.intel.com>
+References: <20260827215740.415496-1-juan.martinez@amd.com>
+ <20260828051903.485922-1-juan.martinez@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260827-sourcing-vbus-v1-1-9be1aca991a0@google.com>
+In-Reply-To: <20260828051903.485922-1-juan.martinez@amd.com>
 
-On Thu, Aug 27, 2026 at 09:16:17PM +0000, Amit Sunil Dhamne via B4 Relay wrote:
-> From: Amit Sunil Dhamne <amitsd@google.com>
-> 
-> When a sink detach occurs while waiting for TX send status, the old
-> TCPM_SOURCING_VBUS event along with TCPM_VBUS_EVENT and TCPM_CC_EVENT
-> can be queued in port->pd_events. Because TCPM_SOURCING_VBUS is
-> evaluated after TCPM_VBUS_EVENT and TCPM_CC_EVENT in
-> tcpm_pd_event_handler(), a stale TCPM_SOURCING_VBUS event can override
-> the detach handling and incorrectly set port->vbus_source and
-> port->vbus_present to true.
-> 
-> Add a state guard to check that the port is either operating as a
-> Source (tcpm_port_is_source(port)) or in a Fast Role Swap (FRS) state
-> up to FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED before processing
-> TCPM_SOURCING_VBUS. Otherwise, discard and log the event.
-> 
-> Log snippet for error condition before fix:
-> [72792.204955] state change SRC_ATTACHED -> SRC_STARTUP [rev3 NONE_AMS]
-> [72792.204960] sourcing vbus
-> [72792.204962] VBUS on
-> [72792.204970] AMS POWER_NEGOTIATION start
-> [72792.204974] cc:=4
-> [72792.205319] state change SRC_STARTUP -> AMS_START [rev3 POWER_NEGOTIATION]
-> [72792.205325] state change AMS_START -> SRC_SEND_CAPABILITIES [rev3 POWER_NEGOTIATION]
-> [72792.205332] PD TX, header: 0x11a1
-> [72792.216911] PD TX complete, status: 2
-> [72792.216957] pending state change SRC_SEND_CAPABILITIES -> SRC_SEND_CAPABILITIES @ 150 ms [rev3 POWER_NEGOTIATION]
-> [72792.218005] VBUS off
-> [72792.218013] pending state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED @ 650 ms [rev3 POWER_NEGOTIATION]
-> [72792.218020] VBUS VSAFE0V
-> [72792.218024] state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED [rev3 POWER_NEGOTIATION]
-> [72792.218458] CC1: 2 -> 0, CC2: 0 -> 0 [state SNK_UNATTACHED, polarity 0, disconnected]
-> [72792.218467] VBUS on --> VBUS left on
-> [72792.218980] disable vbus discharge ret:0
-> [72792.235193] Start toggling
-> 
-> After fix:
-> [ 1195.291691] state change SRC_ATTACHED -> SRC_STARTUP [rev3 NONE_AMS]
-> [ 1195.291698] sourcing vbus
-> [ 1195.291700] VBUS on
-> [ 1195.291707] AMS POWER_NEGOTIATION start
-> [ 1195.291710] cc:=4
-> [ 1195.291758] state change SRC_STARTUP -> AMS_START [rev3 POWER_NEGOTIATION]
-> [ 1195.291794] state change AMS_START -> SRC_SEND_CAPABILITIES [rev3 POWER_NEGOTIATION]
-> [ 1195.291798] PD TX, header: 0x11a1
-> [ 1195.297056] PD TX complete, status: 2
-> [ 1195.297092] pending state change SRC_SEND_CAPABILITIES -> SRC_SEND_CAPABILITIES @ 150 ms [rev3 POWER_NEGOTIATION]
-> [ 1195.297177] VBUS off
-> [ 1195.297184] pending state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED @ 650 ms [rev3 POWER_NEGOTIATION]
-> [ 1195.297227] CC1: 2 -> 0, CC2: 0 -> 0 [state SRC_SEND_CAPABILITIES, polarity 0, disconnected]
-> [ 1195.307469] cc:=2
-> [ 1195.307544] pending state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED @ 650 ms [rev3 POWER_NEGOTIATION]
-> [ 1195.307555] Discarding sourcing vbus! Invalid state SRC_SEND_CAPABILITIES
-> [ 1195.957636] state change SRC_SEND_CAPABILITIES -> SNK_UNATTACHED [delayed 650 ms]
-> [ 1195.957732] disable vbus discharge ret:0
-> [ 1195.970196] Start toggling
-> [ 1195.970468] VBUS off
-> [ 1196.051637] VBUS off
-> [ 1196.051642] VBUS VSAFE0V
-> 
-> Fixes: 8dc4bd073663 ("usb: typec: tcpm: Add support for Sink Fast Role SWAP(FRS)")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Gemini:gemini-3.1-pro
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+Hi,
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+On Fri, Aug 28, 2026 at 12:19:03AM -0500, Juan Martinez wrote:
+> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+> DMA path teardown for AMD USB4 routers") introduced a deadlock when
+> physically unplugging a Thunderbolt cable on AMD systems.
+> 
+> The problem occurs because tb_handle_hotplug() holds tb->lock while
+> processing the unplug event. When it removes the XDomain services,
+> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+> tb_domain_reset_interface(). That function tries to acquire tb->lock
+> via guard(mutex), but the hotplug worker already holds it, causing a
+> self-deadlock.
+> 
+> The deadlock manifests as a complete network hang because
+> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+> all network operations system-wide.
+> 
+> The existing code already handles this scenario partially: when
+> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+> skips the DMA teardown because the hotplug handler will do it later
+> via __tb_disconnect_xdomain_paths(). However, the reset was still
+> being called unconditionally.
+> 
+> Fix this by:
+> 1. Splitting tb_domain_reset_interface() into a locked inner function
+>    __tb_domain_reset_interface_locked() and a locking wrapper
+> 2. Skipping the reset in tb_domain_disconnect_xdomain_paths() when
+>    xd->is_unplugged is true (matching the existing teardown skip logic)
+> 3. Calling __tb_domain_reset_interface_locked() from tb_handle_hotplug()
+>    after __tb_disconnect_xdomain_paths() where the actual DMA teardown
+>    happens and tb->lock is already held
+> 
+> This preserves the reset behavior for normal shutdown paths while
+> avoiding the deadlock during physical cable unplug.
+> 
+> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 28 ++++++++++++++++++++++------
->  1 file changed, 22 insertions(+), 6 deletions(-)
+>  drivers/thunderbolt/domain.c | 20 +++++++++++++++++---
+>  drivers/thunderbolt/tb.c     |  1 +
+>  drivers/thunderbolt/tb.h     |  1 +
+>  3 files changed, 19 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index a8cd1959c426..2d6b14aa2085 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -7119,16 +7119,32 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
->  			}
->  		}
->  		if (events & TCPM_SOURCING_VBUS) {
-> -			tcpm_log(port, "sourcing vbus");
->  			/*
->  			 * In fast role swap case TCPC autonomously sources vbus. Set vbus_source
-> -			 * true as TCPM wouldn't have called tcpm_set_vbus.
-> +			 * true conditionally as TCPM wouldn't have called tcpm_set_vbus.
-> +			 * If TCPM calls tcpm_set_vbus to source vbus, vbus_source would already
-> +			 * be true.
->  			 *
-> -			 * When vbus is sourced on the command on TCPM i.e. TCPM called
-> -			 * tcpm_set_vbus to source vbus, vbus_source would already be true.
-> +			 * When TCPM_FRS_EVENT and TCPM_SOURCING_VBUS arrive simultaneously,
-> +			 * handling TCPM_FRS_EVENT above transitions the state to AMS_START
-> +			 * with upcoming_state FR_SWAP_SEND.
->  			 */
-> -			port->vbus_source = true;
-> -			_tcpm_pd_vbus_on(port);
+> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+> index 12c88509a54f..4cef9f4de523 100644
+> --- a/drivers/thunderbolt/domain.c
+> +++ b/drivers/thunderbolt/domain.c
+> @@ -788,14 +788,22 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>  			transmit_ring, receive_path, receive_ring);
+>  }
+>  
+> -static void tb_domain_reset_interface(struct tb *tb)
+> +/*
+> + * __tb_domain_reset_interface_locked - Reset host interface (lock held)
+> + *
+> + * Caller must hold tb->lock. Used by hotplug path where lock is already held.
+> + */
+> +void __tb_domain_reset_interface_locked(struct tb *tb)
+>  {
+>  	struct tb_nhi *nhi = tb->nhi;
+>  
+> +	lockdep_assert_held(&tb->lock);
 > +
-> +			if (tcpm_port_is_source(port) ||
-> +			    tcpm_port_is_debug_source(port) ||
-> +			    (port->state == AMS_START && port->upcoming_state == FR_SWAP_SEND) ||
-> +			    port->state == FR_SWAP_SEND ||
-> +			    port->state == FR_SWAP_SEND_TIMEOUT ||
-> +			    port->state == FR_SWAP_SNK_SRC_TRANSITION_TO_OFF ||
-> +			    port->state == FR_SWAP_SNK_SRC_NEW_SINK_READY ||
-> +			    port->state == FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED) {
-> +				tcpm_log(port, "sourcing vbus");
-> +				port->vbus_source = true;
-> +				_tcpm_pd_vbus_on(port);
-> +			} else {
-> +				tcpm_log(port, "Discarding sourcing vbus! Invalid state %s",
-> +					 tcpm_states[port->state]);
-> +			}
->  		}
->  		if (events & TCPM_PORT_CLEAN) {
->  			tcpm_log(port, "port clean");
-> 
-> ---
-> base-commit: 45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
-> change-id: 20260827-sourcing-vbus-9f87cc4b6257
-> 
-> Best regards,
-> -- 
-> Amit Sunil Dhamne <amitsd@google.com>
-> 
+>  	if (!nhi->ops->reset_interface)
+>  		return;
+>  
+> -	guard(mutex)(&tb->lock);
+> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+> +		return;
+>  
+>  	/* The reset clears the ring state so stop the control channel */
+>  	tb_ctl_stop(tb->ctl);
+> @@ -803,6 +811,12 @@ static void tb_domain_reset_interface(struct tb *tb)
+>  	tb_ctl_start(tb->ctl);
+>  }
+>  
+> +static void tb_domain_reset_interface(struct tb *tb)
+> +{
+> +	guard(mutex)(&tb->lock);
+> +	__tb_domain_reset_interface_locked(tb);
+> +}
+> +
+>  /**
+>   * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+>   * @tb: Domain disabling the DMA paths
+> @@ -835,7 +849,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
+> +	if (!xd->is_unplugged)
 
--- 
-heikki
+If I read this right, if you unplug a tree (say a router and then after
+that router there is inter-domain link) with this check the reset does not
+happen and AMD system still hangs?
+
+>  		tb_domain_reset_interface(tb);
+>  
+>  	return 0;
+> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> index b7cc6894a598..89dfb3381345 100644
+> --- a/drivers/thunderbolt/tb.c
+> +++ b/drivers/thunderbolt/tb.c
+> @@ -2489,6 +2489,7 @@ static void tb_handle_hotplug(struct work_struct *work)
+>  			tb_xdomain_remove(xd);
+>  			port->xdomain = NULL;
+>  			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
+> +			__tb_domain_reset_interface_locked(tb);
+>  			tb_xdomain_put(xd);
+>  			tb_port_unconfigure_xdomain(port);
+>  		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index 4373336d9425..2e6e0920cb1f 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -789,6 +789,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
+>  int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>  				    int transmit_path, int transmit_ring,
+>  				    int receive_path, int receive_ring);
+> +void __tb_domain_reset_interface_locked(struct tb *tb);
+>  int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>  				       int transmit_path, int transmit_ring,
+>  				       int receive_path, int receive_ring);
+> -- 
+> 2.43.0
