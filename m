@@ -1,234 +1,332 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010013.outbound.protection.outlook.com [52.101.46.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E9E35C696;
-	Mon, 31 Aug 2026 05:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788153945; cv=fail; b=Kw/mj59by5Ta1dy2RavcCBw1rbcxUtC/ZMk3PqMAesVFMPTfE5HFa/PJZSULLYBG1uBjIWqJn3T0ryIkz9moQFLVXOhvDVK61sY+zdL2JRcm0oCF6k9INjn11L7Sk9ferQ15SHJiobGs+VFR0V/FOFSb4+C1UmTQSWMTcPnZT8c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788153945; c=relaxed/simple;
-	bh=Om9KHWUBxQYi1NSQ8KiB9qYxDrt3rzd6ABcBBs4isB0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gg67Unm721hHzd6YgxsGVTipiTm09P2d+4JzEeIeZQqAO9fBdhnrHdfM89CL/EXUeVG/MtS2B7vGKX7bRc2ccq9MVqWMekXJL3D+CYstz9idFAv76oxWVmmjEUHMKurWWttxgxEWEBmnwn1wXO4dXNc4nLft0qoJQdD2U9xbH+U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4TaMcY3S; arc=fail smtp.client-ip=52.101.46.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D33D3AC0E4
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 05:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788155207; cv=none; b=GUo3FjdKjBV99wj/zqPqYKYDLqke6JUFgV8dX+DX4oBjbRaTVtaYP+K7ryUntHT0BQrAWwIMgwKODuFDG2W+20SQQUrTxHDw+LNNZfiKa3HS1Wt5CXGeiAI69z8FRIuz6H+J7Q5AC1BPp+ShkBnXiCGNkMeoJDa7BlPNVDfLpk4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788155207; c=relaxed/simple;
+	bh=xvNnzC4cSkF3rROcbhzi49v8I4PJ//+BHteiqgcJeoU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TqEMrs2RsJZQQSetIm/ZGqmLm4KdOyexLR7VlopXe4Q4WCA+X3jEYvDQvxIHy35SrQJ3/g0s66qM/9gBRjMGuyOlijm8rGSekib4+dYfKPUMZ2Uh+kWMnOtLYm6/WSpOj6zoQ/sN6UKJD5YHW3M7a3sJzbVsvZClObly8wHFChA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ddl8157F; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4TaMcY3S"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fb/EOyur4ugssTE6SJfnkP9AatBCa8uVJ+LZXky0jLyiaF36BlrMeroXjFLgtEeeLYv/E6pKIipsfFyhw59dwk5ztNZyAoox3yibq48GWg5GibCX6QDte9qpCO4llFAbBm066W3lsgIyWTtup+PzeGaC0+T1PIl7s7s2XlilDx1Ps0G1I3MvT71eJWN5tv+JXuOO+6I5/UknQBwysJmL6TD6l3Jf2rIAe17oSV3GX9j/uc4WqsHP6PRJgFkvm4Rj7p1qwIDmlXGhDsYOH5+bFsd71XT3W9ChV8O60yQHfH4JtQD1Gx3Qg80raFi2oTfc5pIGo0CHUEM3qHvfx8KuGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=egDUWPK+Bwm6aZwag7w708n2pVe/RkYxTEscFUgxzm8=;
- b=PBS93kmEC22U82pXSlHB+MqJMMdAYZqNFbA9/vL67CW6czFa/KRXt33PF0t8hqJiynHgiZPSKVtiBLSH0XrdLnHXS6HATY2bF4zIJvFp3VSUzytzsNeA1V3I1K2ZttICCZvYw2uZyuoth5jxnyMKrvbFZ/M/qeferrTgumGwOELByRC1wGr8KVc3c3L5FvPuGnPBc6WjJirh//1FEkfW2Ea9IZTbj9sxbpq3tXPFgaWVk0MPcqAddJ8nmUny9DkVudZf2CMQdLwLb3S0GqaiDpJCwBCaPBt8uDD79UxkwT81qS7FbeUs7AOHUzhCaQNhXGnUR/TvmjemBvVayFloGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=egDUWPK+Bwm6aZwag7w708n2pVe/RkYxTEscFUgxzm8=;
- b=4TaMcY3S8/+39e72kACaP0MFGPpC3UUGgrpFAFgFHCYl/JR0H7b0tU6yRmCiSgOL4yIQckJGm0vSkWQHSgWtjEJlLH9WmtCdRXDgefHLt3c/XZEzWsqI4gS2Cy3Qukdt52kgIlfzZBw+LA6WT4at3lcCxbAy/Zfijp7Wp6BIvCI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
- by BY5PR12MB4275.namprd12.prod.outlook.com (2603:10b6:a03:20a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 05:25:39 +0000
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
- 05:25:38 +0000
-Message-ID: <0f49c8c0-237e-4638-a53c-1260f915e4de@amd.com>
-Date: Mon, 31 Aug 2026 00:25:35 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Thunderbolt Host Reset Change Causes eGPU
- Disconnection from 6.8.7=>6.8.8
-Content-Language: en-US
-To: Mika Westerberg <mika.westerberg@linux.intel.com>,
- =?UTF-8?B?RnJhbnRpxaFlayBUaWNow70=?= <linux-development@tifran.cz>
-Cc: Gia <giacomo.gio@gmail.com>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- westeri@kernel.org, linux-kernel@vger.kernel.org,
- "stable@vger.kernel.org" <stable@vger.kernel.org>, kernel@micha.zone,
- linux-usb@vger.kernel.org, Sanath.S@amd.com
-References: <CAHe5sWavQcUTg2zTYaryRsMywSBgBgETG=R1jRexg4qDqwCfdw@mail.gmail.com>
- <38de0776-3adf-4223-b8e0-cedb5a5ebf4d@leemhuis.info>
- <CAHe5sWYnbJAjGp66Q4H0W_yk9uYTcERmW=sPvJSWTsqbFZFCVg@mail.gmail.com>
- <9659dd5d-af8d-4100-8fc1-ceca42223827@amd.com>
- <f8d6f64b-0783-46bc-82d9-cd56da07cac0@tifran.cz>
- <20260831045226.GA124825@black.igk.intel.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20260831045226.GA124825@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7PR04CA0207.namprd04.prod.outlook.com
- (2603:10b6:806:126::32) To PH8PR12MB6914.namprd12.prod.outlook.com
- (2603:10b6:510:1cb::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ddl8157F"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d72ae08fa1so24614635ad.2
+        for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 22:46:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788155205; x=1788760005; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2sv+eS7jI14xyh8U0fWF/xRn0o90dPnHRwmGjRxetpw=;
+        b=Ddl8157FJZOkS4OdhkIEOfOdeTn9myI42uxHMC74+z4bTmqpaBzXslNJfs6tIwEmtZ
+         sc8ktI04yRwMx54cluTbh/EEvDox5JS7xB8kRR+Nkfue3pMV5PDLqoiZIea+YlPh4/1A
+         5pzZjutC0sVDGojgaNpqoPPOXVXdAiMZ2Yz4v92Xw55b60Hf7RMoVX0j09/P9+Aa5DBC
+         Z3K758IcwuQzzL7zo5zfGxHjiabtwJsBTofUq1Y5T0N0wEVjVIxyE9opnybO7Vm2Vvp8
+         pO/w+VWb0LHUt7/ny8RkIu1sLpUuBd3q/BovMb5tx6E/AjLvfrYj3KXNy5w4jnqaS2Ea
+         9DFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788155205; x=1788760005;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2sv+eS7jI14xyh8U0fWF/xRn0o90dPnHRwmGjRxetpw=;
+        b=qKWL0y0zVKHUsRziXYq7kKLfnvnKMyih1WF5BLi3kFsj82z6UwKYR/BMvLZwzuGpUw
+         6hNj9vavBKi+8FbElqb+QHCCgLrgmXEkjnUIUTBWD6A4RPQeaxu4IolJoch8c9A5pd/I
+         m6KquI+QF9kAkgZ0o24AKpVElSVxH4nFOB5on8RTH0aPcwjODBKca3OgzcKUuHkXyDSX
+         sytLqZhFTNSUhjzxUUD/Or5/8fbMoDnNpoAoOHqRDsh/dqCSHQOcAXhE7znSGvsOOlqv
+         Vd2u/EVBl3jwsHbIcWigiZJn5YQNNB72s7dElRH/SQWHfj5NhS/RPMXAjwdQsdGWPWpw
+         knxA==
+X-Forwarded-Encrypted: i=1; AKwUvBwcBTuPSOZy0xZjm7A+Pw9182FnD1YJodj/4FKs1YJtwLR2+dBgttLISfUIjZTIws8IKf9MPVBCsgI=@vger.kernel.org
+X-Gm-Message-State: AFuF++ngVRMqfZ597TZ2AALWKisWk0IuBMXCgcyBBUW1p1sm5uXjxzaC
+	ANFoM8UIDwDi3d70VSeVsY7XHNylBFV5XezjekAsJ8B+mxkRxiUUpjFV
+X-Gm-Gg: AYBFou2sJmUM0ZMned+mV1yZC6ipLTA/mVvXK4LDgIr7O/m2295I0aVj5Y0avDKQu3I
+	u9T8yDKnP7kKMS2o/KBzuskeeF7SGbQKGKDvXX2m+Kbg7/pl17TexnzzvepCaHZR3MfCc8Q+mPv
+	F4dRWE+fvbnNltcAjU9x5qSzbLjwNXU5obS91Futls/+BvP/LpQ0oXA2YjN70YvBhUpZ1pQ3uXR
+	L3sVWNaWCQu0m77Ih73jn0SyhxAwzby8ElRlF6l6jmTD1KpOQ/bV+DPyzDDVwttBG9T3lsyZWGv
+	SPCayEE2VzpOO1/UL+D0m7zDTAMjzj+5VauCcl+dvrCAJIYZD8M1X41G+nMBZ95w63y091dc7hd
+	TCq680Q4hJXwzeawAUYNqIaQO47yU5P+OajQ7SK+YsYUg5pW654oehrT5Odv6D2QpCR1YvGdaAR
+	UEsS1j8dnz/jX/U8vnaowt8F1s1UVMpojPs5AE5EBt7hiYdHSPLUAyz0bh7rcErHDPIQ==
+X-Received: by 2002:a17:90b:2886:b0:398:de86:5ff0 with SMTP id 98e67ed59e1d1-398f88df3c3mr1751458a91.19.1788155205061;
+        Sun, 30 Aug 2026 22:46:45 -0700 (PDT)
+Received: from Default ([2409:40f4:1012:165f:9722:a5d1:aa46:da42])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0d1b38esm24357128c88.3.2026.08.30.22.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 22:46:44 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: syzbot+0b8bff5929865345b29e@syzkaller.appspotmail.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] [input?] KASAN: slab-use-after-free Read in k90_record_led_work
+Date: Mon, 31 Aug 2026 11:16:32 +0530
+Message-ID: <20260831054632.18179-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <6a937393.1d9ded08.62e62.0113.GAE@google.com>
+References: <6a937393.1d9ded08.62e62.0113.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|BY5PR12MB4275:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9d0f0a5f-9317-4132-2b65-08df07204a2d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|22082099003|18002099003|3023799007|56012099006|6133799003|11063799006|4143699003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	gY27JyScSDrRmG+5qYCKP7TeIAbDwRy4SGEYZgzp6W1yhKRhico387DBg9m050CDnxbp5LJhjpbOtVMyWxoD9NhC+QKlX5nMSoZ8zmsUx9e9reQ3pcwuIqsHr6oqA6hO8CpNBhdXzqerzf4XVzxOZ0WHYaB24sp85uexE02oazHkSJhU5zz29m/D8Wv/FIC9vls7xd/gQE60KGI355UhDn3mPlST8eltAZD+s05x0kd1swCwwpcheha+wFtPEjsc+zFPmIg+fyXKwg5lk0lBdDdTc01VL1wduCIpfd1WyTD92a/86K73tUw0fLib46eQ2M6hOtxXxZlO3vhRDFGvhkFZnRgMufa80wKcsDuQce7k31HVhpKxpItOg25pZaB6aDBiNQNx8N8pQO3V1SZfu+z2Yd4aXjANp03xB+196NlOLIP0gPsO5UUvso2AOBOzXPMpX95Z0aepa3flMoRssw18d0dktKg1fkYL0T3HsBN8JkeKsfvRKcTAY5oxDErvUdxpUPyE+P+m5mZfTiF8xJw2TiDlCuFGzIHgvKtFwcIIlYK4VrnJIXsx8F64mD8iPL+D+oLdAnppP4/u+TbuzM3QdJE5pv4fgpo7IpjEUrlFGg9ZSwxNgGoaovICJBKA
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(22082099003)(18002099003)(3023799007)(56012099006)(6133799003)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Skx2ZGxqVHJEMzI3TXVmclErWG92UDdFS1RrSThLTEdTUERwYXc3d0F1L1dG?=
- =?utf-8?B?N1d0ZWJRTzhTOEg2U3VBZGJraVRJQ1RwK3lacnV4ZU1WTFRVMjN5UEZianhW?=
- =?utf-8?B?Z2o5aVF2RklPSFh2c0JvNUhpVzgzNzZKUlI3U3psVWlwY0RPSzBlOThCTTkw?=
- =?utf-8?B?Zk51NkxCeTgrMmhSaS9jV2dReit3UjZsT1FiQmJFb1NUNmFLZlZQcUZDV1hX?=
- =?utf-8?B?a3VqZjRlSm9HeFhTdXVUVkpHcSsxc0FIb0REdmdPb2ovc1lIdGxtbWJtREZY?=
- =?utf-8?B?cGVGTnNEczhkZmlyRkYxblI0YlJxTmdrWjZZTW13UlM3SFk5aDVVUFIrZ2xQ?=
- =?utf-8?B?YWswMWk3UG90Ti9ZRFIzaEFuY3NqZGsxWW1FQjdXaXU3dGJlRkozR1dqRGsz?=
- =?utf-8?B?YkxqRFRmTS8vd3p6QkUzbEFTQVhFRE9rd3l0WmRrL1BialBZS2EwV1NnVzN6?=
- =?utf-8?B?UW94d0ZXS1dPWEF5UjM3aExHRktJNHMxR0plcTM2TnI5a2lBOHpwWmFCWmhD?=
- =?utf-8?B?YTRNSjhrQllpYzdTSlYrSHA2ajFUZlg0c2xKM3pueHZpbSt0TzVRVlBZTVNz?=
- =?utf-8?B?bjhKOVg5cGhuT3NBS2xsV3BqdW9RaGRvSzFSUDVvOWgvM2doSFBHMVlTWkJ4?=
- =?utf-8?B?Z01QaGg1WlA2UEdGL2dic2Z1R0kvQTloWkROYWZPY1FTUU44amRIc0dqQytW?=
- =?utf-8?B?aktMNTJLdUpUQ3RWbThOK2k0MkFQd3dObDR4UWlrU1NYTldNY3pKQ1E3cGZW?=
- =?utf-8?B?cUxSU2s5aEIwL3pDRmJMWFEzNkMwVWZGNjh5VmhuWGNFQjBxS3d3ZlVsNi81?=
- =?utf-8?B?dmRwbGlpTGxQSHNPUEhCMXVJQW9FSUV1MjZWZXRDemNXVjV0ZzhFS0dqbHJL?=
- =?utf-8?B?ZUQ2bCttZnVCOTVsVjJsRmp6aDNhcEhhck42Q0xjdng5cklQUFNYL3d1UUlm?=
- =?utf-8?B?cUE4dFk2WXlid3hPN2NaTitobHBHcWJvaSszNUp6Wlh6TVYvYzZyVHViZlBK?=
- =?utf-8?B?OVV2SEdtUDgyeFhrUlNIbXM1aHRFZ3pwSHFXNncxZkwrRmRKN3ZmM1JrREla?=
- =?utf-8?B?cmRhenpUMEN6UmtKK0xsbndZMVBkejZvbmFSYlVQRExmT0RtVnZNRE1nOUFL?=
- =?utf-8?B?OHdkZ0Z3dkZJQ2E4SVJ5WHhuc2xBRUN1dVhUcUl4amFpbm1sMmMvbW04RXVW?=
- =?utf-8?B?MEFTazNoMldySXZEb284K3RiSWRTVmdQTndGM3hWVWZTd3Y4S2k2YTZnZTNJ?=
- =?utf-8?B?Ykk2WEk4ZGg1NEZFdTAzdGNIZVI0dVUrdzlBMFVneXR0U3R0dW9YMDlBZ2Nk?=
- =?utf-8?B?MkhSZ0VVR3JMWkNFRlRONFlqRDVwZmJMNlpFM0ZMWFJ6OGRzRk1tSUcrdHEr?=
- =?utf-8?B?YXc5R09icW1HMUNKL2NySDJOdzBNVmdaUWNYeGw1c2pQU1d6Mmd1VTBTQmpt?=
- =?utf-8?B?WE9oZk5RMjFXMVdiUjNwaVlSNUlDUzhYK2puc2FXUnhqbEJXb0xoSXQ1eHcv?=
- =?utf-8?B?LzUyM294RTdYazNhVmp1U0dhTmFhUGpTRjE4TXYzMDQxUXVySkFHSnNYMll0?=
- =?utf-8?B?Vkw5c3U2VVkrSFgxUTBENyttNkJWek1NTjFLTWpBYjcxcXZMUVpyaHZsUkRQ?=
- =?utf-8?B?cERFTzJ0RE5CN25oblVBVU1qbFdPckJiQlpsUU1Mb2J3NW00VGt3cnlsSFI3?=
- =?utf-8?B?d1RpVUdRSDhWdUNZWlVtNitTOE9JVXVobXAzNVJnZWlwT0srRWFHOGErSXJK?=
- =?utf-8?B?SEYxckwzU3E1WmR2RWFhd0lVY0xZVkxDUHhYSVpIZzNIQXZtb2tTYllaamZn?=
- =?utf-8?B?bFAyeVUzSTBtenNlRGMyN0ZOVTBVc0YyWUQ0b011a2dUYVJ0OHJTNWc2Rjkw?=
- =?utf-8?B?RkhNaDhycU15K2M4bkVkTlZ2NGF5NURxMkx4RmZtSVBBR1pUU2NOSVRDbG8w?=
- =?utf-8?B?MnQzUXFINkdtVGl4RllXSk41dXVhVVlTVGd2WjFmVk96VkttSFYwMW1MOUxF?=
- =?utf-8?B?Y2tyMGwzVUhReUEwTzlaYVYyV1gwZzExMW4vM0huRDZLaHB1TEFSWFNGVkly?=
- =?utf-8?B?VVFlZW0yMEwzMlZlaTA5Q001d1VOclZMbHUzR1lZdjZpMGxNd1VGR2pENThn?=
- =?utf-8?B?MFhya2RoejJONFA5ZDBaZ2JSZGN0cFlHZGE1ZndpazJJVStxQVRub3lYblI3?=
- =?utf-8?B?T0NNUWNxRkp3V3dPaGRlbkdXaDNKdStLNzNmUnNMU1FubXM2azNMS0JvQXMy?=
- =?utf-8?B?ZEZnYkhuL1BNbHJmT054aEpsNkp0TWhUSUZvck5UWm8xckNIS3g4V241cmZP?=
- =?utf-8?B?aytsc0tRRjY2UEQxbE00ekozMHRSQ1VEazVhK3FwOTFjVVhuaEdkQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d0f0a5f-9317-4132-2b65-08df07204a2d
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 05:25:37.9967
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OoBqMQDwyoi3vUPfEieZ90uC3RE4k5XQl0KgprWZQMW4DN8Qqev+W70Pgeiiz1c/cSOGNuOiP3Rc15Rmqb/mMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4275
+Content-Transfer-Encoding: 8bit
 
+On Sun, Aug 30 2026, syzbot wrote:
+>==================================================================
+>BUG: KASAN: slab-use-after-free in k90_record_led_work+0x19a/0x1e0 drivers/hid/hid-corsair.c:235
+>Read of size 1 at addr ffff88805dc14300 by task kworker/0:[  120.589162][    T9] Read of size 1 at addr ffff88805dc14300 by task kworker/0:0/9
+>
+>CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted syzkaller >0 PREEMPT_{RT,(full)} 
+>Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+>Workqueue: events k90_record_led_work
+>Call Trace:
+> <TASK>
+> dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+> print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+> print_report+0x58/0x70 mm/kasan/report.c:482
+> kasan_report+0x117/0x150 mm/kasan/report.c:595
+> k90_record_led_work+0x19a/0x1e0 drivers/hid/hid-corsair.c:235
+> process_one_work kernel/workqueue.c:3387 [inline]
+> process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+> worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+> kthread+0x38b/0x470 kernel/kthread.c:436
+> ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+> ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> </TASK>
+>
+>Allocated by task 5718:
+> kasan_save_stack mm/kasan/common.c:57 [inline]
+> kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+> poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+> __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+> kasan_kmalloc include/linux/kasan.h:263 [inline]
+> __kmalloc_cache_noprof+0x3d5/0x680 mm/slub.c:5563
+> _kmalloc_noprof include/linux/slab.h:991 [inline]
+> _kzalloc_noprof include/linux/slab.h:1312 [inline]
+> k90_init_macro_functions drivers/hid/hid-corsair.c:474 [inline]
+> corsair_probe+0x21c/0xbc0 drivers/hid/hid-corsair.c:584
+> __hid_device_probe drivers/hid/hid-core.c:2839 [inline]
+> hid_device_probe+0x46a/0x870 drivers/hid/hid-core.c:2878
+> call_driver_probe drivers/base/dd.c:-1 [inline]
+> really_probe+0x254/0xae0 drivers/base/dd.c:706
+> __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+> driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+> __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+> bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+> __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+> device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+> bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+> device_add+0x7d7/0xb80 drivers/base/core.c:3776
+> hid_add_device+0x272/0x3e0 drivers/hid/hid-core.c:3065
+> usbhid_probe+0x9dc/0xde0 drivers/hid/usbhid/hid-core.c:1452
+> usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
+> call_driver_probe drivers/base/dd.c:-1 [inline]
+> really_probe+0x254/0xae0 drivers/base/dd.c:706
+> __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+> driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+> __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+> bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+> __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+> device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+> bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+> device_add+0x7d7/0xb80 drivers/base/core.c:3776
+> usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
+> usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+> usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
+> call_driver_probe drivers/base/dd.c:-1 [inline]
+> really_probe+0x254/0xae0 drivers/base/dd.c:706
+> __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+> driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+> __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+> bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+> __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+> device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+> bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+> device_add+0x7d7/0xb80 drivers/base/core.c:3776
+> usb_new_device+0x99a/0x1680 drivers/usb/core/hub.c:2703
+> hub_port_connect drivers/usb/core/hub.c:5575 [inline]
+> hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+> port_event drivers/usb/core/hub.c:5879 [inline]
+> hub_event+0x28cf/0x4cf0 drivers/usb/core/hub.c:5961
+> process_one_work kernel/workqueue.c:3387 [inline]
+> process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+> worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+> kthread+0x38b/0x470 kernel/kthread.c:436
+> ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+> ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>
+>Freed by task 5718:
+> kasan_save_stack mm/kasan/common.c:57 [inline]
+> kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+> kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+> poison_slab_object mm/kasan/common.c:253 [inline]
+> __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+> kasan_slab_free include/linux/kasan.h:235 [inline]
+> slab_free_hook mm/slub.c:2748 [inline]
+> slab_free mm/slub.c:6499 [inline]
+> kfree+0x1c5/0x6d0 mm/slub.c:6792
+> k90_cleanup_macro_functions drivers/hid/hid-corsair.c:547 [inline]
+> corsair_remove+0xfd/0x260 drivers/hid/hid-corsair.c:602
+> hid_device_remove+0xc8/0x1d0 drivers/hid/hid-core.c:2897
+> device_remove drivers/base/dd.c:616 [inline]
+> __device_release_driver drivers/base/dd.c:1349 [inline]
+> device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
+> bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+> device_del+0x528/0x8f0 drivers/base/core.c:3965
+> hid_remove_device drivers/hid/hid-core.c:3126 [inline]
+> hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3148
+> usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
+> usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:458
+> device_remove drivers/base/dd.c:618 [inline]
+> __device_release_driver drivers/base/dd.c:1349 [inline]
+> device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
+> bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+> device_del+0x528/0x8f0 drivers/base/core.c:3965
+> usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
+> usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2345
+> hub_port_connect drivers/usb/core/hub.c:5415 [inline]
+> hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+> port_event drivers/usb/core/hub.c:5879 [inline]
+> hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5961
+> process_one_work kernel/workqueue.c:3387 [inline]
+> process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+> worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+> kthread+0x38b/0x470 kernel/kthread.c:436
+> ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+> ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>
+>Last potentially related work creation:
+> kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+> kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+> insert_work+0x3d/0x330 kernel/workqueue.c:2272
+> __queue_work+0xd4b/0x1120 kernel/workqueue.c:2448
+> queue_work_on+0x106/0x1d0 kernel/workqueue.c:2501
+> led_classdev_unregister+0x113/0x270 drivers/leds/led-class.c:632
+> k90_cleanup_macro_functions drivers/hid/hid-corsair.c:544 [inline]
+> corsair_remove+0xd7/0x260 drivers/hid/hid-corsair.c:602
+> hid_device_remove+0xc8/0x1d0 drivers/hid/hid-core.c:2897
+> device_remove drivers/base/dd.c:616 [inline]
+> __device_release_driver drivers/base/dd.c:1349 [inline]
+> device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
+> bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+> device_del+0x528/0x8f0 drivers/base/core.c:3965
+> hid_remove_device drivers/hid/hid-core.c:3126 [inline]
+> hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3148
+> usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
+> usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:458
+> device_remove drivers/base/dd.c:618 [inline]
+> __device_release_driver drivers/base/dd.c:1349 [inline]
+> device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
+> bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+> device_del+0x528/0x8f0 drivers/base/core.c:3965
+> usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
+> usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2345
+> hub_port_connect drivers/usb/core/hub.c:5415 [inline]
+> hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
+> port_event drivers/usb/core/hub.c:5879 [inline]
+> hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5961
+> process_one_work kernel/workqueue.c:3387 [inline]
+> process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
+> worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
+> kthread+0x38b/0x470 kernel/kthread.c:436
+> ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+> ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>
+>The buggy address belongs to the object at ffff88805dc14000
+> which belongs to the cache kmalloc-1k of size 1024
+>The buggy address is located 768 bytes inside of
+> freed 1024-byte region [ffff88805dc14000, ffff88805dc14400)
+>
+>The buggy address belongs to the physical page:
+>page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x5dc10
+>head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+>flags: 0x80000000000040(head|node=0|zone=1)
+>page_type: f5(slab)
+>raw: 0080000000000040 ffff88813ffb9dc0 dead000000000100 dead000000000122
+>raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+>head: 0080000000000040 ffff88813ffb9dc0 dead000000000100 dead000000000122
+>head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+>head: 0080000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+>head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+>page dumped because: kasan: bad access detected
+>page_owner tracks the page as allocated
+>page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1386, tgid 1386 (kworker/u8:12), ts 119040566074
+> set_page_owner include/linux/page_owner.h:33 [inline]
+> post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+> prep_new_page mm/page_alloc.c:1879 [inline]
+> get_page_from_freelist+0x2591/0x2600 mm/page_alloc.c:3943
+> __alloc_frozen_pages_noprof+0x230/0x5c0 mm/page_alloc.c:5436
+> alloc_slab_page mm/slub.c:3347 [inline]
+> allocate_slab+0x7d/0x620 mm/slub.c:3462
+> new_slab mm/slub.c:3513 [inline]
+> refill_objects+0x2d8/0x350 mm/slub.c:7410
+> refill_sheaf mm/slub.c:2885 [inline]
+> __pcs_replace_empty_main+0x339/0x690 mm/slub.c:4774
+> alloc_from_pcs mm/slub.c:4850 [inline]
+> slab_alloc_node mm/slub.c:4984 [inline]
+> __do_kmalloc_node mm/slub.c:5413 [inline]
+> __kmalloc_noprof+0x54b/0x790 mm/slub.c:5439
+> _kmalloc_noprof include/linux/slab.h:995 [inline]
+> _kzalloc_noprof include/linux/slab.h:1312 [inline]
+> ieee802_11_parse_elems_full+0x14b/0x2de0 net/mac80211/parse.c:1071
+> ieee802_11_parse_elems net/mac80211/ieee80211_i.h:2548 [inline]
+> ieee80211_inform_bss+0x163/0x10d0 net/mac80211/scan.c:79
+> rdev_inform_bss net/wireless/rdev-ops.h:418 [inline]
+> cfg80211_inform_single_bss_data+0xd98/0x1bf0 net/wireless/scan.c:2410
+> cfg80211_inform_bss_data+0x263/0x3cc0 net/wireless/scan.c:3266
+> cfg80211_inform_bss_frame_data+0x3c7/0x840 net/wireless/scan.c:3358
+> ieee80211_bss_info_update+0x791/0xa50 net/mac80211/scan.c:230
+> ieee80211_rx_bss_info net/mac80211/ibss.c:1065 [inline]
+> ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1546 [inline]
+> ieee80211_ibss_rx_queued_mgmt+0x1ce3/0x2c40 net/mac80211/ibss.c:1573
+> ieee80211_iface_process_skb net/mac80211/iface.c:1769 [inline]
+> ieee80211_iface_work+0x78a/0x1010 net/mac80211/iface.c:1823
+> cfg80211_wiphy_work+0x29e/0x420 net/wireless/core.c:541
+>page last free pid 5696 tgid 5696 ts 118905325757 stack trace:
+> reset_page_owner include/linux/page_owner.h:26 [inline]
+> __free_pages_prepare mm/page_alloc.c:1418 [inline]
+> __free_frozen_pages+0xf8e/0x1070 mm/page_alloc.c:2962
+> __slab_free+0x250/0x2a0 mm/slub.c:5815
+> qlink_free mm/kasan/quarantine.c:163 [inline]
+> qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+> kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+> __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
+> kasan_slab_alloc include/linux/kasan.h:253 [inline]
+> slab_post_alloc_hook mm/slub.c:4683 [inline]
+> slab_alloc_node mm/slub.c:4996 [inline]
+> kmem_cache_alloc_noprof+0x360/0x690 mm/slub.c:5010
+> alloc_filename fs/namei.c:147 [inline]
+> do_getname+0x2e/0x250 fs/namei.c:187
+> class_filename_flags_constructor include/linux/fs.h:2587 [inline]
+> do_readlinkat+0xc8/0x510 fs/stat.c:569
+> __do_sys_readlink fs/stat.c:605 [inline]
+> __se_sys_readlink fs/stat.c:602 [inline]
+> __x64_sys_readlink+0x7f/0x90 fs/stat.c:602
+> do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+> do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+> entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+>Memory state around the buggy address:
+> ffff88805dc14200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88805dc14280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>>ffff88805dc14300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                   ^
+> ffff88805dc14380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88805dc14400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>==================================================================
 
+I believe there is a patch for this already[1], but it has not been merged
+yet. Was written just as the merge window for v7.3 opened, so might have 
+been the reason for not being merged. 
 
-On 8/30/26 23:52, Mika Westerberg wrote:
-> Hi,
-> 
-> On Sun, Aug 30, 2026 at 11:33:31PM +0200, František Tichý wrote:
->> Hi all,
->>
->> I've run into this issue on 7.0.10, 7.1.6, 7.1.8 and 7.1.9 (specifically
->> Linux 7.1.9-arch1-2), as well as LTS kernel 6.18.45.
->>
->> to Mario's questions (thank you for them; they were captured on the
->> 7.1.9 kernel):
->>
->>> Can we please get some kernel logs for these two cases on the command
->> line?
->>>
->>> thunderbolt.dyndbg=+p
->>
->> Here you are, the system does not load the graphical interface:
->> https://gist.github.com/Poirot12345T/be6b7849e039687e248b8c302615d9f3
->>
->>> thunderbolt.dyndbg=+p thunderbolt.host_reset=false
->>
->> In this case, graphical interface loaded successfully:
->> https://gist.github.com/Poirot12345T/c63a1a3b2b6609b30a1182e7681fbec1
->>
->>> Also what is the value for:
->>>
->>> $ cat /sys/bus/thunderbolt/devices/domain0/iommu_dma_protection
->>
->> That returns as "1" on my system.
->>
->> I've also done some digging myself, here's what I found out:
->>
->> (note: I will use host_reset=0 in this post, even though the thread used
->> host_reset=false. These two values are functionally identical.)
-> 
-> Yes correct.
-> 
->> Originally tracked down in amdgpu bug tracker
->> (https://gitlab.freedesktop.org/drm/amd/-/work_items/5632) and based on
->> the suggestion to use thunderbolt.host_reset=false mentioned in this
->> thread, I traced back the issue to commit 59a54c5f3dbd (authored by
->> Sanath S, CC'd) which touched drivers/thunderbolt/tb.c (Thunderbolt/USB
->> subsystem, added Mika Westerberg as a maintainer and CC'd linux-usb
->> mailing list), more specifically function tb_start() and this code block:
->>
->>      /*
->>       * Boot firmware might have created tunnels of its own. Since we
->>       * cannot be sure they are usable for us, tear them down and
->>       * reset the ports to handle it as new hotplug for USB4 v1
->>       * routers (for USB4 v2 and beyond we already do host reset).
->>       */
->>      if (reset && tb_switch_is_usb4(tb->root_switch)) {
->>          discover = false;
->>          if (usb4_switch_version(tb->root_switch) == 1)
->>              tb_switch_reset(tb->root_switch);
->>      }
->>
->> This block should be located between lines 3060 and 3070 of the above
->> mentioned file as of the time I am writing this post.
-> 
-> Does is work if you boot with the device connected (and host_reset=0) and
-> then once the system is up, unplug the eGPU wait a little and plug it back?
-> That's essentially the same thing as what host_reset is doing and is pretty
-> much the nature of buses like USB4 (e.g the user can unplug the device at
-> any given time and plug it back later expecting it to work).
-> 
->> I was able to reproduce this issue using AMD RX 7600 (journalctl dump
->> link:
->> https://gist.github.com/Poirot12345T/909f3d071f87655d875445e536da74d3).
->> I have also tried NVIDIA RTX 5060 with the nvidia-open driver which did
->> not trigger this behavior in the default setting. (journalctl:
->> https://gist.github.com/Poirot12345T/4deeae10508e3971521aca9e612b5737)
-> 
-> It depends on the GPU driver. Some of them are prepared for PCIe
-> hot-removal, some are not yet. With the rise of eGPUs I would expect that
-> we are seeing more and more support for this though.
-> 
-> The ones you shared above looks like amdgpu driver and I don't see any
-> issues in the dmesg.
+[1]: https://lore.kernel.org/all/20260817072831.139954-1-ccc194101@163.com/
 
-I don't doubt there to be gotchas and corner cases with hotplugging an eGPU.
-
-More testing is going to find cases of bad assumptions on mutexes, ref 
-counting issues etc.
-
-I do want to note that for amdgpu we're disabling runtime PM for eGPUs 
-starting in 7.4.
-
-https://lore.kernel.org/amd-gfx/20260812080841.2936007-1-kevinyang.wang@amd.com/
-
-You can experiment with 'amdgpu.runpm=0' on kernel command line.  If 
-that helps an issue, then what's coming in 7.4 will help as well.
+Thanks,
+Jeffin.
