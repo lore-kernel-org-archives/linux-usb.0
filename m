@@ -1,146 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93511241686;
-	Mon, 31 Aug 2026 10:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6656B3BED2D
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 10:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788171327; cv=none; b=W7/jgEjO+oxLUtMyxOBgAdBt7XbcXreTglgpT/sm8D+6L475o/kvgddMmTBuTFS5tWBYb3gatYSTMa9cXiGRydQLNMUCHpIwAvZW0yNbMS+5sqiZg+pMt90WN6jM7C6bWYFgrwDQGCOOoQafylMsuwUjsDgTssmInFXFidOzRv0=
+	t=1788171932; cv=none; b=UUc/F6mKuuI4tSL6DAmv/ykQdNyEbMpYIenmycZukr/PP0ans+rm4Wsdphzk/tkCoAu6FfNuncaNC+rV5beXklUugMuf/r4eePIBP+DGeMOCbGNeMbVWATR4RspNEICg7cxpe7Bp+UOWFX1ui2uynxwi6XWrPmkZB+MndP1p/sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788171327; c=relaxed/simple;
-	bh=IXG+GKUyyJjrxe9twLgNYgPzeEFT4c+gyE7g5/OFmDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uWoWzg8oNuPKvHHai3Ukz7At0DYQJZGNFpqyxWrcFBZzwyT6m3qjgZLlW7do1WJdgVApwZ96ykqRj/cMxGvH5Hl9SPCyNmzSkTnxTxt2MhYNPd7j86emkRDN/CqyIlo+Lc01+30RohJLGfjBZspHqICcV8nHrnm+f5VYdo/n6Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhuP+gAq; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788171932; c=relaxed/simple;
+	bh=oDdxchw+HfFAGtOiAlLwJIKnl3Z6Y/3M5kytY39eayg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KGdCZpKAZAE9/l3P5jbqJKIVdvl28BdY0Vl/ASF9fyd4RyN4zFEEY9yYZWnGt+Cy1d5eMMNJUqClW4tvkVUaffnaMtXOySO9JBaUuM3OibMDbmKgsiBtpMcQ0QvDvRjw4Phay8pd+cid/f0iokkxB8YsC8qwcvWR5XB0OVIA+eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQmFP7wP; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhuP+gAq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788171325; x=1819707325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IXG+GKUyyJjrxe9twLgNYgPzeEFT4c+gyE7g5/OFmDw=;
-  b=JhuP+gAqMi83crVfRPjw1hn5BktkI9EQVoWVu9wawSbnH/NyDlhdyOb0
-   95ZGYEZp38QeSf4rY+afLL04PH4PHZKPZlebi+UPdGApHkkLfIYGkUkp0
-   Cxk0cEco2DrmsW8za8c64BSRFwkJCPQTBKxD6clKtI5zXIHzgDVBU8odo
-   oiz3x4fP6cCxxuqfN4MhqPlydNJBRz6DNr7EEwO9nKhb2Otcjhw7KD8Mg
-   QxyuBrfwekbaULGc0oeV+Mfk4nd2XlImb+1h52vmPQ3A7wpZIEdiMjXtJ
-   wGzluOYtucnpt3RmNFgb+TajmCxiSnepXbYExHZmp3tfwmHMwEmeFbh85
-   w==;
-X-CSE-ConnectionGUID: BGwg7DYbShmzOGdKc4coeA==
-X-CSE-MsgGUID: YFm8US73TU2WInn26lbALg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99238311"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="99238311"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:15:24 -0700
-X-CSE-ConnectionGUID: RuryocMyTQ6u3/7Updke9Q==
-X-CSE-MsgGUID: /tD+9s2cTDSJppAAFmHccQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="292261761"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Aug 2026 03:15:22 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id A00F499; Mon, 31 Aug 2026 12:15:21 +0200 (CEST)
-Date: Mon, 31 Aug 2026 12:15:21 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Huang Wei <huangwei@kylinos.cn>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alex Bartz <alex@alstergee.com>
-Subject: Re: [PATCH v2] usb: typec: ucsi: do not register UCSI on Lenovo
- Legion Pro 7 16IAX10H
-Message-ID: <apVUOYIMOMBVpXWB@black.igk.intel.com>
-References: <20260826034658.2170407-1-huangwei@kylinos.cn>
- <20260826133118.3327816-1-huangwei@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQmFP7wP"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cc1ceadbd16so3468047a12.2
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 03:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788171931; x=1788776731; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=85h0gP4EJzGrJjTm/s6tdHc7gvUEeMEkIXjoNPcxSzc=;
+        b=lQmFP7wPAnoy0qe3XSbB/eiBM2esLl5N/USsJjhsB1gbnUEPyt7VReggrpXbcUGSgk
+         +mN+Sd9W/FzSyDu25w4DBb8hfKTyotLW8hOeIFxtloSaXyOljqfiiuFyxUzGtRpp8gDZ
+         faML/yQDfY6Cqp0jjl1x92v+F99BqzdJ5CNCr/u4Pe0GjMr3EsVmKLvsOwuG/9UqGgeS
+         MaHjoJKp69sSXClxpYS9EDQECXMD9945GgpYpTAAcFlmTyEXO7zXl82lKY7fbcG3yzCo
+         w3+S0sX4XPwDzEpEHQ+lrlsjZWn0XJVq/qXZZkq7O/tL07XQKsBrjhNWiU+tElG4xlUt
+         3imw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788171931; x=1788776731;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=85h0gP4EJzGrJjTm/s6tdHc7gvUEeMEkIXjoNPcxSzc=;
+        b=Lx2MQl3M78qmW7P34QTZn+G5h2Lc4P+3wP2U3ltCs10/CdknjYGw0FICKwg5LLRvOJ
+         6vIQLwZKpEUV7SUXuRWwz8R362GQrLiAteQYnjpskl0Vu0pol3vpvXhRUxrTeUlmCYp8
+         tix+qbQklCaW2/pPUxwmr8vzw0OtcZyKH9m+ch7Yg8T1h1nXTqnHBoaY0MheGHlbwHGY
+         hCzs8j8MJH2XTZrWFsWdCNXvGch4kp0xUGGIkv8f1u2FnqAELZZ5tymLegINXKwRVzGh
+         UluPkzGHBZU4KTE9AR1syhlbMAWF7UK6JvvznjsGThNUepjavZcUjkQgoya75i2HTQEF
+         kHNQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrwp6LSwThbjpB4gHj+w3HyxeGjH1I52IwneFq/OFsyUo3roYfVILdW2D9IHSZ0Yc5UbzCVssqZLl0=@vger.kernel.org
+X-Gm-Message-State: AFuF++l6z+sdNCwzxSNj8KZ+qzXDEYjNHIN9+WlDkSGlfpw0IM6GRwgi
+	j9cyyU1rDS9ejwwm+KqPJ3/GMSN2WVD/uJLOR2z6gdLmMadUHXeqED2BTbc+pQ==
+X-Gm-Gg: AR+sD11Ti8A2FCcbqicfyf33IjjmFIYvpWPukQKDzx9shNF9Z9hGzxJzhL2CYSEBK9p
+	f8wT0wUa3NdBLm3FvG5AmsNy2Xs2sbXLmPa1zFmd8Yl8clfOmP3aKHfaczp5tjBgDSMVV3SAnUi
+	q8hqtI0UNndRW2omPioNR7wNbG1WR1Cd+hD0nZslRS1sxObQnGLKxTQKdxeu1EK6UKZNM4r6OqF
+	+zRj/1VLZdggoPPQfQc61lId5u93XUC0oa2VcTcIQ47WzAJvnYpl+OlNeGJJYElVlhji/kowtz7
+	+cqAAFzGv/qX4MQ8Gtl52EwS+PPjFCpWS7JkIXA7lriR34rRZhsF3jL7HhfCt9I9eGwfmi3RqmH
+	EnADsFRN5GnYYxJJwikC1NmWKCA176ogKZ+f0mqxNIZyEExWQW7/sADisgzG/Nj4Q5sxFybp6Gn
+	kQfKsS/ABGx+6hYtNDX0MQKpaAAcscbjAzZjQ8gu4c8ckGVfvbibsj0pfGZX0nrgqjtQ==
+X-Received: by 2002:a05:6a21:6e88:b0:3c4:46ca:334b with SMTP id adf61e73a8af0-3d267b60e7emr43957424637.9.1788171930549;
+        Mon, 31 Aug 2026 03:25:30 -0700 (PDT)
+Received: from Default ([2409:40f4:1016:5ca4:c595:44a4:9cb1:2f2f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f9595bbsm32800439eec.14.2026.08.31.03.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 03:25:29 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: i@zenithal.me,
+	jeffinphilip14@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	shuah@kernel.org,
+	stable@vger.kernel.org,
+	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com,
+	valentina.manea.m@gmail.com
+Subject: Re: [PATCH v3 1/2] usbip: usbip_host: fix null pointer dereference in rebind_store
+Date: Mon, 31 Aug 2026 15:55:17 +0530
+Message-ID: <20260831102517.109498-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <2026083141-morbidly-swiftness-9f8f@gregkh>
+References: <2026083141-morbidly-swiftness-9f8f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260826133118.3327816-1-huangwei@kylinos.cn>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 26, 2026 at 09:31:18PM +0800, Huang Wei wrote:
-> The EC firmware of the Lenovo Legion Pro 7 16IAX10H (DMI product name
-> 83F5) has a broken UCSI implementation: GET_PDOS returns no source
-> capabilities, GET_CONNECTOR_STATUS reports an incomplete RDO, and any
-> UCSI traffic disturbs the EC's autonomous USB-C Power Delivery
-> negotiation. With ucsi_acpi bound, chargers connect only briefly and
-> then drop, and voltage_now reads 0; with the driver blacklisted, the
-> EC negotiates full PD contracts on its own and charging works normally.
-> 
-> The problem is unaffected by BIOS updates up to Q7CN78WW (2026-04).
-> The AMD sibling Legion Pro 7 16AFR10H (product name 83RU) reportedly
-> uses the same EC firmware, but it is left out of the quirk until the
-> failure is confirmed on that model.
-> 
-> Skip probe on this machine, which is equivalent to the blacklist
-> workaround the reporter verified to restore charging.
-> 
-> Reported-by: Alex Bartz <alex@alstergee.com>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221142
-> Tested-by: Alex Bartz <alex@alstergee.com>
-> Signed-off-by: Huang Wei <huangwei@kylinos.cn>
+On Mon, 31 Aug 2026 12:04:45 +0200, Greg KH wrote:
+>No one will ever notice this, just remove the sysfs file entirely if
+>you really think it is ok to remove the functionality.  That way
+>userspace will notice and handle it properly (hopefully...)
 
-I'm not sure about the dev_info message. Otherwise this is good:
+userspace tool atp handles this properly as it unbinds and rebinds sequentially.
+The problem is when any script tries to do this without a particular order in
+sysfs: bind, rebind then unbind causes an invalid opcode and attempting to directly
+rebind immediately after writing to match_busid causes the dereference. I think
+it is best we drop the rebind_store function and use drivers_probe(). We add 
+del_match_busid() alone to rebind_store() to stop tracking.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>But, are you sure it is ok to remove this user/kernel api?  What about
+>workflows that are using it?
 
-> ---
-> Changes in v2:
-> - Add Tested-by tag from Alex Bartz, who verified the quirk on his
->   machine (out-of-tree build, runtime module swap, PD charging held
->   across the reload).
-> ---
->  drivers/usb/typec/ucsi/ucsi_acpi.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> index 18286d3e9cc5..9f36f8cfce4a 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> @@ -173,6 +173,21 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
->  	{ }
->  };
->  
-> +/*
-> + * Platforms with a completely broken UCSI implementation in firmware.
-> + * Do not register UCSI at all on these machines.
-> + */
-> +static const struct dmi_system_id ucsi_acpi_ignore[] = {
-> +	{
-> +		/* Lenovo Legion Pro 7 16IAX10H: broken EC UCSI firmware */
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "83F5"),
-> +		},
-> +	},
-> +	{ }
-> +};
-> +
->  static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
->  {
->  	struct ucsi_acpi *ua = data;
-> @@ -199,6 +214,12 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
->  	if (adev->dep_unmet)
->  		return -EPROBE_DEFER;
->  
-> +	if (dmi_check_system(ucsi_acpi_ignore)) {
-> +		dev_info(&pdev->dev,
-> +			 "UCSI implementation in firmware is broken, ignoring\n");
-> +		return -ENODEV;
-> +	}
-> +
->  	ua = devm_kzalloc(&pdev->dev, sizeof(*ua), GFP_KERNEL);
->  	if (!ua)
->  		return -ENOMEM;
-> -- 
-> 2.25.1
+Any scripts/user that don't use the sysfs properly can keep the broken pieces
+themselves, no? We have the newer drivers_probe() that can perform this
+much more cleaner.
 
--- 
-heikki
+Ultimately we can keep the rebind_store() function if you choose. But this is just
+my opinion.
+
+Thanks,
+Jeffin.
