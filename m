@@ -1,130 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2446A344052;
-	Mon, 31 Aug 2026 10:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AB23B3883;
+	Mon, 31 Aug 2026 10:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788173378; cv=none; b=Z2zvP/qR6GMvQ5An/10ybqVglg/YcnaXs4b79aMKTAzsmcsFuvE6BITMW4xujKhkNClXfK/7mPtIOnRdzhipWaFWxxuJEOQpSf/r0HXjMAj025EZNkoqU2qJAurr1ggBPi7Lkr2PwsrO67V5M3CkhKGdUG86XcOMIv9jhKF0kIU=
+	t=1788173524; cv=none; b=nMYkuzYuh7FQf/s4UwW+SI22dmgjRRAFTF4Pw0gjzU3W2zot6bMMvijaTD4cHR7aok0m5P1bFMNHZLgMGEwPbbBQ+KNE8ZtY/B8C65Q9pVENTjSV240U1Zw2HQAsmjjBln5wq0lBMNgAT78wIY4VX+02yL4mvCwZATftqTXavPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788173378; c=relaxed/simple;
-	bh=3FId75RguOXkoy+hMm3CXNMwd3NlzxdzUHJfDdxB0tU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YEpsTz0Y+Aq5ydzkJkflHV1jRplc8wBsB8shJfHZ1nldpI3UCo4eLP8RjMV9GRwXWAcQ6KNP/lCboVx3J08gzZhIRhquhCvf1uf3JC//waEJWR+OjouN9Le9bj29ZTd3K95gCi20KiKhieei+K+kn+VLZrbx7aEbONoV6i8iGAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J6tFDubr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788173524; c=relaxed/simple;
+	bh=Zs8y5SBquzJ/I5UF45QdUkJiDUIeZBIPW8l73Kh5dN0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=W7Ps4bBH/371fAbBH5DkQ0fAIvhTQ/Q09oxNjr68TYr6MuG+OB86uwsoSz3YroECkafzQ9NenYF+BcvZ+iP/CnxFb+4t+KtQILPysYD3AxlS+SixkytH+R/TtHgxqSW2pNCtsJXUtseZWq+M9K7fFIDjAXNaXRpuhggCxJR9u8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cAUMof4M; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J6tFDubr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 230E71F000E9;
-	Mon, 31 Aug 2026 10:49:35 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cAUMof4M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45B411F000E9;
+	Mon, 31 Aug 2026 10:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788173376;
-	bh=dGZMmYxlE0Q6G1ojXbMZ6FFFpGyMYtPXFOtEqlSpkWI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J6tFDubroYUmq1h8tI7u0PCiM7HSYY2S2XSmPLDounhsj9Ksc52FS6h+4/AAZ/sIK
-	 6LNWwm1YUXez2fLADVMpA3XowwZCcuBwY3U4nCp13WJ+ZRzlgpiqhCcZsR4/3d+3hb
-	 GclUakpYDt8ec/qQGoNzSQ5DcLd6SeBNkLujBaf4=
-Date: Mon, 31 Aug 2026 12:49:33 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Huang Wei <huangwei@kylinos.cn>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alex Bartz <alex@alstergee.com>
-Subject: Re: [PATCH v2] usb: typec: ucsi: do not register UCSI on Lenovo
- Legion Pro 7 16IAX10H
-Message-ID: <2026083158-preview-replay-0157@gregkh>
-References: <20260826034658.2170407-1-huangwei@kylinos.cn>
- <20260826133118.3327816-1-huangwei@kylinos.cn>
- <apVUOYIMOMBVpXWB@black.igk.intel.com>
+	s=korg; t=1788173521;
+	bh=TyIzgxKJ2thBNZs4HZrx3LqIWoSrNjbJnZV9L1yorRE=;
+	h=From:Subject:Date:To:Cc;
+	b=cAUMof4M6IZ3goyl62fggs8yZFliRj09IuzvweYC+vIq+uDvwsram6HzHL2b+uvtF
+	 xzuFatEGbtwLFC/q970hokrFb4qFUYMsG3Yj+r59mDR6mCR3neEJao60B7KFMlWqpI
+	 eGE8iKv/tdUwavhdxY96y8dFvfaWut7zA+nH/pAo=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2 0/2] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Date: Mon, 31 Aug 2026 12:51:45 +0200
+Message-Id: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apVUOYIMOMBVpXWB@black.igk.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/02OywqDMBREf0XuuikxGLVd9T+KlLzUW0oieYhF/
+ PdGS6HLAzNnZoVgPJoA12IFb2YM6GwGdipAjcIOhqDODIyymraME4lWP6JAG4muaNPItqFSVZA
+ Lkzc9Lofs3n05JPk0Ku6GPTFiiM6/j7W53HM/cf0vnktCCWeS8r4Sl5qr2wttWnqXrBYxPzw7P
+ 0C3bdsHLGBBF8AAAAA=
+X-Change-ID: 20260825-bind_taint-d4077b870bc4
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Bradley Morgan <brads@mainlining.org>, 
+ Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Johan Hovold <johan@kernel.org>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4908;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=Zs8y5SBquzJ/I5UF45QdUkJiDUIeZBIPW8l73Kh5dN0=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFlTY04znnvq7bjCji3qsm5PS5uCM5/R3OzHR0PiVX+bM
+ GUlcf7uiGVhEGRikBVTZPmyjefo/opDil6Gtqdh5rAygQxh4OIUgInM0GVYcOhdEM9jGxFL3+3i
+ wa9WNorc0n+VxbDg/Px0teDKyqshtz+Hxmeoqz3aeOwGAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-On Mon, Aug 31, 2026 at 12:15:21PM +0200, Heikki Krogerus wrote:
-> On Wed, Aug 26, 2026 at 09:31:18PM +0800, Huang Wei wrote:
-> > The EC firmware of the Lenovo Legion Pro 7 16IAX10H (DMI product name
-> > 83F5) has a broken UCSI implementation: GET_PDOS returns no source
-> > capabilities, GET_CONNECTOR_STATUS reports an incomplete RDO, and any
-> > UCSI traffic disturbs the EC's autonomous USB-C Power Delivery
-> > negotiation. With ucsi_acpi bound, chargers connect only briefly and
-> > then drop, and voltage_now reads 0; with the driver blacklisted, the
-> > EC negotiates full PD contracts on its own and charging works normally.
-> > 
-> > The problem is unaffected by BIOS updates up to Q7CN78WW (2026-04).
-> > The AMD sibling Legion Pro 7 16AFR10H (product name 83RU) reportedly
-> > uses the same EC firmware, but it is left out of the quirk until the
-> > failure is confirmed on that model.
-> > 
-> > Skip probe on this machine, which is equivalent to the blacklist
-> > workaround the reporter verified to restore charging.
-> > 
-> > Reported-by: Alex Bartz <alex@alstergee.com>
-> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221142
-> > Tested-by: Alex Bartz <alex@alstergee.com>
-> > Signed-off-by: Huang Wei <huangwei@kylinos.cn>
-> 
-> I'm not sure about the dev_info message. Otherwise this is good:
+The ability to add and remove devices from a driver through the sysfs
+"bind" and "unbind" files was created all those decades ago as a way
+that kernel developers can iterate faster, and provide a debugging way
+for users to attempt to add a new device to a driver without having to
+rebuild their kernel.
 
-Should be dev_err(), right?
+This api over the years has been abused and recently come under a major
+fuzzing "attack" through tools like syzbot which decided that it would
+attempt to just randomly bind any driver to any type of device, causing
+loads of unneeded errors and pointless kernel patches to be generated by
+unsuspecting new developers.
 
-> 
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> 
-> > ---
-> > Changes in v2:
-> > - Add Tested-by tag from Alex Bartz, who verified the quirk on his
-> >   machine (out-of-tree build, runtime module swap, PD charging held
-> >   across the reload).
-> > ---
-> >  drivers/usb/typec/ucsi/ucsi_acpi.c | 21 +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> > 
-> > diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> > index 18286d3e9cc5..9f36f8cfce4a 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> > +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> > @@ -173,6 +173,21 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
-> >  	{ }
-> >  };
-> >  
-> > +/*
-> > + * Platforms with a completely broken UCSI implementation in firmware.
-> > + * Do not register UCSI at all on these machines.
-> > + */
-> > +static const struct dmi_system_id ucsi_acpi_ignore[] = {
-> > +	{
-> > +		/* Lenovo Legion Pro 7 16IAX10H: broken EC UCSI firmware */
-> > +		.matches = {
-> > +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> > +			DMI_MATCH(DMI_PRODUCT_NAME, "83F5"),
-> > +		},
-> > +	},
-> > +	{ }
-> > +};
-> > +
-> >  static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
-> >  {
-> >  	struct ucsi_acpi *ua = data;
-> > @@ -199,6 +214,12 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
-> >  	if (adev->dep_unmet)
-> >  		return -EPROBE_DEFER;
-> >  
-> > +	if (dmi_check_system(ucsi_acpi_ignore)) {
-> > +		dev_info(&pdev->dev,
-> > +			 "UCSI implementation in firmware is broken, ignoring\n");
+Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+will be set on the driver if the bind/unbind sysfs files are ever
+written to.  This lets kernel developers "know" that a user is
+attempting to do something that is not normal, and as such, if the
+kernel breaks they get to keep the shiny pieces laying around on the
+floor.
 
-This shows the hardware is broken, make it dev_err() so that someone
-notices it and can pester the hardware company to fix it.
+The flag is 'Y' which was unused, and can remembered as the user is
+"yeeting" the device being operated on here (thrown with force without
+regard for the thing being thrown).
 
-BUT, if the firwmare ever does get changed, this will still fail, so
-shouldn't this all be triggered on a version/range of broken firmware,
-and NOT just on the whole platform itself?  Otherwise if it is fixed,
-this code will be wrong.
+Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+as many times crashes/oops/warnings/failures happen within the callback,
+and the taint flag needs to be there to show what was being attempted.
+If it were to be set after the callback happens, the oops report would
+not properly reflect what foolishness was being attempted.
 
-thanks,
+Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+the tool from hitting bind/unbind, should be run with panic_on_taint
+enabled so that they fall over and don't continue on, thinking that they
+actually found a real issue.
 
-greg k-h
+Userspace operations that rely on the bind/unbind files to work around
+the lack of will to upgrade a kernel image to a newer version with
+proper support for new devices, or the lack of will to submit valid
+device ids to driver authors, will still work properly, but now the
+kernel will be flagged in a way that will show that perhaps those users
+should reconsider their behavior and work to have the drivers properly
+support these devices in a "native" manner.
+
+Finally, the bind/unbind files can find real use-after-free issues with
+some drivers by forcing the process to happen virtually without having
+to rely on manual removal processes.  Those real bugs should still be
+worked on, but by adding this taint flag, developers can more easily
+determine bug reports that are actually worth looking at.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Changes in v2:
+- rebase on 7.3-rc1
+- Add changelog text to describe panic_on_taint and how it should be set
+  for tools like syzbot.
+- Add changelog text to describe why 'Y' was picked.
+- Fixes based on sashiko review:
+  - Make add_taint_module() handle a NULL for module pointer, fixing a
+    problem with built-in drivers.
+  - Fix up prototype for when CONFIG_MODULES is disabled so it will
+    actually build properly.
+  - rst table header fixes.
+- Link to v1: https://patch.msgid.link/20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org
+
+To: Luis Chamberlain <mcgrof@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+To: Daniel Gomez <da.gomez@kernel.org>
+To: Sami Tolvanen <samitolvanen@google.com>
+To: Aaron Tomlin <atomlin@atomlin.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-modules@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-trace-kernel@vger.kernel.org
+
+---
+Greg Kroah-Hartman (2):
+      module: pull out add_taint_module() to be public
+      driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers
+
+ Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
+ drivers/base/bus.c                            |  3 ++
+ include/linux/module.h                        | 10 ++++++
+ include/linux/panic.h                         |  3 +-
+ include/trace/events/module.h                 |  3 +-
+ kernel/module/main.c                          | 16 +++++++--
+ kernel/panic.c                                |  5 +--
+ tools/debugging/kernel-chktaint               |  8 +++++
+ 8 files changed, 69 insertions(+), 31 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260825-bind_taint-d4077b870bc4
+
+Best regards,
+--  
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
