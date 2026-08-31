@@ -1,109 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B164AF141;
-	Mon, 31 Aug 2026 13:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F15429CD6;
+	Mon, 31 Aug 2026 13:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184156; cv=none; b=GEKgNtSvdXJIirQtFoFN090LtfKvB6uv5QMriA3sE4d6iVvAyAYm8Cv8NwrOsfccMiBw/0tmCepoSFBut/JMRfc5WgKuiwzoIxbJiQNz+1rtuug0ocWJkoGzbV3CjjqGxYraNVGPrixjXS4I4vyrmH+m/ehzlzT1svj/5iYYCTA=
+	t=1788184180; cv=none; b=eDnRfQ0RnGUKU4TkkfVrvKwwLqxOOkiggwlCx4bLJuosq68PWUjL/cGqUVJ1BKyTvR881QNIBbGqVGsmnoxvrbRSWXk8kegQwgRBN0usJy5P/kAeqcJ2cj9BeBsqUaKLT1rdyKXu4Bvb/05Hczj5jlb2dtpw5tp5aaSc47nd+I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184156; c=relaxed/simple;
-	bh=lDEQp1Jg2Lqzole5zhBgw4Nj1zCSsbuw8fwWkk8HbGU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KepPgk0EJmmTOMv/pc1ucByWvQUCMju+N65X8mpq3qZBt4tRJdYiA3wxWr/5kahw+5wL+ScDVk933ZpAnlLcmx36SVYpjSf9Z843B/Rt8Mm8bfMgJkBaPzj+kXrLr6eoqDJYLlPhiAGR8PT4YO/br24gQI3Lwq2MXvFS/Pu3T+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R8nsUnYl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788184180; c=relaxed/simple;
+	bh=8zPePSa3Wg0zKdjo5hJrOUrideOW8gX/mXbmzv/Buqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EgdfXYrbKDl5fz3FuElx0wp1OpNm+11oUnWRQlt9/hANWUd3qwGGbzm1f054U/5k7FlGkdD4SVKKfJuFKrhqTsANdVhrTrrS7dIwn9Wh1qxHw9TSVpWy87M5ppdUPZEUkD0NxmZcl+KvF/ewCrQuP3/Gu8Te6LG+JE0U40LgFtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIV+6Nkp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R8nsUnYl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63721F00A3E;
-	Mon, 31 Aug 2026 13:49:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIV+6Nkp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0E2B1F00A3F;
+	Mon, 31 Aug 2026 13:49:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184154;
-	bh=qkxEMTiYxEqz9LqiFfnHD0wIulNBWu8l047Bi/nKhGE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=R8nsUnYlSl8Vyb6UHtPKiPZKbbX1ktt1GsrlTzt0cvcCxbqKwrY20/pNijAyyMRrX
-	 qDkQybYBGmOPnyuhdUq1fi5mWbHrB8b6y91N1lbr06+ensePqSG+IWuWwWr1PiejVb
-	 YS2RzE609M52khbgC9yB1Rn0GS8OLUznSQ+UCHOrorVQzeW3nwGSu4mbIqo0lOtaKD
-	 jCordmLOqOk6WpvMHX2t9LiRjZNVsVwhWAgHhbZ+n+Feuj2+Py+v7CvYLabGDpLJqK
-	 drNbyIKGbCrUnFv3e6KS0NHWx/NHzL8uWl9UFFf8lGl3O18fGqm+yWJS4YG8cArj3C
-	 LfG/2HJqqyBRw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	andreas.noever@gmail.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] thunderbolt: Don't disable lane adapter if XDomain lane bonding isn't possible
-Date: Mon, 31 Aug 2026 09:29:12 -0400
-Message-ID: <20260831133314.4125787-524-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
-References: <20260831133314.4125787-1-sashal@kernel.org>
+	s=k20260515; t=1788184179;
+	bh=8dkjGXjjiy2qO5+OPGt9h4bb+ufyCUXSkHX+tJjWxSw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QIV+6Nkpy+WS9pCaGSw6vBV9mD/4UBopCvDp+kYbjwwbYko4/v9n9k6N8JP5ZyPl8
+	 U++gknhzExHIQTADC6S+SYsQJr8ZX8ZIHn5ECW5tZRysAIuwLbOPboRBH4BmlYSNVs
+	 Pm39+/CxnsUB2yktiNroBWJ3PjdDW8bmfn9G3rvARe+xSTpkK8gRLnfE/zfw6c3aBI
+	 ZTVQmwQbmDzBJbVKAGWksh8tCix130c7NaztBkRzYFBP/67940hAAhIrasGi8Xgc9g
+	 XZwhzWImnQZH3nAiEp9M5V7cwZuoLauAAuW9cLN26xKny2kT6aR9NuKtCNWWGPo7O4
+	 hm9j+H3CDVN1Q==
+Date: Mon, 31 Aug 2026 08:49:38 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Bhargav Joshi <j.bhargav.u@gmail.com>
+Cc: goledhruva@gmail.com, dmaengine@vger.kernel.org,
+	Sergei Shtylyov <sshtylyov@ru.mvista.com>,
+	Kumar Gupta <ajay.gupta@ti.com>, devicetree@vger.kernel.org,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-phy@lists.infradead.org, m-chawdhry@ti.com,
+	linux-usb@vger.kernel.org, daniel.baluta@gmail.com,
+	Vinod Koul <vkoul@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+	linux-omap@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Ravi B <ravibabu@ti.com>,
+	linux-kernel@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+	Andreas Kemnade <andreas@kemnade.info>, simona.toaca@nxp.com,
+	Frank Li <Frank.Li@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH v2 2/7] dt-bindings: phy: ti,am335x-usb-phy: Convert to
+ DT schema
+Message-ID: <178818417774.757369.190007408390454150.robh@kernel.org>
+References: <20260818-ti-am33-usb-v2-0-66fd44d66824@gmail.com>
+ <20260818-ti-am33-usb-v2-2-66fd44d66824@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18.48
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260818-ti-am33-usb-v2-2-66fd44d66824@gmail.com>
 
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-[ Upstream commit 7c7345bcde6c611fa8fa13e624207c6005798aa8 ]
+On Tue, 18 Aug 2026 19:58:44 +0530, Bhargav Joshi wrote:
+> Convert the TI AM335x USB PHY text bindings to DT schema.
+> Add undocumented vcc-supply property to match existing DTS usage.
+> 
+> Signed-off-by: Bhargav Joshi <j.bhargav.u@gmail.com>
+> ---
+>  .../devicetree/bindings/phy/ti,am335x-usb-phy.yaml | 49 ++++++++++++++++++++++
+>  .../devicetree/bindings/usb/am33xx-usb.txt         |  9 ----
+>  2 files changed, 49 insertions(+), 9 deletions(-)
+> 
 
-This happens when firmware connection manager is being used. It will
-deal with disabling the lane 1 adapter after the tunnel has been
-established and re-enabling it afterwards. For this reason only do this
-when we know that lane bonding is possible (e.g running software
-connection manager).
-
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-The background `git log --all` search was killed — it was hanging on
-this repo, as expected.
-
-A follow-up `git log -S 'tb_xdomain_link_exit'` (without `--all`)
-finished after ~48s, but the hits (`19eef1d98eeda`, `ac3fd01e4c1ef`) are
-base-import commits, not a clean “introduced in commit X” answer. That’s
-normal on this 6.18.y tree where history is squashed.
-
-The backport analysis doesn’t depend on that: the buggy
-`tb_xdomain_link_exit()` path is present in 6.18.43, and the verdict
-remains **YES**.
-
- drivers/thunderbolt/xdomain.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 6b16fc7254b8e..b27ef872edeac 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1951,7 +1951,13 @@ static void tb_xdomain_link_exit(struct tb_xdomain *xd)
- 	if (tb_port_get_link_generation(down) >= 4) {
- 		down->bonded = false;
- 		down->dual_link_port->bonded = false;
--	} else if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
-+		return;
-+	}
-+
-+	if (!xd->bonding_possible)
-+		return;
-+
-+	if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
- 		/*
- 		 * Just return port structures back to way they were and
- 		 * update credits. No need to update userspace because
--- 
-2.53.0
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
