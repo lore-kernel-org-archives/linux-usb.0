@@ -1,56 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0633D9532
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 09:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BB0390CB4;
+	Mon, 31 Aug 2026 09:05:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788167119; cv=none; b=dY4Iz2Pmg5V6G4e9KrzS7Tlmg0RyHtRFHgUlIoPOxhW1P7AKTkORYOWs7qpp/iRRv5PSpCM9qOxeVAfltV+TmuYbDDuTkyuE625UzTl87ELMykkMVft15gcD79GdQIwtgu5YwRxyjAaOzqKRifRorZY/d6dQhhQenPKw9PQiK08=
+	t=1788167134; cv=none; b=f/wy3Edxw+8vYen4rrlB17NUabywEg4wXghWviUoIsEii8wZnQSi/8viXB/eTMptk4UbEcWTmYbFiuCEpJBVP6bsodYBnlnIVRxAFHNceN/OrL/QESefk/64daEEYbIHyEaW3NQLRVquMkKDOccV2voKw+J0kYH2SgG/yj+DKEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788167119; c=relaxed/simple;
-	bh=YScG/w57QMN1U0nSCx035nXCPjONQGYZg6ecoRdlSNo=;
+	s=arc-20240116; t=1788167134; c=relaxed/simple;
+	bh=Rkg34mbcGeKjBqyhvuPGAUsffhZkwfK2/d/X91jLAH4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dTqO5xISaoo+uqwFXhZoCKAVFHncUTWrVumxr74vR2/zvPprWo4PVY1obBu5wnlF4dsEWK91eXeY+SFobyfN1cQqsWUwOX/qrwl1nHyuCuPbi12FznwJuhEK17zVmv0QEsByMmD+rBe4yjaCQIRgVGElfP+7V7ZxE2tyrAtNcL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=By+Z2eRh; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=OfpnrMvjOMcuzatvtjRprBHEodX99WBumLOn1BIlBvJrZ7XdxDUpWWg3vHAZO+VBiVRDkcP26yFEpQUeg90KFQJTiPH+NNzegqvXzJMuPH5oi/6lPiRBvMfKpCGgvpPtIbgY1h8/0JDnVbRVYhJyF9eO2LQVJUTSsO0vCZkNgmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c6gJ379X; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="By+Z2eRh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c6gJ379X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788167119; x=1819703119;
+  t=1788167134; x=1819703134;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YScG/w57QMN1U0nSCx035nXCPjONQGYZg6ecoRdlSNo=;
-  b=By+Z2eRhZ2gWI2MDTK+neunre+tYUisxFGfQHDyo5bKuOsQJNTLf8pZn
-   xqXgfkSq4dT/5M7O+B/fGrsa5bravFjTxHZShYWy3LYm2o67zMvqmhzXo
-   i6Yaaxpo+nWxXbrD0Q8oxTk0P2v7PMklDglsOyl3NGh3SNCF5FCboIst6
-   v730pSX/vAFxnRioY25bbbXQ3pbKuNnCgaW5el1Lr/nVYwvKAVAvLfznc
-   Tg0vkOPxz37PcNwFZA02GaDRVmuQSVxBgQLU+rpIJl8V0VFgQI0g4mfPV
-   cCnQ8rclKr8tmHxt+5HnBn03lRMUKEvnv3XyTFY7J/1B+5V+OAoThnFCD
-   w==;
-X-CSE-ConnectionGUID: pLb6ZsTCRH2XqGdEkp30sw==
-X-CSE-MsgGUID: FcZzEbKfRwyPoY9ipz02IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="105944718"
+  bh=Rkg34mbcGeKjBqyhvuPGAUsffhZkwfK2/d/X91jLAH4=;
+  b=c6gJ379XvEBbozC6zuYaaZn4J2N/6zzRh4yazNpmhVCWw6Kr2bfMqUCG
+   kweYHpOQEwkhMi19G1OZWsQ2icouWQpkCIGI48aFSKViGrB5GeER0NQ+L
+   rm4TfrgS3Yr9Jx6Hqx/oAjXj9sHgmSkLHIM0qGt4vtFApHiG/oylPkbNy
+   CWujIVHJ1HTOxk1hfQcDQli+uch6RCUKxHBQNW4dMq9jCa6OGl0Alc8kj
+   aZdSwSJH/0J7VF3cEXgn/6+JsVtQOU7bPAW4ypOXmz94fqq/Zi8RqyqSu
+   V7u9haDl5yeg+YLnmHlUUL6fy6miv8AjkaXWbA/WlkZoxeWHw3OFyA8BZ
+   Q==;
+X-CSE-ConnectionGUID: RE+SSEX0QDeM9HWsCvXd7A==
+X-CSE-MsgGUID: sC/b0f5kRhWRZNETToET5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="105944721"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="105944718"
+   d="scan'208";a="105944721"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:05:18 -0700
-X-CSE-ConnectionGUID: EtBS0YjRSVi47AEnVDFwHg==
-X-CSE-MsgGUID: xxNgjCB1S12W+hheERLVOg==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:05:20 -0700
+X-CSE-ConnectionGUID: YM+TaFdoQZSAShyUr1x4pg==
+X-CSE-MsgGUID: CYL/DZbrQ9O1SZUpS1f67A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="266941547"
+   d="scan'208";a="266941548"
 Received: from slindbla-desk.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.244.13])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:05:16 -0700
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:05:18 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
+	Arthur Gautier <baloo@superbaloo.net>,
+	stable@vger.kernel.org,
 	Michal Pecio <michal.pecio@gmail.com>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 2/3] usb: xhci: Fix isochronous scheduling regression
-Date: Mon, 31 Aug 2026 12:04:47 +0300
-Message-ID: <20260831090448.95644-3-mathias.nyman@linux.intel.com>
+Subject: [PATCH 3/3] xhci: fix lost bounce buffers on TDs spanning several ring segments
+Date: Mon, 31 Aug 2026 12:04:48 +0300
+Message-ID: <20260831090448.95644-4-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260831090448.95644-1-mathias.nyman@linux.intel.com>
 References: <20260831090448.95644-1-mathias.nyman@linux.intel.com>
@@ -62,84 +64,136 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Michal Pecio <michal.pecio@gmail.com>
+From: Arthur Gautier <baloo@superbaloo.net>
 
-An isoc URB without URB_ISO_ASAP should be scheduled immediately after
-the previous one, unless it's the first submission or prior URBs have
-completed without resubmitting and the endpoint became idle.
+When a TD reaches a link TRB with data that is not aligned to the
+endpoint's wMaxPacketSize, xhci_align_td() stages the unalignable tail
+through the bounce buffer of the ring segment holding that link TRB.
+xhci_unmap_td_bounce_buffer() later unmaps it and, for IN transfers,
+copies the data back into the URB's buffer.
 
-An HCD_BH driver must consider URBs pending completion in the BH queue
-in addition to its own queue. Regrettably, core doesn't provide much
-information, we can only know if we are being called by completion now.
-This issue is as old as HCD_BH, affects ehci-hcd too and has no known
-reproducible impact, as drivers generally resubmit from completion.
+The enqueue path records the segment that was bounced in td->bounce_seg,
+under the assumption that a TD never spans more than two ring segments.
+That assumption does not hold: a TD large enough to span three or more
+segments crosses several link TRBs and can be bounced at each of them.
+Only the last one survives in td->bounce_seg, so every earlier bounce
+buffer is neither copied back nor DMA unmapped.
 
-A recent patch tried to address it by looking at xHCI HW state instead.
-Obviously, HW has no knowledge of the BH giveback queue either, and the
-whole solution amounts to testing whether prior URBs have been unlinked
-instead of completing normally - then a new stream is assumed.
+The URB still completes with actual_length equal to the requested length
+and no error, so the transfer looks successful while a wMaxPacketSize
+sized hole in the destination buffer silently keeps its previous
+contents. It also leaks a DMA mapping per dropped bounce.
 
-This leads to false negatives when a driver simply allows the endpoint
-to empty out and begins a new stream. New URBs are scheduled into the
-past and promptly fail with -EXDEV status, causing data loss and worse,
-because drivers get confused by premature completion, particularly when
-multiple endpoints are started at once and required to stay in sync.
+Any sufficiently large and fragmented bulk transfer can hit this. It was
+found with a USB mass storage device behind xHCI backing a dm-verity
+target with 512 byte hash blocks, where the stale data is detected rather
+than silently consumed. The device enumerates as SuperSpeed, so
+wMaxPacketSize is 1024, while dm-bufio issues one 512 byte bio per hash
+block. verity_prefetch_io() makes the block layer merge hundreds of them
+into a single request of up to 512 scatterlist entries of 512 bytes each.
+At 256 TRBs per ring segment such a TD spans three segments, and every
+segment boundary falls on an odd multiple of 512, i.e. unaligned to
+wMaxPacketSize. dm-bufio then caches a hash block holding stale data and
+dm-verity declares the metadata block corrupted:
 
-snd-usb-audio underruns the OUT endpoint when userspace fails to supply
-playback data in time. If this is detected in duplex mode, IN URBs are
-unlinked and both streams restarted. OUT underruns again before IN even
-begins, another recovery is attempted and the cycle repeats.
+  device-mapper: verity: 8:2: metadata block 10850 is corrupted
 
-Fix this by using the best criteria we can muster, taken from ehci-hcd.
-This brings false negative rate back to zero and false positive rate to
-less than ever before in xhci-hcd. Traditional logic was equivalent to:
+A reproducer running this under qemu is available at
+https://github.com/baloo/xhci-verity
 
-	if (list_empty(&ep_ring->td_list) ||
-	    GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-		// consider this URB a new stream
+The bounce state (bounce_buf, bounce_dma, bounce_len, bounce_offs)
+already lives on the ring segment, so there is nothing extra to track.
+Keep recording the last bounced segment in td->bounce_seg and, on
+completion, walk the segments from td->start_seg up to it, unmapping
+every segment that still has a pending bounce.
 
-While free of false negatives, it had easily avoidable false positives:
-* no check for completion in progress when the list is empty
-* the ep_ctx check doesn't make up for it at all, but it adds a race -
-  EP state can remain "stopped" for a while after the first submission
+Stopping at td->bounce_seg rather than td->end_seg matters: a bounce
+implies the TD continues past that segment's link TRB, so bounce_seg is
+always strictly before end_seg, and a later TD may already have started
+in end_seg and been bounced there. Walking that far would copy a foreign
+bounce buffer into this URB and unmap it twice. It also keeps the walk
+correct if a TD ever wraps the whole ring so that end_seg == start_seg.
 
-[mn: add debug message in possible false positive case where driver might
-incorrectly assume new stream starts mid stream just because td list is
-empty (URB enqueue is late), and workqueue isn't processing URB
-completions for this endpoint at the moment]
+[mn: Add ring->num_segs check to prevent unlikely infinite for loop.]
 
-Link: https://lore.kernel.org/linux-usb/20260813005635.34750f8c.michal.pecio@gmail.com/
-Fixes: add8469b3e00 ("xhci: fix frame id calculation and checks for isoc URBs")
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+Fixes: f9c589e142d0 ("xhci: TD-fragment, align the unsplittable case with a bounce buffer")
+Cc: stable@vger.kernel.org
+Suggested-by: Michal Pecio <michal.pecio@gmail.com>
+Signed-off-by: Arthur Gautier <baloo@superbaloo.net>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-ring.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-ring.c | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 97a1b53c18ef..9847c5bfc41b 100644
+index 9847c5bfc41b..ec278a9f9540 100644
 --- a/drivers/usb/host/xhci-ring.c
 +++ b/drivers/usb/host/xhci-ring.c
-@@ -4312,11 +4312,16 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
- 	check_interval(urb, ep_ctx);
- 
- 	/*
--	 * Check if this starts the isoc data flow. Relies on hw setting ep ctx
--	 * state after doorbell ring. Consider adding list_empty(td_list) check
-+	 * Schedule the URB discontiguously if all previous URBs have completed.
-+	 * XXX core can't tell if completions are pending but not running yet.
- 	 */
--	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-+	if (list_empty(&ep_ring->td_list) &&
-+	    !hcd_periodic_completion_in_progress(xhci_to_hcd(xhci), urb->ep)) {
-+		if (GET_EP_CTX_STATE(ep_ctx) == EP_STATE_RUNNING)
-+			xhci_dbg(xhci, "Unexpected running ring at isoc stream start, uframe: %d\n",
-+				 xep->next_uframe);
- 		xep->next_uframe = -1;
-+	}
- 
- 	return xhci_queue_isoc_tx(xhci, mem_flags, urb, slot_id, ep_index);
+@@ -824,21 +824,18 @@ static void xhci_giveback_urb_in_irq(struct xhci_hcd *xhci,
+ 	usb_hcd_giveback_urb(hcd, urb, status);
  }
+ 
+-static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
+-		struct xhci_ring *ring, struct xhci_td *td)
++static void xhci_unmap_one_bounce_buffer(struct xhci_hcd *xhci,
++		struct xhci_ring *ring, struct xhci_td *td,
++		struct xhci_segment *seg)
+ {
+ 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
+-	struct xhci_segment *seg = td->bounce_seg;
+ 	struct urb *urb = td->urb;
+ 	size_t len;
+ 
+-	if (!ring || !seg || !urb)
+-		return;
+-
+ 	if (usb_urb_dir_out(urb)) {
+ 		dma_unmap_single(dev, seg->bounce_dma, ring->bounce_buf_len,
+ 				 DMA_TO_DEVICE);
+-		return;
++		goto done;
+ 	}
+ 
+ 	dma_unmap_single(dev, seg->bounce_dma, ring->bounce_buf_len,
+@@ -854,10 +851,29 @@ static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
+ 		memcpy(urb->transfer_buffer + seg->bounce_offs, seg->bounce_buf,
+ 		       seg->bounce_len);
+ 	}
++done:
+ 	seg->bounce_len = 0;
+ 	seg->bounce_offs = 0;
+ }
+ 
++static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
++		struct xhci_ring *ring, struct xhci_td *td)
++{
++	struct xhci_segment *seg;
++	int i = 0;
++
++	if (!td->bounce_seg || !ring || !td->urb)
++		return;
++
++	/* td->bounce_seg is the last one bounced, unmap them all */
++	for (seg = td->start_seg; i++ < ring->num_segs; seg = seg->next) {
++		if (seg->bounce_len)
++			xhci_unmap_one_bounce_buffer(xhci, ring, td, seg);
++		if (seg == td->bounce_seg)
++			break;
++	}
++}
++
+ static void xhci_td_cleanup(struct xhci_hcd *xhci, struct xhci_td *td,
+ 			    struct xhci_ring *ep_ring, int status)
+ {
+@@ -3685,7 +3701,7 @@ int xhci_queue_bulk_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 						  &trb_buff_len,
+ 						  ring->enq_seg)) {
+ 					send_addr = ring->enq_seg->bounce_dma;
+-					/* assuming TD won't span 2 segs */
++					/* TD bounced at least, and last on this seg */
+ 					td->bounce_seg = ring->enq_seg;
+ 				}
+ 			}
 -- 
 2.43.0
 
