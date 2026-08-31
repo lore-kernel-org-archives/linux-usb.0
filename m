@@ -1,195 +1,183 @@
-Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA731DDC35
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 11:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D34A3D810C;
+	Mon, 31 Aug 2026 11:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788177163; cv=none; b=MRuhvYIm0TBeAfbcnMsICiJQ8tO/cwrJvrtHSnI3vxcquv+9JjDX9ZPdXm0j5IRaihz3BgE7opo83wNqcnw//vo6wNI7H9TUb4FBU1TZOYRQRbNSXRCS1ACaZoexfrqNskcQawIZpkRqtVZ0tP82Z2+kGovnnPG8p7AQy5z0T8c=
+	t=1788177499; cv=none; b=fLTxcPc8H9iCVbryIiNhoWiNsrpfNiOf49WEmG6MYYiCyoLi7HC8vuk+Hi/L+Bfs0GqWMCq/JdCsN4EPk/T+LjaGMEqNOM5Oyq2rbgKun1c4l2e/Pfkeyn4JenH8ZNo2QcEzWsCJS15Mp2yJYj0KPx94RFdy8tbBi+zUScT9Mps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788177163; c=relaxed/simple;
-	bh=9n+Mk4K0fIelCSLpqaZBGj1DZvjZ3ipNVua+6/YVvf4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=HQX1Gf4mo4CXFnVGiPPKq7tGb47NTO8zeoIpZLa10aeHbgpyYkz28jSNQJf6k84AKIMyNWk2uH6QDYkZITxyse2UwRgemQmcP40p+f6b3K68mpayTU0ZGRQucSFal4YqvsmnKH+jBjCd3H5qf/POgNzGS/5i+wCaa+OgzD61Ljo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4a4d46eea77so1461213b6e.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 04:52:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788177161; x=1788781961;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bSj+FgCyTCFYNIVCb+6sDGUzWg+oDo2qopxDWPlT5eY=;
-        b=ftbOkwQzv8KJXCfHK2TDYwpUvaxtMI1gvFK3LF+HckxtDBYZh9mbGaE7KQ/xmdo5PT
-         K+jnv2RvTDyDeyNly3/QUJ9d+3+k16yc3h/osoYyuAE8b7A62UGAwNqqkEnY4JVnztlI
-         XjA81R0NIfFk3UESzYFf1ctoE7F0/zPfTR15w5xt0s1EEtT0ITHzWHl16ZO5MLW59dQG
-         FJHA+ATkBZSX4IIHhu7bYaKlYdnjCbUx1AA+foLvD1nkuDOnhjC0gaHWb4VVPW4pohcT
-         gVyQleqmCQ3RKM5beiPZXPqMSUkxJbyr5kAPb1sqbBzbmkHG1HsH3QxdiCJnGlKRGGnO
-         CLBQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoxOAZ3cOUJHvDPJup55DvB0IQAoQfmhxXDV9aVCzdwjlNUqhkB6x6rquyEx45IQU/SeVMYn30p+VQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lIZN2AjB8HrqqBstwXVWtxEo0YCi7Ou/fn0h7tIASxNY+pd1nj
-	RIWv5vX13cl54TA+XjtKmnPJStPQSrdPdCC+Mn/LcV8nrN/jxCRxOvyW5nASH85mlvajPRjYXIN
-	lAmqEbc6mKtQLbnCYy8UNhMwdH7KQSN4iX40kMkMRAVBnQuQ644apXUQJSO4=
+	s=arc-20240116; t=1788177499; c=relaxed/simple;
+	bh=BZM0zPycUPGlC/MQ4i0mFQQT4axjWRXiEB0nk7replg=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=KYYD29nYraQ2cbnCG+ew+YSEhfTyvpvWACplMfoVp8EKlQsJDC0QkZ2QpaPyusv9tcqY9vujG3sEoAR0mFGWWGGVmGgRb0o4jqTddV6IxHKIOKhvdrNhK6NGNbpFOJmPMkEjwKNwo8DktaThekqG2+KG5fbYCJP5DPyGGsB1AA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=TojKNeFL; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=ac1XFzCm; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="TojKNeFL";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="ac1XFzCm"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1788177459; bh=gDgWYp6lSGpR6Fw4ej7gEz6
+	7vDzTKUrZGtKES2IVKQg=; b=TojKNeFLwNuQE6peaoJwLfn1QfCJKAChrpGKoICfFIdi7DNnq3
+	dVEXSHWA9NPUaT4vk+ihaG6QgeF99KKnAgzNAZCeu0pbM1HSTEuMTHsMQOFhODM/QfJa8T4toAI
+	OD7EQpPEmlJO2rc/6ou3ZfY34ZXMBOE4lLop0cdszHfcoA0nmsjEUPkemMjMMiBIKGXPaWFHY5S
+	HwVlGa8MmIbFyOAHnRzlnlLyw1u0j1IB+qyuVkZopn9TmeonddprA8qOF68VKxloLhFF6DNhXmP
+	uHbGZ6I85C8W9uHUwqC80EMrLpeB7U01+eoqMmPNImSshpWh9XVN/Lf2tUqr6CpnCNg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1788177459; bh=gDgWYp6lSGpR6Fw4ej7gEz6
+	7vDzTKUrZGtKES2IVKQg=; b=ac1XFzCm3bZtmJFVyK3OJH9PpZ3CAQjQolLZ639XEusiSiHMQD
+	1GTg+BDw+gi07o+cXflyAPQgZn3WXv4uEDBg==;
+Date: Mon, 31 Aug 2026 12:57:40 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC: Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_0/2=5D_driver_co?=
+ =?US-ASCII?Q?re=3A_add_TAINT=5FFORCED=5FBIND_fo?=
+ =?US-ASCII?Q?r_when_userspace_manually_messes_with_devices_and_drivers?=
+In-Reply-To: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
+References: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
+Message-ID: <9AB1C455-143A-4583-AC25-F6989EADBD6D@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:144d:b0:496:a36:b5e5 with SMTP id
- 5614622812f47-4b398320519mr29397343b6e.17.1788177161159; Mon, 31 Aug 2026
- 04:52:41 -0700 (PDT)
-Date: Mon, 31 Aug 2026 04:52:41 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a956b09.7724083a.12295.0008.GAE@google.com>
-Subject: [syzbot] [usb?] BUG: unable to handle kernel paging request in gs_close
-From: syzbot <syzbot+782b2f1063e38ba8fa6e@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On 31 August 2026 11:51:45 BST, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>The ability to add and remove devices from a driver through the sysfs
 
-syzbot found the following issue on:
+Hello hello hello!!
 
-HEAD commit:    21d6ac051080 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=1128d279580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=782b2f1063e38ba8fa6e
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
+Right, this may not be a maintainer preference, but this patch is well
+needed, and well beneficial.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Please bare I'm on a well deserved vacation, so I didn't review this super
+vigourisly.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/88380e2ddcb9/disk-21d6ac05.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5dba5c2896b7/vmlinux-21d6ac05.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/52ac739e37e0/Image-21d6ac05.gz.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+782b2f1063e38ba8fa6e@syzkaller.appspotmail.com
-
- fail_dump lib/fault-inject.c:73 [inline]
- should_fail_ex+0x41c/0x590 lib/fault-inject.c:174
- should_failslab+0xc4/0x120 mm/failslab.c:46
- slab_pre_alloc_hook mm/slub.c:4539 [inline]
- slab_alloc_node mm/slub.c:4897 [inline]
- __do_kmalloc_node mm/slub.c:5333 [inline]
- __kmalloc_node_noprof+0x10c/0x6d8 mm/slub.c:5346
- _kmalloc_array_node_noprof include/linux/slab.h:1294 [inline]
- __kfifo_alloc_node+0x10c/0x208 lib/kfifo.c:44
- __kfifo_alloc include/linux/kfifo.h:932 [inline]
- gs_open+0x144/0x514 drivers/usb/gadget/function/u_serial.c:636
- tty_open+0x404/0x89c drivers/tty/tty_io.c:2137
- chrdev_open+0x398/0x3e8 fs/char_dev.c:411
- do_dentry_open+0x5c4/0xfc0 fs/open.c:947
- vfs_open+0x44/0x2dc fs/open.c:1052
- do_open fs/namei.c:4700 [inline]
- path_openat+0x21fc/0x2a60 fs/namei.c:4863
- do_file_open+0x1c8/0x2e8 fs/namei.c:4892
- do_sys_openat2+0x114/0x1e8 fs/open.c:1368
- do_sys_open+0xb0/0xe0 fs/open.c:1374
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __arm64_sys_openat+0xa8/0xc4 fs/open.c:1385
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-Unable to handle kernel paging request at virtual address dfff800000000074
-KASAN: null-ptr-deref in range [0x00000000000003a0-0x00000000000003a7]
-Mem abort info:
-  ESR = 0x0000000096000005
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x05: level 1 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-  GCS = 0, Overlay = 0, DirtyBit = 0
-[dfff800000000074] address between user and kernel address ranges
-Internal error: Oops: 0000000096000005 [#1]  SMP
-Modules linked in:
-CPU: 0 UID: 0 PID: 7402 Comm: syz.3.667 Not tainted syzkaller #0 PREEMPT 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
-pstate: 234000c5 (nzCv daIF +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
-pc : kasan_byte_accessible+0xc/0x1c mm/kasan/generic.c:210
-lr : __kasan_check_byte+0x20/0x54 mm/kasan/common.c:573
-sp : ffff800095667300
-x29: ffff800095667300 x28: ffff800088b3a000 x27: ffff0000c9fed7c0
-x26: 1ded8000869306f0 x25: 0000000000000000 x24: 0000000000000001
-x23: 0000000000000000 x22: 00000000000003a0 x21: 00000000000003a0
-x20: 0000000000000000 x19: ffff8000869306f0 x18: 1fffe00034bb7428
-x17: 70202c31206c6176 x16: 0000000000000001 x15: 0000000000000000
-x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000000
-x11: ffff800080156070 x10: 0000000000000003 x9 : dfff800000000000
-x8 : 0000000000000074 x7 : 0000000000000000 x6 : ffff800083655754
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000000 x1 : ffff8000869306f0 x0 : 00000000000003a0
-Call trace:
- kasan_mem_to_shadow include/linux/kasan.h:65 [inline] (P)
- kasan_byte_accessible+0xc/0x1c mm/kasan/generic.c:210 (P)
- kasan_check_byte include/linux/kasan.h:402 [inline]
- lock_acquire+0xa4/0x364 kernel/locking/lockdep.c:5842
- __raw_spin_lock_irq include/linux/spinlock_api_smp.h:142 [inline]
- _raw_spin_lock_irq+0x58/0x70 kernel/locking/spinlock.c:174
- spin_lock_irq include/linux/spinlock.h:372 [inline]
- gs_close+0xac/0x65c drivers/usb/gadget/function/u_serial.c:698
- tty_release+0x2c4/0xffc drivers/tty/tty_io.c:1745
- tty_open+0x46c/0x89c drivers/tty/tty_io.c:2146
- chrdev_open+0x398/0x3e8 fs/char_dev.c:411
- do_dentry_open+0x5c4/0xfc0 fs/open.c:947
- vfs_open+0x44/0x2dc fs/open.c:1052
- do_open fs/namei.c:4700 [inline]
- path_openat+0x21fc/0x2a60 fs/namei.c:4863
- do_file_open+0x1c8/0x2e8 fs/namei.c:4892
- do_sys_openat2+0x114/0x1e8 fs/open.c:1368
- do_sys_open+0xb0/0xe0 fs/open.c:1374
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __arm64_sys_openat+0xa8/0xc4 fs/open.c:1385
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-Code: 17ffffec d343fc08 d2d00009 f2fbffe9 (38696908) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	17ffffec 	b	0xffffffffffffffb0
-   4:	d343fc08 	lsr	x8, x0, #3
-   8:	d2d00009 	mov	x9, #0x800000000000        	// #140737488355328
-   c:	f2fbffe9 	movk	x9, #0xdfff, lsl #48
-* 10:	38696908 	ldrb	w8, [x8, x9] <-- trapping instruction
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+>"bind" and "unbind" files was created all those decades ago as a way
+>that kernel developers can iterate faster, and provide a debugging way
+>for users to attempt to add a new device to a driver without having to
+>rebuild their kernel.
+>
+>This api over the years has been abused and recently come under a major
+>fuzzing "attack" through tools like syzbot which decided that it would
+>attempt to just randomly bind any driver to any type of device, causing
+>loads of unneeded errors and pointless kernel patches to be generated by
+>unsuspecting new developers.
+>
+>Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+>will be set on the driver if the bind/unbind sysfs files are ever
+>written to.  This lets kernel developers "know" that a user is
+>attempting to do something that is not normal, and as such, if the
+>kernel breaks they get to keep the shiny pieces laying around on the
+>floor.
+>
+>The flag is 'Y' which was unused, and can remembered as the user is
+>"yeeting" the device being operated on here (thrown with force without
+>regard for the thing being thrown).
+>
+>Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+>as many times crashes/oops/warnings/failures happen within the callback,
+>and the taint flag needs to be there to show what was being attempted.
+>If it were to be set after the callback happens, the oops report would
+>not properly reflect what foolishness was being attempted.
+>
+>Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+>the tool from hitting bind/unbind, should be run with panic_on_taint
+>enabled so that they fall over and don't continue on, thinking that they
+>actually found a real issue.
+>
+>Userspace operations that rely on the bind/unbind files to work around
+>the lack of will to upgrade a kernel image to a newer version with
+>proper support for new devices, or the lack of will to submit valid
+>device ids to driver authors, will still work properly, but now the
+>kernel will be flagged in a way that will show that perhaps those users
+>should reconsider their behavior and work to have the drivers properly
+>support these devices in a "native" manner.
+>
+>Finally, the bind/unbind files can find real use-after-free issues with
+>some drivers by forcing the process to happen virtually without having
+>to rely on manual removal processes.  Those real bugs should still be
+>worked on, but by adding this taint flag, developers can more easily
+>determine bug reports that are actually worth looking at.
+>
+>Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>---
+>Changes in v2:
+>- rebase on 7.3-rc1
+>- Add changelog text to describe panic_on_taint and how it should be set
+>  for tools like syzbot.
+>- Add changelog text to describe why 'Y' was picked.
+>- Fixes based on sashiko review:
+>  - Make add_taint_module() handle a NULL for module pointer, fixing a
+>    problem with built-in drivers.
+>  - Fix up prototype for when CONFIG_MODULES is disabled so it will
+>    actually build properly.
+>  - rst table header fixes.
+>- Link to v1: https://patch.msgid.link/20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org
+>
+>To: Luis Chamberlain <mcgrof@kernel.org>
+>To: Petr Pavlu <petr.pavlu@suse.com>
+>To: Daniel Gomez <da.gomez@kernel.org>
+>To: Sami Tolvanen <samitolvanen@google.com>
+>To: Aaron Tomlin <atomlin@atomlin.com>
+>To: Jonathan Corbet <corbet@lwn.net>
+>To: Shuah Khan <skhan@linuxfoundation.org>
+>To: Randy Dunlap <rdunlap@infradead.org>
+>To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>To: "Rafael J. Wysocki" <rafael@kernel.org>
+>To: Danilo Krummrich <dakr@kernel.org>
+>To: Steven Rostedt <rostedt@goodmis.org>
+>To: Masami Hiramatsu <mhiramat@kernel.org>
+>To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>Cc: linux-modules@vger.kernel.org
+>Cc: linux-kernel@vger.kernel.org
+>Cc: linux-doc@vger.kernel.org
+>Cc: driver-core@lists.linux.dev
+>Cc: linux-trace-kernel@vger.kernel.org
+>
+>---
+>Greg Kroah-Hartman (2):
+>      module: pull out add_taint_module() to be public
+>      driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers
+>
+> Documentation/admin-guide/tainted-kernels.rst | 52
+> ++++++++++++++-------------
+> drivers/base/bus.c                            |  3 ++
+> include/linux/module.h                        | 10 ++++++
+> include/linux/panic.h                         |  3 +-
+> include/trace/events/module.h                 |  3 +-
+> kernel/module/main.c                          | 16 +++++++--
+> kernel/panic.c                                |  5 +--
+> tools/debugging/kernel-chktaint               |  8 +++++
+> 8 files changed, 69 insertions(+), 31 deletions(-)
+>---
+>base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+>change-id: 20260825-bind_taint-d4077b870bc4
+>
+>Best regards,
+>--  
+>Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--- Thanks!
+https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
