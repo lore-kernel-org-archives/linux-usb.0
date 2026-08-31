@@ -1,98 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD163C108C;
-	Mon, 31 Aug 2026 06:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DBC305664;
+	Mon, 31 Aug 2026 07:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788159191; cv=none; b=lH5dawc2aRSBhB0RQ3GbmF8FiXQUQaJ/RBBu0iXAqRhEH7emTE/bBAfHdjXvFVO72XJu8ElSt7AB1JqORks0loaBApt4va4/yFiUluq5a6lxBgas5MwRMSyriXC+abYWknL66E6XxOBASqoqe/uqeCDMWafjKkAcsqHx7fqIjug=
+	t=1788159907; cv=none; b=qZQu2AvNtQh+eCYJ1fIiIsALO0S8gRWfX+wpW3mr/H8zAIRCsWrZvoVBVr2YOYtelnPgXDrdxIdz+TBRkLBKfVtU5oFBbbZyuzqugSbSsZ9RbaBDDxHuENSVmgTjsU+4h5rR+a5m8FbgGdNY4+Zn6wEixsUtDnsP7+Ba2PUZUi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788159191; c=relaxed/simple;
-	bh=3hnq8MyDBwwGMaWTnhRHK3thPjo7r6kFLSmFUNJfHao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LTGMwx+Llmk1JZddvqzi7RvZJfFky2pEZ/YJr4vPJYQl99Rys79tqQycgw7LRj4WqRdyXZQEg4TNJbdnEKJSUOhIN9iclQfvdRZ2w3yD5w0/riMJjRqvkBgxDa3DgrVuv8g0XXMFkBmUzQXGX6QjsOV4Ka4LvhydudoU4ewezu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rve8clx8; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788159907; c=relaxed/simple;
+	bh=OsT9wSR3yxny15+BmcuiJ+mNDi5s7WDwal1ui55WUS0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MTvWW6+yv0zbz8UGe65HUS+8r6NjCxWhomHq1Ur4HEofuimUXPlbg2xe0cHxOjy9ZukIdGLOvSDJf43dxvhZA2XyY4kSkeJe8wRhgKZS9gIuYAnch/8fCXKFD5XRVGY7SvnlrMWlC9r4NrU8ig3pmq75vHAPv/OY2+6SzUDYtq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=ZM0jHShE; arc=none smtp.client-ip=188.68.63.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rve8clx8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788159187; x=1819695187;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3hnq8MyDBwwGMaWTnhRHK3thPjo7r6kFLSmFUNJfHao=;
-  b=Rve8clx87V7HWDoiEdIovGlCm3x6UtprJ6P/l7avh5j1Mv5PAYhRolQW
-   tkITHdwq6EOCXHSU9X6tIvuKR43uPHkmeq6U1iD94Hhg32ouX4Kbf/+op
-   VIv6O2xqX/27oX9IRAVoFYPAOS4mySbsNWJNytgWHjIuBZK6Hwdu9mSjz
-   AdpkemlLWa7884VWaZN0Nspdx5T//5dmygm1jSEBz4zT4Fvvn9WgqGhLP
-   gMuor9i6jRdp2JOgEhQh2Cbe+mx8K9B8cUB3kVsmfMRRdeIBQ9sr+FoxV
-   tuO+U1SM/96wHxqmX4otjD7rMmZltoiLgax+zUo29/hD25u06k9D/oUHa
-   w==;
-X-CSE-ConnectionGUID: lkA0X8Y7Rli+On9EbWvjCw==
-X-CSE-MsgGUID: paXjSFiJTVCLDrXXWYDGEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92245251"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="92245251"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 23:53:01 -0700
-X-CSE-ConnectionGUID: 7CqDnLebQ6+k9Wki5+SFHg==
-X-CSE-MsgGUID: leAP/HUcTl621WkcSGpKBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="272507811"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa004.jf.intel.com with ESMTP; 30 Aug 2026 23:52:59 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 111A999; Mon, 31 Aug 2026 08:52:58 +0200 (CEST)
-Date: Mon, 31 Aug 2026 08:52:58 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Mika Westerberg <westeri@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] thunderbolt: validate DROM entry extents
-Message-ID: <20260831065258.GC124825@black.igk.intel.com>
-References: <20260813152206.28059-1-pengpeng@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="ZM0jHShE"
+Received: from mors-relay-2502.netcup.net (localhost [127.0.0.1])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4hYKWy6W3wz6F5q;
+	Mon, 31 Aug 2026 08:55:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1788159358;
+	bh=OsT9wSR3yxny15+BmcuiJ+mNDi5s7WDwal1ui55WUS0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZM0jHShE24T+GzkuKdbh4evQfvvlbFUM8Mq8egMD1k+CD32gj0clgIJZm/FmKJNc5
+	 xMBaW+SUBdj3utN4GqSMAhKegD2I9kmFuoz6WHz4OMRSqYryMnao736gFp7+sKNedn
+	 c16AUcUFNLp0I9+QRCU0755p/t0FSafp//n4B4sWLkzjiygfeorWLYEs4DxpRCw8Yl
+	 ywc19pbbhO8sc7JU6caOD8UN4d4Q+8vO2SHHCGCuqkR54R3vhLoAB0sK5sOeZBLdJA
+	 Xj7un0L5GLRaMc49jByFe1fqckdHB/7nVbgqokqkjgRAfCWB1iPhYwz1Stpt/2e/jS
+	 GDypiwKomT/vg==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4hYKWy5nq8z50kj;
+	Mon, 31 Aug 2026 08:55:58 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Flag: NO
+X-Spam-Score: -2.901
+X-Spam-Level: 
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4hYKWv3V24z8tbl;
+	Mon, 31 Aug 2026 08:55:55 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id C6B325FAC8;
+	Mon, 31 Aug 2026 08:55:54 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <64a7ce30-b346-4e94-974f-f30893d66829@leemhuis.info>
+Date: Mon, 31 Aug 2026 08:55:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260813152206.28059-1-pengpeng@iscas.ac.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: fix maximum event ring segments calculation
+To: Pierre-David Belanger <pierredavidbelanger@gmail.com>,
+ Shixiong Ou <oushixiong1025@163.com>
+Cc: Shixiong Ou <oushixiong@kylinos.cn>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Niklas Neronin <niklas.neronin@linux.intel.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+References: <20260828105926.930033-1-oushixiong1025@163.com>
+ <20260830031233.1810986-2-pierredavidbelanger@gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <20260830031233.1810986-2-pierredavidbelanger@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: 
+ <178815935522.2907656.14889156823355571379@mxe9fb.netcup.net>
+X-NC-CID: eiXoVUb+xadsh/1ByZXAYrQjTaBHEI2FtxuHLrDBusnQ1zxHnPA=
 
-Hi,
+On 8/30/26 05:12, Pierre-David Belanger wrote:
 
-On Thu, Aug 13, 2026 at 11:22:06PM +0800, Pengpeng Hou wrote:
-> The generic DROM walker can read a two-byte entry header from a one-byte
-> tail and accepts an entry whose declared length is shorter than that
-> header.  Separately, the USB4 product descriptor parser reads a complete
-> struct tb_drom_entry_desc without requiring that structure to be present.
+> The failure on 08dbfad3f504:
 > 
-> Split those contracts into two patches.  The descriptor check now uses
-> sizeof(*desc), as requested by Mika Westerberg, instead of spelling out
-> the fields manually.
-> 
-> Changes since v2:
-> https://lore.kernel.org/all/20260731141700.3-thunderbolt-v2-pengpeng@iscas.ac.cn/
-> - split the generic entry and USB4 descriptor checks
-> - validate the USB4 entry with sizeof(*desc)
-> - rebase and re-review against the current tree
-> 
-> The series was reviewed statically. I did not test it with malformed
-> device DROM data.
-> 
-> Pengpeng Hou (2):
->   thunderbolt: require complete DROM entry headers
->   thunderbolt: validate USB4 product descriptor entry size
+>   xhci_hcd 0000:00:04.0: xHCI Host Controller
+>   xhci_hcd 0000:00:04.0: new USB bus registered, assigned bus number 1
+>   xhci_hcd 0000:00:04.0: Failed to allocate interrupter erst
+>   xhci_hcd 0000:00:04.0: can't setup: -12
+>   xhci_hcd 0000:00:04.0: USB bus 1 deregistered
+>   xhci_hcd 0000:00:04.0: init 0000:00:04.0 fail, -12
+>   xhci_hcd 0000:00:04.0: probe with driver xhci_hcd failed with error -12
+FWIW, not my area of expertise, but to me it looks like there were two
+similar fixes submitted earlier to address this and "usb: xhci: Fix
+HCS_ERST_MAX conversion" (
+https://lore.kernel.org/all/20260828105926.930033-1-oushixiong1025@163.com/
+) seems to be heading towards mainline already according to Mathias.
+Sadly this missed -rc1, wonder why it wasn't submitted for it to prevent
+more people from running into this, but whatever, that's ship has sailed.
 
-I dropped the Fixes tag, I think these are more like improvements. In
-addition I changed the first patch to use const where possible. Please
-check that it makes sense for you.
-
-Both applied to thunderbolt.git/next, thanks!
+Ciao, Thorsten
