@@ -1,114 +1,132 @@
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [46.38.247.119])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611EE3E558A;
-	Mon, 31 Aug 2026 11:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.247.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660A03F39DC;
+	Mon, 31 Aug 2026 11:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176273; cv=none; b=YnRkOZV5mZDfB5EoPQcaFeeU1UekUYuTGXzmVzSNTpfi16+fsZgY7422tkkUCwlPZiqE6K8mCE/B9eq+gMn4fERoMepgb8PBs8gf0FYKyKDXhhps2g9rwX7lhCVw724ZoMUlPNwa722+v0Uq+Brms1/CZcQ0ZfHXMe4a7UXHaiw=
+	t=1788176326; cv=none; b=iU/a8zYL8bH3mx+wXQeLjBJkS6/p38S4TvbC/3rBs2UGQRs+rt2HxqjNWz5GYtkrRBxQ+LnwB1HkdSc00yrIXTET+sQTkf3kKn8t7wKotvoHToqBknyaKipNDDhxEhgv8+jXZjJkoo+Xjk3S1bawbus3hR7p7h99hB+uWhu+CxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176273; c=relaxed/simple;
-	bh=VD0d3ENv4SdHSRLR5Wrel9flUnCQBQhU5Db+lfkT4fE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g87zW+PsFIoc8OTgLt9O7gqMfJhq9NQ9guNKsmfEMh0FimuFvS1BCs8NYLx6f3rafZToko4xRLmMqzIVp194WhaLOTjwqfB72f1AElwaJaabtx9sNog38xOZo7guo6ua/siI5AoIdLG4IZQ86GmXKn7kyhSsRqlIE+yBNER/lms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=GV0C0x5+; arc=none smtp.client-ip=46.38.247.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1788176326; c=relaxed/simple;
+	bh=nwOFeWvsaBX4TElxo8BKbmKNns0DJdUW18m7d+uWhnc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ThCyoSg+dJiF5q5+ReciUPnNru2X/NV9zgyGAt2MjnlPKauJmydOnSG595rZsJvbqriMo+TH5lkxRFEG73+idldJtwKxT+zsb/saoyn7vJnP0+LA6tcgUSS+9A5DThKhxdNdj7YfWV9MEwiEl5DL9epJLgFjUPrV6aSVqpAIQOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=dfFKL9ly; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=55bSVbf5; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="GV0C0x5+"
-Received: from mors-relay-8404.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4hYRb01TTCz8CD2;
-	Mon, 31 Aug 2026 13:29:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1788175740;
-	bh=VD0d3ENv4SdHSRLR5Wrel9flUnCQBQhU5Db+lfkT4fE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GV0C0x5+ToaUDUU6ofTDHpYNgOk7OZTFn2K8E3B6+IurwW/FE+0/x/xW2awU0XziL
-	 /enRwBOLDaVcQak8LCOyvddF/3VkFqL7qUB9pPQN9Qi5s5mWMvrv18J9bc0IU3dSzu
-	 JN91hgDQQ8cyCLkexbnt9jygEdz3uO7p9hEMJcjYwss0r4In7IUXtlQkX4frHcVU+m
-	 piVc19RavqUgJ9aVP9nSV1PDov1ewUwvHPcJebdNn793o//hxpVqwbDvc1Rcw1P96r
-	 OCjevWDu04lje4UHBWc/BfyEbsPdPtNGjSgqK15BdsXI3QNwQuEuqyffcthkkrTzHR
-	 Jyy0qPc0jb6BQ==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4hYRb00n8kz4y4x;
-	Mon, 31 Aug 2026 13:29:00 +0200 (CEST)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4hYRZy22n8z8svL;
-	Mon, 31 Aug 2026 13:28:58 +0200 (CEST)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 3322B5FAB4;
-	Mon, 31 Aug 2026 13:28:57 +0200 (CEST)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <1c855bb3-2bac-4f25-b97f-3a7436a6291b@leemhuis.info>
-Date: Mon, 31 Aug 2026 13:28:55 +0200
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="dfFKL9ly";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="55bSVbf5"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1788176287; bh=9HqZxXcOW1Xz+TeJ5NTeoxc
+	fysDQipXYrj2AUeLNun0=; b=dfFKL9lyz40RzeiWqHXXOCaIDqgwZ1htZdpeyMaBEy0PvVjJVu
+	O2C8rvt8ORsvG29BGnpKvkeXtTj5EfmADXyEm+lQwzlx9k6in1w6Zi9K25Oa44YfHOd20AMyQnz
+	2vmpKB7Xs4RuacxKM5cQf09axsoKhFz8Zkangyy8N2E3yhUBi1XFtTp0A7qcWqnziXps4jaAxEV
+	nXEqziHG7t6I1zepHtrJ+6zue8J9Siy/+dmCIyFC+rlmBLEo4QFVkazKeZFpHSTbrwcmcziEmJJ
+	wzrzfIKyVY5W7lOonPUnq5W2KEz6WBlkuMyzoyNp4LQGZMZv3Mr/1xr47biUIXcv4fw==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1788176287; bh=9HqZxXcOW1Xz+TeJ5NTeoxc
+	fysDQipXYrj2AUeLNun0=; b=55bSVbf5AvgQD63tjCm5Ti7kRPi24HGf/KR7iTn9Mnol/gUT8g
+	OzzaXlRRf/EfnCdf/4aPiANr0XnCdUJnlNCg==;
+Date: Mon, 31 Aug 2026 12:38:07 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v2 1/2] module: pull out add_taint_module() to be public
+In-Reply-To: <2026083107-gently-leverage-7f97@gregkh>
+References: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org> <20260831-bind_taint-v2-1-1082d631213b@linuxfoundation.org> <2026083120-matrix-waffle-7ee7@gregkh> <A47FDF4A-DA90-4015-AFDB-61CA611F6311@mainlining.org> <2026083107-gently-leverage-7f97@gregkh>
+Message-ID: <F4CE5DE5-66B7-491C-B288-A5666A56FC0F@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: fix maximum event ring segments calculation
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Pierre-David Belanger <pierredavidbelanger@gmail.com>,
- Shixiong Ou <oushixiong1025@163.com>
-Cc: Shixiong Ou <oushixiong@kylinos.cn>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Niklas Neronin <niklas.neronin@linux.intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-References: <20260828105926.930033-1-oushixiong1025@163.com>
- <20260830031233.1810986-2-pierredavidbelanger@gmail.com>
- <64a7ce30-b346-4e94-974f-f30893d66829@leemhuis.info>
- <81ddd491-1ec3-4a0c-90b3-6a286ff1a908@linux.intel.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <81ddd491-1ec3-4a0c-90b3-6a286ff1a908@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <178817573763.3411727.9290102466049313861@mxe9fb.netcup.net>
-X-NC-CID: BacT/202HD0ewFbPir0OZEme2PY2meMvuRND3scEUDBv94a6si0=
 
-On 8/31/26 11:21, Mathias Nyman wrote:
-> On 8/31/26 09:55, Thorsten Leemhuis wrote:
->> On 8/30/26 05:12, Pierre-David Belanger wrote:
->>> The failure on 08dbfad3f504:
->>>
->>>    xhci_hcd 0000:00:04.0: xHCI Host Controller
->>>    xhci_hcd 0000:00:04.0: new USB bus registered, assigned bus number 1
->>>    xhci_hcd 0000:00:04.0: Failed to allocate interrupter erst
->>>    xhci_hcd 0000:00:04.0: can't setup: -12
->>>    xhci_hcd 0000:00:04.0: USB bus 1 deregistered
->>>    xhci_hcd 0000:00:04.0: init 0000:00:04.0 fail, -12
->>>    xhci_hcd 0000:00:04.0: probe with driver xhci_hcd failed with
->>> error -12
->> Sadly this missed -rc1, wonder why it wasn't submitted for it to prevent
->> more people from running into this, but whatever, that's ship has sailed.
-> 
-> Looks like at least QEMU and Mediatek users were hit by this issue.
+On 31 August 2026 12:28:48 BST, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>On Mon, Aug 31, 2026 at 12:14:17PM +0100, Bradley Morgan wrote:
+>> On 31 August 2026 12:07:50 BST, Greg Kroah-Hartman
+>> <gregkh@linuxfoundation.org> wrote:
+>> >On Mon, Aug 31, 2026 at 12:51:46PM +0200, Greg Kroah-Hartman wrote:
+>> >> Other kernel code might want to call add_taint_module() so pull it
+>out
+>> >> and make it global.  If modules are not enabled, this defaults to a
+>call
+>> >> to add_taint(), so all is fine.
+>> >> 
+>> >> Reviewed-by: Johan Hovold <johan@kernel.org>
+>> >> Tested-by: Johan Hovold <johan@kernel.org>
+>> >> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> >> ---
+>> >>  include/linux/module.h | 10 ++++++++++
+>> >>  kernel/module/main.c   | 16 +++++++++++++---
+>> >>  2 files changed, 23 insertions(+), 3 deletions(-)
+>> >> 
+>> >> diff --git a/include/linux/module.h b/include/linux/module.h
+>> >> index 96cc98568eea..0636e0f2728c 100644
+>> >> --- a/include/linux/module.h
+>> >> +++ b/include/linux/module.h
+>> >> @@ -29,6 +29,7 @@
+>> >>  #include <linux/srcu.h>
+>> >>  #include <linux/static_call_types.h>
+>> >>  #include <linux/dynamic_debug.h>
+>> >> +#include <linux/panic.h>
+>> >>  
+>> >>  #include <linux/percpu.h>
+>> >>  #include <asm/module.h>
+>> >> @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct
+>module
+>> >*mod)
+>> >>  
+>> >>  void module_for_each_mod(int(*func)(struct module *mod, void *data),
+>> >void *data);
+>> >>  
+>> >> +void add_taint_module(struct module *mod, unsigned flag,
+>> >> +		      enum lockdep_ok lockdep_ok);
+>> >> +
+>> >>  #else /* !CONFIG_MODULES... */
+>> >>  
+>> >>  static inline struct module *__module_address(unsigned long addr)
+>> >> @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct
+>module
+>> >*mod)
+>> >>  static inline void module_for_each_mod(int(*func)(struct module
+>*mod,
+>> >void *data), void *data)
+>> >>  {
+>> >>  }
+>> >> +
+>> >> +static inline void add_taint_module(struct module *mod, unsigned
+>flag,
+>> >> +				    enum lockdep_ok, lockdep_ok)
+>> >
+>> >And this line is wrong, ugh.  I gotta go get sashiko running locally...
+>> 
+>> Cough cough, Claude code speaking 
+>
+>Nope, no claude running here at all, sorry to burst your bubble.  If I
+>had, it would have caught this :)
+>
+>greg k-h
+Nooooo lol.
 
-Ahh, good to known. And thx for sending one of the fixes to Greg
-meanwhile (saw that by chance).
-> Note that this is a v7.3-rc1 regression which was found during merge
-> window for v7.3-rc1.
-> v7.3-rc1 came out a few hours ago.
-> I can't resolve it much earlier than this.
-Out of curiosity: why?
+I mean asking Claudy to find bugs in the code submitted before submitting
+it.
 
-Just ignore the question if it was something like "real life got in the
-way" or "it fell through the cracks" -- that's how it is sometimes, no
-worries. But in other cases I'd be glad if you could take a few minutes
-if you have them to satisfy my curiosity, as in preparation for a
-maintainer summit proposal I sent[1] I'm just trying to understand
-better why regression fixes sometimes take quite a while from submission
-to landing in mainline
-
-Ciao, Thorsten
-
-[1]
-https://lore.kernel.org/all/75dc0e2d-2deb-4776-977c-1de7c33465e1@leemhuis.info/
+Saves me a ridiculous amount of time.
+--- Thanks!
+https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
