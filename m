@@ -1,39 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC8E3E3D98;
-	Mon, 31 Aug 2026 10:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5E83E1D1A;
+	Mon, 31 Aug 2026 10:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788170773; cv=none; b=Q5+zkn5avZgmjgRAn2C99WDcfo8VnDcgMqkm7zWf+GT01V2b4U/S6iV6+EUPLY9gQeaHGsIdvh7XAscA74fCoeq9wpwRd9oc0z4TOlD9PHmNrrZCEsd46/uqiQvrVmH9ZcuOe5bTx1w0dMONeDYD66zJP8bbRZ2OKgFf/I7t/08=
+	t=1788170883; cv=none; b=mRp9ptuZAiuTD9UhE18C8SqjHjcZ+mUmVEhFs/89TSaSI1BgIHS5cA+jEXQLFJsFQl2wcam0AAdjyXrO4sF7V0PYlZmced/77hpLcVvGxdOvyh7JTz7d77+NLKPzHiA4GXboSWnq8IQzXJ2+xgOJd2Nub+nV4ajnBkBl30DjPa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788170773; c=relaxed/simple;
-	bh=yeCRA2/V9LS/s6wg60R85OsMNtm1dn7vIhbMQA3Hb1A=;
+	s=arc-20240116; t=1788170883; c=relaxed/simple;
+	bh=gdC8+zZj8xqksi8xV2M9KEoqdzn/PVKaelTTjmIIjbc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MwacD+NqNRernpj9EA+E1Uc6mvGt5hBcBMlYctQd+4eeZ+gvHXVeJ2GIEzi9NT6tww1/H8G23fc1sZ76GV/C5tcpJXk695HtuVgeRLfapS/dcX9T84sG2TA3hgvuGYAO7Y0uSakJ3h7+rkAWXdDVUBNa66r25tWA70om1UN1zQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MJsFwI3n; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VxVpBWM8G9GAHOMoX4ttGyX/8xBtoQoB3JBXKWsVzDZsmHaOSCdME5BAQnRqWKPoZLOOXuRGZEn7dnHgNCgoYM8gML96Mh/LgN5zu5sWaNP0I7PgvwuIuQsw0GX6a5f7cGkSOrecTRdDZHo7sV5Sos0qaWnEvXlX3ps8xkMs9kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maRehGDK; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MJsFwI3n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD3491F000E9;
-	Mon, 31 Aug 2026 10:06:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788170772;
-	bh=za4IgtL+rR/4ElpkiV708a34ozd17nbELld5eOh+Xr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MJsFwI3nKHZiXSDAZ+XOkPj+AtcuTevxCEYZppotC51bD4OeKanJmOLinQl9zUDkh
-	 no9RTz8eoNhLv9Cx3PWZs+ZtOA9O3/kdQ6VzQGmYPxlsJHLUedQ5+7Hxpz3AJwwj0N
-	 2nmjdFLd9szVioxyfDnuEimaUt3o6qUt+q659tkQ=
-Date: Mon, 31 Aug 2026 12:06:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me,
-	yuyang.du@intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3] usbip: vhci_hcd: let the driver core manage the sysfs
- attributes
-Message-ID: <2026083154-choice-platform-51c9@gregkh>
-References: <20260816061034.17769-1-kartikey406@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maRehGDK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788170882; x=1819706882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gdC8+zZj8xqksi8xV2M9KEoqdzn/PVKaelTTjmIIjbc=;
+  b=maRehGDKYhzXK/p1quUTRi8aRF5s26ZQmUyAYUGeddlujzuyjZP/KMtZ
+   KUo6U2EwfjrUTM35InI9rDSCfY7uKRg4I12R4UFH4Q/tnfDHEOhdbtPmo
+   MpCel6tGo1x+InLnMcQH0T1qiMUPFopy+6Hb0n7Wv5K0efAnF1Yf9BfD4
+   6fVcAKFNmEjRqN9rEQDP5jw0RdRiIcfyQ+jh+5/tHMYkWgBKbO78CbmFA
+   pkoITSL1nnOtU8jFAdM2dcZBaDbKyMMY4llJJqBiiBQ1Oehh6Xa5NqY5E
+   1P/dW3ykIjGxkQhOTzsHYnTTlgutwN/MWHC2hvTHmyeni/TWPoesufMGV
+   A==;
+X-CSE-ConnectionGUID: UefWSWEXSveFF/IYnK3wPQ==
+X-CSE-MsgGUID: OnSwjWwqSU60qaX7f5yzyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92385487"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="92385487"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:08:01 -0700
+X-CSE-ConnectionGUID: jm0IokuQR32G/UH55DpHHA==
+X-CSE-MsgGUID: 72RwjEvERj+fA3hoAivfNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="265513815"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 03:07:59 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id BC48C99; Mon, 31 Aug 2026 12:07:57 +0200 (CEST)
+Date: Mon, 31 Aug 2026 12:07:57 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 2/2] usb: typec: mux: gpio-sbu: enable when only used for
+ orientation
+Message-ID: <apVSfbfIDbkx3eCT@black.igk.intel.com>
+References: <20260825-usb-fusb340-v1-v1-0-2191179b0661@foss.st.com>
+ <20260825-usb-fusb340-v1-v1-2-2191179b0661@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,37 +69,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260816061034.17769-1-kartikey406@gmail.com>
+In-Reply-To: <20260825-usb-fusb340-v1-v1-2-2191179b0661@foss.st.com>
 
-On Sun, Aug 16, 2026 at 11:40:34AM +0530, Deepanshu Kartikey wrote:
-> The vhci attribute group is created in vhci_start() and removed in
-> vhci_stop(), guarded by usb_hcd_is_primary_hcd(). Both run from
-> usb_add_hcd()/usb_remove_hcd(), which are called once per hcd, so the
-> attach attribute is live while only one of the two hcds exists: it is
-> created during the first usb_add_hcd() before vhci_hcd_ss is set, and it
-> survives the first usb_put_hcd() on removal. A concurrent write to attach
-> can therefore reach a NULL or freed vhci_hcd_ss.
+On Tue, Aug 25, 2026 at 02:54:24PM +0200, Fabrice Gasnier wrote:
+> When used as orientation-switch only (no mode-switch, e.g. no altmode),
+> the optional enable gpio remains disabled.
+> Enable it from the switch_set() routine, in this case, when the
+> orientation is set and the enable-gpios property has been provided.
 > 
-> Register the group as dev_groups on the platform driver instead, so the
-> driver core creates the files before probe and removes them after remove
-> returns, and drop the sysfs_create_group()/sysfs_remove_group() calls from
-> the driver. The attributes have always been created only on vhci_hcd.0;
-> an is_visible() callback keeps them there.
-> 
-> vhci_init_attr_group() is moved into vhci_hcd_init() ahead of
-> platform_driver_register() so the group is populated before the core
-> reads it. The attribute array is still built at runtime because the
-> number of status attributes comes from CONFIG_USBIP_VHCI_NR_HCS and the
-> preprocessor cannot emit a variable number of __ATTR() declarations.
-> 
-> Fixes: 1c9de5bf4286 ("usbip: vhci-hcd: Add USB3 SuperSpeed support")
-> Reported-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=8753715f05759f1a10de
-> Tested-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-> Link: https://lore.kernel.org/all/20260815143427.19066-1-kartikey406@gmail.com/T/ [v1]
-> Link: https://lore.kernel.org/all/20260816015051.13184-1-kartikey406@gmail.com/T/ [v2]
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
+>  drivers/usb/typec/mux/gpio-sbu-mux.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/mux/gpio-sbu-mux.c b/drivers/usb/typec/mux/gpio-sbu-mux.c
+> index 1834f1a2dd9d..4151d78e3b8d 100644
+> --- a/drivers/usb/typec/mux/gpio-sbu-mux.c
+> +++ b/drivers/usb/typec/mux/gpio-sbu-mux.c
+> @@ -17,6 +17,7 @@ struct gpio_sbu_mux {
+>  
+>  	struct typec_switch_dev *sw;
+>  	struct typec_mux_dev *mux;
+> +	bool mode_switch;
+>  
+>  	struct mutex lock; /* protect enabled and swapped */
+>  	bool enabled;
+> @@ -40,9 +41,13 @@ static int gpio_sbu_switch_set(struct typec_switch_dev *sw,
+>  		enabled = false;
+>  		break;
+>  	case TYPEC_ORIENTATION_NORMAL:
+> +		if (!sbu_mux->mode_switch)
+> +			enabled = true;
+>  		swapped = false;
+>  		break;
+>  	case TYPEC_ORIENTATION_REVERSE:
+> +		if (!sbu_mux->mode_switch)
+> +			enabled = true;
+>  		swapped = true;
+>  		break;
+>  	}
+> @@ -125,6 +130,8 @@ static int gpio_sbu_mux_probe(struct platform_device *pdev)
+>  		return dev_err_probe(dev, PTR_ERR(sbu_mux->sw),
+>  				     "failed to register typec switch\n");
+>  
+> +	sbu_mux->mode_switch = device_property_read_bool(dev, "mode-switch");
+> +
+>  	mux_desc.drvdata = sbu_mux;
+>  	mux_desc.fwnode = dev_fwnode(dev);
+>  	mux_desc.set = gpio_sbu_mux_set;
+> 
+> -- 
+> 2.43.0
 
-Did you forget an Assisted-by: tag?
-
+-- 
+heikki
