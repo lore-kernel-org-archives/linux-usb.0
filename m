@@ -1,166 +1,191 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E543CF021
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 09:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788166964; cv=pass; b=E+TVgA3Qfn/jJMhSFI8/55YPREVEg5Xfr79bWfHKSXRsVkWEoF6wi0M0UmEx3bf1vXjvfyzed8JWbCbBWIWuU0PObL7oXF03JBDHQb/qUfhUwN5UrvPFnUe+rQT1l4v+qRa7VspQRsrBAgC3xDbzrVBaSuLk61doOxsitYS+/i8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788166964; c=relaxed/simple;
-	bh=3ExR3fMMoBIjoHcxh1zhm4q4KVLaLv8xDMILL6sUfL8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=GhablJrpa2jD9p63VkbuXZNIk3nOV5Ty0257Mf8iCKeq/kDl6CW26YkQ1qgNBs42YTBASGp+o23D76E0fUR1eyj16nGqAJpeGs90IxnIT22fYoAGvhJBQoq/4TI8suzwWA/FtuavQzbyCkc39R8vIF7hHLPTwzpyWUNpMFZR0uU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LdYV/mjV; arc=pass smtp.client-ip=209.85.222.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77372EACF2
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 09:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788167012; cv=none; b=FbqdnZuRMWQU0oAT9MzaqvaHrEohktIDXL5uNpIIMz7bvQ6Hyr0NxbAWGX+PmTZZaJi6cB6Jj6iDOv9LfIb+tSfZl3+6j9YfPNUbiJBZu83cGDNRH64avwo4KNMQo2JG51gfra9z0xIMsNuwI1gSb6ixSbmM/NkBnGeaxZ8gAQc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788167012; c=relaxed/simple;
+	bh=cCYOKZeBS/lMwQ4fkmgbGwz6LHn0Xx/xObKqYLjoD1U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EsrLX0gt5SAMKS/rVOX+NRncGXFNXi5RSDy4vzwYqQ+hEqQxESetuG9uRT7RZ8hbY1YGZA9Y81H6dwEX6YO7TH/MAWBSrSNqpQsiv/hr7rwGwEtGhHnfSVXEmHueP4aiRyLatL4jZWCB1tUl2RobpCTyn7McGvR4O9N8RuoxQp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QVzWV3b7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=b8HyEZUi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LdYV/mjV"
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-966eabad303so611896241.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 02:02:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788166961; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IT+EhzNXRncjQpdYobCmRlhXzXNLi2T24Zqg0MEhqX2uJVDSMpqS0nnaCJZ8W+9Exl
-         WQdLRjHD7jxVXOE+QulUy2X7aHyePtUmJfLFGbRcUN4JYIof6A6S+zv4NzEmeWkZAZv7
-         wUsqzG1BrPQ9u5NbBP1kh1z8UXpervQ7MEyaHjH6SFntAJtJMhyer5PvkAd68Mmt/vSS
-         nbjiqZ9YGFmBWYKe6CfAp8rZMGHMUV5Lco8u9WpaDjdysau8nCpR5xSIXdiyGn8A8MPV
-         T0iFyFcD3iA39fxs8cLWxCLIwx7sqbkJVgw1eEuCSZxfHEdEbC/zlj+9k/DlSjYVutGN
-         gtdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=3ExR3fMMoBIjoHcxh1zhm4q4KVLaLv8xDMILL6sUfL8=;
-        fh=2/nIcGvuOWS6+foSyyyeEmiBl7fjI2LzXwnnT0CFFT4=;
-        b=HKTY3wJZ1vqPazz26z8IZu+FArktNtz5BGu0FLWefGJZFW9Cj7v/ANQ7gpfwYnIwtM
-         N6TVLDbIwca8q1R5+5OYpGcKsDlMh/sFfwfd2k8hTxzaCiRvlURmfHkIgD7mTFrg+DSL
-         FSIrbIaAnfbn/76QJ2sMZFSBcN6qLciZS+LzbNR/yNKOWEK8KSBHUnSPq6kd2t1PPkDC
-         PPduO4hYdAaobbDn+y7Gq8bdj1D8Zd5nZprLqMc0+o89fFSEYxvMJrclrMIhQmXtNA8R
-         u//c+Cm2QAFZLhqzKhTbJOTZvQb6yFCk4ROau03/DsXuZ7hwgNsi54appCRZ6sA8zcKc
-         rLtQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QVzWV3b7";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="b8HyEZUi"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67V7xeTf2824427
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 09:03:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WcP6LHGWxJXPulKdHOrCQk5ulFe7xWTVCyIQ7SbYJ0Y=; b=QVzWV3b7f0/LbpT7
+	Ryhm2IAWsxJmMrtvlqOOkNuWF8eqSTntTIxhMlpmZiHLcngNU8A1dSXZOdhlRli9
+	9P8UrTElSmH323Wa6UyEGgwFVvLHebOAvMvG8n535LPjm9tPkwi76DHQ1NGZulr8
+	BCvIIkx6Ey/f9Ayq96/sIe++FYjQ/W1K28LaH4VWq7xydTH+N7CZrCJ+7epQQQol
+	C4ttKqMiNgTDcO9vi5r3WBkMs0RaEy1BBlP+7+NHq3+8fo8a6m+ffrKVPZixUKpl
+	R/UIrqXE8dGMCRpXxiKm7y/uWsq4Dcc6J9Rxv/L80s85aEwEldn1P750nVcNAQ5/
+	qqCySw==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gbqe2dkw1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 09:03:29 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e7ff7b375so4462267a91.1
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 02:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788166961; x=1788771761; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3ExR3fMMoBIjoHcxh1zhm4q4KVLaLv8xDMILL6sUfL8=;
-        b=LdYV/mjVLjXZ8vdGM+ItZsPuWqgtLfGp9u1DactcSvsfa+rZsmh2DgriMrhpk+1lln
-         VnotjlfsUtWdU7kqWhfMZSQVkSeP7WYJ9GdZhz/kgHlQ++DGbRHXrJobmKfdMEn9k8gx
-         y1d6HsCTM6ziSZ2hdEwYHGY34QZjYVfaGvDLS/4K5kzaXVC7VQ1DLc1t4Wv6grpxIRV6
-         N6qT1BJBp+yhG1HIfOfL/t15bM3PmjSJnhBxeBQwN7/bZYtdsKve2WieWnySkRg3mO6q
-         cPQ09JzOI4G5vn9jE14I5N4VI/6gQiw7dkmhojXojbv/WDzmKq3iClQM6CqDvl/ZAY01
-         xR4w==
+        d=oss.qualcomm.com; s=google; t=1788167008; x=1788771808; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WcP6LHGWxJXPulKdHOrCQk5ulFe7xWTVCyIQ7SbYJ0Y=;
+        b=b8HyEZUiE2Lq9LyuM6q8GaL1hzGES+JodXu+/rx4uPOURQU7vwkrEILtb//+PlbCJm
+         TJQu5n0oi1lHpaU3gU4DsRUv9rf0RDFI0Wjx4hD1+ms+GYG5V6xnjNMF4PmNi0guFfqq
+         e4KuNJ7E+kYzySpZTwADTJr7jQHzv7P124KBACWT+tO/fNMPPr8o5lK/1J6g60dkRb0t
+         hQXdSeT60bLojaNk5hw5VLlBQocq5KxnSXNPq39zgP7abNwc4HkuelR16MUl1gQM+Igt
+         tnsXdIpBaIi7TwZH8s1Bu+uu7WIh6vggyravDeKXIBZjba2PnVSlLRWenRtnYMavRfIP
+         0hNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788166961; x=1788771761;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=3ExR3fMMoBIjoHcxh1zhm4q4KVLaLv8xDMILL6sUfL8=;
-        b=E2Kql0B6PXgsdzv3PbRJUAwBehyAQF50xVBfvNx9rXvCcIOBwgF7rdrtNn7POjYMSv
-         uQzQweUFFPsoZ/PQedWK1k/13sUwdAK+9XGcCDbfq4w+lgQx2LQMwTHG2wKwVRag1EFS
-         EpKqf3z3VbbzYHwrA1ZzzsWbT1P30dIs8Y93Ga892T3F5SbczwX1zLXxRHtjkfEoGFMM
-         2GfmM7EfJ1LCdjHqXtTjT13VSwS1DLKR0EX0E7lTbotW66tN5Oykyn6zvO9c9RBjO04u
-         YVFuKJ1Ky9AK3x878zPtJ/R16lef9YWem+/vdJOma8VqgdSYwsRdbwGjxUqLQsbMHBiK
-         rmUQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrYge4ShHkBNew00L5YGyWkGC/DT+9mA7FNz/QcLIMroDEO47YIF2iGFPnQL75U1gYvSbLiVoCRoHc=@vger.kernel.org
-X-Gm-Message-State: AFuF++nzGEq61Zff0MJEkDvdV/oPqq/c+lLftraJXZwLLKaI5sfDTIQU
-	wTPFzxXs3/wu8IOI3+SP/a276SHHUtQWrWdXcJdI1y7R8C9xPMbtyVpXDYMl0MaE0yMLCgrkDR+
-	YsEDEqWXXf8z8FvLAU20C/nhNonpvNB0=
-X-Gm-Gg: AR+sD12uz1I1yJX5AQS39OuV2vg32UpJsRnwjKGlFbWlVkeB7MyKzlmHI0YkH9NpIRF
-	wHH/3HuvNl5jeBEfBqsryTv8qLdrzw2iW3Q7kXbOlajejD6y3+Fii6nD81VJQOQF02ltu0UW2nD
-	W+sEFXxIPADhyl2bnLSJFG4DeZmFWXbQtSwmDggpUFxETmj6Owbm1+KBfRZO81uEwk/vTclikej
-	9QJJVf7TSBzPqjXUjEXwLWxDvtZD+MsaNeZVEChhzh+PPsfjTFy3Z1bIXohPOUDztBoREPx8S9+
-	0vsYiHqmKQbbPFrmCt3gVJlCvq5mYY+MA1TeibulpFwtBb9GdhlXA8yrFUAoxMbVEv4Trdhdoiy
-	l
-X-Received: by 2002:a05:6102:6b02:b0:786:7a59:a313 with SMTP id
- ada2fe7eead31-7867a59b4admr5270861137.13.1788166960753; Mon, 31 Aug 2026
- 02:02:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788167008; x=1788771808;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WcP6LHGWxJXPulKdHOrCQk5ulFe7xWTVCyIQ7SbYJ0Y=;
+        b=OIfg0G1ECcbfPPHHhtZJ/cmeT7fuBicWCy/DOHEkXKHELwXfvreJCsW3EwUhqfaHA1
+         6pg13zid18AWoaZGu51ubqUT64cAY1HXbIphkzkTTaOMt9FuWBbaCkVHm4ZGmGEomSlw
+         vpt5OSiK3jDrMzHaXBnSVuoesQj2w+Kka3SwCz7gT6yc04MM5TwJ7i4lR++N1h2tFj3E
+         cfYmsMAYL0K1dBIlGfMQVOdK39hnRNUYlRIaZYGLTC9ULbiS8g8hjnBVVqAUmY8RHCPV
+         wn0WqTjDQO/agiDfcznOmbk8XQT9mQXLLSFEDi139xeIlJc2smkid7ddg/E6i0VYYIBc
+         sxbA==
+X-Forwarded-Encrypted: i=1; AKwUvBxdco6R/Y+kTkW8ub2lP33pYKRXaC58+nKRdbBglfXU/vd+U8HjNWkKnQgeC1wAnSa7/ROjqgJMRr0=@vger.kernel.org
+X-Gm-Message-State: AFuF++l9UP9MXKUqFZGbDDX6E52fEtvKREx7+WGdFZLAoBGRqOHpcGPs
+	fQo01ZOorxjGjkMnsyF4KitQeQ2tyGTt6n9yWPb6fQX23sH27vFYVFpDTjux1EhyQiKIBkBEYi7
+	Hi6F/9nL7kG9smlatEHHmK1J8zNwOW/YzragUJ4htNub33pr/qiYIKAlrE+7h5mo=
+X-Gm-Gg: AYBFou0/CQbyV028kHf9FPLitzfL7RoLo+tX5pFCbD3UoF09gpEahJ3pN0qswfTmO7z
+	PPPdZ15IxQnN9Glyvl2eCY/gnFJzPe/1ycgmRJHhpWj2iHFhIoUlUM2PYxXBFTjiveQyGSU0pL3
+	X9n4nSfCcTHh/OQV+BevYUZhF5rXSHYsB7DQJ1LZiQMAT+8GjjpefVwJisjpYkKJII3/K1wc6Hy
+	1bTtH5zvj1k2DYunlBixq5qytlIgXdm2J2c80tfD2y4GLqHHHe2wct0tF0h/vK2fkZk9KuHdNSX
+	6KdDJ1fIiwVMM26Oo1ego6dX5qb8ZrYz0q6iQ7OqOqppM06qQFST1y8UjZ3oUOK7uNxpGxa6LTU
+	X7mkql7t3TI2AARPvE6fJ10tNC6cooo2Oi2phggONdIAX2nZgmJmtFHeW9gQo3I1hoA==
+X-Received: by 2002:a17:90b:48c5:b0:398:9be9:ab8c with SMTP id 98e67ed59e1d1-3989be9ac97mr25276755a91.17.1788167008027;
+        Mon, 31 Aug 2026 02:03:28 -0700 (PDT)
+X-Received: by 2002:a17:90b:48c5:b0:398:9be9:ab8c with SMTP id 98e67ed59e1d1-3989be9ac97mr25276413a91.17.1788167007386;
+        Mon, 31 Aug 2026 02:03:27 -0700 (PDT)
+Received: from [10.218.1.199] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0d1abbdsm24522102c88.2.2026.08.31.02.03.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Aug 2026 02:03:25 -0700 (PDT)
+Message-ID: <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
+Date: Mon, 31 Aug 2026 14:33:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Xianying Wang <wangxianying546@gmail.com>
-Date: Mon, 31 Aug 2026 17:02:28 +0800
-X-Gm-Features: AcwNN1UYUKNXvyzXxNd3uzBU6aOxy9y0vnIIBO47B42osXy7lz1NmALa8IU2wEk
-Message-ID: <CAOU40uBQG6_o+wU7UbWgRzZq4865QmLfJBdK0RP+iqLNy7Q8ew@mail.gmail.com>
-Subject: [BUG] usb: gadget: dummy_hcd: general protection fault in
- dummy_set_selfpowered after unbinding dummy_hcd.0
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, kees@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding
+ for non-MP controllers
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260828081542.52796-1-krishna.kurapati@oss.qualcomm.com>
+ <20260831-messy-ebony-warthog-cfd727@quoll>
+Content-Language: en-US
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+In-Reply-To: <20260831-messy-ebony-warthog-cfd727@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Iskutr/g c=1 sm=1 tr=0 ts=6a954361 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=qatax8_Rp1FOiZlDYp0A:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-GUID: 5Ls0q-XEq6EHyDl4DbikI6clAi-T_MRo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMxMDA3NyBTYWx0ZWRfX4eCuH3TWRTOs
+ cHFNiPqvy3TNcnn5Y9uydVwLd/b1I3euiATgNjDRJflQElP9bT/8QrwwlBbrKktYtHxQ7a5G2Lj
+ 99YKnbkshgSePFtWEIpO1kCS8IVvO8QwQIUWAj5Ww6oUw+nW9tTA+xwTtjMb/yz1ywTZqkgNiKZ
+ G/cTvyNMYGYwvFyICh+VnhsBRaFqzxXOkzVXKDDd/7ZVVH5rILdY2kpxOAA8OnI5S9LDdlYr3Yq
+ uKXGa9fIHDMBtePJF9C2oNOev9Y+ANwr8aN18ECdXOu/o8eNZ5O3Rre7qbz4eN7egyx0oL2wsE5
+ 314/fxQzz978CJPTprBsvT0jlxBjvtjVuJvkrME9xiTRpxm2w6dYMYHZTLXRAQVc12ynQE4teIF
+ 9cJ0P/90JtBQi6fd/sodB3B+SPY1a8bcVUmSQRWWAhsM78lZ2UoaWFNKwcZrTCFySWrX+fBMUS0
+ wt6IvIPIrevPAFxhu7w==
+X-Proofpoint-ORIG-GUID: 5Ls0q-XEq6EHyDl4DbikI6clAi-T_MRo
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODMxMDA3NyBTYWx0ZWRfXz6RW+IhsjaA9
+ iJuAR5GnLN8jyx5sYPJyDJ1h5BFpSG0F/PoX0HamqUfGMEjgIHDk5A7BS8nucLdDvBKKzdW8Wuo
+ YLCDa+4W/xLYp5KJWg1RYLEevsaUqaY=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-31_03,2026-08-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608310077
 
-Hi,
 
-I would like to report that a previously observed
-syzkaller-triggerable crash is still reproducible on Linux 7.2-rc3.
 
-The reproducer first unbinds `dummy_hcd.0` through sysfs, after which
-the kernel logs show that the dummy HCD/UDC instance is removed and
-the emulated USB bus is deregistered. It then writes `dummy_udc.0` to
-the gadget's `UDC` attribute through configfs, which triggers gadget
-binding.
+On 8/31/2026 2:07 PM, Krzysztof Kozlowski wrote:
+> On Fri, Aug 28, 2026 at 01:45:42PM +0530, Krishna Kurapati wrote:
+>> Currently for Glymur non-multiport USB controllers, number of interrupts
+>> are limited to a maximum of "5". Either hs_phy_irq or ss_phy_irq are to be
+>> present.
+>>
+>> Mark glymur non-multiport controllers to support a maximum of 6 interrupts
+>> including the hs_phy_irq and ss_phy_irq.
+> 
+> Why?
+> 
+>>
+>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+>> ---
+>> Changes in v2:
+>> - Modified commit text indicating the issue in max interrupt-names for
+>>    Glymur non-mp controllers.
+>>
+>> Link to v1:
+>> https://lore.kernel.org/all/20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualcomm.com/
+>> ---
+>>   Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+>> index ea60f7220afe..3bef18f9557e 100644
+>> --- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+>> +++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+>> @@ -524,7 +524,6 @@ allOf:
+>>           compatible:
+>>             contains:
+>>               enum:
+>> -              - qcom,glymur-dwc3
+>>                 - qcom,milos-dwc3
+>>                 - qcom,x1e80100-dwc3
+>>       then:
+>> @@ -547,6 +546,7 @@ allOf:
+>>             contains:
+>>               enum:
+>>                 - qcom,eliza-dwc3
+>> +              - qcom,glymur-dwc3
+>>                 - qcom,ipq4019-dwc3
+>>                 - qcom,ipq8064-dwc3
+>>                 - qcom,kaanapali-dwc3
+> 
+> This changes the ABI without an explanation.
+> 
+As per the harware specification, the controllers do have both 
+hs_phy_irq and ss_phy_irq. Hence wanted the binding to capture that 
+info. Will update the commit message accordingly.
 
-During the bind path, `configfs_composite_bind()` calls into
-`composite_dev_prepare()`, which in turn invokes
-`usb_gadget_set_selfpowered()`. This reaches `dummy_set_selfpowered()`
-in `drivers/usb/gadget/udc/dummy_hcd.c`, where the driver obtains the
-backing dummy HCD from `gadget_to_dummy_hcd(_gadget)` and dereferences
-it. At that point, the associated HCD pointer appears to be NULL or no
-longer valid after the earlier unbind/remove sequence, leading to the
-reported KASAN null-ptr-deref / general protection fault.
-
-Based on the call trace and the reproducer flow, this seems to be a
-lifetime/state validation issue in the dummy UDC path: after
-`dummy_hcd.0` has been removed, binding `dummy_udc.0` is still able to
-proceed far enough to call gadget operations that assume a live
-associated HCD.
-
-This appears to match the previously reported `general protection
-fault in dummy_set_selfpowered` issue, and I am sending this report
-because it is still reproducible on 7.2-rc3.
-
-Thank you for your time and review.
-
-Kernel:
-
-HEAD commit: 1137d8b5df06137fb49513cc923b3b24d94cb809
-git tree: torvalds/linux
-kernel version: 7.2.0-rc3 #1 PREEMPT(full) (QEMU Ubuntu 24.10)
-
-report: https://pastebin.com/raw/ncMhmiK0
-console output :https://pastebin.com/raw/1TSvPDWW
-kernel config : https://pastebin.com/raw/fBXuYyvu
-
-Relevant log:
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 1 PID: 5928 Comm: syz.0.17 Not tainted syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine,
-BIOS Google 07/24/2026
-RIP: 0010:dummy_set_selfpowered+0xbb/0x150
-drivers/usb/gadget/udc/dummy_hcd.c:905
-
-Call Trace:
- <TASK>
- usb_gadget_set_selfpowered+0x6e/0x230 drivers/usb/gadget/udc/core.c:578
- composite_dev_prepare+0x2fa/0x320 drivers/usb/gadget/composite.c:2464
- configfs_composite_bind+0xa1/0x13f0 drivers/usb/gadget/configfs.c:1699
- gadget_bind_driver+0x2b3/0x770 drivers/usb/gadget/udc/core.c:1651
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x247/0xae0 drivers/base/dd.c:717
- __driver_probe_device+0x1f5/0x390 drivers/base/dd.c:879
- driver_probe_device+0x4f/0x420 drivers/base/dd.c:909
- __driver_attach+0x444/0x6d0 drivers/base/dd.c:1295
- bus_for_each_dev+0x235/0x2b0 drivers/base/bus.c:370
- bus_add_driver+0x340/0x630 drivers/base/bus.c:723
- driver_register+0x23a/0x310 drivers/base/driver.c:246
- usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1730
- gadget_dev_desc_UDC_store+0x1c7/0x2e0 drivers/usb/gadget/configfs.c:300
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x312/0x400 fs/configfs/file.c:229
- call_write_iter include/linux/fs.h:2018 [inline]
- new_sync_write fs/read_write.c:491 [inline]
- vfs_write+0x474/0x9a0 fs/read_write.c:584
- ksys_write+0x151/0x260 fs/read_write.c:637
- do_syscall_x64 arch/x86/entry/common.c:46 [inline]
- do_syscall_64+0x55/0xb0 arch/x86/entry/common.c:76
- entry_SYSCALL_64_after_hwframe+0x68/0xd2
+Regards,
+Krishna,
