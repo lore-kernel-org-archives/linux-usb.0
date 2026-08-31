@@ -1,38 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300E03DDDDE;
-	Mon, 31 Aug 2026 10:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E803E0C66;
+	Mon, 31 Aug 2026 10:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788170983; cv=none; b=uDRBomkOg4dd8TXWW1DjY1WplV66eMbRNLlydNsa4FoVipggk/BJ2qRQRMWmr2lerO7IvL5nMiOzyia1l2Fha5JOiUbmSRjANglzGuISSmUevuoJXn98XSEjiE9E3axoLBOp5JdKCESYO+QHTQXmJYPGZAB5PoJ+ObjFctlh7qY=
+	t=1788171108; cv=none; b=DsxOzvK0AijRUGolpaqiNbg8svCG60+eqVmNkUZix5as1vS46Jf7saP6cJG+1yjSUbb6Q6ZhpViXimeYLF2f8Rno/CSCYjbf5Fla8bNWxKt1vmZRwgdmprjs0Q9Lt/rinxFMCQD+TaO/N6hYucC0RbWp80Bc0KQwnyKgUd8fhQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788170983; c=relaxed/simple;
-	bh=x+8lU402WCpYO7mhIG+KCEDw/P223Qpg3y2Ef+3Lxvc=;
+	s=arc-20240116; t=1788171108; c=relaxed/simple;
+	bh=R6i1b3kmagfcuP2WEJQ9jGBoNwBsUHK51DBR877oN9I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SR9k3onRa5GSo0Z4kW4YilY0xsAP9ATUokfwv5Rzw41Z4Gl34g35huRDbY7GXxDXS/3xJbGmUsuVq4+wcpyrPQ9jtCzVGMlkrxSxwpzWoKqEol59CoE9VEbG3hCrLUDThOrTX7WY8W/KbD0wnAt1teSx+pexnKLuOUrGRZMPz3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ST8rPUhj; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvJ/tE9NY6osvKXdQ7BmDkzHJYQ8zxwvDbZimdRkQQlOLpOMtfucEmu1+aHosNRMmuxRn/DZA9WD0JOQC454JA/tHviE9wwwjTKR9LEoLHwG27exOmse3EhrFml38j5SHFHNj9CHswM63LvLozEe5WD4+Y4RCIaQon0zOGyHV/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyLUO7ci; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ST8rPUhj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1220D1F000E9;
-	Mon, 31 Aug 2026 10:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788170981;
-	bh=AZV9NH3a7XWgTTIIp4Spi0yx8YwNlaofiwjwTGL5HTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ST8rPUhjPYc7++xH1o6amwnTNVU0r4dBUYU14fe5hv/LGFEUhen7aT6yNoejdOvt+
-	 nWhfStHr8Kd4aqaNlGJ+Devp6I/A2tlKqZiuH99ZgdJSrbLfnR/wYDYFwpEHw8mFWq
-	 RyncQ9tMUiNgWIrwAhN+QI8UCALSiHwnwLW7/bzw=
-Date: Mon, 31 Aug 2026 12:09:38 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rishabh Jain <rishabh.jain1198@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
-	Mario Limonciello <superm1@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: pci-quirks: always assert xHCI OS ownership
-Message-ID: <2026083129-justice-egomaniac-01cd@gregkh>
-References: <69fdc442-a4f2-42e0-80f6-6b35cbc207bf@kernel.org>
- <20260816181519.88865-1-rishabh.jain1198@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyLUO7ci"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788171106; x=1819707106;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R6i1b3kmagfcuP2WEJQ9jGBoNwBsUHK51DBR877oN9I=;
+  b=QyLUO7ci53ttsXjjamYy60mAljTVLLtqJdHd90bPY1S9vqezPFl0LsU+
+   PptC7u1vudUqwbMlEG1mJ6e5f/5WST0IKkeHLLq5dk/5x1rgNGhH6dPmS
+   CZMAtcfyCns825z1Eps5Gpfeg7hL+2vjRfMBMRqZ54IfNpTlf+mc4sngf
+   kSRQsPIfdVTryvETJljd/y/mR3UM25bt7p7al/E6efD9J8CpZ+wB4+YpB
+   DFoz5BEDCR1i2eyTflh6ZB7S4nGoty0d6V/vic2UvO07godUisy0dEJO8
+   pAA5Vk5cO6DY+jlESWdw+hURJjQgeWkMr91XgSZAM7oEJkcq/mUJRmh+w
+   A==;
+X-CSE-ConnectionGUID: FPg7hfwKTay71Ver5SyCNw==
+X-CSE-MsgGUID: oFyPD7bTRIa1DkHzlmif6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92385744"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="92385744"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:11:45 -0700
+X-CSE-ConnectionGUID: NQiBLmBJR0SITzkx3RqqNA==
+X-CSE-MsgGUID: HsdZcrEOSFuKRd3NEqvn+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="265515034"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 03:11:44 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 456E499; Mon, 31 Aug 2026 12:11:42 +0200 (CEST)
+Date: Mon, 31 Aug 2026 12:11:42 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v3 2/2] usb: typec: mux: gpio-sbu: enable when only used
+ for orientation
+Message-ID: <apVTXnBDf20PcLgo@black.igk.intel.com>
+References: <20260826-usb-fusb340-v1-v3-0-11927682504d@foss.st.com>
+ <20260826-usb-fusb340-v1-v3-2-11927682504d@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,94 +69,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260816181519.88865-1-rishabh.jain1198@gmail.com>
+In-Reply-To: <20260826-usb-fusb340-v1-v3-2-11927682504d@foss.st.com>
 
-On Sun, Aug 16, 2026 at 11:15:19AM -0700, Rishabh Jain wrote:
-> The xHCI ownership protocol requires the OS driver to assert the HC OS
-> Owned semaphore before using the host controller, then wait for HC BIOS
-> Owned to clear if firmware owns it.
+On Wed, Aug 26, 2026 at 02:16:36PM +0200, Fabrice Gasnier wrote:
+> When used as orientation-switch only (no mode-switch, e.g. no altmode),
+> the optional enable gpio remains disabled.
+> Enable it from the switch_set() routine, in this case, when the
+> orientation is set and the enable-gpios property has been provided.
+> Move enable GPIO configuration after the swapped configuration has
+> been done, to avoid possible glitches in case both signals are changed.
 > 
-> quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
-> is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
-> while both ownership semaphores remain clear.
-> 
-> On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
-> resume to terminate Controller Restore State with USBSTS 0x401. Linux
-> then reset the host controller, both root hubs and the USB Bluetooth
-> adapter.
-> 
-> The controller entered resume ready and halted with USBSTS 0x1.
-> Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
-> device contexts and command, event and transfer rings were verified not
-> to cause the restore error.
-> 
-> Asserting only HC OS Owned changed USBLEGSUP from 0x00000801 to
-> 0x01000801 and eliminated the restore failure across four S3 cycles,
-> including a stock-kernel test. Clearing USBLEGCTLSTS was independently
-> verified to be unnecessary.
-> 
-> Always assert OS Owned when the xHCI Legacy Support capability is
-> present. Use the existing ownership masks with a single initial register
-> read/write, and leave a debug breadcrumb when firmware owns the
-> controller. Keep the existing BIOS handoff recovery and legacy SMI
-> cleanup unchanged.
-> 
-> Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
-> Tested-by: Rishabh Jain <rishabh.jain1198@gmail.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
+> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
-Tested-by: is implied if you sign off on a patch, no need to include it.
-
-
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
-> Ah, agreed, I didn't see XHCI_HC_OS_OWNED is defined! The +3 in v1 was
-> for selecting byte 3 of USBLEGSUP.
+> Changes in v3
+> - Fix missed v2 update on probing mode-switch property.
+> Changes in v2
+> - fix issues reported by Sashiko: probe mode-switch property before
+>   registering Type-C switch, to avoid possible race. Configure enable
+>   GPIO after swapp GPIO has been configured, in case both transition.
+> ---
+>  drivers/usb/typec/mux/gpio-sbu-mux.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> I've simplified v2 to use the existing ownership masks, one initial
-> read/write (makes sense to batch the writes), and the debug breadcrumb
-> you suggested.
-> 
-> Changes in v2:
-> - Use XHCI_HC_OS_OWNED instead of byte-offset access.
-> - Fold the TI/Renesas forced handoff into the ownership-register write.
-> - Add a debug breadcrumb when BIOS ownership is initially set.
-> - Make the BIOS handoff wait unconditional and gate recovery on the initial
->   BIOS ownership state.
-> 
-> Additional context:
-> 
-> * Kernel Bugzilla #216470 documents the same USBSTS 0x401/reinitialize
->   behavior and its impact on attached USB devices:
->   https://bugzilla.kernel.org/show_bug.cgi?id=216470
-> 
-> * Commit a7d57abcc8a5 ("xhci: workaround CSS timeout on AMD SNPS 3.0
->   xHC") is related workaround history: it tolerates a distinct AMD CSS
->   timeout and resets the controller on resume:
->   https://github.com/torvalds/linux/commit/a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
-> 
-> The external reports do not record their ownership semaphore values but
-> are included as corroborating failure signatures that this might fix.
-> 
->  drivers/usb/host/pci-quirks.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-> index 0404489c2f6a..29e635a036a6 100644
-> --- a/drivers/usb/host/pci-quirks.c
-> +++ b/drivers/usb/host/pci-quirks.c
-> @@ -1185,31 +1185,31 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
->  		dev_warn(&pdev->dev, "xHCI controller failing to respond");
->  		goto iounmap;
+> diff --git a/drivers/usb/typec/mux/gpio-sbu-mux.c b/drivers/usb/typec/mux/gpio-sbu-mux.c
+> index 1834f1a2dd9d..b1aa976aca24 100644
+> --- a/drivers/usb/typec/mux/gpio-sbu-mux.c
+> +++ b/drivers/usb/typec/mux/gpio-sbu-mux.c
+> @@ -17,6 +17,7 @@ struct gpio_sbu_mux {
+>  
+>  	struct typec_switch_dev *sw;
+>  	struct typec_mux_dev *mux;
+> +	bool mode_switch;
+>  
+>  	struct mutex lock; /* protect enabled and swapped */
+>  	bool enabled;
+> @@ -40,19 +41,24 @@ static int gpio_sbu_switch_set(struct typec_switch_dev *sw,
+>  		enabled = false;
+>  		break;
+>  	case TYPEC_ORIENTATION_NORMAL:
+> +		if (!sbu_mux->mode_switch)
+> +			enabled = true;
+>  		swapped = false;
+>  		break;
+>  	case TYPEC_ORIENTATION_REVERSE:
+> +		if (!sbu_mux->mode_switch)
+> +			enabled = true;
+>  		swapped = true;
+>  		break;
 >  	}
+>  
+> -	if (enabled != sbu_mux->enabled)
+> -		gpiod_set_value_cansleep(sbu_mux->enable_gpio, enabled);
+> -
+>  	if (swapped != sbu_mux->swapped)
+>  		gpiod_set_value_cansleep(sbu_mux->select_gpio, swapped);
+>  
+> +	/* If both enabled and swapped transition, set enable GPIO after to avoid glitches */
+> +	if (enabled != sbu_mux->enabled)
+> +		gpiod_set_value_cansleep(sbu_mux->enable_gpio, enabled);
 > +
->  	val = readl(base + ext_cap_offset);
-> +	if (val & XHCI_HC_BIOS_OWNED)
-> +		pci_dbg(pdev, "BIOS owns xHCI HC\n");
+>  	sbu_mux->enabled = enabled;
+>  	sbu_mux->swapped = swapped;
+>  
+> @@ -120,6 +126,7 @@ static int gpio_sbu_mux_probe(struct platform_device *pdev)
+>  	sw_desc.fwnode = dev_fwnode(dev);
+>  	sw_desc.set = gpio_sbu_switch_set;
+>  
+> +	sbu_mux->mode_switch = device_property_read_bool(dev, "mode-switch");
+>  	sbu_mux->sw = typec_switch_register(dev, &sw_desc);
+>  	if (IS_ERR(sbu_mux->sw))
+>  		return dev_err_probe(dev, PTR_ERR(sbu_mux->sw),
+> 
+> -- 
+> 2.43.0
 
-Who needs this new message?
-
-thanks,
-
-greg k-h
+-- 
+heikki
