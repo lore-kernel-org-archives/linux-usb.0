@@ -1,296 +1,311 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFBD3C456B;
-	Mon, 31 Aug 2026 10:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB883CF213;
+	Mon, 31 Aug 2026 11:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788173534; cv=none; b=m/8qZcqqPrhDtujoxBwpsIxinAiVcw9igKf7IKm6/wj+BawHH7cOGRfIo3faz70uSFkxlT864Mtq36Vgp/NVwWTqHFUeaendO1L/2Jj2l/5S19q9SDZSEDcpvokERgP3QP1xbHqvAKkEyDo+yAL4HUkhfpiaKNut2WupUPaam2U=
+	t=1788174304; cv=none; b=C1L3d6r0+xg+G4n49lR+Ps69V2FPwxhHkXfstBY15nKpSuRSreLjeQyolOeAOHDi/h2tx6B+juiqWmlpRY6fX6roNp2uaobjq5fWjppR5Qq7Rd2pyVCCz5KGPHht9cWupiCAdN9cLep+3h1WQT+ZB+5DqirPtVdA16niIrJpeA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788173534; c=relaxed/simple;
-	bh=bdB/RGPTE2+YrXISxM8vrkpDuTXM64Y/WqYfVkdUB2w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sE3Heixo/PXcGY7tqFgq04h8Xrh/U1W0Hfc5n7Qz1stn8wYiBD2sNO/6trhESqXT6BeIZp9yYsE/6qgSZ7gi0uD19N/hCb57+Oml4kCAt0tuu6h1p75ZcNPkAm7PT5hKUB4udnLpyTzjJX2lpAB13sa4LRe1RbQg38PMeC7VLOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WMlmZJiB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788174304; c=relaxed/simple;
+	bh=YPMj4lSvftoy2mPSE2BoRYZKbnYiULh2Q6DhbTrJd2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u6DoB0wB8g5LnoCM+pD3sHj9sg8ySpLGex0yp7crTOpwtUtkia8djq8SH+ZR3Ob97T94Z3ZvXxnFkxskixXZ1680GCz5A8VNGd3BmscX4OmVpsX9jvgtmYWrzViEqEsrSeJ6nJJ7+zHaevq3ixR6oTo81MRNUgtgTOtnTlTvHX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vj6/xMDX; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WMlmZJiB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04F41F000E9;
-	Mon, 31 Aug 2026 10:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788173527;
-	bh=N8FyYQXT9g/MGIT0wLMjLp9YMh4GvG9D8+Ih3KDyHrY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WMlmZJiBzrr+eA8fTRc3/JSDceG7KGXjg69hkwgxak0LYNxc1MJ6397z1uvyWMzyM
-	 pAXR08gf32ldOP5qk36TiUb/amifJA1dO1tkA0ejyiVb61az5EmPtikNVZK3TaLITo
-	 cIpI9dQI31bdpKQfA2gj+aECp/SZqtMUfGH2U5Fo=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Mon, 31 Aug 2026 12:51:47 +0200
-Subject: [PATCH v2 2/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vj6/xMDX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788174303; x=1819710303;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YPMj4lSvftoy2mPSE2BoRYZKbnYiULh2Q6DhbTrJd2Y=;
+  b=Vj6/xMDXTX6fI60/KP7+2aRjm0zcOjkzCuXdlbB/ZJtyNhuZn00BmN82
+   RtGil067/b6c+deY4WXp14+FrkB+3JNBSxgehvED9ZWmQw8BUXnUYSUgr
+   7HfeMb179mdAzcoMkxO0xc4AoOEUGq2Jdq++ki9z47En17Nbb+Ir11jQ3
+   HuKb9JD4syVLNgELiTBSo8xp63FJiUiei8xXlMJTpMQq1oMK89ray2X1l
+   UwZp/VH3zy6DoaX92Vgp+hfzbTDhV+e+xiMOhV0VIqoSZIOaGO2wp7EpA
+   k2oCtcqg9BdaIlYmzy7cdJiO4ykXi6L9tRJI0Fg7p5gjbSGfmpQMpL+pR
+   g==;
+X-CSE-ConnectionGUID: jwJ9aLXzQOS215CvmrG2WQ==
+X-CSE-MsgGUID: m+uBH/dhS32WDo5BgXbKgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88431693"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="88431693"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:05:02 -0700
+X-CSE-ConnectionGUID: 7zOKNvibTQCwcwcmNeMpVA==
+X-CSE-MsgGUID: v38GUscTSeeAtaGg45E8sQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="292272041"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 31 Aug 2026 04:04:58 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id F058E99; Mon, 31 Aug 2026 13:04:56 +0200 (CEST)
+Date: Mon, 31 Aug 2026 13:04:56 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Christian Bruel <christian.bruel@foss.st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Marek Vasut <marex@nabladev.com>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pankaj Dev <pankaj.dev@st.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 06/16] usb: typec: add FUSB340 SuperSpeed switch driver
+Message-ID: <apVf2GL-r0Cm8Q53@black.igk.intel.com>
+References: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-0-c5e27cbc0795@foss.st.com>
+ <20260821-ucpd-host-fusb340-v7-2-rfc-v1-6-c5e27cbc0795@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-bind_taint-v2-2-1082d631213b@linuxfoundation.org>
-References: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
-In-Reply-To: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Bradley Morgan <brads@mainlining.org>, 
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Johan Hovold <johan@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10553;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=bdB/RGPTE2+YrXISxM8vrkpDuTXM64Y/WqYfVkdUB2w=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFlTY85d+mfAdLY9/NkMBuuS+U5Ha9wfVt4x+b7nHMPxn
- Td3VbFzdsSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBE4mczzE9VvW4gfuC/tML5
- afrpF4KiTWV5ghnmmZ+JW3bm2IW6z/lXTgjceWDj9HGdBAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821-ucpd-host-fusb340-v7-2-rfc-v1-6-c5e27cbc0795@foss.st.com>
 
-The ability to add and remove devices from a driver through the sysfs
-"bind" and "unbind" files was created all those decades ago as a way
-that kernel developers can iterate faster, and provide a debugging way
-for users to attempt to add a new device to a driver without having to
-rebuild their kernel.
+On Fri, Aug 21, 2026 at 06:23:17PM +0200, Fabrice Gasnier wrote:
+> Add a platform driver for the ON Semiconductor FUSB340 SuperSpeed switch.
+> The driver uses enable-gpios and select-gpios to control the switch and
+> registers Type-C switch and mux providers for Type-C applications where a
+> reversible cable requires a switch.
+> 
+> Assisted-by: GitHub-Copilot:GPT-5.4-mini
+> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+> ---
+>  drivers/usb/typec/mux/Kconfig   |   8 ++
+>  drivers/usb/typec/mux/Makefile  |   1 +
+>  drivers/usb/typec/mux/fusb340.c | 169 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 178 insertions(+)
 
-This api over the years has been abused and recently come under a major
-fuzzing "attack" through tools like syzbot which decided that it would
-attempt to just randomly bind any driver to any type of device, causing
-loads of unneeded errors and pointless kernel patches to be generated by
-unsuspecting new developers.
+> diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
+> index 6dd8f961b593..6a1da48a2a8f 100644
+> --- a/drivers/usb/typec/mux/Kconfig
+> +++ b/drivers/usb/typec/mux/Kconfig
+> @@ -12,6 +12,14 @@ config TYPEC_MUX_FSA4480
+>  	  common USB Type-C connector.
+>  	  If compiled as a module, the module will be named fsa4480.
+>  
+> +config TYPEC_MUX_FUSB340
+> +	tristate "ON Semi FUSB340 SuperSpeed switch driver"
+> +	help
+> +	  Driver for the ON Semiconductor FUSB340 SuperSpeed switch, which
+> +	  provides support for routing SuperSpeed pairs in Type-C applications
+> +	  where a reversible cable requires a switch.
+> +	  If compiled as a module, the module will be named fusb340.
+> +
+>  config TYPEC_MUX_GPIO_SBU
+>  	tristate "Generic GPIO based SBU mux for USB Type-C applications"
+>  	help
 
-Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-will be set on the driver if the bind/unbind sysfs files are ever
-written to.  This lets kernel developers "know" that a user is
-attempting to do something that is not normal, and as such, if the
-kernel breaks they get to keep the shiny pieces laying around on the
-floor.
+Why can't you just use MUX_GPIO_SBU (sorry if I've missed something)?
 
-The flag is 'Y' which was unused, and can remembered as the user is
-"yeeting" the device being operated on here (thrown with force without
-regard for the thing being thrown).
+Thanks,
 
-Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-as many times crashes/oops/warnings/failures happen within the callback,
-and the taint flag needs to be there to show what was being attempted.
-If it were to be set after the callback happens, the oops report would
-not properly reflect what foolishness was being attempted.
-
-Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-the tool from hitting bind/unbind, should be run with panic_on_taint
-enabled so that they fall over and don't continue on, thinking that they
-actually found a real issue.
-
-Userspace operations that rely on the bind/unbind files to work around
-the lack of will to upgrade a kernel image to a newer version with
-proper support for new devices, or the lack of will to submit valid
-device ids to driver authors, will still work properly, but now the
-kernel will be flagged in a way that will show that perhaps those users
-should reconsider their behavior and work to have the drivers properly
-support these devices in a "native" manner.
-
-Finally, the bind/unbind files can find real use-after-free issues with
-some drivers by forcing the process to happen virtually without having
-to rely on manual removal processes.  Those real bugs should still be
-worked on, but by adding this taint flag, developers can more easily
-determine bug reports that are actually worth looking at.
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Tested-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
- drivers/base/bus.c                            |  3 ++
- include/linux/panic.h                         |  3 +-
- include/trace/events/module.h                 |  3 +-
- kernel/panic.c                                |  5 +--
- tools/debugging/kernel-chktaint               |  8 +++++
- 6 files changed, 46 insertions(+), 28 deletions(-)
-
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index 9ead927a37c0..abbf5e3dd749 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -79,30 +79,31 @@ which bits are set::
- Table for decoding tainted state
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--===  ===  ======  ========================================================
--Bit  Log  Number  Reason that got the kernel tainted
--===  ===  ======  ========================================================
--  0  G/P       1  proprietary module was loaded
--  1  _/F       2  module was force loaded
--  2  _/S       4  kernel running on an out of specification system
--  3  _/R       8  module was force unloaded
--  4  _/M      16  processor reported a Machine Check Exception (MCE)
--  5  _/B      32  bad page referenced or some unexpected page flags
--  6  _/U      64  taint requested by userspace application
--  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
--  8  _/A     256  ACPI table overridden by user
--  9  _/W     512  kernel issued warning
-- 10  _/C    1024  staging driver was loaded
-- 11  _/I    2048  workaround for bug in platform firmware applied
-- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
-- 13  _/E    8192  unsigned module was loaded
-- 14  _/L   16384  soft lockup occurred
-- 15  _/K   32768  kernel has been live patched
-- 16  _/X   65536  auxiliary taint, defined for and used by distros
-- 17  _/T  131072  kernel was built with the struct randomization plugin
-- 18  _/N  262144  an in-kernel test has been run
-- 19  _/J  524288  userspace used a mutating debug operation in fwctl
--===  ===  ======  ========================================================
-+===  ===  =======  ========================================================
-+Bit  Log  Number   Reason that got the kernel tainted
-+===  ===  =======  ========================================================
-+  0  G/P        1  proprietary module was loaded
-+  1  _/F        2  module was force loaded
-+  2  _/S        4  kernel running on an out of specification system
-+  3  _/R        8  module was force unloaded
-+  4  _/M       16  processor reported a Machine Check Exception (MCE)
-+  5  _/B       32  bad page referenced or some unexpected page flags
-+  6  _/U       64  taint requested by userspace application
-+  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
-+  8  _/A      256  ACPI table overridden by user
-+  9  _/W      512  kernel issued warning
-+ 10  _/C     1024  staging driver was loaded
-+ 11  _/I     2048  workaround for bug in platform firmware applied
-+ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
-+ 13  _/E     8192  unsigned module was loaded
-+ 14  _/L    16384  soft lockup occurred
-+ 15  _/K    32768  kernel has been live patched
-+ 16  _/X    65536  auxiliary taint, defined for and used by distros
-+ 17  _/T   131072  kernel was built with the struct randomization plugin
-+ 18  _/N   262144  an in-kernel test has been run
-+ 19  _/J   524288  userspace used a mutating debug operation in fwctl
-+ 20  _/Y  1048576  device was manually bound or unbound from a driver
-+===  ===  =======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
- easier.
-@@ -189,3 +190,6 @@ More detailed explanation for tainting
-  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
-      to use the devices debugging features. Device debugging features could
-      cause the device to malfunction in undefined ways.
-+
-+ 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
-+     successfully bound or removed a device from a driver.
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index d17bd91490ee..c51ad96d4de4 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/mutex.h>
- #include <linux/sysfs.h>
-+#include <linux/panic.h>
- #include "base.h"
- #include "power/power.h"
- 
-@@ -241,6 +242,7 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && dev->driver == drv) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		device_driver_detach(dev);
- 		err = count;
- 	}
-@@ -264,6 +266,7 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && driver_match_device(drv, dev)) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		err = device_driver_attach(drv, dev);
- 		if (!err) {
- 			/* success */
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index f1dd417e54b2..8e7250b0e913 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -88,7 +88,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_RANDSTRUCT		17
- #define TAINT_TEST			18
- #define TAINT_FWCTL			19
--#define TAINT_FLAGS_COUNT		20
-+#define TAINT_FORCED_BIND		20
-+#define TAINT_FLAGS_COUNT		21
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/include/trace/events/module.h b/include/trace/events/module.h
-index e5a006be9dc6..19df3e39bba4 100644
---- a/include/trace/events/module.h
-+++ b/include/trace/events/module.h
-@@ -26,7 +26,8 @@ struct module;
- 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
- 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
- 	{ (1UL << TAINT_CRAP),			"C" },		\
--	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
-+	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
-+	{ (1UL << TAINT_FORCED_BIND),		"Y" })
- 
- TRACE_EVENT(module_load,
- 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 213725b612aa..6bf60f9dd120 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -826,6 +826,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
- 	TAINT_FLAG(TEST,			'N', ' '),
- 	TAINT_FLAG(FWCTL,			'J', ' '),
-+	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
- };
- 
- #undef TAINT_FLAG
-@@ -862,9 +863,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
-  * exact size is allocated dynamically; the initial buffer remains
-  * as a fallback if allocation fails.
-  *
-- * The verbose taint string currently requires up to 327 characters.
-+ * The verbose taint string currently requires up to 344 characters.
-  */
--#define INIT_TAINT_BUF_MAX 350
-+#define INIT_TAINT_BUF_MAX 370
- 
- static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
- static char *taint_buf __refdata = init_taint_buf;
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-index e1571c04afb5..d8628be37214 100755
---- a/tools/debugging/kernel-chktaint
-+++ b/tools/debugging/kernel-chktaint
-@@ -211,6 +211,14 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "Y"
-+	echo " * device was manually bound or unbound from a driver (#20)"
-+fi
- echo "Raw taint value as int/string: $taint/'$out'"
- 
- # report on any tainted loadable modules
+> diff --git a/drivers/usb/typec/mux/Makefile b/drivers/usb/typec/mux/Makefile
+> index b4f599eb5053..ef8d2b05ff7f 100644
+> --- a/drivers/usb/typec/mux/Makefile
+> +++ b/drivers/usb/typec/mux/Makefile
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+>  obj-$(CONFIG_TYPEC_MUX_FSA4480)		+= fsa4480.o
+> +obj-$(CONFIG_TYPEC_MUX_FUSB340)		+= fusb340.o
+>  obj-$(CONFIG_TYPEC_MUX_GPIO_SBU)	+= gpio-sbu-mux.o
+>  obj-$(CONFIG_TYPEC_MUX_PI3USB30532)	+= pi3usb30532.o
+>  obj-$(CONFIG_TYPEC_MUX_INTEL_PMC)	+= intel_pmc_mux.o
+> diff --git a/drivers/usb/typec/mux/fusb340.c b/drivers/usb/typec/mux/fusb340.c
+> new file mode 100644
+> index 000000000000..0f0e45743784
+> --- /dev/null
+> +++ b/drivers/usb/typec/mux/fusb340.c
+> @@ -0,0 +1,169 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * ON Semiconductor FUSB340 SuperSpeed switch driver
+> + *
+> + * Copyright (C) 2026 STMicroelectronics
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/usb/typec_altmode.h>
+> +#include <linux/usb/typec_mux.h>
+> +
+> +struct fusb340 {
+> +	struct gpio_desc *enable_gpio;
+> +	struct gpio_desc *select_gpio;
+> +	struct mutex lock; /* serialize orientation and mode updates */
+> +	struct typec_switch_dev *sw;
+> +	struct typec_mux_dev *mux;
+> +	enum typec_orientation orientation;
+> +	unsigned long mode;
+> +};
+> +
+> +static void fusb340_update_locked(struct fusb340 *fusb)
+> +{
+> +	bool enable = fusb->mode == TYPEC_STATE_USB &&
+> +		      fusb->orientation != TYPEC_ORIENTATION_NONE;
+> +	bool select = fusb->orientation == TYPEC_ORIENTATION_REVERSE;
+> +
+> +	gpiod_set_value_cansleep(fusb->enable_gpio, enable);
+> +	gpiod_set_value_cansleep(fusb->select_gpio, select);
+> +}
+> +
+> +static int fusb340_switch_set(struct typec_switch_dev *sw,
+> +			      enum typec_orientation orientation)
+> +{
+> +	struct fusb340 *fusb = typec_switch_get_drvdata(sw);
+> +
+> +	mutex_lock(&fusb->lock);
+> +
+> +	if (fusb->orientation != orientation) {
+> +		fusb->orientation = orientation;
+> +		fusb340_update_locked(fusb);
+> +	}
+> +
+> +	mutex_unlock(&fusb->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int fusb340_mux_set(struct typec_mux_dev *mux,
+> +			   struct typec_mux_state *state)
+> +{
+> +	struct fusb340 *fusb = typec_mux_get_drvdata(mux);
+> +	int ret = 0;
+> +
+> +	mutex_lock(&fusb->lock);
+> +
+> +	if (state->mode != TYPEC_STATE_SAFE && state->mode != TYPEC_STATE_USB) {
+> +		ret = -EOPNOTSUPP;
+> +		goto out_unlock;
+> +	}
+> +
+> +	if (fusb->mode != state->mode) {
+> +		fusb->mode = state->mode;
+> +		fusb340_update_locked(fusb);
+> +	}
+> +
+> +out_unlock:
+> +	mutex_unlock(&fusb->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int fusb340_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct typec_switch_desc sw_desc = { };
+> +	struct typec_mux_desc mux_desc = { };
+> +	struct fusb340 *fusb;
+> +	int ret;
+> +
+> +	fusb = devm_kzalloc(dev, sizeof(*fusb), GFP_KERNEL);
+> +	if (!fusb)
+> +		return -ENOMEM;
+> +
+> +	fusb->orientation = TYPEC_ORIENTATION_NONE;
+> +	fusb->mode = TYPEC_STATE_SAFE;
+> +
+> +	fusb->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+> +	if (IS_ERR(fusb->enable_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(fusb->enable_gpio),
+> +				     "failed to get enable gpio\n");
+> +
+> +	fusb->select_gpio = devm_gpiod_get(dev, "select", GPIOD_OUT_LOW);
+> +	if (IS_ERR(fusb->select_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(fusb->select_gpio),
+> +				     "failed to get select gpio\n");
+> +
+> +	mutex_init(&fusb->lock);
+> +
+> +	sw_desc.drvdata = fusb;
+> +	sw_desc.fwnode = dev_fwnode(dev);
+> +	sw_desc.set = fusb340_switch_set;
+> +
+> +	fusb->sw = typec_switch_register(dev, &sw_desc);
+> +	if (IS_ERR(fusb->sw)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(fusb->sw),
+> +				    "failed to register typec switch\n");
+> +		goto err_mutex_destroy;
+> +	}
+> +
+> +	mux_desc.drvdata = fusb;
+> +	mux_desc.fwnode = dev_fwnode(dev);
+> +	mux_desc.set = fusb340_mux_set;
+> +
+> +	fusb->mux = typec_mux_register(dev, &mux_desc);
+> +	if (IS_ERR(fusb->mux)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(fusb->mux),
+> +				    "failed to register typec mux\n");
+> +		goto err_unregister_switch;
+> +	}
+> +
+> +	platform_set_drvdata(pdev, fusb);
+> +
+> +	return 0;
+> +
+> +err_unregister_switch:
+> +	typec_switch_unregister(fusb->sw);
+> +err_mutex_destroy:
+> +	mutex_destroy(&fusb->lock);
+> +	return ret;
+> +}
+> +
+> +static void fusb340_remove(struct platform_device *pdev)
+> +{
+> +	struct fusb340 *fusb = platform_get_drvdata(pdev);
+> +
+> +	gpiod_set_value_cansleep(fusb->enable_gpio, 0);
+> +	gpiod_set_value_cansleep(fusb->select_gpio, 0);
+> +
+> +	typec_mux_unregister(fusb->mux);
+> +	typec_switch_unregister(fusb->sw);
+> +	mutex_destroy(&fusb->lock);
+> +}
+> +
+> +static const struct of_device_id fusb340_of_match[] = {
+> +	{ .compatible = "onnn,fusb340" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, fusb340_of_match);
+> +
+> +static struct platform_driver fusb340_driver = {
+> +	.probe = fusb340_probe,
+> +	.remove = fusb340_remove,
+> +	.driver = {
+> +		.name = "fusb340",
+> +		.of_match_table = fusb340_of_match,
+> +	},
+> +};
+> +module_platform_driver(fusb340_driver);
+> +
+> +MODULE_DESCRIPTION("ON Semiconductor FUSB340 SuperSpeed switch driver");
+> +MODULE_AUTHOR("Fabrice Gasnier <fabrice.gasnier@foss.st.com>");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.43.0
 
 -- 
-2.55.0
-
+heikki
