@@ -1,80 +1,71 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE09D374A06
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F3D38734E
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788203234; cv=none; b=gRJoKfs8VMYmb40zDdonmqVNkkAMGbf4WJXlXnEl+kKiSBuj1z0wdExEJZz5jbXaxJzPCkd3OIJryp6RAVLTooK5Z+plSYRnNInKqK7QGcTS46om2rxNol7esilOVjUzYdpGDpsrEHlxYCT+mjnMNgvk4JvgaQG93Tz0V/eku9A=
+	t=1788203584; cv=none; b=prlM05hk17yGvD0vMN6hV66395epA0Y8pYE9Z+u3p+V/wn6edaOa9KSzSBTsHEdIpgQA1N7YHBID+R0ZW/eKRPzEGznahw5IwqI6kKHkcl2sdX2kCPJuhtF16jCR6Cefk3lHf1G3eC6ihXjS+LsJ81JObbgi3c5/wB+xSq6Ar6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788203234; c=relaxed/simple;
-	bh=YfZqeRZrcJPBWry4Smdt/KH6SXG+19VL5sgSi8beNLI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DC9yUUSrLCWhB7SaOkot6fVNnpx1QC5Y4TX66cATTfR+PzCOo7p+Ai7/JbHMPoA7oLP+9iVgtNQxpR1Z5CnVldsmz6jL1QZKDCI3+mr0I8zGb/6lABCGTGC0nqn7erygT0giV60pd0Z5hwVt5k6hTVoJ1vBh1rnTWcN8M4cYfb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aVxOY1im; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1788203584; c=relaxed/simple;
+	bh=j0EoqL8IuiLtmXdt0H398BbvsC8H1qJ95HdoZ4a/ugs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ILLbvzyIb4kZXz1wbHWAP+bZmAo4N8DSFarW4RrbWizuDawp8t0nwm0gLN6KJVwlqyyIk56bGI+ab40KGkO2Lh5twi73D/bE1SZRIzLZ2p+YczVckba8Br4JPlg2w1rLCf6NWyUsrN+bH0MGuL5mIk4+HUh4zXxy88/t1by9DDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FRyfRY3G; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aVxOY1im"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cc149372c14so103086a12.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 12:07:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FRyfRY3G"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-934956bee57so529566885a.2
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 12:13:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788203232; x=1788808032; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hhr6N2Xsb/i2x+PD9jyfBlndkAPLcSMGtFPyBSSzCz0=;
-        b=aVxOY1imqlB8dB0UcfYnOn/zmcm7xzkdt5r5jxzay3eBVTLPs+WmcUddQE0DAkWbNQ
-         uO3T6Ts0Rg5cktaCbamw8HUamRy8QiESAfk5KwepDoKJuZ0sjVQ0Wl49nnchOhWLYkgq
-         5a5XDWnWW0ZG031ldKyUJYe1fWfkgyLeanqYEqCFxiqh7XjFRO8FvPnVPW89JOps8oL9
-         9Ng8/shhxcAiONr3Reni3kjlVcXMEDO12Yhrb7bDUvHTaZ+IKE2+pl2Q2n0FNjS4dAZW
-         gqV23SEFdIRrOf6bb0LLb67Ehz/y7WaHGEiN++pzFY7CD9n4JxwJPm5FOODktr+Xp6+j
-         A6lQ==
+        d=gmail.com; s=20251104; t=1788203581; x=1788808381; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SMGIA5ANiEfyPx0Aer3EeRWdzc/nK5frp0+gRGq+39k=;
+        b=FRyfRY3GT7QO/HwjrsEAtakRlhGRtkO8TbzPE8zlbTPfRw20x6ZA8T18L68naOig3s
+         FwCd041aCmbebD8b9L8ZIK1Qa/BwkFnwxfwRnnLYl/Eynveb425u4wvpc+NJ/SV7RuBd
+         hfzfzQ1T/wOQ4dq4l/lGUOkznoRwiXqyiOpykxB8vVOEpJYmpHfkqwD5WnDlKv7fXeUg
+         +tyx1S4OvBAACZQyBIm/TFFgIXf3D/UhARnGwOi8Ak5RxzMb491oMIjHzdEzXOW/kmrm
+         qNEMreb5AVX0rm5ak2UFyypFNr098MehzJJaUVyrcPDMSq2T6s9EtU9ZrZAUmu1iC1cQ
+         oGZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788203232; x=1788808032;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hhr6N2Xsb/i2x+PD9jyfBlndkAPLcSMGtFPyBSSzCz0=;
-        b=DHaKgh1XxIoAPc5guqnhGWuIMo2E4EvRRCzPEuJ1RxJ4kHP6MoloDKKmvQZnzl1xjF
-         xE85XjBVFEFs738uBXi6rVEXc2GujlWYla9hRSH1P4ow3INksYk7NroPY1J5d4CdHMty
-         tr1H2C4ffHt8pRFrkMwiCh5A4cGzWH8wwppiwiMHLjO5cgHFr4ZM7VPbvLHWF4+KWkDp
-         zv3srxkpDE754WOSnOfieCX9J/9793l9jHL8qB6ehVRmqLxeq613+rK/drLc+Bc2MPQX
-         vp4QZZsVR3f6c9UV3cz23DwGBdewDRgp5ilHk9uvAPKKMZm52smibEPQTnSgtsCAuq0H
-         wy2w==
-X-Gm-Message-State: AFuF++nIQEZ01ZKbruev8wjuSQXYMtNPywBC2N/h5JnXXqHHgoeE5ZTq
-	I2KwfbvCo/8xFhGq5Bzj6YtT3OfDpoq37oJVDE1S1Si/82Q9JHEJrcyyr+R18qtk
-X-Gm-Gg: AYBFou2TAtFJ5QyDWi/Vui0VnbvQt+S6fnqhYKhWev7vrWeu38dkI7d0KEZPk0WvZKf
-	XG1ypVmHkd9yif0jxs6PgGzO8rrYjTrbIp8LrzsI8TqafdYw4z6PJlJZ8H3PD/b8hy8AtX1AeFM
-	ThDywGf9RbGl2kKYoDbNANesgDLBO/XbP7MiHtEl+6WjR6ZmKYH6VHkaevp4Ac4Du4S505oOXkt
-	vlJMsI8L3N96dEZuOTy5kU+8Q+xxMY3gWUyJJVP2q07w6nQU8UUYoyhxCKgqa2wk8XXOEz2eS1S
-	+O/Fm0kzEHDA+Bms0pK386T6xdczVMTxmI4qQ2dmJJHRiXf1tKEy+Bz08NacnGE1bbKfsc2xAsy
-	UZlhkqvSg3KJmElQTn0GwcptqHhpOYZvvTLrNf/yxiLVIXCsde6ID7zOQtrjnqNyoMnEwpL11VJ
-	HMV1wY2Jyz1j6J9/MKSyjyf8sH3YOlAY8kS88/QoyqrgW9A6SWe/uAdiWdrJDH/ZEHjdwwiy77b
-	pFtlNGLUx6oKFVF3GtW/AWUPyvlT2CPLWB9kps=
-X-Received: by 2002:a17:90a:e7cd:b0:395:f0e8:9e13 with SMTP id 98e67ed59e1d1-396d0e71ad7mr40889615a91.7.1788203231598;
-        Mon, 31 Aug 2026 12:07:11 -0700 (PDT)
-Received: from localhost ([2409:40c4:13b:7a31:95ce:ef4b:57cf:6fd])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0d2e465sm46219699c88.4.2026.08.31.12.07.10
+        d=1e100.net; s=20251104; t=1788203581; x=1788808381;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SMGIA5ANiEfyPx0Aer3EeRWdzc/nK5frp0+gRGq+39k=;
+        b=GLMl2oXfCLpqnB3DcGktbA5xtoGgu7tKLc1vrSHNvJE1u7Gx8ra2fCuCXc8fm5YQFM
+         cixBt0LA5HNGRFb7OCkaqNyilGcbUcKwERUYfXQoISkKL8iWgRdZ2GGNj0BQpIbRnDBQ
+         R9955ofET5axSBpcFRJTrQTrNClpBdUKfkHuoD+1chEO8chSaxIJZMuGCnKV6sBZiLJr
+         /stfGhbRIln7jl0LxInDQOlG3R78DXpiR2/CMe466UIYqypbcdZTOWMqzs5p+M2eydiO
+         LQ1+gHec4bvb1E41H1HlGNITCgdkiIwnyRvz2PYPURkzA2h1a03KsUrryS9vMuTEMUH0
+         T4Dw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3OyPaGLwBnw811grzBWwnWEnYcg7ijaAMFkOKS9oFKgHJQDriS+roX1tXGTImi9/8pNxCLHQafIE=@vger.kernel.org
+X-Gm-Message-State: AFuF++lMZ6dkHgCwQxThx7Crq3c+DmSAQpB4NYtpKkeJlZAZ2ORsjBQv
+	LjtBir5JWgHsvG0WYF3iKPhdDjfimRJOJaqhVR8B6W4RJSVIXHHNXFBv
+X-Gm-Gg: AR+sD138mNZis9jt7/dr0Aiywlei1nExzBgQEeBs9rvaCsUL9vL1EBUCNn88Nf/ELoI
+	6vk520HWJrqyLe7ZvLAiP70HudJn6lxipS140X1HGOfX4uh665hqyKnCiA+1GRvO1favcTYSbCU
+	y+dAjHYePtsHYXLS8/AWjfSR4mBPy27u9KmBcS3fmti220tyvijR5Xsq9dzh8lGMrbyjw7uvG2d
+	LRx7lg0avZCyYUsUTBg+29o7W0MAw10RYFStsI2W5L7D+FT1/Cy/EBYh1ftQIH8EozWHPvxRY7E
+	DOAuZLxxk5bgp0ltsHssSaA3tGHL8iXcJh7gwtLi9dJrZsK88WHXXQmopGoiX4eesV7bjwDZBg+
+	qa7Nle3SVsT0a70S0kK6VwpqNfVlUoCb8qZIxyyrLf65tsycyye5sAk+XE1nXq8THDkz1pw3n0U
+	IcBSt7+qT5cKolQTOOG9ORVlhQGCaxQfnTwqUKlDhi4/V5TYIOKv5nvLFAJPizzaBGWDG0u5/L0
+	DM=
+X-Received: by 2002:a05:620a:6289:b0:937:65d:d89e with SMTP id af79cd13be357-9391378427emr3807337785a.3.1788203581043;
+        Mon, 31 Aug 2026 12:13:01 -0700 (PDT)
+Received: from zmitepc.ad.psu.edu ([66.71.17.237])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90ce4460e56sm92298346d6.14.2026.08.31.12.13.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 12:07:11 -0700 (PDT)
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: linux-usb@vger.kernel.org
+        Mon, 31 Aug 2026 12:13:00 -0700 (PDT)
+From: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Mathieu Fluhr <mathieu.fluhr@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	regressions@lists.linux.dev,
-	stable@vger.kernel.org,
-	Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-Subject: [PATCH 2/2] xhci: drop 120ms U3 LFPS wake retry wait from runtime resume
-Date: Tue,  1 Sep 2026 00:33:49 +0530
-Message-ID: <20260831190349.29590-2-lovekeshsolanki00@gmail.com>
+	Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+Subject: [PATCH] usb: quirks: add WINDOWS_CONFIG_REQ_SIZE for Razer BlackShark V3
+Date: Mon, 31 Aug 2026 15:12:57 -0400
+Message-ID: <20260831191257.43084-1-memobayoglu2007@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260831190349.29590-1-lovekeshsolanki00@gmail.com>
-References: <20260831190349.29590-1-lovekeshsolanki00@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -83,54 +74,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On auto resume (is_auto_resume), xhci_resume() used to msleep(120)
-when there were suspended USB3 devices and no pending port event,
-to give USB3 devices time to resend their U3 LFPS wake (at 100ms
-intervals) if the first wake signalling failed.
+The Razer BlackShark V3 and V3 Pro wireless dongles fingerprint the
+USB host by its configuration-descriptor read pattern during
+enumeration. Unless they see a single full-length (wLength=255)
+request like Windows sends, they refuse to bring up the wireless
+telemetry relay and battery, charging and EQ state all read back as
+zero.
 
-The hub driver now holds the SS root hub awake for
-USB_SS_ROOT_HUB_U0_WAKE_TIME (120ms) after a resume, which covers that
-same window and lets the pending port event be picked up through the
-normal hub event path. Therefore, this legacy wait in xhci_resume()
-is redundant and can be removed.
+USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE already implements exactly this
+behaviour, so just register it for the four BlackShark V3 PIDs:
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+  0x0576  V3 Pro (wired USB-C)
+  0x0577  V3 Pro (2.4GHz dongle)
+  0x0579  V3     (wired USB-C)
+  0x057a  V3     (2.4GHz dongle)
+
+Both the dongle and the wired transport enumerate the same firmware
+and need the quirk. Verified on 0x057a and 0x0577: with the quirk the
+vendor channel answers and battery/charging/EQ read correctly;
+without it every vendor GET returns zero.
+
+Tested-by: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+Signed-off-by: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
 ---
- drivers/usb/host/xhci.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/usb/core/quirks.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a9e47e178c28..b0caba8ebf18 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1083,7 +1083,6 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 	struct xhci_segment	*seg;
- 	int			retval = 0;
- 	bool			pending_portevent = false;
--	bool			suspended_usb3_devs = false;
- 	bool			reset_registers = false;
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index b5b577f0b..9b5420be2 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -502,6 +502,11 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
+ 	/* Razer - Razer Kiyo Pro Webcam */
+ 	{ USB_DEVICE(0x1532, 0x0e05), .driver_info = USB_QUIRK_NO_LPM },
++	/* Razer BlackShark V3 / V3 Pro - unlock wireless telemetry relay */
++	{ USB_DEVICE(0x1532, 0x0576), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++	{ USB_DEVICE(0x1532, 0x0577), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++	{ USB_DEVICE(0x1532, 0x0579), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++	{ USB_DEVICE(0x1532, 0x057a), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
  
- 	if (!hcd->state)
-@@ -1245,18 +1244,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 
- 	/*
- 	 * Resume roothubs only if there are pending events.
--	 * USB 3 devices resend U3 LFPS wake after a 100ms delay if
--	 * the first wake signalling failed, give it that chance if
--	 * there are suspended USB 3 devices.
- 	 */
--	if (xhci->usb3_rhub.bus_state.suspended_ports || xhci->usb3_rhub.bus_state.bus_suspended)
--		suspended_usb3_devs = true;
--
- 	pending_portevent = xhci_pending_portevent(xhci);
--	if (suspended_usb3_devs && !pending_portevent && is_auto_resume) {
--		msleep(120);
--		pending_portevent = xhci_pending_portevent(xhci);
--	}
- 
- 	if (pending_portevent) {
- 		if (xhci->shared_hcd)
+ 	/* Lenovo ThinkPad OneLink+ Dock twin hub controllers (VIA Labs VL812) */
+ 	{ USB_DEVICE(0x17ef, 0x1018), .driver_info = USB_QUIRK_RESET_RESUME },
 -- 
 2.55.0
 
