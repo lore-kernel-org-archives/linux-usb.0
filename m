@@ -1,79 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1401544A416;
-	Mon, 31 Aug 2026 14:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFD444AB81;
+	Mon, 31 Aug 2026 14:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788186299; cv=none; b=okAaBny2M+zoCMfQh67l2YFnlSw3QNykWjnmqOdHMQ4F8x7U3kHglHPuMwehkcmvyGZfcrfuO+u/NHmlO4ANSMWhp7wtTfaHoWlPBKevQTbLMWqjjpTmXzPH61lzMRw6ykEFXKG1rpLRBbJM9G/YOINBoDMngjNvwgVnaLk/o34=
+	t=1788186488; cv=none; b=qUVHug53+44NSAMe9bNKg8hbrP2OyImjgUE2CnGrjeqJmbgHt08OTkFq1y3N4lAt9vAJvMh2X6vyRk9K6qSxKLkwR1HiUGbbp9Q/HAIVOk0S6O41BMqh701w0ienSgKOb44DZZD8ftS41JeGizF6FCUcxJT4P5DNwDbDJUDidU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788186299; c=relaxed/simple;
-	bh=nviFf11pLuRvHWiXATvCzJhwHu5KlkUdaS4t0HhOFTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D8bijtCmQCfblHzrD7rHIH24fGXbrQ3A9DhVVKhAzrR5pPtn0Fx6Jvn9K7Lgrly7k71yuTOoknrqbRopv4oQlHFa08lNYxJ7aRdBChIjUifDdN6HtVW7j8yZ9fMaBCc9RG5CHjHhZVqtxChf2W4+KtfIwg01LSjyZxC5rkHSQbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LITTDiu0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788186488; c=relaxed/simple;
+	bh=EB1KU6l5i2IVDC8LyE/MJj7aNXYNq6nRqS8oxp5G/w0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lYbDSNNqhd2tNwT9kSxSmEG++DONV2PeNP6mkkwYuROBTE1g0fpASZDDF5sHZVFp81tYtZGWc6eM0w/V4GAEPnbIUgbGhI9vN85uwQIERgjEk9wwGFqZOem6YVnnYxdxxv+IuCW282Tr1i9qKIRzwc7fUeFvxTOC2YsDJCeZPao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ed/O/Ujq; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LITTDiu0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5201F000E9;
-	Mon, 31 Aug 2026 14:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788186297;
-	bh=kN8VVuJjyCRIfJGd2CWhuOieF+fTB+JhsXqBxWFw1xw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LITTDiu0TuhGMwuKMF4EXuPsKnjGbNXD03w0qkxXneBOu0Oe10rqqshgvKt1bkagg
-	 2SiU7E2iSn5d158K4qcu8jAYR0b8GxPGeomms8nTm6p6TfxBBi9jTogLrej/XhKnmI
-	 xHkGwjNTm3O8d5s/si0eRHDbveXkajHPlfcNAoe5eJqljzEKT5Q9YTIFrI7cKG9Kqn
-	 C4EZc9ZL6Y82v89T5/YbMiIJozMIJ7w0J+7FJh0WxKknNBj8JaAFY5YbCUtJ01ZTA4
-	 6JKoQy1jNjb1P4pVGo1xRiZ79kkLnWFuWz8qIMxy2UM6TLllD8pXB/29evc3afAq0X
-	 CpFwtqwBDWCkg==
-Date: Mon, 31 Aug 2026 17:24:50 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Chas Williams <3chas3@gmail.com>, Duncan Sands <duncan.sands@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	accessrunner-general@lists.sourceforge.net,
-	linux-atm-general@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 1/4] USB: usbfs: replace __get_free_page() with kmalloc()
-Message-ID: <apWOslh5BF-ISQ6f@kernel.org>
-References: <20260830-usb-v1-0-aa349c302246@kernel.org>
- <20260830-usb-v1-1-aa349c302246@kernel.org>
- <ea165ff8-cda2-4fed-9354-1d14ac2d87ca@suse.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ed/O/Ujq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788186486; x=1819722486;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EB1KU6l5i2IVDC8LyE/MJj7aNXYNq6nRqS8oxp5G/w0=;
+  b=ed/O/UjqSyN7srOX9YEu9q6j4dklmpxV8CU0wm3DuLJMv8mhOlDGOEwJ
+   nfVrpHpqpzvSgnnwXVI7F7q+Qrzo2PkeMiO4NG/cjrbiiKQnU9vQkwdgw
+   ATm66xtbbID0wEE7y3hhzVZaf/ACeSFI4wLz+fswT2Zv1np3MBqllaWoc
+   4ooWeLOIJBCv6fOTR76nlTQ6qNePUHblQUsG9pELNMIG1l+PEz6bqbLiR
+   1dMJCKciTzjeI2Eb0Jtl0AeWJvH5WVgqWiBnwlTGFCaMVm8RQXoXo3qFx
+   4yZwjvqu3PgL/BRB7ngAUz1K0Xm2ZSZhB6Trbpe3+G+7dr+3WheP57dP1
+   w==;
+X-CSE-ConnectionGUID: EL/X47slRkKUEd0hS4ZiHQ==
+X-CSE-MsgGUID: bTPYXjG0SAa743Li4Gwq2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88606721"
+X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
+   d="scan'208";a="88606721"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 07:28:05 -0700
+X-CSE-ConnectionGUID: HGGdtgPBRla17EMvpXyf3Q==
+X-CSE-MsgGUID: lNipXpnTSvCfHITjxUdGsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
+   d="scan'208";a="293645917"
+Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.244.148]) ([10.245.244.148])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 07:28:02 -0700
+Message-ID: <f29a475e-a523-461a-8e63-b0698b3174c6@linux.intel.com>
+Date: Mon, 31 Aug 2026 17:28:00 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea165ff8-cda2-4fed-9354-1d14ac2d87ca@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: fix maximum event ring segments calculation
+To: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Pierre-David Belanger <pierredavidbelanger@gmail.com>,
+ Shixiong Ou <oushixiong1025@163.com>
+Cc: Shixiong Ou <oushixiong@kylinos.cn>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Niklas Neronin <niklas.neronin@linux.intel.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+References: <20260828105926.930033-1-oushixiong1025@163.com>
+ <20260830031233.1810986-2-pierredavidbelanger@gmail.com>
+ <64a7ce30-b346-4e94-974f-f30893d66829@leemhuis.info>
+ <81ddd491-1ec3-4a0c-90b3-6a286ff1a908@linux.intel.com>
+ <1c855bb3-2bac-4f25-b97f-3a7436a6291b@leemhuis.info>
+ <89d99e3a-0f67-4116-a262-98be59f76f5d@leemhuis.info>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <89d99e3a-0f67-4116-a262-98be59f76f5d@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 31, 2026 at 03:27:07PM +0200, Oliver Neukum wrote:
-> On 30.08.26 10:10, Mike Rapoport (Microsoft) wrote:
-> > do_proc_control() allocates a temporary buffer for the data stage of a
-> > control transfer issued from userspace.
-> > 
-> > This buffer can be allocated with kmalloc() as there's nothing special
-> > about it to go directly to the page allocator.
+On 8/31/26 14:36, Thorsten Leemhuis wrote:
 > 
-> You are breaking the calculation. A page has a size of exactly
-> PAGE_SIZE. A kmalloced object of PAGE_SIZE is larger. That is
-> a bad idea.
-
-What calculation does it break and why do you say that kmalloc(PAGE_SIZE)
-gives you an object larger than PAGE_SIZE?
- 
-> 	Regards
-> 		Oliver
 > 
+> On 8/31/26 13:28, Thorsten Leemhuis wrote:
+>> On 8/31/26 11:21, Mathias Nyman wrote:
+>>> On 8/31/26 09:55, Thorsten Leemhuis wrote:
+>>>> On 8/30/26 05:12, Pierre-David Belanger wrote:
+>>>>> The failure on 08dbfad3f504:
+>>>>>
+>>>>>     xhci_hcd 0000:00:04.0: xHCI Host Controller
+>>>>>     xhci_hcd 0000:00:04.0: new USB bus registered, assigned bus number 1
+>>>>>     xhci_hcd 0000:00:04.0: Failed to allocate interrupter erst
+>>>>>     xhci_hcd 0000:00:04.0: can't setup: -12
+>>>>>     xhci_hcd 0000:00:04.0: USB bus 1 deregistered
+>>>>>     xhci_hcd 0000:00:04.0: init 0000:00:04.0 fail, -12
+>>>>>     xhci_hcd 0000:00:04.0: probe with driver xhci_hcd failed with
+>>>>> error -12
+>>>> Sadly this missed -rc1, wonder why it wasn't submitted for it to prevent
+>>>> more people from running into this, but whatever, that's ship has sailed.
+>>>
+>>> Looks like at least QEMU and Mediatek users were hit by this issue.
+>>
+>> Ahh, good to known. And thx for sending one of the fixes to Greg
+>> meanwhile (saw that by chance).
+>>> Note that this is a v7.3-rc1 regression which was found during merge
+>>> window for v7.3-rc1.
+>>> v7.3-rc1 came out a few hours ago.
+>>> I can't resolve it much earlier than this.
+>> Out of curiosity: why?
+>>
+>> Just ignore the question if it was something like "real life got in the
+>> way" or "it fell through the cracks" -- that's how it is sometimes, no
+>> worries. But in other cases I'd be glad if you could take a few minutes
+>> if you have them to satisfy my curiosity, as in preparation for a
+>> maintainer summit proposal I sent[1] I'm just trying to understand
+>> better why regression fixes sometimes take quite a while from submission
+>> to landing in mainline
 
--- 
-Sincerely yours,
-Mike.
+No real life or personal issues got in the way.
+Assumed severity after first case didn't call for action mid merge window.
+
+> 
+> For the record (sorry, this should have bin in above mail!), as it might
+> sound hostile without context, as obviously there would not have been
+> enough time to fix this if the issue would only have become known during
+> the end of the merge window. But that is not the case here afaics
+> (please correct me if I'm wrong!), as the first patch to fix this was
+> afaics submitted on 2026-08-20:
+
+Sure, I'll describe how it went
+
+2026-08-16 Sunday,
+
+   v7.2 is tagged, merge window opens
+   I've sent all my patches, assume Greg has his pull request ready for Linus.
+
+2026-08-20 Thursday,
+  
+   I see the issue and patch the first time.
+   It points to an issue in next, is valid but commit message doesn't call for
+   urgency in any way.
+   Doesn't specify which hardware is concerned.
+   So far one report only. I haven't seen the issue myself so assume it's some obscure
+   hardware (pre-production, or virtual/firmware).
+   Queue for after rc1.
+   No reason to panic or bother Greg or Linus mid merge window at this stage.
+
+2026-08-27 Thursday, a week later, rc1 will be tagged on Sunday
+
+   I get a second report for the same issue, this one shows it concerns Mediatek MT8173.
+   Issue gets my attention, rc1 will be tagged on Sunday so I don't even consider stirring
+   up anything anymore.
+
+   https://lore.kernel.org/linux-usb/20260827053748.3755-1-getfeus@gmail.com
+
+
+2026-08-28 Friday
+
+   One more case, showing this  affects QEMU users as well.
+   But no point in sending anything before rc1 anymore, rc1 will be tagged on Sunday
+     
+2026-08-30 Sunday
+   
+   another QEMU user reports an issue
+   Linus tags 7.3-rc1
+
+2026-08-31 Monday
+
+   Rebase on rc1, compile, quick testrun, submit fix to Greg.
+
+Thanks
+Mathias
+
