@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C213A39CD18;
-	Mon, 31 Aug 2026 10:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40090341057;
+	Mon, 31 Aug 2026 10:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788173063; cv=none; b=AW+w1U/WfYRkZw08rDPsdY8hPlKvXIRrv68dKLtJz2ow16bMmHziV9EzMcblPYAAHE9gKKEWHvb1VSlWn2yIw25s+rzfCFXp8PApeuvMPZrFFj84KpdoTMlpCvQfaZo7bdspVax3IN3xICaoVvw4wgSjhY1d5Dfg25s9wHXKMHE=
+	t=1788173125; cv=none; b=SZklGSvRjMGKTVLblSPOgndILLEwjCquvApIR4v3EUS0ZO48hG9ztp3OJMy6quwD7IXP216Hs4k/0VMtouCR0tUawl44T7xsPEkareefdxh7cyeCuNtJRMbmfx4PEdYcwEObBOWton4raJ46qCalrVKzjuFkux5LlORKh5arRdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788173063; c=relaxed/simple;
-	bh=Y1F5dbjdfte0Q9rjiepAAJ9fRyvAt+kZxrnQn9fZtL0=;
+	s=arc-20240116; t=1788173125; c=relaxed/simple;
+	bh=S6Cy0/gEJvKcVNOS+gtHpj0dp6VeulVANP25uuTUpdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NFw+4UEN/zorexJu4lba67PdvcIhIffZfr2jHarPyi50+InxOc7YOSlvxEWi0vYtpVoCj2vTolBpl8anHN9Bnw0OEuRPXXvGaVaPpRimAllVbdzGIjEoGZ1tFgWnXQ6BsyuNBMzPgQY4JnCWkMBPqVzU9UVhNVUijzV2AZvhJIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG3GtoQX; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xxi91MQeD9Nqsk9vHKDasFzMgw8CaEIIMs2WQWGPyfw4qas2IcOA9uAPfIWOgiiVFyq502u01yM1X1sD+Iab5VF+JomUWc1WSEjIWofK9tZOqFLq+H+buqj4wcCRGzTQ7h1QJvtK4mrimr9Aqz0RqxQRJoNXq1714eZz9f4X1dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OcaC9KfJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG3GtoQX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OcaC9KfJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788173062; x=1819709062;
+  t=1788173124; x=1819709124;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Y1F5dbjdfte0Q9rjiepAAJ9fRyvAt+kZxrnQn9fZtL0=;
-  b=nG3GtoQXKud0VSHBwGTWGGh+e81dzpxNVdr4FS5IS8YhMohjiJ8REoys
-   0Q82PNfu9QAw26LL/evl/skyu6b6F5pgSNpV8MJ0N6gvGMSfXrMKVRKrL
-   JHTLpJ1X2idclsoi7IptqOmDpTf9SYd6A5zv1RJKcb513rWo6Ss2JJvm+
-   MFPtfq6V1bbdM2hcwkdf8c5PpFwcbX50caXsuwX+LTGAs/Nh0fON0Yuio
-   2mrsPe4DQWTG34MeC56TMg+O56qm3XIr2WE7McnG+eJ+xSofxUR4jiGGk
-   Kdf6VPii+kQzwGv+ngfcdWA1ayfngQ8E/Frn8CrCFqhOdTm0Jlmo/oORa
-   w==;
-X-CSE-ConnectionGUID: GCZ+6accR7SV+WHZSLTeDg==
-X-CSE-MsgGUID: EbFbse/tQ/yEtTvC4ckQXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="87712588"
+   mime-version:in-reply-to;
+  bh=S6Cy0/gEJvKcVNOS+gtHpj0dp6VeulVANP25uuTUpdI=;
+  b=OcaC9KfJMR8GpHmB+eT8IZrfeG0hIl+pQn582UpfoAB7vJsyW7wcT8zb
+   ahfZ0ucOERsCMWA6ksrx1Lpop2+/Q66PmaayakEd3ara2mhDmZd+0YCqp
+   KymgNuenXm9XT8s1Sz7sWJOLUqlQsjUYlRj8/hkfuMwD+pmcww8uuRcul
+   GcHsv0KVCbNf1VgqXjjvDdsg8luueU6whdpqhFCq81cXSMzmag+FFC2gU
+   feDkr89tYI9VHzyMLlywknXfrtDWeYmi8ZccGafxSEUd7e5++w3y7YgX2
+   suDDaOHv5PAWfQWIjCsfdyDYEwW6kWYn5SeUfEwkAY73ClbRjp3o1zjnk
+   A==;
+X-CSE-ConnectionGUID: nL1qHdOFTQqi+UCMsNmy9g==
+X-CSE-MsgGUID: g5+Brj+iQS2Np7m889gFxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99737829"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="87712588"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:44:21 -0700
-X-CSE-ConnectionGUID: oCgYAhwUTpSosmKo/3Q6UA==
-X-CSE-MsgGUID: 4K0S2USlTOeDM89t6S2euw==
+   d="scan'208";a="99737829"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:45:24 -0700
+X-CSE-ConnectionGUID: bTc4khdUTmWWoN3UHqsKJg==
+X-CSE-MsgGUID: hznkY5QmRu297pPqTVBzvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="298679250"
+   d="scan'208";a="265044519"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2026 03:44:18 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id F29A699; Mon, 31 Aug 2026 12:44:16 +0200 (CEST)
-Date: Mon, 31 Aug 2026 12:44:16 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: amber.kao@ite.com.tw
-Cc: jeson.yang@ite.com.tw, Yaode.Fang@ite.com.tw,
-	gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bling.Chiang@ite.com.tw, Eric.Su@ite.com.tw, doreen.lin@ite.com.tw
-Subject: Re: [PATCH v7 2/2] usb: typec: ucsi: Add ITE IT8851/IT8853 Type-C PD
- controller driver
-Message-ID: <apVbAAlKuUBwWd8K@black.igk.intel.com>
-References: <20260807-ucsi-itepd-v7-0-998ac11ed0ef@ite.com.tw>
- <20260807-ucsi-itepd-v7-2-998ac11ed0ef@ite.com.tw>
- <anw73Ps2KgcwP4iZ@black.igk.intel.com>
- <cfa598562b904c0e84f8527e481c5579@ite.com.tw>
+  by fmviesa010.fm.intel.com with ESMTP; 31 Aug 2026 03:45:22 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id C452B99; Mon, 31 Aug 2026 12:45:20 +0200 (CEST)
+Date: Mon, 31 Aug 2026 12:45:20 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: westeri@kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com,
+	isaac.hazan@intel.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: dma_test: Tear down DMA paths before
+ stopping the rings
+Message-ID: <20260831104520.GG124825@black.igk.intel.com>
+References: <20260825034759.5403-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,33 +63,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cfa598562b904c0e84f8527e481c5579@ite.com.tw>
+In-Reply-To: <20260825034759.5403-1-vulab@iscas.ac.cn>
 
-Hi Amber,
+Hi,
 
-On Thu, Aug 27, 2026 at 08:52:12AM +0000, amber.kao@ite.com.tw wrote:
-> Hi Heikki,
+On Tue, Aug 25, 2026 at 11:47:59AM +0800, Haotian Zhang wrote:
+> dma_test_stop_rings() stops the RX and TX rings before calling
+> tb_xdomain_disable_paths().  tb_ring_stop() zeroes the ring's descriptor
+> base and the cancellation callbacks unmap and free the frame buffers, so
+> by the time __tb_path_deactivate_hop() polls the hop's 'pending' bit any
+> data still in flight has nowhere to drain to; on ASMedia ASM4242-class
+> host routers the bit never clears and every teardown burns the full
+> 500 ms timeout.  This is the same defect as the one in tbnet_tear_down(),
+> fixed as CVE-2026-74691 ("net: thunderbolt: Tear down DMA paths before
+> stopping the rings").
 > 
-> Thank you for the review! Also, noted on your comment regarding the changelog
-> in the cover letter—I will make sure to reply to questions in the original
-> threads for future submissions.
+> Move the tb_xdomain_disable_paths() call before the tb_ring_stop() calls
+> in dma_test_stop_rings(), so in-flight data drains while the rings are
+> still active, and only then stop the rings and free the frame buffers.
 > 
-> I have a quick question about my next steps. I am planning to add a new
-> feature that builds on top of this current series. Since I really don't want
-> to delay or affect the progress of merging this v7 patch, would you recommend
-> that I wait until this series is fully merged into the tree before submitting
-> the new feature, or is it okay to send it out now as a separate series?
+> Fixes: edc0f494ed966 ("thunderbolt: Add DMA traffic test driver")
+> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 
-No top-posting on the ml.
+I dropped the Fixes that as I don't think it's needed. DMA test is not
+anything a regular user should care about anyways.
 
-It should be okay to make a note about the dependency on previously sent patches
-that the maintainer has not yet picked in the cover-letter.
-
-Thanks,
-
-> Thanks,
-> Amber
-
--- 
-heikki
+Applied to thunderbolt.git/next, thanks!
