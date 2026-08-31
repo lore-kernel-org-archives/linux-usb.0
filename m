@@ -1,61 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6D73BBFC7
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 06:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55E23ACA7C;
+	Mon, 31 Aug 2026 06:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788158377; cv=none; b=tI2EJLQsYtG3ADA6gV+XtxhmnibaiEXWEg/LxTI+Uj/xLE+uItwKNJcaNCfniI2qpRynk+dzk2rdcC8xE8wX/ml5DJvVZ+K+tV7+DEprtTlCgHvKMnrF5v6GhUj/TaGQ3zMaBp1pHTNzmC6sqU+8BMRBHUkCbkl9ZmIA29efE3U=
+	t=1788158794; cv=none; b=GaU4AGgKYMwUA6t9FfLcdI+g1bMmkRdHRRQzHpXeq6ZAMRxetdD884E++A2c4/j30RtJnfLEPQqU0HJEAny4fsl6Vw8xNyysuaCKtaptYPa/jEWpTPjplHvk/skAqEIjj6/pm3cyRMAWxrPC8OIUnKlDpFvqL5ArzGFpG20aKZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788158377; c=relaxed/simple;
-	bh=yVjnDlcYs2HIGE8tTUyxTsvELM35eH+F7TXR4SzHZBU=;
+	s=arc-20240116; t=1788158794; c=relaxed/simple;
+	bh=8j2UPxHbsbQKUt31JjMUVLrrajGaX1n7vJtbyO5pNrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pSsqgKZP9NJghEnPmB2ZOvXzvpzpv4irujqDMKs4eMizcmaz2Ny4LHAE0R7yVCxpVCX58Msw1V2S6UEZd8Lx+fWwvyjtJf091J5eoRdBAQK5zf32u1wsBskQmVtl3FvoFspyQdKqst8aZQkFDE2kxdyn7bcrwyz22qMADtBwU6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRgXlcDR; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gkqEycyIxBFbNB5U8Vr4eZY3PJ1/9C0J+f5q3CMjoxpu/IhBJVFJSkrigyHpnOQ1FPVjpnXgdz7u1hL5fuQEb/xeIMcNoO7SXT7sglyDt9wlLqwefJvp8iV/KQRGGJuSdbnPh/7/OeQNrEhj2zrhnFRU1ga0FgMtEklC6tOon1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFWKOF5J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRgXlcDR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788158376; x=1819694376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yVjnDlcYs2HIGE8tTUyxTsvELM35eH+F7TXR4SzHZBU=;
-  b=iRgXlcDRw/8WeoPl1LgP3ZgoajG8OpygyB5XnhKKEKkOraw3u4FBD1H9
-   6/chmGU5ZDrcHu2Re/avI7u/kMXmonPWh/5ZtVHv5XHGWGTevaUBFUFOS
-   IPAuQpG7WB9Kn+gYHdXgwggcWWldJRr0s/QYrvCiCFuldlOCa4oN2xCtK
-   S3kNSmq7tQ5FvxKglXubRCkfPW5mpJCAYtXOR5mKJcy1Z4DKpq3T0jWHx
-   sApRiiAcnbbMn3b9bZ5ROyxZ2AQjoMOpQ1nRiKObXglW+JockvJ8N9znd
-   5lkuREsYu60fc93wRUl+1KKTzzReqfr072DYdytu+wF6Xx/FtdnECFSQ3
-   A==;
-X-CSE-ConnectionGUID: GsvJDoWzTWS1IHpRMj8FDA==
-X-CSE-MsgGUID: PHWG4OImTMm5kPMMTG+GCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="105930428"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="105930428"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 23:39:35 -0700
-X-CSE-ConnectionGUID: b0YXPFboRjiLyp+2DClZrg==
-X-CSE-MsgGUID: ery/tHecRT+o6ffFyomIAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="267378101"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa010.jf.intel.com with ESMTP; 30 Aug 2026 23:39:31 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 91F4F99; Mon, 31 Aug 2026 08:39:32 +0200 (CEST)
-Date: Mon, 31 Aug 2026 08:39:32 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: fy15309206903@gmail.com
-Cc: Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3] thunderbolt: Stop waiting on a path pending bit that
- never clears
-Message-ID: <20260831063932.GB124825@black.igk.intel.com>
-References: <20260812-b4-tb-pending-v3-1-3a292e7194c9@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFWKOF5J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EC501F000E9;
+	Mon, 31 Aug 2026 06:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788158793;
+	bh=yiCZQi/KsfPhos3m9UPBMLZ/6VRkatgenlxPmXeCU1s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dFWKOF5JBsWRW0Ut0BH3FOS33DP30hPeVz+jynqpgAwHvHvEdyprLdM30wiiUPo/y
+	 Wxr6BIyBzbL3bO31f86ZFFPq6rwAUN1Fx5gaGE84JwtpTtRbIztEm8r33Jgx1V7Ixa
+	 ifulcECamQVwaC62/36RIFF0Q2OCmmyZzGCnM5SuExtFaDITDipDtGnWITU7urPabU
+	 ip2IoqgjnAlnUmyoR1gPNKLWEkWCyLZbgSqNfp+Cpqr/zzwFdrbVSMBsQtZuoiuR8B
+	 uYXNr2TbOr5JvUPrs6SW+IBoYbH7aFIuD2MKEiu2V5M5qxmtP/Y0FImDIX5K8oyNHs
+	 aDiezMykhuueQ==
+Date: Mon, 31 Aug 2026 08:46:29 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6 1/5] dt-bindings: phy: Add PHY_TYPE_EUSB2 definition
+Message-ID: <20260831-visionary-capable-termite-3dae2a@quoll>
+References: <20260826-eusb2-interrupt-v6-v6-0-ae2601cfa80c@oss.qualcomm.com>
+ <20260826-eusb2-interrupt-v6-v6-1-ae2601cfa80c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,31 +47,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260812-b4-tb-pending-v3-1-3a292e7194c9@gmail.com>
+In-Reply-To: <20260826-eusb2-interrupt-v6-v6-1-ae2601cfa80c@oss.qualcomm.com>
 
-Hi,
-
-On Wed, Aug 12, 2026 at 11:42:09AM +0000, Fan Ye via B4 Relay wrote:
-> From: Fan Ye <fy15309206903@gmail.com>
+On Wed, Aug 26, 2026 at 10:32:51PM +0530, Krishna Kurapati wrote:
+> eUSB2 (Embedded USB2) is a MIPI Alliance standard for chip-to-chip USB2
+> signaling. Unlike standard USB2, which uses 3.3V signaling, eUSB2 uses
+> low-voltage differential signaling (~0.4V) and requires a repeater to
+> interface with external USB2 ports. Because of these differences, eUSB2
+> PHY initialization sequences, voltage tuning, and register configuration
+> are distinct from USB2.
 > 
-> __tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit to
-> read back clear. On an ASMedia ASM4242 host router the host interface
-> adapter latches it once enough frames have gone through the DMA ring and
-> never clears it again: the teardown finds it already set, seconds after
-> the last frame and with the path still up. USB4 v2 table 8-23 has the
-> field read only and zero unless packets belonging to the path are waiting
-> to be dequeued, so the wait is right and this adapter is not.
+> Additionally, eUSB2 targets handle wakeup interrupts differently
+> depending on device speed when operating in host mode. According to the
+> eUSB2 specification, remote wakeup signaling in host mode is detected
+> via different data-line assertions based on the connected device speed:
 > 
-> Make the wait a per-adapter length and quirk those routers to zero, which
-> leaves the loop reading the bit exactly once. A hop that does drain still
-> says so on that read, and one that does not answers -ETIMEDOUT without
-> burning the timeout: bringing the interface down takes 6 ms where it took
-> 506.
+> - Low-speed devices: the host repeater drives eD+ to logic '1' upon
+>   detecting a K-state on the USB lines during remote wakeup (eUSB2
+>   spec, Section 5.5.14).
+> - Full-speed/high-speed devices: the host repeater drives eD- to
+>   logic '1' upon detecting a K-state during remote wakeup (eUSB2 spec,
+>    Sections 5.5.15 and 5.5.18).
 > 
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+> Since the eUSB2 PHY's DP and DM lines need to be configured differently
+> from USB2 PHYs, controllers should be able to query the PHY type and
+> configure wakeup interrupts accordingly.
+> 
+> Add PHY_TYPE_EUSB2 to distinguish eUSB2 PHYs from standard USB2 PHYs.
+> 
+> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+> ---
+>  include/dt-bindings/phy/phy.h | 1 +
+>  1 file changed, 1 insertion(+)
 
-I moved the constant to switch.c as I don't think it needs to be exposed
-outside. Please check that it still works.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Applied to thunderbolt.git/next, thanks!
+Best regards,
+Krzysztof
+
