@@ -1,109 +1,169 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89102E5B29;
-	Mon, 31 Aug 2026 01:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C27C29346F;
+	Mon, 31 Aug 2026 02:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788140538; cv=none; b=FHPJM/d0DyNW8xbbXx8MGSGW053iFqZpAWhDweQpsmt5wOG3EmTckB5pA1z5j1jkEcjZ6u3SPpKNjR+PVkugranKTKCckRClIuFIZi0RMDzDsO2N5OVp41wwCWcrJSg3ixrIyO6gyVI5R3oepJrQgrR+t1hF06gSXEujPrwZrAw=
+	t=1788141905; cv=none; b=F5Zvt4DLno2fkNAqjsSOmIrT0vSuNOMbG0O2h/HZHsDS8aL0rZ3CCycZbwPxzvhem5HMdvBASFGxt7rkYmrUIQJ4md0PikF7gkkzVCw/fdyF8iSPBLG7BGwQ3YA/Vqxi7hzhkZxBQGl6qkRHqmT8e5lTyIaldnXDTj/krAvNM9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788140538; c=relaxed/simple;
-	bh=H/w5a+XIthbN5mynp3nuzqlAIjAM5Co0ejvUDr4w9pU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OiQSv0DPW01huEI4OdWG5ufpdsNR3VIPbJdnIjCBREVXxw090onsPEz6j1G1CvCCqvsxkLQBAr4vJXM2IZFmCiI+UkmTa5HTTXNLmL93oeW5Ivs3Hr8jNmP612tgST/g592UQCO1jptA/JWTGbHhjFtl3RRLbVy2WwMTbOzDFlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=VcYEwYIi; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
+	s=arc-20240116; t=1788141905; c=relaxed/simple;
+	bh=/ssjtIj6QG4czOwrOPhD4XlpBJShlGlQGZWAq9Jhd3o=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Erz9J/bERvqBN+/G2EI9arIxj0c692NSh6nR4L31lh1olF0spMW2ppLVN42GPBiXHg+iggH5SAePW2eI4plr6SbB8O85hriH68LpTxjnUnwRgDbMede5A1e4oIRNSU8SCQ8h5YOWf6+ScHVJvsrnOXOC8AnLh1MkJrHXJtQhDzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw2mST+k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="VcYEwYIi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1788140477;
-	bh=VgcTdmN1+NZPi395+qYMSKomq+S9lhZAqZQzX8ZSS6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=VcYEwYIiDlA/qvBI+r+bmydK3L4PoXy1A2QjzPyhfma4efAZH+2vCKdhLrW/OYqzP
-	 bBBuANIypPMxIeGKM3AuSZjTvI2U/hogzPhrRXPdJNYJEIztqPfrN3MTQETbh94NdK
-	 46+PUqVrm56AUIgUgV27gauTJaKzH/FQfoJO8Ia8=
-X-QQ-mid: esmtpsz19t1788140471t4a3b1f4e
-X-QQ-Originating-IP: 3UhhlstAmz7bt2FV6PFHCQNwYydpMBw8AK9pSZHATEI=
-Received: from [172.16.12.90] ( [58.22.7.114])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 31 Aug 2026 09:41:09 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 920350159676869033
-Message-ID: <84A6832DFD4B9FF2+64806113-d65e-448a-b2c4-ee83e125a665@airkyi.com>
-Date: Mon, 31 Aug 2026 09:41:08 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw2mST+k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 111141F000E9;
+	Mon, 31 Aug 2026 02:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788141904;
+	bh=DP5CUggDYLJP1zwRDoCvBoCMOmV/x4yH7Zk2+n9eEYw=;
+	h=From:To:Subject:Date;
+	b=Vw2mST+kuW6C2RGFvP2UbUzT8qKg/ZaZTcmlASA6VkfpKZ4ecLI34EfwakE8giTxa
+	 vNZbihrxVVmndDpDpXbjuoBgCU8/n9ieiZywHW5CvfhecC7ZP/9U4CJqAUek1UnxB+
+	 OynMEQngjwKHEdUWYGOSGafMPSFDI4WwuQJr1/HhB7sgkGrGaUxuymbKHmEVrG5CqM
+	 OoBCe528+n1qm+WipkEtvGdbBEHon/07OtYwRuAYurIn2oOzlHz5R7ODFb4sqb/u6y
+	 9v302g9OZGchnOotBBZlJjN6CwWDp8rMI5zyIOCJoBeS0iTz6pLE/BfYuWcUtrlBOX
+	 FudCPar3fdWvA==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: "Martin K . Petersen" <martin.petersen@oracle.com>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	linux-scsi@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-usb@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 00/37] Use defined 16-bits ASC/ASCQ combinations 
+Date: Mon, 31 Aug 2026 11:04:14 +0900
+Message-ID: <20260831020451.585944-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: onboard_dev: add the Rockchip rk1808
-To: Rudi Heitbaum <rudi@heitbaum.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>
-Cc: Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <aouw7rH6FZxscUTO@0d3a7a881997> <5096877.GXAFRqVoOG@phil>
- <apFpPP1O45BWXDv5@5be1eda4e59e> <4512468.iIbC2pHGDl@diego>
- <apGMEsCwly8TCOww@5be1eda4e59e>
-Content-Language: en-US
-From: Chaoyi Chen <kernel@airkyi.com>
-In-Reply-To: <apGMEsCwly8TCOww@5be1eda4e59e>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: OWISOlifo4HyrF+2ggBCw624Qpr6AIS8jGWgOY9VSU0Cx8+c1b99yWRd
-	FAf/4tENwvcVeRwUwksRWPcoWKqO3sH98URnZCaa/MBCW1lYDKRll24no/oxZhm+g3b4kpQ
-	NYS6R+xRLeiQrVwXZxs3TYwPTEQH4/IVbwN3GOpMWAaZXxHkWSsKWRh/Qgy0JCNL0T3rFbG
-	BkbVTM/ckFHRnBDK8ph5QcNFCRTSyCUN4YbxthlrWuvEV4wtjb5NyFkWPFLVDCOuMOWGD7c
-	eVoovPSThB+6xES62ejzP32x0kvzZTmOE9wsPOP9H/6RjDpLUgShxmgZ8TVHNif4PK9GchJ
-	gqXSYt1O4ewuMjFr5SC8caz3hBAM5n9VRnpaZMlLRMLs0vc/GkzLG22glnYNV2rhgau/wdT
-	IeRUcLk9IuJtXIh6LIr+deVB7uFcZHzXmuz4CDcJkWfM8xJwDqt+kxmgKQDrBnWffiWRpRx
-	1vJZsYRJZm1IuPWhkRU34xPFp1n/zbqy3mfQxAPzRAyy0ddjNmSU5VzE4Cu1fwvcy5X85Jg
-	aThX0cS++CoNcI2sA/c3eWA7QblY6OpoRQ+AnTd87hlODDeW6EmsANyD+dcafvbA7FbepKy
-	KvDYipMIcm07kj37icagjWr55JctHv8Yp5zZNAYSfhNmBeJ6cjU7h7QpwiWdox07YV1idjy
-	Ja7bofu6MHlYQOLq5myo8CD4W94v9Rwn2kvPuZccFH4rR/PzSFtE6wBdX08V1ttB41bfZi2
-	TTvKy/9sTZICN5gpkAdKf27ZcI3gKP27x2RXTryTb6rfqyOmzC0IrCEE4gXksBO2Tqe4NNI
-	nBdPlZXE68GiO2L+O4Iao4dFBqekkGe/WTbK1vQPFLiIYf3seBaQyrg9eEXQ736NCPvDqUf
-	NA0H1hiIhI1mmXcMS0DaqKt+rcdCCeyfRU9JDke+LxW4Nx32dNPy4HzZPXC6SWJv445DkGl
-	xo82X5Nlc0oEVv3ByI+85wuCrzeors9cBd0TXZF7t/XiS7r5IEAHcnlIC/08ii2eck5cASk
-	8y+DZwrg==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-Hello Rudi,
+Martin, James,
 
-On 8/28/2026 9:24 PM, Rudi Heitbaum wrote:
-> Hi Heiko,
-> 
-> I hadn't looked in to these from the mainline viewpoint. I had been
-> using an adapted vendor script based on the radxa npu_powerctl binary
-> which reimplements the npu_reset sequence over GPIO.
-> 
-> This has been the sequence:
-> 
-> gpio0 line 4   NPU_PWREN_1   -> 1, 2 ms
-> gpio0 line 10  NPU_PWREN_2   -> 1, 2 ms
-> gpio0 line 11  NPU_PWREN_3   -> 1, 2 ms
-> gpio1 line 22                -> 1, 2 ms
-> gpio1 line 23                -> 1, 2 ms
-> gpio1 line 24  NPU_PWREN_6   -> 1, 25 ms
-> gpio1 line 0                 -> 1  (reset release)
-> 
-> I have the schematics and the working N10 here, so let me look into
-> describing these in the .dts and update the onboard_usb_dev.h.
-> 
+This patch series defines as macros all ASC/ASCQ combinations present in
+https://www.t10.org/lists/asc-num.txt and converts the SCSI core code and
+SCSI low level drivers to use these macros instead of hard-coded
+ASC/ASCQs. To do this, struct scsi_sense_hdr and struct scsi_failure are
+modified to replace the asc and ascq 8-bits fields with a 16-bits
+sense_code field.
 
-Perhaps we should first check whether the power-on sequence in
-onboard_usb_dev.c meets the requirements, as it enables all
-regulator supplies at the same time.
+This cleans up the code in many places and makes it easier, and self
+documented, to test sense codes in the case of errors.
+
+Overall, there should be no functional chnages here.
+
+Damien Le Moal (37):
+  scsi: define all additional sense codes and their qualifiers
+  scsi: constants: use defined sense codes
+  scsi: constants: rename internal struct field names
+  scsi: rename sense field of struct scsi_failure
+  scsi: prepare for using 16-bits defined sense codes
+  scsi: use struct scsi_sense_hdr to log sense keys and codes
+  scsi: core: use 16-bits defined sense codes
+  scsi: sd: use 16-bits defined sense codes
+  scsi: sr: use 16-bits defined sense codes
+  scsi: ses: use 16-bits defined sense codes
+  scsi: ch: use 16-bits defined sense codes
+  scsi: st: use 16-bits defined sense codes
+  scsi: device_handlers: hp_sw: use 16-bits defined sense codes
+  scsi: device_handlers: rdac: use 16-bits defined sense codes
+  scsi: device_handlers: emc: use 16-bits defined sense codes
+  scsi: device_handlers: alua: use 16-bits defined sense codes
+  scsi: mpt3sas: use 16-bits defined sense codes
+  scsi: mpi3mr: use 16-bits defined sense codes
+  scsi: 3w-xxxx: use 16-bits defined sense codes
+  scsi: leapraid: use 16-bits defined sense codes
+  scsi: megaraid: use 16-bits defined sense codes
+  scsi: myrX: use 16-bits defined sense codes
+  scsi: smartpqi: use 16-bits defined sense codes
+  scsi: qla2xxx: use 16-bits defined sense codes
+  scsi: ps3rom: use 16-bits defined sense codes
+  scsi: lpfc: use 16-bits defined sense codes
+  scsi: stex: use 16-bits defined sense codes
+  scsi: mvumi: use 16-bits defined sense codes
+  scsi: libiscsi: use 16-bits defined sense codes
+  scsi: ibmvscsi_tgt: use 16-bits defined sense codes
+  scsi: scsi_debug: use 16-bits defined sense codes
+  scsi: hpsa: use 16-bits defined sense codes
+  scsi: storvsc: use 16-bits defined sense codes
+  usb: storage: use 16-bits defined sense codes
+  cdrom: use 16-bits defined sense codes
+  ata: libata: use 16-bits defined sense codes
+  scsi: cleanup scsi_proto.h
+
+ drivers/ata/libata-eh.c                      |   13 +-
+ drivers/ata/libata-sata.c                    |   14 +-
+ drivers/ata/libata-scsi.c                    |  346 ++-
+ drivers/ata/libata.h                         |    5 +-
+ drivers/cdrom/cdrom.c                        |   10 +-
+ drivers/scsi/3w-xxxx.c                       |    3 +-
+ drivers/scsi/ch.c                            |   55 +-
+ drivers/scsi/constants.c                     |   61 +-
+ drivers/scsi/device_handler/scsi_dh_alua.c   |   55 +-
+ drivers/scsi/device_handler/scsi_dh_emc.c    |   30 +-
+ drivers/scsi/device_handler/scsi_dh_hp_sw.c  |   31 +-
+ drivers/scsi/device_handler/scsi_dh_rdac.c   |   51 +-
+ drivers/scsi/hpsa.c                          |   69 +-
+ drivers/scsi/hpsa_cmd.h                      |   23 -
+ drivers/scsi/ibmvscsi_tgt/ibmvscsi_tgt.c     |    5 +-
+ drivers/scsi/leapraid/leapraid_func.h        |    7 -
+ drivers/scsi/leapraid/leapraid_os.c          |   15 +-
+ drivers/scsi/libiscsi.c                      |    3 +-
+ drivers/scsi/lpfc/lpfc_scsi.c                |   18 +-
+ drivers/scsi/megaraid.c                      |    8 +-
+ drivers/scsi/megaraid/mega_common.h          |    2 -
+ drivers/scsi/megaraid/megaraid_mbox.c        |   12 +-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c              |    3 +-
+ drivers/scsi/mpi3mr/mpi3mr_os.c              |   50 +-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c         |   69 +-
+ drivers/scsi/mvumi.c                         |    2 +-
+ drivers/scsi/myrb.c                          |   67 +-
+ drivers/scsi/myrs.c                          |   23 +-
+ drivers/scsi/ps3rom.c                        |    5 +-
+ drivers/scsi/qla2xxx/qla_isr.c               |    9 +-
+ drivers/scsi/scsi.c                          |    3 +-
+ drivers/scsi/scsi_common.c                   |   12 +-
+ drivers/scsi/scsi_debug.c                    |  332 +--
+ drivers/scsi/scsi_error.c                    |   94 +-
+ drivers/scsi/scsi_ioctl.c                    |    3 +-
+ drivers/scsi/scsi_lib.c                      |  122 +-
+ drivers/scsi/scsi_lib_test.c                 |   58 +-
+ drivers/scsi/scsi_logging.c                  |   22 +-
+ drivers/scsi/scsi_scan.c                     |   22 +-
+ drivers/scsi/scsi_transport_spi.c            |   12 +-
+ drivers/scsi/sd.c                            |  126 +-
+ drivers/scsi/sd_zbc.c                        |    2 +-
+ drivers/scsi/sense_codes.h                   | 2496 ++++++++++++------
+ drivers/scsi/ses.c                           |   23 +-
+ drivers/scsi/smartpqi/smartpqi_init.c        |   31 +-
+ drivers/scsi/sr.c                            |    3 +-
+ drivers/scsi/sr_ioctl.c                      |   29 +-
+ drivers/scsi/st.c                            |   35 +-
+ drivers/scsi/stex.c                          |    3 +-
+ drivers/scsi/storvsc_drv.c                   |   15 +-
+ drivers/usb/gadget/function/f_mass_storage.c |   34 +-
+ drivers/usb/gadget/function/storage_common.h |   71 +-
+ drivers/usb/storage/debug.c                  |   12 +-
+ drivers/usb/storage/debug.h                  |    4 +-
+ drivers/usb/storage/transport.c              |    7 +-
+ include/scsi/scsi_cmnd.h                     |    7 +
+ include/scsi/scsi_common.h                   |   20 +-
+ include/scsi/scsi_dbg.h                      |    6 +-
+ include/scsi/scsi_device.h                   |   26 +-
+ include/scsi/scsi_proto.h                    |   71 +-
+ include/scsi/scsi_sense.h                    |  943 +++++++
+ include/trace/events/scsi.h                  |    4 +-
+ 62 files changed, 3765 insertions(+), 1947 deletions(-)
+ create mode 100644 include/scsi/scsi_sense.h
 
 -- 
-Best, 
-Chaoyi
+2.55.0
 
