@@ -1,128 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5E83E1D1A;
-	Mon, 31 Aug 2026 10:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CA63E4C94;
+	Mon, 31 Aug 2026 10:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788170883; cv=none; b=mRp9ptuZAiuTD9UhE18C8SqjHjcZ+mUmVEhFs/89TSaSI1BgIHS5cA+jEXQLFJsFQl2wcam0AAdjyXrO4sF7V0PYlZmced/77hpLcVvGxdOvyh7JTz7d77+NLKPzHiA4GXboSWnq8IQzXJ2+xgOJd2Nub+nV4ajnBkBl30DjPa0=
+	t=1788170891; cv=none; b=VAB0NFMBp1Qw9kWcNOrLfdl3G2LDMEispLfI1MAJ2iyRV6J/4kz4hjPuE7P6lvfecoPxjgYzrFHxtKR0x3xtx4t1+T0kQ300QLbVUj65pR+AEyxRhiBGlfygiOJ+tkr5KAz7t9TO8ZTcwHuHmCED1rt6mIexUHSosOSUw97CZ34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788170883; c=relaxed/simple;
-	bh=gdC8+zZj8xqksi8xV2M9KEoqdzn/PVKaelTTjmIIjbc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxVpBWM8G9GAHOMoX4ttGyX/8xBtoQoB3JBXKWsVzDZsmHaOSCdME5BAQnRqWKPoZLOOXuRGZEn7dnHgNCgoYM8gML96Mh/LgN5zu5sWaNP0I7PgvwuIuQsw0GX6a5f7cGkSOrecTRdDZHo7sV5Sos0qaWnEvXlX3ps8xkMs9kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maRehGDK; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788170891; c=relaxed/simple;
+	bh=Fz2uf0tPnU/Y4m5DeWMKXkg3rFzA0IH7d6hBVf3YE8Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dssAVt0nFSX2z43QkAhIty5IPqlNmiFRSAdoBN3p8rKmtjiplgXBNk61FJYxmxv8duO3DtG7xSeYWAwSac+DdRYfWPhktyXzlnmm1iDRYh/JwiEGPOdeCFEWYj0iwMvXheKQpyarl00C0msh7D44/X9+T3GK9LZ62miyMTQms+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=va2fxk+a; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=AjxUk8Uc; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maRehGDK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788170882; x=1819706882;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gdC8+zZj8xqksi8xV2M9KEoqdzn/PVKaelTTjmIIjbc=;
-  b=maRehGDKYhzXK/p1quUTRi8aRF5s26ZQmUyAYUGeddlujzuyjZP/KMtZ
-   KUo6U2EwfjrUTM35InI9rDSCfY7uKRg4I12R4UFH4Q/tnfDHEOhdbtPmo
-   MpCel6tGo1x+InLnMcQH0T1qiMUPFopy+6Hb0n7Wv5K0efAnF1Yf9BfD4
-   6fVcAKFNmEjRqN9rEQDP5jw0RdRiIcfyQ+jh+5/tHMYkWgBKbO78CbmFA
-   pkoITSL1nnOtU8jFAdM2dcZBaDbKyMMY4llJJqBiiBQ1Oehh6Xa5NqY5E
-   1P/dW3ykIjGxkQhOTzsHYnTTlgutwN/MWHC2hvTHmyeni/TWPoesufMGV
-   A==;
-X-CSE-ConnectionGUID: UefWSWEXSveFF/IYnK3wPQ==
-X-CSE-MsgGUID: OnSwjWwqSU60qaX7f5yzyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92385487"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="92385487"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 03:08:01 -0700
-X-CSE-ConnectionGUID: jm0IokuQR32G/UH55DpHHA==
-X-CSE-MsgGUID: 72RwjEvERj+fA3hoAivfNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="265513815"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 03:07:59 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id BC48C99; Mon, 31 Aug 2026 12:07:57 +0200 (CEST)
-Date: Mon, 31 Aug 2026 12:07:57 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Marek Vasut <marex@nabladev.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 2/2] usb: typec: mux: gpio-sbu: enable when only used for
- orientation
-Message-ID: <apVSfbfIDbkx3eCT@black.igk.intel.com>
-References: <20260825-usb-fusb340-v1-v1-0-2191179b0661@foss.st.com>
- <20260825-usb-fusb340-v1-v1-2-2191179b0661@foss.st.com>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="va2fxk+a";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="AjxUk8Uc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1788170339;
+	bh=Fz2uf0tPnU/Y4m5DeWMKXkg3rFzA0IH7d6hBVf3YE8Q=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=va2fxk+aqXfH85aihJt743i4t8WIRlljzIN1TR+6sa7my4ZQiAi/+9hayRccMgMNP
+	 5noVSMXU/xgNUs1wEVbi23K8aINULqDBHnaAOj2ZIphcvprF+QB7j5pWaiyM/0i8ge
+	 B0nhG6weRBNpgz5nEKdXsYd3rfslhq/477FiROHS2CibNVsMSzN+HiiMXGk7aKL5A1
+	 e5pfKCGiU6voPXZzxMFgW89xVixwpQc/L+qv3gtHtRN+i+nVRpEAQU0HJyOUFPLAAB
+	 qXKSLQl0NluNS9TiBeLglmIcTbrJzTN9IcxWeqUlVtcPTg4exruLSAWcqjx43wuiyE
+	 KQ2fh1g2z+fug==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 66EE83EC8A; Mon, 31 Aug 2026 09:58:59 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1788170337;
+	bh=Fz2uf0tPnU/Y4m5DeWMKXkg3rFzA0IH7d6hBVf3YE8Q=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=AjxUk8Ucc6y/XlJ588gJj6IRbLIMwfumgU1nhngGHkheV72IosQn/RbqP/Ticjb1L
+	 zZjyWv7YI4S+3UeUqIOYy507fFZr4R2+e9nJyv6F3WXBDKpweOT+pgd8xhT3jRGisv
+	 tZabHYDg4Zp1xTbvhF9TYvExa3aUB2eLO+ApmwaUpGiOMp1Bt9odCAidcsaPf4J0qO
+	 nOmqqAmLa9LVz/IWPVif6JqlrGJt5HEBVn+6JiNyAljeDdawBZOX4J8KyPsPmQ/GGG
+	 ZLPq/il9XWFUnHNhTNd6MCp2zN534a/YFcUiTlWqhXyKzc5tLtLLZbeuYfdsMcgeLl
+	 vDA3goVHnjiVw==
+Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 2E2763EC4F;
+	Mon, 31 Aug 2026 09:58:57 +0000 (UTC)
+From: Birger Koblitz <mail@birger-koblitz.de>
+Date: Mon, 31 Aug 2026 11:58:51 +0200
+Subject: [PATCH net-next v8 02/15] phylib: Add support for PHYs with broken
+ forced mode
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260825-usb-fusb340-v1-v1-2-2191179b0661@foss.st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260831-ax88179a-v8-2-de905f2ee426@birger-koblitz.de>
+References: <20260831-ax88179a-v8-0-de905f2ee426@birger-koblitz.de>
+In-Reply-To: <20260831-ax88179a-v8-0-de905f2ee426@birger-koblitz.de>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>, 
+ Jianhui Xu <neuromoments@gmail.com>
+X-Mailer: b4 0.14.2
 
-On Tue, Aug 25, 2026 at 02:54:24PM +0200, Fabrice Gasnier wrote:
-> When used as orientation-switch only (no mode-switch, e.g. no altmode),
-> the optional enable gpio remains disabled.
-> Enable it from the switch_set() routine, in this case, when the
-> orientation is set and the enable-gpios property has been provided.
-> 
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Add support for PHYs which only supported auto-negotiated
+speed modes. This prevents a kernel warning and stack-trace within the
+phy_state_machine when PHYs return -EOPNOTSUPP from config_aneg()
+because they do not support forced modes.
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
+---
+ drivers/net/phy/phy.c | 4 ++++
+ include/linux/phy.h   | 1 +
+ 2 files changed, 5 insertions(+)
 
-> ---
->  drivers/usb/typec/mux/gpio-sbu-mux.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/mux/gpio-sbu-mux.c b/drivers/usb/typec/mux/gpio-sbu-mux.c
-> index 1834f1a2dd9d..4151d78e3b8d 100644
-> --- a/drivers/usb/typec/mux/gpio-sbu-mux.c
-> +++ b/drivers/usb/typec/mux/gpio-sbu-mux.c
-> @@ -17,6 +17,7 @@ struct gpio_sbu_mux {
->  
->  	struct typec_switch_dev *sw;
->  	struct typec_mux_dev *mux;
-> +	bool mode_switch;
->  
->  	struct mutex lock; /* protect enabled and swapped */
->  	bool enabled;
-> @@ -40,9 +41,13 @@ static int gpio_sbu_switch_set(struct typec_switch_dev *sw,
->  		enabled = false;
->  		break;
->  	case TYPEC_ORIENTATION_NORMAL:
-> +		if (!sbu_mux->mode_switch)
-> +			enabled = true;
->  		swapped = false;
->  		break;
->  	case TYPEC_ORIENTATION_REVERSE:
-> +		if (!sbu_mux->mode_switch)
-> +			enabled = true;
->  		swapped = true;
->  		break;
->  	}
-> @@ -125,6 +130,8 @@ static int gpio_sbu_mux_probe(struct platform_device *pdev)
->  		return dev_err_probe(dev, PTR_ERR(sbu_mux->sw),
->  				     "failed to register typec switch\n");
->  
-> +	sbu_mux->mode_switch = device_property_read_bool(dev, "mode-switch");
-> +
->  	mux_desc.drvdata = sbu_mux;
->  	mux_desc.fwnode = dev_fwnode(dev);
->  	mux_desc.set = gpio_sbu_mux_set;
-> 
-> -- 
-> 2.43.0
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index fce9bc7be3304b408c9f3ec9b5b95c76d3680a88..b83f938fe7c3bd619ae453434fd9582c0a055a57 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -1190,6 +1190,10 @@ int phy_ethtool_ksettings_set(struct phy_device *phydev,
+ 	      duplex != DUPLEX_FULL)))
+ 		return -EINVAL;
+ 
++	if (autoneg == AUTONEG_DISABLE &&
++	    (phydev->drv->flags & PHY_BROKEN_FORCED))
++		return -EOPNOTSUPP;
++
+ 	mutex_lock(&phydev->lock);
+ 	phydev->autoneg = autoneg;
+ 
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index 199a7aaa341bfd9b13731e996a8de7e1aea586ff..8169c0b0fd28f3a52d2905611820ec8954383587 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -64,6 +64,7 @@ extern const int phy_basic_ports_array[3];
+ #define PHY_RST_AFTER_CLK_EN	0x00000002
+ #define PHY_POLL_CABLE_TEST	0x00000004
+ #define PHY_ALWAYS_CALL_SUSPEND	0x00000008
++#define PHY_BROKEN_FORCED	0x00000010
+ #define MDIO_DEVICE_IS_PHY	0x80000000
+ 
+ /**
 
 -- 
-heikki
+2.47.3
+
