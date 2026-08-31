@@ -1,115 +1,204 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B565A3A3E73
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 17:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DA247206B
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 17:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788195635; cv=pass; b=B39ZYiGUx0+Z9IngQZaBVd1Q86MzG0XzQw76OfyMyBXH6U3PXLgk5ov5MX8gSB4jCu0BJYJkBy5dpe10wsqbSAAQrdEaxUSTzl9s7+Z9/lbQtqfkyQWDt+jN20Mo+CG4TNUz7bqeuvXLbToMCqJyHAM9olyZb5+0J2AnQ4vzeaQ=
+	t=1788195861; cv=pass; b=r2Mdv66m3zpOe7u/C0J3EdxTckfp67UDy7QETaxRqc0OZqo37qd1prujyvESzVzImkijrSuE3ACLOVtWzRP3Nn8hVMhxuuVYUvxnDIJjF6KYP+YYmtuLu+PHjR0cl9YX35kcEjuki88NpBIFrWz/9wfFdk5mxwhLVtF2toPyGPs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788195635; c=relaxed/simple;
-	bh=vLKSGZop/RGG8SYzGMFyQDakC+1a5r9cdIsEn3XpgII=;
+	s=arc-20240116; t=1788195861; c=relaxed/simple;
+	bh=VeIm/m6wK3h90PKRx14hlNC6hcs5cXsaRzlxDGhe2Xg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M0oo3hhQ3vp4iXCnQo9HJEV1Wj3t2MpeqlNWowya+L468eEZxpsaEC18CqeFMcCyxm1UTZhiKePQ7RF/6ZtW5Xa8oU5/uSk5CwV1UBLPDeg90iG9f4C9X32ilIf8UvFNeCesCDI1ymTG5V+dZUSyoph3hsjUxaWEgLfb2aL6VH4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=divinehawk.com; spf=pass smtp.mailfrom=divinehawk.com; arc=pass smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=divinehawk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=divinehawk.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c15e2dab83eso110107366b.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 10:00:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788195632; cv=none;
+	 To:Cc:Content-Type; b=IByzLlu6N285wmIM0LAobpaE7lhqMK06OCVv9qV6h77jXg42Ya5D7FrN61JuMxjl1ryMAteSoZYVatzbn4LOJbqMM0o2gFWTJ+juR9rLFix2WDjP3q/dvlhR8wmVLtzcVtHoZlh7iKLpBLPRqOckexAURoAIRjFQg8IVbDiWTR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=I1YP6xV4; arc=pass smtp.client-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="I1YP6xV4"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-66ce4a63e17so2823335d50.3
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 10:04:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788195859; cv=none;
         d=google.com; s=arc-20260327;
-        b=RAKvKWAzCxJ0crC+NxzSbp1UZWm0I5WcfAd5gxjv46PccyoL6vxLd2+kOzRbYv9DVZ
-         kLwBbSONQgd6Xq27qCdFYURyz2twrNvURSbcQcpdAMMop87DpEI1hE6PEmjB1NZuVmN+
-         GsSNXGRgcCLDcI1rX4aETMMd08utPK29zTONqQdY2wJuoqMeVWbBeiiwsT/pZYhxYWYr
-         Z6ucouZAi5oGUrYTOTkxnKaCh5Ft5qPk9otGmNbDs6GUQn54TY9ikwdAaLe1PNhdzv/2
-         UzSiNjmjNJq10J0S667DAx8XQwe0n7aYuCgRr8qcwASLHP4TOzHmwxtbW7OYkQVQrP1j
-         Mkzw==
+        b=Ew0M4HK79dL3wqk/0sSm9vtItM+yaucIHWJdRiWdgZI+sTNnuhOEur1WhG6SlsyQK3
+         KjXGfvdL/CfYeX3lc2Mmtw6IfNhy4n9zeoN7ETnqD0apJor+msI3kzW5dy7LloIwCnK1
+         wmCmiRfpGVNzcsrTwMN5ryqbAs0ztwjuTADziTNPDwZ+AFrE13hmdKeqkxC0IR5XyJeR
+         TTWRP4OrjR05a6FPS3NdaizvVYZld/PNHMl87UGrM79HfkJx7SZwUbveuyoePMyrQGLR
+         YSfcm20u/l6OSOgNFnttACR9aTNJy0v7ZQO1zE7BtWcOFLkpzlCjQ1jWmTAo1d+ZZDo4
+         lwGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=vLKSGZop/RGG8SYzGMFyQDakC+1a5r9cdIsEn3XpgII=;
-        fh=7eLjKG6FOrlOWeXTkzZq2gvQh4+bJomyCEK8DjHN5wk=;
-        b=T/3QCPaP5bW55JalBbX8TBXl+iFQQzXhpat4gUVKG9GrvySO9yUc4L9CYBK8vwIWb0
-         fZWEmqeMoXb9Mqsa5YXXh0hb4wrUio0iGmC0Aq/PeFF7lN0b3m1awrS/WS8J18gqz+vJ
-         iZmnIkNiiu2e5tOQuBmqVPPrCuWX9QtglwxPzuYYgmOVMoI8rFfU6UwZ55I3mg5I19Gk
-         QN/FJpLwgWPYxTl5VbwOqU8uHaWAsZ4wmpU9w+XZ7gaiATW5X51FuNq+aYzUHU4uqxNR
-         CrhXCaFKQkQBZpQxHIMHNglvT5h9aVZBKz1ZpAhns0cW7rWoBXPP/f1Y1JHS+rX331xs
-         Tvvw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0pq4dDUvzt7RMgM0rpITo2CMpdbS4bwmTMx9QwHO8es=;
+        fh=lFQoL8PqR0IoyStC2B4h0iDq6quH87fVWF6oUaTmvZQ=;
+        b=nzcXlPLbVA9VlvpyzDBM994jXcKqPp7zLjNbPD3Lihd55L+RO1PoYUeAK2oQcCTVtV
+         vljprm6oJs5mp06Fq122tqgQDTEb/TCU0P2E3EGCC0cLn+AI7U96BuZnVLrfA9CHPssU
+         yXLGxZlTZY+IntzbiXK2HUNwqCmC3JoAlcg8hU9gWkwEQmER5qJjCf72Nx+3MYUL83fh
+         tzJ2Zy+E9o6xz4H0C7XlSWWdKotPQwtdyTyaULEVNTJGxr17U0mgB8y8mI3zXgTMcEh0
+         aulCRjyaRHJ70aTarOYjr6jwZFOY61nrqvfo1arR0yXfreE1E1PE7e+N2336y013NPFx
+         FeGA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788195632; x=1788800432;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1788195859; x=1788800659; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vLKSGZop/RGG8SYzGMFyQDakC+1a5r9cdIsEn3XpgII=;
-        b=pE+lvr6wEatoqNpVkFp7AxggQN/t/KzahrKYas5J9KZBrczgJMKd6tsjROPs8ME4St
-         T1S4DPx4RPw+tWQZeEv2km+7HWJChFHd4Gqp21ACdNykrDP0HuEYK8Zt5To6bkrsgD0a
-         fnvtRnKC+I1OD5yKV78ncnF+oDuVePCPb5iihaWJ+d67C77r77Q0hqzwtQi0PyMS45Xv
-         JtdA3PpVVAGjX4p7LjaRgNxJgQa5FdPT1w6QEgnQT9F7zVbiWPbfl3Aef4t/yCnwpdsg
-         kifs2A7TnGOIPb9iyZJaU/RL9bcBHcPC0Z+prf/esJ17ogGNu0MOJ0cmaUJf7/aYTyUQ
-         s+hw==
-X-Forwarded-Encrypted: i=1; AHgh+RpS+H2Lijsp6FED/tCPTKuU+EwZJKYKfxxcVijriqHHmmE0rGZBa83quaZyhLe5cRt04XQkFARTi1w=@vger.kernel.org
-X-Gm-Message-State: AFuF++kffwH8KZbv98wFVQB9MeuX4geO9dmXdmzRe0fZMbgk6DNd4CG3
-	jiGVYpIxwhWb8OLra+4dxi+IPcqLh6xCHvP+6C6mrHqCeXK5kaW+atYb0gTEEWGa07xs+0zHyRf
-	XVubjAIh+ukc6AdCrdh5zGN3icbwkee1Nb5roCTD7
-X-Gm-Gg: AR+sD13/8x2cFPdnIxgvorIabb/cf00+Z6OaQdLFItt+Fq5xUd/eMom4xEBhWzyNXMW
-	5fEo6NUBJptBK9yqeS15oiskAX3Uwe+ju5jJAStNcFLeOXvAXkgmV0sYr2CcqT2/E5B2pq65gCb
-	1z4nqcnnYXi1LB+L5PXWa6mZg+YsmSpPqCNidgmVIoV7NGUjo/BKSv3z+aDtWo7U4picSXoxhR2
-	1G/ycatU7ndoOCNohWRuv4Uo2bLY3d6MXhpIFa0RK3McLrsDo7u/6XzBuK6ppsyIPqlgjxPk48T
-	stD5llJw+J0rftOeY4S2YwhA7/jzkFQxQvtL9avkXsjt+L/DbUTafDc1zvzXHbI3FwAX75Sxuwe
-	FCZM7pXnqq6Kv8k15OPimnAi7ET9PRfjFf2uUQZvw+fVs
-X-Received: by 2002:a17:907:3e04:b0:c1c:2173:d412 with SMTP id
- a640c23a62f3a-c2556fe9307mr1660123166b.1.1788195631588; Mon, 31 Aug 2026
- 10:00:31 -0700 (PDT)
+        bh=0pq4dDUvzt7RMgM0rpITo2CMpdbS4bwmTMx9QwHO8es=;
+        b=I1YP6xV4U6qxteWKhCgose8iubH3bAkKbX7/2mdpGfnvHzQDC93razNAa4ebhg6v61
+         lzVNdecNXCF9KA433PueNN3TNZUiFmHC7puJP6lhnm7ebL7zrN2BuSbkiopLp1CL0YrD
+         bf9tTDVCB/9tlRcACqGobBlVSnQDe+w2F9fG3Xi21KyV0Xa1JvbAhXlVVHr+MhJdAtZp
+         ZkqVwbWcpYP0N/uV3n2vNwNWqrbhebuZ1PmhTl9Hyx8IEfKgAwS8S/cdXO96qjQT/32x
+         suSOhkVCCNg6uJdZ9B2zEivluzxWUbOX66Pe69FHGa+Bq8EV/gsM0nVUW0ihziFPcwGX
+         Fp7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788195859; x=1788800659;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=0pq4dDUvzt7RMgM0rpITo2CMpdbS4bwmTMx9QwHO8es=;
+        b=rf0GYc+r1tUvnRZDkl8IDIWiCFhFNgNwqv+Q9PGlEFHBx1zT3ME/65qbAcvQdcHFKZ
+         aRjZMabIF0H9GzOflP9zb8k5/wnyvxT0i5AG7uEgQg1Tcf+6U5erT0/RM8GFTr9VlObK
+         foTVLSGGIf8NBTnPanT0gQebuPfkELYeWlgqIuc9EWZzyNvvAnReKPFpJ5i4F9gIPoyC
+         VDh9KcKLhKhQ6ah61x2n82hIO5fMDowBgyFXM/zJTeXCj5Qju/A+vdPBa4H1p7sKCEpx
+         QFJigoUFUcEeewDgGjt9eY1k+yGC+MgCXQtnazaPyIqgEpd6oBdQcatqduwXHGxOTRyy
+         TV7Q==
+X-Forwarded-Encrypted: i=1; AKwUvByHEe1ck2dRD/ckb2kl153buaNLqBSuqU0LLLeQJr5N+MoxVcHKxS9MhMoPcb71YGKwb6OHNAHe0kc=@vger.kernel.org
+X-Gm-Message-State: AFuF++k4AuFBDpKuU8lzTmdXmbfNFmYKPgLGuFzNy2vB3hYbBx7o5hso
+	qxIKe0JD99WlpRsxp809SzhDp6+dzA67TdbHYEqGO3ka1LipNeONfkTmOrMjbZ3XuDkXuVJXkw+
+	BTpAccPonq08fYH+NvIVdBtc30ZpyZ7ZKWy3GgYti
+X-Gm-Gg: AYBFou3JbqaKP3Ps/NKbNcliQh1UQidE9zr/aM16467LbWH+DiQLdxqI4bCDU2wV2Iv
+	9VLWOzT76SgUkmcIidyp+cE3H2mNVZLmATrNZiR5MCc4Zl3sXdwZCRuP+LWbKis1VyJAa8roJ78
+	NZ1uKILkClrj/sYe2kCUlFIE9fZSuFTQ9xkQcdWWZX/0p83xIff0J0csf7pmntt2PVQg40JLcbB
+	eHm7oCZLpLkVVweHNSmyaCElCL5MFBZAD0Uh3l7dzSspDqL3RGq9gTUggCSROuHUsi1wL8N/W4W
+	Z8+l7/wbVM17jxQhf+Ib/VXqj5JmIfizyqUQrC2Db+hLqDz6mvWKfkwVVtQckZc461N7mTpAlRO
+	4Y3GUXF+1idx81VRpWWa4L9lAPh4CU0YWEXs=
+X-Received: by 2002:a05:690e:118b:b0:66f:8797:4049 with SMTP id
+ 956f58d0204a3-66f8797417dmr773051d50.17.1788195857652; Mon, 31 Aug 2026
+ 10:04:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260829-xhci-no-soft-retry-v2-0-0efe22f1c2f8@divinehawk.com>
- <20260829-xhci-no-soft-retry-v2-1-0efe22f1c2f8@divinehawk.com>
- <20260830165934.34e5b82f.michal.pecio@gmail.com> <CABUBpLf_mA8GmjAn8+-xgz8H5XOvBCr9DRWU8Eqc9=BW9m00Bg@mail.gmail.com>
- <20260831053825.11f1007d.michal.pecio@gmail.com>
-In-Reply-To: <20260831053825.11f1007d.michal.pecio@gmail.com>
-From: Matt Eaton <linux@divinehawk.com>
-Date: Mon, 31 Aug 2026 19:00:19 +0200
-X-Gm-Features: AcwNN1XNg3dD7oaXf6xtHhi299wPsa-ycc5jfTUXGnyaxivHR6JJ0HBY77JeeB4
-Message-ID: <CABUBpLdLUbC6nj_tKKq4FFmoVNGJ7MnAhE5=O_S4_fnP69jHJA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] usb: xhci-plat: add xhci-no-soft-retry-quirk
- device property
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Matt Eaton via B4 Relay <devnull+linux.divinehawk.com@kernel.org>, 
-	Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20260826163101.4168-1-mike@fireburn.co.uk> <20260826163101.4168-2-mike@fireburn.co.uk>
+ <DKZ3UPVXL5C5.37DDI6DQKS3MS@kernel.org>
+In-Reply-To: <DKZ3UPVXL5C5.37DDI6DQKS3MS@kernel.org>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Mon, 31 Aug 2026 18:04:05 +0100
+X-Gm-Features: AcwNN1XxcyYJm1eBwRWa78c6Pv6t6O5HEJXmbaliVctDsN19FsugaMX_VtVZTog
+Message-ID: <CAHbf0-EzHGuQ720V1g84U8Ys8HS+Lpdfdu22zZmB42G8yU=dqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] rust: usb: add revocable typed interface I/O
+To: dakr@kernel.org, linux-usb@vger.kernel.org
+Cc: ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
+	aliceryhl@google.com, tmgross@umich.edu, daniel.almeida@collabora.com, 
+	tamird@kernel.org, acourbot@nvidia.com, work@onurozkan.dev, 
+	gregkh@linuxfoundation.org, colinbrauncl@gmail.com, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 31, 2026 at 5:38=E2=80=AFAM Michal Pecio <michal.pecio@gmail.co=
-m> wrote:
+On Wed, 26 Aug 2026, Danilo Krummrich wrote:
+> > + /// Asks the driver core to unbind whatever driver is currently bound to this interface.
 >
-> On Mon, 31 Aug 2026 02:58:55 +0200, Matt Eaton wrote:
-> > I applied these (from 7.3-rc1) to my 6.18 kernel and appears to fix
-> > the issue:
-> >
-> > commit e3d757dc9257
-> > commit 042aad8d0db6
-> > commit 7e0ef4332ed9
-> >
-> > There does not appear to be a need to apply this patchset now. Thanks!
->
-> Great. Did you try disconnecting from external hubs? This code can't
-> detect that, but maybe it's not a problem case. It wasn't on Renesas.
->
-> Out of curiosity, was it limited to USB 3 devices or also USB 1/2?
-> Disconnecting one device or a hub with devices behind it?
->
-Tested both cases: directly and with a USB 2 hub (no external power).
-Disconnecting the phone from the USB 2 hub, it didn't appear to issue
-a stop endpoint command, so I don't think the condition was triggered.
+> What is this needed for? Where do you use it?
 
-Cheers,
-Matt
+Nothing in this posting uses it. It's a leftover from something I
+removed, and I'm not sure it should have stayed removed.
+
+It backed a write-only sysfs file, /sys/devices/vino/remove_all, which
+walked the driver's list of held interfaces and called
+device_release_driver() on each. evdi has had the same file since 2015
+as /sys/devices/evdi/remove_all, so it's a name people with DisplayLink
+hardware already know.
+
+I added it because unloading the module used to be unsafe. disconnect()
+could deadlock against usb_hub_wq, DRM references were held past unbind
+so every replug leaked a card minor, and one unload took the machine
+down. Having one write that unbound everything from process context,
+with each disconnect running somewhere I could watch it, made those a
+lot easier to find.
+
+They're all fixed now, modprobe -r is reliable, and the sysfs file got
+cut from the series along with the rest of the development scaffolding.
+The binding method survived the cut without its caller.
+
+I'll drop it for v4 either way. The bit I'd like your opinion on is
+whether it should come back later with the user attached. Against:
+/sys/bus/usb/drivers/vino/unbind already does this, and all remove_all
+saves you is knowing which interfaces the driver kept. For: a dock is
+the kind of device where someone wants to hand the hardware back without
+knowing that, and evdi has shipped the file for ten years.
+
+> > +/// A revocable window during which USB I/O is permitted on an interface.
+>
+> How is this different or narrower than the device's Bound type state
+> represents?
+
+There's one way it's narrower, and that's why I wrote it. The USB core
+forbids I/O between suspend() and resume(), and between pre_reset()
+and post_reset(), and the interface stays bound across all four. So a
+driver holding proof of Bound can be holding it when a transfer isn't
+legal. Bound means the driver owns the interface; the window means the
+core will currently carry a transfer.
+
+> Also, this seems to reinvent Devres, which we superseded with Rust
+> native lifetimes and higher-ranked types. Please use that instead.
+
+The open/closed flag and the wait-for-quiescence are hand-rolled, and
+they shouldn't be.
+
+What I don't know is whether the lifetime and higher-ranked machinery
+can express a window that closes and then reopens, several times, within
+one bind. That's what suspend/resume and pre_reset/post_reset need, and
+revocation as I understand it is one-way.
+
+If it can, I'll respin on top of it. If it can't, then I think this
+guarantee is USB-specific and belongs behind a USB type rather than a
+general one. I'd rather know which before I rewrite it.
+
+Thanks,
+Mike
+
+
+On Wed, 26 Aug 2026 at 19:59, Danilo Krummrich <dakr@kernel.org> wrote:
+>
+> On Wed Aug 26, 2026 at 6:30 PM CEST, Mike Lothian wrote:
+> > +    /// Asks the driver core to unbind whatever driver is currently bound to this interface.
+>
+> What is this needed for? Where do you use it?
+>
+> > +    /// This is the narrow, reviewed replacement for handing out a raw `struct device` pointer: it
+> > +    /// performs exactly one operation (`device_release_driver()`) on this interface's own device,
+> > +    /// and cannot be used to reach the device-wide state of a composite peer.
+> > +    ///
+> > +    /// It is intended for a driver-provided "release my devices" control (e.g. a sysfs attribute),
+> > +    /// and must not be called from the driver's own `probe()` or `disconnect()` callback: the
+> > +    /// driver core already holds the device lock across those.
+>
+> IOW, it must not be available for Interface<Core>, which due to the deref chain
+> is not that trivial to model. So, if this is really needed I think this needs a
+> an abstraction where you get a different device newtype from the scope where
+> this *should* be called from that allows you to do this and can never leave the
+> scope.
+>
+> > +    pub fn release_driver(&self) {
+> > +        // SAFETY: `self.as_raw()` is a valid `struct usb_interface` by the type invariant, so the
+> > +        // address of its embedded `dev` is a valid `struct device`. `device_release_driver()`
+> > +        // takes the device lock itself and tolerates a device with no driver bound.
+> > +        unsafe { bindings::device_release_driver(&raw mut (*self.as_raw()).dev) };
+> > +    }
+>
+> [...]
+>
+> > +/// A revocable window during which USB I/O is permitted on an interface.
+> > +///
+> > +/// A driver-`Bound` interface is *not* on its own proof that a transfer may be issued: the USB
+> > +/// core forbids I/O outside the window that opens after a successful `probe()`/resume/reset-resume
+> > +/// and must be closed again before `disconnect()`, `suspend()` or `pre_reset()` returns. This type
+> > +/// represents exactly that narrower state.
+>
+> How is this different or narrower than the device's Bound type state represents?
+> Also, this seems to reinvent Devres, which we superseded with Rust native
+> lifetimes and higher-ranked types. Please use that instead.
