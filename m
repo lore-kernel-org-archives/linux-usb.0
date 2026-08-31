@@ -1,115 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F2E455162;
-	Mon, 31 Aug 2026 14:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E02916F288
+	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 14:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788187244; cv=none; b=LZVILTvJFJDcYvGuaeiPggLA9J1Tjd57ouYBdLTvDQQLhw7YMYMpImqzUhr3fJwH7xvMNbuPxstcv6aOlRWAtGR2QrzThhK3aRKtnaROcOpRWupDau0tSTUeMyu975NSj+JjAZv/3JoYZnf/lRu3wC/BFaGLaF45SD98T31AFRM=
+	t=1788188328; cv=none; b=FikMejX4zFtCSecIU2Y58b65V6oxxSae9gXtaDT0ZUEB5/DfsveH+jD+zQ9Le9csL1UL6xpi7LxZYWQeHGOTVzP3jW5J/1X0gdNzPyH5ewZpBEBNcEZtgX/B1rgrMQU3VaV2l3TGadq3J/oFqsIj2eyShWXAhBx2JmBKj4zRUj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788187244; c=relaxed/simple;
-	bh=XnYbv/lvSUhA3IIkJg1wTTbKCIckEW6sc1YJvlWOlDc=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=jPtjbtRW6G7LoVUY/uZi+yQjnO+FSTX6/tPozdaTebYJ0glT+1egPqXFxbwi2ZpgXZjjKeEY9XqVAYxrKcECKIaonY5L5N2fJLnc34VqAcTpDEJ353VCXIMyIbL2LTGTUl+l0p0fWyWM0d51Y4wTKs8cjhBeaegTpvK6NW8517w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfJBce/f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788188328; c=relaxed/simple;
+	bh=3X5bF77aOOgRxbUh9C9RVa5EU0OKKkrEkiPrRbuhc+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SyXPTuctZ+ZirAkuuhDaQ+dqsarCiG30lX1m/vuFtzVwNSI/9Z/rd61iTgi/46N+wtDeXFYqg0/JjLVXiAhGWUC4a/l/WR5m+N2oYlRqRjEDxH7GRuWVOMuSJYnuhoKOYZdHeYJP24QM5rulMOkjg7u/MOAL/XXZ/plRaZsh4vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahwuWKbY; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfJBce/f"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 769651F000E9;
-	Mon, 31 Aug 2026 14:40:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788187243;
-	bh=glU5brsq9stFhaeEUTYuaXur4gpoMrHcD9Sa+u8+sdg=;
-	h=From:To:Cc:Subject:Date;
-	b=hfJBce/fvMIR4mLQ4PXQ3TRh9fkfE4WBk2bYRVZ/iYYtplkxC3nwZMky4QTC5BLVI
-	 rPSzFKiGkQLoJ5WSVkzb9XC/I4n/OFEHTVNdKE8aaujzRwWgR154mDedpth9LTnhHv
-	 dizKdiUKcuNtNuqDIvaevQ7g94iF6667dQOy+kzY3qdiLiCSzWFfKJn8Mw3CVeiW6X
-	 lq7XAD0p/TzzLwGKcgVe4wmjr5Lcu5JPOpgmxAHTnjGKZhWTBKdjmsZQttCykmWI05
-	 apiXUI8LXhjQoiOGeVnZLxQKusOXa2e1MRslSbEXjll5ShMj3AGMecd9ZwCDWn5jce
-	 jU0CQydiPoXMQ==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, "Wang, Jie" <jie.wang@intel.com>, "Chas Williams" <3chas3@gmail.com>, <accessrunner-general@lists.sourceforge.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-atm-general@lists.sourceforge.net>, <linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-Subject: [PATCH] usb: atm: cxacru: fix NULL pointer dereference on uninitialized atm_dev
-Message-ID: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahwuWKbY"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b4ae3e201cso3281700e87.2
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 07:58:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788188324; x=1788793124; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m3XoILvJ3RaNHwju2reUtm54LguvYTKnFc3Vc9HYR5g=;
+        b=ahwuWKbYAT76wuNNmxUEkoqgYPW1//RO3V+pk7cpW33QtfqvIHz+3OYecbEhzGn6Ja
+         Y4gvRqJYaxKuFETIFCdUK+UH+pZSNyVcgfeCzCpYwWISPoRRDkcKX51eyRWl6J5TeKx6
+         5vZWJXK8JNuOZLRGwCai5JYjn6P1kg9IR2w9Wz9Po6JmLkvAshCcJQABl3FvF1gsika4
+         rVjLMNNMMDJK1W3rclRd7o8eoJ7kDptVgLljcMHlvonEx2XwvW2Q1iQxoRxIh68wWYBf
+         N9dmo+ZPCOYUodFDMnOy/8h5IkKNNzLc8xfokEiG469eX/zLtk7HNTSCmdF8uIc/uaQK
+         XS3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788188324; x=1788793124;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=m3XoILvJ3RaNHwju2reUtm54LguvYTKnFc3Vc9HYR5g=;
+        b=QztTeJN/sUyI5G6rca16zgMRtWmXh1j0lAl3PAQXsfq+N81nSTRfNBJN/sl4i47aby
+         3KUVCqxZCJRhe+ZLKkG3KB0VKr+gIhd5qCKg5BCeA9S6WatISzgyfc8QVHpRRWGQZsCa
+         KKRtuC881aiET1CFPOBIPNdMQMAeP91q4IXkpdvhuL8HbLJc4Cs7D3BIvZKUtzA//38t
+         VDIR7nR0oQOx4xYbrvNXXVKOLJ7CNn25C7BMQTHwcHnKqbGkrIrTmeOjWLahuj7Uv/DB
+         aDWcW8P1Q0DzjBME7T6g5zW/mG/Sw8stenHsTovbYHvBQ9EMeoaMxuMCheqg8ybD9hM2
+         GOZw==
+X-Forwarded-Encrypted: i=1; AKwUvBxLx9LUJhiQ/+6HtaumavQVuYid4xgpIbvGmMQZ5h7R6FD7bn88Ur2++UUdqaYCDoM+LtkcFt8N5kk=@vger.kernel.org
+X-Gm-Message-State: AFuF++mTG83QEJv8TubLh3GvmNkaCtpN0KhRW3WNPBIxDRDqyGPQ9SMr
+	nU6YKlRavjuME6SfIkUFPfzk9feZNSdOaE2l8x6QQSEBIo6mxF/ktq3f
+X-Gm-Gg: AYBFou234kppOZDhttzomZaBDa/lc4+P5FlsMDyA4hQIE5imKiXKtDwY814F44J375t
+	CtQg3HAIGOBVd2Cw4+JycAbCTVr+EgzQo8pzgsRoVcUEqcgldcLtS32fJPRxtF75u/tKas9tjvs
+	kh63+EN4jiFr+sGVYsIT9T0mwjxzlcQ48ymOQ2sYqm1sVdfkmNgQAT27rUwoO02gXAkRpJA25fn
+	h/fCOPVwfFrRBxXA7rQm6Vt2PuwsTGOcy3OfX83oxl5qc1EewPo9n14M6UOdfk9qrMG/OLNqGnU
+	flXEky0znlECQA3YZgQAuYm4sigmWhx2vo6vsZy+lC2wcVc+YclIXQJkPGtVPIQVIypR5eGl7fz
+	u13a6ESUJBQttf3ETIj6bFHDaVtUj7djSrgPvi1avSByopKGw13aM2Ujdlc1VTCfOwEiN1Pz+El
+	fXqJqz9w2TCz/uYbhx7muYLRoEXusZNxjpqfHgMtUB9WNl7ZIRiYvvv8ytPpC30f+2drDTng==
+X-Received: by 2002:a05:6512:2586:b0:5b5:56b8:2fba with SMTP id 2adb3069b0e04-5b5e6902ee2mr8478958e87.21.1788188324305;
+        Mon, 31 Aug 2026 07:58:44 -0700 (PDT)
+Received: from archlinux ([94.229.16.221])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b5e8a0ce86sm2227956e87.62.2026.08.31.07.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 07:58:42 -0700 (PDT)
+Date: Mon, 31 Aug 2026 17:58:39 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Zongmin Zhou <min_halo@163.com>
+Cc: gregkh@linuxfoundation.org, kees@kernel.org, david-b@pacbell.net,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Zongmin Zhou <zhouzongmin@kylinos.cn>
+Subject: Re: [PATCH] usb: host: sl811_cs: fix memory leak on probe failure
+Message-ID: <apWWnyGbVFJ8SbiG@archlinux>
+References: <20260827074120.49006-1-min_halo@163.com>
+ <apHG0Pq3HagSo5BT@archlinux>
+ <a4e969d7-4601-407e-a4ee-beb85846d711@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Date: Mon, 31 Aug 2026 14:40:42 +0000 (UTC)
+In-Reply-To: <a4e969d7-4601-407e-a4ee-beb85846d711@163.com>
 
-From: "Wang, Jie" <jie.wang@intel.com>
+On Mon, Aug 31, 2026 at 02:11:16PM +0800, Zongmin Zhou wrote:
+> 
+> 在 2026/8/29 01:36, Nikolay Kulikov 写道:
+> > On Thu, Aug 27, 2026 at 03:41:20PM +0800, Zongmin Zhou wrote:
+> > > From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+> > > 
+> > > sl811_cs_probe() leaks the local_info_t allocated into link->priv when
+> > > sl811_cs_config() fails: the only kfree() lives in the remove callback
+> > > sl811_cs_detach(), which the PCMCIA core never calls for a device whose
+> > > probe failed.
+> > > 
+> > > Free the private data when sl811_cs_config() fails.
+> > > 
+> > > Fixes: c6de2b64eb57 ("[PATCH] USB: add sl811_cs support")
+> > The code looks good to me, but I have a question regarding the Fixes
+> > tag.
+> > 
+> > In the commit you cited, a failure triggered a call to
+> > sl811_cs_detach(), which freed that memory. However, that behavior was
+> > changed in commit
+> > 
+> > f8cfa618dccb ("[PATCH] pcmcia: unify attach, EVENT_CARD_INSERTION handlers into one probe callback")
+> > 
+> > where the call was removed, leaving the memory unfreed. Shouldn't that
+> > be the commit referenced in the Fixes?
+> Hi Nikolay,
+> 
+> You're right that c6de2b64eb57 did not introduce the leak -- but neither did
+> f8cfa618dccb.
+> The leak was introduced by 15b99ac17295 ("[PATCH] pcmcia: add return value
+> to _config() functions")
+> 
+> f8cfa618dccb dropped the detach-on-failure path because registration
+> moved into the core, and its probe ended with
+>     sl811_cs_config(link);
+>     return 0;
+> A config failure was never propagated, so probe() always succeeded
+> after the allocation and it remained paired with the kfree() in
+> remove(). No leak either.
+> 
+> 15b99ac17295 made sl811_cs_config() return -ENODEV and the probe return
+> that value -- the first time probe could fail after the allocation.
+> Since the core never calls ->remove() for a failed probe, link->priv
+> leaked from then on.
+> 
+> If you agree, I'll send a v2 with
+>     Fixes: 15b99ac17295 ("[PATCH] pcmcia: add return value to _config()
+> functions")
 
-The cxacru driver uses the usbatm framework, which defers the ATM device
-registration to a kernel thread (usbatm_do_heavy_init()) but immediately
-returns success from the USB probe. Because the probe returns success, the
-driver core creates sysfs attribute files (like adsl_state and
-adsl_config), making them accessible to userspace before the ATM device is
-fully initialized.
+Yes, it really should be 15b99ac17295.
+In v2, you can add my
 
-If a user writes to these sysfs files before the initialization is complete
-or if it fails, the driver attempts to send a command to the device. If the
-command fails, the error handling path calls atm_err(), which
-unconditionally dereferences instance->usbatm->atm_dev. Since atm_dev is
-NULL, this leads to a NULL pointer dereference:
+Reviewed-by: Nikolay Kulikov <nikolayof23@gmail.com>
 
-Oops: general protection fault, probably for non-canonical address
-0xdffffc0000000002: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
-RIP: 0010:adsl_state_store+0x5cc/0x770 drivers/usb/atm/cxacru.c:359
-Call Trace:
- <TASK>
- kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
- </TASK>
-
-To fix this, add checks for instance->usbatm->atm_dev == NULL in
-adsl_state_store() and adsl_config_store(). This prevents the functions
-from proceeding and dereferencing the uninitialized atm_dev, consistent
-with how mac_address_show() handles the same race condition.
-
-Fixes: e605c30977bb ("USB: atm: cxacru: convert to use dev_groups")
-Assisted-by: Gemini:gemini-3.6-flash Gemini:gemini-3.1-pro-preview syzbot
-Reported-by: syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=9b195c4f412ea5c4e56a
-Link: https://syzkaller.appspot.com/ai_job?id=b6352d63-d03a-4e87-92a4-b334c3ebcf97
-Signed-off-by: "Wang, Jie" <jie.wang@intel.com>
-
----
-diff --git a/drivers/usb/atm/cxacru.c b/drivers/usb/atm/cxacru.c
-index 429ac20a8..dee15f7b7 100644
---- a/drivers/usb/atm/cxacru.c
-+++ b/drivers/usb/atm/cxacru.c
-@@ -347,7 +347,7 @@ static ssize_t adsl_state_store(struct device *dev,
- 		return -EINVAL;
- 	ret = 0;
- 
--	if (instance == NULL)
-+	if (instance == NULL || instance->usbatm->atm_dev == NULL)
- 		return -ENODEV;
- 
- 	if (mutex_lock_interruptible(&instance->adsl_state_serialize))
-@@ -444,7 +444,7 @@ static ssize_t adsl_config_store(struct device *dev,
- 	if (!capable(CAP_NET_ADMIN))
- 		return -EACCES;
- 
--	if (instance == NULL)
-+	if (instance == NULL || instance->usbatm->atm_dev == NULL)
- 		return -ENODEV;
- 
- 	pos = 0;
-
-
-base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
--- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-The person who has signed off on the patch is responsible for
-addressing comments.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> Thanks,
+> Zongmin
+> > 
+> > 
+> > Thanks,
+> > Nikolay
+> 
+> 
