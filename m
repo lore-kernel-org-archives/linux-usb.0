@@ -1,134 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C5C4A3D4C;
-	Mon, 31 Aug 2026 13:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598DE51121D;
+	Mon, 31 Aug 2026 13:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183765; cv=none; b=Ts0dep+HhFz/Zw5FJbWAfZtk4JKsAvMdi3vqaGoetyxUBUuuekXt+1DksAWdlNKmacbk8fUAFV1o9nLwJGQFfWC96wobKKN+/4sPjSRWsdhGD4afLJnwNBSJF++TPZ3nIFJXTgWE4jHg6RQJYKqwcvYAPkLG4Wo8YLtrsm4pL2c=
+	t=1788183781; cv=none; b=mamr8OLNalkzLh3qDM8h10f2394fVBOddTS38QZojGlDmpqa5phCNKbMkt6+nLnlCojmkg6Qm6N1XWOO8IFM71Knbvn6/EZwJwKoeWKH1twogY/finhbrvQkIylouaR2Tf77QG06gLiHHKt4YwDaLz0Sj4SGgw/tPTl09+x8hXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183765; c=relaxed/simple;
-	bh=Sg18FhYMU2CY/3cT5So/8ytST2NSR+fV0kOWcdHKXHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svYtxsH8gSIWw38txHMyzj/42e0Lb9vHhSw4p8P7DQPViI2XQe+APjTdqQtWMMlnJgdY5eJ+di+1bg652SqiL4U+Hvvr8UHMPyeTVUatnFfl8Vxgo4Uo5V4FHNfzTMHVQvIO0iN48aTzOftF01OKiOkw/Kmtjm9Gu/twFS7P08g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1CoaYgn; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788183781; c=relaxed/simple;
+	bh=kd1Nwg5dgKl/b6mkRX4naRdRVzjdAanqwJzg6bCBxIw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bHNajYnix9oGFFQ+vtNqYBItyOJF1xF86Fh5zuYc+958gA9JDlx+30NLay6zlvKtRwIT+EO1OYardWMfhJWEKPkcESgJCYqm98Q+YQHwwIoBMV0YB9Y0WVhmgxMEKfWqUIspzP2iQrb0xHF1BV/+5GzmP5H1OQk19ORyIOn1YHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OAGPBrBC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1CoaYgn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788183763; x=1819719763;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sg18FhYMU2CY/3cT5So/8ytST2NSR+fV0kOWcdHKXHU=;
-  b=A1CoaYgnFer/ioevh1EUOF5Y/9ILn4qTAI9djdizeaiK3qbJeDNcEoeS
-   pEixvdTnjvEiNEJXEw8i827KAXwr0Uu9+z+S6DJwIzcmfOjVJTedxa7X5
-   7kCGQiRib2Aq6VN1lo5n01a2DLgRfNJaGZvMAS8izXkGIoS3k4y2UhAW7
-   cKJG55/n7S03lcA9P5lvwqtFkeagrslC184qQ1LJrd0ah3HZ1SFaNuyE1
-   0hAGxqElwR6l6LiQtEpu6Skt5ejzq0SeQHfu+VI9ZZE6HnjEL0kuDYxWD
-   K4zxW2J3kBhQVHLSTvFz7m5Qat/ZmY9GblUj5mff8uHz+T+TAB3BvRZal
-   A==;
-X-CSE-ConnectionGUID: xi/1UfXRS/KHRgFsk+eU0w==
-X-CSE-MsgGUID: 6cgMPPUuRraCAURRWhOjyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92400894"
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="92400894"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 06:42:42 -0700
-X-CSE-ConnectionGUID: YFiWtX2KQz2n86GSSS/+0g==
-X-CSE-MsgGUID: u3/H7FJcQIu32PUjLkyqkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="268242995"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 31 Aug 2026 06:42:40 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 9158D99; Mon, 31 Aug 2026 15:42:39 +0200 (CEST)
-Date: Mon, 31 Aug 2026 15:42:39 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Amaan Lalani <zlzzm2014@outlook.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OAGPBrBC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D541F00A3D;
+	Mon, 31 Aug 2026 13:42:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183779;
+	bh=KdJ/ILiecvNMOnwKPAJ83nzD1Wby8ZHc1pg4UsJGv8I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=OAGPBrBCJxSIu6pEMu30Yx3EYqcknd5SCV5H2mch9LN6jGvNAR39knDE4BlZuKrE2
+	 Ozop1qV2fnOx3n7kwoQFQXXQ32m5/yELI3TcpBRHzyByqx89pwhRIEloVXNK7MLgrV
+	 P02zvhDm7pVN6t62cF6xxI1cVWfN/KVPbX5YRoVUYagWIrGCjWYp797QcDF9I2XiAk
+	 k7gw5M8RJAGWc8/IWD2rEavorKD8qpmY53SImBQb1Tid44SX2i44DpgmeadRJjZECO
+	 xpdEiwldxZ9XiQsp96Y7XpSU1WUFKBoyAzuHvUvaHd3vQX8+2DE/WofzXoyW2wxQ9w
+	 JdrFhwYM38yzg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Xu Yang <xu.yang_2@nxp.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: Reset downstream port after failed link
- restore
-Message-ID: <20260831134239.GM124825@black.igk.intel.com>
-References: <DM6PR02MB63772452BC9DE8C5C79BE421A0AB2@DM6PR02MB6377.namprd02.prod.outlook.com>
+Subject: [PATCH AUTOSEL 6.18-6.1] usb: gadget: udc: skip pullup() if already connected
+Date: Mon, 31 Aug 2026 09:25:27 -0400
+Message-ID: <20260831133314.4125787-299-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM6PR02MB63772452BC9DE8C5C79BE421A0AB2@DM6PR02MB6377.namprd02.prod.outlook.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Xu Yang <xu.yang_2@nxp.com>
 
-On Sat, Aug 29, 2026 at 04:57:05PM -0700, Amaan Lalani wrote:
-> A directly connected Thunderbolt device may fail to restore
-> its link after a runtime suspend, therefore leaving the connection
-> unusable.
+[ Upstream commit 62911bc82b0332aee7546156800d3516500fa1e1 ]
 
-How does it show up? Can you share more details, like full dmesg with
-thunderbolt.dyndbg=+p in the command line?
+The device controller may update vbus status via usb_udc_vbus_handler(),
+which tries to connect the gadget even though gadget_bind_driver() has
+already called usb_udc_connect_control_locked(). This causes pullup() to
+be called twice. Avoid this by checking if gadget->connected is true.
 
-> Reset the downstream port when the link restoration fails. This drives
-> SBTX low, causing the partner to observe a USB4 disconnect and allowing
-> the Type-C/PD firmware to renegotiate the connection. For dual-mode
-> devices, this may allow the connection to fall back to native USB3.x.
-> 
-> Tested on a Microsoft Surface Pro 11 with a UGreen Thunderbolt
-> 4 external NVMe enclosure, where the device successfully reconnects as a
-> USB3 device when the Thunderbolt 4 link fails to recover.
-> 
-> Signed-off-by: Amaan Lalani <zlzzm2014@outlook.com>
-> ---
->  drivers/thunderbolt/switch.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> index 404c0693df50..7b88aa75a07a 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -3600,7 +3600,27 @@ int tb_switch_resume(struct tb_switch *sw, bool runtime)
->  
->  		if (tb_wait_for_port(port, true) <= 0) {
->  			tb_port_warn(port,
-> -				     "lost during suspend, disconnecting\n");
-> +				    "lost during suspend, disconnecting\n");
-> +			/*
-> +			 * If a directly connected USB4/thunderbolt device did not restore
-> +			 * its link after a runtime suspend, assert a downstream
-> +			 * port reset. This drives SBTX low and makes the partner
-> +			 * observe a real USB4 disconnect. A dual-mode device and
-> +			 * the Type-C/PD firmware will then try to renegotiate
-> +			 * the connection in a native USB 3.x mode.
-> +			 *
-> +			 * Restrict this to the host router's downstream port.
-> +			 * Resetting an intermediate router would not cause the Type-C
-> +			 * to be renegotiated.
-> +			 */
-> +			if (runtime && !tb_route(sw) &&
-> +			    tb_switch_is_usb4(sw) && port->cap_usb4) {
+This also set gadget->connected as false in usb_gadget_activate() if it
+became connected while it was being deactivated. Otherwise,
+usb_gadget_connect_locked will return early and pullup() won't be called.
 
-Yea I'm not entirely sure we want to add hacks like this to the driver to
-be honest.
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+Link: https://patch.msgid.link/20260423095355.2673035-1-xu.yang_2@nxp.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-The link should re-negotiate as USB4 so something is wrong there. Have you
-checked if you have the latest firmwares on both sides?
+LLM Generated explanations, may be completely bogus:
 
-> +				err = tb_port_reset(port);
-> +				if (err)
-> +					tb_port_warn(port,
-> +						     "failed to reset port for USB3 fallback: %d\n",
-> +						     err);
-> +			}
->  			if (tb_port_has_remote(port))
->  				tb_sw_set_unplugged(port->remote->sw);
->  			else if (port->xdomain)
-> -- 
-> 2.55.0
+The background `git log -S` search finished. In this **v6.18.43**
+checkout the history is flattened, so pickaxe only points at
+`19eef1d98eeda` for `vbus_work` in `core.c` — it doesn’t show when that
+logic was really introduced. That matches what we already inferred from
+mainline: the dual connect path dates to the 2023 `usb_udc_vbus_handler`
+workqueue offload.
+
+That doesn’t change the backport call: the buggy code is present in this
+tree, the fix is small and applies cleanly, and the verdict remains
+**YES**.
+
+ drivers/usb/gadget/udc/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index ab1bcc5512b2c..fa49746d54036 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -714,6 +714,9 @@ static int usb_gadget_connect_locked(struct usb_gadget *gadget)
+ 		goto out;
+ 	}
+ 
++	if (gadget->connected)
++		goto out;
++
+ 	if (gadget->deactivated || !gadget->udc->allow_connect || !gadget->udc->started) {
+ 		/*
+ 		 * If the gadget isn't usable (because it is deactivated,
+@@ -887,8 +890,10 @@ int usb_gadget_activate(struct usb_gadget *gadget)
+ 	 * If gadget has been connected before deactivation, or became connected
+ 	 * while it was being deactivated, we call usb_gadget_connect().
+ 	 */
+-	if (gadget->connected)
++	if (gadget->connected) {
++		gadget->connected = false;
+ 		ret = usb_gadget_connect_locked(gadget);
++	}
+ 
+ unlock:
+ 	mutex_unlock(&gadget->udc->connect_lock);
+-- 
+2.53.0
+
