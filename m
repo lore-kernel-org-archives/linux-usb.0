@@ -1,138 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3B558F087;
-	Mon, 31 Aug 2026 13:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6375964E8;
+	Mon, 31 Aug 2026 13:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184248; cv=none; b=aOo4ngjlTMaXpd1Qy8C6RyVr1ZeR0yasWYq0CnHkASGonySjt7kGB2eWFpCeXr50urUHgAS7WJoyLx5PA7GG5q0Q4qJBOnWY6/Udu3YLllCG2yXwyUjldc4QHBdZAmp48ZWQOfIQilhADEcPsXGqzk0nLwDVLsohQDWrZ9xI37E=
+	t=1788184281; cv=none; b=MdTrWIQzyPXDWe1ccDNJLvi5TpL0On2CIKGi2sBJjuy6esY26d5le4DGzu3UzHo7RTtYgUG8IFbqXIVFbtVBLE8MOIUoehmAqpqMfVFZ8VX9jn5bWRudxYrB2ApXhpJDLRFr8WkpFJ8Mw9w1kyNeo9g9EvUbgKJeX04tQuqP0K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184248; c=relaxed/simple;
-	bh=J7WNZSZ/JcOLFM3IsJcnvhPDsNGMyl67oiCG50aRsr8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cZ1YMGMGZZRdW4ns3ezgOFvZP7ofUuzta6li39sGkFhFMc4NprFmbjXz9fUqlvyIUYWvfiW0Z+iR1ILXK0Z9FVwbWdGKy0Ogxy8q4oB8Z7BZj3SmaOMdpbdN7UBTh9EY72n/isqIF9nbT3R5vxWM7J5UwukfD1XvpbUeUaFxkBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IOdNlE+i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788184281; c=relaxed/simple;
+	bh=Ub2uZI5lGKBA04VlT1aSOlv+CWYnJ9OL7FpPIElIVz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vo1FwTI49vitUquZJifXVSjDdLLxSAQlO6mJ3HOLnI7ZhQSCswYbmMtzB6SmJ2JDMRJtw8+culRc49RMM9nKHPJdvETkZQeDey9qvnZnqkTVr9g9130R0FSWIgRV398dz8zu+MW92hhCoQc9hEMoPbv0UsSWR5DfKLZPqMfD0FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KOANNUDF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOdNlE+i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 922A31F00ACA;
-	Mon, 31 Aug 2026 13:50:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KOANNUDF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E25CB1F00A3E;
+	Mon, 31 Aug 2026 13:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184246;
-	bh=IFyAEP2QOMrRqV1RcnVwKCuSaMrGV7VT33VILFQm7GY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=IOdNlE+iCnDwB9mB7SEf1Au/OtKBckXaFZKf/zb2wjZulNjwVh+Jgp9Fv4XPFX8Qo
-	 jHwEYFpMsGWfsTErA/hiH0rcstnKKtcGP/MPOlCEqR4ruyFykxaZuxdLHMiMMWTwwX
-	 lvm9vAcYLZadyFSk3A/EzGP4AiSV6QA3pNjLDHHTidFkwGmc+hPkRqdplR5jNWrmVE
-	 ygii9eNAs4XcRyZy+fJ5gSeYvQQHk7MvcRGgXkJEeU+RR1qbH8gQMAetb5/zODqx7v
-	 WIER8IzWxICcRPQgwOooqyZBZzjNei08IiwRbd6bIWFsRw1vx2qdRTUyXQ7HDXaqiw
-	 E/DTBdy0doiZg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Dave Carey <carvsdriver@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	oneukum@suse.com,
+	s=k20260515; t=1788184279;
+	bh=y4IRaCf20yPxkwDQVxSHxKx3Orf5PlsmI9OWlWAa9Q8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KOANNUDFBJ+uHPZf8IJcY+JYButcvHpUnztsqXR3sadF7hHLw8ka2ATpDvwzOFdb4
+	 E4JCsc/mmSuyWNQZL339gkUNNdQbc9V4uK2fytnkwXkAx5KfhhADGhYYC5AdYXSX4/
+	 nEwzFgttL5956vWjSTO8aOh/wil4qwLUb0ze3P5jBwTu+f+Zc1slRKj31DRJ03XG4g
+	 YIQLKrraPrB99cMmoP6MppRTJJWLDAjHuj0ZFYCapEDcyKG5bV6lB6Q555uo3RKet9
+	 nUxmyl/BW5Jt/OGuUW1LmZgldY2kdU8VWLbSkzy/OrgZy/dlsZOy7mVwoLA9dHmzIn
+	 chQFWVKWQw+cg==
+Date: Mon, 31 Aug 2026 08:51:18 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Bhargav Joshi <j.bhargav.u@gmail.com>
+Cc: Tony Lindgren <tony@atomide.com>, Frank Li <Frank.Li@kernel.org>,
+	simona.toaca@nxp.com, linux-phy@lists.infradead.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] USB: cdc-acm: start bulk-IN polling when ALWAYS_POLL_CTRL is set
-Date: Mon, 31 Aug 2026 09:30:07 -0400
-Message-ID: <20260831133314.4125787-579-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
-References: <20260831133314.4125787-1-sashal@kernel.org>
+	Sergei Shtylyov <sshtylyov@ru.mvista.com>,
+	linux-kernel@vger.kernel.org, Kumar Gupta <ajay.gupta@ti.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Roger Quadros <rogerq@kernel.org>, m-chawdhry@ti.com,
+	Kevin Hilman <khilman@baylibre.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrzej Siewior <bigeasy@linutronix.de>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>, daniel.baluta@gmail.com,
+	Ravi B <ravibabu@ti.com>, goledhruva@gmail.com,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-omap@vger.kernel.org,
+	devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+	Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH v2 4/7] dt-bindings: usb: ti,musb-am33xx: Convert to DT
+ schema
+Message-ID: <178818427788.762177.6804931155762512398.robh@kernel.org>
+References: <20260818-ti-am33-usb-v2-0-66fd44d66824@gmail.com>
+ <20260818-ti-am33-usb-v2-4-66fd44d66824@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18.48
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260818-ti-am33-usb-v2-4-66fd44d66824@gmail.com>
 
-From: Dave Carey <carvsdriver@gmail.com>
 
-[ Upstream commit e5ab27ddd74e2d67a94c51c6f2ad87b1ff13912b ]
+On Tue, 18 Aug 2026 19:58:46 +0530, Bhargav Joshi wrote:
+> Convert the TI AM33xx MUSB text bindings to DT schema.
+> Changes during conversion:
+> - Allow an optional vbus interrupt used in am335x-bone-common.
+> - Add the interface-type and phy-names properties natively used by the
+>   dm816x hardware.
+> - Allow 0 or 1 for mentor,multipoint. While the text binding mandated 1,
+>   the Mentor USB IP natively supports both single and multipoint
+>   configurations as used in existing DTS.
+> 
+> Signed-off-by: Bhargav Joshi <j.bhargav.u@gmail.com>
+> ---
+>  .../devicetree/bindings/usb/am33xx-usb.txt         |  25 -----
+>  .../devicetree/bindings/usb/ti,musb-am33xx.yaml    | 113 +++++++++++++++++++++
+>  2 files changed, 113 insertions(+), 25 deletions(-)
+> 
 
-The INGENIC 17EF:6161 touchscreen composite device has a ~55-second
-watchdog that resets the USB device if the bulk-IN endpoint on the CDC
-data interface goes unread.  The existing ALWAYS_POLL_CTRL quirk keeps
-the notification endpoint (ctrlurb / EP 0x82) polling continuously, but
-that alone is insufficient: the firmware monitors bulk-IN activity, not
-just notification-endpoint activity.
-
-Add acm_submit_read_urbs() calls to the two ALWAYS_POLL_CTRL paths that
-already restart the ctrlurb:
-
-  1. acm_probe(): start bulk reads at probe time alongside the ctrlurb,
-     so the watchdog is satisfied from first bind without requiring a
-     userspace process to open /dev/ttyACMn.
-
-  2. acm_port_shutdown(): restart bulk reads after port close alongside
-     the ctrlurb restart, so the watchdog keeps running when the last
-     TTY user closes the port.
-
-acm_read_bulk_callback() already resubmits each URB unconditionally on
-normal completion, so once submitted the reads remain active until an
-explicit kill (disconnect, suspend).  acm_submit_read_urb() is a no-op
-for URBs that are already in flight (read_urbs_free bit clear), so the
-existing acm_port_activate() call remains correct and races are avoided.
-
-Tested on Lenovo Yoga Book 9 14IAH10 (83KJ): without this patch the
-device resets every ~55 s when no TTY is open; with it the device
-remains stable indefinitely.
-
-Signed-off-by: Dave Carey <carvsdriver@gmail.com>
-Link: https://patch.msgid.link/20260515141940.751397-1-carvsdriver@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-The background searches finished and match the earlier analysis:
-
-- **`git log --grep="start bulk-IN polling"` /
-  `--grep="ALWAYS_POLL_CTRL"`** only turned up the prerequisite Yoga
-  Book quirk commits (`5d29d7ff8679e`, `625153b917bc4`), not the bulk-IN
-  polling fix.
-- **`git log --grep="bulk-IN polling"` / `--grep="start bulk"`** found
-  no matching fix commit in this tree.
-
-So the patch under review is **not present in 6.18.44**; the incomplete
-`ALWAYS_POLL_CTRL` behavior is still there. The backport recommendation
-remains **YES** — it completes the quirk already in this tree.
-
- drivers/usb/class/cdc-acm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 12f9fe62199ba..d6a2f1591460a 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -797,6 +797,9 @@ static void acm_port_shutdown(struct tty_port *port)
- 				"ctrl polling restart failed after port close\n");
- 		/* port_shutdown() cleared DTR/RTS; restore them */
- 		acm_set_control(acm, USB_CDC_CTRL_DTR | USB_CDC_CTRL_RTS);
-+		if (acm_submit_read_urbs(acm, GFP_KERNEL))
-+			dev_dbg(&acm->control->dev,
-+				"read urb restart failed after port close\n");
- 	}
- }
- 
-@@ -1564,6 +1567,9 @@ static int acm_probe(struct usb_interface *intf,
- 		if (usb_submit_urb(acm->ctrlurb, GFP_KERNEL))
- 			dev_warn(&intf->dev,
- 				 "failed to start persistent ctrl polling\n");
-+		if (acm_submit_read_urbs(acm, GFP_KERNEL))
-+			dev_warn(&intf->dev,
-+				 "failed to start persistent bulk read polling\n");
- 	}
- 
- 	return 0;
--- 
-2.53.0
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
