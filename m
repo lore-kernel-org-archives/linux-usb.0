@@ -1,157 +1,154 @@
-Received: from mail-oa2-f10.google.com (mail-oa2-f10.google.com [74.125.231.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28EE3AA1A8
-	for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 04:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408DD3B4EB0;
+	Mon, 31 Aug 2026 04:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788150943; cv=none; b=aRpqULHnmgfhgWzA5XaxLWCzI1hcT1KMDECS/7DzAUKGGErqqV2MSgAFDEECZu9Yzi/kHW6Bmt7NMUa8raeozi3LfwStSPL2bIk4x6NG6K1SwFVi/rsmvQYgMNRbcgEIq5CPPObynGyZalUXldO3twYBJu80odo5yEFQVo9l3bc=
+	t=1788151953; cv=none; b=YkAqt2Rh4ns63ixd7yQ5+/GhETAJASGp82i2xxQKNXqn6GFCFx+a2ekAmVSvQg8qvDFgtXI1toCpBNaYPwIpphX/+pCmUR2zx5pi5q7tqM3JCfk9G3S9cNyr4Aq7eABJ/6O+oo6HO30vnV+NS7VAl6yUBhMM3frzWTirIx1M38U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788150943; c=relaxed/simple;
-	bh=mZudXeSm4wixxGmHzIJMNiPoCt3Yf058kY91/Dju/sE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=afdb2ZjFdPzKk3gfjoGQzWaow4FPeuL3GaUcAT8VrvRK8eOYTYWcGmLrVKiamlRGVz4DMp60TWtTZ1OSldPVZ6mRcTDCOMCKr465YHCGOUOgzKmKjMlUp+tvtU60z/OTS1YnBfnW61YGgSBvi2LIWSAh0JCK7pdz12XlYCQiqhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f10.google.com with SMTP id 586e51a60fabf-46629ca7457so1467664fac.1
-        for <linux-usb@vger.kernel.org>; Sun, 30 Aug 2026 21:35:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788150941; x=1788755741;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=DEOX5VODYUFxyjaa1tIkIASzzIdKDucmCLNhz41YVH0=;
-        b=Zm3tBPp3+Evavpjn8EX3kjX1ErdWglP5LNrPhDPGbVxwT1EIYsbkoQsEhU9JiEynZO
-         7TmivNQ6rfsqC64HfwhW7JuRhYW3wCRIeqvGx028ibFbFydsjyKSRVD9zXM0/8Pz2cpE
-         /dXUd6LoBpD4cJ8EmU+S3d6BTMkkvA73C2EXShTlWhs14LQNZZpBz4LCzIjlAHSjSqMx
-         2zH2WWA8lqrFheN19Xp/gsy/aDkDQrEp64hoTSsIV9EELDP/31+m2nwRErLQEhUSGrnv
-         PoD2kF0l1M10+nupqhfTCPzjrO4EtDL7Q81EpOvknG2HBLaUVOZ7erdiu2Q1/Ien8VWg
-         Ovvw==
-X-Forwarded-Encrypted: i=1; AHgh+RqXzTfb8Tvh20oNtK2/Gok5OVkDGjiywKDWddWE+8HmsIxr5vF9GsPbflBcrYE80XyC8AoPvNxbVSY=@vger.kernel.org
-X-Gm-Message-State: AFuF++nwyNNU7z9gC20m6MsWz01IzLRVjGNvYCt5MjRU9ZqEY/yOrgHI
-	1JqTI/ul667gr77219CZEhgCx7G0vPrDkn2h1CRslehq2tPqevJ5pmP5CaYf3brCP0bvUBCriZa
-	qeSsvDYG/R4yQmDrfxnAu3rvK+ZRJy8SC2tr7srugJBCGPc8l7GUuA7YSDp4=
+	s=arc-20240116; t=1788151953; c=relaxed/simple;
+	bh=tA9l5/dHuAPYTIdiGZKyC9du4c+Yc06j2MqdBYQrNXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgu8sIraMX1eA2w5iQAeyCVPc7U7VT9XgUEzk9erhAVGDG3CvJ0MIG5Tkx9p6qESl2KQLhohZu5C9FVg3Jkp0+tdljWQ0NsUE3fFuWmxPhm3YelsS8aDw7eUFMkC3OHAZkvxFyigMiFQIeU4RffobTF8BayctsH1mBxEfIFLyzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrGYb1RY; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrGYb1RY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788151950; x=1819687950;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=tA9l5/dHuAPYTIdiGZKyC9du4c+Yc06j2MqdBYQrNXM=;
+  b=YrGYb1RYuw3fmzIb7x7UlCzfPIkq2Vt5l99d67UCqq/TL3GplskFXRjW
+   2nPnipKFEY77aqap2iQKEjs1kVCNoDg8UYZsBPFmYYUckC/UcO3uuowXX
+   DwXRp7vbRD/uRRvPbFnSr9VGpRGHcLkHk+SgJE3fycMWDkp7HBghSVNRw
+   7ZhcVOFs32Sedfl/7v1lA2jfhTi1rOLg3hV+GifrzoQKEEqzsFzse5FLM
+   GmIVNxd5DoXsWRjY1MxVl8TnLcpIxXZH5OgAq/1FKSY7tBeghCyYCd2Qn
+   UnOJWPKyyXhojJNh5ELy7GvJza4G8qOD2/g8PmObE3c4FV8YRMGPg3PXd
+   A==;
+X-CSE-ConnectionGUID: rEpr4XXvQhWr3slCfycUKg==
+X-CSE-MsgGUID: fOuyuKbQTMOmtCVrXRL+Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="76094333"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="76094333"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 21:52:30 -0700
+X-CSE-ConnectionGUID: K1ui655VRYa5eMuYx1ZGRg==
+X-CSE-MsgGUID: PnOShGilTGSPN7IWoTdfug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="293499621"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Aug 2026 21:52:27 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 17CCA99; Mon, 31 Aug 2026 06:52:26 +0200 (CEST)
+Date: Mon, 31 Aug 2026 06:52:26 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: =?utf-8?B?RnJhbnRpxaFlayBUaWNow70=?= <linux-development@tifran.cz>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Gia <giacomo.gio@gmail.com>,
+	Linux regressions mailing list <regressions@lists.linux.dev>,
+	westeri@kernel.org, linux-kernel@vger.kernel.org,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	kernel@micha.zone, linux-usb@vger.kernel.org, Sanath.S@amd.com
+Subject: Re: [REGRESSION] Thunderbolt Host Reset Change Causes eGPU
+ Disconnection from 6.8.7=>6.8.8
+Message-ID: <20260831045226.GA124825@black.igk.intel.com>
+References: <CAHe5sWavQcUTg2zTYaryRsMywSBgBgETG=R1jRexg4qDqwCfdw@mail.gmail.com>
+ <38de0776-3adf-4223-b8e0-cedb5a5ebf4d@leemhuis.info>
+ <CAHe5sWYnbJAjGp66Q4H0W_yk9uYTcERmW=sPvJSWTsqbFZFCVg@mail.gmail.com>
+ <9659dd5d-af8d-4100-8fc1-ceca42223827@amd.com>
+ <f8d6f64b-0783-46bc-82d9-cd56da07cac0@tifran.cz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1c85:b0:6a1:77ce:1b09 with SMTP id
- 006d021491bc7-6b36cf0ed9bmr360004eaf.6.1788150940829; Sun, 30 Aug 2026
- 21:35:40 -0700 (PDT)
-Date: Sun, 30 Aug 2026 21:35:40 -0700
-In-Reply-To: <6a802643.9ebadd4d.20b15e.000b.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a95049c.7724083a.12295.0001.GAE@google.com>
-Subject: Re: [syzbot] [input?] [usb?] WARNING: ODEBUG bug in hid_device_remove
-From: syzbot <syzbot+f8fb5598924c7e645553@syzkaller.appspotmail.com>
-To: hdanton@sina.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f8d6f64b-0783-46bc-82d9-cd56da07cac0@tifran.cz>
 
-syzbot has found a reproducer for the following issue on:
+Hi,
 
-HEAD commit:    a23cbb05744b Merge tag 'timers-urgent-2026-08-30' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14b0be25580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-dashboard link: https://syzkaller.appspot.com/bug?extid=f8fb5598924c7e645553
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16538349580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1569ec15580000
+On Sun, Aug 30, 2026 at 11:33:31PM +0200, František Tichý wrote:
+> Hi all,
+> 
+> I've run into this issue on 7.0.10, 7.1.6, 7.1.8 and 7.1.9 (specifically
+> Linux 7.1.9-arch1-2), as well as LTS kernel 6.18.45.
+> 
+> to Mario's questions (thank you for them; they were captured on the
+> 7.1.9 kernel):
+> 
+> > Can we please get some kernel logs for these two cases on the command
+> line?
+> >
+> > thunderbolt.dyndbg=+p
+> 
+> Here you are, the system does not load the graphical interface:
+> https://gist.github.com/Poirot12345T/be6b7849e039687e248b8c302615d9f3
+> 
+> > thunderbolt.dyndbg=+p thunderbolt.host_reset=false
+> 
+> In this case, graphical interface loaded successfully:
+> https://gist.github.com/Poirot12345T/c63a1a3b2b6609b30a1182e7681fbec1
+> 
+> > Also what is the value for:
+> >
+> > $ cat /sys/bus/thunderbolt/devices/domain0/iommu_dma_protection
+> 
+> That returns as "1" on my system.
+> 
+> I've also done some digging myself, here's what I found out:
+> 
+> (note: I will use host_reset=0 in this post, even though the thread used
+> host_reset=false. These two values are functionally identical.)
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/3c5de4682137/disk-a23cbb05.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f36f9cbaac4c/vmlinux-a23cbb05.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/44ee07331725/bzImage-a23cbb05.xz
+Yes correct.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f8fb5598924c7e645553@syzkaller.appspotmail.com
+> Originally tracked down in amdgpu bug tracker
+> (https://gitlab.freedesktop.org/drm/amd/-/work_items/5632) and based on
+> the suggestion to use thunderbolt.host_reset=false mentioned in this
+> thread, I traced back the issue to commit 59a54c5f3dbd (authored by
+> Sanath S, CC'd) which touched drivers/thunderbolt/tb.c (Thunderbolt/USB
+> subsystem, added Mika Westerberg as a maintainer and CC'd linux-usb
+> mailing list), more specifically function tb_start() and this code block:
+> 
+>     /*
+>      * Boot firmware might have created tunnels of its own. Since we
+>      * cannot be sure they are usable for us, tear them down and
+>      * reset the ports to handle it as new hotplug for USB4 v1
+>      * routers (for USB4 v2 and beyond we already do host reset).
+>      */
+>     if (reset && tb_switch_is_usb4(tb->root_switch)) {
+>         discover = false;
+>         if (usb4_switch_version(tb->root_switch) == 1)
+>             tb_switch_reset(tb->root_switch);
+>     }
+> 
+> This block should be located between lines 3060 and 3070 of the above
+> mentioned file as of the time I am writing this post.
 
-corsair 0003:1B1C:1B02.0022: hidraw0: USB HID v0.00 Device [HID 1b1c:1b02] on usb-dummy_hcd.0-1/input0
-corsair 0003:1B1C:1B02.0022: Failed to get K90 initial state (error -71).
-usb 1-1: USB disconnect, device number 35
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object: ffff8880369b5ab8 object type: work_struct hint: k90_backlight_work+0x0/0x1c0 drivers/hid/hid-corsair.c:-1
-WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#0: kworker/0:3/5621
-Modules linked in:
-CPU: 0 UID: 0 PID: 5621 Comm: kworker/0:3 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:debug_print_object+0x18a/0x230 lib/debugobjects.c:629
-Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 ed ff 59 fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 c3 ca d9 0a 48 83 c4 10 5b 41 5c
-RSP: 0018:ffffc90005507008 EFLAGS: 00010246
-RAX: 1ffffffff16d7268 RBX: dffffc0000000000 RCX: 0000000000000000
-RDX: ffffffff8bcc2c40 RSI: ffffffff8bcc26c0 RDI: ffffffff8fbc6db0
-RBP: ffffffff8bcc2c40 R08: ffff8880369b5ab8 R09: ffffffff8b6ba560
-R10: dffffc0000000000 R11: ffffffff818f4a70 R12: 0000000000000000
-R13: ffffffff8fbc6db0 R14: ffff8880369b5ab8 R15: ffffffff8b6b9340
-FS:  0000000000000000(0000) GS:ffff888125bd6000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffc6a1eafb8 CR3: 000000003e4e6000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
- debug_check_no_obj_freed+0x2e3/0x450 lib/debugobjects.c:1201
- slab_free_hook mm/slub.c:2679 [inline]
- slab_free mm/slub.c:6499 [inline]
- kfree+0x13e/0x6d0 mm/slub.c:6792
- hid_device_remove+0xc8/0x1d0 drivers/hid/hid-core.c:2897
- device_remove drivers/base/dd.c:616 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
- bus_remove_device+0x449/0x560 drivers/base/bus.c:664
- device_del+0x528/0x8f0 drivers/base/core.c:3965
- hid_remove_device drivers/hid/hid-core.c:3126 [inline]
- hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3148
- usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
- usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:618 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
- bus_remove_device+0x449/0x560 drivers/base/bus.c:664
- device_del+0x528/0x8f0 drivers/base/core.c:3965
- usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
- usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2350
- hub_port_connect drivers/usb/core/hub.c:5420 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
- port_event drivers/usb/core/hub.c:5884 [inline]
- hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5966
- process_one_work kernel/workqueue.c:3387 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3470
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3551
- kthread+0x38b/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	f8                   	clc
-   1:	48 c1 e8 03          	shr    $0x3,%rax
-   5:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-   9:	74 08                	je     0x13
-   b:	4c 89 ff             	mov    %r15,%rdi
-   e:	e8 ed ff 59 fd       	call   0xfd5a0000
-  13:	4d 8b 0f             	mov    (%r15),%r9
-  16:	4c 89 ef             	mov    %r13,%rdi
-  19:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-  1e:	48 89 ea             	mov    %rbp,%rdx
-  21:	44 89 e1             	mov    %r12d,%ecx
-  24:	4d 89 f0             	mov    %r14,%r8
-  27:	ff 34 24             	push   (%rsp)
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 83 c4 08          	add    $0x8,%rsp
-  33:	ff 05 c3 ca d9 0a    	incl   0xad9cac3(%rip)        # 0xad9cafc
-  39:	48 83 c4 10          	add    $0x10,%rsp
-  3d:	5b                   	pop    %rbx
-  3e:	41 5c                	pop    %r12
+Does is work if you boot with the device connected (and host_reset=0) and
+then once the system is up, unplug the eGPU wait a little and plug it back?
+That's essentially the same thing as what host_reset is doing and is pretty
+much the nature of buses like USB4 (e.g the user can unplug the device at
+any given time and plug it back later expecting it to work).
 
+> I was able to reproduce this issue using AMD RX 7600 (journalctl dump
+> link:
+> https://gist.github.com/Poirot12345T/909f3d071f87655d875445e536da74d3).
+> I have also tried NVIDIA RTX 5060 with the nvidia-open driver which did
+> not trigger this behavior in the default setting. (journalctl:
+> https://gist.github.com/Poirot12345T/4deeae10508e3971521aca9e612b5737)
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+It depends on the GPU driver. Some of them are prepared for PCIe
+hot-removal, some are not yet. With the rise of eGPUs I would expect that
+we are seeing more and more support for this though.
+
+The ones you shared above looks like amdgpu driver and I don't see any
+issues in the dmesg.
