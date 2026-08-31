@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393995571B4;
-	Mon, 31 Aug 2026 13:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529B655C1BF;
+	Mon, 31 Aug 2026 13:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184034; cv=none; b=P+tQaCRG1/KDThY9bXep4NKASIPj7d94hhQVRRvW++szwH/c2yO0oV0FhuoU9ZOyVgXCd7hbGeSIV60SxHd1nIN0bERWtbIOvNFzuEHQ/yEAoKPXWGQLbo1HDepIn5vvP+WNBU40JgCFe5Y566031GkR4PUzrgelYJwuvd/Wlk0=
+	t=1788184049; cv=none; b=HySVUu6OAVr6a65eJPr+HsGQfOhmEtmavhIVh9LfmwpeWx7VlNv/hlfcdxIH3UZFQToRw71onoMfQSPCh72aUQefT/2f7/n6UlbZ6faH2B8h9bEFzTLq70dc86bXE1oPK3GheJ6cBNRodmeDkzoM4KjVWObVN7P7LBYckPAynYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184034; c=relaxed/simple;
-	bh=NZVJL/kFdNoz/bS+2afW3gxFY6Fn9WAdk6S0G1T4qJE=;
+	s=arc-20240116; t=1788184049; c=relaxed/simple;
+	bh=wXxp1Vp4fsV0oOwxzxkL3E/3MtKzNektS92oXNsxUV8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qSgRkN9K+yCbnirw+I96FNwTKbZ4u98Jb9Q29rGXjYs+Vh5rspPRtpRyb7K7eNM+8uW013SPPn5RhoJU+c7hoWt9bUda+0Hq/O4HnsqTslA+TCR4j3UDrmKI92aNDrJPMSqe6lPrRLfGbdDzF7VAVmueWg+SWtaj9l1pDb27ogs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Baly7jXk; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=qpBB48iWTHkT0uk4cj21TAr+Lbspl2OPz24a5bh5i7RD+nOLOOqKuitnE4qvCRCv6BgfWaBYaoi0i/NPUFB43Kxi+FL/wLx/LH+K84Vbjt9lyZiSk16INZ8GHTne8hQ+fbjiVCbD2zSLPQG9qgTH8iOAvxZ3MhHFDk5ARJDw09Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4PvxIms; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Baly7jXk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C12D01F00A3D;
-	Mon, 31 Aug 2026 13:47:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4PvxIms"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E9EF1F000E9;
+	Mon, 31 Aug 2026 13:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184030;
-	bh=kmTEh9q0Fmu956k738Dbnq6IcgrvZxhZeUqvD8UqqHo=;
+	s=k20260515; t=1788184045;
+	bh=F9kJvXxPO++JKYWfYDCl2V4JYbBTnQZLVivtY9gyCnU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Baly7jXk+5bQP8vuv693NV1Kx1r3nI2PvExSHB4jza6KJBlXFt/fw1Fivt5uln77f
-	 HBI7OHD4scNgnYo69j6bMixRVSeUmgKqTzRCt1dITaiAgpfm7I7335KOyrWEacXb+A
-	 zshF0WuhfK/rvNsr9xilYrxa3FPyiSrYvcCDU/fsS3nlxn07rz6sFCQOysJeZyUERS
-	 5YWAwuRGR6Fd0cYE4kK68eitxrpTCxVz4dOup/uWIBlylVTvO2iYLM9cjC/LNFboWD
-	 tHz/2FBS4ASnL6nZ2S0e8AWBKQfvzLMxMAgcnBSr0usNhF2kOXvHkDNsJdUFNdS8Hy
-	 80tj1SXLf0Vnw==
+	b=V4PvxImsaBkrlgN3hDHuzRz3ucD3nvfetg8WEzgUUBId17o06o4U2Z8TBRNpj2IJZ
+	 FHzpWnX2hGnWrg8XlrFTpHq83vyvfqw0s/LUDT9vZpdfITU/rDwx0j8r/+empwq7pq
+	 DEix1VIQc/ZuhPH+dhGwt0QjalORvzWaD+yjGjDASY0nudDBifVxNDM3p8xjmdSsGT
+	 lXPjTlBo77ncg+kHdiDPYokvWUUeRJPynceMs/GVR4ZkpGtzA2Fr5FJ96TYxCd1goe
+	 n1SLAJQEFZS369oUQOp65g471AUg/oWKfmEUQqeX+XeAJT/48vhF4qbM6NuRsnTRJq
+	 WSCF9FwUeqLVg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Gil Fine <gil.fine@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
+Cc: Adrian Wowk <dev@adrianwowk.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	andreas.noever@gmail.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com,
+	valentina.manea.m@gmail.com,
+	shuah@kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] thunderbolt: Verify PCIe adapter in detect state before tunnel setup
-Date: Mon, 31 Aug 2026 09:27:57 -0400
-Message-ID: <20260831133314.4125787-449-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] usbip: vhci_hcd: fix NULL deref in status_show_vhci
+Date: Mon, 31 Aug 2026 09:28:07 -0400
+Message-ID: <20260831133314.4125787-459-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -55,513 +55,455 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Gil Fine <gil.fine@linux.intel.com>
+From: Adrian Wowk <dev@adrianwowk.com>
 
-[ Upstream commit 69a7b98770b7e80deec0465d97710611a0e51774 ]
+[ Upstream commit bc150783542ba2e7c1257d1299c6f3269bdba270 ]
 
-The USB4 Connection Manager guide suggests that a PCIe downstream and
-PCIe upstream adapters of the USB4 router is in the Detect state before
-setting up a PCIe tunnel.
+platform_get_drvdata() can return NULL if a VHCI host controller's
+probe failed (e.g. due to USB bus number exhaustion). status_show_vhci()
+checked for a NULL pdev but not for a NULL hcd returned by
+platform_get_drvdata(). Passing NULL to hcd_to_vhci_hcd() does not
+return NULL - it returns a pointer offset of 0x260, causing a NULL
+pointer dereference when that value is subsequently dereferenced.
 
-Add this check by verifying the LTSSM field in ADP_PCIE_CS_0 before
-tunnel setup.
+Add a NULL check on hcd before calling hcd_to_vhci_hcd(). Move
+status_show_not_ready() above status_show_vhci() to make it callable
+from the new error path without a forward declaration.
 
-Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Adrian Wowk <dev@adrianwowk.com>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Link: https://patch.msgid.link/20260414010050.158064-2-dev@adrianwowk.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: `usbip: vhci_hcd: fix NULL deref in
+status_show_vhci`
 
-**Step 1.1 — Subject line**
-Record: `[thunderbolt] [verify] Verify PCIe adapter in detect state
-before tunnel setup` — USB4/Thunderbolt driver change that adds a pre-
-tunnel LTSSM state check.
-
-**Step 1.2 — Tags**
-Record:
-- `Signed-off-by: Gil Fine <gil.fine@linux.intel.com>` (author)
-- `Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>`
-  (subsystem maintainer)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-  by:`, `Link:`, or `Cc: stable@vger.kernel.org` (absence of stable tags
-  is expected per pipeline instructions)
-
-**Step 1.3 — Body analysis**
-Record:
-- **Bug described:** PCIe tunnel setup may proceed before USB4 PCIe
-  upstream/downstream adapters reach LTSSM DETECT, violating the USB4
-  Connection Manager (CM) guide.
-- **Symptom/failure mode:** Premature PCIe tunnel activation on USB4
-  routers; can cause PCIe tunnel activation failures or unreliable
-  Thunderbolt PCIe device bring-up (not explicitly described as
-  crash/oops).
-- **Version info:** None in commit message.
-- **Root cause (author):** Missing LTSSM state verification on
-  `ADP_PCIE_CS_0` before tunnel activation.
-
-**Step 1.4 — Hidden bug fix?**
-Record: **Yes.** Although framed as CM-guide compliance, this is a
-timing/race fix: activation can run before adapters are ready. It adds a
-bounded wait (500 ms) and fails cleanly (`-ETIMEDOUT`) instead of
-proceeding in an invalid state.
+**Local tree:** `v6.18.44` (`stable/linux-6.18.y`, `make kernelversion`
+→ 6.18.44)
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 2.1 — Inventory**
-Record:
-- `drivers/thunderbolt/tb.h`: +1 line (declare
-  `usb4_pci_port_ltssm_state()`)
-- `drivers/thunderbolt/tb_regs.h`: +15 lines
-  (`ADP_PCIE_CS_0_LTSSM_MASK`, `enum tb_pcie_ltssm_state`)
-- `drivers/thunderbolt/tunnel.c`: +35 lines
-  (`tb_pci_port_ltssm_state_detect()`, `tb_pci_pre_activate()`, hook
-  assignment)
-- `drivers/thunderbolt/usb4.c`: +24 lines
-  (`usb4_pci_port_ltssm_state()`)
-- **Total:** ~75 lines added, 0 removed
-- **Functions modified/added:** `tb_pci_port_ltssm_state_detect`,
-  `tb_pci_pre_activate`, `tb_tunnel_alloc_pci`,
-  `usb4_pci_port_ltssm_state`
-- **Scope:** Single-subsystem, surgical fix across 4 related files
+### Step 1.1: Subject line
+**Record:** `[usbip: vhci_hcd]` `[fix]` — NULL pointer dereference in
+`status_show_vhci()` when reading VHCI sysfs status.
 
-**Step 2.2 — Code flow (per hunk)**
-Record:
-- **tb_regs.h:** Adds LTSSM bitfield mask and state enum for PCIe
-  adapter CS register.
-- **usb4.c:** New helper reads `ADP_PCIE_CS_0` LTSSM field via
-  `tb_port_read()`.
-- **tunnel.c — detect helper:** Polls every 50 ms for up to 500 ms until
-  `USB4_PCIE_LTSSM_DETECT`; returns 0 on success, `-ETIMEDOUT` on
-  timeout.
-- **tunnel.c — pre_activate:** For USB4 routers only, checks downstream
-  then upstream adapter; non-USB4 routers skip (return 0).
-- **tunnel.c — alloc:** Sets `tunnel->pre_activate =
-  tb_pci_pre_activate` before activation.
-- **tb.h:** Exposes LTSSM read helper.
+### Step 1.2: Tags
+**Record:**
+- **Signed-off-by:** Adrian Wowk, Greg Kroah-Hartman (ignore pipeline
+  SOB)
+- **Reviewed-by:** Shuah Khan (USB/usbip maintainer)
+- **Link:**
+  https://patch.msgid.link/20260414010050.158064-2-dev@adrianwowk.com
+- No `Fixes:`, `Reported-by:`, `Cc: stable`, or `Tested-by:` tags
+- Notable: maintainer review present; no syzbot report
 
-**Before → After:**
-Before: `tb_tunnel_alloc_pci()` goes straight to `tb_tunnel_activate()`
-→ path enable → `tb_pci_activate()`.
-After: `tb_tunnel_activate()` first calls `pre_activate`, which waits
-for DETECT on USB4 PCIe adapters.
+### Step 1.3: Body analysis
+**Record:**
+- **Bug:** `status_show_vhci()` checks `pdev` for NULL but not `hcd`
+  from `platform_get_drvdata()`.
+- **Trigger:** VHCI host controller probe failure (e.g. USB bus number
+  exhaustion); `pdev` exists but `hcd` is NULL.
+- **Mechanism:** `hcd_to_vhci_hcd(NULL)` does not return NULL; it yields
+  a pointer at offset `0x260` into `struct usb_hcd`, then
+  `vhci_hcd->vhci` dereferences that address → kernel oops.
+- **Symptom:** NULL pointer dereference / kernel crash on sysfs read.
+- **Fix:** NULL-check `hcd`; fall back to existing
+  `status_show_not_ready()`; move that helper above `status_show_vhci()`
+  to avoid forward declaration.
 
-**Step 2.3 — Bug mechanism**
-Record:
-- **Category:** Timing/race / correctness in device initialization
-- **Mechanism:** Tunnel activation can start before PCIe adapters are in
-  the required LTSSM DETECT state. Fix inserts a synchronization wait in
-  the existing `pre_activate` hook (same pattern as DP/USB3 tunnels).
-
-**Step 2.4 — Fix quality**
-Record:
-- Logic is straightforward and matches existing thunderbolt polling
-  patterns (`fsleep`, bounded timeout).
-- Minimal, no unrelated changes.
-- **Regression risk:** Low–medium. Only applies to `tb_switch_is_usb4()`
-  routers; bounded 500 ms wait; failure path is clean abort. Risk of
-  false `-ETIMEDOUT` if hardware is never in DETECT at this point is
-  unverified but maintainer-reviewed.
+### Step 1.4: Hidden bug fix?
+**Record:** No — explicitly labeled and clearly a NULL-deref bug fix,
+not disguised cleanup.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 2: DIFF ANALYSIS
 
-**Step 3.1 — Blame**
-Record: `tb_tunnel_alloc_pci()` dates to 2017 (Mika Westerberg). The
-missing LTSSM check has been absent since PCIe tunnel support existed;
-USB4-specific exposure grew with USB4 router support (e.g.
-`usb4_pci_port_set_ext_encapsulation` from 2024).
+### Step 2.1: Inventory
+**Record:**
+- **File:** `drivers/usb/usbip/vhci_sysfs.c` only
+- **Scope:** ~12 lines added (NULL check + debug message), function
+  reorder (no logic change to `status_show_not_ready`)
+- **Functions:** `status_show_not_ready()` (moved up),
+  `status_show_vhci()` (NULL guard added)
+- **Classification:** Single-file surgical fix
 
-**Step 3.2 — Fixes: tag**
-Record: Not applicable — no `Fixes:` tag present.
+### Step 2.2: Code flow change
+**Record:**
+- **Hunk 1 (reorder):** `status_show_not_ready()` moved above
+  `status_show_vhci()` — behavior unchanged.
+- **Hunk 2 (`status_show_vhci`):**
+  - **Before:** `hcd = platform_get_drvdata(pdev);` → immediate
+    `hcd_to_vhci_hcd(hcd)` → `vhci_hcd->vhci` (crash if `hcd == NULL`).
+  - **After:** If `!hcd`, log debug message and return
+    `status_show_not_ready(pdev_nr, out)` (safe placeholder output).
+  - **Path affected:** Sysfs `status` / `status.N` read when controller
+    probe failed.
 
-**Step 3.3 — Related file history**
-Record:
-- Prior related fix in tree: `54967f4177d3d` (2023-12-14) — "Make PCIe
-  tunnel setup and teardown follow CM guide"
-- `pre_activate` infrastructure added Jan 2025 (`ae765788936d9`,
-  `d6d458d42e1e1`) — used by DP/USB3, not yet PCI
-- This commit is **patch 5/8** in series "Make the driver follow CM
-  guide more closely" (May 2026); patches 4/6/7/8 (path hop order,
-  Router Ready bit, timeout increases) are **not** in this tree
-- **Standalone:** This patch compiles and functions independently; no
-  hard dependency on other series patches
+### Step 2.3: Bug mechanism
+**Record:**
+- **Category:** NULL pointer dereference (memory safety)
+- **Mechanism:** `hcd_to_vhci_hcd()` is:
 
-**Step 3.4 — Author context**
-Record: Gil Fine is an active Intel thunderbolt contributor; Mika
-Westerberg is subsystem maintainer. Multiple prior CM-guide compliance
-commits from same authors are already in this tree.
+```149:152:drivers/usb/usbip/vhci.h
+static inline struct vhci_hcd *hcd_to_vhci_hcd(struct usb_hcd *hcd)
+{
+        return (struct vhci_hcd *) (hcd->hcd_priv);
+}
+```
 
-**Step 3.5 — Dependencies**
-Record: No prerequisite commits required. Local tree already has
-`pre_activate` hook, `tb_switch_is_usb4()`,
-`usb4_pci_port_set_ext_encapsulation()`, and `ADP_PCIE_CS_0` register
-definitions.
+  With `hcd == NULL`, `hcd->hcd_priv` is invalid; the resulting pointer
+is then dereferenced at line 80 (`vhci_hcd->vhci`).
 
----
-
-## Phase 4: Mailing List and External Research
-
-**Step 4.1 — Original discussion**
-Record:
-- `b4 dig -c HEAD`: No match (commit not in local tree)
-- Web search found patch at [ratatoskr](https://ratatoskr.run/linux-
-  usb/2026/05/8999078) as **[PATCH 5/8]** in series sent 2026-05-12 by
-  Mika Westerberg
-- Series cover: "Make the driver follow CM guide more closely"
-- Follow-up from maintainer 2026-05-20; no stable nomination found in
-  available metadata
-- lore.kernel.org blocked by bot protection; full thread not readable
-
-**Step 4.2 — Reviewers**
-Record: Maintainer (Mika Westerberg) is author/submitter of series. Full
-recipient list from `b4 dig -w` unavailable (commit not in tree).
-
-**Step 4.3 — Bug reports**
-Record: No `Reported-by:`, syzbot, or bugzilla links. Issue inferred
-from USB4 CM guide requirement and driver behavior analysis.
-
-**Step 4.4 — Series context**
-Record: 8-patch series; this is one CM-compliance piece. Other patches
-address DP allocation, lane bonding log, Router Ready bit, path hop
-activation order, and timeout increases. This patch is independently
-applicable but full CM compliance may need the rest of the series
-eventually.
-
-**Step 4.5 — Stable list history**
-Record: Could not search lore stable list (bot protection). No stable
-nomination found in ratatoskr metadata.
+### Step 2.4: Fix quality
+**Record:**
+- **Quality:** High — matches the existing pattern in `attach_store()`
+  and `detach_store()` in the same file (lines 250–254, 344–348).
+- **Regression risk:** Very low — only adds an error path using existing
+  helper already used from `status_show()`.
+- **No red flags:** No API changes, no locking changes, no cross-
+  subsystem impact.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 5.1 — Key functions**
-Record: `usb4_pci_port_ltssm_state`, `tb_pci_port_ltssm_state_detect`,
-`tb_pci_pre_activate`, `tb_tunnel_alloc_pci`, `tb_tunnel_activate`
+### Step 3.1: Blame
+**Record:**
+- Buggy `platform_get_drvdata()` → `hcd_to_vhci_hcd()` path introduced
+  in **03cd00d538a6f** (2017-06-08, "usbip: vhci-hcd: Set the vhci
+  structure up to work").
+- `pdev` NULL check added in **0775a9cbc694e** (2016-06-13, multi-
+  controller extension).
+- `attach_store()` / `detach_store()` gained `hcd == NULL` checks in the
+  same **0775a9cbc694e** commit; `status_show_vhci()` was never updated
+  — a long-standing oversight.
 
-**Step 5.2 — Callers**
-Record:
-- `tb_tunnel_alloc_pci()` called from `tb.c:tb_tunnel_pci()` and KUnit
-  tests
-- `tb_tunnel_activate()` called from `tb.c` at lines 975, 2038, 2298,
-  2348, 3156, 3266 — hotplug, chain construction, resume paths
-- `pre_activate` invoked in `tb_tunnel_activate()` at
-  `tunnel.c:2395-2398` before path activation
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag in commit message.
 
-**Step 5.3 — Callees**
-Record: `usb4_pci_port_ltssm_state` → `tb_port_read()`; detect helper →
-`fsleep(50)`; pre_activate → `tb_switch_is_usb4()`
+### Step 3.3: Related file history
+**Record:**
+- Recent fixes in this file: race/GPF fix (718ad9693e365, 2021),
+  sysfs_lock (4e9c93af7279b), stream socket check (f55a0571690c4).
+- This fix is standalone; not part of a multi-patch series.
+- **Prerequisites:** None identified.
 
-**Step 5.4 — Reachability**
-Record: Triggered during Thunderbolt/USB4 device hotplug and PCIe tunnel
-creation — common path for docks, eGPUs, NVMe enclosures. Requires
-`CONFIG_THUNDERBOLT` and USB4 hardware. Not directly userspace-syscall
-reachable, but triggered by normal plug events.
+### Step 3.4: Author context
+**Record:** Adrian Wowk has no prior usbip commits in this tree (commit
+is mainline candidate not yet merged here). Reviewed by Shuah Khan
+(active usbip maintainer).
 
-**Step 5.5 — Similar patterns**
-Record: DP tunnel uses `tb_dp_pre_activate()` with USB4-specific checks
-(`tunnel.c:987-1011`). USB3 uses `tb_usb3_pre_activate()`.
-`usb4_port_wait_for_bit()` in `usb4.c` is the established polling
-pattern for USB4 register readiness.
-
----
-
-## Phase 6: Cross-Reference Against Local Tree (v6.18.44)
-
-**Step 6.1 — Buggy code present?**
-Record: **Yes.** Local tree is `v6.18.44` (`VERSION=6, PATCHLEVEL=18,
-SUBLEVEL=44`). Grep confirms no `ltssm`, `usb4_pci_port_ltssm_state`, or
-`tb_pci_pre_activate`. `tb_tunnel_alloc_pci()` at `tunnel.c:504-514`
-sets only `tunnel->activate = tb_pci_activate` with no `pre_activate`.
-Bug has been present since PCIe tunnel support; USB4 exposure is
-relevant for all USB4 routers in this tree.
-
-**Step 6.2 — Backport complications**
-Record: **Clean apply expected.** `pre_activate` hook,
-`tb_switch_is_usb4()`, `ADP_PCIE_CS_0`, and
-`usb4_pci_port_set_ext_encapsulation()` all exist. No conflicting recent
-churn in the target hunks.
-
-**Step 6.3 — Related fixes already present?**
-Record: Prior CM guide fix `54967f4177d3d` (PCIe enable order) is in
-tree. This LTSSM check is **not** present. No duplicate fix found.
+### Step 3.5: Dependencies
+**Record:** No dependencies. `status_show_not_ready()` already exists in
+this tree and is callable from `status_show()`.
 
 ---
 
-## Phase 7: Subsystem and Maintainer Context
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-**Step 7.1 — Subsystem criticality**
-Record: `drivers/thunderbolt/` — **IMPORTANT** (peripheral driver, but
-affects Thunderbolt/USB4 docking, storage, displays, networking on
-laptops/workstations).
+### Step 4.1: Original discussion
+**Record:** `b4 dig -c <commit>` not possible — commit not in local
+tree. Link fetch to patch.msgid.link and lore.kernel.org blocked (Anubis
+bot protection). **UNVERIFIED:** full mailing-list thread content.
 
-**Step 7.2 — Activity**
-Record: Actively maintained; recent commits include UAF fix
-(`67600ccfc4f38`), wake-on-connect fix, documentation updates.
+### Step 4.2: Reviewers
+**Record:** **UNVERIFIED** via `b4 dig -w`. Commit message documents
+**Reviewed-by: Shuah Khan** and **Signed-off-by: Greg Kroah-Hartman**.
 
----
+### Step 4.3: Bug report
+**Record:** No external bug report or syzbot link. Bug identified by
+code-path analysis (inconsistency with attach/detach NULL checks).
 
-## Phase 8: Impact and Risk Assessment
+### Step 4.4: Related patches
+**Record:** Standalone 1-file fix; no series dependency.
 
-**Step 8.1 — Who is affected**
-Record: Users with USB4/Thunderbolt hardware using PCIe tunneling (docks
-with PCIe slots, external GPUs, etc.). Config-specific
-(`CONFIG_THUNDERBOLT`), platform-specific (systems with TB/USB4
-controllers).
-
-**Step 8.2 — Trigger conditions**
-Record: USB4 router PCIe tunnel activation during hotplug/chain setup
-when adapters have not yet reached LTSSM DETECT. Timing-dependent race —
-more likely on slower enumeration or under load. Not unprivileged-
-syscall triggered; triggered by physical plug events or resume.
-
-**Step 8.3 — Failure mode severity**
-Record:
-- **Without fix:** Proceed with tunnel setup in wrong LTSSM state → PCIe
-  tunnel activation failure or unreliable PCIe device enumeration.
-  Severity: **MEDIUM-HIGH** (functional failure, no proven
-  crash/corruption).
-- **With fix:** Wait up to 500 ms; succeed when DETECT reached, or fail
-  cleanly with `-ETIMEDOUT` → logged "PCIe tunnel activation failed,
-  aborting" in `tb.c:2298-2302`.
-
-**Step 8.4 — Risk/benefit**
-Record:
-- **Benefit:** Prevents incorrect PCIe tunnel activation timing on USB4;
-  improves dock/eGPU reliability. Moderate-high for affected users.
-- **Risk:** Low — ~75 lines, USB4-only guard, bounded wait, uses
-  existing hook pattern.
-- **Ratio:** Benefit outweighs risk for this stable tree.
+### Step 4.5: Stable list history
+**Record:** **UNVERIFIED** — lore stable search blocked. Prior usbip
+stable fixes (e.g. 718ad9693e365) included `Cc: stable@vger.kernel.org`.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Evidence FOR backport:**
-- Fixes a real timing bug in PCIe tunnel activation on USB4 routers
-- User-visible impact: Thunderbolt PCIe devices may fail to come up
-- Small, self-contained (~75 lines), maintainer-signed
-- All prerequisites exist in v6.18.44; expected clean apply
-- Follows established `pre_activate` pattern already used for DP/USB3
-- Precedent: prior CM-guide PCIe tunnel fix (`54967f4177d3d`) already in
-  tree
+### Step 5.1: Key functions
+**Record:** `status_show_vhci()`, `status_show_not_ready()`,
+`status_show()` (caller), `hcd_to_vhci_hcd()` (inline macro).
 
-**Evidence AGAINST backport:**
-- No explicit bug report, crash trace, or syzbot finding
-- Part of 8-patch CM-guide series; full fix may need companion patches
-- Strict stable wording emphasizes crashes/security/corruption; this is
-  robustness/functional
-- Commit not yet in this tree; limited soak time in this release line
+### Step 5.2: Callers
+**Record:**
+- `status_show_vhci()` called only from `status_show()` (line 160).
+- `status_show()` registered as sysfs `.show` for `status` / `status.N`
+  attributes (line 471).
+- User-triggered via reading `/sys/devices/platform/vhci_hdc/status` (or
+  `status.N`).
 
-**Unresolved questions:**
-- Whether adapters are always expected to reach DETECT within 500 ms at
-  this point (maintainer assumption, not independently verified)
-- Whether other series patches (4/6/7/8) are needed alongside this for
-  complete fix
-- Full lore review thread unavailable (bot protection)
+### Step 5.3: Callees
+**Record:** `platform_get_drvdata()`, `hcd_to_vhci_hcd()`,
+`spin_lock_irqsave()`, port iteration — all skipped on NULL `hcd` after
+fix.
 
-### Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — clear logic, maintainer-
-   reviewed; no `Tested-by`
-2. Fixes real bug affecting users? **PASS** — timing bug in USB4 PCIe
-   tunnel setup
-3. Important issue? **PASS (MEDIUM-HIGH)** — PCIe tunnel failure on
-   Thunderbolt hardware, not crash/corruption
-4. Small and contained? **PASS** — ~75 lines, 4 files
-5. No new features/APIs? **PASS** — internal driver helpers only
-6. Can apply to local tree? **PASS** — prerequisites confirmed in
-   v6.18.44
+### Step 5.4: Reachability
+**Record:**
+- **Reachable:** Yes — any process that can read the sysfs file.
+- `vhcis[pdev_nr].pdev` is set during `vhci_hcd_init()` before probe; if
+  `vhci_hcd_probe()` fails before `usb_create_hcd()` sets drvdata (via
+  `dev_set_drvdata` in `__usb_create_hcd()`), `platform_get_drvdata()`
+  returns NULL while `pdev` is non-NULL.
+- `vhci_hcd_suspend()` already guards `if (!hcd) return 0;` (line
+  1452–1454), confirming NULL `hcd` is an expected state.
 
-### Exception category
-Record: Hardware workaround / CM-guide compliance for existing USB4
-Thunderbolt hardware (similar to accepted quirk/workaround category).
+### Step 5.5: Similar patterns
+**Record:** Same-file NULL checks already present:
 
-### Problem summary for stable users
-Without this check, the driver can activate PCIe tunnels before USB4
-PCIe adapters reach LTSSM DETECT, violating the USB4 CM guide
-sequencing. That can cause intermittent or complete failure of PCIe
-tunnel bring-up — Thunderbolt docks, eGPUs, and NVMe enclosures may not
-enumerate. The fix waits up to 500 ms for the correct state and aborts
-cleanly on timeout.
+```250:254:drivers/usb/usbip/vhci_sysfs.c
+        hcd = platform_get_drvdata(vhcis[pdev_nr].pdev);
+        if (hcd == NULL) {
+                dev_err(dev, "port is not ready %u\n", port);
+                return -EAGAIN;
+        }
+```
+
+`status_show_vhci()` was the missing case.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+
+### Step 6.1: Buggy code present?
+**Record:** **YES.** Current tree at `v6.18.44` has no `hcd` NULL check
+in `status_show_vhci()` (lines 78–80). Bug present since at least 2017.
+
+### Step 6.2: Backport complications
+**Record:** **Clean apply expected** — only reorders one static function
+and adds a small guard block. No conflicting recent changes to this
+function.
+
+### Step 6.3: Fix already present?
+**Record:** **NO** — grep shows no `hcd is NULL` check in
+`status_show_vhci()`. Fix not in this tree.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: Subsystem
+**Record:** `drivers/usb/usbip/` — USB/IP virtual host controller
+(VHCI). **Criticality: PERIPHERAL** (optional `CONFIG_USBIP_VHCI_HCD`
+module), but crash severity is high when enabled.
+
+### Step 7.2: Activity
+**Record:** Moderately active; recent fixes for races, locking, and
+sysfs safety in 2021–2025.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Users with `CONFIG_USBIP_VHCI_HCD` built/loaded who read
+VHCI status sysfs after a controller probe failure.
+
+### Step 8.2: Trigger conditions
+**Record:**
+- VHCI probe fails (ENOMEM, USB bus number exhaustion, `usb_add_hcd`
+  failure paths).
+- User or tool reads `status` sysfs entry.
+- Uncommon but realistic on systems with many USB controllers or
+  resource exhaustion.
+- Sysfs permissions typically restrict to root; still a kernel bug worth
+  fixing.
+
+### Step 8.3: Failure mode
+**Record:** NULL pointer dereference → kernel oops / possible panic.
+**Severity: HIGH** (crash), **breadth: LOW** (usbip VHCI users only).
+
+### Step 8.4: Risk-benefit
+**Record:**
+- **Benefit:** Prevents kernel crash on sysfs read; completes parity
+  with attach/detach error handling.
+- **Risk:** Minimal — uses existing fallback helper, reviewed by
+  maintainer.
+- **Ratio:** Favorable for backport.
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: Evidence summary
+
+**FOR backport:**
+- Real NULL-deref bug with clear crash mechanism
+- Bug present in 6.18.y since 2017; attach/detach already handle this
+  case
+- Small, surgical, obviously correct fix
+- Reviewed by Shuah Khan; signed off by Greg K-H
+- Same class of fix as prior stable usbip commits (e.g. 718ad9693e365)
+
+**AGAINST backport:**
+- Affects optional `CONFIG_USBIP_VHCI_HCD` module only (narrow user
+  base)
+- No syzbot/user report in commit message
+- Trigger requires probe failure (uncommon)
+
+**Unresolved:**
+- Exact `hcd_priv` offset 0x260 not independently measured (mechanism
+  verified from source)
+- Mailing-list thread not readable (bot protection)
+
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — mirrors existing in-file
+   pattern; maintainer reviewed.
+2. Fixes a real bug? **PASS** — NULL deref on sysfs read.
+3. Important issue? **PASS** — kernel oops (HIGH severity, narrow
+   scope).
+4. Small and contained? **PASS** — single file, ~20 lines touched.
+5. No new features/APIs? **PASS** — defensive error path only.
+6. Can apply to local tree? **PASS** — buggy code present; clean apply
+   expected.
+
+### Step 9.3: Exception categories
+**Record:** N/A — standard bug fix, not a quirk/ID/DT/build/doc
+exception.
+
+### Step 9.4: Decision rationale
+For **linux-6.18.y** at `v6.18.44`, the buggy code is present and
+unfixed. The patch is a minimal NULL guard consistent with decade-old
+attach/detach handling in the same file. It prevents a kernel oops when
+users read VHCI status after probe failure. Scope is narrow (usbip VHCI
+module) but the fix is low-risk and meets all stable criteria.
 
 ---
 
 ## Verification
 
 - [Phase 1] Parsed subject, tags, body from provided commit message
-- [Phase 1] Confirmed no `Fixes:`, `Reported-by:`, or stable tags
-- [Phase 2] Diff analysis: 4 files, ~75 lines, pre_activate hook + LTSSM
-  polling
-- [Phase 3] `git describe HEAD`: v6.18.44
-- [Phase 3] `git blame` on `tb_tunnel_alloc_pci`: function present since
-  2017
-- [Phase 3] `git log --grep="CM guide"`: found `54967f4177d3d` in tree
-- [Phase 3] `git log` on author Gil Fine: multiple thunderbolt commits
-  in tree
-- [Phase 3] Grep: `pre_activate` hook present since Jan 2025
-  (`ae765788936d9`)
-- [Phase 4] `b4 dig -c HEAD`: no match (commit not in tree)
-- [Phase 4] Web search: found as [PATCH 5/8], series "Make the driver
-  follow CM guide more closely", 2026-05-12
-- [Phase 4] UNVERIFIED: Full lore thread and stable nominations (bot
-  protection)
-- [Phase 5] Grep callers: `tb_tunnel_alloc_pci` in `tb.c:2294`,
-  `tb_tunnel_activate` at 6 call sites
-- [Phase 5] Read `tb_tunnel_activate()`: `pre_activate` called before
-  path activation (lines 2395-2398)
-- [Phase 5] Read `tb_tunnel_pci()`: activation failure logs and returns
-  `-EIO` (lines 2298-2302)
-- [Phase 6] Grep: no `ltssm`/`usb4_pci_port_ltssm_state` in tree — buggy
-  code confirmed present
-- [Phase 6] Grep: `ADP_PCIE_CS_0`,
-  `usb4_pci_port_set_ext_encapsulation`, `tb_switch_is_usb4` all present
-- [Phase 6] Grep: series patches 4/6/7/8 not in tree
-- [Phase 7] `git log -5` on thunderbolt files: active subsystem with
-  recent bug fixes
-- [Phase 8] Failure mode: PCIe tunnel activation failure, severity
-  MEDIUM-HIGH
+- [Phase 2] Read current `vhci_sysfs.c` and `vhci.h`; confirmed missing
+  NULL check and `hcd_to_vhci_hcd` macro behavior
+- [Phase 3] `git describe HEAD` → v6.18.44; `git blame` on lines 63–95 →
+  bug since 03cd00d538a6f (2017)
+- [Phase 3] `git show 0775a9cbc694e` → attach/detach had `hcd == NULL`
+  checks since 2016; status_show_vhci did not
+- [Phase 3] `git log --oneline -20 -- drivers/usb/usbip/vhci_sysfs.c` →
+  no duplicate fix
+- [Phase 4] `b4 dig` failed (commit not in tree); lore/patch.msgid.link
+  blocked by Anubis — **UNVERIFIED** thread content
+- [Phase 4] Reviewed-by Shuah Khan and Greg K-H SOB taken from commit
+  message only
+- [Phase 5] Grep callers: `status_show_vhci` called only from
+  `status_show()`; sysfs `.show` at line 471
+- [Phase 5] Verified attach/detach NULL checks at lines 250–254, 344–348
+- [Phase 5] Read `vhci_hcd_probe()` and `vhci_hcd_suspend()` NULL-hcd
+  handling
+- [Phase 5] Read `__usb_create_hcd()` — `dev_set_drvdata(dev, hcd)` at
+  hcd.c:2589 for primary HCD
+- [Phase 6] `make kernelversion` → 6.18.44; buggy code confirmed at
+  lines 78–80
+- [Phase 6] No existing fix in tree
+- [Phase 8] CONFIG dependency: `USBIP_VHCI_HCD` in
+  `drivers/usb/usbip/Kconfig`
+- **UNVERIFIED:** Exact 0x260 byte offset of `hcd_priv` (stated in
+  commit message; macro mechanism confirmed)
 
-**YES**
+**YES**The background git searches finished and match what the earlier
+analysis already found:
 
- drivers/thunderbolt/tb.h      |  1 +
- drivers/thunderbolt/tb_regs.h | 15 +++++++++++++++
- drivers/thunderbolt/tunnel.c  | 35 +++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/usb4.c    | 24 ++++++++++++++++++++++++
- 4 files changed, 75 insertions(+)
+- **Fix in history:** No commit for `usbip: vhci_hcd: fix NULL deref in
+  status_show_vhci` in this tree — the bug is still present in
+  `v6.18.44`.
+- **Author search:** Adrian Wowk has no usbip commits here (this is a
+  mainline candidate). The only `hcd is NULL` hit was an unrelated `usb:
+  chipidea` merge from 2013.
 
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 8e2762ff8d517..775ed48cc299a 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1478,6 +1478,7 @@ int usb4_dp_port_allocate_bandwidth(struct tb_port *port, int bw);
- int usb4_dp_port_requested_bandwidth(struct tb_port *port);
- 
- int usb4_pci_port_set_ext_encapsulation(struct tb_port *port, bool enable);
-+int usb4_pci_port_ltssm_state(struct tb_port *port);
- 
- static inline bool tb_is_usb4_port_device(const struct device *dev)
- {
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 4e43b47f9f119..97404d8d878bf 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -473,10 +473,25 @@ struct tb_regs_port_header {
- 
- /* PCIe adapter registers */
- #define ADP_PCIE_CS_0				0x00
-+#define ADP_PCIE_CS_0_LTSSM_MASK		GENMASK(28, 25)
- #define ADP_PCIE_CS_0_PE			BIT(31)
- #define ADP_PCIE_CS_1				0x01
- #define ADP_PCIE_CS_1_EE			BIT(0)
- 
-+enum tb_pcie_ltssm_state {
-+	USB4_PCIE_LTSSM_DETECT,
-+	USB4_PCIE_LTSSM_POLLING,
-+	USB4_PCIE_LTSSM_CONFIG,
-+	USB4_PCIE_LTSSM_CONFIG_IDLE,
-+	USB4_PCIE_LTSSM_RECOVERY,
-+	USB4_PCIE_LTSSM_RECOVERY_IDLE,
-+	USB4_PCIE_LTSSM_L0,
-+	USB4_PCIE_LTSSM_L1,
-+	USB4_PCIE_LTSSM_L2,
-+	USB4_PCIE_LTSSM_DISABLED,
-+	USB4_PCIE_LTSSM_HOT_RESET,
-+};
-+
- /* USB adapter registers */
- #define ADP_USB3_CS_0				0x00
- #define ADP_USB3_CS_0_V				BIT(30)
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index bfa0607b55744..6066355388b7f 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -296,6 +296,40 @@ static inline void tb_tunnel_changed(struct tb_tunnel *tunnel)
- 			tunnel->src_port, tunnel->dst_port);
+**Verdict unchanged: YES** — small, low-risk NULL-deref fix for sysfs
+status reads when VHCI probe fails; worth backporting to `linux-6.18.y`.
+
+ drivers/usb/usbip/vhci_sysfs.c | 52 +++++++++++++++++++---------------
+ 1 file changed, 29 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/usb/usbip/vhci_sysfs.c b/drivers/usb/usbip/vhci_sysfs.c
+index d5865460e82d5..336fb4d92c6f5 100644
+--- a/drivers/usb/usbip/vhci_sysfs.c
++++ b/drivers/usb/usbip/vhci_sysfs.c
+@@ -59,6 +59,29 @@ static void port_show_vhci(char **out, int hub, int port, struct vhci_device *vd
+ 	*out += sprintf(*out, "\n");
  }
  
-+static int tb_pci_port_ltssm_state_detect(struct tb_port *port)
++static ssize_t status_show_not_ready(int pdev_nr, char *out)
 +{
-+	ktime_t timeout = ktime_add_ms(ktime_get(), 500);
++	char *s = out;
++	int i = 0;
 +
-+	do {
-+		int ret;
++	for (i = 0; i < VHCI_HC_PORTS; i++) {
++		out += sprintf(out, "hs  %04u %03u ",
++				    (pdev_nr * VHCI_PORTS) + i,
++				    VDEV_ST_NOTASSIGNED);
++		out += sprintf(out, "000 00000000 0000000000000000 0-0");
++		out += sprintf(out, "\n");
++	}
 +
-+		ret = usb4_pci_port_ltssm_state(port);
-+		if (ret < 0)
-+			return ret;
-+		if (ret == USB4_PCIE_LTSSM_DETECT)
-+			return 0;
-+
-+		fsleep(50);
-+	} while (ktime_before(ktime_get(), timeout));
-+
-+	return -ETIMEDOUT;
++	for (i = 0; i < VHCI_HC_PORTS; i++) {
++		out += sprintf(out, "ss  %04u %03u ",
++				    (pdev_nr * VHCI_PORTS) + VHCI_HC_PORTS + i,
++				    VDEV_ST_NOTASSIGNED);
++		out += sprintf(out, "000 00000000 0000000000000000 0-0");
++		out += sprintf(out, "\n");
++	}
++	return out - s;
 +}
 +
-+static int tb_pci_pre_activate(struct tb_tunnel *tunnel)
-+{
-+	struct tb_port *down = tunnel->src_port;
-+	struct tb_port *up = tunnel->dst_port;
-+	int ret;
-+
-+	ret = tb_switch_is_usb4(down->sw) ?
-+		tb_pci_port_ltssm_state_detect(down) : 0;
-+	if (ret)
-+		return ret;
-+
-+	return tb_switch_is_usb4(up->sw) ?
-+		tb_pci_port_ltssm_state_detect(up) : 0;
-+}
-+
- static int tb_pci_set_ext_encapsulation(struct tb_tunnel *tunnel, bool enable)
+ /* Sysfs entry to show port status */
+ static ssize_t status_show_vhci(int pdev_nr, char *out)
  {
- 	struct tb_port *port = tb_upstream_port(tunnel->dst_port->sw);
-@@ -511,6 +545,7 @@ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
- 	if (!tunnel)
- 		return NULL;
+@@ -76,6 +99,12 @@ static ssize_t status_show_vhci(int pdev_nr, char *out)
+ 	}
  
-+	tunnel->pre_activate = tb_pci_pre_activate;
- 	tunnel->activate = tb_pci_activate;
- 	tunnel->src_port = down;
- 	tunnel->dst_port = up;
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 76f01713a8754..276c25c7d37e6 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -3145,3 +3145,27 @@ int usb4_pci_port_set_ext_encapsulation(struct tb_port *port, bool enable)
- 	return tb_port_write(port, &val, TB_CFG_PORT,
- 			     port->cap_adap + ADP_PCIE_CS_1, 1);
+ 	hcd = platform_get_drvdata(pdev);
++
++	if (!hcd) {
++		usbip_dbg_vhci_sysfs("show status error (hcd is NULL)\n");
++		return status_show_not_ready(pdev_nr, out);
++	}
++
+ 	vhci_hcd = hcd_to_vhci_hcd(hcd);
+ 	vhci = vhci_hcd->vhci;
+ 
+@@ -104,29 +133,6 @@ static ssize_t status_show_vhci(int pdev_nr, char *out)
+ 	return out - s;
  }
-+
-+/**
-+ * usb4_pci_port_ltssm_state() - Read PCIe adapter LTSSM state
-+ * @port: PCIe adapter
-+ *
-+ * Return:
-+ * * LTSSM state of @port.
-+ * * Negative errno - On failure.
-+ */
-+int usb4_pci_port_ltssm_state(struct tb_port *port)
-+{
-+	u32 val;
-+	int ret;
-+
-+	if (!tb_port_is_pcie_down(port) && !tb_port_is_pcie_up(port))
-+		return -EINVAL;
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			   port->cap_adap + ADP_PCIE_CS_0, 1);
-+	if (ret)
-+		return ret;
-+
-+	return FIELD_GET(ADP_PCIE_CS_0_LTSSM_MASK, val);
-+}
+ 
+-static ssize_t status_show_not_ready(int pdev_nr, char *out)
+-{
+-	char *s = out;
+-	int i = 0;
+-
+-	for (i = 0; i < VHCI_HC_PORTS; i++) {
+-		out += sprintf(out, "hs  %04u %03u ",
+-				    (pdev_nr * VHCI_PORTS) + i,
+-				    VDEV_ST_NOTASSIGNED);
+-		out += sprintf(out, "000 00000000 0000000000000000 0-0");
+-		out += sprintf(out, "\n");
+-	}
+-
+-	for (i = 0; i < VHCI_HC_PORTS; i++) {
+-		out += sprintf(out, "ss  %04u %03u ",
+-				    (pdev_nr * VHCI_PORTS) + VHCI_HC_PORTS + i,
+-				    VDEV_ST_NOTASSIGNED);
+-		out += sprintf(out, "000 00000000 0000000000000000 0-0");
+-		out += sprintf(out, "\n");
+-	}
+-	return out - s;
+-}
+-
+ static int status_name_to_id(const char *name)
+ {
+ 	char *c;
 -- 
 2.53.0
 
