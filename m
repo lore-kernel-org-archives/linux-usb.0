@@ -1,152 +1,271 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012066.outbound.protection.outlook.com [40.93.195.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF003D6688;
-	Mon, 31 Aug 2026 12:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788179434; cv=none; b=AiVy/GSegUdss7Q4n2amCCqOTlyxnJkcVnPQLLewO+tCOOg8fQCL+YN7HyKl7s9eB4VVgnQyeW/K1kWpLX8dppXnQSvegAs/upx3fukQp/ZUvuUF0TkVQCwI/bdftq6PJip71NSwFBeNF4xYZXSzqKOqryLf/iJogmZviep6zL0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788179434; c=relaxed/simple;
-	bh=P/nUJsislhQJX34fx8Kb2B0lT8SzGNMs1GAHnBSrlJQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e73aKuKZO+bj99DIXIa10mVuYgQXMfbQ3wFh/tlZ4zFsFHPJSYubkcvMq+af9jTPoYuex0+VW7ForAod76/ZkTXEVXnQyh0X1V7WMp11d8hqyWHvdwhOKsUkSBzpRtg2EHJWerzef8IXTWjJZWZV0BEPIOAvKjTR3wHkiZ8aW3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+KSjRfR; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F14840F744;
+	Mon, 31 Aug 2026 12:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788180925; cv=fail; b=MzCkOjl3fQPejqMgQBCebjqUJz29bfupNNAwsaJs2tW6QzmO7VK7Xln60/D2s1kI+b4M1/+yvdE9rqEO+XhfVaxZ6vP5h4lOC3fLHPftIzbJXdZtUso2/zYUtzYT78tvS8z7NKPQ3d+uZxnhxtTHh8WQ5SeMd1cKBVB0Zw8AAaE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788180925; c=relaxed/simple;
+	bh=8FNFb1iUddeaVpKommT1Yo3tX4dCHge07i/n8d311DM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pIOAP1BHhvgG4uOh0sVriXoEOXMTMhmgifk27WxhpmhNn1N7oNKtTMPV24ma/5C8LRCZChq6plI7y2GJFyUmFJvX7pyaiu25BeRh9lhdufEhYsyVFyOjKzyHhypj6KERBWDNY0eL1TYE5VQAlH6+PZiDCj8NEvEVf//jPhOHv1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=CoEUztfO; arc=fail smtp.client-ip=40.93.195.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+KSjRfR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70FA81F000E9;
-	Mon, 31 Aug 2026 12:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788179432;
-	bh=o0j9vXuew8PzdgEF/ZP3ym0lz6xPW5nlKTzSfWn7rN0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=G+KSjRfRvJBfjsqM2aTWTeCVZQEMsuPITbqdm7+NO/bGl5UDQzJoqteEUbVi70uYH
-	 2xwLIuX9+NUotx2n1s6Rd0MF/hlF4pkUoRdpSv1W5QVZPOGEbkQsxtZH2Ve5uhgN/b
-	 AYmHSQfXDYsy+d9eZskq/ZYtWb86TuT3qFboG71HaO/b3pPhHqaCvH0HDEwqfdAc/K
-	 EzgjSQI6akWXpMqfXGIZOCrox3k//voklpB2cZuaRJxqyQ6uzTaGrDqNa7ecGGLhkO
-	 VtKPezGZ7XqAErXAU7MAnAS1uCkDqspI6aX4cFyZg6txeFJGz6IBaoBM6ko/SaIh9x
-	 k2QdOnINQWScw==
-Message-ID: <d69efb1c-4ab3-4148-8b98-035377852da6@kernel.org>
-Date: Mon, 31 Aug 2026 14:30:23 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CoEUztfO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ph3ZgfRIl/m4doxUTBFpq58phuXG5lohXuzS6N6Un6D/SaZ1wbjiWYTJAkI332iUZmzy+WURqmhs+CASfdHDrIOiDX5mHq8r+8+O0K2Lsw0lxNawaQs+mjg7fnty2pt6kwbYOoAXV/9yFFDlK7v4mHSfkUg0Ki1MGbqZ8IJNDi9ZOBAnah1WZ2gRZSzr6HxCh4JcYLK/aldTR3llfmPpsHEgAHFcUi1igeCtRlJPmtCjDevd7Kv/rz/WFrFc0j4157JpVYabrld8/o16p+NkOUf9tw9iZW5gasnLp2+KBaj6OQhPysR5MQUCb/ofBBZvKS4U9OcluFHQYK1B6dvktw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7iUBvrTqgvuvulivRCgEcmmoMbWBr9gL6+w9HWY620o=;
+ b=xfEPe6FP6Ay8exQRimoC/jKeDphfVEhVWPG8Mi5adkhoMNEGb+jAo4GnRRN4Y7YL96TxCprilRESEN+KzjSYmRa5PA3vrQh6H/t9Rfu4OLLFggCY+QVvWD9g8wMgkeiyi+2z4w0sSLFhKn9vWWNeOC3faTZVXuSY5Lt8mO6bJmw2zfS8o81cCQInHcrR2WQFEuu4a6r4K0E+0FV/weXf4m2p8oxL5MWsRTVkiyn4aNjvPUrA4g9pUuKHhXsiYaiBg+mJ0zARNl/E/6MBKLofZ+3NIavCq3FqsMRfFeC2Kv52jpUWe1CqbBtIgHrHqjzbMkBsFZ/r8nSFqOnqgsMcSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7iUBvrTqgvuvulivRCgEcmmoMbWBr9gL6+w9HWY620o=;
+ b=CoEUztfOL2F/PQN8EFmzntIERVOMj4r1aMCy8pCNA32ZqiNZ6OIY8rzvqtH8i9O/o6K5X/XAUh9dVBjC5iCr8Fh8y0ydVxioQfZ0AhFcK6q3hgRD4QgJzKCmf8BrdggLT6XbVV8q6aYmtLv3JUemckO2WFPYRL7UP71b3Fs63/4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
+ by IA1PR12MB6234.namprd12.prod.outlook.com (2603:10b6:208:3e6::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
+ 2026 12:55:19 +0000
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
+ 12:55:19 +0000
+Message-ID: <8e20e208-05a2-4ddf-9ff6-081ce33b5a42@amd.com>
+Date: Mon, 31 Aug 2026 07:55:16 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] thunderbolt: Fix tb->lock deadlock during hot-unplug
+ on AMD USB4 routers
+Content-Language: en-US
+To: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Juan Martinez <juan.martinez@amd.com>
+Cc: westeri@kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com,
+ Basavaraj.Natikar@amd.com, Sanath.S@amd.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260827215740.415496-1-juan.martinez@amd.com>
+ <20260828051903.485922-1-juan.martinez@amd.com>
+ <20260831111128.GH124825@black.igk.intel.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20260831111128.GH124825@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0033.namprd13.prod.outlook.com
+ (2603:10b6:806:22::8) To PH8PR12MB6914.namprd12.prod.outlook.com
+ (2603:10b6:510:1cb::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/12] dt-bindings: phy: qcom,ipq5332-uniphy-pcie:
- Change to PCIe/USB3 combo PHY
-To: George Moussalem <george.moussalem@outlook.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Praveenkumar I <praveenkumar.i@oss.qualcomm.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>,
- Nitheesh Sekar <quic_nsekar@quicinc.com>,
- Wesley Cheng <quic_wcheng@quicinc.com>,
- Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com>
- <20260825-ipq5018-usb3-v3-1-39be0955a6aa@outlook.com>
- <20260828-wisteria-fennec-from-arcadia-a44ebe@quoll>
- <SN7PR19MB6736B881B203BF5746F0DEE39DAC2@SN7PR19MB6736.namprd19.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <SN7PR19MB6736B881B203BF5746F0DEE39DAC2@SN7PR19MB6736.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|IA1PR12MB6234:EE_
+X-MS-Office365-Filtering-Correlation-Id: 000c776c-f1a9-4621-83f6-08df075f1c41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	6zwxgb/i0ODMXFDiX+UB2lDORfQscsKryXbV2yWtwpucC5u/kzLJktDTWNIkmM7bnA3cIppDz7co0J+GunGspSZw9t0h8ShvJQYsysId8wh9mMNxf9In+5bQzG1FDcl5+YQpp1IxUXYUAvDhozgV2sJ9B0uROWNeLwRusbqE3wV/Pe/1cegwVNc94lodIMuPpPE7cQQpwmbxzTbgiO4YNN8eXrCFy9cXz8BVhKVDXBk6ghLfhU0hcNkdLTiMz55r+C0eAeyUGER0cCqGr/DnooVelugixVRKPC7ev+MbLBzE8FNjtt49kfozPEUnN2vYP4txZ4Kr2jlRhq42D8Y/h/cbPb+BezYkOc5bXm6bVWyHxwt4EkAw4wLfL+bIDfkJi8e68+lwh5aJZDepz5sHNUzSI69wLV7Uj5VHrnnwACVSDb3V2rGzDa6twBLWSnooqbBp8I1Y6USY1O2QSkeSrVtVdkL/DDxpxnJfQXM2GQwshEagZBuTpAWtGa6E7AyMoyOgkYg/CSa+uMpQO3YCoI5CTcYwOWD9YWvHkcD7KpFOYaNXQbKglS1rSh5gfuDePi/OWL19/nNc6Mlxs4Z1G6eItLlzojP5m1Lr1K661JYpZ9hByeu4aUsT8dj7PzKH9oumHVEmXw7/oJaofn1gP7+jLXD7/NwRFtHFF6cvQpg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UEE4WEFxMXcrZ3ZhZm9ycjIxUm92SVdMYUVDcEdBT0hjMy8xTGtHRmpaaEI5?=
+ =?utf-8?B?Ukpqa0xmMVVOaE1QSUhibXhKWWk1L2hERFB3ZnlFZHF3R2ZHcXFHL2RZcDJD?=
+ =?utf-8?B?eTJkK2s0djM1cURWNE5wTjBRblBWMjBpQnQyNEFmeXBuems5OXNLU3ZqcGVo?=
+ =?utf-8?B?b1hITTc1UHZaalZXejA2QkloaVlSN0xqSUtnQktEOGRZK3dZRmVldHN6d2c5?=
+ =?utf-8?B?QmVxVG9rQkxQRUR5VXdWaVBrbTJyN0N2Y1F0K3dPdmpDZFh6YWxEaDJRb2cy?=
+ =?utf-8?B?S2xRamV2ZUpuWVp2bEgzUFBvYzNrSHJVZFFrK29jZnJBYVR3WjRSWEZPZXRr?=
+ =?utf-8?B?eG1Ed2ZJN1NoQlYvTUdRVmxBVFpPRlU1WE9pdzJJMEcxTlExRmFkREl5ZlZk?=
+ =?utf-8?B?QWFHWk9NbDNhalBlMDVpNm9yOEIxSmJHNTdWcjQrLy9uRWF6c2Y5WFEvcjJ3?=
+ =?utf-8?B?VlN5S05KUjVrTlI5N0JTUEFyZW9JNUpRRU9VZE1hMnpINGRKbExHN3lRM1Zl?=
+ =?utf-8?B?Q2cyTHd1RzZnSFd5Q1lTZXI0RkZ0VDBOL0xTenVXUURPdW04UlB0ZkJMOWk0?=
+ =?utf-8?B?SGc0OWd4TVF0K1ZOczArMytjbGhOclZpdDdVa01XbmIwVFhiaVQ1V1FoZ01L?=
+ =?utf-8?B?NGUzYlFHcmZNWFo4RWJhNkQvak1JVnVoampDSWRXWnRqTzRBZzVIL2EyMm9r?=
+ =?utf-8?B?WDRQVVlZdEtQcDc1dWo3QmtvYS85OG5IQUpXdWR5b2pZcnRMKzdpY2FIYUt6?=
+ =?utf-8?B?bEpzMDEyS3ppZEhKNVViV3RzWXNhek5aMkhicGVlMXptUm1HYkJ4dWlHNmd4?=
+ =?utf-8?B?RE1xNUJPN3A1ZVAwNThVa20va2VlVHp6dlZLK0lOYjJsTFkxdm1wRjBkN1hK?=
+ =?utf-8?B?M25RTi9VSEpHVTRVMkh0VUcvZnR2Z2U3RW5RVTl2NUZTNndVUWdlMzIwclMv?=
+ =?utf-8?B?QmhlM3RIc1A0a3FoT3E0UEhrVTlaOEVvOGczVkVqSUlleVcvR3IrUkE4R2Fm?=
+ =?utf-8?B?L3J3eWZITFQ3MCtsU0VWWnpjeGswTGdQRXlaMkFrTlhaQThXREV4RXBxUDJl?=
+ =?utf-8?B?ZkZGOWpyWWlZZEduMlZGQUZQQkgzL3J4UnVVY2MvclE3b3JYZ21DMUkzVW80?=
+ =?utf-8?B?QnoyUmJIN1FsQ2lHTzdlQW9YUmdETWhBUGpvV3Z4aWpoUVcwRkdVZW1sWTZI?=
+ =?utf-8?B?WWtQTWlZUU5ma3J6SllUOHNZeElIMkhRVjQ1bmxFTFFHYitmN2hsOWxXUHBI?=
+ =?utf-8?B?Y3NMVWdOL3Q1eVpyeFNkbUZLM2k0ODlYc25Zd2M5TlVLR1A2UEhHNnJ5cTZp?=
+ =?utf-8?B?S1JJdkdqQVhrWUprZnBLUlMvRy9yUEVaYWc1Z08zd2FZTXRpYzVIeTV0SUwy?=
+ =?utf-8?B?V05QblFCTU1kN3FvdTdqMWZEYWZhdnJjak5wVGd5NGZVb0FGWkpxaUpkKzdq?=
+ =?utf-8?B?VllHZ0JDeHhkcjRkQlN2N3gyZFVuczFFcDRiMGtOSzI2ckRvZjdMZk5NR2xB?=
+ =?utf-8?B?czl0SFkzWUVhQncweFd6M2F3N2JzYUNaWU5rWlZRbllUQ0pxaTFoSWxoNEtI?=
+ =?utf-8?B?L252dDJMM1YxVWwzQW9LcW9INTdKZ04rajV5TTBxTjBGczdlZXFZTnhPaUt3?=
+ =?utf-8?B?V2dtUGdwQW1Fb3llT0dZV01PU2dCTXc3cjhhUi9MZTJaZCtyZ1JEcExSLytl?=
+ =?utf-8?B?WmowTDczVzl2UnBSWWZCN1YrOTdlckhocFB6czZ3akg3MGMraFk4eU5qQ0Fo?=
+ =?utf-8?B?YUdzcXFTd2NVL205dWVkNk5lUUdaQlRGL3VrQVQvRXB4NmZSSXRaL1JCTGs3?=
+ =?utf-8?B?cDhHa1FQaXI0SlMzSlpnd2ZvVU1hSXFWbHRSZmQ3anVUMjdqcE1RRzRWM1FS?=
+ =?utf-8?B?OFdORUFqSnV5TWxlQ0taYWhNN3lLWTN4bnRuL2hPVmJNMjJiV0xYTXUxRWNx?=
+ =?utf-8?B?UnhSREdIQkdLU0RycEpJZmpIUVl1Q3pzdC9nL1pGRmwvbHpMS3M4MDVrU2ta?=
+ =?utf-8?B?NEVxYTl5NVFQcTRHNzV3UVhUUEM5cVp5SDlic3lFWnpIZWpoR25pK3FuZ1pi?=
+ =?utf-8?B?L29XM1pmRHpxcXNvNGc2dGk5d0I4a2wyL2QvZEkwQ1hHanpnb2swZ1FHWE8v?=
+ =?utf-8?B?SFp2OWx1NWpKR0t2cWhOeWJSOFhiMEFsWktIbENNd05UZUVxYTdWbmt1R25Y?=
+ =?utf-8?B?blRpckJhVE1xSXRLOHhJYlpQc093SE5UNktJNjdNcWtNaFpTa2M0NUo1ZUwy?=
+ =?utf-8?B?MmdxVTF2QkNqbUdLdVI0V3JBbng1MlRWY3VIYlMvK1AwVHZuSElUWUltK2t3?=
+ =?utf-8?Q?2IYvmxgQ9I1wXBOoZq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 000c776c-f1a9-4621-83f6-08df075f1c41
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 12:55:18.9589
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ar4Y4EhyQ8MCjF7qwIlJKyiZumLgPUo/qYeg2fdBx4IQrdLRipK6dEN5Evvz4WhcNVuJvL9F+YXFLKgqhUjmEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6234
 
-On 28/08/2026 12:51, George Moussalem wrote:
-> On 8/28/26 14:09, Krzysztof Kozlowski wrote:
->> On Tue, Aug 25, 2026 at 04:37:18PM +0400, George Moussalem wrote:
->>> This PHY is a PCIE/USB3 multi-purpose PHY. Initial support was added for
->>> PCIe only, so rename the binding and add support for USB3 PHY mode.
->>>
->>> The PCIe and USB physical pads are muxed and selection is done via a
->>> control register in TCSR. Add a new property to the binding to enable
->>> switching the default PCIe mux selection to USB3 mode.
->>>
->>> In addition, USB3 mode requires a 5V supply, so add a vdd-supply
->>> property for it.
->>>
->>> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
->>> ---
->>>  .../bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml | 109 ----------------
->>>  .../phy/qcom,ipq5332-uniphy-pcie-usb3-phy.yaml     | 141 +++++++++++++++++++++
->>>  include/dt-bindings/phy/phy-qcom-qmp.h             |   4 +
->>>  3 files changed, 145 insertions(+), 109 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml
->>> deleted file mode 100644
->>> index 6e9df81441e9..000000000000
+
+
+On 8/31/26 06:11, Mika Westerberg wrote:
+> Hi,
+> 
+> On Fri, Aug 28, 2026 at 12:19:03AM -0500, Juan Martinez wrote:
+>> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+>> DMA path teardown for AMD USB4 routers") introduced a deadlock when
+>> physically unplugging a Thunderbolt cable on AMD systems.
 >>
->> Please do not rename the binding. Old name was correct. New one is not,
->> otherwise please point me to the compatible like that.
+>> The problem occurs because tb_handle_hotplug() holds tb->lock while
+>> processing the unplug event. When it removes the XDomain services,
+>> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+>> tb_domain_reset_interface(). That function tries to acquire tb->lock
+>> via guard(mutex), but the hotplug worker already holds it, causing a
+>> self-deadlock.
+>>
+>> The deadlock manifests as a complete network hang because
+>> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+>> all network operations system-wide.
+>>
+>> The existing code already handles this scenario partially: when
+>> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+>> skips the DMA teardown because the hotplug handler will do it later
+>> via __tb_disconnect_xdomain_paths(). However, the reset was still
+>> being called unconditionally.
+>>
+>> Fix this by:
+>> 1. Splitting tb_domain_reset_interface() into a locked inner function
+>>     __tb_domain_reset_interface_locked() and a locking wrapper
+>> 2. Skipping the reset in tb_domain_disconnect_xdomain_paths() when
+>>     xd->is_unplugged is true (matching the existing teardown skip logic)
+>> 3. Calling __tb_domain_reset_interface_locked() from tb_handle_hotplug()
+>>     after __tb_disconnect_xdomain_paths() where the actual DMA teardown
+>>     happens and tb->lock is already held
+>>
+>> This preserves the reset behavior for normal shutdown paths while
+>> avoiding the deadlock during physical cable unplug.
+>>
+>> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+>> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+>> ---
+>>   drivers/thunderbolt/domain.c | 20 +++++++++++++++++---
+>>   drivers/thunderbolt/tb.c     |  1 +
+>>   drivers/thunderbolt/tb.h     |  1 +
+>>   3 files changed, 19 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+>> index 12c88509a54f..4cef9f4de523 100644
+>> --- a/drivers/thunderbolt/domain.c
+>> +++ b/drivers/thunderbolt/domain.c
+>> @@ -788,14 +788,22 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>>   			transmit_ring, receive_path, receive_ring);
+>>   }
+>>   
+>> -static void tb_domain_reset_interface(struct tb *tb)
+>> +/*
+>> + * __tb_domain_reset_interface_locked - Reset host interface (lock held)
+>> + *
+>> + * Caller must hold tb->lock. Used by hotplug path where lock is already held.
+>> + */
+>> +void __tb_domain_reset_interface_locked(struct tb *tb)
+>>   {
+>>   	struct tb_nhi *nhi = tb->nhi;
+>>   
+>> +	lockdep_assert_held(&tb->lock);
+>> +
+>>   	if (!nhi->ops->reset_interface)
+>>   		return;
+>>   
+>> -	guard(mutex)(&tb->lock);
+>> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+>> +		return;
+>>   
+>>   	/* The reset clears the ring state so stop the control channel */
+>>   	tb_ctl_stop(tb->ctl);
+>> @@ -803,6 +811,12 @@ static void tb_domain_reset_interface(struct tb *tb)
+>>   	tb_ctl_start(tb->ctl);
+>>   }
+>>   
+>> +static void tb_domain_reset_interface(struct tb *tb)
+>> +{
+>> +	guard(mutex)(&tb->lock);
+>> +	__tb_domain_reset_interface_locked(tb);
+>> +}
+>> +
+>>   /**
+>>    * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+>>    * @tb: Domain disabling the DMA paths
+>> @@ -835,7 +849,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
+>> +	if (!xd->is_unplugged)
 > 
-> I thought we had come to the conclusion it's the same device in the
-> discussion in v2:
-> https://lore.kernel.org/all/gn43qixdtbq5iyfqvzibdtx4lmwpkt2ieahr7oqsxxjfpldb6d@xbxhbdrq4e6b/
+> If I read this right, if you unplug a tree (say a router and then after
+> that router there is inter-domain link) with this check the reset does not
+> happen and AMD system still hangs?
 > 
 
-How is it relevant to renaming of the file?
+It should be a different problem.  The quirk fixed a problem in the USB4 
+router (router wasn't functional when problem occurred).
 
-> I've split up this series into 3 as in the cover letter:
-> 1. Flatten USB Controller Nodes on IPQ SoCs
->    link:
-> https://lore.kernel.org/r/20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com
-> 2. Enable USB3 for Qualcomm IPQ5018 (this patch series)
-> 3. Enable USB3 for Qualcomm IPQ5332 (to be submitted)
+This fixes a deadlock in the kernel that system gets stuck while 
+shutting down.
 
-How is this relevant?
+>>   		tb_domain_reset_interface(tb);
+>>   
+>>   	return 0;
+>> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+>> index b7cc6894a598..89dfb3381345 100644
+>> --- a/drivers/thunderbolt/tb.c
+>> +++ b/drivers/thunderbolt/tb.c
+>> @@ -2489,6 +2489,7 @@ static void tb_handle_hotplug(struct work_struct *work)
+>>   			tb_xdomain_remove(xd);
+>>   			port->xdomain = NULL;
+>>   			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
+>> +			__tb_domain_reset_interface_locked(tb);
+>>   			tb_xdomain_put(xd);
+>>   			tb_port_unconfigure_xdomain(port);
+>>   		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+>> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+>> index 4373336d9425..2e6e0920cb1f 100644
+>> --- a/drivers/thunderbolt/tb.h
+>> +++ b/drivers/thunderbolt/tb.h
+>> @@ -789,6 +789,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
+>>   int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>>   				    int transmit_path, int transmit_ring,
+>>   				    int receive_path, int receive_ring);
+>> +void __tb_domain_reset_interface_locked(struct tb *tb);
+>>   int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>>   				       int transmit_path, int transmit_ring,
+>>   				       int receive_path, int receive_ring);
+>> -- 
+>> 2.43.0
 
-Best regards,
-Krzysztof
