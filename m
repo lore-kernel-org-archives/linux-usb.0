@@ -1,138 +1,90 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5443427F8B
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670FB2737FC;
+	Tue,  1 Sep 2026 02:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788228629; cv=none; b=ukNZ41TDzMeVe184TuqKYuByp4SEyktz2N98J422LEbLPpgW13krOd6TRx524kkQFNmyo/1cdH8yGKU+vapnkFtainieLpi97qbZEKJuX6apZ4AetUt2xU94cZIJh0HRGs4xdgWNbEsmPlwzdwvkG048uxWgOmIBTAPUfzHmOyM=
+	t=1788228768; cv=none; b=qbFANTJgll8tOeAvTJLHPBLTTaZoBO+IyyCC5WolgasHW64IIPJd8Y8biIVIDmZU48408RdIgdinZ0lxorp4SKnf22R9vY0uHtjSb2CxmHWzcidfv7lGSRJ4TF+IezOpB+K3bJZWquKIBbOviCPG+1oCBa3CspDF4/ttfZYRqvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788228629; c=relaxed/simple;
-	bh=e4ZfVR6W9Y7ztv0gPvqblApVTko3pyqbW78djerx+f0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DjhK3/pChb4NpX/V4Pd9At/WENbD47ZZHiXwyELTMm7gre3I149G4x+QjpknCc1SbHf8eXxQFnvm3kXd2EvbTSxXKesQqVbFe8iZmJPOY+UtjEt4L5Jp8jn0apAGUw+Q/xx1OBBcTEmOTkv/cVPl7J0aP4VKN/4BaVDXv3/VsIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=SGBgi82W; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788228768; c=relaxed/simple;
+	bh=YU/88RN9JkkCN3yLiBCcSeGMwpKhQ0RhOpRzmucmrNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q8M4QYtXbU1dFGfPK978jXvM3xEIO+qSuXhU1Ch7+mmdMIzocJfSC7YAWG6n6UZ3eOU1yWUTprRWaqn3o2LfhT/z8uFqd8iMw4rnZd7vIiNiStYD8M+RaN19a7Na+hGALRmpfkuFGqbvRwd4URdnbO78+zQEieqbOG/SdXF6F58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FTT9zOTx; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="SGBgi82W"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9371bcf1f8fso297347285a.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788228606; x=1788833406; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XWpljHwuiD60nMC9te2ihW2jr04d4Ep95HSCXpScAMc=;
-        b=SGBgi82WuRiAs+NvhIUUXcg6DbD72OwphSj03e1IVIiNxzSu+3TRn4Yg8vOx/b+z/i
-         WQ9i0wIh1s5/cEsuo5GSCJZWMv2JNS8h2eByWvYRCoTmbe/sCeUgAwZ1FsXtE2BeucPi
-         Mkb0JceDk99Z8WHFXVMoQjzmUxx0rPFd/m45pGJs+5xcFLD9Eqa0u2swWJ0yJZB3PgDq
-         4vlDBLU7g40p5i1EJSZr3e1qL+qyZoPe/XcwjsjEI679XFF7Gzqju3qbhwfncvTiRh/y
-         5hbNClZ/5469PbodAvcRwLQHq4H4IH74WkKdFnmcf1RfTiEzy4si+YkIQVfe7Lh2Zze3
-         zdSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788228606; x=1788833406;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=XWpljHwuiD60nMC9te2ihW2jr04d4Ep95HSCXpScAMc=;
-        b=R06yzQIpmgrHZDA1Ye3P7fBRdflpkKUPtT4s+22bWZH4v+SgAqeXJJkqlrYAzm7HxN
-         fNB3buSRdtpxbS08r3auRwxmMU0ZcnjEXMdx5+rA8z5DpCkok+XOzpHVeDl+H3K4Kzai
-         reW0FmYA3FcM8lNy3mHrdrKD/OaqEjvOw4jB9bZtQehX2KxfT84e4ZTW5ywNw1EUBxrP
-         WDuZ7mlsd+ZcMrhDo62YyqWG/95r2nPdPBePzAH2Uu3jV8pAGaAiEyFDak+5pTbMRh3Z
-         B5flh5tNOATUS+TLEJmSpU7fm6aZ+qU8C3GZdE0HmVmHydD9CiDKxALSloMdslYH8oKA
-         MMEg==
-X-Forwarded-Encrypted: i=1; AHgh+RrlHv7nKlOq5zd20zmMVeWC1PMspgnXeh22ssb2eztE1rdymhja6SzaP8l2G4/bBVA1MsLsYOb1HYM=@vger.kernel.org
-X-Gm-Message-State: AFuF++m44/I7SDjN6C1bLbqRK/SmoroW0VeV5wEk418efFPorQNq3Ees
-	hK3Pt0bgy3ULt9zHI/Pnfx+2Gr+JpdRvm0WOCR8ktGP1jWWVOgGGRS3+VKgbNpMqOw==
-X-Gm-Gg: AR+sD10+9N7cPVmsr298jkAtLMCII0XmznX1/hSqg5qNKrG5dl86X99ThXb3J4q/oQq
-	iO0M+9NvEMv/nItx0DjUhAwKg3fnJshTP1fViQ/OvrtdoH8TJS+r0c6FnqdHcC2azJNFzDvFL3Q
-	igxZDjXUZ/2jf/4NQhes9zE8JX33yXLbFYr8K/hwb24Ix2zscexTgaKNJVdMLXlp/bTHEmT6A8B
-	rAP5IkFcOacc9YfeJBdNlYTU9JR58/yand+TkI6lMBMEDXyvVlJT1DXw9TPx4le57e8jJqkxfjR
-	X532rB8lOco9PX1T8gru9I6ZQE91+QZmS+E6wyVw61eUG1+5HIhKDhVity5Qa64QYul0ty3J797
-	cIECVLpk0XA8AP1KLY29aB1uvWtMFs1ABttx1FNOX1WOi+O+VVXnoqDBjgdlrDUDgjv3wv8Z2AY
-	UkEYYzdAc8uTmz5FnQKT0hcUa/re4KyE3uswNqzdqzp7ulzkpYd+tKzjitVVnCr1ml38Iyx16TK
-	Q==
-X-Received: by 2002:a05:620a:40cb:b0:936:cda7:554d with SMTP id af79cd13be357-93913798773mr3504049085a.14.1788228605915;
-        Mon, 31 Aug 2026 19:10:05 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9391740b75bsm917492485a.41.2026.08.31.19.10.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 19:10:04 -0700 (PDT)
-Date: Mon, 31 Aug 2026 22:10:01 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Rafael Alejandro =?iso-8859-1?Q?D=EDaz?= Cruz <rafad900@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
-Subject: Re: [PATCH usb-next v2] USB: gadgetfs: Fix use-after-free in
- gadgetfs_kill_sb
-Message-ID: <23099c10-19ea-4626-b1a0-74a64fcb0dda@rowland.harvard.edu>
-References: <20260829011901.325379-1-rafad900@gmail.com>
- <991f3432-02af-47e7-b470-b21d36d09ac5@rowland.harvard.edu>
- <CALp66yH0C0WAgUDkXArbLHgwSdrJ0hfQP2id2xhztg-d=qK1Jw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FTT9zOTx"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hYq2h0ps1zMlGN;
+	Tue, 01 Sep 2026 04:05:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788228348;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2y8XeoQYUNdcL/xqpcqRez98xcbT3PO8hh/NnsKkpMo=;
+	b=FTT9zOTxMTtHPP1SVnuKS6hfgftrqIp6AMYPecQcJdUoE6Rf8G9i8nLEwqC1uJuEvuspvT
+	IniFXp/KvRsutlb5mXRW4KEXC3UkMN+Ds6ajZ2wSDiq4V/ThSVNtivkEHfSb3AT2mSRRWs
+	HRiWOMY4Bozm18ZomNqRGwsPDul7TXs9/Nd5LduVOf2rTXQPsvVME04wb3tf7lgedw5Htj
+	0IblF7d9SY1bay+A8I/6l1UmprHElmywHAJ3MfWOLbU8VP41NPtuFig8Md1eKwLb2N4rP7
+	DE0Xp6LBLSQabMOELSJIcBxafkX4VM4+a6YzrYOGrfWBUexjQcsW1U4Uf6reXA==
+Message-ID: <2634d23f-42de-48f3-b10b-92158e86fdf7@mailbox.org>
+Date: Tue, 1 Sep 2026 04:05:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALp66yH0C0WAgUDkXArbLHgwSdrJ0hfQP2id2xhztg-d=qK1Jw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] usb: dwc3: dwc3-generic-plat: Add Renesas R-Car
+ Gen5 DWC3 xHCI USB controller glue
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>
+References: <20260828182415.388367-1-marek.vasut+renesas@mailbox.org>
+ <20260828182415.388367-2-marek.vasut+renesas@mailbox.org>
+ <20260828183046.86F731F000E9@smtp.kernel.org>
+ <d7444dd8-c94c-41ef-b5ab-52cb32313df7@mailbox.org> <apIGMJ6wveRRRMCv@vbox>
+ <1fa4e305-5717-4a99-9e53-3a7fa1c5df1e@mailbox.org> <apYmMt_vK5fbjBUJ@vbox>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <apYmMt_vK5fbjBUJ@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 6q91o4e3wz8qu4cza198yg11ixy5rgzi
+X-MBO-RS-ID: cf0bf38f6decd032bc5
 
-On Mon, Aug 31, 2026 at 09:58:57AM -0700, Rafael Alejandro Díaz Cruz wrote:
-> Hello,
-> Sorry for the confusion. I assume I can just address the
-> concerns here and create another patch once the message
-> is clear.
+On 9/1/26 3:17 AM, Thinh Nguyen wrote:
+
+Hello Thinh,
+
+>>> , but please drop the speed == USB_SPEED_WIRELESS check. This sanity
+>>> check is not necessary and would be flagged by dwc3 core if set anyway.
+>> Could you please point me to the code which filters the WIRELESS USB out ? I
+>> can't seem to find it in either DWC3 core or USB core, but maybe I am not
+>> looking for the right thing.
+>>
+>> Thank you for your help !
 > 
-> I suppose there are actually two errors but because they
-> are triggered by the same syzkaller reproducer, I'm
-> treating them as one. The initial problem is the UAF on
-> the_device pointer when put_dev() is called both by the
-> error path of gadgetfs_fill_super() and gadgetfs_kill_sb().
-> This is triggered by the fault_injection in the reproducer.
-> I'll assume that one is clear.
+> You can find this in __dwc3_gadget_set_speed(). The switch statement
+> explicitly handles unsupported speeds, and setting the speed to
+> USB_SPEED_LOW or USB_SPEED_WIRELESS will trigger a complaint there.
 
-Yes, that's okay.
+But this is only for the gadget/peripheral mode, correct? The controller 
+in R-Car X5H is capable of both host and peripheral mode (DRD), so 
+shouldn't the check be kept in here in case the controller is used in 
+host mode ?
 
-> The second underlying issue is still related to the_device
-> but not itself, rather the_device->count variable keeping
-> the references. The syzkaller reproducer still triggers the
-> same fault_injection in the reproducer but the
-> fault_injection might fail which leads to the success path
-> being taken. This means that the gadgetfs_fill_super()
-> will succeed and the the_device->count will be initialized
-> with 1 as you had mentioned. However, at the end of
-> the reproducer close() and umount() will each be called.
-> This leads to the following:
-> 
-> close() -> dev_releave() -> put_dev()
-> umount -> gadgetfs_kill_sb() -> put_dev()
-> 
-> the_device->count == 1 at the start but is decremented
-> twice. refcount < 0 triggers second UAF.
+Thank you for your help !
 
-But gadget_dev_open() increments the refcount (it calls get_dev()).  The 
-increment caused by opening the device cancels out the decrement caused 
-by closing it.  And the initial assignment to 1 caused by creating it 
-cancels out the final decrement caused by gadgetfs_kill_sb().  So there 
-shouldn't be any erroneous accesses.
-
-> This is fixed by incrementing the reference on the success
-> path of gadgetfs_fill_super(). That is what the get_dev(dev);
-> call is for.
-
-If you do that, what will cancel out the increment caused by 
-gadget_dev_open()?
-
-> As a side note, I'm part of the Linux Kernel Mentorship
-> and I appreciate your feedback! Please don't hold back on
-> the suggestions. Every bit helps me!
-
-Don't mention it; we all have to start somewhere!
-
-Alan Stern
+-- 
+Best regards,
+Marek Vasut
