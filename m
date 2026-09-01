@@ -1,214 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6AF47DFB0;
-	Tue,  1 Sep 2026 22:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE21384CDB
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 22:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788300971; cv=none; b=WlshM+9SXuGaB0Ym5CrSIgK69QKVR2ALUaXio9xlBodSuisyFXqaeHUzm/1EkYR5+E3T0wgeO81/O1cCr7FM9tamKXlIFUxAICOIQo1N3W5s9zhRAwscgEKlQgtQf1qqHy8xHBOfYxIRIjysJqtcv39RJnCOGOIV4c1mxWBogqE=
+	t=1788302747; cv=none; b=NMVWNr8uUsQpL8hV+qR2ssGLwb+zKAk7t4N0JI5CTLKJwrue5g5OORgYopV20kBo8buX+PtcwlYF3VpqgVn6C29lHeNeKYgTqDwjy26FxonbrcuHxMD1ByF8nDWSAOOnvapHfapxRKeY+IvaM6JUYcHBnHeuGiq6nBqVwcOVq5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788300971; c=relaxed/simple;
-	bh=JFy9DO0xJRxWNa+JSNF3y/N4ZPSyr9PqTPXfEp0Oldc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=shX79Jg+Av8oXstkQB6EXIaHm62am19bv3TOSddL8j0Okdg/7m3sf7XRtdN/8VKb0XPr+PbjPNRPRAYyXCjd7z6E9XHDG72lOw/g6heAp+dvi2JDAhmtu3X3wYuOhfQ/zVU8UazkYzaBOYSg5fZU0qiiU19FcnMabN3V/c6xU6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtuCMv7r; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788302747; c=relaxed/simple;
+	bh=AmMY9+JiOedVBwkxJkvIf9KReIiEj6fvyuFyhDZAsuM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UbSP8Ct4NCqpeCHAgan2cjIgf1h1H4veUcEZy/jP6i+Lr1/I/SxU9S3HXz2vwMCwEcV8Eic0uJeeKOgtUc46BjQyZlCytF+ceD+Qc+heOxYWwkaoNMAtfoZGffF3wqKCV6dK3bBNJlbc3nXcM4Tuw6y04RcgsFwQGj+hd0DcZJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oes.ch; spf=pass smtp.mailfrom=oes.ch; dkim=pass (2048-bit key) header.d=oes.ch header.i=@oes.ch header.b=Ow4uhTER; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oes.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oes.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtuCMv7r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8691F00A3A;
-	Tue,  1 Sep 2026 22:16:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788300965;
-	bh=Yf4rNeY/DBAye9ETFhqy6GSnF8DGTPgKweUO7gsr6g4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=QtuCMv7rnPGkDF8hU4xZJ1S/A3zg21A465suazTct6Ni+Pw854lAnPkZlM4u2cyOT
-	 blqllvmZXcbaODr5vFuxnH8dn/dN3xGJRTK3TT/SE/yChJEnKRouBulYDvbVSW1LFH
-	 N2AAXjPMDwcSircPR1YZqiyZVClOJ99iaOH3vf1fmaRw55GzgCoYCf9XJoFrOiESSE
-	 ehQAqOHsGSIO364FBwdwEN+iqh4xG7tZykDZe24O51BdKvkq3/+N2hUpMtnL4i8lLM
-	 bJy1YCS1+0hlgv6bwiWPqoayOZjUI2Ff+LqW4eTWh+RPZCR/xOY4mok23/tZTAvfKO
-	 ygacr/kMeQ6mA==
-Message-ID: <ae19d381-0fcd-45fb-9e53-033c7d664d73@kernel.org>
-Date: Tue, 1 Sep 2026 17:16:03 -0500
+	dkim=pass (2048-bit key) header.d=oes.ch header.i=@oes.ch header.b="Ow4uhTER"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2d944747d41so4204545ad.0
+        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 15:45:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oes.ch; s=google; t=1788302744; x=1788907544; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pbcWidxi+5W3ugdRwHYPgaHhKhKyuwEwYBB8DF4jk68=;
+        b=Ow4uhTERmwrAgiEIA6MrgPBZW8OhaSKQmE6yXxYaT8gET8xgR+z486tUSmo+m6jXWg
+         93HyJ5r5KZIno8T30gnYDDXpF1rkUVhcMm6jNLIYnYdioHwe60PZcXr6WOYDSBNnI9Sj
+         WMSjJ1nqm5eEfe+4rZrMc3swn1DofCvVMEbwvSW5U2RA4KdVQwjHFuzCw6GMDRLfPZHj
+         lQMPjknkWENP/JlxAvE5KMIPtZvjFzxM1iinyRa3bNYAclUeZD7ZraMh+Y2wGcjpHHWp
+         r/0RRHJ/rajA9dWHa9Y7FfCN6LqFdrALfPllLajN7ccbhvtg5TO6ca7o470ofAx2seqB
+         Bh4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788302744; x=1788907544;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pbcWidxi+5W3ugdRwHYPgaHhKhKyuwEwYBB8DF4jk68=;
+        b=UujwuysvgA2WaiRIN5kvsL+OfjACD0s3TXcZ/m4NTgwYtxciKcFEmtlnTBFKKTVk0v
+         B6Ezlcaw34uf+VABJ+kKNkUmzzmYHLwXkYchtVe4f1lVxWwNAvgt8Xvosr2UHHyhNfoH
+         H2cL7JR3s0gozWk//2mn2TGr39CQQvnK+EHEDPw5Z1UMXo8VBHRsWk/fb5MrN/LTqMU/
+         VjbFKiQo0uYtWUGiVxkCmTETtQaqYxr54uByjJI5jyoKVDpjsXKzv9BIf2x9My3HbJFY
+         txq8oLpiR2LprZPzYalH89CniI5UUlSrUZF11wVArkic8MpCm+CMngHoD8J3UwvGJPtq
+         pLUA==
+X-Forwarded-Encrypted: i=1; AKwUvByEGTqY6TYsQO0V9rtkIx6/2fQB5tM7KpCqU2yFdrJHv0QJxd/rqK/kOdvKsHaMQPlrx70grM/vO4M=@vger.kernel.org
+X-Gm-Message-State: AFuF++nrU+er8UexhzNhAJhnaB3n5ixiNbzgTr10nNrmmeyi9ybBdWDq
+	LdUFy7L8kukEK0H5CovSRVKikrVmZgVtls7XdEh0XMpot3+iMRwk+4xw8LGT2bnCIt3HlHNXdfr
+	Lg3v7ow6Y
+X-Gm-Gg: AYBFou3giLo2+sDbmNUuun7qFMOUfJ0DJFwFCdZconY8hUpEQ9i3L5d4xiY/021GN8B
+	6Wn1QIg8bEeN4LeEYmSFy+ghQqQBIm/Q26MpMAgdM89vcaSYUF0aceOK+h2wOwKLLk0v4oFBjNH
+	BmEzOtRobbjhgLg1QrsVx/IgkiwM8LMgoMjNJUabaM44Sfmvnn0uWyneeOvAwtoZaXtEiAK/lkv
+	heVIyiped6UjC32CXA8V6ZkUDleNhw73/WAVbAddqw+xvdi/qBwbmOy0Ekf7iWQxhVCI6hsJt9F
+	s6Ahh2rxA+H8ra9xT2NvH9I9XIYzVYdHAvNWBwMT27oxowUMUJVmpaIOt+4ie+HtKNUOgrqdcEN
+	+TVnqKd1CP9J6j/bvI5A0vA4RrBTcCPqLnipERX82gPNHdRx9GQ2li3P8nzgiHYKZ+gf0ESjMyG
+	oYVSmiUNZ6iXo6e6QIk1i7hHdOMwKoUoaAhABi2kbNMSac9lLBS2+gLjL4EU5dZTABrKJoV4ySm
+	ktiWhzv8iVa36yO4rSNrhQuVELHCyqrA0wsaxYA54aX/y6LyQeeLmfjXJvgd0hwR0rVivBVkFOo
+	jW5sEhNYyef8
+X-Received: by 2002:a17:903:2c0d:b0:2d6:f988:398f with SMTP id d9443c01a7336-2daec6b1e12mr6735075ad.12.1788302744259;
+        Tue, 01 Sep 2026 15:45:44 -0700 (PDT)
+Received: from cosinus.tail5d817.ts.net ([118.148.155.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dadd48865csm3829475ad.54.2026.09.01.15.45.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 15:45:43 -0700 (PDT)
+From: Julian Oes <julian@oes.ch>
+To: gregkh@linuxfoundation.org
+Cc: johan@kernel.org,
+	oneukum@suse.com,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Julian Oes <julian@oes.ch>
+Subject: Re: [PATCH v2] USB: serial: generic: recover from a stalled bulk-in endpoint
+Date: Wed,  2 Sep 2026 10:44:44 +1200
+Message-ID: <20260901224447.50777-1-julian@oes.ch>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026090142-walrus-zipfile-70d1@gregkh>
+References: <2026090142-walrus-zipfile-70d1@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] thunderbolt: Fix tb->lock deadlock during hot-unplug
- on AMD USB4 routers
-Content-Language: en-US
-To: juan.martinez@amd.com, mika.westerberg@linux.intel.com
-Cc: westeri@kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com,
- Basavaraj.Natikar@amd.com, Sanath.S@amd.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260831130638.GK124825@black.igk.intel.com>
- <20260831161610.1322731-1-juan.martinez@amd.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260831161610.1322731-1-juan.martinez@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On Tue, Sep 01, 2026 at 06:33:15AM +0200, Greg Kroah-Hartman wrote:
+> This sounds like a broken hub, why not just replace that?  It shouldn't
+> be causing transactions on a different port to stop.
 
+I agree that ideally my hub would not do that. However, my assumption is
+that it's not my specific hub that is broken, but that this hub (or
+other hubs on the same chip) have that sort of issue, and I was hoping
+to be able to fix it for me and others in software, rather than brush it
+off as a hardware issue.
 
-On 8/31/26 11:16, juan.martinez@amd.com wrote:
-> From: Juan Martinez <juan.martinez@amd.com>
-> 
-> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
-> DMA path teardown for AMD USB4 routers") introduced a deadlock when
-> physically unplugging a Thunderbolt cable on AMD systems.
-> 
-> The problem occurs because tb_handle_hotplug() holds tb->lock while
-> processing the unplug event. When it removes the XDomain services,
-> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
-> tb_domain_reset_interface(). That function tries to acquire tb->lock
-> via guard(mutex), but the hotplug worker already holds it, causing a
-> self-deadlock.
-> 
-> The deadlock manifests as a complete network hang because
-> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
-> all network operations system-wide.
-> 
-> The existing code already handles this scenario partially: when
-> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
-> skips the DMA teardown because the hotplug handler tears down the DMA
-> tunnels itself. However, the reset was still being called
-> unconditionally.
-> 
-> Fix this by splitting tb_domain_reset_interface() into a locked inner
-> function and a locking wrapper. Skip the reset from
-> tb_domain_disconnect_xdomain_paths() when xd->is_unplugged is true, and
-> instead reset the interface after the hotplug handler tears down the DMA
-> tunnel while already holding tb->lock.
-> 
-> Handle both unplug topologies: reset after the direct XDomain teardown,
-> and after invalid DMA tunnels are removed when an upstream router and its
-> downstream XDomain are unplugged together.
-> 
-> This preserves the reset behavior for normal shutdown paths while
-> avoiding the deadlock during physical cable unplug.
-> 
-> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
-> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+From what I understand an endpoint halt is spec-defined as
+host-recoverable. In the current state (without the patch) the read
+never returns data again and the user doesn't know that it needs
+restarting.
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+My patch is meant to do the same pattern that cdc-acm already does:
+EVENT_RX_STALL → kill → usb_clear_halt → resubmit.
 
-BTW -
+> > +#define USB_SERIAL_STALL_COOLDOWN    msecs_to_jiffies(10)
+>
+> control or bulk?  This comment does not make much sense.
 
-I did take a look through the Sashiko feedback and the first point 
-doesn't matter because no pre-USB4 hosts take this quirk.
+Sorry, it's not clear. Both: the halted endpoint is the bulk-in one,
+but the CLEAR_FEATURE that clears it goes to the control pipe, so one
+recovery attempt is a control transfer plus a bulk resubmit.
 
-The second point is a side effect of this reset and accepted behavior.
+Without the delay I saw six stalls in six milliseconds. The clear-halt
+succeeds every time, but the hub re-stalls the endpoint as soon as a
+read is queued, until the transient is over.
 
-> ---
-> 
-> Notes (v5):
->      Changes in v5:
->      - Rebase on the current thunderbolt/next branch.
->      - Reset the host interface after invalid DMA tunnels are removed, covering
->        XDomains below an unplugged router.
-> 
->   drivers/thunderbolt/domain.c | 20 +++++++++++++++++---
->   drivers/thunderbolt/tb.c     | 10 +++++++++-
->   drivers/thunderbolt/tb.h     |  1 +
->   3 files changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-> index 12c88509a54f..4cef9f4de523 100644
-> --- a/drivers/thunderbolt/domain.c
-> +++ b/drivers/thunderbolt/domain.c
-> @@ -788,14 +788,22 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   			transmit_ring, receive_path, receive_ring);
->   }
->   
-> -static void tb_domain_reset_interface(struct tb *tb)
-> +/*
-> + * __tb_domain_reset_interface_locked - Reset host interface (lock held)
-> + *
-> + * Caller must hold tb->lock. Used by hotplug path where lock is already held.
-> + */
-> +void __tb_domain_reset_interface_locked(struct tb *tb)
->   {
->   	struct tb_nhi *nhi = tb->nhi;
->   
-> +	lockdep_assert_held(&tb->lock);
-> +
->   	if (!nhi->ops->reset_interface)
->   		return;
->   
-> -	guard(mutex)(&tb->lock);
-> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
-> +		return;
->   
->   	/* The reset clears the ring state so stop the control channel */
->   	tb_ctl_stop(tb->ctl);
-> @@ -803,6 +811,12 @@ static void tb_domain_reset_interface(struct tb *tb)
->   	tb_ctl_start(tb->ctl);
->   }
->   
-> +static void tb_domain_reset_interface(struct tb *tb)
-> +{
-> +	guard(mutex)(&tb->lock);
-> +	__tb_domain_reset_interface_locked(tb);
-> +}
-> +
->   /**
->    * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
->    * @tb: Domain disabling the DMA paths
-> @@ -835,7 +849,7 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   	if (ret)
->   		return ret;
->   
-> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
-> +	if (!xd->is_unplugged)
->   		tb_domain_reset_interface(tb);
->   
->   	return 0;
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index 47753a5c0f2e..9300cdae10b1 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -1776,12 +1776,19 @@ static void tb_free_invalid_tunnels(struct tb *tb)
->   {
->   	struct tb_cm *tcm = tb_priv(tb);
->   	struct tb_tunnel *tunnel;
-> +	bool reset = false;
->   	struct tb_tunnel *n;
->   
->   	list_for_each_entry_safe(tunnel, n, &tcm->tunnel_list, list) {
-> -		if (tb_tunnel_is_invalid(tunnel))
-> +		if (tb_tunnel_is_invalid(tunnel)) {
-> +			if (tb_tunnel_is_dma(tunnel))
-> +				reset = true;
->   			tb_deactivate_and_free_tunnel(tunnel);
-> +		}
->   	}
-> +
-> +	if (reset)
-> +		__tb_domain_reset_interface_locked(tb);
->   }
->   
->   /*
-> @@ -2489,6 +2496,7 @@ static void tb_handle_hotplug(struct work_struct *work)
->   			tb_xdomain_remove(xd);
->   			port->xdomain = NULL;
->   			__tb_disconnect_xdomain_paths(tb, xd, -1, -1, -1, -1);
-> +			__tb_domain_reset_interface_locked(tb);
->   			tb_xdomain_put(xd);
->   			tb_port_unconfigure_xdomain(port);
->   		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index c112954ce3fd..5bb448a71407 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -792,6 +792,7 @@ int tb_domain_disconnect_pcie_paths(struct tb *tb);
->   int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   				    int transmit_path, int transmit_ring,
->   				    int receive_path, int receive_ring);
-> +void __tb_domain_reset_interface_locked(struct tb *tb);
->   int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->   				       int transmit_path, int transmit_ring,
->   				       int receive_path, int receive_ring);
-> 
-> base-commit: 48e989e33b715611438ce4b8d6ff712d4becd84f
+The delay is there to stop that becoming a tight loop.
 
+I can reword it for v3, depending on whether you agree that a stall
+needs clearing at all.
+
+For a bit of context: in the past 14 years, I have been working with
+various FTDI and similar USB devices, and it's possible that I have seen
+this issue every so often. Usually, I would just re-open screen, try a
+different USB port or hub, restart the hub, etc. It's only this time
+that I stumbled on a reproducible case, and had the capacity to dig
+deeper using an LLM.
+
+I have been using the v1 patch that I submitted in May ever since and
+have not noticed such issues anymore.
+
+Thanks,
+Julian
