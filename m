@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F85126E165;
-	Tue,  1 Sep 2026 10:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDB334AB01;
+	Tue,  1 Sep 2026 11:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788260262; cv=none; b=q0p2M80RSmHLr5UM9hINwtXHLFxt94pDBYGlMbjEawwHjjNVaIMkBexhPCa/j/OSou2jlNXutA9ws/XVYqS4NnKwGYQJNNDlt6/jWsZ3tU7i4jisgrS0Qg0yJ8yb7xnQ9qFJudzDTovWROuEAzBhwiShryn1oHeF0eaJojOmXP0=
+	t=1788261482; cv=none; b=eqaKAigZPKFFTCTNvm8ktCRu4CzWoGjdjejOCphixAyhexF/4XctaQ2avfCGnF2pIrJuRdS1MHPMm9+NsyzGz846MeiDCSDQgF6TsLnV39WTrQKcwWq2iAmYEWJ9uxErzq7CklOTYc70SPGT+qZ9tCEovrwBsufyneF1dZGbOZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788260262; c=relaxed/simple;
-	bh=XQJ1fJahU4b7QiwbasU9WxMsqVRrCeFToqR7Rqr5vks=;
+	s=arc-20240116; t=1788261482; c=relaxed/simple;
+	bh=y+VhXTZNS/cLl0mnyPUvv4HXwIp11IdjGtUY5C+LCgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wygxg/lwFvOcwmxRqCKuCTUydWkvPwhfgSiS7/Li80GCN9yR7tee6kk1qQLDKE7bZKU5ZAy01ep49HPcoluUvJN34ZrJnzSfxvQELS/UzF/Bv7Qy5Pyu7ExpZtdi5PiRx+no0CgLO9jF71ZFV2um7mJfz94zfJm2JQ7yR2KKIGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b87QdZK4; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=kLK8LmHxyZlQ+VSQVxsL/8YfXsOUZvXiqvs3qs+ycYj5LhDiCTtPln7K9Nd7PM8ltKTgDBanWwwT9CXFq3lymMcgpAvVDbGI7RwN5/pjJIKWij31+eH5IVuFbEWAHFaB1tWeQP+7mt2J/lSYGRU0bz2WdpOgCiZ1wF52xX5s1vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVwHwVTL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b87QdZK4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVwHwVTL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788260261; x=1819796261;
+  t=1788261480; x=1819797480;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XQJ1fJahU4b7QiwbasU9WxMsqVRrCeFToqR7Rqr5vks=;
-  b=b87QdZK4jHxAQW0+XuFy5nlugeyq4/Q6VnXJ0TbVdwC/OEelrwGU0GGq
-   r6DBkmW/Fe3nKd4GcB/M5zLMK/CbEdrnkGXqvFQVqfr2czcWRTmTHUOyn
-   oIRen90qvuBzvXYoOmS/c6QzBz0/QpdeFWy/XFY5jGJ+K3bJ1lM445igH
-   Sgcxk+Kf1Rqn8W1mYpIQ0Z3SRISkKqB5DsIcfADdulEqjf8Jf+14Nifjf
-   pMt+I1xPvDRe0+Ckeo4mFUmaNT5HGv/MwvHKvy5g5YOQQOuBxXW4AYK+A
-   XfOibmGwSUgPYw0vWIFCqeZrh3whh5cXr3cDhOlonCTJwAx9F84OXdD4E
-   Q==;
-X-CSE-ConnectionGUID: gVi1x54/TcSNEJ/AakzsKQ==
-X-CSE-MsgGUID: f/JvQZcTTq2FkvzUjADrAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="76237059"
+  bh=y+VhXTZNS/cLl0mnyPUvv4HXwIp11IdjGtUY5C+LCgA=;
+  b=nVwHwVTLnw1adAT+zGudflOP8i3EIJgm+H0ewAur9S7ENV3Cl4kSd1p4
+   zkpHNMk9QWzu0e+jgfb+EyHy7EtiD9g51Kq6qhXh9MNtCBrMV0GpqlZu5
+   U3F32FlJenutMjliG7Xy1S9PdqalhLkxZr60LPQJHeb77p03aq624v98D
+   Z7xwCO5WhlngwIQ8MbgtvBK2PCxQxqIHHY1uKoRZShZmodEJTeKBZozsQ
+   SK815373Lk+35qq7dod44SW8twsTHcWKjsJZm+KyCj4BGDfuK+Vkk1Cy5
+   hoeqEpRoZIwfH2vGOK2XDSPaFIjlD/k9tjSZtuUgnNARNLav/v826pT+8
+   A==;
+X-CSE-ConnectionGUID: uz7rAA5FTvG5t1jMRdwfsA==
+X-CSE-MsgGUID: Do/eH8hGQBuwjOrDaejspw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88894033"
 X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="76237059"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 03:57:40 -0700
-X-CSE-ConnectionGUID: 5q+toY6OSf6cozcRTSU2Ug==
-X-CSE-MsgGUID: 8d8cn19TRliD/VlqVH13Og==
+   d="scan'208";a="88894033"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 04:17:59 -0700
+X-CSE-ConnectionGUID: 8ohHxd7nSOyPRgPB6gR8Gw==
+X-CSE-MsgGUID: w3j0Q8TGTCum6r0ksljjvA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="298958491"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Sep 2026 03:57:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Sep 2026 04:17:55 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 7F27C99; Tue, 01 Sep 2026 12:57:36 +0200 (CEST)
-Date: Tue, 1 Sep 2026 12:57:36 +0200
+	id E915299; Tue, 01 Sep 2026 13:17:54 +0200 (CEST)
+Date: Tue, 1 Sep 2026 13:17:54 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Edward Blair <edward.blair@gmail.com>
-Cc: linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org,
-	rafael@kernel.org, lenb@kernel.org, mika.westerberg@linux.intel.com,
-	gregkh@linuxfoundation.org, W_Armin@gmx.de,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: add ITE885x I2C transport driver
-Message-ID: <apavoDwVFw_FKRNd@black.igk.intel.com>
-References: <20260829145516.13500-1-edward.blair@gmail.com>
- <20260829145516.13500-3-edward.blair@gmail.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 02/19] usb: typec: Add thunderbolt switch
+Message-ID: <apa0Ypc4xpaeHTBb@black.igk.intel.com>
+References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
+ <20260830-b4-apple-soc-tbt-v1-2-44bc9348683c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,205 +72,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260829145516.13500-3-edward.blair@gmail.com>
+In-Reply-To: <20260830-b4-apple-soc-tbt-v1-2-44bc9348683c@kernel.org>
 
-On Sat, Aug 29, 2026 at 03:55:16PM +0100, Edward Blair wrote:
-> Add a UCSI transport driver for ITE8853 and ITE8800 through ITE8805
-> USB Type-C controllers found on desktop motherboards.
+Hi Sven,
+
+On Sun, Aug 30, 2026 at 10:19:20PM +0200, Sven Peter wrote:
+> On Apple Silicon the USB4/Thunderbolt host router can only be brought
+> up after the Type-C PHY has been configured and requires cable details
+> known only to the Type-C port controller.
 > 
-> These controllers expose CCI, MESSAGE_IN and CONTROL at ITE-specific I2C
-> offsets and signal UCSI and vendor events through a shared interrupt
-> status register. Read and cache each complete UCSI event before
-> acknowledging it so command data remains coherent between the interrupt
-> handler and UCSI core.
+> The existing orientation switch only forwards the cable orientation.
+> The mode switch also forwards most of the required details but
+> represents devices which configure or route the Type-C signal path. The
+> ACIO host router is a consumer of that path and has additional ordering
+> requirements: it has to be started after the PHY has been configured
+> and stopped again before the PHY is disabled.
 > 
-> The interface does not expose a VERSION register and does not accept
-> PPM_RESET over I2C. Report UCSI 1.0, limit MESSAGE_IN to its 16-byte
-> window and handle PPM_RESET locally, matching the vendor driver's
-> behavior.
+> The mode switch code calls all handlers in the same order both when
+> entering and leaving a mode and cannot express this reverse teardown
+> order. Treating ACIO as another mode switch could therefore leave the
+> NHI active after its PHY has been disabled, which can result in an
+> asynchronous SError or a SoC watchdog reset.
 > 
-> Signed-off-by: Edward Blair <edward.blair@gmail.com>
-> ---
->  drivers/usb/typec/ucsi/Kconfig    |  11 +
->  drivers/usb/typec/ucsi/Makefile   |   1 +
->  drivers/usb/typec/ucsi/ucsi_ite.c | 395 ++++++++++++++++++++++++++++++
->  3 files changed, 407 insertions(+)
->  create mode 100644 drivers/usb/typec/ucsi/ucsi_ite.c
-> 
-> diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-> index 87dd992a4..3819c4f73 100644
-> --- a/drivers/usb/typec/ucsi/Kconfig
-> +++ b/drivers/usb/typec/ucsi/Kconfig
-> @@ -104,4 +104,15 @@ config UCSI_HUAWEI_GAOKUN
->  	  To compile the driver as a module, choose M here: the module will be
->  	  called ucsi_huawei_gaokun.
->  
-> +config UCSI_ITE
-> +	tristate "UCSI Interface Driver for ITE885x"
-> +	depends on ACPI && I2C
-> +	help
-> +	  This driver enables UCSI support on platforms that expose an ITE8853
-> +	  or ITE8800-ITE8805 USB Type-C controller over I2C, commonly found
-> +	  on ASUS Z690/Z790/X670E motherboards.
-> +
-> +	  To compile the driver as a module, choose M here: the module will be
-> +	  called ucsi_ite.
-> +
->  endif
-> diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-> index c7e38bf01..9bc1d6bbb 100644
-> --- a/drivers/usb/typec/ucsi/Makefile
-> +++ b/drivers/usb/typec/ucsi/Makefile
-> @@ -28,3 +28,4 @@ obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
->  obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
->  obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
->  obj-$(CONFIG_UCSI_HUAWEI_GAOKUN)	+= ucsi_huawei_gaokun.o
-> +obj-$(CONFIG_UCSI_ITE)			+= ucsi_ite.o
-> diff --git a/drivers/usb/typec/ucsi/ucsi_ite.c b/drivers/usb/typec/ucsi/ucsi_ite.c
-> new file mode 100644
-> index 000000000..16b22c77f
-> --- /dev/null
-> +++ b/drivers/usb/typec/ucsi/ucsi_ite.c
-> @@ -0,0 +1,395 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * UCSI I2C transport driver for ITE885x USB-C controllers
-> + *
-> + * ITE8853/ITE8800-ITE8805 are UCSI-compliant USB-C controllers found on
-> + * desktop motherboards. They communicate over I2C using UCSI registers at
-> + * ITE-specific offsets and signal events through a vendor interrupt register.
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
+> Add a separate Thunderbolt switch which Type-C port drivers can use to
+> forward the negotiated Thunderbolt or USB4 cable details and explicitly
+> order host router setup and teardown around the mode switch. This is
+> similar to a USB role switch: each connection has exactly one host
+> router and the callback controls the lifetime of that functional
+> controller instead of configuring a signal mux.
 
-We need to include everything instead of relying on nested headers
-nowadays.
+You are bypassing and duplicating things that are already supported in
+the typec bus.
 
-        linux/device.h
-        linux/device/devres.h
-        linux/dev_printk.h
-        linux/pm.h
-        linux/string.h
+Your typec port driver probable does not register the partner altmode
+that you need, so you just need to fix that. After that you should be
+able to get the details you need simply by registering a typec bus
+notifier in the thunderbolt driver. We can add a helper for that if
+needed - the DRM subsystem will use the same notifier with the DP
+altmode soon.
 
-> +static int ucsi_ite_process_event(struct ucsi_ite *ite, u32 *cci)
-> +{
-> +	u8 message_in[ITE_MESSAGE_IN_MAX_LEN] = {};
-> +	__le32 raw_cci;
-> +	u8 status;
-> +	u8 len = 0;
-> +	int event;
-> +	int err = 0;
-> +	int ret;
-> +
-> +	mutex_lock(&ite->event_lock);
-
-guard(mutex)(@ite->event_lock);
-
-> +	ret = ucsi_ite_read(ite, ITE_REG_INT_STATUS, &status, sizeof(status));
-> +	if (ret)
-> +		goto out_unlock;
-> +
-> +	status &= ITE_INT_MASK;
-> +	if (!status) {
-> +		mutex_lock(&ite->received_lock);
-> +		*cci = ite->cci;
-> +		mutex_unlock(&ite->received_lock);
-> +		ret = ITE_EVENT_NONE;
-> +		goto out_unlock;
-> +	}
-> +
-> +	if (status & ITE_INT_CCI) {
-> +		err = ucsi_ite_read(ite, ITE_REG_CCI, &raw_cci,
-> +				    sizeof(raw_cci));
-> +		if (!err) {
-> +			*cci = le32_to_cpu(raw_cci);
-> +			len = UCSI_CCI_LENGTH(*cci);
-> +
-> +			if (len > sizeof(message_in)) {
-> +				len = sizeof(message_in);
-> +				*cci &= ~GENMASK(15, 8);
-> +				*cci |= UCSI_SET_CCI_LENGTH(len);
-> +			}
-> +			if (len) {
-> +				err = ucsi_ite_read(ite, ITE_REG_MESSAGE_IN,
-> +						    message_in, len);
-> +			}
-> +		}
-> +	}
-> +
-> +	/* Acknowledge each latched event with the value expected by the PPM. */
-> +	if (status & ITE_INT_VENDOR_ALERT) {
-> +		u8 ack = ITE_INT_VENDOR_ALERT;
-> +
-> +		ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-> +		if (ret)
-> +			goto out_unlock;
-> +	}
-> +
-> +	if ((status & ITE_INT_CCI) && !err) {
-> +		u8 ack = ITE_INT_CCI;
-> +
-> +		ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-> +		if (ret)
-> +			goto out_unlock;
-> +	}
-> +
-> +	if (err) {
-> +		ret = err;
-> +		goto out_unlock;
-> +	}
-> +
-> +	if (status & ITE_INT_CCI) {
-> +		mutex_lock(&ite->received_lock);
-> +		ite->cci = *cci;
-> +		memset(ite->message_in, 0, sizeof(ite->message_in));
-> +		memcpy(ite->message_in, message_in, len);
-> +		mutex_unlock(&ite->received_lock);
-> +		event = ITE_EVENT_CCI;
-> +	} else {
-> +		mutex_lock(&ite->received_lock);
-> +		*cci = ite->cci;
-> +		mutex_unlock(&ite->received_lock);
-> +		event = ITE_EVENT_VENDOR;
-> +	}
-> +
-> +	ret = event;
-> +
-> +out_unlock:
-> +	mutex_unlock(&ite->event_lock);
-> +	return ret;
-> +}
-
-> +static int ucsi_ite_suspend(struct device *dev)
-> +{
-> +	struct ucsi_ite *ite = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	disable_irq(ite->client->irq);
-> +	ret = ucsi_suspend(ite->ucsi);
-> +	if (ret)
-> +		enable_irq(ite->client->irq);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ucsi_ite_resume(struct device *dev)
-> +{
-> +	struct ucsi_ite *ite = dev_get_drvdata(dev);
-> +
-> +	enable_irq(ite->client->irq);
-> +	return ucsi_resume(ite->ucsi);
-> +}
-> +
-> +static DEFINE_SIMPLE_DEV_PM_OPS(ucsi_ite_pm, ucsi_ite_suspend,
-> +				ucsi_ite_resume);
-
-Is the enable/disable_irq really necessary - couldn't you just use
-NOIRQ version of the PM operations (DEFINE_NOIRQ_DEV_PM_OPS)?
+USB4 is meant to be handled as an altmode too, but it looks like it is
+not supported yet - I need to check the status with that. This may
+still need to be fixed, but that should not be a problem.
 
 Thanks,
 
