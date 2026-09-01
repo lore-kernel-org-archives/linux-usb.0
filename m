@@ -1,124 +1,170 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011027.outbound.protection.outlook.com [52.101.70.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29BB37D12F
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 06:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788245945; cv=none; b=QPMobiIae2YarRLSNGCZTVF0I05rZMQg2S+0c5YyisHhBuPZfgYBDrvT/Nl1l2rVRMaIB0t6yvMnLdS0So3149fNUSfSCKEJXa6n9dttYyZYlL7KJBo1wOeOCD1cVK98Nc1jc7YmYilqIzmSLhGKXyu+un2IhVJkpUssYoIIsfA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788245945; c=relaxed/simple;
-	bh=auD0LBcyaasBTyONLGH17EGXcimgnRbD7L0mkVqBfhk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M84VsRcOmN7x1PGYCTsW1MK7vX6kRygvcJK3xiGTFNIPa4P9wIySdLqfYly8mY1cir+RkdKTrIUG3NBBKlsdZ0C/IDD8PsjX5X4FoXcFHjPv+twOox9+B1mOSI9jE/rgbONmrT3rQBgX4OP6euWrAqXlXKWfM5GWZOgh8ICoCFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arkamondal.net; spf=pass smtp.mailfrom=arkamondal.net; dkim=pass (2048-bit key) header.d=arkamondal.net header.i=@arkamondal.net header.b=HmsSuxY6; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=Lthut8zt; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arkamondal.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arkamondal.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4C1471254;
+	Tue,  1 Sep 2026 08:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.27
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788249778; cv=fail; b=Meh4leeK0oGEG0wrnrRObCNgzfz9vXtk8rRB1izwUb1K3dGPR8UeYOXqOrdJaFkkoPr9bmARWCD1h0fAdEmRVyIvA2/aWUeMSrdiCLO5d9bTDHuu16j2Yx7KQ60431X8TF7mPQT2cSEBhpMoUrmnMU3u5UgflebGUxYwnLwf4B0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788249778; c=relaxed/simple;
+	bh=C5peRDzxCzFhGIv6UPgkgKl+qSuq4Pb6oSoqbasZy+Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Gk5H6lFAtBfOL2hn2nilrFc+XzFvn7q+VJkDQcyWJEnOnOlmDAMyPvqBqF3uW/Qq+JE3RXS3UpA+rw1lWcWcJbYtlIvQ5ETxB349wcLTsDAEbifzUh/h46RrMxXngD9cRGZ2b3MIJGhV7SE8lwgkQW5MS/ztj1sXyvj7tA0TB8o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=USaqbKSw; arc=fail smtp.client-ip=52.101.70.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arkamondal.net header.i=@arkamondal.net header.b="HmsSuxY6";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="Lthut8zt"
-Authentication-Results: purelymail.com; auth=pass
-DKIM-Signature: a=rsa-sha256; b=HmsSuxY6pJFa3Yu7S4e9ZtDrAo1lBEjP72Az/0FaFzpGxPX5q7o3/jnIseIYlJHwfIPx2X3nIaQvKnWO8ycrpaN0PNa1m5LwkY4vTivZz+Kij3qssxtZ8rY8i/kK6kqysIl9zvKG/VnZtxCXAnazI9fPb1eztW9LeoDS4EZgarafm3JJFrJxAhSfX533X5fmfIollBHU772jxMFvqx1Uav/UqVf+bLrRzFWPA2KZ0YZWtWbO3NbobwQEPa1AdGGNowsVrD34VKr+xDXKUs0Uati824DlcUdPKrMENn8x7dzdw7TrEGQX/XLw4gwz6JyCU4ZdE6JRK5+xMc2ciK/XOQ==; s=purelymail2; d=arkamondal.net; v=1; bh=auD0LBcyaasBTyONLGH17EGXcimgnRbD7L0mkVqBfhk=; h=Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=Lthut8zt00DIcSg2xGa1PPIa5fmmpzflHELXhKuxvuRqMy7BcQF4MpZbC6YX6ISwJZccLPbNe5ZONeu+9UCOitrZQR+7UgzTwbECznmcs7YEZziEqYlj0DkyVi9v3hv8iR3sY9Kcpa9DQIu/lDDgW2DMdYTrB2Tyf2vuZmlVSJaUTnZLakMLshuIeHaZ1ES6GhOkx4tH6BOidO0yBP0zWonAFk652ZCeaz5/h6AnkYWPTFBLMNBZeYq8eERgQWofpZDsgnGjp65JYAvThJUiAXJb3IZcpnvl6UpuI8D+dIegZfx+IVKoGbS8HeOnO5YEdx23qF90cK201J6NvKogWg==; s=purelymail2; d=purelymail.com; v=1; bh=auD0LBcyaasBTyONLGH17EGXcimgnRbD7L0mkVqBfhk=; h=Feedback-ID:Received:From:To:Subject:Date;
-Feedback-ID: 1246644:48769:null:purelymail
-X-Pm-Original-To: linux-usb@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -668540338;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Tue, 01 Sep 2026 06:58:52 +0000 (UTC)
-From: Arka Mondal <arka@arkamondal.net>
-To: Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Matthew Dharm <mdharm-usb@one-eyed-alien.net>,
-	Daniel Drake <dsd@gentoo.org>,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	arkamondalofficial@gmail.com,
-	Arka Mondal <arka@arkamondal.net>
-Subject: [PATCH 2/3] usb-storage: alauda: check the return value of alauda_read_map()
-Date: Tue,  1 Sep 2026 15:58:30 +0900
-Message-ID: <20260901065831.43567-3-arka@arkamondal.net>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260901065831.43567-1-arka@arkamondal.net>
-References: <20260901065831.43567-1-arka@arkamondal.net>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="USaqbKSw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jGS7SD5eGt5q0vvb6txkVP2Ma1VvbNzll0A7PBvOgZZz3w/UaWsR9NNxTT5S/A6XnpnSSsXDUntrQtaR24n2t4ubh0Sj3G90En/k+bejaV9JD5XzOSUvFcSmvdntEZ9dCHf/EyCgDiHAz2+q1HhuOG1ty+Ag3+V3PRxHyw0k1xFfQ2nCa7I58P+tukx6WVYboNJ1CxN7F82/OfnQD/I3bTBcAx+fUgH7UfMiPCRvNoXK0y154FWbkMi+Ojb+av9853ls4nkKNYry2ooYUCtTGvKnau52dQCSaZMN9h2/n5Op2NQOo3PnYhQqr4DdeIL4rzZeuxB/dUu6MG1zNyG3kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dXkcpHwZuyiwHzWPNkF4HSa74rmlBAPJ/1Av/5KalY8=;
+ b=WcQm52uWjXbwSsBNZ8GDceX8sLAx7+t4chB86t/Oll/4KDTophtl3eQCwJ/33tO8Y7VP3tol6QHT45+xztANO2QFuipdwRGs3BZaWnXNZKWDMaVIJ2OIGtWPO3L6Ny51wyxdI0TjW6VxObZjEzXuZ9D4GNH8ziH7WWzvosLAv6J/5rMftKMWTfLOt21T9pDlKIsLbwNJXQJcEB73yEnHqqJbPqbKyDjOThzHWJym2+Eq9QyDlFkjO5BOzMtfLZs4kF7hfADoagrAh6SRBWy8gfJ6tZADgmQuQTSQg4b9WrtgZuij75AwR8sA+BxJswrgqTO7Vbe6HB9vNSsmDTRumw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.87) smtp.rcpttodomain=oss.nxp.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dXkcpHwZuyiwHzWPNkF4HSa74rmlBAPJ/1Av/5KalY8=;
+ b=USaqbKSw9nWLhbffssfdekSvyndOCX/94FZXS8k9q8JSPPysHRLEWoxwHpuzm+GvfpWd1edgKnidV8YslNpfry3iu3pgAbLnSQZ7L+1pwY6Fr6hS6LcPOB3OUPLeQS7Y2lMFjsO3StZ6r7es/SVnlsxrsGllCSWLSi6C+l7z4QUav8aZP7nmFp0cD5CDFq3ZioyZIJWWg3MffRs41FlvEJcAXTXqOVM0N0ui4QBrRoTrLtNn6gLYxjSm7U+wCaHN6k4bc2f15uBkeLyb8T+irRL7YSbAcLYf3DXlcT9hXqGP7FzYKxNK6FiY1Psn8icTU/DpdqSaNBng6Y+g42DnBQ==
+Received: from DB8PR04CA0024.eurprd04.prod.outlook.com (2603:10a6:10:110::34)
+ by PRAPR10MB5397.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:291::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 08:02:52 +0000
+Received: from DU6PEPF0000B61B.eurprd02.prod.outlook.com
+ (2603:10a6:10:110:cafe::99) by DB8PR04CA0024.outlook.office365.com
+ (2603:10a6:10:110::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Tue, 1
+ Sep 2026 08:02:52 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.87)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.87 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.87; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.87) by
+ DU6PEPF0000B61B.mail.protection.outlook.com (10.167.8.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.8 via Frontend Transport; Tue, 1 Sep 2026 08:02:52 +0000
+Received: from ENXDAG1NODE4.st.com (10.75.129.197) by smtpo365.st.com
+ (10.250.44.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Tue, 1 Sep
+ 2026 10:04:49 +0200
+Received: from [10.48.86.251] (10.48.86.251) by ENXDAG1NODE4.st.com
+ (10.75.129.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Tue, 1 Sep
+ 2026 10:02:50 +0200
+Message-ID: <ee0fe8e9-4166-4fd2-a872-d45ca7af0612@foss.st.com>
+Date: Tue, 1 Sep 2026 10:02:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: usb: gpio-sbu-mux: Add compatible for
+ FUSB340
+To: Xu Yang <xu.yang_2@oss.nxp.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, "Heikki
+ Krogerus" <heikki.krogerus@linux.intel.com>, Marek Vasut
+	<marex@nabladev.com>, <linux-usb@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, Conor Dooley
+	<conor.dooley@microchip.com>
+References: <20260826-usb-fusb340-v1-v3-0-11927682504d@foss.st.com>
+ <20260826-usb-fusb340-v1-v3-1-11927682504d@foss.st.com>
+ <c6pnde4lh44kwx6a45wtx7rsb7liam253disb7kg6e4brtqix6@3gcv4wmab5ag>
+Content-Language: en-US
+From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+In-Reply-To: <c6pnde4lh44kwx6a45wtx7rsb7liam253disb7kg6e4brtqix6@3gcv4wmab5ag>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To ENXDAG1NODE4.st.com
+ (10.75.129.197)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61B:EE_|PRAPR10MB5397:EE_
+X-MS-Office365-Filtering-Correlation-Id: db5e0b3a-6dcd-4a5b-cc12-08df07ff6c42
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|82310400026|7416014|376014|1800799024|56012099006|10067099003|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Cq/i3JpYSeCNBtiO9sf3FBDV1iBOinIXe/XN14qiJ8AONOUHqwPfdpflu3wuK89aG54SvPP/C/xg/M+ldF7e4FuY05xenoBKsn60Y+E3ihosMrUaSu0bXMsVFdC2YxyV3eT2DLI83VBTeUpnQ+Pxnaidl6B6nIPG01SOqPPsmAK3YG0S01CCsRf0uJYJzwe9F2JOKy+cXhDLOiBOBFI8iJkXi9F5qdS9LQGBvNApjqV5TeQXSpgT4kWBntVL2ot/3+/UBHWrJjUqkzuEjsZfFg0ToZC3jifRokPimFDrFSN2gUGmHNq8P+6FcCu8W/C5sJnOhKgVf+Zhpf67bJVewZK7Nrlv0jhdX+o0PiauqlvgktwgvvNLcPdbgzYSNgWpHYhnGmRa7Cr+PcccTvtMutF0ZQbRnEPdpyvE7QLicPuyU4tdH7KyUsCQscVcNKR9avDzP1AfI3veo8Vj8Vx4AnhoKe2Yqeo0mZELYVNscwysL1xGrrE+oi20Yas7E3wc+xG9vP6Vkkd7cggkJcIdUEnPWlCFlhN7Mm1pepcyUK0rRwlHKou6kAkgMBNWxKCwW+leH5sJKeWKQGO8QiB/vklyfhdeoTVxsEGXIiu7FTnfgI73p4Q7v98hauSzu+xoyrqczpgf5GAXmCf9Ft57thKwqbrIG0eYRuL3LQTzZ1cJ/4ueYuyWuGypXRyoPDs03THq0dshkYH/hjgm2BJllg==
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.87;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(82310400026)(7416014)(376014)(1800799024)(56012099006)(10067099003)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ET1olM3vPuheFHI14j1RmKV931qKsn10FrBg/p8/V7y8jNvJpyVPolHxyg3KMT2etvx5u19I/f/myf7B4iBjQEzwg7FPuWUCYqGDspKNypY6MKPukh6ptanBRBOJRiIh6uRWVykF/vfdeB5gKXWBlTY9rFHxUz09XZGIvpOU3gI4TxQ/wvFXtWzGHXu7yT/FsYephc+7C3VzIz8lP3pVpjvAVyziPdXhb+rMMqSDoKkCK/Uk7bEZ/FlzbTC2FHcTapD0QuVCdZViFPvwjF0RsX8rn5UgE7M2gpoW92F9Xn4CyV4RU1zSuzj/8G3N3qVC8Bd2z/wQOC/XB2ogOhEeNGOiMgc+pk906ZDhLDC9+th2d4Xjw1cz9kdlyVxJFvRijHI4w+PbcLCnz3h8n/2KXtjEDWGehaw8kQUbnQq7hppys9ivHb3CjJV78asb4BKN
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 08:02:52.3105
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: db5e0b3a-6dcd-4a5b-cc12-08df07ff6c42
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.87];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU6PEPF0000B61B.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5397
 
-alauda_ensure_map_for_zone() ignores the value alauda_read_map()
-returns. On failure lba_to_pba[zone] and pba_to_lba[zone] are left NULL,
-and both callers dereference them immediately:
+On 9/1/26 08:31, Xu Yang wrote:
+> Hi Fabrice,
+> 
+> On Wed, Aug 26, 2026 at 02:16:35PM +0200, Fabrice Gasnier wrote:
+>> Add a compatible for the FUSB340 GPIO-based 2:1 SuperSpeed switch
+>> with enable-gpios and select-gpios controls. The switch can be used
+>> in Type-C applications where a reversible cable requires a switch.
+>>
+>> Suggested-by: Marek Vasut <marex@nabladev.com>
+>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+>> ---
+>>  Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml b/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml
+>> index 793662f6f3bf..c0e60848d8ab 100644
+>> --- a/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml
+>> +++ b/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml
+>> @@ -22,6 +22,7 @@ properties:
+>>            - nxp,cbdtu02043
+>>            - onnn,fsusb42
+>>            - onnn,fsusb43l10x
+>> +          - onnn,fusb340
+>>            - pericom,pi3usb102
+>>            - ti,tmuxhs4212
+>>        - const: gpio-sbu-mux
+> 
+> To be honest, the added one is SuperSpeed Line switch. The gpio-sbu-mux.yaml
+> describes SBU line here. They are different. Should another compatible name
+> be created? Such as gpio-ss-mux or similar?
 
-  pba =3D MEDIA_INFO(us).lba_to_pba[zone][lba_offset];
+Hi Xu,
 
-alauda_read_map() returns USB_STOR_TRANSPORT_ERROR when either kcalloc()
-fails or an alauda_get_redu_data() transfer fails, so one failed bulk
-transfer is enough to reach the NULL dereference.
+It is very similar to other parts supported here already (see tmuxhs4212
+datasheet). I don't understand why another compatible would be created ?
+And other properties in the bindings indicate the purpose, e.g.
+mode-switch, orientation-switch.
 
-Return that value from alauda_ensure_map_for_zone() and check it in
-alauda_read_data() and alauda_write_lba().
+BR,
+Fabrice
 
-Fixes: e80b0fade09e ("[PATCH] USB Storage: add alauda support")
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217862
-Signed-off-by: Arka Mondal <arka@arkamondal.net>
----
- drivers/usb/storage/alauda.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
-index 878c404106c5..d47ce01d519a 100644
---- a/drivers/usb/storage/alauda.c
-+++ b/drivers/usb/storage/alauda.c
-@@ -697,11 +697,13 @@ static int alauda_read_map(struct us_data *us, unsign=
-ed int zone)
-  * Checks to see whether we have already mapped a certain zone
-  * If we haven't, the map is generated
-  */
--static void alauda_ensure_map_for_zone(struct us_data *us, unsigned int zo=
-ne)
-+static int alauda_ensure_map_for_zone(struct us_data *us, unsigned int zon=
-e)
- {
- =09if (MEDIA_INFO(us).lba_to_pba[zone] =3D=3D NULL
- =09=09|| MEDIA_INFO(us).pba_to_lba[zone] =3D=3D NULL)
--=09=09alauda_read_map(us, zone);
-+=09=09return alauda_read_map(us, zone);
-+
-+=09return 0;
- }
-=20
- /*
-@@ -849,7 +851,9 @@ static int alauda_write_lba(struct us_data *us, u16 lba=
-,
- =09unsigned int new_pba_offset;
- =09unsigned int zone =3D lba / uzonesize;
-=20
--=09alauda_ensure_map_for_zone(us, zone);
-+=09result =3D alauda_ensure_map_for_zone(us, zone);
-+=09if (result !=3D USB_STOR_TRANSPORT_GOOD)
-+=09=09return result;
-=20
- =09pba =3D MEDIA_INFO(us).lba_to_pba[zone][lba_offset];
- =09if (pba =3D=3D 1) {
-@@ -980,7 +984,10 @@ static int alauda_read_data(struct us_data *us, unsign=
-ed long address,
- =09=09unsigned int lba_offset =3D lba - (zone * uzonesize);
- =09=09unsigned int pages;
- =09=09u16 pba;
--=09=09alauda_ensure_map_for_zone(us, zone);
-+
-+=09=09result =3D alauda_ensure_map_for_zone(us, zone);
-+=09=09if (result !=3D USB_STOR_TRANSPORT_GOOD)
-+=09=09=09break;
-=20
- =09=09/* Not overflowing capacity? */
- =09=09if (lba >=3D max_lba) {
---=20
-2.55.0
+> 
+> Thanks,
+> Xu Yang
+> 
+>>
+>> -- 
+>> 2.43.0
+>>
 
