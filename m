@@ -1,142 +1,163 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC7E3E0226;
-	Tue,  1 Sep 2026 02:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2988B3B7B98
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788229434; cv=none; b=sw8qo0v5f4blE1nsxodE5dPLcIUnr3m8foFHttf+jgs4GoRMbRglR3TB1Ta4h9ENmX05GRQTRpfPC++x63aFaGRuQtQOCwKWBjEXuHwAxGDUeFCjakcL3vOsKkbrJV3fBsAx8dZBnuJxoHmJZiHN1Sk+ZkzwcuGnAwHmE7OcU+c=
+	t=1788229681; cv=none; b=MZvrUtNIcVZw0yhlzqf1+knIObodQ59TYzyKCCM0Axz3XpqeneGSaeoZsc01+T0IWF5OyH54+tsTG9RL8BLMXcwgkcbQsDl6V02lx/tNgo4L/+PBMD5T35hJ5h9zBLiWQ3Gbame2BhpsTKVVFJuu15jLjQAReUY8Dy+AOl2nmYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788229434; c=relaxed/simple;
-	bh=G5LStabB6QFZAEcVXe1wEuiL6AHkuvKiHkHlL8uWhJU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S79JU1ffIDJWZo7wIjUNMtHtOhusCpp7i0xqAXQdqX34qqKJRFtYZNEL9anSSpGcA49C4pXoRD8KAU9b70LZVcO1ZxPxxj9qbsGTCltrXnZtln8cWKFrMrjkASdrx63fmy1rzBaU1lKHJ0ET0UzQlWpvheUcEQduOP//K32pK64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=SuJSgSF0; arc=none smtp.client-ip=162.62.57.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1788229681; c=relaxed/simple;
+	bh=aJOqvp+m9yw8vXbrKDLmTt+ksd0xUEQcYggk/0JrfpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bXffWoBZctU1YliqJ4VEQ7H/i+z5GVck9tMMUyC2QolU6pGhqVxNgQFgD7NnzBMw9QGBbVp0VVF9KYYk0lbR94vkVaNd7EYPw5Q3/5ZFjPoe7xkyJJxgeCMRlrKQlDFrdpVXLTcplhYKvrHsFXrgyDjVFIQZ9PcegnO7N2UeZ2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0zBt5TY; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="SuJSgSF0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1788229419;
-	bh=pzB3KDZulVd+nzo52v/rACjbHkPYGX06Xhx2sDcIlww=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SuJSgSF0soOHG2fJmlBcMl9vKVTveY7F8+3LTNx7mUX1rkBe8RUT2M/AUkD50nnmP
-	 jFamAC5orMK7XZhIAF/hkjUNt+vfiDeVxZWgPdyvwUBaQBo++95b6LhdUZVDjo/4D2
-	 IRvZ4QpnUupACvC+mihacpU+TNRNahFMm9mh+7po=
-Received: from [198.18.0.1] ([58.206.203.238])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id 5E3B2C06; Tue, 01 Sep 2026 10:23:35 +0800
-X-QQ-mid: xmsmtpt1788229415tq2ulc4af
-Message-ID: <tencent_C444940C7B88A72DCEEB870BD216AC46E705@qq.com>
-X-QQ-XMAILINFO: MhK4DKsBP06iS7P+2BwIP3GnqEJgsG4FOkervFDtKNiCECp74twMj7FeA4ZTvv
-	 ql8b/5625giyA9V8rIcIjhDW4Ijey4e9nDOtKoEZKSx0ZO3D2+g/MD2CBLqr3KzcHciWxL0FdJjf
-	 ofzqvNILpjVdsIAaUR1hfs4/ecojEyiIEX3NnP4eTGosvM57HD2I41gvxtXYRAn1O9cfebMyuuDa
-	 nq5ljcF12wZjKYpVxd9gkLWE9NzQSob8FzPARv9oan/QjIasNot+aJ8jCNbCdkRtj5pif+JTr1fz
-	 6jB89/ZtjaMfsgEfSf+IfghhHIOAO9kb0HBoL+UNY6GoOjNqqpMA6WulJoETrmLy0ojEWBsEmduA
-	 Dj8YUi8YsK67rVHixWeMsEIDJ2SY87d7KTyTlsfB6pQXNlDFSkdDFAbntTgIj61h00ImTqz3yNr4
-	 AmZtc2D9WXFDdgda4nf23e6/U5h9Dw+XaH5RNFSLUyZPs3pyHOtD5kQL042UiQdIstAI6CnM2Gl1
-	 FulL13QO/aKScQEypBXRTP2o5g0p5m4lmd21ykbRTY3yJpHYPtLkniXHSRmPwpye+R+CUYcHnDxB
-	 gtEpzHoqsXU32L+5H270fN+cQvp9Qdgt3qrRnbPy1ga5zZxpQ5ksTOEgh5bvhbsSHNAN8+p07YKC
-	 bm76+yRMERNYHX+7KipD/X3CcFHQ+ZtFVjEAz1YwL7twP9QgFuAx5mbqKf/NRAp9B/TpunmjKocs
-	 tWziRBERV/KZX0sKlPj3e8+CVqjBdUet7cJUfqmLFvJLo7ld++07bdDTn1oJcv8KRotOK3PAv6GM
-	 ynZEunosk+jF1It3l613fyTQvNgtWFgiDpqxSknj4hGg+7FUxrROHh/g+/tkJ98xT3HpWJx7jJYz
-	 DCbaXZ6U8bvAG7U8/5VUOzyT8/phDIoXnLwK5vZ1OYzNeE6vL7rLq9hVWCGbsRc8URyRjW7zqS+H
-	 AB/34sW772xTmrp7NVE2IFY+Je3zlhufpVdW9PQTysl/9yi5qJVEPCriu6DirMNbrF2QvEV6eyRn
-	 m9HQm6JDBQjXi7Y2OrnAPQfAvlaoHUwnVNqEtLNA9KUr4hF+4f
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-OQ-MSGID: <457e58b3-b52d-43d4-bf5c-1a1827ce4202@foxmail.com>
-Date: Tue, 1 Sep 2026 10:23:33 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0zBt5TY"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc1cb472b76so3877552a12.0
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788229679; x=1788834479; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Qf8oy7qaKirN8ICo0JJ6d8Lc9hgixjHXp2cKregM+M8=;
+        b=g0zBt5TYnDRL5qcqS2VW07ENseaYnoz4qKCtmNrVWYHtQawo4YqborPZAt1kFU8D5d
+         u8LCoJyEZ9s26Zhp47wWUsqUwjtJa/BqOsNJDXHQhmnU4lu5XExJ+75DSbOlkFJLwsXC
+         JTMYd5tZXaofPQHZeIS8Tk6SFUvkd4AbqVB7vStz0uhfaELLkaOijL5vJcOoZIZ8o0Hf
+         AJ1uUz1DZz+D0ri3W0Z+pvS13yQ3ocW31FL/oRHVPzdAMEPYemdOc6dPjEiXqBhAWYce
+         ymTe0SfCuutAiyjYaDxR47LZwESRBnNhdyEGpIS/ME/y1v38vXElJALggNqALaQea3rC
+         7Knw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788229679; x=1788834479;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Qf8oy7qaKirN8ICo0JJ6d8Lc9hgixjHXp2cKregM+M8=;
+        b=fREeoIG6A+V2arLYO3W9ntZTtF1Dif72KKCW9QHOQivl5e9eBA9aRCtrkVifDfmpjM
+         6DGEjgVwc69OrelPHzuqOFCUqGJUwXdLBQHhvDu9OS9sFnSRwszkL80kt4Y6MxDhjTru
+         21Ritf/u+wADiQuJdBIqYv6hEdqx99HWld4//il1h4yjd+aDSFWMZrqG/+Ar3UHqgfi2
+         6fHG2FGOMApG43jikFLRIF1McLHkGoSYz6fuB43MNzqILu2LKWFbscNTot78fReaEP2M
+         VU7omnhlgVpxFIGrTzHJv25b/hge/CiV3Z2moXfFJKH9z5rLnyFY4myWR8UXYlqpvm7/
+         2qzw==
+X-Forwarded-Encrypted: i=1; AKwUvBxjVQ7BXOoah6sWfAVLS6i5ERTnNBjf+fgQakybUkuXbWP41Fe0vYzh0w00c5aur9W8Jik8UsanO/4=@vger.kernel.org
+X-Gm-Message-State: AFuF++kWn7Vei98pIjv9qZjP54wo5ROHNLTxur+bbjzwwNUFacybnZoh
+	UMmOCJF0i6aTWZamBxoruCwYkgK9/gDPKUL/QGryQ+BguAJyJywImukcERS9tMBU
+X-Gm-Gg: AYBFou1Zf+qExxvXqPjtYiK1pn0XTCOjSoXYndm3itOgbEdS/kQHvpHT6+G98n3K8bU
+	YQzabSpBqKeWqfeaGdLd9CWoz32hmKY/11vUfnxJj0d86HkBY2EkSPTJQ1u6Wlz3XBCUaONFSCm
+	1jIl3U2zoamhKmvXqFoXvARYGMy4eHM2kmeWR8c11LAmrFSBxhujIcT7nT/Y5bYN69PONriVxHd
+	KP0q15BeuXAYfc6tu494Bc93ptN1zHg9E7BxzgR6V3cI/S1x0zwlaW8DGgednJ7FzNGPQnPGLMO
+	xWQ5uYoovONlhPKrvUp1gdhScPg7BZxbDbuFnvB8j0YZNR/x+EjD46J/QoaOaBoDIyyaHntxTxt
+	1rO/64pDex5bTZliUMCXgsvKd2498opZBSrujvM759AV9+TqIPcdkgOY3PL8CqZZ6bcjJMHskcW
+	h8aqKSzfNeJ3VoRusimBJ/qsgEujZC0bmsJFznl3xe2Dnhx/Tav24ArL+n7r55Pe/bouxM6ES2e
+	UsrT0epZ7tzOu22
+X-Received: by 2002:a17:90b:3f50:b0:381:a766:efc9 with SMTP id 98e67ed59e1d1-396d0df72e2mr45995759a91.7.1788229679378;
+        Mon, 31 Aug 2026 19:27:59 -0700 (PDT)
+Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d802787sm2997055a91.16.2026.08.31.19.27.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 19:27:58 -0700 (PDT)
+Sender: AceLan Kao <acelan@gmail.com>
+From: AceLan Kao <acelan.kao@canonical.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] usb: typec: ucsi: recover from silent PPM completion in sync_control
+Date: Tue,  1 Sep 2026 10:27:54 +0800
+Message-ID: <20260901022754.3102934-1-acelan.kao@canonical.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] usb: gadget: goku_udc: move debug output to
- debugfs
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Felipe Balbi <balbi@kernel.org>,
- Peter Chen <peter.chen@nxp.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260826-b4-fix-usb-v3-0-b28366e817f3@foxmail.com>
- <tencent_D7673CCE71B03F2C90CD60873AB4A245D808@qq.com>
- <2026082632-blank-thyself-00a6@gregkh>
-From: Cheng Lingfei <chenglingfei@foxmail.com>
-In-Reply-To: <2026082632-blank-thyself-00a6@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/26/2026 5:27 PM, Greg Kroah-Hartman wrote:
-> On Wed, Aug 26, 2026 at 05:15:06PM +0800, Cheng Lingfei wrote:
->> goku_udc exposes diagnostic state through /proc/driver/udc. The single
->> global proc entry collides when more than one controller is probed and
->> triggers a proc registration warning.
->>
->> The data is intended only for debugging and is not a userspace ABI. Move it
->> under the USB debugfs root and use the PCI device name for a per-device
->> directory. Create the file only after the UDC has been registered.
->>
->> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Link: https://lore.kernel.org/2026082616-glue-atlas-0cfd@gregkh
->> Assisted-by: Codex:gpt-5.6
->> Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
->> ---
->>   drivers/usb/gadget/udc/goku_udc.c | 47 +++++++++++++++++++++++++++------------
->>   drivers/usb/gadget/udc/goku_udc.h |  5 ++++-
->>   2 files changed, 37 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/usb/gadget/udc/goku_udc.c b/drivers/usb/gadget/udc/goku_udc.c
->> index ac2a984c2f87..5ad8633f522b 100644
->> --- a/drivers/usb/gadget/udc/goku_udc.c
->> +++ b/drivers/usb/gadget/udc/goku_udc.c
->> @@ -20,6 +20,7 @@
->>   // #define	VERBOSE		/* extra debug messages (success too) */
->>   // #define	USB_TRACE	/* packet-level success messages */
->>   
->> +#include <linux/debugfs.h>
->>   #include <linux/kernel.h>
->>   #include <linux/module.h>
->>   #include <linux/pci.h>
->> @@ -30,9 +31,9 @@
->>   #include <linux/timer.h>
->>   #include <linux/list.h>
->>   #include <linux/interrupt.h>
->> -#include <linux/proc_fs.h>
->>   #include <linux/seq_file.h>
->>   #include <linux/device.h>
->> +#include <linux/usb.h>
->>   #include <linux/usb/ch9.h>
->>   #include <linux/usb/gadget.h>
->>   #include <linux/prefetch.h>
->> @@ -1050,9 +1051,7 @@ static inline const char *dmastr(void)
->>   		return "(dma IN)";
->>   }
->>   
->> -#ifdef CONFIG_USB_GADGET_DEBUG_FILES
->> -
->> -static const char proc_node_name [] = "driver/udc";
->> +#ifdef CONFIG_USB_GADGET_DEBUG_FS
-> 
-> Why do you need this config option check anymore?
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
 
-Thank you for your review. This driver follows the existing UDC driver 
-pattern (e.g., gr_udc.c), but the additional config option check is 
-unnecessary here. The debugfs subsystem already provides stub functions 
-when CONFIG_DEBUG_FS is disabled: debugfs_create_dir() returns 
-ERR_PTR(-ENODEV), and the removal helpers are safe no-ops.
+Some firmware completes UCSI commands and sets COMMAND_COMPLETE (or
+ACK_COMPLETE for ACK_CC_CI) in CCI but never fires the ACPI notify that
+would wake ucsi_sync_control_common().  The driver then times out after
+5 seconds and returns -ETIMEDOUT, even though the EC finished the command
+successfully.
 
-I'll remove the CONFIG_USB_GADGET_DEBUG_FS conditional from this driver 
-in the next revision.
+Fix this by polling CCI once via poll_cci() on timeout.  If the relevant
+completion bit is already set, the EC finished silently; fall through to
+out_clear_bit so the normal read_cci()/read_message_in() path retrieves
+the data and ucsi_run_command() issues ACK_CC_CI as usual.  Only return
+-ETIMEDOUT when the EC has genuinely not completed the command.
 
-I also noticed that several other UDC drivers still rely on this Kconfig 
-option. Some of those checks may be redundant for the same reason, 
-though in certain drivers the option also guards debug-only state or 
-code. Would it be worthwhile to audit the remaining users in a separate 
-follow-up series and, if none require compile-time gating, consider 
-removing CONFIG_USB_GADGET_DEBUG_FS entirely?
+Guard the poll_cci() call with a NULL check: if a backend does not
+provide the op, skip the poll and keep reporting -ETIMEDOUT rather than
+dereferencing a NULL function pointer.
 
+Fixes: 584e8df58942 ("usb: typec: ucsi: extract common code for command handling")
+Cc: <stable@vger.kernel.org> # 6.14+
+Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+
+---
+v2 -> v3:
+- rebase and resolve conflicts against v7.2
+- Invert the post-timeout completion check so the empty "silent
+  completion" branch falls straight through to out_clear_bit instead
+  of being an empty if {} with the real logic in the else, as pointed
+  out in Greg's review.
+v1 -> v2:
+- Add Cc: <stable@vger.kernel.org> # 6.14+ as flagged by Greg's patch bot:
+  the Fixes: tag targets a commit already in released kernels, so the fix
+  must be nominated for stable.  Scoped to 6.14+ because poll_cci only
+  exists from that release (absent in 6.11-6.13).
+- Guard the poll_cci() call with a NULL check to avoid dereferencing a
+  NULL function pointer when a backend does not provide the op.
+---
+ drivers/usb/typec/ucsi/ucsi.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index bef3f9b71d718..0363ed127a567 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -92,8 +92,28 @@ int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
+ 		goto out_clear_bit;
+ 
+ 	if (!wait_for_completion_timeout(&ucsi->complete,
+-					 msecs_to_jiffies(UCSI_TIMEOUT_MS)))
+-		ret = -ETIMEDOUT;
++					 msecs_to_jiffies(UCSI_TIMEOUT_MS))) {
++		u32 polled_cci = 0;
++
++		/*
++		 * Notification from EC did not arrive.  Poll once to check
++		 * whether the PPM actually finished without firing a notify.
++		 * If poll_cci() is missing or fails, polled_cci stays 0 and we
++		 * correctly report -ETIMEDOUT below.
++		 */
++		if (ucsi->ops->poll_cci)
++			ucsi->ops->poll_cci(ucsi, &polled_cci);
++
++		/*
++		 * If the relevant completion bit is not set, the EC has not
++		 * completed the command; report the timeout.  Otherwise fall
++		 * through to out_clear_bit, which reads CCI+data normally,
++		 * and ucsi_run_command() will issue ACK_CC_CI as usual.
++		 */
++		if (!((ack && (polled_cci & UCSI_CCI_ACK_COMPLETE)) ||
++		      (!ack && (polled_cci & UCSI_CCI_COMMAND_COMPLETE))))
++			ret = -ETIMEDOUT;
++	}
+ 
+ out_clear_bit:
+ 	if (ack)
 -- 
-Best regards,
-Cheng Lingfei
+2.53.0
 
