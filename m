@@ -1,202 +1,406 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A53476CD0
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 10:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03493815E1;
+	Tue,  1 Sep 2026 10:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788257635; cv=none; b=hUG9iBpyctMzqz0LxxksVL9F+ZCvr6fgKavb3xoAzDDdvsdzFLRTt9QfF6vYXTEGQbdPDOANCnZPl74SeHK17BRB1Ix2M2M0XPeA5pTwKE/nWlNw72DzuAQuJkON1SfpcEA379/N30Woh82wJJJFqgTuCAN8uC55/bPNVOb6Mp4=
+	t=1788258049; cv=none; b=C8p24CD8qa4hVwJ67aybsrEUMgYge8xm36OJ7bOYmMlVivWIlaZnQo9ESpWcAoU/HmHGIB6i6iXduVEqgnshdGgtBCJ/f+AFH91C07DNm+LtyUOz5/07mzBGwBMNOW5HH0FStkhCqg/Y/ylV3d42Wx2WASb2t8LgJHwtomndo58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788257635; c=relaxed/simple;
-	bh=vRaD2X2xcCDuIb7uPDzMrYCycckWIwEhrOsQLCzY4gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iFd1jokNHspQ1G8miU6YIaPX7g6s6/Wgo1b9hDEwOJnvQU12O8ltZyjwOmkfwBOG2MOnY/6I+9y4iD3A9IGj6x0BLlsRJi8v78x/isUPOu1RqyjwwrL2B/u9tkKnP7pUjYv6OVZIw8dRnk8QirZH6VMwQy3N2hJZ2Uwjidt5Ye4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=APqieEQp; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788258049; c=relaxed/simple;
+	bh=bH/cyuEmH8e42aHPDwxlQ95WZHFNp6qYvd4pHWTgC2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIMM90o/t27gMZ9Ei2qHcp9WldnnnTb9CPHW25dTPKEXkwvl8eTHia3ogeVd9sqd0gdOyWKFk+RE+MXxxkvV1dyCadnvfFmb/cCRkTsQaugdOduB/16qZMva8hmkKRugtSk3TFjmwh5dj+xPikD0JI8AJPdBuM/R1Y63dTDnqa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y030m2Uk; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APqieEQp"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4956869750eso30784765e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 03:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788257631; x=1788862431; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pGMhkf3RCMEctq3umyHGO3MvdxWxMBbojsHlqXM+5wA=;
-        b=APqieEQp6y/pDSLkyyFvsLRHl6q9sC4Tr9EFLRo3oTWYbayTZQAe7J7PUnSc3jxj7m
-         WWz2ux3RjctnjGgMotx4ePkqveVvOQb0jpnNrMxFQCylUT26Ai16WBvqMnIGohTLKQVH
-         kds4HhjdxvxIcXqVHfk4F0OrJxJP1S3n3GZDAFVvYuiBSggLUqsz1pdCeBcizHS7HZjz
-         w2a6heWN96qF2anyQUx5mCIMBqDZXManH365MvdNLWw5zEEplk5gtkLX2vSFX5Nih0r1
-         U7CU2m2qxCeDMCKiONjqCC8AC0H4EPc8iNbhhsu3a1OOt5e1ZEtMal1VSA5BroyLkHfC
-         8kMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788257631; x=1788862431;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pGMhkf3RCMEctq3umyHGO3MvdxWxMBbojsHlqXM+5wA=;
-        b=s3g/+Cioax6lsFHimNWIp54q6nyVarooVFOMnwC7iWXgVvlXN6R0pnM+vExXd0MfMB
-         ljQG+Zq7mZ3aH7mystXP7zcgOYNqZBAzCtzCaR+WcbBnxcBBxBa8B4cO/gIGErNRiA9+
-         0yXu1vznv46vNJ+1bXOVGEjeWT5oYZV+iuPALfj67ZvYK9oObU04XWP0PSoe/acVuVim
-         2M5hdjjPWyp/EWlxyiei5OCVPiUFdv+WDoeUgBeTv09VDkzk3gsKRoGmNBVg9tyzP/is
-         TDrKqtC5EJSOVjdVAsNJiVRisEd3jOqo27p7kPcMG29qk0zPwWaTW6Xx3vDoMJLIj1UD
-         jMdQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro4r/xdAtUrkrub91lBGIdPMhBLRR3xtJ89S3QWTdaFFtK/GamYA+uY7pIxq074rIgG2fDKnKHr2O8=@vger.kernel.org
-X-Gm-Message-State: AFuF++l8DoBMx13ytyqGAC8ftUzGHY0v5eTSFlgHPX6r7qbkdcg0b+6f
-	P/DSMWC8o5nhKmfqYdTXJdc1JFMox1wp1eYLvMQmvHv2e3eC9qcooNqt
-X-Gm-Gg: AR+sD12/6rMhYfMgtM5teJyX0h2btRc9ATVNKjdvQRdbNAoqCF+x+bvkZadymVdzl41
-	054Kdqu9trZ9FyECqqhSXFdGgHaXKlQwERj0lJGihVliDHecaN96ZKp40Hxhcm/xRvVkUNjddMx
-	5rYMMZ9xoyL2jIKQjnTv2yQ+z5I/lQBoI/7qA25d5uwMwX+ARVF+BJEoQsYTrm4PhugbTuxKnQT
-	t2Lw11JSzweDIkuOEvvB8JggVcWDjY5cS9aGm6y8WXCjWodUet8FnS17EjkC5zwAeSiuXeRow2n
-	meq/VkoLfKtJF9h35o7kq3r0FfOlr5LxB9RVc4E++m7cQISysvuHp1ivv0/gDln7qUWCnbzaWIx
-	reZJabVRHWc9D2I2y/QqNGBgOVgFYUsGr7EE8/RPE8avy6m1fAZftQAz6cuTfaS9oOM9KT2qp8T
-	FStlLwQwBl2sdyrIfssM8AXolcaW04HDXRet7Zze96CIXWeF8FPivKoLps3zgw8kszGmmukoTRX
-	9hQ/w==
-X-Received: by 2002:a05:600c:c494:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-49b91c486c3mr408787555e9.14.1788257630883;
-        Tue, 01 Sep 2026 03:13:50 -0700 (PDT)
-Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdcdd5f5esm54249965e9.0.2026.09.01.03.13.49
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 01 Sep 2026 03:13:50 -0700 (PDT)
-Date: Tue, 1 Sep 2026 12:13:43 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Rishabh Jain <rishabh.jain1198@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Mario Limonciello <superm1@kernel.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v3] usb: pci-quirks: always assert xHCI OS ownership
-Message-ID: <20260901121343.22786f2d.michal.pecio@gmail.com>
-In-Reply-To: <20260831211126.23745-1-rishabh.jain1198@gmail.com>
-References: <2026083129-justice-egomaniac-01cd@gregkh>
-	<20260831211126.23745-1-rishabh.jain1198@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y030m2Uk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788258047; x=1819794047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bH/cyuEmH8e42aHPDwxlQ95WZHFNp6qYvd4pHWTgC2c=;
+  b=Y030m2UkkQ4/LsdYEhyQkKLxGdRtB2MvmUZtf1UeWWm/H+kNfsMektvL
+   iZX4YnJaYd/JRH0Cw2jqAikdiThQlxPp/ONvGHZH82yPyIutbQ4Azysx+
+   997FN1AbbKAm1MFMrWmPeAWpeuNuIgTbaDd8/nYymoak2gSWF7j3/0CrR
+   yS8sgiBqtidRFhyvMW88egAL8xiS2z9VmaY5c1PeZJGH7bYobFwRppuLi
+   lWxgTu7igZwdpNad+GLOidQmU950ZgZW9JyH6L5XQHEinAz79HC3OPUP/
+   fZJJH2PCYBGb7bsGwWiypSL63nayfflROKIMYdXA7VsfOhRbz58iES/19
+   A==;
+X-CSE-ConnectionGUID: 7lFc5RQlQSyo9RcOOWRqLg==
+X-CSE-MsgGUID: T9KKFme7T3a4VsERPngmPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88608687"
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="88608687"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 03:20:47 -0700
+X-CSE-ConnectionGUID: nlax7mflS7ilXTp0XV4EoQ==
+X-CSE-MsgGUID: tswa2/1zQbGg/UccToCrVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="298947127"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 01 Sep 2026 03:20:42 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 79DCD99; Tue, 01 Sep 2026 12:20:41 +0200 (CEST)
+Date: Tue, 1 Sep 2026 12:20:41 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 17/19] arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+Message-ID: <20260901102041.GG106095@black.igk.intel.com>
+References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
+ <20260830-b4-apple-soc-tbt-v1-17-44bc9348683c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260830-b4-apple-soc-tbt-v1-17-44bc9348683c@kernel.org>
 
-On Mon, 31 Aug 2026 14:11:26 -0700, Rishabh Jain wrote:
-> The xHCI ownership protocol requires the OS driver to assert the HC OS
-> Owned semaphore before using the host controller, then wait for HC BIOS
-> Owned to clear if firmware owns it.
+On Sun, Aug 30, 2026 at 10:19:35PM +0200, Sven Peter wrote:
+> Add the ACIO host router, NHI, DART and M3 mailbox nodes for both
+> Type-C ports on t8103 and connect the host routers to the Type-C
+> connectors.
 > 
-> quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
-> is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
-> while both ownership semaphores remain clear.
-> 
-> On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
-> resume to terminate Controller Restore State with USBSTS 0x401. Linux
-> then reset the host controller, both root hubs and the USB Bluetooth
-> adapter.
-> 
-> The controller entered resume ready and halted with USBSTS 0x1.
-> Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
-> device contexts and command, event and transfer rings were verified not
-> to cause the restore error.
-> 
-> Asserting only HC OS Owned changed USBLEGSUP from 0x00000801 to
-> 0x01000801 and eliminated the restore failure across four S3 cycles,
-> including a stock-kernel test. Clearing USBLEGCTLSTS was independently
-> verified to be unnecessary.
-
-Not sure what you mean by a "stock-kernel test"?
-
-> 
-> Always assert OS Owned when the xHCI Legacy Support capability is
-> present. Use the existing ownership masks with a single initial register
-> read/write. Keep the existing BIOS handoff recovery and legacy SMI
-> cleanup unchanged.
-> 
-> Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
-
-Does this submission comply with the attribution rulese here?
-https://docs.kernel.org/process/coding-assistants.html
-
+> Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
-> Changes in v3:
-> - Drop the unnecessary BIOS ownership debug message.
-> - Drop the redundant self Tested-by tag.
+>  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi |  61 ++++++++++
+>  arch/arm64/boot/dts/apple/t8103.dtsi      | 188 ++++++++++++++++++++++++++++++
+>  2 files changed, 249 insertions(+)
 > 
-> Changes in v2:
-> - Use XHCI_HC_OS_OWNED instead of byte-offset access.
-> - Fold the TI/Renesas forced handoff into the ownership-register write.
-> - Make the BIOS handoff wait unconditional and gate recovery on the initial
->   BIOS ownership state.
+> diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+> index 686fb1dd215d..acdefa2a0084 100644
+> --- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+> @@ -17,6 +17,10 @@ aliases {
+>  		wifi0 = &wifi0;
+>  		atcphy0 = &atcphy0;
+>  		atcphy1 = &atcphy1;
+> +		usb4-0-acio = &usb4_0_acio;
+> +		usb4-0-nhi = &usb4_0_nhi;
+> +		usb4-1-acio = &usb4_1_acio;
+> +		usb4-1-nhi = &usb4_1_nhi;
+>  	};
+>  
+>  	chosen {
+> @@ -76,6 +80,13 @@ typec0_connector_ss: endpoint {
+>  						remote-endpoint = <&atcphy0_typec_lanes>;
+>  					};
+>  				};
+> +
+> +				port@2 {
+> +					reg = <2>;
+> +					typec0_con_tbt: endpoint {
+> +						remote-endpoint = <&usb4_0_acio_tbt>;
+> +					};
+> +				};
+>  			};
+>  		};
+>  	};
+> @@ -107,6 +118,13 @@ typec1_connector_ss: endpoint {
+>  						remote-endpoint = <&atcphy1_typec_lanes>;
+>  					};
+>  				};
+> +
+> +				port@2 {
+> +					reg = <2>;
+> +					typec1_con_tbt: endpoint {
+> +						remote-endpoint = <&usb4_1_acio_tbt>;
+> +					};
+> +				};
+>  			};
+>  		};
+>  	};
+> @@ -198,6 +216,49 @@ atcphy1_usb3: endpoint {
+>  	};
+>  };
+>  
+> +/* USB4 */
+> +&usb4_0_acio {
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		/* 1: USB4 port */
+> +		port@1 {
+> +			reg = <1>;
+> +			usb4_0_acio_tbt: endpoint {
+> +				remote-endpoint = <&typec0_con_tbt>;
+> +			};
+> +		};
+> +
+> +		/* 2: unused(?) USB4 port */
+
+I'm assuming these are all adapters in a router so the 2 here is the lane 1
+adapter. One USB4 port has always 2 lane adapters: lane 0 and lane 1.
+
+
+> +		/* 3: PCIe */
+> +		/* 4: USB3 */
+> +		/* 5: DP0 */
+> +		/* 6: DP1 */
+> +	};
+> +};
+> +
+> +&usb4_1_acio {
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		/* 1: USB4 port */
+> +		port@1 {
+> +			reg = <1>;
+> +			usb4_1_acio_tbt: endpoint {
+> +				remote-endpoint = <&typec1_con_tbt>;
+> +			};
+> +		};
+> +
+> +		/* 2: unused(?) USB4 port */
+
+Same here.
+
+> +		/* 3: PCIe */
+> +		/* 4: USB3 */
+> +		/* 5: DP0 */
+> +		/* 6: DP1 */
+> +	};
+> +};
+> +
+>  /*
+>   * Force the bus number assignments so that we can declare some of the
+>   * on-board devices and properties that are populated by the bootloader
+> diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+> index 5b68bf0df4e6..f83ed8da9a42 100644
+> --- a/arch/arm64/boot/dts/apple/t8103.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+> @@ -982,6 +982,14 @@ pinctrl_aop: pinctrl@24a820000 {
+>  				     <AIC_IRQ 272 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <AIC_IRQ 273 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <AIC_IRQ 274 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			acio0_pins: acio0-pins {
+> +				pinmux = <APPLE_PINMUX(39, 1)>;
+> +			};
+> +
+> +			acio1_pins: acio1-pins {
+> +				pinmux = <APPLE_PINMUX(41, 1)>;
+> +			};
+>  		};
+>  
+>  		ans_mbox: mbox@277408000 {
+> @@ -1018,6 +1026,96 @@ nvme@27bcc0000 {
+>  			resets = <&ps_ans2>;
+>  		};
+>  
+> +		usb4_0_mbox: mailbox@381100000 {
+> +			compatible = "apple,t8103-m3-mailbox",
+> +				"apple,m3-mailbox-v2";
+> +			reg = <0x3 0x81100000 0x0 0x4000>;
+> +			interrupt-parent = <&aic>;
+> +			interrupts = <AIC_IRQ 812 IRQ_TYPE_LEVEL_HIGH>,
+> +				<AIC_IRQ 813 IRQ_TYPE_LEVEL_HIGH>,
+> +				<AIC_IRQ 814 IRQ_TYPE_LEVEL_HIGH>,
+> +				<AIC_IRQ 815 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "send-empty", "send-not-empty",
+> +				"recv-empty", "recv-not-empty";
+> +			#mbox-cells = <0>;
+> +		};
+> +
+> +		usb4_0_acio: cio@381ac0000 {
+> +			compatible = "apple,t8103-usb4-acio";
+> +			reg = <0x3 0x81ac0000 0x0 0xc000>,
+> +				<0x3 0x81080000 0x0 0x20000>;
+> +			reg-names = "rc", "sram";
+> +
+> +			mboxes = <&usb4_0_mbox>;
+> +			resets = <&cio_reset 0>;
+> +
+> +			power-domains = <&ps_atc0_cio>,
+> +					<&ps_atc0_cio_pcie>,
+> +					<&ps_atc0_cio_usb>;
+> +
+> +			thunderbolt-switch;
+> +
+> +			pinctrl-0 = <&acio0_pins>;
+> +			pinctrl-names = "default";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			ranges = <0x0 0x3 0x81000000 0x1000000>;
+> +			nonposted-mmio;
+> +
+> +			usb4_0_dart: iommu@a80000 {
+> +				compatible = "apple,t8103-dart";
+> +				reg = <0xa80000 0x4000>;
+> +				interrupt-parent = <&aic>;
+> +				interrupts = <AIC_IRQ 810 IRQ_TYPE_LEVEL_HIGH>;
+> +				#iommu-cells = <1>;
+> +			};
+> +
+> +			usb4_0_nhi: nhi@f00000 {
+> +				reg = <0xf00000 0x100000>,
+> +					<0xdb0000 0x30004>;
+> +				reg-names = "nhi", "pdf";
+> +				compatible = "apple,t8103-usb4-nhi";
+> +				interrupt-parent = <&aic>;
+> +				interrupts = <AIC_IRQ 783 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 784 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 785 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 786 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 787 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 788 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 789 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 790 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 791 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 792 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 793 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 794 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 795 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 796 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 797 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 798 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 799 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 800 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 801 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 802 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 803 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 804 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 805 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 806 IRQ_TYPE_LEVEL_HIGH>;
+> +				interrupt-names =
+> +					"txring0", "txring1", "txring2",
+> +					"txring3", "txring4", "txring5",
+> +					"txring6", "txring7", "txring8",
+> +					"txring9", "txring10", "txring11",
+> +					"rxring0", "rxring1", "rxring2",
+> +					"rxring3", "rxring4", "rxring5",
+> +					"rxring6", "rxring7", "rxring8",
+> +					"rxring9", "rxring10", "rxring11";
+> +				iommus = <&usb4_0_dart 1>;
+> +				/* To be filled by the loader */
+> +				apple,thunderbolt-drom = [00];
+> +			};
+> +		};
+> +
+>  		dwc3_0: usb@382280000 {
+>  			compatible = "apple,t8103-dwc3";
+>  			reg = <0x3 0x82280000 0x0 0xcd00>, <0x3 0x8228cd00 0x0 0x3200>;
+> @@ -1070,6 +1168,96 @@ atcphy0: phy@383000000 {
+>  			power-domains = <&ps_atc0_usb>;
+>  		};
+>  
+> +		usb4_1_mbox: mailbox@501100000 {
+> +			compatible = "apple,t8103-m3-mailbox",
+> +				"apple,m3-mailbox-v2";
+> +			reg = <0x5 0x01100000 0x0 0x4000>;
+> +			interrupt-parent = <&aic>;
+> +			interrupts = <AIC_IRQ 892 IRQ_TYPE_LEVEL_HIGH>,
+> +				<AIC_IRQ 893 IRQ_TYPE_LEVEL_HIGH>,
+> +				<AIC_IRQ 894 IRQ_TYPE_LEVEL_HIGH>,
+> +				<AIC_IRQ 895 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "send-empty", "send-not-empty",
+> +				"recv-empty", "recv-not-empty";
+> +			#mbox-cells = <0>;
+> +		};
+> +
+> +		usb4_1_acio: cio@501ac0000 {
+> +			compatible = "apple,t8103-usb4-acio";
+> +			reg = <0x5 0x01ac0000 0x0 0xc000>,
+> +				<0x5 0x01080000 0x0 0x20000>;
+> +			reg-names = "rc", "sram";
+> +
+> +			mboxes = <&usb4_1_mbox>;
+> +			resets = <&cio_reset 1>;
+> +
+> +			power-domains = <&ps_atc1_cio>,
+> +					<&ps_atc1_cio_pcie>,
+> +					<&ps_atc1_cio_usb>;
+> +
+> +			thunderbolt-switch;
+> +
+> +			pinctrl-0 = <&acio1_pins>;
+> +			pinctrl-names = "default";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			ranges = <0x0 0x5 0x01000000 0x1000000>;
+> +			nonposted-mmio;
+> +
+> +			usb4_1_dart: iommu@a80000 {
+> +				compatible = "apple,t8103-dart";
+> +				reg = <0xa80000 0x4000>;
+> +				interrupt-parent = <&aic>;
+> +				interrupts = <AIC_IRQ 890 IRQ_TYPE_LEVEL_HIGH>;
+> +				#iommu-cells = <1>;
+> +			};
+> +
+> +			usb4_1_nhi: nhi@f00000 {
+> +				reg = <0xf00000 0x100000>,
+> +					<0xdb0000 0x30004>;
+> +				reg-names = "nhi", "pdf";
+> +				compatible = "apple,t8103-usb4-nhi";
+> +				interrupt-parent = <&aic>;
+> +				interrupts = <AIC_IRQ 863 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 864 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 865 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 866 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 867 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 868 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 869 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 870 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 871 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 872 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 873 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 874 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 875 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 876 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 877 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 878 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 879 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 880 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 881 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 882 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 883 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 884 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 885 IRQ_TYPE_LEVEL_HIGH>,
+> +					<AIC_IRQ 886 IRQ_TYPE_LEVEL_HIGH>;
+> +				interrupt-names =
+> +					"txring0", "txring1", "txring2",
+> +					"txring3", "txring4", "txring5",
+> +					"txring6", "txring7", "txring8",
+> +					"txring9", "txring10", "txring11",
+> +					"rxring0", "rxring1", "rxring2",
+> +					"rxring3", "rxring4", "rxring5",
+> +					"rxring6", "rxring7", "rxring8",
+> +					"rxring9", "rxring10", "rxring11";
+> +				iommus = <&usb4_1_dart 1>;
+> +				/* To be filled by the loader */
+> +				apple,thunderbolt-drom = [00];
+> +			};
+> +		};
+> +
+>  		dwc3_1: usb@502280000 {
+>  			compatible = "apple,t8103-dwc3";
+>  			reg = <0x5 0x02280000 0x0 0xcd00>, <0x5 0x0228cd00 0x0 0x3200>;
 > 
-> Additional context:
+> -- 
+> 2.55.0
 > 
-> * Kernel Bugzilla #216470 documents the same USBSTS 0x401/reinitialize
->   behavior and its impact on attached USB devices:
->   https://bugzilla.kernel.org/show_bug.cgi?id=216470
-> 
-> * Commit a7d57abcc8a5 ("xhci: workaround CSS timeout on AMD SNPS 3.0
->   xHC") is related workaround history: it tolerates a distinct AMD CSS
->   timeout and resets the controller on resume:
->   https://github.com/torvalds/linux/commit/a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
-> 
-> The external reports do not record their ownership semaphore values but
-> are included as corroborating failure signatures that this might fix.
-> 
->  drivers/usb/host/pci-quirks.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-> index 0404489c2f6a9..52d41ac5daa85 100644
-> --- a/drivers/usb/host/pci-quirks.c
-> +++ b/drivers/usb/host/pci-quirks.c
-> @@ -1191,25 +1191,22 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
->  	if ((pdev->vendor == PCI_VENDOR_ID_TI && pdev->device == 0x8241) ||
->  			(pdev->vendor == PCI_VENDOR_ID_RENESAS
->  			 && pdev->device == 0x0014)) {
-> -		val = (val | XHCI_HC_OS_OWNED) & ~XHCI_HC_BIOS_OWNED;
-> -		writel(val, base + ext_cap_offset);
-> +		val &= ~XHCI_HC_BIOS_OWNED;
->  	}
-
-I'm not sure why touching this code has been suggested to you. You
-don't have this hardware, you can't test this change, and it isn't
-required for achieving your goal.
-
-[Actually, I doubt this whole code and the (not visible here) comment
-above it, because nobody had issues with uPD720200 and uPD720202, so
-it's unlikely that uPD720201 is broken. Probably this was a workaround
-for someone's buggy BIOS. But I'm digressing.]
-
-A stable bugfix is a particular case where one commit should do one
-thing and do it well. So it should preserve the original behavior for
-"broken" chips and only affect those chips where we do actually try
-to perform the handoff handshake in accordance with xHCI spec.
-
-So this is the actual change you wanted to do:
-
-> -	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
-> -	if (val & XHCI_HC_BIOS_OWNED) {
-
-and to preserve existing "broken chip" behavior, you could add
-
-+ } else {
-+ 	/* Perform standard handshake and leave OS_OWNED set
-+        * to keep the BIOS at bay during subsequent suspends
-
-And it seems that this is enough.
-
-However, as v1 rightly pointed out, this code is dubious because
-it performs read-modify-write on the whole DWORD, of which the
-BIOS_OWNED bit may be concurrently modified by the BIOS (though it
-isn't clear if that would ever happen under any circumstances).
-
-So the change from writel() to writeb() in v1 actually made sense,
-maybe as a separate patch because it's a separate change. xHCI spec
-is clear that HW must support writeb() accesses to this register,
-exactly for this reason, so regression risk seems low.
-
-Regards,
-Michal
