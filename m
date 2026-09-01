@@ -1,107 +1,135 @@
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.162])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4196737C906;
-	Tue,  1 Sep 2026 08:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E216437A851;
+	Tue,  1 Sep 2026 08:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788250591; cv=none; b=EgX1Fg2xj6ww+pcbC6eedPPgKJRrfapnJudwEXzQdlDP3+BAUp04xZF9/k2IR0gxvxjdQx8fOgiX3nqMbv+iFR/kQdcVuEYWMIUd4+szH6buwDoI+EAFJL7pO98h7Ce1jk9jiXMixgIo2IxrGQCmSxlPBHjXnxFT0IPrAcN9+y4=
+	t=1788250770; cv=none; b=HMUgiEIbV/IX7FbuifYpKVaWOaqpylrZ7a78kgMpi89R9AAjHxGotUFBlb0+vOK7Gt33pO6/sq6AqaDu/+JLsq1WikxB3fmyuIPvVfdO/PwkXv0AXmZP3A7A6uSY0GhQEMZbHH6iBBnc7xixXcaSPIb6A/y2Voigtb1HpBL/zro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788250591; c=relaxed/simple;
-	bh=MaDwvm4/WgGMlaCWu2tSBQXxTsATDNxTAUgac3Dpmyw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VgTERf6HZFFqkifJkbNdoMNm0LxaEp9FgM8y+T5V2KwxP4d/sUlWp9tgx5VBVPc/8+1qtNSRXM1a0z16DwiAlGLm5TmEbfdwo3siCwuOJLvR88S7jn1xcKXT8PHp7G4J5ol+06yTA7a0ze1EcNtFq5HpC1b30Svfs79xXfk4kAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=TywdY45q; arc=none smtp.client-ip=188.68.63.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1788250770; c=relaxed/simple;
+	bh=33uW+A7VN8o9QY5De0mnpKtluG0XoYT1In59tmM0yHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZMxOx7+Yi9CZFKPJ2/cz87xLdpTfN5SYytGqFvGCDhKz+mFzmsa2wIkxxkr74bD+EBQVWCgWi9XxDQ1yJa4RNofaFacOeTPLudzNNlv52amdA7jPOaBw/gdQUhNQ1iV6Hg9GSXHH+Rg4L0r6gcsiFY8Amn52UFJcyTep1s2iMzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k0o6Q4u0; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="TywdY45q"
-Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4hYzGB5Mn6z42T5;
-	Tue,  1 Sep 2026 10:16:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1788250578;
-	bh=MaDwvm4/WgGMlaCWu2tSBQXxTsATDNxTAUgac3Dpmyw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TywdY45qj/H0Y1QgL1vU5frKtq0eeVypkOZtDOORqQFZ40/tl9i/9tbOU53+GlHgY
-	 c0tJBUv9i7KcwPRlfxJ2y3oixYz7SsV5LDlElysri6exyESBBYbJc4vxnBz1dIvlw9
-	 /osmjPTgCPv/3c7PVcwwm8oXfFGiXdo3TFwDY9Vh3Q1RxSxwcvcQcRo3OJBUVIpGwX
-	 nqb0+sAGpYyzql9NiOTboxQ1noHb7pBR9V+ogpwuCY61WvFWWKUjoQ/3PJSEKmHYX8
-	 tdObtg6fUkHaRQu5jIiSUkSMFKK7NRnzfZFNRM1ea+KYE3gPjoV786xhJV1ww/hJJZ
-	 RExayNy5NL/4A==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4hYzGB4dDMz3qNZ;
-	Tue,  1 Sep 2026 10:16:18 +0200 (CEST)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4hYzG83PfMz8svZ;
-	Tue,  1 Sep 2026 10:16:16 +0200 (CEST)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id E96145FAEC;
-	Tue,  1 Sep 2026 10:16:07 +0200 (CEST)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <6463ad31-75fa-458b-81b7-45814c797dd1@leemhuis.info>
-Date: Tue, 1 Sep 2026 10:16:06 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0o6Q4u0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788250769; x=1819786769;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=33uW+A7VN8o9QY5De0mnpKtluG0XoYT1In59tmM0yHc=;
+  b=k0o6Q4u0bXo7r4VQnzx5ftwcRI4YoeU9A1Vzfnlv56llD/TPlSf7W+sj
+   TdXzsMjmn/G5/mp475A4ZloUPnDbh8M5SOQmRnlEG5xDj12dEO2URX502
+   KmBhj0loHvXg85cxTG0b8E/G4LJ8xZs5xrQ4IlgvOYDcI1W1qhLd/udV9
+   h8nMHtB2WB1W67CK1xWrdivkgVBkoywMnBywxPRlgzfswBmwM9pcGZ8Ap
+   jQOdmo5+93n1RB4PUBxgX2F8r2t2vDhFV9zOiZ1jvaoaHUOGvXEkMx1DP
+   dpePYO4ImocUe96Di2QD3EC1EQp3yYN+I3Fv5Jo7UltyYd2f23y5ol27e
+   Q==;
+X-CSE-ConnectionGUID: CVGlo21STaq/eRMJpTbZ5Q==
+X-CSE-MsgGUID: HFETvOEtQnSgTHUzRtWfuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="99831437"
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="99831437"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 01:19:28 -0700
+X-CSE-ConnectionGUID: AGfkyWGGR5eZtn19L41M/Q==
+X-CSE-MsgGUID: SjPY5xXpTgaPLamYkxyy2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="264744147"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 01 Sep 2026 01:19:26 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id F34EE99; Tue, 01 Sep 2026 10:19:24 +0200 (CEST)
+Date: Tue, 1 Sep 2026 10:19:24 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Konrad Dybcio <konradybcio@kernel.org>, asahi@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] thunderbolt: Fix DP tunnel teardown while an
+ async DPRX read is running
+Message-ID: <20260901081924.GA106095@black.igk.intel.com>
+References: <20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: fix maximum event ring segments calculation
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Pierre-David Belanger <pierredavidbelanger@gmail.com>,
- Shixiong Ou <oushixiong1025@163.com>
-Cc: Shixiong Ou <oushixiong@kylinos.cn>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Niklas Neronin <niklas.neronin@linux.intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-References: <20260828105926.930033-1-oushixiong1025@163.com>
- <20260830031233.1810986-2-pierredavidbelanger@gmail.com>
- <64a7ce30-b346-4e94-974f-f30893d66829@leemhuis.info>
- <81ddd491-1ec3-4a0c-90b3-6a286ff1a908@linux.intel.com>
- <1c855bb3-2bac-4f25-b97f-3a7436a6291b@leemhuis.info>
- <89d99e3a-0f67-4116-a262-98be59f76f5d@leemhuis.info>
- <f29a475e-a523-461a-8e63-b0698b3174c6@linux.intel.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <f29a475e-a523-461a-8e63-b0698b3174c6@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <178825056841.2838052.3252348926793868692@mxe9fb.netcup.net>
-X-Rspamd-Server: rspamd-worker-8404
-X-Rspamd-Queue-Id: E96145FAEC
-X-NC-CID: cbEZKz4gyJ3Gi4HUbWwmymUFLSElmVpsA9kzy0HZa2eKVHzYDMY=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org>
 
-On 8/31/26 16:28, Mathias Nyman wrote:
-> On 8/31/26 14:36, Thorsten Leemhuis wrote:
->> On 8/31/26 13:28, Thorsten Leemhuis wrote:
->>> On 8/31/26 11:21, Mathias Nyman wrote:
->>>> On 8/31/26 09:55, Thorsten Leemhuis wrote:
->>>>> On 8/30/26 05:12, Pierre-David Belanger wrote:
->
->>>> Note that this is a v7.3-rc1 regression which was found during merge
->>>> window for v7.3-rc1.
->>>> v7.3-rc1 came out a few hours ago.
->>>> I can't resolve it much earlier than this.
->>> Out of curiosity: why?
-> [...]
-> No real life or personal issues got in the way.
-> Assumed severity after first case didn't call for action mid merge window. 
+Hi,
 
-Many thx, that helps me understand thing better.
+On Sat, Aug 29, 2026 at 10:08:32AM +0200, Sven Peter wrote:
+> Hi,
+> 
+> This series contains a bunch of fixes related to teardown while an async
+> DPRX read is running. I ran into some of these while bringing up the
+> Apple Silicon NHI and just haven't implemented DP tunneling support yet
+> such that the DPRX capabilities read can never complete and will always
+> time out.
+> 
+> None of it is specific to that hardware though so I figured it
+> makes sense to already send them out.
+> 
+> Best,
+> 
+> Sven
+> 
+> ---
+> Changes in v3:
+> - Take the router references in the HopID allocation/release helpers
+> - Actually call put_device() via a cleanup action for the KUnit tests
+> - Link to v2: https://patch.msgid.link/20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org
+> 
+> Changes in v2:
+> - Make the DP tunnel activation callback mandatory. The DPRX
+>   caps are now always read inside dprx_work which now also happens to
+>   discovered tunnels when they are activated again after hibernation
+>   restore.
+> - Mark discovered tunnels as active
+> - Add a cleanup commit to drop the callback data that's always the same now
+> - Tear down DP tunnels that are inactive in tb_stop instead of
+>   exposing tb_tunnel_cancel_dprx.
+> - Use "router" instead of "switch" in the subject
+> - Added comments how these issues can be reproduced
+> - Link to v1: https://patch.msgid.link/20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org
+> 
+> To: Andreas Noever <andreas.noever@gmail.com>
+> To: Mika Westerberg <westeri@kernel.org>
+> To: Yehezkel Bernat <YehezkelShB@gmail.com>
+> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Cc: Konrad Dybcio <konradybcio@kernel.org>
+> Cc: asahi@lists.linux.dev
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> ---
+> Sven Peter (7):
+>       thunderbolt: Hold a router reference for each allocated HopID
+>       thunderbolt: Make the DP tunnel activation callback mandatory
+>       thunderbolt: Fix domain reference leak when DPRX read is canceled
+>       thunderbolt: Don't access a DP tunnel after its DPRX read was canceled
+>       thunderbolt: Mark discovered tunnels as active
+>       thunderbolt: Tear down inactive DP tunnels when the domain is stopped
 
-Quite a few other subsystems from what I see would have approached
-things just like you did here; but I wonder if Linus in a case like this
-would have preferred some mid/late merge window intervention to prevent
-testers from running into a known regression. Will try to bring this up
-on the maintainers summit. So again, thx again for describing things
-from your point of view, helps a lot.
+Applied 1-6 to thunderbolt.git/fixes, with minor changes in the commit
+messages and the condition in patch 6, thanks! Please check that it is
+okay. My testing at least it works as expected.
 
-Ciao, Thorsten
+>       thunderbolt: Drop the DP tunnel activation callback data
+
+Since this one is a cleanup, I wonder if you can send it again later when
+the DPRX fixes have landed? I typically base my next branch after -rc1 and
+don't merge fixes/rc's there constantly so preferably after v7.4-rc1 is
+released.
