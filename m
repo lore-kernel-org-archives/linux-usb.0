@@ -1,163 +1,547 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2988B3B7B98
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AD130F7FB
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788229681; cv=none; b=MZvrUtNIcVZw0yhlzqf1+knIObodQ59TYzyKCCM0Axz3XpqeneGSaeoZsc01+T0IWF5OyH54+tsTG9RL8BLMXcwgkcbQsDl6V02lx/tNgo4L/+PBMD5T35hJ5h9zBLiWQ3Gbame2BhpsTKVVFJuu15jLjQAReUY8Dy+AOl2nmYk=
+	t=1788230847; cv=none; b=uJAN5cPAE3tkQDL4HXp3KEUHkUzQD2dvIm0EEy98gqP/iqZywSAy6JRUM0j+CeF/nJiZWkW5f84ZYCqF9d3S4pnSIKgMVhOKo+LvGizYArfbZxJ1bGSBqCXurrQrqyp3ztzvy2ob6CVsSKMkK3NNeRcvDMojjiVYx7hCA4ifdSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788229681; c=relaxed/simple;
-	bh=aJOqvp+m9yw8vXbrKDLmTt+ksd0xUEQcYggk/0JrfpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bXffWoBZctU1YliqJ4VEQ7H/i+z5GVck9tMMUyC2QolU6pGhqVxNgQFgD7NnzBMw9QGBbVp0VVF9KYYk0lbR94vkVaNd7EYPw5Q3/5ZFjPoe7xkyJJxgeCMRlrKQlDFrdpVXLTcplhYKvrHsFXrgyDjVFIQZ9PcegnO7N2UeZ2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0zBt5TY; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788230847; c=relaxed/simple;
+	bh=ggL6n1EMEwkS4S6UQ7vxdErAuZYLohUFJ1cvZQ+rBe8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nlctEgSLji9mZ7nz4Z25tHmQIM8LNRchQZxXnpC8gMkeoJZzXkR0SOzaWmE1Bsigb+QvDobFLz1QiICaT0hOdBFUkvv/D0rpPlG+VBwHSM/UmaX5Fdv9U8HLxuuNyIGB+sbykuafzogCX1wicYX3M5Th69H/kD4nSKCFV7f1imE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Ufs06VVy; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0zBt5TY"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc1cb472b76so3877552a12.0
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:27:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Ufs06VVy"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-90ce3971a86so32516176d6.0
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788229679; x=1788834479; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qf8oy7qaKirN8ICo0JJ6d8Lc9hgixjHXp2cKregM+M8=;
-        b=g0zBt5TYnDRL5qcqS2VW07ENseaYnoz4qKCtmNrVWYHtQawo4YqborPZAt1kFU8D5d
-         u8LCoJyEZ9s26Zhp47wWUsqUwjtJa/BqOsNJDXHQhmnU4lu5XExJ+75DSbOlkFJLwsXC
-         JTMYd5tZXaofPQHZeIS8Tk6SFUvkd4AbqVB7vStz0uhfaELLkaOijL5vJcOoZIZ8o0Hf
-         AJ1uUz1DZz+D0ri3W0Z+pvS13yQ3ocW31FL/oRHVPzdAMEPYemdOc6dPjEiXqBhAWYce
-         ymTe0SfCuutAiyjYaDxR47LZwESRBnNhdyEGpIS/ME/y1v38vXElJALggNqALaQea3rC
-         7Knw==
+        d=rowland.harvard.edu; s=google; t=1788230836; x=1788835636; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=z7GmLMIVwpddaX67LhA6yl9QNGeMHtdqHkTaGH2+eF8=;
+        b=Ufs06VVyqR+ajz6QKsWHrYcDpTRLxxAxZjN9A4aebXmXfobQl0AzcDKD+Ik5nIqv4K
+         SRzJAh6RNYY0mzRxocS+hm0cB4mloMFfrQa/NRCkHrqcsfMQCO9mk5dVMqaIdPdKnedr
+         azZ8hX4wkFwmJPmi+HFF2pm58aZF+Lg/1PJdyLIMJ8n3CY8LlJ7lTvV1tYxqNCapJr0o
+         kjatAMOBd3xcKUrJWAWCGtzrjx8QXubTIVu6AoMvtfRIXpXknSbFa2dpnrt8/S4oqBs1
+         ZqEl3xqVdvOIJHtZQ+YvMITjsm3jjcjig6GVFFa9a9xMEEJqdEz3ldCGJhWr6G0y30wI
+         7MjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788229679; x=1788834479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qf8oy7qaKirN8ICo0JJ6d8Lc9hgixjHXp2cKregM+M8=;
-        b=fREeoIG6A+V2arLYO3W9ntZTtF1Dif72KKCW9QHOQivl5e9eBA9aRCtrkVifDfmpjM
-         6DGEjgVwc69OrelPHzuqOFCUqGJUwXdLBQHhvDu9OS9sFnSRwszkL80kt4Y6MxDhjTru
-         21Ritf/u+wADiQuJdBIqYv6hEdqx99HWld4//il1h4yjd+aDSFWMZrqG/+Ar3UHqgfi2
-         6fHG2FGOMApG43jikFLRIF1McLHkGoSYz6fuB43MNzqILu2LKWFbscNTot78fReaEP2M
-         VU7omnhlgVpxFIGrTzHJv25b/hge/CiV3Z2moXfFJKH9z5rLnyFY4myWR8UXYlqpvm7/
-         2qzw==
-X-Forwarded-Encrypted: i=1; AKwUvBxjVQ7BXOoah6sWfAVLS6i5ERTnNBjf+fgQakybUkuXbWP41Fe0vYzh0w00c5aur9W8Jik8UsanO/4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kWn7Vei98pIjv9qZjP54wo5ROHNLTxur+bbjzwwNUFacybnZoh
-	UMmOCJF0i6aTWZamBxoruCwYkgK9/gDPKUL/QGryQ+BguAJyJywImukcERS9tMBU
-X-Gm-Gg: AYBFou1Zf+qExxvXqPjtYiK1pn0XTCOjSoXYndm3itOgbEdS/kQHvpHT6+G98n3K8bU
-	YQzabSpBqKeWqfeaGdLd9CWoz32hmKY/11vUfnxJj0d86HkBY2EkSPTJQ1u6Wlz3XBCUaONFSCm
-	1jIl3U2zoamhKmvXqFoXvARYGMy4eHM2kmeWR8c11LAmrFSBxhujIcT7nT/Y5bYN69PONriVxHd
-	KP0q15BeuXAYfc6tu494Bc93ptN1zHg9E7BxzgR6V3cI/S1x0zwlaW8DGgednJ7FzNGPQnPGLMO
-	xWQ5uYoovONlhPKrvUp1gdhScPg7BZxbDbuFnvB8j0YZNR/x+EjD46J/QoaOaBoDIyyaHntxTxt
-	1rO/64pDex5bTZliUMCXgsvKd2498opZBSrujvM759AV9+TqIPcdkgOY3PL8CqZZ6bcjJMHskcW
-	h8aqKSzfNeJ3VoRusimBJ/qsgEujZC0bmsJFznl3xe2Dnhx/Tav24ArL+n7r55Pe/bouxM6ES2e
-	UsrT0epZ7tzOu22
-X-Received: by 2002:a17:90b:3f50:b0:381:a766:efc9 with SMTP id 98e67ed59e1d1-396d0df72e2mr45995759a91.7.1788229679378;
-        Mon, 31 Aug 2026 19:27:59 -0700 (PDT)
-Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d802787sm2997055a91.16.2026.08.31.19.27.58
+        d=1e100.net; s=20251104; t=1788230836; x=1788835636;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=z7GmLMIVwpddaX67LhA6yl9QNGeMHtdqHkTaGH2+eF8=;
+        b=K9bdKzm3TCOWdp3bN8rcAJkZLBawmR6Me6gvzUXgZhK3uYVIaT4yHz3t70RmbxqoIZ
+         zYwuw5n6Qlit/2XZJS71tuOpqIWilfzmYmxou+bdFgvSk6xYgu5XMqE+wGsTCCI8WzqT
+         bjjSfTvCkRlP0yDBJOJyH9dFXCEKSWxuetUZM8cbtgKd3tmSDC0iZ9uGmRcN5cD3qiN0
+         mKWfiBfEAYEB/ZCn1Hybiad3uV/atYR4shVM9jJWsC3pIrTXovdnyOIwxz3LnxUdY4Qv
+         bnJte9EMXWtxdWHZTm3B7APl956ND4qpTQ81qBzRH+Vu7lcLwrv/ohFMMO7SCglqA9B3
+         yJrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw5IHp+knX0e3u7xbqoXdKe3c4sW6ViPcDWdUsplq1WMcTRMNdzudgiNZmyCTAw0tT4p6+N2gtZajI=@vger.kernel.org
+X-Gm-Message-State: AFuF++mDyYmn/QepNBb3cmS+E/akMs1+P2x65Zw7SFe8MWlUOz9eUjK9
+	tiFMPkmgWGz7ffCPaHNzzF9ohqfl52dydDKSVDzxMz8sqq3GBwqHWxaB+soHaXEKag==
+X-Gm-Gg: AYBFou25yprRZ+Pq+NG+BbMZxDSKabmgx9vv6DON06JX77QWW8YID1oMQneucmQxbnU
+	xDoAcXhRR+Ri56pZwQEW/eDcPxLAuEwkkWbImE1v4tOregD3QjLG2561RpsKuhYPkWOIfCyb594
+	VcWpShkka6Sn8/glfHcdXAAgzUUhZd6LYP3MI8WraoLjzAyRgT+e8YMj18CCF7lOwNU1W0tbE0S
+	ue60xTDKKwyRpp2R3UVVHgrM+1ZukZugEBcwyufZtkqMdwyYV5jOc4zzxod3RFH9sAzz8O9nsxC
+	t6QVI2TGio3wBhufo2vPDzhT3WoyQzKbQgyLqHsP92VZsS0nM2ppu60/DtBH82VsXZFUA7WvibE
+	dxh5LMhdsiZim3Q/Pds8YjH8j0vPM1FHipC8/V301NyysfxdfNzuOuid22pZTvYropTC0TOX1mY
+	NBbTQ3FN2pCMhlX4oKX/IpOZwEX+XRjDhirWDiUFUwYOXo3f7O1gFxfpm5mFcVraB+z/E/aJeg
+X-Received: by 2002:a05:6214:1943:b0:90e:8465:36ac with SMTP id 6a1803df08f44-90e92983033mr72709886d6.25.1788230835692;
+        Mon, 31 Aug 2026 19:47:15 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90ce44f5ad4sm98151136d6.23.2026.08.31.19.47.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 19:27:58 -0700 (PDT)
-Sender: AceLan Kao <acelan@gmail.com>
-From: AceLan Kao <acelan.kao@canonical.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>,
-	Johan Hovold <johan@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] usb: typec: ucsi: recover from silent PPM completion in sync_control
-Date: Tue,  1 Sep 2026 10:27:54 +0800
-Message-ID: <20260901022754.3102934-1-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.53.0
+        Mon, 31 Aug 2026 19:47:14 -0700 (PDT)
+Date: Mon, 31 Aug 2026 22:47:12 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
+References: <15185c2d-4544-42cc-ba0a-79dd36e82a21@rowland.harvard.edu>
+ <CAFmvuTU=t5TiZSpHmF1MXpVs+3K7G1VOTDeeazwGru4+1eozBg@mail.gmail.com>
+ <cd57f283-71e6-4531-a311-1180ccc22ab8@rowland.harvard.edu>
+ <CAFmvuTVH=mVMZNoYnU07_WA+cBc4m+UG2BBTLwF5KWhcj-z-KA@mail.gmail.com>
+ <908a5b29-e6d8-4595-b451-6c328e25c60e@rowland.harvard.edu>
+ <CAFmvuTU5HnBKbve=v_C7Mhw2586rR_8qsRNua2XPokgKy_o31w@mail.gmail.com>
+ <0305182d-5914-4022-a0a6-1ab4221b0a6c@rowland.harvard.edu>
+ <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com>
+ <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
+ <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
 
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+On Mon, Aug 31, 2026 at 10:30:08PM +0900, Minseo Kim wrote:
+> Hi Alan,
+> 
+> Thank you for the comments and for pointing out where my explanation was
+> unclear.
+> 
+> > Are you saying that this test in ep_read_iter():
+> >
+> >         if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
+> >
+> > is wrong, for example, the && should be || ?
+> 
+> No. The && condition should remain as it is. dup_iter() copies the iterator
+> state into priv->to. In my tests, native PREAD and a one-segment PREADV used
+> ITER_UBUF. Since ITER_UBUF has no separate iovec array to duplicate,
+> dup_iter() returned NULL while the copied iterator remained valid. My
+> two-segment PREADV test used ITER_IOVEC; there, a NULL return would mean that
+> allocation of the duplicated iovec array failed. The iter_is_ubuf() check
+> therefore distinguishes the valid NULL return for ITER_UBUF from an allocation
+> failure in the ITER_IOVEC case. In a control build using ||, valid PREAD and
+> both one- and two-segment PREADV submissions failed with -ENOMEM.
+> 
+> The issue I observed was instead in the later completion test:
+> 
+>         if (priv->to_free == NULL || unlikely(req->actual == 0)) {
+> 
+> As I understand it, this later test treats a NULL to_free pointer as meaning
+> that no userspace copy is needed. In this path, however, to_free stores the
+> pointer returned by dup_iter() and tracks separately allocated iterator
+> backing, rather than whether the saved iterator has a destination.
 
-Some firmware completes UCSI commands and sets COMMAND_COMPLETE (or
-ACK_COMPLETE for ACK_CC_CI) in CCI but never fires the ACPI notify that
-would wake ucsi_sync_control_common().  The driver then times out after
-5 seconds and returns -ETIMEDOUT, even though the EC finished the command
-successfully.
+Okay, I see.  I had assumed that the information about the userspace 
+buffer was contained in the region that to_free points to.
 
-Fix this by polling CCI once via poll_cci() on timeout.  If the relevant
-completion bit is already set, the EC finished silently; fall through to
-out_clear_bit so the normal read_cci()/read_message_in() path retrieves
-the data and ucsi_run_command() issues ACK_CC_CI as usual.  Only return
--ETIMEDOUT when the EC has genuinely not completed the command.
+> For this issue, the relevant change was to base the later copy decision on
+> iov_iter_count(&priv->to); I did not change the ep_read_iter() condition. With
+> the original test, native PREAD reported res=511 while the destination buffer
+> remained unchanged. After this change, native PREAD and one-segment PREADV
+> copied the payload correctly, and two-segment PREADV continued to work.
 
-Guard the poll_cci() call with a NULL check: if a backend does not
-provide the op, skip the poll and keep reporting -ETIMEDOUT rather than
-dereferencing a NULL function pointer.
+While that's a valid solution, it would be more straightforward to add 
+an "is_read" flag to the priv structure.  If an aio operation isn't a 
+read then there certainly won't be anything to copy back to userspace 
+upon completion.  This doesn't require people reading the source to know 
+anything about the internal details of struct iov_iter.  And it is a 
+better match to the immediately preceding comment.
 
-Fixes: 584e8df58942 ("usb: typec: ucsi: extract common code for command handling")
-Cc: <stable@vger.kernel.org> # 6.14+
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> My previous description of to_free as a predicate was inaccurate. I was
+> referring to its later completion-side use as a copy/no-copy indicator.
+> 
+> > I understood that it was okay to call usb_ep_free_request() after
+> > usb_ep_disable(). Was that wrong? Did you see it create any problems?
+> 
+> Your understanding matches the behavior I observed under dummy_hcd. For both
+> PWRITE and PREAD, I kept a completed, unqueued request allocated until after
+> usb_ep_disable() returned, with no intervening usb_ep_dequeue(). In each case,
+> the request completed exactly once with the expected result; the subsequent
+> usb_ep_free_request() produced no KASAN report or Oops.
+> 
+> Separately, in an intermediate version I observed usb_ep_free_request()
+> running while usb_ep_disable() was still in progress. Because that version
+> moved normal request cleanup into a worker, I used the existing endpoint mutex
+> to prevent the worker's usb_ep_free_request() call from overlapping endpoint
+> disable while I investigated the ordering. The mutex eliminated the overlap,
+> but I did not reproduce a failure without it, so these tests did not establish
+> that the serialization was required.
 
----
-v2 -> v3:
-- rebase and resolve conflicts against v7.2
-- Invert the post-timeout completion check so the empty "silent
-  completion" branch falls straight through to out_clear_bit instead
-  of being an empty if {} with the real logic in the else, as pointed
-  out in Greg's review.
-v1 -> v2:
-- Add Cc: <stable@vger.kernel.org> # 6.14+ as flagged by Greg's patch bot:
-  the Fixes: tag targets a commit already in released kernels, so the fix
-  must be nominated for stable.  Scoped to 6.14+ because poll_cci only
-  exists from that release (absent in 6.11-6.13).
-- Guard the poll_cci() call with a NULL check to avoid dereferencing a
-  NULL function pointer when a backend does not provide the op.
----
- drivers/usb/typec/ucsi/ucsi.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+Good, so we don't need to worry about that.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index bef3f9b71d718..0363ed127a567 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -92,8 +92,28 @@ int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
- 		goto out_clear_bit;
+> The endpoint-use ordering I could reproduce in a directed dummy_hcd diagnostic
+> was different: without waiting for unlink work before endpoint disable,
+> ep_unlink_worker() could call usb_ep_dequeue() while usb_ep_disable() was in
+> progress. In matched PWRITE and PREAD tests, the variant without the
+> pre-disable unlink-work wait produced this overlap; with the wait retained,
+> usb_ep_dequeue() completed before usb_ep_disable() began.
+> 
+> I did not reproduce a KASAN report, Oops, or userspace failure from the
+> concurrent dequeue/disable overlap itself. I retained the pre-disable wait in
+> the narrower test version as a conservative interpretation of the
+> usb_ep_disable() requirement that no other task be using the endpoint when it
+> is called.
+
+We don't need to be that conservative here.  And in fact, I'm not 
+entirely sure what that comment in usb_ep_disable() was intended to 
+mean.  Since the function doesn't cause the UDC driver's endpoint data 
+structure to be deallocated, there isn't much to be careful of.
+
+> > This is probably because you were flushing the workqueues at the wrong
+> > time.
+> 
+> Yes. In the callback-gate test, the relevant workqueue flush returned
+> while the completion callback was stopped before queueing its follow-up work.
+> In the narrower test version, I incremented aio_producers before
+> usb_ep_queue() and decremented it only after the callback had either queued
+> the required follow-up work or completed the immediate AIO result without
+> leaving deferred work to publish. If usb_ep_queue() failed, the submission
+> path decremented it directly. With that change, gadgetfs_unbind() remained
+> blocked in the producer wait while the callback was gated. It proceeded to
+> flush the completion workqueue only after the callback queued the follow-up
+> work.
+> 
+> In the delayed-worker test, module unload completed before the running
+> unlink_work returned. This confirmed that module unload must not complete
+> while such work is still running.
+> 
+> > For the final submission, I think the workqueue management stuff should
+> > go into its own separate patch.
+> 
+> Separating the workqueue management changes from the AIO race fixes makes
+> sense. Thank you also for the reminder about -p.
+
+So let's worry about the workqueue stuff later and concentrate for now 
+just on fixing the AIO races.
+
+> > Second, why did you change ep_aio_complete() to make it queue up
+> > ep_user_copy_worker() even when nothing needed to be copied to
+> > userspace?
+> 
+> My reason for routing every completion through ep_user_copy_worker() was to
+> make a common deferred completion and request-cleanup stage visible to a
+> workqueue flush during teardown, not because every request needed a userspace
+> copy. In the normal non-unlink path of that cumulative design, the worker
+> released the USB request and epdata reference before calling ki_complete(),
+> and then published AIO_GIVEN_BACK. Since ki_complete() could drop the last AIO
+> file reference and allow ep_release() to begin, the intent was to prevent
+> teardown from passing the completion-work flush before that cleanup had
+> finished. A gate placed between cleanup and ki_complete() confirmed that the
+> flush covered this no-copy PWRITE cleanup: unbind reached
+> flush_workqueue(gadgetfs_copy_wq) but did not return until the worker was
+> released.
+> 
+> I agree that using the worker for every completion was broader than necessary
+> for copy handling. The narrower behavior I tested retains aio_producers but
+> queues copy work only when iov_iter_count(&priv->to) and req->actual are both
+> nonzero. Nonzero PREAD and the one- and two-segment PREADV cases invoked the
+> copy worker, while PWRITE, PWRITEV, and zero-length reads and writes did not.
+> This indicates that no-copy paths do not need ep_user_copy_worker() merely for
+> copy handling. Their cleanup ordering and the separate teardown lifetime
+> issue can be considered independently of that routing decision.
+
+And since your decision was based on handling the workqueue flushing, it 
+can be put off until later.
+
+If you trim your patch down to the parts that only target the AIO races, 
+do you get anything significantly different from my version?  I did see 
+that you added or changed a few comments, and I have updated my version 
+of the patch in a couple of respects, but overall yours must end up 
+being pretty similar to mine.  Please point out any differences you 
+believe are worth mentioning.  My current version is below.
+
+> Looking back, trying to address all of the observed issues in one cumulative
+> patch made it harder to separate and review the purpose of each change.
+> Considering the issues independently may also make it easier to identify a
+> simpler approach for some of them. I hope these clarifications and test
+> results are useful.
+
+I'm sure they will be.
+
+Alan Stern
+
+
+Index: usb-devel/drivers/usb/gadget/legacy/inode.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
++++ usb-devel/drivers/usb/gadget/legacy/inode.c
+@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
+ static const char *CHIP;
+ static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
  
- 	if (!wait_for_completion_timeout(&ucsi->complete,
--					 msecs_to_jiffies(UCSI_TIMEOUT_MS)))
--		ret = -ETIMEDOUT;
-+					 msecs_to_jiffies(UCSI_TIMEOUT_MS))) {
-+		u32 polled_cci = 0;
++static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
 +
-+		/*
-+		 * Notification from EC did not arrive.  Poll once to check
-+		 * whether the PPM actually finished without firing a notify.
-+		 * If poll_cci() is missing or fails, polled_cci stays 0 and we
-+		 * correctly report -ETIMEDOUT below.
-+		 */
-+		if (ucsi->ops->poll_cci)
-+			ucsi->ops->poll_cci(ucsi, &polled_cci);
+ /*----------------------------------------------------------------------*/
+ 
+ /* NOTE:  don't use dev_printk calls before binding to the gadget
+@@ -433,40 +435,105 @@ static long ep_ioctl(struct file *fd, un
+ 
+ /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
+ 
++enum aio_req_state {
++	AIO_SUBMITTING,
++	AIO_RUNNING,
++	AIO_COMPLETED,
++	AIO_GIVEN_BACK,
++};
 +
-+		/*
-+		 * If the relevant completion bit is not set, the EC has not
-+		 * completed the command; report the timeout.  Otherwise fall
-+		 * through to out_clear_bit, which reads CCI+data normally,
-+		 * and ucsi_run_command() will issue ACK_CC_CI as usual.
-+		 */
-+		if (!((ack && (polled_cci & UCSI_CCI_ACK_COMPLETE)) ||
-+		      (!ack && (polled_cci & UCSI_CCI_COMMAND_COMPLETE))))
-+			ret = -ETIMEDOUT;
++enum aio_cancel_state {
++	AIO_NOT_CANCELLED,
++	AIO_UNLINKING,
++	AIO_UNLINK_DONE,
++};
++
+ struct kiocb_priv {
+ 	struct usb_request	*req;
+ 	struct ep_data		*epdata;
++	struct usb_ep		*ep;
+ 	struct kiocb		*iocb;
+ 	struct mm_struct	*mm;
+-	struct work_struct	work;
++	struct work_struct	copy_work;
++	struct work_struct	unlink_work;
+ 	void			*buf;
+ 	struct iov_iter		to;
+ 	const void		*to_free;
+ 	unsigned		actual;
++	enum aio_req_state	req_state;
++	enum aio_cancel_state	cancel_state;
++	bool			is_read;
+ };
+ 
+-static int ep_aio_cancel(struct kiocb *iocb)
++static void ep_unlink_worker(struct work_struct *work)
+ {
+-	struct kiocb_priv	*priv = iocb->private;
++	struct kiocb_priv	*priv;
++	struct usb_request	*req;
+ 	struct ep_data		*epdata;
+-	int			value;
++	struct usb_ep		*ep;
++	enum aio_req_state	req_state;
+ 
+-	local_irq_disable();
++	priv = container_of(work, struct kiocb_priv, unlink_work);
++	req = priv->req;
+ 	epdata = priv->epdata;
+-	// spin_lock(&epdata->dev->lock);
+-	if (likely(epdata && epdata->ep && priv->req))
+-		value = usb_ep_dequeue (epdata->ep, priv->req);
+-	else
+-		value = -EINVAL;
+-	// spin_unlock(&epdata->dev->lock);
+-	local_irq_enable();
++	ep = priv->ep;
+ 
+-	return value;
++	usb_ep_dequeue(ep, req);
++
++	spin_lock_irq(&aio_lock);
++	req_state = priv->req_state;
++	priv->cancel_state = AIO_UNLINK_DONE;
++	spin_unlock_irq(&aio_lock);
++
++	/*
++	 * req and epdata are freed after unlinking and completion are both done.
++	 * priv is freed after unlinking and giveback are both done.
++	 */
++	if (req_state >= AIO_COMPLETED) {
++		/* priv may have been freed already */
++		usb_ep_free_request(ep, req);
++		put_ep(epdata);
++		if (req_state == AIO_GIVEN_BACK)
++			kfree(priv);
 +	}
++}
++
++static int ep_aio_cancel(struct kiocb *iocb)
++{
++	struct kiocb_priv	*priv;
++	unsigned long		flags;
++
++	spin_lock_irqsave(&aio_lock, flags);
++	priv = iocb->private;
++	if (!priv || priv->cancel_state != AIO_NOT_CANCELLED) {
++		spin_unlock_irqrestore(&aio_lock, flags);
++		return -EINVAL;		/* Already completed or cancelled */
++	}
++	if (priv->req_state == AIO_SUBMITTING) {
++		priv->cancel_state = AIO_UNLINK_DONE;
++		spin_unlock_irqrestore(&aio_lock, flags);
++		return 0;	/* ep_aio() will call us again if needed */
++	}
++
++	priv->cancel_state = AIO_UNLINKING;
++	spin_unlock_irqrestore(&aio_lock, flags);
++
++	/*
++	 * We are called with the aio core holding iocb's context lock.
++	 * usb_ep_dequeue() is allowed to run synchronously, calling the
++	 * completion handler ep_aio_complete() before it returns.
++	 * But ep_aio_complete() may call iocb->kio_complete(), which
++	 * tries to acquire the context lock, leading to deadlock.
++	 * For this reason, do the dequeue operation in a work routine.
++	 */
++	INIT_WORK(&priv->unlink_work, ep_unlink_worker);
++	schedule_work(&priv->unlink_work);
++	return 0;
+ }
  
- out_clear_bit:
- 	if (ack)
--- 
-2.53.0
-
+ static void ep_user_copy_worker(struct work_struct *work)
+ {
+-	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, work);
++	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, copy_work);
+ 	struct mm_struct *mm = priv->mm;
+ 	struct kiocb *iocb = priv->iocb;
+ 	size_t ret;
+@@ -482,46 +549,62 @@ static void ep_user_copy_worker(struct w
+ 
+ 	kfree(priv->buf);
+ 	kfree(priv->to_free);
+-	kfree(priv);
++
++	spin_lock_irq(&aio_lock);
++	priv->req_state = AIO_GIVEN_BACK;
++	if (priv->cancel_state != AIO_UNLINKING)
++		kfree(priv);
++	spin_unlock_irq(&aio_lock);
+ }
+ 
+ static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct kiocb		*iocb = req->context;
+ 	struct kiocb_priv	*priv = iocb->private;
+-	struct ep_data		*epdata = priv->epdata;
++	enum aio_req_state	new_req_state;
++	enum aio_cancel_state	cancel_state;
+ 
+-	/* lock against disconnect (and ideally, cancel) */
+-	spin_lock(&epdata->dev->lock);
+-	priv->req = NULL;
+-	priv->epdata = NULL;
++	/* Prevent future cancellation */
++	spin_lock(&aio_lock);
++	iocb->private = NULL;
++	spin_unlock(&aio_lock);
+ 
+ 	/* if this was a write or a read returning no data then we
+ 	 * don't need to copy anything to userspace, so we can
+ 	 * complete the aio request immediately.
+ 	 */
+-	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
++	if (!priv->is_read || unlikely(req->actual == 0)) {
+ 		kfree(req->buf);
+ 		kfree(priv->to_free);
+-		kfree(priv);
+-		iocb->private = NULL;
+ 		iocb->ki_complete(iocb,
+ 				req->actual ? req->actual : (long)req->status);
++		new_req_state = AIO_GIVEN_BACK;
+ 	} else {
+ 		/* ep_copy_to_user() won't report both; we hide some faults */
+ 		if (unlikely(0 != req->status))
+-			DBG(epdata->dev, "%s fault %d len %d\n",
++			DBG(priv->epdata->dev, "%s fault %d len %d\n",
+ 				ep->name, req->status, req->actual);
+ 
+ 		priv->buf = req->buf;
+ 		priv->actual = req->actual;
+-		INIT_WORK(&priv->work, ep_user_copy_worker);
+-		schedule_work(&priv->work);
++		new_req_state = AIO_COMPLETED;
+ 	}
+ 
+-	usb_ep_free_request(ep, req);
+-	spin_unlock(&epdata->dev->lock);
+-	put_ep(epdata);
++	spin_lock(&aio_lock);
++	priv->req_state = new_req_state;
++	cancel_state = priv->cancel_state;
++	spin_unlock(&aio_lock);
++
++	if (new_req_state == AIO_COMPLETED) {
++		INIT_WORK(&priv->copy_work, ep_user_copy_worker);
++		schedule_work(&priv->copy_work);
++	}
++	if (cancel_state != AIO_UNLINKING) {
++		usb_ep_free_request(ep, req);
++		put_ep(priv->epdata);
++		if (new_req_state == AIO_GIVEN_BACK)
++			kfree(priv);
++	}
+ }
+ 
+ static ssize_t ep_aio(struct kiocb *iocb,
+@@ -532,11 +615,12 @@ static ssize_t ep_aio(struct kiocb *iocb
+ {
+ 	struct usb_request *req;
+ 	ssize_t value;
++	struct usb_ep *ep;
++	bool need_unlink = false;
+ 
+ 	iocb->private = priv;
+ 	priv->iocb = iocb;
+ 
+-	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+ 	get_ep(epdata);
+ 	priv->epdata = epdata;
+ 	priv->actual = 0;
+@@ -547,10 +631,12 @@ static ssize_t ep_aio(struct kiocb *iocb
+ 	 */
+ 	spin_lock_irq(&epdata->dev->lock);
+ 	value = -ENODEV;
+-	if (unlikely(epdata->ep == NULL))
++	ep = epdata->ep;
++	if (unlikely(ep == NULL))
+ 		goto fail;
++	priv->ep = ep;
+ 
+-	req = usb_ep_alloc_request(epdata->ep, GFP_ATOMIC);
++	req = usb_ep_alloc_request(ep, GFP_ATOMIC);
+ 	value = -ENOMEM;
+ 	if (unlikely(!req))
+ 		goto fail;
+@@ -560,12 +646,45 @@ static ssize_t ep_aio(struct kiocb *iocb
+ 	req->length = len;
+ 	req->complete = ep_aio_complete;
+ 	req->context = iocb;
+-	value = usb_ep_queue(epdata->ep, req, GFP_ATOMIC);
++
++	priv->req_state = AIO_SUBMITTING;
++	priv->cancel_state = AIO_NOT_CANCELLED;
++
++	/* Not allowed to manipulate the aio context while holding dev->lock */
++	++epdata->dev->udc_usage;
++	spin_unlock_irq(&epdata->dev->lock);
++
++	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
++	value = usb_ep_queue(ep, req, GFP_KERNEL);
++
++	spin_lock_irq(&epdata->dev->lock);
++	--epdata->dev->udc_usage;
++
+ 	if (unlikely(0 != value)) {
+-		usb_ep_free_request(epdata->ep, req);
++		spin_lock(&aio_lock);
++		iocb->private = NULL;
++		spin_unlock(&aio_lock);
++
++		usb_ep_free_request(ep, req);
+ 		goto fail;
+ 	}
+ 	spin_unlock_irq(&epdata->dev->lock);
++
++	spin_lock_irq(&aio_lock);
++	if (iocb->private != NULL) {
++		priv->req_state = AIO_RUNNING;
++
++		/* Cancelled before or just after submission? */
++		if (priv->cancel_state == AIO_UNLINK_DONE) {
++			priv->cancel_state = AIO_NOT_CANCELLED;
++			need_unlink = true;
++		}
++	}			/* Otherwise already completed */
++	spin_unlock_irq(&aio_lock);
++
++	if (need_unlink)	/* Redo cancel that was too early */
++		ep_aio_cancel(iocb);
++
+ 	return -EIOCBQUEUED;
+ 
+ fail:
+@@ -618,6 +737,7 @@ ep_read_iter(struct kiocb *iocb, struct
+ 		value = -ENOMEM;
+ 		if (!priv)
+ 			goto fail;
++		priv->is_read = true;
+ 		priv->to_free = dup_iter(&priv->to, to, GFP_KERNEL);
+ 		if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
+ 			kfree(priv);
