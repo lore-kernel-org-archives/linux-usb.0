@@ -1,320 +1,173 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C67353A8C
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 12:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788264247; cv=pass; b=CZ3tqPCp8rAXSl/epD5Q2JGe/hfTb4bI1nizuZe9xdg+fX9mEKU9w84JCX/D6+C563uhP+fpLO1Xi7EkMSaD26yBOD0Pxd+R0bs5WP9WeLh1JTBr7BakhH+3N685kpN8BR6CQxw0vunAfIRkvANiPaVFeDhRvdcJOefXojpVxik=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788264247; c=relaxed/simple;
-	bh=4wX95984+0yQBtDcOClZ0inBv6+RRrIe9kyWoLrt8CA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xb+hPiVgSIgwf1SVTXeOQ5TVieXrgwQDjxXBJWRkFe4csQ+EE4kDuT8KYHbH5Np68jNT9oNqNRl5o121npU0GVGnmIqWS87uObwtgfMIljgPz1g1uykX3ztPTjCze5MTJrp7PqgR8Tj2bYwaW/SlPzdJ/3qyltQQM62hy3a/DDs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tl/KTB3j; arc=pass smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tl/KTB3j"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b523efb0bfso4157542e87.3
-        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 05:04:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788264243; cv=none;
-        d=google.com; s=arc-20260327;
-        b=phG4ZXbqJKa5FV7xothOHY3AIU4Wf84PpIAi0ILQdqZottm52Kb1SXvMpo59EqsyBw
-         CprQ8tr/1nK5pT27vk0f5wpQ2ZBuc1wryMbPnvghEp/OLnVm9Oucy4KyJTBDNDbSQwIl
-         6b84miRirKPOoA2kCMZ/pakefaw0muvaS7oZV1Umin+7YJ0otKh1BTXQGskaOTeifjq+
-         owDWiqPGvPAwKVtTnKubIyxMw2AMHt/yXRF24rOEUq7TpJTKsBNoEEdUPFWUCqlITtGf
-         uW5oyR/TmdHvDfWKVn47i0LiEtye8ka4sj6lIovMntn4uOmdqyWt1jhDOLjf6k1vaeVv
-         4CfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sofiRxnEQnW9qdiNAvl3XkRdrOIskc1MiCk8v3PsR+I=;
-        fh=sjSOFYLJGIMhuwt+aMrrlz60hQS8VTAOYD3tGhvneJU=;
-        b=EKXTcopnaVMdVcW0WZpKAaddwSbT3ew4ycpXe9lIYlsX8v1lpGCnMU0avbojl/qA1i
-         tQ9L0FWaHf67cpaubX7M3K76W1kDxbLbzpmAtekeDQhyatVpiU0nTrDpYfrygqvu+rHo
-         xzZXgy9zXV5eTFUaOymdkj/Pp0rDP+Qdhzk0rmzKodBizR7X2yu/nMfdvZ5Fyh0YCKz7
-         3BCDEBzX5BAxWvIvnawKLwJEUTwKFoIgA0EkAhvsju6JVtXRXzFcgExFZhJMnGqHha/M
-         QiJ3kmeg9onUVdi7VWxZmmLXh8qERODyUyb1AfndLFPmgwvFlmJgaoUKB/VYbEM+MyQP
-         k1WQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788264243; x=1788869043; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sofiRxnEQnW9qdiNAvl3XkRdrOIskc1MiCk8v3PsR+I=;
-        b=Tl/KTB3jFB9IpDWcykmCUnueumvOV/8OcVp7B3u7JsWN7nuvrvu6Z9tVHDiJqDGzzv
-         9S6fplWm3qAC4g2S2GV6nYH0juts6PyZW3BhAyVEzZlapHa7uEqqECfbqBFEqNxNpHbU
-         CcxhDmGwzakUkp0ES7o455Gho8FgvcvIHBmNzwg1988XbjY1iGa5sL4sRIOOVB12rbFg
-         aAQtq84vMa1f5rLlm4y/2+D71sy3QX+yoZ2XYldk60+K0mHNIBAzDJH81Wc02zoaWu7U
-         R0qoXTDVw9bSg+H/8ZEFCSryoTpYqjY/2HzWUKewS/Eu6potxFOcjTtPLMhfUjwhiqrm
-         1+Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788264243; x=1788869043;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=sofiRxnEQnW9qdiNAvl3XkRdrOIskc1MiCk8v3PsR+I=;
-        b=pzj+dgQLpYGYVXb0J+FN3xXwQcHS63WX4/o10jr/NazReZ6eaKN/tgRr55okKrGX1Y
-         T7ZMUMv2Lw5oM5OG39xGVEbZVUL4yloK6Gw7OlPX9cJhKXs0wrD8qqg925udZsp+wDYW
-         BaSwBMjmPcb92b701SFLSvemnCPRgidNI+6cWQwVncX3FWuuEpYaaukur42q/rPoUQP1
-         sTNgwwHp0dFpO5SuL61tWDX2dxxQS8pRswEpUYXeoqmnqB8VWiJASptoi2MWWt+JMkOW
-         US8R8bDz/aQ7AkPVvtCskHTvyrJ/wWpTqGZGjHK+iCIFUQhVEJSJYai/lRAV3Nttbal5
-         BdsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz8WYc6OzEw+EXVZQiy7JNBRKomv9zOhCGOljsx+ql5tu2eg9BNszbcaRLYTvS4jzOG/1FRX3vtofM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mPS3sTh2mCudaqQluwOx1oaft5KVcMmPoSzEvdNDJw0Zplqm51
-	GumM/bS8zJJH1Wnt6+yO/xodo2DQnhvarAMrF+KrfbQDY1N0SfVnK2Q40t2J2RNy1k9FNzyWocj
-	WTOPXFwI9lDXvdx1znGFI3qaM7zuhy0g=
-X-Gm-Gg: AYBFou26HVTRvnqEPQwlYZaf3ETMNdT0dRuGbJqeKx1yVwgHwsZWwlm2iCWmV3/dtW6
-	p3HMu3+YH/77/K6lsAaJelidJEm/chUjyjHTm4Od2w3KfxGDUVsXRYWeyjoo9TrM2TV/7WPQkHO
-	winBkI6UX37wjfXa2qB3u6xyQpQIWWxHJ6CyYSm4u8on2McIU6e1ljBXIr3E0k9jfXCGsygL32b
-	5ulDJzr8bp+ejuj7T58S5QoSWukuTI1m8O084XIE6o3OdHIRW5RyabV9y94XsHQgNhEHmBOXBAg
-	0roFYyfjn1+D/gu1yxi1e9mdITSpi72lpJgWH98gkmaYkZVLh9BU2b87ueV5rltCPcD2o0r1HVp
-	7t8T94FQmq+ZcQ+de0jIH1Yz6ZWXYWxgwGmK7Ws3u53Fg4m2OCTvumcuZtz55
-X-Received: by 2002:a2e:a7ca:0:b0:3a3:1418:ac70 with SMTP id
- 38308e7fff4ca-3a33964aa2dmr14956651fa.10.1788264242504; Tue, 01 Sep 2026
- 05:04:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FE448CD63
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 12:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.154.241.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788265028; cv=none; b=M5suOVq2GxhuyY0TOt5w23G98oaXPA24dh9CmH31iyzr3bcLjZC5dbJkevXffzF+q2gpsjlcNwpFppVwSCNwAKM088qpHBYnHBZXRRGAyP8QbAxA9PUz6T78hkv2HcgSqpXHCI2HGpq1TPD1xyr+wH4EBhQB3FrTeWw7QBwibz0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788265028; c=relaxed/simple;
+	bh=3DDWzuouVeitphT3U119ykjAGESGGo9R6T5TrJs5+J0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jXW+jxNfANjWm1leS9kDcodQQMSCjAfViYsYSU3MGYCSUf/ygIqmhgx9Wv8ldbqmssda7e/z9U0DqUNwCCzeF+J2T88d3y3uYQFC7QZ7AGtAUqBtymhJyQ2aNnPNEwJRSMc7EOSSV+CwFDXU9bnVK4dhvI0APU35RdRkn73lgP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com; spf=pass smtp.mailfrom=lauterbach.com; arc=none smtp.client-ip=62.154.241.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
+Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
+	(Authenticated sender: ingo.rohloff@lauterbach.com)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id 4E1E419FACFF7;
+	Tue, 01 Sep 2026 14:09:25 +0200 (CEST)
+From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To: gregkh@linuxfoundation.org
+Cc: viro@zeniv.linux.org.uk,
+	nkapron@google.com,
+	me@samcday.com,
+	michael.bommarito@gmail.com,
+	linux-usb@vger.kernel.org,
+	Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Subject: [PATCH 2/3] usb: gadget: f_fs: register cancellation handler only after request queueing
+Date: Tue,  1 Sep 2026 14:09:07 +0200
+Message-ID: <20260901120908.14386-3-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260901120908.14386-1-ingo.rohloff@lauterbach.com>
+References: <20260901120908.14386-1-ingo.rohloff@lauterbach.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260829145516.13500-1-edward.blair@gmail.com>
- <20260829145516.13500-3-edward.blair@gmail.com> <apavoDwVFw_FKRNd@black.igk.intel.com>
-In-Reply-To: <apavoDwVFw_FKRNd@black.igk.intel.com>
-From: Edward Blair <edward.blair@gmail.com>
-Date: Tue, 1 Sep 2026 13:03:50 +0100
-X-Gm-Features: AcwNN1UEea8S3wAXLqqHMJokgR8_-cuL_GQ1DBl7z6gMRKRRgcsCI9a3_hBWT7M
-Message-ID: <CAJDQNgjq-oxQkdYK+fTSd5AHMjM-qTcSPo+s2-+W=Pcn7jYr-g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: add ITE885x I2C transport driver
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
-	lenb@kernel.org, mika.westerberg@linux.intel.com, gregkh@linuxfoundation.org, 
-	W_Armin@gmx.de, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
+X-Bm-Transport-Timestamp: 1788264565374
 
-Thanks,
+Call kiocb_set_cancel_fn() only after usb_ep_queue() completes
+successfully.
 
-I will add the explicit includes and use guard(mutex) for event_lock.
+This also undoes commit e78dcb1f7ec2 ("usb: gadget: f_fs: Fix
+Use-After-Free in AIO error path"): The described error is avoided by
+making sure the cancellation handler is only registered, if there is
+something to cancel.
 
-I kept the explicit IRQ handling because ucsi_resume() queues work which
-issues UCSI commands. If the callbacks are moved to the noirq phase,
-that work can run before the parent I2C controller's resume_early or
-resume callback, while the controller may still be unavailable.
+Registering the cancellation handler adds the kiocb to the context's
+active request list (active_reqs in aio.c).  If usb_ep_queue() fails, the
+request was never actually submitted to the hardware, which means the
+request is not active.  The aio framework already deals with calling the
+completion function ki_complete() automatically if you do not return
+-EIOCBQUEUED.
 
-The current ordering disables the device IRQ before quiescing UCSI, then
-re-enables it during normal resumption after the I2C bus has resumed. Does
-that address your concern, or would it be preferable the IRQ and UCSI
-handling to be split across separate PM phases?
+Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+---
+ drivers/usb/gadget/function/f_fs.c | 50 ++++++++++++------------------
+ 1 file changed, 20 insertions(+), 30 deletions(-)
 
-Thanks,
-Edward
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 76fba3085664..9dec09d06ca9 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -1014,8 +1014,21 @@ static struct ffs_ep *ffs_epfile_wait_ep(struct ffs_epfile *epfile, struct file
+ 	return ep;
+ }
+ 
+-static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
++static int ffs_aio_cancel(struct kiocb *kiocb)
+ {
++	struct ffs_io_data *io_data = kiocb->private;
++	int value;
++
++	if (!io_data || !io_data->ep || !io_data->req)
++		return -EINVAL;
++
++	value = usb_ep_dequeue(io_data->ep, io_data->req);
++	return value;
++}
++
++static ssize_t ffs_epfile_io(struct kiocb *kiocb, struct ffs_io_data *io_data)
++{
++	struct file *file = kiocb->ki_filp;
+ 	struct ffs_epfile *epfile = file->private_data;
+ 	struct usb_request *req;
+ 	struct ffs_ep *ep;
+@@ -1227,6 +1240,8 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 	 * by ffs_user_copy_worker.
+ 	 */
+ 	data = NULL;
++	kiocb->private = io_data;
++	kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+ 
+ error_lock:
+ 	spin_unlock_irq(&epfile->ffs->eps_lock);
+@@ -1266,19 +1281,6 @@ ffs_epfile_open(struct inode *inode, struct file *file)
+ 	return stream_open(inode, file);
+ }
+ 
+-static int ffs_aio_cancel(struct kiocb *kiocb)
+-{
+-	struct ffs_io_data *io_data = kiocb->private;
+-	int value;
+-
+-	if (io_data && io_data->ep && io_data->req)
+-		value = usb_ep_dequeue(io_data->ep, io_data->req);
+-	else
+-		value = -EINVAL;
+-
+-	return value;
+-}
+-
+ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ {
+ 	struct ffs_io_data io_data, *p = &io_data;
+@@ -1299,21 +1301,15 @@ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ 	p->data = *from;
+ 	p->mm = current->mm;
+ 
+-	kiocb->private = p;
+-
+-	if (p->aio) {
++	if (p->aio)
+ 		mmgrab(p->mm);
+-		kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+-	}
+ 
+-	res = ffs_epfile_io(kiocb->ki_filp, p);
++	res = ffs_epfile_io(kiocb, p);
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 	if (p->aio) {
+-		kiocb->ki_complete(kiocb, res);
+ 		mmdrop(p->mm);
+ 		kfree(p);
+-		return -EIOCBQUEUED;
+ 	} else {
+ 		*from = p->data;
+ 	}
+@@ -1349,23 +1345,17 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+ 	}
+ 	p->mm = current->mm;
+ 
+-	kiocb->private = p;
+-
+-	if (p->aio) {
++	if (p->aio)
+ 		mmgrab(p->mm);
+-		kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+-	}
+ 
+-	res = ffs_epfile_io(kiocb->ki_filp, p);
++	res = ffs_epfile_io(kiocb, p);
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 
+ 	if (p->aio) {
+-		kiocb->ki_complete(kiocb, res);
+ 		mmdrop(p->mm);
+ 		kfree(p->to_free);
+ 		kfree(p);
+-		return -EIOCBQUEUED;
+ 	} else {
+ 		*to = p->data;
+ 	}
+-- 
+2.55.0
 
-On Tue, 1 Sept 2026 at 11:57, Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Sat, Aug 29, 2026 at 03:55:16PM +0100, Edward Blair wrote:
-> > Add a UCSI transport driver for ITE8853 and ITE8800 through ITE8805
-> > USB Type-C controllers found on desktop motherboards.
-> >
-> > These controllers expose CCI, MESSAGE_IN and CONTROL at ITE-specific I2C
-> > offsets and signal UCSI and vendor events through a shared interrupt
-> > status register. Read and cache each complete UCSI event before
-> > acknowledging it so command data remains coherent between the interrupt
-> > handler and UCSI core.
-> >
-> > The interface does not expose a VERSION register and does not accept
-> > PPM_RESET over I2C. Report UCSI 1.0, limit MESSAGE_IN to its 16-byte
-> > window and handle PPM_RESET locally, matching the vendor driver's
-> > behavior.
-> >
-> > Signed-off-by: Edward Blair <edward.blair@gmail.com>
-> > ---
-> >  drivers/usb/typec/ucsi/Kconfig    |  11 +
-> >  drivers/usb/typec/ucsi/Makefile   |   1 +
-> >  drivers/usb/typec/ucsi/ucsi_ite.c | 395 ++++++++++++++++++++++++++++++
-> >  3 files changed, 407 insertions(+)
-> >  create mode 100644 drivers/usb/typec/ucsi/ucsi_ite.c
-> >
-> > diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-> > index 87dd992a4..3819c4f73 100644
-> > --- a/drivers/usb/typec/ucsi/Kconfig
-> > +++ b/drivers/usb/typec/ucsi/Kconfig
-> > @@ -104,4 +104,15 @@ config UCSI_HUAWEI_GAOKUN
-> >         To compile the driver as a module, choose M here: the module will be
-> >         called ucsi_huawei_gaokun.
-> >
-> > +config UCSI_ITE
-> > +     tristate "UCSI Interface Driver for ITE885x"
-> > +     depends on ACPI && I2C
-> > +     help
-> > +       This driver enables UCSI support on platforms that expose an ITE8853
-> > +       or ITE8800-ITE8805 USB Type-C controller over I2C, commonly found
-> > +       on ASUS Z690/Z790/X670E motherboards.
-> > +
-> > +       To compile the driver as a module, choose M here: the module will be
-> > +       called ucsi_ite.
-> > +
-> >  endif
-> > diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-> > index c7e38bf01..9bc1d6bbb 100644
-> > --- a/drivers/usb/typec/ucsi/Makefile
-> > +++ b/drivers/usb/typec/ucsi/Makefile
-> > @@ -28,3 +28,4 @@ obj-$(CONFIG_UCSI_PMIC_GLINK)               += ucsi_glink.o
-> >  obj-$(CONFIG_CROS_EC_UCSI)           += cros_ec_ucsi.o
-> >  obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)  += ucsi_yoga_c630.o
-> >  obj-$(CONFIG_UCSI_HUAWEI_GAOKUN)     += ucsi_huawei_gaokun.o
-> > +obj-$(CONFIG_UCSI_ITE)                       += ucsi_ite.o
-> > diff --git a/drivers/usb/typec/ucsi/ucsi_ite.c b/drivers/usb/typec/ucsi/ucsi_ite.c
-> > new file mode 100644
-> > index 000000000..16b22c77f
-> > --- /dev/null
-> > +++ b/drivers/usb/typec/ucsi/ucsi_ite.c
-> > @@ -0,0 +1,395 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * UCSI I2C transport driver for ITE885x USB-C controllers
-> > + *
-> > + * ITE8853/ITE8800-ITE8805 are UCSI-compliant USB-C controllers found on
-> > + * desktop motherboards. They communicate over I2C using UCSI registers at
-> > + * ITE-specific offsets and signal events through a vendor interrupt register.
-> > + */
-> > +
-> > +#include <linux/acpi.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
->
-> We need to include everything instead of relying on nested headers
-> nowadays.
->
->         linux/device.h
->         linux/device/devres.h
->         linux/dev_printk.h
->         linux/pm.h
->         linux/string.h
->
-> > +static int ucsi_ite_process_event(struct ucsi_ite *ite, u32 *cci)
-> > +{
-> > +     u8 message_in[ITE_MESSAGE_IN_MAX_LEN] = {};
-> > +     __le32 raw_cci;
-> > +     u8 status;
-> > +     u8 len = 0;
-> > +     int event;
-> > +     int err = 0;
-> > +     int ret;
-> > +
-> > +     mutex_lock(&ite->event_lock);
->
-> guard(mutex)(@ite->event_lock);
->
-> > +     ret = ucsi_ite_read(ite, ITE_REG_INT_STATUS, &status, sizeof(status));
-> > +     if (ret)
-> > +             goto out_unlock;
-> > +
-> > +     status &= ITE_INT_MASK;
-> > +     if (!status) {
-> > +             mutex_lock(&ite->received_lock);
-> > +             *cci = ite->cci;
-> > +             mutex_unlock(&ite->received_lock);
-> > +             ret = ITE_EVENT_NONE;
-> > +             goto out_unlock;
-> > +     }
-> > +
-> > +     if (status & ITE_INT_CCI) {
-> > +             err = ucsi_ite_read(ite, ITE_REG_CCI, &raw_cci,
-> > +                                 sizeof(raw_cci));
-> > +             if (!err) {
-> > +                     *cci = le32_to_cpu(raw_cci);
-> > +                     len = UCSI_CCI_LENGTH(*cci);
-> > +
-> > +                     if (len > sizeof(message_in)) {
-> > +                             len = sizeof(message_in);
-> > +                             *cci &= ~GENMASK(15, 8);
-> > +                             *cci |= UCSI_SET_CCI_LENGTH(len);
-> > +                     }
-> > +                     if (len) {
-> > +                             err = ucsi_ite_read(ite, ITE_REG_MESSAGE_IN,
-> > +                                                 message_in, len);
-> > +                     }
-> > +             }
-> > +     }
-> > +
-> > +     /* Acknowledge each latched event with the value expected by the PPM. */
-> > +     if (status & ITE_INT_VENDOR_ALERT) {
-> > +             u8 ack = ITE_INT_VENDOR_ALERT;
-> > +
-> > +             ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-> > +             if (ret)
-> > +                     goto out_unlock;
-> > +     }
-> > +
-> > +     if ((status & ITE_INT_CCI) && !err) {
-> > +             u8 ack = ITE_INT_CCI;
-> > +
-> > +             ret = ucsi_ite_write(ite, ITE_REG_INT_ACK, &ack, sizeof(ack));
-> > +             if (ret)
-> > +                     goto out_unlock;
-> > +     }
-> > +
-> > +     if (err) {
-> > +             ret = err;
-> > +             goto out_unlock;
-> > +     }
-> > +
-> > +     if (status & ITE_INT_CCI) {
-> > +             mutex_lock(&ite->received_lock);
-> > +             ite->cci = *cci;
-> > +             memset(ite->message_in, 0, sizeof(ite->message_in));
-> > +             memcpy(ite->message_in, message_in, len);
-> > +             mutex_unlock(&ite->received_lock);
-> > +             event = ITE_EVENT_CCI;
-> > +     } else {
-> > +             mutex_lock(&ite->received_lock);
-> > +             *cci = ite->cci;
-> > +             mutex_unlock(&ite->received_lock);
-> > +             event = ITE_EVENT_VENDOR;
-> > +     }
-> > +
-> > +     ret = event;
-> > +
-> > +out_unlock:
-> > +     mutex_unlock(&ite->event_lock);
-> > +     return ret;
-> > +}
->
-> > +static int ucsi_ite_suspend(struct device *dev)
-> > +{
-> > +     struct ucsi_ite *ite = dev_get_drvdata(dev);
-> > +     int ret;
-> > +
-> > +     disable_irq(ite->client->irq);
-> > +     ret = ucsi_suspend(ite->ucsi);
-> > +     if (ret)
-> > +             enable_irq(ite->client->irq);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int ucsi_ite_resume(struct device *dev)
-> > +{
-> > +     struct ucsi_ite *ite = dev_get_drvdata(dev);
-> > +
-> > +     enable_irq(ite->client->irq);
-> > +     return ucsi_resume(ite->ucsi);
-> > +}
-> > +
-> > +static DEFINE_SIMPLE_DEV_PM_OPS(ucsi_ite_pm, ucsi_ite_suspend,
-> > +                             ucsi_ite_resume);
->
-> Is the enable/disable_irq really necessary - couldn't you just use
-> NOIRQ version of the PM operations (DEFINE_NOIRQ_DEV_PM_OPS)?
->
-> Thanks,
->
-> --
-> heikki
