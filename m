@@ -1,144 +1,178 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013032.outbound.protection.outlook.com [40.107.159.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68C843E08F
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 19:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D91313E38;
+	Tue,  1 Sep 2026 19:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788290390; cv=pass; b=SjUsbSVvU3YNo9jdOz6z2FlNsyJN5zoN9eGII3UcLAz22LUlC7KRoAXL9acZ6no+bU3rgVjps2OIudpyZ7l6gZN4se7hXef1EEQ3HdktpoEEOxNg1R5KSKxz1Gtpp0kru6yuRy6XuS53cqxYatS7XlBbjE44mojVeCgLofwf7FY=
+	t=1788291070; cv=fail; b=tpMcHqJnjodLujoFKeRaE4lKmeosipynC52awnS75jKIWJfm90muS0sgtucCTueqbGuXeKcCoWoPm+p1dGBnqy/pKQ9F9gdz4shG226eQbwMRBi28SmqSm8y3Fg9/n8CAzx09SY7mFe5WYL6ak1qaelpmOhEMLGHDYcFaxi/pVM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788290390; c=relaxed/simple;
-	bh=OeXCShUDRg/EoGX0bQe5nZls3cDjB6iKzioYj+6G7Po=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MgTyxiStb0hn2QwHSo3WD54d8+7GHhae4kP8aCOIe4XK+MHkVbAq3TyJuaviFTYjGHwJ7AITugtW4pLd2knoUKn/R6R4KwFzosDxBHoxzHE+tJPGzXF7YnmX/L+xjTD/5wUMbh7V7Q77Uf/+TWo1PAkKxztjueZlcgRzrRezcuI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KE/L64JM; arc=pass smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788291070; c=relaxed/simple;
+	bh=dsDttvbe36yqpN+xkHTvPl4c3cxnHfZnUA/+bhtYaSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=MndQoHdmxEYFY/gVC+Ik6ktVXsRDqQFiPqle6F6PpcAVyw8dMPX//r+qABk9BBM/Fsa5mULkJMNOnuqxti9PcKGrcNhYLZLZCosQjLWt5CM8bsWaiMBNne1qeH9kINUKLBQQT5iLpfdJtC+xAEIVhutB/aRlclLI6db5Hqd5Ub4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=KkdEoMTG; arc=fail smtp.client-ip=40.107.159.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KE/L64JM"
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-97e9adae64cso42145241.3
-        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 12:19:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788290388; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Dk3M1M/QmPSLDlGfWAAvOr8oqY/VTivD/Wlmwkx0p/Jx944DKHKGH3INPSEzn0fZGm
-         CbBgjTTHIVzeDRhznzvadELdwKvLwYDf2L+TmgR2Q12AQuNs4eOOWyhvvpcYpg0Rw6u6
-         KZLkD6Bm/Dl6CcSdCopGkC3u+JRgOETdSapUUO0QQVXmj8rk1+Rj9PE/5IFF812mut3L
-         BhBww09MBtURTds8sA/1GTU0ai30ND20s5gMovDwZH1icmFq6SsAOUP/Bbnw/Rdh4Je8
-         wqGH4mDSMtZ4/zBmZLqCUcXjBCAl7ujSYN1wzC7SkUigCs/L4b/b/LU4LFh3cd2HQu6A
-         Dmog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OeXCShUDRg/EoGX0bQe5nZls3cDjB6iKzioYj+6G7Po=;
-        fh=un3/iUC0S4NKvKR1bmfeIo5Bkqn3+c+mqSFgfYiOYAQ=;
-        b=iy+aEzW89irtTngV0UU7VTMbqRbNX4kNB3AEW/BcQJmPznrhUctCKonMHLqOJ3Nnx+
-         1QMlUQbbZ12z18Occ+nZu4vnTkahQPxkqZBbMgFLu+2jcyiHsUTATSTfJqqpeyiRDo7B
-         Ko2QKP83r6N/ToeMTS/AQONIXMgUraykOSXnBewfE+R+YXikyXPqhpD35afFEIquH2wc
-         4+cGe3GSyP52A/jaE/8+Mq3d5n5FSJiOB7tb7r9FuRW3Qq8KPlIjjXZsWTLaeYWKLppL
-         AhrbG6AAfLCv+sRaGbkpr5oZxIj+p0k760Sd8twMRPHKsaR2nNAa9VhncXjeC20GAAtw
-         4UxQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788290388; x=1788895188; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OeXCShUDRg/EoGX0bQe5nZls3cDjB6iKzioYj+6G7Po=;
-        b=KE/L64JMYW8qdYveadiAStk5did2TxAzFacqIinZC1vJbJ/Om66sG/K+SaFRkbVNXL
-         NX6M249DtIJjag6rfArHwpA5TXgdF3AmQFac1WCjiz9iSDLo0Nh2I0+B34WNvMLnKQL/
-         HlhX0EvCdAliYYp2Ykbbw1Nf7li9m1wyan07sFk7p7YMv8Dxu/JL+YBMgDnWxiybBS4Q
-         m3feFQuDRnCFxXPLKL2PDUNXbEOsV2dQm1K3U+CvHED5vPDdnkvWyswQvdRWYFHtRI62
-         LssFY43Qbqdbxq/VMlTRK9PiehJuRzidzUuBA6v9WRNpJIELzIG/ik68XAKR4MQw6PfZ
-         hDUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788290388; x=1788895188;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OeXCShUDRg/EoGX0bQe5nZls3cDjB6iKzioYj+6G7Po=;
-        b=pVcghVFOG9OEgvhIju7PmaZM+2BNU7xg/ve/guDQOgyXDqbJ1sc8bbw9lm1D3l67BF
-         9QP/88NhXeK4ZAMFt5LsLInQHO7b5y0sILphm3RrW/JcGwRKtdlBiL2YH84l+sRcJj2s
-         WVwMn+lNKjh0kVIIiaj8bIpmVYo3DhwWH5GGg9V453tsV7ld07M3m2z8y1LMz4h+/zLi
-         +jGUv3VIb8YB1v+qxcfSEWFI0LlBUBJg0zHuoOBjXC7xW+wJhGgCNCKgu+fv2r3AXYwW
-         /vUaAcDrAyEQXuxZG/Dg3qM3M7KJ1noeAynWXuh2iv0tW2yx3LQKvYEah6eOWorHDjqr
-         TF2w==
-X-Gm-Message-State: AFuF++krWlhUEZKPpwI3SEbnVF+c54oMpGhRi6cL+YxYRdRhuGrsmCYJ
-	K8tDai20lBXOapiZ0XMoUHO+ukNqmi5sHviS9kasJCaPt3nBympNF20MMFQyOjMqNFhvzaPzK1+
-	Gp7ByyZvYuNeUIL0FORaxUJcOgJ1N8AE=
-X-Gm-Gg: AYBFou388xCoaZF/pNoFQIJ7OePTe0FE3P8+5fIT7eE4bjtgOQbHcS/+aI3l0m0CKfq
-	fA3PU6VGncTYDLrpqxCi9XqNwamcnhKElzu+SWw+T9vMCzm1g9iwEuD6nS+Ld2iWNMwACjj/ijP
-	mCJX//glWw1QLId5PnXDnoDFZFyyNKetf9jToqnxlkniS+1YmiPrsnu9Hjan8c5/0nb5clZNzyG
-	CyyY9cB3Pc4Pvj9SHAtz0rcv7oe1dvkUZUm8XQDbXcc7wa+cnl44mUEPWOIELfNR7H+PGflWICN
-	C3nOp0BCLknsTtP1UwyhYr9HkB35EpaSeI8DtePytg8+gjVP0GtpPC83coafC/ogQNUGN2Wp3LZ
-	ZMzHJqRpSops=
-X-Received: by 2002:a05:6102:8090:b0:784:b9ec:910b with SMTP id
- ada2fe7eead31-78a1c856b5amr85437137.12.1788290387764; Tue, 01 Sep 2026
- 12:19:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="KkdEoMTG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ypBpqkhThBZIzKrRmGk/TVcC6/xN3e2d4tJvU5PfmCzK3tDy/4tlkaFi7kbzycfniJuqecxsCJ/xAW9QgZzwi6GY6Ic6Pm7WQmMLwJbj6HZgBXE8Accst6PtcivDs59ElvDAceTLdRN/tEveILMAUYAL2IUNjgKmT0s4t2f9cCldbZY9gMhRfQzLwZLH9DFm3GAjiuMLFcrUtfW4wa2GRnbtVcXwjH2DuPczfuptPbu7Ysl3oDT1Zs8w4tCut/XLV525ER8iNyRacLhiyzY6X5u7Zg7xOt5HgR+6tpwG4YgPJ/oEF4shqAZ5tgDCx1JFQHF0lvgdLTHIwa30t8MzSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gwWBdMKvNI5IrW5fE5pYJqlbPqlWyJ/ODQ4A5hF/5gM=;
+ b=chzroKpi7/5vgwvA1RXVYYP+PYUHdT5QUuRU+b43JjqySgyuTBsb5FOmPIg5mvFxyAW0DNznpY3RuuKjBFnsStOQIYYN3DVbdvX3nL4vK9G+Y2NNi7mincKkX+pI0dwHksEp8QrGJ5UaDRpub4NzAZA0VUfmBVetpVijpiLJR8+d4Zqxeo0S0pO+aqn8QDF+eQ5SM60aCnUufZj2ZEsQF9yaF0o2gg7s0+694Zus3wypjL5NAjTG5pCkHMo4BSc21l9vJWw1IdItzopkj3FWcG2XNJjKAJFgcbFtewL9G/Ersn8jpVIauUXcV++OMv6mBPypojWvPmtVE4o4SVAitg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gwWBdMKvNI5IrW5fE5pYJqlbPqlWyJ/ODQ4A5hF/5gM=;
+ b=KkdEoMTGUn6+10nRbuE0F5p8ZsrSRFc46YWgfGvgpdPTYoNJ+zgkS7pN6IGeJpCtiy6q64FrsRKJ5g44K2XrIxFaZWJibWWoMCNCc+LNG5BwJtCeAfVnvg51vbpLEVZjnYUU0Rd8bR0HTv3N2i/aDmztFxQsHk2xM3zJJuBU7BrffuWGiWnD1IgpYKfv4DAIMrew32xybOgA7xoD08OlSuHrsp10URV6KYjVt23sXT1cLyXGCWUb29ARZuntJFs7aAWp0yGtQf4u5z5erE7bVCqwJT3uhsudgpDzYZTCcsLsMqVweaNaN6mfg9UZMKyflw7zaNptn5+YhmZFsE/dtg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by VI2PR04MB10596.eurprd04.prod.outlook.com (2603:10a6:800:278::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 19:31:04 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
+ 19:31:03 +0000
+Date: Tue, 1 Sep 2026 14:30:55 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Xu Yang <xu.yang_2@oss.nxp.com>
+Cc: peter.chen@kernel.org, gregkh@linuxfoundation.org,
+	alexander.shishkin@linux.intel.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH] usb: chipidea: otg: fix invalid role name print when no
+ current role
+Message-ID: <apcn76jpNlMfaSe_@SMW015318>
+References: <20260901060150.1667914-1-xu.yang_2@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901060150.1667914-1-xu.yang_2@oss.nxp.com>
+X-ClientProxiedBy: CY8PR19CA0029.namprd19.prod.outlook.com
+ (2603:10b6:930:6::18) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260827175703.1549-1-orgads@gmail.com> <2026090139-shout-unscrew-0197@gregkh>
-In-Reply-To: <2026090139-shout-unscrew-0197@gregkh>
-From: Orgad Shaneh <orgads@gmail.com>
-Date: Tue, 1 Sep 2026 22:19:35 +0300
-X-Gm-Features: AcwNN1XyWSUHocmPj2MzGIz9O3V7vm4LgQI7ayfr9wFZoCCSHoE-NA8v0K5-Wdk
-Message-ID: <CAGHpTBKDBsecVq3Tww7qSo+h9=MVxe-AFAMkUbowK8MbEpu1xg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] usb: octeon-hcd: fix the FIFO-flush timeout computation
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|VI2PR04MB10596:EE_
+X-MS-Office365-Filtering-Correlation-Id: 27bca16f-5786-44a1-b50d-08df085f8f86
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|19092799006|1800799024|376014|366016|18002099003|22082099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	usNg0iepdfrEL75no2J6C7l0QSM5eVcmjVRZRBALqVTB71UA8ID9fM/I4yvNLeviGuY8h1aopxkdM56txTnKv18kAkJod5SnzKIeDo9BTL7pr0SkrniwJ9LFPfb9AfDEW2hn2aTKqrqNiR6G43ztr6e1HjuDS+sLeax7/JI7b8jGdum+gE3ORI69+xRg+lBayNVA7FHribXwymMXAX/IadoLlm+NXLzkP4MXRYwNWds5qfWpJsep6a1oTFyfMftSqAos6cNQgcrLXuwUmsKzEtIBpgw0XmDDHGcRO0j4Do5QnBcKKFblWtM4NssP2tF6Wns+HqcLJHSwakMKKO4WdMrWq0pt8AtmjFJt4fWOro6rHGx69y1dbEa7CMzqRg+kyXWbstk4DI/JXuRf06AULUHmnfozh2Q/TPSyfr/+w33ooRPl0243cM8qfIFuTZF3romn4i3aeoWra0qJqqz2QVImt08fx9GBT43/o7wfujbkyLBdJ/p98T0fH38h/q2NSK6Rqe/V0e7zt6WSTcoJx84A7Wmn4/euh30f3eB8WfwESOLgCsOx29FrZvpHkcbqT6J5UL86mmNLJC8BuGrUAXvS/bBXxOBr/WS3YJGKlkBJ+NxTpbwi8prSas61hQ0ZT1j1A3+3oDOIC/iuo6NANQS9WWhIchrFuOdiJ0CfMyU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(1800799024)(376014)(366016)(18002099003)(22082099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?caVjo3R8jER251S7kgQglj2FcYr29vJO+leC5mX49HKFBo2oJTl3Owjk3WR7?=
+ =?us-ascii?Q?ss08Vq95/9g9WLp7xJZ8Z8lhNAwpURjCLLB5ac8cpLSEKWdyOeO2ADN0uwwN?=
+ =?us-ascii?Q?X9qEU5NodyctD4LYuT1Y5qZ4jpD0s0E3aoG8kBbgP3TRTOdJrD9Q6EeV5vO6?=
+ =?us-ascii?Q?mHWgu4SFg9o2txFOkCGmrVqwt5GeXhkGyNYMG3h62OZqn7dD3IFP376C+2qU?=
+ =?us-ascii?Q?bcXgcgZ4Tk4oOzNjwyIdIqF5S8piow1K/Su+QEDEECvDdZpYTW3Yn28KSaar?=
+ =?us-ascii?Q?Vh1/fdb1/qhx0Rn9j04MHyzNIQ14ApwC++rQdb1dPFTCEkd1xvg/QEpQZ/0X?=
+ =?us-ascii?Q?pobLpRO4Exm9+11WEKZlvzd/vKVeY9rPkXlzdZBskkrNFLna0P07i9qzbRO+?=
+ =?us-ascii?Q?6AiO7EICRePCBVFjoo3yua5BtXNGlWWGBODuxuPtOMboLk9d92ml2dbpVYGn?=
+ =?us-ascii?Q?2Nkhc/imry5Al8rWIe0NV35uvSX3bOgA5fXTL035XhwnwgxQpSR7feQ5TzBY?=
+ =?us-ascii?Q?T7nzVe3+ov6EtevBqJ+dHTk8rfUrAcSmv7kfj9yrYrtaR+v+VWw6MrQ7kcXt?=
+ =?us-ascii?Q?4htCKXNHDRcEl0t2/UibHr9sDeYNbEUF3VjCvXelRPW727Iy7a0hqmc9CPnJ?=
+ =?us-ascii?Q?z7rZrQDRP+l4cIRytBgVZHGlXfvfCwrOb2VX5yZAL+gID26mbI/bM/PvZETI?=
+ =?us-ascii?Q?UM+x8hvu3WsxLFs4N0vZ1/cwpV3gm2R1iYisD77K3okWCmBG4DwL3LWYnGtU?=
+ =?us-ascii?Q?C5tSDm8CqCzwiBBkgI91aYZb58NJVjovqx1isPmm9B5EdSLZB/y0bOlgHYao?=
+ =?us-ascii?Q?eWaDie4SZTqZM6bavliOU8bo1LldVJ5sPDDr+TQuqLi6Ae9VkeQ6nT1JxK1o?=
+ =?us-ascii?Q?z9kiVDtc1GdDVr6tvDugfOvkgLF8CO7vwJiwNffQE3XXx4BBupU/6JRYr3Z7?=
+ =?us-ascii?Q?8r47wgJo+xqNF2+TzvdxzwpdePTD6ND7sE5nQgEuaTgbQWFuUDDfmXdfddVX?=
+ =?us-ascii?Q?DxKkA/3Rvutnpk7V4HT3kNqdGnKZF4oFUQINJVEQr0pQy182rF6ld0xi5x08?=
+ =?us-ascii?Q?eVs8L865mCZ2BoH5xNF8yULKEyf4EnJgJZAMkHw/IMP7C9k3hTiGjfLzuZK6?=
+ =?us-ascii?Q?K3IJjTpIdmNZRfXR7glA7PeIX7lN/5lMu48g2ZI4AYYNmWC+a4OZlOJDtlSD?=
+ =?us-ascii?Q?5hZjChBOsfkAUkcgo73jtj5YjMILS077YiqX+ALr+3LEJf3BkOv1d0JgIDDS?=
+ =?us-ascii?Q?ZSc9ArpLXgfXZlK+29zzXXEKpm1kWRmmoNW7JcXsmC1JwW9fI3vDnYjekrSm?=
+ =?us-ascii?Q?GQixy0r9rw3RrqhmYHUkLiRTIBMmLjis4GyxIgrUC7JKCl2F3d6T6twtEXfm?=
+ =?us-ascii?Q?IyCQQK10Ou1xWSib6ULhd/mV8tHfyCP7984AEOyRZq+WW8Q49THTx8Jyyv+R?=
+ =?us-ascii?Q?nSMCVfsbL7+MLUFPa5aNAyzfrCy3+J+5in82t79fkZvzMBWVqIssiCDqbG7f?=
+ =?us-ascii?Q?ti6148lC0LuXgetotv2lz/PPS1W1JWyfLZFxg2bmqO0W0Zo+MspZhn9RmTsb?=
+ =?us-ascii?Q?8x5zMjeobMEp1o9I+VQxJuwlx4nYpA9NY2p6R3szi2G4MqUOPJSJzRxujrH+?=
+ =?us-ascii?Q?iNuTpRnbXJjdC+eB9UHIQ0iFm1HbnoSPnK4PMupI50r7yPV7/Gn4EFunyUaX?=
+ =?us-ascii?Q?zbgSzBTHCRVjnnz/sCZl/gYoImwovDzEzP1Ax1pWeCxrpzvLabr2wb7x1Yok?=
+ =?us-ascii?Q?iViT7mgqVQMopefKjF7NO4mFGPNf/AY8qwVcfndTdGniTljb/D7H?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27bca16f-5786-44a1-b50d-08df085f8f86
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 19:31:03.6488
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EQ+W5bGenNZg9eIPDfH7ZDYeCZTYSw8Z1pcnt4OY1gvu6YR9SuXREpt/SCsRuis06dHdA6gsgIhwIDa3nhG+/aGzMnbCRJbGJ263ZwhB/eiBMs0Ym61NoIFaaZ6jRSxh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10596
 
-On Tue, Sep 1, 2026 at 5:48=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
-> Should this series have an Assisted-by: tag?
+On Tue, Sep 01, 2026 at 02:01:50PM +0800, Xu Yang wrote:
+> From: Xu Yang <xu.yang_2@nxp.com>
+>
+> ci_handle_id_switch() prints the role transition via ci_role(ci)->name
+> for the current role, but when ci->role is CI_ROLE_END (no role
+> assigned yet), ci_role(ci) call BUG_ON() and return ci->roles[CI_ROLE_END]
+> which is NULL, causing a NULL pointer dereference in the debug print.
 
-Yes - my oversight, v2 will carry it on all three patches:
+This should be out of boundery access,
 
-Assisted-by: Claude:claude-opus-5
+struct ci_role_driver           *roles[CI_ROLE_END];
 
-I used Claude Code for the analysis, patches and commit texts. My
-Signed-off-by stays as the DCO certification; I ran and reviewed it all on
-hardware.
+ci->roles[CI_ROLE_END] to access next field,
+        enum ci_role                    role;
+        bool                            is_otg;
 
-> How did you find and test it?
+NULL should be "luck" value.
 
-I'm updating the kernel on our Octeon boards from ancient 2.6 to 7.2, so I
-walked into it. Bringing USB back up on an AudioCodes M800 (CN5020p1.1-300,
-board type CN3010_EVB_HS5), modprobing octeon-hcd killed the board: watchdo=
-g
-reset, nothing printed. Serial capture caught a soft lockup in __delay() un=
-der
-cvmx_wait_tx_rx(), where the missing parens on octeon_get_clock_rate are ri=
-ght
-there in the deadline; git blame lands on 3e195a80e096, and the cast hides =
-it
-from the compiler.
+>
+> This can happen if ci_role_start() fails during a role switch, since
+> ci_role_stop() has already set ci->role to CI_ROLE_END.
+>
+> Fix it by printing "none" instead of dereferencing ci_role(ci)->name
+> when ci->role is CI_ROLE_END.
+>
+> Fixes: cbec6bd55a45 ("usb: chipidea: move otg related things to otg file")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> ---
+>  drivers/usb/chipidea/otg.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
+> index fecc7d7e2f0d..457417e81b78 100644
+> --- a/drivers/usb/chipidea/otg.c
+> +++ b/drivers/usb/chipidea/otg.c
+> @@ -179,7 +179,8 @@ void ci_handle_id_switch(struct ci_hdrc *ci)
+>  	role = ci_otg_role(ci);
+>  	if (role != ci->role) {
+>  		dev_dbg(ci->dev, "switching from %s to %s\n",
+> -			ci_role(ci)->name, ci->roles[role]->name);
+> +			ci->role == CI_ROLE_END ? "none" : ci_role(ci)->name,
+> +			ci->roles[role]->name);
 
-The flush never finished on my board because the driver got the DTS default
-12MHz crystal instead of the board's 24MHz external reference, so the PHY n=
-ever
-came up and the USBC registers read all-ones. That is a board/arch problem =
-I'm
-handling separately, but it made a reliable reproducer: with the clock wron=
-g,
-probe never returns and the board dies; with 1/3 it times out after 100us a=
-nd
-returns an error; with 2/3 it bails earlier at GHWCFG3 and says why. With t=
-he
-clock right, the root hub and on-board 4-port hub enumerate at high speed a=
-nd
-run without errors, so the timeout doesn't fire on healthy hardware - same
-setup 3/3 was measured on (8200 -> 4 USB interrupts/s idle). Builds clean,
-checkpatch is happy.
+This is out of boundery check
 
-Untested: any part other than CN5020, and the HFNUM wrap path in 3/3 beyond
-reasoning plus long idle runs with a hub attached.
+	ci->role >= CI_ROLE_END  or ci-role < CI_ROLE_END, and revert :
 
-- Orgad
+Frank
+
+>
+>  		if (ci->vbus_active && ci->role == CI_ROLE_GADGET)
+>  			/*
+> --
+> 2.34.1
+>
+>
