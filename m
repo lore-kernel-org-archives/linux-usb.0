@@ -1,64 +1,64 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E73833D4E9
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 09:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB1847669F
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 09:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788253645; cv=none; b=Cr0dnjJIqcEvwLuu5koHP5W9k4e/QDxPRoX1AXKKmltmVn6jcnGPmF32XfQD2jxLUKjNdhkK5g4QthZJLB7oU6Qscbg1BwTvVxjmW1H37/Q6/+RsmZEmEMnBSp98SHlqquZ5FiKbzHy7JgDSyuU2zFfnJ9k6SKNUMPHEjXneH2U=
+	t=1788253643; cv=none; b=gTqTalgN8GF+NsV88S01KXcr4SO/8YRN3Ho70aS+86PgII+c6Sd50OAgo+ql8OhWnbogbV5cFTlxn8GTZ8qzutoAD/4uMxF6pdrUD6GEt9k++bLFEp0VclfK9z/3OHra2F6nQTeT2CM0RNWxxe7jcxc1DG6ip1l4jG7PdFZTBTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788253645; c=relaxed/simple;
-	bh=DY3aGA71M5brUHY1t9eFomVD0psr5xaRzmYYQvL/GEE=;
+	s=arc-20240116; t=1788253643; c=relaxed/simple;
+	bh=bC0fovIrx6zQIvObVdPIKeOcUBuUXKa9fPhAXWxKtZs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qjXAw1BQz3RO3rjtSAvaHDJzW2CBWEOENxjq/DeO5LxqeZjrn2RCXpYjQmoXKSUJfJizi8vvhWxkJ7KJBQEt0sgnp0OpUa44DvL4VoUlQqCO17CwFq0vlQGjQZuFEZV0Xvtk0QltPG9YvOB2LFVX2fynKpFJwsU/0e3jvQWWKbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dergNup6; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version:Content-Type; b=TtYGHydvhOEKjuQ7QRfOX/q7guwSGuUfjcmR4JOTGx/vtXoU/9eofaoXMGTl+0drvH3TIn0i8b0XY5hg9TqFoRglct0h74WU82POV+3fXmOG8Skp68xzFATzsOU/o4w2FbEk+n9EIJusgIT+nKrTrzK3SQf0uiy+TRhLHqAi1E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UYhQdJ/6; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dergNup6"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48436251906so2511477f8f.0
-        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 02:07:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UYhQdJ/6"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-482ea739de2so451385f8f.0
+        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 02:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788253633; x=1788858433; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788253629; x=1788858429; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=KkIIOAYjYAqLcsdb7lFesQWgIS689+8MWdFQ/W4oAJo=;
-        b=dergNup6XW1IumQ/HPI2F3S9xiLY8uzE1kVSmv2nI6B65vPL1VsEt6Mapj7aSvPZZs
-         WKWTsmlnYPnIPq/I7Biuh1yGCEYJUJsCZ8M8PXhctgMQjOpOc6O9xGud3oakKRoW33JU
-         zu+675xeyL49ju9lIXKB1vI0RRP8fLhE8FbpO1VnP9IHSZcKB2dm8QnejNrkAQWleD/k
-         QvuzguO1OBhFm7xJzIxIagZM/6j3ZTzHKJysWYMKbD4Ox6Y9io5fo1njNLIWsvWUfCUK
-         qj1cLjGIja2gQAodVVV6DEss2RmiiocmteUU3UxGpeqJi60C31K9PfEkFL62fl4H2reP
-         HAvw==
+        bh=m5USYixoiwlopFvJ4G9oDQvcX3QGSZd8eA3Xr+tPuYs=;
+        b=UYhQdJ/6wF/leS8SXoLER/r8GTez/psrUQYdsXXvUT7blCLfbb1Er2lgKjmLjQaQRd
+         X/uSdW3/XMnEhbmCbjokRYX6CxDqHEPr1AmL94dhgEA9fJQEGJ4SbC8pN6jTia5Er50x
+         4Is9cjpVKycYfa303FaqeVBnE2LWHMYZ16PTBWhvlJrb/S9eKuvjh+XE2QkoprO6y7Zi
+         JaK48qSiYBdDgTRMSDTetKdoPB/BN0XcmKSrzBf8RYxghKCMnp6V5UjJmNLdcEMD3Gy1
+         NtbfEAAef31HiH78LIAh4ccTC2liz62P2iYYTnTrBB14/1fZOea7FeTmYCkiQy0WRvCn
+         C9iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788253633; x=1788858433;
+        d=1e100.net; s=20251104; t=1788253629; x=1788858429;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KkIIOAYjYAqLcsdb7lFesQWgIS689+8MWdFQ/W4oAJo=;
-        b=iU9n2YsmxWPvdfz9225q/WrrMbUFvhx7ZHg/vCBvyxrS1N5iVtwb0eAR+1kyn0xn5s
-         OeOqcLQsKZBaK7gWREq/X2h0Qeg/UGB0++AoPlKUGl9zM5o2VIBMstWeoRShhcjGX7f7
-         B9c2N2IkXVdoTyr2mBazjxyR0YmMFZ4SalYme+xCbjcU58hC56OBPJFZZT8uz00G3Pua
-         0AxuTRhBMWG/9LRjPE+v4/cY6UMuUMpZy2o9lo/Mioxpthg8BtmfuUUyQ1l4tR86MeL5
-         FJJUyVjwgGA8kx2sVS1hMEr3UVvO0DDlbFtI+kgMmivVpLh054yZzlOFRAkNH/DPOg7r
-         DmXg==
-X-Gm-Message-State: AFuF++ltITD7eLfRMPkl8+j5gNSaFC4xvpOWR7bGGk9YJXcwVZivqQDs
-	r7LbGp42N2UDafX5n7Qpa2NIaJ97V9/9JOp8IacEw972sf8uwbEJb+kK
-X-Gm-Gg: AYBFou0Kh7eeIzCywLW5ifxKvGtoIwEZEpDlPJ4PqT7nw96Pp0w8ZtQNcH0UiiceFHv
-	+FZLgnFVHvWw91SpSG0IEzNBhNb5pMM72gJHWBy7uUhrW7ABMaOIyJIJ23peN1P70Qk6X/wHHXA
-	B59eUFGoujA3fhlaImvwWaSAPS8S8t5Pt0ttMyzjhCszzzGufGEF0iyV50wkNQU4Hv5lV2VP+fU
-	ZrLcCIE6BxVJRM/WygdQhHJoKILou17pPqBHoNekxMWe5ScuQifnPnKi7orKJLHzHjH91zEBjnN
-	qYaS/XJxHO5R8ohb7p7q7OdRn5X6GB5cYLG5A0X6v4+Az1/1cvpZNRT2kK5gDHHQo8R07KMjgTF
-	+qOohAkwWiy0Um23BRjP2R6RUrpFZ6d2Smr9MAjLpjaf3i7oQtQnf8ZKpcwQvAfiU4BQXx2i5uF
-	Wm0DRPOstzYKZbaXspVHB25IerXJs6vNOqxCUPcAenU2hh4up3LzCVplWIxBtk/jMkIUY+UilEm
-	BEIqyJvEW6/ED1Z
-X-Received: by 2002:a05:6000:bca:b0:47f:eac2:6f55 with SMTP id ffacd0b85a97d-4844101af6amr9961050f8f.19.1788253632527;
-        Tue, 01 Sep 2026 02:07:12 -0700 (PDT)
+        bh=m5USYixoiwlopFvJ4G9oDQvcX3QGSZd8eA3Xr+tPuYs=;
+        b=S64IzJ/jpqkoHLjeBq22hTeC+JBnLBijsqzQ5FpUlQUc49tB5zXt49WrLVzij+mOgy
+         iYoAzS5Zsm87I7bC7W03r4cF8nP0uPxuZjdHmmoZ49iA/sFTAgM1mpWW4gKKU4NIdavP
+         x/Fdyc03NE1Zh0v/yGTygNh/bCmmGLbFDIj9jlP8kt0aabIyatblrti2i3FxsMFy8WZV
+         okDil3Og4hSwySGCJtOar8cVI7QN8FRnRBwzR3AsLjSlF+jG2qM7NrYUXv0H2t30ZYgW
+         VPK/3O5BDr37jp+pO942MWP4aoEnN0K/R6SaBlZ1UIyIDbykYipOyO6T684HnCxqbNrP
+         +JrA==
+X-Gm-Message-State: AFuF++nfMugFmULTlTUwfi6AaPL9BWQciKDhqEem+2eOgXZkh0qg6y/0
+	EbQy//d3Q7C/gHTW0YBmI407cdtrtYufnu5nGbdNtA5RTQMoxE+ENk+jeGnfpmEnLg4=
+X-Gm-Gg: AYBFou2ZSowDS6n9qVBpHH9YxwfHLZytPsCxrNAhN12o0D207d/0zHWFCmzHNXH7yj7
+	MPE83yeM+02VXVxJ6IsrQYwG+wrJ9QB2WOAK7kyIlcnJ7Doj7T26SeEUVfIAI37gZphDefD4cqP
+	ynsiYCySZPoJsR4meen/bupyOgDf6+JkMaryvGSi9AmVYz0F2blRH/2tvbCHl9ODaTPwm1Lefx8
+	bXTvsofYWmLmfAy+PS/pMWguj8Uh5mUrzuARpsFQeWz+5t33TehnDFXHXzoF9pr5WXwvG9RuP+1
+	NxcfROOyfWIjmsutOh533Ue6p+yKfs+jvEvpyE5FwNGdzZboRNrFC/3YcEeaWsWgT0RJCkNOlqG
+	fv0IBm625BPBdptwkyUGI9ztJCKqcu9JsAg9Dt3HHJ3VKkHeCk5b7J5jlMgYsM+ytdgZC8cmTo3
+	hJfb+b+f8vmbTuu4DcFgvU0A0mY5G1pH6/eaB26umnJs40HejeP+nbXk2krvVu6tplzbRdcP0Kc
+	4dr8GHV2jkKQBI7EqjHVXQ7/Kg=
+X-Received: by 2002:a05:6000:41e5:b0:484:338b:3bc1 with SMTP id ffacd0b85a97d-484338b3e17mr31752294f8f.27.1788253628263;
+        Tue, 01 Sep 2026 02:07:08 -0700 (PDT)
 Received: from cachyos ([41.142.112.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48442d6e905sm3124471f8f.23.2026.09.01.02.07.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48442d6e905sm3124471f8f.23.2026.09.01.02.07.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 02:07:11 -0700 (PDT)
+        Tue, 01 Sep 2026 02:07:07 -0700 (PDT)
 From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: linux-usb@vger.kernel.org,
@@ -66,10 +66,11 @@ Cc: linux-usb@vger.kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-Subject: [RFC PATCH v2 4/4] ALSA: usb: babyface-pro: add the hardware DSP EQ
-Date: Tue,  1 Sep 2026 10:06:35 +0100
-Message-ID: <20260901090635.9208-5-i.bahloul01@gmail.com>
+	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [RFC PATCH v2 1/4] =?UTF-8?q?ALSA:=20usb:=20add=20RME=20Babyface?= =?UTF-8?q?=20Pro=20FS=20driver=20(proprietary=20mode)=20=E2=80=94=20core?= =?UTF-8?q?=20+=20PCM?=
+Date: Tue,  1 Sep 2026 10:06:32 +0100
+Message-ID: <20260901090635.9208-2-i.bahloul01@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260901090635.9208-1-i.bahloul01@gmail.com>
 References: <20260901090635.9208-1-i.bahloul01@gmail.com>
@@ -82,612 +83,2086 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Program the four EQ strips (3-band bell/shelf + low cut) via the
-fixed-point Q27 coefficient synthesis (CORDIC sin/cos, exp2) and bulk
-uploads on EP 0x0A, exposed as the standard ALSA control set.  The
-coefficients depend on the stream rate, so they are re-uploaded on
-hw_params.
+Add the core RME Babyface Pro FS driver (proprietary mode, VID
+0x2a39 PID 0x3fc0): USB vendor-request protocol + cold init,
+interrupt-URB PCM streaming on interface 5, mixer-state persistence
+across re-probes/resume, and the card lifecycle (probe/disconnect/PM/
+module entry).
+
+The control surface (mixer, front panel, DSP EQ) is stubbed here so
+the module links; the follow-up patches in this series implement each
+part.
 
 Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
 Assisted-by: DeepSeek V4 Flash
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202609010710.w6NVelt4-lkp@intel.com/
 ---
- sound/usb/babyfacepro/babyfacepro-ctl.c | 570 +++++++++++++++++++++++-
- 1 file changed, 565 insertions(+), 5 deletions(-)
+ MAINTAINERS                             |    6 +
+ sound/usb/Kconfig                       |   18 +
+ sound/usb/Makefile                      |    2 +-
+ sound/usb/babyfacepro/Makefile          |    2 +
+ sound/usb/babyfacepro/babyfacepro-ctl.c |  127 ++
+ sound/usb/babyfacepro/babyfacepro.c     | 1451 +++++++++++++++++++++++
+ sound/usb/babyfacepro/babyfacepro.h     |  391 ++++++
+ 7 files changed, 1996 insertions(+), 1 deletion(-)
+ create mode 100644 sound/usb/babyfacepro/Makefile
+ create mode 100644 sound/usb/babyfacepro/babyfacepro-ctl.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b91655b34..f6de3b5ae 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23654,6 +23654,12 @@ F:	include/dt-bindings/power/thead,th1520-power.h
+ F:	include/dt-bindings/reset/thead,th1520-reset.h
+ F:	include/linux/firmware/thead/thead,th1520-aon.h
+ 
++RME BABYFACE PRO FS DRIVER (PROPRIETARY MODE)
++M:	Ismaïl Bahloul <i.bahloul01@gmail.com>
++L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
++S:	Maintained
++F:	sound/usb/babyfacepro/
++
+ RNBD BLOCK DRIVERS
+ M:	Md. Haris Iqbal <haris.iqbal@ionos.com>
+ M:	Jack Wang <jinpu.wang@ionos.com>
+diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
+index b4588915e..14d759814 100644
+--- a/sound/usb/Kconfig
++++ b/sound/usb/Kconfig
+@@ -204,6 +204,24 @@ config SND_USB_AUDIO_QMI
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called snd-usb-audio-qmi.
+ 
++config SND_USB_BABYFACE_PRO
++	tristate "RME Babyface Pro FS (proprietary mode)"
++	select SND_PCM
++	help
++	  Say Y here to include support for the RME Babyface Pro FS in
++	  its proprietary mode (VID 0x2a39, PID 0x3fc0).
++
++	  The proprietary mode streams PCM over interrupt endpoints
++	  (interface 5, ep 0x01/0x82) instead of the class-compliant
++	  isochronous path handled by snd-usb-audio, so this driver is
++	  standalone (snd-usb-caiaq-style interrupt streaming).  It
++	  exposes the PCM stream plus the output masters, mutes, mic
++	  phantom/PAD and preamp gains as standard ALSA controls.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called snd-usb-babyface-pro.
++
++
+ source "sound/usb/line6/Kconfig"
+ 
+ endif	# SND_USB
+diff --git a/sound/usb/Makefile b/sound/usb/Makefile
+index e62794a87..2f83f5881 100644
+--- a/sound/usb/Makefile
++++ b/sound/usb/Makefile
+@@ -35,5 +35,5 @@ obj-$(CONFIG_SND_USB_UA101) += snd-usbmidi-lib.o
+ obj-$(CONFIG_SND_USB_USX2Y) += snd-usbmidi-lib.o
+ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
+ 
+-obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
++obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/ babyfacepro/
+ obj-$(CONFIG_SND_USB_LINE6)	+= line6/
+diff --git a/sound/usb/babyfacepro/Makefile b/sound/usb/babyfacepro/Makefile
+new file mode 100644
+index 000000000..40badfd14
+--- /dev/null
++++ b/sound/usb/babyfacepro/Makefile
+@@ -0,0 +1,2 @@
++snd-usb-babyface-pro-y := babyfacepro.o babyfacepro-ctl.o
++obj-$(CONFIG_SND_USB_BABYFACE_PRO) += snd-usb-babyface-pro.o
 diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyfacepro/babyfacepro-ctl.c
-index 4904fe486..c28175199 100644
---- a/sound/usb/babyfacepro/babyfacepro-ctl.c
+new file mode 100644
+index 000000000..ec2640e0b
+--- /dev/null
 +++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
-@@ -1343,7 +1343,6 @@ int babyface_create_controls(struct snd_usb_babyface *chip)
- 	return 0;
- }
- 
--
- /* Control indices in chip->panel_kctl[] (for snd_ctl_notify). */
- enum {
- 	BF_PANEL_KCTL_BUTTON,
-@@ -2278,16 +2277,577 @@ int babyface_create_panel(struct snd_usb_babyface *chip)
- 	return 0;
- }
- 
-+#define BF_EQ_Q27		(1 << 27)
-+#define BF_EQ_LC_OFF		0x04000000
-+#define BF_EQ_BLOCK_LEN		64
+@@ -0,0 +1,127 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * RME Babyface Pro FS — proprietary-mode USB audio driver
++ *
++ * ALSA control surface (mixer, front panel, DSP EQ).  This is the
++ * initial slice of the series: the card's PCM stream + lifecycle come
++ * from babyfacepro.c, while the control surface is stubbed out here so
++ * the module links.  The real mixer, front-panel and DSP EQ land in the
++ * follow-up patches (mixer, panel, eq) — each replaces its stubs.
++ *
++ * See babyfacepro.h for the shared device state and register map.
++ */
++#include <linux/log2.h>
++#include <linux/math64.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/unaligned.h>
++#include <linux/usb.h>
++#include <linux/workqueue.h>
++#include <sound/control.h>
++#include <sound/tlv.h>
++#include <sound/core.h>
++#include <sound/initval.h>
++#include <sound/pcm.h>
 +
-+/* atan(2^-i) x 2^27 (CORDIC). */
-+static const s64 bf_atan_tab[28] = {
-+	0x6487ED5, 0x3B58CE1, 0x1F5B760, 0xFEADD5,
-+	0x7FD56F, 0x3FFAAB, 0x1FFF55, 0xFFFEB,
-+	0x7FFFD, 0x40000, 0x20000, 0x10000,
-+	0x8000, 0x4000, 0x2000, 0x1000,
-+	0x800, 0x400, 0x200, 0x100,
-+	0x80, 0x40, 0x20, 0x10,
-+	0x8, 0x4, 0x2, 0x1,
++#include "babyfacepro.h"
++
++const struct bf_source bf_sources[14] = {
++	{ "AN1",     0,  0 },
++	{ "AN2",     1,  1 },
++	{ "AN3",     2,  2 },
++	{ "AN4",     3,  3 },
++	{ "AS1/2",   4,  5 },
++	{ "ADAT3/4", 6,  7 },
++	{ "ADAT5/6", 8,  9 },
++	{ "ADAT7/8", 10, 11 },
++	{ "PB1",    12, 13 },
++	{ "PB2",    14, 15 },
++	{ "PB3",    16, 17 },
++	{ "PB4",    18, 19 },
++	{ "PB5",    20, 21 },
++	{ "PB6",    22, 23 },
 +};
- 
--/* ── DSP-EQ stubs ─────────────────────────────────────────────
-- * Replaced by the eq patch.  The core driver calls these from
-- * probe() and hw_params() (fs-dependent re-upload).
-+/* ---- fixed-point helpers (Q27 in/out, s64 intermediates) ---- */
 +
-+/* sin/cos of an angle in [0, pi/2] (Q27).  Simultaneous CORDIC, 28
-+ * iterations (~1e-8 residual).  eq_selftest.c verifies the whole
-+ * pipeline against the double-precision reference.
-  */
--int babyface_create_eq(struct snd_usb_babyface *chip)
-+static void bf_sincos(s64 ang, s64 *sn, s64 *cs)
++/* Crosspoint-map output order vs the master-map order — HARDWARE-
++ * VERIFIED 2026-08-24: the block that feeds the Phones is the FIRST
++ * crosspoint block (0x34), while the Phones master is the SECOND
++ * (0x03E2/0x0006).  The crosspoint map lists the Phones first (the
++ * monitor output); the master map lists AN1/2 first.  Control index =
++ * the canonical order (AN1/2=0, PH3/4=1, ...) so the crosspoint and
++ * master controls line up; this table maps to the register block.
++ */
++const u8 bf_xpoint_block[6] = { 1, 0, 2, 3, 4, 5 };
++
++/* ── control-surface stubs ──────────────────────────────────────
++ * Filled in by the mixer / panel / eq patches.  The core driver
++ * (babyfacepro.c) calls these from probe() and the stream/state
++ * paths, so they must exist for the module to link.  Until then the
++ * card exposes the PCM stream only.
++ */
++
++int babyface_write_default_mixer(struct snd_usb_babyface *chip)
 +{
-+	s64 x = 0x4DBA76D;	/* 1/1.64676 x 2^27 (CORDIC gain) */
-+	s64 y = 0;
-+	s64 z = ang;
++	return 0;
++}
++
++int bf_apply_masters(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++int bf_loopback_write_map(struct snd_usb_babyface *chip, int out, bool on)
++{
++	return 0;
++}
++
++int bf_preamp_state_write(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++int babyface_create_controls(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++int babyface_create_xpoints(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++int babyface_create_flags(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++int babyface_create_panel(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++int babyface_create_eq(struct snd_usb_babyface *chip)
++{
++	return 0;
++}
++
++void babyface_panel_start(struct snd_usb_babyface *chip)
++{
++}
++
++void babyface_panel_stop(struct snd_usb_babyface *chip)
++{
++}
++
++void babyface_panel_work(struct work_struct *work)
++{
++}
++
++void bf_eq_reupload(struct snd_usb_babyface *chip)
++{
++}
++
++u8 bf_gain_raw(int mic, int db)
++{
++	return 0;
++}
+diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/babyfacepro.c
+new file mode 100644
+index 000000000..b04129f2d
+--- /dev/null
++++ b/sound/usb/babyfacepro/babyfacepro.c
+@@ -0,0 +1,1451 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * RME Babyface Pro FS — proprietary-mode USB audio driver
++ *
++ * Core driver: USB vendor requests + cold init, interrupt-URB PCM
++ * streaming, mixer-state persistence across re-probes/resume, and
++ * the card lifecycle (probe/disconnect/PM/module entry).
++ *
++ * See babyfacepro.h for the shared device state and register map,
++ * and babyfacepro-ctl.c for the ALSA control surface (mixer, front
++ * panel, DSP EQ).
++ */
++#include <linux/log2.h>
++#include <linux/math64.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/unaligned.h>
++#include <linux/usb.h>
++#include <linux/workqueue.h>
++#include <sound/control.h>
++#include <sound/tlv.h>
++#include <sound/core.h>
++#include <sound/initval.h>
++#include <sound/pcm.h>
++
++#include "babyfacepro.h"
++
++/* The transaction-flag counter cycle on 16-bit writes. */
++const u16 bf_flag_cycle[4] = { 0xc000, 0x4000, 0x8000, 0x0000 };
++
++/* ── sample-rate / alt classes ──────────────────── */
++
++static const struct bf_rate bf_rates[] = {
++	{  32000, BF_ALT_1, 56,  8 },
++	{  44100, BF_ALT_1, 56,  8 },
++	{  48000, BF_ALT_1, 56,  8 },
++	{  64000, BF_ALT_1, 56,  8 },
++	{  88200, BF_ALT_1, 56,  8 },
++	{  96000, BF_ALT_2, 40, 16 },
++	{ 128000, BF_ALT_2, 40, 16 },
++	{ 176400, BF_ALT_3, 32, 32 },
++	{ 192000, BF_ALT_3, 32, 32 },
++};
++
++static const unsigned int bf_rate_list[ARRAY_SIZE(bf_rates)] = {
++	32000, 44100, 48000, 64000, 88200,
++	96000, 128000, 176400, 192000,
++};
++
++const struct snd_pcm_hw_constraint_list bf_rates_constraint = {
++	.count = ARRAY_SIZE(bf_rate_list),
++	.list = bf_rate_list,
++	.mask = 0,
++};
++
++const struct bf_rate *bf_rate_lookup(unsigned int rate)
++{
 +	int i;
 +
-+	for (i = 0; i < 28; i++) {
-+		s64 d = z >= 0 ? 1 : -1;
-+		s64 nx = x - d * (y >> i);
-+		s64 ny = y + d * (x >> i);
-+
-+		x = nx;
-+		y = ny;
-+		z -= d * bf_atan_tab[i];
-+	}
-+	*cs = x;
-+	*sn = y;
++	for (i = 0; i < ARRAY_SIZE(bf_rates); i++)
++		if (bf_rates[i].rate == rate)
++			return &bf_rates[i];
++	return NULL;
 +}
 +
-+/* 2^u for u in Q27, u in [-2, 2] (gain-amplitude range). */
-+static s64 bf_exp2(s64 u)
- {
-+	s64 n = u >> 27;
-+	s64 r = u - (n << 27);
-+	s64 rl = (r * 0x58B90C0 + (1 << 26)) >> 27;	/* r.ln2 */
-+	s64 e = BF_EQ_Q27;
-+	s64 term = BF_EQ_Q27;
-+	int k;
++/* ── vendor requests ─────────────────────── */
 +
-+	for (k = 1; k <= 10; k++) {
-+		term = div_s64((term * rl + (1 << 26)) >> 27, k);
-+		e += term;
-+	}
-+	return n >= 0 ? e << n : e >> -n;
++int bf_vendor_write(struct snd_usb_babyface *chip, u8 req, u16 val, u16 idx)
++{
++	return usb_control_msg_send(chip->dev, 0, req,
++				    USB_DIR_OUT | USB_TYPE_VENDOR |
++				    USB_RECIP_DEVICE,
++				    val, idx, NULL, 0, 1000, GFP_KERNEL);
 +}
 +
-+/* The 5 stored words (c0..c3 + shared c4) for one band.
-+ * type: 1 bell, 2 low shelf, 3 high shelf.  freq_hz, fs in Hz;
-+ * q100 = Q x 100; gain_x10 = dB x 10.  fs is the stream rate.
++int bf_vendor_read(struct snd_usb_babyface *chip, u8 req, u16 idx, u8 *buf)
++{
++	return usb_control_msg_recv(chip->dev, 0, req,
++				    USB_DIR_IN | USB_TYPE_VENDOR |
++				    USB_RECIP_DEVICE,
++				    0, idx, buf, 4, 1000, GFP_KERNEL);
++}
++
++/* The cold-start session init (cap_coldplug.pcap), verbatim from the
++ * user-space reference (protocol::streaming_init).  Without it the
++ * firmware never validates a stream.
 + */
-+void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
-+		      s32 gain_x10, s32 fs)
++int bf_cold_init(struct snd_usb_babyface *chip)
 +{
-+	s64 f = freq_hz;
-+	s64 w0, c, s, alpha, A, sq;
-+	s64 b0, b1, b2, a0, a1, a2;
-+	s64 pi = 0x1921FB54;	/* pi, Q27 */
-+	s64 hpi = 0xC90FDAA;	/* pi/2, Q27 */
-+	s64 t;
-+	int both = 0, cflip = 0;
++	int ret, i;
 +
-+	if (gain_x10 == 0 || q100 <= 0) {
-+		/* Inactive band: identity words (also guards the alpha
-+		 * division below against the default Q=0 the controls start
-+		 * with — a user setting gain before Q used to hit a kernel
-+		 * divide-by-zero oops).
-+		 */
-+		w[0] = 0;
-+		w[1] = 0;
-+		w[2] = 0;
-+		w[3] = 0;
-+		return;
++	for (i = 0; i <= 0x3d; i++) {
++		if (i == 0x1e || i == 0x1f)
++			continue;
++		ret = bf_vendor_write(chip, BF_REQ_REG_CLEAR, 0x0000, i);
++		if (ret < 0)
++			return ret;
 +	}
-+
-+	/* w0 = 2.pi.f/fs (Q27), reduced to [0, pi/2]. */
-+	w0 = div_s64(f * BF_EQ_Q27, fs);
-+	w0 = (w0 * 0x3243F6A9) >> 27;	/* x 2.pi */
-+	t = w0;
-+	if (t > pi) {
-+		t -= pi;
-+		both = 1;
-+	}
-+	if (t > hpi) {
-+		t = pi - t;
-+		cflip = 1;
-+	}
-+	bf_sincos(t, &s, &c);
-+	if (both) {
-+		s = -s;
-+		c = -c;
-+	}
-+	if (cflip)
-+		c = -c;
-+
-+	alpha = div64_s64(s * 100 + q100, 2 * (s64)q100);	/* sin(w0)/(2Q) */
-+	/* A = 10^(g/40), sqrt(A): g = gain_x10/10 dB */
-+	A = bf_exp2((s64)gain_x10 * 0x11021E);
-+	sq = bf_exp2((s64)gain_x10 * 0x8810F);
-+
-+	if (type == 1) {
-+		s64 ta = (alpha * A + (1 << 26)) >> 27;
-+
-+		b0 = BF_EQ_Q27 + ta;
-+		b1 = -2 * c;
-+		b2 = BF_EQ_Q27 - ta;
-+		a0 = BF_EQ_Q27 + div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
-+		a1 = -2 * c;
-+		a2 = BF_EQ_Q27 - div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
-+	} else {
-+		s64 ap1 = A + BF_EQ_Q27;
-+		s64 am1 = A - BF_EQ_Q27;
-+		s64 cp0 = (am1 * c + (1 << 26)) >> 27;	/* (A-1).c */
-+		s64 cp1 = (ap1 * c + (1 << 26)) >> 27;	/* (A+1).c */
-+		s64 ab = (2 * sq * alpha + (1 << 26)) >> 27;
-+
-+		if (type == 2) {	/* low shelf */
-+			b0 = (A * (ap1 - cp0 + ab) + (1 << 26)) >> 27;
-+			b1 = (2 * A * (am1 - cp1) + (1 << 26)) >> 27;
-+			b2 = (A * (ap1 - cp0 - ab) + (1 << 26)) >> 27;
-+			a0 = ap1 + cp0 + ab;
-+			a1 = -2 * (am1 + cp1);
-+			a2 = ap1 + cp0 - ab;
-+		} else {		/* high shelf */
-+			b0 = (A * (ap1 + cp0 + ab) + (1 << 26)) >> 27;
-+			b1 = (-2 * A * (am1 + cp1) + (1 << 26)) >> 27;
-+			b2 = (A * (ap1 + cp0 - ab) + (1 << 26)) >> 27;
-+			a0 = ap1 - cp0 + ab;
-+			a1 = -2 * (am1 - cp1);
-+			a2 = ap1 - cp0 - ab;
-+		}
-+	}
-+
-+	w[0] = (s32)div64_s64(a1 * BF_EQ_Q27 + a0 / 2, a0);
-+	w[1] = (s32)div64_s64(a2 * BF_EQ_Q27 + a0 / 2, a0);
-+	w[2] = (s32)div64_s64(b1 * BF_EQ_Q27 + b0 / 2, b0);
-+	w[3] = (s32)div64_s64(b2 * BF_EQ_Q27 + b0 / 2, b0);
-+	w[4] = (s32)div64_s64(b0 * BF_EQ_Q27 + a0 / 2, a0);
-+}
-+
-+/* ---- low cut ---- */
-+
-+/* Slope byte: 2^n-1 (n poles) -> 6/12/18/24 dB per oct; 0 = off. */
-+static u8 bf_eq_lc_slope_byte(s32 slope_db)
-+{
-+	switch (slope_db) {
-+	case 6:  return 0x01;
-+	case 12: return 0x03;
-+	case 18: return 0x07;
-+	case 24: return 0x0F;
-+	}
- 	return 0;
- }
- 
-+/* The 0x38 low-cut frequency word: round(K.f'.(11656)/(11656+f')) with
-+ * K = 11508, f' = f x slope-compensation factor (cap_eq9 fit, 0.003%;
-+ * the slope factor keeps the composite -3 dB point constant).
-+ */
-+static u32 bf_eq_lc_freq_raw(s32 freq_hz, s32 slope_db)
-+{
-+	s64 f, word;
-+
-+	if (freq_hz <= 0)
-+		return BF_EQ_LC_OFF;
-+	f = freq_hz;
-+	switch (slope_db) {
-+	case 6:
-+		f = f * 15267 / 10000;
-+		break;
-+
-+	case 18:
-+		f = f * 8061 / 10000;
-+		break;
-+
-+	case 24:
-+		f = f * 6977 / 10000;
-+		break;
-+	}
-+	word = (11508 * f * 11656 + (11656 + f) / 2) / (11656 + f);
-+	return (u32)word;
-+}
-+
-+/* ---- block build + bulk write ---- */
-+
-+static void bf_eq_build_block(u8 *b, int ch, u8 slope,
-+			      const s32 bands[3][4], s32 shared, u32 lc)
-+{
-+	int slot, k;
-+
-+	memset(b, 0, BF_EQ_BLOCK_LEN);
-+	b[0] = ch;
-+	b[1] = slope;
-+	b[2] = ch;
-+	b[3] = 0x80;	/* EQ engine active */
-+	for (slot = 0; slot < 3; slot++) {
-+		for (k = 0; k < 4; k++) {
-+			put_unaligned_le32((u32)bands[slot][k],
-+					   b + 0x04 + slot * 0x10 + 4 * k);
-+		}
-+	}
-+	put_unaligned_le32((u32)shared, b + 0x34);
-+	put_unaligned_le32(lc, b + 0x38);
-+}
-+
-+/* Upload one 64-byte block on bulk OUT ep 0x0A (interface 1). */
-+static int bf_eq_upload(struct snd_usb_babyface *chip, const u8 *block)
-+{
-+	u8 *buf;
-+	int ret, len;
-+
-+	/* usb_bulk_msg DMA-maps the buffer: it must not be on the stack
-+	 * (usb_hcd_map_urb_for_dma returns -EAGAIN for stack buffers).
-+	 */
-+	buf = kmemdup(block, BF_EQ_BLOCK_LEN, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+	ret = usb_bulk_msg(chip->dev, usb_sndbulkpipe(chip->dev, 0x0a),
-+			   buf, BF_EQ_BLOCK_LEN, &len, 1000);
-+	kfree(buf);
++	/* 48-kHz DDS clock quads (banked 0x1B). */
++	ret = bf_vendor_write(chip, BF_REQ_DDS, 0xc350, 0x0000);
 +	if (ret < 0)
-+		dev_err(&chip->dev->dev, "EQ bulk upload failed: %d\n", ret);
-+	return ret;
-+}
-+
-+/* Write the L+R block pair for one strip (channel base = strip x 2). */
-+static int bf_eq_write_strip(struct snd_usb_babyface *chip, int strip)
-+{
-+	struct bf_eq_channel *e = &chip->eq[strip];
-+	u8 b[BF_EQ_BLOCK_LEN];
-+	s32 identity[3][4] = { { 0 }, { 0 }, { 0 } };
-+	s32 shared = e->on ? e->shared : BF_EQ_Q27;
-+	u32 lc = e->on ? e->lc_raw : BF_EQ_LC_OFF;
-+	/* The header slope byte (b[1]) is only valid while the low cut is
-+	 * engaged: a stale slope with 0x38 = off made the device apply a
-+	 * garbage-frequency cut (ear-verified: "low cut off" left only
-+	 * highs).  cap_eq7: byte1 = 0x00 + 0x38 = 0x04000000 when off.
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_DDS, 0x8db8, 0xd201);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_DDS, 0x8234, 0xd302);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_DDS, 0x7cff, 0xf803);
++	if (ret < 0)
++		return ret;
++	/* 0x1C status — the hardware-validated reference (protocol::
++	 * streaming_init) sends it as an OUT write; Windows reads it.
++	 * Both are tolerated; match the validated path.
 +	 */
-+	u8 slope = (e->on && e->lc_hz > 0) ? e->slope : 0;
-+	int ch, ret;
-+
-+	for (ch = 0; ch < 2; ch++) {
-+		bf_eq_build_block(b, strip * 2 + ch, slope,
-+				  e->on ? e->words : identity, shared, lc);
-+		ret = bf_eq_upload(chip, b);
++	ret = bf_vendor_write(chip, BF_REQ_STATUS_2, 0x0000, 0x0000);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0021, BF_REG_KEEPALIVE_INIT);
++	if (ret < 0)
++		return ret;
++	/* 0x17 wIdx=0x0000 does NOT touch the preamp state (0x003F). */
++	ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x000c, 0x0000);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
++	if (ret < 0)
++		return ret;
++	for (i = 0; i < 2; i++) {
++		ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0000, 0x3000);
++		if (ret < 0)
++			return ret;
++	}
++	for (i = 0; i < 3; i++) {
++		ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0800, 0x0800);
 +		if (ret < 0)
 +			return ret;
 +	}
 +	return 0;
 +}
 +
-+/* Recompute one strip's words + low cut from its params, re-upload.
-+ * Lock-free by convention: every caller must already hold chip->mutex
-+ * (bf_eq_put() and bf_eq_reupload() do) — asserting it here catches a
-+ * future caller that forgets, instead of a silent self-deadlock.
++/* The 0x16 cold-init clear covers only 0x00-0x3D — the "cross"
++ * registers of a block (L-reg odd / R-reg even of the stereo
++ * sources) survive from the previous session and would sum L+R into
++ * BOTH channels of the output (mono).  Zero them explicitly: 10 odd
++ * L-registers (5,7,…23) + 10 even R-registers (4,6,…22).
 + */
-+static void bf_eq_update_strip(struct snd_usb_babyface *chip, int strip)
++int bf_crosspoint_clear_cross(struct snd_usb_babyface *chip,
++			      unsigned int blk)
 +{
-+	struct bf_eq_channel *e = &chip->eq[strip];
-+	s32 fs = chip->rate ? chip->rate : 48000;
-+	s32 last_c4 = BF_EQ_Q27;
-+	int band, i;
++	int ret, k;
++	u16 flag;
 +
-+	lockdep_assert_held(&chip->mutex);
-+
-+	for (band = 0; band < 3; band++) {
-+		s32 w[5];
-+
-+		bf_eq_band_words(w, e->band_type[band], e->band_freq[band],
-+				 e->band_q[band], e->band_gain[band], fs);
-+		for (i = 0; i < 4; i++)
-+			e->words[band][i] = w[i];
-+		if (e->band_type[band] && e->band_gain[band])
-+			last_c4 = w[4];	/* shared scale: the last band */
++	for (k = 5; k < 24; k += 2) {
++		flag = bf_flag_cycle[chip->flag_cnt];
++		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000,
++				      (BF_REG_CROSS_BASE_L +
++				       BF_REG_CROSS_STRIDE * blk + k) | flag);
++		if (ret < 0)
++			return ret;
 +	}
-+	e->shared = last_c4;
-+	e->lc_raw = bf_eq_lc_freq_raw(e->lc_hz, e->slope_db);
-+	e->slope = bf_eq_lc_slope_byte(e->slope_db);
-+	bf_eq_write_strip(chip, strip);
-+}
-+
-+/* Recompute + re-upload all four strips (rate change). Caller must
-+ * hold chip->mutex — bf_eq_update_strip()/bf_eq_write_strip() are
-+ * lock-free by convention (see bf_eq_put()) and the only caller,
-+ * babyface_pcm_hw_params(), already holds the lock across the rate
-+ * change; locking here too self-deadlocked it (hung-task: "blocked
-+ * on a mutex likely owned by" itself, hit via regress.sh's rate
-+ * sweep).
-+ */
- void bf_eq_reupload(struct snd_usb_babyface *chip)
- {
-+	int strip;
-+
-+	for (strip = 0; strip < 4; strip++)
-+		bf_eq_update_strip(chip, strip);
-+}
-+
-+/* ---- ALSA controls (4 strips x 19 controls) ---- */
-+
-+#define EQ_STRIP(pv)	((pv) >> 8)
-+#define EQ_PARAM(pv)	((pv) & 0xff)
-+/* params: 0 enable, 1-3 type, 4-6 freq, 7-9 q, 10-12 gain, 13 lc freq, 14 lc slope */
-+
-+static const char *const bf_eq_type_texts[] = {
-+	"Off", "Bell", "Low Shelf", "High Shelf", NULL
-+};
-+
-+static const char *const bf_eq_slope_texts[] = {
-+	"6 dB/oct", "12 dB/oct", "18 dB/oct", "24 dB/oct", NULL
-+};
-+
-+static int bf_eq_info(struct snd_kcontrol *kctl,
-+		      struct snd_ctl_elem_info *uinfo)
-+{
-+	int param = EQ_PARAM(kctl->private_value);
-+
-+	if (param == 0) {
-+		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+		uinfo->count = 1;
-+		return 0;
++	for (k = 4; k < 24; k += 2) {
++		flag = bf_flag_cycle[chip->flag_cnt];
++		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000,
++				      (BF_REG_CROSS_BASE_R +
++				       BF_REG_CROSS_STRIDE * blk + k) | flag);
++		if (ret < 0)
++			return ret;
 +	}
-+	if (param == 1 || param == 2 || param == 3)
-+		return snd_ctl_enum_info(uinfo, 1, 4, bf_eq_type_texts);
-+	if (param == 14)
-+		return snd_ctl_enum_info(uinfo, 1, 4, bf_eq_slope_texts);
-+
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = (param == 10 || param == 11 ||
-+				    param == 12) ? -240 :
-+				   (param == 7 || param == 8 ||
-+				    param == 9) ? 5 : 0;
-+	uinfo->value.integer.max = (param == 7 || param == 8 ||
-+				    param == 9) ? 1000 :
-+				   (param == 10 || param == 11 ||
-+				    param == 12) ? 240 : 20000;
-+	uinfo->value.integer.step = 1;
 +	return 0;
 +}
 +
-+static int bf_eq_get(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
++/* ── mixer-state persistence across interface re-probes ────────
++ * A userspace client can claim the proprietary interface via usbfs
++ * (USBDEVFS_DISCONNECT_CLAIM — seen with PipeWire grabbing the
++ * device when a stream targets the sink, and with the TuxMix
++ * user-space daemon's libusb).  That detaches us and the card
++ * disappears for the duration; on release the interface re-probes.
++ * The device keeps its registers across the detach, but our cold
++ * init clears them — so save the mixer state at disconnect and
++ * restore it at the next probe.
++ */
++
++static LIST_HEAD(bf_saved_list);
++static DEFINE_MUTEX(bf_saved_mutex);
++
++/* Re-apply the whole cached mixer state after a resume (the device
++ * lost its registers across a system suspend — TotalMix does the same
++ * re-apply).  Caller holds chip->mutex.
++ */
++int babyface_restore_state(struct snd_usb_babyface *chip)
 +{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	struct bf_eq_channel *e = &chip->eq[EQ_STRIP(kctl->private_value)];
-+	int param = EQ_PARAM(kctl->private_value);
-+	int band = (param - 1) % 3;
-+	s32 *v = NULL;
++	int out, src, mic, ret;
++	u16 flag;
 +
-+	switch (param) {
-+	case 0:
-+		break;
++	/* Preamp state + commit. */
++	ret = bf_preamp_state_write(chip);
++	if (ret < 0)
++		return ret;
 +
-+	case 1:
-+	case 2:
-+	case 3:
-+		v = &e->band_type[band];
-+		break;
++	/* The four mic gains (the counter restarts). */
++	for (mic = 0; mic < 4; mic++) {
++		u8 counter = (mic % 3 == 0) ? 0x20 : (mic % 3 == 1) ? 0x00 : 0x40;
 +
-+	case 4:
-+	case 5:
-+	case 6:
-+		v = &e->band_freq[band];
-+		break;
-+
-+	case 7:
-+	case 8:
-+	case 9:
-+		v = &e->band_q[band];
-+		break;
-+
-+	case 10:
-+	case 11:
-+	case 12:
-+		v = &e->band_gain[band];
-+		break;
-+
-+	case 13:
-+		v = &e->lc_hz;
-+		break;
-+
-+	case 14:
-+		v = &e->slope_db;
-+		break;
++		ret = bf_vendor_write(chip, BF_REQ_GAIN,
++				      (u16)((bf_gain_raw(mic, chip->gain[mic]) & 0x1f) |
++					    counter),
++				      BF_REG_GAIN + mic);
++		if (ret < 0)
++			return ret;
 +	}
-+	if (param == 0) {
-+		ucontrol->value.integer.value[0] = e->on;
-+	} else if (param == 14) {
-+		/* Inverse of put's index->dB map: slope_db stores the raw
-+		 * 6/12/18/24 dB/oct value, but an ENUMERATED control's .get
-+		 * must return the enum item index (0-3), same as .put
-+		 * receives — returning the raw dB value here (the bug this
-+		 * replaces) fed back an out-of-range index to every ALSA
-+		 * consumer (confirmed via amixer: writing index 1 read back
-+		 * as value 12, not 1).
++	chip->gain_cycle = 1;
++
++	/* Masters (8-bit = the real volume) + mutes. */
++	ret = bf_apply_masters(chip);
++	if (ret < 0)
++		return ret;
++
++	/* Crosspoints (canonical out → register block). */
++	for (out = 0; out < 6; out++) {
++		unsigned int blk = bf_xpoint_block[out];
++
++		for (src = 0; src < 14; src++) {
++			flag = bf_flag_cycle[chip->flag_cnt];
++			chip->flag_cnt = (chip->flag_cnt + 1) & 3;
++			ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
++					      chip->xpoint[out][src][0],
++					      (BF_REG_CROSS_BASE_L +
++					       BF_REG_CROSS_STRIDE * blk +
++					       bf_sources[src].idx_l) | flag);
++			if (ret < 0)
++				return ret;
++			ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
++					      chip->xpoint[out][src][1],
++					      (BF_REG_CROSS_BASE_R +
++					       BF_REG_CROSS_STRIDE * blk +
++					       bf_sources[src].idx_r) | flag);
++			if (ret < 0)
++				return ret;
++		}
++		ret = bf_crosspoint_clear_cross(chip, blk);
++		if (ret < 0)
++			return ret;
++	}
++
++	/* Pitch (the DDS quad) + the clock keepalive. */
++	if (chip->pitch) {
++		u32 dds24 = div_u64(12800000000ULL + (u32)(1000 + chip->pitch) / 2,
++				    1000 + chip->pitch);
++		u16 dds16 = dds24 >> 8;
++		u16 frac = dds24 & 0xff;
++
++		ret = bf_vendor_write(chip, BF_REQ_DDS, dds16, (frac << 8) | 0);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_DDS,
++				      (u16)div_u64(dds16 * 72562ull + 50000, 100000), 0x0001);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_DDS, (u16)((dds16 * 2 + 1) / 3),
++				      0x0002);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_DDS, 0x7cff, 0x0003);
++		if (ret < 0)
++			return ret;
++	}
++	return bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0001,
++			       BF_REG_KEEPALIVE_SETTINGS);
++}
++
++/* Re-apply the non-master flags (loopback / AN1>2 / link / width /
++ * FX send / MS) after a state restore.  The write patterns mirror the
++ * corresponding _put() handlers.  Caller holds chip->mutex.
++ */
++int bf_state_apply_flags(struct snd_usb_babyface *chip)
++{
++	int out, ret, on_out = -1;
++	u16 l, r;
++
++	/* Loopback: the full 30-channel map from the cached state (the
++	 * single-active invariant keeps at most one pair at 0x0001).
++	 */
++	for (out = 0; out < 6; out++) {
++		if (chip->loopback[out]) {
++			on_out = out;
++			break;
++		}
++	}
++	ret = bf_loopback_write_map(chip, on_out, on_out >= 0);
++	if (ret < 0)
++		return ret;
++
++	ret = bf_vendor_write(chip, BF_REQ_PREAMP,
++			      (chip->linked ? 0x0400 : 0x0000) |
++			      (chip->an12 ? 0x1000 : 0x0000), 0x1000);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
++	if (ret < 0)
++		return ret;
++
++	l = (u16)(((0x2000 * (100 + chip->width) / 2) + 50) / 100);
++	r = 0x2000 - l;
++	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0000);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x001a);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0001);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x001b);
++	if (ret < 0)
++		return ret;
++
++	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, chip->fx_send, 0x0138);
++	if (ret < 0)
++		return ret;
++	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, chip->fx_send, 0x0153);
++	if (ret < 0)
++		return ret;
++
++	if (chip->ms_proc) {
++		/* Same ON pattern as bf_ms_put (cap_ms2.pcap): mute the AN2
++		 * (side) crosspoints, both maps.
 +		 */
-+		s32 slope = v ? *v : 6;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0035);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x004f);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0001);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x001b);
++		if (ret < 0)
++			return ret;
++	}
 +
-+		ucontrol->value.enumerated.item[0] =
-+			slope >= 24 ? 3 : slope >= 18 ? 2 : slope >= 12 ? 1 : 0;
-+	} else if (param == 1 || param == 2 || param == 3) {
-+		/* ENUMERATED band type: use the enumerated union member. */
-+		ucontrol->value.enumerated.item[0] = v ? *v : 0;
-+	} else {
-+		ucontrol->value.integer.value[0] = v ? *v : 0;
++	/* Re-apply an engaged DIM (the fixed -20 dB Phones pair + flag). */
++	if (chip->dim) {
++		ret = bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
++				      BF_REG_MASTER_8 + 2 * 1);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
++				      BF_REG_MASTER_8 + 2 * 1 + 1);
++		if (ret < 0)
++			return ret;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
++				      (BF_REG_MASTER_16 + 2 * 1) |
++				      bf_flag_cycle[chip->flag_cnt]);
++		if (ret < 0)
++			return ret;
++		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
++		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
++				      (BF_REG_MASTER_16 + 2 * 1 + 1) |
++				      bf_flag_cycle[chip->flag_cnt]);
++		if (ret < 0)
++			return ret;
++		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
++		ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x2000, 0x2000);
++		if (ret < 0)
++			return ret;
 +	}
 +	return 0;
 +}
 +
-+static int bf_eq_put(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
++void bf_state_save(struct snd_usb_babyface *chip)
 +{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int strip = EQ_STRIP(kctl->private_value);
-+	int param = EQ_PARAM(kctl->private_value);
-+	struct bf_eq_channel *e = &chip->eq[strip];
-+	int band = (param - 1) % 3;
-+	s32 nv;
-+	s32 *v = NULL;
-+	int ret = 0;
++	struct bf_saved *s;
++	const char *key = chip->dev->serial ? chip->dev->serial :
++			  dev_name(&chip->dev->dev);
++	bool found = false;
 +
-+	/* Read from the union member matching the control type: ENUMERATED
-+	 * params (band type 1-3, slope 14) use .enumerated.item, everything
-+	 * else (BOOL 0, INTEGER) uses .integer.value.
-+	 */
-+	if (param == 1 || param == 2 || param == 3 || param == 14)
-+		nv = (s32)ucontrol->value.enumerated.item[0];
-+	else
-+		nv = (s32)ucontrol->value.integer.value[0];
-+
-+	/* Validate against the bounds bf_eq_info() declares.  The ALSA core
-+	 * only checks these when CONFIG_SND_CTL_INPUT_VALIDATION is set, so
-+	 * an out-of-range value here could otherwise reach the Q27
-+	 * coefficient math (bf_eq_band_words/bf_exp2) and shift by >= width
-+	 * (undefined behaviour).
-+	 */
-+	switch (param) {
-+	case 0:
-+		if (nv < 0 || nv > 1)
-+			return -EINVAL;
-+		break;
-+	case 1:
-+	case 2:
-+	case 3:
-+	case 14:
-+		if (nv < 0 || nv > 3)
-+			return -EINVAL;
-+		break;
-+	case 4:
-+	case 5:
-+	case 6:
-+	case 13:
-+		if (nv < 0 || nv > 20000)
-+			return -EINVAL;
-+		break;
-+	case 7:
-+	case 8:
-+	case 9:
-+		if (nv < 5 || nv > 1000)
-+			return -EINVAL;
-+		break;
-+	case 10:
-+	case 11:
-+	case 12:
-+		if (nv < -240 || nv > 240)
-+			return -EINVAL;
++	mutex_lock(&bf_saved_mutex);
++	list_for_each_entry(s, &bf_saved_list, list) {
++		if (strcmp(s->key, key))
++			continue;
++		found = true;
 +		break;
 +	}
++	if (!found) {
++		s = kzalloc_obj(*s, GFP_KERNEL);
++		if (!s) {
++			mutex_unlock(&bf_saved_mutex);
++			return;
++		}
++		strscpy(s->key, key, sizeof(s->key));
++		list_add_tail(&s->list, &bf_saved_list);
++	}
 +
-+	switch (param) {
-+	case 0:
-+		v = NULL;
-+		break;
++	s->preamp = chip->preamp;
++	memcpy(s->gain, chip->gain, sizeof(s->gain));
++	s->gain_cycle = chip->gain_cycle;
++	s->flag_cnt = chip->flag_cnt;
++	memcpy(s->master, chip->master, sizeof(s->master));
++	memcpy(s->muted, chip->muted, sizeof(s->muted));
++	memcpy(s->xpoint, chip->xpoint, sizeof(s->xpoint));
++	s->pitch = chip->pitch;
++	memcpy(s->loopback, chip->loopback, sizeof(s->loopback));
++	s->an12 = chip->an12;
++	s->linked = chip->linked;
++	s->ms_proc = chip->ms_proc;
++	s->width = chip->width;
++	s->fx_send = chip->fx_send;
++	s->dim = chip->dim;
++	mutex_unlock(&bf_saved_mutex);
++}
 +
-+	case 1:
-+	case 2:
-+	case 3:
-+		v = &e->band_type[band];
-+		break;
++/* Copy a saved state (if any) into a freshly probed chip and push it
++ * to the device.  Returns 1 when restored, -ENOENT when there is none,
++ * or a negative error from the vendor writes.
++ */
++int bf_state_restore(struct snd_usb_babyface *chip)
++{
++	struct bf_saved *s;
++	const char *key = chip->dev->serial ? chip->dev->serial :
++			  dev_name(&chip->dev->dev);
++	int ret = -ENOENT;
 +
-+	case 4:
-+	case 5:
-+	case 6:
-+		v = &e->band_freq[band];
-+		break;
-+
-+	case 7:
-+	case 8:
-+	case 9:
-+		v = &e->band_q[band];
-+		break;
-+
-+	case 10:
-+	case 11:
-+	case 12:
-+		v = &e->band_gain[band];
-+		break;
-+
-+	case 13:
-+		v = &e->lc_hz;
-+		break;
-+
-+	case 14:
-+		v = &e->slope_db;
++	mutex_lock(&bf_saved_mutex);
++	list_for_each_entry(s, &bf_saved_list, list) {
++		if (strcmp(s->key, key))
++			continue;
++		chip->preamp = s->preamp;
++		memcpy(chip->gain, s->gain, sizeof(chip->gain));
++		chip->gain_cycle = s->gain_cycle;
++		chip->flag_cnt = s->flag_cnt;
++		memcpy(chip->master, s->master, sizeof(chip->master));
++		memcpy(chip->muted, s->muted, sizeof(chip->muted));
++		memcpy(chip->xpoint, s->xpoint, sizeof(chip->xpoint));
++		chip->pitch = s->pitch;
++		memcpy(chip->loopback, s->loopback, sizeof(chip->loopback));
++		chip->an12 = s->an12;
++		chip->linked = s->linked;
++		chip->ms_proc = s->ms_proc;
++		chip->width = s->width;
++		chip->fx_send = s->fx_send;
++		chip->dim = s->dim;
++		ret = 1;
 +		break;
 +	}
-+	if (param == 14)	/* slope enum items are 6/12/18/24 */
-+		nv = nv == 0 ? 6 : nv == 1 ? 12 : nv == 2 ? 18 : 24;
++	mutex_unlock(&bf_saved_mutex);
++	if (ret != 1)
++		return ret;
 +
 +	mutex_lock(&chip->mutex);
-+	if (param == 0) {
-+		if (e->on != !!nv) {
-+			e->on = !!nv;
-+			bf_eq_update_strip(chip, strip);
-+			ret = 1;
-+		}
-+	} else if (v && *v != nv) {
-+		*v = nv;
-+		bf_eq_update_strip(chip, strip);
-+		ret = 1;
++	ret = babyface_restore_state(chip);
++	if (ret == 0)
++		ret = bf_state_apply_flags(chip);
++	mutex_unlock(&chip->mutex);
++	return ret ? ret : 1;
++}
++
++void bf_state_purge(void)
++{
++	struct bf_saved *s, *tmp;
++
++	mutex_lock(&bf_saved_mutex);
++	list_for_each_entry_safe(s, tmp, &bf_saved_list, list) {
++		list_del(&s->list);
++		kfree(s);
 +	}
++	mutex_unlock(&bf_saved_mutex);
++}
++
++/* ── stream (interrupt URBs, caiaq-style) ──────────────── */
++
++static bool babyface_capture_copy(struct snd_usb_babyface *chip,
++				  struct snd_pcm_substream *subs,
++				  const u8 *data, unsigned int frames)
++{
++	struct snd_pcm_runtime *rt = subs->runtime;
++	unsigned int buf_frames = rt->buffer_size;
++	unsigned int words = chip->frame_bytes / 4;
++	unsigned int chans = rt->channels;
++	unsigned int pos, f, i;
++	unsigned long new_period;
++	bool crossed = false;
++	u8 *dst;
++
++	spin_lock(&chip->lock);
++	pos = chip->hw_ptr[SNDRV_PCM_STREAM_CAPTURE] % buf_frames;
++	for (f = 0; f < frames; f++) {
++		const __le32 *w = (const __le32 *)(data + f * chip->frame_bytes);
++
++		dst = rt->dma_area + frames_to_bytes(rt, pos);
++		for (i = 0; i < chans; i++) {
++			/* Channel map: app ch0-3 = device words 0-3 (AN1-4);
++			 * app ch4-9 = words 6-11 (ADAT/SPDIF); app ch10/11 =
++			 * words 12/13 = a FIXED-GAIN playback tap (observed
++			 * 2026-08-25: the playback echoes there at ~−27 dB,
++			 * independent of the output masters — NOT the output
++			 * bus; the ADAT/SPDIF range is words 6-11 only).  The
++			 * device words 4/5 are a fixed marker, not audio —
++			 * skipped.  At 96/192 kHz the frame has fewer words;
++			 * missing ones read as zero.
++			 */
++			static const u8 map[12] = { 0, 1, 2, 3, 6, 7, 8, 9,
++						   10, 11, 12, 13 };
++			u8 wi = i < 12 ? map[i] : 0xff;
++			s32 s = 0;
++
++			if (wi < words) {
++				/* 24-bit sample in bytes 1-3; arithmetic shift
++				 * sign-extends from bit 23.  S24_LE container.
++				 */
++				s = (s32)le32_to_cpu(w[wi]) >> 8;
++			}
++			put_unaligned_le32((u32)s, dst + i * 4);
++		}
++		pos++;
++		if (pos >= buf_frames)
++			pos = 0;
++	}
++	chip->hw_ptr[SNDRV_PCM_STREAM_CAPTURE] += frames;
++	new_period = chip->hw_ptr[SNDRV_PCM_STREAM_CAPTURE] / rt->period_size;
++	if (new_period != chip->prev_period[SNDRV_PCM_STREAM_CAPTURE]) {
++		chip->prev_period[SNDRV_PCM_STREAM_CAPTURE] = new_period;
++		crossed = true;
++	}
++	spin_unlock(&chip->lock);
++
++	return crossed;
++}
++
++static bool babyface_playback_copy(struct snd_usb_babyface *chip,
++				   struct snd_pcm_substream *subs,
++				   u8 *data, unsigned int frames)
++{
++	struct snd_pcm_runtime *rt = subs->runtime;
++	unsigned int buf_frames = rt->buffer_size;
++	unsigned int words = chip->frame_bytes / 4;
++	unsigned int chans = rt->channels;
++	unsigned int pos, f, i;
++	unsigned long new_period;
++	bool crossed = false;
++	const u8 *src;
++
++	spin_lock(&chip->lock);
++	/* Clamp to what the app has actually written: the in-flight URBs
++	 * (nurbs × frames_per_urb) can exceed the app ring, and without
++	 * this the driver advances hw_ptr past appl_ptr — the ALSA core
++	 * then flags a spurious XRUN on the next app interaction even
++	 * though the app refills on schedule (seen at period 16-128 /
++	 * 96-192 kHz with nurbs=16).  The device just repeats the last
++	 * frames (stale audio) instead of corrupting the stream state.
++	 * NB: subtract the unbounded counters directly — modulo arithmetic
++	 * is ambiguous at exact buffer multiples (appl=512, hw=0 → both
++	 * wrap to 0).
++	 */
++	{
++		snd_pcm_sframes_t data =
++			(snd_pcm_sframes_t)(rt->control->appl_ptr -
++					    chip->hw_ptr[SNDRV_PCM_STREAM_PLAYBACK]);
++		if (data < 0)
++			data = 0;
++		if (data > (snd_pcm_sframes_t)buf_frames)
++			data = (snd_pcm_sframes_t)buf_frames;
++		if ((unsigned int)data < frames)
++			frames = (unsigned int)data;
++	}
++	pos = chip->hw_ptr[SNDRV_PCM_STREAM_PLAYBACK] % buf_frames;
++	for (f = 0; f < frames; f++) {
++		__le32 *w = (__le32 *)(data + f * chip->frame_bytes);
++
++		src = rt->dma_area + frames_to_bytes(rt, pos);
++		/* App ch n feeds the device word n (PB1-6 = words 0-11);
++		 * words 12/13 stay zero.  At 96/192 kHz the frame is
++		 * shorter — the extra app channels are dropped.
++		 */
++		for (i = 0; i < chans && i < words; i++) {
++			u32 s = get_unaligned_le32(src + i * 4);
++
++			/* 24-bit sample into bytes 1-3, byte 0 = 0. */
++			w[i] = cpu_to_le32((s & 0x00ffffff) << 8);
++		}
++		for (; i < words; i++)
++			w[i] = 0;
++		pos++;
++		if (pos >= buf_frames)
++			pos = 0;
++	}
++	chip->hw_ptr[SNDRV_PCM_STREAM_PLAYBACK] += frames;
++	new_period = chip->hw_ptr[SNDRV_PCM_STREAM_PLAYBACK] / rt->period_size;
++	if (new_period != chip->prev_period[SNDRV_PCM_STREAM_PLAYBACK]) {
++		chip->prev_period[SNDRV_PCM_STREAM_PLAYBACK] = new_period;
++		crossed = true;
++	}
++	spin_unlock(&chip->lock);
++
++	return crossed;
++}
++
++static void babyface_complete_in(struct urb *urb)
++{
++	struct snd_usb_babyface *chip = urb->context;
++	struct snd_pcm_substream *subs;
++	unsigned long flags;
++	unsigned int frames;
++	bool crossed = false;
++	int ret;
++
++	if (urb->status < 0) {
++		if (urb->status == -ESHUTDOWN || urb->status == -ENOENT ||
++		    urb->status == -ECONNRESET)
++			return;		/* killed */
++		dev_dbg_ratelimited(&chip->dev->dev, "IN urb status %d\n",
++				    urb->status);
++		if (atomic_inc_return(&chip->urb_err) >= BF_URB_ERR_STOP)
++			schedule_work(&chip->stream_work);
++		goto resubmit;
++	}
++	atomic_set(&chip->urb_err, 0);
++
++	subs = READ_ONCE(chip->subs[SNDRV_PCM_STREAM_CAPTURE]);
++	if (subs) {
++		snd_pcm_stream_lock_irqsave(subs, flags);
++		if (snd_pcm_running(subs)) {
++			frames = urb->actual_length / chip->frame_bytes;
++			if (frames)
++				crossed = babyface_capture_copy(chip, subs,
++								urb->transfer_buffer,
++								frames);
++		}
++		snd_pcm_stream_unlock_irqrestore(subs, flags);
++		if (crossed)
++			snd_pcm_period_elapsed(subs);
++	}
++resubmit:
++	ret = usb_submit_urb(urb, GFP_ATOMIC);
++	if (ret < 0) {
++		dev_err_ratelimited(&chip->dev->dev,
++				    "IN resubmit failed: %d\n", ret);
++		if (atomic_inc_return(&chip->urb_err) >= BF_URB_ERR_STOP)
++			schedule_work(&chip->stream_work);
++	}
++}
++
++static void babyface_complete_out(struct urb *urb)
++{
++	struct snd_usb_babyface *chip = urb->context;
++	struct snd_pcm_substream *subs;
++	unsigned long flags;
++	unsigned int frames;
++	bool crossed = false;
++	int ret;
++
++	if (urb->status < 0) {
++		if (urb->status == -ESHUTDOWN || urb->status == -ENOENT ||
++		    urb->status == -ECONNRESET)
++			return;		/* killed */
++		dev_dbg_ratelimited(&chip->dev->dev, "OUT urb status %d\n",
++				    urb->status);
++		if (atomic_inc_return(&chip->urb_err) >= BF_URB_ERR_STOP)
++			schedule_work(&chip->stream_work);
++		goto resubmit;
++	}
++	atomic_set(&chip->urb_err, 0);
++
++	subs = READ_ONCE(chip->subs[SNDRV_PCM_STREAM_PLAYBACK]);
++	if (subs) {
++		snd_pcm_stream_lock_irqsave(subs, flags);
++		if (snd_pcm_running(subs)) {
++			frames = chip->frames_per_urb;
++			crossed = babyface_playback_copy(chip, subs,
++							 urb->transfer_buffer, frames);
++		}
++		snd_pcm_stream_unlock_irqrestore(subs, flags);
++		if (crossed)
++			snd_pcm_period_elapsed(subs);
++	} else {
++		/* No consumer: silence the OUT frames. */
++		memset(urb->transfer_buffer, 0, urb->transfer_buffer_length);
++	}
++resubmit:
++	ret = usb_submit_urb(urb, GFP_ATOMIC);
++	if (ret < 0) {
++		dev_err_ratelimited(&chip->dev->dev,
++				    "OUT resubmit failed: %d\n", ret);
++		if (atomic_inc_return(&chip->urb_err) >= BF_URB_ERR_STOP)
++			schedule_work(&chip->stream_work);
++	}
++}
++
++void babyface_stream_kill(struct snd_usb_babyface *chip)
++{
++	int i;
++
++	for (i = 0; i < chip->nurbs; i++) {
++		usb_kill_urb(chip->urbs_in[i]);
++		usb_kill_urb(chip->urbs_out[i]);
++	}
++	chip->streaming = false;
++}
++
++/* Stream start/stop run in process context (control transfers sleep).
++ * The trigger only toggles stream_users and schedules this work.
++ */
++
++/* Stop both PCM substreams (if running) so apps blocked in read/write
++ * wake with a clean error: XRUN for a recoverable stream error, or
++ * DISCONNECTED when the card is going away.
++ */
++void babyface_pcm_stop_both(struct snd_usb_babyface *chip, snd_pcm_state_t state)
++{
++	int s;
++
++	for (s = 0; s < 2; s++) {
++		struct snd_pcm_substream *subs = READ_ONCE(chip->subs[s]);
++
++		if (subs && snd_pcm_running(subs))
++			snd_pcm_stop(subs, state);
++	}
++}
++
++/* Re-count stream_users from the substream running states.  The apps
++ * can recover (re-prepare + trigger) while the stream work runs, so a
++ * hard `= 0` would wipe a fresh increment and leave a RUNNING
++ * substream with no URBs (hang).  Called on the error paths with the
++ * mutex held.
++ */
++static void bf_recount_users(struct snd_usb_babyface *chip)
++{
++	unsigned long flags;
++	int s, users = 0;
++
++	for (s = 0; s < 2; s++) {
++		struct snd_pcm_substream *subs = READ_ONCE(chip->subs[s]);
++
++		if (subs && snd_pcm_running(subs))
++			users++;
++	}
++	spin_lock_irqsave(&chip->lock, flags);
++	chip->stream_users = users;
++	spin_unlock_irqrestore(&chip->lock, flags);
++}
++
++void babyface_stream_work(struct work_struct *work)
++{
++	struct snd_usb_babyface *chip =
++		container_of(work, struct snd_usb_babyface, stream_work);
++	unsigned int urbsize = chip->frame_bytes * chip->frames_per_urb;
++	unsigned long flags;
++	int i, ret;
++	int users;
++
++	mutex_lock(&chip->mutex);
++
++	if (chip->shutdown) {
++		mutex_unlock(&chip->mutex);
++		return;
++	}
++
++	/* Persistent URB errors (bad link, device wedged): stop the stream
++	 * and wake the apps with -EPIPE.  stream_users is re-counted from
++	 * the (now stopped) substreams so an app recovery (prepare+start)
++	 * re-arms the session from a clean slate.
++	 */
++	if (atomic_read(&chip->urb_err) >= BF_URB_ERR_STOP) {
++		dev_err(&chip->dev->dev,
++			"stream error: %d consecutive bad URBs, stopping (apps re-arm)\n",
++			BF_URB_ERR_STOP);
++		babyface_pcm_stop_both(chip, SNDRV_PCM_STATE_XRUN);
++		if (chip->streaming)
++			babyface_stream_kill(chip);
++		bf_recount_users(chip);
++		atomic_set(&chip->urb_err, 0);
++		mutex_unlock(&chip->mutex);
++		return;
++	}
++
++	spin_lock_irqsave(&chip->lock, flags);
++	users = chip->stream_users;
++	spin_unlock_irqrestore(&chip->lock, flags);
++
++	if (users > 0 && !chip->streaming) {
++		/* The firmware only validates a stream session that is
++		 * preceded by the full cold-init (the user-space reference
++		 * sends streaming_init at every session start — without it
++		 * the outputs stay silent).  The 0x16 clear wipes the mixer
++		 * registers, so the cached state is re-applied after the arm.
++		 */
++		ret = bf_cold_init(chip);
++		if (ret < 0)
++			goto err;
++
++		/* Stream trigger pair (cap_audio): 0x10 0x8000 + 0x1D. */
++		ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0000, 0x8000);
++		if (ret < 0)
++			goto err;
++		ret = bf_vendor_write(chip, BF_REQ_SESSION_START, 0x0000, 0x0000);
++		if (ret < 0)
++			goto err;
++
++		for (i = 0; i < chip->nurbs; i++) {
++			usb_fill_int_urb(chip->urbs_in[i], chip->dev,
++					 usb_rcvintpipe(chip->dev, BF_EP_IN),
++					 chip->buf_in[i], urbsize,
++					 babyface_complete_in, chip, 1);
++			usb_fill_int_urb(chip->urbs_out[i], chip->dev,
++					 usb_sndintpipe(chip->dev, BF_EP_OUT),
++					 chip->buf_out[i], urbsize,
++					 babyface_complete_out, chip, 1);
++		}
++		for (i = 0; i < chip->nurbs; i++) {
++			ret = usb_submit_urb(chip->urbs_in[i], GFP_KERNEL);
++			if (ret < 0)
++				goto err;
++			ret = usb_submit_urb(chip->urbs_out[i], GFP_KERNEL);
++			if (ret < 0)
++				goto err;
++		}
++		/* Session arm (cap_audio frame 5829, after the URBs). */
++		ret = bf_vendor_write(chip, BF_REQ_SESSION_ARM, 0x0000, 0xc000);
++		if (ret < 0)
++			goto err;
++
++		/* The cold init above cleared the mixer registers; push the
++		 * cached state back (preamp, gains, masters, crosspoints,
++		 * pitch) so the session starts at the user's levels.
++		 */
++		ret = babyface_restore_state(chip);
++		if (ret < 0)
++			goto err;
++
++		/* The 0x16 clear also wipes the flag registers (loopback,
++		 * AN1>2, stereo link, width, FX send, MS) — re-apply them.
++		 */
++		ret = bf_state_apply_flags(chip);
++		if (ret < 0)
++			goto err;
++
++		chip->streaming = true;
++		dev_dbg(&chip->dev->dev, "stream started (%u frames/URB, %u URBs)\n",
++			chip->frames_per_urb, chip->nurbs);
++	} else if (users == 0 && chip->streaming) {
++		babyface_stream_kill(chip);
++		dev_dbg(&chip->dev->dev, "stream stopped\n");
++	}
++
++	mutex_unlock(&chip->mutex);
++	return;
++
++err:
++	dev_err(&chip->dev->dev, "failed to start stream: %d\n", ret);
++	babyface_stream_kill(chip);
++	/* The apps already got a successful trigger — wake them with an
++	 * XRUN so a failed start (device wedged, cold-init error) does not
++	 * leave them hung in read/write with no URBs in flight.
++	 */
++	babyface_pcm_stop_both(chip, SNDRV_PCM_STATE_XRUN);
++	bf_recount_users(chip);
++	mutex_unlock(&chip->mutex);
++}
++
++/* ── PCM ─────────────────────────── */
++
++static const struct snd_pcm_hardware babyface_pcm_hw = {
++	.info = SNDRV_PCM_INFO_INTERLEAVED |
++		SNDRV_PCM_INFO_BLOCK_TRANSFER,
++	.formats = SNDRV_PCM_FMTBIT_S24_LE,
++	.rate_min = 32000,
++	.rate_max = 192000,
++	.channels_min = 2,
++	.channels_max = 12,
++	.buffer_bytes_max = 1 << 20,
++	.period_bytes_max = 1 << 18,
++	.periods_min = 2,
++	.periods_max = 16,
++};
++
++static int babyface_pcm_open(struct snd_pcm_substream *subs)
++{
++	struct snd_usb_babyface *chip = snd_pcm_substream_chip(subs);
++	struct snd_pcm_runtime *rt = subs->runtime;
++	unsigned long flags;
++	int ret;
++
++	rt->hw = babyface_pcm_hw;
++	ret = snd_pcm_hw_constraint_list(rt, 0, SNDRV_PCM_HW_PARAM_RATE,
++					 &bf_rates_constraint);
++	if (ret < 0)
++		return ret;
++	/* One URB delivers frames_per_urb frames per interrupt; a period must
++	 * span at least one URB so a completion crosses at most one period
++	 * boundary.  Constrain in frames (not bytes) so the minimum period
++	 * does not balloon at low channel counts: 2 ch @ 48 kHz → 256
++	 * frames (5.3 ms) instead of 1536 frames from a 12-ch byte clamp.
++	 */
++	ret = snd_pcm_hw_constraint_minmax(rt, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
++					   chip->frames_per_urb, 1 << 18);
++	if (ret < 0)
++		return ret;
++
++	spin_lock_irqsave(&chip->lock, flags);
++	chip->subs[subs->stream] = subs;
++	spin_unlock_irqrestore(&chip->lock, flags);
++	return 0;
++}
++
++static int babyface_pcm_close(struct snd_pcm_substream *subs)
++{
++	struct snd_usb_babyface *chip = snd_pcm_substream_chip(subs);
++	unsigned long flags;
++
++	/* Wait for the stream stop work so the URB callbacks (which
++	 * touch subs) are done before the substream can be freed.
++	 */
++	flush_work(&chip->stream_work);
++	spin_lock_irqsave(&chip->lock, flags);
++	chip->subs[subs->stream] = NULL;
++	spin_unlock_irqrestore(&chip->lock, flags);
++	return 0;
++}
++
++static int babyface_pcm_hw_params(struct snd_pcm_substream *subs,
++				  struct snd_pcm_hw_params *params)
++{
++	struct snd_usb_babyface *chip = snd_pcm_substream_chip(subs);
++	const struct bf_rate *r;
++	int ret = 0;
++
++	r = bf_rate_lookup(params_rate(params));
++	if (!r)
++		return -EINVAL;
++
++	/* The stream URBs must be at least one alt packet wide: the device
++	 * delivers its IN data in alt-sized packets (448/640/1024 B for
++	 * alt 1/2/3), and a smaller URB buffer makes the host controller
++	 * discard the transfer with -EOVERFLOW (babble) — seen at
++	 * 176.4/192 kHz with frames_per_urb below 32.  Return a clean
++	 * error instead of a silently dead capture stream.
++	 */
++	if (chip->frames_per_urb < r->min_fpu) {
++		dev_err(&chip->dev->dev,
++			"rate %u Hz needs frames_per_urb >= %u (module has %u)\n",
++			r->rate, r->min_fpu, chip->frames_per_urb);
++		return -EINVAL;
++	}
++
++	mutex_lock(&chip->mutex);
++	if (r->rate != chip->rate) {
++		/* Both directions share one clock, so a rate change must not
++		 * race live transfers.  Stop the URBs, re-point the bandwidth
++		 * class and let the stream work restart the session at the
++		 * new rate — the other running substream briefly sees a rate
++		 * step (PipeWire re-negotiates via its resampler) instead of
++		 * this open failing with -EBUSY (which killed the PW sink).
++		 */
++		if (chip->streaming) {
++			unsigned long flags;
++
++			babyface_stream_kill(chip);
++			spin_lock_irqsave(&chip->lock, flags);
++			if (chip->stream_users > 0)
++				schedule_work(&chip->stream_work);
++			spin_unlock_irqrestore(&chip->lock, flags);
++		}
++		ret = usb_set_interface(chip->dev, BF_IFACE, r->alt);
++		if (ret < 0)
++			goto out;
++		chip->rate = r->rate;
++		chip->alt = r->alt;
++		chip->frame_bytes = r->frame_bytes;
++		/* The DSP EQ coefficients depend on fs: re-upload. */
++		bf_eq_reupload(chip);
++		dev_dbg(&chip->dev->dev, "rate %u Hz (alt %u)\n",
++			chip->rate, chip->alt);
++	}
++out:
 +	mutex_unlock(&chip->mutex);
 +	return ret;
 +}
 +
-+int babyface_create_eq(struct snd_usb_babyface *chip)
++static int babyface_pcm_hw_free(struct snd_pcm_substream *subs)
 +{
-+	static const char *const names[4] = { "AN1", "AN2", "AN3", "AN4" };
-+	static const char *const params[] = {
-+		"EQ Enable",
-+		"EQ Band 1 Type", "EQ Band 2 Type", "EQ Band 3 Type",
-+		"EQ Band 1 Freq", "EQ Band 2 Freq", "EQ Band 3 Freq",
-+		"EQ Band 1 Q", "EQ Band 2 Q", "EQ Band 3 Q",
-+		"EQ Band 1 Gain", "EQ Band 2 Gain", "EQ Band 3 Gain",
-+		"EQ Low Cut Freq", "EQ Low Cut Slope",
-+	};
-+	int strip, i, err;
++	/* The device buffer is host-side; nothing to release here. */
++	return 0;
++}
 +
-+	for (strip = 0; strip < 4; strip++) {
-+		for (i = 0; i < 15; i++) {
-+			struct snd_kcontrol *kctl;
-+			char name[64];
++static int babyface_pcm_prepare(struct snd_pcm_substream *subs)
++{
++	struct snd_usb_babyface *chip = snd_pcm_substream_chip(subs);
++	unsigned long flags;
 +
-+			snprintf(name, sizeof(name), "%s %s", names[strip],
-+				 params[i]);
-+			kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+				.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+				.name = "EQ",
-+				.index = 0,
-+				.info = bf_eq_info,
-+				.get = bf_eq_get,
-+				.put = bf_eq_put,
-+				.private_value = (strip << 8) | i,
-+			}, chip);
-+			if (!kctl)
-+				return -ENOMEM;
-+			strscpy(kctl->id.name, name, sizeof(kctl->id.name));
-+			err = snd_ctl_add(chip->card, kctl);
-+			if (err < 0)
-+				return err;
++	spin_lock_irqsave(&chip->lock, flags);
++	chip->hw_ptr[subs->stream] = 0;
++	chip->prev_period[subs->stream] = 0;
++	spin_unlock_irqrestore(&chip->lock, flags);
++	return 0;
++}
++
++static int babyface_pcm_trigger(struct snd_pcm_substream *subs, int cmd)
++{
++	struct snd_usb_babyface *chip = snd_pcm_substream_chip(subs);
++	unsigned long flags;
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++		spin_lock_irqsave(&chip->lock, flags);
++		chip->hw_ptr[subs->stream] = 0;
++		chip->prev_period[subs->stream] = 0;
++		/* stream_users is shared by the two substreams (separate
++		 * locks) — serialize the ++/-- so a concurrent trigger on
++		 * the other direction can't lose an increment (which would
++		 * stop the stream while a substream still runs).
++		 */
++		if (chip->stream_users++ == 0)
++			schedule_work(&chip->stream_work);
++		spin_unlock_irqrestore(&chip->lock, flags);
++		return 0;
++	case SNDRV_PCM_TRIGGER_STOP:
++		spin_lock_irqsave(&chip->lock, flags);
++		if (chip->stream_users > 0 && --chip->stream_users == 0)
++			schedule_work(&chip->stream_work);
++		spin_unlock_irqrestore(&chip->lock, flags);
++		return 0;
++	}
++	return -EINVAL;
++}
++
++static snd_pcm_uframes_t babyface_pcm_pointer(struct snd_pcm_substream *subs)
++{
++	struct snd_usb_babyface *chip = snd_pcm_substream_chip(subs);
++	unsigned long flags;
++	snd_pcm_uframes_t pos;
++
++	spin_lock_irqsave(&chip->lock, flags);
++	pos = chip->hw_ptr[subs->stream] % subs->runtime->buffer_size;
++	spin_unlock_irqrestore(&chip->lock, flags);
++	return pos;
++}
++
++static const struct snd_pcm_ops babyface_pcm_ops = {
++	.open = babyface_pcm_open,
++	.close = babyface_pcm_close,
++	.ioctl = snd_pcm_lib_ioctl,
++	.hw_params = babyface_pcm_hw_params,
++	.hw_free = babyface_pcm_hw_free,
++	.prepare = babyface_pcm_prepare,
++	.trigger = babyface_pcm_trigger,
++	.pointer = babyface_pcm_pointer,
++};
++
++static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
++static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;
++static int frames_per_urb = BF_FRAMES_PER_URB_DEFAULT;
++static int nurbs = BF_NURBS_DEFAULT;
++static int panel_poll_ms = BF_PANEL_POLL_MS_DEFAULT;
++
++module_param_array(index, int, NULL, 0444);
++MODULE_PARM_DESC(index, "Index value for the Babyface Pro FS sound card.");
++module_param_array(id, charp, NULL, 0444);
++MODULE_PARM_DESC(id, "ID string for the Babyface Pro FS sound card.");
++module_param(frames_per_urb, int, 0644);
++MODULE_PARM_DESC(frames_per_urb, "Audio frames per URB, 8..1024 (16 = low-latency floor, 256 = default).");
++module_param(nurbs, int, 0644);
++MODULE_PARM_DESC(nurbs, "URBs in flight per direction, 1..16 (16 = low-latency).");
++module_param(panel_poll_ms, int, 0644);
++MODULE_PARM_DESC(panel_poll_ms, "Front-panel poll interval in ms, 10..1000 (20 = default, matches Windows' ~50 Hz).");
++
++/* ── USB driver ───────────────────────── */
++
++static void babyface_private_free(struct snd_card *card)
++{
++	struct snd_usb_babyface *chip = card->private_data;
++	unsigned int urbsize;
++	int i;
++
++	if (!chip)
++		return;
++
++	/* The URB arrays are NULL when the probe failed before allocating
++	 * them (snd_card_free runs private_free on any probe error).
++	 */
++	if (chip->urbs_in) {
++		urbsize = chip->frame_bytes * chip->frames_per_urb;
++		for (i = 0; i < chip->nurbs; i++) {
++			if (chip->urbs_in[i]) {
++				usb_kill_urb(chip->urbs_in[i]);
++				usb_free_urb(chip->urbs_in[i]);
++			}
++			if (chip->urbs_out[i]) {
++				usb_kill_urb(chip->urbs_out[i]);
++				usb_free_urb(chip->urbs_out[i]);
++			}
++			usb_free_coherent(chip->dev, urbsize, chip->buf_in[i],
++					  chip->dma_in[i]);
++			usb_free_coherent(chip->dev, urbsize, chip->buf_out[i],
++					  chip->dma_out[i]);
 +		}
 +	}
++	kfree(chip->urbs_in);
++	kfree(chip->urbs_out);
++	kfree(chip->buf_in);
++	kfree(chip->buf_out);
++	kfree(chip->dma_in);
++	kfree(chip->dma_out);
++	usb_put_dev(chip->dev);
++}
++
++static int babyface_probe(struct usb_interface *intf,
++			  const struct usb_device_id *usb_id)
++{
++	struct usb_device *dev = interface_to_usbdev(intf);
++	struct snd_usb_babyface *chip;
++	struct snd_card *card;
++	struct snd_pcm *pcm;
++	unsigned int urbsize;
++	u8 st[4];
++	int i, err;
++
++	if (intf->cur_altsetting->desc.bInterfaceNumber != BF_IFACE) {
++		/* Only the proprietary audio interface is ours; the MIDI
++		 * (standard class) and bulk interfaces stay unclaimed so
++		 * snd-usb-audio can take the MIDI one.
++		 */
++		return -ENODEV;
++	}
++
++	err = snd_card_new(&intf->dev, index[0], id[0], THIS_MODULE,
++			   sizeof(*chip), &card);
++	if (err < 0) {
++		dev_err(&intf->dev, "snd_card_new failed: %d\n", err);
++		return err;
++	}
++	chip = card->private_data;
++	chip->card = card;
++
++	chip->dev = usb_get_dev(dev);
++	/* USB autosuspend is untested: babyface_suspend()/_resume() don't
++	 * check PMSG_IS_AUTO, and nothing in this driver holds a PM
++	 * reference while streaming or while the panel poll/keepalive
++	 * timers are running, so an autosuspend request could race a
++	 * live stream or panel tick. Disable it explicitly rather than
++	 * ship an untested code path — full autosuspend support (correct
++	 * autopm_get/put pairing around the stream and the panel/keepalive
++	 * work) is a deliberate follow-up, not an oversight.
++	 */
++	usb_disable_autosuspend(chip->dev);
++	chip->iface = intf;
++	chip->nurbs = clamp(nurbs, 1, 16);
++	chip->frames_per_urb = clamp(frames_per_urb, 8, 1024) & ~7;
++	chip->panel_poll_ms = clamp(panel_poll_ms, 10, 1000);
++	chip->rate = 48000;
++	chip->alt = BF_ALT_1;
++	chip->frame_bytes = 56;
++	chip->preamp = BF_PREAMP_BASE;
++	mutex_init(&chip->mutex);
++	spin_lock_init(&chip->lock);
++	atomic_set(&chip->urb_err, 0);
++	INIT_WORK(&chip->stream_work, babyface_stream_work);
++	INIT_DELAYED_WORK(&chip->panel_work, babyface_panel_work);
++	chip->card->private_free = babyface_private_free;
++
++	strscpy(chip->card->driver, "BabyfaceProFS",
++		sizeof(chip->card->driver));
++	strscpy(chip->card->shortname, "Babyface Pro FS",
++		sizeof(chip->card->shortname));
++	snprintf(chip->card->longname, sizeof(chip->card->longname),
++		 "RME Babyface Pro FS (proprietary mode) at %s",
++		 dev_name(&dev->dev));
++	strscpy(chip->card->mixername, "Babyface Pro FS",
++		sizeof(chip->card->mixername));
++
++	/* alt 1 = the default 48-kHz bandwidth class. */
++	err = usb_set_interface(dev, BF_IFACE, BF_ALT_1);
++	if (err < 0) {
++		dev_err(&intf->dev, "usb_set_interface failed: %d\n", err);
++		goto error;
++	}
++
++	err = bf_cold_init(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "cold init failed: %d\n", err);
++		goto error;
++	}
++
++	/* Sync the preamp state from the 0x17 readback (byte 0 mirrors
++	 * the 48V/PAD bits; it persists across power cycles).
++	 */
++	err = bf_vendor_read(chip, BF_REQ_PREAMP, BF_REG_PREAMP, st);
++	if (err < 0)
++		dev_dbg(&intf->dev, "preamp readback failed: %d\n", err);
++	else
++		chip->preamp = st[0];
++
++	/* Restore the mixer state saved at the last disconnect (if any);
++	 * the device keeps its registers across a usbfs detach, but the
++	 * cold init above cleared them, so push the user's settings back.
++	 */
++	err = bf_state_restore(chip);
++	if (err == -ENOENT) {
++		/* No saved state: the 0x16 clear zeroed the mixer registers,
++		 * so restore the factory default routing to keep the outputs
++		 * live out of the box.
++		 */
++		err = babyface_write_default_mixer(chip);
++		if (err < 0) {
++			dev_err(&intf->dev, "default mixer restore failed: %d\n", err);
++			goto error;
++		}
++	} else if (err < 0) {
++		dev_err(&intf->dev, "mixer state restore failed: %d\n", err);
++		goto error;
++	}
++
++	urbsize = chip->frame_bytes * chip->frames_per_urb;
++	chip->urbs_in = kcalloc(chip->nurbs, sizeof(*chip->urbs_in), GFP_KERNEL);
++	chip->urbs_out = kcalloc(chip->nurbs, sizeof(*chip->urbs_out), GFP_KERNEL);
++	chip->buf_in = kcalloc(chip->nurbs, sizeof(*chip->buf_in), GFP_KERNEL);
++	chip->buf_out = kcalloc(chip->nurbs, sizeof(*chip->buf_out), GFP_KERNEL);
++	chip->dma_in = kcalloc(chip->nurbs, sizeof(*chip->dma_in), GFP_KERNEL);
++	chip->dma_out = kcalloc(chip->nurbs, sizeof(*chip->dma_out), GFP_KERNEL);
++	if (!chip->urbs_in || !chip->urbs_out || !chip->buf_in ||
++	    !chip->buf_out || !chip->dma_in || !chip->dma_out)
++		goto error;
++
++	for (i = 0; i < chip->nurbs; i++) {
++		chip->urbs_in[i] = usb_alloc_urb(0, GFP_KERNEL);
++		chip->urbs_out[i] = usb_alloc_urb(0, GFP_KERNEL);
++		chip->buf_in[i] = usb_alloc_coherent(dev, urbsize, GFP_KERNEL,
++						     &chip->dma_in[i]);
++		chip->buf_out[i] = usb_alloc_coherent(dev, urbsize, GFP_KERNEL,
++						      &chip->dma_out[i]);
++		if (!chip->urbs_in[i] || !chip->urbs_out[i] ||
++		    !chip->buf_in[i] || !chip->buf_out[i])
++			goto error;
++	}
++
++	err = snd_pcm_new(chip->card, "Babyface Pro FS", 0, 1, 1, &pcm);
++	if (err < 0) {
++		dev_err(&intf->dev, "snd_pcm_new failed: %d\n", err);
++		goto error;
++	}
++	pcm->private_data = chip;
++	strscpy(pcm->name, "Babyface Pro FS", sizeof(pcm->name));
++	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &babyface_pcm_ops);
++	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &babyface_pcm_ops);
++
++	/* The PCM buffer is host-side (the URB callbacks copy in/out of
++	 * it); vmalloc is the standard choice for that.
++	 */
++	err = snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_VMALLOC,
++					     NULL, 0, 1 << 20);
++	if (err < 0) {
++		dev_err(&intf->dev, "buffer allocation failed: %d\n", err);
++		goto error;
++	}
++
++	err = babyface_create_controls(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "control creation failed: %d\n", err);
++		goto error;
++	}
++
++	err = babyface_create_xpoints(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "crosspoint creation failed: %d\n", err);
++		goto error;
++	}
++
++	err = babyface_create_flags(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "flag control creation failed: %d\n", err);
++		goto error;
++	}
++
++	err = babyface_create_panel(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "front-panel control creation failed: %d\n", err);
++		goto error;
++	}
++
++	err = babyface_create_eq(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "EQ control creation failed: %d\n", err);
++		goto error;
++	}
++
++	/* The DSP coefficient stream (EQ, bulk ep 0x0A) lives on interface
++	 * 1, which has a single altsetting (alt 0) already active in the
++	 * default configuration — the endpoint is scheduled, no
++	 * SET_INTERFACE or interface claim is needed (the earlier
++	 * -EAGAIN was the on-stack transfer buffer, and SET_INTERFACE on
++	 * interface 1 wedged the iface-5 audio stream — playback URBs
++	 * never completed).
++	 */
++
++	err = snd_card_register(chip->card);
++	if (err < 0) {
++		dev_err(&intf->dev, "snd_card_register failed: %d\n", err);
++		goto error;
++	}
++
++	/* The panel poll mirrors the physical buttons/wheel into the
++	 * Front Panel controls; it runs for the whole card lifetime.
++	 */
++	babyface_panel_start(chip);
++
++	usb_set_intfdata(intf, chip);
++	dev_info(&intf->dev,
++		 "Babyface Pro FS: card %i, %u frames/URB, %u URBs/direction\n",
++		 chip->card->number, chip->frames_per_urb, chip->nurbs);
 +	return 0;
- }
++
++error:
++	usb_set_intfdata(intf, NULL);
++	/* Balance the probe()-time usb_disable_autosuspend(): disconnect()
++	 * is never called for a failed probe, so the disable would leak and
++	 * leave autosuspend off on this usb_device until a physical unplug.
++	 */
++	usb_enable_autosuspend(chip->dev);
++	snd_card_free(chip->card);
++	return err;
++}
++
++static void babyface_disconnect(struct usb_interface *intf)
++{
++	struct snd_usb_babyface *chip = usb_get_intfdata(intf);
++
++	if (!chip)
++		return;
++
++	/* Idempotence guard: a disconnect can race a re-probe (usbfs
++	 * detach/re-attach) — tear the card down exactly once.
++	 */
++	usb_set_intfdata(intf, NULL);
++	if (chip->shutdown)
++		return;
++
++	/* Keep the mixer state for the next probe: a userspace usbfs
++	 * claim (PipeWire sink grab, TuxMix daemon) detaches us and the
++	 * cold init of the re-probe would otherwise wipe the settings.
++	 */
++	bf_state_save(chip);
++
++	chip->shutdown = true;
++	cancel_work_sync(&chip->stream_work);
++	babyface_panel_stop(chip);
++	/* Balance the probe()-time usb_disable_autosuspend(): the usb_device
++	 * outlives this interface claim (a usbfs detach re-probes without
++	 * the physical device ever disconnecting), so leaving autosuspend
++	 * disabled here would wrongly affect whatever claims the device next.
++	 */
++	usb_enable_autosuspend(chip->dev);
++	/* Wake apps blocked in read/write: the card is going away. */
++	dev_info(&chip->dev->dev, "disconnect: stopping PCM substreams\n");
++	babyface_pcm_stop_both(chip, SNDRV_PCM_STATE_DISCONNECTED);
++	mutex_lock(&chip->mutex);
++	if (chip->streaming)
++		babyface_stream_kill(chip);
++	mutex_unlock(&chip->mutex);
++
++	snd_card_disconnect(chip->card);
++	/* NEVER snd_card_free() here: it blocks until the last user
++	 * closes the card, and an open client (e.g. PipeWire) deadlocks
++	 * the disconnect (seen live: pipewire stuck in snd_card_free,
++	 * D state).  free_when_closed frees on the last close.
++	 */
++	snd_card_free_when_closed(chip->card);
++}
++
++static int babyface_suspend(struct usb_interface *intf, pm_message_t message)
++{
++	struct snd_usb_babyface *chip = usb_get_intfdata(intf);
++
++	struct snd_device *sdev;
++
++	if (!chip)
++		return 0;
++	list_for_each_entry(sdev, &chip->card->devices, list) {
++		if (sdev->type == SNDRV_DEV_PCM)
++			snd_pcm_suspend_all(sdev->device_data);
++	}
++	cancel_work_sync(&chip->stream_work);
++	babyface_panel_stop(chip);
++	mutex_lock(&chip->mutex);
++	if (chip->streaming)
++		babyface_stream_kill(chip);
++	mutex_unlock(&chip->mutex);
++	return 0;
++}
++
++static int babyface_resume(struct usb_interface *intf)
++{
++	struct snd_usb_babyface *chip = usb_get_intfdata(intf);
++	int err;
++
++	if (!chip)
++		return 0;
++
++	/* The device lost its state across the suspend; re-run the cold
++	 * init and re-apply the cached mixer state.  Suspended PCM
++	 * substreams are woken by the core — apps get -ESTRPIPE and
++	 * restart (the trigger re-arms the stream).
++	 */
++	mutex_lock(&chip->mutex);
++	err = usb_set_interface(chip->dev, BF_IFACE, chip->alt);
++	if (err < 0)
++		goto out;
++	err = bf_cold_init(chip);
++	if (err < 0)
++		goto out;
++	err = babyface_restore_state(chip);
++out:
++	mutex_unlock(&chip->mutex);
++	if (!err)
++		babyface_panel_start(chip);
++	return err;
++}
++
++static const struct usb_device_id babyface_ids[] = {
++	{ USB_DEVICE(USB_VENDOR_RME, USB_PRODUCT_BABYFACE_PRO_FS) },
++	{ }
++};
++MODULE_DEVICE_TABLE(usb, babyface_ids);
++
++static struct usb_driver babyface_driver = {
++	.name = "snd-usb-babyface-pro",
++	.probe = babyface_probe,
++	.disconnect = babyface_disconnect,
++	.suspend = babyface_suspend,
++	.resume = babyface_resume,
++	.id_table = babyface_ids,
++};
++
++static int __init babyface_init(void)
++{
++	return usb_register(&babyface_driver);
++}
++
++static void __exit babyface_exit(void)
++{
++	bf_state_purge();
++	usb_deregister(&babyface_driver);
++}
++
++module_init(babyface_init);
++module_exit(babyface_exit);
++
++MODULE_AUTHOR("Ismaïl Bahloul <i.bahloul01@gmail.com>");
++MODULE_DESCRIPTION("RME Babyface Pro FS (proprietary mode) USB audio driver");
++MODULE_LICENSE("GPL");
+diff --git a/sound/usb/babyfacepro/babyfacepro.h b/sound/usb/babyfacepro/babyfacepro.h
+new file mode 100644
+index 000000000..df90f48ed
+--- /dev/null
++++ b/sound/usb/babyfacepro/babyfacepro.h
+@@ -0,0 +1,391 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * RME Babyface Pro FS — proprietary-mode USB audio driver
++ *
++ * The Babyface Pro FS presents two personalities on the USB bus: a
++ * class-compliant one (handled by snd-usb-audio) and a proprietary one
++ * (VID 0x2a39 / PID 0x3fc0) whose PCM stream runs on INTERRUPT
++ * endpoints (interface 5, ep 0x01 OUT / 0x82 IN).  Isochronous
++ * transfers are rejected there with EINVAL, and snd-usb-audio has no
++ * interrupt-PCM path, so this driver is standalone (snd-usb-caiaq-style
++ * interrupt streaming) instead of an snd-usb-audio quirk.
++ *
++ * The protocol (vendor requests + 14×32-bit frame layout) was
++ * reverse-engineered from Windows captures and validated on hardware —
++ * tools/usbdump/PROTOCOL.md is the authoritative reference.
++ *
++ * Stream notes (hardware-validated 2026-08):
++ *   - frames_per_urb is tunable 8..1024 (multiple of 8) but must be at
++ *     least one alt packet wide — the device delivers IN data in
++ *     alt-sized packets (448/640/1024 B for alt 1/2/3), smaller URBs
++ *     get -EOVERFLOW (babble).  So frames_per_urb >= 8/16/32 for
++ *     alt 1/2/3; the driver rejects violating rates in hw_params.
++ *   - Validated sweep 256→128→64→32→16 (≤ 128 kHz): with nurbs=8 the
++ *     period floor is 32 frames (0.67 ms @ 48 kHz) without glitches;
++ *     nurbs=16 drops it to 16 frames (0.33 ms).  Soaks (5-15 min,
++ *     2026-08-25) refine this: period 32 is the zero-glitch floor
++ *     (0 xruns both directions); period 16 is rock-solid on playback
++ *     but the capture side drops ~1 buffer per 7 s (0.67 ms each —
++ *     any scheduler hiccup overruns a 0.33 ms ring) — fine for
++ *     monitoring, not for clean recording.  Defaults (256×8) match
++ *     the RME TotalMix 256-sample buffer; the low-latency profile is
++ *     16×16.
++ *   - The device only advances the stream while BOTH endpoints have a
++ *     pending URB — IN and OUT are always submitted as a pair.
++ *   - Sample rate = SET_INTERFACE(5, alt) only; the alt is a bandwidth
++ *     class (alt 1 = 32/44.1/48/64/88.2 kHz, alt 2 = 96/128 kHz,
++ *     alt 3 = 176.4/192 kHz), not a 1:1 rate code.
++ */
++
++#include <linux/log2.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/unaligned.h>
++#include <linux/usb.h>
++#include <linux/workqueue.h>
++#include <sound/control.h>
++#include <sound/tlv.h>
++#include <sound/core.h>
++#include <sound/initval.h>
++#include <sound/pcm.h>
++
++#define USB_VENDOR_RME			0x2a39
++#define USB_PRODUCT_BABYFACE_PRO_FS	0x3fc0
++
++/* The proprietary audio interface (interface 5, interrupt endpoints). */
++#define BF_IFACE			5
++#define BF_EP_OUT			0x01
++#define BF_EP_IN			0x82
++
++#define BF_ALT_1			1	/* 32/44.1/48/64/88.2 kHz, 448-B packets */
++#define BF_ALT_2			2	/* 96/128 kHz, 640-B packets */
++#define BF_ALT_3			3	/* 176.4/192 kHz, 1024-B packets */
++
++/* Default stream geometry — conservative, matches the RME TotalMix
++ * 256-sample buffer.  Both are tunable via module params; the
++ * low-latency profile (validated) is frames_per_urb=16 nurbs=16.
++ */
++#define BF_FRAMES_PER_URB_DEFAULT	256
++#define BF_NURBS_DEFAULT		8
++
++/* Front-panel poll interval default — Windows polls the 5-register
++ * status set at ~50 cycles/s (20 ms); match that.  Tunable via the
++ * panel_poll_ms module param for reviewers/distros who want a slower
++ * (or faster) rate than the Windows-matching default.
++ */
++#define BF_PANEL_POLL_MS_DEFAULT	20
++
++#define BF_WORDS_PER_FRAME		14	/* 14 × 32-bit words per frame */
++
++/* Consecutive URB errors (CRC/babble/protocol or a failed resubmit)
++ * before the stream is stopped and the apps get a clean -EPIPE.
++ */
++#define BF_URB_ERR_STOP			3
++
++/* Vendor requests (bmRequestType 0x40, value in wValue, no data phase). */
++#define BF_REQ_KEEPALIVE		0x10	/* settings word / stream trigger */
++#define BF_REQ_STATUS			0x11	/* read 4 B */
++#define BF_REQ_CROSSPOINT		0x12	/* 16-bit crosspoint / master */
++#define BF_REQ_SESSION_STOP		0x13	/* disarm — never sent mid-run */
++#define BF_REQ_SESSION_ARM		0x14
++#define BF_REQ_REG_CLEAR		0x16	/* cold-init register clear */
++#define BF_REQ_PREAMP			0x17	/* 48V/PAD state + readback */
++#define BF_REQ_GAIN			0x1a	/* 8-bit gain / master companion */
++#define BF_REQ_DDS			0x1b	/* clock quads */
++#define BF_REQ_STATUS_2			0x1c	/* read 4 B */
++#define BF_REQ_SESSION_START		0x1d
++#define BF_REQ_PREAMP_COMMIT		0x21	/* commit after 0x17 */
++#define BF_REQ_LOOPBACK			0x15	/* per-output-channel flag */
++
++/* Loopback map width (captured 2026-08-25, cap_loopback2.pcap):
++ * TotalMix writes the FULL 30-channel 0x15 map on every toggle (ON =
++ * the pair at 0x0001 + the other 28 at 0x0000; OFF = all 0x0000).
++ * wIdx = 2×out_index: AN1/2 = 0/1, PH3/4 = 2/3, AS1/2 = 4/5, …
++ */
++#define BF_LOOPBACK_CHANNELS		30
++
++/* Register addresses. */
++#define BF_REG_PREAMP			0x003f
++#define BF_REG_MASTER_16		0x03e0	/* + 2·out (bReq 0x12) */
++#define BF_REG_MASTER_8			0x0004	/* + 2·out (bReq 0x1a) */
++#define BF_REG_GAIN			0x0000	/* + mic 0-3 (bReq 0x1a) */
++#define BF_REG_CROSS_BASE_L		0x0034	/* + 0x34·out + src (bReq 0x12) */
++#define BF_REG_CROSS_BASE_R		0x004e	/* + 0x34·out + src */
++#define BF_REG_CROSS_STRIDE		0x0034
++#define BF_REG_KEEPALIVE_SETTINGS	0x05cf
++#define BF_REG_KEEPALIVE_INIT		0x05ff
++
++/* Front-panel readback (babyfacepro-ctl.c): 0x17 read at wIdx 0x0000 — the index
++ * the Windows driver polls (cap_buttons2.pcap).  byte0 = preamp 48V/PAD,
++ * byte1 = OUT sel + DIM/MIX bits, byte2 = IN sel + wheel counter,
++ * byte3 = button flash (see babyfacepro-ctl.c for the full layout).
++ */
++#define BF_REG_PANEL_READ		0x0000
++#define BF_PANEL_IN_SHIFT		4
++#define BF_PANEL_IN_CH12		0x04
++#define BF_PANEL_IN_CH34		0x05
++#define BF_PANEL_IN_OPT			0x06
++/* OUT selection — the gain-display-mode encoding (cap_dim.pcap);
++ * babyfacepro-ctl.c also accepts the base-mode 0x01/0x02 (cap_buttons.pcap).
++ */
++#define BF_PANEL_OUT_CH12		0x04
++#define BF_PANEL_OUT_PHONES		0x05
++#define BF_PANEL_OUT_OPT		0x06
++#define BF_PANEL_FLASH_IN		0x41
++#define BF_PANEL_FLASH_SET		0x42
++#define BF_PANEL_FLASH_MIX		0x44
++#define BF_PANEL_FLASH_OUT		0x48
++#define BF_PANEL_FLASH_SELECT		0x50
++#define BF_PANEL_FLASH_DIM		0x60
++#define BF_PANEL_BTN_NONE		0
++#define BF_PANEL_BTN_IN			1
++#define BF_PANEL_BTN_SET		2
++#define BF_PANEL_BTN_MIX		3
++#define BF_PANEL_BTN_OUT		4
++#define BF_PANEL_BTN_SELECT		5
++#define BF_PANEL_BTN_DIM		6
++
++/* Preamp state byte (0x17, wIdx 0x003F — full state, verified).
++ * NOTE 2026-08-26 (cap_reflevel3.pcap): the 0x0C "base" is NOT a
++ * constant — it is the Instr 3/4 REF-LEVEL bits (bits 2-3, +4dBu =
++ * 0x0C set; −10dBV/Boost = clear; Boost additionally commits 0x21
++ * wVal 0x0003).  Keeping it always set = forcing the default +4dBu,
++ * which is correct for the driver (no ref-level control).
++ */
++#define BF_PREAMP_REF_4DBU		0x000c
++#define BF_PREAMP_BASE			BF_PREAMP_REF_4DBU
++#define BF_PREAMP_48V_MIC1		0x0001
++#define BF_PREAMP_48V_MIC2		0x0002
++#define BF_PREAMP_PAD_MIC1		0x0010
++#define BF_PREAMP_PAD_MIC2		0x0020
++
++/* Calibrated master value: 0 dB = 0x2000 (+6 dB = 0x4000).  See
++ * CALIBRATION.md.  The crosspoint fader curve is DIFFERENT (0 dB =
++ * 0x16a0, top 0x2d41 — see below).
++ */
++#define BF_MASTER_0DB			0x2000
++
++/* The 8-bit master is the REAL output volume (hardware-verified
++ * 2026-08-24: writing it changes the level, the 16-bit does not).
++ * Scale: 0.5 dB per step, 0xf3 = 0 dB (the scene-load default),
++ * bottom 0x73 = -64 dB (silence), top 0xff = +6 dB.  The 16-bit
++ * register is a companion kept in sync (TotalMix writes both).
++ * The mute value is 0x3B.
++ */
++#define BF_MASTER_8_0DB			0xf3
++#define BF_MASTER_8_MIN			0x73
++#define BF_MASTER_MUTE			0x3b
++#define BF_MASTER_UNMUTE		0xf3
++
++/* The front-panel gain/display family (0x1A, wIdx 0x000A + mic 0-3;
++ * cap_panel/cap_mix.pcap): in gain mode the wheel writes the "ADC
++ * gain" here (drives the same preamp as the GUI 0x0000+mic); in MIX
++ * (fader) mode the same registers carry the VU DISPLAY shadow —
++ * TotalMix writes the monitoring level display value (0..~31) and the
++ * card lights the input VU segments accordingly (hardware-verified
++ * 2026-08-26 live: sweeping 0x1A values moved the input VU).
++ */
++#define BF_REG_PANEL_GAIN		0x000a
++
++/* Crosspoint fader curve: 0 dB = 0x16a0, +6 dB = 0x2d41 (fader curve,
++ * DIFFERENT from the master 0x4000 top — see CALIBRATION.md).
++ */
++#define BF_FADER_0DB			0x16a0
++#define BF_FADER_TOP			0x2d41
++
++/* The crosspoint matrix sources (14 controls per output). */
++struct bf_source {
++	const char *name;
++	u8 idx_l;
++	u8 idx_r;
++};
++
++/* Crosspoint-source order + register block maps (babyfacepro-ctl.c). */
++extern const struct bf_source bf_sources[14];
++extern const u8 bf_xpoint_block[6];
++
++/* Calibrated preamp gain: 65 dB over 20 raw steps (3.25 dB/step). */
++#define BF_GAIN_MAX_DB			65
++
++struct snd_usb_babyface {
++	struct snd_card *card;
++	struct usb_device *dev;
++	struct usb_interface *iface;
++
++	struct mutex mutex;		/* controls + stream geometry */
++	spinlock_t lock;		/* hw_ptr / subs */
++
++	/* stream */
++	struct urb **urbs_in;
++	struct urb **urbs_out;
++	void **buf_in;
++	void **buf_out;
++	dma_addr_t *dma_in;
++	dma_addr_t *dma_out;
++	unsigned int nurbs;
++	unsigned int frames_per_urb;
++	unsigned int frame_bytes;	/* 56/40/32 for alt 1/2/3 */
++	unsigned int rate;
++	unsigned int alt;
++	int stream_users;		/* PCM substreams sharing the stream */
++	bool streaming;			/* URBs actually in flight */
++	bool shutdown;
++	atomic_t urb_err;		/* consecutive bad URBs (stops the stream) */
++	struct work_struct stream_work;
++
++	struct snd_pcm_substream *subs[2];
++	unsigned long hw_ptr[2];
++	unsigned long prev_period[2];
++
++	/* mixer state (no gain readback exists — host-side mirror) */
++	u16 preamp;			/* 48V/PAD bits, base 0x0c */
++	u8 gain[4];			/* preamp gain in dB 0-65/9 (raw derived
++					 * at write: mic 3.25 dB/step, instr
++					 * 0.5 dB/step)
++					 */
++	u8 gain_cycle;			/* 0x20/0x00/0x40 transaction counter */
++	u8 flag_cnt;			/* 0xc000/0x4000/0x8000/0x0000 */
++	u16 master[6][2];		/* cached 16-bit masters */
++	bool muted[6];
++	u16 dim_saved[2];		/* pre-DIM Phones master (out 1 L/R) */
++	bool dim;			/* DIM engaged (fixed -20 dB on Phones) */
++	u16 xpoint[6][14][2];		/* cached crosspoints (out, src, L/R) */
++	int pitch;			/* varispeed in 0.1% (-500..+500) */
++	bool loopback[6];
++	bool an12;			/* AN 1>2 copy */
++	bool linked;			/* AN1/2 input link */
++	bool ms_proc;			/* MS processor engaged */
++	int width;			/* width knob -100..+100 */
++	u16 fx_send;			/* FX send level 0..0x1000 */
++
++	/* DSP EQ (babyfacepro-ctl.c) — 4 analog-input strips, params kept in state */
++	struct bf_eq_channel {
++		bool on;		/* EQ engaged (else identity blocks) */
++		s32 slope_db;		/* low-cut slope 6/12/18/24 (0 = off) */
++		s32 lc_hz;		/* low-cut freq, 0 = off */
++		u32 lc_raw;		/* cached 0x38 word */
++		u8 slope;		/* cached slope byte (2^n - 1) */
++		s32 band_type[3];	/* 0 off, 1 bell, 2 low shelf, 3 high shelf */
++		s32 band_freq[3];	/* Hz */
++		s32 band_q[3];		/* Q x 100 */
++		s32 band_gain[3];	/* dB x 10 */
++		s32 words[3][4];	/* cached c0..c3 */
++		s32 shared;		/* cached c4 (shared by the slots) */
++	} eq[4];
++
++	/* front panel (babyfacepro-ctl.c) — 0x17 readback poll */
++	struct delayed_work panel_work;
++	unsigned int panel_poll_ms;	/* front-panel poll interval, module param */
++	u8 panel_prev[4];		/* last 0x17 snapshot */
++	bool panel_seen;		/* first snapshot taken */
++	bool panel_select_armed;	/* device SELECT cycle armed (IN switch disarms) */
++	unsigned long panel_start;	/* jiffies at panel_start (boot re-assert) */
++	int panel_button;		/* latched button event (consumed on get) */
++	int panel_wheel;		/* accumulated wheel delta (consumed on get) */
++	int panel_in;			/* enum: 0 unknown, 1 Ch1/2, 2 Ch3/4, 3 Opt */
++	int panel_out;			/* enum: 0 unknown, 1 Ch1/2, 2 Phones, 3 Opt */
++	bool panel_mix;			/* MIX engaged — HOST-latched (like TotalMix):
++					 * set by the 0x44 flash ack, NOT by the readback
++					 * 0x80 bit (the raw press has none)
++					 */
++	bool panel_dim;			/* DIM sticky (byte1 bit 0x20) */
++	bool panel_saw_fader;		/* device observed in fader mode (byte2 0x0x)
++					 * — gates the device-driven MIX exit
++					 */
++	int panel_select;		/* SELECT state: 0 L, 1 R, 2 both, 3 none
++					 * (host-tracked — not in the readback)
++					 */
++	int panel_sel_hold;		/* consecutive ticks with byte3 = 0x50
++					 * (SELECT held > 200 ms = the OUT-balance
++					 * gesture; a tap flashes only ~100-150 ms,
++					 * selhold_probe2 — no engaged bit)
++					 */
++	u16 panel_mix_raw;		/* MIX-mode monitoring level (fader raw) */
++	u8 panel_mix_disp[4];		/* MIX-mode VU display shadow per mic
++					 * (0x1A 0x000A+mic — written on change
++					 * so the input VU follows the wheel)
++					 */
++	struct snd_kcontrol *panel_kctl[7]; /* for snd_ctl_notify */
++};
++
++struct bf_saved {
++	struct list_head list;
++	char key[32];
++	u16 preamp;
++	u8 gain[4];
++	u8 gain_cycle;
++	u8 flag_cnt;
++	u16 master[6][2];
++	bool muted[6];
++	u16 xpoint[6][14][2];
++	int pitch;
++	bool loopback[6];
++	bool an12;
++	bool linked;
++	bool ms_proc;
++	int width;
++	u16 fx_send;
++	bool dim;
++};
++
++struct bf_rate {
++	unsigned int rate;
++	unsigned int alt;
++	unsigned int frame_bytes;
++	unsigned int min_fpu;	/* frames/URB floor = one alt packet (448/640/1024 B) */
++};
++
++/* Sample-rate / alt classes (babyfacepro.c). */
++const struct bf_rate *bf_rate_lookup(unsigned int rate);
++
++/* ── shared driver state ────────────────────── */
++extern const u16 bf_flag_cycle[4];
++extern const struct bf_source bf_sources[14];
++
++/* babyfacepro-ctl.c — the DSP EQ (struct snd_usb_babyface is defined above). */
++void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
++		      s32 gain_x10, s32 fs);
++void bf_eq_reupload(struct snd_usb_babyface *chip);
++int babyface_create_eq(struct snd_usb_babyface *chip);
++extern const u8 bf_xpoint_block[6];
++extern const struct snd_pcm_hw_constraint_list bf_rates_constraint;
++
++/* ── babyfacepro.c ──────────────────────── */
++int bf_vendor_write(struct snd_usb_babyface *chip, u8 req, u16 val, u16 idx);
++int bf_vendor_read(struct snd_usb_babyface *chip, u8 req, u16 idx, u8 *buf);
++int bf_cold_init(struct snd_usb_babyface *chip);
++int bf_crosspoint_clear_cross(struct snd_usb_babyface *chip,
++			      unsigned int blk);
++const struct bf_rate *bf_rate_lookup(unsigned int rate);
++void babyface_stream_kill(struct snd_usb_babyface *chip);
++void babyface_pcm_stop_both(struct snd_usb_babyface *chip, snd_pcm_state_t state);
++void babyface_stream_work(struct work_struct *work);
++
++/* ── babyfacepro-ctl.c ─────────────────────── */
++int babyface_write_default_mixer(struct snd_usb_babyface *chip);
++int bf_apply_masters(struct snd_usb_babyface *chip);
++int bf_loopback_write_map(struct snd_usb_babyface *chip, int out, bool on);
++int bf_preamp_state_write(struct snd_usb_babyface *chip);
++int babyface_create_controls(struct snd_usb_babyface *chip);
++int babyface_create_xpoints(struct snd_usb_babyface *chip);
++int babyface_create_flags(struct snd_usb_babyface *chip);
++
++/* Master + gain law helpers — shared with the front-panel wheels. */
++int bf_master_half_db(u16 vol16);	/* 16-bit master → dB×2 */
++int bf_master_16bit(int half_db);	/* dB×2 → 16-bit master */
++u8 bf_master_8bit(u16 vol16);		/* 16-bit master → 8-bit companion */
++int bf_gain_max_db(int mic);
++int bf_gain_db(int mic, u8 raw);	u8 bf_gain_raw(int mic, int db);
++
++/* ── babyfacepro-ctl.c ─────────────────────── */
++int babyface_create_panel(struct snd_usb_babyface *chip);
++void babyface_panel_start(struct snd_usb_babyface *chip);
++void babyface_panel_stop(struct snd_usb_babyface *chip);
++void babyface_panel_work(struct work_struct *work);
++
++/* ── babyfacepro.c ──────────────────────── */
++void bf_state_save(struct snd_usb_babyface *chip);
++int bf_state_restore(struct snd_usb_babyface *chip);
++void bf_state_purge(void);
++int babyface_restore_state(struct snd_usb_babyface *chip);
++int bf_state_apply_flags(struct snd_usb_babyface *chip);
 -- 
 2.55.0
 
