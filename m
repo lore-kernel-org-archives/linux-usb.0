@@ -1,199 +1,62 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04F5414A1D
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 03:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788234898; cv=pass; b=ek0GL8YN3XNYa/7yoi1c7gPE6kmx83NbzVnOTz20FopGWmKLDDifon36PO9uh8Znw4FN83fCFHqtR425gK6SslfSpqi5ZqzNwow5b6QnzYbZGe2LEnTfznPNb6GRuO13mGsJjnqUwNBd3rG6gLw1NVgwm3fGH7NZ0uskykh3Ehw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788234898; c=relaxed/simple;
-	bh=p6Car4wLfCC9KNNoQ5FLbdWyWeAcQj3hc5NEF2Q1ifU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NJ6jkOtJcHi4AFKBfiHreCDHf9JkYop8vopGIFbJl04Mcks63Ev1XFr/9w/w4z5zCHjKtT/RcD2OSguIcLFaOm69nQSp5LciEXFYZuXjahS3OW3R6TAHbov4QoxaY4/Kl8NQRZyUpiyZF0SHBGu+9oa8owJSvEoHsEVL+Mx3zwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ym3TBudC; arc=pass smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721C630649C;
+	Tue,  1 Sep 2026 04:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788236793; cv=none; b=MKY4j1QZ8o2FqrP1xYr5L4aBb0fwshza/iK4chJI70XUaJ8ZHToktROY8Da9xYLgjdCu+GcV6j+Ra8R9+tQF1C/QiJ/BKM5YSJet9tvw8ZRNIKCymhat9IBvU7B1je0GVaG2Hlwsw6tFYysLQtWGS38To8gqry/gqZnZnInTX7I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788236793; c=relaxed/simple;
+	bh=UL3/IpsdX9CoJRATjGUBxTUwCBJYIWUOgM7y9ufieT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MWLV/zRxAULtWkvYUJhIRW6UDJ7iLc+tWYXeAoO85vsFNoNlaPIck/ZPNtpLNvM5wfmdfygwQyUOVtZ2ZsQKmhB4fYwKB1kCIUZ8QT/DrSxUCTw6aMgQo/6ihOWSfx3fBJ5xtLfynQo1a2lvA/TUVhsafzwTjOA5/TT+FCpmoTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=105pQsNf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ym3TBudC"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5302b692c8eso409061cf.2
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 20:54:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788234895; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eq2TSwZX+ic5etRHBXjRAsr3WN/94nMGbHYwQeo0A+jKZH4dVYfrpBGwK09EQaHC1I
-         Q0akcdTKjmSAVAMMoB9QoOhZ9RUgVMK/DiivK2kzO3WV704nR/k9HTmTu4nFIvYlC8Lg
-         8Ei1Iex6iGHC9PkmnkVGAqENeq8M6WG8il07zDZbPikzVUlyT8ati9eIwPqiizWVN2JD
-         mr1Tcmr1HxiujBdgGLGSP0Ev0PPS6jkzg3mujFM0u3KiyRzfTaJ3yryqjBkRjt94qFHc
-         u/8AM+kBIuAwWTkJi6sWFm91lZvREz9HZlB27VbooOF5QvlBPZ6rFAiGiHZVP6EL6HNl
-         lJQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=p6Car4wLfCC9KNNoQ5FLbdWyWeAcQj3hc5NEF2Q1ifU=;
-        fh=B5WJ0sDYXXN+llhWit1yT+x+bQ28ZMw+0C1WOlCMRqc=;
-        b=cr1vP3S6WhqaaVOG3+TjY7hqfZJ3Rjt68/IZ7evoOjtcOcTSA+zJxDdkG+iMEjOr9o
-         XHUFXt4bMn2vduTOi06FD2tHkV4SUfZtIBCZQS0Z0+NKbLAG4mvVByRLJnk6CkrLJmNJ
-         0vz361utcdBqvc7D6bYaoneVEcdWj69F3UC+9PqvgYTMdpZpbqcRF1EP4m8NcU0mdeL7
-         C3nNUHRsbGrwC7FBuYw7LJgtXWmXZI1wRDguuUnk9hfHsWplgJzhKHM46VB82TjytVsv
-         KZ9i8yv8I6CWyFls68SURjB5RFd+UfRclot4X64eyuSFnuGCP9Yk0ooC0roibyU8JrzJ
-         tKuA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788234895; x=1788839695; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=p6Car4wLfCC9KNNoQ5FLbdWyWeAcQj3hc5NEF2Q1ifU=;
-        b=Ym3TBudCzV1a0rmBm4BiXjDTQsJIbNIMUioObI49+JpMCAvd1RWFooBMttVCFj6AQH
-         8v0wOAz5bNZozcEit6oOpNVKZpGg/RopAtTLvbPdP6Rf5ubqyb+PCcepnkj2/pzPDAnY
-         YHWKiRsRP3vV0Rwb7Peq+GINdzauF2+IYCBVNZZKVu7XDlilgWotAMhIyz1x79zbvnef
-         WU/9s8Z1Gq7JylvQj0SayO18Hk1ljuWTZyRZ5eEbYObbDVhNzHVr2XrMQJ63kRYLVkPH
-         QhQT3aX25qXr7FK/DeJi0uke+T9EigCbUqQZcd9Qrqfh/++KB+1RbqVbY9hFY8ngMro0
-         Ptzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788234895; x=1788839695;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=p6Car4wLfCC9KNNoQ5FLbdWyWeAcQj3hc5NEF2Q1ifU=;
-        b=NMFTEPM9fVbnDeZNpFfOX0JqZ6fB1saMrG/KGhfKGQt2NhCgijCR6vwMYoXuYwox9p
-         pxJq6/Y2IG1oMjxDqudk7r8i7Zeh8mj/GnU3sB7pr4IH8VPv2qnRJTud3weOpIZa1y7S
-         rlb/UAzg4l1WE6wkq0+NljQMzGJSR9PBO1MO7s7WjBRwOezOFOy58JqRK0Td32OzQjP/
-         MlIewZxZved/1rNjTKCWmibxb3nHCNua7e42Ts0J/oeinPJJNpdoIHTuf6y16EKob17y
-         M4cztTP2yFiy44BFI921UzobCPv6zd26nyxD/fusCmO8h9qihv1tyyrtmMt9BCX+FIkV
-         HxLQ==
-X-Forwarded-Encrypted: i=1; AHgh+Roi20BPGeZjtpOl7LH6dFy3fhvdzujN5CMYsM7/ZFhDsj2+YOj+oSrPCrAjaEUGrTEMVYL8Rf1zvxc=@vger.kernel.org
-X-Gm-Message-State: AFuF++nPYI/KtIDqRnLzhC2fo+YuAvaOaAksGB+htUB3K1sfELZo4oDj
-	O8D+SWstXOzEQ0//QX+qpcTAjNJU7umFstbQxxs0s0JmS4OnYG1ja8P6DjkTKXCEiz6tzi2A5QU
-	m1m5KcY/UHOS8mCYDd5zIEs6mbVK6Haw=
-X-Gm-Gg: AR+sD11A5I4+TaILINR7owVsYmp5jO64Y8aTdFGFxfPLwpGGcmqufiqVLo8yK0BJAvH
-	1SL8G/EsfDr3nlIuF36JQcGzaXR0dQshiVGST4CrvnqDrSVbrA4LEGr1t1NeUi3xgHgrfIcfi7h
-	VBaryS6MYrPjWphwW/oh8UKNqZZt/BZXol/jJiuO+fIL7dcdN0wBOa29LGoAijkrFzcy/pGAvSF
-	LxnRCeREB4Wwa0uVAxtMQM6/ikBN/t6p7AcQZQkIeqSdVrl+1DoqVhLqjvMRjq4MA3vEyhin1/d
-	m3XsMOk8CZafD0NxMK1jOGNfTYfjHQbeIu9QyzPBX76ylFU77Fg8EPJj4xW9inklS1++7OeZUUi
-	ScRHU5ideyZ8IhQan3JC7BecPL3aG
-X-Received: by 2002:a05:622a:551:b0:52f:b0f9:e4f2 with SMTP id
- d75a77b69052e-52fb93d5108mr371246021cf.1.1788234895329; Mon, 31 Aug 2026
- 20:54:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="105pQsNf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 721361F00A3D;
+	Tue,  1 Sep 2026 04:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788236792;
+	bh=XenD/fDOr7jFfTSGqCgMIgIsiHJUocc+iVOEgG/5f4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=105pQsNfBqdAH4PLJq4bmJGoDD3tQPrTxsfoZDrWSLeO/wrIKHDQ8n7jho0Ezea2W
+	 K4ww9m9VWZw1JD4KA1Vp19DSM5K+wt+E3jHLI7kkfRXfgJA5XLa7i4tWsW4+M49MOd
+	 KcmVEKu3j4jYnlddgHbEC04z6M3RgLkoaY83k9ek=
+Date: Tue, 1 Sep 2026 06:26:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: ZW Tang <tangzw515@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [BUG] media: usb: siano: WARNING in free_large_kmalloc from
+ smsusb cleanup path
+Message-ID: <2026090106-badland-vertical-7b57@gregkh>
+References: <CAA2SOT5LP5kNmw5qG6OCDijBYQNZoxCiKGRM8zcbApN62UKnTA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: ZW Tang <tangzw515@gmail.com>
-Date: Tue, 1 Sep 2026 11:54:43 +0800
-X-Gm-Features: AcwNN1U_A0RRNxrNZ7TVVkm0IgIj8V4painWMfBL2quCl7WNYWN1-87P4mqd3Hg
-Message-ID: <CAA2SOT5LP5kNmw5qG6OCDijBYQNZoxCiKGRM8zcbApN62UKnTA@mail.gmail.com>
-Subject: [BUG] media: usb: siano: WARNING in free_large_kmalloc from smsusb
- cleanup path
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA2SOT5LP5kNmw5qG6OCDijBYQNZoxCiKGRM8zcbApN62UKnTA@mail.gmail.com>
 
-Hi,
+On Tue, Sep 01, 2026 at 11:54:43AM +0800, ZW Tang wrote:
+> Hi,
+> 
+> I am reporting a warning triggered by a syzkaller USB reproducer on
+> Linux 7.2. The issue is reproducible with HEAD commit
+> 45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229.
+> 
+> The reproducer connects a crafted USB device that is bound to the Siano
+> SMS USB media driver. During probe, the device repeatedly returns URB
+> errors. The driver then fails to start the device and enters the cleanup
+> path.
 
-I am reporting a warning triggered by a syzkaller USB reproducer on
-Linux 7.2. The issue is reproducible with HEAD commit
-45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229.
+Great, please provide a patch to resolve this and we will be glad to
+review it.
 
-The reproducer connects a crafted USB device that is bound to the Siano
-SMS USB media driver. During probe, the device repeatedly returns URB
-errors. The driver then fails to start the device and enters the cleanup
-path.
+thanks,
 
-The relevant failure path is:
-
-smsusb_probe()
-smscore_start_device()
-smsusb_term_device()
-usb_free_urb()
-free_large_kmalloc()
-
-The warning is reported by mm/slub.c, but the root cause appears to be in
-the Siano USB driver cleanup path. The page owner information shows that
-the buffer was allocated through smscore_register_device() and later freed
-through smscore_unregister_device(). After that, the cleanup path continues
-to release URBs through usb_free_urb(), which reaches free_large_kmalloc()
-and triggers the warning.
-
-This looks like a URB/buffer lifetime or ownership mismatch in the smsusb
-error path. A partially initialized Siano USB device can fail during probe,
-and the cleanup path may free a buffer through an URB after the common
-Siano device buffer has already been released or is no longer a valid
-kmalloc allocation. The driver should make sure that URB transfer buffers
-are not freed twice or freed through the wrong owner during failed probe
-cleanup.
-
-Reproducer:
-
-syz reproducer: https://pastebin.com/raw/F41UFB6g
-console output: https://pastebin.com/raw/riuUBdGs
-kernel config: https://pastebin.com/raw/1ADB4Xp8
-
-Kernel:
-
-HEAD commit: 45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
-git tree: torvalds/linux
-kernel version: 7.2.0-14827-g45c13f3f9e3b #1 PREEMPT(full)
-
-Relevant log:
-
-smsusb:smsusb_onresponse: error, urb status -71, 0 bytes
-smsmdtv:smscore_sendrequest_and_wait: sendrequest returned error -22
-smsmdtv:smscore_set_device_mode: mode detect failed -22
-smsmdtv:smscore_start_device: set device mode failed , rc -22
-smsusb:smsusb_init_device: smscore_start_device(...) failed
-
-------------[ cut here ]------------
-WARNING: mm/slub.c:6724 at free_large_kmalloc+0x9a/0x110, CPU#1: kworker/1:1/30
-
-CPU: 1 UID: 0 PID: 30 Comm: kworker/1:1 Tainted: G W
-7.2.0-14827-g45c13f3f9e3b #1 PREEMPT(full)
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009)
-Workqueue: usb_hub_wq hub_event
-
-RIP: 0010+0x9a/0x110
-
-Call Trace:
-<TASK>
-usb_free_urb+0xd0/0x120
-smsusb_term_device+0x1d7/0x3e0
-smsusb_probe+0x1aa3/0x2200
-usb_probe_interface+0x71e/0xe00
-really_probe+0x267/0xb20
-__driver_probe_device+0x1f9/0x420
-driver_probe_device+0x4f/0x240
-__device_attach_driver+0x286/0x430
-bus_for_each_drv+0x251/0x2e0
-__device_attach+0x2b3/0x440
-device_initial_probe+0xa1/0xd0
-bus_probe_device+0x12a/0x220
-device_add+0x7ec/0xb90
-usb_set_configuration+0x19dc/0x2050
-usb_generic_driver_probe+0x8d/0x150
-usb_probe_device+0x1d3/0x3c0
-usb_new_device+0xbc6/0x1ae0
-hub_event+0x2c04/0x4ef0
-process_scheduled_works+0xc97/0x1920
-worker_thread+0xa59/0xfe0
-kthread+0x38c/0x480
-ret_from_fork+0x508/0xb90
-ret_from_fork_asm+0x1a/0x30
-</TASK>
-
-page dumped because: Not a kmalloc allocation
-page_owner tracks the page as freed
-
-page last allocated via:
-___kmalloc_large_node
-__kmalloc_noprof
-smscore_register_device
-smsusb_probe
-usb_probe_interface
-
-page last free stack trace:
-__free_pages_ok
-smscore_unregister_device
-smsusb_term_device
-smsusb_probe
-usb_probe_interface
+greg k-h
