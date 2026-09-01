@@ -1,102 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385583A7193
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 01:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481CF39B4AE;
+	Tue,  1 Sep 2026 02:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788227797; cv=none; b=CCWs5TQ2YeBa1IaDTuSki6uzi6iB/wFYmECUNScRPtuVAt6bL+jtgLSt9+65XriaWEceINr+3c7QXjx6/cpN9o88AhAxcc4gqrEXCLmfOV+XrR5fg9fpGVDY26gVr/j2yXwrhQ5D2I+Krrq4v3ThgcGT94cpvgFY/6RVd2kcFf0=
+	t=1788228307; cv=none; b=tMHTuNzppJ3OCR8+eyQmxL26IYLAObb+ijf3rNDba3s17xAv1DEpMdi5sSpxZy148eGwatYOmbGML+cG+KFiXl+7dI1XCRhtCCvuQJycgmSSQPBWhGBQRuPnXGZIjzhVgwSYSeY2AR7bMQW8k1QwqfZVPnM+1e53QZiQY9ZWXzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788227797; c=relaxed/simple;
-	bh=M7GiaLPpnRZQJw/hvjmsvX/xmPSfEbVu5crtTr9jGkM=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PUnYCscQkpLUfXJS45mdup9Nz9fMPnVaIamDgn4y78DVrVN+M1XrzRmlkjXJubxLVNjs6zO23toY69AsTPm4o3AjWJ38kanfyxHdjj0krFL0eIPF2kXs7H1zMnqL6JAw82iJlue6ZEZjJfdzweiK21FCcxGBSDUB3ySezyhmAfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wn24Ch3I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788228307; c=relaxed/simple;
+	bh=GJkv0KF9EJJYzhj5G3y3cOyBlUvjSK7/fTYN1p2HQcY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jgi909MTHLXmvVqfDXdW9tgfyQHMwoD8MOilqDSmKxqBdQoQfbx3f+qRjQa7WTC0frjJpmVaozzybOeaUP1z4QwsTTW9Xrk1rsIRt047An+7Hu0hU5e1YwnAu6aIGsokOTUU0K5eQbc2Vqh3C0zXqU5ZHsLg343+MmqvdLaImn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=aCPVfzKE; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wn24Ch3I"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF6E6C2BCFF
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 01:56:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788227792;
-	bh=M7GiaLPpnRZQJw/hvjmsvX/xmPSfEbVu5crtTr9jGkM=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Wn24Ch3IeCj6jGWqAzUyhL9kYpql3HAsp5w8MPGenQiaGTZCnrrDzc+WrF/58j0QN
-	 5UtxFsaFEGDw6+RY3/WJn6jYfzBNfcUCwjwrO6mT3NPYdJ6pq38Y4rxdFnXlC6aep+
-	 RQv86YZGJRrM+eGYQuUmT5ZO++/JiMwDetrD+13rJwW1TSSL8PDFamnwtP4Pkjpodl
-	 KETsnkvkIve8Lb3hc0uvuW4kXuYwcJLXQXVpNEPmDIE0OT8q9a0ZJXdw/b3h+pVMYW
-	 S9RvhF7TENLY1OMEENltzYE9iCcwJab0lJCcKbS9V45A1waZm8VV6An7tLM5uOPFyo
-	 Z9KfiFDzMr0DQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id BF2D2C433E1; Tue,  1 Sep 2026 01:56:32 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
- polling of USB devices on AMD platforms
-Date: Tue, 01 Sep 2026 01:56:32 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: voltara@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221103-208809-Ng4q7tBjMS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
-References: <bug-221103-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="aCPVfzKE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Rk
+	I040s/UcDuypkKQtOsqL0mxZcgriN1x2lBhMZKc2E=; b=aCPVfzKEdARONP/5I+
+	FGk/N6FsYzuRtlPL+r6SHKbV7luFyDhBv4/NpsveWo5eROEe1QfNbQWA4xKYfH1n
+	vOIabQjTPhQrDgUlhY3vM51Egp1qGlwkFbr8z13wmEFVUikWgMwV/7BvjXFhXcHH
+	wZxOuPEihT+GJZt27aN7lYxGc=
+Received: from thinkpadx13gen2i.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wAHdNGoMpZqYzcpSw--.41204S2;
+	Tue, 01 Sep 2026 10:04:25 +0800 (CST)
+From: Zongmin Zhou <min_halo@163.com>
+To: nikolayof23@gmail.com,
+	david-b@pacbell.net,
+	gregkh@linuxfoundation.org,
+	kees@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Zongmin Zhou <zhouzongmin@kylinos.cn>
+Subject: [PATCH v2] usb: host: sl811_cs: fix memory leak on probe failure
+Date: Tue,  1 Sep 2026 10:03:52 +0800
+Message-Id: <20260901020352.20252-1-min_halo@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <apWWnyGbVFJ8SbiG@archlinux>
+References: <apWWnyGbVFJ8SbiG@archlinux>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAHdNGoMpZqYzcpSw--.41204S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kr43uF1xWw18WF4kuF47XFb_yoW8XFWxpF
+	s8W398ArZ5Ka43uFZrGFyxuw1Sgan7JayUGrZrK3y2vrnxAr98XF92v3WYgr4DZrWDKF15
+	tryktrWUAF9ay37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07joKZJUUUUU=
+X-CM-SenderInfo: pplqsxxdorqiywtou0bp/xtbC8wn2omqWMqlkNQAA3Y
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
+From: Zongmin Zhou <zhouzongmin@kylinos.cn>
 
---- Comment #37 from Andrew Skalski (voltara@gmail.com) ---
-(In reply to Lovekesh Solanki from comment #36)
-> I have posted a patch series that addresses
-> https://lore.kernel.org/linux-usb/07435e6b-ee30-4c85-8c8b-
-> 0ce3a4ead1d9@leemhuis.info/
->=20
-> It should fix your issue.
->=20
+sl811_cs_probe() leaks the local_info_t allocated into link->priv when
+sl811_cs_config() fails: the only kfree() lives in the remove callback
+sl811_cs_detach(), which the PCMCIA core never calls for a device whose
+probe failed.
 
-I applied your patch to the 7.0 kernel on Ubuntu 26.04, and here are the
-results:
+Free the private data when sl811_cs_config() fails.
 
-OK: I ran "adb" in the background for about two hours without any problems
-BAD: The "sleep 0.1; cat /dev/bus/usb/002/001" loop still triggers the lock=
-up
+Fixes: 15b99ac17295 ("[PATCH] pcmcia: add return value to _config() functions")
+Reviewed-by: Nikolay Kulikov <nikolayof23@gmail.com>
+Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
+---
+Changes in v2:
+- Fix the Fixes tag to 15b99ac17295, the commit that made
+  sl811_cs_config() failures observable as probe failures.
+- Add Reviewed-by from Nikolay Kulikov.
 
-For the "colord" test, I used a patched 6.8 kernel and Ubuntu 24.04 due to
-differences in colord behavior between versions (the 24.04 version opened t=
-he
-device nodes O_RDONLY, but the 26.04 version only tried O_RDWR and failed d=
-ue
-to EACCES.)
+ drivers/usb/host/sl811_cs.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-OK(?): I tested plugging/unplugging devices for about 10 minutes while colo=
-rd
-was running, without issues.
-OK(?): I repeated the colord plug/unplug test with adb running in the
-background.  No issues after 10-15 minutes of doing this.
+diff --git a/drivers/usb/host/sl811_cs.c b/drivers/usb/host/sl811_cs.c
+index ada91ca33f65..fd0cd541bf53 100644
+--- a/drivers/usb/host/sl811_cs.c
++++ b/drivers/usb/host/sl811_cs.c
+@@ -177,6 +177,7 @@ failed:
+ static int sl811_cs_probe(struct pcmcia_device *link)
+ {
+ 	local_info_t *local;
++	int ret;
 
-While it doesn't prevent the lockup in all cases, it does improve things.
+ 	local = kzalloc_obj(local_info_t);
+ 	if (!local)
+@@ -184,7 +185,11 @@ static int sl811_cs_probe(struct pcmcia_device *link)
+ 	local->p_dev = link;
+ 	link->priv = local;
 
---=20
-You may reply to this email to add a comment.
+-	return sl811_cs_config(link);
++	ret = sl811_cs_config(link);
++	if (ret)
++		kfree(local);
++
++	return ret;
+ }
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+ static const struct pcmcia_device_id sl811_ids[] = {
+--
+2.34.1
+
+No virus found
+		Checked by Hillstone Network AntiVirus
+
