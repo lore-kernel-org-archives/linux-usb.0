@@ -1,174 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19017385D90;
-	Tue,  1 Sep 2026 08:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D78935E926;
+	Tue,  1 Sep 2026 08:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788252490; cv=none; b=JTkdUBuIQ776MExhyUplHTMZr7alBYF0bOcaPiRfxzTz9R2KEmNm/k7ZrFsQhTV0TAbAGzDX3IEqp5chckn8WSZrrRfreK6tOvqQxtZEL+7wX5W3Ng9+dZMINX+H3UkTCNU+QyMTqloq+1eDMfH5lnNpzgnUyv8TlpfFCZ+ot+o=
+	t=1788252815; cv=none; b=s+zJNjxWGKtSe/puD+Jjh++Cb5iiPpFo+unHuuYtOWkpDNvddEnxPAc98iEt9y3hCLMdg6UYztrpta/71CimtfMuzzk0WaNkFYB5m2mqr9qSfgbYF782cFkNHftR6QAghEJ23T1DCGT0M0ubS02VdgxAi+HxWGcDBTphrpRE/TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788252490; c=relaxed/simple;
-	bh=vKNhSQ2KYcaUOtuQBgsj1j9mWaFB4IaP4yx80H7ljDc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nD2Me5XMVhM/gfkCihzqeQj3bmqO9PNwuOl/sxWAwlWkdKMvjmqZ3c6JS+/5ShIhhMFvsy0CI2PBJx/VYDdtR8YevfR4Kk4SfcxBPyJTueayfIz8vQ17SD57dpSjjxL4ad/9TvrCPBaCTmDUAc8cMh2KKnuv8ORKKkdQvdx9Fyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVhrCZTE; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788252815; c=relaxed/simple;
+	bh=HmHGhENmx1zfzoANCEaUHyFEWFfzElv3LdyoS8aqriM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ApG0Lzxp+3Sx5IhI7o+8b9f8jPM7o9D1X5i64ulqV+VZkvLlOw3yhoqp/c+N8wxK9ph8UMzKUi1pSadHNdo5hLxxME2S1RZCrx+5XZOy0wqdfS2XQNhupNeE0P7KtAOzk6sW7eFHFC1F2LUHKEW8usyZI8X7g/ZvlgIROmwlXiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UYo+SoMx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVhrCZTE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788252488; x=1819788488;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vKNhSQ2KYcaUOtuQBgsj1j9mWaFB4IaP4yx80H7ljDc=;
-  b=ZVhrCZTE3+nt7mecp88EaCTa1miOHd9J+4nAH8m7NPmaS5mbt9Wb2Im/
-   e6NOpcqC0qbpPlZUngne7uLqQwtpp504UpB2nUFwKqDm6MXKo8GVgCAjL
-   /MnAfNKYDDo/McVHZ6qAkPftXJMmTIZ/wFPOjcE8Ap2Xfn/Uvw6xWKm9C
-   3D8qfUAN76I0UFZ0LgjnD+NdDh4/lqrhnPSafE2FB+iCxkZRphtPDuWJh
-   fVKpQ6qWgEiMs4qmKD6bgU4PjXntXTNBSK4tOPDEij3mjB8xslK3bY0au
-   JksJonBweavmcI0/znTZFLUe2P09Yyo1itZwmZ9CUi94077wsdVFJqU/i
-   Q==;
-X-CSE-ConnectionGUID: oOy47XU9S+CNitPKbX5lxA==
-X-CSE-MsgGUID: 2N615yA0RO6VsjgBM0lE4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88434009"
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="88434009"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 01:48:08 -0700
-X-CSE-ConnectionGUID: WdsnewkQS9yOAp9UxZs+qw==
-X-CSE-MsgGUID: Pm49jRiJTYiFtkP/MJltEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="270981162"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Sep 2026 01:48:04 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A858C99; Tue, 01 Sep 2026 10:48:02 +0200 (CEST)
-Date: Tue, 1 Sep 2026 10:48:02 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 06/19] thunderbolt: Try reading host DROM from device
- tree first
-Message-ID: <20260901084802.GB106095@black.igk.intel.com>
-References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
- <20260830-b4-apple-soc-tbt-v1-6-44bc9348683c@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UYo+SoMx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211E91F000E9;
+	Tue,  1 Sep 2026 08:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788252813;
+	bh=dQJU98biTFI2j0fBN1HFz4j5aySI6T8wL//bYy3tt6k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UYo+SoMxASHNScw6bHBQ3pYYAIAYztpH17/qKP90Supd3le3mlnEZuBEMlG8Xmdz7
+	 kJkQygAvMgiYmqNXdGUaii8RNtO2sGg3YLqxnfnNyNZxmV+zg2V5IhK5L6+ZJJ4c4N
+	 5qbqlHBwRz7u2b70JOXueUMDno3Csoi6HIv2cq4J4Dxvm4jjaP3nj5qsxpeOJsotzk
+	 Ro1LJOyiZBwtHyQfArxCVvoMcDUMAbA75mKQPSA7ChvQmzj7KEOmKY9zup9UZZQOkF
+	 9b8OmZjm9uLXleIgT7ZeNQWl97X6M4TJKSGCQHY4nEED9qOy40mVajNQ4Ac1qo2B0P
+	 I+alpLciXRKHQ==
+Message-ID: <7f269572-7dae-4894-b148-56314cd21bbd@kernel.org>
+Date: Tue, 1 Sep 2026 10:53:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260830-b4-apple-soc-tbt-v1-6-44bc9348683c@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/7] thunderbolt: Fix DP tunnel teardown while an async
+ DPRX read is running
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>,
+ asahi@lists.linux.dev, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org>
+ <20260901081924.GA106095@black.igk.intel.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260901081924.GA106095@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On Sun, Aug 30, 2026 at 10:19:24PM +0200, Sven Peter wrote:
-> On Apple Silicon SoCs the DROM is provided by a device tree property.
-> Try reading from that property first.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  drivers/thunderbolt/eeprom.c | 32 +++++++++++++++++++++++++++-----
->  1 file changed, 27 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
-> index 2a13fa6888ba..389de7df84f6 100644
-> --- a/drivers/thunderbolt/eeprom.c
-> +++ b/drivers/thunderbolt/eeprom.c
-> @@ -468,14 +468,14 @@ static void tb_switch_drom_free(struct tb_switch *sw)
->  }
->  
->  /*
-> - * tb_drom_copy_efi - copy drom supplied by EFI to sw->drom if present
-> + * tb_drom_copy_property - copy drom from a device property if present
+On 9/1/26 10:19, Mika Westerberg wrote:
+>> ---
+>> Sven Peter (7):
+>>        thunderbolt: Hold a router reference for each allocated HopID
+>>        thunderbolt: Make the DP tunnel activation callback mandatory
+>>        thunderbolt: Fix domain reference leak when DPRX read is canceled
+>>        thunderbolt: Don't access a DP tunnel after its DPRX read was canceled
+>>        thunderbolt: Mark discovered tunnels as active
+>>        thunderbolt: Tear down inactive DP tunnels when the domain is stopped
+> Applied 1-6 to thunderbolt.git/fixes, with minor changes in the commit
+> messages and the condition in patch 6, thanks! Please check that it is
+> okay. My testing at least it works as expected.
 
-tb_drom_copy_property() - Copy DROM from ..
+Looks good to me, thanks!
 
-Ditto for the other kernel-doc comments. If it is static trivial function
-you don't need to add them.
+>
+>>        thunderbolt: Drop the DP tunnel activation callback data
+> Since this one is a cleanup, I wonder if you can send it again later when
+> the DPRX fixes have landed? I typically base my next branch after -rc1 and
+> don't merge fixes/rc's there constantly so preferably after v7.4-rc1 is
+> released.
 
->   */
-> -static int tb_drom_copy_efi(struct tb_switch *sw, u16 *size)
-> +static int tb_drom_copy_property(struct tb_switch *sw, const char *name, u16 *size)
+Sure, I can resend it after 7.4-rc1 is out.
 
-I think this should be split into two lines.
 
->  {
->  	struct device *dev = sw->tb->nhi->dev;
->  	int len, res;
->  
-> -	len = device_property_count_u8(dev, "ThunderboltDROM");
-> +	len = device_property_count_u8(dev, name);
->  	if (len < 0 || len < sizeof(struct tb_drom_header))
->  		return -EINVAL;
->  
-> @@ -483,8 +483,7 @@ static int tb_drom_copy_efi(struct tb_switch *sw, u16 *size)
->  	if (res)
->  		return res;
->  
-> -	res = device_property_read_u8_array(dev, "ThunderboltDROM", sw->drom,
-> -									len);
-> +	res = device_property_read_u8_array(dev, name, sw->drom, len);
->  	if (res)
->  		goto err;
->  
-> @@ -500,6 +499,22 @@ static int tb_drom_copy_efi(struct tb_switch *sw, u16 *size)
->  	return -EINVAL;
->  }
->  
-> +/*
-> + * tb_drom_copy_of_apple - copy drom supplied by the device tree for Apple Silicon to sw->drom.
+Sven
 
-Like these, not really useful comments you can drop.
 
-> + */
-> +static int tb_drom_copy_of_apple(struct tb_switch *sw, u16 *size)
-> +{
-> +	return tb_drom_copy_property(sw, "apple,thunderbolt-drom", size);
-> +}
-> +
-> +/*
-> + * tb_drom_copy_efi - copy drom supplied by EFI to sw->drom if present
-> + */
-> +static int tb_drom_copy_efi(struct tb_switch *sw, u16 *size)
-> +{
-> +	return tb_drom_copy_property(sw, "ThunderboltDROM", size);
-> +}
-> +
->  static int tb_drom_copy_nvm(struct tb_switch *sw, u16 *size)
->  {
->  	u16 drom_offset;
-> @@ -675,6 +690,13 @@ static int tb_drom_host_read(struct tb_switch *sw)
->  {
->  	u16 size;
->  
-> +	/*
-> +	 * Apple Silicon machines always get their host DROM from the Device Tree,
-> +	 * so make sure to try reading it first before any other method.
-> +	 */
-> +	if (!tb_drom_copy_of_apple(sw, &size))
-> +		return tb_drom_parse(sw, size);
-> +
->  	if (tb_switch_is_usb4(sw)) {
->  		usb4_switch_read_uid(sw, &sw->uid);
->  		if (!usb4_copy_drom(sw, &size))
-> 
-> -- 
-> 2.55.0
-> 
