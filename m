@@ -1,547 +1,167 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AD130F7FB
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788230847; cv=none; b=uJAN5cPAE3tkQDL4HXp3KEUHkUzQD2dvIm0EEy98gqP/iqZywSAy6JRUM0j+CeF/nJiZWkW5f84ZYCqF9d3S4pnSIKgMVhOKo+LvGizYArfbZxJ1bGSBqCXurrQrqyp3ztzvy2ob6CVsSKMkK3NNeRcvDMojjiVYx7hCA4ifdSk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788230847; c=relaxed/simple;
-	bh=ggL6n1EMEwkS4S6UQ7vxdErAuZYLohUFJ1cvZQ+rBe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nlctEgSLji9mZ7nz4Z25tHmQIM8LNRchQZxXnpC8gMkeoJZzXkR0SOzaWmE1Bsigb+QvDobFLz1QiICaT0hOdBFUkvv/D0rpPlG+VBwHSM/UmaX5Fdv9U8HLxuuNyIGB+sbykuafzogCX1wicYX3M5Th69H/kD4nSKCFV7f1imE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Ufs06VVy; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F72415F23
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788230925; cv=pass; b=Tpk1YH9XygGioNj1sEvCnnmS28HQCLy3NUdKMyg1Eb6sQZeMQiaAGluEJlU+5rLSTGf1qwKsZd3GOtNbimaENVMWXQo94i5nwx9Q+ysVljNSzpWNko7Ys3Hgfbvj1ym2QsrW6HHUxHLIO9Nw/YGiBQjuGwUbZXZrguP2XwtNOlg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788230925; c=relaxed/simple;
+	bh=d7ifxmrw0KDNa/rU33DZDuRgA8aWneOfmX3kPGUeUC8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MfhuRfOgkaB5DhpxOGxzXQaHo/hdu7Ehc6hzjhGGX1R1WpdnIAcwOyfuFTTs4tpJIemkHicmrEIUGiSt56iBp46Dtxmx3m22cLUF3zCrnqVHnOcVm/pzqIR7pTYzkUtRWXDpjz5cMmQJh7ATHMEnRwUP0970R3pqWY8NmbmMFhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYveG2ks; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Ufs06VVy"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-90ce3971a86so32516176d6.0
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:47:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYveG2ks"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso28709705e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:48:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788230919; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KbNXIC1nHyUfToi9YGphiRjBek3uhR/n7MLhOV/UE0Hpsl4wW5HbImkhIoRzpFFYXm
+         KLDxAvD2SX0i5WFhZ2bolcDowsZFou8S89LNrXtVCAy1+0JX2Oypp118Uhf1tMIrqC20
+         bdwf1yrodTUclDoHzpc2sJKOuXS8Q2qy98rNinVdE5LxKrNx8F1668e40VYNH4910cun
+         3SDAUA1fhzWAlFUQRqHE2ia/T0bMhUfNTevXpwreGPQsLZwqjCCVZ62Ooe4bv4dJHrD/
+         igGB+ovxufnt7IvgWsrzDprSu05KwzXfizEfDiybxiCLH9/LI3GpUqu34AA0ciseO9Fl
+         E7XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KF5a94raY+higffJeqCc50xZOu6d7LMoVpiDSXogvcI=;
+        fh=0FFWoDJWdpWkprifJM8s7ouM6ML2NLk43ZiVehQG+KQ=;
+        b=bHPc2A2cX8SFL1eAqn1UTCRmlheJOVNohx2dbQxfm2OIUsRObP0wIMnxhcjE7P/AE7
+         cX8XyWibiLcHekydND9UAwz05+bCQu/7HMPjaoMLtpajqcF7xo+v+Q72Lx1JRZbktmR5
+         ezk6qd31+G7lN9hk7F5c7F1PlC5JHFEolw+Np/h2eZF9bENzuKcVIR71nlblPzssYKTY
+         0BcouK9NaWtSKM76HMs8BbBhZYZJK5Mrt65tTY0cnIKpUgmoWHch9XJkV2nMlSVcfbwn
+         zpyNRt0NgKKWD1k7kCaJqhAb38ArIIPymnTggUCeiz8WZUlcx2JiaW3tHElVCaevvQDg
+         ArRg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788230836; x=1788835636; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1788230919; x=1788835719; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=z7GmLMIVwpddaX67LhA6yl9QNGeMHtdqHkTaGH2+eF8=;
-        b=Ufs06VVyqR+ajz6QKsWHrYcDpTRLxxAxZjN9A4aebXmXfobQl0AzcDKD+Ik5nIqv4K
-         SRzJAh6RNYY0mzRxocS+hm0cB4mloMFfrQa/NRCkHrqcsfMQCO9mk5dVMqaIdPdKnedr
-         azZ8hX4wkFwmJPmi+HFF2pm58aZF+Lg/1PJdyLIMJ8n3CY8LlJ7lTvV1tYxqNCapJr0o
-         kjatAMOBd3xcKUrJWAWCGtzrjx8QXubTIVu6AoMvtfRIXpXknSbFa2dpnrt8/S4oqBs1
-         ZqEl3xqVdvOIJHtZQ+YvMITjsm3jjcjig6GVFFa9a9xMEEJqdEz3ldCGJhWr6G0y30wI
-         7MjQ==
+        bh=KF5a94raY+higffJeqCc50xZOu6d7LMoVpiDSXogvcI=;
+        b=FYveG2ksgTFO1VLoFYOIf3VieZpWlXKVJgDqxWemfi02MbkX299j5H5oaW+zpV8WSi
+         bmqRQtFkFDQ8Qvveutco3ljR7KamLPBR7wJMfUlwR6ysFOjrCX6voGuWTEjVm9DN/Up+
+         qSwQKXfmSJ7GG1flgUn7OzZI3KRDUnPHjQv1SWRUnp4pilSe2V0O/gGsy3taHLSbBAMf
+         UtD7cvfbQrdTgMrcOV3PrstsmYIl91AgKmilQCaCwhnX8XcbZfklZ3dPDPH3vrZqmUlc
+         9aOH9wzHpCXh4t+KnR5H9xaMOsC25gSccgtLZV147+lmDBqkT6LosqUkxupOprspSxI4
+         MiQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788230836; x=1788835636;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1788230919; x=1788835719;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=z7GmLMIVwpddaX67LhA6yl9QNGeMHtdqHkTaGH2+eF8=;
-        b=K9bdKzm3TCOWdp3bN8rcAJkZLBawmR6Me6gvzUXgZhK3uYVIaT4yHz3t70RmbxqoIZ
-         zYwuw5n6Qlit/2XZJS71tuOpqIWilfzmYmxou+bdFgvSk6xYgu5XMqE+wGsTCCI8WzqT
-         bjjSfTvCkRlP0yDBJOJyH9dFXCEKSWxuetUZM8cbtgKd3tmSDC0iZ9uGmRcN5cD3qiN0
-         mKWfiBfEAYEB/ZCn1Hybiad3uV/atYR4shVM9jJWsC3pIrTXovdnyOIwxz3LnxUdY4Qv
-         bnJte9EMXWtxdWHZTm3B7APl956ND4qpTQ81qBzRH+Vu7lcLwrv/ohFMMO7SCglqA9B3
-         yJrQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw5IHp+knX0e3u7xbqoXdKe3c4sW6ViPcDWdUsplq1WMcTRMNdzudgiNZmyCTAw0tT4p6+N2gtZajI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mDyYmn/QepNBb3cmS+E/akMs1+P2x65Zw7SFe8MWlUOz9eUjK9
-	tiFMPkmgWGz7ffCPaHNzzF9ohqfl52dydDKSVDzxMz8sqq3GBwqHWxaB+soHaXEKag==
-X-Gm-Gg: AYBFou25yprRZ+Pq+NG+BbMZxDSKabmgx9vv6DON06JX77QWW8YID1oMQneucmQxbnU
-	xDoAcXhRR+Ri56pZwQEW/eDcPxLAuEwkkWbImE1v4tOregD3QjLG2561RpsKuhYPkWOIfCyb594
-	VcWpShkka6Sn8/glfHcdXAAgzUUhZd6LYP3MI8WraoLjzAyRgT+e8YMj18CCF7lOwNU1W0tbE0S
-	ue60xTDKKwyRpp2R3UVVHgrM+1ZukZugEBcwyufZtkqMdwyYV5jOc4zzxod3RFH9sAzz8O9nsxC
-	t6QVI2TGio3wBhufo2vPDzhT3WoyQzKbQgyLqHsP92VZsS0nM2ppu60/DtBH82VsXZFUA7WvibE
-	dxh5LMhdsiZim3Q/Pds8YjH8j0vPM1FHipC8/V301NyysfxdfNzuOuid22pZTvYropTC0TOX1mY
-	NBbTQ3FN2pCMhlX4oKX/IpOZwEX+XRjDhirWDiUFUwYOXo3f7O1gFxfpm5mFcVraB+z/E/aJeg
-X-Received: by 2002:a05:6214:1943:b0:90e:8465:36ac with SMTP id 6a1803df08f44-90e92983033mr72709886d6.25.1788230835692;
-        Mon, 31 Aug 2026 19:47:15 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90ce44f5ad4sm98151136d6.23.2026.08.31.19.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 19:47:14 -0700 (PDT)
-Date: Mon, 31 Aug 2026 22:47:12 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
-References: <15185c2d-4544-42cc-ba0a-79dd36e82a21@rowland.harvard.edu>
- <CAFmvuTU=t5TiZSpHmF1MXpVs+3K7G1VOTDeeazwGru4+1eozBg@mail.gmail.com>
- <cd57f283-71e6-4531-a311-1180ccc22ab8@rowland.harvard.edu>
- <CAFmvuTVH=mVMZNoYnU07_WA+cBc4m+UG2BBTLwF5KWhcj-z-KA@mail.gmail.com>
- <908a5b29-e6d8-4595-b451-6c328e25c60e@rowland.harvard.edu>
- <CAFmvuTU5HnBKbve=v_C7Mhw2586rR_8qsRNua2XPokgKy_o31w@mail.gmail.com>
- <0305182d-5914-4022-a0a6-1ab4221b0a6c@rowland.harvard.edu>
- <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com>
- <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
- <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
+        bh=KF5a94raY+higffJeqCc50xZOu6d7LMoVpiDSXogvcI=;
+        b=ZqljRPI/RqOIi4nQrJC9pDhBAM4nXzKJORLjjvRt4ufkZliJSV+YSs9RsocAw+DWiC
+         Od9PhADDPn5ZSGQJU1atUYc2UkEUO0jXapLd5K77YbKHeODltdwZpNM3WF9Jyg5dPlU8
+         +du6/FoRrzOz7K7FnoG1CeKt96B+mG2UOgKMUsafFvag4ciZFTK16bkN0vsYiCtv6W0D
+         FHGzhwhK6q3cjFJrNBdDIlcdWAixvub5REgFq9nCxoASRIpB679EcEvFQDKhAgCtDmsq
+         osGcSyOjpwOMsiLcTG8MTJoSLCzNTYH6BHs7+P0HOhc39wpnMNJDgvw5LzPTxEgciuyU
+         SVXg==
+X-Forwarded-Encrypted: i=1; AHgh+RqW7Pqtk6KVQmtorhF+atgIFqJolhFh5pDgAjfQJN/awsVnW+3Vst41/d/W54Ms6fOS/pnEwe/qVX8=@vger.kernel.org
+X-Gm-Message-State: AFuF++k+gE4bt1ub46g9MsweGqM05UhMrCvSBG6m1ICipoZkHDjyfT+y
+	3m+ufI0eC+TxB/qaLpoxG5mipZlDNnVONAJ0EMzD9xzwzdY/b0ZBcAzK7D4bZlvrS69HiSKKUe0
+	kEkd19e3TrgvNG5RbSL8pJ26d/vGeUw==
+X-Gm-Gg: AR+sD13g8qpsprFWIOR27q9n+D1nT61vL1jAZ/2cc3qxvX369ihTZRSLYmsa0Tg3nT7
+	XYCGF9iZ0tgaLtjvv2bjlhpqxv1jSGMvOH/aZANo8WrFp6so2Khg6MqFwJ2q7r2ZJBAHMeWQTvA
+	bGwI7EZ8rfGT63BaKKTrw/674Xye4z3RJRNXNBmfYxh7XPPcTS9mBuBRMQY8Onnrp0fx7ZNrO/z
+	CjDMzhJBPmj7Woy9cNIg5gjigRw9KKDJd4J7/WxDaHxKXa7wfp2viZSqe3NxTsfaT++eiIkUCQM
+	gmvZrySr5MYHCJrUpHOsdxFMDnxCOqAoxHD/w0FqMsM=
+X-Received: by 2002:a05:600c:4f0e:b0:49b:9433:ea44 with SMTP id
+ 5b1f17b1804b1-49cdc40ff56mr98080495e9.4.1788230919386; Mon, 31 Aug 2026
+ 19:48:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
+References: <20260812-b4-tb-pending-v3-1-3a292e7194c9@gmail.com> <20260831063932.GB124825@black.igk.intel.com>
+In-Reply-To: <20260831063932.GB124825@black.igk.intel.com>
+From: old king <fy15309206903@gmail.com>
+Date: Tue, 1 Sep 2026 11:48:28 +0900
+X-Gm-Features: AcwNN1Uk0rPvBU25g1qvkkJCtcrX_XNdwYeW_UNFlmzX8XUR-jO3qh9AgnAqIn0
+Message-ID: <CAMMY3OVeac5h6N7BTsGk-gd20N8BV=vufgLSgqqOCK_76kfnxg@mail.gmail.com>
+Subject: Re: [PATCH v3] thunderbolt: Stop waiting on a path pending bit that
+ never clears
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
+	Andreas Noever <andreas.noever@gmail.com>, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 31, 2026 at 10:30:08PM +0900, Minseo Kim wrote:
-> Hi Alan,
-> 
-> Thank you for the comments and for pointing out where my explanation was
-> unclear.
-> 
-> > Are you saying that this test in ep_read_iter():
+> I moved the constant to switch.c as I don't think it needs to be exposed
+> outside. Please check that it still works.
+
+Works. Tested on the two ASM4242 hosts against ae35035da9da, with counters
+added to the wait loop locally.
+
+Two runs differing only in how many frames went through the ring first, wit=
+h
+the Pending Packets bit read back from hop config space right before the
+teardown:
+
+  200 frames, bit clear (port5 hop=3D1 pp=3D0):
+    0:1: PPTO hop 8: OK in 242 us / 1 reads (budget 500 ms)
+    0:5: PPTO hop 1: OK in 262 us / 1 reads (budget 0 ms)
+
+  400 frames, bit latched (port5 hop=3D1 pp=3D1):
+    0:1: PPTO hop 8: OK in 243 us / 1 reads (budget 500 ms)
+    0:5: PPTO hop 1: TIMEOUT after 584 us / 1 reads (budget 0 ms)
+
+0:5 is the quirked host interface adapter: 0 ms budget, one read either way=
+.
+A hop that drains still says so on that read, and one that does not answers
+-ETIMEDOUT in well under a millisecond instead of burning the timeout. 0:1
+is a lane adapter in the same teardown and still gets 500 ms, which is what
+shows the constant is applied per adapter from switch.c rather than lost.
+The interface goes down in 9 ms.
+
+Same on the other host, with the teardown driven from that end: 0:1 500 ms,
+0:5 0 ms and -ETIMEDOUT after 146 us.
+
+Thanks for taking it.
+
+FAN YE
+
+On Mon, Aug 31, 2026 at 3:39=E2=80=AFPM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> Hi,
+>
+> On Wed, Aug 12, 2026 at 11:42:09AM +0000, Fan Ye via B4 Relay wrote:
+> > From: Fan Ye <fy15309206903@gmail.com>
 > >
-> >         if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
+> > __tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit t=
+o
+> > read back clear. On an ASMedia ASM4242 host router the host interface
+> > adapter latches it once enough frames have gone through the DMA ring an=
+d
+> > never clears it again: the teardown finds it already set, seconds after
+> > the last frame and with the path still up. USB4 v2 table 8-23 has the
+> > field read only and zero unless packets belonging to the path are waiti=
+ng
+> > to be dequeued, so the wait is right and this adapter is not.
 > >
-> > is wrong, for example, the && should be || ?
-> 
-> No. The && condition should remain as it is. dup_iter() copies the iterator
-> state into priv->to. In my tests, native PREAD and a one-segment PREADV used
-> ITER_UBUF. Since ITER_UBUF has no separate iovec array to duplicate,
-> dup_iter() returned NULL while the copied iterator remained valid. My
-> two-segment PREADV test used ITER_IOVEC; there, a NULL return would mean that
-> allocation of the duplicated iovec array failed. The iter_is_ubuf() check
-> therefore distinguishes the valid NULL return for ITER_UBUF from an allocation
-> failure in the ITER_IOVEC case. In a control build using ||, valid PREAD and
-> both one- and two-segment PREADV submissions failed with -ENOMEM.
-> 
-> The issue I observed was instead in the later completion test:
-> 
->         if (priv->to_free == NULL || unlikely(req->actual == 0)) {
-> 
-> As I understand it, this later test treats a NULL to_free pointer as meaning
-> that no userspace copy is needed. In this path, however, to_free stores the
-> pointer returned by dup_iter() and tracks separately allocated iterator
-> backing, rather than whether the saved iterator has a destination.
-
-Okay, I see.  I had assumed that the information about the userspace 
-buffer was contained in the region that to_free points to.
-
-> For this issue, the relevant change was to base the later copy decision on
-> iov_iter_count(&priv->to); I did not change the ep_read_iter() condition. With
-> the original test, native PREAD reported res=511 while the destination buffer
-> remained unchanged. After this change, native PREAD and one-segment PREADV
-> copied the payload correctly, and two-segment PREADV continued to work.
-
-While that's a valid solution, it would be more straightforward to add 
-an "is_read" flag to the priv structure.  If an aio operation isn't a 
-read then there certainly won't be anything to copy back to userspace 
-upon completion.  This doesn't require people reading the source to know 
-anything about the internal details of struct iov_iter.  And it is a 
-better match to the immediately preceding comment.
-
-> My previous description of to_free as a predicate was inaccurate. I was
-> referring to its later completion-side use as a copy/no-copy indicator.
-> 
-> > I understood that it was okay to call usb_ep_free_request() after
-> > usb_ep_disable(). Was that wrong? Did you see it create any problems?
-> 
-> Your understanding matches the behavior I observed under dummy_hcd. For both
-> PWRITE and PREAD, I kept a completed, unqueued request allocated until after
-> usb_ep_disable() returned, with no intervening usb_ep_dequeue(). In each case,
-> the request completed exactly once with the expected result; the subsequent
-> usb_ep_free_request() produced no KASAN report or Oops.
-> 
-> Separately, in an intermediate version I observed usb_ep_free_request()
-> running while usb_ep_disable() was still in progress. Because that version
-> moved normal request cleanup into a worker, I used the existing endpoint mutex
-> to prevent the worker's usb_ep_free_request() call from overlapping endpoint
-> disable while I investigated the ordering. The mutex eliminated the overlap,
-> but I did not reproduce a failure without it, so these tests did not establish
-> that the serialization was required.
-
-Good, so we don't need to worry about that.
-
-> The endpoint-use ordering I could reproduce in a directed dummy_hcd diagnostic
-> was different: without waiting for unlink work before endpoint disable,
-> ep_unlink_worker() could call usb_ep_dequeue() while usb_ep_disable() was in
-> progress. In matched PWRITE and PREAD tests, the variant without the
-> pre-disable unlink-work wait produced this overlap; with the wait retained,
-> usb_ep_dequeue() completed before usb_ep_disable() began.
-> 
-> I did not reproduce a KASAN report, Oops, or userspace failure from the
-> concurrent dequeue/disable overlap itself. I retained the pre-disable wait in
-> the narrower test version as a conservative interpretation of the
-> usb_ep_disable() requirement that no other task be using the endpoint when it
-> is called.
-
-We don't need to be that conservative here.  And in fact, I'm not 
-entirely sure what that comment in usb_ep_disable() was intended to 
-mean.  Since the function doesn't cause the UDC driver's endpoint data 
-structure to be deallocated, there isn't much to be careful of.
-
-> > This is probably because you were flushing the workqueues at the wrong
-> > time.
-> 
-> Yes. In the callback-gate test, the relevant workqueue flush returned
-> while the completion callback was stopped before queueing its follow-up work.
-> In the narrower test version, I incremented aio_producers before
-> usb_ep_queue() and decremented it only after the callback had either queued
-> the required follow-up work or completed the immediate AIO result without
-> leaving deferred work to publish. If usb_ep_queue() failed, the submission
-> path decremented it directly. With that change, gadgetfs_unbind() remained
-> blocked in the producer wait while the callback was gated. It proceeded to
-> flush the completion workqueue only after the callback queued the follow-up
-> work.
-> 
-> In the delayed-worker test, module unload completed before the running
-> unlink_work returned. This confirmed that module unload must not complete
-> while such work is still running.
-> 
-> > For the final submission, I think the workqueue management stuff should
-> > go into its own separate patch.
-> 
-> Separating the workqueue management changes from the AIO race fixes makes
-> sense. Thank you also for the reminder about -p.
-
-So let's worry about the workqueue stuff later and concentrate for now 
-just on fixing the AIO races.
-
-> > Second, why did you change ep_aio_complete() to make it queue up
-> > ep_user_copy_worker() even when nothing needed to be copied to
-> > userspace?
-> 
-> My reason for routing every completion through ep_user_copy_worker() was to
-> make a common deferred completion and request-cleanup stage visible to a
-> workqueue flush during teardown, not because every request needed a userspace
-> copy. In the normal non-unlink path of that cumulative design, the worker
-> released the USB request and epdata reference before calling ki_complete(),
-> and then published AIO_GIVEN_BACK. Since ki_complete() could drop the last AIO
-> file reference and allow ep_release() to begin, the intent was to prevent
-> teardown from passing the completion-work flush before that cleanup had
-> finished. A gate placed between cleanup and ki_complete() confirmed that the
-> flush covered this no-copy PWRITE cleanup: unbind reached
-> flush_workqueue(gadgetfs_copy_wq) but did not return until the worker was
-> released.
-> 
-> I agree that using the worker for every completion was broader than necessary
-> for copy handling. The narrower behavior I tested retains aio_producers but
-> queues copy work only when iov_iter_count(&priv->to) and req->actual are both
-> nonzero. Nonzero PREAD and the one- and two-segment PREADV cases invoked the
-> copy worker, while PWRITE, PWRITEV, and zero-length reads and writes did not.
-> This indicates that no-copy paths do not need ep_user_copy_worker() merely for
-> copy handling. Their cleanup ordering and the separate teardown lifetime
-> issue can be considered independently of that routing decision.
-
-And since your decision was based on handling the workqueue flushing, it 
-can be put off until later.
-
-If you trim your patch down to the parts that only target the AIO races, 
-do you get anything significantly different from my version?  I did see 
-that you added or changed a few comments, and I have updated my version 
-of the patch in a couple of respects, but overall yours must end up 
-being pretty similar to mine.  Please point out any differences you 
-believe are worth mentioning.  My current version is below.
-
-> Looking back, trying to address all of the observed issues in one cumulative
-> patch made it harder to separate and review the purpose of each change.
-> Considering the issues independently may also make it easier to identify a
-> simpler approach for some of them. I hope these clarifications and test
-> results are useful.
-
-I'm sure they will be.
-
-Alan Stern
-
-
-Index: usb-devel/drivers/usb/gadget/legacy/inode.c
-===================================================================
---- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
-+++ usb-devel/drivers/usb/gadget/legacy/inode.c
-@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
- static const char *CHIP;
- static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
- 
-+static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
-+
- /*----------------------------------------------------------------------*/
- 
- /* NOTE:  don't use dev_printk calls before binding to the gadget
-@@ -433,40 +435,105 @@ static long ep_ioctl(struct file *fd, un
- 
- /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
- 
-+enum aio_req_state {
-+	AIO_SUBMITTING,
-+	AIO_RUNNING,
-+	AIO_COMPLETED,
-+	AIO_GIVEN_BACK,
-+};
-+
-+enum aio_cancel_state {
-+	AIO_NOT_CANCELLED,
-+	AIO_UNLINKING,
-+	AIO_UNLINK_DONE,
-+};
-+
- struct kiocb_priv {
- 	struct usb_request	*req;
- 	struct ep_data		*epdata;
-+	struct usb_ep		*ep;
- 	struct kiocb		*iocb;
- 	struct mm_struct	*mm;
--	struct work_struct	work;
-+	struct work_struct	copy_work;
-+	struct work_struct	unlink_work;
- 	void			*buf;
- 	struct iov_iter		to;
- 	const void		*to_free;
- 	unsigned		actual;
-+	enum aio_req_state	req_state;
-+	enum aio_cancel_state	cancel_state;
-+	bool			is_read;
- };
- 
--static int ep_aio_cancel(struct kiocb *iocb)
-+static void ep_unlink_worker(struct work_struct *work)
- {
--	struct kiocb_priv	*priv = iocb->private;
-+	struct kiocb_priv	*priv;
-+	struct usb_request	*req;
- 	struct ep_data		*epdata;
--	int			value;
-+	struct usb_ep		*ep;
-+	enum aio_req_state	req_state;
- 
--	local_irq_disable();
-+	priv = container_of(work, struct kiocb_priv, unlink_work);
-+	req = priv->req;
- 	epdata = priv->epdata;
--	// spin_lock(&epdata->dev->lock);
--	if (likely(epdata && epdata->ep && priv->req))
--		value = usb_ep_dequeue (epdata->ep, priv->req);
--	else
--		value = -EINVAL;
--	// spin_unlock(&epdata->dev->lock);
--	local_irq_enable();
-+	ep = priv->ep;
- 
--	return value;
-+	usb_ep_dequeue(ep, req);
-+
-+	spin_lock_irq(&aio_lock);
-+	req_state = priv->req_state;
-+	priv->cancel_state = AIO_UNLINK_DONE;
-+	spin_unlock_irq(&aio_lock);
-+
-+	/*
-+	 * req and epdata are freed after unlinking and completion are both done.
-+	 * priv is freed after unlinking and giveback are both done.
-+	 */
-+	if (req_state >= AIO_COMPLETED) {
-+		/* priv may have been freed already */
-+		usb_ep_free_request(ep, req);
-+		put_ep(epdata);
-+		if (req_state == AIO_GIVEN_BACK)
-+			kfree(priv);
-+	}
-+}
-+
-+static int ep_aio_cancel(struct kiocb *iocb)
-+{
-+	struct kiocb_priv	*priv;
-+	unsigned long		flags;
-+
-+	spin_lock_irqsave(&aio_lock, flags);
-+	priv = iocb->private;
-+	if (!priv || priv->cancel_state != AIO_NOT_CANCELLED) {
-+		spin_unlock_irqrestore(&aio_lock, flags);
-+		return -EINVAL;		/* Already completed or cancelled */
-+	}
-+	if (priv->req_state == AIO_SUBMITTING) {
-+		priv->cancel_state = AIO_UNLINK_DONE;
-+		spin_unlock_irqrestore(&aio_lock, flags);
-+		return 0;	/* ep_aio() will call us again if needed */
-+	}
-+
-+	priv->cancel_state = AIO_UNLINKING;
-+	spin_unlock_irqrestore(&aio_lock, flags);
-+
-+	/*
-+	 * We are called with the aio core holding iocb's context lock.
-+	 * usb_ep_dequeue() is allowed to run synchronously, calling the
-+	 * completion handler ep_aio_complete() before it returns.
-+	 * But ep_aio_complete() may call iocb->kio_complete(), which
-+	 * tries to acquire the context lock, leading to deadlock.
-+	 * For this reason, do the dequeue operation in a work routine.
-+	 */
-+	INIT_WORK(&priv->unlink_work, ep_unlink_worker);
-+	schedule_work(&priv->unlink_work);
-+	return 0;
- }
- 
- static void ep_user_copy_worker(struct work_struct *work)
- {
--	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, work);
-+	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, copy_work);
- 	struct mm_struct *mm = priv->mm;
- 	struct kiocb *iocb = priv->iocb;
- 	size_t ret;
-@@ -482,46 +549,62 @@ static void ep_user_copy_worker(struct w
- 
- 	kfree(priv->buf);
- 	kfree(priv->to_free);
--	kfree(priv);
-+
-+	spin_lock_irq(&aio_lock);
-+	priv->req_state = AIO_GIVEN_BACK;
-+	if (priv->cancel_state != AIO_UNLINKING)
-+		kfree(priv);
-+	spin_unlock_irq(&aio_lock);
- }
- 
- static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	struct kiocb		*iocb = req->context;
- 	struct kiocb_priv	*priv = iocb->private;
--	struct ep_data		*epdata = priv->epdata;
-+	enum aio_req_state	new_req_state;
-+	enum aio_cancel_state	cancel_state;
- 
--	/* lock against disconnect (and ideally, cancel) */
--	spin_lock(&epdata->dev->lock);
--	priv->req = NULL;
--	priv->epdata = NULL;
-+	/* Prevent future cancellation */
-+	spin_lock(&aio_lock);
-+	iocb->private = NULL;
-+	spin_unlock(&aio_lock);
- 
- 	/* if this was a write or a read returning no data then we
- 	 * don't need to copy anything to userspace, so we can
- 	 * complete the aio request immediately.
- 	 */
--	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
-+	if (!priv->is_read || unlikely(req->actual == 0)) {
- 		kfree(req->buf);
- 		kfree(priv->to_free);
--		kfree(priv);
--		iocb->private = NULL;
- 		iocb->ki_complete(iocb,
- 				req->actual ? req->actual : (long)req->status);
-+		new_req_state = AIO_GIVEN_BACK;
- 	} else {
- 		/* ep_copy_to_user() won't report both; we hide some faults */
- 		if (unlikely(0 != req->status))
--			DBG(epdata->dev, "%s fault %d len %d\n",
-+			DBG(priv->epdata->dev, "%s fault %d len %d\n",
- 				ep->name, req->status, req->actual);
- 
- 		priv->buf = req->buf;
- 		priv->actual = req->actual;
--		INIT_WORK(&priv->work, ep_user_copy_worker);
--		schedule_work(&priv->work);
-+		new_req_state = AIO_COMPLETED;
- 	}
- 
--	usb_ep_free_request(ep, req);
--	spin_unlock(&epdata->dev->lock);
--	put_ep(epdata);
-+	spin_lock(&aio_lock);
-+	priv->req_state = new_req_state;
-+	cancel_state = priv->cancel_state;
-+	spin_unlock(&aio_lock);
-+
-+	if (new_req_state == AIO_COMPLETED) {
-+		INIT_WORK(&priv->copy_work, ep_user_copy_worker);
-+		schedule_work(&priv->copy_work);
-+	}
-+	if (cancel_state != AIO_UNLINKING) {
-+		usb_ep_free_request(ep, req);
-+		put_ep(priv->epdata);
-+		if (new_req_state == AIO_GIVEN_BACK)
-+			kfree(priv);
-+	}
- }
- 
- static ssize_t ep_aio(struct kiocb *iocb,
-@@ -532,11 +615,12 @@ static ssize_t ep_aio(struct kiocb *iocb
- {
- 	struct usb_request *req;
- 	ssize_t value;
-+	struct usb_ep *ep;
-+	bool need_unlink = false;
- 
- 	iocb->private = priv;
- 	priv->iocb = iocb;
- 
--	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
- 	get_ep(epdata);
- 	priv->epdata = epdata;
- 	priv->actual = 0;
-@@ -547,10 +631,12 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	 */
- 	spin_lock_irq(&epdata->dev->lock);
- 	value = -ENODEV;
--	if (unlikely(epdata->ep == NULL))
-+	ep = epdata->ep;
-+	if (unlikely(ep == NULL))
- 		goto fail;
-+	priv->ep = ep;
- 
--	req = usb_ep_alloc_request(epdata->ep, GFP_ATOMIC);
-+	req = usb_ep_alloc_request(ep, GFP_ATOMIC);
- 	value = -ENOMEM;
- 	if (unlikely(!req))
- 		goto fail;
-@@ -560,12 +646,45 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	req->length = len;
- 	req->complete = ep_aio_complete;
- 	req->context = iocb;
--	value = usb_ep_queue(epdata->ep, req, GFP_ATOMIC);
-+
-+	priv->req_state = AIO_SUBMITTING;
-+	priv->cancel_state = AIO_NOT_CANCELLED;
-+
-+	/* Not allowed to manipulate the aio context while holding dev->lock */
-+	++epdata->dev->udc_usage;
-+	spin_unlock_irq(&epdata->dev->lock);
-+
-+	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
-+	value = usb_ep_queue(ep, req, GFP_KERNEL);
-+
-+	spin_lock_irq(&epdata->dev->lock);
-+	--epdata->dev->udc_usage;
-+
- 	if (unlikely(0 != value)) {
--		usb_ep_free_request(epdata->ep, req);
-+		spin_lock(&aio_lock);
-+		iocb->private = NULL;
-+		spin_unlock(&aio_lock);
-+
-+		usb_ep_free_request(ep, req);
- 		goto fail;
- 	}
- 	spin_unlock_irq(&epdata->dev->lock);
-+
-+	spin_lock_irq(&aio_lock);
-+	if (iocb->private != NULL) {
-+		priv->req_state = AIO_RUNNING;
-+
-+		/* Cancelled before or just after submission? */
-+		if (priv->cancel_state == AIO_UNLINK_DONE) {
-+			priv->cancel_state = AIO_NOT_CANCELLED;
-+			need_unlink = true;
-+		}
-+	}			/* Otherwise already completed */
-+	spin_unlock_irq(&aio_lock);
-+
-+	if (need_unlink)	/* Redo cancel that was too early */
-+		ep_aio_cancel(iocb);
-+
- 	return -EIOCBQUEUED;
- 
- fail:
-@@ -618,6 +737,7 @@ ep_read_iter(struct kiocb *iocb, struct
- 		value = -ENOMEM;
- 		if (!priv)
- 			goto fail;
-+		priv->is_read = true;
- 		priv->to_free = dup_iter(&priv->to, to, GFP_KERNEL);
- 		if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
- 			kfree(priv);
+> > Make the wait a per-adapter length and quirk those routers to zero, whi=
+ch
+> > leaves the loop reading the bit exactly once. A hop that does drain sti=
+ll
+> > says so on that read, and one that does not answers -ETIMEDOUT without
+> > burning the timeout: bringing the interface down takes 6 ms where it to=
+ok
+> > 506.
+> >
+> > Assisted-by: Claude:claude-opus-5
+> > Signed-off-by: Fan Ye <fy15309206903@gmail.com>
+>
+> I moved the constant to switch.c as I don't think it needs to be exposed
+> outside. Please check that it still works.
+>
+> Applied to thunderbolt.git/next, thanks!
