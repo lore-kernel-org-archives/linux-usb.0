@@ -1,159 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE5349F13F;
-	Tue,  1 Sep 2026 19:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48ACA47CA6D
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 19:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788289593; cv=none; b=dUkiogSOEYvZ4pbOrQ4wwdj1cNGqrCveWQSZYZlZXw9dHX3O1dA56/NcZ9JKZnJSUm/MZfUoOAwXvgVe4+pk+LiLv9tY741jt3GGE4w7+AUaYWYvGw3d8gvuWDsLO+UF0QnbF26LHrO9dSOAoF/GXmIwZcqexoTwCTETZel/Hkg=
+	t=1788290073; cv=none; b=iH+ABDfggHtDkCfjQEDP9Op429KEzkHK7TbETyhNOdX1R9s2ZFXohTwLA2TCyS9wNVEPjZdrGpduPbBpIzjiDElIc7ubkglGh6oiwGFQZpiMcP5Cjaj/6PaKMRiOdHqO8nNn/q5IlEux5+Qynud9VUg1EQ7my58Di336vjbTAyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788289593; c=relaxed/simple;
-	bh=/FWCNLazy6NKb3LwXJlewtPpko8OiWbGpl5nh+5evA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dbdLdCfuc+yStOL/xWY1n1CVgFS2ksmQljwgBP8/1M5jE7s307Igl40i8M2aE128IeQBqpI5XsivOppMEb8Ee/YKUIcic8DaxKNZZJzj4v+QjnF5MPYHSOgacddYaQdjeuE3JAFibO74wAOvFonzsU/zEioVXS9M8V6UJoAn5tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hndb1yFh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788290073; c=relaxed/simple;
+	bh=RgIsImcAGfdNM05FEnOn8hEdr1nuiPF/N/CNPErWKJw=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=lo9VcGM3VlK1mbQ1G61ccVaFT1VGqaZBpnrRlyeq1xterxZ8zYAfXlcde/upI9hNj4uWBiUgZHdA2LcBat9zMs7b8mDeET1HYm6zZFKlfgU5GHRT2ugLVX/XtAYiEgoyiWYHLXBXMNBtZcqQlkiByLDubJzu7JRqelCUUGRxKNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C518Gi6u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hndb1yFh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30081F000E9;
-	Tue,  1 Sep 2026 19:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788289591;
-	bh=pFTu49OcoFU2MNqhD13fTc84uxSJ3zdV8FqsYNvRr9M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Hndb1yFhIuNwm7aONHjx++9wFUwCYpwvIBPkXjxpLTEUp2PUAEwec2+XBT2/8QrOC
-	 +m8PWXhVywXt6pd6lTbd5w0Z+/HFsiNbT8sEE9kpAgls5Cgi6/QR/MWbMQpuxS423Q
-	 4+6GmWqEOnb4BGGVGsjWYHaPypcvIXQKTL6uZ7cVvlQICpAF6O0rHVYlXzDRND6GKH
-	 fO0JpaDp9YDtJ0UO/DsQTj1xITo24/zyn1Z6vgNArZFPL086aRpX0cAYBgDxMJd1/e
-	 pnTseL9lx7gLBjjqp6zslAzoIwr7wpARhQAsDbpwhdsOYI04eqcb2fHKyhHSP+VQSG
-	 P6Af8MnvHQrBQ==
-Message-ID: <05070c4a-6e78-4649-b1c4-32093fbfa80e@kernel.org>
-Date: Tue, 1 Sep 2026 21:06:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C518Gi6u"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9D0EC2BCF4
+	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 19:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788290073;
+	bh=RgIsImcAGfdNM05FEnOn8hEdr1nuiPF/N/CNPErWKJw=;
+	h=From:To:Subject:Date:From;
+	b=C518Gi6uF9s5gWD0bw41X9/rnIMS3DgZHlHqnGYlOnpHroVNfYhKcBHql2Xvwj7am
+	 zHJz8TqhPYsOSLvJOTRFsq7sxo7BHYlhsHSIeb3SxWvmeEAABgfQIw/wQ+waPrldat
+	 fyYLpnpmkg1DzXg/1lgbzT41ZwQAzJ1s7D9p2XHJSG8irJHEorZOhBf9iEsInIFtHS
+	 248PnSIL4NqP9Kw1muDgo5PiJrGmDoKixtpT6kRVqBzl3WDAaSUTh9+Y0l9ynwmC8i
+	 Qh7DO5u0qV1SQEXukbBYePYHid8w6a2HyNcBp+SvRw3qABV5j5vQFg2vdK8rdQTBbt
+	 soIuQtfY6/a/g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id C4399C3279F; Tue,  1 Sep 2026 19:14:32 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221954] New: ASUSTeK ROG OMNI RECEIVER (0b05:1ace) handshake
+ timeout and power management failure on AMD B850 / Ryzen 9000
+Date: Tue, 01 Sep 2026 19:14:32 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: waldem2020@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221954-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/19] thunderbolt: Add Apple Silicon support
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
- <20260830-b4-apple-soc-tbt-v1-16-44bc9348683c@kernel.org>
- <20260901100925.GF106095@black.igk.intel.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260901100925.GF106095@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221954
 
-thanks for the very fast and detailed review! Will address those points 
-for v2, some comments below:
+            Bug ID: 221954
+           Summary: ASUSTeK ROG OMNI RECEIVER (0b05:1ace) handshake
+                    timeout and power management failure on AMD B850 /
+                    Ryzen 9000
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: waldem2020@gmail.com
+        Regression: No
 
-On 9/1/26 12:09, Mika Westerberg wrote:
-> Hi,
->
-> On Sun, Aug 30, 2026 at 10:19:34PM +0200, Sven Peter wrote:
->> Add a platform driver for the ACIO host router complex and Native Host
->> Interface (NHI) found on Apple Silicon SoCs.
-[...]
->> +
->> +	/*
->> +	 * The firmware samples the ring configuration when the valid bit is set and E2E flow
->> +	 * control never engages when configured afterwards. Write everything at once like macOS.
->> +	 */
->> +	writel(flags | e2e_flags, options);
-> I think we can do this flow in the generic parts too. It makes the driver
-> follow the CM guide more closely.
+Hello,
 
-sure, I can adjust that as well.
+I am reporting a persistent hardware initialization issue with the ASUS ROG
+Keris Wireless Aimpoint gaming mouse, utilizing the ASUSTeK ROG OMNI RECEIV=
+ER
+(USB ID 0b05:1ace) on a modern AMD AM5 platform under Arch Linux (Kernel 6.=
+x,
+KDE Plasma 6).
 
->
->> +}
->> +
->> +
->> +
->> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(42));
-> 42?
+[Problem Description]
+When booting the system from a cold start, the wireless receiver is detecte=
+d by
+the kernel during the early boot phase but fails to process any pointer
+movements or clicks once the desktop environment loads. The mouse remains
+completely unresponsive until a physical hotplug is performed (unplugging a=
+nd
+replugging the USB dongle forces the port to wake up).
 
-42! don't ask me why but that's the number of address lines they hooked 
-up. I'll add a comment.
+There are two distinct trigger scenarios for this platform:
 
-[...]
->> +
->> +	anhi->nhi.tx_rings = devm_kcalloc(&pdev->dev, anhi->nhi.hop_count,
->> +					  sizeof(*anhi->nhi.tx_rings), GFP_KERNEL);
->> +	anhi->nhi.rx_rings = devm_kcalloc(&pdev->dev, anhi->nhi.hop_count,
->> +					  sizeof(*anhi->nhi.rx_rings), GFP_KERNEL);
->> +	if (!anhi->nhi.tx_rings || !anhi->nhi.rx_rings) {
->> +		ret = -ENOMEM;
->> +		goto err;
->> +	}
->> +
->> +	anhi->nhi.dev = &pdev->dev;
->> +	init_completion(&anhi->nhi.domain_released);
->> +	anhi->tb = tb_probe(&anhi->nhi);
-> You do need to setup device links for the tunneled protocols as well. Have
-> you checked if they describe these in DT? I would expect so.
+1. CPU-bound USB 3.2 Ports (Ryzen 9700X):
+The kernel initializes the USB stack too aggressively. The internal ARM
+controller inside the ROG Omni Receiver requires a few hundred milliseconds=
+ to
+perform its internal self-test and establish a radio sync with the mouse.
+Because it doesn't respond instantly to the initial host handshake, the ker=
+nel
+cuts power to the port/hub via aggressive runtime autosuspend.
 
-I'll look into that, the DT already has the ports which I'll need for 
-notifications to PCIe and DP later anyway and I should be able to add 
-the device links then as well. Right now only USB3 tunnels work (by 
-accident: I'm not following what macOS does and will probably need a 
-notification once I get to suspend/resume as well) but I'll see if I can 
-already add device links. Either way, the dt-binding already has enough 
-to describe the connections to dwc3/pcie/dp through the graph 
-ports/endpoints.
+2. Chipset-bound USB 2.0 Ports (B850) and MediaTek MT7927 Conflict:
+Initially, when using USB 2.0 ports, the mouse initialization collided with=
+ the
+onboarding of the MediaTek MT7927 (Wi-Fi 7 / Bluetooth 5.4) module. The
+Bluetooth firmware loading routine threw 'Failed to load firmware file (-2)'
+errors and triggered a 'A stop job is running for Rule-based Manager' syste=
+md
+hang, during which the shared internal USB hub was hard-reset, dropping the
+mouse HID handshake entirely.=20
 
->
->> +		tb_domain_put(anhi->tb);
->> +		wait_for_completion(&anhi->nhi.domain_released);
->> +		goto err;
->> +	}
->> +
->> +	mutex_lock(&anhi->tb->lock);
->> +
->> +	if (!anhi->tb->root_switch->drom) {
->> +		dev_err(anhi->dev, "No valid host DROM in the device tree\n");
->> +		ret = -EINVAL;
->> +		goto err_unlock_tb_domain;
->> +	}
->> +
->> +	cap_apple = tb_switch_find_vse_cap(anhi->tb->root_switch, TB_VSE_CAP_APPLE);
-> This should not be done here. It belongs to the CM.
->
-> We can do it in tb_start() for example, because only Apple silicon has the
-> cap.
+Even after completely disabling the Bluetooth Controller in UEFI (which
+resolved the systemd hang), the mouse still fails to wake up on boot in any
+port due to the aggressive runtime power management of the USB stack.
 
-Ok, I'll find it in there and just expose it to apple.c somehow then to 
-be able to write the cable info from here.
+[Workaround]
+The issue is currently resolved locally by implementing a custom udev rule =
+that
+forces the port to stay powered and listen for wakeup events:
+ACTION=3D=3D"add|change", SUBSYSTEM=3D=3D"usb", ATTRS{idVendor}=3D=3D"0b05",
+ATTRS{idProduct}=3D=3D"1ace", ATTR{power/control}=3D"on",
+ATTR{power/wakeup}=3D"enabled"
 
-[...]
+[Requested Action]
+Please consider adding the ASUSTeK ROG OMNI RECEIVER (0b05:1ace) to the glo=
+bal
+USB quirks list (drivers/usb/core/quirks.c) to prevent runtime autosuspend
+during early boot stages and ensure backward compatibility on newer AMD
+platforms out-of-the-box.
 
->
->> +	case TYPEC_THUNDERBOLT_SWITCH_TBT:
-> Probably cannot affect these anymore but if can then _TB instead.
+Hardware Environment:
+- CPU: AMD Ryzen 7 9700X
+- Motherboard: ASUS ROG STRIX B850-E GAMING WIFI (Chipset B850, Bluetooth
+disabled in UEFI)
+- OS: Arch Linux (Rolling, up-to-date)
 
-That was only introduced in the first patches but after Heikki's review 
-it'll go away anyway. I'll make sure to TB instead of TBT anywhere else 
-though!
+[Technical Logs and Device Dumps]
 
+1. lsusb output:
+Bus 008 Device 006: ID 0b05:1ace ASUSTek Computer, Inc. ROG OMNI RECEIVER
 
+2. Boot journal logs (journalctl -b 0):
+kernel: usb 8-12: New USB device found, idVendor=3D0b05, idProduct=3D1ace,
+bcdDevice=3D 6.25
+kernel: input: ASUSTeK ROG OMNI RECEIVER Keyboard as
+/devices/pci0000:00/0000:00:02.1/0000:04:00.0/0000:05:0c.0/0000:0c:00.0/usb=
+8/8-12/8-12:1.0/0003:0B05:1ACE.0006/input/input9
+kernel: hid-generic 0003:0B05:1ACE.0006: input,hidraw5: USB HID v1.11 Keybo=
+ard
+[ASUSTeK ROG OMNI RECEIVER] on usb-0000:0c:00.0-12/input0
+kernel: input: ASUSTeK ROG OMNI RECEIVER as
+/devices/pci0000:00/0000:00:02.1/0000:04:00.0/0000:05:0c.0/0000:0c:00.0/usb=
+8/8-12/8-12:1.1/0003:0B05:1ACE.0007/input/input10
+kernel: hid-generic 0003:0B05:1ACE.0007: input,hidraw6: USB HID v1.11 Mouse
+[ASUSTeK ROG OMNI RECEIVER] on usb-0000:0c:00.0-12/input1
 
-Thanks,
+3. udevadm info -a -p /sys/bus/usb/devices/8-12:
+  looking at device
+'/devices/pci0000:00/0000:00:02.1/0000:04:00.0/0000:05:0c.0/0000:0c:00.0/us=
+b8/8-12':
+    KERNEL=3D=3D"8-12"
+    SUBSYSTEM=3D=3D"usb"
+    DRIVER=3D=3D"usb"
+    ATTR{authorized}=3D=3D"1"
+    ATTR{avoid_reset_quirk}=3D=3D"0"
+    ATTR{bConfigurationValue}=3D=3D"1"
+    ATTR{bDeviceClass}=3D=3D"00"
+    ATTR{bDeviceProtocol}=3D=3D"00"
+    ATTR{bDeviceSubClass}=3D=3D"00"
+    ATTR{bMaxPacketSize0}=3D=3D"64"
+    ATTR{bMaxPower}=3D=3D"500mA"
+    ATTR{bNumConfigurations}=3D=3D"1"
+    ATTR{bNumInterfaces}=3D=3D" 4"
+    ATTR{bcdDevice}=3D=3D"0625"
+    ATTR{bmAttributes}=3D=3D"e0"
+    ATTR{busnum}=3D=3D"8"
+    ATTR{configuration}=3D=3D"Default configuration"
+    ATTR{devnum}=3D=3D"6"
+    ATTR{devpath}=3D=3D"12"
+    ATTR{idProduct}=3D=3D"1ace"
+    ATTR{idVendor}=3D=3D"0b05"
+    ATTR{manufacturer}=3D=3D"ASUSTeK"
+    ATTR{power/autosuspend}=3D=3D"2"
+    ATTR{power/control}=3D=3D"on"
+    ATTR{power/runtime_status}=3D=3D"active"
+    ATTR{power/wakeup}=3D=3D"enabled"
 
+4. /sys/bus/usb/devices/8-12/uevent:
+MAJOR=3D189
+MINOR=3D901
+DEVNAME=3Dbus/usb/008/006
+DEVTYPE=3Dusb_device
+DRIVER=3Dusb
+PRODUCT=3Db05/1ace/625
+TYPE=3D0/0/0
+BUSNUM=3D008
+DEVNUM=3D006
 
-Sven
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
