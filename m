@@ -1,395 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012053.outbound.protection.outlook.com [52.101.66.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A9C4CCDF8;
-	Tue,  1 Sep 2026 05:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788241663; cv=none; b=HRPdz99iGI+vtceyhNEKz4EIspQWlqNGIjpGrvQUxtNvB46vLNVhKKF3Bh+7XC9QreAIFj9nKQezyKqCUGWsLxq9bKWjs7KrdHW3JrUW1hvOl9k3tbnooukSFzWpZa41+YHKGqVlVfK6eMK7+M0U8F1vdRMXqxbFcB3t5v708xc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788241663; c=relaxed/simple;
-	bh=VpwS63NbME8IuJb6nm2MRV/gQddltvy6kmfDhE8M1g8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=af4Dmo13sIUKPgg36Y/RdwWxz1iEVPpN5zZgLNoyvambKZSkfu9htmshYVFsJNOBkSlYoA5TFHvKp0ZKQvY/lUSVEyr+Hx/GOdhvkhHkcaOiscEZtofPXBtePDZgH6S7p9S3vYcz5+kv2aw5ZBZZ8lJrlVHBZne1iAO3eQ3eJOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iuemYoeZ; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5338D2F745D;
+	Tue,  1 Sep 2026 05:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788242270; cv=fail; b=l0nDrZAeIMOh32EeyKAeGf22i3kql3iRYaZFom3S9EgOtSIyy4y0Lg3YynNhp4nU5+ZYzVzFX21aJh64BsI6jGs7Gcla8clcVWb6+RHHEpAA/IYCLcUx6GOpwrB1CP3Fq6WR5IrKI8nLUJlagvmgrJuqCwsIjVuMxBNHJTPcSco=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788242270; c=relaxed/simple;
+	bh=W57ufiPcG6vJmxwqQWryqwm2VYzKpWQVfdPWC/sydHw=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=FawfB9a/rOu2iY4EG3kk+94Kn2L9CgBr4eRot3v3JDCBRPLLg0VMGchKzWVekLl9itppgTkY6LvZMQWX1yPqCQpBSH9xFegDx7lzPFyxHUw87Qr8YgCB3MPsYqMfYXNMPEwiN36A3Nr/CXuoOlwThVaW32FET4G2SEt05etbSPE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=JfcGxQ7Y; arc=fail smtp.client-ip=52.101.66.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iuemYoeZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 399E01F000E9;
-	Tue,  1 Sep 2026 05:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788241661;
-	bh=EKfCohoJKBTiPKVgTsTz6ZX4azQ94zIE5XmXPUkUt30=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iuemYoeZGFGLTERH7y3jY2bzkArxvG6wMjgtiKKEy92VH/J3opeqKj/5FgrxtZ4lc
-	 1tvC3QJxqJFEd9LU60idFIJ/oD/kl+t+mc7lsYlN3C96oZO1N66bJO7dnfh1SUhvxb
-	 933ykveeql9pNlWw6tQOBVvby6BJlVpqWH9kRtk+OY+7TSytfolsuXwa0kDv/a1Kz3
-	 ayYZuR4vAcYs02iPo2+zqb974L99l2MpqjBq7OuyEXgLpLgurBo5WoFFoFXfNELInc
-	 3vN4WfitOkY5BpSACsLrv4kXB3US0TZX5AwXqJc8rvqKNLmd0dsAVIBzxKqrQz8DRz
-	 jSvrJOwAJ+uWQ==
-Message-ID: <503e87d9-3311-413a-98c0-e02a02c4a354@kernel.org>
-Date: Tue, 1 Sep 2026 07:47:33 +0200
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="JfcGxQ7Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yHzCvv8RFH8/qPCaNkCKLNGnb7z8y8Cap0LIGU7p42auBUBg9TS4nChO/PjbQixrCLy74Jp0T6t7X3vU0ReqI5U2tsSfnOPUKN+3M01VkkfVSC7XKLKDJnm7xJjzPSoTnAInAeIroydkYxT+HAWyHYk6AGkez/sIV06gzJ2eSloG1+uFs7bmegL8f4+4DWPlW3d0Ycunz081wODKdXDIOYkmvsf6vpBD20GV9h7pxTc4uUCAvPC0xf63gd5aXR9ZKmVrsXN/6HDAMLyDjP2g1cVdbsuCuu5+VeWjCqNYJpdoMX7xXvBVilTTKKnxmY3ZIycqBU88I4qWW1Fv9PTZqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1ceohFjW0JktZ+4Fj+8SRFL+h5zm8/TB4tkdtaj2QoY=;
+ b=D3pBBIYjKkuAEi8Q5qwrrpbXdn7mjh9M3DJQsyClzH8PGZW+E/DHN5L2z2FDb4zWxRQM6Bj1U2B3c8YU2wefGrJ4cgYNDbIr7FNyEVoyDcKqQOyD+iZgxc+yIKgbTviXkzKKNHWauo9ID65ISLkP8Kp8sRGNO0mSkwl/pn+pmiQUWQmKLrzFE1Gnh96eBAWrowbhJdTT0KpE8OfEe7tUd3E43+9nQ4v9gWJNFOt9af5N7Crbwuqca4zSrb+i0t6Ur4fN6KwxmVL/n4t3+3V83fW/mt/4K54Phboyaqyf24hyBBG4sGCQA4XjarcC9VQVpLiIxHAdH/VT7dsD7ebJNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ceohFjW0JktZ+4Fj+8SRFL+h5zm8/TB4tkdtaj2QoY=;
+ b=JfcGxQ7YMQSFbyDB6uoJxP+Z7/Jt3nWq1KQ5DMFtkj9vTT9RHLJSWYnIIkALjIpZYYDV6ZXt9Sd/mUUQ+/g+WXo6u5bURNWh9n8NaOZ2fk6O6n0r9BA8xSdkfHxvkc+yKc3TLbtDpdF6jCpda+jOY3+qUX9VCy3OWhZ09myWbwsxKRdh2VEPcLp+cQcctwusladQNJInhpAyHyrdbzvxDK1hEwFWwaASzCVwpkfwZaHSgGlI8DIh2JZ16wsjs94jtiOFBhRisL0nNb/ECTH4U6wsn2oWEV6ea9Hne79gyUYTwQ19xo73anO2VND0kCPhI3viZldpaIvejIScPX4SjQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
+ by AS8PR04MB8040.eurprd04.prod.outlook.com (2603:10a6:20b:2a9::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 05:57:46 +0000
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
+ 05:57:45 +0000
+From: Xu Yang <xu.yang_2@oss.nxp.com>
+To: peter.chen@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: alexander.shishkin@linux.intel.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	jun.li@nxp.com
+Subject: [PATCH] usb: chipidea: otg: fix invalid role name print when no current role
+Date: Tue,  1 Sep 2026 14:01:50 +0800
+Message-Id: <20260901060150.1667914-1-xu.yang_2@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA5PR01CA0118.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1a7::8) To PAXPR04MB9422.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b4::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/4] dt-bindings: Add CIX Sky1 USB bindings
-To: Hongliang Yang <hongliang.yang@cixtech.com>, peter.chen@kernel.org,
- pawell@cadence.com, vkoul@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-Cc: gregkh@linuxfoundation.org, rogerq@kernel.org, neil.armstrong@linaro.org,
- p.zabel@pengutronix.de, fugang.duan@cixtech.com,
- cix-kernel-upstream@cixtech.com, linux-usb@vger.kernel.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260831082309.3854507-1-hongliang.yang@cixtech.com>
- <20260831082309.3854507-2-hongliang.yang@cixtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260831082309.3854507-2-hongliang.yang@cixtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|AS8PR04MB8040:EE_
+X-MS-Office365-Filtering-Correlation-Id: 209b6a81-fe1b-43de-be20-08df07edf178
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|19092799006|1800799024|56012099006|10067099003|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	xS+y914JF1aHQBqrhEJEmmekpTDqD92UH516l2SBUISqx8tt0eq0fU0Yvt/vDK+O/7p9hoJju48bSojkvQJHYSwG8f8TMW2D8CjofS7Ooec1EP/SsJswPdceWpIlIdzFTzHzpI80yRei7whYwT8F2b8FNyVgQStCQSz4BmqOwm2jkulauJmu98AZxWjUI01ELCxZ3u0jNLahRkL5n9uOhn/ElQNrDrMpvapX1Awzydf6TaWbduGzBDIHHoGE9XUgi9s5AWHcNCpGCuM6lz8wnYO8Znj4BnXHPMR6szRWg7Q6uGtlIuGiD/xO2Loi5x27L2U6TWs9r98gnNRQXnnLOp2gAl5Pl8e+RGFu1QdJ2jTSM9uNqAaQg5ilHWvqMPCFzQVWXqSGb01/Eag3rnjxPM95hVpoJNL2IVbE0vKLYFGxzlxx+RQofw9pYemU0Vu1bisRRHzcZQGzADX1hezbLGVpFzzPZbuxCHdpp2v3XaVJDHoXFZEQ3y1W3YL/6sPeDGs7fIZUWNpdaxGe8SndfSwNN+LuJd/hjndC3YI9sTptgXBbGmWutESaMXtg2DhKux6dXT/yxiWfNhqMBj+GZIyb6C/bTGBUCHsG7REb2FwNcHt7KVCnMxpXN8PZ8jCpnxcZXG+AoHMmIP1XBbvZugWGhIkwuuyAGq3U/JhpTzI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(19092799006)(1800799024)(56012099006)(10067099003)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?O/nl8y5UaQR1UkyYsYZ+GGshuZzAPLjFI1rIUhgxzrvdbgX2BBFFHSjvrALT?=
+ =?us-ascii?Q?5w1cD+KuFgNRl9Om9BD3VaIh3rRl2BKybVica9fl9UX0kBjASRMCLGMLOv9p?=
+ =?us-ascii?Q?MSdlRc9VO0eaktYZQj0ormY6dXlcAM/E1sD8kkr4514B8aXhWyKl71kReVgS?=
+ =?us-ascii?Q?oSJjIFnnJujXCVXvS3RHtTFvYFUscUfcBg1oiDjS277qu6/1qY+mxyrT9lN4?=
+ =?us-ascii?Q?dXALtD4mYQ7eLG3kfORlAaK2Qv4x8gcA0EXhGPksLomb9o3GvT17/7kRdcp9?=
+ =?us-ascii?Q?u5Nitx+piPq9tyf8L5Sn4P0ssd3dsT/7EihDTfSvOR1cGKEM5F8HHsJk1ehj?=
+ =?us-ascii?Q?MHFFSIrI6SRWXmSUuyH+6X/2I/zOxHpXXki/iwxdhNTX9QyEWmd74XmqRyHT?=
+ =?us-ascii?Q?A81Sl7RSgFOLnZyPFSnQKUrrIReMisT9UtBoWloFRUU+1NPkLy8UC/q8DwQ1?=
+ =?us-ascii?Q?a/Zt4QHC0uJVGMT5YYA03IpPYp2y5JQkEp6S1tKLA8JprQtq5Xf5Uuxg765e?=
+ =?us-ascii?Q?35ItV9ckbYUwm2N/M4zF8p+JyfSH/MniKmWxTtXOmROxeDOg0/bCpKNFkpYp?=
+ =?us-ascii?Q?OW9VnWYbvLHuP9aK/en4VAKV1+GOUrGyhkvpvdTfxwHP0RuDFoTTUUO6MuVd?=
+ =?us-ascii?Q?nzg99/njOHuHKgw571OQ5/Fl4Qg/aUcIm8wa+gpQYLTv8NuRjkrRawT/VmA9?=
+ =?us-ascii?Q?mJpBLkXj9fK79mNX6mCZ8OXkvyY3MUdWhHd115Blo3TrEA9Wm3j0oSfE7oW3?=
+ =?us-ascii?Q?0+bKcgc6HbSwy0vTC8X3uxVlDjSHyT7Epnc5aoebPAJPAbTz0pWp2UtBMUqm?=
+ =?us-ascii?Q?M34lZNJhMGmwMOdX4piv/0LNWrvQt2vmMrAfY+/8Qdz6aFTPPuS5c9nOovGv?=
+ =?us-ascii?Q?ws1hkTzhuM9U1UQXDJoTSpWfaw/T7boSEHnlcjLkTE3PusBkqRUfl57nxhhD?=
+ =?us-ascii?Q?dSRtcMf8AqsDrCgXeV8yq2KMY2Lzx8X2/l0Vf3cOud2Lvj8QEjXKn8PyXB6r?=
+ =?us-ascii?Q?LZUDkg7zkyRWPC5YwuHOtl8Uqqxvrn5UNUaeG3gAuufXeByemkJdGCgw4wcD?=
+ =?us-ascii?Q?u0QgBZLxuPAH9w3Qcavy9dpCc3LLVvCFNW1Jq6F0VT77893z8Ezwk4jOunmw?=
+ =?us-ascii?Q?kmAwk8X5rPtrlvE/SVCpQXupZ5ulG7LLawD5sDzcCOVyKGj26fdvVlFtDKPI?=
+ =?us-ascii?Q?GrLT36jB9VimQGwnlDfUgkZwRkNpOBrOBn/8Qfs56+2vsNLq7u3Hz1MYxDnW?=
+ =?us-ascii?Q?Vs78LaYD4qms36qdxj9Ihglj+1NkLBFXDcutXjnX/YKBtc9EqeInbYyLyycU?=
+ =?us-ascii?Q?Cj15VmuZYyD8E8ToCLJjhZjoq5F6Q7ZPIPBuwBxSh8uaR1XR7AeKp3Wdq7tW?=
+ =?us-ascii?Q?79V4aCfHCxIunYwMlm3UxLsiMhJXuUfXTdHzmbCYhV3w+PDNv94IelXHkiF+?=
+ =?us-ascii?Q?V8iEgIfccYfUWliQQoZgaqqoLpyUhW5D/lK1pKjuBE4eTojUEJT/lPOZKaKI?=
+ =?us-ascii?Q?VGffpMpjBnAPyIq/jkxGzYifeEMI3a/GEee1WJ60qv49PhOgGsYGk9JU50Oj?=
+ =?us-ascii?Q?LqE11lWHwb8rcoDXsyupyPgW1X3rwsyjBZjYw8/AmfgHCpq9Rg3kpqH8Afls?=
+ =?us-ascii?Q?+jJHdRQHj7wkO1c0/PhMkCVHQ6D9mVCifFdos9u02XV9yV0RP97JafMqOyZ4?=
+ =?us-ascii?Q?qrm6Owc6YP9sqOhTgj+a5V6lIgo/VVEsCXrKj8WAj+GsKQhcCAyQo8Qv7bvf?=
+ =?us-ascii?Q?NbkglHMNLvm4Hb103QXS0vlfX/P2n6v/bhSf4/br5eh27YB5qLy3?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 209b6a81-fe1b-43de-be20-08df07edf178
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 05:57:45.5784
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ksm4Z4ko0jsOkXEvoy0cgN4dA0gIJwqiX1AdgC/xm/554yZvJPupSGQCDyO5MkobK+Yb/+Ev9A0fwZWOH0Cd9dybTGTFSouZueNlhM4L/rpkFeXPvSOcuazUyGxlKbtu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8040
 
-On 31/08/2026 10:23, Hongliang Yang wrote:
-> Add device tree bindings for CIX Sky1 USB3 PHY and Cadence USBSSP
-> controller glue layer.
-> 
-> Signed-off-by: Hongliang Yang <hongliang.yang@cixtech.com>
-> ---
->  .../bindings/phy/cix,sky1-usb3-phy.yaml       | 109 +++++++++++++
->  .../bindings/usb/cix,sky1-usbssp.yaml         | 153 ++++++++++++++++++
+From: Xu Yang <xu.yang_2@nxp.com>
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+ci_handle_id_switch() prints the role transition via ci_role(ci)->name
+for the current role, but when ci->role is CI_ROLE_END (no role
+assigned yet), ci_role(ci) call BUG_ON() and return ci->roles[CI_ROLE_END]
+which is NULL, causing a NULL pointer dereference in the debug print.
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v7.1-rc7/source/Documentation/devicetree/bindings/submitting-patches.rst#L23
+This can happen if ci_role_start() fails during a role switch, since
+ci_role_stop() has already set ci->role to CI_ROLE_END.
 
-And do not combine USB patches with other subsystems.
+Fix it by printing "none" instead of dereferencing ci_role(ci)->name
+when ci->role is CI_ROLE_END.
 
->  MAINTAINERS                                   |   3 +
->  3 files changed, 265 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml
->  create mode 100644 Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml
-> new file mode 100644
-> index 000000000000..76d020df72dd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/cix,sky1-usb3-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CIX Sky1 USB3 PHY
-> +
-> +maintainers:
-> +  - Hongliang Yang <hongliang.yang@cixtech.com>
-> +
-> +description:
-> +  The CIX Sky1 USB3 PHY is a multi-port SuperSpeedPlus PHY that
-> +  supports up to two USB3 lanes. Each port is represented as a
-> +  child node of the PHY controller.
+Fixes: cbec6bd55a45 ("usb: chipidea: move otg related things to otg file")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+---
+ drivers/usb/chipidea/otg.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Please read and follow DTS coding style.
+diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
+index fecc7d7e2f0d..457417e81b78 100644
+--- a/drivers/usb/chipidea/otg.c
++++ b/drivers/usb/chipidea/otg.c
+@@ -179,7 +179,8 @@ void ci_handle_id_switch(struct ci_hdrc *ci)
+ 	role = ci_otg_role(ci);
+ 	if (role != ci->role) {
+ 		dev_dbg(ci->dev, "switching from %s to %s\n",
+-			ci_role(ci)->name, ci->roles[role]->name);
++			ci->role == CI_ROLE_END ? "none" : ci_role(ci)->name,
++			ci->roles[role]->name);
+ 
+ 		if (ci->vbus_active && ci->role == CI_ROLE_GADGET)
+ 			/*
+-- 
+2.34.1
 
-> +
-> +properties:
-> +  compatible:
-> +    const: cix,sky1-usb3-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: APB register interface clock
-> +      - description: PHY reference clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb_clk
-> +      - const: ref_clk
-> +
-> +  resets:
-> +    items:
-> +      - description: PHY reset
-> +      - description: PHY APB preset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: reset
-> +      - const: preset
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^usb-port@[0-9a-f]+$":
-> +    type: object
-> +    description:
-> +      A single USB3 PHY port/lane.
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +
-> +      "#phy-cells":
-> +        const: 0
-> +
-> +    required:
-> +      - reg
-> +      - "#phy-cells"
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +unevaluatedProperties: false
-
-Which other schema do you want to reference?
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/cix,sky1.h>
-> +    #include <dt-bindings/reset/cix,sky1-s5-system-control.h>
-> +
-> +    usb-phy@9210000 {
-> +        compatible = "cix,sky1-usb3-phy";
-> +        reg = <0x09210000 0x40000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        resets = <&s5_syscon SKY1_USBPHY_SS_RST_N>,
-> +                 <&s5_syscon SKY1_USBPHY_SS_PST_N>;
-> +        reset-names = "reset", "preset";
-> +
-> +        clocks = <&scmi_clk CLK_TREE_USB3A_PHY3_GATE>,
-> +                 <&scmi_clk CLK_TREE_USB3A_PHY_x2_REF>;
-> +        clock-names = "apb_clk", "ref_clk";
-> +
-> +        usb-port@0 {
-> +            reg = <0>;
-> +            #phy-cells = <0>;
-> +        };
-> +
-> +        usb-port@1 {
-> +            reg = <1>;
-> +            #phy-cells = <0>;
-> +        };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> new file mode 100644
-> index 000000000000..47202ff5b9e5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> @@ -0,0 +1,153 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/cix,sky1-usbssp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CIX Sky1 Cadence USBSSP Controller
-> +
-> +maintainers:
-> +  - Hongliang Yang <hongliang.yang@cixtech.com>
-> +
-> +description:
-> +  The CIX Sky1 USBSSP controller is based on the Cadence USBSSP DRD
-> +  controller. The integration adds glue registers and mode strap controls
-> +  in the Sky1 S5 system controller. The CIX glue node wraps a Cadence
-> +  USBSSP core as a child node.
-> +
-> +properties:
-> +  compatible:
-> +    const: cix,sky1-usbssp
-> +
-> +  reg:
-> +    items:
-> +      - description: AXI property configuration register
-> +      - description: Controller status register
-
-Registers are not address spaces. Devices do not have address spaces of
-one register, so this is not a real device.
-
-
-> +
-> +  reg-names:
-> +    items:
-> +      - const: axi_property
-
-axi
-
-> +      - const: controller_status
-
-controller
-
-
-
-> +
-> +  clocks:
-> +    items:
-> +      - description: Start-of-frame clock
-> +      - description: AXI bus clock
-> +      - description: Low-power mode clock
-> +      - description: APB register interface clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sof_clk
-> +      - const: usb_aclk
-> +      - const: lpm_clk
-> +      - const: usb_pclk
-> +
-> +  resets:
-> +    items:
-> +      - description: APB register reset
-> +      - description: Controller reset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: usb_preset
-> +      - const: usb_reset
-> +
-> +  cix,usb_syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to the Sky1 S5 system controller used to program USB mode
-> +      strap controls.
-
-So this is part of that device most likely.
-
-> +
-> +  axi_bmax_value:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 0x7
-> +    description:
-> +      AXI bus maximum burst length configuration value.
-> +
-> +  "#address-cells":
-> +    const: 2
-> +
-> +  "#size-cells":
-> +    const: 2
-> +
-> +  ranges: true
-> +
-> +patternProperties:
-> +  "^usb-controller@[0-9a-f]+$":
-
-Why using completely different names than entire Linux kernel?
-
-> +    $ref: cdns,usb3.yaml#
-> +    description:
-> +      The Cadence USBSSP core controller node. See cdns,usb3.yaml
-> +      for properties such as dr_mode, maximum-speed, phys, and interrupts.
-
-Redundant description.
-
-> +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - cix,usb_syscon
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - ranges
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/cix,sky1.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/reset/cix,sky1-s5-system-control.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        usb@91c0300 {
-> +            compatible = "cix,sky1-usbssp";
-> +            #address-cells = <2>;
-> +            #size-cells = <2>;
-> +            ranges;
-> +
-> +            reg = <0x00 0x091c0314 0x00 0x4>,
-> +                  <0x00 0x091c0400 0x00 0x4>;
-
-Nope. You do not have a device with two registers.
-
-
-Best regards,
-Krzysztof
