@@ -1,167 +1,139 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F72415F23
-	for <linux-usb@vger.kernel.org>; Tue,  1 Sep 2026 02:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788230925; cv=pass; b=Tpk1YH9XygGioNj1sEvCnnmS28HQCLy3NUdKMyg1Eb6sQZeMQiaAGluEJlU+5rLSTGf1qwKsZd3GOtNbimaENVMWXQo94i5nwx9Q+ysVljNSzpWNko7Ys3Hgfbvj1ym2QsrW6HHUxHLIO9Nw/YGiBQjuGwUbZXZrguP2XwtNOlg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788230925; c=relaxed/simple;
-	bh=d7ifxmrw0KDNa/rU33DZDuRgA8aWneOfmX3kPGUeUC8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MfhuRfOgkaB5DhpxOGxzXQaHo/hdu7Ehc6hzjhGGX1R1WpdnIAcwOyfuFTTs4tpJIemkHicmrEIUGiSt56iBp46Dtxmx3m22cLUF3zCrnqVHnOcVm/pzqIR7pTYzkUtRWXDpjz5cMmQJh7ATHMEnRwUP0970R3pqWY8NmbmMFhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYveG2ks; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C60738AC72;
+	Tue,  1 Sep 2026 03:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788232125; cv=none; b=gHpcUztfb9M5cmgkHyspfsI4GHm1C5nAeof8xhLTEwP/fHd0945LcRz7S0ajG1hH+x43u3kS3fkxhgNfyRhVJWvV0OkQfLm5AYT2SLHcGLCeM7UOqsm+TEXH4PFtszHrWGZaDRBSTm3gguXTg1k0/eIJ4F/14P6y8Kumn20eXTU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788232125; c=relaxed/simple;
+	bh=exRYbENaeqIC9LzQrl1oaL3FO3hyBULOPrf5+b+88N8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T73Tn65+zUCFPsCoDtxZXcNnvM/PQ6kZGJ4DhITQNG12GtU+zGKVR1yBJGjziVK6g7lZjbRFJIW0vr8M9PgZ25E/t4Y4faUQuBPL9vzGrJla5KK+3P7yAtP9t/x4sWDc/C8HrwX06CBQfSh+/WjYl5g3gEdJ8fFvWaBxukmWypM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=UXRsDfoQ; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYveG2ks"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso28709705e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 31 Aug 2026 19:48:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788230919; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KbNXIC1nHyUfToi9YGphiRjBek3uhR/n7MLhOV/UE0Hpsl4wW5HbImkhIoRzpFFYXm
-         KLDxAvD2SX0i5WFhZ2bolcDowsZFou8S89LNrXtVCAy1+0JX2Oypp118Uhf1tMIrqC20
-         bdwf1yrodTUclDoHzpc2sJKOuXS8Q2qy98rNinVdE5LxKrNx8F1668e40VYNH4910cun
-         3SDAUA1fhzWAlFUQRqHE2ia/T0bMhUfNTevXpwreGPQsLZwqjCCVZ62Ooe4bv4dJHrD/
-         igGB+ovxufnt7IvgWsrzDprSu05KwzXfizEfDiybxiCLH9/LI3GpUqu34AA0ciseO9Fl
-         E7XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KF5a94raY+higffJeqCc50xZOu6d7LMoVpiDSXogvcI=;
-        fh=0FFWoDJWdpWkprifJM8s7ouM6ML2NLk43ZiVehQG+KQ=;
-        b=bHPc2A2cX8SFL1eAqn1UTCRmlheJOVNohx2dbQxfm2OIUsRObP0wIMnxhcjE7P/AE7
-         cX8XyWibiLcHekydND9UAwz05+bCQu/7HMPjaoMLtpajqcF7xo+v+Q72Lx1JRZbktmR5
-         ezk6qd31+G7lN9hk7F5c7F1PlC5JHFEolw+Np/h2eZF9bENzuKcVIR71nlblPzssYKTY
-         0BcouK9NaWtSKM76HMs8BbBhZYZJK5Mrt65tTY0cnIKpUgmoWHch9XJkV2nMlSVcfbwn
-         zpyNRt0NgKKWD1k7kCaJqhAb38ArIIPymnTggUCeiz8WZUlcx2JiaW3tHElVCaevvQDg
-         ArRg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788230919; x=1788835719; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KF5a94raY+higffJeqCc50xZOu6d7LMoVpiDSXogvcI=;
-        b=FYveG2ksgTFO1VLoFYOIf3VieZpWlXKVJgDqxWemfi02MbkX299j5H5oaW+zpV8WSi
-         bmqRQtFkFDQ8Qvveutco3ljR7KamLPBR7wJMfUlwR6ysFOjrCX6voGuWTEjVm9DN/Up+
-         qSwQKXfmSJ7GG1flgUn7OzZI3KRDUnPHjQv1SWRUnp4pilSe2V0O/gGsy3taHLSbBAMf
-         UtD7cvfbQrdTgMrcOV3PrstsmYIl91AgKmilQCaCwhnX8XcbZfklZ3dPDPH3vrZqmUlc
-         9aOH9wzHpCXh4t+KnR5H9xaMOsC25gSccgtLZV147+lmDBqkT6LosqUkxupOprspSxI4
-         MiQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788230919; x=1788835719;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KF5a94raY+higffJeqCc50xZOu6d7LMoVpiDSXogvcI=;
-        b=ZqljRPI/RqOIi4nQrJC9pDhBAM4nXzKJORLjjvRt4ufkZliJSV+YSs9RsocAw+DWiC
-         Od9PhADDPn5ZSGQJU1atUYc2UkEUO0jXapLd5K77YbKHeODltdwZpNM3WF9Jyg5dPlU8
-         +du6/FoRrzOz7K7FnoG1CeKt96B+mG2UOgKMUsafFvag4ciZFTK16bkN0vsYiCtv6W0D
-         FHGzhwhK6q3cjFJrNBdDIlcdWAixvub5REgFq9nCxoASRIpB679EcEvFQDKhAgCtDmsq
-         osGcSyOjpwOMsiLcTG8MTJoSLCzNTYH6BHs7+P0HOhc39wpnMNJDgvw5LzPTxEgciuyU
-         SVXg==
-X-Forwarded-Encrypted: i=1; AHgh+RqW7Pqtk6KVQmtorhF+atgIFqJolhFh5pDgAjfQJN/awsVnW+3Vst41/d/W54Ms6fOS/pnEwe/qVX8=@vger.kernel.org
-X-Gm-Message-State: AFuF++k+gE4bt1ub46g9MsweGqM05UhMrCvSBG6m1ICipoZkHDjyfT+y
-	3m+ufI0eC+TxB/qaLpoxG5mipZlDNnVONAJ0EMzD9xzwzdY/b0ZBcAzK7D4bZlvrS69HiSKKUe0
-	kEkd19e3TrgvNG5RbSL8pJ26d/vGeUw==
-X-Gm-Gg: AR+sD13g8qpsprFWIOR27q9n+D1nT61vL1jAZ/2cc3qxvX369ihTZRSLYmsa0Tg3nT7
-	XYCGF9iZ0tgaLtjvv2bjlhpqxv1jSGMvOH/aZANo8WrFp6so2Khg6MqFwJ2q7r2ZJBAHMeWQTvA
-	bGwI7EZ8rfGT63BaKKTrw/674Xye4z3RJRNXNBmfYxh7XPPcTS9mBuBRMQY8Onnrp0fx7ZNrO/z
-	CjDMzhJBPmj7Woy9cNIg5gjigRw9KKDJd4J7/WxDaHxKXa7wfp2viZSqe3NxTsfaT++eiIkUCQM
-	gmvZrySr5MYHCJrUpHOsdxFMDnxCOqAoxHD/w0FqMsM=
-X-Received: by 2002:a05:600c:4f0e:b0:49b:9433:ea44 with SMTP id
- 5b1f17b1804b1-49cdc40ff56mr98080495e9.4.1788230919386; Mon, 31 Aug 2026
- 19:48:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="UXRsDfoQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1788232111;
+	bh=eEsz7+r7qwRJXlGm1iAic9cd7SXMJhQKDo9zhXiMp/Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UXRsDfoQPXTwnU6xc2cTmdo1+3ONr/Eoe3J4mtB2yrkfN+MUZ5z0L2+W6W0AtA9Vl
+	 2XWXVFppHI36tUv5plCu5zON26k4bubF/He3RLi8ReXCHOcTLySFPIkvejkpFaXtJ9
+	 1Z455t6ljwH5HIGTlwhNfAA8yK4XxHgGUjZg7bp8=
+Received: from [198.18.0.1] ([58.206.203.238])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id 21C366A4; Tue, 01 Sep 2026 11:08:28 +0800
+X-QQ-mid: xmsmtpt1788232108tcd6hcrco
+Message-ID: <tencent_CD7E18210FC0A874E644DBB097794EE29C09@qq.com>
+X-QQ-XMAILINFO: NlxVGCthfHmZFAK0fER5jLvqeLRrYIEPU6hyEUUcoZQ8XDorFKOId7L4orlH3o
+	 P7NQaJJt6Mk7v/CO2Zqnv0n9Wt7eOaDWRIEtPK8Jsnm9p5bUeDYTru4J8NKBHsVeIjOKHSW4YMCy
+	 Lbg0lPQh4Zpwrwa6mmEeIYe4eEpBcwyI8X5CFzz55+01AUlHFtbIZtM9er543CaeBV/dBWAD73u6
+	 r6yVuUZCI/2GOfRE8c3/ZBV9R3f7rDIuC0d0s/lyfnMHbbol645Z+uaDlsaLHW3NNd5CyUQWXeSB
+	 Vl3T5NmHvfCC+TpJ2KMM8NWzQqoMZnewA5eFvigeeUowZHZJGeLr0bN9VxE0FPuCPjClqbREJiKH
+	 b24SJCVkUfFZTl8/TTPdvh9aeFuyfpKQDcSZmjPy/7KYm8H298cJB5oNiWJntx7Y+8f7O5lNXch/
+	 IxsgDcLNVRPwp6JqQdw7K5PxvaCO4bJMJpkJTbmD5Ujy3xY4vhDW/FBEYK9JVs8fwSEjgpO9BkL2
+	 KtQPYniAa18k2x+F1zwULWsgxvHkNWcKPMMoJ547GbI3AaAOsVMXaXE0Y0Pt7iZlxLzkGUaDxobc
+	 xn4pHZzOyBiDxXUcNeGRFe8BdIUZkuUN9Fr8V3D93nt92hwWX+kcrLbY3qthn0DOi/TdpUhdYKJU
+	 f6vpeOH8AGK2WQtipoEL9sI5jVRgVjTp95Vw38Qxg78ruRSaEeMaqxvLYmgXHiVbi7qNaNq8EScx
+	 MI18jsEy5WK5V6IsLJqzRk1t0lr4HhbrkZtNUTwEciZMdfdzD1oGP031VhOlSeDcJq245wb/buUU
+	 wQVK15lUzXR2eoQeVSx7i9vnq+H9f422ZrVJvsY8tDsQVaQd8HMYE05lbKhcMdKRKJrR63c3TbpH
+	 fTXcqGrJgqkcE/wx9Ig7Pfxuasw9g5JnH7j5KhJNW2vtPSCPXn3ywlzmK5s4EEowlAQMflKexTdT
+	 g5/kFF3M73ptYPf2PmRGIu/6WYhnlxfACeVaYXOEySx5ZiAAoGNuDqjp6cY807iHQcNnXQvUF8F6
+	 G8lORqEI902MDyrNwhubALmqJohLaek/s7z0tXCWS3YRopq9g8J69SEgu17xD4mqL3A4C3QS+V1r
+	 LEYc+vWv68GQKdvX0=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-OQ-MSGID: <e059628d-2f57-4c1d-830b-0387eee74e24@foxmail.com>
+Date: Tue, 1 Sep 2026 11:08:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260812-b4-tb-pending-v3-1-3a292e7194c9@gmail.com> <20260831063932.GB124825@black.igk.intel.com>
-In-Reply-To: <20260831063932.GB124825@black.igk.intel.com>
-From: old king <fy15309206903@gmail.com>
-Date: Tue, 1 Sep 2026 11:48:28 +0900
-X-Gm-Features: AcwNN1Uk0rPvBU25g1qvkkJCtcrX_XNdwYeW_UNFlmzX8XUR-jO3qh9AgnAqIn0
-Message-ID: <CAMMY3OVeac5h6N7BTsGk-gd20N8BV=vufgLSgqqOCK_76kfnxg@mail.gmail.com>
-Subject: Re: [PATCH v3] thunderbolt: Stop waiting on a path pending bit that
- never clears
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
-	Andreas Noever <andreas.noever@gmail.com>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] usb: gadget: goku_udc: fix kobject warning on
+ probe failure
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Felipe Balbi <balbi@kernel.org>,
+ Peter Chen <peter.chen@nxp.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+References: <20260826-b4-fix-usb-v3-0-b28366e817f3@foxmail.com>
+ <tencent_79E338821F4FC825B0149D5951476C189E07@qq.com>
+ <2026082647-tripping-skater-fe31@gregkh>
+From: Cheng Lingfei <chenglingfei@foxmail.com>
+In-Reply-To: <2026082647-tripping-skater-fe31@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> I moved the constant to switch.c as I don't think it needs to be exposed
-> outside. Please check that it still works.
+On 8/26/2026 5:27 PM, Greg Kroah-Hartman wrote:
+> On Wed, Aug 26, 2026 at 05:15:07PM +0800, Cheng Lingfei wrote:
+>> goku_probe() calls goku_remove() when hardware initialization fails, but
+>> the gadget device is initialized only near the end of probe. As a result,
+>> goku_remove() calls usb_del_gadget_udc(), which drops a reference to an
+>> uninitialized gadget device and triggers a kobject warning.
+>>
+>> Initialize the gadget device immediately after allocating the controller,
+>> but add it only after all hardware resources have been acquired. Track the
+>> gadget registration state so goku_remove() can safely clean up both partial
+>> probe state and a fully initialized device.
+>>
+>> Use the split gadget removal API and drop the final gadget reference only
+>> after all hardware resources have been released. Obtain the controller from
+>> the embedded gadget device in the release callback because driver data is
+>> set on the PCI device rather than the gadget device.
+>>
+>> Fixes: 3301c215a2bb ("USB: UDC: Expand device model API interface")
+>> Reported-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=06ec7624018233e17113
+>> Tested-by: syzbot+06ec7624018233e17113@syzkaller.appspotmail.com
+>> Assisted-by: Codex:gpt-5.6
+>> Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
+>> ---
+>>   drivers/usb/gadget/udc/goku_udc.c | 28 ++++++++++++++--------------
+>>   drivers/usb/gadget/udc/goku_udc.h |  3 ++-
+>>   2 files changed, 16 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/usb/gadget/udc/goku_udc.c b/drivers/usb/gadget/udc/goku_udc.c
+>> index 5ad8633f522b..615cc6b8f354 100644
+>> --- a/drivers/usb/gadget/udc/goku_udc.c
+>> +++ b/drivers/usb/gadget/udc/goku_udc.c
+>> @@ -20,6 +20,7 @@
+>>   // #define	VERBOSE		/* extra debug messages (success too) */
+>>   // #define	USB_TRACE	/* packet-level success messages */
+>>   
+>> +#include <linux/container_of.h>
+>>   #include <linux/debugfs.h>
+>>   #include <linux/kernel.h>
+>>   #include <linux/module.h>
+>> @@ -1726,7 +1727,7 @@ static irqreturn_t goku_irq(int irq, void *_dev)
+>>   
+>>   static void gadget_release(struct device *_dev)
+>>   {
+>> -	struct goku_udc	*dev = dev_get_drvdata(_dev);
+>> +	struct goku_udc *dev = container_of(_dev, struct goku_udc, gadget.dev);
+> 
+> That looks wrong.  If it is correct, please create a proper macro for it
+> so that you verify that this all is working properly.
 
-Works. Tested on the two ASM4242 hosts against ae35035da9da, with counters
-added to the wait loop locally.
+The object allocated by goku_probe() is struct goku_udc, with struct 
+usb_gadget embedded in it. Therefore, when the gadget release callback 
+is invoked with a pointer to the embedded gadget.dev, it must recover 
+and free the enclosing struct goku_udc.
+This follows the same pattern used by the net2280 and fsl_qe_udc 
+drivers. I agree that the conversion should be made explicit, so I will 
+add a helper macro in the next revision:
 
-Two runs differing only in how many frames went through the ring first, wit=
-h
-the Pending Packets bit read back from hop config space right before the
-teardown:
+#define to_goku_udc(g) \
+	container_of((g), struct goku_udc, gadget)
 
-  200 frames, bit clear (port5 hop=3D1 pp=3D0):
-    0:1: PPTO hop 8: OK in 242 us / 1 reads (budget 500 ms)
-    0:5: PPTO hop 1: OK in 262 us / 1 reads (budget 0 ms)
+#define gadget_dev_to_goku_udc(d) \
+	to_goku_udc(dev_to_usb_gadget(d))
 
-  400 frames, bit latched (port5 hop=3D1 pp=3D1):
-    0:1: PPTO hop 8: OK in 243 us / 1 reads (budget 500 ms)
-    0:5: PPTO hop 1: TIMEOUT after 584 us / 1 reads (budget 0 ms)
+-- 
+Best regards,
+Cheng Lingfei
 
-0:5 is the quirked host interface adapter: 0 ms budget, one read either way=
-.
-A hop that drains still says so on that read, and one that does not answers
--ETIMEDOUT in well under a millisecond instead of burning the timeout. 0:1
-is a lane adapter in the same teardown and still gets 500 ms, which is what
-shows the constant is applied per adapter from switch.c rather than lost.
-The interface goes down in 9 ms.
-
-Same on the other host, with the teardown driven from that end: 0:1 500 ms,
-0:5 0 ms and -ETIMEDOUT after 146 us.
-
-Thanks for taking it.
-
-FAN YE
-
-On Mon, Aug 31, 2026 at 3:39=E2=80=AFPM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> Hi,
->
-> On Wed, Aug 12, 2026 at 11:42:09AM +0000, Fan Ye via B4 Relay wrote:
-> > From: Fan Ye <fy15309206903@gmail.com>
-> >
-> > __tb_path_deactivate_hop() waits up to 500 ms for a hop's pending bit t=
-o
-> > read back clear. On an ASMedia ASM4242 host router the host interface
-> > adapter latches it once enough frames have gone through the DMA ring an=
-d
-> > never clears it again: the teardown finds it already set, seconds after
-> > the last frame and with the path still up. USB4 v2 table 8-23 has the
-> > field read only and zero unless packets belonging to the path are waiti=
-ng
-> > to be dequeued, so the wait is right and this adapter is not.
-> >
-> > Make the wait a per-adapter length and quirk those routers to zero, whi=
-ch
-> > leaves the loop reading the bit exactly once. A hop that does drain sti=
-ll
-> > says so on that read, and one that does not answers -ETIMEDOUT without
-> > burning the timeout: bringing the interface down takes 6 ms where it to=
-ok
-> > 506.
-> >
-> > Assisted-by: Claude:claude-opus-5
-> > Signed-off-by: Fan Ye <fy15309206903@gmail.com>
->
-> I moved the constant to switch.c as I don't think it needs to be exposed
-> outside. Please check that it still works.
->
-> Applied to thunderbolt.git/next, thanks!
