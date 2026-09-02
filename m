@@ -1,105 +1,111 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276403B83FB
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 12:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C42B3BB115
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 12:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788350645; cv=none; b=mWb653V+7vPdVMrKEhHyU/58Lg0xNs/Zri7k6VGSlyb4d6kLzwuEEnQQDR1Psbc8NSC2kd2tseRFORY+Dlz74LCJoFakgW8e27o7uoGqXIbgQHTx7ex/x6w7lVrIVroI1xvvQWzMVYJtFtj+5yKdlUa6FxXl9wOdg+4P3CK3pjI=
+	t=1788350985; cv=none; b=PioYxqmOuiONFej56NlVJFt3bOGfT8bVy/C/WqmlqjXRdldckLLerT7MDYzSQyymY9Y3r7xxhYm0IOaXtgx2gabOs4gWELmtU+0y0OF2P4mGoKFj5rZhEPs85sfNlJUtXUSXm3u5U0kzbX+xbzArIF26GsvKXAJgV+LC06VY2/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788350645; c=relaxed/simple;
-	bh=BGVT6NiiPBGrDzAWTCenC1f6pOP4TmMvoz1BBe+v1UE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZlCROF7qopshPc63/ajqcQpuvdcl1L7dvITRDkeE1yv3eNJQG0qlDl1d7VO//u/jHwWYsYYn5e/9rua1MhcONSbplGblv4EKlDBitdpcdP/PLwzn9vbni9yCpoLc9npI0VflEM/Kk+GU/2YSi1SNASWSu/uIVhyKlPlEnxgETn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-96723c7151eso275136241.2
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 05:03:55 -0700 (PDT)
+	s=arc-20240116; t=1788350985; c=relaxed/simple;
+	bh=GTLCTugw7PjjvVnLCGl/oOTPq/b39jKFstNMsphi4vM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R+X1T+jEPJwrf0Dc83uLaqzww5YJz/43dD4zGxD7fVgSHX8IBZj5uI/cA2mgt1OE+apMZIG57s1PeQW2zekvkZCenjwnFj9tdNK9vK/6wGC6GoigEKYnxFEF7VxodSy+Z9SxIuM2ZdPUATSGyMxW9WwmYwtuu4OXgbuBHwfH1Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Fx9WXIjc; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Fx9WXIjc"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f96c5b722so704788f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 05:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1788350977; x=1788955777; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cpv4ZZhQaX1kdYbkUZt5Cm50+G2KZgBu15PDYo6wGO0=;
+        b=Fx9WXIjc9tFoB+puGS7uNB+7hiVoiTnw/bXD8PoBgNROG/eDIV0ogbpD7WkdmfIoph
+         eyaCG1UYCyuu/DFeMW46YqPg1Jk1/duzRSRsBJW877JWSksGvz3ze01zhJyoW3pHla2K
+         ffHleycdGK9KpU+lKApuGpLylXbWuneU+bDHTogu+VESouaUAdnSFHnaBsbBVK3qpSzv
+         SknU520PLpW3QZdIObCmM7DR3pCF9fDxz1yLQR6ok5H8WlgVZz449rmoecS/gdAbtwsQ
+         Gxp5SYGpJZuM7ZmOZx5sRDQkK41Jy+bwr/oJVRJp7IFX8UaXEkGNhaKaDQwrEp/MVyf4
+         zOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788350630; x=1788955430;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=zZuEv2ob4j8Zh+WhkA/MTuPTTESwfEtjHWVWham0Lxc=;
-        b=VvYlZydJig7OeXYHVKSUM5ia3AgChs9DcszVCMEBKJTTRH9NhS7RtjwQEw6/74mUsE
-         ztB+4dhUrgpdqFV0iaAfqdd4iFlqQLpfZdeXztvSxzwYE9/4QMCa/YiftoA4VHISbXkj
-         Gw99QWiesO1Lp6XR5x3crcas4NDjmF3W3vHw19H1nJQGOiuld5ed4FBI+cX3lgFdX4PK
-         o5CPUYyo3i3eo/EkByvQi8/Jux9zELeYFCJ+sqk2H3zKlHbbijI0wfA/75OPqra4W7/s
-         nHvbjWrE3ZqGEQS644X9JdbzYC+TqKRb7gb1sYLGpBCOdBMnS0Cmiz1dypTLpQ+n+50G
-         WWlQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxiAfPzUH2GgCwoeRp2HMgzBBK918zsQslzxdXlaIo25mAjim8ZJcnn/g3knGGjwkdu3xKf4uV4nF4=@vger.kernel.org
-X-Gm-Message-State: AFuF++k33NUBSXbswAHax2MVb3FtX2ueKc2y2IiZG6zMtM9g3zJlRdva
-	oZbDoxZmbnajIv/tCcHE7WLJ2Hk41IRD0Nn+jhHmCMUWRzAVx09hviGp2Y5lfBwf
-X-Gm-Gg: AYBFou3UNogXloojvqANz2fqSjGR/MPaowZ/61Q6VQhadmf4jfokoNsIMoiw9tDMPUK
-	UFM2btWh+7FSdMqNeXK/g0gaywQvmR/RFHtppJM22n+j2E7rAKTGFzqPm+g0TIKoreTKSU8cRcS
-	dAqmLxjlQ+fdYfceiv5KSerjX2bxBPFq5vRVzz1FeytanwEcBeIlavaxZN0Z0PS6d8lZBcOy9O8
-	h5F1+RsdNhxOGQbjgaIR7JLXctFx5F7mB5nPSVHm7XddhIF+xj6UjqMnUAKKT1UPw5z/IkdneWs
-	mh4p/3OW5XcUwrcjsa+2+CqADrtPYC5YTZcBVwiEfpOgWs3XRPeJXdYKCe5iwLlbV1ATnfgbRr/
-	DZyTnyoM3V1MzcXImgOvHpjDasTlMO0NC+73fO0PKPHgYb1nuKBuKsBYxyp9JZLh+JTix1bsXEz
-	iSctdhm8JhVTNbOEInoCNUUYNhCRrTb3gxj+cUTY3m0wZbkkYrIoq2x9G1aGkiUFYnvH1x+ItLA
-	QHhW8Mjrb3Q4I+dsSCqbOQ0rv0ZFq6uZvPyUGBB
-X-Received: by 2002:a05:6102:4495:b0:785:eb33:8794 with SMTP id ada2fe7eead31-78a1f352f3bmr1371377137.10.1788350629921;
-        Wed, 02 Sep 2026 05:03:49 -0700 (PDT)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a1a4b1143sm1879308137.7.2026.09.02.05.03.48
-        for <linux-usb@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1788350977; x=1788955777;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cpv4ZZhQaX1kdYbkUZt5Cm50+G2KZgBu15PDYo6wGO0=;
+        b=rquBCg2ol9Ou0pQKASJQl6Y9EPy89mvWBH3zIQ19wAQWHRnmTtYlTxcqnFSKwuC3UK
+         hSRxXR5WCy0ZGFoUXLbkUhZJX6fIIRHqO84FZMB9cOHNme6Tsc31UjtmONP1JuxQd0YG
+         HXefRFnVLV95e0Alqh5lvoKnFVSIbklSTo8Vkr0+kSmTAGjZs91uy2VTfF43zASDVSIv
+         Ii1ScoRm6txFIKs9ezEbaZTCp18eqb3fbRdjAp82ilHHbtyXfgv9arRyLjKa+JempY/4
+         eGn0/t30QSfT1Ch4e844QJHtMZrEt1XP+dIXPohAFqbEoJFbGxfWtfLVlPSiyz6hHxXL
+         5waw==
+X-Forwarded-Encrypted: i=1; AKwUvBwcxMk2M5Ba3MjTPXJmj3A8G77yKyExs0gS4tgwcedGD1qaetqx60MLeWZfyTWJzNyqKLRqdWOhtN0=@vger.kernel.org
+X-Gm-Message-State: AFuF++k8H8H7pfI122p70gKayag+774yONBSH8oyUP939N9WMvfvQyeT
+	vZBrpQgZiFiZ3McRdmCLP1+mY/sitUSZBY46/FkyyCegCRLsH3WBCrWp1nQycoOO1hg=
+X-Gm-Gg: AYBFou0RmBgkU2trRmAsxTjRWTzI+WXwwdCk10VHWXlJ7s9nH6S/QHKb5fRR0mTJQny
+	H7IezImpbwE1vQNAu9cmWdI35sSefjAgDTIYAkR1UyVF1Lpmhc+9KwmtrlZ9XE+gdztV6XXWwnN
+	fE5mx++dDTCDdhggu0MdZ8TswxeCgONdcD1Chn4QpMz45gezMsrfEQBSsWMsfWq/7WjnNu4sTH6
+	V7Bq/be5Ic2IweD+ydYuvqrSjyfej9pC2mzxXcbKnPFRTIPhSaWckakIhNC1vbnzsgcHPYVeyro
+	LFEYw+zNWC+DwYyx2wN4h81pqGKPPh7TbUD2el/z8r36zsVSIj2TF3OdcHFG6qsfgM8+d16G4AW
+	1s83g+w6IwXYoAslT6cCLm+AGC40jrcjeOR5Z0RzJEgFbxnBDjz11LPUIn/DvhvLNor/lFHiYFv
+	v+S1HB5Xcz5hO3lIOvNeSGJWsxgyoOlO/JzMz+L2Q1Q1SAPRA5xyIQk33janiXqn4xepBYcWUwg
+	HNj/GWpPn6BpoLrkz+0VBR/SMUCEaiV3dL0jibk
+X-Received: by 2002:a05:6000:61e:b0:484:36c8:ffde with SMTP id ffacd0b85a97d-4847b625aafmr8604788f8f.0.1788350976883;
+        Wed, 02 Sep 2026 05:09:36 -0700 (PDT)
+Received: from ?IPV6:2001:a61:1304:a201:f0d3:bdff:55cd:3f16? ([2001:a61:1304:a201:f0d3:bdff:55cd:3f16])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448e6f604sm6073105f8f.2.2026.09.02.05.09.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2026 05:03:48 -0700 (PDT)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5c675de8e1dso393690e0c.2
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 05:03:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzJqDeYy8qlS/JWM28ef2wesvs6TqA1ZQU53tzce4EwBvSkpN6idNYleb1XjV+q67a1wE+yVGzus48=@vger.kernel.org
-X-Received: by 2002:a05:6102:14a5:b0:784:94dd:5389 with SMTP id
- ada2fe7eead31-78a1f3954bfmr1187932137.13.1788350628203; Wed, 02 Sep 2026
- 05:03:48 -0700 (PDT)
+        Wed, 02 Sep 2026 05:09:36 -0700 (PDT)
+Message-ID: <c79e754b-2ef4-49f2-8bb4-60b36ab9a36d@suse.com>
+Date: Wed, 2 Sep 2026 14:09:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260902-rzg2-sr-boards-v4-0-4a456a422fee@solid-run.com>
-In-Reply-To: <20260902-rzg2-sr-boards-v4-0-4a456a422fee@solid-run.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Sep 2026 14:03:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVZfH5rzN-xFvyfERt=j+c0aF7ZSbAn7XTM=R_u55+3MQ@mail.gmail.com>
-X-Gm-Features: AcwNN1W7aL6kq2Ib0xjLGz4RQRE9m6dme2IHxODeY3IaF54CXwsKAcwLlCow_cY
-Message-ID: <CAMuHMdVZfH5rzN-xFvyfERt=j+c0aF7ZSbAn7XTM=R_u55+3MQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] arm64: dts: renesas: Add various SolidRun RZ/G2
- based boards
-To: Josua Mayer <josua@solid-run.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
-	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [usb?] [input?] KASAN: slab-use-after-free Read in
+ k90_record_led_work
+To: Jeffin Philip <jeffinphilip14@gmail.com>,
+ syzbot+0b8bff5929865345b29e@syzkaller.appspotmail.com
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <6a937393.1d9ded08.62e62.0113.GAE@google.com>
+ <20260831054632.18179-1-jeffinphilip14@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260831054632.18179-1-jeffinphilip14@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Joshua,
+On 31.08.26 07:46, Jeffin Philip wrote:
 
-On Wed, 2 Sept 2026 at 13:50, Josua Mayer <josua@solid-run.com> wrote:
-> Add support for a variety of SolidRun RZ/G2 based SoMs and the
-> HummingBoard IIoT Evaluation board.
+> I believe there is a patch for this already[1], but it has not been merged
+> yet. Was written just as the merge window for v7.3 opened, so might have
+> been the reason for not being merged.
+> 
+> [1]: https://lore.kernel.org/all/20260817072831.139954-1-ccc194101@163.com/
 
-Thanks for your series!
+Looking at this patch the following sequence seems possible:
 
-> Changes in v7:
+CPU A				CPU B
 
-Oops, subject says v4?
-Fortunately b4 is not confused, and does The Right Thing(tm)...
+enter k90_brightness_set()
 
-Gr{oetje,eeting}s,
+if (led->removed) [FALSE]
+				Enter k90_cleanup_backlight()
+				drvdata->backlight->removed = true; [TOO LATE]
+				cancel_work_sync(&drvdata->backlight->work); [NOP]
+schedule_work(&led->work); [THIS IS BAD]
 
-                        Geert
+Just cancelling the work is not enough.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+	Regards
+		Oliver
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
