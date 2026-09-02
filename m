@@ -1,92 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94572449B1A
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 12:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B0549CF5C
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 13:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788353912; cv=none; b=kq1JwGKLfc9VKvfZNF+EwGx+/QLk4UsLC2MCrvi29X+Z5lmArgzGaFMwaNC6DX81AobEgYAg/wJ2O5L0iLVvzADaa0+mrPNlCnLY69AvEuRA2+SNQJ7lZLBAqAul4MOpMOfDFuNodPeeZzRvAfpkFJ2uJcLJpSkZuUFwIR8j2lo=
+	t=1788355817; cv=none; b=jRus9tK3oQ5e0ND4Ihi+Q2d8/y41RczJjKkQKLnflInnuzN5U/iNil557d19ALZ6K1ZBVuMuCTNLl8X8xp4A0f8WUE/SP5iresFg+SFRaqnEg8ymK8sg6FLiFiYXuQcue/gUYL0IS0xa4A8L0WaNiI4qdMYph2H5jQ0CT5SZJvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788353912; c=relaxed/simple;
-	bh=umVqKIohmkT4iOGNo/tKDzgfluTd945fREkvHl4zJnM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r6C5y4WX0pGsxVF5zvqX3rFeKOwFZ0TkeBl5qvM1CuMqRYfq8CXB/b1be3XE+Lr7BJuPPRKVCWFYy/qQWyQ6mO164ipiwKl/a8TEbCADFkW1rcNaJMed+UzhWxP+zVtHhtgM/lWrVi9gj6eJ2SAoW4vRcYHbg04ML6StI/ttJAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAvxDkqU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788355817; c=relaxed/simple;
+	bh=yRS3casAbW0vSRVgD98T3pImHrSvP0nYncWKSDB2S/s=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BfO0dU0enE5SlpQpPFCpoffcb8SwHlC96VGWKUM1pvydw2pXDHyshe8q1A0dEbk7wDfmlpjj+F+28aRbJc8yptCYMmc66CLFmVyhXnPJS93Rq9LFVzejEA+FFOOg3YCKg34ZlSNguGkbkQ0r5ic1RCqeNmEGH7iHLfcXWIxZuX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APdJeIi4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAvxDkqU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638961F0155B
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 12:58:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APdJeIi4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB901F00AC4
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 13:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788353911;
-	bh=Wlml6ZbJTx2/0zF5rhvA3HzrKGIPZmpTno210GiX85k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=mAvxDkqUROIthEftdJ9QkLt2PDX9PYliG+1ivbgsDCRZTgzVdE2hOuwvRfmttzifv
-	 NKCMXQ8blBXMBz+VXKnM8wS36rQ6qbHBt/wuSGGtdegpl5680Cs8Eu3vbHw5QEJLOV
-	 tIQFQOU1qp1t+/IyMMqivfUg6SautXeJ+fvK++Y6+iCVq7WU1yOKakNgwd3IMGdRUX
-	 knWKEtMRMsfJ6geWCfjHOZRWeSdjed54k2rXEbNfLsThcGzfmGbZY49qoAZpD98ZAO
-	 +tpAyIgqjNYVTVNKIbuIATlF5vm3OulJr2SJDY4a9oYBZ6N589WT541yva9lArLdQo
-	 MUjn0xgbOwa9A==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so1313959e87.1
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 05:58:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzHdBJj5v9Ty5+iTqbEUbG+3oWVCZA0BW6adBdrf/LmxhWb4b4dZ/EQXqET6OwM3kE9b9ZNLjAUeC4=@vger.kernel.org
-X-Gm-Message-State: AFuF++luB3kBO1rSXQARdnOK3Fp4kOMsVrVY+QNKcCECv3cIxQu8zwL6
-	X2p4UQS6+8NnVWwpuYio+Wq5jMmVsPI6JYVSnDdVhL0Png7BiYfMfO/WEK7mclSUou1iSrwI3DB
-	Y3bvNHOKneRp43p3c//pi5VIT8q3YeLs=
-X-Received: by 2002:a05:6512:ac6:b0:5b2:c068:3530 with SMTP id
- 2adb3069b0e04-5b60c30a181mr881695e87.13.1788353910042; Wed, 02 Sep 2026
- 05:58:30 -0700 (PDT)
+	s=k20260515; t=1788355815;
+	bh=yRS3casAbW0vSRVgD98T3pImHrSvP0nYncWKSDB2S/s=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=APdJeIi4/8ufueooABdGnx45rcwThUhJU0hv/NmfDCpMnZQqIbB23qODVwcmVv5LP
+	 lMIouughgOuB33szKdFJcqY3jZcZEyhRBNYd2QuVQm+rFhZDmVgkfMKcFW+MgEFc6J
+	 A5wD7OoRg3Pf1cqIxypyYnoUUMJZGNyVnk3ohHVHt91LMd8RqrVCWqqYlb6E0uHtYg
+	 iBSKZIply53lw+MoOf5qNoAv/ROsMPW00tKJVkK3XJ1FW/GKE8uTh0S4w1zmjhI5mi
+	 SQYMB1AdEbnoRmoiZKmVUWLO8N+ZZiYxwHj7Dl3QHLtmN3+ajhI330alxC5SjDc/XS
+	 DSDhMLpWC4D0w==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b0231a3e86so909345e87.0
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 06:30:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBx6JlvBScCjcujfLT+cUTtDt1Zwm6KsmjMEn/h1+Po3mp3AtAJt6oGP8okLfv7YpayhcRRl6UGI51s=@vger.kernel.org
+X-Gm-Message-State: AFuF++kIVqPbEO/S22fheUKAu+B7HvsjfD1R6skGwPk/JdD8PcxxJNBA
+	AEQ6slOKSzPP8u2vPiKggYWFQ+tXSpXHkMXuyN5VNaIZJuPVI6WC2mg6fR+sAXFRLC4QBfozkQe
+	hPxIXCROMLZ6D518WQniY8Y0Sxyvqk0vOB701OzJnAg==
+X-Received: by 2002:a05:6512:108b:b0:5b4:59a3:c48 with SMTP id
+ 2adb3069b0e04-5b60853c292mr1813677e87.12.1788355814475; Wed, 02 Sep 2026
+ 06:30:14 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 2 Sep 2026 06:30:12 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 2 Sep 2026 06:30:12 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260902045938.184221-3-shengchao.guo@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260902-rzg2-sr-boards-v4-0-4a456a422fee@solid-run.com> <20260902-rzg2-sr-boards-v4-2-4a456a422fee@solid-run.com>
-In-Reply-To: <20260902-rzg2-sr-boards-v4-2-4a456a422fee@solid-run.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 2 Sep 2026 14:58:15 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=fGonMHd0jitwAE8+w=JYPX_6YFW6CzS9kRZLbx3045Q@mail.gmail.com>
-X-Gm-Features: AcwNN1UCFhm1aHVlm-BJzhSf8J2NeZK15MsuFS_3j_uqyeamxc-SEKtsEnY_q0U
-Message-ID: <CAD++jL=fGonMHd0jitwAE8+w=JYPX_6YFW6CzS9kRZLbx3045Q@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Allow
- input-enable pinconf
-To: Josua Mayer <josua@solid-run.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Jon Nettleton <jon@solid-run.com>, 
-	Mikhail Anikin <mikhail.anikin@solid-run.com>, Yazan Shhady <yazan.shhady@solid-run.com>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
+References: <20260902045938.184221-1-shengchao.guo@oss.qualcomm.com> <20260902045938.184221-3-shengchao.guo@oss.qualcomm.com>
+Date: Wed, 2 Sep 2026 06:30:12 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Meu2KzFTWVowGuYJJODHDj+SNX8Gaq4u+PJPA1H9NFXwg@mail.gmail.com>
+X-Gm-Features: AcwNN1UO3iDvmidkaTt_xVD222iLcrDDJNnBg-StcuA-7XrgDPpMDG_StTvhFPE
+Message-ID: <CAMRc=Meu2KzFTWVowGuYJJODHDj+SNX8Gaq4u+PJPA1H9NFXwg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] usb: typec: Add onsemi FUSB15201 driver
+To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Joshua,
-
-thanks for your patch!
-
-On Wed, Sep 2, 2026 at 1:50=E2=80=AFPM Josua Mayer <josua@solid-run.com> wr=
-ote:
-
-> The list of allowed pinconf properties already includes input-enable,
-> but has omitted input-disable.
+On Wed, 2 Sep 2026 06:59:38 +0200, Shawn Guo
+<shengchao.guo@oss.qualcomm.com> said:
+> The FUSB15201 is a dual-port USB Type-C and Power Delivery controller
+> which runs the Type-C state machine and the PD policy engine on an
+> integrated microcontroller. The host only observes the resulting state
+> and may ask for role swaps, so this is a plain Type-C class driver
+> rather than a TCPC driven by the Type-C Port Manager.
 >
-> Both refer to the same hardware property, setting and clearing input-enab=
-le.
+> Register a Type-C port for each connector described in firmware, report
+> attach and detach, orientation, power and data roles and the PD
+> capability of the partner, and drive the USB role switch of the attached
+> USB controller so that OTG role switching works. Data and power role
+> swaps requested through sysfs are forwarded to the controller, which
+> performs them asynchronously and reports the outcome as a port status
+> interrupt.
 >
-> Add input-disable to the list.
+> The controller exposes a per-port VBUS ADC reading, but the Type-C class
+> has no VBUS attribute and nothing needs the value, so it is not read.
+> PD messages, PDOs and alternate modes are not exposed by the hardware at
+> all. The chip-wide MASTER_RESET command would drop both ports at once
+> and has no caller, so it is left alone as well.
 >
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
-(...)
-> +        input-disable: true
+> Assisted-by: LLM
+> Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+> ---
 
-The Subject of this patch is  "Allow input-enable pinconf".
-
-But what you are doing is allowing input-disable.
-
-With the subject fixed:
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Yours,
-Linus Walleij
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
