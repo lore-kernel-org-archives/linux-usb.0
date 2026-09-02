@@ -1,215 +1,117 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD7C3E6DF7
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 22:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788386709; cv=pass; b=DHtDhEyKlSkatshI9wf3+W3Q8E6jDzuCbrY42qoc7S2eqKQ99enocJcWL/y77+cDciIgDZGpN6aqgkbDrLCiqHAGLYKyYgYMOdMvEW9zBca4kNxf7q1WGP8gV0/bNhqzDzo7TXvUXphzUTjpdzNSE4cvJ66VPcvPQB6lndPt1fA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788386709; c=relaxed/simple;
-	bh=vymcWxDasHrJLG/O7a7gPtgz4cGfHkYuhD0/Qct86Rk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JGHCKVmO6IwQZ3rqajL3ZQbHxVCuOZ6/Imes2yQW3ZvF9kF7y5j3SaY3DNymY/D6PG9imOdvsEP+XuE1FF6lqXyhdqrxHFCXmusIRGqgcwMDqBmjB18it1cONms4Xp3B/mly9qcxueUdbYK/gSgEC0QL2U7g+Y+JYH9SQXghWnw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cLq4jS3D; arc=pass smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B6F44C4FF;
+	Wed,  2 Sep 2026 23:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788392893; cv=none; b=NyJ3zEmxspboRF9nOMLvV7P3rJbTj+LDrmgbsUbwnjuUDTVpiR0Uf1oPAbgl/AVY4ubb01U3YS9/G6gST/9T1grKKItkFtuUUGgFvRkLiKPJrjWx1Nlwlau+3Rk6Ya1P3+vJJQ3p1CWP70XkPHivwW5I8bKe/Co4XscQoGD+w1k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788392893; c=relaxed/simple;
+	bh=Eo7ra9z2bA0aaBishdVE7k1dujTMoQjHCSi05hRbaG0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cJFeSLkbUy2N2+zmkKpzyrWS+N21iC2+ctZsubOnQK8sfscousXUdsdwfIlu0tuOdU/Fwa1BbMEzIV9dh6WBfdYJrk4t8qHzYwj/uZd85txaM4XG0EpsrAn4f/49h8DfWOs5c9iDC7OKd+4TE1COd3flJ+tD/G8z8iysWa03WA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8zXy9+/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cLq4jS3D"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso1985437a91.3
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 15:05:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788386705; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S/405l7M5Q6ipplAFIVuQLXrR5g2/Sa7Fdp2IXMRzcsD3oMyuBqOzBXAZtvTAWg9Mk
-         uxYB/MQNSf8qJxHRErFtVe2U32YGWZSk8R5om9DSmYpWu3SAz6cJkuoNO8hcsgpvljZf
-         rIMF8uspPF2jybe8Ed4nsG00d1TGVGG6Wpv55sFKBob3q2dfaxaMUvrnkp/1nbEaix1+
-         ugGJag5xw3d1mASya5mNMkMm0BVt4s2I9746OnyBVphuV9W7w3WUT8ILxLnR3EGG/qVg
-         Caor383aFcpyEW1xQAC3xLy8oM9LlyJy2R12ir9SJhNo84MEUXfe+WOf2/SUQMam5mAq
-         WAqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=lve7n9fJPhLbV3LbTQszuhovnEe63wbSuLmE8uBG5Zs=;
-        fh=ZqLUodXBe5d3K1ECFDskmLjsdFLKIdzl2actgZn48KE=;
-        b=dhexZ/q1KATRQYgLqw0FoBg8zEk4ueYT+2+xVogzjNgwuRuh+2jJPfqaVdMb6sfZAm
-         O/yjtW5W6OYlNAa0+/iSB+ZEUDz9d4CkGNE60DgamVtH2hvP4vTBuImLAAu5h8vfAZzr
-         /E2Pjh4E1kCLYMUWRip51T+C+ZbEC/HcFsIC3W/AmLXE99JYQXU0gbcWtBvpim2TtadM
-         VCuzXZYwQzzzWZOF7baO+Kb9QBXglKwHEiOLQ/l5QNj8+JQyuQ1SYoeYhPpk4DhTO91w
-         k5dxsptQjltylWndjb3vJA/8wcaiPjcTv4zIkCtIk12wbSCpQUmeYXLeiQI9jc7FrPh4
-         U9Fg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788386705; x=1788991505; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lve7n9fJPhLbV3LbTQszuhovnEe63wbSuLmE8uBG5Zs=;
-        b=cLq4jS3DackRSRXf3Ad1J2bHCh7mPWFHfn6pJJ1YABozvEdObaWlHrvF8anQiO7S+I
-         4s8PebVrIfx4rK5vG4u/8+BSRQ2Du6VrW40+4Hf0AnGIA6+/8LPf+In3HNol4EOQWRsD
-         ByECQecteZ/jErCkuSvZ+w095MmzWjH1D19BrRr3ucq2/7u+y6zRKdhLcp7tAxuFTmM/
-         ny0MHQkR+5i1icWaaOuM+MsSLfaZRu1JdH1Ln/WBsMLK2iZRcV/Px6WXhsTzbr1RMzPL
-         OcesqeAtnlTCpYUsnyDsTlIk5wzvDgj53rQRmqdFaNb/wqqZHC/OD3LmbzM95LpBDqiu
-         INkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788386705; x=1788991505;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=lve7n9fJPhLbV3LbTQszuhovnEe63wbSuLmE8uBG5Zs=;
-        b=VETWM1kevFK6fW/0MQtXaWrWKTZEfSbCf2uFpeTvdKJU9DwQlzEaQng+9DmEp/7+jK
-         VndJ5TU4S9NWO74ng2OJzc7xlSKnXA2qH5M3f2jINkqJS0p7cqwCxi4bV9nWSQZGYCns
-         6b1oyGdqSpbaAwjzD6MyiS9ZtBmAux54xWHPvWvfH81O6Sal5h3myTKGFpRw014zshiR
-         Epk1AGM2uDg4cTmvy22X8l+/UFBiVfQrW0x6yL8iJaaEx0neCT5CVVtg7+lo3zu9eSm0
-         Az3gSt0lH1I5XgcOtOOQSJb5w+27/BVA8XF5ix6yMtQhOqUOw4zms1F/+WN6AsgBYZ6t
-         0/KQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwHMMcDYCE1eCXXMh5wGZ2h59YWhyalmVynvgrxg3jIxeh0oo03FWgI/2ZkQ3rNzFnYJ9filG5CE/Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++mrH7N0mYlL33Uo4UVK0s54jjH8iHIxXQ/IbmPC6rsv4N8UsNSp
-	mGd/1cuCXlvjIbO8Lv5weGAOkoQUcFsVSNIUjTaP+qfS1hSWXDp4PRG8rrZ3L5eZm7tUhJHRC/d
-	xAIitO000lw59qqA2HGGCdBvWryz/o/UdHaQT/44=
-X-Gm-Gg: AYBFou3y1ADR35ADVdxzT7eAQKbgaklwPKC2bdhJMCPoIVta1lSGkYPJknJJ8Qos8TX
-	bPmhtD9ZnyMqKJc2Ic5z44oNH1fmts8l9Yie+g0uX6ffKETtyLG0sjo++YcUHjWKUnpu/ETD1Q2
-	Ff0Kz1PqsA8Q2zzCBfeNiMLL7bEaYMLCLaMrRRdk/VuwC2aEdevmnbK2NQP+9BopJoEFWBTyhRh
-	VQmWkzNFUKz3s+5be5/7T2Y4dFFjUABfkKuBBYXd9dpiPKvnq9TyJ+D8KqqG8c3JlP0FEyxeR5F
-	PuzvDQeGeugz+wjSo3b2gyqG8yDI0DC0WDQwo2tjKxcM7Q==
-X-Received: by 2002:a17:90b:3845:b0:38e:57a3:f218 with SMTP id
- 98e67ed59e1d1-39aee16ff3amr9495040a91.13.1788386704413; Wed, 02 Sep 2026
- 15:05:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8zXy9+/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6964A1F000E9;
+	Wed,  2 Sep 2026 23:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788392886;
+	bh=i/GwMT4U3xnVi5MO4i6/tHZeK2B907WFmo17+jtp7Dk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=g8zXy9+/OBdihwlKGzIj2liMZObR7ovzsPYsQd9EJR95DmUaR3g3TmWISSViGEonR
+	 nPids4BANuHG43MrLlfzdcjyHzn1sVC9PeImw03/2AYDPaLuMccoN0sJVXeDE3RAhQ
+	 EOVZ93HohilCISs9J4IEQ8CvC54h+/W60eGeAx2YRDuO2KrCTAy7u7z55VmxylvUjT
+	 aDJ3WJWnIGlwMb8lQvq+OwZ3SvUn758eK3N0i5OtpGUTcKJPuQ3LoDZk8sOyjn+jhp
+	 AikEcjw1lGVjrxASAGV+49aXE5N0sGdwZdzCpLsVDQDkN4iRDb+njK+eX3Ua/HMyCD
+	 8gM+F6Fxoga+Q==
+Message-ID: <d2d31879-b01f-4af3-836c-d0372f90c26d@kernel.org>
+Date: Thu, 3 Sep 2026 08:48:03 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Fredrik <whatbadgerseat@gmail.com>
-Date: Thu, 3 Sep 2026 00:04:53 +0200
-X-Gm-Features: AcwNN1VCdBhX6I9oZwhX6_beYo-1Kt3BLOCDqjj7Q1m7SgJrfLKqF69NYApB2-4
-Message-ID: <CAHqR8QJ=3RbOaaPcZxFr31VbsnVZ_u7Q37aiDs1R379w_gLvqA@mail.gmail.com>
-Subject: usb-ljca: bridge dead after hibernation (S4) resume, no software recovery
-To: linux-media@vger.kernel.org, linux-usb@vger.kernel.org
-Cc: hansg@kernel.org, sakari.ailus@linux.intel.com, bingbu.cao@intel.com, 
-	wentong.wu@intel.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 36/37] ata: libata: use 16-bits defined sense codes
+To: Niklas Cassel <cassel@kernel.org>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20260831020451.585944-1-dlemoal@kernel.org>
+ <20260831020451.585944-37-dlemoal@kernel.org> <apgIfRr9MjNov6FV@ryzen>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <apgIfRr9MjNov6FV@ryzen>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hardware:  Dell XPS 13 Plus 9315 (DMI "XPS 9315", board 0X696X), BIOS 1.39.0
-Kernel:    7.1.9 (Arch, ~current mainline)
-Chain:     USB LJCA bridge (usb_ljca, 8086:0b63, USB 3-4 on xHCI 0000:00:14.0)
-             -> ljca-gpio / ljca-i2c / ljca-spi
-             -> vsc-tp (SPI, spi-INTC1094:00 / ACPI INTC1094)  [reset
-GPIO from ljca-gpio]
-             -> mei_vsc -> ivsc_csi / ivsc_ace
-             -> ipu_bridge -> intel_ipu6 / intel_ipu6_isys
-             -> ov01a10 (I2C, OVTI01A0:00)
+On 9/2/26 20:29, Niklas Cassel wrote:
+>> +		if (ata_scsi_sense_is_valid(tf.lbah, sense_code)) {
+>>  			/* Set sense without also setting scsicmd->result */
+>> -			scsi_build_sense_buffer(dev->flags & ATA_DFLAG_D_SENSE,
+>> -						cmd->sense_buffer, tf.lbah,
+>> -						tf.lbam, tf.lbal);
+>> +			scsi_set_sense_buffer(dev->flags & ATA_DFLAG_D_SENSE,
+>> +					      cmd->sense_buffer, tf.lbah,
+>> +					      sense_code);
+> 
+> However, here you call scsi_set_sense_buffer() which is just an inline
+> function that calls:
+> scsi_build_sense_buffer(desc, buf, key, scsi_sense_code_asc(code),
+> 			scsi_sense_code_ascq(code));
+> 
+> which will call scsi_sense_code_asc() and scsi_sense_code_ascq() to
+> split sense_code to asc and ascq again.
 
-Summary
--------
-At every cold boot the camera enumerates and works:
+Yes. I considered keeping the original call to scsi_build_sense_buffer() but
+went with using scsi_set_sense_buffer() to be consistent with the fact that we
+have the 16-bits sense_code and to try to stick with using it as much as we can.
+I do understand that this is a bit silly to combined and split again the
+asc/ascq, but this is all done only if there is a sense, meaning there was an
+error and so things went through EH already and thus have been slow anyway. So I
+do not see this as a perf problem at all and prefer to priviledge
+readability/code simplicity.
 
-  intel-ipu6 0000:00:05.0: Found supported sensor OVTI01A0:00
-  intel-ipu6 0000:00:05.0: Connected 1 cameras
-  media graph: ov01a10 17-0036 -> Intel IVSC CSI -> Intel IPU6 CSI2 0
--> ISYS Capture
+> It seems that you series has decided to not kill scsi_build_sense_buffer().
+> 
+> As long as scsi_build_sense_buffer() exists, and since we already have asc
+> and ascq stored in separate variables, I think we should let this code
+> continue calling scsi_build_sense_buffer().
+> 
+> Especially since, even after this series, we still will have a call to
+> scsi_build_sense_buffer() in libata-sata.c:ata_eh_get_ncq_success_sense().
+> 
+> I think either this function and ata_eh_get_ncq_success_sense() should both
+> call scsi_build_sense_buffer(), or both should call scsi_set_sense_buffer().
+> 
+> Is there a reason why you don't convert all scsi_build_sense_buffer() users
+> to scsi_set_sense_buffer() and drop scsi_build_sense_buffer() ?
 
-After resume from hibernation (S4) the camera is gone and stays gone until a
-full power cycle. `cam -l` reports no cameras; the media graph has lost both
-the sensor and the IVSC entities. Plain s2idle suspend/resume is completely
-unaffected (many clean cycles) -- there LJCA keeps power.
+The target code (and ATA code) fill the sense buffer from asc and ascq obtained
+directly from command results, not from a sense code. So I kept that function to
+avoid doing the combine/split asc/ascq everywhere. This is not great: blame the
+scsi specs that define asc/ascq as separate fields while the sense codes are
+essentially defined as a 16-bits value combining both :)
 
-What resume looks like
-----------------------
-  usb usb1: root hub lost power or was reset
-  usb usb2: root hub lost power or was reset
-  usb usb3: root hub lost power or was reset
-  usb usb4: root hub lost power or was reset
-  gpio_ljca usb_ljca.ljca-gpio.0: set value failed offset: 1 val: 0
-ret: -19  (-ENODEV)
-  vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
-       (-ETIMEDOUT)
-  gpio_ljca usb_ljca.ljca-gpio.0: set value failed offset: 1 val: 1 ret: -19
-  gpio_ljca usb_ljca.ljca-gpio.0: set value failed offset: 0 val: 0 ret: -19
-  gpio_ljca usb_ljca.ljca-gpio.0: set value failed offset: 0 val: 1 ret: -19
-  gpio_ljca usb_ljca.ljca-gpio.0: set value failed offset: 1 val: 1 ret: -19
-  ivsc_csi intel_vsc-...: mei-csi probed without device fwnode!
+> You could even keep the same function name (scsi_build_sense_buffer()) and
+> just have it take an u16 sense_code instead of u8 asc + u8 ascq?
 
-Note there is NO usb_ljca re-probe here. USB persist keeps the device bound
-across the root-hub power loss, so usb_ljca is never re-initialised -- but the
-LJCA microcontroller has silently lost its state, so every subsequent command
-over it fails -ENODEV. vsc-tp's reset/wake GPIO is provided by that gpiochip,
-so the VSC firmware handshake times out and the whole camera chain below it
-never comes back.
+Yeah, I wanted to, but that would mean having a single gigantic patch that
+change the function use is all scsi and ata code in one go. I did not want to do
+that to facilitate review. But if that's the preferred path, I will do that.
 
-If you force a re-probe (rmmod/modprobe usb_ljca, or unbind/bind the USB
-interface), the MCU proves unresponsive at the protocol level:
+> (Doing a git grep scsi_build_sense_buffer shows a few users even after this
+> series.)
 
-  ljca 3-4:1.0: enumerate GPIO error
-  ljca 3-4:1.0: probe with driver ljca failed with error -110
+Yes, I can completely drop it if everyone is OK with a few unnecessary
+combine/split asc/ascq in some places.
 
-No software recovery
---------------------
-All of the following were tried after a broken resume. Every one leaves the
-camera dead:
-
-  - echo 0 > /sys/power/pm_async before hibernating (the workaround from
-    intel/ivsc-driver#32) -- verified on a clean boot with a working camera;
-    makes no difference
-
-  - echo 0 > /sys/bus/usb/devices/3-4/power/persist before hibernating.
-    This one behaves differently and is worth a close look. The device is now
-    properly disconnected on resume:
-
-      usb 3-4: USB disconnect, device number 3
-
-    and it *partially* re-enumerates. Afterwards:
-
-      - ljca-gpio.0, ljca-i2c.0 and ljca-i2c.1 aux devices are back
-      - ljca-spi.0 is NOT recreated
-      - the 3-4:1.0 interface shows driver=none (ljca not bound)
-      - ov01a10 re-binds, and the media graph looks complete again
-        (ov01a10 17-0036 -> Intel IVSC CSI -> Intel IPU6 CSI2 0)
-      - vsc-tp is left unbound (no SPI device to bind to)
-      - `cam -l` therefore *lists* the camera, but any capture blocks
-        indefinitely, and lsusb hangs on the device
-
-    So with persist enabled the failure is silent-but-honest (no camera), and
-    with it disabled the re-enumeration is incomplete in a way that leaves a
-    camera advertised but unusable. Either way the SPI path / vsc-tp never
-    comes back.
-  - rmmod + modprobe the whole stack (mei_vsc_hw mei_vsc ivsc_csi ivsc_ace
-    ov01a10 ipu_bridge intel_ipu6 intel_ipu6_isys), with and without usb_ljca
-  - USBDEVFS_RESET ioctl on the LJCA device (8086:0b63)
-  - unbind/bind the LJCA USB interface via /sys/bus/usb/drivers/usb
-  - unbind/bind the entire xHCI controller 0000:00:14.0 via
-    /sys/bus/pci/drivers/xhci_hcd
-
-Only reboot / poweroff brings the LJCA MCU back. The bridge firmware appears
-not to survive the S4 power transition, and nothing in the driver
-re-initialises or re-downloads it on resume.
-
-Questions for maintainers
--------------------------
-  - Should usb-ljca implement a resume handler that re-initialises the bridge
-    (or at least detects the dead MCU and forces a re-enumeration) rather than
-    relying on USB persist keeping a device that is no longer functional?
-  - Is USB persist even correct for this device across S4, given the MCU loses
-    state? (See the persist=0 experiment above -- it does force a
-    re-enumeration, but an incomplete one.) Is there a reset (ACPI, GPIO,
-    or port power cycle) that should be applied?
-  - Independently: ipu_bridge builds the CSI-2 fwnode graph once at intel_ipu6
-    probe and does not reconstruct it when the stack re-probes, so even if
-    LJCA recovered, ivsc_csi would come back "without device fwnode".
-    Should that graph setup be re-runnable?
-
-Happy to test patches and collect more (usb-ljca / mei dynamic debug,
-ftrace of the resume path, lsusb -v before and after, etc.).
-
-Prior reports I found while investigating, for reference:
-
-  - https://github.com/intel/ivsc-driver/issues/32 -- "i2c_ljca prevents
-    resume-from hibernate". Different symptom (whole machine freezes on
-    resume), still open, and that repo was archived in Nov 2024. Its
-    pm_async=0 workaround does not help the case above.
-  - https://bbs.archlinux.org/viewtopic.php?id=277462&p=4 -- Dell XPS 13
-    Plus 9320, same hardware family, same "camera fine, hibernate kills it,
-    s2idle fine" pattern. Never root-caused.
-
-I could not find this specific failure reported upstream; apologies if I
-missed an existing thread.
-
-Thanks, Fredrik
+-- 
+Damien Le Moal
+Western Digital Research
