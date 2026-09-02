@@ -1,204 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261193EDAA2;
-	Wed,  2 Sep 2026 08:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1273D3EF672;
+	Wed,  2 Sep 2026 08:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788338577; cv=none; b=XwtgW/QUjscpKRYOcEqRyD4PtbGCv5Zlm0d55S1VtfQi1PnAA4F0ehm3Sre78JN12hCXMhHTH2HebyIqHQVK05+zx3/6w1wN/HR9oPIDTUfnJQy0+U521kiwv8Fezxzg0w/faPbEJKv3nsrngV2iBOZjginM+etqxhlVXvuej8A=
+	t=1788338654; cv=none; b=LLfBNW63I+Xtso/UC8t+CfGYHX1s7167fxB5rqa8jlPHQE9MYPlGDTHaesijuSe0W9NDIuyvW1oNpmKliQZALh7zxMbcliDnsHQjYgZI65RSly0XjrFEH/xFiluncxhz5xThAWPYeF3Gy3uQ/rEa1v1QQlUCkg7F2f0KjBdqT5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788338577; c=relaxed/simple;
-	bh=IjIKHMccm8GrBjALwt5MmYqDVrJ1pabKzJPTt35AWBY=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cW48yka859zuzjuRLY8RPT6GwZPDdBY2iYcrfsriSw/7LjkbX8qe/zljAJPndd1y+7hJXRQJAbDBEX14JhrM3tVUFFQJ9yVVFBU/g49dIyaMn+oBAyAvMY5mB2oE6MyaXDDi1XAHg7MBppPJCxl7Bp7BE/ilb5LRqGAjhWhxOTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmHgYsen; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788338654; c=relaxed/simple;
+	bh=lCoBEMlff5Auz57YxDh9JBNOSydIaKH8TZ4hRCNSuP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cAE2kvqeJkReqtWPPXzSYGjt2tOPoh4a4Zb11+YvhlZ4jUGSxfoDqEmDyQefxxb2myUJmuKNQJ/4XI3EhWMZ70wCBobJF5opaiFP+KkVNZ2vxp7D3CVsw6wvoeQN99ckDgrVGvIjR0J/I+SWn2omlxLxs/tIEA72xCQGnAv7+YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rY9vv3wq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmHgYsen"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450581F00A3A;
-	Wed,  2 Sep 2026 08:42:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788338572;
-	bh=kuzZ14B+FDuCbocvfoHL0MpjXRZgZHpI8//4nffdUFs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=WmHgYsenldr0VOyDiE1eOikyxudRKJbTMm58pAhs2D77krpMpZqdZiFoFXjk0/LX1
-	 CT+x0tEGNQawPahcmFpn8RmqMZqSN5cgmBBuEcngQxCTNZJME3KTds5p0ZNqU9NFrW
-	 xlOH566QnkRmDsRe5WEGF1ec4NRz/rMYzYVaMOvGMBFOqHFlhOPSjFldRAlit/Vjsc
-	 JDU61f2q9lxdMwCjiWWBWbvy/XRkIdWiZXdQvAHCHrLxWPg21ZdNmSqRD8wsjgZFYr
-	 zUU9En13dQXt8SFpU/jtzsO/5p30qbNRiZJ25FRXn/sanvsSYKp+k39kxq2BHx9t5+
-	 tNsuJCYzxaZJA==
-Subject:
- Re: usb: atm: cxacru: fix NULL pointer dereference on uninitialized atm_dev
-From: netdev-bot+sashiko@kernel.org
-To: syzbot@kernel.org
-Cc: syzkaller-bugs@googlegroups.com, jie.wang@intel.com, 3chas3@gmail.com,
- accessrunner-general@lists.sourceforge.net, gregkh@linuxfoundation.org,
- linux-atm-general@lists.sourceforge.net, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot@lists.linux.dev,
- kuba@kernel.org
-Date: Wed, 02 Sep 2026 08:42:51 +0000
-Message-ID: <178833857175.3394541.4513055242648047225@kernel.org>
-In-Reply-To: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
-References: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rY9vv3wq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868FA1F00A3A;
+	Wed,  2 Sep 2026 08:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788338651;
+	bh=cytWB5Fly1ChXea/TTHmc4JiYhsXUIjy8yqAYje2/8o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=rY9vv3wqH55REvzMZPR42QWVATOlj/GDHIuth+YZGRpwCUS8bH7Ij8A9tvQAF6bsx
+	 whth2fHQODsqybUAMEj2mGtD7EoCu+OhrBmiRJxPLj+pNOBXmOc0J3Ov6W4gal8az1
+	 XJNFwdCFLmX56sOup9UrfwtifmWF5xsTYgY82TBo=
+Date: Wed, 2 Sep 2026 10:42:26 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: longlong yan <yanlonglong@kylinos.cn>
+Cc: valentina.manea.m@gmail.com, shuah@kernel.org,
+	skhan@linuxfoundation.org, i@zenithal.me, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: usbip: add NULL check after calloc()
+Message-ID: <2026090249-poking-monorail-0d2d@gregkh>
+References: <20260902070932.1440-1-yanlonglong@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902070932.1440-1-yanlonglong@kylinos.cn>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+On Wed, Sep 02, 2026 at 03:09:31PM +0800, longlong yan wrote:
+> Two calloc() calls in the usbip driver lack NULL return checks, leading
+> to potential NULL pointer dereferences on allocation failure:
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 0
+This is in userspace, not in the "driver".
 
-- [High] Incomplete fix: the new `instance->usbatm->atm_dev == NULL`
-  guards in adsl_state_store() (drivers/usb/atm/cxacru.c:350) and…
+And how do you get a failure for calloc() in userspace?
 
---
-
-usb: atm: cxacru: fix NULL pointer dereference on uninitialized atm_dev
-
-The commit adds a NULL test on instance->usbatm->atm_dev at the entry of
-adsl_state_store() and adsl_config_store() in drivers/usb/atm/cxacru.c, so
-that a sysfs write arriving before usbatm_do_heavy_init() has registered the
-ATM device returns -ENODEV instead of dereferencing atm_dev through
-atm_err().
-
-Closes: https://syzkaller.appspot.com/bug?extid=9b195c4f412ea5c4e56a
-Link: https://syzkaller.appspot.com/ai_job?id=b6352d63-d03a-4e87-92a4-b334c3ebcf97
-
-> diff --git a/drivers/usb/atm/cxacru.c b/drivers/usb/atm/cxacru.c
-> index 429ac20a8999f..dee15f7b70bf6 100644
-> --- a/drivers/usb/atm/cxacru.c
-> +++ b/drivers/usb/atm/cxacru.c
-> @@ -347,7 +347,7 @@ static ssize_t adsl_state_store(struct device *dev,
->  		return -EINVAL;
->  	ret = 0;
+> 1. usbipd.c do_standalone_mode(): the allocated `fds` array is
+>    immediately dereferenced in the following for-loop via fds[i].fd
+>    without checking for NULL.
+> 
+> 2. usbip_host_common.c usbip_exported_device_new(): the allocated
+>    `edev` is immediately dereferenced via edev->sudev without checking
+>    for NULL.
+> 
+> Add NULL checks after each calloc(), returning -1 in do_standalone_mode()
+> and using the existing goto err path in usbip_exported_device_new(),
+> consistent with the error handling already present in both functions.
+> 
+> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
+> ---
+>  tools/usb/usbip/libsrc/usbip_host_common.c | 2 ++
+>  tools/usb/usbip/src/usbipd.c               | 4 ++++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
+> index 01599cb2fa7b..8ad367e09e78 100644
+> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
+> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
+> @@ -71,6 +71,8 @@ struct usbip_exported_device *usbip_exported_device_new(
+>  	int i;
 >  
-> -	if (instance == NULL)
-> +	if (instance == NULL || instance->usbatm->atm_dev == NULL)
->  		return -ENODEV;
+>  	edev = calloc(1, sizeof(struct usbip_exported_device));
+> +	if (!edev)
+> +		goto err;
 >  
->  	if (mutex_lock_interruptible(&instance->adsl_state_serialize))
-
-[Severity: High]
-Is this check taken early enough to still be valid at the point where
-atm_dev is actually dereferenced?
-
-The test reads instance->usbatm->atm_dev once at handler entry, but the
-dereference happens later in atm_err(), which expands through atm_printk()
-in drivers/usb/atm/usbatm.h:
-
-  #define atm_printk(level, instance, format, arg...)	\
-	printk(level "ATM dev %d: " format ,		\
-	(instance)->atm_dev->number , ## arg)
-
-Between the check and that dereference the handler sleeps in
-mutex_lock_interruptible(&instance->adsl_state_serialize), then in
-cxacru_cm() (which takes cm_serialize and performs a USB control transfer),
-and on the "restart" path also in msleep(1500).
-
-Meanwhile usbatm_atm_init() in drivers/usb/atm/usbatm.c publishes atm_dev
-before calling atm_start, and clears plus frees it if atm_start fails:
-
-  instance->atm_dev = atm_dev;
-  ...
-  if (instance->driver->atm_start && ((ret = instance->driver->atm_start(instance, atm_dev)) < 0)) {
-	atm_err(instance, "%s: atm_start failed: %d!\n", __func__, ret);
-	goto fail;
-  }
-  ...
- fail:
-	instance->atm_dev = NULL;
-	atm_dev_deregister(atm_dev); /* usbatm_atm_dev_close will eventually be called */
-
-So a non-NULL atm_dev does not mean initialization completed, and the only
-failing leg of cxacru_atm_start() runs before it takes the mutex that
-adsl_state_store() uses:
-
-  ret = cxacru_cm(instance, CM_REQUEST_CARD_GET_MAC_ADDRESS, NULL, 0,
-		  atm_dev->esi, sizeof(atm_dev->esi));
-  if (ret < 0) {
-	atm_err(usbatm_instance, "cxacru_atm_start: CARD_GET_MAC_ADDRESS returned %d\n", ret);
-	return ret;
-  }
-
-  /* start ADSL */
-  mutex_lock(&instance->adsl_state_serialize);
-
-With that ordering, can the exact oops quoted in the commit message still
-happen?  A writer passes the new check while atm_dev is published but
-atm_start has not finished, sleeps in cxacru_cm(), the heavy-init kthread
-takes the fail path above, and the writer then evaluates:
-
-  atm_err(instance->usbatm, "change adsl state:"
-	  " CHIP_ADSL_LINE_STOP returned %d\n", ret);
-
-which is the reported crash site.  The CHIP_ADSL_LINE_START error leg is
-identical.  If the compiler had already loaded the old pointer, is this a
-use-after-free instead, given atm_dev_deregister() drops the last reference?
-
-There is a second window of the same shape in usbatm_usb_disconnect():
-
-  if (instance->atm_dev) {
-	atm_dev_deregister(instance->atm_dev);
-	instance->atm_dev = NULL;
-  }
-
-Would it be more robust to drop the atm_dev dereference from these paths
-altogether, for example by using usb_err()/dev_err() on
-instance->usb_intf->dev, which stays valid for the duration of the sysfs
-write?  Alternatively, re-validating and latching atm_dev under a lock that
-usbatm_atm_init()'s failure path also takes, holding a reference on the
-atm_dev, or publishing instance->atm_dev only after initialization has fully
-succeeded would close the window rather than narrow it.
-
-Related to the same window: adsl_state_store() calls cxacru_poll_status()
-after dropping adsl_state_serialize, and that function caches the pointer
-with no check of its own:
-
-  struct usbatm_data *usbatm = instance->usbatm;
-  struct atm_dev *atm_dev = usbatm->atm_dev;
-
-and then uses it via atm_warn(), atm_dev->link_rate and
-atm_dev_signal_change().  Can that path fault too once atm_dev has been
-cleared behind the writer's back?
-
-> @@ -444,7 +444,7 @@ static ssize_t adsl_config_store(struct device *dev,
->  	if (!capable(CAP_NET_ADMIN))
->  		return -EACCES;
+>  	edev->sudev =
+>  		udev_device_new_from_syspath(udev_context, sdevpath);
+> diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
+> index 3e22b651c754..cc707dea2882 100644
+> --- a/tools/usb/usbip/src/usbipd.c
+> +++ b/tools/usb/usbip/src/usbipd.c
+> @@ -544,6 +544,10 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
+>  	dbg("listening on %d address%s", nsockfd, (nsockfd == 1) ? "" : "es");
 >  
-> -	if (instance == NULL)
-> +	if (instance == NULL || instance->usbatm->atm_dev == NULL)
->  		return -ENODEV;
->  
->  	pos = 0;
+>  	fds = calloc(nsockfd, sizeof(struct pollfd));
+> +	if (!fds) {
+> +		err("calloc for fds");
+> +		return -1;
 
-[Severity: High]
-The same check-then-use concern applies here, and this handler holds no
-mutex at all before the sleeping cxacru_cm() transfers inside the
-while (pos < len) loop.  Both the failure and the success legs dereference
-atm_dev after that sleep:
+I don't think you tested this :(
 
-  ret = cxacru_cm(instance, CM_REQUEST_CARD_DATA_SET,
-		  (u8 *) data, 4 + num * 8, NULL, 0);
-  if (ret < 0) {
-	atm_err(instance->usbatm,
-		"set card data returned %d\n", ret);
-	return -EIO;
-  }
-  ...
-  atm_info(instance->usbatm, "config%s\n", log);
+You leak stuff here, right?
 
-Since atm_info() expands to the same (instance)->atm_dev->number, does this
-mean no command failure is even required to hit the dereference here once
-usbatm_atm_init() or usbatm_usb_disconnect() has cleared atm_dev?
+thanks,
 
-Would it make sense to also drop the atm_err()/atm_info() uses in this
-function in favour of usb_err()/usb_info() on the USB interface?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/f3ef0a67-79d7-47da-be6e-7e82d92e68fe%40mail.kernel.org
+greg k-h
