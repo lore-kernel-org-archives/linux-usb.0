@@ -1,156 +1,204 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AA53ED5A6
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 08:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261193EDAA2;
+	Wed,  2 Sep 2026 08:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788338442; cv=none; b=HqOxQKPWYeJM2Jq5tYkSbuzCYyNJwmkSbHth2xswFxjybSdYUHjXP5ZPCyeAqcu1MuPEj2BIxMtnd4WM9WYV2ncl6VfybT41BUqTpBA8k9FQCFYFPA4E6ZgQF9YguyUrS+/HbWNqgcnebW7oVlOANepwvdsPbEsMkR0a6SeYL54=
+	t=1788338577; cv=none; b=XwtgW/QUjscpKRYOcEqRyD4PtbGCv5Zlm0d55S1VtfQi1PnAA4F0ehm3Sre78JN12hCXMhHTH2HebyIqHQVK05+zx3/6w1wN/HR9oPIDTUfnJQy0+U521kiwv8Fezxzg0w/faPbEJKv3nsrngV2iBOZjginM+etqxhlVXvuej8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788338442; c=relaxed/simple;
-	bh=6xyVYgBjvDRYlC5dKAUtHMP5xW5qcq1J5+NeCUIzUSQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AD4rdMI6Y+bk+o5EPNUYKBFD8d/quUYrTK23uthofIBzH761AWbcp4p3XPiyWFJ0ILxGcZv99F39azgstvbg01ecJwotnfV5GHLOGnyYP+uEm43Jv/9GbTSuSbVFPovktI6tH9J9x+kO9h55ADkl/kPhoGw3nYQjQWx7ftB4Or8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KHH3xS2Y; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1788338577; c=relaxed/simple;
+	bh=IjIKHMccm8GrBjALwt5MmYqDVrJ1pabKzJPTt35AWBY=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cW48yka859zuzjuRLY8RPT6GwZPDdBY2iYcrfsriSw/7LjkbX8qe/zljAJPndd1y+7hJXRQJAbDBEX14JhrM3tVUFFQJ9yVVFBU/g49dIyaMn+oBAyAvMY5mB2oE6MyaXDDi1XAHg7MBppPJCxl7Bp7BE/ilb5LRqGAjhWhxOTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmHgYsen; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KHH3xS2Y"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-482dbe4d247so325946f8f.2
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 01:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1788338438; x=1788943238; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bmfehxYEzo9SaHUf1Myafiql9t/Z4/xrEqiCgCkFexE=;
-        b=KHH3xS2YSSAZxiAcGEGCkVegDDLbc0N5X1LL3dxxo5tz66e9Tr6p6hgJVfx2CQXoEJ
-         ZfMOk2j8htz9wEk/KnqaSvYyDLMokDIOeQi6E+BR5yiBPHAiympF/lXWlAZEi4NYyOX4
-         YZRZEL98u2MaiL42D+XVJ1mxP6GlYEbiqa/uF9PfFbDX7HLbgJulamy/bQqf+MMGgov3
-         dq7Dzxx5evm+gm7tEiAMUHTKrWfFNWxPFqcuHwdR1MvIFjRpk/JJwnqKwRVAljxOH+bb
-         wnKmfyHxF9tPpRB3X39oLSDSGWJXjgjW9zCfO8axxcVAC/2wur49sWQOi5JeL0imreZB
-         tN0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788338438; x=1788943238;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bmfehxYEzo9SaHUf1Myafiql9t/Z4/xrEqiCgCkFexE=;
-        b=jqHTJb8w6ZYSfvJdfflrFQjBg9LvsrWec4Ox18exzJjgRDmmCF5w2cEFw2Q/FtScZ7
-         YrdnNsO+5f2eGQ2AUyCRqEngvIdpfSyrinM3cZpO+bsKl94mvpaSC4OdO01FfOoeVCGg
-         jc75dNqIuxmBWzEuwIsuFl1bLp5tEJayhzNXa22EzyAzs+/Jwib6coj6DhtB7mzYfzNX
-         FshsCQg22jWU+iI5XKd7aGG0ZeDayBWg7TMUZdjhW3Otz+pb92KOT1JsPKpG/wEVz0g/
-         uyKStrgy2SGAQpcp1XfDl56hgps2TzoflBPM8EOkWQvWxA+N1/soUVaX77Tqr7cSbAay
-         eJTA==
-X-Forwarded-Encrypted: i=1; AKwUvByPvWzR/0mcQPpaE48jBXTXfqlpaExQD2GksZEr8Oa68pyTBDcZt6dUh9ZhTnJEflK2ZVMONiaaMjE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mHm0M8kCWSC8v12RBVWxx6i/NeJe+M/zZYAuZY/ikQxO8kFTZW
-	C0S0CevgYjFSSo582nIO7hD7ApYwRCZD7k6/tjTZIRmbeGJ0ETdwakwmldKHNuh1l5c=
-X-Gm-Gg: AYBFou3zbomd48t5R1gQre4aWMUwV60Hw2cUn4dCzXeABvh3l969o885T6AQ6kSnpCw
-	Mg8QqBEL57eUu0bHrjqnkqq/9DHdfhD0K6zxc+ZB07A4BOIdbeLYB2Eei+sCFXx4ZLhbtidjGE0
-	tuUkpp+d8CX0aIIcPF+b6QJkBbD5iIsPN7l5OvCE1S2MGimbdYmlikIe5T63t4T2nNxycu5bpl/
-	20vX24ZnEH62RbIasaPALAnaYoHTgfmXW5YAosMnpthTpGru5Y25nLvk3ipsiMD9ePuj1fixfUF
-	g5rEC5I38jollzABD9TRfmAv+h0azQ0VEbTRF6iTSnuj9asIyUtvNtE/5Z+0OdWpqWUEzhODMoh
-	kKnAUMm7uHEtdnyc+O+FSVoo7wmnPs0vaszQn6WDwZy7DIYoZ9fJSwjNXVI8zkzu4/28/NPwDBD
-	j98f5NlbOAG2vYep6rU1RKdi2fMEifgp2qlpFSy0PBMSmjtG9ij+oZiChvZ4iznI5B5r+BZ4GTo
-	NAmhrUAEv477HvCucLkXtWlpw3INikkBBF0h0VG
-X-Received: by 2002:a05:6000:250c:b0:484:3310:c4fc with SMTP id ffacd0b85a97d-48488f24193mr5629136f8f.23.1788338438306;
-        Wed, 02 Sep 2026 01:40:38 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1304:a201:f0d3:bdff:55cd:3f16? ([2001:a61:1304:a201:f0d3:bdff:55cd:3f16])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-484492cdbfbsm4917843f8f.33.2026.09.02.01.40.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2026 01:40:37 -0700 (PDT)
-Message-ID: <51d22cfc-eb16-41cc-b27f-3bdad4460463@suse.com>
-Date: Wed, 2 Sep 2026 10:40:36 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmHgYsen"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450581F00A3A;
+	Wed,  2 Sep 2026 08:42:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788338572;
+	bh=kuzZ14B+FDuCbocvfoHL0MpjXRZgZHpI8//4nffdUFs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=WmHgYsenldr0VOyDiE1eOikyxudRKJbTMm58pAhs2D77krpMpZqdZiFoFXjk0/LX1
+	 CT+x0tEGNQawPahcmFpn8RmqMZqSN5cgmBBuEcngQxCTNZJME3KTds5p0ZNqU9NFrW
+	 xlOH566QnkRmDsRe5WEGF1ec4NRz/rMYzYVaMOvGMBFOqHFlhOPSjFldRAlit/Vjsc
+	 JDU61f2q9lxdMwCjiWWBWbvy/XRkIdWiZXdQvAHCHrLxWPg21ZdNmSqRD8wsjgZFYr
+	 zUU9En13dQXt8SFpU/jtzsO/5p30qbNRiZJ25FRXn/sanvsSYKp+k39kxq2BHx9t5+
+	 tNsuJCYzxaZJA==
+Subject:
+ Re: usb: atm: cxacru: fix NULL pointer dereference on uninitialized atm_dev
+From: netdev-bot+sashiko@kernel.org
+To: syzbot@kernel.org
+Cc: syzkaller-bugs@googlegroups.com, jie.wang@intel.com, 3chas3@gmail.com,
+ accessrunner-general@lists.sourceforge.net, gregkh@linuxfoundation.org,
+ linux-atm-general@lists.sourceforge.net, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot@lists.linux.dev,
+ kuba@kernel.org
+Date: Wed, 02 Sep 2026 08:42:51 +0000
+Message-ID: <178833857175.3394541.4513055242648047225@kernel.org>
+In-Reply-To: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
+References: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] USB: serial: generic: recover from a stalled bulk-in
- endpoint
-To: Michal Pecio <michal.pecio@gmail.com>, Julian Oes <julian@oes.ch>
-Cc: oneukum@suse.com, gregkh@linuxfoundation.org, johan@kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <746c4df4-abd5-4e04-9edc-3ff8f17506bf@suse.com>
- <20260901231355.114733-1-julian@oes.ch>
- <20260902064204.1a47cd73.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20260902064204.1a47cd73.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
+Critical: 0 · High: 1 · Medium: 0 · Low: 0
 
-On 02.09.26 06:42, Michal Pecio wrote:
-> On Wed,  2 Sep 2026 11:13:53 +1200, Julian Oes wrote:
->> On Tue, Sep 01, 2026 at 10:28:08AM +0200, Oliver Neukum wrote:
+- [High] Incomplete fix: the new `instance->usbatm->atm_dev == NULL`
+  guards in adsl_state_store() (drivers/usb/atm/cxacru.c:350) and…
 
-> What you are probably seeing is USB 2.0 hub(s) returning STALL
-> handshake when a transaction attempt with downstream low/full-speed
-> device fails three times. See USB 2.0 section 11.17.1 page 364.
+--
 
-Nasty.
+usb: atm: cxacru: fix NULL pointer dereference on uninitialized atm_dev
 
-> If that's the case, the device endpoint isn't actually halted and you
-> would see the traffic resume if you simply ignored the error and kept
-> resubmitting until communication is restored.
-> 
-> That being said, calling usb_clear_halt() is indeed the only recovery
-> supported by USB specs, both for -EPIPE and -EPROTO or similar. Linux
-> has traditionally ignored this and things are quite broken sometimes,
-> particularly with xhci-hcd, even if you call usb_clear_halt().
+The commit adds a NULL test on instance->usbatm->atm_dev at the entry of
+adsl_state_store() and adsl_config_store() in drivers/usb/atm/cxacru.c, so
+that a sysfs write arriving before usbatm_do_heavy_init() has registered the
+ATM device returns -ENODEV instead of dereferencing atm_dev through
+atm_err().
 
-I think our record is better with -EPIPE.
-The question is what we have to lose. Frankly, compared to the
-status quo, nothing.
-  
-[..]
+Closes: https://syzkaller.appspot.com/bug?extid=9b195c4f412ea5c4e56a
+Link: https://syzkaller.appspot.com/ai_job?id=b6352d63-d03a-4e87-92a4-b334c3ebcf97
 
-I don't have popcorn, but I do have cooled, sugar-free beverages ready.
+> diff --git a/drivers/usb/atm/cxacru.c b/drivers/usb/atm/cxacru.c
+> index 429ac20a8999f..dee15f7b70bf6 100644
+> --- a/drivers/usb/atm/cxacru.c
+> +++ b/drivers/usb/atm/cxacru.c
+> @@ -347,7 +347,7 @@ static ssize_t adsl_state_store(struct device *dev,
+>  		return -EINVAL;
+>  	ret = 0;
+>  
+> -	if (instance == NULL)
+> +	if (instance == NULL || instance->usbatm->atm_dev == NULL)
+>  		return -ENODEV;
+>  
+>  	if (mutex_lock_interruptible(&instance->adsl_state_serialize))
 
-> It seems there is only one risk of usb_clear_halt() in such cases:
-> - you send a packet to an OUT endpoint
-> - and the device accepts it but you never receive the ACK
-> - even after re-sending three times
-> - you call usb_clear_halt() and queue the same packet again
-> - the device may accept the packet twice
+[Severity: High]
+Is this check taken early enough to still be valid at the point where
+atm_dev is actually dereferenced?
 
-I am afraid this is the time to be pedantic, because I don't
-see the connection to usb_clear_halt().
-The fundamental disagreement is on whether a packet has arrived
-or not, isn't it? So the fundamental issue is whether IO should
-be retried, not whether you clear a halt in between.
+The test reads instance->usbatm->atm_dev once at handler entry, but the
+dereference happens later in atm_err(), which expands through atm_printk()
+in drivers/usb/atm/usbatm.h:
 
-If you guess wrong you either transmit data twice or not at all.
-And there is no generic mechanism to remedy that. Do you have
-a proposal how one would look like?
+  #define atm_printk(level, instance, format, arg...)	\
+	printk(level "ATM dev %d: " format ,		\
+	(instance)->atm_dev->number , ## arg)
 
-However, eventually new data will need to be transmitted
-or the device queried for newly received data. If that is to work,
-we'll need to, well, do IO.
-Our choices are whether
+Between the check and that dereference the handler sleeps in
+mutex_lock_interruptible(&instance->adsl_state_serialize), then in
+cxacru_cm() (which takes cm_serialize and performs a USB control transfer),
+and on the "restart" path also in msleep(1500).
 
-a) we retry IO before we do so
-b) whether we try to clear a halt before that
+Meanwhile usbatm_atm_init() in drivers/usb/atm/usbatm.c publishes atm_dev
+before calling atm_start, and clears plus frees it if atm_start fails:
 
-Technically these decisions are independent of one another.
-However, the spec says that we should clear a halt.
-So I need to ask: Is there a situation in which we would
-make matters worse by clearing the halt?
-  
+  instance->atm_dev = atm_dev;
+  ...
+  if (instance->driver->atm_start && ((ret = instance->driver->atm_start(instance, atm_dev)) < 0)) {
+	atm_err(instance, "%s: atm_start failed: %d!\n", __func__, ret);
+	goto fail;
+  }
+  ...
+ fail:
+	instance->atm_dev = NULL;
+	atm_dev_deregister(atm_dev); /* usbatm_atm_dev_close will eventually be called */
 
-> One note about rate limiting: it would perhaps make sense to perform
-> the first attempt ASAP and only slow down for retries. But arguably
-> anything at all is better than just giving up like now.
+So a non-NULL atm_dev does not mean initialization completed, and the only
+failing leg of cxacru_atm_start() runs before it takes the mutex that
+adsl_state_store() uses:
 
-And again, you make me ask whether a helper for that should
-go into usbcore.
+  ret = cxacru_cm(instance, CM_REQUEST_CARD_GET_MAC_ADDRESS, NULL, 0,
+		  atm_dev->esi, sizeof(atm_dev->esi));
+  if (ret < 0) {
+	atm_err(usbatm_instance, "cxacru_atm_start: CARD_GET_MAC_ADDRESS returned %d\n", ret);
+	return ret;
+  }
 
-	Regards
-		Oliver
+  /* start ADSL */
+  mutex_lock(&instance->adsl_state_serialize);
 
+With that ordering, can the exact oops quoted in the commit message still
+happen?  A writer passes the new check while atm_dev is published but
+atm_start has not finished, sleeps in cxacru_cm(), the heavy-init kthread
+takes the fail path above, and the writer then evaluates:
+
+  atm_err(instance->usbatm, "change adsl state:"
+	  " CHIP_ADSL_LINE_STOP returned %d\n", ret);
+
+which is the reported crash site.  The CHIP_ADSL_LINE_START error leg is
+identical.  If the compiler had already loaded the old pointer, is this a
+use-after-free instead, given atm_dev_deregister() drops the last reference?
+
+There is a second window of the same shape in usbatm_usb_disconnect():
+
+  if (instance->atm_dev) {
+	atm_dev_deregister(instance->atm_dev);
+	instance->atm_dev = NULL;
+  }
+
+Would it be more robust to drop the atm_dev dereference from these paths
+altogether, for example by using usb_err()/dev_err() on
+instance->usb_intf->dev, which stays valid for the duration of the sysfs
+write?  Alternatively, re-validating and latching atm_dev under a lock that
+usbatm_atm_init()'s failure path also takes, holding a reference on the
+atm_dev, or publishing instance->atm_dev only after initialization has fully
+succeeded would close the window rather than narrow it.
+
+Related to the same window: adsl_state_store() calls cxacru_poll_status()
+after dropping adsl_state_serialize, and that function caches the pointer
+with no check of its own:
+
+  struct usbatm_data *usbatm = instance->usbatm;
+  struct atm_dev *atm_dev = usbatm->atm_dev;
+
+and then uses it via atm_warn(), atm_dev->link_rate and
+atm_dev_signal_change().  Can that path fault too once atm_dev has been
+cleared behind the writer's back?
+
+> @@ -444,7 +444,7 @@ static ssize_t adsl_config_store(struct device *dev,
+>  	if (!capable(CAP_NET_ADMIN))
+>  		return -EACCES;
+>  
+> -	if (instance == NULL)
+> +	if (instance == NULL || instance->usbatm->atm_dev == NULL)
+>  		return -ENODEV;
+>  
+>  	pos = 0;
+
+[Severity: High]
+The same check-then-use concern applies here, and this handler holds no
+mutex at all before the sleeping cxacru_cm() transfers inside the
+while (pos < len) loop.  Both the failure and the success legs dereference
+atm_dev after that sleep:
+
+  ret = cxacru_cm(instance, CM_REQUEST_CARD_DATA_SET,
+		  (u8 *) data, 4 + num * 8, NULL, 0);
+  if (ret < 0) {
+	atm_err(instance->usbatm,
+		"set card data returned %d\n", ret);
+	return -EIO;
+  }
+  ...
+  atm_info(instance->usbatm, "config%s\n", log);
+
+Since atm_info() expands to the same (instance)->atm_dev->number, does this
+mean no command failure is even required to hit the dereference here once
+usbatm_atm_init() or usbatm_usb_disconnect() has cleared atm_dev?
+
+Would it make sense to also drop the atm_err()/atm_info() uses in this
+function in favour of usb_err()/usb_info() on the USB interface?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/f3ef0a67-79d7-47da-be6e-7e82d92e68fe%40mail.kernel.org
