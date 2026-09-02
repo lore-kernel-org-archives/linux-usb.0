@@ -1,126 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0E6477285;
-	Wed,  2 Sep 2026 11:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD0839F188
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 11:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788348555; cv=none; b=g3DQBdmCDTx8VINirO52IF1/mz44tSpQV0E3zRvcyPiQ6Cyc1hiwftXQoN6nP4tsqlcTn2JfIchXuwokyzXyOPvAN2Tlpbciug9LEtI/e652PYNWY43AuFK+c8G/9hbPymlBaFXhku+zEXvU5L/2SAHaHJGmWPqBwnDxXmRsgDc=
+	t=1788349838; cv=none; b=adNwqvjaPhuaKq65xB/VSYjuy+RP4ZVuY80vKImWt1Bf6HskFST+Z9onS+HFTyxVifzMDx4nQZVJRaW/GCNh+AiDLqxv8gYMey+Gxc1ikeu7Kp4R7NY9lVi4tZKnnkM1+fNwMTYUXCumzYBRfLbalNNNaJbhQdafq8uVvnLsqpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788348555; c=relaxed/simple;
-	bh=gyzdEzme7lFDjf/tquEWQWPcfPYvp1lu54rae5judD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sn7jE8k70C1Y1kW7iRh7jk4wT2XTUlYMcYVsO2+lci+zf6T5/a/WbZCTEwniiJLtdxnd/gNlBUfpesdEAszs/ogyGEjVy6RV6fQVlCoT3F6FWsAVdbHBHxjXUcR+vYO0yZ3EceuWpKBMCZQ4UaMESk8sizxGU0TEp9ok85Nkrzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zkt52PJ9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788349838; c=relaxed/simple;
+	bh=bRKreWpcMXLX+Ys3siFaawotFDCy0D/FvdbEHwF2a90=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dubTetzyB78pFREKzjawnG9fdXZtoLyjOjGNE5bD4lQi6Wzh1hhRcEHAO2BJ0iU07/3JTfL2HX/Dwu9bPfDA84Z6J0qFsvgnklc5Q0D798QvmuP1vIJ/QYWWR7rlanp62OpBsew91z/8+w5a/jm3a8SN4nSuPPr3rWLRmsElTaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ofV8z+/D; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zkt52PJ9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B8EC1F000E9;
-	Wed,  2 Sep 2026 11:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788348545;
-	bh=G6COaUZJxKf9AGZAlBdJyQBoWIGyZnpHatyadIQjBbg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zkt52PJ9a88hpa5jhEaOJqpqUfcWv8ZrSFe9g+kH6Ec+aPlWpgblc9ub2QEr/dx25
-	 e9sLHmsuT87DHC/2sn0R124Gr9tIOgbYyGT1On7OWRKdjOJ2K+cAJton1hOs9vCCjI
-	 P93Wm9K6JXfES3JV2egwB+jYQBamQ+Pz/Nt1UENvz6gwNIqslTF7UZxcAOJk/ECxIT
-	 uW0mJwkwj4DnFWz1dEXczyRRyzQh7nPG2AiKiUR51kvFcwubaOMwV2kXjtDxMpevvE
-	 IKTfsoNzSyR13fJIWBeFvq+Z9odqrOB5Y2fxQKuM5w9zMObUCunsIcU5ldaLmEIErv
-	 MSzfL55YiY5JQ==
-Date: Wed, 2 Sep 2026 13:29:01 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 36/37] ata: libata: use 16-bits defined sense codes
-Message-ID: <apgIfRr9MjNov6FV@ryzen>
-References: <20260831020451.585944-1-dlemoal@kernel.org>
- <20260831020451.585944-37-dlemoal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ofV8z+/D"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-495437bb891so7667455e9.1
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 04:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788349820; x=1788954620; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pJL40Jfdt8x+/9EdCeKzuEzietjlDBSPTx8iFjq4h18=;
+        b=ofV8z+/DHjDwbNjMVbG1eVNPWrf/w/d3N8p5GsiOM+7D/S2+TqpYdggqY75R8W7HJ1
+         0VSAxhACvKXaGTfeDMpmHPcxe6aNnC4JKBxxAVrQ2QYbyLdZSkAMRLiH9BQdxO1m6zu1
+         sBcZwFtxqR5rsuiDTjjJruK4vgUukL3rx/ricmAzzXBAH22kDZwhu/blX9rrXt2I3tJH
+         79Dhw81TiD+yaS1jBAWBHosjn61WQprZX59FezcHDeYZqJzraF3l0XdQBR8EB4rEs5zs
+         gZusKw6pM1J65fwscWUoIL1p8aEWKnWFA+jtp6CoZBdfQv7OoOQB+lTkHDkBk3c2gE2f
+         HC5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788349820; x=1788954620;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pJL40Jfdt8x+/9EdCeKzuEzietjlDBSPTx8iFjq4h18=;
+        b=JRJLJrhCjBQUO5J2DdMbiPPpmm0DFvK+DVSJowSZwn56nYOPmis+ON5LFTEN0ZqX0g
+         qRSH6XQUTiZ8nZHfO2RIi+Ef2fU60f7ZtYLR7l52beY2Jr5IYj99SI8ZCzVA06OkOiMR
+         ukrGEbG6HmJv8fUuDICNQtP15VoNKcWCxdTSinR1dK6MmsHnuUUDjeG+5B3pgC64mc1S
+         Aa/EGpEEbnOteWcPbqMaPcm8a4mbWMDhvtI2IcJBj8uCqcn1FXYnMh01nsxKBfHaCR3a
+         jrEmaRexsS90gz5gxugXBST+t9ptYhNL6QB5IPqOr9kldMOg92B8Kqye1WmL7Yn1IvQJ
+         ucGg==
+X-Forwarded-Encrypted: i=1; AHgh+RrPeyJE9p0wpbgHhLi9vXbaOtFeCdoNJYJUbMRlHsa44YBoiVBBwZ4fm0YEbhpXj6W3obuo5bT0hVQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kp/bzvY5BOcO4SJe6EnUOz0Mwz6onYK4suBpb32K7EiT2ZLq/7
+	FfXsylENCoB4XAkeIn5voON3P1UQzsAbaNxHjvAGIm9Y0LCK95DUeOF9
+X-Gm-Gg: AR+sD10iH0qLUt/GFjy7pBW+Y8BPTIc2nt546sH9DYciziXcGL/ZSfZ1S7ROKzhTVkP
+	LeumFC02NRr4QJnePM4TH9oTgT6DF2imEgf6ymiK0pKdr4aRp8COAXKDXoiTGULby1I43EBmHKP
+	F3jJQukI2QgPYj0nAhBaDlEp3C3EwOB6lJ8X2Mt5uC3TKpmpdIacBZxkk4tfSYLd4sAIrio9cys
+	MQAf9xouNVrsMAbnJI/39NqctfRphNnDAW7kz8y6qpxqsrfFOyl/YAA6xAASZLCaQJ0OihG/2os
+	jgXDv3NLuCmuWHmUsMfg7CXh6eU7LTn9xJm2KDF2SpGP3J96sxIDelP1wN5LIrPPp55YbK02WZX
+	v7jEUCMpyOuzXV3Q4BcIje3JUM2TYgs8dLT1mhwbbx7kvh5WQZhrr2lbLRvxEIqzx0gvZcYF64r
+	nBewm93XlIVOrY8625ACl1C3GjoEEcjb+zoD3QN+jt8N9BMnmu6UIrQnYKI6kKfkXOcUCoxA==
+X-Received: by 2002:a05:600c:4f87:b0:499:59fd:dbfc with SMTP id 5b1f17b1804b1-49ce7bb7823mr34356785e9.1.1788349819956;
+        Wed, 02 Sep 2026 04:50:19 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce3e0desm155418175e9.11.2026.09.02.04.50.19
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 02 Sep 2026 04:50:19 -0700 (PDT)
+Date: Wed, 2 Sep 2026 13:50:16 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Henry Tseng <henrytseng@qnap.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: xhci: return an error if the host is not halted
+Message-ID: <20260902135016.19d4c3fa.michal.pecio@gmail.com>
+In-Reply-To: <20260902101510.30246-1-henrytseng@qnap.com>
+References: <20260902101510.30246-1-henrytseng@qnap.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260831020451.585944-37-dlemoal@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 31, 2026 at 11:04:50AM +0900, Damien Le Moal wrote:
-> Refactor libata core code to use the 16-bits sense_code field of
-> struct scsi_sense_hdr and replace all hard-coded additional sense codes
-> and additional sense code qualifiers with the enum values defined in
-> include/scsi/scsi_sense.h. This helps with code clarity as the sense codes
-> being processed are easier to test and self-documented.
+On Wed,  2 Sep 2026 18:15:10 +0800, Henry Tseng wrote:
+> xhci_reset() returns 0 when the host is not halted, without ever writing
+> CMD_RESET. Every other path that fails to reset the host returns an
+> error, so callers that check the return value are told the reset
+> succeeded on the one path where it did not happen.
 > 
-> No functional change intended.
+> Return -EBUSY when the reset is aborted because the host is not halted.
 > 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> Signed-off-by: Henry Tseng <henrytseng@qnap.com>
 > ---
->  drivers/ata/libata-eh.c   |  13 +-
->  drivers/ata/libata-sata.c |  14 +-
->  drivers/ata/libata-scsi.c | 346 +++++++++++++++++++++++---------------
->  drivers/ata/libata.h      |   5 +-
->  4 files changed, 226 insertions(+), 152 deletions(-)
+>  drivers/usb/host/xhci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/ata/libata-eh.c b/drivers/ata/libata-eh.c
-> index c93c24b22d9c..71961fbaa42f 100644
-> --- a/drivers/ata/libata-eh.c
-> +++ b/drivers/ata/libata-eh.c
-> @@ -1516,11 +1516,13 @@ static bool ata_eh_request_sense(struct ata_queued_cmd *qc)
->  	err_mask = ata_exec_internal(dev, &tf, NULL, DMA_NONE, NULL, 0, 0);
->  	/* Ignore err_mask; ATA_ERR might be set */
->  	if (tf.status & ATA_SENSE) {
-> -		if (ata_scsi_sense_is_valid(tf.lbah, tf.lbam, tf.lbal)) {
-> +		u16 sense_code = scsi_sense_code(tf.lbam, tf.lbal);
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index a9e47e178c28..2af6a7b91e55 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -195,7 +195,7 @@ int xhci_reset(struct xhci_hcd *xhci, u64 timeout_us)
+>  
+>  	if ((state & STS_HALT) == 0) {
+>  		xhci_warn(xhci, "Host controller not halted, aborting reset.\n");
+> -		return 0;
+> +		return -EBUSY;
 
-Here you take asc and ascq and combine them to one.
-I see the reason, since ata_scsi_sense_is_valid() takes a u16 sense code.
-That is fine, and I think makes ata_scsi_sense_is_valid() easier to read.
+That's probably how it should be, but I wonder how did you find this
+bug and are you aware of any cases where it makes a difference?
 
-
-> +
-> +		if (ata_scsi_sense_is_valid(tf.lbah, sense_code)) {
->  			/* Set sense without also setting scsicmd->result */
-> -			scsi_build_sense_buffer(dev->flags & ATA_DFLAG_D_SENSE,
-> -						cmd->sense_buffer, tf.lbah,
-> -						tf.lbam, tf.lbal);
-> +			scsi_set_sense_buffer(dev->flags & ATA_DFLAG_D_SENSE,
-> +					      cmd->sense_buffer, tf.lbah,
-> +					      sense_code);
-
-However, here you call scsi_set_sense_buffer() which is just an inline
-function that calls:
-scsi_build_sense_buffer(desc, buf, key, scsi_sense_code_asc(code),
-			scsi_sense_code_ascq(code));
-
-which will call scsi_sense_code_asc() and scsi_sense_code_ascq() to
-split sense_code to asc and ascq again.
-
-It seems that you series has decided to not kill scsi_build_sense_buffer().
-
-As long as scsi_build_sense_buffer() exists, and since we already have asc
-and ascq stored in separate variables, I think we should let this code
-continue calling scsi_build_sense_buffer().
-
-Especially since, even after this series, we still will have a call to
-scsi_build_sense_buffer() in libata-sata.c:ata_eh_get_ncq_success_sense().
-
-I think either this function and ata_eh_get_ncq_success_sense() should both
-call scsi_build_sense_buffer(), or both should call scsi_set_sense_buffer().
-
-
-
-Is there a reason why you don't convert all scsi_build_sense_buffer() users
-to scsi_set_sense_buffer() and drop scsi_build_sense_buffer() ?
-You could even keep the same function name (scsi_build_sense_buffer()) and
-just have it take an u16 sense_code instead of u8 asc + u8 ascq?
-
-(Doing a git grep scsi_build_sense_buffer shows a few users even after this
-series.)
-
-
-Kind regards,
-Niklas
+There is apparently one caller (xhci_resume()) which cares about
+xhci_reset() return value but not about the preceding xhci_halt().
+ 
+>  	}
+>  
+>  	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "// Reset the HC");
+> -- 
+> 2.43.0
+> 
