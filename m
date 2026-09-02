@@ -1,129 +1,143 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023079.outbound.protection.outlook.com [52.101.127.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0AA38B158
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 10:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788344143; cv=fail; b=KTsiBEzEXU39fcSurC2/+iXAfbbQ3Pb0x82tzEC7L/5RWXE6TqPOjgUfOXUFavnrbuEGpmYjDGTLgYUR2wwqow8gNcxIat6/LZNKn72yTQLQ3eTPiY4TTN9yqnPCTGRsHId50uVz8f06e93XT5Mn4kjVkl84OrtgcCgWOCDQLxw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788344143; c=relaxed/simple;
-	bh=mRswU8U2bW1dh8zItL11yAsMeYKfRnrzlvWuSlB7dZY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eblGh1x8/OY4DREDJCm/QiH/kGh3vrq6k4wqBUfqWZgnWCOja3mhPey8hAn5fmZAsSBGCZmF+MPG9bjl9zf/RKOrvdJowz79+G0FPHZf3224kYh7ZrBYKk0uUbQs4013Tluegb8lZlm3Rrj7dpPo1UgXXKq3ptBpjuwQbcJtfio=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com; spf=pass smtp.mailfrom=qnap.com; dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b=M16OtSKU; arc=fail smtp.client-ip=52.101.127.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qnap.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE7143BDBE
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 10:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788344499; cv=none; b=tqFc9GDaiPbFTf4kogEhMA9yginCEbkigt2JRKO3UqE0X01dRVa1oEIvosSvQCyMIzQaRF9xmKi9ZMsxEvS/KNrfAIerlw7lxJrhM9AuOMG7l02X/9epu/0Z2RMISK++H7EiNC5ivqRBgGfzHGLj/omf+g9Lk+PFe+ZIqA41KYU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788344499; c=relaxed/simple;
+	bh=PN0SQykzwIuDfzW7cM7x9d6iOw/F95MiQoWSfYFmBhc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tqDRFioyZpqO9LMA4AC1tA+gLs4INu6rs1cn5P4VCFajLPkMY8tIaxlpKudsIYcOx3CrstZd5T25OEmjIj2yadNZ7ho+KqYn0VxvceMwRjzqtPQvtfXobBffOexXNn+XBIuxLTX93bGqeC9t5N0lvjEbIxlejhGiAu2pB6e8Zb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8WNoy0u; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b="M16OtSKU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DsWOlSKgiqtw2GgSI3VqfY50SZsG3DrMdcPlSU9yBswIuNgy2Epv0YVbHJjEz2vLvJKwQe+NkIdKrFBcg1jTpNOVIUvbfhnBn+KE84LSDDHcKZw50RefOpeKl6mLv+G+7g17SbmXrbXNtE6W9jRoVRIVISWT7iDqoSdiqKeTfjlxqg4ZNX25yhTHMf/xXxM3Zt7lKylzMBGY3L/uKkt2Ic2rBXjPEU6kgqMCPeCcjzRjk19cQ+dVcPOn/WrZvlOpfGBIDSPngBl9CHI1VkWJcHDs/GKWNk3ifD8kdhXVLYIOPKCohlFx6wtFM1mrdKBLUa5GdobL74up0q42QhUt2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J1RowBJLK/qU45Bt4tkXEjuWIK1J97V6FklDocVfIHQ=;
- b=wWZERYSDWjM6iRI2u+xEFNNWdRRWx4CZedXuCXovbfgHQgGcMbZScFgq0GiDcV2h65LoBIJyeQqA+sAk5jzGGL/E4nVXOLELUBKonBBEG9o7dUvGRRCWqyK021OJxeVV4JSfZACSv9hNe1XHo+OMmp1SsqoSCC9V0eGKMJtnKFL8hvODoNKvnDMIrtRyTmIzIP/TAEmBP27Ojx2LxGf+3jOS7hCNlce2PwfK5JN2ImnQjB7nj09Kg5MRCs7d1qijj7EQXyG9tk3kCW6tKPCYdnRuyXZYYYxlKhOuWWfRaPLSVxgIDMaYkdKLmtkGhCaJtTG2AnFN/ASsFLC2joF2tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 122.147.219.42) smtp.rcpttodomain=intel.com smtp.mailfrom=qnap.com;
- dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=qnap.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J1RowBJLK/qU45Bt4tkXEjuWIK1J97V6FklDocVfIHQ=;
- b=M16OtSKUx87ZMnd0PpJFW6Hl+SdL+C3/kxfFfh9eDlJ6BF39i3gEoe/RnkT0KfK98Dck87TOPgdQ0sIZUIMOa1SVdtSlHUxY8n1kC9dfjCTZZKEdDzF2c/d0ZSTfaK5xzfq9TjMSX7EOhADZUhns3DIOv76DkAP7/KsR+UoD/FfiHH+Mi2a7+BKA/G0alnFxnQqxjE6XpFjJQtInJUGmFwdpWr7W06KijVl/RhFPq7nCifvV5UMqyBgWY/H44EfrrE2vMRU5ReYnz0CQJi4kNOeMYIdn6TypLqdsx8MRpjgbkddAvDbbS3v9WjXh7DD/QLOrzRybu7edd43s2UlLAA==
-Received: from PUVP216CA0002.KORP216.PROD.OUTLOOK.COM (2603:1096:301:16f::8)
- by OS8PR04MB8164.apcprd04.prod.outlook.com (2603:1096:604:28a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 10:15:34 +0000
-Received: from TY2PEPF0000AB83.apcprd03.prod.outlook.com
- (2603:1096:301:16f:cafe::19) by PUVP216CA0002.outlook.office365.com
- (2603:1096:301:16f::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
- Sep 2026 10:15:33 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 122.147.219.42)
- smtp.mailfrom=qnap.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=qnap.com;
-Received-SPF: Fail (protection.outlook.com: domain of qnap.com does not
- designate 122.147.219.42 as permitted sender)
- receiver=protection.outlook.com; client-ip=122.147.219.42;
- helo=mail19.qnap.com;
-Received: from mail19.qnap.com (122.147.219.42) by
- TY2PEPF0000AB83.mail.protection.outlook.com (10.167.253.4) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.8
- via Frontend Transport; Wed, 2 Sep 2026 10:15:33 +0000
-Received: from localhost (unknown [172.17.22.73])
-	by mail19.qnap.com (Postfix) with ESMTP id 97C3AD03;
-	Wed,  2 Sep 2026 18:15:32 +0800 (CST)
-From: Henry Tseng <henrytseng@qnap.com>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	Henry Tseng <henrytseng@qnap.com>
-Subject: [PATCH] usb: xhci: return an error if the host is not halted
-Date: Wed,  2 Sep 2026 18:15:10 +0800
-Message-ID: <20260902101510.30246-1-henrytseng@qnap.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8WNoy0u"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-482e2fdf5abso464749f8f.2
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 03:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788344494; x=1788949294; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=RyNaTqC+dGU5WjZ4HH9rH2GXhsS16BNv7gX+HI8+RH4=;
+        b=A8WNoy0uVJwnW3LaN8FnwQtPyz7kK6JVqgatnLc0ZgTFOgkHclSNGBZTT/MGaN5aBv
+         jJXSYGc2qXijkt/RuZBGHeI0GH4STWo6em2+i6C6/hXLTxB5viub7YP7/kMYHbYG+9RA
+         pjgqj9l+jXHSJ1q/A2WGi2WBATLrzYPvVobeyTnIag9dmktRCK5IQfNrG+NvFFaWhtiQ
+         o7AIqAw9SwiovOp95ZMQl11I8zyqgdOBc+bvR17K9n4nBzWTwyRZ2tzvzXctc5KcNjT5
+         3w3ckbC5dYPt5mWCozVZpZKSBdJlPad+qcGPvYyGMKrUgMVOc/GcpId4zXL8w6sGcm+M
+         aVsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788344494; x=1788949294;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=RyNaTqC+dGU5WjZ4HH9rH2GXhsS16BNv7gX+HI8+RH4=;
+        b=mHSdSTDXRtCcTlCkk0rmOzSVt+PJ/oJ64KzCdMYv5Ht27RgovxWSb41ofnBhOsFozO
+         PJAQEBCw4OunTgwOKumoVsqsDeAH2F0QssjYzyojFEiCUixnTnJ2kV+zD19gCsUhOPxt
+         Ud6VQRj2VBRQdlbp6mRbOk988gPFzh0MQcNztbyr6jQou85JRUyMaEE/bLNjxelrIV5S
+         OGomeArda7d7f6rZscwXXlQh0f4+bvlG3CC1QwrXpEaUErh7id3V0cu8Fg2rVdiIsJMV
+         VHZqK9ujrdaEk6UIyqgm8CYPuVmyMeoBmWIqvp4QGBLD0tL3dxbbUhgemeLcbntVWdQX
+         MPHA==
+X-Forwarded-Encrypted: i=1; AKwUvBxX2Rwsofr4s2WkHZ5IGt2lG/7l72ykWXGNFU4GRvTd/ZIVNPoXZj4Gj+6Zr3GeylSERD74A3bM+gI=@vger.kernel.org
+X-Gm-Message-State: AFuF++msX1L34WRXVexUiuPr/DRFwVAa7vLILfjiMj87vTW250bUlJ6u
+	rSJ5E2dYYRDA4s5DKyoGHuCO9KQ1uTTUEiDj8QWHU9diILcH/ver4fLo
+X-Gm-Gg: AYBFou2e0K5wP8rMuTYTbXYR0RPStdLtJq3f2dAV27jJRKxS1OCrPKDaRSH0qBYbPVk
+	VEL9XEasVyyGxbd3Vf0GTzxmmbrUDD9Fzh3iOxqWvY/DnF7sLOGZJoACcsmEqmgF3ApvgbT9hCj
+	RsGbgFRKsd/2X6a7waCncIvLz4q7rLj18qJ+KxVbGhxojEEaT9f2TQo01ij+95UmZZRueLa3piG
+	dPgskEEI3LwKBBQoVL/RTtaqhvp6lyOXXvB6MlrznqMuh4rhbxwkJ6mTutiZZqugXlznRmKijml
+	Nxr4/AVCwGVZjqY3DShdr6EUkSftxiVMd8yzEkZaBJEhgocyy3E9hYRZlfmLcp2Lmi6/Ns6MzLE
+	o1dAeVCrd5pgS8MSSiklZ3+elV73kUfIBeEA0HNpSzK6M2clY0OBgti3LBKEUv6YwI8YFqvrUaj
+	UCV+wiGNFradSrTYgFJnTCehpnPpKwwSC0spHdmf7MkAPOIi6VPivyyPQuNg249i+R39bvFQjwq
+	d+azo3CF5pKIIIuNgVDd80nad4i2l9H6Q==
+X-Received: by 2002:a05:6000:4698:b0:485:4277:fbab with SMTP id ffacd0b85a97d-4854277fc83mr3594765f8f.27.1788344493846;
+        Wed, 02 Sep 2026 03:21:33 -0700 (PDT)
+Received: from valmpani.valmpani ([2a02:587:f24:b00:967a:9200:4108:5b68])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-484492cdbfbsm5485625f8f.33.2026.09.02.03.21.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 03:21:33 -0700 (PDT)
+From: Vasileios Almpanis <vasilisalmpanis@gmail.com>
+Date: Wed, 02 Sep 2026 12:21:19 +0200
+Subject: [PATCH] ihex: Fix 16 bit truncation in ihex_binrec_size()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB83:EE_|OS8PR04MB8164:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 0dd655a2-f941-4540-e83f-08df08db1fa9
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|23010399003|376014|82310400026|56012099006|11063799006|10067099003|18002099003|55112099003;
-X-Microsoft-Antispam-Message-Info:
-	hprGa9Ol6xDFfWu16Qi7aC/vsPn99Ads39N6XwBshkqkzDHCteyf35Vu9uI9UigLAricxk4TSpb53AhZlKvATsmqv2RMwTe90V9a36zihl9kv3/0FRfpVOM7DdlWV8s6r7QoqDl2Gg+vzkkjSoI8M3lFPzsWD01dLUuwQAHZgjKnacEPKBYiyKLD5BTEXoM3pUYo+3Q45dL7dTOznaZY++8h9SAnE+nrXTCnuHrHy/vfm4QDcUikpWeyqTGFldY7l63JBsjClyqBX/8rhu9aGiqqjzMoz//K6TKzsW2SPcFfE1ECSuR1UE9c2TxgyG0gw8X2HGZu0SXtyVGwtDJNJImDqIuJabKkuma1c5FzXr2x0qBH7vUPUn37sY6faooSiDmZrq4PUReeJjVxGMchQ/QEnD7UdvqXNaHFKmwchO+HhlGq6Z3ACm315wvp+VMO8MwZOMcaPU5MJkAZ2Sg2qiWyAYgMLQuyTaFSkfJ7nAq4uhzt4VgcignVKQh91A3AUgm1iA+bctL3bMMiHg5aoh9BqDIAfnbDTiHKs2un0B3SpHpFF60/N7Eqtz9bKr0nosG7ca+pyp6/ZLBUVmywjnwhAOynSUhXK8yayiXWWqBcd987j6XjRDZ/BMAwGJvFmdKzAobRQdegY8d4gWSPSUksV5C8Qcv85xtD6wC+zQpWDEMx69P450URXz/J7ibg698YAAxfS/j+rXaCrNEV6w==
-X-Forefront-Antispam-Report:
-	CIP:122.147.219.42;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail19.qnap.com;PTR:122-147-219-42.static.sparqnet.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(23010399003)(376014)(82310400026)(56012099006)(11063799006)(10067099003)(18002099003)(55112099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	yutnQWFU2BfWsIIwlPy7lxmrX0XEt/13cYoNl4z3eLRzeDkwN04oUq+7q1LXgHLHuh7zIit9/fp1ZuCIxyGx2YYK54a3c7YVT1kn80+1n9Pjm++/lSq9Ll0Y4CrUJpUT0V/M0EaUyB0Z5Lciu9m/dLcsmz7nbywoM3jupJCtIdzyxzLQZyocVwYNXsJwY+ElV/74/Ox+vtFVy+G7/nRb4A5ZZ1htr59N2yjhakcFhRUChca124RDyU0/SxxZ6OvHRp7hIA7c5oxrguBNGOcPeZo2GiZJhBPMKTm3Ezsj5bhHPrsC8Z7rQYlgSd+OSue6ax/+bLovwuOgbLM7J40815G6YHdO+08x1aX/SRGHZzwbBGX+nxrAze5FXrC96QhtnN7qJ252+5A0/ryfpp5mPj0cDv5jfLueVcpELiM126v40nw197IIX1uw11S58MwR
-X-OriginatorOrg: qnap.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 10:15:33.0864
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0dd655a2-f941-4540-e83f-08df08db1fa9
-X-MS-Exchange-CrossTenant-Id: 6eba8807-6ef0-4e31-890c-a6ecfbb98568
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=6eba8807-6ef0-4e31-890c-a6ecfbb98568;Ip=[122.147.219.42];Helo=[mail19.qnap.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB83.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS8PR04MB8164
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260902-ihex-v1-1-67fdbf8d97ff@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAJ74l2oC/yXMyw5AMBSE4VeRs9akzqIuryIWyuBYIC3SRLy7Y
+ vkl/8xFHk7gqUoucjjFy7pEZGlC3dQuI5T00cSajS41K5kQlGFrCpuDbQuK6eYwSPhu6ua3P+y
+ Mbn+3dN8PutCOp2gAAAA=
+X-Change-ID: 20260902-ihex-62b68b7e2bae
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andrey Smirnov <andrew.smirnov@gmail.com>, 
+ David Woodhouse <dwmw2@infradead.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org, Vasileios Almpanis <vasilisalmpanis@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788344492; l=1905;
+ i=vasilisalmpanis@gmail.com; s=20260731; h=from:subject:message-id;
+ bh=PN0SQykzwIuDfzW7cM7x9d6iOw/F95MiQoWSfYFmBhc=;
+ b=7erELQ4frAoctqDjCU/gaAu4a4a4lUMXAJuFpt7OJYsRYu05Yi9tqSjwxwMVXn9UUIOrI+pMK
+ bC9tpR4iQwjAoHvaXbK/7xE0aNNRFgQnb6qy6HlWuKngX9XfBtQxPCf
+X-Developer-Key: i=vasilisalmpanis@gmail.com; a=ed25519;
+ pk=gn5Uo6yL8Tlpq5uATxA3nqoq+U8eWLRbjD+bOk0qSpU=
 
-xhci_reset() returns 0 when the host is not halted, without ever writing
-CMD_RESET. Every other path that fails to reset the host returns an
-error, so callers that check the return value are told the reset
-succeeded on the one path where it did not happen.
+ihex_binrec_size() returns uint16_t while computing be16_to_cpu(p->len) +
+sizeof(struct ihex_binrec), so record lengths of 65530 and above wrap.
+__ihex_next_binrec() uses the result as the offset to the next record. A
+length of 65530 gives an advance of zero, so ihex_validate_fw() spins on
+the same record forever. Lengths of 65531 to 65535 advance by 4 or 8
+instead of 65544, so a 14 byte image passes validation while its first
+record claims 65535 bytes of payload. emi26_load_firmware() passes it to
+emi26_writememory(), which kmemdup()s 65535 bytes out of a 14 byte buffer
+producing the following splat:
 
-Return -EBUSY when the reset is aborted because the host is not halted.
+  BUG: KASAN: vmalloc-out-of-bounds in kmemdup_noprof+0x3b/0x50
+  Read of size 65535 at addr ffffc90000075006 by task kworker/11:1/174
+  Workqueue: usb_hub_wq hub_event
+  Call Trace:
+   <TASK>
+   kasan_check_range+0x10f/0x1e0
+   __asan_memcpy+0x23/0x60
+   kmemdup_noprof+0x3b/0x50
+   emi26_writememory+0x29/0xd0
+   emi26_probe+0x2d1/0xb64
 
-Signed-off-by: Henry Tseng <henrytseng@qnap.com>
+Return size_t so neither the addition nor the following ALIGN() can wrap.
+
+Fixes: 9fb4ab4d3dd6 ("ihex: Simplify next record offset calculation")
+Cc: stable@vger.kernel.org
+Signed-off-by: Vasileios Almpanis <vasilisalmpanis@gmail.com>
 ---
- drivers/usb/host/xhci.c | 2 +-
+ include/linux/ihex.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a9e47e178c28..2af6a7b91e55 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -195,7 +195,7 @@ int xhci_reset(struct xhci_hcd *xhci, u64 timeout_us)
+diff --git a/include/linux/ihex.h b/include/linux/ihex.h
+index b824877e6d1b..0da1c4e3e693 100644
+--- a/include/linux/ihex.h
++++ b/include/linux/ihex.h
+@@ -21,7 +21,7 @@ struct ihex_binrec {
+ 	uint8_t data[];
+ } __attribute__((packed));
  
- 	if ((state & STS_HALT) == 0) {
- 		xhci_warn(xhci, "Host controller not halted, aborting reset.\n");
--		return 0;
-+		return -EBUSY;
- 	}
- 
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "// Reset the HC");
--- 
-2.43.0
+-static inline uint16_t ihex_binrec_size(const struct ihex_binrec *p)
++static inline size_t ihex_binrec_size(const struct ihex_binrec *p)
+ {
+ 	return be16_to_cpu(p->len) + sizeof(*p);
+ }
+
+---
+base-commit: 89a312991dc6e638a36adc43ccb91dbc25504c04
+change-id: 20260902-ihex-62b68b7e2bae
+
+Best regards,
+--  
+Vasileios Almpanis <vasilisalmpanis@gmail.com>
 
