@@ -1,132 +1,164 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010041.outbound.protection.outlook.com [52.101.61.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0FB490C07
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 14:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788360523; cv=none; b=NPAQH8CY5HB+dFGGc7mCrjynTE3+A4/Ivtfn4TGXtq5bbg71Xq5TnP285FEtvCPlixSsZIm5I7EWzYrJcNK9Z/yRW0tUVqYWiSh5RdWPwx68DCKjpjdE+GOaC5H0iExn/svv+TVnC14Toytoz3GyFc3IfET+8011twI273VXQa4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788360523; c=relaxed/simple;
-	bh=zP3AGMJL7B4Bo7qCYDIswEXSaOUb1jOQWhFwZ1GLeBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D1c7qxiU5RFIWW9z3kfquJskMBGfpOZ4F6mpvON07tJtz+99LA2wmTQypaIeN7O4LBmRpGhdnGh1Fqy9uPz+NuHtI2VUHwepbJDz4vMHBJLgiev5YWnfn6k/B7FmHgOWs6qoxvNHus3l6512w/50SKtbhdZIn71QplnFr1QSW0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=mXliq9So; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9A74A49B0;
+	Wed,  2 Sep 2026 14:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788360872; cv=fail; b=RMj0JHt8tTM9QyfNpTtY8y3dwwmCk2+nwETDZihukkbVej43MTt2he8T64EXoTzvtUn7KyUc7mocAcTMIkXLfxXLdZmsMdBaD4CzZw2xo4NMXrfR1FHmJjHs870X21gmNq5SQkX+87we/fI0370B8ZfCRqDthdP9iwyhHks3Tyk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788360872; c=relaxed/simple;
+	bh=GFBiO9A3R1DdSQtw3Zj61Y8Z4ujEmPa5EryOVQrbfV0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=ghUlQ+v8o9K+gTgXFyL4bpsZcPEhdZhhsuooEglTqZA7BAjJg3HmfFOePPXVLUBE8tPUxkAk1DtCQXgmx/Bf84eOKXi7W2NDsf8+tUqll4FRH36Uq9owiUsqAZjYzh1k3J5siKz5rJCcJhQfoiXmwHV/kx93YtawBmK9GzHWH/o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Gv+l0vHC; arc=fail smtp.client-ip=52.101.61.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="mXliq9So"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-910316a2fc9so3008546d6.2
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 07:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788360520; x=1788965320; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/1/fXMNRLMn3t6QVeQ3hSYPZWIjUdxGd7Svrk7PTW4U=;
-        b=mXliq9SokX+OnqRWa2tcG9tkOzQ5sapeS3GPSDuxNgX7O5nFkqLvhIY6oXZm/bpopo
-         5rIb65m2teGanOXx6ktowFsXyD0TiXPetgKOHL803GiNkHPsUQ5x7zG0tvUtVG1iRKPX
-         4dt1/qCwAT0LNMV92HDW6ZfWsHQiKleWnY4WyxtJzUJCEyHR5RDezsMf8biD6V3Xoe2k
-         AgoRJuQVtc6ybmldq6YfAhmz9infa2M98Y1FpQyjtMSWah5ISsbSnM0ar0Uy8BKKf4Sf
-         Mq4LEI67Popc4MLO/F0UMulc2Igkne8S6TEKKijctxpdnUMfSrPPnogN6PkOAv8vgW74
-         khIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788360520; x=1788965320;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/1/fXMNRLMn3t6QVeQ3hSYPZWIjUdxGd7Svrk7PTW4U=;
-        b=YS7zW1VBnAK0FpcE76b0uayTYkWhx+Yok3ELbR1oLmhGc9oTd1Oh2Ns5kqD8mRMwxk
-         uDoyt0o6najcGh1rj8OTkAGJkB93PnIWaB9MJuYy9kpRFpqs+QxDwv1RlzV43lpCkfcl
-         zMNG6ZxitmxyD+DxP7yH+E0aBqT80DVsbQECKAXsSbM8WA1Bhn+Lme12K2M/eESbMlYO
-         jr47akkQwYs3i+feOhRVUuxgQwfATTKgObZWT3JrT62/aF5ELpkLbdjy+9aKBJmDppyx
-         tgtQhuVB61cm6ghUBlVTGxCfc3jGyP4SwPZwOhny6ibI9jN9bXUjZPMHj+mR0j7yrE6U
-         u3Yw==
-X-Forwarded-Encrypted: i=1; AKwUvBzplmdFqp4i9o88n+XbPf+P9gC4895YTp16UftLvS2QGHnoIbnGo48Nfgdl+VQw38evS96mnHKomBE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kvNiNu+ioh0pZzoIXavr7LXbtBJaS1XO08zC1LLY/Ag3SWbQNh
-	7XIaPXc0F9ZJdCGJw7LeWNquDfsTM7SkbSuq+DLBm8cq9MfA6L471hiIqqlQ0r86TR5RqiOav7a
-	A4PM=
-X-Gm-Gg: AYBFou2OypORJBq/9aLZtF9HbGxNoaPa9SRQWCSzHMwpaz0QC0WbPYP9PLB865xwILH
-	Jhvu9qoBKbZQlirYSWW6qpeBm5iQRvHp+YsLYfIZWJS+Tz/54Bo/qN7lZOeGlY2ZXTQUcrinIYx
-	D8JFbGy3jSSRpGcDJMwguGF9J0b0jaftsJNcfcUn6/6oydbw8+I3fT6ahreme+CfMOQ+Tor7k1M
-	gkK+N/JU3AbCoPSVrlNZlf1nKX6roi11bXj23dMzpxtYzXaunf2aZ/KiDVy8ONRLC9B1B8ITm9V
-	LRgfrxVjnPqftLAx4LUjisQFjo6C8bM3cveNKzsl9WZceV3wCqBA6CcAWLuKeVQZphspGbwIZsU
-	DFrrVN5Ix5MvB1tcQJ8RIRK6h1B2rUGVBfFpxCvsF9k5+MBGFeLeGvD4q6qjf3BmjNMQaBEgQQz
-	mDEIbcMin4svcbeBR7WditEuzmDOXtXYZ+vpQYU99QXPXvVkSXeF5HHDYlSJrRxD+4EaalhJzEs
-	pLDzR4=
-X-Received: by 2002:a05:6214:460b:b0:90e:945e:61d2 with SMTP id 6a1803df08f44-90eb6c5e9a9mr73341796d6.15.1788360519862;
-        Wed, 02 Sep 2026 07:48:39 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9eec7608sm19396886d6.26.2026.09.02.07.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 07:48:38 -0700 (PDT)
-Date: Wed, 2 Sep 2026 10:48:37 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Daniel Palmer <daniel@thingy.jp>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] usb: ehci: support non-standard port status
- registers
-Message-ID: <c3125487-c9af-4dba-886e-5f9467120b7b@rowland.harvard.edu>
-References: <20260902-gemini-usb-fotg2-v2-0-0057408495d8@kernel.org>
- <20260902-gemini-usb-fotg2-v2-1-0057408495d8@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Gv+l0vHC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NvTmb/HDoGzEdP9mLeQaVO9ASSchu7zqQpNC+yAzVwj+YqBf2Zm9npcggsN1XelFynszHWjTmrX89wYEs7x7CjRTsJXZPR5pEHoz+dXDGSXHqtsypMoWPSdz7aLeVmagoW1h5xk4ZN+a1IH/DJOZauLY8iyzm1DR7NfZKqvZILjOryZ1zjxz8wg+AvuQhqG8L1tAcqJ530N4w2nXUCZCvAEIaYKFwcy7MHRgtHD2mvC2AhKlz1jyHnhm+SkAHAtj1mcgSrF4UsyckNVGaIC2JncYlMLQFzQfiQ04rT5TFhlWns/I/GXjvssBPRaIHRyPAp0cYWt9KeVN+9NK6rgvuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f/ZS7X3ggK43tAW7W+G/Y30MCYOfltg3DxH2mnj1k9g=;
+ b=lSjBvwoYO5/TsNC7d4v7WxE5pinJyObkuP6rfwoTwZFTIzjQtcAWVKvgJEw/fH8sNhCf6/Z/emIh1+6nbxBe+1HvERtgrGE3i3Mg8/tTGCIFssSl3S3h5kWqVuuARYGAsV6aDy/IcdW97nuUnbCkJxa/PH0GyFZZWRljVVpNbVgTGEDiQdAwDdNlwi6osLAV+j61JV+K2eCD2Rmlpk/sUNAHY346i+tzAB64HiB5j+Dovk1bnDS8lpvUOZiosDdoqpfrRqhMYVnMOVRNFDh0SdWd7EdBjDRHtxDZimKJ2MtQ+oaGSKMEtGlv/u1QnAeLZTz4RL1T6LUYKHPSWvM3xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f/ZS7X3ggK43tAW7W+G/Y30MCYOfltg3DxH2mnj1k9g=;
+ b=Gv+l0vHC4+k9vhEB5AL7KkBF6x3Kqu8Gcncz9syuNa7hrEZ4d3rWPHCwKbfnXgZlj+6SjyYD6pKw9+hxS1+VY9KXMGwZyRecRmiwD5ASjkavcYYpPVc1Bzyaf8dUcy+KUFEFFKRvlK7MgtviStaX0uFKCYYwGySyCmBiBIO2MGM=
+Received: from BY1P220CA0048.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:59e::6)
+ by SA1PR12MB9470.namprd12.prod.outlook.com (2603:10b6:806:459::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
+ 2026 14:54:22 +0000
+Received: from SJ1PEPF0000231A.namprd03.prod.outlook.com
+ (2603:10b6:a03:59e:cafe::1b) by BY1P220CA0048.outlook.office365.com
+ (2603:10b6:a03:59e::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
+ Sep 2026 14:54:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF0000231A.mail.protection.outlook.com (10.167.242.231) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 14:54:21 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 2 Sep
+ 2026 09:54:20 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.46 via Frontend
+ Transport; Wed, 2 Sep 2026 09:54:18 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Date: Wed, 2 Sep 2026 20:24:04 +0530
+Subject: [PATCH] usb: dwc3: am62: Fix runtime PM usage count leak on probe
+ error path
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260902-gemini-usb-fotg2-v2-1-0057408495d8@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260902-dwc3-am62-rpm-fix-v1-1-7a2807e33307@amd.com>
+X-B4-Tracking: v=1; b=H4sIAIw4mGoC/x2MQQqAIBAAvyJ7bsG0hPpKdBBbaw+aKFQQ/j3pO
+ AMzLxTKTAVm8UKmiwufsUHfCXCHjTshb41BSWXkJBVut9Nog1GYU0DPD4794JyXZjJWQ+tSpqb
+ /57LW+gEV5rBjYwAAAA==
+X-Change-ID: 20260902-dwc3-am62-rpm-fix-514ccf0696a3
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Aswath Govindraju <a-govindraju@ti.com>, "Roger
+ Quadros" <rogerq@kernel.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1691;
+ i=radhey.shyam.pandey@amd.com; h=from:subject:message-id;
+ bh=GFBiO9A3R1DdSQtw3Zj61Y8Z4ujEmPa5EryOVQrbfV0=;
+ b=owEB7QES/pANAwAKAcJReB2ribKGAcsmYgBqmDiZMnrWYhEl1cMliYsXHVJaOHLx5brJom8Pk
+ vmAylixfKqJAbMEAAEKAB0WIQSu/zhVY311S11OBhzCUXgdq4myhgUCapg4mQAKCRDCUXgdq4my
+ hiwoC/9W2VCqm6cx3gjGbIb1CI0Es1KU6VCDqdkHP8XOlOGV4TTVBmQoOfb4uQ1GJhNEXrpBMY5
+ Mt1L/symSRcIWjZRDPy5mNOoEmtM5amCtl17N7L7ED27wNjd+ml+KX77jsW6tG9JzKnw+yUGKAr
+ QyefOKTVj546mleR3Oq5jO93DqxHoQC/OLeIiSvO8uAOAIT0kBL+Ld2J0ScttEq1fehbD8axQtq
+ tmbQ0Xr2TUd7rQvhZjUpKtwBJxPCWOqlH/gZR2YE23a7HAxpxtnZYGej7zDn87SvXnhG8+qcWEi
+ tTQQi3Jl/eMBU1WUj36DDZQTKcPgmD/exw3oEpz9n6d8Q3uCMORU+vQqG1NZmG1nx+3OXze0J/Q
+ XtRMAMEkI7XBMeQICfsdNH3XQGDvkpRFIg06fzfWSrH8jd3e75j8oIX3TIt5cpZMsZKcoiOLYjv
+ iygYDWlw00tRFwNJCw2eA/9RGX8KFz+DGHNc1mMbe1zlIyWL95etG9/iNbto1fLJebVYU=
+X-Developer-Key: i=radhey.shyam.pandey@amd.com; a=openpgp;
+ fpr=AEFF3855637D754B5D4E061CC251781DAB89B286
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231A:EE_|SA1PR12MB9470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 895e534e-46c2-4c21-12d6-08df09021290
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|23010399003|36860700016|10067099003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	dwYOaM3FsgJvBH+9ZpFh/sjpyuPGxG5DOq+LRGLfM5tfjiGYZArl7ekmc0DOatDK9a7F9EvwCEhPzZXDPkcPmnW9ZHhXIhGJKxOCu1nTBV+MpBKbEe4aBNL3T299Ag+/DE1X6x1vY2wnQ6tpKwJ5cFWKOgoPumyYmkHfR1zEeMC9/+EnvdAN/8n3PhczPbcVOifpXti7AUl3NDHlYXckVQno2Cj6w80uPlGJZxJIZ6c/aLjbbHIjd3auKZ2uRDvywyZ5wcepbSsY9kWzfUuRih63BHmdqVeK5Xyvd/4+rz2JSChmB02BFWCdWQILOUspIhRa1hJzb5aj+U244GnojOCnxtnK/VjockO6RRaNkKQYMVaLUPTrMq5fwYu91gie6w3grDk82JneTD0J2Ksypyod4ul2vUEp0bZDAIXmSHGWvRxANPXK7ghCwpo+y6MscgqdWT1tsiKtygZAnjB3iWMvjbm5dBRo36IQ/HmvL88tG+KmedCoeZ19ExJ77OLsLX0FlW4xV8sLp6Ol/SS3c6qJ54Dbug7Jye86Z/G8fpXt+IpK/hARHsI9jFI/veicLH+xfnXhcm6WzhIcAZ6yi8gdqVZU06HrcNvoBXNoP03UDd4YuRgBkwHsfcoX/m2Te7oGll0+rXSEf6KF5zCBjRBMn14192Lp0rv2Un+AsYdeQVDvrs/Cbb0HLTO/wgGBZxD8qs+6Hprg6RypTRyxwg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(23010399003)(36860700016)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	fJVDDMq8rZrQNuec/RIFrx4mr66p5ZFWUMeE6E86wgG0wZUNCrF27uficvhal/c3ZIrp/tcrzeo/fZZlXj6JsueO5KHpRvvYcYWKFtDeXT4xwBT+p7uGVolzlmLaatjDhdKPqcV7BqGRNSUV1N1194cBFFYthiLJf1VHLeGVeegZ2dXTZRPGJgig/p6iaofsj4LxmObGafkovCYRdijnqNexNdcyTy9/jk61ajCb2awiFBniP9VPQiMg3XAsDc1qFJfJlk86gJJXVvu4igDbJM5XxERFEjkvX/GLWqbgHTU9wFW4M+BanVF1zBYuobCe30e0iLWvnl0PZQ3qlzdxp1SHPwXyllkuL36X5Ox+2W+Q6FEhAmeivh1W12DKyL0/WZkAi5Y4f/BAKILMtAD05bHw30q5PM9jJLqLX6NRuPAQkp7Nh96Fa9b/Hsnd18vt
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 14:54:21.4635
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 895e534e-46c2-4c21-12d6-08df09021290
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF0000231A.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9470
 
-On Wed, Sep 02, 2026 at 08:11:32AM +0200, Linus Walleij wrote:
-> Some EHCI implementations place the port status registers outside the
-> standard operational register layout.
-> 
-> Add a per-controller port status base and use a helper for all PORTSC
-> accesses, while preserving the standard location by default.
-> 
-> Suggested-by: Daniel Palmer <daniel@thingy.jp>
-> Assisted-by: LLM
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
+dwc3_ti_probe() takes a runtime PM reference with pm_runtime_get_noresume()
+before creating the dwc3 core child device, and releases it with
+pm_runtime_put_autosuspend() once probe has succeeded. The err_pm_disable
+error path only disables runtime PM, so the reference taken a few lines
+earlier is never dropped.
 
-For this and the other two patches...
+The usage counter lives in struct device and is not reset when the driver
+is unbound, so the leaked reference outlives the failed probe. If the
+device is probed again, through a manual rebind or a module reload, the
+counter starts at one instead of zero and the pm_runtime_put_autosuspend()
+on the success path can no longer bring it back down. The wrapper then
+stays runtime resumed for good and autosuspend never kicks in.
 
-> diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-> index d7a3c8d13f6b..765338c2eb88 100644
-> --- a/drivers/usb/host/ehci.h
-> +++ b/drivers/usb/host/ehci.h
+Drop the reference before disabling runtime PM, matching the ordering
+already used in dwc3_ti_remove().
 
-> @@ -278,6 +279,17 @@ static inline struct usb_hcd *ehci_to_hcd(struct ehci_hcd *ehci)
->  
->  /*-------------------------------------------------------------------------*/
->  
-> +static inline u32 __iomem *ehci_portsc(struct ehci_hcd *ehci,
-> +				       unsigned int port)
-> +{
-> +	if (ehci->port_status)
-> +		return ehci->port_status + port;
-> +
-> +	return &ehci->regs->port_status[port];
-> +}
+Fixes: e8784c0aec03 ("drivers: usb: dwc3: Add AM62 USB wrapper driver")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+---
+ drivers/usb/dwc3/dwc3-am62.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Can you introduce a new Kconfig symbol (or symbols), which the FOTG
-config entry would select, and then generate the "if" statement only
-when the new symbol is set?  For example:
+diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
+index 632634d6e81e..d03b3950ce04 100644
+--- a/drivers/usb/dwc3/dwc3-am62.c
++++ b/drivers/usb/dwc3/dwc3-am62.c
+@@ -299,6 +299,7 @@ static int dwc3_ti_probe(struct platform_device *pdev)
+ 
+ err_pm_disable:
+ 	clk_disable_unprepare(am62->usb2_refclk);
++	pm_runtime_put_noidle(dev);
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_set_suspended(dev);
+ 	return ret;
 
-#ifdef CONFIG_EHCI_NONSTANDARD_PORT_STATUS
-	if (ehci->port_status)
-		return ehci->port_status + port;
-#endif
+---
+base-commit: 8b72f6626dc39b9e7e82b2721d4f7c3b86286012
+change-id: 20260902-dwc3-am62-rpm-fix-514ccf0696a3
 
-A similar approach could be used in accessors for the other items you're 
-changing.
-
-This way other architectures won't pay the price of doing the
-unnecessary test all the time.
-
-Alan Stern
