@@ -1,243 +1,197 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022101.outbound.protection.outlook.com [52.101.126.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0244470830;
-	Wed,  2 Sep 2026 03:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.101
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788319397; cv=fail; b=pXw9tPMu3Idi4YpcUSUsL+hu5/sF+EF26VIf9uLKUU488zd1nzdBBGrkRnaMuaOaPddiFAiUqQHTWb0iLInSCUBaPBCTvC1ToEE8axTYNn3iQXaBzpoNFnU6gB3Q5Ow3SG+HOY8EspmNd+1ESWeqt5+qZBPykXU6BXrFPDlyd4M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788319397; c=relaxed/simple;
-	bh=QiAfDjju3CmspZirQ3SM6urcuIcZy3f4gPndlE8Kl6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mb6Do0Wab6TbqeZkfDX0VYo894+FsaFRui/tIVwf68LfCHTRU7V3533FZrtPQ943cF2BXqVkKEzNs2DeZnz9dBvUd668cXg8rJISQwClbuHebZqWBgMzLrAtt5Y7fJWYskN9M019ohq94mVOGY8q6fuGin+Dw6gZCEllWGVxpqc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rdYoGqUqhKqLirVGb1v86WTG+kAu5SSQMDiNley+Us1nufg7xNpJQ8DayR4WOzPibsHTfbWkeiaZXb0Ue5mGWuVGrDHJ0JG12juu7hIt52RS3X7TlG0KG8PW/N4u19b5Gtl+e6B6kUxE0lC8Fl2w00N1lw98gPT7Fj+kjuXQJHGeFZa+QB4LHDtFp50p2N0GmZVygzrdpDVvPtHiPkG1lAlPeRYG03g3xW+JLK6TllHD3F73G3wuhBrkIcyHNMcsF2cmRNOSBHBEtfVWZj/sMRU8DFCguROPghwzlcrBjXxTbxMg+F/l8owx24uGyzOaKg+Hb7LwR9hR3pmo/IIMdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BJyWZC/L2aqfp4YvKRifzxYVv57fndsYGyGDc2rpXNw=;
- b=R2gcdYyxpB9ih+X39nLxibN93ZzpPE7SOJKBgwEeFunXjyT0Lcoei2dQYaYPHaJctSBsxm4Rg+uxTrPu+0KJJh0r6ASe+UP39zXkBWDsbpqoTAR9Volj1LkqiEpttwgXfMjGnN2btKUjK1RGvmwc5ZBwIORIi2Rz5OIWG8RXW2JRODq+eWSebBzTbx9XPO9lj3HBFxPxNSm+WZQSH12BBnceztcekP3Xmm4gxADx4rI3g88nUuGquvEXmlSqTM3TLmr6BXGGWKLxjq8LZiddJb2teBINtG2zx8+X0amddLbOgJMQtPAjTPlGkJqvhbCjWC/jnjLGowAq2iaSYnzfig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from SI1PR02CA0056.apcprd02.prod.outlook.com (2603:1096:4:1f5::7) by
- SEZPR06MB6197.apcprd06.prod.outlook.com (2603:1096:101:f3::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.13; Wed, 2 Sep 2026 03:23:11 +0000
-Received: from OSA0EPF000000C7.apcprd02.prod.outlook.com
- (2603:1096:4:1f5:cafe::4) by SI1PR02CA0056.outlook.office365.com
- (2603:1096:4:1f5::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
- Sep 2026 03:23:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- OSA0EPF000000C7.mail.protection.outlook.com (10.167.240.53) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 03:23:09 +0000
-Received: from hongliang-System-Product-Name (unknown [172.20.64.180])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id EAC8240920E1;
-	Wed,  2 Sep 2026 11:23:06 +0800 (CST)
-From: Hongliang Yang <hongliang.yang@cixtech.com>
-To: krzk@kernel.org
-Cc: cix-kernel-upstream@cixtech.com,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	fugang.duan@cixtech.com,
-	gregkh@linuxfoundation.org,
-	hongliang.yang@cixtech.com,
-	krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	neil.armstrong@linaro.org,
-	p.zabel@pengutronix.de,
-	pawell@cadence.com,
-	peter.chen@kernel.org,
-	robh@kernel.org,
-	rogerq@kernel.org,
-	vkoul@kernel.org
-Subject: Re: [PATCH v1 1/4] dt-bindings: Add CIX Sky1 USB bindings
-Date: Wed,  2 Sep 2026 11:23:06 +0800
-Message-ID: <20260902032306.1182941-1-hongliang.yang@cixtech.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <503e87d9-3311-413a-98c0-e02a02c4a354@kernel.org>
-References: <503e87d9-3311-413a-98c0-e02a02c4a354@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E0C1E98EF
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 03:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788319600; cv=none; b=eR+3/NobwmPFgl4TobkQEUc8+4XqUVY59fIfjUOJoUuIt6QEqPz5VZ9tORfM64oKqQNu7Lnm/Eh0x5p5dCvcMvT42nn6rW+TlGvTRMH7hxfENzkmSfKVQQ9Oy/oo6P7zoUc+rXj6WviIIq8oGBFpSZF57yV6veGWGeOf62LtYUY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788319600; c=relaxed/simple;
+	bh=96wvEPiwPZfR78LElYmLqc+vqsPLRsuVXQK+WuAbyd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uuS9zLySxEzq9Bv+C1oYHGLooFVIWrrGXDI+DLfvP8PPDHmNCzqbJk3K6pwi0OEafLw6z47OXjHUE0hmZaqdy9/n5HT5NRJO3lrJq9D397Qtei8RB63A7qAKiKi+zKFXgG8+EzsuzXWN+3L9PmSZkIC0a9YLEnylerCcYjsYhLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zcs3JbQr; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zcs3JbQr"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so5043495e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 01 Sep 2026 20:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788319596; x=1788924396; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CWAV+LvRXqnUBhlcQBpGfOksFpIYqg+MNUT0HrN6l6o=;
+        b=Zcs3JbQrig9Xlfw2jzMfNoBFox3oNzg7sc2oQjzk8pEJYhEZIBSJYlPEyGxLqxMCul
+         o9n+aO5tyh9N6PMudI14ZJ/Ij6PZFbiHi3ZgI/t2bv4qAAAIJAV/IEa+cUfGmXv215hx
+         3nZHCSXVc1E4w6K50I76RH0OuBSbymioEB56Bs6liCDlv/OzhMM481qw2xGX2JpoAGQt
+         zJxa2r5NZYMpqAmD4r9qv5Z1aSSb1JlPyz36FyCtbU0+OjRoaVHojQL7yxYgWfw/9Qy7
+         YAKWyG3V4AQdmB6Ss1Ecz1lhEk8MksKufAZ+ShfZJa7qX0uefaig5NfAsGJ9BHhEkSMN
+         SHow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788319596; x=1788924396;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CWAV+LvRXqnUBhlcQBpGfOksFpIYqg+MNUT0HrN6l6o=;
+        b=npkB0hTODTYbPfRBRmd8RauxGGL/5jvGNX+ZStVzr5hL/asqYzFh0Ksx492c/FShr5
+         DTTh3wNkQv6AmoHqf9tQa8GhGqPI8SX8+N5OWz3S5pjksoxm6HTpNTJyl3p+mlaBtGd7
+         plDp9wVB8wkYC4g11hjxaGbiyVqn/zKe4mXg0AsReOtP6j/ZJuMQotrOpPX2GK/KZDJK
+         ebv29dUhAbhwYwuwln5g/0UQhQYvVcdpozN9HZOlhjQ5Am2CVtDWD1rUkRNW1zA8J2f0
+         xa/5lB9G+3kFzUwLTB0u9+ysjyp1ngAD3Zltxd6zGD3USnuUEd20xcK2V226HyFlRIvG
+         JTig==
+X-Forwarded-Encrypted: i=1; AKwUvBz0MgJJffrDbPc7o8BTwqzKLow3xyXOvLMWy57A34IhG33i6uJtT3JFBCGERuF7oCCXmXggqjAwM+g=@vger.kernel.org
+X-Gm-Message-State: AFuF++k/03rIEcHe40PoHT8qP427UFtTfb6VgwyYgIKk4LUuVKGM+Bb3
+	/oSpGUfwKmpfDCCX/Iv54gA6EmSg6BZ/9HQSRMlw/DEx9d4O74CZm9K2
+X-Gm-Gg: AYBFou0uynDyMLd0WCLWWo2KWoT/s038Y3zKWOM2gnjk0mPEv4TrZXpYafXq0KaX/9B
+	Ch1oNRmG232JfwxJeNVYJlf8rlNsX59e9Cgi6oZtL+RxhHQT1/Dqxpyohl2sda53cksvNU3ExVh
+	R1HsetyE8olpsrNsCKXQTIbDcw5IHSZhlflb/C/qGyYVlCtJyH71mCdgAeww9OesPIoDOfMbkvh
+	vzghgN4PZSHgGeJoZJwUuDDtafnMj4altbNmge+zuHLyuqkauttXiXyJ10QudBpjbZMsvJE7Z+D
+	OgYtDrvbipEIQEvt46wLwqmi5redJwin5+9EkUfkqjekVzxPwUPvVj5J/8yzf7zHzJyEPCv3NFQ
+	7e3StbYpVV9qKqe0yjE2Vf9q3XjSSPI7hPmrfpGFXVDSq35NGeQKS3Ww075DL8inkziBrqcoAWW
+	27GwjAWh7/hKUxwg7qMMRqKjb7oWKUJ6g2MXj+osv8MQS5IorshgElR51B8w5EQ/DI3cs=
+X-Received: by 2002:a05:6000:4a0a:b0:484:39b4:5bc9 with SMTP id ffacd0b85a97d-484914cba9amr2358765f8f.26.1788319595898;
+        Tue, 01 Sep 2026 20:26:35 -0700 (PDT)
+Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448e7f8f9sm3312839f8f.9.2026.09.01.20.26.34
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 01 Sep 2026 20:26:34 -0700 (PDT)
+Date: Wed, 2 Sep 2026 05:26:31 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Rishabh Jain <rishabh.jain1198@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Mario Limonciello <superm1@kernel.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4] usb: pci-quirks: always assert xHCI OS ownership
+Message-ID: <20260902052631.75c6068b.michal.pecio@gmail.com>
+In-Reply-To: <178831224746.44206.8934470315568179153@gmail.com>
+References: <20260831211126.23745-1-rishabh.jain1198@gmail.com>
+	<178831224746.44206.8934470315568179153@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000C7:EE_|SEZPR06MB6197:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d21fa2d8-0b2c-4a1c-e0fb-08df08a18350
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|23010399003|376014|7416014|10067099003|6133799003|3023799007|18002099003|22082099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	ePfPXo8cb4KRXRq7UL5GFJkvJgSGCiv9pIod2tB3Kw88//EWQ0LKT6XOnYKIeo+bw7muAAdyMFpvF5+Iuc0ymhw/sIzSPboX2FoVjsljwXV/+LiVsd9tD1NJmaQxCBbGbO6ZIDsq5NFQHGONJnHYuyX10RN1QWMH6r/an9DbZ2OiZqhI2ARz+cdFZzsbM1nJ4QUVu1qCO2GuSF5AcyAs8gEpIpKUVsE+Ewe2R34qrfc5TAuMvUv2J9MvIEpxbHvD1uq+udrBbOOWQviCfc8hOWtdrAanvoLZYDvFQX/JWXdhBCoHhQLc3gEm0NbsOJ3rPV7lfQb9sG7gNJ1VdLGeWZU2FHBa/O0f1tKEWt1X7ORr3x8PMQu7m6Jh+XKGr6rext17eABfw7chYjycwxeEJWl/BVj4iG/q2aEGY1wTzqQFq71s2TXEHVj+CTzhEt8cjOXr6fbHZKu/EMEw5gxmukm2ccj70CPdGznaOId9aGW6ilfgc67o2GqibIlZr6k1Fd3fjYO5sfV0lTj4vhpJtTqeJs/qDdKiqJMjnC6kXhoujFufQKUJn4qB3f6kymH1VUAIPrJSGcAUjFBSq9O/dEiS/vwvs1ui9SYabbt4s1ZRpccjMaqrV8HDg5Mr4bcx6yV8zGFs8C9KX8RqFSLZdg==
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(23010399003)(376014)(7416014)(10067099003)(6133799003)(3023799007)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	yO4ZuF/7bb8tZ3E6q5rd1qaSbV0vaJ30MkC/+E7zDBbQNxpZVZh6eUiRzS4CJ4aB6A5WEuT00jHtznkVj0o8V3pFecIAzgdhmxBwEVU3YE8WKEpermSqtEuYhM46Ab0SkcE3iaRSUYf05QugL7Mpd8Nc76Jm48zFqtE4DmpA8ymCvmxdSze2YUXsJNO4H2e7jiMw/28kmV9QbpQJHo+ZBzQ965IBy38UqctSYPR+QMph+r1ot19l4SsJK2JfHU8+sBqb9CY1S2NJbOiwB3x5IC//rnGhGOR+TSgJIKdBWdJip0I2IykS7vEcHItOU+wC2pvB69HsacB001KC/aGErEdFygV7M3P/vMb9Xe+t1TLt63Ixlk0RV0XUYIpNVC/7zK2ehkqYWy5rsXxMwanTecOXNMuUubpYYUVuJidLFNoO2gnV5666fdXIcvhUyAn4
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 03:23:09.3473
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d21fa2d8-0b2c-4a1c-e0fb-08df08a18350
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	OSA0EPF000000C7.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6197
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
+On Tue, 01 Sep 2026 18:24:07 -0700, Rishabh Jain wrote:
+> The xHCI ownership protocol requires the OS driver to assert the HC OS
+> Owned semaphore before using the host controller, then wait for HC BIOS
+> Owned to clear if firmware owns it.
+> 
+> quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
+> is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
+> while both ownership semaphores remain clear.
+> 
+> On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
+> resume to terminate Controller Restore State with USBSTS 0x401. Linux
+> then reset the host controller, both root hubs and the USB Bluetooth
+> adapter.
+> 
+> The controller entered resume ready and halted with USBSTS 0x1.
+> Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
+> device contexts and command, event and transfer rings were verified not
+> to cause the restore error.
+> 
+> Across four S3 cycles, asserting only HC OS Owned changed USBLEGSUP from
+> 0x00000801 to 0x01000801 and eliminated the restore failure. Testing
+> included the unmodified 7.1.8-ogc1.1.fc44.x86_64 distribution kernel
+> using a test module that set the HC OS Owned semaphore. Clearing
+> USBLEGCTLSTS was independently verified to be unnecessary.
+> 
+> Always assert OS Owned for controllers using the standard xHCI handoff,
+> and leave the existing TI/Renesas forced handoff unchanged. Keep OS
+> Owned asserted after the standard handoff to prevent firmware from
+> reclaiming the controller during subsequent suspends.
+> 
+> Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
+> ---
+> Thanks for the review.
+> 
+> By "stock-kernel test", I meant that the register change was tested on
+> the unmodified 7.1.8-ogc1.1.fc44.x86_64 distribution kernel using a test
+> module that set the HC OS Owned semaphore.
+> 
+> Sorry, I missed the AI assistant guidelines. Fixed now.
+> 
+> The TI/Renesas forced-handoff path is restored unchanged. This revision
+> only changes the standard handoff path. I left the byte-access change
+> out of this patch.
+> 
+> Changes in v4:
+> - Preserve the existing TI/Renesas forced-handoff path.
+> - Limit the ownership change to the standard handoff path.
+> 
+>  drivers/usb/host/pci-quirks.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+> index 0404489c2f6a..fa9b5db4d115 100644
+> --- a/drivers/usb/host/pci-quirks.c
+> +++ b/drivers/usb/host/pci-quirks.c
+> @@ -1193,22 +1193,25 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+>  			 && pdev->device == 0x0014)) {
+>  		val = (val | XHCI_HC_OS_OWNED) & ~XHCI_HC_BIOS_OWNED;
+>  		writel(val, base + ext_cap_offset);
+> -	}
+> -
+> -	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
+> -	if (val & XHCI_HC_BIOS_OWNED) {
+> -		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
+> +	} else {
+> +		/*
+> +		 * Perform the standard handoff and leave OS ownership set to
+> +		 * keep the BIOS at bay during subsequent suspends.
+> +		 */
+> +		val |= XHCI_HC_OS_OWNED;
+> +		writel(val, base + ext_cap_offset);
 
-Thank you for the review. Most of the comments are already addressed in
-v2 [1]; the remaining points are answered inline below.
+The change from val|OS_OWNED to val|=OS_OWNED doesn't seem necessary.
 
-[1] https://lore.kernel.org/all/20260902032134.1182634-1-hongliang.yang@cixtech.com/
+>  
+>  		/* Wait for 1 second with 10 microsecond polling interval */
+>  		timeout = handshake(base + ext_cap_offset, XHCI_HC_BIOS_OWNED,
+> -				0, 1000000, 10);
+> +				    0, 1000000, 10);
 
-On 01/09/2026 07:47, Krzysztof Kozlowski wrote:
-> Please use subject prefixes matching the subsystem. You can get them for
-> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-> your patch is touching. For bindings, the preferred subjects are
-> explained here:
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
->
-> A nit, subject: drop second/last, redundant "bindings". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v7.1-rc7/source/Documentation/devicetree/bindings/submitting-patches.rst#L23
->
-> And do not combine USB patches with other subsystems.
+And this whitespace tweak isn't either.
 
-Done in v2: the combined bindings patch is split into separate patches
-with "dt-bindings: phy:" and "dt-bindings: usb:" subject prefixes, one
-schema per patch, e.g.
+>  
+>  		/* Assume a buggy BIOS and take HC ownership anyway */
+>  		if (timeout) {
+>  			dev_warn(&pdev->dev,
+>  				 "xHCI BIOS handoff failed (BIOS bug ?) %08x\n",
+>  				 val);
 
-  dt-bindings: phy: Add CIX Sky1 USB3 PHY
-  dt-bindings: usb: Add CIX Sky1 USBSSP controller
+Note that val is being logged here in case of error. It's probably
+better to preserve the original value for this purpose. We *know* that
+the code above tried to add OS_OWNED, but we don't know whether it was
+set before or not. Not sure if we will ever want to know, but still...
 
-> Please read and follow DTS coding style.
+> -			writel(val & ~XHCI_HC_BIOS_OWNED, base + ext_cap_offset);
+> +			writel(val & ~XHCI_HC_BIOS_OWNED,
+> +			       base + ext_cap_offset);
 
-Done in v2: the schemas and the new DTS regions now pass
-dt-check-style in strict mode.
+OK, I see, this could unintentionally clear OS Owned together with BIOS
+Owned. This can be prevented by explicitly oring OS Owned here. And it
+would make sense to document this problem in the commit message if you
+are trying to solve it in this patch.
 
-> > +unevaluatedProperties: false
->
-> Which other schema do you want to reference?
+Other than that, I think this looks good. Just in caes, pease test the
+final version once more to ensure we haven't broken something.
 
-None. Changed to additionalProperties: false in v2.
-
-> > +  reg:
-> > +    items:
-> > +      - description: AXI property configuration register
-> > +      - description: Controller status register
->
-> Registers are not address spaces. Devices do not have address spaces of
-> one register, so this is not a real device.
-
-I understand the concern, and we looked at this again against the SoC
-documentation. These two registers are RCSU (system configuration
-unit) registers, but each of them is dedicated to one USB controller
-and not shared with any other device:
-
- - The first register is the controller's Control Register for the AXI
-   cache attributes. Its bit fields are awcache[3:0] (bits 3:0) and
-   arcache[3:0] (bits 7:4), i.e. the AXI cache attributes of the
-   controller's own AXI master interface. The glue driver programs it
-   once during initialization.
-
- - The second register is a status register providing the AXI clock
-   valid status the driver polls while enabling the controller.
-
-The two instances submitted in this series illustrate the per-device
-offsets: the USB4 controller uses 0x091c0314 (AXI cache attributes)
-and 0x091c0400 (status), while USB5 uses 0x091c0324 and 0x091c0410.
-
-The reason they end up in a separate node from the Cadence USBSSP core
-is purely physical: on Sky1 the controller's control registers and the
-Cadence USBSSP core registers are two disjoint regions in the address
-map (e.g. 0x091c0314 vs 0x091d0000 for the USB4 controller). The glue
-node therefore describes the Sky1-specific control registers, clocks
-and resets, while the core node is the Cadence USBSSP core itself,
-describing the actual register windows the cdns3 driver maps
-("otg", "xhci", "dev").
-
-That said, the register windows are admittedly tiny, so if you prefer
-this modelled differently we are open to suggestions. One alternative
-we considered was folding the control register file into the core node
-and referencing the Sky1 glue properties from there, but that would
-mix the Cadence core registers with Sky1-specific ones and lose the
-1:1 mapping to the hardware topology.
-
-> > +      - const: axi_property
->
-> axi
->
-> > +      - const: controller_status
->
-> controller
-
-Renamed in v2 (reg-names = "axi", "controller").
-
-> > +  cix,usb_syscon:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description:
-> > +      Phandle to the Sky1 S5 system controller used to program USB mode
-> > +      strap controls.
->
-> So this is part of that device most likely.
-
-The OTG mode strap bits live in the S5 power-management controller,
-which is a separate hardware block shared by several subsystems, so
-they are not part of the USB controller's register file. That is why
-the strap is accessed through the syscon phandle instead of a reg
-entry, while the per-controller registers discussed above stay in the
-USB node's own reg.
-
-> > +  axi_bmax_value:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    default: 0x7
-> > +    description:
-> > +      AXI bus maximum burst length configuration value.
-
-Dropped in v2: the value is fixed for the SoC, so the driver now uses a
-compile-time constant and the property is gone.
-
-> > +patternProperties:
-> > +  "^usb-controller@[0-9a-f]+$":
->
-> Why using completely different names than entire Linux kernel?
-
-Renamed to "usb@..." in v2, matching the cdns,usb3 nodes elsewhere.
-
-> > +    $ref: cdns,usb3.yaml#
-> > +    description:
-> > +      The Cadence USBSSP core controller node. See cdns,usb3.yaml
-> > +      for properties such as dr_mode, maximum-speed, phys, and interrupts.
->
-> Redundant description.
-
-Shortened in v2.
-
-Best regards,
-Hongliang Yang
+>  		}
+>  	}
+>  
+> -- 
+> 2.50.1 (Apple Git-155)
+> 
