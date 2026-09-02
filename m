@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E2947D470;
-	Wed,  2 Sep 2026 13:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945AC1B3925;
+	Wed,  2 Sep 2026 13:39:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788355932; cv=none; b=iNSMjVTcMesgBA/stzHAGiGtVI/M2xvRf3lwbqF/eL/6/ykR8NIcJyGC5NhsGv7miC2ON9ewJcx7yNVPH/be1Y+zhIsN/gLONwqYLItGca9aVMP1jhxcytK/8KFQeW1Yby0WRpjrvt0Yyp18rM4xNJl/KqWs6dG2Cw+X4obwOUk=
+	t=1788356381; cv=none; b=X5hIi6pHDhMPu+0gg9NWZesGqXk8YufV1T/14/3+/mc69YxFqg4LYld/bgNZS5J/7TGTq232qWBaRqXq0jiw4HwFLF4LdyT/EyE82hnVn84FDpiaoyAgxYaQw0uu3TU7zetPr8G0f+EiSFx/Om6TQpFSSQLuCzH0XAJ1TIuLKrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788355932; c=relaxed/simple;
-	bh=2FVjUR2IHg8brsTGehbDXKcOcWo2hhF15CmBiXnTkTU=;
+	s=arc-20240116; t=1788356381; c=relaxed/simple;
+	bh=dJqBXH8BdOH6zHKEeW0xtAXFGckiKkJhrp9asTM5BW8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mZubxNRu7HdZholWKvwD0vuFvKVQ2gOgDuoGc0oLw3DCZzxNAZ8byjMA8Zdk2FvQxEw4HOlaERft98no2Sqk6mXXSlxloe4pfRTAwV6YLlvCz3HhkLG3xFbI9ksJB+0aWkefaNctDwtJldQmyz1l6JvOnviCR2TxH6gudoNdi/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyGOm/D3; arc=none smtp.client-ip=198.175.65.21
+	 In-Reply-To:Content-Type; b=HKtuRnVNTENC8+q3tX1GYK8RdaziyMspidCi7Q47HpIPY+YFJTt0miPnCq6Kuw8vjjubzxEOZm6BXHreq0PMRofPS5qV38g7bMTn5Kpw9pp4fGr1PZW93Nyw7HCcCjC6LUWifYRLQtMFCX7vI2gj6eQsA18Xu1e7G5YOMfDbrK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNK3EH9j; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyGOm/D3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNK3EH9j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788355930; x=1819891930;
+  t=1788356379; x=1819892379;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=2FVjUR2IHg8brsTGehbDXKcOcWo2hhF15CmBiXnTkTU=;
-  b=jyGOm/D3nSV3qbyH2XayRak5DDGvazl8IjaZTMXS5u1NqY6HAlKGGIix
-   n7Ysp9vFKF9lN1CWbTdb4k74/OuEeWdWburZ2VrTzgJsIGgUa2O9mJsaS
-   ibHNZtl/pOl7vOCvlL3znjDEOq3TJsetYDIQWenFwUiNzVBENQa6mgrWs
-   O2hP2HX2RhtHGkSN8b6SLYUVDG6YPPG6M1SoTg7KgK70X/QyW/38o5dIu
-   fGeV7GiZ+NLi7yP1Wy8iuHHUWKmcgN6hk22nZXhOlgrFlach1CgrbgRp+
-   lACgXNlH+6+dXxQ0jqu+Rs7EXaW2lc/EMCH7X70oKxN4b15a7z9rrggSJ
+  bh=dJqBXH8BdOH6zHKEeW0xtAXFGckiKkJhrp9asTM5BW8=;
+  b=ZNK3EH9jBrUKTJD/bE8sreE8zKTY5AiBQ4XyTuGQ5ganeRa3/Zux7TXx
+   UQdkQ7OwVkV/Uxtt2L72zC7nOHKeQjg06UlkFxHaiIYBRpK2F6JSw6IfM
+   2zVL4siChstT7oEBZccjMwZ6T/xQySVI66/UojSdCPr4jsGgvyO4uTYNQ
+   34KYWs+0u2y/7F7VZA5XveQbzrJmP47awBk4E95InsKgSzlkuv1m+C+aF
+   SX729NEhrvobi6ihQX0Ina2QcgVF0vhx5A57X66V966isuLKhyfjOpxPF
+   acWH7r2LnGQCsHIe4WBD80JZNqYSe9Q7stqGd7i4lEuAZKPIBJ2Sgvs5+
    w==;
-X-CSE-ConnectionGUID: THuuyrKWTTysv55m4uexbA==
-X-CSE-MsgGUID: XS6vM90QRmC9Kjx+d2kH1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88662846"
+X-CSE-ConnectionGUID: 5o2g7jeZRkGmJE+tiplM0g==
+X-CSE-MsgGUID: v9iNjX0AThqmGwTmP5m5IA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88664108"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="88662846"
+   d="scan'208";a="88664108"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:29:50 -0700
-X-CSE-ConnectionGUID: eJgGfHOxT1iOIb//2TX6ug==
-X-CSE-MsgGUID: c5EqoaCJT12ye2kIDQaCqQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:39:19 -0700
+X-CSE-ConnectionGUID: AJp3+3dCSqKCdeKQBXAOZA==
+X-CSE-MsgGUID: CYSWsZtaQI26RaP1Tlh4YQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="265707859"
+   d="scan'208";a="265708939"
 Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.245.217]) ([10.245.245.217])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:29:47 -0700
-Message-ID: <9f8fae96-0865-4b0e-9650-00e92e324f9e@linux.intel.com>
-Date: Wed, 2 Sep 2026 16:29:40 +0300
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:39:16 -0700
+Message-ID: <5f539374-ef55-4400-89b0-f826bdf692d7@linux.intel.com>
+Date: Wed, 2 Sep 2026 16:39:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,95 +52,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH 1/2] usb: hub: use shorter 120ms post resume hold for SS
- root hubs
-To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Michal Pecio <michal.pecio@gmail.com>,
- Mathieu Fluhr <mathieu.fluhr@gmail.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>, regressions@lists.linux.dev,
- stable@vger.kernel.org
-References: <20260831190349.29590-1-lovekeshsolanki00@gmail.com>
+Subject: Re: [PATCH] usb: xhci: Fix bounce buffer overflow
+To: Michal Pecio <michal.pecio@gmail.com>, co <co+fd80bc5967eb22c3@bugs.sh>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh>
+ <20260828002440.312ec0b6.michal.pecio@gmail.com>
+ <20260902132458.5de2f031.michal.pecio@gmail.com>
 Content-Language: en-US
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260831190349.29590-1-lovekeshsolanki00@gmail.com>
+In-Reply-To: <20260902132458.5de2f031.michal.pecio@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi
-
-Some minor nitpicks/personal preferences if you are sending a v2.
-
-I don't really object taking this as is either.
-
-On 8/31/26 22:03, Lovekesh Solanki wrote:
-> Commit 8f5b7e2bec1c ("usb: hub: fix detection of high tier USB3 devices
-> behind suspended hubs") holds a runtime PM reference for
-> USB_SS_PORT_U0_WAKE_TIME (200ms) after every SS hub resume, so
-> downstream links have time to finish trianing before the hub can
-> suspend again.
+On 9/2/26 14:24, Michal Pecio wrote:
+> High-speed devices with out of spec 1024 byte bulk endpoints exist and
+> are allowed by USB core, but xhci-hcd always sets packet size to 512.
+> The exact nature of these devices isn't documented, commit fb5ee84ea72c
+> ("USB: Accept bulk endpoints with 1024-byte maxpacket") only states
+> that they "don't work with xHCI host controllers", whatever it means.
 > 
-> But 200ms is excessive for root hubs since a root hub has no upstream
-> suspended hub whose wake propagation needs to be accounted for.
-> The root hub still needs some time for USB3 link training to complete,
-> And root hubs also default to zero auto suspend delay and get
-> periodically resumed by userspace USB enumeration opening and
-> closing their usbfs nodes (adb, libusb).
-> This extra 200ms hold stretches this resume into a suspend/resume
-> cycle of roughly once per second, which on idle AMD systems have
-> been reported to cause system freezes.
-
-I'd highlight the fact that this patch mitigates the AMD platform issue.
-
-Maybe begin commit message with something like
-
-"Holding a USB3 hub PM runtime reference for 200ms at hub resume triggers a
-  AMD platform issue. Users running Android adb report crashes after adb has
-  been polling and waking up the USB subsystem once a second for some time.
-  Vendors are working on a solution. Disabling USB runtime PM is one way to
-  prevent this issue, but it is also proven that reducing the hold time to 120ms in
-  resume also mitigates it. See Link for more details.
-
-  Reducing the hold time to 120ms for the USB3 roothub is in itself a valid change
-  and optimization as the current 200ms is excessive...
-"
-
+> But somebody (or a malicious device) can try, and then the driver will
+> allocate a 512 byte bounce buffer for this endpoint and may write up to
+> 1024 bytes into it if particular scatter-gather URBs are used, because
+> xhci_align_td() obtains packet size from the descriptor. Fix this.
 > 
-> Shorten the post resume hold to 120ms only for root hubs but
-> keep the 200ms for external hubs that the original commit is
-> intended for.
+> As a side effect, TRBs will be aligned to the packet size chosen by the
+> driver on all endpoints of all speeds. Alignment serves the xHC, not
+> device, so this is fine. Only out of spec devices are affected anyway.
 > 
-> Reported-by: Mathieu Fluhr <mathieu.fluhr@gmail.com>
-> Link: https://lore.kernel.org/all/CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com/
+> Reported-by: co+fd80bc5967eb22c3@bugs.sh
+> Link: https://lore.kernel.org/linux-usb/D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh/
+> Fixes: f9c589e142d0 ("xhci: TD-fragment, align the unsplittable case with a bounce buffer")
 > Cc: stable@vger.kernel.org
-> Fixes: 8f5b7e2bec1c ("usb: hub: fix detection of high tier USB3 devices behind suspended hubs")
-> Signed-off-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-> ---
->   drivers/usb/core/hub.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 3345b3298daf..e1415ad5f908 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -76,6 +76,12 @@
->    */
->   #define USB_SS_PORT_U0_WAKE_TIME	200  /* ms */
->   
-> +/*
-> + * Root hubs have no upstream hub whose wake propagation needs to be
-> + * accounted for, but still needs time for USB3 link training to complete.
-> + */
-> +#define USB_SS_ROOT_HUB_U0_WAKE_TIME 120 /* ms */
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 
-I'd do minor changes to the original code comment above the first #define,
-and just add the second define right after it
+Thanks, added to queue
 
-/*
-  * modified original comment
-  */
-#define USB_SS_PORT_U0_WAKE_TIME	200  /* ms */
-#define USB_SS_RH_PORT_U0_WAKE_TIME	120  /* ms */
+-Mathias
 
-Thanks
-Mathias
