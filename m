@@ -1,82 +1,59 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB8940B0FA;
-	Wed,  2 Sep 2026 09:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1C1403AED;
+	Wed,  2 Sep 2026 09:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788340040; cv=none; b=cH8idCq1QoY+VhWytqpRVvKBJlciSzxPN27s/kyyQKd/Ys/HkCT6lOlnQQGOh87QNIDGMbjFrKc8w+yypAw/mU8+EEP7X9oDnZL2GsFJyhf4BfLsjfoTc+fO7UcOpjTFLm8FjJ61UlFqO38cmG2yKLCf+z8Y2bKzhgMSwlYBW3Q=
+	t=1788341230; cv=none; b=leYvcuCkidbOd77S8ReFwaEy/zO4+Mca2oMcR+ht68OkoZR5BSih1+iljMe6rMhYoMkgjwa81YCN63x1X8b/HQ8LT3Qv5tZzF2l9ISBscwiG6q1HkFKJCQOto5G0fkpDcH4F3AYmUCswjxA8EgtiZiMSSK0JY+6KoOUZecOJhOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788340040; c=relaxed/simple;
-	bh=gsdeDRUybUisWv6Ll+6w8bay49Xe/bjDxzAGDMkf2vI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Mh42KklL/iK6nHtqIURKusq04a1QtO8FdUIVT+SI+6rD7M0plAHxy3R4C2tBx1Q5qWZekmQoV/rT7Gxz4U11OIVLu4NmQifGhtbO4G4zUbJeaRRuXPQKnMZqSloPCgnVsgGIcEyKj2IqukMNjuDva0HqgJZkxW7zp1c+bYgi1OY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=APkJZ5Uu; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1788341230; c=relaxed/simple;
+	bh=hAk8AXdrUX705SGAHF4ZcodOwsWhy6DQOrITwq6tj4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cL42ddfXO9c4WDTVv7HxcPSBzyEFffKbKvOn/RmLa9U1OLSuygJrOdPUwdmSsZ4qZYOhzqI9IsB+6TI/9RnVLQRLI0W4kdkYb46esbnQPE0jXIVDcIvVeEv2IHmixE/YxtjAT8u030visfg2hcosKYM1MeFpEgFvCjsgESh4SYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oLLwQo0e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="APkJZ5Uu"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68296Zr842526839, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1788339995; bh=Tym3NAGAstrYAPiDlaHsqMFDDSYFEK8Y40C5ERwfeNE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=APkJZ5UuhUbtWRkubL1229hvvSgHyIRcXZZS4h7d3u8Y62TWTVtsQjbamV81ipGIk
-	 IMhfcwcrOwXYysj1rDr4lzW6GlPtcZ4O7qjSPDLlzT9NyLuiJA0xUbofh65udnStwx
-	 J/8xKDNOl6cK8wfcidmr4Ra62Qyuu/tuFTz1NCc6p4MYoe+tJKCK1rtsdYuBS7sCe2
-	 tJIPuQFo3g70mS2QPmWCBcnHiSnV4z9HnT3VpXgkUHyq4d+8OJ3FOd4PgcLpBgWvD5
-	 kl2jTC57vxibwb4h1Te2mh8Zu/QNMK3iD71lUhpdecG1/1zuamaBN974JSuKnJAIY1
-	 hC6rtIN6Ed/YA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68296Zr842526839
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 2 Sep 2026 17:06:35 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 2 Sep 2026 17:06:35 +0800
-Received: from fc44.realtek.com.tw (172.22.241.7) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Wed, 2 Sep 2026 17:06:35 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>
-CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-	<linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
-	<hsu.chih.kai@realtek.com>, <andrew+netdev@lunn.ch>
-Subject: [PATCH net-next 0/8] r8152: refactor and extend RTL8157/8159 support
-Date: Wed, 2 Sep 2026 17:06:24 +0800
-Message-ID: <20260902090632.41844-1-nic_swsd@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oLLwQo0e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC151F000E9;
+	Wed,  2 Sep 2026 09:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788341228;
+	bh=6MAiAELbFFa1ARWRXJ+CGjunCoIg2Wpoq0ZQlvomzbg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oLLwQo0eGM01bcIA4jtU0XwizcCvV3KKt9oQRj3ZR6YePKEx5OqeXdrtnXwaBpYBX
+	 4pk7oRdDSNYl7ZjdslBYzwdxJKTdfio+C5bGjZlOdzCpvmu+D+HSYiECi5SgE5tbeN
+	 6EefbyTxRtxbOCLy5aPvvCbk624YcUCLYEr5d2LY=
+Date: Wed, 2 Sep 2026 11:25:24 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Huang Wei <huangwei@kylinos.cn>
+Cc: Minas Harutyunyan <hminas@synopsys.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc2: debugfs: fix memory leak of hsotg->regset
+Message-ID: <2026090200-mothproof-snowplow-f443@gregkh>
+References: <20260807100400.3179625-1-huangwei@kylinos.cn>
+ <20260902090541.2134430-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902090541.2134430-1-huangwei@kylinos.cn>
 
-RTL8157 and RTL8159 have different init, enable, up/down, hw_phy_cfg,
-and PHY access sequences from RTL8156.  This series splits the shared
-callbacks into per-chip variants and adds the missing RTL8157/8159
-functionality: dedicated unload and change_mtu callbacks, TGPHY register
-access via phy_read/phy_write pointers in struct rtl_ops, flow control
-patch support through rtl_fc_pause_pkt_en(), and UPS support via
-r8157_ups_en().
+On Wed, Sep 02, 2026 at 05:05:41PM +0800, Huang Wei wrote:
+> Hi,
+> 
+> Gentle ping on this one. It's a small debugfs memory leak fix that
+> mirrors the equivalent dwc3 fix (commit e6bdf8195b4a ("usb: dwc3: fix
+> memory leak of dwc->regset")). Happy to address any feedback or resend
+> if needed.
 
-Chih Kai Hsu (8):
-  r8152: refactor r8156_init
-  r8152: support RTL8159 for different packages
-  r8152: refactor rtl8156_enable, rtl8156_up, and rtl8156_down
-  r8152: refactor r8157_hw_phy_cfg
-  r8152: support rtl8157_unload and rtl8157_change_mtu
-  r8152: add TGPHY access support
-  r8152: support rtl_fc_pause_pkt_en()
-  r8152: support UPS for RTL8157 and RTL8159
+I have 700+ USB patches still to process, it's in the queue...
 
- drivers/net/usb/r8152.c | 1258 +++++++++++++++++++++++++++++++++------
- 1 file changed, 1063 insertions(+), 195 deletions(-)
+To help out, please help review other patches!
 
--- 
-2.34.1
+thanks,
 
+greg k-h
