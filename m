@@ -1,147 +1,175 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA994341660
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 14:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8709D49E5FC
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 14:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788357704; cv=none; b=CU4AHepeMOhO6QSQ7rydp948oaR2WyFgRmC65DY+MIs1Z8I7DsbP5lJY44f9rOmyxd0PI16mhPfkiX0q301wX2Bg13C7GiRiL5Sztp2UczNjIwLyts6yAor5vu6DLVUdYollzjYSBmjG9vUBHtzFCldAE/oOd3gvyJCYVqabOxU=
+	t=1788358228; cv=none; b=PeUV14XGvu1pngCWumZLUxsvRaIvrfJ/1trLvarTs30UbATv2cea8pcBMcmsMDj9yG8A/Bnp+hM0jKcepBrvPE4qlsmSElKLbW1hy9EUiGyqYXCLMxp3gAU3VbuX5NcoJJB2FKG62zKKaw86is2baMGjQHdA8cKqIsJJHWKtey8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788357704; c=relaxed/simple;
-	bh=GrBpyGcVJzqkbcWWLIRSNdunCJywZEdwoy8QHo7jyB8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dlKttLM3TJVO+nHDOepq4/YPPN/cJ0ZmRZ8Div1WJLdqx2C2XKdiy29kfT/qhCIuXTVcoISD3WoJwLx7Xw3tAk0oV4lDy+j/xi3duwzxdjTJf71/9bcMC6MJ7to9JrP46VFiBysGtEwyDEm2s6H3IQnq0WogrGu6HVQ72C1VNQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6MFb+xn; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788358228; c=relaxed/simple;
+	bh=YVhNWY3YTzseoUDSc4+pecJIfHnebROkelxV3G3LVzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Tbm32GWJ2+rjEsToWQuMfOZUrvGLDvQulQQSC5rhlFURVAdiDh4WmLr6eEcP7Qt/EJpVqlFYbShPyFnozZnLMB9CsA5qMXcpNSTJ6F0T3ZCeuknSn83mDyghybu76jBMl8eGU6Db6y18yTEMZlEIY4PdeKIzPSp9ADBODRwrdz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oBR/FAQn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cvuew6xh; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6MFb+xn"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49b8f86c6deso6971825e9.0
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 07:01:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oBR/FAQn";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cvuew6xh"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 682CR8QQ1647731
+	for <linux-usb@vger.kernel.org>; Wed, 2 Sep 2026 14:10:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3JQgfxxt0kxPrE2nrPSq4HoamEoqyDdParOq5552+rI=; b=oBR/FAQnD+5LItQT
+	LjbCa2qPYxknSU6ohWgZBqYjF9UcxUlGY1ofyZI05XiF6eTiUnIWITR8sUKinthj
+	4Sv2JJm1Q2mqegXocxjUOir8dETJaiWYajwoA5rHHZBxxVWtcXZsES/4kT3sdzUz
+	2J5s4Dc4edyhm7eKo9/6uxH1jTQwNpDzfUt2ho14xgPz71EuVyjOXBpQaEyARMmY
+	ckuzw2aFHZxwihnOgz3dxKHrUlLNLRLwSza67CFgpFZLLKfcSy3IJGcCQJqM50Qv
+	D+oLNYrb6V62bhZK5IfJL2CSTJZU7aSmB7IB+DgjMj3Wm3UUyWnpvkC7e5Qi/lde
+	9Rin9A==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gejv88mkp-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 14:10:25 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-784f9401a7dso40157137.2
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 07:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788357701; x=1788962501; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=1Ui+4lieBbCtA1qQ4dFfjrsN1UhRyAu34VpfZvML9Uc=;
-        b=d6MFb+xny5vYVQ0NE+jsNLoqk8GULVml/AqwJuStQzOdrCog/qWJwGGaT5O4dagaeI
-         80BQ/nBLI7d5BSsfiboew9qz9nMp2pf1jiXJXxzzCaK6CUz0x+hBUt98ap6lmrXlYULR
-         TT08jsdExqq6bTHIqreoCYaWPkq+PPDYLtMdR7J+M6vgoUXhnnK3Z4pgmqJ+rTvK0tKH
-         mkH6iTSBn0+ulNfcK1kB6lTI7AxGxcRSoaxGerrkTPQrsuLb9YTcaSZ1GGzRtnNzvkG6
-         tIdsOf8HbBuFl+VQDnlP2rUg98mHwgUDNQAl/Fd8qVbtiKvWN4AeyKJ7vGlrx/gedMw2
-         foTw==
+        d=oss.qualcomm.com; s=google; t=1788358225; x=1788963025; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3JQgfxxt0kxPrE2nrPSq4HoamEoqyDdParOq5552+rI=;
+        b=cvuew6xhMX4xnKrmd6zUnTZ8A2++kjJpSnyX2v6Wsw4nRzvREuCNhcEVLrKUp01V7m
+         iql/iD9ewQLyvbSeYmy+a3lDZ0sHrnx4kAyi90Firk/Q/yWY1QcuH0XSbi8VSBpHPDnY
+         DptqGcFXNUANG0WHqS/svUArnytPTSRYeidIgnzXCJSnIlmsV5vFEQZDNdfpey0cGy7k
+         oPG2ojI4BP1He2gjnJCtnYW2AXkM9ySF2lFnT+UmAY7kB+nXc0GPAbDK0iwmor9ffmCS
+         7uYVC80ipkeby7ZpmoXTblZoqu81CFcVwiwc5uudkvflLJSyttwJv1ZYoff73Cs30nWU
+         RUtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788357701; x=1788962501;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=1Ui+4lieBbCtA1qQ4dFfjrsN1UhRyAu34VpfZvML9Uc=;
-        b=r4PhGenK0O80lafnZ+PmBu5wWf9XLW7gdIhWHJTVnXX2wFHqvdEFJaMbJVRdMyZfo0
-         vQh6x7QkuvsGLj6k07A9EE/oZtBRMFcRDRPtoYdV6ZAZIU7GQ9ktWrOfxLGZqMt1iWQO
-         I9bhgylJ/LJuurB1rTRtvV/GPvYIxCaCHFG7c2tGcpbiMrMeUOyjSCv3226ech8kFR2Y
-         IhuyEW3wydblz+Vie8Q3erYQSKjjsZIoGfxkOSYOQTmaKlJwsKO+ZJGqNqNX0cdC0hj2
-         bhsLNVlSWcJ91gP073OVAyzHqaMWM+o8lK4j4uyIKwdKmGOL2IbyA5HgNI8d8XRUZ2Uk
-         SSlQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqgw9cXX7bMNVXn5D4rNK3vSVkIhgcP+H8kATMHVGZOC/1k3Hx6u8YYHcg8VmMxiLE8lnzr5/KMXnA=@vger.kernel.org
-X-Gm-Message-State: AFuF++nWclrUcy1PgwJJhX9/gTaR88UX2JrF2Bb7Ca9NmPROhFyyauTQ
-	BlWsKkTJRPBGKHXb/Y+6ai38omHLMdgozi7eRwO7vMEqRAwTYGBRAxjr
-X-Gm-Gg: AR+sD13CcHg94yfW8RcXJ8oPLHQorMvFeTMxACfQixpRMTiKK7st+Wor133xxRcMGBH
-	JUxk8wxk6Ve18/PVJX8Xqk0Gr3nayPoqikDroX6oQo/THSW+M8L5QR4FcivcrvZ+6XTWulS7kj6
-	lNLnhf25O8aBpjLsn7dzzPpTxE9H4LGabRARLbUqRJAx6r83r6r/VhiwuIvBOUDESQ6qHQKSqto
-	7837N6u4BAY7H7CGXH26zN9fNXKHOj2AbEy5ytOw84Hlvq6eQ7WOpccu7q2U243izrjdv5oeYU9
-	qq1qqG4Xn6JocgWfimyFjnMAhX9GGYb7nWj3KOTc+aACNcEuY+9q/+/TJFQfewFrHIilbi2bRIP
-	fhWiw0RdV3Lh7OzcXbrLATaIe9DH135pym06rShBCZlxWLzuPGjRZ5l/nEXCVxHRszWzLYJhRrs
-	mkZCNcDUQ3ijCJx/LSfNPHbxa9TGeVFyb4GDyuPOdU5f8voYsNnvPloVr56ba7JFrjm49JqfN6n
-	FQXpYB+vpyI+FLqJr8uAg0I+Fa+2YR24YwiAZGgt9zW8HRqtskXYQx6mMaIAQ==
-X-Received: by 2002:a05:600c:5653:b0:49c:eb17:cf3b with SMTP id 5b1f17b1804b1-49ceb17cff4mr33383645e9.8.1788357700453;
-        Wed, 02 Sep 2026 07:01:40 -0700 (PDT)
-Received: from valmpani.valmpani (athedsl-11462.home.otenet.gr. [87.202.45.32])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448ed37c4sm5737176f8f.21.2026.09.02.07.01.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 07:01:39 -0700 (PDT)
-From: Vasileios Almpanis <vasilisalmpanis@gmail.com>
-Date: Wed, 02 Sep 2026 16:01:17 +0200
-Subject: [PATCH v2] ihex: Fix 16 bit truncation in ihex_binrec_size()
+        d=1e100.net; s=20251104; t=1788358225; x=1788963025;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3JQgfxxt0kxPrE2nrPSq4HoamEoqyDdParOq5552+rI=;
+        b=hX6zovsGNgadwrGxlEKAI/f1FOniLasnyBlZ4VFsDME2Q4eme2RDkCafK36GGdpui0
+         5j9sWlTQuVrB/hZ6NC3kFFaUybR3r0ntUbD6bjsqKnxeBsdaBAQpOLjWZcUXA8bv6UJD
+         ao2AuVLkwiuFUu4q3DHi5dR/oGuZxCgNvQMH+GXogEQ32R6p68C1GnJxmDPys4qVLQ8h
+         jHEEbYFmN8cU3O3krMJd1A/HmeMRIwpW25x0+/4Iy7Hdl/90SyYZ2DQ8Cei1GyZ5lxYM
+         Fo8Eunu0R6y+pCU0r+Cwk+maUz/cuu8sFNoDx+eUN+AJyJbCcioK/+BzshXHhOscL4cK
+         Qz8g==
+X-Forwarded-Encrypted: i=1; AKwUvByITx6PrejXTLXoj7QvMND1nAPEt/XNR0LsdzyAcszLoM9Wdes+jdBilX5UZq16Buu1dLc28Ma8kms=@vger.kernel.org
+X-Gm-Message-State: AFuF++mtjPjFWju71KtDWszUoIzYOC0ptU4zkco8jl5J35f4z/0s7y0G
+	now2CFQRTVExdBSWOASbmburwuHZDja9ogj1NF4ZbMd7ikvpZo5mXtrPJx+/R9GcYZ8k0+MwZDF
+	fMkNCAILH7atfK6FJXUNSvNjeIGMigxN0J0KjhKZqbgpZoZebUJhsy4q7EdbuwcE=
+X-Gm-Gg: AYBFou3tI/rhJ3IRxqCDy/Z3v67KtDG+mLMq12CsdoJ0J78pYI8qPeaQHAfXHUXENOq
+	7lyTL5d8S7+CK0lB8REin1/EPBQlb7vRcMdxqL38eHiohpzmp8dNQjXYgRWeXNsk5O6CiWIdmmj
+	AzXp75mRjBWjIDNXKJmKY85/SUK5gDCNgGlVE30v2b+PZHG3dO2xQAnm6VEDgtbY5Z6ehVaMnqg
+	n86qrp8JJLWfboRWkvKDlC4KvndpI1z0YCrIZ0EQ1mjp/wPCDqQqH9vGMJbDoDBUhzD12LQ6dWf
+	WBKh71tsjlY3Yej+t184OpylgOzAEaPBaezCracd9Bjw6WGomB5PGx2D9CujFg3EwQ9oORyORdm
+	EgX9DGdZDdGb7Of6zshCMWA==
+X-Received: by 2002:a05:6102:3a06:b0:786:d38d:f7c2 with SMTP id ada2fe7eead31-78a1f29d57amr650068137.1.1788358224603;
+        Wed, 02 Sep 2026 07:10:24 -0700 (PDT)
+X-Received: by 2002:a05:6102:3a06:b0:786:d38d:f7c2 with SMTP id ada2fe7eead31-78a1f29d57amr650051137.1.1788358223963;
+        Wed, 02 Sep 2026 07:10:23 -0700 (PDT)
+Received: from [192.168.202.12] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b606b2627fsm601771e87.37.2026.09.02.07.10.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Sep 2026 07:10:22 -0700 (PDT)
+Message-ID: <6af2e860-ba7a-4f86-a0e7-872a312b47e4@oss.qualcomm.com>
+Date: Wed, 2 Sep 2026 16:10:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding
+ for non-MP controllers
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260828081542.52796-1-krishna.kurapati@oss.qualcomm.com>
+ <20260831-messy-ebony-warthog-cfd727@quoll>
+ <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
+ <cc52ff33-3da4-492e-80cd-ba2b1711bfed@kernel.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <cc52ff33-3da4-492e-80cd-ba2b1711bfed@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-ihex-v2-1-30bb117cfc77@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACwsmGoC/12NwQ6DIBAFf8XsuTTCAbSn/kfjQWCRbao0oMbG+
- O8Fe+txknnzdkgYCRPcqh0irpQoTBnEpQLj+2lARjYziFrIuq0FI48bk0LLRisUukfI6juio+3
- MPLofp0U/0cxlWwxPaQ7xc/6svHh/yZUzzqRyVrvGtsq5+zD29LqaMEJ3HMcXjMXeTqoAAAA=
-X-Change-ID: 20260902-ihex-62b68b7e2bae
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andrey Smirnov <andrew.smirnov@gmail.com>, 
- David Woodhouse <dwmw2@infradead.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Cc: Vasileios Almpanis <vasilisalmpanis@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788357698; l=2048;
- i=vasilisalmpanis@gmail.com; s=20260731; h=from:subject:message-id;
- bh=GrBpyGcVJzqkbcWWLIRSNdunCJywZEdwoy8QHo7jyB8=;
- b=l8sqiieZ9Ddp5ed281SWARCVGJt9uTvPylHrUjIJ260ewyvnRcfkRuN4zpyiHsjRIUnQzk/Ld
- HZgIlUytZOnDy6iYwq+cAJy/vjnghn+TDcY5iw31K2v9ud9clumCd+p
-X-Developer-Key: i=vasilisalmpanis@gmail.com; a=ed25519;
- pk=gn5Uo6yL8Tlpq5uATxA3nqoq+U8eWLRbjD+bOk0qSpU=
+X-Proofpoint-GUID: 17RWoSDlGjLoSNH_1Ly65v_9rm01JFf_
+X-Authority-Analysis: v=2.4 cv=L+wtheT8 c=1 sm=1 tr=0 ts=6a982e51 cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=l1HXmQewNA_p1I5IbwwA:9 a=QEXdDO2ut3YA:10 a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDEyNSBTYWx0ZWRfX1XENl/1Knkm4
+ ElU/Is5jyba8AwPuCPl1jim/5zdYhxv0ErMZoCP1v2h0R5sx8prGyD5pHadq6Or6EEMaOFG0SDN
+ piB/XNdyX0YG3LMgmzpjwgIpczo6VBtO0kqtW+GMQpcTWRO8aUTEY+z6kjirrvKpsDV5KKHQWAS
+ suw7JFzgKd+9LhrAyVGA9bqveebVqhCREDx5egbI8ITJMzCd3fa6Uy0hO+kIE8prg0JcL8wvtV+
+ NJduS3INxxns8JEj01BeZwSPobpwBL5s3ipS/7xgGlZ8kTBJmcsPsLfsEpEg6q8V4vfyM0BHzIT
+ t1oe5ODdznTqVVep+h4QR4hpfHTnXM2+IXFA78RlGCO+KaQdY64ZQN6gnNySgLruzpLt3ucHtCb
+ MX1t5ji6HoU4fJss5rfvX4Dcmz24G/Ko2kwU9YFOmM8Od2iDPbXE7BZApd8VK586dA4gpmnwXwu
+ zcoJMDHMj2jPEo0ReRg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDEyNSBTYWx0ZWRfX21f0r4ctcroP
+ EufYj7rxh8JaffoOzr6PACtSpj1clZTSbUk874tndp2GMGi2+Lu2RLj32c6J/8IRCALfeGbSRwP
+ EGgv4ntIDpnxsu1f4lNJHnqDmtqtVTQ=
+X-Proofpoint-ORIG-GUID: 17RWoSDlGjLoSNH_1Ly65v_9rm01JFf_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-02_03,2026-09-01_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 impostorscore=0 phishscore=0
+ spamscore=0 suspectscore=0 adultscore=0 priorityscore=1501 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609020125
 
-ihex_binrec_size() returns uint16_t while computing be16_to_cpu(p->len) +
-sizeof(struct ihex_binrec), so record lengths of 65530 and above wrap.
-__ihex_next_binrec() uses the result as the offset to the next record. A
-length of 65530 gives an advance of zero, so ihex_validate_fw() spins on
-the same record forever. Lengths of 65531 to 65535 advance by 4 or 8
-instead of 65544, so a 14 byte image passes validation while its first
-record claims 65535 bytes of payload. emi26_load_firmware() passes it to
-emi26_writememory(), which kmemdup()s 65535 bytes out of a 14 byte buffer
-producing the following splat:
+On 8/31/26 2:29 PM, Krzysztof Kozlowski wrote:
+> On 31/08/2026 11:03, Krishna Kurapati wrote:
+>>
+>>
+>> On 8/31/2026 2:07 PM, Krzysztof Kozlowski wrote:
+>>> On Fri, Aug 28, 2026 at 01:45:42PM +0530, Krishna Kurapati wrote:
+>>>> Currently for Glymur non-multiport USB controllers, number of interrupts
+>>>> are limited to a maximum of "5". Either hs_phy_irq or ss_phy_irq are to be
+>>>> present.
 
-  BUG: KASAN: vmalloc-out-of-bounds in kmemdup_noprof+0x3b/0x50
-  Read of size 65535 at addr ffffc90000075006 by task kworker/11:1/174
-  Workqueue: usb_hub_wq hub_event
-  Call Trace:
-   <TASK>
-   kasan_check_range+0x10f/0x1e0
-   __asan_memcpy+0x23/0x60
-   kmemdup_noprof+0x3b/0x50
-   emi26_writememory+0x29/0xd0
-   emi26_probe+0x2d1/0xb64
+[...]
 
-Return uint32_t so neither the addition nor the following ALIGN() can wrap.
+>>>>                 - qcom,eliza-dwc3
+>>>> +              - qcom,glymur-dwc3
+>>>>                 - qcom,ipq4019-dwc3
+>>>>                 - qcom,ipq8064-dwc3
+>>>>                 - qcom,kaanapali-dwc3
+>>>
+>>> This changes the ABI without an explanation.
+>>>
+>> As per the harware specification, the controllers do have both 
+>> hs_phy_irq and ss_phy_irq. Hence wanted the binding to capture that 
+>> info. Will update the commit message accordingly.
+>>
+> 
+> So the change in 99df63d20dabda8d7ae01bcca7cdb1e92110a555 was
+> incomplete? Lack of context here is not helping.
+> 
+> If they have these IRQs but it does not matter, then it is not a good
+> reason to change ABI and you should just add the clock as optional to
+> the end. Was this binding already released? I think yes.
 
-Fixes: 9fb4ab4d3dd6 ("ihex: Simplify next record offset calculation")
-Signed-off-by: Vasileios Almpanis <vasilisalmpanis@gmail.com>
----
-Changes in v2:
-- return uint32_t rather than size_t (Greg)
-- drop Cc: stable
-- Link to v1: https://patch.msgid.link/20260902-ihex-v1-1-67fdbf8d97ff@gmail.com
----
- include/linux/ihex.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+IIUC the intent of the patch is to allow specifying the currently
+missing hs_phy_irq on non-multiport controllers (i.e. usb3_[012]).
+Bundling the DT change would have made that easier.
 
-diff --git a/include/linux/ihex.h b/include/linux/ihex.h
-index b824877e6d1b..04be83fb0d62 100644
---- a/include/linux/ihex.h
-+++ b/include/linux/ihex.h
-@@ -21,7 +21,7 @@ struct ihex_binrec {
- 	uint8_t data[];
- } __attribute__((packed));
- 
--static inline uint16_t ihex_binrec_size(const struct ihex_binrec *p)
-+static inline uint32_t ihex_binrec_size(const struct ihex_binrec *p)
- {
- 	return be16_to_cpu(p->len) + sizeof(*p);
- }
-
----
-base-commit: 89a312991dc6e638a36adc43ccb91dbc25504c04
-change-id: 20260902-ihex-62b68b7e2bae
-
-Best regards,
---  
-Vasileios Almpanis <vasilisalmpanis@gmail.com>
-
+Konrad
