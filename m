@@ -1,82 +1,68 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013016.outbound.protection.outlook.com [40.107.162.16])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011067.outbound.protection.outlook.com [40.107.208.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9E43C4172;
-	Wed,  2 Sep 2026 19:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C53AFAE4;
+	Wed,  2 Sep 2026 20:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.67
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788377364; cv=fail; b=miTHd6HTNpqzMlNhtFwwRG4ilN7dDN1uU3yUKuwpWfyeKsp3CGqgffjbKQhDX0Bs4Z+f0WspS1Y8WR0dfgMg/pylckyQQQw5OH/HnqmtUdy3lLgZOwMTmH+SWp+XeoIqAeHtoIpptSyk0gJZ2JnIxkKPYomVn7TfQNE257x1VZA=
+	t=1788382430; cv=fail; b=MHUN4KzWZhxIENF6SqCwPDq29F5cM38JUClghTsbTw8GpPB6HBydB5tX9n49G/ZVXzsUoHN2udsl4oVaFk4tsndkvnSeNzN2SedseQMEiXaWQMdXF6V+gYiuqwB+iKGNuWJJATQbS0Gnc/cmA77ZbFqze12Qa6lXZd8jfuVZXLI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788377364; c=relaxed/simple;
-	bh=3dCPndj4fU9EKWlvAeS8+5/Z/4MQveSlwFcz42h5/wU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=L91mnk/12ue5VTv33T8Z4gxOZD9yW9RrnPgeiUyPuLPk6fWiVLinxlE/N3Mx1pche1nGVh9rzNZjN2R+Cal8uJLRc4eHY4FqIq1qyoMdmVGVjnf7G0Bh53eMwrEdtACVIxiXLBWSomjjqbR1r6JiyF7umG6IwFPgcrNlSD8AaaU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=n5t82Bwq; arc=fail smtp.client-ip=40.107.162.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1788382430; c=relaxed/simple;
+	bh=KUdEwm6uaD731430p4gHL7ZZIqaaTtwfpZ5E7UmcF9U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UZ7lagclSubOJh46A1wisnJeKDsf+latuRJB5z2XiCJ+Y8dtvTprtwhfg4XI82ZZXrGPNVPe5KRcYRIOsFM5Dg8cjcUkcwAMiIaTDKO2KW+9Gv4Oou5sfGEn2yrY97R3894weVzxOp4GsVbny0Lppo7b7lyb9BMTw8diO+APbwY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eW+nsVVP; arc=fail smtp.client-ip=40.107.208.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="n5t82Bwq"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eW+nsVVP"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZVnAQbW0+pr0d1fmToepTaVf4MWedpc/iufcOzC6CqGuZ4c99MKOBt2dQ+Kzv4i6H+fHn0dRC9LZ4zajV1Bq0bbecAEOJt80CIef7g3Bd0xRFFCC7aSdi/5F1HxEroNowG6NPa5+iZibUo5wOKn8QvUvVDYPc50278d3DDGyjH5uXpfzOCTLRiIhLC6xseEcWB2FGxXiEWDvmODDCEjVL67CcZn8K4DHqugXcAq2U5nMjGSUHiG0lB/hHY3osAFjPui2x7AhNFpNjtrfmL9h/Lvg7/VuGIL98Y3DiCY/sTFpNs8rA3PfT8BHT3/c2Lk7qX31yRyUEehk2PuMF8t09g==
+ b=YcWaqw1DEcVH52jg8rlcpNUKOrQ6fVFYlEvKyEDYgWvI4yy+Fm/ND3GasCxhYOnoGdnVWiQ25DHfGBoovpHr3bhSKtDoEywOrf7yzgE87am2ZAr3igVCPArTBOt51NhOxq4Fm+LJZD9AoXs2L4HWNw3OXjTjOHn+v5rkB6gAY47kKSkzemJrqylZGjX3JkvXWWPy8JvtnJte43PTSqeFcDXLIkZ7nn42XekYuusHJ5JQHn1Cu5OL2uR+GkkpYo9889W7oGWhWZbZ3dcd77pe75zyvDOvpFL5/YOYmwPdtMqN0FnGJe41kmWYQR0Gor7OmVJvBzK0XSg1l8w2tQ2jRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b7auofl/AGQ7uvM8ZncM5eaQFjclLIfcKzxPHbXDvRc=;
- b=GIRmSRe3TpgRZOTsYgekA4OCLxpCdLukJs4lj4Iam+lUxX5K0YcHYTmwxlHoQ+3CIKA0xAFqmqufh009V+hrSH6IhIMrtpm+lMVG90T0Q4cvGko4aZL4OnjhlMXLKTIaxRMc4l9EMUDeM7HapCdAumV0YHQzWxt+SdkJ6N9VX1s8AICBAyEx/z9R4u0YMC6ljLsLKADiI8C8Upxzskp2CF0r0WKyylmSvRJKeiuggTJreLJHdEuJtZcDLN1zH40q/5sKgq5M6BJgH37Ikj+fvGlXDhqfP4uG+acZ56s1eVBwHRV//TSN2RGkgyh27ET0kC0nbbNPSGwi2SS4sSl/kg==
+ bh=DijA54VFPXlTKBxki7phButKARQuXP/awBkaO7+ICPs=;
+ b=q2C2qJkCi1YkqDCPKRDzgF49U8p5BunN3WCm4mrbCTBG7LgYmQIfEt9ROx/YTUWz0bRfg3BtbQD6sR9dbfvFAgY1ahohoTD9qYGfg95IEyOw81HRHSLmvo60KbOngSZvxH2X0DgyVg5mGhqjV6yf+zDxg1EvkDG6YmVHDIpv8m8sVUM/kNDmKILLRe4OzsfXMH287ShY+tkdEoKVnTus6P566EdQrk89adUXtNJjJlQGS/vz0U+CAJTzNYC1NXjqXUrD2dqZw8yV4JglVjgCvdTfwKa44hWWOZBVXcaftpw93Bg4fVUtJ9hqnEfoAq41HDrsyGLo/dKN1Lvpw+HM9Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b7auofl/AGQ7uvM8ZncM5eaQFjclLIfcKzxPHbXDvRc=;
- b=n5t82BwqwDDokKuIuMhpo+poVr6KbPuINCO3aNyS0YuOfBDQDb2LFfHEfrLSk0Wiys3atR63e6WkH7nkDS+z+lVoU7gX4AVLahY2wZSozN99SGwU6WdrcblgsihKFTsW1sRcRFqBNXqzdDP5m0dnWEw3aFN4pluTMxal/XRv/2H9HnbtvovmHR+IILhaOVgxx3cVqjup9+0Mt9MthlqiYX3iUT19lp1IoykLXg6q+uCz/m8wfF9detRqhCxPYgnr6JaFCsQoHLsIFl9hgwFsoZjaLJTjQ03tMF+7ei98nJAnkcA/gWkTKvhtKe5JrKrNffcYG6Coo8arAe0keT88Mw==
+ bh=DijA54VFPXlTKBxki7phButKARQuXP/awBkaO7+ICPs=;
+ b=eW+nsVVPWZ1WjvJvZZvP81Ss6cVzTLkS6OOjGG45GK7Pk8MWPV9BbwrQQ9Oa3UKuBcx5wNYzpQa1Zqi1rQopn3fkD9dMuPYpPadcmhsEKCF+mcNCgLeA8XkZ3i+wioeAUqfAl3saMko5mI/VkwQaewMcGQKXP10kP7xdNaJj2tA=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by DU4PR04MB10338.eurprd04.prod.outlook.com (2603:10a6:10:565::20) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
+ by SJ0PR12MB6783.namprd12.prod.outlook.com (2603:10b6:a03:44e::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 19:29:03 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 19:29:03 +0000
-From: Frank.Li@oss.nxp.com
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Franz Schnyder <fra.schnyder@gmail.com>
-Cc: Frank Li <Frank.Li@nxp.com>,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Franz Schnyder <franz.schnyder@toradex.com>
-Subject: Re: (subset) [PATCH 0/2] arm64: dts: imx8qm: Add USB HSIC support for Apalis iMX8
-Date: Wed,  2 Sep 2026 15:28:49 -0400
-Message-ID: <178837731315.2104985.502141651386977100.b4-ty@b4>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260821-add-apalis-imx8-usbhsic-v1-0-fb93d73ead44@toradex.com>
-References: <20260821-add-apalis-imx8-usbhsic-v1-0-fb93d73ead44@toradex.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PH1PEPF00013315.namprd07.prod.outlook.com
- (2603:10b6:518:1::8) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+ 2026 20:53:46 +0000
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
+ 20:53:45 +0000
+Message-ID: <318bc76c-2fc9-484f-b009-1f21fbdd4d49@amd.com>
+Date: Wed, 2 Sep 2026 15:53:42 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] thunderbolt: Do not warn when a reset clears ring
+ interrupts
+Content-Language: en-US
+To: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "S, Sanath" <sanath.s@amd.com>,
+ "Natikar, Basavaraj" <basavaraj.natikar@amd.com>
+Cc: linux-usb@vger.kernel.org, andreas.noever@gmail.com, westeri@kernel.org,
+ YehezkelShB@gmail.com, linux-kernel@vger.kernel.org,
+ Andrei Rusu de Castro <arc@empyreal.works>
+References: <20260902-thunderbolt-cover-2fdc1c1b@empyreal.works>
+ <20260902-thunderbolt-1-c48cd6e7@empyreal.works>
+ <20260902125010.GK106095@black.igk.intel.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20260902125010.GK106095@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR08CA0009.namprd08.prod.outlook.com
+ (2603:10b6:610:33::14) To PH8PR12MB6914.namprd12.prod.outlook.com
+ (2603:10b6:510:1cb::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -84,89 +70,131 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DU4PR04MB10338:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2882039-5ff4-4bb2-4617-08df0928724f
+X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|SJ0PR12MB6783:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b99417a-1f43-4b3d-9a7a-08df093447ab
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|1800799024|7416014|23010399003|366016|921020|11063799006|10067099003|22082099003|18002099003|56012099006;
+	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|56012099006|4143699003|6133799003|10067099003|18002099003|22082099003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	Hbi8k/o60nlsvAITQICEWDFWOtZNI34b4iFwDjq/gHaV2QuBxVJc9vYSDptVhRGLeJi00VbyEizn0vKdFi1bcBJVEX4ifYBPGiVBv07FIyyCcjORNQCF/kHYMRBaXLJtQpcf234MwabpDI3MBUrRciZngw11sk73cjMK9WCFBxqduKAmNJastHJY0E/I1sxWO+LORvxY5XZtw5ZDLVNng9r/7in4YD7nq4hs3xFe9a08sg4KO6JhsBho4vU1xWkr9SmqKa04RITTWTe8hVQAJXJXmTIjcOIjxkaL0N6DUv+aDoXBfwSeRQQpF15nHk1Gwa8HmpbJ0oHBafQzPUIEy+l52Ql6OrZ1TuDFg89KnSfgGjSo1l1cgLU20xYu0WyKMJfhDyEOOodMA4LgLY8lxh+RMhfHWbzgxeDCAZft33C0NZMCZyPcPIikiYJ78EI3LU7XNBTUbwWDz6FnrWDOBSI8e8Q5nRvkcZMpvhmnuAk4j93B3eJfUrG4Ov7i2GVgNmlY0+rKXxWxcVolsoQ0xZDBG03OAZRf4MVRV3ypZEaXfed84kSXAJDdHaKfTn88/ZMrAjvMRKHwFPEhI6rKn6cuVx6HZ447AmwlLG1hUInVBSF/RtLhmWLomErE9ZVwzfy/I6D+cdMc6hl6pUilTTffrMsPm5qq9HAomAJNKyacO27utdDmPw5oQHXFXrnyAwP+00ae9OrPtgOHNG4DxQ==
+	FF7Atl4i3CNZ65jYZ5hhXrz6WlM6Whvq1hM0zB3SwhnQcJ/F/cyHvYkQmpKS+QdMq47LMBoAzcZTD12eWmw8vmGpcRzJT5aym7JXahZ8vVKWVnpCoiO+nnRV+uM/eZqEUN77Ar0ktCTeBecUlUIrvqVRRrvzLn3szjb6Zbjyvj8Jxgct3xAK597d+ZX8ItOiOQvG9aodbWEW/F5oAkQBRGRqJuZK2GOh6vh/RLgyohzeQCTXHgdhtkdL/VyV94WolBEpEE3SInzZTwAHViKSN9XIC814YX5ZB7mdwG3fLnDy3OVUTPnloN/QmlR93rKEI9VxA2ry8c3cL0WC6cDWVB4FYPDvU/Iqs9O0x8d8FkFR/pFdqUb3Rg4K0lxG71jhNkpLOs4ojVBNa515PhQdRgZywVXVPJA3rAcRsT0JZCrVeLKmXadPHaAELqxAruA9OCE0TRC71+gLlUrsrXH6oSSunI3Yam1sDcyla6DQYkqxji/O5IFN8pIk+lXy8EIOg7jx1JX0U/xtEyPF86t4re3aEMBTxKg/Q75QzwQ3kRSMzsg33/q72Ee/w6QtjPKJ4aPUo3dwKJe0gPgiTcrTzXfBh3Vnu84TqpANPOqLODvqn5jzeGDzgrgmxRLzdi1mQsLVQxGhwQi6vbyKXUouPhB5KJIY/i+vz1p+GZ1KU1Y=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(1800799024)(7416014)(23010399003)(366016)(921020)(11063799006)(10067099003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(56012099006)(4143699003)(6133799003)(10067099003)(18002099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y3hJdTMyeTZHYW4xUEZ1dENBUUF5ZHVOaTFlbTBvTXJ0SjBNWEZhb1RBeldN?=
- =?utf-8?B?N1RtTUJ3aDYxY0R5aVZJN1BUNE02dHcxQ1UxSXVMZHhJaFBKb2h5TnRycjdY?=
- =?utf-8?B?bEx0U0ZMcW9yTllXbCtMWVZNeE9xa0hOeC9OcE83YXFSazI2TE1KUHg5Wlcx?=
- =?utf-8?B?QTlvQUs0dGs5T2w0bjdNaTZ1ZXFpbDZoNFJTRVhqUVZjYmNJS0IzSTZocVdX?=
- =?utf-8?B?VnY5SGs2SmR6bWtlcGdvZ3FkNGYzWDc2UFBGRmVRVktMcFN5Z243TE9PUDZ0?=
- =?utf-8?B?TnVPWkdLOGhiQWdSaVZCNEErYTVXajFMNnhsTmpWamxycE1HL05jdm4vbFVy?=
- =?utf-8?B?MWVOeTd2dXJFWTQ1MzdQcDNNRGQ2cUU2OXhtV3ZGQWpLNTBQMmhKaEtVM3RD?=
- =?utf-8?B?SjhxODdYODRwK2pnY1YxWXBSZkM0VTQxR1BqVjVBamNWRVp1K3lFNUhIRld6?=
- =?utf-8?B?cExXWGJISFQwUkhqc1M3d0k1U2h0ZUhpZGJ1OGpYdGlOMWpFZmhoZytCd2tr?=
- =?utf-8?B?Qml6Z3JIWkFkSkNnSWFwV3BBS3ZGZHUzMEFLU3RyYXRhL1JRVWpFaVhIZk9L?=
- =?utf-8?B?YTNTVUdLY0RjL3hQUWhHaVJJVzRWelVtSzFkTWhnSjJhcVVwT2F4UHVPWDlX?=
- =?utf-8?B?YzlraitGSERaNngrN3FhQm5yZEJNSkkwOWRoclUzOU13Z0RtbDNvNk9NYnE0?=
- =?utf-8?B?ZXJkbDdGbUczU1RnZVliSGdDbE40aHpyVko1ak82Z00xY3lKRWxOdXZRZmdP?=
- =?utf-8?B?TFJQTzNKYjZiUFZRVVZvaFREMFVBNms5ZE5GcStoODQzcktJV2lYUHoxczdZ?=
- =?utf-8?B?TXFyamFoVUNVOEZhZmgyTzJOYkc3UUVHOGxOa0EwR3NWVW55STZrSEJIOGZ0?=
- =?utf-8?B?NExvS25KRzh6bFkwUk1kMFdTc1hZWUFHMzUzYjIzTUt1bFNlQkNzenJ0T1Bk?=
- =?utf-8?B?bVQ2QjdDcS80WStpaS9BUWFFNjJBSXZocUxBNDVoeVJycStRVDZrc0JGYXJs?=
- =?utf-8?B?QWd4bEsxa1IzOFVrRkZlZ2xrNzJpSStZeDY1VGVNVFdPTTkrTis5TG41UTlT?=
- =?utf-8?B?VkFjUkxYa085U0JmUW5YY01QTnNHSjNUZzVVeVJOVXhpWFp0Rko5cWRock1j?=
- =?utf-8?B?WHNJL0o4Rk1vWmJ4b01sY1BnZGlvc1lmZmhkMWlaS1lMdnZwUnBKVXNZTVVV?=
- =?utf-8?B?UHp4WVNPdVJ1alBaYS9VRmZHUjJwVVdnZWJkR2ptc3I1TC9xZ0FPUlJYQ3A4?=
- =?utf-8?B?NVZURjlxSGpXZHFnSUxNRGIyTGVodEErWFh5WGwvQkEwa2d4VXU1ekRPK2VX?=
- =?utf-8?B?MGFHM1dIcVl6SkJBaUVrKzQ3SE5yS0RlSlBSelIxMUV4SWtTN1NBcDFNVzhw?=
- =?utf-8?B?aWIyTjdBeXFOVlkrM3R1VGFoRVRXWG12bnB1VzI4RW1QTjEybmFaSk9hK1Ns?=
- =?utf-8?B?QXMxeG5kVXhKNTNTYVU0cGt3emNYWnpUR3F6dUJoQlUyUmRRRFFVNEZ5NUdP?=
- =?utf-8?B?TkNKdzA3WGd4YjRGY3pnczQ2UEk4RG9QVElKUW83eGNFVFN3VnhLd25ZWjhp?=
- =?utf-8?B?OEt4OXVqd2JDVTJUYk1DYVg3K3duR1Q4dzdrNDBkRXZiMkN5cTF2eW45Vlgz?=
- =?utf-8?B?Kzc2RHVFTHZMUDQ0UFVZbTBQVlMzVjMva0V5dVdCWnA1SitKWlNEbjZ4cnN0?=
- =?utf-8?B?eU82b2JKSGs5UUlWcEVYNUdrRGtBZG9jSWcrRzBPMlJXZlg3czk5Q2ZPTEN3?=
- =?utf-8?B?bUNOb2lmYVJIL1FMVGJjV1VJQlg3MFk5b2NqVndveDduaGFjaXpoQnZZcEQz?=
- =?utf-8?B?alliYVdLeXJENnAxS3NwK1lIcCtzeFlVZXh3bUhBaWI3Y082cEx2UHhLWmdI?=
- =?utf-8?B?OSttb3dKYm5UZmhxOFV4bTl4UlhqWkp5eDdIU1VtWiswYWs0UTlja3VhODZa?=
- =?utf-8?B?Z202dlVMYW9jc2w1cVFJcysvMlZKNkRTbWxIUnpRTUVVcFNqdVJvdDlOQks2?=
- =?utf-8?B?UHpvWTkrNGhnQ0hkS0F6c2hRMXd3TWhZTXQwYmpPKzNsYjFBZzNIWGFZMmpz?=
- =?utf-8?B?RGo1VVpLTzU4ZUh3b25JNEhPSkYrWjBCaFgzdFBtQWZ1b2c4SHc0UElJcGdN?=
- =?utf-8?B?Qm5mOVl4M0FueG83ZDN4ZDBmYi8rcU9rUDB2bThLR3lqaTE3bkg3RmErY2k0?=
- =?utf-8?B?M3VJK3VLUmFjMzc4aWlJTUV0aXhNWVU3M0RuYytVckRObC9vNU5kcWdWNUd5?=
- =?utf-8?B?a0hIMUhITi84WVdQOFd3b09SK25obXBFVG1ZL2JtSlg5MHZ1MktTMFlvY0x4?=
- =?utf-8?B?MlArRzJLYnhFMlluNzk4YTZEdjhJYUpYMTZ3T2tWOFVna2tWVGRSMFVONzU4?=
- =?utf-8?Q?gZOyZVlzFTXAkKHWPx5UUugCLWaVej+udANgb?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2882039-5ff4-4bb2-4617-08df0928724f
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+	=?utf-8?B?T3VOSHdtY0tVWXZpc3FJdTdWN2ViRlJFYVY0b3liVDZKWTI3czNGRTVWODl6?=
+ =?utf-8?B?OVRXOG5RSTNvQkVOV3NqempkVG9NMmZyV2JZQzdNWVV5S0IyeFhBRWVwNEVu?=
+ =?utf-8?B?RFdMNzZHUTRyTnRDazNSK1U3MGJ1YTVwVXFCZmtrUmhUTGRKdzVwdGZQNVNz?=
+ =?utf-8?B?SFo1NkhMUTkvODVaV0tnRHJvTVZ3dkd3WXpoWlJjTXM1c3ZGMUJzQmFwT1JS?=
+ =?utf-8?B?RXgzc244VzZDUVFXL3UyUmFsbnNnbG9JZEh6bVNmWnhzaXN6ZlB4bmRBMHZO?=
+ =?utf-8?B?MDJDajZ1UHo5a3Rid1hUNGVwTVZDalVQaTBwWVBxMTRYVjFFbmRJU3MxVWJk?=
+ =?utf-8?B?WWtLdllCY1pobWFwU1podjhnNHIwSXFIdC9jZkNRM0N2aitpME9yQkxRb252?=
+ =?utf-8?B?WVZVUjVOZEJZOHRoRFlHMDRGZVJXaXEvTzNSclZPbU80Nkg1Ky90Wlh5V21z?=
+ =?utf-8?B?emxDRThCWkNkQU1Na0swclE5Rmg3M3M2ZWRHQTVzQU9PeWhNTkw4MjhubnNW?=
+ =?utf-8?B?VjkyRlR5VzVtb005RmVib3RiSG1JeCtwODdtbXcrMlpqNlJHaDZyMDFLVmNT?=
+ =?utf-8?B?SWFpYk12MzdmVXhqYjJSL1JPTXdmMHBubDl1SnI5V3M4S2FVaTRubGxGZVJF?=
+ =?utf-8?B?VHczOSs2SWhRZXl0V2lLWFhNYnB3a3oybVRTNDRkclZCOFpVODBtMi9pckUx?=
+ =?utf-8?B?OWgxWjNCMWlNZ1hoUW1WNlRIdHBPanRxV0JjRXRFcU1nTWhUWXVZUVF3ZjVq?=
+ =?utf-8?B?b2FGaWhtZEFQdnhIQ3VJMkx1bnpndkVlNHFyL2sybTdORUJjVm1pWUZ1Mm5D?=
+ =?utf-8?B?NnkyZisxNzBvaHIxamE5NE1ndlhhT0htMW92UjdCVXZ1bEc0blBkcVpKRjgz?=
+ =?utf-8?B?OHNsbmgrRlZGUktuMytEY3UzVndtVEwxZ3BoaWRsKytFaUxla3RBQlFoa0hR?=
+ =?utf-8?B?ZGhKb3BqMGJFQ1pxN3JuaVpIMC9FKzkyZ2xIb3VtandlaUwwQW1tRFM2T3p3?=
+ =?utf-8?B?QkRHOGJNM3pvVitaWnhVYlhGU25vSENZQmtWcnBPQ1V3R2lLbjQ3S0xlRnNG?=
+ =?utf-8?B?M3NnSU9tbC92OENyVXh5TjNMSGcrc1RrS2swZU50N2hVWjNzNnlLd1Z4Ky9P?=
+ =?utf-8?B?SnFVeHRxNkx0STRXNkduQ2dHZUNKNTFWMUdGZTd5Yzdzbkk1cks4S09IeFl1?=
+ =?utf-8?B?QzhJUWxVRHJPc0hqc3NVbW9OZUszTW5Ka2o1dncxUGNiL0s1bnZRV0w0Z0hU?=
+ =?utf-8?B?cDRqRkVRYXFkdy9mK1dReDM1Z0ZySTVrVmZSK3lwQjBZTUMyTjdJN2lxOEJo?=
+ =?utf-8?B?bm5FdUMzKzRWeVJWNGlHdDFRVGxFbGtvQkVsMUp0Q0VOQnpJUUthbG5UekE1?=
+ =?utf-8?B?MEhsZ1hEakErNDdUbjlIMzNHV0I3cVBvOEo2UkExZU8wc2NWL256U0M0T3li?=
+ =?utf-8?B?Tmk4N1dveHJrWVRQaUUvR2JpZUtUM1hJVWhRV3ZzRjRWZ0tNZEpOS0h5K2F6?=
+ =?utf-8?B?OHZ6QkUrVmt1U0xwVUNUamRYNjdDZFlpM3B5SGdkaWpTRjQ4Z0FXdkVKbnhx?=
+ =?utf-8?B?UExFOTg5aDdDeFM1bVFhUC9TSTFpNFhiSUFsODhpMmUwSDdDR0I1WU1qUEVv?=
+ =?utf-8?B?NHZLV3FnSW1Ub0JpK0kyTXJ4TUV5dllGVFBiSUtGNDk3K0dPTGhJZGpLZEVX?=
+ =?utf-8?B?cGdUem93QUY3Y1d3THBjY0U0UDNCT0htS0Z4ZlRSSzFTR00wTHFLMWdLcXc4?=
+ =?utf-8?B?cmYydVhjYytnaW12bEQ4TnBVbE1ZK1cvUnhaSC9QRVVoMWpiN3haNklCZE8z?=
+ =?utf-8?B?WXlldE5icHhkTlM4SHdKNHlWek1hTU1kVnA2bEZ4RHRtUXhvRHBzOHdlbTho?=
+ =?utf-8?B?ZE5MQlZxRnV2eXI0TCtOMnBuWWxLTzJHeXZoVkM2bit0ZTZHczhFZFFQTFRl?=
+ =?utf-8?B?bFljNFF0RU1ra1ZSZnZzMENHSnBNcWZxWlo5NUlDOWlldXZnakpIVVdmQU1H?=
+ =?utf-8?B?SkF3UUdTemRHRFhNWGtVa0JrVGk1ME5ncUFQMmpCSjV5T3EyZ2VINjdxb0lO?=
+ =?utf-8?B?U2E3d2w5eTFiclZad2cxN3A0M2Fud0Z0WUYvaVlBeWlHVUFLTTNJcWFYRnJL?=
+ =?utf-8?B?Zm9nakY4UFNYaXdqNXV1UWZoRFNCQUY3ZXNsS0xneWR3d0Vuam5XVWZHMVVs?=
+ =?utf-8?B?dkdHZC9sdE1yRUt1S1NRaTkxYVBmdGdJWWRHNjJIWXBuYnpqWGZPQTk1SllM?=
+ =?utf-8?B?U2kvU1RNMkdsRlFzODU0S1RzUzhDTEFia2RPb1pLb0ZNVmdMUUZpMnZQeWlN?=
+ =?utf-8?Q?3IyC7IjwcXMGDWOMWw?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b99417a-1f43-4b3d-9a7a-08df093447ab
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 19:29:03.4010
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 20:53:45.7614
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7QaW2m7jx1y8qAgLbfEZ1w6uWf6C6nH5AYyCTW2Pj0OGzGn/9COEUtqq/qDN8iLZr43rnmPdhQh4KUfe3T7ve5p0Rgsuylz6E5sbORHeuhmvkmyuCdS/MGsAPvxQUjZ+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10338
-
-From: Frank Li <Frank.Li@nxp.com>
+X-MS-Exchange-CrossTenant-UserPrincipalName: OLPKZ2RMle/imATrWqae3D437BFcTWF2BmM/KXCk7yaoVZIIgflf3puXY7OA5RNYKTYen1k+qRs2+6YI+CJCGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6783
 
 
-On Fri, 21 Aug 2026 16:58:56 +0200, Franz Schnyder wrote:
-> The Apalis iMX8QM/QP routes the second USB controller in HSIC mode to
-> the USB hub on the module. Add the HSIC host description for the
-> iMX8QM/QP SoCs and enable the HSIC path for the Apalis iMX8 modules.
+
+On 9/2/26 07:50, Mika Westerberg wrote:
+> +Mario
 > 
-> The HSIC host node is added in the QM/QP specific dtsi to not conflict
-> with the address used by usbotg2 on the iMX8DXL variant. Therefore, it
-> can't be described in the shared iMX8 conn dtsi.
+> Hi,
 > 
-> [...]
+> On Wed, Sep 02, 2026 at 12:34:13PM +0000, Andrei Rusu de Castro wrote:
+>> The AMD DMA-teardown quirk resets the host interface before USB4NET
+>> stops its service rings. The reset clears ring interrupt bits while the
+>> rings remain logically running. When tb_ring_stop() later disables the
+>> interrupt, the register update is a no-op and emits a dev_WARN() splat.
+> 
+> Yes it should not do that. It's too "big hammer" and we should avoid that
+> if possible. There is also the deadlock that resulted this series:
+> 
+> https://lore.kernel.org/linux-usb/20260825214237.4179813-1-juan.martinez@amd.com/
+> 
+> But that still kills the whole host interface if there are other users,
+> like USB4STREAM using the rings at the same time. I suggested that we do
+> the reset when the rings are idle and while they are not and we have spare
+> rings we hand off those instead:
+> 
+> https://lore.kernel.org/linux-usb/20260902054800.GI106095@black.igk.intel.com/
+> 
+> We still need confirmation from AMD if this even solves the problem or is
+> it hanging the whole host interface and not just a single ring.
 
-Applied, thanks!
+I'll let Sanath and Basavaraj double check this on the affected failure 
+case.
 
-[2/2] arm64: dts: apalis-imx8: Add USB HSIC support
-      commit: cf08ef6995204752d8423226f3588c76c6403996
+I believe think that the whole host interface hangs when this condition 
+happens.  Another way to mitigate it can be to force a power state 
+transition though.  If we can force the router into D3 and back out it 
+should reset the condition that could lead to a host interface hang.
 
-Best regards,
--- 
-Frank Li <Frank.Li@nxp.com>
+> 
+>> The path teardown order is required. Stopping a ring first clears its
+>> descriptor base and unmaps its frame buffers, so pending path traffic
+>> can no longer drain and some host routers never clear their pending bit.
+>>
+>> Keep the warning for genuine software-state drift. Increment a host
+>> interface generation after each eligible reset and sample it when an
+>> interrupt-backed ring starts. Excuse a redundant disable only when that
+>> ring crossed a reset. Duplicate enables, duplicate disables without a
+>> reset, rings started after a reset, ineligible resets, and double
+>> software stops retain their existing warnings.
+>>
+>> The generation sample precedes interrupt enable while holding the NHI
+>> lock. A reset racing with ring start is therefore observed as newer than
+>> the sample and attributed to that ring.
+>>
+>> Source and call-graph analysis identified the reset and
+>> ring-teardown ordering. The change was compile-tested; KUnit coverage is
+>> added separately. It has not run on affected peer-host XDomain hardware
+>> because the attached USB4 device is a hub and does not form that path.
+> 
+> This looks pretty much like LLM generated so if that's the case you should
+> add proper assisted-by.
+> 
+> Anyways I don't think we want to do this just yet if we can avoid resetting
+> the host interace behind everyones back.
+
+The resetting host interface /should/ only really happen when unplugging 
+the cable.  If it's happening in more cases, that's not intended at least.
