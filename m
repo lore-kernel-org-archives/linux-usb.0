@@ -1,157 +1,105 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42E63A7F6B
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 10:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685AB471D03;
+	Wed,  2 Sep 2026 11:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788346338; cv=none; b=LDk9h0UYd6y8oYlAsJBJ/oabO8UbicJEhqAeDU0HHW2xpDp54Wj9k6jzTnceWIjrNLQ9mujfLAkbabE3aQRtUS86ltn8KOYpLUiYl6mmIZpxoD0OxT028isYTZks52xqIyobolz7/oW3z8N3zOMaQujPifudNgVrNZm3wZIN8hk=
+	t=1788347193; cv=none; b=loFqwZ6qcNtpoooRhH5FUtMNBDe5Fc0IWeixh+LjrGWy2kyojYASR6ZPIm2TScvuI/+LXxOCjAoObU3Z3WhfEWQScer1DLULHSnZY7jJ9b0xb7E5nspCXMtSBbdz7PCWxJsYGurZxbki1eNPeS7rIqdxUZkXHeUC9RP8bvUYoFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788346338; c=relaxed/simple;
-	bh=g0xls3eVTYsNQ1+wlJEEKO1atz15pqk+FUgc6sw9KzQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eHhGQYTPLazr/pjty+sqJ3Gu8KwCcdu88qDA3SPQyWO33xlplByZHvw6UpPAY6wbqoS6Q7c2IWC9CTBh0WMqRturEKkFJ6WCmPFaKP3NbY1xyYxP49ifgwUYZC1G7c+ql7F2O11MHsDvSx0GsOhs8LFiLXF2yDF0jQzgrfh0YvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q6vgBvoD; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788347193; c=relaxed/simple;
+	bh=gg4oaeObB+ZvkDbunSo+2Wv3qmDg2Ckasda83xkxFyo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cvHJip52UvO5yyNLgzuDBtu9e2RPZQN3VBEUjC0ur6qUuUghySQW5fLI/15C/coRUYU7eTXF84Lnscd4urbSCMK5Zwiu4Yyb786xDqJE212zgamCKeXhoAiUqv8cv53fhB/piKaYqK5/tAIlkDz8g7/uyFhIvkT2LrHaMTdEXac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=G521DKuj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q6vgBvoD"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so880591a91.2
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 03:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788346329; x=1788951129; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bMwJAjsEOYUPm6orTWOWcoAqbi2fMU0sJXMe0aIoTIk=;
-        b=q6vgBvoDnaLdtqW4HY78q2XukPkjhQnojcl7vlx6aGbwwqEyFaG2JPINr6uJiuz90v
-         MfShCdLn2fjaA2A4hBP4odme0H7ePdkSC6yUpPs4rdRRlvmuGh923q3464JBpbvTYH1M
-         gn9aTo9yr8BIIJrxnLbbu34KbRyrqdv3+favw0sd2Wur0pxXa45VppxIWT7c0D5t0d67
-         nedMgZldEL5fgvwMy76w0I9gSAdvzhQKXd+pPtwEVenku5buAJA3p5ISETheSvS2OkO8
-         jFVKGDBXK15APaEQQWmQKmR+TTLHUepaOl7ObMp0CTPOCUwkIJnHCA09kiTZxPpr9OWP
-         7oSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788346329; x=1788951129;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bMwJAjsEOYUPm6orTWOWcoAqbi2fMU0sJXMe0aIoTIk=;
-        b=fKUzqbTDEFUR5qqZXF193amUwegXC8ScywyeGNibJ7wye/c7oijfLLmTkENMf8tpJl
-         ow7sitsDteimh3N0B70ix2qgwBKvKFQ77EIRhJjUwhZXNsK8JmeU+NJFgzyzh6mDYnLd
-         LLylypCO9Jy6dWxM5yrd5r2lz9xxgXQcDL/L9yamq4gArMaXCW3EXKA2iskHi8aWOqRk
-         zgGZCt/xxDece84jYR4khFhO/W7TfwB+2nqad/BdNnRm1IzC/VnyjnxTdfvjomPGbbWR
-         9J2g/TPEvegs1cOvyrr0nreLDA5fxn+JxR3Cqaxewa4lRnpELfIVevDWjTSVU9dF2uSI
-         OWqg==
-X-Forwarded-Encrypted: i=1; AKwUvBwYjIOiEsj8gUxg8fBGvThCz80VBtmuwDoTAFd4H7iMzIprv1BM2KLYLDJ46zZpdXnquupOnnkQDxI=@vger.kernel.org
-X-Gm-Message-State: AFuF++kbNDkiErogVNXvdUoCo104GGj+xIog0VwbrDOufDdOqGB+vxPe
-	oH0wrFQAea7GR/oOgzUBekwoVFYXyScSie/BhcYXJqTt5Cxl80NRcIYB
-X-Gm-Gg: AYBFou1X+IiBV9wC5R/DwTxoxv5JjG+2DAPSZUy97BEmy7ojFh3zghjoGH2Km/W9yNi
-	A69E5Uw4QLw0hbBrQCPTqE1T0KH+xszgZ6XZkSA8raT7cgTHWd4kS3g3CDLlYvBkYVr549/lLFF
-	udnsKmNyvxY8voYsNJMydEamx2IP+qAOZL/eq678EL/eE+UvpojjTIAnjF4AkpGj7XKRVIBIAyM
-	QhoI9JI4STTYN6JktbsutZrPfG00QqPdygZ8kAYJiSnrisjRpMa/tmCnL3XdCHOTkE0mgThjKGk
-	Csso/gDE1ma5hYVeBgRUS2zX25b7yUqw+Nbv54ChP92mItV3gw5E2H//SU49kKVqHQZzTk4C3rH
-	nuRe+8B5K0NmrIyQRkfGtYFcC6FR+NDkcj8Ty6bKbCqBucPPW0XWmJhSgBZWNvun0+NBY+84O0v
-	/2yDPTNzt9kFxAjKalr6ddJkeohKIFHQPNVfePipkEI5gB6zTkp77JZcucTcH0gKLYevyyOnplC
-	g==
-X-Received: by 2002:a17:90b:2b8b:b0:398:e86b:ce14 with SMTP id 98e67ed59e1d1-39aee1237a7mr6198549a91.20.1788346328775;
-        Wed, 02 Sep 2026 03:52:08 -0700 (PDT)
-Received: from amd.ban-spse ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3318bc19129sm3042754eec.16.2026.09.02.03.52.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 03:52:08 -0700 (PDT)
-From: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: christophe.jaillet@wanadoo.fr,
-	kees@kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com,
-	Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
-Subject: [PATCH RESEND] usb: gadget: f_loopback: fix descriptor leak on unbind
-Date: Wed,  2 Sep 2026 10:51:53 +0000
-Message-ID: <20260902105153.3516793-1-nagachaithanya9911@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
-References: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="G521DKuj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B081F000E9;
+	Wed,  2 Sep 2026 11:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788347192;
+	bh=2KejZkyIUl3Cw92CMKhHBilt7CFXtfyld/pR8L9PEQk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G521DKujJWRyJA+Xl0Q2x2JtSmwNopaAg2YObYd6S+0UASQAlplqL4x7Klc0EI8nm
+	 pr1OguEkQ2RI2NZIl95Optq7a5LiAVTxryK87q+QgPqZ5Nl5FOgUV17Ys34Y1UKiG2
+	 1dPQTOipNhNu+t2REFVbMEMEEPwCYaCyCRWmOwyE=
+Date: Wed, 2 Sep 2026 13:06:27 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vasileios Almpanis <vasilisalmpanis@gmail.com>
+Cc: Andrey Smirnov <andrew.smirnov@gmail.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ihex: Fix 16 bit truncation in ihex_binrec_size()
+Message-ID: <2026090223-napped-nerd-790e@gregkh>
+References: <20260902-ihex-v1-1-67fdbf8d97ff@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902-ihex-v1-1-67fdbf8d97ff@gmail.com>
 
-loopback_bind() allocates descriptor copies through
-usb_assign_descriptors(), but f_loopback does not release them during
-the unbind path. On every bind/unbind cycle of the gadget (for example
-by repeatedly writing the UDC attribute through configfs) a new set of
-descriptors is allocated while the previous ones are leaked. syzbot
-reported this via kmemleak:
+On Wed, Sep 02, 2026 at 12:21:19PM +0200, Vasileios Almpanis wrote:
+> ihex_binrec_size() returns uint16_t while computing be16_to_cpu(p->len) +
+> sizeof(struct ihex_binrec), so record lengths of 65530 and above wrap.
+> __ihex_next_binrec() uses the result as the offset to the next record. A
+> length of 65530 gives an advance of zero, so ihex_validate_fw() spins on
+> the same record forever. Lengths of 65531 to 65535 advance by 4 or 8
+> instead of 65544, so a 14 byte image passes validation while its first
+> record claims 65535 bytes of payload. emi26_load_firmware() passes it to
+> emi26_writememory(), which kmemdup()s 65535 bytes out of a 14 byte buffer
+> producing the following splat:
+> 
+>   BUG: KASAN: vmalloc-out-of-bounds in kmemdup_noprof+0x3b/0x50
+>   Read of size 65535 at addr ffffc90000075006 by task kworker/11:1/174
+>   Workqueue: usb_hub_wq hub_event
+>   Call Trace:
+>    <TASK>
+>    kasan_check_range+0x10f/0x1e0
+>    __asan_memcpy+0x23/0x60
+>    kmemdup_noprof+0x3b/0x50
+>    emi26_writememory+0x29/0xd0
+>    emi26_probe+0x2d1/0xb64
 
-  BUG: memory leak
-  unreferenced object 0xffff888016b8f180 (size 64):
-    comm "repro", pid 5613
-    backtrace:
-      __kmalloc_noprof+0x3bf/0x550
-      usb_copy_descriptors+0x6c/0x160
-      usb_assign_descriptors+0x48/0x180
-      loopback_bind+0xff/0x120
-      usb_add_function+0xca/0x270
-      configfs_composite_bind+0x667/0x9b0
-      gadget_bind_driver+0xed/0x390
+Is this a real firmware image being sent?  Or a fake one?
 
-Move descriptor cleanup to a new loopback_unbind() callback that frees
-them with usb_free_all_descriptors(), matching the lifecycle used by
-other gadget functions such as f_acm. With descriptors released during
-unbind, the usb_free_all_descriptors() call in lb_free_func() becomes
-redundant and can be removed.
+And root triggers this, right?
 
-Fixes: 10287baec761 ("usb: gadget: always update HS/SS descriptors and create a copy of them")
-Reported-by: syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=28cf08dec5895bd562e6
-Signed-off-by: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
----
-Resend after the merge window. Unmodified from the original posting, and
-still applies cleanly to current mainline (45c13f3f9e3b).
 
-Original posting:
-https://lore.kernel.org/all/20260808181504.462492-1-nagachaithanya9911@gmail.com/
+> 
+> Return size_t so neither the addition nor the following ALIGN() can wrap.
+> 
+> Fixes: 9fb4ab4d3dd6 ("ihex: Simplify next record offset calculation")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Vasileios Almpanis <vasilisalmpanis@gmail.com>
+> ---
+>  include/linux/ihex.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/ihex.h b/include/linux/ihex.h
+> index b824877e6d1b..0da1c4e3e693 100644
+> --- a/include/linux/ihex.h
+> +++ b/include/linux/ihex.h
+> @@ -21,7 +21,7 @@ struct ihex_binrec {
+>  	uint8_t data[];
+>  } __attribute__((packed));
+>  
+> -static inline uint16_t ihex_binrec_size(const struct ihex_binrec *p)
+> +static inline size_t ihex_binrec_size(const struct ihex_binrec *p)
 
- drivers/usb/gadget/function/f_loopback.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+but size_t changes depending on the platform, right?  Why not make it
+u32 instead?
 
-diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
-index d2d07fb49e70..40aaf2eb00f2 100644
---- a/drivers/usb/gadget/function/f_loopback.c
-+++ b/drivers/usb/gadget/function/f_loopback.c
-@@ -216,6 +216,11 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
- 	return 0;
- }
- 
-+static void loopback_unbind(struct usb_configuration *c, struct usb_function *f)
-+{
-+	usb_free_all_descriptors(f);
-+}
-+
- static void lb_free_func(struct usb_function *f)
- {
- 	struct f_lb_opts *opts;
-@@ -226,7 +231,6 @@ static void lb_free_func(struct usb_function *f)
- 	opts->refcnt--;
- 	mutex_unlock(&opts->lock);
- 
--	usb_free_all_descriptors(f);
- 	kfree(func_to_loop(f));
- }
- 
-@@ -442,6 +446,7 @@ static struct usb_function *loopback_alloc(struct usb_function_instance *fi)
- 
- 	loop->function.name = "loopback";
- 	loop->function.bind = loopback_bind;
-+	loop->function.unbind = loopback_unbind;
- 	loop->function.set_alt = loopback_set_alt;
- 	loop->function.disable = loopback_disable;
- 	loop->function.strings = loopback_strings;
--- 
-2.43.0
+And if this hasn't shown a problem yet, in the 8 years since that commit
+happened, is this really a bug?
 
+What changed to suddenly cause this to show up?
+
+thanks,
+
+greg k-h
