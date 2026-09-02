@@ -1,94 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945AC1B3925;
-	Wed,  2 Sep 2026 13:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E1E4A0158
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 13:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788356381; cv=none; b=X5hIi6pHDhMPu+0gg9NWZesGqXk8YufV1T/14/3+/mc69YxFqg4LYld/bgNZS5J/7TGTq232qWBaRqXq0jiw4HwFLF4LdyT/EyE82hnVn84FDpiaoyAgxYaQw0uu3TU7zetPr8G0f+EiSFx/Om6TQpFSSQLuCzH0XAJ1TIuLKrY=
+	t=1788356807; cv=none; b=DQw11kQLfSZCDn5rd37oL57uewg2es5Bx9B5mU6wsqOxHNltcvyQto6fumHKYVFjzfB6qaNr+SAfETAv70bfkKGL3Jf4q+LrKP3AjNd/3ct0TNr/v6mRYELBGvhR7D7HFfc36+lNPTi7S91lCknjHg+/ok7GMaG85spT6bV9wxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788356381; c=relaxed/simple;
-	bh=dJqBXH8BdOH6zHKEeW0xtAXFGckiKkJhrp9asTM5BW8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HKtuRnVNTENC8+q3tX1GYK8RdaziyMspidCi7Q47HpIPY+YFJTt0miPnCq6Kuw8vjjubzxEOZm6BXHreq0PMRofPS5qV38g7bMTn5Kpw9pp4fGr1PZW93Nyw7HCcCjC6LUWifYRLQtMFCX7vI2gj6eQsA18Xu1e7G5YOMfDbrK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNK3EH9j; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788356807; c=relaxed/simple;
+	bh=o0rlClM5qugEx/ua4/bp1yTHz7f4XBumez11VDdWuWE=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=EVuG6hYWYrKNxyN1eZZ11pqv0LYmkEYrSe7Kdzit5eFblca9dv88+xC1rK6Kv4oU01muQWkBTUH7zyqv75xEgDDDwJspn5OMVIaB6zUnuFc/TSYOAu3GGI6MA3T/SWFTLJmY4xDHJWmxsV5FD9BMcReyg61aZ7JJlbZo30WYu+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CypwyhgR; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNK3EH9j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788356379; x=1819892379;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=dJqBXH8BdOH6zHKEeW0xtAXFGckiKkJhrp9asTM5BW8=;
-  b=ZNK3EH9jBrUKTJD/bE8sreE8zKTY5AiBQ4XyTuGQ5ganeRa3/Zux7TXx
-   UQdkQ7OwVkV/Uxtt2L72zC7nOHKeQjg06UlkFxHaiIYBRpK2F6JSw6IfM
-   2zVL4siChstT7oEBZccjMwZ6T/xQySVI66/UojSdCPr4jsGgvyO4uTYNQ
-   34KYWs+0u2y/7F7VZA5XveQbzrJmP47awBk4E95InsKgSzlkuv1m+C+aF
-   SX729NEhrvobi6ihQX0Ina2QcgVF0vhx5A57X66V966isuLKhyfjOpxPF
-   acWH7r2LnGQCsHIe4WBD80JZNqYSe9Q7stqGd7i4lEuAZKPIBJ2Sgvs5+
-   w==;
-X-CSE-ConnectionGUID: 5o2g7jeZRkGmJE+tiplM0g==
-X-CSE-MsgGUID: v9iNjX0AThqmGwTmP5m5IA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88664108"
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="88664108"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:39:19 -0700
-X-CSE-ConnectionGUID: AJp3+3dCSqKCdeKQBXAOZA==
-X-CSE-MsgGUID: CYSWsZtaQI26RaP1Tlh4YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="265708939"
-Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.245.217]) ([10.245.245.217])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:39:16 -0700
-Message-ID: <5f539374-ef55-4400-89b0-f826bdf692d7@linux.intel.com>
-Date: Wed, 2 Sep 2026 16:39:14 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CypwyhgR"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49b96837ca3so7375115e9.3
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 06:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788356804; x=1788961604; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Uung8BThZMwxg0EHYvlAQa0fyS8hJUcosA00cBSikLk=;
+        b=CypwyhgRM1ZFUYjS2MpVnnyMySCGr4NbQqIVQUS+SavmPxzA+9aB1WWxfFNf6a7FoM
+         qOT7Z1xYlC+Vjcj+zJhOp3T0nOv/zPZkVEiC11jc1vPMQcKOFabv1168pEm7lSz+YlLu
+         SWuH5GHa9jbXysXxyW/GFIxkQVqGIyzWYoksnChwtckcByqaHh5/7ttC5D4zkTpFSBij
+         nIbaYrBman9sZ4Ufo2M9uOqmTnLCqt/mg0ziTIR7+L+gu6yzdr12Wrl7fyMRwgyASH3k
+         aPBQmgRjoFGb8xtJ4D4UFqC/GDwQUQwp24pF1R01QtR/Vp8mI9Zji46NH94R9Kc2K4W+
+         AjxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788356804; x=1788961604;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Uung8BThZMwxg0EHYvlAQa0fyS8hJUcosA00cBSikLk=;
+        b=ExZD5pjQlSFNh8XiPyxP3LINgonhMcsPoAmZMPcE+vaHNysk36wLvqdkhVvfcDscnw
+         gW5J1QEaYlSnbk4NrH7AV4gpqQo8qM2lnMw3NzEKLygLDEovgtDk3ccH7sKf5XY8eqsJ
+         PwvqcCvrXpmsoc9w/EBfel+ksuYLews4asl7xiLCoQo/MaPx9kJDrZnl9RaQ79s5DbD+
+         OgeoSEApE+E6aI+Z7YA6B3K5EWe2mYmf2fb53g8I/OojCJQcGzh4xqfSUWTaFYQzAmVn
+         nWmSWr/2j8/GXqYjCYANrS1mAUkGUKhHldKszzwkKDnuitkZmRFfQnIlmOiUx0+qFeNl
+         drNA==
+X-Forwarded-Encrypted: i=1; AHgh+RpgnjMHLZzR0b5LWva0lXY74qxglOY9vnyaAvAGfK3eMidLH7n2uU2MHftzc1RxKVYkfjtPSdEHrvo=@vger.kernel.org
+X-Gm-Message-State: AFuF++nouPKHixA9vGfkPA15DARyvBNgAGavh1UNp6nx3yyMyKChwpm9
+	PgQP13sTqNSjcvW7bQusjdIVQeWbrM1eu+4tA6BxQpxxM3aOU2VqFvJEQmznQ2DO3sk=
+X-Gm-Gg: AR+sD10sj87jzeZq/MYhmbaev4wHOHd5J3iSABb2d0Ot75OQqpWRxgGTMlDk8hoLSN9
+	tK52yWt+yHDToM8scg3nGkds3ziOYgjRAC2xPQFHaup2HtAdYD5ZR0804NrRvQvobAsghT9qEwx
+	rt1/A+G9k/0CHz0Et6xfeHYNPKWXESGjQz+k+H/ls6pvQZKabTjOsiwvRCfII7LxYEKgauoakW8
+	/xfEliFpbXeHDG0X3T2GkZ+xNGSUkgYmYtjXQv09t5s8M/OQ/mbrR1/rw2hsM90IjYAVldddYuZ
+	3dI7crUVyldQZFniWhwMDzbZz0licCnviKWazBUa8xRnHyJ1Nq57oxY5a1Qj/BMRtDO/jGMUn5u
+	RSBeo1M/CMCTgp4+ewjPsE2YO6YYvJfEeJ4GcLWAZ3YDcY1I0bKAr1h/SGAUg+kgH7hI9rEAuPX
+	T2v9JvIKyvzs9VR6U0nF31SrgbHoU3wDFKpQ09Lo2FjtpGWdROiRBz2R/fc8LIg+uc4jSB++2Hj
+	iuA8ZAG8qVeRsWlLFm75GQwEiBlC1Hl2018j8leUdA9cb8/Jq/NQtliyS0H5w==
+X-Received: by 2002:a05:600c:621b:b0:499:dbae:86be with SMTP id 5b1f17b1804b1-49ce58352ccmr101662915e9.14.1788356804024;
+        Wed, 02 Sep 2026 06:46:44 -0700 (PDT)
+Received: from valmpani.valmpani (athedsl-11462.home.otenet.gr. [87.202.45.32])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce7dd5154sm39216155e9.2.2026.09.02.06.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 06:46:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH] usb: xhci: Fix bounce buffer overflow
-To: Michal Pecio <michal.pecio@gmail.com>, co <co+fd80bc5967eb22c3@bugs.sh>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh>
- <20260828002440.312ec0b6.michal.pecio@gmail.com>
- <20260902132458.5de2f031.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260902132458.5de2f031.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] ihex: Fix 16 bit truncation in ihex_binrec_size()
+From: Vasileios Almpanis <vasilisalmpanis@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Vasileios Almpanis <vasilisalmpanis@gmail.com>, 
+ Andrey Smirnov <andrew.smirnov@gmail.com>, 
+ David Woodhouse <dwmw2@infradead.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <2026090256-posture-affirm-f40f@gregkh>
+References: <20260902-ihex-v1-1-67fdbf8d97ff@gmail.com>
+ <2026090223-napped-nerd-790e@gregkh>
+ <178835312958.943169.5134885168571622868.b4-reply@b4>
+ <2026090256-posture-affirm-f40f@gregkh>
+Date: Wed, 02 Sep 2026 15:46:41 +0200
+Message-Id: <178835680142.947452.6844220046489942180.b4-reply@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788356802; l=1143;
+ i=vasilisalmpanis@gmail.com; s=20260731; h=from:subject:message-id;
+ bh=o0rlClM5qugEx/ua4/bp1yTHz7f4XBumez11VDdWuWE=;
+ b=ZTa9yJ/mRy2fMWTJjmNTZkItUoMtxrHg0VZhvXOTrk3eYHYzwubnhdUl5eUntVDto5gGr/+bG
+ 68ahcPXnkhnDZI93/XaVX3vvM8juXzAGqTb7qRzysPYIsAfgMXi5aOS
+X-Developer-Key: i=vasilisalmpanis@gmail.com; a=ed25519;
+ pk=gn5Uo6yL8Tlpq5uATxA3nqoq+U8eWLRbjD+bOk0qSpU=
 
-On 9/2/26 14:24, Michal Pecio wrote:
-> High-speed devices with out of spec 1024 byte bulk endpoints exist and
-> are allowed by USB core, but xhci-hcd always sets packet size to 512.
-> The exact nature of these devices isn't documented, commit fb5ee84ea72c
-> ("USB: Accept bulk endpoints with 1024-byte maxpacket") only states
-> that they "don't work with xHCI host controllers", whatever it means.
+On 2026-09-02 14:56:48+02:00, Greg Kroah-Hartman wrote:
+> On Wed, Sep 02, 2026 at 02:45:29PM +0200, Vasileios Almpanis wrote:
 > 
-> But somebody (or a malicious device) can try, and then the driver will
-> allocate a 512 byte bounce buffer for this endpoint and may write up to
-> 1024 bytes into it if particular scatter-gather URBs are used, because
-> xhci_align_td() obtains packet size from the descriptor. Fix this.
+> > On 2026-09-02 13:06:27+02:00, Greg Kroah-Hartman wrote:
+> > 
+> > I used fake images. 14 bytes long for the out-of-bounds bug and 6 bytes
+> > for the infinite loop. I passed them through the sysfs fallback loader.
 > 
-> As a side effect, TRBs will be aligned to the packet size chosen by the
-> driver on all endpoints of all speeds. Alignment serves the xHC, not
-> device, so this is fine. Only out of spec devices are affected anyway.
-> 
-> Reported-by: co+fd80bc5967eb22c3@bugs.sh
-> Link: https://lore.kernel.org/linux-usb/D4tcSGerkYkIV1DmaUo1t8TaR5qQElDLkidn@bugs.sh/
-> Fixes: f9c589e142d0 ("xhci: TD-fragment, align the unsplittable case with a bounce buffer")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+> Cool, so root only, fake firmware, not a real issue?  :)
 
-Thanks, added to queue
+Okay got it, i'll drop Cc: stable
 
--Mathias
+> 
+> > Out-Of-Bounds bug image:
+> > 00 00 00 00 ff ff 00 00 00 00 00 00 00 00
+> > 
+> > Infinite-loop image:
+> > 00 00 00 00 ff fa
+> > 
+> > 
+> > Yes its root only. The attributes are accessible only through root
+> > and it also needs raw-gadget.
+> > 
+> > 
+> > It does, but the value tops out at 65535 + 6 = 65541, so 17 bits, and
+> > size_t is at least 32 bits. I chose size_t because sizeof(*p) is already
+> > size_t. If you don't like it I can send v2 with u32.
+> 
+> Let's be specific, otherwise people will trip over the fact that this is
+> different sizes.
+
+I'll change it to u32 in v2 shortly.
+
+> 
+> thanks,
+> 
+> greg k-h
+
+Kind regard,
+Vasileios Almpanis
 
