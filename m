@@ -1,131 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177F04A2E3C;
-	Wed,  2 Sep 2026 14:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0E74A2E15
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 14:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788359772; cv=none; b=AJpQ/cAq3x7jLz8X/YqzdycQbrW+57rN+g0gFasOrWddAV2Qan/caX56h9ZarEYlzLMeimJploQLeqrEvzWtJZCfm3shsRCjxhSQNSIoC1NBhoB6mWmcbpEFPtBQ0IeC0txZ8ZFRUjsiBXuXbqtzhRKBH3MEqG0sTSDtBL1VilE=
+	t=1788359914; cv=none; b=SgcGrfU/4DB2n5MD7JeXJHRw7ea3IGybTslZ2I3Me/4v54UF98KYpySh8NDvvzFUZ2U9ih7dCfnOjQASVbs56vS3yhhDGfjUufyYiwPatC/ipwHbjWKuRM8EeTn1sT448HT86D1pBFKyuZI2ojuIrXow+Q4vMPruOYqO34Hwyp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788359772; c=relaxed/simple;
-	bh=eJC9UUBWutn2N8t4IKPJkVXhNrPPSiqt3WTyCAhkfEE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z8l0+bG+l1s0O61sRairy2MqdktKzqxHcHfEuEYqufX/8ir7/mYcSxLtvBE6C/yMvoWpYncNyVwFDNWp5b4oyHcQRib/CamuxDtgJC5wsf/7qbWU04ITUpCDTiB+4bgVpo8+2q/6bH/DG0p1TmV8IikLzDTLF3uXgH2eRdnhP8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qz2Ew/Fo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788359914; c=relaxed/simple;
+	bh=+1IDDljIxSMHafSRdVxB3cfBHwPZvhJ3wm0LqMjtL2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DNgN6rEP82mRjx37xohYaINjFesW2M/kWTFdH43vHdsnYE3jaEKWef+cTeyoZJS28D561/E77nB7Z9nRej3iYhWjxaHHlkdBotiMFuNlobYLV9xSt8jqZ9RwLGvawoI+RTufJiF8DnqPk34KxXtlegIRW6TVkG/9//yff1yKycI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=uwrOBEgG; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qz2Ew/Fo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1DAE1F000E9;
-	Wed,  2 Sep 2026 14:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788359770;
-	bh=uzzpWL0xLJV4HxgXaJDCRpeFEK+cpnvsfs6kVzVfAak=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Qz2Ew/Fo96WKMMFECtw6AcGedth0FeblIay9/D+sibhjAK2/BTaqye6hTBWLs8zRw
-	 qXakXIrkxjuU89HS4vq0KEDl4x5Z+5neqSP1lPuX0OLciuKdgyqjd9FTsSHKpkKbON
-	 +rEI4WgECsqIzEjtNQqxUwhobsANlSwbLo0+gejc7TXvcdF2esdVnYMH+viUhY4Vxs
-	 I5YPwI+B873UPnl851liAilmTnKwoRgKEBL/Qkp67CXcRlVxi7w0cHqyTfePTjs2ij
-	 SqS2cmlvhnjlis8DLSAigHIQ3woqHE6gL5snkeJGrQ1zoiv/+OdHptqVqSk/XgvaGn
-	 Hno8waIJ7Q4NA==
-Message-ID: <d3ca9ecd-768a-48fc-805b-cd50efa639af@kernel.org>
-Date: Wed, 2 Sep 2026 16:36:05 +0200
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="uwrOBEgG"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-938cd95b06eso114881385a.1
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 07:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1788359912; x=1788964712; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9Z/b4QhpQvqmWwtZHPfVGo84g0AhpzBEmvQoIe1Yy7w=;
+        b=uwrOBEgGR93sslE2Y0YpeRcNw8c+bEzPgsHwN73ng17o1ZJfEAybRdEOQsFlqwQLl2
+         cUzowflqwd0eruR0TygJK/5YwbOX0x4P5ROoxbaHcsOmYpeGaF2fJV7J3uYc9K/lSa68
+         panr+BWYqRYGqreEZEGnI9hy6n2vEdBNYKhXlTxvyGk3KJq6ECF36X9qB7CPgAXqbFzu
+         z5on/+qmhxD5pvaeWwmj+n9XWkXxGEy7mI5Fvdz0oJe1FuFkAC1YnpqV31WzM8GkDWrK
+         xrH72ugmPcp2vUVyCbqisU9w0Af2Wv/k9hDNH9lE0hW5QZmT2GFh0YEo1sgB0pYy7/7o
+         Rmzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788359912; x=1788964712;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9Z/b4QhpQvqmWwtZHPfVGo84g0AhpzBEmvQoIe1Yy7w=;
+        b=LVvN7J3k8lLw6Omb3UOVRy49s/jg/hhljLd2OWH6hnBy4R0fKiyUnudyL3NXR5L07H
+         XLa/XnbGzkUck8K/noSAKVF4yZo8rv6+cxN+sUk1YGfZBu9o6TLELwH90MvfvUKGGdDm
+         ApjrdZtWZtSze+xJFk3w7NDqWBOn6IGEQNnq4gADJ9f5U7eIf7u1wN5BGa24NdZgHzVI
+         5DQeXAEuHZ9Ctiu1FJkb82SAj/vUKt9l75fPbQZU6zOG3v8cmo2FFbO4RY9RTJAIUOSD
+         DY73UzZuEFlV8GqKQr8y5BAlPWo/MGug1Cnbom99+iGFdS4V7dObseqs3TZbTW4j3tT+
+         /XRQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpozXuFaoU+lKL3jby8yGUrrht/ZcG2ya/4ET8lH6nFRBZkmmRJbHkl1WTBJTGyC0PqQI7Nyuuvflg=@vger.kernel.org
+X-Gm-Message-State: AFuF++niS7CARoue1+FMvxzJbIpkXUuZ0OITHQICBRNz8vNdRKBjQbll
+	tknSi7zOpEz9Hb8kxvKBuJevEZpWYFxOhp1GufPt8tv3gXFA2AL9NEMovvbaOcv+Dw==
+X-Gm-Gg: AR+sD13BKCmhnJphsrDJAdbfJG9+kyQu8sLpETYfrRSakhfM53nb8Eln+GPBAQaQWdw
+	o2dubpSqaI0OZCRurFTMMZkWrKcCjVZ9s1qBdV8OXog+OsY6r1h7xI2GFooYjN7f7octthzBNm/
+	LoOGV15JnWXF7kdo6HJn+EOuKIiVmhMjcwI1Be8LfBTmyYZX/fFNS0Qv9mG9v18+nXdYGb4NPYE
+	ff/L+pBeloPbkeWvANimGdT+8EDfE/rIOn3h2QEtWLMXHP5WHBNcy8z9266ESEVUg/BDLjubdC0
+	UHW6PUL7p5H08ZXS8mjifJp87CQjdqaeJ8Wxdx8+qnRlryuxbI6zHI4O8BkGyO3FE/cR9vkdqbl
+	/FJYaFfKo/6p1W30TsodVeJto2uqw4QMvBGFZmyG9Qvu16GLtVUbMwO43TXEzRCPGhe6HPbmfpR
+	F4QXkyI4cyIqHSIEAmsSgbj/g7+LYXPFfv3+a66Uw4IIX2xNXLHZKbtC3Y80RPjtGoiolPue6aP
+	8Ue2V8=
+X-Received: by 2002:a05:620a:4446:b0:936:9253:897a with SMTP id af79cd13be357-93965a3fda9mr380173585a.9.1788359911966;
+        Wed, 02 Sep 2026 07:38:31 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9395f153035sm224286785a.5.2026.09.02.07.38.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 07:38:31 -0700 (PDT)
+Date: Wed, 2 Sep 2026 10:38:29 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+Subject: Re: [PATCH usb-next v1] USB: gadget: Fix UAF in gadgetfs_fill_super()
+Message-ID: <b99e8d15-9031-4d77-b1c1-2bd8cce6013e@rowland.harvard.edu>
+References: <20260902050127.3767049-1-rafad900@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] USB: usbfs: replace __get_free_page() with kmalloc()
-Content-Language: en-US
-To: Alan Stern <stern@rowland.harvard.edu>, Oliver Neukum <oneukum@suse.com>
-Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Chas Williams <3chas3@gmail.com>, Duncan Sands <duncan.sands@free.fr>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Johan Hovold <johan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- accessrunner-general@lists.sourceforge.net,
- linux-atm-general@lists.sourceforge.net, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-References: <20260830-usb-v1-0-aa349c302246@kernel.org>
- <20260830-usb-v1-1-aa349c302246@kernel.org>
- <ea165ff8-cda2-4fed-9354-1d14ac2d87ca@suse.com>
- <8cbe558e-7f53-4ce4-be8e-52fdba9105d4@rowland.harvard.edu>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <8cbe558e-7f53-4ce4-be8e-52fdba9105d4@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902050127.3767049-1-rafad900@gmail.com>
 
-On 8/31/26 16:30, Alan Stern wrote:
-> On Mon, Aug 31, 2026 at 03:27:07PM +0200, Oliver Neukum wrote:
->> On 30.08.26 10:10, Mike Rapoport (Microsoft) wrote:
->> > do_proc_control() allocates a temporary buffer for the data stage of a
->> > control transfer issued from userspace.
->> > 
->> > This buffer can be allocated with kmalloc() as there's nothing special
->> > about it to go directly to the page allocator.
->> 
->> You are breaking the calculation. A page has a size of exactly
->> PAGE_SIZE. A kmalloced object of PAGE_SIZE is larger. That is
->> a bad idea.
+On Tue, Sep 01, 2026 at 10:01:27PM -0700, Rafael Alejandro Diaz Cruz wrote:
+> UAF is caused by syzkaller reproducer forcing
+> the failure of gadgetfs_fill_super()
+
+Just a minor comment: The fact that you used syzkaller to cause the UAF 
+in your testing isn't relevant.  Memory allocation failures can occur in 
+real life, without fuzzing, and the driver needs to deal with them 
+properly.
+
+> When gadgetfs_fill_super() fails, it's error path calls
+> put_dev() which drops refcount inside the_device to 0
+> and frees the objet. But the_device pointer is not
+> cleared, leading to point at freed memory.
 > 
-> By "the calculation", are you referring to the 
-> usbfs_increase_memory_usage() call in do_proc_control()?
+> VFS will then call gadgetfs_kill_sb() after mount
+> failure leading to put_dev() to be called on the
+> already freed pointer.
 > 
-> The overhead in kmalloc allocations doesn't really matter for this 
-> purpose -- it can be considered a rounding error.
+> Fix by setting the_device = NULL during error path
+> before calling put_dev() inside gadgetfs_fill_super()
+> so that gadgetfs_kill_sb() skips put_dev().
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=4a5c87a01894ca37f25c
+> Signed-off-by: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
 
-FWIW, the overhead will be zero for a PAGE_SIZE size, unless slab debugging
-is enabled, but you can ignore it.
+Since this fixes a real bug, you should add:
 
->  Besides, we don't 
-> know how big the overhead is, so we can't account for it.  You can see 
-> that in the same call, we don't try to account for the overhead involved 
-> in usb_alloc_urb() or kmalloc_obj() either.
+CC: <stable@vger.kernel.org>
 
-ksize() exists but I wouldn't bother indeed.
+> ---
 
-> I'd say there's nothing wrong with this patch.
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 
-Agreed.
+Alan Stern
 
-> Alan Stern
-
+>  drivers/usb/gadget/legacy/inode.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+> index d87a8ab51510..3e2bce7543d4 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
+> @@ -2059,6 +2059,7 @@ gadgetfs_fill_super (struct super_block *sb, struct fs_context *fc)
+>  	rc = gadgetfs_create_file(sb, CHIP, dev, &ep0_operations);
+>  	if (rc) {
+>  		put_dev(dev);
+> +		the_device = NULL;
+>  		goto Enomem;
+>  	}
+>  
+> -- 
+> 2.43.0
+> 
+> 
