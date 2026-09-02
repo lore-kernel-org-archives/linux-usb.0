@@ -1,183 +1,157 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B7A448BB7
-	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 10:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42E63A7F6B
+	for <linux-usb@vger.kernel.org>; Wed,  2 Sep 2026 10:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788344951; cv=none; b=ZijGQ4XCVzHbLIGmdCZPnWIIIihYk0Bynmiz48zxmNA9mH69VHh+0qGL8dQ5+dtLsucxdFX7Hz7lEekuPZdphw465Kwld1JK+wkCw5NnhOAEHGK160d+gZkjtjjTslH/XUccbkA4RN/dKW9QD6ktXG8a3AjNTFNJlkfsBu9jimU=
+	t=1788346338; cv=none; b=LDk9h0UYd6y8oYlAsJBJ/oabO8UbicJEhqAeDU0HHW2xpDp54Wj9k6jzTnceWIjrNLQ9mujfLAkbabE3aQRtUS86ltn8KOYpLUiYl6mmIZpxoD0OxT028isYTZks52xqIyobolz7/oW3z8N3zOMaQujPifudNgVrNZm3wZIN8hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788344951; c=relaxed/simple;
-	bh=D8ZSpMUPIDCNW+TKfznVVt3G/+Z1IAgE/rX07jvs3Ps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NrPvmLtT/a4x111YAP/SafXt6xsnmpH5txrO4olHH0Fe5ek/1ClPpHvMfwEXSGafvT/f/gGswiipZK2hfdWrgsLYBeq29DpTzK1JD432gLgyu/dh8fssIgPBe49ALU4FayBcbVTMmT+o2FiCCrXXzlEjHRSg0Md8moO01xA+jJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TuWlE+PE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aAg2QRPY; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788346338; c=relaxed/simple;
+	bh=g0xls3eVTYsNQ1+wlJEEKO1atz15pqk+FUgc6sw9KzQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eHhGQYTPLazr/pjty+sqJ3Gu8KwCcdu88qDA3SPQyWO33xlplByZHvw6UpPAY6wbqoS6Q7c2IWC9CTBh0WMqRturEKkFJ6WCmPFaKP3NbY1xyYxP49ifgwUYZC1G7c+ql7F2O11MHsDvSx0GsOhs8LFiLXF2yDF0jQzgrfh0YvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q6vgBvoD; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TuWlE+PE";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aAg2QRPY"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 682A5hO6688621
-	for <linux-usb@vger.kernel.org>; Wed, 2 Sep 2026 10:29:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TdOfQSqLmWJ7y3AMgqR+vy4CjQvTB1wFH1GkCyGK4vc=; b=TuWlE+PEE0fHl+Q+
-	Z7tHB0FNlZLyis+6uv07INbF2nYVZdRoJ+svY5ACNrl0dQ7DqE00o7BlnrLI/Asu
-	s38/IVguMpGDQid9B7Whs1FHbi2SlIWEkyQbHU2UWz6lj15k02oN/3xh0zZepY0/
-	7I3rpZBQRUd5tn7LiQOGnkG4HPE2ea4EjhtRpjt3Wbiim26QShD+YcjVTQTtKdGm
-	dKb96JQS2tZeuufTmb200IGGDYSSHbR3aYRdC2jKt5zQjkuRl+3Lw+BNQmdEU7aR
-	uwsfJmrM7P+viUve9DEi+tnQYkN/Vs8gS3oi3soF7vXC4XfaH5WCAD5WqCtyRjwN
-	DcDtsw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gehrd834b-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 10:29:03 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-9390890ae83so24510085a.3
-        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 03:29:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q6vgBvoD"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so880591a91.2
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 03:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788344942; x=1788949742; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TdOfQSqLmWJ7y3AMgqR+vy4CjQvTB1wFH1GkCyGK4vc=;
-        b=aAg2QRPYeQSSnJ/pnIBzxmkITRiXqqFk/TFtiyYYVZH3BZn1Zvpa6ZmtxUeTsAAV4C
-         8OP2i8zxKGYxblf23Ug/ygPUW2WW/x05L58OqSTNjtRQB/j/PrREHoAB8RFlKX/TsMOZ
-         HIKB0TJBJdM87qF2SCS5B5P3cw7JhsSF01ylczEKslhydvDzAqIdLYh6wp8opH1IL4Bx
-         oGwMGUNu1+i3nyC30DXtaWoOmVJ09052PiIchsYTkxUYt53OGvF+YztYXHrYRZ7rJsC/
-         ZruXnbbH2gYRsXWgj4D4ACN0+4ksc7pdSw9svAKcqasJW8F9nZmY+t/c+ZLs/By2VL+y
-         +WTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788344942; x=1788949742;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1788346329; x=1788951129; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TdOfQSqLmWJ7y3AMgqR+vy4CjQvTB1wFH1GkCyGK4vc=;
-        b=IjVWU6hD7f/BW8ko6l0QQDy+hKCnCb8wErYpWZ3+wd3PwKu8388Ld6O6gdSIa9fECH
-         UeeD/2+hdL4/wpeWbOk/hB7juOcmYUsSlKf9yRmrEBig9k8p6qUDfb8LbygEuRX7a1yH
-         ABR075tT+NQD8em1jMZKPr6L7fvryDWzih706z3RCKJIP3HyRKhY9aVyE1o99lLkDgfB
-         YCEsAX4JodaEwyUqgTFiu3+E9qyackdh/1dZqfjRzsWCWpsCkIuwh0EZvDqHDWoPD7Rt
-         G+EqLybuhfw6AfhDTGb+86FzOSC9/UvILgtYj5UThYNJ7W9DwjzxKsbBjpTvJseJlWo4
-         UeZA==
-X-Forwarded-Encrypted: i=1; AHgh+RpNz8CUot5vw15erWkcPU6FGdPEFT1UCaAjZvpRwBnpCsCY8oN9QSZdFfboTAtXRUwDl0JxjF3Gpog=@vger.kernel.org
-X-Gm-Message-State: AFuF++kTT4EWELw9FsF6o2FDUhG1RsWJHgvLlGAOdOlfQfojJ+eUqZCC
-	JdD41+w+V+Bi2aOhQGqIuAU1TK4rBe6F3U3T/ru6wZJaLUv1bt7exbXYySg9Ht4kFj43tA4FyYD
-	M/bBdxNEoFUCQ+jFtWILWFDOm/LQveV8ntqIWGTmR+ZirhM9Pe1V/7hfXtD6BiJ60CMqSZTQ=
-X-Gm-Gg: AR+sD10Senr+MlCWu4EdJ4kshd3YV5MRPzuUMXIHALoPtZ3wM8uZpuUNu8my5z45tnz
-	yXEWfQ1S79Zsyl9wGyvKaHkYQPL1lrbxfJkL1JZtdnF0g34fxc4dNRYHcmRkGYANbjMfEgEzZIa
-	31ZACwHoVobB1QUtO0NbtnEWu7wZE+S+rQAtkb1EUYU3S3rSYiIhh04AXTPLL7uu1KxAGPVZ+fB
-	GMkyf9l6P5dxNNBIwFPxod5iOTza9JTgnvkIMAN+TUIVNdg0Z4Ugk1iU4t741V3AU1Tg2BOZ9Li
-	tzhyhPsSeg2IZuvlj0Qsgh4gH7KA3NGxzkweaQLRpGpSKuCWbv1Ir5/k8LuM37hl8pSJb8/8kyS
-	orYMDWXPHA2ZSyPamCq+Fgg==
-X-Received: by 2002:a05:620a:4623:b0:939:48e9:51a1 with SMTP id af79cd13be357-93960e1e27bmr241295885a.2.1788344942250;
-        Wed, 02 Sep 2026 03:29:02 -0700 (PDT)
-X-Received: by 2002:a05:620a:4623:b0:939:48e9:51a1 with SMTP id af79cd13be357-93960e1e27bmr241292085a.2.1788344941785;
-        Wed, 02 Sep 2026 03:29:01 -0700 (PDT)
-Received: from [192.168.202.12] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25d002dcbesm109123366b.16.2026.09.02.03.28.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2026 03:29:01 -0700 (PDT)
-Message-ID: <3d31f750-750b-4561-96a3-d265b632da6d@oss.qualcomm.com>
-Date: Wed, 2 Sep 2026 12:28:58 +0200
+        bh=bMwJAjsEOYUPm6orTWOWcoAqbi2fMU0sJXMe0aIoTIk=;
+        b=q6vgBvoDnaLdtqW4HY78q2XukPkjhQnojcl7vlx6aGbwwqEyFaG2JPINr6uJiuz90v
+         MfShCdLn2fjaA2A4hBP4odme0H7ePdkSC6yUpPs4rdRRlvmuGh923q3464JBpbvTYH1M
+         gn9aTo9yr8BIIJrxnLbbu34KbRyrqdv3+favw0sd2Wur0pxXa45VppxIWT7c0D5t0d67
+         nedMgZldEL5fgvwMy76w0I9gSAdvzhQKXd+pPtwEVenku5buAJA3p5ISETheSvS2OkO8
+         jFVKGDBXK15APaEQQWmQKmR+TTLHUepaOl7ObMp0CTPOCUwkIJnHCA09kiTZxPpr9OWP
+         7oSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788346329; x=1788951129;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bMwJAjsEOYUPm6orTWOWcoAqbi2fMU0sJXMe0aIoTIk=;
+        b=fKUzqbTDEFUR5qqZXF193amUwegXC8ScywyeGNibJ7wye/c7oijfLLmTkENMf8tpJl
+         ow7sitsDteimh3N0B70ix2qgwBKvKFQ77EIRhJjUwhZXNsK8JmeU+NJFgzyzh6mDYnLd
+         LLylypCO9Jy6dWxM5yrd5r2lz9xxgXQcDL/L9yamq4gArMaXCW3EXKA2iskHi8aWOqRk
+         zgGZCt/xxDece84jYR4khFhO/W7TfwB+2nqad/BdNnRm1IzC/VnyjnxTdfvjomPGbbWR
+         9J2g/TPEvegs1cOvyrr0nreLDA5fxn+JxR3Cqaxewa4lRnpELfIVevDWjTSVU9dF2uSI
+         OWqg==
+X-Forwarded-Encrypted: i=1; AKwUvBwYjIOiEsj8gUxg8fBGvThCz80VBtmuwDoTAFd4H7iMzIprv1BM2KLYLDJ46zZpdXnquupOnnkQDxI=@vger.kernel.org
+X-Gm-Message-State: AFuF++kbNDkiErogVNXvdUoCo104GGj+xIog0VwbrDOufDdOqGB+vxPe
+	oH0wrFQAea7GR/oOgzUBekwoVFYXyScSie/BhcYXJqTt5Cxl80NRcIYB
+X-Gm-Gg: AYBFou1X+IiBV9wC5R/DwTxoxv5JjG+2DAPSZUy97BEmy7ojFh3zghjoGH2Km/W9yNi
+	A69E5Uw4QLw0hbBrQCPTqE1T0KH+xszgZ6XZkSA8raT7cgTHWd4kS3g3CDLlYvBkYVr549/lLFF
+	udnsKmNyvxY8voYsNJMydEamx2IP+qAOZL/eq678EL/eE+UvpojjTIAnjF4AkpGj7XKRVIBIAyM
+	QhoI9JI4STTYN6JktbsutZrPfG00QqPdygZ8kAYJiSnrisjRpMa/tmCnL3XdCHOTkE0mgThjKGk
+	Csso/gDE1ma5hYVeBgRUS2zX25b7yUqw+Nbv54ChP92mItV3gw5E2H//SU49kKVqHQZzTk4C3rH
+	nuRe+8B5K0NmrIyQRkfGtYFcC6FR+NDkcj8Ty6bKbCqBucPPW0XWmJhSgBZWNvun0+NBY+84O0v
+	/2yDPTNzt9kFxAjKalr6ddJkeohKIFHQPNVfePipkEI5gB6zTkp77JZcucTcH0gKLYevyyOnplC
+	g==
+X-Received: by 2002:a17:90b:2b8b:b0:398:e86b:ce14 with SMTP id 98e67ed59e1d1-39aee1237a7mr6198549a91.20.1788346328775;
+        Wed, 02 Sep 2026 03:52:08 -0700 (PDT)
+Received: from amd.ban-spse ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3318bc19129sm3042754eec.16.2026.09.02.03.52.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 03:52:08 -0700 (PDT)
+From: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: christophe.jaillet@wanadoo.fr,
+	kees@kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com,
+	Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+Subject: [PATCH RESEND] usb: gadget: f_loopback: fix descriptor leak on unbind
+Date: Wed,  2 Sep 2026 10:51:53 +0000
+Message-ID: <20260902105153.3516793-1-nagachaithanya9911@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
+References: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/5] usb: dwc3: qcom: Modify interrupt handling for
- eUSB2 Phy targets
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <20260826-eusb2-interrupt-v6-v6-0-ae2601cfa80c@oss.qualcomm.com>
- <20260826-eusb2-interrupt-v6-v6-5-ae2601cfa80c@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260826-eusb2-interrupt-v6-v6-5-ae2601cfa80c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: UZhjsDeYNRmH1PTJA6YW1bYGaZf7-B5K
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDA5MiBTYWx0ZWRfXyrONDyCSHBtL
- CKdlfl+0OMHQzwfvhBrZx24TapL3CLTAdZdDJASS3ZGHYT6chIc3SDvjnhCcsGIxG+gPGpIXAMe
- A1sVFcHS1PAt+2Ag7pacOi8EJ9NnWbkQMVCu8SvbV3hXOmh7ncPfd2/WiLaq+oHDy7vvt5Fqhy6
- sjYsTUSgViKBbYenWtCmHqZhv2YVNbJz4Xyb3mWDly8SVm1knPkjIwH0X0SspUOhUU7hblZVr2N
- EyqWCBZMdtBl3SAEMCL5krrff38AwkU0FT0hoZHGoa+WS/YmWr/IpV0qYjEKMNDkzVl3aXT/qKN
- KOpt2xP+RSrE0jXrjKO4RkX5oMJwhnJA6t+r0LRhJ5es8QlzmVjc7LVRajzU821oxwbkazxM14J
- YdaqwpHYRpwLSd/EcFpNPyJ/dzpdwQ5bvWEeaXr69vBpxspmI+nRwgKcq86U6RiARBfwO+ozv/4
- MvcSaxdT5PYM7Bp5uIw==
-X-Authority-Analysis: v=2.4 cv=NLflPU6g c=1 sm=1 tr=0 ts=6a97fa6f cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=FycFWezSpWEMHrBiXq0A:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDA5MiBTYWx0ZWRfXw/DOGNyEzAdi
- vwMMTxZ0JzgY4+55mCVQTCSX7joldMRp4MRHCu2FtZTbVSovfgKhMRfGTkGytgHoqbgFMdf5TTZ
- 49qKOZbFejetY4GbucSh12NyM7obcbc=
-X-Proofpoint-ORIG-GUID: UZhjsDeYNRmH1PTJA6YW1bYGaZf7-B5K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-02_02,2026-09-01_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 priorityscore=1501 impostorscore=0 spamscore=0
- bulkscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609020092
+Content-Transfer-Encoding: 8bit
 
-On 8/26/26 7:02 PM, Krishna Kurapati wrote:
-> eUSB2 targets handle wakeup interrupts differently depending on device
-> speed when operating in host mode.
-> 
-> According to the eUSB2 specification, remote wakeup signaling in host
-> mode is detected via different data-line assertions based on the
-> connected device speed.
-> 
-> When a low-speed device is connected, the host repeater drives eD+ to
-> logic '1' upon detecting a K-state on the USB lines during remote wakeup
-> (eUSB2 specification, Section 5.5.14).
-> 
-> When a full-speed or high-speed device is connected, the host repeater
-> drives eD- to logic '1' upon detecting a K-state on the USB line during
-> remote wakeup (eUSB2 specification, Sections 5.5.15 and 5.5.18).
-> 
-> Since the eUSB2 PHY's "DP" and "DM" interrupt lines monitor the eD+ and
-> eD- line states, query the phy type and configure the wakeup interrupts
-> accordingly.
-> 
-> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-> ---
+loopback_bind() allocates descriptor copies through
+usb_assign_descriptors(), but f_loopback does not release them during
+the unbind path. On every bind/unbind cycle of the gadget (for example
+by repeatedly writing the UDC attribute through configfs) a new set of
+descriptors is allocated while the previous ones are leaked. syzbot
+reported this via kmemleak:
 
-[...]
+  BUG: memory leak
+  unreferenced object 0xffff888016b8f180 (size 64):
+    comm "repro", pid 5613
+    backtrace:
+      __kmalloc_noprof+0x3bf/0x550
+      usb_copy_descriptors+0x6c/0x160
+      usb_assign_descriptors+0x48/0x180
+      loopback_bind+0xff/0x120
+      usb_add_function+0xca/0x270
+      configfs_composite_bind+0x667/0x9b0
+      gadget_bind_driver+0xed/0x390
 
-> +	phy = devm_of_phy_get_by_index(dev, dev->of_node, 0);
-> +	if (IS_ERR(phy)) {
-> +		if (PTR_ERR(phy) != -ENODEV) {
-> +			ret = dev_err_probe(dev, PTR_ERR(phy),
-> +					    "failed to get usb2 phy\n");
-> +			goto clk_disable;
-> +		}
-> +		phy = NULL;
-> +	}
+Move descriptor cleanup to a new loopback_unbind() callback that frees
+them with usb_free_all_descriptors(), matching the lifecycle used by
+other gadget functions such as f_acm. With descriptors released during
+unbind, the usb_free_all_descriptors() call in lb_free_func() becomes
+redundant and can be removed.
 
-Looks like we don't have a devm_of_phy_optional_get_by_index()..
+Fixes: 10287baec761 ("usb: gadget: always update HS/SS descriptors and create a copy of them")
+Reported-by: syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=28cf08dec5895bd562e6
+Signed-off-by: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+---
+Resend after the merge window. Unmodified from the original posting, and
+still applies cleanly to current mainline (45c13f3f9e3b).
 
-> +	qcom->has_eusb2_phy = phy && (phy_get_type(phy) == PHY_TYPE_EUSB2);
+Original posting:
+https://lore.kernel.org/all/20260808181504.462492-1-nagachaithanya9911@gmail.com/
 
-phy_get_type() and generally all PHY APIs accept nullptrs just fine,
-no need for the first check
+ drivers/usb/gadget/function/f_loopback.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Konrad
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index d2d07fb49e70..40aaf2eb00f2 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -216,6 +216,11 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
+ 	return 0;
+ }
+ 
++static void loopback_unbind(struct usb_configuration *c, struct usb_function *f)
++{
++	usb_free_all_descriptors(f);
++}
++
+ static void lb_free_func(struct usb_function *f)
+ {
+ 	struct f_lb_opts *opts;
+@@ -226,7 +231,6 @@ static void lb_free_func(struct usb_function *f)
+ 	opts->refcnt--;
+ 	mutex_unlock(&opts->lock);
+ 
+-	usb_free_all_descriptors(f);
+ 	kfree(func_to_loop(f));
+ }
+ 
+@@ -442,6 +446,7 @@ static struct usb_function *loopback_alloc(struct usb_function_instance *fi)
+ 
+ 	loop->function.name = "loopback";
+ 	loop->function.bind = loopback_bind;
++	loop->function.unbind = loopback_unbind;
+ 	loop->function.set_alt = loopback_set_alt;
+ 	loop->function.disable = loopback_disable;
+ 	loop->function.strings = loopback_strings;
+-- 
+2.43.0
+
