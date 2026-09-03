@@ -1,37 +1,98 @@
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606FA4E235F
-	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 15:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.154.241.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511D24E3ED3
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 15:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788449880; cv=none; b=ou9E/9Luhni/JI1OgOdI5e39Aa3mYm5Pqr1pZpKAW5G/vqblYT7wiEt/odjKrkxt9Ch3jhYzvwtGIbMx3bvgpnrSDC1KiUa4JioWzdg3flKHierZ/HwblooskyRBnSGJnCrZlstUuOBn/DzFu5laiXOobIp+Ui6UiZ4yO2VC/qw=
+	t=1788449919; cv=none; b=XhaF1nQIZDOx1Q7p9I2vLFPhDW/lJupOdSJmWCI96I0qHxlGIfcTbspIbx8asg9gGw3vH81UDfSqGB0XqslYj0qBlgMfRelzTA3TX+2X3u/Zn9gcCW3TLUCHN2dFm6aRqAcZzDn+MmQtHqWW47jJPl2WUESP6OipsBzOSOClJ68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788449880; c=relaxed/simple;
-	bh=byXI6O3080V+bBrAjlx49v6U84mWPi/UvW/GsGemdhg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ABpccmhx+xJ8h2YTZlzcpCq+/hawAyt5zJisUWvpD3ig/Qe10d+wyt470tOtcINyU7D8an+UFeqrAgIKAVG0XoIURVJ5gcoPrdSp/h7O66+MEucweC/gk7UKdTNrPdBA6wVEaONRjYooEH08occgCYX89dJu2C1PwVKho3xvgFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com; spf=pass smtp.mailfrom=lauterbach.com; arc=none smtp.client-ip=62.154.241.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 0AA1D1A2CF3D1;
-	Thu, 03 Sep 2026 17:37:49 +0200 (CEST)
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: gregkh@linuxfoundation.org
-Cc: viro@zeniv.linux.org.uk,
-	nkapron@google.com,
-	me@samcday.com,
-	nuno.sa@analog.com,
-	michael.bommarito@gmail.com,
-	prostitisgabriel@gmail.com,
-	kees@kernel.org,
-	linux-usb@vger.kernel.org,
-	Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Subject: [PATCH] usb: gadget: f_fs: Fix synchronous read() behavior
-Date: Thu,  3 Sep 2026 17:37:37 +0200
-Message-ID: <20260903153737.58087-1-ingo.rohloff@lauterbach.com>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1788449919; c=relaxed/simple;
+	bh=s4sZw4AHdxTu0WFp+T0OQ8nNXCDEionbV0oSkr7PvTQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f2PJCOyhrL6bkock2bD2GZkVgh8YdGldWLrulcLa2aRxfyRQQxfstWefX7RZV70/+bpb6u+0LwbNUOUtBRqj2KiISkS0mytn/QGSlg7BV9eUOqaz4UWl/NE9vX1XtXSCBdc8RxS/aC4znmGaQ2DlTC0/Baztvp57kNQOnJYW9P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Zrvx9TEy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=P22DBBCb; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zrvx9TEy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="P22DBBCb"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 683DAPo5035523
+	for <linux-usb@vger.kernel.org>; Thu, 3 Sep 2026 15:38:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=m30idRlVPFcMlql3AAMqkjC5QOi5g2e+ZXk
+	dSo4fIA4=; b=Zrvx9TEyvFeZFHV8U3JV7Ic9uyrSrb1N4uDY8vMUq06N8eXFxfM
+	HTXDcwHu+1ObTQyUWHIckJUxOozlk/0kvDL0riso9ohk2BOFdrgXVLISo4s3QXan
+	KKxj1cq5+h2f8xRM10iSsrqOvAE4EOtU8OcpAvMfUBxFtepgjz2lnqPplvl2f+bW
+	jCd3/C/BKeGDfDoISneffszNv20PHj9SOIGH28lU3FXfMfTeTvfmHdjXrDKId6nf
+	AvI7EEgUv8zVntrLsChH84HC9yybNUN50k79BfOAgznLG1F6rKDlPxwt5u38If/1
+	PrfYCiKBsybVbnMCuXcOP0JzsluOqds4pJg==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gf51m1vms-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 15:38:36 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-85599cf98e5so4354195b3a.1
+        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 08:38:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788449916; x=1789054716; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m30idRlVPFcMlql3AAMqkjC5QOi5g2e+ZXkdSo4fIA4=;
+        b=P22DBBCb2vVPbhYXKSBQVrYbxBYoKOmgYm4Qc0eS8+szUoeW3KWZG1V0ZiiA6Vef72
+         WpHynuCoNkEdooO52YwqZHm8AY14kX9zJPe7ldaBkC7nPc046UmKqeLQf7UNSYNdMO7A
+         c2wrb0SBHmAX3WQcbRrN6EjF9RsgF6B2KA5toMSWjsBJ1DajquqGiX/+zR0shFfBvcdT
+         qQ6WwCW8Mc0/wamVy5c+WH3MYVoz+TL6SrIfqQNxM++HrAvPYw3EWPNnt4eU5hCxmSBN
+         tsCTZFf1JV/JUeUj4+xYcaC5faYPhzmW+EWPOmaRPXcpfDZtvIoHjPyXmDNrTVUx71QA
+         Glrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788449916; x=1789054716;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=m30idRlVPFcMlql3AAMqkjC5QOi5g2e+ZXkdSo4fIA4=;
+        b=LA7egmJ2kCkNqsMeffGBlVDie/lIaRGWYWYagNTurC5n+a1En94TNKab16ub73HIYR
+         a/ire7AdEoyAG0hCBeY1IWzmPeczT7X3BnobWq7fWC5uoC94tbMYpXnwCusyhS+Vtbsp
+         xuqM2QE/aExhpl1dRW7cFV7BJx7gIBcp23iy03oeE48vB65LXt8jcgJsvT7LVeuV6lz2
+         zhS0um+pKGlHGuoWtVO7FOC9AjZ7eVdKZsHm498STi/Vxnu7+2Epf3MtrgF+97KhmfKn
+         cDxvPYLqEv/gq97kkuJqU84QYRZnZDeWZrbm2rx7Q+hGISA8MY655aJfGPEt2169Sq7Y
+         jdgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxJbGIRhxOGnA7cxb20PvHV3wWd7NmWZGcgQLzWrb8F71Ktcdceg4woxw4+9OgbjbE/g+qz2be6TWQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++naNjnGYZgKNCL+lpW0JjRcrFlr5FHNwa0dKClVcpjT3rqz87QP
+	Ib2E4QQH+AduAsUt4BbmlOX2sbMIMegHw3R/24zH3WpPLGUluOTFP4y3X1pPOuKW7FqLrdDdWWb
+	mmiDcETX1/RYF242ZasDFUrF1vgcOB9cUgsRYeHYQvzoS4UkBD6gsmWLjfZeIPuc=
+X-Gm-Gg: AYBFou0+HCrTzU1PU0tl+OkUvYOaxCcch3RycnxLUny2znhe8QSCijqqFPug5p3nQGd
+	x8/BpeeG+2gC7xd/leqwlCZqOORMAAhFT+crny4d0he7tkoB59h7lZUXGoBLZbFV7XBdzxDNuBv
+	c9bCxEaPU+VUysRNtb28RH3jP9Vk4tw93zO3vx0XvWyUBUkoYizX9dLgXK1+5KIFk3Lvv0Mr0Gt
+	D7uEle4WfhVFUhU1ZWJ1fJiu5ZdTWnfZqZGSReFU2p14i3gwDDnszWseqwUrOcBGuwbfDbMAJU1
+	jlzZmYK3mHMY9Jj/dJj9c4+4j5nJIQJMXBxIHpvkzMDaGOM3pVc0JcB6CrtvNWWBxjnoyr7Vsso
+	/dhKZ8/r60q+F68vZH4nhFeU2x8zAl1lc
+X-Received: by 2002:a05:6a00:4b0f:b0:857:72f8:dc97 with SMTP id d2e1a72fcca58-85ed8bea229mr16729826b3a.24.1788449915588;
+        Thu, 03 Sep 2026 08:38:35 -0700 (PDT)
+X-Received: by 2002:a05:6a00:4b0f:b0:857:72f8:dc97 with SMTP id d2e1a72fcca58-85ed8bea229mr16729707b3a.24.1788449914798;
+        Thu, 03 Sep 2026 08:38:34 -0700 (PDT)
+Received: from hu-faisalh-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86153027951sm81069b3a.40.2026.09.03.08.38.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 08:38:34 -0700 (PDT)
+From: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: Sriram Dash <sriram.dash@oss.qualcomm.com>,
+        Jack Pham <jack.pham@oss.qualcomm.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Shazad Hussain <shazad.hussain@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] usb: dwc3: qcom: Add firmware-managed resource support for SA8255P
+Date: Thu,  3 Sep 2026 21:08:20 +0530
+Message-Id: <20260903153827.3463313-1-faisal.hassan@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,59 +100,157 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1788449869056
+X-Proofpoint-GUID: fILf7sgXqbfYH0fhuU-NlUVijrk-G7SN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAzMDEzNiBTYWx0ZWRfXzYxE3pClgvJU
+ AmBfGX3+MxvWUZadWr4AWok4VCBVujxWG3JJL7bxPDN93kQhAQ7U9MGRMCLRbOil3IN6+ECV9PL
+ oMBU6y/rfKWHkGGGm3na1SgVciVKJX8dOuZdAk3Wi79eWxs1QKFbY2dy72Dmh/DlGkcR4bKkGnw
+ a7/qbS+F6g1vV59XDkqWFeZ9uwzFk0fVnUagXxpI6FeCd9AqbncEHkgeRFe7IYr6RAgR+AgW826
+ chsaFY+ytW7R5/Si9nMOxcF3kPKZva6ZTpxZ994+5mQDkwNcwuERBuXxbJxTUhwAJWywjJDDukZ
+ WcdEE/oCforZ3J17WvmM4Gd6ZORXOwVE8Grbx9F3jhlbNjCBez1X4aratHUYGEtPn4Dza57N4CZ
+ W89PiQM1c5XsP+quIwAVFruJxLIsbda72LYSu/PD7F60WXWKuOR+5ZUrjz3I+j9CCeJgKChCdze
+ uxVEGAQLl/nLYpBZk7g==
+X-Authority-Analysis: v=2.4 cv=X8Ji7mTe c=1 sm=1 tr=0 ts=6a99947c cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=CN6SBz-TmP7jqxkG2eoA:9 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAzMDEzNiBTYWx0ZWRfX1RmbOudAYa2E
+ Bs3yP3Nakjm74wiiTdW+nu991u/KH0fPCbG15VNX1QSKFYbQn3B+TJ7cf5fWXancsyAD9dRmMP4
+ 4df8ShmhjmJs5E4kwBNbouycdjwQ+ZU=
+X-Proofpoint-ORIG-GUID: fILf7sgXqbfYH0fhuU-NlUVijrk-G7SN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-03_04,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1011 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609030136
 
-To provide consistent read() behavior, USB requests submitted to the UDC
-for OUT endpoints must always have a length that is a multiple of the OUT
-endpoint's max_packet_size.
+On Qualcomm automotive SoCs such as SA8255P, the USB controller runs in
+a Linux VM while the platform resources that the controller depends on
+(clocks, interconnects, resets, regulators and the GDSC) are owned and
+sequenced by firmware running in a separate VM:
 
-Consider a UDC where usb_ep_align_maybe() aligns the request length.
+    +----------------+          SCMI          +------------------+
+    |    Linux VM    |  <------------------>  |    Firmware VM   |
+    |                |                        |                  |
+    | dwc3-qcom.c    |                        | clocks           |
+    |  "power" PD    |----------------------->| interconnects    |
+    |  "bus"   PD    |----------------------->| resets           |
+    |                |                        | regulators/GDSC  |
+    +----------------+                        +------------------+
 
-If a request completes with more data than was requested by the read()
-call, the excess data is buffered and is returned by the next read() call
-via __ffs_epfile_read_buffered().
+Linux has no direct access to these resources; it can only vote for
+two abstracted power domains exposed over the SCMI power-domain
+protocol:
 
-The buffered excess data has at most "max_packet_size-1" bytes.  This
-happens if read() requests "n*max_packet_size+1" bytes and the USB host
-sends "(n+1)*max_packet_size" bytes.
+  - "power": gates the power supply (GDSC) to the USB controller
+  - "bus":   gates the clocks and interconnects used for data transfer
 
-However, if usb_ep_align_maybe() does not align the request length to a
-multiple of max_packet_size, the behavior is different.  For example, with a
-max_packet_size of 512 bytes (USB HighSpeed), a read() request for 512+128
-bytes may be completed by an OUT transfer containing 512+256 bytes.  The
-kernel returns 512+128 bytes to userspace, while the remaining 128 bytes are
-discarded by the UDC instead of being buffered.  The next read() call then
-blocks until the USB host submits another OUT transfer.
+Register accesses through the controller require "power" to be voted
+on; "bus" additionally requires "power". The vote policy implemented
+in this series is:
 
-The former behavior is the expected one.  Enforce it by using
-usb_ep_align() instead of usb_ep_align_maybe().
+  - Enable order: power, then bus
+  - Disable order: bus, then power
+  - Runtime suspend/resume vote only "bus" -- "power" stays on so that
+    accesses that can legitimately happen while runtime suspended
+    keep working.
+  - System suspend/resume vote both domains.
 
-Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
----
- drivers/usb/gadget/function/f_fs.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+The two domains are attached with PD_FLAG_NO_DEV_LINK because runtime
+suspend and system suspend require different supplier states for the
+same consumer, which a plain device-link cannot express; the driver
+manages the runtime PM references for each attached domain explicitly
+instead.
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 43962e05eacf..d31a6330d6a0 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1078,11 +1078,12 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 		}
- 		data_len = iov_iter_count(&io_data->data);
- 		/*
--		 * Controller may require buffer size to be aligned to
--		 * maxpacketsize of an out endpoint.
-+		 * To expose a stream like interface for read(), make sure
-+		 * the enqueued read request is a multiple of the maxpacketsize
-+		 * of an out endpoint.
- 		 */
- 		if (io_data->read)
--			data_len = usb_ep_align_maybe(gadget, ep->ep, data_len);
-+			data_len = usb_ep_align(ep->ep, data_len);
- 
- 		io_data->use_sg = gadget->sg_supported && data_len > PAGE_SIZE;
- 		spin_unlock_irq(&epfile->ffs->eps_lock);
--- 
-2.55.0
+SA8255P also requires a few platform-specific fixups on top of this,
+handled by this series:
+
+  - "Broken suspend": APPS/system suspend causes the clock controller
+    to cut all clocks to the controller, putting it into a Power-On
+    Reset state and losing Qscratch programming. Resume must reset the
+    controller, reselect the UTMI clock as the PIPE clock when no SS
+    PHY is present, and reassert VBUS_VALID so the PHYs don't fall
+    back into suspend.
+  - The loss of power across system suspend also leaves the xHC in an
+    error state on resume, which the existing XHCI_RESET_ON_RESUME
+    quirk handles once dwc3 is taught to request it via a device
+    property.
+
+Patch overview:
+
+  Patch 1: Re-enable wakeup interrupts if dwc3_qcom_resume() fails
+           partway through, fixing a pre-existing leak on the error
+           path this series' resume changes build on top of.
+  Patch 2: Refactor dwc3_qcom_suspend()/dwc3_qcom_resume() to take a
+           pm_message_t instead of a bool, so the runtime-PM vs
+           system-PM path can be told apart with PMSG_IS_AUTO(), which
+           later patches rely on.
+  Patch 3: New devicetree binding, qcom,sa8255p-dwc3.yaml, requiring
+           "power"/"bus" power-domains and excluding clocks/
+           interconnects for firmware-managed platforms.
+  Patch 4: Teach xhci-plat to set XHCI_RESET_ON_RESUME from a device
+           property.
+  Patch 5: Teach dwc3 core to forward an "xhci-reset-on-resume" device
+           property through to the xhci-plat software node.
+  Patch 6: SA8255P broken-suspend handling (reset + PIPE_UTMI_CLK_SEL +
+           VBUS_VALID fixups on resume, xhci-reset-on-resume enabled
+           via software node).
+  Patch 7: Firmware-managed "power"/"bus" domain voting for SA8255P,
+           wired into probe/remove/suspend/resume, plus hardening of
+           dwc3_qcom_remove() and the probe error-unwind path shared by
+           all qcom,snps-dwc3 platforms.
+
+Testing:
+
+  Tested on SA8255P:
+  - Driver probe, unbind and rebind
+  - Runtime suspend and resume
+  - System suspend and resume
+  - Host mode enumeration across system suspend/resume
+
+Changes in v2:
+  - Reworked the resource model from OPP-based performance-state
+    voting to plain power-domain ON/OFF voting via "power" and "bus"
+    domains, addressing Bjorn's objection that OPP levels conflate
+    performance-state selection with power-state signaling. [Bjorn]
+  - Documented the PD_FLAG_NO_DEV_LINK rationale (asymmetric runtime
+    suspend vs system suspend supplier state) in patch 7.
+  - Validate the number of attached domains against what was
+    requested instead of assuming attach always returns exactly two.
+  - Fixed an unwind bug where a "bus" domain enable failure during
+    probe would return without dropping the "power" domain vote.
+  - Added the new qcom,sa8255p-dwc3.yaml binding (patch 3).
+  - Terminated the broken-suspend software node's property array and
+    fixed a bug where the software-property walk in dwc3 core did not
+    continue past the first match.
+  - Fixed dwc3_qcom_resume()'s broken-suspend reset to only fire on
+    system resume, not runtime resume, since runtime suspend now
+    deliberately keeps "power" voted on and the controller state that
+    reset was meant to recover was never lost on that path.
+  - Link to v1: https://lore.kernel.org/r/20251127-controller_scmi_upstream-v1-0-38bcca513c28@oss.qualcomm.com
+
+Faisal Hassan (7):
+  usb: dwc3: qcom: re-enable wakeup interrupts on failed resume
+  usb: dwc3: qcom: Distinguish PM and runtime suspend/resume paths
+  dt-bindings: usb: Add qcom,sa8255p-dwc3 for firmware-managed resources
+  usb: host: xhci-plat: Support XHCI_RESET_ON_RESUME via device property
+  usb: dwc3: add xhci-reset-on-resume property for power-loss resume
+  usb: dwc3: qcom: Support broken suspend for SA8255P
+  usb: dwc3: qcom: Support firmware-managed resource states for power
+    management
+
+ .../bindings/usb/qcom,sa8255p-dwc3.yaml       | 123 +++++
+ drivers/usb/dwc3/core.c                       |   4 +
+ drivers/usb/dwc3/core.h                       |   5 +
+ drivers/usb/dwc3/dwc3-qcom.c                  | 473 +++++++++++++++---
+ drivers/usb/dwc3/host.c                       |   5 +-
+ drivers/usb/host/xhci-plat.c                  |   3 +
+ 6 files changed, 552 insertions(+), 61 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/qcom,sa8255p-dwc3.yaml
+
+--
+2.34.1
 
