@@ -1,186 +1,155 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E14BA9E5;
-	Thu,  3 Sep 2026 14:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD454BD0E8
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 14:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788446302; cv=none; b=m/diH18tuEZ8iEDwYhe+xAQsv8pGESHG/SWtxkilq3AtZLJJNjb1s3C65qIYIh8IVyEihn/WWRrh/Jg5pKFJBuqKrdBwGpmWCvXfDcNlm28iqMHIXa/Z+94q6kzW8nTWPvOzWII8uPOmg8B7qzJTnV8rdQouXxeZaZ5HXTlRUFQ=
+	t=1788447355; cv=none; b=GmIXNkmJuMm5FjCg8qG/7ylAq2dxXyUxh7Z3OraypPWrkxv3+sEJRUJzTdktjJsjfZX6nur9+ZUqixPGvivbtJKpsH1zFYY+ztf5Xp69Vo62vWc9Io6lYdP54QOGPFmaSP+XsXPsXKk2hoBGdCKu2MuIzSizO8gBGO6wkymcHY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788446302; c=relaxed/simple;
-	bh=5IDUCm3/c6KrZ9HpzncmlBCcPtf0jMBAVY/kGndV6SA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VdJuO2o332ksVwMoWzTCCk2K0F588NB/m7AiimxrUEheK5v17F8339DZLIkhWI63pbvRAMtXrAIgEWBypNwZ7QS1DT/hRiu8J2FXpJVbwI6SFmSDTZru+Jh068GjO8gBYaA0QG5HHJ4bEklYAh4XQJRJZgWDmQjH+gATbRvx9hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EABflAnv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y4vw+3Of; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TlwseHHX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MofL51L+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EABflAnv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y4vw+3Of";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TlwseHHX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MofL51L+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 89ADE21EC1;
-	Thu,  3 Sep 2026 14:37:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788446276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
-	b=EABflAnv+VzsI1PsdtEcrQGKurUXloXp7tNnDfpZaapOYIR0BSsTWRZIJpjZbXlXuxzFBV
-	oeN6oclLrlMxb7uwl4LwbAqBujD8+5uClI9+8afyw8HGDInlD3NeldC87S6MDo24PxV4u8
-	3Yb5gBEk0F8yQ/B2zf5dbhpMNa36V+0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788446276;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
-	b=y4vw+3OfKFIPm3CnR1ywuxb59vLvGO0HEpeiluTzzPQE6IXnuW/ZwnZUXqhnVBjH1WaK7v
-	Im8OjTx3vH03rNCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TlwseHHX;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MofL51L+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788446272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
-	b=TlwseHHX+lOPF6cuL3NY30UdiIDoTf34mV5ltvcl8gKFOFl8ZHyk2SbYi/Un0QnY5ky6rP
-	5pKDqGeEuurUJ7jQyUfKGj1e6aNrB46s0pgeFFcfpwI2fCE7QFhnv/J6BzmBVTV9XwRXZQ
-	ZwciWya1dKN8N/4DqFy5GoQpo6y6MMI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788446272;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
-	b=MofL51L+lkYsgVobSaJbS99No+p0rRBs8MgY5BlLojIlkD8uxw0CUPis8ibqdRnC2oU+Sz
-	wg9cDhtLrD2W3pCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFFAF13738;
-	Thu,  3 Sep 2026 14:37:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6cpkMT+GmWpuHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Sep 2026 14:37:51 +0000
-Date: Thu, 03 Sep 2026 16:37:51 +0200
-Message-ID: <87y0di764g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	syzbot <syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com>,
-	bolewara@gmail.com,
-	devnull@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Daniel Mack <zonque@gmail.com>,
-	Takashi
- Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: DIY allocation or embedding of URBs in larger structures
-In-Reply-To: <20260903130757.0668310a.michal.pecio@gmail.com>
-References: <6a6e9502.f794c993.27aeb.0018.GAE@google.com>
-	<6a97af8d.27a413cd.1e878c.0004.GAE@google.com>
-	<20260903112417.21b76017.michal.pecio@gmail.com>
-	<87o6ee8y9e.wl-tiwai@suse.de>
-	<20260903130757.0668310a.michal.pecio@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1788447355; c=relaxed/simple;
+	bh=CoRlB6gAX6V1ReavRH4xaLpkAo6ffNhn7w18OCM60bI=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=IdXlR8d3g49rvzH28b78eAFjAq2OO1NlwP/0JNggV9QEQrFXYycOGywR2Waj5LeeFJ3PpgbncLbPnvWyDb9AvR+LwtL00Hi/j9Q6cs3EziK4/zdha/e7klR8NZ/BVw9NY7Wkte9f5iIZxfaPmK9WnV3qYfGSHtrXXyHjsoebhKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4ab260600easo1463105b6e.1
+        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 07:55:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788447353; x=1789052153;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Yh2JriY1HIYvSoqEosp4VpGCVknWxb4Ip0izbJulw+c=;
+        b=j6/uKQLsVHlxoEmxtmSagR93pXLE60AQQGTCSWEhMKNFA1OAiSs9y1nu0efv0YH2Rq
+         Pnv97apaNqoX5zQHQ0iA9E7j2/+6YRCj86qk9hZKsX0KVE/DdmV+EgbAfUf+MEkmE0zb
+         TTuLz6s6MWtA0//uXmdqvhv80TcFltLn/aJVfScDdIh0pfLynDw/MpR8CEzozGE6XrcQ
+         ZFjLRdQ6ILxwUVPkm0b1u4iUneEFiT8Yv6py6D9GhRWCLIzPXNY14B2vnueuitUN00Bc
+         MAw2TOEP23w3PAvsjYzXVIp7V/RgwMhje8+HIYcrsHCcWvt/03GJhQiJYWqeuTrkv0rr
+         W4Og==
+X-Forwarded-Encrypted: i=1; AKwUvByvVorqoyDNdvucfwuC2N1InNgRTz3d+vk+1WIk/cmd7ELyJbxZToh85fkXviLKodUYBvzA0thx6nY=@vger.kernel.org
+X-Gm-Message-State: AFuF++l7Iqzpr/F3/+jZnoyxh0BaaaiNhv7to5wEoO1AYndbdcpWZP3T
+	mX4NeEyxohQadf4mFvoZI5mXZh23n3qiCo0oKnOFDWoZlo8QaBhxLsQCd1xN9FwMtS6UStEoWLQ
+	AcTQ29kusu+1iheuvv5QW1krtg7Ajvn3vdDoMN3Hu2sPU0roemSVZWhh9qUc=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -2.01
-X-Rspamd-Queue-Id: 89ADE21EC1
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,syzkaller.appspotmail.com,gmail.com,kernel.org,linuxfoundation.org,vger.kernel.org,googlegroups.com,suse.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[832ce9fa3face1b7d44d];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-Received: by 2002:a05:6820:16ac:b0:6b5:ec2f:3572 with SMTP id
+ 006d021491bc7-6b5ec2f3690mr1539470eaf.35.1788447352818; Thu, 03 Sep 2026
+ 07:55:52 -0700 (PDT)
+Date: Thu, 03 Sep 2026 07:55:52 -0700
+In-Reply-To: <6a9087a4.4d659fcc.734b4.0013.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a998a78.e7659fcc.146146.000a.GAE@google.com>
+Subject: Re: [syzbot] [usb?] general protection fault in keyspan_break_ctl
+From: syzbot <syzbot+473d7477c523b41d4046@syzkaller.appspotmail.com>
+To: adrianox@gmail.com, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+	johan@kernel.org, kartikey406@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+	stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 03 Sep 2026 13:07:57 +0200,
-Michal Pecio wrote:
-> 
-> On Thu, 03 Sep 2026 11:44:45 +0200, Takashi Iwai wrote:
-> > On Thu, 03 Sep 2026 11:24:17 +0200,
-> > Michal Pecio wrote:
-> > > So what happens here is that USB core continues to use a URB after
-> > > completion to implement things like usb_kill_urb(), so URBs are
-> > > reference counted. Then core decrements the count - one more use.
-> > > 
-> > > If a driver waits for completion or even usb_kill_urb() to return
-> > > and then proceeds to free the URB's storage, this becomes a UAF.
-> > > This driver embeds 2 URBs in its priv and does just that.
-> > > 
-> > > A URB can only exist as an independent allocation, core will free
-> > > it if upon finding zero reference count in such case.
-> >
-> > So, IIUC, now the URB *must* be always allocated via usb_alloc_urb()
-> > and an embedded URB isn't allowed?  If so, we'd need to address other
-> > drivers, too.
-> 
-> Yes, that's basically the case and actually has been for a long time.
-> 
-> The only thing that works is for both USB and the driver to call
-> usb_free_urb() and whoever does last will actually free the storage.
-> This means URB can't share storage with anything else.
-> 
-> Some drivers got away with making URB the first member of a struct
-> which is freed together with it. AFAIK this pattern doesn't crash, but
-> it's deprecated too because it puts a flexible member (in the URB) in
-> the middle of (the outer) struct.
-> 
-> This pattern here in caiaq has always been one race away from UAF.
-> Maybe it wasn't very likely to happen, but stuff like PREEMPT_RT and
-> hypervisors can insert unexpected delays anywhere these days.
-> 
-> Greg KH puts it thusly:
-> https://lore.kernel.org/linux-usb/2025120716-sway-hypnotic-8cb6@gregkh/
+syzbot has found a reproducer for the following issue on:
 
-OK, I'll send the fix patches for the rest of sound drivers.
+HEAD commit:    940de590b839 Merge tag 'hardening-v7.3-rc2' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13537c15580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=85bc5cc2fc7394d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=473d7477c523b41d4046
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11f19f79580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15ed50f9580000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-940de590.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f3f674f98efb/vmlinux-940de590.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/132222426e71/bzImage-940de590.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+473d7477c523b41d4046@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000013: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000098-0x000000000000009f]
+CPU: 0 UID: 0 PID: 6007 Comm: syz.2.19 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:keyspan_break_ctl+0x8e/0xe0 drivers/usb/serial/keyspan.c:608
+Code: ff ff ff e8 74 88 43 fa 83 fb ff 48 b8 00 00 00 00 00 fc ff df 49 8d bc 24 9c 00 00 00 0f 94 c3 48 89 fa 0f b6 db 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2 75 1d 41
+RSP: 0018:ffffc900067ffc50 EFLAGS: 00010203
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff87c7ae2c
+RDX: 0000000000000013 RSI: 00000000ffffffff RDI: 000000000000009c
+RBP: ffff888013d9a000 R08: 0000000000000005 R09: 00000000ffffffff
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88804a94d020 R14: ffff88804a94d0c8 R15: 0000000000000007
+FS:  0000000000000000(0000) GS:ffff888096967000(0063) knlGS:0000000056ebd480
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00000000ffdb3ff0 CR3: 00000000529f7000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ serial_break+0xcb/0x160 drivers/usb/serial/usb-serial.c:538
+ send_break drivers/tty/tty_io.c:2458 [inline]
+ send_break+0x2ec/0x370 drivers/tty/tty_io.c:2441
+ tty_ioctl+0xa2c/0x1640 drivers/tty/tty_io.c:2733
+ tty_compat_ioctl+0x87/0x420 drivers/tty/tty_io.c:2931
+ __do_compat_sys_ioctl fs/ioctl.c:695 [inline]
+ __se_compat_sys_ioctl fs/ioctl.c:638 [inline]
+ __ia32_compat_sys_ioctl+0x2cf/0x360 fs/ioctl.c:638
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
+ __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf702efec
+Code: Unable to access opcode bytes at 0xf702efc2.
+RSP: 002b:00000000ff93915c EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 0000000000005425
+RDX: 0000000000000007 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:keyspan_break_ctl+0x8e/0xe0 drivers/usb/serial/keyspan.c:608
+Code: ff ff ff e8 74 88 43 fa 83 fb ff 48 b8 00 00 00 00 00 fc ff df 49 8d bc 24 9c 00 00 00 0f 94 c3 48 89 fa 0f b6 db 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2 75 1d 41
+RSP: 0018:ffffc900067ffc50 EFLAGS: 00010203
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff87c7ae2c
+RDX: 0000000000000013 RSI: 00000000ffffffff RDI: 000000000000009c
+RBP: ffff888013d9a000 R08: 0000000000000005 R09: 00000000ffffffff
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88804a94d020 R14: ffff88804a94d0c8 R15: 0000000000000007
+FS:  0000000000000000(0000) GS:ffff888096a67000(0063) knlGS:0000000056ebd480
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00000000f7349bcc CR3: 00000000529f7000 CR4: 0000000000352ef0
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	ff                   	ljmp   (bad)
+   1:	e8 74 88 43 fa       	call   0xfa43887a
+   6:	83 fb ff             	cmp    $0xffffffff,%ebx
+   9:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  10:	fc ff df
+  13:	49 8d bc 24 9c 00 00 	lea    0x9c(%r12),%rdi
+  1a:	00
+  1b:	0f 94 c3             	sete   %bl
+  1e:	48 89 fa             	mov    %rdi,%rdx
+  21:	0f b6 db             	movzbl %bl,%ebx
+  24:	48 c1 ea 03          	shr    $0x3,%rdx
+* 28:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
+  2c:	48 89 f8             	mov    %rdi,%rax
+  2f:	83 e0 07             	and    $0x7,%eax
+  32:	83 c0 03             	add    $0x3,%eax
+  35:	38 d0                	cmp    %dl,%al
+  37:	7c 04                	jl     0x3d
+  39:	84 d2                	test   %dl,%dl
+  3b:	75 1d                	jne    0x5a
+  3d:	41                   	rex.B
 
 
-thanks,
-
-Takashi
-
-
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
