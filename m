@@ -1,94 +1,150 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FCB1DDC33;
-	Thu,  3 Sep 2026 03:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A1F325726
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 03:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788404569; cv=none; b=IYZ/zZnMox93bm/g45wLuqgiIN1sk4sOfcfY6zatt46K6SfCciuzTt9WQI1IE03/wjQ+cHaPAXo56aVbTs4JnVi89xW9zRwAmTYeqSHDKIg5QtomjtUpyhQ1zDYMEhBva+nK6M2RKeLQ5szxhUtOirc2JSYYEe97hhM6Lf6I+vM=
+	t=1788404645; cv=none; b=f4BW5EoO+ddeO0l7Pm03+6du/xcbiaf2+25BKmac7Ska21jxp2UxtxYtfMHGlFYLSdRCkt/eNqShPqy8O3zrG9CXs2IEE84hYbBPhR64xrUgJ3JClqK6Xb1DCqWN1dfuyNR/x/6H7C1FqShKQHkpskDSIKk7gDPEWhRSnthm2P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788404569; c=relaxed/simple;
-	bh=e8pcwYPmhYJSARoMTl3ToBSeVLD9KxiOmZ6Ov1D71II=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FLikQZsFehDW+n+t9bNNMXYqyInh2JrtNBLyWWASk8cPncqydh9TSnMswXUL1fvT0FB92wN1NrvagVWSNRn//kyrDzPnzKdwd28A/gtZ8x8a8bR3R/7FZc3wAqx04iYYzmYhyxxb/Mu7pTO+v+8Z2gLIlQIkG6lqAwpR4Fu3DyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ibs6A0HE; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1788404645; c=relaxed/simple;
+	bh=SrZXygJepTk1Ejs3kV6d77D2oS8arUCd1jEoUprnIqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sNeBczF6hIRudKfX5WLQ5nnHl2l9ubS2/N7ByYvZpATA/JnwXssmsZZWaQONEOJB5oDiyd7yWJSWWx4ooN0pBa22HBJpQbJl/X4379FLd8VVrbl3bXKu2AYLY0l6tTK1VVP1zQ0ajdsWyO3l/0JxD3TMbjCzYAlycsQWMeRVTTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORURSXF1; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ibs6A0HE"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68332KlyC3156757, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1788404540; bh=fgtKjoPi6U7bT/rFmBhlhYYPrzREZH7M4efGzNo80HE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=ibs6A0HEFIesGQMiPfbZ9Y56m8IXQYmqorXFohIq501BtufXxf01EvB5gy5yS5bRU
-	 HFIiykwFRD2Q6T0PWwkdW/FgnrzZX727kXlbWX1VGGoNHArvf64eY9ikWvG2W5PK1A
-	 2IsV9vwBYyVI4zOpHy5Iwv2Lwunh5wp3LOgNxb6GerWKptFzz/rn20KWKL398vqIAe
-	 AL8qIW7PSy/k+1FW2IMDdZGx7cJBKR0qYz49h/wfttOZaX+yG0okTKeB77u7AFUT9h
-	 t4xKYTCCMq7D/2Opnl3Jb0GB5GYdcKpWFx+Ly0R0HJzz+xIRnjqgf5XoAZpaKp0zY4
-	 MLYeOnozvnjlA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68332KlyC3156757
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 3 Sep 2026 11:02:20 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 3 Sep 2026 11:02:20 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 3 Sep 2026 11:02:19 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::126f:59ad:658:674d%10]) with mapi id
- 15.02.2562.043; Thu, 3 Sep 2026 11:02:19 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
-	<kuba@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	nic_swsd <nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
-	"bjorn@mork.no" <bjorn@mork.no>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>
-Subject: RE: [PATCH net-next 2/8] r8152: support RTL8159 for different
- packages
-Thread-Topic: [PATCH net-next 2/8] r8152: support RTL8159 for different
- packages
-Thread-Index: AQHdOrpfzoLR/svszkuPY2lF0UmrGba6uQ0AgAFxhXA=
-Date: Thu, 3 Sep 2026 03:02:19 +0000
-Message-ID: <5952224f4bd3406b9f396b39c496d83b@realtek.com>
-References: <20260902090632.41844-1-nic_swsd@realtek.com>
- <20260902090632.41844-3-nic_swsd@realtek.com>
- <0ce46ce7-2edf-4464-8029-cdc6e9b9f854@lunn.ch>
-In-Reply-To: <0ce46ce7-2edf-4464-8029-cdc6e9b9f854@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORURSXF1"
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5c664b8c3f3so1673755e0c.0
+        for <linux-usb@vger.kernel.org>; Wed, 02 Sep 2026 20:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788404642; x=1789009442; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/i6ovSifHBTQLlkj4+YtxhWpGxWylHtU+j/C4X9Td7k=;
+        b=ORURSXF1aTd/Aa/PwjhYUx1DeIds8cPNknmOm2dvTpONSD4NBhTOQIgjouW8oLdL2b
+         fYcdOskbkYYBPsyWlDW7pt+ZojyVeNUjCtGP7OllH0PlANIZg5TvSObJk2yBcEiXev+t
+         00c014juiRSKHr13V7gs4pyUx/3el8PcfhiHQiiGtAvkRWttKxh2m7HRTeTcRh5CT2Ij
+         DGikq4bn/z6dcPjDN5uGHF/nVvQUKYdw0snTVbfKMCF8nnmwnqElLT7TABEKRZxE8Bke
+         yqvqcH4kjM7WCAXU0nsPb+Ee8RJx9x5USrVETwqVZQ6FMbfmLgADiU2NW823NKcSDSDl
+         f7jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788404642; x=1789009442;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/i6ovSifHBTQLlkj4+YtxhWpGxWylHtU+j/C4X9Td7k=;
+        b=jSoHVXVWRBOHCXZetlHH4Kjm2cp/AKFurRFbdBfhoDfSGc+y/jDOLiUaeB98eZXFyp
+         EUfXeSVa32NK4AquWkvsNQamPt/JIkb6WupwNN8guJU6GqDkVvwqwDiP+UsrBj8RpXzv
+         hFl3bfEDtDALTbOcxSmp+D/DbtPqjKWdRNZ0kBZrah/it4/5XAi229coaQoAPnxoA1wz
+         YSwCi6e79K0PErELFADgWiogoDFGfCuwzK7iMOe/imk4rxitMrpE9FhfsRV79O76zCKn
+         xwZMLyHxs/Vgmjdc2bagF5qEjqVkrkgBQQSjj58ilx/ZIFz+jODfRkJBTk5eC6Wx5bPj
+         MizQ==
+X-Gm-Message-State: AFuF++ls/mTYg1QDk7o9FrNccDlinPf0U6fa5OSyUKsIj5UIRLnBLg6e
+	P0ht+T6fscwGdxRK5XhdNEE4RgOlUw1aJ6Hyc0lMQ6H3ixArHSaC1i19
+X-Gm-Gg: AYBFou0Ow9xkHiZqXHE9wb14JV3naN+y96q1lmcime6LQ7+nQ48VylxwRhLASUq16C+
+	CunGSUW1CzPVwi2sFokgKwBThZdH6Iaw6UYXvRfmmnDTL34ciq7iKHP5OFCgSGaPWkiuF3Nu6nA
+	7u/v2ImI+2jzUVlMBH91qkAJ3aEGywdkxmrRierFMD8SZgvCGG2Qgu/IL9De1lj8Lyc3Renbz+I
+	fTaOq3Gk25sknHJzI2BFZtset/R33Gyo8FhbyRDlqLa6PMhZjPhi9S0z0YxkJsDYa1eSucEOkC0
+	bMBAHhI9voBRoFGuJtMdlgAVFC6CYScKdEuZjYdIQgfKM44WoRLjJUuB3mp0onq6avAjuJUzhqI
+	MReCkSnvR8T3o6crtofk+7fPOJ86/RXRXkRAsxXM/hDq4HWh8P9b6pDGTxcyTmIKzGSs4UiX8L7
+	Q+0aEEQVEw0g5Ma428TEOQxynsGlhLfyx9KwLUBCyqNbPbQHr5W9yXdQ==
+X-Received: by 2002:a05:6122:c91:b0:5c7:ac2a:770 with SMTP id 71dfb90a1353d-5c7d24672a9mr4256735e0c.2.1788404642563;
+        Wed, 02 Sep 2026 20:04:02 -0700 (PDT)
+Received: from unix.. ([181.229.23.179])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7cd73a477sm3534342e0c.1.2026.09.02.20.03.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 20:04:01 -0700 (PDT)
+From: =?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
+Subject: [PATCH] usb: typec: ucsi: fix teardown races with late notifications
+Date: Thu,  3 Sep 2026 00:03:56 -0300
+Message-ID: <20260903030356.58597-1-ivanrwcm25@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 2, 2026 8:55 PM +0800, Andrew wrote:
->=20
-> On Wed, Sep 02, 2026 at 05:06:26PM +0800, Chih Kai Hsu wrote:
-> > RTL8159 has two different packages, QFN68 and QFN100. Therefore, split
-> > RTL_VER_17 into RTL_VER_17_QFN68 and RTL_VER_17_QFN100.
->=20
-> Why does the package matter. The commit message is about answering the
-> question "Why?".
->=20
->     Andrew
->=20
+ucsi_acpi_remove() freed the UCSI instance before removing the ACPI
+notify handler. A concurrent notify could call into ucsi_acpi_notify()
+and use ua->ucsi after it was destroyed.
 
-I will rewrite the commit message in the next version.
+Clear ucsi->ntfy before disabling PPM notifications and NULL the
+connector array after free so ucsi_connector_change() cannot schedule
+work on a dangling connector while a backend still delivers events.
 
-Thank you,
-Chih-Kai
+Tested: built drivers/usb/typec/ucsi/ with CONFIG_TYPEC_UCSI=m and
+CONFIG_UCSI_ACPI=m via docker kbuild; checkpatch clean.
 
-> ---
-> pw-bot: cr
+Signed-off-by: Iván Ezequiel Rodriguez <ivanrwcm25@gmail.com>
+---
+ drivers/usb/typec/ucsi/ucsi.c      | 11 +++++++++++
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 11 ++++++++---
+ 2 files changed, 19 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index bef3f9b71d71..3395614764cf 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2369,6 +2369,15 @@ void ucsi_unregister(struct ucsi *ucsi)
+ 
+ 	ucsi_debugfs_unregister(ucsi);
+ 
++	/*
++	 * Stop accepting connector-change events before the PPM disable
++	 * command and before freeing connectors. Backends may still deliver
++	 * a late notification (e.g. ACPI) until their own handler is removed;
++	 * with ntfy cleared, ucsi_connector_change() returns early instead of
++	 * scheduling work on a connector that is about to be freed.
++	 */
++	ucsi->ntfy = 0;
++
+ 	/* Disable notifications */
+ 	ucsi->ops->async_control(ucsi, cmd);
+ 
+@@ -2382,6 +2391,8 @@ void ucsi_unregister(struct ucsi *ucsi)
+ 	}
+ 
+ 	kfree(ucsi->connector);
++	ucsi->connector = NULL;
++	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
+ }
+ EXPORT_SYMBOL_GPL(ucsi_unregister);
+ 
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 18286d3e9cc5..5fc485121dbb 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -256,11 +256,16 @@ static void ucsi_acpi_remove(struct platform_device *pdev)
+ {
+ 	struct ucsi_acpi *ua = platform_get_drvdata(pdev);
+ 
+-	ucsi_unregister(ua->ucsi);
+-	ucsi_destroy(ua->ucsi);
+-
++	/*
++	 * Drop the ACPI notify handler before tearing down the UCSI instance.
++	 * Otherwise a concurrent notify can race into ucsi_acpi_notify() and
++	 * use ua->ucsi after it has been freed.
++	 */
+ 	acpi_remove_notify_handler(ACPI_HANDLE(&pdev->dev), ACPI_DEVICE_NOTIFY,
+ 				   ucsi_acpi_notify);
++
++	ucsi_unregister(ua->ucsi);
++	ucsi_destroy(ua->ucsi);
+ }
+ 
+ static int ucsi_acpi_suspend(struct device *dev)
+-- 
+2.43.0
+
