@@ -1,45 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5325146AF2D;
-	Thu,  3 Sep 2026 16:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB99381EBD
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 16:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788453131; cv=none; b=sO4VH70HImFWJ9lT19fE3cxbdolsENdUn99Pa+i/9b2hkdoh7PpvQ9vqqt3pUw04P5lQ84St6mfT9CC2D+Gh4uYDAUjTqSxLUmrQjoUFrP8kR7PrK9K/hHA7No0dM1KoJAeapiZnIjDLhhfXkRhfotIA/9nbGNP0s1yq109KQQ4=
+	t=1788454052; cv=none; b=MGUZDHERptQX5QaD1jV03/i/pOHhvCOv1jLWBLSjtq4i5fWzFCqqchr/w0dr/01ek7aNkxZQD0fK2l+kx/McbJZUlqutn7Mz8URf0fVYBWXZlujE/twGpyqDsJHefE89Xn7lF56Uaapt8YZXhrV6F5sSapTIdVhM7/BnpQ3Up/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788453131; c=relaxed/simple;
-	bh=WUZokowoDkDS2Yc9+UMoiB2ZIr5Goq5O5KsmBl4Zvpw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PPa236YGtO3EU5/jfRMs6JXjTH80txsxSCZ4wWAe6LQyuUiRTsIG4pOmfx+0nobo06ASFYvyaD4nOnNlbVEDcIZSF2zW1fhMsh+8fDGS25MalHRebfHF1lmDBiivJx4+oy/i0kM5vcAck7+qpiH/nTU3udAXNYa2ty8B9H92IJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kkIaq77Q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788454052; c=relaxed/simple;
+	bh=dFbvVbhrU1LDRoSLSgICkESlVfdQ/zElqgjxIEwbW40=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s2ARMn1bdgueIRlm4a4foKZ57QprkxseigwAy1RRzBQTJinTBe5m1uK0g1koyMwNrUfIuIcZADO8Wktc8IZ6uoklWNFztm5j+jtfxohpYggP3en/fZlo2L3y4G0Ol+pJBy339O46dfCbYZjVhiUSSf9zh5AUtKXQ9PXmYTLU9fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LICHJNks; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kkIaq77Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B15E81F000E9;
-	Thu,  3 Sep 2026 16:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788453129;
-	bh=4DCsX+XCpCFPdqcsEllnbWXW7cI8TsWxWBiP3bjx1x0=;
-	h=From:To:Cc:Subject:Date;
-	b=kkIaq77QuIJsumSR9O0s/7aZvDNXWayhe8/MONY79XNcjHpXez4a/BnVb8a8Os8Nn
-	 AfVnju2fI3WOqDAh+OgfQ4TbB/ld8OiTvzoWCAPSbyyUvwMjiyTZE0Fx5p5z059ciu
-	 sXIuRpOJQS6L2sRBglXE2b7HD6itGal/EQzHT7RzwepMdBaxZOyWLvOnJXVNuwSU2c
-	 wRgkOWIli9jYl43Y977gUE5+G2B8Brp0iZpIPydqrJExCazkvwShfrYQfG5KM/wFpV
-	 S1oH7htRi/E8kBZoymNeOqTyd7Gjp0CR+XtyoKZAjpRAnn4uhR0fR2kO1Pmy9dkt+D
-	 XA/LbUevwUsvA==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1x2AMB-00000006Hpk-1vjj;
-	Thu, 03 Sep 2026 18:32:07 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LICHJNks"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-484362f5c4aso84499f8f.3
+        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 09:47:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788454049; x=1789058849; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0C4Pn8XgLEAT6VPP+1P6SB9fmJ1cYvaZMKkNJVOJvCI=;
+        b=LICHJNksgmAMW5MeyBcDytYrQI7igq9kZsHihM23syt4llpR064fmCwZ6yPppLTXr2
+         iDEYAcTFJLVa+EpZmywPCy09zA7TkNm8ZEqi2Z9E4YKHU3uMfldcGjQDFU24sM82hvMv
+         AAGQZaxbsIhN5z0lstBljcITaxoB2X++wpg+ET46SZEjNLpUWbQFHxF3NdqSVMUCyW6J
+         0YqvfqcNTRsucUvAdDewTt5CJPDUS2sMmP/HRp+ODHkr60x8WLFMq6Cr+FNjgZs8mCsW
+         t2Z3a6/IeCyVaddJDA57byF0bCZl//A6n2KI2zVuiS0fhbdPkxVenJLISz3Z5jnMXSDo
+         t8vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788454049; x=1789058849;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0C4Pn8XgLEAT6VPP+1P6SB9fmJ1cYvaZMKkNJVOJvCI=;
+        b=b9dCfOyOc2jG+2HpiHHx0NSDfu1eUCCDn6sC6OgL/UoO7OtV3gTZLFym63ZwYN56U1
+         r6v1zcBFCz2wI1FJqrFlEldDm/P51gD+vcBKfTe65ZkfQOCUwXEafLPttzIGnju8proQ
+         4s5g9oWew8dqUglluIHwiSLOH2gpF8OcZw2qIp6BU3sbwnG2ahghVjfTCXflacw0Ugpq
+         p2+pO0MIxanVQTT1E+5d1t59R2gsLQM20QfRCFqqEDXKutOeZdw8yn0hB6+x1GDbiGrD
+         Gqd9WCnuIxM/Pnhw+D7dMrJzkweTLcan+61H5LGRdzNRznyTYEyFR7wHFfShadxQsdER
+         Vsyg==
+X-Forwarded-Encrypted: i=1; AKwUvBzY7v0LfDeKUd0YQJXRsNVGjqlchw8o+TpE1IzfH3hlvs3bwhUDi7FIhaS18DFyik1+WpcVcr8uzz8=@vger.kernel.org
+X-Gm-Message-State: AFuF++lvp/YPjZ49PAm174kpkgCARrx5izEhq/Y0645EhrXpeqWu7DqP
+	s2+5ddMjMV75AyGFz8MA47k3coXbP34w9xqM+wArxM805+U77KYMa4BT
+X-Gm-Gg: AYBFou0nxAFufDNcIVKLfptI/6ObFNJFr84xwVJJAZ2J5d6JRCfI2e5RbQkkyOiIOHF
+	lQgnS4UJlw8bpw54Gqt/kTmujUO6vNMD1RN6Mg6/EuJqdwJAmNqfEqgiBbDKMr/Pke1t6cqstWo
+	0XTHj9V8nc+TxTXNObAVUJWtZBzSanvKBdERc12IL21chwxXeGTEbtqqIYQ/JNCowbCOONbv47F
+	jlv9EfG5wVg4rGW+3h9Oudy5PzBREwNkoAFvwajNFtFTrFPZjtCZOTYSaqJXr5sdetkXyNCouXN
+	26f/WG8pmpvi+Io9NEY9U/Ta7VbS+MUH4LKEhCqSspeof6b+Xn8VS6Qc48EQ42Y6u76Aq09dtIr
+	IPRZciYBkweSgV7bw4gHwBYOYJIWfuWSKuZ6cWEEhEAj9QWaMxoOM/4dIiegvzJNlnIleAeYv88
+	mnw9YjDhZmpp1D9Z+g7h8VDPqQqEgbTcsz7yuUCFmcyDu0gMAyM8uMe+w/dA==
+X-Received: by 2002:a05:6000:26d3:b0:47f:eac2:6f55 with SMTP id ffacd0b85a97d-4858708fab5mr683390f8f.19.1788454048673;
+        Thu, 03 Sep 2026 09:47:28 -0700 (PDT)
+Received: from metepc ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448e80745sm15188432f8f.15.2026.09.03.09.47.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 09:47:28 -0700 (PDT)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: netdev@vger.kernel.org
+Cc: oneukum@suse.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Nick Bowler <nbowler@draconx.ca>,
-	syzbot+473d7477c523b41d4046@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] USB: serial: fix ioctl hangup race
-Date: Thu,  3 Sep 2026 18:31:46 +0200
-Message-ID: <20260903163146.1498497-1-johan@kernel.org>
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>,
+	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Subject: [PATCH 1/2] usbnet: fix smp_processor_id() use in preemptible context
+Date: Thu,  3 Sep 2026 19:46:32 +0300
+Message-ID: <20260903164700.497024-1-omermetekaya0@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -47,293 +79,74 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The tty ioctls can race with hangup and end up calling into a tty driver
-for a device that is already gone or powered down.
+usbnet_skb_return() and tx_complete() call this_cpu_ptr() before
+disabling IRQs, which triggers a BUG when running with PREEMPT_FULL:
 
-Serialise the callbacks using the tty port mutex and add the missing
-checks to make sure the port has not been hung up before accessing port
-driver data or hardware.
+  BUG: using smp_processor_id() in preemptible code in tx_complete
 
-This specifically avoids dereferencing a NULL-pointer if a device is
-disconnected during lengthy break signalling.
+Fix by saving IRQs first with local_irq_save(), then calling
+this_cpu_ptr() and using the non-irqsave variants of u64_stats
+update helpers, since IRQs are already disabled at that point.
 
-Note that TIOCGICOUNT and TIOCMIWAIT do not access port driver data or
-hardware and are therefore not affected by the race.
-
-Fixes: f34d7a5b7010 ("tty: The big operations rework")
-Reported-by: Nick Bowler <nbowler@draconx.ca>
-Link: https://lore.kernel.org/all/CADyTPExB2kYOOwkO0JqGhKaYVDqO9uS9WCw0J=MCTdVhcGOogA@mail.gmail.com/
-Reported-by: syzbot+473d7477c523b41d4046@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/r/6a9087a4.4d659fcc.734b4.0013.GAE@google.com
-Cc: stable@vger.kernel.org	# 2.6.26
-Signed-off-by: Johan Hovold <johan@kernel.org>
+Reported-by: syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
+Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
 ---
+ drivers/net/usb/usbnet.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Note that the port driver data NULL-deref is unique for USB serial and
-does specifically not affect cdc-acm.
-
-I'm posting fixes for serial core and USB serial today will take a
-closer look at the other TTY drivers tomorrow.
-
-Johan
-
-
- drivers/usb/serial/generic.c    | 10 +++-
- drivers/usb/serial/usb-serial.c | 94 ++++++++++++++++++++++++++-------
- drivers/usb/serial/xr_serial.c  | 10 ++--
- 3 files changed, 86 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/usb/serial/generic.c b/drivers/usb/serial/generic.c
-index 6eaf74930aa3..17272701fab0 100644
---- a/drivers/usb/serial/generic.c
-+++ b/drivers/usb/serial/generic.c
-@@ -266,6 +266,7 @@ EXPORT_SYMBOL_GPL(usb_serial_generic_chars_in_buffer);
- void usb_serial_generic_wait_until_sent(struct tty_struct *tty, long timeout)
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index a19ecf718f36..6a48f38e105d 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -325,7 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
+  */
+ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
  {
- 	struct usb_serial_port *port = tty->driver_data;
-+	struct tty_port *tport = &port->port;
- 	unsigned int bps;
- 	unsigned long period;
- 	unsigned long expire;
-@@ -285,7 +286,14 @@ void usb_serial_generic_wait_until_sent(struct tty_struct *tty, long timeout)
- 					__func__, jiffies_to_msecs(timeout),
- 					jiffies_to_msecs(period));
- 	expire = jiffies + timeout;
--	while (!port->serial->type->tx_empty(port)) {
-+	for (;;) {
-+		mutex_lock(&tport->mutex);
-+		if (tty_io_error(tty) || port->serial->type->tx_empty(port)) {
-+			mutex_unlock(&tport->mutex);
-+			break;
-+		}
-+		mutex_unlock(&tport->mutex);
-+
- 		schedule_timeout_interruptible(period);
- 		if (signal_pending(current))
- 			break;
-diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-index 9c51b44e2284..f3c594f1a806 100644
---- a/drivers/usb/serial/usb-serial.c
-+++ b/drivers/usb/serial/usb-serial.c
-@@ -400,17 +400,13 @@ static unsigned int serial_chars_in_buffer(struct tty_struct *tty)
- static void serial_wait_until_sent(struct tty_struct *tty, int timeout)
- {
- 	struct usb_serial_port *port = tty->driver_data;
--	struct usb_serial *serial = port->serial;
+-	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++	struct pcpu_sw_netstats *stats64;
+ 	unsigned long flags;
+ 	int	status;
  
- 	dev_dbg(&port->dev, "%s\n", __func__);
+@@ -338,10 +338,13 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+ 	if (skb->protocol == 0)
+ 		skb->protocol = eth_type_trans(skb, dev->net);
  
- 	if (!port->serial->type->wait_until_sent)
- 		return;
+-	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
++	local_irq_save(flags);
++	stats64 = this_cpu_ptr(dev->net->tstats);
++	u64_stats_update_begin(&stats64->syncp);
+ 	u64_stats_inc(&stats64->rx_packets);
+ 	u64_stats_add(&stats64->rx_bytes, skb->len);
+-	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++	u64_stats_update_end(&stats64->syncp);
++	local_irq_restore(flags);
  
--	mutex_lock(&serial->disc_mutex);
--	if (!serial->disconnected)
--		port->serial->type->wait_until_sent(tty, timeout);
--	mutex_unlock(&serial->disc_mutex);
-+	port->serial->type->wait_until_sent(tty, timeout);
- }
+ 	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
+ 		  skb->len + sizeof(struct ethhdr), skb->protocol);
+@@ -1298,13 +1301,16 @@ static void tx_complete(struct urb *urb)
+ 	struct usbnet		*dev = entry->dev;
  
- static void serial_throttle(struct tty_struct *tty)
-@@ -438,8 +434,13 @@ static int serial_get_serial(struct tty_struct *tty, struct serial_struct *ss)
- 	struct usb_serial_port *port = tty->driver_data;
- 	struct tty_port *tport = &port->port;
- 	unsigned int close_delay, closing_wait;
-+	int ret = 0;
+ 	if (urb->status == 0) {
+-		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++		struct pcpu_sw_netstats *stats64;
+ 		unsigned long flags;
  
- 	mutex_lock(&tport->mutex);
-+	if (tty_io_error(tty)) {
-+		ret = -EIO;
-+		goto out_unlock;
-+	}
+-		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
++		local_irq_save(flags);
++		stats64 = this_cpu_ptr(dev->net->tstats);
++		u64_stats_update_begin(&stats64->syncp);
+ 		u64_stats_add(&stats64->tx_packets, entry->packets);
+ 		u64_stats_add(&stats64->tx_bytes, entry->length);
+-		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++		u64_stats_update_end(&stats64->syncp);
++		local_irq_restore(flags);
+ 	} else {
+ 		dev->net->stats.tx_errors++;
  
- 	close_delay = jiffies_to_msecs(tport->close_delay) / 10;
- 	closing_wait = tport->closing_wait;
-@@ -452,10 +453,10 @@ static int serial_get_serial(struct tty_struct *tty, struct serial_struct *ss)
- 
- 	if (port->serial->type->get_serial)
- 		port->serial->type->get_serial(tty, ss);
--
-+out_unlock:
- 	mutex_unlock(&tport->mutex);
- 
--	return 0;
-+	return ret;
- }
- 
- static int serial_set_serial(struct tty_struct *tty, struct serial_struct *ss)
-@@ -471,6 +472,10 @@ static int serial_set_serial(struct tty_struct *tty, struct serial_struct *ss)
- 		closing_wait = msecs_to_jiffies(closing_wait * 10);
- 
- 	mutex_lock(&tport->mutex);
-+	if (tty_io_error(tty)) {
-+		ret = -EIO;
-+		goto out_unlock;
-+	}
- 
- 	if (!capable(CAP_SYS_ADMIN)) {
- 		if (close_delay != tport->close_delay ||
-@@ -498,6 +503,7 @@ static int serial_ioctl(struct tty_struct *tty,
- 					unsigned int cmd, unsigned long arg)
- {
- 	struct usb_serial_port *port = tty->driver_data;
-+	struct tty_port *tport = &port->port;
- 	int retval = -ENOIOCTLCMD;
- 
- 	dev_dbg(&port->dev, "%s - cmd 0x%04x\n", __func__, cmd);
-@@ -508,8 +514,21 @@ static int serial_ioctl(struct tty_struct *tty,
- 			retval = port->serial->type->tiocmiwait(tty, arg);
- 		break;
- 	default:
--		if (port->serial->type->ioctl)
-+		if (!port->serial->type->ioctl)
-+			break;
-+
-+		if (cmd == TIOCSRS485)
-+			down_write(&tty->termios_rwsem);
-+
-+		mutex_lock(&tport->mutex);
-+		if (tty_io_error(tty))
-+			retval = -EIO;
-+		else
- 			retval = port->serial->type->ioctl(tty, cmd, arg);
-+		mutex_unlock(&tport->mutex);
-+
-+		if (cmd == TIOCSRS485)
-+			up_write(&tty->termios_rwsem);
- 	}
- 
- 	return retval;
-@@ -519,25 +538,40 @@ static void serial_set_termios(struct tty_struct *tty,
- 		               const struct ktermios *old)
- {
- 	struct usb_serial_port *port = tty->driver_data;
-+	struct tty_port *tport = &port->port;
- 
- 	dev_dbg(&port->dev, "%s\n", __func__);
- 
--	if (port->serial->type->set_termios)
--		port->serial->type->set_termios(tty, port, old);
--	else
-+	if (!port->serial->type->set_termios) {
- 		tty_termios_copy_hw(&tty->termios, old);
-+		return;
-+	}
-+
-+	mutex_lock(&tport->mutex);
-+	if (!tty_io_error(tty))
-+		port->serial->type->set_termios(tty, port, old);
-+	mutex_unlock(&tport->mutex);
- }
- 
- static int serial_break(struct tty_struct *tty, int break_state)
- {
- 	struct usb_serial_port *port = tty->driver_data;
-+	struct tty_port *tport = &port->port;
-+	int ret;
- 
- 	dev_dbg(&port->dev, "%s\n", __func__);
- 
--	if (port->serial->type->break_ctl)
--		return port->serial->type->break_ctl(tty, break_state);
-+	if (!port->serial->type->break_ctl)
-+		return -ENOTTY;
- 
--	return -ENOTTY;
-+	mutex_lock(&tport->mutex);
-+	if (tty_io_error(tty))
-+		ret = -EIO;
-+	else
-+		ret = port->serial->type->break_ctl(tty, break_state);
-+	mutex_unlock(&tport->mutex);
-+
-+	return ret;
- }
- 
- static int serial_proc_show(struct seq_file *m, void *v)
-@@ -578,24 +612,44 @@ static int serial_proc_show(struct seq_file *m, void *v)
- static int serial_tiocmget(struct tty_struct *tty)
- {
- 	struct usb_serial_port *port = tty->driver_data;
-+	struct tty_port *tport = &port->port;
-+	int ret;
- 
- 	dev_dbg(&port->dev, "%s\n", __func__);
- 
--	if (port->serial->type->tiocmget)
--		return port->serial->type->tiocmget(tty);
--	return -ENOTTY;
-+	if (!port->serial->type->tiocmget)
-+		return -ENOTTY;
-+
-+	mutex_lock(&tport->mutex);
-+	if (tty_io_error(tty))
-+		ret = -EIO;
-+	else
-+		ret = port->serial->type->tiocmget(tty);
-+	mutex_unlock(&tport->mutex);
-+
-+	return ret;
- }
- 
- static int serial_tiocmset(struct tty_struct *tty,
- 			    unsigned int set, unsigned int clear)
- {
- 	struct usb_serial_port *port = tty->driver_data;
-+	struct tty_port *tport = &port->port;
-+	int ret;
- 
- 	dev_dbg(&port->dev, "%s\n", __func__);
- 
--	if (port->serial->type->tiocmset)
--		return port->serial->type->tiocmset(tty, set, clear);
--	return -ENOTTY;
-+	if (!port->serial->type->tiocmset)
-+		return -ENOTTY;
-+
-+	mutex_lock(&tport->mutex);
-+	if (tty_io_error(tty))
-+		ret = -EIO;
-+	else
-+		ret = port->serial->type->tiocmset(tty, set, clear);
-+	mutex_unlock(&tport->mutex);
-+
-+	return ret;
- }
- 
- static int serial_get_icount(struct tty_struct *tty,
-diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 352c765d8803..c08f4aa14a3d 100644
---- a/drivers/usb/serial/xr_serial.c
-+++ b/drivers/usb/serial/xr_serial.c
-@@ -850,12 +850,9 @@ static int xr_get_rs485_config(struct tty_struct *tty,
- 	struct usb_serial_port *port = tty->driver_data;
- 	struct xr_data *data = usb_get_serial_port_data(port);
- 
--	down_read(&tty->termios_rwsem);
--	if (copy_to_user(argp, &data->rs485, sizeof(data->rs485))) {
--		up_read(&tty->termios_rwsem);
-+	/* core holds port mutex */
-+	if (copy_to_user(argp, &data->rs485, sizeof(data->rs485)))
- 		return -EFAULT;
--	}
--	up_read(&tty->termios_rwsem);
- 
- 	return 0;
- }
-@@ -871,10 +868,9 @@ static int xr_set_rs485_config(struct tty_struct *tty,
- 		return -EFAULT;
- 	xr_sanitize_serial_rs485(&rs485);
- 
--	down_write(&tty->termios_rwsem);
-+	/* core holds termios rwsem and port mutex */
- 	data->rs485 = rs485;
- 	xr_set_flow_mode(tty, port, NULL);
--	up_write(&tty->termios_rwsem);
- 
- 	if (copy_to_user(argp, &rs485, sizeof(rs485)))
- 		return -EFAULT;
 -- 
 2.55.0
 
