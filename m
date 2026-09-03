@@ -1,148 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0068A37DAA9;
-	Thu,  3 Sep 2026 03:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143BB344D8C
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 03:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788407069; cv=none; b=jwXHxCoYoTOD7dWE27S4D6uNjtiRYOa0rTf8LdPzzzi6oGSJhv6jxWVoKtJgSdrS7qM7uI4+L8tNOu2r//3MDJ80bLpL12q1p4AoFCnHdPmTuWPOVeYoskoo9YdpvwcMGkWJLHslHsnoeXMLYh3rZOPXuS3Ykcdxjm8UbpReTSs=
+	t=1788407687; cv=none; b=tPcUjQC3Mh3X0HkHU0kFq8HDhXpzz8MBDQ8D8gioynEfE1zyIR6Al9ltEETx+Uzx3A9lWZG+cmVsf78XONpaMqRysY7cPItsuvEbxcpq3W9IPM8zMiIJX8kHnqc7PYb0yNar63LAueG7JThcepsC42mX8TjzueTNE/xM4Mg979w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788407069; c=relaxed/simple;
-	bh=5EIK6qSSLdtKvlZ2lbV9oLBsMgYGTGzq4Tak0TSk2PY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EmB2r5l+3fUz29sY5dkj+u44Ei0iFVHXvzW97L0EFQ5eemebFoRan97bzdzp0IRpYvwCUkJ9UTPRiMUFAenEZKhjHv1w2WzOuJHxedaM+FNxcW/fpiyCdde97ewpfrsxoS2wKEV/12dca2nMnMtba1y2T7K9sXyfL6Zasvd0ajI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmIwNfOH; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788407687; c=relaxed/simple;
+	bh=QsBkq0gz4WrWnEkxfLCmROSQuKuaRQoTVYOZEBWI7p8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m2Lx6EP6c4wPn31o5Q+ICTgNYW0TXR/3DzkJvdbiq17T/BZ/w1zXX0es/8+T+3aZZogast+mdEoDAGvnIr18IhA+pjigXwKLPpvsj1RFCffg/diKXxxOE8eWEYRVM0n/+3Q66DWVLzu6trcLLNpE56b5KYy9sTQt8m1mQG2kFP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UCkMPegl; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmIwNfOH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UCkMPegl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788407064; x=1819943064;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5EIK6qSSLdtKvlZ2lbV9oLBsMgYGTGzq4Tak0TSk2PY=;
-  b=UmIwNfOHU3cp87MlTM/0CIUAPxCz+219Smh6yQ4pXiPdwFe6bJMNjpFH
-   SS8JupePtq8vdDJDRcAh7OCS9jSoZBU27lR9Pdv6Ce4SO0LKwCmoF/s3d
-   1AhAOU7alACyeetjJ9V8AhIoipA3L6tKvLrPjGCC6HD2la1NRmPWhSfsX
-   7nj99i7E/L7deqQ37pFgCBYDlCppo6rluHJ9pOzwbR674FTRVhFrMMUnw
-   Grp4t6ywVQxaqZtsUUym+uIUz+wseNVocA7pJOba5OMc40fuP5kA8JZvo
-   UA7JP0cSHoqz45c6wVnisbWEzA7Ok9UZ0McjpIfuvkQIy/VYg6zX4jbu7
-   Q==;
-X-CSE-ConnectionGUID: f7q93WPEQN+AnTioD9hm9w==
-X-CSE-MsgGUID: RtVpF3C5QEuT+KdWA6OgYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88752436"
+  t=1788407686; x=1819943686;
+  h=date:from:to:cc:subject:message-id;
+  bh=QsBkq0gz4WrWnEkxfLCmROSQuKuaRQoTVYOZEBWI7p8=;
+  b=UCkMPeglRpB4Y4EoJxH0SpkTHX+Ah/7SmUwvXaCF658eRJ4k+W7UWHqk
+   Snpro+QTkoJPHHU6gDQbZntjRHva8sfkcpTYL4LMzykXRCtenHrwlm3jF
+   yTqhCWsjGCwfCwQyYXhJIcc+9OCMMlWNt4BC7p2YFAs/fzFcQ4GGciWdm
+   sQRlPvF5tgp7lsJ2glGFbvJbJMl2USQxS2ou1qPMheXLVr6yXqX0U8Iuj
+   GZXoV7Or8UZ4GYj0o36ALailru8xKiRC96UzbbHo1y/At8wVjWNCgjA+W
+   dHaBLD+V7H4MwdTndtb23iEboAwr80rxsZHk3oDbJVoAk8IleAXTKNbvB
+   w==;
+X-CSE-ConnectionGUID: 2+c0Eu/gRhSXUkacdxVAxA==
+X-CSE-MsgGUID: 2MBXkjHmTUuIfMNYJ9wvug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="100233346"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="88752436"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 20:44:19 -0700
-X-CSE-ConnectionGUID: QLeMXN7lRrW5PNjBnpljFA==
-X-CSE-MsgGUID: +uOig/O1RUqw3E4EOEDALA==
+   d="scan'208";a="100233346"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 20:54:45 -0700
+X-CSE-ConnectionGUID: GXetkqO0T1ekDVTt99wZZA==
+X-CSE-MsgGUID: udWmg8mrRwybWpoqLKHUew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="269047809"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 02 Sep 2026 20:44:16 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A208A99; Thu, 03 Sep 2026 05:44:15 +0200 (CEST)
-Date: Thu, 3 Sep 2026 05:44:15 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: "S, Sanath" <sanath.s@amd.com>,
-	"Natikar, Basavaraj" <basavaraj.natikar@amd.com>,
-	linux-usb@vger.kernel.org, andreas.noever@gmail.com,
-	westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Andrei Rusu de Castro <arc@empyreal.works>
-Subject: Re: [PATCH 1/2] thunderbolt: Do not warn when a reset clears ring
- interrupts
-Message-ID: <20260903034415.GL106095@black.igk.intel.com>
-References: <20260902-thunderbolt-cover-2fdc1c1b@empyreal.works>
- <20260902-thunderbolt-1-c48cd6e7@empyreal.works>
- <20260902125010.GK106095@black.igk.intel.com>
- <318bc76c-2fc9-484f-b009-1f21fbdd4d49@amd.com>
+   d="scan'208";a="270145359"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 02 Sep 2026 20:54:44 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x1yXB-000000003wW-3Ct1;
+	Thu, 03 Sep 2026 03:54:41 +0000
+Date: Thu, 03 Sep 2026 11:53:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ c9273c83885835dbd1e8835d5665dfb8503d65e0
+Message-ID: <202609031135.C7FXGlr5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <318bc76c-2fc9-484f-b009-1f21fbdd4d49@amd.com>
 
-Hi,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: c9273c83885835dbd1e8835d5665dfb8503d65e0  usb: typec: qcom-pmic-typec: drain cc_debounce_dwork if port_start() fails
 
-On Wed, Sep 02, 2026 at 03:53:42PM -0500, Mario Limonciello wrote:
-> 
-> 
-> On 9/2/26 07:50, Mika Westerberg wrote:
-> > +Mario
-> > 
-> > Hi,
-> > 
-> > On Wed, Sep 02, 2026 at 12:34:13PM +0000, Andrei Rusu de Castro wrote:
-> > > The AMD DMA-teardown quirk resets the host interface before USB4NET
-> > > stops its service rings. The reset clears ring interrupt bits while the
-> > > rings remain logically running. When tb_ring_stop() later disables the
-> > > interrupt, the register update is a no-op and emits a dev_WARN() splat.
-> > 
-> > Yes it should not do that. It's too "big hammer" and we should avoid that
-> > if possible. There is also the deadlock that resulted this series:
-> > 
-> > https://lore.kernel.org/linux-usb/20260825214237.4179813-1-juan.martinez@amd.com/
-> > 
-> > But that still kills the whole host interface if there are other users,
-> > like USB4STREAM using the rings at the same time. I suggested that we do
-> > the reset when the rings are idle and while they are not and we have spare
-> > rings we hand off those instead:
-> > 
-> > https://lore.kernel.org/linux-usb/20260902054800.GI106095@black.igk.intel.com/
-> > 
-> > We still need confirmation from AMD if this even solves the problem or is
-> > it hanging the whole host interface and not just a single ring.
-> 
-> I'll let Sanath and Basavaraj double check this on the affected failure
-> case.
+elapsed time: 2217m
 
-Okay thanks.
+configs tested: 65
+configs skipped: 0
 
-> I believe think that the whole host interface hangs when this condition
-> happens.  Another way to mitigate it can be to force a power state
-> transition though.  If we can force the router into D3 and back out it
-> should reset the condition that could lead to a host interface hang.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I don't think that's any better that the reset.
+tested configs:
+alpha         allnoconfig    gcc-16.1.0
+alpha        allyesconfig    gcc-16.1.0
+arc          allmodconfig    clang-24
+arc           allnoconfig    gcc-16.1.0
+arc          allyesconfig    clang-24
+arm           allnoconfig    gcc-16.1.0
+arm          allyesconfig    clang-24
+arm64        allmodconfig    clang-24
+arm64         allnoconfig    gcc-16.1.0
+csky         allmodconfig    gcc-16.1.0
+csky          allnoconfig    gcc-16.1.0
+hexagon      allmodconfig    gcc-16.1.0
+hexagon       allnoconfig    gcc-16.1.0
+i386         allmodconfig    clang-22
+i386          allnoconfig    gcc-16.1.0
+i386         allyesconfig    clang-22
+loongarch    allmodconfig    clang-24
+loongarch     allnoconfig    gcc-16.1.0
+m68k         allmodconfig    gcc-16.1.0
+m68k          allnoconfig    gcc-16.1.0
+m68k         allyesconfig    clang-24
+microblaze    allnoconfig    gcc-16.1.0
+microblaze   allyesconfig    gcc-16.1.0
+mips         allmodconfig    gcc-16.1.0
+mips          allnoconfig    gcc-16.1.0
+mips         allyesconfig    gcc-16.1.0
+nios2        allmodconfig    clang-20
+nios2         allnoconfig    clang-24
+nios2         allnoconfig    gcc-11.5.0
+openrisc     allmodconfig    clang-20
+openrisc      allnoconfig    clang-24
+openrisc      allnoconfig    gcc-16.1.0
+parisc       allmodconfig    gcc-16.1.0
+parisc        allnoconfig    clang-24
+parisc        allnoconfig    gcc-16.1.0
+parisc       allyesconfig    clang-17
+powerpc      allmodconfig    gcc-16.1.0
+powerpc       allnoconfig    clang-24
+powerpc       allnoconfig    gcc-16.1.0
+riscv        allmodconfig    clang-24
+riscv         allnoconfig    clang-24
+riscv         allnoconfig    gcc-16.1.0
+riscv        allyesconfig    clang-24
+s390         allmodconfig    clang-17
+s390          allnoconfig    clang-24
+s390         allyesconfig    gcc-16.1.0
+sh           allmodconfig    gcc-16.1.0
+sh            allnoconfig    clang-24
+sh            allnoconfig    gcc-16.1.0
+sh           allyesconfig    clang-17
+sparc         allnoconfig    clang-24
+sparc         allnoconfig    gcc-16.1.0
+sparc64      allmodconfig    clang-20
+um           allmodconfig    clang-17
+um            allnoconfig    clang-17
+um            allnoconfig    clang-24
+um           allyesconfig    gcc-16.1.0
+x86_64       allmodconfig    clang-22
+x86_64        allnoconfig    clang-22
+x86_64        allnoconfig    clang-24
+x86_64       allyesconfig    clang-22
+x86_64      rhel-9.4-rust    clang-22
+xtensa        allnoconfig    clang-24
+xtensa        allnoconfig    gcc-16.1.0
+xtensa       allyesconfig    clang-20
 
-> > > The path teardown order is required. Stopping a ring first clears its
-> > > descriptor base and unmaps its frame buffers, so pending path traffic
-> > > can no longer drain and some host routers never clear their pending bit.
-> > > 
-> > > Keep the warning for genuine software-state drift. Increment a host
-> > > interface generation after each eligible reset and sample it when an
-> > > interrupt-backed ring starts. Excuse a redundant disable only when that
-> > > ring crossed a reset. Duplicate enables, duplicate disables without a
-> > > reset, rings started after a reset, ineligible resets, and double
-> > > software stops retain their existing warnings.
-> > > 
-> > > The generation sample precedes interrupt enable while holding the NHI
-> > > lock. A reset racing with ring start is therefore observed as newer than
-> > > the sample and attributed to that ring.
-> > > 
-> > > Source and call-graph analysis identified the reset and
-> > > ring-teardown ordering. The change was compile-tested; KUnit coverage is
-> > > added separately. It has not run on affected peer-host XDomain hardware
-> > > because the attached USB4 device is a hub and does not form that path.
-> > 
-> > This looks pretty much like LLM generated so if that's the case you should
-> > add proper assisted-by.
-> > 
-> > Anyways I don't think we want to do this just yet if we can avoid resetting
-> > the host interace behind everyones back.
-> 
-> The resetting host interface /should/ only really happen when unplugging the
-> cable.  If it's happening in more cases, that's not intended at least.
-
-The XDomain paths can be brought down also without unplug. Networking does
-that when you "down" the interface and USB4STREAM does that when you close
-the device node.
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
