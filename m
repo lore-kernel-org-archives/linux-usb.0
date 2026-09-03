@@ -1,96 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEE33A9DB6;
-	Thu,  3 Sep 2026 12:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCCE4A3F18
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 12:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788438214; cv=none; b=DSiXa6FntpJOZS1Qvx4ycVnN/4QZB4zayVbnFAJpryQJmzCvuA3kAWkak7BLm/ZZP6hZPM+AAxJkS74dRfJVnztQuqcMp5I1ElsNrcTdRNA+6FcoYOc2CIJgub9/iMni+Wtq1lAvsmwegk+bz2iE1qf+ZzNpcjbWsgs9vpMEzsc=
+	t=1788438900; cv=none; b=UOkEO4JEPDYQJy3LBf0OFaR0JZgXhDf7fl9lW8lbr1WwAOucRW/acpP/xNRVolTBl2E4yHEySF/tE0l/C9tZE+ObumYd/dtPoxlLCk47JZ4s3r45xO7HfpIE3ZwR+ReiGW8oBtxGq5mUtTbA6lYMsNmG1AfBvgXqlvniCP4hAGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788438214; c=relaxed/simple;
-	bh=fa7mr0JgBCTsBNiE2UJg5LEhQvwoX9nYhI8o/eXsOMA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iZX51gF0TqFEFfRNfTpErPjRLutuQJ2c3JJPEvRGY+OfEehMGRHWDdYP+TZuTrNaIF2lWjiswDEi0nN9cIJMWxISFdajTmE5jqg5kvdKjorZawEKtUy51rfO+D/7kyMK4RjWYB/Q8YwDBO7PdPjBM4TMxeQblZn1z1lAYRmT7WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsj3/z8d; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1788438900; c=relaxed/simple;
+	bh=FYl2vBPAyXMitMDynzGe+1d5ABy4gGbP5qwCtR+oGOw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hUCIePjIaaELr0aDYZ14EKlIQXpEQtW+kbuyttB44y7xVW7U64SH9JjTzjeAUz0tjSyRALTGaOaOjXYwUhkjpxuBx9wmhrm5n6cTHau1aBKTIezpmj3UTTm5c9fPYDPAQ4MOm0yLa/j7QVaqLs0sli3nemSCfX0hEdJBaEjHh5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Exo2B9qP; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsj3/z8d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Exo2B9qP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788438211; x=1819974211;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fa7mr0JgBCTsBNiE2UJg5LEhQvwoX9nYhI8o/eXsOMA=;
-  b=nsj3/z8d1ljNgpKLu9dosQ1vZsi900Tq5tniDInd/oMpkyWVRw/c3GJe
-   zBDLAwlVX7349WQ3d/zQHs4pmktV1oKoACEVjEXrR7xYLhi5r5C+p4Y3N
-   V69knRoBJ+oimFhmo+KVhvzV/7bDevzXDKHxyM3PA7LoIq4sOTO3nj1EH
-   j2t13cCL4C4tsSW/lfBITcqVd5KwVcXmaOmBYsYGjHNnXY20ms2rm7i/i
-   I0phiBM4RQrcrby4TgM8Iva5UokxyAs+xC9RR61hnyz2GF3INoN1ory9R
-   gmt804r4Bqf8/fvY10TlzUyDQdSVmyUHpVFNNXWy3okNx2BxwHbd+X4Bn
+  t=1788438898; x=1819974898;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FYl2vBPAyXMitMDynzGe+1d5ABy4gGbP5qwCtR+oGOw=;
+  b=Exo2B9qPaZejXRJsNmu2Xv//7BxKb4sHJfRaekd7r2tvLSRur6pZmB9T
+   2eYUqLT7fkGJkpomCbkv0664pgG/ztVGBUsCFekrIgfI05BOBWsdTx8bN
+   NZVrgAP5N5LjDCqpzn0O6+tmuQ04gTBBSteS/GNOoeCQaqxlG4cqxJLtj
+   Ffa35pmyk7DjOYmoCohCw9C+fQh6NIXKaMYHGIB8+0m+UJDkr1+wN8Uc0
+   VyMNujGnTWg0TAg8hX8eIdEo/0D7qc8dYVKTjhyhGHRiK0/tVwTG8FjQJ
+   5IqSsyieNmXmN9/joTwZj+JKFDPyU/UXGLITj7IQ7k1xQzAA0nOvLC0VD
    w==;
-X-CSE-ConnectionGUID: gPMj/TFZQfm0/tuEpNN2Iw==
-X-CSE-MsgGUID: 0Kaln6nsSRmA6OUYD/LFWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88795277"
+X-CSE-ConnectionGUID: F9oJolKqTx+ZQN1Ycxm3Cw==
+X-CSE-MsgGUID: 5dODVaLPQQ6TqO6OXuHVQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="99250159"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="88795277"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:23:29 -0700
-X-CSE-ConnectionGUID: OCpIJUL/QlezOpELQzbK3g==
-X-CSE-MsgGUID: muxzlfsnREqo7PioYGTnfQ==
+   d="scan'208";a="99250159"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:34:58 -0700
+X-CSE-ConnectionGUID: euaQY7vxTS2fiCHRP1+xhA==
+X-CSE-MsgGUID: 6fUuuQJwTEi5YOYA4vdjhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="294581335"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.244.90]) ([10.245.244.90])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:23:26 -0700
-Message-ID: <6813d58b-a939-4ac2-81a4-438781485899@linux.intel.com>
-Date: Thu, 3 Sep 2026 15:23:24 +0300
+   d="scan'208";a="267123219"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Sep 2026 05:34:56 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 0AA1899; Thu, 03 Sep 2026 14:34:55 +0200 (CEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 0/4] thunderbolt: Couple of improvements for USB4STREAM
+Date: Thu,  3 Sep 2026 14:34:50 +0200
+Message-ID: <20260903123455.2048076-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v2] usb: hub: use shorter 120ms post resume hold for SS
- root hubs
-To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Michal Pecio <michal.pecio@gmail.com>,
- Mathieu Fluhr <mathieu.fluhr@gmail.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>, stable@vger.kernel.org,
- greg@kroah.com, stern@rowland.harvard.edu
-References: <20260903112903.542719-1-lovekeshsolanki00@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260903112903.542719-1-lovekeshsolanki00@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/3/26 14:29, Lovekesh Solanki wrote:
-> Holding a USB3 hub PM runtime reference for 200ms at hub resume triggers
-> an AMD platform issue.  Users running Android adb report crashes after
-> adb has been polling and waking up the USB subsystem once a second for
-> some time.  Vendors are working on a solution.  Disabling USB runtime PM
-> is one way to prevent this issue, but it is also proven that reducing the
-> hold time to 120ms in resume also mitigates it.  See Link for more
-> details.
-> 
-> Reducing the hold time to 120ms for the USB3 roothub is in itself a valid
-> change and optimization, as the current 200ms is excessive: a root hub
-> has no upstream suspended hub whose wake propagation needs to be
-> accounted for, but still need some time for USB3 link training to
-> complete.
-> 
-> Keep the 200ms hold for external hubs that commit 8f5b7e2bec1c
-> ("usb: hub: fix detection of high tier USB3 devices behind suspended
-> hubs") is intended for.
-> 
-> Reported-by: Mathieu Fluhr <mathieu.fluhr@gmail.com>
-> Link: https://lore.kernel.org/all/CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com/
-> Cc: stable@vger.kernel.org
-> Fixes: 8f5b7e2bec1c ("usb: hub: fix detection of high tier USB3 devices behind suspended hubs")
-> Signed-off-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+Hi all,
 
-Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+This includes a few cleanups and then two improvements for USB4STREAM,
+useful when it is in the default "interrupt" mode. First one is to avoid
+read-modify-write on the interrupt mask path and second one is to use the
+same ->start_poll() mechanism that the Thunderbolt/USB4 networking driver
+uses.
+
+Mika Westerberg (4):
+  thunderbolt: Do not WARN about already disabled interrupt on polled rings
+  thunderbolt: Clean up ring interrupt register indexing
+  thunderbolt: Use shadow copy for ring interrupt mask
+  thunderbolt: stream: Use polling with RX ring
+
+ drivers/thunderbolt/nhi.c    | 104 ++++++++++++++++++++--------------
+ drivers/thunderbolt/stream.c | 105 ++++++++++++++++++++++++-----------
+ include/linux/thunderbolt.h  |   2 +
+ 3 files changed, 138 insertions(+), 73 deletions(-)
+
+-- 
+2.50.1
 
