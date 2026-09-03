@@ -1,59 +1,80 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022086.outbound.protection.outlook.com [40.107.75.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F25F33EAEC;
-	Thu,  3 Sep 2026 02:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788401770; cv=none; b=YuSs/C6w7mPk0CgcK28X+Ox9rdT2Fft6IHzF8sOUXnmFQLpQRRGsa3aKt5+1M6WDGRadKQAVH51q878JHPUbdHVgm1A1EkOIN8pQpb0jiLN7v0T+33G3vqEO1mlSUTr5IT6XGgPugitRaKtVvCQzRBQOypV2ZTST09BFjyB/Ku0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788401770; c=relaxed/simple;
-	bh=ltGCsPM9g4dL27hzeJYprlsMCLIuGBzrExUAh+1/n8c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tig8F+TIyMuQw8NwcwwSPQVol59gtJ0GCKV3/FxrC74LpONaWuz4PO2SrHpNMW3tVTZEuASWzkaqBYlplwm+DaDrjF5VxA7+t/KRbmN7syom/f5UyXm0nL0gkihix3e5qkla39xFRodePhKr5kEhKTdpp6iCrhdZFgq4kd5UnZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Ru7EJkGu; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Ru7EJkGu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1788401730;
-	bh=NNBPer/UqmzXtzPtWUFkVQGu/BhnIGA3Q4Ww1JPF9B0=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Ru7EJkGuPrPb2cHBDMZxwYoWhdN+k8Un0xTngdnHxsRmi7J+Db+IcIB3CeI1/BphE
-	 m8yIhS7D28qaKc0WDUMEGX4OE5+RWeT2YyhAnJI4SWCmYQClrAMUET+6E3a+J4WLKo
-	 mz0kjVo6sh73lrBBFFp7lsKUzDYcw68CUbTOCJZw=
-X-QQ-mid: esmtpgz16t1788401724t6d55b7c7
-X-QQ-Originating-IP: o1bCMaKcd5K4sGAPBG6wOUQ88v1EnArt+Z/BFPA4eFM=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 03 Sep 2026 10:15:22 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 7393804203611463141
-EX-QQ-RecipientCnt: 15
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: rafael@kernel.org,
-	laurent.pinchart@ideasonboard.com
-Cc: tuhaowen@uniontech.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0330F34B1A5;
+	Thu,  3 Sep 2026 02:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788402934; cv=fail; b=XwfLJmkI0I/CLjz+Iv4flcxFvxcna0eaHVx3/lPXwJp9x+dnJbvvHnHgngyMwsl1i14s7ttM2+MKYETbabN+d9VbPSXdUN0+C3dCLsC8b8XDvTJORGEhI0LjBNVW4oba5ovf3HwQIJ7R/FZBrzkuQOmPcO9nPBv7Nga+BfGLGII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788402934; c=relaxed/simple;
+	bh=hv+IrMUbkRdQmPk9mu0jDmITKr/DjC547ipVw+Lf8Yw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HsH1s3/4iwFh43+Dqx3o25m01VTpyWkEqyJWi6TsLAEThgehdEFrHcGHlen+8UjggSWldQz/Die66u+GnvAe077otW7c0AE5sKb8WAbzruNiEWSv3G72dPkBFzgFmVnCWo3aOQffhx7Yd+OpPBqzG+BsD94bVwgHC121ozFmB4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.75.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y8m5UkWVHky+paTU1yPG7acZC3s3uii1v8X9jMIb4DE1j8NHagoThqUvWlUbjNrTWZMKQseo3ENeTb3pGdTI5TFyasKc0ABdyHWaVEp/xVySfBaLin7kvWsyJxqPy1b5FCnY5GeZf/QcAnT7LZNzIrTReXBg5X+jLUc3UFYAl6AMTOEufcbVQ9ObYXW2wUmGLlZaTFBJOwgRjnBeH6CibEn0tB7igLR3VV+TKiZg5ywiE7KZeNc3G01yZ1HJ53BksjlvxU1odK5UsxLuIwsTeLU4PZPE5iByDiJM9GslFwxP9A2uvBZBCJm/XLo7p6aHeKITTvALFP4sEn+JCxrEgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i8WtX0k4EqwDh/TgPkcMz1aEkAtxppzLjZYw7yZxlbs=;
+ b=UQEdenIDESWBp5pWNkHF7OE23iMmGujQAt8ow1sGkvGyxjMmStn/VhjctYJWqWs9KscXhPeLPbP0whFzaxwkb3mVJY+YLOhrprjVEdxMST1QtVVkedyCsavKB2zF9hnmUAhCKgXewwhGex+0CmQ5AlhF4HmgFI66GH5tywhE1D/CPbdD9cNFi/zVuPERdW0W1PC/Cu6l57jSBwftxJd08y+bLOhhckTHT8BmwxghV/5HsHj/vW+4tdbfvzVY5810oWJ8PBBwIFQ24Xch4cEmCdX41bX60wlLRcvuyp2GPE/4TcNJgUH/AGlQYT+iTxR/1r5xDzpPuZDTACiPpFE/vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from JH0PR01CA0011.apcprd01.prod.exchangelabs.com
+ (2603:1096:990:56::10) by SEYPR06MB5159.apcprd06.prod.outlook.com
+ (2603:1096:101:5b::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
+ 2026 02:35:24 +0000
+Received: from SG2PEPF000B66C9.apcprd03.prod.outlook.com
+ (2603:1096:990:56:cafe::15) by JH0PR01CA0011.outlook.office365.com
+ (2603:1096:990:56::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Thu, 3
+ Sep 2026 02:35:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
+ smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ SG2PEPF000B66C9.mail.protection.outlook.com (10.167.240.20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.8 via Frontend Transport; Thu, 3 Sep 2026 02:35:23 +0000
+Received: from hongliang-System-Product-Name (unknown [172.20.64.180])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 35786409210E;
+	Thu,  3 Sep 2026 10:35:22 +0800 (CST)
+From: Hongliang Yang <hongliang.yang@cixtech.com>
+To: krzk@kernel.org
+Cc: cix-kernel-upstream@cixtech.com,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	fugang.duan@cixtech.com,
 	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	huangbibo@uniontech.com,
-	lenb@kernel.org,
+	hongliang.yang@cixtech.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org,
+	linux-phy@lists.infradead.org,
 	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	oneukum@suse.com,
-	pavel@kernel.org,
-	stern@rowland.harvard.edu
-Subject: [PATCH v5 4/4] media: uvcvideo: skip post-snapshot hibernation THAW
-Date: Thu,  3 Sep 2026 10:14:59 +0800
-Message-Id: <e72835b9abb06dd3a14728b4bb8789567ba3a747.1788399733.git.tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1788399733.git.tuhaowen@uniontech.com>
-References: <20260730153817.GA1555869@killaraus.ideasonboard.com> <cover.1788399733.git.tuhaowen@uniontech.com>
+	neil.armstrong@linaro.org,
+	p.zabel@pengutronix.de,
+	pawell@cadence.com,
+	peter.chen@kernel.org,
+	robh@kernel.org,
+	rogerq@kernel.org,
+	vkoul@kernel.org
+Subject: [PATCH v3 1/5] dt-bindings: phy: Add CIX Sky1 USB3 PHY
+Date: Thu,  3 Sep 2026 10:35:17 +0800
+Message-ID: <20260903023521.2064986-2-hongliang.yang@cixtech.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260903023521.2064986-1-hongliang.yang@cixtech.com>
+References: <503e87d9-3311-413a-98c0-e02a02c4a354@kernel.org>
+ <20260903023521.2064986-1-hongliang.yang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,58 +82,156 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: MhOKvsv6t0fkntv++Gjehay9UI4QGMfsfUEpORlKJ+nHfJUEfbzZtZpY
-	v7uqGBUg76v5tpLDRFGagIa0DtfmKDaGhM5rS5d2miW7M43calzzu2YPr1VawU1iJqwjuA+
-	rX/s4SfzZevq8TWxbh5HCXyFta+L5PtIM72z1nv4o+OGB/sPmmOX8QrygCg665uRoeM7bY4
-	bm4MHT2gJkSrk7LESEMr7bcFdJ8MWRB6g387TRgNEHkzq43b02xYPdZ+xw07gRMavQEt8Qz
-	s9tou4U5tH6E3EvqVl4bxiebO4B2rJ24d0/kbR9umVe2CsXEYeiuw9I9dhsaXvRAOqi41DK
-	PABdG0KSPW8PUP/ycBFje9AEr4FfCjL5S3giupp33DrgbkSd3B+Q2QykZ+fZyiDT5yB+XcD
-	SrnWQ3Vu5Sn8gUFxlg2YtcLab/4A/zNeEVLpPIX+tX3vQihhJx/4pImlwlZqUg2aY27O4zj
-	z5a4tUA5OBnmSZI9UhsEPejoHT6t72AgK63JqVWO8DD0D+Oax/o6PkIXyuB40VleZ+qEc0s
-	WbHvArREDoti5PcPRsOaF/K/+nZD/W348hrWVhp5n+RKik/FlwVbcZxR7mcr0U7SZUctIfG
-	xNfpg25EF8MJcaiscuDT3sNGTc2KiwB86AQWdtSU/OulAeNEBr3+eE+S/lJEZfRJQrOLEOZ
-	JcshoJpyIxmsf2p79K0pWe+D4YTGwaNXUlI4Mmw7DEQtRfK8Nm8gPIMpUDqj4pY+zdP1gXi
-	/wx+agp4d4GS1LddkYwubuPPu8wVS7WIo/TGKCyDzEqDJ2APG4fqWpmHNt27oMgSuHuwOhS
-	y8X1H+wcuApyW6iIxNu9zkZ6EFKpJ7ZuJePKxr/lvX9zZcbwVYUNDQD+WfbWcoyVAu7NA2w
-	oR2VBMz2a2YGWLN7ynI8Gfz1R2BadhrhRZRyn37XNtc3K0JTPU+G1xAPjmbGzNGWjMt6cF3
-	xODCKHV4Z4WAUQQ7yDoKJS6NPkNavvqWW9mwTzuzPUHyqANP5ioWiC8QzgSDJoCY8Cvt0+T
-	nzhtdJ2lztSTZNVuhUJHxN7aCcd5d/XEqLzeTsxrMWKYMJaeHyEEXJwPk4bF63MW40omzw9
-	l9enwR1UWMkNiuUSqot5Kg=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66C9:EE_|SEYPR06MB5159:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 27c77602-24f6-47e3-ca90-08df0964015d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|1800799024|376014|82310400026|36860700016|22082099003|18002099003|3023799007|56012099006|4143699003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	yicrPkZRLQXIoqCYFZQNF32zElrQvVn/Y6EpOKEVSYmsRUDNCwBEKhOELS7wSMfe06ZuKXmvSfPdx/Dixfh/+yB+w+ENlMwjPObI3eLxpP+hE5LWfou3flk1NWX9OKAOMPuVYgoYbvD9ORwyIqXEc3f1KZTUqqDDEOjY1upaNkZOFsVgu20wMR50BbntSEttyL3MpkSHG3zNczNzOIhqGhIW7GFF3QdV4nBSupQH3hRg3EyR2+UY+piUVWEmwVfI3zTQUdyhzBnni7bVvrNZIxIJ9ehzeYPm2+cZ3grkfWFGKB1y3OBqxIM8bupITorCHeWEmv3XWdK5zFg+o9bciRIZ5NyzicLpZL9Tbgvgfu4n57nJentZM3C0yJkq5E6H1iOikOE/0K2EVRg8s9T4xQVbQZBFf3pyei/lfWS+Shdy6mYoL9UPtUnm1C0iv+d3zTnEMw74CHv8a7JI0PmpF90m4KbUfV+qS+rcUsvptkkqi4gfi1FGMeihL3/i9ApLGzSDqPCqLNfUGJ43DKJaYQckh8+D5eq/gJNeTO3PRBVrgfJ0K9gTZKGNyn2uvLCnpsxQd5VF/fsL44SuObH+FFhRMplDIWnNMvGPgv/ntjQR4PHmU+HW/6VIAN1XvhsadyG67Im0HVMqnMtNnIHJtA==
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(1800799024)(376014)(82310400026)(36860700016)(22082099003)(18002099003)(3023799007)(56012099006)(4143699003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Xpy9mL2m0mJqLxEg8X2EKRD3s37pu9QqVPflSySDfQCBUN8jIac0xAHFw/e7qd210RCXQKCSeNTPoSRogf+x+B6cPVYE2g7XF1uqVbDCOQ08NPvagt3mO0RoDVdIpnJBBfQIiW2AoAC8zpE4pf31pKZl50JVtNCHqVmPmT51bmkG0VER4TCkPsmEeDhd+jwdfp3Yrso4B9dHCvkfNVtLamCaSdMQEds2FZgghCzxPM/Zil4DHbEmuZq9PgIHDFG37QVjytPqBkTFz3t9wGS1W08m78GzJ0wgBosE2bEPIIEU8NGZbjUeaDDkNlTMmOET1UlLgRsaYe+SwaV2cAjE3H06PVKOguMP0uEL7deqenC6MvlySd+GiahwG4iQj+2KEJXpxolPw/f9e5JzZnzA2qvjyuSCGW4uc1NYdZZD2b6qq5hRy3M9js2kL7ieU/o8
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 02:35:23.2325
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27c77602-24f6-47e3-ca90-08df0964015d
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66C9.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5159
 
-When a UVC camera is streaming and the system enters hibernation, the
-streaming interface is frozen before the snapshot is created.  The
-original kernel then resumes devices with PMSG_THAW so it can write the
-hibernation image.
+Add device tree binding for the CIX Sky1 USB3 PHY, a multi-port
+SuperSpeedPlus PHY supporting up to two USB3 lanes.
 
-The UVC streaming interface is not needed for image writeout.  Mark it
-with DPM_FLAG_SKIP_HIBERNATION_THAW so the PM core can leave it
-suspended during the post-snapshot THAW phase.  This avoids restarting
-the streaming hardware and turning the camera indicator LED back on while
-the image is being written.
-
-If the original kernel continues running instead of powering down, the PM
-core resumes devices skipped this way before userspace is thawed.
-
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+Signed-off-by: Hongliang Yang <hongliang.yang@cixtech.com>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../bindings/phy/cix,sky1-usb3-phy.yaml       | 107 ++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 31b4ac3b48c1..d44c17c99daf 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -559,6 +559,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
- 			intf->altsetting[0].desc.bInterfaceNumber);
- 		return -EINVAL;
- 	}
-+	dev_pm_set_driver_flags(&intf->dev, DPM_FLAG_SKIP_HIBERNATION_THAW);
- 
- 	streaming = uvc_stream_new(dev, intf);
- 	if (streaming == NULL) {
+diff --git a/Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml
+new file mode 100644
+index 000000000000..5b025a48c844
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/cix,sky1-usb3-phy.yaml
+@@ -0,0 +1,107 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/cix,sky1-usb3-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: CIX Sky1 USB3 PHY
++
++maintainers:
++  - Hongliang Yang <hongliang.yang@cixtech.com>
++
++description:
++  The CIX Sky1 USB3 PHY is a multi-port SuperSpeedPlus PHY that
++  supports up to two USB3 lanes. Each port is represented as a
++  child node of the PHY controller.
++
++properties:
++  compatible:
++    const: cix,sky1-usb3-phy
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: APB register interface clock
++      - description: PHY reference clock
++
++  clock-names:
++    items:
++      - const: apb
++      - const: ref
++
++  resets:
++    items:
++      - description: PHY reset
++      - description: PHY APB preset
++
++  reset-names:
++    items:
++      - const: core
++      - const: apb
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^usb-port@[0-9a-f]+$":
++    type: object
++    description:
++      A single USB3 PHY port/lane.
++
++    properties:
++      reg:
++        maxItems: 1
++
++      "#phy-cells":
++        const: 0
++
++    required:
++      - reg
++      - "#phy-cells"
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - resets
++  - reset-names
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/cix,sky1.h>
++    #include <dt-bindings/reset/cix,sky1-s5-system-control.h>
++
++    usb-phy@9210000 {
++        compatible = "cix,sky1-usb3-phy";
++        reg = <0x9210000 0x40000>;
++        #address-cells = <1>;
++        clocks = <&scmi_clk CLK_TREE_USB3A_PHY3_GATE>,
++                 <&scmi_clk CLK_TREE_USB3A_PHY_x2_REF>;
++        clock-names = "apb", "ref";
++        resets = <&s5_syscon SKY1_USBPHY_SS_RST_N>,
++                 <&s5_syscon SKY1_USBPHY_SS_PST_N>;
++        reset-names = "core", "apb";
++        #size-cells = <0>;
++
++        usb-port@0 {
++            reg = <0>;
++            #phy-cells = <0>;
++        };
++
++        usb-port@1 {
++            reg = <1>;
++            #phy-cells = <0>;
++        };
++    };
 -- 
-2.20.1
+2.54.0
+
