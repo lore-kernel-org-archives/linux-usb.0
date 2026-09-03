@@ -1,131 +1,118 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DBD36C9D9
-	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 08:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788422734; cv=pass; b=Ll6oWOokxmUf0Z+OrrMhwjXK2KA7EWJH876toiCtHa8ZjzpZcNwM5YHLjWnN3qRwmd5oJFVdtkdzZcjl0RY0YHjLlM4c9Pnl1PtDODCE3dU8Xgh+X7jDWUffEegoMx6vKSpGemzZJJlsmDghlDhwG+mTuY5QXydoldG4gJcrzpU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788422734; c=relaxed/simple;
-	bh=fovmEqIqgVXpo5nek+CJqatjdeLkHXnTUt8Ymo9s1zI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CQV2NBxnhlpXdlAUgbkNidWDadgIzM0r21rkupoNwzWwOrL2UgZ/ualpk65tAVyR29o4RQb3AAfOP7iqD9VI6fbqT1uc1i0Nw4dWPcRm4AHHpRl20pMh4GqlZ1IHAbMDL68YSV6l2/7vUiAkLYXiOTcwauyppgSzcIECDDR19n8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJbB5GrP; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686F8394EA6;
+	Thu,  3 Sep 2026 08:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788422840; cv=none; b=VqU44svpqchHZdUs6k9UJGzizpEOsDi/UYN22IXSDVdloc/5meDLPHAKv5SMqOSmq+MV/pTsdzDgK9EiDIjn0SRocwTYH0ZGIQrQ17orjw7Y4TK2tAe4+cfsRbb9QdECUvtpPX8UJyNCTFdXBLI2dZM+7B2VYx+6XOIzgNPV/3Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788422840; c=relaxed/simple;
+	bh=42IWgvhhxQ5Cn7Iq17fk4ip3S1rp086OFoOxt/vI7A4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gg/HOtNS1baB1WqgDjkcUqf60aAWiIq82jZr4qOPXKosg9W5L6o2k/AFLGq5xTWLeix+g5Wi1+6DoQW9nZtmEPPTbyatTCDYccnOlRpfGAfhWXG5IIW7dsflzWgPXFo5a95SyRR5gxwwQwC+QuuXHEe5bPDXM+wpCIAulFG7Alw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ow0s/RuU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJbB5GrP"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a20319d030so2972276a12.2
-        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 01:05:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788422731; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sEqUO4rTL88ubyco0rnLiKtmUo84QMt7s7hec8VOuSCKGHhdgJnXo17hQ8/PdFe5uD
-         i1nJWIP8eUTPqcqALCeWNz8IZUkeDW2TaF7qXsmKghylcL8FctxI47XVaMXxR9N81nQl
-         Vf9U0mT6ty6IZ4coWW2T6+WyyTBVmDGdQoIOGkY8IVTglMUzXzFiwHUWGHma6ubQL/bD
-         psXwvyNx4iSuqpbYpHNjhE5P0Sh6eI1zMdKb0RiQ4ilMTLvUBSt1vGhXoEHJM/OTOwc3
-         m8L7uke6dAKJB8fMP8X5wCleq/1i//o1zE9KfZDHuhBGRZ4eWiYs90RwvU8EzbnUX4Pv
-         k5Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=6SrVKYP6RqUW7pG//37NoHw2yaQK1BSwRv3M9s2+zc4=;
-        fh=VLBDe9uwnlF8mS7zq4LUPu1M+/CJXac2w+cxUq+E0oE=;
-        b=RQJKu4oR3xdnRG4krbwIc7+R/JlKsDqWxlIaasRApIR5vYhfTecyFims8XUYFyQAJK
-         KKacKqnRw+G24Nyd+xWrakZD5SxqxEmf4td2jborlSLXYj8Emhp7IwOH+XgijETV2EUk
-         HXokQnIAti2NlCxFjQDkm30+KPOO0Ax6xIHy4JgdwVPXiuKb5ybtIQf2LhpkmFvfKaiA
-         +GVTMarXBy+lsbABxAPtLNhu2ixIjGT+7Wz+nkTj1dNlrcRG0uuPwjJTF468jNcJtxSb
-         eeLEZCTdVatkWv2PWrc+5qV2+X+RCOR5qP20GWbdg6O8/Eptdhis7TGOTenuoB3MlOd7
-         dc9Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788422731; x=1789027531; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6SrVKYP6RqUW7pG//37NoHw2yaQK1BSwRv3M9s2+zc4=;
-        b=iJbB5GrPlTsZ0MkXt/S6eWY+2Eti33VMfohvB6NiwiMBaUzYIgMW87lgMytpcLI37u
-         ST71r4FKYyqGcTT+n3SOWNqXW17KDGPkXYFmYLwiX9eL4j+DbbuKW1maxQm7kRx4vl9v
-         JgUZSylKtks3uDc2260p3rGmarCnTxlEeUmP3u7qGMm91oOIJtaVgjhcdFTuahSSVUM7
-         fNznplJiTSd3T/3CFAx3HPYFx/1OTpBnKcG79Seg88svbmkZFm3DvId0W29YcdOc+2nl
-         2kMh3ENi+jXFwWsQ+9WDwDdvzEhI/Ca4ZZ7+Zzeug0oTyY/ICraQzAoPY9IFnPikE+qx
-         axxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788422731; x=1789027531;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=6SrVKYP6RqUW7pG//37NoHw2yaQK1BSwRv3M9s2+zc4=;
-        b=Wt9mBkgGmfMGfwGN/6Iqb07NmmWMWAP3Cru3ICsEfvhjw0UG63E7TojhACCX0/OdkH
-         Xc62n3d5HmoRWYUuGNDzoPEfJ2Shz2xEi2RuqVIG9EHW9aFT5JOzHhoKl8u3q4dlccxt
-         CGJ7X2oR68c2G6v6a+9pBA77W6lQeYsNbJzI/fzUmBhydNn0yPtZO2Gj8p6gKwvgxJd0
-         QmTUqJmXokUHVqu2I3ncQ04+X+QBCg+mYraQ1un6KHK7iZHGJbZJziG75mkRAQheaRuz
-         j3QPGyl3gjcTEA2i3MrdteeV+Dm5D5S2SUgcCDE6T+390iNUQ8TxeTPdus8HxxAiotQ8
-         07yw==
-X-Forwarded-Encrypted: i=1; AKwUvBw5wvliRV+mwYn0A1gRtj3PCzNZTu9/V3OsR4IN5mfrzlqg0VsPnDDwHrIqMFBPryScXnCyyd4Amaw=@vger.kernel.org
-X-Gm-Message-State: AFuF++nX1nXUmMC8ZGRVMxZO3YtwwFqkQkEtRrsUqa+FzNnxDEeFWYCo
-	rBcFFnu/lFaEB83j9RnPqId/OYT9jprmDQMi26JV2ge37f4E7zGsKLKTiYAkkIdzksdvLOEPTRK
-	e5fHOD7S78w+KcyWHrS46RTaWgYqLFqc=
-X-Gm-Gg: AYBFou2nO4d9N163cpeoIq5s0k14gA/o2Crjo9tEH+Os1mny4eJwmQKOt95ueRI+3oc
-	Vo7VwvvYXc3jy9sNMoBOjkfBC8Mzc99C2CAkdBMUpjUS+H7lddsLkmOkKvMsm2kfcyILSaeqgAq
-	P8N6PrT+u7WAfsbvuZ5o35PtOgCJEjCL3NbDojrkNX7eSOjxPuanvurbNzweqXT2RyKwDgAPQhY
-	eNi1YSB1SgnvWLgiF4XCuDnT0r0L5W25+S93KoBJJF7forJbmOKO83J6VHWqXgJ0Ht/Z7QLvr6l
-	9pMbY2as3mo2V7wgTU3F6UOv+o7QD3eCFwd3w9WjkzQbhyhAFejn8RSH
-X-Received: by 2002:a05:6402:2110:b0:6a3:87b7:b5a9 with SMTP id
- 4fb4d7f45d1cf-6a682ab9d91mr6190594a12.12.1788422731087; Thu, 03 Sep 2026
- 01:05:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ow0s/RuU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01AD11F000E9;
+	Thu,  3 Sep 2026 08:07:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788422839;
+	bh=xbdNz29gFkBpHAuWF9hc57v1cNCTm7tlivlqQ/wBvjw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ow0s/RuUk3ZEUFFkjbX2w8fKohfQKQA+AWW8wWOJfdv1ZOazzwmcrEWl4LmdXP8iQ
+	 J0BBZGvkPBG+7+o3kg0MhZ19B5MQEvCSOKXA5mK8Cdq2pHNkdeFYFP37Zd0K1+3o0l
+	 bjtqoetUY2YmqoYI15UYX7AHllC5F2AbY8MrfEQ1dRNtWssA5P2LPMZp8bsrlv63R+
+	 7JfMhq7z3kLGsZsuAABsCd25sjWiLd4bwJJkl06kIY6leFGd70wnRErSyJNw4KavFF
+	 p6XJI08BzAB1j0wacXvslW6JJ+vr4LcwbmyRU3Ta9wqgQiDzNjbEdeTr8AnBUFHju6
+	 POLannVscKepQ==
+Message-ID: <57dbc01b-6ac0-454f-976b-9ef92efd37a9@kernel.org>
+Date: Thu, 3 Sep 2026 10:07:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2026082042-coma-moody-5b4e@gregkh> <20260820084557.129908-1-khiemtranzo532001@gmail.com>
- <DKTWKZFYC6TL.2ZESRE0NWAV2T@kernel.org> <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
- <DKU2J83B6IX6.2CG1WOB66WC39@kernel.org> <CAEe5be5OjseCMxGQP=QMd1L-muOTDguaay_-21moS1+xRNNNyw@mail.gmail.com>
- <DKZ6PZV65PYX.3M9UEZC4ZMLLC@kernel.org>
-In-Reply-To: <DKZ6PZV65PYX.3M9UEZC4ZMLLC@kernel.org>
-From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Date: Thu, 3 Sep 2026 15:05:19 +0700
-X-Gm-Features: AcwNN1WMKVWa1WK1FArX1_9QFOqs2KtBbQ6O2kt-cOvVQdr4bwbcIwMEhE1l-hw
-Message-ID: <CAEe5be4cJ5VPu88V4L7i0Pz+joSmJjBOpA=S9knbk44_-Rf9Og@mail.gmail.com>
-Subject: Re: [PATCH v4] driver core: avoid klist_remove() on unattached knode_driver
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com, stable@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 2/8] dt-bindings: usb: Add Tegra264 XUSB host support
+To: Wayne Chang <waynec@nvidia.com>
+Cc: "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Jon Hunter <jonathanh@nvidia.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <20260831185835.3732707-1-waynec@nvidia.com>
+ <20260831185835.3732707-3-waynec@nvidia.com>
+ <20260901-solid-uber-coati-381d2d@quoll>
+ <babe3a6d-987a-4a27-9270-dac214b7b701@nvidia.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <babe3a6d-987a-4a27-9270-dac214b7b701@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 26, 2026 at 09:14:00PM +0000, Danilo Krummrich wrote:
-  > So, for a fix that also goes into stable trees what you propose sounds
-  > reasonable, but eventually we should use the match() infrastructure instead.
+On 03/09/2026 09:11, Wayne Chang wrote:
+> Hi Krzysztof,
+> 
+> Thanks for the review. I'll split the changes into three parts and 
+> address all the comments.
+> - phy: tegra: xusb: dt-bindings/phy + drivers/phy/tegra
+> - usb: host: xhci-tegra + its dt-bindings/usb
+> - arm64: DTS enablement
 
-  I've implemented the approach you described:
+Why are you top-posting? Does that mean you ignored the comments inline?
 
-    - In usb_driver_claim_interface(), when !device_is_registered(dev),
-      skip setting dev->driver. Instead set two new fields on struct
-      usb_interface: claimed:1 and claimed_driver.
-
-    - In usb_set_configuration(), after device_add() succeeds, check
-      intf->claimed and call device_bind_driver() explicitly. This skips
-      ->probe() and attaches knode_driver to the driver's
-      klist, making teardown safe.
-
-    - The __device_attach() dev->driver path in dd.c is left untouched
-      for w1 / ccwgroup / pata_parport.
-
-  syzbot confirmed the fix; the reproducer no longer triggers:
-
-    Tested-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-    Patch:      https://syzkaller.appspot.com/x/patch.diff?x=12af8b49580000
-    Dashboard:  https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
-
-  Will send v5 shortly with the syzbot Tested-by added and the subject
-  retitled to "usb: core: ..." since the change is scoped to USB only.
-
-  Could I get a Reviewed-by from you?
-
-  Thanks,
-  Kiennql
+Best regards,
+Krzysztof
