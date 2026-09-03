@@ -1,157 +1,186 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5254B715A
-	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 14:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E14BA9E5;
+	Thu,  3 Sep 2026 14:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788445764; cv=none; b=C/6FIy8kMGFT3tPJf6Nhjv/GtBooZhWQMfKVT95J/BPfXo8VRYhTTDFP3RiiuEY90B5heHJLyhO2i6gbwVEHGRepLN+c28I3cpsnafeEhinmGvTXxbozJFsvSbqv0tJn3lMY1q9oUQzCn3HRv+Ddnw9Xz7vPfFvIVoERxm6womk=
+	t=1788446302; cv=none; b=m/diH18tuEZ8iEDwYhe+xAQsv8pGESHG/SWtxkilq3AtZLJJNjb1s3C65qIYIh8IVyEihn/WWRrh/Jg5pKFJBuqKrdBwGpmWCvXfDcNlm28iqMHIXa/Z+94q6kzW8nTWPvOzWII8uPOmg8B7qzJTnV8rdQouXxeZaZ5HXTlRUFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788445764; c=relaxed/simple;
-	bh=Vc4nsG4rCMbc4asB0jvGimE0BiSPYtdgvM6B8UIfOQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEUd54mO6X19tX4TuNgzgCeNUA3tVZiJnDKW9zmsedsEnQwQSy/U4qpSEsUSaapp2+MJL0m+H4CKS/ZOuHfcjvSvcZPgq3ITd0KLUjFLP6osaRYdpP6W9Xi2GGdH9Fdyms9CERJQUSa83pUYO0GHeff9UPoyTsgz/vZtiUPO4NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=iS/kwITY; arc=none smtp.client-ip=74.125.224.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788446302; c=relaxed/simple;
+	bh=5IDUCm3/c6KrZ9HpzncmlBCcPtf0jMBAVY/kGndV6SA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VdJuO2o332ksVwMoWzTCCk2K0F588NB/m7AiimxrUEheK5v17F8339DZLIkhWI63pbvRAMtXrAIgEWBypNwZ7QS1DT/hRiu8J2FXpJVbwI6SFmSDTZru+Jh068GjO8gBYaA0QG5HHJ4bEklYAh4XQJRJZgWDmQjH+gATbRvx9hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EABflAnv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y4vw+3Of; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TlwseHHX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MofL51L+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="iS/kwITY"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66d1447e2b1so1038772d50.0
-        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 07:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788445737; x=1789050537; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZpBFCA2vtIano6DcUrYmzhDoETXua24x0tWYntbBUm4=;
-        b=iS/kwITYgB9P5uT6vP+QuwPVaEbifajboAg+cpz5nmQaa7fIjwmtG7yDRHTH+QcJmI
-         ABQv5w8BNdnxdecG/x3YW8niN0ZTBiaIw8/K1qhe9n4cDjugQ0IEt/TbXBiNHk/cxKTF
-         Q/RD4bPUVVmJpIgtqWqgicpwftNhoiJluCNIRQ25mrHq3njx90tbT5SHRgFLNVaO0/Jw
-         VmmPC1maSIYsSXAYAuUKc3h19Uoib79mW4kOH7r5BMRZDj0Rz857N2KHjc73NT7QIJGy
-         mq/9wQ8OGh8wLo2yxEC9j8+KVV6ChbHxqMhlJeE1cNKWA5KcRfWVtU+LXmFQ5DfFQysn
-         MASA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788445737; x=1789050537;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZpBFCA2vtIano6DcUrYmzhDoETXua24x0tWYntbBUm4=;
-        b=AC2CUni6QBsE1dW9C3oY6Tjd0sAP9VKYjyMXPN6+J2w7cO1UJ+QTdPp30iayrpp2ri
-         69dyIi3jNBitgV78rPUDOapYxnUqhZiJCarZvfTOE5Q1/sAbvFXyl2/Qn4rsrk2TQb6Y
-         7q6dNwxePhPX0k2ETI6cACHRsJIX6FvFYV/bQ5hNGczion1gfufoG5JrKNaRzdF/SsbE
-         NTuO5fGXOb4W94aopm6gRaJbpu9+uhO0M6ckYqVOtr7ia1QrPwlyB5XvaaDHWpsRXSSz
-         LV/9skiB7eacisKFX38WkeLF0VtOxV0g5iO0RKkcaQWp9SvgX32IR8FYc8FD8qnp88Lr
-         kj9g==
-X-Forwarded-Encrypted: i=1; AKwUvByN58PjhAVBII2g7mHzlcrNOzwELS3fejXhm6E/Ha1JAUOX1+1u6dGreqDK/8U7VT/cMdi17o8wyLc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kC+x+C90gPs6T0vxG4sgrM61JdQp8KDT4x2yvaS20//6imKCnU
-	v0XiReGWEXKv3nqvOcKi04rdTcEXxXH3mJwql6iHZGYnyXieVx8uT0obbpkSnSAXrA==
-X-Gm-Gg: AYBFou3eRsiYYm2z2xi85MqiJVKBKDgNeSaHw5gLKD2pa8251pnWDuG+9V4yhn8qlQm
-	rqb2lWHH05G+DI8p3RbSi5VnvSJXi97wEwpGhnKYbNPoZzDApDu1Qn7KmUTKxlJstWzDWV3MiV1
-	Y/ZpgSvRXY0y6Z7kT6CmINUbZFhwjVcf8EUM7YIY4hVOw6dh6FWIHCBSdlvYZuo1F4QAjH8nu1C
-	kxg7IbXm0MzZF17mQHd5EpIxhKIai6LpFgQ5P1LTa1W+kCkcnMbBoapIBEztRVgxE1buGaByyyl
-	BwSD7pivd1qtDC8PWu7teLymFKmMZfFrzWh95IZeWLl/yo6bnLlPvXk6ecZk7RjUaJ/yp1aoyUj
-	QsHIbtaTurqMNM9jmBHXRw5ausEZAKb2cRyFndFx92RmZk1kB0RsVhoA+swApkJzQ57itzdrxKh
-	KMuA7m4IgXJL8HNcFGKimPhnhhWgZhfiZ8COQK0IQyx2NUjE9uCfhyvua0h8yuLDfkYr625CVyZ
-	h2NasQ=
-X-Received: by 2002:a05:690e:128c:b0:66e:3f5e:d9d with SMTP id 956f58d0204a3-66fa924b4dbmr2742108d50.24.1788445737190;
-        Thu, 03 Sep 2026 07:28:57 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9ee2ed6csm43888976d6.17.2026.09.03.07.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 07:28:56 -0700 (PDT)
-Date: Thu, 3 Sep 2026 10:28:54 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Rafael Alejandro =?iso-8859-1?Q?D=EDaz?= Cruz <rafad900@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EABflAnv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y4vw+3Of";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TlwseHHX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MofL51L+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 89ADE21EC1;
+	Thu,  3 Sep 2026 14:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788446276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=EABflAnv+VzsI1PsdtEcrQGKurUXloXp7tNnDfpZaapOYIR0BSsTWRZIJpjZbXlXuxzFBV
+	oeN6oclLrlMxb7uwl4LwbAqBujD8+5uClI9+8afyw8HGDInlD3NeldC87S6MDo24PxV4u8
+	3Yb5gBEk0F8yQ/B2zf5dbhpMNa36V+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788446276;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=y4vw+3OfKFIPm3CnR1ywuxb59vLvGO0HEpeiluTzzPQE6IXnuW/ZwnZUXqhnVBjH1WaK7v
+	Im8OjTx3vH03rNCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TlwseHHX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MofL51L+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788446272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=TlwseHHX+lOPF6cuL3NY30UdiIDoTf34mV5ltvcl8gKFOFl8ZHyk2SbYi/Un0QnY5ky6rP
+	5pKDqGeEuurUJ7jQyUfKGj1e6aNrB46s0pgeFFcfpwI2fCE7QFhnv/J6BzmBVTV9XwRXZQ
+	ZwciWya1dKN8N/4DqFy5GoQpo6y6MMI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788446272;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=MofL51L+lkYsgVobSaJbS99No+p0rRBs8MgY5BlLojIlkD8uxw0CUPis8ibqdRnC2oU+Sz
+	wg9cDhtLrD2W3pCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFFAF13738;
+	Thu,  3 Sep 2026 14:37:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6cpkMT+GmWpuHgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Sep 2026 14:37:51 +0000
+Date: Thu, 03 Sep 2026 16:37:51 +0200
+Message-ID: <87y0di764g.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	syzbot <syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com>,
+	bolewara@gmail.com,
+	devnull@kernel.org,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
-Subject: Re: [PATCH usb-next v1] USB: gadget: Fix UAF in gadgetfs_fill_super()
-Message-ID: <de10753c-7504-4b55-b08b-cc8b91cd6711@rowland.harvard.edu>
-References: <20260902050127.3767049-1-rafad900@gmail.com>
- <b99e8d15-9031-4d77-b1c1-2bd8cce6013e@rowland.harvard.edu>
- <CALp66yF0MZy9UKo_qGGeekxV0RNMNKZ_foqADVnqg+_YgEYqEA@mail.gmail.com>
+	linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Daniel Mack <zonque@gmail.com>,
+	Takashi
+ Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: DIY allocation or embedding of URBs in larger structures
+In-Reply-To: <20260903130757.0668310a.michal.pecio@gmail.com>
+References: <6a6e9502.f794c993.27aeb.0018.GAE@google.com>
+	<6a97af8d.27a413cd.1e878c.0004.GAE@google.com>
+	<20260903112417.21b76017.michal.pecio@gmail.com>
+	<87o6ee8y9e.wl-tiwai@suse.de>
+	<20260903130757.0668310a.michal.pecio@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALp66yF0MZy9UKo_qGGeekxV0RNMNKZ_foqADVnqg+_YgEYqEA@mail.gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: 89ADE21EC1
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,syzkaller.appspotmail.com,gmail.com,kernel.org,linuxfoundation.org,vger.kernel.org,googlegroups.com,suse.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[832ce9fa3face1b7d44d];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
 
-On Wed, Sep 02, 2026 at 07:18:25PM -0700, Rafael Alejandro Díaz Cruz wrote:
-> Do I need to create a new patch for this?
-
-You don't really need to, but it wouldn't hurt and it would make things 
-easier for Greg KH.  Don't forget to list the changes from v1 below the 
-"---" line.
-
-Same goes for the second patch.
-
-Alan Stern
-
-> El El mié, sept 2, 2026 a la(s) 7:38 a.m., Alan Stern <
-> stern@rowland.harvard.edu> escribió:
+On Thu, 03 Sep 2026 13:07:57 +0200,
+Michal Pecio wrote:
 > 
-> > On Tue, Sep 01, 2026 at 10:01:27PM -0700, Rafael Alejandro Diaz Cruz wrote:
-> > > UAF is caused by syzkaller reproducer forcing
-> > > the failure of gadgetfs_fill_super()
+> On Thu, 03 Sep 2026 11:44:45 +0200, Takashi Iwai wrote:
+> > On Thu, 03 Sep 2026 11:24:17 +0200,
+> > Michal Pecio wrote:
+> > > So what happens here is that USB core continues to use a URB after
+> > > completion to implement things like usb_kill_urb(), so URBs are
+> > > reference counted. Then core decrements the count - one more use.
+> > > 
+> > > If a driver waits for completion or even usb_kill_urb() to return
+> > > and then proceeds to free the URB's storage, this becomes a UAF.
+> > > This driver embeds 2 URBs in its priv and does just that.
+> > > 
+> > > A URB can only exist as an independent allocation, core will free
+> > > it if upon finding zero reference count in such case.
 > >
-> > Just a minor comment: The fact that you used syzkaller to cause the UAF
-> > in your testing isn't relevant.  Memory allocation failures can occur in
-> > real life, without fuzzing, and the driver needs to deal with them
-> > properly.
-> >
-> > > When gadgetfs_fill_super() fails, it's error path calls
-> > > put_dev() which drops refcount inside the_device to 0
-> > > and frees the objet. But the_device pointer is not
-> > > cleared, leading to point at freed memory.
-> > >
-> > > VFS will then call gadgetfs_kill_sb() after mount
-> > > failure leading to put_dev() to be called on the
-> > > already freed pointer.
-> > >
-> > > Fix by setting the_device = NULL during error path
-> > > before calling put_dev() inside gadgetfs_fill_super()
-> > > so that gadgetfs_kill_sb() skips put_dev().
-> > >
-> > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > > Reported-by: syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
-> > > Link: https://syzkaller.appspot.com/bug?extid=4a5c87a01894ca37f25c
-> > > Signed-off-by: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
-> >
-> > Since this fixes a real bug, you should add:
-> >
-> > CC: <stable@vger.kernel.org>
-> >
-> > > ---
-> >
-> > Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
-> >
-> > Alan Stern
-> >
-> > >  drivers/usb/gadget/legacy/inode.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/usb/gadget/legacy/inode.c
-> > b/drivers/usb/gadget/legacy/inode.c
-> > > index d87a8ab51510..3e2bce7543d4 100644
-> > > --- a/drivers/usb/gadget/legacy/inode.c
-> > > +++ b/drivers/usb/gadget/legacy/inode.c
-> > > @@ -2059,6 +2059,7 @@ gadgetfs_fill_super (struct super_block *sb,
-> > struct fs_context *fc)
-> > >       rc = gadgetfs_create_file(sb, CHIP, dev, &ep0_operations);
-> > >       if (rc) {
-> > >               put_dev(dev);
-> > > +             the_device = NULL;
-> > >               goto Enomem;
-> > >       }
-> > >
-> > > --
-> > > 2.43.0
-> > >
-> > >
-> >
+> > So, IIUC, now the URB *must* be always allocated via usb_alloc_urb()
+> > and an embedded URB isn't allowed?  If so, we'd need to address other
+> > drivers, too.
+> 
+> Yes, that's basically the case and actually has been for a long time.
+> 
+> The only thing that works is for both USB and the driver to call
+> usb_free_urb() and whoever does last will actually free the storage.
+> This means URB can't share storage with anything else.
+> 
+> Some drivers got away with making URB the first member of a struct
+> which is freed together with it. AFAIK this pattern doesn't crash, but
+> it's deprecated too because it puts a flexible member (in the URB) in
+> the middle of (the outer) struct.
+> 
+> This pattern here in caiaq has always been one race away from UAF.
+> Maybe it wasn't very likely to happen, but stuff like PREEMPT_RT and
+> hypervisors can insert unexpected delays anywhere these days.
+> 
+> Greg KH puts it thusly:
+> https://lore.kernel.org/linux-usb/2025120716-sway-hypnotic-8cb6@gregkh/
+
+OK, I'll send the fix patches for the rest of sound drivers.
+
+
+thanks,
+
+Takashi
+
+
