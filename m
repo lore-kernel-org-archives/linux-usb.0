@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF1E3E3151;
-	Thu,  3 Sep 2026 06:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E843E5EFA;
+	Thu,  3 Sep 2026 06:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788416976; cv=none; b=cpc8QnBDDvAN1StraezZ/z8jhRH7kdN4JoDuekvmDl6FeeYL8Cs/I1mE+zhFY4NIIf+Fudx9O47R0u+bsTpIluWO8W6tVzFc4QOzbtCwcESth5VC4EFl2kCt76oTixKMJKzNFzCpW+2Rf0Gn4Afjt6EWcY1NfXkQTX8cZ/xNN+4=
+	t=1788417025; cv=none; b=u0swNhXkY+jJwuwverbO8I4unvxC41ZhUVrphxlmTViugQ606qYRO6SYZxjHeo2pUi4nbAtZwmEN3EzJJxuOwEnFbBLIXOL5XY5JHqCoBJ41nYhriTexLMmz1IlQSpsOpK6SpouSBT8PXQ/uIa21kFZQlq1kR7p5i6xzxJfS200=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788416976; c=relaxed/simple;
-	bh=2fAt9eswR3Y6JLkBQMePZpHxREI6xsKCPrL1DvRNJtw=;
+	s=arc-20240116; t=1788417025; c=relaxed/simple;
+	bh=K0mIDOj1jh/DIVga59w8LwhKbcyWJv95VugPIdNx+Cw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IKAQH/DH8Kcp3I2H//Vk2KoalQYNs51E8u7uFGvjbZETT4utXPBLegSPijg3Jfmhrja4iPrtoUaEJDIeTrfOjxp9teOstpVmOd6B+sTjpCAMDH4Y2guMT1Vx5922z3trC0LHOeNMUjafvnbHWx1COM/ViCkvAFqag5PZOCxgBCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZyL1vtSM; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=oLY1ljyplkdiXvPEH4aVqMWlcAvx1C1hOr7elqXty24AeOHcQLriI/FF8HZX4Hmr3zSHYheIFF6EGL2G7F39DSXfQLsh4ngJdfrgFWE95YhgEC1Nh61Vjon0OHuTUce24gtEYlDtkqlVnqvT1QgSpyBNTqX1VbKf1t3MQBekdu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MVfxUnqT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZyL1vtSM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1506B1F00A3A;
-	Thu,  3 Sep 2026 06:29:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVfxUnqT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909D11F000E9;
+	Thu,  3 Sep 2026 06:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788416975;
-	bh=trNxy11GG+I/hsdwaQKCklMdFtdLO3bJs5SOczMJ06M=;
+	s=k20260515; t=1788417022;
+	bh=rIPeNlXft5qwGDCPcStsc5nZyiqlws4Zz6uCNrYyQyw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ZyL1vtSMPKjnjxPY82Vd6sSMqDlJJfsNNEC45Z3mOly022ih8hy2AglQcxEfGmLz/
-	 0o6C9sh8mT4LCOR9PJvKyeLgHUACje2fU/h5f2w9CGzubPNSzthapudR9QSsWOt38X
-	 A7OoSx2N5n5SVG6icE02Dxhd6j0pAYBkZO4PSv7z3u2bAl9Dpsf8zoabFVCPtgmgUR
-	 0YIuqsTdL0tFqtWqp2x7MVQbn7dUds8ZNyc4rlMxELSR4htviBpMyamgvvaQdHXRd7
-	 3vyIBQhZ3rLts4HWnbo01Pd+1EBi4RhDABrnoOswZlouWqfrqpXXgIv+YIKic4oja2
-	 XrOwjtmDheIYw==
-Message-ID: <6ca4ba08-2313-4890-9a88-259799189d52@kernel.org>
-Date: Thu, 3 Sep 2026 08:29:28 +0200
+	b=MVfxUnqTqzgIOA7Stjk2sqCaMIwJHJR6btTQ4cX8mfQ2icxuWipuP0pX9C4OMlJWa
+	 FPOTO0sd+enJCX7IUzVrVcJaLWn7m03XIlLRDdyJBueIjhX0ewV4d2yO+dXLJYaFO2
+	 qcWMXM1xhKnJwyX6aYAp87iHjfV/qaVkc4FCWBbDkUXYMIwFishNeg4hLghHi4u31s
+	 KKx3nF8OnJyc/Zkr640S+C1jgfrt/leuDDxiAvm3xKbUSHiDWRm+soC6Gcajyhmf/w
+	 qaotj/umUpBgoIVjJ2SlKheRgPxgIWW59tpNwerALUo7ewpDK1LTIYRRoDtWJUU33A
+	 kmWr9YXcCopLw==
+Message-ID: <791fe5ba-5110-47d8-b0a8-9ab447762671@kernel.org>
+Date: Thu, 3 Sep 2026 08:30:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Add CIX Sky1 USB3/USBSSP support
+Subject: Re: [PATCH v3 2/5] dt-bindings: usb: Add CIX Sky1 USBSSP controller
 To: Hongliang Yang <hongliang.yang@cixtech.com>
 Cc: cix-kernel-upstream@cixtech.com, conor+dt@kernel.org,
  devicetree@vger.kernel.org, fugang.duan@cixtech.com,
@@ -46,6 +46,7 @@ Cc: cix-kernel-upstream@cixtech.com, conor+dt@kernel.org,
  peter.chen@kernel.org, robh@kernel.org, rogerq@kernel.org, vkoul@kernel.org
 References: <503e87d9-3311-413a-98c0-e02a02c4a354@kernel.org>
  <20260903023521.2064986-1-hongliang.yang@cixtech.com>
+ <20260903023521.2064986-3-hongliang.yang@cixtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,31 +92,65 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260903023521.2064986-1-hongliang.yang@cixtech.com>
+In-Reply-To: <20260903023521.2064986-3-hongliang.yang@cixtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 03/09/2026 04:35, Hongliang Yang wrote:
-> Add USB3 PHY binding and driver, Cadence USBSSP glue binding and
-> driver, and USB4/USB5 device tree nodes for the CIX Sky1 SoC.
-> 
-> This series adds support for the USB4 and USB5 controllers (based on
-> Cadence USBSSP DRD) found on the CIX Sky1 SoC, along with their
-> associated multi-port USB3 PHY.
-> 
-> The two wrapper nodes each carry two 4-byte register windows: these
-> are per-controller RCSU control/status registers (AXI cache attribute
-> and clock-status) that live inside the shared RCSU aperture, so they
-> cannot be expressed as a syscon; the OTG mode straps live in the S5
-> system control block and are referenced through the cix,usb-syscon
-> phandle.  This was discussed during review of v1 [1].
-> 
-> Changes in v3:
-> 
+> Add device tree binding for the CIX Sky1 Cadence USBSSP controller
+> glue layer. The integration adds glue registers and mode strap
+> controls in the Sky1 S5 system controller. The CIX glue node wraps
+> a Cadence USBSSP core as a child node.
 
-I do not see how you addressed my feedback from v1. I asked, not to
-combine USB patches with other subsystems, within one patchset. These
-are separate patchsets.
+
+Do not attach (thread) your patchsets to some other threads (unrelated
+or older versions). This buries them deep in the mailbox and might
+interfere with applying entire sets. See also:
+https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
+
+> 
+> Signed-off-by: Hongliang Yang <hongliang.yang@cixtech.com>
+> ---
+>  .../bindings/usb/cix,sky1-usbssp.yaml         | 137 ++++++++++++++++++
+>  MAINTAINERS                                   |   3 +
+>  2 files changed, 140 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
+> new file mode 100644
+> index 000000000000..73231a2741bc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
+> @@ -0,0 +1,137 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/cix,sky1-usbssp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: CIX Sky1 Cadence USBSSP Controller
+> +
+> +maintainers:
+> +  - Hongliang Yang <hongliang.yang@cixtech.com>
+> +
+> +description:
+> +  The CIX Sky1 USBSSP controller is based on the Cadence USBSSP DRD
+> +  controller. The integration adds glue registers and mode strap controls
+> +  in the Sky1 S5 system controller. The CIX glue node wraps a Cadence
+> +  USBSSP core as a child node.
+> +
+> +properties:
+> +  compatible:
+> +    const: cix,sky1-usbssp
+> +
+> +  reg:
+> +    items:
+> +      - description: AXI property configuration register
+> +      - description: Controller status register
+
+Same comments. Individual registers are not a device.
+
+What is the actual memory map there?
 
 Best regards,
 Krzysztof
