@@ -1,89 +1,191 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92035332EC1;
-	Thu,  3 Sep 2026 03:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73D32D8DDB;
+	Thu,  3 Sep 2026 03:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788404713; cv=none; b=SaHMJqooATUyDPU4onoEp798VGLwpOeV0YtV5HSahd+GvpOsLJ5yLOW+d25Ch0PpbfUNEIs3ES1naPvp53q7Uul0YUasf1Flz3B06h6y5ogOCeo/ZUxDjbTevKQrSXnBOrv6TZKQOnNGQj6iiciYzifdoGBbYG95erxeuo+hnQk=
+	t=1788406937; cv=none; b=jZgX8fxFxX4ZM0wokkGSQttWjHpx92hZ4sLLxbxVFQTnRYh10wMV/xy3OtpS1gsKwLqQgvX65b/DQiWjo+t4/n1VefAPGXfzdY6q5OrvfLpNsQvQ4nKfxpOPrrMxm35agiMbXgpH+V7TpmVI/elQr3m1ScWCo4d/qprgSzhSZnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788404713; c=relaxed/simple;
-	bh=qwi3KRn2YLBoRnHjJoyZ/YyRxsS15pVd2sf3d5F1XDw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Dd8oJUouq0Mq6pfNJREICClCHdgmZR+58HjkZyTcxhTdGl17EqXgw8c/IC+2FVupZOmMtevh2sq6DwplVQZ+0WX91sq4CNeK0ThvDgsfmunQYOocLLrU/0vkLXZtVd43AXdigrW8fQfgs++lXSJs0zb2XiVRqK4UxeKemoTnDTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=BoMG9orS; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1788406937; c=relaxed/simple;
+	bh=geB7IcHMQKdiUr/yNJgzr7yB7zabcVHfPGUZFdYJl6Q=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=N38Zc9OsrkoVg7orwA3FYsUEuoPCa40n3bFbQyBQfEiU6w6d84K6fstzOsRVlIUpqeW+dqk2YWU+p4tAoW/TP9RtYR2DOq/GZ1wGhkTaNuP/yTZj7WEanY32jbN+eqZ5UqKnrtojQc8E0smT5uUrNza1rsUASqxcziFABa9Bb3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODKUy3wR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="BoMG9orS"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68334jQ923157558, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1788404687; bh=JA35EmqNuXqL/oeols3JuxKShNyt/O+o21+7k6i5FzQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=BoMG9orS4dbvu8VwuLzZcTNrMfP9mo3M2F9LUXYqAEGbAFqP05Md/St1t4meVK21H
-	 87XfFYEiKxGlPdsJIofgfRU7AM5n6qtNRQuMzoEkX5O9+TpakpzIWoLWISgEQV+dCu
-	 txV2TrSK3Y2+ybTnkVg4HBLtYGljPZOP+jOzKvrOEjf/zOsACTT2Hiemk4WBp0mlgl
-	 cT+OYEZUUrl8RgO6g0l28ol29q3XVr0xC7S7oZBamMw/E6yrvnv+57wBwompq1Sh5D
-	 86pO2OLQv0fSLw4tXhWH6oZmP0YGhOuWlulSQxxyWd5IgXqqy9E3E/iix9Wl1VdxqA
-	 xTrkb+GmrvRWQ==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68334jQ923157558
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 3 Sep 2026 11:04:46 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 3 Sep 2026 11:04:45 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 3 Sep 2026 11:04:44 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::126f:59ad:658:674d%10]) with mapi id
- 15.02.2562.043; Thu, 3 Sep 2026 11:04:44 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
-	<kuba@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	nic_swsd <nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
-	"bjorn@mork.no" <bjorn@mork.no>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>
-Subject: RE: [PATCH net-next 3/8] r8152: refactor rtl8156_enable, rtl8156_up,
- and rtl8156_down
-Thread-Topic: [PATCH net-next 3/8] r8152: refactor rtl8156_enable, rtl8156_up,
- and rtl8156_down
-Thread-Index: AQHdOrpgjmLz5RXMuUCNL/dgbNC0zLa6uUiAgAFymwA=
-Date: Thu, 3 Sep 2026 03:04:43 +0000
-Message-ID: <c2659bb8fc1742b69ded4bd759563b17@realtek.com>
-References: <20260902090632.41844-1-nic_swsd@realtek.com>
- <20260902090632.41844-4-nic_swsd@realtek.com>
- <a9fd2210-0986-4305-b9f5-3c534e4c39da@lunn.ch>
-In-Reply-To: <a9fd2210-0986-4305-b9f5-3c534e4c39da@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODKUy3wR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DB5D1F00A3A;
+	Thu,  3 Sep 2026 03:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788406935;
+	bh=A0T2pyw+Z4N7gniZaS+KCR3Gcmpdwg+vSMiOX8M6/VI=;
+	h=From:To:Subject:Date;
+	b=ODKUy3wRRJVfh9CyypB34RmlENNmHEt+c2Z0X/sA3H5qvf/FPFDxmp44Yj/igeuUp
+	 sRSniIXwey9sel+AWgjf+5kQP72pssGtpKr2lZO8n9xN6g8Ou+Nwl7dxJkqOO4La0l
+	 fjcYKZVjCJTehBJ+kHupJVQxg65GdmbO9pqX4v4eQTXwiXmX2nmmcuJNGTAlPEXoo+
+	 42ltcAcuCnLPZeKrtnrlF/JZ0J64jS5ZM7I7FzVHay53ZC6T7i7PWBqbr4eBYU5UE/
+	 S0QVlCJHVF/0CteC6fbIvHLWS9JtbXAXub04Tu7KNAdVnfXz4PVuvqykWTMfpuMGY1
+	 DEnjeSsTaBrNg==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: "Martin K . Petersen" <martin.petersen@oracle.com>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	linux-scsi@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-usb@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-s390@vger.kernel.org,
+	Heiko Carstens <hca@linux.ibm.com>
+Subject: [PATCH v2 00/40] Use defined 16-bits ASC/ASCQ combinations 
+Date: Thu,  3 Sep 2026 12:41:21 +0900
+Message-ID: <20260903034201.112211-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 2, 2026 8:56 PM +0800, Andrew wrote:
->=20
-> On Wed, Sep 02, 2026 at 05:06:27PM +0800, Chih Kai Hsu wrote:
-> > Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-> > ---
->=20
-> The commit message has to say something. Why are you making this change?
->=20
->         Andrew
+Martin, James,
 
-I will write the commit message in the next version.
+This patch series defines as macros all ASC/ASCQ combinations present in
+https://www.t10.org/lists/asc-num.txt and converts the SCSI core code and
+SCSI low level drivers to use these macros instead of hard-coded
+ASC/ASCQs. To do this, struct scsi_sense_hdr and struct scsi_failure are
+modified to replace the asc and ascq 8-bits fields with a 16-bits
+sense_code field.
 
-Thank you,
-Chih-Kai
+This cleans up the code in many places and makes it easier, and self
+documented, to test sense codes in the case of errors.
+
+Overall, there should be no functional chnages here.
+
+Changes from v1:
+ - Addressed Sashiko comments signaling missing "ASC_" prefix when using
+   the named macros for ASC codes.
+ - Fixed up patch 7 to correct trace event print of asc/ascq. Also
+   extended the use of scsi_set_sense() in place of scsi_build_sense().
+ - Modified patch 37 to extend the use of scsi_set_sense_buffer() in place
+   of scsi_build_sense_buffer().
+ - Added patch 34 and 38 to extend the use of scsi_set_sense() in place of
+   scsi_build_sense().
+ - Added patch 40 to remove scsi_build_sense() and
+   scsi_build_sense_buffer().
+
+Damien Le Moal (40):
+  scsi: define all additional sense codes and their qualifiers
+  scsi: constants: use defined sense codes
+  scsi: constants: rename internal struct field names
+  scsi: rename sense field of struct scsi_failure
+  scsi: prepare for using 16-bits defined sense codes
+  scsi: use struct scsi_sense_hdr to log sense keys and codes
+  scsi: core: use 16-bits defined sense codes
+  scsi: sd: use 16-bits defined sense codes
+  scsi: sr: use 16-bits defined sense codes
+  scsi: ses: use 16-bits defined sense codes
+  scsi: ch: use 16-bits defined sense codes
+  scsi: st: use 16-bits defined sense codes
+  scsi: device_handlers: hp_sw: use 16-bits defined sense codes
+  scsi: device_handlers: rdac: use 16-bits defined sense codes
+  scsi: device_handlers: emc: use 16-bits defined sense codes
+  scsi: device_handlers: alua: use 16-bits defined sense codes
+  scsi: mpt3sas: use 16-bits defined sense codes
+  scsi: mpi3mr: use 16-bits defined sense codes
+  scsi: 3w-xxxx: use 16-bits defined sense codes
+  scsi: leapraid: use 16-bits defined sense codes
+  scsi: megaraid: use 16-bits defined sense codes
+  scsi: myrX: use 16-bits defined sense codes
+  scsi: smartpqi: use 16-bits defined sense codes
+  scsi: qla2xxx: use 16-bits defined sense codes
+  scsi: ps3rom: use 16-bits defined sense codes
+  scsi: lpfc: use 16-bits defined sense codes
+  scsi: stex: use 16-bits defined sense codes
+  scsi: mvumi: use 16-bits defined sense codes
+  scsi: libiscsi: use 16-bits defined sense codes
+  scsi: ibmvscsi_tgt: use 16-bits defined sense codes
+  scsi: scsi_debug: use 16-bits defined sense codes
+  scsi: hpsa: use 16-bits defined sense codes
+  scsi: storvsc: use 16-bits defined sense codes
+  target: use 16-bits defined sense codes
+  usb: storage: use 16-bits defined sense codes
+  cdrom: use 16-bits defined sense codes
+  ata: libata: use 16-bits defined sense codes
+  s390: scsi: use 16-bits defined sense codes
+  scsi: cleanup scsi_proto.h
+  scsi: remove scsi_build_sense() and scsi_build_sense_buffer()
+
+ drivers/ata/libata-eh.c                      |   13 +-
+ drivers/ata/libata-sata.c                    |   20 +-
+ drivers/ata/libata-scsi.c                    |  346 ++-
+ drivers/ata/libata.h                         |    5 +-
+ drivers/cdrom/cdrom.c                        |   10 +-
+ drivers/s390/scsi/zfcp_scsi.c                |    3 +-
+ drivers/scsi/3w-xxxx.c                       |    3 +-
+ drivers/scsi/ch.c                            |   55 +-
+ drivers/scsi/constants.c                     |   61 +-
+ drivers/scsi/device_handler/scsi_dh_alua.c   |   55 +-
+ drivers/scsi/device_handler/scsi_dh_emc.c    |   28 +-
+ drivers/scsi/device_handler/scsi_dh_hp_sw.c  |   29 +-
+ drivers/scsi/device_handler/scsi_dh_rdac.c   |   55 +-
+ drivers/scsi/hpsa.c                          |   69 +-
+ drivers/scsi/hpsa_cmd.h                      |   23 -
+ drivers/scsi/ibmvscsi_tgt/ibmvscsi_tgt.c     |    5 +-
+ drivers/scsi/leapraid/leapraid_func.h        |    7 -
+ drivers/scsi/leapraid/leapraid_os.c          |   15 +-
+ drivers/scsi/libiscsi.c                      |    3 +-
+ drivers/scsi/lpfc/lpfc_scsi.c                |   18 +-
+ drivers/scsi/megaraid.c                      |    8 +-
+ drivers/scsi/megaraid/mega_common.h          |    2 -
+ drivers/scsi/megaraid/megaraid_mbox.c        |   12 +-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c              |    3 +-
+ drivers/scsi/mpi3mr/mpi3mr_os.c              |   50 +-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c         |   69 +-
+ drivers/scsi/mvumi.c                         |    2 +-
+ drivers/scsi/myrb.c                          |   67 +-
+ drivers/scsi/myrs.c                          |   23 +-
+ drivers/scsi/ps3rom.c                        |    5 +-
+ drivers/scsi/qla2xxx/qla_isr.c               |    9 +-
+ drivers/scsi/scsi.c                          |    3 +-
+ drivers/scsi/scsi_common.c                   |   24 +-
+ drivers/scsi/scsi_debug.c                    |  332 +--
+ drivers/scsi/scsi_error.c                    |   94 +-
+ drivers/scsi/scsi_ioctl.c                    |    3 +-
+ drivers/scsi/scsi_lib.c                      |  130 +-
+ drivers/scsi/scsi_lib_test.c                 |   96 +-
+ drivers/scsi/scsi_logging.c                  |   22 +-
+ drivers/scsi/scsi_scan.c                     |   22 +-
+ drivers/scsi/scsi_transport_spi.c            |   12 +-
+ drivers/scsi/sd.c                            |  126 +-
+ drivers/scsi/sd_zbc.c                        |    2 +-
+ drivers/scsi/sense_codes.h                   | 2496 ++++++++++++------
+ drivers/scsi/ses.c                           |   23 +-
+ drivers/scsi/smartpqi/smartpqi_init.c        |   31 +-
+ drivers/scsi/sr.c                            |    3 +-
+ drivers/scsi/sr_ioctl.c                      |   29 +-
+ drivers/scsi/st.c                            |   35 +-
+ drivers/scsi/stex.c                          |    3 +-
+ drivers/scsi/storvsc_drv.c                   |   15 +-
+ drivers/target/target_core_spc.c             |   11 +-
+ drivers/target/target_core_transport.c       |   11 +-
+ drivers/target/target_core_ua.c              |   28 +-
+ drivers/target/target_core_ua.h              |    7 +-
+ drivers/usb/gadget/function/f_mass_storage.c |   34 +-
+ drivers/usb/gadget/function/storage_common.h |   71 +-
+ drivers/usb/storage/debug.c                  |   12 +-
+ drivers/usb/storage/debug.h                  |    4 +-
+ drivers/usb/storage/transport.c              |    7 +-
+ include/scsi/scsi_cmnd.h                     |    3 +-
+ include/scsi/scsi_common.h                   |   16 +-
+ include/scsi/scsi_dbg.h                      |    6 +-
+ include/scsi/scsi_device.h                   |   26 +-
+ include/scsi/scsi_proto.h                    |   71 +-
+ include/scsi/scsi_sense.h                    |  943 +++++++
+ include/trace/events/scsi.h                  |    4 +-
+ 67 files changed, 3821 insertions(+), 2007 deletions(-)
+ create mode 100644 include/scsi/scsi_sense.h
+
+-- 
+2.55.0
+
