@@ -1,270 +1,96 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795474A0EEB
-	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 12:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEE33A9DB6;
+	Thu,  3 Sep 2026 12:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788438001; cv=none; b=ZTRQcdJX+W13+fkH/q0pOsi5KhTLgnAG/Czn6fQYTkSsTp94Bv6JsQ54abbd6VEsdWQneSH4ZoMCn6dLMMiuRd9X6rFdCEwKBOfeksSmYLmeq689FeDDUxhsriI17dHnIteD8N4nIffxf6OiiI+Jb6lpYs9CyPLAPthOGzgyQDE=
+	t=1788438214; cv=none; b=DSiXa6FntpJOZS1Qvx4ycVnN/4QZB4zayVbnFAJpryQJmzCvuA3kAWkak7BLm/ZZP6hZPM+AAxJkS74dRfJVnztQuqcMp5I1ElsNrcTdRNA+6FcoYOc2CIJgub9/iMni+Wtq1lAvsmwegk+bz2iE1qf+ZzNpcjbWsgs9vpMEzsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788438001; c=relaxed/simple;
-	bh=IPoP1ujHUk9VAUmKycpgSLHGWxb9gHi9sH2bqHUrxX4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S5ekrAFy5xZfOPWlDkK+9bhA/CajLc54B4q1HJj7DD+2M38ELEQ/5jkJwz7b9d81+Bqa72qbu/lsS892FaPN+ZWNlyywg+7Q4zNXzowr0toXZZoCWJ71KkyfvwgEbbvPDxVqKVTBmg5M3C31nzSpU+g9/+t+6lkRH0fwVzo/Qhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cnqT9XQE; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788438214; c=relaxed/simple;
+	bh=fa7mr0JgBCTsBNiE2UJg5LEhQvwoX9nYhI8o/eXsOMA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iZX51gF0TqFEFfRNfTpErPjRLutuQJ2c3JJPEvRGY+OfEehMGRHWDdYP+TZuTrNaIF2lWjiswDEi0nN9cIJMWxISFdajTmE5jqg5kvdKjorZawEKtUy51rfO+D/7kyMK4RjWYB/Q8YwDBO7PdPjBM4TMxeQblZn1z1lAYRmT7WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsj3/z8d; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cnqT9XQE"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3964dfb5a69so3225598a91.1
-        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 05:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788437999; x=1789042799; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=77BNTVqgC1Z2OdVFKoom+8RxQdD5brnKOMVuDrWHP/Y=;
-        b=cnqT9XQEFmpDdDCKUPONbZaHr/LActep/Xn50lW9wlFWfhI41gwyQ+U9+ArgHCV1oE
-         txRhJV4nVNwKu5wLEj/wxNLrfqvLXBanVA0FnXUjKF2/wTuF/bB/s62BhpsCDKmUJUDU
-         OJFsmZdIccW8IQFTx4oc6Dm+SIqHnTIY9giNrZgTc4KAuQ2fgha1aE+qYx6xO9QT+P6Z
-         txEK9VaDkKnCOvu6FjsSCMcpsSni6ShOVrHDcw+dVR6YGNNLFpJY8SFcW6NxXkIYbmdZ
-         VEW5dMggg4sEOAEYCbcGseFnHzt+mo/amcKoTtPAs2d6GMMz4N3RiVvNg9mrzg0H6rfZ
-         pHIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788437999; x=1789042799;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=77BNTVqgC1Z2OdVFKoom+8RxQdD5brnKOMVuDrWHP/Y=;
-        b=M6t0NpSmiZOBxDK3bvc47Fl8JIQinLN/KccFv/o+sPQ8rbErTr14AmruxhGgHIz3cD
-         bq9O0PrhaWbEha0+V9GGT98U0/H0At9U0CZKMvWXpk1IWhjPZrQUhFwIhw38B+9M1/z9
-         LAt5BPsCaOjup5hzGwWuC2T78jh00UUpvQgnCBWsNNNHhshi97hUqE+Nysp3jA0neiPI
-         PJCYqbRezddS6RM3kdQMK6Ihyfd19MqssZlTytrUraEWvDPRYBic0WW1zOlG9ba30wTe
-         qoHTAZqLKVDLJTwmNLAFn1dKAIskqT+r7PYYOoAvsJMF4NlWOWDaR/+RBRZdr4iNYVpd
-         saiw==
-X-Forwarded-Encrypted: i=1; AKwUvBx9GbsAlNGxyPflHyFVuoFERviHXP4VI4SqxHh0UWQfn2aPC5EFLNgOv+IhO7VkZ83tmYRZTmogcVw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mBWDTc4tiqEuW20LdPJ5e7RqMQ09kBbetQC57puzoOYqXsX9E3
-	5bkAdmMkUv6gAMXaPqP+5BJyQqSLHHwYYNMmNYTpw80HBNAYdA4f4alx
-X-Gm-Gg: AYBFou1OfaB6ngp3DNBrpixUjJd4dwKXMuD/lRjGCp/8UqFNxtiAqMeewecdN2rBdG8
-	P0d1Pk+S/C9EuSFLwH9rIJ+mumYxzxaCS1sCCS2qzQTq3yPLAK1CYMcbIvRNq9rHYshX/Enkltx
-	Mq8DikbiMywM3m8iINN7PUEJBkTcTQOZHfiAvhlUeaJO1he/zCkiXpO4befJmmuu6+atcY7hBh9
-	wjtJTu6vf0PJU4qlx0NL97KDN+TDCVTm9yUJqNFRPE/sYOrfeiaMbuXpMgVzdWe8e/KiMkaVdrP
-	+GPSMXwVaPNjFItE0biMzMVMQ5pcjLqBiBaGlKXe5YjX6N/16LvshlhYPIdxNSzRD6JoheZTkTd
-	8fpeR4t46XRFAVYpnGk4/uufiBaO1FWMQzMXzIQd/IJqa7C6480Z0OFL2vAgIlFE2AS5fBiFPiU
-	3bQPq9lr36PjsCum/Y2s1KWm+PzadyaOguEzGcgopvzicwYecMr3CpXKnDcz8BhgZfETj3dFdBm
-	/dAyS8YRKF3YRR0SesUrZokPCB7UP3zdyJET8mHcgtf/GOmdVlFWg==
-X-Received: by 2002:a17:90b:3d81:b0:398:c150:e7b3 with SMTP id 98e67ed59e1d1-39aedf5d923mr18578664a91.4.1788437989277;
-        Thu, 03 Sep 2026 05:19:49 -0700 (PDT)
-Received: from deepanshu-Legion-Pro-5-16AFR10.. ([2405:201:682f:383f:d01b:7a44:ef5d:7899])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08bcc090sm5361270a91.4.2026.09.03.05.19.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 05:19:48 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: valentina.manea.m@gmail.com,
-	shuah@kernel.org,
-	i@zenithal.me,
-	gregkh@linuxfoundation.org
-Cc: yuyang.du@intel.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-Subject: [PATCH v4] usbip: vhci_hcd: let the driver core manage the sysfs attributes
-Date: Thu,  3 Sep 2026 17:49:38 +0530
-Message-ID: <20260903121938.7661-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsj3/z8d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788438211; x=1819974211;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=fa7mr0JgBCTsBNiE2UJg5LEhQvwoX9nYhI8o/eXsOMA=;
+  b=nsj3/z8d1ljNgpKLu9dosQ1vZsi900Tq5tniDInd/oMpkyWVRw/c3GJe
+   zBDLAwlVX7349WQ3d/zQHs4pmktV1oKoACEVjEXrR7xYLhi5r5C+p4Y3N
+   V69knRoBJ+oimFhmo+KVhvzV/7bDevzXDKHxyM3PA7LoIq4sOTO3nj1EH
+   j2t13cCL4C4tsSW/lfBITcqVd5KwVcXmaOmBYsYGjHNnXY20ms2rm7i/i
+   I0phiBM4RQrcrby4TgM8Iva5UokxyAs+xC9RR61hnyz2GF3INoN1ory9R
+   gmt804r4Bqf8/fvY10TlzUyDQdSVmyUHpVFNNXWy3okNx2BxwHbd+X4Bn
+   w==;
+X-CSE-ConnectionGUID: gPMj/TFZQfm0/tuEpNN2Iw==
+X-CSE-MsgGUID: 0Kaln6nsSRmA6OUYD/LFWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88795277"
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="88795277"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:23:29 -0700
+X-CSE-ConnectionGUID: OCpIJUL/QlezOpELQzbK3g==
+X-CSE-MsgGUID: muxzlfsnREqo7PioYGTnfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="294581335"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.244.90]) ([10.245.244.90])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:23:26 -0700
+Message-ID: <6813d58b-a939-4ac2-81a4-438781485899@linux.intel.com>
+Date: Thu, 3 Sep 2026 15:23:24 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v2] usb: hub: use shorter 120ms post resume hold for SS
+ root hubs
+To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>, linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Michal Pecio <michal.pecio@gmail.com>,
+ Mathieu Fluhr <mathieu.fluhr@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Thorsten Leemhuis <regressions@leemhuis.info>, stable@vger.kernel.org,
+ greg@kroah.com, stern@rowland.harvard.edu
+References: <20260903112903.542719-1-lovekeshsolanki00@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260903112903.542719-1-lovekeshsolanki00@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The vhci attribute group is created in vhci_start() and removed in
-vhci_stop(), guarded by usb_hcd_is_primary_hcd(). Both run from
-usb_add_hcd()/usb_remove_hcd(), which are called once per hcd, so the
-attach attribute is live while only one of the two hcds exists: it is
-created during the first usb_add_hcd() before vhci_hcd_ss is set, and it
-survives the first usb_put_hcd() on removal. A concurrent write to attach
-can therefore reach a NULL or freed vhci_hcd_ss.
+On 9/3/26 14:29, Lovekesh Solanki wrote:
+> Holding a USB3 hub PM runtime reference for 200ms at hub resume triggers
+> an AMD platform issue.  Users running Android adb report crashes after
+> adb has been polling and waking up the USB subsystem once a second for
+> some time.  Vendors are working on a solution.  Disabling USB runtime PM
+> is one way to prevent this issue, but it is also proven that reducing the
+> hold time to 120ms in resume also mitigates it.  See Link for more
+> details.
+> 
+> Reducing the hold time to 120ms for the USB3 roothub is in itself a valid
+> change and optimization, as the current 200ms is excessive: a root hub
+> has no upstream suspended hub whose wake propagation needs to be
+> accounted for, but still need some time for USB3 link training to
+> complete.
+> 
+> Keep the 200ms hold for external hubs that commit 8f5b7e2bec1c
+> ("usb: hub: fix detection of high tier USB3 devices behind suspended
+> hubs") is intended for.
+> 
+> Reported-by: Mathieu Fluhr <mathieu.fluhr@gmail.com>
+> Link: https://lore.kernel.org/all/CAPyJwA_D9qw0T72f8zwM1yKjP+To=maVANbcdsWM7yRmbBxYvw@mail.gmail.com/
+> Cc: stable@vger.kernel.org
+> Fixes: 8f5b7e2bec1c ("usb: hub: fix detection of high tier USB3 devices behind suspended hubs")
+> Signed-off-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
 
-Register the group as dev_groups on the platform driver instead, so the
-driver core creates the files before probe and removes them after remove
-returns, and drop the sysfs_create_group()/sysfs_remove_group() calls from
-the driver. The attributes have always been created only on vhci_hcd.0;
-an is_visible() callback keeps them there.
-
-vhci_init_attr_group() is moved into vhci_hcd_init() ahead of
-platform_driver_register() so the group is populated before the core
-reads it. The attribute array is still built at runtime because the
-number of status attributes comes from CONFIG_USBIP_VHCI_NR_HCS and the
-preprocessor cannot emit a variable number of __ATTR() declarations.
-
-Fixes: 1c9de5bf4286 ("usbip: vhci-hcd: Add USB3 SuperSpeed support")
-Reported-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=8753715f05759f1a10de
-Tested-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-Link: https://lore.kernel.org/all/20260815143427.19066-1-kartikey406@gmail.com/T/ [v1]
-Link: https://lore.kernel.org/all/20260816015051.13184-1-kartikey406@gmail.com/T/ [v2]
-Link: https://lore.kernel.org/all/20260816061034.17769-1-kartikey406@gmail.com/T/ [v3]
-Assisted-by: Claude (Anthropic)
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
-
-v4:
- - add Assisted-by: tag (Greg)
-
-v3:
- - make vhci_attr_group static, drop its extern from vhci.h (Greg)
- - drop stray blank line in vhci_hcd_init()
- - fix indentation in vhci_sysfs.c
-
-v2:
- - use dev_groups instead of moving sysfs_create_group() into probe (Greg)
- - add is_visible() to keep the attributes on vhci_hcd.0 only
- - move vhci_init_attr_group() into vhci_hcd_init()
-
- drivers/usb/usbip/vhci.h       |  2 +-
- drivers/usb/usbip/vhci_hcd.c   | 36 ++++++++++------------------------
- drivers/usb/usbip/vhci_sysfs.c | 21 +++++++++++++++++++-
- 3 files changed, 31 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/usb/usbip/vhci.h b/drivers/usb/usbip/vhci.h
-index 5659dce1526e..f3993238f91d 100644
---- a/drivers/usb/usbip/vhci.h
-+++ b/drivers/usb/usbip/vhci.h
-@@ -120,7 +120,7 @@ struct vhci_hcd {
- 
- extern int vhci_num_controllers;
- extern struct vhci *vhcis;
--extern struct attribute_group vhci_attr_group;
-+extern const struct attribute_group *vhci_groups[];
- 
- /* vhci_hcd.c */
- void rh_port_connect(struct vhci_device *vdev, enum usb_device_speed speed);
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 39e8faf4c18c..22b9bad7ca31 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -1199,7 +1199,6 @@ static int vhci_start(struct usb_hcd *hcd)
- {
- 	struct vhci_hcd *vhci_hcd = hcd_to_vhci_hcd(hcd);
- 	int id, rhport;
--	int err;
- 
- 	usbip_dbg_vhci_hc("enter vhci_start\n");
- 
-@@ -1230,40 +1229,17 @@ static int vhci_start(struct usb_hcd *hcd)
- 		return -EINVAL;
- 	}
- 
--	/* vhci_hcd is now ready to be controlled through sysfs */
--	if (id == 0 && usb_hcd_is_primary_hcd(hcd)) {
--		err = vhci_init_attr_group();
--		if (err) {
--			dev_err(hcd_dev(hcd), "init attr group failed, err = %d\n", err);
--			return err;
--		}
--		err = sysfs_create_group(&hcd_dev(hcd)->kobj, &vhci_attr_group);
--		if (err) {
--			dev_err(hcd_dev(hcd), "create sysfs files failed, err = %d\n", err);
--			vhci_finish_attr_group();
--			return err;
--		}
--		dev_info(hcd_dev(hcd), "created sysfs %s\n", hcd_name(hcd));
--	}
--
- 	return 0;
- }
- 
- static void vhci_stop(struct usb_hcd *hcd)
- {
- 	struct vhci_hcd *vhci_hcd = hcd_to_vhci_hcd(hcd);
--	int id, rhport;
-+	int rhport;
- 
- 	usbip_dbg_vhci_hc("stop VHCI controller\n");
- 
--	/* 1. remove the userland interface of vhci_hcd */
--	id = hcd_name_to_id(hcd_name(hcd));
--	if (id == 0 && usb_hcd_is_primary_hcd(hcd)) {
--		sysfs_remove_group(&hcd_dev(hcd)->kobj, &vhci_attr_group);
--		vhci_finish_attr_group();
--	}
--
--	/* 2. shutdown all the ports of vhci_hcd */
-+	/* shutdown all the ports of vhci_hcd */
- 	for (rhport = 0; rhport < VHCI_HC_PORTS; rhport++) {
- 		struct vhci_device *vdev = &vhci_hcd->vdev[rhport];
- 
-@@ -1513,6 +1489,7 @@ static struct platform_driver vhci_driver = {
- 	.resume	= vhci_hcd_resume,
- 	.driver	= {
- 		.name = driver_name,
-+		.dev_groups = vhci_groups,
- 	},
- };
- 
-@@ -1541,6 +1518,10 @@ static int __init vhci_hcd_init(void)
- 	if (vhcis == NULL)
- 		return -ENOMEM;
- 
-+	ret = vhci_init_attr_group();
-+	if (ret)
-+		goto err_init_attr_group;
-+
- 	ret = platform_driver_register(&vhci_driver);
- 	if (ret)
- 		goto err_driver_register;
-@@ -1568,6 +1549,8 @@ static int __init vhci_hcd_init(void)
- err_add_hcd:
- 	platform_driver_unregister(&vhci_driver);
- err_driver_register:
-+	vhci_finish_attr_group();
-+err_init_attr_group:
- 	kfree(vhcis);
- 	return ret;
- }
-@@ -1576,6 +1559,7 @@ static void __exit vhci_hcd_exit(void)
- {
- 	del_platform_devices();
- 	platform_driver_unregister(&vhci_driver);
-+	vhci_finish_attr_group();
- 	kfree(vhcis);
- }
- 
-diff --git a/drivers/usb/usbip/vhci_sysfs.c b/drivers/usb/usbip/vhci_sysfs.c
-index a7ede6fb3da9..d87d9e449d72 100644
---- a/drivers/usb/usbip/vhci_sysfs.c
-+++ b/drivers/usb/usbip/vhci_sysfs.c
-@@ -497,8 +497,27 @@ static void finish_status_attrs(void)
- 	kfree(status_attrs);
- }
- 
--struct attribute_group vhci_attr_group = {
-+static umode_t vhci_attr_is_visible(struct kobject *kobj,
-+				    struct attribute *attr, int n)
-+{
-+	struct platform_device *pdev = to_platform_device(kobj_to_dev(kobj));
-+
-+	/*
-+	 * The attributes control every controller and have always lived on
-+	 * vhci_hcd.0 only.  Keep them there now that the driver core creates
-+	 * the group for each device.
-+	 */
-+	return pdev->id == 0 ? attr->mode : 0;
-+}
-+
-+static struct attribute_group vhci_attr_group = {
- 	.attrs = NULL,
-+	.is_visible = vhci_attr_is_visible,
-+};
-+
-+const struct attribute_group *vhci_groups[] = {
-+	&vhci_attr_group,
-+	NULL,
- };
- 
- int vhci_init_attr_group(void)
--- 
-2.43.0
+Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 
