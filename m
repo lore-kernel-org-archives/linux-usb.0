@@ -1,24 +1,24 @@
-Received: from mta1.migadu.com (out-107.mta1.migadu.com [95.215.58.107])
+Received: from mta1.migadu.com (out-162.mta1.migadu.com [95.215.58.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE23F3B1014
-	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 11:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B991A31E823
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 11:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788434376; cv=none; b=K7kHuv4IurQMKq87ZJkj3Ncvcwl9407uRtXzkCm4F3kbYOP1dJfhNsK3B/UcaDxh/iRTg2jFt3DySuuU5IG5Atfdpc4nM+15f6aZqDhvbBraSb9MYcLhO51CNZgVbp4OL1TAraUjwkEfxVKjuXC8qMuSoPl01bN879zJXAdgxLk=
+	t=1788434415; cv=none; b=BLo+raadDOaJOptHwCYPiiykvbRsqqawAh7FFNTzzADQ4KMZXU6gfOuQwLqfcon1fjtCqm0dBoST1xrm4gjGLNAxaG/NYE4VfcqfYB2sEeP8NuKEfw2xEYyYB2N9YUJWPJ9okbmKX3MLMHzqflsgXol8VkEkP+h50Yo94k7HG10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788434376; c=relaxed/simple;
-	bh=pyCTSrbc7LmpH6Y+0OZ3c5H/zi+5nODONa99Y1nsgmY=;
+	s=arc-20240116; t=1788434415; c=relaxed/simple;
+	bh=wel7X99adXk24iGrOnhSBCsZXh+jx0dI/nxr0yirSB0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-type; b=FoQS1vifbhAMZY/fLirvWB52IHxkMX29CLGpepID+azpeehfJHKZIp3tCx7geDCJd+XEMJO0p4IeGBsy2G4OFXg+9Ogl0WjvcsJq4mhj+H3cKO209YSKdAhsYHV0NXhxLLSK1tnkLV0cqtT1Nv7XuMA3LDYR3IzR60h/nLfjOqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=linux.dev; arc=none smtp.client-ip=95.215.58.107
+	 MIME-Version:Content-type; b=lv3k9gIMnKl7TDkIJmJjcUJmpiUybJFEioK08a2471H8dlI7YIonPFEc1ILaRJg9zbGnP7Yvu0Ws0Une13yNv9StJDrPqxUCFg9ywOzRJNyUpL5Fx6Jj0lqOguVhhJvvk183rAxi+UmHRhU5zQERNqjW7mZsDwKy0HSP2ehzPbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=linux.dev; arc=none smtp.client-ip=95.215.58.162
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Envelope-To: linux-usb@vger.kernel.org
 X-Envelope-To: linux-usb@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id d1edb05fc0e93de7;
-	Thu, 03 Sep 2026 11:19:26 +0000
-X-Mizu-Trace-ID: d1edb05fc0e93de7
+Received: by mta12.migadu.com with ESMTPS id 4d44642c917c58e5;
+	Thu, 03 Sep 2026 11:20:03 +0000
+X-Mizu-Trace-ID: 4d44642c917c58e5
 X-Migadu-Flow: FLOW_OUT
 From: Baoquan He <hebaoquan@kylinos.cn>
 To: linux-mm@kvack.org
@@ -27,9 +27,9 @@ Cc: akpm@linux-foundation.org,
 	harry@kernel.org,
 	Baoquan He <hebaoquan@kylinos.cn>,
 	linux-usb@vger.kernel.org
-Subject: [PATCH 07/13] usb: cdns3: Don't use GFP_DMA when calling dma_alloc_coherent()
-Date: Thu,  3 Sep 2026 19:18:30 +0800
-Message-ID: <20260903111836.1777265-8-hebaoquan@kylinos.cn>
+Subject: [PATCH 13/13] usb: cdns2: Don't use GFP_DMA when calling dma_alloc_coherent()
+Date: Thu,  3 Sep 2026 19:18:36 +0800
+Message-ID: <20260903111836.1777265-14-hebaoquan@kylinos.cn>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260903111836.1777265-1-hebaoquan@kylinos.cn>
 References: <20260903111836.1777265-1-hebaoquan@kylinos.cn>
@@ -51,22 +51,22 @@ probe-time allocations.
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Baoquan He <hebaoquan@kylinos.cn>
 ---
- drivers/usb/cdns3/cdns3-gadget.c | 2 +-
+ drivers/usb/gadget/udc/cdns2/cdns2-gadget.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index 42311c1bfada..484d3128cf08 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -3376,7 +3376,7 @@ static int cdns3_gadget_start(struct cdns *cdns)
+diff --git a/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c b/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
+index 308d3c468ab1..8719f1f86e61 100644
+--- a/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
++++ b/drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
+@@ -2341,7 +2341,7 @@ static int cdns2_gadget_start(struct cdns2_device *pdev)
  
- 	/* allocate memory for setup packet buffer */
- 	priv_dev->setup_buf = dma_alloc_coherent(priv_dev->sysdev, 8,
--						 &priv_dev->setup_dma, GFP_DMA);
-+						 &priv_dev->setup_dma, GFP_KERNEL);
- 	if (!priv_dev->setup_buf) {
- 		ret = -ENOMEM;
- 		goto err2;
+ 	/* Allocate memory for setup packet buffer. */
+ 	buf = dma_alloc_coherent(pdev->dev, 8, &pdev->ep0_preq.request.dma,
+-				 GFP_DMA);
++				 GFP_KERNEL);
+ 	pdev->ep0_preq.request.buf = buf;
+ 
+ 	if (!pdev->ep0_preq.request.buf) {
 -- 
 2.54.0
 
