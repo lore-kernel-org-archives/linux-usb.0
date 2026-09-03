@@ -1,103 +1,134 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CD94A92D4;
-	Thu,  3 Sep 2026 13:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788440772; cv=none; b=Mv7f3PRsVoqPZV98FwUXWX4AjeEbn7ZQP2CdDB4+UUSKlRuApXIcamDTmJcstf/GOcJypSTDDOi4rLK/o8dOVUr14WBXLA+I5i/9d9Xk+lL1n5MbX4zRzRaPOODxVRVT0M4kw+9ijsD3anaOZttz1Hg53hxxtctnnCTqaomTmds=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788440772; c=relaxed/simple;
-	bh=mRADvc7owSNp8BD4ZGoL+3L92JnEfsnptUTwuMKTZG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HeoF151Thi2VDbTWxB9AhnTDm/0W1/hNttxokdlXwt+1oZZFJWnbu/wyBLefV+p6qiL5WEFzEeRAKQIkPpZgDxfgjniQjiJ5yxpMr2QnE2QPLL3OCRyTBAqRAFO0rDyQJ776kId8MD6MKIhRjyxk+1lOoM4tfOZKb26vcqVvXhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=NUqAquQb; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BC74AF9FF
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 13:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788442153; cv=pass; b=Mb+OjDlhA5AlT9SgYvrp5D9wHxVFgIDW5tcU6wCQDfGvsFj6MhLYg+MKnAswFTdzsjhiSJOmI9GOwnqzTAvsV216MwtDiVKHEVowfhOQAfhgzKv96k6ALoT9sUzclyMGWdfIxeihh0hc2h0IMFnJi2XhYI3lbGw69cJOh3YNgBg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788442153; c=relaxed/simple;
+	bh=0lzGBDpPSFyRzORpVpv5BVqn0OH17bvA2nEL9BC2eGk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oY8GDPWyrajQ2PsCwws1ONwjGb2rud8e9RvnYeLSwOlTp2FJ7OpgsHckcHaCaTffl+EpUC4aDkrijWb07vE8nEiwxAXFrYqnYOq111dQMreaDMmT3UMnWKob5THebKjLLF0Qlr3w++Ng/+5VccWdk6XH8mLJRWZ44Y+sx6+YLpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QibOJQnk; arc=pass smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="NUqAquQb"
-Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 86FBAA056B;
-	Thu,  3 Sep 2026 13:05:55 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id 452DD6000D;
-	Thu,  3 Sep 2026 13:05:53 +0000 (UTC)
-Date: Thu, 3 Sep 2026 09:06:56 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>,
- iommu@lists.linux.dev, Mathias Nyman <mathias.nyman@intel.com>,
- linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Linus
- Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Subject: Re: [BUG v7.3-rc1] WARNING: mm/page_alloc.c:5340 at
- __alloc_frozen_pages_noprof
-Message-ID: <20260903090656.530d3a83@gandalf.local.home>
-In-Reply-To: <41737353-533e-4d50-b687-272e6cbde36a@linux.intel.com>
-References: <20260902143351.7b6d5e0a@gandalf.local.home>
-	<20260903091556.751544ce.michal.pecio@gmail.com>
-	<41737353-533e-4d50-b687-272e6cbde36a@linux.intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QibOJQnk"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84e4efb18c9so319364b3a.0
+        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 06:28:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788442137; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oWSZ2drEgFabkbWuX/kxfgKnbKkb+XwvXTyEgYn7lVAPEWp0AcdYu0qFrwTLPnfcNf
+         aG/KqAE7YLfa9hrPPGnMAe9fvTFmeMdy/+qn7x4ZNmMIp86M7sRYm2oEEPTwZaktPo8z
+         SAHBXnqD33jvCfNeXCEBttkGyf++/VA2DF17Cg9iWVOPgwIPNgwIC7dVhAzQ0qN9iUYC
+         Bn46iiWwElq+Q1SfW9Rt9QZmj4UvhbGnH7iHkRo+B9DV3J+XssjClYKHxTX0VC7eb4G8
+         1EZ7VxOWJ50SX/BbS//65jL0lmoRBS1ac4V+An3OjnU+Awg6s/Wwqm26HUXJHWZhb0n/
+         lgng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0lzGBDpPSFyRzORpVpv5BVqn0OH17bvA2nEL9BC2eGk=;
+        fh=sEnPzGL6LTheosc46gej7WJtsiw1dbTOLoljI9h5HJ8=;
+        b=MM1+fGTPTDkHN2OoSOjhUojcki6Lb0xF+GlNAGtodOgxYBEl6/HCe8VYC0BCqQOBEz
+         P04R+BQL205fMGRcOLKXZaQNTdo/6dLLu78ZrQbX+55YdDcuped8jVHIpW8uq4it4IxE
+         HEP8TZtjyjXvOBPtFVhBEC1jrzTFRPJ+B/pYIGVGrBNGkdmUHVCTVk3cQXFP8/pT5z/A
+         yEACwiZ1ldNbl5KdPbpl9tJgUiCF51s07HfmtwWvgx85KKSiHfyxKPSCjuoNM3iIDlJ1
+         BmazeXr3cWvAbMYQA5ZLTISi7QURMw4ULhXmu3YWU13E3NBb3eWqzXH1HOoSJ15yodsK
+         JGSw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788442137; x=1789046937; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0lzGBDpPSFyRzORpVpv5BVqn0OH17bvA2nEL9BC2eGk=;
+        b=QibOJQnk1IcJqAPts7niHKXB4MYd7rKKk/wudeEGKQp0iGQwDGwevv3JskZ75xdch6
+         jfqm4L1dCpknWVRfoup0pgPVeoVkxrEgPBofP5UlvVojRvaPkpNXhQFo3YOpI5eUKzJ3
+         oVIpCzNOrezqt2zVbyS0+jWle3e6IbhPsEo3ji4QqZhQGS8vqm75osJq5KNHbniSe7Cs
+         7IMjXLKRAKNvoWjZP6f0QpU7q5nxhdS5rzzAAq7Cy/eRo92sBJSuU2C/89sY38/jJfVI
+         jvANMBPDBxnLupAoA5f1OGYcmYjS1lAQ1aXvNLhVjMv0fKwt2U1nwuAN5oFlZ7SxOXAL
+         4HoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788442137; x=1789046937;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0lzGBDpPSFyRzORpVpv5BVqn0OH17bvA2nEL9BC2eGk=;
+        b=BcrAosfUe5MExGNY1RvyPDXoF9s/qVzEcW8FSiwvculZGu3pY+Gq8dVRzJXz389GRq
+         4q0W+y8Ib24J9ExWtH00+5F3wHXOEdup1GyHFqv1pF1nggbBGmB5d7PFfnZ8wlKWe4nc
+         wkxLBpu4RdcYYPUUmhicxk4pYc1Jrv6ExzcderYMBumrCobz7RukIH+XBVKh2MACXEc6
+         nZlCRRemmEX+/XwHkZCdzapZ/LbibJwoxo7ZWBbi8lh+C1ZInbQuB8A1lZg+r4Aj3k/Y
+         PIJ1czKrjjuel/C20pzkiTF7A/5BNGO6qTnofM8lErtg1BfUxQ7MiLOIlO+vnLuhpQ9l
+         ouDA==
+X-Forwarded-Encrypted: i=1; AKwUvBxmkTC/XucZqZgZC1ac5t0ZMQmON7cTuErn6dkQ17XHRt6V8y8cnfWa4LWLS4swTheU4zOFmyOjrJw=@vger.kernel.org
+X-Gm-Message-State: AFuF++mBmdudkAE8YMPJo85xHWrvrtyQstpc/1qiFL8bh59I4ilPWu1I
+	r9O/435R1EpsxbOAiDTUDCgfkKkBfedSSCNA4cUDXiouxI0SWVRlUuDX3Zwa444wof3M7J6hUY9
+	UFclpfANGQb1bG2aHWPyEERFHpjCQHoE=
+X-Gm-Gg: AYBFou0Nbguyc1efBn8HblcdJm5MT4UABSH0Ks7i5X2EuSdKRRxpef/3hjkxSx6q7Vg
+	1MHFuY9GCcLE0UTAOPygSLMUmN9W27koz2/3CgxL4i9XASrjGBOcjyUp8URZ+BC3MdHpVALFlEm
+	iwX9/as6LNbBktO1zgtEMzd/W+/pC/M+1ATInORG7Y27d4bQ0dYljmNT/t2LD10LeyHzrOsItYY
+	H4hjjWoh2EBitB8TzQi2v41AHcu7sgLAvg3lhd9wlsSzrx4g9+cwHOou/WnNEGk18nYWaZQIUG0
+	pTSeEPkzlU6Gd9pIr8mz7x+GDrGfX3uga5ikuJ4a0UkZq2umngJ/jC8VS0oaRtvBzYordJC58XO
+	DyRxiJWvtplywZPiwu6cydPSeFA9Bc6xhSD00UUIQgbSk/oyWBWJaijcqziht
+X-Received: by 2002:a17:90b:1d0d:b0:38e:c140:2a0b with SMTP id
+ 98e67ed59e1d1-39aee0e6ed8mr12609481a91.3.1788442136905; Thu, 03 Sep 2026
+ 06:28:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 16p4qrn9es8piidh7su613o58twi596w
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 452DD6000D
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19zcYgJKv9Ftc3sD1tas6mugxLkUfwT9Vo=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=38a4Bf5YB5LQTRVyVKPjbsQNu5q3FotJKzq+IHm8WY0=; b=NUqAquQbfIQamKtVtqFIrcP9v9wRdRhAJaHZn2ajhW5A+sd9qYHxVzGioBsCw5EgDjZAPIG5ZLUeWb4Ec+g+JMS9OSlchxuAcFwfd7F8szvAdZsLqZ+mMXdgtATp3EwKXUXEFAvf0Zya2pPMOHC+LX8O9FZt/fE5HYQzSKqWjr8=
-X-HE-Tag: 1788440753-441833
-X-HE-Meta: U2FsdGVkX18aw29kfpPNquKlLhGFjQ8pcsecgrC3FsqwcNTkHseIBqi9DR6+Nd+DE+feFEvS6WA4Sj1Wvrb7qxTtGUAkrDo8bbriUZx8JEI85n8TkUMB7SFhFgvsqd1pOroApqfV7xw+ggQVPuxxZ60lyCymH3IZ+Dh8QnR1aQ5eqXTUMYZuEgyYo4tRVZ53r0HAeTDTe24bd7RuZjycfUb9026/pWyRj/m17lF5SZo2lQMk/cI1sw0+aCvCiabtekOOKDKFh+fVG39ZResESwBee+xTn4aJj7MXtfCgaCRrRXk08iiZ39GSPWcdeQX5yKzUtc9kF6nQmwUvKa+lESyHj6PGpNHCEfasrjhMuFby+LHlgQ3sxOkqgByFpo/q8Syz7HK7nmFm3HQxjXG3DO3rn88NiY7Ieg2PL32VCqg=
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-6-490735672187@kernel.org> <CANiq72mPLrKQMzb37ow2969m5r3Z2Kh_4LHERUun6ALw3ea6tg@mail.gmail.com>
+ <87y0dt1b8b.fsf@t14s.mail-host-address-is-not-set>
+In-Reply-To: <87y0dt1b8b.fsf@t14s.mail-host-address-is-not-set>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 3 Sep 2026 15:28:43 +0200
+X-Gm-Features: AcwNN1XsmuEPyO39jqyvRGfAMw_DGGPMkiDRHtfg1ZEoNlBhpVDCHnmjvBP_pa8
+Message-ID: <CANiq72muo8SotJHJQhEe=2kiprbrQTvrEMqd1Uw_7yNSfA3Gpw@mail.gmail.com>
+Subject: Re: [PATCH v20 6/8] rust: Add missing SAFETY documentation for `ARef` example
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Oliver Mangold <oliver.mangold@pm.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 3 Sep 2026 11:32:33 +0300
-Mathias Nyman <mathias.nyman@linux.intel.com> wrote:
+On Wed, Aug 26, 2026 at 11:29=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
+l.org> wrote:
+>
+> Do you want a link to this issue with a regular `Link:` tag?
 
-> On 9/3/26 10:15, Michal Pecio wrote:
-> > On Wed, 2 Sep 2026 14:33:51 -0400, Steven Rostedt wrote:  
-> >> I'm triggering this warning on boot:
-> >>
-> >> [   32.862044] ------------[ cut here ]------------
-> >> [   32.864573] WARNING: mm/page_alloc.c:5340 at __alloc_frozen_pages_noprof+0xd81/0x30d0, CPU#3: swapper/0/1  
-> > 
-> > Apparently that's a nonsense allocation size.
-> >   
-> >> [   32.881048] Modules linked in:
-> >> [   32.883735] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 7.3.0-rc1-test #510 PREEMPT(full)
-> >> [   32.890178] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.17.0-debian-1.17.0-1 04/01/2014  
-> > 
-> > Hmm, I recall hearing about QEMU recently.
-> > 
-> > Could this be the "horrible splat" mentioned by 045b5bef916d ?
-> > 
-> > Find it in usb-linus branch at
-> > git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-> >   
-> Yes, this is the case
-> 
-> A patch switching to GENMASK and FIELD_GET has a flaw and changed the parsing of
-> the max segments value reported by xHCI host controller.
-> 
-> xHC returns _exponent_ of maximum segments supported, QEMU supports one segment
-> so value read is 0.  Parsing fails and assumes maximum number of supported ring segments
-> is 0.  Most hardware xHCI controllers (except some Mediatek) support more than one
-> segments so issue is not visible for those
-> 
-> Issue (7.3-rc1):
-> 6d45e9556d4a  ("usb: xhci: standardize multi bit-field macros") in parsing
-> 
-> Fix: (in Greg's tree, Hopeful it can make make 7.3-rc2)
-> 045b5bef916d usb: xhci: Fix HCS_ERST_MAX conversion
+Yeah, thanks!
 
-I applied the above fix to my tree and sure enough the warning goes away.
-
-Tested-by: Steven Rostedt <rostedt@goodmis.org>
-
-Thanks!
-
--- Steve
+Cheers,
+Miguel
