@@ -1,169 +1,254 @@
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+Received: from mail3-162.sinamail.sina.com.cn (mail3-162.sinamail.sina.com.cn [202.108.3.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70374A4842;
-	Thu,  3 Sep 2026 12:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.154.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788439160; cv=fail; b=e+HnuyI+0aDayKJcGiGuiO6dflEo/HG+htvD5ifaJVZ4lNM+T7vf+mnST1TfVOXd72tyzJCii7zcY0YbuexbH1f15tx3GvRCfG/qz96zr3YB0yFy/nGaefG+0itoBYpomFO17Z/levgUG4W86d3JE1jT1l/zpJ1yTL4Lle9Y9U4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788439160; c=relaxed/simple;
-	bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=HakbLTo3dKFgq1AvUNV84rLm2fzDOY6OtJiAwzn5lwucse+ZquxSIGC8UIt61Fuj/9uRkRaUcwzb0tcsU+p8LMuTqr35BZry1/YXFm6ZnwazkSCClJPmCPlNF0rr1fkRAjIG2yoAP2B+3PKKdl8vODGkoGSSGvlJFMh+yuRkdtk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=D7L9J4fE; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=s9wY/Ell; arc=fail smtp.client-ip=216.71.154.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701464A3F22
+	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 13:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.162
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788440745; cv=none; b=TIjnzSqYKzOoz9YfJknPYaFnr0MJRcOT2PDood7sndzkaZMxmwIjWxShmo+MWnhqqU9iZePEcfLY9SYXfiti9SPIIozWqwYkHqP9pExv4K4NJyBYi1TRlVvA7cUG9FkkPYjTOz8TweWCW8LejugTyHYI6atXz/YhaVz+zPc4WYk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788440745; c=relaxed/simple;
+	bh=YRXmuLSwV8LXsesOx3JDAb5EPu07sGBT/+AVMPUYDhM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Kq+Ib2nbQ0FCKYidUB8KYQbV4F7AdFWnvWm6OMyeHJ4tZkdEOhYjwyQ9nMn5wOdiOyyDDCZ5j7TiVse6fk5CB89AHINr06igsXtXKkUGLJP2bu+zkqbXz+Ip4K+3MFnlc3GSnU4Smyj0ovizPimAQGO+zKdqgghFKoM2YcOTe/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=A/6VQLyZ; arc=none smtp.client-ip=202.108.3.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="D7L9J4fE";
-	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="s9wY/Ell"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1788439158; x=1819975158;
-  h=message-id:date:subject:to:references:from:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
-  b=D7L9J4fERhqGc4v27NbrS2IMZy1rjiroxjogMlDad/NKFWsltMkqmQum
-   nrnrKBKgSrBXZUKEq5d21AZhJ7Qtsi74DbmqdJEt6ZVztHHy1a96BejOH
-   s/ZvMjJvXiFKZx+qGAGD+Z/RgHVT7QUE9ZvM4/eehgjpwPsYAf+sMYbFi
-   qvI4GbN4oIpc8w55pdf95rAgyEYYpb5QXLLEskyCJcDXzbnJ46QLOcQf1
-   vipmp1XTw9nvslY1vLz47bxPxT6dGVliQiX6EiLImrJowbPFH2qesJz2N
-   +K0D62lVFA8o/YObnxAv+E2MJdz6NlkJtsQYoZbfIBfykKgrHjwaEhYhO
-   g==;
-X-CSE-ConnectionGUID: NS+PiWYGQcqbD/Y0JyIowQ==
-X-CSE-MsgGUID: vFN844WzTSG5iFsoxDOOBQ==
-X-IronPort-AV: E=Sophos;i="6.25,260,1779120000"; 
-   d="scan'208";a="150667847"
-Received: from mail-westus2azon11012052.outbound.protection.outlook.com (HELO MW6PR02CU001.outbound.protection.outlook.com) ([52.101.48.52])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Sep 2026 20:39:17 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oEbajb3cOVn627X6O/vjAk5w4xBJwsKJqat5jTaeo+74++nGWjnrxn65K2T+T79lYudL0tEh0iqpKdc9xmFZtKT6JfH+nEMzIa02K87pjCT/yKf1YQWxCh6i63abGGO8IDb8Vw4NIbUobvLpGDpgrvWmC1APbIRyfn6d6dvVYX9Qtvuqt39ees6K/Lzw+Uuy1BJIMProaqc8sgrS2JMwVSyA6vki0G8lUf+jWuDiIKXeMpdjOEmZbX8DPhOeYyeWGSH9PMG6AkZprAGV18BnLFV5l1sTgfBi6jcPxHCl5N0yHZhhFnOd8lZqmwKQe28qSP6fv6T3bF7YurbkccHtcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
- b=svTC6nnN8/duYEUOSvLJG4i5kifn65whXLfxMhg0ru0yfARV9hAyWYbumPbGZmH+heBZkI0r5gaO2ObOgnIjLcptBe98bf3kcx4jkuclIpZ+hTFl8LWZjx4UmZwbRtHCjQO4ztQtALoYUq7KpcjOrAW5NO7pQ6/ZKXdOIc3oqZcolTeHpOYc3gbx149csSnCCtS8R3Lr9QZ9EHtuE7W8zhsDR6EFg6Shhv+b7b1d2puloSEBlc5/uBSNPgiTLJZXeB2RzeHLkgLGcn1ixZpmjx8vjV9MwUCm0k01zmyy7yd+xNAmjDqNcV/oWK3g3kCv/hcYEwPHm4MjfMmL1NSmCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
- b=s9wY/ElldV7ydfkEP7HoxFBOfGWDSjv1dqqlsK0qXShexQYRUoYareImAFtsIEqAd4n+nUIB6e3ZO6a9EaBXyhrqjPChUDFwsAmPnX9rPU8dwOSqLCoV2uTVffs7j6WNekDbssgx5Zb6pIX83EDV1Hzk8g/12H05LfvTAn9+jLQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA6PR04MB9447.namprd04.prod.outlook.com (2603:10b6:806:436::21)
- by CO1PR04MB9534.namprd04.prod.outlook.com (2603:10b6:303:274::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 12:39:14 +0000
-Received: from SA6PR04MB9447.namprd04.prod.outlook.com
- ([fe80::14c6:1c14:485f:1825]) by SA6PR04MB9447.namprd04.prod.outlook.com
- ([fe80::14c6:1c14:485f:1825%6]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
- 12:39:14 +0000
-Message-ID: <9d975a36-078d-4e87-b546-1f5c01fab938@wdc.com>
-Date: Thu, 3 Sep 2026 14:39:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/40] scsi: prepare for using 16-bits defined sense
- codes
-To: Damien Le Moal <dlemoal@kernel.org>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
- Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>
-References: <20260903034201.112211-1-dlemoal@kernel.org>
- <20260903034201.112211-6-dlemoal@kernel.org>
-Content-Language: en-US
-From: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-In-Reply-To: <20260903034201.112211-6-dlemoal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0099.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::16) To SA6PR04MB9447.namprd04.prod.outlook.com
- (2603:10b6:806:436::21)
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="A/6VQLyZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1788440733;
+	bh=kz5Zsf5WyldEb6YlSAWVjcC8UWnZrX0KaerezU2PTQg=;
+	h=From:Subject:Date:Message-ID;
+	b=A/6VQLyZchDjZkSacDvWgu5epaNw8VOTtAAPjKepImfVUKC0Cvi0dHCLZ6en5Dg3M
+	 KS3shBclKmZjolJzwwUswZFaWoR3pxNW308GsSMNqiWZG1FTpGJZauMV/qPLy79gTI
+	 RLXeXYCS2mxKh8jpyQBL/rJsxVC/JRhvajbwq074=
+X-SMAIL-HELO: lxu-ped-host..
+Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
+	by sina.com (10.54.253.34) with ESMTP
+	id 6A99709100006129; Thu, 3 Sep 2026 21:05:23 +0800 (CST)
+X-Sender: eadavis@sina.com
+X-Auth-ID: eadavis@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=eadavis@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=eadavis@sina.com
+X-SMAIL-MID: 8992326292059
+X-SMAIL-UIID: 60F4CD33325041EE967182F336307FA5-20260903-210523-1
+From: Edward Adam Davis <eadavis@sina.com>
+To: eadavis@sina.com
+Cc: daniel@caiaq.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com,
+	tiwai@suse.de,
+	zonque@gmail.com
+Subject: [PATCH v4] ALSA: caiaq: Decoupling ep1_in_urb in caiaq dev
+Date: Thu,  3 Sep 2026 21:05:21 +0800
+Message-ID: <20260903130521.554840-1-eadavis@sina.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260903115652.550250-1-eadavis@sina.com>
+References: <20260903115652.550250-1-eadavis@sina.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA6PR04MB9447:EE_|CO1PR04MB9534:EE_
-X-MS-Office365-Filtering-Correlation-Id: 198ab3b0-82da-42b1-2897-08df09b85caf
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|7416014|376014|23010399003|366016|19092799006|921020|4143699003|10067099003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	+mHyzXXZnj0xpV87tkjCBBSKaVHjNsZCw9q1DjxKSU0UB4jLlHIiaF4sDgbNqCErBwoTwpdTfVjBsUNyO/zEaBka6REC0bIQwNoriBCUSTVEHMWfdrZij5TD/FxeDBHYsQG415/d0BQGTgNE6YplBU4XDeL0VVQkYd+EwM6npktynktVoe+5aoAa/V7etAmYBG+2cVRoiBa/QMI1i1FSfGsmBFWekp4HlpQ+h/29oIjEIIuPHYMpgsmnATiXFx+We/piy0ucpwB8qBxfO5UEwndOMXfo81a/1t8nuLbK92xA3vkj8S80nGUoFe/2tp13FQHWvTqftvgpFUp2eWo1NBjZW8cDuMjTFjPX88CtUk14UDCOoEJW46se+v6KGuViNlNImPousexAzOb/mQVWxiVc7ySDsTKW0BbVmwWYDFJ7c9+q0gNulxIxH58ikzijb1t6ogAkHNwPPp6DxuGYnhq1A005KppoBs114FU5aF7ZnVWZu3El5ZjPNQMLxkjm8xpMMDnjGv884QCU+fuFdNtP3FP38tFUODLZbX3xJPWGFE6eQdFnJcmy3NLUemR9gyZhGJgeMaNWPl/FmfNzptecssY0UeIxMXIEepFsjXPStAkqCuq+O42c/epywQDsCXxc/HTltY++MuqmGc05ASyoUNmOsViHm6AR822yQA3ebZJDCOeu7qgDx/0FawBzcCZjUaEYiysZaBAyUoEi+g==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA6PR04MB9447.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(7416014)(376014)(23010399003)(366016)(19092799006)(921020)(4143699003)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M1A2L0lBN1I1TXVzbTZLeU96VW9IQzg5VzN2dHFFY1NFNVR6b3g5UzhPZ0JQ?=
- =?utf-8?B?UTE0WDFQakI4NVBVdSswbkZBNzdQd0RZZTkwdWlocEt0M0hlU08yWkNqQ3dH?=
- =?utf-8?B?bVZuU2lxcXdIYUthN25pRmZITHVrMHJpY2pDRmdyaFZabjJ5R25lTFR2d0JS?=
- =?utf-8?B?U1ZDQUxqOFdIR2owZnJ6UGlra0tHL3RUOEd5Ny95ZldINFo2S05peEpUZWdl?=
- =?utf-8?B?NHh6ZXRWZExqT2t3dk9EczN3Z21oeFp5LzMrOUd0U09wSVJuNm5oeVZrS2gv?=
- =?utf-8?B?aVhTdjlXZ2FuNmltd05DYXk0aC9uSnJtQU1UZ0xMZjE4LzVjK3E3c0NFTVAr?=
- =?utf-8?B?MHNEM2Z3d3pReWxuakVpNzJja2drem1ad0F4TDBpdUQyZ05OajRtRlVERGRS?=
- =?utf-8?B?OTc5ejBaaWp2Sy9RWlBWYkJTQlMvTExwSmx4RUp0eXBLanNMYU1JditmTEdl?=
- =?utf-8?B?aHl2T0FsYWM3M0JYb1lCZlNXMEZYYVUvN0p4NTFPN0xrNjBMem5icERQcnFo?=
- =?utf-8?B?a1FQT0FXNW1zdlNGaklzdWNKRFBpbGRrY054dUVVVnlpNE1wcFVkaGF4Tjk0?=
- =?utf-8?B?ZXdPMm1ZTHZrL0NrZTBRdmtobFkxeGFZYUNacnlvWmNPTWE4cERRT2IvSXpX?=
- =?utf-8?B?bnVLSkw3eTd0RWdLazhYekpwdVUza0hyazcvOHp5WUxnalBxSS9CTzB2cEFa?=
- =?utf-8?B?NWJJZG1SQk9udzdxOEhNRWFXZzlYV25HVGRCU0lNSUtXYTdrWEZFekdaK0Yr?=
- =?utf-8?B?bWVNK1NFK0RBRVdjK1orTldzUDdLZC9MUzRFc2k5dk9GM2hrY1JrT3NmOElO?=
- =?utf-8?B?U291cE01d21CcDFhYmxBa2hwanBUUmZHNXFOOVAwM2ZjTEpqNTU5WUpNTmJz?=
- =?utf-8?B?ZzB4QjlPS1p5UURVWlJ3eFVoc3pqa0p1RWtoeGRRVDdqd0tjbHpueUFqbUpO?=
- =?utf-8?B?MzlUUjRaclNEVDArNEJwYVV2RWdhanN4UWplbThLd20wSDVnTmpsQWgyMUpX?=
- =?utf-8?B?MmZ3cUVadjZTWkI4YkFtbmRLRHR5VEYzR29jRzhqWUhvc1duakFrOHRzQktW?=
- =?utf-8?B?ZFZmcnlZSDdpZFBBVUFvM05ZWklGU29rYmpIZnR4aHNENU5ERFF4SmVjQVRF?=
- =?utf-8?B?WUM5emRqclVkUUNSRmNGcmtCZ0UzMElYN0xWaUo4TVg2NmVEUzM0V0ZDRjhy?=
- =?utf-8?B?LzVjTzd5dThESTZkYnlIaUZJNUM2MnVLZjYxOVpRYXFKS0tqNU1NaXFHQnFh?=
- =?utf-8?B?bUZVMXkyNWppZDZyaDZkSDdqa1dUQnBzQ0h5bWN6VEUzblVES2YvZmhUSDR5?=
- =?utf-8?B?cmJjcGgyU0QxanlUbHlzOUxlcjJ6RDhkNHBMNjRLUDl6WWZ1ckhBUzVNN29r?=
- =?utf-8?B?d2VnK0lWS1ZSalhOQW1jUEh5TXpVRlpLUDEydzlmbXN2Zk9SN1ZLQ3JDd1Ju?=
- =?utf-8?B?T0ZScFdCVGhiZ21BVzdzSFdSUXBubTZyTmh2OVN0ZlR2QUZKNkdiQ1N2Ymhk?=
- =?utf-8?B?a05nVHpranREbVE1SmZkeStTV0tOemt6aFUrQTREd1lRK2hhbTQzWWRZaGZJ?=
- =?utf-8?B?anJ4K3kxd3VZdFJEZXJETHNpMlNxSHQ1QlE0Rk5xREdkYmcyK1d4VFdBZmMx?=
- =?utf-8?B?VUtRZVg5djE2MWQzVnU2bFFQN2xkVmdNUkV4V3VWZFV1RjR2SjlVanFhZEFU?=
- =?utf-8?B?amgzVHpsRjIySWNaS3NLTU1CWTZnY1h3M0FqTVhXcHE2bWtXVFhzWGloZmR3?=
- =?utf-8?B?T1ZoUnQ5MVNJVmQwOHA3c0NxbXRFZnNONksxNjE4SXBHZTllRzhGQnRsOGpP?=
- =?utf-8?B?U29kQlpSemlUVi94NkNiL1gzNGI4NjdzbDdMc0pvRDh0d05BMmxKTTZPOE5l?=
- =?utf-8?B?QUJwbTJydSt3VXNYQi8zKzM5c0tyc01FYkNoZTZEb3h2VDZReHZPc3FHTVlD?=
- =?utf-8?B?L1BqSnlvVUxLdm9ycC94RUVpTTQwOFVkOTRXL3VyN1JBbEVxYXVua0p6bnk3?=
- =?utf-8?B?WWtaWUMrMWlQVUgwbnR2N0ZHZ0hXMDdBVXNZUkU5OGlXRWJDSUl4Tnd3RE1H?=
- =?utf-8?B?SDRlQjU3UUUxTmZWaG5MYnoyS3NVMjNSS0ZFblVKUjhvUThERWVEcWVuN0cw?=
- =?utf-8?B?TGhab1d3QXN2UUJ5WVgvMTlTZXdZVW10Umt6TGJ2VVRzVVNTSGEvL1ZqOFh5?=
- =?utf-8?B?UUNyUHVFZ2dpZGdNUTJLQkxhM3ZRblNnSWZNM3M5WkNEbjNocVR6RzlVRVpS?=
- =?utf-8?B?TzBNYVlvRWJDMTB5YW02eUt3TmFCcW9SOFFFNU53akNEcTRYSUFkOEpXNEMz?=
- =?utf-8?B?QjVoRTBBWjNXazQ2VlRHUjRqM09nb1dGSkZpeW5lMGdFaHZWckkvcnR5NmZn?=
- =?utf-8?Q?ojjY/AO7++pCHaUFIuuVX7t059+LVNn9MtihhCvSNTQMW?=
-X-MS-Exchange-AntiSpam-MessageData-1: KsTk4ZX7LSsDWnJY81FrMyisssh9TbVoY6M=
-X-Exchange-RoutingPolicyChecked:
-	lETcYb44b0hkZbAf3dI7sjIRmudrlFTGqX23xNLK/n4xGp1Ay//lBT/zdHidBtzmdoHJcBnX6Efykwjxo78o8EzYOByg9ah8OF1jc/mgT6tYNMFqtqOyc+58wTOgvx/ZZLnwwNniu9shSeWUcHy0ul4dFfbSDLdENlzzHkFU8rpnwu7DbWEoyBySPMNJMA7WXsuQm4id6dV1/SCyzR4B8+jtfS9pW+Ncr924qT0oD4Wpmihc2X0sSkcQ2svp+wMkecaoQ8EakpPgx/KURGunF75xRijOBaBWkKl+RhKm9Jxgv+BHHTcG2nISSPTQCpZbhEjfucr90PvKqG7oehlqgw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	7HpRImvJj3pSa4aZFNzPdjpJT9ZsvOW43Qsq9LDgCBKrDPNgQ4gR1K8MHUxyDs1wH0ZWismMAyMgde3szHG6l4neVHcoo8dKdh8OcbzirxKieSg4OCzS6hFyK1HjrubLhjGJZ2OHA6IsXV5fhaKdoK2FFMZlf2Q0QV9rcUpfxIr6/nizOrcihl9w2wfHAODBXhULw2yG/4y3T8/sTk87mUxKbp6IAMRzN7r2GWLPzqBb5HibDnJfVUJxMQJjl+AzldPPbYmNFQ+4yFoVRRBDdYGE9oORXvlIkTvGzyfajJl2mkMPUff0yyw38RNIOUBzNevfmRNV19QB8DcLfVUySxslRoYvMRur8No1f9y2eGBMATPnv7lIrVtbuX890sqZLGVPsvjPHHFQFRoM1cSb+jmS6ESX9KF2qgLDv1aid7SSL/r1zwt/b7UiTAvChCKeAujkH4KU/Rc0KISQhTmB34K+afaahD67rYqAxP5DadUY4qgY+o5JltXmZjbuflBd9pxfXsavoJQzL2dsSCh63DLQEwzDdwwctcuwTxrKxCeQe1OKOAHTpknVlxyL9+80w+pdmcehNg9DY+I3p7F+Oeye0ObNHS+CflILhfwaLwI64jI0fVLZVJxepQKWWa61
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 198ab3b0-82da-42b1-2897-08df09b85caf
-X-MS-Exchange-CrossTenant-AuthSource: SA6PR04MB9447.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 12:39:14.5605
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bp1MJ+VnG70oR2xPc3KUj7IGyP9BshY/Nsj/JYG0nYVt0kuoNNP/fh1Iu+IY+jsgz3cDBg5Cql/vAHxgBy6uhnnbH8HjklWzi/nyTZFeU3w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR04MB9534
+Content-Transfer-Encoding: 8bit
 
-Looks good,
+The epq_in_urb object belonging to the caiaq device is coupled within
+the struct snd_usb_caiaqdev. After usb_submit_urb(epq_in_urb, GFP_KERNEL)
+executes successfully, epq_in_urb is successfully added to the urbp_list
+queue of the dummy HCD driver (userspace specifies dummy_hcd as the HCD
+layer driver for the caiaq USB device).
 
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+When init_card() calls snd_usb_caiaq_send_command() which subsequently
+fails due to a timeout, and proceeds to call snd_card_free() to release
+the card, the embedded ep1_in_urb object is also freed. When the dummy
+HCD driver detects that the URB has been unlinked, it returns the URB
+(by usb_hcd_giveback_urb()), which triggers [1].
+
+Decouple the ep1_in_urb object from the struct snd_usb_caiaqdev and switch
+to using a pointer instead. Separately allocate and manage the memory for
+ep1_in_urb to prevent the release of the snd_card memory object from
+interfering with it.
+
+midi_out_urb has the same issue as ep1_in_urb and is handled in the same
+way.
+
+[1]
+BUG: KASAN: slab-use-after-free in usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
+Write of size 4 at addr ffff88803cee1050 by task ktimers/1/29
+Call Trace:
+ usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
+ dummy_timer+0xaac/0x4d50 drivers/usb/gadget/udc/dummy_hcd.c:2019
+ __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+ __hrtimer_run_queues+0x3eb/0xaf0 kernel/time/hrtimer.c:2124
+ hrtimer_run_softirq+0x1e1/0x2e0 kernel/time/hrtimer.c:2141
+
+Allocated by task 36:
+ snd_card_new+0x7b/0x110 sound/core/init.c:184
+ create_card sound/usb/caiaq/device.c:429 [inline]
+ snd_probe+0x236/0x1af0 sound/usb/caiaq/device.c:544
+
+Freed by task 36:
+ snd_card_free_when_closed sound/core/init.c:630 [inline]
+ snd_card_free+0x138/0x1d0 sound/core/init.c:662
+ snd_probe+0x162b/0x1af0 sound/usb/caiaq/device.c:553
+ 
+Fixes: 523f1dce3743 ("[ALSA] Add Native Instrument usb audio device support")
+Reported-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=832ce9fa3face1b7d44d
+Tested-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@sina.com>
+---
+v1 -> v2: same dealwith midi_out_urb and add missing check
+v2 -> v3: set ep1_in_urb to NULL after midi_out_urb allow failed
+          remove err message when alloc failed
+v3 -> v4: remove usb_init_urb() after use usb_alloc_urb
+
+ sound/usb/caiaq/device.c | 36 ++++++++++++++++++++++++------------
+ sound/usb/caiaq/device.h |  4 ++--
+ sound/usb/caiaq/midi.c   |  6 +++---
+ 3 files changed, 29 insertions(+), 17 deletions(-)
+
+diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
+index a16e59248480..3d821fde4582 100644
+--- a/sound/usb/caiaq/device.c
++++ b/sound/usb/caiaq/device.c
+@@ -192,8 +192,8 @@ static void usb_ep1_command_reply_dispatch (struct urb* urb)
+ 		break;
+ 	}
+ 
+-	cdev->ep1_in_urb.actual_length = 0;
+-	ret = usb_submit_urb(&cdev->ep1_in_urb, GFP_ATOMIC);
++	cdev->ep1_in_urb->actual_length = 0;
++	ret = usb_submit_urb(cdev->ep1_in_urb, GFP_ATOMIC);
+ 	if (ret < 0)
+ 		dev_err(dev, "unable to submit urb. OOM!?\n");
+ }
+@@ -408,6 +408,10 @@ static void card_free(struct snd_card *card)
+ #endif
+ 	snd_usb_caiaq_audio_free(cdev);
+ 	usb_put_dev(cdev->chip.dev);
++	usb_free_urb(cdev->ep1_in_urb);
++	cdev->ep1_in_urb = NULL;
++	usb_free_urb(cdev->midi_out_urb);
++	cdev->midi_out_urb = NULL;
+ }
+ 
+ static int create_card(struct usb_device *usb_dev,
+@@ -457,22 +461,30 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
+ 		return -EIO;
+ 	}
+ 
+-	usb_init_urb(&cdev->ep1_in_urb);
+-	usb_init_urb(&cdev->midi_out_urb);
++	cdev->ep1_in_urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!cdev->ep1_in_urb)
++		return -ENOMEM;
+ 
+-	usb_fill_bulk_urb(&cdev->ep1_in_urb, usb_dev,
++	cdev->midi_out_urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!cdev->midi_out_urb) {
++		usb_free_urb(cdev->ep1_in_urb);
++		cdev->ep1_in_urb = NULL;
++		return -ENOMEM;
++	}
++
++	usb_fill_bulk_urb(cdev->ep1_in_urb, usb_dev,
+ 			  usb_rcvbulkpipe(usb_dev, 0x1),
+ 			  cdev->ep1_in_buf, EP1_BUFSIZE,
+ 			  usb_ep1_command_reply_dispatch, cdev);
+ 
+-	usb_fill_bulk_urb(&cdev->midi_out_urb, usb_dev,
++	usb_fill_bulk_urb(cdev->midi_out_urb, usb_dev,
+ 			  usb_sndbulkpipe(usb_dev, 0x1),
+ 			  cdev->midi_out_buf, EP1_BUFSIZE,
+ 			  snd_usb_caiaq_midi_output_done, cdev);
+ 
+ 	/* sanity checks of EPs before actually submitting */
+-	if (usb_urb_ep_type_check(&cdev->ep1_in_urb) ||
+-	    usb_urb_ep_type_check(&cdev->midi_out_urb)) {
++	if (usb_urb_ep_type_check(cdev->ep1_in_urb) ||
++	    usb_urb_ep_type_check(cdev->midi_out_urb)) {
+ 		dev_err(dev, "invalid EPs\n");
+ 		return -EINVAL;
+ 	}
+@@ -480,7 +492,7 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
+ 	init_waitqueue_head(&cdev->ep1_wait_queue);
+ 	init_waitqueue_head(&cdev->prepare_wait_queue);
+ 
+-	if (usb_submit_urb(&cdev->ep1_in_urb, GFP_KERNEL) != 0)
++	if (usb_submit_urb(cdev->ep1_in_urb, GFP_KERNEL) != 0)
+ 		return -EIO;
+ 
+ 	err = snd_usb_caiaq_send_command(cdev, EP1_CMD_GET_DEVICE_INFO, NULL, 0);
+@@ -530,7 +542,7 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
+ 	return 0;
+ 
+  err_kill_urb:
+-	usb_kill_urb(&cdev->ep1_in_urb);
++	usb_kill_urb(cdev->ep1_in_urb);
+ 	return err;
+ }
+ 
+@@ -576,8 +588,8 @@ static void snd_disconnect(struct usb_interface *intf)
+ #endif
+ 	snd_usb_caiaq_audio_disconnect(cdev);
+ 
+-	usb_kill_urb(&cdev->ep1_in_urb);
+-	usb_kill_urb(&cdev->midi_out_urb);
++	usb_kill_urb(cdev->ep1_in_urb);
++	usb_kill_urb(cdev->midi_out_urb);
+ 
+ 	snd_card_free_when_closed(card);
+ }
+diff --git a/sound/usb/caiaq/device.h b/sound/usb/caiaq/device.h
+index 743eb0387b5f..1c6f34693fa8 100644
+--- a/sound/usb/caiaq/device.h
++++ b/sound/usb/caiaq/device.h
+@@ -60,8 +60,8 @@ struct snd_usb_caiaq_cb_info;
+ struct snd_usb_caiaqdev {
+ 	struct snd_usb_audio chip;
+ 
+-	struct urb ep1_in_urb;
+-	struct urb midi_out_urb;
++	struct urb *ep1_in_urb;
++	struct urb *midi_out_urb;
+ 	struct urb **data_urbs_in;
+ 	struct urb **data_urbs_out;
+ 	struct snd_usb_caiaq_cb_info *data_cb_info;
+diff --git a/sound/usb/caiaq/midi.c b/sound/usb/caiaq/midi.c
+index c656d0162432..18529484c8dc 100644
+--- a/sound/usb/caiaq/midi.c
++++ b/sound/usb/caiaq/midi.c
+@@ -43,7 +43,7 @@ static int snd_usb_caiaq_midi_output_close(struct snd_rawmidi_substream *substre
+ {
+ 	struct snd_usb_caiaqdev *cdev = substream->rmidi->private_data;
+ 	if (cdev->midi_out_active) {
+-		usb_kill_urb(&cdev->midi_out_urb);
++		usb_kill_urb(cdev->midi_out_urb);
+ 		cdev->midi_out_active = 0;
+ 	}
+ 	return 0;
+@@ -64,9 +64,9 @@ static void snd_usb_caiaq_midi_send(struct snd_usb_caiaqdev *cdev,
+ 		return;
+ 
+ 	cdev->midi_out_buf[2] = len;
+-	cdev->midi_out_urb.transfer_buffer_length = len+3;
++	cdev->midi_out_urb->transfer_buffer_length = len+3;
+ 
+-	ret = usb_submit_urb(&cdev->midi_out_urb, GFP_ATOMIC);
++	ret = usb_submit_urb(cdev->midi_out_urb, GFP_ATOMIC);
+ 	if (ret < 0)
+ 		dev_err(dev,
+ 			"snd_usb_caiaq_midi_send(%p): usb_submit_urb() failed,"
+-- 
+2.43.0
 
