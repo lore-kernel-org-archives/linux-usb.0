@@ -1,113 +1,138 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51C24FECCC
-	for <linux-usb@vger.kernel.org>; Thu,  3 Sep 2026 18:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02007E105;
+	Thu,  3 Sep 2026 18:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788458454; cv=none; b=eKXy/yMZfcbvzDf/0siPOIHvtjRHZEiAAzoWtk5WQed2IvN3dpEIrHU3E5Cs1TIRERjhLpuCIcTdjBJ2v3HFGYPSNEkcRQAGneisR+h/Ya9OttevTNnaiElJoc7qz4fsyxP+I1NAILqmMHusPDm72sxNQzuAA9AA2eDXPYaOoL8=
+	t=1788459513; cv=none; b=LVIijp00J6/BW9043xXZ+XGA0vq0lSaK5BB+p7K/C2zIVWq/U8FRjSnYrnptYP1IyGyToBbZXcoC24n7EnR3hqZD793WULOZNuyifPy4+zo7sl3sGOgwAkJjmtl0YGlWXtMIBXfOxkn2pawvWqqMhVYOZyAeVXEam8VL1SaC3e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788458454; c=relaxed/simple;
-	bh=FUL13PMBpdVmvGH7sOikoOUHQ3Zugr8TJXZNx3GBI6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KxmOdqDyhieZUNyxNhmf8GDquJmlhZLjXos50k8C7AZTch1aaY5oCKWHz1UKTmRRF84TcjLpHwTHihKuYtuoxl4ESoy3VtbfMznyV2guMeGnqtJOsN2v3jjiCbXhe9sy+7o0llW/GtYG7BlO44INlSmhI72CtmmLJfLdN7Qm4p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJB+oWgj; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788459513; c=relaxed/simple;
+	bh=q0pRZtMzocciLXZ7Uk1J4rxdMU4bSglWz9Zejnxl+6c=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=fPtGTf8adKzeuBtND576SHOMA8q3sAIfqcKHjXsHgBsg2a3dJ3i2n6U+7H/KVMoQw5O/MN/hjtDPujc1YjZJrg1Ny4uPXTwtY/gjEvuHdZ2336d/V2GBeEqiBJKNbXc2QlrS9Z5+okDna+rdDcJpWha3/Hr8d7/BgNuzEuxN57g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=y3Vckjg5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bdiWv99k; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJB+oWgj"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c250f28f1cdso16924566b.0
-        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 11:00:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788458450; x=1789063250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FwSW+L2fi24nBq8MzlES78JQKLNoN9Kx8+uKI7PoLRM=;
-        b=PJB+oWgjkgFPu6bTH4bxHFU52RTzVBCFb6CuWD5H0XiSgy7na1GNnjn1tj3eATJpxX
-         +XkgKishLg906MVxB3MrlKqF4CoLTzLNnhIcV9LMDYpFii2M9KN+lSvcE3CzBLuAo+90
-         b/j0SbXktVeCQWUkv+AYYICRREzQF0XiNEN4q8O44pZBzZ81PcpKae4uf51wdafQxH0s
-         qHMjVcm+ZlNPtRc07KAPx80fxFMtuDkdwiD8G0faM25qmusQ2XBYFSTkS7FV1vxxrwIn
-         r5q4UugsZMOH4wswaUxvgeSooVjVy9lyAqTSG8Z4ByzE7Lu0eU4qs3nqjAz6mlhy09jX
-         sTBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788458450; x=1789063250;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FwSW+L2fi24nBq8MzlES78JQKLNoN9Kx8+uKI7PoLRM=;
-        b=s9pgBK70/qOyPneilVeE+efnqz4V7jsCKaNk8QbVWO+G/Wz5omQL35ijnZwK3avYck
-         mXyv/5eOHdI9p7Fqbh/J4ZC5Sv2fN4OzXfWjb4F7DBchGhNVaAvhtqq3r5oKcumbNKN+
-         0SNgIEdNxi3itFJH2mwaZjHwFzSkZ0mZaRtY9NcOZFnMc30gx/n9UN/GUEsQ5YiozEFj
-         8x7hZdYIEKyjvDhaCNKmHFOCOtExWxbqjQc/ZzGFiLaHa37AfkixMCIIszaFpLPQeTmL
-         u6u0vz0Ga/QdOs/tGwbj++3N1IDFaSnqEYUjwz4Za72ETRVUYEJjLZjFXmMcSSxInIjm
-         LXjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz8dajjbddAahnACdzNtdp3u8jOrQPv6kBfQZeNuxoxGKH5cGvXJKodb4vLngzhBDo0W6HiXUrmPf4=@vger.kernel.org
-X-Gm-Message-State: AFuF++ln8bk3oU54h1wG9h2DmNPj7oxOrw8Vk8BlbIU/V+Aa763CwayO
-	6OEPZgzqHu/oC9PtqHjuCZF1V/bPG1kTeZjR8y51w3Cz///qVxYvz4dN
-X-Gm-Gg: AYBFou03hmX+HXh2jakruY8b8R8h0rEHyM4Qryg1U5le71xRhCy18vFqG4ASjFIz/Lg
-	rSH/R4+rKsVPtRHniDM3x7gVHpFn+bddsboy3pQQX428bt5t1YOBlObxhH3bVmTLw0SGcm4qwmn
-	x1fugN7iRBIW0a0O6CDVumx+gHYdWZ3xQv8GjYcZ+AvO9HBlHQsQnkHwm3edfAh8Y33/FZTKhRw
-	4bbm0vd5Zr+ngCrq5QdZil0AZ4Mx10XR0jm/aaGPSKOraXQiqc3KOg528LhyjgkCkhDeJLEjjfC
-	sIk78NhHIQLyYqkpyvCIvzvGCG8i1wRyLs/B79E0b+j4Q/wkHI/X9mcehEIR0ZtwuglEEVPJoQL
-	1m/yTGSUBFFWEgZI+c8DqLJwPB9MyDqrZfbL9qaPuXWb0eBHgwM3F1DZokHdPwMxRjEndQi2S8Q
-	XPNU9ziBWi+51Y1wU2haaBt/Q1eKxMoVb0vPscfPo63pFsf0NfOF70pkWPrgRWTH473fkBYgYZR
-	ke0cQ9/QWGvZn4zhb64rvQ4pUEmoCY+Q/CL0n1oYPD2bDbIn1227mRrNBALJ3Uk6Q==
-X-Received: by 2002:a17:907:7a89:b0:c21:8c6a:c680 with SMTP id a640c23a62f3a-c260ca21e53mr28157066b.22.1788458449738;
-        Thu, 03 Sep 2026 11:00:49 -0700 (PDT)
-Received: from localhost.localdomain (185-130-167-72.kund.ip-osteraker.se. [185.130.167.72])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d581f51sm3362166b.42.2026.09.03.11.00.47
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 03 Sep 2026 11:00:47 -0700 (PDT)
-From: Sebastian Sjoholm <sebastian.sjoholm@gmail.com>
-To: bjorn@mork.no,
-	andrew+netdev@lunn.ch
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Sjoholm <sebastian.sjoholm@gmail.com>
-Subject: [PATCH net] net: usb: qmi_wwan: add Quectel RG660QB
-Date: Thu,  3 Sep 2026 20:00:44 +0200
-Message-ID: <20260903180044.6179-1-sebastian.sjoholm@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="y3Vckjg5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bdiWv99k"
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C7ED114000BB;
+	Thu,  3 Sep 2026 14:18:29 -0400 (EDT)
+Received: from stl-imap-02 ([10.204.2.93])
+  by stl-compute-04.internal (MEProxy); Thu, 03 Sep 2026 14:18:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1788459509;
+	 x=1788545909; bh=yJSVbKwMvwow3JtKYZ5b6ktTLZ/s1e1Bv6rK8BmE3Ws=; b=
+	y3Vckjg5cYfQYcoUkx4IhbYtOI8ixbGgFczrQTmPSu24pAnxrL811FY58WZb+VjY
+	9UEL0pH/B7XJPTHjS6nykI4BkFHMQJ7q4U2582S2aDpem9Xz5ardGWj028oUVbRj
+	K9K3OBYutldAnAd2NtbTQAJjDMtky8OD1AC/ColqMCTkT9+35BCRU1yYUrAWSnEM
+	1lzIBYujn2OCbv8YxE/3iNxM5S+bLOJyMCWUcu1onI29Q41XrsA1bzULeHVxY7SZ
+	4AttvmFlTMLHluz7puCr0AIQNFuxfk6NsqyjhW1VxIhC6grVO8nRJqDKQvj2s7mW
+	gFhivaevj+jcK3q+2pOdMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788459509; x=
+	1788545909; bh=yJSVbKwMvwow3JtKYZ5b6ktTLZ/s1e1Bv6rK8BmE3Ws=; b=b
+	diWv99kyP4rCu02DJaechzsCZ5aBxa4ZDRis2vrxINybIUjLGKBDyS8NJdrGRgUt
+	neAfnplACTFL1FcHkKfIY0R+6skhZxrzIdAlJY/PD9gwPnRwkfviqSYsh1wjbO7h
+	mMmkMEdwb132t3nNtHHotZ2XBTL2TlOypeUq4MbVCswINlmIvNJEKRkWXw7EQMeq
+	Huszg5VLK5LdzS9GRlC9X5WE7xLKwriws7cuT/8Dx8zVBAxsAVMb7hPGYwkPPsF9
+	XSbMvtHLhQXhj24YILqCGkAdH1ynyrMFHPUhpFzMwaH0JpyJNDWayD+Aqq1RDzV6
+	bweU7Is99Zsu9t7sHjILg==
+X-ME-Sender: <xms:9bmZaiE_xeGtpj-aAZG8FqxPjt3hRpaFNuwo3_PFeh2Aib8Zhv18iw>
+    <xme:9bmZauJargMgfRnRnN5OF8BdnJjwnroU23o6WlFtHeDagzbo6tqjzj3oWwiYEAoGA
+    5-hxD-J4b-eqfJnF3bJ6ktjR3rahnaNzO_3ObDpnfNHQSAReD3KWCrF>
+X-ME-Proxy-Cause: dmFkZTGz2sGakKQmWs4ObkEsezaHzQnaR8zoMe6FG4x9vwNpWVPin7aeMOow/P75UR78bk
+    RHl492FO+616I1+nkzegTTctVbOajGt4IQ0tSqx4rcTs2AfNuvKIz/r3pK2wwarcbdfrfi
+    NgG5Dz3Qu6i2BusqveKFOMQ2RwxKEO/7/YWQHn9NYSJRmXX5pnpYcFuFbw/eTX2Ez3JYp0
+    cRsgIoctBwSmq5h1EV5UYYQQfzc2uJq9wbdsQcqD4s8FBQIqCVy8F7/3YvsLUqvn3r+fW1
+    hBPEWtoh6Z5N9ospob9hdoHd4ETJiBUwKRoHvL2gJrKCElwwJjEs4PyoJ8cEtUEj/tP2S6
+    vs3CT6uixPqXFEwEy2q3nEhZAzHzgddWYWZwcu9e5yu7uxncYKAfRmZd2s7J10uw2HuMdk
+    jE35cwANatK8WciLpjt7vBPgoAv1qv2B3Dsx2MrnbXvDHG/aisKIT+HzsxNskZq6snI4vs
+    cJ48HMYK+0IS2BynVhmGOgvjujhfgOAU+QHtU7JyINkh6wEVesSP6LueQLsKlMcZuEQSTL
+    xZ9ZODd6zPzhgeDqIS0cgZuoL03gao4YGpcMyDw13x1pKFc/hPY4I20pxmEoMF9zQYA21C
+    GqjcryleQMWzJmg+6/zTAK6lfSt0C/jgClJaKuh5RdmmhF/GqAXPQ95zsOzQ
+X-ME-Proxy: <xmx:9bmZajx-KKg1US7GQ5HfUsIpaV3YuqXA5_2UoprSFMWBD0_nMVH-Xg>
+    <xmx:9bmZaiKOJH2t8DKGJbnVzG9dXcu-su6rw1bGMLnBnvWSizQu5RXGyw>
+    <xmx:9bmZalqjrUYQiMwiE_LnhjskrUaOz0uAk7K3Wq1BUgQadoG98BR07w>
+    <xmx:9bmZapKTSkGoGSleTvKtRa3shs6BeXZFE1S-zaqsQ4_tuAbuU8aBag>
+    <xmx:9bmZag7dgwcqO4L7Gzbqrxm1ZZJsbntyWYbZzO6c57Co3lJU4iZBWTQc>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id EA9C62C00064; Thu,  3 Sep 2026 14:18:28 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AGpaznFded8J
+Date: Thu, 03 Sep 2026 14:18:08 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Heikki Krogerus" <heikki.krogerus@linux.intel.com>
+Cc: "Greg KH" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <b98ed1c6-37fb-4235-8ebd-df350728f797@app.fastmail.com>
+In-Reply-To: <anMmhwSSLEAnAZZI@black.igk.intel.com>
+References: <mpearson-lenovo@squebb.ca>
+ <20260729182203.3667583-1-mpearson-lenovo@squebb.ca>
+ <anMmhwSSLEAnAZZI@black.igk.intel.com>
+Subject: Re: [PATCH] usb: typec: ucsi: Retry if notification enable timesout
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Add support for the Quectel RG660QB 5G module (USB ID 2c7c:013d).
-Its QMI interface (interface 4) uses class/subclass/protocol ff/ff/ff
-like the other recent Quectel modules, so match it the same way.
+On Wed, Aug 5, 2026, at 8:03 AM, Heikki Krogerus wrote:
+> On Wed, Jul 29, 2026 at 02:21:50PM -0400, Mark Pearson wrote:
+>> Found on Thinkpad E14 G8.
+>> When UCSI notifications are enabled the FW does not ack the enablement
+>> itself. Future commands will be acked correctly.
+>> 
+>> If this happens try enablement again and confirm acks are working
+>> correctly.
+>> 
+>> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>
 
-The remaining interfaces are handled by the option driver.
+Thanks Heikki.
 
-Tested with an early sample of the module on a Quectel 5G EVB connected
-over USB 3 to a Raspberry Pi 5: qmicli talks to the module via
-/dev/cdc-wdm0.
+Just curious - what is the process/timelines for this subsystem for patch being accepted and making it into Linus's tree?
+We're tracking this for being able to get it into the distro's, but I want to make sure maintainers are happy with it first. I couldn't see it in usb-next etc, so wanted to make sure it hadn't fallen off the radar.
 
-Assisted-by: LLM
-Signed-off-by: Sebastian Sjoholm <sebastian.sjoholm@gmail.com>
----
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+Mark
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 8178a8758..c940af5b0 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1084,6 +1084,7 @@ static const struct usb_device_id products[] = {
- 	},
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0122)},	/* Quectel RG650V */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0125)},	/* Quectel EC25, EC20 R2.0  Mini PCIe */
-+	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x013d)},	/* Quectel RG660QB */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0306)},	/* Quectel EP06/EG06/EM06 */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0512)},	/* Quectel EG12/EM12 */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0620)},	/* Quectel EM160R-GL */
--- 
-2.43.0
-
+>> ---
+>>  drivers/usb/typec/ucsi/ucsi.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>> 
+>> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+>> index 49f1c53721bb..ea25c44c2850 100644
+>> --- a/drivers/usb/typec/ucsi/ucsi.c
+>> +++ b/drivers/usb/typec/ucsi/ucsi.c
+>> @@ -2082,6 +2082,12 @@ static int ucsi_init(struct ucsi *ucsi)
+>>  	ntfy = UCSI_ENABLE_NTFY_CMD_COMPLETE | UCSI_ENABLE_NTFY_ERROR;
+>>  	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
+>>  	ret = ucsi_send_command(ucsi, command, NULL, 0);
+>> +	/*
+>> +	 * Some FW may not ack the notification enable the first time.
+>> +	 * If this happens, repeat to confirm it is actually working
+>> +	 */
+>> +	if (ret == -ETIMEDOUT)
+>> +		ret = ucsi_send_command(ucsi, command, NULL, 0);
+>>  	if (ret < 0)
+>>  		goto err_reset;
+>>  
+>> -- 
+>> 2.43.0
+>
+> -- 
+> heikki
