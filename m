@@ -1,109 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235983B2FCA;
-	Thu,  3 Sep 2026 08:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D0A3C5832;
+	Thu,  3 Sep 2026 08:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788424364; cv=none; b=qgWKtkpaLVkqxGCivJXoH88Wk/jWoTqwnMZGGRMrYtaIVTqX1tIw0xQddnvKPPXZhW1sq7/PlfMyQj4KtB3P/d5d2yJvn0nF2kWppQsmrJWBkFYw6EmsKEfuNplDspTyUPosCehSEqevQUrYPcVbo7w/wXfRyo2mNPawdgqD5q0=
+	t=1788424815; cv=none; b=muPxWdGUmwYpc6/8JHs4Nclj5UBvD/vQl4Ij+fmIWrrSp1MNe9Ja6QGTnBdHPd4cl05ceoarnEwWn15Fa79h6uEe7p2FJhwnNqd2NNZepFWbKHPshHvfzmT78Qee0CdhZA35e1K/YpdHLkMAZ3GFAKac6+rxze0sJ4kYydBmbXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788424364; c=relaxed/simple;
-	bh=yiz2PehtSMquqBrVvkBsz2/yoRKCJo3RdQRq0Fwa+XA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i/nO0bNZfOy2m2Gd1CmFxRgv8wQ3zfk3y92MMLgEAjwkR5WRO9CAJysNvo8B6sU1FwKaT3Du7g3UefLDFE+K/v+kFo6ts0WQZ3Q3xBL4PMja41hBMvJS1hx0w1ffNhWMq4U9wKi4B8OZcVjEKt7DvVYbwc00fFzjUZKqIemzCAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RykrkdWY; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RykrkdWY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788424363; x=1819960363;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=yiz2PehtSMquqBrVvkBsz2/yoRKCJo3RdQRq0Fwa+XA=;
-  b=RykrkdWYbzJAq6RKXDeHAR7AVhUgMun/jnFNUvOHjoHKgirocYWYTJmP
-   Ur73A60JbEDqjPBl0ciKXH8v3cSMDFFlc+6BpcBLBzJhsQC1SL0PftM2L
-   yDdksUNw3vfz1mZY1qID9Pe5RPOWqCuUJwrxxEfiKXPRgTgf8xOTclMFy
-   XwMkgOVGaJZSQ/8fZWxQUTk4SQOzAwhalpjzYUHRnZZfthfqZfu7Pt3Av
-   VPT+eLFluOCPX7ECtWFE+t800dyVf6EtLphqt+dAeQAC4zGhCgnkchJ/Q
-   5RpHWwo4vRDeiO3itAqytBDJCmcA24FiJ16OoikSM1sBqaU3vEYNxHB9B
-   w==;
-X-CSE-ConnectionGUID: zutkXaMMQoyGJkk4DMP1+g==
-X-CSE-MsgGUID: Lk/xtRr3TQez/llZS23c5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88040821"
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="88040821"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 01:32:39 -0700
-X-CSE-ConnectionGUID: 3GHFLDY8RtqR2LqnOOn0vg==
-X-CSE-MsgGUID: uXNdGxW0RRCrcibYp5fMzg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="307861818"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.244.90]) ([10.245.244.90])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 01:32:36 -0700
-Message-ID: <41737353-533e-4d50-b687-272e6cbde36a@linux.intel.com>
-Date: Thu, 3 Sep 2026 11:32:33 +0300
+	s=arc-20240116; t=1788424815; c=relaxed/simple;
+	bh=iG4xhvwpyn0mUG5F9kgfH1IlHOda8aWCkvFsoumb8KE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KKt0TyCUdfwNSfwNUds1D7p43xEtUnLRhOPuHf3sJ8+ESP08+995QiG/ZR65p040B8OoDvAtA18d7cF8MEq6Gc8uwPtnhwdqOWN7JseMD7sQ4Xa5ix0rAbjkaV4jvGUL/mRxBYW/j1N2qbCPzGdCL3TPbHAo3Q3VF7HQTK5I3Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 1040678aa77311f19a56ed5b684f684d-20260903
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:e4bb56b8-267a-4301-88e6-df4a7ac4434c,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:7db8b62,CLOUDID:e4e3d05f10b7d8ab5d55921fcbdcd6df,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|136|850|865|898,TC:nil,Content:0|15|5
+	0,EDM:-3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
+	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 1040678aa77311f19a56ed5b684f684d-20260903
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1115636491; Thu, 03 Sep 2026 16:40:06 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: =?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
+Cc: Huang Wei <huangwei@kylinos.cn>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: fix teardown races with late notifications
+Date: Thu,  3 Sep 2026 16:40:00 +0800
+Message-Id: <20260903084000.3507309-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260903030356.58597-1-ivanrwcm25@gmail.com>
+References: <20260903030356.58597-1-ivanrwcm25@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [BUG v7.3-rc1] WARNING: mm/page_alloc.c:5340 at
- __alloc_frozen_pages_noprof
-To: Michal Pecio <michal.pecio@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev,
- Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20260902143351.7b6d5e0a@gandalf.local.home>
- <20260903091556.751544ce.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260903091556.751544ce.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 9/3/26 10:15, Michal Pecio wrote:
-> On Wed, 2 Sep 2026 14:33:51 -0400, Steven Rostedt wrote:
->> I'm triggering this warning on boot:
->>
->> [   32.862044] ------------[ cut here ]------------
->> [   32.864573] WARNING: mm/page_alloc.c:5340 at __alloc_frozen_pages_noprof+0xd81/0x30d0, CPU#3: swapper/0/1
-> 
-> Apparently that's a nonsense allocation size.
-> 
->> [   32.881048] Modules linked in:
->> [   32.883735] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 7.3.0-rc1-test #510 PREEMPT(full)
->> [   32.890178] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.17.0-debian-1.17.0-1 04/01/2014
-> 
-> Hmm, I recall hearing about QEMU recently.
-> 
-> Could this be the "horrible splat" mentioned by 045b5bef916d ?
-> 
-> Find it in usb-linus branch at
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-> 
-Yes, this is the case
+Hi Iván,
 
-A patch switching to GENMASK and FIELD_GET has a flaw and changed the parsing of
-the max segments value reported by xHCI host controller.
+I've been poking at the ucsi teardown path lately so I took a closer
+look at this. The race is real, and moving acpi_remove_notify_handler()
+ahead of ucsi_unregister()/ucsi_destroy() is clearly the right call for
+the ACPI path.
 
-xHC returns _exponent_ of maximum segments supported, QEMU supports one segment
-so value read is 0.  Parsing fails and assumes maximum number of supported ring segments
-is 0.  Most hardware xHCI controllers (except some Mediatek) support more than one
-segments so issue is not visible for those
+One thing I couldn't convince myself of: does acpi_remove_notify_handler()
+wait for a handler that's already running on another CPU? From what I
+can tell ACPICA removes the handler node under the device lock but
+doesn't flush an in-flight dispatch, so a notify that's already entered
+ucsi_acpi_notify() could still dereference ua->ucsi after the handler
+is gone and ucsi_destroy() has freed it. The reorder handles new
+notifies fine, I just wasn't sure it handles the one that's already
+mid-flight. Did you look at that?
 
-Issue (7.3-rc1):
-6d45e9556d4a  ("usb: xhci: standardize multi bit-field macros") in parsing
+On the ucsi.c changes: setting ntfy to 0 before NULLing the connector
+array looks right to me, ucsi_connector_change() bails on ntfy before
+it touches the connector. But ucsi_notify_common() also does
+complete(&ucsi->complete) and the backend's read_cci(), neither of
+which is gated by ntfy. So for the non-ACPI backends (glink, ccg)
+that can't be fixed by reordering the ACPI handler -- is the ucsi.c
+part actually enough on its own, or do they need their own teardown
+ordering? Put differently, is the ACPI reorder the only real fix and
+the rest belt-and-suspenders?
 
-Fix: (in Greg's tree, Hopeful it can make make 7.3-rc2)
-045b5bef916d usb: xhci: Fix HCS_ERST_MAX conversion
+Only build-tested too -- would help to know how the race was found
+and what makes the reorder sufficient on its own.
 
-Thanks
-Mathias
+Not objecting, I'd just like to understand the in-flight case.
+
+Thanks,
+Huang Wei
