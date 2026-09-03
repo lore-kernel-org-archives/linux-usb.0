@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532913CAE80;
-	Thu,  3 Sep 2026 06:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7DF3F44CD;
+	Thu,  3 Sep 2026 06:41:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788417636; cv=none; b=fLsqf39W8bNkpE+WldpIjeTw6s6cNoOyA8OCgoIHXrlmDjUpoIQJbUjaukbKHNqM6pJRnE0E/e3yOwqo1yl73oJoTgV8ufixKz0nGtlX4ZHYD7O0Zy2wKWY0rgSBh3k7CfkZNEX4rt6+14zKa8BMVkFVCpHbOUBJ2h3x/DLJNOY=
+	t=1788417691; cv=none; b=jsKvyMPU+rzI8PfHFJOaOGjt8RAkF0BwQcsRl60E2aT7hclFNb5d3kq1Hox2JoWfC+8JBp9WpYL0hAdBo23qcQbaVqzhvaK4R09ofWsaGfBMS3HXLUUle995yet4gonM3WYJNqot2PFxY4P6NItkrPRC+dpI0rFI8C3YbODKhhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788417636; c=relaxed/simple;
-	bh=ejMNEUzKxafjlD89Za7m2oNvTOgJyqZLzjphiTJE20w=;
+	s=arc-20240116; t=1788417691; c=relaxed/simple;
+	bh=7GxDPpxCFoi/zD06jpD4gdECRwZHaLkRj3vxwB1a7xw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FIy7poPH5OcxESLGWcjA5MWCDpTq0ZSW8p2sYsEeqokp2M+Sbf6N4JAKW/IXW+3Kh7QK1GlC8SP4eXcaKalHSFmjWAJRZ+eDPSdtkUnYQq5aAcnm5nthWMgRFmzb4yVt6eOCOamXL/9jcaboWoxSPqNOrWU8ITyTadGJS8o2m3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Akj6NORP; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=AAbK5Yic/3fAKVgSUZHtvYSOzxMibLG/d65VAi+irHS5uIlR1pjZZn4tXkJkmQJ3nCM7bCoX5JIOvc9Ul5rJyqWLNO9gKQINQ0SjBZYpIMwe8GBV44e/iOy6VgjrD0lORpfNvW7HaYLD4b37aylxN85LovsEvkQ5VWYwduB/yRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEtuke5g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Akj6NORP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78D3B1F000E9;
-	Thu,  3 Sep 2026 06:40:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEtuke5g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD771F00A3A;
+	Thu,  3 Sep 2026 06:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788417630;
-	bh=SG9pVxMHTL6Sx40NXjlorl4kGOk+6vdpYuFCN+zzKcw=;
+	s=k20260515; t=1788417685;
+	bh=4QSeOmomxfLkXiHY928g9Cb/0fnESd4LICWyT6M5V/k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Akj6NORPryy44xPL8LghMdNzeM/h2f+So0BapcNasrDUnI9JxsvSEK67K14aXv9C8
-	 9R9omclSqkfYElyYOyrr9zS95EuubHVvbBzUAU8FF4JbByPoxsV9wflEVzgLgUdoaV
-	 YaaGm9xRxgpwyHioQN9hJkaQ2W1oQcUkkgw3Iry/EU8Wlof2wtLAmgkhQmn+Lpb/pg
-	 4UUJoE6OohxeUbzCkDwxXySPOwOyJCEWoFZamjJTNfbNF1PBeNf5/wEYjVmcttPx/A
-	 VVzteso9/d/Lc8cJFkLcnpdGE3wXtKdeHuKOxAJ0tBkKjTdL6FtdsJePpUzwYBmzpB
-	 fjCgIBISrpYxQ==
-Message-ID: <b192753a-b7c1-4086-9c15-4af2008a5670@kernel.org>
-Date: Thu, 3 Sep 2026 08:40:24 +0200
+	b=bEtuke5gdgutAmLFNiepWZuhRylUA+fY7PE4kQ8mUfQa7OuajPFZ/TAo6+4N0baca
+	 swrDnozTsxdrmTQnNfj/kY/90FuZ+faIjv0V/8KmcbkwJ0fxLo6ndqv3BIRmvTkLGg
+	 XQH4M58X5L4/uaKqBQxuoW05RbFz4qMfzXQoMqf7teEDDcM2f0rmKlRdPIvugqNoNN
+	 9d7EBKqVqFFRCQQuvMWP9efsW20tRdu33PkkJa7f8z2HdSoAHfPpIyiAlPydMfSbRN
+	 f1U95kp/lCAYVdRQRm5d+f3fHnvQeRwiDlJVJ+r8z6Ieb80BPi2qIy3vzzaI0BqM73
+	 TU8eK8D1Aum8g==
+Message-ID: <3574212b-1a4b-486a-97df-1d6ae7895097@kernel.org>
+Date: Thu, 3 Sep 2026 08:41:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,8 +50,6 @@ References: <20260828081542.52796-1-krishna.kurapati@oss.qualcomm.com>
  <ce5bf06b-8284-4355-94bb-416a8e34bd5b@oss.qualcomm.com>
  <cc52ff33-3da4-492e-80cd-ba2b1711bfed@kernel.org>
  <6af2e860-ba7a-4f86-a0e7-872a312b47e4@oss.qualcomm.com>
- <06bce1c2-8498-4988-b5c0-ab42bfba86cb@oss.qualcomm.com>
- <dd3c20f3-89dc-4b5a-935e-e0e142988e4d@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,58 +95,51 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <dd3c20f3-89dc-4b5a-935e-e0e142988e4d@oss.qualcomm.com>
+In-Reply-To: <6af2e860-ba7a-4f86-a0e7-872a312b47e4@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 03/09/2026 08:32, Konrad Dybcio wrote:
-> On 9/2/26 6:59 PM, Krishna Kurapati wrote:
->>
->>
->> On 9/2/2026 7:40 PM, Konrad Dybcio wrote:
->>> On 8/31/26 2:29 PM, Krzysztof Kozlowski wrote:
->>>> On 31/08/2026 11:03, Krishna Kurapati wrote:
->>>>>
->>>>>
->>>>> On 8/31/2026 2:07 PM, Krzysztof Kozlowski wrote:
->>>>>> On Fri, Aug 28, 2026 at 01:45:42PM +0530, Krishna Kurapati wrote:
->>>>>>> Currently for Glymur non-multiport USB controllers, number of interrupts
->>>>>>> are limited to a maximum of "5". Either hs_phy_irq or ss_phy_irq are to be
->>>>>>> present.
+On 02/09/2026 16:10, Konrad Dybcio wrote:
+> On 8/31/26 2:29 PM, Krzysztof Kozlowski wrote:
+>> On 31/08/2026 11:03, Krishna Kurapati wrote:
 >>>
->>> [...]
 >>>
->>>>>>>                  - qcom,eliza-dwc3
->>>>>>> +              - qcom,glymur-dwc3
->>>>>>>                  - qcom,ipq4019-dwc3
->>>>>>>                  - qcom,ipq8064-dwc3
->>>>>>>                  - qcom,kaanapali-dwc3
->>>>>>
->>>>>> This changes the ABI without an explanation.
->>>>>>
->>>>> As per the harware specification, the controllers do have both
->>>>> hs_phy_irq and ss_phy_irq. Hence wanted the binding to capture that
->>>>> info. Will update the commit message accordingly.
->>>>>
->>>>
->>>> So the change in 99df63d20dabda8d7ae01bcca7cdb1e92110a555 was
->>>> incomplete? Lack of context here is not helping.
->>>>
->>>> If they have these IRQs but it does not matter, then it is not a good
->>>> reason to change ABI and you should just add the clock as optional to
->>>> the end. Was this binding already released? I think yes.
->>>
->>> IIUC the intent of the patch is to allow specifying the currently
->>> missing hs_phy_irq on non-multiport controllers (i.e. usb3_[012]).
->>> Bundling the DT change would have made that easier.
->> Yes, I wanted to add the missing hs_phy_irq. I didn't want to bundle in the DT along with the usb binding changes. DT change was posted separately:
->>
->> https://lore.kernel.org/all/20260803-glymur-dt-usb-fixes-v1-1-0f5f52853102@oss.qualcomm.com/
+>>> On 8/31/2026 2:07 PM, Krzysztof Kozlowski wrote:
+>>>> On Fri, Aug 28, 2026 at 01:45:42PM +0530, Krishna Kurapati wrote:
+>>>>> Currently for Glymur non-multiport USB controllers, number of interrupts
+>>>>> are limited to a maximum of "5". Either hs_phy_irq or ss_phy_irq are to be
+>>>>> present.
 > 
-> Shipping bindings and DT changes in a _series_ is preferred, what one
-> must avoid is changing them within the same _patch_
+> [...]
+> 
+>>>>>                 - qcom,eliza-dwc3
+>>>>> +              - qcom,glymur-dwc3
+>>>>>                 - qcom,ipq4019-dwc3
+>>>>>                 - qcom,ipq8064-dwc3
+>>>>>                 - qcom,kaanapali-dwc3
+>>>>
+>>>> This changes the ABI without an explanation.
+>>>>
+>>> As per the harware specification, the controllers do have both 
+>>> hs_phy_irq and ss_phy_irq. Hence wanted the binding to capture that 
+>>> info. Will update the commit message accordingly.
+>>>
+>>
+>> So the change in 99df63d20dabda8d7ae01bcca7cdb1e92110a555 was
+>> incomplete? Lack of context here is not helping.
+>>
+>> If they have these IRQs but it does not matter, then it is not a good
+>> reason to change ABI and you should just add the clock as optional to
+>> the end. Was this binding already released? I think yes.
+> 
+> IIUC the intent of the patch is to allow specifying the currently
+> missing hs_phy_irq on non-multiport controllers (i.e. usb3_[012]).
+> Bundling the DT change would have made that easier.
 
-No, DTS cannot be posted within USB patchset.
+This does not answer my concerns. So repeating: patch is changing ABI
+without an explanation. This means contributor needs to provide
+explanation for the ABI change in terms of actual impact.
+
 
 Best regards,
 Krzysztof
