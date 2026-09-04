@@ -1,88 +1,266 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BB238F941;
-	Fri,  4 Sep 2026 06:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F368B41D641
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 06:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788504821; cv=none; b=usTVemswAZct3i1htEwA/7PLCN9z79QCS1k4nQNHOLB5X5GaQ8ocKFp4L/kgRZDyHnucqLWXqtS1T3AVjTvVELwPyrpyWxPoZ4+QgoWmBw5YnFRo7H2TGTFIOfgd3vAlCMT7WmZg9i47mbqh6W3QCpKQgCq12UkXr5tfOWnuMwU=
+	t=1788505089; cv=none; b=LFhLbIZwv6NhfDnswlfSHQclsKDAFBNjksyuXvTU3n7Q+q4ruLo1FfAprbnHcY6WrK0aJhpCrAa7vFwSUJNqGaZY+j8X/dfLx/PkuiCwrnSEssqrhIlfsw0v9dpPnT9mJ0wpfNdG1muoIPLZ1mB/Im5ZAf2iUdUDFBqP+Edm4lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788504821; c=relaxed/simple;
-	bh=PyZTJnul0WRyhv14NAjINWVE7rJwhKbtgWZSTSi/sZQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bOQMhO1RT782dmPbFeK2JRRoPie8Ts6r/+pS/34RBbO6ZEGaZJuX/99/qxnUT5eKywp2csJApkqAAai7U6ilL0wtbfuQLk4cPVNC8HUIW+IyJ6//WClH6OoRfw/y8eX2rylyxhzmlG27x3IIw5AHGYa75kUpDwH6+vcZj9qOjFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=nznidqa8; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1788505089; c=relaxed/simple;
+	bh=4M7fW0W6k2SMLhuePvMSSN1hN5aqIPrugUZcIW0BbsY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hFVOJn1DMq9izMrNf0wETUWpg9ivjZjIFkof+CxxSIW0Bg9b5hXS0pVHuTqbbG4CTrFKzx66m7ai5jMizz+btjJZvMQgH+I/KKM9MjGJAOfKfAGuKo1e4CbeA22CqGoiTwV3BV+VTCdwo1ZQv6F2O2NtPb0gh27kdnFv57i4NlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Iq4KgQeT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ot6Bv8Tf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="nznidqa8"
-Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4c86de951;
-	Fri, 4 Sep 2026 14:53:29 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Minas Harutyunyan <hminas@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Paul Zimmerman <Paul.Zimmerman@synopsys.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: [PATCH] USB: dwc2: shut down wakeup timer before freeing HCD state
-Date: Fri,  4 Sep 2026 14:53:23 +0800
-Message-Id: <20260904065323.4047026-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Iq4KgQeT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ot6Bv8Tf"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68462c9E3007029
+	for <linux-usb@vger.kernel.org>; Fri, 4 Sep 2026 06:58:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=HnRkMENpbWbqBF8fAOgmy7
+	G9W+ZeKve5Xmct5CeDQDs=; b=Iq4KgQeTkZP4x1klL/MJkJRZ/hbQus9o/l5zCB
+	RaqHqr5N5YUXCvY0kt2xPvTMDrGBLfy02XNLMVnW2j4M28bsvWGhqJfsAVC/l1Vp
+	3AdfGqt+xfoslTMrdjp4scx5zr755uRLA7nE8dUJ+Aiugx3O5JEyRaAGIZk2Qb6H
+	LhOZRTXaCLsoP9MopCjW8QFTHYPlYPBav6bYbx8H3BCAD62JW6uNcX6RtIev1lNR
+	iqsjk0ehUb1Me9f44jEY3+/KGdWHcjdrkZ6OT1vUrue1yApWQjBapRbzR3dlUPez
+	8kmfpLlDeNfx6GA7CpfbCah7W9GAhJbfqH1+x5nJV3RMFH/w==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gfp0r0ky6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 06:58:05 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-84e01a62d99so871376b3a.0
+        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 23:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788505085; x=1789109885; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HnRkMENpbWbqBF8fAOgmy7G9W+ZeKve5Xmct5CeDQDs=;
+        b=Ot6Bv8TfZPPF4DRtiT66MFwTe3iDWnNl7S6HV7HF+58edzduMVeVcxTRiu/CE7NlTD
+         LQ2M8QczvT36Ev+nchWOf0bfrARHZ5uGp0VWNNtVbDGXFamrgswEcG2G79iPOU2Bstgw
+         /kbCz+dLbpzQid153D4NSrAA45IEupMlqpFf4wUBAUwNEHjw5T41ka4GauupU69H8Lnq
+         WTfZAS1uwwJU+S5ltxkB/hgCCwUSiuKSyH0t25Sfz3uVAhLUJFNMs41vjyZal4qRbkRo
+         3KrsILScUyGNsVyI7MV0wm2AAnTokv9yNOMevZ7G4nT+AHzpnWLABdfHbnAtfg0iPfYW
+         jSCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788505085; x=1789109885;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=HnRkMENpbWbqBF8fAOgmy7G9W+ZeKve5Xmct5CeDQDs=;
+        b=EBWYtlLs0fKp5r9Dt7WQRObJDcWHiK3IDmWREesqfnVGUeppLD0P/GRLqDNaMWNX07
+         4WuQrkUN4+pLxyA0yYZJi/kKqHg3z01N+2KjtXkueUQ1KIJQj1NRFYVL1Qm6jtlDRq6D
+         88qfULHsAIV3M6V+Jzl0vKZXbwBtD4ssNNsWMgHdI52fOzBP8fLIFSyOdubItyaOQL2N
+         YixXIl9xkHZ5ShG6x50HAHGQrsp2RGpPlsVhDh9syP056sO9PXtWPbJDR7B7CI5UivjI
+         RDisCgeOvyb7gwSbpN3mSi+N1F8/VAJ/ks1bE8WJf8L14TuVKkqeDR2P8Ok0pBggpiIP
+         CCuw==
+X-Gm-Message-State: AFuF++mOG34OSFdexLCHAM2IJBWEBFYyjGs9+RAU9mwyd6GmNxGwIsOe
+	80ZZfw4Tp4Ub++S0I1PQxb4pv7sxpszGW5JxXvBU/qh9Ylqm/Vo597+hmrxfRoMouAwQNfgid+i
+	litX5b/tUfc+BpYHTIHFVTrs/U5FUVraYZ0wuzvTvEJCQ+hF5k69vOFVna+MXIzI=
+X-Gm-Gg: AYBFou1ZVrSOrj3zxbFtn7T12nbqsXmFw7+llEwKvRdyhxcWQ6PPkljYNrYV9YMVz6b
+	NK4Yd8aqHnrJCZEMLY53AINMQSk1Q5VnKgzBQfMHRDlSqko+1pFiD23hoOLTD66naahZFf3SPQN
+	RfEMOM5XfnJYHu+ihEA7HYmas1gFh6ApIhz8QcRqJizJF9FlDoD/Hu1sUEGK7MSz1NvAXUuQ5d3
+	7WWoQDSXY7Uo2/vuv0W3ohAEzMB+2ZDvuwnZD9DJJoua6znHCkUdwMIAEBXHUO2f2FW2DZYzeA7
+	MKGIrO7KiJ8zkWaT9ORijvIhOrQQfAq7klUbVUxlFYy9q0rqdfOxhNvrl9XOwTT8KxYOBHRwa7S
+	q5HIlkTuFyruHuWs5Lll8ASIjkWKJwFAHp+78sCIbtCahqIh0+VPT
+X-Received: by 2002:a05:6a20:7283:b0:3a0:bc61:62e6 with SMTP id adf61e73a8af0-3da39d0d473mr5924621637.8.1788505084751;
+        Thu, 03 Sep 2026 23:58:04 -0700 (PDT)
+X-Received: by 2002:a05:6a20:7283:b0:3a0:bc61:62e6 with SMTP id adf61e73a8af0-3da39d0d473mr5924575637.8.1788505084285;
+        Thu, 03 Sep 2026 23:58:04 -0700 (PDT)
+Received: from hu-wcheng-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885d29esm4760900eec.2.2026.09.03.23.58.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 23:58:03 -0700 (PDT)
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Subject: [PATCH v3 0/4] Add larger page size support for USB audio offload
+ path
+Date: Thu, 03 Sep 2026 23:57:49 -0700
+Message-Id: <20260903-16k_offload_v1_b4-v3-0-135928dc2408@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa06b319ecb03a1kunm14fe40e82cded
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZS0NNVh0fGUxDSU9MGkMaT1YeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pPSExVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=nznidqa8kJUPoCpnbLZBdILMXOlzlFYYuTk8NOIiFqeab/OwY6D56ffJ98IGZuFwU1O6CPU0keCjV2RqB3mW6i+MA1/WcT3IHqfSPqRGbhWu27EyhhCpVgsh5vio7399wNur+pkTKr6271fb73pRpwZfbsv8XzNKawGFYMeJD+s=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=WrhANauzQUvCaiGOaK1awVnmFxHTAanmgw0npzHV8YA=;
-	h=date:mime-version:subject:message-id:from;
+X-B4-Tracking: v=1; b=H4sIAO1rmmoC/33NTQ6CMBQE4KuYri3pnwVceQ9jSFuKVIFqC42Gc
+ Hdb3Lggbl4yybxvZuC1M9qD424GTgfjjR1ioPsdUK0YrhqaOmZAEOGoIAxifq9s03RW1FXAlWS
+ Q1phxxNAhzxmIfw+nG/NazfPlm/0kb1qNCUqN1vjRuvc6GnDq/fMDhgiyUnCpOVKCopP1PntOo
+ lO277N4QJoJ5BcqtiASoUIwTnmppZR8A1qW5QPhk6DMFAEAAA==
+X-Change-ID: 20260824-16k_offload_v1_b4-3d1460405774
+To: Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDA2MyBTYWx0ZWRfXw2gUwwxizVHX
+ FB+IeD9SsxVqx+duIHfHkuQUKF0jQ/GTTYrlM34gg1JWv0JqvNBJOxXz+Ximq/NThmMl7o7uj/k
+ Bo1UN3lp04vSv9QKf5UjbhKLttWDVAA=
+X-Proofpoint-ORIG-GUID: z3B9zjdJfWCpANucKLSKPxt9NcSxVdcn
+X-Proofpoint-GUID: z3B9zjdJfWCpANucKLSKPxt9NcSxVdcn
+X-Authority-Analysis: v=2.4 cv=T/S8ifKQ c=1 sm=1 tr=0 ts=6a9a6bfd cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=ag1SF4gXAAAA:8
+ a=iox4zFpeAAAA:8 a=VwQbUJbxAAAA:8 a=GjhRyQdd-c_DPEUQ6LMA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22 a=FO4_E8m0qiDe52t0p3_H:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=WzC6qhA0u3u7Ye7llzcV:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDA2MyBTYWx0ZWRfX+2NOk/XG7rOf
+ zJpykxV/F49Kdxz9cjAGwDewpaetV4MIWrc88qZ69RpizjLyvYMHQnSeV01p/CcP8+08gAsvFIP
+ 7zrGqdGOzc7zQg11pTjOtwdNbOCj2cpJ13VYVaO06ty85AgUu+zLH4JSec5duggpyqbbQdWcyr1
+ C7Fg2PSSAGcajeTPSz+mhVxELWsbFQNBa1WgBsk0AF+4jgmPTyPD7gIgIgtxdHINmD6MyeMIYe4
+ vF3M3aajlqoeoUBGNk9yR54ZnTGINzhCBYSvzppoArbbtXn1Ae+z0c/8gDd27r7bxoau9NkMexk
+ exUUbboeS0iIs4jXhIQhi9vDnW02qzJ3ISikHErmtfuS72hdekM5iCIoIIxCPEIkXToBwe0J44a
+ zm4PPahMaUoTY3K+zs5rlm/0/ne0nB0K3CfFOQoU5aO1QF3eb7gfNadZX7s2gLQcUTv055HxGpM
+ nub6SY5Jyc/O/b0k6iw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-04_02,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 spamscore=0 suspectscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609040063
 
-dwc2_wakeup_detected() accesses the DWC2 host state and can rearm the
-wakeup timer.  dwc2_hcd_free() currently deletes the timer only after
-freeing host-owned state, and timer_delete() does not synchronize a
-callback or prevent it from being queued again.
+On some environments, 16kB pages can be enabled from the Linux subsystem,
+which manages the IOMMU mappings for the audio DSP within the system.  In
+the current design, the following assumptions break when 16k pages are
+utilized:
+  1. xHCI ring size is equal to PAGE_SIZE
+  2. Ring addresses start at the beginning of a page
 
-Stop and shut down the timer in dwc2_hcd_release(), before the HCD
-resources are freed.  This covers both the HCD initialization error path
-and normal HCD removal.
+When the USB offload driver maps the rings (w/ the audio DSP SID), it is
+set with a 16k granular, which is a problem, as several xHCI rings could
+exist on the same page.  This is because the rings are currently allocated
+from the segment_pool.  Hence, potentially mapping non USB audio related
+rings into the region accessible by the audio DSP.
 
-Fixes: 7359d482eb4d ("staging: HCD files for the DWC2 driver")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:GPT-5
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To mitigate this, this series introduces a separate segment_pool
+associated to a sideband ring.  Before the USB audio offload path
+is enabled, the USB audio data streams/endpoint are not active.  Only when
+the class driver issues a usb_set_interface() call (done from
+snd_usb_endpoint_prepare()), will the xHCI allocate the transfer ring
+resources.  Which pool is selected is all based on if the sideband path
+is being enabled, and if so, memory can be allocated from that pool,
+which expects to be owned in conjunction with the audio DSP.  This
+concept allows to keep the same model existing in xHCI, where multiple
+4k segments can reside on the same page, which reduces potentially over
+allocating based on the page size.
 
-diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-index 2414291aa..cd0dc876b 100644
---- a/drivers/usb/dwc2/hcd.c
-+++ b/drivers/usb/dwc2/hcd.c
-@@ -5082,14 +5082,13 @@ static void dwc2_hcd_free(struct dwc2_hsotg *hsotg)
- 	}
- 
- 	cancel_work_sync(&hsotg->phy_reset_work);
--
--	timer_delete(&hsotg->wkp_timer);
- }
- 
- static void dwc2_hcd_release(struct dwc2_hsotg *hsotg)
- {
- 	/* Turn off all host-specific interrupts */
- 	dwc2_disable_host_interrupts(hsotg);
-+	timer_shutdown_sync(&hsotg->wkp_timer);
- 
- 	dwc2_hcd_free(hsotg);
- }
--- 
-2.34.1
+Likewise this mechanism also allows for the offload client driver to
+determine which SID is associated to the segment_pool if it decides to
+map outside of the Linux subsystem.  The new ring allocation flow for
+sideband/offload clients will be as follows:
+
+qc_usb_audio_offload_probe()
+  ├─ segment_pool = dma_pool_create(...)
+  ▼
+xhci_sideband_register(intf, XHCI_SIDEBAND_VENDOR, segment_pool, notify_client)
+  │  sb->segment_pool = segment_pool
+  ▼
+uadev[card_num].sb = sb
+
+handle_uaudio_stream_req()
+  ▼
+enable_audio_stream(subs, ..., pcm_card_num)
+  ├─ data_ep = uaudio_find_host_endpoint(subs, subs->data_endpoint)
+  ├─ xhci_sideband_add_endpoint(sb, data_ep) ← ep->sideband = sb; sb->eps[ep_index] = ep
+  ├─ snd_usb_endpoint_prepare(chip, sync_endpoint) ─┐
+  ├─ snd_usb_endpoint_prepare(chip, data_endpoint)  ├─→ xhci_check_bandwidth()
+  │                                                 ▼
+  │            xhci_endpoint_init(xhci, virt_dev, ep, ...)
+  │            pool = sideband ? sideband->segment_pool : xhci->segment_pool
+  │            new_ring = xhci_ring_alloc_from_pool(..., pool, ...)
+  │            ▼
+  │            xhci_ring_alloc_from_pool(..., pool, flags)
+  │            ring->segment_pool = pool
+  │            ▼
+  │            xhci_alloc_segments_for_ring(xhci, ring, flags)
+  │            xhci_segment_alloc(xhci, ring->segment_pool, max_packet, num, flags)
+  │            ▼
+  │            xhci_segment_alloc(xhci, pool, max_packet, num, flags)
+  │            seg->trbs = dma_pool_zalloc(pool, flags, &dma)
+  ▼
+xhci_sideband_get_endpoint_buffer(sb, data_ep) → xhci_ring_to_sgtable()
+
+qc_usb_audio_offload_disconnect() / unreg_xhci:
+  ├─ segment_pool = sb->segment_pool
+  ├─ xhci_sideband_unregister(sb)
+  ▼
+  dma_pool_destroy(segment_pool)
+
+Similar logic is added for the secondary interrupter path as well.  The USB
+offload class driver calls xhci_sideband_create_interrupter(), which will
+be responsible for allocating the secondary event ring.
+
+There is one point that was seen during disconnecting the USB audio
+device while audio offload was active, where the offload client driver
+was pre-maturely freeing the DMA pool before xHCI core was able to free
+the DMA memory allocated for the rings.  This is the reason for needing
+to explicitly call the ring free during the sideband unregister path.
+
+This was confirmed to work on the SM8350 MTP platform, with the 
+CONFIG_ARM64_16K_PAGES config enabled, alongside tinyaudio binaries:
+
+tinymix -D 0 set 513 1  (Enables USB_RX multimedia#1 path)
+tinyplay -D 0 -d 0....  (Routes PCM data to ASoC platform sound card) 
+
+Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+---
+Changes in v3:
+- Moved sideband segment pool assignment to when a sideband endpoint
+  is added.
+- Address an issue where during USB device disconnect (while offload
+  active), where the offload client driver is freeing the DMA pool
+  before xHCI core is able to free the dma allocations.
+- Update xhci_ring_to_sgtable to correctly allocate and fill the sg
+  table which capture rings within page offsets.
+- Link to v2: https://patch.msgid.link/20260828-16k_offload_v1_b4-v2-0-8a46369ebbb6@oss.qualcomm.com
+
+Changes in v2:
+- Moved from using alignment_req to having the offload driver maintain
+  its own segment pool.
+- Fixed OOB condition seen in xhci_ring_to_sgtable() and will capture
+  page offsets properly.
+- Addressed inter-patch build failures.
+- Link to v1: https://patch.msgid.link/20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com
+
+To: Mathias Nyman <mathias.nyman@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-sound@vger.kernel.org
+
+---
+Wesley Cheng (4):
+      xhci: sideband: fix ring sg table for sub-page TRB segments
+      usb: xhci: sideband: allocate sideband ring segments from a dedicated pool
+      ALSA: usb-audio: qcom: tag sideband endpoints before ring allocation
+      ALSA: usb-audio: qcom: fix xfer ring IOMMU unmap on 16K+ page kernels
+
+ drivers/usb/host/xhci-mem.c       |  63 ++++++++++------
+ drivers/usb/host/xhci-sideband.c  |  97 ++++++++++++++-----------
+ drivers/usb/host/xhci.h           |  16 ++---
+ include/linux/usb/xhci-sideband.h |  20 +++++-
+ sound/usb/qcom/qc_audio_offload.c | 147 +++++++++++++++++++++++++++++++-------
+ 5 files changed, 243 insertions(+), 100 deletions(-)
+---
+base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
+change-id: 20260824-16k_offload_v1_b4-3d1460405774
+
+Best regards,
+--  
+Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 
