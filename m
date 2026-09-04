@@ -1,72 +1,72 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D281847F772
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 12:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23CB38A711
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 12:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788524303; cv=none; b=f8Qr2ZAxpVq9rAAzqcmCWmi76k8vS080x0j9kEeeYbqMt/QZJ9Emi3j/oR13WwPOuNnSTpa8an9nE2IWHRsgZNCerpx51lOvjNU/BUXUeoNxFRhEJ/Elqsb8R5PjKB8qzdgEGOXzE2gQdDhkz/+CcLB4LqALEyYdQDGAP72ous0=
+	t=1788524306; cv=none; b=V8/bSECe07OGjgn2OX4w3j/B4Mw/8/tazb37DeQyDBDosIMO7ecOok63JhMEULTUhSrHMrCq31TFm4ANrfnxS7StjfLgQK+4EPhh24DDlHrrS/7FMlo/DzqvDhGHXo+mYhg9Iw9ga/jsm0ne+m9lemNo6FRmtCaazTWl8W3p4bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788524303; c=relaxed/simple;
-	bh=piqEQhgfDDtxBSBwMJx4ZDLqf47GqIO4jLyZxunDmb4=;
+	s=arc-20240116; t=1788524306; c=relaxed/simple;
+	bh=fhFe03uXtuJjHdWNnkNZhWHk5eyor9PjO6gBO+wSF70=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DZSFX1uZgYiP19emAatQI/gCRTCYpgzEMl75gwKPhYJIAOQT7bKf1vBI8U0UDw8BaG0fjjTVFSOM2Npd8sSccLjws8mG3iAKiAjmJ3r5gKL/do3/89GmD7RJaR5GE0gtsP1/Pz7zpXKSyyMC4jKoY06jeUqp4cB00EIZJXwXwgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q21Oo3TR; arc=none smtp.client-ip=209.85.161.47
+	 MIME-Version; b=szg+WIRPmgMN4XosgXow07ch7QeeZhfkNc2iGnjW6dy+upK1D7m4xScez+d9BEAZ5l5W1j8xrp/X++u00GHX9ll8Bug4x4YIKL+kPH7Jf2mG7/AxscC1Mv4+SSy1gldf2DI8RHTZXQfSCV4ossUmoW+Ztv4JxoQIf+DfEQLxH10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4dw864M; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q21Oo3TR"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6b1b881a8e9so370830eaf.1
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 05:18:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4dw864M"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cc1cc1b42b5so1052427a12.2
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 05:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788524301; x=1789129101; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788524304; x=1789129104; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9k6KseSninuzqjlPnzkJvDXYpnZK4Toykwwb3b+B2Rk=;
-        b=Q21Oo3TRMJeqkEmXh4+8bYkeeOYg0rE6rBV2bgBLSoXIeIHxnOsPidjmT2dSTnphfk
-         4JB4oXdei/esSGvy0eLnMd2XVmEksUcuEnxVtR+yhc6Tp59g/hOJGgs4POJjay5wOBgM
-         dHrhxarbJyi6O43KDQpN0lCQrCJ4X2Ixmj0Vp9m7+/TT+O82+AfM4ZK5n0jzK4gQQbIh
-         QVcFC9MNYn6aVmQQ9GyXMchB2abx+w3vqVjagx6/3has/+s+j6IkplI/QEIZqC27XJVs
-         gXtnkaoua/snQIWb3466o3MBygNgQheasD/9mEYAFvMipphNfc/YYru+Y+NGFW5qmarz
-         xpbQ==
+        bh=f+iaj7uAIqLQ0zXKTnQ5GgaFQgbx+QY7l0WvzVqhy34=;
+        b=i4dw864MCwvaXP4184Pz4MowhBujfjQvIPuI8xxCq6PjEsQVo4Bh69IrIetr1T8Hb2
+         Qc0T/cx97PaTiBK4IKwlPfyDpaydehSq4LkfqgnU13/yGNZ8CFJYm+TMVUsatfaqlk65
+         GButeM2s82Y/0Xsf1uzXgIOeo3rphyild0XLu/04ViKQnbb3faQgDNkTSD8v4CVk3ULe
+         L6PcNXI2b9W0dtdfQAtxmO6/MI257IJBuNA6z+jbsaNql1TK2YJjSfDSpSi4A1H5Big/
+         /HHJDJYNTHeBsJQ4vjVikP3Ogk8bWV+vPkssu09HcIPbNlFIuGeMo7cZG36WNhWm1/px
+         7Uvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788524301; x=1789129101;
+        d=1e100.net; s=20251104; t=1788524304; x=1789129104;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9k6KseSninuzqjlPnzkJvDXYpnZK4Toykwwb3b+B2Rk=;
-        b=hIU8IKpkkx75wXPSYAOyuGhRS5KvBs+MdLYhsEkLBYG2waXvEr7vz0fSUAbYPXvAv8
-         EYrtpfW2p1exXgVjNxYP2vZts45xDNlv8hPUWMoD48Rr5nPGuY1swU2D3JxpfVKG+bFQ
-         hD9hYyagL86IzKVVvB5GTtr2WvRFA3/5GeWyS5ceuHZmfkjRe2QVWrjF9ivvrywil3R0
-         R9MZc/JJ+dBTjC0CvjH3NgmcUNDJehVw/877ol3n67m+ZmNbAhJYZWp8fZRZOPCfct1r
-         227ilW/W7aEFa+bi9OvZg5W8CdSPP8tOhfRCdT6JI7L03u/blW/+iamFt9UHiVIsPGtW
-         UWCw==
-X-Forwarded-Encrypted: i=1; AKwUvBzXOLona0DWIkI3G5S5okwu5DSewVKqE20P9GwhAnoaaCTSVXxw9PfReMOMWxpXq+ANFImSuJBxrBY=@vger.kernel.org
-X-Gm-Message-State: AFuF++nbJEyhAzuxwJ1Z0HJXGYnTiqsokMctrORXwXCz+ye48vNttd0O
-	bEPB6cYMxOTBDi0LTM4cwIUPiRLTMYPvaqC1cw1gdgaeNmEcs4NJ3NmND0qThdspyeo=
-X-Gm-Gg: AYBFou0KOxDvM0ZDx8O29yD8Z4thQuJ7gvfEVznBcvLAeqRlo0mrPjfGC9fs5Gt7p5E
-	vXIKNlvNl2ZSBx5Xr/WYdNdluzAh4CyHQNidqBYZ+ONmLc4GY45xV8d8fGpXnnLx50KZF+s0ciV
-	X3SZ95FMNymv/EuiwgCtyFkGZW0IBavI2jsgz/J7ahnnOQ5Ua2BH/S63tgsEi8Vf3PL6cv2hvQW
-	BBW+yuYX6VuxbgQuQ0Y1GcReZuWPNELk6343QNAuNu8nTKAqUpGKjrhAyZePFwovCgCzyDKYKG1
-	gnmfXtG6u7JzwC3scRAk9u7s6zawrHN9BDwOn744dadd9C/zGYr3gGrkdkpOnuZEJ1o20+qW+uS
-	YfLuqhlTVbdY5DPZ9v+9EDNff/HchftXeNkd88XlcNR+uVWal5Ig9HBK53urfqcrJKD+rPbg+KY
-	HRgesrAZK6VYtWc6UAmKhJGZClsLeWwaJOsDMNdN5EFhvD0baQZkl8yxhYi6MHVK87qqaQYIR5v
-	ZUtCP8LB2eZh/E=
-X-Received: by 2002:a05:6820:1c87:b0:6a1:8192:4d89 with SMTP id 006d021491bc7-6b6fe2b1023mr3910091eaf.29.1788524300512;
-        Fri, 04 Sep 2026 05:18:20 -0700 (PDT)
+        bh=f+iaj7uAIqLQ0zXKTnQ5GgaFQgbx+QY7l0WvzVqhy34=;
+        b=eov9BI53qZIm7kdMPZvM8tN5djdSi48yR58Q9WU10mkFt77bkYdy0zVWqNeY/fHzKf
+         NA3KN+BmVjpmR8RwodgLh5M+uGOpHybdWHTUlm86JJw9EvuqEfQmCeW4Q1zgmXNIVK7t
+         TCdl5Ya/MsDx6lJYR3gsNwGbDpEf9rOKkNdfuFnonSRY2WIDnDaLbfkUAoGfjf+r7M3R
+         n3DcxxQixMX5U6p8RyhHnaToPm+WW6up4FKPKFic1t64+T5jLuh2NZoaCqU6cZGlOwZF
+         44Im/DKVP9ldAxY4j6LhgAJP9cO3eMgDzufj4XopTxki/if7wSxU+SG4cNdO5Uuy5p6x
+         3nLA==
+X-Forwarded-Encrypted: i=1; AKwUvBwOrvyLObELR9miNuDydCAQVyOLnkeHbYZ7EenHCqxLm2fEQkyoWab+37lN7G8F3aIrpQ36LMzCKJI=@vger.kernel.org
+X-Gm-Message-State: AFuF++m0M0mdosBFF//I3u2mYOzpesz5QY9nbLrYuIfVg8K5uAoLwRDW
+	kXarhKEq5BPep5kikjRj3D1VK3Ojp1oUqj3AECw6ZG6ttLEi2djAA0YF
+X-Gm-Gg: AYBFou1r9bsfZ6Hv3XWhdeQ8tt70sb9I3oa9cXhE9V5oMrocYBUZ/3qLesbWG76jlmJ
+	HzgUrwv4sPelUD7OE3IpekICzvX3f+jtzZUv7YotjLtz107T0YPK0KI5iTRO2SkARvrAxSxbGI7
+	cPs1/CA8B8/om1OSZIKmDKkXSAcNXZIfHAjSpSFo+/NjrV7AJIN35FtHaCjC/xLnFw+l8lLKQsE
+	PiodnDMCtjcTd+wGTsKKpBgluYUqtP5itbKnEBMcF8aort0E+LJXn11aGBxXFQWPcqUbQHIHUsv
+	wtIYquqAgdEMC3znJUqPPmCZj3mGVldql2Yg5IokRURueRQzESFZngDVGOINA9tOs9of6IYFuI1
+	9tPCmdLeMhQXWZM/wUsqFSb/am2ohay0F/kfSVspsxKckT8k4E1yTltKEECtr0MQEG9FNP1ufWe
+	Q1XoNDOurTTX6sVuBpgS6G1bK5+4dQ9JDWMocPPL0Lk2L+kb2gWjQRnE7WhPjbEI14TtKILY7CT
+	yeI5CQV0o1lG+E=
+X-Received: by 2002:a17:90b:5344:b0:395:4de4:92be with SMTP id 98e67ed59e1d1-39b261b1a47mr9830027a91.13.1788524303344;
+        Fri, 04 Sep 2026 05:18:23 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885d29esm7181575eec.2.2026.09.04.05.18.18
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885d29esm7181575eec.2.2026.09.04.05.18.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 05:18:20 -0700 (PDT)
+        Fri, 04 Sep 2026 05:18:22 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Johan Hovold <johan@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH 1/2] usb: serial: fix typos in comments
-Date: Fri,  4 Sep 2026 17:48:10 +0530
-Message-ID: <20260904121813.26714-2-hemanth.selam@gmail.com>
+Subject: [PATCH 2/2] usb: serial: fix repeated words in comments
+Date: Fri,  4 Sep 2026 17:48:11 +0530
+Message-ID: <20260904121813.26714-3-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260904121813.26714-1-hemanth.selam@gmail.com>
 References: <20260904121813.26714-1-hemanth.selam@gmail.com>
@@ -78,66 +78,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix typos in comments, reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+Drop words accidentally written twice, reported by checkpatch.pl as a
+possible repeated word.  Only touches comments, no code changes.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- drivers/usb/serial/f81534.c           | 4 ++--
- drivers/usb/serial/ftdi_sio_ids.h     | 2 +-
- drivers/usb/serial/keyspan_usa28msg.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/serial/mct_u232.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/serial/f81534.c b/drivers/usb/serial/f81534.c
-index 0037767e4bbf..f0ab72d99d5e 100644
---- a/drivers/usb/serial/f81534.c
-+++ b/drivers/usb/serial/f81534.c
-@@ -83,7 +83,7 @@
- #define F81534_TOKEN_MSR_CHANGE		0x04
- 
- /*
-- * We used interal SPI bus to access FLASH section. We must wait the SPI bus to
-+ * We used internal SPI bus to access FLASH section. We must wait the SPI bus to
-  * idle if we performed any command.
-  *
-  * SPI Bus status register: F81534_BUS_REG_STATUS
-@@ -755,7 +755,7 @@ static int f81534_find_config_idx(struct usb_serial *serial, u8 *index)
-  * The F81532/534 will not report serial port to USB serial subsystem when
-  * H/W DCD/DSR/CTS/RI/RX pin connected to ground.
-  *
-- * To detect RX pin status, we'll enable MCR interal loopback, disable it and
-+ * To detect RX pin status, we'll enable MCR internal loopback, disable it and
-  * delayed for 60ms. It connected to ground If LSR register report UART_LSR_BI.
-  */
- static bool f81534_check_port_hw_disabled(struct usb_serial *serial, int phy)
-diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
-index 9c83c17853c8..a3481f159d9a 100644
---- a/drivers/usb/serial/ftdi_sio_ids.h
-+++ b/drivers/usb/serial/ftdi_sio_ids.h
-@@ -770,7 +770,7 @@
-  * Definitions for Icom Inc. devices
-  */
- #define ICOM_VID		0x0C26 /* Icom vendor ID */
--/* Note: ID-1 is a communications tranceiver for HAM-radio operators */
-+/* Note: ID-1 is a communications transceiver for HAM-radio operators */
- #define ICOM_ID_1_PID		0x0004 /* ID-1 USB to RS-232 */
- /* Note: OPC is an Optional cable to connect an Icom Tranceiver */
- #define ICOM_OPC_U_UC_PID	0x0018 /* OPC-478UC, OPC-1122U cloning cable */
-diff --git a/drivers/usb/serial/keyspan_usa28msg.h b/drivers/usb/serial/keyspan_usa28msg.h
-index a19f3fe5d98d..11003527da5c 100644
---- a/drivers/usb/serial/keyspan_usa28msg.h
-+++ b/drivers/usb/serial/keyspan_usa28msg.h
-@@ -61,7 +61,7 @@
- 	with a total data length of 63.
- 
- 	USB IN (USA28 -> host, receive) messages contain data and parity
--	if parity is configred, thusly:
-+	if parity is configured, thusly:
- 	
- 		DAT PAR DAT PAR DAT PAR ...
- 
+diff --git a/drivers/usb/serial/mct_u232.h b/drivers/usb/serial/mct_u232.h
+index e3d09a83cab1..f79a1f1b6a98 100644
+--- a/drivers/usb/serial/mct_u232.h
++++ b/drivers/usb/serial/mct_u232.h
+@@ -273,13 +273,13 @@ static int mct_u232_calculate_baud_rate(struct usb_serial *serial,
+  *  Bit 5: Data Set Ready (DSR). Reflects the state of the DSR line on the UART.
+  *  Bit 4: Clear To Send (CTS). Reflects the state of the CTS line on the UART.
+  *  Bit 3: Delta Data Carrier Detect (DDCD). Set to "1" if the -DCD line has
+- *	   changed state one more more times since the last time the MSR was
++ *	   changed state one more times since the last time the MSR was
+  *	   read by the host.
+  *  Bit 2: Trailing Edge Ring Indicator (TERI). Set to "1" if the -RI line has
+  *	   had a low to high transition since the last time the MSR was read by
+  *	   the host.
+  *  Bit 1: Delta Data Set Ready (DDSR). Set to "1" if the -DSR line has changed
+- *	   state one more more times since the last time the MSR was read by the
++ *	   state one more times since the last time the MSR was read by the
+  *	   host.
+  *  Bit 0: Delta Clear To Send (DCTS). Set to "1" if the -CTS line has changed
+  *	   state one more times since the last time the MSR was read by the
 -- 
 2.48.1
 
