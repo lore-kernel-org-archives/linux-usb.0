@@ -1,284 +1,97 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E4C514753;
-	Fri,  4 Sep 2026 17:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B5F490BE0;
+	Fri,  4 Sep 2026 17:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788542956; cv=none; b=Z0BsQDGLSECUcep4HkZVP9GPEi/4+6F2gZ20PrfjMi6B0ffqy/bJgzhqQPjFC0LUdBy/QZvSujAxyMB53XmFyD4tsJCSt4Yr4cv14uvHMs/ex7qn+YaBFSAGdB0/6SVw92TR1vqBUAMWr37qxc1mN0Nng50G//gEHcRVpjHivJg=
+	t=1788544707; cv=none; b=sn99m8Tvy46sMW+OdANyzkWI3MiP0ZLB3VDzgRSM2aPEGuZi1C+loMXo0reQqi0FjpFmS+iwI6Y+alhJe4FGEtvpCOFSZH4NwrawnhBR7bTAtgeLlaXGNIa0EjSFBsBd5zymkpLZq6cbhByylG4/mG7qv9x0KGrYBX/l3V8OyGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788542956; c=relaxed/simple;
-	bh=th9j8IMz7cxt9OCRiUZdYPhFqg5LPYWjI6IEu1Zq3NM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LBeOMi0ov29c7XZc+DXiIvG8t9iU8gZQ6tkso71gTlvTuHWw19DnXOAXKJ14B2FJkPCanex3gteiQb3LCuJs6rdudmnJSqxeik8GL/cUpzHFOOb4ziCTUgjuI1mB//6vgNKCEmV0Ptew673L6bmfgTmf84hvsGhN+wZOI8mCphg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Pw+96mBn; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=cA2i1sMQ; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1788544707; c=relaxed/simple;
+	bh=HTjFSxIaUz0HkG0Fqpc3XJlOucy3l+W4m0MAeJmz5BA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXz7Vxbw1glUvM/1pF08J23nIZSq67n6nSK9sSPv74xtXRFsz2BzAkYZxXLsEbFfd8U1JAUw3WukcOpBNU9jnf987n24lpM+ubxJvZR51iyL/BNInR9+oNA9n981rFnP86Q4BJEKa3vNYFBgDMx5fDrK6IlLorJbtrS0375qLlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vVcWPcqG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Pw+96mBn";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="cA2i1sMQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1788542932;
-	bh=th9j8IMz7cxt9OCRiUZdYPhFqg5LPYWjI6IEu1Zq3NM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Pw+96mBnSe1zAtdzq7Lw8aJP4GdoVxVuzGbtebrbxyKI9RggBYNKYJolFCnWKa7vN
-	 yTWQucCwQiddpvdfTDpqOhbNNML0hytZAi9pQAvbQPPDCN53OmPO0JtO3tHjuAgSqH
-	 VofBD4GN4GyztRd+xnYU15QjuKYTBUtzeiDdQ67U7lZumb2iinK87tbf1dfXGmzr3T
-	 H7WGxYGMcFxGC1Bu8De3P7UKHDTcMSngK0+W1BQdOJdM43r2eUtnqy4f+R0C2e0INO
-	 GVp2x7szRf3/T/ji4U0Zp3pE7/2r030UlGxO0cliMYlDKZCEL+HHIhKg8KeekBhMyh
-	 fXqZOt4RA2GyA==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 20C1B3F0ED; Fri,  4 Sep 2026 17:28:52 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1788542918;
-	bh=th9j8IMz7cxt9OCRiUZdYPhFqg5LPYWjI6IEu1Zq3NM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=cA2i1sMQ2wqmcnmkNMmaDL3IYYFWllKaHBCeUKJZWwlOLY2zhvFaencecPC9cX/2j
-	 rb5jdqqRoa4DVDrDXj9O4BcP6c3/BYSW18QcerEsZQTy25ICT+CPajWxWKio/w5m5S
-	 SblbCyrLPqnLxm/3wZcK26GkDUumtOVmQIMOi5zfFyfEMokCW+LxtersKwjnAW0PeH
-	 S5Du8RT8DJjsbsTlwdvX0Hb3lr49k3RjQm3vBgRd9V1HACCfzuO/mLv4tCRGS1ueWv
-	 N8REP6rJ3v+sxGxS8V3RRYziUX2GzjvU0G1g3iCcZDsDyLJYqBgUAJCDN+TTDf2s4m
-	 4SpqnTXenuajg==
-Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 9A5903F0F6;
-	Fri,  4 Sep 2026 17:28:38 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Fri, 04 Sep 2026 19:28:40 +0200
-Subject: [PATCH net-next v10 15/15] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vVcWPcqG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A49421F00A3D;
+	Fri,  4 Sep 2026 17:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788544705;
+	bh=rP0jvIe50D9VMNBI5Koq/QnFNW7rOKsTaV7j4xp9Y8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=vVcWPcqG1059ybsmrz21hgN6wQuwVgT6uzFHmLEnROtsmnN/CAYwVKSDtG9lGAiEU
+	 tkd1yZrHUaZHJ3eumLByHfJe9TNCknpujWUJKGpAWuMus+fTvh1G7TZqTS6TzxZoq+
+	 MFxyhH9d1b8/dxyRr8Dhs80vd4pcoiD8qcdKqe90=
+Date: Fri, 4 Sep 2026 19:52:37 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wei Deng <wei.deng@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v8 07/16] usb: core: Move struct usb_port and related
+ APIs to port.h
+Message-ID: <2026090433-chair-tidings-5c99@gregkh>
+References: <20260904084158.1341550-1-wenst@chromium.org>
+ <20260904084158.1341550-8-wenst@chromium.org>
+ <2026090430-botanist-ungodly-0299@gregkh>
+ <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-ax88179a-v10-15-b5e60eca7690@birger-koblitz.de>
-References: <20260904-ax88179a-v10-0-b5e60eca7690@birger-koblitz.de>
-In-Reply-To: <20260904-ax88179a-v10-0-b5e60eca7690@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>, 
- Jianhui Xu <neuromoments@gmail.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
 
-The AX88772D, AX88179A and AX88279 are 100MBit, 1GBit and respectively
-2.5 GBit PHYs that are found in ASIX USB-Ethernet controllers of the
-same name.
+On Sat, Sep 05, 2026 at 01:24:20AM +0800, Chen-Yu Tsai wrote:
+> On Sat, Sep 5, 2026 at 12:47 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Fri, Sep 04, 2026 at 04:41:46PM +0800, Chen-Yu Tsai wrote:
+> > > |struct usb_port| and its matching container_of() macro should live in
+> > > its own port.h, matching the split we have for .c files.
+> >
+> > Why?
+> 
+> This was requested by Andy. And to me it sort of made sense.
+> 
+> > > Move them as described. Also move usb_port_is_power_on(), since in the
+> > > next change its |struct usb_hub *| parameter will be changed to
+> > > |struct usb_port *|, and becomes a non-static function that only
+> > > references |struct usb_port|.
+> >
+> > No, please don't do that unless you have a really good reason.
+> 
+> Which part? Move the code?
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
- drivers/net/phy/ax88796b.c | 161 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 161 insertions(+)
+Please don't make a new .h file.
 
-diff --git a/drivers/net/phy/ax88796b.c b/drivers/net/phy/ax88796b.c
-index f20ddf64914993f7097070d1f56c1103ec1e40e8..62f6beb25f41e703dc02add7358917d59ac8f2ac 100644
---- a/drivers/net/phy/ax88796b.c
-+++ b/drivers/net/phy/ax88796b.c
-@@ -13,6 +13,19 @@
- #define PHY_ID_ASIX_AX88772A		0x003b1861
- #define PHY_ID_ASIX_AX88772C		0x003b1881
- #define PHY_ID_ASIX_AX88796B		0x003b1841
-+#define PHY_ID_ASIX_AX88772D		0x003b772d
-+#define PHY_ID_ASIX_AX88179A		0x003b179a
-+#define PHY_ID_ASIX_AX88279		0x003b2790
-+
-+#define AX_ADVERTISE_2500		0x1000
-+
-+/* MII Vendor registers */
-+#define AX_CTRL_STATUS			0x1d
-+#define AX_CTRL_STATUS_SPEED_MASK	0x0c
-+#define   AX_CTRL_STATUS_SPEED_10	0x0
-+#define   AX_CTRL_STATUS_SPEED_100	0x4
-+#define   AX_CTRL_STATUS_SPEED_1000	0x8
-+#define   AX_CTRL_STATUS_SPEED_2500	0xc
- 
- MODULE_DESCRIPTION("Asix PHY driver");
- MODULE_AUTHOR("Michael Schmitz <schmitzmic@gmail.com>");
-@@ -83,6 +96,103 @@ static int asix_ax88772a_read_status(struct phy_device *phydev)
- 	return 0;
- }
- 
-+static int asix_ax88279_read_status(struct phy_device *phydev)
-+{
-+	int ret, val;
-+
-+	ret = genphy_read_status(phydev);
-+	if (ret)
-+		return ret;
-+
-+	/* Read actual speed from vendor register */
-+	val = phy_read(phydev, AX_CTRL_STATUS);
-+	switch (val & AX_CTRL_STATUS_SPEED_MASK) {
-+	case AX_CTRL_STATUS_SPEED_2500:
-+		phydev->speed = SPEED_2500;
-+		break;
-+	case AX_CTRL_STATUS_SPEED_1000:
-+		phydev->speed = SPEED_1000;
-+		break;
-+	case AX_CTRL_STATUS_SPEED_100:
-+		phydev->speed = SPEED_100;
-+		break;
-+	case AX_CTRL_STATUS_SPEED_10:
-+		phydev->speed = SPEED_10;
-+	}
-+
-+	/* MDIO_AN_10GBT_STAT_LP2_5G is broken, but we can deduce that
-+	 * the link-partner advertised 2500M if remotely AN succceded
-+	 * for link speed > 1000M and we locally have a link speed of
-+	 * 2500M
-+	 */
-+	val = phy_read_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_STAT);
-+	if (val >= 0 && val & MDIO_AN_10GBT_STAT_REMOK) {
-+		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-+				 phydev->lp_advertising,
-+				 phydev->speed == SPEED_2500);
-+	}
-+	/* Only supports full duplex */
-+	phydev->duplex = DUPLEX_FULL;
-+
-+	/* PHY switches interface between 2.5GBit and slower modes */
-+	if (phydev->speed == SPEED_2500)
-+		phydev->interface = PHY_INTERFACE_MODE_2500BASEX;
-+	else
-+		phydev->interface = PHY_INTERFACE_MODE_SGMII;
-+
-+	return 0;
-+}
-+
-+static int asix_ax88279_config_aneg(struct phy_device *phydev)
-+{
-+	bool adv_2500;
-+	int ret;
-+
-+	if (phydev->autoneg == AUTONEG_DISABLE) {
-+		phydev_warn(phydev, "Disabling autoneg is not supported\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ret = genphy_config_aneg(phydev);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	adv_2500 = linkmode_test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->advertising);
-+	ret = phy_modify(phydev, MII_ADVERTISE, AX_ADVERTISE_2500,
-+			 adv_2500 ? AX_ADVERTISE_2500 : 0);
-+
-+	return ret;
-+}
-+
-+static int asix_ax88279_get_features(struct phy_device *phydev)
-+{
-+	int ret;
-+
-+	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
-+	phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-+
-+	linkmode_set_bit_array(phy_basic_ports_array, ARRAY_SIZE(phy_basic_ports_array),
-+			       phydev->supported);
-+
-+	ret = genphy_c45_pma_read_abilities(phydev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* AX88279 does not support reported 100baseT-half duplex mode */
-+	linkmode_clear_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, phydev->supported);
-+
-+	return 0;
-+}
-+
-+static int asix_ax88279_config_init(struct phy_device *phydev)
-+{
-+	__set_bit(PHY_INTERFACE_MODE_2500BASEX, phydev->possible_interfaces);
-+	__set_bit(PHY_INTERFACE_MODE_SGMII, phydev->possible_interfaces);
-+
-+	return 0;
-+}
-+
- static void asix_ax88772a_link_change_notify(struct phy_device *phydev)
- {
- 	/* Reset PHY, otherwise MII_LPA will provide outdated information.
-@@ -94,6 +204,25 @@ static void asix_ax88772a_link_change_notify(struct phy_device *phydev)
- 	}
- }
- 
-+static int asix_ax88772D_get_features(struct phy_device *phydev)
-+{
-+	int ret;
-+	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-+
-+	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
-+	phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-+
-+	ret = genphy_read_abilities(phydev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* AX88772D does not support reported 1000baseT mode */
-+	linkmode_set_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, mask);
-+	linkmode_andnot(phydev->supported, phydev->supported, mask);
-+
-+	return 0;
-+}
-+
- static struct phy_driver asix_driver[] = {
- {
- 	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772A),
-@@ -111,6 +240,35 @@ static struct phy_driver asix_driver[] = {
- 	.suspend	= genphy_suspend,
- 	.resume		= genphy_resume,
- 	.soft_reset	= asix_soft_reset,
-+}, {
-+	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772D),
-+	.name		= "Asix Electronics AX88772D",
-+	.flags		= PHY_IS_INTERNAL,
-+	.get_features	= asix_ax88772D_get_features,
-+	.read_mmd	= genphy_read_mmd_c45,
-+	.write_mmd	= genphy_write_mmd_c45,
-+	.suspend	= genphy_suspend,
-+	.resume		= genphy_resume,
-+}, {
-+	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88179A),
-+	.name		= "Asix Electronics AX88179A",
-+	.flags		= PHY_IS_INTERNAL,
-+	.suspend	= genphy_suspend,
-+	.resume		= genphy_resume,
-+	.read_mmd	= genphy_read_mmd_c45,
-+	.write_mmd	= genphy_write_mmd_c45,
-+}, {
-+	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88279),
-+	.name		= "Asix Electronics AX88279",
-+	.flags		= PHY_IS_INTERNAL | PHY_BROKEN_FORCED,
-+	.get_features	= asix_ax88279_get_features,
-+	.read_status	= asix_ax88279_read_status,
-+	.config_aneg	= asix_ax88279_config_aneg,
-+	.config_init	= asix_ax88279_config_init,
-+	.read_mmd	= genphy_read_mmd_c45,
-+	.write_mmd	= genphy_write_mmd_c45,
-+	.suspend	= genphy_suspend,
-+	.resume		= genphy_resume,
- }, {
- 	PHY_ID_MATCH_MODEL(PHY_ID_ASIX_AX88796B),
- 	.name		= "Asix Electronics AX88796B",
-@@ -124,6 +282,9 @@ static const struct mdio_device_id __maybe_unused asix_tbl[] = {
- 	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772A) },
- 	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772C) },
- 	{ PHY_ID_MATCH_MODEL(PHY_ID_ASIX_AX88796B) },
-+	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772D) },
-+	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88179A) },
-+	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88279) },
- 	{ }
- };
- 
+Moving the function might make sense on its own if you need it in a
+different file later on, but do a move only, and then change things if
+you really need to do that.
 
--- 
-2.47.3
+thanks,
 
+greg k-h
