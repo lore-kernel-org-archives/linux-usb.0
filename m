@@ -1,109 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-244123.protonmail.ch (mail-244123.protonmail.ch [109.224.244.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DCD3B71B2;
-	Fri,  4 Sep 2026 15:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65F73E5EC5
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 16:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788536870; cv=none; b=tqwSBIcfirptSAsB74zmOF/k8gux83fa5NV8jnxqWkvPf/NlMVLXsMUZ3xk07feecLla8fcdBe3q6Wj9ypYfC1PEEupSmvSqhQ/9X4RWpzigebNlCVtdvHmIgR/JE9QOwlPw6fCWdnd7lIOA9Dl1UgOxy0jNNoGCRkHNQc1gGtI=
+	t=1788538452; cv=none; b=NjHCEhYg/eyX8CCp1I+w3nFMenISbUcv00mpmYce9j3xj0coWtHL0Tcj5WDaO8DstcrsiUieq8eFZxKckJLoOY35igkMyaPbHt8BX9Z9qzFSAB38J0n+DdWkodCve9B4ry3iFLLzzV6jw13I0EgpwssXIvUFh+Svq67g3FpirqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788536870; c=relaxed/simple;
-	bh=MrtDPdKK6+y0wKBVfyAfce9pIfxUCbofuyPis37UJuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6eHoyjP7YaqAC0N0r12wJrUZeQwE2j5/fjUbUe93fEbo0dmXlNyODBG8b7nePRljQUG6tI/pTbC+Dl7bTOgA/O9L3+BBzmD+ha8AO9I2alWgQmGdaArzF9eKAHm9BSn2DhQfeF6Wy/eyFeStqOv/EoaKp48LWk0EalCvEWyIjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ojE90wuK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788538452; c=relaxed/simple;
+	bh=xvExJA1Wwr3lzB1nnIpGE61Mk4aN5OWxLvFE4rsmZbA=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HY94oMx/4tQnTNYkZCfXCEESzLxTGSy1t4MRJcnVli4oaxaxkOleyzGbOyWYLZv1LDl2k4YYDVLOG86MJG4M/+IF1KlpQTbprb8ZwIav6KO8vKfisIWRSuaaLtUPpKJCLJp8La6U+4FSssa0MynUMpzAtCMY1iiXhf2C6/7Yg24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=B95fsLb9; arc=none smtp.client-ip=109.224.244.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ojE90wuK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 100801F00A3E;
-	Fri,  4 Sep 2026 15:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788536868;
-	bh=EjdSb+K10ky5dmPg7vs00e63TFoxXUI10QkkhzPXUY8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ojE90wuKhmvUgXyMF7xHuX1bmV+ITNcrtxp4p4nyb88qQ0ueF1d3BP83ug04rSJvG
-	 +SYr+p3Bb5yWc4BoJzArt/yRk39kIW015J3g0JjX9iiW7w2fu3GyOhbV3RtaZIQtsb
-	 yW1QTti8JFJWYzKx4sJefTLB//ViJ/3vBgyRLsMk=
-Date: Fri, 4 Sep 2026 17:44:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Syed Labeeq Sajid Bukhari <syedlabeeq@gmail.com>
-Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-	stern@rowland.harvard.edu, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: storage: sierra_ms: reject short SWoC info transfers
-Message-ID: <2026090423-trifle-employee-129d@gregkh>
-References: <CAF4-o1c6XLbJr5umK+FRmMetcRkxH5JnRjMUpWw7OpnkUWbvVQ@mail.gmail.com>
- <2026090452-appetizer-pacifist-57e5@gregkh>
- <CAF4-o1fTYbxEb95NVsvcJ7=jdJB+vXpzspqcgwhNn=+FBsOsNg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="B95fsLb9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1788538439; x=1788797639;
+	bh=te/QaH28sd0OyguWKq5q5Hf7BLddgwybX8YanyHDOSs=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=B95fsLb9VWzna/UeYBd7Ht1dQqzQygudKaVeyvlQOjqH+uptv2kWqwiB7m06hAAN4
+	 f5eGkRf0FsvAmPAg95FOLjSUzKStWKfLJA6fasGvlkpjVKMxjxyaPyQe2euFIPKwCT
+	 KCl/U4FcU937dplvGjVEe1xkpnv8TBKGghyuO1RZ5AdKiqxjW7XLIGri6Q3NLyfkPj
+	 7Y/eVu747CaW10IqtXVTF/7fQfVWz2Fsulh+jv/JxuZtBVKrv495wbjXNaBOKF2eAQ
+	 lsZPi41Oj7zjH2WCYRdX9YCnYkJODnhRudvPmRXro7+cA5LuOb8l5L8zB6gj1kveaT
+	 Vs+tNciJ2jRiQ==
+Date: Fri, 04 Sep 2026 16:13:55 +0000
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Cole Munz <Munzzyy1@proton.me>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] usb: dwc3: gadget: don't error on dequeue of a completed request
+Message-ID: <20260904161344.2191362-1-Munzzyy1@proton.me>
+Feedback-ID: 209578162:user:proton
+X-Pm-Message-ID: 13b248a9b0c99cf956f1683953ed76e77d39fc2f
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAF4-o1fTYbxEb95NVsvcJ7=jdJB+vXpzspqcgwhNn=+FBsOsNg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 04, 2026 at 08:27:46PM +0500, Syed Labeeq Sajid Bukhari wrote:
-> Hi Greg,
-> 
-> Thanks for the quick look, and apologies for the corrupted patch -- I sent
-> sent it via a web mail client, which messed up with the whitespaces. I will
-> resend it properly with git send-email, with the patch also attached.
-> 
-> On the short-transfer concern:
-> 
-> The SWoC query explicitly asks the device for exactly
-> sizeof(struct swoc_info) (wLength = 60). This vendor command has a
-> fixed-size response, and the driver already implicitly assumes a full
-> answer today: containsFullLinuxPackage() and truinst_show()
-> unconditionally read fields at fixed offsets (bytes 9-12) that a short
-> transfer would never have written. So with a short answer the current code
-> already makes its mode-switch decision on uninitialized garbage. The
-> patch only makes that failure explicit instead of silent.
+Dequeuing a request that has already been given back logs an error and
+returns -EINVAL:
 
-Ok, that's a good "proof" that this should be ok.
+  dwc3 23000000.usb: request 00000000ad92f1c4 was not queued to ep0out
 
-> Two further points:
-> 
-> * sierra_ms_init() retries the query up to 3 times on failure, so a
->   transient short transfer during probe is tolerated, not fatal.
-> 
-> * There is core precedent: usb_control_msg_recv() in usb/core/message.c
->   rejects short transfers with -EREMOTEIO, i.e. the USB core itself
->   treats a short control-IN as an error.
+f_fs hits this on every teardown. functionfs_unbind() dequeues ep0req
+unconditionally before freeing it, which
+commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
+before free_request") made deliberate to close a use-after-free. By then
+the control transfer has long completed, so dwc3_gadget_ep_dequeue()
+finds the request on none of cancelled_list, pending_list or
+started_list and falls through to the error path.
 
-usb_control_msg_recv() is designed to work that way, it's not any sort
-of "proof" that this is ok for this device :)
+Nothing is actually wrong. The request is not queued, which is what the
+caller asked for, and both callers ignore the return value and free the
+request straight after. The only effect is an error line in every gadget
+teardown, which buries real USB errors.
 
-> To answer the testing question directly and honestly: no, I do not have
-> the physical hardware, so this was not tested against a real Sierra
-> TRU-Install device. It was tested with a fully controllable emulated
-> device (raw_gadget on dummy_hcd, VID 0x1199 PID 0x0fff) against a
-> self-built 6.12.108 kernel:
-> 
-> * full 60-byte response: enumeration and truinst reads behave exactly as
->   before (attribute created, values printed);
-> * short response: the query now fails with -EIO instead of exposing
->   uninitialized heap through the world-readable truinst attribute.
+dwc3 already tracks enough to tell the two cases apart.
+dwc3_gadget_ep_alloc_request() sets DWC3_REQUEST_STATUS_UNKNOWN, both
+__dwc3_gadget_ep_queue() and __dwc3_gadget_ep0_queue() set
+DWC3_REQUEST_STATUS_QUEUED, and dwc3_gadget_giveback() sets
+DWC3_REQUEST_STATUS_COMPLETED. A request that reaches the end of dequeue
+with status COMPLETED was queued to this endpoint and has finished.
+Anything else was never queued here, or the driver lost track of it.
+Keep the error for those, and return success for a completed request.
 
+A completed request still has to be dequeued on the endpoint it belongs
+to. req->dep is set once at allocation and never changes, and
+__dwc3_gadget_ep_queue() rejects the same mismatch with a WARN, so a
+wrong-endpoint dequeue stays on the error path here as well.
 
-That's a fake device, real devices are what really matters for testing,
-you know this :)
+This is narrower than the cdnsp fix for the same caller,
+commit 34f08eb0ba6e ("usb: cdnsp: Fixes issue with dequeuing not queued
+requests"), which returns 0 whenever usb_request::status is not
+-EINPROGRESS. That also swallows a request that was never queued, since
+status is zero out of allocation. Going by dwc3's own request status
+keeps that case an error, which is what was asked for when a separate
+ep0 dequeue was proposed in 2022.
 
-> If you would rather avoid any risk on some devices you mentioned, I
-> can respin this the other way: allocate the swoc_info buffer with
-> kzalloc() in truinst_show()/sierra_ms_init() instead of rejecting short
-> transfers. That closes the uninitialized-data exposure without changing
-> behavior for short answers (the unwritten tail becomes deterministic
-> zeros). Happy to send whichever variant you prefer.
+Link: https://lore.kernel.org/linux-usb/20221117054917.30104-1-quic_ugoswam=
+i@quicinc.com/
+Signed-off-by: Cole Munz <Munzzyy1@proton.me>
+---
+Resend, no changes to the patch. The original went out on 17 August, the da=
+y
+after v7.2, so it arrived at the top of the merge window.
 
-kzalloc() is good, and is what we have done for other types of issues
-like this:
-	https://lore.kernel.org/r/20260819-usb_misc_random-v1-1-43a0dcee3a32@kroah.com
-but as the data is being accessed, this should be ok.  Worst case, we
-get a bug report and fix it afterward like we have for other times we
-have messed up.
+Rebased onto v7.3-rc1 and rechecked there: applies clean, gadget.o builds
+under W=3D1 with no new warnings, sparse and checkpatch --strict are clean.
 
-thanks,
+The Flipper Zero kernel tree ran into this on their gadget teardown path an=
+d
+merged the same patch downstream today, so it is in use if that helps place=
+ it.
 
-greg k-h
+Original posting:
+https://lore.kernel.org/linux-usb/18ebf019a119389870bbc7c155a00a86bf867323.=
+1786985009.git.Munzzyy1@proton.me/
+
+ drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa944856f956..f68eb9254afa 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2181,9 +2181,22 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+ =09=09}
+ =09}
+=20
+-=09dev_err(dwc->dev, "request %p was not queued to %s\n",
+-=09=09request, ep->name);
+-=09ret =3D -EINVAL;
++=09/*
++=09 * The request is on none of this endpoint's lists. That is the
++=09 * expected state once it has been given back: a function may dequeue
++=09 * a request before freeing it, and f_fs does so unconditionally for
++=09 * ep0req in functionfs_unbind(). Nothing is queued, which is what the
++=09 * caller asked for, so report success. Any other status means the
++=09 * request was never queued here or the driver lost track of it, and
++=09 * stays an error. So does a completed request handed to the wrong
++=09 * endpoint: req->dep is fixed at allocation, and the queue side
++=09 * rejects the same mismatch.
++=09 */
++=09if (req->status !=3D DWC3_REQUEST_STATUS_COMPLETED || req->dep !=3D dep=
+) {
++=09=09dev_err(dwc->dev, "request %p was not queued to %s\n",
++=09=09=09request, ep->name);
++=09=09ret =3D -EINVAL;
++=09}
+ out:
+ =09spin_unlock_irqrestore(&dwc->lock, flags);
+=20
+
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+--=20
+2.55.0
+
