@@ -1,138 +1,151 @@
-Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD10511E8F
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 16:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F5C503BDA
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 17:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788541156; cv=none; b=rcIG/UplIoQ23W1xXvroFbvyK+O4dPG5QMlXdZzrABd0GkLVLaFN/mH0m0fFGpH2Yilh+SHUmmp11aD9tHPP4D6QCfcwM5BlhYpd/g+eakfqHrt6vBjEQURl4dE4HwNZh8hhXnqQvr9TJm1pdMhlXBiDNyIaWHETCK/jB9Q4Zis=
+	t=1788541648; cv=none; b=r3Y1mW/YK/qIUKoJogumBT9XXU54bFrUDmQjE5BnHvsEB+x9h43bWcBdlbsAghUcXlUQdJsWaORx+m7/XP0jT7z1tphBPEcJ8RcQJrmkX9i/TZv/uQt97hTgIaRpighi1eWcUSDxVNcemJhWD6sv51z83S3pUs6v0A/xYrN3k0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788541156; c=relaxed/simple;
-	bh=o9Q6bSxOywdc7gF+cE+BCQuIJUchKN3az3fgt5KoPWY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Up49z9Zx5PEmlBE3yJX6HtJs7T2jix+2SDaos3P/bGACripj0kwm8L/6MHDEAvGIx2ZGMqT2yUw2Afhkzltv8MTKn5v2c0o4u5/TmIeh381O0G5CoW/RS24ufMFRwUE6zlYjP05AJOM8GTjpKrT0tRDCHCpIY63AeQ4LYk9Cwe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Hq7sWd89; arc=none smtp.client-ip=185.70.43.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1788541648; c=relaxed/simple;
+	bh=s5Ffwvup63+Hi6e8aKuYEBFVfqThjAtM0tTa1+Hw7T4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Df7qRcs0SQqpl02xs7do4ap8Ey27tsGXNwzzVg3qINf5XyFT/MKqbtA4ravuIqY9kGDJMxfdBzCe0+p8XLJpUX93hwQXGuar2OJ0/6TiVmkQ7kuJ4dltjem8oJLidtfH4TYaO+3TGldMz6+zLh9nsMM3+t/gJRpxYamOGkpj9Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eSD2/IJY; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Hq7sWd89"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1788541148; x=1788800348;
-	bh=DSNbEdW7Jvy+2LDd2zlNN7BRgqvrqs518O/OJb2Se7M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Hq7sWd89bvWNlHoJ7+9RO1ndSmN4ebuMzzNocWnbPE0QOIJkY3B+MaDZMmp1DkjCB
-	 L0ojTXbua3aCPMeDWn/SWa+bc3dQVZZPrpD4aUChnFI6cVQW99BlJdXOlVyQ2d7R4+
-	 qRMTc2iRATabkyE/hmEWK595mVQmIsRTZNZixBKeWzRBlJql1aXtKBHDig82chVgW6
-	 +bCxrHqtkOdj0QT3u+mgxtUatD/HLTjE+zGTfPYkiY5rmgiJrCLeXOL9pHAY0pizuk
-	 mnZO/B4ZHMmpHuHEI27QxGFEIKDza6H1R80zIte/e2vEurtgzUOwtKVN1WGUJQo4IT
-	 kgOe2Nxx6azPQ==
-Date: Fri, 04 Sep 2026 16:58:57 +0000
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Cole Munz <Munzzyy1@proton.me>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v2] usb: dwc3: gadget: don't error on dequeue of a completed request
-Message-ID: <7bef11b63feb88f89b37bbc86323ed3dba794f43.1788541086.git.Munzzyy1@proton.me>
-In-Reply-To: <2026090406-unrevised-stays-4832@gregkh>
-References: <20260904161344.2191362-1-Munzzyy1@proton.me> <2026090406-unrevised-stays-4832@gregkh>
-Feedback-ID: 209578162:user:proton
-X-Pm-Message-ID: 47c0cd66bb113c2f63ae6620b0e6fc449b32e129
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eSD2/IJY"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-46ac24346b1so766663fac.2
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 10:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1788541644; x=1789146444; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VvYqJtGV/BhVgB0yqrWGgaEzlxiF8+XwHAuoqD3nTQQ=;
+        b=eSD2/IJYIJDQt6UamB0PoOseMyC5XzZb2AdIBJEGyF6FCu7A1xMNnJam0mAC1kD9gU
+         hLmOcbp3zBl2HtixNJk9IObEshtHk9wLveocQwt/tRizdwqxF23SSa8xdQp+cLNxvQBf
+         NXopXroF3tykuuEL5R9nKDbm/Lz3mEP6Ln2Xo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788541644; x=1789146444;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VvYqJtGV/BhVgB0yqrWGgaEzlxiF8+XwHAuoqD3nTQQ=;
+        b=jroBHkhTflYV/52yj8JyMf8vuJ2PmaQhDLGYrr7lP2uObhPd4C5ymrbIglzTgOyzZJ
+         PInO74HByaAeYy7mYdGHFc8j/wDkcCktYIfyFrRMt4P/+FM5NZJ9tzyyNR5DCNA899hr
+         2pTBZN1kgkdhsCrmUxjqdyYK5meIJEGEdCN6hbqMnVmoc46VHwPg/CY5kuKViv+PTLxO
+         9lhyGmu9VEmcpQulPkShIDCzPfPEcgfVViQcVLgcPEUDnXP7OdjE6aMLZBnLIpy+ZSTm
+         aTw9FgOHDEt1JaWxsJnLS30JthdjXGMRDAqYw2SXB2ptwuf7WeBNMCh7SItnvBKJNY5U
+         Oxqw==
+X-Forwarded-Encrypted: i=1; AKwUvByFj6O9EULOzXG4COEc5iVBTJ7nnlXq6X+fP6EIsqc/NzmWRw0YFVkhi29f3xGZgq4dYLdCrGctv/s=@vger.kernel.org
+X-Gm-Message-State: AFuF++mv4HsD2MCoea897NGrQwo7CUYZ0nfyfq/tj6++Cod6L9wANDSV
+	G7QVg3pqbSEQc8eqRexbLSvq/kuKVP9XiMg84cyBgDR0CX+P2dgOiKRTEvivKOILZMo=
+X-Gm-Gg: AYBFou29T4xYXzCysY9p4GafTrKyUibPzjZKomEkiR30wS9HM2xJrHcQU5pD0SnfmDY
+	MDWmL8OZmtJSsp2MI/tCIMkAk67YKV4Irszn20w2V50byJ6iO0b3Y+m57w4rr4ipnw0SEfDeDoJ
+	8/OwxZwQzTzNhwo3bBqks8MNrGtouvqLfhjGghYRqSoDb7nkznwf0xYTqTsV18YPj/Q/04MwmJh
+	w595kD63zd9fYR1v67J9RxdVLzNYfSPw50HAr7muyaisxdVavpa2OU5n+29JyqE/Boyh8FusNBo
+	Kx0oiBFDuQY7zN3A75ehvDJTCYGOdveKuDdlkheJCFMVv/QU6hmQPVGEkCjarcmaAfH5vxk8Ri7
+	2exHKCVJ+TEoblz5mfizKdPYflikvxiLY5xOkwpVo0CHE7iwwNwTqyJ7PT+WcCHgUAhsMxTgyLY
+	l75oK2XPXHJEooag/f8czExbkHa7zisucGHgVJYLiPI24k4lHsFZ4f957cOtOUz7PJyAwYBA==
+X-Received: by 2002:a05:6820:4dcd:b0:6b1:29c1:3f37 with SMTP id 006d021491bc7-6b6fcfdc537mr5650357eaf.23.1788541644401;
+        Fri, 04 Sep 2026 10:07:24 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b6dea11aeasm3670717eaf.14.2026.09.04.10.07.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Sep 2026 10:07:22 -0700 (PDT)
+Message-ID: <2977dab3-70a3-45b3-ac08-41bc362121a2@linuxfoundation.org>
+Date: Fri, 4 Sep 2026 11:07:18 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: usbip: add NULL check after calloc()
+To: Greg KH <gregkh@linuxfoundation.org>,
+ longlong yan <yanlonglong@kylinos.cn>
+Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260902070932.1440-1-yanlonglong@kylinos.cn>
+ <2026090249-poking-monorail-0d2d@gregkh>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <2026090249-poking-monorail-0d2d@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Dequeuing a request that has already been given back logs an error and
-returns -EINVAL:
+On 9/2/26 02:42, Greg KH wrote:
+> On Wed, Sep 02, 2026 at 03:09:31PM +0800, longlong yan wrote:
+>> Two calloc() calls in the usbip driver lack NULL return checks, leading
+>> to potential NULL pointer dereferences on allocation failure:
+> 
+> This is in userspace, not in the "driver".
+> 
+> And how do you get a failure for calloc() in userspace?
+> 
+>> 1. usbipd.c do_standalone_mode(): the allocated `fds` array is
+>>     immediately dereferenced in the following for-loop via fds[i].fd
+>>     without checking for NULL.
+>>
+>> 2. usbip_host_common.c usbip_exported_device_new(): the allocated
+>>     `edev` is immediately dereferenced via edev->sudev without checking
+>>     for NULL.
+>>
+>> Add NULL checks after each calloc(), returning -1 in do_standalone_mode()
+>> and using the existing goto err path in usbip_exported_device_new(),
+>> consistent with the error handling already present in both functions.
+>>
+>> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
+>> ---
+>>   tools/usb/usbip/libsrc/usbip_host_common.c | 2 ++
+>>   tools/usb/usbip/src/usbipd.c               | 4 ++++
+>>   2 files changed, 6 insertions(+)
+>>
+>> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
+>> index 01599cb2fa7b..8ad367e09e78 100644
+>> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
+>> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
+>> @@ -71,6 +71,8 @@ struct usbip_exported_device *usbip_exported_device_new(
+>>   	int i;
+>>   
+>>   	edev = calloc(1, sizeof(struct usbip_exported_device));
+>> +	if (!edev)
+>> +		goto err;
+>>   
+>>   	edev->sudev =
+>>   		udev_device_new_from_syspath(udev_context, sdevpath);
+>> diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
+>> index 3e22b651c754..cc707dea2882 100644
+>> --- a/tools/usb/usbip/src/usbipd.c
+>> +++ b/tools/usb/usbip/src/usbipd.c
+>> @@ -544,6 +544,10 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
+>>   	dbg("listening on %d address%s", nsockfd, (nsockfd == 1) ? "" : "es");
+>>   
+>>   	fds = calloc(nsockfd, sizeof(struct pollfd));
+>> +	if (!fds) {
+>> +		err("calloc for fds");
+>> +		return -1;
+> 
+> I don't think you tested this :(
+> 
+> You leak stuff here, right?
+> 
 
-  dwc3 23000000.usb: request 00000000ad92f1c4 was not queued to ep0out
-
-f_fs hits this on every teardown. functionfs_unbind() dequeues ep0req
-unconditionally before freeing it, which
-commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
-before free_request") made deliberate to close a use-after-free. By then
-the control transfer has long completed, so dwc3_gadget_ep_dequeue()
-finds the request on none of cancelled_list, pending_list or
-started_list and falls through to the error path.
-
-Nothing is actually wrong. The request is not queued, which is what the
-caller asked for, and both callers ignore the return value and free the
-request straight after. The only effect is an error line in every gadget
-teardown, which buries real USB errors.
-
-dwc3 already tracks enough to tell the two cases apart.
-dwc3_gadget_ep_alloc_request() sets DWC3_REQUEST_STATUS_UNKNOWN, both
-__dwc3_gadget_ep_queue() and __dwc3_gadget_ep0_queue() set
-DWC3_REQUEST_STATUS_QUEUED, and dwc3_gadget_giveback() sets
-DWC3_REQUEST_STATUS_COMPLETED. A request that reaches the end of dequeue
-with status COMPLETED was queued to this endpoint and has finished.
-Anything else was never queued here, or the driver lost track of it.
-Keep the error for those, and return success for a completed request.
-
-A completed request still has to be dequeued on the endpoint it belongs
-to. req->dep is set once at allocation and never changes, and
-__dwc3_gadget_ep_queue() rejects the same mismatch with a WARN, so a
-wrong-endpoint dequeue stays on the error path here as well.
-
-This is narrower than the cdnsp fix for the same caller,
-commit 34f08eb0ba6e ("usb: cdnsp: Fixes issue with dequeuing not queued
-requests"), which returns 0 whenever usb_request::status is not
--EINPROGRESS. That also swallows a request that was never queued, since
-status is zero out of allocation. Going by dwc3's own request status
-keeps that case an error, which is what was asked for when a separate
-ep0 dequeue was proposed in 2022.
-
-Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/linux-usb/20221117054917.30104-1-quic_ugoswam=
-i@quicinc.com/
-Assisted-by: LLM sparse
-Signed-off-by: Cole Munz <Munzzyy1@proton.me>
----
-All three were missing, sorry about that.
-
-v2: add Fixes:, Cc: stable and Assisted-by tags. No code change.
-
- drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index fa944856f956..f68eb9254afa 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2181,9 +2181,22 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- =09=09}
- =09}
-=20
--=09dev_err(dwc->dev, "request %p was not queued to %s\n",
--=09=09request, ep->name);
--=09ret =3D -EINVAL;
-+=09/*
-+=09 * The request is on none of this endpoint's lists. That is the
-+=09 * expected state once it has been given back: a function may dequeue
-+=09 * a request before freeing it, and f_fs does so unconditionally for
-+=09 * ep0req in functionfs_unbind(). Nothing is queued, which is what the
-+=09 * caller asked for, so report success. Any other status means the
-+=09 * request was never queued here or the driver lost track of it, and
-+=09 * stays an error. So does a completed request handed to the wrong
-+=09 * endpoint: req->dep is fixed at allocation, and the queue side
-+=09 * rejects the same mismatch.
-+=09 */
-+=09if (req->status !=3D DWC3_REQUEST_STATUS_COMPLETED || req->dep !=3D dep=
-) {
-+=09=09dev_err(dwc->dev, "request %p was not queued to %s\n",
-+=09=09=09request, ep->name);
-+=09=09ret =3D -EINVAL;
-+=09}
- out:
- =09spin_unlock_irqrestore(&dwc->lock, flags);
-=20
---=20
-2.55.0
+Thank you Greg for the review.
 
 
+longlong yan, I am very reluctant to take usbip patches without
+solid evidence of a real bug that can be reproduced and the patch
+fixes it.
+
+I am seeing a few too many usbip patches these days that don't fix
+any bugs.
+
+thanks,
+-- Shuah
