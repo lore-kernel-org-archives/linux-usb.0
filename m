@@ -1,148 +1,138 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CC241CB5E
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 16:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD10511E8F
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 16:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788540652; cv=none; b=e8NTe6+SkBLte+M+KHff0LONE/g9iqXGKJtb6yNAtqKu2GasxuM+t767RbHXPzVe8UFV6P31u8aN2fvJfleFxVoyT/IC3UPemsWxfHasFzhxUI6mp3JLC3UsTeK1YtHol2eKypeBHC/qb0yv96WLPsjmNhjkGAXL4XA9eYDABgM=
+	t=1788541156; cv=none; b=rcIG/UplIoQ23W1xXvroFbvyK+O4dPG5QMlXdZzrABd0GkLVLaFN/mH0m0fFGpH2Yilh+SHUmmp11aD9tHPP4D6QCfcwM5BlhYpd/g+eakfqHrt6vBjEQURl4dE4HwNZh8hhXnqQvr9TJm1pdMhlXBiDNyIaWHETCK/jB9Q4Zis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788540652; c=relaxed/simple;
-	bh=gFzhoXy6DMu00ZWahp5gqICmE7NrEFasFfKr+nl6yY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GNXBEVTehtUQI8QNNi8SSdQQ0Frjy72G/I8RGnlpk2hwJl0CjFNHEun+2opg8UGq/Umu5I9bhHRRSLfIk+e5te8KpbtUPGJ6jyw5gpNlk8S8PjGWco7F5y9+GbAy+YZT92gg4RTGil5KggwL9QHvwkK1Bu2n+50lAX39hkaowow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=FOjuoWD1; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788541156; c=relaxed/simple;
+	bh=o9Q6bSxOywdc7gF+cE+BCQuIJUchKN3az3fgt5KoPWY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Up49z9Zx5PEmlBE3yJX6HtJs7T2jix+2SDaos3P/bGACripj0kwm8L/6MHDEAvGIx2ZGMqT2yUw2Afhkzltv8MTKn5v2c0o4u5/TmIeh381O0G5CoW/RS24ufMFRwUE6zlYjP05AJOM8GTjpKrT0tRDCHCpIY63AeQ4LYk9Cwe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Hq7sWd89; arc=none smtp.client-ip=185.70.43.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="FOjuoWD1"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-90e92b99ab9so7951986d6.2
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 09:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788540650; x=1789145450; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=63K4WdssmxM1QOyhbdav4K7X3rq9bXpABh3iv2kYGDA=;
-        b=FOjuoWD1gCx87/YzEF/ox9hNlapFV2qg78tmSeJDx4bX36AB6ZyGgGTeQ/w4mMNmuL
-         vbhuIA+p0/hVcWKYxHtVNKHoR+c5ffLExP7C9kMnFBUTWdqWU3b9MIUbPZqyem6MLV5Z
-         A+tcqBLTjK8GmJk5T0pX2PiE5k+vLsvBAeFwNj2pD/cYRWEu8vPjZwse9meWrek5dbx1
-         lxjcKeaqtgLlOcxBlTQaXSvfXO177YKJTPwSJH/Zs232bnF2Fshk7YEWqrchv1bWbnQd
-         M8ADeCDsNARzvt5HT3HxNdp/I0GQBVfX/l+6MRhFNSHrBNQnPC6cItEt/uh8u5+U0RS2
-         wj6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788540650; x=1789145450;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=63K4WdssmxM1QOyhbdav4K7X3rq9bXpABh3iv2kYGDA=;
-        b=Qo6plKXrUBrWJ7yfqabIazbJzxmppw9hzMNEjGDbS6MB7IzNbT4pxdc4Vixy3o1XLD
-         PrG8OMA35yCjP2rLWxt8y7Hs68O7gm47QixOhIe5qF4ZrfyU70RX6NIycACXbaYUYA+n
-         RZ3f9gcx9DFyMOd/4dmus8ODp3HaYRclvDsdh5I8BCenXD0KODFY6ri35GvYxS4GNdzM
-         QMHFCDXqVmssk7nphleW9DtrYIGmh+knYbpfg9I5lPbqD5UImoUGNW/y2HXQZZjJxFBI
-         NybELouBkNcf4gMSYGdoide1jP4vpciNUkbMkDwlblccn13lGOJRI9AxzRPWtEuNn6Xb
-         2AHg==
-X-Forwarded-Encrypted: i=1; AKwUvBxF1U70TBvDeyGuzAhm2eLcyHoKJLVW0ebngmcwKeQ2N4ueW5c2xODrwE3ITQkamv8LcERgVnTKW0c=@vger.kernel.org
-X-Gm-Message-State: AFuF++leFfHN1ij/VRbEfIoZYqJuQTnPcPR6TqFCO/NXJkpmnZC66yBG
-	htW24cvVwjSSbbrnMCOZsjMLWemGtp/04+BXzP7q0RrDN41jXDpyX2ieFsQqTI41+w==
-X-Gm-Gg: AYBFou1bVImCEGC3lqogGRchcZPjcTm1c7mYNAExrg6Wr1YrH0Mv5nPIdOE+HpW1Rb2
-	TDBvH3CbtAkE5e0Re+1FT2ySUWyj+GHhhqDB+XlUaQxmVjXw3oC6J/E6e8BJQJyaBIZ1HwopDsM
-	x1XJQVHz86AQyIv49avlrL0sZmAIzWns7j1hIdKOIxVKkPRh25/TWm41njMb4ZCqvSAn4BWKf4e
-	X5zatpr2LyRtdgpJW5H3/udO6J7i/Ve52AoJ+lpmlySIiF1H36QcFVupnt1lmYDINobyiGBSDfA
-	6jN/3Z9kbARt8YZJAHfg8JR9Gq8m0Y26ZuhPcBfiI+/4JW7Yl06XCKk8cVFCHQ3FEbzIc7zolD7
-	Z8KLe2pouOQ16ZQs8axREqPRY4VMOZlW9lYnnHMU6w81oHwGlr7vAINdlZMZf9RJcanhJFnwNj9
-	ESrZ/puF38bkDopAMyyq1I5bSqZ6DBWF7mDuD1C46WdU7jjyDAUpjLLm4nn0CELQ==
-X-Received: by 2002:a05:6214:844c:b0:910:3455:53bc with SMTP id 6a1803df08f44-9103efe264amr59537296d6.34.1788540649512;
-        Fri, 04 Sep 2026 09:50:49 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91040673ce0sm25313236d6.25.2026.09.04.09.50.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 09:50:48 -0700 (PDT)
-Date: Fri, 4 Sep 2026 12:50:45 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Adriano Cordova <adrianox@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
-Subject: Re: [PATCH 1/1] usb: gadget: inode: fix use-after-free of struct
- ep_data
-Message-ID: <0738d3db-3861-4eb5-9847-bde865a1bb28@rowland.harvard.edu>
-References: <20260904163827.216389-1-adrianox@gmail.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Hq7sWd89"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1788541148; x=1788800348;
+	bh=DSNbEdW7Jvy+2LDd2zlNN7BRgqvrqs518O/OJb2Se7M=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Hq7sWd89bvWNlHoJ7+9RO1ndSmN4ebuMzzNocWnbPE0QOIJkY3B+MaDZMmp1DkjCB
+	 L0ojTXbua3aCPMeDWn/SWa+bc3dQVZZPrpD4aUChnFI6cVQW99BlJdXOlVyQ2d7R4+
+	 qRMTc2iRATabkyE/hmEWK595mVQmIsRTZNZixBKeWzRBlJql1aXtKBHDig82chVgW6
+	 +bCxrHqtkOdj0QT3u+mgxtUatD/HLTjE+zGTfPYkiY5rmgiJrCLeXOL9pHAY0pizuk
+	 mnZO/B4ZHMmpHuHEI27QxGFEIKDza6H1R80zIte/e2vEurtgzUOwtKVN1WGUJQo4IT
+	 kgOe2Nxx6azPQ==
+Date: Fri, 04 Sep 2026 16:58:57 +0000
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Cole Munz <Munzzyy1@proton.me>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH v2] usb: dwc3: gadget: don't error on dequeue of a completed request
+Message-ID: <7bef11b63feb88f89b37bbc86323ed3dba794f43.1788541086.git.Munzzyy1@proton.me>
+In-Reply-To: <2026090406-unrevised-stays-4832@gregkh>
+References: <20260904161344.2191362-1-Munzzyy1@proton.me> <2026090406-unrevised-stays-4832@gregkh>
+Feedback-ID: 209578162:user:proton
+X-Pm-Message-ID: 47c0cd66bb113c2f63ae6620b0e6fc449b32e129
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904163827.216389-1-adrianox@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 04, 2026 at 12:38:27PM -0400, Adriano Cordova wrote:
-> gadgetfs_unbind() -> destroy_ep_files() frees each struct ep_data via
-> put_ep(), but the inode still points at that ep_data through ->i_private
-> with no reference of its own.  A concurrent openat() on an endpoint file
-> can therefore reach ep_open() and dereference the freed ep_data (the
-> mutex fast path), even while the inode outlives it.
-> 
-> Give the inode its own reference: take get_ep() when the endpoint inode
-> is created and drop it again from a new gadgetfs_evict_inode(), so an
-> ep_data can never be freed while any inode still points at it.  This is
-> also safe against dcache pruning, since the inode reference keeps the
-> count >= 1 until the endpoint is removed from dev->epfiles.
-> 
-> Reported-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
-> Tested-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
-> Signed-off-by: Adriano Cordova <adrianox@gmail.com>
-> ---
+Dequeuing a request that has already been given back logs an error and
+returns -EINVAL:
 
-A similar, but not identical, patch to fix this problem was submitted 
-some time ago:
+  dwc3 23000000.usb: request 00000000ad92f1c4 was not queued to ep0out
 
-https://lore.kernel.org/linux-usb/ee41fbfd-f368-4a06-95d6-ae9b4267fd82@mail.kernel.org/
+f_fs hits this on every teardown. functionfs_unbind() dequeues ep0req
+unconditionally before freeing it, which
+commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
+before free_request") made deliberate to close a use-after-free. By then
+the control transfer has long completed, so dwc3_gadget_ep_dequeue()
+finds the request on none of cancelled_list, pending_list or
+started_list and falls through to the error path.
 
-Alan Stern
+Nothing is actually wrong. The request is not queued, which is what the
+caller asked for, and both callers ignore the return value and free the
+request straight after. The only effect is an error line in every gadget
+teardown, which buries real USB errors.
 
->  drivers/usb/gadget/legacy/inode.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-> index db961aaa3740..089fa7119922 100644
-> --- a/drivers/usb/gadget/legacy/inode.c
-> +++ b/drivers/usb/gadget/legacy/inode.c
-> @@ -1626,6 +1626,8 @@ static int activate_ep_files (struct dev_data *dev)
->  		if (!data->req)
->  			goto enomem1;
->  
-> +		/* The inode keeps this ep_data alive via ->i_private. */
-> +		get_ep(data);
->  		err = gadgetfs_create_file (dev->sb, data->name,
->  				data, &ep_io_operations);
->  		if (err)
-> @@ -2015,9 +2017,20 @@ static int gadgetfs_create_file (struct super_block *sb, char const *name,
->  	return 0;
->  }
->  
-> +static void gadgetfs_evict_inode(struct inode *inode)
-> +{
-> +	/* EP inodes hold the reference on their ep_data via ->i_private. */
-> +	if (inode->i_fop == &ep_io_operations)
-> +		put_ep(inode->i_private);
-> +
-> +	truncate_inode_pages_final(&inode->i_data);
-> +	clear_inode(inode);
-> +}
-> +
->  static const struct super_operations gadget_fs_operations = {
->  	.statfs =	simple_statfs,
->  	.drop_inode =	inode_just_drop,
-> +	.evict_inode =	gadgetfs_evict_inode,
->  };
->  
->  static int
-> -- 
-> 2.51.0
-> 
-> 
+dwc3 already tracks enough to tell the two cases apart.
+dwc3_gadget_ep_alloc_request() sets DWC3_REQUEST_STATUS_UNKNOWN, both
+__dwc3_gadget_ep_queue() and __dwc3_gadget_ep0_queue() set
+DWC3_REQUEST_STATUS_QUEUED, and dwc3_gadget_giveback() sets
+DWC3_REQUEST_STATUS_COMPLETED. A request that reaches the end of dequeue
+with status COMPLETED was queued to this endpoint and has finished.
+Anything else was never queued here, or the driver lost track of it.
+Keep the error for those, and return success for a completed request.
+
+A completed request still has to be dequeued on the endpoint it belongs
+to. req->dep is set once at allocation and never changes, and
+__dwc3_gadget_ep_queue() rejects the same mismatch with a WARN, so a
+wrong-endpoint dequeue stays on the error path here as well.
+
+This is narrower than the cdnsp fix for the same caller,
+commit 34f08eb0ba6e ("usb: cdnsp: Fixes issue with dequeuing not queued
+requests"), which returns 0 whenever usb_request::status is not
+-EINPROGRESS. That also swallows a request that was never queued, since
+status is zero out of allocation. Going by dwc3's own request status
+keeps that case an error, which is what was asked for when a separate
+ep0 dequeue was proposed in 2022.
+
+Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
+Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/linux-usb/20221117054917.30104-1-quic_ugoswam=
+i@quicinc.com/
+Assisted-by: LLM sparse
+Signed-off-by: Cole Munz <Munzzyy1@proton.me>
+---
+All three were missing, sorry about that.
+
+v2: add Fixes:, Cc: stable and Assisted-by tags. No code change.
+
+ drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa944856f956..f68eb9254afa 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2181,9 +2181,22 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+ =09=09}
+ =09}
+=20
+-=09dev_err(dwc->dev, "request %p was not queued to %s\n",
+-=09=09request, ep->name);
+-=09ret =3D -EINVAL;
++=09/*
++=09 * The request is on none of this endpoint's lists. That is the
++=09 * expected state once it has been given back: a function may dequeue
++=09 * a request before freeing it, and f_fs does so unconditionally for
++=09 * ep0req in functionfs_unbind(). Nothing is queued, which is what the
++=09 * caller asked for, so report success. Any other status means the
++=09 * request was never queued here or the driver lost track of it, and
++=09 * stays an error. So does a completed request handed to the wrong
++=09 * endpoint: req->dep is fixed at allocation, and the queue side
++=09 * rejects the same mismatch.
++=09 */
++=09if (req->status !=3D DWC3_REQUEST_STATUS_COMPLETED || req->dep !=3D dep=
+) {
++=09=09dev_err(dwc->dev, "request %p was not queued to %s\n",
++=09=09=09request, ep->name);
++=09=09ret =3D -EINVAL;
++=09}
+ out:
+ =09spin_unlock_irqrestore(&dwc->lock, flags);
+=20
+--=20
+2.55.0
+
+
