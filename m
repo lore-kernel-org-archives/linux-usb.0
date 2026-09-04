@@ -1,130 +1,151 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3986551118D;
-	Fri,  4 Sep 2026 17:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CAB3F4125
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 17:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788541834; cv=none; b=h7xReteO9VQNm/4wxVkyV959V+xRvSToGvufdG7yqFVPgPxd6/SPfIvKcyZRmG2GEi/Mx6EtYSKHPiM7G4U+cgztljvApMf3AWGBoAp44GYPZGs/3NYRFOM4t7CHF//FTYj3wjJ1xpBAxK9P2lKoderSZOAS4ERpeZPUbSA9dCM=
+	t=1788542679; cv=none; b=lbXMDhlWyBNNUvolI7J30SDNKJP9fZbGmKsK+79BhGAGZ9L28K1QHCWArpmMvWkV+0VdT5MvsssF52zAfQ8Y20RRxsnLNxAAWJtGc60R4FGrxukbg8ke433zEcphikwG6f3SOgZWMpQy8Nb3uQp0g8p94FJa1NOjh3RzIdInzRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788541834; c=relaxed/simple;
-	bh=gA6fqD4jeawG/r3uXp7hAR7LuJriNp0pXhV+O2ZhR2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O8Wk9o6Ec8ptlOs5q9jse3rWJDkNMip+lFQB+scxRrix81uz2v0xwiKBsvWytPmdWGbI8AZN4tOhmcHHEM+gl//d3twLeyzWD4z4saOvxTHH1e5q5wJyat62ChVoxi+UwaBj3J1wnzTY/KoS8KhRnYOUMxu97jnU18p1H20Yd/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=M7wvoiU2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788542679; c=relaxed/simple;
+	bh=wzb03DLVgIj3vB7hKR26LkDSnhyToSK5dDUTYTCmeno=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kXELN3QD8WaXtgUeNfY/w6ixSHi8TleY3JTtkezHNkhJCdfqlAjXoRCLiyc9zJ9mCaWEkS2+VcxJYztDkC1RHZ1QLw6ao8cv6/1VOs46r0CGsyZEgtoddcjQi5M7N1KF4k3UN+k7Yt/Rud1KPt4oDTQ8Lagg3PPeRNOA+tDBtDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSbCUAoa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M7wvoiU2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9C01F00A3D;
-	Fri,  4 Sep 2026 17:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788541831;
-	bh=DLyBHdBCiwFaJqCNC3f7TEdHuUZXCH0w7XfvGLQL/Ok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=M7wvoiU2Ad4m317yVhPA29adVTn/XoSCL5MdaOA1H+DQ2ictbMGs7zoklNWPyPYUf
-	 cdTZZMTtbgcCoJhCFBcoDT7n1TwVO+Wkpom5xyFdEJ613Js4Jf4uF4A+C0kMkgDsKZ
-	 0N2tvqv2E9rjNI0yaBVw7flJVOTplT+qMWmrxe5o=
-Date: Fri, 4 Sep 2026 19:07:50 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Cole Munz <Munzzyy1@proton.me>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: dwc3: gadget: don't error on dequeue of a
- completed request
-Message-ID: <2026090413-hurdle-puzzling-aadd@gregkh>
-References: <20260904161344.2191362-1-Munzzyy1@proton.me>
- <2026090406-unrevised-stays-4832@gregkh>
- <7bef11b63feb88f89b37bbc86323ed3dba794f43.1788541086.git.Munzzyy1@proton.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSbCUAoa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D3E1F00ACF
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 17:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788542675;
+	bh=/CDqLznQvkVu7WQ3vZoYAE6ZEb2I+Dl4DDzf448Rh98=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=DSbCUAoaBf0BDfPe5nbw+AB5KH61cmX95b2H4GrECOmgcWubqAUSF+QTRSuXuKJ7W
+	 So0x0z73IE6ijUa/G9rzZeyi6XXSdOCJpEK1oP0odVfwTNd9h7hU4p7kbn9tbBzUkI
+	 oInQ77/mksSytpVmjMak/Lh1ZpwaM5Z7jIk/Jv59U6t216lhGAQBi4a+g3PJdstRji
+	 qrFVpmYGS3RsbLRcnKlpuulzpxXD2M11HxGYsFBaJtmdQNOmwYOOAU6PeH3T0Tjlz3
+	 dYfLpT7avAUwMSnxOhcRqJ7tStlmGT5PgYp+NABfyd5BpMETqLNwc/PXFTiF24ERqi
+	 9BoXQ1Qr/orZQ==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39da69c5ba3so11253231fa.1
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 10:24:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxTGCxS/zhU81nEk2mJOXponO/i5UWgP6sAheKeUYIEJMOgYsnB/IGj1Cu7DCtBqb3Ig83TV1wV0PA=@vger.kernel.org
+X-Gm-Message-State: AFuF++k8/X16NB1uaiGRAB+yiLbBxMPTm4wgjov7bqoPCnKGrkYjfvQu
+	eV34kax7wCjBW5MV+fs58SMe0RvHLM+P97z5BheKQe28MNiZQVoq/3xmYfD8xqln9tMAw+uCRso
+	XI50gSlvcHKpHmSrJbXpJPabJMawXdkA=
+X-Received: by 2002:a2e:a54f:0:b0:3a3:314d:115e with SMTP id
+ 38308e7fff4ca-3a371bc73e4mr9829551fa.10.1788542673867; Fri, 04 Sep 2026
+ 10:24:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7bef11b63feb88f89b37bbc86323ed3dba794f43.1788541086.git.Munzzyy1@proton.me>
+References: <20260904084158.1341550-1-wenst@chromium.org> <20260904084158.1341550-8-wenst@chromium.org>
+ <2026090430-botanist-ungodly-0299@gregkh>
+In-Reply-To: <2026090430-botanist-ungodly-0299@gregkh>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 5 Sep 2026 01:24:20 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
+X-Gm-Features: AcwNN1XsOjcnbmZTa6fnJtFKjvQsiEWmd4_rlrVRXh_dounYDIlqWUAfitdifNU
+Message-ID: <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
+Subject: Re: [PATCH v8 07/16] usb: core: Move struct usb_port and related APIs
+ to port.h
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Wei Deng <wei.deng@oss.qualcomm.com>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 04, 2026 at 04:58:57PM +0000, Cole Munz wrote:
-> Dequeuing a request that has already been given back logs an error and
-> returns -EINVAL:
-> 
->   dwc3 23000000.usb: request 00000000ad92f1c4 was not queued to ep0out
-> 
-> f_fs hits this on every teardown. functionfs_unbind() dequeues ep0req
-> unconditionally before freeing it, which
-> commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
-> before free_request") made deliberate to close a use-after-free. By then
-> the control transfer has long completed, so dwc3_gadget_ep_dequeue()
-> finds the request on none of cancelled_list, pending_list or
-> started_list and falls through to the error path.
-> 
-> Nothing is actually wrong. The request is not queued, which is what the
-> caller asked for, and both callers ignore the return value and free the
-> request straight after. The only effect is an error line in every gadget
-> teardown, which buries real USB errors.
-> 
-> dwc3 already tracks enough to tell the two cases apart.
-> dwc3_gadget_ep_alloc_request() sets DWC3_REQUEST_STATUS_UNKNOWN, both
-> __dwc3_gadget_ep_queue() and __dwc3_gadget_ep0_queue() set
-> DWC3_REQUEST_STATUS_QUEUED, and dwc3_gadget_giveback() sets
-> DWC3_REQUEST_STATUS_COMPLETED. A request that reaches the end of dequeue
-> with status COMPLETED was queued to this endpoint and has finished.
-> Anything else was never queued here, or the driver lost track of it.
-> Keep the error for those, and return success for a completed request.
-> 
-> A completed request still has to be dequeued on the endpoint it belongs
-> to. req->dep is set once at allocation and never changes, and
-> __dwc3_gadget_ep_queue() rejects the same mismatch with a WARN, so a
-> wrong-endpoint dequeue stays on the error path here as well.
-> 
-> This is narrower than the cdnsp fix for the same caller,
-> commit 34f08eb0ba6e ("usb: cdnsp: Fixes issue with dequeuing not queued
-> requests"), which returns 0 whenever usb_request::status is not
-> -EINPROGRESS. That also swallows a request that was never queued, since
-> status is zero out of allocation. Going by dwc3's own request status
-> keeps that case an error, which is what was asked for when a separate
-> ep0 dequeue was proposed in 2022.
-> 
-> Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
-> Cc: stable@vger.kernel.org
-> Link: https://lore.kernel.org/linux-usb/20221117054917.30104-1-quic_ugoswami@quicinc.com/
-> Assisted-by: LLM sparse
-> Signed-off-by: Cole Munz <Munzzyy1@proton.me>
-> ---
-> All three were missing, sorry about that.
-> 
-> v2: add Fixes:, Cc: stable and Assisted-by tags. No code change.
-> 
->  drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> index fa944856f956..f68eb9254afa 100644
-> --- a/drivers/usb/dwc3/gadget.c
-> +++ b/drivers/usb/dwc3/gadget.c
-> @@ -2181,9 +2181,22 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
->  		}
->  	}
->  
-> -	dev_err(dwc->dev, "request %p was not queued to %s\n",
-> -		request, ep->name);
-> -	ret = -EINVAL;
-> +	/*
-> +	 * The request is on none of this endpoint's lists. That is the
-> +	 * expected state once it has been given back: a function may dequeue
-> +	 * a request before freeing it, and f_fs does so unconditionally for
-> +	 * ep0req in functionfs_unbind(). Nothing is queued, which is what the
-> +	 * caller asked for, so report success. Any other status means the
-> +	 * request was never queued here or the driver lost track of it, and
-> +	 * stays an error. So does a completed request handed to the wrong
-> +	 * endpoint: req->dep is fixed at allocation, and the queue side
-> +	 * rejects the same mismatch.
-> +	 */
+On Sat, Sep 5, 2026 at 12:47=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Sep 04, 2026 at 04:41:46PM +0800, Chen-Yu Tsai wrote:
+> > |struct usb_port| and its matching container_of() macro should live in
+> > its own port.h, matching the split we have for .c files.
+>
+> Why?
 
-LLMs love to add long comments like this that make almost no sense.
-Please rewrite this in a human voice, being very concise, if you still
-feel a comment is needed.
+This was requested by Andy. And to me it sort of made sense.
 
-thanks,
+> > Move them as described. Also move usb_port_is_power_on(), since in the
+> > next change its |struct usb_hub *| parameter will be changed to
+> > |struct usb_port *|, and becomes a non-static function that only
+> > references |struct usb_port|.
+>
+> No, please don't do that unless you have a really good reason.
 
-greg k-h
+Which part? Move the code?
+
+> >
+> > port.h is only included from hub.h, as a subsequent patch will directly
+> > use fields from |struct usb_port| in a static inline helper in hub.h.
+> > The USB internal headers don't have header guards to help with this.
+> >
+> > Also drop 'extern' from the header declaration of usb_port_is_power_on(=
+).
+> > This is not needed in modern C.
+> >
+> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > Changes since v4:
+> > - Dropped 'extern' (Andy)
+> >
+> > Changes since v3:
+> > - New patch (Andy)
+> > ---
+> >  drivers/usb/core/hub.c  | 16 ----------
+> >  drivers/usb/core/hub.h  | 48 ++---------------------------
+> >  drivers/usb/core/port.c | 16 ++++++++++
+> >  drivers/usb/core/port.h | 68 +++++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 86 insertions(+), 62 deletions(-)
+> >  create mode 100644 drivers/usb/core/port.h
+>
+> hub.h is small enough, making a single .h file that is 68 lines long
+> for no real good reason isn't a good idea.  Odds are this will make the
+> build take longer as you now need to open/read/close another file.
+
+OK. Andy, can you accept not doing the move?
+
+> And if we really want to do this, it shouldn't be burried in the middle
+> of a long "enable this platform" series where people will miss it.
+
+Well the code is also touched in this series, so it is related. Without
+the change, the code movement makes even less sense, as mentioned in the
+commit message.
+
+As for missing the patch, I can change the series name to something
+like "usb: Hook up pwrseq for USB power control on M.2 E-key slots".
+The series spans multiple subsystems and even the driver core, and the
+goal is to enable M.2 E-key slots, so hopefully that ticks all the boxes.
+Except which platform is affected that is.
+
+
+ChenYu
+
+
+
+
+> Thanks to Alan's review for making me notice it.
+>
+> thanks,
+>
+> greg k-h
+>
