@@ -1,150 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CCD41D214
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 06:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF36351C04
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 06:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788503112; cv=none; b=geclJ1FGsCFUJhXGKVOcLKLLU0frpP1OMEaj39E5sJ90WoxUOAX9LiUMrdsYyq3poEgdM8eIbGUv/0JMtUln8p1IxPOIRIhNsizQC22MawkXvG2OSrYJjHrppQp3DXUY5p2BbFKv5MjG/matT4sKwZSbaD1/YRFKLHE9Tu8mySY=
+	t=1788503419; cv=none; b=S6ujyuoU83z+MoIYf/CycjJQBSiPfhc3WhaduiZuKT4RvNUax7TtcPtsuPQ7DaKOT3oMuIUap/abQfXIDcg9ID0wtMqkzYezUP93CaktG/U5J8HaZuTECkoAG6AYIwq7BocFr8QLBciDVknEdWYsNFSm5I6jTUTYL/1ZwzpZrMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788503112; c=relaxed/simple;
-	bh=eU4BffCq8MwfruTXvzGnZzd15xmLu6ru4/G+BgmpU1E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J/PIDzMfEGz7NzL4GwgDcS9wd6Di5YYItmhrTKwQJOXpRB607G2bRw3MAngVW7JxhkWzgUCdWy8/3/a4V8yYCdOd9x+uQJf9tYYxTfQgv3G2NlA6IJ24WQ2XhIRS8j5o4opeuPAyZan4qldRBJ+biVV1L9zQNG8bEBUyU/yfj8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/yaxniw; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788503419; c=relaxed/simple;
+	bh=rU9GijAnZNSVach+qXSdgMd/Qvt7XVjZRVLzqVSb9Ac=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iGoGdtpUI+1TA2fdwRcP7WZypHUzZjUAOEqtSwYuI+HsAuku0yc8fOsbfdAZITO3vAoYFEcWHoUqZUYJOqyDHrUrd4KWgqwtPHWtRkl9JEi7fta9jhRPlnF5XC9r1+X4jpcLWOC88VbQj5rhyL/eit9iIV4pw3bCoRsFIV0FUBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZwRFsGx; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/yaxniw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788503111; x=1820039111;
-  h=date:from:to:cc:subject:message-id;
-  bh=eU4BffCq8MwfruTXvzGnZzd15xmLu6ru4/G+BgmpU1E=;
-  b=f/yaxniw5Qw3ZMDsU8Woq7UN08mIDweYuXy42GitceftW+v1+OCMQE5W
-   0veoRQpmfV2y+E/FWyMw1p4I2WS1wTVOcm7y3xfNGinGrOCY8fTqfGCRR
-   AglQyyz26HRvpSXOytKjwFROM5y1Sn35WezJI4KToSSsYKYVmjASVXSVs
-   gEEKmi/gwU7VWh9vOM7laCifeUrOPS3igqAEajPafTyHC5WRl3Y7RUR2O
-   qKMybtPa5S7F/+B/jEZSca+DOLIOST7FJwZZbgQ1vQoO83/RQsYCG/L+W
-   dGXWZfBwVU0/jw/YEvVEtP5kGST/QAunjNEdRrBXj+PRSOL6FmXRvEUUE
-   w==;
-X-CSE-ConnectionGUID: E49sBOHLSDCftSqNBo4TCw==
-X-CSE-MsgGUID: gMa024ZkS7+1MrCY3sHGUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="92697063"
-X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="92697063"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 23:25:08 -0700
-X-CSE-ConnectionGUID: 6rVaZx3GTqWgwLkjRvp5ig==
-X-CSE-MsgGUID: ZheTozs+QsiSt0aeOutQtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="273735907"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Sep 2026 23:25:07 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x2NMG-000000005yC-3QcC;
-	Fri, 04 Sep 2026 06:25:04 +0000
-Date: Fri, 04 Sep 2026 14:24:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-Subject: [westeri-thunderbolt:fixes] BUILD SUCCESS
- 4310c6b8e75d6a47f7548e5948fbe6318aa4440a
-Message-ID: <202609041421.WvKtG9tr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZwRFsGx"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc147d86bebso693734a12.0
+        for <linux-usb@vger.kernel.org>; Thu, 03 Sep 2026 23:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788503417; x=1789108217; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DWmGOPT3T1V0QbR4ZU9i41fdA26ZNjTQm+SJiNpfKWo=;
+        b=EZwRFsGxaYlCUki/7rpy9xHvhAla7iGiemlleP9iL0PjxFJFps9qgusE9/0bMV9E7z
+         gJzwg6R0SXfZ4ui8C9aduMICfrYxRrbnetHA4Wyl6A+wQkRvZJBaosOaSlf/vYofp8Xw
+         fDdY9YOHWnxAHgE0Ibx5PlIDkxHiVOz4+FWnSisQFW7faH4A93Wf1VTBiBL7mZGrFG33
+         2zT4vOIJ9Vlh3qVy9+g0dsXx8c2y9obw8UxfbXQEWzAEl9zHx1AhdHsn2UBwaj8gACpx
+         utyxSNpSp9HWkdifz8PGacF/sLZsBlMFBtFYA0UBY1WpZBPFOxUo6fwmp6uDLxccY1Ue
+         WUww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788503417; x=1789108217;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DWmGOPT3T1V0QbR4ZU9i41fdA26ZNjTQm+SJiNpfKWo=;
+        b=Jp82YyuSBranySoD+kVBkDQfA365LEHby9kA62HfOI5wg6D0Aq1hqlK5pc39x0Esvm
+         FOxzSCI3bITfMljVzZ5PO0lDHYyZcIhV4Y+fwGqFEH24yx0MBKjRvaI8qYUprycEB5A4
+         plRNUTERTzOpy1xl4byXKMdpq1yHlXAa8rRWQr3iIGIKX0WKS0lsiWxZDfCZkxDYEUKp
+         oJxkyD+A9CL3n81rzKnCpp3bd9whaRmDFOccoCLpDc6h1zXPt1eDaJtWcyC4AfBE/FAG
+         DEj334pobkGxGrn7Yzmy2MBCNz8idkOV4jvBWaqBP7gWHrGy6XIcjshXN+KHk/fYtmDe
+         MSvw==
+X-Gm-Message-State: AFuF++lJiEoHUIR2zPLU1fn40R5LzlX1BCkDIt2irwqsh6IVGFJm7Lzx
+	ANqVTJYT5cSxx+NLctZ8wv1IrlVd1adi4PfE5TqzU6uAtyPbPMBZsFhkWKiCb6t9NFuP1A==
+X-Gm-Gg: AYBFou0LHieVysMXUQ3yv1Pke8riLwHtJT6ZfYETfB0NBcZk/R0ZrIn1juISthtfnWd
+	8zUvQFsptSIddEOqvTXCmOYsPRANiLsDxi8TRUEIdGDBjfrvsqBloH1wj+eO0j7s85QWCLUp2nu
+	7bAgDXoWKJqX6LaPgCZ8IUoXpVaC8E04KJc6O8qycX9Pn3wGvFSRMuL/y/on3st2Md4Wccyn5gK
+	yepVjxLCwpu+EZfGD5RF2wLbG0YZ8G9d0C+96TKn9B0ebYCEnl3Ah/NTJZ8wlDR6G9f4vrtg1hU
+	CxbFPumvcLh0ge0lBcThKMSVJ4MFHwP04VMjzOiZSDczjDLim3V9OZS+pc1mv9+olNDD+94fVbf
+	i6QgWKiTlGdOvtqd81gxVVLlYYRwVFfxoR7TZdFLBJb9stRvOElZc3758CZglefNtlERr6TpAhq
+	g+5C6YQ12i7xankymiFLa5fAcTNR2nsCyqX5t5Zfpj5XSVA5a2rocqYKgeEd95aXZi4FKYPNlV8
+	P1NFRVU2We08dUMp2JwBGpacjKIkwE9zh29W4V1GLu0SShBGu0wPvbi3byYuprRVPw=
+X-Received: by 2002:a17:90b:35cf:b0:398:9beb:a2bc with SMTP id 98e67ed59e1d1-39b0881d765mr12637501a91.30.1788503416886;
+        Thu, 03 Sep 2026 23:30:16 -0700 (PDT)
+Received: from codespaces-1adab9.3gx5x4kts4veljes22u4ri2f3b.ix.internal.cloudapp.net ([23.97.62.151])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08c3a526sm9005084a91.10.2026.09.03.23.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 23:30:16 -0700 (PDT)
+From: rivaldihormat-debug <rivaldihormat@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rivaldihormat-debug <rivaldihormat@gmail.com>,
+	rivaldihormat-debug <rivaldihormat@example.com>
+Subject: [PATCH] usb: core: devio: add defensive bounds check for len2 in do_proc_bulk()
+Date: Fri,  4 Sep 2026 06:29:58 +0000
+Message-ID: <20260904062958.19404-1-rivaldihormat@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git fixes
-branch HEAD: 4310c6b8e75d6a47f7548e5948fbe6318aa4440a  thunderbolt: Fix NULL dereference in tb_remove_work()
+Although the USB host controller hardware prevents len2 from exceeding
+len1 in normal operation via babble error handling, add an explicit
+kernel-side check to improve robustness. This helps prevent unexpected
+behavior in virtualized environments where emulation bugs might break
+this guarantee.
 
-elapsed time: 2816m
+Clamp len2 to len1 if it exceeds the allocated buffer size and log
+a warning message.
 
-configs tested: 73
-configs skipped: 0
+Signed-off-by: rivaldihormat-debug <rivaldihormat@example.com>
+---
+ drivers/usb/core/devio.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 101cb9425480..9d8930853e8f 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -1343,6 +1343,10 @@ static int do_proc_bulk(struct usb_dev_state *ps,
+ 		snoop_urb(dev, NULL, pipe, len2, i, COMPLETE, tbuf, len2);
+ 
+ 		if (!i && len2) {
++                        if (len2 > len1) {
++                                dev_warn(&dev->dev, "USB returned more data than expected\n");
++                                len2 = len1;
++                        }
+ 			if (copy_to_user(bulk->data, tbuf, len2)) {
+ 				ret = -EFAULT;
+ 				goto done;
+-- 
+2.53.0
 
-tested configs:
-alpha         allnoconfig    gcc-16.1.0
-alpha        allyesconfig    gcc-16.1.0
-arc          allmodconfig    gcc-16.1.0
-arc           allnoconfig    gcc-16.1.0
-arc          allyesconfig    clang-24
-arc          allyesconfig    gcc-16.1.0
-arm           allnoconfig    clang-17
-arm           allnoconfig    gcc-16.1.0
-arm          allyesconfig    gcc-16.1.0
-arm64        allmodconfig    clang-24
-arm64         allnoconfig    gcc-16.1.0
-csky         allmodconfig    gcc-16.1.0
-csky          allnoconfig    gcc-16.1.0
-hexagon      allmodconfig    clang-24
-hexagon      allmodconfig    gcc-16.1.0
-hexagon       allnoconfig    clang-24
-hexagon       allnoconfig    gcc-16.1.0
-i386         allmodconfig    clang-22
-i386          allnoconfig    gcc-14
-i386          allnoconfig    gcc-16.1.0
-i386         allyesconfig    clang-22
-loongarch    allmodconfig    clang-19
-loongarch    allmodconfig    clang-24
-loongarch     allnoconfig    clang-20
-loongarch     allnoconfig    gcc-16.1.0
-m68k         allmodconfig    gcc-16.1.0
-m68k          allnoconfig    gcc-16.1.0
-m68k         allyesconfig    gcc-16.1.0
-microblaze    allnoconfig    gcc-16.1.0
-microblaze   allyesconfig    gcc-16.1.0
-mips         allmodconfig    gcc-16.1.0
-mips          allnoconfig    gcc-16.1.0
-mips         allyesconfig    gcc-16.1.0
-nios2        allmodconfig    gcc-11.5.0
-nios2         allnoconfig    clang-24
-nios2         allnoconfig    gcc-11.5.0
-openrisc     allmodconfig    gcc-16.1.0
-openrisc      allnoconfig    clang-24
-openrisc      allnoconfig    gcc-16.1.0
-parisc       allmodconfig    gcc-16.1.0
-parisc        allnoconfig    clang-24
-parisc        allnoconfig    gcc-16.1.0
-parisc       allyesconfig    gcc-16.1.0
-powerpc      allmodconfig    gcc-16.1.0
-powerpc       allnoconfig    clang-24
-powerpc       allnoconfig    gcc-16.1.0
-riscv        allmodconfig    clang-24
-riscv         allnoconfig    clang-24
-riscv         allnoconfig    gcc-16.1.0
-riscv        allyesconfig    clang-24
-s390         allmodconfig    clang-24
-s390          allnoconfig    clang-24
-s390         allyesconfig    gcc-16.1.0
-sh           allmodconfig    gcc-16.1.0
-sh            allnoconfig    clang-24
-sh            allnoconfig    gcc-16.1.0
-sh           allyesconfig    gcc-16.1.0
-sparc         allnoconfig    clang-24
-sparc         allnoconfig    gcc-16.1.0
-sparc64      allmodconfig    clang-20
-um           allmodconfig    clang-17
-um            allnoconfig    clang-17
-um            allnoconfig    clang-24
-um           allyesconfig    gcc-14
-um           allyesconfig    gcc-16.1.0
-x86_64       allmodconfig    clang-22
-x86_64        allnoconfig    clang-22
-x86_64        allnoconfig    clang-24
-x86_64       allyesconfig    clang-22
-x86_64      rhel-9.4-rust    clang-22
-xtensa        allnoconfig    clang-24
-xtensa        allnoconfig    gcc-16.1.0
-xtensa       allyesconfig    gcc-16.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
