@@ -1,36 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from lan.nucleusys.com (lan.nucleusys.com [92.247.61.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B409392C2C;
-	Fri,  4 Sep 2026 15:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFE2392C2C;
+	Fri,  4 Sep 2026 15:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.247.61.126
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788534593; cv=none; b=NDCvV0fJQJIcpWX/r+S8durIa3dn/FjVEcDoMo0I3tKRCOnez7fhTq5FShbclkIEz1VQrWiFH3sQU+zQkLBajV1ThhTR6Biwv0IDGvdeZiN2re/aE071WVEApcXLOjEInXBALts4kNnh92w97EHqEc7wHG1WHJm0oRNcVKGQb4A=
+	t=1788534618; cv=none; b=XcSDEk/nriz83k87N4h8K9ljw3mRQfv3/ctPz/FrzZK44dwCuLVxaP/gH8uZdt5KJig1Yo5CYcW3NhgACJycXtAD1Dvmy78xV6hifORpWhO7ZUFVBtfTKmFHxhNor5pK4At2VRYa9laET7NpPph+2fbDdwLhOZP1sSvsciSY314=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788534593; c=relaxed/simple;
-	bh=QmNzprKXZh4+iI7cSDE2hifDsxIRU6zxTLm/qtKLRHo=;
+	s=arc-20240116; t=1788534618; c=relaxed/simple;
+	bh=B4O23lhK4/4JBgLCjwaCw2ARTipscO18DKez0cXjtLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uPnc9XH/Nlp8GjKVCyvOKILcTcTHGX67m7hTt0i9Clxw1qhFeGYibuTzbCr1exGDBUFNi/YbkA/dg3k1kps4zvBLSlxOEzS7jQqHg70n7zflQjDlxWOu9jcOj14cqlbf76WO09vIOpXG0HNsF66iBEzsRMpWqShGxcMyovn1bkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=t0mwNE7U; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oj5ISubV1Z08B3sxcGd4MKhs9TwExevODCYlBFMC/gJ4XuYDFontlA9xQDEKr/wrEsSs8L2Esot6FP9sXHtsGSzRqRrxG3LSEaggQ1FIGKsT0bh02DPg6nWXdwxIcmBuCswQeCpcSEx+3tqtSZ0HN81JGHyLxeaY2IcW7C6Zkcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nucleusys.com; spf=pass smtp.mailfrom=nucleusys.com; dkim=pass (2048-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b=foJU1Ks4; arc=none smtp.client-ip=92.247.61.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nucleusys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nucleusys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="t0mwNE7U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64F81F00A3D;
-	Fri,  4 Sep 2026 15:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788534591;
-	bh=TuEsNH+Lnxv7kGDav5fMZ/5rXCKlZAVjboMGQAGZlyY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=t0mwNE7UdWkBzBxuqcyKPayRVxa6cGBENLTuMAG1WMTNX01Us2IPSHfybYKLtC2i2
-	 5zklfC0Z96UBW9ufG5IzY7s6pfmg+g3nqH1z4B33lfLwLdAa2dWPKy0NEjblQfhTCE
-	 w/5J7ZWiBtXEei3qblC+Ndwg20g+NfUYNs1GHUoM=
-Date: Fri, 4 Sep 2026 17:07:56 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Syed Labeeq Sajid Bukhari <syedlabeeq@gmail.com>
-Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-	stern@rowland.harvard.edu, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: storage: sierra_ms: reject short SWoC info transfers
-Message-ID: <2026090452-appetizer-pacifist-57e5@gregkh>
-References: <CAF4-o1c6XLbJr5umK+FRmMetcRkxH5JnRjMUpWw7OpnkUWbvVQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b="foJU1Ks4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nucleusys.com; s=xyz;
+	t=1788534111; bh=B4O23lhK4/4JBgLCjwaCw2ARTipscO18DKez0cXjtLg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=foJU1Ks4xTDm/6sQenxuBHpH8VaQUj1XVzOtsYuLqniFpdY3JlfZsIqMdG9TctdzC
+	 k4Fg0aHkRzy6WrcKCJPNlq435bY4e/7rjyP47aZ3qLZKcB7MTz4TB/IOfK+VijZFtM
+	 XxCF6ywWjTA4lu1dncUr4sbiTPSvkYeDgp76lfYIIUr51ZcbURuRtXJDvl000ulYMF
+	 BkYTCkwA8IA/YsDqG+uhwmM8HrL+Ggcapg9h5J7vZqOd4fxGzoqCbMxtvaGP9aRhD7
+	 IusdXmRx9RwsmP6q1v+Rk0Mqe3xGNrIvwd6P9ZmVl2qj329BmT3+Tq6HxUzFLgaAh+
+	 rrGVeibO3lO/A==
+Received: from carbon.k.g (unknown [95.43.149.250])
+	by lan.nucleusys.com (Postfix) with ESMTPSA id 0D2A53FA70;
+	Fri, 04 Sep 2026 18:01:50 +0300 (EEST)
+Date: Fri, 4 Sep 2026 18:01:49 +0300
+From: Petko Manolov <petkan@nucleusys.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Oliver Neukum <oneukum@suse.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
+ work on system_dfl_long_wq
+Message-ID: <20260904150149.GA21082@carbon.k.g>
+References: <20260720100902.155605-1-marco.crivellari@suse.com>
+ <20260720100902.155605-6-marco.crivellari@suse.com>
+ <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
+ <20260825151812.4aJyFUgE@linutronix.de>
+ <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
+ <20260828094318.bOajNBno@linutronix.de>
+ <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,63 +60,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAF4-o1c6XLbJr5umK+FRmMetcRkxH5JnRjMUpWw7OpnkUWbvVQ@mail.gmail.com>
+In-Reply-To: <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
 
-On Fri, Sep 04, 2026 at 07:52:59PM +0500, Syed Labeeq Sajid Bukhari wrote:
-> sierra_get_swoc_info() requests sizeof(struct swoc_info) (60) bytes
-> from the device via usb_control_msg(), but its callers only treat a
-> negative return value as failure. A device that answers the
-> vendor-specific GetSwocInfo request with a short IN transfer is
-> therefore accepted, leaving the tail of the freshly allocated
-> (kmalloc(), non-zeroing) swoc_info buffer uninitialized.
+On 26-08-28 10:10:01, Alan Stern wrote:
+> On Fri, Aug 28, 2026 at 11:43:18AM +0200, Sebastian Andrzej Siewior wrote:
 > 
-> truinst_show() subsequently prints swocInfo->rev, swocInfo->LinuxSKU
-> and swocInfo->LinuxVer from that buffer into the world-readable
-> (0444) "truinst" sysfs attribute. An emulated/malicious USB device
-> (VID 0x1199, PID 0x0fff) can exploit this to disclose up to 5 bytes
-> of stale kernel heap memory (kmalloc-64) to unprivileged userspace,
-> once per sysfs read, indefinitely. On kernels built without
-> init_on_alloc this leaks recently freed heap contents.
+> > Therefore the suggested change system_long_wq -> system_dfl_long_wq should
+> > not make a difference here: it is a different workqueue and it is unbound
+> > (instead of per-CPU) but given the usage it is unchanged but more obvious.
+> > Also its usage recommendations (use this for long running items) is the
+> > same.
+> > 
+> > The plan is remove system_long_wq from the tree.
 > 
-> Only accept the transfer when the full structure was received.
-> sierra_ms_init() already retries failed queries, so well-behaved
-> devices are unaffected.
-> 
-> Fixes: 32fe5e393455 ("USB Storage Sierra: TRU-Install feature update")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Syed Labeeq <syedlabeeq@gmail.com>
+> The point Oliver was making is that the driver shouldn't be using a
+> general-purpose workqueue at all.  Switching from one general-purpose
+> workqueue to another ignores this point; it's not the right thing to do.
 
-Did you forget an Assisted-by: tag?
+I read this as "this driver should switch to its own work queue", correct?
 
 
-> ---
->  drivers/usb/storage/sierra_ms.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/usb/storage/sierra_ms.c b/drivers/usb/storage/sierra_ms.c
-> index 177fa6cd143ab2837640c26f8336781ddd3cf9cb..8755fda42eed2afd3235283e990a35aac14cb829
-> 100644
-> --- a/drivers/usb/storage/sierra_ms.c
-> +++ b/drivers/usb/storage/sierra_ms.c
-> @@ -76,6 +76,12 @@
->   (void *) swocInfo, /* void *data        */
->   sizeof(struct swoc_info), /* __u16 size     */
->   USB_CTRL_SET_TIMEOUT); /* int timeout     */
-> + /*
-> + * A short IN transfer leaves the tail of swocInfo uninitialized;
-> + * only a full transfer is valid.
-> + */
-> + if (result != sizeof(struct swoc_info))
-> + return -EIO;
-
-This is corrupted and can not be applied :(
-
-Also, are you sure the device will not send "short" data?  We've had
-bugs in the past where we have added this type of check and it turned
-out that it broke valid devices, so be careful.
-
-Was this tested with a real device?
-
-thanks,
-
-greg k-h
+		Petko
