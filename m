@@ -1,151 +1,130 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F5C503BDA
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 17:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3986551118D;
+	Fri,  4 Sep 2026 17:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788541648; cv=none; b=r3Y1mW/YK/qIUKoJogumBT9XXU54bFrUDmQjE5BnHvsEB+x9h43bWcBdlbsAghUcXlUQdJsWaORx+m7/XP0jT7z1tphBPEcJ8RcQJrmkX9i/TZv/uQt97hTgIaRpighi1eWcUSDxVNcemJhWD6sv51z83S3pUs6v0A/xYrN3k0g=
+	t=1788541834; cv=none; b=h7xReteO9VQNm/4wxVkyV959V+xRvSToGvufdG7yqFVPgPxd6/SPfIvKcyZRmG2GEi/Mx6EtYSKHPiM7G4U+cgztljvApMf3AWGBoAp44GYPZGs/3NYRFOM4t7CHF//FTYj3wjJ1xpBAxK9P2lKoderSZOAS4ERpeZPUbSA9dCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788541648; c=relaxed/simple;
-	bh=s5Ffwvup63+Hi6e8aKuYEBFVfqThjAtM0tTa1+Hw7T4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Df7qRcs0SQqpl02xs7do4ap8Ey27tsGXNwzzVg3qINf5XyFT/MKqbtA4ravuIqY9kGDJMxfdBzCe0+p8XLJpUX93hwQXGuar2OJ0/6TiVmkQ7kuJ4dltjem8oJLidtfH4TYaO+3TGldMz6+zLh9nsMM3+t/gJRpxYamOGkpj9Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eSD2/IJY; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1788541834; c=relaxed/simple;
+	bh=gA6fqD4jeawG/r3uXp7hAR7LuJriNp0pXhV+O2ZhR2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8Wk9o6Ec8ptlOs5q9jse3rWJDkNMip+lFQB+scxRrix81uz2v0xwiKBsvWytPmdWGbI8AZN4tOhmcHHEM+gl//d3twLeyzWD4z4saOvxTHH1e5q5wJyat62ChVoxi+UwaBj3J1wnzTY/KoS8KhRnYOUMxu97jnU18p1H20Yd/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=M7wvoiU2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eSD2/IJY"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-46ac24346b1so766663fac.2
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 10:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788541644; x=1789146444; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VvYqJtGV/BhVgB0yqrWGgaEzlxiF8+XwHAuoqD3nTQQ=;
-        b=eSD2/IJYIJDQt6UamB0PoOseMyC5XzZb2AdIBJEGyF6FCu7A1xMNnJam0mAC1kD9gU
-         hLmOcbp3zBl2HtixNJk9IObEshtHk9wLveocQwt/tRizdwqxF23SSa8xdQp+cLNxvQBf
-         NXopXroF3tykuuEL5R9nKDbm/Lz3mEP6Ln2Xo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788541644; x=1789146444;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VvYqJtGV/BhVgB0yqrWGgaEzlxiF8+XwHAuoqD3nTQQ=;
-        b=jroBHkhTflYV/52yj8JyMf8vuJ2PmaQhDLGYrr7lP2uObhPd4C5ymrbIglzTgOyzZJ
-         PInO74HByaAeYy7mYdGHFc8j/wDkcCktYIfyFrRMt4P/+FM5NZJ9tzyyNR5DCNA899hr
-         2pTBZN1kgkdhsCrmUxjqdyYK5meIJEGEdCN6hbqMnVmoc46VHwPg/CY5kuKViv+PTLxO
-         9lhyGmu9VEmcpQulPkShIDCzPfPEcgfVViQcVLgcPEUDnXP7OdjE6aMLZBnLIpy+ZSTm
-         aTw9FgOHDEt1JaWxsJnLS30JthdjXGMRDAqYw2SXB2ptwuf7WeBNMCh7SItnvBKJNY5U
-         Oxqw==
-X-Forwarded-Encrypted: i=1; AKwUvByFj6O9EULOzXG4COEc5iVBTJ7nnlXq6X+fP6EIsqc/NzmWRw0YFVkhi29f3xGZgq4dYLdCrGctv/s=@vger.kernel.org
-X-Gm-Message-State: AFuF++mv4HsD2MCoea897NGrQwo7CUYZ0nfyfq/tj6++Cod6L9wANDSV
-	G7QVg3pqbSEQc8eqRexbLSvq/kuKVP9XiMg84cyBgDR0CX+P2dgOiKRTEvivKOILZMo=
-X-Gm-Gg: AYBFou29T4xYXzCysY9p4GafTrKyUibPzjZKomEkiR30wS9HM2xJrHcQU5pD0SnfmDY
-	MDWmL8OZmtJSsp2MI/tCIMkAk67YKV4Irszn20w2V50byJ6iO0b3Y+m57w4rr4ipnw0SEfDeDoJ
-	8/OwxZwQzTzNhwo3bBqks8MNrGtouvqLfhjGghYRqSoDb7nkznwf0xYTqTsV18YPj/Q/04MwmJh
-	w595kD63zd9fYR1v67J9RxdVLzNYfSPw50HAr7muyaisxdVavpa2OU5n+29JyqE/Boyh8FusNBo
-	Kx0oiBFDuQY7zN3A75ehvDJTCYGOdveKuDdlkheJCFMVv/QU6hmQPVGEkCjarcmaAfH5vxk8Ri7
-	2exHKCVJ+TEoblz5mfizKdPYflikvxiLY5xOkwpVo0CHE7iwwNwTqyJ7PT+WcCHgUAhsMxTgyLY
-	l75oK2XPXHJEooag/f8czExbkHa7zisucGHgVJYLiPI24k4lHsFZ4f957cOtOUz7PJyAwYBA==
-X-Received: by 2002:a05:6820:4dcd:b0:6b1:29c1:3f37 with SMTP id 006d021491bc7-6b6fcfdc537mr5650357eaf.23.1788541644401;
-        Fri, 04 Sep 2026 10:07:24 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b6dea11aeasm3670717eaf.14.2026.09.04.10.07.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2026 10:07:22 -0700 (PDT)
-Message-ID: <2977dab3-70a3-45b3-ac08-41bc362121a2@linuxfoundation.org>
-Date: Fri, 4 Sep 2026 11:07:18 -0600
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M7wvoiU2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9C01F00A3D;
+	Fri,  4 Sep 2026 17:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788541831;
+	bh=DLyBHdBCiwFaJqCNC3f7TEdHuUZXCH0w7XfvGLQL/Ok=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=M7wvoiU2Ad4m317yVhPA29adVTn/XoSCL5MdaOA1H+DQ2ictbMGs7zoklNWPyPYUf
+	 cdTZZMTtbgcCoJhCFBcoDT7n1TwVO+Wkpom5xyFdEJ613Js4Jf4uF4A+C0kMkgDsKZ
+	 0N2tvqv2E9rjNI0yaBVw7flJVOTplT+qMWmrxe5o=
+Date: Fri, 4 Sep 2026 19:07:50 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Cole Munz <Munzzyy1@proton.me>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: dwc3: gadget: don't error on dequeue of a
+ completed request
+Message-ID: <2026090413-hurdle-puzzling-aadd@gregkh>
+References: <20260904161344.2191362-1-Munzzyy1@proton.me>
+ <2026090406-unrevised-stays-4832@gregkh>
+ <7bef11b63feb88f89b37bbc86323ed3dba794f43.1788541086.git.Munzzyy1@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: usbip: add NULL check after calloc()
-To: Greg KH <gregkh@linuxfoundation.org>,
- longlong yan <yanlonglong@kylinos.cn>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260902070932.1440-1-yanlonglong@kylinos.cn>
- <2026090249-poking-monorail-0d2d@gregkh>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <2026090249-poking-monorail-0d2d@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7bef11b63feb88f89b37bbc86323ed3dba794f43.1788541086.git.Munzzyy1@proton.me>
 
-On 9/2/26 02:42, Greg KH wrote:
-> On Wed, Sep 02, 2026 at 03:09:31PM +0800, longlong yan wrote:
->> Two calloc() calls in the usbip driver lack NULL return checks, leading
->> to potential NULL pointer dereferences on allocation failure:
+On Fri, Sep 04, 2026 at 04:58:57PM +0000, Cole Munz wrote:
+> Dequeuing a request that has already been given back logs an error and
+> returns -EINVAL:
 > 
-> This is in userspace, not in the "driver".
+>   dwc3 23000000.usb: request 00000000ad92f1c4 was not queued to ep0out
 > 
-> And how do you get a failure for calloc() in userspace?
+> f_fs hits this on every teardown. functionfs_unbind() dequeues ep0req
+> unconditionally before freeing it, which
+> commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
+> before free_request") made deliberate to close a use-after-free. By then
+> the control transfer has long completed, so dwc3_gadget_ep_dequeue()
+> finds the request on none of cancelled_list, pending_list or
+> started_list and falls through to the error path.
 > 
->> 1. usbipd.c do_standalone_mode(): the allocated `fds` array is
->>     immediately dereferenced in the following for-loop via fds[i].fd
->>     without checking for NULL.
->>
->> 2. usbip_host_common.c usbip_exported_device_new(): the allocated
->>     `edev` is immediately dereferenced via edev->sudev without checking
->>     for NULL.
->>
->> Add NULL checks after each calloc(), returning -1 in do_standalone_mode()
->> and using the existing goto err path in usbip_exported_device_new(),
->> consistent with the error handling already present in both functions.
->>
->> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
->> ---
->>   tools/usb/usbip/libsrc/usbip_host_common.c | 2 ++
->>   tools/usb/usbip/src/usbipd.c               | 4 ++++
->>   2 files changed, 6 insertions(+)
->>
->> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
->> index 01599cb2fa7b..8ad367e09e78 100644
->> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
->> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
->> @@ -71,6 +71,8 @@ struct usbip_exported_device *usbip_exported_device_new(
->>   	int i;
->>   
->>   	edev = calloc(1, sizeof(struct usbip_exported_device));
->> +	if (!edev)
->> +		goto err;
->>   
->>   	edev->sudev =
->>   		udev_device_new_from_syspath(udev_context, sdevpath);
->> diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
->> index 3e22b651c754..cc707dea2882 100644
->> --- a/tools/usb/usbip/src/usbipd.c
->> +++ b/tools/usb/usbip/src/usbipd.c
->> @@ -544,6 +544,10 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
->>   	dbg("listening on %d address%s", nsockfd, (nsockfd == 1) ? "" : "es");
->>   
->>   	fds = calloc(nsockfd, sizeof(struct pollfd));
->> +	if (!fds) {
->> +		err("calloc for fds");
->> +		return -1;
+> Nothing is actually wrong. The request is not queued, which is what the
+> caller asked for, and both callers ignore the return value and free the
+> request straight after. The only effect is an error line in every gadget
+> teardown, which buries real USB errors.
 > 
-> I don't think you tested this :(
+> dwc3 already tracks enough to tell the two cases apart.
+> dwc3_gadget_ep_alloc_request() sets DWC3_REQUEST_STATUS_UNKNOWN, both
+> __dwc3_gadget_ep_queue() and __dwc3_gadget_ep0_queue() set
+> DWC3_REQUEST_STATUS_QUEUED, and dwc3_gadget_giveback() sets
+> DWC3_REQUEST_STATUS_COMPLETED. A request that reaches the end of dequeue
+> with status COMPLETED was queued to this endpoint and has finished.
+> Anything else was never queued here, or the driver lost track of it.
+> Keep the error for those, and return success for a completed request.
 > 
-> You leak stuff here, right?
+> A completed request still has to be dequeued on the endpoint it belongs
+> to. req->dep is set once at allocation and never changes, and
+> __dwc3_gadget_ep_queue() rejects the same mismatch with a WARN, so a
+> wrong-endpoint dequeue stays on the error path here as well.
 > 
+> This is narrower than the cdnsp fix for the same caller,
+> commit 34f08eb0ba6e ("usb: cdnsp: Fixes issue with dequeuing not queued
+> requests"), which returns 0 whenever usb_request::status is not
+> -EINPROGRESS. That also swallows a request that was never queued, since
+> status is zero out of allocation. Going by dwc3's own request status
+> keeps that case an error, which is what was asked for when a separate
+> ep0 dequeue was proposed in 2022.
+> 
+> Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
+> Cc: stable@vger.kernel.org
+> Link: https://lore.kernel.org/linux-usb/20221117054917.30104-1-quic_ugoswami@quicinc.com/
+> Assisted-by: LLM sparse
+> Signed-off-by: Cole Munz <Munzzyy1@proton.me>
+> ---
+> All three were missing, sorry about that.
+> 
+> v2: add Fixes:, Cc: stable and Assisted-by tags. No code change.
+> 
+>  drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index fa944856f956..f68eb9254afa 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -2181,9 +2181,22 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+>  		}
+>  	}
+>  
+> -	dev_err(dwc->dev, "request %p was not queued to %s\n",
+> -		request, ep->name);
+> -	ret = -EINVAL;
+> +	/*
+> +	 * The request is on none of this endpoint's lists. That is the
+> +	 * expected state once it has been given back: a function may dequeue
+> +	 * a request before freeing it, and f_fs does so unconditionally for
+> +	 * ep0req in functionfs_unbind(). Nothing is queued, which is what the
+> +	 * caller asked for, so report success. Any other status means the
+> +	 * request was never queued here or the driver lost track of it, and
+> +	 * stays an error. So does a completed request handed to the wrong
+> +	 * endpoint: req->dep is fixed at allocation, and the queue side
+> +	 * rejects the same mismatch.
+> +	 */
 
-Thank you Greg for the review.
-
-
-longlong yan, I am very reluctant to take usbip patches without
-solid evidence of a real bug that can be reproduced and the patch
-fixes it.
-
-I am seeing a few too many usbip patches these days that don't fix
-any bugs.
+LLMs love to add long comments like this that make almost no sense.
+Please rewrite this in a human voice, being very concise, if you still
+feel a comment is needed.
 
 thanks,
--- Shuah
+
+greg k-h
