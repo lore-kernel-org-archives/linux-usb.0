@@ -1,38 +1,50 @@
-Received: from mail.jetone.com.tw (mail.arestech.com.tw [210.61.96.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C2925B091;
-	Fri,  4 Sep 2026 08:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.96.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AA53FBED7
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 08:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788509014; cv=none; b=Ww2VtMLcOa5bbDB0eY/cmBfYze6sTKw5jFGQDZtoniKCGhpvGkG2M3WYgJ4hHktxL8Hy4sxk+H+L6EFgR7zIAC/d7DtQo9O5SLCUFZWOtpQcMEHHmxlMIz3cegV8ihPy8LDOTlQG4uVPQqbEbYbLzQRwLP4HpQDvnJD2ljgA+C8=
+	t=1788511029; cv=none; b=V4o1/H3GuJNjv5NE8q9qCvNak8i1LAADV0TBs76eY3T5aHhBe9nP3PldcGEQJwm2glAaL7nLrME5yhigDKmUcA38FOQofHY4eY4SA9NcAGQ6oYfS1/z0Xyq3vCevOcsRFPBU59z81hCPF03FuwbSlDddD4iF6b/A2rQpVyR9qQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788509014; c=relaxed/simple;
-	bh=Fx74hJ8BwQx9E4bzaJqfH8OvmWl5PYxwnYjwP45bS9M=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rPfrq435ySFJxmF9ie3nMdK+Iihtv8aO7wuDDlgdIS/1q9/6QCCIW/+r60WjY5AocGKWAaxfLmS///lWcEoDOQrx4rgIYzffUrKbpjD2PJ/eFC3D/pZjGRpjXQ6zn4kwkpW5g7Slelk/qlvoeANfJnYOd9xQ0EOZz9xNgYIQdmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jetone.com.tw; spf=pass smtp.mailfrom=jetone.com.tw; arc=none smtp.client-ip=210.61.96.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jetone.com.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jetone.com.tw
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6847vtTpB3290923, This message is accepted by code: ctloc85258
-Received: from mail.jetone.local ([192.168.0.53])
-	by mail.jetone.com.tw (8.15.2/3.29/5.94) with ESMTP id 6847vtTpB3290923;
-	Fri, 4 Sep 2026 15:57:55 +0800
-Received: from ian-lin-DREAMBOOK-PRO-14V.jetone.local (192.168.0.137) by
- VM-EX2019.JETONE.LOCAL (192.168.0.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Fri, 4 Sep 2026 15:57:54 +0800
-From: Ian Lin <ian.lin@jetone.com.tw>
-To: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S . Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, <netdev@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH net-next] net: usb: qmi_wwan: add Compal EXC-T1 support
-Date: Fri, 4 Sep 2026 15:57:41 +0800
-Message-ID: <20260904075741.55778-1-ian.lin@jetone.com.tw>
+	s=arc-20240116; t=1788511029; c=relaxed/simple;
+	bh=JJMMnKZHXY1iC3eok1/pk7SBZ77ghM4ADzyKP/1aM8E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=OtZgvdnGIQU3g9ppaYCItaogWx5/aFXER1X80cTTLKL6YMzi+i8GrGsEPJ8Wt3fGd6t4t5GusmmTWL4nvZ4yfB0T/ZMja4z7rXl/QTQXYbCPFGpWUNoHi93u+lu66NyKTQ35TFDTmRBlBL+N9yc20sWt+WCP8MY4hnPm+0kKHoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=OcL5ju4A; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="OcL5ju4A"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260904083658euoutp02613840ac6df5473d9a8820803e2fc0a3~SEUuNDQO-2079520795euoutp02y
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 08:36:58 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260904083658euoutp02613840ac6df5473d9a8820803e2fc0a3~SEUuNDQO-2079520795euoutp02y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1788511018;
+	bh=9PIL/kPnMxq3P5cVAkbNzmiNq+J34/FFMbTiuCsg88Q=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=OcL5ju4AonUTzK9Ge087FQnJstUcn0MPleQ4C5m1FRsL1xv6MKilFPklLZISGAADY
+	 4gpQaeGD9E+gXstRDv42+nA4MUmPAU/kNIF7+fyCbT8qb+cNsZM6wa/Nkp/BfymUcQ
+	 yxul+lYmgUZ5emXDZtoZ8dRXV7mfKcON9pdTTr7s=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260904083657eucas1p18056c0eacd7ba79401c8fb11150954ea~SEUt8Oz_y2337323373eucas1p1w;
+	Fri,  4 Sep 2026 08:36:57 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260904083657eusmtip28ebc646c943dfc2d88fd5b5d1282e30b~SEUtgfgC_1075010750eusmtip2c;
+	Fri,  4 Sep 2026 08:36:57 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Chunfeng Yun
+	<chunfeng.yun@mediatek.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v2] USB: mtu3: tracing: fix pointers dereferencing
+Date: Fri,  4 Sep 2026 10:36:43 +0200
+Message-ID: <20260904083644.2010063-1-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -41,39 +53,62 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VM-EX2019.JETONE.LOCAL (192.168.0.53) To
- VM-EX2019.JETONE.LOCAL (192.168.0.53)
+X-CMS-MailID: 20260904083657eucas1p18056c0eacd7ba79401c8fb11150954ea
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260904083657eucas1p18056c0eacd7ba79401c8fb11150954ea
+X-EPHeader: CA
+X-CMS-RootMailID: 20260904083657eucas1p18056c0eacd7ba79401c8fb11150954ea
+References: <CGME20260904083657eucas1p18056c0eacd7ba79401c8fb11150954ea@eucas1p1.samsung.com>
 
-The Compal EXC-T1 is a Qualcomm MDM9207-based LTE modem which reports
-"EXC-x1" as its USB product string. It exposes its QMI function on
-interface 5.
+Commit b5cc230af5e5 ("tracing: Warn when an event dereferences a pointer
+in TP_printk()") added a warning when printing an event dereferences
+a pointer, because it might be already freed at that time.
 
-Add a fixed-interface match for the QMI function.
+MTU3 driver is one of the drivers triggering this warning. Fix it by
+storing the DMA address in the event structure to avoid dereferencing
+gpd_ring pointer during event printing.
 
-Tested on a Compal EXC-T1 modem using an Ubuntu kernel build. Interface
-5 bound to qmi_wwan and exposed cdc-wdm2 and wwan1.
-
-Assisted-by: Codex:GPT-5
-Signed-off-by: Ian Lin <ian.lin@jetone.com.tw>
+Fixes: 83374e035b62 ("usb: mtu3: add tracepoints to help debug")
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+v2:
+- fixed typos in commit description
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index fdfdcf24d..bb9493006 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1446,6 +1446,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0316, 3)},	/* Quectel RG255C */
- 	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0104, 4)},	/* Fibocom NL678 series */
- 	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0112, 0)},	/* Fibocom FG132 */
-+	{QMI_FIXED_INTF(0x04b7, 0x4d22, 5)},	/* Compal EXC-T1 */
- 	{QMI_QUIRK_SET_DTR(0x04b7, 0x8217, 8)},	/* Compal EXM-G1x */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b5, 0)},	/* Foxconn T77W968 LTE with eSIM support*/
+v1: https://lore.kernel.org/all/20260804100531.88576-1-m.szyprowski@samsung.com/
+---
+ drivers/usb/mtu3/mtu3_trace.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-base-commit: 6ebcf5074cff0402730c6981d2397139fee6322d
+diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
+index 89870175d635..b24c6411a8cf 100644
+--- a/drivers/usb/mtu3/mtu3_trace.h
++++ b/drivers/usb/mtu3/mtu3_trace.h
+@@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__field(unsigned int, flags)
+ 		__field(unsigned int, direction)
+ 		__field(struct mtu3_gpd_ring *, gpd_ring)
++		__field(dma_addr_t, gpd_ring_dma)
+ 	),
+ 	TP_fast_assign(
+ 		__assign_str(name);
+@@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__entry->flags = mep->flags;
+ 		__entry->direction = mep->is_in;
+ 		__entry->gpd_ring = &mep->gpd_ring;
++		__entry->gpd_ring_dma = __entry->gpd_ring->dma;
+ 	),
+ 	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
+ 		__get_str(name), usb_ep_type_string(__entry->type),
+ 		__entry->maxp, __entry->slot,
+ 		__entry->mult, __entry->maxburst,
+-		__entry->gpd_ring, &__entry->gpd_ring->dma,
++		__entry->gpd_ring, &__entry->gpd_ring_dma,
+ 		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
+ 		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
+ 		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
 -- 
 2.43.0
 
