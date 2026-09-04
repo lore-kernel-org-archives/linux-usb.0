@@ -1,61 +1,61 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850C53F825A
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 08:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A500E3F1AD5
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 08:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788511344; cv=none; b=A4AcdQBR9COIrJJpXuqQ+aYDEhm6LMuCh6wUVM60QgpN0k3rGYnK4bW+kY+QHBiCbIYYHKaOhalywnDEg5sbbs3GIr6tUEtJP0McXctJ1CmAML9ZGL+yd504RmBqtBvTIxnxCXSQzIGJpZfVAeLdqQtctbPeV7Doqffrw/4uWWw=
+	t=1788511350; cv=none; b=Yhqp+y9d+B4Gcidpr/hsmN3qb7hl5TBzLpxJCICe5+8EBd8s9waZ8DydAzLw5Kz970JoMjcB7voAbZyA2ZQz1fhqGTGc+bnGYXR1Izd5dCo50klr5Gws+Ki0zqbNZcZ8ZoJeTAvP6Ltmrl9EKgA/4djPMrPXBVqBVbR6SYUqH8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788511344; c=relaxed/simple;
-	bh=GQw0KwPblzk4iaOngMKEkViVUNWR4x75q4Pko/xlHfI=;
+	s=arc-20240116; t=1788511350; c=relaxed/simple;
+	bh=yg835mCmcfMqyyZMo2K7NS9o2JVbGcnLZ8ClgruKi9w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iJB+UL4uMRK1d7cZMhDDDLhTzoV/Qs2a0759o7XXHkIfOAA6GIC8g7vI/KVOq+hVza7Lmnjxdb0SN8TFQisBtV6Sq1BrZRw7ec1xB8YFGX3GcfwsZQLUPRfKDSrAqRTIt/qBSHlgJsXLMARQjEMUOP2wkbgFv4Cg9twGNfE0+MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YzzQLh/R; arc=none smtp.client-ip=209.85.215.174
+	 MIME-Version; b=biRhSCooWT9xTfQhc22Y4zY4+0uJ/ePEM24Pa3dugEclJU58v/YCY2Q1vAMYhvYQA9Z4ocybTm3d2XVNgNZbwOimGsYwb6v/FOoKdvsTSzNuIxla+QaFeQE5kPNTrrqA+BJWesB1abGUxypehP/nXFdDpmt5XRpDOZjue/ivfnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=evdxVCBc; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YzzQLh/R"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cc1cf287ef8so831132a12.3
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 01:42:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="evdxVCBc"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2d7200b2e15so8388105ad.3
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 01:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788511341; x=1789116141; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1788511347; x=1789116147; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3pQBHHD4SDVq3Y8lclcFUxJTow0FC5oCzcVfD5O1aqE=;
-        b=YzzQLh/R6tpmsB/n+660LvxPg1f9O+pN6SBHytYsV+b0XYOLbwCxFOEA1bPDhvXcnb
-         E3kJZL6kO2gUbjqUxXOuvUXY6xvGiz5hoExGxv9HqTrIFXzT+lVqh7ifU/D16j/+K27+
-         r4wWFrtoiQq0Yzel2h+NHf35/kJ4gXqPeBaRY=
+        bh=jUco8k8loeDw75nokYqtCIPRhQuEjxppf2mE5m0ZQ1k=;
+        b=evdxVCBcqS+HCayUlvdKFyn97wTgOKWdKmoENSJrTiTSvNwm/ZLcz2dhJ47UbjcN9B
+         0GEKf7qxQ/JMNrREgojXwHExamElQBxuFeinGcVvfXD6voLptR/ES0KmBOvduKBXxFIO
+         6DPePZR0Mo6qC3TFN5rEnx+Q8EljE5B5dI0mc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788511341; x=1789116141;
+        d=1e100.net; s=20251104; t=1788511347; x=1789116147;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3pQBHHD4SDVq3Y8lclcFUxJTow0FC5oCzcVfD5O1aqE=;
-        b=pnAXFuMOvXU7P5D+2BOtpZf8/Dzh5aWv5It2BPWWTV/ZpkkdgXZZ9rIz9679PJ1IY5
-         IMQRm25OOQdSZXPKOLVGr5XMb9dH+pQKCfdhQ62atgjJkTafItwpZb9LBNStB1P+c2yb
-         EWN5SlJ66MCp2I8s27Wdn6wW67xdfBE3VyT0+70bolUe3qD72Dcx8uiXveKFzQyjNXTA
-         MsTWU1AZMrXRlwfMQxn6JrO1qpD0q0GTXBSydxR1Xi1riztnywtzKRr7r29RP/QBrFTS
-         TdoZ8wUAnYbrTvqGDVHxMycQaZjZaTov+RixHkc+MT3kl1cd7oPajP633fr2t1XgGN+D
-         0pyA==
-X-Forwarded-Encrypted: i=1; AKwUvBx5ZK75tlseWdtn/U2AtrB90qsQNnXOf2kkuI27pqx6lchx+h+Xk0eVhk3ZZt4iOZAJH73mvQYEWeU=@vger.kernel.org
-X-Gm-Message-State: AFuF++m0UVjSrBtUuqljoLns+sRvk5b2fRPFcaZU0gILeBQn/z+B/dOl
-	xPtdJHenN2P7lEYR7Tp/3wQojFttmoCzanxJf7W+5HFCtf3hJLn+LPccS1L26WNOZA==
-X-Gm-Gg: AYBFou0w6s3MFmhT73B+giCygTBQSobjJCTQN0iL/xfV0hH1rz8nncFfimRqyzm21gH
-	pNX1SWmdUw4rN5XSKROvhDI894EtlP5rQ6O5YLbTQOqn6EeylFhdsocA+7EEcSJ+P8tuW9NU9t3
-	KmOxOflTa8GcBMgxlFZfVpHzCzUQvWx10ic5262jhHOtjwx2NDL40Is2+GCh18rgBhQOOrdyh20
-	bLcYvzEvjrIXJqkpRFeyHAE5hUG+uyXz5YfjViYmytPyjZ1brWJecx6fGiN2vG4PhgAKVgx7ugz
-	BBWtTRlNlRO7moKrpPCrUs4uJBJgP/J9x3aHVLqXwOdLSmLR5WmY8F6BLpEVjrqI9EFR3p4cKTG
-	xERJECgr2y+dWrBZf87K2iTZurY41kWyIPkzhQLc2AB0YBaB7lyvqMUBHkkyrhWO4z9TwYphyo+
-	OXODx0/3uknQ0U3JLLq1uK+svkxAzzdru5ri+HzJTiVNmONdQWM5Gl5egGAsXSonZxjAH1j9Kwt
-	ss3fJPWcnUfDTFdG0KB+sWD4FYh8AVRe/DWUmuNRhn8
-X-Received: by 2002:a17:90b:5343:b0:398:e46e:ade3 with SMTP id 98e67ed59e1d1-39b2628fc1amr8001002a91.23.1788511341225;
-        Fri, 04 Sep 2026 01:42:21 -0700 (PDT)
+        bh=jUco8k8loeDw75nokYqtCIPRhQuEjxppf2mE5m0ZQ1k=;
+        b=reDtDfdeU8oD0Ojug/ITqhBCn9UE9ZpH70QZSmCyxUD6DinqN923UvTswLZ6Q6M49m
+         2RLfVdHc2vC6pcDUrnAzKxrQVP6ffnug2xogsV6LRD6nrfyVaakaFPSq3JHbCiK0ZmZA
+         3GG1YfkcF/Av2Q+RK8d91Pq0kLqzU/ggMNbsleS/ys+9wg+R48zz4+UnAYgu2b4sxlnH
+         kjR3tBv0jsyOx6EgPK7Cpu0yE2h8Hb1Pbl0ATTKE42GjsIcKB8yvOGS0JC+OaVIL2eTf
+         1uMmdXsK1qGknfclDuDTnIGpxEfYDWv60iWTJOimaMqDANfofE1WSt49xwJKxMhLf5Jl
+         6U5g==
+X-Forwarded-Encrypted: i=1; AKwUvBz6nvMitA4vQPS5lB5Swi2vhV9H+Qv41XqLJ6io4juxACusqkqCsygaf4a0ZPl3P3ULMV15MRhY/q8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mmDl4HB++KfANhTGLX+IzVDDXlr8DlfyHr5T8SGGcEZ31tvk+M
+	o+imVzLgB3BLqHGzMrekvxnRl3b/jCuSNK9mwPgV7gagt0taG9n1zDF8IEoRtlJsMg==
+X-Gm-Gg: AYBFou2+yx5xrXERyLyu4Oa9WbB1v6L0pUy9ZbYW0AHOoz6WvqIjgvGhpYgqmkSoOUM
+	rw25EUK8t7CKiKd5IekujlOM3OeyD2KXvNmn1WUM9FnqvMIIlxqVMO5M3DH+Muk2sRNrTa9Gx80
+	HAnocWQoPW9yN1ZA/To8i8fOchzoAdHT+bBJcCA1a+SenF6+ITmYfPmor8Co/4GQROkmvSXi0Za
+	hNtTWFB32KaFpTk+EAZ4BZMWkmYBTCRdmMAL93Pjt8+8GzgmDkkoD/hIFk5P/9GRdQFF0xryWuV
+	QS4Kkn5UgUXDv+xEWx4wIpdegguxoRunzpVZG16BoFFbgsrIUzgKuaGZoTEjr6es2XSohJhmVFV
+	N/iomQOZ4mxpD1AlptY3tnc82J+sv+wIymUBaHNdKhdTmu/Susp227C5IZAp5cAo5mEXN9LBk+L
+	NRGs+EDpgZ5VZLtNemwtlSLK7pALHpPbeh4HoZC3kwwbqgG5VKGu6U+eSyqoA4DED0cn0J2NFuJ
+	ab52ke0vhRvlZI7kOXjkKWvT8y7XdCIElzCQQrKBxAI
+X-Received: by 2002:a17:90b:3a8e:b0:390:8361:a532 with SMTP id 98e67ed59e1d1-39b260d2eb3mr6786889a91.7.1788511346596;
+        Fri, 04 Sep 2026 01:42:26 -0700 (PDT)
 Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:343:bf21:3095:9c5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm3343538a91.9.2026.09.04.01.42.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm3343538a91.9.2026.09.04.01.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 01:42:20 -0700 (PDT)
+        Fri, 04 Sep 2026 01:42:26 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Bartosz Golaszewski <brgl@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -83,10 +83,11 @@ Cc: Wei Deng <wei.deng@oss.qualcomm.com>,
 	linux-kernel@vger.kernel.org,
 	Manivannan Sadhasivam <mani@kernel.org>,
 	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v8 02/16] device property: Add fwnode_graph_get_next_port_endpoint()
-Date: Fri,  4 Sep 2026 16:41:41 +0800
-Message-ID: <20260904084158.1341550-3-wenst@chromium.org>
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Subject: [PATCH v8 03/16] power: sequencing: Add pwrseq_get_state()
+Date: Fri,  4 Sep 2026 16:41:42 +0800
+Message-ID: <20260904084158.1341550-4-wenst@chromium.org>
 X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
 In-Reply-To: <20260904084158.1341550-1-wenst@chromium.org>
 References: <20260904084158.1341550-1-wenst@chromium.org>
@@ -98,85 +99,112 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Due to design constraints of the power sequencing API, the consumer
-must first be sure that the other side is actually a provider, or it
-will continually get -EPROBE_DEFER when requesting the power
-sequencing descriptor.
+The power sequencing consumer API already does power on state tracking
+internally. Expose the state to consumers through pwrseq_get_state()
+so that they don't have to reimplement it locally.
 
-In the upcoming USB power sequencing integration, the USB hub driver
-first needs to check whether a graph connection exists, and whether
-the other side of the connection is a supported connector type. The
-USB port is tied to a "port" firmware node, and this new helper will
-be used to get the endpoint under the known "port" firmware node.
+Instead of just on/off and error codes, the function can also return
+"unknown" state. This is in anticipation for "uncontrollable" power
+sequencers (such as GPIOs left unconnected).
 
-Sashiko points out that the |prev| reference put is not done if |port|
-is NULL. However it seems that the fwnode_*() and of_*() API design
-implicitly makes the functions no-ops if the passed in node is NULL.
-So this new addition follows the same pattern.
-
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
-Changes since v2:
-- Dropped unused |ep| variable
-- Rewrote as do {} while()
-- Dropped WARN() use
----
- drivers/base/property.c  | 25 +++++++++++++++++++++++++
- include/linux/property.h |  2 ++
- 2 files changed, 27 insertions(+)
+Changes since v7:
+- Adapted to pwrseq_enable/disable() rename
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 68108805482d..fe7c403e3fa9 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1109,6 +1109,31 @@ int fwnode_irq_get_byname(const struct fwnode_handle *fwnode, const char *name)
+Changes since v6:
+- Changed to pwrseq_get_state() with enum return value
+
+Changes since v5:
+- Reverted back to returning -EINVAL if descriptor is NULL
+
+Changes since v4:
+- Make pwrseq_power_is_on() return 1 if descriptor is NULL, i.e. if
+  the descriptor is optional, matching the other pwrseq consumer APIs
+
+Changes since v3:
+- Added missing stub function for !POWER_SEQUENCING
+
+Changes since v2:
+- New patch
+
+Needs to go in with "usb: hub: Power on connected M.2 E-key connectors"
+as it is a build time dependency. Bartosz wants the change on an
+immutable branch to pull into the pwrseq tree.
+---
+ drivers/power/sequencing/core.c | 19 +++++++++++++++++++
+ include/linux/pwrseq/consumer.h | 12 ++++++++++++
+ 2 files changed, 31 insertions(+)
+
+diff --git a/drivers/power/sequencing/core.c b/drivers/power/sequencing/core.c
+index 721e888b658d..dbb2bd2f8864 100644
+--- a/drivers/power/sequencing/core.c
++++ b/drivers/power/sequencing/core.c
+@@ -968,6 +968,25 @@ int pwrseq_disable(struct pwrseq_desc *desc)
  }
- EXPORT_SYMBOL(fwnode_irq_get_byname);
+ EXPORT_SYMBOL_GPL(pwrseq_disable);
  
 +/**
-+ * fwnode_graph_get_next_port_endpoint - Get next endpoint firmware node in port
-+ * @port: Pointer to the target port firmware node
-+ * @prev: Previous endpoint node or %NULL to get the first
++ * pwrseq_get_state() - Queries the last requested state of the power sequencer.
++ * @desc: Descriptor referencing the power sequencer.
 + *
-+ * The caller is responsible for calling fwnode_handle_put() on the returned
-+ * fwnode pointer. Note that this function also puts a reference to @prev
-+ * unconditionally.
++ * This returns the last requested state of the power sequencer.
 + *
-+ * Return: an endpoint firmware node pointer or %NULL if no more endpoints
-+ * are available.
++ * Returns:
++ * On success, PWRSEQ_STATE_ON for on and PWRSEQ_STATE_OFF for off;
++ * negative error number on failure.
 + */
-+struct fwnode_handle *fwnode_graph_get_next_port_endpoint(const struct fwnode_handle *port,
-+							  struct fwnode_handle *prev)
++int pwrseq_get_state(struct pwrseq_desc *desc)
 +{
-+	do {
-+		prev = fwnode_get_next_child_node(port, prev);
-+		if (fwnode_name_eq(prev, "endpoint"))
-+			break;
-+	} while (prev);
++	if (!desc)
++		return -EINVAL;
 +
-+	return prev;
++	return desc->powered_on ? PWRSEQ_STATE_ON : PWRSEQ_STATE_OFF;
 +}
-+EXPORT_SYMBOL_GPL(fwnode_graph_get_next_port_endpoint);
++EXPORT_SYMBOL_GPL(pwrseq_get_state);
 +
  /**
-  * fwnode_graph_get_next_endpoint - Get next endpoint firmware node
-  * @fwnode: Pointer to the parent firmware node
-diff --git a/include/linux/property.h b/include/linux/property.h
-index 3dbbd01a52d0..691e792775d5 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -509,6 +509,8 @@ void __iomem *fwnode_iomap(struct fwnode_handle *fwnode, int index);
+  * pwrseq_to_device() - Get the pwrseq device pointer from a descriptor.
+  * @desc: Descriptor referencing the power sequencer.
+diff --git a/include/linux/pwrseq/consumer.h b/include/linux/pwrseq/consumer.h
+index 16fad5f3e3ab..e2a2991b20c2 100644
+--- a/include/linux/pwrseq/consumer.h
++++ b/include/linux/pwrseq/consumer.h
+@@ -11,6 +11,12 @@
+ struct device;
+ struct pwrseq_desc;
  
- struct fwnode_handle *fwnode_graph_get_port_by_id(struct fwnode_handle *fwnode, u32 id,
- 						  unsigned long flags);
-+struct fwnode_handle *fwnode_graph_get_next_port_endpoint(
-+	const struct fwnode_handle *port, struct fwnode_handle *prev);
- struct fwnode_handle *fwnode_graph_get_next_endpoint(
- 	const struct fwnode_handle *fwnode, struct fwnode_handle *prev);
- struct fwnode_handle *
++enum {
++	PWRSEQ_STATE_UNKNOWN,
++	PWRSEQ_STATE_ON,
++	PWRSEQ_STATE_OFF,
++};
++
+ #if IS_ENABLED(CONFIG_POWER_SEQUENCING)
+ 
+ struct pwrseq_desc * __must_check
+@@ -22,6 +28,7 @@ devm_pwrseq_get(struct device *dev, const char *target);
+ 
+ int pwrseq_enable(struct pwrseq_desc *desc);
+ int pwrseq_disable(struct pwrseq_desc *desc);
++int pwrseq_get_state(struct pwrseq_desc *desc);
+ 
+ struct device *pwrseq_to_device(struct pwrseq_desc *desc);
+ 
+@@ -53,6 +60,11 @@ static inline int pwrseq_disable(struct pwrseq_desc *desc)
+ 	return -ENOSYS;
+ }
+ 
++static inline int pwrseq_get_state(struct pwrseq_desc *desc)
++{
++	return -ENOSYS;
++}
++
+ static inline struct device *pwrseq_to_device(struct pwrseq_desc *desc)
+ {
+ 	return NULL;
 -- 
 2.55.0.979.g7e5102b832-goog
 
