@@ -1,112 +1,177 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23CB38A711
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 12:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A2175A9D;
+	Fri,  4 Sep 2026 12:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788524306; cv=none; b=V8/bSECe07OGjgn2OX4w3j/B4Mw/8/tazb37DeQyDBDosIMO7ecOok63JhMEULTUhSrHMrCq31TFm4ANrfnxS7StjfLgQK+4EPhh24DDlHrrS/7FMlo/DzqvDhGHXo+mYhg9Iw9ga/jsm0ne+m9lemNo6FRmtCaazTWl8W3p4bE=
+	t=1788524508; cv=none; b=f/DYKgOf3sdEFtlRGGk1XFO7x/yaHZQ7aAlDy65lqcDr3euL7yhuNvT/pJ4PGw5LZ8ApnnYtVUZ8Ljt40Gty4ngUp6MrILDZMN6L2SQHwhZqYXhYhEiayJfJqbZ6Xhi4mC7TdmhMvoOuRs23BruNg8J6i4r90UC7Q036WACAni4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788524306; c=relaxed/simple;
-	bh=fhFe03uXtuJjHdWNnkNZhWHk5eyor9PjO6gBO+wSF70=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=szg+WIRPmgMN4XosgXow07ch7QeeZhfkNc2iGnjW6dy+upK1D7m4xScez+d9BEAZ5l5W1j8xrp/X++u00GHX9ll8Bug4x4YIKL+kPH7Jf2mG7/AxscC1Mv4+SSy1gldf2DI8RHTZXQfSCV4ossUmoW+Ztv4JxoQIf+DfEQLxH10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4dw864M; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788524508; c=relaxed/simple;
+	bh=dGEwsl/QZPhzvlA+Mi/r76rmR6CKptJayLW6wdJ2m34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PMWXxUwciM8KHX6iBG3U2r/Urag9dI7GBAXraBMj75kVDCRfVDuinA9xeNEq7vfsV++dznQyFlFPPk2ylSdin1k/7juNXsIdysgIntKayhj+j4skqMAfbTnhQM1kpDgBDOBAQ7J5roeC6DBCjseScJqTB4Yv/x+X4ypxakcsjWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YS/gc8PL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4dw864M"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cc1cc1b42b5so1052427a12.2
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 05:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788524304; x=1789129104; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=f+iaj7uAIqLQ0zXKTnQ5GgaFQgbx+QY7l0WvzVqhy34=;
-        b=i4dw864MCwvaXP4184Pz4MowhBujfjQvIPuI8xxCq6PjEsQVo4Bh69IrIetr1T8Hb2
-         Qc0T/cx97PaTiBK4IKwlPfyDpaydehSq4LkfqgnU13/yGNZ8CFJYm+TMVUsatfaqlk65
-         GButeM2s82Y/0Xsf1uzXgIOeo3rphyild0XLu/04ViKQnbb3faQgDNkTSD8v4CVk3ULe
-         L6PcNXI2b9W0dtdfQAtxmO6/MI257IJBuNA6z+jbsaNql1TK2YJjSfDSpSi4A1H5Big/
-         /HHJDJYNTHeBsJQ4vjVikP3Ogk8bWV+vPkssu09HcIPbNlFIuGeMo7cZG36WNhWm1/px
-         7Uvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788524304; x=1789129104;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=f+iaj7uAIqLQ0zXKTnQ5GgaFQgbx+QY7l0WvzVqhy34=;
-        b=eov9BI53qZIm7kdMPZvM8tN5djdSi48yR58Q9WU10mkFt77bkYdy0zVWqNeY/fHzKf
-         NA3KN+BmVjpmR8RwodgLh5M+uGOpHybdWHTUlm86JJw9EvuqEfQmCeW4Q1zgmXNIVK7t
-         TCdl5Ya/MsDx6lJYR3gsNwGbDpEf9rOKkNdfuFnonSRY2WIDnDaLbfkUAoGfjf+r7M3R
-         n3DcxxQixMX5U6p8RyhHnaToPm+WW6up4FKPKFic1t64+T5jLuh2NZoaCqU6cZGlOwZF
-         44Im/DKVP9ldAxY4j6LhgAJP9cO3eMgDzufj4XopTxki/if7wSxU+SG4cNdO5Uuy5p6x
-         3nLA==
-X-Forwarded-Encrypted: i=1; AKwUvBwOrvyLObELR9miNuDydCAQVyOLnkeHbYZ7EenHCqxLm2fEQkyoWab+37lN7G8F3aIrpQ36LMzCKJI=@vger.kernel.org
-X-Gm-Message-State: AFuF++m0M0mdosBFF//I3u2mYOzpesz5QY9nbLrYuIfVg8K5uAoLwRDW
-	kXarhKEq5BPep5kikjRj3D1VK3Ojp1oUqj3AECw6ZG6ttLEi2djAA0YF
-X-Gm-Gg: AYBFou1r9bsfZ6Hv3XWhdeQ8tt70sb9I3oa9cXhE9V5oMrocYBUZ/3qLesbWG76jlmJ
-	HzgUrwv4sPelUD7OE3IpekICzvX3f+jtzZUv7YotjLtz107T0YPK0KI5iTRO2SkARvrAxSxbGI7
-	cPs1/CA8B8/om1OSZIKmDKkXSAcNXZIfHAjSpSFo+/NjrV7AJIN35FtHaCjC/xLnFw+l8lLKQsE
-	PiodnDMCtjcTd+wGTsKKpBgluYUqtP5itbKnEBMcF8aort0E+LJXn11aGBxXFQWPcqUbQHIHUsv
-	wtIYquqAgdEMC3znJUqPPmCZj3mGVldql2Yg5IokRURueRQzESFZngDVGOINA9tOs9of6IYFuI1
-	9tPCmdLeMhQXWZM/wUsqFSb/am2ohay0F/kfSVspsxKckT8k4E1yTltKEECtr0MQEG9FNP1ufWe
-	Q1XoNDOurTTX6sVuBpgS6G1bK5+4dQ9JDWMocPPL0Lk2L+kb2gWjQRnE7WhPjbEI14TtKILY7CT
-	yeI5CQV0o1lG+E=
-X-Received: by 2002:a17:90b:5344:b0:395:4de4:92be with SMTP id 98e67ed59e1d1-39b261b1a47mr9830027a91.13.1788524303344;
-        Fri, 04 Sep 2026 05:18:23 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885d29esm7181575eec.2.2026.09.04.05.18.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 05:18:22 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 2/2] usb: serial: fix repeated words in comments
-Date: Fri,  4 Sep 2026 17:48:11 +0530
-Message-ID: <20260904121813.26714-3-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260904121813.26714-1-hemanth.selam@gmail.com>
-References: <20260904121813.26714-1-hemanth.selam@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YS/gc8PL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78D91F00A3D;
+	Fri,  4 Sep 2026 12:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788524505;
+	bh=n0Ai26c+BBRDL6nXffU6QVI3E3AyrZw/QywDCntvJXw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YS/gc8PLWOxND3JfXW3uxDEITVnYv+tTnEDDPxhxeMRAKYroLEr8inBUP4WK83rLR
+	 zIuRyMuxYnD4xgXAcW3s4VF3Rjg7Vk8ZCHLprV0IdH+sEdREfcApZUE5zElmq0d84y
+	 NKrVJpBZEQUgErkhyHtAkmB7fXdZrRXKLnHckniA=
+Date: Fri, 4 Sep 2026 14:19:59 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v3 1/2] module: pull out add_taint_module() to be public
+Message-ID: <2026090432-outlying-glitch-9295@gregkh>
+References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
+ <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
+ <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
 
-Drop words accidentally written twice, reported by checkpatch.pl as a
-possible repeated word.  Only touches comments, no code changes.
+On Fri, Sep 04, 2026 at 11:25:01AM +0200, Petr Pavlu wrote:
+> On 9/4/26 7:10 AM, Greg Kroah-Hartman wrote:
+> > Other kernel code might want to call add_taint_module() so pull it out
+> > and make it global.  If modules are not enabled, this defaults to a call
+> > to add_taint(), so all is fine.
+> > 
+> > Reviewed-by: Johan Hovold <johan@kernel.org>
+> > Tested-by: Johan Hovold <johan@kernel.org>
+> > Reviewed-by: Bradley Morgan <brads@mainlining.org>
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  include/linux/module.h | 10 ++++++++++
+> >  kernel/module/main.c   | 16 +++++++++++++---
+> >  2 files changed, 23 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index 96cc98568eea..f6f90cd88f15 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -29,6 +29,7 @@
+> >  #include <linux/srcu.h>
+> >  #include <linux/static_call_types.h>
+> >  #include <linux/dynamic_debug.h>
+> > +#include <linux/panic.h>
+> 
+> Note that I'm working on cleaning up linux/module.h to reduce its
+> preprocessed size. The main motivation is to shorten the compilation
+> time of all the small *.mod.c files. Since linux/module.h already
+> includes linux/panic.h indirectly, adding this include explicitly seems
+> fine to me for now. In the future, I think we should introduce something
+> like kernel/module/stubs.c where the CONFIG_MODULES=n variants of
+> add_taint_module() and other similar functions can live without bloating
+> linux/module.h.
+> 
+> >  
+> >  #include <linux/percpu.h>
+> >  #include <asm/module.h>
+> > @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct module *mod)
+> >  
+> >  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
+> >  
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok);
+> > +
+> >  #else /* !CONFIG_MODULES... */
+> >  
+> >  static inline struct module *__module_address(unsigned long addr)
+> > @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct module *mod)
+> >  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
+> >  {
+> >  }
+> > +
+> > +static inline void add_taint_module(struct module *mod, unsigned flag,
+> > +				    enum lockdep_ok lockdep_ok)
+> > +{
+> > +	add_taint(flag, lockdep_ok);
+> > +}
+> >  #endif /* CONFIG_MODULES */
+> >  
+> >  #ifdef CONFIG_SYSFS
+> > diff --git a/kernel/module/main.c b/kernel/module/main.c
+> > index d0e1e0bd2ad0..444d990c9983 100644
+> > --- a/kernel/module/main.c
+> > +++ b/kernel/module/main.c
+> > @@ -191,11 +191,21 @@ static inline int strong_try_module_get(struct module *mod)
+> >  		return -ENOENT;
+> >  }
+> >  
+> > -static inline void add_taint_module(struct module *mod, unsigned flag,
+> > -				    enum lockdep_ok lockdep_ok)
+> > +/**
+> > + * add_taint_module: add a taint flag if not already set for a specific module
+> > + * @mod: pointer to the module that caused the problem
+> > + * @flag: one of the TAINT_* constants.
+> > + * @lockdep_ok: whether lock debugging is still OK.
+> > + *
+> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> 
+> Nit: The final paragraph is mostly copied from the description of
+> add_taint() but I don't think it is quite right. The parameter name
+> should be lockdep_ok, not lockdebug_ok and the values are
+> LOCKDEP_STILL_OK / LOCKDEP_NOW_UNRELIABLE, not true / false.
+> 
+> I suggest updating this part for both add_taint() and add_taint_module()
+> to something like:
+> 
+>  * Use @lockdep_ok = LOCKDEP_NOW_UNRELIABLE if something serious has gone wrong.
+>  * For noteworthy but non-corrupting cases, use LOCKDEP_STILL_OK instead.
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/usb/serial/mct_u232.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+How about I add another patch to the series that fixes up the
+documentation for both functions?  They both should be fixed up and I
+might as well get them in sync properly.
 
-diff --git a/drivers/usb/serial/mct_u232.h b/drivers/usb/serial/mct_u232.h
-index e3d09a83cab1..f79a1f1b6a98 100644
---- a/drivers/usb/serial/mct_u232.h
-+++ b/drivers/usb/serial/mct_u232.h
-@@ -273,13 +273,13 @@ static int mct_u232_calculate_baud_rate(struct usb_serial *serial,
-  *  Bit 5: Data Set Ready (DSR). Reflects the state of the DSR line on the UART.
-  *  Bit 4: Clear To Send (CTS). Reflects the state of the CTS line on the UART.
-  *  Bit 3: Delta Data Carrier Detect (DDCD). Set to "1" if the -DCD line has
-- *	   changed state one more more times since the last time the MSR was
-+ *	   changed state one more times since the last time the MSR was
-  *	   read by the host.
-  *  Bit 2: Trailing Edge Ring Indicator (TERI). Set to "1" if the -RI line has
-  *	   had a low to high transition since the last time the MSR was read by
-  *	   the host.
-  *  Bit 1: Delta Data Set Ready (DDSR). Set to "1" if the -DSR line has changed
-- *	   state one more more times since the last time the MSR was read by the
-+ *	   state one more times since the last time the MSR was read by the
-  *	   host.
-  *  Bit 0: Delta Clear To Send (DCTS). Set to "1" if the -CTS line has changed
-  *	   state one more times since the last time the MSR was read by the
--- 
-2.48.1
+> > + */
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok)
+> >  {
+> >  	add_taint(flag, lockdep_ok);
+> > -	set_bit(flag, &mod->taints);
+> > +	if (mod)
+> > +		set_bit(flag, &mod->taints);
+> >  }
+> >  
+> >  /*
+> > 
+> 
+> Otherwise, this looks ok to me. Feel free to add:
+> 
+> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
+Great, will do, and I'll do a v4 early next week with the documentation
+fixes.
+
+thanks,
+
+greg k-h
