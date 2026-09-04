@@ -1,62 +1,62 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2433BF694
-	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 23:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FDA3CF207
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 23:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788563574; cv=none; b=gCsvdsl4nbU2u1J8GZ17wtI1b/IqfKTaxiGB72744tWQEpXIlWOgFa4mjE990ZZ8aOMxK7q0xipJ16X5FXY7scUzhNhMoN8pI5wbBvq660MHTiNZV3DPzVSlejvdgbeXtuoiE9h7kQV6zZXP0mKK7X+VTzPGnTo9G75xSpGi7Uc=
+	t=1788564555; cv=none; b=K+T09fj3+S8rQQjKjne7mfDnOISMd/+rFhmXMF5EG/LxK7GpiVaqGPZ7kXmwe7y9RMs6iY0WEJS6s/+Fd+JhIgTDBOvu+UDGh+ZSC1dpqVXSKGQ6MpNLycM+oZdOFlPWiAmKCHOKBVE5w9zqPtLIdn87WibeLTnujKu/79pWOfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788563574; c=relaxed/simple;
-	bh=DzlHABer7agnmDFqIt5UKBGqffNOPw21BqPF+Xdn0TA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oLm6YFSQ+v8ZaZon3UvrDQ0tpuQtBKUY7xdNjCpJiUf8kA6L9r5RyepVMx5zHmB1dgmIGb5hBJgdZD6epbZkcG35M6M1BKSMxeQHAeQcICq41sfYkHUV2G7u70a06Nw+IMMaTi8xPMmtseaJ1khG4bDeUB0R5btoJQz50ZQ4AeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+vWiiQn; arc=none smtp.client-ip=209.85.217.51
+	s=arc-20240116; t=1788564555; c=relaxed/simple;
+	bh=R/T3CJOHkumBOTdsCFY3y9gD6Z83uD/9OOYzP94H4X8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XlBSKM6MxISs8egGuM97X2TzN076kbG8DaoxpgXwSKNsAUsHaweKCMQO1ALiXRFSjuy0To9kjIEP38grLIPFfWVTsWJQLuy94lIAexUyNmDb876YYEcgnJxN5iPTZtQdBS2fNVZ1wUFyYCi0z24Yc1QYvd5cN/q40JNGQQHzRwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P5Hk7Hgi; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+vWiiQn"
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-78677e30980so528142137.1
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 16:12:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5Hk7Hgi"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d7200b2e15so17859275ad.3
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 16:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788563570; x=1789168370; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788564552; x=1789169352; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g2eDylLE3V6dYau/12iY8HPICkZuGDPWHe/ewwDQP+k=;
-        b=B+vWiiQnQAXs4FztEqpvZ+Ifg1Qu5UGl3Te8Uc3mN4zisoWC5sHBQ0/T7X5dNi0sAf
-         qOipCvW0oJbXNn4Z/WxWKa/OrEwHPv5Wt5mV6+pg71xanVLToKVraxECuHJ5PftXZyK2
-         IhIc4Mmano7s/J49UliV5taIeA6G81k10s19SHiJPGAlckkZPVUN4e/T8xyJrtr2obOi
-         7rp6e+Ty0VXkP2f7eie20D6aFg+PtxMqpa+2Z/kaRg7UxDvmz//OFv8pQ8M+jqB0CQ7F
-         H9QhfmBW99PeMcXt7OIW87vWzA7fKYeueZe9ZKTa5dGi/vV+KFPK9jHPinawnBCOIXET
-         KeAQ==
+        bh=T9SR8MFL6ur8khWC4xwaiSikwHQug9DE/oL2HooqNwI=;
+        b=P5Hk7HgiwmB3gPbvUEbYR6UfwPTobxJ3yFXnJM7qJiFRmgsq5Uc/pRjgE2OYSL6rbB
+         RMbjj4qkDiBmlBnD6gbYTxnugHsQ5VAF4xYy4dZaLWfa0DLmben4qtgW2/kRnDYTdzkU
+         pumSYdD6au022MPigkfgb5+yfFLWVjsbh6ucIBGbuZIWsAZJTEZb/7F3L/yn5uwDuWyA
+         zGb/phJqSSd3qhYhPnfVokWq0PK9O52HD0W7FgPFVzlJO4cVAcnitWtdx4d8uvHTgm7R
+         VcSSN7kb0SpX6lN8duBvFabht86AFOWyioUPZlzhLBBC8KziPFGk6wxVbHfLXGirEbMc
+         BlnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788563570; x=1789168370;
+        d=1e100.net; s=20251104; t=1788564552; x=1789169352;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=g2eDylLE3V6dYau/12iY8HPICkZuGDPWHe/ewwDQP+k=;
-        b=Kakz3PsRsCSk+FSnvo/BywkaDv1oFeA541/iu5h4H7cNjS3jQLHVJyt3aMhZqeJkuJ
-         e0D651TvXqC1cL+LzH5Ch9bYFpE6zkrikNpFpeGDsTG5NrZyby/7bEGKFuPNM9Kw/FDF
-         Xgf6b+dqTi3vhPZxikEJA2tTLg1FnwYpTAl3tz1UR3iTmAvhLdjwITqD23B5fJmrHtcr
-         7Jo4tortr2Ljun8N0ibAVnQ70TwuI2v8B7NPOvHuZULTaC1HxtdXu6Y7VXdfqsvmamkw
-         FpDI504EG27LP3cWDxOSpGJ8vcJVaRqvomt50SSzLZ/NzEL86f2CjBnMSkp/KoTmikoL
-         o4PQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxLzQrDW0n3iylw1K0/xYrbhm7zF/x/CSbk859Qz9j4hxsRzXElT/fJ8db9tepcUoB1908VYUCuV4o=@vger.kernel.org
-X-Gm-Message-State: AFuF++m9IubZEhtLyjZHAUmxag7eC337WD5FdZm140wi7YU1Rzt0W02K
-	x7wTdYqD0yAkuK9YivvSYiUuHUpcH9SM5hQnabGl/e88mczQXxkippiq
-X-Gm-Gg: AYBFou0+mZzNM9mbecdcaYKGNThRD0Imfbn9AW5v4OD9C5MIVyA+ywAymc+ABG673E7
-	IcY3LCG+ScB2Cl7hJA+p7w+pAV/2Mc/8ele9r0695Wy7Trnx+w/ttWBBr2VOJ2ss03ryVSnS5A9
-	dz2wqlgYlTCu1CaH+pVLJUL+/Ia06smaSHFttoQ92GIkE0liTwl7p5OpPRRN1qBaRu8Cu/8mQGz
-	1JNudrG33JBAS/050pBlBx+GhnSYxXL3jZBMvdGCHzj6uUg8x1CG24mH+lE0m4th3y4uXIx/Ltt
-	ckHa27VlZOMAdaWoV7j+oXHaeBmAbq4XNs8mJxl2PpweHr1EWmZNQmrmxCFKvwGZF/yA9AAbJkS
-	DuH8CPR2yThsrEiZsW5wuvQNhBb7t4muEAvOeEAusThrpGBzoi195XC9YLspqntpFN5dladUEmU
-	zkUCrBfvdHNVeIZ8szb5WlaQta6a040+PeFkUawNDekFqyPGb/BbWX9WpIGRU4WLzZHXhus+BmJ
-	CP4hjo6lRKIKlOQGEfPRJ3gnkbJg7Z1
-X-Received: by 2002:a05:6102:a53:b0:789:1216:bb8d with SMTP id ada2fe7eead31-78a4a871937mr2913826137.6.1788563569404;
-        Fri, 04 Sep 2026 16:12:49 -0700 (PDT)
+        bh=T9SR8MFL6ur8khWC4xwaiSikwHQug9DE/oL2HooqNwI=;
+        b=cp1OBWUxnJ43vF4/UuqglNDJx2ayehOt4yvR5gyMW51uzjywRw/fPTtEL5c1XYN6Fj
+         DRGbDQv6ZTElE6lb+pox5jS9ADBJfbZQeiPcBpI6LsiGXTJVS9XW0Nni8O0c6s4JRkIB
+         hDPHYzIfOeHErUIpEwsa9EZ7Srxn7pxsAjDHTiAY0BjVsS3QmePjhFEyav++rhUWdjyV
+         I1kp78MK9eqg8o2RkmPl4ESIh6TBKoJ3GwzG8dok/mypOyhiL60DVpBlOz8qdXvCSgRi
+         /J2kCX9NHd2ojDI5aL/PHeER7gw/YhNTvLz4BnriRXm/Km9AUsZmypuRZsbB8mfP9XSi
+         LSOw==
+X-Forwarded-Encrypted: i=1; AKwUvBzC2atuLiBLMUrIgn00YRWU/iSq6ri5F0kuAQa1vvE52ZEDgr7Mi1+byld/Hcy2WT09onzq8M3ij5M=@vger.kernel.org
+X-Gm-Message-State: AFuF++mmVfgOz/9ynoijPX2qUgv3YcJSSBJU+vZbv7bUVaHCEUkpbBhn
+	wjQ9zkVP9Euk4WP9xMAX/00YQcV8Ut7FUU3sUdEvjHLm62OeU3TXM2dY
+X-Gm-Gg: AYBFou23xdh/LlZvPnHQKAhZA65QCLH1WkSW7bx2xcZFEmcbaEiHK99yF6r7a3QljQf
+	HClUevmUpPPmF8GkS+OFW5Ju7QKEuQdNwqkCq5z1lRaQ4AV1MPdnC/nRi8lO3KVNFFV5VLcZW/x
+	FBHPj20U1WZ/8qLfLux4c7e1IpDxwF7eOmUGK6IG4ovG8APJmh5PdP4zQX2hOtjJY1jDBENgFvG
+	keBgM0He6TQDfkycKnmQkqcOBOZqTRQpqNQtvQ+WuCycLD8uG4amGb/18mPNwgV0kB5LBJwtjq3
+	tTQ/Y+owf6HFd+ofZFqYiZqzS7E6mag5gDdlhGSdWs4mrs+NpAMdDR+RmzUuh10eF/RFn43Abl8
+	PNuCTEuuuIQU7mYHwjoy5ppaQBAxkXnkNM7ETMQBPkngvBq4mywt9mV+OQ0Fm0MfBf77aF9o+p4
+	uzFhc7eg9PwN0uozW34SA0pyCUhrnxwRvAu57hWct6J5gMqWiE05wNNK/WDDP8Qv+Lvd1Fg0Avx
+	1lYQ2j/7xdO1Cg7/gZihQ0a9PNlmtG0
+X-Received: by 2002:a17:903:144e:b0:2db:1020:c94e with SMTP id d9443c01a7336-2db128b7e4bmr159981595ad.22.1788564551486;
+        Fri, 04 Sep 2026 16:29:11 -0700 (PDT)
 Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a47b19369sm2880161137.9.2026.09.04.16.12.44
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-333959d5f69sm9053071eec.0.2026.09.04.16.29.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 16:12:48 -0700 (PDT)
+        Fri, 04 Sep 2026 16:29:10 -0700 (PDT)
 From: Breno Rodrigues Alves <breno3011alves@gmail.com>
 To: torvalds@linux-foundation.org
 Cc: linux-kernel@vger.kernel.org,
@@ -72,9 +72,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-fbdev@vger.kernel.org,
 	linux-security-module@vger.kernel.org,
 	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH] Kconfig: purge twenty-nine legacy ghost options
-Date: Fri,  4 Sep 2026 20:12:40 -0300
-Message-ID: <20260904231240.87106-1-breno3011alves@gmail.com>
+Subject: [PATCH v2] Kconfig: purge twenty-eight legacy ghost options (v2)
+Date: Fri,  4 Sep 2026 20:29:04 -0300
+Message-ID: <20260904232904.87530-1-breno3011alves@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -84,46 +84,12 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-You can keep a dead config option around for a while out of sympathy.
-After a couple of releases it stops being "transitional" and starts
-being "you are confusing every user who greps for it". These options
-select nothing, gate nothing, and -- I checked by hand, this is not a
-regex accident -- are referenced by exactly nobody in the tree.
+Based on automated feedback from Sashiko AI, USB_CONFIGFS_F_TCM has
+been retained. While it lacks explicit C code references, its menu
+prompt acts as the critical visible anchor allowing users to compile
+the underlying invisible USB_F_TCM core driver for ConfigFS use.
 
-Evidence for each removal:
-  * no CONFIG_<sym> reference outside the Kconfig definition itself
-  * no <sym> reference as an 'if'/'select'/'depends on' target
-  * no mention in any defconfig, any Documentation, or any source build
-  * the code they used to gate is gone (removed or folded into a real
-    driver that already has its own, functioning config symbol)
-
-Headliners of the graveyard:
-  - HID_THINGM: help text literally said "will be removed soon". Well.
-    Gone now. The blink(1) driver is HJID_LED.
-  - USB_CONFIGFS_F_TCM: the real fabric always built via USB_F_TCM; the
-    "CONFIGFS" name was a leftover from when someone could not decide
-    what to call the thing.
-  - USB_EHCI_TEGRA, USB_OCTEON_OHCI, USB_OHCI_HCD_SSB: help text says
-    "driver was removed, use X instead". The other X already exists.
-  - PANEL: proudly labeled "OLD OPTION" with its own "Deprecated
-    options" section in the file. The actual parport lcd driver has
-    always been PARPORT_PANEL.
-  - COMMON_CLK_MT6765_*: seven sysclk entries with no matching object
-    in the Makefile. Zero files built, zero regrets.
-  - The usual kconfig-vandalism suspects (HAVE_PWRCTL, REGULATOR_MT6316,
-    INTERCONNECT_MTK_MT8196, CLK_SUNXI_PRCM_SUN9I, DVB_ULE_DEBUG, ...).
-
-Validated: defconfig, olddefconfig and randconfig parse clean on both
-x86_64 and arm64; headers_install (the target that replaced the dearly
-departed headers_check, which this tree does not have) succeeds with a
-clean UAPI on both architectures. Because someone will ask: yes, I
-checked the s390/arm/riscv No, I did not delete any arch/* Kconfig, and
-no, I did not touch a single include/uapi/ file.
-
-Why should you care? Because "make menuconfig" allegedly lets people
-configure the kernel, and leaving a menu full of options that do
-nothing makes them feel like they have a choice when they really are
-just being sold snake oil. Clean it up.
+The other 28 ghost options remain fully verified dead weight.
 
 Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
 ---
@@ -139,12 +105,11 @@ Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
  drivers/pci/pwrctrl/Kconfig           |  9 ------
  drivers/regulator/Kconfig             | 12 -------
  drivers/staging/media/Kconfig         | 13 --------
- drivers/usb/gadget/Kconfig            | 14 --------
  drivers/usb/host/Kconfig              | 46 ---------------------------
  drivers/video/fbdev/core/Kconfig      |  6 ----
  security/apparmor/Kconfig             |  9 ------
  sound/soc/tegra/Kconfig               | 36 ---------------------
- 17 files changed, 252 deletions(-)
+ 16 files changed, 238 deletions(-)
 
 diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
 index 1ea7c0391..24acd0d39 100644
@@ -437,31 +402,6 @@ index 06cbc5c54..2d3e70b49 100644
 -	  If in doubt, say N here.
 -
  endif
-diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
-index 76521555e..f05eb1bb7 100644
---- a/drivers/usb/gadget/Kconfig
-+++ b/drivers/usb/gadget/Kconfig
-@@ -492,20 +492,6 @@ config USB_CONFIGFS_F_PRINTER
- 	  For more information, see Documentation/usb/gadget_printer.rst
- 	  which includes sample code for accessing the device file.
- 
--config USB_CONFIGFS_F_TCM
--	bool "USB Gadget Target Fabric"
--	depends on TARGET_CORE
--	depends on USB_CONFIGFS
--	select USB_LIBCOMPOSITE
--	select USB_F_TCM
--	help
--	  This fabric is a USB gadget component. Two USB protocols are
--	  supported that is BBB or BOT (Bulk Only Transport) and UAS
--	  (USB Attached SCSI). BOT is advertised on alternative
--	  interface 0 (primary) and UAS is on alternative interface 1.
--	  Both protocols can work on USB2.0 and USB3.0.
--	  UAS utilizes the USB 3.0 feature called streams support.
--
- source "drivers/usb/gadget/legacy/Kconfig"
- 
- endif # USB_GADGET
 diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
 index 10cff12a3..06999ba3d 100644
 --- a/drivers/usb/host/Kconfig
