@@ -1,224 +1,712 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023103.outbound.protection.outlook.com [40.107.159.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E1E4772B8;
-	Fri,  4 Sep 2026 11:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.103
-ARC-Seal:i=4; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788521617; cv=fail; b=EKK48/pCUFeqFGPkmAHnyjQvClHe8j7I+cmDzadmuTybTESpGwvKnQS2VdU3T0QyIXyd1DTEbF40H/4EtBRscd1UmkuijJmUDqRL/JGXf/ntyLVctZvQlu98oZDvkevq9H0XUivRylfQikSDr1YBdiV0lSk3c6byf0meytb3mQM=
-ARC-Message-Signature:i=4; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788521617; c=relaxed/simple;
-	bh=cAfRcNsoAkObbhf8BSj0EGHicqXSkAjYwXd7MCCkYb0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=icjxSaJ+U236NcTI/Nf3rQQz4O6MQY7yjhKdmHfpjXO4kQDEE9lPgUpSwMM8/dktoligATaudMEwtPFKxTZtlD++YFba2cm5tDLD8sV+ZO5AINV3H/5FdZ6B3WbuuaJ8wRksEQym0/lcNmy1+vrvMVw/LbRSoIhOvbsSxfeZKy0=
-ARC-Authentication-Results:i=4; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=solid-run.com; spf=pass smtp.mailfrom=solid-run.com; dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b=T6XF8/yP; dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b=T6XF8/yP; arc=fail smtp.client-ip=40.107.159.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=solid-run.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=solid-run.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59737472F67
+	for <linux-usb@vger.kernel.org>; Fri,  4 Sep 2026 11:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788522070; cv=none; b=QNNk9KwJ421vqQYs9X7tJ4k3bgLEn2wJUbt4FQMlXwU6/fcRqX6lAgTiEKP28Kl/g+Cgt0B5n3pgN9Otlo0suXYchPt5dsLRo/ndwFlpVWJc/uQKwR7wxqyUlwhnAvT6V+dpGUVHx0EJxwkRTzFXQCe+Ahk9f3goFNlSLSBfJFA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788522070; c=relaxed/simple;
+	bh=HlERhSB75i8bX4QVmrQpc5gZGoxkBqzXyApECTG138s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AAatniYLoGGnvACVnEKg006zTwbkxSBG05kgSEudApGjiIk3OA4zESVcfmOYaGClumvJrJ15GgvpuR262QbHWVkKip8ySEWk9xu68kiud8VxPqGXAfyKx2No/p2iDVThQD9C7LLSebPPc8dIj0SpM5vzlvjOhxxO9JJA42YLoiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p6KKry1p; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b="T6XF8/yP";
-	dkim=pass (2048-bit key) header.d=solid-run.com header.i=@solid-run.com header.b="T6XF8/yP"
-ARC-Seal: i=3; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=x+Y3hqzzwOWGaOidwutMAZab7hQgvvcZq6Ke5dzemmUNY8USpTp/VCCvHpWcVfYPR/eI//0mjdzBofxww4EojK+a2omZR1PwIfIX/0eTXcXJhuSGrwiRA8rq72i5PeNSuPk3Rkf6TXOjMBirY0jCDH2iLk0tA7ie2tlI9Vj/d4t2KUu5OKAZ97a+JVf74MbYBWdlGlF3IwNQIVtpAOlaB54qd1plzRv8Oj3oQKvrAGLH3Ir8g9J8p6Z0l3dps5omeU1t9CRmOcnR69MJgO5/Rng1nYo6sjhcBk8xyCpnAaa0Bq0gWe8B2YmYKvnRKsOYUVM4ICk/cUf5gFiBIu8GrQ==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cAfRcNsoAkObbhf8BSj0EGHicqXSkAjYwXd7MCCkYb0=;
- b=uzsuhIJJybjR9SN34EMP338s1H2l94iU+7Wo5ONXae8mOd4oLXAlBlydDBmborW7dpKgC2xgB5mvNn9K+BPXwtjdMMRip8r7iozIiSTp4RKl7Rg0OinACwUMAD4xIjlU8DknC6HhXyt7Sr9V3ulrFoYG0bok+eKhFlbrGqeagen7w8L8IH8WHt1Buf06qoNOywrWIZAHumAnCAfZmpdGa0KtDnDS3BM9uFyFE42gCMGnjgf85sGz4mudapfj6ciL/LhNFce7jJz/6/ndmQbpbxlaE+X6MoSblsfZ3QXZ8pLetxzh2VsIxNd6ajf3CEYSYI623H25PIouVe0KTMHqsw==
-ARC-Authentication-Results: i=3; mx.microsoft.com 1; spf=fail (sender ip is
- 52.17.62.50) smtp.rcpttodomain=bp.renesas.com smtp.mailfrom=solid-run.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=solid-run.com; dkim=pass (signature was verified)
- header.d=solid-run.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=solid-run.com] dkim=[1,1,header.d=solid-run.com]
- dmarc=[1,1,header.from=solid-run.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=solid-run.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cAfRcNsoAkObbhf8BSj0EGHicqXSkAjYwXd7MCCkYb0=;
- b=T6XF8/yP219NGsUlysk1f2kSLQGoZ7DLIDkfF+TQ51xZ5OSsIqL93sh66coXt/pwsQivZLZ/Dwb8dlvyvExNOJLKtGEj6/iqTGCl0DHhVLJ93gvzo4edsQ16ijKL1gFg/nBb6TdvW8r0rDHBgEH7u3j+H59c38ORekH1sFfm4qvnx8jFLiSVlcOAnnadzj6aIz/CgoQAYwssoSfvqFrHOtEkYYspI4SBah6eTPV2TR9Vvog7sTDX4bbxhLfoANwmH/7k4jUfpKTN9GXF5HftKyH7R701kdnDH6w5L0y+Oo99scApTH10HgvRJT32cj+F4hKnTpKwtNmv4I94n5wqbw==
-Received: from AS9PR05CA0024.eurprd05.prod.outlook.com (2603:10a6:20b:488::23)
- by MI9PR04MB532906.eurprd04.prod.outlook.com (2603:10a6:290:87::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 11:33:29 +0000
-Received: from AM4PEPF00027A67.eurprd04.prod.outlook.com
- (2603:10a6:20b:488:cafe::5f) by AS9PR05CA0024.outlook.office365.com
- (2603:10a6:20b:488::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.12 via Frontend Transport; Fri, 4
- Sep 2026 11:33:29 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 52.17.62.50)
- smtp.mailfrom=solid-run.com; dkim=pass (signature was verified)
- header.d=solid-run.com;dmarc=pass action=none header.from=solid-run.com;
-Received-SPF: Fail (protection.outlook.com: domain of solid-run.com does not
- designate 52.17.62.50 as permitted sender) receiver=protection.outlook.com;
- client-ip=52.17.62.50; helo=eu-dlp.cloud-sec-av.com;
-Received: from eu-dlp.cloud-sec-av.com (52.17.62.50) by
- AM4PEPF00027A67.mail.protection.outlook.com (10.167.16.84) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.8
- via Frontend Transport; Fri, 4 Sep 2026 11:33:29 +0000
-Received: from emails-7008659-12-mt-prod-cp-eu-2.checkpointcloudsec.com (ip-10-20-5-203.eu-west-1.compute.internal [10.20.5.203])
-	by mta-outgoing-dlp-765-mt-prod-cp-eu-2.checkpointcloudsec.com (Postfix) with ESMTPS id 2C0C781DD3;
-	Fri,  4 Sep 2026 11:33:29 +0000 (UTC)
-ARC-Seal: i=2; cv=pass; a=rsa-sha256; d=checkpointcloudsec.com;
- s=arcselector01; t=1788521609;
- b=AiJlWpsmj2m9Nuj2OWGGVXYh6MQUwsbmE2b8acSlEI0SkXZceAhikpiLKju/Qcpxq3AYY
- +7Modg3t2pUvIPS9ye/4Mmut9Qxqev4T/uoy7YPQIA3/9cVPK5hkQv6Y1X/gigcvwq3+YOk
- FQojTTDJ4Fq7uqu2VsXyiGHq5w00CkY=
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed;
- d=checkpointcloudsec.com; s=arcselector01; t=1788521609; h=from : to :
- subject : date : message-id : content-type : mime-version;
- bh=cAfRcNsoAkObbhf8BSj0EGHicqXSkAjYwXd7MCCkYb0=;
- b=Ciy0tnzZbHYoQq1Dy/9WBdRv5Zeg+8R8fT9C/7s7k+SBmgz9B8srRYDszg9uVRQItLjn1
- 4WUBYUbWhfpNU4JhSaL5Rr7vIARz59ECrz7BE1Cl45Ehjepi6aJEYGqOnjjid3eISRy5AOe
- kiHZfJPfXa6HZ86ojKLIqh59/vSm7rM=
-ARC-Authentication-Results: i=2; mx.checkpointcloudsec.com;
- arc=pass;
- dkim=none header.d=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=solid-run.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cAfRcNsoAkObbhf8BSj0EGHicqXSkAjYwXd7MCCkYb0=;
- b=T6XF8/yP219NGsUlysk1f2kSLQGoZ7DLIDkfF+TQ51xZ5OSsIqL93sh66coXt/pwsQivZLZ/Dwb8dlvyvExNOJLKtGEj6/iqTGCl0DHhVLJ93gvzo4edsQ16ijKL1gFg/nBb6TdvW8r0rDHBgEH7u3j+H59c38ORekH1sFfm4qvnx8jFLiSVlcOAnnadzj6aIz/CgoQAYwssoSfvqFrHOtEkYYspI4SBah6eTPV2TR9Vvog7sTDX4bbxhLfoANwmH/7k4jUfpKTN9GXF5HftKyH7R701kdnDH6w5L0y+Oo99scApTH10HgvRJT32cj+F4hKnTpKwtNmv4I94n5wqbw==
-Received: from MMZPR04MB400504.eurprd04.prod.outlook.com (2603:10a6:190:28::8)
- by GVXPR04MB10517.eurprd04.prod.outlook.com (2603:10a6:150:1e1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 11:33:15 +0000
-Received: from MMZPR04MB400504.eurprd04.prod.outlook.com
- ([fe80::2f52:2d22:c7b3:4292]) by MMZPR04MB400504.eurprd04.prod.outlook.com
- ([fe80::2f52:2d22:c7b3:4292%4]) with mapi id 15.21.0360.008; Fri, 4 Sep 2026
- 11:33:15 +0000
-From: Josua Mayer <josua@solid-run.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Linus Walleij <linusw@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, Lad
- Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Jon Nettleton
-	<jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, Yazan
- Shhady <yazan.shhady@solid-run.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-gpio@vger.kernel.org"
-	<linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v4 2/7] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Allow
- input-enable pinconf
-Thread-Topic: [PATCH v4 2/7] dt-bindings: pinctrl: renesas,rzg2l-pinctrl:
- Allow input-enable pinconf
-Thread-Index:
- AQHdOtE+gVzmYmXL+Ea9R+ytXkurZ7a7P8yAgAFWXACAAZ/tgIAAEUMAgAAAwQCAAASdgA==
-Date: Fri, 4 Sep 2026 11:33:15 +0000
-Message-ID: <1098d7f9-13bb-49da-9aa7-c42b1a33089e@solid-run.com>
-References: <20260902-rzg2-sr-boards-v4-0-4a456a422fee@solid-run.com>
- <20260902-rzg2-sr-boards-v4-2-4a456a422fee@solid-run.com>
- <CAD++jL=fGonMHd0jitwAE8+w=JYPX_6YFW6CzS9kRZLbx3045Q@mail.gmail.com>
- <0435939c-2836-480d-9ba2-8de4c5e22cc2@solid-run.com>
- <CAMuHMdUE3+qBdy2CoSQMzJ1iePiv0PSTfOjxHAqgp78i_XpMPQ@mail.gmail.com>
- <c0a37ff2-b133-4bd9-82c6-732f58e2c5ec@solid-run.com>
- <CAMuHMdUOqA_mNQ6-+rxcTxiJSWDBQbiaLqYAtVEko6T7DLgOdg@mail.gmail.com>
-In-Reply-To:
- <CAMuHMdUOqA_mNQ6-+rxcTxiJSWDBQbiaLqYAtVEko6T7DLgOdg@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=solid-run.com;
-x-ms-traffictypediagnostic:
-	MMZPR04MB400504:EE_|GVXPR04MB10517:EE_|AM4PEPF00027A67:EE_|MI9PR04MB532906:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86c87504-a740-465d-a108-08df0a7857d6
-x-cloud-sec-av-info: solidrun,office365_emails,sent,inline
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|376014|23010399003|1800799024|7416014|10070799003|366016|38070700021|10067099003|4143699003|18002099003|22082099003|3023799007|56012099006;
-X-Microsoft-Antispam-Message-Info-Original:
- J4jpTQezmOZ7oRNjzM8poeQbn69r2M0EQiw2zIvj72j7afjnqnKdv6EJ5aiHAkktVI5MFfSQH3ETHReOtXaaZtTBvo8qPHO4Snj1HwUToaii7qF2EKagJ/hd5pUzF16DzAVdFntzVbX+TX/8BjFgW4lrNcKbd7NbgnDH8/EZ5sawXgeasg2NAetTHtLYMRzsta3BavDh9JxB9BQxzsI56WrXYMD3jA2+Joeez+4PslO/Mn63Rgs+7h0BNhpXjrlyYGX3pIuabwYfFkzvEDvpEkwPEYeLUUHSdsVYu+ns/IJspdwAI/HHoIw8HFj5IUeWzCg1G3xxuYiAdehH+fMaBs4Z0UeAVrxUTDAIUS/35Y5kZHjmigpkVpIiC+EyrmeRViesrb/22iAfDtq32kjozu7HcGid/KVHZgzW3NH7t+WgLnQafUCAqS3PEH+RgDwG0PwIgq0axPkaUQkw85cJ0hMNzku9l3El4P/SwrNVHYS/xkfMGzXk3TTUK8PH3vcQ7EmWE/GFGXoVDxlqVnTxOWF9pBv7IJHNaHbdmZrRQkkd7xPd+eWq25ZfJNg0Xptoza0nE4SgqPUDxY6dcl8NuJAw17iTSYLFJGJQo9ejfJkvprOuh97Xbf+7lHUN5Vw3V+MKLBJwoGh459nuK4u9Ybx6ZafgABC8OcuEUDZ+TTd7upVSmk+Mn2BQBRFotS1Wh8g6jzfwShQt1E5J2ojaA6WsitMHuKNIJHCqoOcJlds=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MMZPR04MB400504.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(7416014)(10070799003)(366016)(38070700021)(10067099003)(4143699003)(18002099003)(22082099003)(3023799007)(56012099006);DIR:OUT;SFP:1102;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3650087BEF4F804EA17024292EFDEFA0@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p6KKry1p"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6b35cc0a8c3so756044eaf.0
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 04:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788522066; x=1789126866; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2E5WMWcIyJZoE2GE8k1ComnlqCfp2hy8iFWq+cBj4jU=;
+        b=p6KKry1p4t3uE+1n0M1JF3KPoQk9E5W+ShbzYUaUdix6FQaChy9tOfieJKB/gP9Be2
+         q9p7GF3b58XuiFUn407yw4i1igOWyZbC7ipQnyIN/5jQ3ppSMBtYHzaT2Wg3vyIWyl10
+         8vcYsqh8A7kfCV988wtIGNmqK2lUJt+Fim8rnw2nWAdoMvtMmq+tFG95+rgy6ryyBgXX
+         xL0iEuu/m8xfx7aHbnbW0pIOj23+tbZ/KAa5Cw7jDtC9c4z7E61WBo6svstgcUsfqME/
+         yJQl33wUblKu5azBEXzYrv85RNREFBOzt3LLJViOLhjficzk9mPkKj/DNgfaow7RO0Zs
+         176A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788522066; x=1789126866;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2E5WMWcIyJZoE2GE8k1ComnlqCfp2hy8iFWq+cBj4jU=;
+        b=S/OfJc7HzSul5D8UjbWs+pyr00VN1QiJDZ4xWvvFNFO0tAam7ycFGUUJT2UUVWO5f0
+         piZfPVwxafwIWWlSAHJ801UHDRjZHdbC0vECzkB9DE4lsxIzw79CRiQQjjSV/uxEDH6/
+         iRW3Hw8qeNr9mK4s9W6hdZp7kfxmV/kxpA+LpoRCfTZ6egw6zFu026SzqFniW6xtZFnJ
+         5E4ScR9pt50pwBT5SgwMuVKR2VnJ76FSr9WWpTgzJkLoVodFuH+STu0JFxJxXhNyqsKE
+         YQbjEsb5A0A9hmbMZEZ2S/dMBMeWFOSClIzKJXueIgDuomEsj+22jfry2dvh/onLquet
+         3TTw==
+X-Forwarded-Encrypted: i=1; AKwUvBxDGAhT1B6BJWb7YRrLET2Qa95VAL6pnn3g9rSyxzgEZ1eN7h/3TxTZxo+C9AsTBlhejOwaZZHQKFE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kMZCpJlH8BeWaENY4ikXnMQSlYEVQrcezu3KYyuuze6zpFZ4Z4
+	eFYx7xrJElmCXaRGQhMBow2kOQXmSi3b6SX3dI/8gh6X0M7lu/Cy+c91
+X-Gm-Gg: AYBFou26b2wWGenBWOBGfD2+nlFaN6najqlFAnu3lLy4OPwtG90/Te3N+HsfLEuhtIT
+	4Cgxfs67L1jCErgrCExCUPRGtAOm6HVgIFtkkgaxNgybKBb8jYhf7GLHk+I73IQmYsP0WBcs3nc
+	rQiqR+d1QpC2b/41bTdadpWgIvTIxKXA0NWQP7D8I6uTOJ6UfpCTbYsA/BQqyRxeAiN9dPYFFnK
+	XS3f6IHxpvRbENrlUGOoToZpNwr+v5eaS1Wo8Fjn6Fi4y+rGxvfuZn8nQocRPOlMWcV8wSEH/ot
+	BLKW4o9gszf/eEMMYBwQAL9ClMyJLK8q9/rfFlG1HlZE5Q1MFbsB0hA4t2GLruFkOoN15tSq+mj
+	4PPuYGmVR5j1LSLl3xxXM4gL8JpW3dc71uFh/GahFcNBJn028paaSTjLulF3bqEoqwJZuVt8V0C
+	KnfTMCQC3dtsEMxOiipgyrsfegQazkG0omxQDxoTc6kaClA/wFRbNvBWlumewnHeycD5M9jvJX9
+	CGqG9wroAWnyBeDXr2EZQckB1w=
+X-Received: by 2002:a05:6820:4b08:b0:6b7:46fc:1db with SMTP id 006d021491bc7-6b746fc0298mr2235475eaf.58.1788522065747;
+        Fri, 04 Sep 2026 04:41:05 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33450e140d3sm2695292eec.4.2026.09.04.04.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 04:41:05 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Matthieu CASTET <castet.matthieu@free.fr>,
+	Stanislaw Gruszka <stf_xl@wp.pl>,
+	Chas Williams <3chas3@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Justin Chen <justin.chen@broadcom.com>,
+	Al Cooper <alcooperx@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Thomas Winischhofer <thomas@winischhofer.net>,
+	Bin Liu <b-liu@ti.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Badhri Jagan Sridharan <badhri@google.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net
+Subject: [PATCH 1/2] usb: fix typos in comments
+Date: Fri,  4 Sep 2026 17:10:37 +0530
+Message-ID: <20260904114046.24048-2-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260904114046.24048-1-hemanth.selam@gmail.com>
+References: <20260904114046.24048-1-hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
- WWrOgsfu3JRxUycFaR6x9F+Npeu9Fa1oycObBY8JfhW668WdwkTqRddKCy22icoQqhv4HTdB7e1jGanoWVvXR0fX1ti7o88jm7yz85SpwgQfFDCuOO1c9kPH4W5Lx6+x3cd8UdcqJeOSrH2jtFTyZ/vE9LPDvNiQa865gN46mjtSDm86cdEtGlQbV/nVilkKfgnX07o7GubgwHpX3juidc7VX8QCJAjJNACRW+/JaR99GE3fxKe7ru5C/0JUCDKuBvo1j62qQ9RPxzXDQB5baumqhgggvZCQE/1xnP+RxC2LRdf0qvEQx9IcxLCKRnpKyUhz99NBPCkzuEzrFeVQsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10517
-X-CLOUD-SEC-AV-INT-Relay: sent<mta-outgoing-dlp-mt-prod-cp-eu-2.checkpointcloudsec.com>
-X-CLOUD-SEC-AV-UUID: 079f0d7a5eee4bab99a9a79167ecf7aa:solidrun,office365_emails,sent,inline:c8e7ae9b5f88038d8ddafba974ceae05
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lXPvbvFkHgMQe99eBOe2r8UDoaT/RIkyhXfTeOClocHCrn+ctvVSvDU1mOZF7Ldl95sLRYvFynul7Ld7L8CjzEtFM0rswP4WOIf+ZmF4eLFy14YjmOnCyburkNKaImxLxuMdtOI85Ui0X1a/TdnStjgv1W9AqBn2g9GCsV4Pvec39nzvBCUVZYzukpagx05x6zG0g7vpjC7+cuoAWyMAwojg4aDWOHq70IkL10cT/WNLf5EYl7FnJdO+6fjquhqGm3p6eJ63XcIMJA+/kmCI5uqE7hztqtNUGSZStNUIBTNnOV/DkAzuS5IQy8cvUBsrt3YpLuB0dQVlSjIKowB5Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cAfRcNsoAkObbhf8BSj0EGHicqXSkAjYwXd7MCCkYb0=;
- b=d0UJTD8IFLr3AUVnsfTwU3EHOHlAC7xEhTaO5ZbcZerPobn9tekBExVWlHAKCUSCaWYLpCSkn4bUodyk7zTWn3SYWH6Li5ow0UaX+CUv0397ePJhkJz02xvXWs6O/mzCCGLR8wUiBl8+/IOqwfaIFs3ZknQl0Xapp4jiQap5+6ugjTO+lTclHPqM0kjINud0jjbqai2MNuRM8gM7JxOSpW8BahPWq2tUB142mIvmf+eQlPJHsWSnRX33sQUwlY8oo6ITF+W5KAjZJc43DIlHw6Zqd60q1DGpqkqpy3xLmJ18KhOUHnY1+C1tb0V7w2wEIyxIZol+1kVCDjYVzuDtuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=solid-run.com; dmarc=pass action=none
- header.from=solid-run.com; dkim=pass header.d=solid-run.com; arc=none
-Authentication-Results-Original: mx.checkpointcloudsec.com; arc=pass;
- dkim=none header.d=none
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM4PEPF00027A67.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	0c1ecda2-739a-464f-15e3-08df0a784f88
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|35042699022|14060799003|23010399003|36860700016|376014|1800799024|7416014|82310400026|4143699003|10067099003|22082099003|18002099003|3023799007|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	TEFo3uDFNE2x5P1/KzMlP4fln9ABkamJoAQvg5Q+pqUfcxp8yzA+8nVnQqm1WexAu+sR6tAhf4vds/A6i1tP+n+MZhoVGDx8/7DDnJOxzJOeVjJrAOy8k++Te3JqmYbKaiSNpy4QG7MFCqyrm/r93km8qIclj1LivklrnYgGMvMCQIb+EvuGtX64xuKY6F4wt43x+ILXTlR8X5ZGzz3SV6MMcwC0Wbtwllb0ETsr7N8mBCE+eshNNB+x/AJIliUXGl6hwdJwHFOLONXUG8ETJsmC/5bU7rGBI0+xRal5qtxo7zidbtzcBXMwZVihdnDmby5ETsBwJk2ZEwCv2drLGaLQeQE0wAtlb0Dk8EAGM4JmFoP13YkCrFwfcfFe55/azJMg2GN6b/fDOC0EypRE9PPAqa8VBlvzZtm0Xc9GEdi0Jb7upmNNoC9Q+xAYdDUmgKaCiZoJYiqJcZ4Bdo4fO51OcpeHf8MHXMQKRk83VCAunt/2v9KiFYD5lgX8iJXWReyW1vS3L8HdlMhxKsf9Z7sy5sXM5yQT+dncix6SCwPiR9tCHpjLBNbf0XHHqdpkJendDlPaC9K8nueh25z9UswQsH9UofUzomYRCT9BCgNwuEtzuQ4yfAqD9M7M5ZxRIPNKH+iC4/3VDUrcH5QalLOgodytawpHkf1L7m0pUhw=
-X-Forefront-Antispam-Report:
-	CIP:52.17.62.50;CTRY:;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu-dlp.cloud-sec-av.com;PTR:eu-dlp.cloud-sec-av.com;CAT:NONE;SFS:(13230040)(35042699022)(14060799003)(23010399003)(36860700016)(376014)(1800799024)(7416014)(82310400026)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	pFHq0ATwC77FswRmXj4+Hz51MimdPr8dg4vcrpKcVooGa5VYvvOQYu8CTB4ZSlCyl7FMxtxMd8aS7oCjhEuOOCTg2KNM7DF1zSgo+AMmVKl+SsR00XH+4U/K0uy5TdpGbbma8i1qD50VW3Aiy9pTQsp9LsBIFgmebkSG3v5028/BmuqMzq4GlMyCn70nom+79B+g8csyvn33KqQFHinxMv4Bg/tQmYax7p+ese/zHP9dVegeENs0gzRuDd/ays7MJ5xDJWwquQwig844Y2nshY1WbG48nErSbBbJ2CFpbzDOoFe0Pe6qDG4bWtW4GBTd1xL2e0uoPh37AkzswZKpJrb296ZHHVvntr3YwOTxVoqVigS4lySmcnv581eD2QCS4ztVxcTvA95w1w5a0CItk1dWxpjFY1HWdcQCZisP4LGNxYuHx6zUcp6NGPqTrfv3
-X-OriginatorOrg: solid-run.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 11:33:29.4935
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86c87504-a740-465d-a108-08df0a7857d6
-X-MS-Exchange-CrossTenant-Id: a4a8aaf3-fd27-4e27-add2-604707ce5b82
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a4a8aaf3-fd27-4e27-add2-604707ce5b82;Ip=[52.17.62.50];Helo=[eu-dlp.cloud-sec-av.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A67.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR04MB532906
+Content-Transfer-Encoding: 8bit
 
-QW0gMDQuMDkuMjYgdW0gMTM6MTYgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+IEhpIEpv
-c3VhLA0KPg0KPiBPbiBGcmksIDQgU2VwdCAyMDI2IGF0IDEzOjE0LCBKb3N1YSBNYXllciA8am9z
-dWFAc29saWQtcnVuLmNvbT4gd3JvdGU6DQo+PiBBbSAwNC4wOS4yNiB1bSAxMjoxMiBzY2hyaWVi
-IEdlZXJ0IFV5dHRlcmhvZXZlbjoNCj4+PiBPbiBUaHUsIDMgU2VwdCAyMDI2IGF0IDExOjIzLCBK
-b3N1YSBNYXllciA8am9zdWFAc29saWQtcnVuLmNvbT4gd3JvdGU6DQo+Pj4+IEFtIDAyLjA5LjI2
-IHVtIDE0OjU4IHNjaHJpZWIgTGludXMgV2FsbGVpajoNCj4+Pj4+IE9uIFdlZCwgU2VwIDIsIDIw
-MjYgYXQgMTo1MOKAr1BNIEpvc3VhIE1heWVyIDxqb3N1YUBzb2xpZC1ydW4uY29tPiB3cm90ZToN
-Cj4+Pj4+PiBUaGUgbGlzdCBvZiBhbGxvd2VkIHBpbmNvbmYgcHJvcGVydGllcyBhbHJlYWR5IGlu
-Y2x1ZGVzIGlucHV0LWVuYWJsZSwNCj4+Pj4+PiBidXQgaGFzIG9taXR0ZWQgaW5wdXQtZGlzYWJs
-ZS4NCj4+Pj4+Pg0KPj4+Pj4+IEJvdGggcmVmZXIgdG8gdGhlIHNhbWUgaGFyZHdhcmUgcHJvcGVy
-dHksIHNldHRpbmcgYW5kIGNsZWFyaW5nIGlucHV0LWVuYWJsZS4NCj4+Pj4+Pg0KPj4+Pj4+IEFk
-ZCBpbnB1dC1kaXNhYmxlIHRvIHRoZSBsaXN0Lg0KPj4+Pj4+DQo+Pj4+Pj4gU2lnbmVkLW9mZi1i
-eTogSm9zdWEgTWF5ZXIgPGpvc3VhQHNvbGlkLXJ1bi5jb20+DQo+Pj4+PiAoLi4uKQ0KPj4+Pj4+
-ICsgICAgICAgIGlucHV0LWRpc2FibGU6IHRydWUNCj4+Pj4+IFRoZSBTdWJqZWN0IG9mIHRoaXMg
-cGF0Y2ggaXMgICJBbGxvdyBpbnB1dC1lbmFibGUgcGluY29uZiIuDQo+Pj4+Pg0KPj4+Pj4gQnV0
-IHdoYXQgeW91IGFyZSBkb2luZyBpcyBhbGxvd2luZyBpbnB1dC1kaXNhYmxlLg0KPj4+Pj4NCj4+
-Pj4+IFdpdGggdGhlIHN1YmplY3QgZml4ZWQ6DQo+Pj4+PiBSZXZpZXdlZC1ieTogTGludXMgV2Fs
-bGVpaiA8bGludXN3QGtlcm5lbC5vcmc+DQo+Pj4+IFRoYW5rcyENCj4+Pj4gSSdsbCBmaXggdGhl
-IHN1YmplY3QgLi4uICENCj4+Pj4NCj4+Pj4gKCJkdC1iaW5kaW5nczogcGluY3RybDogcmVuZXNh
-cyxyemcybC1waW5jdHJsOiBBbGxvdyBpbnB1dC1kaXNhYmxlIHBpbmNvbmYiKQ0KPj4+IE5vIG5l
-ZWQgdG8gcmVzZW5kLCBJIHdpbGwgZml4IHRoaXMgd2hpbGUgYXBwbHlpbmcNCj4+PiBSZXZpZXdl
-ZC1ieTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4NCj4+PiBp
-LmUuIHdpbGwgcXVldWUgaW4gcmVuZXNhcy1waW5jdHJsIGZvciB2Ny40Lg0KPj4+DQo+Pj4gSSB3
-aWxsIGFsc28gYWRkICJvdXRwdXQtZGlzYWJsZSIsIHdoaWNoIGlzIG1pc3NpbmcsIHRvby4NCj4+
-IFRoYW5rcyENCj4+DQo+PiBIb3dldmVyIEkgYW0gcmVhZHkgdG8gc2VuZCB2OC4gSWYgSSBkcm9w
-IGl0IG15IHNlcmllcyB3aWxsIGZhaWwgZHRic19jaGVjay4NCj4+IElzIGl0IG9rYXkgaWYgSSBk
-byByZXNlbmQgaXQsIGFuZC9vciBzaG91bGQgSSB3YWl0IGFuZCBjaGVycnktcGljayB5b3VyDQo+
-PiB2ZXJzaW9uDQo+PiBzbyB0aGF0IGl0IGlzIGVhc2lseSBkcm9wcGVkIHdoaWxlIGFwcGx5aW5n
-IHdpdGhvdXQgY29uZmxpY3Q/DQo+Pg0KPj4gT3IgZHJvcCBpdCBhbmQgbGl2ZSB3aXRoIGZhaWxp
-bmcgZHRic19jaGVjaz8NCj4gSWYgeW91J3JlIHJlYWR5LCB0aGVuIHBsZWFzZSBzZW5kIHY4IChh
-bmQgYWRkICJvdXRwdXQtZGlzYWJsZSIpLg0KPiBUaGFua3MhDQpBY2suIEkgd2lsbCBzZW5kIGl0
-IHdpdGhpbiB0aGUgaG91ci4NCg==
+Fix typos in comments, reported by scripts/checkpatch.pl using the
+misspelling list in scripts/spelling.txt.  Only touches comments, no code
+changes.
+
+Assisted-by: Cursor:claude-opus-5
+Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+---
+ drivers/usb/atm/ueagle-atm.c           | 2 +-
+ drivers/usb/c67x00/c67x00-ll-hpi.c     | 8 ++++----
+ drivers/usb/c67x00/c67x00-sched.c      | 2 +-
+ drivers/usb/class/cdc-wdm.c            | 2 +-
+ drivers/usb/core/hub.c                 | 2 +-
+ drivers/usb/fotg210/fotg210-hcd.h      | 2 +-
+ drivers/usb/gadget/configfs.c          | 2 +-
+ drivers/usb/gadget/function/f_hid.c    | 2 +-
+ drivers/usb/gadget/function/f_uac2.c   | 4 ++--
+ drivers/usb/gadget/legacy/inode.c      | 2 +-
+ drivers/usb/gadget/udc/bdc/bdc_core.c  | 2 +-
+ drivers/usb/gadget/udc/bdc/bdc_ep.c    | 2 +-
+ drivers/usb/gadget/udc/core.c          | 4 ++--
+ drivers/usb/gadget/udc/fsl_qe_udc.h    | 2 +-
+ drivers/usb/gadget/udc/fsl_udc_core.c  | 4 ++--
+ drivers/usb/gadget/udc/lpc32xx_udc.c   | 2 +-
+ drivers/usb/gadget/udc/pch_udc.c       | 4 ++--
+ drivers/usb/gadget/udc/r8a66597-udc.c  | 2 +-
+ drivers/usb/gadget/udc/snps_udc_plat.c | 2 +-
+ drivers/usb/gadget/udc/udc-xilinx.c    | 4 ++--
+ drivers/usb/host/fhci-q.c              | 2 +-
+ drivers/usb/host/fhci-tds.c            | 2 +-
+ drivers/usb/host/oxu210hp-hcd.c        | 2 +-
+ drivers/usb/host/xhci.c                | 8 ++++----
+ drivers/usb/image/mdc800.c             | 2 +-
+ drivers/usb/misc/sisusbvga/sisusbvga.c | 4 ++--
+ drivers/usb/musb/tusb6010.c            | 2 +-
+ drivers/usb/musb/ux500.c               | 2 +-
+ drivers/usb/phy/phy-fsl-usb.c          | 2 +-
+ drivers/usb/renesas_usbhs/mod_gadget.c | 2 +-
+ drivers/usb/renesas_usbhs/mod_host.c   | 2 +-
+ drivers/usb/storage/uas.c              | 2 +-
+ drivers/usb/typec/tcpm/fusb302.c       | 2 +-
+ drivers/usb/typec/tcpm/tcpm.c          | 2 +-
+ include/linux/usb/cdc.h                | 2 +-
+ 35 files changed, 47 insertions(+), 47 deletions(-)
+
+diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
+index 61723e7ab351..d569ee93b493 100644
+--- a/drivers/usb/atm/ueagle-atm.c
++++ b/drivers/usb/atm/ueagle-atm.c
+@@ -2189,7 +2189,7 @@ static void uea_stop(struct uea_softc *sc)
+ 	release_firmware(sc->dsp_firm);
+ }
+ 
+-/* syfs interface */
++/* sysfs interface */
+ static struct uea_softc *dev_to_uea(struct device *dev)
+ {
+ 	struct usb_interface *intf;
+diff --git a/drivers/usb/c67x00/c67x00-ll-hpi.c b/drivers/usb/c67x00/c67x00-ll-hpi.c
+index 7a214a3a6cc7..f2225174f7df 100644
+--- a/drivers/usb/c67x00/c67x00-ll-hpi.c
++++ b/drivers/usb/c67x00/c67x00-ll-hpi.c
+@@ -113,7 +113,7 @@ static void hpi_write_word(struct c67x00_device *dev, u16 reg, u16 value)
+ }
+ 
+ /*
+- * Only data is little endian, addr has cpu endianess
++ * Only data is little endian, addr has cpu endianness
+  */
+ static void hpi_write_words_le16(struct c67x00_device *dev, u16 addr,
+ 				 __le16 *data, u16 count)
+@@ -131,7 +131,7 @@ static void hpi_write_words_le16(struct c67x00_device *dev, u16 addr,
+ }
+ 
+ /*
+- * Only data is little endian, addr has cpu endianess
++ * Only data is little endian, addr has cpu endianness
+  */
+ static void hpi_read_words_le16(struct c67x00_device *dev, u16 addr,
+ 				__le16 *data, u16 count)
+@@ -397,7 +397,7 @@ int c67x00_ll_reset(struct c67x00_device *dev)
+ 
+ /*
+  * c67x00_ll_write_mem_le16 - write into c67x00 memory
+- * Only data is little endian, addr has cpu endianess.
++ * Only data is little endian, addr has cpu endianness.
+  */
+ void c67x00_ll_write_mem_le16(struct c67x00_device *dev, u16 addr,
+ 			      void *data, int len)
+@@ -436,7 +436,7 @@ void c67x00_ll_write_mem_le16(struct c67x00_device *dev, u16 addr,
+ 
+ /*
+  * c67x00_ll_read_mem_le16 - read from c67x00 memory
+- * Only data is little endian, addr has cpu endianess.
++ * Only data is little endian, addr has cpu endianness.
+  */
+ void c67x00_ll_read_mem_le16(struct c67x00_device *dev, u16 addr,
+ 			     void *data, int len)
+diff --git a/drivers/usb/c67x00/c67x00-sched.c b/drivers/usb/c67x00/c67x00-sched.c
+index ae6c94f41cb3..3697a45b3cf1 100644
+--- a/drivers/usb/c67x00/c67x00-sched.c
++++ b/drivers/usb/c67x00/c67x00-sched.c
+@@ -37,7 +37,7 @@ struct c67x00_ep_data {
+ /*
+  * struct c67x00_td
+  *
+- * Hardware parts are little endiannes, SW in CPU endianess.
++ * Hardware parts are little endiannes, SW in CPU endianness.
+  */
+ struct c67x00_td {
+ 	/* HW specific part */
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index 7556c0dac908..1745d9f51a1c 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -1189,7 +1189,7 @@ static int wdm_probe(struct usb_interface *intf, const struct usb_device_id *id)
+  *
+  * The subdriver will manage the given interrupt endpoint exclusively
+  * and will issue control requests referring to the given intf. It
+- * will otherwise avoid interferring, and in particular not do
++ * will otherwise avoid interfering, and in particular not do
+  * usb_set_intfdata/usb_get_intfdata on intf.
+  *
+  * The return value is a pointer to the subdriver's struct usb_driver.
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 3345b3298daf..54e0d4f61f00 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -6393,7 +6393,7 @@ int usb_reset_device(struct usb_device *udev)
+ 	 * is included in current configuration. The easist
+ 	 * approach is to do it for every device reset,
+ 	 * because the device 'memalloc_noio' flag may have
+-	 * not been set before reseting the usb device.
++	 * not been set before resetting the usb device.
+ 	 */
+ 	noio_flag = memalloc_noio_save();
+ 
+diff --git a/drivers/usb/fotg210/fotg210-hcd.h b/drivers/usb/fotg210/fotg210-hcd.h
+index 13c9342982ee..b7353a89a71a 100644
+--- a/drivers/usb/fotg210/fotg210-hcd.h
++++ b/drivers/usb/fotg210/fotg210-hcd.h
+@@ -283,7 +283,7 @@ struct fotg210_regs {
+ #define PORT_RWC_BITS   (PORT_CSC | PORT_PEC)
+ 	u32     reserved2[19];
+ 
+-	/* OTGCSR: offet 0x70 */
++	/* OTGCSR: offset 0x70 */
+ 	u32     otgcsr;
+ #define OTGCSR_HOST_SPD_TYP     (3 << 22)
+ #define OTGCSR_A_BUS_DROP	(1 << 5)
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 51df6d1d1487..4e33239bb9e0 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -326,7 +326,7 @@ static ssize_t gadget_dev_desc_max_speed_store(struct config_item *item,
+ 
+ 	mutex_lock(&gi->lock);
+ 
+-	/* Prevent changing of max_speed after the driver is binded */
++	/* Prevent changing of max_speed after the driver is bound */
+ 	if (gi->composite.gadget_driver.udc_name)
+ 		goto err;
+ 
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 3c6b43d06a6d..a946f0030109 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -353,7 +353,7 @@ static ssize_t f_hidg_intout_read(struct file *file, char __user *buffer,
+ 	list->pos += count;
+ 
+ 	/*
+-	 * if this request is completely handled and transfered to
++	 * if this request is completely handled and transferred to
+ 	 * userspace, remove its entry from the list and requeue it
+ 	 * again. Otherwise, we will revisit it again upon the next
+ 	 * call, taking into account its current read position.
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index d8cf710085a0..f9ca07dec17e 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -206,7 +206,7 @@ static struct uac2_input_terminal_descriptor io_in_it_desc = {
+ 	.bmControls = cpu_to_le16(CONTROL_RDWR << COPY_CTRL),
+ };
+ 
+-/* Ouput Terminal for USB_IN */
++/* Output Terminal for USB_IN */
+ static struct uac2_output_terminal_descriptor usb_in_ot_desc = {
+ 	.bLength = sizeof usb_in_ot_desc,
+ 	.bDescriptorType = USB_DT_CS_INTERFACE,
+@@ -220,7 +220,7 @@ static struct uac2_output_terminal_descriptor usb_in_ot_desc = {
+ 	.bmControls = cpu_to_le16(CONTROL_RDWR << COPY_CTRL),
+ };
+ 
+-/* Ouput Terminal for I/O-Out */
++/* Output Terminal for I/O-Out */
+ static struct uac2_output_terminal_descriptor io_out_ot_desc = {
+ 	.bLength = sizeof io_out_ot_desc,
+ 	.bDescriptorType = USB_DT_CS_INTERFACE,
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index db961aaa3740..c8b71afb4e15 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1958,7 +1958,7 @@ static const struct file_operations ep0_operations = {
+ 
+ 
+ /* FIXME PAM etc could set this security policy without mount options
+- * if epfiles inherited ownership and permissons from ep0 ...
++ * if epfiles inherited ownership and permissions from ep0 ...
+  */
+ 
+ static unsigned default_uid;
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
+index a8dbaef54aba..dfdb4c2948da 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_core.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
+@@ -361,7 +361,7 @@ int bdc_reinit(struct bdc *bdc)
+ 	return ret;
+ }
+ 
+-/* Allocate all the dyanmic memory */
++/* Allocate all the dynamic memory */
+ static int bdc_mem_alloc(struct bdc *bdc)
+ {
+ 	u32 page_size;
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+index a7a22e5ec47b..608edd4ae5dd 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+@@ -298,7 +298,7 @@ static int bd_available_ep(struct bdc_ep *ep)
+ 		return bd_list->max_bdi - bd_list->num_tabs;
+ 
+ 	/*
+-	 * Depending upon where eqp and dqp pointers are, caculate number
++	 * Depending upon where eqp and dqp pointers are, calculate number
+ 	 * of avaialble bd's
+ 	 */
+ 	if (bd_list->hwd_bdi < bd_list->eqp_bdi) {
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index f6da12b553a0..fa2022e9bc60 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -1101,7 +1101,7 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
+ EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
+ 
+ /**
+- * usb_gadget_check_config - checks if the UDC can support the binded
++ * usb_gadget_check_config - checks if the UDC can support the bound
+  *	configuration
+  * @gadget: controller to check the USB configuration
+  *
+@@ -1524,7 +1524,7 @@ EXPORT_SYMBOL_GPL(usb_add_gadget_udc_release);
+ /**
+  * usb_get_gadget_udc_name - get the name of the first UDC controller
+  * This functions returns the name of the first UDC controller in the system.
+- * Please note that this interface is usefull only for legacy drivers which
++ * Please note that this interface is useful only for legacy drivers which
+  * assume that there is only one UDC controller in the system and they need to
+  * get its name before initialization. There is no guarantee that the UDC
+  * of the returned name will be still available, when gadget driver registers
+diff --git a/drivers/usb/gadget/udc/fsl_qe_udc.h b/drivers/usb/gadget/udc/fsl_qe_udc.h
+index 53ca0ff7c2cb..de3c9deb7409 100644
+--- a/drivers/usb/gadget/udc/fsl_qe_udc.h
++++ b/drivers/usb/gadget/udc/fsl_qe_udc.h
+@@ -329,7 +329,7 @@ struct qe_udc {
+ 
+ 	u32 max_pipes;          /* Device max pipes */
+ 	u32 max_use_endpts;     /* Max endpointes to be used */
+-	u32 bus_reset;          /* Device is bus reseting */
++	u32 bus_reset;          /* Device is bus resetting */
+ 	u32 resume_state;       /* USB state to resume*/
+ 	u32 usb_state;          /* USB current state */
+ 	u32 usb_next_state;     /* USB next state */
+diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
+index 20392409afb1..9c82713abbc4 100644
+--- a/drivers/usb/gadget/udc/fsl_udc_core.c
++++ b/drivers/usb/gadget/udc/fsl_udc_core.c
+@@ -1398,7 +1398,7 @@ __acquires(udc->lock)
+ 
+ 	udc_reset_ep_queue(udc, 0);
+ 
+-	/* We process some stardard setup requests here */
++	/* We process some standard setup requests here */
+ 	switch (setup->bRequest) {
+ 	case USB_REQ_GET_STATUS:
+ 		/* Data+Status phase from udc */
+@@ -1831,7 +1831,7 @@ static void reset_irq(struct fsl_udc *udc)
+ 
+ 	if (fsl_readl(&dr_regs->portsc1) & PORTSCX_PORT_RESET) {
+ 		dev_vdbg(udc->dev, "Bus reset\n");
+-		/* Bus is reseting */
++		/* Bus is resetting */
+ 		udc->bus_reset = 1;
+ 		/* Reset all the queues, include XD, dTD, EP queue
+ 		 * head and TR Queue */
+diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
+index 044c31869cfb..7348704a9fc4 100644
+--- a/drivers/usb/gadget/udc/lpc32xx_udc.c
++++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
+@@ -2743,7 +2743,7 @@ static irqreturn_t lpc32xx_usb_lp_irq(int irq, void *_udc)
+ 		/* All types of errors, from cable removal during transfer to
+ 		 * misc protocol and bit errors. These are mostly for just info,
+ 		 * as the USB hardware will work around these. If these errors
+-		 * happen alot, something is wrong. */
++		 * happen a lot, something is wrong. */
+ 		udc_protocol_cmd_w(udc, CMD_RD_ERR_STAT);
+ 		tmp = udc_protocol_cmd_r(udc, DAT_RD_ERR_STAT);
+ 		dev_dbg(udc->dev, "Device error (0x%x)!\n", tmp);
+diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+index 99b3ce28210f..bf673e7faf37 100644
+--- a/drivers/usb/gadget/udc/pch_udc.c
++++ b/drivers/usb/gadget/udc/pch_udc.c
+@@ -319,7 +319,7 @@ struct pch_vbus_gpio_data {
+  * @ep:			array of endpoints
+  * @lock:		protects all state
+  * @stall:		stall requested
+- * @prot_stall:		protcol stall requested
++ * @prot_stall:		protocol stall requested
+  * @suspended:		driver in suspended state
+  * @connected:		gadget driver associated
+  * @vbus_session:	required vbus_session state
+@@ -846,7 +846,7 @@ static inline u32 pch_udc_read_ep_interrupts(struct pch_udc_dev *dev)
+ }
+ 
+ /**
+- * pch_udc_write_ep_interrupts() - Clear endpoint interupts
++ * pch_udc_write_ep_interrupts() - Clear endpoint interrupts
+  * @dev:	Reference to structure of type pch_udc_regs
+  * @val:	The value to be written to interrupt register
+  */
+diff --git a/drivers/usb/gadget/udc/r8a66597-udc.c b/drivers/usb/gadget/udc/r8a66597-udc.c
+index d190e16d43fc..105638d47c79 100644
+--- a/drivers/usb/gadget/udc/r8a66597-udc.c
++++ b/drivers/usb/gadget/udc/r8a66597-udc.c
+@@ -652,7 +652,7 @@ static int sudmac_alloc_channel(struct r8a66597 *r8a66597,
+ 		change_bfre_mode(r8a66597, ep->pipenum, 1);
+ 	}
+ 
+-	/* set r8a66597_ep paramters */
++	/* set r8a66597_ep parameters */
+ 	ep->use_dma = 1;
+ 	ep->dma = dma;
+ 	ep->fifoaddr = D0FIFO;
+diff --git a/drivers/usb/gadget/udc/snps_udc_plat.c b/drivers/usb/gadget/udc/snps_udc_plat.c
+index 0ee3ed185d9c..4b0c907b0f76 100644
+--- a/drivers/usb/gadget/udc/snps_udc_plat.c
++++ b/drivers/usb/gadget/udc/snps_udc_plat.c
+@@ -36,7 +36,7 @@ static void stop_udc(struct udc *udc)
+ 
+ 	spin_lock(&udc->lock);
+ 
+-	/* Flush the receieve fifo */
++	/* Flush the receive fifo */
+ 	reg = readl(&udc->regs->ctl);
+ 	reg |= AMD_BIT(UDC_DEVCTL_SRX_FLUSH);
+ 	writel(reg, &udc->regs->ctl);
+diff --git a/drivers/usb/gadget/udc/udc-xilinx.c b/drivers/usb/gadget/udc/udc-xilinx.c
+index bef06fe7543b..e6b9233ccdf9 100644
+--- a/drivers/usb/gadget/udc/udc-xilinx.c
++++ b/drivers/usb/gadget/udc/udc-xilinx.c
+@@ -128,7 +128,7 @@ struct xusb_req {
+  * @name: name of the endpoint
+  * @epnumber: endpoint number
+  * @maxpacket: maximum packet size the endpoint can store
+- * @buffer0count: the size of the packet recieved in the first buffer
++ * @buffer0count: the size of the packet received in the first buffer
+  * @buffer1count: the size of the packet received in the second buffer
+  * @curbufnum: current buffer of endpoint that will be processed next
+  * @buffer0ready: the busy state of first buffer
+@@ -311,7 +311,7 @@ static void xudc_epconfig(struct xusb_ep *ep, struct xusb_udc *udc)
+  * Return: 0 on success, error code on failure
+  *
+  * This function starts DMA transfer by writing to DMA source,
+- * destination and lenth registers.
++ * destination and length registers.
+  */
+ static int xudc_start_dma(struct xusb_ep *ep, dma_addr_t src,
+ 			  dma_addr_t dst, u32 length)
+diff --git a/drivers/usb/host/fhci-q.c b/drivers/usb/host/fhci-q.c
+index 669c240523fe..b13ad02454e1 100644
+--- a/drivers/usb/host/fhci-q.c
++++ b/drivers/usb/host/fhci-q.c
+@@ -208,7 +208,7 @@ void fhci_urb_complete_free(struct fhci_hcd *fhci, struct urb *urb)
+ }
+ 
+ /*
+- * caculate transfer length/stats and update the urb
++ * calculate transfer length/stats and update the urb
+  * Precondition: irqsafe(only for urb-?status locking)
+  */
+ void fhci_done_td(struct urb *urb, struct td *td)
+diff --git a/drivers/usb/host/fhci-tds.c b/drivers/usb/host/fhci-tds.c
+index d7482dc0604e..a52bddb45bb7 100644
+--- a/drivers/usb/host/fhci-tds.c
++++ b/drivers/usb/host/fhci-tds.c
+@@ -367,7 +367,7 @@ static void fhci_td_transaction_confirm(struct fhci_usb *usb)
+  * Arguments:
+  * usb          A pointer to the USB structure
+  * pkt          A pointer to the user frame structure
+- * trans_type   Transaction tyep - IN,OUT or SETUP
++ * trans_type   Transaction type - IN,OUT or SETUP
+  * dest_addr    Device address - 0~127
+  * dest_ep      Endpoint number of the device - 0~16
+  * trans_mode   Pipe type - ISO,Interrupt,bulk or control
+diff --git a/drivers/usb/host/oxu210hp-hcd.c b/drivers/usb/host/oxu210hp-hcd.c
+index ca96067e6d6d..25c857efaa08 100644
+--- a/drivers/usb/host/oxu210hp-hcd.c
++++ b/drivers/usb/host/oxu210hp-hcd.c
+@@ -882,7 +882,7 @@ static void ehci_hub_descriptor(struct oxu_hcd *oxu,
+  */
+ static int oxu_buf_alloc(struct oxu_hcd *oxu, struct ehci_qtd *qtd, int len)
+ {
+-	int n_blocks;	/* minium blocks needed to hold len */
++	int n_blocks;	/* minimum blocks needed to hold len */
+ 	int a_blocks;	/* blocks allocated */
+ 	int i, j;
+ 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index a9e47e178c28..4f1943fbd6ca 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -406,7 +406,7 @@ static void compliance_mode_recovery(struct timer_list *t)
+  * The quirk creates a timer that polls every 2 seconds the link state of
+  * each host controller's port and recovers it by issuing a Warm reset
+  * if Compliance mode is detected, otherwise the port will become "dead" (no
+- * device connections or disconnections will be detected anymore). Becasue no
++ * device connections or disconnections will be detected anymore). Because no
+  * status event is generated when entering compliance mode (per xhci spec),
+  * this quirk is needed on systems that have the failing hardware installed.
+  */
+@@ -1178,7 +1178,7 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
+ 		/* Delete all remaining commands */
+ 		xhci_cleanup_command_queue(xhci);
+ 
+-		/* Clear data which is re-initilized during runtime */
++		/* Clear data which is re-initialized during runtime */
+ 		xhci_for_each_ring_seg(xhci->interrupters[0]->event_ring->first_seg, seg)
+ 			memset(seg->trbs, 0, sizeof(union xhci_trb) * TRBS_PER_SEGMENT);
+ 
+@@ -4296,7 +4296,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 		pm_runtime_get_noresume(hcd->self.controller);
+ 
+ 	/* Is this a LS or FS device under a HS hub? */
+-	/* Hub or peripherial? */
++	/* Hub or peripheral? */
+ 	return 1;
+ 
+ disable_slot:
+@@ -4512,7 +4512,7 @@ static int xhci_enable_device(struct usb_hcd *hcd, struct usb_device *udev)
+ 
+ /*
+  * Transfer the port index into real index in the HW port status
+- * registers. Caculate offset between the port's PORTSC register
++ * registers. Calculate offset between the port's PORTSC register
+  * and port status base. Divide the number of per port register
+  * to get the real index. The raw port number bases 1.
+  */
+diff --git a/drivers/usb/image/mdc800.c b/drivers/usb/image/mdc800.c
+index ca287b770e8c..5ff509a7e402 100644
+--- a/drivers/usb/image/mdc800.c
++++ b/drivers/usb/image/mdc800.c
+@@ -59,7 +59,7 @@
+  * has been removed.
+  *
+  * version 0.6.0
+- * Rewrite of this driver: The Emulation of the rs232 protocoll
++ * Rewrite of this driver: The Emulation of the rs232 protocol
+  * has been removed from the driver. A special executeCommand function
+  * for this driver is included to gphoto.
+  * The driver supports two kind of communication to bulk endpoints.
+diff --git a/drivers/usb/misc/sisusbvga/sisusbvga.c b/drivers/usb/misc/sisusbvga/sisusbvga.c
+index 3e75a7c24828..5a86962d86c0 100644
+--- a/drivers/usb/misc/sisusbvga/sisusbvga.c
++++ b/drivers/usb/misc/sisusbvga/sisusbvga.c
+@@ -590,7 +590,7 @@ static int sisusb_send_bridge_packet(struct sisusb_usb_data *sisusb, int len,
+  * This means that
+  *   - the write routines expect "data" in machine endianness format.
+  *     The data will be converted to leXX in sisusb_xxx_packet.
+- *   - the read routines can expect read data in machine-endianess.
++ *   - the read routines can expect read data in machine-endianness.
+  */
+ 
+ static int sisusb_write_memio_byte(struct sisusb_usb_data *sisusb, int type,
+@@ -946,7 +946,7 @@ static int sisusb_write_mem_bulk(struct sisusb_usb_data *sisusb, u32 addr,
+ 	return ret ? -EIO : 0;
+ }
+ 
+-/* Remember: Read data in packet is in machine-endianess! So for
++/* Remember: Read data in packet is in machine-endianness! So for
+  * byte, word, 24bit, long no endian correction is necessary.
+  */
+ 
+diff --git a/drivers/usb/musb/tusb6010.c b/drivers/usb/musb/tusb6010.c
+index 1d9571f24a56..6a86bebc24ca 100644
+--- a/drivers/usb/musb/tusb6010.c
++++ b/drivers/usb/musb/tusb6010.c
+@@ -941,7 +941,7 @@ static void tusb_musb_enable(struct musb *musb)
+ 	musb_writel(tbase, TUSB_DMA_INT_MASK, 0x7fffffff);
+ 	musb_writel(tbase, TUSB_GPIO_INT_MASK, 0x1ff);
+ 
+-	/* Clear all subsystem interrups */
++	/* Clear all subsystem interrupts */
+ 	musb_writel(tbase, TUSB_USBIP_INT_CLEAR, 0x7fffffff);
+ 	musb_writel(tbase, TUSB_DMA_INT_CLEAR, 0x7fffffff);
+ 	musb_writel(tbase, TUSB_GPIO_INT_CLEAR, 0x1ff);
+diff --git a/drivers/usb/musb/ux500.c b/drivers/usb/musb/ux500.c
+index 8c2a43d992f5..6858beed1ac4 100644
+--- a/drivers/usb/musb/ux500.c
++++ b/drivers/usb/musb/ux500.c
+@@ -80,7 +80,7 @@ static void ux500_musb_set_vbus(struct musb *musb, int is_on)
+ 	/*
+ 	 * Devctl values will be updated after vbus goes below
+ 	 * session_valid. The time taken depends on the capacitance
+-	 * on VBUS line. The max discharge time can be upto 1 sec
++	 * on VBUS line. The max discharge time can be up to 1 sec
+ 	 * as per the spec. Typically on our platform, it is 200ms
+ 	 */
+ 	if (!is_on)
+diff --git a/drivers/usb/phy/phy-fsl-usb.c b/drivers/usb/phy/phy-fsl-usb.c
+index 1986f7e9d9be..96f206351c3f 100644
+--- a/drivers/usb/phy/phy-fsl-usb.c
++++ b/drivers/usb/phy/phy-fsl-usb.c
+@@ -166,7 +166,7 @@ static void fsl_otg_drv_vbus(struct otg_fsm *fsm, int on)
+ }
+ 
+ /*
+- * Pull-up D+, signalling connect by periperal. Also used in
++ * Pull-up D+, signalling connect by peripheral. Also used in
+  * data-line pulsing in SRP
+  */
+ static void fsl_otg_loc_conn(struct otg_fsm *fsm, int on)
+diff --git a/drivers/usb/renesas_usbhs/mod_gadget.c b/drivers/usb/renesas_usbhs/mod_gadget.c
+index 0c7fe109d5c7..92f4f35f8bb1 100644
+--- a/drivers/usb/renesas_usbhs/mod_gadget.c
++++ b/drivers/usb/renesas_usbhs/mod_gadget.c
+@@ -852,7 +852,7 @@ static int usbhsg_try_start(struct usbhs_priv *priv, u32 status)
+ 	usbhs_pipe_config_update(dcp->pipe, 0, 0, 64);
+ 
+ 	/*
+-	 * system config enble
++	 * system config enable
+ 	 * - HI speed
+ 	 * - function
+ 	 * - usb module
+diff --git a/drivers/usb/renesas_usbhs/mod_host.c b/drivers/usb/renesas_usbhs/mod_host.c
+index f7ef3a9f82a4..c6a9d916135f 100644
+--- a/drivers/usb/renesas_usbhs/mod_host.c
++++ b/drivers/usb/renesas_usbhs/mod_host.c
+@@ -1468,7 +1468,7 @@ static int usbhsh_start(struct usbhs_priv *priv)
+ 	usbhsh_pipe_init_for_host(priv);
+ 
+ 	/*
+-	 * system config enble
++	 * system config enable
+ 	 * - HI speed
+ 	 * - host
+ 	 * - usb module
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 265162981269..0a3ffe15d26d 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -426,7 +426,7 @@ static void uas_data_cmplt(struct urb *urb)
+ 	if (status) {
+ 		if (status != -ENOENT && status != -ECONNRESET && status != -ESHUTDOWN)
+ 			uas_log_cmd_state(cmnd, "data cmplt err", status);
+-		/* error: no data transfered */
++		/* error: no data transferred */
+ 		scsi_set_resid(cmnd, sdb->length);
+ 		set_host_byte(cmnd, DID_ERROR);
+ 	} else {
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index 3319f6a2b0c9..d3258675fdbc 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -448,7 +448,7 @@ static int tcpm_get_current_limit(struct tcpc_dev *dev)
+ 
+ 	/*
+ 	 * USB2 Charger detection may still be in progress when we get here,
+-	 * this can take upto 600ms, wait 800ms max.
++	 * this can take up to 600ms, wait 800ms max.
+ 	 */
+ 	timeout = jiffies + msecs_to_jiffies(800);
+ 	do {
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index a8cd1959c426..15a3cae27b6c 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -2504,7 +2504,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			/*
+ 			 * PD2.0 Spec 6.10.3: respond with NAK as DFP (data host)
+ 			 * PD3.1 Spec 6.4.4.2.5.1: respond with NAK if "invalid field" or
+-			 * "wrong configuation" or "Unrecognized"
++			 * "wrong configuration" or "Unrecognized"
+ 			 */
+ 			if ((port->data_role == TYPEC_DEVICE || svdm_version >= SVDM_VER_2_0) &&
+ 			    port->nr_snk_vdo) {
+diff --git a/include/linux/usb/cdc.h b/include/linux/usb/cdc.h
+index 0af0db51bc89..861fdfa984dc 100644
+--- a/include/linux/usb/cdc.h
++++ b/include/linux/usb/cdc.h
+@@ -10,7 +10,7 @@
+ #include <uapi/linux/usb/cdc.h>
+ 
+ /*
+- * inofficial magic numbers
++ * unofficial magic numbers
+  */
+ 
+ #define CDC_PHONET_MAGIC_NUMBER		0xAB
+-- 
+2.48.1
+
