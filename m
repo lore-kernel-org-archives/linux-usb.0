@@ -1,187 +1,158 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EC925A655
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 21:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2BE3644C1
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 22:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788644989; cv=none; b=BbqxmGZhiHy1yqkeATe4gC6k+Ye5ppDK56n2r/wjIsXlVNktbGNK5IXx9FmvqsfqMu6t2G6v2x8WNy3N/IFnOFwHCdatUYqJJH9/HluA1i/7CuwW1W5FcqjDRTmy8W3VTJQ7Yd67ifYewTf2DNAhmDN4yB5Gtyzbp7i9dGGsPMo=
+	t=1788648377; cv=none; b=WUzuky16UdCSrrjV/TTO1HKim7llPqc5s1Id6j39LFSxGpTXhhZ9UhJmk3j0slZcmeb00o+JuWMohaqmEZncXMLJLb1c8ilQtg2YjYU4x5qpP3ZeyvFFaT/7/FHOeppDP4HBhY/OFQ948A/c3B28Hz/EVKZQIv8xCzL4sWKIITg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788644989; c=relaxed/simple;
-	bh=wOHmL+aSMCizXI5eCNy7a0JbPOFoQHkkra26PNCQttE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tqu2MaVIQHIuivEWSDrt7+wnYmuQGtWGa0YR+Zpv3f9AjtXjdBvpWtwSnTEGdD91nanDRmI19gHDV/eSoJXzz1sjhYzOXX9DIMivUW1BNshdCJGjfurYghtnagB3w+0O5pZ6oysDSSixR0bM1USs+ACxswuXWm+valh+Q60/q9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LBddbFAQ; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1788648377; c=relaxed/simple;
+	bh=kT9kzRdewywE20QTuvLmGN5Xdg6dqraQtlEcimWkFPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lr1StTf4dWfUFIe/qexGOAdJ66ShrtN/hu4absgpgGYsfi2CsSo+eMWqduRrq5KfuBEynjcaIq+jnKt0EXoLBrwHARZAWKNo9vJL9DFMFhctUSzHJmVcw/vSITtTnZ5OAAm+eq8pF/A66Vj+EzTuw1CsUL4+QuizOqBgfwGAQbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxFi9Ggw; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LBddbFAQ"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b9320423cso24191995e9.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 14:49:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxFi9Ggw"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49ccfae359fso19360195e9.3
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 15:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788644986; x=1789249786; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788648374; x=1789253174; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=aCVMoBjhOb7Ok3wVZ5FY6NGTV9ixb6pFAGBj1ywt02k=;
-        b=LBddbFAQ3Mh6Rf7kJn6t42CAuyIXNbCGGbft3eXpUGaxmhWV00iAaJTgibYwO38Uql
-         8xcF5fvUEjHlKc+crvh+XfzaYCy5311AMma3Wk0SyhYpRe/e0aa2aYzx1I9mBrc3QPIj
-         EapASTjgShnT5NxHYdp8vG5m8jIIFlk6X5h2eAv6ENkCc16YPKC08jNiVqLHe/ELnVSo
-         vR6jJLVjZ/dVAtFjFTMlHiiGN3/JmqIPAD2o8WqYWFP6WVELRa13RsEqWzYJCxJO1y93
-         r1R0W+aGOkb5zBUStTMwlpY0EEXr4ATt5Tq+w3CshZyVv+/nZEGEmjomyN5AB6u65mdT
-         GyIQ==
+        bh=zXyLFZp7E7THY6i1Yz79/ZXf1LASAsoTVkBr/TomcTQ=;
+        b=DxFi9Ggwl4srI+z9KemND0WzjuWiO7V3XHv4QxWC6uFP+bhoRY/9lzCcayoVtQjvk8
+         V/0NWTqCNCmLq9jVRB1zqescBS0dG7UqRHEL0fOz/rot14zhCd4726bde2/HRSTniBK9
+         ZvtYLrGyNJBEF8oO1B4WZfzWqunCnZRSmfeDIh8JQ1PjO2LjIVHwcTsOlxZFZDS9AJxN
+         qEUW/U6WD3ZUy+pTiwhoO5FZ9nuVURKUfr2+LVp68XKe/0MSZABPlGQ0vz31P9O+dJrm
+         sEcdewH7nXwr+vWpScMdonf3IIn7qQJPO/zk8b5gs7TAQcJqLYmJ4SCw28bxcavNldTe
+         540w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788644986; x=1789249786;
+        d=1e100.net; s=20251104; t=1788648374; x=1789253174;
         h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aCVMoBjhOb7Ok3wVZ5FY6NGTV9ixb6pFAGBj1ywt02k=;
-        b=OWIB5nV8unoSMf0ckzd6NeeIOYZT2JdQS/A7GTnGtksU+3nVApmSm1+5umtXpJILq0
-         DsEPDLDV3s4gRHC89H/ajbt0Z228Q1MpK2QbXMz5gQ5a6YqEOUasa50UwqUWOdgrohlO
-         6orplE6Y9u+sZY4b+K+xPNcMrWSe44oowdnuwsPaJupqS/a+V/Zv2HSjNeMWue+EPok3
-         +m1gjdyAga67DoEc2+f3d9lrpSBtJ4C/th7NMx70/nwCUyPmisBduNhpjlIXHv/hq0TV
-         60EYri6pKDQ0z7dIvmzpNQUw+FCpjbMcD9e8us6q5FRFucpp1affLWhcg/Nvwbg85j3F
-         +ajw==
-X-Forwarded-Encrypted: i=1; AKwUvBwINaCZ4tfe8e4Wh16bTsp9lvfj8yAsN3yh+naigo4U+cYvCZJ6VgUzWfsZ+RYJOU99HBfzjBD1Trg=@vger.kernel.org
-X-Gm-Message-State: AFuF++nlU4w8FZs0bu5GAstiuH6NvaVTzp0SzG6NTz8W5bUFoQSXEul8
-	Ss18FwhjNlqfi1Bro5dGDi8hVePxN/gcqOU8lc3YNyxHfs5TBWBaclgK
-X-Gm-Gg: AYBFou2mFEfFC7/2dIfXR/ZVWsUBA0Qy0IxRo5H5d5CCiBOusNXXA0cNxi0x5CMqR4M
-	ga2QD5+6H9gxhNEOUegp+N/z9Q2QSuA+z/9LbygPgArsHXWCROSHc/rY11Iy2C5ASZwLmDkpWY6
-	YhasTSScpQLP0Nt5ehtDHv5F7LmjBwNWfwILUb8azS5FU/hes/0EtDvX7gQWmimbVVqdrQousrl
-	SqfuqAQIKMl78HXC0jm65hTgFkCggCIw07zgKUIzuP9o4NL5MhZOThm7lMV+ftrkLA0WLcuaaIY
-	vsR84RAQlp70BovlQ2dddWfoY9QfNgGiqJ/ty4iusMSlqSRD/ygpuuM2KCOioLtnGqgBcQ9ZXBs
-	Q/0j0TFdHIZzfxd3J17RRYcGZX7xudHn9/bC3Y8rnJX8kszc4RpsB8AFJQOuCapClReO5khBW74
-	B52ldk4YB/5e7/nzXoY+x8dHmOBzb5dvd3zRPzQAsXh7tV6acRUAVhaCOvRfqIDoNxXxAkzA==
-X-Received: by 2002:a05:600d:6450:10b0:49c:ffaf:95a1 with SMTP id 5b1f17b1804b1-49cffaf95c3mr130492025e9.1.1788644985856;
-        Sat, 05 Sep 2026 14:49:45 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7703cefsm241296655e9.5.2026.09.05.14.49.44
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 05 Sep 2026 14:49:45 -0700 (PDT)
-Date: Sat, 5 Sep 2026 23:49:42 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: wakasio <scarabeeta@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec
- 0789:0308 during DVD+RW recording
-Message-ID: <20260905234752.1f0c9c83.michal.pecio@gmail.com>
-In-Reply-To: <20260905134555.168362-1-scarabeeta@gmail.com>
-References: <20260905101837.4b7849c5.michal.pecio@gmail.com>
-	<20260905134555.168362-1-scarabeeta@gmail.com>
+        bh=zXyLFZp7E7THY6i1Yz79/ZXf1LASAsoTVkBr/TomcTQ=;
+        b=dYQmGy9YOKkgCXMcBJwJG3wP6bWOgVEQ8KzrcCTodVjpy1yeV0kUzE2bPSjuNOiFab
+         tRlNFonyvQac0Qn+WWFO4jM0ilYYldbEhlBmXOb4ov2LccdV0qiEebmFGX/iPulqjbXz
+         Kp6XqEi+4leMHILikkbPnrlmd1l1aCw5/C0AjGGuyFYiJePSUPr07EsopJljuieea25E
+         xEpfhMFyDTIKgdEwmKbWu29XnFJDsXEsVKPMii38SE/9k0d+k604h1gQiP3sXkONd1E3
+         1OyltQseK9ReZg0g7XAT8G6cWfUcVqVQaNK4/Y/aGi4kB9CurbWB4fJck3PwI0yVcWLP
+         yahQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw2P5G0v+SS+PlD2yrrlNDWhaJPbiKHJ9kDNfWUMZUX9W6FpjiX/pZQE7utc18gg040hS/1PCHQY6E=@vger.kernel.org
+X-Gm-Message-State: AFuF++nEuHQ3WckBvanxom7LprrlCN9MrimzrZiXQCzEOCyiJAB8ui0Q
+	LN0b+SOHg65eSyKJ1E7yM0pvICfU6hU3xKFH4btXorCGnc8zhpjqMdWz
+X-Gm-Gg: AYBFou1Z87es0k+ygicYryyfE2USzZUntqJ4MPgMjM0S0xXrtqQWEOtNcb99itjAfij
+	XtxxFP8h0mhSq0/6P7j84CfySzt4Ew9KqohSK5KeaguohEaFHF2tI/L1H9Q1IMxfJHVS2bHGe17
+	9GnVb970CQaoD8HCDZvEY8izlRuTH61oWwRiHYQnYBgj9e4AVxIKKFREBgKsEoJBYNalmiZkPV0
+	EY62EPVuDbcBGroxOirw9oN5mN4Pi766CoNT8fdzT2I36oXGANcl1neE0c5Uo3B9aUumkIWdcc8
+	eX6u2emstJ2qNpmwUCJViUt08pUS/ubqR/CZ8bvRGLcMWUlFu+1PfhB9O3SaOql+c96F4bwMuL7
+	o0OGlc7So4xOXmpohQrq+RmurhGqfjb7wzD227ptGzxo5AgY6rOemjnWJ3UiYeOGsMl1ZIQt9yG
+	iPSiYj2SKRxPs9pCHDJMxS+73G4I7rbKRGEmrBaEW78j/h/RQH44MjF8Mmpg==
+X-Received: by 2002:a05:600c:1c23:b0:49c:eb16:9fd with SMTP id 5b1f17b1804b1-49cf820a8e3mr161180375e9.3.1788648374221;
+        Sat, 05 Sep 2026 15:46:14 -0700 (PDT)
+Received: from metepc ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee80eda4sm261438995e9.15.2026.09.05.15.46.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2026 15:46:12 -0700 (PDT)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: netdev@vger.kernel.org
+Cc: oneukum@suse.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>,
+	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Subject: [PATCH net v2] usbnet: fix smp_processor_id() use in preemptible context
+Date: Sun,  6 Sep 2026 01:45:12 +0300
+Message-ID: <20260905224553.595766-1-omermetekaya0@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260903165456.498079-1-omermetekaya0@gmail.com>
+References: <20260903165456.498079-1-omermetekaya0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat,  5 Sep 2026 22:45:55 +0900, wakasio wrote:
-> Hi Michal,
-> 
-> I applied your patch and reproduced the failure with all three debug
-> functions enabled. Result:
-> 
-> Cluster 1 (ep 2, at the very start of the write, unrelated as you
-> said): same as before, 4 Stall/Hard-reset pairs, spread over about
-> 323 ms, roughly 22 seconds before the real failure.
-> 
-> Cluster 2 (ep 3, the real failure), with full timestamps this time:
-> 
->   17:38:44.749474 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.749743 Soft-reset ep 3
->   17:38:44.758367 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.758454 Soft-reset ep 3
->   17:38:44.768370 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.768577 Soft-reset ep 3
->   17:38:44.775052 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.775217 Soft-reset ep 3
->   17:38:44.785047 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.785313 Soft-reset ep 3
->   17:38:44.790469 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.790732 Soft-reset ep 3
->   17:38:44.799187 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.799346 Soft-reset ep 3
->   17:38:44.808558 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.808720 Soft-reset ep 3
->   17:38:44.819176 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.819317 Soft-reset ep 3
->   17:38:44.832378 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.832552 Soft-reset ep 3
->   17:38:44.850677 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.850815 Soft-reset ep 3
->   17:38:44.861706 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
->   17:38:44.861938 Hard-reset ep 3
->   17:38:44.981704 usb 6-1: reset SuperSpeed USB device number 2
->   17:38:44.998378 Stopped on No-op or Link TRB, slot 1 ep 2
->   17:38:46.645044 clear err_count at ffffd52c40707000
-> 
-> It survived 11 soft-resets this time instead of 4, then hit the raised
-> limit and hard-reset on the 12th. The gap between retries grows from
-> about 9 ms near the start to about 18 ms near the end.
+usbnet_skb_return() and tx_complete() call this_cpu_ptr() before
+disabling IRQs, which triggers a BUG when running with PREEMPT_FULL:
 
-Yes, "survived" 11 attempts at resuming operation, without making any
-progress. Looks like the HW got stuck in some invalid state - device FW
-crashed and stopped responding, or the host controller flow controls
-it wrong, or they somehow disagreed on current sequence number, IDK.
+  BUG: using smp_processor_id() in preemptible code in tx_complete
 
-No idea why this only happens with this particular host-device pair.
+Fix by saving IRQs first with local_irq_save(), then calling
+this_cpu_ptr() and using the non-irqsave variants of u64_stats
+update helpers, since IRQs are already disabled at that point.
 
-This may very well be a HW bug, but maybe one more thing worth trying
-would be this second patch (either with or without the previous one,
-doesn't matter). I'm aware of one thing the driver does out of spec -
-maybe it confuses the ASM4242, maybe it's unrelated. Let's check.
+Fixes: 43daa96b166c ("usbnet: Stop RX Q on MTU change")
+Reported-by: syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
+Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
+---
+v2: Added Fixes: tag, changed prefix to [PATCH net].
+ drivers/net/usb/usbnet.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 83ed26c4f9e4..0e091d5cce17 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -381,7 +381,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
- 		return NULL;
- 
- 	ring->num_segs = num_segs;
--	ring->bounce_buf_len = max_packet;
-+	ring->bounce_buf_len = max_packet * 16;
- 	INIT_LIST_HEAD(&ring->td_list);
- 	ring->type = type;
- 	if (num_segs == 0)
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index b9d005ca5877..fa2480c83dd9 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -3537,15 +3542,13 @@ static u32 xhci_td_remainder(struct xhci_hcd *xhci, int transferred,
- 
- 
- static int xhci_align_td(struct xhci_hcd *xhci, struct urb *urb, u32 enqd_len,
--			 u32 *trb_buff_len, struct xhci_segment *seg)
-+			 u32 *trb_buff_len, struct xhci_segment *seg, u32 max_pkt)
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index a19ecf718f36..6a48f38e105d 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -325,7 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
+  */
+ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
  {
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	unsigned int unalign;
--	unsigned int max_pkt;
- 	u32 new_buff_len;
- 	size_t len;
+-	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++	struct pcpu_sw_netstats *stats64;
+ 	unsigned long flags;
+ 	int	status;
  
--	max_pkt = xhci_usb_endpoint_maxp(urb->dev, urb->ep);
- 	unalign = (enqd_len + *trb_buff_len) % max_pkt;
+@@ -338,10 +338,13 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+ 	if (skb->protocol == 0)
+ 		skb->protocol = eth_type_trans(skb, dev->net);
  
- 	/* we got lucky, last normal TRB data on segment is packet aligned */
-@@ -3690,9 +3693,8 @@ int xhci_queue_bulk_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
- 		if (enqd_len + trb_buff_len < full_len) {
- 			field |= TRB_CHAIN;
- 			if (trb_is_link(ring->enqueue + 1)) {
--				if (xhci_align_td(xhci, urb, enqd_len,
--						  &trb_buff_len,
--						  ring->enq_seg)) {
-+				if (xhci_align_td(xhci, urb, enqd_len, &trb_buff_len,
-+						ring->enq_seg, ring->bounce_buf_len)) {
- 					send_addr = ring->enq_seg->bounce_dma;
- 					/* TD bounced at least, and last on this seg */
- 					td->bounce_seg = ring->enq_seg;
-
-
+-	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
++	local_irq_save(flags);
++	stats64 = this_cpu_ptr(dev->net->tstats);
++	u64_stats_update_begin(&stats64->syncp);
+ 	u64_stats_inc(&stats64->rx_packets);
+ 	u64_stats_add(&stats64->rx_bytes, skb->len);
+-	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++	u64_stats_update_end(&stats64->syncp);
++	local_irq_restore(flags);
+ 
+ 	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
+ 		  skb->len + sizeof(struct ethhdr), skb->protocol);
+@@ -1298,13 +1301,16 @@ static void tx_complete(struct urb *urb)
+ 	struct usbnet		*dev = entry->dev;
+ 
+ 	if (urb->status == 0) {
+-		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++		struct pcpu_sw_netstats *stats64;
+ 		unsigned long flags;
+ 
+-		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
++		local_irq_save(flags);
++		stats64 = this_cpu_ptr(dev->net->tstats);
++		u64_stats_update_begin(&stats64->syncp);
+ 		u64_stats_add(&stats64->tx_packets, entry->packets);
+ 		u64_stats_add(&stats64->tx_bytes, entry->length);
+-		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++		u64_stats_update_end(&stats64->syncp);
++		local_irq_restore(flags);
+ 	} else {
+ 		dev->net->stats.tx_errors++;
+ 
+-- 
+2.55.0
 
