@@ -1,204 +1,229 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCA738DC60;
-	Sat,  5 Sep 2026 15:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CCA4A1E13
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 15:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788620706; cv=none; b=tW29SZ6KHtmqtzwaw0kEjLjYOAqDYLr2serDBnQnxV/YiEiYtpEclv70sjkL/7ET78lkUkrG6OVJghBLj00zIo8c/Ahy9zrm4sxnh4BNsjuWdNb7uXm+IdpAvtr3iKyYF43m/aFPMMLm0RC1YhYpokGWVyNE39cx63SdUl17GgQ=
+	t=1788622160; cv=none; b=uI1X6sdn4jw9Fb7EvWUzEwnHesyyNqXhuIEYuYH4FDzX980Jl/rGAKPQy8OSs7ExMLF1EKv7LkFAUpjAq9T1fuyxI9nYq0szsEl5Yie6Lny0FBeC8d1LSEZ78DVHQOamQ0XDDe/gsqllIaY1AdVdrwmwYAXHsKpdTk9KJM5wHpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788620706; c=relaxed/simple;
-	bh=nDdG8BD1DSZNuI4cUQ8tFY1Dao4xRcG+uJfGYN/a3ow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hd9pZPKav9vMJOf4WZOb3IouhbVSlImaiGD8lUzODSerS2TWWLncbrXCtWZBp2kOlh4zkoKdHAfTAzPb+No6+QqK640ArMSIkY8S58r7sdTk5FDSxR85A+ylHJbf+zL+IPsAM79qyKq9+bdaEOSWe7ohOuyZpp44GM9z17pQXBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=y3p5DrX2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WulSgb/t; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1788622160; c=relaxed/simple;
+	bh=S6XBJpEz5Dek815jzmE0b9XkrXDLKdAJjoolsM8gc9o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ykn7qNOiXr+LmWW+hYZ+ULOTem2ITagtJjKkP7El/Gaa4gCMfCTq6ZpVvB06ijlTiIQzjuDH/dcPoX8cW9ftmotf0dogPVtUPzW1x5vH/H/XwcMchpW+KBGb0vqAnSilbKoMr4UBeu+DFOoNc/ToXUITo4kBhmZuuZ12Fxfru30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LxP5jvUx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Gn+kIKDB; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="y3p5DrX2";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WulSgb/t"
-Date: Sat, 5 Sep 2026 17:04:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788620692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AhNEhRKiYbjkBq/95l3sYrjC3d8dHBqzl4HFHikpcSY=;
-	b=y3p5DrX2M628BCFrZbQVhfXYrQrzTU4i/xb/Nw84EQ3k2JnO23MeZ1DF6b7qYSzI590x2I
-	8LpcMJ0RAhHAffrXexzyH9qecQBgKnp6UFEMgjdYkJ/YIQF0a0jNVWDUd+3o9pPiwfX0at
-	i5R7dcKOzyMRz4tXpvPNKa5lmFIH12vJrXRj4I0/aWPlPgAinMSL4NXZJD6daYtg1itvWC
-	1BNsXEg/oQUWL3dyLsW6myrAEzwI6VUqh39h3DuDPzn4p0f2ZqFxSIgTIRaS+t5VbJff4t
-	18rnK/2NS967ncvDaaYFezn14KyKTfiUAjvxxHCLAI7nQRrEiJc+h48iVG/D/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788620692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AhNEhRKiYbjkBq/95l3sYrjC3d8dHBqzl4HFHikpcSY=;
-	b=WulSgb/tYw1layxUHaVduRfjopdp/QWPpqVKjQpxuMMHLsJ8YSOasyLXzA+aA97h2AO8Mm
-	9ksL6retV2e8FTBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Petko Manolov <petkan@nucleusys.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
- work on system_dfl_long_wq
-Message-ID: <20260905150450.2hrac_GV@linutronix.de>
-References: <20260720100902.155605-1-marco.crivellari@suse.com>
- <20260720100902.155605-6-marco.crivellari@suse.com>
- <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
- <20260825151812.4aJyFUgE@linutronix.de>
- <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
- <20260828094318.bOajNBno@linutronix.de>
- <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LxP5jvUx";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Gn+kIKDB"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 685EgZ1q2540141
+	for <linux-usb@vger.kernel.org>; Sat, 5 Sep 2026 15:29:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=1J5mbzKQXdFCMf3jwBjnv/
+	NJRWMI84WrAPPqfVmtmcw=; b=LxP5jvUx2lKO/eOcO1/amnatFkIbZ6u9R5XRuV
+	zabkJz515FblvKsvfODp8AHwH6L21GuSYhnl7dHBbRDMFEH82hiFs2/0poDhObl9
+	22ODcFy1Pmeua3qym7an/qDSEJ3uKzSWkKFu6k8hYCB8qCLhpMphQo41ItIgfKqK
+	0PDXMdn3XI7/zRh0W2pvMTUjdgh//gcnoNp/VF8nKJ44BFT7OtHHuQ9hYLICHyzO
+	RHz0+kRVSVXfVA9ehghnsv+kuUgEhy1TxZlFLK9BHS+4lKFjiMjHNZeyNdNkkBHx
+	4XdJhiiKLdIyNAmLkvJVfjHBa1qhcOJpqIBkPWLBkAgsgzZA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ggadhhg9s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 15:29:16 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8623e5d4279so2412702b3a.1
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 08:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788622155; x=1789226955; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=1J5mbzKQXdFCMf3jwBjnv/NJRWMI84WrAPPqfVmtmcw=;
+        b=Gn+kIKDBkJyLmuSgXmuKhdBH65eqf8c1iWnpTGKfxITVebt5uiUTryv0rZfRVIz8PP
+         yfpjnj04zwxAJ38at99aun8r0RmIxKlriymJxTulvMGHl4qZ5YDjt8/ekH0vPXLcq5OY
+         pw0UQ1/RKWVJXCaCu3MqenWoEMSNKjd4/ioxS/uyC/mTdHjncdFblGZfCOwHjMqTw5LJ
+         XiewLzDaZLDx3j/txB4wryPx6q7o8OHw0ZZcNXlMJ9kHLXwbUEz5b5CkxyRfDkaBUWbm
+         4mlcNXiXVJQk0OezhMAmQ0LbmVN4EKrCil61D3wzBhJGrrSYH+ltAQe1RwznolD1JE04
+         JYGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788622155; x=1789226955;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1J5mbzKQXdFCMf3jwBjnv/NJRWMI84WrAPPqfVmtmcw=;
+        b=ZtkUPr0n2akiNFW/B14CmdsqFwM0LG24OzAleEvHO8ar3lrMPNSBFEXJL6RpYD+m8L
+         AozrbMO+vS0d28rXV1SEEWm2KtUvuswzJ09fnkPDZdGz3jwfv9SwxLL+iUpf/OMlPgCz
+         9y6E3egcE4NtS2UgeUGEbxyDYUvLlrn0vmXp0RXIMtnRr7A0WYZ2fIeUsvfBByGaQUNn
+         B6wISDRmepoZA6fkQzvAN9QcWsh5yD5fXR5ZmFzv7aIxKZKXpMvERmIw7hvNtGzKgV9o
+         PqgrgccY4ahYOyL9ysiZNuOeQONDU9eruadKFtmWzt7wuRtjN59M/KZ/qfXMxiRofX5z
+         Augw==
+X-Forwarded-Encrypted: i=1; AKwUvBxAqpqGsn9bawnEhQ3R8MV90vqx7YlQDvLq66BXqXEOQFdYOMMBF1omyUPj7edhJdgKW3MEpSS6fzA=@vger.kernel.org
+X-Gm-Message-State: AFuF++n61qLRSwI6DXF2mdr5/YyqXlzCGU8ciaJDIHnNA4Hiwc/AX6yC
+	WdvqGqAlCLruD25sKsmrRnO1xd8QBXMfcfMo4IMrIiAjYuD14QtU91l1oGQn2ULamwvsYtA0VYw
+	QbkcksJYJiAURXiF/nQpFq66Czjs0bsCY7+MyQmdsdfCyB9VE6s0CsfVCJALMM5Y=
+X-Gm-Gg: AYBFou0Lu8aRxnAAd6A7fIdkMGHb64y/QmUz880DhtlCBGywDs9hy1zpj8XClxjndWp
+	AixCvZ+SnS3cvJI2JAWEfDdbJVxKGhtser60BQJCBc8Bxgy/n66mRRDyAM42E32eyqkHoD/MALB
+	CCG1vQCnnZF3iPSsqYp/vE6Z8Io3LI9x82TF31e0EdQIwCOdt1tl0hLuZI/AB2sdIpIgh0LD/xu
+	GFNOpFY/0mlAf3IxSMExSUez73pLOXBq9BJbTulR2QsSqhcGBrYH/HLl5vL9sREzGrHRd2LqzsY
+	OSZgp05XaLjMvjyqRJB0Snv5uMGzy0OKvqk1iBt2o172Sbej1iK4B40MFKd8bnAj798k3TYwfae
+	btpbIblGwvqtg7BeTQsd0QRrwT4VujIRFCHSJx/n9SLhPXzWflrzq8k1ywDdGqcbOBCB/4Q==
+X-Received: by 2002:a05:6a21:7117:b0:3d8:5a37:549c with SMTP id adf61e73a8af0-3da39eb8acbmr22462826637.7.1788622155341;
+        Sat, 05 Sep 2026 08:29:15 -0700 (PDT)
+X-Received: by 2002:a05:6a21:7117:b0:3d8:5a37:549c with SMTP id adf61e73a8af0-3da39eb8acbmr22462764637.7.1788622154950;
+        Sat, 05 Sep 2026 08:29:14 -0700 (PDT)
+Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm23592635eec.16.2026.09.05.08.29.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2026 08:29:14 -0700 (PDT)
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: [PATCH v7 0/5] Modify interrupt handling for eUSB2 Phy targets
+Date: Sat, 05 Sep 2026 20:59:04 +0530
+Message-Id: <20260905-eusb2-interrupt-v7-v7-0-820cf5377a70@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEE1nGoC/yXMMQ7CMAxA0atUnrEUTCGBq1QMJDVghlDZSYVU9
+ e4NML7h/wWMVdjg0i2gPIvJOzf4XQfpecsPRhmbgRyd3NkdkatFQsmFVetUcPZIlMIY9ocQfQ8
+ tnJTv8vlNh+vfVuOLU/meYF038Eu/vXYAAAA=
+X-Change-ID: 20260905-eusb2-interrupt-v7-22c8d8138b74
+To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+        Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788622149; l=3296;
+ i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
+ bh=S6XBJpEz5Dek815jzmE0b9XkrXDLKdAJjoolsM8gc9o=;
+ b=8BWq9KCEu1Xr+PEyUZ9vWUy23HYTgxcbm+CJXK14EYPeucN7Aj/6bD/42c4UKRxSERI8X1aKh
+ 6/B3WjwWnZHC7BRkzspkFzGOdKecsDCXY2lhE7zTbAzc7CGtCZrYW83
+X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
+ pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
+X-Proofpoint-ORIG-GUID: 9JgRd-QozGRKPP3PH7U614Lt-hzLQtWf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA1MDE3MCBTYWx0ZWRfX63LwTjOtUy2t
+ fXHziPRY/dJn00a4Fl66tPTfyLFZrGWWPy/PRvVRuhD79WJegIEZrhSK5x5LSCmccH60412XmXY
+ Of9UMagfP+dTckTRzUUmOdYPwOiBtS5txeOPJ07FFreVM8mAbIKGowN6ymFBhSUmoC+ljQfKfB8
+ 3qImquIAnhfF1E5AANPYc+jtAcFtrCqwkHoo0UimSBknVOexkxk14bJfDmH0su84cmqAVvYTvxR
+ SnmzaHU44ujUsdug6ws5VUkvn3h55X9Y8RS4gXruR/6t+YnNfeN2fK4JUtqwkGcFuFYc/kSq59u
+ 8SsOqdmVZuyHdKGxluToALc8Aljn1fTej/5nGI6sOt/Oyg4yTgSxWW8ouM1N6tn8eZjiakF1U0H
+ zxsuwyQNcrdni0enOeXQh/dnfX795iOuUSWEqZblAAmQvQBul4/HPH5vWHe1x35sp/CZssBMo5L
+ xED3Qku2Lk+D9CxNKag==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA1MDE3MCBTYWx0ZWRfX/AAGeMgvegCu
+ M5HmyvWA4S8Asa8wnsWRmxVs8GlSG9m2abTQjpoIjLv5dzKGIpW9I0vqq0LbRj5EUMbH1WPcQZP
+ j7picKSLjSfZCVJtBQCprt17wQ1xHr4=
+X-Authority-Analysis: v=2.4 cv=OceoyBTY c=1 sm=1 tr=0 ts=6a9c354c cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=7T7YwCvgW8qH-pAI4vUA:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-GUID: 9JgRd-QozGRKPP3PH7U614Lt-hzLQtWf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-05_05,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609050170
 
-On 2026-08-28 10:10:01 [-0400], Alan Stern wrote:
-> > While this does make sense I don't see how this is related to this
-> > patch. The pegasus driver uses `system_long_wq'. This is a system wide
-> > workqueue_struct and is not limited to USB or this driver.
-> > This workqueue is per-CPU meaning if you enqueue the work item on CPU3
-> > it will be executed on CPU3. However pegasus uses a delayed work item
-> > and the timer can fire on any CPU so even if it is enqueued on CPU3 it
-> > could be executed on CPU1.
->=20
-> It doesn't matter what CPU the work item runs on.  Here's the deadlock=20
-> sequence, in brief:
->=20
-> 	USB device reset cannot proceed until network interface's
-> 	->pre_reset() method returns.
->=20
-> 	The ->pre_reset() method cannot return until its call to
-> 	flush_workqueue() returns.
->=20
-> 	flush_workqueue() cannot return until the already executing
-> 	work item finishes.
+eUSB2 targets handle wakeup interrupts differently depending on device
+speed when operating in host mode.
 
-Not sure where you pointing at but you have an unordered workqueue (such
-as system_long_wq/ system_dfl_long_wq then you can have more than one
-work item executed in parallel. One item does not stall the other so you
-can flush your work item (waiting for it's completion) without having all
-other work item completed.
-There is no need to flush the workqueue, that would force _all_ work
-item to complete. Flushing a workqueue would make sense if you have your
-own and you want to ensure that _all_ work items, that has been
-enqueued, did complete and you don't want to check them one by one.
+According to the eUSB2 specification, remote wakeup signaling in host
+mode is detected via different data-line assertions based on the
+connected device speed.
 
-To illustrate your point, the  example would translate to something like
-the following:
+When a low-speed device is connected, the host repeater drives eD+ to
+logic '1' upon detecting a K-state on the USB lines during remote wakeup
+(eUSB2 specification, Section 5.5.14).
 
-| static struct work_struct test_worker_busy;
-| static struct work_struct test_worker_reg;
-| =20
-| static void test_worker_complete_fn(struct work_struct *work)
-| {
-|         int count =3D 0;
-|         while (1) {
-|                 ssleep(1);
-|                 count++;
-|                 if (count > 10)
-|                         break;
-|         }
-|         pr_err("%s()\n leaving", __func__);
-| }
-| =20
-| static void test_worker_busy_fn(struct work_struct *work)
-| {
-|         while (1) {
-|                 ssleep(1);
-|                 pr_err("%s()\n", __func__);
-|         }
-| }
-| =20
-| static void the_workers(void)
-| {
-|         INIT_WORK(&test_worker_busy, test_worker_busy_fn);
-|         INIT_WORK(&test_worker_reg, test_worker_complete_fn);
-| =20
-|         queue_work(system_long_wq, &test_worker_busy);
-|         ssleep(1);
-|         queue_work(system_long_wq, &test_worker_reg);
-|         pr_err("%s() starting...\n", __func__);
-|         ssleep(1);
-|         pr_err("%s() cancel\n", __func__);
-|         flush_work(&test_worker_reg);
-|         pr_err("%s() moving on\n", __func__);
-| }
+When a full-speed or high-speed device is connected, the host repeater
+drives eD- to logic '1' upon detecting a K-state on the USB line during
+remote wakeup (eUSB2 specification, Sections 5.5.15 and 5.5.18).
 
-which leads to:
+Since the eUSB2 PHY's "DP" and "DM" interrupt lines monitor the eD+ and
+eD- line states, configure the wakeup interrupts accordingly
 
-| [    4.136593] the_workers() starting...
-| [    4.137007] test_worker_busy_fn()
-| [    5.161198] the_workers() cancel
-| [    5.164832] test_worker_busy_fn()
-| [    6.184710] test_worker_busy_fn()
-| [    7.208525] test_worker_busy_fn()
-| [    8.232754] test_worker_busy_fn()
-| [    9.256522] test_worker_busy_fn()
-| [   10.280716] test_worker_busy_fn()
-| [   11.304523] test_worker_busy_fn()
-| [   12.328671] test_worker_busy_fn()
-| [   13.352517] test_worker_busy_fn()
-| [   14.376842] test_worker_busy_fn()
-| [   15.400539] test_worker_busy_fn()
-| [   15.402676] test_worker_complete_fn()
-| [   15.403290] the_workers() moving on
-| [   16.424483] test_worker_busy_fn()
-| [   17.448524] test_worker_busy_fn()
+Add support for a new phy "type" attribute to be set by eusb2 phy drivers
+and be read by consumers (in this case usb controller) and act accordingly
 
-which means the test_worker_reg work item completed despite the fact
-that test_worker_busy remained busy.
+Changes pushed on top of usb-testing branch. And v7 is only compile tested.
 
-Of course flushing the workqueue system_long_wq (via flush_workqueue())
-would stall but also raise a warning=E2=80=A6
+Changes in v7:
+- Removed NULL check for phy pointer.
 
-> 	The work item cannot finish until its kmalloc() call returns.
->=20
-> 	kmalloc() won't return until the kernel can free up memory by=20
-> 	writing some pages to the swap partition.
->=20
-> 	The write to the swap partition cannot take place until the
-> 	usb_storage/uas driver carries it out.
->=20
-> 	usb_storage/uas cannot do anything until the USB device reset
-> 	is finished.
+Link to v6:
+https://lore.kernel.org/all/20260826-eusb2-interrupt-v6-v6-0-ae2601cfa80c@oss.qualcomm.com/
 
-as shown, this is not a concern.
+Changes in v6:
+- Update commit messages to reflect why new EUSB2 phy type is added
+- Update phy reading via index rather than by name
+- Remove redundant header files in phy driver changes
 
-> > Therefore the suggested change system_long_wq -> system_dfl_long_wq
-> > should not make a difference here: it is a different workqueue and it is
-> > unbound (instead of per-CPU) but given the usage it is unchanged but
-> > more obvious. Also its usage recommendations (use this for long running
-> > items) is the same.
-> >=20
-> > The plan is remove system_long_wq from the tree.
->=20
-> The point Oliver was making is that the driver shouldn't be using a=20
-> general-purpose workqueue at all.  Switching from one general-purpose=20
-> workqueue to another ignores this point; it's not the right thing to do.
+Link to v5:
+https://lore.kernel.org/all/20260723-eusb2-int-handling-v5-v5-0-f32ea6c1a318@oss.qualcomm.com/
 
-Still the wrong thing to do? The driver should do either flush_work() or
-cancel_work_sync() (not flush_workqueue()).
+Changes in v5:
+- Add support for phy "type" attribute and set it from m31 and snps eusb2
+phy probes.
+- Removed adding a new binding property
 
-> Alan Stern
+Link to v4:
+https://lore.kernel.org/all/20260709-eusb2-interrupt-handling-v5-v4-0-d4f993925608@oss.qualcomm.com/
 
-Sebastian
+Changes in v4:
+- Moved to using binding approach as suggested by Thinh
+
+Link to v3:
+https://lore.kernel.org/all/20260511094422.3561509-1-krishna.kurapati@oss.qualcomm.com/
+
+Changes in v3:
+- Removed multiple glymur-dwc3-mp pdata entries
+- Replaced use of ternary operators with if-else
+
+Link to v2:
+https://lore.kernel.org/all/20260505194242.1947891-1-krishna.kurapati@oss.qualcomm.com/
+
+Changes in v2:
+- Updated commit message
+- added supported eUSB2 targets
+
+Link to v1:
+https://lore.kernel.org/all/20260502095616.666938-1-krishna.kurapati@oss.qualcomm.com/
+
+Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+---
+Krishna Kurapati (5):
+      dt-bindings: phy: Add PHY_TYPE_EUSB2 definition
+      include: linux: phy: Add phy attribute "type" and associated helpers
+      phy: snps-eusb2: Set phy type to EUSB2
+      phy: qcom: m31-eusb2: Set phy type to EUSB2
+      usb: dwc3: qcom: Modify interrupt handling for eUSB2 Phy targets
+
+ drivers/phy/phy-snps-eusb2.c              |  2 +
+ drivers/phy/qualcomm/phy-qcom-m31-eusb2.c |  2 +
+ drivers/usb/dwc3/dwc3-qcom.c              | 63 +++++++++++++++++++++++--------
+ include/dt-bindings/phy/phy.h             |  1 +
+ include/linux/phy/phy.h                   | 27 +++++++++++++
+ 5 files changed, 80 insertions(+), 15 deletions(-)
+---
+base-commit: edc1518454f6439e50a9220e9a3ba09044ea8d8b
+change-id: 20260905-eusb2-interrupt-v7-22c8d8138b74
+
+Best regards,
+--  
+Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+
