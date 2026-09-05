@@ -1,106 +1,153 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6139D23E25B
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 03:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBFF32D0EE
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 03:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788577581; cv=none; b=ndLaBBHOHsZfAnZb/qwsTObCIU5mm9EVybpQGHKOUkiEXBoyANQbuLeaIPpZA7TqiDL/+Jad4ugvF8qxFfs7MNOhV/Jqjnz2A2whSqw7JDplqRN+WUuNj5+3Cw3KZjhvIflPuOEG7Dbryname883oeO3HzirR1pUM7yCfXkuqpw=
+	t=1788577852; cv=none; b=hSxKKndfn2WowcGBKLGEcwDBw/N9buR5LOJ3rAgW8ezBzSlP2ZFHEId64vLyvkuv/UdlSXQp/d5hE0pbv0ecyj/EzMIZ4zi2IoaoKWTE0lv/cWJPErKa7o6yy/XB7tDF8MFE/6lIMpuwtpLqErWaRDilogzCTGDI93+YZgSRtxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788577581; c=relaxed/simple;
-	bh=05onUa78HA/34vDAUE1i4DkCsbgasfejcqApElO2zE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fIWNvWhoOCEdw6S9M/a89Y5OkZGo1omKwq+OBU0AK4fOjuxNggwb2sIdsBnB9I9JWawIgtiW75edg7PwNzA5p9nnst4cqoYHyJeyljAB70h0bxqdpdjzq72QuKYDmu9p6YJTG5EPd3Arb/S23LNOgKHgTz7Ts8mAu1zvFaV6MHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Cqpje6bl; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788577852; c=relaxed/simple;
+	bh=vdgR4utXbS4WIf13bFEUhjcSZ8JVbzQkU2HH3yVaBDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cM4EzvInsMW92+6Le7XkGcdC5zSlkYfH54S9N8/F6IkFQn9uAid1CG3X62Qf2+n7thJte1mb9suY/HlMIs9uth7b5fYyETT8+o2nbBLuoaf/ltGf2RHKd4LkswTt/rIabShJWhrnaLgypxozF25CQm03k9G5dm57fl0U0v3s9pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNiGHmGM; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Cqpje6bl"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-90e7d9c747eso22046536d6.2
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 20:06:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNiGHmGM"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2db217a2b2aso11154705ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 20:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788577577; x=1789182377; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VakFjZ3yG4j6XtWzGOyJF4+PPwgn5fG+FnI3gon9QLA=;
-        b=Cqpje6blRQPSLQikhcy8iq2juBHT7Q8wCtawHUcslIX5ebs3FupRcfYx/jUaKdJgrC
-         haZEWaMGC5YVSb0thSx4Y4W/g2B5ckYunihw8drTbVbJCU7eeE+c+sQg8D7Yegoq9COO
-         huFAt1YoJTPZaIL+0ngqjcJQgNI5Bgce7eRF0mhv6zqSiPjvki8rafSyMj+wRanXw9uX
-         Tg/hWzB/00S4WJRRQaOHssaxnt3IX3/Xsp3LCqDyRvHDNKYq+XBNTIGEmvU2Bb7cnm7H
-         DjxS8vv7t5p4vm+PRQJzb/R6oYrJtjztaPjH1zBOwFk9bFS5pbPuvxj7rZjWw6OKRGxP
-         xryA==
+        d=gmail.com; s=20251104; t=1788577850; x=1789182650; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TEDx0u/j8mK8gsN+sx6zWxRhPUDYmCXQuIOCg9q59xM=;
+        b=BNiGHmGMgS4UTQ15VvXctH8jPmdLLyzN+SGC2jcf2cETxWfBtAXBBqBGawgUgc2plZ
+         2RNfKTobzPCyzl3oj5wX2G4SuPm2hF3f7dkpjOxRBPJMIImLijcJyH7DyR8+qZCLHYJg
+         2MIImv8SEfY5yNNs9Rh+lolrlDgoamNcQ5jPzip6cdPSbT0uBRzQNeumbA5v+9TqiVDO
+         ykuV3FnLXwtxpGY3euroQiRZ/16O4Cr1PbqLvvTu/BAo4dZDDjcgqxKlK6KfenG/qsgQ
+         hX9ySYTVqcmy5uE4dMfVhTtVtlnQFDYszFimpYcH8WCRftFqLyzcdvRSH9uqw8I/Zxiw
+         Qjjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788577577; x=1789182377;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VakFjZ3yG4j6XtWzGOyJF4+PPwgn5fG+FnI3gon9QLA=;
-        b=qX+CqU7EE+adrRxStSndxie+VSO5d5KacRaGzuGhW/4GCEJ95qKDHaRqkegA/TmJqV
-         YPk7aRRDxVRaOuL9NPcuhMCRljAdjlPY8y88DdpFwnVbyaRW3gTF2ETcDRns9bLHRFlO
-         R9UteT9y/gHyVA98dD7r8LxNsqKvltPylNnrohmqiQ0E6hsKcOyH2JBbVABO82XDlW7s
-         1bFO3CEekPsqLmrnARg0yPVBgAxNnDThiHPQkAe8bYBhlUyjWzWMDRHV26ZNfi/ilnzL
-         crPgX29e0MsND/2W+SfZKOmEWIlrc48pLcJZ5HPZq1N8Fl6aT35PhrmCOAWyBEvY5/0d
-         9y6w==
-X-Forwarded-Encrypted: i=1; AKwUvBy2lqRdqQ6vZ5SSOPrgZsgTxeoIzbf2JD3359wLzDNAt4Xmgkpme2+s765jHTQMyg19nV8W063bYc4=@vger.kernel.org
-X-Gm-Message-State: AFuF++l/R0YEKtHoaYv4iXxSGMf0PwvFPLHuiE8KLp/OR/+8xlEPhBOw
-	giR2P/I/RkzD3q/dHgfJi5vAivoyimdBHoYRMTmD2s+l7cdjRGnc1rgWWxOANyxbEQ==
-X-Gm-Gg: AYBFou3FYNuEKtLXB+ojEXWxnwD5jMV4DgJmDaxwhK1F5JW58S+EaHQPv/ujnNNPWz3
-	OMxknwfrstXFHqOyUvl24t/HqSNP1hPqHViRDem6t/WTnMnpxSEf0NYKSoIZeCPmTxA1wCgawoH
-	XDy3RY/re0iovO+joLD4kPrabZJrjAeoNIoq6M/eiPDz21sEtnoWADNHiNDGFxBs5XT08ZM6/bf
-	q3W+i/xeeWHgUin+pFidMvvn8pa3Vosmq6SL91dY4/xhK2rte9oMLJ3ZvA3DkVRbmyYagA4ffwW
-	C0oZnsgDcYSarOZZyvO8wxmZym5wxDWL5tQLZlY+TLKXWzGz/oL0ZuM0MbWviCX3xKhnnkwYd8e
-	+TAxJUexjlfv4FOEwzMSywe1Yl6aYzObNQ4BHAuqv7ETNYWGMh9lCNlAWl5TmTC2NkaK9tH8vwe
-	YU3zvxWT7Bd7NwmjmwLlbKXH5TW8E1xGxQ1c5T1dAey9RthUpDrusGBldzzSFFYA==
-X-Received: by 2002:a0c:f09b:0:b0:90c:e240:3e89 with SMTP id 6a1803df08f44-9103ef16760mr116075456d6.13.1788577577271;
-        Fri, 04 Sep 2026 20:06:17 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-910406625d9sm35033016d6.20.2026.09.04.20.06.15
+        d=1e100.net; s=20251104; t=1788577850; x=1789182650;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TEDx0u/j8mK8gsN+sx6zWxRhPUDYmCXQuIOCg9q59xM=;
+        b=H/NeWC1TfA7JlQgoC5JuLkxJO3AXHRTEiQ6lePzZXeXUFeTMqe1lmQ1ebAJhfFm+z3
+         qEmML1tsPwZrGoekG6gRbmemmZz38xT0nN8l2ZcBH/AW0nB/wJ7ifYG8A+Fl9dGXaPqv
+         NEjHxWVF0u7RVxyqDZnD95TaMBvh0z967+lb7rhUv4qSMF+5QjSRdAsq0PrGDLnVWyTF
+         GYVSwYVqGafwFuEVYmnCm61MOFvmCNMQih78UqlmHxFoRuD0g/MuCcRvLSRPSjn/7Zjc
+         n0y06YQlaP+j+50Z90WajRbv5LHIePcPJAXYAMhcvB9BgOxTE4Kv0zTGqMQgZ6IStZIc
+         nIsA==
+X-Forwarded-Encrypted: i=1; AKwUvBwb0FWy3HIM/Ezu0jvPfrMq4pg4/zztJH73KU4iyY2hslnLx0lyW2cljTf3XEjWuOUlyPctO6xU58o=@vger.kernel.org
+X-Gm-Message-State: AFuF++k6ni/rOjTEzs4gX4B5sw4xoQiV7nyefn5DvvOzeqa5q+eZwwUa
+	QXi99gp7OA76SIjiFCcY7kM2HQgkNZuwGeFG+ooAQlixSQHVhKVYtNnz
+X-Gm-Gg: AYBFou0Axx8999kV7JgmhAb5efk/CSBM0GBLivYuVecHzdr4XkBd86QilTTGC96TPlp
+	TaE1gu4nKlRsLqYU8A2Zmyl9qfSPd3yxnRXSHgExRwH1NHw7rgJLr5L872JwP//PhCDxp3BXJWf
+	fCRtNUKGivZxLDDEkzlBpTGncfyykgiW+gqI8PAp8YsdCyDaNyJzMwYt2JGezpYqouY8pew4+B5
+	5XEBV8EmAWlEJoTke0+eRDw4Y7RffJ49osW9rKgfmltTAOUmf0H7I6+DksVBHdkTmI+VrYMzgYp
+	JUjPGcz3BQAnT+DrHfLyHNYmEClU9y5Bh8lc76q6qvS3NzEsymKunu7N9jSGJ3PmPKhhqzLtx3c
+	GfE6pHJAPW7jNNi6n0HjoOumch4MXLYEMMdHucp5fpHn37vnmIazhx98NDb3vunJZE3jqrwpnmX
+	Hvkqv1c/60dA/etCDYtU8BlakijhZn+E25uIIWDjkvKNw7fllKNwqzM8Zt7n1R3KMWJfU/w0m4b
+	F82qJ7oYDIy2Ezn+z3yQLRcy1rZjEwFs9eH2Bpqn6x29N9hZMNQVejL2gLiAHTR1vv5lK7jqXBk
+	EqDZVQ+9jS2Z11ShdZJCkI21
+X-Received: by 2002:a17:90a:da8f:b0:398:9be5:b41e with SMTP id 98e67ed59e1d1-39b26299957mr14761317a91.25.1788577850435;
+        Fri, 04 Sep 2026 20:10:50 -0700 (PDT)
+Received: from rikka.tailabced6.ts.net ([240b:10:ff82:b100:8ce2:c181:4224:d11d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08bcc090sm13566328a91.4.2026.09.04.20.10.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 20:06:16 -0700 (PDT)
-Date: Fri, 4 Sep 2026 23:06:13 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Daniel Palmer <daniel@thingy.jp>,
+        Fri, 04 Sep 2026 20:10:49 -0700 (PDT)
+From: wakasio <scarabeeta@gmail.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-usb@vger.kernel.org,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] usb: ehci: support non-standard port status
- registers
-Message-ID: <cebb04f1-83c7-46b7-9516-4a5ca422d21c@rowland.harvard.edu>
-References: <20260903-gemini-usb-fotg2-v3-0-dd92ecf5675b@kernel.org>
- <20260903-gemini-usb-fotg2-v3-1-dd92ecf5675b@kernel.org>
+Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec 0789:0308 during DVD+RW recording
+Date: Sat,  5 Sep 2026 12:10:11 +0900
+Message-ID: <20260905031011.954183-1-scarabeeta@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904203024.52398f1f.michal.pecio@gmail.com>
+References: <20260904203024.52398f1f.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903-gemini-usb-fotg2-v3-1-dd92ecf5675b@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 03, 2026 at 11:17:38PM +0200, Linus Walleij wrote:
-> Some EHCI implementations place the port status registers outside the
-> standard operational register layout.
-> 
-> Add a per-controller port status base and use a helper for all PORTSC
-> accesses, while preserving the standard location by default.
-> 
-> Gate the alternate member and lookup behind the hidden
-> USB_EHCI_DEVIANT_PORT_STATUS_REG option. This avoids growing struct
-> ehci_hcd or adding a runtime branch on systems using the standard port
-> status register location.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Suggested-by: Daniel Palmer <daniel@thingy.jp>
-> Assisted-by: LLM
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
-> ---
+Hi Michal,
 
-For patches 1-4:
+Thanks for the reply, and sorry about the line wrapping. (I did use an
+LLM to help translate my report). I'm not a native English speaker, so
+please do tell me if anything I write is unclear.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+On the cable suggestion: I should clarify that cable/adapter/connector
+orientation substitution was already tested quite extensively before
+I sent the report (see the "Controlled-variable test matrix" section,
+tests 6-14), the original suspect cable turned out to be fine on
+every other controller/port, and a completely different known-good
+cable+adapter still fails on this specific ASM4242 port. So at this
+point I'm fairly confident it isn't the cable itself, though I can't
+rule out something specific to the SuperSpeed lanes on this particular
+ASM4242 port's physical connector.
 
-Alan Stern
+I ran the dynamic debug you suggested and reproduced the failure while
+it was active. Result:
+
+There were two separate clusters, and they look qualitatively
+different:
+
+Cluster 1, right at the very start of the cdrecord invocation
+(before any error is visible to userspace), ~45 seconds before the
+actual failure:
+
+  Stalled endpoint for slot 1 ep 2
+  Hard-reset ep 2, slot 1
+
+repeated 4 times back to back, all within about 1 second. I suspect
+this is benign startup housekeeping (drive power calibration / initial
+TEST UNIT READY polling by cdrecord) rather than part of the actual
+failure mechanism, since a STALL condition is a normal completion code
+that requires a Reset Endpoint per spec anyway. Let me know if you
+think this is worth digging into further.
+
+Cluster 2, at the exact moment cdrecord reported the write error
+(matches the timestamp of "write track data: error after 103088128
+bytes" in cdrecord's own log):
+
+  Transfer error for slot 1 ep 3 on endpoint
+  Soft-reset ep 3, slot 1
+  Transfer error for slot 1 ep 3 on endpoint
+  Soft-reset ep 3, slot 1
+  Transfer error for slot 1 ep 3 on endpoint
+  Soft-reset ep 3, slot 1
+  Transfer error for slot 1 ep 3 on endpoint
+  Soft-reset ep 3, slot 1
+  Transfer error for slot 1 ep 3 on endpoint
+  Hard-reset ep 3, slot 1
+  usb 6-1: reset SuperSpeed USB device number 2 using xhci_hcd
+  xhci_hcd 0000:77:00.0: Stopped on No-op or Link TRB for slot 1 ep 2
+
+So to answer your question directly: it is not constant background
+noise throughout the write. It's a single, tight burst of 5 "Transfer
+error" events on the same endpoint within about one second. The first
+4 were recovered with a soft-reset and the write continued; the 5th
+one failed to recover with a soft-reset and escalated to a hard-reset,
+which is what triggers the port-level reset that ultimately kills the
+transfer (matches the -EPROTO / resid=23552 I described in the
+original usbmon capture, that URB is the one hitting this 5th
+error).
+
+If it's useful I can capture the full raw dynamic debug log (this was
+just the relevant grep) and/or a fresh usbmon capture with this
+tracing enabled at the same time, so you can correlate the URB-level
+and TRB-level views of the exact same failure. Just let me know what
+would help.
+
+Thanks,
+wakasio
