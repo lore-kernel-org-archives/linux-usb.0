@@ -1,165 +1,200 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C0F2D6E58;
-	Sat,  5 Sep 2026 01:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788572145; cv=none; b=SDZIV2l3dVXxvmRlRGja6dTy1mHU3jRu7wCoOMZb568gC9Rdmu/vsykSeLoljOY7bXzS8LAkFsFtP1ptGWugpbYkZZwLv+TWwsAZTZOSYr0/o4XHeaODmOTq33u3SMTbRoU5FBQEugoKBjd6Q2wlrOpTZMv+k0XuOJTSXpuCeyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788572145; c=relaxed/simple;
-	bh=LUI+joIDxqVGyGedekzWR90BamOPuc6U/giAUO6Og2k=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=LsAtHiduXHrtH/tQEd9WWZT2RU4Di36tBgO+MKV8ir4cPolsc+la1z7fJS/ls+3PYbQukv7lAOLZIhur8G/2VFj/7eLRbkqYPYUD4nQ5TpwLgMu/n9HSB7jlBPbIFqrZyhKHcEDWNCUShZLIEyCVGdpG5AwNE7VwUYg2IdhUxOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=mirko.jechow@gmx.de header.b=ZuzeTShV; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743CC1B142D
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 01:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788572925; cv=pass; b=Or67DmRf39XO9hs7E+OtIEz45lpfxQond9ElT5sCBMve4ZiJNydA6P6FguvV+4teSZTlQw3MdWwUy1OEcqpfX4CXLcrOXjqr0c++aO8UIwvjuHaxsEQHutoP+jQnqq1PXT3GcN1FkTSi7RqogWsQ2SXVB65HJVSOCFCclDv0INo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788572925; c=relaxed/simple;
+	bh=Pv5mzELtc6viyvRZ87Y9PHyCZ6JISF/nLwR33q98VVY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k47gNCkKjcL/KJzk1dfrLiBYMpeelVPUezBcXu4cn7hOujSetR0qH+2oyzgu61vY3+mj7awe6I+VqF+9h2UgGdlvxI+xkPxykgYamKXOSxxohHhtjsdJRrQJ4FDRsOB+TEC87GWj2tDJuAqiU2QZacP2+rSidqHih7yyS2yNgNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3smPhHT; arc=pass smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=mirko.jechow@gmx.de header.b="ZuzeTShV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1788572133; x=1789176933; i=mirko.jechow@gmx.de;
-	bh=LUI+joIDxqVGyGedekzWR90BamOPuc6U/giAUO6Og2k=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ZuzeTShVei5a326jEMDs9HangkotmKbwKYr7zOPWYz7j7fZK82gIFduvs/TCmg3V
-	 P8QsxiawzkCd4lYA+P0rs+nVaLwfNNDt7nkUkzuNv9zTpjuNs+2d8BO8mxSE/H5Wi
-	 64MsIwN50laIUkkXFuEh5FLGEOfhaFo0OiT/Gf/lkwOO9GsihEgWry5Qn+N0Sph8f
-	 H6sG7uI9rqbmnZGBPVm9QTCMxgnLpqh0/RwnJUOWAeaT8v293y1TLrC8Xq1IXBNV0
-	 y9WCzNuKGj6PLYOQWyXB5VVPNbZ9RREZQHgbTn8ghiIwbAczqAv3gsaGefCdcYIpB
-	 7wxX/rEHnAWS4NBnMA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvbG2-1wlgtX2ANS-013lP5; Sat, 05
- Sep 2026 03:35:33 +0200
-Message-ID: <6e81b0fa-de68-4a83-a152-fe26ea7cc359@gmx.de>
-Date: Sat, 5 Sep 2026 03:35:32 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3smPhHT"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-9382fbb1208so155351185a.0
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 18:48:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788572923; cv=none;
+        d=google.com; s=arc-20260327;
+        b=W6NC7VGSGnUgdf3VRjpv/bR2uBmMmw8dJEgVZq5rV89215jh+3oIOfaghK3bExOxWj
+         WqttirloRLS8hKGJMB594I0L3yY3jrZ36OS8wuVEo0Dw9+Ka7qohwt1p9xdRa1yrpc0K
+         8cAZtkCGVU3ZM8vhdZkFwE12Kk1I2yzBwvIIDB7RDcmnVCXq0poOqbQD1+lsmznHDtUG
+         jYEDJA/jIR3pEyRolQgPFMbB4vuWtil5XEjiknaA0ieo4TfT6h71bqu5feuG8/74LbKW
+         VXmMPnIHiNx6OG63mK+tdVNxOLAEmEKYiZwywEd2KGlVa209pJMT45hCBm9K6atfZdiz
+         f5AQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Pv5mzELtc6viyvRZ87Y9PHyCZ6JISF/nLwR33q98VVY=;
+        fh=jHi5SetSEUFti5of3H1IXqVcw1lBIUdq0FfashG5/Sk=;
+        b=FmSuOMkzpAZIkCDudFnJToctxbPgOY/UUn6tmtBQ7bB1bW6D9doMQ+icnfycI4CLIC
+         TajS4D9gEeQNizmwVLCFri8eFJveGVgql/I94+GyQ9BQ1kQGcfPsdtzFA3QIBXKHP1Tt
+         MF3p7FFv/Abw1+z585YVVQzEwBNkn1eTpNW04UYGueulI/2aFEQaSwsRbvuvyxRlKe4p
+         /K9CPSNzr3UNvI4lUrjFxAA1Y5SJj4BZctow/Vu+6hOdLZ6arfcXPzgWlry8dmnSW5ID
+         ssNnLbSyfGTx270CbmAsG25RaAnYn5mwwLROGCms720D9jhgzqEZGK04aH0rzhLWqyhe
+         G7yQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788572923; x=1789177723; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Pv5mzELtc6viyvRZ87Y9PHyCZ6JISF/nLwR33q98VVY=;
+        b=D3smPhHTgyz+0wVjaaEYyF5Wd12cxv820JeOOeVEKOAW5+N7OClL5mLzdbwo2tsLI4
+         JKZmq9mlwA5kaB7wj+1mbxuH82+1nfNb6i/t2mRUDe/c7H5kFG+6DeGKszFRecIWqJpp
+         t3hkLVvHl1kIaw0kh9MhRA95e10LGrmYa+HpNAErhvHOyi+6mI7peHkxdDQJtS95/+EZ
+         Z77q/5YfXMtkiDTxHiV+/fvMStAhSbGn5Y9427igMB9ejeGP4PDckz59Jwo2M6RmAxcB
+         pfVv1szC191hzAHImXf0ZwWGcyVTn3AY+uU455VsFpsmmKzhLzwMJEP8ZhLRDPLkQRZv
+         I2Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788572923; x=1789177723;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Pv5mzELtc6viyvRZ87Y9PHyCZ6JISF/nLwR33q98VVY=;
+        b=dv3ahqDBX+JiVp6nLOfQ4QGO0ivOI3G/BtdntbKWthUiiEr2hF3Lv4bVjzbVv3yfy0
+         +BVYVdfQfcsfKCkB/AjA/M3y2tE4gf59HECGbxGtGh4uJcbpspurjNnxJzx4orQ7LH0x
+         aD4YAOlyd0eYE1mRKBlUfBZ6M2odqFpLJvILW3IaTzyN7NI6mYtmkVhHw3aThOa53ptq
+         ieI8tMmrY0aelisk1NcF5xlxYBKpMKcLoD3P7OvbYNq4L959i6KY4g0ZksmZSFlD6enh
+         ju/O/1c/DJ0Y3QQkVhVf/PFn4tKwVzMnjwGurCc0benlyBtkv6jFoo/xuxHx8OZa+D+r
+         gDVA==
+X-Forwarded-Encrypted: i=1; AKwUvBxhvDHGoAtZ5m+lczKKzLIx1hGB+nx9h9LTY+z5WzQkqtsQfni5s9PnQQ4wNfmNWSFMQwAImy0iDvQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++mUVsvuq/IPWEoSq3AROQKFV/3U+Mseaapm5giDGzYlS+zVtOnp
+	R02BVGQP+AhssSLUPMe9OIpXJCs8Rgi1uC3vRP9JB0erE4HSUYOVuYOngjwSbTDGpYwahJmF6iV
+	a68pi8n8ouw7EtxRvMEMshggjE5wN6iOENazU
+X-Gm-Gg: AYBFou2nG5TRQHhMINYvYLN+Cmcry64zqUyfO13ZwvOjUoEp3CAWlN8kD+/nRzlDcRs
+	Ia88youtYCj4kCLMgtJadxqPzroCt+BFIq4ySAl41u+D3hc5t2ADVs8e9siZ/BSArLI9EM2QaKN
+	ZA/O3k2MmvRPPHVJBkYUygyYXMQBeZmZ8hQyYjrrTNXqS4SISatJJ4Q61Wtipq9Fw1kthyHTrvu
+	frG5fNZlUbIVNwoENa5TVSZjl3C2a2e0fsqIiuy7yYxvFA4KPCzYm4jAUBPFOJ6sPlhvPx/uqK0
+	NYAxwbEwgQi/ReNcjffGGtxWT8C5eS1spTvl5hGSTlrxDIVB4u4dFmch+VSPMmWhQ6ihrze1D4s
+	=
+X-Received: by 2002:a05:620a:3943:b0:937:1097:feb8 with SMTP id
+ af79cd13be357-93980426539mr980114985a.24.1788572923149; Fri, 04 Sep 2026
+ 18:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, de-DE
-To: linux@stevetech.au
-Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
- Shyam-sundar.S-k@amd.com, hurryman2212@gmail.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Mirko Jechow <mirko.jechow@gmx.de>
-Subject: Re: [PATCH v2] usb: xhci-pci: Add AMD 600 series to xhci-pci-prom21
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:Jdp6Ic9BbppFLAIlA++PSsJ/6/AXJv+p6eNRCKMxv7CYIv75/O9
- XwW1XhpuXatuFo4X15maNO4CRxAUNHAwzx1f+SrkFwV6plEw0kGl9DfbFDGe/pwF5Eyx06G
- ruLdof0ISy6B3IpfcQzJAITIB5RqrD1x2dzKwWTt7AuzETHp5j1dXQldydOyC8He7sXRc5j
- VNCWiIpyS7d2wdcxHTMEA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:v54obBWbH8k=;IVN2fHzaF/oMBXIasoWLVMuB2HF
- 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
- XKKJlHKihI2UZ6xthqR4HpK4LBOFAVs4diQ==
+References: <CA+_z3hRjPnQOrEp7uXsNsu6wzqQp9O6FT18i=XcSC7k74Xd2QA@mail.gmail.com>
+ <CA+_z3hRTD-QAgv3jZhOZUUPA0sNZ8946jfYwYsZ=RnQJ0LG7cw@mail.gmail.com>
+ <20260404152438.582f0451.michal.pecio@gmail.com> <CA+_z3hTMfggtv+u_A_SRyb2FRzVjm=Nav5NRCTuhmEthb8x0jw@mail.gmail.com>
+ <20260509180603.6f67c9d8.michal.pecio@gmail.com> <CA+_z3hT_n09fAszT+DkoTHLzracB7fQZwkiiTxGGBJxhFcD8hg@mail.gmail.com>
+ <20260512120334.4eef3d0b.michal.pecio@gmail.com> <fc2d9862-6c46-4161-8fd5-68b9e6c2e8bb@linux.intel.com>
+ <CA+_z3hRdXfZm2ziCmsXEDEY-i8XJjxnw2oe6mkTf+O+B0fx91A@mail.gmail.com>
+ <20260529001057.1e0403c4.michal.pecio@gmail.com> <CA+_z3hQF-EGKr11Yaa5vwMLt9TUB1mL9ESUAQU5Rnd=UZDXrBQ@mail.gmail.com>
+ <20260529122210.6d2c5543.michal.pecio@gmail.com> <CA+_z3hSMRvW6qhZ4wB54hQyY89z+Mm0C48MGA40aqG7_+spX2g@mail.gmail.com>
+ <20260530005742.25893efa.michal.pecio@gmail.com> <CA+_z3hS4sdnZAhAvO+dDTR9hZVwGudDrsw93Do6dZkva8vK=5A@mail.gmail.com>
+ <20260613112648.2ea61301.michal.pecio@gmail.com> <19b188be-5f81-4f87-b29a-e4ac1e55221e@leemhuis.info>
+ <CA+_z3hQ2pZT3Yp+psTRF52Hm9rw7oHW+SdxThxD8KmoU24tkjw@mail.gmail.com>
+In-Reply-To: <CA+_z3hQ2pZT3Yp+psTRF52Hm9rw7oHW+SdxThxD8KmoU24tkjw@mail.gmail.com>
+From: Martin Alderson <martinalderson@gmail.com>
+Date: Sat, 5 Sep 2026 02:48:32 +0100
+X-Gm-Features: AcwNN1X2YvxxakeI2M9gY1_WVstkRlX6waqU8JBaM0mLh57-pyD-5MIBvF2lQ5Q
+Message-ID: <CA+_z3hQn0L7ks9x4PF9O4Y0jvkPOLGk0r9Hx=W7oS2edh0_qNw@mail.gmail.com>
+Subject: Re: xhci_hcd: AMD Raphael/Granite Ridge USB 2.0 xHCI [1022:15b8] dies
+ on resume from suspend
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Michal Pecio <michal.pecio@gmail.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
+	linux-usb@vger.kernel.org, 
+	Linux kernel regressions list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-VGVzdGVkIG9uIGFuIE1TSSBNUEcgWDY3MEUgQ2FyYm9uIFdpRmkgKFJ5emVuIDkgNzk1MFgz
-RCkuIFRoZSBib2FyZCANCmV4cG9zZXMgdHdvIDYwMCBzZXJpZXMgY2hpcHNldCB4SENJIGZ1
-bmN0aW9ucywgMTAyMjo0M2Y3IGF0IDEzOjAwLjAgYW5kIA0KMTU6MDAuMCAtLSBYNjcwRSBp
-cyBidWlsdCBmcm9tIHR3byBQcm9tb250b3J5IDIxIGRpZXMuDQoNCldpdGhvdXQgdGhlIHBh
-dGNoIG5laXRoZXIgZnVuY3Rpb24gY3JlYXRlcyBhbiBhdXhpbGlhcnkgZGV2aWNlLCBzbyAN
-CnByb20yMS14aGNpIGhhcyBub3RoaW5nIHRvIGJpbmQgdG8gYW5kIHRoZSBzZW5zb3IgaXMg
-dW5hdmFpbGFibGUuIFdpdGggDQppdCBhcHBsaWVkIHRvIDcuMi4zLCBib3RoIGZ1bmN0aW9u
-cyBiaW5kIHhoY2ktcGNpLXByb20yMSwgYm90aCBhdXhpbGlhcnkgDQpkZXZpY2VzIGFwcGVh
-ciwgYW5kIGJvdGggZGllcyByZXBvcnQ6DQoNCiAgIHByb20yMV94aGNpLXBjaS0xMzAwICB0
-ZW1wMTogKzU3LjQgQw0KICAgcHJvbTIxX3hoY2ktcGNpLTE1MDAgIHRlbXAxOiArNjIuOCBD
-DQoNCmsxMHRlbXAgVGN0bCByZWFkICs1OC4wIEMgYXQgdGhlIHNhbWUgbW9tZW50LCBzbyB0
-aGUgY29udmVyc2lvbiBkZXJpdmVkIA0Kb24gODAwIHNlcmllcyBzaWxpY29uIGxvb2tzIHJp
-Z2h0IGhlcmUgdG9vLg0KDQpVU0IgaXMgdW5hZmZlY3RlZDogdGhlIGRldmljZXMgYmVoaW5k
-IGJvdGggY29udHJvbGxlcnMgZW51bWVyYXRlIA0Kbm9ybWFsbHkgYW5kIHRoZSBsb2cgc2hv
-d3Mgbm8gbmV3IHhIQ0kgZXJyb3JzIGFmdGVyIHRoZXkgbW92ZWQgdG8gdGhlIA0KZ2x1ZSBk
-cml2ZXIuDQoNClRlc3RlZC1ieTogTWlya28gSmVjaG93IDxtaXJrby5qZWNob3dAZ214LmRl
-Pg0K
+Hi all, just checking for any updates? Happy to test patches.
+
+
+On Mon, Jul 6, 2026 at 12:59=E2=80=AFPM Martin Alderson
+<martinalderson@gmail.com> wrote:
+>
+> Hi, no update that I've seen.
+>
+> I suspect this wasn't a regression tbh. FWIW the patched logitech driver =
+has fixed it entirely, but it would be best to fix this for other ones too =
+- I did some analysis with an LLM and it thinks there are a good 10+ HID dr=
+ivers alone that are potentially affected by this bug.
+>
+> I'm more than happy to test patches if required.
+>
+> Thanks!
+> Martin
+>
+> On Mon, Jul 6, 2026 at 12:48=E2=80=AFPM Thorsten Leemhuis <regressions@le=
+emhuis.info> wrote:
+>>
+>> On 6/13/26 11:26, Michal Pecio wrote:
+>> > On Sat, 6 Jun 2026 14:12:22 +0100, Martin Alderson wrote:
+>> >> So the ordering that kills the controller is:
+>> >>
+>> >> 1. dj work issues a control SET_REPORT on ep0; the URB lands on the r=
+ing
+>> >> 2. usb_suspend_both() =E2=86=92 usb_suspend_device() drives the port =
+to U3
+>> >> 3. only afterwards does usb_suspend_both() set udev->can_submit =3D 0
+>> >> and call usb_hcd_flush_endpoint() (drivers/usb/core/driver.c) =E2=80=
+=94 and
+>> >> that flush unlinks the still-pending ep0 URB
+>> >> 4. xhci issues Stop Endpoint to an endpoint on a U3 port =E2=86=92 5s=
+ timeout =E2=86=92 HC died
+>> >>
+>> >> That matches the trace exactly: the "Cancel URB ... ep 0x0" appears
+>> >> after "Set port 7-1 link state ... U3", and the debugfs command ring
+>> >> shows the single stuck Stop Endpoint TRB (slot 1, ep 1).
+>> >
+>> > Makes sense. And good point about usb_hcd_flush_endpoint() - if this
+>> > gets stuck then usb_suspend_both() can't complete, which explains why
+>> > the HC still isn't suspended either.
+>>
+>> Was this regression ever resolved? Looks a bit like this fell through
+>> the cracks, but I might have missed something.
+>>
+>> Or is that no regression at all? From the initial mail in the thread is
+>> sounded like one, but it was never bisected afaics.
+>>
+>> Ciao, Thorsten
+>>
+>> >> I had Claude patch the driver and this seems to fix it:
+>> >>
+>> >> --- /tmp/hid-logitech-dj.orig.c 2026-06-06 14:08:26.580516662 +0100
+>> >> +++ hid-logitech-dj.c 2026-06-06 13:42:15.702948099 +0100
+>> >
+>> > Improving HID drivers is one thing (which should be discussed with HID
+>> > maintainers - see Documentation/process/submitting-patches.rst), but
+>> > other drivers may behave similarly and it would be nice if this didn't
+>> > crash xHCI controllers.
+>> >
+>> > While URBs on a suspended device are weird, it turns out that xHCI
+>> > spec (4.15.1) doesn't prohibit that, it only says that endpoints shoul=
+d
+>> > be stopped. Which they are - problem happens when we try to stop again=
+.
+>> > I'd expect such a command to simply complete with Context State Error,
+>> > which it does in my tests on different HW, but yours gets stuck.
+>> >
+>> > I'm not sure what specifically triggers this failure - is it stopping
+>> > a stopped endpoint always in general, or only after using the SP flag,
+>> > or on a device behind a suspended root port, or something else.
+>> >
+>> > Would you mind testing some patches? I'm thikning about reordering
+>> > things in usb_suspend_both() so that URBs are flushed before suspendin=
+g
+>> > the port, or investigating what exactly breaks your chip and adding
+>> > some workarounds. We don't need to stop a stopped endpoint, we could
+>> > proceed immediately to Set TR Dequeue, but it's uncertain if your HW
+>> > would accept that.
+>> >
+>> > BTW, you initially stated that this happens on the first suspend after
+>> > new boot, but are you sure that it can't happen later? This would make
+>> > it possible to test patches by suspending repeatedly until failure.
+>> >
+>> > Regards,
+>> > Michal
+>> >
+>>
