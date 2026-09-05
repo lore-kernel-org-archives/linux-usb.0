@@ -1,143 +1,210 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-oo2-f11.google.com (mail-oo2-f11.google.com [74.125.231.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC862E7165
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 13:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383A238E8AB
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 14:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788615991; cv=none; b=PKkAl7PXVndqpEClxGTudQPa9EdKKx35ThgLxzc6TyYf1OxOcwlrqPCSbTGGB6WPWR4fhGczOVIF1NXl9EB4Rkxtgs4pqhOlsIYdXKJLNXx+ya+20TOgJpdPR0aUF8yAGsggeVfZbXVKnTR4ZI6mBf4ZnRWpilSCGWqUAiFYiAk=
+	t=1788616843; cv=none; b=KXynclCKe3DfPmm2nBBCcmIY7zFhBk6HU9O2XmyUHVtJNK2Odnfw8mZlSjC6/Zb2PKy1leuWXQ4nbCZPufjoXIhYIIb/ngK2mq4o0hqMdBJ/xZUU09xqZBaC4l7+eCZV+gg8iqaqgEV0pTBLTDBAPmWNvxwCuhn+ydc1HGHG+3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788615991; c=relaxed/simple;
-	bh=fic2NJ+wRvlw35Uqu9N1aXCkEmWycwiRdnogymaXXEk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I7XgUjcIgtwXL+8vLOs2QPWxi6okSpaLB6qughh2ZffLcRcnf69W+wEWMtEdnZAuR2GVmrwK/qyL9PmmH79au1f8Dyq+fWNhBk+wkzrx7RJeliQcUszMcCyKzl7W5Iu9ckx8cNkdrcymgoJaDBwYuIfDO2MP8qj5chqFfTX/KO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8D7LmKW; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8D7LmKW"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-853c947bfefso1623567b3a.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 06:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788615983; x=1789220783; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dLJoWhKLSKX1K97rgnMY+/rZOmcVpOz2KWVn6TTt3QQ=;
-        b=i8D7LmKWdC4GdJ8eYIqLYvj3RxB+y6CPNGOY0Por1Z/iB0QUALTowhlu+r8qvwUeNp
-         kgLrcvDSN+Qcwf6kkODBRHzUC2axX2wC4C1dWn38htS324/9ecDDfs0qa2Tcvl3swOgA
-         /m+3WtMZKFQYNGQFNvGUe+5ccco+QZphyJGP3mHexEXTDcGTWifOjKO+by1Arzp34xOv
-         bcqVn55nL3S5DD7kXWZdRsiMaAu5R+S4zybAKwwdNwEd5weOro+q/1artrGNXIs21htu
-         G80Op9mUg2Z8GyDlBPDkxJDhdGlZkkxg2B5maLjIXIArPqQlRho6CkxmAOW6Kta4Nnla
-         Ervw==
+	s=arc-20240116; t=1788616843; c=relaxed/simple;
+	bh=7NwBpm0C1FLF+kYXPASGbIf8/Uxzy6O/7cUeUmnNlQQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gfnimbmOBGmqLkmALJoobcaxI8eYWrw2Do+KnnMpfDe/AKb2eWxXbSIL8pW8WzwBu0hxfhGCSZJPT2rMoG+E2r5YtPbXUJoTcLw7J2BFWiFJh94UFWIHtXULncxmKDBAGJhhkaJmOPG7qXYxBBpQMupeiO9/H+5QwGCKuXPuREU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f11.google.com with SMTP id 006d021491bc7-6b148096e48so443048eaf.1
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 07:00:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788615983; x=1789220783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dLJoWhKLSKX1K97rgnMY+/rZOmcVpOz2KWVn6TTt3QQ=;
-        b=dp9x9RqDsV3zg0y6rRjqgsIZZrdfppxGYs9B/+tWp/9gWjG7fgY9ZEUoBIhJmgBgsc
-         7ArdwFOr+TnSP93nFcpZclGvmzAsSHAjWddmBo3+F29mRBvTTuhXIjfUFD8b3f/SbKgU
-         Bm04VnFv76MHzZBgynm/G94I6Df6Uiy6Pr3bwZMSd0lNGDyxJqjWjUyc0vqL1QryKxzn
-         oaf3kPkJ57dWMZXGG81pp3OY4En14ItN75FartZ1hzpwNZZvlYcHVxBYPze+eJgy6224
-         /RynWxsDAfwyCbU6JIcoXijgOSE1kXSRCIxvU4URzZhJbfmrUKHFO5AsndMjAqNFKioz
-         gOGw==
-X-Forwarded-Encrypted: i=1; AKwUvBwmBeDBY13LpNUXQUP0vWphY5SnJFPF6JOOr9y1nP2b0TPD0HBxkWtzB/hgAMS3zZnoBdWkSwcb+n8=@vger.kernel.org
-X-Gm-Message-State: AFuF++lR87QWd69WXrqn5NhjoVMPjoefq3D5oRunZWrTWesMdG9dMNLd
-	+Q+ofuXlC6TEvu5s3iRkwNMH56t2tdc6n1XjdzQt3DsZ0yB5+xwZZkHtDOfrBK3N
-X-Gm-Gg: AYBFou2pcO1KBl76cs65UbUgVegfYED4p4jS2KVTlOxlTcG/x+Pav2Fsu20Jn5T/7sC
-	hPDJL4mfJIXUmsSFKtM3Ad61JqZ04Lr1qTMjShZkh/HEM+BoFhIKOPv9kxhtOMdEBtvVny4Zf8d
-	yDqQ4fr2gH6lCUUU2gdigBJYblLNrG2VfdiBTzae7mNCev5Lx4GGnSbdLTq8G7v+SIX2RbfnwBc
-	ykLktqDNMA8yxbbwXaYpM0tvaTK1G2saQAhv8mDVMWg57kD2999PP7XAmKKa5mA0ddZmzVrkPW0
-	2XSipExXTQOuQpywvTLzYRBzamKIMUaWwTmXkuIx8Elg+vT5xkWCieOpB0yxg3vPgO/SHS+R4EP
-	y/eCIiBG0xE7/ufXKDSeGk2V5AY/tPyPhk7gD7vD3fvpOcOTAXuACVnf2aRMRJG71ReyGoWty7d
-	bJLBTeF/czaKKo8izI9yJ9VNoG63X3V323JDPucOkr2iH/f+FpyDWVbEIppboSNRB6+ykPCXyVj
-	v7/etXXXHAamagH4ZxbVDKobF91E5b4/4gVPkj6z4hm++5764Wcax8L3lUTSl2Y+2239X8EFROl
-	Wu8/uRk8jtTa+DYCrYDwTJu+
-X-Received: by 2002:a05:6a00:410d:b0:851:8bde:7861 with SMTP id d2e1a72fcca58-86199e9d400mr9036372b3a.1.1788615983466;
-        Sat, 05 Sep 2026 06:46:23 -0700 (PDT)
-Received: from rikka.tailabced6.ts.net ([240b:10:ff82:b100:8ce2:c181:4224:d11d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86152045f8bsm2424728b3a.15.2026.09.05.06.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 06:46:22 -0700 (PDT)
-From: wakasio <scarabeeta@gmail.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec 0789:0308 during DVD+RW recording
-Date: Sat,  5 Sep 2026 22:45:55 +0900
-Message-ID: <20260905134555.168362-1-scarabeeta@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260905101837.4b7849c5.michal.pecio@gmail.com>
-References: <20260905101837.4b7849c5.michal.pecio@gmail.com>
+        d=1e100.net; s=20251104; t=1788616831; x=1789221631;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=focEC3DqDk0O4jsiJOz9zVQ7X7PAcbJMwH+HkhI9hZA=;
+        b=Ox1t0ktO3RaOx7Fr9xfJ6JUwZlaFipX1BRHc/1JHLUd7YAjvgCXhEdMV66+sxLtDVZ
+         wmqs3OH042exkPdN3+ydxkua/TCQpAqkk/Tq9x8sdx0bR27JtzJzcBDy3uu53GeMFb3e
+         8AGtTVmoqAXHvFbyYtNbSNLwJhS+AkSWPy3xDoRabdrjSZeV2cF0XipzFYgMyx5I6CKs
+         Wah3dBHx+t6rTZwKI3EtphqhOXt9VvhSMHI+mdlF2UHuRaPaUUgqA2nXAXaGMgNzsSqO
+         jgTAT6Tu3SWNcBjELVTnsgZNe6a0etqoZgZOF3nTmByKLz4nyA+KUa8y9Lwl0NRCTres
+         Nzpg==
+X-Forwarded-Encrypted: i=1; AKwUvBwt+r/BCb+Bd/qcUdftv5GY9YFje59wjBAySnCY6DkcD/awU4e8gtOYjDPhjZZi1cbe2/FUwfoeA7w=@vger.kernel.org
+X-Gm-Message-State: AFuF++laGUu3LxQqsOBA3XQk32rDXw+ZcYVYtp3xEuBAdaky/tZBWgrY
+	L8r3T55vnWI5Q41+T7mcSYXxj1d+vzLCrBBjmUOG4UcUgWkrW9ay7FHtdq/+bUoeNFMt9XGN/r4
+	ekhHD+4o8SD7gy6jminPgDvEj4fUeOR2HDK3910pMuJl/xm9YJGaEWQQuqs0=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:4b94:b0:6b1:a5c7:58ff with SMTP id
+ 006d021491bc7-6b6fcdcfd63mr8053847eaf.26.1788616831189; Sat, 05 Sep 2026
+ 07:00:31 -0700 (PDT)
+Date: Sat, 05 Sep 2026 07:00:31 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a9c207f.a6639fcc.23b8b0.0002.GAE@google.com>
+Subject: [syzbot] [usb?] [nfc?] KASAN: use-after-free Read in pn533_acr122_is_rx_frame_valid
+From: syzbot <syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com>
+To: david@ixit.cz, krzk@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Michal,
+Hello,
 
-I applied your patch and reproduced the failure with all three debug
-functions enabled. Result:
+syzbot found the following issue on:
 
-Cluster 1 (ep 2, at the very start of the write, unrelated as you
-said): same as before, 4 Stall/Hard-reset pairs, spread over about
-323 ms, roughly 22 seconds before the real failure.
+HEAD commit:    edc1518454f6 usb: typec: hd3ss3220: Add support for supply..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14f27215580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c451f9f64434b622
+dashboard link: https://syzkaller.appspot.com/bug?extid=1853daab1a47603d4678
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15de68f9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c86b49580000
 
-Cluster 2 (ep 3, the real failure), with full timestamps this time:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/7b8a8fc7809a/disk-edc15184.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6ff1ab9249a0/vmlinux-edc15184.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/249551c4918b/bzImage-edc15184.xz
 
-  17:38:44.749474 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.749743 Soft-reset ep 3
-  17:38:44.758367 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.758454 Soft-reset ep 3
-  17:38:44.768370 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.768577 Soft-reset ep 3
-  17:38:44.775052 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.775217 Soft-reset ep 3
-  17:38:44.785047 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.785313 Soft-reset ep 3
-  17:38:44.790469 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.790732 Soft-reset ep 3
-  17:38:44.799187 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.799346 Soft-reset ep 3
-  17:38:44.808558 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.808720 Soft-reset ep 3
-  17:38:44.819176 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.819317 Soft-reset ep 3
-  17:38:44.832378 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.832552 Soft-reset ep 3
-  17:38:44.850677 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.850815 Soft-reset ep 3
-  17:38:44.861706 Transfer error, ep 3, at ffffd52c40703f40, resid 23552
-  17:38:44.861938 Hard-reset ep 3
-  17:38:44.981704 usb 6-1: reset SuperSpeed USB device number 2
-  17:38:44.998378 Stopped on No-op or Link TRB, slot 1 ep 2
-  17:38:46.645044 clear err_count at ffffd52c40707000
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
 
-It survived 11 soft-resets this time instead of 4, then hit the raised
-limit and hard-reset on the 12th. The gap between retries grows from
-about 9 ms near the start to about 18 ms near the end.
+==================================================================
+BUG: KASAN: use-after-free in pn533_acr122_is_rx_frame_valid drivers/nfc/pn533/usb.c:325 [inline]
+BUG: KASAN: use-after-free in pn533_acr122_is_rx_frame_valid+0x132/0x150 drivers/nfc/pn533/usb.c:315
+Read of size 1 at addr ffff88816b5da3ce by task swapper/0/0
 
-All 12 Transfer error events, the 11 soft-reset ones and the final
-hard-reset one, show the exact same TRB address (ffffd52c40703f40)
-and the exact same resid (23552).
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ pn533_acr122_is_rx_frame_valid drivers/nfc/pn533/usb.c:325 [inline]
+ pn533_acr122_is_rx_frame_valid+0x132/0x150 drivers/nfc/pn533/usb.c:315
+ pn533_recv_frame+0x1b7/0x6d0 drivers/nfc/pn533/pn533.c:2203
+ __usb_hcd_giveback_urb+0x38e/0x610 drivers/usb/core/hcd.c:1657
+ usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+ dummy_timer+0xdb2/0x3700 drivers/usb/gadget/udc/dummy_hcd.c:2019
+ __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+ __hrtimer_run_queues+0x462/0x9c0 kernel/time/hrtimer.c:2124
+ hrtimer_run_softirq+0x1ca/0x360 kernel/time/hrtimer.c:2141
+ handle_softirqs+0x1d9/0x9b0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x192/0x210 kernel/softirq.c:767
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:784
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+Code: bf c3 01 e9 43 fa 02 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d e3 ff 1e 00 fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
+RSP: 0018:ffffffff89607d00 EFLAGS: 00000242
+RAX: 000000000009c36b RBX: ffffffff8962c940 RCX: ffffffff878789d5
+RDX: 0000000000000001 RSI: ffffffff89327d4e RDI: ffffffff87d2a600
+RBP: fffffbfff12c5928 R08: 0000000000000001 R09: ffffed103eac673d
+R10: ffff8881f56339eb R11: 0000000000000001 R12: 0000000000000000
+R13: 0000000000000000 R14: 1ffffffff12c0fa4 R15: dffffc0000000000
+ arch_safe_halt arch/x86/include/asm/paravirt.h:62 [inline]
+ default_idle+0x9/0x10 arch/x86/kernel/process.c:768
+ default_idle_call+0x6c/0xb0 kernel/sched/idle.c:122
+ cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+ do_idle+0x3ae/0x5b0 kernel/sched/idle.c:355
+ cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:454
+ rest_init+0x2d3/0x2e0 init/main.c:727
+ start_kernel+0x489/0x490 init/main.c:1185
+ x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+ x86_64_start_kernel+0x12b/0x130 arch/x86/kernel/head64.c:291
+ common_startup_64+0x13e/0x158
+ </TASK>
 
-About 1.8 seconds after the port reset, a different TRB address
-(ffffd52c40707000) cleared err_count. cdrecord had already aborted on
-the -EPROTO from the first failing URB by that point.
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x16b5da
+flags: 0x200000000000000(node=0|zone=2)
+raw: 0200000000000000 ffffea0005ad7688 ffffea0005ad7688 0000000000000000
+raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner info is not present (never set?)
 
-This time the failure also happened much earlier in the write than
-last time, at about 12.9 MB instead of 64 MB or 103 MB. Still no
-fixed offset.
+Memory state around the buggy address:
+ ffff88816b5da280: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff88816b5da300: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>ffff88816b5da380: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+                                              ^
+ ffff88816b5da400: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff88816b5da480: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+==================================================================
+----------------
+Code disassembly (best guess):
+   0:	bf c3 01 e9 43       	mov    $0x43e901c3,%edi
+   5:	fa                   	cli
+   6:	02 00                	add    (%rax),%al
+   8:	0f 1f 00             	nopl   (%rax)
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	90                   	nop
+  1a:	90                   	nop
+  1b:	f3 0f 1e fa          	endbr64
+  1f:	66 90                	xchg   %ax,%ax
+  21:	0f 00 2d e3 ff 1e 00 	verw   0x1effe3(%rip)        # 0x1f000b
+  28:	fb                   	sti
+  29:	f4                   	hlt
+* 2a:	c3                   	ret <-- trapping instruction
+  2b:	cc                   	int3
+  2c:	cc                   	int3
+  2d:	cc                   	int3
+  2e:	cc                   	int3
+  2f:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  36:	00 00 00
+  39:	66 90                	xchg   %ax,%ax
+  3b:	90                   	nop
+  3c:	90                   	nop
+  3d:	90                   	nop
+  3e:	90                   	nop
+  3f:	90                   	nop
 
-I still have the full log if you want to see it, and I can also try
-capturing usbmon at the same time as this dynamic debug next, if that
-would help correlate the two.
 
-Thanks,
-wakasio
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
