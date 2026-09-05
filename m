@@ -1,76 +1,76 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2825C50276
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 00:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF66D3246EB
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 00:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788569427; cv=none; b=HI5QRcMNKnRM3w0I3iXSA7CxTt3gKKHKm76wto0kY5s+MCylWwZmKrU74xXzL8lEUUlD1bspSQu6CeF4o/sS1+MWRtJpZlantjFcJrqDVRIcY3UNrkU74gvkQNSRUFI5NaW6Bm0a4vJP8/P8GO2SAiHmrViwglhkseQCGzo2e+M=
+	t=1788569597; cv=none; b=gXNSrr1NWAyh3E4dhQJMaEKEwLbxt980r9Xz2wZG1Y6ZTLpdkrB6cbmqPNfibAI8jRe+mvZ6Jmig2P4lztOXQ70eQnETcDjHg08Adz+eWbGxERIGL4ers/uY4/kPJXBmUqp7pc5avfDzoJc2AIzaEjUkxOBCRpc4fX2Nc8nmQv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788569427; c=relaxed/simple;
-	bh=/IOJt2nf7V0sd3dSVTFndx95aL9kJKMjt1TwjTpxOUU=;
+	s=arc-20240116; t=1788569597; c=relaxed/simple;
+	bh=PO+CZFuw7AzFdnkylbVpMYHdrNqxaq4rVizh+SGjfTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iRtrBYymZFjgI8jOMU8WWkNrOxHhvfY75TupGC9ZBGV68MNY88RS9+rfR1WWfZXMF+duXrMqqDtsS7uM1kWHmI7dGqJ3GQyjz3Vf0WMEY9mx5F3PPWciBD5ciM9YI9RzXXYY2Ghq884zXEgTntjNFkPXb4b4nhHwyTkm5l2eRVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RoiMAuAA; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9vKf8zvbBWlKmXHysnsoI5NKMxtPWBKFy7ys+WATXKuFYkgWAibypQ4ytRpuR0e4Pyjgv7asiJK5uWnXqdcpwkHfrUDrQZk5e0NA/uwJW8HoREX4eNaAfPF4F8l2ZsN4PzDvb18zf82zBg/yhBo8vJHPPoRZBVEQUktLrAk8zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e8jRwKQU; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RoiMAuAA"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84e27035206so1424904b3a.3
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 17:50:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e8jRwKQU"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2d9db539a54so14507435ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 17:53:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788569424; x=1789174224; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1788569595; x=1789174395; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=twXI+3UtDxubE6k4loreSfwnlDBRjMJNiuXV8S8NXjs=;
-        b=RoiMAuAA9CC0u89zFlmfalKGX2fw3CLKLhdf/TXuOW1nUpQrjQuTjAjDugg1Fim1Ie
-         F49ZrF9HxyPYhD8P/BaP93z6c8GrihBoukQmQKyyefJJVNCt29K64uAM/h44ABJ0Y8s6
-         h/OBanIdcxRdwfWkScBi3qzASQ+IW91HMaVRBoYsjtiIXi6eqbTpjxnpekCyQRi32YNH
-         S2UcYTXpbgK7jWKgxQBjvCOHPZKCBxxj627XY1zs8DeCqHAuznPIMRIFH8uisWppyOvc
-         nk/92XEsUBE2K8WCwfMqN4/nAUaQlSYJ/sMgfJm42SfdvkrStbYhE3etyZMr6yLrY/54
-         qe6g==
+        bh=zjNoznvpAzRJV6AZniUkD2TZWS4lsVrBNwzt7oLX2kU=;
+        b=e8jRwKQUasaho7Wl2ZMKIfkNMPVE7DynhVB0/mjbZhyl83Xd/ykREnUEQ4KQJxA7yr
+         3AcEeRIEayqHYw4REavuQAFIt/A9F0vbPh0V3Zb3lAIqeru7qh5R9gcOSHA+6w3cAi6R
+         4ppU5PDvnR2xNve9oxhnTDSMRe3bLdK60bM0ev1RB2+vEZw1kKyWGjcn/oPlqL3EBCj8
+         6fqPHjF9tugoiKZK8ceqRZCVf1CGE1ZJABOs9f8hrmGffqRxz8mgn/09MsEx1xTqMGyi
+         Ca7yAwj/ZaDG03UeZ0vx34kzz+fg6rLV/pwDeTdOLUs/e60jNP+TSZ9XNvjzaMNP09mW
+         nPvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788569424; x=1789174224;
+        d=1e100.net; s=20251104; t=1788569595; x=1789174395;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=twXI+3UtDxubE6k4loreSfwnlDBRjMJNiuXV8S8NXjs=;
-        b=nZFx7vEnVIPVAkFF0sVG+PdSVyD5Jlm4uXnoFUPBLobH54jFq5VJ7frl7+94mOai3E
-         9crd4JlNhxu66xZhcoxuO/T+nk0DpmVpjtEiRJA9k8jptgc5YwmLk0mZisxiliXAYnfz
-         q18bf+8zL1jHjUls5qJrlEcH8K1YtIkrpAG5+jI2QJM6PqKpWntvEQ858jj9UFOx2gRM
-         Djro1mFqOZN2Cpc1M0w2q2vGvqKUi3tvE1nvV4q1tgmd08Rgv+mhjJFnBtFh/kKqm0ck
-         d7QGviq9adRm67NRSPiPvYMv0AYh0MUaZw0RZSIJHRRtkIwbSBWVJ0i525y+A3nrBXOk
-         TOjA==
-X-Forwarded-Encrypted: i=1; AKwUvBwJBwekfk+wxDVxLYYC7ntzKBDiCHadp2rcktiT1tIpd17svB5eoNv8uzTNrxm4aEB5cO3/xr4UOL4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lsTguQrE2QobuYbKj+XUZPuS4EdUT63sQFDxTG+9JWsKs/GDEz
-	3KHOSwmb6vS4Qxu9vUa8LNqLQgGPgVm2V5yhpCLLRcE+aDfvXejOrP+OR8WnFM8Zvg==
-X-Gm-Gg: AYBFou2dXHEZVYq4Dx1x7QBNzFgn/xtDuoa3jBOw6qNHC4U2S1RdtZvG2734pqOSUkg
-	Q/CgbAZmjGZBu3d3fT8k/XLk80s4J+o39xM7WKpRUBBe1QHhRdv9y2iRMNpWzU9qQOt6oKrkOBW
-	eKInlmOnWFULcLUhj+6v5HdFIZrF7cZaLS9/IZ9MWRxHdY6Qwl2VoKDPVuekos0dwswwIu2yNSD
-	/tfcYJSoG2kuURzfrHE4fpK3M3QyUhE+doS+cJ4R/dFnxw1uBP4kWdQ8jGR69te7MArwL9vBqSP
-	PKzPySMQO/QVwzQDkoDPGN+e1uSGv2KpImxHn85mgj5Vpqu0IP/l4wnizMGOgjrhuHh2f/9Nyzg
-	eAn9qrxtk0T2XqLolvqEM0t6r0zkk61SzCZGzU95WyIyJfukVEKX5WE7rTjR/h5WXKiOSw+CQZE
-	6w4eRuK1po7Tpj9oPwJ1Vmiog1mYF/lgxf4G54NErw9olxj5JAvhvblAeu9BNnWKpmG+La+aOJq
-	b2atIRRwIE403tGzf/PYQ==
-X-Received: by 2002:a05:6a00:2e83:b0:84f:a82e:d32f with SMTP id d2e1a72fcca58-86167aa9923mr11929585b3a.3.1788569423494;
-        Fri, 04 Sep 2026 17:50:23 -0700 (PDT)
+        bh=zjNoznvpAzRJV6AZniUkD2TZWS4lsVrBNwzt7oLX2kU=;
+        b=YlHBdpiFzyzAKxtDXlsDIHeoita4OWEpNUYj4JiXrxUydjzRfxaPLJgpHIf6qO9Noa
+         62mr0rCSHvE272SwOMyJ7YMm6K5L9N3aJV4XbpfgxtjLMNszr8Cmy2mXP3A+1lDPNszn
+         0YC7r8z7Ur3+BQ46iBqHKKxxAVS2FftYiyJFxYE6dog1Gt53fZRqyk/2Ul+2BIds3C/v
+         YWK0rANcvgO0t+TVtqty3ICosx5d6cj2l7rlzA30LvYcvco2ZGkCjNcfnT6p+ZbzR7OE
+         P5BFi3J9ZS8vJGsLgZ6jasQn8EdjsG7Nnm4+UgRIIiEv4L0TYUHkTa42YHr18gyQKQvK
+         yVUA==
+X-Forwarded-Encrypted: i=1; AKwUvBxy+yMQ3DxmZb1/whe/escTJfPmIcsUdCGmdsGeQdF8FlhL5/C6iUa4kBRi8Iu6Y9MkfT88b6//qlA=@vger.kernel.org
+X-Gm-Message-State: AFuF++nCFvJVuQ3tXdERA1adjuk8HUiEkPBuoMivrtz6HsMbMk53rgZS
+	fMy43366E+kkHLqTPPa5A3LNDEUEi3B0x5b3s73YFxiuh5t261SOTPTITmL0UcUoow==
+X-Gm-Gg: AYBFou3SBBW+oACvx2BfXBvyJF2akEnqj7f72OHVlyOgycFqd338BcCzTsyJc7RDkfJ
+	ji/hxRVx+i3J8JLBKnLSIIw9HXLEd7Z7V7t6wwQFH+wQhdQxSQWj+k37qUm2D17HDKcNbFCN8eq
+	lxiXBZKCSYgQ5wRkVrhe0EJ9qFFFM1sBkHwmAVx5+DTNO7HslfR7ZCrU+4VfXGTgrkV3JmVU5gc
+	xYD5auY1YEjxzXqEsf1s8hMH/I1Bmaw9ZsEBf4Tnu1yWQV+AidlFVTq6edwiBMxEWtL4F9ptwXU
+	8fTcY2p5QJ8Bc0MDJD+QHdT0IzXbjB72+HES3K3P/GxEepde+GvEaxLecLK/qWM97U4aTSLeVo8
+	FQPhRo9lmPioUIYhRcAK1QvQxHuX45Qq0RGnIr4u9T9Bx4t+dNQn0Z2eMq9pzq8crJMHfAIX9pR
+	hGjnRtjS0ZAUjL5ZmQdWNF+JzlYzcwlIghuNPrf6i+nZquiXc7KPO/RMkp3xO201k+go9DfhKPG
+	/7YX0HLXK/uXM52DLDxew==
+X-Received: by 2002:a17:902:d987:b0:2db:257c:9fd5 with SMTP id d9443c01a7336-2db257ca020mr59087085ad.16.1788569594266;
+        Fri, 04 Sep 2026 17:53:14 -0700 (PDT)
 Received: from google.com (51.86.127.34.bc.googleusercontent.com. [34.127.86.51])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86153728c37sm1734162b3a.46.2026.09.04.17.50.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db14ae4b5bsm15704015ad.77.2026.09.04.17.53.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 17:50:22 -0700 (PDT)
-Date: Sat, 5 Sep 2026 00:50:18 +0000
+        Fri, 04 Sep 2026 17:53:13 -0700 (PDT)
+Date: Sat, 5 Sep 2026 00:53:09 +0000
 From: Benson Leung <bleung@google.com>
 To: Jameson Thies <jthies@google.com>
 Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	bleung@chromium.org, gregkh@linuxfoundation.org,
-	akuchynski@chromium.org, abhishekpandit@chromium.org,
-	marco.crivellari@suse.com
-Subject: Re: [PATCH v2] usb: typec: ucsi: allow retries of ucsi_resume_work
-Message-ID: <aptnSl7OHTFl4qLb@google.com>
-References: <20260904234124.2336922-1-jthies@google.com>
+	linux-kernel@vger.kernel.org, bleung@chromium.org,
+	gregkh@linuxfoundation.org, akuchynski@chromium.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: ucsi: displayport: Fix OOB altmode array
+ index
+Message-ID: <aptn9eUDt6Q63gWF@google.com>
+References: <20260904234401.2339633-1-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,26 +78,28 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rW/LfFfldWYEHjoO"
+	protocol="application/pgp-signature"; boundary="xz9YC2TuYFrKA6LN"
 Content-Disposition: inline
-In-Reply-To: <20260904234124.2336922-1-jthies@google.com>
+In-Reply-To: <20260904234401.2339633-1-jthies@google.com>
 
 
---rW/LfFfldWYEHjoO
+--xz9YC2TuYFrKA6LN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 04, 2026 at 11:41:23PM +0000, Jameson Thies wrote:
-> On resume, the UCSI driver will re-enable notifications by sending
-> SET_NOTIFICATION_ENABLE. The LPM/PPM may be busy during system
-> resume causing SET_NOTIFICATION_ENABLE to fail and preventing the UCSI
-> driver from receiving connection status changes.
+On Fri, Sep 04, 2026 at 11:44:01PM +0000, Jameson Thies wrote:
+> The UCSI displayport driver indexes the connector's port altmode array
+> with the GET_CURRENT_CAM response after checking it is not 0xff. The
+> port altmode array is UCSI_MAX_ALTMODES elements long. If the PPM
+> returns an invalid GET_CURRENT_CAM response above UCSI_MAX_ALTMODES and
+> not equal to 0xff, the kernel may crash with an array index OOB error.
 >=20
-> Change resume work to a delayed workqueue to allow retries on failed
-> SET_NOTIFICATION_ENABLED commands. Additionally, cancel resume work
-> on suspend to prevent pending resume commands from impacting suspend.
+> Update the UCSI displayport driver to verify the current cam is less
+> than UCSI_MAX_ALTMODES before accessing the port altmode array.
 >=20
+> Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mode")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Jameson Thies <jthies@google.com>
 
 Reviewed-by: Benson Leung <bleung@chromium.org>
@@ -105,108 +107,51 @@ Reviewed-by: Benson Leung <bleung@chromium.org>
 
 > ---
 > Changes in v2:
->   - replaced system_long_wq with system_dfl_long_wq
+>  - removed 0xff alt mode assignement when GET_CURRENT_CAM returns an erro=
+r.
+>  - return -EINVAL when alt mode index above UCSI_MAX_ALTMODES is returned.
 >=20
->  drivers/usb/typec/ucsi/ucsi.c | 18 +++++++++++++-----
->  drivers/usb/typec/ucsi/ucsi.h |  3 ++-
->  2 files changed, 15 insertions(+), 6 deletions(-)
+>  drivers/usb/typec/ucsi/displayport.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index bef3f9b71d71..459aab574b29 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2158,7 +2158,7 @@ static int ucsi_init(struct ucsi *ucsi)
-> =20
->  static void ucsi_resume_work(struct work_struct *work)
->  {
-> -	struct ucsi *ucsi =3D container_of(work, struct ucsi, resume_work);
-> +	struct ucsi *ucsi =3D container_of(to_delayed_work(work), struct ucsi, =
-resume_work);
->  	struct ucsi_connector *con;
->  	u64 command;
->  	int ret;
-> @@ -2167,6 +2167,11 @@ static void ucsi_resume_work(struct work_struct *w=
-ork)
->  	command =3D UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
->  	ret =3D ucsi_send_command(ucsi, command, NULL, 0);
+> diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucs=
+i/displayport.c
+> index 7067f2561b84..572da7bbd29c 100644
+> --- a/drivers/usb/typec/ucsi/displayport.c
+> +++ b/drivers/usb/typec/ucsi/displayport.c
+> @@ -71,11 +71,14 @@ static int ucsi_displayport_enter(struct typec_altmod=
+e *alt, u32 *vdo)
 >  	if (ret < 0) {
-> +		if (++ucsi->resume_retries < 5) {
-> +			queue_delayed_work(system_dfl_long_wq, &ucsi->resume_work,
-> +					   msecs_to_jiffies(500));
-> +			return;
-> +		}
->  		dev_err(ucsi->dev, "failed to re-enable notifications (%d)\n", ret);
->  		return;
+>  		if (ucsi->version > 0x0100)
+>  			goto err_unlock;
+> -		cur =3D 0xff;
 >  	}
-> @@ -2187,6 +2192,7 @@ int ucsi_suspend(struct ucsi *ucsi)
->  	 * EC is stopped for suspend; state is re-read on resume.
->  	 */
->  	cancel_delayed_work_sync(&ucsi->work);
-> +	cancel_delayed_work_sync(&ucsi->resume_work);
 > =20
->  	if (!ucsi->connector)
->  		return 0;
-> @@ -2200,8 +2206,10 @@ EXPORT_SYMBOL_GPL(ucsi_suspend);
+>  	if (cur !=3D 0xff) {
+> -		ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0 : -EBUSY;
+> +		if (cur < UCSI_MAX_ALTMODES)
+> +			ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0 : -EBUSY;
+> +		else
+> +			ret =3D -EINVAL;
+> +
+>  		goto err_unlock;
+>  	}
 > =20
->  int ucsi_resume(struct ucsi *ucsi)
->  {
-> -	if (ucsi->connector)
-> -		queue_work(system_long_wq, &ucsi->resume_work);
-> +	if (ucsi->connector) {
-> +		ucsi->resume_retries =3D 0;
-> +		queue_delayed_work(system_dfl_long_wq, &ucsi->resume_work, 0);
-> +	}
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(ucsi_resume);
-> @@ -2299,7 +2307,7 @@ struct ucsi *ucsi_create(struct device *dev, const =
-struct ucsi_operations *ops)
->  	if (!ucsi)
->  		return ERR_PTR(-ENOMEM);
-> =20
-> -	INIT_WORK(&ucsi->resume_work, ucsi_resume_work);
-> +	INIT_DELAYED_WORK(&ucsi->resume_work, ucsi_resume_work);
->  	INIT_DELAYED_WORK(&ucsi->work, ucsi_init_work);
->  	mutex_init(&ucsi->ppm_lock);
->  	init_completion(&ucsi->complete);
-> @@ -2365,7 +2373,7 @@ void ucsi_unregister(struct ucsi *ucsi)
-> =20
->  	/* Make sure that we are not in the middle of driver initialization */
->  	cancel_delayed_work_sync(&ucsi->work);
-> -	cancel_work_sync(&ucsi->resume_work);
-> +	cancel_delayed_work_sync(&ucsi->resume_work);
-> =20
->  	ucsi_debugfs_unregister(ucsi);
-> =20
-> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-> index dc594388dcd0..1996f04ed5e6 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.h
-> +++ b/drivers/usb/typec/ucsi/ucsi.h
-> @@ -484,7 +484,8 @@ struct ucsi {
->  	struct ucsi_connector *connector;
->  	struct ucsi_debugfs_entry *debugfs;
-> =20
-> -	struct work_struct resume_work;
-> +	struct delayed_work resume_work;
-> +	int resume_retries;
->  	struct delayed_work work;
->  	int work_count;
->  #define UCSI_ROLE_SWITCH_RETRY_PER_HZ	10
 >=20
 > base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 > --=20
 > 2.55.0.979.g7e5102b832-goog
 >=20
 
---rW/LfFfldWYEHjoO
+--xz9YC2TuYFrKA6LN
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaptnSQAKCRBzbaomhzOw
-wlFMAP9OWQmQZ3idg3CmGcZAIPVsjhiaXSqxexPmUqTNuGLqXQD/f5J+EXoTaudL
-jUD6zo1yJlTwi28MUJnqVaG04CP72AM=
-=PyH2
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaptn9QAKCRBzbaomhzOw
+wuz0AP4ySOCZSKB0lX/BLT1e8/Gxw+FmZz9zlFsHRLCuTHqxTwEA0ep/a7o+Y1+Z
+WeFFII1ounnwUqeO6lfrbG5OHio4tgU=
+=SXpO
 -----END PGP SIGNATURE-----
 
---rW/LfFfldWYEHjoO--
+--xz9YC2TuYFrKA6LN--
