@@ -1,106 +1,118 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357514C6EF7
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 16:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9687F4CB8C4
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 16:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788626152; cv=none; b=qS6wimDXORosxXoRmjzsYhG6LdHtMELx9NaXS2yTf/02Prj3uewGZdoLZonO4D+FxvJrE+9nNs1WE64wwfSLJPMaqsbjed1eXC2emQDMyy5MP3WGV+yf/bYfzDCH/XsHOWrq+DT/d+31aHKEvBZiEpTBhGP3aqDRLtfeX6Y9quk=
+	t=1788626715; cv=none; b=SQcrTdA5MQ7+wQiidi+cTlKWM/8/ytjFJABjBtzQ2pbBFMnan220VJWXGMJo2r83Q/sLMQx9TDJIeK3KbOSjdpqnf/yU/jM/7Q/Zwwi2ReRJ2qJC/D8PwSEFLF8qsPlaxuI2LiS+SFsZw7hiPf1HpA+IF81sHCeFAN1EeMNqMBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788626152; c=relaxed/simple;
-	bh=RU3sMiyMMD6qpDbbKNpWFcTiCmpe28jjLPlDWBG40Ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lk3NLQ6GnbZK94VB2bDAq+0LatBT1jOlYaMSJ58VEQAgyvt/2yEF6JWj0SqjFzAdVSFH9srpt4ChI0GYKKfrpSRQ2iGSQ2FEw1sze00eRdi3roTadhqKjHcy7SDJYH/VWHIGm/CR7Huw99O8nsh6YLwsvQFawvLkz3EwerxFTdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=cNrS+L75; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788626715; c=relaxed/simple;
+	bh=zXRC/RdlmsiuexVeqwFjarsu6yZ7PSNCPNwsKWzg6EI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XzYalsTw1qNgGs/TGnOpGM3cOFyzSaHLcJdrP41SQG0a/jFzwBZPyvS42dLZOI6RNAVD0fuLAH1acQbFgjAujhhWR1ArGwo7ALFJsu38YpcYj/oOu8eJNxaV46tIK8Pxdnt4xBJPO3gL3Q6K0KMPp+R7mPQ6JdP6nKaJju8y8x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VV7CslGA; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="cNrS+L75"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9399d91ee7aso21413985a.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 09:35:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VV7CslGA"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-90cc107c451so13570276d6.0
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 09:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788626143; x=1789230943; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4n9OW0HoU0VCB6kg9EkNodC6dxBpxHRpl2ni36wBslw=;
-        b=cNrS+L755lCmAGXAc3uY06q6xuM+3RDSvZCaqw1sBEbanRGhpPmRZH0NPSjnN9rWqZ
-         aH7Q0wJTf07nJ4et2uOGgS4JKTfuT5LoN5hAgt6TOS2NLPUn/fMtUxHMB9QdPNccSXD3
-         46Ecuzbm9Hf2X5vb05ZGhyMJ5QTjQ9jrhjsrf6/+qlxCHrfCj4AstERZnv/rOGPtzeYb
-         uTt/MGH08H7wnhHwo5JuDNUocUPmEzKKNCVNWbL9kbyQWDSIWSbqfFFy+iArNfKdoq8E
-         0mD3KXC+I4RvZVmYmq7e8TkmlwyiePUp3gTX2eqUlkGZYJYfQXxslvfwVjolsn3U9XLz
-         8NPw==
+        d=gmail.com; s=20251104; t=1788626706; x=1789231506; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Iebef4UkUnASKv8XcTx3vwRMvhVbFEWfZRLdXca6h64=;
+        b=VV7CslGAVnHj0gm8JK0n6CeO5ODOlecicnnkvks3hTB+JxVBe1fVZlpQaFnY6YnL5b
+         rBO0J4TR+BI8nfs9yAGodxNqmzezpUyKXHfFLDUyxLy6H5j2kFuBTa3vZDi9VQTLYTUm
+         dFbv/itBx/dpP6fWRtZ7GJM5yA7wKDAFqXHVz7UQOffB7X8VXv0QZD6bb0PS3jE4IPsi
+         2+pjaDDjAP8aX9jLBAMGSnp8qAtvnbRsK0xwpXvKs7RpXcwmp7n2uik0L1Vmk22kNjCI
+         ZV+PHKzxFxW8bmLE20cPmR1v3qdJbNj8Cx+xoCjJKnS4gF9XZKIetdjUOvnfy8a/vuHx
+         82MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788626143; x=1789230943;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=4n9OW0HoU0VCB6kg9EkNodC6dxBpxHRpl2ni36wBslw=;
-        b=dE57qN3hvo8yPrM3abL0wGKg/HBK82SANUv/jHWCrQLoBJ1MqRQr0DiTplt52+UCx0
-         nwNPLbHfLXx4GZeS678Qy7C2u20gKmtPs+csQM7au8eXiAo9yYyW2Z0omK03H1srNGuL
-         9TBb9jvGoy4QVZ4LnwSxePoyENWqt03LWiXRqdLUWmJHTHhaIhbY1gNjhJY1qa1yWIvL
-         5/kChiR8wAxLoDKs0PnKmyATBqTy2xRslMGvRgg2mfwU7ZSR5zlBSVVRRywsV7vxakwT
-         SnG8tFEtCy/9OavCxp/7wB+XWBKi9CqPf+GXaHCLZAzbCIIJzkA27Zd3LNJ2gcdHM8Nn
-         sbVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw74o/yZCiHULnViTR51fSmt5kYtfpK4R/ISlp+0t+4lvofBAzrlGVUhsDO9gHmTJ9Wa8T+BMOmvU8=@vger.kernel.org
-X-Gm-Message-State: AFuF++n5kyRmhZPkO1ZL9LkncDvcTC2IrrT9+hM3wdEEd7kF4g/hlFAV
-	EHA2sXW8Dw25gxPhh5EqfhwY2KAU2AOsZUkgzEa/SXxiken6fj+IUtZG9u4BpL3z2P063GLwfMu
-	BvKhy8glX
-X-Gm-Gg: AYBFou2feOf517L16Lhj9HBpbYbJJBxGthnKRKTYFosPNmIuSuNcA1Uy8YKuwZhIrmY
-	Pvg+VkAkWBUlVBCHA+WR/UJIkX8yEcecpgqYDOY7bhcOejZ8GYZWNLkg1B9QQk4LBQqQHtWqYp+
-	WSM2XgEbYQiDL1ZkMIet1NUyElHE3FIU5SxpOE+04Q/WsHPBOitpXpeooelmrHoFMxowypwTMzK
-	Dbh+NW096Edj68Lfgbp0JWXyvBZyBidEQyBU/2fQw6eJDd7Q09lTgHi0jSF/OtQL2eVRl/wv0j2
-	pqguUyxmaCe3Nls59XFKRNdk6QpeujzekMmjsuIe6PF5SrewlE0qD7eCBm7K/3uJlFA0ja82vKS
-	zd5QPmZttJYzvMjqejy7aEczzQySh6uhMdqYM/K0TGj0Dfan4vXjryt10fn4ilvo51B6HY5CwiI
-	zn3CONgdbdCwkXIt0Proz0Wntw+2Wppsrvgkj/lU4xULrL1sEygj8X9MqGyk/Vg8M=
-X-Received: by 2002:a05:620a:7102:b0:939:779f:8418 with SMTP id af79cd13be357-9398059a92fmr1265069385a.5.1788626143201;
-        Sat, 05 Sep 2026 09:35:43 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9397fafbd99sm471171685a.7.2026.09.05.09.35.41
+        d=1e100.net; s=20251104; t=1788626706; x=1789231506;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Iebef4UkUnASKv8XcTx3vwRMvhVbFEWfZRLdXca6h64=;
+        b=Q4MoGHfPi7SS72s5m9FdCkaTi/5OVLHzAlrTSc3Y7yr/ARF/Navel0M26dzlGXFTxv
+         3TYM3kQwmChWqTRwftcFRJlEO7v/P9uC3J0AJ4WMUKQJm6Z2LHVFCcOOh+NHJ+ZItFF7
+         jHj+66TBjQ3AYXvJGmM2rYJgRNybhViUmuMM3IIS3mJ3aQKHefyF3mMG09qefUNp0pHE
+         2tc3tiE7CDThPak4mmOrJ75Sii7NOLvWd6tTT8MHCkeaWpQpdXROHvGsxWvx4aioBM1s
+         3hlmGF1ztLlWdeKUEuGKJtmKR3HluZPh2Hk+ljwoyEX6LPX0IqJmbuu6zs3DW2uOXGra
+         lexA==
+X-Gm-Message-State: AFuF++lPQEC/8uNxN4/+LtNPTVy5iTqs+fcM2fX2siNWdCoE64L+ROw7
+	MqggLb6+vcACWq1sdZYoEUklUgqKSqb+ahqYXo7h02sQlRzIpSAxLONp
+X-Gm-Gg: AYBFou1wBxQBOdJB8mZFJozpgrFnWiyueFGzJ3VgEdpIfF472lhfgzhVW2hIaDqj5pm
+	HbQBgW1MXOcdaqjVpCuCYbia/3/OeVdSI+YLA24EuSwMPsv7RZMq9x6Py17whl2uyeydgng5zbq
+	ZY42lf253rC8vXPJOsP2gCVS3lFtytgMKbQh0D1kS+kdLgbCs8OpWCAllUMMbHey+4wIP9YXy/E
+	ImvDHPQ+Zdwbhf9YKLodV0fLp3tv3i0u1BN5FojYUgq5JQzzmjVX52Bk8iNGAyvbu23Mz7O7Id7
+	tpOcPoVwCZqfSCDrBEwZN2D2P9S9AqfkkChGwhjRLkaaz9LdlEuwl9K71S4audRuhZAuXORBK2A
+	+wKxToP6wNnDf9l9kdtHhjb6PnIMdvZmw670KWh0QTR4Zq4RQ1YOJx+yddLaEh0YxSs89ybYBXn
+	zpfMy1IryLooHlmK6HacOvImL3amMQfepL1GcClcEUliFILPfXyjtgfkRXiT6AmvqEj1oaPTTcQ
+	xY7sBsqVK2kYLFDcKI61ickZ6N5HIf8Hnd+OA==
+X-Received: by 2002:a05:6214:4904:b0:8ef:91c5:8edb with SMTP id 6a1803df08f44-9103ef23c37mr177612896d6.10.1788626706129;
+        Sat, 05 Sep 2026 09:45:06 -0700 (PDT)
+Received: from dave-desktop.lan (modemcable053.177-58-74.mc.videotron.ca. [74.58.177.53])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9104067ac52sm48984326d6.27.2026.09.05.09.45.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 09:35:42 -0700 (PDT)
-Date: Sat, 5 Sep 2026 12:35:40 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Adriano =?iso-8859-1?Q?C=F3rdova?= <adrianox@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
-Subject: Re: [PATCH 1/1] usb: gadget: inode: fix use-after-free of struct
- ep_data
-Message-ID: <52df9295-9989-4a17-86ce-b3827f72ed30@rowland.harvard.edu>
-References: <20260904163827.216389-1-adrianox@gmail.com>
- <0738d3db-3861-4eb5-9847-bde865a1bb28@rowland.harvard.edu>
- <CAMGU2hUOyoWAG-HVCvchqqc4R4uQ7QHaJ_GKGK+hUWw-=Z2deQ@mail.gmail.com>
- <c97a6204-5e6b-4306-a4f9-86b41c268dd1@rowland.harvard.edu>
- <CAMGU2hVGz9PwXhi+j3z0Zn0keUPt6Y9ArU38tpSRYw5ZHupDZQ@mail.gmail.com>
+        Sat, 05 Sep 2026 09:45:05 -0700 (PDT)
+From: David Collin <davidcollin899@gmail.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Collin <davidcollin899@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/2] usb: dwc3: host: fix dangling xhci pointer on init failure
+Date: Sat,  5 Sep 2026 12:44:47 -0400
+Message-ID: <20260905164448.209348-1-davidcollin899@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <aptV-QHKGbMqw1uP@vbox>
+References: <aptV-QHKGbMqw1uP@vbox>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMGU2hVGz9PwXhi+j3z0Zn0keUPt6Y9ArU38tpSRYw5ZHupDZQ@mail.gmail.com>
 
-On Sat, Sep 05, 2026 at 10:45:47AM -0400, Adriano Córdova wrote:
-> El vie, 4 sept 2026 a las 15:27, Alan Stern
-> (<stern@rowland.harvard.edu>) escribió:
-> > Your patch doesn't handle the case where the gadgetfs_make_inode() call
-> > in gadgetfs_create_file() fails.  If that happens, the refcount will
-> > remain elevated because there is no inode to evict.  I'll leave it to
-> > you to figure out the best solution.
-> 
-> 
-> If gadgetfs_make_inode() call in gadgetfs_create_file() fails, it returns
-> -ENOMEM and the error path of activate_ep_files() (where the new inc
-> to the refcount is) kfrees the object directly, bypassing the refcount.
+dwc3_host_init()'s error path frees xhci via platform_device_put()
+but never clears dwc->xhci, leaving a dangling pointer that
+dwc3_host_exit() dereferences unconditionally on removal/shutdown.
+Clear dwc->xhci on the error path and return early from
+dwc3_host_exit() if NULL.
 
-Oh, yes.  I hadn't noticed that.
+Fixes: d07e8819a03d ("usb: dwc3: add xHCI Host support")
+Cc: stable@vger.kernel.org
+Signed-off-by: David Collin <davidcollin899@gmail.com>
+---
+ drivers/usb/dwc3/host.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-One last thing: Can a similar race between open and remove for the main 
-(the ep0_operations) file cause problems?
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index c5674161b2b0..74117cbb2f42 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -219,12 +219,16 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	return 0;
+ err:
+ 	platform_device_put(xhci);
++	dwc->xhci = NULL;
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dwc3_host_init);
+ 
+ void dwc3_host_exit(struct dwc3 *dwc)
+ {
++	if (!dwc->xhci)
++		return;
++
+ 	if (dwc->sys_wakeup)
+ 		device_init_wakeup(&dwc->xhci->dev, false);
+ 
+-- 
+2.55.0
 
-Alan Stern
