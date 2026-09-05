@@ -1,76 +1,76 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054AF1A5BAE
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 02:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6139D23E25B
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 03:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788575841; cv=none; b=oqOci4Ixuad+DBny7giBbfpstFLmBuM6jWDkjWcu5Bb/qdKgfa9UfGyUgD0i/lo2UVlFcLgUoaPQekZMhkg0j5FM3HroIXyHw8NORgZ+w/xsb/KCSKl2oBJmhGpo8uyP2RPxTFTOCb9ILZpfWRZHyBeHDxY8nfdo/K/yXJHT8P0=
+	t=1788577581; cv=none; b=ndLaBBHOHsZfAnZb/qwsTObCIU5mm9EVybpQGHKOUkiEXBoyANQbuLeaIPpZA7TqiDL/+Jad4ugvF8qxFfs7MNOhV/Jqjnz2A2whSqw7JDplqRN+WUuNj5+3Cw3KZjhvIflPuOEG7Dbryname883oeO3HzirR1pUM7yCfXkuqpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788575841; c=relaxed/simple;
-	bh=wquW73nnBwWT6XnD+X/Pe7ShK7x7XDj8Y7JBFd/eb/U=;
+	s=arc-20240116; t=1788577581; c=relaxed/simple;
+	bh=05onUa78HA/34vDAUE1i4DkCsbgasfejcqApElO2zE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dxTHsyVQQfiHlZBFSbArC9z9dAfJKjox6EzexXZqiJAVk+73IQ6yt+iz3q+7C04BttA7DHCNdD1fS8EEB5jbbsHGC7Sdyt+CjZyt71lE6Y5Xm8JIPK75iuD+NZoJA5gaUZAh9rGDsQbgQBFDjOqIKzYNgcoN5Dsw7GByL6CBr24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=kFvZp8Ge; arc=none smtp.client-ip=209.85.160.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=fIWNvWhoOCEdw6S9M/a89Y5OkZGo1omKwq+OBU0AK4fOjuxNggwb2sIdsBnB9I9JWawIgtiW75edg7PwNzA5p9nnst4cqoYHyJeyljAB70h0bxqdpdjzq72QuKYDmu9p6YJTG5EPd3Arb/S23LNOgKHgTz7Ts8mAu1zvFaV6MHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Cqpje6bl; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="kFvZp8Ge"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-53031a57d7fso18856831cf.0
-        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 19:37:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Cqpje6bl"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-90e7d9c747eso22046536d6.2
+        for <linux-usb@vger.kernel.org>; Fri, 04 Sep 2026 20:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788575839; x=1789180639; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1788577577; x=1789182377; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=9w9CEy1DQ4ao93Pe4ROwaoUm/boruq1IRty3oKe6EUU=;
-        b=kFvZp8GeJt+dxSRLgvQ3t+Dx3U7qM72zhme6hYyVbLWdoc1trdrLswWsw17loWdits
-         zmNgfG05ovuBHX9oNVLLM1fy1a9gYBv2aN+I2horU1L7oHuuvS6hIdexPKUfHuoALHxf
-         JbY7NhzUwBalqtVMfSOCm+PV0ctep1PfsWPCmToBSallndG3gqpBIUP1iarRwPguUEhI
-         CqNqaKhY7WMuSQNktxtP2PYvDqBYg7/Etu6UaQ916dMMvTBPlMod9UuxSEmSpqPWGrc3
-         kYpD8GzgXMhjM7a9pganKBWWh6NeOU+urCxDTl+4yuDC9vFcyKtwhf9Jdz3z0iiaUjzq
-         SKlQ==
+        bh=VakFjZ3yG4j6XtWzGOyJF4+PPwgn5fG+FnI3gon9QLA=;
+        b=Cqpje6blRQPSLQikhcy8iq2juBHT7Q8wCtawHUcslIX5ebs3FupRcfYx/jUaKdJgrC
+         haZEWaMGC5YVSb0thSx4Y4W/g2B5ckYunihw8drTbVbJCU7eeE+c+sQg8D7Yegoq9COO
+         huFAt1YoJTPZaIL+0ngqjcJQgNI5Bgce7eRF0mhv6zqSiPjvki8rafSyMj+wRanXw9uX
+         Tg/hWzB/00S4WJRRQaOHssaxnt3IX3/Xsp3LCqDyRvHDNKYq+XBNTIGEmvU2Bb7cnm7H
+         DjxS8vv7t5p4vm+PRQJzb/R6oYrJtjztaPjH1zBOwFk9bFS5pbPuvxj7rZjWw6OKRGxP
+         xryA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788575839; x=1789180639;
+        d=1e100.net; s=20251104; t=1788577577; x=1789182377;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9w9CEy1DQ4ao93Pe4ROwaoUm/boruq1IRty3oKe6EUU=;
-        b=eV4QifoXgTz92x8B7yyRbdMRe8GH8ToAY4SGDzGk7nMGMJcFI4wmwGfnwO37zh8OKt
-         Fi4hmryzPuzVz3JHxDNCuU+xeg8SvSPZDpAhHS1A+IuNuc4y+s4ZccRBKpa3BYI5r94W
-         WNcbT6y7yJplETtxsKKhCc33RSNGoWIPzyhE3x/AbTXPIXTWJpYIzVCaKjDEfkX3qvjk
-         B6LXAbcCQ2/j5knLLIHP9DklXJBzLFfH8HEqrmkawHFRy1DmQ1t/1hqpo+Zm38B1cUIH
-         ddwrAicD8JF/B5bH8P2BGVA6X9/ksdaQrcSQM1AVNXEYh1HeN9ViDTJFnGpLgZEo1+Tg
-         iCRA==
-X-Forwarded-Encrypted: i=1; AKwUvBzsAwu5KBmE2SzCCrwkClYulENaneGWmwc8SraDX4tqDFN5us6KXWpv6OQGHUPy86DeIn64ORf1S6g=@vger.kernel.org
-X-Gm-Message-State: AFuF++lP0hhbo5lSO0gwJXSxSLXqu6402PR2GnnEwaO3/OfhvjmBqhd6
-	aVukAS6T4pGxVLdoKG+jXRh3oq+QxHemODyYqa4jknbdDxDRKEdm7MAuBCYATlHd0A==
-X-Gm-Gg: AYBFou0UUMpkx+PAEsaWCTjwbERAV250HV22KNWGMyiEIefWh5U9Hw1dhyj21q2A+Uk
-	PVOpK7u8mZpstqLbg0N3u6pix7UdTduAenbJy3LDWnsAv2oAFX/qP/jqfQnt+mqgq9MTt6xrHXR
-	ZfWY+SOBT1z4wfQ1F4Xm7TfOwJeHGw+PNGspa4ZGfcTNvDGyHxx5So5E3Qn3aKOk7YsTKvpti8z
-	5W1hewLI2rrj4YFFnjQLddg33HzJTSwQSG1tCYAZbm9PAfN9COpAiVsRxyaJGG3qbVdSHP0/6H0
-	Bnu9/18LIK7tmjiNnsMt3aCRKR5RN3gjJ8rNIMAcSKVXJWF+o70ZlfeScVtQ4A1tf0q1/0+kbbD
-	gw62y0Ckh2nisjXcRP7Xn9tGU33KhCRAqW4pvGFWypLqvj2BDaI2weCl5/nYymYzADHZfVgpJqX
-	RUujVKoux5HgIQOXkylZ30yhv4bM8U+VZTQ2cyP2yFgjt0KNrrW45neyeLjrbPKdA=
-X-Received: by 2002:a05:622a:411b:b0:530:4310:53a3 with SMTP id d75a77b69052e-53054a34ee4mr115702161cf.48.1788575838780;
-        Fri, 04 Sep 2026 19:37:18 -0700 (PDT)
+        bh=VakFjZ3yG4j6XtWzGOyJF4+PPwgn5fG+FnI3gon9QLA=;
+        b=qX+CqU7EE+adrRxStSndxie+VSO5d5KacRaGzuGhW/4GCEJ95qKDHaRqkegA/TmJqV
+         YPk7aRRDxVRaOuL9NPcuhMCRljAdjlPY8y88DdpFwnVbyaRW3gTF2ETcDRns9bLHRFlO
+         R9UteT9y/gHyVA98dD7r8LxNsqKvltPylNnrohmqiQ0E6hsKcOyH2JBbVABO82XDlW7s
+         1bFO3CEekPsqLmrnARg0yPVBgAxNnDThiHPQkAe8bYBhlUyjWzWMDRHV26ZNfi/ilnzL
+         crPgX29e0MsND/2W+SfZKOmEWIlrc48pLcJZ5HPZq1N8Fl6aT35PhrmCOAWyBEvY5/0d
+         9y6w==
+X-Forwarded-Encrypted: i=1; AKwUvBy2lqRdqQ6vZ5SSOPrgZsgTxeoIzbf2JD3359wLzDNAt4Xmgkpme2+s765jHTQMyg19nV8W063bYc4=@vger.kernel.org
+X-Gm-Message-State: AFuF++l/R0YEKtHoaYv4iXxSGMf0PwvFPLHuiE8KLp/OR/+8xlEPhBOw
+	giR2P/I/RkzD3q/dHgfJi5vAivoyimdBHoYRMTmD2s+l7cdjRGnc1rgWWxOANyxbEQ==
+X-Gm-Gg: AYBFou3FYNuEKtLXB+ojEXWxnwD5jMV4DgJmDaxwhK1F5JW58S+EaHQPv/ujnNNPWz3
+	OMxknwfrstXFHqOyUvl24t/HqSNP1hPqHViRDem6t/WTnMnpxSEf0NYKSoIZeCPmTxA1wCgawoH
+	XDy3RY/re0iovO+joLD4kPrabZJrjAeoNIoq6M/eiPDz21sEtnoWADNHiNDGFxBs5XT08ZM6/bf
+	q3W+i/xeeWHgUin+pFidMvvn8pa3Vosmq6SL91dY4/xhK2rte9oMLJ3ZvA3DkVRbmyYagA4ffwW
+	C0oZnsgDcYSarOZZyvO8wxmZym5wxDWL5tQLZlY+TLKXWzGz/oL0ZuM0MbWviCX3xKhnnkwYd8e
+	+TAxJUexjlfv4FOEwzMSywe1Yl6aYzObNQ4BHAuqv7ETNYWGMh9lCNlAWl5TmTC2NkaK9tH8vwe
+	YU3zvxWT7Bd7NwmjmwLlbKXH5TW8E1xGxQ1c5T1dAey9RthUpDrusGBldzzSFFYA==
+X-Received: by 2002:a0c:f09b:0:b0:90c:e240:3e89 with SMTP id 6a1803df08f44-9103ef16760mr116075456d6.13.1788577577271;
+        Fri, 04 Sep 2026 20:06:17 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-910406bf8c3sm35302066d6.48.2026.09.04.19.37.17
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-910406625d9sm35033016d6.20.2026.09.04.20.06.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 19:37:18 -0700 (PDT)
-Date: Fri, 4 Sep 2026 22:37:15 -0400
+        Fri, 04 Sep 2026 20:06:16 -0700 (PDT)
+Date: Fri, 4 Sep 2026 23:06:13 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Arka Mondal <arka@arkamondal.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthew Dharm <mdharm-usb@one-eyed-alien.net>,
-	Daniel Drake <dsd@gentoo.org>, linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
-	arkamondalofficial@gmail.com
-Subject: Re: [PATCH 0/3] usb-storage: alauda: fix DMA from the stack and two
- block-map bugs
-Message-ID: <0a60fe87-181a-405f-a758-90883ea7c60e@rowland.harvard.edu>
-References: <20260901065831.43567-1-arka@arkamondal.net>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Daniel Palmer <daniel@thingy.jp>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] usb: ehci: support non-standard port status
+ registers
+Message-ID: <cebb04f1-83c7-46b7-9516-4a5ca422d21c@rowland.harvard.edu>
+References: <20260903-gemini-usb-fotg2-v3-0-dd92ecf5675b@kernel.org>
+ <20260903-gemini-usb-fotg2-v3-1-dd92ecf5675b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -79,48 +79,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260901065831.43567-1-arka@arkamondal.net>
+In-Reply-To: <20260903-gemini-usb-fotg2-v3-1-dd92ecf5675b@kernel.org>
 
-On Tue, Sep 01, 2026 at 03:58:28PM +0900, Arka Mondal wrote:
-> The alauda subdriver builds its commands in stack arrays and passes them
-> to usb_stor_bulk_transfer_buf(). usb_hcd_map_urb_for_dma() rejects a
-> buffer on the stack, so on a host controller that uses DMA every alauda
-> command fails. Patch 1 moves the buffers to us->iobuf.
+On Thu, Sep 03, 2026 at 11:17:38PM +0200, Linus Walleij wrote:
+> Some EHCI implementations place the port status registers outside the
+> standard operational register layout.
 > 
-> The first command to fail is the one that builds the block map, and
-> alauda_ensure_map_for_zone() ignores that failure, so the next access
-> dereferences a NULL map. Patch 2 checks it.
+> Add a per-controller port status base and use a helper for all PORTSC
+> accesses, while preserving the standard location by default.
 > 
-> Separately, the zone index used to reach those maps can be num_zones,
-> one element past the end of both arrays, because max_lba counts physical
-> blocks while the index is computed from usable ones. Patch 3 bounds it.
+> Gate the alternate member and lookup behind the hidden
+> USB_EHCI_DEVIANT_PORT_STATUS_REG option. This avoids growing struct
+> ehci_hcd or adding a runtime branch on systems using the standard port
+> status register location.
 > 
-> Alan Stern <stern@rowland.harvard.edu> wrote an equivalent fix for
-> patch 1 in 2023, attachment 305027 on the bug below, and offered to let
-> me post it. Patch 1 here uses us->iobuf directly, as the other
-> usb-storage subdrivers do, rather than the memcpy that attachment uses.
-> Alan also diagnosed the NULL dereference in comment 11 of that bug, and
-> suggested the reordering that is half of patch 3.
-> 
-> None of this makes the card reader work. Alan has said it may be better
-> to mark the driver BROKEN; that is a separate decision, and these are
-> bugs in the code either way.
-> 
-> Compile tested only; no relevant hardware available.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217862
-> Link: https://lore.kernel.org/linux-usb/20260821080951.39905-1-arkamondalofficial@gmail.com/
-> 
-> Arka Mondal (3):
->   usb-storage: alauda: do not do DMA from the stack
->   usb-storage: alauda: check the return value of alauda_read_map()
->   usb-storage: alauda: fix out-of-bounds zone index
-> 
->  drivers/usb/storage/alauda.c | 95 +++++++++++++++++++++++++-----------
->  1 file changed, 67 insertions(+), 28 deletions(-)
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Suggested-by: Daniel Palmer <daniel@thingy.jp>
+> Assisted-by: LLM
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
+> ---
 
-For all three patches:
+For patches 1-4:
 
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-
+Alan Stern
