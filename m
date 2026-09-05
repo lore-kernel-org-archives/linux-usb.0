@@ -1,174 +1,139 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D932DCF57
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 14:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788619561; cv=pass; b=XTU35+7ff4rwzmIbAjhRAWvN6JYPkJJhokiKmYf6q3LrBBcj6Cx6h5SrfRKBu4MQFhf5bzh3I5yhNjSYyxmONAjvUA12mAIMoyFEqxDowOdlCuNmWjWsOJymifPofhx9t1uwHQoaB/gHS8Qw3xzZMTKpVSJuTCeUs6MhjYnNmoI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788619561; c=relaxed/simple;
-	bh=L8myuZh5TkwP8G3mvqfKjytXnbslLjt5FQVUN/hw4OI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qaqv0s4pyT0b5NvHr/BdY6Ct1cXGiG87rN/F3vZlHYV6ahVsJZS/2d/we+RCRP4M24iyqbG0enkpj5aX61YRyTHF9bQ0kEVTf3lScy3/qdZZ+G7AyshcEYuDam5Q9oKh6Cp2BgVCHfQOiaaBaW4gNY2bSfNMoqcxm7p0ALHZuNw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H+EL7MIq; arc=pass smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A4134BA50
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 14:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788619766; cv=none; b=odkwClKa+Z4+Am3mNB/0yUvJx3mKEXLfGQn4wjeQFLqJf+snV309kggUixU0ZpXZqXmQEsbHiCZ1c6Ly44VuJntVyWUlR9j8as1Tl0/Up/EC/lKsOI60kVYtYAtm2nNXkRY3TxCmc1/ppidzH9ZqV7LF8dGGscpEatkAE2Qq6ZY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788619766; c=relaxed/simple;
+	bh=FRnnV2UPgnybdy2i+KaN7uxF++IrB+3e+PRN1h8J4vg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TLTYzKprgkSqpOVbhN0lwXsqGM0duoyiYzUHPQaJmyKASMupJeoSfkAnIo9CHgX1f73j4CMtjwtOs0GLDwQdHo9wNZpKojcl9qz8v71907weoY+jqAjaqYD8nrZHYkmTC8wBJHiQWjELlqTFity79ZETgtv2N1i5eobHMAUrsfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L/bfgNbm; arc=none smtp.client-ip=74.125.224.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H+EL7MIq"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-381b831d535so3230244a91.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 07:45:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788619559; cv=none;
-        d=google.com; s=arc-20260327;
-        b=U+Ij4rcHCIHbtZrDBFGFJe3flF3MdVL3mKfYpn+LSmYgtzCYgkAcmL2gMBBsDZLhiL
-         Qn3aoEmTLdH6ldD4skrINwuvbPHGgFLuvGXdEFrjcsOAleePEPucFIrf/p4v2viR9xha
-         1n2oblC5HYDSVXqMEDEW6ObyK0h6endP4Nevr8Nn+dU2guCXuFvQBUAiqB7bHTIHoITN
-         L/ZP5RnMZM6ens55wgYJUiL4j8y2HIeQfMT17K58ozdocYGEvH7EVonp5GFuCZJRK/Ie
-         X/XrRTl5uxaNvZwhNg7fzmfsyuONeqLUifN4I0unV4qLvEXf9f/Yh/hv26P/Ajeco+HB
-         yv6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+KCLbwA7nct8QwO9oRt8cDRk9p526AwNAjfsXhcPbqY=;
-        fh=4UzIszEUTI1vVzfguSooDew99fY5+h2HBeiFpiuAdG4=;
-        b=VJCRclwpz9pWFClOunF0TZ3dJcqI4mHIOAeIVOPMibXP8DI0caduud8l+ntnlb+8Se
-         5q4tSIrDZkvecKp1Y5946M0J3B+DwLn82sbp9XjKTEVKU6JMkidBl8tpcfiHvxHZN/g4
-         Vqd+A1l8TOty2QVT9ddRVT0w3oH9taHL6dDLYGR1cLX65Y1tF6myI9jlbKql3AAy2N9O
-         slP2rS7q+1tREUw68QxKp1Tpg+8aIqtDJcCChlv4qxBLu9vRxwvste69bOZvlwEJOjsV
-         IkpFQ6qT5ODeqy3M5X7jc4j6EGKQeShjQ/EtGkTPY6ei5r6NjkpRWqewQGWg3aNe3+aa
-         T2RA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L/bfgNbm"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-66f78cba2e1so2098362d50.3
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 07:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788619559; x=1789224359; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+KCLbwA7nct8QwO9oRt8cDRk9p526AwNAjfsXhcPbqY=;
-        b=H+EL7MIqBrw9ngrBroY6NT3zYKP6M2CpJoAoCvJ0fu0VJaPe8PdNxW8KsBIDK1OR2B
-         CxSi/tWBaf3F/GaBeeZEwTNzRkAAFDipoSTs0SeNpVvyVPgSn2sC1dDFfNSHStBYr/uk
-         /A8ZIi59rGibzUWOjrCUbF/HJsqCfTGRb/3kBY93hRIjJg7FASH0E3/ee9VpWPbBvbQ/
-         kwXDlcrmOrH2PjW30IdATSTyr91WSbXii8/yzalfzCik3lA9HTJ7wyk416XWkyLXToQm
-         KysKg3tXflgBnFrHCtQfP5OYKvrFWf7g57U9YKFJZbvrFCulZbKmtQEh0VtXPfACTsyQ
-         5mug==
+        d=gmail.com; s=20251104; t=1788619764; x=1789224564; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9WX7DvNOjHryO47q3I+QxvLickoY+HKmF72l/Zrc0jQ=;
+        b=L/bfgNbmABPzPhf50WwDG07fcT71kUAZzTjKBdXfogcCsPPpFGdYSAFmZhaZNNLL79
+         Z7C81C8PMzSgchrh9fZDNhprbHVob5De3h8kCLRyAujaH90dssNtGX0DUYbNr8xcu9JM
+         ZFhAGsXECmSfmSMOXOropCnedNolL/JPzeHPAW1wWNhe7FFCrxNZduYc/sLAhw3FMewE
+         N7WvNtLu/pzh/zrcQQvuVb0xSQ3F2R1n847Su6fJfrUxsvxm2IpSZuzkCgHtUcFZa+a0
+         +SI98mQY6oqaIKBtxSOiH9XFCKkupwnnUWanHMS47yIviRRincbvY899oKHCSKO+CjBF
+         SW7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788619559; x=1789224359;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+KCLbwA7nct8QwO9oRt8cDRk9p526AwNAjfsXhcPbqY=;
-        b=LKqxnwgJSacgSKFEoA+AGVFV8qGr6i1IJsDsV3xJiunfh12rXcJRuf3dPaprY4y/ne
-         eqye2+2hja1DNErga+JZT7yD5or8nXEXJbvfUTN4vsYo/k94WAf104/k3KVRoESKhGrW
-         Ny0e9CYTo+JpaZT9EAsQnLDRAfl0ImUh+c4Li2O40eAtaHbT1kfkh6MsTPweDkMOOBEC
-         eRhFAI/QqcPR0hRXMl3XpX0Vw5sBB0/v43hOD97Arb6PowRdvYf+NB/16o1NPkWaTbxc
-         qp1NKlox6tC0kx6vRVy+I92tB+5U6wA0usvxg0GEnqUOYOJi4KtzwslA9Zc75b5buggc
-         w8Cg==
-X-Forwarded-Encrypted: i=1; AKwUvBwT+4rZAMTUlMd0vCq10TzXVku0NB1uWCweMrUcqU70HZM5flZCImvRLVYYTVwuZP7QGgi9+GEwkwU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nDRf7apksJjfvniRUBrlECX7ZBR0e/k7pxqq+T2EPLhaktbTP6
-	SDa0ezpx/xoDMCCLs4lRufGAG7uDEifu39LY8/XYv7I00SmtyixAaixXtEjyjI9RQFsRVdp+/Yj
-	lKNu38c/AZPPqhri4nA2y/6WcZrLOY24=
-X-Gm-Gg: AYBFou0lbLAm7M8Zq3B56gGLb469KDNOdbUQhrLUnBrIc3nicbyr9peTueKF+wumVUr
-	ZvGdUMnCBHh+0iCHEXiGo+a+XvWH3orJa/DQFKlLGW2K9FlsjF0/b/NbQLpWATbjwGCQTgUMLUA
-	raI90WYB6DMMgrZeoC4dKI6iQLJInoTXRU8Glddkw2DFXsbJYx1WtcfwMlfmxRCoKTekLt18Y0Y
-	aqhvDnDVQdLgqRDR0fL3ICa2ACTJiKmq5OAzlVDfhm+zaTDYvKgHAiorXGiaSxEzM5ZV9Np5USu
-	yImLgoq0eVfc8JwwCuFMcNBcgYxRreZZwLmuA8Eax/OUiLfUpVu4j7DUzw==
-X-Received: by 2002:a17:90a:da8f:b0:398:9be5:b41e with SMTP id
- 98e67ed59e1d1-39b26299957mr19052578a91.25.1788619559191; Sat, 05 Sep 2026
- 07:45:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788619764; x=1789224564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9WX7DvNOjHryO47q3I+QxvLickoY+HKmF72l/Zrc0jQ=;
+        b=h9K/bQnOw/BjrIxA0bj0hyoGugB9u2LErC+U431VLm10IpC4fTtnbnO+ztYP75MOsg
+         Zp+o0CFRUDuBysOl3CBmv0ASwqWdq33Eo3M2dxENQpcjNNjpXPtDzrwvzlOoL11LN0Zo
+         jQ+27oNVxfG8ACkL1QTrbl5Gde1TTrLjdTq7/UYjfFkvTOwXY7KbB0eQbSw3n5uNMc6s
+         qJDtOkSF/QwGMmsrRmfgGA+X6W2WtZrlm5oIOCEFmtrCtUrj/EyfcXLzTvGyaB7OVHmG
+         anzO94zB21YZmi1bjkdthE5K0cOVtuXlQfL6UIZ9SRrd7Fa3KBjkZ3kp3Ybo+eIn4Fkj
+         q0/g==
+X-Gm-Message-State: AFuF++mUZZYk16KUeVsGTCPgitXwdRqt/GG27bPgSpK/HxapVyuFBoLK
+	B13Q/eg4YTeJwu9H4FNj0Rf8zaFJKS7LLZnEnaUe8RcIJmXe83C+rdJvXmZ3YA==
+X-Gm-Gg: AYBFou1UAPga/1KA5xyNXifEF2qvPkc9s68URVUiICD/Bw+G2H3sVphIKdghPaROKlv
+	6+a3/SCwz7Y5g2e3aMUNUk5ZZ6PJL9P53K5OE+IKdAr6/HsVd0OTE3rKWJPE1DuxSzUuvHB4hJE
+	lli0k1lRxE+ZbRNWQ+75vvFws4Ei5mHiW4gSAJMVqhf0v/QIyFeByvqh764YxekBGBJJUR66U4d
+	tOXFtF90RxLG1dYDt4zT76Oy3YAJeUgXVDmBUH+F0OaQoWjV5Bn7Em2Z07GZ85TR5vzXyX5GS5o
+	gvJgOdT4L9hknLpoLk9g5kekSjO2ZF4HhOG/wFzPdTleSdyGY4bCJ+4hqjvDga84j9ThJLg9M+S
+	d8BLbmvF+ZisWAEuz8H7T67yeg3A+77rlglfLmrkO8WNPEsv4JETCVBSNkTKZDcE354iJ62EdUU
+	ufaijZo0SSbg46OBg8cjTylPjKrZLqQmZD8DmAtnYc3SxbzQ4I4FU6ug==
+X-Received: by 2002:a53:c052:0:20b0:66f:c1be:a664 with SMTP id 956f58d0204a3-66fc1beae72mr1465739d50.86.1788619763684;
+        Sat, 05 Sep 2026 07:49:23 -0700 (PDT)
+Received: from adriano ([186.174.254.32])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb497cf0dsm4616706d50.21.2026.09.05.07.49.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2026 07:49:23 -0700 (PDT)
+From: Adriano Cordova <adrianox@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Adriano Cordova <adrianox@gmail.com>,
+	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+Subject: [PATCH v2] usb: gadget: inode: fix use-after-free of struct ep_data
+Date: Sat,  5 Sep 2026 10:49:05 -0400
+Message-ID: <20260905144905.263941-1-adrianox@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260904163827.216389-1-adrianox@gmail.com> <0738d3db-3861-4eb5-9847-bde865a1bb28@rowland.harvard.edu>
- <CAMGU2hUOyoWAG-HVCvchqqc4R4uQ7QHaJ_GKGK+hUWw-=Z2deQ@mail.gmail.com> <c97a6204-5e6b-4306-a4f9-86b41c268dd1@rowland.harvard.edu>
-In-Reply-To: <c97a6204-5e6b-4306-a4f9-86b41c268dd1@rowland.harvard.edu>
-From: =?UTF-8?Q?Adriano_C=C3=B3rdova?= <adrianox@gmail.com>
-Date: Sat, 5 Sep 2026 10:45:47 -0400
-X-Gm-Features: AcwNN1XtQEQ_pkuG-2xPBm3A-z93hFq1xa7PIMviZ7b9vd-j1Jm40nnWaDevMas
-Message-ID: <CAMGU2hVGz9PwXhi+j3z0Zn0keUPt6Y9ArU38tpSRYw5ZHupDZQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] usb: gadget: inode: fix use-after-free of struct ep_data
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
-	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-El vie, 4 sept 2026 a las 15:27, Alan Stern
-(<stern@rowland.harvard.edu>) escribi=C3=B3:
->
-> On Fri, Sep 04, 2026 at 01:31:29PM -0400, Adriano C=C3=B3rdova wrote:
-> > Hi Alan,
-> >
-> > Right. But that patch makes the inode the sole lifetime owner of the ep=
-_data
-> > (deletes the list call to 'put_ep'), but ep_data is also linked in the =
-list
-> > dev->epfiles and that reference can outlive the inode (it doesn't happe=
-n now
-> > I think, but only incidentally).
->
-> Okay, I see.
->
-> > So in the patch in here I decided to go with a refcount approach, just =
-to
-> > be safe.
->
-> The patch description could be improved just a little...
->
-> > El vie, 4 sept 2026 a las 12:50, Alan Stern (<stern@rowland.harvard.edu=
->)
-> > escribi=C3=B3:
-> >
-> > > On Fri, Sep 04, 2026 at 12:38:27PM -0400, Adriano Cordova wrote:
-> > > > gadgetfs_unbind() -> destroy_ep_files() frees each struct ep_data v=
-ia
-> > > > put_ep(), but the inode still points at that ep_data through ->i_pr=
-ivate
-> > > > with no reference of its own.  A concurrent openat() on an endpoint=
- file
-> > > > can therefore reach ep_open() and dereference the freed ep_data (th=
-e
-> > > > mutex fast path), even while the inode outlives it.
->
-> You could mention something about the inode's lifetime and what causes
-> it to be released (and when).  This would make it clearer to people like
-> me how a concurrent open() can race with inode destruction.  But I
-> agree, you're right that the inode's pointer should be counted in the
-> ep_data's refcount.
+gadgetfs_unbind() -> destroy_ep_files() frees each struct ep_data via
+put_ep(), but the inode still points at that ep_data through ->i_private
+with no reference of its own.  A concurrent openat() on an endpoint file
+can therefore reach ep_open() and dereference the freed ep_data (the
+mutex fast path), even while the inode outlives it.
 
+Give the inode its own reference: take get_ep() when the endpoint inode
+is created and drop it again from a new gadgetfs_evict_inode(), so an
+ep_data can never be freed while any inode still points at it.  This is
+also safe against dcache pruning, since the inode reference keeps the
+count >= 1 until the endpoint is removed from dev->epfiles.
 
-Ok, I'll send a v2
->
->
-> > > > Give the inode its own reference: take get_ep() when the endpoint i=
-node
-> > > > is created and drop it again from a new gadgetfs_evict_inode(), so =
-an
-> > > > ep_data can never be freed while any inode still points at it.  Thi=
-s is
-> > > > also safe against dcache pruning, since the inode reference keeps t=
-he
-> > > > count >=3D 1 until the endpoint is removed from dev->epfiles.
->
-> Now it all makes sense.
->
-> Your patch doesn't handle the case where the gadgetfs_make_inode() call
-> in gadgetfs_create_file() fails.  If that happens, the refcount will
-> remain elevated because there is no inode to evict.  I'll leave it to
-> you to figure out the best solution.
+The inode now holds ep_data for its whole lifetime, so an open() racing
+with an unbind never dereferences freed ep_data.
 
+Reported-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
+Tested-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+Signed-off-by: Adriano Cordova <adrianox@gmail.com>
+---
+Changes in v2:
+- v1: https://lore.kernel.org/all/20260904163827.216389-1-adrianox@gmail.com/
+- Added further explanation in commit message.
 
-If gadgetfs_make_inode() call in gadgetfs_create_file() fails, it returns
--ENOMEM and the error path of activate_ep_files() (where the new inc
-to the refcount is) kfrees the object directly, bypassing the refcount.
+ drivers/usb/gadget/legacy/inode.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
->
->
-> Alan Stern
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index db961aaa3740..089fa7119922 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1626,6 +1626,8 @@ static int activate_ep_files (struct dev_data *dev)
+ 		if (!data->req)
+ 			goto enomem1;
+ 
++		/* The inode keeps this ep_data alive via ->i_private. */
++		get_ep(data);
+ 		err = gadgetfs_create_file (dev->sb, data->name,
+ 				data, &ep_io_operations);
+ 		if (err)
+@@ -2015,9 +2017,20 @@ static int gadgetfs_create_file (struct super_block *sb, char const *name,
+ 	return 0;
+ }
+ 
++static void gadgetfs_evict_inode(struct inode *inode)
++{
++	/* EP inodes hold the reference on their ep_data via ->i_private. */
++	if (inode->i_fop == &ep_io_operations)
++		put_ep(inode->i_private);
++
++	truncate_inode_pages_final(&inode->i_data);
++	clear_inode(inode);
++}
++
+ static const struct super_operations gadget_fs_operations = {
+ 	.statfs =	simple_statfs,
+ 	.drop_inode =	inode_just_drop,
++	.evict_inode =	gadgetfs_evict_inode,
+ };
+ 
+ static int
+-- 
+2.51.0
 
-
-Best,
-Adriano Cordova
