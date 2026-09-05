@@ -1,238 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF265381EA0;
-	Sat,  5 Sep 2026 07:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5ED345EC6
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 07:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788592970; cv=none; b=m9hr1q+HXrAHA24qEb8xnkVhExddjxg08Isbtw74Ipr9uZ+ApDy43aOTnW1Q3xexNG6O3t7eeyucKr7dXjpm1udNJGM3CoU3ElNX5q9Fasp0bgCC8M/h923AWOXVn6vx28sCV5hnv3p4gtxmQ2C8XRG6By6d5WOyL+uXPjeZfvQ=
+	t=1788594982; cv=none; b=REzLNCa3ae8jCqxRWQNmgHNpLk93eq5MONKtCepQDj912cyVXAGsa1ZOvc0BujboZE70YUQHB/G6sXdx5pAHjwvuRBZOZ9TcZ4fwU8GufwxnVU/TBzpTrBDMuxLiSql8dfF73hxrHzP3K6BUl7A66FOyQtdek7uJgiNFCzrlUVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788592970; c=relaxed/simple;
-	bh=oMPBl1GCTzB2Z9MPETN7QzFHchvqoUwHWSJ4r/MxgNo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MhAnd9suaOactCq40YH1321R8/MmaTzGQfTotFe01ywx3YxAyc9h1IJTfvoEpdXnmP8frJiIU8SeUgxx2ZGSS+5BCB+8t9q9ezHvwSyoXVVszaSXCN//R/58IhF4orC+KUpHZOI780ueklNPmKX5ePq+dR/7Ew1bScj2iH1VHlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eg8eb9u3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788594982; c=relaxed/simple;
+	bh=DzQIokuIuiebBoqlyi2mm9lq/znnuSYXVgUpbFffS0I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f2OwBon6MAPxCIuJw34u2YILnHiOQRDGPUyzHS1+RL1T2wnDWaWpkxdWOEsjPZV7dgeOuRwcHdYOWUn2cqkTqKRZTkOHnsvEmcJh8TS6tRllxehIs3AoIxuFm+hSTYQ4OlTxUxo+lwrLom/5rUVccIJJzwIxJxtssGhaGh8+MLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGwQIY4A; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eg8eb9u3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756C71F00A3D;
-	Sat,  5 Sep 2026 07:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788592968;
-	bh=N/3KUGxz1n+uOa/s4zSKV68Bk8DVLbxLMdLtSTIxu98=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Eg8eb9u3BV5uARQjwqOXeGICiPLIL2419FWMsvhYnDz7K/GmSmyxbVq8iRAKJC19X
-	 f5SboAK+rADMHoU7kgi8o81Jy4pUyNrqxd7/Xol3kkH3g1RQJIaHnrkS7vh9N91xPU
-	 2vOIArzb9jreh7UEn5bBqfPvPOBxrwpw4a3CgSek+3BKHr/3wlT8XrzFytnq/TY4sZ
-	 2lhCaaRDJNq70ypM4VD5fuKLhi6Hsovkn0hNMPrtqt/sTKG48e6s3JLTEtVFDczYZY
-	 y6APP2O39ZkEWzLJG66v0iMktVu78i0H2SlsuZ7hzSpUCeTn6b5L6BO+RQPvzpxr7V
-	 jp56I2mYQ25KA==
-Message-ID: <ad1d8c01-a810-443a-9ad5-721d6d0b68b1@kernel.org>
-Date: Sat, 5 Sep 2026 09:22:39 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGwQIY4A"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4858be8b509so690721f8f.0
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 00:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788594979; x=1789199779; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bPLAs8/W3BrTIfsm4m/UzvMsFkHC6fddEYHJW0htW28=;
+        b=LGwQIY4AWyl9OMnJNYsKguT3Df6NlpTP3lkND/HZicPGk3BGUCw5qA6WiwUTIyCAMg
+         OVZym8TwKI7vTN24D+jIu2mqY+zpUCRmitY3NHpjR43btxxoSyh8Z/JdH6pRlRqe6ihV
+         lFCFLAxYZCiZ1POA/gi/0AFfg9H1pAYGRHCNUd0r6Lx0dam2LjXYfWR0gxBBsZYh77ih
+         ktNoDWUpRTM4eyYuhIQnBgg5dCS/K6+h4aCZC4MWtuEow4SHbUMPSFoK/X6Du622cZsK
+         D9aDAtaroPVXZ4WHYYZAigu5+NLwFsfOiowYt2hnHGwqVs+mojT5J6VZslW2zfMPnYHy
+         UAmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788594979; x=1789199779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bPLAs8/W3BrTIfsm4m/UzvMsFkHC6fddEYHJW0htW28=;
+        b=sCzh7AflPWGpP3bm7I75z0MRgoxVFo5DfuU7XAXdJJImee/VXXblsI8IjXmJwuXEmb
+         wfeunXweuDhXBaaoo7/fxscpFb1hY/ppuGhV6zmnTbYpgg/YdfM3YBYF1fRslNc/j4ea
+         t+wsycKMIpBPaCaFY5sTu341ac9ZPE5FV1Jq3rGgVxPzlcVylZZzMqf8J+cDRAHxMWwW
+         V/zqXkpJIsJeXJf08q3wue4NDrC4yM9lV9ABzH8ClNp6vITAsp9G0E2e1Po8FfZO9yI4
+         D6fDmCDzbn7RBqzE9OeZ0VhMn6Dv8XLxgETVGS2zM8cHhpfYWdrSLuwQ5KXxwu0e4WF3
+         kwoQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxg/ZLqdMH0eG4HkUtbxg4zF9khNubeke4qaZ7x1HxDucnbuSgqiuHUTX2PQIXdt21DqIPrJvgGkx8=@vger.kernel.org
+X-Gm-Message-State: AFuF++klDbK9S1eEtcLSfKHFjvivw9cCSjpQSFc0/9LcRzx058KnmJ7n
+	rs/L2oAtUr6kAsrQL7rDbBdlH+Zeu8iaLb1wzPAoeK7NhlY/yGdynFaDzVR2ygro
+X-Gm-Gg: AYBFou24mHuSUomG9HSI1ZLYq3hSsFkQZKGPwYeOKQcinWdkwESwFrkfxCRt0rLuQ7M
+	6cv7gmnda3Swx4ZDV/R2w+3RtB+wyty8YWj9+VlUPBPUZe1X1aIVSpE6jzTXfkq+E0vDVTPWyp+
+	VLr5wTCPAussqvfSM9l5Afv/t/dUHye7jbBqUwhXFGElwdoLqraAKbb26OifIzB3V3npg3MAIiw
+	Im9UBQcsdJ1X+VZT4qoLlz5uCxAWwHscqkb24exEMEWQiF7ou19/4rgcfB2sKJNGuJUkIGrRVbe
+	gsVHoBYgJ/L0Lr5oLRbxC7Laq4nOAtgbnXHQafu5ICP9ikgaY1AqU533phXhmOcosY+PNjJMdSx
+	LKcJEnyM54olfTJ6LYfdamnKkQM5FF5hCJZ560ud23my08lHtJKsfMO4KH1VmIUNjIgup+Kw0cs
+	ryC15viSw3pN6ixKrKWrdNVna3t9MAZIV5xeCf0pJ3lcvP3NVKwvFnRPVRRF4+FKm2jLPnA86Qb
+	zC5xwpyoz/rZr4xQNnlbf47FxPQhklFfHuI9J5W7iZHQqpTXUvTvpi6DW1icdC7DJjleME5KPLm
+	1P6pcM8saQPlWXvJHrS3tnIcWasSm8F9vxt2kdwazZHDmjB544xKRfZxg+f9HpmlkiI=
+X-Received: by 2002:a05:6000:26d3:b0:484:4146:1422 with SMTP id ffacd0b85a97d-485870934f4mr12842922f8f.21.1788594978754;
+        Sat, 05 Sep 2026 00:56:18 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48594172546sm1669311f8f.15.2026.09.05.00.56.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 05 Sep 2026 00:56:18 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Pete Zaitcev <zaitcev@redhat.com>,
+	linux-usb@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: usbmon: Fix a typo in the example
+Date: Sat,  5 Sep 2026 09:56:09 +0200
+Message-Id: <20260905075609.32879-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: usb: Introduce samsung,snps-dwc3
-To: Selvarasu Ganesan <selvarasu.g@samsung.com>, peter.griffin@linaro.org,
- alim.akhtar@samsung.com, gregkh@linuxfoundation.org, robh@kernel.org,
- conor+dt@kernel.org, Thinh.Nguyen@synopsys.com,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com,
- hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
- muhammed.ali@samsung.com, thiagu.r@samsung.com
-References: <20260903071250.3421499-1-selvarasu.g@samsung.com>
- <CGME20260903071318epcas5p4b804edb84554847c576d1d034b814d7a@epcas5p4.samsung.com>
- <20260903071250.3421499-3-selvarasu.g@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260903071250.3421499-3-selvarasu.g@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 03/09/2026 09:12, Selvarasu Ganesan wrote:
-> The Samsung Exynos8855 USB glue is not separate from the Synopsys DWC3
-> core, using a flattened model where the DWC3 controller is directly
-> addressable rather than nested as a child node of a glue layer.
-> 
-> Describe the Exynos USB block as a single node, referencing the split
-> out Synopsys DWC3 core properties via snps,dwc3-common.yaml. The new
-> binding follows the same approach as qcom,snps-dwc3.
-> 
-> A generic fallback compatible "samsung,snps-dwc3" is introduced to
-> describe this binding, selected by the validator based on the presence
-> of the fallback string in the compatible list. Future Exynos SoCs
+struct ubsmon_packet does not exist; the name is struct usbmon_packet.
 
-This is AI slop text. Over longish useless sentence describing diff
-without actual information WHY.
+Use struct usbmon_packet.
 
-Don't send AI generated slop messages.
+Fixes: 6f23ee1fefdc ("USB: add binary API to usbmon")
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ Documentation/usb/usbmon.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> utilizing the same flattened model can be added by extending the
-> compatible enum with per SoC clock and property constraints.
-> 
-> Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
-> Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
-> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
-> ---
-> 
-> Krzysztof Kozlowski is added as a maintainer of this YAML binding, as
-> he is the ARM/Samsung SoC architecture maintainer (ARM/SAMSUNG S3C,
-> S5P AND EXYNOS ARM ARCHITECTURES) who already maintains Samsung Exynos
-> DT bindings (e.g. samsung,exynos-dwc3.yaml) and reviews all
-> Samsung related binding changes. This follows the same convention used
-> by existing Samsung Exynos DT binding schemas.
-> ---
->  .../bindings/usb/samsung,snps-dwc3.yaml       | 98 +++++++++++++++++++
->  1 file changed, 98 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml
-> new file mode 100644
-> index 000000000000..480308c16f37
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/samsung,snps-dwc3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Samsung Exynos SoC DWC3 USB Controller
-> +
-> +maintainers:
-> +  - Krzysztof Kozlowski <krzk@kernel.org>
-> +  - Selvarasu Ganesan <selvarasu.g@samsung.com>
-> +
-> +description:
-> +  Describes the DWC3 USB controller block implemented on Samsung Exynos SoCs.
+diff --git a/Documentation/usb/usbmon.rst b/Documentation/usb/usbmon.rst
+index 6d5ec1e62d09..667b84d3ae56 100644
+--- a/Documentation/usb/usbmon.rst
++++ b/Documentation/usb/usbmon.rst
+@@ -361,7 +361,7 @@ Then, execute a loop similar to the one written in pseudo-code below::
+       ioctl(fd, MON_IOCX_MFETCH, &fetch);   // Process errors, too
+       nflush = fetch.nfetch;       // This many packets to flush when done
+       for (i = 0; i < nflush; i++) {
+-         hdr = (struct ubsmon_packet *) &mmap_area[vec[i]];
++         hdr = (struct usbmon_packet *) &mmap_area[vec[i]];
+          if (hdr->type == '@')     // Filler packet
+             continue;
+          caddr_t data = &mmap_area[vec[i]] + 64;
+-- 
+2.53.0
 
-Huh? Did you even look at existing bindings?
-
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: samsung,snps-dwc3
-> +  required:
-> +    - compatible
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - samsung,exynos8855-dwc3
-> +      - const: samsung,snps-dwc3
-
-There is no snps device from Samsung, neither DWC3. The name of device
-is completely wrong. snps is a vendor, not a device.
-
-Anyway, don't use generic fallbacks.
-
-
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: |
-> +      Several clocks are used, depending on the variant. Typical ones are:
-> +       - ref: Reference clock for SOF/ITP generation.
-> +       - bus: Bus (APB) clock for register access.
-> +    minItems: 1
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 4
-
-You have only one device, why is this flexible?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +
-> +allOf:
-> +  - $ref: snps,dwc3-common.yaml#
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: samsung,exynos8855-dwc3
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> +        clock-names:
-> +          items:
-> +            - const: ref
-> +            - const: bus
-
-Why do you need all this? Look at existing code, don't duplicate. And
-for sure do not introduce one more DWC3 binding claiming to be for
-Samsung devices and completely ignoring existing ones.
-
-Best regards,
-Krzysztof
