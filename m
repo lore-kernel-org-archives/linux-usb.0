@@ -1,267 +1,156 @@
-Received: from mail-oo2-f5.google.com (mail-oo2-f5.google.com [74.125.231.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD9E320CAD
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 10:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B78453A44;
+	Sat,  5 Sep 2026 11:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788604235; cv=none; b=AlUqj0tI8WV0onDU1LtDyqanAryhLiZskuCzWQzNXPCbvmzxrCvy7L2kqoOpG3rhZLLSMPM7x9bKThr9Cy2jK9E+u23gJiILwDcqwSLfdkfIUjj9IunQzHGbGihMthwS0JFrEQwk3DspaKtjpZQy5u/Wu02R/PoYMPt9EumrvHA=
+	t=1788607778; cv=none; b=h/3dGEUC0KQ4DMFhr0AeO8d0z/5XfT9y/txVfCRtk1vK/t6xhnH7ois/1rbIYrbAm70D/3hgRJybOu2RZmGyO9vWy8cm75qp776nqqT3IWLyaezMKDGxVK1TAuaU+hgKXrfe1hIBAiNmYvA63DAiMZvgpXSiYvSY9Qx+mXxyiSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788604235; c=relaxed/simple;
-	bh=KnT7J76VOs0JF4MkaqyU7PKqA4YcPl9vPwF1cPE55wM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=bqd36QT/x1ESBL5oXs+EIA6vs9ho0O5k9BkEE0R+JV/A642Hmi0iBmtkE45KNSLmPpcXTanxK4yFKkLpcuQs6U1sLW42vM1qhnQhGlZlxTLNXgpWZ7EvI+eUPSJuYARV9hE1hxF8DeG2pf0JjHdHhjBOZcC5yqciEbm+n+SH9Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo2-f5.google.com with SMTP id 46e09a7af769-7f4e6693089so657416a34.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 03:30:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788604232; x=1789209032;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=2ikTUDMvgbs6Pvx2tv73p+QKcEhBgflCF3gftTATyaI=;
-        b=Ag6eaY3f4KNBC2O3CfxsNq6sm5YWlxlQM2hg3V+4Gxf0z3yt3gsNznVxOhthyOtY+9
-         DF8Iu8cjPwu83Z0DMrozYxUeTMrKU+94urqT1lkRPNwYak1rQpLQhm7R0i/Am98ITUrq
-         TmfGaQqgkpoFY9NP04HIfGJXG3aTTj7nIwMzNE19YLReOfQwpY+RTDa5TH5J70opC1O7
-         5MwuhpEIrOmsBBf/FeBph71K/+Y6GEDLB0y/O5X2KhqeKeRZNlq3HuzSjuAYa4f0MIm8
-         UVHWRjqNHTrXawF0kv0eXyfS/MI9agLQP63w528T+4BFC/HQNstZ0Fd3Us2JGILDdMUn
-         +FEA==
-X-Forwarded-Encrypted: i=1; AKwUvBypg4NQQRKN63yA+gW0cQRw+cM/NYB4Vip/N2G7eZ9pZHZcQvbxPYfiNAkvqW6dIY1Wz6isOV+G+2M=@vger.kernel.org
-X-Gm-Message-State: AFuF++m1PqYwPsEvb3tbTkyZ7wb/KwEw/96IcAsUAdFUEHx6FmZ3Cbm5
-	33K1DMXTYMqjmap89jhU+DisPZBQN5LEdtWKPB3qx+/Ce+xSXDvKewE1FwqxAwfvzHc0p/lWiaa
-	RYU+QiGMUR1HU/Y4W2mP4sipD8Bs+8T0S56yL145VUee7fSt4AYZc51dfhH4=
+	s=arc-20240116; t=1788607778; c=relaxed/simple;
+	bh=6QlfVPFcF/JHSfLa9SAEC7zdo7QfY4euoKXQ/sK6GjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I4DhT5+Oqv1zjwt6haNINqeSbolX7tp1C8AyQIUXxIE0XAb14t27OC4qvV+q7zmGR91M5eND7qJ8a/ONypobIbNYNmUvMOMGeAVQrqdtmUkJLKQh7+HxPASn6Gyf5gaQgEvZFGWRkPeAUEziqUeghMFaHjJNGO0pa3YAlumzfGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=syXLJRc8; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="syXLJRc8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C691F00A3D;
+	Sat,  5 Sep 2026 11:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788607776;
+	bh=NJjp7hyLSGDcY0T4wPUidEv8MR3gxhn3/lAEx5oetG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=syXLJRc8Qt140rlFiEVX2z6Ayz3tdNxSLO+4qNaGVJEUzBMblPT1YU8iiP9themzZ
+	 MO5S/OwEjQ7ZUQKELKXoG2fshz9qTTwazYyULIJszn0cQ6w+ByEwYHmnVH+VYKL7K4
+	 LeT6ll8QifcRley2chTb1MuFumJnjGGiDhw/Nai8=
+Date: Sat, 5 Sep 2026 13:27:51 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v3 0/2] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026090546-skimming-bundle-0655@gregkh>
+References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
+ <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2019:b0:6b1:7251:41d5 with SMTP id
- 006d021491bc7-6b6fabe1b66mr11573347eaf.3.1788604231940; Sat, 05 Sep 2026
- 03:30:31 -0700 (PDT)
-Date: Sat, 05 Sep 2026 03:30:31 -0700
-In-Reply-To: <6a6a9895.7eebbf3c.214d51.000d.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9bef47.37659fcc.e790.0002.GAE@google.com>
-Subject: Re: [syzbot] [ext4?] possible deadlock in process_measurement (6)
-From: syzbot <syzbot+c0bfa7a9a227036e8454@syzkaller.appspotmail.com>
-To: dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
-	gregkh@linuxfoundation.org, jmorris@namei.org, linux-ext4@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org, 
-	paul@paul-moore.com, roberto.sassu@huawei.com, serge@hallyn.com, 
-	syzkaller-bugs@googlegroups.com, zohar@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
 
-syzbot has found a reproducer for the following issue on:
+On Fri, Sep 04, 2026 at 09:46:59PM +0200, Armin Wolf wrote:
+> 
+> Am 04.09.26 um 07:10 schrieb Greg Kroah-Hartman:
+> > The ability to add and remove devices from a driver through the sysfs
+> > "bind" and "unbind" files was created all those decades ago as a way
+> > that kernel developers can iterate faster, and provide a debugging way
+> > for users to attempt to add a new device to a driver without having to
+> > rebuild their kernel.
+> > 
+> > This api over the years has been abused and recently come under a major
+> > fuzzing "attack" through tools like syzbot which decided that it would
+> > attempt to just randomly bind any driver to any type of device, causing
+> > loads of unneeded errors and pointless kernel patches to be generated by
+> > unsuspecting new developers.
+> > 
+> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > will be set on the driver if the bind/unbind sysfs files are ever
+> > written to.  This lets kernel developers "know" that a user is
+> > attempting to do something that is not normal, and as such, if the
+> > kernel breaks they get to keep the shiny pieces laying around on the
+> > floor.
+> > 
+> > The flag is 'Y' which was unused, and can remembered as the user is
+> > "yeeting" the device being operated on here (thrown with force without
+> > regard for the thing being thrown).
+> > 
+> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > as many times crashes/oops/warnings/failures happen within the callback,
+> > and the taint flag needs to be there to show what was being attempted.
+> > If it were to be set after the callback happens, the oops report would
+> > not properly reflect what foolishness was being attempted.
+> > 
+> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> > the tool from hitting bind/unbind, should be run with panic_on_taint
+> > enabled so that they fall over and don't continue on, thinking that they
+> > actually found a real issue.
+> > 
+> > Userspace operations that rely on the bind/unbind files to work around
+> > the lack of will to upgrade a kernel image to a newer version with
+> > proper support for new devices, or the lack of will to submit valid
+> > device ids to driver authors, will still work properly, but now the
+> > kernel will be flagged in a way that will show that perhaps those users
+> > should reconsider their behavior and work to have the drivers properly
+> > support these devices in a "native" manner.
+> 
+> What about users that use driver_override together with vfio-pci? AFAIK
+> they still need to write to bind/unbind.
 
-HEAD commit:    654ae5d73c05 Merge tag 'drm-fixes-2026-09-05' of https://g..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=14c568f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-dashboard link: https://syzkaller.appspot.com/bug?extid=c0bfa7a9a227036e8454
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12c568f9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17cc6b49580000
+As I state above, that is an abuse of this api.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/49c1a99f815b/disk-654ae5d7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6fcecf1b8c8d/vmlinux-654ae5d7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/fa54b23691ca/bzImage-654ae5d7.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/7be96c47c44b/mount_0.gz
-  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=12041125580000)
+> Also i always liked the fact that the bind/unbind attributes make it very
+> easy in creating generic drivers. In fact, i am intending to use this feature
+> in order to add netlink support to the ACPI-WMI subsystem in the future.
+> I am planning to realize this thru a generic WMI driver that has to be manually
+> bound to a given WMI device to make it available over netlink, so having
+> users be able to write bind/unbind without potentially triggering a kernel panic
+> would be very nice.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c0bfa7a9a227036e8454@syzkaller.appspotmail.com
+It's a taint flag being set, not a panic, showing developers that "hey,
+the user just did something odd here, ask them about it when handling
+this bug report."
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz-executor428/5602 is trying to acquire lock:
-ffff88803f38b458 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: process_measurement+0x7e0/0x1c20 security/integrity/ima/ima_main.c:319
+> Additionally, writing into the bind attribute still checks if the driver and the
+> device match:
+> 
+> /*
+>  * Manually attach a device to a driver.
+>  * Note: the driver must want to bind to the device,
+>  * it is not possible to override the driver's id table.
+>  */
+> static ssize_t bind_store(struct device_driver *drv, const char *buf, size_t count)
+> 
+> Because of this i would suggest that the taint (if at all) be added to the
+> driver_override attribute instead, because only with this attribute users can bind
+> random drivers to truly random devices.
 
-but task is already holding lock:
-ffff888038eee198 (&common->filesem){++++}-{4:4}, at: fsg_store_file+0x163/0x400 drivers/usb/gadget/function/storage_common.c:452
+I had thought of that, but the force removal of drivers from devices
+wouldn't show up this way, which is one of the things that we do want to
+warn developers about.
 
-which lock already depends on the new lock.
+And, if we just did the driver_override taint, it would allow those
+drivers who claim to be "generic" like you are referring to, to keep
+"getting away with that" when it's obviously not true that they can
+handle any device for that bus, otherwise it would have automatically
+bound to it already (and no manual intervention would be needed.)
 
+By keeping the manual configuration of bind, you are forcing userspace
+to manually do work, while still a possible thing to do, now at least a
+developer who gets a bug report will _know_ it happened, which is why
+the taint flag is there.
 
-the existing dependency chain (in reverse order) is:
+Does that make a bit more sense?
 
--> #3 (&common->filesem){++++}-{4:4}:
-       down_read+0x97/0x200 kernel/locking/rwsem.c:1574
-       fsg_show_file+0x2d/0x140 drivers/usb/gadget/function/storage_common.c:339
-       fill_read_buffer fs/configfs/file.c:68 [inline]
-       configfs_read_iter+0x2ba/0x620 fs/configfs/file.c:88
-       __kernel_read+0x4d3/0x970 fs/read_write.c:532
-       integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
-       ima_calc_file_hash+0x45d/0x8a0 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x521/0xa10 security/integrity/ima/ima_api.c:300
-       process_measurement+0x1282/0x1c20 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xb3/0x260 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x148a/0x1d60 fs/namei.c:5000
-       do_file_open+0x23e/0x4a0 fs/namei.c:5029
-       do_sys_openat2+0x115/0x200 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x138/0x170 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+thanks,
 
--> #2 (&p->frag_sem){.+.+}-{4:4}:
-       down_read+0x97/0x200 kernel/locking/rwsem.c:1574
-       fill_read_buffer fs/configfs/file.c:66 [inline]
-       configfs_read_iter+0x1cf/0x620 fs/configfs/file.c:88
-       __kernel_read+0x4d3/0x970 fs/read_write.c:532
-       integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
-       ima_calc_file_hash+0x45d/0x8a0 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x521/0xa10 security/integrity/ima/ima_api.c:300
-       process_measurement+0x1282/0x1c20 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xb3/0x260 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x148a/0x1d60 fs/namei.c:5000
-       do_file_open+0x23e/0x4a0 fs/namei.c:5029
-       do_sys_openat2+0x115/0x200 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x138/0x170 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&buffer->mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       configfs_read_iter+0x73/0x620 fs/configfs/file.c:86
-       __kernel_read+0x4d3/0x970 fs/read_write.c:532
-       integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
-       ima_calc_file_hash+0x45d/0x8a0 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x521/0xa10 security/integrity/ima/ima_api.c:300
-       process_measurement+0x1282/0x1c20 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xb3/0x260 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x148a/0x1d60 fs/namei.c:5000
-       do_file_open+0x23e/0x4a0 fs/namei.c:5029
-       do_sys_openat2+0x115/0x200 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x138/0x170 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3181 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
-       validate_chain kernel/locking/lockdep.c:3924 [inline]
-       __lock_acquire+0x15ff/0x2e40 kernel/locking/lockdep.c:5254
-       lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5908
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       process_measurement+0x7e0/0x1c20 security/integrity/ima/ima_main.c:319
-       ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xb3/0x260 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x148a/0x1d60 fs/namei.c:5000
-       do_file_open+0x23e/0x4a0 fs/namei.c:5029
-       file_open_name fs/open.c:1375 [inline]
-       filp_open+0x16d/0x1d0 fs/open.c:1392
-       fsg_lun_open+0x6c/0xe00 drivers/usb/gadget/function/storage_common.c:194
-       fsg_store_file+0x19e/0x400 drivers/usb/gadget/function/storage_common.c:455
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x33a/0x430 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x61e/0xbb0 fs/read_write.c:687
-       ksys_write+0x156/0x270 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &ima_iint_mutex_key[depth] --> &p->frag_sem --> &common->filesem
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&common->filesem);
-                               lock(&p->frag_sem);
-                               lock(&common->filesem);
-  lock(&ima_iint_mutex_key[depth]);
-
- *** DEADLOCK ***
-
-locks held by syz-executor428/5602: 4, last CPU#0:
- #0: ffff88801d734510 (sb_writers#8){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2753 [inline]
- #0: ffff88801d734510 (sb_writers#8){.+.+}-{0:0}, at: vfs_write+0x231/0xbb0 fs/read_write.c:683
- #1: ffff888028b16678 (&buffer->mutex){+.+.}-{4:4}, at: configfs_write_iter+0x81/0x430 fs/configfs/file.c:226
- #2: ffff888025f30b68 (&p->frag_sem){.+.+}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
- #2: ffff888025f30b68 (&p->frag_sem){.+.+}-{4:4}, at: configfs_write_iter+0x23b/0x430 fs/configfs/file.c:229
- #3: ffff888038eee198 (&common->filesem){++++}-{4:4}, at: fsg_store_file+0x163/0x400 drivers/usb/gadget/function/storage_common.c:452
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 5602 Comm: syz-executor428 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2059
- check_noncircular+0x12f/0x150 kernel/locking/lockdep.c:2191
- check_prev_add kernel/locking/lockdep.c:3181 [inline]
- check_prevs_add kernel/locking/lockdep.c:3300 [inline]
- validate_chain kernel/locking/lockdep.c:3924 [inline]
- __lock_acquire+0x15ff/0x2e40 kernel/locking/lockdep.c:5254
- lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5908
- __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
- mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
- process_measurement+0x7e0/0x1c20 security/integrity/ima/ima_main.c:319
- ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
- security_file_post_open+0xb3/0x260 security/security.c:2755
- do_open fs/namei.c:4839 [inline]
- path_openat+0x148a/0x1d60 fs/namei.c:5000
- do_file_open+0x23e/0x4a0 fs/namei.c:5029
- file_open_name fs/open.c:1375 [inline]
- filp_open+0x16d/0x1d0 fs/open.c:1392
- fsg_lun_open+0x6c/0xe00 drivers/usb/gadget/function/storage_common.c:194
- fsg_store_file+0x19e/0x400 drivers/usb/gadget/function/storage_common.c:455
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x33a/0x430 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x61e/0xbb0 fs/read_write.c:687
- ksys_write+0x156/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f29897e19a9
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe566936c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00002000000002c0 RCX: 00007f29897e19a9
-RDX: 0000000000000005 RSI: 00002000000003c0 RDI: 0000000000000005
-RBP: 0000200000000200 R08: 00005555573c7560 R09: 00005555573c7560
-R10: 00005555573c7560 R11: 0000000000000246 R12: 6769666e6f632f2e
-R13: 0000000000000002 R14: 431bde82d7b634db R15: 00007f298984104b
- </TASK>
-mass_storage.0/lun.0: file too small: file0
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+greg k-h
