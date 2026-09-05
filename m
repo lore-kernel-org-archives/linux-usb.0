@@ -1,197 +1,174 @@
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A9139524E
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 14:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788616920; cv=none; b=pz0udbQAgShGFwKNTNeJpF7s9FzqJCdSvoebeNR8BuZvP2y/KoHH/xOO8Mio0/wZK/l+5dqEz2UdvKOHnCDUGPw/5f9fUuwbrRnvZ9pd4SlLlT5qa7ziitE0PLnmX6HFbA/WpttUgYX3NHb7QCREAkJF0llUbbAiO8FobQFcxZo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788616920; c=relaxed/simple;
-	bh=onVBlW7MOcXY/4u/1wLc1luNV8JQgXpPbl+Dwq4jXa0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nIihn6nSmAv5ltZQyAy7UTTFanGfHldRctYpQ25XmEn9uVp5uoFptUh7VLX8C6EgzEmPp8ZP+a2cd4D/tqWwuF5hcVIp4BgZKPOC8uvcdwqpyymdOBxl2xQ4rBqmj8YAmn+SFBY0xc7+er1VDg7d8N4qJz7mtLFT+tZOC0aDumY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWYzct+k; arc=none smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D932DCF57
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 14:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788619561; cv=pass; b=XTU35+7ff4rwzmIbAjhRAWvN6JYPkJJhokiKmYf6q3LrBBcj6Cx6h5SrfRKBu4MQFhf5bzh3I5yhNjSYyxmONAjvUA12mAIMoyFEqxDowOdlCuNmWjWsOJymifPofhx9t1uwHQoaB/gHS8Qw3xzZMTKpVSJuTCeUs6MhjYnNmoI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788619561; c=relaxed/simple;
+	bh=L8myuZh5TkwP8G3mvqfKjytXnbslLjt5FQVUN/hw4OI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qaqv0s4pyT0b5NvHr/BdY6Ct1cXGiG87rN/F3vZlHYV6ahVsJZS/2d/we+RCRP4M24iyqbG0enkpj5aX61YRyTHF9bQ0kEVTf3lScy3/qdZZ+G7AyshcEYuDam5Q9oKh6Cp2BgVCHfQOiaaBaW4gNY2bSfNMoqcxm7p0ALHZuNw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H+EL7MIq; arc=pass smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWYzct+k"
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-783fffcfb96so1606406137.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 07:01:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H+EL7MIq"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-381b831d535so3230244a91.0
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 07:45:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788619559; cv=none;
+        d=google.com; s=arc-20260327;
+        b=U+Ij4rcHCIHbtZrDBFGFJe3flF3MdVL3mKfYpn+LSmYgtzCYgkAcmL2gMBBsDZLhiL
+         Qn3aoEmTLdH6ldD4skrINwuvbPHGgFLuvGXdEFrjcsOAleePEPucFIrf/p4v2viR9xha
+         1n2oblC5HYDSVXqMEDEW6ObyK0h6endP4Nevr8Nn+dU2guCXuFvQBUAiqB7bHTIHoITN
+         L/ZP5RnMZM6ens55wgYJUiL4j8y2HIeQfMT17K58ozdocYGEvH7EVonp5GFuCZJRK/Ie
+         X/XrRTl5uxaNvZwhNg7fzmfsyuONeqLUifN4I0unV4qLvEXf9f/Yh/hv26P/Ajeco+HB
+         yv6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+KCLbwA7nct8QwO9oRt8cDRk9p526AwNAjfsXhcPbqY=;
+        fh=4UzIszEUTI1vVzfguSooDew99fY5+h2HBeiFpiuAdG4=;
+        b=VJCRclwpz9pWFClOunF0TZ3dJcqI4mHIOAeIVOPMibXP8DI0caduud8l+ntnlb+8Se
+         5q4tSIrDZkvecKp1Y5946M0J3B+DwLn82sbp9XjKTEVKU6JMkidBl8tpcfiHvxHZN/g4
+         Vqd+A1l8TOty2QVT9ddRVT0w3oH9taHL6dDLYGR1cLX65Y1tF6myI9jlbKql3AAy2N9O
+         slP2rS7q+1tREUw68QxKp1Tpg+8aIqtDJcCChlv4qxBLu9vRxwvste69bOZvlwEJOjsV
+         IkpFQ6qT5ODeqy3M5X7jc4j6EGKQeShjQ/EtGkTPY6ei5r6NjkpRWqewQGWg3aNe3+aa
+         T2RA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788616896; x=1789221696; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=005z03CIhBd04YrgIq3DK9hNQnxi1U/rfpjn1baG6tI=;
-        b=dWYzct+kr3knNGg6/KnBWU/0/Pngwk0AJhgw9yVvAAqjhIYoWga64JMbEizqAVH3Oz
-         fbPtkEiSfEmzpwGpMucu22cuAe4SJs3VpM7U7FZ9lw5NM8EqRRrr9S5I2JZKpJ4FemMa
-         BgjsYZLAv6j2ukQ0ZRkF9WkQsF9FAs/lcYSJBQRqQJgmJ23yTqzG/YzU5W6whLGsS+Mw
-         VBBfxdr7x8EAS1mz4F9o9p+OLUUAjQdgTGkd2JLHI7y82sc9nnrChcEzkxkgSLozG/kJ
-         Cr4RzxeSdaLrtVEGTtp0Vp/jwdW7q69meF1Y/zJppkJotLc3CDXhV5QqPpZ6w+VX2qWH
-         UQEQ==
+        d=gmail.com; s=20251104; t=1788619559; x=1789224359; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+KCLbwA7nct8QwO9oRt8cDRk9p526AwNAjfsXhcPbqY=;
+        b=H+EL7MIqBrw9ngrBroY6NT3zYKP6M2CpJoAoCvJ0fu0VJaPe8PdNxW8KsBIDK1OR2B
+         CxSi/tWBaf3F/GaBeeZEwTNzRkAAFDipoSTs0SeNpVvyVPgSn2sC1dDFfNSHStBYr/uk
+         /A8ZIi59rGibzUWOjrCUbF/HJsqCfTGRb/3kBY93hRIjJg7FASH0E3/ee9VpWPbBvbQ/
+         kwXDlcrmOrH2PjW30IdATSTyr91WSbXii8/yzalfzCik3lA9HTJ7wyk416XWkyLXToQm
+         KysKg3tXflgBnFrHCtQfP5OYKvrFWf7g57U9YKFJZbvrFCulZbKmtQEh0VtXPfACTsyQ
+         5mug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788616896; x=1789221696;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=005z03CIhBd04YrgIq3DK9hNQnxi1U/rfpjn1baG6tI=;
-        b=BMhzy2hsOXRiL5YkBCDPoErPfoNYlGUKdsx5JcLuEZj2xdekLh7+IPEmip51a++2Av
-         RYUdN95IfQbD1IPEoyRMWIQ7Gn9grg+vGMA6RhIOnX/vRWy3ySMbjS+MlYVMIp/oyWWE
-         F0gRF1HSgh7xjb7IG21c2zL+vXN/5lxmAsSTwSCYybPOeQRS1mecphouBcFE3TrigI61
-         1AJ5HvwbEwciLSD0cFU+De+TZ0Pe02/SmMTkF//HY10urq2wTCczpuiJ7mMifo2bty8+
-         KVD5dJ17nd9nj+0tDHA5vbbRT6PcLUfq60fnI6K+652F8qfmeSC45+HQ6HcFna7wb8I4
-         j3DA==
-X-Forwarded-Encrypted: i=1; AKwUvBw1yAm5j7WAFzzXl6HJgHbUMALwzJFiC8lQBilSs9bFhGWhfJE/D/ceN/xrktw1CHyCunAV9d0buCI=@vger.kernel.org
-X-Gm-Message-State: AFuF++m4jGTykic94RwNh8d0zl/QC4Wfyup9RsyMvdTwSNuvLkpIXKak
-	7HWbl5/N69+hMskFuN49bS3tf+0/I33mEQOahT78/EwbtlNwDoynNjQa
-X-Gm-Gg: AYBFou0B/MqhajvNynv1VBdvZAaRQfb6mYBsQrtzXI8CL5P1z6D6PgAeH1NYyB6lzLJ
-	5jGZtNQ++/CRmoJgel1FIsr8fRgSIdbJf/cSS2O5e3lBF3O00X6+IBKaEpymnVVORvHG3TfELoG
-	5//Q32GYKRt8N3PJhASKvTXz/tMEKjXva5ngPl7h7hruDXoWcTC/IFiLaRRmHp0KryW1zISjL8Z
-	+EKv3gjyJqoxZ/etEFjRgrtn0mbn/U4TIPIcba1V5+7pxCHTxLOWHc3+7d+6nom9vFTJbxXe493
-	OSVs+tp89eySdiynThXmBSCutKgIfmTn2RXe3kCUQoDI5q05HDVsxR0wk7/NyXcx9jsF0/dMItg
-	8t7cEdjgc7V/WjogUGCvZ72C4P2IJQNMnQRF+HQlyXzQq101H4pXIIXP/ClJgb9sSI0iwqe1rgg
-	rVXMGay4DljhtmNikzkCoO8qOT4crxlxo94poJfwsMyL7qT+r5KbX6Rv9RWUCb+IR6pA6A/cnSZ
-	aeuGLs0Fja6uA26yMpqi6gormB7l66I
-X-Received: by 2002:a05:6102:3a0e:b0:786:c223:ad84 with SMTP id ada2fe7eead31-78a4a9c39cfmr5025994137.9.1788616895319;
-        Sat, 05 Sep 2026 07:01:35 -0700 (PDT)
-Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9808ee4d743sm3706877241.9.2026.09.05.07.01.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 07:01:33 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: torvalds@linux-foundation.org,
-	linux-kernel@vger.kernel.org,
-	arnd@arndb.de,
-	linux-clk@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH v11 3/3] media: dvb-core: extirpate defective and unsafe ULE debug block
-Date: Sat,  5 Sep 2026 11:01:13 -0300
-Message-ID: <20260905140113.21638-3-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260905140113.21638-1-breno3011alves@gmail.com>
-References: <20260905140113.21638-1-breno3011alves@gmail.com>
+        d=1e100.net; s=20251104; t=1788619559; x=1789224359;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+KCLbwA7nct8QwO9oRt8cDRk9p526AwNAjfsXhcPbqY=;
+        b=LKqxnwgJSacgSKFEoA+AGVFV8qGr6i1IJsDsV3xJiunfh12rXcJRuf3dPaprY4y/ne
+         eqye2+2hja1DNErga+JZT7yD5or8nXEXJbvfUTN4vsYo/k94WAf104/k3KVRoESKhGrW
+         Ny0e9CYTo+JpaZT9EAsQnLDRAfl0ImUh+c4Li2O40eAtaHbT1kfkh6MsTPweDkMOOBEC
+         eRhFAI/QqcPR0hRXMl3XpX0Vw5sBB0/v43hOD97Arb6PowRdvYf+NB/16o1NPkWaTbxc
+         qp1NKlox6tC0kx6vRVy+I92tB+5U6wA0usvxg0GEnqUOYOJi4KtzwslA9Zc75b5buggc
+         w8Cg==
+X-Forwarded-Encrypted: i=1; AKwUvBwT+4rZAMTUlMd0vCq10TzXVku0NB1uWCweMrUcqU70HZM5flZCImvRLVYYTVwuZP7QGgi9+GEwkwU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nDRf7apksJjfvniRUBrlECX7ZBR0e/k7pxqq+T2EPLhaktbTP6
+	SDa0ezpx/xoDMCCLs4lRufGAG7uDEifu39LY8/XYv7I00SmtyixAaixXtEjyjI9RQFsRVdp+/Yj
+	lKNu38c/AZPPqhri4nA2y/6WcZrLOY24=
+X-Gm-Gg: AYBFou0lbLAm7M8Zq3B56gGLb469KDNOdbUQhrLUnBrIc3nicbyr9peTueKF+wumVUr
+	ZvGdUMnCBHh+0iCHEXiGo+a+XvWH3orJa/DQFKlLGW2K9FlsjF0/b/NbQLpWATbjwGCQTgUMLUA
+	raI90WYB6DMMgrZeoC4dKI6iQLJInoTXRU8Glddkw2DFXsbJYx1WtcfwMlfmxRCoKTekLt18Y0Y
+	aqhvDnDVQdLgqRDR0fL3ICa2ACTJiKmq5OAzlVDfhm+zaTDYvKgHAiorXGiaSxEzM5ZV9Np5USu
+	yImLgoq0eVfc8JwwCuFMcNBcgYxRreZZwLmuA8Eax/OUiLfUpVu4j7DUzw==
+X-Received: by 2002:a17:90a:da8f:b0:398:9be5:b41e with SMTP id
+ 98e67ed59e1d1-39b26299957mr19052578a91.25.1788619559191; Sat, 05 Sep 2026
+ 07:45:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260904163827.216389-1-adrianox@gmail.com> <0738d3db-3861-4eb5-9847-bde865a1bb28@rowland.harvard.edu>
+ <CAMGU2hUOyoWAG-HVCvchqqc4R4uQ7QHaJ_GKGK+hUWw-=Z2deQ@mail.gmail.com> <c97a6204-5e6b-4306-a4f9-86b41c268dd1@rowland.harvard.edu>
+In-Reply-To: <c97a6204-5e6b-4306-a4f9-86b41c268dd1@rowland.harvard.edu>
+From: =?UTF-8?Q?Adriano_C=C3=B3rdova?= <adrianox@gmail.com>
+Date: Sat, 5 Sep 2026 10:45:47 -0400
+X-Gm-Features: AcwNN1XtQEQ_pkuG-2xPBm3A-z93hFq1xa7PIMviZ7b9vd-j1Jm40nnWaDevMas
+Message-ID: <CAMGU2hVGz9PwXhi+j3z0Zn0keUPt6Y9ArU38tpSRYw5ZHupDZQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] usb: gadget: inode: fix use-after-free of struct ep_data
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Completely purge the unmaintained DVB_ULE_DEBUG code block from
-dvb_net.c and its Kconfig definition to eliminate severe lockless race
-conditions and clean up the unused function signature parameter.
+El vie, 4 sept 2026 a las 15:27, Alan Stern
+(<stern@rowland.harvard.edu>) escribi=C3=B3:
+>
+> On Fri, Sep 04, 2026 at 01:31:29PM -0400, Adriano C=C3=B3rdova wrote:
+> > Hi Alan,
+> >
+> > Right. But that patch makes the inode the sole lifetime owner of the ep=
+_data
+> > (deletes the list call to 'put_ep'), but ep_data is also linked in the =
+list
+> > dev->epfiles and that reference can outlive the inode (it doesn't happe=
+n now
+> > I think, but only incidentally).
+>
+> Okay, I see.
+>
+> > So in the patch in here I decided to go with a refcount approach, just =
+to
+> > be safe.
+>
+> The patch description could be improved just a little...
+>
+> > El vie, 4 sept 2026 a las 12:50, Alan Stern (<stern@rowland.harvard.edu=
+>)
+> > escribi=C3=B3:
+> >
+> > > On Fri, Sep 04, 2026 at 12:38:27PM -0400, Adriano Cordova wrote:
+> > > > gadgetfs_unbind() -> destroy_ep_files() frees each struct ep_data v=
+ia
+> > > > put_ep(), but the inode still points at that ep_data through ->i_pr=
+ivate
+> > > > with no reference of its own.  A concurrent openat() on an endpoint=
+ file
+> > > > can therefore reach ep_open() and dereference the freed ep_data (th=
+e
+> > > > mutex fast path), even while the inode outlives it.
+>
+> You could mention something about the inode's lifetime and what causes
+> it to be released (and when).  This would make it clearer to people like
+> me how a concurrent open() can race with inode destruction.  But I
+> agree, you're right that the inode's pointer should be counted in the
+> ep_data's refcount.
 
-Assisted-by: OpenCode AI
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
----
- drivers/media/dvb-core/Kconfig   | 11 ---------
- drivers/media/dvb-core/dvb_net.c | 42 +-------------------------------
- 2 files changed, 1 insertion(+), 52 deletions(-)
 
-diff --git a/drivers/media/dvb-core/Kconfig b/drivers/media/dvb-core/Kconfig
-index 8b3f2d53c..c6a97add8 100644
---- a/drivers/media/dvb-core/Kconfig
-+++ b/drivers/media/dvb-core/Kconfig
-@@ -67,14 +67,3 @@ config DVB_DEMUX_SECTION_LOSS_LOG
- 
- 	  If you are unsure about this, say N here.
- 
--config DVB_ULE_DEBUG
--	bool "Enable DVB net ULE packet debug messages"
--	depends on DVB_CORE
--	help
--	  Enable extra log messages meant to detect problems while
--	  handling DVB network ULE packet loss inside the Kernel.
--
--	  Should not be enabled on normal cases, as logs can
--	  be very verbose.
--
--	  If you are unsure about this, say N here.
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index a2159b2bc..5060b8866 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -68,19 +68,6 @@ static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
- 
- #define DVB_NET_MULTICAST_MAX 10
- 
--#ifdef DVB_ULE_DEBUG
--/*
-- * The code inside DVB_ULE_DEBUG keeps a history of the
-- * last 100 TS cells processed.
-- */
--static unsigned char ule_hist[100*TS_SZ] = { 0 };
--static unsigned char *ule_where = ule_hist, ule_dump;
--
--static void hexdump(const unsigned char *buf, unsigned short len)
--{
--	print_hex_dump_debug("", DUMP_PREFIX_OFFSET, 16, 1, buf, len, true);
--}
--#endif
- 
- struct dvb_net_priv {
- 	int in_use;
-@@ -320,16 +307,6 @@ static int dvb_net_ule_new_ts_cell(struct dvb_net_ule_handle *h)
- {
- 	/* We are about to process a new TS cell. */
- 
--#ifdef DVB_ULE_DEBUG
--	if (ule_where >= &ule_hist[100*TS_SZ])
--		ule_where = ule_hist;
--	memcpy(ule_where, h->ts, TS_SZ);
--	if (ule_dump) {
--		hexdump(ule_where, TS_SZ);
--		ule_dump = 0;
--	}
--	ule_where += TS_SZ;
--#endif
- 
- 	/*
- 	 * Check TS h->error conditions: sync_byte, transport_error_indicator,
-@@ -659,23 +636,6 @@ static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
- 			h->ts_remain > 2 ?
- 				*(unsigned short *)h->from_where : 0);
- 
--	#ifdef DVB_ULE_DEBUG
--		hexdump(iov[0].iov_base, iov[0].iov_len);
--		hexdump(iov[1].iov_base, iov[1].iov_len);
--		hexdump(iov[2].iov_base, iov[2].iov_len);
--
--		if (ule_where == ule_hist) {
--			hexdump(&ule_hist[98*TS_SZ], TS_SZ);
--			hexdump(&ule_hist[99*TS_SZ], TS_SZ);
--		} else if (ule_where == &ule_hist[TS_SZ]) {
--			hexdump(&ule_hist[99*TS_SZ], TS_SZ);
--			hexdump(ule_hist, TS_SZ);
--		} else {
--			hexdump(ule_where - TS_SZ - TS_SZ, TS_SZ);
--			hexdump(ule_where - TS_SZ, TS_SZ);
--		}
--		ule_dump = 1;
--	#endif
- 
- 		h->dev->stats.rx_errors++;
- 		h->dev->stats.rx_crc_errors++;
-@@ -843,7 +803,7 @@ static void dvb_net_ule(struct net_device *dev, const u8 *buf, size_t buf_len)
- 				       *(tail - 2) << 8 |
- 				       *(tail - 1);
- 
--			dvb_net_ule_check_crc(&h, iov, ule_crc, expected_crc);
-+			dvb_net_ule_check_crc(&h, ule_crc, expected_crc);
- 
- 			/* Prepare for next SNDU. */
- 			reset_ule(h.priv);
--- 
-2.43.0
+Ok, I'll send a v2
+>
+>
+> > > > Give the inode its own reference: take get_ep() when the endpoint i=
+node
+> > > > is created and drop it again from a new gadgetfs_evict_inode(), so =
+an
+> > > > ep_data can never be freed while any inode still points at it.  Thi=
+s is
+> > > > also safe against dcache pruning, since the inode reference keeps t=
+he
+> > > > count >=3D 1 until the endpoint is removed from dev->epfiles.
+>
+> Now it all makes sense.
+>
+> Your patch doesn't handle the case where the gadgetfs_make_inode() call
+> in gadgetfs_create_file() fails.  If that happens, the refcount will
+> remain elevated because there is no inode to evict.  I'll leave it to
+> you to figure out the best solution.
 
+
+If gadgetfs_make_inode() call in gadgetfs_create_file() fails, it returns
+-ENOMEM and the error path of activate_ep_files() (where the new inc
+to the refcount is) kfrees the object directly, bypassing the refcount.
+
+>
+>
+> Alan Stern
+
+
+Best,
+Adriano Cordova
