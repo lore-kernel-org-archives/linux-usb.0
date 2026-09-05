@@ -1,150 +1,176 @@
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8BF43BDB8
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 08:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0F13F5BE5
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 08:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788595957; cv=none; b=uUqcBP/HsR+wKLFEh+JDeuhqsfHgbIWXvoPH2KlLHM1GUSK1qzo2WwewHEgD/mikOOwqYkFxkq7GhQaBGsma1D4hVNVxVaGQLCbaP5mZn8CI0gc/Uigc4dASXMuvT5+ZqTugorLzl4ocewncWmSia7g2LDR1KDLF1uG4cmDekq8=
+	t=1788596332; cv=none; b=Pn3pQRMLVujrT3+NdUt0RfwoKsm60iC3MWiTvpbI/nftwHwaOg6ldgPDhry2XlbBYQCjbDX5iTaYg9MHTy1zP15C0olJG+wIaODdZEUCFImWuaYtGD+aMg4DHdY0yvrgkXk7ev/BSd7tgiAkkUDL16PDejZ3KY/Z+HQeIL+bBiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788595957; c=relaxed/simple;
-	bh=kOh3RlvR58SOn81IH2188W5WlGHYYOhgaynC0pejL18=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=TMmQXI1CDkbG4WgBYK0YLJiWpVKtVM5VnobqkKYjHipFW6vMjNB0w1V+/Iels3xsr+BG8SiS8bOW9xgcennUcC/ZxI+tBVcsJctsgdZHL2wy+9as6BnP5ld1T3ZMiLBQu/ym4ztOGqafLdg7bu7xVYZfXkXH0SzKv/XsslFAmBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6b1b7932ec2so1803387eaf.3
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 01:12:29 -0700 (PDT)
+	s=arc-20240116; t=1788596332; c=relaxed/simple;
+	bh=LcV6lSrpWLoOW3X9p2m00fvDtaDYlaeaqqnY35X9hKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BPoCI6T9CuPSyJH1m8R3irk8qSuSNtDXrtq7P8S1/VxqJxn9f+0pksGKZSLMFVvJsIPeQ00tpZxB4B4SJciaZolzBm0xK1OxqHRK4sYMR5Wwo/aqz1w+HGoBkMfANe/weEyU38FKNpnOLlr95YXNOb70OBIeWOl3Y/sBaw0nm30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cKW2f6qZ; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cKW2f6qZ"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-482dbe4d247so1101549f8f.2
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 01:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788596326; x=1789201126; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cgqxDORdFMqtuRxeNyJ9bVyTrltmlrg6V0F9LjNGATA=;
+        b=cKW2f6qZC0ek6uWJE5XNB5Nmm3tJoChf8joNq6eZEz1U8zphBKNk59ikWPtB+C+Rhy
+         FbxfoXm58JPbTmc6oR0TC7LMR5QEbGD2Axvpjxq0qcd/R1gUqpmCwgUg2rZwRY9XC9vB
+         9ftXjT/MSBVtIuOoDhJiFl6K5IUPh/mB3w6bOPc0Uikt3kkGz2R7QDvGmLjqub5adgxk
+         D9/KyMU9omzX7hcPHWUighvZqhUndBo+FqjoXdBq8FobUFz1fWormZ/UL9yjlq49lrP9
+         nK1uR3uaqi+933ta8h9wBvl6cvRPl/NQdLGjFe+mBeAGAwBIy71mZ39+aKtKH/ng8ji9
+         xsxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788595947; x=1789200747;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=EtskN3sVu7XSCfQvHoOLI2T9O4RcOenc4U/g01pACQI=;
-        b=MuoeXphCDYW4drci12LJJzAOnFnPyLJgNigx0XMMLrcIAR9seTeOxNhqtt6XkbbbXg
-         nByiEdSzDJRWbB6MTpFZK4YWVZ9fbJyO+laPem0YNHToj4xtSiXeKLQsbOVGAYTcWPIl
-         KMv0OdipkhSirSVqwXFhULukROfZG08rfA2A67x/YEXfXUqUIs3hm+RYR/WQ0CgU7D8a
-         cMH60oOGiWmTyITWuv0Cc7zJIk9oK2ajB2O31QrZOYJQEIY9Qk9jx38KfjZfsPjhShFi
-         RXlNlRALNAZOl2d8jPOaCiGMBsEf7TD6JFNJludfYdCHoWY6d9ZWWGnCVAs8Qh7SghSA
-         u4jA==
-X-Forwarded-Encrypted: i=1; AKwUvBxWaUXKdGVkDGw0H2Soc0Hl63ZD8NjMzibcE9s0D2Ka0Czv39lz121xxq5uHs32nuwgQ0Pnv9j6l9o=@vger.kernel.org
-X-Gm-Message-State: AFuF++nebRoLRo25RFAO0PPmiIGQgpNzaUozQWzo1rarrriKwvecu6No
-	DJmriDH4hBMoi7pNyih489DQLRbVd4gbGq3UkKhvQcAO5zJcwhRQYvnjSjQ+xr3eIZ2jUvNpbIl
-	+EMGDCBZtyfe85lBiHmnY7D2Mxo9zp80JkwQH17Phtz9vvt1rTk/2NKvw5l4=
+        d=1e100.net; s=20251104; t=1788596326; x=1789201126;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cgqxDORdFMqtuRxeNyJ9bVyTrltmlrg6V0F9LjNGATA=;
+        b=C5pfK32kyt0srXiNWYH5MwRs9jEM4OtJ7mYvmhhZN0QLdt0keb281Fcd1H8nKT3dqs
+         XSbF7yuJBIhkFyspGfT50UrzgkbCDDiQYG4OpkylhiTBoNSuLgDVomh69FnM25xqpra2
+         aI60dmF7e3quyKZ4VzSI0r79Z+ubaDhggEuUaK8p/o2nsSAxKD4Kv+PxqFqalos8z3lU
+         PGqbqf4eXKSPGg3onksAhuQOWmY/qTOu1BhkHdSCyiXdVubIe9j6O54ZeWGwdynYmlBj
+         RYa0kAHytOIegWmAVtj7AEA16e0hD3U0SOiPyRGX64qdoof35xJ+u7VyrNo1WoliZV7m
+         mAEQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwc4INwqb0czF34+ERLpb4jJcKldBUTEiGczkgMw08OVhXbAAkBTz3skpf6rDYtl6CC1jVgedRk5M4=@vger.kernel.org
+X-Gm-Message-State: AFuF++kW6k7kBx73njBtaCR4ZN9r/0Wn0h6Ve0xUyO4iEbMYzzkdoAHi
+	62aoJsa8Lgck2sydbF0FRe51FkHMMz1EQ+g+UQcVHrlTW/DlKku8VV1t
+X-Gm-Gg: AYBFou2IZqQTvNXE855/GevsKwdjX5xORyqVEiUWbYIv0xlJ3s8gRXQD5a/fd9ZcSDu
+	gobMJDKtms3inoa+GPjbRU4iiHn0RSC0kNP3BZXxi6/qsKquCBEjiN6hyGXxoCz4qz64W7bciLE
+	oS3XsMcM8sc0QEYZYqx9Ka3DaIVPmqjtcoJbaDQJ4Z6Nz60+xlDNfr9nscsTTz9hMGvB5QWX+UY
+	UST8j4suUz2gmlLnFLX/OKAePbew9pJKy2eQ25Ua+44cq+aAsVG+jjjpB13xlvxco05vuyV44Qr
+	FNOawS8XF9GRdalq/gYSldNFPqjtqgon/YO9HUjmHON+mHvdHPGcAP2sXF3pO4Iz31Vk4R6GYod
+	TZFHHiHlEwPkUzMi3IM1kRc9kzQaB3G1/ZDi5etgINPO79bHnQB1xVaSSEjcRRlDU6zk7alVjMx
+	YGLoGuUjLkL+hfvtMvNR8EN5w09JMuNVTZRBuBMbO/PNUQ5G0dOjFVUaynH5TrKxqTZidiQw==
+X-Received: by 2002:a05:6000:18a8:b0:482:ea08:8c8a with SMTP id ffacd0b85a97d-48587090294mr20570721f8f.20.1788596325622;
+        Sat, 05 Sep 2026 01:18:45 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm13584171f8f.25.2026.09.05.01.18.44
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 05 Sep 2026 01:18:45 -0700 (PDT)
+Date: Sat, 5 Sep 2026 10:18:37 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: wakasio <scarabeeta@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec
+ 0789:0308 during DVD+RW recording
+Message-ID: <20260905101837.4b7849c5.michal.pecio@gmail.com>
+In-Reply-To: <20260905031011.954183-1-scarabeeta@gmail.com>
+References: <20260904203024.52398f1f.michal.pecio@gmail.com>
+	<20260905031011.954183-1-scarabeeta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:810a:b0:6b1:bdd9:453 with SMTP id
- 006d021491bc7-6b6faee1fa2mr8281763eaf.12.1788595947205; Sat, 05 Sep 2026
- 01:12:27 -0700 (PDT)
-Date: Sat, 05 Sep 2026 01:12:27 -0700
-In-Reply-To: <6a88066b.ae6ddae5.3da009.002d.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9bceeb.a5e650b3.26d8a.0008.GAE@google.com>
-Subject: Re: [syzbot] [usb?] general protection fault in vhci_hcd_probe
-From: syzbot <syzbot+7300affe388249d66dfe@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, shuah@kernel.org, syzkaller-bugs@googlegroups.com, 
-	valentina.manea.m@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-syzbot has found a reproducer for the following issue on:
+On Sat,  5 Sep 2026 12:10:11 +0900, wakasio wrote:
+> Cluster 1, right at the very start of the cdrecord invocation
+> (before any error is visible to userspace), ~45 seconds before the
+> actual failure:
+> 
+>   Stalled endpoint for slot 1 ep 2
+>   Hard-reset ep 2, slot 1
 
-HEAD commit:    9d80aa4617b3 Add linux-next specific files for 20260903
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=10adf4f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=bb4a32c282cc2ec7
-dashboard link: https://syzkaller.appspot.com/bug?extid=7300affe388249d66dfe
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=121c7215580000
+Seems unrelated.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7300affe388249d66dfe@syzkaller.appspotmail.com
+> Cluster 2, at the exact moment cdrecord reported the write error
+> (matches the timestamp of "write track data: error after 103088128
+> bytes" in cdrecord's own log):
+> 
+>   Transfer error for slot 1 ep 3 on endpoint
+>   Soft-reset ep 3, slot 1
+>   Transfer error for slot 1 ep 3 on endpoint
+>   Soft-reset ep 3, slot 1
+>   Transfer error for slot 1 ep 3 on endpoint
+>   Soft-reset ep 3, slot 1
+>   Transfer error for slot 1 ep 3 on endpoint
+>   Soft-reset ep 3, slot 1
+>   Transfer error for slot 1 ep 3 on endpoint
+>   Hard-reset ep 3, slot 1
+>   usb 6-1: reset SuperSpeed USB device number 2 using xhci_hcd
+>   xhci_hcd 0000:77:00.0: Stopped on No-op or Link TRB for slot 1 ep 2
+> 
+> So to answer your question directly: it is not constant background
+> noise throughout the write. It's a single, tight burst of 5 "Transfer
+> error" events on the same endpoint within about one second.
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 1 UID: 0 PID: 6482 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:vhci_hcd_probe+0x47/0x3e0 drivers/usb/usbip/vhci_hcd.c:1367
-Code: 0f ee e4 f9 49 8d 9e 80 00 00 00 48 89 d8 48 c1 e8 03 80 3c 28 00 74 08 48 89 df e8 13 17 55 fa 48 8b 1b 48 89 d8 48 c1 e8 03 <80> 3c 28 00 74 08 48 89 df e8 fb 16 55 fa 4c 8b 23 48 c7 c0 80 6c
-RSP: 0018:ffffc900033c7ac0 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff888076a89f40
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88801c7a6000
-RBP: dffffc0000000000 R08: ffff88802af3ba53 R09: 1ffff110055e774a
-R10: dffffc0000000000 R11: ffffffff87e2e6c0 R12: ffff88801c7a6000
-R13: ffffffff8fc7ad20 R14: ffff88801c7a6000 R15: ffffffff87e2e6c0
-FS:  00007f21f99fe6c0(0000) GS:ffff888124dc0000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f21fa270000 CR3: 000000007f704000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- platform_probe+0xf9/0x190 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- device_driver_attach+0xe0/0x1d0 drivers/base/dd.c:1203
- bind_store+0x1d0/0x220 drivers/base/bus.c:267
- kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f21fa39e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f21f99fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f21fa625fa0 RCX: 00007f21fa39e0d9
-RDX: 0000000000000006 RSI: 00002000000000c0 RDI: 0000000000000004
-RBP: 00007f21fa435024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f21fa626038 R14: 00007f21fa625fa0 R15: 00007fff742f7888
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:vhci_hcd_probe+0x47/0x3e0 drivers/usb/usbip/vhci_hcd.c:1367
-Code: 0f ee e4 f9 49 8d 9e 80 00 00 00 48 89 d8 48 c1 e8 03 80 3c 28 00 74 08 48 89 df e8 13 17 55 fa 48 8b 1b 48 89 d8 48 c1 e8 03 <80> 3c 28 00 74 08 48 89 df e8 fb 16 55 fa 4c 8b 23 48 c7 c0 80 6c
-RSP: 0018:ffffc900033c7ac0 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff888076a89f40
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88801c7a6000
-RBP: dffffc0000000000 R08: ffff88802af3ba53 R09: 1ffff110055e774a
-R10: dffffc0000000000 R11: ffffffff87e2e6c0 R12: ffff88801c7a6000
-R13: ffffffff8fc7ad20 R14: ffff88801c7a6000 R15: ffffffff87e2e6c0
-FS:  00007f21f99fe6c0(0000) GS:ffff888124cc0000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000001b34124008 CR3: 000000007f704000 CR4: 00000000003526f0
-----------------
-Code disassembly (best guess):
-   0:	0f ee e4             	pmaxsw %mm4,%mm4
-   3:	f9                   	stc
-   4:	49 8d 9e 80 00 00 00 	lea    0x80(%r14),%rbx
-   b:	48 89 d8             	mov    %rbx,%rax
-   e:	48 c1 e8 03          	shr    $0x3,%rax
-  12:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-  16:	74 08                	je     0x20
-  18:	48 89 df             	mov    %rbx,%rdi
-  1b:	e8 13 17 55 fa       	call   0xfa551733
-  20:	48 8b 1b             	mov    (%rbx),%rbx
-  23:	48 89 d8             	mov    %rbx,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1) <-- trapping instruction
-  2e:	74 08                	je     0x38
-  30:	48 89 df             	mov    %rbx,%rdi
-  33:	e8 fb 16 55 fa       	call   0xfa551733
-  38:	4c 8b 23             	mov    (%rbx),%r12
-  3b:	48                   	rex.W
-  3c:	c7                   	.byte 0xc7
-  3d:	c0                   	.byte 0xc0
-  3e:	80                   	.byte 0x80
-  3f:	6c                   	insb   (%dx),%es:(%rdi)
+Short fraction of a second, I suppose. Timestamps would help.
+
+4 is the number of retries without ep->err_count reset, so it seems
+they all happened in the same URB, possibly in the same place.
+
+Let's add more debug logging and see if it's some transient stupid
+problem that we can wait out or plow through with more retries.
+
+One more dynamic debug will be needed with this patch:
+
+  echo 'func handle_tx_event +p' >/proc/dynamic_debug/control
+  echo 'func process_bulk_intr_td +p' >/proc/dynamic_debug/control
+  echo 'func xhci_reset_halted_ep +p' >/proc/dynamic_debug/control
+
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2511,6 +2511,8 @@ static void process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 
+ 	switch (trb_comp_code) {
+ 	case COMP_SUCCESS:
++		if (ep->err_count)
++			xhci_dbg(xhci, "clear err_count at %px\n", ep_trb);
+ 		ep->err_count = 0;
+ 		/* handle success with untransferred data as short packet */
+ 		if (ep_trb != td->end_trb || remaining) {
+@@ -2522,6 +2524,8 @@ static void process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 		td->status = 0;
+ 		break;
+ 	case COMP_SHORT_PACKET:
++		if (ep->err_count)
++			xhci_dbg(xhci, "clear err_count short at %px\n", ep_trb);
+ 		ep->err_count = 0;
+ 		td->status = 0;
+ 		break;
+@@ -2534,9 +2538,10 @@ static void process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 		goto finish_td;
+ 	case COMP_USB_TRANSACTION_ERROR:
+ 		if (xhci->quirks & XHCI_NO_SOFT_RETRY ||
+-		    (ep->err_count++ > MAX_SOFT_RETRY) ||
++		    (ep->err_count++ > 10) ||
+ 		    le32_to_cpu(slot_ctx->tt_info) & TT_SLOT)
+ 			break;
++		udelay(5 << ep->err_count);
+ 
+ 		td->status = 0;
+ 
+@@ -2706,8 +2711,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 		status = -EPROTO;
+ 		break;
+ 	case COMP_USB_TRANSACTION_ERROR:
+-		xhci_dbg(xhci, "Transfer error for slot %u ep %u on endpoint\n",
+-			 slot_id, ep_index);
++		xhci_dbg(xhci, "Transfer error for slot %u ep %u on endpoint at %px resid %u\n",
++			 slot_id, ep_index, ep_trb, EVENT_TRB_LEN(le32_to_cpu(event->transfer_len)));
+ 		status = -EPROTO;
+ 		break;
+ 	case COMP_BABBLE_DETECTED_ERROR:
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+
+
+
+
