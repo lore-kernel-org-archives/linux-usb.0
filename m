@@ -1,303 +1,232 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA604BB5A8
-	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 15:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED5C19D89E
+	for <linux-usb@vger.kernel.org>; Sat,  5 Sep 2026 16:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788622186; cv=none; b=QEIVxcEnociRVl62Nzcxxsvnf7OyxqoM7HfqvCxpSeChg7zOoGejlAa9G/a505ILiYnppWC96cR8huUnAD4ZdV7gzkLEdam1ahZNRAzIZB0knw80NCpaqMBuAyvwwYa5k28KAvXIWPHhR3xWu9HQLjut+H46iJVm0avUPnAyb+Y=
+	t=1788625993; cv=none; b=pey5ejcWdVsu77EDi1QSNiq4fWVlYciZsnJZ6difUYloUio31Z6U7+LR9kmTVWI9VVMskWM+TILknKH3Hkxr5gtrNm+ojNepVNQQIEK6EZ+YGnsFCvf/JWToKcTn6tcC1cbjkl6q9fUCP2bdmvSOsiKsJkz9Y27iercphBswDl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788622186; c=relaxed/simple;
-	bh=0vlezWZK4fA+Na166NVdgqHlRZAT3nhTjycS7km+CQc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jL6V62pPZ1oXot5/21QPYFpaoxvOnjWqKaWmL09I0eRq9vm9gTYo5fq9S2QSxnLyPgWE2dbdXS+6STLSue7ojZHs+qm4Wo9mhIqiV+3ZS0EXbFM7bMPLHmR8BaS7QQSmzmgc6JPYyu/scY1q/nPAouiHKkDzkp4bluF/jJNy38k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=D0i9/Zc3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Uq106sup; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788625993; c=relaxed/simple;
+	bh=Ai+UNE+EMufdHYqj5Cdp0cgmfaW9xvMYf6GgrJZ2+8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aPDq9K0RSTBPdb5g154voQS2ko6e6YGQJZK/JAzXDfPmChHJ0SGKm6oALFO7feF4LasZ/leEWgIUiDVI5VpOcqXi55BsUH3B5xqGzlR4AVzlDMnuGqPVgES02das8rF2bI5iOY2yQFOSe3peJS47uhIilO5YHLjj6bA8c3lL8B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=mmOX0tCO; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="D0i9/Zc3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Uq106sup"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 685EhLHT2542417
-	for <linux-usb@vger.kernel.org>; Sat, 5 Sep 2026 15:29:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m1DYK2Eht48WiBu7IzlXKngOjp19WSTBRUJqw/HlGt0=; b=D0i9/Zc3VKRn5zg7
-	tSHp3YUm8ykn6xaGVmpo2XbstGF8w/Dhj5PyeoT0XESIc5CglJ569q1UlTii14Tg
-	Ake2PbFU2G/5uBPI4rjenWlGexBWvIK/cre5jH9jIpAloR9hRq/Cav1md85ow8Ky
-	ABum3tHylsSXycP/5Vyw7nPAR0CkXRu9l3jNmoYWbPbLcklEcgx9tELoU2hNW9nl
-	S60ndYsOjepGcIycvb1I8UBcYXOwCtq3R90RpCogLJ0dAvu+79280kVNCVX4gbVx
-	1lH+wL+i0e3T6KvuCd0Ls1NeGCDLLq18U5dywJBNmu5OioZW9Kq68DpclEsCN4eF
-	MiOFyw==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ggadhhgb0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 15:29:43 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-398dc3d8f0fso3336481a91.0
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 08:29:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="mmOX0tCO"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-90cc39e06bdso25642276d6.0
+        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 09:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788622182; x=1789226982; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m1DYK2Eht48WiBu7IzlXKngOjp19WSTBRUJqw/HlGt0=;
-        b=Uq106supuX208g4Qu96sMQ7s7VDF8e5zTG2Em6FeDnxc7M0G5ZgmUtZ5wGT5iuEXOq
-         E7al/O1bbkhTSpZWBtUBL6R3ROq03+57HxqeOCwoudSvtEqaVxzmr7jmCxX5zEGh3Z4i
-         gHoPntkX/z0zHAQ70cXpN1gNAfO21cCqOyaOentmstHgQcE+79j834vrQtP0cLoT0SPN
-         MQWQa9W+NpFmFXjqe1dy8L/Gsa/Ha5kD6+ZgKqALnWyKeZWhQAtQ6pIEDLVT+S/iqnph
-         egfdLofkauhkVB1H/+xaZdxRTqMw/iYDMFNc/9Yam1qLft3CHl1pLEXmXwuD1aQm5tQB
-         OZfQ==
+        d=rowland.harvard.edu; s=google; t=1788625991; x=1789230791; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nbgO+8U0KMmcVm1eNMs2hqE1ucet9L5s6YGl2Q7gOP4=;
+        b=mmOX0tCOPopigQg++n+ESjtHda06VsGbkkTKlGBzZyfgKcAXDUrFKywACwrNy3jid+
+         m2sVa4G6OuUXh4CXvFlgZrGjq7U3Zntxir6R8y4VJydQdbLN04wTvJAHeaVlxSLVH3vb
+         JEZtzLQgjZWE1cMfVI2xH1qu8x/q99HCdfrBofw+FZDv3uL38yGZLYXLR+Ak4vQgoOu0
+         ftCu9U8z9+vPchW8XcNiis3jAydaDxqeP6yzEIZqkpSpXv2E8nh+iDE35q19qZZhAdYC
+         6bEEA+ZGIwwNE176Oc8KAWed3X634HpqcCiUWmaTLXTeFdwt3ogca/+1hmLBay5r2rMK
+         QdEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788622182; x=1789226982;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m1DYK2Eht48WiBu7IzlXKngOjp19WSTBRUJqw/HlGt0=;
-        b=bENAhPFB921h0szDWWWBGgMlhuTn6JtpcfFhLUhaHVDqJ+hieMuuhKxzV5Wj9nTkUm
-         HpfBKOr0d4fn/RHYFAIGV5gqhdJwdq+lvdV04MSuz7AdtzmVGyamEYLZ3yrZrWgMCZvA
-         atPBBOpkW9Dz+ZPnquuofw+1Gi98XQlJndkVN9O0DMLKSVnlml0n0WW7IDYYACl3rW28
-         qOPAr+75eOMkgU7gGc8btODYBL68LXmdTX9bGqIyhGPaukgh6XZ2/UmqAM0Y4HJGV7kF
-         Su4EmzGf6TcOB+LvoipHqvQEZIfiHNJTwk9nc0wUTGbzq3W6t5Yl6Kzwp1ZYvX1kQizK
-         2FWg==
-X-Forwarded-Encrypted: i=1; AKwUvByper392J608/mnOggjloKmdCIuBSyB3j50rKPQ+7xrlAn6eunXxiHztMKNVO0gkC9kLDtn4i61HYs=@vger.kernel.org
-X-Gm-Message-State: AFuF++mzd2tabntGbCjGxKPqiNz1oxKmSjdqkIjwbUvq6VmVUFsivoSn
-	OY+O7uzBPS3l0teuKhp0Tr/YpbqfNKo2VPqUM8aCPpQYcotsjx4ae2Fc0lWqKfQXl0DL++pZnAj
-	ujxKW22B/dEJbeqo4EDSAThMVDb3RSJrf0DdJVQd+DHMu1jVnNhhL2EE+npKDO0Y=
-X-Gm-Gg: AYBFou2yFvhlWbnWodCWGXAgw8XdVkUSoPplAFsLIg/fCGBbtHFT3pqfCeL51+UWCTx
-	Bt8z299mITJuLQJWqwSeAGQxgPkwPcysmb9UHdlYACJW+qysGT/P3ItcKUskhUbbfP1huxhMvqW
-	88WOnETB8OKx6TBYICTFuC7SSm/Bno/JDGjjxTVeeBDbg37xXBrrgS5q3GaI+cCjIzTXc4Tw3uc
-	N/Rt9HXtWkM2365U1a27sNwjGOZWwJEVg9hCeiGKj+r4ZAjcuX6loMtrM5wlbQZzFGfIiTYcMZY
-	IlgkCpOk8nvbJslt9iSvuR39Po+hJwFP9nW4BQo8Uubtsl+mLqeSpcNENaWiCHlk6ACxcVoxU8F
-	SlvKk6GPFm//LIZm6jAzKc1Y4XNNo8slk5HFnHajFijRw7nEll0H67QcH64VzJRRe64/6hA==
-X-Received: by 2002:a17:90b:5804:b0:398:9beb:a2b6 with SMTP id 98e67ed59e1d1-39b087e4c2fmr22010633a91.24.1788622182138;
-        Sat, 05 Sep 2026 08:29:42 -0700 (PDT)
-X-Received: by 2002:a17:90b:5804:b0:398:9beb:a2b6 with SMTP id 98e67ed59e1d1-39b087e4c2fmr22010587a91.24.1788622181565;
-        Sat, 05 Sep 2026 08:29:41 -0700 (PDT)
-Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm23592635eec.16.2026.09.05.08.29.36
+        d=1e100.net; s=20251104; t=1788625991; x=1789230791;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nbgO+8U0KMmcVm1eNMs2hqE1ucet9L5s6YGl2Q7gOP4=;
+        b=lRhZDWISyLT6b5Tc/UDC66jPh4Uepz0+uvDI8diQLd5oyzu6PjOD1b9Nj1Z9jQk95v
+         XvoKHChRqpIgCK0cgotU00Id4CF6N0nQoqiB8bDUg2LdWBuze4o1lHpX+3XOHLBr7h+g
+         i9JEvOYsLaCFyxp7Rvtcwe9kL7ddSzXjzzXPPQBfeBvOnWF4HYl380lSIZwtRy9s9LGK
+         xDqcd3VtvFdO6ZxRVhuAmV9ZpGGyKrKw+YXRv9G9M0aCFMRyw9u4wzyo7eq7AsuuBUzF
+         gA+8hnlB7EBRj8mrGimZhp0zu37k8SmS3h0Su1LFXwhRu7oqNsHOi8BqjJnb/JrYN4bi
+         v/Ww==
+X-Forwarded-Encrypted: i=1; AKwUvBwMv3JWFwRvxwUnVI0FYZFcnfTPEnS7sOA/ICIOFY2Xoh6lttBFliFxxTB5dhNxr/LlbepH8/SKAuQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++miph+D8wj4ox6uYl9L4QO6TBCOad3HwQxv7FZLWSd4SofilUEx
+	7nJebZbSJcEU4yMXS/axzgSFOU7viLFPfMdfNKa3z8ECSRlekK5bOH0xqCzV0zf3og==
+X-Gm-Gg: AYBFou3d/i9e6JMcV0kwY5Qa+D19DVhcNnqmadTKzt1c+Mdh1znZunT+ZF509q8ICv6
+	Ypi0fgF59mNSlPQtyAi25NTnNnk8/blg8fpmw/y+YlkGmXw8bLYuUrNDdgRQTa/cjx8HjoIDNLf
+	g7FU0WA/Q7h0XuyJbM8UCGetlt3K9cbPyY1UhGfiBmNWclmCO7exL/E6IKXckyLI6fWgyiQnV7N
+	9Hs31p2xobYYRIExqC5WEBz8eq4889YR4Br3D4mGNbYI5yQ+Hp76sF0H3hmYXph7gTbed75xhAw
+	UdZwr61yCQr73OwZHL3NQupUoVvVEn3QzXgK3r8tpPrIhVQ2D+kMdlPuwbmlZx0fJulP2+tM8mf
+	5qFA4Dr8PnNmw0X/D+qaezGx/fupLF7KOEjAgD7Q9Hdej3I/m2RCsfglrfrv2aJ4TMoSyD6gN3c
+	JDBiBOE1jVb+iOEq+6pqlkCR8Q5Nkv3D2ueQGqkPko7lldtXVdVkFR9Jml8gActug=
+X-Received: by 2002:ac8:5e48:0:b0:52f:ae65:8996 with SMTP id d75a77b69052e-53054825cf2mr143762451cf.13.1788625991079;
+        Sat, 05 Sep 2026 09:33:11 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91048476220sm20658886d6.31.2026.09.05.09.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 08:29:40 -0700 (PDT)
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Date: Sat, 05 Sep 2026 20:59:09 +0530
-Subject: [PATCH v7 5/5] usb: dwc3: qcom: Modify interrupt handling for
- eUSB2 Phy targets
+        Sat, 05 Sep 2026 09:33:10 -0700 (PDT)
+Date: Sat, 5 Sep 2026 12:33:07 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Petko Manolov <petkan@nucleusys.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
+ work on system_dfl_long_wq
+Message-ID: <b6e6e8d0-0888-4bbc-85b8-ca3bdac88398@rowland.harvard.edu>
+References: <20260720100902.155605-1-marco.crivellari@suse.com>
+ <20260720100902.155605-6-marco.crivellari@suse.com>
+ <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
+ <20260825151812.4aJyFUgE@linutronix.de>
+ <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
+ <20260828094318.bOajNBno@linutronix.de>
+ <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
+ <20260905150450.2hrac_GV@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260905-eusb2-interrupt-v7-v7-5-820cf5377a70@oss.qualcomm.com>
-References: <20260905-eusb2-interrupt-v7-v7-0-820cf5377a70@oss.qualcomm.com>
-In-Reply-To: <20260905-eusb2-interrupt-v7-v7-0-820cf5377a70@oss.qualcomm.com>
-To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788622149; l=6273;
- i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
- bh=0vlezWZK4fA+Na166NVdgqHlRZAT3nhTjycS7km+CQc=;
- b=fqAYeayRuF80MQHmjWGW+p52Hhfe0N8b2XCwhMvq5pKCiatZ8e5jgunbPWytfIT0k+gB6d1gi
- bAgj4qvkvF0DWRCds99/v2AFIEAG/P3q0GAWHMD7oDU0kzoqjHoVrhR
-X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
- pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
-X-Proofpoint-ORIG-GUID: ODIYwmoVctXwkvmMnAswwYmKbVPAjFS9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA1MDE3MCBTYWx0ZWRfXzVxlQl5+31u8
- A7Zb6gqaI+fdTmkbv+9LZQ/M/4Qwo0a+afa0Y1yhzlAnRWHIPVDhYFRgFnEGfQQmp/7c6jcwdLB
- Nvu1ko5GmGS3BXI1xJZ+rLUPPQNzJ2Mh4fhcF8VYVa3pUkAza+0LuvRzgqriIUDUnKsKTnX94b+
- Tl6rQXl7NgzgdpeBdHI2rP9MKnjJB35E4BQV8teI+/LS9UsDm7jKgHY9DXM63TggAMS2m55WQZj
- uo5ycI5rHQ+K5YNTRmI35e6OMbMK4HAUtjbvUi11nSGx+CshFWKRqg64EisBfih2ET8LhjQ1d9L
- K1jMuoa9XU2PckJM9ZyB0vLFSK8OVg53kgcaL6+c7l/euvDzt5mK/WLPer3pIglqH7GX84ooDMD
- zCUZopv4T83wbyQFffdrLDYG3NvS36fm7dkvhn3LYzUuc174aoOKqCRB8WojNgoMTj//RxQECXD
- /hPbIkNRrDs0W9bBBrg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA1MDE3MCBTYWx0ZWRfX+lXfnGErpSCN
- GtcA6a61pgZ9X0YAFuqoU+7EtJe6DLBcyIDi5b97e+VOEBUGbRJgrHBh4NXtAPwNzZlFXWiKbqr
- pm35A5yzFFhzlvQ3/3R8PIs2SKsjtVE=
-X-Authority-Analysis: v=2.4 cv=OceoyBTY c=1 sm=1 tr=0 ts=6a9c3567 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=jIQo8A4GAAAA:8 a=EUspDBNiAAAA:8 a=Sf5RIT6NobiIG8tfIdUA:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: ODIYwmoVctXwkvmMnAswwYmKbVPAjFS9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-05_05,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- malwarescore=0 impostorscore=0 adultscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609050170
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260905150450.2hrac_GV@linutronix.de>
 
-eUSB2 targets handle wakeup interrupts differently depending on device
-speed when operating in host mode.
+On Sat, Sep 05, 2026 at 05:04:50PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-08-28 10:10:01 [-0400], Alan Stern wrote:
+> > > While this does make sense I don't see how this is related to this
+> > > patch. The pegasus driver uses `system_long_wq'. This is a system wide
+> > > workqueue_struct and is not limited to USB or this driver.
+> > > This workqueue is per-CPU meaning if you enqueue the work item on CPU3
+> > > it will be executed on CPU3. However pegasus uses a delayed work item
+> > > and the timer can fire on any CPU so even if it is enqueued on CPU3 it
+> > > could be executed on CPU1.
+> > 
+> > It doesn't matter what CPU the work item runs on.  Here's the deadlock 
+> > sequence, in brief:
+> > 
+> > 	USB device reset cannot proceed until network interface's
+> > 	->pre_reset() method returns.
+> > 
+> > 	The ->pre_reset() method cannot return until its call to
+> > 	flush_workqueue() returns.
+> > 
+> > 	flush_workqueue() cannot return until the already executing
+> > 	work item finishes.
+> 
+> Not sure where you pointing at but you have an unordered workqueue (such
+> as system_long_wq/ system_dfl_long_wq then you can have more than one
+> work item executed in parallel. One item does not stall the other so you
+> can flush your work item (waiting for it's completion) without having all
+> other work item completed.
+> There is no need to flush the workqueue, that would force _all_ work
+> item to complete. Flushing a workqueue would make sense if you have your
+> own and you want to ensure that _all_ work items, that has been
+> enqueued, did complete and you don't want to check them one by one.
+> 
+> To illustrate your point, the  example would translate to something like
+> the following:
+> 
+> | static struct work_struct test_worker_busy;
+> | static struct work_struct test_worker_reg;
+> |  
+> | static void test_worker_complete_fn(struct work_struct *work)
+> | {
+> |         int count = 0;
+> |         while (1) {
+> |                 ssleep(1);
+> |                 count++;
+> |                 if (count > 10)
+> |                         break;
+> |         }
+> |         pr_err("%s()\n leaving", __func__);
+> | }
+> |  
+> | static void test_worker_busy_fn(struct work_struct *work)
+> | {
+> |         while (1) {
+> |                 ssleep(1);
+> |                 pr_err("%s()\n", __func__);
+> |         }
+> | }
+> |  
+> | static void the_workers(void)
+> | {
+> |         INIT_WORK(&test_worker_busy, test_worker_busy_fn);
+> |         INIT_WORK(&test_worker_reg, test_worker_complete_fn);
+> |  
+> |         queue_work(system_long_wq, &test_worker_busy);
+> |         ssleep(1);
+> |         queue_work(system_long_wq, &test_worker_reg);
+> |         pr_err("%s() starting...\n", __func__);
+> |         ssleep(1);
+> |         pr_err("%s() cancel\n", __func__);
+> |         flush_work(&test_worker_reg);
+> |         pr_err("%s() moving on\n", __func__);
+> | }
+> 
+> which leads to:
+> 
+> | [    4.136593] the_workers() starting...
+> | [    4.137007] test_worker_busy_fn()
+> | [    5.161198] the_workers() cancel
+> | [    5.164832] test_worker_busy_fn()
+> | [    6.184710] test_worker_busy_fn()
+> | [    7.208525] test_worker_busy_fn()
+> | [    8.232754] test_worker_busy_fn()
+> | [    9.256522] test_worker_busy_fn()
+> | [   10.280716] test_worker_busy_fn()
+> | [   11.304523] test_worker_busy_fn()
+> | [   12.328671] test_worker_busy_fn()
+> | [   13.352517] test_worker_busy_fn()
+> | [   14.376842] test_worker_busy_fn()
+> | [   15.400539] test_worker_busy_fn()
+> | [   15.402676] test_worker_complete_fn()
+> | [   15.403290] the_workers() moving on
+> | [   16.424483] test_worker_busy_fn()
+> | [   17.448524] test_worker_busy_fn()
+> 
+> which means the test_worker_reg work item completed despite the fact
+> that test_worker_busy remained busy.
+> 
+> Of course flushing the workqueue system_long_wq (via flush_workqueue())
+> would stall but also raise a warning…
+> 
+> > 	The work item cannot finish until its kmalloc() call returns.
+> > 
+> > 	kmalloc() won't return until the kernel can free up memory by 
+> > 	writing some pages to the swap partition.
+> > 
+> > 	The write to the swap partition cannot take place until the
+> > 	usb_storage/uas driver carries it out.
+> > 
+> > 	usb_storage/uas cannot do anything until the USB device reset
+> > 	is finished.
+> 
+> as shown, this is not a concern.
+> 
+> > > Therefore the suggested change system_long_wq -> system_dfl_long_wq
+> > > should not make a difference here: it is a different workqueue and it is
+> > > unbound (instead of per-CPU) but given the usage it is unchanged but
+> > > more obvious. Also its usage recommendations (use this for long running
+> > > items) is the same.
+> > > 
+> > > The plan is remove system_long_wq from the tree.
+> > 
+> > The point Oliver was making is that the driver shouldn't be using a 
+> > general-purpose workqueue at all.  Switching from one general-purpose 
+> > workqueue to another ignores this point; it's not the right thing to do.
+> 
+> Still the wrong thing to do? The driver should do either flush_work() or
+> cancel_work_sync() (not flush_workqueue()).
 
-According to the eUSB2 specification, remote wakeup signaling in host
-mode is detected via different data-line assertions based on the
-connected device speed.
+I think we're in agreement.  If the driver relies on calling 
+flush_workqueue(), it should not use a general-purpose workqueue.  
+However, flush_work() or cancel_work_sync() is okay on an unordered 
+general-purpose workqueue.
 
-When a low-speed device is connected, the host repeater drives eD+ to
-logic '1' upon detecting a K-state on the USB lines during remote wakeup
-(eUSB2 specification, Section 5.5.14).
+If Oliver still has any objections, he can raise them.
 
-When a full-speed or high-speed device is connected, the host repeater
-drives eD- to logic '1' upon detecting a K-state on the USB line during
-remote wakeup (eUSB2 specification, Sections 5.5.15 and 5.5.18).
-
-Since the eUSB2 PHY's "DP" and "DM" interrupt lines monitor the eD+ and
-eD- line states, query the phy type and configure the wakeup interrupts
-accordingly.
-
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
----
- drivers/usb/dwc3/dwc3-qcom.c | 63 +++++++++++++++++++++++++++++++++-----------
- 1 file changed, 48 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index ba26e61df915..2d1e66ff72ed 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -86,6 +86,7 @@ struct dwc3_qcom {
- 	struct icc_path		*icc_path_apps;
- 
- 	enum usb_role		current_role;
-+	bool			has_eusb2_phy;
- };
- 
- #define to_dwc3_qcom(d) container_of((d), struct dwc3_qcom, dwc)
-@@ -273,15 +274,23 @@ static void dwc3_qcom_disable_wakeup_irq(int irq)
- 	disable_irq_nosync(irq);
- }
- 
--static void dwc3_qcom_disable_port_interrupts(struct dwc3_qcom_port *port)
-+static void dwc3_qcom_disable_port_interrupts(struct dwc3_qcom *qcom, int port_index)
- {
-+	struct dwc3_qcom_port *port = &qcom->ports[port_index];
-+
- 	dwc3_qcom_disable_wakeup_irq(port->qusb2_phy_irq);
- 
- 	if (port->usb2_speed == USB_SPEED_LOW) {
--		dwc3_qcom_disable_wakeup_irq(port->dm_hs_phy_irq);
-+		if (qcom->has_eusb2_phy)
-+			dwc3_qcom_disable_wakeup_irq(port->dp_hs_phy_irq);
-+		else
-+			dwc3_qcom_disable_wakeup_irq(port->dm_hs_phy_irq);
- 	} else if ((port->usb2_speed == USB_SPEED_HIGH) ||
- 			(port->usb2_speed == USB_SPEED_FULL)) {
--		dwc3_qcom_disable_wakeup_irq(port->dp_hs_phy_irq);
-+		if (qcom->has_eusb2_phy)
-+			dwc3_qcom_disable_wakeup_irq(port->dm_hs_phy_irq);
-+		else
-+			dwc3_qcom_disable_wakeup_irq(port->dp_hs_phy_irq);
- 	} else {
- 		dwc3_qcom_disable_wakeup_irq(port->dp_hs_phy_irq);
- 		dwc3_qcom_disable_wakeup_irq(port->dm_hs_phy_irq);
-@@ -290,26 +299,38 @@ static void dwc3_qcom_disable_port_interrupts(struct dwc3_qcom_port *port)
- 	dwc3_qcom_disable_wakeup_irq(port->ss_phy_irq);
- }
- 
--static void dwc3_qcom_enable_port_interrupts(struct dwc3_qcom_port *port)
-+static void dwc3_qcom_enable_port_interrupts(struct dwc3_qcom *qcom, int port_index)
- {
-+	struct dwc3_qcom_port *port = &qcom->ports[port_index];
-+
- 	dwc3_qcom_enable_wakeup_irq(port->qusb2_phy_irq, 0);
- 
- 	/*
- 	 * Configure DP/DM line interrupts based on the USB2 device attached to
--	 * the root hub port. When HS/FS device is connected, configure the DP line
--	 * as falling edge to detect both disconnect and remote wakeup scenarios. When
--	 * LS device is connected, configure DM line as falling edge to detect both
--	 * disconnect and remote wakeup. When no device is connected, configure both
--	 * DP and DM lines as rising edge to detect HS/HS/LS device connect scenario.
-+	 * the root hub port. For non-eUSB2 targets, when HS/FS device is connected,
-+	 * configure the DP line as falling edge to detect disconnect and remote
-+	 * wakeup. When LS device is connected, configure the DM line as falling edge
-+	 * for the same. For eUSB2 targets, the lines are swapped and rising edge is
-+	 * used: DP line for LS and DM line for HS/FS device detection. When no
-+	 * device is connected, configure both DP and DM lines as rising edge to
-+	 * detect HS/FS/LS device connect scenario.
- 	 */
- 
- 	if (port->usb2_speed == USB_SPEED_LOW) {
--		dwc3_qcom_enable_wakeup_irq(port->dm_hs_phy_irq,
--					    IRQ_TYPE_EDGE_FALLING);
-+		if (qcom->has_eusb2_phy)
-+			dwc3_qcom_enable_wakeup_irq(port->dp_hs_phy_irq,
-+						    IRQ_TYPE_EDGE_RISING);
-+		else
-+			dwc3_qcom_enable_wakeup_irq(port->dm_hs_phy_irq,
-+						    IRQ_TYPE_EDGE_FALLING);
- 	} else if ((port->usb2_speed == USB_SPEED_HIGH) ||
- 			(port->usb2_speed == USB_SPEED_FULL)) {
--		dwc3_qcom_enable_wakeup_irq(port->dp_hs_phy_irq,
--					    IRQ_TYPE_EDGE_FALLING);
-+		if (qcom->has_eusb2_phy)
-+			dwc3_qcom_enable_wakeup_irq(port->dm_hs_phy_irq,
-+						    IRQ_TYPE_EDGE_RISING);
-+		else
-+			dwc3_qcom_enable_wakeup_irq(port->dp_hs_phy_irq,
-+						    IRQ_TYPE_EDGE_FALLING);
- 	} else {
- 		dwc3_qcom_enable_wakeup_irq(port->dp_hs_phy_irq,
- 					    IRQ_TYPE_EDGE_RISING);
-@@ -325,7 +346,7 @@ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
- 	int i;
- 
- 	for (i = 0; i < qcom->num_ports; i++)
--		dwc3_qcom_disable_port_interrupts(&qcom->ports[i]);
-+		dwc3_qcom_disable_port_interrupts(qcom, i);
- }
- 
- static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
-@@ -333,7 +354,7 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- 	int i;
- 
- 	for (i = 0; i < qcom->num_ports; i++)
--		dwc3_qcom_enable_port_interrupts(&qcom->ports[i]);
-+		dwc3_qcom_enable_port_interrupts(qcom, i);
- }
- 
- static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
-@@ -628,6 +649,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	int			ret;
- 	bool			ignore_pipe_clk;
- 	bool			wakeup_source;
-+	struct phy		*phy;
- 
- 	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
- 	if (!qcom)
-@@ -698,6 +720,17 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto clk_disable;
- 
-+	phy = devm_of_phy_get_by_index(dev, dev->of_node, 0);
-+	if (IS_ERR(phy)) {
-+		if (PTR_ERR(phy) != -ENODEV) {
-+			ret = dev_err_probe(dev, PTR_ERR(phy),
-+					    "failed to get usb2 phy\n");
-+			goto clk_disable;
-+		}
-+		phy = NULL;
-+	}
-+	qcom->has_eusb2_phy = (phy_get_type(phy) == PHY_TYPE_EUSB2);
-+
- 	qcom->mode = usb_get_dr_mode(dev);
- 
- 	if (qcom->mode == USB_DR_MODE_HOST) {
-
--- 
-2.34.1
-
+Alan Stern
