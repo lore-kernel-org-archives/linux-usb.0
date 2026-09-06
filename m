@@ -1,76 +1,78 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA725262FC1
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 10:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5985132B10F
+	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 10:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788690478; cv=none; b=rut6XRgeJm4B9veHO7fXAvOr9TeRP8ikugN7x8Wp1vaZEZM24ozVczWBYfb2lTHMHqcVLopap9VuCvC2QukpYiKHQsFPGYU12YVGsjUFMpm4YUrtIc50L7suMR0LntIdqnQ48tn4CQ4yjxdRqClZKSAGzOEEiJGiR/4CVyV18lg=
+	t=1788691122; cv=none; b=ZYA5btWfrhK/btVjVZSjoJGqaTIJOi6fzm9m5rESbAqq2YV9OHjBpeek39TfxIdUAjVycEpHWV7/copr7jXxN2kAbUclwt/pGgcKRQu0GSbzdic+gEmG/p/whWHhCJ9ukxilIjcS8PF++7mM3O1bjXI2cVM9p9qhIDXRYN3tFZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788690478; c=relaxed/simple;
-	bh=UCHO0H7rTTCwRQcolz6xVcpIfDIxE83aFzIdSYE1QZg=;
+	s=arc-20240116; t=1788691122; c=relaxed/simple;
+	bh=2JPgelReLFX/RXbo9l4l2GV6AdL7jOIUB3/tTj4P8KY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l9W7W+VlsdD6YQMzQmN3FBY+zCcAarbdWSuFOA7O6fVufOkuhKPvdy906RkOz9ag64oL0+akEA5h2yB2ofvVtba5yJlT1mgvg0QJ54f/QX3qu2VIsADKvkHci9PW6jex8ZfuD7BZ6sH+TEd8+mk+cytZaRj5DJniozR3Li68VdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pdko1F/D; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=eGT9SUL1iOnS9xddtarY0cYMwO2zOcYofR9lRHesjuztwIS7L+wBVSd9aD8kVrOof98A+pkoqnR1U9Td3oyHOhYhFOZSc+MwKdy/A4DfOQRA9tMXMO+4dRFxULAf3PayeQevdlDJ6BAihY1wFSWY5aenV/NrWxS4ehUywvDXQ6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gWB5u6JB; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pdko1F/D"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so21635165e9.2
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 03:27:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWB5u6JB"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49954b88fffso18326405e9.0
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 03:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788690475; x=1789295275; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788691119; x=1789295919; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=uXSjGNTYq9LVAly//Rv9vgBCfh1ZX5gWNKe2cgVzOHk=;
-        b=Pdko1F/DCQTNT7FJIawPOyncai2T3guLKLjSd4unFwptBK0IAUvVIijAqDcecojlwo
-         BADfnoqZ1kv2KJIta84MHDZz8aY3LgIDO1FkCiujE3EsVUxPp2Av3uUZvbpaK+1jBRKs
-         PhlOidI1I+DAao7mr/vUQwZAZ8N1RXY//nF3BNaVorVktS3W7upcwL+EyqYBn1yI4HvQ
-         Pw+iPirGZNJ12VndFV0yzPaz8Gle3CxOVGM54dDu+oA5e0GZ5h9gAfUW069R5s6vb7r6
-         rXBXdEh/epTcORGulkby9XTJvWumfplTMAOWavV3uxd5M46nG712M2kfBx8pUBWu5uq1
-         4ilw==
+        bh=I4UOEZmcW36zwGnk1RNeR2nFzPAHZvMeAgomKSEwNbY=;
+        b=gWB5u6JBBpj7zQ9NozWqjaMuYHILMzR25qrAAuUp5bV+DloZTRNxqNj0zph9zrhkz7
+         qbW1hEfNl08MM7eCUoMsbDcrrwKn6raTAhMl0E+tAboKD+bGotEZM8HdGZMhfjawVEe5
+         Q9/Q3lR9CgU+E+l+fVFn7pHyFZMNIEJrlyvE+tTuu6EJ4CYPb+4xnEXwChu73hWalULt
+         20L/djhU/UN410xvz4n+h9AWoIlk+xckds37O7kOlA8Kx1g6Zw+1pWhkSqWAUEpFg8Z0
+         k3CqFAeC8L2AurkVaMtj9owCnMyfKPP4gprAnpT5NFXlPSixTzbmuj0guEvfSKexEPIT
+         4XJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788690475; x=1789295275;
+        d=1e100.net; s=20251104; t=1788691119; x=1789295919;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uXSjGNTYq9LVAly//Rv9vgBCfh1ZX5gWNKe2cgVzOHk=;
-        b=BduF6vovzw8QUUzGdmv8FMijDJHM+K3x9zKcdUCGC84aszHhtUmW6qvv3xlSil/jsc
-         /ZwRv0rtltITxbw9q940ZwwOcnw9cwLb+XRI4UtYD4VvByDjdKaO1BjM5l8ThEGSoKU4
-         JDu7AjJHDTNpEpgOOwczpijOCSAoxah+FAN+a4FONpn9yDyx/zmZYrnk8ezNw34bvrT7
-         NwZ2+soWmUneE7TTACV/NLfjo+LeKDdmqRRRZ8UXioxxKnYuxtMekv2LIFQEnmmjhYgU
-         ZbflimPVd7QdoLvgpxg3VvVxaDxbIpa/UO2Fo67Wir4BLscuQPQZntLMfHZ0mhfDWKif
-         ulYg==
-X-Forwarded-Encrypted: i=1; AKwUvBzLzglolpbfpM+2xiJXPCvpkBzBf5AsWvSPGMzXvPR+k1Sjn7uy3ww6E1MmN9AZJmvSIchTt5E8AB4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lVmoQmQ+pFxokLt7/oj1YsZ3TozrQj/JTZmRjCav4T+l15+F/Y
-	33e3b/kfIMIt7rnteZqosJdkoySjGqGGOeIkU3dpYzaT4vDbYs7AKvlw
-X-Gm-Gg: AYBFou0gURDSeBimcf+BfND7e0HGjT7XQY35a75nN+TskTmFO0f6iSDhhKo4tSIVraV
-	HRvkBlSQVxQOVFUnRdqACKS+qMkcyYA3iefz5ejZ328dTW6nM6x2Q9IpQxfOdTN+O7YEYXLj/6E
-	SW4F1rCoWYfKyZR4J7GU81vYGB+/sdRwREFaTV8/vxQCoYT/ZPufmX4A4LWPPXn8JuVRO19S//d
-	XXkJlYwzIWEI5W/f/NafymmniUKRu6escDXrmNoMG1XI6SEWYs22ZXF9U/wkrZrgVTgXqWkhvD6
-	Tax014zA390VcAsE0QvAEwQhUgAYCGhXmYE08PnBmXt/eJpZKicjYwiEMQiZJj2S3MiKUyr+k3h
-	0I3dofariCQrZkjnEqk9dlEyLOEgg4ZTH1FtVD6cJqecqEKvCPd2T4tanWSueQGtXYTz7DIkFhF
-	KmwHAq1CV3qCtHxz9JnB5+K/O8lQK4M++mmLOA8EgSlPrzj7XoodCz8/rnyC4jLgTYuCAutg==
-X-Received: by 2002:a05:600c:1986:b0:49c:fa21:e744 with SMTP id 5b1f17b1804b1-49cfa21e906mr133178685e9.26.1788690474695;
-        Sun, 06 Sep 2026 03:27:54 -0700 (PDT)
+        bh=I4UOEZmcW36zwGnk1RNeR2nFzPAHZvMeAgomKSEwNbY=;
+        b=RrE1PIjhgFdUULcIskNietgtQwZ7Ar1jvGgjP3jaiMER79LPh9AHPq61WoVFuTONkc
+         j5dGBD37q2UtRdcS9a61C9BJ4/xdhafE/oreU+JofoLXsNm62ErpiO1ADMw4Yff2Sz1T
+         Il41q9GxwvJxG4zahd20youpRishdd0VW2/PJXbF/rfQVcboZl4j5uw4a5y4Ao5+Kw7M
+         ZPf+KaEHRi1KQxL3leKNYxf3zasa2iFbTMqtI1xshK/K0OVllQCJbyQBRVBG5f/8tbGZ
+         S2r0BPT4Xzmcd9dVbuXo+IkH+wx3IwayJT26mEGyD3VhdYeB52b5Oiain05feP/Unqal
+         zcoQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwa23bGpYA3XVUCa5w9+rHxdsRCeyTBbvY0qpVwl+hXNLSsMkHdJZajin9cUizbNHzK4qIRwAwbYMA=@vger.kernel.org
+X-Gm-Message-State: AFuF++kXghqGXPRV8+yLG0JlDRTdbqdLc8tKsDC5duHjyA/gf+5wlfDq
+	3Lv0prae1Axz7PGhZJFMnTaCtSbF+D0sGjniYQ6F7Pct0m6heQzeVXUB
+X-Gm-Gg: AYBFou1MBpNenVZEj3+q58qXM8MgvfDToH6MCKPaDk4TA6ct7/AHSPZQh/1l6025D/L
+	cm12chIQ2nXl7tcd+dN6yA0Cxs4e8hE4IZIWCs12dhjq3+541IxBoJPFJaIeWE3AvbHOduykyDE
+	jbIrXAp0imiuS/C2FmxwSKJvNhhU3OEeEwv+9uTY453SW9kLFjhvrMIJThDOGY2T69FMJrgrG8M
+	kvKxN4aB5JRKMRXwBKAUpwATaiA9BT+ueBdgr3I+z6++ti0+i4E8MkBuUWj1Hnn3zFS9++1IIXT
+	r/hz8nElyPY8eGeXLT4pnINRK9ckNlf+PzWbW3ybxtUGg9OVwKcVAmtQs8tykOXhrvbHc+gXRvh
+	D/qVInXDJKhU1lHSC1jsTItLOpsU+nTkW6acGE5A0doeNJiSm64aFOPIi9cwZ6OMuKVEBLT92rZ
+	TNmjFIM4iCySNErnUqrHmX08OCYA50ZEEVDfILmdCTIhnYVK87kDiwhAhvDBdOXKySwMwczA==
+X-Received: by 2002:a05:600c:4505:b0:49c:dca2:ac47 with SMTP id 5b1f17b1804b1-49cf7fe607cmr154903365e9.2.1788691119515;
+        Sun, 06 Sep 2026 03:38:39 -0700 (PDT)
 Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7740d44sm500305275e9.15.2026.09.06.03.27.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee6023edsm300641045e9.7.2026.09.06.03.38.38
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 06 Sep 2026 03:27:54 -0700 (PDT)
-Date: Sun, 6 Sep 2026 12:27:50 +0200
+        Sun, 06 Sep 2026 03:38:39 -0700 (PDT)
+Date: Sun, 6 Sep 2026 12:38:35 +0200
 From: Michal Pecio <michal.pecio@gmail.com>
-To: wakasio <scarabeeta@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec
- 0789:0308 during DVD+RW recording
-Message-ID: <20260906122750.1c71f176.michal.pecio@gmail.com>
-In-Reply-To: <20260906021345.10436-1-scarabeeta@gmail.com>
-References: <20260905234752.1f0c9c83.michal.pecio@gmail.com>
-	<20260906021345.10436-1-scarabeeta@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: syzbot <syzbot+7300affe388249d66dfe@syzkaller.appspotmail.com>,
+ i@zenithal.me, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ shuah@kernel.org, syzkaller-bugs@googlegroups.com,
+ valentina.manea.m@gmail.com, syzkaller@googlegroups.com
+Subject: Re: [syzbot] [usb?] general protection fault in vhci_hcd_probe
+Message-ID: <20260906123835.56902ed7.michal.pecio@gmail.com>
+In-Reply-To: <2026090536-numbness-enlisted-917e@gregkh>
+References: <6a88066b.ae6ddae5.3da009.002d.GAE@google.com>
+	<6a9bceeb.a5e650b3.26d8a.0008.GAE@google.com>
+	<20260905104331.6d4288df.michal.pecio@gmail.com>
+	<2026090536-numbness-enlisted-917e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -80,25 +82,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun,  6 Sep 2026 11:13:45 +0900, wakasio wrote:
-> One more thing, separate from this test. On this kernel, about a
-> minute after boot, the ASM4242 controller itself hit this:
+On Sat, 5 Sep 2026 13:30:01 +0200, Greg KH wrote:
+> On Sat, Sep 05, 2026 at 10:43:31AM +0200, Michal Pecio wrote:
+> > On Sat, 05 Sep 2026 01:12:27 -0700, syzbot wrote:  
+> > > syzbot has found a reproducer for the following issue on:
+> > > 
+> > > HEAD commit:    9d80aa4617b3 Add linux-next specific files for 20260903
+> > > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=10adf4f9580000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=bb4a32c282cc2ec7
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=7300affe388249d66dfe
+> > > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=121c7215580000  
+> > 
+> > Who or what is coming up with these ideas and even commenting it?
+> > 
+> >     // Iterate platform devices
+> >     dir = opendir("/sys/bus/platform/devices/");
+> > 
+> >     while ((ent = readdir(dir)) != NULL) {
+> > 
+> >         // Set driver override
+> >         snprintf(path, sizeof(path), "/sys/bus/platform/devices/%s/driver_override", ent->d_name);
+> >         fd = open(path, O_WRONLY);
+> > 
+> >         // Bind to vhci_hcd
+> >         fd = open("/sys/bus/platform/drivers/vhci_hcd/bind", O_WRONLY);  
 > 
->   xhci_hcd 0000:77:00.0: Clearing Run/Stop bit failed -110
->   xhci_hcd 0000:77:00.0: PM: suspend_common(): xhci_pci_suspend returns -110
->   xhci_hcd 0000:77:00.0: can't suspend (hcd_pci_runtime_suspend returned -110)
-> 
-> This happened once, during runtime PM autosuspend, before I started
-> the burn test. After that the whole controller stopped responding
-> until I rebooted. I do not know if it is related to the DVD+RW issue
-> or a separate ASM4242 problem. I am mentioning it in case it is
-> useful. I have not tried to reproduce it on purpose yet.
+> That will taint the kernel in newer releases, and syzbot has already
+> been told not to do this, it's not "valid" at all.
 
-That seems to be a thing with those chips.
-https://bugzilla.kernel.org/show_bug.cgi?id=220936
+What cought my attention is that Google apparently has some capability
+(human, machine or otherwise) to understand how this repro works, and
+yet they keep reporting this broken pattern.
 
-Do you remember (or can look up in logs) if any devices were connected
-when it happened and what they were?
+It's just waste of time, including syzbot's own time.
 
-Regard,
+Hence syzkaller@googlegroups.com in Cc, wonder if there is any truth in
+
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+Regards,
 Michal
