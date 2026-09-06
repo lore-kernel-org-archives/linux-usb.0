@@ -1,42 +1,40 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AD03B27DC;
-	Sun,  6 Sep 2026 03:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF36C33E360;
+	Sun,  6 Sep 2026 03:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788666104; cv=none; b=Uzu0mySnbI+pEnqE1hJLXxUuOb7IgoOeD7rAiyoGpNLxuaiTj+ZV/UKWK9EO9A5UgPsaLyKkDnx4s6ZxjltT24X6e9s1shHJ/QotTcfDyakMAvUtFPU2+ABFxv08tH1eX+7M1nXGdv9cIGTl0zcxeIAUHGLZgCXqPowaa4aEZV4=
+	t=1788666137; cv=none; b=asjitP/wZnCM0YEtsgS3fh9OFY2gUQQqtAX6CCACZ1uw+p4SA4bWjQAJwyqHskm5IXbgBQ08jtnnFg1Ru7ih/gAvs/UYDI454mm5LiExk0tgcK9AbVDAZHkiUcjPcu/7lcyRMLDifVQVBWJgAAzzdxWfwsorXJMgAWm9jt2Gy0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788666104; c=relaxed/simple;
-	bh=fmw52iuCxdGkNnLgJ6ANUEmY0geyqWUgqDr7sVjha0o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oIOSdtRISC0u8W520ZnNd6JYCEtZlfM2z0tHdMZoGncDZjEKcZ8rOjBfdYr8TDuCMz0CPlAlPx3swfa5IJP3WPOdTcgaoqhkZWFKoRbq8iATU/oFaawvWBdOmWCHztT4Q6NORSzFDwSrInqC4/JIV5EI+xnZ122hcyzGZp5Vz0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=eQYtbNfn; arc=none smtp.client-ip=220.197.31.3
+	s=arc-20240116; t=1788666137; c=relaxed/simple;
+	bh=z+I4zAxIb+/0nEXzsAF9oU3Gf2EV3Il6oaXYlIRIzek=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UhvHp3/uQGv7XZuj+Xh43dCaWMTllbE34tuL24u1JlW+zsGo2A3rjXXPeMWS+pdHaTNNdrWArGy2NqOQ6TDJa7xrBNdQZ33mTBkC2OYUxYDonYwcgQHoBj+zzK0zWdjkHkwL33q59kn/SPtjwX+VFL9SpjAVZHv5fdL4DDm8feE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=SvLF3D16; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="eQYtbNfn"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="SvLF3D16"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=QD
-	ZTqb1CH8PuDCI64iNeCo8U7mbrJcdP7sXzmfmEBQA=; b=eQYtbNfnEUZdQmr8SJ
-	7Sq7J88s1XT+FmgPrI2uTV6q0ydcfKHxSmHcoxJ1kNt0d5wiMd/clp5dPJ1D8tkT
-	x120vpaXvG8sIzu42yxd0+f2cTS4Zyx7oqYs43ZrWwo5jejBjZnmcR7+ss/WKolR
-	ClHw+BE7OE29Hdm5BwbawvQZc=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=xt
+	acXvrktn66L3QWU8uVsmniCDM9OQcM9WReuJ0Hgp4=; b=SvLF3D16VJD9KQOfhn
+	SIY6U8tgGqetpOh3gauC1sxLWHrU2H7g2D/mOHwNvMVh0a0y5EzrXNTcEl6eng8y
+	F4iR/OwW0F1uaOtRUwipk4gKtddWLM1FVKYN69WMqCTTzDc0/4Am8SeeoujXhFuA
+	7vEgNvMYoyeI36f2oEZo4ET80=
 Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wBXIM7c4Jxqr17VAw--.6409S2;
-	Sun, 06 Sep 2026 11:41:17 +0800 (CST)
+	by gzsmtp3 (Coremail) with SMTP id PigvCgBXhfz_4JxqO+zERA--.30741S4;
+	Sun, 06 Sep 2026 11:41:53 +0800 (CST)
 From: Pengpeng Hou <hppiscas@163.com>
-To: Mathias Nyman <mathias.nyman@intel.com>,
+To: Bin Liu <b-liu@ti.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Pengpeng Hou <hppiscas@163.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	JC Kuo <jckuo@nvidia.com>,
+	Tony Lindgren <tony@atomide.com>,
 	linux-usb@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: host: xhci-tegra: Handle PHY failures while exiting ELPG
-Date: Sun,  6 Sep 2026 11:41:14 +0800
-Message-ID: <20260906034114.85417-1-hppiscas@163.com>
+Subject: [PATCH 2/3] usb: musb: omap2430: Propagate PHY errors from runtime resume
+Date: Sun,  6 Sep 2026 11:41:48 +0800
+Message-ID: <20260906034149.85550-3-hppiscas@163.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -45,66 +43,57 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBXIM7c4Jxqr17VAw--.6409S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw4xXF48WF18Ar18tw48tFb_yoW8Ar4kpF
-	Zag34jgr17JFy3KFnxt3W3ZF1rCws3KrW7Ga4Sk398XrsxW34jgr48KFyrJa9xCr9rtFsx
-	tr10yFyUGr4UXrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRK0PDUUUUU=
-X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbC7R0x+Wqc4N2sNwAA3o
+X-CM-TRANSID:PigvCgBXhfz_4JxqO+zERA--.30741S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AF4DGFW7Kw1xGrW3ur4kWFg_yoW8GF1kpa
+	nrWayFyrWkJ39rK3Zxt3W5XFn5G397trW3C34I9ws3ur17GwnFkryUtFWjyF1YgF18tFW2
+	yF40ya1Uur4fKFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYE_NUUUUU=
+X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbC7QE6A2qc4QGuTQAA3g
 
-tegra_xusb_exit_elpg() ignores phy_init() and phy_power_on() failures
-and continues to restore firmware and xHCI state.
+omap2430_runtime_resume() ignores phy_init() and phy_power_on()
+failures and continues to initialize the glue state without a usable PHY.
 
-Stop at the first failed PHY, undo a successful init for that PHY when
-power-on fails, and unwind only the previously enabled PHYs in reverse
-order before using the existing partition and clock cleanup.
+Return initialization errors and call phy_exit() when power-on fails
+after a successful initialization. Keep is_runtime_suspended set until the
+PHY and glue state have both been restored.
 
 The issue was found by our static-analysis tool and manually reviewed.
 
-Fixes: 971ee247060d ("usb: xhci: tegra: Enable ELPG for runtime/system PM")
+Fixes: 10ac7e7757f5 ("usb: musb: omap2430: Add support for idling phy when musb is idle")
 Assisted-by: gpt 5
 Signed-off-by: Pengpeng Hou <hppiscas@163.com>
 ---
- drivers/usb/host/xhci-tegra.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/usb/musb/omap2430.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 6f235d1e117e..7b7cf22a577d 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -2328,10 +2328,18 @@ static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool is_auto_resume)
- 		if (!tegra->phys[i])
- 			continue;
+diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
+index 52fcbd209c66..f881455a1a23 100644
+--- a/drivers/usb/musb/omap2430.c
++++ b/drivers/usb/musb/omap2430.c
+@@ -514,13 +514,21 @@ static int omap2430_runtime_resume(struct device *dev)
+ {
+ 	struct omap2430_glue		*glue = dev_get_drvdata(dev);
+ 	struct musb			*musb = glue_to_musb(glue);
++	int ret;
  
--		if (!wakeup)
--			phy_init(tegra->phys[i]);
-+		if (!wakeup) {
-+			err = phy_init(tegra->phys[i]);
-+			if (err)
-+				goto disable_enabled_phys;
-+		}
+ 	if (!musb)
+ 		return 0;
  
--		phy_power_on(tegra->phys[i]);
-+		err = phy_power_on(tegra->phys[i]);
-+		if (err) {
-+			if (!wakeup)
-+				phy_exit(tegra->phys[i]);
-+			goto disable_enabled_phys;
+ 	if (!glue->phy_suspended) {
+-		phy_init(musb->phy);
+-		phy_power_on(musb->phy);
++		ret = phy_init(musb->phy);
++		if (ret)
++			return ret;
++
++		ret = phy_power_on(musb->phy);
++		if (ret) {
++			phy_exit(musb->phy);
++			return ret;
 +		}
  	}
- 	if (tegra->suspended)
- 		tegra_xhci_program_utmi_power_lp0_exit(tegra);
-@@ -2367,7 +2375,9 @@ static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool is_auto_resume)
- 	goto out;
  
- disable_phy:
--	for (i = 0; i < tegra->num_phys; i++) {
-+	i = tegra->num_phys;
-+disable_enabled_phys:
-+	while (i--) {
- 		if (!tegra->phys[i])
- 			continue;
- 
+ 	omap2430_low_level_init(musb);
 -- 
 2.50.1 (Apple Git-155)
 
