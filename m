@@ -1,59 +1,35 @@
-Received: from lan.nucleusys.com (lan.nucleusys.com [92.247.61.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3FD41DE05;
-	Sun,  6 Sep 2026 08:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.247.61.126
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56D22B2D7;
+	Sun,  6 Sep 2026 09:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788682114; cv=none; b=mKaG5s8NkrF1YxFvudA9P7C/s9FS2XAT+Zk8bIie/yGfHYpZfg/eI+FhV6H52RyGOndEJaCerzZPIlejvhxSgpZjsQpn+1vBV/EtnFNDCkywBG6Eu39TdHksaSJ+hk6DRXIQ0jpJM3GtdAVlGOfkih9Kec02H4rQa6WzlM9HQ8o=
+	t=1788687487; cv=none; b=Te56pd90YJxI2Qf9fNM6CPthg8+4WsKkG0yJ+64yeaXQBBO3uzMqKjVfC0FRiCbjspqRRDfjsOF6JseLRJu9mSGUFCU0FprrmHGfHW1cyBzcYjEKDW+dT8VPj7wCah2ZRN1Lw6P9eLp5xBcKkKWMCAmVtrgGB+XrqpXgdO9ZEpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788682114; c=relaxed/simple;
-	bh=HMKw1qkRvIkC0UDtECn9DQ58auZHhqG8gtPrf4sQSjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AZP1m6fEa3WM/zQ/xtWKuotfRbDjEzcktPjTQ9cFqSNMh/qhKZ7SLYyub6T+tukQlXz1phbUsq3y263iNl5naHmAxEULOrKUW8LzDsRJRp5fBrsZbTRERxXtTQUexoLtTMQ3m3w9rVvI5QXA1DOC+Ju1xVTfz6wxRdIMApU93Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nucleusys.com; spf=pass smtp.mailfrom=nucleusys.com; dkim=pass (2048-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b=FkZg3Af+; arc=none smtp.client-ip=92.247.61.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nucleusys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nucleusys.com
+	s=arc-20240116; t=1788687487; c=relaxed/simple;
+	bh=ryXs22bCuOO0xykjJhIarS5b61/GHzylL3wifg4LIps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iT04D/LgfgBcF/JcFooTX8fUkbk3cTyT5SBYhUG9EOGkfY8l6La8SaymNp7xK5Cjzp5klU733OlW0hBz5ZceX/uet9XeQhVRUbyyFHImYYFZ6zKjIEXrU+vw8COaLlqjXQx5T1cH6zVuTWs7SKgxAJrXs7966EHyBePuYoPjbDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vHok224r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b="FkZg3Af+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nucleusys.com; s=xyz;
-	t=1788682099; bh=HMKw1qkRvIkC0UDtECn9DQ58auZHhqG8gtPrf4sQSjU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FkZg3Af+k2UAmshiuHnONZBaJ4Spi79eS4zh0eNqc1gXa4yJsTMG/R92oZGNfPhT5
-	 miP1DvxznRRioWyEIhHNm8vL9ENzYRfl0uWMlwtvD39IZeDO47Hob9QgjfVj2XEom7
-	 Bulrdaxai12QjJQPVSYKrQljnPbpYi8H1H74xcdesaDUW9OZ+uys2ilWT++fDHd1hp
-	 E3wVYzaGuseKpKWs9JKe7UQVbK605QwpOnMGl528bJo7/N1jClLIyOPfyH+fqVCs1a
-	 /RvqTgwsFpPB9i6VCdDlq4lY+fnkXd/C3qc9f/CxKrUR3vCNGFCaeaQPMM1JzmN5JG
-	 hhTDLTEmOSN6A==
-Received: from carbon.k.g (unknown [85.187.61.220])
-	by lan.nucleusys.com (Postfix) with ESMTPSA id 16F1F3FD2D;
-	Sun, 06 Sep 2026 11:08:19 +0300 (EEST)
-Date: Sun, 6 Sep 2026 11:08:18 +0300
-From: Petko Manolov <petkan@nucleusys.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Oliver Neukum <oneukum@suse.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vHok224r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07711F00A3A;
+	Sun,  6 Sep 2026 09:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788687485;
+	bh=0rCN0mHo53LZhkeVw8/aHpz528gp0eJjZLOnJQVFYRE=;
+	h=Date:From:To:Cc:Subject;
+	b=vHok224rwfLbYZlqFZ+o3gVsVa5ya5/ZrAGIqFHkOewrRu6hNSwhjO10IT0/+p0Nq
+	 i3dKY/8Ulkh3kMNKgz+ik9Ok0+xvTUfsi31LRAyEhXgE6jbpZcBHH0AsEZVLPwH9TA
+	 iaRg4jNfzhMPnxmtbY0oktJKcCR/casL5PBbGgXk=
+Date: Sun, 6 Sep 2026 11:36:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
- work on system_dfl_long_wq
-Message-ID: <20260906080818.GC6356@carbon.k.g>
-References: <20260720100902.155605-1-marco.crivellari@suse.com>
- <20260720100902.155605-6-marco.crivellari@suse.com>
- <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
- <20260825151812.4aJyFUgE@linutronix.de>
- <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
- <20260828094318.bOajNBno@linutronix.de>
- <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
- <20260905150450.2hrac_GV@linutronix.de>
- <b6e6e8d0-0888-4bbc-85b8-ca3bdac88398@rowland.harvard.edu>
+Subject: [GIT PULL] USB driver fixes for 7.3-rc2
+Message-ID: <ap00FN1hfHYkcyhq@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,30 +38,124 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b6e6e8d0-0888-4bbc-85b8-ca3bdac88398@rowland.harvard.edu>
 
-On 26-09-05 12:33:07, Alan Stern wrote:
-> On Sat, Sep 05, 2026 at 05:04:50PM +0200, Sebastian Andrzej Siewior wrote:
-> > 
-> > Still the wrong thing to do? The driver should do either flush_work() or
-> > cancel_work_sync() (not flush_workqueue()).
-> 
-> I think we're in agreement.  If the driver relies on calling
-> flush_workqueue(), it should not use a general-purpose workqueue.  However,
-> flush_work() or cancel_work_sync() is okay on an unordered general-purpose
-> workqueue.
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
 
-The driver is actually using queue_delayed_work()/cancel_delayed_work_sync() so
-the above is of no concern.
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
 
-Due to HW limitations the carrier state should be checked on a regular interval
-and reported to the upper network layers.  This worker relies only on generic
-USB transfers, to and from the usb-to-eth adapter, and as such does not depend
-on other I/O.
+are available in the Git repository at:
 
-Failure to acquire correct carrier check does not seem to affect the device's
-functionality.  Overall i don't think the proposed workqueue change is
-disruptive.
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc2
 
+for you to fetch changes up to c9273c83885835dbd1e8835d5665dfb8503d65e0:
 
-		Petko
+  usb: typec: qcom-pmic-typec: drain cc_debounce_dwork if port_start() fails (2026-09-01 16:50:25 +0200)
+
+----------------------------------------------------------------
+USB fixes for 7.3-rc2
+
+Here are some small USB driver fixes for reported problems and
+regressions.  Include in here are:
+  - xhci driver fixes
+  - cdns3 driver fixes
+  - usb gadget driver fixes for syzbot found problems
+  - typec driver fixes for broken hardware and other bugs found
+  - kernel data leaks in mdc800 driver
+  - usb storage driver fixes
+  - other small USB driver fixes
+
+All of these have been in linux-next this week with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Aleksandr Nogikh (1):
+      usb: gadget: midi2: Fix null-pointer dereference in f_midi2_free_ep_reqs
+
+Amit Sunil Dhamne (1):
+      usb: typec: tcpm: constrain TCPM_SOURCING_VBUS event handling
+
+Andy Shevchenko (1):
+      usb: f_mass_storage: Bump local buffer size in fsg_common_create_luns()
+
+Arthur Gautier (1):
+      xhci: fix lost bounce buffers on TDs spanning several ring segments
+
+Chang Wu (1):
+      usb: typec: hd3ss3220: track VBUS enable state per consumer
+
+Chen-Yu Tsai (1):
+      usb: xhci: Fix HCS_ERST_MAX conversion
+
+Elson Serrao (1):
+      usb: dwc3: clear forceRM when issuing EndTransfer
+
+Fan Wu (3):
+      usb: typec: qcom-pmic: cancel reset_work on stop
+      usb: typec: qcom-pmic-typec: disable cc_debounce_dwork on stop
+      usb: typec: qcom-pmic-typec: drain cc_debounce_dwork if port_start() fails
+
+Griffin Kroah-Hartman (1):
+      usb: image: mdc800: change kmalloc() to kzalloc()
+
+Ivy Lopez (1):
+      usb: gadget: f_midi2: fix use-after-free in string attribute show path
+
+Jameson Thies (1):
+      usb: typec: ucsi: displayport: Fix OOB altmode array index
+
+Jeffin Philip (3):
+      usb: gadget: f_midi: initialize work in f_midi_alloc()
+      usb: gadget: f_mass_storage: fix null pointer dereference in fsg_common_set_num_buffers()
+      usb: gadget: fix null pointer dereference in usb_put_function_instance()
+
+Liu Qi (1):
+      usb-storage: ene_ub6250: fix race between scan work and probe
+
+Lovekesh Solanki (1):
+      USB: gadget: fix NULL pointer dereference in gadget_dev_ioctl()
+
+Marek Vasut (2):
+      usb: typec: mux: Fix typec_switch_match()
+      usb: typec: mux: avoid duplicated mux switches
+
+Michal Pecio (1):
+      usb: xhci: Fix isochronous scheduling regression
+
+Myeonghun Pak (1):
+      usb: storage: realtek_cr: fix use-after-free on disconnect
+
+Pawel Laszczak (1):
+      usb: cdnsp: fix wakeup from S3 after controller context loss
+
+Radhey Shyam Pandey (1):
+      usb: dwc3: google: Initialise probe properties with DWC3_DEFAULT_PROPERTIES
+
+Sven Peter (1):
+      usb: typec: tipd: Fix Thunderbolt altmode VDOs for cd321x
+
+ drivers/usb/cdns3/cdnsp-gadget.c                   | 111 ++++++++++++++++++++-
+ drivers/usb/cdns3/cdnsp-gadget.h                   |   1 +
+ drivers/usb/cdns3/cdnsp-mem.c                      |  98 +++++++-----------
+ drivers/usb/dwc3/dwc3-google.c                     |   1 +
+ drivers/usb/dwc3/ep0.c                             |   2 +-
+ drivers/usb/dwc3/gadget.c                          |  21 ++--
+ drivers/usb/gadget/function/f_mass_storage.c       |   5 +-
+ drivers/usb/gadget/function/f_midi.c               |   2 +-
+ drivers/usb/gadget/function/f_midi2.c              |  17 ++--
+ drivers/usb/gadget/functions.c                     |   2 +-
+ drivers/usb/gadget/legacy/inode.c                  |   3 +-
+ drivers/usb/host/xhci-mem.c                        |   2 +-
+ drivers/usb/host/xhci-ring.c                       |  43 ++++++--
+ drivers/usb/image/mdc800.c                         |   4 +-
+ drivers/usb/storage/ene_ub6250.c                   |   2 +
+ drivers/usb/storage/realtek_cr.c                   |   9 +-
+ drivers/usb/typec/hd3ss3220.c                      |   9 +-
+ drivers/usb/typec/mux.c                            |  21 +++-
+ .../usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c    |   2 +
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c |   5 +
+ drivers/usb/typec/tcpm/tcpm.c                      |  28 ++++--
+ drivers/usb/typec/tipd/core.c                      |  17 +++-
+ drivers/usb/typec/tipd/tps6598x.h                  |   4 +-
+ drivers/usb/typec/ucsi/displayport.c               |   2 +-
+ 24 files changed, 284 insertions(+), 127 deletions(-)
