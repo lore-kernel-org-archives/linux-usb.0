@@ -1,107 +1,63 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DB43BBFC8
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 17:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A04382F2F;
+	Sun,  6 Sep 2026 18:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788714737; cv=none; b=aTZ1aJ+D0oCSAWCkreR02nwVCDJSUoTit3K/ZGobs8XBaejwAi2eeHtEzXvk7OpREehpb1VLwdQvCcXfgUUqf459f0sA5Ozcbm8e4nrssCZOkvaDHxiA1i4n0uIrBpZJIg7niOqxQCwf/oUtOzFBW1Xfnlqv3HARZsYN78aHiSc=
+	t=1788718347; cv=none; b=pO06TVgjHy9ZGZpqnHGNPTwtj5si49VdUyImBFH5xxvZj3WULIZ0I00/aob5FPc+PBZ6M1/3uU+Zq5msnufcURk7tyBCPjC6AwxVa4s6soZ97ViQ82sqqoKkhjJc/P35x26bbmGlTqy86piyVvYFSVrCxUwzRaTDFEoNTOPXtJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788714737; c=relaxed/simple;
-	bh=qH7n+ZKbHZj2oVZV1KwU9ggB3Wiy0B9LIUAksky89H4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K5bXwCdBkNL2dkNsJWyi/dplQHGIZm71EOyL9Kcbj/OPKk2UcMVE2rlfw/tB4VY4qySOOx1I0N1CePGPZ52QG2OEbS/WCyjFdHSSWvuN03+bnURukGa+Uh7qrTK54hCmmDN4Q0F4AqcNKnRONG6c8FNZPF9ZzTeyi4III92pVP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e2Gjg0CO; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788718347; c=relaxed/simple;
+	bh=e3h9e+a/2jr42fF3rtopG7+1A+gxOB3Q7IPa7E2mAWY=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=JoVH8QjH+9S0fqfGNGiWoGw3v7r5knASFLKDanJf37oza9PNjQXCeW8Rllfjm7rs0e2ldiPOc/uGZQqNrIiBCW9B2TFWh2amD0XEe6ER+ImfCh8rhpjV+cVoNlQMUdyK0xNZI9JmUQUCxbyU5DUjJjrBAA6vbiONFkxRfPcdOtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SolqPc5+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e2Gjg0CO"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so2971746f8f.1
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 10:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788714734; x=1789319534; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cpRopDThQc2kdnNNe0FC4eQLPhj9iGQQR15LcuBfIzk=;
-        b=e2Gjg0COk5g7RRp5zBUWphIaXQWwMBpp9HLdWtzhdRtJFh5ZjInforiLGhQTu4/TtI
-         +OhwZ1zFiFfr91AXySvI+Rqo9C6q3UVgdudr5sbRn4ElV6OtWm3sYvFemh6d9CwJb1+g
-         70POs3fCMEhCKcQppd0BYiqfJhUos/M9P8X17CUf8vg/vug6w99FohbYWZj3TtHQrLLK
-         VUQYndVmKWu7Yq6I7yUuUTW8072GbJE1FtWhbWF3EMBLroBasKkFKK0TOqUCOTd1p4px
-         VWJ8n6oPI4hx6bkgQGctaxuGs2OJPQh5JoQRuR9EvcZiGVWbZzq6IeOy132zkezvj1By
-         eghQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788714734; x=1789319534;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cpRopDThQc2kdnNNe0FC4eQLPhj9iGQQR15LcuBfIzk=;
-        b=QuKfAL4OCJ12uonE3A1RJYejKsw25UtNxRv5jrPjSHljsqeiUh4hTwkWUMNa39uJdU
-         HOSbR2TGHldnm011b0Of4pu3oQLZrHug98Veb8FQw1tsfIITR895WKnslg+Rq1Dc34Pw
-         efSJe7EJVOmHDLk3Q0hMnhmHN2kz5GnlhwhJvFJAfttrVnOMQ5+2ff3OyZVCsEV7+t8w
-         8N9RpPvWRYks2HeGGy2V42Twza9Ql1bd1A/ydRLalIQOVhNdL0sjziI+0rwTFMvckT/M
-         KnOCvfESN51X9abv9DJYk+IdagyrjdoxADPWqVEDbeLCW2C99F9Djl03Mb7wxW6xbFA1
-         8hCQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw4Dnmul5u5SAcgs9Xvh5tOEpYntnMj0yMvy55QCkP05wE8YkLoBCAP6+iUfV7+e9ULyT7YBpuyMFI=@vger.kernel.org
-X-Gm-Message-State: AFuF++kZlyQSMdu9XAGHyM5nxvywYFwdXqLy59aaxEEFqvN+5dTbY+O5
-	HvKIDJU68vUcDzTnl6ylMvmVIAgEBPge5SyMjOrriD1IDyBC91JeIizX
-X-Gm-Gg: AYBFou3PzmZ1faYVE8i/bXX9Owa31HacfpBBsQLNZKZd2j7Bj76D5aneukJByUewqNR
-	HV87WMwgi59zXwbY201y4L+1dyXZh4ZmR68uBngzsBAMlqNgYeP3KpYb+UnGHG4hTLWB/uoDVYc
-	eMYSQNwJ+nJKc6Jv9bsXFy3cnKmxj1TVKVx3yP9mFWhdCMimVUXI2u/9BFqoD6HfKu0JM/P50cH
-	yYR7AWG7/Kqb4I6DsWcAniJ6WUwOxb7a6IE54ZbRXk7lch3Kx3UzyYNzersoFJOYVld/U5stVEj
-	S1/KaB2aF4+oSrJedkQTn1J+ceI/q1vbSxUZkLKeaI0Ya80GrF6qKv7biXPy9B3B72o0fJgxjGN
-	ptLXZZmSfPH7z/TSgqjKKnLKUHWRSuclWy2qLEbMiJxWBm6wE2peg1IyF9bmFe7LZCN5HWKd2/Z
-	D0Vdlc36HY8IfV2t8MNguWJnCOZ8Ti8tw53s+iUNYTiOwyZp7u4QS36W74kOx2W8MIj5nlNjTnP
-	1bjYuhS7wj7a20hfTr8ll5x+7DYl9rr2/6/tJqmekihNKb7sfUA9VRd7l+/hn5h5/Iwo6jFJDbP
-	lhMrlZWsfqRHjKDmRD7VoYpPZRu6xWFhAv8pOlVFIoemC/T51meWutRSaC7RrQqmYE8Ebr4Y
-X-Received: by 2002:a05:6000:4804:b0:482:e451:6810 with SMTP id ffacd0b85a97d-4858703f65cmr22834368f8f.1.1788714734178;
-        Sun, 06 Sep 2026 10:12:14 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-9d84-5101-9c80-d25b-14b6-410c.310.pool.telefonica.de. [2a02:3100:9d84:5101:9c80:d25b:14b6:410c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883a9234sm22493371f8f.14.2026.09.06.10.12.13
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 06 Sep 2026 10:12:13 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	linux-usb@vger.kernel.org
-Subject: [PATCH] usb: usbtest: Fix the pattern parameter description
-Date: Sun,  6 Sep 2026 19:12:10 +0200
-Message-Id: <20260906171210.2661-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SolqPc5+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC931F00A3A;
+	Sun,  6 Sep 2026 18:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788718346;
+	bh=4552o/1LHBFAaesGap30aN6IjyaTxnM0KZOkd5U3K6g=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=SolqPc5+2p8yXoGUbsYEXxcE83to+UkXVp3nFRBI+drAgahjnMTLITao19ZgaVWjF
+	 TMA9xh5hWMj9fg2YgyfxOVL+UthQUttIZ/BB9DVsR65HAyVDvwpSfBYxC91hKwiCRI
+	 /O92ib/dmM4ZF9vSDtfaK7KL0vmsTZsOEjRZLjHQ7TJJjmryQ9aUoLT8zzItzukmb8
+	 rAocHU44rZTf6QimUIam7AWUwV7uiH+cW9SeSs7TYpfrPPOcerLEyWA8tyWsGT5DF9
+	 VgUYkAgyaIRa/muwTr8nD1tQFnJc3H47AK1jAbguPe61g1GlMrZFwJESQbF2WSx+Jm
+	 rwKafDBOR6KHw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0B9F3926249;
+	Sun,  6 Sep 2026 18:11:26 +0000 (UTC)
+Subject: Re: [GIT PULL] USB driver fixes for 7.3-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ap00FN1hfHYkcyhq@kroah.com>
+References: <ap00FN1hfHYkcyhq@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ap00FN1hfHYkcyhq@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc2
+X-PR-Tracked-Commit-Id: c9273c83885835dbd1e8835d5665dfb8503d65e0
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 65538a8f02fe6e4f07228a816529b039b544f051
+Message-Id: <178871828554.1639575.1809988838478697719.pr-tracker-bot@kernel.org>
+Date: Sun, 06 Sep 2026 18:11:25 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The module parameter is pattern, but its MODULE_PARM_DESC() names the
-variable behind it, mod_pattern, so modinfo describes a parameter that
-does not exist and shows no description for the real one.
+The pull request you sent on Sun, 6 Sep 2026 11:36:20 +0200:
 
-Use the parameter name in the description.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc2
 
-Fixes: 7f4e985448e8 ("usbtest: make module param pattern writeable")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- drivers/usb/misc/usbtest.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/65538a8f02fe6e4f07228a816529b039b544f051
 
-diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
-index 8759df49be28..e2d7087c28a9 100644
---- a/drivers/usb/misc/usbtest.c
-+++ b/drivers/usb/misc/usbtest.c
-@@ -337,7 +337,7 @@ static struct urb *complicated_alloc_urb(
- static unsigned pattern;
- static unsigned mod_pattern;
- module_param_named(pattern, mod_pattern, uint, S_IRUGO | S_IWUSR);
--MODULE_PARM_DESC(mod_pattern, "i/o pattern (0 == zeroes)");
-+MODULE_PARM_DESC(pattern, "i/o pattern (0 == zeroes)");
- 
- static unsigned get_maxpacket(struct usb_device *udev, int pipe)
- {
+Thank you!
 
-base-commit: 986c24e0fe44f844b44d365b71ce831947f50298
 -- 
-2.53.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
