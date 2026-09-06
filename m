@@ -1,184 +1,178 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012060.outbound.protection.outlook.com [52.101.48.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EB22D3EEB
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 12:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDF03115A2;
+	Sun,  6 Sep 2026 12:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.60
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788698752; cv=pass; b=RhHO69Vy7yt7+uMZ4RrIQ5TTwvqRA1Tvsv3Y45UlHgrd+7qnLkmg3zeKOcjzbS8l/1CgyFA5I4FD/WqTFyQGtPL1qldO2WldtNx2xw4gyljXjrXyo2JHqkAfRpUtu0A49UogpTnO6Qh0l9dgUZZpEBAe/iihYQBu+tIJtOdFQAw=
+	t=1788699393; cv=fail; b=uaEAdJD0qOWF9PlJtpjZo0r2VX+ZoKmn+nKQiuWQPNLTAKI0pMIFEDe7gepM7jyqFdaQ8T6g2kfGSfz5cZTsFn/N2ebBHE3Sje8Th9k4Q0zBQ5vq/WNZqcy2v70bJHeqYAAc1jcrufomLYC39nl42RhBywdCZw1EEsQz49s+uo8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788698752; c=relaxed/simple;
-	bh=WmHF2V7uCFeYQSt3FlN6ZqcyhMgg9l/UOA4n/C2dABM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Hjv453+8oa5j6jp47xjeDEOrXFBK5niVYv8N+J514UuTZIL76BR2M41LYnrP9gJFyIEqw+Og4vPBhRfl0rfBQ44gYM7romqD5WcegJOQXCZoG7r4uKGXyDMkCO3LQqzE9WRy2rNhmmuTcENfiXTLPPJpUqnQUJvXPfJP4KwwKzA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZlEcESw; arc=pass smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788699393; c=relaxed/simple;
+	bh=cPtrpER3w7pQ61MBhanwbgpuOABpKBMJiaAjFNN9cZg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=gHE2sbuLqdvYA3GTzkaHZjVV6HnVLCKzSXnvClr2Tbc4MgK+pDR48IIRg33nmMDFvoXJGITeGRuIwkEnI41rc5qw55nXEnFfcYTRUiHnvmgmeOSvl1QVbqQ0SfVMkEJQDUCe3S3cRTfkpEhYHrs1wksrVgxpm1IOsARjsDGWwWw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PqBfGwUQ; arc=fail smtp.client-ip=52.101.48.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZlEcESw"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d9db539a54so20677735ad.0
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 05:45:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788698751; cv=none;
-        d=google.com; s=arc-20260327;
-        b=euet4ULbJ/q2AT6hoJNyR8QYZBqlvWG0PpXipc/MfR3R22lcJmHR0ZKAQfNoj7CgIM
-         ZmedVNW7DT08CWlq2Dv2mOvxBlLGM1yupbgiyrJAi9dhQhUFm4DI1HYKJlZNrWONA3Rq
-         YfWl/VCiAAIVCNyYl5lV6zlO+6lNrEEqwonArDg38dwMpcyi2gPSy6bVyj808IGPXW7F
-         ZsqZosz4NqaO5ifgDeiB6PVLjTZipTw49PVC5kPick8Ud3VQVQ8gWxa4UnkilgMDUXB4
-         KqJo5zmHYJRw536rs0juPfH0i3X0LH13DgFQKdBuLQNDkvoFXe5rdY/4vEenW+VazzKD
-         LOrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=y2d5r2gb05PRzQuk3XzRlcn5a27Va2oemRcADWFNB1E=;
-        fh=VimqKRrJCN9rdcfuq5onff2+63396vNbthBTDDSyxg0=;
-        b=BYzmnfb8JKw61kB2+9jDNAQ5RfUjYGseMuXUk27Bs/F70j5e9qhhMuAxciQWRhHHnP
-         TlBPRCseiej2USSO8jU0XISvJQd/GiaN1+dgOU9ibiapkC1ssUUz4FENL7ai+BagqK+O
-         z2B/hWFQGy0x+b2Pi0UCp/cde4yoy6MYaooKNdfEwT/UQyV8Pa/LYvZnLxmygD725OrX
-         MyuCt3CrZas0x+8+I8ZqJVjQJkC4F3lCY1zGcs+G2KJY8qwj6/f/vvGCX1+/tG3Zt8C4
-         y2YSgQQzWgr4MCj1s/EQQm+l8I/0H6EwV/cAkqda4ngpokOVWYFKAnSQKjKLW2qcn7bw
-         8bkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788698751; x=1789303551; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=y2d5r2gb05PRzQuk3XzRlcn5a27Va2oemRcADWFNB1E=;
-        b=CZlEcESwssy+3+zaKjzz4HiVqya/1MYRPcDxs/hWB7zfLF/xVGgQmJsT+/0FMHx2iV
-         qOTrZrcFk27DxZeJCoSINO+qKij6n/rnDlx7yeYHZOG5LY31mZ8zyYm2sDTx90xoobA4
-         oRvp55VwcHSoq+rTrhGe5wGwVLT9c63m7eqPzHKY/nft4Jz0jad3B+RDLB9MvLSijx46
-         eH/y7iB3McxnPJOvb/FqClwUdUmjg2AuZOc3Olj4ljhWTeMr61Q2Gme8EAn0Cc8EWAUq
-         AF8eaYA8xASWwbD9PTxnBzLFnS59Bkj/6SXxflvUdVXTgfwlDLoOq+RZCSIzUJQtZooJ
-         FL6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788698751; x=1789303551;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y2d5r2gb05PRzQuk3XzRlcn5a27Va2oemRcADWFNB1E=;
-        b=Kodjs8CdTJgi+awrIl8VlKUbSvgbai6NFt04/Zop/C48yXFPGqJxCz+2aaOhUs7bGO
-         CKUvmjz9MWLhp09kceJxjvPsc5SX4uYwYQuJgzw1TayJV1ZdiI2DLkCDVLZbNefbt3Vf
-         5l2DGBYFnOXgGUh6+CFT0LqkuSNZlyrGUzQbalCIOYKrNevoOfRhX65d7+479C6yoi2O
-         PdqNpcAgaM4YuQWA4Iz5pooP2G7MCMTx+ZHOsXNMQoRskLtZZl2WI/7DZzxmdq+z9oTO
-         X2Vn740otbXxBi0gNN8Sz1f15FS3KWEuCtgTRqE36o7wFljvd1ncMpEAfwYaCjT6NNfc
-         3Nfg==
-X-Gm-Message-State: AFuF++m41I0d0yLJCk0vGUDs4jN2YB3mDDSiFPJOWZ8wmPUPyePVjT6X
-	ws4ypYIZhefKok0mzoCc/TAsr22kLRimWJCk538k/f0HIQrEspmi2qkNGPUiELfRT2WFWcR2kEa
-	pLjn0jM0u4kb4sxiUQ84ljUagbeSPy6uqij6a
-X-Gm-Gg: AYBFou3PTBZ46paRnO5VLfjlLIhjHTaaG6JCwE4k9rOVj7lYY0R5bymcLkVnvqK2QOb
-	OnDQoWg8s7zJLsOB94lYqw/Lorq2/AJF4ox2bK0UNNMAspAHWmuXlgYHQ/dviU1urw/C4lZD8DO
-	qbAUBwDZZtBlc3vC6HxU3ifiXL6nFKXpbtXud4NhcgvQRFmdZi0Nx57OOHOdRLYFYRUk/rETuRR
-	aI43bAr4QCGAj8uZx/LAVRzTFkrsdBon0pgOC1fBJFBf5IMRVsO8nXHNGmjgTo+WRrfhJxKnvBu
-	iaPrkHkDO7ymkGjtSbVmFrMh3pEHcdMqCf5CeklsQsdUmg==
-X-Received: by 2002:a17:903:2ec5:b0:2cf:8131:75e8 with SMTP id
- d9443c01a7336-2db125c412dmr278447795ad.13.1788698750783; Sun, 06 Sep 2026
- 05:45:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PqBfGwUQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zHbCANYOy+9XL6RQ4zX7Dlo6dPrT45cjvAXTqK1hg2yY3QZqkb9WhEQ7nWSEbEgnPW6QUuNfanrZbzl7/C+wNdwr+qlXweG1QpnrLPsYNtAoS0olNdtiPyORf3kAovCtW5uPIhFKIDBppF2Bm/bm8e0ddkYe51l6SpJJuEW0ChM+WnaJtVy6y4Ou8+0LAoCN7ZncCWtDN5ABm2dkNQHS6jlHuIlqiilvKsqctpBgEFgmhjhgVhrJONP0Zt93ElFkl5jJGhYvQ1r0VNXYOOHyb1D3KLhumqEgRGYDi6SADRFc82Js4/nQqDD974SdbBjJgFS1VpkVBzzuW78MDz/p6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8vANDqO1s7gz0DtgMbhQF15nsepstnmkbmqMcgu18Fw=;
+ b=R0mGIyLXhTzLfGwg2De46XF7R4m/jjs1r9LBiCyZbpYjuQsyqpmbMl+Snu8Kh/1KutglN2SE1JcULvTXriOa1SaU97yBNxUhffnC5Ss90Pk3WxpDhAaEi88SNaypViXlL6pmPGLglrJ67RM3eOo7RDu3g68Xcx4DG3jGX4JWqXriVCFK9QAR18bmWmbS6a18wLr4quIIBdMOdZb73dqDJnR5zxQ6t/7nCJmOgpy7b4ssEHAwe3U7Wr21MkPdS/QrrOmGBb49BBgrLyzAh1gpCBYq+ND+0Fr1Bu0wz3g4dk3m23iUmhO7xMRwUjDvDjrH+jJeF88eOsfmSwx2u00VGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8vANDqO1s7gz0DtgMbhQF15nsepstnmkbmqMcgu18Fw=;
+ b=PqBfGwUQdKJtbx1vz+mtaHOfWBp4k0jGXYXFgHwv6m53k4Lxpcbyo9r0W3xfclpIq9QaI5OjNbRJ5MhHwKYddtctr2jvKoQyqwutp2Ft1sQIPJBH7SrPQSebPBBbvevglMCvq4G6zdRLnKwPRPX7TwrvQgmfbMMuSvboWR6YETg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
+ by IA1PR12MB310634.namprd12.prod.outlook.com (2603:10b6:208:5a2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Sun, 6 Sep
+ 2026 12:56:29 +0000
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0382.014; Sun, 6 Sep 2026
+ 12:56:29 +0000
+Message-ID: <5e125a63-b82b-48cf-a8b7-74515424423a@amd.com>
+Date: Sun, 6 Sep 2026 18:26:24 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: tipd: Zero-initialize CD321x partner
+ descriptor
+To: Sven Peter <sven@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: asahi@lists.linux.dev, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260906-b4-tipd-partner-desc-v1-1-073559f142ff@kernel.org>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <20260906-b4-tipd-partner-desc-v1-1-073559f142ff@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0223.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b4::10) To CY1PR12MB9697.namprd12.prod.outlook.com
+ (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Mikey Coder <mikeycoder284@gmail.com>
-Date: Sun, 6 Sep 2026 18:15:38 +0530
-X-Gm-Features: AcwNN1UXAsNeo2kNNl1SH8eFk0FwZ2Mg8gi-1aciso5eqXPPsDDAkxiW2b6CqCg
-Message-ID: <CABo2BzE4BMBeL-pW5DvAqyJ8aMVT41OJbd_VJ40ngUmPD=eG2w@mail.gmail.com>
-Subject: [REGRESSION] Samsung USB tethering fails with rndis_host TX queue
- watchdog timeouts on 7.2.3
-To: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|IA1PR12MB310634:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0d65b69-101f-4fc0-7bd4-08df0c1644be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|10067099003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	cMoHPKYMWf8YxmkjKtENrcgh2O5XT1Wxg7PHNUjL56pfsGSJgSXN4lFJiOdUHwxMWoVCxQHNdWcyUM3S+W84162RlSwUTgV9EurLTqDp8ltLFwXCm/aWD0B568Sac6aDJpMlmR7TipUSwSt26QUGUeEn6SGZ4wQzgb4HSKbWJ74ZjixJccT4GaVHaLGlM+kgc+XbcTa9RrPHgaL4wS/cfy777bDtOAqjJodx4Dy9BgJHb0QHpgNVbLzfyII9AnjbfMUBrgwK62xe8QoUoxFySh51u1adUAgALpIpjsgzE/3tko+wpl/TNso0xKa9Eh7lEfrBTpX6/GjlZahcJ+Htr9Oa3YxeFf/icm8XIuN38tOfUbAR66FjlKvl6wO3EWLKZ5sJiJHm2s1bzENowzD/TRKAJMWszVejHad/qqYr7bK26PVwr5cv/3S/rNntObNmlQynyP8CGGM8j500YxyXuvJA7h2E9gBOFS4hUCyRxznZfA+zauQTh90I2uKHUkNfUMuCCk2HCASxmlnDVdGRB1+MH1YZR+yb5A9rVczWRmR6pd7EBXV/fOPfoVYfzuBPTS7TTDhhZtmcDOdjfusneG9mGJzyuHmwIlPri1x7pCBVpFo7foygTNCwhjCcnS+LTFyihFuviswoay7mm7zqhVny5Uu0baXcFQVuHLGcOAY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UUEzYTR1bU9Wd0tLb0VjQTBtWkFibktFbi9hNFZvVGpvb0MxNWNUUFc1QS8z?=
+ =?utf-8?B?K1dMdFpBZnBIbzZtUFZGUVBzSFBLM0RsaThrSmNKVlhvYUJ0RWVWcTlTS2hQ?=
+ =?utf-8?B?QmpTRXBkRlp3OWo0bENFclljYWhocnpCMGl1aWN1SEQwOUMwTk5SaU1ZdzNE?=
+ =?utf-8?B?Z0x5eHZJWFUzZFlLWXZkVlZpVitPQlBsNGswS3A4YVJOK3R5Q2FzY2RXamZw?=
+ =?utf-8?B?bStlbHZMcGtOZ0dzY2luYlFZdURodmd4TWJNKzg3b1ZJWUZvU3RNcXRZMkFu?=
+ =?utf-8?B?ak5nQmVPZk9CM2RxOUduTlk1bmFiZWkvL3lyS1A1YkdWcE1tV2N2K1B0Umsy?=
+ =?utf-8?B?bG1UN1B1cmZQdzdwellJUjlaR3BiL1FtQldSY1BiUWc1U2ErQUVVc1Y2VG9j?=
+ =?utf-8?B?YTNGZXUvZmdjMm43dnI1eEl2dUhYWURKSjNrMVBkZ3hHTFppWjZLL2ZiMmNm?=
+ =?utf-8?B?Tm9nMHlhZ3hIM0RvRDAwT3dRYTc2dENwQmNHK0dYVkpRWmxydnFYQWNla0Fp?=
+ =?utf-8?B?Ujc1L01mNjYyWnRvNDBQbVc3Wkk2ZzQ3eWw2MURGbEtZOTZJZ0hLY082eFVK?=
+ =?utf-8?B?MGF3cEh1bUZIU2hGbXlIcGpTTWxHWENWWXMrbGFtWWlRVXhaZmpjUHdJeTRP?=
+ =?utf-8?B?RlpTb1lxSUlXN1EvMTdXaFdBdnBjTG9XQU9lZGxnRytZd2t4d0NRTHA5YWpR?=
+ =?utf-8?B?WGxRazNWVExUTkNCazk3SW9Cc2NHNnc4VUpjWUxZZGhBQnhhNU1VYmFRaEhQ?=
+ =?utf-8?B?ZTg0ZUpDa2lWQ1RyWlhEazI4SVBhY1JGZEpYalExUEd1WW5McnluSFVqV1JK?=
+ =?utf-8?B?N0FzSlFlWVR6WjVWbXAzTFgraEVhQkZ5YmZsQ3ZjYVJlOVRDTHJpT3Z3UWpF?=
+ =?utf-8?B?eldtVFVPNGRrczExTS9pZHZOSG45eHIybHQxRVZ2eHR6dmNScXlseUE1cUZD?=
+ =?utf-8?B?WTNpNEZUZEtDMnc2UkNOZEplUm5wRFhkSVlhZWZZK3YrM1Z2aSsxVXY1Rng0?=
+ =?utf-8?B?dFFQczNQTVFGWHhQTzdTZkl5V0RVZm5YNWRMYVJ5VVg5SmxPZkhUemtDWkNv?=
+ =?utf-8?B?TlpEcWdsWm9Za3krdW5TRTBPU2FxbnJqRDkzbkF2c0NRN3RURjlXSTJ1NTgy?=
+ =?utf-8?B?Y2RyT2xKRit1b05KSjJzekF5WnhVNGoxVGNMVTVtRnhIWE1ZU0oxTGtxWm9P?=
+ =?utf-8?B?S2RtbzRmOVBaZnhwdlFWZUVuS1M4dHJidVZjVHJiVWdMaHBaOHY5RlU1V0tw?=
+ =?utf-8?B?endkcHNxcmVSWjdTQUQwVW1zazZoTEFBcjBQRjJlOW1VU3I1R3RGVWZsV2E4?=
+ =?utf-8?B?ZFZqN0JlMDc2cTZOTCtJNTNKN0N0dUpqaDdvTm1rVm9tV2pYVkpyM3AvRUJ1?=
+ =?utf-8?B?RHcxTHdLVy8yd0xWcFM2b25IK3VFUTU2WmJIRVhCanRPRHZBT1IxandCdUJT?=
+ =?utf-8?B?azdCdEJZR1ZhelMyL0YxN0Z6dHBxNTYxYmgxN0RCOG85bVlVc2dPVGh0Q25r?=
+ =?utf-8?B?V29YNzZDWFhrajhBT3BHMW50RUQwMHQzcWFIUUJ5OXpwUm5iTkpydTBiNHZU?=
+ =?utf-8?B?ejNDaWtOdzZwemx5U1VqOURxd3QwRGNvUktZQ0c5YzlQMW80dGVYT3dlc0Zo?=
+ =?utf-8?B?MmhHZ1I2ajdndDRXTis4ajZadkoydjdUTThYZkdpMHdjWlhrcDBKM2hNMWhK?=
+ =?utf-8?B?SEtrWXNKeHRkVUFUejZVVTVyd1FyaktUY1lBSFI4L050MTFadmQ1ZjM4MG1D?=
+ =?utf-8?B?WVhjRjB6bGZHSjMrcjRDOTV4THJGVmdoMFh0Z3YzWGhPck0vcStEcXFDZVJq?=
+ =?utf-8?B?S09QKy94RGNORGpCQ3VMaTg2cDdZSkxBbTg0WlFqMVUyamdmeXJGOUxQZFJC?=
+ =?utf-8?B?bm02YTAvRHRGRzN6aHNjanFKVVdrTGdLVUFSNzdibnZtb2hTSEpCcjRwVTRF?=
+ =?utf-8?B?c3RoL0RUZUQ1QnAzM0VUOVNsOGhRanNZelE5NjdQTGtUQ3V5REdrY1JWRUNi?=
+ =?utf-8?B?SGZ4Y29qaEZGOFpVakRHS1dqeDBaeWZlbVA0YUQ3U1FHQ0loU0RKRTViN2s0?=
+ =?utf-8?B?cUUzOVMxckxzS1RDS1VRQ3BPMEEzRk1UUEpSMWxBYjg0c2tNK1ZramM1UGZu?=
+ =?utf-8?B?Qml5TzdIUU03UElYYXB0VzF2bzA0cjZtRDd3MVptUTJ6d0dxeXdqMWF1VlFl?=
+ =?utf-8?B?OGhBdks1TGRiRmQ3eTB4NXNTNjJLbTBIMy93OHJma2V0ZUZuZExoaE5sNEF0?=
+ =?utf-8?B?cFdOSVc0blZNOW5zUE9oa1dtWk56NHRQbUlpVDUwdGVPZURtRGFHY0U5QXJ6?=
+ =?utf-8?Q?ngCHSMhQ9Z+R4sVP6L?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0d65b69-101f-4fc0-7bd4-08df0c1644be
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2026 12:56:29.2701
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fwSOwkbdl9YV1rxLxgqxmwL3wEWaDa4iIk6EKnorS9svS/WnbWBbVnw1rzACdzTa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB310634
 
-Hello,
+On 9/6/2026 6:13 PM, Sven Peter wrote:
+> The typec_partner_desc struct isn't initialized and instead filled with
+> whatever values happen to be on the stack. We especially don't overwrite
+> the attach/detach callbacks. Just zero initialize it to make sure we don't
+> run into weird issues in the future.
+> 
+> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
+> Signed-off-by: Sven Peter <sven@kernel.org>
 
-I appear to be experiencing a regression in Linux 7.2.x affecting USB
-tethering from a Samsung Android phone.
+Thanks for the patch. FYI - i have already fix it in below series[1] and 
+will resend next version as it is not merged yet.
 
-USB tethering worked with the previous kernel I was using (Linux
-7.1.x), but stopped working after upgrading to:
+[1]: 
+https://lore.kernel.org/all/20260812161454.149606-1-radhey.shyam.pandey@amd.com/
 
-7.2.3-arch1-2
+> ---
+> I deliberately didn't cc stable@ since we can't even reach the path
+> that would try to run these callbacks on platforms where this is used.
+> Just noticed this while working on the USB4/Thunderbolt series for Apple
+> Silicon.
+> ---
+>   drivers/usb/typec/tipd/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 522f56742aa9..07d6d88e3a0e 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -841,7 +841,7 @@ static void cd321x_update_work(struct work_struct *work)
+>   
+>   	/* Set up partner if we were previously disconnected (or changed). */
+>   	if (!tps->partner) {
+> -		struct typec_partner_desc desc;
+> +		struct typec_partner_desc desc = { };
+>   
+>   		desc.usb_pd = is_pd;
+>   		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
+> 
+> ---
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> change-id: 20260906-b4-tipd-partner-desc-07915a127b0a
+> 
+> Best regards,
+> --
+> Sven Peter <sven@kernel.org>
 
-The phone is detected correctly by USB, and the RNDIS driver binds
-successfully. The network interface is created as expected, but packet
-transmission appears to fail immediately.
-
-Relevant `lsusb` output:
-
-Bus 003 Device 005: ID 04e8:6863 Samsung Electronics Co., Ltd Galaxy
-series, misc. (tethering mode)
-
-Relevant `ip link` output:
-
-4: enp0s20f0u2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc
-fq_codel state UNKNOWN mode DEFAULT group default qlen 1000
-    link/ether 16:7e:18:7c:69:7f brd ff:ff:ff:ff:ff:ff
-    altname enx167e187c697f
-
-The kernel successfully registers the RNDIS device:
-
-rndis_host 3-2:1.0 usb0: register 'rndis_host' at usb-0000:00:14.0-2,
-RNDIS device, 16:7e:18:7c:69:7f
-rndis_host 3-2:1.0 enp0s20f0u2: renamed from usb0
-
-However, transmission then repeatedly fails with:
-
-rndis_host 3-2:1.0 enp0s20f0u2: NETDEV WATCHDOG: CPU: 13: transmit
-queue 0 timed out 5353 ms
-rndis_host 3-2:1.0 enp0s20f0u2: NETDEV WATCHDOG: CPU: 10: transmit
-queue 0 timed out 5120 ms
-rndis_host 3-2:1.0 enp0s20f0u2: NETDEV WATCHDOG: CPU: 0: transmit
-queue 0 timed out 5120 ms
-
-Similar watchdog timeouts continue to occur while tethering is enabled.
-
-The complete relevant kernel log from this boot is:
-
-Sep 06 17:32:34 arch-nitro kernel: usb 3-2: new high-speed USB device
-number 5 using xhci_hcd
-Sep 06 17:32:34 arch-nitro kernel: usb 3-2: New USB device found,
-idVendor=04e8, idProduct=6863, bcdDevice= 5.04
-Sep 06 17:32:34 arch-nitro kernel: usb 3-2: New USB device strings:
-Mfr=1, Product=2, SerialNumber=3
-Sep 06 17:32:34 arch-nitro kernel: usb 3-2: Product: SAMSUNG_Android
-Sep 06 17:32:34 arch-nitro kernel: usb 3-2: Manufacturer: SAMSUNG
-Sep 06 17:32:34 arch-nitro kernel: usb 3-2: SerialNumber: RZCX919VQYR
-Sep 06 17:32:34 arch-nitro kernel: usbcore: registered new interface
-driver cdc_ether
-Sep 06 17:32:34 arch-nitro kernel: rndis_host 3-2:1.0 usb0: register
-'rndis_host' at usb-0000:00:14.0-2, RNDIS device, 16:7e:18:7c:69:7f
-Sep 06 17:32:34 arch-nitro kernel: usbcore: registered new interface
-driver rndis_host
-Sep 06 17:32:34 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-renamed from usb0
-Sep 06 17:32:39 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 13: transmit queue 0 timed out 5353 ms
-Sep 06 17:32:44 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 10: transmit queue 0 timed out 5120 ms
-Sep 06 17:32:50 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 0: transmit queue 0 timed out 5120 ms
-Sep 06 17:33:25 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 4: transmit queue 0 timed out 5008 ms
-Sep 06 17:33:57 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 4: transmit queue 0 timed out 5813 ms
-Sep 06 17:35:23 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 11: transmit queue 0 timed out 5689 ms
-Sep 06 17:41:39 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 12: transmit queue 0 timed out 5001 ms
-Sep 06 17:43:01 arch-nitro kernel: rndis_host 3-2:1.0 enp0s20f0u2:
-NETDEV WATCHDOG: CPU: 12: transmit queue 0 timed out 5001 ms
-
-I am running Arch Linux on an Acer Nitro V15 (ANV15-51).
-
-Kernel:
-
-7.2.3-arch1-2
-
-The USB connection itself appears stable enough for the phone to
-remain detected, and the RNDIS interface is created successfully, so
-the failure seems to be specifically related to RNDIS network
-transmission.
-
-I have not yet bisected the regression or tested the previous kernel
-in this report.
-
-Please let me know what additional information or testing would be useful.
-
-Thank you.
