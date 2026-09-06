@@ -1,276 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC908372EE2;
-	Sun,  6 Sep 2026 06:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D4C37418C;
+	Sun,  6 Sep 2026 08:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788677754; cv=none; b=Bq4OflKaIwnibQLV8eQevs/nMtXe3vE2XkxqJ8oSCQS6XaJZqlu0iVlxZu+I7FIVvdX4U0DiAAPAWnG/KtwLVWpDtYLMYL/aDgXAQX/jvxNM06aAJcGZtXvM/pCIUYfdqS0dwu5Qr37bWkDXYREOgeqCMMBeOldpT7c48VpPSiY=
+	t=1788681697; cv=none; b=H0mkmsxFah5z/mlfkNlb+hynzrpPxamvYXzxHtXvgN/VZYI7l3mSLJAsYAHUDl/YuWYb7zGVjGXyqHIRBORqFzgCCwXpB6w7vc7UUMskFg2ZTrVHEz/tSDDKZ7dtFEIMsOdTYSv9DZuVrFo3iepbG6+MMorMng6QGAjjc/7Xrz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788677754; c=relaxed/simple;
-	bh=rV5UIVLOB4ePmHB9fU26CprNmBXcEac3rrqMjYF1pGk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rge8D4J6rUQ7Gwz/ZFA2VlWpwfA5TXfsmpMItmfA1UG563yAp0avaVa4j3a9OJGo8hbscwCX02znhh/8/nv3eJdm9sd5gqVjD50d6gUAxbxNdg8hId/m06sqwdT7/fMmfPksMV2ve4jP0G/QBtX5FxK2iuy8IDixDSA3tVJpxbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DRihK53R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788681697; c=relaxed/simple;
+	bh=lispaYJXyvdYsvDoj+kW+PP2c4CzAetUpDeaeRiyTi4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QTUWGx3pVMVHGRzWP+ZQrXuoj7gY3qP9SFs6ExIzCEHHS8uiD0oPp6Ot6gKv+89rWLtomIlbvWDHtSUBQpQdgJeL8OUSyijUehXrr4vugzoa/mmW9KmC9b2ciGtZBzGbQf3vKVTh0y+3U++rwxq9hpuhKXucTP1OOwRtd6O+DJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=urGshmDO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nwW7C1qH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lTmj1quW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7DEvy6Lj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRihK53R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABA451F00A3A;
-	Sun,  6 Sep 2026 06:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788677752;
-	bh=TWa86xSo2EM7HfD7rT76RWRGqKAuqqO2x3EPFvEsdAw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DRihK53RuGMSiH8chL7jimw4KeXWs8fm/rKej946fBVmDRRFPZ1bSR4xp1s7AH6Cz
-	 +b6DSYwoYr/HJUqg4FzaodhtKLkzm8GEeIc1pRm2QLaNSS0AUCOkCvsGzGNOobLCzf
-	 1Tj9vlb/sEvsk+I573kMrUc8RTPmO77wFDYDOeCwwUb2nnMwMmXAOSpyRofvh0+uKL
-	 MfgvD5Ra+3Anrxhd//323lEIhCG2DODpF8/kYF/QTXLzFgQ0sR44FAGMQhiT5BtLk6
-	 aAJVRV49OQHxpKYal+jhzRGKNQ1ELb+OQdiKs71Xgn6FNIkUm2uIsuqAn7mmXX9MD0
-	 rm7vID3/K65yw==
-Message-ID: <7c52bcf5-8b58-4c15-bf1a-ba7a0bb04db1@kernel.org>
-Date: Sun, 6 Sep 2026 08:55:44 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="urGshmDO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nwW7C1qH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lTmj1quW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7DEvy6Lj"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F4451F836;
+	Sun,  6 Sep 2026 08:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788681690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=urGshmDO5Rccb/BI4KI3fyGZ7Aybdip8L473cm5d+5FwL8Vn6GbeGCCCQbonV142+/T4qH
+	7e4FxlNctuZPhCFzYkcTgEITqtDRpLLiFpXvCQuysJjYfnRsOU6u1kPC1lTL3C3lx8wDyq
+	5WlRcsD7Pf2gzB69/BBLco5IdXI7SGg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788681690;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=nwW7C1qH/gbfQNxCj2zZf4yCeVPo8T9btTk7NnFLAy5S9hmH4HkqsfG5fwsqnCMvS/nNTk
+	ZbOKRkc9Rv4FlzCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788681685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=lTmj1quWDk+3Bd9NH/EJpkYafqq22BasZsfDatMJ8+lbVZ0PB96sf+snoDVXLpP4eWjQDj
+	ThAyfEb5nHnXH7oxKSIitza1LlTD6/pPrfgiTt1ulhJoACwRlLihHfduFsHuB8jm5RX1+U
+	ln5bcOrfFBLVqnV/MzlWe4pDM0Tgz30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788681685;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=7DEvy6Lj5eCSiPMQgWRC/C1JPSal0D5+nRr5uKxAAfUMiatG9ZKqDVL507hZQfOMzumYeB
+	RT7HXnaLYO7P0ECw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8E2F13432;
+	Sun,  6 Sep 2026 08:01:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id auB4N9QdnWpLaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 06 Sep 2026 08:01:24 +0000
+Date: Sun, 06 Sep 2026 10:01:24 +0200
+Message-ID: <87mrtu4xm3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edward Adam Davis <eadavis@sina.com>
+Cc: daniel@caiaq.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com,
+	tiwai@suse.de,
+	zonque@gmail.com
+Subject: Re: [PATCH v4] ALSA: caiaq: Decoupling ep1_in_urb in caiaq dev
+In-Reply-To: <20260903130521.554840-1-eadavis@sina.com>
+References: <20260903115652.550250-1-eadavis@sina.com>
+	<20260903130521.554840-1-eadavis@sina.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: usb: Add CIX Sky1 USBSSP controller
-To: Hongliang Yang <hongliang.yang@cixtech.com>, peter.chen@kernel.org,
- gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: p.zabel@pengutronix.de, vkoul@kernel.org, neil.armstrong@linaro.org,
- pawell@cadence.com, rogerq@kernel.org
-References: <20260906032440.470788-1-hongliang.yang@cixtech.com>
- <20260906032440.470788-3-hongliang.yang@cixtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260906032440.470788-3-hongliang.yang@cixtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[832ce9fa3face1b7d44d];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[caiaq.org,linuxfoundation.org,vger.kernel.org,perex.cz,syzkaller.appspotmail.com,googlegroups.com,suse.com,suse.de,gmail.com];
+	FREEMAIL_TO(0.00)[sina.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
 
-On 06/09/2026 05:24, Hongliang Yang wrote:
-> Add device tree binding for the CIX Sky1 Cadence USBSSP controller
-> glue layer. The integration adds glue registers and mode strap
-> controls in the Sky1 S5 system controller. The CIX glue node wraps
-> a Cadence USBSSP core as a child node.
+On Thu, 03 Sep 2026 15:05:21 +0200,
+Edward Adam Davis wrote:
 > 
-> The per-controller RCSU control and status registers live in a shared
-> RCSU region described by the cix,sky1-usbss-rcsu binding and are
-> referenced through the cix,usb-rcsu phandle.
+> The epq_in_urb object belonging to the caiaq device is coupled within
+> the struct snd_usb_caiaqdev. After usb_submit_urb(epq_in_urb, GFP_KERNEL)
+> executes successfully, epq_in_urb is successfully added to the urbp_list
+> queue of the dummy HCD driver (userspace specifies dummy_hcd as the HCD
+> layer driver for the caiaq USB device).
 > 
-> The per-controller RCSU registers are accessed through a syscon regmap
-> referenced by the cix,usb-rcsu phandle.
-> Signed-off-by: Hongliang Yang <hongliang.yang@cixtech.com>
-> ---
->  .../bindings/usb/cix,sky1-usbssp.yaml         | 144 ++++++++++++++++++
->  MAINTAINERS                                   |   3 +
->  2 files changed, 147 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
+> When init_card() calls snd_usb_caiaq_send_command() which subsequently
+> fails due to a timeout, and proceeds to call snd_card_free() to release
+> the card, the embedded ep1_in_urb object is also freed. When the dummy
+> HCD driver detects that the URB has been unlinked, it returns the URB
+> (by usb_hcd_giveback_urb()), which triggers [1].
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> new file mode 100644
-> index 000000000000..8e66dea50fa7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> @@ -0,0 +1,144 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/cix,sky1-usbssp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CIX Sky1 Cadence USBSSP Controller
-> +
-> +maintainers:
-> +  - Hongliang Yang <hongliang.yang@cixtech.com>
-> +
-> +description:
-> +  The CIX Sky1 USBSSP controller is based on the Cadence USBSSP DRD
-> +  controller. The integration adds glue registers and mode strap controls
-> +  in the Sky1 S5 system controller. The CIX glue node wraps a Cadence
-> +  USBSSP core as a child node. The per-controller RCSU control/status
-> +  registers live in a shared RCSU region and are accessed through the
-> +  cix,usb-rcsu phandle.
-> +
-> +properties:
-> +  compatible:
-> +    const: cix,sky1-usbssp
-> +
+> Decouple the ep1_in_urb object from the struct snd_usb_caiaqdev and switch
+> to using a pointer instead. Separately allocate and manage the memory for
+> ep1_in_urb to prevent the release of the snd_card memory object from
+> interfering with it.
+> 
+> midi_out_urb has the same issue as ep1_in_urb and is handled in the same
+> way.
+> 
+> [1]
+> BUG: KASAN: slab-use-after-free in usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
+> Write of size 4 at addr ffff88803cee1050 by task ktimers/1/29
+> Call Trace:
+>  usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
+>  dummy_timer+0xaac/0x4d50 drivers/usb/gadget/udc/dummy_hcd.c:2019
+>  __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+>  __hrtimer_run_queues+0x3eb/0xaf0 kernel/time/hrtimer.c:2124
+>  hrtimer_run_softirq+0x1e1/0x2e0 kernel/time/hrtimer.c:2141
+> 
+> Allocated by task 36:
+>  snd_card_new+0x7b/0x110 sound/core/init.c:184
+>  create_card sound/usb/caiaq/device.c:429 [inline]
+>  snd_probe+0x236/0x1af0 sound/usb/caiaq/device.c:544
+> 
+> Freed by task 36:
+>  snd_card_free_when_closed sound/core/init.c:630 [inline]
+>  snd_card_free+0x138/0x1d0 sound/core/init.c:662
+>  snd_probe+0x162b/0x1af0 sound/usb/caiaq/device.c:553
+>  
+> Fixes: 523f1dce3743 ("[ALSA] Add Native Instrument usb audio device support")
+> Reported-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=832ce9fa3face1b7d44d
+> Tested-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@sina.com>
 
-No MMIO here?
-
-> +  cix,usb-rcsu:
-
-Then this is your device.
-
-Last time you claimed you have TWO registers. ONLY. Now you claim you
-have entire address space, but somewhere else.
-
-If you do not have here MMIO, then this glue layer is not a separate
-device node and you should have one node only, just like we did for DWC.
-One node for glue layer and CDNS USB.
-
-If you have here MMIO for some glue over IP block, then it is unlikely
-to be a syscon.
+Applied now.  Thanks.
 
 
-
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: |
-> +      A phandle to the USBSSP RCSU system controller region (see
-> +      cix,sky1-usbss-rcsu.yaml) followed by two cells: the offset of
-> +      the AXI property configuration register and the offset of the
-> +      controller status register, both relative to the RCSU region.
-> +    items:
-> +      items:
-> +        - description: phandle to the USBSSP RCSU syscon node
-> +        - description: offset of the AXI property configuration register
-> +        - description: offset of the controller status register
-> +
-> +  clocks:
-> +    items:
-> +      - description: Start-of-frame clock
-> +      - description: AXI bus clock
-> +      - description: Low-power mode clock
-> +      - description: APB register interface clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sof
-> +      - const: axi
-> +      - const: lpm
-> +      - const: apb
-> +
-> +  resets:
-> +    items:
-> +      - description: APB register reset
-> +      - description: Controller reset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: apb
-> +      - const: core
-> +
-> +  cix,usb-syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to the Sky1 S5 system controller used to program USB mode
-> +      strap controls.
-
-One more syscon?
-
-> +
-> +  "#address-cells":
-> +    const: 2
-> +
-> +  "#size-cells":
-> +    const: 2
-> +
-> +  ranges: true
-> +
-> +patternProperties:
-> +  "^usb@[0-9a-f]+$":
-> +    $ref: cdns,usb3.yaml#
-> +
-> +required:
-> +  - compatible
-> +  - cix,usb-rcsu
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - cix,usb-syscon
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - ranges
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/cix,sky1.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/reset/cix,sky1-s5-system-control.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        rcsu: syscon@91c0300 {
-> +            compatible = "cix,sky1-usbss-rcsu", "syscon";
-> +            reg = <0x00 0x091c0300 0x00 0x200>;
-> +        };
-
-Drop node irrelevant.
-
-
-> +
-> +        usb-4 {
-
-This is just "usb". Not usb-foo.
-
-> +            compatible = "cix,sky1-usbssp";
-> +            ranges;
-> +            #address-cells = <2>;
-> +
-> +            clocks = <&scmi_clk CLK_TREE_USB3A_H0_CLK_SOF>,
-> +                     <&scmi_clk CLK_TREE_USB3A_0_AXI_GATE>,
-> +                     <&scmi_clk CLK_TREE_USB3A_H0_CLK_LPM>,
-> +                     <&scmi_clk CLK_TREE_USB3A_0_APB_GATE>;
-> +            clock-names = "sof", "axi", "lpm", "apb";
-> +            resets = <&src SKY1_USBC_SS2_PRST_N>,
-> +                     <&src SKY1_USBC_SS2_RST_N>;
-> +            reset-names = "apb", "core";
-> +            #size-cells = <2>;
-
-size-cells follows address-cells.
-
-
-Best regards,
-Krzysztof
+Takashi
