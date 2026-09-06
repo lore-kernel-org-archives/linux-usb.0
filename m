@@ -1,174 +1,119 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3FC3546C2
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 06:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B4B289E13;
+	Sun,  6 Sep 2026 06:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788675043; cv=none; b=isqx4UlbMG/ldLRs7JwYqczNrWwVcCbTHf2mD+5NPXG0/T8JSr6eagm4keFHehUZvCsmeD6fLtm24RKpHUhdKpz5CtZ/6E0sfMoBDL46DaFXPEOxcVAtvMZ6IH05fKZlKigPGR3sXqoa7vll+sLaC1n/xi4oj8WLK7J+YcKClTo=
+	t=1788676601; cv=none; b=G0iyjax2UXfOLC//ytpDGAE5Dx+jesUJPlHWcZN0KR6wg5jQebwXDqWV3MgqP/BKEJsPlVa4v9hcc9hRALdOwsVjRi1lE7cgfh6lBrQi/IbE0hNE82ae9p3RoMgIzwGdHP0L+8DJUWnkA1AFmZxrwezBP45uuRz/C4siGoIH4K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788675043; c=relaxed/simple;
-	bh=ZMOTvPoZkDMTnpRW8UoWrVoBptoH6M8ExtNLgIKSWb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ff/qz0GhL+SOHPWZ5JrjeTRf9PdLN8OgjeE69yT0WmLQ3ly/7S9UMXq5BdrKI4yo0oCbLcI4CyLmPSYOyJ+GwbmJXryxuB2x4jd4yTCOP63X/EiipfuyMFW/BO+jko/UOTsQInNBIIpsEdYN/zXka8XOeb9cJCZWvm6TUYPPXlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a9OdSPcr; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788676601; c=relaxed/simple;
+	bh=QOUsBtoEg4BynXVB8fa3F9ZuEnhAK9rBDApmE/Z0T7c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P28IYGDAa4DR0fv1mOl+c4p/HY+81nv7WEsKV9Mqy5g1LUrsKKuKCSkDFRCLTFal56sGQo6s/csGB9eHM/rDzaaHO4N0q6lbgmUZIFlgqulU84foc8+JIUHFNOpV/1jVBmt8ubIJhHR2aIsW8MI7G8azuNiiPB59wi71+e/gFxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZwsAtnS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a9OdSPcr"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4957eefd361so17654505e9.1
-        for <linux-usb@vger.kernel.org>; Sat, 05 Sep 2026 23:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788675040; x=1789279840; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qRhq9LvKSjm2wQX4fbwj/VHHkEqthQPhEZsZ9yJlX8I=;
-        b=a9OdSPcrmzVoJwnsl2NYisZtNw0PsBVjf+PGjkja4urc38SogXFMqIS+yPOvMtwCzI
-         BlBLGgpDMW8e0bFbuEf5Tpyn3u4g0fcS8V59+GoqIMUVu7PWUW5bjkMqI2/2+FNIZaku
-         CkkhEv8iD5aa9331GbYA/cnz2tz61AUwAeEk6l1SoLVNxZSWCgW36IUZyrOMTn+aDFeK
-         fBl6lhbRRdn8qhiheE95YppN64nX2TQaRHm68czrMWIQJwu19sTr2rMyVRGDb/Pv36xt
-         HkukQ0dfCyLUd/avJJzYgzKTuGv5G0U0Sp4/0LgcWtGz4lOROs6+i1mHbaxXsfDdE5vo
-         n/og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788675040; x=1789279840;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qRhq9LvKSjm2wQX4fbwj/VHHkEqthQPhEZsZ9yJlX8I=;
-        b=frdFlzVArvxHaBHKJL8NEidC/k0G1rq3qYhpY1YivprcI8Ht0Vyaf5y7C8dAKArSTT
-         Ku+26Y/eB5RSwOMVHQBHKJV+jzf88i74/f3TeVcggAfYVI54UnCWRSzemgBeqtpbMxwF
-         gxhM4B87LVpvIa/PJgZBbl4/EAOMiQBefApZbbnFuuXXWxT9IzI/s+5HJZFmscb2maZG
-         MCp0DmZ1n4eUrPrZlY6Y9FfJ6hO95QIl1Y/z4qOtnVUrA+2Ldf68LH1AmXziLjI3+8hq
-         IxLjhB2lhiH6/BV894Wd8sUbEw3xpOLDS3zG+C58GJFo1Sw+IKQamIVZLneu/LQawYjh
-         5d6w==
-X-Forwarded-Encrypted: i=1; AKwUvBz6Sn14018EWESlr1FlCtMZJDaL53LGcR37AhuRgHAe9OfZPHgQ8h5OL5T246ZRAF9FZK+dFNLl3sM=@vger.kernel.org
-X-Gm-Message-State: AFuF++lBkLNu+jpPOugNzljXKGv5xB4rPLGGh4lTEic4qtRo6H/IOd2x
-	InVS9WroM7sfd/gq0cnz+7AVyBPUoB9AsczftQd9546R4Sf04AmlvVuM
-X-Gm-Gg: AYBFou1oFIDhGbVT2wepeu/Ti/fiS+Cx1PLUpjOqzTz0nO+mEcjhMyQWZm8yjAJYwqi
-	a8Cdysdl1UhPipkfgGiMZ+OIrAfm5/Xkfs2oJRgJKu60FF+kCicLxMAjZnpeLZg4Q457NJLa2n/
-	2oR3TUl183zE/F7z633MeMidi5HASHN7sghDG/7CEMVz+HR5i13nblnxqaNzzBUuMPba4YOatZb
-	h6COKA9nnajJ6uQhqGJMDSi5e78Qjftlaz072gIPnolpqR5zJQOcVspamwzGAUibutBlhwtc+jd
-	ZtPikVwfdQXzSCCIkrvJczjwJDIicIyDgpRxqCNThF8eaVprCg8V68OcLMO7fRaW6EUsAt0y7kU
-	yG+e7sID7sSLVI9zz2fC+z/iTE9O5srH3w24/nR0cP5KPU5ALE8AcZFHLyVkwkktM8lihNYm4Nr
-	4g0VP8nXAqJikCql3NYCUz7HgBDdXK0GJV9vW8HaBPAgQrFQccCi/3Lge8dVdoN68Rg7WYmQ==
-X-Received: by 2002:a05:600c:4f43:b0:49c:fc6e:a3d9 with SMTP id 5b1f17b1804b1-49cfc6ea7b4mr128812815e9.24.1788675040143;
-        Sat, 05 Sep 2026 23:10:40 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d00a5b19dsm127478645e9.2.2026.09.05.23.10.39
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 05 Sep 2026 23:10:39 -0700 (PDT)
-Date: Sun, 6 Sep 2026 08:10:32 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ayush <ayush37735@gmail.com>
-Cc: Thomas Winischhofer <thomas@winischhofer.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-Subject: Re: [PATCH v1] USB: sisusbvga: avoid initializing device in open
-Message-ID: <20260906081032.5ef81315.michal.pecio@gmail.com>
-In-Reply-To: <20260905193634.160600-1-ayush37735@gmail.com>
-References: <20260905193634.160600-1-ayush37735@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZwsAtnS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDDB61F00A3A;
+	Sun,  6 Sep 2026 06:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788676600;
+	bh=LdWFaY+659TJeghUS00OCQVm/dbkE61g4L6n1Uf8P64=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hZwsAtnSZiNbsraqg3ePULpzShVAH0KHpa/aGpD03JbrVuNhAzAVnxT9M4czVrb9P
+	 YbvpAU4fENNhGr2OahAwDGq6PMayeDGICPWCbnhC4F4x0q1wL60qL/X5yon9CfZyq7
+	 QUISVin2a014Hij/AA88BoI+oCZaheFpnqpzY6Z9MwFm18FES+9pjMhHRDQurrN/a5
+	 WdTBMWdkOhKVBvrgjtUzE2baGnTRe0LcAqGoEtyKnUHYk16VcOeO9BBBeuakgmM46J
+	 QLuHBWSO/Ac4KRw9rSPNSUvzbdrUWZ1D0MQHU5PNiFjRnPon6tr7mCYbL+c3f9CHL1
+	 2l0C+VcMswvJg==
+Message-ID: <d90c8bd7-8d6a-47f2-b425-ac868f64a48b@kernel.org>
+Date: Sun, 6 Sep 2026 08:36:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: host: ohci-exynos: Propagate clock errors from
+ resume
+To: Pengpeng Hou <hppiscas@163.com>, Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Jingoo Han <jg1.han@samsung.com>,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260906034031.85248-1-hppiscas@163.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260906034031.85248-1-hppiscas@163.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sun,  6 Sep 2026 01:06:34 +0530, Ayush wrote:
-> The USB core holds minor_rwsem while invoking a USB character
-> device's open callback. sisusb_open() can currently initialize the
-> device while holding sisusb->lock, and that initialization performs
-> synchronous USB I/O.
+On 06/09/2026 05:40, Pengpeng Hou wrote:
+> exynos_ohci_resume() ignores clk_prepare_enable() and proceeds to PHY
+
+No, clk_prepare_enable() is not ignored. It is called.
+
+What is ignored is the return status, because it does not matter. It
+cannot possibly fail, it is simple MMIO access within internals of the SoC.
+
+Anyway, please rephrase the commit msg.
+
+> and OHCI restoration.
 > 
-> High-speed devices are already initialized during probe. Treat a
-> probe-time initialization failure as a probe failure instead of
-> retrying initialization from open, so the open callback no longer
-> performs blocking device initialization.
+> Return a clock failure before enabling the PHY. The existing PHY failure
+> path continues to undo a successfully enabled clock.
 > 
-> Reported-by: syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3bc656a9271e7c8a5c6b
-
-Does this even fix the repro? I see no syzbot test requests there.
-
-It seems that even if you delete this code, sisusb_open() will simply
-wait on mutex_lock() before it even reaches this point.
-
-The root cause is isusb_init_gfxdevice(), called by probe() and from
-here, taking 10 minutes to complete on nonresponsive device. This is
-the second time (that I know of) syzbot ran into this recently.
-
-
-Thomas, do you still have this HW and a will to improve the driver,
-or test / comment on patches? I suspect that those timeouts and retries
-in the init routine are vastly excessive.
-
-> Signed-off-by: Ayush <ayush37735@gmail.com>
-> ---
->  drivers/usb/misc/sisusbvga/sisusbvga.c | 29 ++++++++++++--------------
->  1 file changed, 13 insertions(+), 16 deletions(-)
+> The issue was found by our static-analysis tool and manually reviewed.
 > 
-> diff --git a/drivers/usb/misc/sisusbvga/sisusbvga.c b/drivers/usb/misc/sisusbvga/sisusbvga.c
-> index 3e75a7c24828..6723a65b12b8 100644
-> --- a/drivers/usb/misc/sisusbvga/sisusbvga.c
-> +++ b/drivers/usb/misc/sisusbvga/sisusbvga.c
-> @@ -2223,20 +2223,10 @@ static int sisusb_open(struct inode *inode, struct file *file)
->  	}
->  
->  	if (!sisusb->devinit) {
-> -		if (sisusb->sisusb_dev->speed == USB_SPEED_HIGH ||
-> -				sisusb->sisusb_dev->speed >= USB_SPEED_SUPER) {
-> -			if (sisusb_init_gfxdevice(sisusb, 0)) {
-> -				mutex_unlock(&sisusb->lock);
-> -				dev_err(&sisusb->sisusb_dev->dev,
-> -						"Failed to initialize device\n");
-> -				return -EIO;
-> -			}
-> -		} else {
-> -			mutex_unlock(&sisusb->lock);
-> -			dev_err(&sisusb->sisusb_dev->dev,
-> -					"Device not attached to USB 2.0 hub\n");
-> -			return -EIO;
-> -		}
-> +		mutex_unlock(&sisusb->lock);
-> +		dev_err(&sisusb->sisusb_dev->dev,
-> +			"Device not initialized\n");
-> +		return -EIO;
+> Fixes: e864abed546f ("USB: ohci-exynos: add clock gating to suspend/resume")
 
-Not sure if we really want to log every failure to open some device.
+IMO, I have doubts whether this is a fix, because actual error cannot
+happen in practice.
 
-Not sure if EIO is the right code to retun from open(), particularly
-after probe failure.
-
-And really, are we opening the device after probe failed (see below)?
-Seems weird...
-
->  	}
->  
->  	/* Increment usage count for our sisusb */
-> @@ -2880,9 +2870,16 @@ static int sisusb_probe(struct usb_interface *intf,
->  
->  	if (dev->speed == USB_SPEED_HIGH || dev->speed >= USB_SPEED_SUPER) {
->  		int initscreen = 1;
-> -		if (sisusb_init_gfxdevice(sisusb, initscreen))
-> +
-> +		if (sisusb_init_gfxdevice(sisusb, initscreen)) {
->  			dev_err(&sisusb->sisusb_dev->dev,
-> -					"Failed to early initialize device\n");
-> +				"Failed to early initialize device\n");
-> +			sisusb->present = 0;
-> +			usb_set_intfdata(intf, NULL);
-> +			usb_put_dev(sisusb->sisusb_dev);
-> +			retval = -EIO;
-> +			goto error_4;
-> +		}
->  
->  	} else
->  		dev_info(&sisusb->sisusb_dev->dev,
-> -- 
-> 2.53.0
-> 
+Best regards,
+Krzysztof
