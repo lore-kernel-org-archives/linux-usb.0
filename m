@@ -1,209 +1,263 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711ED330D35
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 18:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79B126296;
+	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788719279; cv=none; b=tcfR5Y41LIwqbx93EUU/MUOLLcR10ek8a2qld2McsoIF0SsAeBuSFrVlXMLA2cX3Np1lVSoavh5Xe8W7N2DwKNderGKxhtdYkl/vse8Z0/Bs1fkjyduKwqIC32I2mQnrMiQDkVdoSxe2Cnurf9jDuhunrdE2+qw0KugakJCYHzA=
+	t=1788719827; cv=none; b=Hl9XUGZAsrBPSimkrrb9DwZOIJR9vpI6OxBN5PhMbLd8UAASGb0fulThS3N824k0xRYJE66ZBBjvLVdTu+nfLuI7aymjXqBV6X5osY1BlbQKsN7ix4AlXfz1e2CqR9OlQBk6dD9Cuz7azU5KRpFQ9Q2x4kpZAYefceoIXb0Hj5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788719279; c=relaxed/simple;
-	bh=mBVTnl2G8pCGoWuBmM5zFeDaOYN0VUdmFeL5zB1C8yk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=AX4QnY1hLamoH4eiqSW3Cp1yjZphsyPpiZK/kAei5eMyuExdL8RunP4So/z2lkPsO3cqkWsC1YR3N6jsTDTvckgVXvNTXupojGXkdKqugzngi7x9Tvht+hTfUaXPVbKj/LcMZOb1Ag4XVVdQJJxmficMS8cARsXocixmzDHGrug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=ingo.haenlein@gmx.de header.b=B3EheMoU; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1788719827; c=relaxed/simple;
+	bh=ctP7tFAUzmbrQ//d68YH++TkcYEnYEQHDv78Hba+RxY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FtxUdpf6DunkXE0jfHsh15pg+wp8mMCBw84yjn4t2FTR8PMaxdqIBFkMZkfNrY14m18ba+V570R82Eg2iB7iw+Uz2seUStJIQ9t/iFOV148xd8mtn++KwXAmULwg2MYFdJhTo6WoWQrAg3uqvvqky9U2A6yObiBY7wS7LQMB7OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9kBQS04; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=ingo.haenlein@gmx.de header.b="B3EheMoU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1788719275; x=1789324075; i=ingo.haenlein@gmx.de;
-	bh=mBVTnl2G8pCGoWuBmM5zFeDaOYN0VUdmFeL5zB1C8yk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=B3EheMoUk5QHR5HaJW29aOJ06bzJHvLJ6wK9MUZKQSq4y6cKk+E9tGaNlOAh7yB2
-	 dB5EpaXUaGklKI+dFtLpG6ni/5FPHUSAxTbM9E4QrRiosnBYRPfiztI0ofNHJFP75
-	 sYqNhpA9LyKu0J5N5uLYmiryWf61bzJ6fpxsgiYLjP1l2dOzoobZBpNKmbDpW4Qfo
-	 k/cKGQFtPB3eqJ29VW/pbZfnNvUIltXwjXTKck2tl2MD0NrVHUQobTw2EDzvoIDGQ
-	 Xh4hPmhmrX4Y8ccD4YON/VE92tFKnPPt5ME3W0CxALAoH1BdmpTeSqGbrSso66JXt
-	 ib3nToqZ4FrGgEAAxg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMXQF-1xK8K40Tv5-00UQrw; Sun, 06
- Sep 2026 20:27:55 +0200
-Message-ID: <a13faf6d-72c3-4149-b26a-c18a9a5068be@gmx.de>
-Date: Sun, 6 Sep 2026 20:27:54 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9kBQS04"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3833FC2BCF5;
+	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788719827;
+	bh=ctP7tFAUzmbrQ//d68YH++TkcYEnYEQHDv78Hba+RxY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=n9kBQS04ZI8t3NR+mtu6/DnzLZ7kWoSytvxf03AyYevmxnlxqcGOfxiZKwV6br5DE
+	 CL+bXbAO+YhQqmR4xkFKjcXwJB5U9MPT2nw5/GbZeki024jBfJb7fsGP7VpBe0tDwP
+	 tcnVBn73MZBiDgd3wVE4p/KbnhNh1f29/Olh5N5JVB+1W9SzDoTdwiIw2CIFU19INb
+	 zUWyjolkFfm+EMGLmzqOA3fFw0+mXoX3kBRY61h8WNfOKr9ojeSoB1OJUwrsvTN2+c
+	 gPNxKJhqEV71PvqWvNtPNz1KNuGuiY+LyB77Teip+n/2Biwytu7g4BBnnM/rqdy4+/
+	 5pA99a1UAB08w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11961C79F85;
+	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Subject: [PATCH v2 00/22] Initial USB4/Thunderbolt support for Apple
+ M1/M2/M3 SoCs
+Date: Sun, 06 Sep 2026 20:36:23 +0200
+Message-Id: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: michal.pecio@gmail.com
-Cc: linux-usb@vger.kernel.org, superscalar@gmx.de,
- mathias.nyman@linux.intel.com
-References: <20260621214215.378d505a.michal.pecio@gmail.com>
-Subject: Re: [BUG] xHCI: AMD Strix Halo [1022:158b] isochronous full-duplex
- USB audio instability (frame active: -18)
-Content-Language: en-US
-From: Ingo Haenlein <ingo.haenlein@gmx.de>
-In-Reply-To: <20260621214215.378d505a.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MkBO1H7gKJfNyCQDoP20px/R12It5i8MPoeR6iqkgg3syffGu4y
- nVKRlRFLCVn8MH1kyGJIk9mW3bb3PByNLPOUvumR/9BlwHgGZcaiGiN23wFFPm5Up1Uu89J
- CJjMKTLr05YQgcRh0rWMkJsGoAYyKB9E97Ovff4Ve/LKJ5HgVO5XGGLJ/1rHJT9iHYZGXxX
- bAMnoYunQS+lzUc03OSYg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:wW302LBzoYc=;bWJ3ipaGrEZpDZ/LV1h7aq5VZM7
- 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
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WOQQ6CMBBFr0K6dkxtKxZX3sOwaMsIVUKxLURDu
+ LsFSVy4fJP//5uJBPQWAzlnE/E42mBdl4DtMmIa1dUItkpMGGU5lawALUD1fYsQnIGoIyhKUZ6
+ 4OrJKk1TrPd7sa528ll8Og76jicvOlvD4HJIr/mKNDdH59/rIeFium5PTf+d4AApCaFNwIXPJz
+ eWBvsN273xNynmeP94g8K7YAAAA
+X-Change-ID: 20260829-b4-apple-soc-tbt-a00e873a52db
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Sven Peter <sven@kernel.org>, Joshua Peisach <jpeisach@ubuntu.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9734; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=ctP7tFAUzmbrQ//d68YH++TkcYEnYEQHDv78Hba+RxY=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bcTet62P+LfRQ0ObU86dLJuSwGjWzVnOwCVy3qtlgxf
+ Kn7/dmoo5SFQYyLQVZMkWX7fnvTJw/fCC7ddOk9zBxWJpAhDFycAjCRg6cZ/vDZ6MTlulx85/xg
+ YqCg6KbrIfrhPUu+zdvt9uPEh1Yjt0SG/4mPGitfNfZx655rCJ5VsfXR89BHe6a2bqthue86/4t
+ 2EA8A
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-Hi Michal, hi Mathias,
+Hi,
 
-Quick update and a new regression on the same Strix Halo case.
+This series adds initial USB4/Thunderbolt support for Apple Silicon
+M1, M2 and M3 SoCs. Each USB4 capable Type-C port comes with an ACIO
+("Apple Converged I/O") block which contains a Cortex-M3 co-processor
+and the hardware implementing the USB4 router.
 
-Root cause, confirmed
-=2D---------------------
-DF/fabric C-state exit latency on the IRQ-handling core. Spent
-several more months on this: PM-QoS is not enforced by acpi_idle,
-governor/EPP tuning made no difference, pinning FCLK/SOCCLK made no
-difference either. The only thing that fully fixes it is a hidden
-AMD "SoC/Uncore OC Mode" BIOS bit - confirmed working by someone else
-on a different vendor's board - but that option is locked down on
-this HP firmware and too risky to unlock without a recovery path, so
-that's not viable for me.
+The NHI and DART IOMMU are part of this ACIO block as well. Instead of
+being exposed as independent always-accessible devices the main SoC bus
+only gets a 16 MiB window into ACIO's MMIO space while its co-processor
+is running. It is not entirely clear whether this is ACIO's own address
+space or a window into the co-processor's address space.
 
-Mitigation
-=2D----------
-Two isolated cores (CPU16/17, via isolcpus/nohz_full/rcu_nocbs) with
-the xHCI interrupt (0000:c5:00.4) pinned to one of them, plus a
-small script that switches those two cores to POLL (disabling all
-deeper C-states) only while an audio stream is active, and back to
-normal idle otherwise.
+This is why the device tree represents the NHI and DART as children of
+ACIO with addresses relative to that window. The driver only populates
+these children after booting the co-processor and removes them again
+before powering ACIO down. This setup is slightly unusual but matches
+both the MMIO layout and the lifetime of the devices.
 
-On 7.1.11, with this mitigation running, a Missed Service Error burst
-happened at stream start, then nothing - no further errors, no
-XRuns, no endpoint restarts, for the rest of the session. This held
-across every buffer size I tested (64/96/128/192/256 samples
-@48kHz) and under sustained DSP load.
+ACIO also has rather strict ordering requirements: it can only be
+started after the Type-C PHY has been configured for USB4/Thunderbolt
+(and ideally has to be stopped again before the PHY is powered down but
+this doesn't break anything unlike getting startup wrong). It also
+needs cable details which are only known to the Type-C port controller.
 
-New regression
-=2D--------------
-Same mitigation, same hardware, nothing changed on my end. On
-7.2.2/7.2.3, that's no longer true: I now get audible ALSA/PipeWire
-XRuns and full endpoint stop/restart cycles (playback + capture PCM
-stopped and restarted), both at stream start and during ongoing
-playback (e.g. while Bitwig or Spotify is running). This did not
-happen on 7.1.11 with the identical setup.
+The first two patches add synchronous Type-C alternate mode state
+notifiers and support for representing USB4 connections on the Type-C
+bus. USB4 uses Enter_USB instead of Enter Mode and has no SVID, so it
+gets its own mode kind and stores the negotiated EUDO directly.
+The next two patches register a USB4 port mode and publish
+the negotiated Thunderbolt and USB4 partner modes on the Type-C bus,
+along with the Thunderbolt cable mode. These modes are marked active
+after the mux has been configured and deactivated before it is switched
+back to its safe state.
 
-I traced the kernel change in between to commit 87dbc3fa08fc ("usb:
-xhci: Handle bogus TRB pointers in Missed Service Error events", now
-in 7.2.2/7.2.3, Fixes: d0b619599e52).
+The following two patches add the bindings for the NHI and ACIO. The
+Thunderbolt core patches prepare for the different NHI register layout
+and interrupt handling, read the USB4 router DROM from the device tree,
+unlock the host router ports and find the Apple VSE capability. They
+also add a hook for device links to tunneled native ports, a quirk for
+USB3 bandwidth allocation not implemented by the Apple hardware and
+the symbol exports needed by the driver.
 
-Confirmed by direct A/B, same hardware/config/mitigation:
+The main driver registers the newly introduced notifications for the
+negotiated Type-C modes, powers up ACIO, boots the co-processor,
+populates the DART and NHI children once their MMIO regions are
+accessible and registers the NHI with the software connection
+manager. The last three patches add the device tree nodes
+for the M1 and M2. M3 nodes will follow once the rest of the stack is
+upstream, but the current Thunderbolt/USB4 code has already been
+successfully tested on those.
 
-- linux-zen 7.1.11: start burst, then quiet - no XRuns, no endpoint
- =C2=A0 restarts
-- linux-zen 7.2.2 / 7.2.3: XRuns and endpoint restarts, reproducible,
- =C2=A0 both at start and during playback
+Right now only XDomain connections and USB3-via-USB4 tunnels are
+supported. Both PCIe and DisplayPort tunnels will come later since those
+require additional work and reverse engineering that is not done yet.
+Suspend is also not supported yet and we actually have to prevent
+suspending whenever an active connection is present because we would
+otherwise resume into an SError.
 
-I haven't looked at the commit's diff myself in detail, but since it
-touches exactly the code path that logs these Missed Service Error
-messages, and the timing lines up exactly with when the XRuns and
-restarts started, it seems like the most likely cause. Happy to test
-candidate patches or provide more data if that would help narrow it
-down.
+This series depends on the Apple CIO reset controller [1], the ATCPHY
+USB3-via-4 pipehandler support [2], support for specifying the DART DMA
+aperture in the device tree [3], a fix for CD321x Thunderbolt
+altmode VDOs [4], and fixes for making the DPTX capabilities read fail
+gracefully [5]. I couldn't split it any further since the remaining
+patches now directly depend upon each other.
+Except for the dts changes the series applies cleanly without these
+dependencies though.
 
-Thanks for looking into this.
+For merging we'll probably need an immutable brach with the first two
+commits after they've been reviewed which is then merged in both the usb
+and thunderbolt tree sincethere are other tipd changes in flight as well.
 
-Ingo
+Happy to split this series in two as well if you prefer that.
+
+Best,
+
+Sven
+
+[1] https://patch.msgid.link/20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org
+[2] https://patch.msgid.link/20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@kernel.org
+[3] https://patch.msgid.link/20260819-iommu-apple-dart-aperture-v1-0-252703f381aa@jannau.net
+[4] https://patch.msgid.link/20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@kernel.org
+[5] https://patch.msgid.link/20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org
+
+---
+Changes in v2:
+- Dropped thunderbolt switch in favor of the typec bus and an additional
+  notifer
+- Add USB4 to the Type-C bus with its own mode kind instead of an SVID
+- Register port/partner altmodes for CD321x
+- Replaced the struct with ring MMIO offsets with two callbacks insid
+  tb_nhi_ops
+- Moved port unlock sequence and finding the Apple VSE capability into
+  core tb code
+- Added device links for USB3 tunnels
+- Move the USB3 BW quirk from an NHI quirk to a router quirk
+- Added Joshua's rb to patches which didn't change
+- Link to v1: https://patch.msgid.link/20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org
+
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Janne Grunau <j@jannau.net>
+To: Neal Gompa <neal@gompa.dev>
+To: Andreas Noever <andreas.noever@gmail.com>
+To: Mika Westerberg <westeri@kernel.org>
+To: Yehezkel Bernat <YehezkelShB@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-usb@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Signed-off-by: Sven Peter <sven@kernel.org>
+
+---
+Sven Peter (22):
+      usb: typec: Add alternate mode state notifiers
+      usb: typec: Represent USB4 on the Type-C bus
+      usb: typec: tipd: Register a USB4 port mode for CD321x
+      usb: typec: tipd: Publish CD321x partner alternate modes
+      dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt NHI
+      dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt ACIO block
+      thunderbolt: Try reading host DROM from device tree first
+      thunderbolt: Don't read the UID if we already know it
+      thunderbolt: Allocate ring HopID before requesting the ring interrupt
+      thunderbolt: Unlock host router ports during startup
+      thunderbolt: Find Apple VSE capability during startup
+      thunderbolt: Add ring_interrupt_active to tb_nhi_ops
+      thunderbolt: Add ring register accessors to tb_nhi_ops
+      thunderbolt: Add ring_interrupt_mask to tb_nhi_ops
+      thunderbolt: Add ring_configure to tb_nhi_ops
+      thunderbolt: Add add_links to tb_nhi_ops
+      thunderbolt: Add QUIRK_NO_USB3_BW_ALLOC
+      thunderbolt: Export symbols required by the Apple Silicon driver
+      thunderbolt: Add Apple Silicon support
+      arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+      arm64: dts: apple: t8112: Add USB4 ACIO and NHI
+      arm64: dts: apple: t60xx: Add USB4 ACIO and NHI
+
+ Documentation/ABI/testing/sysfs-bus-typec          |   36 +
+ .../thunderbolt/apple,t8103-usb4-acio.yaml         |  213 ++++
+ .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml |  151 +++
+ MAINTAINERS                                        |    4 +
+ arch/arm64/boot/dts/apple/t6002-j375d.dts          |  101 +-
+ arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |  376 ++++++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  158 ++-
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi          |  205 +++-
+ arch/arm64/boot/dts/apple/t6022-j180d.dts          |  304 ++++-
+ arch/arm64/boot/dts/apple/t6022-j475d.dts          |   10 +
+ arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi         |   91 +-
+ arch/arm64/boot/dts/apple/t602x-dieX.dtsi          |  376 ++++++
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |   95 +-
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  184 +++
+ arch/arm64/boot/dts/apple/t8112-jxxx.dtsi          |   95 +-
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  186 +++
+ drivers/thunderbolt/Kconfig                        |   13 +
+ drivers/thunderbolt/Makefile                       |    3 +
+ drivers/thunderbolt/apple.c                        | 1277 ++++++++++++++++++++
+ drivers/thunderbolt/ctl.c                          |    2 +
+ drivers/thunderbolt/domain.c                       |    2 +
+ drivers/thunderbolt/eeprom.c                       |   27 +-
+ drivers/thunderbolt/nhi.c                          |  127 +-
+ drivers/thunderbolt/nhi.h                          |   20 +
+ drivers/thunderbolt/quirks.c                       |    9 +
+ drivers/thunderbolt/switch.c                       |    8 +-
+ drivers/thunderbolt/tb.c                           |   18 +-
+ drivers/thunderbolt/tb.h                           |    4 +
+ drivers/thunderbolt/tb_regs.h                      |    1 +
+ drivers/thunderbolt/tunnel.c                       |   60 +-
+ drivers/usb/typec/bus.c                            |   67 +-
+ drivers/usb/typec/bus.h                            |    6 +
+ drivers/usb/typec/class.c                          |  142 ++-
+ drivers/usb/typec/mode_selection.c                 |    6 +-
+ drivers/usb/typec/tipd/core.c                      |  241 +++-
+ include/linux/usb/typec.h                          |   36 +-
+ include/linux/usb/typec_altmode.h                  |   10 +-
+ 37 files changed, 4533 insertions(+), 131 deletions(-)
+---
+base-commit: 19998fc5177866e77a3be488644438a2227ff370
+change-id: 20260829-b4-apple-soc-tbt-a00e873a52db
+
+Best regards,
+--  
+Sven Peter <sven@kernel.org>
+
+
