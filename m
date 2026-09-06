@@ -1,65 +1,65 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0AD38C426
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 10:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA725262FC1
+	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 10:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788689711; cv=none; b=cDIkzp4LpNSzfq+bF9XIjg+0B3+97RcwuUg7XfndLSyM2ZlwwpBGS8X7VF8RwFATet7t5HnBzh61q7KnpthMkgcfW3j1TFJKJbgzAg45ySKVYqWMrCMzUe4opQRYbGOe+9lDYUJDjbEbNGIbz6O75IYNSSTCpe6s4yO3cB+twr4=
+	t=1788690478; cv=none; b=rut6XRgeJm4B9veHO7fXAvOr9TeRP8ikugN7x8Wp1vaZEZM24ozVczWBYfb2lTHMHqcVLopap9VuCvC2QukpYiKHQsFPGYU12YVGsjUFMpm4YUrtIc50L7suMR0LntIdqnQ48tn4CQ4yjxdRqClZKSAGzOEEiJGiR/4CVyV18lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788689711; c=relaxed/simple;
-	bh=YwZyzA43y60MiHs/1uqV+qIGlmb3nFRWbJ/1ea3FYh4=;
+	s=arc-20240116; t=1788690478; c=relaxed/simple;
+	bh=UCHO0H7rTTCwRQcolz6xVcpIfDIxE83aFzIdSYE1QZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PURMN/814cJKtl1WNWPjzEC0yUA2PQUzft75HIi2oq5x9MhfIV8IrdPqVxBrJOGUJdu13InqaE/7HVi5etQsZBGH/ikPmBOPiTUXHzokbXvzwuLWFdkDMwNE7DVSgf1d+690gTOUjO0k37ekkA9+kgImNqqkf/aor44/xhjYZhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nzsxnlnf; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=l9W7W+VlsdD6YQMzQmN3FBY+zCcAarbdWSuFOA7O6fVufOkuhKPvdy906RkOz9ag64oL0+akEA5h2yB2ofvVtba5yJlT1mgvg0QJ54f/QX3qu2VIsADKvkHci9PW6jex8ZfuD7BZ6sH+TEd8+mk+cytZaRj5DJniozR3Li68VdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pdko1F/D; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nzsxnlnf"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49b0d8bc2aaso31988505e9.0
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 03:15:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pdko1F/D"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so21635165e9.2
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 03:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788689706; x=1789294506; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788690475; x=1789295275; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=kpR705y++NqAAC8FpbrrQI4IIcfOR7g2O8Oo19MdzTQ=;
-        b=NzsxnlnfJ/xRYOoBBQyypjOQW3+7qXIDrRfwUvNHgMDYX5AlcwLlVAT10CocMQs01E
-         rAAIG1mAxk7ulLOADsQEBubHvc0WQjGmwq4VH6O5J0mhruFFPOV2ArBKPzJiGMwtOT/s
-         Boi7Os/3V0PWCDssDpzqTDwbbz6axcMKwDPybRceICzMokLt9AsWU5zCjxGY0r6ai+gQ
-         hBjTreFA+x66RrF+vU5iIHPRag7Cdgob1w7Rsny7msw10mKkAdFdExZQkYKGHEmWenEf
-         vjNfMPAtblIOEYgLWzP26T5/P/noACjksvxMOh9Uu3czaFIbpILl2HdWTSKhNj1qAfYR
-         EEkw==
+        bh=uXSjGNTYq9LVAly//Rv9vgBCfh1ZX5gWNKe2cgVzOHk=;
+        b=Pdko1F/DCQTNT7FJIawPOyncai2T3guLKLjSd4unFwptBK0IAUvVIijAqDcecojlwo
+         BADfnoqZ1kv2KJIta84MHDZz8aY3LgIDO1FkCiujE3EsVUxPp2Av3uUZvbpaK+1jBRKs
+         PhlOidI1I+DAao7mr/vUQwZAZ8N1RXY//nF3BNaVorVktS3W7upcwL+EyqYBn1yI4HvQ
+         Pw+iPirGZNJ12VndFV0yzPaz8Gle3CxOVGM54dDu+oA5e0GZ5h9gAfUW069R5s6vb7r6
+         rXBXdEh/epTcORGulkby9XTJvWumfplTMAOWavV3uxd5M46nG712M2kfBx8pUBWu5uq1
+         4ilw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788689706; x=1789294506;
+        d=1e100.net; s=20251104; t=1788690475; x=1789295275;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kpR705y++NqAAC8FpbrrQI4IIcfOR7g2O8Oo19MdzTQ=;
-        b=mQrqMHxYgF4uFuhSB8D61dhlMfVA/dlBMDxnGrH9Zfd24n4Uno59ZjYTRTLVUJfbzU
-         Hy0HkBMLN+QHprghmO1M6AR5TQsuuhgA06ljTI24eKrPoOvrqd2S+981HU160r3qq/L4
-         M1CX86bRq9uI4NNU+fv3EdtsbAjJdU/KJ/3tEpiGsMmt5ByR/dl/DgK0L/yzmw6VS1AB
-         xnfo8c0BlJBCuqy3GyG9t3AGBzvgYizkUVx+zj7/uvhOOfLRXhmAPk5jcIu0XuVVPII9
-         nZ1djXP5t3C+aYodtDSNKk94ulElByWK9nzrSZF+qqMAniq6S3J6HZvfJYYlPTjjO8E9
-         s0vQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxQqRO8w/LJkwguimh6CZ24aBNBn8YX0ZPP4T/y2Yf7s2P8qSz692RckJj+IKfR9/HmXYuBlg3Vjjs=@vger.kernel.org
-X-Gm-Message-State: AFuF++meoXZ8nT3m/qHRMBDCCfwUad0ZXkZy+tNs4CCdKc8qlMSFkZae
-	C9I6ojfAMT2OM0C8TNC2gi/ZoNOER6FYHTM48XlDwvyzi8XapNSusrbd
-X-Gm-Gg: AYBFou0vbIcRw62a/SDhDRP1JUuHiW76qLSZxhxnmWkraKz6mgYOOuQJlqKYJDggB2R
-	s79nyyy6IBdAZEdB3IHRRCNngqpeRVax7C2BxDRa0DgEuc8sWgGlGo7uT6bNassOkw51d0WsmY7
-	NIArvtRW6rH31QIYxpY3tnplUXX7yTRjcPycjhbNzq9SBfKncDgu2uyu6VUET8837gla6gEUqFn
-	Fp2arXRmn/yv63aGMymObnT/KkqgiKrGUdFfcEZks7JeLt+yBm2LVaykKywH5M4N2xw/SjIo1ct
-	4EX/WqYgY7H4v7+90xPI9q+Nb94zJf0kVyr3Kk1PjF5Hp+hIs/o7bU7ZsL/ryHH6RtPjsu2g72U
-	MIZRlNoye+/Lp5Hxsu5wxYbiMvg8gyHJAbGt2C2kSZnr+LdNui5mstCz5w1mumYL6B+hLlhLpQs
-	w5bOUzH26FR1hulxHel5K4iD0pzmYZCgO8+fvhDCWMdTG7gWXna8C0zAeQtxABGc0fAgXq8A==
-X-Received: by 2002:a05:600c:6088:b0:49c:fc6c:be15 with SMTP id 5b1f17b1804b1-49cfc6cc100mr137734235e9.27.1788689706065;
-        Sun, 06 Sep 2026 03:15:06 -0700 (PDT)
+        bh=uXSjGNTYq9LVAly//Rv9vgBCfh1ZX5gWNKe2cgVzOHk=;
+        b=BduF6vovzw8QUUzGdmv8FMijDJHM+K3x9zKcdUCGC84aszHhtUmW6qvv3xlSil/jsc
+         /ZwRv0rtltITxbw9q940ZwwOcnw9cwLb+XRI4UtYD4VvByDjdKaO1BjM5l8ThEGSoKU4
+         JDu7AjJHDTNpEpgOOwczpijOCSAoxah+FAN+a4FONpn9yDyx/zmZYrnk8ezNw34bvrT7
+         NwZ2+soWmUneE7TTACV/NLfjo+LeKDdmqRRRZ8UXioxxKnYuxtMekv2LIFQEnmmjhYgU
+         ZbflimPVd7QdoLvgpxg3VvVxaDxbIpa/UO2Fo67Wir4BLscuQPQZntLMfHZ0mhfDWKif
+         ulYg==
+X-Forwarded-Encrypted: i=1; AKwUvBzLzglolpbfpM+2xiJXPCvpkBzBf5AsWvSPGMzXvPR+k1Sjn7uy3ww6E1MmN9AZJmvSIchTt5E8AB4=@vger.kernel.org
+X-Gm-Message-State: AFuF++lVmoQmQ+pFxokLt7/oj1YsZ3TozrQj/JTZmRjCav4T+l15+F/Y
+	33e3b/kfIMIt7rnteZqosJdkoySjGqGGOeIkU3dpYzaT4vDbYs7AKvlw
+X-Gm-Gg: AYBFou0gURDSeBimcf+BfND7e0HGjT7XQY35a75nN+TskTmFO0f6iSDhhKo4tSIVraV
+	HRvkBlSQVxQOVFUnRdqACKS+qMkcyYA3iefz5ejZ328dTW6nM6x2Q9IpQxfOdTN+O7YEYXLj/6E
+	SW4F1rCoWYfKyZR4J7GU81vYGB+/sdRwREFaTV8/vxQCoYT/ZPufmX4A4LWPPXn8JuVRO19S//d
+	XXkJlYwzIWEI5W/f/NafymmniUKRu6escDXrmNoMG1XI6SEWYs22ZXF9U/wkrZrgVTgXqWkhvD6
+	Tax014zA390VcAsE0QvAEwQhUgAYCGhXmYE08PnBmXt/eJpZKicjYwiEMQiZJj2S3MiKUyr+k3h
+	0I3dofariCQrZkjnEqk9dlEyLOEgg4ZTH1FtVD6cJqecqEKvCPd2T4tanWSueQGtXYTz7DIkFhF
+	KmwHAq1CV3qCtHxz9JnB5+K/O8lQK4M++mmLOA8EgSlPrzj7XoodCz8/rnyC4jLgTYuCAutg==
+X-Received: by 2002:a05:600c:1986:b0:49c:fa21:e744 with SMTP id 5b1f17b1804b1-49cfa21e906mr133178685e9.26.1788690474695;
+        Sun, 06 Sep 2026 03:27:54 -0700 (PDT)
 Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbdacc45sm191695735e9.11.2026.09.06.03.15.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7740d44sm500305275e9.15.2026.09.06.03.27.53
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 06 Sep 2026 03:15:05 -0700 (PDT)
-Date: Sun, 6 Sep 2026 12:15:00 +0200
+        Sun, 06 Sep 2026 03:27:54 -0700 (PDT)
+Date: Sun, 6 Sep 2026 12:27:50 +0200
 From: Michal Pecio <michal.pecio@gmail.com>
 To: wakasio <scarabeeta@gmail.com>
 Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
@@ -67,7 +67,7 @@ Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
  linux-kernel@vger.kernel.org
 Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec
  0789:0308 during DVD+RW recording
-Message-ID: <20260906121500.04f06d2a.michal.pecio@gmail.com>
+Message-ID: <20260906122750.1c71f176.michal.pecio@gmail.com>
 In-Reply-To: <20260906021345.10436-1-scarabeeta@gmail.com>
 References: <20260905234752.1f0c9c83.michal.pecio@gmail.com>
 	<20260906021345.10436-1-scarabeeta@gmail.com>
@@ -81,94 +81,24 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
 On Sun,  6 Sep 2026 11:13:45 +0900, wakasio wrote:
-> Hi Michal,
+> One more thing, separate from this test. On this kernel, about a
+> minute after boot, the ASM4242 controller itself hit this:
 > 
-> I applied the second patch on top of the first one and reproduced the
-> failure again with the same three debug functions enabled.
+>   xhci_hcd 0000:77:00.0: Clearing Run/Stop bit failed -110
+>   xhci_hcd 0000:77:00.0: PM: suspend_common(): xhci_pci_suspend returns -110
+>   xhci_hcd 0000:77:00.0: can't suspend (hcd_pci_runtime_suspend returned -110)
 > 
-> Cluster 1 (ep 2, start of write, unrelated): same as before, 4
-> Stall/Hard-reset pairs within about 177 ms.
-> 
-> Cluster 2 (ep 3, the real failure):
-> 
->   11:07:56.930732 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.931126 Soft-reset ep 3
->   11:07:56.939018 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.939183 Soft-reset ep 3
->   11:07:56.947399 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.947686 Soft-reset ep 3
->   11:07:56.955772 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.955939 Soft-reset ep 3
->   11:07:56.964233 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.964395 Soft-reset ep 3
->   11:07:56.972881 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.973060 Soft-reset ep 3
->   11:07:56.981806 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.981975 Soft-reset ep 3
->   11:07:56.991162 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:56.991324 Soft-reset ep 3
->   11:07:57.002050 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:57.002211 Soft-reset ep 3
->   11:07:57.015466 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:57.015576 Soft-reset ep 3
->   11:07:57.034026 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:57.034195 Soft-reset ep 3
->   11:07:57.041915 Transfer error, ep 3, at ffffccbbc21f1540, resid 23552
->   11:07:57.042019 Hard-reset ep 3
->   11:07:57.162742 usb 6-1: reset SuperSpeed USB device number 2
->   11:07:57.176799 Stopped on No-op or Link TRB, slot 1 ep 2
->   11:07:57.679888 clear err_count at ffffccbbc21e9000
-> 
-> Same pattern as before. 11 soft-resets, all at the same TRB address
-> and the same resid, then a hard-reset on the 12th. A different TRB
-> address cleared err_count about 0.5 seconds after the port reset.
-> 
-> The second patch did not change the pattern. This run failed at about
-> 187 MB into the write, the furthest one so far, but I do not know if
-> that means anything given how much the failure point already varies
-> between runs (0.35 MB to 103 MB before this).
+> This happened once, during runtime PM autosuspend, before I started
+> the burn test. After that the whole controller stopped responding
+> until I rebooted. I do not know if it is related to the DVD+RW issue
+> or a separate ASM4242 problem. I am mentioning it in case it is
+> useful. I have not tried to reproduce it on purpose yet.
 
-Seems quite random indeed, but apparently things consistently go wrong
-after sending the 9th packet out of 32 (IIRC) in a random(?) URB.
+That seems to be a thing with those chips.
+https://bugzilla.kernel.org/show_bug.cgi?id=220936
 
-I have no idea, let's try one more patch (applies on top of the prior
-ones) to dump those transfer TRBs and see if they are correct.
+Do you remember (or can look up in logs) if any devices were connected
+when it happened and what they were?
 
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2622,6 +2622,22 @@ static struct xhci_td *find_td_by_dma(struct xhci_ring *ep_ring, dma_addr_t dma)
- 	return NULL;
- }
- 
-+static void dump_ring(struct xhci_hcd *xhci, struct xhci_ring *ring)
-+{
-+	struct xhci_segment *seg;
-+
-+	xhci_for_each_ring_seg(ring->deq_seg->next, seg) {
-+		union xhci_trb *trb;
-+
-+		for (trb = seg->trbs; trb < seg->trbs + TRBS_PER_SEGMENT; trb++) {
-+			char msg[256];
-+			xhci_decode_trb(msg, 256, trb->generic.field[0], trb->generic.field[1],
-+					trb->generic.field[2], trb->generic.field[3]);
-+			xhci_info(xhci, "%llx0: %s\n", (u64)seg->dma + (trb - seg->trbs), msg);
-+		}
-+	}
-+}
-+
- /*
-  * If this function returns an error condition, it means it got a Transfer
-  * event with a corrupted Slot ID, Endpoint ID, or TRB DMA address.
-@@ -2713,6 +2729,12 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 	case COMP_USB_TRANSACTION_ERROR:
- 		xhci_dbg(xhci, "Transfer error for slot %u ep %u on endpoint at %px resid %u\n",
- 			 slot_id, ep_index, ep_trb, EVENT_TRB_LEN(le32_to_cpu(event->transfer_len)));
-+		if (ep->err_count > 10) {
-+			xhci_info(xhci, "event ring:\n");
-+			dump_ring(xhci, xhci->interrupters[0]->event_ring);
-+			xhci_info(xhci, "endpoint ring:\n");
-+			dump_ring(xhci, ep_ring);
-+		}
- 		status = -EPROTO;
- 		break;
- 	case COMP_BABBLE_DETECTED_ERROR:
+Regard,
+Michal
