@@ -1,444 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FB13D3305;
-	Sun,  6 Sep 2026 18:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C183314C4;
+	Sun,  6 Sep 2026 18:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788719828; cv=none; b=grKVARM/NlBuO/KeXwyZdz6YJB4puqJmPMlx5Jtvkkf4CZo3QdAAex7WHriJ2Q7GNQZuE3etcWp1SwfkeVLZidsHwz3R6k4Uks5txQCw8T8MrJuwT7wZtHyNZdDyjvazkc5Ht9itcEGl+MA/x5wAr82UM1ncdcTs43YXiY9aApc=
+	t=1788721012; cv=none; b=eMXHbCbqhgkPGsE/ZiMQ1FyVpxxQyrLxiYplfyYXqGVqkPfmleTfT6VzpHd//YYHB77Ojq21F2Y62aeWPtbixXxvq0Mq6MIySVyWlakhUSC+35KDFqgMn2mFyYgvla/zC+zs+ytzpzFVzhIFMXqPVIG1Ob3zy5piQbnva9Jf/Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788719828; c=relaxed/simple;
-	bh=yCkOmBaR5nil6EWh+gg1vqFVc4hjJ7N+uufRHhr7jwc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rcDtgMzHC+pC+j8DYhu3nU0QOUUg0RR+RgpCfcapyC6WUnwFHu9C4In+YVzlzalS0k7H+qJAKmlqhLvEFGzg1iUcP555PA9txLvPGah2fSDxSL6kupvLxGFTUSfOWF+qB5On0qXtNf1wm3pYr2ybQcmoan+B4tWVh4elcLoUosI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XurR2UW/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788721012; c=relaxed/simple;
+	bh=GzwTYTPNB+3ZgaSGbOJhfN4xcVHixesBzXXyYH87uhM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XdbaXFvBatSfP4ER0t94gDEytjHjNnLxunzvE47By/all3SLIu4m3NEQ3ZbQn4y03k4LZDOL38HjOBIxYH1fAdkY1lHFFDxO8Jdy71+5tFqiUB1cx8nwgYJZGL2dPJjkrL5xizGWZDXVgCczku9QhoBJ6icGyH1VDU8uwvWJXt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Np64Orrn; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=IEdo3RZl; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XurR2UW/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 97D06C2BCFF;
-	Sun,  6 Sep 2026 18:37:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788719828;
-	bh=yCkOmBaR5nil6EWh+gg1vqFVc4hjJ7N+uufRHhr7jwc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=XurR2UW/SAiJf7jSfEB1+y4Uwm7Pd9pIcVDA+YQqEsZJGwONaXo3bzY0P3i1v2pft
-	 RDmNvAsVOo9alwQ54l3XLDRhMPvOtOIldzq9BqNmpGyV47kZWMn8C+HqnU3gCGZpxo
-	 hDXpkdtq3fnxh1IGzB1uU1aOQvL9Nahh4VRTvos9HaPXj3bigFQmRSchXEUHtFy8P3
-	 UBDAGl7iZQtuTsR71doP+fO8nceZn3GzczedCNrhT1117od4xSr2j5S9+733Fk9u0W
-	 6a7+dIn1+drFSo7oIy1PVG9INRHETAEdtLu+P3sNIPISDHNv7X15T4VcYpujDn59HY
-	 wr07RwQLrBCwg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AE3C79FA3;
-	Sun,  6 Sep 2026 18:37:08 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Sun, 06 Sep 2026 20:36:44 +0200
-Subject: [PATCH v2 21/22] arm64: dts: apple: t8112: Add USB4 ACIO and NHI
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Np64Orrn";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="IEdo3RZl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1788721003;
+	bh=GzwTYTPNB+3ZgaSGbOJhfN4xcVHixesBzXXyYH87uhM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Np64OrrnAiDjkzGw7b+8Sxetw8JEGWE9wGXt5gJMS0F24JZE37lL5FfV3oNgpMmRi
+	 xvzCBNl6OjtpfIZV3JLajfWqssO20HL9k4fAExJTUNclCNQYHlldOvL8IavbHocjIk
+	 BV93WsDVdO/Vcy0Dg27x2YPXeruiT+ItsjjeJWtJBy05AKTzysXMcG3E1rc7zQNi9C
+	 OWz5Evi+L2X9TC2YRWIkmSUpr37lGKy59rIQ4spcPODfBofymIy4xylowcqeZE78a1
+	 bxGh3jPF1Bg45QpSpT6aupTm8hZtKL1WOtb1L61iUNZwCJd9rlRWVPB2VbDVOxw3A8
+	 XcmmMtub2tKGA==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 0CBB13F1ED; Sun,  6 Sep 2026 18:56:43 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1788721001;
+	bh=GzwTYTPNB+3ZgaSGbOJhfN4xcVHixesBzXXyYH87uhM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IEdo3RZlgB8mBSaLjlE9yh03j0w1KvEPb6W2ens0JqphMz3PVC5in6vEhdZWLtVFB
+	 xUf3LbaBNUxZ/cCqrl3VvANwFTEi+78oZXg0wugvr6Lv8sMr8SrThl63p6SOi9m/Mg
+	 TPRiyirt92X/miVHl8yopnap0YJaqAfo4kNF7kY4R5EF3p/m/1ZsZkpfuFB0KeXZCt
+	 wYKy5R3svxh7ligpmNR66MNb3n3co7R9wkFN/Bs9vCw+Dx/jUXMhmhg8x+iIEo05J1
+	 XiO6Fmdc0ChwtZE8Dm93KiuA2Ds1q7Eaw/9h8J0zmKLoV6GmIxjWG09yEc6Yl+uAtZ
+	 4Qa9yc/fJ03gg==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 89F823F1B9;
+	Sun,  6 Sep 2026 18:56:41 +0000 (UTC)
+Message-ID: <f56aa06f-fad7-4714-9c54-846397bf2438@birger-koblitz.de>
+Date: Sun, 6 Sep 2026 20:56:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 00/15] ax88179_178a: Add support for
+ AX88179A-based chips
+To: Jianhui Xu <neuromoments@gmail.com>
+Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, hkallweit1@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux@armlinux.org.uk, netdev@vger.kernel.org, pabeni@redhat.com
+References: <20260904-ax88179a-v10-0-b5e60eca7690@birger-koblitz.de>
+ <20260906104031.78051-1-neuromoments@gmail.com>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20260906104031.78051-1-neuromoments@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260906-b4-apple-soc-tbt-v2-21-1f80085f93fb@kernel.org>
-References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>, 
- Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10505; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=yCkOmBaR5nil6EWh+gg1vqFVc4hjJ7N+uufRHhr7jwc=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bcTWe3bLoX8SFp0buN0X4LP5nz/D1bqfjsfMH+XLGbz
- yyazky62VHKwiDGxSArpsiyfb+96ZOHbwSXbrr0HmYOKxPIEAYuTgGYiOImRoaHvAncd4/Jylc7
- 6upKtG39u1z40oW+9TLHEqzO/34k872O4X+m2s6fe08dCsz9sGmrY3jhbbbeZdej4/++8ajNvh9
- fcYsXAA==
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
 
-Add the ACIO host router, NHI, DART and mailbox nodes for both Type-C
-ports on t8112 and connect the host routers to the Type-C connectors.
-Also describe the USB3 path from each host router to its DWC3 controller
-so the NHI driver can create the required device link.
+Hi Jianhui,
 
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- arch/arm64/boot/dts/apple/t8112-jxxx.dtsi |  95 ++++++++++++++-
- arch/arm64/boot/dts/apple/t8112.dtsi      | 186 ++++++++++++++++++++++++++++++
- 2 files changed, 279 insertions(+), 2 deletions(-)
+On 06/09/2026 12:40 pm, Jianhui Xu wrote:
+> Hi Birger,
+> 
+> I tested v9 on the same ASIX AX88179B adapter. By the time you read this,
+> v10 has already been posted. Given the relatively small differences between
+> v9 and v10, I expect the issue I found in v9 to apply to v10 as well.
+> 
+> First, as you already noticed, `data` is undeclared.
+> 
+> For QEMU runtime testing I also had to apply Chen-Yu Tsai's unrelated
+> `usb: xhci: Fix HCS_ERST_MAX conversion` patch. Without it, this base kernel
+> fails to initialize QEMU's xHCI controller before the network driver is
+> reached.
+> 
+> All three fresh functional starts completed cold DHCP at 1000baseT/Full
+> without reloading the driver and passed the normal 1000/100/10/1000 Mbit/s
+> matrix, EEE disable/restore, pause enable/restore, and EEPROM read.
+> 
+> During repeated speed transitions, I observed one intermittent carrier-loss
+> failure. Of 19 normally initiated restores from 100/full to the default
+> 1000/full advertisement, 18 passed and one failed to regain carrier. After
+> that failure, ethtool reported unknown speed and no link, and further
+> advertisement changes did not recover it. Dmesg showed the preceding
+> 100-Mbit Link Up followed by Link Down, with no subsequent Link Up before
+> the device was reattached.
+> 
+> I could not reproduce the failure in two later fresh starts or in a further
+> 90 unmodified-v9 stress cycles. Counting the normal matrix and stress
+> points, all 22 tested 100/full points passed, so I also did not reproduce
+> the earlier 100-Mbit carrier-without-RX failure.
+> 
+I tried to reproduce the issue myself. I am running the v10 USB and PHY 
+driver modules directly on a PC with otherwise Kernel
+Linux version 7.1.8+deb13-amd64
 
-diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-index 562e7a25a1e8..d0dc7eaaca35 100644
---- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-@@ -13,6 +13,10 @@ / {
- 	aliases {
- 		atcphy0 = &atcphy0;
- 		atcphy1 = &atcphy1;
-+		usb4-0-acio = &usb4_0_acio;
-+		usb4-0-nhi = &usb4_0_nhi;
-+		usb4-1-acio = &usb4_1_acio;
-+		usb4-1-nhi = &usb4_1_nhi;
- 		serial0 = &serial0;
- 		serial2 = &serial2;
- 	};
-@@ -76,6 +80,13 @@ typec0_connector_ss: endpoint {
- 						remote-endpoint = <&atcphy0_typec_lanes>;
- 					};
- 				};
-+
-+				port@2 {
-+					reg = <2>;
-+					typec0_con_tbt: endpoint {
-+						remote-endpoint = <&usb4_0_acio_tbt>;
-+					};
-+				};
- 			};
- 		};
- 	};
-@@ -107,6 +118,13 @@ typec1_connector_ss: endpoint {
- 						remote-endpoint = <&atcphy1_typec_lanes>;
- 					};
- 				};
-+
-+				port@2 {
-+					reg = <2>;
-+					typec1_con_tbt: endpoint {
-+						remote-endpoint = <&usb4_1_acio_tbt>;
-+					};
-+				};
- 			};
- 		};
- 	};
-@@ -126,10 +144,19 @@ dwc3_0_hs: endpoint {
- 		};
- 
- 		port@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
- 			reg = <1>;
--			dwc3_0_ss: endpoint {
-+
-+			dwc3_0_ss: endpoint@0 {
-+				reg = <0>;
- 				remote-endpoint = <&atcphy0_usb3>;
- 			};
-+
-+			dwc3_0_usb4: endpoint@1 {
-+				reg = <1>;
-+				remote-endpoint = <&usb4_0_acio_usb3>;
-+			};
- 		};
- 	};
- };
-@@ -147,10 +174,19 @@ dwc3_1_hs: endpoint {
- 		};
- 
- 		port@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
- 			reg = <1>;
--			dwc3_1_ss: endpoint {
-+
-+			dwc3_1_ss: endpoint@0 {
-+				reg = <0>;
- 				remote-endpoint = <&atcphy1_usb3>;
- 			};
-+
-+			dwc3_1_usb4: endpoint@1 {
-+				reg = <1>;
-+				remote-endpoint = <&usb4_1_acio_usb3>;
-+			};
- 		};
- 	};
- };
-@@ -198,6 +234,61 @@ atcphy1_usb3: endpoint {
- 	};
- };
- 
-+/* USB4 */
-+&usb4_0_acio {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* 1: USB4 port */
-+		port@1 {
-+			reg = <1>;
-+			usb4_0_acio_tbt: endpoint {
-+				remote-endpoint = <&typec0_con_tbt>;
-+			};
-+		};
-+
-+		/* 2: USB4 lane 1 adapter */
-+		/* 3: PCIe */
-+		port@4 {
-+			reg = <4>;
-+			usb4_0_acio_usb3: endpoint {
-+				remote-endpoint = <&dwc3_0_usb4>;
-+			};
-+		};
-+
-+		/* 5: DP0 */
-+		/* 6: DP1 */
-+	};
-+};
-+
-+&usb4_1_acio {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* 1: USB4 port */
-+		port@1 {
-+			reg = <1>;
-+			usb4_1_acio_tbt: endpoint {
-+				remote-endpoint = <&typec1_con_tbt>;
-+			};
-+		};
-+
-+		/* 2: USB4 lane 1 adapter */
-+		/* 3: PCIe */
-+		port@4 {
-+			reg = <4>;
-+			usb4_1_acio_usb3: endpoint {
-+				remote-endpoint = <&dwc3_1_usb4>;
-+			};
-+		};
-+
-+		/* 5: DP0 */
-+		/* 6: DP1 */
-+	};
-+};
-+
- &i2c1 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 2c3b59e05e01..e70ed4a470e1 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -991,6 +991,14 @@ pinctrl_aop: pinctrl@24a820000 {
- 				     <AIC_IRQ 305 IRQ_TYPE_LEVEL_HIGH>,
- 				     <AIC_IRQ 306 IRQ_TYPE_LEVEL_HIGH>,
- 				     <AIC_IRQ 307 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			acio0_pins: acio0-pins {
-+				pinmux = <APPLE_PINMUX(28, 1)>;
-+			};
-+
-+			acio1_pins: acio1-pins {
-+				pinmux = <APPLE_PINMUX(30, 1)>;
-+			};
- 		};
- 
- 		ans_mbox: mbox@277408000 {
-@@ -1027,6 +1035,95 @@ nvme@27bcc0000 {
- 			resets = <&ps_ans>;
- 		};
- 
-+		usb4_0_mbox: mailbox@381108000 {
-+			compatible = "apple,t8112-asc-mailbox",
-+				"apple,asc-mailbox-v4";
-+			reg = <0x3 0x81108000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 1067 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 1068 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 1069 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 1070 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+				"recv-empty", "recv-not-empty";
-+			#mbox-cells = <0>;
-+		};
-+
-+		usb4_0_acio: cio@381ac0000 {
-+			compatible = "apple,t8112-usb4-acio", "apple,t8103-usb4-acio";
-+			reg = <0x3 0x81ac0000 0x0 0xc000>,
-+				<0x3 0x81080000 0x0 0x20000>;
-+			reg-names = "rc", "sram";
-+
-+			mboxes = <&usb4_0_mbox>;
-+			resets = <&cio_reset 0>;
-+
-+			power-domains = <&ps_atc0_cio>,
-+					<&ps_atc0_cio_pcie>,
-+					<&ps_atc0_cio_usb>;
-+
-+			pinctrl-0 = <&acio0_pins>;
-+			pinctrl-names = "default";
-+
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges = <0x0 0x3 0x81000000 0x1000000>;
-+			nonposted-mmio;
-+
-+			usb4_0_dart: iommu@a80000 {
-+				compatible = "apple,t8110-dart";
-+				reg = <0xa80000 0x4000>;
-+				interrupt-parent = <&aic>;
-+				interrupts = <AIC_IRQ 1065 IRQ_TYPE_LEVEL_HIGH>;
-+				#iommu-cells = <1>;
-+			};
-+
-+			usb4_0_nhi: nhi@f00000 {
-+				reg = <0xf00000 0x100000>,
-+					<0xdb0000 0x30004>;
-+				reg-names = "nhi", "pdf";
-+				compatible = "apple,t8112-usb4-nhi",
-+					"apple,t8103-usb4-nhi";
-+				interrupt-parent = <&aic>;
-+				interrupts = <AIC_IRQ 1038 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1039 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1040 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1041 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1042 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1043 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1044 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1045 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1046 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1047 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1048 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1049 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1050 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1051 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1052 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1053 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1054 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1055 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1056 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1057 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1058 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1059 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1060 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1061 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-names =
-+					"txring0", "txring1", "txring2",
-+					"txring3", "txring4", "txring5",
-+					"txring6", "txring7", "txring8",
-+					"txring9", "txring10", "txring11",
-+					"rxring0", "rxring1", "rxring2",
-+					"rxring3", "rxring4", "rxring5",
-+					"rxring6", "rxring7", "rxring8",
-+					"rxring9", "rxring10", "rxring11";
-+				iommus = <&usb4_0_dart 1>;
-+				/* To be filled by the loader */
-+				apple,thunderbolt-drom = [00];
-+			};
-+		};
-+
- 		dwc3_0: usb@382280000 {
- 			compatible = "apple,t8112-dwc3", "apple,t8103-dwc3";
- 			reg = <0x3 0x82280000 0x0 0xcd00>, <0x3 0x8228cd00 0x0 0x3200>;
-@@ -1079,6 +1176,95 @@ atcphy0: phy@383000000 {
- 			power-domains = <&ps_atc0_usb>;
- 		};
- 
-+		usb4_1_mbox: mailbox@501108000 {
-+			compatible = "apple,t8112-asc-mailbox",
-+				"apple,asc-mailbox-v4";
-+			reg = <0x5 0x01108000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 1148 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 1149 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 1150 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 1151 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+				"recv-empty", "recv-not-empty";
-+			#mbox-cells = <0>;
-+		};
-+
-+		usb4_1_acio: cio@501ac0000 {
-+			compatible = "apple,t8112-usb4-acio", "apple,t8103-usb4-acio";
-+			reg = <0x5 0x01ac0000 0x0 0xc000>,
-+				<0x5 0x01080000 0x0 0x20000>;
-+			reg-names = "rc", "sram";
-+
-+			mboxes = <&usb4_1_mbox>;
-+			resets = <&cio_reset 1>;
-+
-+			power-domains = <&ps_atc1_cio>,
-+					<&ps_atc1_cio_pcie>,
-+					<&ps_atc1_cio_usb>;
-+
-+			pinctrl-0 = <&acio1_pins>;
-+			pinctrl-names = "default";
-+
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges = <0x0 0x5 0x01000000 0x1000000>;
-+			nonposted-mmio;
-+
-+			usb4_1_dart: iommu@a80000 {
-+				compatible = "apple,t8110-dart";
-+				reg = <0xa80000 0x4000>;
-+				interrupt-parent = <&aic>;
-+				interrupts = <AIC_IRQ 1146 IRQ_TYPE_LEVEL_HIGH>;
-+				#iommu-cells = <1>;
-+			};
-+
-+			usb4_1_nhi: nhi@f00000 {
-+				reg = <0xf00000 0x100000>,
-+					<0xdb0000 0x30004>;
-+				reg-names = "nhi", "pdf";
-+				compatible = "apple,t8112-usb4-nhi",
-+					"apple,t8103-usb4-nhi";
-+				interrupt-parent = <&aic>;
-+				interrupts = <AIC_IRQ 1119 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1120 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1121 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1122 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1123 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1124 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1125 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1126 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1127 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1128 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1129 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1130 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1131 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1132 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1133 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1134 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1135 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1136 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1137 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1138 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1139 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1140 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1141 IRQ_TYPE_LEVEL_HIGH>,
-+					<AIC_IRQ 1142 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-names =
-+					"txring0", "txring1", "txring2",
-+					"txring3", "txring4", "txring5",
-+					"txring6", "txring7", "txring8",
-+					"txring9", "txring10", "txring11",
-+					"rxring0", "rxring1", "rxring2",
-+					"rxring3", "rxring4", "rxring5",
-+					"rxring6", "rxring7", "rxring8",
-+					"rxring9", "rxring10", "rxring11";
-+				iommus = <&usb4_1_dart 1>;
-+				/* To be filled by the loader */
-+				apple,thunderbolt-drom = [00];
-+			};
-+		};
-+
- 		dwc3_1: usb@502280000 {
- 			compatible = "apple,t8112-dwc3", "apple,t8103-dwc3";
- 			reg = <0x5 0x02280000 0x0 0xcd00>, <0x5 0x0228cd00 0x0 0x3200>;
+I am using the following script to change between 100MBit and 1GBit
+1000 times with an AX88179A 1GBit dongle, each time testing a ping and 
+printing out the negotiated speed:
+!/bin/bash
+i=0
+speed=100
+while [ $i -lt 1000 ]
+do
+         ((i++))
+         echo "Run $i"
+         success="BAD"
+         success=$(ping -c 1 -q 192.168.10.247 >1 2>&1 && echo "OK")
+         echo "Success: $success"
 
--- 
-2.55.0
+         if [ "$success" != "OK" ]; then
+                 echo "Failed: $success $i"
+         fi
 
+         ethtool -s enx9c69d380ffff autoneg on speed $speed
+         if [ "$speed" != "100" ]; then
+                 speed=100
+         else
+                 speed=1000
+         fi
+         sleep 6
+         echo `ethtool enx9c69d380ffff | grep Speed:`
+done
+
+This runs through without issues 1000 times:
+[...]
+Success: OK
+Speed: 1000Mb/s
+Run 999
+Success: OK
+Speed: 100Mb/s
+Run 1000
+Success: OK
+Speed: 1000Mb/s
+
+ethtool changes the speed, then reliably reads the correct speed while 
+ping works and the device continues to respond normally through the 
+entire test. All of this 1000 times.
+
+So, either what you observed is extremely rare, or it could also be 
+influenced by the different test setup, including the fact my test is on 
+bare metal, but also by the link partner (an RTL8372-switch in my case).
+
+The other point is that in principle what we are testing is not 
+something users do regularly: you plug the dongle in, it autonegotiates, 
+and that's it. And if you change the speed, there is a 50% chance you 
+will do it from the other side of the link, which seems to be much less 
+problematic as I noticed previously when we had the race condition due 
+to PHY polling, because the dongle does not try to optimize the link: it 
+accepts what is being offered.
+
+I did not test your code, but I am wondering whether it is not simply 
+enough to do:
++	if (link)
++		phylink_mac_interrupt(data->phylink);
+without reading the bit whether the MAC link is up. Speed changes come
+with a link-down, so I would think this is enough to do it like that. Or 
+maybe I am missing something?
+
+Given that we do not really know whether there is actually an issue, 
+what it is and whether it is really relevant, otherwise your tests all 
+succeed, and also because I have a feeling that Andrew may not like it 
+if we try to be smarter than phylink, I would suggest we leave it like 
+this for the moment. I would really like to see this being finally 
+reviewed to the point where it can be merged.
+
+Birger
 
