@@ -1,178 +1,148 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C183314C4;
-	Sun,  6 Sep 2026 18:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342E43C8731
+	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 21:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788721012; cv=none; b=eMXHbCbqhgkPGsE/ZiMQ1FyVpxxQyrLxiYplfyYXqGVqkPfmleTfT6VzpHd//YYHB77Ojq21F2Y62aeWPtbixXxvq0Mq6MIySVyWlakhUSC+35KDFqgMn2mFyYgvla/zC+zs+ytzpzFVzhIFMXqPVIG1Ob3zy5piQbnva9Jf/Hk=
+	t=1788728741; cv=none; b=iTX2dzHbVYA7IN6cfLTM9WqnoA+G78sc1cTCOPtNTg+sDxL5S1PEsCB8pkIw+OoG3WBxlCleGNCmtUPYbHPZ9aeffVXKC0CmXe+WuusQ30fTD2k2XWHxqMKTGjISY/LWUwjEQqPzLBaoUIpvZJbJK/W7Edkod7DnenUPGZkYR9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788721012; c=relaxed/simple;
-	bh=GzwTYTPNB+3ZgaSGbOJhfN4xcVHixesBzXXyYH87uhM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XdbaXFvBatSfP4ER0t94gDEytjHjNnLxunzvE47By/all3SLIu4m3NEQ3ZbQn4y03k4LZDOL38HjOBIxYH1fAdkY1lHFFDxO8Jdy71+5tFqiUB1cx8nwgYJZGL2dPJjkrL5xizGWZDXVgCczku9QhoBJ6icGyH1VDU8uwvWJXt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Np64Orrn; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=IEdo3RZl; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1788728741; c=relaxed/simple;
+	bh=vC4YQuUsqECdThQ2UaVWWxN9IGfQuuL520LFsCgC/zg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uy7s+5ujbAW0AS8qvmG0nIrEQoqs+PNpo8xieKmTK/kY/staqnqgwdocbuuq0DwkmYwlP1wjP7MsEtxMJty5hR13LlZ3W8WJUOx0XlHUKf+FM40YevzlSVPoCZSl2T9con9+4iaMCPkR/5OyUPS4z8pSv9u6ubz8/wWX+yTk0ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfDvdunV; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Np64Orrn";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="IEdo3RZl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1788721003;
-	bh=GzwTYTPNB+3ZgaSGbOJhfN4xcVHixesBzXXyYH87uhM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Np64OrrnAiDjkzGw7b+8Sxetw8JEGWE9wGXt5gJMS0F24JZE37lL5FfV3oNgpMmRi
-	 xvzCBNl6OjtpfIZV3JLajfWqssO20HL9k4fAExJTUNclCNQYHlldOvL8IavbHocjIk
-	 BV93WsDVdO/Vcy0Dg27x2YPXeruiT+ItsjjeJWtJBy05AKTzysXMcG3E1rc7zQNi9C
-	 OWz5Evi+L2X9TC2YRWIkmSUpr37lGKy59rIQ4spcPODfBofymIy4xylowcqeZE78a1
-	 bxGh3jPF1Bg45QpSpT6aupTm8hZtKL1WOtb1L61iUNZwCJd9rlRWVPB2VbDVOxw3A8
-	 XcmmMtub2tKGA==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 0CBB13F1ED; Sun,  6 Sep 2026 18:56:43 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1788721001;
-	bh=GzwTYTPNB+3ZgaSGbOJhfN4xcVHixesBzXXyYH87uhM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IEdo3RZlgB8mBSaLjlE9yh03j0w1KvEPb6W2ens0JqphMz3PVC5in6vEhdZWLtVFB
-	 xUf3LbaBNUxZ/cCqrl3VvANwFTEi+78oZXg0wugvr6Lv8sMr8SrThl63p6SOi9m/Mg
-	 TPRiyirt92X/miVHl8yopnap0YJaqAfo4kNF7kY4R5EF3p/m/1ZsZkpfuFB0KeXZCt
-	 wYKy5R3svxh7ligpmNR66MNb3n3co7R9wkFN/Bs9vCw+Dx/jUXMhmhg8x+iIEo05J1
-	 XiO6Fmdc0ChwtZE8Dm93KiuA2Ds1q7Eaw/9h8J0zmKLoV6GmIxjWG09yEc6Yl+uAtZ
-	 4Qa9yc/fJ03gg==
-Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 89F823F1B9;
-	Sun,  6 Sep 2026 18:56:41 +0000 (UTC)
-Message-ID: <f56aa06f-fad7-4714-9c54-846397bf2438@birger-koblitz.de>
-Date: Sun, 6 Sep 2026 20:56:41 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfDvdunV"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-485850cbac3so1752209f8f.3
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 14:05:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788728738; x=1789333538; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Hm7hKt/l5G35NMIrUuAXey7XmWtG2gBN48sYcpn4XhM=;
+        b=LfDvdunVes/2bbSq+PczwGkkTOE8heBlhp+1y7c4G1Qr5TPTbeLiezL+tGLqf7FXRl
+         nAHV+k7z16Ecb5WjRVFl1ZfzI9IwHuZnE/Ms3BVOKDCXDPaDs4gYqk4XWXrKH3++NNny
+         h0sc5eur6BxSRv2etIyQ3oyXHU3nDFQRO7Q3BHybJUbAm5Q5Is0pBB6b/d/J767w/1AP
+         uAHKMvHlbavRti2mqlqhejqdi9A0aXvb3aQhp7PoyODhNoQ9e148VllY3uFizK3RaZNv
+         efAO5xyIwk3Ts3q1Yp62aLHAeeYokF7NaIni062zJHE6ECQsJJIfkiPhXSEf3y0vMVO1
+         pJJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788728738; x=1789333538;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Hm7hKt/l5G35NMIrUuAXey7XmWtG2gBN48sYcpn4XhM=;
+        b=jeJGv6kZ5oC/yYu0ollu0voHibd6H5pru2Es+cG8w9KTauJf3nomWqlMXDuNdvMgs2
+         v0LjWVkGEI4PdJYIG3uifm0bB51il5TcZX06YJsWKl7kLmQMsJI2eA3dePtFn78+e9bY
+         3+me0VxrGEuyqvb8hgoAW7oURHMcnw9Z4FHPpwKVUQ6Z8b1Y5dQbLA+i8Mr15emyGFoo
+         4Lsfh8VF2CzAojVyY0hXpIsTkhWSoc11VAtOCCM30HqFSxiLFQEl1zDsgTN48tD0VVdi
+         lXFx8p3Jec9tqzoyx7eGuo1VyMP/XJrLjF3VpOCsQf1bivqBWG8dXkGXXzCfLalSMLZ1
+         adWg==
+X-Gm-Message-State: AFuF++nOMOb8itjQgOvQ6Y65BYZWDv6/E/4gb7uhRPs86GZ975Jd1NgG
+	A1b8KtuIE2UDaHCDDLSEifHF1yc6XsET+TAj215usbkRTf6lK4l75U+NQS+dmw==
+X-Gm-Gg: AYBFou0zMc0b2OMsqYkfK3dGoxjcmhVo6FGE/7jx2+3V78SosZ1pEtm9VcnMiuF36aP
+	KUubnwqCFURoxD76cRU+x6v9VNkCwTn7TUk8R31RXDEDILJ8Q/B4rlqCyFSU5/1809RBJtpkp/r
+	VQczt3rT11Ujh15JXPBGUvnWhXhzwlWXAkESGNgQmwym97hkbyD+jxxc+RT9j+85ynVqXSVssUT
+	zAl1oCTDoCxn2WCWn3q6EiR8VuOkZT9egdtI3oWKkwTiXSIZsFCQSziCC+Cdp1ll7xsOg7GYOPP
+	3A0C9X/EDvfuqoDzEcLvH9N/fOL4e88qbUDPwxtiuPHOMlazy7rjWyrUPsR3NzftzvxHgcE+UfW
+	HAermzRy8WUnujnSj8kiIVT24pePnSfccqK4hDwuEvMrHNZ43ERROn7LUMrhHNEONNgu32/h4W+
+	z8RBeK9e6qEsVxrbBEH7K0FPJuNd8OQj4mD1EiN5/Hf4ITkup4lGug/LWvL9w7kSrpXb0zlywHa
+	UyEN3g6
+X-Received: by 2002:a05:6000:2311:b0:485:8bc6:3caa with SMTP id ffacd0b85a97d-4858bc63de5mr15008870f8f.16.1788728738367;
+        Sun, 06 Sep 2026 14:05:38 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858d312ca0sm23173125f8f.4.2026.09.06.14.05.37
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 06 Sep 2026 14:05:38 -0700 (PDT)
+Date: Sun, 6 Sep 2026 23:05:34 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Ingo Haenlein <ingo.haenlein@gmx.de>
+Cc: linux-usb@vger.kernel.org, superscalar@gmx.de,
+ mathias.nyman@linux.intel.com
+Subject: Re: [BUG] xHCI: AMD Strix Halo [1022:158b] isochronous full-duplex
+ USB audio instability (frame active: -18)
+Message-ID: <20260906230523.6ff77e1d.michal.pecio@gmail.com>
+In-Reply-To: <a13faf6d-72c3-4149-b26a-c18a9a5068be@gmx.de>
+References: <20260621214215.378d505a.michal.pecio@gmail.com>
+	<a13faf6d-72c3-4149-b26a-c18a9a5068be@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 00/15] ax88179_178a: Add support for
- AX88179A-based chips
-To: Jianhui Xu <neuromoments@gmail.com>
-Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net,
- edumazet@google.com, hkallweit1@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux@armlinux.org.uk, netdev@vger.kernel.org, pabeni@redhat.com
-References: <20260904-ax88179a-v10-0-b5e60eca7690@birger-koblitz.de>
- <20260906104031.78051-1-neuromoments@gmail.com>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <20260906104031.78051-1-neuromoments@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jianhui,
+On Sun, 6 Sep 2026 20:27:54 +0200, Ingo Haenlein wrote:
+> Hi Michal, hi Mathias,
+>=20
+> Quick update and a new regression on the same Strix Halo case.
+>=20
+> Root cause, confirmed
+> ----------------------
+> DF/fabric C-state exit latency on the IRQ-handling core. Spent
+> several more months on this: PM-QoS is not enforced by acpi_idle,
+> governor/EPP tuning made no difference, pinning FCLK/SOCCLK made no
+> difference either. The only thing that fully fixes it is a hidden
+> AMD "SoC/Uncore OC Mode" BIOS bit - confirmed working by someone else
+> on a different vendor's board - but that option is locked down on
+> this HP firmware and too risky to unlock without a recovery path, so
+> that's not viable for me.
+>=20
+> Mitigation
+> -----------
+> Two isolated cores (CPU16/17, via isolcpus/nohz_full/rcu_nocbs) with
+> the xHCI interrupt (0000:c5:00.4) pinned to one of them, plus a
+> small script that switches those two cores to POLL (disabling all
+> deeper C-states) only while an audio stream is active, and back to
+> normal idle otherwise.
 
-On 06/09/2026 12:40 pm, Jianhui Xu wrote:
-> Hi Birger,
-> 
-> I tested v9 on the same ASIX AX88179B adapter. By the time you read this,
-> v10 has already been posted. Given the relatively small differences between
-> v9 and v10, I expect the issue I found in v9 to apply to v10 as well.
-> 
-> First, as you already noticed, `data` is undeclared.
-> 
-> For QEMU runtime testing I also had to apply Chen-Yu Tsai's unrelated
-> `usb: xhci: Fix HCS_ERST_MAX conversion` patch. Without it, this base kernel
-> fails to initialize QEMU's xHCI controller before the network driver is
-> reached.
-> 
-> All three fresh functional starts completed cold DHCP at 1000baseT/Full
-> without reloading the driver and passed the normal 1000/100/10/1000 Mbit/s
-> matrix, EEE disable/restore, pause enable/restore, and EEPROM read.
-> 
-> During repeated speed transitions, I observed one intermittent carrier-loss
-> failure. Of 19 normally initiated restores from 100/full to the default
-> 1000/full advertisement, 18 passed and one failed to regain carrier. After
-> that failure, ethtool reported unknown speed and no link, and further
-> advertisement changes did not recover it. Dmesg showed the preceding
-> 100-Mbit Link Up followed by Link Down, with no subsequent Link Up before
-> the device was reattached.
-> 
-> I could not reproduce the failure in two later fresh starts or in a further
-> 90 unmodified-v9 stress cycles. Counting the normal matrix and stress
-> points, all 22 tested 100/full points passed, so I also did not reproduce
-> the earlier 100-Mbit carrier-without-RX failure.
-> 
-I tried to reproduce the issue myself. I am running the v10 USB and PHY 
-driver modules directly on a PC with otherwise Kernel
-Linux version 7.1.8+deb13-amd64
+Odd, I thought the issue was caused by the xHC experiencing latency
+while fetching OUT data from RAM, not by IRQ handling.
 
-I am using the following script to change between 100MBit and 1GBit
-1000 times with an AX88179A 1GBit dongle, each time testing a ping and 
-printing out the negotiated speed:
-!/bin/bash
-i=0
-speed=100
-while [ $i -lt 1000 ]
-do
-         ((i++))
-         echo "Run $i"
-         success="BAD"
-         success=$(ping -c 1 -q 192.168.10.247 >1 2>&1 && echo "OK")
-         echo "Success: $success"
+Maybe you are affected by the broken isoc scheduling? Try v7.3 RC,
+it may work better now.
 
-         if [ "$success" != "OK" ]; then
-                 echo "Failed: $success $i"
-         fi
+> On 7.1.11, with this mitigation running, a Missed Service Error burst
+> happened at stream start, then nothing - no further errors, no
+> XRuns, no endpoint restarts, for the rest of the session. This held
+> across every buffer size I tested (64/96/128/192/256 samples
+> @48kHz) and under sustained DSP load.
+>=20
+> New regression
+> ---------------
+> Same mitigation, same hardware, nothing changed on my end. On
+> 7.2.2/7.2.3, that's no longer true: I now get audible ALSA/PipeWire
+> XRuns and full endpoint stop/restart cycles (playback + capture PCM
+> stopped and restarted), both at stream start and during ongoing
+> playback (e.g. while Bitwig or Spotify is running). This did not
+> happen on 7.1.11 with the identical setup.
 
-         ethtool -s enx9c69d380ffff autoneg on speed $speed
-         if [ "$speed" != "100" ]; then
-                 speed=100
-         else
-                 speed=1000
-         fi
-         sleep 6
-         echo `ethtool enx9c69d380ffff | grep Speed:`
-done
+Even with several ms per period, or only with short periods?
 
-This runs through without issues 1000 times:
-[...]
-Success: OK
-Speed: 1000Mb/s
-Run 999
-Success: OK
-Speed: 100Mb/s
-Run 1000
-Success: OK
-Speed: 1000Mb/s
+> I traced the kernel change in between to commit 87dbc3fa08fc ("usb:
+> xhci: Handle bogus TRB pointers in Missed Service Error events", now
+> in 7.2.2/7.2.3, Fixes: d0b619599e52).
+>=20
+> Confirmed by direct A/B, same hardware/config/mitigation:
+>=20
+> - linux-zen 7.1.11: start burst, then quiet - no XRuns, no endpoint
+>  =C2=A0 restarts
+> - linux-zen 7.2.2 / 7.2.3: XRuns and endpoint restarts, reproducible,
+>  =C2=A0 both at start and during playback
 
-ethtool changes the speed, then reliably reads the correct speed while 
-ping works and the device continues to respond normally through the 
-entire test. All of this 1000 times.
+That sounds like guesswork, or was it confirmed by reverting the
+suspect commit on 7.2? It should revert cleanly.
 
-So, either what you observed is extremely rare, or it could also be 
-influenced by the different test setup, including the fact my test is on 
-bare metal, but also by the link partner (an RTL8372-switch in my case).
+This commit only makes a difference in how missed service is handled
+once it has already occurred. And only on some buggy hardware, or at
+least such was the goal.
 
-The other point is that in principle what we are testing is not 
-something users do regularly: you plug the dongle in, it autonegotiates, 
-and that's it. And if you change the speed, there is a 50% chance you 
-will do it from the other side of the link, which seems to be much less 
-problematic as I noticed previously when we had the race condition due 
-to PHY polling, because the dongle does not try to optimize the link: it 
-accepts what is being offered.
-
-I did not test your code, but I am wondering whether it is not simply 
-enough to do:
-+	if (link)
-+		phylink_mac_interrupt(data->phylink);
-without reading the bit whether the MAC link is up. Speed changes come
-with a link-down, so I would think this is enough to do it like that. Or 
-maybe I am missing something?
-
-Given that we do not really know whether there is actually an issue, 
-what it is and whether it is really relevant, otherwise your tests all 
-succeed, and also because I have a feeling that Andrew may not like it 
-if we try to be smarter than phylink, I would suggest we leave it like 
-this for the moment. I would really like to see this being finally 
-reviewed to the point where it can be merged.
-
-Birger
-
+Regards,
+Michal
