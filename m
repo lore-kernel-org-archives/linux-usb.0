@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE6F376A0D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD0E3115AE;
 	Sun,  6 Sep 2026 03:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788666766; cv=none; b=Ex+/cM/BwUhdRXJJv+BlWJu7njH9JNc2S5U3PpphkLLJkxbzB6KccxvyiSU2a8l1qJ+om7azwghXZHlqFXH1XP1tvuMJikWX5y7rPDyqGnEZfuiTKJbA6G/MvaF/wz5lKILP3wLoZNdV6+ycL1mRMnCk31Zq1KQCtgH47H3jTBc=
+	t=1788666766; cv=none; b=kguPIeQH9BL5yo6IjxMwMsJ64oxy4syHizUfRJZxFPiG56nbdMJD2S5IpXJACAWy7CR6X65hLQPTQeh4iUuKu0gr6BE8IjPh+N5UbwCqVDH/yFr/L/D03oiT8ifExV2LR0FdrkA9TjjkhioLrqf5hxLHrWg/LwBG8+8fWpge4K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788666766; c=relaxed/simple;
-	bh=94YUykDJzjneOKnFmtYOq460CkFRZAGPAcv4chtjAxM=;
+	bh=yjN8BnmDkR0uFIUwMGdTsKJWkiAR16qGHk8nilYb2Vs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J/X+51JkWaS6sofh/0r1OUy5MtkPAtQIKwbrFrANNPupzx7BVrRTiHQhz+Dsqdqe/Z+ZkhVAXbBxrKjiE1UZ3P4avFtgH2HzJsMs2kyeSDJQgA12Gsp9F54Xev6Mx0ySAAZXU6MLLG4F5dAgoha5wQe55suQj0imAXjWrApS+bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s8AAKkcX; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=FYKV1xbW+vxaXOuNLlRJulDDQW+AHHAvtmeje+TMoX+pCyVCZV9Jz0ZHmB/zmGSaGgx+qh1eWMtPQZnBiODx61b39r4D8cyczdMP/yUBiq8TeuOEnNKZRh4jn5lBDbWWWEhglE6VwOLQcURjxaNERWIRJYV6V6nDvt71jLwbnXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QmpCUVEU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s8AAKkcX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 61C5EC2BCFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QmpCUVEU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E226C2BCFA;
 	Sun,  6 Sep 2026 03:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788666766;
-	bh=94YUykDJzjneOKnFmtYOq460CkFRZAGPAcv4chtjAxM=;
+	bh=yjN8BnmDkR0uFIUwMGdTsKJWkiAR16qGHk8nilYb2Vs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=s8AAKkcXpmLnkP2gekjiJ0vIJky8fwqc1wFmYBPj0qtVTbExZQmMCsJFQ05nkkQxn
-	 j40r4R4dh1xw/vdCnc43OowsrDBWitx6ZQ6M3kUiwvgbUVI5mxy2UDMXAhLe6a9ctr
-	 F0WIeqawTbsJN1Hn6YiajgWOqKIah5Y7ZHyjbpJlTskjQ7HtycUp0lyCp9JIQ5jW/v
-	 3RuViWsbKkaQQz5i9St/OZhzQL9HtVbWomHXgve44viwhgxtva838oeT36FZCs9yw4
-	 Ip6SNZnTQsrhNIgZjVe9Qy/eHSU0Gm0wAtueui4Zx2DzF93TVPU6dXqdnbb8fWmJiW
-	 yMyTaGIlY+vEQ==
+	b=QmpCUVEUuN+4gvmCI0XT+EOHgosC4G04uzGV6wAJRTAMTKKWSNFUG+4N/XvrWmSuh
+	 x2dWToNOcK9IJLyEWD+rfQOqR5yVth897jXLO/IGUvbOqEFRJ9IN6zAu+ENjp2GSic
+	 MzYBGjX+9BXVfkHNl//g5LfY+y/oqM910AAgFIeyUfVKTCdMdfONRljfivo80h7PNk
+	 HnXMx4RDi74Ge2v5Cv1ZyIQcUqzoY0frUsNqBvYlVQMgBsShKvmTii0f8hJwc5TnNa
+	 xpannECh+iyPAThNBAfYp/hSz9ZMQ5n+vuh/ATkYUaMBtHfhQuAMgHkdGwoTY2m9So
+	 5/gG4y8gmbPSg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3563BC624DB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 449AEC79F8B;
 	Sun,  6 Sep 2026 03:52:46 +0000 (UTC)
 From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
-Date: Sun, 06 Sep 2026 07:52:40 +0400
-Subject: [PATCH v2 01/10] usb: dwc3: core: Allow glue layer to pass
- reference clock rate
+Date: Sun, 06 Sep 2026 07:52:41 +0400
+Subject: [PATCH v2 02/10] usb: dwc3: qcom: Add support for selecting UTMI
+ as reference clock
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260906-ipq-flatten-usb-v2-1-dab83120b10a@outlook.com>
+Message-Id: <20260906-ipq-flatten-usb-v2-2-dab83120b10a@outlook.com>
 References: <20260906-ipq-flatten-usb-v2-0-dab83120b10a@outlook.com>
 In-Reply-To: <20260906-ipq-flatten-usb-v2-0-dab83120b10a@outlook.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -55,11 +55,11 @@ Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
  Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
  George Moussalem <george.moussalem@outlook.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788666763; l=3846;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788666763; l=1905;
  i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
- bh=XS2lUluyNIQ284w/BNk2sQpv86j1/GqdSRhm4g7gG/k=;
- b=u1hsW82CJUk1uNXi7suuLsLUiBqRvTSbqX7awyaNXZPWzJQHI2mWGXmISXw+e4VXd3F3dWkDe
- f2rg3Qghv21COEIn/prywPMDcesQWQ4Q3JTyTd8g4REzI0krTczYuhO
+ bh=yWBu+uKd1BoOvs9eAQw2PN8F6cbr1YXtNLEtHmwjaTU=;
+ b=1NrJhBoq+aXj8XpxYjzA+nI3lLv4PJJSB494ZT4/NTXskR1RkyxHGTaVIMiFw4cINZG1AFm5t
+ SxM78vb+Zh8DKNOCMCUJkq2RMVT7ubB8dORRy8lsUdHQclXv7E5Fq1o
 X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
  pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
 X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
@@ -69,105 +69,55 @@ Reply-To: george.moussalem@outlook.com
 
 From: George Moussalem <george.moussalem@outlook.com>
 
-Add ability to pass the reference clock rate from the glue layer to the
-DWC3 core driver. The core calculates the reference clock period and
-frame length adjustment based on the reference clock rate.
+On many Qualcomm chipsets, the UTMI clock is used as the reference clock
+(ex. IPQ5018, IPQ6018, and IPQ9574 and more). Since moving to the new
+flattened snps-dwc3 model, it is no longer possible to pass the
+reference clock to the dwc3 core driver.
 
-In the flattened snsp-dwc3 model, it is currently not possible to pass a
-reference clock that differs from the default since:
-commit 613a2e655d4d ("usb: dwc3: core: Expose core driver as library")
+The clock rate is used by the dwc3 core to compute the reference clock
+period and frame length adjustment. This is needed when the reference
+clock rate used computes values that deviate from the hardware defaults.
+Above mentioned SoCs require values different from the defaults and, as
+such, the core initializes with the wrong values which leads to
+non-functional USB operation.
 
-The new glue layers (incl. Qualcomm's) set the ignore_clocks_and_resets
-flag in dwc3_probe_data to true, which disables the core driver's clock
-management, thus it also doesn't acquire the reference clock from the
-devicetree needed in dwc3_ref_clk_period.
-
-There's an existing DT property 'snps,ref-clock-period-ns', but that's
-been deprecated. In addition, basing the rate from the period is often
-not accurate enough to derive the frame length adjustment value.
-
-This prevents moving chipsets such as IPQ5018, IPQ6018, IPQ5332, IPQ5424
-and IPQ9574 with a reference clock rate that computes values for the
-period and frame length adjustment different from the hardware default
-from moving to the flattened model.
-
-So, add ability to set the reference clock rate in dwc3_probe_data, then
-have the core obtain the clock rate and use that to calculate the
-required period and frame length adjustment.
+In Qualcomm chipsets, if available, the UTMI clock is used as the
+reference clock. Therefore, acquire the reference clock by name
+('mock_utmi') and pass its clock rate to the core using the probe_data
+structure.
 
 Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 ---
- drivers/usb/dwc3/core.c | 6 ++++++
- drivers/usb/dwc3/core.h | 2 ++
- drivers/usb/dwc3/glue.h | 4 ++++
- 3 files changed, 12 insertions(+)
+ drivers/usb/dwc3/dwc3-qcom.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index fd5c2cd36c59..6ff0e4822b49 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -420,6 +420,9 @@ static void dwc3_ref_clk_period(struct dwc3 *dwc)
- 	} else if (dwc->ref_clk_per) {
- 		period = dwc->ref_clk_per;
- 		rate = NSEC_PER_SEC / period;
-+	} else if (dwc->ref_clk_rate) {
-+		rate = dwc->ref_clk_rate;
-+		period = NSEC_PER_SEC / rate;
- 	} else {
- 		return;
- 	}
-@@ -2334,6 +2337,9 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 			goto err_put_psy;
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index ac68b4218b56..f4c3b370a75f 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -617,6 +617,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	int			ret;
+ 	bool			ignore_pipe_clk;
+ 	bool			wakeup_source;
++	struct clk		*ref_clk;
+ 
+ 	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
+ 	if (!qcom)
+@@ -698,6 +699,14 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 			qcom->current_role = USB_ROLE_DEVICE;
  	}
  
-+	if (data->ref_clk_rate > 0)
-+		dwc->ref_clk_rate = data->ref_clk_rate;
++	ref_clk = devm_clk_get_optional(dev, "mock_utmi");
++	if (IS_ERR(ref_clk)) {
++		ret = dev_err_probe(dev, PTR_ERR(ref_clk), "failed to get ref clock\n");
++		goto clk_disable;
++	}
 +
- 	ret = reset_control_deassert(dwc->reset);
- 	if (ret)
- 		goto err_put_psy;
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 608daeb7ef10..4181d57a6cd3 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1032,6 +1032,7 @@ struct dwc3_glue_ops {
-  * @regs_size: address space size
-  * @fladj: frame length adjustment
-  * @ref_clk_per: reference clock period configuration
-+ * @ref_clk_rate: reference clock rate provided by glue layer
-  * @irq_gadget: peripheral controller's IRQ number
-  * @otg_irq: IRQ number for OTG IRQs
-  * @current_otg_role: current role of operation while using the OTG block
-@@ -1261,6 +1262,7 @@ struct dwc3 {
++	probe_data.ref_clk_rate = clk_get_rate(ref_clk);
++
+ 	qcom->dwc.glue_ops = &dwc3_qcom_glue_ops;
  
- 	u32			fladj;
- 	u32			ref_clk_per;
-+	unsigned long		ref_clk_rate;
- 	u32			irq_gadget;
- 	u32			otg_irq;
- 	u32			current_otg_role;
-diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
-index d738e1739ae0..ed96b10d8cd8 100644
---- a/drivers/usb/dwc3/glue.h
-+++ b/drivers/usb/dwc3/glue.h
-@@ -33,6 +33,9 @@ struct dwc3_properties {
-  * @skip_core_init_mode: Skip the finial initialization of the target mode, as
-  *		it must be managed by the glue
-  * @properties: dwc3 software manage properties
-+ * @ref_clk_rate: optional reference clock rate for the DWC3 core to compute the
-+ *		period and frame length adjustment required if these values
-+ *		differ from the hardware default.
-  */
- struct dwc3_probe_data {
- 	struct dwc3 *dwc;
-@@ -40,6 +43,7 @@ struct dwc3_probe_data {
- 	bool ignore_clocks_and_resets;
- 	bool skip_core_init_mode;
- 	struct dwc3_properties properties;
-+	unsigned long ref_clk_rate;
- };
- 
- /**
+ 	qcom->dwc.dev = dev;
 
 -- 
 2.53.0
