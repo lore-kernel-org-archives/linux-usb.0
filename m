@@ -1,251 +1,168 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D37D4F30F4
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 14:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1DE4A2630;
+	Mon,  7 Sep 2026 14:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.154.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788790029; cv=pass; b=lszZIM28//BYjV7to+2XxMtSfEXOh3AqfXSGPkp4J6GpGBZ/MaleS8AfvQjNMtP6++kV+skTRvFedtxZFBzZYQWYmkKUBllC7gMhmvMAzfFwhI0SIobuJ1ROW5Cs2SHPK4GLOcBPxpP/RlmBKLDFzDeZ7n7o6G+PY0ixUhWxq+k=
+	t=1788790381; cv=fail; b=ixQLLqo/hPno6HhKY9ab0rn8+gsPrC0i8EWy7bjpXzL101E90pldLvGruY+KzKWYnkvhfSjpAGjkCJcoNTettMDZPK+xspiFklFd04gF+RzUM/OXyKeZdHpQ/qOpSx8H6fLEu+FIgAirzU+NGpXu+7JzOZYvVcN2r0Ejr4gDgJ8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788790029; c=relaxed/simple;
-	bh=HvMD0whYP38ILXbRvW4RQd+DD6z86Cgv8Z7FhShCV6w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z+W7cRGzTWxkH4DwRBi/jywaag71eaUO3l0sqI8PdO3CqNxQcG8I6vrvMujZKJXnwQOUqkMnk8vfppM/fwPMBwZkrWGCjVyF3gPx9P2m0DarOeWOOCvqAGMuxpFQpFEbqsV8o7yB72TxuXZXS7bn5FllgRuPA2s6dYfBV9b/CvI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aQrlrIzN; arc=pass smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788790381; c=relaxed/simple;
+	bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=IYPKPScf3YR5H6fQCq5hTDCpOimU+TUre7qmY20RyPSMz8KDMTEnuhOaY5KJVtMerRIYTLOgglOUSWuCNDdc66Bavt0iQmT8AWUPWOZ6QDh5r2637halntaxIVzCi/GABqmg0PVYYFT7W5pRWz2qmpB8jrrZiD3+etDFuH2Cg9Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=kVEB0Kw3; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=ftx6KbfM; arc=fail smtp.client-ip=216.71.154.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aQrlrIzN"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49b0d8bc2aaso45692645e9.0
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 07:07:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788790024; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lnpW4UOoMfSNIdWRWcBcIX81CYtB2fSAqpemG1WBKfbvsZCVvx7ENPQ2V4HfiDsADh
-         HcwUkH4E6dRD8E+ZQaTFIiaFEW4jJ+miX+Y5qNqTNjF2JrIl8KvMm7cHfyCuTrprlVFR
-         HX7u4YjlMbga2XljHQGfBWGIxehNXw/2LGAdyuDdEL+5J13gmARazKfEpnpYwpbOMj4k
-         Uy6bcAmltyVCF1aOydpcYbGl8+Zhx1lxKWE05oON2h6naBqZrdMyZ/4a+24tSmEFMnE9
-         W1wlfAWEkuU6D1stEy6eCcv26XaxtdWy5LcL1Ykfo9c1d6lU0/h27nXg9IVp7qYvA9OS
-         6cWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Vg2AiEFa68ARzliVtiEYWMnugqjIY8Sb5bHhQpyrHpw=;
-        fh=fs1XTdkRQyA6DL3auEPHrWbTLGhOkAKwOWd6OndBsWE=;
-        b=ZQekjDLZB2TRCvne2zHzgv/jGimwvs7GXj/jR5sk/efVRNhiS8pZs4+DBPjIv9uCRy
-         H77Fl4+PingKb6aMukDnQp7lCgF6BkUHjNOyKAxEFlvY7Aiyfw3KbUm930uVUsnFVmhE
-         cOS4U7IyoOakT9L8OkqC0Pg1fmWMZscmqRnfOPrIV8GmjyfFcWdoT9imD5tdXH6P+SFm
-         fHViA+DIUefgr74MZNNRFhnaMx2qnp4ew4Q3G157oMcJqCD9rD872msVNje0tI5w6nvy
-         aXCTywDymMiu3Sbl5brnUr5p3S6/QucA9UPfOn+g/GZdazBfoJgNJYgq96cSUCI0chY3
-         wcAA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="kVEB0Kw3";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ftx6KbfM"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1788790378; x=1820326378;
+  h=message-id:date:subject:to:references:from:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
+  b=kVEB0Kw3wutSdElPW9Bq6sUMvCGXCA75LK2YbHwq7n3raEpfxz46+UzF
+   lQq79wZaCb5JBtcYiRR2r2WLYF7ZALT6/F/C6rdIGID+BHq6Xfzkomf10
+   yWzRV8TwXKV7q8qESvyd0rH/U8h9U+Z5UT+bzIqQu/ogiZD2f0Laa73L7
+   QnmQVFmbgMRkf0JVl+rxzv3bIMG/BXnB5OzyBRHqPPLP8IIy7w/0e/Rac
+   Q1pvFr17Hd+bGf0eTrDhXwlHdjXBj94MfNV66Cg63QbVdz9B7E0QjoM9F
+   pJIPkYDpBcVFoDpWoNPphvVMRHWjSPZ0OoaJM0vmncM/4yL3TGqbbcWOH
+   w==;
+X-CSE-ConnectionGUID: psD7L9/8Sfij9rl6NPoz/w==
+X-CSE-MsgGUID: m0nHXBtnS+SEPa3kQ/NSVQ==
+X-IronPort-AV: E=Sophos;i="6.25,267,1779120000"; 
+   d="scan'208";a="153544907"
+Received: from mail-westcentralusazon11010069.outbound.protection.outlook.com (HELO CY7PR03CU001.outbound.protection.outlook.com) ([40.93.198.69])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 07 Sep 2026 22:11:46 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ex+wazxkzt3mHBwmARNv9JEYejN9xj0QfbnCfLEa7r4gpMI4NwbtvMMLkZ6No+8AvxuGa/HB49FOqd2Tskr5RmZzlGB7O4FyJnonov0qaXtcSozn1U5rkVRgXuh75akZulax7OPvBFbC6Y5z/PVpKb0If9taYIbWeep0QIYx6yVyOJZ7kOV85mlD+MAHPowAN3TSQMbGn/xsUtvCKhlkPWDq1pci1lHe/3wPCYb8KkEUl06Vsj64An8thjjXaw0FYMpw0ouqRUMiNAf3DOE5Nyz/2YpO4oif7Kuj2fj+GXcLI+/GTcFd8dvQB/WcyQ9Bb7JcXLW9On29J/9Xs0cokg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
+ b=IN6XdLaqzChuuPw2bbZZq/n4jbvVnuSJMyhUgfD7lyar2JRjcLK/q/NeZtuPZhbSCyoMivsd++PQwiGkIsSSJP+fSPmUP0D/388aLUFvh76JvvHGWBB5cIPgqRdU0foor3HzIYqGRN4djknvhIdrmZJElEtPKiddFltuzL5pE/iecjjYcqOuTY3/yT8Pa3wk01rRNfkmgigypFe/REK02poXPzQbCzOhkEzawIqGD+ozbsVV6CcYy4weS/GbvKtLTQNJ+j2OGRZNDZrPlXxBfeTDh3aYmY4Wu6FWO0W8FmKfbvBNjQk5klI6rSvqZcHWhj3UTCRJ/afdXwzSBKTPPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788790024; x=1789394824; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vg2AiEFa68ARzliVtiEYWMnugqjIY8Sb5bHhQpyrHpw=;
-        b=aQrlrIzNQyqSfh0XaP2ut8GCXtY2oAawElTBuV+LQljHX0gNJJseP0Tj8aYK3SD1UD
-         DxMjndhj5KDlpdyEjZ79evHFe2IvVI6bUG4QUExTHVt3BfH4WcZMyheKZvC4sbHcvvLy
-         0un/LJkrtmw4eV8OnJFyUXGOvuzt1Nq0bP0mxJYJNQa1rJ/gwBypWZznL9EtEsx7+ia5
-         JB7V11qwc5rDT4HVc+V8HMuvDEwdwaR8EdRawNbtRFNOCyn6VhGnT9LikoOyRyfJNPF3
-         UkypSUwLLWWjBO6uU5u0KVpC7c6gx45KQFXmtTtDxEQ3U7M2FcdxMqL+gLfg0yJ7GO4p
-         XuZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788790024; x=1789394824;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Vg2AiEFa68ARzliVtiEYWMnugqjIY8Sb5bHhQpyrHpw=;
-        b=Rpet40BGW6XtLEaIuxP84q3ldokvhuzmWq0PzpBUz3c7ifGf/w5za0dfoOZUjtPhVC
-         qzVlhI9n7YSkDtVcMHkRKRce02OHjPKXg0/J9vJ9ietffV1VJZD4xR2c1fm0IlGcJz+l
-         ckrujc7Ha+H4mXpUXhI6jb3GSsex1LFFuCVOsNVmVqt+tIqsqV+tEZzlXdKxiK6K/UQC
-         +gC8ZpFdERipoUe9/Tus7hPm1BI5Pz23keria5RdBleOoRjI5OalJ2IKFlArDDvx1vhf
-         qDC0Irkm4k449W8vKGS9ocxCBMCcE7cYDIWRBZ70bY3oY4NQzxqJ8BhhvSLUuhIqJ0vB
-         bc3g==
-X-Forwarded-Encrypted: i=1; AKwUvBw6KQeJragg86KmKr62ILYNe2rtsSKqP6SAx4VnikQhFY6zj4//6DdvOd6deKMzBwht5vGybFXlAPQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++kTYQzxP1Rd19HPQjwnnN484NYD+JIi+Q+YuIjll1fplKTD33gv
-	lVfjuqhmUbU8EOd2i3G5fopYaOJfk5JhB8iEyaQ2EzGCN7RXwZkrydCVSrl49+7IzrSM1pGToTG
-	sikLfMCO0t87IFtYN0tWkYUNj1Q4KN7YypGD8AwQ/
-X-Gm-Gg: AYBFou3+R0fRaHG5vB3LCUriOneqekey2KoDdVPj7UcFg3PwwEV3t9t0XsKA+HDsfWd
-	tTKe48pTO5mRJ+X0AsBmjDjGzMZ01drE5XJDamfIxxLvTzZumc8pucWUxkxwmCBw/xuSdQBIKck
-	cV3d9xJBNwZxk5LCkOfyp7fZ+/7jeMyX78FLZXWC4qRgIGHSJsJDBHnjbizr5XvFrEC7viJ9LIx
-	DX3S7vhFiwf/7h1YSYgHTUiMlpWZUuF9UeQsGWLuWN4wzuYJml9Y8EgzS3YOGrm5j4hrCTd0rmy
-	hc015wcxsok1JaISp1aB9pBsuBw20j/gKD4G0gZ0yzvzAuCEePb5ZJ4PaJ5v6TnskQc3KaxqxeW
-	u8rsYq1fdQB/QQm6ppZtkQE/02hQfYwg=
-X-Received: by 2002:a05:600c:620e:b0:49c:fc6c:be19 with SMTP id
- 5b1f17b1804b1-49cff2078b8mr196871015e9.31.1788790023400; Mon, 07 Sep 2026
- 07:07:03 -0700 (PDT)
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0hFm4yO+V2KgeQG0ik8lLOHczCQdLX2syeEcd394fgI=;
+ b=ftx6KbfM0AWgJi5bVjg+hn5Roh+xpWbXyFYgWJNZQ/ZCzxafISEvXABlN8q3aaRDRLkYNLwJADdq9UxGJz/hFTxvSVeUIsWVhBjoMhF8kDvW3hIvWZ1D9QonO0bIkkSPzHYgZi9eSYX9tC9jjlwQ/hTOhora7DO3gO1jzlLhI7Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA6PR04MB9447.namprd04.prod.outlook.com (2603:10b6:806:436::21)
+ by LV4PPF5EC0DFE00.namprd04.prod.outlook.com (2603:10b6:40f:fc02::90d) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 14:11:44 +0000
+Received: from SA6PR04MB9447.namprd04.prod.outlook.com
+ ([fe80::14c6:1c14:485f:1825]) by SA6PR04MB9447.namprd04.prod.outlook.com
+ ([fe80::14c6:1c14:485f:1825%6]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
+ 14:11:44 +0000
+Message-ID: <b7584a51-91b8-494f-b0b9-6a49d74ebd6d@wdc.com>
+Date: Mon, 7 Sep 2026 16:11:39 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 14/40] scsi: device_handlers: rdac: use 16-bits defined
+ sense codes
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260907024343.1046387-1-dlemoal@kernel.org>
+ <20260907024343.1046387-15-dlemoal@kernel.org>
+Content-Language: en-US
+From: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+In-Reply-To: <20260907024343.1046387-15-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0041.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::12) To SA6PR04MB9447.namprd04.prod.outlook.com
+ (2603:10b6:806:436::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
- <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net> <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
- <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set> <2dpwVpJS3VbfQ7CmE3HeY4IJSSMXTP_O9sSP3HHHUD7Z29RNEG4Hc0m8f94jKWjFlekcTXvIBA-QdGYrf8w1sw==@protonmail.internalid>
- <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com> <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 7 Sep 2026 16:06:50 +0200
-X-Gm-Features: AcwNN1U77QgBa8sE7Mjd0WimH4SDjDY5r-Et6lPB5NUv3A9JgqpUTtiAXpyWSl8
-Message-ID: <CAH5fLgjYmvp1Ph3dYXnTKkAvWgNpgCAPeq_7PZhRai6pCNmVmw@mail.gmail.com>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Asahi Lina <lina+kernel@asahilina.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA6PR04MB9447:EE_|LV4PPF5EC0DFE00:EE_
+X-MS-Office365-Filtering-Correlation-Id: 314001b0-3bc8-4da5-e94a-08df0ce9f235
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|19092799006|921020|10067099003|4143699003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	k1tKAj8kU7yc5NP9d8IYqEmW7OAsBYCzDg+3AUkppD507+hGksQkLMHJ5Qc4EgHYRnan+//DvW4fL+MJ3LV3J6NRXYRYBPvaQjMm2LuFbn+s6Ae+8FCBDIqnKm8mpR+tP3PcHVNf+qw7nD4zQGIV3uK8krxaFznZB8f6cABIWh36UguNeRfk1zPfHEESkO4eQCQ9RIPSFGyQ4Bl5MX9BYT4pB84rzYsdVtgx00qjDTeNeLc9HaqXKJmKkUIVmRZpgTNTu8ZmLYH6K15mLaUp3Z2DeNVcQ3dzjgw9GqTtKaSfLTEQDFUsqco6TIXngCOt345LU0gUJiEmp02AojA+2eRTauWW98oFKKaolE9qWj0M+EUJcr600vqk5S4Qoy3wf2wReHJsaRWD520xN4E15L2Ufgtf7vjXnlrsqVLnroIbk69hk0N29OrR2HKANr77HF6EIYzx2J7gF4cXm6d6AcZ/v3ODA2jJHZALh4M3LXNRmAemhcRqPP9nRrDjAyqEj+DkBHt7el5XRAt94iO0xxVgNnO5JatofzaxqLPIRB64qGE5UEXDH10a3FCBc0od9uQ0dYyCy3p9Nfj9/bqo2DuXGk65cuQM4WgDQ2pUPMu1j9gOtic5RsLDnWjzk1SdK987ZlJflz5ixZKk7O07uGtmVEfcL772cj5zHnXu+HuUDO7jrtGul8qQ6hwBkKyKaKSEtF7RSQ6QwJDJALykAA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA6PR04MB9447.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(19092799006)(921020)(10067099003)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bCs2czV4dFFCS1FPcFEzWkZud2Jyck5ZZkpyWm9OcGFYNTVkSXFPTVdoaG1T?=
+ =?utf-8?B?OVFxemQ4NEJaZTdlNGJvQkRTTXkvNk1uMlIwWmtwZ0FnZmJyUU1kdjArenMw?=
+ =?utf-8?B?aFo1Sm9jVWRwR1ZjOFhtQ3FxekpELy9NeHVJNXJjNVhCR01CMFk4Skxjak9z?=
+ =?utf-8?B?VXRHQld5ZEFjSjM2ZVlVQ0x6R05IRERtZWI1WlQzNlMrYmxPWUlxVFBMclpt?=
+ =?utf-8?B?L2lXQWlPbkNhT3pueVk0eHVMMC9zSVlrZG1uZFdacDVPQ1pGZERPb05VdVVK?=
+ =?utf-8?B?QkE1eGJaNzNkRDRDUkVJUFIxK1MzSHBWZXdwdTVwL1hMeUZWM3kwN05KVy9E?=
+ =?utf-8?B?bmZLeDRIZGk5aFdJS0tJOFRqbElESFM1MHdYdldMamUxb09qK3pDZ3oySmVm?=
+ =?utf-8?B?czRJejdraVNuYkowOEkwY0JNdnZ0d1NnNTRaU0JnN1c4bDhNc3E5STVaS2I5?=
+ =?utf-8?B?WkF2enIrVXphcHB0aFQyUlM5dGFDR0dxQ1BKTTNkQzFrN2hveTdNbWVvOFhX?=
+ =?utf-8?B?U2xQZTVtY2F5Ym1nTGE5eDVDTUVleGRvRU9RQ3N6MExSaU5TL05oOUJmNXJx?=
+ =?utf-8?B?Z0pNeURJUEJYQmduREVQa21YRXN6VGhERWJGT1lYeVZiUE8zNHNFUllmWkEx?=
+ =?utf-8?B?d3NGV25xTHB4eXJpQWpnL2g4clJoeGlEanlCL2IvQk55dHM2KzMxa2xLZXN2?=
+ =?utf-8?B?VnR3SjJvdTE4YVpzNjkvQVIrdWZ0dVFtZ1JkZ2tQWDl1Uy9PRFV4QjI1S2NS?=
+ =?utf-8?B?YnZHRmgyV0VtR2crY0F4TnZhSVUxdWFkT2Fxa0Q4dXNKOEc4UnM5VXkvZGs2?=
+ =?utf-8?B?WEtWNmpRZGcvd1dwNXhvbnZVdkp1SERjb2c0MUFPYmtPRUUvZ0VSN3QrKzFE?=
+ =?utf-8?B?b0lvblUzcFAzRjZxcCt3R3hnQXdpQlB0Vlgxc3dzanpyYklyR2krQituN3Qr?=
+ =?utf-8?B?TFA3OTZBUkFybkVQa1VMMGk5VkNDNTBvbjhocFF6VGZ3THo2b1EyOXplMEE5?=
+ =?utf-8?B?dlVRYXRhOTNLUEV2M1FyZXpNZzFXazJoc2dsaGY1Zy9raFVhdGlJN3NoVk11?=
+ =?utf-8?B?NHNBZlh0VnNJVElxejhBOHZJVThrK2UvMU9JNGNMK2dqc1pYTTRic0N3SGRQ?=
+ =?utf-8?B?M3R0eEJFSDNrTHJJTTVnb0UvZDRRMm80K25qdVp0ZzlPS2JWaklDTzFsNFdq?=
+ =?utf-8?B?YVVOSlJtVmNnUW5sM3B5Q0tvQ3MvUkMwQmZCSTgyMEdXQ29rTHVpQUZNenQv?=
+ =?utf-8?B?eVdCdlZkQkw2bWJRNDdvK1ozWnRSWkl3QkhMaCtrSEoxbm5Wb3l6cTlpNENL?=
+ =?utf-8?B?WWxZRHMvRmNsU2hPek1xZHJ3MThzUWVJNlVINjVhbGxSY1NnS3JYd0luRlBC?=
+ =?utf-8?B?Z1pGL1RDVGIyNVBzd0RRbU5jYXVtcE8zbVhsNkVlVUkvUWtiWUNucllwampZ?=
+ =?utf-8?B?ZFViUzBkaU9uZEZMSU9XeE5NbXY1d3Y0RHJOMFlXa1p1cnlqaEhHanBKcWJl?=
+ =?utf-8?B?UkUzYVY3UEJZZS9kdGdMam1tMmpmTXJ2YTJ0RHNwaTROaXFqbDVOUUlORHRH?=
+ =?utf-8?B?ejJVRWIvTjhEYXhKT3o5WUNqOUV3WG5PTkxzS1VhbnNQa0hjTE5MK1ZpYWUz?=
+ =?utf-8?B?aHZyWk5vVUJoZmErRHhSUDFZR2x4NGxsaUZCZWF1SlVvZ2FVTmc1K0c0elpq?=
+ =?utf-8?B?NE5RMkRYT2lBV3dBbi8yNFFHcjZiQWU2MTZldnpVbXRpT0xMc1ZiLzVvL2xI?=
+ =?utf-8?B?R1RDWlNESXpxcXdJaUVaWjBzck9ZMC9GdmxkakFQbENFamZlQzMrekgwclh4?=
+ =?utf-8?B?TVE0MDhqTHZCa2lWOERhNERaY0pLNHJsT3psUENHbjlpR2RUZWVCNitpN2w3?=
+ =?utf-8?B?UDl3SFYvaG1jOU82c0VaQ0JhMHdpcE5XaHMwdksveG5lYUdFUWVTamRGTlVw?=
+ =?utf-8?B?dFBoK2xIamRHUkZ0VzI2WUU5VTk4RHRZTklyNEZ0MkpSNy9idXVCNWpWZEJQ?=
+ =?utf-8?B?OFk1TmNKL3FCYW1hUVBvSjU5SnhCUHBsc1RieXh6eEpxZ3NLbkppWnR2M0lD?=
+ =?utf-8?B?eGl3OU93OE5IcUM3TnJ0ay9MY2tFSFBvVTBXaDhNd2hveExrU0pESTdSUzlN?=
+ =?utf-8?B?SzN5UzhINFZ0N29JN0ozc0JlcFphTndEVXpEWVF2ODhXWm1PcndNVDUwbThv?=
+ =?utf-8?B?WGZ1NE52c0VuVTI3eS8zMGQ5bUpIU1ZKZDhBR3BjcWd2eFdKcnZpNm4xbFFj?=
+ =?utf-8?B?NS9RSGdWb2FWQkZLUXZOL2xKYlgvWG1UT3RFdi81SUUra1lwbHYrbGFlckhD?=
+ =?utf-8?B?N2wxNWdxKyt6V3ovb2QwdUNRZ0ZPU3g1K0NxR09TQk1pcGtyWThmSVE4TytZ?=
+ =?utf-8?Q?x1rw3QgPzkGpLc/c=3D?=
+X-Exchange-RoutingPolicyChecked:
+	Se1NH1aEo/HINaCj5mtsEbD+msEeLjBdXTdkYSdjsAi7RuqdpRr/2W2HAyinAeLpjG4zp3ueaWHqB4mxc3B3skzkgPQySmEUZMtKUj4nrQ6AJNLAvul5CJJxFLWesfLaIQC5s66P5fiTDCVqhYOe0sB0fyQm8nYEEPirdTAHCJ8Azn8g+Jq8xgdeTtZ0I5fgudnZndCAIr5QEFJ+VCvqW8EoBO1FiicWUnuKpb5kquBbvHu9VjT+V+X05ecGouZbIBDskf/YglDKU1NypggLW5iZi4LA5Dq1qqpr30twdOrU12UvDlGAj6VojAMC+WXF96awaX9i50H8y/vALYIwYA==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	DBrQZ4wEtZKu3H6SHWvokkTsjOsBqbz43N2gkiXElr2FM4owqWx1mUPFDhF/FYGB7mSAxU81u6u2l/WUVVm94BcGlgJPjHE51E+Rp29TuRnMqHfr2A/0ei6mRDm139nPinUu8HbaK6rqcCg5tbunVxbMOtYcj16oaxy519paxYpCrJBrGXc9oX0GV9hA6RrKkvBBOa7E2DIJh4pcNzG1yRH/+cZhpk81nWgAeXZriVpYyiApYtjslUDqvEsujIAfdAlmDc4V602w06S1XuYW2qvb92RRctQj9HbmnMC8DLKAS7u7yZ8w5jLj6TfbIkyCBDyCxnUB2aT3HYQ010A4BEEDaYbMdf5Zqtn8mBYQqfzMM3k/WQnt4qFoShjbbo+qkuKIhT1GzEcX6Wl4Jhb3sOcRxnc5fLG81ngURi1Wm6OI2WmltQ/DSsge02zHoDB43o6Ctx6XokC1mlK26Bb+/IE2ob59gzqpYiyozQ0kCzBFczYW0+VCs3fS0OiV4KR1kp1r578mhMvyR3MDbvf75uTWeu+0apJvN05ZC9kPSVzb9Jx2qjZonIn+x9jBCPIDkaipxLIsOO8awoltq19aTQ/dXh5Dkw46ejuV3s/QrqYAiL1rtYxHDgiBDsILodOj
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 314001b0-3bc8-4da5-e94a-08df0ce9f235
+X-MS-Exchange-CrossTenant-AuthSource: SA6PR04MB9447.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 14:11:44.1231
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IxSc+8Q9lqwihgcVH1GwXRV5ptEun9gaxo1GMtuP86iuxIx4OX1saiH1lBBeTuxHo34DzM09X4tqRioW2LP0GZouflB8mdxiUPt/fb4bRU4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV4PPF5EC0DFE00
 
-On Mon, Sep 7, 2026 at 3:58=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
-org> wrote:
->
-> "Alice Ryhl" <aliceryhl@google.com> writes:
->
-> > On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@ker=
-nel.org> wrote:
-> >>
-> >> Alice Ryhl <aliceryhl@google.com> writes:
-> >>
-> >> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> w=
-rote:
-> >> >>
-> >> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
-> >> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
-> >> >> >> +        // SAFETY: We just successfully allocated a page, so we=
- now have ownership of the newly
-> >> >> >> +        // allocated page. We transfer that ownership to the ne=
-w `Owned<Page>` object.
-> >> >> >> +        // Since `Page` is transparent, we can cast the pointer=
- directly.
-> >> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
-> >> >> >
-> >> >> > This doesn't satisfy the safety requirements of Owned::from_raw()
-> >> >> > because the page may be used with vm_insert_page(), which increme=
-nts its
-> >> >> > refcount and causes it to be shared the vma system, and this occu=
-rs
-> >> >> > before Page::release() is called.
-> >> >>
-> >> >> I suppose the existing vm_insert_page() abstraction we have is alre=
-ady
-> >> >> problematic, because it uses `&Page`?
-> >> >>
-> >> >> Maybe we want to change the API to use `ARef<Page>` so it already h=
-as to be
-> >> >> shared? Conceptually it takes a reference count from a `&Page`, whi=
-ch isn't
-> >> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&=
-ARef<Page>`
-> >> >> to be able to do that op.
-> >> >
-> >> > Honestly, the problem is the safety requirements of Owned::from_raw(=
-).
-> >> > Pages have a "special" main reference, and free_page() does more tha=
-n
-> >> > put_page(). It even does something when the refcount does not hit
-> >> > zero.
-> >> >
-> >> > The correct behavior for Page is to allow the user to hold one
-> >> > Owned<Page> whose drop calls free_page(), *plus* any number of
-> >> > ARef<Page> references that invoke put_page() on drop. This way, the
-> >> > owned page controls the special drop codepath.
-> >>
-> >> This does not mesh well with the model of `Owned` behaving like
-> >> `UniqueArc` to `ARef` behaving like an `Arc`.
-> >
-> > It's a different case, I agree.
-> >
-> >> Please help me understand; with page having a main ref and an auxiliar=
-y
-> >> refcount, if we model that with a single `Owned<Page>` and a number of
-> >> `ARef<Page>`, what would happen in the case where the main ref (`Owned=
-`)
-> >> is dropped first? Is this legal?
-> >
-> > Yes, it's legal.
-> >
-> >> My intuition here would be to follow Garry's suggestion and have
-> >> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is n=
-ot
-> >> an option?
-> >
-> > That would be the wrong ownership semantics. The C side increments the
-> > refcount rather than take ownership of a passed-in refcount, so the
-> > correct argument type is &Page.
->
-> Or `&ARef<Page>`? Because with `Page` being `Ownable` it would not be
-> OK to increment the refcount from just a `&Page`.
+Looks good,
 
-That's just a limitation in your traits. There is no problem with
-creating a refcount from just a &Page.
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
-> > Now, for the use-case in Binder I believe we could switch to
-> > put_page(), as we don't need the extra stuff from free_page(), in
-> > which case we only want ARef<Page> and do not require Owned support.
-> > But as long as we are calling free_page(), it needs to not be
-> > clonable.
->
-> You are calling `__free_page` directly in binder? I could not find this
-> with grep except in the C binder. Is this code you are calling into from
-> Rust binder?
-
-Via the Drop of Page, not directly of course.
-
-> From `__free_pages()` kernel-doc (`mm/page_alloc.c`):
->
-> > If the last reference to this page is speculative, it will be
-> > released by put_page() which only frees the first page of a
-> > non-compound allocation. [...] **If you want to use the page's
-> > reference count to decide when to free the allocation, you should
-> > allocate a compound page, and use put_page() instead of
-> > __free_pages().**
->
-> I guess this is what you are referring to? We could change `Page` to
-> this style as well and all would be fine I think?
->
-> At any rate, today I learned about Pfn walkers, compaction,
-> memory-failure, etc. that take transient refcounts
-> pages. With that in mind we need to reformulate the invariant of
-> `Ownable` to exclude optimistic transient references.
-
-Yes we can switch Rust Binder to use put_page() and have Page not
-implement Ownable at all. That would be okay, because Binder's pages
-are not higher order. But this case still does highlight that
-Ownable<_> currently does not address the use-case where the
-Ownable<T> is a special reference there can only be one of, rather
-than a completely unique reference.
-
-For instance, the GPUVM abstraction would be another case where
-Ownable<_> could be used if we have this other model where Ownable<_>
-and ARef<_> are legal at the same time. Currently GPUVM uses a special
-UniqueRefGpuVm type to solve this problem.
-
-Alice
