@@ -1,80 +1,33 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CAE40489A
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 07:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B583E075C;
+	Mon,  7 Sep 2026 07:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788764423; cv=none; b=EvIjPhGNyTyDgqoIsHWrN3QRU6GFYJdKXZ4rscokAh0YNd+zb8ak7y14b/VjVmgxvBKAqZpt+u59SUuhWw+YFdzSLdT8cNv6eA+M5qMBBbx1SXXdqMPBmbwlCM8BCOLUF+m8s79QqU1KYCiw3YpDoc6fVrvtoyPfvGkAvQazMBk=
+	t=1788764871; cv=none; b=D1uzDeAGFfwFvhpXV2XjuG7Le/zkXk8Wo2KgbFCKPNkGY6hpStQsH3uwnL5P9P6bJP9S2I+aGWYg5hM2sBNPKLvAq3VS1kbr2Tq6VZhXNgiJVS5Q9ItkKuR8X2oCpc5gTV380jxT28c3HItErYsgTjGuos3wGF2jADzBHsYi/i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788764423; c=relaxed/simple;
-	bh=68zq9K51Ay0P16Ip57VHSJhSwyjNPhK8KfIuClbnaR0=;
+	s=arc-20240116; t=1788764871; c=relaxed/simple;
+	bh=raRmbYomaD5xgMK+BgIIvu6pnnY0H8rRAImrUD22mQs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CVu5p1wVlUkyYRFfTjxrYFBWfk6V0KU8zL8p771jQohTh9hylZmtTKwaOGPYkwiSBMGlWQuYdmosLNCilsTNiGLl+YVHW0xjlyddR8trxBRv2jLxjiEblMPvteMG1Zph61YPLW+CsBn8rOA5A1uxrJUEsvsBSJgde40GjqqaKck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wlIPwCRp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Cx9KJBXU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e0rZrifk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5f9VZldn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 In-Reply-To:Content-Type; b=DDuY7Z1syOmjiSt8wWv0AmNo4oFL9yodFkYYkSVQnL3b4tpdmOl8ShNWEgcGpwvl9OXAORu+N9mDeZcpPfHHhpdKuhv9ivpzunjMV4bgm94RgHbaU1skdSMJZkKe1Op/Zqt2qpeZHNYg0mrd4GAPquTaiElNTHW6jsL9vI+/er0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lB9Cz9gu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wlIPwCRp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Cx9KJBXU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e0rZrifk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5f9VZldn"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5FA391F750;
-	Mon,  7 Sep 2026 06:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788764373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=do8tCb/WEQVB5WcbQ+nX9pTcXqhCTxoFf3t+kQA7Cd8=;
-	b=wlIPwCRpbSjG1YwZQLRGeVaoTAbjDlZ5mQUVIr4JXo/iBT3a4Q0iH6q3KuiIBzJUKfxnX9
-	/Oxidgg3nxHJKpUzDbw6cBurL8wqFfjnExlFpplf04hO2aRAAa7RStxV7HsL02DYMbRZNr
-	3UDtjGBoTvoHszkZaN/z9Q3bUK9ze6g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788764373;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=do8tCb/WEQVB5WcbQ+nX9pTcXqhCTxoFf3t+kQA7Cd8=;
-	b=Cx9KJBXUtp5fhYyVV4hzQS2p48f2jp5NsH1gki5wAXk89bfUrjPfS2krewBdl6mcSHoSJy
-	NapMeisj3ThAF8Dg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788764369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=do8tCb/WEQVB5WcbQ+nX9pTcXqhCTxoFf3t+kQA7Cd8=;
-	b=e0rZrifkg5vEXUNAp301FUAS6arueahh02Qtfk9f0nOM+BgnLLgvHz6Sgvz7rpoid5c1qs
-	BFjB+Zfp+bwj+/p7iA4LqSH5FFkiqvlLvqZjogfaaPbwca795R1Clm3gRhoh2ncfN5mBo9
-	e+bwzWMbc0kej1wlII9bg9vhYMRLVqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788764369;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=do8tCb/WEQVB5WcbQ+nX9pTcXqhCTxoFf3t+kQA7Cd8=;
-	b=5f9VZldnsThtR5Ool3IzbjkvtPK6c0RIReUaSQm+sGldhPOHl7PvojatmPqO4560OylauL
-	+3SEaaWT2ZkZcbCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7AE513432;
-	Mon,  7 Sep 2026 06:59:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vHVEN9BgnmpDaQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 07 Sep 2026 06:59:28 +0000
-Message-ID: <22707a1f-970b-4309-905d-13ac794c51fa@suse.de>
-Date: Mon, 7 Sep 2026 08:59:28 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lB9Cz9gu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA271F00A3A;
+	Mon,  7 Sep 2026 07:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788764870;
+	bh=nZm+NCet44cJmJyjw8MBjxY0eNygQ9RfC21W5wcGYs4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lB9Cz9gutHpSn4dFQHsjd41+NuoHTO46cVTIUuMGJ04YLs9Poe2oGR/dc4rhmZX4q
+	 tJKDs/+ACu+0B4MxctEr71dmyQARwgzUcZj/FBiFmCLXgujlDANxRj7QkfTruf/uZQ
+	 1av6CCDuLlM/vcWHQmKlK0NbglENzPOyBvoKt4caB6KKxhqZVZxeAWhL9pt/ILG5wY
+	 fv9hE+z6WHEVR88GniUUC6wecXkSDhRAJmazb34Q3hFzltlu0kOtkiOFd2xhHiKV47
+	 eoeUJQgWTwmZHrM0hab9bhO7595Pb+yFftAFb6FWYTw59B6LxpNKHL5OHtoCsjp1EB
+	 3VwOcjhTLosLA==
+Message-ID: <5629de34-1a63-40bf-8375-64be9a69eea2@kernel.org>
+Date: Mon, 7 Sep 2026 09:07:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -82,171 +35,101 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] Kconfig: fix typos in core makefiles and purge
- defective DVB debug (v5)
-To: Breno Rodrigues Alves <breno3011alves@gmail.com>,
- torvalds@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
- linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <20260905003005.118245-1-breno3011alves@gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: usb: Introduce samsung,snps-dwc3
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>, peter.griffin@linaro.org,
+ alim.akhtar@samsung.com, gregkh@linuxfoundation.org, robh@kernel.org,
+ conor+dt@kernel.org, Thinh.Nguyen@synopsys.com,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com,
+ hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
+ muhammed.ali@samsung.com, thiagu.r@samsung.com
+References: <20260903071250.3421499-1-selvarasu.g@samsung.com>
+ <CGME20260903071318epcas5p4b804edb84554847c576d1d034b814d7a@epcas5p4.samsung.com>
+ <20260903071250.3421499-3-selvarasu.g@samsung.com>
+ <ad1d8c01-a810-443a-9ad5-721d6d0b68b1@kernel.org>
+ <e4bafeea-4548-41ef-b5e2-98ade2864e74@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260905003005.118245-1-breno3011alves@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:mid]
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <e4bafeea-4548-41ef-b5e2-98ade2864e74@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Please stop spamming this list with revisions.
+On 07/09/2026 08:04, Selvarasu Ganesan wrote:
+> 
+> On 9/5/2026 12:52 PM, Krzysztof Kozlowski wrote:
+>> On 03/09/2026 09:12, Selvarasu Ganesan wrote:
+>>> The Samsung Exynos8855 USB glue is not separate from the Synopsys DWC3
+>>> core, using a flattened model where the DWC3 controller is directly
+>>> addressable rather than nested as a child node of a glue layer.
+>>>
+>>> Describe the Exynos USB block as a single node, referencing the split
+>>> out Synopsys DWC3 core properties via snps,dwc3-common.yaml. The new
+>>> binding follows the same approach as qcom,snps-dwc3.
+>>>
+>>> A generic fallback compatible "samsung,snps-dwc3" is introduced to
+>>> describe this binding, selected by the validator based on the presence
+>>> of the fallback string in the compatible list. Future Exynos SoCs
+>> This is AI slop text. Over longish useless sentence describing diff
+>> without actual information WHY.
+>>
+>> Don't send AI generated slop messages.
+> 
+> Sorry for the misleading info on this commit message. We were trying to 
+> explain why a separate flattened representation is being introduced with 
+> using generic fallback string, and follow the style of some other DWC3 
+> flattened refactors (like the Qualcomm : 
+> https://lore.kernel.org/all/20250414-dwc3-refactor-v7-2-f015b358722d@oss.qualcomm.com) 
+> to justify the separate binding, but it became too long. We'll simplify 
+> it and keep only the technical reasoning.
 
-Am 05.09.26 um 02:30 schrieb Breno Rodrigues Alves:
-> Automated review from Sashiko AI revealed that re-enabling the legacy
-> DVB_ULE_DEBUG code via CONFIG_DVB_ULE_DEBUG exposes severe race conditions
-> on global state variables, leading to out-of-bounds memory corruption.
-> Additionally, the debug block suffers from undeclared identifiers (TS_SZ).
->
-> Following the core kernel principle of eliminating dangerous, unmaintained
-> code, this patch completely extirpates the defective DVB_ULE_DEBUG block
-> from dvb_net.c and purges its corresponding configuration symbol from
-> the Kconfig tree.
->
-> This version retains the verified MediaTek bugfixes and ghost purges:
->    - Fixes MediaTek interconnect typo mapping mt8196.o to MT8196.
->    - Fixes MediaTek regulator typo mapping mt6316-regulator to MT6316.
->    - Cleans up the dangling comment in drivers/leds/Kconfig.
->    - Purges verified legacy ghost weight.
->
-> Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
-> ---
->   drivers/interconnect/mediatek/Makefile | 2 +-
->   drivers/leds/Kconfig                   | 1 -
->   drivers/media/dvb-core/dvb_net.c       | 6 +++---
->   drivers/regulator/Makefile             | 2 +-
->   4 files changed, 5 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/interconnect/mediatek/Makefile b/drivers/interconnect/mediatek/Makefile
-> index 6bd656668..64170ab16 100644
-> --- a/drivers/interconnect/mediatek/Makefile
-> +++ b/drivers/interconnect/mediatek/Makefile
-> @@ -3,4 +3,4 @@
->   obj-$(CONFIG_INTERCONNECT_MTK_DVFSRC_EMI) += icc-emi.o
->   obj-$(CONFIG_INTERCONNECT_MTK_MT8183) += mt8183.o
->   obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8195.o
-> -obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8196.o
-> +obj-$(CONFIG_INTERCONNECT_MTK_MT8196) += mt8196.o
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index d0d318223..800fbd560 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -873,7 +873,6 @@ config LEDS_UPBOARD
->   	  This driver can also be built as a module. If so the module will be
->   	  called leds-upboard.
->   
-> -comment "LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)"
->   
->   config LEDS_BLINKM
->   	tristate "LED support for the BlinkM I2C RGB LED"
-> diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-> index a2159b2bc..3b503695e 100644
-> --- a/drivers/media/dvb-core/dvb_net.c
-> +++ b/drivers/media/dvb-core/dvb_net.c
-> @@ -68,7 +68,7 @@ static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
->   
->   #define DVB_NET_MULTICAST_MAX 10
->   
-> -#ifdef DVB_ULE_DEBUG
-> +#ifdef CONFIG_DVB_ULE_DEBUG
->   /*
->    * The code inside DVB_ULE_DEBUG keeps a history of the
->    * last 100 TS cells processed.
-> @@ -320,7 +320,7 @@ static int dvb_net_ule_new_ts_cell(struct dvb_net_ule_handle *h)
->   {
->   	/* We are about to process a new TS cell. */
->   
-> -#ifdef DVB_ULE_DEBUG
-> +#ifdef CONFIG_DVB_ULE_DEBUG
->   	if (ule_where >= &ule_hist[100*TS_SZ])
->   		ule_where = ule_hist;
->   	memcpy(ule_where, h->ts, TS_SZ);
-> @@ -659,7 +659,7 @@ static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
->   			h->ts_remain > 2 ?
->   				*(unsigned short *)h->from_where : 0);
->   
-> -	#ifdef DVB_ULE_DEBUG
-> +	#ifdef CONFIG_DVB_ULE_DEBUG
->   		hexdump(iov[0].iov_base, iov[0].iov_len);
->   		hexdump(iov[1].iov_base, iov[1].iov_len);
->   		hexdump(iov[2].iov_base, iov[2].iov_len);
-> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-> index 5a764cec8..f81d1f31a 100644
-> --- a/drivers/regulator/Makefile
-> +++ b/drivers/regulator/Makefile
-> @@ -107,7 +107,7 @@ obj-$(CONFIG_REGULATOR_MP886X) += mp886x.o
->   obj-$(CONFIG_REGULATOR_MPQ7920) += mpq7920.o
->   obj-$(CONFIG_REGULATOR_MT6311) += mt6311-regulator.o
->   obj-$(CONFIG_REGULATOR_MT6315) += mt6315-regulator.o
-> -obj-$(CONFIG_REGULATOR_MT6315)  += mt6316-regulator.o
-> +obj-$(CONFIG_REGULATOR_MT6316)  += mt6316-regulator.o
->   obj-$(CONFIG_REGULATOR_MT6323)	+= mt6323-regulator.o
->   obj-$(CONFIG_REGULATOR_MT6331)	+= mt6331-regulator.o
->   obj-$(CONFIG_REGULATOR_MT6332)	+= mt6332-regulator.o
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
+Flattened node is the right approach, so just say this is the first
+Samsung Exynos binding using flattened node.
 
 
+Best regards,
+Krzysztof
