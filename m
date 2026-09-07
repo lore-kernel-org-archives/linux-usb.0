@@ -1,87 +1,84 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BC237E5E1
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27440371D01
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 05:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788756438; cv=none; b=hs6NdNKORVcMRi9G6ykDSI3PonqywnE+3SGRVOwiXySOPAc0/i8AAsEXY7jSeOD4vbJe4tT3Uz7LGCLEOzFHBvwa6xgsRAyL99vCcmZxsrPkJg9++fchyYXTVH+vqiOKSGcsZeXwDElWlyyN642BLZwzwICbAUrK6Gh36+D5ubU=
+	t=1788757486; cv=none; b=ULi0ICz4O369F23QW5gkXrYr0b/hnQ8qE4RZjRo+Jh33uW3gmgpPPt+VZNuxefpYeX6xeyVYVHf2E1LZXYtQ5pJVVwzLuEJR39ivsfm6ojsWj8lml5ociJoZlrw3Qj0GJvFjrVCJtlqL6g0Ym/lojTFDHjDsgZGwaPBjtWN9rck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788756438; c=relaxed/simple;
-	bh=5Z0cdknBFIlhM01g731hrLfDIHFwyL/2mrLrM0spXtw=;
+	s=arc-20240116; t=1788757486; c=relaxed/simple;
+	bh=dvzWV6uPH6nNpcqdcxfnsLvgt9T1LDV1zM8g+XqkO58=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QRRZyt9Oe61rpmZWklmMFYem0kWeXJM23yJZ8I+eS4KW7M5B3/Ne8bhwyt8DZAUMTDLWGdeKAjLkXnj41mVEKmrvG5CeWlGqVJCajgFgo5yG/ain3+j+4nOX3bAQpl+Nk0G91qzGstVzhTa/FFV+QNHfNXKW1MnEAqwq2oGgwzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2A29dnD; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=GPyaQBnmPjSGf3Lj7YTVxGG8/2OgQO3uDCDYPjNOW+2jSfmVNACVYnd7mDVlqtkUZu7rAqJnVwkSDTWBk7Hb3aVzzE2Zwxcxwhe1Z2IyXeMkT/ez0aES77sbbw1ypnmWeLonybs9EXY7zp9OD7J9l4O9izvMIPYFw939YwENgyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jF1H5j/w; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2A29dnD"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d91ff7d9acso25949065ad.3
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jF1H5j/w"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-852c481415fso3567713b3a.3
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 22:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788756436; x=1789361236; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788757484; x=1789362284; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=375o4BJGgHmxnVw1lMhhu/qJ8TmCINoNbWz0ZmrSte4=;
-        b=k2A29dnDqZVywXg2Ct6zrSS+cCPbC9n6xMI/8Edq3gp0XyUEMx0T7YndQRroLpcsQH
-         YLN/CsvSo706RvhJAX+mWZiPJpNlGd+66RVzMVh8ZPo7Xjqf85mePJNROjr1Kp5erfr5
-         wAwbEOB87VEXwujqe2aq64ypN4m6qrBAsQTWbtnOHB5sBUqTAFzZXad35x/3v7A9sAZh
-         SQmfj/vl2eIdH3X0cAsamVqHdotZcMZlXdpl9veVKQynHlY9+qtCBCUAKfBGswSXAV0Z
-         ORa92EJwtYvnWBhDxbhs3FLOd3oTVFp7Cgxm30+q4JJBSICZTwzNspbVl69Fij2kzYmj
-         aZuA==
+        bh=iaQChxd3RaTTS2M89yBBd8Z6krjXqSg7X3Hqq+Gd8is=;
+        b=jF1H5j/wtjWA5ZkNeKwzOgarYKJtCap/ZqXJhIydOv3c6yqkUDldwMCMDSfoJyAevx
+         xuihYxbGtxlPDCYvGxgxYjLYo35vUstlY3I+yppwYmw64YYufr6UWCTHWIAvnWynrmuC
+         U6jJbkDWMVgPHo2kTJjXjBAmJQHzIrUsJTbIwz4PlqpZL+tHh6BVWcdhg1eZvcQJY/9w
+         brB/JYQRkyod9wn15PXi/r/jLFJ7P5iJ5zEuQUi9A2CyjHFJfJ5Glf2ws762dNYIuBuq
+         LLErjXcELJaEwMm+sWoetcWvocR3dnmI6knz0SDQAzr4DoLZNBPuyjFPzv4T0cnXDr/k
+         ZZlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788756436; x=1789361236;
+        d=1e100.net; s=20251104; t=1788757484; x=1789362284;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=375o4BJGgHmxnVw1lMhhu/qJ8TmCINoNbWz0ZmrSte4=;
-        b=mav4ticjcCbe4u+aqbFSLxRyxvt+/hAPfR4NFkNB/CJRVIuKu/qnP/5QbESgQr+lc2
-         hvUqnoVsYOhgFe+kBnpjrYYYqxpsHQE+WwvCWmdKJyQfVF7d0Zzh0jOkTIXe5CsONjjc
-         AsNpsIrOSB2T198AGSKK5hbxqRNIZu9JB1r3oATGRBpaQGPVNKf84kzchpWy2GmE9z7P
-         KGaXKU+/lAVoZtKnKp3lZdEIFGrzHRoutYyQH822zdGeTnQwjgdBWE+INJRxCqnAHX10
-         nK71SzTBfA0qolco0HVErcpVqGf+ygWrnLGyKZ5YZA2X80xAfib5uLD4IuvjbmnHG0ds
-         t8Zw==
-X-Forwarded-Encrypted: i=1; AKwUvBzQA6SSBRAbjahIvi84H2EPm5svqI+S/0z5pyvtdDe2CZ51gQrzRU7hpcXm8YWw0UE8Cj1hkwFqaaU=@vger.kernel.org
-X-Gm-Message-State: AFuF++k0b0EQP7dvwosXuUfzZuuyxtp4X4LbgPaSkxdTiHrcD/912FQu
-	wkFey3Dnhp1OjOZPDXsvB7NPbPnA9vrmqWZ0PfzppaNF9cRL0heyz7BF
-X-Gm-Gg: AYBFou3RjR56b/Y1rRqHiGYzmKXCGN0tqB2SqiO3CipKJn9W3dwukpNHhbli6Itc8Bk
-	V82ZyDQiUYeL291vmDyA+zzJe95ITvIwrYUSdXpr4XQuJHCSDs4M4PeKoUmiqRMF+K92LPgHsVA
-	iPQE5kn7Y6D3Hp8LMXEIj0oJv6afWGgAzcyiXvYh0D6wFfJne7yx5tibu6EcKqlPB0IZLkgOsaC
-	6n/94P97jKLGpT619smnoVbSCbJJb3hVjUwA52Wq/Z1RDYklDuFb4P+huPTg6JayR/TJHWWQVbG
-	k593TbaXVvEzf2Ezl/qMfIKYb1lKGOR2SZ6QuAL9cx6xR9AzqzUsBcNtR3w+Y1O+ipAujiMZdVV
-	7BL6juCWh4gvEG0R2nQOA5JtCDxuevk5EZsNhFSv0h0AXgZitS8wQiD2bqFhGvbW83eGz1n5cUB
-	oiZEZ17ETIqXflWJ7YqPqO9lCURsrDunAaAp62P5YTUINwodUhS9BrmWn6o7KTJapmz3ybVdeqR
-	UO9j/llUakIf2+03PvNprU8
-X-Received: by 2002:a17:90b:4d87:b0:380:540:d499 with SMTP id 98e67ed59e1d1-39b26100bfdmr28314536a91.6.1788756435888;
-        Sun, 06 Sep 2026 21:47:15 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.47.10
+        bh=iaQChxd3RaTTS2M89yBBd8Z6krjXqSg7X3Hqq+Gd8is=;
+        b=YvkY76rQYgz/L/SV36RyA1Qvlk4yd6bceL3BCH0CSLE7cNmHXce1cqyC9Yz36muKcL
+         J65M5zV3C7fgcYxKWyUh4VG8AF9kB+NcUl2k3mYjxTkQg//23cH8whRjjUomW1i+kvyH
+         TZ5QxyG3eV78CAzNlHtlPlX7Sm5gpIQsHRg03tmBNeOA/YsGE1Ca6bKMEzL7gTNhbLYC
+         15CJE7hiyeR6FK8QmwgaPfsplpbQZBi0TLA/ime93Y+2rDlKe51gbqSrDAovtjSiYZYe
+         u19OKiTOT9jdMbDnuyq6olCHqcGfP6OGA1MCbgywJj8k9hV4Zd+nHQqM++jDlXGaNawy
+         dsCw==
+X-Forwarded-Encrypted: i=1; AKwUvByoJu+fSbbFonV+tDWMGL0bnfxz0f+28+YxwDPglAxYv/UJkAKeJRcRykW/DvgTJ7cQQ0r1h/g2QSY=@vger.kernel.org
+X-Gm-Message-State: AFuF++kxqEtASSPxQ+EsXh4n/TN/YtiQfcB6biMf7YjUwZxWb2GfRhRp
+	ZX+DiJdmQR6TTxqk8qeD62HccwNNlFeBHJv3EpIBCwXYBcpCYU5BHaSU
+X-Gm-Gg: AYBFou2sKYNndgqvdwEZaojIwv/AwHNp/kUs2DmdslxUJH4/b/DwbLIuRpgVgaUf4bO
+	ubi5wLzH03UXC7RqAPDsy/Npsnj68w5pvnnKIDCtU8dfS1MyNFKQ7uXKrzOYdmICAxieHnW32IY
+	LQ/BvMEU68hpGfYhzVOwjl6ezWdaz+fxaMvYNtGlIOdI30OJlosmycNiw/Z7xG68HcGIl/vk+up
+	63CmPY2d/2y6dgnE/O53gUdNrtZgbj+TBShnQl+xuyI4Ny8tC2qrFFh1mhf1bKzSG2JBqNrwe68
+	We+4DVGo59kmX2MUw5jbd5nyQlAT9iOwZHIzOh0q3coNJCA5s1VJllxlv2aLqxO4o0nfn0Cf650
+	d7UI3a29xgNMOZnYCRdWCXANgkorQMKbiK1aJkXEDWhQtmzERULRnVWOjQ/+9NwhIP7XAIRIRmr
+	SH/4u3/bE8PNtP3iczSa3wB1S4laY7OcYrJAfzVtV6z4gcVUocJUNUxvgEzg/j7br/yMexIUpTV
+	tD5Ugu0nMm7y2wilbCM7dzw1FGH/Q==
+X-Received: by 2002:a05:6a00:9514:b0:852:131f:b9d2 with SMTP id d2e1a72fcca58-861677b2704mr28394845b3a.2.1788757484351;
+        Sun, 06 Sep 2026 22:04:44 -0700 (PDT)
+Received: from Inspiron5409 ([2401:b60:5:2e5::a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8615203e041sm3885072b3a.17.2026.09.06.22.04.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 21:47:15 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org,
+        Sun, 06 Sep 2026 22:04:43 -0700 (PDT)
+From: Jianhui Xu <neuromoments@gmail.com>
+To: mail@birger-koblitz.de
+Cc: andrew+netdev@lunn.ch,
+	andrew@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	hkallweit1@gmail.com,
+	kuba@kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-net-drivers@amd.com,
-	linux-kselftest@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v2 6/6] net: usb: fix repeated words in log messages
-Date: Mon,  7 Sep 2026 10:16:35 +0530
-Message-ID: <20260907044635.7141-7-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260907044635.7141-1-hemanth.selam@gmail.com>
-References: <20260907044635.7141-1-hemanth.selam@gmail.com>
+	linux-usb@vger.kernel.org,
+	linux@armlinux.org.uk,
+	netdev@vger.kernel.org,
+	neuromoments@gmail.com,
+	pabeni@redhat.com
+Subject: Re: [PATCH net-next v10 00/15] ax88179_178a: Add support for AX88179A-based chips
+Date: Mon,  7 Sep 2026 13:04:37 +0800
+Message-ID: <20260907050437.1345480-1-neuromoments@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <f56aa06f-fad7-4714-9c54-846397bf2438@birger-koblitz.de>
+References: <f56aa06f-fad7-4714-9c54-846397bf2438@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -90,41 +87,22 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop the words written twice, reported by checkpatch.pl as a possible
-repeated word.
+Hi Birger,
 
-Only the message text changes, no code changes.
+Thanks for your testing.
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/net/usb/asix_common.c | 2 +-
- drivers/net/usb/sr9800.c      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Using only
 
-diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-index 4f03f4e57655..e63a849a1043 100644
---- a/drivers/net/usb/asix_common.c
-+++ b/drivers/net/usb/asix_common.c
-@@ -413,7 +413,7 @@ int asix_write_medium_mode(struct usbnet *dev, u16 mode, int in_pm)
- 	ret = asix_write_cmd(dev, AX_CMD_WRITE_MEDIUM_MODE,
- 			     mode, 0, 0, NULL, in_pm);
- 	if (ret < 0)
--		netdev_err(dev->net, "Failed to write Medium Mode mode to 0x%04x: %02x\n",
-+		netdev_err(dev->net, "Failed to write Medium Mode to 0x%04x: %02x\n",
- 			   mode, ret);
- 
- 	return ret;
-diff --git a/drivers/net/usb/sr9800.c b/drivers/net/usb/sr9800.c
-index 6fd33a5b2279..cce0392d0232 100644
---- a/drivers/net/usb/sr9800.c
-+++ b/drivers/net/usb/sr9800.c
-@@ -271,7 +271,7 @@ static int sr_write_medium_mode(struct usbnet *dev, u16 mode)
- 	ret = sr_write_cmd(dev, SR_CMD_WRITE_MEDIUM_MODE, mode, 0, 0, NULL);
- 	if (ret < 0)
- 		netdev_err(dev->net,
--			   "Failed to write Medium Mode mode to 0x%04x:%02x\n",
-+			   "Failed to write Medium Mode to 0x%04x:%02x\n",
- 			   mode, ret);
- 	return ret;
- }
+  if (link)
+          phylink_mac_interrupt(data->phylink);
+
+would be simpler, but it would also discard every hardware link-down
+notification. I agree that we should leave the driver unchanged for now,
+since I could not reproduce that event in a further 90 unmodified-v9
+cycles, and your 1,000 v10 cycles also passed.
+
+Please disregard my experimental patch. I will report again if I find a
+reliable reproducer or evidence that identifies a specific driver problem.
+
+Thanks,
+Jianhui
