@@ -1,118 +1,154 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E47644D6B2
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 09:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A784145041C;
+	Mon,  7 Sep 2026 09:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788774649; cv=none; b=CsY9S2tGvvmVAPLVX1T6Kvitr5czzwoiDAH9MsbPMm2FP9xb1hwPpI3yaUegtLuUCUXrkrHBbyR0zTcJ8hX0ZxvTIcivVhehnM1HBw2j966lu9or7lwif829nog1C1PRW+5pT2q9CegYMzbIIfvvsA10HZt3m7yd2yIX+hVe8dQ=
+	t=1788774715; cv=none; b=M+YbEo4b/iNnueLpSc+6WUqC2vHJ+4Ix738RggMHNY21V5iJxX4+RtUGy6Enwv4wyB1DJphruq6mjG93ID0L3TjivJVwdp/l3+suCZS19o4W+O6GM2HcapiMZB4VMknN1aD6QqanOT49dwvtt/z1mb52vyQTrDYgk6N2aAQD4OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788774649; c=relaxed/simple;
-	bh=q1vbWVYZfrrPPpMgx2AV24vWcv0xH2e65F7GQzJtG90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Za5jKxp3pBrpStEPVEa6zsav2J/RnUyyVXsppEIdxSlLH9nIur6S8gyw002M63BImsHzYlRZC0JPLcPWVlV65OJkpB9Q9ppXIB1fdKDDH3QTfQR9QvSu7j0Ti/h74BK72kQLFL70dnQuuqXpPakecqLYJGxiRo1MnQ8pheVtbrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M5ZCkBe0; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1788774715; c=relaxed/simple;
+	bh=eq5BwWiyHB30dDI1F4cffK8njPC5VBf2pkAM6IIBxz0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eKP6Sm2Wl1JttMs6NvdD1DHkB1H8YvkYDuuFfT0prV7LddJYLtMIlpFQMZVH8iaLrOOXBRyjdpQxesxjd/gqDuhnFdpyBcNvUNakuZutfb+B2YatwoM/4+6dvfkATYjc3/+1bMBnAF98E2SSgLu2wG3BX4jo4X4lTZym1mkzMpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kaEnn1/K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M5ZCkBe0"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4859245e493so1413533f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 02:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1788774643; x=1789379443; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Lb18HKgR/gRWdLmmzTs+5hKvWsiCHq7F1zLseYYFjf8=;
-        b=M5ZCkBe0qY4Z0O/QQzvNMUKVIXcH6wv0+nvIeiAKOFKc/QGURoG9U1KFDc8NXZkbgG
-         iqwN6IG+U8C54EMszpWtvZLkCiukA1HJ60+EwKslM5Lo3F/wZokyDpAqy9AFLdombz0l
-         dRYIVfVf+hygi1SUnck4u50HlCx2xrhmgQcBnYu40ZkF8ZTBx5qB0b3mv+nqmqOZ5UlR
-         nLFTdezqgzh/heqYTsekxmw7Zuh7YpU3dXYrgoXEPKvSeMOxE7dRWopWdTjYF8cTID16
-         9W+KDPPNdEdSrUg8aqX/Qav733VUyd5Om2Ts7kAM0vWX2kRggesZWvSzhXYwyU6OpzMM
-         wjtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788774643; x=1789379443;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Lb18HKgR/gRWdLmmzTs+5hKvWsiCHq7F1zLseYYFjf8=;
-        b=iWMD8ooK/P/mmqBYzFjHj/QSoZd1HrPVXWNdtfy16sCqNERHD8MrF9oTtL+s4X8rtf
-         AONdKNA/MSwwKVgWbTWoIXLnZ5DCK1b/09uheCVOwOVwzpJL5Z3UQSGqnW1dPyFhZNAC
-         /Kl0Ej152xmDs0rEZdFQ2WvajNXASxmmceUaGDESL1daQiYy5hCm0/DHR6HDcvV7Vmf+
-         afF6Wm/Pu5MZS9ysPBSuYO5ECh8RhDIQBcnHZAge+wir8bngWLRJU6olJvL7sFYINuDr
-         GM42hsgzOV9rXrOz6KWEYiwOC6YTK2LrefIMxZ/9VVtqLlJy9mw521J84PK+912kMI/m
-         E/yA==
-X-Forwarded-Encrypted: i=1; AKwUvBye24BLNTGMEOJb/cWOI5Phe42X253hmtnoZSpNrGHfHtLM4ogNCkAZuAtMeyIcQWbVbxp1pvvBLcE=@vger.kernel.org
-X-Gm-Message-State: AFuF++m5BMjfrM6/jUGZDQSwUP4GfCJpHVLUepLFOizNBkpY+IVAtsXO
-	RaY2fI3YwuOhuQl5c0XEGfFVLdhAekPDyiYkPVUf17flSkR98k/C5nXy/qHHR9sJ5qG88HZDZgp
-	yOQyU2ek=
-X-Gm-Gg: AYBFou1+BorJdd0jhXtqWz4Dpn6e1b9UQcm7upqsm7iiGEzXmL4aEXIRKC7fY37QVAf
-	bEw86Qds2cgay7sxTOge0ki572f1+PAYomV9lbMruNb5wwW8Vp/3b5jQisPRbuDw1k3wPBYyS4+
-	Uq1qTwM5my1QSNtLY9HwaDd4OuJNSsxOIH7SPWCbb/+O4O21k00OZT9AvDU8q6LFaOAYpsolDyi
-	axhbzvYlFPiWtaouJML8Ti2rThmbfW8HmNucQQFBPjnghFRi4s1TkpqyuMDtP+3WCUHeQEPRN8h
-	lwBJkZZJhDaBHDYcWJKFZaGtztO7bOHuRpw4ZQrjK+2MXUSAejHR2ObAeuW19vuWMfWPlF4U/oh
-	CkMBhDcHmCZ8DxDNys2dtzaT+mj7Lg+cXsmadKzmTM+pv5e9rYJcRQiAjkBXjD/OvSjFaOd0YSN
-	XMXUzIL7vdjJEnby3KTGKM4sTe8PTHxi7uxoEynBLDmASNXELkdcLmvtKX8dmDlTQf3J+5X3roY
-	7pxWTt3zFhVg49oO1BEbQKpZpc=
-X-Received: by 2002:a05:6000:470a:b0:47f:4919:d5b2 with SMTP id ffacd0b85a97d-4858707f262mr23189860f8f.1.1788774642756;
-        Mon, 07 Sep 2026 02:50:42 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1340:dc01:654b:3cf0:59cd:498? ([2001:a61:1340:dc01:654b:3cf0:59cd:498])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4859207c28fsm20770188f8f.5.2026.09.07.02.50.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2026 02:50:42 -0700 (PDT)
-Message-ID: <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
-Date: Mon, 7 Sep 2026 11:50:41 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kaEnn1/K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00BE1F00A3A;
+	Mon,  7 Sep 2026 09:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788774705;
+	bh=VFweDQmpO9/uaET+6g5EHgUcto2UGa8pbMFyGmTkkfI=;
+	h=From:To:Cc:Subject:Date;
+	b=kaEnn1/Ko6oWquK9wsPqH61ikUDEpeoxEoHyL4boSJKnQeG0NLsORHW8ggU6GWXOZ
+	 uIS/hK7GT9hNRD5zJ8epeURzkM4L2S1UwPCQtekiyrcVF56iVSFF3M2MULuMSRFRTl
+	 Ww4Oxvzlf+jwgBWWzdToBSoFNiRLob5CNfIKkN33l/gijxQ+EuDBAkVvTVmb5aC0zd
+	 Usw4f5Dz5SvmlSYFtS8KR3ljS12akFtwpJikwDpTTHzp3Bnp1m1+HFIohO91oOUPED
+	 dSqzlNZjsl/KzCQKzqp2i3SH+JO/e+ldvgJhWYCkEj3LMyh6c5LnLVRp53f2yZfV6f
+	 Ih0T4xmyB46bg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x3W0s-00000000Xzi-1YPJ;
+	Mon, 07 Sep 2026 11:51:42 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Oliver Neukum <oneukum@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org,
+	Oliver Neukum <oneukum@suse.de>
+Subject: [PATCH v2] USB: cdc-acm: fix racy TIOCMIWAIT implementation
+Date: Mon,  7 Sep 2026 11:51:30 +0200
+Message-ID: <20260907095130.130636-1-johan@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-To: Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260907065501.101013-1-johan@kernel.org>
- <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
- <ap56NTVMq8GlbjmR@hovoldconsulting.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <ap56NTVMq8GlbjmR@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Check the wakeup condition after adding the task to the waitqueue and
+updating the task state to avoid missing a racing modem status update or
+disconnect.
+
+Store the old icount on entry and do not update it in the completion
+handler to avoid missing events or reporting spurious ones (due to modem
+status changes before TIOCMIWAIT was called).
+
+Fixes: 5a6a62bdb925 ("cdc-acm: add TIOCMIWAIT")
+Cc: stable@vger.kernel.org	# 3.14
+Cc: Oliver Neukum <oneukum@suse.de>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+
+Changes in v2:
+ - store old icount on entry only
 
 
+ drivers/usb/class/cdc-acm.c | 36 +++++++++++++++++++-----------------
+ drivers/usb/class/cdc-acm.h |  1 -
+ 2 files changed, 19 insertions(+), 18 deletions(-)
 
-On 07.09.26 10:47, Johan Hovold wrote:
-> On Mon, Sep 07, 2026 at 10:17:38AM +0200, Oliver Neukum wrote:
->> On 07.09.26 08:55, Johan Hovold wrote:
->>> The wakeup condition needs to be checked after adding the task to the
->>> waitqueue and updating the task state to avoid missing a racing modem
->>> status update or disconnect.
->>
->> I am sorry, but in this case I have to ask:
->> Isn't TIOCMIWAIT inherently racy against the hardware?
-> 
-> What do you mean?
-
-The interface does not state from or to which state it changed.
-Now you could say that it is implicitly the last time TIOCMGET
-was called, but that is
-
-1. not clearly stated
-2. not enforceable
-  
-> Looking at the implementation again now, it seems further changes are
-> needed to fix the implementation, though. The completion handler should
-> not be updating old_count. That's for each TIOCMIWAIT to do.
-
-I am sorry to be obnoxious about that, but I am afraid that would
-break TIOCGICOUNT
-
-	Regards
-		Oliver
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 7bc5329fa3ed..21417b4c5154 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -331,7 +331,6 @@ static void acm_process_notification(struct acm *acm, unsigned char *buf)
+ 
+ 		spin_lock_irqsave(&acm->read_lock, flags);
+ 		acm->ctrlin = newctrl;
+-		acm->oldcount = acm->iocount;
+ 
+ 		if (difference & USB_CDC_SERIAL_STATE_DSR)
+ 			acm->iocount.dsr++;
+@@ -1027,11 +1026,16 @@ static int wait_serial_change(struct acm *acm, unsigned long arg)
+ 	DECLARE_WAITQUEUE(wait, current);
+ 	struct async_icount old, new;
+ 
+-	do {
++	spin_lock_irq(&acm->read_lock);
++	old = acm->iocount;
++	spin_unlock_irq(&acm->read_lock);
++
++	add_wait_queue(&acm->wioctl, &wait);
++	for (;;) {
++		set_current_state(TASK_INTERRUPTIBLE);
++
+ 		spin_lock_irq(&acm->read_lock);
+-		old = acm->oldcount;
+ 		new = acm->iocount;
+-		acm->oldcount = new;
+ 		spin_unlock_irq(&acm->read_lock);
+ 
+ 		if ((arg & TIOCM_DSR) &&
+@@ -1044,22 +1048,20 @@ static int wait_serial_change(struct acm *acm, unsigned long arg)
+ 			old.rng != new.rng)
+ 			break;
+ 
+-		add_wait_queue(&acm->wioctl, &wait);
+-		set_current_state(TASK_INTERRUPTIBLE);
+-		schedule();
+-		remove_wait_queue(&acm->wioctl, &wait);
+ 		if (acm->disconnected) {
+-			if (arg & TIOCM_CD)
+-				break;
+-			else
+-				rv = -ENODEV;
+-		} else {
+-			if (signal_pending(current))
+-				rv = -ERESTARTSYS;
++			rv = -ENODEV;
++			break;
+ 		}
+-	} while (!rv);
+ 
+-	
++		schedule();
++
++		if (signal_pending(current)) {
++			rv = -ERESTARTSYS;
++			break;
++		}
++	}
++	__set_current_state(TASK_RUNNING);
++	remove_wait_queue(&acm->wioctl, &wait);
+ 
+ 	return rv;
+ }
+diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
+index 01f448a783c0..d245e60eb9f5 100644
+--- a/drivers/usb/class/cdc-acm.h
++++ b/drivers/usb/class/cdc-acm.h
+@@ -90,7 +90,6 @@ struct acm {
+ 	unsigned int ctrlin;				/* input control lines (DCD, DSR, RI, break, overruns) */
+ 	unsigned int ctrlout;				/* output control lines (DTR, RTS) */
+ 	struct async_icount iocount;			/* counters for control line changes */
+-	struct async_icount oldcount;			/* for comparison of counter */
+ 	wait_queue_head_t wioctl;			/* for ioctl */
+ 	unsigned int writesize;				/* max packet size for the output bulk endpoint */
+ 	unsigned int readsize,ctrlsize;			/* buffer sizes for freeing */
+-- 
+2.55.0
 
