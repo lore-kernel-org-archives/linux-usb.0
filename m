@@ -1,159 +1,215 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E40D4477FA;
-	Mon,  7 Sep 2026 13:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754EE472547
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 13:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788789134; cv=none; b=bocmfeiD8EV6h4pYXTxzCzL+YoDjGC7kpNRKgnBaMThhJ+7JHDV6QVS/p8TEYTNW1wPgk+G0rn88KT01VUdsSKb7gj0u7MHd7YUhCJsplHph3g30wErxZ2jjb7mQBxRIi+nJRs7E65KSFkX+pLrZ2Tzt2bYq0CFrpoCWOwxrn10=
+	t=1788789158; cv=none; b=dvCM59JKjpgMtycF+b0rA+dAg6mThpfO8lcOgz+6mikwJa/oS31B1efCUAziB/nzOdudExmuVU0jkWWRmkJHi3vFZaKh0TbhSHAyF6I3g/nbkrqObXmPWs2h4wVY740W16v49y0PXe/Y3J16nChNXab3QLf1AabHPx4sXvzc29I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788789134; c=relaxed/simple;
-	bh=0Y8QQVeaWWRLcQmQ/z3ysnD3dFXFJE1tVxW4bD38YRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Ke57XttY11Tp+Qp28XyzKhsr3hOLzll2ygf4277QVfOVOHIAP+EEwe7B61+PeCbzv+TBAfgP+o7Tbi1EB0Ps6isVYM5tyulklMDAYyNI1Y3X5Z766yHRX0+qpuOEpx02lIRYelxRnIXwW99NsCQMP2X1XH9y3rZMkW4VqR2zA/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c7nDvugt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z+V/kBAQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2C/H0joG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3+liLvur; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1788789158; c=relaxed/simple;
+	bh=vwpcUJZ6WbjLHRCNZBB9oMBrx32bVT20Sz5TO9CydZ8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=C7R4M956EZaePABII/naSehNtAIu+/GUQQd1xb1CeaGKKPbgSyR19k5M43vSsWEsMQmiP4n4hx1aS/SNvM/5B3fy/gyKat6Y3VlrE1aikGOq7gSzF+vTb6jqp3FWPgIdmdC/7+aXe1Z4VIPhTQwMn7SH++oPpSBcoKTMUnKHd+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=f4cdt2bO; arc=none smtp.client-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c7nDvugt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z+V/kBAQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2C/H0joG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3+liLvur"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BE186219EF;
-	Mon,  7 Sep 2026 13:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788789126; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hl4GVliRl4sBbtp4xgVqZpI4d91O53niLdITBEIwngU=;
-	b=c7nDvugtYIQaGsGGWMbzg3wcY3q+9alIfeH1I/MeBj4J/xiNiT0shH6QDlu2yo/bcbvVqK
-	RiDAS2hqzbfDjDIgFW6OgNitK+I7nqbEq37MvPCMZouYvZE83UgERC0S9OuLuawJQcR5ip
-	HYQPcN9P3+Zk949klkM5R9nYctbkpms=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788789126;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hl4GVliRl4sBbtp4xgVqZpI4d91O53niLdITBEIwngU=;
-	b=z+V/kBAQPMP0tgl675u4QNwD1zesq2I9SDwPv+JaellZwqOEPocUT79bf2uWoVJnoq8Jnm
-	gWuF3V/q1S2WI4CA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="2C/H0joG";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3+liLvur
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788789122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hl4GVliRl4sBbtp4xgVqZpI4d91O53niLdITBEIwngU=;
-	b=2C/H0joGe+M5zPIe7Wd5wQcOKFzlkt4NxPJhPmfgQC/YDPEqLwPJljw7bOOLW/nB82WVPx
-	YKmwBja3JOXBEmXJrLhgpWxYuOPju8fGVBUdp1AWNh7fX+0lHaxoUHJh7ZYKxQZWcyRUhD
-	zyfZGkDza3B3/0+++jwO46gcAySu7Lw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788789122;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hl4GVliRl4sBbtp4xgVqZpI4d91O53niLdITBEIwngU=;
-	b=3+liLvuroL+3V7ihLUfdQb5BmBtkNbmOGUCzh3vD9cshISwa9TrO1A3rkvCHlHYfvATnVw
-	eX5XGRgPLHuiTXDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62FA513432;
-	Mon,  7 Sep 2026 13:52:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 14ntFILBnmrBAwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 13:52:02 +0000
-Message-ID: <8b1f8725-6ac0-4015-a687-165e41c6d5ac@suse.de>
-Date: Mon, 7 Sep 2026 15:52:01 +0200
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="f4cdt2bO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: Subject: Cc: To: From: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1788789143;
+ bh=OIEXEh8Wqwl1bJzwWtu4bthbnhWMS0XSiSB3GshMrlU=;
+ b=f4cdt2bOO6ywoZThEic2Qd5cVdNgopWHqHdeanxzqfxrN1UP/4ocKp+j00XvwNdTagXdXlwrp
+ BTNTWTp51T86YduXv+6ywpwyInJkoCeMJVlvo7/bi2QRGzPbRFnjgHCdZM0IiWoGfP3h0ca2bIa
+ uCmBVSWdIL6jPiVyhJLhrLu868xqvNJXvHjBQfcT78p6CvebWSe7A8ZG4umduGzOHSoTcVHA1Qk
+ OpkFuOmPNR7d9ti+Rpneqq5WJ2W13SDeWEY75dWkCYYtmv03w0/1a2huMctLFR+VSSAp1Bnpma7
+ jzdZ9j9B/Q0HUHRqnDQ4pCMi5YNn98wU8D04+VQMufKQ==
+X-Forward-Email-ID: 6a9ec19570f4b45aa0d07729
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.14.2
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 20/40] scsi: leapraid: use 16-bits defined sense codes
-To: Damien Le Moal <dlemoal@kernel.org>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
- Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>
-References: <20260903034201.112211-1-dlemoal@kernel.org>
- <20260903034201.112211-21-dlemoal@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260903034201.112211-21-dlemoal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: BE186219EF
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Mon, 07 Sep 2026 09:52:19 -0400
+Message-Id: <DL94TU52KBMO.2HAKJMJXV2CPE@ubuntu.com>
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sven Peter" <sven@kernel.org>, "Heikki Krogerus"
+ <heikki.krogerus@linux.intel.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Janne Grunau" <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Andreas
+ Noever" <andreas.noever@gmail.com>, "Mika Westerberg" <westeri@kernel.org>,
+ "Yehezkel Bernat" <YehezkelShB@gmail.com>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>
+Cc: "Konrad Dybcio" <konradybcio@kernel.org>, <linux-usb@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>, "Joshua
+ Peisach" <jpeisach@ubuntu.com>
+Subject: Re: [PATCH v2 00/22] Initial USB4/Thunderbolt support for Apple
+ M1/M2/M3 SoCs
+X-Mailer: aerc 0.21.0
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
 
-On 9/3/26 5:41 AM, Damien Le Moal wrote:
-> Refactor the leapraid driver to use the 16-bits sense_code field of
-> struct scsi_sense_hdr and replace all hard-coded additional sense codes
-> and additional sense code qualifiers with the enum values defined in
-> include/scsi/scsi_sense.h. This helps with code clarity as the sense codes
-> being processed are easier to test and self-documented.
-> 
-> With this change, the locally defined macros for ASC and ASCQ values are
-> deleted.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+On Sun Sep 6, 2026 at 2:36 PM EDT, Sven Peter wrote:
+> Hi,
+>
+> This series adds initial USB4/Thunderbolt support for Apple Silicon
+> M1, M2 and M3 SoCs. Each USB4 capable Type-C port comes with an ACIO
+> ("Apple Converged I/O") block which contains a Cortex-M3 co-processor
+> and the hardware implementing the USB4 router.
+>
+> The NHI and DART IOMMU are part of this ACIO block as well. Instead of
+> being exposed as independent always-accessible devices the main SoC bus
+> only gets a 16 MiB window into ACIO's MMIO space while its co-processor
+> is running. It is not entirely clear whether this is ACIO's own address
+> space or a window into the co-processor's address space.
+>
+> This is why the device tree represents the NHI and DART as children of
+> ACIO with addresses relative to that window. The driver only populates
+> these children after booting the co-processor and removes them again
+> before powering ACIO down. This setup is slightly unusual but matches
+> both the MMIO layout and the lifetime of the devices.
+>
+> ACIO also has rather strict ordering requirements: it can only be
+> started after the Type-C PHY has been configured for USB4/Thunderbolt
+> (and ideally has to be stopped again before the PHY is powered down but
+> this doesn't break anything unlike getting startup wrong). It also
+> needs cable details which are only known to the Type-C port controller.
+>
+> The first two patches add synchronous Type-C alternate mode state
+> notifiers and support for representing USB4 connections on the Type-C
+> bus. USB4 uses Enter_USB instead of Enter Mode and has no SVID, so it
+> gets its own mode kind and stores the negotiated EUDO directly.
+> The next two patches register a USB4 port mode and publish
+> the negotiated Thunderbolt and USB4 partner modes on the Type-C bus,
+> along with the Thunderbolt cable mode. These modes are marked active
+> after the mux has been configured and deactivated before it is switched
+> back to its safe state.
+>
+> The following two patches add the bindings for the NHI and ACIO. The
+> Thunderbolt core patches prepare for the different NHI register layout
+> and interrupt handling, read the USB4 router DROM from the device tree,
+> unlock the host router ports and find the Apple VSE capability. They
+> also add a hook for device links to tunneled native ports, a quirk for
+> USB3 bandwidth allocation not implemented by the Apple hardware and
+> the symbol exports needed by the driver.
+>
+> The main driver registers the newly introduced notifications for the
+> negotiated Type-C modes, powers up ACIO, boots the co-processor,
+> populates the DART and NHI children once their MMIO regions are
+> accessible and registers the NHI with the software connection
+> manager. The last three patches add the device tree nodes
+> for the M1 and M2. M3 nodes will follow once the rest of the stack is
+> upstream, but the current Thunderbolt/USB4 code has already been
+> successfully tested on those.
+>
+> Right now only XDomain connections and USB3-via-USB4 tunnels are
+> supported. Both PCIe and DisplayPort tunnels will come later since those
+> require additional work and reverse engineering that is not done yet.
+> Suspend is also not supported yet and we actually have to prevent
+> suspending whenever an active connection is present because we would
+> otherwise resume into an SError.
+>
+> This series depends on the Apple CIO reset controller [1], the ATCPHY
+> USB3-via-4 pipehandler support [2], support for specifying the DART DMA
+> aperture in the device tree [3], a fix for CD321x Thunderbolt
+> altmode VDOs [4], and fixes for making the DPTX capabilities read fail
+> gracefully [5]. I couldn't split it any further since the remaining
+> patches now directly depend upon each other.
+> Except for the dts changes the series applies cleanly without these
+> dependencies though.
+>
+> For merging we'll probably need an immutable brach with the first two
+> commits after they've been reviewed which is then merged in both the usb
+> and thunderbolt tree sincethere are other tipd changes in flight as well.
+>
+> Happy to split this series in two as well if you prefer that.
+>
+> Best,
+>
+> Sven
+>
+> [1] https://patch.msgid.link/20260821-b4-cio-reset-v2-0-2d045f80a424@kern=
+el.org
+> [2] https://patch.msgid.link/20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@ke=
+rnel.org
+> [3] https://patch.msgid.link/20260819-iommu-apple-dart-aperture-v1-0-2527=
+03f381aa@jannau.net
+> [4] https://patch.msgid.link/20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@k=
+ernel.org
+> [5] https://patch.msgid.link/20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kern=
+el.org
+>
 > ---
->   drivers/scsi/leapraid/leapraid_func.h |  7 -------
->   drivers/scsi/leapraid/leapraid_os.c   | 15 +++++++--------
->   2 files changed, 7 insertions(+), 15 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+> Changes in v2:
+> - Dropped thunderbolt switch in favor of the typec bus and an additional
+>   notifer
+> - Add USB4 to the Type-C bus with its own mode kind instead of an SVID
+> - Register port/partner altmodes for CD321x
+> - Replaced the struct with ring MMIO offsets with two callbacks insid
+>   tb_nhi_ops
+> - Moved port unlock sequence and finding the Apple VSE capability into
+>   core tb code
+> - Added device links for USB3 tunnels
+> - Move the USB3 BW quirk from an NHI quirk to a router quirk
+> - Added Joshua's rb to patches which didn't change
+> - Link to v1: https://patch.msgid.link/20260830-b4-apple-soc-tbt-v1-0-44b=
+c9348683c@kernel.org
+>
+>
+> ---
+> Sven Peter (22):
+>       usb: typec: Add alternate mode state notifiers
+>       usb: typec: Represent USB4 on the Type-C bus
+>       usb: typec: tipd: Register a USB4 port mode for CD321x
+>       usb: typec: tipd: Publish CD321x partner alternate modes
+>       dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt NHI
+>       dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt ACIO block
+>       thunderbolt: Try reading host DROM from device tree first
+>       thunderbolt: Don't read the UID if we already know it
+>       thunderbolt: Allocate ring HopID before requesting the ring interru=
+pt
+>       thunderbolt: Unlock host router ports during startup
+>       thunderbolt: Find Apple VSE capability during startup
+>       thunderbolt: Add ring_interrupt_active to tb_nhi_ops
+>       thunderbolt: Add ring register accessors to tb_nhi_ops
+>       thunderbolt: Add ring_interrupt_mask to tb_nhi_ops
+>       thunderbolt: Add ring_configure to tb_nhi_ops
+>       thunderbolt: Add add_links to tb_nhi_ops
+>       thunderbolt: Add QUIRK_NO_USB3_BW_ALLOC
+>       thunderbolt: Export symbols required by the Apple Silicon driver
+>       thunderbolt: Add Apple Silicon support
+>       arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+>       arm64: dts: apple: t8112: Add USB4 ACIO and NHI
+>       arm64: dts: apple: t60xx: Add USB4 ACIO and NHI
+>
 
-Cheers,
+For patches
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+3: usb: typec: tipd: Register a USB4 port mode for CD321x
+4: usb: typec: tipd: Publish CD321x partner alternate modes
+10: thunderbolt: Unlock host router ports during startup
+13: thunderbolt: Add ring register accessors to tb_nhi_ops
+15: thunderbolt: Add ring_configure to tb_nhi_ops
+16: thunderbolt: Add add_links to tb_nhi_ops
+17: thunderbolt: Add QUIRK_NO_USB3_BW_ALLOC
+19: thunderbolt: Add Apple Silicon support
+
+Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+
+Side note: I'm probably going to stop reviewing devicetrees as I am
+not really an expert in the full hardware definitions and how it
+should work.
