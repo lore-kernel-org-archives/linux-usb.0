@@ -1,155 +1,118 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC2843B3EE
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 09:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788774264; cv=pass; b=m+vKJAMKaqFO/AD/oEYnO/1YPd+f+vPkdpr/AOYju4+xFn6Er+NwpkZq4gXmNKt30eOqi4PseWNyJQ2Yvwawxyp56NMROnW2n1ep28ozPZtK9+izQuNhQyKvgo75MRWGUMNiwYDn8nUoHB5pQa4+0x3XS9NutQQGITYSngInB/w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788774264; c=relaxed/simple;
-	bh=MI41XlQsowXvuVw3HoU1qvNe19RJs6EkCkyiQjsEXzU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fxlZIVZ9c0jFNkCRvUKFIeOjEOgdnHYcNyrs2YLAbKyzQTUdBe1A3gQJ9ic2uznSD6RKOtF/UW0KUdvtAowH7sUE7skp7jy6GgxHJm31clfpVXY2KQ1brLAfh6ysPNwkL6StF0qZ58rLaUMqWz5lSjSynfY6kSkjgKi4dbDRxlM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cqJB66Fv; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E47644D6B2
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 09:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788774649; cv=none; b=CsY9S2tGvvmVAPLVX1T6Kvitr5czzwoiDAH9MsbPMm2FP9xb1hwPpI3yaUegtLuUCUXrkrHBbyR0zTcJ8hX0ZxvTIcivVhehnM1HBw2j966lu9or7lwif829nog1C1PRW+5pT2q9CegYMzbIIfvvsA10HZt3m7yd2yIX+hVe8dQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788774649; c=relaxed/simple;
+	bh=q1vbWVYZfrrPPpMgx2AV24vWcv0xH2e65F7GQzJtG90=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Za5jKxp3pBrpStEPVEa6zsav2J/RnUyyVXsppEIdxSlLH9nIur6S8gyw002M63BImsHzYlRZC0JPLcPWVlV65OJkpB9Q9ppXIB1fdKDDH3QTfQR9QvSu7j0Ti/h74BK72kQLFL70dnQuuqXpPakecqLYJGxiRo1MnQ8pheVtbrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M5ZCkBe0; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cqJB66Fv"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d6fe26ef1cso33258155ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 02:44:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788774262; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QSdaXV2Unbq4rf5aOWuH90Iv0NV4bQ3USmPb3ZAlrJxHTflFDG13C6fcabBbGc0skB
-         ApqFUyzpeE3gvIgYo0RXMd1ufxJguEPWc4mtitzQlo2nigL+HxK4AEWt4dZ9ypJwSHX0
-         f229H6/NKDuoTWXxaWY7jaLqDQogeg4aqPcmeowXrnZiyoFTa1TeJtM1BtKBARj8ry/P
-         Obf2z9F7sh+UN1MPnU212DZVmEfRZicKqlhr516RhkhqL7jTODUR8TDb0u/rjdZyDdt9
-         uUZimSpvDUuUVCa1WQ65+spfUhVPAunTAd01clYyyHhvBfKx5sS2WEnnaaNKEPSZ4/XS
-         3A+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g/xnlyu8PQCnxo+4HJ8JoFUVnIyWkmOXZV+LXEWh1vw=;
-        fh=XvKnNby2l35AdgBrg9pp07w90QobTj8GjGW/+KPR1Bg=;
-        b=OQy8RMMD1AhBvKPUVmd0HkYEIm78M5hM3W9O2HmIeeOo/v+aXKPScxgJvwllBvEg2e
-         pUoe0B2DzlL7v5ioT8NgBClctLEGAEyLwVY2MezQYn2+uuRnb0ExwG7Auwst2N7tOf4Y
-         iDV0pVL53ncI5gis10BHLtuuHGvwWKrJ0nC40G9cSLDfdp2e3V47EaJty6luxktoMzDk
-         UHU/pST4k1/WIjc0JhchYpGxlqQy1tqo7j8ulE/u7ptWm05UQawPfStuFaIIjKFQcc36
-         NDlH7YplWLoUfRk8aPns9PHD1M97AFt9B0vI2g8EPF7leOBdbxzcnWSkJ20mQz9tcPDV
-         ezWQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M5ZCkBe0"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4859245e493so1413533f8f.1
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 02:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788774262; x=1789379062; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=g/xnlyu8PQCnxo+4HJ8JoFUVnIyWkmOXZV+LXEWh1vw=;
-        b=cqJB66FvOXxHOV4BATJdzYvlzDrg54IgSkxINCUiQLk9IDg4jj7MtnAWmCWXt67bqI
-         gT58QiPjN/RAOzb8j6sGTLkR3E83EilolDC1M+NnZOVFxqfoO2QDGk7SgU4A20NtD4Sg
-         KWHWjPD42BgsGfzKESDXY+4/AEJG+TCztPaSI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788774262; x=1789379062;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1788774643; x=1789379443; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=g/xnlyu8PQCnxo+4HJ8JoFUVnIyWkmOXZV+LXEWh1vw=;
-        b=WefcXy38JNuA6sP8rTDQryBg8F3PSjEjLGA122RZJk6BlAcD2fHxGAw8vED7o5UsxW
-         Tzup25WAMT3ly121CKWOVNL4knQwVIMClxpnRZ/5G5bmftFcgDI9N89fuoDnxvf+NjWl
-         UUNA7BfcxhrKeaLKM6wn00Kcjrtsf1UnjbrizvgNrYG00GpEHmjKi0osjMh3B1tMvMh7
-         KdWenRr4WmS2wgsUexLIkiJKy7NBB5T3LtbAPK9IXYS5gQTiSw7N6SZWAQ0Uu33391KA
-         QRcSMX+94qY684tk8kMTota5DeU2xl7WDscqe2XYFkCtDtZQu4YaYqosnGLYPx+7XNAj
-         7jOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxYsy1EMJKr2wnyQygimC+RxYWriWPwCZyhi8B9YlE34cP5+l28fOQh0PQ4y3VdbTdWyuOLyG3xsyY=@vger.kernel.org
-X-Gm-Message-State: AFuF++k3rebYRnU5obAfsEvSWsyjKOCKD2g/rrJRdh8S6s4ERaaJCYTf
-	5BiUFm5utxxF1zBcOP5rp8qmI2nmfgm2ydLk0RTmuwb5adU+m/iMINQmNwvmS6oYgD1IezpUsuL
-	1k9jpogkr5y7yHxaBah85Shr9XKl/viAYdcB5Gpte
-X-Gm-Gg: AYBFou1f8lfg0Br0lMdnv+1ZxH33fe6KXm4MDEPZZwvUpNuZl/ZeffIzkznGnd7f/KZ
-	PKDEvahfiBgDJ/4j2yl9OVxj2ze1rYqFq6gsmS9hqQHu525lcZscJafiTopdyw1f3aVMUjpMB8l
-	pSkv6eX9QFenNNHbh8e4dXZz6j6cy7bKTWA8gOAMrqk2P77aJn2FCfQH194wwq/ZNqFHI69sIbs
-	/st0XEAV3xQmvbqofojRaOt1H4HmlcNUQ0+EY3PW1hwpmqP2YK/Ow72gmaW9GlbzP8Zz7JciL/f
-	Zi1Wjs9TZNgeb7ab2TYPE/i/bYy5tipbHXCyR8WM+73QLy39EJzw751yLX1wLkFKSFPpoHqbHA=
-	=
-X-Received: by 2002:a17:90b:5106:b0:37f:c22a:c188 with SMTP id
- 98e67ed59e1d1-39b260feb03mr32280186a91.4.1788774261208; Mon, 07 Sep 2026
- 02:44:21 -0700 (PDT)
+        bh=Lb18HKgR/gRWdLmmzTs+5hKvWsiCHq7F1zLseYYFjf8=;
+        b=M5ZCkBe0qY4Z0O/QQzvNMUKVIXcH6wv0+nvIeiAKOFKc/QGURoG9U1KFDc8NXZkbgG
+         iqwN6IG+U8C54EMszpWtvZLkCiukA1HJ60+EwKslM5Lo3F/wZokyDpAqy9AFLdombz0l
+         dRYIVfVf+hygi1SUnck4u50HlCx2xrhmgQcBnYu40ZkF8ZTBx5qB0b3mv+nqmqOZ5UlR
+         nLFTdezqgzh/heqYTsekxmw7Zuh7YpU3dXYrgoXEPKvSeMOxE7dRWopWdTjYF8cTID16
+         9W+KDPPNdEdSrUg8aqX/Qav733VUyd5Om2Ts7kAM0vWX2kRggesZWvSzhXYwyU6OpzMM
+         wjtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788774643; x=1789379443;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Lb18HKgR/gRWdLmmzTs+5hKvWsiCHq7F1zLseYYFjf8=;
+        b=iWMD8ooK/P/mmqBYzFjHj/QSoZd1HrPVXWNdtfy16sCqNERHD8MrF9oTtL+s4X8rtf
+         AONdKNA/MSwwKVgWbTWoIXLnZ5DCK1b/09uheCVOwOVwzpJL5Z3UQSGqnW1dPyFhZNAC
+         /Kl0Ej152xmDs0rEZdFQ2WvajNXASxmmceUaGDESL1daQiYy5hCm0/DHR6HDcvV7Vmf+
+         afF6Wm/Pu5MZS9ysPBSuYO5ECh8RhDIQBcnHZAge+wir8bngWLRJU6olJvL7sFYINuDr
+         GM42hsgzOV9rXrOz6KWEYiwOC6YTK2LrefIMxZ/9VVtqLlJy9mw521J84PK+912kMI/m
+         E/yA==
+X-Forwarded-Encrypted: i=1; AKwUvBye24BLNTGMEOJb/cWOI5Phe42X253hmtnoZSpNrGHfHtLM4ogNCkAZuAtMeyIcQWbVbxp1pvvBLcE=@vger.kernel.org
+X-Gm-Message-State: AFuF++m5BMjfrM6/jUGZDQSwUP4GfCJpHVLUepLFOizNBkpY+IVAtsXO
+	RaY2fI3YwuOhuQl5c0XEGfFVLdhAekPDyiYkPVUf17flSkR98k/C5nXy/qHHR9sJ5qG88HZDZgp
+	yOQyU2ek=
+X-Gm-Gg: AYBFou1+BorJdd0jhXtqWz4Dpn6e1b9UQcm7upqsm7iiGEzXmL4aEXIRKC7fY37QVAf
+	bEw86Qds2cgay7sxTOge0ki572f1+PAYomV9lbMruNb5wwW8Vp/3b5jQisPRbuDw1k3wPBYyS4+
+	Uq1qTwM5my1QSNtLY9HwaDd4OuJNSsxOIH7SPWCbb/+O4O21k00OZT9AvDU8q6LFaOAYpsolDyi
+	axhbzvYlFPiWtaouJML8Ti2rThmbfW8HmNucQQFBPjnghFRi4s1TkpqyuMDtP+3WCUHeQEPRN8h
+	lwBJkZZJhDaBHDYcWJKFZaGtztO7bOHuRpw4ZQrjK+2MXUSAejHR2ObAeuW19vuWMfWPlF4U/oh
+	CkMBhDcHmCZ8DxDNys2dtzaT+mj7Lg+cXsmadKzmTM+pv5e9rYJcRQiAjkBXjD/OvSjFaOd0YSN
+	XMXUzIL7vdjJEnby3KTGKM4sTe8PTHxi7uxoEynBLDmASNXELkdcLmvtKX8dmDlTQf3J+5X3roY
+	7pxWTt3zFhVg49oO1BEbQKpZpc=
+X-Received: by 2002:a05:6000:470a:b0:47f:4919:d5b2 with SMTP id ffacd0b85a97d-4858707f262mr23189860f8f.1.1788774642756;
+        Mon, 07 Sep 2026 02:50:42 -0700 (PDT)
+Received: from ?IPV6:2001:a61:1340:dc01:654b:3cf0:59cd:498? ([2001:a61:1340:dc01:654b:3cf0:59cd:498])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4859207c28fsm20770188f8f.5.2026.09.07.02.50.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 02:50:42 -0700 (PDT)
+Message-ID: <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
+Date: Mon, 7 Sep 2026 11:50:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260904234401.2339633-1-jthies@google.com>
-In-Reply-To: <20260904234401.2339633-1-jthies@google.com>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Mon, 7 Sep 2026 11:44:10 +0200
-X-Gm-Features: AcwNN1WMY3fqhnicN71CEKCWOY9vaZG4m4eQH1V9NiV1awWwS6rAM01YuF7ygVM
-Message-ID: <CAMMMRMd-7=hzAiMASAkgUxxG50+sNQQUQN2=dNOS_THVjDmxxw@mail.gmail.com>
-Subject: Re: [PATCH v2] usb: typec: ucsi: displayport: Fix OOB altmode array index
-To: Jameson Thies <jthies@google.com>
-Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bleung@chromium.org, gregkh@linuxfoundation.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
+To: Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260907065501.101013-1-johan@kernel.org>
+ <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
+ <ap56NTVMq8GlbjmR@hovoldconsulting.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <ap56NTVMq8GlbjmR@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 5, 2026 at 1:44=E2=80=AFAM Jameson Thies <jthies@google.com> wr=
-ote:
->
-> The UCSI displayport driver indexes the connector's port altmode array
-> with the GET_CURRENT_CAM response after checking it is not 0xff. The
-> port altmode array is UCSI_MAX_ALTMODES elements long. If the PPM
-> returns an invalid GET_CURRENT_CAM response above UCSI_MAX_ALTMODES and
-> not equal to 0xff, the kernel may crash with an array index OOB error.
->
-> Update the UCSI displayport driver to verify the current cam is less
-> than UCSI_MAX_ALTMODES before accessing the port altmode array.
->
-> Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mode"=
-)
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jameson Thies <jthies@google.com>
 
-Reviewed-by: Andrei Kuchynski <akuchynski@chromium.org>
 
-> ---
-> Changes in v2:
->  - removed 0xff alt mode assignement when GET_CURRENT_CAM returns an erro=
-r.
->  - return -EINVAL when alt mode index above UCSI_MAX_ALTMODES is returned=
-.
->
->  drivers/usb/typec/ucsi/displayport.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucs=
-i/displayport.c
-> index 7067f2561b84..572da7bbd29c 100644
-> --- a/drivers/usb/typec/ucsi/displayport.c
-> +++ b/drivers/usb/typec/ucsi/displayport.c
-> @@ -71,11 +71,14 @@ static int ucsi_displayport_enter(struct typec_altmod=
-e *alt, u32 *vdo)
->         if (ret < 0) {
->                 if (ucsi->version > 0x0100)
->                         goto err_unlock;
-> -               cur =3D 0xff;
->         }
->
->         if (cur !=3D 0xff) {
-> -               ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0 : -EBUS=
-Y;
-> +               if (cur < UCSI_MAX_ALTMODES)
-> +                       ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0=
- : -EBUSY;
-> +               else
-> +                       ret =3D -EINVAL;
-> +
->                 goto err_unlock;
->         }
->
->
-> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> --
-> 2.55.0.979.g7e5102b832-goog
->
+On 07.09.26 10:47, Johan Hovold wrote:
+> On Mon, Sep 07, 2026 at 10:17:38AM +0200, Oliver Neukum wrote:
+>> On 07.09.26 08:55, Johan Hovold wrote:
+>>> The wakeup condition needs to be checked after adding the task to the
+>>> waitqueue and updating the task state to avoid missing a racing modem
+>>> status update or disconnect.
+>>
+>> I am sorry, but in this case I have to ask:
+>> Isn't TIOCMIWAIT inherently racy against the hardware?
+> 
+> What do you mean?
+
+The interface does not state from or to which state it changed.
+Now you could say that it is implicitly the last time TIOCMGET
+was called, but that is
+
+1. not clearly stated
+2. not enforceable
+  
+> Looking at the implementation again now, it seems further changes are
+> needed to fix the implementation, though. The completion handler should
+> not be updating old_count. That's for each TIOCMIWAIT to do.
+
+I am sorry to be obnoxious about that, but I am afraid that would
+break TIOCGICOUNT
+
+	Regards
+		Oliver
+
