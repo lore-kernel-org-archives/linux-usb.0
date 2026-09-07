@@ -1,118 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D67471CE9;
-	Mon,  7 Sep 2026 12:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251A948823A;
+	Mon,  7 Sep 2026 12:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788782925; cv=none; b=kNLVn7c4FR5jOQefxM7T4/qX3h99NThoaZDqslPCZQGplgvbbmRC0RcldJsb+bVmVFEci9tb/ZbDcbe393jJBZCGukpIkPuErpdZ68kWD8buhS+Rd/rFBi1oMk+JPYYEzCCO9rx11OTynAvOJ+8GugLwhR8VhBjG5NYVhwghkac=
+	t=1788783068; cv=none; b=TD732MaPpkljw+C2E5Otun5hNdhtH3ILDUsrZiHGYZH9gjoK9cgE+NdmRN7nREqCaSUNw9WlW02lrSjWqO27thYIC73zGOEU6hjEnu+s/Kh8xRH7yGpugb8sVRh9/vM4D+2xCAL4o/qY6JdGWYRJPC8clrxMzgW69dw7mBqOJHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788782925; c=relaxed/simple;
-	bh=74FzT5xvhYQ9YWQapkVwrpxd0VrXliCap1qsp2bOkRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h38/0pFkcg8DrChqQgvLy4vlm46cRE4SaXCweWJnTbR9XrJkhsjcCU9aLfanMKSadN1dZ2I49rsb/WMmaWS3EDwMm62WCtf90CK6i6uFZlsGfMmxrFmH7cjwL8cnHTgo3+aqpZr+3ut0orHm0vO0PLDe8m5X9XPOLryVSj64ubQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/N7lN3S; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788783068; c=relaxed/simple;
+	bh=z0srhFhnhCzKvHk52yfbss4F64271/EiMNC1osZtxEc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=N7CyoapUl8d2gQWnPRcsnmFO2ePvtrQr4uoUUucdl9BloRUJ9XeH/7EIHM93rH2F2nwrGHoOH+GvF6gcdYc+K07HG+95JiXMysRsReHn5IOJXGf0LaQwGlms9UeF260++cX/XukVYqNrBJEWspEGFfHQGQB95AQbl7gTtrr+SlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=efKbcJo+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qlzx/ElI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cdBoWHvh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U8XlSHHi; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/N7lN3S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788782924; x=1820318924;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=74FzT5xvhYQ9YWQapkVwrpxd0VrXliCap1qsp2bOkRA=;
-  b=a/N7lN3SVZNjpEfMrSb7r3xcPd9te3Kx4h2pumdAo7ilL/tWViiRT+5k
-   1rcvJ/1s/NnHsVtpe0Jip42AX+FUAQTublW/lS3SHpTyYAWgyLF9ncEQA
-   eOYDKGNpAbHHoBPHgPGPmXERBf4AqYo2Ya879P1hqzusQ2ThThJq6oFTE
-   k8WX1kYPMHWsAnLFA9VcpSfLwJlJh7SzKuCuxxIvBXG2QTghmoUgMw9tF
-   xs1vaN/qpIB/l+mmAhTwK6yVsNTOMm0TFcdllb+EK9bDiZRJbaFKvsBHm
-   seFR7H6i0LR3YahLJexScQMLBXcCZrgzFqtdLAwpoGbnz+wUrXyI2uxEe
-   A==;
-X-CSE-ConnectionGUID: C/0mK1JrRAOJDGbGUdIYIg==
-X-CSE-MsgGUID: OVI+C7MeQPWIPokUiMusbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="89029412"
-X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="89029412"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 05:08:43 -0700
-X-CSE-ConnectionGUID: 41fBlsJpReCUVNx4ojz0SQ==
-X-CSE-MsgGUID: DwKU8ZnWTHK6Dp2R8UC6xA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="272623748"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Sep 2026 05:08:41 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 4A79E99; Mon, 07 Sep 2026 14:08:40 +0200 (CEST)
-Date: Mon, 7 Sep 2026 14:08:40 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tipd: Disable mode control for CD321x
-Message-ID: <ap6pSJbx_HNPerOs@black.igk.intel.com>
-References: <20260906-b4-tipd-mode-ctrl-v1-1-71032eaaa452@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="efKbcJo+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qlzx/ElI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cdBoWHvh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U8XlSHHi"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E6FAD219C2;
+	Mon,  7 Sep 2026 12:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788783061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZuO925TticfZXvC4A8yZlRmQvCeXjsFi1hJFxCn5Q94=;
+	b=efKbcJo+z0Q+gvfoxG8gjEpyqZ6JdPqpgwQWg0FGOn7ChANb47Cjr8FC8Atk1KglCR/Riq
+	1XmdQt4L4v19We3KLk95H97mAcXd+4+UI4NAYamexzLAzJRNux2CtPSqBOOQaW63zCl0HH
+	Q5yfqCbZWFwnKym2gRKnV4ePNv+M2hw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788783061;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZuO925TticfZXvC4A8yZlRmQvCeXjsFi1hJFxCn5Q94=;
+	b=Qlzx/ElIPe32gfGtYsojqxD90pSvcP1Mg7ngr8fCSoJ0e8q3kMmjA3tz+4zNVvnS8kjB7f
+	VYoxMlNuc8MkeYAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788783056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZuO925TticfZXvC4A8yZlRmQvCeXjsFi1hJFxCn5Q94=;
+	b=cdBoWHvhYBmBG31/fSNu7KcgFKTW+BQqWZyD8icqQLVE/8OLh16It6ppp6jfjLSCKmp7LS
+	K8no75GtEo0LaHLctWpAI2BB5XyI2zju68mv3QBj4SMHDvUpZeBMThXJokEq3Tnpc4qg/u
+	yRKG2Zs9rceQQWvEMsXkZgq2rqmtHP0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788783056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZuO925TticfZXvC4A8yZlRmQvCeXjsFi1hJFxCn5Q94=;
+	b=U8XlSHHiai1xmDgiUhUDl4j65u04F1YUbGB1ikQkzySvYaGIv6ss6aH2tXEYDat4XF4FOM
+	WAzTOOagzChoBjAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 969BB1339B;
+	Mon,  7 Sep 2026 12:10:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6B6AI9CpnmrbHQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 12:10:56 +0000
+Message-ID: <2554fab5-d531-45ad-b5cc-80c9713f137f@suse.de>
+Date: Mon, 7 Sep 2026 14:10:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260906-b4-tipd-mode-ctrl-v1-1-71032eaaa452@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/40] scsi: rename sense field of struct scsi_failure
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260903034201.112211-1-dlemoal@kernel.org>
+ <20260903034201.112211-5-dlemoal@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260903034201.112211-5-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 
-On Sun, Sep 06, 2026 at 02:24:00PM +0200, Sven Peter wrote:
-> Apple's CD321X firmware controls which alternate mode is entered and
-> cannot be influenced from Linux. Set the no_mode_control capability to
-> accurately reflect this to the typec subsystem.
+On 9/3/26 5:41 AM, Damien Le Moal wrote:
+> Rename the sense field of struct scsi_failure to sense_key. This makes
+> it clear that this field stores the sense key, and also unifies this
+> structure field names with the names used in struct scsi_sense_hdr.
 > 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> To be consistent with this change, the macro SCMD_FAILURE_SENSE_ANY is
+> renamed SCMD_FAILURE_SENSE_KEY_ANY.
+> 
+> Of note is that the definition of the array any_sense_failure_defs in
+> scsi_lib_test_any_sense() is modified to change the initialization of the
+> result field to use SCMD_FAILURE_RESULT_ANY and add the .sense_key field
+> initialization to SCMD_FAILURE_SENSE_KEY_ANY to match the test target
+> case.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 > ---
->  drivers/usb/typec/tipd/core.c | 3 +++
->  1 file changed, 3 insertions(+)
+>   drivers/scsi/ch.c                           |  2 +-
+>   drivers/scsi/device_handler/scsi_dh_hp_sw.c |  4 ++--
+>   drivers/scsi/device_handler/scsi_dh_rdac.c  | 10 ++++-----
+>   drivers/scsi/scsi_lib.c                     |  6 ++---
+>   drivers/scsi/scsi_lib_test.c                | 25 +++++++++++----------
+>   drivers/scsi/scsi_scan.c                    |  8 +++----
+>   drivers/scsi/scsi_transport_spi.c           |  2 +-
+>   drivers/scsi/sd.c                           | 20 ++++++++---------
+>   drivers/scsi/ses.c                          |  8 +++----
+>   include/scsi/scsi_device.h                  | 12 +++++-----
+>   10 files changed, 49 insertions(+), 48 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 522f56742aa9..8fdb37e288b4 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -151,6 +151,7 @@ struct tipd_data {
->  	irq_handler_t irq_handler;
->  	u64 irq_mask1;
->  	size_t tps_struct_size;
-> +	bool no_mode_control;
->  	void (*remove)(struct tps6598x *tps);
->  	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
->  	void (*unregister_port)(struct tps6598x *tps);
-> @@ -1242,6 +1243,7 @@ tps6598x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
->  	typec_cap.driver_data = tps;
->  	typec_cap.ops = &tps6598x_ops;
->  	typec_cap.fwnode = fwnode;
-> +	typec_cap.no_mode_control = tps->data->no_mode_control;
->  
->  	switch (TPS_SYSCONF_PORTINFO(conf)) {
->  	case TPS_PORTINFO_SINK_ACCESSORY:
-> @@ -2015,6 +2017,7 @@ static const struct tipd_data cd321x_data = {
->  		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
->  		     APPLE_CD_REG_INT_PLUG_EVENT,
->  	.tps_struct_size = sizeof(struct cd321x),
-> +	.no_mode_control = true,
->  	.remove = cd321x_remove,
->  	.register_port = cd321x_register_port,
->  	.unregister_port = cd321x_unregister_port,
-> 
-> ---
-> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> change-id: 20260906-b4-tipd-mode-ctrl-80835d9e3f72
-> 
-> Best regards,
-> --  
-> Sven Peter <sven@kernel.org>
-> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
+Cheers,
+
+Hannes
 -- 
-heikki
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
