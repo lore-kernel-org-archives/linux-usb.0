@@ -1,135 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F87A4A6CEF;
-	Mon,  7 Sep 2026 12:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EA54A9D48;
+	Mon,  7 Sep 2026 12:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788784723; cv=none; b=oh2VzjaZxRBFdy1l2ZOWmh5tuDNLhseHWWj2i6s5fkuWEPLxvzDv1cIZUHOdM+r3kMhevYPKZnhZ5Ilnf+LYACd6gEgoZopw4jkwTFeOfhO/QiZzP6V2XDENEyLHgulreNgwMfWlOODWpv1HUMXotdg6Ekh8skA8CYvRIGkNlr4=
+	t=1788784731; cv=none; b=GdzT4txw5cI2qcihysjFj9siDH14xS0DEk97pzgnMLIT1zMnqvaUDOxb58e1XaEe/CDhFF0tB8ifScJaCxVP00JbN0WiOOxpbhwRIXawKVbix8uJC3t4RfsGr19yHoxkprqnYmAaYvzqNhxtFWQ80R7nQoSFx8jsLDQJHfzHTX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788784723; c=relaxed/simple;
-	bh=2KKsXLABCVBrGrYgB3/AEs1QcF1OetznXpcnRKacGxY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=n9jcIcwgJb/ykqLdo9q1TSuWJArzDKdySvdsh5GeE7qJNm0bbZrcn8di8r1Zhy/9YxmVzfss/vh/K4fiATZjEDlOzXU9F4VYuJUSjJmPfIMV75g56jnfY/NnfOVlG6PZIsfJ7OU/JXlyyy8qttgyJBn2tFE3nchQDEmRdlmAfBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRYVCxLY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788784731; c=relaxed/simple;
+	bh=ByJdevtXJ1fFEqwhFr6tdu7wap7JayMJbncwcvIhtRw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=hfekhZdpEf2owSa+CpJAQu2DOo0Zo6UrHCBCBPQp5Ka+2EJcja+d3KrtLymOFzrxJ6c+u79p9pemqfOTk48ifpWGAVxRv9unXuvwUbd6lURnha4kMtYEjz8B21O623Vmk3uwmSwx/5xjnwx+eVaDpnNqS3pnDAEo6cR5fcPreD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gubyc/Wq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pU8kD8cS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z3+2QyBc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q0jFCICl; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRYVCxLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 804011F00A3A;
-	Mon,  7 Sep 2026 12:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788784722;
-	bh=KD+2zcpvmkcDZ3cJuCNDIPkcI/BtMjbq/CkWlis/PbU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=kRYVCxLY0/vTJ+fbmiuidiZQ+nIGH/QQuK/Qi8lQ02VhxlPUZ0WJUQjPMPR57SbcW
-	 q9ArkX+lA0h0qlH46NRcal31nv+ecnkEemNBrVHbmQ1h71tj5VST7+zO0x6YXSzB3i
-	 cPQW6OnsBJ7tUaclciTTf0zGW4oR1lCVNyUm6YsyUC9aGtgib7AnMYkJNGu41k6wdO
-	 /F3gYxxJ0BBinS+JZ2un9pBUwwbDdmNSaUG9m9bFQvkpJN3EFGFST8Mmq0yV6ViYwW
-	 7xvSkClBpumHKJBZnZ2b9YGNbICmSo0MxgutXJ3cXXgZrZrwS7637pq/UkkfPReY2B
-	 x5Ldt7pD8EE7Q==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, =?utf-8?Q?Bj=C3=B6rn?=
- Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Trevor Gross
- <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>, Lyude Paul
- <lyude@redhat.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Arve =?utf-8?B?SGrDuG5uZXY=?=
- =?utf-8?B?w6Vn?=
- <arve@android.com>, Todd Kjos <tkjos@android.com>, Christian Brauner
- <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
- Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Krzysztof
- =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Pavel Tikhomirov
- <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>,
- Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, driver-core@lists.linux.dev,
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, Asahi Lina
- <lina+kernel@asahilina.net>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-In-Reply-To: <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org>
- <ao2WubjLtDuHvRzx@google.com> <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
- <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
-Date: Mon, 07 Sep 2026 14:38:23 +0200
-Message-ID: <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gubyc/Wq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pU8kD8cS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z3+2QyBc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q0jFCICl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A34E921971;
+	Mon,  7 Sep 2026 12:38:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788784723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EYl13lkLdAC2Jnsk4P+LHXnC0JEQWXtIX6p+pK3kloM=;
+	b=Gubyc/WqVAvsnpHkrkR/CzbJyInsV50BJDk97xZJYgcbHEKWZpoe6DX4nPMox4h6d4xkgn
+	7rc4pustObkeaLEmzu/WA60arH1Izh3V01Qq3UdoUnTALDrishegXELobScNQheMVt5iuI
+	AGxAOZamGN8sOFNjE6MYOFvJGmNylDo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788784723;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EYl13lkLdAC2Jnsk4P+LHXnC0JEQWXtIX6p+pK3kloM=;
+	b=pU8kD8cSylotZlv1Qgdskl8TY7HRC5FomD6kQvKJX5LbR5E6/oYdzxE9P5zFc1YjB6BWIO
+	Eb31vlgWaMBTdiBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z3+2QyBc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q0jFCICl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788784719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EYl13lkLdAC2Jnsk4P+LHXnC0JEQWXtIX6p+pK3kloM=;
+	b=Z3+2QyBcT7gHfqkgQaZQ0nozR8nyuzEEHRel8YCaFx2ifWS8qtMGfUh0rENpv/olNRm98w
+	ngik6AO+9hCugR+h2c7jO7p/T5XDg4o8oud5NBQQcShWNdcleueHd0fP3AGk3EvB5vrUOT
+	299p1r0qar2w35ebd/Gtgzywv243Km8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788784719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EYl13lkLdAC2Jnsk4P+LHXnC0JEQWXtIX6p+pK3kloM=;
+	b=q0jFCICl4ozlzh7ZUOllxL65IFMWV9q443gPJ756pxkdGf0hytK1B/t4NupbtrV69xYNMr
+	zU0wkSNYD9FnbhDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 514F41339B;
+	Mon,  7 Sep 2026 12:38:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b2K+Ek+wnmqIOAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 12:38:39 +0000
+Message-ID: <57ca0536-c40f-4901-a392-f352337c87c4@suse.de>
+Date: Mon, 7 Sep 2026 14:38:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 28/40] scsi: mvumi: use 16-bits defined sense codes
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260903034201.112211-1-dlemoal@kernel.org>
+ <20260903034201.112211-29-dlemoal@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260903034201.112211-29-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A34E921971
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 
-Alice Ryhl <aliceryhl@google.com> writes:
+On 9/3/26 5:41 AM, Damien Le Moal wrote:
+> Refactor the Marvell UMI driver to use scsi_set_sense() and replace all
+> hard-coded additional sense codes and additional sense code qualifiers
+> with the enum values defined in include/scsi/scsi_sense.h. This helps with
+> code clarity as the sense codes being processed are easier to test and
+> self-documented.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> ---
+>   drivers/scsi/mvumi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-> On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->>
->> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
->> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
->> >> +        // SAFETY: We just successfully allocated a page, so we now =
-have ownership of the newly
->> >> +        // allocated page. We transfer that ownership to the new `Ow=
-ned<Page>` object.
->> >> +        // Since `Page` is transparent, we can cast the pointer dire=
-ctly.
->> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
->> >
->> > This doesn't satisfy the safety requirements of Owned::from_raw()
->> > because the page may be used with vm_insert_page(), which increments i=
-ts
->> > refcount and causes it to be shared the vma system, and this occurs
->> > before Page::release() is called.
->>
->> I suppose the existing vm_insert_page() abstraction we have is already
->> problematic, because it uses `&Page`?
->>
->> Maybe we want to change the API to use `ARef<Page>` so it already has to=
- be
->> shared? Conceptually it takes a reference count from a `&Page`, which is=
-n't
->> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&ARef<=
-Page>`
->> to be able to do that op.
->
-> Honestly, the problem is the safety requirements of Owned::from_raw().
-> Pages have a "special" main reference, and free_page() does more than
-> put_page(). It even does something when the refcount does not hit
-> zero.
->
-> The correct behavior for Page is to allow the user to hold one
-> Owned<Page> whose drop calls free_page(), *plus* any number of
-> ARef<Page> references that invoke put_page() on drop. This way, the
-> owned page controls the special drop codepath.
+Cheers,
 
-This does not mesh well with the model of `Owned` behaving like
-`UniqueArc` to `ARef` behaving like an `Arc`.
-
-Please help me understand; with page having a main ref and an auxiliary
-refcount, if we model that with a single `Owned<Page>` and a number of
-`ARef<Page>`, what would happen in the case where the main ref (`Owned`)
-is dropped first? Is this legal?
-
-My intuition here would be to follow Garry's suggestion and have
-`vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is not
-an option?
-
-
-Best regards,
-Andreas Hindborg
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
