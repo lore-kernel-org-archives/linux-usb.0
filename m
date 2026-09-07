@@ -1,104 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EA04746BF;
-	Mon,  7 Sep 2026 10:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79CC48033F;
+	Mon,  7 Sep 2026 11:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788778420; cv=none; b=SbfCk8TEx3J8sRkuWlOjUMvoFVOnQj2ZPxleVmc33Is+bHpivGcQW/7VbhhJoqnk3C0xlxic6zJAM8D1ajOrt4AOrqiyXWnEvqGPyBtsQq2m7SiqkqzLEFeSbw/lJTaHmVUdnZ5rjrfhstv89HFsK0bUmI4yP8/vm99p96pxE7Y=
+	t=1788779089; cv=none; b=YSAWh8zMeVcb8To0j9oxcIN2FXI++Lplj9GGyLD4ZD5RFlc78nU8y7bT/12hF78kG2AOyuJZMZ7cofA96hLR7tQxychE8xN2lGC1i0qogLILuT2F2vFq6+GkZL6MvADOUsDyd++kx30Lg7UZmJSWFJFuodCGBC+dBxdy5W7UWSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788778420; c=relaxed/simple;
-	bh=HVGcZF8Q/ZEdDc1P8SbQdecxk3+rmU/h4yuXHPhDcZc=;
+	s=arc-20240116; t=1788779089; c=relaxed/simple;
+	bh=enqaTgTDjJHo/KmjxgqCtc1D8Z7dhCe1bQBJE/5wU6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=caDVYs5/p3Zm0UPgLkbWO54UuTM9xkHioalOgysykVn10GNX/nSbDteGFggHmzO8OeteJynvsKI/0ask4NyLSaUcY/AaInOs4umgcRYdtaYSBT6FZYbSriQP//Ts/rOonEFswBaXx3MtqaVEfLt8S3PrSKBT6EotlkkCH5gdWCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ToED8y72; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gSUMEmzziDBGgtTMm08YasvkyxwuFt7W5zxtW379y+rm0B17LGurwAXxwWkl9hlYAQn47wf6GD0B3u7d5g0wKjOTH5IeJCvGOfLN+vi3jGWuW1AMScsTNKN9zTgEdGJjBpSWXGrKzinPAMvxR2wnUJo7yBN4foqR225NHiTe6/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6xbBSRQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ToED8y72"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788778419; x=1820314419;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HVGcZF8Q/ZEdDc1P8SbQdecxk3+rmU/h4yuXHPhDcZc=;
-  b=ToED8y72trk1V7IA9LOak4nPNvJ1K1b4coR8BN8fXWtc7bMmGe9n9gLd
-   +nkmWaq0DrPyPAh2XU1OKzTt8OSvhg5i1ydFckM5t6qt4w5x7ZbdWwV/K
-   9AHWGoEbyMY1/rew6u+fpIETczlJLxeAl6KG+sMmjz/IknV7Fk4n8Tnyh
-   Il8bFvD6RyoIC+2l5Ts2FpW0ryQYSWf3TsZSAiTukuIqRF4otMKOVDeAV
-   DbgnQsC+zqnEzvP8m2R7SuTx72K3xyI7UFtKQqoA4Qp9EPTUehDiBQ4o3
-   rSg34yl49HdHSD8/g+47Ior5HcedMpw7ziTaBLV6rqPhqY5RtT8hS3Q71
-   Q==;
-X-CSE-ConnectionGUID: KVjPBCm/QI659y0bVc3e+A==
-X-CSE-MsgGUID: 815l+igGQqu8jyY9kno20A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="89213464"
-X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="89213464"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 03:53:38 -0700
-X-CSE-ConnectionGUID: o1nNYw9yTpejgXV5VsJ+DA==
-X-CSE-MsgGUID: IBFHA4xuQ/Oc0hdo5jY4IA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="274191711"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 07 Sep 2026 03:53:36 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 9993B99; Mon, 07 Sep 2026 12:53:35 +0200 (CEST)
-Date: Mon, 7 Sep 2026 12:53:35 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Linkai Gong <gonglinkai@kylinos.cn>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xin Ji <xji@analogixsemi.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: anx7411 - stop the IRQ before destroying the
- workqueue
-Message-ID: <ap6Xr5X64V6evYjz@black.igk.intel.com>
-References: <20260903082254.1540271-1-gonglinkai@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6xbBSRQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D0401F00ACF;
+	Mon,  7 Sep 2026 11:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788779088;
+	bh=UhDd3EHod0lYY5MEXGTvrMluTalNr+mv5duatZgY/ew=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K6xbBSRQ3nCBs1A6qV78I1kbUlt139kLQPmE01Gc0apHamGHx/lMbh4OYEOFYUs+L
+	 RRRqpGb9b4YopuGIXGLYkIz7Yk4RQexl1lqFxSPbwtJNbnWgKrdmlWudy8RSuIaBYa
+	 uVPHko+tEbpElwnAwz23bNbmjVBHPOLPljIsXAI27FcJmhgkFNdmxjoRdALk4B2pWs
+	 kR+r97c7ZDXJuXTTY03jqmYPQ55sMamMBaKmEt9HAsjWL9LbXHzs0jQDzqUEVKvaAX
+	 +rWyccjjooOr0RDVk+FQ1orp2ncEdU8muUejDfy6I5YslUdTbbefr/8WevrKSvAaS9
+	 oVpd6FEuQQghQ==
+Date: Mon, 7 Sep 2026 13:04:38 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: george.moussalem@outlook.com
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Praveenkumar I <praveenkumar.i@oss.qualcomm.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
+	Nitheesh Sekar <quic_nsekar@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 09/12] dt-bindings: usb: qcom,snps-dwc3: Add clocks
+ for USB3 on Qualcomm IPQ5018
+Message-ID: <xhlq5d56pz5c6aq7bngxva4mrkf55zv7wt6d7xe2ql5gurqev7@7mbf6oc7eocu>
+References: <20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com>
+ <20260825-ipq5018-usb3-v3-9-39be0955a6aa@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260903082254.1540271-1-gonglinkai@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260825-ipq5018-usb3-v3-9-39be0955a6aa@outlook.com>
 
-On Thu, Sep 03, 2026 at 04:22:54PM +0800, Linkai Gong wrote:
-> The IRQ is devm-managed, so it can still queue plat->work while
-> remove() is tearing the queue down. Disable it first.
+On Tue, Aug 25, 2026 at 04:37:26PM +0400, George Moussalem via B4 Relay wrote:
+> From: George Moussalem <george.moussalem@outlook.com>
 > 
-> Fixes: fe6d8a9c8e64 ("usb: typec: anx7411: Add Analogix PD ANX7411 support")
-> Signed-off-by: Linkai Gong <gonglinkai@kylinos.cn>
-> ---
->  drivers/usb/typec/anx7411.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Add aux and lfps clocks in Qualcomm IPQ5018. These clocks are required
+> only for USB Super-Speed support.
 > 
-> diff --git a/drivers/usb/typec/anx7411.c b/drivers/usb/typec/anx7411.c
-> index 41df115912b9..c3d36da692e4 100644
-> --- a/drivers/usb/typec/anx7411.c
-> +++ b/drivers/usb/typec/anx7411.c
-> @@ -1566,8 +1566,11 @@ static void anx7411_i2c_remove(struct i2c_client *client)
->  	anx7411_partner_unregister_altmode(plat);
->  	anx7411_unregister_partner(plat);
->  
-> -	if (plat->workqueue)
-> +	if (plat->workqueue) {
-> +		disable_irq(plat->intp_irq);
-> +		cancel_work_sync(&plat->work);
->  		destroy_workqueue(plat->workqueue);
-> +	}
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 
-Is the workqueu necessary at all? It's threaded irq.
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-Thanks,
-
-
->  	i2c_unregister_device(plat->spi_client);
->  
-> -- 
-> 2.25.1
+- Mani
 
 -- 
-heikki
+மணிவண்ணன் சதாசிவம்
