@@ -1,104 +1,262 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BC93C2D;
-	Mon,  7 Sep 2026 05:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FA1382287
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 06:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788760451; cv=none; b=CR4QJ1779T4aT7umQvW8ZrYMUL1TikzIHTu6lt61pRak+wGV6khB6D03PyZIsMkl37JFn3zvTalWbr28PNYCbHFaK8Yr//opEyowj12e+/UuCth71LateV/SjWYWkmFQhLST3oa9cG7wXjO3cHdpsiu7uj3nSLbwY5s5/15bDaA=
+	t=1788761096; cv=none; b=u5dHwe6BfdEnss3pEC1CuYlSzX+YRptYXGMP+bG0q3XtKb5+BfIHa0WuIOw3cUFYHGBb6pTuRbHpL2Fk7nQRkg1geliOqo5G2BnvM3hdy/Z5T4ooesJHmAWohaMT3rxB6WHNMw4C/E0Xzg2CqOMwK6QLI3So/S2J4auTEyri+k4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788760451; c=relaxed/simple;
-	bh=HYO47MED8T4RGl6wnRvdHbjBI4VMKHn4Bpj3NDC4w2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SH9G5EY7SbMCbSYCjXM9px+zE5Dp2lhywqu55aYNF98uHLT30bI5g+7CTqjy3chgvD01/8YkHtyEpaOHU+ZE+aWdKh/RhdFYnsSNCUj2uJ5Cg1HcjuzNZexwANj3+PHBGG0ESOiDotsNN2CAfs5cJqYub0rtBFzE4kg5JxKgfn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ktJ+wzmo; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788761096; c=relaxed/simple;
+	bh=b1Hz9rYycwYrYX/+s3pbLxWS7uKOceawfWb5yqx4yE4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=LHLmuuXtWPWNeD9rUTKR0Gcs4JDB+6h3swEFmq5kPz9j8VnpT1ujTeL1MEL1n/WRS4JJ0+mcCWHT/sQ/JCsMz1ao/9TqUa5HiuZozkJmfZPJ7IuirOLAvgnjZDrFiMekeRYAHQ84YzP/755IJMQ3sKfiMVCqiV98mG7q/wAgbWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=slcRk5m+; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ktJ+wzmo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788760448; x=1820296448;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HYO47MED8T4RGl6wnRvdHbjBI4VMKHn4Bpj3NDC4w2k=;
-  b=ktJ+wzmoZzvV+mO80XkQKZihvwXUoti+bCVsRZisSNIcg5dbbbXSIdo+
-   ji79m6DMWZF9IU3cS9OwC51mUd0aC2qljbExRS7ooE1atctQa+l28l4Bq
-   +IEIxg6k/zKto4364r+A2EQSC2Sqle523heSvWdpUjb5TYROpYzRlQHAc
-   iDRFy+p99jRcEgAoDltT0v/NV4bj3f3NKa0Dn7Sx7PyXNo1mEtPM9DMZ6
-   uTYXnL6QN0EGETFB4dyaluio8hnjj42Aw3GTgWwWJLqlf0aBwCVuDysF1
-   HEsQiAjODWIlvcrPDuHKA8ES9jwUe/DMIaDUDYt83VzMj/drYmOiFOIS6
-   Q==;
-X-CSE-ConnectionGUID: OywGyYRMT16GPjP/Bte/Gg==
-X-CSE-MsgGUID: KTDV+VaVQhmsbsCPXToYEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="88093680"
-X-IronPort-AV: E=Sophos;i="6.25,266,1779174000"; 
-   d="scan'208";a="88093680"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2026 22:54:03 -0700
-X-CSE-ConnectionGUID: MzgUNYR6TC+bo+S3usQyvA==
-X-CSE-MsgGUID: oQWRJlIuTq2l/IY5vpHxyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,266,1779174000"; 
-   d="scan'208";a="274772243"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 06 Sep 2026 22:54:01 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 6903699; Mon, 07 Sep 2026 07:53:59 +0200 (CEST)
-Date: Mon, 7 Sep 2026 07:53:59 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH 2/2] net: thunderbolt: Update ring indices only after all
- frames are queued
-Message-ID: <20260907055359.GS106095@black.igk.intel.com>
-References: <20260902082128.1148463-1-mika.westerberg@linux.intel.com>
- <20260902082128.1148463-3-mika.westerberg@linux.intel.com>
- <20260905135702.1af66dde@kernel.org>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="slcRk5m+"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260907060445epoutp03a4301455310e86fe19db3d84b563eb88~S9LrWycrs0394403944epoutp035
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 06:04:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260907060445epoutp03a4301455310e86fe19db3d84b563eb88~S9LrWycrs0394403944epoutp035
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1788761085;
+	bh=Apw2iUirqek8VKGufyLgdLjs5Rfxgc8/vl6/NyrKW8k=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=slcRk5m+WGQ1SjbuuoGM/zupLNokbYmmpTiZPQm2hBMLwBwpJquqgA75gVj2kx5ZW
+	 qItUWlQ3NBdlpuha6fRDXLcS8npdspRdWWEJffIYY3vEAEKgK5GEG+PxQb/o/JTUWz
+	 7M6tfDOsVP0F/W1L01kCkHwkO/ot09Pv1oqCFH28=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260907060444epcas5p28eb4578f521d4d2b9e0694c18df3def2~S9LqPUohf2359923599epcas5p2F;
+	Mon,  7 Sep 2026 06:04:44 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4hdc3b0q6yz6B9m7; Mon,  7 Sep
+	2026 06:04:43 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260907060442epcas5p309df4da89d1a3040ddcec14195fc2b3b~S9Lo4EmvD1977119771epcas5p3s;
+	Mon,  7 Sep 2026 06:04:42 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260907060440epsmtip21f4fd38dcbbe0387455b812404e9bd80~S9LmbZNx51077310773epsmtip2O;
+	Mon,  7 Sep 2026 06:04:39 +0000 (GMT)
+Message-ID: <e4bafeea-4548-41ef-b5e2-98ade2864e74@samsung.com>
+Date: Mon, 7 Sep 2026 11:34:38 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260905135702.1af66dde@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] dt-bindings: usb: Introduce samsung,snps-dwc3
+To: Krzysztof Kozlowski <krzk@kernel.org>, peter.griffin@linaro.org,
+	alim.akhtar@samsung.com, gregkh@linuxfoundation.org, robh@kernel.org,
+	conor+dt@kernel.org, Thinh.Nguyen@synopsys.com,
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com,
+	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
+	muhammed.ali@samsung.com, thiagu.r@samsung.com
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <ad1d8c01-a810-443a-9ad5-721d6d0b68b1@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260907060442epcas5p309df4da89d1a3040ddcec14195fc2b3b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260903071318epcas5p4b804edb84554847c576d1d034b814d7a
+References: <20260903071250.3421499-1-selvarasu.g@samsung.com>
+	<CGME20260903071318epcas5p4b804edb84554847c576d1d034b814d7a@epcas5p4.samsung.com>
+	<20260903071250.3421499-3-selvarasu.g@samsung.com>
+	<ad1d8c01-a810-443a-9ad5-721d6d0b68b1@kernel.org>
 
-Hi,
 
-On Sat, Sep 05, 2026 at 01:57:02PM -0700, Jakub Kicinski wrote:
-> On Wed,  2 Sep 2026 10:21:28 +0200 Mika Westerberg wrote:
-> > Take advantage of the new API and update the ring producer/consumer
-> > indices only after the frames have been queued. This reduces the number
-> > of doorbell register writes from one per frame to one per batch.
-> > 
-> > Measured using iperf3 over a Thunderbolt/USB4 net connection between
-> > Arrow Lake and Panther Lake systems (average of three runs):
-> > 
-> >   before         after
-> >   ~14.3 Gbit/s   ~15.3 Gbit/s
-> 
-> Acked-by: Jakub Kicinski <kuba@kernel.org>
+On 9/5/2026 12:52 PM, Krzysztof Kozlowski wrote:
+> On 03/09/2026 09:12, Selvarasu Ganesan wrote:
+>> The Samsung Exynos8855 USB glue is not separate from the Synopsys DWC3
+>> core, using a flattened model where the DWC3 controller is directly
+>> addressable rather than nested as a child node of a glue layer.
+>>
+>> Describe the Exynos USB block as a single node, referencing the split
+>> out Synopsys DWC3 core properties via snps,dwc3-common.yaml. The new
+>> binding follows the same approach as qcom,snps-dwc3.
+>>
+>> A generic fallback compatible "samsung,snps-dwc3" is introduced to
+>> describe this binding, selected by the validator based on the presence
+>> of the fallback string in the compatible list. Future Exynos SoCs
+> This is AI slop text. Over longish useless sentence describing diff
+> without actual information WHY.
+>
+> Don't send AI generated slop messages.
 
-Thanks!
+Sorry for the misleading info on this commit message. We were trying to 
+explain why a separate flattened representation is being introduced with 
+using generic fallback string, and follow the style of some other DWC3 
+flattened refactors (like the Qualcomm : 
+https://lore.kernel.org/all/20250414-dwc3-refactor-v7-2-f015b358722d@oss.qualcomm.com) 
+to justify the separate binding, but it became too long. We'll simplify 
+it and keep only the technical reasoning.
 
-I applied these two to thunderbolt.git/next.
 
-> but Clashiko (sort of) hints at lack of proper handling of transient
-> memory allocation failures. Indeed the NAPI path seems to call
-> tbnet_alloc_rx_buffers() which flushes the ring completely on
-> any sign of trouble. (a) aren't we freeing buffers already handed
-> to HW; (b) if we flush Rx free list and there's no Tx won't the driver
-> wedge Rx and never schedule NAPI?
-> 
-> I'd suggest fixing that first before making any optimizations :S
+>
+>> utilizing the same flattened model can be added by extending the
+>> compatible enum with per SoC clock and property constraints.
+>>
+>> Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
+>> Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
+>> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+>> ---
+>>
+>> Krzysztof Kozlowski is added as a maintainer of this YAML binding, as
+>> he is the ARM/Samsung SoC architecture maintainer (ARM/SAMSUNG S3C,
+>> S5P AND EXYNOS ARM ARCHITECTURES) who already maintains Samsung Exynos
+>> DT bindings (e.g. samsung,exynos-dwc3.yaml) and reviews all
+>> Samsung related binding changes. This follows the same convention used
+>> by existing Samsung Exynos DT binding schemas.
+>> ---
+>>   .../bindings/usb/samsung,snps-dwc3.yaml       | 98 +++++++++++++++++++
+>>   1 file changed, 98 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml
+>> new file mode 100644
+>> index 000000000000..480308c16f37
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/usb/samsung,snps-dwc3.yaml
+>> @@ -0,0 +1,98 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: https://protect2.fireeye.com/v1/url?k=1a7dfa9a-7bf6efdd-1a7c71d5-000babff99aa-643f51fc0561c489&q=1&e=c6c89336-1f3a-4d30-a005-615c2b8d9c6f&u=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fusb%2Fsamsung%2Csnps-dwc3.yaml%23
+>> +$schema: https://protect2.fireeye.com/v1/url?k=515f3c48-30d4290f-515eb707-000babff99aa-9a67f9f3980bd8f3&q=1&e=c6c89336-1f3a-4d30-a005-615c2b8d9c6f&u=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23
+>> +
+>> +title: Samsung Exynos SoC DWC3 USB Controller
+>> +
+>> +maintainers:
+>> +  - Krzysztof Kozlowski <krzk@kernel.org>
+>> +  - Selvarasu Ganesan <selvarasu.g@samsung.com>
+>> +
+>> +description:
+>> +  Describes the DWC3 USB controller block implemented on Samsung Exynos SoCs.
+> Huh? Did you even look at existing bindings?
 
-I would have fixed these prior had I known they existed ;-) I will look
-into these.
+
+Yes, We checked samsung,exynos-dwc3.yaml. Exynos8855 could use it, but 
+that binding uses a parent and child representation. This patch 
+introduces a flattened model where the USB vendor block and SNPS dwc3 
+block are in a single node. The goal is to use this for Exynos8855 and 
+eventually migrate the other samsung USB implementations from the old 
+parent and child model to this one. We'll make this clearer and shorter 
+in the commit message.
+
+>
+>> +
+>> +select:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        const: samsung,snps-dwc3
+>> +  required:
+>> +    - compatible
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +          - samsung,exynos8855-dwc3
+>> +      - const: samsung,snps-dwc3
+> There is no snps device from Samsung, neither DWC3. The name of device
+> is completely wrong. snps is a vendor, not a device.
+>
+> Anyway, don't use generic fallbacks.
+Understood. The fallback was intended to cover upcoming SoCs (8865, 
+9955, 9965) and the migration of older SoCs without adding a unique 
+string for every project, similar to the qcom,snps-dwc3 approach.
+
+We agree that the naming was incorrect since  "snps" is the vendor. We 
+can switch to per SoC compatible strings, but would a corrected fallback 
+name like samsung,exynos-dwc3-common or samsung,exynos-snps-dwc3 be 
+acceptable instead?
+>
+>
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    description: |
+>> +      Several clocks are used, depending on the variant. Typical ones are:
+>> +       - ref: Reference clock for SOF/ITP generation.
+>> +       - bus: Bus (APB) clock for register access.
+>> +    minItems: 1
+>> +    maxItems: 4
+>> +
+>> +  clock-names:
+>> +    minItems: 1
+>> +    maxItems: 4
+> You have only one device, why is this flexible?
+
+
+Exynos8855 only needs two clocks, but maxItems: 4 was added to support 
+other samsung USB implementations that use up to four. Since we plan to 
+migrate those to the flattened representation later, we wanted the 
+binding to cover those requirements as well. Example required 4 clocks 
+for gs101-dwusb3 (ref: 
+Documentation/devicetree/bindings/usb/samsung,exynos-dwc3.yaml)
+
+
+>
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+>> +  - interrupts
+>> +
+>> +allOf:
+>> +  - $ref: snps,dwc3-common.yaml#
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: samsung,exynos8855-dwc3
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          minItems: 2
+>> +          maxItems: 2
+>> +        clock-names:
+>> +          items:
+>> +            - const: ref
+>> +            - const: bus
+> Why do you need all this? Look at existing code, don't duplicate. And
+> for sure do not introduce one more DWC3 binding claiming to be for
+> Samsung devices and completely ignoring existing ones.
+
+
+We understand the concern about adding another binding. The goal is to 
+migrate all samsung USB implementations to this flattened model, and 
+then deprecate samsung,exynos-dwc3.yaml to avoid duplication.
+
+
+Thanks,
+Selva
+
+>
+> Best regards,
+> Krzysztof
