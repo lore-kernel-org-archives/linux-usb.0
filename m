@@ -1,81 +1,40 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B754CA292;
-	Mon,  7 Sep 2026 12:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338C93F4DDD;
+	Mon,  7 Sep 2026 12:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788785245; cv=none; b=mMUcLkOzyitMoBag6V6qfJck22jrEFwT4tXOK7YzwsZbNuHLIMvNrWxfR7y96O4BZSIeD7AgCWKqiKmtXkPF6/cN9O+kaXQAJQK/CRLX8aU1Iko7FYrJkkpbRP+ia6903A6g/kh6C9d02h9YpjAtjUe4yfP4IBM415KloptfdFU=
+	t=1788785363; cv=none; b=FZm3AeIgNS4fEILMsfdxKW/wvLc8ZcwbOeEvd36dTrwyPOta+vF5vGDgAZ0fTvMxFbRdTQx12L9DqOOGWi2m956myd61w/zti6XkyLK7YzQk83kj3gyWPmqnzOYL48BqDZu3OhUl6nnU0EHzSxRMx/Hiq/HLl8tp1GM96wdQ26U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788785245; c=relaxed/simple;
-	bh=kWvJEA8gEVtI6cCXmrs5j8pkDJF+kU888izjP/fuIg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=mOh3Zxxu7X7hBdnFVphL91w17XTHTZRCg1f3sGfohN3WMdSu2pZkLiGC7cgPx6D/fPSVUucs8/TWOxmNesPgLl4JXBLTa04ooa0yVmyOunXSHSHwB6T+MzYstgKCx8YEbE+xT4jSjQm1wLoUKgwgkjkWu2bq0D1+9rF1/qttvhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MoY0jCXl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=96IywHDg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xd4WgWnG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QOxCF0Ag; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1788785363; c=relaxed/simple;
+	bh=l3Ra/VA5NlSvYubVz6j/otyq4/BCFwDBT3L4LH12i3I=;
+	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=jAW0Brx15V+oLbRxrSBJ5htNjv//M2MiwDDwmdXNgvC8KFMIFYcPMMMT+DxBd2iLT9Ipsbver8iOzFBCw2MK9UPdvH11W2V/nNrpiBeMLFFdTzcRSzgDETs/45azTQn9i7bTNdg9611279jtKe/seAkzRZC23tScArTu1AgVwc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=HUFrUJJG; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MoY0jCXl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="96IywHDg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xd4WgWnG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QOxCF0Ag"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3701C1F79C;
-	Mon,  7 Sep 2026 12:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788785238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MT+EdZqmpxS03n0Yp8lyfPsrvdzhSvUi6jS4lwSpJ6I=;
-	b=MoY0jCXl6kfDEIMnKg/UmD+MPtLcVDZ4GqFfYMD7cyHipaSuUpWI0rPFTFE/oUUfWmTyJv
-	OaxNX8tnk704NuumMCc9o3CKPIcDSE4gmhnh+pi2pPOJsvH958D73sB/osfiUYeQ2xxAo0
-	0Gevy6ENq62N7LC1QP+nrDKBrc7TDds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788785238;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MT+EdZqmpxS03n0Yp8lyfPsrvdzhSvUi6jS4lwSpJ6I=;
-	b=96IywHDgRtSJ7MsDcgWns0TvTODqjCsyfq7QUNTR2qHtKV/y7sP5S10apy2hV6bszFqwbh
-	2vAfDr9QtvCjB5Bw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xd4WgWnG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QOxCF0Ag
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788785234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MT+EdZqmpxS03n0Yp8lyfPsrvdzhSvUi6jS4lwSpJ6I=;
-	b=xd4WgWnGA3pfS5gjEajuK9Bk45tK+ONEFR0MtXoqKR3uk7uh8llhwcqOGfGmHuaiCdYLNn
-	jMAH9cTnNEyNjy/hYccGBOynO80uGc+DhQx5UreQ84nfl9Kub5g7Rd8z7vFdnY12pdIphN
-	81jqo4orNMPk/VSQpVWcY3Hr5nJ1mr0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788785234;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MT+EdZqmpxS03n0Yp8lyfPsrvdzhSvUi6jS4lwSpJ6I=;
-	b=QOxCF0AgN5HgP37ZmJ5Ci9EgeaBr3E7BpJqNSUkdzw0cS77MNxltdUR7W2uZnFM67T4CgH
-	nUTCkaGI3Pd4r/Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB4E31339B;
-	Mon,  7 Sep 2026 12:47:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QEh0MFGynmppQQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 12:47:13 +0000
-Message-ID: <39bede42-0b1c-401c-9a95-2a8f375f3811@suse.de>
-Date: Mon, 7 Sep 2026 14:47:13 +0200
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="HUFrUJJG"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=gyQHYq6I80t/nlzkF/8Sj+KfcMcshEtpIFfJ5ePHhyo=;
+	b=HUFrUJJGE6ZvJzgw25EitUVOxPkOVrNUpDeqBe+H8xKesiB6HUJGVaH/QXlDT71uIElaxaE0p
+	Woxm9VOCNHNNV1MIgJ885j6hVMq9SUwQSVRv4XcokUlZ/2Z7f7/H6XVhG+Qx+iPRJyFvwmSIo4N
+	RQULdNFgDcKkTi6H9sU2+aA=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hdmn172Z2zpSvB;
+	Mon,  7 Sep 2026 20:37:41 +0800 (CST)
+Received: from kwepemo500018.china.huawei.com (unknown [7.202.195.199])
+	by mail.maildlp.com (Postfix) with ESMTPS id D240D4057F;
+	Mon,  7 Sep 2026 20:49:11 +0800 (CST)
+Received: from [10.67.120.192] (10.67.120.192) by
+ kwepemo500018.china.huawei.com (7.202.195.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 7 Sep 2026 20:49:10 +0800
+Message-ID: <bfc0de5b-9574-4376-a968-2ea9ea1f06b0@huawei.com>
+Date: Mon, 7 Sep 2026 20:49:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -83,77 +42,132 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 31/40] scsi: scsi_debug: use 16-bits defined sense
- codes
-To: Damien Le Moal <dlemoal@kernel.org>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
- Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>
-References: <20260903034201.112211-1-dlemoal@kernel.org>
- <20260903034201.112211-32-dlemoal@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260903034201.112211-32-dlemoal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3701C1F79C
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
+CC: <shaojijie@huawei.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-net-drivers@amd.com>,
+	<linux-kselftest@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH v2 1/6] net: fix typos in comments
+To: Hemanth Selam <hemanth.selam@gmail.com>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+	<andrew@lunn.ch>, Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+	<manishc@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+	<horms@kernel.org>, Edward Cree <ecree.xilinx@gmail.com>, Shuah Khan
+	<shuah@kernel.org>
+References: <20260907044635.7141-1-hemanth.selam@gmail.com>
+ <20260907044635.7141-2-hemanth.selam@gmail.com>
+From: Jijie Shao <shaojijie@huawei.com>
+In-Reply-To: <20260907044635.7141-2-hemanth.selam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemo500018.china.huawei.com (7.202.195.199)
 
-On 9/3/26 5:41 AM, Damien Le Moal wrote:
-> Refactor the scsi_debug driver to replace hard-coded additional sense
-> codes and additional sense code qualifiers with the enum values defined in
-> include/scsi/scsi_sense.h. This helps with code clarity as the sense codes
-> being processed are easier to test and self-documented.
-> 
-> The functions mk_sense_buffer() and mk_sense_info_tape() are modified to
-> take a 16-bits sense code as argument.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+
+on 2026/9/7 12:46, Hemanth Selam wrote:
+> Fix typos in comments, reported by scripts/checkpatch.pl using the
+> misspelling list in scripts/spelling.txt.  Only touches comments, no code
+> changes.
+>
+> Assisted-by: Cursor:claude-opus-5
+> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+
+For the hns and hns3 driver parts, the changes look good to me. Thanks,
+Reviewed-by: Jijie Shao <shaojijie@huawei.com>
+
 > ---
->   drivers/scsi/scsi_debug.c | 332 ++++++++++++++++++++------------------
->   1 file changed, 171 insertions(+), 161 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+>   drivers/net/dsa/bcm_sf2_cfp.c                          |  2 +-
+>   drivers/net/dsa/microchip/ksz_dcb.c                    |  2 +-
 
-Cheers,
+...
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>   		pause_aneg_en:1,
+> diff --git a/drivers/net/ethernet/hisilicon/hns/hns_dsaf_misc.c b/drivers/net/ethernet/hisilicon/hns/hns_dsaf_misc.c
+> index 91391a49fcea..a59fd280a045 100644
+> --- a/drivers/net/ethernet/hisilicon/hns/hns_dsaf_misc.c
+> +++ b/drivers/net/ethernet/hisilicon/hns/hns_dsaf_misc.c
+> @@ -591,7 +591,7 @@ static int hns_mac_config_sds_loopback(struct hns_mac_cb *mac_cb, bool en)
+>   #define HILINK_ACCESS_SEL_CFG		0x40008
+>   			/* hilink4 & hilink3 use the same xge training and
+>   			 * xge u adaptor. There is a hilink access sel cfg
+> -			 * register to select which one to be configed
+> +			 * register to select which one to be configured
+>   			 */
+>   			if ((!HNS_DSAF_IS_DEBUG(mac_cb->dsaf_dev)) &&
+>   			    (mac_cb->mac_id <= 3))
+> diff --git a/drivers/net/ethernet/hisilicon/hns/hns_dsaf_ppe.c b/drivers/net/ethernet/hisilicon/hns/hns_dsaf_ppe.c
+> index 5013beb4d282..408d36d85fb1 100644
+> --- a/drivers/net/ethernet/hisilicon/hns/hns_dsaf_ppe.c
+> +++ b/drivers/net/ethernet/hisilicon/hns/hns_dsaf_ppe.c
+> @@ -139,7 +139,7 @@ static void hns_ppe_set_vlan_strip(struct hns_ppe_cb *ppe_cb, int en)
+>   }
+>   
+>   /**
+> - * hns_ppe_checksum_hw - set ppe checksum caculate
+> + * hns_ppe_checksum_hw - set ppe checksum calculate
+>    * @ppe_cb: ppe device
+>    * @value: value
+>    */
+> diff --git a/drivers/net/ethernet/hisilicon/hns/hns_enet.c b/drivers/net/ethernet/hisilicon/hns/hns_enet.c
+> index e905f10b894e..d819d2bb3450 100644
+> --- a/drivers/net/ethernet/hisilicon/hns/hns_enet.c
+> +++ b/drivers/net/ethernet/hisilicon/hns/hns_enet.c
+> @@ -1230,7 +1230,7 @@ static void hns_nic_update_stats(struct net_device *netdev)
+>   	h->dev->ops->update_stats(h, &netdev->stats);
+>   }
+>   
+> -/* set mac addr if it is configed. or leave it to the AE driver */
+> +/* set mac addr if it is configured. or leave it to the AE driver */
+>   static void hns_init_mac_addr(struct net_device *ndev)
+>   {
+>   	struct hns_nic_priv *priv = netdev_priv(ndev);
+> @@ -2317,7 +2317,7 @@ static int hns_nic_dev_probe(struct platform_device *pdev)
+>   		ret = device_property_read_u32(dev, "port-id", &port_id);
+>   		if (ret)
+>   			goto out_read_prop_fail;
+> -		/* for old dts, we need to caculate the port offset */
+> +		/* for old dts, we need to calculate the port offset */
+>   		port_id = port_id < HNS_SRV_OFFSET ? port_id + HNS_DEBUG_OFFSET
+>   			: port_id - HNS_SRV_OFFSET;
+>   	}
+> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> index e6af939c1c19..bf35f55f5b8f 100644
+> --- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> @@ -10527,7 +10527,7 @@ static int hclge_get_link_diagnosis_info(struct hnae3_handle *handle,
+>   }
+>   
+>   /* After disable sriov, VF still has some config and info need clean,
+> - * which configed by PF.
+> + * which configured by PF.
+>    */
+>   static void hclge_clear_vport_vf_info(struct hclge_vport *vport, int vfid)
+>   {
+> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c
+> index 00c3f2548bf6..bf533b8f46ae 100644
+> --- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c
+> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_tm.c
+> @@ -35,7 +35,7 @@ enum hclge_shaper_level {
+>    * IR(Mbps) = -------------------------  *  CLOCK(1000Mbps)
+>    *		Tick * (2 ^ IR_s)
+>    *
+> - * @return: 0: calculate sucessful, negative: fail
+> + * @return: 0: calculate successful, negative: fail
+>    */
+>   static int hclge_shaper_para_calc(u32 ir, u8 shaper_level,
+>   				  struct hclge_shaper_ir_para *ir_para,
+> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3vf/hclgevf_main.c b/drivers/net/ethernet/hisilicon/hns3/hns3vf/hclgevf_main.c
+> index 063a692c2b41..5d14d29b0296 100644
+> --- a/drivers/net/ethernet/hisilicon/hns3/hns3vf/hclgevf_main.c
+> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3vf/hclgevf_main.c
+> @@ -1880,7 +1880,7 @@ static void hclgevf_reset_service_task(struct hclgevf_dev *hdev)
+>   		 * from PF as cmdq would be in unreliable state i.e. mailbox
+>   		 * communication between PF and VF would be broken.
+>   		 *
+> -		 * if we are never geting into pending state it means either:
+> +		 * if we are never getting into pending state it means either:
+>   		 * 1. PF is not receiving our request which could be due to IMP
+>   		 *    reset
+>   		 * 2. PF is screwed
+
+...
+
