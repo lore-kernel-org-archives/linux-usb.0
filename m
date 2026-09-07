@@ -1,43 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4756B37475D;
-	Mon,  7 Sep 2026 09:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDB7233939;
+	Mon,  7 Sep 2026 09:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788771784; cv=none; b=IfZK/djC6yyPntFP1MTQTnLUAmALCva6URWdHYuU0e3ofTLbs+IBUMuz0iiiMri/zXAFgu+h9MfXVwT5RfmmfdES+i91gpalUL1huyBdpfY+B4K2rEoyqc1PfxcJXwcjvRsHtHv7mp4afIQxnIx0uR4BspVh50FhQIJEEIlsWeA=
+	t=1788772135; cv=none; b=QuREd71PkZ8Xwbl/+jR2+ob6KGVi0YvdgwCgzbhPEDvegSJvYxezagnxtd0Wa0ReY7mJn+T3G8M6tvdRZmWx7cXU4N4DoRL84QojW8FClJqwBh5D4z36uIaYvs70SlOQDEZp2YhpqqES4UiN2zUxdXIjMII7fbXcF/Gdj0MSwAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788771784; c=relaxed/simple;
-	bh=Go+bBQ61UsY2NImsKzf3YoYh/SoBrl4RgefHRiYG8RA=;
+	s=arc-20240116; t=1788772135; c=relaxed/simple;
+	bh=uCfZTfX2XVpehn+fIliTAk5aZIdzQekMfQww5kSvFUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iDUcvJbzQV2cwTsu3gfLSMYcrQcZz+tXzTB7/f8rHAc980TBSYIDTAJbxPd69gDjniuK5+QwHK82ibsnr67g7/aQmo2pOyyR23PEiEo+EB9u9SQNfKHZiv3STKZhfQPfEzalMxjFIN2tGL1EeeG5fneVWU2xFbZ4Tkg91vRhUG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igNYO8RH; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VlIJByd1809wk2tvEugCBAIDG3O0QJrZQ1Cy2HMwJwkS6xYCmUY7C9wjtz0gL4NKzTj71kBHm7oamW3aW6ZrwVsWYRVJo239kN6Pe4Hv8waj0TnyqpNbmsyDvJ+iunDdtKW5UR3kUTZzCV6hy7ZT12EzKK/t3hlzpdhzUQY6dqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMAx2iY0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igNYO8RH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C4A11F00A3A;
-	Mon,  7 Sep 2026 09:03:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMAx2iY0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BBB1F00A3A;
+	Mon,  7 Sep 2026 09:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788771782;
-	bh=qPcPiAWfjggqcajS5JwGn0UOdsMyEDVI6NoXDi4xWv8=;
+	s=k20260515; t=1788772133;
+	bh=G3iM/ReEV9+vKdb80yT0YD5MukMwqCgjcKzuMZz3vhQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=igNYO8RH580c16Q0eiHMhb5A2oQYox4ljVElJLUkXFyZeLlOtnyqWagqlBbp2lieK
-	 4f2k0rZvzwmVqkMSn3Tr0TCDLzmVc3SeoS1s3DuZeQlEOk95WvGfiDuDjZKc7KaZhp
-	 8/zCYylYcVtWQLFWrX/HwJ8eibQDU/SgXrpUbRk8AIedg1ORoK34F/CTR+318f/WUi
-	 6SK1AhVP7F4AuveMJStqwkuNkalqVMV5rfImcydsYZcu1mhtJP8Fn7xuCZZ3dIKaPx
-	 gXUBmTXdUbwT6II4Sq18IGHEZ74D0UgS/c9KqMRotGk826OVcWpGcr8VtF656FkrMf
-	 y5D3sqMTqZbpw==
-Date: Mon, 7 Sep 2026 11:02:58 +0200
+	b=YMAx2iY0+km6Xi7zooLmytwVH7m/rcIHK5XI8Y8UKQeV6RlqSt0tFnZQ1gPx7qY2S
+	 vNH3qMnghiuJHlvnWdLFqea4F7rFEylWvGdI4WB3xe8oR1Rv5+2RvnBJ9UAVqd2kfR
+	 x+s1e7EPB5t+6PbYuSlakdbMmBolx44htPQhS3SY1aAuCDZRmDYu/az8ndn/YGctl0
+	 gaJRVxmh25Ks6NPm2gUKJCbj0x+bgDQAEl7SYkKpBGcFSPpH5KDUG3fsOr97kOq2Re
+	 K34YofWqwXei6xayENA8lgOwshr4lku6ZscZi2xTOkZ4okb9hej+F0evAlzaf/2Vhm
+	 HkvH0u7+ytBmw==
+Date: Mon, 7 Sep 2026 11:08:49 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Amber Kao <ite_pd@ite.com.tw>
-Cc: Amber Kao <amber.kao@ite.com.tw>, Jeson Yang <jeson.yang@ite.com.tw>, 
-	Yaode Fang <Yaode.Fang@ite.com.tw>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: usb: Add ITE IT5271/IT5272/IT5273/IT5274
- support
-Message-ID: <20260907-bulky-adorable-agama-40ece9@quoll>
-References: <20260903-it5271-binding-v1-1-1abd2c8cea85@ite.com.tw>
+	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Wesley Cheng <wesley.cheng@oss.qualcomm.com>, Sriram Dash <sriram.dash@oss.qualcomm.com>, 
+	Jack Pham <jack.pham@oss.qualcomm.com>, Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, 
+	Shazad Hussain <shazad.hussain@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/7] dt-bindings: usb: Add qcom,sa8255p-dwc3 for
+ firmware-managed resources
+Message-ID: <20260907-arcane-spicy-parrot-6da5ed@quoll>
+References: <20260903153827.3463313-1-faisal.hassan@oss.qualcomm.com>
+ <20260903153827.3463313-4-faisal.hassan@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,89 +50,95 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260903-it5271-binding-v1-1-1abd2c8cea85@ite.com.tw>
+In-Reply-To: <20260903153827.3463313-4-faisal.hassan@oss.qualcomm.com>
 
-On Thu, Sep 03, 2026 at 06:15:43PM +0800, Amber Kao wrote:
-> Add device tree binding documentation for the ITE IT527x series
-> (IT5271, IT5272, IT5273, and IT5274) I2C-based USB Type-C Power
-> Delivery (PD) controllers.
+On Thu, Sep 03, 2026 at 09:08:23PM +0530, Faisal Hassan wrote:
+> On Qualcomm automotive SoC sa8255p, platform resources like clocks,
+> interconnects, resets, regulators and GDSC are abstracted and managed
+> collectively by firmware.
 > 
-> The series comprises four variants differing by port count and
-> Power Range support:
-> - IT5271: single-port, SPR (Standard Power Range)
-> - IT5272: two-port, SPR
-> - IT5273: single-port, EPR (Extended Power Range)
-> - IT5274: two-port, EPR
+> Add a new binding file for firmware-managed USB controllers where
+> access to these resources is exposed as two power domains:
+> - Power domain: Controls power supply (GDSC) to the USB controller
+> - Bus domain: Controls clocks and interconnects for data transfer
 > 
-> Signed-off-by: Amber Kao <ite_pd@ite.com.tw>
+> The binding makes power-domains and power-domain-names properties mandatory
+> for firmware-managed platforms, while excluding the clocks property since
+> clocks are managed through the power domains.
+> 
+> Co-developed-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
+> Signed-off-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
+> Signed-off-by: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
 > ---
-> The driver for this device family is shared with ITE IT8851/IT8853,
-> currently under review as a separate series:
-> https://patchwork.kernel.org/project/linux-usb/patch/20260807-ucsi-itepd-v7-2-998ac11ed0ef@ite.com.tw/
+>  .../bindings/usb/qcom,sa8255p-dwc3.yaml       | 123 ++++++++++++++++++
+>  1 file changed, 123 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/qcom,sa8255p-dwc3.yaml
 > 
-> This binding is submitted independently so it can be reviewed on
-
-No, it cannot be reviewed on its own, because splitting it means you
-have undocumented compatibles in the other patchset.
-
-And if you do not, then there is no user for this binding.
-
-
-> its own; once the driver series lands, IT527x support will be
-> wired into it there.
-
-Then what is the point of this binding now?
-
-> ---
->  .../devicetree/bindings/usb/ite,it5271.yaml        | 176 +++++++++++++++++++++
->  MAINTAINERS                                        |   8 +
->  2 files changed, 184 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/ite,it5271.yaml b/Documentation/devicetree/bindings/usb/ite,it5271.yaml
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,sa8255p-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,sa8255p-dwc3.yaml
 > new file mode 100644
-> index 000000000000..29cd7add9bde
+> index 000000000000..c6db7bcf4981
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/ite,it5271.yaml
-> @@ -0,0 +1,176 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +++ b/Documentation/devicetree/bindings/usb/qcom,sa8255p-dwc3.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/usb/ite,it5271.yaml#
+> +$id: http://devicetree.org/schemas/usb/qcom,sa8255p-dwc3.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: ITE IT5271/IT5272/IT5273/IT5274 USB Type-C Power Delivery Controller
+> +title: Qualcomm SA8255P USB3 Controller with Firmware-Managed Resources
 > +
 > +maintainers:
-> +  - Amber Kao <amber.kao@ite.com.tw>
+> +  - Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+> +  - Faisal Hassan <faisal.hassan@oss.qualcomm.com>
 > +
-> +description: |
-> +  The ITE IT527x series are I2C-based USB Type-C Power Delivery (PD)
-> +  controllers.
-> +  All variants support DFP/UFP/DRP roles, USB PD 3.1, Fast Role Swap,
-> +  USB4, and TBT3/TBT4 alternate modes.
+> +description:
+> +  USB controller on Qualcomm SA8255P automotive SoC where platform resources
+> +  such as clocks, interconnects, resets, regulators and the GDSC are
+> +  abstracted and managed collectively by firmware through SCMI (System
+> +  Control and Management Interface).
 > +
-> +  The series comprises four ordering part numbers built on identical
-> +  silicon; port count and PD power range support are configured via
-> +  firmware/OTP rather than differing in the register interface itself:
-> +    - IT5271: single-port variant, SPR
-> +    - IT5272: two-port variant, SPR
-> +    - IT5273: single-port variant, EPR
-> +    - IT5274: two-port variant, EPR
+> +  Access to these firmware-managed resources is exposed as two power
+> +  domains, one gating the power supply (GDSC) to the controller, and one
+> +  gating the clocks and interconnects used for data transfer.
 > +
-
-Why isn't this entire binding part of the other file?
-
 > +properties:
 > +  compatible:
-> +    oneOf:
-> +      - const: ite,it5271
-> +      - items:
-> +          - const: ite,it5272
+> +    const: qcom,sa8255p-dwc3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 6
 
-enum
+Why is this flexible?
 
-I finished actually here, becausr I still find reviewing outside of
-driver a waste of our time.
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    maxItems: 6
+
+Why is this flexible even more, allowing completely random names?
+
+> +
+> +  power-domains:
+> +    description: |
+> +      Power domains are provided by SCMI (System Control and Management
+> +      Interface). See Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +      for details.
+> +
+> +      Exactly two power domains must be specified:
+> +        - "power": controls power supply (GDSC) to the USB controller
+> +        - "bus": controls clocks and interconnects used for data transfer
+
+Look at other bindings how they do it.
+
+I finished here, because you would avoid all above questions if you just
+copied recently added or reviewed on the list SA8xxx binding. You did
+not, so basically I expect more of unexpected code, which is pointless
+to review. Just open existing files...
 
 Best regards,
 Krzysztof
