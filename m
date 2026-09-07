@@ -1,169 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D896342532
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 01:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B493B841F;
+	Mon,  7 Sep 2026 02:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788746220; cv=none; b=ufH+taF1nnKbk+Ae9JvMLwthQJWs+MZaAS47NSq+dQSev8dwMhiE7oBzTsE9QseheJ5IQim8zECTRIT4O3P15CiAv8FU73pgSXF/nNyOBfyDUHrhYD3Y8LOmtBH8K9hPh3UrTrC2DbVoLx7fXUatdXG5+AMRma5j3B3eVsc/fCU=
+	t=1788749037; cv=none; b=ARWvlem/VqQSFKn8mJsZRRHGx96EWu4SwDV4e8W32t8R600dj68tyg3z7tvC0XA5uaM2PEmT4abohaeZVTZ2NuMnuEF4V0bXf9hv34/RgLVetufmoCpYgkTG5heRfeksTWY3McL+2m14/aj11Ck3+uk940ZuteSRKmUxJT81FS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788746220; c=relaxed/simple;
-	bh=5+3e9FG7TtJsUEd88KzV7pSYbihPy/+VTTS8SszyOTY=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=QL6fm99M9wpsNTy2gWVMC9L5T0Tu3c+boftuDYSEkaJhIvSlu+Z2YWB+3x+vXPXPs1VODvE0UgaW8KmHs7TyTqUAPrZ5a65LYj2HbJQOHlNLgWGe4AkVPy2qdQeFRBKBOb1hLjDJVlGVia7gN3IjtiPSlywE4oGLdr+8+0E3hqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=casWo3su; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788749037; c=relaxed/simple;
+	bh=npI7eFkSZUmd33UWRrc6ynqKftLbqKcH9cbWDdNL9wc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=AFAALYay0NldfaJHqLQJI4xJKJl0luODXQ7OQV/lgYi/5gIDSJ/cl/LHUPzkN9Xd0fKfLQpm9A8f+PhUCv/YP/rOu490oI9qjE/OhEojk97RZ+rRKVQilPPXgVZvvBR8mft/6G1nn7zBcs/FmVxF6m6SwYGpaAzQnYgRXWP4cfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y2tDDIob; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="casWo3su"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3663FC2BCB8
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 01:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788746219;
-	bh=5+3e9FG7TtJsUEd88KzV7pSYbihPy/+VTTS8SszyOTY=;
-	h=From:To:Subject:Date:From;
-	b=casWo3suGYRZ5xkDx+iw1yeIhQLeiFu/N1xdOemKN/rVIYcA1X50UvlkcdQjUmQYW
-	 b4nLOa7QfnKxFj61hGSRxQF7CipwXc6IXrfJDwFyCEKJbLs706ihDh+JS+QubqxmwU
-	 PY9Djt72Y5tK+6VAhjvG/vicWKdlqyboIcugH4tSaICwCBFYgbWbumLIJIVPp5jEMP
-	 aErqWgDyrXv3lTZxOXeMpVABiADjo+QQmFBI7p8+Vnou9XJPvxIg6xUnvaJX15aU/l
-	 hQbBUGHNtnHyfhWV9pzjft1qi8zgnwJSgl3BihU23xZQoDQBis4Lb11SV5X5DY/+/p
-	 wJ5UJ96fNtF6Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 07259C41612; Mon,  7 Sep 2026 01:56:59 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221977] New: ucsi_acpi PPM_RESET timeout on ASUS Zenbook
- UX425UA/UM425UA (AMD Renoir) - not fixed by poll_cci or timeout increase,
- tested extensively
-Date: Mon, 07 Sep 2026 01:56:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sax69sax420@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-221977-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y2tDDIob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC21B1F00A3A;
+	Mon,  7 Sep 2026 02:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788749036;
+	bh=vwjqNairCdCG9Mv8aK20ooZBv70v+NjH2yUqdarUASo=;
+	h=From:To:Subject:Date;
+	b=Y2tDDIobDy6HXhYkit4TLzMSJlEvxjx9Z/NLEs2g/KOOO+7MlGjWOx6VbN341wo8o
+	 OmBg1734Y0v1Jz1/7iqO6PjxCkZlwjzEMAFsJg7PgKAjEHibvzWAnFaEnwgisPMdwY
+	 jX0+vOjdz4OsRRnmzzC3Jb2/Edg6GBlGGYvVByjwts2qTa2cU3rxe4PQGfDUGOczH/
+	 wY5qKc1a/QdaqHHQayJ0zO8JofNI7LGtbIiStPJE5kmkAECdVJYc2bgD6Ou/AkPDpJ
+	 0DxkOznr9aYpkDiSP1o6MrpuN0fuUHrfkLoX0wTpke1Zy2ZcyqHs42HAsJ78X3YB6u
+	 Ej3isJ7RC2U9Q==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: "Martin K . Petersen" <martin.petersen@oracle.com>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	linux-scsi@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-usb@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-s390@vger.kernel.org,
+	Heiko Carstens <hca@linux.ibm.com>
+Subject: [PATCH v5 00/40] Use defined 16-bits ASC/ASCQ combinations 
+Date: Mon,  7 Sep 2026 11:43:03 +0900
+Message-ID: <20260907024343.1046387-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221977
+Martin, James,
 
-            Bug ID: 221977
-           Summary: ucsi_acpi PPM_RESET timeout on ASUS Zenbook
-                    UX425UA/UM425UA (AMD Renoir) - not fixed by poll_cci
-                    or timeout increase, tested extensively
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: sax69sax420@gmail.com
-        Regression: No
+This patch series defines as macros all ASC/ASCQ combinations present in
+https://www.t10.org/lists/asc-num.txt and converts the SCSI core code and
+SCSI low level drivers to use these macros instead of hard-coded
+ASC/ASCQs. To do this, struct scsi_sense_hdr and struct scsi_failure are
+modified to replace the asc and ascq 8-bits fields with a 16-bits
+sense_code field.
 
-SYSTEM
-  ------
-  ASUS Zenbook 14 UX425UA/UM425UA, AMD Ryzen 7 5700U (Renoir), BIOS
-  UX425UA.301 (2021, latest available). Ubuntu 24.04, kernel
-  6.8.0-124-generic. Dual-boot with Windows 10 (works correctly there,
-  see below).
+This cleans up the code in many places and makes it easier, and self
+documented, to test sense codes in the case of errors.
 
-  ERROR
-  -----
-  Every boot, and every subsequent module reload:
+Overall, there should be no functional chnages here.
 
-    ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
+Note: this series currently applies cleanly only to the scsi-staging tree.
+It does not apply to Linus tree as commit 6d81700ad7c4 ("ata: libata-scsi:
+do not raise UA for storage element depopulation and restoration") creates
+a conflict with patch 37. The conflict is trivial to resolve, but this
+will create a conflict in linux-next. Could you maybe rebase scsi-staging
+on rc2 ?
 
-  /sys/class/typec/ never populates. USB-C charging itself works fine
-  (confirmed via direct wattage logging) - this only affects PD
-  telemetry, alt-mode, and role-switching.
+Also please note that sashiko did comment about several pre-existing
+issues for different drivers, but I am not addressing these issues in
+this series.
 
-  WHAT I'VE ALREADY TESTED (all negative)
-  ----------------------------------------
-  1. Timeout increase: built a signed DKMS module with UCSI_TIMEOUT_MS
-     patched 5000 -> 30000 (6x default, 3x the merged 10000 fix).
-     Confirmed via source inspection that -ETIMEDOUT is only ever set
-     after the real elapsed-time check in ucsi_reset_ppm() fires, so
-     this is a genuine 30-second wait, not an early bail-out. Still
-     times out identically.
+Changes from v4:
+ - Modified path 24 to add some conversions to using the macro that were
+   missed previously (from sashiko comment).
+ - Added review tags
 
-  2. Polling frequency, isolated as its own variable: same 30s budget,
-     but msleep(20) -> msleep(200) in the ucsi_reset_ppm() loop (~150
-     EC/_DSM hits instead of ~1500), to test whether rapid _DSM/EC-mutex
-     polling itself was the blocker rather than total patience. Still
-     times out identically.
+Changes from v3:
+ - Fixed patch 8 to test only the INVALID FIELD IN CDB ASC in
+   sd_zbc_complete().  Testing the full sense code for INVALID FIELD IN
+   CDB with a zero ASCQ is actually correct and as defined per ZBC
+   specifications for zone management operations issued to conventional
+   zones. But as Sashiko suggests, some devices may not strictly follow
+   that, so we keep to loosen test.
+ - Rebased on scsi-staging branch
+ - Added review and ack tags
 
-  3. Current mainline behavior: diffed 6.8's ucsi.c/ucsi_acpi.c against
-     current master. The poll_cci() rewrite (976e7e9bdc77) and timeout
-     increase (bf4f9ae1cb08) are both present there. For the ACPI
-     backend specifically, ucsi_acpi_poll_cci() still forces a _DSM
-     read on every call during PPM_RESET - functionally identical to
-     what I already tested in #1. So current mainline would not behave
-     differently here.
+Changes from v2:
+ - Removed unintended duplication of KUNIT_EXPECT_EQ() call in patch 7
+   (Sashiko comment).
+ - Improved patch 38 to directly use 16-bits sense code instead of passing
+   only an ascq around (Sashiko comment).
+ - Added missing local variable initialization in
+   spc_emulate_request_sense() in patch 34 (Sashiko comment).
+ - Added review tags
 
-  4. The old ASUS Zenbook quirk (ucsi_zenbook_ops, for the near-identical
-     "UX325UA_UM325UA" model): checked in source - during PPM_RESET
-     specifically, the quirked and generic read paths are identical
-     (both force _DSM every read), so this was never going to apply
-     regardless of the DMI mismatch. (Also since removed upstream,
-     folded into the poll_cci rewrite.)
+Changes from v1:
+ - Addressed Sashiko comments signaling missing "ASC_" prefix when using
+   the named macros for ASC codes.
+ - Fixed up patch 7 to correct trace event print of asc/ascq. Also
+   extended the use of scsi_set_sense() in place of scsi_build_sense().
+ - Modified patch 37 to extend the use of scsi_set_sense_buffer() in place
+   of scsi_build_sense_buffer().
+ - Added patch 34 and 38 to extend the use of scsi_set_sense() in place of
+   scsi_build_sense().
+ - Added patch 40 to remove scsi_build_sense() and
+   scsi_build_sense_buffer().
 
-  5. Boot path: tested booting via two different methods into the OS,
-     in case boot-manager timing mattered. No difference.
+Damien Le Moal (40):
+  scsi: define all additional sense codes and their qualifiers
+  scsi: constants: use defined sense codes
+  scsi: constants: rename internal struct field names
+  scsi: rename sense field of struct scsi_failure
+  scsi: prepare for using 16-bits defined sense codes
+  scsi: use struct scsi_sense_hdr to log sense keys and codes
+  scsi: core: use 16-bits defined sense codes
+  scsi: sd: use 16-bits defined sense codes
+  scsi: sr: use 16-bits defined sense codes
+  scsi: ses: use 16-bits defined sense codes
+  scsi: ch: use 16-bits defined sense codes
+  scsi: st: use 16-bits defined sense codes
+  scsi: device_handlers: hp_sw: use 16-bits defined sense codes
+  scsi: device_handlers: rdac: use 16-bits defined sense codes
+  scsi: device_handlers: emc: use 16-bits defined sense codes
+  scsi: device_handlers: alua: use 16-bits defined sense codes
+  scsi: mpt3sas: use 16-bits defined sense codes
+  scsi: mpi3mr: use 16-bits defined sense codes
+  scsi: 3w-xxxx: use 16-bits defined sense codes
+  scsi: leapraid: use 16-bits defined sense codes
+  scsi: megaraid: use 16-bits defined sense codes
+  scsi: myrX: use 16-bits defined sense codes
+  scsi: smartpqi: use 16-bits defined sense codes
+  scsi: qla2xxx: use 16-bits defined sense codes
+  scsi: ps3rom: use 16-bits defined sense codes
+  scsi: lpfc: use 16-bits defined sense codes
+  scsi: stex: use 16-bits defined sense codes
+  scsi: mvumi: use 16-bits defined sense codes
+  scsi: libiscsi: use 16-bits defined sense codes
+  scsi: ibmvscsi_tgt: use 16-bits defined sense codes
+  scsi: scsi_debug: use 16-bits defined sense codes
+  scsi: hpsa: use 16-bits defined sense codes
+  scsi: storvsc: use 16-bits defined sense codes
+  target: use 16-bits defined sense codes
+  usb: storage: use 16-bits defined sense codes
+  cdrom: use 16-bits defined sense codes
+  ata: libata: use 16-bits defined sense codes
+  s390: scsi: use 16-bits defined sense codes
+  scsi: cleanup scsi_proto.h
+  scsi: remove scsi_build_sense() and scsi_build_sense_buffer()
 
-  6. Device presence: tested with the charger completely unplugged from
-  WINDOWS COMPARISON
-  -------------------
-  Booting the same machine into Windows 10, Device Manager shows the
-  identical \_SB.UBTC ACPI object (confirmed via DEVPKEY_Device_
-  BiosDeviceName) healthy, ProblemCode 0, using Microsoft's generic
-  in-box UcmUcsiAcpiClient.sys (not an OEM driver). I compared its
-  public reference sample source (microsoft/Windows-driver-samples,
-  UcmUcsiAcpiSample) against ucsi_acpi.c's low-level read/write code -
-  both call _DSM before every register access, in the same order. No
-  structural difference found at that layer. The actual retry/
-  completion logic that must differ lives in the closed-source
-  UcmUcsiCx.sys class extension, which I have no visibility into.
+ drivers/ata/libata-eh.c                      |   13 +-
+ drivers/ata/libata-sata.c                    |   20 +-
+ drivers/ata/libata-scsi.c                    |  346 ++-
+ drivers/ata/libata.h                         |    5 +-
+ drivers/cdrom/cdrom.c                        |   10 +-
+ drivers/s390/scsi/zfcp_ext.h                 |    2 +-
+ drivers/s390/scsi/zfcp_fsf.c                 |    9 +-
+ drivers/s390/scsi/zfcp_scsi.c                |    6 +-
+ drivers/scsi/3w-xxxx.c                       |    3 +-
+ drivers/scsi/ch.c                            |   55 +-
+ drivers/scsi/constants.c                     |   61 +-
+ drivers/scsi/device_handler/scsi_dh_alua.c   |   55 +-
+ drivers/scsi/device_handler/scsi_dh_emc.c    |   28 +-
+ drivers/scsi/device_handler/scsi_dh_hp_sw.c  |   29 +-
+ drivers/scsi/device_handler/scsi_dh_rdac.c   |   55 +-
+ drivers/scsi/hpsa.c                          |   69 +-
+ drivers/scsi/hpsa_cmd.h                      |   23 -
+ drivers/scsi/ibmvscsi_tgt/ibmvscsi_tgt.c     |    5 +-
+ drivers/scsi/leapraid/leapraid_func.h        |    7 -
+ drivers/scsi/leapraid/leapraid_os.c          |   15 +-
+ drivers/scsi/libiscsi.c                      |    3 +-
+ drivers/scsi/lpfc/lpfc_scsi.c                |   18 +-
+ drivers/scsi/megaraid.c                      |    8 +-
+ drivers/scsi/megaraid/mega_common.h          |    2 -
+ drivers/scsi/megaraid/megaraid_mbox.c        |   12 +-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c              |    3 +-
+ drivers/scsi/mpi3mr/mpi3mr_os.c              |   50 +-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c         |   69 +-
+ drivers/scsi/mvumi.c                         |    2 +-
+ drivers/scsi/myrb.c                          |   67 +-
+ drivers/scsi/myrs.c                          |   23 +-
+ drivers/scsi/ps3rom.c                        |    5 +-
+ drivers/scsi/qla2xxx/qla_isr.c               |    9 +-
+ drivers/scsi/qla2xxx/qla_target.c            |   99 +-
+ drivers/scsi/qla2xxx/qla_target.h            |    3 -
+ drivers/scsi/scsi.c                          |    3 +-
+ drivers/scsi/scsi_common.c                   |   24 +-
+ drivers/scsi/scsi_debug.c                    |  332 +--
+ drivers/scsi/scsi_error.c                    |   94 +-
+ drivers/scsi/scsi_ioctl.c                    |    3 +-
+ drivers/scsi/scsi_lib.c                      |  133 +-
+ drivers/scsi/scsi_lib_test.c                 |   95 +-
+ drivers/scsi/scsi_logging.c                  |   22 +-
+ drivers/scsi/scsi_scan.c                     |   22 +-
+ drivers/scsi/scsi_transport_spi.c            |   12 +-
+ drivers/scsi/sd.c                            |  126 +-
+ drivers/scsi/sd_zbc.c                        |    2 +-
+ drivers/scsi/sense_codes.h                   | 2496 ++++++++++++------
+ drivers/scsi/ses.c                           |   23 +-
+ drivers/scsi/smartpqi/smartpqi_init.c        |   31 +-
+ drivers/scsi/sr.c                            |    3 +-
+ drivers/scsi/sr_ioctl.c                      |   29 +-
+ drivers/scsi/st.c                            |   35 +-
+ drivers/scsi/stex.c                          |    3 +-
+ drivers/scsi/storvsc_drv.c                   |   15 +-
+ drivers/target/target_core_spc.c             |   11 +-
+ drivers/target/target_core_transport.c       |   11 +-
+ drivers/target/target_core_ua.c              |   28 +-
+ drivers/target/target_core_ua.h              |    7 +-
+ drivers/usb/gadget/function/f_mass_storage.c |   34 +-
+ drivers/usb/gadget/function/storage_common.h |   71 +-
+ drivers/usb/storage/debug.c                  |   12 +-
+ drivers/usb/storage/debug.h                  |    4 +-
+ drivers/usb/storage/transport.c              |    7 +-
+ include/scsi/scsi_cmnd.h                     |    3 +-
+ include/scsi/scsi_common.h                   |   16 +-
+ include/scsi/scsi_dbg.h                      |    6 +-
+ include/scsi/scsi_device.h                   |   26 +-
+ include/scsi/scsi_proto.h                    |   71 +-
+ include/scsi/scsi_sense.h                    |  943 +++++++
+ include/trace/events/scsi.h                  |    4 +-
+ 71 files changed, 3880 insertions(+), 2066 deletions(-)
+ create mode 100644 include/scsi/scsi_sense.h
 
-  RELATED
-  -------
-  This looks like the same class of failure as Bug 219590, where the
-  reporting maintainer's own affected laptop was also not fixed by
-  either of the two 2025 patches ("in my case it unfortunately didn't
-  help" - comment #9). Reporting this as what looks like a second,
-  independently-confirmed case of the same "not fixed by known fixes"
-  outcome, with a slightly wider set of variables tested (specifically
-  the polling-frequency isolation in #2, which I haven't seen tested
-  elsewhere).
 
-  Happy to run further diagnostics if anyone has a specific next test
-  in mind - I've documented the exact ACPI tables and mechanism (_DSM
-  UUID 6f8398c2-7ca4-11e4-ad36-631042b5008f, \_SB.UBTC device, 48-byte
-  SystemMemory OperationRegion mailbox) and can reproduce any test
-  reliably given the DKMS/MOK pipeline is already set up on this
-  machine.
+base-commit: e83b47309f73313e75c3888d7839666aba5b2b2a
+-- 
+2.55.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
