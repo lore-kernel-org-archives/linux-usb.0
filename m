@@ -1,116 +1,171 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD12F4477FA
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 10:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0E244E64A;
+	Mon,  7 Sep 2026 10:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788776931; cv=none; b=FMAFF1T2kWjfUg/txksoXy7110Bw1L125pjhEpmgIjVRVpKdw1fXw02fR7gPvggem4gmIEAP2rX9AIYo4wDj2zxzJDrgmPrmkpxAIiCTDvop8n6PkZ0iVYD4otkA+QVXLDYoYG2jI1Q1R+SDO/AGd0ObYDnTECA2g4ZOUWqD6uk=
+	t=1788777246; cv=none; b=tDAajxXSpKEst7kTarrN4H1b1f2zUUmob1gLapqzR1KpIcP3HUiI/ulM5+nT4R/zphVvpvJUeRGkRukPZ1b518bw5tqo4vIyXBswgnY4JePDpHew40kRb6j+7r4lU0/dBmh5WzPgZXijqqiPyXX7nLVMkZq0iBZwemN4VvIDbzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788776931; c=relaxed/simple;
-	bh=4Ada3OHpXiLG5T0AAsYcOgRew4MZYqz94GyBaLtLsxA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p0QA1/NTnPJBQPpuq3gqAeTQ0/2kvemXs7c4Tk5Sb6HDiwFpnD4nZE+96Tx7e/Cv3xDqcI25hf47ZvJyDDdoch8Kxy+8WdEg6XP3X/mhJyA/5v4822odcT7Z5BfSHjJ0+KA7TRCcElach/G/kn1s0uRGjOfkUdiCn2As+S0KOtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DhzAcSlD; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1788777246; c=relaxed/simple;
+	bh=3cPmyVolUVKKcMKyHEbIzIHCelurjUCy03RhElvfnbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sxdTXxf2yACLJyieNiih/1XXrOW6biYPDXE9T3u/H0uWi35SnGeNNtReXJbn+2i1sLFiN6X98DdG/vpPCxx/LgFy9dYLdTVAAzNr0oV/rDinCT+7+e7Q7YoCJDAnGtosUTLMkWTXKTIutw/BapgGXZtrfRPEL5iatooL+CDAahI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYb/zd2O; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DhzAcSlD"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-482dd6ee390so3856028f8f.3
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 03:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1788776928; x=1789381728; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0ZhjTAmwyW+i7ADmwUXpM1rxtxgoKnriyct2cm5k19E=;
-        b=DhzAcSlD89HQ2VWd66DWzvfHNSMFsVzvjntO7u1QhhCh1mLqurIJFrBdA5iv+PMlMA
-         tlK7oVHeeRGYU44W4u1gf+dH/tJeGvYe9ruP1a+4bcroliSBznuJwNNFiwm0vK2n7Kps
-         1zBnN87/Qb3dENUTixohUs/0CUeEFD98ZLB7ttWT1kp8ceprqarsf7z8JzFxDArMFH1l
-         0McLH5/jBgP22sP496rmkT0l4e4v3EpnOEUx/JZahz9GdG7KMpgzqmVOAkG6zvYu07O9
-         ZK1eG6U/2BqpDtdItJz3BIqSzMWAlezYluhaxPuGd2SuBfloRwMiCgqqEa1Dp1WSSuAV
-         HpYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788776928; x=1789381728;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0ZhjTAmwyW+i7ADmwUXpM1rxtxgoKnriyct2cm5k19E=;
-        b=UzqNV8H2sSJeGS/XHjB6r9pEQDptnIskRgZnXVS8qVMXDtLdV6g8+lx3QzVrS/uu5O
-         qvbRKsqKWLil6HQweKgjdCcQ/RnJtQrtOPLpgxSPJsYRtuHJrn0zq6G4lbFsfpjfLl9j
-         dRJL3pNcLEZN/qxhFqGJbVJevOznIP7U4aJZ23rsasXtxh7+rM7sJLVXSVVJaLxPrL9m
-         SHfObaQj6HinWVxZcn+PDGONhw7S5vVWBd9uhS+3YByB2DnaNrrl5MbK8ZyQ3M4oiM1S
-         HK9N9WZE753QOgW2q35sdl0L7iEbugzSQ1D1kqCxhTEHJMAeEWrfVmqOAu21F9flaRAN
-         dhVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymrwNInJxvEzVH55YUy/x//9w0mIJyluxWV29jZcLHHpHIGsBVam6e5I+RELiZp4+y2BtoQWxfN2w=@vger.kernel.org
-X-Gm-Message-State: AFuF++mnVxOFKwWPQ4NhN7U9Fuy63E2U1tZNasQ/IkhXwQhsH4lP/Z8T
-	smLFqKbNSBbBDyx62F0BTsjBc52hQl34/SuW1ZIUGLqjvVnhz6SzJeRmrBl932wR6UM=
-X-Gm-Gg: AYBFou1pOu8kIj9I+aclsP8HXmbPjpcFMILGLHhtUD1fUQcc9duAV2DfqyeEegOJ3dN
-	p4v4ORxuxqBEozZponRxLWjCrjX+snrxkNXqdgnzXA/wIo0hvjmuaWPmEe/nXxFzV30xlbxw83+
-	R0Crkad8ytFVxAtewW1s+KsJSmqc1z2TV2lClDhEmePGJnZBhqILbdJYPNaSgQfYqbVSvlyueWx
-	7c21dGlwJz7UytbfzPhEu3KWkMBD7erfwfKz+RSFCj6UWJ/Ig1S2dEYGHQFaF/FlOzQeMpJZxgO
-	KkOGunhPRAzaVWMnJblTv1YgU6BbBBMwkHmdMDI8u+eVOZxwe/o98D3AWM5FUZ//027KZr3uweV
-	QYwRcEfKJNDu+4UkKcMWzVuyxP0xQCfhCauIo/y2KcFJq3P+pP7j0hjSvylJOAIsApXa/y3PHc4
-	2Jy+zMFJziQlwHsHAxZodaiPQpBj5c72vCYTaxdRXvxGZ8VQ3LvaTkH078QQJvmT6Fjwo/xPhKR
-	G1ucKGIZ4RvbIFLmbVYZDdHLaAnj94d78BO7Q==
-X-Received: by 2002:a05:6000:985:b0:485:8b95:706f with SMTP id ffacd0b85a97d-4858b9570c4mr18007364f8f.13.1788776927892;
-        Mon, 07 Sep 2026 03:28:47 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1340:dc01:654b:3cf0:59cd:498? ([2001:a61:1340:dc01:654b:3cf0:59cd:498])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858d312ca0sm27384160f8f.4.2026.09.07.03.28.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2026 03:28:47 -0700 (PDT)
-Message-ID: <bc055887-3029-4740-bec5-7e2fe4205992@suse.com>
-Date: Mon, 7 Sep 2026 12:28:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYb/zd2O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788777244; x=1820313244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3cPmyVolUVKKcMKyHEbIzIHCelurjUCy03RhElvfnbY=;
+  b=kYb/zd2O2lEmYfjM1shegvV7xtEh0aPGaqYwv22L570TPiwEerxCMon4
+   xYW5hQjJX+pNhXmt0+miKAx7NznTfj0s7bXkCfSf/yP60lMcJHHTCT4QW
+   4tycH9Yykz4ULYqXwnOehDLK0f5P4pjPBy/RAWbbtVsOBe0FVOO5Un1jp
+   uzMc6wJ/VioNy/NRiLp1wEOPks0/Z0P+rOptX4sLLyFlQ0olLMH0l15J5
+   bpQQdg9Z0aL1tinEeGl073cUUJEfphShK6hVOA6V++e35t8QS/EGEDtsG
+   4HYB3qphrmhOZ2mtwAP0jOqbgNNHoF90M/eEAlAWC8s1UsThknBrSAhCl
+   g==;
+X-CSE-ConnectionGUID: iNlrTn5VSO+qc8fuwybdMw==
+X-CSE-MsgGUID: ZaaIfOmXTjmXLiaQG5QOJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="106547735"
+X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
+   d="scan'208";a="106547735"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 03:34:03 -0700
+X-CSE-ConnectionGUID: PbfNLXK3QKWjpMe8KvISFA==
+X-CSE-MsgGUID: ySZzf8TETXujOVeH/f2kZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
+   d="scan'208";a="308906537"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa001.jf.intel.com with ESMTP; 07 Sep 2026 03:34:03 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 547E499; Mon, 07 Sep 2026 12:34:01 +0200 (CEST)
+Date: Mon, 7 Sep 2026 12:34:01 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Huang Wei <huangwei@kylinos.cn>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alex Bartz <alex@alstergee.com>
+Subject: Re: [PATCH v3] usb: typec: ucsi: do not register UCSI on Lenovo
+ Legion Pro 7 16IAX10H
+Message-ID: <ap6TGRUl_PzUU512@black.igk.intel.com>
+References: <20260826133118.3327816-1-huangwei@kylinos.cn>
+ <20260902090531.2134150-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-To: Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260907065501.101013-1-johan@kernel.org>
- <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
- <ap56NTVMq8GlbjmR@hovoldconsulting.com>
- <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
- <ap6LcHWDvIWF3oNK@hovoldconsulting.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <ap6LcHWDvIWF3oNK@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902090531.2134150-1-huangwei@kylinos.cn>
 
-
-
-On 07.09.26 12:01, Johan Hovold wrote:
-> On Mon, Sep 07, 2026 at 11:50:41AM +0200, Oliver Neukum wrote:
->> On 07.09.26 10:47, Johan Hovold wrote:
->>> On Mon, Sep 07, 2026 at 10:17:38AM +0200, Oliver Neukum wrote:
->>>> On 07.09.26 08:55, Johan Hovold wrote:
-
-[..]
->>> Looking at the implementation again now, it seems further changes are
->>> needed to fix the implementation, though. The completion handler should
->>> not be updating old_count. That's for each TIOCMIWAIT to do.
->>
->> I am sorry to be obnoxious about that, but I am afraid that would
->> break TIOCGICOUNT
+On Wed, Sep 02, 2026 at 05:05:31PM +0800, Huang Wei wrote:
+> The EC firmware of the Lenovo Legion Pro 7 16IAX10H (DMI product name
+> 83F5) has a broken UCSI implementation: GET_PDOS returns no source
+> capabilities, GET_CONNECTOR_STATUS reports an incomplete RDO, and any
+> UCSI traffic disturbs the EC's autonomous USB-C Power Delivery
+> negotiation. With ucsi_acpi bound, chargers connect only briefly and
+> then drop, and voltage_now reads 0; with the driver blacklisted, the
+> EC negotiates full PD contracts on its own and charging works normally.
 > 
-> Why do you think so? TIOCGICOUNT just returns the current counters.
+> The reporter confirmed the issue on BIOS versions Q7CN44WW and
+> Q7CN78WW (2026-04); it is unaffected by the BIOS update between them.
+> The AMD sibling Legion Pro 7 16AFR10H (product name 83RU) reportedly
+> uses the same EC firmware, but it is left out of the quirk until the
+> failure is confirmed on that model.
+> 
+> Skip probe on machines carrying the known-broken BIOS versions, which
+> is equivalent to the blacklist workaround the reporter verified to
+> restore charging. Matching the specific BIOS versions rather than the
+> whole platform ensures that a future firmware that fixes UCSI is not
+> wrongly skipped.
+> 
+> Reported-by: Alex Bartz <alex@alstergee.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221142
+> Tested-by: Alex Bartz <alex@alstergee.com>
+> Signed-off-by: Huang Wei <huangwei@kylinos.cn>
 
-Yes, but user space can call TIOCGICOUNT multiple times in sequence
-_without_ calling TIOCMIWAIT in between.
-In that case the counters have to increase if a line changes, don't they?
-For that to happen you need to handle a status change in the completion
-handler.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-	Regards
-		Oliver
+> ---
+> Changes in v2:
+> - Add Tested-by tag from Alex Bartz, who verified the quirk on his
+>   machine (out-of-tree build, runtime module swap, PD charging held
+>   across the reload).
+> 
+> Changes in v3:
+> - Use dev_err() instead of dev_info() for the skip message, per Greg
+>   Kroah-Hartman and Heikki Krogerus, so the issue stays visible until
+>   the firmware is fixed.
+> - Scope the quirk to the BIOS versions confirmed broken (Q7CN44WW,
+>   Q7CN78WW) instead of the whole platform, per Greg Kroah-Hartman, so
+>   a future firmware that fixes UCSI is not wrongly skipped. New broken
+>   versions can be added to the table as they are confirmed.
+> ---
+>  drivers/usb/typec/ucsi/ucsi_acpi.c | 35 ++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> index 18286d3e9cc5..2708b5f90718 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> @@ -173,6 +173,35 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
+>  	{ }
+>  };
+>  
+> +/*
+> + * Platforms with a completely broken UCSI implementation in firmware.
+> + * Do not register UCSI at all on these machines.
+> + *
+> + * The Lenovo Legion Pro 7 16IAX10H (DMI product name 83F5) carries
+> + * broken UCSI firmware in BIOS versions Q7CN44WW and Q7CN78WW; the
+> + * reporter confirmed the issue is unaffected by the BIOS update
+> + * between them. Match only the BIOS versions known to be broken so
+> + * that a future firmware that fixes UCSI is not wrongly skipped; add
+> + * new versions here as they are confirmed.
+> + */
+> +static const struct dmi_system_id ucsi_acpi_ignore[] = {
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "83F5"),
+> +			DMI_MATCH(DMI_BIOS_VERSION, "Q7CN44WW"),
+> +		},
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "83F5"),
+> +			DMI_MATCH(DMI_BIOS_VERSION, "Q7CN78WW"),
+> +		},
+> +	},
+> +	{ }
+> +};
+> +
+>  static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
+>  {
+>  	struct ucsi_acpi *ua = data;
+> @@ -199,6 +228,12 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
+>  	if (adev->dep_unmet)
+>  		return -EPROBE_DEFER;
+>  
+> +	if (dmi_check_system(ucsi_acpi_ignore)) {
+> +		dev_err(&pdev->dev,
+> +			"UCSI implementation in firmware is broken, ignoring\n");
+> +		return -ENODEV;
+> +	}
+> +
+>  	ua = devm_kzalloc(&pdev->dev, sizeof(*ua), GFP_KERNEL);
+>  	if (!ua)
+>  		return -ENOMEM;
+> -- 
+> 2.25.1
 
-
+-- 
+heikki
