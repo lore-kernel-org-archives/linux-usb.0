@@ -1,94 +1,152 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B110340401
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 08:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13EA41A909
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 08:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788769065; cv=none; b=IqQbQpCYtrxsEJkwVx+5Vs4Zd8Tuf46iogZLZ3pomJeAjUN07l57qcdUOf4+wuKWPi9tEG78e5R5OczE4gkmm3+Prj6As4+fePmk506Q5ReU8DgeLb90VOHQ7lLD6nb8hMGgZWo1eu0hBw/MN+Wcu3zWk1PcGfVpQazQAB43Kck=
+	t=1788769381; cv=none; b=HnaJo+3Spwg61/4c9o9+jW5dKTEJqyRwf9rA/05L5iCYSnndLmwti4bMed2uqZOC4SfeWjp+D5ybREMzjlBOsNkVmLKdvXOjbGTMmJ+fOTohcAL0W0p3rckHASEMKzP4KNvQJmNItFkzKJR6h79Rn0vcYgxuG/SQbAf8WnhPtpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788769065; c=relaxed/simple;
-	bh=jFAWYKmVqe0Mh/SD/Y7hlGGG4XNWYE1a0HpQTiZyN3I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p5mGVa1fQvsbSJnUiNaHHrvIPPs89ODN5zWmlKLPzD3V5hl7GK3Ersq7FrMqA2kD+p0Pn8cBRpqfS+lJ033NKMviORQ+3L34FTLxllriaNmB3WlCxIyy4dwULy8Qec2BXB7BfNk7eeHbkR4mJ3a8aurwOhvYcLE/7jewkyoSPEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DgxSzYmq; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1788769381; c=relaxed/simple;
+	bh=Yh01Mk0ZxpNxRDgGkFuFdNhDsxsvzBT4L8+anRObBgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ibNwVYZxOUn8kN7Tgi9gKUNuJNg3QvXYg/+hPd7/r8KumsULdGQYWy14JZS/ogXDALUbl+DjUp1vyiryCXMWtkN6Sv6kPiXGkRXvy/jPbOAOLc3/G4Ghdnha+Cp7KtjME4qWqkenVEie0+DWDneVEChN2Ufq0l7S4lPNY5neiBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZoe8Iez; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DgxSzYmq"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49d0da752ffso10850255e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 01:17:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZoe8Iez"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso27387265e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 01:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1788769062; x=1789373862; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SpoPZ0fcd3JuJClRUUCxQoIFsxpcrKHbj5/qQhfrnoA=;
-        b=DgxSzYmq0osm/iHYnNMP1f9/uMVLPaPVWPb20EKfEk/mgFlLBpygD2bf9fTrQOHMkF
-         cwXgQWNX0YO47UbEBKy/xvUvPnM3ZUbi3aiD8pAl5xqRaz1wzoKEUminXhP++VTIfiW1
-         Ybe+QP0vn/NsvIKYUW1rpw+Y3pFw8OLrh7XWMzKx6+rb2TqR4MWttKTtehZ2P+ftE4cz
-         Pd+EAnATvNyd1tTo/GHpwPF1MlodOSYMMxz6X94oZfNwbOvQljXjv/Syfm3lVU/6RgdA
-         xXuKD6RgSPnrzypU20PzPQpMh2ZzAh/ETB9ocPeNtiaXvppGgzSzLhdVebhyIiouDcLT
-         8VkA==
+        d=gmail.com; s=20251104; t=1788769378; x=1789374178; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VCqJaTcs5m3D0UG8DDlgKpZ5cHbVAKWTm8C1454BXRU=;
+        b=AZoe8Iezw4OiUD/t0K9hGF34moGiGzej7iIL9f1ZkBrohBRj5mETTQKw2f9w1LqNy2
+         V6vGoSe1DcaBCi2N06FZYfYOrUxn4U6MpuZD4cFPQgLNnqQNKhD4KlJO8ykzovx9cOTw
+         If1nvKTQ1vKu1rYiqLEFH+RFVcMLdTCFuShZMAyKYRcB4BuB/rbMH9uYLAO+45f5ro0u
+         XLUU8srqyj2BCDiw7N44fahDdJCamw9jV3hleRRDEc9uy6bByJEpIMa5tcLv7y5CUxkr
+         C24mfU/fy39+NO2urREx8JZc7drGoNEO3i0zGOr0Hk6rQ/dMtKylFEH/qs66l2vrO25f
+         Ugtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788769062; x=1789373862;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SpoPZ0fcd3JuJClRUUCxQoIFsxpcrKHbj5/qQhfrnoA=;
-        b=bSplJtxC3OfdVmVgS3zIuEfc0PxJFM1ZS40yBLq9sgzJb+n8Hy55NzEq+qVIm4luhL
-         hzUckGOjsFCaubvTiXyFxCXDYcUzCG9WETbmqz+YEVShst9pSg/BKLu0GnXxgV2ETMsO
-         laTNQAxpv/gHZrnnKJMVeziMpHbsQP947rGZE1uAcaohg1dQxBogoLL4UnUvyQkkh361
-         FfN8ksYlQu9QMUPzct20IUIRQ1IlwKhFgacZwVbrpZDxvs+4ytfsl1DCsdtDdJlWIt8u
-         Mfl54UbhElMMs/dkhLQ68mE4S2o/Uml9uE5VEpxzjlgF31EUTMR0yop3S7JHOth+2gjL
-         sCfQ==
-X-Gm-Message-State: AFuF++lMomdIqIxa9W1hOpOyMeJkcE4cozfcYSHN0dtApXjp7oFiwKrj
-	hbjEDhjknczj/ykBumKVIQyDT3HoDY8m2yHM5kikyjaU+tqNZUFuHWFPA9RVMqGxunM=
-X-Gm-Gg: AYBFou3fopd6AkTr2MJGCVf8Hm0rKPoaMW3mGXxULYqfu3zd4k43wPxeZ93ZIyuPED9
-	OA8dswNw9SyBgGFuvdxAYgG2WcmqRI+vm+nTE2dxV9TR3aAy4xl1hmFHimKNyS/keiTNzVpniOd
-	UM2SFoFD79ZPmtt1weitCVmJzFAppTNNZGSPgGAxMXO1C6FEI3Lo2P4FzkqMrnmZFyhk6ptfg/X
-	RpVQjiUaTFoEp/Vsw1dW7Fmgkgec40g0ZmeA2370FPbTQuvW3OBuiGXG3Eomin2QnIwguYsMIAI
-	CaSWYbNJ2cAKL9gWntaSX2r2Qhm0fxzFGj6w9K8gmcaM+B13P7lIVLi/PD6TahBMA+YhsQJjwKa
-	pwcZjzbDkmddtl3E3rvzwtuLM62/Gv/eoJKRLTObBXhVWE00LLYL2V9C3HrwDF21NQ79sjkuO6K
-	kQ5cxD3dQ3Fo8s6ANS2KiEQQfWkIjWkI5+3ZD2e5NKlQH/8pyAwgxyOPL7I0ptID1JKwHKZ/WMj
-	SkPftTJmCEyoa9KyotX0kJRoyCsIT6W
-X-Received: by 2002:a05:600c:34c2:b0:49d:10d6:fd55 with SMTP id 5b1f17b1804b1-49d10d6fdeemr36875255e9.1.1788769062392;
-        Mon, 07 Sep 2026 01:17:42 -0700 (PDT)
-Received: from ?IPV6:2a02:3033:28e:551d:9975:219f:1622:8b8d? ([2a02:3033:28e:551d:9975:219f:1622:8b8d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce58da3acsm802674335e9.0.2026.09.07.01.17.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2026 01:17:42 -0700 (PDT)
-Message-ID: <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
-Date: Mon, 7 Sep 2026 10:17:38 +0200
+        d=1e100.net; s=20251104; t=1788769378; x=1789374178;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VCqJaTcs5m3D0UG8DDlgKpZ5cHbVAKWTm8C1454BXRU=;
+        b=apy5ZUQyjlUIbl54SuI/NOnADrcC+bHgocWSQ0iMQlx9aPxihGUVoQB9dJ7HiorFXd
+         BnB/xbWfzm0W5j9Lj2+4ckdUc20tc6iMqgcJoZjRPpveayazX1g8yuTTWhqmtQAkFaB+
+         xe0WwE5DuCTcZ4BTtuCeGRVAJ/m52g2vT9Dz7hHMULLpS02EXsRD7Sz07dp0IjDELBPr
+         ZuAshJ3s2UW4/HJXNKSgwYIjRGYQqgDKhyx3jS22hM0QDMq2NOTxHLyBhS98lPf0zA6s
+         Wef82ri/kuY/PPhlXCUD0omfWuJYqzwSefNeXUfucb0dwnjpXaz8wAhW0frYRmxCd5kT
+         iGgQ==
+X-Forwarded-Encrypted: i=1; AKwUvByom/2NvLQQQobV57jizlyC0b26zsxL94fxGIOkhap1Kq0F/OjTin/WwKBzm/pbw1tbm8qr22HzU88=@vger.kernel.org
+X-Gm-Message-State: AFuF++n/HQ7GmIpVw/rWu9HGYvzaarNaXcAOr4QMg43cZCDQsXNEk8oW
+	zclEosdM3CgM08mTPHHioeWR222+59fXCwqDf71//CQrOj1fSnHuHgSQX/hEvw==
+X-Gm-Gg: AYBFou3YHwvR00ks/bZG9QDRkfaAcn4vOCTuWCIeCqx63Bi1Ml8/rb0VwfCXDYlzh+V
+	QRp6wduom36WoZ3y9b5lnCrSclCx8Gkih3e27ua+kIG+uWkPPGfmxgPmKcEhNR4aEOhLjA78zOt
+	O1Epq/br6+ICKZyty8Sd4UiJ51qAaKRANNFYNVDn2b5Oh/PpZNN0DC7/tYpOAaVndRbX955XU+q
+	aGWPq7iobqTAN+tLqwCr4McLc59FL3kDQeZ4Ux+aM4W+BvAOqGRsXQOF6tytFvJvbuoLoHZWe6e
+	speDqeq1XQ45T/EGR+VXa/Ab/SOLhydTuY944cWdn4XVPvAmvO9CxIpDUxQXTKf/TBv5cK8zA33
+	MtXSoMzxIQ+jp1T19/Y9CATZ5TvamQcxF5OYEJNyQhZ5J9Ewt0ZalkGW+7hW5xcmCe+zFohsYqF
+	N3P/HaidUppGqEaznJITor6qMo3OaHyLlXe9Fn8bqgogz+gVqt3W2Le5uoi85K3dY/wjGIMw==
+X-Received: by 2002:a05:600c:1986:b0:49c:fa21:e744 with SMTP id 5b1f17b1804b1-49cfa21e906mr173256045e9.26.1788769377804;
+        Mon, 07 Sep 2026 01:22:57 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7740d44sm651558805e9.15.2026.09.07.01.22.56
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 07 Sep 2026 01:22:57 -0700 (PDT)
+Date: Mon, 7 Sep 2026 10:22:52 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, syzbot
+ <syzbot+7300affe388249d66dfe@syzkaller.appspotmail.com>, i@zenithal.me,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, shuah@kernel.org,
+ syzkaller-bugs@googlegroups.com, valentina.manea.m@gmail.com,
+ syzkaller@googlegroups.com
+Subject: Re: [syzbot] [usb?] general protection fault in vhci_hcd_probe
+Message-ID: <20260907102252.6eff5c54.michal.pecio@gmail.com>
+In-Reply-To: <CANp29Y4VaiT=oj5mkbf00hq6ogDs7zHZb1_9SC6qTQL7_UPfZw@mail.gmail.com>
+References: <6a88066b.ae6ddae5.3da009.002d.GAE@google.com>
+	<6a9bceeb.a5e650b3.26d8a.0008.GAE@google.com>
+	<20260905104331.6d4288df.michal.pecio@gmail.com>
+	<2026090536-numbness-enlisted-917e@gregkh>
+	<20260906123835.56902ed7.michal.pecio@gmail.com>
+	<CANp29Y4VaiT=oj5mkbf00hq6ogDs7zHZb1_9SC6qTQL7_UPfZw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-To: Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260907065501.101013-1-johan@kernel.org>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20260907065501.101013-1-johan@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 07.09.26 08:55, Johan Hovold wrote:
-> The wakeup condition needs to be checked after adding the task to the
-> waitqueue and updating the task state to avoid missing a racing modem
-> status update or disconnect.
+On Mon, 7 Sep 2026 09:59:36 +0200, Aleksandr Nogikh wrote:
+> On Sun, Sep 6, 2026 at 12:38=E2=80=AFPM Michal Pecio <michal.pecio@gmail.=
+com> wrote:
+> >
+> > On Sat, 5 Sep 2026 13:30:01 +0200, Greg KH wrote: =20
+> > > On Sat, Sep 05, 2026 at 10:43:31AM +0200, Michal Pecio wrote: =20
+> > > > On Sat, 05 Sep 2026 01:12:27 -0700, syzbot wrote: =20
+> > > > > syzbot has found a reproducer for the following issue on:
+> > > > >
+> > > > > HEAD commit:    9d80aa4617b3 Add linux-next specific files for 20=
+260903
+> > > > > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/nex=
+t/linux-next.git
+> > > > > console output: https://syzkaller.appspot.com/x/log.txt?x=3D10adf=
+4f9580000
+> > > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dbb4a3=
+2c282cc2ec7
+> > > > > dashboard link: https://syzkaller.appspot.com/bug?extid=3D7300aff=
+e388249d66dfe
+> > > > > compiler:       Debian clang version 22.1.8 (++20260613092233+e80=
+beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> > > > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D121c7=
+215580000 =20
+> > > >
+> > > > Who or what is coming up with these ideas and even commenting it?
+> > > >
+> > > >     // Iterate platform devices
+> > > >     dir =3D opendir("/sys/bus/platform/devices/");
+> > > >
+> > > >     while ((ent =3D readdir(dir)) !=3D NULL) {
+> > > >
+> > > >         // Set driver override
+> > > >         snprintf(path, sizeof(path), "/sys/bus/platform/devices/%s/=
+driver_override", ent->d_name);
+> > > >         fd =3D open(path, O_WRONLY);
+> > > >
+> > > >         // Bind to vhci_hcd
+> > > >         fd =3D open("/sys/bus/platform/drivers/vhci_hcd/bind", O_WR=
+ONLY); =20
+> > >
+> > > That will taint the kernel in newer releases, and syzbot has already
+> > > been told not to do this, it's not "valid" at all. =20
+> >
+> > What cought my attention is that Google apparently has some capability
+> > (human, machine or otherwise) to understand how this repro works, and
+> > yet they keep reporting this broken pattern. =20
+>=20
+> As Greg pointed out, we've adjusted the fuzzer to stop using this
+> kernel interface, so there should be no new bugs of this type.
+> However, we haven't yet invalidated all such reported bugs, so some
+> notifications like this one may still leak. I'll look into
+> mass-invalidation of them all, but in the meanwhile let's close this
+> particular one:
+>=20
+> #syz invalid
 
-I am sorry, but in this case I have to ask:
-Isn't TIOCMIWAIT inherently racy against the hardware?
+Thanks, that should do it.
 
-	Regards
-		Oliver
+Nota bene, this can be triggered not only by the per-device
+'driver_override' files, but also the per-driver 'new_id'. While
+I haven't yet seen your syzbot instance using the latter, I have
+seen others, so this needs to be filtered too.
 
+Regards,
+Michal
