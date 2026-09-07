@@ -1,152 +1,163 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011063.outbound.protection.outlook.com [40.93.194.63])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAE6445AC4;
-	Mon,  7 Sep 2026 08:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788769768; cv=fail; b=B4sVJs/6ODmZsy/cc8AoWBErEfVF3qjs2D3S00h9TnMwA7zYtPjyp7xXvEFqlRxEFq5WF5WrurN9V/yUuGvzGJvEl+7//gydC7nK5/IbFRTep81ftkEbpUzjn8pb1+tsS6Yp3jGjo2hzI7TdUxmgksGx16YEYhCmriJP0BFqI88=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788769768; c=relaxed/simple;
-	bh=CHCt+iYzkVf1KhpXgoSZOxL8E7VHdoDY1cgTsBu/nFM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sn3HgZk3GIAbGU0SBVtKgM7Xeeh2yNXuAVU84/n+wuFnXwbhywKmZBXbbNE/zJhyJf8o+Rm1D88/h4KwDowy6BtS8vPb5invp99AScj3zv5yG01iM2SX7HnJeZJ+5Ah/CzHiqCgj9f4WzT55vrZwy+cWeNN3jEnwbjNCXvagfhI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=DQvHskHp; arc=fail smtp.client-ip=40.93.194.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003BF443AA7;
+	Mon,  7 Sep 2026 08:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788769810; cv=none; b=NRXAmYPQj5csjxgUWVE3eM10rw6zK+vPHiqlcNMC3ZS5ckD4Y1Dk+2b9s22wOXYl2zkZUsvB1HHA029iFT5v28Wk34wzILqNiNZ9/KIe+ZUl9mbOnSjyDx5q9PociBAnbgSNEAqMuHDHzT7pwi9Jm+F9y03jOEReG88wX+YYE7U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788769810; c=relaxed/simple;
+	bh=QAEt6P9ewAx4tLQ7zDcVEugSrb2nPpwxpUVMi3n1/+A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=i/+h+FvD4mo6vOcTy7sKhGQnjg29/ycpqjWU5UFYCN5YM4smem/n1JkgLq8lW4roHrFCqdto5oJad/2zwYPXokBZwB9GCjn7NgWJOxMkiaI1Ec7rbNj6f9NYxVJcBOfYISRxg/L4THRjyrz2kRnu183C+xq7p0/FjVf9vLUMBlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=oBR+IBXz; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="DQvHskHp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rx6shC45Y0spAlUguOgkqHSMSb8w9CZeP7oQ5VubzYBM0oA4K6AWHuRcTCf7y59d1AQQxsAgVfurdVmLrOdXCy3Tw6oXkVSZ1JjnoQTnySiH02KuzxF/e9OycBYO80RaWznCmrPBO3UI+JIwCln6itwAGQJKv0lfjGF+FJBpbeNIXnvapohvMxmcF6eXRa3tCElrojod+GzyxrTzqf5IO/dR6kZic3cIje8sgjPXIBaM0288rOWf44ZmM74WlZvu+Dbon+vH2WPI/FK546nOfokzNsF1T4gw2pntp9HGeQ3afSFoOGUcCMhdizWYjs/CWI37kdspsFVlnzXWntATrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bSLhflMVgYtReTPHxuDS9grUfACbKN2AOmrXslB3BWc=;
- b=wKF3eq/zbOyYwPSFc8cHK1ll0Qxqxunztn6O5yDE65R9Q6KRSgJzTcWEQeEx8bB7B3IRgnvAdUr7OSw79Nm7tGhim9m79DlOFWZRr7OxJTM2TaJYPPO599IQo2UrZd2Z9TnxQN34QAB5lMl1rvmTuxL1d6yyE7u05zAFec5lLQJJuelr5qFfP77Y9RZE83XzNcAjv5wHshPu2M1CZVh19h6oTxquaaFQw0+4KerGSlt2s5lucllwBYmK8MLHxUVBA85obv0TenUytndeTAJl2aeOGYp3aG0EZb3ub//WmDE0LLYu2NGK6ZvjYJXxuRkfBTdbBLE+L6GwnB2F846bhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bSLhflMVgYtReTPHxuDS9grUfACbKN2AOmrXslB3BWc=;
- b=DQvHskHpuP541qn+ACgDY3kDvaDRXQmNcAmCQeHg7LtsP+8fUPqUcqzTSVz11XmK4DDsYBp7B49/ZXioNK+r7Wx7oaXBk6QW+CWPB1nmGElLNJBLfl/XeXrb/XqzjDhRUbizEe/A3CHnjuXaAyrCckgIJmys9r32sZFGbNj7rGizudDPbsn4I3j2ZvhBxlmd2JXbHnZgsIZLiJq93rToEUahgqSF0SAxzAgNuJYrUR0Lm1pVUacRqzUWmDsdN+XpFuYtJwm+8KYRn5NPPa7JBhKLdcdV7A979zKl5kpvTnePEO7rXdyUFol/V2eMpupbv5DfxourMSDUBn8VmGHAhA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-Received: from DM8PR03MB6230.namprd03.prod.outlook.com (2603:10b6:8:3c::13) by
- CO1PR03MB5777.namprd03.prod.outlook.com (2603:10b6:303:9c::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.15; Mon, 7 Sep 2026 08:29:23 +0000
-Received: from DM8PR03MB6230.namprd03.prod.outlook.com
- ([fe80::abad:9d80:7a13:9542]) by DM8PR03MB6230.namprd03.prod.outlook.com
- ([fe80::abad:9d80:7a13:9542%3]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
- 08:29:22 +0000
-From: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
-Subject: [PATCH v5 4/4] usb: dwc3: add Altera Agilex5 support to generic platform driver
-Date: Mon,  7 Sep 2026 16:21:41 +0800
-Message-ID: <5fb5c5b6d95be2e90f99878ec3102ef0a3a3a98f.1788757821.git.adrian.ho.yin.ng@altera.com>
-X-Mailer: git-send-email 2.49.GIT
-In-Reply-To: <cover.1788757821.git.adrian.ho.yin.ng@altera.com>
-References: <cover.1788757821.git.adrian.ho.yin.ng@altera.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0111.namprd05.prod.outlook.com
- (2603:10b6:a03:334::26) To DM8PR03MB6230.namprd03.prod.outlook.com
- (2603:10b6:8:3c::13)
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="oBR+IBXz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1788769753;
+	bh=qWRgI9AOsx/PXxW+VxjVPzW5Qmp+SlNGLn4ruFkG9nE=;
+	h=Mime-Version:Date:Message-Id:Subject:From:To;
+	b=oBR+IBXzLjBaJocWvo/zFzPA1ALw0ELmD/h6uUfAsTjuFLZwd/lKN0MUcbn7x9Cwm
+	 BvOd189qqOcCUHnyyXnYr1Dds5pWLW6/HtcJs1+bPK99cpJfVE36/CuzXBhlUcZwkk
+	 Y2Nt4nJ/A8V+vqhCgsEL/tu3B1MBo3UQKZiLGHn0=
+X-QQ-mid: zesmtpsz8t1788769746t20a8a9a2
+X-QQ-Originating-IP: wIBhlM3drIQ9Ntyumd1ujaGUl+998+uevieIExULl4I=
+Received: from = ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 07 Sep 2026 16:29:03 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11320355853612536940
+EX-QQ-RecipientCnt: 20
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM8PR03MB6230:EE_|CO1PR03MB5777:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4aec6acc-0e2a-4025-33a1-08df0cba1e7a
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|6133799003|10067099003|56012099006|11063799006|18002099003|22082099003|55112099003;
-X-Microsoft-Antispam-Message-Info:
-	I5OByJVwhSpji+qmpluf0lFlnKqJxj/rVXrloEmB5S4VK1Xe7AZ0j+taS5N0Ud/RP1gaE5MQxvFxQbE5BeZIaeqX54TcPo7oR1ktsb21sQsifJMcwDs3NAuguuTygy4SUoWiFTaFUXGrT17tFRBQVrz9NYtcLOHb8mnlpiZN2EhI+Md1C09nBL1gjcybB8ufvsLSaWtej0V0mRgNaT00KMpxwtTObEFdjB5oiddp8kwc28q3/CEwcwOXebnj+Ddp4f3xYxY1YurTojJRwQsW8LT5d3Ni9UI2zxekVEGBZWsLQadEllIsm4piDaPtR5O7LE6WrcKK3aS4pnC9osGEka/+8/MNvfOZdYYNflyOHkjwVRyWe5jlYMZtH59Eau/XsVlIs1k3vpdTOZmaoer8wB0w2MkQmvWVsb0YfL1hUyR6oIECg7D2euKsKsfcsMLdgQkeF+FpJC+FbOih/RYt4SDCoRn0mGTXxIouOjHVYaAxcUrOcMSEeNK98G44SmW/LqA/4gtiitBW5/BQoZdXuvHkrzwQ9d1dHPeMMCmi2DTuzxcYgH/idprDttH4FXHiUimo09eFEPJKRzHR+8W2Xl6/ZZwMiPDR+yd77VYSJC53AtWCMbH1TgqveHZ/dE7ztSqTAZ5BV4iAsuHx6EOG3e6YPzdQDtL4CE3PKpwPhuI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR03MB6230.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003)(55112099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6h8ySAxfegNGX9FX7j6eFJcqsLg72lBRtPV8zDBiihQiZJl0qIRu3dtYK87D?=
- =?us-ascii?Q?HDhSYX/czR9snnZqjoBvv5u0flE0lxsWENMsIAzC6tIkxc6Tnlj22cyyTEOh?=
- =?us-ascii?Q?xVR3alyPayMPB0t85SraTpLCBZpBcXt5Clu6gqwDTzQwyeDvVMGpdKeziEti?=
- =?us-ascii?Q?iPkj8yuTZ8hKxjaSjaSgHq7/dgEPmBeEUvdCQyIQZzJT3UpDZPvcRMzlAPDd?=
- =?us-ascii?Q?zHQKtwaC3vKzxX0CMhetOo/HpL6XEGsQjWZ82QQBCJpsLIxsTFBfsp/Cgtm4?=
- =?us-ascii?Q?7wZSNCifiHmEgZi3VQvnIcoS8KO8+uJdrhyDeZ7hK5eYdNaxptCc8UwGiHcN?=
- =?us-ascii?Q?DlEsPPJ+NhN6U8CeH9Z3Rwuu7kGiuZl2IP65JIs9NeYVjx38DWlMPIwq8mXu?=
- =?us-ascii?Q?Kb2QWL7yxtKKfii5lU589mzsN/v4Z4ePeCC5muMQQnMkYexcv+XhVQ9eEN6H?=
- =?us-ascii?Q?Y51UDYD6Edpt46ZfO9SquAsimNp+tJLmvFPslkdIsDzk0BW40QhMJtJx4FGd?=
- =?us-ascii?Q?ffch/OxDKy3x/X90msFiJHDjmY2W0mf7oDB/m7D7HIRZGlcngDrNkBbz4gAA?=
- =?us-ascii?Q?ptJADeRyzhCnBoTyqsFd8Wvxf0StKSOlhVkDt1gcbXJZ7SgETaLEhN9ihhng?=
- =?us-ascii?Q?Mw/iK2q8wF0SaAKL9pY4aV7LkaqR/FufCQ1yh07XCRMbmDIXt/qcDC9e/DoS?=
- =?us-ascii?Q?3pZlpr7IZaxo4LPBNPJTUJDyD+umw4PLsATQpD4vMNYFoPdCFNNb9cQQ8DWo?=
- =?us-ascii?Q?NEhZGz/pXiGU7zgdpFUtw3moMnYN8YYArA+j1Jp9E2y050n18jTilKwfX6Gd?=
- =?us-ascii?Q?XBXAhWMJ3/fGSl+L5Cclc9khjGmdBxeE1XnhCiGETWhiVRF8eL9742a1ii7Z?=
- =?us-ascii?Q?Pky+s3sAsw4q9XLDnNAoEw63AnC7dGgmZv4VzNWlNh77sWKUzXtm91ggJcCr?=
- =?us-ascii?Q?o4sDKpZOf5rGjWs5gPr4MikVKatJuO7gWGf6e+SLZf5rThBtige/q5GxnvZQ?=
- =?us-ascii?Q?mPUJIvu/f9ym3folmOjzjgTGnTIaJF17poO9rZhiiqevKsbhQ9oBnZP34fOs?=
- =?us-ascii?Q?9mX+AaYV0+vNHtKxYhpQkfrVcRjzAxlAKMiV3Fl9cVTlmi+pdL+bVVKdWs85?=
- =?us-ascii?Q?V6Z7syygJo7UWjcVtfC6pS+sNQLJD5EZpEYP5xuLB6l0GUC+L3z6VzuhOUWS?=
- =?us-ascii?Q?PrmvMPyam3qlH7am0XwfYNqXgZ3SiR/7bXkP/IHcwjcdbkL3QEznhDnzvBI9?=
- =?us-ascii?Q?7cQX1r9m+kVK5y5rQysz5M2WDPF6ywPG4IUmmoiazkY5NWGtuFipeS974a4y?=
- =?us-ascii?Q?UUTohDbxLcnvdAr8Ne3FYfMn3mqWuh4c0yGlTvYto0k/pdDpPdo6KkOYjAJ8?=
- =?us-ascii?Q?HP1d3uQxekbgXJOgTKbFyg0FS7Gi4bxQezi0e+sN3Oe8upKOz5gdy3aXeozX?=
- =?us-ascii?Q?o1ApNKjNWx2h6impgVWiipg6KiAJFH1GRpVR684T0XwGJHjumOrXAOom8G5m?=
- =?us-ascii?Q?Jn5wsrrMI3CXiZTIsSOaCN6/b6C5jewJGZ9U80fWdkDqrOpVwk8dJtEIwrxz?=
- =?us-ascii?Q?Lpg8l70a4daRuU5NLr2wDJOZ8eydBSgouJnFhVuJomr8wQa913Y8CsoqXzBu?=
- =?us-ascii?Q?AMslEKuwKmvvIJSoQfXsxe8KtlbBc7uZKf/943O0j7J0c7EPaKWV7QSmQd0/?=
- =?us-ascii?Q?nMV0whsk7d/d8WNuTbjLCZaLbNxlWtK164vVWizrV3T2+6k8Oi8GX80gWSHX?=
- =?us-ascii?Q?ddng6Eroaj3LocQUQlQUOMdSZ8DX7SQ=3D?=
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4aec6acc-0e2a-4025-33a1-08df0cba1e7a
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR03MB6230.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 08:29:22.9456
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Prqpg+omL1rQqByXJIfNd9jXtS6s5awVWd2jUUR4WQqdj2Ib5p6gwg9UV5tnv9fqfuEJPwqj2qescpO9QBjYYE3vrU/ZBznFHdh6/fKnT2Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR03MB5777
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=c5ea966f1287d2fb0a065fbd8bfacc535291a111e20b04421be1800d226c;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Mon, 07 Sep 2026 16:29:01 +0800
+Message-Id: <DL8XYAR1UCMY.8XJN1LP6YQPE@linux.spacemit.com>
+Subject: Re: [PATCH 2/6] usb: chipidea: usb2: add optional reset support
+From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
+To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Peter Chen"
+ <peter.chen@kernel.org>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Yixun Lan" <dlan@kernel.org>, "Xu Yang"
+ <xu.yang_2@nxp.com>, "Peng Fan" <peng.fan@nxp.com>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
+ Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, <linux-usb@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>, "Troy
+ Mitchell" <troy.mitchell@linux.spacemit.com>
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com> <20260812-b4-spacemit-k1-usb2-v1-2-f28cf29e522b@linux.spacemit.com> <an2UgcS8cHDGwzsO@hu-petche-lv.qualcomm.com> <870CB1C672C91040+8a75565f-344c-4f1e-aa69-33585a88c8e5@linux.spacemit.com>
+In-Reply-To: <870CB1C672C91040+8a75565f-344c-4f1e-aa69-33585a88c8e5@linux.spacemit.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: Ni68Q0J6fxe2wIqzzpnjqZqcDXBL641bOrXTVUP6GxzUtXHWeJH1XJNw
+	8uKsDXFi4zyR4vFBMulVXHap12RAkqtvyG9DxflBI6RyYUFvGBl7SFTw7/75yvJ9hRmCvJA
+	WZx3zpUR3Dn+sQ0u44hOGt++j4pETwG/FrDRa6y2ESbwySpFmzfsYF4eMV12PS1YrrQ+L49
+	B3Jts8fd10gD1EfFazIDSc9sX356lJtVrUchFNYU6JvbPSUzqbSHIiEStuKhHTsvT9N2bKY
+	XMrnvaPar5DasCTpjLNQEGYAFGbI+qIKyoFw+bZdHCsXzYUQ3Ww8+MiwGm4rUUADFGlq9u4
+	+BsqwdCcup3GHypTe/xA6JbwzIpTlg6bZ9AP/sYRVn7akIXmOZg+i0xEu2eL2D53u5YmFip
+	v4Tcdg1zQedCwqg5nwWBvb1P9DV2i5/PH+gZumEY6HSIh1Jw6yU3GRHMKsdTvpc2jI7anKQ
+	Ss4v0I+jKIXE3ZGa5yruqkZUVfNgfPNHRRBw7+/ssnqL1X5LFSwFsZye2Vhx0VsDEHADvKR
+	TBgkfE+z69IJOtGxRC70kVCKDFbmK27FbuwuCF1uzqEkYg5VFP8lJUVRyWaVxSUC7ZBzpqd
+	in+ZQU4Qe8k95hZvcPKa1kozSvUllU4G2GU/Imz6ndTGL+2QCxnCfbuqsg5IlK6mPBb7GJG
+	YcB4IhV3wtqhzbXmUToTmwAC9kkLp3DL/wT8RBefcIkThHQnlq/dBm3z5EoaxtLH3rmJvlo
+	zUtLNqvqlb9SBFsfBhvd1P0Dz9Flu8LIuBXxuswhkp1zb9NY56bW+I7jD/+8gt/VMtPjNUb
+	z0vKiqyoMCfDAgPhBzuVIu6F2mhZwcF3zvxj84tQ0nZVtXGjZPVnzJnOX/LSkWPSvqs663/
+	9wf6bezEFVcJgsXtRIZ4tLu+Y2rGA/W9lq9zKuHYlnh2KVEv+BnkSzI4CMDqEtuhtZ2e707
+	KimJJxbiVLWCiQkl4eouU7flPQ5bHJ1j3v3bXZoZDLzwM/k8lyqYjICSvmhBCyu0goadn9p
+	gll/OuXn0/NC6Ocf8X78ReUuOuw+IMp81rppD13HmlhP5cZ3KcIiypggtBor3hUYV892mzY
+	A==
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+X-QQ-RECHKSPAM: 0
 
-Add the "altr,agilex5-dwc3" compatible string to dwc3-generic-plat so the
-Agilex5 USB3.1 DWC3 controller can probe through the generic DWC3 platform
-glue.
+--c5ea966f1287d2fb0a065fbd8bfacc535291a111e20b04421be1800d226c
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
----
- drivers/usb/dwc3/dwc3-generic-plat.c | 1 +
- 1 file changed, 1 insertion(+)
+On Thu Aug 13, 2026 at 9:39 PM +08, Junzhong Pan wrote:
+> On 8/13/2026 5:55 PM, Peter Chen wrote:
+>> On 26-08-12 17:26:13, Junzhong Pan wrote:
+>>> The USB2 controller of SpacemiT K1 SoC requires reset support, to keep
+>>> compatibility, add optional reset support.
+>>>
+>>> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+>>> ---
+>>>  drivers/usb/chipidea/ci_hdrc_usb2.c | 8 ++++++++
+>>>  1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea=
+/ci_hdrc_usb2.c
+>>> index 8ffa1e95d8e8..00d575cd2955 100644
+>>> --- a/drivers/usb/chipidea/ci_hdrc_usb2.c
+>>> +++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
+>>> @@ -12,6 +12,7 @@
+>>>  #include <linux/phy/phy.h>
+>>>  #include <linux/platform_device.h>
+>>>  #include <linux/property.h>
+>>> +#include <linux/reset.h>
+>>>  #include <linux/usb/chipidea.h>
+>>>  #include <linux/usb/hcd.h>
+>>>  #include <linux/usb/ulpi.h>
+>>> @@ -21,6 +22,7 @@
+>>>  struct ci_hdrc_usb2_priv {
+>>>  	struct platform_device	*ci_pdev;
+>>>  	struct clk		*clk;
+>>> +	struct reset_control	*reset;
+>>>  };
+>>> =20
+>>>  static const struct ci_hdrc_platform_data ci_default_pdata =3D {
+>>> @@ -80,6 +82,12 @@ static int ci_hdrc_usb2_probe(struct platform_device=
+ *pdev)
+>>>  		return ret;
+>>>  	}
+>>> =20
+>>> +	priv->reset =3D devm_reset_control_get_optional_exclusive_deasserted(=
+dev, NULL);
+>>> +	if (IS_ERR(priv->reset)) {
+>>> +		ret =3D PTR_ERR(priv->reset);
+>>> +		goto clk_err;
+>>> +	}
+>>> +
+>>=20
+>> You may update binding doc?
+>>=20
+>
+> Sure, I forgot it, will do in v2.
+>
+> Thanks.
 
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07c..8781d7ec6b9e 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -232,6 +232,7 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
- };
- 
- static const struct of_device_id dwc3_generic_of_match[] = {
-+	{ .compatible = "altr,agilex5-dwc3", },
- 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
- 	{ .compatible = "spacemit,k3-dwc3", },
- 	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
--- 
-2.49.GIT
+Is the reset required for K1? If not, no binding change is needed. I checke=
+d the
+binding, and it already defines resets as an optional property.
 
+Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+
+--=20
+Troy Mitchell
+
+
+--c5ea966f1287d2fb0a065fbd8bfacc535291a111e20b04421be1800d226c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCap51zQ0caUB0cm95LXku
+b3JnAAoJEJgJ74D5MzQv9j0A/AuCeVJ9yE/gt/KfEJxLTBV6zSXK8wkfge0WTxJC
+wNLzAP9N5s2ZVrfHOn5l/94Qv1u5kJxbdnjE6iR9SbxpQB0UBg==
+=lw1Q
+-----END PGP SIGNATURE-----
+
+--c5ea966f1287d2fb0a065fbd8bfacc535291a111e20b04421be1800d226c--
