@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181333CAE8D;
-	Mon,  7 Sep 2026 10:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EA04746BF;
+	Mon,  7 Sep 2026 10:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788777586; cv=none; b=KtrH/c/8Dvf/pyJauzqMNtfYpviCuC+ep3kpyeHq4HLxEMnJopQvK6A/9Seqm1k7ZVL6uWGvajCtug+eKOs0jSoSRR3CbA7OcbvVRTFNrN3U36ZI22s+jJHdxJWk5lGVB075fNdYt5LLdYamBNjrxa3ojdIeNanHC1ijJjYD1QA=
+	t=1788778420; cv=none; b=SbfCk8TEx3J8sRkuWlOjUMvoFVOnQj2ZPxleVmc33Is+bHpivGcQW/7VbhhJoqnk3C0xlxic6zJAM8D1ajOrt4AOrqiyXWnEvqGPyBtsQq2m7SiqkqzLEFeSbw/lJTaHmVUdnZ5rjrfhstv89HFsK0bUmI4yP8/vm99p96pxE7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788777586; c=relaxed/simple;
-	bh=0ZrT/K/Cb9gaNHINuULmzP5NtRYCGITb/99LD3gIsdE=;
+	s=arc-20240116; t=1788778420; c=relaxed/simple;
+	bh=HVGcZF8Q/ZEdDc1P8SbQdecxk3+rmU/h4yuXHPhDcZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pFkrqNYNaQ4zE1b38AlWjJ8txQZURkjxJA8Xd9H3jC31bxDB5UNbQNwu6wdu1EAJwfiR9O5WQxjaAZr4BJwFLAmpgk5yvgRS38sAf+MlCrQ00fxVyFI6CHZ7Atmsg7kEWzXc8ByhSY4ct3mhnpg6URcv37zfCAon6t4Dqb+lCXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6BReP0u; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=caDVYs5/p3Zm0UPgLkbWO54UuTM9xkHioalOgysykVn10GNX/nSbDteGFggHmzO8OeteJynvsKI/0ask4NyLSaUcY/AaInOs4umgcRYdtaYSBT6FZYbSriQP//Ts/rOonEFswBaXx3MtqaVEfLt8S3PrSKBT6EotlkkCH5gdWCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ToED8y72; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6BReP0u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ToED8y72"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788777584; x=1820313584;
+  t=1788778419; x=1820314419;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0ZrT/K/Cb9gaNHINuULmzP5NtRYCGITb/99LD3gIsdE=;
-  b=U6BReP0ux+GEbqqNGk5MDouWYaXflBjOeeWZwCRCQUnirDTOJHt5Jair
-   uojMJn1/5hSTcX8QQBSkRFTKn79a/alc34Ce/P+pn5thcBXFjOOBxodQs
-   AnusQwSctclKY2SAB/3Zy07MO4RrwUGPdaHybh48PQSrI6fARv3CcXXpH
-   Ih03RPYBQ/nEaQdRCZIqPvfzMuVAUVU4eajjwvxFYT7pK6G9Ul++OJLew
-   BXoaP+MJassevLy9UgWHCDGoc8w9UNUBaJznvJvnHSIapNtXjI2mgbZWO
-   ysU377fYl1+l8RKQi6iyU5jNFQBAosCOokknluHImdtXMefuGuyeKSKtL
-   A==;
-X-CSE-ConnectionGUID: r6BSXqWIT7mkeD+wpwx7Vg==
-X-CSE-MsgGUID: TlqgB8HpTPKuSRNqYjjhFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="106695810"
+  bh=HVGcZF8Q/ZEdDc1P8SbQdecxk3+rmU/h4yuXHPhDcZc=;
+  b=ToED8y72trk1V7IA9LOak4nPNvJ1K1b4coR8BN8fXWtc7bMmGe9n9gLd
+   +nkmWaq0DrPyPAh2XU1OKzTt8OSvhg5i1ydFckM5t6qt4w5x7ZbdWwV/K
+   9AHWGoEbyMY1/rew6u+fpIETczlJLxeAl6KG+sMmjz/IknV7Fk4n8Tnyh
+   Il8bFvD6RyoIC+2l5Ts2FpW0ryQYSWf3TsZSAiTukuIqRF4otMKOVDeAV
+   DbgnQsC+zqnEzvP8m2R7SuTx72K3xyI7UFtKQqoA4Qp9EPTUehDiBQ4o3
+   rSg34yl49HdHSD8/g+47Ior5HcedMpw7ziTaBLV6rqPhqY5RtT8hS3Q71
+   Q==;
+X-CSE-ConnectionGUID: KVjPBCm/QI659y0bVc3e+A==
+X-CSE-MsgGUID: 815l+igGQqu8jyY9kno20A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="89213464"
 X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="106695810"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 03:39:43 -0700
-X-CSE-ConnectionGUID: Y53h1MfVQyyro4KAca8dBA==
-X-CSE-MsgGUID: BZuHkW03SgS6qYNkaoUSlw==
+   d="scan'208";a="89213464"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 03:53:38 -0700
+X-CSE-ConnectionGUID: o1nNYw9yTpejgXV5VsJ+DA==
+X-CSE-MsgGUID: IBFHA4xuQ/Oc0hdo5jY4IA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="274483667"
+   d="scan'208";a="274191711"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa004.jf.intel.com with ESMTP; 07 Sep 2026 03:39:42 -0700
+  by orviesa003.jf.intel.com with ESMTP; 07 Sep 2026 03:53:36 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 773E099; Mon, 07 Sep 2026 12:39:40 +0200 (CEST)
-Date: Mon, 7 Sep 2026 12:39:40 +0200
+	id 9993B99; Mon, 07 Sep 2026 12:53:35 +0200 (CEST)
+Date: Mon, 7 Sep 2026 12:53:35 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: amitsd@google.com
-Cc: Badhri Jagan Sridharan <badhri@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, RD Babiera <rdbabiera@google.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: recover after failure to start the frs
- ams
-Message-ID: <ap6UbOSYDh6GDDhB@black.igk.intel.com>
-References: <20260903-frs-error-handling-v1-1-ad0fee541847@google.com>
+To: Linkai Gong <gonglinkai@kylinos.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xin Ji <xji@analogixsemi.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: anx7411 - stop the IRQ before destroying the
+ workqueue
+Message-ID: <ap6Xr5X64V6evYjz@black.igk.intel.com>
+References: <20260903082254.1540271-1-gonglinkai@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,88 +63,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260903-frs-error-handling-v1-1-ad0fee541847@google.com>
+In-Reply-To: <20260903082254.1540271-1-gonglinkai@kylinos.cn>
 
-On Thu, Sep 03, 2026 at 12:22:21AM +0000, Amit Sunil Dhamne via B4 Relay wrote:
-> From: Amit Sunil Dhamne <amitsd@google.com>
+On Thu, Sep 03, 2026 at 04:22:54PM +0800, Linkai Gong wrote:
+> The IRQ is devm-managed, so it can still queue plat->work while
+> remove() is tearing the queue down. Disable it first.
 > 
-> Reset the port if the tcpm fails to start the FAST_ROLE_SWAP AMS by
-> initiating error recovery on it.
-> 
-> This helps in cases where some cables (incorrectly) signal an FRS to
-> an FRS capable port during disconnection. The TCPC autonomously starts
-> sourcing VBUS on detecting the FRS signal. However, the VBUS sourcing is
-> left on when the FAST_ROLE_SWAP AMS fails to start (as tcpm_sink_tx_ok
-> is 0 as CC is open due to the cable disconnect). This is because the
-> code sets the state to INVALID_STATE without resetting the port state.
-> 
-> Log snippet before changes:
-> [  101.401960] AMS FAST_ROLE_SWAP start
-> [  101.401971] Sink TX No Go
-> [  101.401982] sourcing vbus
-> [  101.401987] VBUS on
-> [  101.402159] VBUS on
-> [  109.257809] CC1: 0 -> 0, CC2: 5 -> 0 [state SNK_READY, polarity 1, disconnected]
-> [  111.267442] VBUS on
-> 
-> After changes:
-> [   70.541211] AMS FAST_ROLE_SWAP start
-> [   70.541220] Sink TX No Go
-> [   70.541228] state change SNK_READY -> ERROR_RECOVERY [rev3 NONE_AMS]
-> [   70.541362] VBUS on
-> [   70.541365] sourcing vbus
-> [   70.541367] VBUS on
-> [   70.541374] state change ERROR_RECOVERY -> PORT_RESET [rev3 NONE_AMS]
-> [   70.541410] disable vbus discharge ret:0
-> [   70.543028] Setting usb_comm capable false
-> [   70.544009] Setting voltage/current limit 0 mV 0 mA
-> [   70.544034] polarity 0
-> [   70.544239] Requesting mux state 0, usb-role 0, orientation 0
-> [   70.555550] cc:=0
-> [   70.555595] pending state change PORT_RESET -> PORT_RESET_WAIT_OFF @ 100 ms [rev3 NONE_AMS]
-> [   70.555697] VBUS off
-> [   70.555702] VBUS VSAFE0V
-> [   70.555762] CC1: 5 -> 0, CC2: 0 -> 0 [state PORT_RESET, polarity 0, disconnected]
-> [   70.587794] VBUS off
-> [   70.587799] VBUS VSAFE0V
-> [   70.655672] state change PORT_RESET -> PORT_RESET_WAIT_OFF [delayed 100 ms]
-> [   70.655682] state change PORT_RESET_WAIT_OFF -> SNK_UNATTACHED [rev3 NONE_AMS]
-> [   70.655686] Start toggling
-> [   70.656274] CC1: 0 -> 0, CC2: 0 -> 0 [state TOGGLING, polarity 0, disconnected]
-> 
-> Fixes: 0908c5aca31e ("usb: typec: tcpm: AMS and Collision Avoidance")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
-
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Fixes: fe6d8a9c8e64 ("usb: typec: anx7411: Add Analogix PD ANX7411 support")
+> Signed-off-by: Linkai Gong <gonglinkai@kylinos.cn>
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/usb/typec/anx7411.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index a8cd1959c426..c1045d850897 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -7113,7 +7113,7 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
->  				port->upcoming_state = FR_SWAP_SEND;
->  				ret = tcpm_ams_start(port, FAST_ROLE_SWAP);
->  				if (ret == -EAGAIN)
-> -					port->upcoming_state = INVALID_STATE;
-> +					tcpm_set_state(port, ERROR_RECOVERY, 0);
->  			} else {
->  				tcpm_log(port, "Discarding FRS_SIGNAL! Not in sink ready");
->  			}
-> 
-> ---
-> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> change-id: 20260903-frs-error-handling-253b87a09fa2
-> 
-> Best regards,
+> diff --git a/drivers/usb/typec/anx7411.c b/drivers/usb/typec/anx7411.c
+> index 41df115912b9..c3d36da692e4 100644
+> --- a/drivers/usb/typec/anx7411.c
+> +++ b/drivers/usb/typec/anx7411.c
+> @@ -1566,8 +1566,11 @@ static void anx7411_i2c_remove(struct i2c_client *client)
+>  	anx7411_partner_unregister_altmode(plat);
+>  	anx7411_unregister_partner(plat);
+>  
+> -	if (plat->workqueue)
+> +	if (plat->workqueue) {
+> +		disable_irq(plat->intp_irq);
+> +		cancel_work_sync(&plat->work);
+>  		destroy_workqueue(plat->workqueue);
+> +	}
+
+Is the workqueu necessary at all? It's threaded irq.
+
+Thanks,
+
+
+>  	i2c_unregister_device(plat->spi_client);
+>  
 > -- 
-> Amit Sunil Dhamne <amitsd@google.com>
-> 
+> 2.25.1
 
 -- 
 heikki
