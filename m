@@ -1,64 +1,64 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA23937C0E5
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BC237E5E1
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788756433; cv=none; b=ejKNCPEF360QyBiROfVbahev6zb+9HDYFlxCiyM1mUlPCeyfgC1deLtj98kadO0gz91fMMe8H5FtAsJIGFD+kAlU/ot2UxZMKkQN/LTCUr4V3sJSTQH6LaJj7MxXZ1pDO5ERxhWb7jhX1lRPqeQUXrpTDBMTrcHxdZtP9/fkxcY=
+	t=1788756438; cv=none; b=hs6NdNKORVcMRi9G6ykDSI3PonqywnE+3SGRVOwiXySOPAc0/i8AAsEXY7jSeOD4vbJe4tT3Uz7LGCLEOzFHBvwa6xgsRAyL99vCcmZxsrPkJg9++fchyYXTVH+vqiOKSGcsZeXwDElWlyyN642BLZwzwICbAUrK6Gh36+D5ubU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788756433; c=relaxed/simple;
-	bh=28CwM7uG1p3vuCzKbtzlq/qDnwNKbf0LJtWSP4H0WpQ=;
+	s=arc-20240116; t=1788756438; c=relaxed/simple;
+	bh=5Z0cdknBFIlhM01g731hrLfDIHFwyL/2mrLrM0spXtw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LiBm1GqkvruwITbEPNu7CBsVJK4sPOA9LLNsFKoqa4RHtt6ozHqnfwqzc2cCRIEF/6F1SDOtr40dfxyIWsMqoQG6tcgbu36NnYDXuR9P5rpuiBCLtYMrDUs8WbEIJjaONfSMcSg5s0lBeROrUBynnr2U/M1FB4qeLKZ+HE/tekM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EowoqGdB; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=QRRZyt9Oe61rpmZWklmMFYem0kWeXJM23yJZ8I+eS4KW7M5B3/Ne8bhwyt8DZAUMTDLWGdeKAjLkXnj41mVEKmrvG5CeWlGqVJCajgFgo5yG/ain3+j+4nOX3bAQpl+Nk0G91qzGstVzhTa/FFV+QNHfNXKW1MnEAqwq2oGgwzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2A29dnD; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EowoqGdB"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d9520b9155so26974035ad.3
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2A29dnD"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d91ff7d9acso25949065ad.3
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788756431; x=1789361231; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788756436; x=1789361236; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HKo7xCAaFCwynzSXE8UAxpEKoPZkRC4FGf6Fh0e3Vic=;
-        b=EowoqGdBdKysovNE4nqQo5Qdu/Aj73V6UdiFK1+144eb3yMGvZ9G4aArLMjfmjhmR1
-         q8Zcor6BW6lFmqQhdFkAQyxlQR+j7PW5BoVZJmZ8lFECFvYx5sBohUOI1GYB+xvOs73W
-         1a72rrVIhPodvyyNGq3X7mf7rZ8haGOzzpSYOIDIEZVYc6WiB1NLIwCVjgHKkdtsDmCt
-         fxU9oy00f6vXT7tIKkZGcH3zj7Lqe5zu/BClJsiwYuGy9TFX0vEgLeTKamwKItxrJDWb
-         DSj19k410yemh3R4El+ttc8IbmxxldPDN1LYh/rxFidQCbavqq8I5hn4epzugN3szP9i
-         lGXw==
+        bh=375o4BJGgHmxnVw1lMhhu/qJ8TmCINoNbWz0ZmrSte4=;
+        b=k2A29dnDqZVywXg2Ct6zrSS+cCPbC9n6xMI/8Edq3gp0XyUEMx0T7YndQRroLpcsQH
+         YLN/CsvSo706RvhJAX+mWZiPJpNlGd+66RVzMVh8ZPo7Xjqf85mePJNROjr1Kp5erfr5
+         wAwbEOB87VEXwujqe2aq64ypN4m6qrBAsQTWbtnOHB5sBUqTAFzZXad35x/3v7A9sAZh
+         SQmfj/vl2eIdH3X0cAsamVqHdotZcMZlXdpl9veVKQynHlY9+qtCBCUAKfBGswSXAV0Z
+         ORa92EJwtYvnWBhDxbhs3FLOd3oTVFp7Cgxm30+q4JJBSICZTwzNspbVl69Fij2kzYmj
+         aZuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788756431; x=1789361231;
+        d=1e100.net; s=20251104; t=1788756436; x=1789361236;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HKo7xCAaFCwynzSXE8UAxpEKoPZkRC4FGf6Fh0e3Vic=;
-        b=aPYdoZ/PbwcxGCKDOuv6lT1FB1/lRUoYmctO63VCA9x0BYXoglafsvXtyxe/NsBiWr
-         kKGh6YjaviSM+BXsSW2WEqMF5YQO3hcfygB1vDl5/VPXyZmipCQBXhk0+3P0ESririkr
-         oHEeci+QjkTQ+kdDLMoulHNizFPE02DV0U8tKjrkBJs2A7u5Li/OkyzSARgpC0kULH/Q
-         Uu1R0+8FZGuwz7pol32P3fwVz/62gekSRfntXKqDxZ4AWQQ3SmOWQn2o9q1+KJUWB5bi
-         hhfAWo5+pqYezl6YxJMpLltINcQldHH4005+rJ2cDqxr8RspM9d673zOADuOiCbDwO/T
-         iu4A==
-X-Forwarded-Encrypted: i=1; AKwUvBxpZ24FfjD0Gwz4QF/3m4O0qxpH7mU38Lrd/rVQC6gOHli3Y1d81aKaIZa2FlG2VInoqbNVXS7zOKg=@vger.kernel.org
-X-Gm-Message-State: AFuF++mYOUOR3q8XW9+cdVrWVq1cn7946Qna/4GJhqCaN8tiylMNxwse
-	cZPw6AUpMGcwm2lZ6xXLwnnsSsCpxXIfkXzUZDv0RGTYsSFgfRxZWIYE
-X-Gm-Gg: AYBFou2oiwuVBc8Cne184pS31YqEpqlKvxD+YTNGXOxIzf9S/TMkPIKzTgZiB0CKZjm
-	KmwOxxyIBYAA23kgcCskeEYkTAAJtp/baYjC7WFbt4D8YRiYYr7Mk6FtTo/tOsjQcw60j6dSy+m
-	dxoxv7s+2WTf9mo8A9MtfJjjZGpl3XNwfD1gY6C0lfQLOanGlfTLfxTfCiy4xrFe4dcXOgrCxA+
-	YzofqHgXVrlSpsfna24qX+ctLtaT/WOFEq0PPA/dfNWy9kiH43YE13jJvQ0V3JC6E4OV35pZZbg
-	8Hy+/cNl2C2duPvTI3Q1n4CXgWUA9F8ltGzTYYLz2xhi1s+B9Ara7PYjAaeS8v75d+r09FvVSR0
-	ZGByVbSkVm2IXlNyuDO1g8ebz9IxIpWGXawWMdSvDWBMoNNxJo0AtwwPxVjEG+LgAaKgS9n6Qwe
-	M6SqffgzMWRV3emhyqYNg4fE1ql0AqeGLuQ8EdhzfBy4TL2+BXB6GDKBZA7DvHlROMRc8zPxn8e
-	Sgx1B+I19AWyg==
-X-Received: by 2002:a17:902:c40e:b0:2d0:cc92:f7ae with SMTP id d9443c01a7336-2db125ce071mr279426685ad.3.1788756430578;
-        Sun, 06 Sep 2026 21:47:10 -0700 (PDT)
+        bh=375o4BJGgHmxnVw1lMhhu/qJ8TmCINoNbWz0ZmrSte4=;
+        b=mav4ticjcCbe4u+aqbFSLxRyxvt+/hAPfR4NFkNB/CJRVIuKu/qnP/5QbESgQr+lc2
+         hvUqnoVsYOhgFe+kBnpjrYYYqxpsHQE+WwvCWmdKJyQfVF7d0Zzh0jOkTIXe5CsONjjc
+         AsNpsIrOSB2T198AGSKK5hbxqRNIZu9JB1r3oATGRBpaQGPVNKf84kzchpWy2GmE9z7P
+         KGaXKU+/lAVoZtKnKp3lZdEIFGrzHRoutYyQH822zdGeTnQwjgdBWE+INJRxCqnAHX10
+         nK71SzTBfA0qolco0HVErcpVqGf+ygWrnLGyKZ5YZA2X80xAfib5uLD4IuvjbmnHG0ds
+         t8Zw==
+X-Forwarded-Encrypted: i=1; AKwUvBzQA6SSBRAbjahIvi84H2EPm5svqI+S/0z5pyvtdDe2CZ51gQrzRU7hpcXm8YWw0UE8Cj1hkwFqaaU=@vger.kernel.org
+X-Gm-Message-State: AFuF++k0b0EQP7dvwosXuUfzZuuyxtp4X4LbgPaSkxdTiHrcD/912FQu
+	wkFey3Dnhp1OjOZPDXsvB7NPbPnA9vrmqWZ0PfzppaNF9cRL0heyz7BF
+X-Gm-Gg: AYBFou3RjR56b/Y1rRqHiGYzmKXCGN0tqB2SqiO3CipKJn9W3dwukpNHhbli6Itc8Bk
+	V82ZyDQiUYeL291vmDyA+zzJe95ITvIwrYUSdXpr4XQuJHCSDs4M4PeKoUmiqRMF+K92LPgHsVA
+	iPQE5kn7Y6D3Hp8LMXEIj0oJv6afWGgAzcyiXvYh0D6wFfJne7yx5tibu6EcKqlPB0IZLkgOsaC
+	6n/94P97jKLGpT619smnoVbSCbJJb3hVjUwA52Wq/Z1RDYklDuFb4P+huPTg6JayR/TJHWWQVbG
+	k593TbaXVvEzf2Ezl/qMfIKYb1lKGOR2SZ6QuAL9cx6xR9AzqzUsBcNtR3w+Y1O+ipAujiMZdVV
+	7BL6juCWh4gvEG0R2nQOA5JtCDxuevk5EZsNhFSv0h0AXgZitS8wQiD2bqFhGvbW83eGz1n5cUB
+	oiZEZ17ETIqXflWJ7YqPqO9lCURsrDunAaAp62P5YTUINwodUhS9BrmWn6o7KTJapmz3ybVdeqR
+	UO9j/llUakIf2+03PvNprU8
+X-Received: by 2002:a17:90b:4d87:b0:380:540:d499 with SMTP id 98e67ed59e1d1-39b26100bfdmr28314536a91.6.1788756435888;
+        Sun, 06 Sep 2026 21:47:15 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.47.05
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.47.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 21:47:10 -0700 (PDT)
+        Sun, 06 Sep 2026 21:47:15 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -76,9 +76,9 @@ Cc: netdev@vger.kernel.org,
 	linux-net-drivers@amd.com,
 	linux-kselftest@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v2 5/6] selftests: net: fix repeated word 'use' in comment
-Date: Mon,  7 Sep 2026 10:16:34 +0530
-Message-ID: <20260907044635.7141-6-hemanth.selam@gmail.com>
+Subject: [PATCH v2 6/6] net: usb: fix repeated words in log messages
+Date: Mon,  7 Sep 2026 10:16:35 +0530
+Message-ID: <20260907044635.7141-7-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260907044635.7141-1-hemanth.selam@gmail.com>
 References: <20260907044635.7141-1-hemanth.selam@gmail.com>
@@ -90,25 +90,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop the second 'use', reported by checkpatch.pl as a possible repeated
-word.  Only touches a comment, no code changes.
+Drop the words written twice, reported by checkpatch.pl as a possible
+repeated word.
+
+Only the message text changes, no code changes.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- tools/testing/selftests/net/xfrm_policy.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/usb/asix_common.c | 2 +-
+ drivers/net/usb/sr9800.c      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/net/xfrm_policy.sh b/tools/testing/selftests/net/xfrm_policy.sh
-index 3eeeeffb4005..6294e49a46e0 100755
---- a/tools/testing/selftests/net/xfrm_policy.sh
-+++ b/tools/testing/selftests/net/xfrm_policy.sh
-@@ -242,7 +242,7 @@ check_exceptions()
- 		echo "PASS: ping to .254 bypassed ipsec tunnel ($logpostfix)"
- 	fi
+diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
+index 4f03f4e57655..e63a849a1043 100644
+--- a/drivers/net/usb/asix_common.c
++++ b/drivers/net/usb/asix_common.c
+@@ -413,7 +413,7 @@ int asix_write_medium_mode(struct usbnet *dev, u16 mode, int in_pm)
+ 	ret = asix_write_cmd(dev, AX_CMD_WRITE_MEDIUM_MODE,
+ 			     mode, 0, 0, NULL, in_pm);
+ 	if (ret < 0)
+-		netdev_err(dev->net, "Failed to write Medium Mode mode to 0x%04x: %02x\n",
++		netdev_err(dev->net, "Failed to write Medium Mode to 0x%04x: %02x\n",
+ 			   mode, ret);
  
--	# ping to .253 should use use ipsec due to direct policy exception.
-+	# ping to .253 should use ipsec due to direct policy exception.
- 	check_xfrm 1 253
- 	if [ $? -ne 0 ]; then
- 		echo "FAIL: expected ping to .253 to use ipsec tunnel ($logpostfix)"
+ 	return ret;
+diff --git a/drivers/net/usb/sr9800.c b/drivers/net/usb/sr9800.c
+index 6fd33a5b2279..cce0392d0232 100644
+--- a/drivers/net/usb/sr9800.c
++++ b/drivers/net/usb/sr9800.c
+@@ -271,7 +271,7 @@ static int sr_write_medium_mode(struct usbnet *dev, u16 mode)
+ 	ret = sr_write_cmd(dev, SR_CMD_WRITE_MEDIUM_MODE, mode, 0, 0, NULL);
+ 	if (ret < 0)
+ 		netdev_err(dev->net,
+-			   "Failed to write Medium Mode mode to 0x%04x:%02x\n",
++			   "Failed to write Medium Mode to 0x%04x:%02x\n",
+ 			   mode, ret);
+ 	return ret;
+ }
