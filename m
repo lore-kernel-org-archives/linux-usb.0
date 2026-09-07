@@ -1,70 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7978343C7A4;
-	Mon,  7 Sep 2026 09:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788772400; cv=none; b=pQlf8dpncWSHll8sqP6FZeRv3nPHf6sKob4bOYhVLq7F5F3CmshVmuRMKtII26Zjbsf5aEpz6Z8MUk4iPYCLZqr8qUH2NA09FyidIwodGQr6yogGtx+XczUDZpkNLK/Va8dFwsLVp8XmNzKR4Dr2uDTxS60PA78tzIdquo+Dmb8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788772400; c=relaxed/simple;
-	bh=+nx3n+PzXzC6DOzQXZ7N2voWtZWW3dQVBhwwo0gwc5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tXRCnlmhfrufu5Ruc+95RCXZzFY5KTHq0lBJUO9N/vBTHiXnBvaoeAC+7coiVXinwANEtX80SURnlgYabsagmacWaQVCLmdG0yEiA597Uzo6m6tRPHRULQwnLSIWwv/KxnuJ0OawE5N1DWrqPOTmS6o2+pbiOJaiBl6gyma/SbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AtXtIETH; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33D6442B08
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 09:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788773079; cv=pass; b=WRacrKD3nUa4/xQgyo5Jfgw/Lf8tOJHbHr9fVDwgOnnrqmwmXbB31XDe1z6Q58mNOKwF4XV4JF3QbTCkounlHCa+Z8kb12f/jyELNymwe86kf9S54IMkjjmKfBRpMbwzUhrks2KY9lFSIa58edK2OQ1BY8OU9yhO4KLrVYdJwJw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788773079; c=relaxed/simple;
+	bh=cSfmMGgIFwjjaaI7Bk9duU/SsMv1zgWa3X4ow3p9Z0U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KU8RfTaGEiKFuH21zYwqVvFj/HXO54ClMLJLv5GGRVlxFYl3sxbXySK3EMupr1xjP8leFVsLnvgBu51YfnHnqpmZLBVpse4S72pArGrth4Ug2mV4tXDBQJNj1eZcO1ter/sd0F6PTFfiZVrNPF+HxEJ4k/omXe+vVx0zpufHWh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bYzWZS6h; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AtXtIETH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2112B1F00A3A;
-	Mon,  7 Sep 2026 09:13:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788772399;
-	bh=y4SUmAjDEly6YVaAoBlF8zQKasOjSErO5Fvq9njDkOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AtXtIETHQeGhdUx4HLuok9i6EOSPi5lpyinqM6NO2mfkd7ryd0Rtf9r2JmcVFFBub
-	 juI5Gb3EGNXILnhVmSw96cJhqcf2/WSqyKLQB9yG5IUsFHL+r1fx+JpCMzhIGOjaPS
-	 WTHPxl72SDGZTCeS7hPSq83ajiSj3+S+IhCfJAIRFVImiiqLRqToDMqieRJWM+zxZq
-	 F/0tYWyyZ7uleoilbviY1yTyFJndmsIVSrbhqarfr4K9dySISAr9MfOby3ljg4rS76
-	 t0gjptkBAwuJZmqEB2woazNiffitar2upMJBXdSxFqPPmN8fqX4IDKnKQMAKkYfSGs
-	 1hFHbFGz34y8Q==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1x3VPg-00000000X77-47N8;
-	Mon, 07 Sep 2026 11:13:16 +0200
-Date: Mon, 7 Sep 2026 11:13:16 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-Message-ID: <ap6ALMESM5SMQhFV@hovoldconsulting.com>
-References: <20260907065501.101013-1-johan@kernel.org>
- <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
- <ap56NTVMq8GlbjmR@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bYzWZS6h"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-484362f5c4aso4214918f8f.3
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 02:24:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788773075; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Mg/OntVM1Cn8PL6D85Z9IbVOIkMmHQi3eH76a5wNNQamzfz6UBJhu0Bh+XjIJX5ZGp
+         l3sdo8j8EaVDiK0ZLGbX5W4pDtTQn0KNsJ3qxXEeJej4dQ6BCFwbvyB/JUi8THSx7/AJ
+         +8JNMpND5TeZuHH2tQwzzy11dErXDO8NYZk168vkgnmCEQp0kZRcx4sYWMyrGvUcsDtm
+         +oqwvFJOA0Fma97LljLi923PJpH1Zwv36VjgS9Ge0c66E1UKNXSW9Kv5KJYs1WxXKJP3
+         qgFugoVHs8wwPUHX7kxpy8t7Dd3wOXjgrKZRQ7ZAxg5feI+vLwS3BxG8+PiKBfbYml52
+         DPnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hfGjfP8T35WEV6rGIAsKY4f5Rwo6my7dAG0voowddxQ=;
+        fh=7LHOXlxRo+vIn2vKzhIkZfdBbVubJUMuR7ywKoaWcgw=;
+        b=ixOYUjgqd+xv4+Z6JnE6kWcHOxNFwZ44mOJzosbPam/BtJn34BhmgQ9OrZlmNocgsp
+         r/g2lmjNs0c7FOKsZeEZUr0kGYl4NXPFNZeWh2bSccxdMTKqV+A3rGcYsTVKuvSo95t8
+         Ybv7gsCM+qgbxzvkkyyf/aGxif/QH/elzoMKWvp4sM9kL0zWVntZRINwOIzXO6zSokH9
+         fS79ntdPsdQ8EDg5DG2UbdcP++X12Qsu+7n0ZkuRC4qn7dmF5T9o8cq90ap7FO27gxvz
+         BzCTu5C4akbw1j5G+AaR/T4sTIyYOzDud//wKR0+k124suAqLfmgs41tkGk7Xji9OzCB
+         z8yA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788773075; x=1789377875; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hfGjfP8T35WEV6rGIAsKY4f5Rwo6my7dAG0voowddxQ=;
+        b=bYzWZS6hvyblgTmL2WcmqKBFUHHD7UV1gkXyod2CvfAo9EbydIVeGF++9jABbnZPte
+         ys7ocRIu1X8wdEIGp96wY0ZJwuX9iep0RRInWAVJmxBvFDn1O/SCyei+2Uu4DEx9EFWy
+         Ju0SX+/3BqiQeyfykHFwlXZNMjTYSHT9Hz+p1tge65xlQefntxQdIOB//wajbELDPR6l
+         bZSz7BV5hpdU91s0tZALuvzT0BaGoZvdwZ+37h8mSbXVV8RthaPq9o6xvdh7qixRCia5
+         5aTu+haqTXNlK7d6WQD6MLUT44ym0DOgw7EgnQhTgLv5A9qh2xRN6Nek2Upj1f/kRQ35
+         VQFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788773075; x=1789377875;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hfGjfP8T35WEV6rGIAsKY4f5Rwo6my7dAG0voowddxQ=;
+        b=Ffz6SfMWJh1Z4D28gnG7KGo9yCz4keNr14yb52GJlJFdW3ZF31KizxsaCYg3WXFo0k
+         2Frpk6WdPLUjw4Fut21ovvLdAUk+z6ejxVmOY7p3db8Q/huIt7kpTLM317FR5Ywhkrd3
+         XMFqeOYKUbxvLYuXIZvfGyfUCFV0NjQ8BlNw93Qghz3fjmOlUwB0j7x6x71oj7ZqqhIk
+         PRQyQidLKyjJyFt3zjt6Y7ani0ZWmDWwsSCZcyZl69Yc8AcrLzoykpWpQqvsmpmpqMMc
+         BPAZzLat58UXB0flfe6YOP7uHKfvgtRmD+VUsXdDNwb8pZFNBOty8JMuhnojsqgaC7e4
+         Mx8A==
+X-Forwarded-Encrypted: i=1; AKwUvBzMWZp01QOT6y2QJEZCLQb+JW50Mf/ftIiu+jBPpKpgkDfGTCBWqIjiJtj3MM+/CfjBAG43FJWBeUs=@vger.kernel.org
+X-Gm-Message-State: AFuF++lyAi0IfVJ9V/+G8B2a/4uWf5tDGU/xgofgu67nrj8NsMgLi9oA
+	znQmSNkJa9vi8Urajk7EKyheKTZetLTxHe7UXuzQ8R1sW4/NqJsiG3eedVU/WWgFVmChEZgtEHM
+	c6ovPjAYxVJnWx8cV9W+53Nf4P9XgMzXZKh+4Xexd
+X-Gm-Gg: AYBFou3W4AqcqvCKxf1srJGv+97m5BrZkI258UIRXeEqeh/bqpERHLUazQJ0+U/Xq3g
+	nTvDaJCSdJ4Elk4VTd21/RczI6OAQ/aJg+bEZYcGENim3Wf+urtv17witUv0SbsJMsF5rq/1O/F
+	TpVRb3mx6NARlsXnpsyTonwvO1g8lWTSrUDB0XED7sVvDh19B+POL4+7SfzuJ9lu8qRUuNcuMwH
+	8Z3ZkUwTufYedACW4z+dk8vcxsQDEdM6T/wbvw2ZuUgBl/QMfOyAObPdXl7LMui7Td7HlPYdYvp
+	WYE/sx5PC/0GMThy6wW6GRc+s9MMaUkUQFS3M44C1EpklwHDio7jXkvKw50Lg+sHPThcMGWAUb/
+	9acPrtJVjQi9nVvfcLqJBwIU1pc4Z0ng=
+X-Received: by 2002:a05:6000:430b:b0:485:8ad6:3752 with SMTP id
+ ffacd0b85a97d-4858ad63a6fmr37026021f8f.5.1788773074197; Mon, 07 Sep 2026
+ 02:24:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ap56NTVMq8GlbjmR@hovoldconsulting.com>
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
+ <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
+In-Reply-To: <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 7 Sep 2026 11:24:21 +0200
+X-Gm-Features: AcwNN1V4plkowyMHAsnIxTQwxzR-aYAz331pg1N8okzwNx7uKX70uWh-YG4Yx6I
+Message-ID: <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
+Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
+To: Gary Guo <gary@garyguo.net>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Asahi Lina <lina+kernel@asahilina.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 07, 2026 at 10:47:49AM +0200, Johan Hovold wrote:
-> On Mon, Sep 07, 2026 at 10:17:38AM +0200, Oliver Neukum wrote:
-> > On 07.09.26 08:55, Johan Hovold wrote:
-> > > The wakeup condition needs to be checked after adding the task to the
-> > > waitqueue and updating the task state to avoid missing a racing modem
-> > > status update or disconnect.
-> > 
-> > I am sorry, but in this case I have to ask:
-> > Isn't TIOCMIWAIT inherently racy against the hardware?
-> 
-> What do you mean?
+On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
+> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
+> >> +        // SAFETY: We just successfully allocated a page, so we now h=
+ave ownership of the newly
+> >> +        // allocated page. We transfer that ownership to the new `Own=
+ed<Page>` object.
+> >> +        // Since `Page` is transparent, we can cast the pointer direc=
+tly.
+> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
+> >
+> > This doesn't satisfy the safety requirements of Owned::from_raw()
+> > because the page may be used with vm_insert_page(), which increments it=
+s
+> > refcount and causes it to be shared the vma system, and this occurs
+> > before Page::release() is called.
+>
+> I suppose the existing vm_insert_page() abstraction we have is already
+> problematic, because it uses `&Page`?
+>
+> Maybe we want to change the API to use `ARef<Page>` so it already has to =
+be
+> shared? Conceptually it takes a reference count from a `&Page`, which isn=
+'t
+> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&ARef<P=
+age>`
+> to be able to do that op.
 
-Ok, I think I see what you're getting at. Nothing prevents a modem
-status change just before calling TIOCMIWAIT from being missed. That is
-indeed a general problem with the interface.
+Honestly, the problem is the safety requirements of Owned::from_raw().
+Pages have a "special" main reference, and free_page() does more than
+put_page(). It even does something when the refcount does not hit
+zero.
 
-Johan
+The correct behavior for Page is to allow the user to hold one
+Owned<Page> whose drop calls free_page(), *plus* any number of
+ARef<Page> references that invoke put_page() on drop. This way, the
+owned page controls the special drop codepath.
+
+Alice
