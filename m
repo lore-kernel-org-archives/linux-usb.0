@@ -1,276 +1,155 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83CE442B08
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 09:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC2843B3EE
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 09:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788773709; cv=pass; b=n4kyOV3eLZno7NqYieXsCEVFiF5HxaPRo0w1LkXKxJRbEpwVjHrGkZ0QAugHyzMaLTV310I8WO0hTEzRH9Sia/Eln+GlcLh1+ZxHtxFonFbFwIpNRmo/QtYwpFVD8cJ1i1J3VVpEXbvtAx7WKU+FWERx5RKbkIwIGgYy+J6icag=
+	t=1788774264; cv=pass; b=m+vKJAMKaqFO/AD/oEYnO/1YPd+f+vPkdpr/AOYju4+xFn6Er+NwpkZq4gXmNKt30eOqi4PseWNyJQ2Yvwawxyp56NMROnW2n1ep28ozPZtK9+izQuNhQyKvgo75MRWGUMNiwYDn8nUoHB5pQa4+0x3XS9NutQQGITYSngInB/w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788773709; c=relaxed/simple;
-	bh=NPNbhRKhSZG1iCcOB83/OhbeGC5vuht73xzNAlq+5oU=;
+	s=arc-20240116; t=1788774264; c=relaxed/simple;
+	bh=MI41XlQsowXvuVw3HoU1qvNe19RJs6EkCkyiQjsEXzU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mym4oLty6XklztvQqdzn2brc9mLj77xKukXv7osbYCOYsyqNAlYhS8/cz3XmOPdCPOv14PO5KlVsKLpEf4r1dGgqhXbCl6iHnTYuBhKZ89++23eYHbkTN9RpAVIEG37JwO7jkuMFI3dCyW5DbBirpj/+Nhavvv60RCWrC9spsxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p+jiX28E; arc=pass smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=fxlZIVZ9c0jFNkCRvUKFIeOjEOgdnHYcNyrs2YLAbKyzQTUdBe1A3gQJ9ic2uznSD6RKOtF/UW0KUdvtAowH7sUE7skp7jy6GgxHJm31clfpVXY2KQ1brLAfh6ysPNwkL6StF0qZ58rLaUMqWz5lSjSynfY6kSkjgKi4dbDRxlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cqJB66Fv; arc=pass smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p+jiX28E"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-46af2e2654cso1624735fac.2
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 02:35:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788773706; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cqJB66Fv"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d6fe26ef1cso33258155ad.2
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 02:44:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788774262; cv=none;
         d=google.com; s=arc-20260327;
-        b=WmkEBnie6wSySyVXje4tICCdRkHhnctsej+GCzjRWfeItXJAdcuIcHBNO/C8ctDTn3
-         saZ5TczWjfODcki/QSRtIVabgiNe+RuNINe5Pjhwv9fgYCLoOhq0QjTphmFYrDOOZhW0
-         0dzX71u0w5HEsmdvcrThijC8EpGVujvlCrWwPDK/XcPZq9GLLCMOPabVIlzNpR78vUCY
-         pVLkUrtriJVLuig/mN0BlC9Le7RY9qlodwVFz1xgGVzD8nr6vn9gy3KY+dVu93SubsAU
-         S9aUJVw/DqvM+0xwOy3wHjAJF5UavJxm+Q4n4rfyHntPpt8u7E5EIZjNC9sPviouyJQ1
-         U5Mw==
+        b=QSdaXV2Unbq4rf5aOWuH90Iv0NV4bQ3USmPb3ZAlrJxHTflFDG13C6fcabBbGc0skB
+         ApqFUyzpeE3gvIgYo0RXMd1ufxJguEPWc4mtitzQlo2nigL+HxK4AEWt4dZ9ypJwSHX0
+         f229H6/NKDuoTWXxaWY7jaLqDQogeg4aqPcmeowXrnZiyoFTa1TeJtM1BtKBARj8ry/P
+         Obf2z9F7sh+UN1MPnU212DZVmEfRZicKqlhr516RhkhqL7jTODUR8TDb0u/rjdZyDdt9
+         uUZimSpvDUuUVCa1WQ65+spfUhVPAunTAd01clYyyHhvBfKx5sS2WEnnaaNKEPSZ4/XS
+         3A+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HhLCqdkxL+SDqZCeuIxRaYzFesLGduG3+h8eya1+xaU=;
-        fh=lwep/H/SCqJWG2bbtydPg6hNfGlWWwxH1CTMIqFDrA0=;
-        b=k4TB38lzrBXb7Zi9sqj36xAoT1sJ3PnDY3ldIWeE6f2QT7/+L2qazEY5D55kyE+mvN
-         QINNsDIE+FRH+bv0TbcOA9rtyT8TKtyUu9qgAYUrBLg72EZVFKF1W/i7oBdNiiEp4dT2
-         Xpm2ny5oydw1gGso56JTa56ISIlQYLSsvYBUR/+vzYE/KgnW01fFTAYmrtVRiiIwglhP
-         b414eL6Cgn6veJcx5SvwPYXVoG1/btJeG45ynbyqlLZpyPyfvraX6fPc680dT103h+C8
-         qtru1msA+y7JrIdJFmtecfxxbqKKaQvZTQL9fAia+d+0ZMprOIsqNjBtbxlcREFhgcwG
-         PEAw==;
+        bh=g/xnlyu8PQCnxo+4HJ8JoFUVnIyWkmOXZV+LXEWh1vw=;
+        fh=XvKnNby2l35AdgBrg9pp07w90QobTj8GjGW/+KPR1Bg=;
+        b=OQy8RMMD1AhBvKPUVmd0HkYEIm78M5hM3W9O2HmIeeOo/v+aXKPScxgJvwllBvEg2e
+         pUoe0B2DzlL7v5ioT8NgBClctLEGAEyLwVY2MezQYn2+uuRnb0ExwG7Auwst2N7tOf4Y
+         iDV0pVL53ncI5gis10BHLtuuHGvwWKrJ0nC40G9cSLDfdp2e3V47EaJty6luxktoMzDk
+         UHU/pST4k1/WIjc0JhchYpGxlqQy1tqo7j8ulE/u7ptWm05UQawPfStuFaIIjKFQcc36
+         NDlH7YplWLoUfRk8aPns9PHD1M97AFt9B0vI2g8EPF7leOBdbxzcnWSkJ20mQz9tcPDV
+         ezWQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788773706; x=1789378506; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1788774262; x=1789379062; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=HhLCqdkxL+SDqZCeuIxRaYzFesLGduG3+h8eya1+xaU=;
-        b=p+jiX28EUicT22vzs+txic3TCkuQfG/JDlcd0qoo1uhsMcJKeoXBf39Smp6YHZtPq5
-         Mvjbw1C5uJvnApR9ePrZES0s712Bm1XWh1bAwyrFOCazYAxjxgHg6yhZFMaZPVomCZIy
-         +koUE5TDoqpWmOHQk2MLWS+d1ggrA9rHzWLm1Do5jHBNAJzgGRasuU4+d0y9TzoxHpWV
-         lhVQmGYyWGoEX12sD2SVHlgKBnjIfGOy8rLKc8yP3JGXlF+GBiDfumTbRRZYE/0is17l
-         eQHq/pRu3JAET06PzxHoxcHMm8ym5lpRh1iRmBsLRsE30WTN3KefjFeFlyxeJrCjAAJE
-         tYWQ==
+        bh=g/xnlyu8PQCnxo+4HJ8JoFUVnIyWkmOXZV+LXEWh1vw=;
+        b=cqJB66FvOXxHOV4BATJdzYvlzDrg54IgSkxINCUiQLk9IDg4jj7MtnAWmCWXt67bqI
+         gT58QiPjN/RAOzb8j6sGTLkR3E83EilolDC1M+NnZOVFxqfoO2QDGk7SgU4A20NtD4Sg
+         KWHWjPD42BgsGfzKESDXY+4/AEJG+TCztPaSI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788773706; x=1789378506;
+        d=1e100.net; s=20251104; t=1788774262; x=1789379062;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HhLCqdkxL+SDqZCeuIxRaYzFesLGduG3+h8eya1+xaU=;
-        b=Q9tnMOOdJKkC2W7Da9VA/zEb9HTRwbaqKgbhSoHKTISq6R+WB6dPqtphvCBxvgzgUI
-         6F7ReTNgyKQbV1qHQbsb08DlX2sTIwiBS5WtU6Uw3b1fZG+hWZlB9SK9H1ettZfbNdV0
-         +XPNCLoXF4GewrTlm/dlvGyFp9xyxn8/vKaf+VCLdoqhAAXkvY62AYCkBOfuILghk6BD
-         ahGbZ4nt9Bs37Ijw66E8diPSvAyQGt+S6DLvD+ZdWlF/0xj13qNtaFXsgVem1+8ge/8h
-         umT6FX7Vi4+CfROR6dV9bcVjdtYa2z44EMimh8SFrxx6tDn5bmdY4+eVX8xWnpLDOvPR
-         qQEQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxQhenuydpFCJy70ZFAalrXTd0vXMqenGhy/keNOwgQfnhjmX01eGTOJpGMXwWojyDYj9frK1D2r2g=@vger.kernel.org
-X-Gm-Message-State: AFuF++noO9PQSGxPWPwJC7j0535DX4LYPd390XaP/u2QtXdkBBDPauMN
-	I8zzMQbejI95eAQTYZ0NkQoVmlPRtKciovf+xQyn3SWr96FPytfwNIlnb9T7xfsFmY9dv48+ant
-	Wgb5GbLkyy1V0P6OMNpKo1mXe0afLPnLadYqevLsNrHQptTljM249pBHZEwE=
-X-Gm-Gg: AYBFou3kYQs2E5VkBfXJHbi2lsmfGxHZbtjGjOJeOAxFsO3uuqhuKZ+nH+Hwb2beBpO
-	RmBpmkcYa358HhuInYfkZ/bf9ifcLUU29Mrs90r/VPtCqOsHbaYE6X/pqUt3D2GrpqYxIBDDDz3
-	vVn/4DYO5KjStP/p+8MPbldgZfKPIHjO1hlmrm6xLe86UmyYUXMSTuyuOdR6NnAbc2hCj89J26N
-	iYTUSNFKZH65FlI0noJeZ214b2j5DunAESZv/XvXpbzyHWYOzpzjn0rcw5VHeHKHtsBd7qYm0+4
-	oFbpwzYaS1KQ1SjMTropHxv/ix43U479ZTqdgxkUwmRVY8hz/O/XRSqXHg8CFbHwwTn68x3bESR
-	Ep0KL817aD+xLj0BHPe9DS4se4HeMhF43+cwIJ9xxG53g5R7GIZWECoqoBKRgY+J+5wZwfUozcR
-	xVMhsqv4/L1fcg
-X-Received: by 2002:a05:6870:330b:b0:45e:4deb:92e7 with SMTP id
- 586e51a60fabf-47552a575a7mr22076112fac.10.1788773705937; Mon, 07 Sep 2026
- 02:35:05 -0700 (PDT)
+        bh=g/xnlyu8PQCnxo+4HJ8JoFUVnIyWkmOXZV+LXEWh1vw=;
+        b=WefcXy38JNuA6sP8rTDQryBg8F3PSjEjLGA122RZJk6BlAcD2fHxGAw8vED7o5UsxW
+         Tzup25WAMT3ly121CKWOVNL4knQwVIMClxpnRZ/5G5bmftFcgDI9N89fuoDnxvf+NjWl
+         UUNA7BfcxhrKeaLKM6wn00Kcjrtsf1UnjbrizvgNrYG00GpEHmjKi0osjMh3B1tMvMh7
+         KdWenRr4WmS2wgsUexLIkiJKy7NBB5T3LtbAPK9IXYS5gQTiSw7N6SZWAQ0Uu33391KA
+         QRcSMX+94qY684tk8kMTota5DeU2xl7WDscqe2XYFkCtDtZQu4YaYqosnGLYPx+7XNAj
+         7jOQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxYsy1EMJKr2wnyQygimC+RxYWriWPwCZyhi8B9YlE34cP5+l28fOQh0PQ4y3VdbTdWyuOLyG3xsyY=@vger.kernel.org
+X-Gm-Message-State: AFuF++k3rebYRnU5obAfsEvSWsyjKOCKD2g/rrJRdh8S6s4ERaaJCYTf
+	5BiUFm5utxxF1zBcOP5rp8qmI2nmfgm2ydLk0RTmuwb5adU+m/iMINQmNwvmS6oYgD1IezpUsuL
+	1k9jpogkr5y7yHxaBah85Shr9XKl/viAYdcB5Gpte
+X-Gm-Gg: AYBFou1f8lfg0Br0lMdnv+1ZxH33fe6KXm4MDEPZZwvUpNuZl/ZeffIzkznGnd7f/KZ
+	PKDEvahfiBgDJ/4j2yl9OVxj2ze1rYqFq6gsmS9hqQHu525lcZscJafiTopdyw1f3aVMUjpMB8l
+	pSkv6eX9QFenNNHbh8e4dXZz6j6cy7bKTWA8gOAMrqk2P77aJn2FCfQH194wwq/ZNqFHI69sIbs
+	/st0XEAV3xQmvbqofojRaOt1H4HmlcNUQ0+EY3PW1hwpmqP2YK/Ow72gmaW9GlbzP8Zz7JciL/f
+	Zi1Wjs9TZNgeb7ab2TYPE/i/bYy5tipbHXCyR8WM+73QLy39EJzw751yLX1wLkFKSFPpoHqbHA=
+	=
+X-Received: by 2002:a17:90b:5106:b0:37f:c22a:c188 with SMTP id
+ 98e67ed59e1d1-39b260feb03mr32280186a91.4.1788774261208; Mon, 07 Sep 2026
+ 02:44:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6a73bc8f.5aeeccc9.207e63.0003.GAE@google.com>
-In-Reply-To: <6a73bc8f.5aeeccc9.207e63.0003.GAE@google.com>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Mon, 7 Sep 2026 11:34:54 +0200
-X-Gm-Features: AcwNN1XBIQBJ4ucd6o5MVC4F63orppCi-AZ1EChsSuGPJEmmJuVZVpoY4_DBzd0
-Message-ID: <CANp29Y6AaKwnkT1c1+iWe9-_2R4yU9ETzRYv41wxhdde4mN=PQ@mail.gmail.com>
-Subject: Re: [syzbot] [usb?] BUG: unable to handle kernel paging request in ioread32
-To: syzbot <syzbot+97999b836ee62ddb0181@syzkaller.appspotmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+References: <20260904234401.2339633-1-jthies@google.com>
+In-Reply-To: <20260904234401.2339633-1-jthies@google.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Mon, 7 Sep 2026 11:44:10 +0200
+X-Gm-Features: AcwNN1WMY3fqhnicN71CEKCWOY9vaZG4m4eQH1V9NiV1awWwS6rAM01YuF7ygVM
+Message-ID: <CAMMMRMd-7=hzAiMASAkgUxxG50+sNQQUQN2=dNOS_THVjDmxxw@mail.gmail.com>
+Subject: Re: [PATCH v2] usb: typec: ucsi: displayport: Fix OOB altmode array index
+To: Jameson Thies <jthies@google.com>
+Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bleung@chromium.org, gregkh@linuxfoundation.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-#syz invalid
+On Sat, Sep 5, 2026 at 1:44=E2=80=AFAM Jameson Thies <jthies@google.com> wr=
+ote:
+>
+> The UCSI displayport driver indexes the connector's port altmode array
+> with the GET_CURRENT_CAM response after checking it is not 0xff. The
+> port altmode array is UCSI_MAX_ALTMODES elements long. If the PPM
+> returns an invalid GET_CURRENT_CAM response above UCSI_MAX_ALTMODES and
+> not equal to 0xff, the kernel may crash with an array index OOB error.
+>
+> Update the UCSI displayport driver to verify the current cam is less
+> than UCSI_MAX_ALTMODES before accessing the port altmode array.
+>
+> Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mode"=
+)
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jameson Thies <jthies@google.com>
 
-See the discussion at
-https://lore.kernel.org/all/6a88012e.dbb3a75c.13dd47.0007.GAE@google.com/T/
+Reviewed-by: Andrei Kuchynski <akuchynski@chromium.org>
 
-On Thu, Aug 6, 2026 at 12:43=E2=80=AFAM syzbot
-<syzbot+97999b836ee62ddb0181@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    848acc8ffe1b Merge tag 'fsverity-for-linus' of git://git.=
-k..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=3D1209b64958000=
-0
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D145fa60d73086=
-782
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3D97999b836ee62dd=
-b0181
-> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for D=
-ebian) 2.44
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D15febe32580=
-000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D145813b958000=
-0
->
-> Downloadable assets:
-> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d=
-900f083ada3/non_bootable_disk-848acc8f.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/6fb497cc0c8d/vmlinu=
-x-848acc8f.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/663ccee34982/b=
-zImage-848acc8f.xz
->
-> IMPORTANT: if you fix the issue, please add the following tag to the comm=
-it:
-> Reported-by: syzbot+97999b836ee62ddb0181@syzkaller.appspotmail.com
->
-> BUG: unable to handle page fault for address: 00000000000556e0
-> #PF: supervisor read access in kernel mode
-> #PF: error_code(0x0000) - not-present page
-> PGD 275ae067 P4D 275ae067 PUD 0
-> Oops: Oops: 0000 [#1] SMP KASAN NOPTI
-> CPU: 2 UID: 0 PID: 5940 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(f=
-ull)
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.=
-16.3-2 04/01/2014
-> RIP: 0010:readl arch/x86/include/asm/io.h:59 [inline]
-> RIP: 0010:ioread32+0x87/0xc0 lib/iomap.c:99
-> Code: 2d 0e 3b 5a 0a 31 ff 89 ee e8 55 f0 e3 fc 85 ed 75 28 e8 dc f5 e3 f=
-c bb ff ff ff ff 89 d8 5b 5d e9 ce 03 98 06 e8 c9 f5 e3 fc <8b> 1b e8 c2 f5=
- e3 fc 89 d8 5b 5d c3 cc cc cc cc e8 b4 f5 e3 fc 83
-> RSP: 0018:ffffc90004c878d0 EFLAGS: 00010293
-> RAX: 0000000000000000 RBX: 00000000000556e0 RCX: ffffffff85266eab
-> RDX: ffff88803214a540 RSI: ffffffff85266f17 RDI: ffff88803214a540
-> RBP: ffff888055c95c38 R08: 0000000000000007 R09: 000000000003ffff
-> R10: 00000000000556e0 R11: 0000000000000000 R12: 1ffff92000990f29
-> R13: ffff88802323a0d0 R14: ffff888055c95c80 R15: ffffc90004c87968
-> FS:  000055557cf64500(0000) GS:ffff8880d5fd8000(0000) knlGS:0000000000000=
-000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00000000000556e0 CR3: 0000000058784000 CR4: 0000000000352ef0
-> Call Trace:
->  <TASK>
->  nhi_probe+0xdc/0x8f0 drivers/thunderbolt/nhi.c:1198
->  nhi_pci_probe+0x322/0x5a0 drivers/thunderbolt/pci.c:479
->  local_pci_probe+0xdd/0x1b0 drivers/pci/pci-driver.c:332
->  pci_call_probe+0x176/0x800 drivers/pci/pci-driver.c:394
->  __pci_device_probe drivers/pci/pci-driver.c:455 [inline]
->  pci_device_probe+0x1cd/0x370 drivers/pci/pci-driver.c:489
->  call_driver_probe drivers/base/dd.c:628 [inline]
->  really_probe+0x241/0xa60 drivers/base/dd.c:706
->  __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
->  device_driver_attach+0xd1/0x220 drivers/base/dd.c:1203
->  bind_store+0xf4/0x190 drivers/base/bus.c:267
->  drv_attr_store+0x74/0xb0 drivers/base/bus.c:125
->  sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
->  kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
->  new_sync_write fs/read_write.c:595 [inline]
->  vfs_write+0x6ac/0x1050 fs/read_write.c:687
->  ksys_write+0x12a/0x250 fs/read_write.c:739
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7fb04af9e019
-> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f=
-7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff=
- ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007fff5f802b58 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-> RAX: ffffffffffffffda RBX: 00007fb04b225fa0 RCX: 00007fb04af9e019
-> RDX: 000000000000000d RSI: 0000200000000240 RDI: 0000000000000005
-> RBP: 00007fb04b03500c R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007fb04b225fac R14: 00007fb04b225fa0 R15: 00007fb04b225fa0
->  </TASK>
-> Modules linked in:
-> CR2: 00000000000556e0
-> ---[ end trace 0000000000000000 ]---
-> RIP: 0010:readl arch/x86/include/asm/io.h:59 [inline]
-> RIP: 0010:ioread32+0x87/0xc0 lib/iomap.c:99
-> Code: 2d 0e 3b 5a 0a 31 ff 89 ee e8 55 f0 e3 fc 85 ed 75 28 e8 dc f5 e3 f=
-c bb ff ff ff ff 89 d8 5b 5d e9 ce 03 98 06 e8 c9 f5 e3 fc <8b> 1b e8 c2 f5=
- e3 fc 89 d8 5b 5d c3 cc cc cc cc e8 b4 f5 e3 fc 83
-> RSP: 0018:ffffc90004c878d0 EFLAGS: 00010293
-> RAX: 0000000000000000 RBX: 00000000000556e0 RCX: ffffffff85266eab
-> RDX: ffff88803214a540 RSI: ffffffff85266f17 RDI: ffff88803214a540
-> RBP: ffff888055c95c38 R08: 0000000000000007 R09: 000000000003ffff
-> R10: 00000000000556e0 R11: 0000000000000000 R12: 1ffff92000990f29
-> R13: ffff88802323a0d0 R14: ffff888055c95c80 R15: ffffc90004c87968
-> FS:  000055557cf64500(0000) GS:ffff8880d5fd8000(0000) knlGS:0000000000000=
-000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00000000000556e0 CR3: 0000000058784000 CR4: 0000000000352ef0
-> ----------------
-> Code disassembly (best guess):
->    0:   2d 0e 3b 5a 0a          sub    $0xa5a3b0e,%eax
->    5:   31 ff                   xor    %edi,%edi
->    7:   89 ee                   mov    %ebp,%esi
->    9:   e8 55 f0 e3 fc          call   0xfce3f063
->    e:   85 ed                   test   %ebp,%ebp
->   10:   75 28                   jne    0x3a
->   12:   e8 dc f5 e3 fc          call   0xfce3f5f3
->   17:   bb ff ff ff ff          mov    $0xffffffff,%ebx
->   1c:   89 d8                   mov    %ebx,%eax
->   1e:   5b                      pop    %rbx
->   1f:   5d                      pop    %rbp
->   20:   e9 ce 03 98 06          jmp    0x69803f3
->   25:   e8 c9 f5 e3 fc          call   0xfce3f5f3
-> * 2a:   8b 1b                   mov    (%rbx),%ebx <-- trapping instructi=
-on
->   2c:   e8 c2 f5 e3 fc          call   0xfce3f5f3
->   31:   89 d8                   mov    %ebx,%eax
->   33:   5b                      pop    %rbx
->   34:   5d                      pop    %rbp
->   35:   c3                      ret
->   36:   cc                      int3
->   37:   cc                      int3
->   38:   cc                      int3
->   39:   cc                      int3
->   3a:   e8 b4 f5 e3 fc          call   0xfce3f5f3
->   3f:   83                      .byte 0x83
->
->
 > ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> Changes in v2:
+>  - removed 0xff alt mode assignement when GET_CURRENT_CAM returns an erro=
+r.
+>  - return -EINVAL when alt mode index above UCSI_MAX_ALTMODES is returned=
+.
 >
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>  drivers/usb/typec/ucsi/displayport.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >
-> If the report is already addressed, let syzbot know by replying with:
-> #syz fix: exact-commit-title
+> diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucs=
+i/displayport.c
+> index 7067f2561b84..572da7bbd29c 100644
+> --- a/drivers/usb/typec/ucsi/displayport.c
+> +++ b/drivers/usb/typec/ucsi/displayport.c
+> @@ -71,11 +71,14 @@ static int ucsi_displayport_enter(struct typec_altmod=
+e *alt, u32 *vdo)
+>         if (ret < 0) {
+>                 if (ucsi->version > 0x0100)
+>                         goto err_unlock;
+> -               cur =3D 0xff;
+>         }
 >
-> If you want syzbot to run the reproducer, reply with:
-> #syz test: git://repo/address.git branch-or-commit-hash
-> If you attach or paste a git patch, syzbot will apply it before testing.
+>         if (cur !=3D 0xff) {
+> -               ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0 : -EBUS=
+Y;
+> +               if (cur < UCSI_MAX_ALTMODES)
+> +                       ret =3D dp->con->port_altmode[cur] =3D=3D alt ? 0=
+ : -EBUSY;
+> +               else
+> +                       ret =3D -EINVAL;
+> +
+>                 goto err_unlock;
+>         }
 >
-> If you want to overwrite report's subsystems, reply with:
-> #syz set subsystems: new-subsystem
-> (See the list of subsystem names on the web dashboard)
 >
-> If the report is a duplicate of another one, reply with:
-> #syz dup: exact-subject-of-another-report
->
-> If you want to undo deduplication, reply with:
-> #syz undup
->
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 > --
-> You received this message because you are subscribed to the Google Groups=
- "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion visit https://groups.google.com/d/msgid/syzkaller=
--bugs/6a73bc8f.5aeeccc9.207e63.0003.GAE%40google.com.
+> 2.55.0.979.g7e5102b832-goog
+>
