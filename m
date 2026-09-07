@@ -1,64 +1,64 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABBD379C40
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E7637A834
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788756424; cv=none; b=Jr60vbZ3EkI1QNxHsRWtvTDF6MMkbuTSQ1QLaLG+405AYpCs3wOM/apQV2HJQUDE9Wgof33re5uuzyarzimMagfDsTttjLCowzJzIAe15FW6IwLQGcKjvcVoepwmATGhfecllvip64XRWphHoDLePfGqBu7O+YBpu5JbJqkcVQo=
+	t=1788756427; cv=none; b=VgTYIK129SZpjnVIsklz81YhI0g4SOZorsyhH3xBpwOKK5BiavX+kDLgrzRHh43LLC0HWx7W7OZFc3t61W7AAoQubHj72MzYu3WvJVMlyIGLROkV3SC8V3+j8qetYe9WXmmfYj+SXru03RnZsUyCKzKqRrEpz/ir7UvYphlTxbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788756424; c=relaxed/simple;
-	bh=Z06AU703GpEoGKRxtsmSf1YbAroc9JADJQ2ixTS8Gco=;
+	s=arc-20240116; t=1788756427; c=relaxed/simple;
+	bh=mqVeKES3pdwH/jh4G6cxAfYNuya+EEG4nxksK9vib+k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HrItuGaetDbInAhfcMrheGTYy+L4PqR5F6DIX8XGGFre/64+SusZPiAv5XAek/xOleIMqIrBKqSf1cwJzyLC8NEN7BWGSjhw+OkEeksZnRW/h3PgwMgxXgwuuUXXRbQBDQ/OjuEbUc+0rx21Fd6iWgshRo3TsumgUF3pe7FXBGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lSi/9XQ7; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=GMp3SC3oDKRKPO5Dm4KyR1Fcp5b6NtKqWJp3Gu3PYop1J8UkL8/LmEBYOblABEYxQRjfZRDi/McdycBqT5bLIJTWW43makWnXp0E1ougz/Qz9nK5IKIHEVnuCW/SuyFdC/nhqyw/yW8LjEzITHgwjwlPqVJZqZoNTQbg8jhIKV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e4EQwyl2; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lSi/9XQ7"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d5cad1a6baso26362645ad.3
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e4EQwyl2"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-852c481415fso3556560b3a.3
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788756420; x=1789361220; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788756425; x=1789361225; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CUWvG334OUn3r/8S18NDwduytcXyDvAPPHJtvp6mqTs=;
-        b=lSi/9XQ7/O5MzmTuGA+rJ2d0GWoIDo8lM18q0Mt206Gjh5MPADchmN83Pn0lu908wL
-         OpKe/7b3IIQT1KEpdFm0V3U8pG1GkXppYHobXSubN4mdVjkI3Mnlmzzqg8OFzHJlY6hW
-         Y8nkgVLlf7wLKHnSvq5/81jIr+wZQu2Zx7aIq2VIBDxcLJe6IFUBzfn4wbHIrXuL+ZVk
-         J4idI275FjA2VjqTRxaXSd2fN5GsLQQ60bmU9ZRhnEewbTs78Nzlt1+17SchaKGmWUMm
-         XMGJCUAIPQLmt9Tzyqi98Nj8Og/mY06ccayNjmhNB6qsdiHswKrCLevf2kAhr35GO2e1
-         yVBg==
+        bh=rd4+o9yzzziUj0BOqr+bTAQcA/BPcK7lKLgCO+CZvsk=;
+        b=e4EQwyl2ek36l07R0wCaek/PVeqOKgQzXAhFKXoagVBSXb+vLw39B0G0h6eGzvUid2
+         s0N5bwTUy7321QgYqvF2T5ov86/artqphsUUE9Ioe/xUCYjqz8kgdbc8WqdmlZsMYdVx
+         4sbOK9MUEt9hTHI9EeUmdDVE+8HLYzGabbPmRt3XLA8k+GXQ5nBgY7a+Qjknc0h80NpA
+         zS0o7ZVBg0wERHBjpEhRI5Mc5GZQH1RV9mW7APh9PFKLGrkKwHmdL2/pRHBKajP41Y+b
+         IJv0pnPZRHuGmv2rDzlpaA32AGd/fGG4M1eoMv9re8o1+yf0qhsDEqPCWQ9iWi7hX7qc
+         io1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788756420; x=1789361220;
+        d=1e100.net; s=20251104; t=1788756425; x=1789361225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CUWvG334OUn3r/8S18NDwduytcXyDvAPPHJtvp6mqTs=;
-        b=sBaAwmd3BXzHSQQQZkAT1TSUPI6tqeuA6mZAnuENsMZWQbhid08ffUnZqqagVhgyp+
-         un8QXBFIeECWV44PymYP7lUFUfljlGni0nAovg1lbHLu/AEJCXhCcMByI7bClfqapg6M
-         QR3BZwctTGrYXumVHR9varBGrVU7NLU9DSg1Jlw7dKALmjfVHth65WhYZNLvkM4cPPLC
-         vMHpCXaNFDUJLXBu/YOOeWzMNh+LTwgCl9+pFcgJe3NY+blpxoDBwih951n/xt1D3DZP
-         LTqmhnuMEBm0rKCmMK+1dr+Is9Fskm71cOa2wh5xfYdPWVMgkggACqga0UKYjLCEpj+l
-         37EA==
-X-Forwarded-Encrypted: i=1; AKwUvBwGZ336SKm3/vJeCJ7So2jBU9g/Z3DP0Q5kOyyRunQGqrqkhY1/PxLK9DvrLYhMkAeh8R/Ik+5FUTg=@vger.kernel.org
-X-Gm-Message-State: AFuF++nSUGiahnLGwLxHjqccJbV7N8GKudU4i5+OBVgCQjgCvWqcFtFx
-	3u2vWKMFas2vN3eUYV6ISsB57FV2eUSWqWqkisWfMGd9zniRJDHmDaVU
-X-Gm-Gg: AYBFou0K/QmrlugsgO6tdznjLxWYX5c/1ZK2CZimupT9N3OSrNHB1mgX1IQI1bNlYls
-	Ygy/skyZaZKXwOLqckNO5xkE0qwJM86qWXueL59KgtF6SluTpSfQ0xnQkRHM5z1Cyc6TXLXnnrx
-	b0xGH5mE7YpHJqDsiU/K4cvD7coB3CP9B4lANO4SnADNj0rjvvV8bYA7T/Di9PyLT8n1Fq6rB3g
-	rpTrbzE7IOnIY89cM8lp99YnTF7NIQzlKjDyNvIDNKCFZ5/ov2+8tq/jeJyCz7VaKaCSmt6idRA
-	98SnYILXRdlYP+Vlr73J4/nhf/IPII0HV9MU6acbFf81RrgirxmsgT4+6e3w96N5qeL/Zr3YMcT
-	OdxKJPjRFXtijgPmePd9J3FuAWl80LtdnIHDlWN+YQwQKWGX1mUdXoCbidBSKN0+kBmeXcIrdWB
-	6Akv9eZrmoqcBsN0p148FnZG6OShjLzT1dfmQaDqTQTQcDofw1LZGd3pEBCBlDlkghAr+8czGb8
-	i2AzOxbO8eBGQ==
-X-Received: by 2002:a17:902:f546:b0:2d3:7c58:b0e1 with SMTP id d9443c01a7336-2db1212aa5bmr305439335ad.0.1788756420050;
-        Sun, 06 Sep 2026 21:47:00 -0700 (PDT)
+        bh=rd4+o9yzzziUj0BOqr+bTAQcA/BPcK7lKLgCO+CZvsk=;
+        b=lUhHimOq3HFkp/ZwgNT5zi+0MRAf3wK7nOx30RoZUxD9cQkCR6RRc+6FqACZ0mQc0E
+         qSkcg52FEWyPOOCjAOiX3HrWPlhpuxgbo+0Pq5TZInCD2gqAZbUIG3tG3GaU9fFAd5FS
+         YFIN8pmjhLqPCfvAtFMETjhZe68E+u5EK+JHb3LXKUN16qH3vfgv32iCbrB8NeFRf9oQ
+         ogHKaAWPJ600ntd6Fa5BGppynNr8Ut1WHq2LovzrfIISBFKBY/dv6iw7wxUeWsM9JiEG
+         i07oa63pApkNkB21aB6xyGDX8w5LaPzgdhpz9jI14ul467eqL30F4v4phuh6U1bZHLcn
+         MAYg==
+X-Forwarded-Encrypted: i=1; AKwUvByxOCAVQR5535ViirbGhIzQ2km3Qh3ms731/J5ZGNxx8Y6GSDEzIb7zZYKtAMhpNjDI2s9B61lJJ6s=@vger.kernel.org
+X-Gm-Message-State: AFuF++kkqHXmkFkCKoyiT5WuTnzgioKXfNsmSbN07kYb3bTl8TwmcuzF
+	PxgswHR7J3NbKOBaQkB/OttXf+CuxJL6Z3zpX5ZaT4sVCDelySH+Pa5Y
+X-Gm-Gg: AYBFou2i/iRfqDH+hyzBkTdfzN0VN4+iB7Ya5n6D8eBNvcClT8Er5g6+up8/Pjvu/kd
+	vYTHtc9wUA4gMq4nnmFRaOCfWq763u0d2a9ZWvOzyGC3wDecpxB58UglP9R1x496dmq9rq6Jnd5
+	a+wneb2Mul0m53i9H1IurpIeyACGLHVX4dsfcnr9W0ijTNuUqogU6JuNU8Lt/mRwWuU1rTar2QV
+	FRnQMVSy4YJj8Rx1QqZ+IJ0SOKN5+MP32xTYHYoRa5mY4GDImVjoAVCP/sfioOndgYKiaCnQace
+	QYqfmwV/1Ovkum6sbLiA2p540SCXv0Cp4HTLY1Fx6Ol0O1SAAgOoUr7YTK/AQvy9z2l4uBZkEci
+	3ublPl0WoAz1cSnVhhtToi4IazJOTxl5KyGCx/DUFOoBlGUXqWBBCywsk3OGDxTgUbpIxbwSgb9
+	PRxYTXlWGTlO85sWESXeQZrrcXDESoluASorDZ0i0gUpnoy2Pbyj0YDl5tfdOaE+wJJThjR0nVH
+	9dRh5vhX+WZfg==
+X-Received: by 2002:a05:6300:6710:b0:3d8:1f68:59ac with SMTP id adf61e73a8af0-3da3a15bfc3mr32442645637.23.1788756425319;
+        Sun, 06 Sep 2026 21:47:05 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.46.55
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.47.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 21:46:59 -0700 (PDT)
+        Sun, 06 Sep 2026 21:47:05 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -76,9 +76,9 @@ Cc: netdev@vger.kernel.org,
 	linux-net-drivers@amd.com,
 	linux-kselftest@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v2 3/6] net: llc: fix repeated word 'all' in comment
-Date: Mon,  7 Sep 2026 10:16:32 +0530
-Message-ID: <20260907044635.7141-4-hemanth.selam@gmail.com>
+Subject: [PATCH v2 4/6] net: sfc: fix repeated word 'the' in comment
+Date: Mon,  7 Sep 2026 10:16:33 +0530
+Message-ID: <20260907044635.7141-5-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260907044635.7141-1-hemanth.selam@gmail.com>
 References: <20260907044635.7141-1-hemanth.selam@gmail.com>
@@ -90,25 +90,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop the second 'all', reported by checkpatch.pl as a possible repeated
-word.  Only touches a comment, no code changes.
+Drop the repeated "the", reported by scripts/checkpatch.pl.  Only touches
+a comment, no code changes.
+
+The bitfield.h hunks from v1 are gone: "the relevant bits filled in in
+the range" is correct as it stands, since "filled in" ends the clause and
+"in the range" begins the next.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- net/llc/llc_conn.c | 2 +-
+ drivers/net/ethernet/sfc/mcdi_pcol.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/llc/llc_conn.c b/net/llc/llc_conn.c
-index 260460d50f54..4b6fe9a473cb 100644
---- a/net/llc/llc_conn.c
-+++ b/net/llc/llc_conn.c
-@@ -193,7 +193,7 @@ void llc_conn_rtn_pdu(struct sock *sk, struct sk_buff *skb)
- }
- 
- /**
-- *	llc_conn_resend_i_pdu_as_cmd - resend all all unacknowledged I PDUs
-+ *	llc_conn_resend_i_pdu_as_cmd - resend all unacknowledged I PDUs
-  *	@sk: active connection
-  *	@nr: NR
-  *	@first_p_bit: p_bit value of first pdu
+diff --git a/drivers/net/ethernet/sfc/mcdi_pcol.h b/drivers/net/ethernet/sfc/mcdi_pcol.h
+index b00e7c100566..976a96459075 100644
+--- a/drivers/net/ethernet/sfc/mcdi_pcol.h
++++ b/drivers/net/ethernet/sfc/mcdi_pcol.h
+@@ -9560,7 +9560,7 @@
+  * DMA synchronizaion. Always the last entry in the DMA buffer and set to the
+  * same value as GENERATION_START. The host driver must compare the
+  * GENERATION_START and GENERATION_END values to verify that the DMA buffer is
+- * consistent upon copying the the DMA buffer. If they do not match, it means
++ * consistent upon copying the DMA buffer. If they do not match, it means
+  * that new DMA transfer has started while the host driver was copying the DMA
+  * buffer. In this case, the host driver must repeat the copy operation.
+  */
