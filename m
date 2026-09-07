@@ -1,117 +1,88 @@
-Received: from ironport.ite.com.tw (hc210-202-87-179.vdslpro.static.apol.com.tw [210.202.87.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBED238DC6F;
-	Mon,  7 Sep 2026 09:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.202.87.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD71455173;
+	Mon,  7 Sep 2026 10:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788775072; cv=none; b=HjmwiZQSw8BUiYMaUnPnvuGRLo+6iROb4FSZLUS5u1L/MjNJ9Wz61iyvYKc51RVYEObOg7JQw2ZQaTlxZSz7hgJ9r8lU8NXullIo8uphF4ZnBWSFBCzBXapWWowNBuoNxqOmzTPpXcr7Fw9G+RD8/RTAtHa0GQJALi1fUoHMvDU=
+	t=1788775283; cv=none; b=QawtqK97fAn3fVnwkHLCGKRYL1cicbUw7ekz/LA3vLBQFPh59q/GyGBs/CqoYl6gccd53JRslDK18vDTaNClivm8wacGg6qtyYfDjekA/Op3QrBpc+H/clx8wrP70peQ6uSA4Xy5njgTtZ25OUDh3mps08yeMq8gBXJHt9ApTpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788775072; c=relaxed/simple;
-	bh=1CDclaGIO/MVfxbtzBCQq8Qz7CSilrxmrI5cOgKh0VU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=l9I+0Nuh6obIKktEJLl6F39Pu0jqz43ooWWypbL5OO5BsHoi98H5AXRRqPYRwRwQ06weLqknGDmGo9kRUoSvlz+lbHhr9kUw/5SUpEeGigzPMzjj35Uekn5o5KX4c/NfZezqkmXOqzdvFsbUx6L4W8o749PBHv5fcC0wU18ErYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=oRh6CGeu; arc=none smtp.client-ip=210.202.87.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
+	s=arc-20240116; t=1788775283; c=relaxed/simple;
+	bh=/fSsiqKj3k/kIzDtr2yip2SiXGA8j/AI3EvzsklzrZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvFfZEd/BBiA0qqAdE/G3H1i/NYkSwtwDmAxQmDFPoJNXUJ7xEtBzdpaXp3YTfdnxNx8EWS+EYeLzpxQVGR8vcdg9xGcobAxgDDfibfYt1M/N8M9pMalwo53hPuu0Wcrx3zTKR7cew3zf5f9iZH8qsbSz9qPUXrNIlpO+bC0GOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dcKAP4ba; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="oRh6CGeu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=ite.com.tw; s=dkim;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=1CDclaGIO/MVfxbtzBCQq8Qz7CSilrxmrI5cOgKh0VU=;
-  b=oRh6CGeuJE4fdsMklbmgzb/ojNPBHU2/t77GpRTD/ylMEXAFVck1+E2A
-   JwtJTZY3CabYRRYhEUicxmFYAdYrcWe7Dv5bEd5sYknd2vA2zCBv0esan
-   Kqq59X5YzU7OHJaR1S1Aj2/zNe/UrG10JJZFPCFkAqub+9rkvmlBj81FF
-   b1M0o+QV3Yb/eO9MnyTVV2cF5UwOZ8TRCGszThVlpWGJaPqg6qSL4+f4I
-   c6tjh3r/qB9janbSLC1lz/XizyzaOAxghrxWjuLZB9ELnU52qlzmKqlWn
-   mZAmYI47/xv8hZrES7JtCV8D+w+H3lQvAkntZLMp/CIqWZxw2UENL46hl
-   g==;
-X-CSE-ConnectionGUID: Mcfzc+A5TaOxaeYgk6popQ==
-X-CSE-MsgGUID: e4NPj+aDT3C8PIiHMqqOyQ==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
-  by ironport.ite.com.tw with ESMTP; 07 Sep 2026 17:57:40 +0800
-Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
-	by mse.ite.com.tw with ESMTP id 6879vZmL033368;
-	Mon, 7 Sep 2026 17:57:35 +0800 (+08)
-	(envelope-from amber.kao@ite.com.tw)
-Received: from HSCMAIL1.internal.ite.com.tw (192.168.35.58) by
- HSCMAIL1.internal.ite.com.tw (192.168.35.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Mon, 7 Sep 2026 17:57:34 +0800
-Received: from HSCMAIL1.internal.ite.com.tw ([fe80::d4ad:7d1f:bb56:79ee]) by
- HSCMAIL1.internal.ite.com.tw ([fe80::d4ad:7d1f:bb56:79ee%6]) with mapi id
- 15.02.2562.046; Mon, 7 Sep 2026 17:57:34 +0800
-From: <amber.kao@ite.com.tw>
-To: <krzk@kernel.org>, <ite_pd@ite.com.tw>
-CC: <jeson.yang@ite.com.tw>, <Yaode.Fang@ite.com.tw>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: usb: Add ITE IT5271/IT5272/IT5273/IT5274
- support
-Thread-Topic: [PATCH] dt-bindings: usb: Add ITE IT5271/IT5272/IT5273/IT5274
- support
-Thread-Index: AQHdO40ZV2swSIj+0E+i7ACu7C2xj7bCUiQAgACUjSA=
-Date: Mon, 7 Sep 2026 09:57:34 +0000
-Message-ID: <cc3a8a7133184decb06884d65c5f06c5@ite.com.tw>
-References: <20260903-it5271-binding-v1-1-1abd2c8cea85@ite.com.tw>
- <20260907-bulky-adorable-agama-40ece9@quoll>
-In-Reply-To: <20260907-bulky-adorable-agama-40ece9@quoll>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-snts-smtp: 4E88B76D177A4DDD2BD98574EC9A87729AC212AF02B79C41406C8C15C09E7D102002:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dcKAP4ba"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 601921F00A3A;
+	Mon,  7 Sep 2026 10:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788775282;
+	bh=MrzkdFyLsg8VSci/26jo62CvSvmhxQiUSnpAWUUjNQc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dcKAP4bahn6xer7l9tZ2cgYBBM8vYOIbXeoi9FSczUIsQXp5igKDV+tapAr+rKLjT
+	 dkQOn14JthQ0afts9hejvMrdnZ16KpUWESG3A6Q/ObvzvLdpnf8rZT1ka28dxb7Gdz
+	 onl0TOpullaZ9HOizg5TleHotFjXziQYGOHzKJ2benAIeLHV4cUTUc6YvlENSuXrN3
+	 nA0k1gdH7IwZ7JK8F8cmlkPhllDvSBnKA4hpMWjU5xu3GeLNm0cxIRWq9XBi2+0mY+
+	 Ct0RudmeFzNYvdxpAqOT3IfWwS85V7XR+SQ53kouAHy7IwEpkQBp70VqNYtOW1CtrV
+	 bxEUgaDiHz0sA==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x3WAC-00000000Y9p-0tfh;
+	Mon, 07 Sep 2026 12:01:20 +0200
+Date: Mon, 7 Sep 2026 12:01:20 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
+Message-ID: <ap6LcHWDvIWF3oNK@hovoldconsulting.com>
+References: <20260907065501.101013-1-johan@kernel.org>
+ <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
+ <ap56NTVMq8GlbjmR@hovoldconsulting.com>
+ <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MAIL:mse.ite.com.tw 6879vZmL033368
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
 
-T24gTW9uLCBTZXAgMDcsIDIwMjYgYXQgMDU6MDM6MDBQTSArMDgwMCwgS3J6eXN6dG9mIEtvemxv
-d3NraSB3cm90ZToNCj4gT24gVGh1LCBTZXAgMDMsIDIwMjYgYXQgMDY6MTU6NDNQTSArMDgwMCwg
-QW1iZXIgS2FvIHdyb3RlOg0KPiA+IFRoaXMgYmluZGluZyBpcyBzdWJtaXR0ZWQgaW5kZXBlbmRl
-bnRseSBzbyBpdCBjYW4gYmUgcmV2aWV3ZWQgb24NCj4gDQo+IE5vLCBpdCBjYW5ub3QgYmUgcmV2
-aWV3ZWQgb24gaXRzIG93biwgYmVjYXVzZSBzcGxpdHRpbmcgaXQgbWVhbnMgeW91DQo+IGhhdmUg
-dW5kb2N1bWVudGVkIGNvbXBhdGlibGVzIGluIHRoZSBvdGhlciBwYXRjaHNldC4NCj4gDQo+IEFu
-ZCBpZiB5b3UgZG8gbm90LCB0aGVuIHRoZXJlIGlzIG5vIHVzZXIgZm9yIHRoaXMgYmluZGluZy4N
-Cj4gDQo+ID4gaXRzIG93bjsgb25jZSB0aGUgZHJpdmVyIHNlcmllcyBsYW5kcywgSVQ1Mjd4IHN1
-cHBvcnQgd2lsbCBiZSB3aXJlZA0KPiA+IGludG8gaXQgdGhlcmUuDQo+IA0KPiBUaGVuIHdoYXQg
-aXMgdGhlIHBvaW50IG9mIHRoaXMgYmluZGluZyBub3c/DQoNClVuZGVyc3Rvb2QsIHRoYXQncyBh
-IGZhaXIgcG9pbnQg4oCUIHJldmlld2luZyBhIGJpbmRpbmcgd2l0aG91dCBhIGRyaXZlcg0KdXNl
-ciBpbiB0cmVlIGlzIGEgd2FzdGUgb2YgZXZlcnlvbmUncyB0aW1lLiBJJ2xsIGRyb3AgdGhpcyBz
-dGFuZGFsb25lDQpiaW5kaW5nIHBhdGNoLg0KDQo+ID4gKyAgICAtIElUNTI3MTogc2luZ2xlLXBv
-cnQgdmFyaWFudCwgU1BSDQo+ID4gKyAgICAtIElUNTI3MjogdHdvLXBvcnQgdmFyaWFudCwgU1BS
-DQo+ID4gKyAgICAtIElUNTI3Mzogc2luZ2xlLXBvcnQgdmFyaWFudCwgRVBSDQo+ID4gKyAgICAt
-IElUNTI3NDogdHdvLXBvcnQgdmFyaWFudCwgRVBSDQo+ID4gKw0KPiANCj4gV2h5IGlzbid0IHRo
-aXMgZW50aXJlIGJpbmRpbmcgcGFydCBvZiB0aGUgb3RoZXIgZmlsZT8NCg0KSVQ1Mjd4IGFuZCBJ
-VDg4NXggYXJlIGRpZmZlcmVudCBoYXJkd2FyZSwgd2hpY2ggaXMgd2h5IHdlIGRlc2NyaWJlZA0K
-dGhlbSBpbiBzZXBhcmF0ZSBEVCBiaW5kaW5ncy4gSG93ZXZlciwgc2luY2UgdGhlaXIgVUNTSSBv
-cGVyYXRpb25hbA0KZmxvdyBpcyBzaW1pbGFyLCB0aGV5IHNoYXJlIHRoZSBzYW1lIGRyaXZlciAo
-dWNzaV9pdGVwZC5jKS4NCg0KPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ICsgIGNvbXBhdGlibGU6DQo+
-ID4gKyAgICBvbmVPZjoNCj4gPiArICAgICAgLSBjb25zdDogaXRlLGl0NTI3MQ0KPiA+ICsgICAg
-ICAtIGl0ZW1zOg0KPiA+ICsgICAgICAgICAgLSBjb25zdDogaXRlLGl0NTI3Mg0KPiANCj4gZW51
-bQ0KDQpOb3RlZCwgd2lsbCBmaXggaW4gdGhlIG5leHQgc3VibWlzc2lvbi4NCg0KPiBJIGZpbmlz
-aGVkIGFjdHVhbGx5IGhlcmUsIGJlY2F1c3IgSSBzdGlsbCBmaW5kIHJldmlld2luZyBvdXRzaWRl
-IG9mDQo+IGRyaXZlciBhIHdhc3RlIG9mIG91ciB0aW1lLg0KDQpJbnN0ZWFkIG9mIHJlc3VibWl0
-dGluZyB0aGlzIGJpbmRpbmcgYWxvbmUsIEknbSBwbGFubmluZyB0byBzZW5kIGEgbmV3DQpzZXJp
-ZXMgY29udGFpbmluZyBib3RoIHRoZSBiaW5kaW5nICh3aXRoIHRoZSBlbnVtIGZpeCkgYW5kIHRo
-ZQ0KY29ycmVzcG9uZGluZyBjb21wYXRpYmxlIHN0cmluZ3MgYWRkZWQgdG8gdWNzaV9pdGVwZC5j
-LCBzbyB0aGVyZSdzDQphbHdheXMgYSBkcml2ZXIgdXNlciBmb3IgdGhlIGJpbmRpbmcgdW5kZXIg
-cmV2aWV3Lg0KDQpPbmUgdGhpbmcgSSdkIGxpa2UgdG8gY2hlY2sgZmlyc3Q6IHRoZSBiYXNlIElU
-ODg1MS9JVDg4NTMgc2VyaWVzIHRoaXMNCmRlcGVuZHMgb24gaGFzIGFscmVhZHkgcGlja2VkIHVw
-IFJldmlld2VkLWJ5IHRhZ3MgZnJvbSBIZWlra2kgS3JvZ2VydXMNCmFuZCBSb2IgSGVycmluZywg
-YnV0IGhhc24ndCBsYW5kZWQgaW4gbWFpbmxpbmUgeWV0LiBIZWlra2kgcHJldmlvdXNseQ0Kc3Vn
-Z2VzdGVkIGl0J3MgZmluZSB0byBzZW5kIGEgZm9sbG93LXVwIHNlcmllcyBiZWZvcmUgdGhlIGJh
-c2UgbGFuZHMsDQphcyBsb25nIGFzIHRoZSBkZXBlbmRlbmN5IGlzIG5vdGVkIGluIHRoZSBjb3Zl
-ciBsZXR0ZXIuIEdpdmVuIHRoYXQsDQp3b3VsZCB5b3UgYmUgb2theSB3aXRoIG1lIHNlbmRpbmcg
-dGhlIElUNTI3eCBkcml2ZXIrYmluZGluZyBzZXJpZXMgbm93DQp3aXRoIHRoYXQgZGVwZW5kZW5j
-eSBjYWxsZWQgb3V0LCBvciB3b3VsZCB5b3UgcHJlZmVyIEkgd2FpdCB1bnRpbCB0aGUNCklUODg1
-MS9JVDg4NTMgc2VyaWVzIGlzIGFjdHVhbGx5IG1lcmdlZCBmaXJzdD8NCg0KQmVzdCByZWdhcmRz
-LA0KQW1iZXIgS2FvDQo=
+On Mon, Sep 07, 2026 at 11:50:41AM +0200, Oliver Neukum wrote:
+> On 07.09.26 10:47, Johan Hovold wrote:
+> > On Mon, Sep 07, 2026 at 10:17:38AM +0200, Oliver Neukum wrote:
+> >> On 07.09.26 08:55, Johan Hovold wrote:
+> >>> The wakeup condition needs to be checked after adding the task to the
+> >>> waitqueue and updating the task state to avoid missing a racing modem
+> >>> status update or disconnect.
+> >>
+> >> I am sorry, but in this case I have to ask:
+> >> Isn't TIOCMIWAIT inherently racy against the hardware?
+> > 
+> > What do you mean?
+> 
+> The interface does not state from or to which state it changed.
+> Now you could say that it is implicitly the last time TIOCMGET
+> was called, but that is
+> 
+> 1. not clearly stated
+> 2. not enforceable
+
+Right. The original implementation (and serial core) have always stored
+the counters on entry and compared to that. So that is the defacto
+semantics.
+
+> > Looking at the implementation again now, it seems further changes are
+> > needed to fix the implementation, though. The completion handler should
+> > not be updating old_count. That's for each TIOCMIWAIT to do.
+> 
+> I am sorry to be obnoxious about that, but I am afraid that would
+> break TIOCGICOUNT
+
+Why do you think so? TIOCGICOUNT just returns the current counters.
+
+Johan
