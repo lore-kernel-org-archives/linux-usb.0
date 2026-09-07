@@ -1,68 +1,80 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DF53F1078
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 17:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C0C3EC683
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 17:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788801623; cv=none; b=HXX2IimLiRIq5EHAuAboBHuJhBV6sNNQjEmOC46alV83cblYmmMFcrYpFPFw1QXVE7Q6rUX/Ana7MPiFD9B3Xr/gvfsMdT/7HFfE89a2FaZd3/fKT7kD6k1pGss3F3Wr8RAcAdodr/grISTzY2MX2Mzd8uu4kB5+mrS9oU1NJbU=
+	t=1788802453; cv=none; b=mncGIdYw5lgGID6qskxC/4ZuKqaN05VXPgN9H1GhexfkiRiPz1oW57Qx9Azt5fWKrhiBvmvDE4P2Vwxuyf28upRCMtmYaheNMOoVMjS+goTLzu7fARfy7+MhkqNnKOqJvOHkVAi+GmaPGEnh+lkgaSH+KdIGZYnzrvLq3ATRRYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788801623; c=relaxed/simple;
-	bh=EoiMDFX54vQdSKxNT8k7n3wXAqYsBjK4mfbNthqKnfA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CdCJ40LTB4a+czjLhTSV0QDNq3j3EQDoRh1hh7ELby26cg8lx/xIEoevcTrfln41kSgWv0nXROlJIqzYSAc95IgN5gNbUPNyqCaXrDc4NkH/l3XD6QCTstzh4+FGJJao9dPKM27m5t68/YlbHvhBrkSeh42hGrB0aa9krkIyeI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tze+E7yr; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1788802453; c=relaxed/simple;
+	bh=aUqQ+/nrrCfl/Fsjbg1whSE6z57LUzeLhqVamZC4ZQQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jxvG4hi3AaR7/F7ElJN3jAS5xr721z7Yb9e5hoBlubzf6eOlMx0+tUGVd3HPiz57jms1ipJmo7LrA67V4pYADiChhGGHSPGsuo1x3S2ZkuvvC25eN72YThsnZ6FEmDr5UEjNpRIxWmMlMvI8vL08LozuH+9GhFhT6kkrmRSvmb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdyptknZ; arc=none smtp.client-ip=74.125.225.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tze+E7yr"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49d0726ccc2so14767025e9.2
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 10:20:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdyptknZ"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843703c170so258061f8f.2
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 10:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788801620; x=1789406420; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788802450; x=1789407250; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZJMgJVhhPPod1olpk1LHOViEOFiWNdrhNB8qTKDSK7A=;
-        b=Tze+E7yrDL3aqE4JFyvsioBwpMSrHmlGmvwkF24cXxMBUSYOwfMKdasrEQbswxQev9
-         aB6WAVEyPpQ8heu5rxbEGQ/lW9ybyesb5MpU4Fq6A9VYsXwxUDpMdU1NqYpu39U2Yz0a
-         lKbPpaMdtMUkTYKaZ09rmqRseml3Qsy0yd0eqCacFZ0UXUNvHKqOaDAxsIGlAguP71Jn
-         9nZtyDZRBPZAw1XWuL+g5cN9Z4n+KZpH+krHS05KrbWjDcuLvOjZpNm9Dvn3JuUQMtRo
-         E4/OYM8I5endIFASBGPMLfouTgZq9lnYO/WCm4R2waU2WapKQsSdVXXd6D4TyBjiBOHS
-         pcuw==
+        bh=yXIYeviFW2An3MiG2FIAz4Avl4P0N7d8PiSZ5BjNGB0=;
+        b=fdyptknZ7znh8Zo6JHDtXZKUpi4Ybeuod9uy64icFFbFGjPHOPopqOvQJeBfKlDFs7
+         l5jF+IzTiagwzheOmlwGGfgzIE45FZBBSTh79zIpT8X5+6sqZAYxukPGHzJsorTq5Yxq
+         2e+c/DlvKAGwhI6BH58BEsVOMHLiCmDiyTfomw4Q/wRWh4LlE7EaOIm1v7v3zOX5cJW5
+         trDKw1ZvbtiUZBg2voVk8AX3ng+fnr8FUPrkX0L4aZ4Q2CrbJk9Pr/9zZz022QP2Ke25
+         YQFF4Z4NIDs/W1eeXraNuDQJVGQOil+kek54ZZ0i1kCQNKFZbl4BhQ2gWnPeSHkUPurA
+         c+mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788801620; x=1789406420;
+        d=1e100.net; s=20251104; t=1788802450; x=1789407250;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZJMgJVhhPPod1olpk1LHOViEOFiWNdrhNB8qTKDSK7A=;
-        b=hvwaIt5C6nKkqY5AcDN8kj5TcTWEgLkCSnEWulWq/LUk8dv/llcJGY7Bc5KCEevac1
-         UYdEcCuBsRfFIPtnIJUf7XhAlIK15uwZDoKGtlQaw5Ng4Ebl+ywlproQa9PFds2KOqxN
-         uqK3M2wQ79w+sOGSWlTqe8/omK5gpmwgkKwRS9UZTTHlRXc/iHgRTOIXYWWz9vSdQyFa
-         Utfb33lmfyMbiVI2qju8FsMmFx/6F91rmjGt3ognefJCEWcUlY6fqEPJeBZW5lh0Sjet
-         cAdrd2ETAJEFls4Sag1tUL3WX5xObLoKTqRUltrQqOInpjUcNNPhdZ8ODU/QbY9N+gLb
-         uMgA==
-X-Gm-Message-State: AFuF++mJMFr/C9mhPg8tY02JZyIYNJ+GBHgXHMkLW5iZK7fLaGOodmP/
-	6PS/U0ytbB9MsuW76CSTLqDWhDY8tksP+ul6to2v1QZYSvRyyhljIK0hL3OH6Q==
-X-Gm-Gg: AYBFou3/GUf1vNiF244jAwYDvStHJo7wF76c7nBfB0WGtwO724H7s9Fxj7UOWNFB990
-	1SVlfcm//MuqvbCkUTOkvR/bW094N/Z8W/w7bb6UIOiMAt7TKrUYsqYwWNrRIq6vNXFxWjCgqMk
-	T/Hz0axLBFxc4I1JNKONOEWPg6+fs6s/pJgfMDPtu/WfzIbIAEVGtaZS9Ns1oh8HAa9LLJAjOQl
-	iw7+YsJ5oQG/mvLDHTfVxA2FZYny9P0rRCz2n+Yxt4uPoKfAqhhNGpj1Z5L1bhcN6ohvMIjPy6g
-	2MsXWTShMxKuAEO2yHp51x2+cqkS+gAajmYxf7e3Xzdam+YBoqnW8ZeMGVYtjvwC6/sOJPukU0k
-	RXjJlTXKwrymirkmgQugVYGiSP3E5+pSZsEIQI9uOT2vhtaSa3Gf0WmVZvegEd3iWaD75Wgr/oF
-	arDb/h2jUe77jOk/PjkgnN7IZtfw4aVnD5trQz30jUVJTCTI/xSZEqAm1GEt3v2WN9PX2HvUA7n
-	GW7kZMCPlr66MY=
-X-Received: by 2002:a05:600c:1c29:b0:49d:5ff:f408 with SMTP id 5b1f17b1804b1-49d05fff5bbmr237573145e9.15.1788801619274;
-        Mon, 07 Sep 2026 10:20:19 -0700 (PDT)
-Received: from archlinux.tailbe3ea7.ts.net ([109.228.249.160])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cffdb2c40sm192662505e9.1.2026.09.07.10.20.17
+        bh=yXIYeviFW2An3MiG2FIAz4Avl4P0N7d8PiSZ5BjNGB0=;
+        b=HnzRjTbh2Ta5XPAlIPlHrYHsQF/qmSntMVliFGB8Ftac9ExuRrbqjSraCIyp5CW7xh
+         CqKcmHmQfULDhJ2IQar0bEtAwtns9rOKWKKbQSYPbsFE3zy0aYPgL47wHekf3atmzhZZ
+         Jpzwb/fHzvU+2nVLOmzRIo7xd7SUC7rs7p9cSaAjx8unuVMN3DrLDsuWry0WLFQMuru1
+         T+FZtXgd84wIJw0Vn4M1JRJLBZaRO2HM16CJ6KCkclHQhSOWljWG3sXwnSkPNMZ+NrdU
+         e5rWXYCxgjaBSMPCenx3lIPWOUCvwlW0iTbWQmi7/dNVE6cLG6b7KVyZdxkmUmocb1cx
+         Thkg==
+X-Forwarded-Encrypted: i=1; AKwUvBxMZoZuAA4WSko/5ImV+hUXbb+uVHWNN/2s2hsF5bajXexKb+mJPvEdNd1u0f9ObWuPi/Yk3GRxLTw=@vger.kernel.org
+X-Gm-Message-State: AFuF++kWYU4Dn2cJnUhcTQ2H2FwokFfw8oTl2jYnhV3gl9bAYru1jexh
+	eSVrlhGwV/WMxvrRjis5ONpazRIye16VEDB1zHoEspAcgmwQnEOYaeCq
+X-Gm-Gg: AYBFou1vR3SFZocXdIQ7gcXeSIc+iafAkFNQmqJ/hnDE3f7+u9ZUVGew1kUJsDVbt3l
+	D/nfJZ3DHV4DKwHGK3D1q97aGmWcItJZ/EXBF1LxYNo+f53ZtC1TmVsEPNpBG+Xmp6dbrUrLW1G
+	UpvQUkrfjhAECOXOetpd6OfeKX3ZBCdhZHg4nhVFJjdOVPBmvqJN/xe8h+wgIHtAQfN6wuugByw
+	wBcmGyosFeg0sObHxzzGw0ilvW2ZR68pUq23c38d3qjJMc2xK8UmIvaEH2w+aH4eupbMvfeIFhx
+	4EieeR5nNKOu+VI3kAkg8SDX88PIwIUIhe6Izg4E9cTPmngjDQ3TyjOfSRybPiyKR8t/6sysv4V
+	ycDroNxXMpF//IzQaeEa0QybgOADYonZ8OzAplfkALUI4/uV7RWOPlzLPlu6cSScFfMBQCv9CUa
+	gpX1M/xI8xjdmcdgRA7RU6PjuQXF3sHGsvS0VEe47FCiTyWSZL4lFqEqCaYkk2TLPK2Iy4xnogH
+	g349LpnewkxtXQorqLBs4cJpkMJwBI1ZaCGr2KHjh33fxuXxjwzLxUnKIKVicvILfiJ
+X-Received: by 2002:a05:6000:460f:b0:485:8e7f:ec0b with SMTP id ffacd0b85a97d-485907fd697mr14697954f8f.5.1788802449653;
+        Mon, 07 Sep 2026 10:34:09 -0700 (PDT)
+Received: from OrangePi5-Plus.BB-HOME (20014C4E1B8822007B3AD9A87B9E27CB.dsl.pool.telekom.hu. [2001:4c4e:1b88:2200:7b3a:d9a8:7b9e:27cb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588392b3esm34477370f8f.12.2026.09.07.10.34.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 10:20:18 -0700 (PDT)
-From: Ismail Tarim <ismailtarim7@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [BUG] ucsi_acpi: unstable GET_ALTERNATE_MODES(SOP) response prevents DP Alt Mode binding on ASUS K3605ZV
-Date: Mon,  7 Sep 2026 20:18:42 +0300
-Message-ID: <20260907171909.1657882-1-ismailtarim7@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Mon, 07 Sep 2026 10:34:09 -0700 (PDT)
+From: Igor Paunovic <royalnet026@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Igor Paunovic <royalnet026@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-usb@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: s2idle resume hangs in ohci/ehci on RK3588: HC registers touched before the USB2 PHY is powered back on
+Date: Mon,  7 Sep 2026 19:33:47 +0200
+Message-ID: <20260907190000.s2idle-usb2-resume-royalnet026@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -73,256 +85,101 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On an ASUS Vivobook K3605ZV (Alder Lake-P, UCSI over ACPI), USB-C
-DisplayPort Alt Mode is never established on hot-plug, while attaching
-the cable before boot gives a working display.
+on an Orange Pi 5 Plus (RK3588, mainline 7.3-rc1 based tree, generic-ohci/generic-ehci with
+phy-rockchip-inno-usb2) resume from suspend-to-idle reliably hangs in the USB 2.0 host
+controller resume path. The CPU that runs ohci_platform_resume() never returns (RCU stall,
+"CPUs still haven't responded to the NMI"), everything that waits on it in dpm_resume()
+stalls behind it, and the board needs a cold reset. With the four USB 2.0 host controllers
+unbound before suspend the same s2idle cycle completes every time (RTC alarm wake, full
+resume, 3 s), so the rest of the platform is fine.
 
-Repeated GET_ALTERNATE_MODES queries for the SOP recipient return two
-different six-byte payloads in exact alternation. Under the record
-layout Linux expects, these produce two distinct driver-visible failure
-modes, but they may well have a single underlying ordering or
-serialisation cause - I describe an alternative reading of the same
-bytes below and I cannot currently decide between them.
+Wake-up itself works: the board is woken by the hym8563 RTC alarm (PM: Triggering wakeup
+from IRQ 52) - that needed a separate dts fix which I sent yesterday [1].
 
-The payload instability is reproducible through UCSI debugfs without a
-patched kernel. I used a kretprobe on ucsi_send_command() only to
-confirm that the CCI data length was 6 on every call.
+To find where it stops I put kprobes (with tp_printk) on the resume path. For the two
+OHCI controllers, same kernel, same cycle:
 
+  fc8c0000.usb (host1, survives):
+    ohci_platform_resume -> ohci_platform_power_on (clocks only) -> 0
+    ohci_resume  entered        @142.838
+    usb_hcd_resume_root_hub     @142.859   (the "powerup ports" + msleep(20) branch)
+    ohci_resume  returned 0
+    ... later, root hub resume: usb_phy_roothub_resume -> rockchip_usb2phy_init/power_on
+        -> ohci_rh_resume
+  fc840000.usb (host0, hangs):
+    ohci_platform_resume -> ohci_platform_power_on (clocks only) -> 0
+    ohci_resume  entered        @142.994
+    (nothing else, ever)
 
-System
-------
+So the hang is at the first HC register access in ohci_resume() (the ohci_readl() of
+HcControl / the port power / intrenable writes), which happens before the USB2 PHY is
+powered on again: since the PHY handling moved into the HCD core (usb_phy_roothub), the
+PHYs are powered off in hcd_bus_suspend() and powered on in hcd_bus_resume() (both only for
+system sleep, !PMSG_IS_AUTO), i.e. at root hub level, and the root hub resumes after its
+parent controller. At probe time the order is the opposite: usb_add_hcd() does
+usb_phy_roothub_power_on() before hcd->driver->reset(). That matches what I see: after a
+"hosts unbound" s2idle cycle, binding the drivers again (probe path) reliably works, while
+the resume path hangs.
 
-  Machine        ASUSTeK Vivobook_ASUSLaptop K3605ZV_K3605ZV
-  BIOS           K3605ZV.317, 05/12/2026
-  CPU            Intel Core i7-12650H (Alder Lake-P)
-  Kernel         7.2.3 (Arch), CONFIG_TYPEC_UCSI=m, CONFIG_UCSI_ACPI=m,
-                 CONFIG_TYPEC_DP_ALTMODE=m
-  UCSI transport ucsi_acpi, platform device USBC000:00
-  Type-C port    port0, data role host, bound to usb3-port3,
-                 usb2-port1 and usb4_port1 (connector_ops [thunderbolt])
-  Display sink   Gigabyte M27UA (3840x2160). Connected with a cable
-                 whose DisplayPort end plugs into the monitor and whose
-                 USB-C end plugs into the laptop, so the laptop is the
-                 DP source over USB-C.
-  External DRM   all on the Intel iGPU (card1: DP-1, DP-2, HDMI-A-1)
+On RK3588 the inno-usb2 PHY powers down its PLL/refclk/bias blocks while suspended
+(phy-rockchip-inno-usb2.c, comment in rockchip_usb2phy_power_on() about common_on_n and the
+reset done on power-on), and the OHCI/EHCI controllers take one of their clocks from that
+PHY (clocks = <&cru HCLK_HOST0>, ..., <&u2phy2>). So an AHB access to the controller while
+its PHY is still suspended has no clock to complete on, and the access never returns - which
+would explain the "no reaction to NMI" symptom (this is my best explanation so far, not
+confirmed with a bus or clock trace). The Rockchip vendor tree avoids this by giving the PHY
+driver system PM ops that reset and re-tune the PHY on resume, before the consumers run
+(rockchip-linux/kernel, develop-6.1, phy-rockchip-inno-usb2.c, rockchip_usb2phy_pm_resume():
+"PHY lost power in suspend, it needs to reset PHY to recovery clock to usb controller").
 
-Loaded Type-C modules: typec, typec_ucsi, ucsi_acpi, typec_displayport,
-roles, thunderbolt. I can supply GET_CAPABILITY output or anything else
-on request.
+Data points (all dvfs test kernel, 7.3.0-rc1 based; every "hang" needed a cold reset):
+  - all 4 USB2 hosts bound, s2idle:            hang (ehci x2 + ohci calling, none returned)
+  - EHCI unbound, OHCI bound:                  hang in ohci_resume of fc840000 (2/2)
+  - all 4 unbound:                             OK (4/4)
+  - all bound, cpuidle limited to WFI:         OK (1/1)   <- timing dependent, see below
+  - the surviving controller (fc8c0000) took the "HC state retained" branch of
+    ohci_resume(); the hanging one (fc840000) did not get past the first register access.
 
+(The OHCI platform devices resume synchronously from the main dpm_resume() thread - power/async
+is disabled for them - which is why nothing else in the resume sequence is printed after the
+hang; the EHCI ones are async, so in the all-bound case two ehci and one ohci resume were in
+flight when everything stopped.)
 
-Symptom
--------
+Why host1 survives and host0 does not (identical PHY port configs) - reading the PHY GRF
+status and the clk enable counts right before suspend, in the test configuration (EHCI
+unbound, OHCI bound): the u2phy2 port (host0, nothing plugged in) is already in PHY suspend
+(GRF status phy_sus set, no line state) and its usb480m clock has the OHCI as its only user;
+the u2phy3 port (host1, a HID dongle plugged in) is not suspended and its clock has more than
+one user.
 
-Hot-plugging the USB-C cable never brings up DP-1: the connector stays
-"disconnected" with a 0-byte EDID and typec_displayport binds to
-nothing.
+So the port without a device is already put into suspend by the PHY driver's host-port state
+machine, and its 480 MHz clock has a single user (the OHCI): ohci_platform_suspend() drops it
+to zero and the clock output is gated; ohci_platform_resume() re-enables the clock, but the PHY
+itself stays suspended (PLL down) until the root hub resume powers it on, so the first HC
+register access would have no clock to complete on. The port with a device connected keeps its
+PHY awake and its clock never reaches zero, so the same code path survives there. With the EHCI
+siblings bound the outcome depends on timing (the async EHCI root hub may power the shared PHY
+on before the synchronous OHCI resume touches its registers), which would match the mixed
+results. Also: after suspend the OHCI ends up in the RCU-stall/no-NMI-response state, i.e. the
+CPU is stuck in the bus access, not in a software wait.
 
-In a controlled test, attaching the same cable before boot resulted in
-a working 3840x2160 display. Separately, 71 retained boot journals
-report DP-1 connected; those historical records do not by themselves
-establish the attachment sequence for each boot.
+Questions:
+  1. Is the intended fix to power the roothub PHYs on before the controller's own resume
+     touches the hardware (e.g. in ohci_resume()/ehci_resume(), or a usb_phy_roothub_resume()
+     call from the platform glue before ohci_resume()), or should this be handled in the
+     Rockchip PHY driver with system PM ops as the vendor tree does?
+  2. Has anyone got s2idle + USB2 host working on RK3588 mainline? I could not find a report
+     on lore.
 
+I can test patches on this board (UART console logging is in place), or try one myself
+for whichever layer you think is right - I have not attempted a fix yet because that choice
+is the question. Per Documentation/process/coding-assistants.rst: the kprobe placement and
+the log triage above were done with the help of an LLM assistant; all measurements are from
+the board and the reproducer is the unbind/bind matrix above.
 
-Observation 1: the SOP payload alternates between two values
-------------------------------------------------------------
+[1] https://lore.kernel.org/all/20260906181622.11991-1-royalnet026@gmail.com/
 
-Issuing the same GET_ALTERNATE_MODES(recipient=SOP, connector=1,
-offset=0) repeatedly through /sys/kernel/debug/usb/ucsi/USBC000:00/
-returns two payloads in strict alternation. 40 reads per inter-call
-spacing, 120 reads in one continuous run, zero deviation:
+Kernel: 7.3.0-rc1 based (drm-misc-next + accel/rocket DVFS series), BL31 v2.12.0-10-g70d814213
+(v2.12.0 plus one local cherry-pick unrelated to USB), Orange Pi 5 Plus.
 
-  back-to-back : ABABABABABABABABABABABABABABABABABABABAB
-  200 ms apart : ABABABABABABABABABABABABABABABABABABABAB
-  1 s apart    : ABABABABABABABABABABABABABABABABABABABAB
-
-  A = 01 ff 00 00 01 ff
-  B = 05 04 00 00 01 ff
-
-Only bytes 0..1 differ; bytes 2..5 are identical. Every one of the 120
-calls returned a CCI data length of 6.
-
-The corresponding query with recipient=CON returned one identical
-six-byte response in 40 reads. So the alternation was not observed in
-this same-sized control, though that does not by itself locate the
-fault between the PPM and the ACPI transport.
-
-Limitation of the spacing test: the response stays locked to
-transaction parity across the tested 0-1 s inter-call intervals, which
-makes a simple wall-clock or probabilistic race less likely. It does
-NOT distinguish PPM payload state from a deterministic
-completion/ACK/MESSAGE_IN ordering problem, because those delays occur
-after ucsi_send_command() has already read MESSAGE_IN. Testing that
-boundary would need a delay between command completion and
-read_message_in(), or two reads of MESSAGE_IN after a single
-completion. Also, the three blocks were consecutive and of even length,
-so they are effectively one 120-call sequence rather than three
-independent phase trials.
-
-The second value is not constant across attachments: in an attach
-session five minutes earlier it was 0a 00 00 00 01 ff instead of
-05 04 00 00 01 ff. It was stable within each session.
-
-
-Observation 2: two readings of the same bytes
----------------------------------------------
-
-Parsed as the packed record Linux uses,
-struct ucsi_altmode { u16 svid; u32 mid; } __packed :
-
-  A -> svid=0xff01  mid=0xff010000
-  B -> svid=0x0405  mid=0xff010000
-  (earlier session) -> svid=0x000a  mid=0xff010000
-
-so the SVID alternates and the MID is constant but useless as a DP
-capability VDO.
-
-Parsed with the two members in the opposite order, { u32 mid; u16 svid }:
-
-  A -> mid=0x0000ff01  svid=0xff01
-  B -> mid=0x00000405  svid=0xff01
-  (earlier session) -> mid=0x0000000a  svid=0xff01
-
-Under that reading the SVID is 0xff01 in every payload I have ever
-captured, and it is the MID that alternates. 0x00000405 decodes as a
-plausible DP sink capability: UFP_D capable, DP v1.3 signalling, UFP_D
-pin assignment C. 0x0000ff01 looks instead like the SVID duplicated
-into the MID slot.
-
-I cannot decide between these. The CON record is unambiguously in the
-Linux/UCSI order (reading it reversed yields svid=0x0000, i.e. an
-end-of-list marker, which is nonsense given it is the DP mode), so the
-producer is at least inconsistent between recipients under the reversed
-hypothesis. Bytes past the CCI length of 6 are not part of the response
-and cannot disambiguate it.
-
-
-Effect on the driver
---------------------
-
-ucsi_register_altmodes() registers whichever payload it happened to
-read, and the SOP early-out
-
-  if (recipient == UCSI_RECIPIENT_SOP && con->partner_altmode[0])
-          return 0;
-
-then prevents any further read for the lifetime of the partner, so the
-first result is latched.
-
-If the registered SVID is not 0xff01, the Type-C bus match against
-typec_displayport's typec:idFF01 alias never succeeds and
-dp_altmode_probe() is not reached. This is the state after a hot-plug,
-captured before I issued any debugfs command, so it is not an artefact
-of my probing:
-
-  /sys/class/typec/port0-partner/port0-partner.0/svid   = 0405
-  /sys/class/typec/port0-partner/port0-partner.0/vdo    = 0xff010000
-  /sys/class/typec/port0-partner/port0-partner.0/driver : absent
-  /sys/class/drm/card1-DP-1/status                      : disconnected
-
-If instead the payload with svid=0xff01 is registered, the driver
-matches but dp_altmode_probe() rejects it. With port0.0/vdo =
-0x001c1c46 and the partner VDO as Linux parses it (0xff010000, whose
-raw DFP_D pin-assignment field bits 15:8 = 0x00 and raw UFP_D
-pin-assignment field bits 23:16 = 0x01, with the receptacle bit clear,
-giving Linux's helper results UFP_D=0x00 and DFP_D=0x01):
-
-  DP_CAP_PIN_ASSIGN_DFP_D(0x001c1c46) & DP_CAP_PIN_ASSIGN_UFP_D(0xff010000)
-        = 0x1c & 0x00 = 0
-  DP_CAP_PIN_ASSIGN_UFP_D(0x001c1c46) & DP_CAP_PIN_ASSIGN_DFP_D(0xff010000)
-        = 0x1c & 0x01 = 0
-  -> -ENODEV
-
-So neither of the two alternating payloads leads to a bound DP alt
-mode.
-
-For reference, the raw CON response to the same command is
-
-  01 ff 06 1c 00 00        len=6
-
-and ucsi_register_displayport() turns mid=0x00001c06 into
-0x1c06 | DP_CAP_RECEPTACLE | 0x1c<<8 | 0x1c<<16 = 0x001c1c46, which is
-what port0.0/vdo reads. That sanity-checks my byte decoding and shows
-how the current kernel transforms the CON record; it does not establish
-that the SOP producer uses the same member ordering.
-
-
-Other observations
-------------------
-
-  * The PPM returned one six-byte record at offset 0 and zero length at
-    offsets 1 and 2.
-
-  * After a hot-plug, GET_CURRENT_CAM(connector=1) returned 0x01 rather
-    than the 0xff "none" sentinel, while GET_CAM_SUPPORTED returned
-    0x01. Those two are mutually inconsistent under Linux's zero-based
-    index interpretation. I mention it only as a further sign that this
-    PPM's alt-mode reporting is unreliable.
-
-  * No intel_pmc_mux device can bind on this firmware: neither INTC105C
-    nor the Alder Lake IOM INTC1079 is present in ACPI, and
-    /sys/class/typec_mux is empty. I therefore do not know whether
-    correcting the alt-mode registration alone would be enough to light
-    the display, or whether the PPM would also have to be driven into
-    the CAM.
-
-
-Regression status: not established
-----------------------------------
-
-The user-visible history is that hot-plug used to work, so I looked for
-a kernel change.
-
-The relevant struct ucsi_altmode layout and the dp_altmode_probe()
-rejection logic are unchanged across every kernel this machine has run
-(v7.0.5 through v7.2.3), and I found no direct change to the UCSI
-alt-mode read path between 7.1.9 and 7.2.3 - the changes there are the
-msg_out/write_message_out plumbing, an unregister refactor and lockdep
-annotations.
-
-This is only a source audit. Indirect timing or ordering changes
-elsewhere, and firmware state, remain possible. I have not yet run the
-same unplugged-boot-then-hot-plug procedure under an older kernel, so I
-am not claiming a regression and I have not copied
-regressions@lists.linux.dev.
-
-
-Reproduction
-------------
-
-With the cable attached, as root:
-
-  D=/sys/kernel/debug/usb/ucsi/USBC000:00
-  for i in $(seq 1 10); do
-      echo 0x101000c > $D/command   # GET_ALTERNATE_MODES, SOP, con 1, off 0
-      cat $D/response
-  done
-
-The responses alternate. Substituting 0x100000c (recipient CON) gives a
-stable response. The debugfs "status" file only records negative
-errors, so the positive return value (the data length) is not exposed
-there; I used a kretprobe on ucsi_send_command() for that.
-
-
-Questions
----------
-
-  1. Has an SOP-only member ordering, or an alternating offset-0
-     response, been seen from other UCSI PPMs? Is there a reading of
-     these six bytes that I have missed?
-
-  2. Which capture would best distinguish PPM payload corruption from
-     an ACPI completion/MESSAGE_IN ordering problem: a debug patch that
-     delays or repeats read_message_in() after a single completion, a
-     PD Discover Modes trace from an analyser, or data from the working
-     boot-attached case?
-
-  3. If the correct partner record can be established independently,
-     would a DMI-scoped fixup in ucsi_acpi's sync_control be the right
-     layer, or should this stay a firmware-only issue?
-
-I have the machine available and am happy to run debug patches or
-further captures.
-
-Thanks,
-Ismail Tarim
+Igor
