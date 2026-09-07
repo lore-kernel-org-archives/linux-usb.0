@@ -1,162 +1,141 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013047.outbound.protection.outlook.com [52.101.72.47])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C6E44AB84;
-	Mon,  7 Sep 2026 10:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788775967; cv=fail; b=scf9kEiAYxvMDUL1mtwElYTV+tLz7FAlIfJEeaHLGafn7X4cK/b0yjU/HoHd+XymbUWT8LWa+tWswHiCDKP143L2znLnLC2Fkoeb4BEW+O5Coz2/PUfr2FpnkWLpUzmagW/e1T/RdStn1ufen7yDK+oNmHWtaQoZ13+IK4WPqZY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788775967; c=relaxed/simple;
-	bh=mqGjQXV24dbrrOfkfdAmMCc6TZarCyFS4YC7MlXAJI4=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=CciU5ugtCMsPbY01gtazdYhtmf1Bf5hUT0gA7Qbr5mOErhKfVSD6GBXByWuzXryPYU4KpHnXlJb720SCIPByXUpql2syiVvQSM/7d0czF1VyaUnxnfGtsJ5BgtjOlZ6E8+gGfxeh21H5NVVsYpOnVzaGoMfxsVURjZdefF9AHyU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=oBujLVy7; arc=fail smtp.client-ip=52.101.72.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7606D44AB78;
+	Mon,  7 Sep 2026 10:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788775970; cv=none; b=hteCkMmh32D9TW8BCbUWNBPtC+RJAI4ni9jstOh8bPu6DfPr4o2dj9XNhsdLk1sruW6qqSkgpU2J764gBKFcjR+VZrssMkEEPqcH57XAoHtwoGMwzLS1K8pTm+T/smvwpApMek8n95GXiGFWhYQzOiCPvPJUxE8Xpo6vTu0zxm4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788775970; c=relaxed/simple;
+	bh=iG1YcUQXguvYFhfk76p+QLGZLI3Fkzl4LJTDLvB5C2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=gvIuOFcLH31C6xZ7AAyE4LarFV4IZ30xYIfxWwYGu0NLXxPnQ+cNQuOJHbFXjfUk+GD3Fp8vxsm9eklzDIUkQuOUrjbm4PVUE+1w5OgOY8lCnsJTFFg9J/y377eui+NIcKUHHsrEUwS1xmICrmHHjP27DZDgvrUcC98nZfHZJWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bKK0zb+m; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="oBujLVy7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NOjPMCXzdezJRAIxVKIfvtf71zGdegknr9hqN7/axqy0mjWCJ8qbOfhRs5o/Sq8+1vAzLMmpUXhd4CWXyD/S+C0h5fV7Kr/y/TEm+YZ9w18gjKHv0MXMD9XP4RqhTGPQU8y9ZG05QrScA6D8lIFRzVNqAWD0nBavSBQkIyrxFWpIWLO4MOltOgyT/tJPUdLhu9UflWww/LbIy5aHd9ds6eh0U5VJDy+UiPxC/ikxekBhudAWgK1pJg0sCJDgnMZjOpooXQqUZvxMMurbXxXkhuaBAtawFOz5VFMXyg/DP5mJMqPn5oJRwLuHbpZXPV7WhNnigHbNZJgB2m5tlTqDDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AL0MUTf+1mqbnt2uYHxV0hfMurc3JxfRr/JbJ1xQe20=;
- b=QziFjJZEFvL3Dp4UaaU934KFg6F2Trnj6Ugp6dOPdgPfdHI5ClR5uZdM9+UaAmMA5mtqStJUoqS+LHSiFFrpxPBabk6kGC73pbsvO4c+T3Xtsb9TJdCabfir2b8oQ+1t+EMyZdlTvrm39F3SrrwH3AnwIKm7aayDeZgwLUtJGgK5EKDYSFvS5V8YX1/9IyYzF5DR64SgAIX7MEfsFVM7tdr3XGg+FED9lnIXj+bak0hRStEF4pqJd8in3tIh2dX0jpBFCGAXw4cJoGA4RxPoUzuUV/TiwlnGsL92peQsF8vXYxUFDIdJ6iT78dSxeVeKLEZtxG1iHccTc97/0w8zGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AL0MUTf+1mqbnt2uYHxV0hfMurc3JxfRr/JbJ1xQe20=;
- b=oBujLVy7E3LDTY1e0E9Lh3SB5yxNN3fJVnoZJ4s1AIMCt6kwx3z5duMUHqYAtCJFBPweoybp/RvuX46sz5RsVh8qUTfZRrNG8T+iEfDpov0BUEgTDTboW7OkLqmpuX/l6iuJmhmx1/8fgY/T7XnfP8LaXY/alrKck6kIvSi52ZWmWd88UXnTMNm9XIu7ZkMfY0E73DGoUsG8CacBi6AbTZmL8UPEFYffjcpp39MajO7nnFYDtn6135VSPPQ+5Die5YC11Xi3vsulMbAhWVS+E6jwWW6VDOio14HsJQEL2ruYKl19s/kp9bHWp4XPpYHnBwOwwBM9wh/g3Kr+O/1Gow==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by VI2PR04MB10091.eurprd04.prod.outlook.com (2603:10a6:800:22f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
- 2026 10:12:41 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
- 10:12:41 +0000
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: Peter Chen <peter.chen@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	jun.li@nxp.com
-Subject: [PATCH v2] usb: chipidea: otg: fix invalid role name print when no current role
-Date: Mon,  7 Sep 2026 18:16:43 +0800
-Message-Id: <20260907101643.2844296-1-xu.yang_2@oss.nxp.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bKK0zb+m"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6879bX95319013;
+	Mon, 7 Sep 2026 10:12:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=9BQN5ajOj31
+	45/7qryj6JpHn4XKmNmimxxuCcpJdRoQ=; b=bKK0zb+mN0jPEkfzCavIJzC0vIF
+	jueKHkYykQr/K8iizYdsUCnlaQbvXtxNstd/crhLymZ8A37Vrb7u2GGuSG7XUDn8
+	DfxlM3Y0e9bCej5xD1m/2pt1LRo6tDP0wpU+beAmVo/jBr+aSxyCubIwefjLRi/n
+	a7HMqIZJCJ09qv/fmtdslJi0HyzjH4SfWZYjY2YmV/CGgpUVxPr6rDFR3ibtj8K4
+	0qLJmHK2mXkTDmhWsiFflYPfwKdEyPd3Do+bTwSpkjM8NgJEJV0BN6NGo61Mv+b2
+	yU73UyDyM65kHnCRFrnWxyxU3nAvapS2DzxoSShv2pcdLW/1jG44Yj3YeEQ==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ghfwjj6u3-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 07 Sep 2026 10:12:46 +0000 (GMT)
+Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 687AChQX3440591;
+	Mon, 7 Sep 2026 10:12:43 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-sarar-hyd.qualcomm.com [10.147.241.63])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 687ACheK3440584
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 07 Sep 2026 10:12:43 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4160332)
+	id 790CA62F; Mon,  7 Sep 2026 15:42:42 +0530 (+0530)
+From: Saranya R <saranya.r@oss.qualcomm.com>
+To: Thinh.Nguyen@synopsys.com
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        stable@vger.kernel.org, Saranya R <saranya.r@oss.qualcomm.com>
+Subject: [PATCH v2] usb: dwc3: gadget: Fix spurious suspend event during HS link training
+Date: Mon,  7 Sep 2026 15:42:36 +0530
+Message-Id: <20260907101236.1543438-1-saranya.r@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5P287CA0010.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:176::9) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+In-Reply-To: <20260903110947.2761354-1-saranya.r@oss.qualcomm.com>
+References: <20260903110947.2761354-1-saranya.r@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|VI2PR04MB10091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 981cb080-3b3e-423d-8775-08df0cc88d45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|19092799006|23010399003|1800799024|10067099003|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	T4yNDBakQcNKIO4IMADbPRQlSmMlhWR9CuJ+jobSYCWcwYZYWJFL0wGrzcFJu12IcP/gMdPMdHA9Vfsxza/V4M+LdSpuSvrte4MXuFLVYTazrP2QYU7DvVCKN5MZgZApjLX9Vm3xne48npwXWk2ifaQRgWH7MKQzOHuM9OtVi2LSf4UopDjggp3tS3l23Hiwlcrc9i6kRAN5MaFFAkjrlfBwmn2RajNBzkCLDhFWUfM0GHxK0d7cRv5gk22ohLTysimgpaRN8hfrkZtGyfJaNpo7X4Opt+sJR9AanzgKAeSMCXYQAI7xOFWOASX5P0lnoB/Uh4xzOuEjKh2MZ8jojl3GlerBZKSG+sV66QTWuiZvLy7+MM/y4drtvM42lZWXGuxnSL8B7gXeUUNlFYXMtOkR4cxxxaJa6tRkbnD7z3HsTBsymr/AdbBwabWJDcMqCCA1MVuj4IMUEeQWXHY2kT2CH5k5ZWsx99GjqMM6NEDo+2isA/H8Rhnj67LbDYerhKJ4ns1hNBioaalHmVrZRDtPSn+CQbJtR4U033DrsmHg0ToyyUMUJ/fYTDTgKqVCayv6xjXAZcT0MjxxIkYDj/eQxA1wgqpn5yD6FMCZRLuliPhKviZVovRaFabwZ1mmO4NB6O+wung0IpaBBKY6ZW6BFaAOFFbEOd4tILKsNsc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(19092799006)(23010399003)(1800799024)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6RudOWdbmrMk/CH/QKKLEDIQmp6GxtbaEvG3hqMXM44eWUO6hpKhj2QU37L4?=
- =?us-ascii?Q?s1DGAQnHsqju0dtwnRIg6A0jyklCuPU4ChRDVpj2XfSdZMZAcRgZ+2IgtApr?=
- =?us-ascii?Q?Av1HYdg1YLPGxOtTttREh1eaRz03HwzQ8AAEFmpy29BNpJWpZmVjkslM/tTj?=
- =?us-ascii?Q?DV5TOOhnCyKCRsBTj/xt9zayQYXe7uhgXJ/P2gGu8jDcQZ0FOdnSQKyrACYp?=
- =?us-ascii?Q?hvp/uwnJfbplUBQ6Tl4tqynlQZ5zOEQXATM8MkqNMVlzIH3err9EP2cyOLq5?=
- =?us-ascii?Q?BUUOYzOnhZdG4j905LQ5M989iDF0ks4VubRMfmy+UImmifRVtoMQlmFkw7y9?=
- =?us-ascii?Q?dICLk4LcTJ1koREGjuW7YsObU7iXXgGAUSnMOXbBeCdVIFqYdXr5x7YRh8IL?=
- =?us-ascii?Q?wpZy0pQ6DfJalbDfheTwiicTpgWu9xcWMf4e1tv4xmpN1N28LAXS+cwF6Wok?=
- =?us-ascii?Q?vR1+UWeUDmy+URE9R4BHDl1gKy9820ItwZW06n4fPwgGe3IPocqHPdhEulVT?=
- =?us-ascii?Q?fDcPX1Jf+dJTuMyNCojM1ZLJWvy/EaDkfHiJAr45e5Whv5GpcVdUdQp9vktZ?=
- =?us-ascii?Q?l9XleQQceOlkOD+klNFV3zV/G4tVroz3MyPRR0+eTtJHLBOocLRCYknJYwXM?=
- =?us-ascii?Q?v41BE6eiJmrQV+FkBEjT1Ot6Qz3vumhryEeJSRaiiH5mftPG4utbNDTJ3x4t?=
- =?us-ascii?Q?3Kcy4eP4BICHSW7szbd/JhsJfhTVM/8naajU4SSbq+gQGLHH+r2G4m/1LTaL?=
- =?us-ascii?Q?2ijWptI07LhbP6Lb9h6jZ9LL7AJxt73gLWJ/3rNMhcS3L0dBL+t2fQ1t2a9Y?=
- =?us-ascii?Q?TksQVQ6qi8JlUYxGfPG53UFnf4mY9uL2+WluVyBpFqImUstzFouzeFW7xY+H?=
- =?us-ascii?Q?YVlVbMbrecZqEMNAz8sq7Q2FBKZ+XifPZkaYIrbndr09VhxsMaoGOrNNcy6m?=
- =?us-ascii?Q?urDadhakDtg+XvAvC2Liq7yb/zK7AT8w4ONS66PzpPQ51/uPr7TYRxKcdY9K?=
- =?us-ascii?Q?jWLc3XZHmmTVBAuAsraL5YlAJck0cQ5zQ7qSlvdeRaf6jVrCkqVUWQNQQp0y?=
- =?us-ascii?Q?TfmZqLUDwNI8/vONeYBsJWpfHXS2cZYaoGqAmPoTZsvQSkFpKS2JsDko2Syj?=
- =?us-ascii?Q?AUSVsA3j1LQAq9s62eJhro+qubQwnopmxsM6Md/SHZcEogbtyVv/6mT9Q0LM?=
- =?us-ascii?Q?Nnskq8A4ijJqa4s54KVY/9M/rfcPyH5Pg3tUmv7UPyxN2PJStT9bT50kcOMF?=
- =?us-ascii?Q?/o9P3ogD3v/nTdR6x/s0b8ZfOpxSTSU9kqUGuUOkTRh14ARMDByHeu6I6Mv0?=
- =?us-ascii?Q?dh4vFXwgAGAAWzZTP953ww/Re26zI6QRuJq5TF4VY3L6LUPksGw+IFwJxRAU?=
- =?us-ascii?Q?PZ2ilAdXXX8qebChkt7b4ZEoATyiwJPUSi/0WExoxONxiOeeQff/Wck875gV?=
- =?us-ascii?Q?MiAf9IyQDII+XE5hUVL54U0oqsmnc4IUsHTmtqclFcLvW49yZdFdzhxV7dYN?=
- =?us-ascii?Q?HEbfOdAQrpuRMGnGZpbMog4TI6G/04BptJOne26wxVy0JzPr8ds2i7rZ7LAr?=
- =?us-ascii?Q?OS9e7aHgtxzQBZoBamjEvRjL7syduUz4MHDGka6UWd1bQbo3a5EGk5F+7buV?=
- =?us-ascii?Q?e1L0ESo0BD35va7Utlxw1yokIiwB3bRVUGK5SMHiJNtg2Z4jP8WSn0VjTDb5?=
- =?us-ascii?Q?we2uPoHWAOEUkbZ85NnQZyOsB+V/n45fkgtFyn/J+ifMk+FthI++BfeWtTcq?=
- =?us-ascii?Q?vwXbGBS2wUiCYwWMnMW3FvR/KMW4wI3u1w5YMzq+72RsqJUSQXN4?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 981cb080-3b3e-423d-8775-08df0cc88d45
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 10:12:41.4865
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P9/rtSIwXm67XC5JO9c5GlmCt1HWN4951F/JgXzKlgCzSBK7SNQsjmrLeAtcZwgDwbVthZKH/Bvs2bsSrRm2c3ib6i4EUY446XfVS2E6PugACDR7O7pUurU2JewNdGL0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10091
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA3MDExMSBTYWx0ZWRfXxUMMmyVapZIT
+ mTfk/QDHu2TePk37f+2llmXMxYhH7uvhY/j9+xc4Lx8jAIcho5LvdThEUwUAzbqNZnkF1gL9R4e
+ IgqI4pbQhIAo1wMvyDdnEMf/mUWDnBE=
+X-Authority-Analysis: v=2.4 cv=NanWEWD4 c=1 sm=1 tr=0 ts=6a9e8e1e cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=dUsWMgTqjhcbN1arKrgA:9
+X-Proofpoint-GUID: g3GQeh8TaD6EwFlypO45Gxd7ZhOqyGpQ
+X-Proofpoint-ORIG-GUID: g3GQeh8TaD6EwFlypO45Gxd7ZhOqyGpQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA3MDExMSBTYWx0ZWRfX9qCqeGmQb9v1
+ kZeERdyrTn6OEN51vdI/mcFkoK4plywvJmqMHHzgS2v+YFvr/dNFKNE8iFgflgc1OelyCR8ZIwe
+ DsnWDGDwtDOx6x3JVm1aogCdhnSJRhrJKxxNiweTH9JMwrsNoytZk+eSnLmGHXDbi8FS5IGtKIu
+ Spj4/KoUpFMUGvKxQS0GscLDD1u7ze5njXV2T6xCaCLSiQxSAJWeuyLmtDQLAOkPNS7uHsbRF95
+ yKhGXZ7CGDbubHyw885HHe6voDdSpYQ00AZrj7VCruolWI49RZQGaxOK5FBX3eK5LCOHFQMBexd
+ B1sqz/r/FcbxNVbff7ZuBCU42gSXNFYjiibYfgaj7CypNvMDdhzK0Fv3092avgbXagMFzUciBFr
+ D0DXP9YXBc2ZUOLf9ORgByvVjp5gV0BPpqXrT1/w2obkCTcBY3ynlbzdYO59qH1GCPRhCBzZbfs
+ nJyvaaTp4A0NECLJP7Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-07_02,2026-09-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0 impostorscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609070111
 
-From: Xu Yang <xu.yang_2@nxp.com>
+During HS link training, a spurious DWC3_DEVICE_EVENT_SUSPEND carrying
+link state U3 is fired before CONNECT_DONE completes enumeration. At
+this point gadget->speed is USB_SPEED_UNKNOWN since CONNECT_DONE has
+not yet run. Calling dwc3_gadget_suspend_interrupt() here triggers an
+unwanted composite_suspend, causing the charger framework to drop
+current to 2mA and then ramp back to 500mA on every USB connection.
 
-ci_handle_id_switch() prints the role transition via ci_role(ci)->name
-for the current role, but when ci->role is CI_ROLE_END (no role
-assigned yet), ci_role(ci) call BUG_ON() and return ci->roles[CI_ROLE_END]
-which will cause invalid memory access in the debug print.
+Fix this by skipping suspend event processing when gadget->speed is
+USB_SPEED_UNKNOWN. This precisely targets the pre-enumeration window
+without affecting genuine suspend events: a real suspend at ADDRESS
+state (required for BC1.2 compliance) only arrives after CONNECT_DONE
+sets gadget->speed to the negotiated speed, so gadget->speed is no
+longer UNKNOWN at that point.
 
-This can happen if ci_role_start() fails during a role switch, since
-ci_role_stop() has already set ci->role to CI_ROLE_END.
+Signed-off-by: Saranya R <saranya.r@oss.qualcomm.com>
+---
 
-Fix it by printing "none" instead of dereferencing ci_role(ci)->name
-when ci->role is not a valid role.
-
-Fixes: cbec6bd55a45 ("usb: chipidea: move otg related things to otg file")
-Cc: stable@vger.kernel.org
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+v2: remove Fixes tag and add cc stable
+This issue observed on 6.12 kernel.
 
 ---
-Changes in v2:
- - improve commit message
- - use " >= " sign
----
- drivers/usb/chipidea/otg.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/gadget.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
-index fecc7d7e2f0d..5eb3b32c2e87 100644
---- a/drivers/usb/chipidea/otg.c
-+++ b/drivers/usb/chipidea/otg.c
-@@ -179,7 +179,8 @@ void ci_handle_id_switch(struct ci_hdrc *ci)
- 	role = ci_otg_role(ci);
- 	if (role != ci->role) {
- 		dev_dbg(ci->dev, "switching from %s to %s\n",
--			ci_role(ci)->name, ci->roles[role]->name);
-+			ci->role >= CI_ROLE_END ? "none" : ci_role(ci)->name,
-+			ci->roles[role]->name);
- 
- 		if (ci->vbus_active && ci->role == CI_ROLE_GADGET)
- 			/*
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa944856f956..a3a59d9d92ef 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -4540,8 +4540,18 @@ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
+ 		break;
+ 	case DWC3_DEVICE_EVENT_SUSPEND:
+ 		/* It changed to be suspend event for version 2.30a and above */
+-		if (!DWC3_VER_IS_PRIOR(DWC3, 230A))
+-			dwc3_gadget_suspend_interrupt(dwc, event->event_info);
++		if (!DWC3_VER_IS_PRIOR(DWC3, 230A)) {
++			/*
++			 * A spurious U3 suspend event is fired during HS link
++			 * training before CONNECT_DONE sets the gadget speed.
++			 * Ignore it at that point to avoid triggering an unwanted
++			 * composite_suspend. A genuine suspend at ADDRESS state
++			 * (required for BC1.2 compliance) only arrives after
++			 * CONNECT_DONE, so gadget->speed is no longer UNKNOWN then.
++			 */
++			if (dwc->gadget->speed != USB_SPEED_UNKNOWN)
++				dwc3_gadget_suspend_interrupt(dwc, event->event_info);
++		}
+ 		break;
+ 	case DWC3_DEVICE_EVENT_SOF:
+ 	case DWC3_DEVICE_EVENT_ERRATIC_ERROR:
 -- 
 2.34.1
 
