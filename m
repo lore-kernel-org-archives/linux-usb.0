@@ -1,97 +1,146 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68F84AD4AB
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 13:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4361B4B1B3D;
+	Mon,  7 Sep 2026 13:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788788320; cv=none; b=WZ1x3fxrHzKz7tGa6wKKgFU3Flf/xm5IALtg9P6+Ng60BvfG8O+hcIW75BNkRmlXODvlzL4tlERAkK7NxnI+eRIlscyre5s+fIbRoDG1sGU0tHgT/nTSjvglMil+mhU2vuzJ1MlHs+1nQ9RrsL5Oeej2nw32VQ+VQrhmccka+ww=
+	t=1788788493; cv=none; b=JtgXpibCPGIbEWEg9RbBD0wFhMdE/uSnZDctIuH5CcwS+/uNKgiVvM/I3yiUtTQ72oCtPX8zLKArue/fSmZMNYZDogqVxVcOWaKXOO2P5Jz6itQYvJXmdhodC5LMPhKmoAVHnBQne3WrhZgZHJ41p3K2ECUCnzoPxdWUAP3Xhc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788788320; c=relaxed/simple;
-	bh=iaMpImiqRfMHj6DqEGiyzWM4yVp5IzapU9WS4TDmgCI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=l2N5r5+rnpNrksVjecnFFlGj4pUirbN5uGW74WcA9x3jMzYw8qApcY6Idzpk3bOPSyeyOX/OE2rk7eoV0+PPSopFfH5S3YCw0gzkJNhtRX/ixJA9Fn2k7V3a9u0sFu4PuT9tM1xn7Wua39QtKZsuTtvOV16nbx1sedBgjyUYKVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=gvzxkkAk; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1788788493; c=relaxed/simple;
+	bh=RoX0qbCGFXI8LwBnxfEF8+o6ighp+bpsD0J70Qe1q2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=u1oVAepdSSYNSSl3gLl8JuHX0w0V2FVsy7N729JmXd0n411zcsVAX4F8wHj1yiv7jOuWFWOUJgqncmWs5CvCoa01GPn1St5AHoTwsdy3NHSZ1ddwctvt/cutyBj6ujxzL3RKjyrStlRUblhe8DMcvfKrsCArKoHVBsM7l5liOhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=edkVC91/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PGv9a4ea; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z4QhEkD+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YW1kluFd; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="gvzxkkAk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1788788317;
- bh=slBfEXfmlFqojlsYQ0rgM6V/6N10xUVb/4TTHC5BcLU=;
- b=gvzxkkAkCYy5RSQHKZhe60v7Vofdsw8LSs5InZKz+Xs49LGSrmI8hEH2i8YqNErp9436tJNTQ
- q5OJkjEMIwN3YfaN5ETkRXd2gTBkbjg1KgORRnGoiI8NTaaBa1RhqNNxo4hjNue07OBLstuO3ZN
- QYubBetRYUrbLb3RfkH0AiuerN03WDTCePUOery65FZCjATEB9sy2CAiiGomO37fTprHIY58kao
- Oz3KaqBh/5sVbAggRG2HWBEY4M45Y4XjL2hmBw67912+sHdSV0Hkw4cSh8nF+bPzsfRNml+Rp7A
- 7AV1/5y6f2lRguvldhNgBwiEPvlSbLjh3TaD6jAiwpew==
-X-Forward-Email-ID: 6a9ebe5670f4b45aa0d06668
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.14.2
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="edkVC91/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PGv9a4ea";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z4QhEkD+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YW1kluFd"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EBC231F796;
+	Mon,  7 Sep 2026 13:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788788486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dlNbyQ1NrVztoz0vVPYYSSzwuZXAcGM4daj6vdghpc=;
+	b=edkVC91/N0mV6Fh92xfgMGD3bawZ0qmkVG2HMnBC+gH2Ttw9hJioOaYMmqPvb/5+xDta5Z
+	1sRyfy2TlJzHbVKIgR0BPsXxQJRlmzWxEj0tkPEkwErxle/2Hudvnc2/xMwuKFhg1fBglT
+	AfNafqdc+0h2xh0E1rgdI/CLVZEzSdU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788788486;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dlNbyQ1NrVztoz0vVPYYSSzwuZXAcGM4daj6vdghpc=;
+	b=PGv9a4eam7IiybUF9D3ONQoZfRVYMoku/46+1IM1xVU21sE3uKQR1/CNDSwCpb6+HhbI9+
+	teKxdtkForOEqLAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788788481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dlNbyQ1NrVztoz0vVPYYSSzwuZXAcGM4daj6vdghpc=;
+	b=z4QhEkD+7kX9BhORLxt13OZfSikS/VhWfrITovlDeGYGjmw69zqx20UDMMUIDvDkQNBadQ
+	aex9kahkZBkS17zqnF9AYVoWWayCEzY9URRo98xcZpA5V0D1rI0K9iyLybqmLLe2D8w4Kc
+	EzPJU7YHGqLUsubrPRvRFuYfONZhFXM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788788481;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dlNbyQ1NrVztoz0vVPYYSSzwuZXAcGM4daj6vdghpc=;
+	b=YW1kluFd2IMr7K+Tuiji+wj/zk76Niz99lmEN6oOHrB95HYk4glE92212e3rWk64G+NjTq
+	IT4Wntx/M50j5hCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 852C313432;
+	Mon,  7 Sep 2026 13:41:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qp45HwG/nmpDdwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 13:41:21 +0000
+Message-ID: <4fdffeac-7a1c-45fc-8d71-8ca79999d27f@suse.de>
+Date: Mon, 7 Sep 2026 15:41:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Mon, 07 Sep 2026 09:38:28 -0400
-Message-Id: <DL94J88RKZ3S.2EX69YJ6JOX4P@ubuntu.com>
-Subject: Re: [PATCH v2 11/22] thunderbolt: Find Apple VSE capability during
- startup
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sven Peter" <sven@kernel.org>, "Heikki Krogerus"
- <heikki.krogerus@linux.intel.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Janne Grunau" <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Andreas
- Noever" <andreas.noever@gmail.com>, "Mika Westerberg" <westeri@kernel.org>,
- "Yehezkel Bernat" <YehezkelShB@gmail.com>, "Philipp Zabel"
- <p.zabel@pengutronix.de>
-Cc: "Konrad Dybcio" <konradybcio@kernel.org>, <linux-usb@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
-X-Mailer: aerc 0.21.0
-References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-11-1f80085f93fb@kernel.org>
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-11-1f80085f93fb@kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 39/40] scsi: cleanup scsi_proto.h
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260903034201.112211-1-dlemoal@kernel.org>
+ <20260903034201.112211-40-dlemoal@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260903034201.112211-40-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On Sun Sep 6, 2026 at 2:36 PM EDT, Sven Peter wrote:
-> Only Apple Silicon host routers have the Apple vendor-specific extended
-> capability. Look it up when the software connection manager starts and
-> store its offset in the root switch.
->
-> The Apple NHI driver can then use the stored offset when programming
-> cable information without searching the router capabilities itself.
->
-> Signed-off-by: Sven Peter <sven@kernel.org>
+On 9/3/26 5:42 AM, Damien Le Moal wrote:
+> Now that all users of SCSI sense codes have been modified to use macro
+> definitions and the 16-bits sense code instead of separate 8-bits ASC and
+> ASCQ, remove the now unused asc and ascq fields of struct scsi_failure and
+> struct scsi_sense_hdr, and the old (and incomplete) definitions of SCSI
+> additional sense codes and sense code qualifiers in scsi_proto.h.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 > ---
->  drivers/thunderbolt/tb.c      | 4 ++++
->  drivers/thunderbolt/tb.h      | 2 ++
->  drivers/thunderbolt/tb_regs.h | 1 +
->  3 files changed, 7 insertions(+)
->
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index bf1c192ec10a..d2832323cc36 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -3025,6 +3025,10 @@ static int tb_start(struct tb *tb, bool reset)
->  		return dev_err_probe(tb->nhi->dev, PTR_ERR(tb->root_switch),
->  				     "failed to allocate host router\n");
-> =20
-> +	ret =3D tb_switch_find_vse_cap(tb->root_switch, TB_VSE_CAP_APPLE);
-> +	if (ret > 0)
-> +		tb->root_switch->cap_vsec_apple =3D ret;
-> +
+>   include/scsi/scsi_common.h | 13 +---------
+>   include/scsi/scsi_device.h | 13 +---------
+>   include/scsi/scsi_proto.h  | 51 --------------------------------------
+>   3 files changed, 2 insertions(+), 75 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Nitpick: I *think* based on the surrounding code that this can be
-simplified to "if (ret)"
+Cheers,
 
--Josh
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
