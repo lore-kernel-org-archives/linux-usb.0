@@ -1,137 +1,197 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ADC94C6811;
-	Mon,  7 Sep 2026 13:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788787737; cv=none; b=cTl7TdhjsCa4CaMs5vR7nU2i/y1wTvYcc8ifXpaGEcAY8NMX1PZbterfBWEkNntmg57DMqfW18Mf4RgmUjvVW2QdSBythelTs8myEtQxXQxZ7+mbnwXkPQQ7VQUnx6YmkKAClqwkzjT8j7zKqQ6+DKL0JRTsj7lgcDEGai5y3cI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788787737; c=relaxed/simple;
-	bh=Q43zjFngUH4CVRm0yM8HzVAnPDiw5923YGyUdTIL2X8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y8sIYRa04BG+r0YasISF83TtOIpPA261kZ2vk7IiCrtVT3ZRXRnVK3iAHh1snt51Ibr0R8dwxNsO62XjjDz27t+mRku2V6CdCIMOs83GKDUK6MoI3LczpZwafWOkWeyFyEKJTKX5GDhqlv54Xpx5SJqh2ozc5Q+sGOqrgt6zTXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=iDqy+gXd; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6636B4C8FFD
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 13:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788787894; cv=pass; b=WguIH/R349cmvxWFK5Uuj925eaWmwr45awG/t3+X0uM2pnNzJCrc04eoDsKOtBN8F59ztu0RCGM6VwoI5byba/MWd6CgvR73/g0gJNdHh7dY/oaBQGVxS6VoaneFQyyqGQeHaRZ6/EdGAyRfn1LS+W0vjzZt6YOBR5KgUNf8468=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788787894; c=relaxed/simple;
+	bh=D1wAsx4CR5aOXpjyMVJB7sUcHL24GlLysdFmwnbPMG0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fYZzrbd1o/T3PDF8EyV7Z7LurDTUUZ8m0Ap+zZR2uRYwh34i+nJWqeS4l4TRICqQCVeqD+zOAH8wDVU1CytcqRQfn5wnkQ+6DkwWf6CIRGKbVLhMm7pCvcvO9v80Sjl9AqIrYwks5CEy/e06XMjsNW1pwjkUoyamgKedSuA8QQI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NIdr3zAl; arc=pass smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="iDqy+gXd"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B49641476;
-	Mon,  7 Sep 2026 06:28:47 -0700 (PDT)
-Received: from [10.0.152.207] (unknown [10.0.152.207])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 893583F7D8;
-	Mon,  7 Sep 2026 06:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788787731; bh=Q43zjFngUH4CVRm0yM8HzVAnPDiw5923YGyUdTIL2X8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iDqy+gXdsbWjQJPd91C1nM1zZ+xgWeS11WliE9Osu1N/a3Fjgd/2p2Xx/8MhgRZLR
-	 ucE++QR5nAlr8Qq4g07e9u7HQKvsSBNE2oaru/6qRuQM+o3PTaTePwbVhyW9QXlP4A
-	 f0nPXWjg8bGVTYGo8ofymc0I7B9rALdmwVs+EelI=
-Message-ID: <d7bb2cf4-11c3-468c-8749-99cc408299c7@arm.com>
-Date: Mon, 7 Sep 2026 14:28:47 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NIdr3zAl"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-485843aeab8so3979423f8f.1
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 06:31:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788787889; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gCJIJOv5F/T/TBmWoDbhJdQLQmhlYcreBiY09K1Td8RqcK/wGH09p0ewP86cX+6icC
+         uPFz3dYAhjAmiwpKOjuokoBh8mAyrQStRXfUG9G2cMKPnAdK0ESSkibzy5JAHX3WNsUT
+         PX7q3mvSgw7JXXMErt02f6fdPw5aiLbDkAhCkyY1GQTZrHEEJ+74PfRDnzu4AH3eJayp
+         EPq1c6rRem/GpXzKGwDhvyBVZVkssC9sG2EP8JwDB8eWXO4er6Npw0eQXJarHvgTEgIM
+         C5G4/9XXzna2AclolnyaNuAxJ0xLEEUJywlbbc3qcinwZuUe55E5w87gxRkzN7KsEPNu
+         t4Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
+        fh=H03NkgDQ3DvaXIqjAeCppA3MpNLzCtL1rozl7AgSYXI=;
+        b=QoLSGQWYgh+ArEHfVeKiNpNlKu3gDI2XUMMssH7AdINwjAS+lBbEicDmTXj1H/bfKJ
+         jexmRW5cXwFsvaXaHpMIlHr7LB6a5nfIynROVeqjmwHfGGoAE6zQLlOqMTyjtx1fx/KD
+         iVi7koCMdPRxfT5ADuMsSVjJ6pj0JLh031GpYkTh0rlBFf8dcUfweMynLwS+ji3eTFJQ
+         mAZ6lMg3L5zr+eikasf7wummZXEfx3DDpVlrCEJD45vXtomu0D6jEPI7btobiE9MyRI8
+         cjM3QUBjKnJDNtdIrW942qTXAuPR6mDOpPshDqt0Oyt87O+kEuGFpOJofutkJLsQK0kW
+         qf1w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788787889; x=1789392689; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
+        b=NIdr3zAlo3mcJVZ2dOsGTkXVQo6l5bJk9h11ifhR8G9reIyHly7mUSVvibfZB87k3d
+         Fx7Lik65jLFxC8URd9knurRBD0NgJ+NJHzhV2LQReayvmkTPU3S/s26EWw7od/1byId9
+         +1HGyd1j8UcghfQIBp6uMmcAYUGuq+S7b78vJJjIR1rKsGWzzbHSTs7nVXrW+Z1mbG0j
+         t8+hbqg6d9mPI3CWh2n6lkIqono0TArY2S4viwnddzIdV6PvAZWrAjRsFSmeWivtw3hW
+         ZVJvra6EouwJXNFMsob1Jm2nEFk3NUn+V0DDo2hhryoPIEBCImkswBBIQQdwvzjR3RZD
+         Pk2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788787889; x=1789392689;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
+        b=XFr36AbZAz0dKdxSXj12ogMvFRRoM/dh/Fdz6PbNqFwNCJVMg9y7u4z+2+Ez5VyjF5
+         BJh12qdo0QsSG5/s88xxj32J18NQ/5Wt7I4S6k1lXmvMKRgCQQ4FimjZ2DOMLzsoP9eC
+         gpFla5SfhJzx0CneduzQrS9BvZ07P05EONpAAisFjD3cNaBwbe1GgYhKGXCbQNAEfLsO
+         Zn164yqDHL/5VSu9DhKLkYBULTyVxFdpFY5k/YGh5fiyTudgY2Zc6sS8LbmAbEwpCg2R
+         4KkEE/ydGvgTrCCB9zUYg2R7ObC4NOfhhfRGFfmY+VZUcGO8RHJzpUznfou5KlTrhBhy
+         90nQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzUDbXS1XBEvWRTTS2Sw6SRp35fbtwJukWHaSq/LeaBl2dk4I9hPWSP0polnTRyKsVJCo0VP3ixC6g=@vger.kernel.org
+X-Gm-Message-State: AFuF++kG0KnlH7IDh6SIF/F9oGGrBSqKPIUxa+efI/P7gKbnYpUYMhLg
+	ySJwUhT5OrRDF8EUoeEa6o+PJXH1EaJ8PfYE5ZllKAeZpmeNjYxvl8O7BUiYkA79iV1OTHZ8HRc
+	kFzryjNFc1AHuoOkuqPSbvjdz1I7U1ngiGYt/pDRt
+X-Gm-Gg: AYBFou3GWekCZzIl8Wv4mkdsrg/IuubHzBSFMdfPA+PRNrcwyc/+E6+xpzJQAB4d3Jv
+	zzh7asA1MYv+rPoXXk5L76srUYy1wtv7RTkLFSa9l7HwiIVwoxk3P9hv6xT6dNQBZRkiS9/CIt9
+	UQRP60YowDK3GTQlErILT3c6+pEnXXs0sNbwcKFCLVhrTC3Y6oPSuwI4mMSbu0YWAYqbA81enH9
+	avfPLOoZRUa7SaYpF5jnge4rmoQaXAzbK5hw7GWOq5K77Herf0PNmlaKd3GhthvTrI5wKyPsPgO
+	787xUGa+p1rRJNa+0xvAQs3+MsFtZ53+wUb4G1TiHhphXos+D6PTKUet5zLNutniCs5Ouz1fDbX
+	stKhmXKONMfb5rnWItKBtP+BzFHjdRUtviht35J4k9A==
+X-Received: by 2002:a05:6000:26d3:b0:485:8393:2176 with SMTP id
+ ffacd0b85a97d-485870902eamr40614985f8f.21.1788787888668; Mon, 07 Sep 2026
+ 06:31:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG/PATCH] drivers/usb/mtu3: Work around mtu3_log_ep
- double-indirection issue
-To: paulmck@kernel.org, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rostedt@goodmis.org
-Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <a3ee0655-d818-48e0-84d1-475e6c16c991@paulmck-laptop>
-Content-Language: en-GB
-From: Vladimir Murzin <vladimir.murzin@arm.com>
-In-Reply-To: <a3ee0655-d818-48e0-84d1-475e6c16c991@paulmck-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
+ <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net> <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
+ <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
+In-Reply-To: <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 7 Sep 2026 15:31:16 +0200
+X-Gm-Features: AcwNN1Umd_wQEAUZHPYxidNRM70dkjd7WtcOMgQxK1KjbblodnsY1lRpQ3kHiGM
+Message-ID: <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
+Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Asahi Lina <lina+kernel@asahilina.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/4/26 00:59, Paul E. McKenney wrote:
-> This is more bug report than patch, but this patch does suppress the
-> splat, so there is that.  ;-)
-> 
-> Kernels built with either KASAN or KCSAN produce this splat:
-> 
+On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
+org> wrote:
+>
+> Alice Ryhl <aliceryhl@google.com> writes:
+>
+> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrot=
+e:
+> >>
+> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
+> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
+> >> >> +        // SAFETY: We just successfully allocated a page, so we no=
+w have ownership of the newly
+> >> >> +        // allocated page. We transfer that ownership to the new `=
+Owned<Page>` object.
+> >> >> +        // Since `Page` is transparent, we can cast the pointer di=
+rectly.
+> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
+> >> >
+> >> > This doesn't satisfy the safety requirements of Owned::from_raw()
+> >> > because the page may be used with vm_insert_page(), which increments=
+ its
+> >> > refcount and causes it to be shared the vma system, and this occurs
+> >> > before Page::release() is called.
+> >>
+> >> I suppose the existing vm_insert_page() abstraction we have is already
+> >> problematic, because it uses `&Page`?
+> >>
+> >> Maybe we want to change the API to use `ARef<Page>` so it already has =
+to be
+> >> shared? Conceptually it takes a reference count from a `&Page`, which =
+isn't
+> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&ARe=
+f<Page>`
+> >> to be able to do that op.
+> >
+> > Honestly, the problem is the safety requirements of Owned::from_raw().
+> > Pages have a "special" main reference, and free_page() does more than
+> > put_page(). It even does something when the refcount does not hit
+> > zero.
+> >
+> > The correct behavior for Page is to allow the user to hold one
+> > Owned<Page> whose drop calls free_page(), *plus* any number of
+> > ARef<Page> references that invoke put_page() on drop. This way, the
+> > owned page controls the special drop codepath.
+>
+> This does not mesh well with the model of `Owned` behaving like
+> `UniqueArc` to `ARef` behaving like an `Arc`.
 
-I see it on kernel w/o KASAN or KCSAN. IIUC, this is new check introduced
-by b5cc230af5e5 ("tracing: Warn when an event dereferences a pointer in TP_printk()")
-so adding Steven :)
+It's a different case, I agree.
 
-> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> [    0.000000] ------------[ cut here ]------------
-> [    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> [    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x144/0x14c, CPU#0: swapper/0/0
-> [    0.000000] Modules linked in:
-> [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1 #15247 PREEMPT
-> [    0.000000] Hardware name: linux,dummy-virt (DT)
-> [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [    0.000000] pc : test_double_dereference+0x144/0x14c
-> [    0.000000] lr : test_double_dereference+0x144/0x14c
-> [    0.000000] sp : ffffc80aa7633bf0
-> [    0.000000] x29: ffffc80aa7633bf0 x28: ffffc80aa7c0f047 x27: 000508b58019388f
-> [    0.000000] x26: 0000000000000003 x25: 0000000000000007 x24: ffffc80aa5fceff8
-> [    0.000000] x23: ffffc80aa7c0f05a x22: ffffc80aa64edfe8 x21: ffffc80aa7c0fce8
-> [    0.000000] x20: ffffc80aa7c0f047 x19: 0000000000000013 x18: 0000000000000001
-> [    0.000000] x17: 6572656420656c62 x16: 756f642073616820 x15: 746c61685f746573
-> [    0.000000] x14: 0000000000000000 x13: ffff000139d90000 x12: 0000000000000045
-> [    0.000000] x11: 00000000000000cf x10: ffff00013f546428 x9 : ffff000139d90000
-> [    0.000000] x8 : 3fffffffffffc000 x7 : 0000000000000001 x6 : 0000000000000001
-> [    0.000000] x5 : ffff00013f4e6440 x4 : 0000000000000000 x3 : 0000000000000000
-> [    0.000000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffc80aa764a700
-> [    0.000000] Call trace:
-> [    0.000000]  test_double_dereference+0x144/0x14c (P)
-> [    0.000000]  trace_event_raw_init+0x37c/0x5d8
-> [    0.000000]  event_init+0x34/0xc0
-> [    0.000000]  trace_event_init+0xec/0x588
-> [    0.000000]  trace_init+0x24/0x6e0
-> [    0.000000]  start_kernel+0x4a0/0x8ec
-> [    0.000000]  __primary_switched+0x88/0x90
-> [    0.000000] irq event stamp: 0
-> [    0.000000] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-> [    0.000000] hardirqs last disabled at (0): [<0000000000000000>] 0x0
-> [    0.000000] softirqs last  enabled at (0): [<0000000000000000>] 0x0
-> [    0.000000] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> [    0.000000] ---[ end trace 0000000000000000 ]---
-> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
-> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
-> 
-> Apparently, the code should instead create another entry in
-> TP_STRUCT__entry(), and do the double-indirection TP_fast_assign() instead
-> of TP_printk().  But simply removing the offending double indirection
-> in TP_printk() gets this splat out of the way of other debugging.
-> 
+> Please help me understand; with page having a main ref and an auxiliary
+> refcount, if we model that with a single `Owned<Page>` and a number of
+> `ARef<Page>`, what would happen in the case where the main ref (`Owned`)
+> is dropped first? Is this legal?
 
-Indeed, splat has gone after applying the patch.
+Yes, it's legal.
 
-Thanks
-Vladimir
+> My intuition here would be to follow Garry's suggestion and have
+> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is not
+> an option?
 
-> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: <linux-usb@vger.kernel.org>
-> Cc: <linux-arm-kernel@lists.infradead.org>
-> Cc: <linux-mediatek@lists.infradead.org>
-> 
-> diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
-> index 89870175d63561..7c414e196d5871 100644
-> --- a/drivers/usb/mtu3/mtu3_trace.h
-> +++ b/drivers/usb/mtu3/mtu3_trace.h
-> @@ -236,11 +236,11 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
->  		__entry->direction = mep->is_in;
->  		__entry->gpd_ring = &mep->gpd_ring;
->  	),
-> -	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
-> +	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p flags %c:%c%c%c:%c",
->  		__get_str(name), usb_ep_type_string(__entry->type),
->  		__entry->maxp, __entry->slot,
->  		__entry->mult, __entry->maxburst,
-> -		__entry->gpd_ring, &__entry->gpd_ring->dma,
-> +		__entry->gpd_ring,
->  		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
->  		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
->  		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
-> 
+That would be the wrong ownership semantics. The C side increments the
+refcount rather than take ownership of a passed-in refcount, so the
+correct argument type is &Page.
 
+Now, for the use-case in Binder I believe we could switch to
+put_page(), as we don't need the extra stuff from free_page(), in
+which case we only want ARef<Page> and do not require Owned support.
+But as long as we are calling free_page(), it needs to not be
+clonable.
+
+Alice
