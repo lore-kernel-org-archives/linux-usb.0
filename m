@@ -1,92 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDF14DA553;
-	Mon,  7 Sep 2026 13:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04444CB8AA;
+	Mon,  7 Sep 2026 13:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788786218; cv=none; b=dClDJ7QTwVPuXIotl5GzvYwbQ2w2xy3DsWvz6b+m8J5T01hIGBb8NG1Ezhb19NooeCHD7V5NZWNI70UG+fQkoih3Z766PLFjQj9vWSXb/ds0yQkVFhcfoLkdiz7jrOrErHm0du9pfCeNkGTvD0N66xIy/ydRv20cM+oOVX3cdKI=
+	t=1788787091; cv=none; b=E4nsraRlI6l4Sia2FzXfAoCIkRqwk8/rKXVqPrmbJawTE+gAgBfZkz8oHy4R3h1GP+BAi+l9+Qb4tkl2vG2w/RWDogEoKlHRBrWhmHQ8xo33seiRQzsMdXnJcHnt7K9YXS6C3Y2x1EcCnpPPtJq1dKCiArTXHxAPn8TB59T3JD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788786218; c=relaxed/simple;
-	bh=aZycB+q4lhkgLqpM/RVeDq4AezvDott2SR3rLVIXbKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E+zwIl0z6YSgLvKCr7uO5a5YX1g6CoNgf4eECzFD+NcrpwWtAyBIWVLrbbPUj8CLpygEH6vyUq+cSL/GXqfuQtMD9ZPhIRnD0OrZktD9syp0+vsjHF++mrqJIu00qYI8fUNMqZ/1nIFl8w8KQ44dxYbaR3z7Ooa+9Fx70x0JXv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChrAGRGJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788787091; c=relaxed/simple;
+	bh=O8uD2nbZB0Kt9/+io9cvL2eRlnC2Z2oKlAmoSDOxyqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ezOubL77J/RMfKS6MXc21kOAfJp8SFphF7ysAI5z2OiqgFwJRPlfrRn2qIlAvuLMz+k0YTCLf0mIKF31nn/Pm3zMJvyrQVSRri3lafc+0xy4KKapk5lI6isV2jEYqW7KZfSx8szjieD7yzkvQWu46sNqcJvcJhiWAKCWn9gjDpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W4CCJWHo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=589G9XlD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nOCPtAZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3YygAve1; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChrAGRGJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CE21F00A3A;
-	Mon,  7 Sep 2026 13:03:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788786212;
-	bh=nujNm33sdIJkFZUBSCWeyk+HkoPECKJeitf/M9wPKAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ChrAGRGJX4qsZthP0t8Wm7ysO893ikg9bIajM1S2nkQTg1ZhhcfZ67C1DZA14HRA2
-	 +EShC/SCYpWSAdGGvSz4Bwno1SL852IZnEYQluQwxBKQgFDN2soFxZKZMAim+NaBNS
-	 YC4oUUsXJYXyI7Rrsc9DZA+unI8a9hZAJeFZiOaQLzJvTpZlI4PdY8FsyE3Ad5WiBg
-	 9DX2JnEVdMi2DHauBsSlZCiEVKxO/VXQdai7oCfMtYgqBJ6W4ICUDFQR65fVuH91CA
-	 6eJzqf/yVgdueB80d6zCwv+0b9gDwLYHpo0eTDXG0KWCp6i7bZtQcH7L2kaeYWMKQa
-	 e/+n1NZxXR/5g==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1x3Z0T-00000000d9b-3CPz;
-	Mon, 07 Sep 2026 15:03:29 +0200
-Date: Mon, 7 Sep 2026 15:03:29 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-Message-ID: <ap62IbbQti28M_SA@hovoldconsulting.com>
-References: <20260907065501.101013-1-johan@kernel.org>
- <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
- <ap56NTVMq8GlbjmR@hovoldconsulting.com>
- <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
- <ap6LcHWDvIWF3oNK@hovoldconsulting.com>
- <bc055887-3029-4740-bec5-7e2fe4205992@suse.com>
- <ap6iJ6vkVIaxXFwn@hovoldconsulting.com>
- <f642f815-df4f-473b-aaa2-89153c08bc05@suse.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W4CCJWHo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="589G9XlD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nOCPtAZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3YygAve1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 675361F794;
+	Mon,  7 Sep 2026 13:17:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788787078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6JzXSexZp9RLB4Ar/DI+xtlDtytp3zP+xY/lsYQUObs=;
+	b=W4CCJWHoJpAUWQysS9RW38ww3QIbCjI3T3z8/iWBE+NO1cv/haNnfjLvtxyK2M2+i6UmjS
+	heYamMyd9QcA6TIjBBLXgp23LFkL5TqF3MlO6n/PF3BE9OofUh6GoXcjXPmxjOUg2g1jbW
+	MtE06fo7CtLwkAaomco9gb5j0XYtImc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788787078;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6JzXSexZp9RLB4Ar/DI+xtlDtytp3zP+xY/lsYQUObs=;
+	b=589G9XlDhmn33fzJwTwqdXzGXeDQGvpAqyto+3p7vHgc2PjMuI7r1vCU+5T22PGr2WhccA
+	kmmxSWpMGsqeglDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788787074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6JzXSexZp9RLB4Ar/DI+xtlDtytp3zP+xY/lsYQUObs=;
+	b=nOCPtAZdo23FqRnNrGl1Nxc+EufP8/cMxRDZVVWD7Bxw9xvHx7Vp4Y4d28UouHPuVgZhzu
+	mAg9f+ha9VvhdJ7Fhs4wLuC3fBm9G/6gnbm3eUS9VjnU4GwQSy1yz5KZGeiFi47lBlTu0u
+	k6THNrTfmD6kB9tU20Qvw87/04zBVkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788787074;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6JzXSexZp9RLB4Ar/DI+xtlDtytp3zP+xY/lsYQUObs=;
+	b=3YygAve1GCdMF0oH3Mr9HgRt8D2f7TNVJQQh4H+E/kzS20yJccBWYvWy0brFgtr3+Dm9uI
+	0sWBzf57PH6Ep1AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C95813432;
+	Mon,  7 Sep 2026 13:17:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sIXuAYK5nmocYAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 13:17:54 +0000
+Message-ID: <f1b95798-300e-495b-bf0d-338db425021a@suse.de>
+Date: Mon, 7 Sep 2026 15:17:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f642f815-df4f-473b-aaa2-89153c08bc05@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 36/40] cdrom: use 16-bits defined sense codes
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260903034201.112211-1-dlemoal@kernel.org>
+ <20260903034201.112211-37-dlemoal@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260903034201.112211-37-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
 
-On Mon, Sep 07, 2026 at 02:46:16PM +0200, Oliver Neukum wrote:
+On 9/3/26 5:41 AM, Damien Le Moal wrote:
+> Refactor the cdrom driver to use the 16-bits sense_code field of
+> struct scsi_sense_hdr and replace all hard-coded additional sense codes
+> and additional sense code qualifiers with the enum values defined in
+> include/scsi/scsi_sense.h. This helps with code clarity as the sense codes
+> being processed are easier to test and self-documented.
 > 
+> No functional change intended.
 > 
-> On 07.09.26 13:38, Johan Hovold wrote:
-> > On Mon, Sep 07, 2026 at 12:28:46PM +0200, Oliver Neukum wrote:
-> >>
-> >>
-> >> On 07.09.26 12:01, Johan Hovold wrote:
-> >>> On Mon, Sep 07, 2026 at 11:50:41AM +0200, Oliver Neukum wrote:
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> ---
+>   drivers/cdrom/cdrom.c | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> >> Yes, but user space can call TIOCGICOUNT multiple times in sequence
-> >> _without_ calling TIOCMIWAIT in between.
-> >> In that case the counters have to increase if a line changes, don't they?
-> >> For that to happen you need to handle a status change in the completion
-> >> handler.
-> > 
-> > Yes, the completion handler needs to handle the status change (i.e.
-> > compare new and previous status and increment the counters), but it
-> > shouldn't update any old *icount* structure.
-> 
-> We could do that and it would indeed be simpler.
-> 
-> But it would change the semantics so that past status changes
-> no longer show up in TIOCMIWAIT. Is that really a good idea?
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Yes, as the current behaviour is both non-standard and inconsistent.
+Cheers,
 
-If you have multiple tasks waiting waiting on status change, then only
-one of them will detect it, for example.
-
-And if there are multiple changes (before or during TIOCMIWAIT) events
-may be lost too.
-
-Johan
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
