@@ -1,221 +1,179 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazolkn19010022.outbound.protection.outlook.com [52.103.32.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C23E41D217
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 07:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788767141; cv=none; b=OeD3MWak3OVgrOtonrsAZ47GcH0F7Pts4mklqbSHgqdjlwFozWMIwXDgfMeP6qlbTLQSc+wfJIhMnUzmhY2bemB3kg+Apfc7wo+x9Aolb+Y4NvTSAQc0uRhxzbsN8v4YdIq+dtwzANpI36dO9VqpZq1ViVhBNXqsu1BUfIyUJNw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788767141; c=relaxed/simple;
-	bh=5yWZl1jwei4RGUJo4VVTHvQQ/qhIpImbHnCijWHhCSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KyJDTDorCvpOHOhy+JbOPkU1A+h0oUqr3GuyrfndF+gxP1D6n/ZL3jWO20ObRigQV35qgHm3SdMhDGf5viRgI8iZMTMo9XnQ5ss1BQA0WcSheLPTrCHDnM6sdeQNDEBANcJiHeQSJasmBHDPhKaZVYt7PYvomXQSQ6ET7xFSfQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UO8szE6e; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86803A3E88;
+	Mon,  7 Sep 2026 07:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.32.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788767533; cv=fail; b=NpNf4qFy+VEmFziKR2mCeWXZ4GVQoyGbQktbzvVqbPul+zrd4FKhkd7ESeN6M3bXD/e9GV4wGu7H/YvVxRgpeaV5AfUXdhAOx50AGq+vDnbyKZIpDAl0Sh/0zyG7XQGdGOHYxf0Vxs5IouLSoWbVMwiJ9542jG9mhz86pVJskXY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788767533; c=relaxed/simple;
+	bh=Z/aosXQjlGofo2zsLKEB6qRozh9LcIl+mX8m1UCht+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=CJvgyFtI8Z7I+CRJPtn5HeQkp6a5BgyOq+1RYpkeVeu997gD57Urr7NI9+okx+yvjX94VrUR8lgG8cPH5I7zyMQlcV+R7uZV/Gab1sCzcOoaHJwVyl60col/ACabqaUF+qD3iJ5aYIUQjx3OIHBjsBW3KcJrZQnQlZroHCqGqVU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=HjE4zl0v; arc=fail smtp.client-ip=52.103.32.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UO8szE6e"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49cca4ffdcfso26147055e9.0
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 00:45:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788767137; x=1789371937; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rD5WySJ1L49NgFFXB+bGCoZxLI27TU6b4IffLKrGf+c=;
-        b=UO8szE6eGPuPo5N2zez2anOdtuwbNZ4BohHeE/8jcYB1Ha0QT0dOgNFExzNx2N+uNF
-         g3OB6knIIOcX6ymZxcvPw+ccC6pkiXmjwxYZWB7ZyqqKkLZcu29zConw95XTJYm7xNk4
-         IY5MvJoQdOjoxo4QtiXY4tgbmueQsoEk6Ik5EZXBdJKa0uANCgV0U53o6aM33ne3ZVY+
-         0CAywYtDZk3x/wGRHAvqnSHWrnwVukPOqCP/PbI3qevfieaPjNb0Pu4G/29swqn0sUyB
-         Mry96Mi/5/Xcl6JELEHkMOll3WZJUAdNcQSS1dAG+Lr0wPbzTolJordkSiMvXj8KNjrZ
-         2yxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788767137; x=1789371937;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rD5WySJ1L49NgFFXB+bGCoZxLI27TU6b4IffLKrGf+c=;
-        b=tVXjSiGsylFznIdL197b9k9d5cKBI7Y2HHmDpd7V8c8a1xOkDc6vHTsdZ9nhEAzTBt
-         d38+fpUs4rkm83cv7sKEXrjGUv1V3AVHZlrY78okDodiVjJOf/o+9MPFBmha1VyGyr/I
-         LXjqf5A4EnlJ9lufjKIRI19wfF9QrfWRsZZBnt8wFKvkL6zhjcFwGcOD/lGgDKcVGLZx
-         KnrKVXsPimfE5NalZUvGlkhIzFSTa6zQuQ0eDUrH2ecSQsL7EqHDGkrTZjDq2LTG+iae
-         xzWlpJa11RqKkv+lC03yuYkoUVMS8vhJqB66TYtX5TeHvaWTKxh8CbDatJgb4JEmKRck
-         FHvg==
-X-Forwarded-Encrypted: i=1; AKwUvByuKMsr2Ilc/WWym0e5+W7nI8WUiHkqOiK6VnqrMjzx3oWv3sH3cT8l1ywm+5Nynng0f0gHEpcgdu4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kHlDIyqcQHEQzjk+IRJlgrFIMEJsamNEWgaUOyb+ipbXxCHF9X
-	fER2Y5UGdnPBHiJxFThw2ID2tSFEoZWhtipi3WzYZ9Ly+rYbL4PiVKR8
-X-Gm-Gg: AYBFou3gqEWKU7mt3y/qLzzz7Har04izxM1NBZNdDwh/cATlnbibib0TP0leO8koAQf
-	EXtiYbDw2kbtpWstRmGXFMgt02DRgZ5/Apz/LI5yNr+2iXgI6lVXDs/KZ5UX6jDIKpvGn4RAlln
-	scQ9laytv3twt3jemEZkgj9YndxzVYrnpWFDpkr1K6f12Wq1RQ55fdLSvkliofa19wGJdYUslzl
-	ewqMri0BQyK6bdFEl8bIzF3lns4n+76TleXXvS5IBPsfaYltYj4B5TcxPIwPa0/qEtdZCmpSZtP
-	kpYy26FJFoJRNU0FDWs0Psg41zFK5Qt5Ii5tpxTJXCNmGdxEcPX8R8cry1cAAzZzTakLWx7nnS7
-	tppejyjVqHmzG7Tr3iEtKGvkAG/bvBif2XvLrKgkU5QDjDi9Vo/y6AeBT9RkYaR80EYfZdBGNj3
-	RB1rCTB1yXogrHnefUUeo+xEihli2fNrOeEt7/cplTiyQGUr8m2H8QMYbTbtHG41CTpGUx+Q==
-X-Received: by 2002:a05:600c:3588:b0:49c:fc6e:a3d7 with SMTP id 5b1f17b1804b1-49cfc6ea7d5mr184672115e9.22.1788767136986;
-        Mon, 07 Sep 2026 00:45:36 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d08144037sm191147985e9.7.2026.09.07.00.45.35
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 07 Sep 2026 00:45:36 -0700 (PDT)
-Date: Mon, 7 Sep 2026 09:45:32 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: "Gordon Chen" <chengordon326@gmail.com>
-Cc: "Mathias Nyman" <mathias.nyman@linux.intel.com>, "Mario Limonciello"
- <mario.limonciello@amd.com>, "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>,
- <linux-usb@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Mathias Nyman"
- <mathias.nyman@intel.com>, Ingo Haenlein <ingo.haenlein@gmx.de>
-Subject: Re: USB-audio isochronous Missed Service Errors on AMD Zen5 client
- (Fire  Range) -- Data Fabric idle C-state? No OS-level knob found
-Message-ID: <20260907094532.4ffeddd5.michal.pecio@gmail.com>
-In-Reply-To: <18b4f8f0c2ce37be.8d4c4c4ee804b95a.4c2042ec04b99872@GordonMsi>
-References: <18b4f7b23ba6392f.e25301f473da0264.54f7bc72d1817dd4@GordonMsi>
-	<18b4f8f0c2ce37be.8d4c4c4ee804b95a.4c2042ec04b99872@GordonMsi>
+	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="HjE4zl0v"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LqSX+nXKqWeUsxEkgWbhJ0CpaCbx2YlVdZP4eNmVYXG6/2BJd/lc5alJhoVj+z9TDEpWWn9BzLlYUM29k+4LEHvpRrBWN6fvek4kOF30GQ43Cew8XiucPGzXVkgF4kkahCtICN3vZa3CgFZFTAxCYbpGoSqdIuin+ORCgEsAcNFi3Xx5gRM3higHOrGvxpWFe/46oFFiBO0J2LhXQ5drNM2cO9RDjhCepxN3+w2JljVfWM/YvCNB+AXDjS1RmbLoxFxeRWtQmuM9guqpQVlQybhgQptrSFzZAWZdTa4o2v8yGayoDRGB8gyZUHUKIVJNwBixeXRKX/NDLBKiJCW31Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UaSp2gGLNlcFjqovYph1kRNdbHR2kF+LLSaNpPiIWD8=;
+ b=Bg7+0y9S81CP+axNoempbXPPxKVL7H//VE1uc45D24cLSBXpxL1veijQwESF+F/ENsGe5iRMggwe+Rh5JKcg1mfixEEEuNgkaB+jvZiZUJJeZqEUE29/SLGO6VT4HXJbtn/PaYA60ZRE/HOo6nubCj9SrQckL78f7kABM/TsxSj2D4hlCb3MztwafL9qBKs+AT/WgohRX5e/+5NUCukpuqx/ecz8/EZuAdejxgGE6UoYSu82NT/DYh7qrnIA2HqGrXL5ms9/6PIFbYulkNwRJqK2Yt1Sm84MULBdnalBFokfjKHbGoTJq3JuHJ0woxrNe2TMvuyJi3f/nM6VSriPXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UaSp2gGLNlcFjqovYph1kRNdbHR2kF+LLSaNpPiIWD8=;
+ b=HjE4zl0vbnRTAaIJgKOfpsTQWSArHLhMvES8CHg9LUb7KZIMCmFuf0IZq7kCbqyRoon0mNfV42nP8bim5jn2HRSKr8ELLcBSsOuX8nN4rbdWF6V1QlEctRUKr4uxXBAdQF1AbL7tFuS+cSbN7vtkvOiHG/9gDBqpuAcwleblSPZPFfkXqvxf9kT81eCWjZeNmUfvLvBdHb5SAkSArdNQnE7Wgg8woFikXYyknF23fwQdHCCF4Wv5KuVvBr74aYe1XBg3BVpoG1xbEw93iSSx/3vtWsV/bol4Vek0xA5mhAS09r7VAkElEDJNgDeo/vDS2BnIPnlyB1q+CV6yPVjTPA==
+Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:344::22)
+ by GV2PPF0D7E1E584.EURP251.PROD.OUTLOOK.COM (2603:10a6:158:401::b49) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 07:52:09 +0000
+Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ ([fe80::2952:d4d0:4ba:8352]) by AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ ([fe80::2952:d4d0:4ba:8352%6]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
+ 07:52:08 +0000
+From: Aamir Ahmed <elb12345@hotmail.co.uk>
+To: Andrew Lunn <andrew@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Peter Korsgaard <peter@korsgaard.com>,
+	Dean Jenkins <Dean_Jenkins@mentor.com>,
+	John Stultz <jstultz@google.com>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	stable@vger.kernel.org,
+	Aamir Ahmed <elb12345@hotmail.co.uk>
+Subject: [PATCH] net: usb: asix: fix off-by-one in rx_fixup bounds check
+Date: Mon,  7 Sep 2026 07:52:05 +0000
+Message-ID:
+ <AS8P251MB00014BB4591CE6011152DB4FC8B22@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0196.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:318::6) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:344::22)
+X-Microsoft-Original-Message-ID:
+ <20260907075205.596373-1-elb12345@hotmail.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|GV2PPF0D7E1E584:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44044529-de47-42b5-0907-08df0cb4eae9
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|24021099003|55001999006|23021999003|25031999004|37011999003|12121999013|2604032031799003|51005399006|8060799015|19110799012|15080799012|5072599009|5062599005|25010399006|4140399003|40105399003|2607281247196008|440099028|3412199025|26104999009|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?octt69tlfNiCYIwz0/vTuvbXsd9x/mRSGk3sMRE+hMYVU5I5yPwD2CWQWfVx?=
+ =?us-ascii?Q?s4DqPcsh/oYc2EFDWkG/yBGQUUrEFGqj4eW19UzzY4goi8PiHMoRByONMhkD?=
+ =?us-ascii?Q?Qd2737XPT+mHOE7GDZfDDq7BN/qoFJKFDuCTZQpSUvMtV6c9iY6sAJ/bG/Nb?=
+ =?us-ascii?Q?Ke5RhPmOF+KAUJTLcDlbiu99CtQ0mF176V0kmHdRQmzSDN2rFWHtS/ZqxQgr?=
+ =?us-ascii?Q?vpjSengG5aP2bA1M8sWQrQAaNPJ/ODQBBWO6mRDZ5LUOrHMd8gbmpcTJOsdH?=
+ =?us-ascii?Q?zEUWmd6PvOl9qIon4rn6feUAZXbyr/QDeOdYeSni663IRAPf0mdq2Zurhiaa?=
+ =?us-ascii?Q?Qf643UZOiKOL12zDLwO3ygntN6SbE8eLHNVUlYdJNxKkHVk+dB7covLnsa85?=
+ =?us-ascii?Q?GOHrkDZ5GCOWXyvq+auLQ+vdt/CavheodzvdFBcFYgW5y6uN25qHAXx69rIA?=
+ =?us-ascii?Q?+Wg5xCnqYJPOY4gEcwrVbC2cHir/rU1jh4mLUutvoPEbowsuAxMJ0gL/bKPO?=
+ =?us-ascii?Q?rClJKvOGjiYVYNUzcFFN1/KvKIURVnc3xNyV27bWDNUPVDtclbEU+6Ux095G?=
+ =?us-ascii?Q?MnwOa79prRd6qi2fDahaDMyvf2qszCAEP1wfhCR0XkMZyEY23ak268fAldm4?=
+ =?us-ascii?Q?1Xd8bowdWq70nYXlkqaXNG5E2hhVS4xRkSRskRQHfE3eQy5s5jbfHCjltnKL?=
+ =?us-ascii?Q?AWRKibbvnyzkHYFh29kyWyjRLsWZgIIH8kAew19oRfBflY/5lNb3oD0LZosZ?=
+ =?us-ascii?Q?CWjoFgoirkzroO3AosLosecNSbWuYGYDsvNGrF5AsVuosveC80LPTn73cjfx?=
+ =?us-ascii?Q?ELAR1Tvc35p1QaXvMgRhQfMuik2tzgZvb6PwFIraJAghusKSgVxJ95A1kc0+?=
+ =?us-ascii?Q?McwSULL+Gl824c8aDtZwTr53TjdkrSAUL4qJMz/3hgAqjYs0JMm2lUXCJNQQ?=
+ =?us-ascii?Q?1LuT2oMQqdGFGvAdE78CSndQHRKTonIvYwYaarX0i4ng+w+5OWgzDQn78hJi?=
+ =?us-ascii?Q?qc3CsoQ+QQmzBjqCWhlkEFGV/Zt/+GzAvCsRB1sV1zBcCdraZ9J14XWK3mVc?=
+ =?us-ascii?Q?a076ZklH78co23s9+ZGZla/1+aF/zbln9l5MMv7vO8h+hx/wbo76ossTLJof?=
+ =?us-ascii?Q?b4fEN20qXYd/G/Sa6PQ5fH3mPBZ8r4l15I4peCcDY8RC6QM5Lu0Sn8U=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?DwFkAqUoDTkm8PvLtlrbjk1mB8ziBNWKgmBCySdSTyFZyekbcQaVoZPnLaGJ?=
+ =?us-ascii?Q?B2TwAHpWe/g8nGQcP/Ia/sYz2fgygKV9gWcNtt1iG9hMBdJadk9j+eAS/9me?=
+ =?us-ascii?Q?KsqoCYuitdqqBlt4ij30XaqWBigQ5kK33udVWpNr7lXzsqJ9+VeRLbZ1OmNW?=
+ =?us-ascii?Q?/u21l7QiNGyfAt7emjgdcwdsawMO+Pj/Kw2MXDewFvSfhvUa/ujQ2CUGV3Co?=
+ =?us-ascii?Q?jyso4/0kA4UmlrPfPwg+4IRSwIUrEfIAlblzZFbU9qkAgqnBn7JEgiH8JX5L?=
+ =?us-ascii?Q?tHFYXqIc7l/xirgSJnxBlilio544PF5U95hz4CCrLlhjxjXTlzn5KmyiY3a/?=
+ =?us-ascii?Q?X9IEC5ulUMIK9pQuSKDsV/w21bqBfbU2ifgfDxPz52ySd6+77wBhZraFysxn?=
+ =?us-ascii?Q?VxDC05ssZXfEaH4o7BFX+rglKbuyjElHtlHG77/QkgB0bi1hmcf0lrxAYc8d?=
+ =?us-ascii?Q?xnazHaxDRLtw1yhVu9T4aOf0M47e6sp5ihpg0XAv0/aQrPahTYiPKpYsJrLq?=
+ =?us-ascii?Q?gtYKwBef+hOdgma7lE23gQCN65IDwg6hvOTGs4oTSuKeiHvFRGqm0tcZLulA?=
+ =?us-ascii?Q?KcxnngwaqoMfjXg6b4PJ6VnDifA4KaIHLCi+gyYHreppkWjOApwTYDb4rBxu?=
+ =?us-ascii?Q?4RPsot8yFwS6l52ZuCZ7Fb1fIfE2+KfRPCVP1feb16L+r9n+pD1SmzOD/5Ti?=
+ =?us-ascii?Q?wYl3XtTuEVgegTUhvjXTzrtqQdoSNfr8dCqQykgGJLMH/MOHR3IeHt3Jwf/8?=
+ =?us-ascii?Q?Yfyb7Ahbo7hwX78cKF6bkgH4SbRPYNUpqYbtOJCwmkGMVUS7m5VFEClsik/N?=
+ =?us-ascii?Q?QMcqLfHU6xt+zH3dcjFKVmyIGVcqj+LHa9QHGC5aCWwMThc1bnLReAiDz8cm?=
+ =?us-ascii?Q?JvvRSzwv8kGtuX24SPpRelR6TRUCKgp44pX0efBwJp2cgXLSrBSs93WNJuN8?=
+ =?us-ascii?Q?IoWotq5qIfWtv4wUE2Vt9U0V8fgihVxcbzWByp/niKT2XFgeb/QRSTOpXVlK?=
+ =?us-ascii?Q?U5i6fJO0QFUfsc3HwCqn1knUY4fApNn6uy3R6k+mOH0cuFfg8e751ZLK1E3h?=
+ =?us-ascii?Q?snkrUGA/BpT6rSudX3rBzxgcFj9CIW6Du/cRAvBKNslHGHsHS5UqJ1CpXQv9?=
+ =?us-ascii?Q?qS0cYVDWCKbEaORKcpl9MbzfmRcp9ubOPbxRGTSpDBB1v6ca94RoYY21NDA+?=
+ =?us-ascii?Q?c+X9MAMZEmgs2tWvqFcbC8I3EF0KdKJf9I2+i13MuVBlWbZ8QfLaUlCjafI1?=
+ =?us-ascii?Q?oCvDqfM2W+4yest2vHU66vrac7RANMjgPi2yOfyn9ynOi7GCdSa5CgUteAIN?=
+ =?us-ascii?Q?Ri10kQAy94CTJHvA25XfHwPnAmN8B4oho5BpWMNwlKGQTvGYUijn/deauPuz?=
+ =?us-ascii?Q?HdIa+rE7hyKR4NkWbxSRQijKOF+Xv7iGHj+tlqKCfJfo7a70dDd0lHywUFMK?=
+ =?us-ascii?Q?HchkKB8w0uIP316dqK6/q9TGo/5BhwnL?=
+X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44044529-de47-42b5-0907-08df0cb4eae9
+X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 07:52:08.8505
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PPF0D7E1E584
 
-On Mon, 1 Jun 2026 13:44:25 +0000, Gordon Chen wrote:
-> Hi all,
-> 
-> A quick correction and a sharper question after probing the PCIe side.
-> 
-> I checked the controller's PCIe config (lspci -vvv): the xHC function
-> (0000:6b:00.3) has no Latency Tolerance Reporting extended capability
-> at all and reports DevCap2 LTR-. Its upstream root port (00:08.1) is
-> LTR- as well. So the PCIe-layer variant I floated in my last mail is
-> a dead end -- there is no LTR register to write, and neither the
-> endpoint nor the root port advertises the mechanism.
-> 
-> That leaves an apparent contradiction I'd appreciate help squaring:
-> 
->   - USB/xHCI layer: HCCPARAMS1 LTC = 1 (the controller advertises
->     Latency Tolerance Messaging Capability).
->   - PCIe layer: the same function is LTR- (no LTR capability at all).
-> 
-> So if I issue a Set LTV command (the driver-injected path you
-> mentioned), where does the xHC actually forward that aggregated
-> tolerance value to the fabric, given it has no PCIe LTR egress? Is
-> there an internal sideband path to the DF on these integrated AMD
-> controllers, or does LTC only affect USB link power states on this
-> silicon -- in which case Set LTV would never reach the Data Fabric?
-> 
-> If it's an internal/sideband path (Mario / Shyam?), a Set LTV PoC is
-> still worth trying. If LTC is purely USB-link-scoped here, it won't
-> touch the DF idle problem and I should look elsewhere. That
-> distinction decides whether I write the PoC at all.
+The sync check in asix_rx_fixup_internal() validates:
 
-Hi,
+  rx->remaining + sizeof(u32) <= skb->len
 
-I wrote a small debugfs interface for people to play with, it just
-issues the Set LTV command with given BELT parameter. You know it
-worked when you see "INFO unknown command type 20" in dmesg.
+then reads at:
 
-See USB 3.2 spec 8.5.6.2 for details of the BELT value. TL;DR:
+  offset = ((rx->remaining + 1) & 0xfffe);
+  rx->header = get_unaligned_le32(skb->data + offset);
 
-1024 + latency_us, must be given in decimal and latency_us <= 1023
+When rx->remaining is odd, the alignment rounding makes offset larger
+than rx->remaining. For example with rx->remaining=3 and skb->len=7:
+check passes (3+4<=7) but offset becomes ((3+1)&0xfffe)=4, and the
+4-byte read at offset 4 needs 8 bytes total, causing a 1-byte
+heap OOB read.
 
-The spec says this only matters for non-isoc endpoints, so I guess HW
-is expected to be smart enough to manage it itself when isoc is active.
-Ergo, it will probably make jack all difference and we can comfortably
-go back to blaming AMD.
+Fix the bounds check to use the actual aligned offset that will be
+used for the read.
 
-Please also try 7.3-rc2, just in case you are actually running into
-known (hopefully fixed) problems with isoc URB scheduling.
-
-Regards,
-Michal
-
+Fixes: 3f30b158eba5 ("asix: On RX avoid creating bad Ethernet frames")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude (Anthropic)
+Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
 ---
+ drivers/net/usb/asix_common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
-index 0f6f97cfe0b0..5f370e5e57ff 100644
---- a/drivers/usb/host/xhci-debugfs.c
-+++ b/drivers/usb/host/xhci-debugfs.c
-@@ -670,6 +670,70 @@ static void xhci_debugfs_create_ports(struct xhci_hcd *xhci,
- 	}
- }
- 
-+static int belt_show(struct seq_file *s, void *unused)
-+{
-+	return 0;
-+}
-+
-+static ssize_t belt_write(struct file *file,  const char __user *ubuf,
-+			       size_t count, loff_t *ppos)
-+{
-+	struct seq_file         *s = file->private_data;
-+	struct xhci_hcd		*xhci = (struct xhci_hcd *)s->private;
-+	struct xhci_command	*cmd;
-+	u16			belt;
-+	int			ret;
-+
-+	/* Decimal number */
-+	ret = kstrtou16_from_user(ubuf, count, 10, &belt);
-+	if (ret)
-+		return ret;
-+
-+	cmd = xhci_alloc_command(xhci, true, GFP_KERNEL);
-+	if (!cmd)
-+		return -ENOMEM;
-+
-+	spin_lock_irq(&xhci->lock);
-+	ret = xhci_queue_vendor_command(xhci, cmd, 0, 0, 0, TRB_TYPE(TRB_SET_LT) | belt << 16);
-+	if (!ret)
-+		xhci_ring_cmd_db(xhci);
-+	spin_unlock_irq(&xhci->lock);
-+	if (ret)
-+		goto free;
-+
-+	wait_for_completion(cmd->completion);
-+
-+	switch (cmd->status) {
-+	case COMP_SUCCESS:
-+		ret = count;
-+		break;
-+	case COMP_TRB_ERROR:
-+		ret = -EBADR;
-+		break;
-+	case COMP_PARAMETER_ERROR:
-+		ret = -EBADRQC;
-+		break;
-+	default:
-+		ret = -EIO;
-+	}
-+free:
-+	xhci_free_command(xhci, cmd);
-+	return ret;
-+}
-+
-+static int belt_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, belt_show, inode->i_private);
-+}
-+
-+static const struct file_operations belt_fops = {
-+	.open			= belt_open,
-+	.read			= seq_read,
-+	.write			= belt_write,
-+	.llseek			= seq_lseek,
-+	.release		= single_release,
-+};
-+
- static int xhci_port_bw_show(struct xhci_hcd *xhci, u8 dev_speed,
- 				struct seq_file *s)
- {
-@@ -901,6 +965,8 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
- 
- 	xhci->debugfs_slots = debugfs_create_dir("devices", xhci->debugfs_root);
- 
-+	debugfs_create_file("belt", 0666, xhci->debugfs_root, xhci, &belt_fops);
-+
- 	xhci_debugfs_create_ports(xhci, xhci->debugfs_root);
- 
- 	xhci_debugfs_create_bandwidth(xhci, xhci->debugfs_root);
+diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
+index 4f03f4e57655d..c50646ea35c7e 100644
+--- a/drivers/net/usb/asix_common.c
++++ b/drivers/net/usb/asix_common.c
+@@ -148,7 +148,7 @@ int asix_rx_fixup_internal(struct usbnet *dev, struct sk_buff *skb,
+ 	 * Also avoid unnecessarily discarding a good current netdev socket
+ 	 * buffer.
+ 	 */
+-	if (rx->remaining && (rx->remaining + sizeof(u32) <= skb->len)) {
++	if (rx->remaining && (((rx->remaining + 1) & 0xfffe) + sizeof(u32) <= skb->len)) {
+ 		offset = ((rx->remaining + 1) & 0xfffe);
+ 		rx->header = get_unaligned_le32(skb->data + offset);
+ 		offset = 0;
+-- 
+2.43.0
+
