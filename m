@@ -1,197 +1,92 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6636B4C8FFD
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 13:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788787894; cv=pass; b=WguIH/R349cmvxWFK5Uuj925eaWmwr45awG/t3+X0uM2pnNzJCrc04eoDsKOtBN8F59ztu0RCGM6VwoI5byba/MWd6CgvR73/g0gJNdHh7dY/oaBQGVxS6VoaneFQyyqGQeHaRZ6/EdGAyRfn1LS+W0vjzZt6YOBR5KgUNf8468=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788787894; c=relaxed/simple;
-	bh=D1wAsx4CR5aOXpjyMVJB7sUcHL24GlLysdFmwnbPMG0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYZzrbd1o/T3PDF8EyV7Z7LurDTUUZ8m0Ap+zZR2uRYwh34i+nJWqeS4l4TRICqQCVeqD+zOAH8wDVU1CytcqRQfn5wnkQ+6DkwWf6CIRGKbVLhMm7pCvcvO9v80Sjl9AqIrYwks5CEy/e06XMjsNW1pwjkUoyamgKedSuA8QQI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NIdr3zAl; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38F04EE87D
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 13:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788787912; cv=none; b=UXhnwgk4iHdN4V9XbiQ7mM0T5/JWdQScCup2S3AIo2UlLcLOKKW+FXHqMt6XIIsuYJG9fnpUgXOVEXPPdlw4IG/rN7uCPwn4Wkak4Eozt8iqwQzw5yQVvJ2z3TZZb4Fz1hyx9qkk9+W5myNaNPfnOds243M+9UpJ2PcAAuZfe+0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788787912; c=relaxed/simple;
+	bh=vSD2AYUqreAplwWCoXjMl8VsUBh+Ur5feTbvL7P08Rk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=LZ/RqZudzWoBl+h/0C+hhmmDuhWqQYe3PQoTtlZs0wKNxvCZhofW6M+ece/ueYed3307gOJRWn/SbEzDiwdzF4KJwzn+qqLoJom9PMRVmudt2YlQmS/Q4cQ0GfBaVZkj9K3S1iGID9cEDuAlLvw8RHw8KwKjH8UBIv23C2PAosw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=lz/lQ9ZY; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NIdr3zAl"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-485843aeab8so3979423f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 06:31:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788787889; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gCJIJOv5F/T/TBmWoDbhJdQLQmhlYcreBiY09K1Td8RqcK/wGH09p0ewP86cX+6icC
-         uPFz3dYAhjAmiwpKOjuokoBh8mAyrQStRXfUG9G2cMKPnAdK0ESSkibzy5JAHX3WNsUT
-         PX7q3mvSgw7JXXMErt02f6fdPw5aiLbDkAhCkyY1GQTZrHEEJ+74PfRDnzu4AH3eJayp
-         EPq1c6rRem/GpXzKGwDhvyBVZVkssC9sG2EP8JwDB8eWXO4er6Npw0eQXJarHvgTEgIM
-         C5G4/9XXzna2AclolnyaNuAxJ0xLEEUJywlbbc3qcinwZuUe55E5w87gxRkzN7KsEPNu
-         t4Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
-        fh=H03NkgDQ3DvaXIqjAeCppA3MpNLzCtL1rozl7AgSYXI=;
-        b=QoLSGQWYgh+ArEHfVeKiNpNlKu3gDI2XUMMssH7AdINwjAS+lBbEicDmTXj1H/bfKJ
-         jexmRW5cXwFsvaXaHpMIlHr7LB6a5nfIynROVeqjmwHfGGoAE6zQLlOqMTyjtx1fx/KD
-         iVi7koCMdPRxfT5ADuMsSVjJ6pj0JLh031GpYkTh0rlBFf8dcUfweMynLwS+ji3eTFJQ
-         mAZ6lMg3L5zr+eikasf7wummZXEfx3DDpVlrCEJD45vXtomu0D6jEPI7btobiE9MyRI8
-         cjM3QUBjKnJDNtdIrW942qTXAuPR6mDOpPshDqt0Oyt87O+kEuGFpOJofutkJLsQK0kW
-         qf1w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788787889; x=1789392689; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
-        b=NIdr3zAlo3mcJVZ2dOsGTkXVQo6l5bJk9h11ifhR8G9reIyHly7mUSVvibfZB87k3d
-         Fx7Lik65jLFxC8URd9knurRBD0NgJ+NJHzhV2LQReayvmkTPU3S/s26EWw7od/1byId9
-         +1HGyd1j8UcghfQIBp6uMmcAYUGuq+S7b78vJJjIR1rKsGWzzbHSTs7nVXrW+Z1mbG0j
-         t8+hbqg6d9mPI3CWh2n6lkIqono0TArY2S4viwnddzIdV6PvAZWrAjRsFSmeWivtw3hW
-         ZVJvra6EouwJXNFMsob1Jm2nEFk3NUn+V0DDo2hhryoPIEBCImkswBBIQQdwvzjR3RZD
-         Pk2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788787889; x=1789392689;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
-        b=XFr36AbZAz0dKdxSXj12ogMvFRRoM/dh/Fdz6PbNqFwNCJVMg9y7u4z+2+Ez5VyjF5
-         BJh12qdo0QsSG5/s88xxj32J18NQ/5Wt7I4S6k1lXmvMKRgCQQ4FimjZ2DOMLzsoP9eC
-         gpFla5SfhJzx0CneduzQrS9BvZ07P05EONpAAisFjD3cNaBwbe1GgYhKGXCbQNAEfLsO
-         Zn164yqDHL/5VSu9DhKLkYBULTyVxFdpFY5k/YGh5fiyTudgY2Zc6sS8LbmAbEwpCg2R
-         4KkEE/ydGvgTrCCB9zUYg2R7ObC4NOfhhfRGFfmY+VZUcGO8RHJzpUznfou5KlTrhBhy
-         90nQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzUDbXS1XBEvWRTTS2Sw6SRp35fbtwJukWHaSq/LeaBl2dk4I9hPWSP0polnTRyKsVJCo0VP3ixC6g=@vger.kernel.org
-X-Gm-Message-State: AFuF++kG0KnlH7IDh6SIF/F9oGGrBSqKPIUxa+efI/P7gKbnYpUYMhLg
-	ySJwUhT5OrRDF8EUoeEa6o+PJXH1EaJ8PfYE5ZllKAeZpmeNjYxvl8O7BUiYkA79iV1OTHZ8HRc
-	kFzryjNFc1AHuoOkuqPSbvjdz1I7U1ngiGYt/pDRt
-X-Gm-Gg: AYBFou3GWekCZzIl8Wv4mkdsrg/IuubHzBSFMdfPA+PRNrcwyc/+E6+xpzJQAB4d3Jv
-	zzh7asA1MYv+rPoXXk5L76srUYy1wtv7RTkLFSa9l7HwiIVwoxk3P9hv6xT6dNQBZRkiS9/CIt9
-	UQRP60YowDK3GTQlErILT3c6+pEnXXs0sNbwcKFCLVhrTC3Y6oPSuwI4mMSbu0YWAYqbA81enH9
-	avfPLOoZRUa7SaYpF5jnge4rmoQaXAzbK5hw7GWOq5K77Herf0PNmlaKd3GhthvTrI5wKyPsPgO
-	787xUGa+p1rRJNa+0xvAQs3+MsFtZ53+wUb4G1TiHhphXos+D6PTKUet5zLNutniCs5Ouz1fDbX
-	stKhmXKONMfb5rnWItKBtP+BzFHjdRUtviht35J4k9A==
-X-Received: by 2002:a05:6000:26d3:b0:485:8393:2176 with SMTP id
- ffacd0b85a97d-485870902eamr40614985f8f.21.1788787888668; Mon, 07 Sep 2026
- 06:31:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="lz/lQ9ZY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1788787903;
+ bh=VxFACcZSg9jdFJMF6rmUZ+dSf6/n4Bae3xVZCZ/pLgY=;
+ b=lz/lQ9ZYHURLT+S17IgykjQ9OxbvUyPdaFREosu40s7sgXCi7xSDgf7dmsZ+ShinpAIQZZ1w2
+ 6CFKsZxBZYZLr1ibu8DlxCPhaPxyiOo89ZnERYYdbNnEP2JDkacxjtJGZJe5w1E9MT7eLk69gsy
+ 5M8yBpXMeP6mXGYC6tHbKbKmP52Gd+rZ4n94DHmiDlBUM7ImFZwYWiY+weCVERJhM6448m5hdjy
+ U36RWDlYQgjI7i/Zih7cjvbnJuSq36WWlNIJVf+vCVzmkKY1oDMMQTSCjwftdw3wNv08CU/r/fM
+ U/rR0w3Pbe8o4Ql9dOpgLzBlQdQa3R3T1HmxFWhEPRaw==
+X-Forward-Email-ID: 6a9ebcb816171017b32bae93
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 2.14.2
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
- <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net> <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
- <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 7 Sep 2026 15:31:16 +0200
-X-Gm-Features: AcwNN1Umd_wQEAUZHPYxidNRM70dkjd7WtcOMgQxK1KjbblodnsY1lRpQ3kHiGM
-Message-ID: <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Asahi Lina <lina+kernel@asahilina.net>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Mon, 07 Sep 2026 09:31:34 -0400
+Message-Id: <DL94DYGNRZC8.18LI4590FX0S3@ubuntu.com>
+Cc: "Konrad Dybcio" <konradybcio@kernel.org>, <linux-usb@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 02/22] usb: typec: Represent USB4 on the Type-C bus
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sven Peter" <sven@kernel.org>, "Heikki Krogerus"
+ <heikki.krogerus@linux.intel.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Janne Grunau" <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Andreas
+ Noever" <andreas.noever@gmail.com>, "Mika Westerberg" <westeri@kernel.org>,
+ "Yehezkel Bernat" <YehezkelShB@gmail.com>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>
+X-Mailer: aerc 0.21.0
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-2-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-2-1f80085f93fb@kernel.org>
 
-On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
-org> wrote:
+On Sun Sep 6, 2026 at 2:36 PM EDT, Sven Peter wrote:
+> USB4 technically isn't alternate mode and entered using the EUDO and has
+> no SVID or Discover Modes Response. We can still represent it like an
+> altmode on the Type-C bus though by adding a mode kind. Exclude the USB4
+> modes from any SVID-specific operations and driver binding, but allow
+> consumers to observe their state through notifications.
 >
-> Alice Ryhl <aliceryhl@google.com> writes:
+> Like for other altmodes, expose the USB4 mode to sysfs: Add a mode_kind
+> to be able to differentiate and then expose the EUDO, make the USB4
+> active state read-only since we only represent firmware-negotiated USB4
+> modes and omit anything that only applies to SVID-specific altmodes.
 >
-> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrot=
-e:
-> >>
-> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
-> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
-> >> >> +        // SAFETY: We just successfully allocated a page, so we no=
-w have ownership of the newly
-> >> >> +        // allocated page. We transfer that ownership to the new `=
-Owned<Page>` object.
-> >> >> +        // Since `Page` is transparent, we can cast the pointer di=
-rectly.
-> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
-> >> >
-> >> > This doesn't satisfy the safety requirements of Owned::from_raw()
-> >> > because the page may be used with vm_insert_page(), which increments=
- its
-> >> > refcount and causes it to be shared the vma system, and this occurs
-> >> > before Page::release() is called.
-> >>
-> >> I suppose the existing vm_insert_page() abstraction we have is already
-> >> problematic, because it uses `&Page`?
-> >>
-> >> Maybe we want to change the API to use `ARef<Page>` so it already has =
-to be
-> >> shared? Conceptually it takes a reference count from a `&Page`, which =
-isn't
-> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&ARe=
-f<Page>`
-> >> to be able to do that op.
-> >
-> > Honestly, the problem is the safety requirements of Owned::from_raw().
-> > Pages have a "special" main reference, and free_page() does more than
-> > put_page(). It even does something when the refcount does not hit
-> > zero.
-> >
-> > The correct behavior for Page is to allow the user to hold one
-> > Owned<Page> whose drop calls free_page(), *plus* any number of
-> > ARef<Page> references that invoke put_page() on drop. This way, the
-> > owned page controls the special drop codepath.
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+> Hope it's fine to add you as the contact for the sysfs documentation,
+> happy to add myself otherwise though.
+> ---
+>  Documentation/ABI/testing/sysfs-bus-typec | 36 ++++++++++++++
+>  drivers/usb/typec/bus.c                   | 67 ++++++++++++++++++++-----
+>  drivers/usb/typec/class.c                 | 83 +++++++++++++++++++++++++=
+++----
+>  drivers/usb/typec/mode_selection.c        |  6 ++-
+>  include/linux/usb/typec.h                 | 20 +++++++-
+>  include/linux/usb/typec_altmode.h         | 10 +++-
+>  6 files changed, 193 insertions(+), 29 deletions(-)
 >
-> This does not mesh well with the model of `Owned` behaving like
-> `UniqueArc` to `ARef` behaving like an `Arc`.
 
-It's a different case, I agree.
-
-> Please help me understand; with page having a main ref and an auxiliary
-> refcount, if we model that with a single `Owned<Page>` and a number of
-> `ARef<Page>`, what would happen in the case where the main ref (`Owned`)
-> is dropped first? Is this legal?
-
-Yes, it's legal.
-
-> My intuition here would be to follow Garry's suggestion and have
-> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is not
-> an option?
-
-That would be the wrong ownership semantics. The C side increments the
-refcount rather than take ownership of a passed-in refcount, so the
-correct argument type is &Page.
-
-Now, for the use-case in Binder I believe we could switch to
-put_page(), as we don't need the extra stuff from free_page(), in
-which case we only want ARef<Page> and do not require Owned support.
-But as long as we are calling free_page(), it needs to not be
-clonable.
-
-Alice
+Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
