@@ -1,68 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A063AA1A7;
-	Mon,  7 Sep 2026 08:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181CD44063B
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 08:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788770873; cv=none; b=K4chEHHPCf/whVUFTIji41PBHOZDcBL8yQ++FEDxVaLEpmKe1Vbgfu0hH3IoXPHpu2gEzWzs7UXHTEVfN9LFYbkGwmb2H4IRKkT27w9NtHwOtf6WZvctNvG6QGQn/lOrnPLp5Za8TNRY7QaHtvkGDuGFdnZXfkzR9YIf9zsa+r4=
+	t=1788771046; cv=none; b=I0Q8+jq3rCVelasRlA4v+fooySuFOdqjMI1jJVJhriz/Ewgazv0NFhND2a3a4wqKeR5l7yYTdd8IQ4B6GnO0rDJu6tQHTUR1eRyW+wPhSd6/Jgur6XPO+uw+CNMECnMFLpoI+j0qBZFSwHh9pCZVM3sgRiy23YY2+0SVS0iNKOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788770873; c=relaxed/simple;
-	bh=Gb9Auh5ZNXWHXHOOwQE32rxToV+hQ0pGd9M/BCS1nJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cgXOv/mPXWs1FvY98inVbGwC7kVq23/C7ABsdiX14gEmESOSogJyk5SNHVbrVfoV30iIo+f7ZU6IgPrCrxD8VXsQBDluqKvAQIY4M/m2wnc1uBNB/+MPtXzLaPcptlB0BrDlae/4nBfIpGW/LM+fya/8QIZA44dqeZJLwNjiwFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GXZfYcPG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788771046; c=relaxed/simple;
+	bh=xmCTnONORML0xzQsXGPQJSnXopDASGXDpFKTtpfRy+I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=ZwYNRZ4Y6zP1V7zbPZ+476AXLOt53+zQdfgfxb4M48QryDo4WbMRJx33b1kGpmFVtKTrwFaN/ETQvyWsoJBm+fpmHNpy2hJp+nzR68GPQF3bvEwgV1dWvaDz8NiR2Kl1Txwq4LPVwmINwoECVSm3qKwWtmlcHU1s7RtCSptWiZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=qnDUqXXA; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GXZfYcPG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 173D31F00A3A;
-	Mon,  7 Sep 2026 08:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788770872;
-	bh=Bf6fIph90GFv45/3lNjQ8b5NbyisSGZ3v2BSDp0jkbA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GXZfYcPGffP3RD77IEVgWgvCRjTgLEnnaiZhU1EyJMr/jqZY43VjtzYh05kwvRKzm
-	 JTERkAApMJ3DpIFZlUEYhClts9WLzFZxVM5nJ+rQSa7Rj89WAv0WLW25Rh89NCmFb8
-	 IQ4gJA/KO/jPqlhoXBe1+COex29Nc+Y7Tut60P6dwZneyNwOCXj8pG5kFztfUAxuQH
-	 lci+xAiNwvDJa34AI5vwuRZ745bYHxetI34isufCRjpCN+HsDUyn/AaH3hnZbr3Der
-	 av45lPbsG/Cwn0h5E2aKFeCe8MtMyOZNdlV8sK5kF6OAS/NRnUD8rtPVSdzLwXKOW0
-	 OQ6p/WnL3piew==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1x3V13-00000000UOX-36CK;
-	Mon, 07 Sep 2026 10:47:49 +0200
-Date: Mon, 7 Sep 2026 10:47:49 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-Message-ID: <ap56NTVMq8GlbjmR@hovoldconsulting.com>
-References: <20260907065501.101013-1-johan@kernel.org>
- <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="qnDUqXXA"
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260907085041epoutp0244b43f2de508fc2fa75b719aedb23512~S-cjgw0V22910729107epoutp02C
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 08:50:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260907085041epoutp0244b43f2de508fc2fa75b719aedb23512~S-cjgw0V22910729107epoutp02C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1788771041;
+	bh=RFjqqtuQMHlIRw585Wn4nrpGsc9yhalulq9+ydGLu7Y=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=qnDUqXXADXQcaLnqfevPguIb1R/9rdh7a226I89ZUI3hHpgxUCG2wo9o+lGSmbG2l
+	 /pDaDBj/tFVhMDTP6x+tWpLO4iP3FFw6Xc5Jm2Xe7paNwEE75MKVhkmtkf5IKFNrtd
+	 D0lKe9QAmIu1SoPrA4oj3bjby4xpLTv5GvM7cu7k=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260907085040epcas5p11e00318dbcf56c67ee11afd79369faa9~S-ci_hk3f3212532125epcas5p1g;
+	Mon,  7 Sep 2026 08:50:40 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.90]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4hdgl346Sgz6B9mH; Mon,  7 Sep
+	2026 08:50:39 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260907085039epcas5p24c419437ae9644adc78521646b2f1728~S-chhk3rU1189311893epcas5p2O;
+	Mon,  7 Sep 2026 08:50:39 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260907085036epsmtip189981f862ba2d77168178876da8696a5~S-ce6VyDH2067720677epsmtip1s;
+	Mon,  7 Sep 2026 08:50:36 +0000 (GMT)
+Message-ID: <792517c1-9970-44f2-8eff-2a87895cc37c@samsung.com>
+Date: Mon, 7 Sep 2026 14:20:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] dt-bindings: usb: Introduce samsung,snps-dwc3
+To: Krzysztof Kozlowski <krzk@kernel.org>, peter.griffin@linaro.org,
+	alim.akhtar@samsung.com, gregkh@linuxfoundation.org, robh@kernel.org,
+	conor+dt@kernel.org, Thinh.Nguyen@synopsys.com,
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com,
+	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
+	muhammed.ali@samsung.com, thiagu.r@samsung.com
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <5629de34-1a63-40bf-8375-64be9a69eea2@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260907085039epcas5p24c419437ae9644adc78521646b2f1728
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260903071318epcas5p4b804edb84554847c576d1d034b814d7a
+References: <20260903071250.3421499-1-selvarasu.g@samsung.com>
+	<CGME20260903071318epcas5p4b804edb84554847c576d1d034b814d7a@epcas5p4.samsung.com>
+	<20260903071250.3421499-3-selvarasu.g@samsung.com>
+	<ad1d8c01-a810-443a-9ad5-721d6d0b68b1@kernel.org>
+	<e4bafeea-4548-41ef-b5e2-98ade2864e74@samsung.com>
+	<5629de34-1a63-40bf-8375-64be9a69eea2@kernel.org>
 
-On Mon, Sep 07, 2026 at 10:17:38AM +0200, Oliver Neukum wrote:
-> On 07.09.26 08:55, Johan Hovold wrote:
-> > The wakeup condition needs to be checked after adding the task to the
-> > waitqueue and updating the task state to avoid missing a racing modem
-> > status update or disconnect.
-> 
-> I am sorry, but in this case I have to ask:
-> Isn't TIOCMIWAIT inherently racy against the hardware?
 
-What do you mean?
+On 9/7/2026 12:37 PM, Krzysztof Kozlowski wrote:
+> On 07/09/2026 08:04, Selvarasu Ganesan wrote:
+>> On 9/5/2026 12:52 PM, Krzysztof Kozlowski wrote:
+>>> On 03/09/2026 09:12, Selvarasu Ganesan wrote:
+>>>> The Samsung Exynos8855 USB glue is not separate from the Synopsys DWC3
+>>>> core, using a flattened model where the DWC3 controller is directly
+>>>> addressable rather than nested as a child node of a glue layer.
+>>>>
+>>>> Describe the Exynos USB block as a single node, referencing the split
+>>>> out Synopsys DWC3 core properties via snps,dwc3-common.yaml. The new
+>>>> binding follows the same approach as qcom,snps-dwc3.
+>>>>
+>>>> A generic fallback compatible "samsung,snps-dwc3" is introduced to
+>>>> describe this binding, selected by the validator based on the presence
+>>>> of the fallback string in the compatible list. Future Exynos SoCs
+>>> This is AI slop text. Over longish useless sentence describing diff
+>>> without actual information WHY.
+>>>
+>>> Don't send AI generated slop messages.
+>> Sorry for the misleading info on this commit message. We were trying to
+>> explain why a separate flattened representation is being introduced with
+>> using generic fallback string, and follow the style of some other DWC3
+>> flattened refactors (like the Qualcomm :
+>> https://lore.kernel.org/all/20250414-dwc3-refactor-v7-2-f015b358722d@oss.qualcomm.com)
+>> to justify the separate binding, but it became too long. We'll simplify
+>> it and keep only the technical reasoning.
+> Flattened node is the right approach, so just say this is the first
+> Samsung Exynos binding using flattened node.
 
-Looking at the implementation again now, it seems further changes are
-needed to fix the implementation, though. The completion handler should
-not be updating old_count. That's for each TIOCMIWAIT to do.
 
-Johan
+Thanks for your update.
+We will update the commit message as follows and post a new patch set.
+And We are assuming that all other points including the clock count and 
+the generic fallback compatible (samsung,snps-dwc3) are fine.
+
+
+dt-bindings: usb: Introduce samsung,snps-dwc3
+
+Add the Samsung Exynos8855 DWC3 binding using a flattened node
+representation, where the DWC3 controller is directly
+addressable rather than nested as a child node of a glue layer.
+
+This is the first Samsung Exynos binding using the flattened
+representation. The existing samsung,exynos-dwc3 binding describes the
+parent and child representation used by existing Exynos SoCs, which can
+be migrated to the flattened model.
+
+Use the samsung,snps-dwc3 fallback compatible for Samsung Exynos SoCs
+sharing the same flattened model can be added by extending the
+compatible enum with per SoC clock and property constraints.
+
+Thanks,
+Selva
+>
+>
+> Best regards,
+> Krzysztof
