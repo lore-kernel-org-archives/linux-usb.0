@@ -1,72 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD5C40242D;
-	Mon,  7 Sep 2026 12:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8498456E0F;
+	Mon,  7 Sep 2026 12:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788783541; cv=none; b=qoOGLCD8rNIls9HWdmR+6t5Fa1gODQAnI2yi0wOthVh2+7UFU5qpJFhOW4+ZlOyFC1jaNxAyIB8Oic+SPPqVwsQKf8aNI/E9+4Kygm7QTixP+mgC1gBvg9IQbJeVKrXnNftJLvY1y7V23X00da/ukDKeVK1a+sr/j2boJisDn80=
+	t=1788783550; cv=none; b=raZOj+HaMEyCNYW81dailBeRkN9hFujo7u2T+/3WrcwsRh65zytTX7sATYjHjL5m1Lv4OFXO0ZZPAmOE6l6qZi90qGYqzMw6zJQFFuTc4BKB7fIY6qu8iIgpycRRbMyLOmz/pCPvc1tYh3so2l+5m6w4SJlMk4Mv5YCusikYFps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788783541; c=relaxed/simple;
-	bh=oibY5o1RtjGr966rYj6Ppax7FoXRumoq2PDPZujw7no=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ETLIfgiB8X1CH3p0CWVoEbWYlJ/P6tvrqbZ5KJteuIl8SibNpGZWVyDBiD7nXm8CWBTtWbcc6RVbx6Fxq6s+/eniAULP/wXPQ5iPKfruvVa6hoBv0X2PdNovr9Gz7OyGq1oo32/bkcCkMbVr0Pf6pEsWUoauRUNpz396RZflDxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNUNtgk4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788783550; c=relaxed/simple;
+	bh=XuyntIOBx1gtjqICGa3j3qhzESOX6ONY+vCKzBGn/dQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=lbtqIEVsrzO+z1lj+kJcFTaECtBcXCwM4gHp9nYoQ2Yic8xCEjH4jv+nei56+eBlYfbWB6ExXi+KJMSX60go1JUUfdhHewruh2P3/a8w63Rs/67RbUrRtzho9qvJ/KgtQY8Jtk5Hp3lbP3PDpaaAFZMQkbEG9o6VYV/XMwPqQxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zoTD3xv3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uo4/8VwY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KPoEATF7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sXmeGZxC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNUNtgk4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C981F00A3A;
-	Mon,  7 Sep 2026 12:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788783539;
-	bh=UPCT7NivEF5dXHHkmiPyCbpMfbh32hjOvzeAZcafMWU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BNUNtgk4QxbeBFAG7QguySvmoJVsPNkHrSIZJcjlT/BS3BRLjI1Uhort/hQ/+sJNg
-	 UCLpv8dsqaW1uLOsbw5R/OER5ioCF8iZVkAXSHPqUxnkcHIuj7X/YlvpCtVQn1Bz5y
-	 rPsnVfTvWwOOjaaW0rhX8I2XQTGhDMsbQQFOPWMHV+mUk1On5A66AewkhL+a63cF0V
-	 EPO3Kk/W57XwmpE+KuysgTUEupcOJBHnJKbp6VcNzz3wiX3q9VpvIp4+cMqlmGypwO
-	 M7yr10Tp2GK7q2rl0McATXrWEFIN2ZtJyPaeS+DPPGQzW400mOb26cEFey2E/T125h
-	 sDBa30uWEK2UQ==
-Date: Mon, 7 Sep 2026 14:18:49 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: george.moussalem@outlook.com
-Cc: Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Praveenkumar I <praveenkumar.i@oss.qualcomm.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
-	Nitheesh Sekar <quic_nsekar@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>, 
-	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 05/12] phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Use
- bulk reset_control API
-Message-ID: <wsejx7luoa3llvso6h3q36ewp2xnikcjhqxjnwfj24dtzgvffz@dt7kloucr7ro>
-References: <20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com>
- <20260825-ipq5018-usb3-v3-5-39be0955a6aa@outlook.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zoTD3xv3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uo4/8VwY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KPoEATF7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sXmeGZxC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B4FD11F797;
+	Mon,  7 Sep 2026 12:18:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788783542; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IV1sFaC7g+6ExKyT6lyRXTYLToxm6P3E2z8H64pnf7U=;
+	b=zoTD3xv38dVMCFE5JiWMDHf9NzUqbF+qVTgcJFJquqnlu0o3PKwcTHThSLyOc8ml20fR3J
+	j2bPYOw8itkpLyFvK8vVkruSUq0xNUv5gPrHKiN8OVenWpk9akZKDsaACDwQcrKG+AdfpE
+	6hlVAIri/4dgjq6KoxTDxzNrI79aLZU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788783542;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IV1sFaC7g+6ExKyT6lyRXTYLToxm6P3E2z8H64pnf7U=;
+	b=Uo4/8VwYRbW6y9UvwPDaY60Ijw9Ism1Vob1Ua+eSFKhOS/hr78RpjVIKjeIxxIJWmwDogE
+	e1Wa0SbYeNwayvAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788783538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IV1sFaC7g+6ExKyT6lyRXTYLToxm6P3E2z8H64pnf7U=;
+	b=KPoEATF7T49PMGfUa91qyu36jSF2MTo9B1n2+dZrV9QPC1979FP+LIFzybgTNIrW/76x3B
+	udyZbv2dAkE8Yl3y19PJ55icg88Y+Md5GhFcoCsQTWvgH8qLg7u/lv3nkJXnnji/DiaQw2
+	px+jhy2pmbuLpQQnLfWOnnfzLFKDWT4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788783538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IV1sFaC7g+6ExKyT6lyRXTYLToxm6P3E2z8H64pnf7U=;
+	b=sXmeGZxCPD8HhZMs+lN8/OOj9bfRPVVo9ZEhrKk1I9xzdbWrEDsP/+OUGBNDnTwyHX4dCd
+	vhl0lUpxTtiCJzBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EA691339B;
+	Mon,  7 Sep 2026 12:18:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lKAFFrKrnmq1JQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 07 Sep 2026 12:18:58 +0000
+Message-ID: <97ca7f22-070f-4faa-bf52-62ba1d3077c5@suse.de>
+Date: Mon, 7 Sep 2026 14:18:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/40] scsi: use struct scsi_sense_hdr to log sense
+ keys and codes
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260903034201.112211-1-dlemoal@kernel.org>
+ <20260903034201.112211-7-dlemoal@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260903034201.112211-7-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260825-ipq5018-usb3-v3-5-39be0955a6aa@outlook.com>
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
 
-On Tue, Aug 25, 2026 at 04:37:22PM +0400, George Moussalem via B4 Relay wrote:
-> From: George Moussalem <george.moussalem@outlook.com>
+On 9/3/26 5:41 AM, Damien Le Moal wrote:
+> Instead of passing the sense key, additional sense code and additional
+> sense code qualifier as separate parameters, change the functions
+> scsi_extd_sense_format(), scsi_format_extd_sense(), and
+> usb_stor_show_sense() to take a pointer to a struct scsi_sense_hdr to
+> access the sense key and sense code with a single argument.
 > 
-> Switch to using bulk reset_control functions to prepare the driver for
-> managing multiple resets, acquiring reset controls by name, and
-> uniformly storing resets in the private data structure to enable support
-> for future combo PHY functionality requiring multiple resets.
+> No functional change intended.
 > 
-> Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> ---
+>   drivers/scsi/constants.c        | 11 +++++------
+>   drivers/scsi/scsi_logging.c     | 22 ++++++++++++----------
+>   drivers/usb/storage/debug.c     | 12 +++++-------
+>   drivers/usb/storage/debug.h     |  4 ++--
+>   drivers/usb/storage/transport.c |  2 +-
+>   include/scsi/scsi_dbg.h         |  6 +++---
+>   6 files changed, 28 insertions(+), 29 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Cheers,
 
-- Mani
-
+Hannes
 -- 
-மணிவண்ணன் சதாசிவம்
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
