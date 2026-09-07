@@ -1,64 +1,64 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E7637A834
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA23937C0E5
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 04:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788756427; cv=none; b=VgTYIK129SZpjnVIsklz81YhI0g4SOZorsyhH3xBpwOKK5BiavX+kDLgrzRHh43LLC0HWx7W7OZFc3t61W7AAoQubHj72MzYu3WvJVMlyIGLROkV3SC8V3+j8qetYe9WXmmfYj+SXru03RnZsUyCKzKqRrEpz/ir7UvYphlTxbM=
+	t=1788756433; cv=none; b=ejKNCPEF360QyBiROfVbahev6zb+9HDYFlxCiyM1mUlPCeyfgC1deLtj98kadO0gz91fMMe8H5FtAsJIGFD+kAlU/ot2UxZMKkQN/LTCUr4V3sJSTQH6LaJj7MxXZ1pDO5ERxhWb7jhX1lRPqeQUXrpTDBMTrcHxdZtP9/fkxcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788756427; c=relaxed/simple;
-	bh=mqVeKES3pdwH/jh4G6cxAfYNuya+EEG4nxksK9vib+k=;
+	s=arc-20240116; t=1788756433; c=relaxed/simple;
+	bh=28CwM7uG1p3vuCzKbtzlq/qDnwNKbf0LJtWSP4H0WpQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GMp3SC3oDKRKPO5Dm4KyR1Fcp5b6NtKqWJp3Gu3PYop1J8UkL8/LmEBYOblABEYxQRjfZRDi/McdycBqT5bLIJTWW43makWnXp0E1ougz/Qz9nK5IKIHEVnuCW/SuyFdC/nhqyw/yW8LjEzITHgwjwlPqVJZqZoNTQbg8jhIKV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e4EQwyl2; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=LiBm1GqkvruwITbEPNu7CBsVJK4sPOA9LLNsFKoqa4RHtt6ozHqnfwqzc2cCRIEF/6F1SDOtr40dfxyIWsMqoQG6tcgbu36NnYDXuR9P5rpuiBCLtYMrDUs8WbEIJjaONfSMcSg5s0lBeROrUBynnr2U/M1FB4qeLKZ+HE/tekM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EowoqGdB; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e4EQwyl2"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-852c481415fso3556560b3a.3
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EowoqGdB"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d9520b9155so26974035ad.3
+        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 21:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788756425; x=1789361225; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788756431; x=1789361231; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rd4+o9yzzziUj0BOqr+bTAQcA/BPcK7lKLgCO+CZvsk=;
-        b=e4EQwyl2ek36l07R0wCaek/PVeqOKgQzXAhFKXoagVBSXb+vLw39B0G0h6eGzvUid2
-         s0N5bwTUy7321QgYqvF2T5ov86/artqphsUUE9Ioe/xUCYjqz8kgdbc8WqdmlZsMYdVx
-         4sbOK9MUEt9hTHI9EeUmdDVE+8HLYzGabbPmRt3XLA8k+GXQ5nBgY7a+Qjknc0h80NpA
-         zS0o7ZVBg0wERHBjpEhRI5Mc5GZQH1RV9mW7APh9PFKLGrkKwHmdL2/pRHBKajP41Y+b
-         IJv0pnPZRHuGmv2rDzlpaA32AGd/fGG4M1eoMv9re8o1+yf0qhsDEqPCWQ9iWi7hX7qc
-         io1g==
+        bh=HKo7xCAaFCwynzSXE8UAxpEKoPZkRC4FGf6Fh0e3Vic=;
+        b=EowoqGdBdKysovNE4nqQo5Qdu/Aj73V6UdiFK1+144eb3yMGvZ9G4aArLMjfmjhmR1
+         q8Zcor6BW6lFmqQhdFkAQyxlQR+j7PW5BoVZJmZ8lFECFvYx5sBohUOI1GYB+xvOs73W
+         1a72rrVIhPodvyyNGq3X7mf7rZ8haGOzzpSYOIDIEZVYc6WiB1NLIwCVjgHKkdtsDmCt
+         fxU9oy00f6vXT7tIKkZGcH3zj7Lqe5zu/BClJsiwYuGy9TFX0vEgLeTKamwKItxrJDWb
+         DSj19k410yemh3R4El+ttc8IbmxxldPDN1LYh/rxFidQCbavqq8I5hn4epzugN3szP9i
+         lGXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788756425; x=1789361225;
+        d=1e100.net; s=20251104; t=1788756431; x=1789361231;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rd4+o9yzzziUj0BOqr+bTAQcA/BPcK7lKLgCO+CZvsk=;
-        b=lUhHimOq3HFkp/ZwgNT5zi+0MRAf3wK7nOx30RoZUxD9cQkCR6RRc+6FqACZ0mQc0E
-         qSkcg52FEWyPOOCjAOiX3HrWPlhpuxgbo+0Pq5TZInCD2gqAZbUIG3tG3GaU9fFAd5FS
-         YFIN8pmjhLqPCfvAtFMETjhZe68E+u5EK+JHb3LXKUN16qH3vfgv32iCbrB8NeFRf9oQ
-         ogHKaAWPJ600ntd6Fa5BGppynNr8Ut1WHq2LovzrfIISBFKBY/dv6iw7wxUeWsM9JiEG
-         i07oa63pApkNkB21aB6xyGDX8w5LaPzgdhpz9jI14ul467eqL30F4v4phuh6U1bZHLcn
-         MAYg==
-X-Forwarded-Encrypted: i=1; AKwUvByxOCAVQR5535ViirbGhIzQ2km3Qh3ms731/J5ZGNxx8Y6GSDEzIb7zZYKtAMhpNjDI2s9B61lJJ6s=@vger.kernel.org
-X-Gm-Message-State: AFuF++kkqHXmkFkCKoyiT5WuTnzgioKXfNsmSbN07kYb3bTl8TwmcuzF
-	PxgswHR7J3NbKOBaQkB/OttXf+CuxJL6Z3zpX5ZaT4sVCDelySH+Pa5Y
-X-Gm-Gg: AYBFou2i/iRfqDH+hyzBkTdfzN0VN4+iB7Ya5n6D8eBNvcClT8Er5g6+up8/Pjvu/kd
-	vYTHtc9wUA4gMq4nnmFRaOCfWq763u0d2a9ZWvOzyGC3wDecpxB58UglP9R1x496dmq9rq6Jnd5
-	a+wneb2Mul0m53i9H1IurpIeyACGLHVX4dsfcnr9W0ijTNuUqogU6JuNU8Lt/mRwWuU1rTar2QV
-	FRnQMVSy4YJj8Rx1QqZ+IJ0SOKN5+MP32xTYHYoRa5mY4GDImVjoAVCP/sfioOndgYKiaCnQace
-	QYqfmwV/1Ovkum6sbLiA2p540SCXv0Cp4HTLY1Fx6Ol0O1SAAgOoUr7YTK/AQvy9z2l4uBZkEci
-	3ublPl0WoAz1cSnVhhtToi4IazJOTxl5KyGCx/DUFOoBlGUXqWBBCywsk3OGDxTgUbpIxbwSgb9
-	PRxYTXlWGTlO85sWESXeQZrrcXDESoluASorDZ0i0gUpnoy2Pbyj0YDl5tfdOaE+wJJThjR0nVH
-	9dRh5vhX+WZfg==
-X-Received: by 2002:a05:6300:6710:b0:3d8:1f68:59ac with SMTP id adf61e73a8af0-3da3a15bfc3mr32442645637.23.1788756425319;
-        Sun, 06 Sep 2026 21:47:05 -0700 (PDT)
+        bh=HKo7xCAaFCwynzSXE8UAxpEKoPZkRC4FGf6Fh0e3Vic=;
+        b=aPYdoZ/PbwcxGCKDOuv6lT1FB1/lRUoYmctO63VCA9x0BYXoglafsvXtyxe/NsBiWr
+         kKGh6YjaviSM+BXsSW2WEqMF5YQO3hcfygB1vDl5/VPXyZmipCQBXhk0+3P0ESririkr
+         oHEeci+QjkTQ+kdDLMoulHNizFPE02DV0U8tKjrkBJs2A7u5Li/OkyzSARgpC0kULH/Q
+         Uu1R0+8FZGuwz7pol32P3fwVz/62gekSRfntXKqDxZ4AWQQ3SmOWQn2o9q1+KJUWB5bi
+         hhfAWo5+pqYezl6YxJMpLltINcQldHH4005+rJ2cDqxr8RspM9d673zOADuOiCbDwO/T
+         iu4A==
+X-Forwarded-Encrypted: i=1; AKwUvBxpZ24FfjD0Gwz4QF/3m4O0qxpH7mU38Lrd/rVQC6gOHli3Y1d81aKaIZa2FlG2VInoqbNVXS7zOKg=@vger.kernel.org
+X-Gm-Message-State: AFuF++mYOUOR3q8XW9+cdVrWVq1cn7946Qna/4GJhqCaN8tiylMNxwse
+	cZPw6AUpMGcwm2lZ6xXLwnnsSsCpxXIfkXzUZDv0RGTYsSFgfRxZWIYE
+X-Gm-Gg: AYBFou2oiwuVBc8Cne184pS31YqEpqlKvxD+YTNGXOxIzf9S/TMkPIKzTgZiB0CKZjm
+	KmwOxxyIBYAA23kgcCskeEYkTAAJtp/baYjC7WFbt4D8YRiYYr7Mk6FtTo/tOsjQcw60j6dSy+m
+	dxoxv7s+2WTf9mo8A9MtfJjjZGpl3XNwfD1gY6C0lfQLOanGlfTLfxTfCiy4xrFe4dcXOgrCxA+
+	YzofqHgXVrlSpsfna24qX+ctLtaT/WOFEq0PPA/dfNWy9kiH43YE13jJvQ0V3JC6E4OV35pZZbg
+	8Hy+/cNl2C2duPvTI3Q1n4CXgWUA9F8ltGzTYYLz2xhi1s+B9Ara7PYjAaeS8v75d+r09FvVSR0
+	ZGByVbSkVm2IXlNyuDO1g8ebz9IxIpWGXawWMdSvDWBMoNNxJo0AtwwPxVjEG+LgAaKgS9n6Qwe
+	M6SqffgzMWRV3emhyqYNg4fE1ql0AqeGLuQ8EdhzfBy4TL2+BXB6GDKBZA7DvHlROMRc8zPxn8e
+	Sgx1B+I19AWyg==
+X-Received: by 2002:a17:902:c40e:b0:2d0:cc92:f7ae with SMTP id d9443c01a7336-2db125ce071mr279426685ad.3.1788756430578;
+        Sun, 06 Sep 2026 21:47:10 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.47.00
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339af25062sm37844565eec.16.2026.09.06.21.47.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 21:47:05 -0700 (PDT)
+        Sun, 06 Sep 2026 21:47:10 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -76,9 +76,9 @@ Cc: netdev@vger.kernel.org,
 	linux-net-drivers@amd.com,
 	linux-kselftest@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v2 4/6] net: sfc: fix repeated word 'the' in comment
-Date: Mon,  7 Sep 2026 10:16:33 +0530
-Message-ID: <20260907044635.7141-5-hemanth.selam@gmail.com>
+Subject: [PATCH v2 5/6] selftests: net: fix repeated word 'use' in comment
+Date: Mon,  7 Sep 2026 10:16:34 +0530
+Message-ID: <20260907044635.7141-6-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260907044635.7141-1-hemanth.selam@gmail.com>
 References: <20260907044635.7141-1-hemanth.selam@gmail.com>
@@ -90,29 +90,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop the repeated "the", reported by scripts/checkpatch.pl.  Only touches
-a comment, no code changes.
-
-The bitfield.h hunks from v1 are gone: "the relevant bits filled in in
-the range" is correct as it stands, since "filled in" ends the clause and
-"in the range" begins the next.
+Drop the second 'use', reported by checkpatch.pl as a possible repeated
+word.  Only touches a comment, no code changes.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- drivers/net/ethernet/sfc/mcdi_pcol.h | 2 +-
+ tools/testing/selftests/net/xfrm_policy.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/sfc/mcdi_pcol.h b/drivers/net/ethernet/sfc/mcdi_pcol.h
-index b00e7c100566..976a96459075 100644
---- a/drivers/net/ethernet/sfc/mcdi_pcol.h
-+++ b/drivers/net/ethernet/sfc/mcdi_pcol.h
-@@ -9560,7 +9560,7 @@
-  * DMA synchronizaion. Always the last entry in the DMA buffer and set to the
-  * same value as GENERATION_START. The host driver must compare the
-  * GENERATION_START and GENERATION_END values to verify that the DMA buffer is
-- * consistent upon copying the the DMA buffer. If they do not match, it means
-+ * consistent upon copying the DMA buffer. If they do not match, it means
-  * that new DMA transfer has started while the host driver was copying the DMA
-  * buffer. In this case, the host driver must repeat the copy operation.
-  */
+diff --git a/tools/testing/selftests/net/xfrm_policy.sh b/tools/testing/selftests/net/xfrm_policy.sh
+index 3eeeeffb4005..6294e49a46e0 100755
+--- a/tools/testing/selftests/net/xfrm_policy.sh
++++ b/tools/testing/selftests/net/xfrm_policy.sh
+@@ -242,7 +242,7 @@ check_exceptions()
+ 		echo "PASS: ping to .254 bypassed ipsec tunnel ($logpostfix)"
+ 	fi
+ 
+-	# ping to .253 should use use ipsec due to direct policy exception.
++	# ping to .253 should use ipsec due to direct policy exception.
+ 	check_xfrm 1 253
+ 	if [ $? -ne 0 ]; then
+ 		echo "FAIL: expected ping to .253 to use ipsec tunnel ($logpostfix)"
