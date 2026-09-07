@@ -1,91 +1,96 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12EF448D1D;
-	Mon,  7 Sep 2026 09:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D08449992;
+	Mon,  7 Sep 2026 09:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788772328; cv=none; b=TqD7YPzCtYOu0okBhu1k3RPJ0NgtrdecEy973Y8HrE2x7r1ABEuqEsFKTRyZm3O56GYP+aGDSGjaiS4MJ9z/ynUBcqENCzKHmmUh5rjnsMYqg7U4CRD2tACWtWiCBFiG9GQca97e3BeQawVcIi7b0XChpdieUkUtfSoDcooEFW8=
+	t=1788772342; cv=none; b=sxeO2p7agkicq11UjOCtKSIQqgSNvsvykS0WpqwToHotRb7t3qu3emFu9v6ql8LU46yqag79ytP7+3YxYWKewvXQTqOp3FbbTxSO59C5+fUfLNZKNB8kMG63Xs7rdx4SgSPNJanBUr1LFvLpPRtaVW4XXoFvwjxromMhoNcmfHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788772328; c=relaxed/simple;
-	bh=ZusEL3lsgLdP6fWCQSIm0JKvq+rgZVBvTczC1OOm1MM=;
+	s=arc-20240116; t=1788772342; c=relaxed/simple;
+	bh=S6FzEVfrlnSxpKJKpivSvkMiU7eztyobk10Z7fTCjL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kyUd3/Z2rGtSteC1S8ddSFaH9fWjmW2fx7kL3OdQHnjR80p9pjZSZgUgvWYpXFUbQ5QYx0CyHZ2KQnexIq3DPPFNUM6Tib68Nz0e3qB1o1k68BAOQscJ5wI3PHVnnSMIyMf0YbtuAP/uJhkWPtYE9/yNj0qY+x9W6wu+/ODlwuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Q9dTsZMG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4bDT0edh; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=khnA2/+QH9pgVvjAznLOM2f48qZaQNVQHbdbLz3mdfdS8/8QnxM98fkv1ASjzYiWyo1Kl1ET5TtTNdSogHk3N16aELeHmkush6KM9+k2PyGLqNFBYeKbghef5UoQFA/zelxcigbRKU2us1UrV0r+Hef847n1sz0vQxN1YwBTDHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0yX3DzJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Q9dTsZMG";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4bDT0edh"
-Date: Mon, 7 Sep 2026 11:12:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788772323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OXHJuH5OBiG6iOq4zyP3h3piKcfc+3M2EOW8DAxaSVE=;
-	b=Q9dTsZMG2ggfiN6+gN2DuwoBopDAvsseK+oZAONgHbEvLukxiUtJ6rHIYjwSFzkuzU5Zsp
-	AnEPmM104fVUx6q2YRxUMWy7lrRTRD2pVlE3sZY5k4rg166QETNqibaYmFMPkfSABCQhA4
-	fJevxvgvP1ByzJJB6Cgp3ox56WITXVD6HoaPaudGMT8rKgrbYGDM1ZovmOfIw+A9iIGlfF
-	me4ql6oLhAM6AEjBx6kQWZq3EeO3TokHdxtTKgjQaMg8r61Yk2Mv8zXfynMD2FdpM8WuQX
-	/Dm0fovpkBDW0yI6JJd7OByhosSEE9PGvcqALCNYzMbWYh6F7cmOPAHhkcpagA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788772323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OXHJuH5OBiG6iOq4zyP3h3piKcfc+3M2EOW8DAxaSVE=;
-	b=4bDT0edh++2GOxOL9lAmt0HpVjPt7aoJVeF0GUXqCVVf5aPBMAt7i/kjiUEO0eFs14KN//
-	8BML7//kVv4v1cDQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Petko Manolov <petkan@nucleusys.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 net-next 5/6] net: usb: pegasus: Move long delayed
- work on system_dfl_long_wq
-Message-ID: <20260907091202.hnFpCqFV@linutronix.de>
-References: <20260720100902.155605-1-marco.crivellari@suse.com>
- <20260720100902.155605-6-marco.crivellari@suse.com>
- <f972b514-87ef-45bc-8258-db199a4cc0b8@suse.com>
- <20260825151812.4aJyFUgE@linutronix.de>
- <31b46916-dd89-4ae9-89b9-9d39e29e8e69@rowland.harvard.edu>
- <20260828094318.bOajNBno@linutronix.de>
- <b6cf44a1-d2b1-443d-8efe-c596ef89cc2a@rowland.harvard.edu>
- <20260905150450.2hrac_GV@linutronix.de>
- <b6e6e8d0-0888-4bbc-85b8-ca3bdac88398@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0yX3DzJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15911F00A3E;
+	Mon,  7 Sep 2026 09:12:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788772341;
+	bh=P4r2NTYwFlUOQAeXw7wTPJh0e7BchedYqxJ3l093NQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=R0yX3DzJCUd37hoMECuaNy+CE2l0nD1hQxASq561JtJHXT21pwmsK01hweDUiSOHE
+	 90aZVkcTQZGfaF3U48KP9Sw9bxRyZ2ziM1ji3Q/Poh9TyH+gZVr5Zp8AxalkF5X30F
+	 q6x/a15INQKg/PkJpba702DsgBtv+RvbtmSXLIYA3D2CQLhiL3NqQQeTYPs0cR/NqM
+	 gXJSt8FDtk9okSmILFcmrdJJSsjJfwoBn/ATMDvg7owU2P8JquJsUmnz/mffeUXFCb
+	 zJAsp2N3vn5mOxL45nCmhtGGpDm/tCEBlqv+rxOEAsPmMJ6HBnV9i7hwhx2TGImmjN
+	 SeaMBHUYRmJ0w==
+Date: Mon, 7 Sep 2026 02:12:19 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: Hemanth Selam <hemanth.selam@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: chipidea: fix typo "binded" in comments
+Message-ID: <ap5_8910bncFfH3M@hu-petche-lv.qualcomm.com>
+References: <20260907061652.38637-1-hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b6e6e8d0-0888-4bbc-85b8-ca3bdac88398@rowland.harvard.edu>
+In-Reply-To: <20260907061652.38637-1-hemanth.selam@gmail.com>
 
-On 2026-09-05 12:33:07 [-0400], Alan Stern wrote:
-> > Still the wrong thing to do? The driver should do either flush_work() or
-> > cancel_work_sync() (not flush_workqueue()).
+On 26-09-07 11:46:52, Hemanth Selam wrote:
+> Correct "binded" to "bound", reported by scripts/checkpatch.pl using the
+> misspelling list in scripts/spelling.txt.  Only touches comments, no code
+> changes.
 > 
-> I think we're in agreement.  If the driver relies on calling 
-> flush_workqueue(), it should not use a general-purpose workqueue.  
-> However, flush_work() or cancel_work_sync() is okay on an unordered 
-> general-purpose workqueue.
+> Assisted-by: Cursor:claude-opus-5
+> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 
-Perfect, thank you.
+Acked-by: Peter Chen <peter.chen@kernel.org>
 
-> If Oliver still has any objections, he can raise them.
+Peter
+> ---
+>  drivers/usb/chipidea/otg_fsm.c | 2 +-
+>  drivers/usb/chipidea/udc.c     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/chipidea/otg_fsm.c b/drivers/usb/chipidea/otg_fsm.c
+> index 929536dc96ec..642729893cc2 100644
+> --- a/drivers/usb/chipidea/otg_fsm.c
+> +++ b/drivers/usb/chipidea/otg_fsm.c
+> @@ -705,7 +705,7 @@ static void ci_otg_fsm_event(struct ci_hdrc *ci)
+>  		if ((intr_sts & USBi_PCI) && !port_conn) {
+>  			fsm->b_conn = 0;
+>  
+> -			/* if gadget driver is binded */
+> +			/* if gadget driver is bound */
+>  			if (ci->driver) {
+>  				/* A device to be peripheral mode */
+>  				ci->gadget.is_a_peripheral = 1;
+> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
+> index d52f89489893..c29b2d0dcc7c 100644
+> --- a/drivers/usb/chipidea/udc.c
+> +++ b/drivers/usb/chipidea/udc.c
+> @@ -1862,7 +1862,7 @@ static int ci_udc_get_frame(struct usb_gadget *_gadget)
+>  }
+>  
+>  /*
+> - * ci_hdrc_gadget_connect: caller makes sure gadget driver is binded
+> + * ci_hdrc_gadget_connect: caller makes sure gadget driver is bound
+>   */
+>  static void ci_hdrc_gadget_connect(struct usb_gadget *_gadget, int is_active)
+>  {
+> -- 
+> 2.48.1
+> 
 
-Okay. So far this is good to go ;)
+-- 
 
-> Alan Stern
-
-Sebastian
+Thanks,
+Peter Chen
