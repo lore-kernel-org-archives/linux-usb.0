@@ -1,148 +1,169 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342E43C8731
-	for <linux-usb@vger.kernel.org>; Sun,  6 Sep 2026 21:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D896342532
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 01:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788728741; cv=none; b=iTX2dzHbVYA7IN6cfLTM9WqnoA+G78sc1cTCOPtNTg+sDxL5S1PEsCB8pkIw+OoG3WBxlCleGNCmtUPYbHPZ9aeffVXKC0CmXe+WuusQ30fTD2k2XWHxqMKTGjISY/LWUwjEQqPzLBaoUIpvZJbJK/W7Edkod7DnenUPGZkYR9g=
+	t=1788746220; cv=none; b=ufH+taF1nnKbk+Ae9JvMLwthQJWs+MZaAS47NSq+dQSev8dwMhiE7oBzTsE9QseheJ5IQim8zECTRIT4O3P15CiAv8FU73pgSXF/nNyOBfyDUHrhYD3Y8LOmtBH8K9hPh3UrTrC2DbVoLx7fXUatdXG5+AMRma5j3B3eVsc/fCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788728741; c=relaxed/simple;
-	bh=vC4YQuUsqECdThQ2UaVWWxN9IGfQuuL520LFsCgC/zg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uy7s+5ujbAW0AS8qvmG0nIrEQoqs+PNpo8xieKmTK/kY/staqnqgwdocbuuq0DwkmYwlP1wjP7MsEtxMJty5hR13LlZ3W8WJUOx0XlHUKf+FM40YevzlSVPoCZSl2T9con9+4iaMCPkR/5OyUPS4z8pSv9u6ubz8/wWX+yTk0ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfDvdunV; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788746220; c=relaxed/simple;
+	bh=5+3e9FG7TtJsUEd88KzV7pSYbihPy/+VTTS8SszyOTY=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=QL6fm99M9wpsNTy2gWVMC9L5T0Tu3c+boftuDYSEkaJhIvSlu+Z2YWB+3x+vXPXPs1VODvE0UgaW8KmHs7TyTqUAPrZ5a65LYj2HbJQOHlNLgWGe4AkVPy2qdQeFRBKBOb1hLjDJVlGVia7gN3IjtiPSlywE4oGLdr+8+0E3hqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=casWo3su; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfDvdunV"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-485850cbac3so1752209f8f.3
-        for <linux-usb@vger.kernel.org>; Sun, 06 Sep 2026 14:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788728738; x=1789333538; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Hm7hKt/l5G35NMIrUuAXey7XmWtG2gBN48sYcpn4XhM=;
-        b=LfDvdunVes/2bbSq+PczwGkkTOE8heBlhp+1y7c4G1Qr5TPTbeLiezL+tGLqf7FXRl
-         nAHV+k7z16Ecb5WjRVFl1ZfzI9IwHuZnE/Ms3BVOKDCXDPaDs4gYqk4XWXrKH3++NNny
-         h0sc5eur6BxSRv2etIyQ3oyXHU3nDFQRO7Q3BHybJUbAm5Q5Is0pBB6b/d/J767w/1AP
-         uAHKMvHlbavRti2mqlqhejqdi9A0aXvb3aQhp7PoyODhNoQ9e148VllY3uFizK3RaZNv
-         efAO5xyIwk3Ts3q1Yp62aLHAeeYokF7NaIni062zJHE6ECQsJJIfkiPhXSEf3y0vMVO1
-         pJJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788728738; x=1789333538;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Hm7hKt/l5G35NMIrUuAXey7XmWtG2gBN48sYcpn4XhM=;
-        b=jeJGv6kZ5oC/yYu0ollu0voHibd6H5pru2Es+cG8w9KTauJf3nomWqlMXDuNdvMgs2
-         v0LjWVkGEI4PdJYIG3uifm0bB51il5TcZX06YJsWKl7kLmQMsJI2eA3dePtFn78+e9bY
-         3+me0VxrGEuyqvb8hgoAW7oURHMcnw9Z4FHPpwKVUQ6Z8b1Y5dQbLA+i8Mr15emyGFoo
-         4Lsfh8VF2CzAojVyY0hXpIsTkhWSoc11VAtOCCM30HqFSxiLFQEl1zDsgTN48tD0VVdi
-         lXFx8p3Jec9tqzoyx7eGuo1VyMP/XJrLjF3VpOCsQf1bivqBWG8dXkGXXzCfLalSMLZ1
-         adWg==
-X-Gm-Message-State: AFuF++nOMOb8itjQgOvQ6Y65BYZWDv6/E/4gb7uhRPs86GZ975Jd1NgG
-	A1b8KtuIE2UDaHCDDLSEifHF1yc6XsET+TAj215usbkRTf6lK4l75U+NQS+dmw==
-X-Gm-Gg: AYBFou0zMc0b2OMsqYkfK3dGoxjcmhVo6FGE/7jx2+3V78SosZ1pEtm9VcnMiuF36aP
-	KUubnwqCFURoxD76cRU+x6v9VNkCwTn7TUk8R31RXDEDILJ8Q/B4rlqCyFSU5/1809RBJtpkp/r
-	VQczt3rT11Ujh15JXPBGUvnWhXhzwlWXAkESGNgQmwym97hkbyD+jxxc+RT9j+85ynVqXSVssUT
-	zAl1oCTDoCxn2WCWn3q6EiR8VuOkZT9egdtI3oWKkwTiXSIZsFCQSziCC+Cdp1ll7xsOg7GYOPP
-	3A0C9X/EDvfuqoDzEcLvH9N/fOL4e88qbUDPwxtiuPHOMlazy7rjWyrUPsR3NzftzvxHgcE+UfW
-	HAermzRy8WUnujnSj8kiIVT24pePnSfccqK4hDwuEvMrHNZ43ERROn7LUMrhHNEONNgu32/h4W+
-	z8RBeK9e6qEsVxrbBEH7K0FPJuNd8OQj4mD1EiN5/Hf4ITkup4lGug/LWvL9w7kSrpXb0zlywHa
-	UyEN3g6
-X-Received: by 2002:a05:6000:2311:b0:485:8bc6:3caa with SMTP id ffacd0b85a97d-4858bc63de5mr15008870f8f.16.1788728738367;
-        Sun, 06 Sep 2026 14:05:38 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858d312ca0sm23173125f8f.4.2026.09.06.14.05.37
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 06 Sep 2026 14:05:38 -0700 (PDT)
-Date: Sun, 6 Sep 2026 23:05:34 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ingo Haenlein <ingo.haenlein@gmx.de>
-Cc: linux-usb@vger.kernel.org, superscalar@gmx.de,
- mathias.nyman@linux.intel.com
-Subject: Re: [BUG] xHCI: AMD Strix Halo [1022:158b] isochronous full-duplex
- USB audio instability (frame active: -18)
-Message-ID: <20260906230523.6ff77e1d.michal.pecio@gmail.com>
-In-Reply-To: <a13faf6d-72c3-4149-b26a-c18a9a5068be@gmx.de>
-References: <20260621214215.378d505a.michal.pecio@gmail.com>
-	<a13faf6d-72c3-4149-b26a-c18a9a5068be@gmx.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="casWo3su"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3663FC2BCB8
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 01:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788746219;
+	bh=5+3e9FG7TtJsUEd88KzV7pSYbihPy/+VTTS8SszyOTY=;
+	h=From:To:Subject:Date:From;
+	b=casWo3suGYRZ5xkDx+iw1yeIhQLeiFu/N1xdOemKN/rVIYcA1X50UvlkcdQjUmQYW
+	 b4nLOa7QfnKxFj61hGSRxQF7CipwXc6IXrfJDwFyCEKJbLs706ihDh+JS+QubqxmwU
+	 PY9Djt72Y5tK+6VAhjvG/vicWKdlqyboIcugH4tSaICwCBFYgbWbumLIJIVPp5jEMP
+	 aErqWgDyrXv3lTZxOXeMpVABiADjo+QQmFBI7p8+Vnou9XJPvxIg6xUnvaJX15aU/l
+	 hQbBUGHNtnHyfhWV9pzjft1qi8zgnwJSgl3BihU23xZQoDQBis4Lb11SV5X5DY/+/p
+	 wJ5UJ96fNtF6Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 07259C41612; Mon,  7 Sep 2026 01:56:59 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221977] New: ucsi_acpi PPM_RESET timeout on ASUS Zenbook
+ UX425UA/UM425UA (AMD Renoir) - not fixed by poll_cci or timeout increase,
+ tested extensively
+Date: Mon, 07 Sep 2026 01:56:58 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sax69sax420@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221977-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, 6 Sep 2026 20:27:54 +0200, Ingo Haenlein wrote:
-> Hi Michal, hi Mathias,
->=20
-> Quick update and a new regression on the same Strix Halo case.
->=20
-> Root cause, confirmed
-> ----------------------
-> DF/fabric C-state exit latency on the IRQ-handling core. Spent
-> several more months on this: PM-QoS is not enforced by acpi_idle,
-> governor/EPP tuning made no difference, pinning FCLK/SOCCLK made no
-> difference either. The only thing that fully fixes it is a hidden
-> AMD "SoC/Uncore OC Mode" BIOS bit - confirmed working by someone else
-> on a different vendor's board - but that option is locked down on
-> this HP firmware and too risky to unlock without a recovery path, so
-> that's not viable for me.
->=20
-> Mitigation
-> -----------
-> Two isolated cores (CPU16/17, via isolcpus/nohz_full/rcu_nocbs) with
-> the xHCI interrupt (0000:c5:00.4) pinned to one of them, plus a
-> small script that switches those two cores to POLL (disabling all
-> deeper C-states) only while an audio stream is active, and back to
-> normal idle otherwise.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221977
 
-Odd, I thought the issue was caused by the xHC experiencing latency
-while fetching OUT data from RAM, not by IRQ handling.
+            Bug ID: 221977
+           Summary: ucsi_acpi PPM_RESET timeout on ASUS Zenbook
+                    UX425UA/UM425UA (AMD Renoir) - not fixed by poll_cci
+                    or timeout increase, tested extensively
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: sax69sax420@gmail.com
+        Regression: No
 
-Maybe you are affected by the broken isoc scheduling? Try v7.3 RC,
-it may work better now.
+SYSTEM
+  ------
+  ASUS Zenbook 14 UX425UA/UM425UA, AMD Ryzen 7 5700U (Renoir), BIOS
+  UX425UA.301 (2021, latest available). Ubuntu 24.04, kernel
+  6.8.0-124-generic. Dual-boot with Windows 10 (works correctly there,
+  see below).
 
-> On 7.1.11, with this mitigation running, a Missed Service Error burst
-> happened at stream start, then nothing - no further errors, no
-> XRuns, no endpoint restarts, for the rest of the session. This held
-> across every buffer size I tested (64/96/128/192/256 samples
-> @48kHz) and under sustained DSP load.
->=20
-> New regression
-> ---------------
-> Same mitigation, same hardware, nothing changed on my end. On
-> 7.2.2/7.2.3, that's no longer true: I now get audible ALSA/PipeWire
-> XRuns and full endpoint stop/restart cycles (playback + capture PCM
-> stopped and restarted), both at stream start and during ongoing
-> playback (e.g. while Bitwig or Spotify is running). This did not
-> happen on 7.1.11 with the identical setup.
+  ERROR
+  -----
+  Every boot, and every subsequent module reload:
 
-Even with several ms per period, or only with short periods?
+    ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
 
-> I traced the kernel change in between to commit 87dbc3fa08fc ("usb:
-> xhci: Handle bogus TRB pointers in Missed Service Error events", now
-> in 7.2.2/7.2.3, Fixes: d0b619599e52).
->=20
-> Confirmed by direct A/B, same hardware/config/mitigation:
->=20
-> - linux-zen 7.1.11: start burst, then quiet - no XRuns, no endpoint
->  =C2=A0 restarts
-> - linux-zen 7.2.2 / 7.2.3: XRuns and endpoint restarts, reproducible,
->  =C2=A0 both at start and during playback
+  /sys/class/typec/ never populates. USB-C charging itself works fine
+  (confirmed via direct wattage logging) - this only affects PD
+  telemetry, alt-mode, and role-switching.
 
-That sounds like guesswork, or was it confirmed by reverting the
-suspect commit on 7.2? It should revert cleanly.
+  WHAT I'VE ALREADY TESTED (all negative)
+  ----------------------------------------
+  1. Timeout increase: built a signed DKMS module with UCSI_TIMEOUT_MS
+     patched 5000 -> 30000 (6x default, 3x the merged 10000 fix).
+     Confirmed via source inspection that -ETIMEDOUT is only ever set
+     after the real elapsed-time check in ucsi_reset_ppm() fires, so
+     this is a genuine 30-second wait, not an early bail-out. Still
+     times out identically.
 
-This commit only makes a difference in how missed service is handled
-once it has already occurred. And only on some buggy hardware, or at
-least such was the goal.
+  2. Polling frequency, isolated as its own variable: same 30s budget,
+     but msleep(20) -> msleep(200) in the ucsi_reset_ppm() loop (~150
+     EC/_DSM hits instead of ~1500), to test whether rapid _DSM/EC-mutex
+     polling itself was the blocker rather than total patience. Still
+     times out identically.
 
-Regards,
-Michal
+  3. Current mainline behavior: diffed 6.8's ucsi.c/ucsi_acpi.c against
+     current master. The poll_cci() rewrite (976e7e9bdc77) and timeout
+     increase (bf4f9ae1cb08) are both present there. For the ACPI
+     backend specifically, ucsi_acpi_poll_cci() still forces a _DSM
+     read on every call during PPM_RESET - functionally identical to
+     what I already tested in #1. So current mainline would not behave
+     differently here.
+
+  4. The old ASUS Zenbook quirk (ucsi_zenbook_ops, for the near-identical
+     "UX325UA_UM325UA" model): checked in source - during PPM_RESET
+     specifically, the quirked and generic read paths are identical
+     (both force _DSM every read), so this was never going to apply
+     regardless of the DMI mismatch. (Also since removed upstream,
+     folded into the poll_cci rewrite.)
+
+  5. Boot path: tested booting via two different methods into the OS,
+     in case boot-manager timing mattered. No difference.
+
+  6. Device presence: tested with the charger completely unplugged from
+  WINDOWS COMPARISON
+  -------------------
+  Booting the same machine into Windows 10, Device Manager shows the
+  identical \_SB.UBTC ACPI object (confirmed via DEVPKEY_Device_
+  BiosDeviceName) healthy, ProblemCode 0, using Microsoft's generic
+  in-box UcmUcsiAcpiClient.sys (not an OEM driver). I compared its
+  public reference sample source (microsoft/Windows-driver-samples,
+  UcmUcsiAcpiSample) against ucsi_acpi.c's low-level read/write code -
+  both call _DSM before every register access, in the same order. No
+  structural difference found at that layer. The actual retry/
+  completion logic that must differ lives in the closed-source
+  UcmUcsiCx.sys class extension, which I have no visibility into.
+
+  RELATED
+  -------
+  This looks like the same class of failure as Bug 219590, where the
+  reporting maintainer's own affected laptop was also not fixed by
+  either of the two 2025 patches ("in my case it unfortunately didn't
+  help" - comment #9). Reporting this as what looks like a second,
+  independently-confirmed case of the same "not fixed by known fixes"
+  outcome, with a slightly wider set of variables tested (specifically
+  the polling-frequency isolation in #2, which I haven't seen tested
+  elsewhere).
+
+  Happy to run further diagnostics if anyone has a specific next test
+  in mind - I've documented the exact ACPI tables and mechanism (_DSM
+  UUID 6f8398c2-7ca4-11e4-ad36-631042b5008f, \_SB.UBTC device, 48-byte
+  SystemMemory OperationRegion mailbox) and can reproduce any test
+  reliably given the DKMS/MOK pipeline is already set up on this
+  machine.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
