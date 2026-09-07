@@ -1,166 +1,95 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB7236405A
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 18:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DC03ED5BB
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 18:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788805866; cv=none; b=fmkNlF/98cCtkSAREhkpjd/xnzSvwkFpcjZbfcq7L+TtY1r1R/B19sBS2WCmbnTyIy19Feay5ziDS+SoGwHeuCl9EXGoUJi+yiQbu5F9Us/gSMdUXuSkWs71Lv4oa0JWto/G0xVV0/oDE2CGwCVtL5FPszOSjd3uBx+j8nKQJow=
+	t=1788807270; cv=none; b=Tmfr1f+GdeBX1sUgjjQ6wgRzLzf3RLZzp/nfJQuATRN/J8Izy7tuVPREtygKQBVV7yOUvSEp+G88NhaYJqOyYieLaR60Gcu9P8kIUkf8Z9aNiXhJKKhdFjNME1QbBCMqSgV4YayjcAbYUzLbCl/oisKBz38ZzgJQjZfeFYTUZw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788805866; c=relaxed/simple;
-	bh=cXq4ckXbDt5qTacGW/Dz8TiO8463xOq5t/ItvAzBv74=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ymn4pYS3amuTPfEnmfPQ0YyjsaKmpX/NDYrhD55dIlzEU49XZLsBNRkmzgUTVUGnel3d7218I9t7wl0sJUZPeocSlbcYxnTgOwmdGr83RY7ikTRCL4gEdYynFx7gBWIdnjk3GLsvTjEge4RR8vOooqUv70Ho7KwhmMn9hi8dIYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQ2QGvwx; arc=none smtp.client-ip=74.125.225.76
+	s=arc-20240116; t=1788807270; c=relaxed/simple;
+	bh=i/QWSMozynqryjWo/KOuPiAM0mDpRUXW8SIwUc1XYZQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sgARkgohMAbA5K1jFVURDx6YoIcCtp7cwVrmz6bgxap5yk2/GqCY1sI1tiNUnu2zPuiYmu7aE3exDb0fFU5fqfXEZMptTBBeP7W6TGmORS5sbKMS2Ak6JZLOihFWHqVL9VcKj1oK5KcEBS0Vj2MuUc69jUxZG+oYnOSaXoVAln8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqAc19zs; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQ2QGvwx"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482e1b55da9so405660f8f.2
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 11:31:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqAc19zs"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso36519195e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 11:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788805863; x=1789410663; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0L7d6qm/+lnh2raU5fD/UwCh6P1gxbArjmHlEi+oqeE=;
-        b=EQ2QGvwxfMBPRgIxjYQnBk73ZOrI0ynsz+OrGpW9TI5CcfvYvohgRiKO2dLb9Z557w
-         BcBm7D7zhtmr95WjR48/3Cid6klzrIQgFvnEcWZX+fVPAcvgkin081imeigQmp/mUPAv
-         AXE+4Lnf6h8y6qqtZjMVDexFseA8Gh8gNhLN2qSLKqiH8CKpNdjh+BX0VOe/H3UjZj3F
-         Q69n3KVF+QtI0UcjXnVLbYfhN4UgOH8xltjG+5VchZ8iU92wJYdknSPY8ghQT8EoAU8R
-         QiYJFgqyGlqOY+QCVG7w98Z92bvY5taVkKw3PraX4t2YS5R4knC0PCA3HnoMsKKetcvv
-         4B1g==
+        d=gmail.com; s=20251104; t=1788807264; x=1789412064; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=i/QWSMozynqryjWo/KOuPiAM0mDpRUXW8SIwUc1XYZQ=;
+        b=dqAc19zsd6MKYWD7s6Gywe8uw+ikai1be+/x+g6YUL+Lihse5eEllxe2JzfTaKX9QK
+         OVoBxKXdpYYc4X0rN83JIVFwVibAFknrTTsnmPn+7Wybsz/It7fHlYeI1HSUgR4LU/CB
+         BBPXjz4PXmHgNWXkYm/K1YbuN6JUGcUt0pfDyylyS5SK9AOBq5W/o4T8OarU+YRHlVk+
+         ci3UFRX9nnLICxFfF1LEU3OtlxjsW0f34cU2IMLvmgpuPn05Kfmj65rmQvLqnDUVVf18
+         zGksrEF1mCbdkVdxUAltrWt0c3fHn86J7VjXbPGWGiLOuTnmqyVEBvZqoCc8furtz8xV
+         Roww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788805863; x=1789410663;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0L7d6qm/+lnh2raU5fD/UwCh6P1gxbArjmHlEi+oqeE=;
-        b=fYA/qADTHjmRs6FEtr2PxS2XM5FocdzJtT4kqfzTqxCKknaDypQV6Px0XnTfge53gl
-         /q8Iz1aFQcrxjE7siUrs02rjzlXbYkI4knFC5+X4MdP5GGNjU6nKxXaDE+s2npAB5Xpb
-         iwftZm8OwnOeNc+g1V8vXSJ8rG5Q7CTERKLwm0aOXRLJGu2q3COUnfvdFVcZ/eQCSoQO
-         cmd/f+xiMeDnX0sJzETMB8KzshBClOwzYqMuIhwpfJ5zyViLM3nYkn+w37eVrG9Pkc5o
-         SDuqOfoCosCq/0UbMBzaHoL6GyonMHjYXhM9EbnO66VXf2x05yAYSLyU2v5jEHaDEx5w
-         aXbQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwRf1O8lDfQOj23sTciX+C+txz4rA14nDHnZghTtCUVJQEeFywlNeHrK1ypUET5k5ur1IZVRK3JCLA=@vger.kernel.org
-X-Gm-Message-State: AFuF++kPiwPenOKWUCVCzqrtQB1vtQ3IFfvsxoY28TfFcUymfoRd3AG0
-	eIOEhDWUr0yWFsz50/yyT9F4hnhoTtcu+bvTrS1JYtY3nlsu/CkouybJ
-X-Gm-Gg: AYBFou3Gy1HuWZw19kGqz07w6mfb8ows0dxmHWupK6ntYlrpkVqVMJYnY28HPBGfWOM
-	oE3JJVX5KfTtaslTJJiz7QpcZz9XWpEo0XxaBZ0tqhRaczcjyufz2DRNeBjCww+KnGLW0rpwlps
-	xpn1hhS49U9+Wh5TE8vi6z8kg5hvBJ94hVyuWASnQPSz/WCOVxonWfZIIjViIU4h+R72b3lFKZC
-	V7utfEDFWjV7ZKfFp1pc4bx+WCZVPUulsAYwzlrvrMwOYjFvgCCPfpIz05Pof9esHZjdw8uY+mm
-	PZPqF87vBvXs9QgdV6itGAyHtnl9tFnWSItQu2Rf2MDg6teDBz2eHygWEFEBDKbWhSN2TRhGTLa
-	CdIFMws0mTZ1yQAQHQO5ox3UBXe0zBCoWW/iRugA0KpCtNUzTA6P7LxabX1COCzGCEKdqauR7Yt
-	i48tTM9pi0mJmIFCQW523znVhnAOrGWW5O/zwvlrONFRJCV07rlsZytH+rMs3HBrDy/2AEqxiBy
-	kx6FHg3TfNLCYG8rpMNX91n4bVwIuucHUi+Pp4bMieVRE4+5yLgVPrjpk5+d2KaCWXuHXk5llnJ
-	Uw==
-X-Received: by 2002:a05:600c:4f48:b0:49d:798:67a4 with SMTP id 5b1f17b1804b1-49d079867f5mr141408595e9.0.1788805863135;
-        Mon, 07 Sep 2026 11:31:03 -0700 (PDT)
-Received: from OrangePi5-Plus.BB-HOME (20014C4E1B882200F5E89D570153D0A0.dsl.pool.telekom.hu. [2001:4c4e:1b88:2200:f5e8:9d57:153:d0a0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce58da3acsm871127675e9.0.2026.09.07.11.31.02
+        d=1e100.net; s=20251104; t=1788807264; x=1789412064;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=i/QWSMozynqryjWo/KOuPiAM0mDpRUXW8SIwUc1XYZQ=;
+        b=XosjaOdAlzJ23si0k9o4FD7IZ/LPDMDoKb1CSmN4eFQ+53gzyAGUyMQQnzzXqiyGqI
+         RHn4XQwBhhkqIato0s/wQxWCW71zuH9vguY70cdCNgFfyDxk0gkqAk25EXR6dE+H4Rvc
+         vTZ/epaIrzZtUUEH9dL6OQFDSOf3ijQWFW1PZBFI2vM/Ou7V1wshHt90wnoJcqv9Ye4P
+         u2CyNZ3EDlArtOroEQc3OSVzt2Tn/asdmREDHK0yeXYc7uYsbrzqGGleyRIwv4brFlmx
+         kg5cwBQJNiivkqgV6qG523ztHSrSEewfqRX8UmK+N8o6YU/gZT//3Nu2soVirRq+S1Nx
+         0UEg==
+X-Forwarded-Encrypted: i=1; AKwUvBw7QQybs9KRs9pGLyVW1a4IZJ0H6ChA3aqtruLEc8pxitjCF9Z4nr2+5FRfA+NiOGjjzAcAviDcOcU=@vger.kernel.org
+X-Gm-Message-State: AFuF++muoHVUWlSGBPtKWBIGi1HyCUOjEHUtm9UDxzMFhLlxIt+yK3N/
+	WlMIqAdnoXxP5iDV2UEedhEidLtdCJBR6eNV+iiUWGLikNkxktOv4PNw
+X-Gm-Gg: AYBFou1aLzT0ZOgmx6uS6OaUTzpt4B6mdtcKMaU6j6cVRZ4lFsfVU/Fxb9C25gaLY/m
+	aO4l4SU/egTOniNsINxMcuWRmtN5OKcbgzDsOWt4dbbGVQPsKkXOUIo+Ao+yMN2Awb2BxkWeem9
+	b0ILt1M2KqaRvIauS2I+g8NtBmZWcUkC524MU2tAupifA0D83HoIbAtH3DYOwG3ltaqhAJPhYox
+	kzDZytT8TIkh3FcKGAWYDykDiTDQSv+M8rw+pUdlLKlEiR5U2FyOU/t+SPLS/ViI1iCIgPJDa6g
+	xy/UPkso5ElcwdGOBiGjvcXRCgU0Z6zamsu0sBZi5s9Q8YcciITnZG/zC8pK1MCZOBYEjV90+da
+	JQQ62E/e8FrxWJCWDTRWIeI1na2Cii6yB+I+hKEPHit+Za50hxvm4IQQEXCKWgfE3WDRiwwAn7A
+	R8yU1vmxWlcdGTpwwGsLavQNbJwR4HXpypWloWpTW8zFprCK6UfG2J8jpxBA==
+X-Received: by 2002:a05:600c:628c:b0:49c:e1cd:536 with SMTP id 5b1f17b1804b1-49d17a8745bmr21185385e9.12.1788807263643;
+        Mon, 07 Sep 2026 11:54:23 -0700 (PDT)
+Received: from metepc ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d00031c95sm295060555e9.11.2026.09.07.11.54.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 11:31:02 -0700 (PDT)
-From: Igor Paunovic <royalnet026@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Badhri Jagan Sridharan <badhri@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: RD Babiera <rdbabiera@google.com>,
+        Mon, 07 Sep 2026 11:54:23 -0700 (PDT)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: oneukum@suse.com
+Cc: netdev@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Igor Paunovic <royalnet026@gmail.com>
-Subject: [PATCH] usb: typec: tcpm: fix use-after-free of the kthread worker on port unregister
-Date: Mon,  7 Sep 2026 20:30:41 +0200
-Message-ID: <20260907183041.8253-1-royalnet026@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+Subject: Re: [PATCH net v2] usbnet: fix smp_processor_id() use in preemptible context
+Date: Mon,  7 Sep 2026 21:52:20 +0300
+Message-ID: <20260907185408.660755-1-omermetekaya0@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <6e0dbfed-cadd-4274-8165-886725413d0f@suse.com>
+References: <6e0dbfed-cadd-4274-8165-886725413d0f@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-tcpm_unregister_port() destroys the port's kthread worker first and
-calls tcpm_reset_port() afterwards.  Since the Discover Identity retry
-mechanism was added, tcpm_reset_port() calls
-mod_vdm_discovery_cancel_delayed_work(), which does
-kthread_cancel_work_sync(&port->vdm_discovery_work).  That dereferences
-work->worker, which still points at the worker that
-kthread_destroy_worker() has already freed:
+Hi Oliver,
 
-  tcpm_unregister_port()
-    kthread_destroy_worker(port->wq)      -> kfree(worker)
-    ...
-    tcpm_reset_port()
-      mod_vdm_discovery_cancel_delayed_work()
-        kthread_cancel_work_sync(&port->vdm_discovery_work)
-          __kthread_cancel_work_sync()
-            raw_spin_lock_irqsave(&worker->lock, ...)   <- freed memory
+Thank you for the review. You are right.
 
-KASAN report on 7.3-rc1 when unbinding a fusb302 port (RK3588):
+I used local_irq_save()/restore() thinking that softirq writers could
+race on tstats. After checking the tstats update paths, I agreed that
+preemption protection is sufficient for these accesses.
 
-  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0x10c/0x210
-  Write of size 4 at addr ffff00010122ef04 by task bash/8349
-  Call trace:
-   _raw_spin_lock_irqsave+0x10c/0x210
-   __kthread_cancel_work_sync+0x60/0x408
-   kthread_cancel_work_sync+0x20/0x48
-   tcpm_reset_port+0x18c/0xb80 [tcpm]
-   tcpm_unregister_port+0x104/0x2f8 [tcpm]
-   fusb302_remove+0xc8/0x200 [fusb302]
-   i2c_device_remove+0x7c/0x288
-   ...
-  Allocated by task 112:
-   kthread_create_worker_on_node+0x14c/0x2c8
-   tcpm_register_port+0x288/0x3918 [tcpm]
-   fusb302_probe+0x604/0xc88 [fusb302]
-  Freed by task 8349:
-   kfree+0x260/0x558
-   kthread_destroy_worker+0xa0/0x130
-   tcpm_unregister_port+0x74/0x2f8 [tcpm]
-   fusb302_remove+0xc8/0x200 [fusb302]
 
-With CONFIG_PROVE_LOCKING the same unbind shows up as
-"DEBUG_LOCKS_WARN_ON(lock->magic != lock)" in __lock_acquire, followed
-by an oops in the unbinding task, which then exits with interrupts
-disabled and the following shutdown hangs.
+I will send v3 using preempt_disable()/preempt_enable() as suggested.
 
-The work itself cannot be pending at that point: kthread_destroy_worker()
-has flushed the worker and the discovery timer is cancelled right before
-the cancel call.  So just remember that the worker is gone and skip the
-cancel in that case.
+Best regards,
 
-Tested on an Orange Pi 5 Plus (RK3588, fusb302) with KASAN: unbinding
-the port reports the use-after-free above without this patch and
-nothing with it; the port binds again fine afterwards in both cases.
-
-Fixes: 205dc9cb39f5 ("usb: typec: tcpm: implement retry mechanism for Discover Identity VDMs")
-Signed-off-by: Igor Paunovic <royalnet026@gmail.com>
-Assisted-by: LLM
----
- drivers/usb/typec/tcpm/tcpm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index a8cd1959c426f..e47d674c2ae00 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -1756,7 +1756,8 @@ static void mod_enable_frs_delayed_work(struct tcpm_port *port, unsigned int del
- static void mod_vdm_discovery_cancel_delayed_work(struct tcpm_port *port)
- {
- 	hrtimer_cancel(&port->vdm_discovery_timer);
--	kthread_cancel_work_sync(&port->vdm_discovery_work);
-+	if (port->wq)
-+		kthread_cancel_work_sync(&port->vdm_discovery_work);
- }
- 
- static void mod_vdm_discovery_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
-@@ -8961,6 +8962,7 @@ void tcpm_unregister_port(struct tcpm_port *port)
- 
- 	port->registered = false;
- 	kthread_destroy_worker(port->wq);
-+	port->wq = NULL;
- 
- 	hrtimer_cancel(&port->vdm_discovery_timer);
- 	hrtimer_cancel(&port->enable_frs_timer);
--- 
-2.43.0
-
+Ömer Mete Kaya
