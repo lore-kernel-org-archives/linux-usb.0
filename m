@@ -1,337 +1,151 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133671A0BF3
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 08:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788770218; cv=pass; b=PYs5LjzAuWD7tWKYPRs5DC9mx91U0fm9aRNqeDOp/yNDOW1NhAaVaRpp0pFVJq1R9nIdSUcZDjvg7HjPyesiwiogzygDhpSeYEUtjy24ezksOPQlO6Fb4Bu9HdKM0DpXSYq7FAUxL2VPPkAXLtvubNP8fxPmm4I1yZsJfZ5OLhU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788770218; c=relaxed/simple;
-	bh=ZvY80yaGJ0kssXRzj36/tkiHQgJloYipZQ9HyoMZulA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=QkNTnLXFuJ27QCs9wfaTXlv/ytTiEz0FfSQCB3/JUvlQLhGNzLlIwx9/Da0mMZkB/XHfaTHn1QYhUg8LCVDvNIRZZtvF0KHHUK1NSMYo2agM/Caub07NSbwNxUWDdPI52P8wrYbQ02dJToiGCt/rv6piuumuYAO0aGB29B5Lx2w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZktYlPCq; arc=pass smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A7B447811;
+	Mon,  7 Sep 2026 08:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788770598; cv=none; b=gAyaiTjva540/+R08VdL+IlXK7IX9pdSq2TDgIapsZcWy1JKMCfRKSbig267GkUfm/DXFze3oN/4xFzYr1gKi1CT9NJwDGpwyLJMbpPaoRrZIdlO6l4cPIN3UJ/NoqrgSCyI5PoXK8Px5TPEGUBBBxwD/quJuHJqpkIhFrssazo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788770598; c=relaxed/simple;
+	bh=H5VjVeVoUgUjNqoDLCIpjWNEi66teorWEZ7mOrP4fEY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=b7MAldC7OuB3nuE5yy+0BU/FZ3MIDifR6k8R8yPTxFSxF2FQverVvGqETg7uyZ/+ykcRTNMefLU8UCJp96yleeKedsGsA3odi5b5WWecWqndjikdBX6PC/BVlQ2K7mMcZpA4ygAdpmqipOO+kcbMpTTp3ins6mWElBNGuwUuXX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=NjiMJ+SY; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZktYlPCq"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-865bdc6ed72so56574987b3.2
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 01:36:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788770216; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FjHpbHR1QPkzKue+BOwg6jXuZ6IvY58V0aSRI9zDuSy6DqLAfohDD7HdO1XEb0rQXl
-         Cw4+MvAw4deHlXZJCOq8iqPZIdR4Ay6m9NHH8x7EFKSqG7rDmLOEaM2qfxtlPGhSA1N5
-         /z+H+Xk0Eftx9EzVFKlaUuzcz+mRE3EFdgFM6tpbwhUGD1npYgzwM67dOJm4ewOQNkpH
-         6S2zaQhEHQgKgUVxNUvTK/QHTKaKyw/Hxsa6FRZh2Mq6mwoiOsRsrP0EhQ9hOYHwlOTL
-         g4e+JUkQMTj4SN1sKO11WD0i2YYQcYSlz5kivcvKkGl5EnLTHOMAm7AVfe8ExxijTzNf
-         aI9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=ei17KvSwvnLShcgG1y87d9YVMkxzNnLH7w2oz7cWmqA=;
-        fh=asGraVbzOBlohD3s2f0SeHWYONqctuiJUx+7btN2Rzo=;
-        b=CX0Q6ApCCBg0D7z6T3LUySD4QtAa+wLtEEeK0kZZfTgEIGl23UbzcYCAdfj1YYrsdT
-         4xSbvmopWX1qmnDjetLsznS/ooiHXHiXTVV8/m1OvLeQ9wiudPPF0h9eMERZLSTUEABk
-         wEvd2/roO6Ms6gm/xsW+ACVaMqOKpoxHXBD+cQMhIm8khz9KZOPeaFXmn5NejokwYAmv
-         DkChy7wUEzf9UvyFTUhng7dkeXfZSjjV34NgufNtlhB8jpe1Q9v3fwc94YdRHOc9ueAG
-         JIb3k1wf+egxNldXXvpCJGoyHaruFsEp9Tw5X/WkD5hcJa7iIFr9MFmHkEck6AbmlfVF
-         JAEQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788770216; x=1789375016; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ei17KvSwvnLShcgG1y87d9YVMkxzNnLH7w2oz7cWmqA=;
-        b=ZktYlPCqF6AlWwbLc6hA1vfMqsNZ7FP4HFiuQGb69hH1Pj2rgts3foFs7/4G7ebX13
-         iGUmkPvzSJVH1/IyFNcDrKsc5FayRKtCUzNbQSRSWsNPrXzpmzjYw6lCwEVRh08Gn91/
-         AKrZg4aCOYTlzfVJb0D0QNwwiwqAozkBTDLXl2LdiUSLEKE2HVrk7Ol+bIq6XXVzuFQC
-         U9xEtIvFOTi+Xsru4j7wF0U3MLtpMy3jqUnXtcCWRQzjieARmkAfmqngivkk9KhzysnX
-         NCBeflGVFhWuAjFTaKASwLcjAFFzSOU6KcTEEwm0ZFIuGgO2QJCMHd5texX5+XsdD5xr
-         GGvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788770216; x=1789375016;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ei17KvSwvnLShcgG1y87d9YVMkxzNnLH7w2oz7cWmqA=;
-        b=YMurcqZ7h2jYQzf/G3gZtrI2u0MvGbzVZjMSKm9GxbeBFQ3yaXM84CgqO31mh+CELE
-         Meyg7PXwejnISymCamSTy/GOdEOm7nW/QkShhMOPFfT5A2wuc6nuael40Gz72JOgFtpW
-         Ow1HM5qxG0yFkFNlqGqfjO/L0auUKmBDh1aRdmMUZQiwvR7AH/5IjwpMI1r3Vcgd6vBd
-         Vn6MQO9Xb/LRYIhSS2RQWKS8fDYomD4ioPRWBFHeNgzDyAwdkxVeEuzf98y27X0tc7CS
-         hL/3wcIrEMhB47dXNlSKekphcIIiSAP3x0mC+Y0rwQOuZD9tFLHOWF3j3tUYgV4+dgI6
-         nspA==
-X-Forwarded-Encrypted: i=1; AKwUvBwI8aeAb7Y49S4yuxCU0M+mN++m+k7Vm9ga9jPzeEwk05w1myNuK0O2QLRoWBUTzYS/Vt82TpGWLNU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mPzeR8PtA0F6/ZuQrtJTJxWSUUG5y+84s6aAaRdW/m7mZO+S/7
-	1A5h/pGQnbzeDNay2SSxHOR7vElDAB1qbwMez/pHX1X9Rg6LztW5g+bPmatgqrojXFqwUM1Tkf/
-	x+jCudctbeZSlCMhoFwhR3kPWJLbrCpIro3iS
-X-Gm-Gg: AYBFou3ViMfFBHm2xdux/Il+l/xhAWmPsZ3YvL/KScKsFNNOlEobPn29JSh/+ADRe5m
-	Ibv1XOjDNNFZPG/e2s79TDuprJMdTZJpwkUM9jOLDnlHxI1DvhUIJHmKAbrGh/rtGa8NuXbx4it
-	qmkkzLmdBkO8INOTmgYPih0MJOuU0vSAH5CvC3E3wyXbBxWKkBB4GGGg8RX0xJ2juVyt5S4G1lP
-	pvt+vXRyoyrrrhRgGKX0QDpwwudHG1BQ391LeNqOlaa8XatfAQTsVMNfS3tzwfC9+9kUxcUUAJk
-	VrKh1znkJQg7btAX4Lvy5x72KbwDmk/UGn36IG7wPm9kN77vRlr2W/o/fWj42ATbxh2O5toY714
-	QI8xbF+5tYcn+gOvAcjHqAjTihd3fkN5yjpF+v7UARMdr01b/BN0geL18lbZbYd/186KoYHh7Vb
-	U8bIxLdkkS
-X-Received: by 2002:a53:cc4a:0:b0:66f:c1bc:8807 with SMTP id
- 956f58d0204a3-66fc1bc8b5dmr2991188d50.96.1788770215839; Mon, 07 Sep 2026
- 01:36:55 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Mon, 7 Sep 2026 17:36:54 +0900
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Mon, 7 Sep 2026 01:35:56 -0700
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="NjiMJ+SY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1788770550;
+	bh=yHCVeW/8VwrYJ68Qkewz1g1dKX6qVgzMZhqZvnvGTp0=;
+	h=Mime-Version:Date:Message-Id:Subject:From:To;
+	b=NjiMJ+SYes74uePdnQ7Zhe82jEUMfGwy/hSLQO+LbBibi6OyDzO4MRkeHmNSyICiP
+	 7IWfTYCiFYKCK79TH3/bk/egYB7HDWJPrAykW9oKgaqGYIhbHjGB2ROLVPirLlvJDo
+	 kCjItFpl2BbRxdJWhiZM53rx1pQrAR+G5385f2q4=
+X-QQ-mid: zesmtpsz8t1788770544t3ba04c59
+X-QQ-Originating-IP: ij1MO0uxI1//XoyXbOGLzQihrsJbw3343CI25+CyBHk=
+Received: from = ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 07 Sep 2026 16:42:22 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 15574196219480591680
+EX-QQ-RecipientCnt: 20
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Jason Colapietro <jasoncola1@gmail.com>
-Date: Mon, 7 Sep 2026 17:36:54 +0900
-X-Gm-Features: AcwNN1V3Sx9dMpHhOLxWE0ShMfplPMhy7J6VQWqQB9sq_1e4Dce-r77PatQL6nQ
-Message-ID: <CA+Z0x2JTGOsnu7gNPWBfxCZD0vesbezJ7-yhT1sOOuUdmdcQRQ@mail.gmail.com>
-Subject: [PATCH v7] usbip: make remote list honor parsable output
-To: shuah@kernel.org, skhan@linuxfoundation.org, valentina.manea.m@gmail.com
-Cc: greg@kroah.com, i@zenithal.me, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=45e5895e4c3e82e45f3be96fceae5c1f0b830969d7cc94f6648371c4801a;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Mon, 07 Sep 2026 16:42:19 +0800
+Message-Id: <DL8Y8HJ75OUV.2AC7IAYJ0UB26@linux.spacemit.com>
+Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <spacemit@lists.linux.dev>, "Troy Mitchell"
+ <troy.mitchell@linux.spacemit.com>
+Subject: Re: [PATCH 5/6] riscv: dts: spacemit: enable USB2.0 controllers on
+ BananaPi F3
+From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
+To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Yixun Lan" <dlan@kernel.org>, "Xu Yang" <xu.yang_2@nxp.com>, "Peng Fan"
+ <peng.fan@nxp.com>, "Peter Chen" <peter.chen@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
+ Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com> <20260812-b4-spacemit-k1-usb2-v1-5-f28cf29e522b@linux.spacemit.com>
+In-Reply-To: <20260812-b4-spacemit-k1-usb2-v1-5-f28cf29e522b@linux.spacemit.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: OFoXdVIInG+RDtkto4OqsOWYRqY2Uy3kymiablynzo66wsKqzKLeMG3V
+	h3TyAUmxulv6YB92hisnG8Ahxt5NgYaqs0NCuutnKBN76/18wK3W4mXKE7ha3+1sFsltsqc
+	+ED2A3jDnZBHxGyv6nRawXxey8tLtVIY4bGrxlQtc5P9HriKOM7oV5HyUA8tOCjY4u2fg90
+	VxgZhJyN7GoyWFZmPiY1pJ3USDe5vaBuwFQuEIo8ldzFy/BiYj/Y/agC2crVAXAifSL5+Wz
+	ODpQoY0plIoR6zGbtNAMQes2G+ijJFiirDdUSg4X2ELuhgKrLoE2nyHHSqBbRU1U7xGol3X
+	u3HhcB6KAY0q/SFmzEbImJ5Q5Coo0Ey5DN3p+ZrbNUsDLtYScn0x7uaK2PbQNoomIDtKB2B
+	A+eQfYO6sXW5Dq6X9apskZvOHsVqfrMYl6V+kvHbxF8zwnkXG+i3AwNQ/lOu/otH6a3n5LF
+	E7I14bghSBijsy/KHIyFcdgroh/+A19t1JUrSw0VN5/0+TRJvFRHCUHwQLCRAfjK8fwd1Ce
+	VyWZGGMaRrd8Q9FMnfGV9LPPdh5uOEO/I7ndxV/fn7lUKEAys6NcK7T8D6twyZ4Q4imOx8S
+	Fi6DeBTtrKzSLSjRMhT48nSQigli+qLzkThR29PwGgQsOlRb7Rvxw/5R84aX24bl15niPcY
+	A3TuyVOGfZoltmFEmVrUlrHsyzh2I6R9JZruoeacJFwPhfw/Q4O9YcGUDZDTqPy/OjJLqLe
+	vbJRb7DTxMrU/T4eEDhgb1OAEwKgF3PcbR3QgSmT4CSToX6O8flUnSGRSFtLzT84omPGgAS
+	11y6c0id2MfPPzmY/ZrdbD/dLRtdEdKCBzMp6tDv9QpF6PiqnSqIEorQ20srbZzYcaq0Iy/
+	oig8wZNAQfxJx1ZezCxC2cBGzbp7tezLmpCWUuIv14MGMoSedOkB17nmcr7e1/3Q+lnCVuG
+	22WLerJRClpSD2bqUcN/Uu08zSsxWwwf1SkYqRAkTUhmRH8JOQemdMy53KZ1mFy7IDHc8xh
+	S5ENixmlWLXR0RneYxgnr63NbZfbB6bv9I7z6uUn5AwJQe2TCRbL4nYtibRvVJinWkTgyLL
+	EaziIL2UmYW6Neg7Nbu1P11OVSQYMFOfg==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-RECHKSPAM: 0
 
-The -p option is accepted in every list mode and `usbip help list`
-documents it as "Parsable list format", but it only ever reached the
-local (-l) and gadget (-d) paths. list_exported_devices() never took
-the flag, so -r ignores it and always prints the human-readable report.
+--45e5895e4c3e82e45f3be96fceae5c1f0b830969d7cc94f6648371c4801a
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Both commands below pass -p, and only the local one honors it:
+On Wed Aug 12, 2026 at 5:26 PM +08, Junzhong Pan wrote:
+> On BananaPi F3, usb2_0 is connected to a Type-C connector at device
+> mode by default. This port have no VBUS supply capability, thus host
+> mode only works with self-powered device or hub. User could switch the
+> role in sysfs.
+>
+> And the usb2_1 is connected to the USB2.0 pins of the Mini PCIe slot to
+> support cellular modules.
+>
+> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+> ---
+>  arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts b/arch/riscv=
+/boot/dts/spacemit/k1-bananapi-f3.dts
+> index 72f77e9edd63..fd0f96262009 100644
+> --- a/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
+> +++ b/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
+> @@ -350,6 +350,22 @@ &uart0 {
+>  	status =3D "okay";
+>  };
+> =20
+> +&usbphy0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&usb2_0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&usbphy1 {
+> +	status =3D "okay";
+> +};
+> +
+> +&usb2_1 {
+> +	status =3D "okay";
+> +};
+> +
+>  &usbphy2 {
+>  	status =3D "okay";
+>  };
+Could you keep the USB nodes in the same order as in k1.dtsi, with
+usbphy0/1/2 first, followed by usb2_0, usb2_1 and usb_dwc3?
 
-  $ usbip list -p -l
-  busid=1-2#usbid=1a86:55d4#
-  busid=2-1#usbid=0627:0001#
 
-  $ usbip list -p -r localhost
-  Exportable USB devices
-  ======================
-   - localhost
-          2-3: ATECH FLASH TECHNOLOGY : Kingston SNA-DC/U (11b0:6298)
-             : /sys/devices/pci0000:00/0000:00:1d.7/usb2/2-3
-             : (Defined at Interface level) (00/00/00)
+--=20
+Troy Mitchell
 
-`usbip list -r <host>` and `usbip list -p -r <host>` produce
-byte-identical output, so a script has to scrape the decorated report
-instead: the column padding, the " - <host>" banner, the blank line
-between devices and the per-interface lines. That is what the reporter
-hit in bugzilla 219502.
 
-Use one file-scope flag for the list command and honor it in the remote
-listing path. Emit the same busid and usbid record used for local
-devices while continuing to consume every interface record from the
-server. After the change -r produces the record shape -l already does:
+--45e5895e4c3e82e45f3be96fceae5c1f0b830969d7cc94f6648371c4801a
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  $ usbip list -p -r 127.0.0.1
-  busid=1-1#usbid=0781:5583#
-  busid=1-2#usbid=046d:c52b#
+-----BEGIN PGP SIGNATURE-----
 
-so the obvious loop works against a remote host:
+iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCap546w0caUB0cm95LXku
+b3JnAAoJEJgJ74D5MzQvvCQA/3TMCabR6SOxIQsLp3SeFZYsrwhnszx/dAlUR50L
+2rc1AQClb0UwfcFZC4MPdfk85Rg2JoRIAwKQFKP//cnSYMzhDw==
+=IXf1
+-----END PGP SIGNATURE-----
 
-  for b in $(usbip list -p -r "$host" | sed 's/^busid=//; s/#.*//'); do
-          usbip attach -r "$host" -b "$b"
-  done
-
-Without -p the remote output is unchanged.
-
-Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
-Assisted-by: Codex:gpt-5
-Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
----
-v6 -> v7:
-- Fix the Assisted-by trailer to use the required
-  AGENT_NAME:MODEL_VERSION format.
-- No code changes; the diff is identical to v6.
-
-v5 -> v6:
-- Fold a condensed before/after into the commit message, as Shuah asked
-  for on v2. No code changes; the diff is identical to v5.
-- Restore the Assisted-by tag. v7 corrects its format.
-
-Tooling disclosure, per Documentation/process/generated-content.rst: an
-AI coding assistant was used for the original code change, and in this
-series to rewrite the commit message so it carries the before/after
-requested on v2 and to correct the trailer format in v7. The code is
-byte-identical to v6. checkpatch.pl --strict reports no errors, and the
-patch applies cleanly with git am onto mainline.
-
-v4 -> v5:
-- Drop Cc: stable@vger.kernel.org. This changes the user-visible output
-  of "usbip list -r -p", so it is not a stable backport candidate.
-
-v3 -> v4:
-- Make parsable file-scope instead of passing it through list helpers.
-- Drop the option-ordering change to preserve existing behavior.
-
-Two behaviours I checked beyond the output quoted above:
-
-- The connection stays in sync. Interface records are still read from
-  the socket in parsable mode, only the printf is suppressed. To confirm
-  that rather than assert it, I had the test server withhold the final
-  4-byte usbip_usb_interface record for 3 seconds: the patched client
-  with -p blocks for the full 3 seconds, so it really is draining every
-  record.
-
-- With no exported devices, -p prints nothing on stdout ("no exportable
-  devices found on <host>" still goes to stderr), so stdout stays clean.
-
-Testing disclosure: my checkout is on macOS, so I have not run a native
-USB/IP stack end to end. The output above comes from building the real
-usbip_list.c, usbip_network.c, usbip_common.c and names.c against a stub
-libudev -- the remote path never calls udev, and the stubs abort if
-reached -- and pointing that binary at a small mock usbipd answering
-OP_REQ_DEVLIST with a real OP_REP_DEVLIST payload. The -p -l side is a
-second build with a fake udev backend presenting the same devices. So it
-is the real listing path over a real socket, but not usbip-host or
-usbip-vudc on hardware. I am happy to redo the runs on a Linux box, or
-to wait for someone with a usbip setup to confirm, before this goes in.
-
-v5: https://lore.kernel.org/r/20260816041518.48053-1-jasoncola1@gmail.com
-v4: https://lore.kernel.org/r/20260812210326.21485-1-jasoncola1@gmail.com
- tools/usb/usbip/src/usbip_list.c | 48 +++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 19 deletions(-)
-diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
-index 3d810bcc..482f11d7 100644
---- a/tools/usb/usbip/src/usbip_list.c
-+++ b/tools/usb/usbip/src/usbip_list.c
-@@ -36,6 +36,8 @@ static const char usbip_list_usage_string[] =
- 	"    -l, --local            List the local USB devices\n"
- 	"    -d, --device           List the local USB gadgets bound to usbip-vudc\n";
-
-+static bool parsable;
-+
- void usbip_list_usage(void)
- {
- 	printf("usage: %s", usbip_list_usage_string);
-@@ -80,9 +82,11 @@ static int get_exported_devices(char *host, int sockfd)
- 		return 0;
- 	}
-
--	printf("Exportable USB devices\n");
--	printf("======================\n");
--	printf(" - %s\n", host);
-+	if (!parsable) {
-+		printf("Exportable USB devices\n");
-+		printf("======================\n");
-+		printf(" - %s\n", host);
-+	}
-
- 	for (i = 0; i < reply.ndev; i++) {
- 		memset(&udev, 0, sizeof(udev));
-@@ -98,9 +102,14 @@ static int get_exported_devices(char *host, int sockfd)
- 		usbip_names_get_class(class_name, sizeof(class_name),
- 				      udev.bDeviceClass, udev.bDeviceSubClass,
- 				      udev.bDeviceProtocol);
--		printf("%11s: %s\n", udev.busid, product_name);
--		printf("%11s: %s\n", "", udev.path);
--		printf("%11s: %s\n", "", class_name);
-+		if (parsable) {
-+			printf("busid=%s#usbid=%04x:%04x#\n", udev.busid,
-+			       udev.idVendor, udev.idProduct);
-+		} else {
-+			printf("%11s: %s\n", udev.busid, product_name);
-+			printf("%11s: %s\n", "", udev.path);
-+			printf("%11s: %s\n", "", class_name);
-+		}
-
- 		for (j = 0; j < udev.bNumInterfaces; j++) {
- 			rc = usbip_net_recv(sockfd, &uintf, sizeof(uintf));
-@@ -116,10 +125,12 @@ static int get_exported_devices(char *host, int sockfd)
- 					uintf.bInterfaceClass,
- 					uintf.bInterfaceSubClass,
- 					uintf.bInterfaceProtocol);
--			printf("%11s: %2d - %s\n", "", j, class_name);
-+			if (!parsable)
-+				printf("%11s: %2d - %s\n", "", j, class_name);
- 		}
-
--		printf("\n");
-+		if (!parsable)
-+			printf("\n");
- 	}
-
- 	return 0;
-@@ -150,7 +161,7 @@ static int list_exported_devices(char *host)
- }
-
- static void print_device(const char *busid, const char *vendor,
--			 const char *product, bool parsable)
-+			 const char *product)
- {
- 	if (parsable)
- 		printf("busid=%s#usbid=%.4s:%.4s#", busid, vendor, product);
-@@ -158,13 +169,13 @@ static void print_device(const char *busid,
-const char *vendor,
- 		printf(" - busid %s (%.4s:%.4s)\n", busid, vendor, product);
- }
-
--static void print_product_name(char *product_name, bool parsable)
-+static void print_product_name(char *product_name)
- {
- 	if (!parsable)
- 		printf("   %s\n", product_name);
- }
-
--static int list_devices(bool parsable)
-+static int list_devices(void)
- {
- 	struct udev *udev;
- 	struct udev_enumerate *enumerate;
-@@ -229,8 +240,8 @@ static int list_devices(bool parsable)
- 					strtol(idProduct, NULL, 16));
-
- 		/* Print information. */
--		print_device(busid, idVendor, idProduct, parsable);
--		print_product_name(product_name, parsable);
-+		print_device(busid, idVendor, idProduct);
-+		print_product_name(product_name);
-
- 		printf("\n");
-
-@@ -246,7 +257,7 @@ err_out:
- 	return ret;
- }
-
--static int list_gadget_devices(bool parsable)
-+static int list_gadget_devices(void)
- {
- 	int ret = -1;
- 	struct udev *udev;
-@@ -307,8 +318,8 @@ static int list_gadget_devices(bool parsable)
- 					le16toh(idProduct));
-
- 		/* Print information. */
--		print_device(busid, idVendor_buf, idProduct_buf, parsable);
--		print_product_name(product_name, parsable);
-+		print_device(busid, idVendor_buf, idProduct_buf);
-+		print_product_name(product_name);
-
- 		printf("\n");
-
-@@ -333,7 +344,6 @@ int usbip_list(int argc, char *argv[])
- 		{ NULL,       0,                 NULL,  0  }
- 	};
-
--	bool parsable = false;
- 	int opt;
- 	int ret = -1;
-
-@@ -354,10 +364,10 @@ int usbip_list(int argc, char *argv[])
- 			ret = list_exported_devices(optarg);
- 			goto out;
- 		case 'l':
--			ret = list_devices(parsable);
-+			ret = list_devices();
- 			goto out;
- 		case 'd':
--			ret = list_gadget_devices(parsable);
-+			ret = list_gadget_devices();
- 			goto out;
- 		default:
- 			goto err_out;
-
--- 
-2.50.1
+--45e5895e4c3e82e45f3be96fceae5c1f0b830969d7cc94f6648371c4801a--
