@@ -1,309 +1,221 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32106415B6C
-	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 07:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C23E41D217
+	for <linux-usb@vger.kernel.org>; Mon,  7 Sep 2026 07:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788767029; cv=none; b=RwgaRzZ2BxKo8rBHZlUIxtGu38WitkmrGasYeTsNz2GFiNzWUBX4ObkQOulqY9KutptwgFLF8KOWHbai18pjPnEs/bRqXiuki0ErRON4VURa2dOOySkOuz1p5UDOyQDrAhMVDODHK+420tWyoqe4vD2QSCTKknnkk22OLaWxbqw=
+	t=1788767141; cv=none; b=OeD3MWak3OVgrOtonrsAZ47GcH0F7Pts4mklqbSHgqdjlwFozWMIwXDgfMeP6qlbTLQSc+wfJIhMnUzmhY2bemB3kg+Apfc7wo+x9Aolb+Y4NvTSAQc0uRhxzbsN8v4YdIq+dtwzANpI36dO9VqpZq1ViVhBNXqsu1BUfIyUJNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788767029; c=relaxed/simple;
-	bh=73l7JiRJoRNuR1NoXzxinmUu2kvIPgaVdQ2Lqob7+jw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZGh4dUC3e6SuFluxqYz7tgTHV5j1bJdsTljZJDpoTwSSkEEGf4TSs0J5hET53iX+C+xt7h80e3YzaMjSjCQVW2DKKYK0bRF6m0rEY98V9r0i+BlydIcD09pDTNewwOTkWQHaHVNdy73GeU803SaDKpnxPbjlnqTZzokxLcno0A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ow3GmC5F; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1788767141; c=relaxed/simple;
+	bh=5yWZl1jwei4RGUJo4VVTHvQQ/qhIpImbHnCijWHhCSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KyJDTDorCvpOHOhy+JbOPkU1A+h0oUqr3GuyrfndF+gxP1D6n/ZL3jWO20ObRigQV35qgHm3SdMhDGf5viRgI8iZMTMo9XnQ5ss1BQA0WcSheLPTrCHDnM6sdeQNDEBANcJiHeQSJasmBHDPhKaZVYt7PYvomXQSQ6ET7xFSfQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UO8szE6e; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ow3GmC5F"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8557c3f270eso1411369b3a.3
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 00:43:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UO8szE6e"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49cca4ffdcfso26147055e9.0
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 00:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788767026; x=1789371826; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JEZ2k63Zr5fX+XAkb2sGHlQk5o0Kd6wlF6IX5apMREo=;
-        b=Ow3GmC5FOiC7lwKEk51170ZJtb//zQJrBv44BG4SOwb+oFVwGt0tzUOiMy5y5l8GR+
-         gPj2+boX61SOoVWbR2NP1ovTdg7shL9ijAu+IKh5peBVo+iUWtwRmCHN0T4LqQtCVZ9+
-         YaTHZNWDcAlc4fzcABZBBvOcZnLfTS8OKRThnBC/63eYTETnyX4xie7i/e7AOd6K5PoR
-         NRwN7gh5VkNusvwzbEOCU5rhzoMXTsJs6y1Rbrg6Ee1/YJ8+umf78gA91p3vWOaLT76o
-         Hk08k/bDItLKN9hZVcFFs1CWxAt1JEby1wyz9Twv1Fn/KlZa6JHU26Y1UfOFXuMsYNKL
-         jwJA==
+        d=gmail.com; s=20251104; t=1788767137; x=1789371937; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rD5WySJ1L49NgFFXB+bGCoZxLI27TU6b4IffLKrGf+c=;
+        b=UO8szE6eGPuPo5N2zez2anOdtuwbNZ4BohHeE/8jcYB1Ha0QT0dOgNFExzNx2N+uNF
+         g3OB6knIIOcX6ymZxcvPw+ccC6pkiXmjwxYZWB7ZyqqKkLZcu29zConw95XTJYm7xNk4
+         IY5MvJoQdOjoxo4QtiXY4tgbmueQsoEk6Ik5EZXBdJKa0uANCgV0U53o6aM33ne3ZVY+
+         0CAywYtDZk3x/wGRHAvqnSHWrnwVukPOqCP/PbI3qevfieaPjNb0Pu4G/29swqn0sUyB
+         Mry96Mi/5/Xcl6JELEHkMOll3WZJUAdNcQSS1dAG+Lr0wPbzTolJordkSiMvXj8KNjrZ
+         2yxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788767026; x=1789371826;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JEZ2k63Zr5fX+XAkb2sGHlQk5o0Kd6wlF6IX5apMREo=;
-        b=EWLvuED1wZLVWULP4j5id4CQxpDbr7BzTR+L/BpmpEqLj4BrrKMxLJl13HIlh/lMbA
-         wjzBQZk2cC3ihrx52Vgk43UJXQYFMcMR5Oi4kIffgEO5R7eikGcLQ3hGatJK2LyF8tGU
-         CLVBE1mqVgWW3YmkcsuEWdGQOaxzvka+uneubnrr9sVsaNjqvlXzN0rq3+2OzE35TOP5
-         HQYpIcTmJvYPl1nNe2QE9HccYgqDxmpLsUPh0Ram/E2nMhVrb2wbmevU2NoaEGjAgbao
-         l/xlp1UfiDXpeoOS5XD1+B1sFATs1xR+SpC0Wd+kvyf0pY4jNuNPgoEwV5MKJf9gknAJ
-         QBvA==
-X-Forwarded-Encrypted: i=1; AKwUvBwAFcAAC8FxdGdq/xm3//P0Mhb0iH7puRENwj5BICiIuU6U08Qft/QS+YUCN8ZZvRYXvyiQsVmwj0M=@vger.kernel.org
-X-Gm-Message-State: AFuF++muWSIY5XRUx77bfGNJeaMGdgfukshhPd+Ky0aCoLJ7Ud9Trb7h
-	zyF4U08pqaPicR1oXN8iaMcWGi5lUNjZyy/k6qefSR7CQUA+6nbKQ4Vk
-X-Gm-Gg: AYBFou2eUmWEHju+JVgkvlm9CN5Pm607HjAxdja+LSIRvbDinCJALHvAS0OJBLfgSwA
-	zN3NP8hZJHvf0JMstyQtzOwvvEP1+Zm8Mk2vIqzM2WHQNPiKb19cLNoO7iWPQhzfCUPL1m008uA
-	Z+wognl2v9IYK8nvusP5FRvKW3dg0xl81dZKfJNiFvV9swDA9C/tqHiUB2OPFQen7v/TEEwRWOb
-	96lm/wbaBq3ouA/H5k1+lU93PhhmjNUjce6u0QzL4MtyvHywaooPiUZnXBPvMShg6IS3lzN0GmK
-	g9wStVFEVeDZMo2m6EkCAdF0wGQM6jI4CrYlhvEQnIl66/o1a/Y2PXbCdCPJo1085HKOl2ohIR0
-	fcTtInTLLgeJ0tyhHi7LQbKdDJnDcc++mhjbEOixSMIxwcxjT6i0BXauSJDcWnHpbTEwJBt8ppY
-	Y664dso2IdU0Y2kyYrOvQ5hSObA3idtjzIQ952A+7/uHlBP9VqJ+HGU32nyfHs
-X-Received: by 2002:a05:6a00:22d5:b0:857:73e2:9102 with SMTP id d2e1a72fcca58-8616be5ac9dmr28638810b3a.18.1788767026359;
-        Mon, 07 Sep 2026 00:43:46 -0700 (PDT)
-Received: from evangelion-g ([2a09:bac5:40e4:1aaa::2a8:1c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-861537284c6sm3907105b3a.49.2026.09.07.00.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 00:43:45 -0700 (PDT)
-From: Ayush Yaduvanshi <ayush37735@gmail.com>
-To: michal.pecio@gmail.com
-Cc: ayush37735@gmail.com,
-	thomas@winischhofer.net,
-	gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-Subject: [PATCH v2] USB: sisusbvga: avoid prolonged initialization on failure
-Date: Mon,  7 Sep 2026 13:13:08 +0530
-Message-ID: <20260907074308.109603-1-ayush37735@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1788767137; x=1789371937;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rD5WySJ1L49NgFFXB+bGCoZxLI27TU6b4IffLKrGf+c=;
+        b=tVXjSiGsylFznIdL197b9k9d5cKBI7Y2HHmDpd7V8c8a1xOkDc6vHTsdZ9nhEAzTBt
+         d38+fpUs4rkm83cv7sKEXrjGUv1V3AVHZlrY78okDodiVjJOf/o+9MPFBmha1VyGyr/I
+         LXjqf5A4EnlJ9lufjKIRI19wfF9QrfWRsZZBnt8wFKvkL6zhjcFwGcOD/lGgDKcVGLZx
+         KnrKVXsPimfE5NalZUvGlkhIzFSTa6zQuQ0eDUrH2ecSQsL7EqHDGkrTZjDq2LTG+iae
+         xzWlpJa11RqKkv+lC03yuYkoUVMS8vhJqB66TYtX5TeHvaWTKxh8CbDatJgb4JEmKRck
+         FHvg==
+X-Forwarded-Encrypted: i=1; AKwUvByuKMsr2Ilc/WWym0e5+W7nI8WUiHkqOiK6VnqrMjzx3oWv3sH3cT8l1ywm+5Nynng0f0gHEpcgdu4=@vger.kernel.org
+X-Gm-Message-State: AFuF++kHlDIyqcQHEQzjk+IRJlgrFIMEJsamNEWgaUOyb+ipbXxCHF9X
+	fER2Y5UGdnPBHiJxFThw2ID2tSFEoZWhtipi3WzYZ9Ly+rYbL4PiVKR8
+X-Gm-Gg: AYBFou3gqEWKU7mt3y/qLzzz7Har04izxM1NBZNdDwh/cATlnbibib0TP0leO8koAQf
+	EXtiYbDw2kbtpWstRmGXFMgt02DRgZ5/Apz/LI5yNr+2iXgI6lVXDs/KZ5UX6jDIKpvGn4RAlln
+	scQ9laytv3twt3jemEZkgj9YndxzVYrnpWFDpkr1K6f12Wq1RQ55fdLSvkliofa19wGJdYUslzl
+	ewqMri0BQyK6bdFEl8bIzF3lns4n+76TleXXvS5IBPsfaYltYj4B5TcxPIwPa0/qEtdZCmpSZtP
+	kpYy26FJFoJRNU0FDWs0Psg41zFK5Qt5Ii5tpxTJXCNmGdxEcPX8R8cry1cAAzZzTakLWx7nnS7
+	tppejyjVqHmzG7Tr3iEtKGvkAG/bvBif2XvLrKgkU5QDjDi9Vo/y6AeBT9RkYaR80EYfZdBGNj3
+	RB1rCTB1yXogrHnefUUeo+xEihli2fNrOeEt7/cplTiyQGUr8m2H8QMYbTbtHG41CTpGUx+Q==
+X-Received: by 2002:a05:600c:3588:b0:49c:fc6e:a3d7 with SMTP id 5b1f17b1804b1-49cfc6ea7d5mr184672115e9.22.1788767136986;
+        Mon, 07 Sep 2026 00:45:36 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d08144037sm191147985e9.7.2026.09.07.00.45.35
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 07 Sep 2026 00:45:36 -0700 (PDT)
+Date: Mon, 7 Sep 2026 09:45:32 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: "Gordon Chen" <chengordon326@gmail.com>
+Cc: "Mathias Nyman" <mathias.nyman@linux.intel.com>, "Mario Limonciello"
+ <mario.limonciello@amd.com>, "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>,
+ <linux-usb@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Mathias Nyman"
+ <mathias.nyman@intel.com>, Ingo Haenlein <ingo.haenlein@gmx.de>
+Subject: Re: USB-audio isochronous Missed Service Errors on AMD Zen5 client
+ (Fire  Range) -- Data Fabric idle C-state? No OS-level knob found
+Message-ID: <20260907094532.4ffeddd5.michal.pecio@gmail.com>
+In-Reply-To: <18b4f8f0c2ce37be.8d4c4c4ee804b95a.4c2042ec04b99872@GordonMsi>
+References: <18b4f7b23ba6392f.e25301f473da0264.54f7bc72d1817dd4@GordonMsi>
+	<18b4f8f0c2ce37be.8d4c4c4ee804b95a.4c2042ec04b99872@GordonMsi>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The USB core holds minor_rwsem while invoking a USB character
-device's open callback. Avoid retrying graphics-device initialization
-from open() and fail probe when early initialization fails.
+On Mon, 1 Jun 2026 13:44:25 +0000, Gordon Chen wrote:
+> Hi all,
+> 
+> A quick correction and a sharper question after probing the PCIe side.
+> 
+> I checked the controller's PCIe config (lspci -vvv): the xHC function
+> (0000:6b:00.3) has no Latency Tolerance Reporting extended capability
+> at all and reports DevCap2 LTR-. Its upstream root port (00:08.1) is
+> LTR- as well. So the PCIe-layer variant I floated in my last mail is
+> a dead end -- there is no LTR register to write, and neither the
+> endpoint nor the root port advertises the mechanism.
+> 
+> That leaves an apparent contradiction I'd appreciate help squaring:
+> 
+>   - USB/xHCI layer: HCCPARAMS1 LTC = 1 (the controller advertises
+>     Latency Tolerance Messaging Capability).
+>   - PCIe layer: the same function is LTR- (no LTR capability at all).
+> 
+> So if I issue a Set LTV command (the driver-injected path you
+> mentioned), where does the xHC actually forward that aggregated
+> tolerance value to the fabric, given it has no PCIe LTR egress? Is
+> there an internal sideband path to the DF on these integrated AMD
+> controllers, or does LTC only affect USB link power states on this
+> silicon -- in which case Set LTV would never reach the Data Fabric?
+> 
+> If it's an internal/sideband path (Mario / Shyam?), a Set LTV PoC is
+> still worth trying. If LTC is purely USB-link-scoped here, it won't
+> touch the DF idle problem and I should look elsewhere. That
+> distinction decides whether I write the PoC at all.
 
-Also stop sisusb_do_init_gfxdevice() after the first failed request.
-Continuing initialization after a failed USB request causes additional
-synchronous transfers and their retries against an unresponsive device.
+Hi,
 
-v2:
-Stop sisusb_do_init_gfxdevice() after the first failed USB request and
-treat early initialization failure in probe() as a probe failure.
-Remove the initialization retry from sisusb_open().
+I wrote a small debugfs interface for people to play with, it just
+issues the Set LTV command with given BELT parameter. You know it
+worked when you see "INFO unknown command type 20" in dmesg.
 
-The exact v2 patch was tested by syzbot using the reported reproducer,
-and the reproducer did not trigger the reported hang.
+See USB 3.2 spec 8.5.6.2 for details of the BELT value. TL;DR:
 
-Reported-by: syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3bc656a9271e7c8a5c6b
-Tested-by: syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
+1024 + latency_us, must be given in decimal and latency_us <= 1023
+
+The spec says this only matters for non-isoc endpoints, so I guess HW
+is expected to be smart enough to manage it itself when isoc is active.
+Ergo, it will probably make jack all difference and we can comfortably
+go back to blaming AMD.
+
+Please also try 7.3-rc2, just in case you are actually running into
+known (hopefully fixed) problems with isoc URB scheduling.
+
+Regards,
+Michal
+
 ---
-Thanks for the review.
 
-v2:
-- Stop sisusb_do_init_gfxdevice() after the first failed USB request
-  instead of continuing with further synchronous requests and their
-  timeout/retry cost on an unresponsive device.
-- Treat failure of the early graphics-device initialization in probe()
-  as a probe failure, so a device which failed initialization is not
-  left for a later initialization attempt from open().
-- Remove the graphics-device initialization retry from sisusb_open().
-- The exact v2 patch was tested by syzbot using the reported reproducer;
-  syzbot reports that the reproducer did not trigger the reported hang.
-
- drivers/usb/misc/sisusbvga/sisusbvga.c | 133 +++++++++++++++++--------
- 1 file changed, 89 insertions(+), 44 deletions(-)
-
-diff --git a/drivers/usb/misc/sisusbvga/sisusbvga.c b/drivers/usb/misc/sisusbvga/sisusbvga.c
-index 3e75a7c24828..e0b1111c1f53 100644
---- a/drivers/usb/misc/sisusbvga/sisusbvga.c
-+++ b/drivers/usb/misc/sisusbvga/sisusbvga.c
-@@ -2075,66 +2075,114 @@ static int sisusb_do_init_gfxdevice(struct sisusb_usb_data *sisusb)
- 	packet.address = 0x00000324;
- 	packet.data    = 0x00000004;
- 	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	if (ret)
-+		return ret;
- 
- 	packet.header  = 0x001f;
- 	packet.address = 0x00000364;
- 	packet.data    = 0x00000004;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	if (ret)
-+		return ret;
- 
- 	packet.header  = 0x001f;
- 	packet.address = 0x00000384;
- 	packet.data    = 0x00000004;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	if (ret)
-+		return ret;
- 
- 	packet.header  = 0x001f;
- 	packet.address = 0x00000100;
- 	packet.data    = 0x00000700;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	if (ret)
-+		return ret;
- 
- 	packet.header  = 0x000f;
- 	packet.address = 0x00000004;
--	ret |= sisusb_send_bridge_packet(sisusb, 6, &packet, 0);
-+	ret = sisusb_send_bridge_packet(sisusb, 6, &packet, 0);
-+	if (ret)
-+		return ret;
-+
- 	packet.data |= 0x17;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	if (ret)
-+		return ret;
- 
- 	/* Init BAR 0 (VRAM) */
--	ret |= sisusb_read_pci_config(sisusb, 0x10, &tmp32);
--	ret |= sisusb_write_pci_config(sisusb, 0x10, 0xfffffff0);
--	ret |= sisusb_read_pci_config(sisusb, 0x10, &tmp32);
-+	ret = sisusb_read_pci_config(sisusb, 0x10, &tmp32);
-+	if (ret)
-+		return ret;
-+
-+	ret = sisusb_write_pci_config(sisusb, 0x10, 0xfffffff0);
-+	if (ret)
-+		return ret;
-+
-+	ret = sisusb_read_pci_config(sisusb, 0x10, &tmp32);
-+	if (ret)
-+		return ret;
-+
- 	tmp32 &= 0x0f;
- 	tmp32 |= SISUSB_PCI_MEMBASE;
--	ret |= sisusb_write_pci_config(sisusb, 0x10, tmp32);
-+	ret = sisusb_write_pci_config(sisusb, 0x10, tmp32);
-+	if (ret)
-+		return ret;
- 
- 	/* Init BAR 1 (MMIO) */
--	ret |= sisusb_read_pci_config(sisusb, 0x14, &tmp32);
--	ret |= sisusb_write_pci_config(sisusb, 0x14, 0xfffffff0);
--	ret |= sisusb_read_pci_config(sisusb, 0x14, &tmp32);
-+	ret = sisusb_read_pci_config(sisusb, 0x14, &tmp32);
-+	if (ret)
-+		return ret;
-+
-+	ret = sisusb_write_pci_config(sisusb, 0x14, 0xfffffff0);
-+	if (ret)
-+		return ret;
-+
-+	ret = sisusb_read_pci_config(sisusb, 0x14, &tmp32);
-+	if (ret)
-+		return ret;
-+
- 	tmp32 &= 0x0f;
- 	tmp32 |= SISUSB_PCI_MMIOBASE;
--	ret |= sisusb_write_pci_config(sisusb, 0x14, tmp32);
-+	ret = sisusb_write_pci_config(sisusb, 0x14, tmp32);
-+	if (ret)
-+		return ret;
- 
- 	/* Init BAR 2 (i/o ports) */
--	ret |= sisusb_read_pci_config(sisusb, 0x18, &tmp32);
--	ret |= sisusb_write_pci_config(sisusb, 0x18, 0xfffffff0);
--	ret |= sisusb_read_pci_config(sisusb, 0x18, &tmp32);
-+	ret = sisusb_read_pci_config(sisusb, 0x18, &tmp32);
-+	if (ret)
-+		return ret;
-+
-+	ret = sisusb_write_pci_config(sisusb, 0x18, 0xfffffff0);
-+	if (ret)
-+		return ret;
-+
-+	ret = sisusb_read_pci_config(sisusb, 0x18, &tmp32);
-+	if (ret)
-+		return ret;
-+
- 	tmp32 &= 0x0f;
- 	tmp32 |= SISUSB_PCI_IOPORTBASE;
--	ret |= sisusb_write_pci_config(sisusb, 0x18, tmp32);
-+	ret = sisusb_write_pci_config(sisusb, 0x18, tmp32);
-+	if (ret)
-+		return ret;
- 
- 	/* Enable memory and i/o access */
--	ret |= sisusb_read_pci_config(sisusb, 0x04, &tmp32);
-+	ret = sisusb_read_pci_config(sisusb, 0x04, &tmp32);
-+	if (ret)
-+		return ret;
-+
- 	tmp32 |= 0x3;
--	ret |= sisusb_write_pci_config(sisusb, 0x04, tmp32);
--
--	if (ret == 0) {
--		/* Some further magic */
--		packet.header  = 0x001f;
--		packet.address = 0x00000050;
--		packet.data    = 0x000000ff;
--		ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
--	}
-+	ret = sisusb_write_pci_config(sisusb, 0x04, tmp32);
-+	if (ret)
-+		return ret;
- 
--	return ret;
-+	/* Some further magic */
-+	packet.header  = 0x001f;
-+	packet.address = 0x00000050;
-+	packet.data    = 0x000000ff;
-+
-+	return sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index 0f6f97cfe0b0..5f370e5e57ff 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -670,6 +670,70 @@ static void xhci_debugfs_create_ports(struct xhci_hcd *xhci,
+ 	}
  }
  
- /* Initialize the graphics device (return 0 on success)
-@@ -2223,20 +2271,10 @@ static int sisusb_open(struct inode *inode, struct file *file)
- 	}
- 
- 	if (!sisusb->devinit) {
--		if (sisusb->sisusb_dev->speed == USB_SPEED_HIGH ||
--				sisusb->sisusb_dev->speed >= USB_SPEED_SUPER) {
--			if (sisusb_init_gfxdevice(sisusb, 0)) {
--				mutex_unlock(&sisusb->lock);
--				dev_err(&sisusb->sisusb_dev->dev,
--						"Failed to initialize device\n");
--				return -EIO;
--			}
--		} else {
--			mutex_unlock(&sisusb->lock);
--			dev_err(&sisusb->sisusb_dev->dev,
--					"Device not attached to USB 2.0 hub\n");
--			return -EIO;
--		}
-+		mutex_unlock(&sisusb->lock);
-+		dev_err(&sisusb->sisusb_dev->dev,
-+			"Device not initialized\n");
-+		return -EIO;
- 	}
- 
- 	/* Increment usage count for our sisusb */
-@@ -2880,9 +2918,16 @@ static int sisusb_probe(struct usb_interface *intf,
- 
- 	if (dev->speed == USB_SPEED_HIGH || dev->speed >= USB_SPEED_SUPER) {
- 		int initscreen = 1;
--		if (sisusb_init_gfxdevice(sisusb, initscreen))
++static int belt_show(struct seq_file *s, void *unused)
++{
++	return 0;
++}
 +
-+		if (sisusb_init_gfxdevice(sisusb, initscreen)) {
- 			dev_err(&sisusb->sisusb_dev->dev,
--					"Failed to early initialize device\n");
-+				"Failed to early initialize device\n");
-+			sisusb->present = 0;
-+			usb_set_intfdata(intf, NULL);
-+			usb_put_dev(sisusb->sisusb_dev);
-+			retval = -EIO;
-+			goto error_4;
-+		}
++static ssize_t belt_write(struct file *file,  const char __user *ubuf,
++			       size_t count, loff_t *ppos)
++{
++	struct seq_file         *s = file->private_data;
++	struct xhci_hcd		*xhci = (struct xhci_hcd *)s->private;
++	struct xhci_command	*cmd;
++	u16			belt;
++	int			ret;
++
++	/* Decimal number */
++	ret = kstrtou16_from_user(ubuf, count, 10, &belt);
++	if (ret)
++		return ret;
++
++	cmd = xhci_alloc_command(xhci, true, GFP_KERNEL);
++	if (!cmd)
++		return -ENOMEM;
++
++	spin_lock_irq(&xhci->lock);
++	ret = xhci_queue_vendor_command(xhci, cmd, 0, 0, 0, TRB_TYPE(TRB_SET_LT) | belt << 16);
++	if (!ret)
++		xhci_ring_cmd_db(xhci);
++	spin_unlock_irq(&xhci->lock);
++	if (ret)
++		goto free;
++
++	wait_for_completion(cmd->completion);
++
++	switch (cmd->status) {
++	case COMP_SUCCESS:
++		ret = count;
++		break;
++	case COMP_TRB_ERROR:
++		ret = -EBADR;
++		break;
++	case COMP_PARAMETER_ERROR:
++		ret = -EBADRQC;
++		break;
++	default:
++		ret = -EIO;
++	}
++free:
++	xhci_free_command(xhci, cmd);
++	return ret;
++}
++
++static int belt_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, belt_show, inode->i_private);
++}
++
++static const struct file_operations belt_fops = {
++	.open			= belt_open,
++	.read			= seq_read,
++	.write			= belt_write,
++	.llseek			= seq_lseek,
++	.release		= single_release,
++};
++
+ static int xhci_port_bw_show(struct xhci_hcd *xhci, u8 dev_speed,
+ 				struct seq_file *s)
+ {
+@@ -901,6 +965,8 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
  
- 	} else
- 		dev_info(&sisusb->sisusb_dev->dev,
--- 
-2.53.0
-
+ 	xhci->debugfs_slots = debugfs_create_dir("devices", xhci->debugfs_root);
+ 
++	debugfs_create_file("belt", 0666, xhci->debugfs_root, xhci, &belt_fops);
++
+ 	xhci_debugfs_create_ports(xhci, xhci->debugfs_root);
+ 
+ 	xhci_debugfs_create_bandwidth(xhci, xhci->debugfs_root);
