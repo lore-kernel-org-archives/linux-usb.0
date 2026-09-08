@@ -1,173 +1,175 @@
-Received: from mta1.migadu.com (out-23.mta1.migadu.com [95.215.58.23])
+Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8798566C6D
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 22:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8075E51A759
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 23:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788907405; cv=none; b=MdmjCwpmr+2hNQmafZ0tgr7JU+czxWuFbrFj8+vO3uAlg7vnZxomMjSr4MCgQrWKGhi0leKmkypI7ZFHng09U3Y4enU+IsZAiYHFrZJRjOmcHoL/DBnhZimMDrZS90eSiF8ue7x3CZVh4kIbrssRT6iGF3nZPTxaVNHbRHW4DO0=
+	t=1788909162; cv=none; b=WQ1RoxLY8zq56XR6Xy5ZbXWsLJ48f0frgAG0GgEZkkT0inGA4JxK3ghxI247oB+DsrW3zeAItz2+1pObjGnPkkthjKJm3oauKYQr9lNP8GjEz8XWOW73xxF9jmQ/1TkU5jl0Yuu1oKWr8y8T5s9/FZwoVVkQmrfPDUlU93L7AfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788907405; c=relaxed/simple;
-	bh=1aEK9JH0KAYLycRwGTjlyXIKWppvN4MuQOuaWrOw0Fk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=J7ivoQElKlyPGajSYmDO1N603bkaJjHtRcSsaTZ8jOHZjzuWwPJVdMWVC20I/u4vUBarf5eAL0shazRcziWHGs7DFIfTx+6lEN9qTQ7WHme6ZOn6lK4yLm3fttkxQr9i0DfjIGVcRLe0e2UX59qCRNUGl4vrnMoHOiSHNbcVnEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=tsC1cYhb; arc=none smtp.client-ip=95.215.58.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	s=arc-20240116; t=1788909162; c=relaxed/simple;
+	bh=+ZjLG77YKfr9IPV1oRcpyx+bGhfiK19WyzbxnAw1Dlw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rijZRx0vaVfuwoVVQ454rB+uZQR1/kIQsQaM/wM32M42/LH/73f5rc06uEYE/EUhP08FIe380RBhP45AcZ9wJqcHJ1RG+gwXBywyJBwoXQ1GOSZjxHt/pyFiUX/4U8KapQEkcBcVjrO+pNQQWL8vKBMQ/EFLyJ6pilqCLrB67vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iOlnBG10; arc=none smtp.client-ip=74.125.231.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="tsC1cYhb"
-X-Envelope-To: linux-usb@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1aEK9JH0KAYLycRwGTjlyXIKWppvN4MuQOuaWrOw0Fk=;
- c=simple/simple; d=packett.cool;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788907386; v=1; x=1789512186;
- b=tsC1cYhb+7HI4oLcFoAo85DjvzY0BY4yguxYrvh87H7h06ClY5TWwyiii0AoqN1NePr1WbNG
- xvdmL+Z1NgtnfaXhf1EPsPUTCbOu38t05Yz1ZIUPPd4xesQ+pCSWv4kqq/Ml9C+FCf56BFHGtZl
- mG7VEeM3Q608jxDNMfanttMwXV9iTnxtW6pM/naOljawBQiS2x1Y17M8XZ2u6aAuUXCNr+/FdYo
- tof9nnvpjtl4Rx1fUpyxFJjYW4u61ZXLAEnJTyd2syFy+d24JiShRkePTvTxUbsetIJ0UuNjR0g
- XSU6f55jmD04bllFghvw+tBjf6WJr7mZZvAXazSJWZecA==
-X-Envelope-To: linux-usb@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 58c3b349da017f56;
-	Tue, 08 Sep 2026 22:43:06 +0000
-X-Mizu-Trace-ID: 58c3b349da017f56
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <f9926203-ee69-4e18-b6c7-95261ba10807@packett.cool>
-Date: Tue, 8 Sep 2026 19:43:02 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iOlnBG10"
+Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4ab2d8e7e4cso1068552b6e.1
+        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 16:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788909159; x=1789513959; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=smnQky0ErsfDpiZznR4+kV0USKaVnCb3aDkonGaPobM=;
+        b=iOlnBG10+5D6djfvL3aTRimTe7NrfJoDXFTVQVUZrzpWcgX5u6fR9z5vLscGEEljrj
+         J25daj+ucu4RkhdJSEHVilKtdNO0qolLteYwMoRf+cKXOFjZ2jOYlUArnnofzzqzlhnZ
+         0Cwo6JQ6mIi3gsLthZprti4HTGB1L9ZQv/93TM44YBbeT0ii50NonrDi77N46nZR+MrK
+         hb7dnFqdwyTknZJb2ilgbEW+DJwBeHo8rpYE58fTp9MTvcGIctCHtvSBwAm2NR1j2mOJ
+         s+KfcNwYzYqVeykP7kq/aFI6spnY0K3WnTZNUeiDjniAJyIdcuFcQriWEdpmwZDGIe5X
+         hEUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788909159; x=1789513959;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=smnQky0ErsfDpiZznR4+kV0USKaVnCb3aDkonGaPobM=;
+        b=s/Dwts+fKKPd0Jp+/uFTOaJAW9L9WEdq8szG6TD7Ga4AhlXPfO6EXs3J/ABD0n0gUB
+         AihLxqzzGF0SL9b8u9fGzBGZQI1nWLC/ABtu7fXTzEpdK9AGqCTPhq09jCAbCOubOokE
+         ACLOcSsOkSVyr6dlbVThA2zR7FdYOuISF6VhIJ0mcYJvZKhH41iRXX1wKC3t6kMajZ5f
+         0/ItX4beiEW+C/1wYUOaS1oeT8+OuSJ5WZiSUWiElTbpipe/0mUSNrLB4d8nQe6vZmei
+         QGRoIO6MHpMj6ASULDZ5OZzrvVztY9nfctay+uICduix4HRrzvXObxmxHXi/uU8ZTITa
+         uHyg==
+X-Gm-Message-State: AFuF++nlVvBrc16N6kZosQeyD83AReFfW6OtZWs/XEfxK3KcPFupq6yx
+	S+EHUACP9dZ0NjJpTlZfYLO3p+kJOjwgHmgolWHbBu1nYBTMTg3FH2Zv
+X-Gm-Gg: AYBFou29EW4t12QsUZVgl1/de1Z2VmSQtqoT2mKsZQs8NgOrYtZLCIyzePtfQ+2DXtV
+	/nqJBDqjrg28j4VG4BdjxJ87ulFkBOcRCSq5IibbDxl4Hv03OANYMZhl5giwWmjIJPuiSeD/Toc
+	z//2Q/2YbZKnEP04utLARxJ6cA0JSkE5XPWNh+yfmQNPmKj9FtRystR1fXvsM9O11koj5qI7vE2
+	8iVAb/yS4xemsSpxDcWdvh17+DAXUTMAYlHX3KPFMCzhDlnIlW9YY40Dlo19T8pwr/L2bvK3T2z
+	oo+hS/pJ/u0Hzjs3UDrUd2AI7dEut6pmzsRbFEaePhJClbdk+I3LWV/si81tbCWblmqA012h7EF
+	7QNQYSHDUjrCEQgTY23wnCn0D29kAZoHPpJ8Ss+5F298u5By7rzwl8KviqZgILKIR9VHTIRbDBf
+	R6XM4omT3seqOEo7WAqGFyPwpPztZhi9fGT/SYRLzvzS+BmmbIgJxmf4PiQVqt4ijgMuo=
+X-Received: by 2002:a05:6808:c2bd:b0:4b9:a8ac:482 with SMTP id 5614622812f47-4b9a8bb6aa4mr15564787b6e.32.1788909159168;
+        Tue, 08 Sep 2026 16:12:39 -0700 (PDT)
+Received: from [192.168.18.164] ([2600:8804:5716:d800::b712])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-475523d1dc5sm13776680fac.2.2026.09.08.16.12.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 16:12:37 -0700 (PDT)
+From: Ryan Brue <ryanbrue.dev@gmail.com>
+Date: Tue, 08 Sep 2026 18:10:23 -0500
+Subject: [PATCH] usb: mtu3: fix system suspend in gadget mode after soft
+ disconnect
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: dwc3: qcom: Add support to skip phy management by
- USB core
-From: Val Packett <val@packett.cool>
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260723-dwc3-skip-init-quirk-v1-1-97682bb44ebd@oss.qualcomm.com>
- <cbb4ae94-7862-4d91-b01d-0d7f18d49a45@packett.cool>
-Content-Language: en-US
-In-Reply-To: <cbb4ae94-7862-4d91-b01d-0d7f18d49a45@packett.cool>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260908-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-v1-1-3457dcea9f48@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNywrCMBBFf6XM2oG02mL9FekijzFGSBpmEhFL/
+ 92oy8O9nLOBEAcSuHQbMD2DhDU16A8d2LtOnjC4xjCoYVKzOiMbroRS6Y01S2HSMSSPsdQj3sK
+ rLZIpOaxi0GvnqWBcHaGdZjv26mSG0UCzZ6Z2/5Wvy5+lmgfZ8s3Bvn8AkI/oj5sAAAA=
+X-Change-ID: 20260908-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-c69c5104b25b
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Fei Shao <fshao@chromium.org>
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Ryan Brue <ryanbrue.dev@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788909156; l=3498;
+ i=ryanbrue.dev@gmail.com; s=20260906; h=from:subject:message-id;
+ bh=+ZjLG77YKfr9IPV1oRcpyx+bGhfiK19WyzbxnAw1Dlw=;
+ b=V2O6cHk26Nxt8LbULYU/sEf44lBkzKUl3wK7GAWx+IQ9lLvhe0k0Y8fzsYxUfdNDKEqL4tmi3
+ 8GpBdhfJQ3hDKeuMLeV3szySlDOsdovXO/TPdutx5Dhf0d/tFSGylLR
+X-Developer-Key: i=ryanbrue.dev@gmail.com; a=ed25519;
+ pk=KsUvVaP//v/2q+ZBuacc7cLbsyEYn+AD71Sn28oZWKo=
 
+ssusb_gadget_suspend() removes the D+ pullup for system suspend by calling
+mtu3_dev_on_off(mtu, 0) directly. That writes the hardware SOFT_CONN bit
+but leaves mtu->softconnect alone, deliberately: ssusb_gadget_resume()
+needs it to decide whether to pull up again.
 
-On 9/8/26 7:33 PM, Val Packett wrote:
->
-> On 7/23/26 7:54 AM, Krishna Kurapati wrote:
->> DWC3 driver does manage phys itself sufficiently for Qualcomm platforms.
->> If xhci-skip-phy-init is not set, the HCD core does a phy_init and phy_
->> exit is done only when roothub is being destroyed. Due to this, during
->> system suspend in host mode, although phy_exit is done by DWC3 core, the
->> init_count on phy is never down to zero since HCD core also did an init.
->> consequently causing phy's exit routine to not be called. Hence, add
->> support to skip phy management by USB core.
->>
->> Some Exynos platforms still do rely on USB core for phy_calibrate calls,
->> hence disable USB core management for Qualcomm platforms only.
->>
->> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
->> ---
->> Link to PHY calibrate handling for Exynos platforms:
->> https://lore.kernel.org/all/20190829053028.32438-1-m.szyprowski@samsung.com/ 
->>
->
-> Hi,
->
-> this was merged into -next a few days ago, and I'm seeing warnings on 
-> boot now:
->
-> [    0.613188] sysfs: cannot create duplicate filename 
-> '/devices/platform/soc@0/a800000.usb/software_node'
-> [    0.613195] CPU: 10 UID: 0 PID: 93 Comm: kworker/u49:0 Tainted: G  
->       W           7.3.0-rc2-next-20260907-uwu+ #143 PREEMPT(full)
-> [    0.613197] Tainted: [W]=WARN
-> [    0.613198] Hardware name: Dell Inc. Latitude 7455/0FK7MX, BIOS 
-> 2.13.0 09/19/2025
-> [    0.613199] Workqueue: events_unbound deferred_probe_work_func
-> [    0.613206] Call trace:
-> [..]
-> [    0.613226]  device_create_managed_software_node+0xe8/0x108
-> [    0.613227]  dwc3_qcom_probe+0x5a4/0x7b0
->
-> There is indeed already a software node being created in the shared 
-> dwc3 core code.
->
-> Could there be any other consequences than a duplicate sysfs path?
->
-Answering my own question: even worse messages when the controller 
-switches to gadget mode (which happens even with chargers when DRD is 
-enabled)
+wait_for_ip_sleep() then asks ssusb_gadget_ip_sleep_check() whether the IP
+can sleep, and that function tests mtu->softconnect -- the gadget's intent
+rather than the state of the pin. So it answers "pulled up, the IP can
+sleep" for a device that was just disconnected, and the poll for
+SSUSB_IP_SLEEP_STS runs to its 100 ms timeout:
 
-[    5.620951] refcount_t: underflow; use-after-free.
-[    5.620957] WARNING: lib/refcount.c:28 at 
-refcount_warn_saturate+0xd8/0x140, CPU#2: kworker/2:1/98
-[    5.621075] CPU: 2 UID: 0 PID: 98 Comm: kworker/2:1 Tainted: G       
-W           7.3.0-rc2-next-20260907-uwu+ #143 PREEMPT(full)
-[    5.621077] Tainted: [W]=WARN
-[    5.621078] Hardware name: Dell Inc. Latitude 7455/0FK7MX, BIOS 
-2.13.0 09/19/2025
-[    5.621079] Workqueue: events_freezable __dwc3_set_mode
-[..]
-[    5.621114] Call trace:
-[    5.621115]  refcount_warn_saturate+0xd8/0x140 (P)
-[    5.621117]  kobject_put+0x11c/0x230
-[    5.621121]  software_node_notify_remove+0xdc/0xf8
-[    5.621124]  device_del+0x1dc/0x328
-[    5.621126]  usb_disconnect+0x1d8/0x348
-[    5.621129]  usb_remove_hcd+0x100/0x2a8
-[    5.621131]  xhci_plat_remove+0x8c/0x170
-[    5.621134]  platform_remove+0x28/0x40
-[    5.621135]  device_release_driver_internal+0x174/0x290
-[    5.621138]  device_release_driver+0x20/0x38
-[    5.621140]  bus_remove_device+0x19c/0x1f8
-[    5.621142]  device_del+0x1c4/0x328
-[    5.621143]  platform_device_unregister+0x34/0xc0
-[    5.621145]  dwc3_host_exit+0x50/0x70
-[    5.621146]  __dwc3_set_mode+0xa4/0x378
+  mtu3 11271000.usb: gadget (high-speed) pullup D-
+  mtu3 11271000.usb: ip sleep failed!!!
+  mtu3 11271000.usb: gadget (high-speed) pullup D+
+  mtu3 11271000.usb: PM: dpm_run_callback(): mtu3_suspend returns -16
+  PM: Some devices failed to suspend, or early wake event detected
 
+and the suspend fails. The rule the hardware follows is stated in that
+same function: the IP cannot sleep while D+ is not pulled up.
 
-[..]
+On an MT8173 tablet (Amazon Fire HD 10 2017, dr_mode = "peripheral") this
+makes system suspend impossible whenever VBUS is present, which on a board
+whose only USB port is also its charging input means whenever it is
+charging. Unbinding the UDC, which clears mtu->softconnect through
+mtu3_gadget_pullup() and so makes the check agree with the pin again, is
+enough to let the same suspend succeed with the driver still bound and the
+charger still attached:
 
+  gadget bound   (softconnect=1): suspend returns -16, "ip sleep failed!!!"
+  gadget unbound (softconnect=0): suspend completes, 20 s of 20 s
 
-[    5.644535] Unable to handle kernel paging request at virtual address 
-006563697665642f
-[    5.644537] Mem abort info:
-[    5.644538]   ESR = 0x0000000096000004
-[    5.644539]   EC = 0x25: DABT (current EL), IL = 32 bits
-[    5.644540]   SET = 0, FnV = 0
-[    5.644541]   EA = 0, S1PTW = 0
-[    5.644542]   FSC = 0x04: level 0 translation fault
-[    5.644543] Data abort info:
-[    5.644543]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-[    5.644545]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[    5.644546]   GCS = 0, Overlay = 0, DirtyBit = 0
-[    5.644546] [006563697665642f] address between user and kernel 
-address ranges
-[    5.644548] Internal error: Oops: 0000000096000004 [#1]  SMP
-[    5.644653] CPU: 2 UID: 0 PID: 98 Comm: kworker/2:1 Tainted: G       
-W           7.3.0-rc2-next-20260907-uwu+ #143 PREEMPT(full)
-[    5.644655] Tainted: [W]=WARN
-[    5.644656] Hardware name: Dell Inc. Latitude 7455/0FK7MX, BIOS 
-2.13.0 09/19/2025
-[    5.644657] Workqueue: events_freezable __dwc3_set_mode
-[    5.644664] pc : __pi_strcmp+0x9c/0x140
-[    5.644668] lr : software_node_property_present+0x60/0x98
-[    5.644697] Call trace:
-[    5.644698]  __pi_strcmp+0x9c/0x140 (P)
-[    5.644700]  device_property_present+0x9c/0xc0
-[    5.644703]  dwc3_gadget_init+0x230/0x7b0
-[    5.644704]  __dwc3_set_mode+0x314/0x378
-[    5.644707]  process_scheduled_works+0x1b8/0x538
-[    5.644710]  worker_thread+0x1fc/0x2f8
-[    5.644711]  kthread+0x114/0x148
-[    5.644713]  ret_from_fork+0x10/0x20
+So record what mtu3_dev_on_off() actually wrote and test that instead.
+Runtime suspend is unaffected: it does not soft disconnect, so the pullup
+is still set and the IP-sleep poll is still performed.
 
+Fixes: e69027c25361 ("usb: mtu3: allow system suspend during active gadget connection")
+Assisted-by: LLM
+Signed-off-by: Ryan Brue <ryanbrue.dev@gmail.com>
+---
+ drivers/usb/mtu3/mtu3.h      | 1 +
+ drivers/usb/mtu3/mtu3_core.c | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-> Thanks,
-> ~val
->
+diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
+index ba5a63669e5f..7f4fb87d8438 100644
+--- a/drivers/usb/mtu3/mtu3.h
++++ b/drivers/usb/mtu3/mtu3.h
+@@ -361,6 +361,7 @@ struct mtu3 {
+ 	unsigned is_self_powered:1;
+ 	unsigned test_mode:1;
+ 	unsigned softconnect:1;
++	unsigned pullup:1;
+ 	unsigned u1_enable:1;
+ 	unsigned u2_enable:1;
+ 	unsigned u3_capable:1;
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index a40bf5bad2d5..5ce61240194f 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -346,6 +346,7 @@ void mtu3_dev_on_off(struct mtu3 *mtu, int is_on)
+ 	else
+ 		mtu3_hs_softconn_set(mtu, is_on);
+ 
++	mtu->pullup = !!is_on;
+ 	dev_info(mtu->dev, "gadget (%s) pullup D%s\n",
+ 		usb_speed_string(mtu->speed), is_on ? "+" : "-");
+ }
+@@ -1023,7 +1024,7 @@ bool ssusb_gadget_ip_sleep_check(struct ssusb_mtk *ssusb)
+ 		return true;
+ 
+ 	/* device is started and pullup D+, ip can sleep */
+-	if (mtu->is_active && mtu->softconnect)
++	if (mtu->is_active && mtu->pullup)
+ 		return true;
+ 
+ 	/* ip can't sleep if not pullup D+ when support device mode */
+
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260908-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-c69c5104b25b
+
+Best regards,
+--  
+Ryan Brue <ryanbrue.dev@gmail.com>
+
