@@ -1,127 +1,183 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F574C6808
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 14:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E790654A7C5;
+	Tue,  8 Sep 2026 14:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788877737; cv=none; b=sAkXk4sbhdhZkD9XgSjdHlH24HKQ6NDLzmtFBn/XD1QIL9+u60r5bCaKuUdqqvOCv3XJTs7yghADMCdlMMhZ/kX3Z+pVvtJ9NfvzIk+s040pE883X0ZljjBDpin0OPLn7+sK9QPigX431k59lRjRQkJTdd2WvKsF8cj87pAETEA=
+	t=1788877784; cv=none; b=EKqa/FRTZM+y5ERQwoHBA90d4xCM4YFmEAyFG9OFameLZlC6b09fQBAz0dRD35dypQBHXbFNitj4iD67GlSKEE3D3PGSjwTSZY5JLzdR4vaUX5CKcL2HMrLu6DZHTZBrs8Eqye1zNL4NFqgB03NHWPpx7dsRDR8drzMrHpAokVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788877737; c=relaxed/simple;
-	bh=QC894VVNFE+QX5jLEROnGftXBpYdqetNtogv05DAenA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UYVhcgskGwEr4Ch2qIl0zPS34dl6YUrES1XbfPZdeufr8Ya7RDktkuY6f5EaUoBUFqrbmHBKI8IkTq9aeeE5FFmfBCGbFx6XMuPzQw80KY5NASpuO1vntZwshHFz1k4fI9UJpY10S4Zk7UtV9ck9EVwlU5iWWCyroRInd0QodbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=MnYu/qrM; arc=none smtp.client-ip=74.125.224.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1788877784; c=relaxed/simple;
+	bh=qt2b9KsboVT1GH0s38SD5C3UCiKfrPzq7yTqTpYYpAs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WtzbAezzgMDm28h5wRxPKu7g+JvTygUwo1Zh76lMJI/qBh/XpwZGBv2DVbTIG3mphEVkc+Weg+mgWh54xsgfiJZp4xQL9RK5gqBwUmgDBzsva/v2JbN8G7JIMDEDIZvrpENYzx53lls8/F+IFM6mMyANOQ6bSwAAlq7jPuA9EaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1dwBb2Rl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=swJ5enVK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KZaC3ne5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nWi+jAOx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="MnYu/qrM"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66fdf2a9aacso2445707d50.0
-        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 07:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1788877725; x=1789482525; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=acTtdIUeHcaQmOCcZka3aZUMRILgrgFwPSEMa3ata2A=;
-        b=MnYu/qrMA3+CiIOMdWTJ5x9LeyVMOgtag+CCtfQcT3x/n1H7JZQ+l+fHJ6tFzcmKYQ
-         m9gCQXanFUaTQb6/6/0vCCMCb5H5dFJ3nEOUwEdI9VCgI9Xc/hvnkaiV/PfABewmiqSB
-         mIR6omrmp0tvMBoa08xVBCe/92awHvpEA6NXB6hgTS3wabCYKBiSGgfMVRBdU/sKYQz/
-         LR65ADrpfgTnmcD/44aJYDzyFE0s6BdlH/idkm+kx1UBo17waMwBZzlwgjW40coysEMU
-         221WR6A3Q17vcBVDfl4CndA7twzwKweaztPHf+jwb2U9iaZHLUpphSqHSK20qocDroWH
-         I7DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788877725; x=1789482525;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=acTtdIUeHcaQmOCcZka3aZUMRILgrgFwPSEMa3ata2A=;
-        b=P0fPyrRp0OpZlqH30KcVQlUISu5t0QMjx1mUDoBcNq5CPn1NCx7TI9/F5G+5cV7jV/
-         nSWm3hrxGsluhOvP2AMSOWGAYSoq8n5GCd+NXwrQNQzKHUEviufmXzws6s4aXQlR2Sye
-         1y8grnyv9mRe0nW/1h4u/ADbnTf1NqR7Zq+2VR+nkGVhoGIuaKJ2463C6vyBvnjp4Aeh
-         K2qqbcd7MuFh+0fLUeq8PlJLJn1aYcy+1NbaAAB96lpJ9wAp7dpNZURrhLOIWNxP+MPB
-         5oZBbpzKCRyKefAy5rACvvdF29s4SmqaFI8boy+sGQlnPTWKd3/LHY/REpBsd53QsyKI
-         QAaw==
-X-Forwarded-Encrypted: i=1; AKwUvBw8KDBmUhzzjyptodMEKCJUGWoNvlNKxlSntRpM5fSYX5lDbT12HlYsPoj++Os6MGyV7+TmLCnmO7U=@vger.kernel.org
-X-Gm-Message-State: AFuF++neeDQr1x3CW+zPsIF+rBXL8visxEXTegIK1lK6hhLS0n1l6P3T
-	rcdxOb298uLw1nPHmM/dbaxlbLSn2ySlut6jXwPSk6gUsQUuQxbC7xDxDAmQCWkY10oZGrkM6wy
-	hanuUIQ==
-X-Gm-Gg: AYBFou1J04O12EzrZXbCIrLVxK2l6yB8YnFrMhVbUOpI0B232pgWmNWo3lumSs34t01
-	uXkyjSOQZz3KvLupaklw19e7s2xWbCaxN8ktJl2u8jQ93DnX2/rJ/I7S+ShFOODILy8XWYhmBnL
-	j20ew1BT6ps66mmiwGCVrOoUY11+c2L6MXU9M21hZJhHrAk0zcprJXjROs348VF0J0biD1ilr+3
-	v3DrgfrxIEJA62UFMpqEzZTEYzM6eSkdBepZx34u0/xU+TxF7PC4qeVV63jBfedD4uLx/sLDDck
-	Lcs0adC7v95SZeJxYzIQuKy0j0GnQHzs2g2k1FYgc2p2eD4PQ5jcn1sFD3Bs/mpu9z3PNox4F6v
-	7V8k99oqG8Ybcji/6Xr+u+eyK0bsy79MqFEIqSCyHtiKkUgsf0qjs4DWqEy6Zv//8JO4DEqHdEI
-	uZer3N4mnbRvt8VHrdYKXwPGwGZ5wV8h5Ua9QxkAbHK0GigtyYCGsSTmBidVffPg==
-X-Received: by 2002:a05:690e:c45:b0:670:78cd:16f0 with SMTP id 956f58d0204a3-67078cd178emr3118595d50.73.1788877725242;
-        Tue, 08 Sep 2026 07:28:45 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9104064a2f8sm118085886d6.12.2026.09.08.07.28.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 07:28:44 -0700 (PDT)
-Date: Tue, 8 Sep 2026 10:28:41 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Keisuke Tsukuda <catnyaaan@outlook.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"syzbot+a83a5a1ba9ff57935171@syzkaller.appspotmail.com" <syzbot+a83a5a1ba9ff57935171@syzkaller.appspotmail.com>,
-	"syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com" <syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com>
-Subject: Re: [PATCH 2/2] usb: gadget: f_mass_storage: ignore class requests
- while inactive
-Message-ID: <142bb935-adef-4881-adb4-f1ba158e7130@rowland.harvard.edu>
-References: <20260907085806.52647-1-tkdkei@outlook.jp>
- <20260907085806.52647-3-tkdkei@outlook.jp>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1dwBb2Rl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="swJ5enVK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KZaC3ne5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nWi+jAOx"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7C8551F834;
+	Tue,  8 Sep 2026 14:29:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788877759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V32DLLYQQzWVcX1Q3n4upFOrQoOskBDe9ipQikXd1rI=;
+	b=1dwBb2RlsCgbTmDPzZZd5VK4bbh/9mmHXfknvR1z3LBQ2lcHtttWheqn9qaYjcuCiURoTD
+	HvYVTnZVUVLg2VKYVScndhfM6Zs6tF02Ld/t13d7kt4Qr73uMNGxvRj6EeQF8+d8LrCEVc
+	15R3oh33S58asl7FxUMgY+TgBhF05PU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788877759;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V32DLLYQQzWVcX1Q3n4upFOrQoOskBDe9ipQikXd1rI=;
+	b=swJ5enVKMTghuLLSIrrBVZT4R2zWG9wsEfCzvbIkOLuCOqZ2r7o9138WB2d1rvr0U5JvYh
+	EVavVyk1Lo27s4Ag==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788877755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V32DLLYQQzWVcX1Q3n4upFOrQoOskBDe9ipQikXd1rI=;
+	b=KZaC3ne5RBRn9Ms6r4LECAce1E+jANgnVZd5s9kFmkXEnDoDOW2ZzKO7OGL3E0zuhtdBNi
+	A/1k93WBvz7NIbn2rcCwsUP8qOgN3LXqKGG3dCylbu/OE9siUUN82RtadR256MtbZHZWfS
+	GOAi7BfTh0Eg90GQqcygxIOwcBGPbzQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788877755;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V32DLLYQQzWVcX1Q3n4upFOrQoOskBDe9ipQikXd1rI=;
+	b=nWi+jAOxKDy51dcKwNqN/PVFA23mk1shNMn5bzfX5QYON5J7U28EPtUdq/Oi0FZB1Y5oZn
+	he54jjJHmmg6OsAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29D161347F;
+	Tue,  8 Sep 2026 14:29:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zsatCbsboGqJCwAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 08 Sep 2026 14:29:15 +0000
+Message-ID: <fa7b32d0-6e1d-4550-af0b-85b89b0fafd3@suse.de>
+Date: Tue, 8 Sep 2026 16:29:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907085806.52647-3-tkdkei@outlook.jp>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/40] scsi: prepare for using 16-bits defined sense
+ codes
+To: Damien Le Moal <dlemoal@kernel.org>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+ Niklas Cassel <cassel@kernel.org>, linux-usb@vger.kernel.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-s390@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>
+References: <20260903034201.112211-1-dlemoal@kernel.org>
+ <20260903034201.112211-6-dlemoal@kernel.org>
+ <cb08459f-ac72-4f37-b241-b4cc047f4890@suse.de>
+ <2d926172-4ae8-458b-a7c3-e870e36e043d@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <2d926172-4ae8-458b-a7c3-e870e36e043d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 
-On Mon, Sep 07, 2026 at 08:58:42AM +0000, Keisuke Tsukuda wrote:
-> SET_CONFIGURATION is handled asynchronously by the mass-storage thread.
-> A class request can arrive after the composite core selects the function
-> but before the thread installs common->fsg, or while the function is being
-> disabled.
+On 9/8/26 2:22 AM, Damien Le Moal wrote:
+> On 9/7/26 21:16, Hannes Reinecke wrote:
+>>> diff --git a/include/scsi/scsi_device.h b/include/scsi/scsi_device.h
+>>> index e321471e8ca2..11910142ac50 100644
+>>> --- a/include/scsi/scsi_device.h
+>>> +++ b/include/scsi/scsi_device.h
+>>> @@ -518,6 +518,7 @@ extern void scsi_sanitize_inquiry_string(unsigned char
+>>> *s, int len);
+>>>     * to match any sense key, ASC, and ASCQ value.
+>>>     */
+>>>    #define SCMD_FAILURE_SENSE_KEY_ANY    0xff
+>>> +#define SCMD_FAILURE_SENSE_CODE_ANY    0xffff
+>>>    #define SCMD_FAILURE_ASC_ANY        0xff
+>>>    #define SCMD_FAILURE_ASCQ_ANY        0xff
+>>>    /* Always retry a matching failure. */
+>>> @@ -526,8 +527,18 @@ extern void scsi_sanitize_inquiry_string(unsigned char
+>>> *s, int len);
+>>>    struct scsi_failure {
+>>>        int result;
+>>>        u8 sense_key;
+>>> -    u8 asc;
+>>> -    u8 ascq;
+>>> +    union {
+>>> +        struct {
+>>> +#if defined(__BIG_ENDIAN)
+>>> +            u8 asc;
+>>> +            u8 ascq;
+>>> +#elif defined(__LITTLE_ENDIAN)
+>>> +            u8 ascq;
+>>> +            u8 asc;
+>>> +#endif
+>>> +        };
+>>> +        u16 sense_code;
+>>> +    };
+>>>        /*
+>>>         * Number of times scsi_execute_cmd will retry the failure. It does
+>>>         * not count for the total_allowed.
+>>
+>> Why do we have two definitions for the sense code header? Can't we combine it
+>> with the definitions in scsi_common.h ?
 > 
-> fsg_setup() already rejects this state with -EOPNOTSUPP, but checking it
-> through fsg_is_set() also emits a warning. Check the active function
-> directly so normal requests during a configuration transition are rejected
-> without hiding fsg_is_set() warnings from other internal paths.
+> This is *not* the sense header. This is the struct used to filter errors for
+> internal SCSI commands issued with scsi_execute_cmd(). And since that function
+> is devlared in scsi_device.h, this struct declaration is here too.
 > 
-> Fixes: 8876f5e7d3b2 ("USB: gadget: f_mass_storage: added eject callback")
-> Reported-by: syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=d31109047baed8f3b590
-> Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>
-> ---
->  drivers/usb/gadget/function/f_mass_storage.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-> index a50743c..52d486a 100644
-> --- a/drivers/usb/gadget/function/f_mass_storage.c
-> +++ b/drivers/usb/gadget/function/f_mass_storage.c
-> @@ -463,7 +463,7 @@ static int fsg_setup(struct usb_function *f,
->  	u16			w_value = le16_to_cpu(ctrl->wValue);
->  	u16			w_length = le16_to_cpu(ctrl->wLength);
->  
-> -	if (!fsg_is_set(fsg->common))
-> +	if (!fsg->common->fsg)
+Oh, I know. I just thought we could combine them.
+But if not that's fine, too.
 
-I'd feel better about this if there was a comment here explaining why 
-calling fsg_is_set() is a bad idea.
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Alan Stern
+Cheers,
 
->  		return -EOPNOTSUPP;
->  
->  	++fsg->common->ep0_req_tag;	/* Record arrival of a new request */
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
-> 
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
