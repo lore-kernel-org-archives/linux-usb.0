@@ -1,135 +1,239 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50777519908;
-	Tue,  8 Sep 2026 09:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE024D8DA9;
+	Tue,  8 Sep 2026 09:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788860448; cv=none; b=Pt4YedEaWD0ngs+6vTktLNQmHTOBsiXl4c68URFgM6zGHDMki2nRx9s8UhKXDA5YVAg8A2EwwvHlIXJU+CkDwQAVvhHdfgs/cGXjM/SO6bfm8R0IxZYY84hx+PTF5niLfVP5eiABLrIUBY8Lkz8pmqPSFDHD6gALFpHDalmTU70=
+	t=1788860516; cv=none; b=QtKIIu0jXLDP5C46ReBnxUHNA7M6tnoOK+ffFwk4nO3c+weEIx+haDvhpRY6i9riAALxkk2SSrZ+t090cCz63suGtsi4m9RwsLbRP6hVb0RSpO016a8bfT90VJAqlUxReekfqGic4VeWQYFnvavNMQNpfX5YCNIeVbLhAoa9Y1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788860448; c=relaxed/simple;
-	bh=/MqnHKMUZO6pR7UnfizV67smzo2VOogPio2iF+YxGIM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AUCeFJnoeqvi5nddwGdAIwZj2RAXoGPNqu74rppJJhbAII86UNNMWoGtUbDHQxHZXZvgioXwRdLzI+hWG/ZgoQdCpWkxEPDsXX600Dkpbz0DtSoiqv7+c/qi43QQjLlXcKcIZ9EFr4yNNJ6XjbrYAjM8dLyT6qrZCn4oCQTo+qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=PCb0x4mq; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1788860516; c=relaxed/simple;
+	bh=EB2qd8pfb+DcY/U6DOuRtvaI2n8YHf4yODLZQZwWwps=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KffDiynt8XHwCyIcTlEuJf1Sv2jKkdM9INNUR1q+jacEjUJ1kJN17nELJI9dyp0oeyx7AYS5EJZFOviSguzkKrzBh3nfejQVHeLEBd2wWErQzZkUzO196zff5y/gYWkZhs/LFm4wflvCgfMQzsrNW3ntDrKzcwXHliEQdpDx8R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyUAmEmb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="PCb0x4mq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1788860387;
-	bh=FHFampfu+ImN2iiJYFmkXIBlrCdOXAMDPUO7WbZYY0I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=PCb0x4mquSapCsOP9uVykh8Bk1pT1OFD5GcZSPIPGU2Y6E5PhikhaBj22JaI8yRXf
-	 a92hmVjAz2STStDqANa3JZ3Yj7QOm843Wi5NAycW91piv5QqI+Q7NThxVjnj1dAm3x
-	 QtguhCn8jcn/XM01mG3iCEAeBSzVM20Ol+KnEDvU=
-X-QQ-mid: esmtpgz11t1788860380tc17f5ec9
-X-QQ-Originating-IP: Bugj5YLGVEyhMeIa6KzMeFxlT0lmNUHALoPlNP9mFzM=
-Received: from [192.168.1.100] ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 08 Sep 2026 17:39:36 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 8537548706978725419
-EX-QQ-RecipientCnt: 19
-Message-ID: <0F6BBCA4EF1303F8+e4bc3221-1f7d-42b4-a9e4-169b14e6d04b@linux.spacemit.com>
-Date: Tue, 8 Sep 2026 17:39:36 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyUAmEmb"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96791C2BCFB;
+	Tue,  8 Sep 2026 09:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788860515;
+	bh=EB2qd8pfb+DcY/U6DOuRtvaI2n8YHf4yODLZQZwWwps=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=PyUAmEmbgT8o1GjW0EgxZJHGyqKYRFuio9lWpGjsZ7QcVOdl+ciZdbkg8VnpvqPyV
+	 vwOFGk526vDHszDzX8jjzEFW2EfGygS7dUpRwnvyq8CpkIbij1pRPh2tWQRY3ukuAP
+	 QrwaNnyFw9L1b3UjU6yPaNoYAHZ/UQgtT8m1dQNhfpPtqrARwaTREAz+WCNfvUicXA
+	 NgdIY52vnbAJcgXIuPAvB+seJe5Hkr2amxOVC/dkbjnPZ572vWFfvTh/Xg7newRJY5
+	 bCrtAFy/2c+IPHxz5CeMZHdg46HFJEkA08FeKFlHn6+enlrEQiEWYFDW/oGCWg03pb
+	 mHksukhKNT5Uw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F4E8C79F99;
+	Tue,  8 Sep 2026 09:41:55 +0000 (UTC)
+From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
+Subject: [PATCH v4 00/13] Enable USB3 for Qualcomm IPQ5018
+Date: Tue, 08 Sep 2026 13:40:53 +0400
+Message-Id: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] riscv: dts: spacemit: enable USB2.0 controllers on
- BananaPi F3
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
- Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
- Peter Chen <peter.chen@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- spacemit@lists.linux.dev
-References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
- <20260812-b4-spacemit-k1-usb2-v1-5-f28cf29e522b@linux.spacemit.com>
- <DL8Y8HJ75OUV.2AC7IAYJ0UB26@linux.spacemit.com>
-Content-Language: en-US
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-In-Reply-To: <DL8Y8HJ75OUV.2AC7IAYJ0UB26@linux.spacemit.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: NsTWTlXJmKxZ9b9lH0VlrKjOx80vPaKYD//8LCI2eOdjo0kW/6pfTkfa
-	UouNele6IjeBaUtOxZ9ZhfYDGQzIXm4Y25dpyTb9wSvNWJjqeoZl0ZP5RuGucj61mWkJ+Lf
-	ndS4vpiN9PBSaSWlY78SRDLfl8maEzCT1EUKDv5UbXqEw+xI3niZ+0uGC7rFzcPGgtqoM5j
-	+o/DLloLBUTU35YRN3gPElN3A/G8VzfpPdvvNQ93ETqTfZNhHcR+T6n7Kv6Vm6zRcaEnkJd
-	9AdXWZTjo8nUgJqxkZTIjnkUjTdiCsy4M/kim7Xb3CQG/hk+njJ34JeCCAxeiAJtjQ+aBIF
-	H3ayFQ540k54UZ6pwOvEyvSB7Elq0gHNbv8USvWWo7lhPZmVAix0mmjh0QL0fEYVJLbSdau
-	dWERvOOpuZBMnNp/Uwei2eni0R+nBykuqHq5gOFsusYpGr/jlMQOUXw8m9zX13IuJh9BL7R
-	T5C69XRvo+82rIDZWLvN50k9bdYl9nmirwHaAr89VDF+xPbpJQ1OerAjl8vVGH46301+6Sp
-	ECnDrcr8hhxRxhXbHCTGC8C5/4V+KlFhLy8xfE/xaKRfLvbs7CVhiXMBOS4s8Y3fS9T4q7N
-	HlQb4YQ5iefR/jHZiY7GTPFYuaS+nbABsAoB3qY3NDTSTWzgeeFcLdQxefB6FbYz8ZOCDiw
-	cLI+NHlDnzILtfsjqcytrAqRMSQF4wcTkgDX+pCy1hDzPK6urlnGc2Fl+5BcJnTvjGlqACj
-	WFRgvXLKpq+GjOAn1bjRHGVn/w0LUJctCJ025UraBuCKh2mDVLu2YVtcs8ULa6r2AxrNFyP
-	ZeUmxSFxGTtI03tl4CApt8u5+w8Bx7g5IDLwprq+rgllWxQyUleMNtGWIXJs3tjLoAeZnqy
-	DWB98Swvkb2bWYEnTIcPXSfnZjgQaF03tDXxjFGaebWfRRV85grEPciqUHhYtgqHAeCjll0
-	RxL6jNYk3JVtlNohKjjBe8RNB0caag7C0DZa7rZzAoNs4FATjpmf2RXtDy6H0CX1wWEofw4
-	+kuK+IDck6Rjz/3WQYKlo/vv0r+JAhaBBgXzmi4/El2HDxn/NeiMG8S8leeYDTCXPXwTEl5
-	IlSQ7jr3XUb
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12QQW7DIBBFr2KxLtHAgGuiqso9qqrC9tCgxCYBb
+ LWKcvdip5WSLt/iP72ZC0sUPSW2rS4s0uyTD2MB9VSxbm/HT+K+L8wkyBoaQO5PZw2i4VNqkat
+ WNqYV1IuaWJmcIjn/tere3gu7GAae95HsnwTBSAONkmA2CFgQueDnyXcf/nSYBht3C/ix23RhW
+ Jx7n3KI32vhLBfzb4yQjzGz5MAbh1r3z84BuV2Y8jGEw2pacma8m0v9b45ljqYlMFrb2trH+fV
+ 2XqSSl3y+3cgGSsmuT9pWL6vXQL14uTvanGlc3De1QFIErkYh8V79uhzZ2kS8wODztkLZ1uSM1
+ T1QZ5VypuuNcFo65axtjBNKW+ipRF1/AFW9R9zBAQAA
+X-Change-ID: 20260803-ipq5018-usb3-4b289b1ed16e
+To: Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Praveenkumar I <praveenkumar.i@oss.qualcomm.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
+ Nitheesh Sekar <quic_nsekar@quicinc.com>, 
+ Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Varadarajan Narayanan <quic_varada@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, George Moussalem <george.moussalem@outlook.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Stanislaw Pal <kuncy7@gmail.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860512; l=8761;
+ i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
+ bh=EB2qd8pfb+DcY/U6DOuRtvaI2n8YHf4yODLZQZwWwps=;
+ b=aSikrBmXz2cH6RTA64e63N0pd0YDL1PWFFrVWJ8gwe0eif172yOxxK74++OCDQI7QFTpEM1k+
+ GGMfnecxjlwCXQQ/YV627yrNHz1od3+rFWS4NYFbOfp9+fbBoSUrRvm
+X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
+ pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
+X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
+ with auth_id=364
+X-Original-From: George Moussalem <george.moussalem@outlook.com>
+Reply-To: george.moussalem@outlook.com
 
-On 9/7/2026 4:42 PM, Troy Mitchell wrote:
-> On Wed Aug 12, 2026 at 5:26 PM +08, Junzhong Pan wrote:
->> On BananaPi F3, usb2_0 is connected to a Type-C connector at device
->> mode by default. This port have no VBUS supply capability, thus host
->> mode only works with self-powered device or hub. User could switch the
->> role in sysfs.
->>
->> And the usb2_1 is connected to the USB2.0 pins of the Mini PCIe slot to
->> support cellular modules.
->>
->> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
->> ---
->>  arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts | 16 ++++++++++++++++
->>  1 file changed, 16 insertions(+)
->>
->> diff --git a/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts b/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
->> index 72f77e9edd63..fd0f96262009 100644
->> --- a/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
->> +++ b/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
->> @@ -350,6 +350,22 @@ &uart0 {
->>  	status = "okay";
->>  };
->>  
->> +&usbphy0 {
->> +	status = "okay";
->> +};
->> +
->> +&usb2_0 {
->> +	status = "okay";
->> +};
->> +
->> +&usbphy1 {
->> +	status = "okay";
->> +};
->> +
->> +&usb2_1 {
->> +	status = "okay";
->> +};
->> +
->>  &usbphy2 {
->>  	status = "okay";
->>  };
-> Could you keep the USB nodes in the same order as in k1.dtsi, with
-> usbphy0/1/2 first, followed by usb2_0, usb2_1 and usb_dwc3?
-> 
-> 
+Patch series adds Qualcomm 22ull Super-Speed USB UNIPHY driver support
+present in Qualcomm IPQ5018 and IPQ5332 SoC which is required to enable
+USB3. This PHY is interfaced with SNPS DWC3 USB and SNPS DWC PCIe.
+Either one of the interface can use it via the mux selection present in
+the TCSR register. Current patch series adds the support for UNIPHY with
+DWC3 USB.
 
-Will do, thanks
+The series is now split into 3 parts:
+1. Flatten USB Controller Nodes on IPQ SoCs
+   link: https://lore.kernel.org/r/20260906-ipq-flatten-usb-v3-0-13e4e0f63123@outlook.com
+2. Enable USB3 for Qualcomm IPQ5018 (this patch series)
+3. Enable USB3 for Qualcomm IPQ5332 (to be submitted)
+
+---
+Changes in v4:
+- Reverted change to rename the binding file.
+  The qcom,ipq5018-uniphy-usb3-phy compatible string is added there.
+- Removed redundant #clock-cells and #phy-cells constraint
+- Updated description of CONFIG symbol to reflect it is a combo
+  PCIe/USB3 PHY.
+- Added separate patch to remove unused of_device.h header file
+- Added separate patch to drop unused phy_to_dw_phy() macro
+- Left names of macro definitions unchanged.
+  This can be revisited in a future patch submission if deemed necessary
+- Inlined reset_control_bulk_assert instead of using a single-use goto
+  as suggested by Konrad.
+- Replaced regmap_set_bits with regmap_assign_bits and pass the enable
+  argument directly to the function.
+- It's worth noting that I left the logic to register 1 phy in this
+  patch unchanged despite Konard's suggestion to register both
+  (PCIe and USB3) to avoid changing the existing binding for the
+  existing PCIe phy instances in ipq5018/ipq5332. Although the silicon
+  is capable of supporting both PCIe and USB3, the instances in scope
+  are wired for single mode only. The next patch set will register both
+  PCIe and USB3 PHYs for the combo PHY instance in IPQ5332 and use
+  #phy-cells to select the right PHY in the respective PCIe and USB3
+  controller nodes.
+- Updated clock order of the IPQ5018 USB3 PHY node to match the order in
+  the binding file.
+- Corrected commit title of last patch to enable the USB3 PHY on the
+  IPQ5018 RDP432-C2 board.
+- Link to v3: https://lore.kernel.org/r/20260825-ipq5018-usb3-v3-0-39be0955a6aa@outlook.com
+
+Changes in v3:
+- The biggest change of this revision is that it does not create a new
+  driver but instead adjust the existing qcom-uniphy-pcie-28lp driver
+  for which the binding is also updated. Both the binding and the driver
+  have been renamed to reflect the updated scope for both PCIe and USB3.
+- The description of the qcom,phy-usb-mux-sel property has been updated
+  based on Krzysztof's feedback to clarify that PCIe is the default mode
+  (with absence of the property) and that the property is only used to
+  select USB3 mode.
+- Updated the driver using multiple patches to:
+  - Rename the driver (incl. symbol) and change scope from PCIe to PCIe
+    and USB3 combo PHY, existing compatible strings remain unchanged.
+  - Refactor and simplify the phy initialization register/value pairs
+  - Use bulk reset_control API to allow for uniform way of acquiring and
+    managing resets for both legacy (unnamed resources) and new (named
+    resources) to maintain backward compatibility.
+  - Add support for the USB3 PHY instance on IPQ5018 SoCs.
+  - Add support for the combo PCIe/USB3 PHY instance on IPQ5332 SoCs.
+- Updated the compatible string of the existing PCIe PHY (instance 0)
+  node in the IPQ5332 SoC devicetree to reflect it is a combo PCIe/USB3
+  PHY. In addition to the existing PCIe-specific resources, added the
+  clock and resets required for USB3 support. The node is now used for
+  both PCIe and USB3 PHYs, and the correct PHY instance is returned
+  based on the phy-cells argument.
+- Added a patch to enable building the driver as a module (which was
+  missing for the original driver).
+- Updated Praveen's email address to praveenkumar.i@oss.qualcomm.com
+  including his SoB tags and retained his authorship of the original
+  patches.
+- Moved patches related to flattening the USB controllers nodes to a
+  separate patch series:
+  link: https://lore.kernel.org/r/20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com
+- Moved patches related to enabling USB3 for Qualcomm IPQ5332 to a
+  separate patch series (to be submitted).
+- Link to v2: https://lore.kernel.org/r/20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com
+
+Changes in v2:
+- Rebased on top of master tree
+- Included support for IPQ5018
+- Changed bindings filename to match compatible string
+- Dropped items from compatible list in bindings file
+- Added required block in bindings file
+- Removed double space of reset property in example in bindings file
+- Added branching logic based on compatible string to define the right
+  clocks per SoC in bindings file
+- Renamed phy driver to phy-qcom-uniphy-usb-ss-22ull.c
+- Added missing error handling uniphy_usb_init in phy driver
+- Changed to use devm_clk_hw_register_fixed_rate to register fixed rate
+  pipe clock
+- Changed to use devm_of_clk_add_hw_provider to register clock provider
+- Release exclusive get of vdd and changed to devm_regulator_get as the
+  regulator supply is also acquired by the m31 USB2 phy driver
+- Inlined acquisition of clocks to phy probe function
+- Use reverse xmas tree sorting of variables in phy driver probe
+- Moved USB mux selection away from phy init to probe as it needs to be
+  set before the controller is taken out of reset.
+- Flattened the USB controller nodes in line with latest bindings and
+  flattened driver approach for both SoCs.
+- Set clock frequencies in IPQ5018 controller node to ensure they're
+  parented correctly and override any freqs set by the bootloader.
+- Removed patch to add usb phy node for IPQ5332 as the pcie0 phy shares
+  the same MMIO as the usb3 phy. Hence, chose the approach to override
+  the compatible string of said node and assign the right clocks, reset,
+  and related properties upon enabling it as a USB3 phy instead of
+  adding a new node with the same unit and reg address space.
+- Link to v1: https://lore.kernel.org/r/20230929084209.3033093-1-quic_ipkumar@quicinc.com
+
+---
+George Moussalem (13):
+      dt-bindings: phy: qcom,ipq5332-uniphy-pcie: Document the IPQ5018 USB3 PHY
+      phy: qualcomm: qcom-uniphy-pcie-28lp: Convert to PCIe/USB3 combo PHY driver
+      phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Remove unused of_device.h header file
+      phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Drop unused phy_to_dw_phy macro
+      phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Refactor init regs table definitions
+      phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Use bulk reset_control API
+      phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Assert reset on clock enable failure
+      phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Add support for USB3 PHY on IPQ5018
+      arm64: dts: qcom: ipq5018: Add USB Super-Speed PHY node
+      dt-bindings: usb: qcom,snps-dwc3: Add clocks for USB3 on Qualcomm IPQ5018
+      arm64: dts: qcom: ipq5018: Add clocks required for USB3 support
+      arm64: dts: qcom: ipq5018: Add Super-Speed UNIPHY to USB node
+      arm64: dts: qcom: ipq5018-rdp432-c2: Enable USB Super-Speed PHY
+
+ .../bindings/phy/qcom,ipq5332-uniphy-pcie-phy.yaml |  44 +-
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    |  21 +-
+ arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts     |  14 +
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi              |  33 +-
+ drivers/phy/qualcomm/Kconfig                       |  24 +-
+ drivers/phy/qualcomm/Makefile                      |   2 +-
+ drivers/phy/qualcomm/phy-qcom-uniphy-pcie-28lp.c   | 331 ---------------
+ .../phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c  | 461 +++++++++++++++++++++
+ 8 files changed, 574 insertions(+), 356 deletions(-)
+---
+base-commit: 32b6ef9a5d0eca44f9cd91f52f4faa89f145a0de
+change-id: 20260803-ipq5018-usb3-4b289b1ed16e
+prerequisite-message-id: <20260906-ipq-flatten-usb-v3-0-13e4e0f63123@outlook.com>
+prerequisite-patch-id: dd37852a0fd8928e6dd6d66e62c06d7d8f5d38d0
+prerequisite-patch-id: 60972378af51aa5a2797a0ff0e62214e7dd243fe
+prerequisite-patch-id: 5b791e87c7884503287a8a536958d89eb1969f80
+prerequisite-patch-id: 95483f0c1984a0c16902b52b7b26793c38f466fe
+prerequisite-patch-id: 51b5158ae634dd1c0713d77b0bb9473b4c88985e
+prerequisite-patch-id: 5bf2892e76e4c1d3fd4e93f093c8169e23e0908d
+prerequisite-patch-id: bb7b127468635b641c24555cd2e81fa201087ecd
+prerequisite-patch-id: 6668bf3110dc6f763084c0c5d65833a85301bf44
+prerequisite-patch-id: b7ebb4aec1ea4e78b2d498018b1413aaa056555b
+prerequisite-patch-id: eeb34fd04ec7c02da54b06f4730a9b2bb75a71e8
+
+Best regards,
+-- 
+George Moussalem <george.moussalem@outlook.com>
+
 
