@@ -1,168 +1,127 @@
-Received: from mta1.migadu.com (out-145.mta1.migadu.com [95.215.58.145])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCA454EECD
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 14:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F574C6808
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 14:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788877045; cv=none; b=UNhbIYW0YmA5CKGJtstC0b7YdB5ZRIU2SCSuZ4IcYWsDkasPib8vKis0yLMMLHnzVyVLkgdHFLeZNiWvoe/6sBOA7DkqXzWJGuAI/QiHRUTcpIWqFt8IedIoBHM7jkTKMScTcAYG73zX05dmfpSDxL/7J58p+zi2GeGVKrg4l7E=
+	t=1788877737; cv=none; b=sAkXk4sbhdhZkD9XgSjdHlH24HKQ6NDLzmtFBn/XD1QIL9+u60r5bCaKuUdqqvOCv3XJTs7yghADMCdlMMhZ/kX3Z+pVvtJ9NfvzIk+s040pE883X0ZljjBDpin0OPLn7+sK9QPigX431k59lRjRQkJTdd2WvKsF8cj87pAETEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788877045; c=relaxed/simple;
-	bh=AtllziWAEBylwDOWuicoRwDn5AZurYw0+Fy/xhiHsj0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=drmTlgd3rNQ7fvIpG57Y10KvLIOQPZ6NSSEp4GuHukC0aDyDEsvH/lKUo4CCrXZxK7IuSF1vYwd61GqKpf6TDXMTnRc5Eteo+RZKssfaYWuci9yISNYdTUTRDg1QBpuzMpsTcEtFM8F6GuP8QTVLzu6zceDCDssUfEbcEj/KxoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Tz8t8nLj; arc=none smtp.client-ip=95.215.58.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788877737; c=relaxed/simple;
+	bh=QC894VVNFE+QX5jLEROnGftXBpYdqetNtogv05DAenA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYVhcgskGwEr4Ch2qIl0zPS34dl6YUrES1XbfPZdeufr8Ya7RDktkuY6f5EaUoBUFqrbmHBKI8IkTq9aeeE5FFmfBCGbFx6XMuPzQw80KY5NASpuO1vntZwshHFz1k4fI9UJpY10S4Zk7UtV9ck9EVwlU5iWWCyroRInd0QodbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=MnYu/qrM; arc=none smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Tz8t8nLj"
-X-Envelope-To: linux-usb@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=AtllziWAEBylwDOWuicoRwDn5AZurYw0+Fy/xhiHsj0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788877029; v=1; x=1789481829;
- b=Tz8t8nLj+OIB9JqmyuLa1vS3oBTrhaxt6P2PAJreFOoYu6Tliy+E1/xloyjhW5CtYLpocr1G
- VU03NoMwczbXQQvEWGEtnGPIb5g7QOeRlgJt1P+boVVKma+6hmj9P/sLJRseFA4jmuWJ8vtuw69
- BUuQWaZSBwq5/2w1LsugUhkg=
-X-Envelope-To: linux-usb@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id a34898e233871779;
-	Tue, 08 Sep 2026 14:17:09 +0000
-X-Mizu-Trace-ID: a34898e233871779
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="MnYu/qrM"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66fdf2a9aacso2445707d50.0
+        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 07:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1788877725; x=1789482525; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=acTtdIUeHcaQmOCcZka3aZUMRILgrgFwPSEMa3ata2A=;
+        b=MnYu/qrMA3+CiIOMdWTJ5x9LeyVMOgtag+CCtfQcT3x/n1H7JZQ+l+fHJ6tFzcmKYQ
+         m9gCQXanFUaTQb6/6/0vCCMCb5H5dFJ3nEOUwEdI9VCgI9Xc/hvnkaiV/PfABewmiqSB
+         mIR6omrmp0tvMBoa08xVBCe/92awHvpEA6NXB6hgTS3wabCYKBiSGgfMVRBdU/sKYQz/
+         LR65ADrpfgTnmcD/44aJYDzyFE0s6BdlH/idkm+kx1UBo17waMwBZzlwgjW40coysEMU
+         221WR6A3Q17vcBVDfl4CndA7twzwKweaztPHf+jwb2U9iaZHLUpphSqHSK20qocDroWH
+         I7DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788877725; x=1789482525;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=acTtdIUeHcaQmOCcZka3aZUMRILgrgFwPSEMa3ata2A=;
+        b=P0fPyrRp0OpZlqH30KcVQlUISu5t0QMjx1mUDoBcNq5CPn1NCx7TI9/F5G+5cV7jV/
+         nSWm3hrxGsluhOvP2AMSOWGAYSoq8n5GCd+NXwrQNQzKHUEviufmXzws6s4aXQlR2Sye
+         1y8grnyv9mRe0nW/1h4u/ADbnTf1NqR7Zq+2VR+nkGVhoGIuaKJ2463C6vyBvnjp4Aeh
+         K2qqbcd7MuFh+0fLUeq8PlJLJn1aYcy+1NbaAAB96lpJ9wAp7dpNZURrhLOIWNxP+MPB
+         5oZBbpzKCRyKefAy5rACvvdF29s4SmqaFI8boy+sGQlnPTWKd3/LHY/REpBsd53QsyKI
+         QAaw==
+X-Forwarded-Encrypted: i=1; AKwUvBw8KDBmUhzzjyptodMEKCJUGWoNvlNKxlSntRpM5fSYX5lDbT12HlYsPoj++Os6MGyV7+TmLCnmO7U=@vger.kernel.org
+X-Gm-Message-State: AFuF++neeDQr1x3CW+zPsIF+rBXL8visxEXTegIK1lK6hhLS0n1l6P3T
+	rcdxOb298uLw1nPHmM/dbaxlbLSn2ySlut6jXwPSk6gUsQUuQxbC7xDxDAmQCWkY10oZGrkM6wy
+	hanuUIQ==
+X-Gm-Gg: AYBFou1J04O12EzrZXbCIrLVxK2l6yB8YnFrMhVbUOpI0B232pgWmNWo3lumSs34t01
+	uXkyjSOQZz3KvLupaklw19e7s2xWbCaxN8ktJl2u8jQ93DnX2/rJ/I7S+ShFOODILy8XWYhmBnL
+	j20ew1BT6ps66mmiwGCVrOoUY11+c2L6MXU9M21hZJhHrAk0zcprJXjROs348VF0J0biD1ilr+3
+	v3DrgfrxIEJA62UFMpqEzZTEYzM6eSkdBepZx34u0/xU+TxF7PC4qeVV63jBfedD4uLx/sLDDck
+	Lcs0adC7v95SZeJxYzIQuKy0j0GnQHzs2g2k1FYgc2p2eD4PQ5jcn1sFD3Bs/mpu9z3PNox4F6v
+	7V8k99oqG8Ybcji/6Xr+u+eyK0bsy79MqFEIqSCyHtiKkUgsf0qjs4DWqEy6Zv//8JO4DEqHdEI
+	uZer3N4mnbRvt8VHrdYKXwPGwGZ5wV8h5Ua9QxkAbHK0GigtyYCGsSTmBidVffPg==
+X-Received: by 2002:a05:690e:c45:b0:670:78cd:16f0 with SMTP id 956f58d0204a3-67078cd178emr3118595d50.73.1788877725242;
+        Tue, 08 Sep 2026 07:28:45 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9104064a2f8sm118085886d6.12.2026.09.08.07.28.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 07:28:44 -0700 (PDT)
+Date: Tue, 8 Sep 2026 10:28:41 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Keisuke Tsukuda <catnyaaan@outlook.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"syzbot+a83a5a1ba9ff57935171@syzkaller.appspotmail.com" <syzbot+a83a5a1ba9ff57935171@syzkaller.appspotmail.com>,
+	"syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com" <syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com>
+Subject: Re: [PATCH 2/2] usb: gadget: f_mass_storage: ignore class requests
+ while inactive
+Message-ID: <142bb935-adef-4881-adb4-f1ba158e7130@rowland.harvard.edu>
+References: <20260907085806.52647-1-tkdkei@outlook.jp>
+ <20260907085806.52647-3-tkdkei@outlook.jp>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 08 Sep 2026 22:16:56 +0800
-Message-Id: <DL9ZZ8F7HTZT.1IUMD1ECSOZXL@linux.dev>
-Cc: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>, "Troy
- Mitchell" <troy.mitchell@linux.dev>
-Subject: Re: [PATCH v2] usb: dwc3: core: resume xHCI child on runtime resume
- in host mode
-From: "Troy Mitchell" <troy.mitchell@linux.dev>
-To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Thinh Nguyen"
- <Thinh.Nguyen@synopsys.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260908-resume-xhci-v1-1-aca107602e9c@linux.spacemit.com>
-In-Reply-To: <20260908-resume-xhci-v1-1-aca107602e9c@linux.spacemit.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907085806.52647-3-tkdkei@outlook.jp>
 
---a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-
-On Tue Sep 8, 2026 at 10:01 PM +08, Junzhong Pan wrote:
-> USB controller runtime suspend halts the controller on disconnection.
-> It relies on platforms with custom connection notification to start
-> the controller again.
->
-> The host branch of dwc3_runtime_resume() does nothing currently. There
-> are two paths that can trigger a runtime resume of the dwc3 core in
-> host mode:
->
-> (a) Wake lands on the xHCI child (DT platforms, e.g. Qualcomm, i.MX8MP)
->     A platform wakeup IRQ fires and the glue handler calls
->     pm_runtime_resume(&xhci->dev). Runtime PM walks upward, resumes
->     the dwc3 parent first, then resumes xHCI. Both wake correctly.
->
-> (b) Wake lands on the dwc3 parent (ACPI platforms)
->     When an ACPI Notify(ACPI_NOTIFY_DEVICE_WAKE) targets the dwc3
->     parent device -- for example via a Generic Event Device on a
->     hardware-reduced platform where dwc3 is enumerated as an ACPI
->     device without a glue driver -- the ACPI core turns this into
->     pm_request_resume(dwc3_dev). Runtime PM does not propagate resume
->     downward, so the xHCI child stays suspended. Root hub polling is
->     never re-armed, and a device plugged in while suspended is silently
->     dropped.
->
-> This patch fills in the host branch to cover case (b) by requesting an
-> async resume of the xHCI child so xhci_resume() can restore the port
-> state machine and re-arm root hub polling. Glue drivers in case (a)
-> resume xHCI directly, an extra call introduced by this change, but
-> runtime PM can serialize those requests and skip device already active,
-> so the extra resume call is safe. Those calls can be replaced with
-> resume calls to dwc3 device later.
->
-> Tested on SpacemiT K3 Pico-ITX, covering both wakeup paths: an ACPI
-> boot with a GED device notifying the dwc3 node (HID 808622B7), and a
-> DT boot with a modified dwc3-generic-plat driver exposing a wakeup IRQ
-> similar to dwc3-qcom.c and dwc3-imx8mp.c. This is not validation on
-> actual Qualcomm or i.MX8MP hardware, changing those drivers would still
-> need platform-specific testing.
->
-> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Assisted-by: Opencode:claude-opus-5
-> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+On Mon, Sep 07, 2026 at 08:58:42AM +0000, Keisuke Tsukuda wrote:
+> SET_CONFIGURATION is handled asynchronously by the mass-storage thread.
+> A class request can arrive after the composite core selects the function
+> but before the thread installs common->fsg, or while the function is being
+> disabled.
+> 
+> fsg_setup() already rejects this state with -EOPNOTSUPP, but checking it
+> through fsg_is_set() also emits a warning. Check the active function
+> directly so normal requests during a configuration transition are rejected
+> without hiding fsg_is_set() warnings from other internal paths.
+> 
+> Fixes: 8876f5e7d3b2 ("USB: gadget: f_mass_storage: added eject callback")
+> Reported-by: syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=d31109047baed8f3b590
+> Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>
 > ---
-> Changes since RFC:
-> - add Assisted-By tag and collect tag
-> - refine the commit message and comments as suggested
->
-> Link to RFC: https://lore.kernel.org/linux-usb/20260811090817.109350-1-pa=
-njunzhong@linux.spacemit.com/
-> ---
->  drivers/usb/dwc3/core.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index fd5c2cd36c59..76883dc6184c 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -2739,6 +2739,18 @@ int dwc3_runtime_resume(struct dwc3 *dwc)
->  		}
->  		break;
->  	case DWC3_GCTL_PRTCAP_HOST:
-> +		/*
-> +		 * Only the xHCI child's resume re-arms root hub polling, which
-> +		 * is what rediscovers a device plugged in while suspended.
-> +		 * Runtime PM doesn't resume children, so request it here.
-> +		 * Keep it asynchronous to avoid waiting for the parent's resume
-> +		 * callback to finish from inside it. Glue drivers may also
-> +		 * resume xHCI directly, but runtime PM will serialize those
-> +		 * requests and skips an already-active device.
-> +		 */
-> +		if (dwc->xhci)
-> +			pm_request_resume(&dwc->xhci->dev);
-> +		break;
-Could we also check a parent-only resume with no USB wake event? For
-example, reading the DWC3 debugfs lsp_dump file calls
-pm_runtime_resume_and_get(dwc->dev). With both devices suspended, this
-change would wake xHCI too.
+>  drivers/usb/gadget/function/f_mass_storage.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+> index a50743c..52d486a 100644
+> --- a/drivers/usb/gadget/function/f_mass_storage.c
+> +++ b/drivers/usb/gadget/function/f_mass_storage.c
+> @@ -463,7 +463,7 @@ static int fsg_setup(struct usb_function *f,
+>  	u16			w_value = le16_to_cpu(ctrl->wValue);
+>  	u16			w_length = le16_to_cpu(ctrl->wLength);
+>  
+> -	if (!fsg_is_set(fsg->common))
+> +	if (!fsg->common->fsg)
 
-Would both devices return to autosuspend after the read and still
-detect a subsequent plug-in? This would help cover the non-wakeup
-case.
->  	default:
->  		/* do nothing */
->  		break;
->
-> ---
-> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> change-id: 20260908-resume-xhci-0fa34ff9b332
->
-> Best regards,
+I'd feel better about this if there was a comment here explaining why 
+calling fsg_is_set() is a bad idea.
 
+Alan Stern
 
---=20
-Troy Mitchell
-
-
---a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJcEABYKAD8WIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCaqAY2CEcdHJveS5taXRj
-aGVsbEBsaW51eC5zcGFjZW1pdC5jb20ACgkQmAnvgPkzNC93lQEAnfUXUqFGj8nw
-pq/QcoMwv8/AZglrFri8AwmbKiziyQ0BALR07IvfqVq06ZjfzBNg2XwB0u4Kf28m
-MbT8XWa53wIE
-=yhFf
------END PGP SIGNATURE-----
-
---a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa--
+>  		return -EOPNOTSUPP;
+>  
+>  	++fsg->common->ep0_req_tag;	/* Record arrival of a new request */
+> -- 
+> 2.50.1 (Apple Git-155)
+> 
+> 
