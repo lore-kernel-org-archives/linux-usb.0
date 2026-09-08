@@ -1,163 +1,294 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012063.outbound.protection.outlook.com [40.107.200.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C184025B087
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 05:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADEA357CEA;
+	Tue,  8 Sep 2026 06:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788845442; cv=pass; b=Ok9bN12KZZv/0ByoMtNwl8afpsTrmWVf5uo9zzCYrpiKM/wTBIW3vcobuiqQZ82M3qcSmRATfWMun4c8EXm84dS0tt5zk953Diq6e7vfe2k/buteDUFFrcSRQQllEHoMUl3aRTBdRVB9EFZnUgghCq6iYH5xuWd5S+WWlc4RVEg=
+	t=1788847330; cv=fail; b=jMB0eiRMT8xq0UPVa21SgVmT2znaU6CnPfrR7KiizSqqZs9CtqMw1ip33XQWDh0/khjM4uvFsY2Gauq6malSQ/p1M32Mr55NjbhgB33Xriz6GWE+eJpYzUzTJ0GSez6sxJx9TZm8ddvW/qSVflf8svfHdAMKR4hIocDw13me4Ws=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788845442; c=relaxed/simple;
-	bh=QNkzcXLrIeA9PGjoW+K17U+l2f1/yAmziuUSvwf3ls4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=WVQyCF7rT2QnjKf2CgMki/3XP693w1ZK0dL/Pg9pjB1IRoKmDovMz1AJpiVampv4YeCf1/br+KLz6QIhlxAfDzylBo9/OFLJEXBa/X0NB0+SRLAH7NiV8Pwhr6MTFtAJK922gsh+fpr4tGW8yDbNx0StAwDdVL2r89NErWtpeMI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXJ5Y6qO; arc=pass smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788847330; c=relaxed/simple;
+	bh=hMS+5SCoV/1tBkIBjxhXBUG2OQR4wBNO4HDnG5UH22M=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cIir7mgLaI6JiLE9PT1CMvT+uQBPIAjXSDu5DowYmwRUjT1xglavBeSMacj1/2zCIfBzUDSH+mzhxvCqJN5efqlLDOK+ImAiPWG7WI7v06I7ldme4FXCi3o6F2B+ShObta3dtKzF2fJr+Tm3qVaaUwFOjopmRleyAhwZBtW+tps=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=h0Txoyzh; arc=fail smtp.client-ip=40.107.200.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXJ5Y6qO"
-Received: by mail-vs2-f12.google.com with SMTP id ada2fe7eead31-78a2363d4aaso57887137.0
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 22:30:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788845439; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DsRoT544regpVE8mudJijAYFeljXp3n9Ybnb3oeHfhojCw4ksJ405ZtZH+faz+ZmDe
-         Djl5kKGVK2wakNYdS5xtsxCKo9KTtBl5SP6eZdt9P43gAVUIKudIuT0uKec5Fk1LGOtX
-         SCd6rP5mDsMZkGGw1/h2hfYcrXcDwtGU24HCJEP+GJCuaZl1I7o7O6nOHOch7+4rGxSU
-         5KLBBnKihLE2yrzfRNV+LSksdyS9bpmV2vx0khqC27lWnZMRardquNXQPynk9ByuB03y
-         Og927lF0hlIf3qqbLvDftNkYir4LwC7YNenBHyOhVEpdQk32gr4+fwAGpxQQv3M+5WQH
-         Th3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=SslZo4KJYgjxynFL/9PZ+8SOQPYO/z372U1dNjmcOM0=;
-        fh=58/meS8eo9AjGxdMXwNr099K5fAicO3f60TlyHWn4wk=;
-        b=RNVF9+6+SX2aJhz2d/F/pkqSFvZwXtP0C/TdSDjb8+uUpLMqY8f+AiLqAUn2sbNatR
-         ODPkA0CDt5gmCaLb5GYmM17vtmekVQ1+9nUXrRtee9YOlCTjhPgK93AJxEh6mL0tOHSx
-         Vi7r7sJHvggXE7i3ze+gBTcjtr8nKeYAtl45oWztNRnLzAoAKRaBI7MyFeSwoi2S9q+s
-         kKgUIIFEvksB6Yoak1xw/V0IBQ0rVxCsZjyP0Dpt3y3dWyMhnhI4h9kuf+omXeinDORC
-         5Jp8pybkGDXqFSKAA0BEmOT5E4hahXJJIoN/iN3SmaqZmObjICKQboHiPw7B65ZrTbVv
-         4goA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788845439; x=1789450239; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SslZo4KJYgjxynFL/9PZ+8SOQPYO/z372U1dNjmcOM0=;
-        b=HXJ5Y6qOSbBV5WjPg9FeS7up0yeXeKr8ctMdPcz2UrVYkYAkNNoWBG3vuLUVPfRXW4
-         4dI+Ye9PNX20iR8UrfBxL0RufNBkW5VfGdXZG1VOBtROlRtlvhNRh1Ku6qbwVw7G9y/5
-         qR+zJtLLtUlXTVitudRZKRLY6vIzjpYrxBuTQ02nLskz3+6FlrQ2oAj/RMA2iMqv6Xu9
-         g3BdJ2u/AGF1bdPzVVkkP5/m3Nu2Lyu6kNwELPm9t+W41tmd0vHU5WpVspwbsJ31NJL9
-         1c4ddcHwSkn8bUbHU08JQBfFHtlR0QUbhe8/C9l4rZX+OfVGP0RSppfd7NUJ2mvfz+0O
-         VUZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788845439; x=1789450239;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=SslZo4KJYgjxynFL/9PZ+8SOQPYO/z372U1dNjmcOM0=;
-        b=i4TxXi9HznCSxprKfNhr4YtLr+bywJP7b+JHeevgPrYzs4X+s3/UxVcjP4H/oglJm5
-         +d70f57b8UDJAncnDlk62LT8P4OiPtzS6GANW9ABqmHiECrvJHyvb43VbP1Rfc6xrPUP
-         qy9T3y2ZcIjvRyTviVL8MpRRlPCd/Cwm1zH+IchM9CBtFqECeeyU1ZrOxd9e1Zd26KrO
-         qD8BNLfTkDtf1Rai2wjuYJo6wktg4fVZJA1YCuw3gOqP400U1nNkJlqhKMH5p5u89+Uv
-         Jc/FT52Bn6iieQjgorGyabjeiQ9eHLl9kaR8OLSsweFmUCpDqEn5WglkW7/ED0Fe2i10
-         NR7g==
-X-Gm-Message-State: AFuF++nnBrwbFh3KJXEQv849ZQ3sPOaCpAIcIUB3S5Y8obU6sL68zEoN
-	lzvB8MxjcWhxiYTzbNLZuDsqXK5Pumk+u8YXi+vwmOhVvO2GN8r5Gxwmp8BZYIpwIpffW7kOnGS
-	YtrXJ3hdFJUzvZwYZOavW0zveH3y8/M6SUw==
-X-Gm-Gg: AYBFou1vFtOX4UEQ2B7ql3tS9ALUQIwZzheQlcdLs8/VKWC1eUQq81WzkY6GW/vp/zn
-	ClX9PyXm3a8UJOuAlTYzmzkZaA7pmj7v6EIkUo20i4IOzugpEBW2nk7btYhCfAMQkuPyShDWUPF
-	FSUoJgPI6RrxDy1cbr4kctbagex3KuPTMjmN4LnOsqBfVAi3YeHd5LTQ5leQVzwDECNe+8zo5As
-	WX55Shb3yAbqkbudHJzbA7YF0WqLMJPJ3Vv50lj9X76IBvIiUqjI3euKCclsgas5ysb1hIAl4gm
-	6on88hLfyCF6OpZ4Uxl3l9dtn4cNjNFijD+54OuLkhM=
-X-Received: by 2002:a05:6102:a4a:b0:78a:135e:feb8 with SMTP id
- ada2fe7eead31-78a608afdedmr2340994137.0.1788845439517; Mon, 07 Sep 2026
- 22:30:39 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Tue, 8 Sep 2026 00:30:38 -0500
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Tue, 8 Sep 2026 00:30:38 -0500
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="h0Txoyzh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uX2oKWzz5lDeozILdTVuvceNX64YB8lGpEKgMKpGvbUuN1v8A/CqtCYcnncRqHBRcPEuG6+k423tekM6JZ2Xp0hjW0LOQhbNLt+qbZckmXSeV946KF0PWEeuRtSgLWsObFGw8FCsmGlgSsBKm4JyJSRvWr78bpfpPf9d0ro8IWNoZ1PVyXYZQxOjrpBgSZTwlNkW0W+QoWLu5ox0Xb0kPB4gp8UqgmjFMHEzuT39O+vR0Gv5WKghRp2Pjc43U4Jh5bU6cN+KBuc0Z2xsCjQoWn8w2B3ApDwYE5w2G6K9FSh5qN0vkmuW8db7OitnLiKkcLjj4a8UPzMi52Zh4jj4zA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z9jJhyFdqa2hHcXw568Wt/DAih4Cysxa7bggboxplQs=;
+ b=eh1h/x5EPeVoh312QKNvuybVXEb1PabE9TXMf3ltiVUR7ylvYYo4ROjWQh93eAur2+z7NmS4fP/Qw4JJEs8QpB9BfsfuTex8iNWKXromkIUuiz3fAzrmj1cliOtkQvmG3Vvw4SxC+4SFjd2oaWqEp1nadSKnc8YXBOrLckwu9o86Scu9dsBE0JcR3GDCFjPcCV4qGltl39NxE+5XXaqvL3FWgc3BlTLwyeiK8hddCvhjiKiIqWy/TiPaDTMkODUbOreyHLMbFbmAev/2hePhwiNPAeZ7+TFKRaRUfs9Zf2jB3df90JhIFLXN7xckrdmH67dFg4//2YAmZGvK8G6XZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
+ dkim=pass header.d=altera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z9jJhyFdqa2hHcXw568Wt/DAih4Cysxa7bggboxplQs=;
+ b=h0Txoyzh9+zZiYl1N9auOPYZu33xb2VIPcgvbNszPZttI4P4Bs87TFYiT213a8qa8innwJQO73RIINeCFW4l64Arr0V8tNv/MSEOeJLio/mYmWaq4ZpvYlHrCgcu3ecSTxzuqPT2MxaEoxIlDA03LRKRUj6L/zwoVwK/+L9SJbZoRBjo1JonjeXsvHcH23zxmmhaTAXd1hM2/V0sBBSNBaglAUHjcwIqxv5X/hgCoSRzEYEGVenS48ct5XwbQeqpeGYs2dSvh0WislojbCbhcNAzo++uQFor3hrSd+FNBBtd03nT2X9r0bInsyZ0c7P1ly9NGLAOaZRrp2E5op2aKA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=altera.com;
+Received: from PH0PR03MB6235.namprd03.prod.outlook.com (2603:10b6:510:ed::16)
+ by CY3PR03MB8150.namprd03.prod.outlook.com (2603:10b6:930:ff::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
+ 2026 06:02:05 +0000
+Received: from PH0PR03MB6235.namprd03.prod.outlook.com
+ ([fe80::c062:a298:c61e:5820]) by PH0PR03MB6235.namprd03.prod.outlook.com
+ ([fe80::c062:a298:c61e:5820%4]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
+ 06:02:05 +0000
+Message-ID: <8bf38b40-580e-4331-8e18-afccef6f2d59@altera.com>
+Date: Tue, 8 Sep 2026 14:01:58 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/4] dt-bindings: usb: add Altera Agilex5 DWC3
+ controller
+To: Conor Dooley <conor@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1788757821.git.adrian.ho.yin.ng@altera.com>
+ <19d22389b795bd0883dc481f045a293b400f1ea3.1788757821.git.adrian.ho.yin.ng@altera.com>
+ <20260907-overboard-frisbee-64c8b3c09c59@spud>
+Content-Language: en-US
+From: "NG, ADRIAN HO YIN" <adrian.ho.yin.ng@altera.com>
+In-Reply-To: <20260907-overboard-frisbee-64c8b3c09c59@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI3PR01CA0001.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:296::17) To PH0PR03MB6235.namprd03.prod.outlook.com
+ (2603:10b6:510:ed::16)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Abduvaliy Abdulazizov <abduvaliy.hbai@gmail.com>
-Date: Tue, 8 Sep 2026 00:30:38 -0500
-X-Gm-Features: AcwNN1WHUy03EnwPiSfMvWigKYPM8tqaLmNBUA01fCl8DPvue-z8tKSs335aexc
-Message-ID: <CAPGafdkBb49YFV+d0rYjbi4QjifCUr1Wos6C5TZtDQzN6-pn+g@mail.gmail.com>
-Subject: [BUG] xhci: Acer ANV16S-41 internal USB camera never attaches on AMD 1022:15ba
-To: linux-usb@vger.kernel.org
-Cc: mathias.nyman@intel.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR03MB6235:EE_|CY3PR03MB8150:EE_
+X-MS-Office365-Filtering-Correlation-Id: 460cd28b-d643-43b5-5c61-08df0d6eb537
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|10067099003|56012099006|4143699003|11063799006|22082099003|55112099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	TEKSD5Xoky8K22cLrtmYQBmeM/GCCoWO0oTvRYzN7V5vgikQ3fhO6otWsnjNufu78KNZQTpdPAU+KbTQbiI12EBvD15Mz26w3ZeedBCYwV7ZaYexuFgVdVHfE7NSl3hDVcqdfL8yiZEGgQUkz+eXiVBoel0n3RkTFlNPw+7vtmdVUDQfc7ix8tkBeorgHP8c7unaR/TOi/FJ2B1SnpQ1p3uDiDhT3aU0+fDngdvenSdtoxi0mNob2lPdJEBwlh8QvChmJmnm+QYI0CQf+oKfb/tuhmEQ73ID0bKthDR58GiADt0QlSN43M6Ng1ChmfkVIEX+Gk0ljag57q5y/gamZjgSuP2ySkX6ZXIvSYNqwSTTWr2R13h5Oh+v4QNba4tdIg4CFj6HaaTdFGnnlTa0wclNzZM5MMOC9++lpxsIhAz8IxbvSNuQxLjxsKDpjWfR48bC3JvPUMOTGEZOKE+Sv0ybJhXEzTnQoUkwLXxMFcUZFZw0rLefaHTQhlaDNp+gjeyMa60XeWqZraHNHNgSNHEe97Stf/j9vCI6ruV9aV/PinU7XMwRhHWoVwRvv932hi8QxMSQU2QWRvslWE/y+iBX+h26oVpTHo2yOaLKPTI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6235.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(10067099003)(56012099006)(4143699003)(11063799006)(22082099003)(55112099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cXRmNDFiYzljUjVSbXdIVDRWaHFWUzVHT3Z6RDh0UzEzNk03RHBieHhGSmhZ?=
+ =?utf-8?B?WDdEbDlyMG02cHo5WFE4ZGJ6U1R0N1J6eFZsN1dYUVZ3VVFqVzcvV2ZUYUgz?=
+ =?utf-8?B?WUtsTVZEck9wakdld0NyMUdnQ0pSK1EzcENkQTc5aTFSeFRkaVkrNGZCWHF5?=
+ =?utf-8?B?Q3d5VmJxcEl1QURuVFNrTTJreGcyc2JOdFJYZzM0aEIzcG5TdE5zUXlNTVI0?=
+ =?utf-8?B?eE5qVStaUzN6eC9RZU5XcG5BUzE4M0JPU1kzeVhvclh2Nmt3d2RtcUdiWkhl?=
+ =?utf-8?B?RHhMdG5Sb3Fsejlwbjhlam5Ec2QraFFMSm9KWmZ3eC9DS0lWTlZZazNnZXNy?=
+ =?utf-8?B?ZkJQOGFmQVZYdkFMTWQ1RnlkUDllWUcwNlk5VDRUd2VBRkVYTGMvdUdxWDda?=
+ =?utf-8?B?MHdWem0zYW5YL1JhM2x4NUtwSGFjVzVhRXhqNHBwTVNNM1orQ0JjZkdaTURk?=
+ =?utf-8?B?d2tNZm92NERmNFBrWXE2bW5mTjlmcVN3ODNkb2NOZlhLTHhSd2FaSlRDT0dY?=
+ =?utf-8?B?Qm5CY3MrbmxBa2tyaXZCRDJMNlJSM29wdlFob0JjZ1c5b0JVelpWYThEMHhv?=
+ =?utf-8?B?WExNS3YxY0JYR1BUbmtmditqUTVXV1dHS1c2N3k2M0ZVSnJMRXI0aEFhbXhD?=
+ =?utf-8?B?OUNWQUdhSUUzZzhtSDRGWXlMSHBqZGxpaTB3S1UrVkNuTU9HTFhsc3BXZUF4?=
+ =?utf-8?B?dGpqZ3BQcEphMUlzZDhaVytueXpuc0FkdzVpb2cxSlI5NXZyazk5SUdCN3Q0?=
+ =?utf-8?B?UVR3QUdiYWlYWEVDQldQdzcvVWpGdnNBcTVFM0tJMjg2MGR1ZURNR0dveXd5?=
+ =?utf-8?B?ckVTZ3NLSHZONGc2T3pyVkx3RlY4a3BrZlVDbHdkMHYvQk51MUIycm9nU2l6?=
+ =?utf-8?B?OEdCVUtvL2pDcStNZGxuV1ZwMjZ6MThEaEpsY2xML3RlYTJsVGxyRGExVmFs?=
+ =?utf-8?B?Y3gwejVRTjRkTkdHZnR2ckhHQithT2cvdjdYbzY0OEZWVHNmS1ZYbUUzbUVx?=
+ =?utf-8?B?bDJrYjNXNHJuODIrWjRFVTZRNFlCKzY2ajQvd1NIYXhQMENkLzlYM1pRU3kx?=
+ =?utf-8?B?WjRURzhJZkk1WXFMRzgreXNzOXRycWdqZnVXTmZqVWRqK0tkamdsajErbW5n?=
+ =?utf-8?B?a1IyTHFaUTB3TCtENDM5UEwzZzV2RmJ0UVJXOEUvd0hwTFR2ajdmWUdYcmtl?=
+ =?utf-8?B?d3dmdmtVU1JybmVxQnNNd0pDZ01aNmZ5WmhyQ0dkcFc1L2Q0czE4YjZTdi9N?=
+ =?utf-8?B?WW1OK2pkWnZGbHlYM3lDOWdvMVNHc1JseG8zdFhubVZEZ0kreTJOYi9NSUJH?=
+ =?utf-8?B?NTlJbTB6a3pDdXFRaUU2KzlXdTRza1d6UVVsVkhreHJzMlFKQWxDeFEvVktv?=
+ =?utf-8?B?bjcxcmwrZTc0RWpJNUMraWlsY25VSTVLdGJ0SWQ2dlgxUFZJa0JLcmZmZ1FB?=
+ =?utf-8?B?N25BaHVlRjl3dFowTytNRUpkZklwSVdaeDNhVGxsS1JldklVZ0FCZVNGVmw0?=
+ =?utf-8?B?T1lzeEliN1ZnK0dNYkQ3STlEK2hqbDZnd3MwM1phei9GVDVQUkNqR0xTTVJC?=
+ =?utf-8?B?RFlKTGZVZys3aVVFREJSVHozblhKczVXZ2ppMzhROWtURGs3YmdCREN0NkZh?=
+ =?utf-8?B?bm12dFhCS080S1dSVElzV3p3dTVEdEx5VHlPeWw3b2tMUXFNd1o4UFZGbGZs?=
+ =?utf-8?B?MzhhQVRaVnhCbVlVYm9qSlBtOTh3bGErQTNlZ1RzLzVxeGN4MXU3MkgwRFE0?=
+ =?utf-8?B?dDZRQmJOQlZKWEMybm92bDArZHY2OVdtQ2QwQWdhNlhuSzB1RktFUFNlYmpP?=
+ =?utf-8?B?aXk3cHM5ejQzSUEwMTZmUmJrNTdJSFZOZ3FBaHJpT0NSRnBzWUVKVjhiU3Nj?=
+ =?utf-8?B?MkdmaFRlaVpFTGR3bS9qZGEvM1FTRnA5N2hVUWhybFpyK1BnYm5sbXpTQkw4?=
+ =?utf-8?B?RDJXeGxRQXprZkp1Y2RLeWtuUVB6UVBxSnRBY2VZQjkyb0hPdVlpQTluODF0?=
+ =?utf-8?B?aGxsMDQvRDFBdXZrN2VBYmZtSitlSzJwWHk1ZFM0NlZydkp4OWhQZVN0d3E2?=
+ =?utf-8?B?N3BOanVSL1dnVEtpMVhRU2NTbVRGQnkzUFY0WUNsWnNHcHZMRTMzeHgyTytu?=
+ =?utf-8?B?NGVGS2QvOERQZ0lPa2d6REJXVmpZcDZDVGJJcFhFWmdWR0pydCtuTDhUVFNY?=
+ =?utf-8?B?RTk3L2djcXN0d1FXNnltZFBrYk4xcVNmTkdwM0ErNy9Ja3JWTjVHMXNUWEd6?=
+ =?utf-8?B?WVpPWDJKWS9WYzRpWVhIUGRxcHJJNU5scXBYVUNKenZJOVAvc3lzWDRWZ1V6?=
+ =?utf-8?B?NnNoTkZJc1ZUeHovSDhPWmhRcUpzbnZUOUlmLzJ0eFVNWUwyYWNJWmExTnlB?=
+ =?utf-8?Q?mxv5n90LNPbkW6Ak=3D?=
+X-OriginatorOrg: altera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 460cd28b-d643-43b5-5c61-08df0d6eb537
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6235.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 06:02:05.0457
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yvttLGFBomoD3k3IFQyCxS6O8NTdTyVdXPS1HlF09te99319e42kD37mHERpI3EYeNfncAazi/GW6ZaG+9/qTXM9htVkmB/pEYgC08t1Ln8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR03MB8150
 
-The internal USB camera on an Acer Nitro ANV16S-41 works under Windows but
-does not enumerate under Linux. This is before uvcvideo can bind, not a UVC
-probe-control failure.
 
-Hardware and tested software:
+On 9/8/2026 12:59 AM, Conor Dooley wrote:
+> On Mon, Sep 07, 2026 at 04:21:38PM +0800, Adrian Ng Ho Yin wrote:
+>> Add a binding for the Altera Agilex5 SoC integration of the Synopsys DWC3
+>> USB controller (compatible "altr,agilex5-dwc3"), covering clocks, resets,
+>> PHYs, and optional IOMMU support.
+>>
+>> Clock names follow the snps,dwc3.yaml example order (bus_early, ref,
+>> suspend). Reset names use core/ecc. On this SoC ref and suspend are the
+>> same hardware source, so the example reuses AGILEX5_USB31_SUSPEND_CLK.
+>>
+>> Signed-off-by: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
+>> ---
+>>   .../bindings/usb/altr,agilex5-dwc3.yaml       | 108 ++++++++++++++++++
+>>   1 file changed, 108 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/usb/altr,agilex5-dwc3.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/altr,agilex5-dwc3.yaml b/Documentation/devicetree/bindings/usb/altr,agilex5-dwc3.yaml
+>> new file mode 100644
+>> index 000000000000..9970d7c9d6fa
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/usb/altr,agilex5-dwc3.yaml
+>> @@ -0,0 +1,108 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/usb/altr,agilex5-dwc3.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Altera Agilex5 DWC3 USB SoC Controller
+>> +
+>> +maintainers:
+>> +  - Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
+>> +
+>> +description:
+>> +  The Altera Agilex5 SoCFPGA integrates a Synopsys DesignWare USB3 (DWC3)
+>> +  controller that supports host, device and DRD modes.
+>> +
+>> +allOf:
+>> +  - $ref: snps,dwc3-common.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: altr,agilex5-dwc3
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    items:
+>> +      - description: Master/Core bus clock
+>> +      - description: Controller reference clock
+>> +      - description: Controller suspend clock
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: bus_early
+>> +      - const: ref
+>> +      - const: suspend
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  phys:
+>> +    minItems: 2
+>> +    maxItems: 2
+>> +
+>> +  phy-names:
+>> +    items:
+>> +      - const: usb2-phy
+>> +      - const: usb3-phy
+>> +
+>> +  iommus:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    items:
+>> +      - description: DWC3 core reset
+>> +      - description: DWC3 ECC reset
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: core
+>> +      - const: ecc
+>> +
+>> +  dr_mode: true
+>> +
+>> +  maximum-speed: true
+>> +
+>> +  snps,dis_u2_susphy_quirk: true
+>> +
+>> +  snps,dis_u3_susphy_quirk: true
+> You add these two as possible but not required properties. Why is that?
+> Does the agilex5 have some instances of the IP where these are needed
+> and not others?
 
-- Acer ANV16S-41, board BRZ_SKF, BIOS V1.14 dated 2026-04-02.
-- Ryzen 7 260; Arch Linux 7.2.2-arch1-1.
-- xHCI PCI 0000:65:00.4, 1022:15ba rev 00, subsystem 1025:1969.
-- Camera USB 0408:4035 rev 0004, using Microsoft usbvideo on Windows.
-- Controller path \_SB.PCI0.GP17.XHC1; camera under RHUB.PRT1.CAM0.
-- Linux USB2 port usb3-port1 is hardwired; companion usb4-port1 is not used.
-- Windows USBXHCI version 10.0.26100.8972.
+Hi Conor,
 
-On 2026-09-08, a read-only check also finds no camera USB device or video node
-on 7.2.3-arch1-3, with BIOS V1.14 and the same controller IDs. The detailed
-controlled boot traces below were recorded on 7.2.2-arch1-1, not 7.2.3.
+There is only one DWC3 instance for Agilex 5, and these 2 quirks are 
+used on that node.
+I left them as optional because i followed how snps,dwc3-common.yaml 
+models them:
+boolean flags, not required properties. I listed them as "foo: true" so 
+additionalProperties:
+false would still accept the properties the SoC DT uses.
 
-Linux results:
+Thank You
+Adrian
 
-1. No camera USB device or video node.
-2. Resuming the controller/root hub to D0/active does not reveal the camera.
-3. Cycling only the empty camera port changes PORTSC from 0x000002a0 to
-   0x00000080 and back, with no attachment.
-4. Unbinding/rebinding the empty xHCI controller recreates the root hubs but
-   does not reveal the camera. Original policies were restored.
-5. A separate boot with usbcore.autosuspend=-1 keeps this controller and both
-   root hubs continuously active throughout a 42.9-second trace. The camera
-   is still absent. The capture contains 121,343 events with no reported
-   drops across 16 CPU buffers.
-
-In the no-autosuspend boot, the first camera-port write is PORTSC 0x000002a0
-at 0.737260 seconds, followed by the same status at 0.757631 seconds.
-No later attachment or enumeration is recorded. PP is set, CCS is clear;
-this is not a physical measurement of module voltage.
-
-Successful Windows cold and warm boot traces show standard root-hub
-SET_FEATURE(PORT_POWER) for USB2 port 1, approximately 100 ms later a hub
-status of 0x0101/change 0x0001, then normal port reset and enumeration.
-The unused SuperSpeed port is also powered/disconnected (hub status 0x02a0).
-No proprietary USB request enabling the camera before attachment was found.
-Raw xHCI PORTSC and USB hub status use different bit layouts.
-
-The Windows ETLs retain USBXHCI/USBHUB3/UCX and ACPI events with embedded
-build-specific schemas. Local decoding recovered 13,249 cold-boot and
-14,015 warm-boot UCX records. All 5,185 XHCI/HUB3 records match the native
-Windows exports on comparable fields and timestamps within 2 microseconds.
-Opaque structure fields and UCX/ACPI payload semantics were not independently
-validated against native field exports; decoding limits are documented.
-
-ACPI SSDT31 supplies XHC1 power methods, despite their absence from the
-DSDT device body. Its platform hooks call M000, whose only definition in the
-captured SSDT17 is empty. SSDT9 XHC1 _DSM advertises functions 3/4 and returns
-constant buffers. Windows logs method names but not the _DSM arguments or
-underlying register operations. No verified camera-enable method was found.
-
-Matching Microsoft public symbols decode the target controller's recorded
-flags as 0x00040060000000a4 / 0x0000000044050000. The three
-RestoreRyzenFeatureBitsPostControllerReset flags and Needs180msDelayPostHcReset
-are not set in any of the ten saved controller snapshots. This is an observed
-flag state, not proof of every operation performed before those snapshots.
-
-The unresolved stage is controller/platform initialization before electrical
-USB attachment. Maintainer guidance on a targeted xHCI/PCI/ACPI instrumentation
-point or a known AMD/board-specific initialization requirement would help
-identify a justified patch. There is currently no proposed fix or known-good
-Linux version, so this is not being presented as a bisected regression.
-
-A separate same-model/BIOS report describes the same symptom:
-https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg6302306.html
-Its claim that no XHC1 power methods exist does not match this laptop's SSDT31.
+>
+> Cheers,
+> Conor.
+>
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+>> +  - interrupts
+>> +  - phys
+>> +  - phy-names
+>> +  - resets
+>> +  - reset-names
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/reset/altr,rst-mgr-s10.h>
+>> +    #include <dt-bindings/clock/intel,agilex5-clkmgr.h>
+>> +
+>> +    soc {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <1>;
+>> +
+>> +        usb@11000000 {
+>> +            compatible = "altr,agilex5-dwc3";
+>> +            reg = <0x11000000 0x100000>;
+>> +            interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
+>> +            clocks = <&clkmgr AGILEX5_USB31_BUS_CLK_EARLY>,
+>> +                     <&clkmgr AGILEX5_USB31_SUSPEND_CLK>,
+>> +                     <&clkmgr AGILEX5_USB31_SUSPEND_CLK>;
+>> +            clock-names = "bus_early", "ref", "suspend";
+>> +            phys = <&usbphy0>, <&usbphy1>;
+>> +            phy-names = "usb2-phy", "usb3-phy";
+>> +            resets = <&rst USB1_RESET>, <&rst USB1_OCP_RESET>;
+>> +            reset-names = "core", "ecc";
+>> +            iommus = <&smmu 7>;
+>> +        };
+>> +    };
+>> -- 
+>> 2.49.GIT
+>>
