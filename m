@@ -1,284 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C6853445A;
-	Tue,  8 Sep 2026 12:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788869503; cv=none; b=XU70PoMpPBqJt2vBlQvOSFEHUwCcPCskCLo3YjYzu3kgTG4jzW7lZ1QPfpXjVcSviqrLEOipoV16ZTtsNDZ0L7mK8L6VpRSXFC/OE50DY5A7URyur384bFwsde6QtJK6g2mqxlxgjqP3zqUXYs5Dpq2tAi1ekfkoNe4AACXkY9c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788869503; c=relaxed/simple;
-	bh=uaQ10Apwu67+uFdsBLzTilasS4liMjcczBaW2+tmNNE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MEg1n7RMP9s7MXT6cFwmuTAxCgP1ZAVezHH+ZvhSUCTT9FaJggmEpZvUgrcQexPJGd0o6Hv6qE+Gk0uOQ11HJNKFNT5XnmBErkMNo6YeSQGtdMqVAdKOcE8oDF01uD16rglY04Sgb1YbQZ2Xeo0vWC9QE6fV94hhkL1LI/vjY3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NGMrz+Uo; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA46153CA77
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 12:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788871041; cv=pass; b=lc9cfROW2U2V8OC9grmxY3xNQLZJwuh2tZXwWaTLxsyD6FnLNIxXuofCup++qUPdZrnbTEG9+Axw0eObC7qW2Bv81bOQ9RagCazP3f886SKZs6PtHAcK482LTrFqHb1l9LPZbia30fk1ja9muNbudoBfHTsBatP0khI0dQwrcBY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788871041; c=relaxed/simple;
+	bh=RAvK+QlZpVZ6hzzt9JA68rH8p3fcTiFrApuxSgWpNy0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r0Xa9tgRokA9nn8g4EBwoPZgikZUehnziCFClnQrqoqP7R6S2owHOwkEW71evrgOwT6htGtDlf0OPvDW2aLJOeULXXHLRPASkbVE53WdknxIkLBF1UDdUzj9aFDgTe0KfkFzGXNjkPJ2IxNniiwlgrJuNbdDTOW73h11alAnM/I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHkKcAQd; arc=pass smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NGMrz+Uo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836221F00A3A;
-	Tue,  8 Sep 2026 12:10:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788869462;
-	bh=Iogr4guSukTn7BNwHpl36e5eQOn5fbSrjKYt1mM0zZs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=NGMrz+UoNf/gzaQ74JTfvoy7vqEpiw+5cmO1q4iP3yGfSAjHDVAN4/CMNqORDPu4n
-	 HJl+Qq+4W8rI5VQ2LeiZLjAJlqVYQ4R5FU5MHyCF+oFtznk29zfKuTL5ZLchElsBNb
-	 0eJCxdkHcn1mvaRAmCxAu8WD9YZH/RgfqaJKn1EWHoMuT9EFFfyR+r+Ju1UjOUBm3e
-	 8KwKksoimiSzXS34OkSVnFOGIYz9tkgwPyHprsro/tRuNIUakklpM4RlWUmnJFCrSY
-	 wpu/sO5kJMg1HOOsq68qOmuarpS+zYwOP/2zS07HgExdpFKBauBYGI68RBci+m6JUw
-	 k0/p5zwRBIfFg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel
- Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, =?utf-8?Q?Bj?=
- =?utf-8?Q?=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Trevor
- Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
- =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
- <tkjos@android.com>, Christian
- Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
- J.
- Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
- Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>,
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski
- <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, Philipp Stanner
- <phasta@kernel.org>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- driver-core@lists.linux.dev, linux-block@vger.kernel.org,
- linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-usb@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-In-Reply-To: <CAH5fLgjrQDWSPX-81TNdnc=AU3Jge57vUJ_SHCn8=uUyGfRq=g@mail.gmail.com>
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org>
- <ao2WubjLtDuHvRzx@google.com> <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
- <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
- <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
- <2dpwVpJS3VbfQ7CmE3HeY4IJSSMXTP_O9sSP3HHHUD7Z29RNEG4Hc0m8f94jKWjFlekcTXvIBA-QdGYrf8w1sw==@protonmail.internalid>
- <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
- <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
- <CAH5fLgjYmvp1Ph3dYXnTKkAvWgNpgCAPeq_7PZhRai6pCNmVmw@mail.gmail.com>
- <87qzj4w2nw.fsf@t14s.mail-host-address-is-not-set>
- <BHf9mFp5zLg4GcKDzWhjsF9lzCPG1Pd8-nPd6b9HODeCiw9Nj9OAjU7aDmN6rnk-koAD37kW_flzkTMbOjp9Tg==@protonmail.internalid>
- <CAH5fLgjrQDWSPX-81TNdnc=AU3Jge57vUJ_SHCn8=uUyGfRq=g@mail.gmail.com>
-Date: Tue, 08 Sep 2026 14:10:45 +0200
-Message-ID: <87mrtsvt8a.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHkKcAQd"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-90e92b99ab9so30596336d6.2
+        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 05:37:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788871039; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EasM/WESJEiDezfFmdC3c0/ngXDDKOC7hOh1HbOJBX4zJTH3M2I6DDbHXCOjB8NNpO
+         Fo3F7SbgvHIXMwRl6X+2cxdghV9LSnQ0md3gPojSCrOBFOczkpYevGMmWeWXONLm/xnl
+         kahyKP0MIXDbnzN5osEdPz2yJdiKQq0Q43cZGVCIJOsj3B9ZT9In3GftEsprV0YGCeV7
+         I8MiKpOI6A5vpDq7VTqd5fe2LL4Pj8V0ObFILdm8fFEHB4qw8OmIcCDXc+nLNKYmWmrM
+         jmZtbklOd9Vj/zFVNF6Gwpwd2Pz8J179Acc5GrTDQiXF1CG93RCL5pBHSpyFPqlJpGyV
+         FUvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+oK2FpmTBiOTT3eOfoPFZBA9GuXPfUx5dYKLcub9lvI=;
+        fh=8cI0XJ2bwLC9g9D7QvvupSEwoV3Kp1hqov9ErrXtemE=;
+        b=FegJPyNxECWHMj5B/s96OZ0z6qqid4RsIgnUkHUxYViYQSIrlZnjQjDKDPgXn4g4l5
+         /2KP6r8Z+L9UCKpN+PJ4ZH9FztPkJGI0xRNdlqUBGEdhy6Jclzf3CdGdMtPnv8idQJMk
+         XCvKzWU5QcMqDU4YRCKiVTWUV4vZas5LmqO5t2JhgQCPyEGl+jYSrTviVn+SkUuii7eg
+         BFWlEtqYysuhowen08cx56rjXm3PbQgPj7DCx7V88EE1Y6CIofh0SfI5YJ6OzrdilTvm
+         PteEE8Z4ETtgmGVhBh9bl0wnUL/mMPj9Na88j5o4LetnHjcGTBlR7MJuJvCCDBOuRsba
+         JC6Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788871039; x=1789475839; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+oK2FpmTBiOTT3eOfoPFZBA9GuXPfUx5dYKLcub9lvI=;
+        b=UHkKcAQdsPmX1AyeE+NYXqf8xbR2IMxFkScly6T34SfWT8kzrhPW0fhJDTtiCcFbuI
+         RADUEIuRrh2n4E9vIvKHec/qRpQpYUiE2ERic1YaXJ8vfY+GEB0GcVkUwOOWpVCIGoPb
+         VuqGipH3c3gfXgKqstQg0rAllddIIy3dt8Fo/H+9MTGfLsMvLiGbWjzYcSRFPIA9WxaR
+         KF0qDkWxFE8Cu/FP3DU/DNZ+wBYXF60mKPKFEmRb4ZpgUA5GgWxsq3bO/MMWv4Woajav
+         8SxvOu3KUiNZ6L7G/QMtDtjJhgbrgtOkda2jmmM7UzajBjAkDA8E2sntB1cYX0OTE4df
+         Ydag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788871039; x=1789475839;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+oK2FpmTBiOTT3eOfoPFZBA9GuXPfUx5dYKLcub9lvI=;
+        b=I11gmFijCIt8FutKJiooWV1j/de+8h+syHx0FN00COL5/N/taAcWPabbvmm2C/zUOc
+         JsOgOiMxbBqD/y7Cn3YDb5uEcFYH73AlDGV2rtgA0Bs9JPhx78P0bKk6nqAoxJBkQOG3
+         CDC/Hfst2zO39RmOFXXh44rgColyABweWWYwdcN2przdb5W20OiyyElqUbgBZxeDkLMZ
+         jEKCQGI+OHPEtCwF4UEEdLjCgDkOoywneQmydbGGqFfM1/4cF+KAppWgmWrzJ76erCLa
+         /RiN1PM7BRhJB9d946xLLefh9DtOc2g08MxG0OIwbt/aAFU6T3qbYSdzpSbi09OmWRNr
+         LKeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw3u082VPOMicQWqBgW/rBRLASFtWXTFYIKn+WYFhVTMYSJ02UCH6YVErDukV3cBLNt698Mo1tD+4Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++kbWL4OWSh+09aoyIMZw/XQFcF55ckA+pXqNGtTAX1eBrnXvPp1
+	iOStKzvpRr46ZtlGI9oI5clgWtHuwPSv5rSA1BaxzgtVnUVVLQRyfvOxS3DHsZKkp5+ZBY7bwAs
+	LSr3Kmv388sQoFuKeTMH24QmHfzLVM98=
+X-Gm-Gg: AYBFou25+4aV5g1a6bQjdbTthuQlVMoTYfwba2YviW88b/DYZVz4WxX3kqoFcJEL42o
+	2W0jqw7gwqQYQtzBcma4Vtdk9oRpykarz7MqinKA/gLYOxjerA+pfB3K69bFol8lnHW2jOx/smv
+	Qqjm6hLcyoP5ZNlenUeyFoXRDdBTRimwVkx8NaBOYGzVKxCR73/MM1/JfxiZOomyVKzmlnIOQV5
+	Lmwm3/065fRuE0w06jVnvGYvP9cIBi3E0g2Pk9ksezFfZzFjTV4ZPisBl7nVAJRrHCL2lQAcXxq
+	1QyGiW6kIuyUu4obXfAQdrr6Crw4gPCKJokh0YWOcCgoYZkxn0BzIJxq
+X-Received: by 2002:ad4:4eac:0:b0:90c:4ddb:e298 with SMTP id
+ 6a1803df08f44-9103eefcf6bmr338643226d6.6.1788871038641; Tue, 08 Sep 2026
+ 05:37:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260907-ncsi-over-usb-v1-0-6b74d2f1196c@gmail.com> <1db2f8a7-6a17-410e-be1a-e9ac0b91e6d3@lunn.ch>
+In-Reply-To: <1db2f8a7-6a17-410e-be1a-e9ac0b91e6d3@lunn.ch>
+From: Potin Lai <potin.lai.pt@gmail.com>
+Date: Tue, 8 Sep 2026 20:33:55 +0800
+X-Gm-Features: AcwNN1WtVvXOykEE_hxcTq7GGNs3AgLO90Qs8ToeolRNdm2gAaEwR31to-VY1MM
+Message-ID: <CAGfYmwVUg-Tm42WeEAaG8bKrKp1Tv+08vvJVnmwk8+BeQ1j0Ww@mail.gmail.com>
+Subject: Re: [PATCH 0/2] net: add USB CDC Ethernet NCSI support and fix
+ unregister UAF
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Oliver Neukum <oliver@neukum.org>, Samuel Mendoza-Jonas <sam@mendozajonas.com>, 
+	Paul Fertser <fercerpav@gmail.com>, Simon Horman <horms@kernel.org>, linux-usb@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Cosmo Chou <cosmo.chou@quantatw.com>, Mike Hsieh <Mike_Hsieh@quantatw.com>, 
+	Mik Lin <Mik.Lin@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, 
+	Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-"Alice Ryhl" <aliceryhl@google.com> writes:
-
-> On Tue, Sep 8, 2026 at 11:00=E2=80=AFAM Andreas Hindborg <a.hindborg@kern=
-el.org> wrote:
->>
->> Alice Ryhl <aliceryhl@google.com> writes:
->>
->> > On Mon, Sep 7, 2026 at 3:58=E2=80=AFPM Andreas Hindborg <a.hindborg@ke=
-rnel.org> wrote:
->> >>
->> >> "Alice Ryhl" <aliceryhl@google.com> writes:
->> >>
->> >> > On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg=
-@kernel.org> wrote:
->> >> >>
->> >> >> Alice Ryhl <aliceryhl@google.com> writes:
->> >> >>
->> >> >> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.ne=
-t> wrote:
->> >> >> >>
->> >> >> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
->> >> >> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wr=
-ote:
->> >> >> >> >> +        // SAFETY: We just successfully allocated a page, s=
-o we now have ownership of the newly
->> >> >> >> >> +        // allocated page. We transfer that ownership to th=
-e new `Owned<Page>` object.
->> >> >> >> >> +        // Since `Page` is transparent, we can cast the poi=
-nter directly.
->> >> >> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
->> >> >> >> >
->> >> >> >> > This doesn't satisfy the safety requirements of Owned::from_r=
-aw()
->> >> >> >> > because the page may be used with vm_insert_page(), which inc=
-rements its
->> >> >> >> > refcount and causes it to be shared the vma system, and this =
-occurs
->> >> >> >> > before Page::release() is called.
->> >> >> >>
->> >> >> >> I suppose the existing vm_insert_page() abstraction we have is =
-already
->> >> >> >> problematic, because it uses `&Page`?
->> >> >> >>
->> >> >> >> Maybe we want to change the API to use `ARef<Page>` so it alrea=
-dy has to be
->> >> >> >> shared? Conceptually it takes a reference count from a `&Page`,=
- which isn't
->> >> >> >> possible because `Page` is not `AlwaysRefCounted`, so it needs =
-a `&ARef<Page>`
->> >> >> >> to be able to do that op.
->> >> >> >
->> >> >> > Honestly, the problem is the safety requirements of Owned::from_=
-raw().
->> >> >> > Pages have a "special" main reference, and free_page() does more=
- than
->> >> >> > put_page(). It even does something when the refcount does not hit
->> >> >> > zero.
->> >> >> >
->> >> >> > The correct behavior for Page is to allow the user to hold one
->> >> >> > Owned<Page> whose drop calls free_page(), *plus* any number of
->> >> >> > ARef<Page> references that invoke put_page() on drop. This way, =
-the
->> >> >> > owned page controls the special drop codepath.
->> >> >>
->> >> >> This does not mesh well with the model of `Owned` behaving like
->> >> >> `UniqueArc` to `ARef` behaving like an `Arc`.
->> >> >
->> >> > It's a different case, I agree.
->> >> >
->> >> >> Please help me understand; with page having a main ref and an auxi=
-liary
->> >> >> refcount, if we model that with a single `Owned<Page>` and a numbe=
-r of
->> >> >> `ARef<Page>`, what would happen in the case where the main ref (`O=
-wned`)
->> >> >> is dropped first? Is this legal?
->> >> >
->> >> > Yes, it's legal.
->> >> >
->> >> >> My intuition here would be to follow Garry's suggestion and have
->> >> >> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this =
-is not
->> >> >> an option?
->> >> >
->> >> > That would be the wrong ownership semantics. The C side increments =
-the
->> >> > refcount rather than take ownership of a passed-in refcount, so the
->> >> > correct argument type is &Page.
->> >>
->> >> Or `&ARef<Page>`? Because with `Page` being `Ownable` it would not be
->> >> OK to increment the refcount from just a `&Page`.
->> >
->> > That's just a limitation in your traits. There is no problem with
->> > creating a refcount from just a &Page.
->>
->> Yes, I agree. The limitation is by design. My point is, `vm_insert_page`
->> can work fine with the `&ARef<Page>` type. So if that would be OK with
->> you, I would patch that as part of this patch.
+On Tue, Sep 8, 2026 at 2:23=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
 >
-> IMO, Page should implement AlwaysRefcounted and this method should
-> take &Page. Anything else just adds limitations that are not needed.
-> But I'm ok not implementing Ownable for it.
-
-Ok, I think you have me convinced. Mainly because `Page` as it is has no
-benefit of exclusive access.
-
->> >> > Now, for the use-case in Binder I believe we could switch to
->> >> > put_page(), as we don't need the extra stuff from free_page(), in
->> >> > which case we only want ARef<Page> and do not require Owned support.
->> >> > But as long as we are calling free_page(), it needs to not be
->> >> > clonable.
->> >>
->> >> You are calling `__free_page` directly in binder? I could not find th=
-is
->> >> with grep except in the C binder. Is this code you are calling into f=
-rom
->> >> Rust binder?
->> >
->> > Via the Drop of Page, not directly of course.
->> >
->> >> From `__free_pages()` kernel-doc (`mm/page_alloc.c`):
->> >>
->> >> > If the last reference to this page is speculative, it will be
->> >> > released by put_page() which only frees the first page of a
->> >> > non-compound allocation. [...] **If you want to use the page's
->> >> > reference count to decide when to free the allocation, you should
->> >> > allocate a compound page, and use put_page() instead of
->> >> > __free_pages().**
->> >>
->> >> I guess this is what you are referring to? We could change `Page` to
->> >> this style as well and all would be fine I think?
->> >>
->> >> At any rate, today I learned about Pfn walkers, compaction,
->> >> memory-failure, etc. that take transient refcounts
->> >> pages. With that in mind we need to reformulate the invariant of
->> >> `Ownable` to exclude optimistic transient references.
->> >
->> > Yes we can switch Rust Binder to use put_page() and have Page not
->> > implement Ownable at all. That would be okay, because Binder's pages
->> > are not higher order.
->>
->> As far as I can tell, we can also switch `Owned<Page>` to allocate the
->> page with `__GFP_COMP` and use `put_page` in drop.
+> On Mon, Sep 07, 2026 at 08:15:54PM +0800, Potin Lai wrote:
+> > This series introduces NCSI (Network Controller Sideband Interface)
+> > passthrough support for USB CDC Ethernet devices and fixes a
+> > use-after-free race condition in the NCSI core unregistration path.
+> >
+> > In DPU (Data Processing Unit) platforms such as the NVIDIA BlueField
+> > series, the Baseboard Management Controller (BMC) communicates with the
+> > host or DPU via a dedicated USB CDC Ethernet connection for out-of-band
+> > management traffic.
 >
-> I'm not entirely sure if __GFP_COMP is needed, since the page is order
-> zero to begin with, so I don't think it makes a difference.
-
-With alignment on `Page: AlwaysRefCounted`, I think this becomes
-orthogonal. When we want to support allocations of more than one page,
-we should probably make them compound pages (folios) and manage them
-with the refcount (put_page), rather than non-compound high-order pages.
-But this can wait.
-
->> > But this case still does highlight that
->> > Ownable<_> currently does not address the use-case where the
->> > Ownable<T> is a special reference there can only be one of, rather
->> > than a completely unique reference.
->>
->> This is not the use case `Ownable` aims to solve.
+> I'm confused with the architecture here. What normally happens is the
+> BMC has a standard Ethernet interface which outputs RGMII. That goes
+> into what is in effect a little 3 port switch in the host
+> interface. That switch allows packets to flow to the host, to the BMC,
+> or out the PHY to the medium.
 >
-> Maybe not, but then it doesn't apply to Page.
-
-I agree.
-
->> > For instance, the GPUVM abstraction would be another case where
->> > Ownable<_> could be used if we have this other model where Ownable<_>
->> > and ARef<_> are legal at the same time. Currently GPUVM uses a special
->> > UniqueRefGpuVm type to solve this problem.
->>
->> I am wondering if we can make case I intend to solve (Ownable is a
->> unique reference) coexist with the "at most one of this ref can exist".
->> The "at most one of this kind" sounds similar to the `ListArc` use case
->> to me, which is a different problem.
+> Because the PHY is in effect being shared by two interfaces,
+> management of that PHY becomes "Interesting". You don't want either of
+> the interfaces setting the PHY down because it would cut the other off
+> from the medium.
 >
-> I think they can co-exist. If AlwaysRefcounted is implemented, it is
-> the ListArc use-case. If Refcounted but not AlwaysRefcounted is
-> implemented, it is UniqueArc use-case.
+> What is the architecture then USB is used?
+>
+>      Andrew
 
-I see.
+Hi Andrew,
 
-So for v21 I will implement RefCounted + AlwaysRefCounted for Page and
-drop the Ownable implementation, have alloc_page() return ARef<Page>,
-keep vm_insert_page() taking &Page, and switch Rust Binder to hold
-ARef<Page>.
+Thanks for the review. To clarify the architecture, it looks like this:
 
-I will also include the SafePage/ExclusivePage series [1] in v21 as a user
-of `Ownable` with a few modifications. It will no longer be possible for
-this type to deref to `&Page`, due to `Page: AlwaysRefCounted` and
-`vm_insert_page` taking refcounts through `&Page`.
+[ BMC ] <--(USB)--> [ SMA Controller ] <--(Internal)--> [ Shared NIC (CX9) =
+]
+
+1. The USB Interface: Between the BMC and the shared NIC, there is an
+   SMA controller. This controller emulates a standard USB CDC Ethernet
+   device facing the BMC.
+
+2. Passthrough (Bypass): The SMA controller acts as a transparent bridge.
+   It simply passes through both standard network packets and NCSI
+   control packets between the BMC's USB interface and the actual
+   shared NIC.
+
+3. PHY Management: Because of this architecture, the actual 3-port switch
+   logic and the physical PHY management are handled entirely by the
+   NIC/SMA hardware firmware on the DPU side.
+
+From the BMC's perspective, it only sees a point-to-point USB CDC Ethernet
+device. The BMC driver does not have direct access to manage the shared
+PHY's link state.
 
 Best regards,
-Andreas Hindborg
-
-[1] https://lore.kernel.org/rust-for-linux/20260605-page-additions-v2-0-03f=
-04c8fdbbf@kernel.org/
-
+Potin
