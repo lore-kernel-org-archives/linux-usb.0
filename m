@@ -1,106 +1,103 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012C13B47DD;
-	Tue,  8 Sep 2026 21:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A22B48F000;
+	Tue,  8 Sep 2026 22:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788903319; cv=none; b=ZZBnJYgb5cWra7OA8lZG4RG1DcRU3fLj5QazGdjDQdCOjv2pK1skrEGSv5CrS6AWCOybkRR0v4LBiR2c3rgdSx967B/IeaELG0dml0nchtBMV1XJAeI9KKMuzSGykL+ay0C84Tben7lDj6pcyZMvmrS/uncxHuTP8O2HjyBOx3Q=
+	t=1788905227; cv=none; b=rN++RDQaMnj9uXIyeSGX8oYGU7Rt8kHTAeRIrQQDof3g5gmqud4+Gb3KSjgFISGVNaKj4pS6dNLb98yTchz7tRI2AOgwzLbj2Tiv+mkI3cVb0j/Uy3Us0BI2tLj9h8qU8R4Mk/VBpuJrIe6jFid/JwXQDFCs0nb0m574oHTDOls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788903319; c=relaxed/simple;
-	bh=7dED9VlQyhxfU5aTA4RVVywCq7h7okq2ExZ8AYEGnkQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=S91ZkNXgdor9Ey8Bvw+jEG2FbCJaD2vZl3Du80xPfsxno4md6qA2ew93d5movvndX8sNLhx01cxKQ9Y1KYZCyOdJSRDazRsj4ALAgD75oArbGy0uxgZfudMSRCpbH7/aBgSgCGdspZjnqtbAXLO2j+E1LmGFRf/ryKThBNxiAO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LkoPSxJw; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788905227; c=relaxed/simple;
+	bh=WepsCeX0ALim39H0LbQaoGEyC562nyyVvoxEGggtHR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xh1F9Yy4fneREeDb4so7bWsm7ZBIN5HUSTKn+CehxFL45BoRVaZVPsIHwCD91mTJkdMaBZEwHCgTRTm4FNKBQncR44HSf7pTdfdmQO2T06MhbpuO3NV6aQnrgFScgJzIserQrO3u9jR3lZ7FoFQfoNXTRaqekRvRHWIhGvNj92U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ht1oyT2p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LkoPSxJw"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hfcfn0FRnzMlFj;
-	Tue, 08 Sep 2026 23:35:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788903313;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lOGTJQPlzFJi+I64QoY7lgRUSu8jsaJ5Bcxlr6QsoJY=;
-	b=LkoPSxJw6lej0FKmws6X3TWygzc21LZrjah+Xa97qjpdKKKz8o7Au7m3sZDFl9fHLPvDEe
-	Ql0J9IJxG0sKO7sgIpB6kv1cQFIZo5I2q9u71ERg5MYNFamDsbEU/7ajuEaEMPK0nxgW1F
-	Qw5MjkEcuGf3NjjMx58/MK1WtpK28L3t1BFwXgQNkrJB1ko2n1TjdezQyQ6F6kRfU83geF
-	bsGOgEWU5VABbBQi0j1/gGx3k9HZodK76KZdod64XMHKWURsbamzG46VHfV5h4U5ynjuLw
-	cZon2MU2dA0qZQqXbH3PWfLHe+nJhisoa/y8+xUO67g13kdsuJe0g4qqyz1Q0w==
-Message-ID: <04bb7d78-4b0e-49ba-910a-6fa2b0a8c1a7@mailbox.org>
-Date: Tue, 8 Sep 2026 22:58:48 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ht1oyT2p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB041F00A3A;
+	Tue,  8 Sep 2026 22:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788905225;
+	bh=JoK2n9Z7urXwu7MomxxLbY36ml5lzGDpWoJEJWTo6Js=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ht1oyT2pmfS8hYNjLMLZv8UUdLolw9bM0vdtZG4PTG8bQMpx9IU1W+LbDS4g9HbEY
+	 qnbKlwUqqY+or2QCAlEyVAo1riElAbTP21bEZDYkxNHH5klnLBe6TmZF5TQupdeUyg
+	 WQI+OzzrdXlS9dsds4R9kVBJl+JlOCDNyyiQx7bLfxdbYXumGT7xcfwA1QMv/P+gn3
+	 CYID6n1aMc84oLxAOpBcyHmazgNi24qXeS9bF3Ip886d7DlV5Via6OEMcm8gs1bPF6
+	 wYV0IxvuLLAXfqSWjcmdJZXf+ALB8ZTHsKf3ZZe04KAY9MT/VCntZJrUUAhGbXM3R5
+	 RaDxaspaqSnMg==
+Date: Tue, 8 Sep 2026 22:07:03 +0000
+From: Yixun Lan <dlan@kernel.org>
+To: Junzhong Pan <panjunzhong@linux.spacemit.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Xu Yang <xu.yang_2@nxp.com>,
+	Peng Fan <peng.fan@nxp.com>, Peter Chen <peter.chen@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+	Ze Huang <huang.ze@linux.dev>
+Subject: Re: [PATCH v2 9/9] riscv: defconfig: enable ChipIdea USB controller
+ support
+Message-ID: <20260908220703-GKD2346@kernel.org>
+References: <20260908-b4-spacemit-k1-usb2-v2-0-f07342ffa051@linux.spacemit.com>
+ <20260908-b4-spacemit-k1-usb2-v2-9-f07342ffa051@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Marek Vasut <marek.vasut@mailbox.org>
-Subject: Re: [PATCH v7 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car
- Gen5 DWC3 xHCI USB controller
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-usb@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260903213031.314473-1-marek.vasut+renesas@mailbox.org>
- <20260904-colonial-wimp-b37c27657664@spud>
- <7771adfd-7447-4802-ad75-7c889ad32ee7@mailbox.org>
- <20260907-tassel-bargraph-836b6f41fc43@spud>
-Content-Language: en-US
-In-Reply-To: <20260907-tassel-bargraph-836b6f41fc43@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 76fgoyufaj7n5iey5o7j5f7ywhpc3gpt
-X-MBO-RS-ID: 4c2b5ef6c21f7b5f70e
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260908-b4-spacemit-k1-usb2-v2-9-f07342ffa051@linux.spacemit.com>
 
-On 9/7/26 7:43 PM, Conor Dooley wrote:
+Hi Junzhong,
 
-Hello Conor,
-
->>>> +unevaluatedProperties: false
->>>
->>> I said this elsewhere today, but this binding has lots of "distasteful"
->>> properties for things that should be determined from the compatible
->>
->> Which properties would those be ? (it seems
->> reg/clocks/interrupts/phys/power-domains/resets really need to be there as
->> separate properties, but maybe I am missing the point?)
+On 17:48 Tue 08 Sep     , Junzhong Pan wrote:
+> Enable the ChipIdea USB2 controller and SpacemiT K1 USB2 PHY to support
+> USB2.0 controllers on the SpacemiT K1 SoC.
 > 
-> All the quirk properties is what I am talking about here. There's about
-> 50 of them and I don't know if a single one should actually exist.
-
-I cannot tell whether every one of them will ever be used or useful, but 
-I also do not have a good argument to block most of them as they are 
-tunables which apply to the DWC3 core itself.
-
-I could make only the ones which are currently used available, but that 
-would be confusing the implementers by suggesting that the other quirks 
-are not applicable even if they might be ; and this would likely turn 
-into an endless stream of schema updates, with random users enabling 
-random quirks they just used. I don't think that would be helpful.
-
->>> , so I
->>> would appreciate it if you could use additionalProperties: false here
->>> cite the ones you need to use explicitly.
->>
->> May I ask, what exactly is the rule of thumb for additionalProperties:false
->> and unevaluatedProperties:false ? I seem to struggle with picking the right
->> one for a while now.
+> Tested-by: Ze Huang <huang.ze@linux.dev>
+> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+> ---
+>  arch/riscv/configs/defconfig | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> I would say, if all properties being imported apply to you device, use
-> unevaluated. If only some do, and there are some that will be
-> problematic or confusing if used, then additionalProperties: false and
-> citing the good ones explicit is clearer for users and prevents the bad
-> combos.
+> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+> index 04ae305d5511..5b556488de66 100644
+> --- a/arch/riscv/configs/defconfig
+> +++ b/arch/riscv/configs/defconfig
+> @@ -222,6 +222,9 @@ CONFIG_USB_CDNS3_HOST=y
+>  CONFIG_USB_CDNS3_STARFIVE=m
+>  CONFIG_USB_MUSB_HDRC=m
+>  CONFIG_USB_MUSB_SUNXI=m
+> +CONFIG_USB_CHIPIDEA=y
+> +CONFIG_USB_CHIPIDEA_UDC=y
+> +CONFIG_USB_CHIPIDEA_HOST=y
+I know some prefer to enable as loadable module for non major drivers
+so, can you check if it works as module? and alter the config
 
-Thank you for this clarification, I will make a note of it.
+>  CONFIG_NOP_USB_XCEIV=m
+>  CONFIG_USB_GADGET=y
+>  CONFIG_USB_CONFIGFS=m
+> @@ -272,6 +275,7 @@ CONFIG_PWM=y
+>  CONFIG_PWM_PXA=m
+>  CONFIG_THEAD_C900_ACLINT_SSWI=y
+>  CONFIG_PHY_SUN4I_USB=m
+> +CONFIG_PHY_SPACEMIT_K1_USB2=y
+>  CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=m
+>  CONFIG_PHY_STARFIVE_JH7110_PCIE=m
+>  CONFIG_PHY_STARFIVE_JH7110_USB=m
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+Yixun Lan (dlan)
