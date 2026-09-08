@@ -1,183 +1,103 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8443C3B05B0
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 20:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788898982; cv=pass; b=MsBEeOfxybVsxaBb7QypS4QdGdcHco9yW9wy1MFOrenHHtqeWmgJ4Dp3spV5xJWec4/9UbbnxZ+yZodXEfW2Uis6REWKoOSgYAQv89xpGyGZGLKIBVFXpu8wCdM/CLEoxjZDpAz1w30s6cscWgtQmmI1PpHcdEhkgfV0+WYJh14=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788898982; c=relaxed/simple;
-	bh=TsLhOzf+D46xHpyx683mbvtqY0bc9njzNbabbHNEj0I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hk4Ac8fpdIZCSreIvL5a0Q99rrD72qqc8goo2wmJ5u79a5l6a9RP4UgvZxfWwtser7TFGNDRDy5/iohmHBAkOXWMWO30uhwJE8LN+w6GSLo1WLAquxhZMWuheq/TD3VEaqitHL9mDNEtbthQJyBD8PeRkwHRWlvAziArvot+9u4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IcPkLzE/; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15F73AA9E2;
+	Tue,  8 Sep 2026 20:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788899074; cv=none; b=Ed+sqmEhk7E0dSCcuI1suf4FxCBZpAW9iGnlpqGTbusvqj5qL0B9t8dkv8Eo9MCXL+4QSsDIefYWe9nD4NoJ+ms565jAk+lAWeWU4pbbfBhS+WCJmO+iSPX4UMQC6pADqWactF8kdV7gxqNrG8p5EDMf7PuK0grlaLf7l1wheWQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788899074; c=relaxed/simple;
+	bh=34UMiWTgxcFBqUNYh11YSBmRYxGFZiGVkCLTRzlNjdY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gcfLeWrjauxpQB6KKPZmdWgLpPaN5mx9fLz0yoLnz5YDGV0399Hhms9wiXKYcy75na1Xaag1cwB06rs8Hyz3GpwLOYzqJnsLTnzq4fatMbNFXxvAmd1Uk8oLsKXxN6nuTQXJhiRf1UVEgfiiH0ruZ3LioJD0KZNGPn5qKmPWKqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n13BLIwJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IcPkLzE/"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d6ff3aca06so4445ad.0
-        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 13:22:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788898979; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZYFMGmGPHCoEWU6kyuWcDYtfRABbthSpyl6CB79Do/5xWBDidkR1SMLrXAABTIsHOU
-         f95hbQSdY5iX9QATr+E5lKi+VuG4E+2Y5xYcHGfBQp9bkDxUpinPNt/ft7t+G2tM/16e
-         8BZE48DltulQwbvNAtENgc+X4hJ3Drg42WWm3zrtjJyxDCbczh4nBT1Yo8Y5XaOKfjZq
-         04DQSEwS02EfRP++KTg8AjTFJYktkDPSjae+fKPB9nhX8oRfTV1kOhfhVMqXC866XnCr
-         nV39FZfDlhpkJitE8rTIXTH1ePtgfxhkTjvCI3gs8iHI7QdvPZnOYRAuW2D4ibH+jCmN
-         rpcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TsLhOzf+D46xHpyx683mbvtqY0bc9njzNbabbHNEj0I=;
-        fh=s0llJufmoiXj27dvwMD+Oi/qIXXVRf+tTzVxAu/fa/U=;
-        b=UNzzkAYmBluG9pCKwofCE5SERqAZdNHUbmucdRB6j0T0IMpAO98gGlVGSrxi5OFG/F
-         Ddhi9+p8g56GiP7MXTfeIzoDfRiF1x/dddID+XKx4h72aBkPi5O41enF+DUfN3jBlUc3
-         hCP5uVH3uzb+7KaAW8Ab7vpEeMFt+g/rCKHfN6NjweGf3KSy/B2txocaS4uFc59zZs1o
-         LAVW/KTn9a60lyGjRVvAiGaa3AAUW40cXJYutOjYsr+xW77MerElIATTOJ9tj6dBFupW
-         J+PP5dvRo+75sNhrNlw/0EunTPyQcTkSveVy7VbjW68v2tCk277JMSKJfJwAwX7mLhF9
-         G3Ew==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788898979; x=1789503779; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TsLhOzf+D46xHpyx683mbvtqY0bc9njzNbabbHNEj0I=;
-        b=IcPkLzE/GWJgGQFgFjq3/BPu5Aholp3UD6OdBhJ355j7ahhQeEmYsZPEkfMh2aEMl5
-         kHUyWUF+7Gsx3qUraZvXNlJnLnJQiF0g9Ms56lLpww/Qy1lXVKnPHtG77r2emwHYzjgR
-         29ats7zhEVuqr/LN+0lRI5mQ7VWdrJWjQgAlCiR2iAQR35K53EjDk/rXhFfh40uzR4Jy
-         RRI+QZWDqRc4KQgY+OCWmcvnTOnP8NhhpvoTwWYJ2q5xpq67mWPEnUw4qNJN1Bm0SzLi
-         Qv7BYZ4pLiZwDkSBChbQ8ajWrWqXo9sO0KR94zXOkfUC2TZVByd27wmQIX6YkWcdIFtv
-         GfMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788898979; x=1789503779;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TsLhOzf+D46xHpyx683mbvtqY0bc9njzNbabbHNEj0I=;
-        b=TTEGC0LV2X+d0bML44IYDHcYR5ehOBwZENLqBxZFfMDN4Jaofxpm0/AF5cveGgB3U7
-         xtfspXxxfCu3QPZlXnv9xK1AZwi6WQ0/3WRwqdVEgMG9WVm6ekQBEyy508a29SzwSdai
-         7rg2xUoS5jn5ewBRIyX/am0HAmHyqABwS03QqqFyZzyfdKedAyiVp6QraO9nAG0BZw4i
-         aXmAU8uSqWRvov+F0FJhlCIrv0j73EplnZSs4RmwlGH3S4HGQDaMdLEpCf48wB2O/R2v
-         l7QO7M5r0MSWBb0DFkTPIjTs4xS0uA3Fpe2zr2Urx/hZrJagAsRuCxeW2iIJpoTYcowC
-         MOAw==
-X-Forwarded-Encrypted: i=1; AKwUvBwuRmCcZuB+ynR6wJaRN1UHJsaDxLE4VqKQT0s6HUf1ehOSNePvzN4gAfS6aiZlZd4PV1HC08O2VTM=@vger.kernel.org
-X-Gm-Message-State: AFuF++kgLQHN+9Qe86ST0yCfj6JvtUWypvNDuda7wdhCThD0tjZGl1Sk
-	RXMPIIPM+jwaSHo2MqhLduqH4Iz/ZBCkcrUq48FHDQQf2ME7ESNA1LdD2RmHSJo/2lNlaCjksEw
-	AlS1pWAlsoR8H8e3R58LFVwsxMqR9x7UXEa2nzeBI
-X-Gm-Gg: AYBFou1veJEXKJGCc77j2UPlcWTaUeNq5T/IeemaeNJLSQf7Tpws6t6J+QxWyFehMXQ
-	QqCd/suTYAOR8RqM6Ig2exAsOVQjMka//WOPXiPzMWZ7W6Ag4fc1YLxjgNA7xNJki8tw8VFbbr2
-	TZyYmh85tc8LpAtfY7WHB5UtA/miKoesgpXtWT81qswdZWyw/q+4Rute/A9R9pe6L8B9jOLz6eC
-	VEZJ50hFVCKRfj7Eo7c08H4Nx3Kn+z/dTDZhcXSj21W1sDm1Bmo3VXvPuiZeefa+Ic2vzUlaLM7
-	oS9R2/Obx8yRTv3VE+wWs1Wg8ee958RGkek1iI9DAWMFhl8pgAw1WV+mkprcCsxMfug0+KsfL9v
-	GLGeSrlQcM8aOYqtGWDRtWTFgEaLC080w
-X-Received: by 2002:a17:903:fa4:b0:2d1:1d3d:97c3 with SMTP id
- d9443c01a7336-2dbfeccdf9bmr1436185ad.13.1788898978067; Tue, 08 Sep 2026
- 13:22:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n13BLIwJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5FF31F00A3A;
+	Tue,  8 Sep 2026 20:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788899073;
+	bh=UX81FKHggDlYBKlQeaoEzIUHgB632Ksy7gdLpHI4rVY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=n13BLIwJUvc/OQ5IesL7KDPLWb0H+mPh8H9Cy3ItVDb5BGON0ikp86TlzyYX7EaHR
+	 3ePPwGuAnceTgnPER+uk8XpmI9RTdqctlshgC29YgNuiZoHhZ6cEP+/0mjsHF69Ycf
+	 fAzuq0xDMnj/rJWwi0U5PqMfFrXX2cvN5v00YNvIzIxhQ8zWM7c/mhX+QnTAtBBpWT
+	 ZU3jSm49HKaF6HjrwQPDrlsh9Iu1Ay1CKpMuvfpXfdKokzTGCbUyAt5OMjwatkpsk7
+	 C3IpYx6T0VZoqFUM+e10ISLdebrmDk17Ae3XUifqAczThEmuBjdWAFZsCtA/SO67AN
+	 bIxrG97DoV5qg==
+Message-ID: <1b51428b-5dcd-4fdc-8f4e-d16ab14426a1@kernel.org>
+Date: Tue, 8 Sep 2026 22:24:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
- <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
-From: Jann Horn <jannh@google.com>
-Date: Tue, 8 Sep 2026 22:22:20 +0200
-X-Gm-Features: AcwNN1W16jAho4HwK_fzY15wUA-qa4DGJ92-DrEx1Ojg_VFhiHj2JxDdZTxOKSI
-Message-ID: <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
-Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file, drop
- mmap shared/write check
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/22] thunderbolt: Find Apple VSE capability during
+ startup
+To: Joshua Peisach <jpeisach@ubuntu.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-usb@vger.kernel.org, Neal Gompa <neal@gompa.dev>,
+ Janne Grunau <j@jannau.net>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
+ Rob Herring <robh@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-11-1f80085f93fb@kernel.org>
+ <DL94J88RKZ3S.2EX69YJ6JOX4P@ubuntu.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <DL94J88RKZ3S.2EX69YJ6JOX4P@ubuntu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 8, 2026 at 10:07=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
-> The policy file has no write method and is exposed read-only (S_IRUGO in
-> selinux_files[]), yet sel_open_policy() performs no open mode check, so a
-> CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, a=
-s
-> kernfs does.
+
+
+On 9/7/26 15:38, Joshua Peisach wrote:
+> On Sun Sep 6, 2026 at 2:36 PM EDT, Sven Peter wrote:
+>> Only Apple Silicon host routers have the Apple vendor-specific extended
+>> capability. Look it up when the software connection manager starts and
+>> store its offset in the root switch.
+>>
+>> The Apple NHI driver can then use the stored offset when programming
+>> cable information without searching the router capabilities itself.
+>>
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> ---
+>>  drivers/thunderbolt/tb.c      | 4 ++++
+>>  drivers/thunderbolt/tb.h      | 2 ++
+>>  drivers/thunderbolt/tb_regs.h | 1 +
+>>  3 files changed, 7 insertions(+)
+>>
+>> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+>> index bf1c192ec10a..d2832323cc36 100644
+>> --- a/drivers/thunderbolt/tb.c
+>> +++ b/drivers/thunderbolt/tb.c
+>> @@ -3025,6 +3025,10 @@ static int tb_start(struct tb *tb, bool reset)
+>>          return dev_err_probe(tb->nhi->dev, PTR_ERR(tb->root_switch),
+>>                       "failed to allocate host router\n");
+>>
+>> +    ret = tb_switch_find_vse_cap(tb->root_switch, TB_VSE_CAP_APPLE);
+>> +    if (ret > 0)
+>> +        tb->root_switch->cap_vsec_apple = ret;
+>> +
 >
-> The file can then never be mapped with FMODE_WRITE, so do_mmap() always
-> clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARE=
-D
-> check in sel_mmap_policy() cannot be reached. Remove it.
-
-You should also be able to remove the sel_mmap_policy_ops.page_mkwrite
-handler, which is only for shared-writable faults, right?
-
-> This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that =
-is
-> neither a PFN map nor a mixed map, ahead of the core enforcing that only
-> such mappings may do so.
+> Nitpick: I *think* based on the surrounding code that this can be
+> simplified to "if (ret)"
 >
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Reviewed-by: Jann Horn <jannh@google.com>
+
+No, ret < 0 is an error and if something goes wrong cap_vsec_apple must 
+remain zero and not whatever errno tb_switch_find_vse_cap returned.
+
+
+Sven
+
