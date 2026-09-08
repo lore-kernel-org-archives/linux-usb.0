@@ -1,113 +1,138 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BF0559CA8;
-	Tue,  8 Sep 2026 13:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BECE5540B7
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 13:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788873200; cv=none; b=UW2Sf0wG4GWGc931odz6RP4ULogV6U1yqKnhmwqU6IyTs31Fyy9XnNmRcB0Aa8+nG0r6GagiZRm+agL6MeMG80omID4V7xDDcaMWqf1r2/6vcXN9ZbVXbMT7cIOKgUAU2Jfryl36kbmRqbTNtefKvTcEdY8W3ES5B9AE2VElV9o=
+	t=1788874343; cv=none; b=g+m2gOt3ucEe9jACVKKiFFAEV217T+UevE7BmybxWu5SRflf+Ci0AcS8ae13DyG1S4LqJSKkDfm0jUEFRIuntoSsyP2Tpt0zaNk63Iqftb+bQCwJLrY/2FvO1gRSxGJxYk7QFvtnBr5HC/cx4vR2LO0uV3meaNI0ZHuqoSjY+jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788873200; c=relaxed/simple;
-	bh=mIWyqqRMsfpDKfz/nz9NbsL48iyrcIIeqP8orz9L/8M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=CmTvb242x3UvyB+3jUfD/wvxTDlTlsZTyz8s8rDE9hYGVYPWsp8s8ax1ZV2Ipg0vv8ONzheRXjQLJPtz70b1ftlV1AaRTj71Nr9PPiU3EQz2jIAXhAWrpgP1P2KLpkJ51Ku/bQSCoEQNXJoEv6iOlgoM8/4zk8ZtzhP6jV1vfz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=FTMLz2Es; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1788874343; c=relaxed/simple;
+	bh=tCih0LIPNTT45pEfh/zJWK4KvLPKxLWUzk1RehMfmTQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CJTQpM6e6LFl7TTUtlx0sCtRrkHS1Cq1CqdRSRMiqg/zeYoK57WyU2M1OO7ormwf7OiS45d9PJNX8KhAxC02OE2G6Lbi1eH0lAZNfkFIvaVn4xfM66XJENct67utB7aaq5dBJr8N9reRmg/RQR4pQPNTRHZyHEPGujONqF6RNi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rvt5AmhA; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="FTMLz2Es"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1788873126;
-	bh=mIWyqqRMsfpDKfz/nz9NbsL48iyrcIIeqP8orz9L/8M=;
-	h=Mime-Version:Date:Message-Id:Subject:From:To;
-	b=FTMLz2EsWPsSiHxnudJaDopeTZI2t1PwzM7zATruCquh7F0eFfZhPak9fSP4kHP5l
-	 KAdJL2XNBagLwhHX4Bzm+uFCVwvlxtWMFFe606Zylb01dcxRNLHZO7Qjq+ZDJ+4+ll
-	 lkG7oNOK0gPockjo4nVsN7S4UYZkrGyBBNzXB55Y=
-X-QQ-mid: esmtpsz21t1788873119tb9caac5d
-X-QQ-Originating-IP: OzT991yKTm8aPCZVAdh22ewUudNoGlUr/PsMZfz1plg=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 08 Sep 2026 21:11:57 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 17554750982614222209
-EX-QQ-RecipientCnt: 21
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rvt5AmhA"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c25085f2426so52561966b.3
+        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 06:32:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788874329; x=1789479129; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=c09duG40XUDjljTKKEnm8AMSUZjhNe4OtYQ1ssenbDY=;
+        b=Rvt5AmhA03SX3g9aYAf/pgGuu7Qwl71l/HgBOKT0ZdOFod+Tde+Evp1XW8t/31qHZg
+         YT+aLQD8xaC51OW5etQw1VFlFB/iRw2nbVNolBlKVFcl3xVEAGFWrGUyw8116iIfxj62
+         3Ndt6mdIA4bWeKrrDZBv9w2Nq2/P4bGZOQ+ql3IihEWsWd+RmznwreIRC6+EsRN92VRC
+         kV1VWjWzFiygM/aUr8zaNNP8/J9WA0mmAFnzUcqi1OQoP8pZuaafQRHD10JVY7qUJzix
+         IZHyEqlVj83J2Nun/Q7IYk5UXO48o8hf7yhIMW2yBXd4Wx+UfuH7FBbh8qWa6ITrNreu
+         WnKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788874329; x=1789479129;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c09duG40XUDjljTKKEnm8AMSUZjhNe4OtYQ1ssenbDY=;
+        b=rBP8itjVhuztVb0fbXMw0IfgTpOjGOHUZYDtutiLqTYo9EQuztNsJ1Iyq047GxaRvI
+         t2GAfFQs7dD60CuGHqsatIO4vtlkovaSic4JhiXAgO4+UdhZAqFLhesz87TqaiDmJQVI
+         2qRPk4TG0vsIEMq5LSPrkJxWLUXTA+YpGb1jz/00j8ZlvPY1LGpIfOv5wbvxvSLqxzu2
+         MspS1b+W6zigSb5FCzmtMzMo6h2O4aRGeTH++FKni6UdNzVhpa1UOlTTTJaS24wJXM26
+         m4ouCYTAijJzj4kJOnjzifIKoez2Dze9KWY7J6V6FjGnF6pN5k+CwEr6lM5B8Hbar/AJ
+         6JYg==
+X-Forwarded-Encrypted: i=1; AKwUvBwpGEjt9A9JTbA3FCyudMZbtU+b2rhZcvvRDePG40uF/t7SpaLMXq/q1jnjtLA2ojUjVYV9aq+ggMw=@vger.kernel.org
+X-Gm-Message-State: AFuF++muoi7NCLejrhrBgqvury5qnS4WI91QxFvknyZOaS1YqA+fHBsy
+	4xFueprgk+NfxGBZlUnPkniYbjSfS4v5ObXXG4riuaUiFOx35ouKKrDs
+X-Gm-Gg: AYBFou1qDqVk/BXVVYmF9AerMArNlQyPsn3UsuS9SiSpvS8Ew5+N7P69i2zpe8wGwMV
+	jfROj31emzZCedyHifYC6dGTSKHqzlzKvPAbh0i290DRg0UliiRwgOwIHLFamJCpNcxj4Dyoclo
+	Jetq2wdH44huPa5hV45uQ1/wRoNKS+a+SWVKUogVJ8eA0abttyCYiQmejqd0Rxez294SwjinuWx
+	szrcMYE8zK4XRxOwVqg7isGFHveWe50zNwFNtfFNx6rM2g/2ndvzvHZY9dw6XU75EobZlRUKfiO
+	sYEpPmn2ZTZCfQFP2/sUW6QZbp+mL6OcoHFG8/npqve1roUvWluSg1t5C7AyfETc95xPRSv+ndA
+	sc9YsBelYBz1nrXdJwMxe4u/JaPknDUG/C4ywzV2Yw0B3Ty5Y7XAdNm9aFl64RdipUsZ9wWV+Go
+	SWsghXipWtOmRTOBG9DRXhdaNY68WzK6Eska4x71JVUorVaBe7GNdBShstNCetqFJq+LcId18yQ
+	KKWEkVuXSzfSfALOe6m2DCPK+edVCv59lewSiWNwmaYrDodGWEGTvHpMkoymvyDkZM7i2ppEYUM
+	2ojH
+X-Received: by 2002:a17:907:3f8d:b0:c25:ca8a:8e25 with SMTP id a640c23a62f3a-c2624eef698mr794013366b.1.1788874329043;
+        Tue, 08 Sep 2026 06:32:09 -0700 (PDT)
+Received: from OrangePi5-Plus.BB-HOME (20014C4E1B825D0079B84A36A788F67A.dsl.pool.telekom.hu. [2001:4c4e:1b82:5d00:79b8:4a36:a788:f67a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485881353e8sm36163217f8f.1.2026.09.08.06.32.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 06:32:08 -0700 (PDT)
+From: Igor Paunovic <royalnet026@gmail.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Igor Paunovic <royalnet026@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: s2idle resume hangs in ohci/ehci on RK3588: HC registers touched before the USB2 PHY is powered back on
+Date: Tue,  8 Sep 2026 15:31:46 +0200
+Message-ID: <20260908133147.8291-1-royalnet026@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <ap__5zeUakMSLWOQ@venus>
+References: <20260907190000.s2idle-usb2-resume-royalnet026@gmail.com> <ap__5zeUakMSLWOQ@venus>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 08 Sep 2026 21:11:54 +0800
-Message-Id: <DL9YLFXV5XHU.2GLN2OSEB8EV@linux.spacemit.com>
-Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <spacemit@lists.linux.dev>, "Troy Mitchell"
- <troy.mitchell@linux.spacemit.com>, "Ze Huang" <huang.ze@linux.dev>
-Subject: Re: [PATCH v2 5/9] usb: chipidea: usb2: add SpacemiT K1 support
-From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
-To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Yixun Lan" <dlan@kernel.org>, "Xu Yang" <xu.yang_2@nxp.com>, "Peng Fan"
- <peng.fan@nxp.com>, "Peter Chen" <peter.chen@kernel.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Alexandre Ghiti" <alex@ghiti.fr>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260908-b4-spacemit-k1-usb2-v2-0-f07342ffa051@linux.spacemit.com> <20260908-b4-spacemit-k1-usb2-v2-5-f07342ffa051@linux.spacemit.com>
-In-Reply-To: <20260908-b4-spacemit-k1-usb2-v2-5-f07342ffa051@linux.spacemit.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: NOSiq+6X1Fi2h96Ve7jtwZRi4zyHPpUx4yY2i1Wz+CloC3OzfV/KJww2
-	ioJLxYrTwx9BTJk7Cg2AcHWll571CY7ZIxkNuhGXlQEJ+x9A3y1XAKX6mLfPigK4nwCzKBW
-	M07bO1UefBd2BKZZVYkefDz1RS5wigfHTYuesYlPeM/CP36u0QnulTx1UDojC74fbhl5yvh
-	hblfK4rgt8B+3mFo+rrbOkRlrEvc0qROqtO/7edaGK3/Y8kvKFuLTXRY+f3u15JCXn9CSBm
-	vPRcUqxpf53DWPvt7+KOb5I7j3kB2glYCnnRj8LNSEtGmi8FzinkE/h8mbKX6amJKnOw1AN
-	kTkYo0R+ELBP6JIe6v4rwqp9bWW5KRwcYkG2cMZP+CrgJdDmezhFFSIi1D6JxWaf5OtSm7u
-	SLNAEanUjuyQs6qbS4koaPwwI/NcotQzlmloWUJ8224o2veInNasOHuTGx+t8qNL9WmEyd2
-	m/nmM/RaC8h4Y+kD0UeWDyVxMBt+w4fF4YHaiSOoT7ptZeKjdiBznJcEmFAf5wqf9xGAS6d
-	Zzz8cbKm+8lzRAbnp2YTQNpy0/ZZw4orAjRQmyGvwu284eb+UxtBB2BjuMCPsaF43TcE/ol
-	iRKNiX7P8OlOUt8wX1f6Agodm3svsbZS0nwCy3NRmCMZ+gugrqNEnPcgGkSAwpoeEjz6WqS
-	K8Kakho+QZv84ymQsI2dfni/eRv7NABPJCSiwZdnGeUz/GVJRtnUA2eh+ZekOq6QYgfSihI
-	rLv2P26xZ/iN1sqIQXZNvJ50uTqlfeJNnBycnooZrs6mhR+WbNVWZAwutZjqd4bX9wzpdch
-	QRICN1OAeQ+07XtsjV4jlTcoJAGqoTmRefRv7VbnIWucOqnjhlC5lQbvhz4LUazfL932kck
-	8DkAZ9FId8TjvQ7tx8LV3h5Xw3ifx3cJe9+ERolvW3LwnAgASZ6H18CaJJfRK2t4RmRZjmm
-	+tNZfids3xUStUyuC4HK0COsbX/4eiv55bgdAh6d2NVHgaPgIalg0MiZd5Y7sRH7XCjKQkH
-	/omtsvyh7r1Ch1G6SZkyCDGtJ0M7ONKME4oqmeKEaUBJNxNm8ulj4nfyKnxWzzkTZoeuaz7
-	6PmAM622eIsmwCCzBEPAAJcfexy89sM2g==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hello Sebastian,
 
-On Tue Sep 8, 2026 at 5:48 PM +08, Junzhong Pan wrote:
-> Add a compatible for SpacemiT K1, and add platform data with correct
-> flag since the hardware doesn't have internal otg register support.
->
-> Acked-by: Peter Chen <peter.chen@kernel.org>
-> Tested-by: Ze Huang <huang.ze@linux.dev>
-> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
-Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Thank you, that is a much better place to fix it than either of the two
+options I asked about, and it matches what the board shows: the OHCI
+that hung was the one whose 480 MHz clock had it as the only user, so
+the clock was gated on suspend and the PHY was left in suspend when the
+controller came back and touched its registers.
 
---=20
-Troy Mitchell
+I read 53014abc in the rockchip-devel branch. One data point in case it
+is useful for the version you send: on RK3588 the early return does not
+get in the way.
 
+    /* Limit to single port; it's unclear how multi-port should be handled */
+    if (rphy->phy_cfg->num_ports > 1)
+            return 0;
 
---c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb
-Content-Type: application/pgp-signature; name="signature.asc"
+All four entries in rk3588_phy_cfgs[] have num_ports = 1 (0x0000 and
+0x4000 as OTG, 0x8000 and 0xc000 as HOST), so the new code does run on
+RK3588, including u2phy2 at 0x8000, which is the port whose controller
+(fc840000, host0) hung for me. The num_ports = 2 configs are the older
+SoCs, so as far as RK3588 is concerned that guard costs nothing.
 
------BEGIN PGP SIGNATURE-----
+I will build the patch for my test kernel and report back. My setup
+should be a reasonable test case for it: with all four USB 2.0 hosts
+bound, s2idle resume hung every time and needed a cold reset, and with
+the four hosts unbound the same cycle completed 4 out of 4, so there is
+a clear before/after to measure rather than an intermittent one. The
+driver is a module in my configs, so this is a single module rebuild.
+If it holds up I will send a Tested-by.
 
-iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCaqAJmg0caUB0cm95LXku
-b3JnAAoJEJgJ74D5MzQv4x0A/j9HUTzRUUs/A5yTaji1bts8yMGFvIYujiOYT58W
-BYd+AP97yqSaybxN4+y/r68x8lBLo8FQ4tFvWHotMVs37WmsBQ==
-=cVfF
------END PGP SIGNATURE-----
+One observation on your second point. On this board s2idle is entered:
+the machine goes down, the hym8563 RTC alarm wakes it ("PM: Triggering
+wakeup from IRQ 52"), and only then does the resume stall in the USB2
+hosts. So PCIe did not block suspend here, even though the board has
+NVMe, two r8169 NICs and an rtw89 card on PCIe. I do not know why my
+case differs from yours; if that is interesting for your PCIe suspend
+series I can dump whatever state you want from before the suspend.
 
---c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb--
+The RTC pin fix I mentioned is now v2 on the list [1], with megi's
+Reviewed-by. Without it there is no wake source on this board at all,
+so it is a prerequisite for anyone else trying to reproduce this.
+
+If you would rather I wait for the version you post this week instead of
+testing the branch commit, just say so and I will wait.
+
+[1] https://lore.kernel.org/all/20260908111908.19371-1-royalnet026@gmail.com/
+
+Igor
