@@ -1,148 +1,90 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5958D51991A;
-	Tue,  8 Sep 2026 09:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F1E51476B
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 09:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788860596; cv=none; b=W4EApRLf3VIupGW1pFlVg9XIC8bTTuqKusgZYu6FU9F5MfJcGhMGCKO7R6umNSwKakGYcLeT/LbPTVSwIsu4v6Tq7tJsekdTEYYQu0Ku/FdGfGdVjnsp9Adg2lY3F7IU3thXGRR/ztnan0eaQHF8UVSwwRDPkiAoRGRnOfA7tXI=
+	t=1788860988; cv=none; b=oaXcgkbrR63c9TjEENqkeQBHsDAqWURtwVkn+EVffwNsDiuDR7VXUn84woedn0sAf/AwL2tpz3KX8tKt11L0NHLmATcr1h9vHoOaBy8stGdQeS26k4l116E/m5NIydgV9L5+zqIAWdqU65AYPJnFPhhCc6mRhPveZSiDtXVkA90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788860596; c=relaxed/simple;
-	bh=sUBC/i5siezR7QdkhXZGjXc6LiFjuCgP7gUE7mqiNzE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rJmb9+R5Wz/KCKOWDLo4hVZaj8Hbx5ropVWTlEYbEDNyuWSM3M/s393vWucZIxu2SPBku12kMxzUNUGw7F8ssLuyXzSxVAU7t5F1RkftV5qW0K/PGaIrKr1ZbDYjQYu8ERQeLxf97ZuBZtbwuOa2gTQKEfsuC2MOwCs9ttNMoS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=MPjioVmh; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1788860988; c=relaxed/simple;
+	bh=r3pH6S6EJvO/rnb2oF53pIGnhN7L30DwtJFx3rnvGR8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SdVwxhhtWMXLx1o5v8StcCtio7EWDFFrXglcIf2KpTb2okyYUkuccgn6argkcKGWRnDbwBZ3OaqvPZVjU+GU825mJLwHyJsXRjGtZENTCIA58qN+JwjT1ornHNCOu3/rJj5fvPPp+E+rKSyunRURzsGz6+aLGZHil4neg1cfnN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDUWRrpB; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="MPjioVmh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1788860537;
-	bh=dQ9JeuCSspYYtKeRj+GxuoJ2iXuqJiRYHrZesR2Lpg4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=MPjioVmh9K1KuGgLhVa2Wfqbla/OlZ3LYDDZ4m7XGueLGjIeE1QjHYd/x+uMGlRYl
-	 er08eh/eAJlfBqIFm+M+2xLeZrlORCngFPbxQlHFt6qU0Z/EYHX7JAbOSamT3oDipg
-	 e/TAIeP9T9ZrOEfUoe+R7ALhkK/UuAKwsh8yx3Q0=
-X-QQ-mid: esmtpgz16t1788860527t9691fe05
-X-QQ-Originating-IP: wcN0CpJaClP3OChfAvcmA9d1WQrL92aZUNxejowlgIE=
-Received: from [192.168.1.100] ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 08 Sep 2026 17:42:04 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 4255008266137521547
-EX-QQ-RecipientCnt: 19
-Message-ID: <DCA7F946E4E8C895+df1ac910-5bd0-4507-8074-e92118d73402@linux.spacemit.com>
-Date: Tue, 8 Sep 2026 17:42:04 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDUWRrpB"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cc439bfb2d8so2725643a12.2
+        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 02:49:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788860985; x=1789465785; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r3pH6S6EJvO/rnb2oF53pIGnhN7L30DwtJFx3rnvGR8=;
+        b=aDUWRrpB1JBjvsc2tLez5Mphb29iakeRu0iiJqOEb8PfcFFfTZa4h/xvKhcA+gzygy
+         R4yD+CbIx+ExRbRB2ezitOrWuUJKnwWT8PsjdMcW6OdOPLa35yIuNBb82yiH2h4V/+qw
+         /I9TiecEvnRc4WTlLn6A+M+Uhm7/4LHAyIoljWE6Fgm3V5ZoJ6rZ7dH/l2cttKkJgtIP
+         jAzJ23iKCTQpiQ/bOHfebP+8mmskJ0RQnV8mZRfSuXi0yutZ8iyeJaObLmmGjRMuMroe
+         tRDtTtEvrAyY9b2x+14kPSaG1C2LroAy7C1JX4bXinTQtK8VB8RkPKQc2ctR9rTHh7at
+         6lJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788860985; x=1789465785;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r3pH6S6EJvO/rnb2oF53pIGnhN7L30DwtJFx3rnvGR8=;
+        b=D/B8IHxWv48aPchPX5XSeINLlwVw6NHSayVPNbb7ZgMVscSZ659MIlkb8tcdWUj26T
+         8UJzKmPM08BSHcCn3d2p/WN/uAWegZvJ3nrZsvL9qTwPQKr7qmLPZLQWW8N2/2RCwhSE
+         3wQWtaWbLBbzuNn2gNdvbCgl6aSGoBSRRM5fwz+W2jtfKSl69WH8qcrCgyPXy2aQypKP
+         mDZHXMtUVh9epxt1r0/Y90PJFnhpoCw1okE3zSK2K8+6Bvu+p1uPhAJACzWVmndYEE0D
+         6oFCDysXEAcDdJopd7QuRoVeq8gOXwFowzqiqsWSHs2vLzJ3lOVHnFVJUzt/KQ0gbimS
+         lapA==
+X-Forwarded-Encrypted: i=1; AKwUvBwDhMoMU2l2jwtv7hdqnZ+H8kci+kDotIHOS7oirCzFnKztoCGcEqcQhxad94bzsSAehzCA5/UBFRo=@vger.kernel.org
+X-Gm-Message-State: AFuF++mBkNfRVivr1kS89YutnngrUJFw4GnEo7kXtKR6Qe6wW8zGaI0P
+	FLSKrxwq1Z2KH6dmch/+BRhl7ioI0TZXHKaxRGJgs2w6rGq/VxFEvs8=
+X-Gm-Gg: AYBFou1IgTws49lbY4/eoxlWmhWnL5p44a9PrYaWWMJvm+oGrxkFdj73FI1IljzbXL3
+	CYyaLlu2WTaR4c+7rlkfkAgPG0gJxETqY07itHfeJrsP6NMc9N+7VXcMwIBSnio9vOpAEBsIwQy
+	o2Ro0aJHl0i8vPUN4wuLojZYsQIkxdm+r/ahpm0HXb1DZSCJsU4awJ6WWoPuzsESb9Ro0hfAaKc
+	LWlecS7hiRva6+EV92W/ZSkWGe84r0OsAk3uay3KVraT2FivDMD1p8cxZlruFbRDZMa/xe7oFA2
+	FM8J1UHT6o0NAFxuuy4Vfn46EbDHPzWCdpLh3Jx2M7uyjRtmuqVmxDRJdDzpfigt4jexksxpYss
+	Hy5Z8AukeNNGubqWpf2Pu0qw7/As2tDc/lpAWKsYHw9jBUFbD4DlY/Im+LFjr6ENVJQhS050JH6
+	Gicu8K8RnLcBMZ1xBMGzKvfhgoURvr5Y4c//M4WiRLABV5t4cMOvI8Rp76127BLG819m1lkpTSn
+	EBdeF28oEpjD3e49Wfwig==
+X-Received: by 2002:a05:6a21:9d84:b0:3d3:af85:eb98 with SMTP id adf61e73a8af0-3da3a16a579mr45039412637.26.1788860985252;
+        Tue, 08 Sep 2026 02:49:45 -0700 (PDT)
+Received: from at-Standard-PC-Q35-ICH9-2009.. ([27.60.17.8])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33450e140d3sm29309121eec.4.2026.09.08.02.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 02:49:44 -0700 (PDT)
+From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+To: mika.westerberg@linux.intel.com
+Cc: YehezkelShB@gmail.com,
+	alexander.fischer@kait2en.org,
+	andre@negmaster.com,
+	andreas.noever@gmail.com,
+	atharvatiwarilinuxdev@gmail.com,
+	linux-usb@vger.kernel.org,
+	lukas@wunner.de
+Subject: [PATCH v10 0/3] thunderbolt: Add device links for Apple T2
+Date: Tue,  8 Sep 2026 05:49:38 -0400
+Message-ID: <20260908094938.1175-1-atharvatiwarilinuxdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260908080711.GZ106095@black.igk.intel.com>
+References: <20260908080711.GZ106095@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] usb: chipidea: usb2: add optional reset support
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>,
- Peter Chen <peter.chen@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
- Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev
-References: <20260812-b4-spacemit-k1-usb2-v1-0-f28cf29e522b@linux.spacemit.com>
- <20260812-b4-spacemit-k1-usb2-v1-2-f28cf29e522b@linux.spacemit.com>
- <an2UgcS8cHDGwzsO@hu-petche-lv.qualcomm.com>
- <870CB1C672C91040+8a75565f-344c-4f1e-aa69-33585a88c8e5@linux.spacemit.com>
- <DL8XYAR1UCMY.8XJN1LP6YQPE@linux.spacemit.com>
-Content-Language: en-US
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-In-Reply-To: <DL8XYAR1UCMY.8XJN1LP6YQPE@linux.spacemit.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: Ndq4GKasujqSIU8xNQOfARjRoT5/ev4/O/5+5k99YHyvNy+/hUxCU9UQ
-	It3yAk2DY6aj67+BPye9czkvzLnJmj9V32Z65ydGx+oFWqLzIkRz0PDRWZ15tZa3NCJk37r
-	kRtBPbw3axzl9xO1DEgSMQ+Ys0Uvu/G5vQP+ELaiP3euVKXT1O1hXeAEvI3Kp9PtgDGQNLv
-	JAbu1lhDJT/hVQCvJaou0CZZXVE1s8f80iwwK2tul3uVr900uCV0bvTtQj1uNqORyDFgbbc
-	jR7AehBBYz4EZ0iN/bSpTdlYFnob4kGn/UnpFinF35Q3xH5XThkHmF4hxZD8nHvmqd/wrkX
-	kDP671uzOPKveGjC/1azu1RqPzwYjT7Mv536KWE1/+pGKY83/BREjTly82ngtWDJ+3oL3TC
-	Pdqtlq3P4ZwxFrLJ9B+UM8pt8y+8LkGxwDslSViZ9LzIEN9HTS9/CwUhb7Sdr7QGxIizJ0v
-	0ECj+6R/Jwdk4kcZ3BM+DnSL8B2GWUrv03cHSfzGIarAd+zv+LU1ncmTUXkxGC7KJypAsE9
-	hPr6MUY7TqgH9P/dfI/qvs3p1zSxQCahcKz/DIYB9SkhGuntBPd7MKTktFm1+7ZJE3AHMmV
-	SPgfQpqgGw5b1PXR6jfwfdjbXC9QKcuQDUaHlBFWWEj85XJ/wk/FK4z2471oAwzHAJgc9Nt
-	3uwjBgCu9XK3UwxvHRap3Mgw1ntgrEKWQ1/jA0dDIRRrmpc6d9GQKUFrSU8GkjxFO5CkMm4
-	jikRsuCKDwQskDQC28Tx0qTy3Cr3qy5Dl3TVNMCVSKbLtk3rBDmWZZJ6IY0Ls9FxeOMwaJN
-	FEd/XpJGEazoHh1/G2BS54DG2xY6CMCMIYdHXeRZP/kNr1nYdjE6BWS0iw7bp3Ed9Ms0tNs
-	AzRbetZ8lkRnJM0DmdJxrCzCsJNCQ+lzSOUuoRYoZOTHW1Kaja+k1C8mUxa0Lr/W3dkBNAu
-	FAYECd5Vcx3FoHfFOp1eGkXKknJZJvQFjMknVjQSs2CUTbb0lPY405s7y3x1sHr29vGVMDx
-	U2WJoRjKxOYJAYheiD/QUK//FneuMsnQl97RMLNwwls0tE3zPPeSkYlw7U3QAYxd/09633Y
-	Mw4D8pXKQlGAiW0ERvsLhk=
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
+> Appled these to thunderbolt.git/next. I did not get any reports whether
+> this still works on the Apple T2 system but I guess silence means "no
+> issues" ;-) Let me know if that's not the case.
 
+Sorry for the silence, but yes the code is working perfectly fine.
 
-On 9/7/2026 4:29 PM, Troy Mitchell wrote:
-> On Thu Aug 13, 2026 at 9:39 PM +08, Junzhong Pan wrote:
->> On 8/13/2026 5:55 PM, Peter Chen wrote:
->>> On 26-08-12 17:26:13, Junzhong Pan wrote:
->>>> The USB2 controller of SpacemiT K1 SoC requires reset support, to keep
->>>> compatibility, add optional reset support.
->>>>
->>>> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
->>>> ---
->>>>  drivers/usb/chipidea/ci_hdrc_usb2.c | 8 ++++++++
->>>>  1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea/ci_hdrc_usb2.c
->>>> index 8ffa1e95d8e8..00d575cd2955 100644
->>>> --- a/drivers/usb/chipidea/ci_hdrc_usb2.c
->>>> +++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
->>>> @@ -12,6 +12,7 @@
->>>>  #include <linux/phy/phy.h>
->>>>  #include <linux/platform_device.h>
->>>>  #include <linux/property.h>
->>>> +#include <linux/reset.h>
->>>>  #include <linux/usb/chipidea.h>
->>>>  #include <linux/usb/hcd.h>
->>>>  #include <linux/usb/ulpi.h>
->>>> @@ -21,6 +22,7 @@
->>>>  struct ci_hdrc_usb2_priv {
->>>>  	struct platform_device	*ci_pdev;
->>>>  	struct clk		*clk;
->>>> +	struct reset_control	*reset;
->>>>  };
->>>>  
->>>>  static const struct ci_hdrc_platform_data ci_default_pdata =
->>>> @@ -80,6 +82,12 @@ static int ci_hdrc_usb2_probe(struct platform_device *pdev)
->>>>  		return ret;
->>>>  	}
->>>>  
->>>> +	priv->reset =evm_reset_control_get_optional_exclusive_deasserted(dev, NULL);
->>>> +	if (IS_ERR(priv->reset)) {
->>>> +		ret =TR_ERR(priv->reset);
->>>> +		goto clk_err;
->>>> +	}
->>>> +
->>>
->>> You may update binding doc?
->>>
->>
->> Sure, I forgot it, will do in v2.
->>
->> Thanks.
-> 
-> Is the reset required for K1? If not, no binding change is needed. I checked the
-> binding, and it already defines resets as an optional property.
-> 
-> Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-> 
-Yes, it is required. Ok, I see reset already defined in chipidea,usb2-common.yaml,
-then I will add constraints for k1 only.
-
-Thanks
