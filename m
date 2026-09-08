@@ -1,180 +1,202 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazolkn19010017.outbound.protection.outlook.com [52.103.33.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD07B3403FF;
-	Tue,  8 Sep 2026 03:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.33.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788838594; cv=fail; b=lvdQy5yEsoc8EmsA6cGy4R/TKpuvIhRqvN2sIfnx5obvvLGhTYEl4h9664kC4sHuSCB7+wUAL4lwuZU1FtsmS+iMVH1IcqkSbMFFzD7Z33ljbXhrOHzXCQ7ZlC2RtWhjuWjoTjfrU2cbVJ/9rqOPiZMEhHYHLsK4GDXRo0nCuZc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788838594; c=relaxed/simple;
-	bh=BPUdt2S5/u1tMNwhFX/H9yz42UTEiUATQh7yPkaJesQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I1JakpoxB08fBobA91ezIdB24H+HZZVzi0QUuIIzgW1AXg74X+oyMQFuYfqFYvZ0NgzAZT6IGgDS4FEG6QXJ6a1WDfkjw5RF/uhJbBGyo12Z1WU5aUjaCysnjQAWqoXyP1RUBPbJH9v7jfsOWRF5dw2Uxjh3Z2ignBz/2DPmKno=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=b+LbJ2F9; arc=fail smtp.client-ip=52.103.33.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F908337107;
+	Tue,  8 Sep 2026 03:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788838994; cv=none; b=CoP1E0KM2ptPSXN/JIbHwU26//x4STEHZXlj+xSANjfLdhLtDfaPwj56ptDaGwoCxcik54bFi+69UXAfTLyWMNPzMu6fBGey2nmwlCz51N0jtNfZkAoAUV9Dh/Btygkn3LR3J8fUgxy6mRsgMc/HJhbYB9EiB9Th7ats7q2LJuU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788838994; c=relaxed/simple;
+	bh=JoCZbJNkQGnYIF9nt1EBJe2RNrAzxhRowkT+SPptSUs=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Eg+GvipwfA1Dvc1jjZIRU2hpB714s2d08jPePm/ZGvNtbhbk+NDNtjIVSt0tilne+BLmG75gqsbIk1NF+KxjBDonTZ9n9xodOWYobRVqP3UlAnboiktg13w12+PY8AMWjUIglXLdrdfcuaq5aauqGH9tc/Wzj7z1gcVBlELlxsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSUKC9/Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="b+LbJ2F9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dOAIzvEq3vb9bSx2HL32NReWxUSr/vz3ZpxsGOycSC8FGy2Ni8pu6ZgmpMQJ2Xy5+ZtJrb/SySCiCboQl2Ib2QXgBEZzIjKqafBK6v/1v+My1pr3LHrgIqwD7dA/c8qsiu9WwO4rvUJ8P2sF79z66ebweQWkBrgoCYiVN/5F6Xf83GyB7Z51KePdsA9igeO33BWhgO00wcbt2qFvqF9dDB3Vgzh/uFhxkMqXzVFOXNmuJ56P9X2/JwiyOWkWYd7wi5kn5aOeEg/ItcOmgY0ULLsJ7+6QDugYFxLf/YFYe3bdE+1MzDpoJJYC4e2/WwJ8lQyJAv7r2SlLSnTQiKdUXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qOkaGA6q0syuhWwpbHcZA3LgreHGQfyjmEwRqqA2cqk=;
- b=KU0n47RI7Ts3uumLnx9OgjQ+6lt4dAWRWxZjHhRLvGEec8vsGJcO2YE/jYviE77dIY4UWF81hcqtboEA3JkWX9FI2OH1iY5CPu2CAYME+XvKyr9EZR+JkygcvRgcpsTalMeQ3Y06GXRCwpMicxud7vuM+5SXNMwGfmmlc1E0EoV6AUOGp1Hk1ZBOZuVsOy3BCB3WbMZXjkmjmhpIKOlCFl8keGojiGklTWl7Clk4ZTRZa3CZZWT559lmJUG8MdVa3VjClU8hEHdnOXo9ntqNm0D/bCSRM604dOAlHqs8V86Vd/s5/mnweZqivVUZwAfEOk0bhb8UmSIdU4RhwZlm1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qOkaGA6q0syuhWwpbHcZA3LgreHGQfyjmEwRqqA2cqk=;
- b=b+LbJ2F967OuyN365bEdL+HKEWxpjnDdVAEqnmqjX0EYpiaApyimTqUW/hNTtOdTk+y+jz5BtSNeKGyeAnoqntJu4rO6l1z5W3gA7+Y3Mhi4C5SAhXdTpLeBTb+t4+oAO7b542j6V9eNLQTiR2emhdLr6WlLxW0RJElDx+gnbYGX0jxr1TJLsBc0+eDOVLrDg6oSYNon8JMN0StIoPQw5ul40oTKoUkCcr2dLSf5KrI2HkXoifyLV/7tzbLYGZTM69riyxRg8e7z7o6AKZ+wsv0BcdZaK3+zJbACTDc0f5gTaqujPmWpWTx/Gt900RkbMV3S0th7gaF7Oyb3JoWoHg==
-Received: from PAXP251MB0010.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:1d9::15)
- by DB9P251MB0016.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:2ce::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
- 2026 03:35:12 +0000
-Received: from PAXP251MB0010.EURP251.PROD.OUTLOOK.COM
- ([fe80::fb91:30d8:e31d:1f35]) by PAXP251MB0010.EURP251.PROD.OUTLOOK.COM
- ([fe80::fb91:30d8:e31d:1f35%4]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
- 03:35:12 +0000
-From: Aamir Ahmed <elb12345@hotmail.co.uk>
-To: Andrew Lunn <andrew@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Aamir Ahmed <elb12345@hotmail.co.uk>,
-	Peter Korsgaard <peter@korsgaard.com>,
-	Dean Jenkins <Dean_Jenkins@mentor.com>,
-	John Stultz <jstultz@google.com>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] net: usb: asix: fix off-by-one in rx_fixup bounds check
-Date: Tue,  8 Sep 2026 04:35:08 +0100
-Message-ID:
- <PAXP251MB0010B79D228ED25E09D83C8CC8B12@PAXP251MB0010.EURP251.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.53.0.windows.1
-In-Reply-To: <AS8P251MB00014BB4591CE6011152DB4FC8B22@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-References: <AS8P251MB00014BB4591CE6011152DB4FC8B22@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSUKC9/Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A141F00A3A;
+	Tue,  8 Sep 2026 03:43:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788838983;
+	bh=bEYfxCvOTYpsKc+p1y96lsApMRpaSU0NyNDjzJEVjGc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=dSUKC9/QthhdLJb/Ok+NaQCgz42O7EQrDRru2Tk/ipOcEY4dC2OfcG8riUN5aOYPR
+	 gfOCDViBGgbtLHj/YxMWLdYKBQsOOkaIwevZP23Kjd5R4t2L2yC8E4QRLMqr5vrfhR
+	 0m3BlW5fS+6xIIWT9aNw+QcJHPdHPjlYtxQsnArUgADEsXcWK5/aQK7RctzqF6ICK/
+	 P1Rrl1S4Ql8V0l6pzUMMCC3XaLnDtcfDysK9fifmiyw9P6Dz49Pg3fS1KK7avgrotA
+	 5HDhWpTCySKnXFW3Ux4zXE0TeLusiV1T+ALsZ/XUmOltRQeF6hx7mIn5cydfnVt1YC
+	 kjh1NO00ELnIA==
+Subject:
+ Re: [PATCH net v2] usbnet: fix smp_processor_id() use in preemptible context
+From: netdev-bot+sashiko@kernel.org
+To: omermetekaya0@gmail.com
+Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Date: Tue, 08 Sep 2026 03:43:02 +0000
+Message-ID: <178883898204.219967.14658814972021382191@kernel.org>
+In-Reply-To: <20260905224553.595766-1-omermetekaya0@gmail.com>
+References: <20260905224553.595766-1-omermetekaya0@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P265CA0011.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::19) To PAXP251MB0010.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:102:1d9::15)
-X-Microsoft-Original-Message-ID:
- <20260908033508.125132-1-elb12345@hotmail.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXP251MB0010:EE_|DB9P251MB0016:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d77f7a7-8d56-4006-09ca-08df0d5a308e
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|51005399006|25010399006|15080799012|19110799012|8060799015|2604032031799003|12121999013|37011999003|25031999004|55001999006|6090799003|24021099003|5072599009|40105399003|2607281247196008|440099028|3412199025|26104999009|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TVA2WjdPak9pOXZXQW9LT1REWmZYU3ZiWk5vWUdtTWZyL25NNmlKbHNkTGpP?=
- =?utf-8?B?eDgzMldmMHAzcDlwclVKb25PbUZxRjVuMEpLM2RLUkhjRG9YNjV2bmpJUVdi?=
- =?utf-8?B?aFhBaVVGTlNYZzMvUVVTYW1ySy9LNkcxOW9ZS21YNEEyTFBDcE45MjFHZkVs?=
- =?utf-8?B?TE41dmgxSWJjaEhBUjBTbGliOXVhNkIvRWRsVUhPR2NiRlBranAybVZXM3h3?=
- =?utf-8?B?NWRkek1reldwTGFNYjcxd1ZjRUR2cktXZGFQUU1PUVJOWGhQU1ZUSUpkb245?=
- =?utf-8?B?N1NlL3NJTGs4SVlMTEhrOWR5VjJEa3lOQmc2NDFMTzljVzhQWU5xNmRhVzA1?=
- =?utf-8?B?N0s5a25wV0dXcmdiV0NBeFg0enNrZXVVbEhDMDVZK2dTQkRqeCtHOVlyQWZ5?=
- =?utf-8?B?eUZIdXRNUndaUUxQaXRUNm5RN0xhTmVUL3hLejFyQ2MyOEpFL2RHaHRaQmxO?=
- =?utf-8?B?a2twYiszZDFVTVBmd2pPOUZ5dy8ySjJla1Vuak9xc2Q4VGd6VHBtOXA0RGpS?=
- =?utf-8?B?MjB5RFNDalJjcnB4cWNEVDdBdGNxVUZoaUFMRGc3QnErOCtHejFqd0lVZEc2?=
- =?utf-8?B?em4zTXpUcVBZTENvb1cxSDBIVzZSYXdsdDN3Y0pTalQ5ZFFNWk8zNjhsZk4w?=
- =?utf-8?B?dmVvNWVwa292d0dxeWtzbGpLLzdBbXV0UFhZK2REVyt2ZzNnUE9ZQ1lFMXRU?=
- =?utf-8?B?NGhpS0J0S3U0VVVlNE5wNEY0RU1jWHpkTThVZVVSdGRPSWFTOXZ3N0ZQOTFq?=
- =?utf-8?B?Umlqci9wOEFzcHgzT1IwQnhxb2F1cEx4V21DVlFoRFZpdklQRnR0OUM4c0p6?=
- =?utf-8?B?Q2N2bnpZVWNRT1ozRHc2ZDFUTVVUVlhud3Y2cWlRSkMwZUdJMkdKbXZZRVBs?=
- =?utf-8?B?Qk1ldnkxOWN2aEZGOURaUkZaekg4Y1dyY00ybURkNjNETXdhQm8rK25YcExv?=
- =?utf-8?B?d3ZCUmhTb0dRVHFTNy81N3JPMjF6Y0k2SUQ0RmV2MHFaMEFyZVh6b1ZEN3Mr?=
- =?utf-8?B?cTA5a0FsV1lQWlVnbk1NS2ZlVzMrZXFRR0hXeW0xeFUwWUEvSGJZQ0sramxU?=
- =?utf-8?B?b0I3Z0t0S3ROY3pZT2RlSmk5OFJXQk1GaGVGVVN5Z3dUbGZmcTh6OUd3YTIw?=
- =?utf-8?B?bmQrWm5oM09QQ2NZenRTNVlLelQ3R3UzcFVLWjNoWHJhcjkycFJxWkVHOWda?=
- =?utf-8?B?cUkvY3JjeVNwZ2k1UitEcy9zZ2MwZnpDY1JRQ2kwcnJsTitySWU1OWRhcEt0?=
- =?utf-8?B?V2dLeld0SERscHpJU2p4QWgyNkkwT01vT2dBSzlHbVAxWmwrcitGWnpWMjVp?=
- =?utf-8?B?RXZFNkI2aWxzTjVxQi83NTlqcVNyTWc3WUd0a2s2ekNiaEJXTkRsbzFiczZ1?=
- =?utf-8?B?WVhjdE5nMEFZV1Q3V2xqVzN0VU83VjRzN3UwWUdWTVY4WkxkZ3dVTU1DcWsx?=
- =?utf-8?B?TC9EMXFlb2dvUnRnTzkweTNFMjJvMGt2TzgwS1g5YzNtVnYyZTFSdUZLSDVm?=
- =?utf-8?B?clRPSE93bWRFbkRKRytNTWVEYnpYSDdjR3VnTnpyQkNSTFFGQTJhaXd6Z1Jp?=
- =?utf-8?Q?UCr3jvVKkW62CLPcdL4gC/VqU=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VW0yTXVCa09tSkNPVSs1NzZVc3I0V0gxSmZ3ajZSWVhueG5KQUdMVWZ3MWxv?=
- =?utf-8?B?OGpiTHhuUWpWQmxQa0xMSExHQXplZmpON0pYQVVZb0ZDUGJLb20wZ0lwN2lK?=
- =?utf-8?B?VTArWXhneGNucG5NV1hWS1NYQ2ZqM2xSelJTVndvZ01FM3VxaXc3d2dEbnBj?=
- =?utf-8?B?bEJZME02cTFlbjhEMUplaTFFb3c2SncvNXA4US9jZWkzOTljQWcrWi9vcjVv?=
- =?utf-8?B?aTcxQ2dVUzQ2K0FHNjRCenlXYUN0RmRVTGxvNU8vMlNrVWRhMjhlM1VaMVE3?=
- =?utf-8?B?WTFmRjVTZkJPUklnVlRKQWR3RlMvN1cvN1pXdTVCOWdUbUdhRWw4cUNBVnZm?=
- =?utf-8?B?VHdiMnE1VGdhYi9MZVJyanpMTDVZY3VjSEM2VlhIeTVqRWRGRGpKZFNIRGkz?=
- =?utf-8?B?ZFlMSlY3UVBJYmdJSzZFT0JUSk90SFhUMk42UlF6NTh2K0tCZkJJajdxeUFT?=
- =?utf-8?B?TDdSY3ZwMDNWUEV0eVZzc2U4VkNrTGVEQ3FNMHBRRmxwNzM2YUZNVlA2aUhh?=
- =?utf-8?B?SnZTalh4NnNDbk5DNmo2K3pJWlhubU9aeWpPZDJsUXFscFhzZUttZExqZld0?=
- =?utf-8?B?ZU96NkwvMTJFYTZ0Z1ZqZk1EeHdoV3FZejhTbEg4dTQ0UStOR29tM3BmWWZu?=
- =?utf-8?B?UkUwSFFlUlFpRUpnQTN0aGtoRkt3UVNZVnFNR0p6V2piS05rYlliQ2NnSmNr?=
- =?utf-8?B?NjBSTDRTbUc3Tys0b1RKakRXcFFhTmFzellPRUtqQ3Z1NmgvNGN6RVFzYXh4?=
- =?utf-8?B?dUlmcnRPT1F2VmZkZVcrU1hnRXNPeWlOQ3hGcEliMlBFK043aXYrQ1YwVHpU?=
- =?utf-8?B?ZFRPYmJTVEpVbzFlYW9EaEd0Z3FaWUV5MEs1MXRXZVlZdHFPbU5yeEFXWGRq?=
- =?utf-8?B?cVUvejdXRjMvbE5BQkcyYVZ2SW9UOXdCelBWem5oYm0veWs3MU5oaHZPbUlS?=
- =?utf-8?B?M0VmVG9VV0l0L1liWG8xQlJKRDdocFRxelZrdEdIVHYrNURDUVdHRUtGNnpw?=
- =?utf-8?B?am10ZjY5aVZZSWhEUXhPdjdpaEtDV0VLVUVGWlZXa1Z1M2xZdXVnS3FwaEpV?=
- =?utf-8?B?a2kyWWpoT1U5bENHQnRiSlN1UTRwbmgrSkV4d0diZVUzc21mK1dYT1diemtT?=
- =?utf-8?B?WlM5NHBXT2cyR2NlOXFvdmhYZU40M3c5UW93ODdMcW4xcGFDS3UySlBiWG9n?=
- =?utf-8?B?Y3o0R0VyQlVqNkNDK0hzRkRKZ3hyUUtzM2pyN045bWRJRDBMdllnR2FZS2hT?=
- =?utf-8?B?Qk1FQzJubFZTcGRrQSt6RllVbkIzZEZtZmY3RHNEamEvWmMrK2JYMEdVWUNR?=
- =?utf-8?B?N0ZVZGp0STZzSnlBRGpkdTN6YzZ0cVVNY2U0c09od09TMDVUM0ZzMGJ4K2Jw?=
- =?utf-8?B?M3Fpb0Z4aUNyTmlBUTJ5LzZxbTV6djBSQ2l1TXI2OTk3amVZcHdFc2VPZGVn?=
- =?utf-8?B?cnAxTnhhWnYrSDgwT2t6Z21PK29WbU5QdTFuOG8xWGoyOVZDSjB4RmtyRDNl?=
- =?utf-8?B?T0o0d2hJWFp3QjdFK2lRS2lIQmFkM2FITlpON3pwQnNzUnlKQkhoMTAydXl0?=
- =?utf-8?B?aTk3L2M1QW1NQ1lzSkw3WkVrTzRJSXlDc3N3ZXMvQm5mdUgvZG9zRXhZUEdR?=
- =?utf-8?B?cjZMOGszdDl6SVNoYlFqSWE4L0w3bzdmNlZqZjVrUFlueFdtTXhaTERkMlZG?=
- =?utf-8?B?TXgvUkx1R0ZuNThzdFh0Y2IzL1IyUHBjbWpWNkhvRXVKU3BXS3Vtb1dXZ3hL?=
- =?utf-8?B?RzhJQlJZUHJSSjN2N08raG0zWnZWcTZPK3dDU2RBTmFhNTNIN0ZsOE1xRzRn?=
- =?utf-8?B?VGErbldXdS91SE84TVRFcUk1Tk1MQyt2NThqWnRKS05WNmtydXpCck1BajRT?=
- =?utf-8?B?QjlMU2t5QXRENnpUVXFYck9ibExlNWFwRzNTeVNTTU5mRkNHbUNqUC9mSzly?=
- =?utf-8?Q?80UsKOja1u1ah4JdSbuLM0nfBZQQ0C4i?=
-X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d77f7a7-8d56-4006-09ca-08df0d5a308e
-X-MS-Exchange-CrossTenant-AuthSource: PAXP251MB0010.EURP251.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 03:35:12.5906
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P251MB0016
 
-Further revision is needed - the check is in the wrong place.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider:
 
-With rx->remaining = 3 and skb->len = 7 the new check does skip the
-sync peek, but the loop below then reaches the same byte:
+Critical: 0 · High: 0 · Medium: 2 · Low: 0
 
-	while (offset + sizeof(u16) <= skb->len) {
-		if (!rx->remaining) {
-			...
-			rx->header = get_unaligned_le32(skb->data + offset);
+- [Medium] The commit message's premise is only true for one of the two
+  changed sites, and the Fixes: tag is provably wrong.
+- [Medium] The patch replaces the arch-tuned u64_stats irqsave helpers
+  with an unconditional local_irq_save()/local_irq_restore() pair around…
 
-It copies the 3 remaining bytes, advances offset to 4, re-enters with
-3 bytes left and reads 4 there. The guard only requires 2 bytes while
-that branch reads 4; there is a case for exactly 2 bytes (split_head)
-and none for 3.
+--
 
-I will send a v2 that guards that read instead.
+usbnet: fix smp_processor_id() use in preemptible context
 
-Reaching 3 bytes left also needs an odd skb->len, which a conforming
-device does not produce, so the v2 will drop the Fixes and stable
-tags.
+This patch moves the this_cpu_ptr() lookup of dev->net->tstats inside a
+local_irq_save()/local_irq_restore() region in usbnet_skb_return() and
+tx_complete(), and switches the u64_stats writers from the irqsave
+helpers to the plain begin/end variants.
 
-pw-bot: changes-requested
+Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
 
-Regards,
-Aamir Ahmed
+Two questions on the changelog first:
+
+>     usbnet_skb_return() and tx_complete() call this_cpu_ptr() before
+>     disabling IRQs, which triggers a BUG when running with PREEMPT_FULL:
+
+[Severity: Medium]
+Is the "usbnet_skb_return()" half of that sentence reachable?  Every
+caller I can find already runs with preemption disabled.
+
+rx_process() -> usbnet_skb_return() is only reached from usbnet_bh(),
+which is either the dev->delay timer callback:
+
+	timer_setup(&dev->delay, usbnet_bh, 0);
+
+or run from usbnet_bh_work() queued on the BH workqueue:
+
+	queue_work(system_bh_wq, &dev->bh_work);
+
+and BH work items execute from workqueue_softirq_action(), i.e. softirq
+context.  The minidriver ->rx_fixup() call sites (asix_common.c,
+cdc_ncm.c, rndis_host.c, cx82310_eth.c, lg-vl600.c, ...) are all invoked
+from that same rx_process() context.
+
+The one remaining caller explicitly disables BH around the loop:
+
+	local_bh_disable();
+	clear_bit(EVENT_RX_PAUSED, &dev->flags);
+
+	while ((skb = skb_dequeue(&dev->rxq_pause)) != NULL) {
+		usbnet_skb_return(dev, skb);
+	...
+
+That leaves tx_complete(), which really can run in preemptible task
+context when the HCD does not use HCD_BH and usb_hcd_giveback_urb()
+completes "in the caller's context".  Would it make sense to describe the
+change as a tx_complete() fix, or is there an RX path that reaches
+usbnet_skb_return() with preemption enabled?
+
+>     Fixes: 43daa96b166c ("usbnet: Stop RX Q on MTU change")
+
+[Severity: Medium]
+Does this Fixes: tag point at the right commit?  43daa96b166c is from
+2016 and only added usbnet_pause_rx()/usbnet_resume_rx() calls to
+usbnet_change_mtu() plus an EVENT_RX_PAUSED test in usbnet_bh(); it never
+touched the stats code.  git blame on the pre-patch tx_complete() block
+shows:
+
+  af0c351cc34857 (Heiner Kallweit 2020-11-10) struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
+  2695578b896aea (Eric Dumazet   2018-03-05) flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+
+Should the tag name af0c351cc34857 instead, so that stable backports land
+in trees that actually contain the code being changed?
+
+> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+> index a19ecf718f36a..6a48f38e105d4 100644
+> --- a/drivers/net/usb/usbnet.c
+> +++ b/drivers/net/usb/usbnet.c
+> @@ -338,10 +338,13 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+>  	if (skb->protocol == 0)
+>  		skb->protocol = eth_type_trans(skb, dev->net);
+>  
+> -	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+> +	local_irq_save(flags);
+> +	stats64 = this_cpu_ptr(dev->net->tstats);
+> +	u64_stats_update_begin(&stats64->syncp);
+>  	u64_stats_inc(&stats64->rx_packets);
+>  	u64_stats_add(&stats64->rx_bytes, skb->len);
+> -	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
+> +	u64_stats_update_end(&stats64->syncp);
+> +	local_irq_restore(flags);
+
+[Severity: Medium]
+Does this add a hardirq-off window on 64-bit where there was none?  In
+include/linux/u64_stats_sync.h the 64-bit branch is:
+
+	static inline void __u64_stats_update_begin(struct u64_stats_sync *syncp) { }
+	static inline void __u64_stats_update_end(struct u64_stats_sync *syncp) { }
+	static inline unsigned long __u64_stats_irqsave(void) { return 0; }
+
+so u64_stats_update_begin_irqsave() masked nothing on 64-bit, while
+local_irq_save() masks unconditionally.  usbnet_skb_return() runs once
+per received packet, so this looks like a new per-packet interrupts-off
+region for all 64-bit builds, PREEMPT_RT included.
+
+The changelog describes it as ordering only:
+
+>     Fix by saving IRQs first with local_irq_save(), then calling
+>     this_cpu_ptr() and using the non-irqsave variants of u64_stats
+>     update helpers, since IRQs are already disabled at that point.
+
+Since only preemption/migration needs to be suppressed to make
+this_cpu_ptr() legal, would get_cpu_ptr()/put_cpu_ptr() around the
+existing u64_stats_update_begin_irqsave()/u64_stats_update_end_irqrestore()
+pair work here?  That keeps IRQ masking on 32-bit only, and matches the
+core helper dev_sw_netstats_rx_add() in include/linux/netdevice.h:
+
+	struct pcpu_sw_netstats *tstats = this_cpu_ptr(dev->tstats);
+
+	u64_stats_update_begin(&tstats->syncp);
+
+usbnet_resume_rx() already uses local_bh_disable() for the same purpose,
+which would be another option.
+
+> @@ -1298,13 +1301,16 @@ static void tx_complete(struct urb *urb)
+>  	struct usbnet		*dev = entry->dev;
+>  
+>  	if (urb->status == 0) {
+> -		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
+> +		struct pcpu_sw_netstats *stats64;
+>  		unsigned long flags;
+>  
+> -		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+> +		local_irq_save(flags);
+> +		stats64 = this_cpu_ptr(dev->net->tstats);
+> +		u64_stats_update_begin(&stats64->syncp);
+>  		u64_stats_add(&stats64->tx_packets, entry->packets);
+>  		u64_stats_add(&stats64->tx_bytes, entry->length);
+> -		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
+> +		u64_stats_update_end(&stats64->syncp);
+> +		local_irq_restore(flags);
+
+[Severity: Medium]
+Same question for the TX completion path: this site is the one that can
+genuinely be entered preemptibly, but would get_cpu_ptr()/put_cpu_ptr()
+plus the existing irqsave helpers be enough, rather than disabling
+interrupts on every successful TX completion on 64-bit?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260905224553.595766-1-omermetekaya0%40gmail.com
