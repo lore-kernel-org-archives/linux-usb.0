@@ -1,204 +1,491 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C419559C9A;
-	Tue,  8 Sep 2026 18:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75EE56C634;
+	Tue,  8 Sep 2026 19:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788890917; cv=none; b=Na4cFuWz4NlqNdWqKQURvRcDjRZaTQV+5YGymBKJFZNX6FXIjVJ5vKwCtkiZ8pu2yBcEVXf/liHf4R1buT1RSPwmFqUQADwAkZ7Z+crGa/mhwT9urJSGIc11QmDme6rg7QGLLQW5fcZZ4wHIjIHO9C4NKckTLDytBnPu5Vpfxyo=
+	t=1788894137; cv=none; b=ZkV/k5FGr1R8mQxzknQnyOEaJOI89wKEazKL1aNnIfYXPqOezL566/dBaDSDQjuyeOO51CKJRI0kLlYhv1M3AV1yXRoQxb38BQurJrN39CzpK9cDx6fzmrUXaZSJuKnx4P799vGWJe2YTRe/xrIx62+hEfbyC2Ek07kT+8vq0fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788890917; c=relaxed/simple;
-	bh=NTfeX/wB3K19oMZMj8yFEYKCUosUW7dvTpz2SLe5dlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oy4vtK+kbh27QuIiiF7kbxgJYUg/qMEsereFxCftpB6PgGWNb6rglu4eQktmOmqQhOK6z9U+Puz238Lj2D3/1bjRB2p4SMiEIDZItuW+HLPNokN36L3ILyuNREiM9TN5gCvMgW0GkNPLhFRNwO87LCzn+4ikPOKZSuiReHscwWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFWN4L0W; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788894137; c=relaxed/simple;
+	bh=9JMxYM/fEXEy4p4gMNOtX5RS4sssgy+BazRRTuaHmlw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=C4r83sfGN4mG3nV3m03KZ1YytL8kk0xxb7fKP5laRxB+7WP6R7CaaXQ0fCYjsrjOMu8IxCYbHBqsmxIxfY8xQUtVCW6KV7vtIvx68nfLXUag8izRmQpER8+l7TXEWYsp62691yeQu1VVXDryT3C+0zZDGqONLgQBgoWZ2X0Q4Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hca+jGIs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFWN4L0W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0724E1F00A3A;
-	Tue,  8 Sep 2026 18:08:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hca+jGIs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 846FE1F00A3A;
+	Tue,  8 Sep 2026 19:02:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788890914;
-	bh=vOKYRCw54rTmlJbeP91fGLk+vpGUvA0hvgwiBiK9J8U=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=dFWN4L0Wa240iNqj9HLS/cbcF5ztCdRLp1LHs6WPSl354OvwVdj99OQGMShaO5CtV
-	 5LQ3VPQTV0gn5B8o8IHNbrB6NimrIC/7uWa5OvXWSztzbMQOcSCcp85PS7qUla1H+s
-	 +IWO6SgtxCqlHV57zWLg7YIrZNIaqTAtlQSLHBhLubvA99X5s8ayG0lldcpihYnA0y
-	 pFcO0WQD4rloUxcVXeujgJfjnJg292ZYuMUwKwKIrImKD70bsAcXhRhdUoJ5xZryA+
-	 2ZZT8OjlhTn5SpDliYWgxc7+/JWCui6iPTJGxNBrRoh9Q8X+0K3mIzoEzvpvbc+Ecc
-	 U3A9yZMjE1A6g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id C39C8CE1902; Tue,  8 Sep 2026 11:08:33 -0700 (PDT)
-Date: Tue, 8 Sep 2026 11:08:33 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Vladimir Murzin <vladimir.murzin@arm.com>
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	rostedt@goodmis.org, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG/PATCH] drivers/usb/mtu3: Work around mtu3_log_ep
- double-indirection issue
-Message-ID: <b6c621eb-6d20-4e00-ac05-af122b630ca5@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <a3ee0655-d818-48e0-84d1-475e6c16c991@paulmck-laptop>
- <d7bb2cf4-11c3-468c-8749-99cc408299c7@arm.com>
+	s=k20260515; t=1788894135;
+	bh=vw7LxsXe5xwpizej0UDbS9PMaoH0Hy0ensmVdwkzR9w=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=Hca+jGIswd/2lVi0dWWe1q193xt4TDC8/iyoScFKVhgzGW49GDZXCWRvLl6uUwDDX
+	 3XSa0aB0eYiIeNAXi4qQu0YcBC7mE1FH6thbDUnifyR2yKONB5ofNRd/Ro0eY2uLS6
+	 skozljWN9sqiHSDnY0GjYarWuXJf5FXd3Z9vIrEjfPmx3d95/pWxrRL4zpT9nE1RGg
+	 3K0Xkl1FKgQ86hSGOhElVFv551eEm/kOGW2qfW1YAPGeGHK0nkwdVwox3c4xecReUA
+	 Sj4NjKBzhShKN/Tb1pbBLwZ+6yHtfYGjRKSFboHujJO2t98ycBMqdeFgNSFjpPO43Q
+	 OytvgWQ41+kcg==
+Message-ID: <22808191-5310-4d90-9fac-68d0d85b4c54@kernel.org>
+Date: Tue, 8 Sep 2026 21:02:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7bb2cf4-11c3-468c-8749-99cc408299c7@arm.com>
+User-Agent: Mozilla Thunderbird
+From: Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH v2 19/22] thunderbolt: Add Apple Silicon support
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-19-1f80085f93fb@kernel.org>
+ <20260908091844.GD106095@black.igk.intel.com>
+Content-Language: en-US
+In-Reply-To: <20260908091844.GD106095@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 07, 2026 at 02:28:47PM +0100, Vladimir Murzin wrote:
-> On 9/4/26 00:59, Paul E. McKenney wrote:
-> > This is more bug report than patch, but this patch does suppress the
-> > splat, so there is that.  ;-)
-> > 
-> > Kernels built with either KASAN or KCSAN produce this splat:
-> > 
-> 
-> I see it on kernel w/o KASAN or KCSAN. IIUC, this is new check introduced
-> by b5cc230af5e5 ("tracing: Warn when an event dereferences a pointer in TP_printk()")
-> so adding Steven :)
-> 
-> > [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> > [    0.000000] ------------[ cut here ]------------
-> > [    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> > [    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x144/0x14c, CPU#0: swapper/0/0
-> > [    0.000000] Modules linked in:
-> > [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1 #15247 PREEMPT
-> > [    0.000000] Hardware name: linux,dummy-virt (DT)
-> > [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > [    0.000000] pc : test_double_dereference+0x144/0x14c
-> > [    0.000000] lr : test_double_dereference+0x144/0x14c
-> > [    0.000000] sp : ffffc80aa7633bf0
-> > [    0.000000] x29: ffffc80aa7633bf0 x28: ffffc80aa7c0f047 x27: 000508b58019388f
-> > [    0.000000] x26: 0000000000000003 x25: 0000000000000007 x24: ffffc80aa5fceff8
-> > [    0.000000] x23: ffffc80aa7c0f05a x22: ffffc80aa64edfe8 x21: ffffc80aa7c0fce8
-> > [    0.000000] x20: ffffc80aa7c0f047 x19: 0000000000000013 x18: 0000000000000001
-> > [    0.000000] x17: 6572656420656c62 x16: 756f642073616820 x15: 746c61685f746573
-> > [    0.000000] x14: 0000000000000000 x13: ffff000139d90000 x12: 0000000000000045
-> > [    0.000000] x11: 00000000000000cf x10: ffff00013f546428 x9 : ffff000139d90000
-> > [    0.000000] x8 : 3fffffffffffc000 x7 : 0000000000000001 x6 : 0000000000000001
-> > [    0.000000] x5 : ffff00013f4e6440 x4 : 0000000000000000 x3 : 0000000000000000
-> > [    0.000000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffc80aa764a700
-> > [    0.000000] Call trace:
-> > [    0.000000]  test_double_dereference+0x144/0x14c (P)
-> > [    0.000000]  trace_event_raw_init+0x37c/0x5d8
-> > [    0.000000]  event_init+0x34/0xc0
-> > [    0.000000]  trace_event_init+0xec/0x588
-> > [    0.000000]  trace_init+0x24/0x6e0
-> > [    0.000000]  start_kernel+0x4a0/0x8ec
-> > [    0.000000]  __primary_switched+0x88/0x90
-> > [    0.000000] irq event stamp: 0
-> > [    0.000000] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] hardirqs last disabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] softirqs last  enabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] ---[ end trace 0000000000000000 ]---
-> > [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
-> > [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
-> > 
-> > Apparently, the code should instead create another entry in
-> > TP_STRUCT__entry(), and do the double-indirection TP_fast_assign() instead
-> > of TP_printk().  But simply removing the offending double indirection
-> > in TP_printk() gets this splat out of the way of other debugging.
-> 
-> Indeed, splat has gone after applying the patch.
-> 
-> Thanks
-> Vladimir
+Hi Mika,
 
-Does this less hacky patch do the trick?
+thanks again for the quick review!
 
-							Thanx, Paul
+On 9/8/26 11:18, Mika Westerberg wrote:
+> Hi,
+>
+> On Sun, Sep 06, 2026 at 08:36:42PM +0200, Sven Peter wrote:
+>> Add a platform driver for the ACIO host router complex and Native Host
+>> Interface (NHI) found on Apple Silicon SoCs.
+>>
+>> The driver registers notifications for Thunderbolt and USB4 partner modes
+>> on the Type-C bus and derives the cable details from the Thunderbolt VDOs
+>> or USB4 EUDO.
+>>
+>> After powering up ACIO, the driver boots its RTKit co-processor and
+>> populates the DART and NHI child devices once their MMIO regions become
+>> accessible. It then registers the NHI with the software connection
+>> manager and forwards the cable details to the host router.
+>>
+>> The Apple NHI uses one interrupt per ring and overrides the generic ring
+>> register accessors, interrupt handling and ring configuration. It also
+>> uses the OF graph connection between the USB3 adapter and the DWC3
+>> controller to create the device link required to restore tunnels before
+>> USB resumes. As of this commit only XDomain connections and
+>> USB3-via-USB4 tunnels are supported.
+>>
+>> Signed-off-by: Sven Peter<sven@kernel.org>
+[...]
 
-------------------------------------------------------------------------
+>> +
+>> +#define APPLE_CIO_NHI_PDF_STRIDE			0x4000
+>> +
+>> +#define APPLE_CIO_USB3_ADAPTER				4
+> Do you really need to hard-code this? It's not possible to figure out from
+> the host router adapters directly?
 
-commit afda2321e6e93a5bcc28bfb4717fbc3a1768446c
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Thu Sep 3 16:48:09 2026 -0700
+It's possible I think but the host router isn't up yet by the time I 
+need it to add the links in tb_probe.
+>
+>> +
+>> +#define APPLE_CIO_NHI_IRQ_STATUS			0xd0000
+>> +#define APPLE_CIO_NHI_IRQ_ENABLE			0xd0010
+>> +#define APPLE_CIO_NHI_IRQ_THROTTLE			0xd004c
+>> +#define APPLE_CIO_NHI_IRQ_THROTTLE_INTERVAL_MASK	GENMASK(15, 0)
+>> +#define APPLE_CIO_NHI_IRQ_THROTTLE_GRANULARITY_NSEC	256
+>> +
+>> +#define APPLE_CIO_SRAM_IOVA_BASE			0x10000000
+>> +
+>> +#define APPLE_CIO_NHI_BOOT_TIMEOUT			10000 /* ms */
+>> +
+>> +/*
+>> + * The Apple vendor-specific extended capability contains a cable-information
+>> + * word which has to be programmed from the USB4/Thunderbolt details reported
+>> + * out-of-band by the Type-C PD controller. It must be programmed into the
+>> + * host router before link discovery starts.
+>> + */
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO			0x01
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_PRESENT		BIT(0)
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_ORIENTATION_REVERSE	BIT(1)
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_ACTIVE_CABLE	BIT(2)
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_BIDIR_LSRX		BIT(3)
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_20_GBPS		BIT(4)
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_LEGACY_ADAPTER	BIT(9)
+>> +#define TB_VSE_CAP_APPLE_CABLE_INFO_TBT2_3		BIT(10)
+>> +
+>> +struct apple_cio;
+> I think you may not need the forward declaration here.
 
-    EXP drivers/usb/mtu3: Work around mtu3_log_ep double-indirection issue
-    
-    Kernels built with either KASAN or KCSAN produce this splat:
-    
-    [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-    [    0.000000] ------------[ cut here ]------------
-    [    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-    [    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x144/0x14c, CPU#0: swapper/0/0
-    [    0.000000] Modules linked in:
-    [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1 #15247 PREEMPT
-    [    0.000000] Hardware name: linux,dummy-virt (DT)
-    [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-    [    0.000000] pc : test_double_dereference+0x144/0x14c
-    [    0.000000] lr : test_double_dereference+0x144/0x14c
-    [    0.000000] sp : ffffc80aa7633bf0
-    [    0.000000] x29: ffffc80aa7633bf0 x28: ffffc80aa7c0f047 x27: 000508b58019388f
-    [    0.000000] x26: 0000000000000003 x25: 0000000000000007 x24: ffffc80aa5fceff8
-    [    0.000000] x23: ffffc80aa7c0f05a x22: ffffc80aa64edfe8 x21: ffffc80aa7c0fce8
-    [    0.000000] x20: ffffc80aa7c0f047 x19: 0000000000000013 x18: 0000000000000001
-    [    0.000000] x17: 6572656420656c62 x16: 756f642073616820 x15: 746c61685f746573
-    [    0.000000] x14: 0000000000000000 x13: ffff000139d90000 x12: 0000000000000045
-    [    0.000000] x11: 00000000000000cf x10: ffff00013f546428 x9 : ffff000139d90000
-    [    0.000000] x8 : 3fffffffffffc000 x7 : 0000000000000001 x6 : 0000000000000001
-    [    0.000000] x5 : ffff00013f4e6440 x4 : 0000000000000000 x3 : 0000000000000000
-    [    0.000000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffc80aa764a700
-    [    0.000000] Call trace:
-    [    0.000000]  test_double_dereference+0x144/0x14c (P)
-    [    0.000000]  trace_event_raw_init+0x37c/0x5d8
-    [    0.000000]  event_init+0x34/0xc0
-    [    0.000000]  trace_event_init+0xec/0x588
-    [    0.000000]  trace_init+0x24/0x6e0
-    [    0.000000]  start_kernel+0x4a0/0x8ec
-    [    0.000000]  __primary_switched+0x88/0x90
-    [    0.000000] irq event stamp: 0
-    [    0.000000] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-    [    0.000000] hardirqs last disabled at (0): [<0000000000000000>] 0x0
-    [    0.000000] softirqs last  enabled at (0): [<0000000000000000>] 0x0
-    [    0.000000] softirqs last disabled at (0): [<0000000000000000>] 0x0
-    [    0.000000] ---[ end trace 0000000000000000 ]---
-    [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
-    [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
-    
-    Therefore, work around this restriction by creating another entry in
-    TP_STRUCT__entry(), and do the double-indirection TP_fast_assign()
-    instead of TP_printk().
-    
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-    Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-    Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-    Cc: <linux-usb@vger.kernel.org>
-    Cc: <linux-arm-kernel@lists.infradead.org>
-    Cc: <linux-mediatek@lists.infradead.org>
+Yup, I think that's just a leftover. Will drop it.
+>
+>> +struct apple_cio_altmode {
+>> +	struct apple_cio *acio;
+>> +	struct typec_altmode *altmode;
+>> +	struct notifier_block notifier;
+>> +};
+>> +
+>> +/**
+>> + * struct apple_cio - Apple Converged I/O block
+>> + * @dev: ACIO device
+>> + * @np: ACIO device tree node
+>> + * @rtk: RTKit instance for the ACIO co-processor
+>> + * @rc_base: ACIO root controller registers
+>> + * @rc_res: ACIO root controller MMIO resource
+>> + * @rc_tunable: Tunable sequence for the ACIO root controller
+>> + * @sram_res: ACIO co-processor SRAM resource
+>> + * @sram_base: ACIO co-processor SRAM
+>> + * @reset: ACIO reset controller
+>> + * @pd_list: Power domains used by the ACIO block
+>> + * @lock: Serializes cable transitions and ACIO power changes
+>> + * @current_cable_info: Cable information currently programmed into ACIO
+>> + * @target_cable_info: Cable information requested by the Type-C PD driver
+>> + * @nhi_boot_completion: Signals completion of the NHI bringup
+>> + * @nhi_boot_status: Status returned by the NHI bringup
+>> + * @connector: Type-C connector firmware node linked to this ACIO
+>> + * @typec_lock: Serializes Type-C alternate mode attachment and removal
+>> + * @typec_notifier: Type-C bus notifier used to discover partner alternate modes
+>> + * @tbt_altmode: Thunderbolt partner alternate mode subscription
+> @tb_altmode if possible
+>
+> The driver uses "tb" everywhere so that's preferred for consistency.
 
-diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
-index 89870175d63561..6477ad3ddc66f6 100644
---- a/drivers/usb/mtu3/mtu3_trace.h
-+++ b/drivers/usb/mtu3/mtu3_trace.h
-@@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
- 		__field(unsigned int, flags)
- 		__field(unsigned int, direction)
- 		__field(struct mtu3_gpd_ring *, gpd_ring)
-+		__field(dma_addr_t *, gpd_ring_dma)
- 	),
- 	TP_fast_assign(
- 		__assign_str(name);
-@@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
- 		__entry->flags = mep->flags;
- 		__entry->direction = mep->is_in;
- 		__entry->gpd_ring = &mep->gpd_ring;
-+		__entry->gpd_ring_dma = &mep->gpd_ring->dma;
- 	),
- 	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
- 		__get_str(name), usb_ep_type_string(__entry->type),
- 		__entry->maxp, __entry->slot,
- 		__entry->mult, __entry->maxburst,
--		__entry->gpd_ring, &__entry->gpd_ring->dma,
-+		__entry->gpd_ring, __entry->gpd_ring_dma,
- 		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
- 		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
- 		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
+And I thought I got them all! Fixed that one (and another one below) as 
+well!
+
+[....]
+
+>> +static const struct apple_rtkit_ops apple_cio_rtkit_ops = {
+>> +	.shmem_setup = apple_cio_rtkit_shmem_setup,
+>> +};
+>> +
+>> +static int apple_nhi_probe_irqs(struct apple_nhi *anhi)
+>> +{
+>> +	char name[64];
+> I think you can move this into the block where it's used.
+
+Yup, will move it.
+
+>
+>> +	int nirqs;
+>> +
+>> +	nirqs = platform_irq_count(anhi->pdev);
+>> +	if (nirqs < 0)
+>> +		return dev_err_probe(anhi->dev, nirqs, "platform_irq_count failed\n");
+>> +	if (!nirqs)
+>> +		return dev_err_probe(anhi->dev, -EINVAL, "no interrupts found\n");
+>> +	if (nirqs % 2)
+>> +		return dev_err_probe(anhi->dev, -EINVAL,
+>> +				     "invalid number of interrupts: %d must be even\n",
+>> +				     nirqs);
+>> +	anhi->nrings = nirqs / 2;
+>> +
+>> +	anhi->rx_irqs = devm_kcalloc(anhi->dev, anhi->nrings,
+>> +				     sizeof(*anhi->rx_irqs), GFP_KERNEL);
+>> +	if (!anhi->rx_irqs)
+>> +		return -ENOMEM;
+>> +	anhi->tx_irqs = devm_kcalloc(anhi->dev, anhi->nrings,
+>> +				     sizeof(*anhi->tx_irqs), GFP_KERNEL);
+>> +	if (!anhi->tx_irqs)
+>> +		return -ENOMEM;
+>> +	anhi->rx_irq_names = devm_kcalloc(anhi->dev, anhi->nrings,
+>> +					  sizeof(*anhi->rx_irq_names), GFP_KERNEL);
+>> +	if (!anhi->rx_irq_names)
+>> +		return -ENOMEM;
+>> +	anhi->tx_irq_names = devm_kcalloc(anhi->dev, anhi->nrings,
+>> +					  sizeof(*anhi->tx_irq_names), GFP_KERNEL);
+>> +	if (!anhi->tx_irq_names)
+>> +		return -ENOMEM;
+>> +
+>> +	for (int i = 0; i < anhi->nrings; ++i) {
+>> +		snprintf(name, sizeof(name), "rxring%d", i);
+>> +		anhi->rx_irqs[i] = platform_get_irq_byname(anhi->pdev, name);
+>> +		if (anhi->rx_irqs[i] < 0)
+>> +			return anhi->rx_irqs[i];
+>> +		anhi->rx_irq_names[i] = devm_kasprintf(anhi->dev, GFP_KERNEL, "%s-%s",
+>> +						       dev_name(anhi->dev), name);
+>> +		if (!anhi->rx_irq_names[i])
+>> +			return -ENOMEM;
+>> +
+>> +		snprintf(name, sizeof(name), "txring%d", i);
+>> +		anhi->tx_irqs[i] = platform_get_irq_byname(anhi->pdev, name);
+>> +		if (anhi->tx_irqs[i] < 0)
+>> +			return anhi->tx_irqs[i];
+>> +		anhi->tx_irq_names[i] = devm_kasprintf(anhi->dev, GFP_KERNEL, "%s-%s",
+>> +						       dev_name(anhi->dev), name);
+>> +		if (!anhi->tx_irq_names[i])
+>> +			return -ENOMEM;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static unsigned int apple_cio_ring_index(struct tb_ring *ring)
+> This can take const
+Ack
+>
+>> +{
+>> +	struct apple_nhi *anhi = nhi_to_anhi(ring->nhi);
+> And this can be const too.
+Ack
+>
+>> +
+>> +	if (ring->is_tx)
+>> +		return ring->hop;
+>> +	else
+> Drop the else here.
+Ack.
+
+>> +		return ring->hop + anhi->nrings;
+>> +}
+>> +
+>> +static void apple_nhi_ring_interrupt_active(struct tb_ring *ring, bool active)
+>> +{
+>> +	struct apple_nhi *anhi = nhi_to_anhi(ring->nhi);
+>> +	unsigned int idx = apple_cio_ring_index(ring);
+>> +	u32 reg, interval;
+>> +
+[...]
+>> +static void apple_nhi_release_irq(struct tb_ring *ring)
+>> +{
+>> +	if (ring->irq <= 0)
+>> +		return;
+>> +
+>> +	devm_free_irq(ring->nhi->dev, ring->irq, ring);
+>> +	ring->irq = 0;
+> I think it reads better if you do
+>
+> 	if (ring->irq > 0)
+> 		devm_free_irq(ring->nhi->dev, ring->irq, ring);
+> 	ring->irq = 0;
+
+Agreed, will change it to that.
+
+>
+>> +}
+>> +
+>> +static void __iomem *apple_nhi_ring_desc_base(struct tb_ring *ring)
+>> +{
+>> +	struct apple_nhi *anhi = nhi_to_anhi(ring->nhi);
+>> +	void __iomem *io = anhi->nhi_base;
+>> +
+>> +	io += ring->hop * APPLE_CIO_NHI_RING_STRIDE;
+>> +	io += ring->is_tx ? APPLE_CIO_NHI_TXRING_DESC_BASE :
+>> +			    APPLE_CIO_NHI_RXRING_DESC_BASE;
+>> +	return io;
+>> +}
+>> +
+>> +static void __iomem *apple_nhi_ring_options_base(struct tb_ring *ring)
+>> +{
+>> +	return apple_nhi_ring_desc_base(ring) + 0x10;
+> Here maybe use macro for the 0x10 magic number.
+
+Ack.
+
+>
+>> +}
+>> +
+>> +static void apple_nhi_ring_configure(struct tb_ring *ring, u32 flags, u32 e2e_flags)
+>> +{
+>> +	void __iomem *options = apple_nhi_ring_options_base(ring);
+>> +	struct apple_nhi *anhi = nhi_to_anhi(ring->nhi);
+>> +	u32 sof_eof_mask;
+>> +
+>> +	lockdep_assert_held(&ring->lock);
+>> +
+>> +	if (ring->is_tx) {
+>> +		/*
+>> +		 * All TX rings share what macOS calls a shared buffer with 232 entries. This is how
+>> +		 * macOS splits it up, ring 0 only carries control packets and gets the minimum.
+>> +		 */
+>> +		if (ring->hop == 0)
+>> +			writel(2, options + 4);
+>> +		else if (ring->hop <= 5)
+>> +			writel(40, options + 4);
+>> +		else
+>> +			writel(5, options + 4);
+> Any idea what's special with the ring 5? And why the numbers 40 and 5? I
+> think they refer intra-domain shared buffers (which is what we are going to
+> use for XDomain connections in Linux going forward too).
+
+No idea really. All I know is that there's some string calling these 
+"shared buffers" and that there are 232 in total.
+macOS assigns two to the first ring (probably because it only has 
+configuration traffic and doesn't need more), then 40 to the next 5 
+rings (which are presumably used for xdomains most of the time) and then 
+5 to the rest (which I guess are rarely used) so that it ends up at 232 
+spread across 12 rings. I think the setup is arbitrary but I have to 
+write something >0 here or otherwise the ring won't work IIRC.
+
+>
+>> +	} else {
+>> +		sof_eof_mask = ring->sof_mask << 16 | ring->eof_mask;
+>> +		writel(sof_eof_mask, options + 4);
+>> +		writel(sof_eof_mask, anhi->pdf_base + ring->hop * APPLE_CIO_NHI_PDF_STRIDE);
+>> +	}
+>> +
+>> +	/*
+>> +	 * The firmware samples the ring configuration when the valid bit is set and E2E flow
+>> +	 * control never engages when configured afterwards. Write everything at once like macOS.
+>> +	 */
+>> +	writel(flags | e2e_flags, options);
+>> +}
+>> +
+>> +static bool apple_nhi_add_links(struct tb_nhi *nhi)
+>> +{
+>> +	struct apple_nhi *anhi = nhi_to_anhi(nhi);
+>> +	struct fwnode_handle *endpoint, *remote;
+>> +	struct device_link *link;
+>> +	struct device *consumer;
+>> +
+>> +	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(anhi->acio->dev),
+>> +						   APPLE_CIO_USB3_ADAPTER, 0, 0);
+> Okay they have the power contract as part of the DT description that's
+> good. I just worry that if they change the USB3 Gen X adapter place this
+> will break.
+>
+> Do you have a snippet what it looks like in DT description?
+
+We don't use Apple's Device Tree at all, we make up our own 
+representation for Linux device tree and supply that in our bootloader 
+m1n1 to the kernel. See the dt-binding commits and the later dts commits.
+If the adapter place changes the new hardware will get a new compatible 
+and we can determine it from that one then. The other alternative would 
+be to just walk through all ports (except for the type-c lanes) defined 
+in the DT and just add all links here. It's a bit moot right now since 
+we can't do runtime or proper suspend anyway yet.
+
+I'll need those graph connections later on for PCIe and DP tunnels as 
+well since they need a software notification whenever a tunnel is 
+brought up or torn down. Here's how the connection looks like right now 
+though. It's a graph connection that's also used to e.g. connect dwc3 to 
+the Type-C controller. This hasn't been reviewed by the devicetree 
+maintainers yet:
+
+  &dwc3_0 {
+ports {
+#address-cells = <1>;
+#size-cells = <0>;
+
+port@1 {
+#address-cells = <1>;
+#size-cells = <0>;
+reg = <1>;
+
+dwc3_0_ss: endpoint@0 {
+reg = <0>;
+remote-endpoint = <&atcphy0_usb3>;
+};
+
+dwc3_0_usb4: endpoint@1 {
+reg = <1>;
+remote-endpoint = <&usb4_0_acio_usb3>;
+};
+};
+};
+  };
+
+  &usb4_0_acio {
+ports {
+#address-cells = <1>;
+#size-cells = <0>;
+
+port@4 {
+reg = <4>;
+usb4_0_acio_usb3: endpoint {
+remote-endpoint = <&dwc3_0_usb4>;
+};
+};
+};
+  };
+
+
+
+> (I'm still in progress to setup Asahi tethered boot on my m1 mac so cannot
+> check it at the moment).
+
+You've probably found it already, but we have a guide here: 
+https://asahilinux.org/docs/sw/tethered-boot/
+Let me know if you run into any issues!
+
+>
+>> +	if (!endpoint)
+>> +		return false;
+>> +
+>> +	remote = fwnode_graph_get_remote_port_parent(endpoint);
+>> +	fwnode_handle_put(endpoint);
+>> +	if (!remote)
+>> +		return false;
+[....]
+>> +
+>> +	mutex_lock(&anhi->tb->lock);
+>> +
+>> +	if (!anhi->tb->root_switch->drom) {
+>> +		dev_err(anhi->dev, "no valid host DROM in the device tree\n");
+>> +		ret = -EINVAL;
+>> +		goto err_unlock_tb_domain;
+>> +	}
+>> +
+>> +	if (!anhi->tb->root_switch->cap_vsec_apple) {
+>> +		dev_err(anhi->dev, "unable to find VSE Apple capability\n");
+> Maybe "missing Apple VSE capability" or so because finding was already
+> done.
+
+Ack.
+
+>
+>> +		ret = -ENODEV;
+>> +		goto err_unlock_tb_domain;
+>> +	}
+>> +
+>> +	ret = tb_sw_write(anhi->tb->root_switch, &acio->target_cable_info, TB_CFG_SWITCH,
+>> +			  anhi->tb->root_switch->cap_vsec_apple +
+>> +			  TB_VSE_CAP_APPLE_CABLE_INFO, 1);
+> I would prefer if we could keep the USB4 stuff outside of the host
+> interface. It should be fine to do this in tb.c based on the capability but
+> getting the cable info there is tricky :(
+
+Hm... I wonder if adding apple_cable_info to struct tb and then 
+something like this would work
+
+anhi->tb = tb_probe(...);
+anhi->tb->apple_cable_info = acio->target_cable_info;
+ret = tb_domain_add(anhi->tb, false);
+
+since I have to call tb_domain_add for each new cable that's connected 
+anyway. I'll give it a try and maybe move the VSE cable bit #defines to 
+tb_regs.h as well then.
+
+[...]
+
+>> +
+>> +static int apple_cio_prepare(struct device *dev)
+>> +{
+>> +	struct apple_cio *acio = dev_get_drvdata(dev);
+>> +
+>> +	guard(mutex)(&acio->lock);
+>> +
+>> +	if (acio->current_cable_info) {
+> This could use a comment too explaining briefly why.
+
+Sure, I'll add a comment. It's required for now because the power domain 
+would be brought down during suspend and neither the PHY nor this driver 
+has the proper bringup sequence right now. We'd just resume into an 
+SError because bringing this all up again requires more than just 
+enabling the power domains.
+
+
+
+Thanks,
+
+
+Sven
+
