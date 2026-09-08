@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEA2526A8F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCBB4F0541;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788860516; cv=none; b=jCpE0siG/olkSE/+Ez/guKSF8n+LypETG0RDYf6Ey6g6Uuq4HyzLcFT1EDZjSs16Dcs9SGHA/bnESKzaG4kfMbP22fjYzIilGRKxXIBvla0mrzqfsp8LGZN7MhYV2N939a7EaTTkclcc+sXJ0Iu40sidYcalprfgFJQvzMVKI8E=
+	t=1788860516; cv=none; b=n03jUnLCZBRSJjMGyqdR3tJtEN2mTMgds6XpMpD069Mk8Vv3DLQLrezhO/hZQOCp9JQR1WULwaV7JeZDPhJAygLkxticug+uUPtWoa0iK9B/Ak1OmcA69NgOH+oJHnSQyBC2/GJZI54F94m03vydFzPnBsZeMecexSVMtGYQVEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788860516; c=relaxed/simple;
-	bh=wjWHYMGGPiiY5KFppAP+tjkV0njxtlntuGZteZN1CqU=;
+	bh=uWZIHL2RMVsnz8x+iZFwErDd550WZ2Cci9TFAmY6WQk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HrSyvBAo/7/8nOPIDHDuVgsmkphTIRmEOV9SFXL0sk5+Sva6AII32fIj9z8wgP2avGwiecjNPS6ApIlozO60Ajn4TZmXTGHC7CMJILA6wqVbujvEIJHFDwPOJpjNK54D149Z9VajS0uBtdqHDpEOT4onLQFhOLD0JCl2V7vw/PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWU8I6if; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=IZRVn2ZvBXH89GTOt8qDwtKRzEcqg0Tbf1wyF7xObL84TC3fC/PHgEbkc+eNFFjAwlvx6EjYkjb+Qv6ogbdib+uXu0x/8JJJVIfs1KJ2Ul1a5akFGWtEPMJ9YEdMvid6CLt4Egoy7m/Ipal6qrT5t05g6p3yRRejm+wGB3Xd5R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAL2Jtmp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWU8I6if"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8C734C2BCB8;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAL2Jtmp"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3CCC6C2BD00;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788860516;
-	bh=wjWHYMGGPiiY5KFppAP+tjkV0njxtlntuGZteZN1CqU=;
+	bh=uWZIHL2RMVsnz8x+iZFwErDd550WZ2Cci9TFAmY6WQk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=MWU8I6if7WrGOfNj0KWzg75xB3JadxVhOZJ8IO9ybxsqlJdw/QRqf5UR9FErLWjie
-	 iy6yt1aozd45Z645UEB7mcLFS32aH4N/8JlZvC4/7trf4xvL1BG++xE0lgq3DLXAhg
-	 PI8OjV29PIENrdWbbAooXZ8Y2QgNENeTKgwk06pnIxqA6GuBWXJmlqR+Fg+9cKHkoF
-	 qqpQIMV47HOrnZDY0/JDQLQbjXu8+VAC/Z68K7xxY7en1jSQi34kN7dYRwYrVpdNnZ
-	 XXrE6IUrUlYp7ekrh9BU3LsDoVpGoLdJyXpubVboW7yOmBlb+alDo+2/X9LXVfRQrX
-	 Sdk1E+w0dO0lA==
+	b=JAL2JtmpRRNA13Kt3DTbQkNYbJHVZcl6FKbOGltm24A7BA0i/g5Izl30h8F/A61JD
+	 3jfzlyD+WsWbh0t/cPjFwKmmX8iq39cWLMOwNLIXRluAq6Sg8kzkSMfurc3JlxAK4H
+	 D9dp7gU3EesnFl6D8xvgxG8/XYPVfSu2ccQ5G05wDpatXuXoGizX3GSPPYSyNesWPY
+	 TgatRavAUHQZmM9CWE6vz+U6A/aB3XQZ5KnhBm3kvQBykddMAKLBeZcC0vjZuWJOCG
+	 MNkzpUDArFVHNV5cbZRgD5OFwBWchAQgq5gw9LFWObSBODS92qY5Gxrvlq28akJK8e
+	 v626PbWCDSKEQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B093C79FA1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FB1C79FAE;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
-Date: Tue, 08 Sep 2026 13:41:04 +0400
-Subject: [PATCH v4 11/13] arm64: dts: qcom: ipq5018: Add clocks required
- for USB3 support
+Date: Tue, 08 Sep 2026 13:41:00 +0400
+Subject: [PATCH v4 07/13] phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Assert
+ reset on clock enable failure
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-ipq5018-usb3-v4-11-b789702f0695@outlook.com>
+Message-Id: <20260908-ipq5018-usb3-v4-7-b789702f0695@outlook.com>
 References: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 In-Reply-To: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -60,17 +60,14 @@ To: Vinod Koul <vkoul@kernel.org>,
  Varadarajan Narayanan <quic_varada@quicinc.com>
 Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Stanislaw Pal <kuncy7@gmail.com>, 
+ linux-usb@vger.kernel.org, Stanislaw Pal <kuncy7@gmail.com>, 
  George Moussalem <george.moussalem@outlook.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860513; l=1434;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860513; l=945;
  i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
- bh=I4jm4NWYfCMkGfNzx/usV/Xj+0IxIcI5RxXPlEHXCyw=;
- b=92bG5hFNoqxnQJvD9S7r7KVqQKonFMOwhrB8+3T0BhQ6xGpaEM1ImTkG3Xunqsd4ep6jd5DWY
- voG1iyJ4eFZCaMGP3b5ZbXyU7ohU3al1rSWF2dBZmvpjcnreN5YW3mx
+ bh=Xt9077phHCqVPqMVNZVzBLq0pYjZ3VnSS927ST8gSWc=;
+ b=AIvUePJfwwQReYU60ZhpE5aFQZ4csdMBGKGnxFwBKh1Lt4PYR1ueo4LZpPFkx4/d3/w64mEWA
+ Oza4apZiP0TA+sqkwp7OeyVBpJW+NfuQMyYtbemzANyG+LTdKMQ9qR3
 X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
  pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
 X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
@@ -80,42 +77,26 @@ Reply-To: george.moussalem@outlook.com
 
 From: George Moussalem <george.moussalem@outlook.com>
 
-Add aux and lfps clocks to USB controller node for Super-Speed support.
-These clocks are required for USB3 mode only and are not needed for USB2
-mode.
+When the PHY fails the enable clocks, it leaves the PHY out of reset.
+Fix this by asserting the reset before returning the error.
 
-In addition, set UTMI clock frequency to ensure it's parented correctly
-and override the clock rate potentially set by the bootloader.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Tested-by: Stanislaw Pal <kuncy7@gmail.com>
 Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 ---
- arch/arm64/boot/dts/qcom/ipq5018.dtsi | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/ipq5018.dtsi b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-index 34d882b047bc..a6e337e137c8 100644
---- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-+++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-@@ -604,11 +604,15 @@ usb: usb@8a00000 {
- 			clocks = <&gcc GCC_USB0_MASTER_CLK>,
- 				 <&gcc GCC_SYS_NOC_USB0_AXI_CLK>,
- 				 <&gcc GCC_USB0_SLEEP_CLK>,
--				 <&gcc GCC_USB0_MOCK_UTMI_CLK>;
-+				 <&gcc GCC_USB0_MOCK_UTMI_CLK>,
-+				 <&gcc GCC_USB0_AUX_CLK>,
-+				 <&gcc GCC_USB0_LFPS_CLK>;
- 			clock-names = "core",
- 				      "iface",
- 				      "sleep",
--				      "mock_utmi";
-+				      "mock_utmi",
-+				      "aux",
-+				      "lfps";
- 			assigned-clocks = <&gcc GCC_USB0_MOCK_UTMI_CLK>;
- 			assigned-clock-rates = <60000000>;
+diff --git a/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c b/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c
+index 0a50eb44c0ce..15b17044fde3 100644
+--- a/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c
++++ b/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c
+@@ -164,6 +164,7 @@ static int qcom_uniphy_pcie_power_on(struct phy *x)
+ 	ret = clk_bulk_prepare_enable(phy->num_clks, phy->clks);
+ 	if (ret) {
+ 		dev_err(phy->dev, "clk prepare and enable failed %d\n", ret);
++		reset_control_bulk_assert(phy->num_resets, phy->resets);
+ 		return ret;
+ 	}
  
 
 -- 
