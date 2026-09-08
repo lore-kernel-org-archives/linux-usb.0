@@ -1,36 +1,36 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F1F55820A;
-	Tue,  8 Sep 2026 13:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BF0559CA8;
+	Tue,  8 Sep 2026 13:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788873175; cv=none; b=npQyj3ULuNGxBBPQxESf5/vQPt4llSsJPyNvHHs+ACYRnm2rgHNHR5MiPiExrCH7nks0BoV0Ps/4V9hyLfHCrYhPeual2qU6THQnSZnyCtYoY71Ajq6elYdWdaL8qayegRp3Mu80Wwxf7e1kmv4b8APNbeZDYscugflSlAVwOCc=
+	t=1788873200; cv=none; b=UW2Sf0wG4GWGc931odz6RP4ULogV6U1yqKnhmwqU6IyTs31Fyy9XnNmRcB0Aa8+nG0r6GagiZRm+agL6MeMG80omID4V7xDDcaMWqf1r2/6vcXN9ZbVXbMT7cIOKgUAU2Jfryl36kbmRqbTNtefKvTcEdY8W3ES5B9AE2VElV9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788873175; c=relaxed/simple;
-	bh=xbA3TJsJKFl8Kye8hJSzoPXYOQ/DZQR1Qmu9u203Sag=;
+	s=arc-20240116; t=1788873200; c=relaxed/simple;
+	bh=mIWyqqRMsfpDKfz/nz9NbsL48iyrcIIeqP8orz9L/8M=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=CmL7I4jSkAU3Jd3ZB+uc9OncQJAMlancskzD4v9UcgG6Otx4zQNmzs8pRLlzStQ5VxmyML05woTsofiAi5iEghyaJ6CKGw0r4ILwXct44cNbfQ8/gH5RRa2npVX965QDpPHq3E6BlQwOF4nmKnDSro5M0lleTgheVpgU4aPOzqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=V1ymYYim; arc=none smtp.client-ip=54.206.34.216
+	 References:In-Reply-To; b=CmTvb242x3UvyB+3jUfD/wvxTDlTlsZTyz8s8rDE9hYGVYPWsp8s8ax1ZV2Ipg0vv8ONzheRXjQLJPtz70b1ftlV1AaRTj71Nr9PPiU3EQz2jIAXhAWrpgP1P2KLpkJ51Ku/bQSCoEQNXJoEv6iOlgoM8/4zk8ZtzhP6jV1vfz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=FTMLz2Es; arc=none smtp.client-ip=54.204.34.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="V1ymYYim"
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="FTMLz2Es"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1788873093;
-	bh=xbA3TJsJKFl8Kye8hJSzoPXYOQ/DZQR1Qmu9u203Sag=;
+	s=mxsw2412; t=1788873126;
+	bh=mIWyqqRMsfpDKfz/nz9NbsL48iyrcIIeqP8orz9L/8M=;
 	h=Mime-Version:Date:Message-Id:Subject:From:To;
-	b=V1ymYYim0b2xlbpkNBUwv2iB62l+6jTcz1WgsL+mmSmi0qRXgtczPwQuS/SOn247d
-	 GhYk4H+YDGJz8DMNu2qimhIeUMZGkNjalyT06m4SNJ68H75lJA71Tallsj0S0tPCY2
-	 /jqL4GYasmkuVWtoRB00KlCRiCMy52t/kAxhfWXQ=
-X-QQ-mid: esmtpgz13t1788873086t4e5a1872
-X-QQ-Originating-IP: SQ6UZhO9IynKB/MfyOlZNAjrd1G0saGKWG5F9GK05qg=
+	b=FTMLz2EsWPsSiHxnudJaDopeTZI2t1PwzM7zATruCquh7F0eFfZhPak9fSP4kHP5l
+	 KAdJL2XNBagLwhHX4Bzm+uFCVwvlxtWMFFe606Zylb01dcxRNLHZO7Qjq+ZDJ+4+ll
+	 lkG7oNOK0gPockjo4nVsN7S4UYZkrGyBBNzXB55Y=
+X-QQ-mid: esmtpsz21t1788873119tb9caac5d
+X-QQ-Originating-IP: OzT991yKTm8aPCZVAdh22ewUudNoGlUr/PsMZfz1plg=
 Received: from = ( [120.237.158.181])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 08 Sep 2026 21:11:23 +0800 (CST)
+	id ; Tue, 08 Sep 2026 21:11:57 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16403462046792618605
+X-BIZMAIL-ID: 17554750982614222209
 EX-QQ-RecipientCnt: 21
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -39,16 +39,15 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
- boundary=0c6c867a118613367d54fc38d42f6b057468feb5ed531f17b32862ca5431;
+ boundary=c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb;
  micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 08 Sep 2026 21:11:21 +0800
-Message-Id: <DL9YL0LLHMTG.22MRAFNKYSNI5@linux.spacemit.com>
+Date: Tue, 08 Sep 2026 21:11:54 +0800
+Message-Id: <DL9YLFXV5XHU.2GLN2OSEB8EV@linux.spacemit.com>
 Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
  <spacemit@lists.linux.dev>, "Troy Mitchell"
  <troy.mitchell@linux.spacemit.com>, "Ze Huang" <huang.ze@linux.dev>
-Subject: Re: [PATCH v2 7/9] riscv: dts: spacemit: enable USB2.0 controllers
- on BananaPi F3
+Subject: Re: [PATCH v2 5/9] usb: chipidea: usb2: add SpacemiT K1 support
 From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
 To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Greg Kroah-Hartman"
  <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
@@ -59,43 +58,39 @@ To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Greg Kroah-Hartman"
  Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
  "Alexandre Ghiti" <alex@ghiti.fr>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260908-b4-spacemit-k1-usb2-v2-0-f07342ffa051@linux.spacemit.com> <20260908-b4-spacemit-k1-usb2-v2-7-f07342ffa051@linux.spacemit.com>
-In-Reply-To: <20260908-b4-spacemit-k1-usb2-v2-7-f07342ffa051@linux.spacemit.com>
+References: <20260908-b4-spacemit-k1-usb2-v2-0-f07342ffa051@linux.spacemit.com> <20260908-b4-spacemit-k1-usb2-v2-5-f07342ffa051@linux.spacemit.com>
+In-Reply-To: <20260908-b4-spacemit-k1-usb2-v2-5-f07342ffa051@linux.spacemit.com>
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MgB4ni1IX5Y96eK3iLLnCijDMVbexrO00FsP9GXePlsZjvfqPVd7eiQe
-	hoSV7u9cK6Nd5kS5bOrEo76ZXzbyPloYsIS32iRvUr0voxHfV+bwOOF1xFEvGOxP8xbf0a7
-	fglZzUfDyVqKNn9iYkEc1VGem7kXsg8uXpofqa2j+S4lIi1yhPpmPV0xSoLJAkLWVsV9uig
-	ULYV5R5FQ/7tiKtPKZxAexC0Qi6jE5+5gUjXw1zdv5Hrkj5ir0Pqf9UwZeMURO4zTq7dkgh
-	7uFjhGK/kKbhu9ODGyPbA9NsREodOF8nBwwztJKvSLmMClZc50i8BpvdcmAZN0VoKFyhZjI
-	TuXyyGLktzCx4AKBWzxCN3ICBzVqWvwY0wqt7e9IjeE7EY3rUJCyrKBPipvrzJkSTcw/jND
-	8Jj8O/zCoz4p0KA9wtXCM9nLaAmofXuYvVnf9cyojSXgQUQWiPNod4Fwl264HCs1hna+d8V
-	2vWza1Uj/Y4KOSTLBpF78VOM0HPOOSQoiJOgEwk3mwqL5/WDwUYsC5ns0jru2pP6H/AP7z1
-	i9AbYz52HRoFOoKN9n+LA1VzYPdUTEIStZ+Vbgj7K/Su1nDofGE33p7bn1oXqZAeZmg8VPf
-	9NkLO+ZgNzya+bbAyI6hf7+HAyA2DczDU8jqKxiu7aokqSRnRLhzuS26RmKsuFI/L4mK2rw
-	uoBDbSRaKidNCRk+xE+42oWPJpi/EY0eS0AzL5jpuDBZs/TVRBCBOZN0OWyH5ZnNRjVLQoY
-	urgkgPjuzClfpDOGDAryGDBRLY3Ijqh+gJNSfCtfsReiDWKXZ58hv+Dr+ba0VitutiYO4WE
-	D+FT9UdPQW/ID9UFouZ9ZRGjHD6is3zDXErhYZrTd6iEzqfU/60O08ib0EBheTMu0+pPZaC
-	ajOLs+6A9sxzRTVQKBuwLe4frmETzSrY5/z9IXNktyE8J1VmwcxtKKr9puNY7fH/4Fux/8I
-	yZoPgAKcIqQ8YC4darkKAcvPq9thIcANFTzMEeFkuydjhCT4mMdgV7WvN+poRsKIKTmUfBR
-	XDvBcLQu4KeD8C+x1qWcE1fAIpIrAR9c9vRN2yUijAoQVLkE9DGh+3zxrFKiKahw53LREG8
-	wutdnl/Qo+al0opfxA8BuastEvpvp30hIx8aT9/zA7qNXCUl4JVdqk=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NOSiq+6X1Fi2h96Ve7jtwZRi4zyHPpUx4yY2i1Wz+CloC3OzfV/KJww2
+	ioJLxYrTwx9BTJk7Cg2AcHWll571CY7ZIxkNuhGXlQEJ+x9A3y1XAKX6mLfPigK4nwCzKBW
+	M07bO1UefBd2BKZZVYkefDz1RS5wigfHTYuesYlPeM/CP36u0QnulTx1UDojC74fbhl5yvh
+	hblfK4rgt8B+3mFo+rrbOkRlrEvc0qROqtO/7edaGK3/Y8kvKFuLTXRY+f3u15JCXn9CSBm
+	vPRcUqxpf53DWPvt7+KOb5I7j3kB2glYCnnRj8LNSEtGmi8FzinkE/h8mbKX6amJKnOw1AN
+	kTkYo0R+ELBP6JIe6v4rwqp9bWW5KRwcYkG2cMZP+CrgJdDmezhFFSIi1D6JxWaf5OtSm7u
+	SLNAEanUjuyQs6qbS4koaPwwI/NcotQzlmloWUJ8224o2veInNasOHuTGx+t8qNL9WmEyd2
+	m/nmM/RaC8h4Y+kD0UeWDyVxMBt+w4fF4YHaiSOoT7ptZeKjdiBznJcEmFAf5wqf9xGAS6d
+	Zzz8cbKm+8lzRAbnp2YTQNpy0/ZZw4orAjRQmyGvwu284eb+UxtBB2BjuMCPsaF43TcE/ol
+	iRKNiX7P8OlOUt8wX1f6Agodm3svsbZS0nwCy3NRmCMZ+gugrqNEnPcgGkSAwpoeEjz6WqS
+	K8Kakho+QZv84ymQsI2dfni/eRv7NABPJCSiwZdnGeUz/GVJRtnUA2eh+ZekOq6QYgfSihI
+	rLv2P26xZ/iN1sqIQXZNvJ50uTqlfeJNnBycnooZrs6mhR+WbNVWZAwutZjqd4bX9wzpdch
+	QRICN1OAeQ+07XtsjV4jlTcoJAGqoTmRefRv7VbnIWucOqnjhlC5lQbvhz4LUazfL932kck
+	8DkAZ9FId8TjvQ7tx8LV3h5Xw3ifx3cJe9+ERolvW3LwnAgASZ6H18CaJJfRK2t4RmRZjmm
+	+tNZfids3xUStUyuC4HK0COsbX/4eiv55bgdAh6d2NVHgaPgIalg0MiZd5Y7sRH7XCjKQkH
+	/omtsvyh7r1Ch1G6SZkyCDGtJ0M7ONKME4oqmeKEaUBJNxNm8ulj4nfyKnxWzzkTZoeuaz7
+	6PmAM622eIsmwCCzBEPAAJcfexy89sM2g==
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 X-QQ-RECHKSPAM: 0
 
---0c6c867a118613367d54fc38d42f6b057468feb5ed531f17b32862ca5431
+--c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
 On Tue Sep 8, 2026 at 5:48 PM +08, Junzhong Pan wrote:
-> On BananaPi F3, usb2_0 is connected to a Type-C connector at device
-> mode by default. This port have no VBUS supply capability, thus host
-> mode only works with self-powered device or hub. User could switch the
-> role in sysfs.
+> Add a compatible for SpacemiT K1, and add platform data with correct
+> flag since the hardware doesn't have internal otg register support.
 >
-> And the usb2_1 is connected to the USB2.0 pins of the Mini PCIe slot to
-> support cellular modules.
->
+> Acked-by: Peter Chen <peter.chen@kernel.org>
 > Tested-by: Ze Huang <huang.ze@linux.dev>
 > Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
@@ -104,15 +99,15 @@ Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 Troy Mitchell
 
 
---0c6c867a118613367d54fc38d42f6b057468feb5ed531f17b32862ca5431
+--c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCaqAJeQ0caUB0cm95LXku
-b3JnAAoJEJgJ74D5MzQvJnUA/1+zbNPo3KJYIYHyUpwaaZBC3MD2ZHifgIIMyl6N
-MnoIAPkBT7qj4aYXw4R5MJLRsNt8mascl2c28wQq1NY3we9oBg==
-=poA0
+iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCaqAJmg0caUB0cm95LXku
+b3JnAAoJEJgJ74D5MzQv4x0A/j9HUTzRUUs/A5yTaji1bts8yMGFvIYujiOYT58W
+BYd+AP97yqSaybxN4+y/r68x8lBLo8FQ4tFvWHotMVs37WmsBQ==
+=cVfF
 -----END PGP SIGNATURE-----
 
---0c6c867a118613367d54fc38d42f6b057468feb5ed531f17b32862ca5431--
+--c8689e971497ee65ed5d0babc05266408e6f8eba1d89b75ccbd7b9d886cb--
