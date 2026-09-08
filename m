@@ -1,144 +1,197 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26DA2F8E81
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 11:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9E93AEF45;
+	Tue,  8 Sep 2026 11:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788865855; cv=none; b=QchWIVKUxpIgLJTJQ0ROzTmjpI5njph5QjOVxeRc+glHT2IRY9sJhi1p4cvmlje32qzxnJ28rkciAzoTPZbuEqud4nU+Dbr+1njglnaVexpEGM1WkbX0anmtiXX/JL3M3YqDeakGv2BTqdGB15AO6xE6/kRZkhDwYnqGbUIea4s=
+	t=1788868705; cv=none; b=MGZDSmvM1t3uJ7kbUOPxHonRzizUdG5ERNjEOsHgRS20pVu5xOAMFV/pL/UOpJNcTUiFSCppAdFsGhWDv+KGfAGF7UTEDQ++WDIiqWaa3R+7bpq4pU/a/0EWCRh/1pD5jTr4+gu+qBTw1gzkOM1/WoPrp7eRRp6Tl7NDuWkKnII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788865855; c=relaxed/simple;
-	bh=rqHVgMiROJsS3QHZ/2FhNH0eT7u9QW+NHGjan0ZH5wE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hm8RHPmJ0CaHGn7lsB9hcg9NNTYluJHyT+HdPLsU7b08p7lyabDGjWGK8w4DizqUpE3Tc3hxKWSBnMtvRoR2XXJMM1DdGRQy57iOsv7/7oxNwqsj1KDZOYkpAAv1udAGfaqg2uUswM8wMhktZ7mGNo5rlm2mswILneQODqw7xqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P5XqdaBT; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788868705; c=relaxed/simple;
+	bh=oZu2HYMpKRt6WkyjyG1K5I3cAGtv99+Tw4PVMe6G0bY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QfupRxVjyi52LOEan/8s1mYKUjOuYQ3gZ4P+JyfU2WpxG15QErZxevmqudguujE5HrUSSvhsNZfLKG7GWySw9vXdcm1Kh33t77fdPMTIjD6f3rMJe7LpXgdYW77SOPq4bdOAVFZ9xrkbQC/3O44S0IFj4lB9w3o3diEvNiLHiBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bg3Jzwm+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5XqdaBT"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c25b661d37dso622312666b.0
-        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 04:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788865850; x=1789470650; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TnGX9akoQ/WbzKgGML/w7POJM/15dtNrSKYlYS+yEis=;
-        b=P5XqdaBTrKcRHrud+DUcqDTBPzVJBPEEnbU0EKTEuIWazz3XilyipcUU3Ozm2z1+Uw
-         b2CV/n+4VhBPz8gllTrX33QqtLXfjRPs/Z4kEBqiZryynsUvffV+k75U0rxSz5k27brR
-         jqIK+25aSQ5smpMvvIwK6jt7e2oUqHnD+u64uHEtHhWTSLhe8OIAwIEf260fZ+hHY7UN
-         S7uIWb8wS3XCRvPwIHidBI2lFOEmj9wbtBFnEOFm+XFMAIe+nmQ57KsuMme0xsssbjAR
-         QwihSgXH6GrJVcSIIUjt6OUZH7yjFh9JB5CKv6xMwHcaJvncmrvv6RHCYueL9r5BVRds
-         DRNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788865850; x=1789470650;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TnGX9akoQ/WbzKgGML/w7POJM/15dtNrSKYlYS+yEis=;
-        b=paaEuHS4qdgTH9lwUEFZhwTCKgKhUeITpqQwDGAGNCPMb4zFg5AGk+GQHtIDBiHCE+
-         l+OyU6Vzsr2V2bgvxBZauS/xoW5CDYB5kB0uIr3iCiotUqNeebjZn+X8xDe7tLgmUgM2
-         qgUHyO+0oGEOScuHR+BPUlkIulm4a8dj5G6Pz091pbuiB410A/Tzr08SGZZ87jZmE2pA
-         LUOINU/J68DOpp0Vn33roiNOvgyAXxhzEqZ2Ku9Gz4D7myRnCC1nqu7NGcDykUNsYRy6
-         G7TAdfdd23BR2bB0+4/EQhn2mG4I3RD6ZjDH+2CzTEgruhfMNLjnMHb0AsDgTHWCHdJv
-         3U9Q==
-X-Forwarded-Encrypted: i=1; AKwUvByzl9keshLu725qeETK5/zfJDWDDSKlg2L93DKABhD2Squ/38QmZwv5V6aPGoXGBfanGHkwzD7nGVM=@vger.kernel.org
-X-Gm-Message-State: AFuF++k6A27jUfsk/6yTOg3vWqvtJuMT9eUKptKm36erfN4YYBNmkLWL
-	irb7nZy6Vja0dAOStNadXKhDcDcNlqVtioLAHKBAPqnbMw5YmshsW4PU
-X-Gm-Gg: AYBFou1DOXx+sZCQR19uvZ2VkCiXMfVTezx3gExoGg8ITRHGy4V+jLmajksb2iIx+KH
-	amkivVTg+4ufmnHpGL1335S4yWK9qmo7wg02c9O3JjFE9UVfxoTFoRux27qal367LOQunUuexMS
-	sEK87jUThhUhX5eZj9QsA1RIxSa0Pq7ddpEAm+7/tD9oZVNodESm3OezC+urCsh/kz0VcoR1Cxw
-	ovIHUWIZzyPafsXBoOoWrXnbQ10jRg1bDNxBvP7hP8l3K6m57W1vvPwkZtqe+AXfkSGRJEwf9sn
-	doEZR6Vgn9wXbWs9rTkSHMbbrP68ZMuqC6B7WqHUmShU8kk4gdorEA0PbDeQlKX0mKtHcfkY7Ny
-	RMCyf+6rf41/3DIZFdlLHnJZOQk5o8uAM2Y3K5uqpAbbsoSVb0GLajQ2iBknpdOJaO8eTxihzaF
-	RzBra1ze6I2qPBV635buWE4Ccxr5UFJIA2wJkWYFg6L8RlKFXlp1YmEdKyIKZPxOYTaXzryZY=
-X-Received: by 2002:a17:907:8b99:b0:c16:13e7:fd63 with SMTP id a640c23a62f3a-c260c3f946dmr985986866b.0.1788865849777;
-        Tue, 08 Sep 2026 04:10:49 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d53c37csm589464166b.32.2026.09.08.04.10.48
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 08 Sep 2026 04:10:49 -0700 (PDT)
-Date: Tue, 8 Sep 2026 13:10:46 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: wakasio <scarabeeta@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: xhci_hcd / ASMedia ASM4242: Bulk-OUT -EPROTO with Logitec
- 0789:0308 during DVD+RW recording
-Message-ID: <20260908131046.1fa7034f.michal.pecio@gmail.com>
-In-Reply-To: <20260908104935.13248-1-scarabeeta@gmail.com>
-References: <20260906122750.1c71f176.michal.pecio@gmail.com>
-	<20260908104935.13248-1-scarabeeta@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bg3Jzwm+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A9F1F00A3A;
+	Tue,  8 Sep 2026 11:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788868703;
+	bh=a9ldav0mNmhl29cjdGzHHjkJJsG0TOXcYMScLmyKn3Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Bg3Jzwm+WwX80LbfYYNnzePcfW3SqAOF3bqfIR/XU64eAqMbfO3v3zTBfrmrEEZRv
+	 0z781IgyJBmmjQUNs4nNW55whr57tMRWqdhNduTsxaedqm+MVF5YgIoivyCsqHmtwD
+	 14zhm0hMr70SaWlbX0B9C02QOWjZu2dSjRkxKo77ybjV9A/+LXRRBkxoi0u55I+JqN
+	 qqMQylifwCl+akjGyxyQYTjut8sifEY+pPISW4zdfKH5iEVQ46DBebQjvxcDqWU6wl
+	 H9VmFBjtajmSxuJAZ+CqHafHfF3p4UDSm+GsV8Avrq64wmUZu2mvAVPIthKL8B7xCs
+	 a7Y7Hjn9xpFDQ==
+Message-ID: <40845ad0-e321-4e1b-860d-ff798f430c42@kernel.org>
+Date: Tue, 8 Sep 2026 13:58:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] soc: fsl: qe: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ Qiang Zhao <qiang.zhao@nxp.com>, Linus Walleij <linusw@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-gpio@vger.kernel.org
+References: <20260908-usb-fhci-drop-gpio-nonexclusive-v1-1-8e405dc67874@oss.qualcomm.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20260908-usb-fhci-drop-gpio-nonexclusive-v1-1-8e405dc67874@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue,  8 Sep 2026 19:49:35 +0900, wakasio wrote:
-> Hi Michal,
-> 
-> Thanks for the link. Bug 220936 looks like the same issue, same board
-> family (MSI X870E), same controller, same suspend timeout messages.
-> 
-> To answer your question: no device was connected to bus 5 or bus 6 at
-> any point before it happened. Full sequence from that boot:
-> 
->   10:59:35.014709 xhci_hcd 0000:77:00.0: xHCI Host Controller
->   10:59:35.014756 new USB bus registered, assigned bus number 5
->   10:59:35.014848 xhci_hcd 0000:77:00.0: xHCI Host Controller
->   10:59:35.014893 new USB bus registered, assigned bus number 6
->   10:59:35.014938 Host supports USB 3.2 Enhanced SuperSpeed
->   10:59:35.015160 usb usb5: SerialNumber: 0000:77:00.0
->   10:59:35.015534 usb usb6: SerialNumber: 0000:77:00.0
->   11:00:48.349628 Clearing Run/Stop bit failed -110
->   11:00:48.349744 PM: suspend_common(): xhci_pci_suspend returns -110
->   11:00:48.349812 can't suspend (hcd_pci_runtime_suspend returned -110)
-> 
-> Nothing else touches bus 5 or bus 6 in between. This was autosuspend
-> on an idle, empty controller, about 73 seconds after boot.
-> 
-> After that I tried unbind and bind on the PCI device by hand, that
-> did not recover it either:
-> 
->   11:03:30.975422 xhci_hcd 0000:77:00.0: remove, state 4
->   11:03:30.975812 USB bus 6 deregistered
->   11:03:30.976136 Host halt failed, -110
->   11:03:30.976262 Host controller not halted, aborting reset.
->   11:03:30.976325 USB bus 5 deregistered
->   11:03:33.058079 can't setup: -110
->   11:03:33.058350 init 0000:77:00.0 fail, -110
->   11:03:33.058416 probe with driver xhci_hcd failed with error -110
+Hi,
 
-That's odd, not sure what excuse it could possibly have for refusing
-to halt idefinitely in a completely idle state.
-
-> Separately, I applied the TRB dump patch on top of the previous two
-> and reproduced the write failure again. Same pattern as the last two
-> times: 11 soft-resets then a hard-reset, all 12 Transfer error events
-> at the same TRB address (this run: ffffd140425178e0) with the same
-> resid (23552).
+Le 08/09/2026 à 11:27, Bartosz Golaszewski a écrit :
+> The GPIOD_FLAGS_BIT_NONEXCLUSIVE flag for gpiod_get() is deprecated. For
+> actually shared GPIOs, it should be replaced by using the functionality
+> provided by gpio-shared-proxy. The Freescale QUICC Engine GPIO driver
+> uses it as a workaround to access the GPIO descriptor already requested
+> by the caller of qe_pin_request() in order to access the private GPIO
+> chip data.
 > 
-> The dump itself printed fine, event ring and endpoint ring, about
-> 1061 lines total. I could not tell which dumped entry corresponds to
-> the failing TRB though. The "Transfer error ... at %px" address is a
-> kernel virtual address, but dump_ring() prints each TRB using
-> (u64)seg->dma + offset, which is the DMA address. I do not have a way
-> to convert between the two from here, so I do not want to guess which
-> line in the dump is the one that failed.
+> As the existing comment itself states, the user already requested this
+> GPIO and the only user in tree is the FHCI USB driver which does in fact
+> request it, we can safely modify the function to take the *exclusive*
+> GPIO descriptor as argument and stop using the deprecated flag.
+
+This change seems sensible. I will take it via soc/fsl tree unless you 
+have other plans.
+
+Greg, can you ack the change to drivers/usb/host/fhci-hcd.c ?
+
+Thanks
+Christophe
+
+
 > 
-> I have the full dump saved. It is about 1061 lines, too long to paste
-> directly into this mail. Let me know if you want it pasted anyway, or
-> sent some other way, or if there is a specific part of it you want
-> first.
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>   drivers/soc/fsl/qe/gpio.c   | 29 +++++++----------------------
+>   drivers/usb/host/fhci-hcd.c |  2 +-
+>   include/soc/fsl/qe/qe.h     |  6 ++++--
+>   3 files changed, 12 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/soc/fsl/qe/gpio.c b/drivers/soc/fsl/qe/gpio.c
+> index 5cd59cfbf22fa68d39ad00b8f73ad389ac8860a3..5a3a1d5df669b1e0a084a0ebfd2aef91e15f126e 100644
+> --- a/drivers/soc/fsl/qe/gpio.c
+> +++ b/drivers/soc/fsl/qe/gpio.c
+> @@ -196,18 +196,17 @@ struct qe_pin {
+>   /**
+>    * qe_pin_request - Request a QE pin
+>    * @dev:	device to get the pin from
+> - * @index:	index of the pin in the device tree
+> + * @gpiod:	GPIO descriptor associated with this pin
+>    * Context:	non-atomic
+>    *
+>    * This function return qe_pin so that you could use it with the rest of
+>    * the QE Pin Multiplexing API.
+>    */
+> -struct qe_pin *qe_pin_request(struct device *dev, int index)
+> +struct qe_pin *qe_pin_request(struct device *dev, struct gpio_desc *gpiod)
+>   {
+> +	struct gpio_device *gdev;
+>   	struct qe_pin *qe_pin;
+>   	struct gpio_chip *gc;
+> -	struct gpio_desc *gpiod;
+> -	int gpio_num;
+>   	int err;
+>   
+>   	qe_pin = kzalloc_obj(*qe_pin);
+> @@ -216,34 +215,20 @@ struct qe_pin *qe_pin_request(struct device *dev, int index)
+>   		return ERR_PTR(-ENOMEM);
+>   	}
+>   
+> -	/*
+> -	 * Request gpio as nonexclusive as it was likely reserved by the
+> -	 * caller, and we are not planning on controlling it, we only need
+> -	 * the descriptor to the to the gpio chip structure.
+> -	 */
+> -	gpiod = gpiod_get_index(dev, NULL, index,
+> -			        GPIOD_ASIS | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
+> -	err = PTR_ERR_OR_ZERO(gpiod);
+> -	if (err)
+> -		goto err0;
+> -
+> -	gc = gpiod_to_chip(gpiod);
+> -	gpio_num = desc_to_gpio(gpiod);
+> -	/* We no longer need this descriptor */
+> -	gpiod_put(gpiod);
+> -
+> -	if (WARN_ON(!gc)) {
+> +	gdev = gpiod_to_gpio_device(gpiod);
+> +	if (WARN_ON(!gdev)) {
+>   		err = -ENODEV;
+>   		goto err0;
+>   	}
+>   
+> +	gc = gpio_device_get_chip(gdev);
+>   	qe_pin->controller = gpiochip_get_data(gc);
+>   	/*
+>   	 * FIXME: this gets the local offset on the gpio_chip so that the driver
+>   	 * can manipulate pin control settings through its custom API. The real
+>   	 * solution is to create a real pin control driver for this.
+>   	 */
+> -	qe_pin->num = gpio_num - gc->base;
+> +	qe_pin->num = desc_to_gpio(gpiod) - gc->base;
+>   
+>   	if (!fwnode_device_is_compatible(gc->fwnode, "fsl,mpc8323-qe-pario-bank")) {
+>   		dev_dbg(dev, "%s: tried to get a non-qe pin\n", __func__);
+> diff --git a/drivers/usb/host/fhci-hcd.c b/drivers/usb/host/fhci-hcd.c
+> index 71e785f445a30e116a9cb421d417deaf24389174..d572f0c1dffaf3a40b2fe4326ba8ab021fefb986 100644
+> --- a/drivers/usb/host/fhci-hcd.c
+> +++ b/drivers/usb/host/fhci-hcd.c
+> @@ -643,7 +643,7 @@ static int of_fhci_probe(struct platform_device *ofdev)
+>   	}
+>   
+>   	for (j = 0; j < NUM_PINS; j++) {
+> -		fhci->pins[j] = qe_pin_request(dev, j);
+> +		fhci->pins[j] = qe_pin_request(dev, fhci->gpiods[j]);
+>   		if (IS_ERR(fhci->pins[j])) {
+>   			ret = PTR_ERR(fhci->pins[j]);
+>   			dev_err(dev, "can't get pin %d: %d\n", j, ret);
+> diff --git a/include/soc/fsl/qe/qe.h b/include/soc/fsl/qe/qe.h
+> index 8f967d15e479792219333264c2a463d26e5edae9..7f0e4165c3b0cafdf401be20862aa1bf28047102 100644
+> --- a/include/soc/fsl/qe/qe.h
+> +++ b/include/soc/fsl/qe/qe.h
+> @@ -24,6 +24,7 @@
+>   #include <linux/types.h>
+>   
+>   struct device;
+> +struct gpio_desc;
+>   
+>   #define QE_NUM_OF_SNUM	256	/* There are 256 serial number in QE */
+>   #define QE_NUM_OF_BRGS	16
+> @@ -193,12 +194,13 @@ static inline int par_io_data_set(u8 port, u8 pin, u8 val) { return -ENOSYS; }
+>    */
+>   struct qe_pin;
+>   #ifdef CONFIG_QE_GPIO
+> -extern struct qe_pin *qe_pin_request(struct device *dev, int index);
+> +extern struct qe_pin *qe_pin_request(struct device *dev, struct gpio_desc *gpiod);
+>   extern void qe_pin_free(struct qe_pin *qe_pin);
+>   extern void qe_pin_set_gpio(struct qe_pin *qe_pin);
+>   extern void qe_pin_set_dedicated(struct qe_pin *pin);
+>   #else
+> -static inline struct qe_pin *qe_pin_request(struct device *dev, int index)
+> +static inline struct qe_pin *
+> +qe_pin_request(struct device *dev, struct gpio_desc *gpiod)
+>   {
+>   	return ERR_PTR(-ENOSYS);
+>   }
+> 
+> ---
+> base-commit: af5f12805e5cefa4fe68d6127c7e1fb78cd5535c
+> change-id: 20260907-usb-fhci-drop-gpio-nonexclusive-584c5c808a30
+> 
+> Best regards,
 
-We should be able to find the offending TRB by looking at transfer
-events. 1061 lines isn't huge, you could send it as an attachment.
-
-Regards,
-Michal
