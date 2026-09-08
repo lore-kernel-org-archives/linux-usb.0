@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AE74E2348;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98122526A80;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788860516; cv=none; b=DiAyfpUtVDHZVjZBCqhgJKRdQuSmelHM06792SwAMFbdCG82m/aigGtpa8yEzqvC4HlPaH+4jrjptq6LB0Drw6mYUDuCsZlsdTC4ks1sRRB2lwB01SVbVZB7AmO83VJ+3sQWseC5ZHdhsA/D0xfWW1nw+EtMwukYbin5+x+u3T8=
+	t=1788860516; cv=none; b=aePLeCcNBOJG0QKdIWs0vUZtSQh4Gra8i6QLaMA6LLcmCgK4a4lFePd77j7/zmCKmdeoIr0IjficIQCvoYKjna5u2WQTGKTFVQfOU8zZzLtRlod+P6Zor+YXLPF+ui5wyxRvg/NMoMC4CluImUso+2T0df03Mk3NNoPdrVa0EQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788860516; c=relaxed/simple;
-	bh=XJ6yOYRHmExtgCBY9qgx0PWkSsgAEmtcH8En113ot5M=;
+	bh=GNhJnwzA4v6qB0oiDDOZHkZ5dU+PRCSRVX9DyexTG9Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SJqaRbZ0kB7D9W4zwqdlOdIJFOAP1tg8vNE6JtCX95T1SOyMVo/Vzaw6WWZUc1gINjbtgXwnBMu5JIwyPPq3E1CjfSVE8JyomT9YgvG2mOoJF2kIx7dwhRw+/OFdaDgeeCYJpx+E9I5TYDuf8yoBQ60lAnR54HXgUkORGHsXbBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mN6/eogA; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=AQnyGWoWnt2rWPkw0A8NP0X17uHkRgEdnZTeX86pH1upm9U3c0aFzNGpqyMDmnqnH9aCMFrdJAJMcVzooMgpJphtmzcxr5MdDcSoyZH0zYKBnjQHhX8RhNYHzJJuqOYvvOWcfEqZZKKdBfdJdg+RZBHxW04PCZgD+OkevDE6zb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1Sp2ZM0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mN6/eogA"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E9085C2BD04;
-	Tue,  8 Sep 2026 09:41:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1Sp2ZM0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 79C55C2BCFF;
+	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788860516;
-	bh=XJ6yOYRHmExtgCBY9qgx0PWkSsgAEmtcH8En113ot5M=;
+	bh=GNhJnwzA4v6qB0oiDDOZHkZ5dU+PRCSRVX9DyexTG9Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=mN6/eogAkZbzqjvWFtEatTPOr9Qhv3XpQaWOJtJ/NUeeVmPyNp1H3VMIZdlEEnrsL
-	 0FFHkFXlEtvohsZ4VuSjF37S39i2Hgv38VC/szstDP2FdkVNN2PNMJqKXnJS46b0/2
-	 C876uV8YKabqt4HjZ3Bsmt2DeDnjVzfqW+wMure1s4zwKJi8CUi5220pJJFwQSZUgn
-	 P5c+Rp1Y5phdoxmKw7lxoosQ1UW93X6xyXlJP/c30+UqnXKa0V89xkjtYWlZ35HjGl
-	 AnsGBxP+JG+ureHDmR4LWqecM7nthxM8+rm9A70bUyBe2/kypNQesPWiXXbTseoU/m
-	 nsTaqNoduuDOw==
+	b=u1Sp2ZM0ciUvNOvDfqXh+GQDy8u7LlHRCydPv1xKtc2zSeGK0ntCScOllg4Ko8CZ5
+	 lAefc4jRnJlkKnv+3m/0AAuUMqCic8OcsP/uj4QU1D6bPGeT40steRiqvSAZruAX1j
+	 s/yW7/pmj9zgFKhTcPoe63VYvKkk6b1R4RyxXa7WabpOS9iDVSTzh4XjlOMfFKZKx8
+	 d9KHArg62iXaHl2GbWEvi1BdMbsUaO8mbFNyHStGR9Pr1mQK3qMQLpVEBjpcJq8vcU
+	 290+Oq32yYdr6SS7iIdsEwOJ3hSEEi7ifHotQiIagJ/5zXPU6CBlaMfd8pv+uN1KU2
+	 YjJMBBylbrbXA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB46C79F82;
-	Tue,  8 Sep 2026 09:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66CCDC79FAD;
+	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
-Date: Tue, 08 Sep 2026 13:40:56 +0400
-Subject: [PATCH v4 03/13] phy: qualcomm: qcom-uniphy-pcie-usb3-28lp: Remove
- unused of_device.h header file
+Date: Tue, 08 Sep 2026 13:41:03 +0400
+Subject: [PATCH v4 10/13] dt-bindings: usb: qcom,snps-dwc3: Add clocks for
+ USB3 on Qualcomm IPQ5018
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-ipq5018-usb3-v4-3-b789702f0695@outlook.com>
+Message-Id: <20260908-ipq5018-usb3-v4-10-b789702f0695@outlook.com>
 References: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 In-Reply-To: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -60,14 +60,16 @@ To: Vinod Koul <vkoul@kernel.org>,
  Varadarajan Narayanan <quic_varada@quicinc.com>
 Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, Stanislaw Pal <kuncy7@gmail.com>, 
+ linux-usb@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
  George Moussalem <george.moussalem@outlook.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860512; l=932;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860513; l=1580;
  i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
- bh=x3YqnFvnYn/dCrkEKgaRYBlPO+FYsf46oEelUL8OnI4=;
- b=Z6muUtm7Pdr7gd25BHnn0SL9Th8zJf9BxGrRZH5VgkYh2/tMv5XhZmJAPRCmqvBuDxz/w+rx7
- WgQl+YY1RUxBzyjyoufuWzTS/Um6a2gcF4t1xVvhHpS5BPvxiYxzuHR
+ bh=nnok2h0uSuHM9sQQxP02Bt+VA9DyMyTiEgmYSTTwQlI=;
+ b=pQK1BA+a2+WltBcL9gThdqUA4BSWpFD3YbmUWOaH4HOw+J7UJeH7FUlOlcRPF6zAmxSjaDUTL
+ Yex9sjhg4FmBoAtIyKl1u3RYF3BW/0BRAC6yVt75XvHTYNdyQskM1ON
 X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
  pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
 X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
@@ -77,28 +79,55 @@ Reply-To: george.moussalem@outlook.com
 
 From: George Moussalem <george.moussalem@outlook.com>
 
-Drop the unused of_device.h header file as the of_device_get_match_data
-declaration was moved to of.h in below commit:
-commit 82174a0a9c5c ("of: Move of_device_get_match_data() declaration")
+Add aux and lfps clocks in Qualcomm IPQ5018. These clocks are required
+only for USB Super-Speed support.
 
-Tested-by: Stanislaw Pal <kuncy7@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 ---
- drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml     | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c b/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c
-index 53512db90eb3..b9ca6c1c177b 100644
---- a/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c
-+++ b/drivers/phy/qualcomm/phy-qcom-uniphy-pcie-usb3-28lp.c
-@@ -10,7 +10,6 @@
- #include <linux/io.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
+diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+index ea60f7220afe..5cf10863aca2 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+@@ -185,6 +185,26 @@ allOf:
+             - const: sleep
+             - const: mock_utmi
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq5018-dwc3
++    then:
++      properties:
++        clocks:
++          minItems: 6
++          maxItems: 6
++        clock-names:
++          items:
++            - const: core
++            - const: iface
++            - const: sleep
++            - const: mock_utmi
++            - const: aux
++            - const: lfps
++
+   - if:
+       properties:
+         compatible:
+@@ -286,7 +306,6 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - qcom,ipq5018-dwc3
+               - qcom,msm8994-dwc3
+               - qcom,qcs404-dwc3
+     then:
 
 -- 
 2.53.0
