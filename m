@@ -1,85 +1,77 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BECE5540B7
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 13:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A04454A7C6
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 13:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788874343; cv=none; b=g+m2gOt3ucEe9jACVKKiFFAEV217T+UevE7BmybxWu5SRflf+Ci0AcS8ae13DyG1S4LqJSKkDfm0jUEFRIuntoSsyP2Tpt0zaNk63Iqftb+bQCwJLrY/2FvO1gRSxGJxYk7QFvtnBr5HC/cx4vR2LO0uV3meaNI0ZHuqoSjY+jI=
+	t=1788875415; cv=none; b=gNbqk/mERdU46pBrFg8493MkTGfVMiwSRn4NhxwJhi/VkcObzZcdiiTGxyh9v/c12w2OuDngXlb7v7usJx9CB1bXJMtSkTeUFQxmlnnL3h3f88mGvYIvrsv4iryHq1k+IrEAunH6gvAB27pz4xgRmEf/w/9Al86hLBUFBrP4HMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788874343; c=relaxed/simple;
-	bh=tCih0LIPNTT45pEfh/zJWK4KvLPKxLWUzk1RehMfmTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CJTQpM6e6LFl7TTUtlx0sCtRrkHS1Cq1CqdRSRMiqg/zeYoK57WyU2M1OO7ormwf7OiS45d9PJNX8KhAxC02OE2G6Lbi1eH0lAZNfkFIvaVn4xfM66XJENct67utB7aaq5dBJr8N9reRmg/RQR4pQPNTRHZyHEPGujONqF6RNi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rvt5AmhA; arc=none smtp.client-ip=74.125.228.140
+	s=arc-20240116; t=1788875415; c=relaxed/simple;
+	bh=ar+43dOz2VmIYxEzbU/l1wzEmSyVzI2Ez00niz1s1oQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Brkl+IwBh4T7lD39tuXec3iAmP5Rdff/f0zoWv6Edi26or8ISQV3Akh27AKy9ReSW+ipSutoElUhaTAlO07ALyhMQudX/5rz+G33sP8yGYn/iV4Ds/wTr6jyV0qqSRMOtWGhkdg2A5HApjNxGN67CTs+B9xfzXx+zYDwAYBbqVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BY6rLeTc; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rvt5AmhA"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c25085f2426so52561966b.3
-        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 06:32:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BY6rLeTc"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4956869750eso41716965e9.2
+        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 06:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788874329; x=1789479129; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=c09duG40XUDjljTKKEnm8AMSUZjhNe4OtYQ1ssenbDY=;
-        b=Rvt5AmhA03SX3g9aYAf/pgGuu7Qwl71l/HgBOKT0ZdOFod+Tde+Evp1XW8t/31qHZg
-         YT+aLQD8xaC51OW5etQw1VFlFB/iRw2nbVNolBlKVFcl3xVEAGFWrGUyw8116iIfxj62
-         3Ndt6mdIA4bWeKrrDZBv9w2Nq2/P4bGZOQ+ql3IihEWsWd+RmznwreIRC6+EsRN92VRC
-         kV1VWjWzFiygM/aUr8zaNNP8/J9WA0mmAFnzUcqi1OQoP8pZuaafQRHD10JVY7qUJzix
-         IZHyEqlVj83J2Nun/Q7IYk5UXO48o8hf7yhIMW2yBXd4Wx+UfuH7FBbh8qWa6ITrNreu
-         WnKw==
+        d=gmail.com; s=20251104; t=1788875399; x=1789480199; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CwxOcnlvcy9U0HQiJwkZMzbvB1txUIVhCVffQoriU+0=;
+        b=BY6rLeTcGX80rOeajVwyXLN41Xcnj81oMvb07r1CEN0QEnEYwATqX0MbTe7zL2He2k
+         2niDN40DprTmDlPtcrOk+mVu14M/RTb9jiY6JMR08b2xqIrFqyjmvHFoTwNMA2HEcWsE
+         CBHKTFz+n2bJS/EExgqTJYNQ+JcUKuW+COCupeU3CWOvLjDxMHR5C3cAKV4TxjAzJjIR
+         udra7JtfL4l+d46U09DxwFYzg/y+uYnS3JUIBVVxgjP+dap1dA0YNn8waUZFuwyI3uLS
+         tMRU+98AHGtubjM9sqySAw17VQn+kKrOhqpGAJ2EFdVEktHCBf5GnLT/ia2soq++dx65
+         Dkfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788874329; x=1789479129;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c09duG40XUDjljTKKEnm8AMSUZjhNe4OtYQ1ssenbDY=;
-        b=rBP8itjVhuztVb0fbXMw0IfgTpOjGOHUZYDtutiLqTYo9EQuztNsJ1Iyq047GxaRvI
-         t2GAfFQs7dD60CuGHqsatIO4vtlkovaSic4JhiXAgO4+UdhZAqFLhesz87TqaiDmJQVI
-         2qRPk4TG0vsIEMq5LSPrkJxWLUXTA+YpGb1jz/00j8ZlvPY1LGpIfOv5wbvxvSLqxzu2
-         MspS1b+W6zigSb5FCzmtMzMo6h2O4aRGeTH++FKni6UdNzVhpa1UOlTTTJaS24wJXM26
-         m4ouCYTAijJzj4kJOnjzifIKoez2Dze9KWY7J6V6FjGnF6pN5k+CwEr6lM5B8Hbar/AJ
-         6JYg==
-X-Forwarded-Encrypted: i=1; AKwUvBwpGEjt9A9JTbA3FCyudMZbtU+b2rhZcvvRDePG40uF/t7SpaLMXq/q1jnjtLA2ojUjVYV9aq+ggMw=@vger.kernel.org
-X-Gm-Message-State: AFuF++muoi7NCLejrhrBgqvury5qnS4WI91QxFvknyZOaS1YqA+fHBsy
-	4xFueprgk+NfxGBZlUnPkniYbjSfS4v5ObXXG4riuaUiFOx35ouKKrDs
-X-Gm-Gg: AYBFou1qDqVk/BXVVYmF9AerMArNlQyPsn3UsuS9SiSpvS8Ew5+N7P69i2zpe8wGwMV
-	jfROj31emzZCedyHifYC6dGTSKHqzlzKvPAbh0i290DRg0UliiRwgOwIHLFamJCpNcxj4Dyoclo
-	Jetq2wdH44huPa5hV45uQ1/wRoNKS+a+SWVKUogVJ8eA0abttyCYiQmejqd0Rxez294SwjinuWx
-	szrcMYE8zK4XRxOwVqg7isGFHveWe50zNwFNtfFNx6rM2g/2ndvzvHZY9dw6XU75EobZlRUKfiO
-	sYEpPmn2ZTZCfQFP2/sUW6QZbp+mL6OcoHFG8/npqve1roUvWluSg1t5C7AyfETc95xPRSv+ndA
-	sc9YsBelYBz1nrXdJwMxe4u/JaPknDUG/C4ywzV2Yw0B3Ty5Y7XAdNm9aFl64RdipUsZ9wWV+Go
-	SWsghXipWtOmRTOBG9DRXhdaNY68WzK6Eska4x71JVUorVaBe7GNdBShstNCetqFJq+LcId18yQ
-	KKWEkVuXSzfSfALOe6m2DCPK+edVCv59lewSiWNwmaYrDodGWEGTvHpMkoymvyDkZM7i2ppEYUM
-	2ojH
-X-Received: by 2002:a17:907:3f8d:b0:c25:ca8a:8e25 with SMTP id a640c23a62f3a-c2624eef698mr794013366b.1.1788874329043;
-        Tue, 08 Sep 2026 06:32:09 -0700 (PDT)
-Received: from OrangePi5-Plus.BB-HOME (20014C4E1B825D0079B84A36A788F67A.dsl.pool.telekom.hu. [2001:4c4e:1b82:5d00:79b8:4a36:a788:f67a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485881353e8sm36163217f8f.1.2026.09.08.06.32.07
+        d=1e100.net; s=20251104; t=1788875399; x=1789480199;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CwxOcnlvcy9U0HQiJwkZMzbvB1txUIVhCVffQoriU+0=;
+        b=pdni0sPYvwJ/XGlS/mJUBxkZTnvUkZ9xTU1VA/4Kxr0OGFI0ZQTxfnqz+BRmoBDZKc
+         7WZJk7HZtJw3CBof6a6OYkCD1YlXFb5MH5yC+44bEJknTVldN1gLZGIhO8uvQ3YZGcWo
+         qeYd4xyMykVjt0s/ZceKr9YNEeTqBKJ5oFRYyxdowxZlWmi6kSN+KGL8fzMb0H5UKbEn
+         nWxiE4Bq/Q+WEJU3TlCKTgrjKJIzx/2IeUrC535T0jA+elOj2slAHc4gWNwGVD5ZmWMe
+         O4UsnbmDCuyADOOrDw4ln6rtDz1RcqdEiO8M1mV0c07JIDseAKg2JiogO21pcktrIXF+
+         G7KA==
+X-Forwarded-Encrypted: i=1; AKwUvBwDFG8eEqViQQkUhEJCXFnrPAGBbV5Zhg362PIZcD2/HDJ6YRIiYmO3jIg6LfbESf697xSw/c2cgxg=@vger.kernel.org
+X-Gm-Message-State: AFuF++nFzxjI5Q6T1FDnrPhAxxu2DFr2HxV/G389ZHt7wRfVGij/X2ie
+	ifyYTjti2GL802H1kdG7uSwI3PxAd7oT/miY1HoDT83/3bcTEYc2vhKouwxN1hJW5sI=
+X-Gm-Gg: AYBFou1+56w48lSYbaHHnqIqIx4k4DuvEPifsRE9G6V1LuknmOzsSpuOcEDHOWVbhWI
+	VCqDMxJ+X8NLeGRotp2QORXnGQ0F28mfELuUclRLKxlVdsnmrcVrpQ1AFuVIdlZu2/hvKCt4P4z
+	jOtpaE24fCkFgeIRYM3lInSzAiam8mqRM/+4s7215EjAczp7OjiBCR485R75XS1zjBBGLoqjkox
+	T4oaTk3hta63gV7k4Px7ZbJ/jRzPmhVyEinGdk2ADojOGtJ+0NZmLHWF4SSHzrStB7tRVcPXa7S
+	r1gao3vi9+hVBCXUKiCeeI+y0ZYOMDrSe+QNsCnW09aLtPMipJAmPOv6Tyra+hf3xsDaQ9XSlpL
+	c6VTkwj6f4Rf1WfStEGnp9YeJLKpSafuoquvoVJ3NtyNtUw0izdI9x/NJcznD2GFLengr7vJx/D
+	L35W+FcfSyZ0o8uA4GF13n/JBmQRMFDQeK6LpTPU+EZ9V6csZ/SXnIiFFDREvsH/zsw7rMbU458
+	Y7uWaiYNHm9OIQ9OF3Dp6q0H3nRaBVg
+X-Received: by 2002:a7b:cc91:0:b0:49c:ff9f:f6b6 with SMTP id 5b1f17b1804b1-49cffa00196mr188444915e9.6.1788875399076;
+        Tue, 08 Sep 2026 06:49:59 -0700 (PDT)
+Received: from LS-Tayyab-Farooq.dreambig.corp ([125.209.88.14])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7736132sm389144795e9.12.2026.09.08.06.49.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 06:32:08 -0700 (PDT)
-From: Igor Paunovic <royalnet026@gmail.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Igor Paunovic <royalnet026@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
+        Tue, 08 Sep 2026 06:49:58 -0700 (PDT)
+From: Syed Tayyab Farooq <syedtayyabfarooq08@gmail.com>
+To: Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Hongren Zheng <i@zenithal.me>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: s2idle resume hangs in ohci/ehci on RK3588: HC registers touched before the USB2 PHY is powered back on
-Date: Tue,  8 Sep 2026 15:31:46 +0200
-Message-ID: <20260908133147.8291-1-royalnet026@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <ap__5zeUakMSLWOQ@venus>
-References: <20260907190000.s2idle-usb2-resume-royalnet026@gmail.com> <ap__5zeUakMSLWOQ@venus>
+	Nobuo Iwata <nobuo.iwata@fujixerox.co.jp>,
+	linux-usb@vger.kernel.org (open list:USB OVER IP DRIVER),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Syed Tayyab Farooq <syedtayyabfarooq08@gmail.com>,
+	syzbot+31117fde582fe6a0cd62@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] usbip: fix use-after-free in usbip_stop_eh()
+Date: Tue,  8 Sep 2026 18:49:02 +0500
+Message-ID: <20260908134914.3169-1-syedtayyabfarooq08@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -88,51 +80,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello Sebastian,
+During device teardown (e.g. when unbinding a device), vhci_stop()
+calls usbip_stop_eh() to wait for the event_handler workqueue to
+finish processing shutdown events. usbip_stop_eh() uses
+wait_event_interruptible(), so if the user-space process triggering
+the teardown receives a signal, the wait is aborted immediately.
 
-Thank you, that is a much better place to fix it than either of the two
-options I asked about, and it matches what the board shows: the OHCI
-that hung was the one whose 480 MHz clock had it as the only user, so
-the clock was gated on suspend and the PHY was left in suspend when the
-controller came back and touched its registers.
+Since the return value is ignored, the teardown path proceeds to
+free the vhci_hcd (and the embedded usbip_device) while the
+event_handler is still actively using it, resulting in a
+use-after-free:
 
-I read 53014abc in the rockchip-devel branch. One data point in case it
-is useful for the version you send: on RK3588 the early return does not
-get in the way.
+  BUG: KASAN: slab-use-after-free in vhci_shutdown_connection
 
-    /* Limit to single port; it's unclear how multi-port should be handled */
-    if (rphy->phy_cfg->num_ports > 1)
-            return 0;
+Fix this by switching to the uninterruptible wait_event(), so the
+wait cannot be short-circuited by a signal and always completes
+after the event handler has finished processing pending events for
+this device.
 
-All four entries in rk3588_phy_cfgs[] have num_ports = 1 (0x0000 and
-0x4000 as OTG, 0x8000 and 0xc000 as HOST), so the new code does run on
-RK3588, including u2phy2 at 0x8000, which is the port whose controller
-(fc840000, host0) hung for me. The num_ports = 2 configs are the older
-SoCs, so as far as RK3588 is concerned that guard costs nothing.
+Reported-by: syzbot+31117fde582fe6a0cd62@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=31117fde582fe6a0cd62
+Fixes: bb7871ad99ea ("usbip: event handler as one thread")
+Cc: stable@vger.kernel.org
+Signed-off-by: Syed Tayyab Farooq <syedtayyabfarooq08@gmail.com>
+---
+ drivers/usb/usbip/usbip_event.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I will build the patch for my test kernel and report back. My setup
-should be a reasonable test case for it: with all four USB 2.0 hosts
-bound, s2idle resume hung every time and needed a cold reset, and with
-the four hosts unbound the same cycle completed 4 out of 4, so there is
-a clear before/after to measure rather than an intermittent one. The
-driver is a module in my configs, so this is a single module rebuild.
-If it holds up I will send a Tested-by.
+diff --git a/drivers/usb/usbip/usbip_event.c b/drivers/usb/usbip/usbip_event.c
+index 0e00c2d000f8..81d761891184 100644
+--- a/drivers/usb/usbip/usbip_event.c
++++ b/drivers/usb/usbip/usbip_event.c
+@@ -115,7 +115,7 @@ void usbip_stop_eh(struct usbip_device *ud)
+ 	if (pending)
+ 		usbip_dbg_eh("usbip_eh waiting completion %lx\n", pending);
+ 
+-	wait_event_interruptible(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
++	wait_event(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
+ 	usbip_dbg_eh("usbip_eh has stopped\n");
+ }
+ EXPORT_SYMBOL_GPL(usbip_stop_eh);
+-- 
+2.43.0
 
-One observation on your second point. On this board s2idle is entered:
-the machine goes down, the hym8563 RTC alarm wakes it ("PM: Triggering
-wakeup from IRQ 52"), and only then does the resume stall in the USB2
-hosts. So PCIe did not block suspend here, even though the board has
-NVMe, two r8169 NICs and an rtw89 card on PCIe. I do not know why my
-case differs from yours; if that is interesting for your PCIe suspend
-series I can dump whatever state you want from before the suspend.
-
-The RTC pin fix I mentioned is now v2 on the list [1], with megi's
-Reviewed-by. Without it there is no wake source on this board at all,
-so it is a prerequisite for anyone else trying to reproduce this.
-
-If you would rather I wait for the version you post this week instead of
-testing the branch commit, just say so and I will wait.
-
-[1] https://lore.kernel.org/all/20260908111908.19371-1-royalnet026@gmail.com/
-
-Igor
