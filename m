@@ -1,134 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1806C39EF2C
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 07:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5433976A0;
+	Tue,  8 Sep 2026 07:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788851467; cv=none; b=WQn2JkdTwVteiPG+ju6gUaSxRoriRZt8kdaMDDdyk95h+1syxglajctlazq1Y/Kl3vVYKkTO62KmczvIPqIRixB+MZrGNw9wBzc2u8JqbOoPvUIBmv4lRxzE4NShnnK8/BbugsqLD5kxzA7Y8EoEv1xS6OjgRrO3yRXtRDQPxsM=
+	t=1788851559; cv=none; b=j96jDICV+vk2M9vpwMSOfP3bl4mS0wacUh8BkvvVZiarp6loNO0CQI2fh9H9K9VtLPvjhGto/xXCgx0XUsBmQ2766x2LcQooYTyd83jQKHzQLLZU/cijY7ZhV45dItR6KgDe6L2XsdcMl3Jya4H2u7JGarFCWMKqr7XbMmCTJVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788851467; c=relaxed/simple;
-	bh=jP/JnNcMgwji7Im+JeL5okznMYPecKxWpDNcYAat7wo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W6mkpexe7ZU384R2c+67nZU3eqVSGzaKIdbn8b2wuMI/ClCeSgT8RfmTpMx/r0nREE/Uz/9ohGZ5ciQMwCA4LDBjMpOoX4rKny4UBqdhDhQ3XMAO+XrD+id6aSbpvebADSxtdYDwHkyBp8ra4f6ybh2GUI6QETOnlMYZzx2Vv+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Egt3XZBN; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788851559; c=relaxed/simple;
+	bh=ojfz3BK3cNv9WyccRjmIJwIzaZLN1JEefzj2ybT4g2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gReDQvXyo5o8YRx7kEl6pG2w8W2DQ865SLVmlyNRY6KaBCNmj7/udJ7sY85kQujJSAfzWdsg9Q/SiUFrMsfHriwHgYOpgjwmreoKI23vkms2vRUMNpF/YvpBwhS8wi9GFyOJYOiuLta7aoDSdXq1BBNCTRHRwbewDBXZa8ZGClc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NtAVcMiQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Egt3XZBN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788851465; x=1820387465;
-  h=date:from:to:cc:subject:message-id;
-  bh=jP/JnNcMgwji7Im+JeL5okznMYPecKxWpDNcYAat7wo=;
-  b=Egt3XZBNrtGEqKf4iX92jR0+5dUg9e+g/HUsd1cawL3xwWP31C3oK6xc
-   t3Q+9M3zd6CwDc1OT48M+6jhrRVQPwuR9+oGnqxxIH2rB6PMR1R3ttN4i
-   n38FPBWo+wACAknK0wxMdWOWp/M4jtGkp1TQx19bg7x0v3yzvIfUNlOyb
-   CQUxIyLrXOlQUXDgzEIZrBYkNGDqMZSKLe0Wn7M02rXjQ2D/n+1lyE2dR
-   ku4FT3YR2m0t1Zltx+0Y5u0+W00ul5JS4YxoUZ7PtlsUXRwBZwOGCV8kS
-   eQciIFaTTqLWhYtbM+z1uA/hq+udr0Fp3Q8xbjEqVOIRNAQtIH1lpY9fM
-   w==;
-X-CSE-ConnectionGUID: FaOBt8QuTvuTCIJrTxotFQ==
-X-CSE-MsgGUID: aYaqAwBnSXywxBKLZXmpUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="76805218"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="76805218"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 00:11:04 -0700
-X-CSE-ConnectionGUID: dH9R0hSVTHKLsD44ZA4tNA==
-X-CSE-MsgGUID: 7AlmQYclSru6djGzfho8IA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="272846923"
-Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Sep 2026 00:11:03 -0700
-Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x3pyu-000000001n9-2E5U;
-	Tue, 08 Sep 2026 07:11:00 +0000
-Date: Tue, 08 Sep 2026 15:10:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-Subject: [westeri-thunderbolt:next] BUILD SUCCESS
- 2d8b6e38b86c4cbad9d7bdd8371c696ef34b900c
-Message-ID: <202609081542.3fVFVlMf-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NtAVcMiQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730BF1F00A3A;
+	Tue,  8 Sep 2026 07:12:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788851558;
+	bh=5p31lc4Tvv+4APqA53+22S0thee+C1JMA0AUVb8nGPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NtAVcMiQH+lDPgQbi/TsBORUbxXF5mRQDKZAWt4VIuYo0eCni2nqpamj6OxYAJVUY
+	 N9ER8mVu1wRUkx8hI0+OeY4IAdVF2NaSFafwBRryiezJLM5BYrc5/Mx0uIWs2eoc3o
+	 D1oVcUo2tWTToFuiuC5/b47wLBC6WfA1XWbOYyDFaizdms1dOtd3T3A/RUQH+/FnI2
+	 xtt430Z72Q2Xu7m6U8TvEL1E01bqd8P8ylAnR6bBlAH4/AW/K/O1Fub1yDfrX6q4ho
+	 C57I69HCKiELXHtbo7TBGIPVcgLV1KbDceKvegKVWMZ+//pWGqxB3knLKc7VbBKMHe
+	 JgOlWIf/YMSCQ==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x3q0R-00000000sZE-423a;
+	Tue, 08 Sep 2026 09:12:35 +0200
+Date: Tue, 8 Sep 2026 09:12:35 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
+Message-ID: <ap-1YzIoyYsH_3V-@hovoldconsulting.com>
+References: <20260907065501.101013-1-johan@kernel.org>
+ <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
+ <ap56NTVMq8GlbjmR@hovoldconsulting.com>
+ <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
+ <ap6LcHWDvIWF3oNK@hovoldconsulting.com>
+ <bc055887-3029-4740-bec5-7e2fe4205992@suse.com>
+ <ap6iJ6vkVIaxXFwn@hovoldconsulting.com>
+ <f642f815-df4f-473b-aaa2-89153c08bc05@suse.com>
+ <ap62IbbQti28M_SA@hovoldconsulting.com>
+ <a9db0fce-2a2d-4896-a3c3-2afff4080168@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a9db0fce-2a2d-4896-a3c3-2afff4080168@suse.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-branch HEAD: 2d8b6e38b86c4cbad9d7bdd8371c696ef34b900c  net: thunderbolt: Update ring indices only after all frames are queued
+On Tue, Sep 08, 2026 at 08:54:36AM +0200, Oliver Neukum wrote:
+> 
+> 
+> On 07.09.26 15:03, Johan Hovold wrote:
+> > On Mon, Sep 07, 2026 at 02:46:16PM +0200, Oliver Neukum wrote:
+> >>
+> 
+> >> We could do that and it would indeed be simpler.
+> >>
+> >> But it would change the semantics so that past status changes
+> >> no longer show up in TIOCMIWAIT. Is that really a good idea?
+> > 
+> > Yes, as the current behaviour is both non-standard and inconsistent.
+> > 
+> > If you have multiple tasks waiting waiting on status change, then only
+> > one of them will detect it, for example.
+> > 
+> > And if there are multiple changes (before or during TIOCMIWAIT) events
+> > may be lost too.
+> 
+> Very well. Ample reasons. Do you have a patch or do you want me to fix it?
 
-elapsed time: 1504m
+I sent a v2 yesterday that should take care of it all:
 
-configs tested: 57
-configs skipped: 0
+	https://lore.kernel.org/all/20260907095130.130636-1-johan@kernel.org/
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha         allnoconfig    gcc-16.1.0
-alpha        allyesconfig    gcc-16.1.0
-arc          allmodconfig    clang-24
-arc           allnoconfig    gcc-16.1.0
-arc          allyesconfig    clang-24
-arc          allyesconfig    gcc-16.1.0
-arm           allnoconfig    gcc-16.1.0
-arm          allyesconfig    clang-24
-arm64        allmodconfig    clang-24
-arm64         allnoconfig    gcc-16.1.0
-csky         allmodconfig    gcc-16.1.0
-csky          allnoconfig    gcc-16.1.0
-hexagon      allmodconfig    gcc-16.1.0
-hexagon       allnoconfig    gcc-16.1.0
-i386         allmodconfig    clang-22
-i386          allnoconfig    gcc-16.1.0
-i386         allyesconfig    clang-22
-loongarch    allmodconfig    clang-19
-loongarch    allmodconfig    clang-24
-loongarch     allnoconfig    gcc-16.1.0
-m68k         allmodconfig    gcc-16.1.0
-m68k          allnoconfig    gcc-16.1.0
-m68k         allyesconfig    clang-24
-microblaze    allnoconfig    gcc-16.1.0
-microblaze   allyesconfig    gcc-16.1.0
-mips         allmodconfig    gcc-16.1.0
-mips          allnoconfig    gcc-16.1.0
-mips         allyesconfig    gcc-16.1.0
-nios2        allmodconfig    clang-20
-nios2         allnoconfig    clang-24
-openrisc     allmodconfig    clang-20
-openrisc      allnoconfig    clang-24
-parisc       allmodconfig    gcc-16.1.0
-parisc        allnoconfig    clang-24
-parisc       allyesconfig    clang-17
-powerpc      allmodconfig    gcc-16.1.0
-powerpc       allnoconfig    clang-24
-riscv        allmodconfig    clang-24
-riscv         allnoconfig    clang-24
-riscv        allyesconfig    clang-24
-s390         allmodconfig    clang-17
-s390          allnoconfig    clang-24
-s390         allyesconfig    gcc-16.1.0
-sh           allmodconfig    gcc-16.1.0
-sh            allnoconfig    clang-24
-sh           allyesconfig    clang-17
-sparc         allnoconfig    clang-24
-sparc64      allmodconfig    clang-20
-um           allmodconfig    clang-17
-um            allnoconfig    clang-24
-um           allyesconfig    gcc-16.1.0
-x86_64       allmodconfig    clang-22
-x86_64        allnoconfig    clang-24
-x86_64       allyesconfig    clang-22
-x86_64      rhel-9.4-rust    clang-22
-xtensa        allnoconfig    clang-24
-xtensa       allyesconfig    clang-20
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Johan
