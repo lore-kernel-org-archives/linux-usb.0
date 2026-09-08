@@ -1,159 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-145.mta1.migadu.com [95.215.58.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2ED554087
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 14:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCA454EECD
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 14:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788876559; cv=none; b=apFhPjIL3oO7Y43X+06SvWfQZ9NgBwC+FdAyD5ntJqKDOBAA4ZejuEuoBFpUj1DiBtYjKGlfxQoDWQqk/+h6Lmt0hfYoa1Ik/2HuKwJ/8jXo5kKopuCeiPAZCbKVY0Q4r1TwuA13qqBoArLl/po26ZyIrEm4c3xyATUwqVjk9WA=
+	t=1788877045; cv=none; b=UNhbIYW0YmA5CKGJtstC0b7YdB5ZRIU2SCSuZ4IcYWsDkasPib8vKis0yLMMLHnzVyVLkgdHFLeZNiWvoe/6sBOA7DkqXzWJGuAI/QiHRUTcpIWqFt8IedIoBHM7jkTKMScTcAYG73zX05dmfpSDxL/7J58p+zi2GeGVKrg4l7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788876559; c=relaxed/simple;
-	bh=Ayflqv1XHHrnSjj0pbJSaUQpqQQPDxVmFmLJkJVGnbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lXQgmM9+YarRUptyWKPFe/ZH6nrEloI2hktXGDHlHxSI21ATUSeOqs9y6A5rb+ergDfPjbeh/ZcTymaXVPvLQIxVCktxvcMKEbl/J4aF0GLj1lHlRIIjUNN6X21R5mry/aRJNcKJU18tBMP2z7i/m306gZbg4WaCHfP7QybV7Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvNKsjGK; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788877045; c=relaxed/simple;
+	bh=AtllziWAEBylwDOWuicoRwDn5AZurYw0+Fy/xhiHsj0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=drmTlgd3rNQ7fvIpG57Y10KvLIOQPZ6NSSEp4GuHukC0aDyDEsvH/lKUo4CCrXZxK7IuSF1vYwd61GqKpf6TDXMTnRc5Eteo+RZKssfaYWuci9yISNYdTUTRDg1QBpuzMpsTcEtFM8F6GuP8QTVLzu6zceDCDssUfEbcEj/KxoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Tz8t8nLj; arc=none smtp.client-ip=95.215.58.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvNKsjGK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788876556; x=1820412556;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ayflqv1XHHrnSjj0pbJSaUQpqQQPDxVmFmLJkJVGnbQ=;
-  b=IvNKsjGK8f09mY5Ujam78HcerEiNFNT8Yg3Dl4zWm34dp9qhtWvhj58W
-   HAKIw3q6RTw0h5VNh+lsAzBMIYzn+YR/d2KJe7V6J9tcdtwk4ZsJoVlBQ
-   pTxZoQye3w7saeHH9fif7KDEyEojKaR1oL4UTgBemXOoROVBIHXI1z3Ci
-   +WLUeXJMhHvVFRWlE80nLP/DZO0+00koIYrNrW+llePngNMPLYbw79wvm
-   NyGKS9CNp8V/NFW7Q+O+/isa4td+d57LF7ABXdwK0BGLfhs2M1eB4rYVW
-   tJ5EyWfjLyzxTSpyGawfb+3ghmTDJf4g6EQDGAnNDx6DrMo3ImgynrqCJ
-   w==;
-X-CSE-ConnectionGUID: wfAOn/BrRhWpu9V7RYE7VA==
-X-CSE-MsgGUID: 8BiyKakpQ9WbUE1cT1sICw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89122028"
-X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="89122028"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 07:07:40 -0700
-X-CSE-ConnectionGUID: v0Te7xXpQhm35btj/GJyLg==
-X-CSE-MsgGUID: YBx4B6zoR9yq9q7hbNUYSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="269270032"
-Received: from lkp-server01.sh.intel.com (HELO dc5b8f51e05b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Sep 2026 07:07:39 -0700
-Received: from kbuild by dc5b8f51e05b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x3wU3-000000000Ch-3zwU;
-	Tue, 08 Sep 2026 14:07:35 +0000
-Date: Tue, 08 Sep 2026 22:07:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-next] BUILD SUCCESS
- 34c9c5517033a74039a54dfab24e7bf767a4e0e4
-Message-ID: <202609082202.LRj92jSK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Tz8t8nLj"
+X-Envelope-To: linux-usb@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=AtllziWAEBylwDOWuicoRwDn5AZurYw0+Fy/xhiHsj0=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788877029; v=1; x=1789481829;
+ b=Tz8t8nLj+OIB9JqmyuLa1vS3oBTrhaxt6P2PAJreFOoYu6Tliy+E1/xloyjhW5CtYLpocr1G
+ VU03NoMwczbXQQvEWGEtnGPIb5g7QOeRlgJt1P+boVVKma+6hmj9P/sLJRseFA4jmuWJ8vtuw69
+ BUuQWaZSBwq5/2w1LsugUhkg=
+X-Envelope-To: linux-usb@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id a34898e233871779;
+	Tue, 08 Sep 2026 14:17:09 +0000
+X-Mizu-Trace-ID: a34898e233871779
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 08 Sep 2026 22:16:56 +0800
+Message-Id: <DL9ZZ8F7HTZT.1IUMD1ECSOZXL@linux.dev>
+Cc: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>, "Troy
+ Mitchell" <troy.mitchell@linux.dev>
+Subject: Re: [PATCH v2] usb: dwc3: core: resume xHCI child on runtime resume
+ in host mode
+From: "Troy Mitchell" <troy.mitchell@linux.dev>
+To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>, "Thinh Nguyen"
+ <Thinh.Nguyen@synopsys.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260908-resume-xhci-v1-1-aca107602e9c@linux.spacemit.com>
+In-Reply-To: <20260908-resume-xhci-v1-1-aca107602e9c@linux.spacemit.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-branch HEAD: 34c9c5517033a74039a54dfab24e7bf767a4e0e4  Merge 7.3-rc2 into usb-next
+--a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-elapsed time: 1398m
+On Tue Sep 8, 2026 at 10:01 PM +08, Junzhong Pan wrote:
+> USB controller runtime suspend halts the controller on disconnection.
+> It relies on platforms with custom connection notification to start
+> the controller again.
+>
+> The host branch of dwc3_runtime_resume() does nothing currently. There
+> are two paths that can trigger a runtime resume of the dwc3 core in
+> host mode:
+>
+> (a) Wake lands on the xHCI child (DT platforms, e.g. Qualcomm, i.MX8MP)
+>     A platform wakeup IRQ fires and the glue handler calls
+>     pm_runtime_resume(&xhci->dev). Runtime PM walks upward, resumes
+>     the dwc3 parent first, then resumes xHCI. Both wake correctly.
+>
+> (b) Wake lands on the dwc3 parent (ACPI platforms)
+>     When an ACPI Notify(ACPI_NOTIFY_DEVICE_WAKE) targets the dwc3
+>     parent device -- for example via a Generic Event Device on a
+>     hardware-reduced platform where dwc3 is enumerated as an ACPI
+>     device without a glue driver -- the ACPI core turns this into
+>     pm_request_resume(dwc3_dev). Runtime PM does not propagate resume
+>     downward, so the xHCI child stays suspended. Root hub polling is
+>     never re-armed, and a device plugged in while suspended is silently
+>     dropped.
+>
+> This patch fills in the host branch to cover case (b) by requesting an
+> async resume of the xHCI child so xhci_resume() can restore the port
+> state machine and re-arm root hub polling. Glue drivers in case (a)
+> resume xHCI directly, an extra call introduced by this change, but
+> runtime PM can serialize those requests and skip device already active,
+> so the extra resume call is safe. Those calls can be replaced with
+> resume calls to dwc3 device later.
+>
+> Tested on SpacemiT K3 Pico-ITX, covering both wakeup paths: an ACPI
+> boot with a GED device notifying the dwc3 node (HID 808622B7), and a
+> DT boot with a modified dwc3-generic-plat driver exposing a wakeup IRQ
+> similar to dwc3-qcom.c and dwc3-imx8mp.c. This is not validation on
+> actual Qualcomm or i.MX8MP hardware, changing those drivers would still
+> need platform-specific testing.
+>
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Assisted-by: Opencode:claude-opus-5
+> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+> ---
+> Changes since RFC:
+> - add Assisted-By tag and collect tag
+> - refine the commit message and comments as suggested
+>
+> Link to RFC: https://lore.kernel.org/linux-usb/20260811090817.109350-1-pa=
+njunzhong@linux.spacemit.com/
+> ---
+>  drivers/usb/dwc3/core.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> index fd5c2cd36c59..76883dc6184c 100644
+> --- a/drivers/usb/dwc3/core.c
+> +++ b/drivers/usb/dwc3/core.c
+> @@ -2739,6 +2739,18 @@ int dwc3_runtime_resume(struct dwc3 *dwc)
+>  		}
+>  		break;
+>  	case DWC3_GCTL_PRTCAP_HOST:
+> +		/*
+> +		 * Only the xHCI child's resume re-arms root hub polling, which
+> +		 * is what rediscovers a device plugged in while suspended.
+> +		 * Runtime PM doesn't resume children, so request it here.
+> +		 * Keep it asynchronous to avoid waiting for the parent's resume
+> +		 * callback to finish from inside it. Glue drivers may also
+> +		 * resume xHCI directly, but runtime PM will serialize those
+> +		 * requests and skips an already-active device.
+> +		 */
+> +		if (dwc->xhci)
+> +			pm_request_resume(&dwc->xhci->dev);
+> +		break;
+Could we also check a parent-only resume with no USB wake event? For
+example, reading the DWC3 debugfs lsp_dump file calls
+pm_runtime_resume_and_get(dwc->dev). With both devices suspended, this
+change would wake xHCI too.
 
-configs tested: 82
-configs skipped: 0
+Would both devices return to autosuspend after the read and still
+detect a subsequent plug-in? This would help cover the non-wakeup
+case.
+>  	default:
+>  		/* do nothing */
+>  		break;
+>
+> ---
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> change-id: 20260908-resume-xhci-0fa34ff9b332
+>
+> Best regards,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-tested configs:
-alpha         allnoconfig    gcc-16.1.0
-alpha        allyesconfig    gcc-16.1.0
-arc          allmodconfig    clang-24
-arc          allmodconfig    gcc-16.1.0
-arc           allnoconfig    gcc-16.1.0
-arc          allyesconfig    clang-24
-arc          allyesconfig    gcc-16.1.0
-arm           allnoconfig    clang-17
-arm           allnoconfig    gcc-16.1.0
-arm          allyesconfig    clang-24
-arm          allyesconfig    gcc-16.1.0
-arm64        allmodconfig    clang-24
-arm64         allnoconfig    gcc-16.1.0
-csky         allmodconfig    gcc-16.1.0
-csky          allnoconfig    gcc-16.1.0
-hexagon      allmodconfig    gcc-16.1.0
-hexagon       allnoconfig    clang-24
-hexagon       allnoconfig    gcc-16.1.0
-i386         allmodconfig    clang-22
-i386         allmodconfig    gcc-14
-i386          allnoconfig    gcc-14
-i386          allnoconfig    gcc-16.1.0
-i386         allyesconfig    clang-22
-i386         allyesconfig    gcc-14
-loongarch    allmodconfig    clang-19
-loongarch    allmodconfig    clang-24
-loongarch     allnoconfig    clang-20
-loongarch     allnoconfig    gcc-16.1.0
-m68k         allmodconfig    gcc-16.1.0
-m68k          allnoconfig    gcc-16.1.0
-m68k         allyesconfig    clang-24
-m68k         allyesconfig    gcc-16.1.0
-microblaze    allnoconfig    gcc-16.1.0
-microblaze   allyesconfig    gcc-16.1.0
-mips         allmodconfig    gcc-16.1.0
-mips          allnoconfig    gcc-16.1.0
-mips         allyesconfig    gcc-16.1.0
-nios2        allmodconfig    clang-20
-nios2        allmodconfig    gcc-11.5.0
-nios2         allnoconfig    clang-24
-nios2         allnoconfig    gcc-11.5.0
-openrisc     allmodconfig    clang-20
-openrisc     allmodconfig    gcc-16.1.0
-openrisc      allnoconfig    clang-24
-openrisc      allnoconfig    gcc-16.1.0
-parisc       allmodconfig    gcc-16.1.0
-parisc        allnoconfig    clang-24
-parisc        allnoconfig    gcc-16.1.0
-parisc       allyesconfig    clang-17
-parisc       allyesconfig    gcc-16.1.0
-powerpc      allmodconfig    gcc-16.1.0
-powerpc       allnoconfig    clang-24
-powerpc       allnoconfig    gcc-16.1.0
-riscv        allmodconfig    clang-24
-riscv         allnoconfig    clang-24
-riscv         allnoconfig    gcc-16.1.0
-riscv        allyesconfig    clang-24
-s390         allmodconfig    clang-17
-s390         allmodconfig    clang-24
-s390          allnoconfig    clang-24
-s390         allyesconfig    gcc-16.1.0
-sh           allmodconfig    gcc-16.1.0
-sh            allnoconfig    clang-24
-sh            allnoconfig    gcc-16.1.0
-sh           allyesconfig    clang-17
-sh           allyesconfig    gcc-16.1.0
-sparc         allnoconfig    clang-24
-sparc         allnoconfig    gcc-16.1.0
-sparc64      allmodconfig    clang-20
-um           allmodconfig    clang-17
-um            allnoconfig    clang-17
-um            allnoconfig    clang-24
-um           allyesconfig    gcc-16.1.0
-x86_64       allmodconfig    clang-22
-x86_64        allnoconfig    clang-22
-x86_64        allnoconfig    clang-24
-x86_64       allyesconfig    clang-22
-x86_64      rhel-9.4-rust    clang-22
-xtensa        allnoconfig    clang-24
-xtensa        allnoconfig    gcc-16.1.0
-xtensa       allyesconfig    clang-20
-xtensa       allyesconfig    gcc-16.1.0
+--=20
+Troy Mitchell
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJcEABYKAD8WIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCaqAY2CEcdHJveS5taXRj
+aGVsbEBsaW51eC5zcGFjZW1pdC5jb20ACgkQmAnvgPkzNC93lQEAnfUXUqFGj8nw
+pq/QcoMwv8/AZglrFri8AwmbKiziyQ0BALR07IvfqVq06ZjfzBNg2XwB0u4Kf28m
+MbT8XWa53wIE
+=yhFf
+-----END PGP SIGNATURE-----
+
+--a7ff6faabc94381f35eb70cb994205d1a66fcd018b82abba28681d1ee3fa--
