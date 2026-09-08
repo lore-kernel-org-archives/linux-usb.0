@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A887525A87;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2748526A99;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788860516; cv=none; b=BH9ZQzNjo+JwWpa0gK0whnOEdSUuAYsF7SLkMTn9e8Dn2nshvbDwdnzIGYfYH6e11/zYM5O/CYVECuAyOnmEfPHz/9KEhCalc0YUR0xQwwYtto3waeCSkBVgAF2csvNvx6bMcFh/iXSbpP3xwOraqKDupn3uYzDkUwP5udfSRsM=
+	t=1788860516; cv=none; b=QjqOQ8G48qtQ+3ao0L28w8ZUS7P/VTvd4FKnistk51FgTuDDSy/CdK6lFNis6VeaZ7m8X71+bpmtb7buR2hBRZ+YUZ3qNONfQ0SVWlWiinCVmSsUyhFRzXgZBLBQM1Bf66BtAqehekrdXmL1eIdQSF464t4zlkynd9MgzElROT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788860516; c=relaxed/simple;
-	bh=6rrENnExuPWnVu3LsSNeNwwki1fRkiuqcMOe8pK5ajM=;
+	bh=6Pg056yYXzBCy1r8gHAQMUILwrcGvqIRlccK+SCvndM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=N31qzHrNqBiF4FzT80JZZlxyGVfnb5pc7LWVbwCRaizt89F2nK8MzxNTrTBbFYJE7Hih0zFzqIeTiYFgY+nDTHFwXkGiGISQQ4QOpx4+GA/G+z64sf+a/k0aVfDZS/tODqYut/3yCpDAridu1lo3F391O2stP2DlGLgKkrUSLI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEYLq/pA; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=lSXopOpomK33QX1IPwTM0B1Aq8yuyG8gWD3wvVTZipaZ1tSwZakyqcv+Wf4IjFCNsj614pM/1olGaYEiIW7FPO1Njujm4NBtffuhgHq53CR12ZaF/+xfMzrVjfklcSgUWPnaU8Sr4DxTH+4jk4Vj1Z5UuvnrppOfJdDXQNQkiYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tk+5k8vc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEYLq/pA"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 672C1C2BCFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tk+5k8vc"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9E50BC2BCFD;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788860516;
-	bh=6rrENnExuPWnVu3LsSNeNwwki1fRkiuqcMOe8pK5ajM=;
+	bh=6Pg056yYXzBCy1r8gHAQMUILwrcGvqIRlccK+SCvndM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=EEYLq/pAsCRYIZ2m/rJt+W8yr6hv+hJJZ1mjoZcd9REztimE6rJkspMDSbzkZ1i1I
-	 rAgGUzX9YQO+aOqq9LAjEFuKzgND/3ZGMctoRjor/NJYYJuzyRsoZGsb6T0QZ/2g/y
-	 UBl2hIv1rBKMJrkv4KALYDWLBqhCWq2GZ5rAjnfT/cjBftYjm6aZcnYQ/43ylunNxa
-	 8wiQVEqlgkbP7apQ/kb+U200l1L38p4ubecV2DaWJJX7REsO4bKff/6+0d4rMlrCnL
-	 LSqSmGeHs2rRNHYEVIAnHNaHVP600uWCLR5kb9fvMb+52hP+bRRjKgfpMQi4iaZPo4
-	 e9v+z/QXG42Jw==
+	b=Tk+5k8vcVCw/8/CAosGKP0PXphlCID9czKlNE8GXPQonMX+qTb816S3FjXyNaQyZS
+	 rsL3OYq8F4QijFIb2RzTemb5Jp3Wp6iT92ZvT3QCRpKSR7OKvduTkdsoEEYQqJEFTS
+	 peSsaltaM50sBjpkzWCyyU2yEfjx84VFZCLq30Qhx8p4VpDEYr0/WqX+Nj/je1BySE
+	 sq82Ja4RO77dA2748IgfmT3yKRz/DgePGOv44Le3+nigOqgE5ai5JyZ8KkC2DVL2Db
+	 eZJO4UpWbrD40bPdTsiKO5dFkL3U+x6VE0E96t5/zJEtF5e2N1DHSEctHs9Lqwdic6
+	 G83lMKbNyfPug==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54663C79F82;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC02C79FAE;
 	Tue,  8 Sep 2026 09:41:56 +0000 (UTC)
 From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
-Date: Tue, 08 Sep 2026 13:41:02 +0400
-Subject: [PATCH v4 09/13] arm64: dts: qcom: ipq5018: Add USB Super-Speed
- PHY node
+Date: Tue, 08 Sep 2026 13:41:05 +0400
+Subject: [PATCH v4 12/13] arm64: dts: qcom: ipq5018: Add Super-Speed UNIPHY
+ to USB node
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-ipq5018-usb3-v4-9-b789702f0695@outlook.com>
+Message-Id: <20260908-ipq5018-usb3-v4-12-b789702f0695@outlook.com>
 References: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 In-Reply-To: <20260908-ipq5018-usb3-v4-0-b789702f0695@outlook.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -60,14 +60,15 @@ To: Vinod Koul <vkoul@kernel.org>,
  Varadarajan Narayanan <quic_varada@quicinc.com>
 Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, Stanislaw Pal <kuncy7@gmail.com>, 
+ linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Stanislaw Pal <kuncy7@gmail.com>, 
  George Moussalem <george.moussalem@outlook.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860513; l=1365;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788860513; l=983;
  i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
- bh=E1RXspduA/qm4y+OQopUpGy17R6HIoV4JDWYYWUJv1I=;
- b=+5aKJQzhNectQFle6jqBMtjnlnyl8ime8/xt5oo529EKwQPuifI4WiJ27M4tgvsYaKC0/Z6HH
- mV8Wz+WafQ9CP11d89JRMolziqhBmVd3p27IDez4eZy3GIli0yJob1P
+ bh=EHNPdJoLDki9kvFwibHMHsxbeTT5//UH8U5tcciCAP0=;
+ b=6NyqUCjIxQxnKqMl2ofSls4YZVVMbqAgjueSnu2r/2cx+kbOLXCQK/4xF/NN33eQlbp3atfQR
+ MU9WnGocuL1BZ7lyxLPkM9kCncekhaIrCNQXtJ6Ydukx44xLJAvUXm2
 X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
  pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
 X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
@@ -77,52 +78,34 @@ Reply-To: george.moussalem@outlook.com
 
 From: George Moussalem <george.moussalem@outlook.com>
 
-Add the USB3 PHY node and populate the USB DT clock on the GCC node for
-the GCC to gate the PIPE clock supplied by the USB3 PHY.
+Add the USB3 UNIPHY to the USB controller node for USB3 support.
+In addition, switch to the pipe clock supplied by the USB3 UNIPHY
+instead of the UTMI clock.
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Tested-by: Stanislaw Pal <kuncy7@gmail.com>
 Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 ---
- arch/arm64/boot/dts/qcom/ipq5018.dtsi | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/ipq5018.dtsi b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-index 956d3217ec52..34d882b047bc 100644
+index a6e337e137c8..8e5d45a214a5 100644
 --- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-@@ -179,6 +179,23 @@ usbphy0: phy@5b000 {
- 			status = "disabled";
- 		};
+@@ -627,10 +627,8 @@ usb: usb@8a00000 {
  
-+		usbphy1: phy@5d000 {
-+			compatible = "qcom,ipq5018-uniphy-usb3-phy";
-+			reg = <0x0005d000 0x800>;
-+
-+			clocks = <&gcc GCC_USB0_PIPE_CLK>,
-+				 <&gcc GCC_USB0_PHY_CFG_AHB_CLK>;
-+
-+			resets = <&gcc GCC_USB0_PHY_BCR>;
-+
-+			#clock-cells = <0>;
-+			#phy-cells = <0>;
-+
-+			qcom,phy-usb-mux-sel = <&tcsr 0x10540>;
-+
-+			status = "disabled";
-+		};
-+
- 		pcie1_phy: phy@7e000 {
- 			compatible = "qcom,ipq5018-uniphy-pcie-phy";
- 			reg = <0x0007e000 0x800>;
-@@ -436,7 +453,7 @@ gcc: clock-controller@1800000 {
- 				 <&sleep_clk>,
- 				 <&pcie0_phy>,
- 				 <&pcie1_phy>,
--				 <0>,
-+				 <&usbphy1>,
- 				 <&gephy_rx_clk>,
- 				 <&gephy_tx_clk>,
- 				 <0>,
+ 			resets = <&gcc GCC_USB0_BCR>;
+ 
+-			phys = <&usbphy0>;
+-			phy-names = "usb2-phy";
+-
+-			qcom,select-utmi-as-pipe-clk;
++			phys = <&usbphy0>, <&usbphy1>;
++			phy-names = "usb2-phy", "usb3-phy";
+ 
+ 			tx-fifo-resize;
+ 			snps,is-utmi-l1-suspend;
 
 -- 
 2.53.0
