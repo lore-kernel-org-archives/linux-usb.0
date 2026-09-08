@@ -1,67 +1,65 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012016.outbound.protection.outlook.com [40.107.200.16])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010020.outbound.protection.outlook.com [40.93.198.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6255908B1;
-	Tue,  8 Sep 2026 17:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B18550DB8;
+	Tue,  8 Sep 2026 17:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.20
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788886915; cv=fail; b=TSq8zWi7H0vfPNFLTHYVG4MO6EnOXxOdRZvSFMDAN4vaCxRzFaFS3amcuaozWS27o2bvIq6ga8IzyT4Dq7k5KIzWbdltVi1PN34us4qJGNIKcvKmiTqDvrJPRfHreonWAlIZiFwsxHnGBIt8Xx1kU909zYosdP02ATYLhmFwxUo=
+	t=1788887534; cv=fail; b=Nqt4huxf+LvSZhyI9cA4/dIz40qJog+EM+QUrwRBTesbzFIZWDIfV3s127tu0tfkfBmPiknEP8piT5v9lJwxY2lCqvUGYezy+MrWy6nNujqG58ghQMespcwOqG1O2/1zZxQ5z8aPQkBj/QKf0tFdj32EJ2iF+3aroGTyOv4XGdU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788886915; c=relaxed/simple;
-	bh=5d8UJpFaSJfSNW6yzfI50pJOlLgSWgqJ7dUONz5Rn14=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QN8gwlsbeuT7fnXpGHeW21HOwJfv+xRBZuGYnz0XlH6BHMHD0gJymQ1VuoUUBkQAbT1+uJGkst6EE8iKIGKGUtln5P/brBHRKuuth1BO47TzAbVq6TX0UErtFEd5nAE+ihufQUf75SO/wzgJN9fds83GiRtes7HqQC3JxxKzVAU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Tk2H7SiG; arc=fail smtp.client-ip=40.107.200.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1788887534; c=relaxed/simple;
+	bh=En58L+sFchxkbbaln9ua9ZAPdeJEtZmBjwn7rSTBATY=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=S4RVJlo0WIogrsbcmxbMLrWPZaFBHaCxRQi50XPP8jT8MosHTe9e6fw/Po4abe7sp97S86lzHl7sWBfGCUSvENzDHEZWI2urYcBkpKxFV+p/TFkpgHy4FTRW/RdkQSaOqpiJw6yJjjZgt9FTEDwH5YR/KZz7yECQZIrGU6KVkOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=W4H9j0Zr; arc=fail smtp.client-ip=40.93.198.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Tk2H7SiG"
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="W4H9j0Zr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rC/DKQB9gBXkf8rgGGaNSL059n2lntCzMoWAnVFy03cw8nU+dABhGHFzSAoz5Lvlor09hO+aYVeUxbmAc7G5uFHZbsh68yKAQakV3fy9rg3YngM/xzg52nDjcSzSgpLl+N5mI9m644erhzq2kaTLSUO9xUoQH60X7K4MIrgdVtnHynSwrhQNrJtKPBp++Yh3OUw2u/KR/zOAI4dTrf1QRul3lIJ7iO3mPzK53CoGtaVWAwpGQJNm8zKjmyURqp0aOxmcwtPBBeurq+KVfePR3DtQ9Igh5Ipa3Cherz+3XweayVUDgdVf15OE5t7fKREGa1RJbjdAMSNJH/C1LR+dyQ==
+ b=P5DPE06o7OE8Rv1AlKSL3lcHZFUnby8pNDX4QFcEK6zGyrQ0bEhxNXaI3MpsHe3rsf8Haa+2bXTUfq8y5yqSD1IagzOmhN/IdPX5FPhySu6zo14gpIg2SrLpH/ft84akL2i8j3G6mCIPG7PNfcupFcREN9maiJjOCz+PHAWN8qjx/vqDbzHtxv6xa2FjGQ9OUu+ymSu2237ST1gFF7CQC5T7EUgaDU6St1tAqiV/xYORpIxKU3/Gtz/7UDJHU+jehgdrZRnWDmJPvABwPSslv5vzsX8xL5pMDI/d/9wsZcCCzCH80KwCnZXw5Fpgch3FP4Ni8swgcdNZcDyFK0cR2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gvsqk5g8PbICSv1JBa0k+MxRcU1r0VofP5g4gCPaacE=;
- b=dQxIUdzFYTAmX1VOH/HvwScluhJMiidXaRNYCMA96E47BU4Imkurrx5IAAPIAX1zykondkJRpSMy421as1g8txt1410scfOOZ5fFD4ZXw57lwCsVp+WtWB7HowtTAYBZmmBQ+Rue1kzQKc6yXaxeM4AeiDR5nNSnT2wtIjdky0qvh9v/I9gjU+L0FsN0dESL1Rg1U8jcMNKt0c4aaTNPKkBnqZMlgc2fhlmTxo+QGuknRp6LxkqIWCwCnJDYUzoWu77hmsWCq4gi07tF2IZFLw2nXEUfktD134ci3ykPRN2wYq0dphR7Mkjye8Cwjp3Kxu3chi4DKR75NFC1YyHDqw==
+ bh=lt9nlLmJOi252GVaEj5ROTgNEYAZu2l58euHP8ulZGk=;
+ b=SuvkyFsrXM3YMflfaV08dFkylv4kz9mYs69TD6nm4DOK5TaY6wC25qf5I69+GK6OLyq66qmRDVe+vcsXAIT2huZJ2uKD/Q+PqdFGniqONn8gEsOXZmRBEPyQsqIRg11toYJkQ7Qhh7OUQT0Am47p/rDyPP184g9JC2IfrUqWCY+wpBIEc1mqY6YFtSL6VbojMqYOkUodHRerLcOq1aKd7S0A2QI9FizW5NPVxZGb0GzwkmLPAuXcTHnTDZZlRL4XuRobOcMnRZ8viDLwisPLfzGisFfsYae6Aimgd14+DeOg31sN80HUr5JGHB43uWA8UpcDsnufr/bDWeyGAwfi5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
+ dkim=pass header.d=altera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gvsqk5g8PbICSv1JBa0k+MxRcU1r0VofP5g4gCPaacE=;
- b=Tk2H7SiGSwpEiLesakqqp0kFCo0D4kISRzy9t+HtNIxD+3O9ieQVT6LJWYJVzjPbkAQTopm42Xnad016MtVArfP3VESC92amcZpJEei5KjxNqQpVPYH2X6yL6UAykNxFN8d7LrQur0gfqqfxdqC8YmwgEMoQC5P6KQxNUIHV6NsCu4OeDScnOy0AtSVS5p6jk3mFbqR08Irz9oZGAGovq3Q2ZFWxvQ5Ae83Ta9Mxsu5i4pBBcMdpJl6ldPdF2Oxc9grxirDpvtEcOjADjetRWHG1tmpmk5D5rSUHD+VCxhJhLlrIi0qZiVQzWUfCgF64fHo3/23duJZe6rsCrY4Mkw==
+ bh=lt9nlLmJOi252GVaEj5ROTgNEYAZu2l58euHP8ulZGk=;
+ b=W4H9j0ZrhracoJrHwYzsLq21TmjL+VVtmF9ssKIo1G4H4EcWdnuhXOa3Q6TsWAhkFj3nN7TIRsDgbso3g4lDV7SIw/7ByUnFNNwLMHvgLfvg42hffPYGvT0bORa85FVBCUcH8XxIF+wlOk5TB8z/o7W/6qEYvzgT+S6T7gvC9RiZzxeP+C1BLVpOW5SyrVaJtFMerZbTbIjW2OtQu3jfVn6gqmfJDzoOH3ezyyG80TFBw+DM7ZTH7wlJaMnOKlZJUCQqddGs/Pp0S+ujHyCEI0S2GbUvbLi1b3oLsXmCAYPLVlZzroNUtKXdftl4UgYwlAo21Ddk4Ml5nkNAv+127A==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6051.namprd12.prod.outlook.com (2603:10b6:a03:48a::18)
- by SA1PR12MB7246.namprd12.prod.outlook.com (2603:10b6:806:2bc::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Tue, 8 Sep 2026
- 17:01:46 +0000
-Received: from SJ1PR12MB6051.namprd12.prod.outlook.com
- ([fe80::96e1:b300:7b78:d3a9]) by SJ1PR12MB6051.namprd12.prod.outlook.com
- ([fe80::96e1:b300:7b78:d3a9%6]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
- 17:01:46 +0000
-Message-ID: <a3ae0812-5e45-4351-aa40-5eba9f97e85b@nvidia.com>
-Date: Tue, 8 Sep 2026 18:01:44 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 0/3] usb: host: xhci-tegra: Add Tegra264 XHCI support
-To: Wayne Chang <waynec@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Thierry Reding <thierry.reding@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260903074539.613220-1-waynec@nvidia.com>
-Content-Language: en-US
-From: Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20260903074539.613220-1-waynec@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P190CA0040.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d1::20) To SJ1PR12MB6051.namprd12.prod.outlook.com
- (2603:10b6:a03:48a::18)
+ header.d=none;dmarc=none action=none header.from=altera.com;
+Received: from DM8PR03MB6230.namprd03.prod.outlook.com (2603:10b6:8:3c::13) by
+ PH0PR03MB6560.namprd03.prod.outlook.com (2603:10b6:510:b2::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.406.7; Tue, 8 Sep 2026 17:12:07 +0000
+Received: from DM8PR03MB6230.namprd03.prod.outlook.com
+ ([fe80::abad:9d80:7a13:9542]) by DM8PR03MB6230.namprd03.prod.outlook.com
+ ([fe80::abad:9d80:7a13:9542%3]) with mapi id 15.21.0406.005; Tue, 8 Sep 2026
+ 17:12:07 +0000
+From: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
+Subject: [PATCH v6 0/4] Add USB3.1 support for Agilex5
+Date: Wed,  9 Sep 2026 01:04:36 +0800
+Message-ID: <cover.1788886615.git.adrian.ho.yin.ng@altera.com>
+X-Mailer: git-send-email 2.49.GIT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI3PR02CA0012.apcprd02.prod.outlook.com
+ (2603:1096:4:295::11) To DM8PR03MB6230.namprd03.prod.outlook.com
+ (2603:10b6:8:3c::13)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,112 +67,156 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6051:EE_|SA1PR12MB7246:EE_
-X-MS-Office365-Filtering-Correlation-Id: d28db0b6-9b2a-4ca8-52ef-08df0dcadddb
+X-MS-TrafficTypeDiagnostic: DM8PR03MB6230:EE_|PH0PR03MB6560:EE_
+X-MS-Office365-Filtering-Correlation-Id: 36e82a80-fc85-4270-cf31-08df0dcc4fbb
+X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|23010399003|376014|1800799024|366016|56012099006|11063799006|10067099003|6133799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|10067099003|6133799003|3023799007|56012099006|11063799006|18002099003|55112099003;
 X-Microsoft-Antispam-Message-Info:
-	o8JFug9bAjpv56GWmDpusSaGtrVg25iUHfrofHUzMiVBsl7FAG8AkRcajufnIOItLirKz3ip3FISM87Hk/dd38PVPcgQT+997KrbJEwL4vnDIsSbbGGYltM9rBPSBdv95lA6aFKlxyal2+dYMxsw1DhPsjZ8P2EFgizLNyRbWidRSMx476NqiYkY7fsdGDv8zSTLPKT5xyCi1YCKUXFUdhQGpL3kJYP17LAhIz4Fa347EpuAeF6myTJTqpU6vQIK34ZIV6OTQOLa5SqDB4VDjYVdCxaB/njsxHQUPjdfL/nTpyZlUzJHZHuP+i6ccUH4ZdEBV7gQM1tlPVeQ+BHbPf8WCDWRMKRe2/SoJT8mUSkK1ED237yBEElYU+iY5qKmANx7D3bJVldR6HJP+PljqEtJjkeM4OSeW5LlgQkLz0Y0iynv9hRcgqdrFogvXymWjAe4N+d8ZD34AbFJ0kMXVnTLcBm2fO192rhavtIyJ0AAOBQ3Ui4dDaoOz9ZIe0ai0OIXjLOJxAkzuG20VUzPxgdhxk1PRWS43qBBnb0KIM4guq69EPNgmzjnGODVr5Wdv3a3hvzjBlc0yMfj8SZoDJfqSNMBqSv1O/0Oms+xO3LwW3BnKpoJimJdh5v+r8m1L4lUgzjKJDZ/Mlc50IeeOCxm1cb9BE4nBLKkrZ4t/sM=
+	iTFlCN85LTKcL+Uz27SqC9mc2pbNsj3RhoTn38JC8FeIV/vfA6LOFxn/W4fbbsITUzVcQ95hf42q2oGRFPgvzjiHqj0fFyasrYZsOhlMqhBnimEJPintx+QDFOsNK51ygY+I4KQh+m8lsh7XLMC1v8mNQfkaqgQ879rlRQBbpOGzTaof3a0RwjfXFOKHSQzj7urK3dulRaetN/RoFNogfZcPrSubUjAsmIpvMli573A4kSg104iVN9ABXWyWoVuUNeoOhMLkh4UU6+FvX/S/iEXEkUtzrCle+43b1gPfAzdpyPEMx3RjY5Ylz4GVPYuAiYXcwT+2iQlStVtCrnhjy125Z4OaS4jR3C1xvciQEMa8weiKIzvVAu5oAQhtNXrPRL+A8tLQ9SqqfVZoj/bj5T0rl3/RzU7LFagju6uwj7lyDvjWt//vTWP1N0IBUEDmo/7aayFk+jNCpfdBPcxV9Djyo7GX91iK3LJTroiLfPPHTXpNrUG5aM64Uua6Fbyi/qYUscYLUPZX2+ZwfWiMiyxSwNvZP6RBBWT/kDDMxoYPHoUiPVsCF8rNTDofo8uTutI/xPjxLgt/Q1gKe4Pj3Ohu9FxemDdQR8AYUYU2/m/k2LXaRV4SpOJbqrXrYfFKE+XtZj/e0lOK8vMLG57Br3tE5kSqLTXxnomK6sgrPPE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6051.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(10067099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR03MB6230.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(10067099003)(6133799003)(3023799007)(56012099006)(11063799006)(18002099003)(55112099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bjVMV3l5NGRBRVk2U1lnaExIS1k4SjdzVWtZUDIrUG9jSnJ6T0lSbmRmelR1?=
- =?utf-8?B?bFA1UjROL1MzYlhPRG82RndaZmNxc2lBRWdVTHpUeFU2SjlKVG9PNzZWSVpG?=
- =?utf-8?B?eWNsR09sUEo0Y21mZEdwd0JrYThONmxmY2Zjc1llY25zQTB0RzhLVm9vOHNF?=
- =?utf-8?B?WDU4WitpWVd6eWJLK1l3a3UzalpUeHhZcnZjSHNCank3by9ZOVJnYmN3Szlr?=
- =?utf-8?B?L3lvTnBXdTJPTkFGR3pYamQ4M0lsUnZpVWk4MDlaK2MvNUU5cEIwekFsM1N0?=
- =?utf-8?B?TWVKa3laaTBIc1pjb05hcHNBWTRmY1RRZUJTSE0yTG9udFdvRlZuVTFBZWJS?=
- =?utf-8?B?NCtmektPNWs3MU94TzZjQ0xla1VPT1MrbzBuZmRseWczK2Njd1B3TGt2UTRh?=
- =?utf-8?B?S0dJUEUxd0swdXRRdW44U2U0ODR2TTlVQjZ4S2J1ZXFWbXJyZFg4eXQrZUlO?=
- =?utf-8?B?U2NXY0FXc3VhWWd5eXh2NEk1NWdOeHd4T1UrTWo5SGRtRHVBbzlBN21ubmxX?=
- =?utf-8?B?QnBJbmdORGphRmFieUROUGFEMThNZWR2NXBHRWVSdkZYNk9VYzQ0bGhpQ01y?=
- =?utf-8?B?OUVaZ1pBQ1RtcG9pVkdjV0ZoaUVZY0FTczN5NnoyeW00QUo3TkpyNm9nZzlh?=
- =?utf-8?B?cnNoaHR0U2cxZjRSYWJTNy9jRFdBTTlLK0JLbk16SjJvejdpcS9VK2hLL01t?=
- =?utf-8?B?SEQ3QnVCRkkwb05KcGFQYThKY3NlbWhUZ1dmb2dmVVhrUWF2UHdTWmM2SzhD?=
- =?utf-8?B?NVlUTms5M21rMm5GU2xJSnA2ay9yQ0dhODFzY0txR0NyWGdTdHN3ZjRGdzM4?=
- =?utf-8?B?L2h2RVY1bHpJL21CSDdPU2U3MmlvZTU3aWo4YXBBZUZqUk5iSXdQNkhDUDdW?=
- =?utf-8?B?K3dXdWRndXowalgrWnpSMXBLZ3hvUnRWNnNxYTM1ZkJRdGdNbUZJSTd0Y1ZM?=
- =?utf-8?B?SSt1bmFlTVRQcU1MOXhDRHJkQ1NOMkFCbnJDdUQzeUYraDFmdG84VlY2ejUx?=
- =?utf-8?B?eC9XeTZFMmphaE8wcDg4c2lqck53Y0JWaVorVWo1VStJbW9USkUyT3I0MXR6?=
- =?utf-8?B?V01KTkxuSnJrLzMzcXVTdm9Qbjh6RkZSQzJRZHkwaWU0V2FYTllxSGwva0l2?=
- =?utf-8?B?ektlUi9vU0tvcTJsZ1pRdjN2TEI0VXo0ait3OWlnYitKY2FBeHVUdk9UbzBX?=
- =?utf-8?B?ZXBtTjhBdXNPOGJTbVBOZ1dxaEhFSng0Q2owYnRlcVpnanBlQmRFYlhFVSt2?=
- =?utf-8?B?a3g4QmMzYkwrbjRZUGpIYTRjSi9JbmJsMk5Jd0MydWY3Y0QrUUZ2Q0U0UTE1?=
- =?utf-8?B?aTVrUzNGU2laRG5hWFlvMmZZaXQrdUdOeEMzMk9zZ0VWandDekFaS0hiTHUy?=
- =?utf-8?B?UEt0aDFMQXZkNDFsWXRibkI3ZzdvT1ZNUlBkVU9NSFdmTlNwRDN0a0xSMmhx?=
- =?utf-8?B?OGIzbzVZZHRSZGthY1BqYmhsYU05TkJXNm4xTkdYY2k0Y045NFdWUDhOUFlj?=
- =?utf-8?B?ek9xL3pHS1BLaDloRnNlcFMvdStxY3lNdWx2TWsyNkNienJUZ3hNOGp5bjdN?=
- =?utf-8?B?clhOUWtUM04yT1FucmZvUCtzd0NrUTVHc01nRVpTYW9oeENYVHdKQzQ1OHdj?=
- =?utf-8?B?ZndFeTRGQWV1K0NnandZUjhCS0NCOFUxamJzakZucWFucXAyR3Q5WHJiWVVI?=
- =?utf-8?B?Ylo3bDhkSlJ2cXROdDhOYUVYbEQrai9TUVJIczh2SUhLVGdxamY1RUw4R1A3?=
- =?utf-8?B?N0l2R1pWSHhrMkY5U05EME1KYkVJbUttbTMvdkdZbzdTcDV2SkpGVlBKMUYr?=
- =?utf-8?B?R0VibGsxQ3FxYjl1RTArRkoxRXRxVGdmT2RNam1RcjkxWWE4UWhEUXJEakJ6?=
- =?utf-8?B?Mm96QlY0S1NJL1dxNmRXOGlhc2kzdGpNUG1FVW1VRDFUcExQbnJ1T3dNVUh3?=
- =?utf-8?B?NWF0alh5aFRMWmdwcHR0ZGRYK01BZWJVQmtFek0yb1h1OGwyZDc4YXB3bHpD?=
- =?utf-8?B?djdsb0dFOVRWSGd5Z1dFS01RdnIzRi9BS3RYbGZjeDdKL2NyS3BkUW1YcGl5?=
- =?utf-8?B?N21RRlJ0ak01WmVxUStCTXYxUkZHdUpwNHFKblRRcHBLaUVyaFF6MXpQMUow?=
- =?utf-8?B?T3VPVTRUeFdmbUFxMm94MXlMRkxpZTd4cEhKZmhXVjdQOCtFZ3VxUnI5clpQ?=
- =?utf-8?B?RUxQNFZLZWNyeGF0YzZST1NIelFtVkRWQWM2aXJienI4NnBHb0dtb2FMSjdl?=
- =?utf-8?B?MDdQek1rZm9qb3BTNVZMeTR3TDBPU0FtMjFnOFpsb1lRMGFBOEliR1F5Yk03?=
- =?utf-8?B?aXNyd1hoZjdRMFRBTjRDOXBVUnhHdFhMNERaUGgvZVhybW5WZUtyQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d28db0b6-9b2a-4ca8-52ef-08df0dcadddb
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6051.namprd12.prod.outlook.com
+	=?us-ascii?Q?rtO5nz5ymNAXgCPxvUO6UrX6gJdo9Mp8hx+kpHNtp+dlAFM9mwNYx2uWAl3g?=
+ =?us-ascii?Q?q7K41vwbm3LwxkaSu8V/HsQ5x2O1daEkBTj92tz+uU+Zy2U3/KEMHW0Qnaub?=
+ =?us-ascii?Q?4P4CGhtnvjqWsYZKuKN1xPtsbI76kZjH77yY1NOB6Ees7ywNjNZn4oySVAHV?=
+ =?us-ascii?Q?frfbsCnUeC1l4QmvrT5hWs1heJWh2N9DWhIIn8McgqJAueAFdB+iNBJPQbIN?=
+ =?us-ascii?Q?t0IvkhEoz4Is8Ev/ZOFflSUm5M1MaSVKjoQtFluhrb+H4JgzKKvZ++o4Hhmi?=
+ =?us-ascii?Q?hOKgp5Q5yR7yFUXP2on8OqynlZ52YZsv4w6pEkqpMFRzlkOcUaRXuzwkWCp+?=
+ =?us-ascii?Q?5PWqao2+P8/U21WiQukA00oGtEMBOgHquk9LoeJoDEPQCsOs8cfNuu4QS5f2?=
+ =?us-ascii?Q?XPDVpdLFc+Vi2qq8gUS5S/Q3Qfv9rv4k6Y26YEVJS9cZDHv2rRWvY7DnRU/j?=
+ =?us-ascii?Q?rdwdwJQqCGhj4oPpvZ83HgXlnjpgHVvPEry0Mvsy2s7oO2dXO+CpFdVuV7B/?=
+ =?us-ascii?Q?IDopSPpi1GacsxlZ/T840Tfmd5YPuItG/f5Z7ahGHR7yrepKxMDHI2/DFwuZ?=
+ =?us-ascii?Q?QSM+XLInEKk5pnlcENtQIHGtzvbkbTabJ1PTR7Xk/eQ9zu7pKR1hF41vJ5A8?=
+ =?us-ascii?Q?t9IBw9t1dfyTXke2t2VielvwPR/RhAy5wLgr8hZcvfcu37R1XHmTv7WkO67J?=
+ =?us-ascii?Q?RSsQCrr8Nl3ipdjrrJtP2sRRb8ion41SgetYLuFDVv+iRsysl5Sws+LVR1SO?=
+ =?us-ascii?Q?PbajbYaNKZ1iIXsIgOlp42KxLYa1dKRa3Z5JHW1QgZUM8qby7skqVt6lW8ig?=
+ =?us-ascii?Q?ILpjVycOl096k4+ma9IuvXzcLJytgS2eyRjqD08rtNBt6nsdaozjjiALyTMI?=
+ =?us-ascii?Q?NONYB/WXiRY4EQf8LSzNyol8fSJZo9ZqGJS5WLO6oage2j6x6UnxTod6yhi9?=
+ =?us-ascii?Q?acGt/TOvgeqkiR5HfNKJMMqEjMfOERofH2FYI/zpveK8PHnqmGB/iFIEJBdU?=
+ =?us-ascii?Q?DTnI6DY/7hszO53e2Pb8hDWQyKBmmkschgBZ2uldvHqZ6vbjqxI9ejr9rt54?=
+ =?us-ascii?Q?ZJ1HSe94ODIbTafJAI1pLNsjPe0c17glp7L3V/LsRGteaUpPraGefWyy/cbo?=
+ =?us-ascii?Q?eOyRcObMIDc79sdTsHQGlHzXVVVITVLr6leHSgqbc5MDaltwMXPcARz2Q5S+?=
+ =?us-ascii?Q?kda4gC2W7i0FxVRVQSfG+dMctgdyO4zv37kNUDa13lEMry1uPV3ZvWmSYCaB?=
+ =?us-ascii?Q?0/Kd4qz3k+T/bMy/PuOrjWqNsCPDj3uVNCpYDh79TRvsMSH1Q1mF/9hwiEhL?=
+ =?us-ascii?Q?0BW/ITobKizw19nCmLXA14mz+zIlZTbF57PV4thsaVIWP/5K1cBjQJ8IutYm?=
+ =?us-ascii?Q?CHoJd06/KU+AtHI3b/j4QX+Yh05aFcKCeTUhhVA3ATOthJvsLN2uCqfZbZd2?=
+ =?us-ascii?Q?mZ73iY4I1OFo7b3m+9a214flHQE4ue6rk+jmtMILLEGnGsdjKFY8mSHWJjpe?=
+ =?us-ascii?Q?CmB0OfAcTaDHnGs1wnl7QVqFu8YvdNCWS0yR80le1AcxaKxzjUpK7wXK4TR7?=
+ =?us-ascii?Q?xaKYjjfkuQmBxaQl0uDRHQA/Y2FqaMKPQQhhZs47hTSHVtMieC9ll14/nKZO?=
+ =?us-ascii?Q?iKSqtY6eRCoh49RrQayapYINsX4Pi196EMSKHumsSk+mEdidD+ovsCcYzWdT?=
+ =?us-ascii?Q?SLy/O6qzfTt1dNisSvRhTF3mom9jz9AMQ27sAbCwkST/3aZSVI5cziAXhrQM?=
+ =?us-ascii?Q?x4hZcF7Dk7QTjL00GNwamjSgiMw1mJo=3D?=
+X-OriginatorOrg: altera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36e82a80-fc85-4270-cf31-08df0dcc4fbb
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR03MB6230.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 17:01:46.7979
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 17:12:07.3639
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p8Gm65S3epMjjvWfFkPmsQbuuvSZr+0Mtp2Pc1Cug8rYYGt4qioLQISyugf5LKt4w0jHwrKAJF+ZeiuvdEfnMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7246
+X-MS-Exchange-CrossTenant-UserPrincipalName: Kp0q4yqs6M2cFZxvOaeInhaRK5++68UekTXZGO0DXN8lvSCG2FfML6fy9BN9VGCOjHmMtL1bW0PQqzuCvBlmJOfiUk5Sutx5w0r+A+sKJAc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR03MB6560
 
+Agilex5 integrates a Synopsys DesignWare USB3 controller via a
+SoC-specific wrapper that requires dedicated clock, reset, PHY, and
+optional SMMU integration. The USB DMA path on the interconnect is
+limited to a 40-bit address width.
 
-On 03/09/2026 08:45, Wayne Chang wrote:
-> Add Tegra264 support to the Tegra XUSB host (xhci-tegra) driver and
-> its binding, as part of enabling USB host functions on the Tegra264
-> Jetson AGX Thor platform.
-> 
-> This series was previously posted as part of a single 8-patch series
-> covering phy, USB host and arm64 DTS changes together [1]. Per review
-> feedback, it has been split by subsystem so each maintainer can pick
-> up only what belongs to their tree:
-> 
-> - usb: host: xhci-tegra + its dt-bindings/usb: this series
-> - phy: tegra: xusb + its dt-bindings/phy: separate series [2], sent
->    ahead of this one
-> - arm64: tegra DTS enablement: separate series, to be sent once the
->    binding patches from this series and [2] have landed, since it
->    depends on both
-> 
-> Patch 1/3 (dt-bindings: usb) also addresses Krzysztof's V2 review
-> comments: the iommus entries are now listed individually, and Tegra264
-> gets its own allOf conditional pinning interrupts to 10 and iommus to 5,
-> instead of inheriting Tegra234's wider top-level bounds unconstrained.
-> 
-> [1] https://lore.kernel.org/linux-tegra/20260831185835.3732707-1-waynec@nvidia.com/
-> [2] https://lore.kernel.org/linux-tegra/20260903071937.533646-1-waynec@nvidia.com/
-> 
-> Wayne Chang (3):
->    dt-bindings: usb: Add Tegra264 XUSB host support
->    usb: host: xhci-tegra: Skip MBOX MSG_ENABLED on Tegra264
->    usb: host: xhci-tegra: Add Tegra264 XHCI support
-> 
->   .../bindings/usb/nvidia,tegra234-xusb.yaml    | 52 ++++++++++++++++++++---
->   drivers/usb/host/xhci-tegra.c                 | 37 ++++++++++++++++
->   2 files changed, 84 insertions(+), 5 deletions(-)
+This series adds a device tree binding for the Agilex5 DWC3 controller and
+introduces the corresponding USB3.1 node in the Agilex5 SoC and SoCDK
+device trees. The controller is placed under a simple-bus with a 40-bit
+dma-ranges window so the DMA/IOMMU stack respects the interconnect address
+width when SMMU is enabled. As the SoCDK only exposes the USB3.1 interface,
+the unused USB0 node is removed.
 
-For the series ...
+On this SoC the DWC3 "ref" and "suspend" inputs share the same hardware
+clock source, so both clock phandles use the already published
+AGILEX5_USB31_SUSPEND_CLK ID (no new clock binding ID).
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Finally, the Agilex5 compatible string is added to the dwc3 generic
+platform driver so the controller can probe through that glue driver.
 
-Thanks!
-Jon
+Merging:
+- Patches 1 and 4 (dt-bindings + dwc3-generic-plat): USB tree
+- Patches 2 and 3 (arm64 dts): SoC / arm64 dts tree (or taken with the
+  USB series if preferred, with an appropriate Ack)
+---
+changelog:
+v5->v6:
+* Make snps,dis_u2_susphy_quirk and snps,dis_u3_susphy_quirk required.
+  There is only one DWC3 instance on Agilex5 and both quirks are used
+  on that node.
+
+v5 patch link:
+https://lore.kernel.org/all/cover.1788757821.git.adrian.ho.yin.ng@altera.com/
+
+v4->v5:
+* Binding: replace unevaluatedProperties: false with additionalProperties:
+  false, and allow only the extra DWC3 properties used on this SoC via
+  "foo: true" (dr_mode, maximum-speed, snps,dis_u2_susphy_quirk,
+  snps,dis_u3_susphy_quirk).
+
+v4 patch link:
+https://lore.kernel.org/all/cover.1788503540.git.adrian.ho.yin.ng@altera.com/
+
+v3->v4:
+* Drop dt-bindings/clock and clk driver patches; do not extend the
+  published Agilex5 clock binding. Reuse AGILEX5_USB31_SUSPEND_CLK for
+  both "ref" and "suspend" clock inputs.
+* Fix usb31_bus dma-ranges cell layout (sashiko comment): use
+  #address-cells = <2> and a Stingray-style 40-bit dma-ranges window
+  instead of a 32-bit child address space with a truncated 1 TiB size.
+* Update altr,agilex5-dwc3.yaml per review: drop obvious reg/resets
+  descriptions, order clock-names as bus_early/ref/suspend (matching
+  snps,dwc3.yaml), and rename reset-names to core/ecc.
+* Limit the series to USB binding, DTS, and dwc3-generic-plat (no clk
+  subsystem patches in the same series).
+v3 patch link:
+https://lore.kernel.org/all/cover.1786518803.git.adrian.ho.yin.ng@altera.com/
+
+v2->v3:
+* Add the missing USB3.1 reference clock ID and register usb31_ref_clk
+  as a fixed-factor clock in the Agilex5 clock driver.
+* Drop dma_addressable_bits core/glue changes; describe the 40-bit DMA
+  limit in DT with dma-ranges instead.
+* Wrap the USB3.1 node in a simple-bus with a 40-bit dma-ranges window.
+* Keep Agilex5 support in dwc3-generic-plat as a compatible match only
+  (no platform-specific DMA mask override).
+
+v2 patch link:
+https://lore.kernel.org/all/cover.1765249127.git.adrianhoyin.ng@altera.com/
+
+v1->v2:
+* Update new binding name to match compatible.
+* Update binding to use single node instead of parent child node structure.
+* Update binding according to comments from maintainer.
+* Split USB3 and USB2 changes in dts into separate commits.
+* Update to use flattened model and use dwc3-generic-plat driver instead of
+  dwc3-of-simple driver.
+* Add dma_addressable_bits as a dwc3 property which is set by the glue driver
+  which is used to configure the dma mask in the core driver.
+
+v1 patch link:
+https://lore.kernel.org/all/cover.1762839776.git.adrianhoyin.ng@altera.com/
+---
+
+Adrian Ng Ho Yin (4):
+  dt-bindings: usb: add Altera Agilex5 DWC3 controller
+  arm64: dts: intel: agilex5: add USB3.1 controller node
+  arm64: dts: intel: agilex5: remove usb0 in Agilex5 SoCDK
+  usb: dwc3: add Altera Agilex5 support to generic platform driver
+
+ .../bindings/usb/altr,agilex5-dwc3.yaml       | 112 ++++++++++++++++++
+ .../arm64/boot/dts/intel/socfpga_agilex5.dtsi |  35 ++++++
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts  |   4 +-
+ drivers/usb/dwc3/dwc3-generic-plat.c          |   1 +
+ 4 files changed, 150 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/altr,agilex5-dwc3.yaml
 
 -- 
-nvpublic
-
+2.49.GIT
