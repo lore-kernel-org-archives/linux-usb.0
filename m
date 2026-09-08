@@ -1,137 +1,163 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F5527A462
-	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 05:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788845154; cv=none; b=R31/0x/lShGaMAMaNgbLiWYDdG/FiHTjtBSKWnbP4R/H/giGmRIOUWeURp6A+5vUD5IQ71DWoYBX8nKP/d1x22m1LHb3oztMe/REmuPG9iEJLZ6LrUID0rc4c5DipVFiIvi8Q4637ROpqB+BgzsKO9I6gn+iF6JXwtwVyURGywY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788845154; c=relaxed/simple;
-	bh=x8m6O+VGBf2mh+d9UTHXImpGsH4/EOQxuIFX8xSzjGA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u4p1pdeNzj3I/foDJJStLSRtFfVwRLVdcuO+ZIXkwaKp28GCPDz8oHPaY+4enPEGXGZfEZ0ExooMUo3ke/ho24DCTHNGWJMuLN06t4ny3kbmMEx9tR7baYXu65KqMjNIq9Z6eQjhQxYZL0LDXo3TnSa6g7O4u93qCMTdFLW9AYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nz5k+qoD; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C184025B087
+	for <linux-usb@vger.kernel.org>; Tue,  8 Sep 2026 05:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788845442; cv=pass; b=Ok9bN12KZZv/0ByoMtNwl8afpsTrmWVf5uo9zzCYrpiKM/wTBIW3vcobuiqQZ82M3qcSmRATfWMun4c8EXm84dS0tt5zk953Diq6e7vfe2k/buteDUFFrcSRQQllEHoMUl3aRTBdRVB9EFZnUgghCq6iYH5xuWd5S+WWlc4RVEg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788845442; c=relaxed/simple;
+	bh=QNkzcXLrIeA9PGjoW+K17U+l2f1/yAmziuUSvwf3ls4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=WVQyCF7rT2QnjKf2CgMki/3XP693w1ZK0dL/Pg9pjB1IRoKmDovMz1AJpiVampv4YeCf1/br+KLz6QIhlxAfDzylBo9/OFLJEXBa/X0NB0+SRLAH7NiV8Pwhr6MTFtAJK922gsh+fpr4tGW8yDbNx0StAwDdVL2r89NErWtpeMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXJ5Y6qO; arc=pass smtp.client-ip=74.125.227.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nz5k+qoD"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38511175ad3so3583581a91.2
-        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 22:25:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXJ5Y6qO"
+Received: by mail-vs2-f12.google.com with SMTP id ada2fe7eead31-78a2363d4aaso57887137.0
+        for <linux-usb@vger.kernel.org>; Mon, 07 Sep 2026 22:30:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788845439; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DsRoT544regpVE8mudJijAYFeljXp3n9Ybnb3oeHfhojCw4ksJ405ZtZH+faz+ZmDe
+         Djl5kKGVK2wakNYdS5xtsxCKo9KTtBl5SP6eZdt9P43gAVUIKudIuT0uKec5Fk1LGOtX
+         SCd6rP5mDsMZkGGw1/h2hfYcrXcDwtGU24HCJEP+GJCuaZl1I7o7O6nOHOch7+4rGxSU
+         5KLBBnKihLE2yrzfRNV+LSksdyS9bpmV2vx0khqC27lWnZMRardquNXQPynk9ByuB03y
+         Og927lF0hlIf3qqbLvDftNkYir4LwC7YNenBHyOhVEpdQk32gr4+fwAGpxQQv3M+5WQH
+         Th3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=SslZo4KJYgjxynFL/9PZ+8SOQPYO/z372U1dNjmcOM0=;
+        fh=58/meS8eo9AjGxdMXwNr099K5fAicO3f60TlyHWn4wk=;
+        b=RNVF9+6+SX2aJhz2d/F/pkqSFvZwXtP0C/TdSDjb8+uUpLMqY8f+AiLqAUn2sbNatR
+         ODPkA0CDt5gmCaLb5GYmM17vtmekVQ1+9nUXrRtee9YOlCTjhPgK93AJxEh6mL0tOHSx
+         Vi7r7sJHvggXE7i3ze+gBTcjtr8nKeYAtl45oWztNRnLzAoAKRaBI7MyFeSwoi2S9q+s
+         kKgUIIFEvksB6Yoak1xw/V0IBQ0rVxCsZjyP0Dpt3y3dWyMhnhI4h9kuf+omXeinDORC
+         5Jp8pybkGDXqFSKAA0BEmOT5E4hahXJJIoN/iN3SmaqZmObjICKQboHiPw7B65ZrTbVv
+         4goA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788845152; x=1789449952; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cAp8mTkH9nPCXUPKfddbuA6JymE/Gu0j627y3YqdlVI=;
-        b=nz5k+qoDxmhy+uL4z07k6tY8ULwpn0SIVgQGuoqotUPz7lNawW65mqwBEEY5RTwky9
-         x38XVYDHA6B/k6ElAZEGnyiVsRV9y5KTiQ1QqiNVUVVDpnZj1vrBQ+C5FVv5a9kwOS63
-         Z4uXouxjPeOeYZq1+pIhFkjmhRPa2mRgju92tFU0uJs7LfC4kJQTR9k76w3SM0W0Bojm
-         Ta2VcSKObXzeOXsf1SkondzhEWfiUr5Rm+EeJRYtY52eA8SiXJgck6uYWVTQumhrmAS4
-         9V7nbWV3ZkTvYDLN3R5KsIcd31vpdZJSe7QowHbmj948xmuxQ6M7oFwREPtzor/bSQdy
-         l6YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788845152; x=1789449952;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=gmail.com; s=20251104; t=1788845439; x=1789450239; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cAp8mTkH9nPCXUPKfddbuA6JymE/Gu0j627y3YqdlVI=;
-        b=GkAiHqzqtvytHY3jE5RlpyCK0SPhD4EiXc7da365qQnKJm0j4ttrC/vKLygphAHcwJ
-         XRlsNqaYnE1V4XGeY+vkKz+eqQPaC2uvfXZeWerkKZdCsAZe8xMtJSh0+VNGhyK0soMR
-         y14dJ+YR8u7Sfjp/C1RJrC/g97V3IZ3q+tUNzzdg1Exx2OfudPNF00xf5lXfYQ8mKyA4
-         rVGoI2isjPitPx0WRPv4GwGquY/X1TT6+XSd0LoaNlYq6est5zPG8PEK8merYj1JAT1b
-         IPg05StV7ym1dE1OKdmhAWx/72+Xc0pH9WSWmw9cyxhTC7Zx81q209Pnc9hzmvXSbePf
-         gb6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwCWtOX4Vehi3Ot0sWdCJSnk3yCrxDysnB9QpXc7m4iSujjp+MmlG3e8AgBBe1RwwLRoIsnPNXdGBI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mwV5HPLHks0GnsbFhWWQMO7tPqVF73i2bQYp3mLk9/wj9Ca7DL
-	1HdqcpK2jRZMC7unp35MS5Dm2U24FaKr41FRWxv7SOoRNux48cMH/7kE
-X-Gm-Gg: AYBFou3JkOpO+eTpr7UW8khY6fPydKmxrdw+3NojaavcsADOX6OPzPA+9VTcjc+7BWm
-	1Au6w31H2eHp/pU3/4kw7xe1mzPqP8yvpkwa+Zre3V9/hPb9oAIDaVs3gIgnmyn0WoF+V/Plp61
-	Z0i2dm7nw3FyTJgQ9HTv34hyHUM8znFlA0dAYcaxqtXVy5HA5rLUYUPN9/DGSpcKSq5IwAD7Rto
-	Z4ZONUW57+DCw0TyA7TzdCasozMbnH4D6p+4ZfIkmQJSCoAXBUAA/5DxJ0QwEon2awdrglPfZAW
-	+ScaN1AxFMZ39jnPAY9+HRjcEHDBemLERhMI1uYKr55ssoFGLB3hKlUrpC4fwW2vpdFp/DiglyM
-	+bTVSBBGl6luE6ddsBOIjF0WhM98vaaGZNpuv40Le98yjeeffvjP3di2NV7Gnwd35xnGpptAO9T
-	F4sfjY+ok2vWEuEJSP1mnMTml5ThrAdBsYxpATF2aWvQPaGq47XtULE94CPRmQiPvYW7CuVw8ND
-	SBCbAeJ35qPzFLqdEIEGjH4
-X-Received: by 2002:a17:90b:1b44:b0:398:ba96:1afd with SMTP id 98e67ed59e1d1-39b2613249fmr36702489a91.8.1788845152391;
-        Mon, 07 Sep 2026 22:25:52 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14324410092sm30022861c88.14.2026.09.07.22.25.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 22:25:51 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-net-drivers@amd.com,
-	linux-kselftest@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] net: usb: fix repeated words in log messages
-Date: Tue,  8 Sep 2026 10:55:44 +0530
-Message-ID: <20260908052544.27165-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <7c8cb3f3-8eab-494b-9f97-b30693a361eb@lunn.ch>
-References: <7c8cb3f3-8eab-494b-9f97-b30693a361eb@lunn.ch>
+        bh=SslZo4KJYgjxynFL/9PZ+8SOQPYO/z372U1dNjmcOM0=;
+        b=HXJ5Y6qOSbBV5WjPg9FeS7up0yeXeKr8ctMdPcz2UrVYkYAkNNoWBG3vuLUVPfRXW4
+         4dI+Ye9PNX20iR8UrfBxL0RufNBkW5VfGdXZG1VOBtROlRtlvhNRh1Ku6qbwVw7G9y/5
+         qR+zJtLLtUlXTVitudRZKRLY6vIzjpYrxBuTQ02nLskz3+6FlrQ2oAj/RMA2iMqv6Xu9
+         g3BdJ2u/AGF1bdPzVVkkP5/m3Nu2Lyu6kNwELPm9t+W41tmd0vHU5WpVspwbsJ31NJL9
+         1c4ddcHwSkn8bUbHU08JQBfFHtlR0QUbhe8/C9l4rZX+OfVGP0RSppfd7NUJ2mvfz+0O
+         VUZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788845439; x=1789450239;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=SslZo4KJYgjxynFL/9PZ+8SOQPYO/z372U1dNjmcOM0=;
+        b=i4TxXi9HznCSxprKfNhr4YtLr+bywJP7b+JHeevgPrYzs4X+s3/UxVcjP4H/oglJm5
+         +d70f57b8UDJAncnDlk62LT8P4OiPtzS6GANW9ABqmHiECrvJHyvb43VbP1Rfc6xrPUP
+         qy9T3y2ZcIjvRyTviVL8MpRRlPCd/Cwm1zH+IchM9CBtFqECeeyU1ZrOxd9e1Zd26KrO
+         qD8BNLfTkDtf1Rai2wjuYJo6wktg4fVZJA1YCuw3gOqP400U1nNkJlqhKMH5p5u89+Uv
+         Jc/FT52Bn6iieQjgorGyabjeiQ9eHLl9kaR8OLSsweFmUCpDqEn5WglkW7/ED0Fe2i10
+         NR7g==
+X-Gm-Message-State: AFuF++nnBrwbFh3KJXEQv849ZQ3sPOaCpAIcIUB3S5Y8obU6sL68zEoN
+	lzvB8MxjcWhxiYTzbNLZuDsqXK5Pumk+u8YXi+vwmOhVvO2GN8r5Gxwmp8BZYIpwIpffW7kOnGS
+	YtrXJ3hdFJUzvZwYZOavW0zveH3y8/M6SUw==
+X-Gm-Gg: AYBFou1vFtOX4UEQ2B7ql3tS9ALUQIwZzheQlcdLs8/VKWC1eUQq81WzkY6GW/vp/zn
+	ClX9PyXm3a8UJOuAlTYzmzkZaA7pmj7v6EIkUo20i4IOzugpEBW2nk7btYhCfAMQkuPyShDWUPF
+	FSUoJgPI6RrxDy1cbr4kctbagex3KuPTMjmN4LnOsqBfVAi3YeHd5LTQ5leQVzwDECNe+8zo5As
+	WX55Shb3yAbqkbudHJzbA7YF0WqLMJPJ3Vv50lj9X76IBvIiUqjI3euKCclsgas5ysb1hIAl4gm
+	6on88hLfyCF6OpZ4Uxl3l9dtn4cNjNFijD+54OuLkhM=
+X-Received: by 2002:a05:6102:a4a:b0:78a:135e:feb8 with SMTP id
+ ada2fe7eead31-78a608afdedmr2340994137.0.1788845439517; Mon, 07 Sep 2026
+ 22:30:39 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Tue, 8 Sep 2026 00:30:38 -0500
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Tue, 8 Sep 2026 00:30:38 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Abduvaliy Abdulazizov <abduvaliy.hbai@gmail.com>
+Date: Tue, 8 Sep 2026 00:30:38 -0500
+X-Gm-Features: AcwNN1WHUy03EnwPiSfMvWigKYPM8tqaLmNBUA01fCl8DPvue-z8tKSs335aexc
+Message-ID: <CAPGafdkBb49YFV+d0rYjbi4QjifCUr1Wos6C5TZtDQzN6-pn+g@mail.gmail.com>
+Subject: [BUG] xhci: Acer ANV16S-41 internal USB camera never attaches on AMD 1022:15ba
+To: linux-usb@vger.kernel.org
+Cc: mathias.nyman@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 07, 2026 at 02:49:32PM +0200, Andrew Lunn wrote:
-> The same thing twice. Same capitalisation. Is one could actually be
-> correct. Please see if you can find the data sheet for this device and
-> see if it gives any clues.
+The internal USB camera on an Acer Nitro ANV16S-41 works under Windows but
+does not enumerate under Linux. This is before uvcvideo can bind, not a UVC
+probe-control failure.
 
-I could not get hold of the ASIX data sheet itself, so this is from the
-register definitions in the driver rather than from the vendor document.
+Hardware and tested software:
 
-The register is named in asix.h:
+- Acer ANV16S-41, board BRZ_SKF, BIOS V1.14 dated 2026-04-02.
+- Ryzen 7 260; Arch Linux 7.2.2-arch1-1.
+- xHCI PCI 0000:65:00.4, 1022:15ba rev 00, subsystem 1025:1969.
+- Camera USB 0408:4035 rev 0004, using Microsoft usbvideo on Windows.
+- Controller path \_SB.PCI0.GP17.XHC1; camera under RHUB.PRT1.CAM0.
+- Linux USB2 port usb3-port1 is hardwired; companion usb4-port1 is not used.
+- Windows USBXHCI version 10.0.26100.8972.
 
-  /* AX88772 & AX88178 Medium Mode Register */
+On 2026-09-08, a read-only check also finds no camera USB device or video node
+on 7.2.3-arch1-3, with BIOS V1.14 and the same controller IDs. The detailed
+controlled boot traces below were recorded on 7.2.2-arch1-1, not 7.2.3.
 
-and it is written by AX_CMD_WRITE_MEDIUM_MODE (0x1b).  So the register
-is the "Medium Mode" register, and neither word is a stray duplicate of
-the other: the message is naming the register and then repeating "mode"
-for it.
+Linux results:
 
-The sibling read function words it the way I would expect:
+1. No camera USB device or video node.
+2. Resuming the controller/root hub to D0/active does not reveal the camera.
+3. Cycling only the empty camera port changes PORTSC from 0x000002a0 to
+   0x00000080 and back, with no attachment.
+4. Unbinding/rebinding the empty xHCI controller recreates the root hubs but
+   does not reveal the camera. Original policies were restored.
+5. A separate boot with usbcore.autosuspend=-1 keeps this controller and both
+   root hubs continuously active throughout a 42.9-second trace. The camera
+   is still absent. The capture contains 121,343 events with no reported
+   drops across 16 CPU buffers.
 
-  netdev_err(dev->net, "Error reading Medium Status register: %02x\n", ret);
+In the no-autosuspend boot, the first camera-port write is PORTSC 0x000002a0
+at 0.737260 seconds, followed by the same status at 0.757631 seconds.
+No later attachment or enumeration is recorded. PP is set, CCS is clear;
+this is not a physical measurement of module voltage.
 
-which names the register and stops there.
+Successful Windows cold and warm boot traces show standard root-hub
+SET_FEATURE(PORT_POWER) for USB2 port 1, approximately 100 ms later a hub
+status of 0x0101/change 0x0001, then normal port reset and enumeration.
+The unused SuperSpeed port is also powered/disconnected (hub status 0x02a0).
+No proprietary USB request enabling the camera before attachment was found.
+Raw xHCI PORTSC and USB hub status use different bit layouts.
 
-The other thing that pushed me towards it being redundant is what the
-value actually is:
+The Windows ETLs retain USBXHCI/USBHUB3/UCX and ACPI events with embedded
+build-specific schemas. Local decoding recovered 13,249 cold-boot and
+14,015 warm-boot UCX records. All 5,185 XHCI/HUB3 records match the native
+Windows exports on comparable fields and timestamps within 2 microseconds.
+Opaque structure fields and UCX/ACPI payload semantics were not independently
+validated against native field exports; decoding limits are documented.
 
-  int asix_write_medium_mode(struct usbnet *dev, u16 mode, int in_pm)
-  ...
-  netdev_err(dev->net, "Failed to write Medium Mode mode to 0x%04x: %02x\n",
-             mode, ret);
+ACPI SSDT31 supplies XHC1 power methods, despite their absence from the
+DSDT device body. Its platform hooks call M000, whose only definition in the
+captured SSDT17 is empty. SSDT9 XHC1 _DSM advertises functions 3/4 and returns
+constant buffers. Windows logs method names but not the _DSM arguments or
+underlying register operations. No verified camera-enable method was found.
 
-The 0x%04x is 'mode', the value being written, not an address.  So the
-sentence is "failed to write the Medium Mode to <value>", and the second
-"mode" has nothing left to refer to.
+Matching Microsoft public symbols decode the target controller's recorded
+flags as 0x00040060000000a4 / 0x0000000044050000. The three
+RestoreRyzenFeatureBitsPostControllerReset flags and Needs180msDelayPostHcReset
+are not set in any of the ten saved controller snapshots. This is an observed
+flag state, not proof of every operation performed before those snapshots.
 
-The same string is in u-boot's copy of the driver, but that was copied
-from Linux, so it is not independent confirmation.
+The unresolved stage is controller/platform initialization before electrical
+USB attachment. Maintainer guidance on a targeted xHCI/PCI/ACPI instrumentation
+point or a known AMD/board-specific initialization requirement would help
+identify a justified patch. There is currently no proposed fix or known-good
+Linux version, so this is not being presented as a bisected regression.
 
-If you would rather not take my reading of it without the data sheet, I
-am happy to just drop this one.  Otherwise I will resend it as-is in a
-later batch of the split series; it is not in the batch I am sending
-now.
-
-Thanks,
-Hemanth
+A separate same-model/BIOS report describes the same symptom:
+https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg6302306.html
+Its claim that no XHC1 power methods exist does not match this laptop's SSDT31.
