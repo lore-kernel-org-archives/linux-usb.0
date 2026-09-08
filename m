@@ -1,87 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5433976A0;
-	Tue,  8 Sep 2026 07:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCE834F270;
+	Tue,  8 Sep 2026 07:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788851559; cv=none; b=j96jDICV+vk2M9vpwMSOfP3bl4mS0wacUh8BkvvVZiarp6loNO0CQI2fh9H9K9VtLPvjhGto/xXCgx0XUsBmQ2766x2LcQooYTyd83jQKHzQLLZU/cijY7ZhV45dItR6KgDe6L2XsdcMl3Jya4H2u7JGarFCWMKqr7XbMmCTJVA=
+	t=1788851766; cv=none; b=KLY782t8WZM0gpK6uVT+GrhpLC6QcKWGL1F2cnUmawtMXuDTdwF4vEQNgrZeBRq6xGzNlZbOCljLAJnpCxgiyFSlCMuL94poJtOjtwowY0T/4ZqGPymMn3NXLRn1L3W0XijKgdtFmN8V9l265bUuM1rgDnXsJ/3M2kODaELVYJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788851559; c=relaxed/simple;
-	bh=ojfz3BK3cNv9WyccRjmIJwIzaZLN1JEefzj2ybT4g2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gReDQvXyo5o8YRx7kEl6pG2w8W2DQ865SLVmlyNRY6KaBCNmj7/udJ7sY85kQujJSAfzWdsg9Q/SiUFrMsfHriwHgYOpgjwmreoKI23vkms2vRUMNpF/YvpBwhS8wi9GFyOJYOiuLta7aoDSdXq1BBNCTRHRwbewDBXZa8ZGClc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NtAVcMiQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788851766; c=relaxed/simple;
+	bh=qI6Ayf5wPgUTQ4/qNmGJZJVRLZrlzPExqwImPy4y9sc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AAlJyJa9m9J1iYtsoLisR+IDSXVnQO9UMz0ELGtqkwK/2hBUJCNQ1TsI6Xt+RPN/usECY8cqQVGCcbe1BEwvYY/8K3XWsAvDbY1xEBRd31FENmmYetkLOgZshlinwtVbd0MyXPyJjvtOcq9oZvavBfvE2pbkBSNHyE1O7poXiUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E6FZnP5S; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NtAVcMiQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730BF1F00A3A;
-	Tue,  8 Sep 2026 07:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788851558;
-	bh=5p31lc4Tvv+4APqA53+22S0thee+C1JMA0AUVb8nGPE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NtAVcMiQH+lDPgQbi/TsBORUbxXF5mRQDKZAWt4VIuYo0eCni2nqpamj6OxYAJVUY
-	 N9ER8mVu1wRUkx8hI0+OeY4IAdVF2NaSFafwBRryiezJLM5BYrc5/Mx0uIWs2eoc3o
-	 D1oVcUo2tWTToFuiuC5/b47wLBC6WfA1XWbOYyDFaizdms1dOtd3T3A/RUQH+/FnI2
-	 xtt430Z72Q2Xu7m6U8TvEL1E01bqd8P8ylAnR6bBlAH4/AW/K/O1Fub1yDfrX6q4ho
-	 C57I69HCKiELXHtbo7TBGIPVcgLV1KbDceKvegKVWMZ+//pWGqxB3knLKc7VbBKMHe
-	 JgOlWIf/YMSCQ==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1x3q0R-00000000sZE-423a;
-	Tue, 08 Sep 2026 09:12:35 +0200
-Date: Tue, 8 Sep 2026 09:12:35 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: cdc-acm: fix racy TIOCMIWAIT implementation
-Message-ID: <ap-1YzIoyYsH_3V-@hovoldconsulting.com>
-References: <20260907065501.101013-1-johan@kernel.org>
- <e231a7e9-7aa9-40ea-8ac6-57855b4ac811@suse.com>
- <ap56NTVMq8GlbjmR@hovoldconsulting.com>
- <72615ee3-46eb-4639-a408-ba29c1235d08@suse.com>
- <ap6LcHWDvIWF3oNK@hovoldconsulting.com>
- <bc055887-3029-4740-bec5-7e2fe4205992@suse.com>
- <ap6iJ6vkVIaxXFwn@hovoldconsulting.com>
- <f642f815-df4f-473b-aaa2-89153c08bc05@suse.com>
- <ap62IbbQti28M_SA@hovoldconsulting.com>
- <a9db0fce-2a2d-4896-a3c3-2afff4080168@suse.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E6FZnP5S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788851764; x=1820387764;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=qI6Ayf5wPgUTQ4/qNmGJZJVRLZrlzPExqwImPy4y9sc=;
+  b=E6FZnP5SzB9SwamCMvmiSNyPjnWzeSQwUrVMTK2o4RY/MbNr62s9Md+w
+   rzBnuNMDCZ1WbrvS7q3vKAX5qlXyU+C/lvMVTO93kOiRuyIUZtNmnBQmq
+   OXO8uPTMfO/SnR3Y8CxCPp01v9BljN0XVk3x8MpJzeXKAzLkOnP1EdLgf
+   3j8emcCJ/c7t2wT2qFdOA38wpmqS1CJp0egTJ4Mk97U1oAwh7YB05XvSO
+   MSMLqt03OkGscUJHRXkkrfl0zWBfi5iZNE22KZqsSpCfuEWZzvGp/d8rY
+   2pPdwlVa+NFd33OtmceL7E3NLqYW7bTobo6bp1r/lu1T/PWgoqkiEO5Dr
+   A==;
+X-CSE-ConnectionGUID: FOEJGA3ySDKd9xYYBb7jzg==
+X-CSE-MsgGUID: jKJNh/vpQZC+TLqBiSW2Lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="106760034"
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="106760034"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 00:16:03 -0700
+X-CSE-ConnectionGUID: y6PbfSSUQ82qjZZlHsLGmQ==
+X-CSE-MsgGUID: CrhCmLDgRvasFm0K9a323A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="274699573"
+Received: from qat-server-366.sh.intel.com ([10.239.92.87])
+  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2026 00:16:01 -0700
+From: Jie Wang <jie.wang@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chas Williams <3chas3@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	accessrunner-general@lists.sourceforge.net,
+	syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com,
+	Jie Wang <jie.wang@intel.com>
+Subject: [PATCH v2] usb: atm: cxacru: fix NULL deref of atm_dev on sysfs writes
+Date: Tue,  8 Sep 2026 15:02:03 +0000
+Message-Id: <20260908150203.2119844-1-jie.wang@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
+References: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a9db0fce-2a2d-4896-a3c3-2afff4080168@suse.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 08, 2026 at 08:54:36AM +0200, Oliver Neukum wrote:
-> 
-> 
-> On 07.09.26 15:03, Johan Hovold wrote:
-> > On Mon, Sep 07, 2026 at 02:46:16PM +0200, Oliver Neukum wrote:
-> >>
-> 
-> >> We could do that and it would indeed be simpler.
-> >>
-> >> But it would change the semantics so that past status changes
-> >> no longer show up in TIOCMIWAIT. Is that really a good idea?
-> > 
-> > Yes, as the current behaviour is both non-standard and inconsistent.
-> > 
-> > If you have multiple tasks waiting waiting on status change, then only
-> > one of them will detect it, for example.
-> > 
-> > And if there are multiple changes (before or during TIOCMIWAIT) events
-> > may be lost too.
-> 
-> Very well. Ample reasons. Do you have a patch or do you want me to fix it?
+The adsl_state and adsl_config sysfs attributes are created via
+dev_groups, so the driver core exposes them as soon as ->probe()
+returns. At that point instance->atm_dev can still be NULL:
+usbatm_heavy_init() only waits for the heavy-init kthread to start, not
+to finish, and instance->atm_dev is assigned later, in usbatm_atm_init().
 
-I sent a v2 yesterday that should take care of it all:
+A write to either attribute in that window passes the existing
+"instance == NULL" check and reaches atm_err()/atm_info() on the error
+path (and, for adsl_config, on the success path). Both expand to
+instance->atm_dev->number and dereference the NULL atm_dev.
 
-	https://lore.kernel.org/all/20260907095130.130636-1-johan@kernel.org/
+Fix this by logging with usb_err()/usb_info() instead. They reference the
+USB interface device, which stays valid for the whole write, and
+usbatm_atm_init() already logs this way before atm_dev exists.
 
-Johan
+adsl_state_store() also calls cxacru_poll_status() directly, which
+dereferences atm_dev via atm_dev_signal_change() and atm_dev->link_rate.
+Return early from the poll when atm_dev is not yet set.
+
+Fixes: e605c30977bb ("USB: atm: cxacru: convert to use dev_groups")
+Reported-by: syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9b195c4f412ea5c4e56a
+Tested-by: syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
+Signed-off-by: Jie Wang <jie.wang@intel.com>
+---
+Changes since v1 [1]:
+ - v1 gated on ->atm_dev at handler entry, but that check is an
+   unsynchronized TOCTOU; remove the ->atm_dev dereference from these
+   paths instead.
+
+[1] https://lore.kernel.org/all/f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org/
+
+ drivers/usb/atm/cxacru.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/atm/cxacru.c b/drivers/usb/atm/cxacru.c
+index 75d87c31e81f4..4322553f2902c 100644
+--- a/drivers/usb/atm/cxacru.c
++++ b/drivers/usb/atm/cxacru.c
+@@ -356,7 +356,7 @@ static ssize_t adsl_state_store(struct device *dev,
+ 	if (!strcmp(str_cmd, "stop") || !strcmp(str_cmd, "restart")) {
+ 		ret = cxacru_cm(instance, CM_REQUEST_CHIP_ADSL_LINE_STOP, NULL, 0, NULL, 0);
+ 		if (ret < 0) {
+-			atm_err(instance->usbatm, "change adsl state:"
++			usb_err(instance->usbatm, "change adsl state:"
+ 				" CHIP_ADSL_LINE_STOP returned %d\n", ret);
+ 
+ 			ret = -EIO;
+@@ -376,7 +376,7 @@ static ssize_t adsl_state_store(struct device *dev,
+ 	if (!strcmp(str_cmd, "start") || !strcmp(str_cmd, "restart")) {
+ 		ret = cxacru_cm(instance, CM_REQUEST_CHIP_ADSL_LINE_START, NULL, 0, NULL, 0);
+ 		if (ret < 0) {
+-			atm_err(instance->usbatm, "change adsl state:"
++			usb_err(instance->usbatm, "change adsl state:"
+ 				" CHIP_ADSL_LINE_START returned %d\n", ret);
+ 
+ 			ret = -EIO;
+@@ -481,7 +481,7 @@ static ssize_t adsl_config_store(struct device *dev,
+ 			ret = cxacru_cm(instance, CM_REQUEST_CARD_DATA_SET,
+ 				(u8 *) data, 4 + num * 8, NULL, 0);
+ 			if (ret < 0) {
+-				atm_err(instance->usbatm,
++				usb_err(instance->usbatm,
+ 					"set card data returned %d\n", ret);
+ 				return -EIO;
+ 			}
+@@ -490,7 +490,7 @@ static ssize_t adsl_config_store(struct device *dev,
+ 				snprintf(log + tmp*12, 13, " %02x=%08x",
+ 					le32_to_cpu(data[tmp * 2 + 1]),
+ 					le32_to_cpu(data[tmp * 2 + 2]));
+-			atm_info(instance->usbatm, "config%s\n", log);
++			usb_info(instance->usbatm, "config%s\n", log);
+ 			num = 0;
+ 		}
+ 	}
+@@ -827,6 +827,12 @@ static void cxacru_poll_status(struct work_struct *work)
+ 	int keep_polling = 1;
+ 	int ret;
+ 
++	/* adsl_state_store() calls this directly, before the heavy-init thread
++	 * has set up atm_dev; bail out rather than dereference NULL below.
++	 */
++	if (!atm_dev)
++		return;
++
+ 	ret = cxacru_cm_get_array(instance, CM_REQUEST_CARD_INFO_GET, buf, CXINF_MAX);
+ 	if (ret < 0) {
+ 		if (ret != -ESHUTDOWN)
+-- 
+2.43.0
+
