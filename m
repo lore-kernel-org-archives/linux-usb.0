@@ -1,133 +1,98 @@
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFFD563297
-	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 14:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A895C563FAC
+	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 14:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788965027; cv=none; b=ut2Z+Efo+tBw8Ua1i0cJoO7mqSQMolBEyQJCpv/v1Gv68PVXcmWm4c4jYJvrRoFsvRBj42BokE4kMOECgyFPHj9Q5MLKNAeMC72OduZC6LS3sxbWfSr1esI+YVgdRShiTj1Bq2Yx2pwqb2WFMYkJllLP+U8YDmHxnHwE2QFXdTU=
+	t=1788965700; cv=none; b=A/skIRpFksaz/Eok7af4cpY2wSjSzn+YlrAIE4bU46XZgd0DcWqu7UyvdPHLrq41g1bgp9JcJTk7FPeakAhwP8Me0OtykzAEE9r+ivQXVDsr/JUI2H46UVrRRjDKge43eempxQbxMgTmgMk5Aj7E82EIGFetliAtZDCwYtY3k60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788965027; c=relaxed/simple;
-	bh=DyMlPvFbWzlzyRQkr6wpkaRtoQ3anvGVl0nBoh+a4jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PR9RSMbXSKRN+kTQt+Brxq3ViXvWip0DFF+IVKZJ0gOnspFxTiRYI1xwjjyqMrx362B8jphi6cQPB+m7kwt3meR2ACG8b0VRwn55PFgOFoppsKeY5JNZmSJXbV4mvdcoYvj/SGUmtcbPh6e7DGFwPfBMgf/tkLYxW4hut4FUBQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o8AfXbq0; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1788965700; c=relaxed/simple;
+	bh=3mrzF4PFQcJ4DbH3RGaSc+zm2PljjP5W+lnaM84CL3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aKe+zobqGTyZjN3SnqQTZoP1NMrFVHgL+lrweqstCoZMXEF3v8fBRWrYsZgUx0k1HXXeNJV7pICGGLvQlNvHmMG8LSPgpc4rYBE0FPTmutrXsCQG/zRUKVGV+oDvHs/ZLKnaGJY8QUCQftm0lxDKsND6uK6Xtof96dGAr/Waah0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IffCLY9U; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o8AfXbq0"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so6396225e9.0
-        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 07:43:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IffCLY9U"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e2406so9931665e9.1
+        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 07:54:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788965024; x=1789569824; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1788965696; x=1789570496; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=wZae71d9OhtBZeeJosXyHI6vXicBpHlGo44Y/4JegXY=;
-        b=o8AfXbq0My867Hcvg0SXEDhhqcJZnRXmOGN33r6+w/YKkfMT4++mVtdnNGJ0UQAOfy
-         YclIQk7haqnOiHCp/htHQnDoOHY66JFz1+aT4qA9L8t7OaPRn2zmUxz+01mvS2NcFWGy
-         5WLwc97b2kGGy382zQcpvC5GsOmrZaWd3scQD2qkLM5ryUYc5jdGjWSTqr7MKGPJqSoC
-         veVP8Ldd1FUs5AbVYRjsgDObcfoar6S9PoeacNndQ0FPe/y2ajef3OD0jBFK4v2tlGQf
-         Zi4OJ0YOkjRuM8F0AncJA2bLJYexP05mEvA37tnLAsnLrst7JcNSZEnLWyJDaNZvg7mx
-         Lv3w==
+        bh=CEnAlwwtVf98S0MQnKDx/a7P5qnwKuSWE+q0EOlFqn8=;
+        b=IffCLY9U20m06r8jq41Wip3wbMxiCRO5u98+gwJ4IShm4wkkg7X/pL8ySww6J4XebT
+         8G83o+T8HV7UQxDY3AILmU5PPSPuO0534vpsVpgml81WxUkg+jSWdlsrkZC1XojQfCR9
+         wPEjfOUTpu0aWTpyHsP2JLI4iJJRVFv2sABsgKZDRr9k7CZCff9jMvjKbbYGvq36IDFe
+         m7IyRHupa9IRPB9ER/5GcA3V13z7+3yeRCUbOWz3N6E2aXBB+QFxpxYsIAmSR8V60/bn
+         NLxgbMrD38xmDezTXGpi3zHNw6RU9YnQGWCE6LS1nhtK5eZf2geTo1QVmBir/zZ28I2y
+         AQCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788965024; x=1789569824;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1788965696; x=1789570496;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wZae71d9OhtBZeeJosXyHI6vXicBpHlGo44Y/4JegXY=;
-        b=BkdCyeW0feUWW2X6PDZlByXjJhAh9ycoZnfz+Fd9HMhzLECQtOO0wi68xaR+9u2J2+
-         xFhXeJvKwL703Z7/Z8hd3eEWj46wrbja2JwRyOMw1k+igvdg1JVjEu7zPANrx/O3Nj8L
-         Qu3USsLIMv4M34uk53cx7nuiPTO2UPxvnQnj4OLXi0CpKCH0J4QtH/o8Mls4cCOYeqJH
-         G+15bVfXQKDpL5ooB4wgq/TOt+rnHuo+L9SeoaaekKgl0NakgjWH5d4zQfHj7RyvwquN
-         mWXHcjZyLCHvpq6RPtUqcHJZdO8PD+eLVZ98SIo+9tj6JRHEuRIk4Yl+i8t61gwyu/jz
-         YivQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzdArOldy2hlx4lSaBHgGNeNAFuDWZmAnNETtfsyJ7DYC/FHARMUTyrSwRIRVbOj8x2RkFxtIVhahY=@vger.kernel.org
-X-Gm-Message-State: AFuF++mf9nqeSGCy1lfEVvTnzzYnfzRE2O3WbVEkVrISGlYgj4x9y1ge
-	JtEDY7yD7UycRa/6HUao0ZQkvYffZ6ak3cTnLLNGa73B4hJBN9860Spe
-X-Gm-Gg: AYBFou31LW6/85RNhUVUcCdaYzwWVRrNLzH1sb9DxJx0kIzbRgTZLfUjHiKbsBnXJk5
-	fmEGikVNV/muyEvDvRkJ25OU0JPcLILxlj1qstsS9tXGmK7z2zJYOh3lJ2P1BEimBIe8ftyWmKJ
-	h0lBasltuDPGAB9tX428VWYefSQTwb22pEwi4h9s3FhaZPDH+qG5Wk9vLWw88MVDuZTIcA+djn5
-	HNmNuU9aFpM9eW2BJZWe8Kcbr8EpI8yAKM3M/U2hCwdugHvd07ZsOCFy/nNKDvsVVp1ePWjtRGZ
-	07Xkq5PJrng1rhfZ/4/abEct2ygk1erT4VeD4greme2oph8MU54TF7MV+lklU7FD9tg6lKJjlkC
-	vK5Syw4jkKQ5bSy9VsYAZ2n9b/LPvqb3ldWcMB3MkJftYbru22TrgfstD8cJTfjVWZQW6gh5Y8y
-	QtC3eJ0LTqAmyNjLl+nCvEjvNmXBh10OiO0Xql2jO3YUiWnkbKkjgeZTydMypqWxo6X75AueWlg
-	JRGA9VKHtYWWVjVj+mq
-X-Received: by 2002:a05:600c:3543:b0:49c:e3c3:5efd with SMTP id 5b1f17b1804b1-49d1f354321mr93264125e9.9.1788965023436;
-        Wed, 09 Sep 2026 07:43:43 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee6158e9sm562802765e9.12.2026.09.09.07.43.42
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 09 Sep 2026 07:43:43 -0700 (PDT)
-Date: Wed, 9 Sep 2026 16:43:39 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: gregkh@linuxfoundation.org, mathias.nyman@intel.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- parth.pancholi@toradex.com, francesco.dolcini@toradex.com
-Subject: Re: [PATCH 3/3] usb: xhci-pci: Put PWRON_POLARITY on a defined
- state
-Message-ID: <20260909164339.7252469b.michal.pecio@gmail.com>
-In-Reply-To: <20260909125842.528340-3-festevam@gmail.com>
-References: <20260909125842.528340-1-festevam@gmail.com>
-	<20260909125842.528340-3-festevam@gmail.com>
+        bh=CEnAlwwtVf98S0MQnKDx/a7P5qnwKuSWE+q0EOlFqn8=;
+        b=bFyQHI7eFcYRXWcYrhgUxj5/llWxFYiePjVW6XpVdMDDR1ABj7zSvJjeTDbdTPToLk
+         cYFvb6+12RVQegDImMvqv4/0rmHoVnA0cSHIjT8+KeRNwRT/l//1PEnK3p9jsazT9zPN
+         mcbqnfpfObsvOQ7fLsySFqHi4VyjcrThpMacl+JECH2pf7T1ZIYFY+Q111n0xN5PfyvZ
+         jwJFM6kBZHSb6d5raP7kLSOBFrUrgIuhotZly7xK83WHOt7s78OsXCCHbkuEyx/S7AnJ
+         5WSEBrgvY9cT07h8xtEBHezVCzyF925H229o5Gaq2+Ru6SPPduh1zUBmn5rnM30GXC0h
+         uEWw==
+X-Forwarded-Encrypted: i=1; AKwUvBzBeAteMrR+h+U2iOkL2uFcBWiYqAKu43RizkfoLcQLUAkqqs/VZWFn9a3nX2jtc3eMufTovt5orC8=@vger.kernel.org
+X-Gm-Message-State: AFuF++nVUUSnw1nNpOyEoTmAr3I/OluBoOrhI0LiTObkX/9fjFuFqhli
+	hpEGVEf+PcjRsfaOFhH5fJMALoSVJhp/GK+x5aOnl8BRJEHLaISNeag/
+X-Gm-Gg: AYBFou2L+Z6l2+T8yNmmdH1fp2NA/Ax0AxdECIupuM0g1ZNg6rI75zTZpdAu+PWSJIo
+	FBCGsFVCDgz1bZEiXkMO2XI1ccmK1LB62fzKEjgn95XpMbBXATAc/8s0B7fzeFf4KmKl78RMNq3
+	SpLjs0KBbCWKKRhIlw/QZwE+df0RXLc3RrORnGgF2QDWyW+Auush7qAbw1b16d3gPHihOxbtmb5
+	VFYDgcBPqC2Z/vVQ63M2z1tZbpwwpi93B70/c0ylNBMbKTdJ5jCJbH7WQnAIFWhzC7lufoSuN6v
+	r5BnLxVSW0gYIMNc2B2CDlEwMHZmrhgBuDB50LRE0xEeq7/fNB+m2UWDsMtjCZlWW8Cc4duQ0cb
+	B44slLbMr8ppD3NJ3YOywx/oOG4W6A87GvRwYLQgj6aj9yw5ZDe8xOwck4ErsPymJN/Mz1jccU8
+	u6gZxwqVsmj5wcp1djjk2y8aTJ/s6FMjk5cUDsZgm4floMb+9grwrpmxIXRmgQ+bLGu/PuOGeNo
+	+N59OA=
+X-Received: by 2002:a05:600c:a01:b0:49d:1916:2133 with SMTP id 5b1f17b1804b1-49d1916215amr117005945e9.8.1788965695566;
+        Wed, 09 Sep 2026 07:54:55 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm384918195e9.13.2026.09.09.07.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 07:54:54 -0700 (PDT)
+Date: Wed, 9 Sep 2026 17:54:48 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Breno Rodrigues Alves <breno3011alves@gmail.com>,
+	torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org, arnd@arndb.de,
+	linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v5] Kconfig: fix typos in core makefiles and purge
+ defective DVB debug (v5)
+Message-ID: <aqFzOFa3ADXIBo3G@stanley.mountain>
+References: <20260905003005.118245-1-breno3011alves@gmail.com>
+ <22707a1f-970b-4309-905d-13ac794c51fa@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22707a1f-970b-4309-905d-13ac794c51fa@suse.de>
 
-On Wed,  9 Sep 2026 09:58:42 -0300, Fabio Estevam wrote:
-> Currently, TUSB73X0_PWRON_POLARITY is set when the
-> "ti,pwron-active-high" is present.
->
-> However, when "ti,pwron-active-high" is absent, its status could have
-> been set previously by a bootloader or by a previous running kernel.
-
-or by EEPROM.
-
-Do they bother to put the chip in a wrong, non-default state at boot?
-
-> To make the state of PWRON_POLARITY deterministic, always write it
-> when the "ti,pwron-active-high" is present.
-
-That wouldn't be too dangereous, but...
-
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> ---
->  drivers/usb/host/xhci-pci.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+On Mon, Sep 07, 2026 at 08:59:28AM +0200, Thomas Zimmermann wrote:
+> Please stop spamming this list with revisions.
 > 
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index 75aa679f7d79..833c55c3213a 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-> @@ -684,10 +684,16 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
->  	dma_set_max_seg_size(&dev->dev, UINT_MAX);
->  
->  	if (dev->vendor == PCI_VENDOR_ID_TI &&
-> -	    dev->device == PCI_DEVICE_ID_TI_TUSB73X0)
-> +	    dev->device == PCI_DEVICE_ID_TI_TUSB73X0) {
-> +		u32 pwron_polarity = 0;
-> +
->  		if (device_property_read_bool(&dev->dev, "ti,pwron-active-high"))
-> -			pci_clear_and_set_config_dword(dev, TUSB73X0_USB_CTRL, 0,
-> -						       TUSB73X0_PWRON_POLARITY);
-> +			pwron_polarity = TUSB73X0_PWRON_POLARITY;
-> +
-> +		pci_clear_and_set_config_dword(dev, TUSB73X0_USB_CTRL,
-> +					       TUSB73X0_PWRON_POLARITY,
-> +					       pwron_polarity);
-> +	}
 
-... isn't device_property_present() missing here?
+Generally, the rule is wait a day between resends.  Otherwise it
+becomes pair programming and no one wants that.
 
-Also, I don't know those DT rules, but doesn't "ti,something" imply
-that this must be a TI chip, no need to check IDs?
+regards,
+dan carpenter
 
-Regards,
-Michal
