@@ -1,75 +1,51 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7202FBDE0
-	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 01:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98CF179A3;
+	Wed,  9 Sep 2026 02:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788918900; cv=none; b=gaBSnoJjrkvQYg25QtaywhQ0tsxBpRqF5obsyoE9W5VgGgaDkhk45YU9V4G4PVywsMiOh3Z453V0dvMcZtWjYorwvdTHEvsApQaoUiBHRa7I3bunVgp7BJPiFry3voC2XU0PpqlCjxwbo8kpAIDG25EtmD7AYR8FkF5MyQa+JXg=
+	t=1788919833; cv=none; b=uq8+VoNbdL02vOcp002oIiUtLNjICr7pVo5HBpQajQNju3/4XiV+/8KIZ9f+iE82PZNp2x2ho97MgJNia5hoCAfC6uPzjLi5qXHAQ4wfx5jhNw5qXC+gEy0dCbsmADeqm2eEWQIt9lrHY5vxoisF5S+ve6CXrfSE+40kBGGQa2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788918900; c=relaxed/simple;
-	bh=MW5aXg0bNsXR/6JL+IyLG4eQSYFFUF3T+l3vgA1VUqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PfAJgmfvnZrvtF82Pr9op1EDsMXiuMfmNDmGq/ceRPjZkEFFWd87E+GevMSlkiaW9K9U8OX7fZu9saMy+7y4j53ae2cCHEhOsoLfFby/kur65wWdnDVawohSznCdE1d84Y7rcY+KUxMUpMwjETC0DXw8Wn31Hu/sHS4bb8sUFXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s4izJVQC; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s4izJVQC"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-92ed19f4d60so479170585a.0
-        for <linux-usb@vger.kernel.org>; Tue, 08 Sep 2026 18:54:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788918896; x=1789523696; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IbQfObsn6XH/MZ0+tYnQiVEKUPLLfnz1L22a+l00z/Y=;
-        b=s4izJVQCrUYCW9D/IN83uCvzmDnfuHVJBqfwsiWrYnjZYuyEfcAPvAikBTmIjtv91o
-         Ew4FJYsERwF7oylHMxIDjqYXxNUkHwLJIIdKue6n6imKCh28iw6bwGgTT9GWR+CMAFzp
-         8lZkAlhohsOyjldsj2y38xj0INAEDk/4gYkEYfjftzhIrPkbVR/WyY+fYBH3ee0JSfVC
-         RuLSmSkzmhB46KsVdP3LQLipdSzSHcdtcdAjtAUeJtd4xcSg/pI+VapXli87m1N9b74V
-         Xah70aeWUCDKZYhWLVmxZ0v4PKKtMbd5c5xEQ25wgQ7iyoqQHB6Kp5jGMGkGx+KSnFWK
-         yHJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788918896; x=1789523696;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IbQfObsn6XH/MZ0+tYnQiVEKUPLLfnz1L22a+l00z/Y=;
-        b=tQA8q+/vsoxuAW9ylB6sEHx+xJskUy9Ts2zEzcbrB0PDBwW+I4x325K8BZ7n4joRn3
-         nP6+Com5Ct2KIsLN9q0F9/Lik6L40CW1PZh7Ns+/zWuYU73+owezD303zTJHd8D7yYWm
-         qbxc1ZyakWCGK6i6V5xFybw+CWty3foIsKblJNM382V9zjuVs9G7TUp+0Uu8tCWx18e8
-         HYxeL97Blul4zoeGRszFk0ns+JxAOmXLITk7AmOHH5NaheNZ3NsBO7thtn+kqvJt7ETh
-         gf2M4iEOrNKeNxFt9Dvpq5RcNkyG553qTIWaC5wqhEyEtTzHGWYw1OfSNmUgD7ZzS3Zl
-         cGzw==
-X-Gm-Message-State: AFuF++kCA8FS/bnRFwelq9XcvVCtPlH1bgPkTrLuAQnXEdkL4Kbgq6Fm
-	MXv5b0PROQIHWkqNhjKGNcwFPjUVcMaQ8WOMpzndnYepiSJervd4VRzA
-X-Gm-Gg: AYBFou3IHiHCIeQN6zxTP2Lw+UzcDxbj54Tw6b740/pLfFulk0rAKMhx73pRpmlXSPd
-	MP40GytJATtnjPHs+VKdzhBIZvK7ECVAcQKgxisOMxhvZ+1fQr2CswMyVyz4fT+yfFMfMscsdHI
-	mwt0mOH3oDZGiQqFTd/d93vRbfOn5noZ52Vz5pB7567SfPpDFU4eE++D3m/JNsydp1udx8zt5fP
-	UN84nkLFgEvU3XRBgxReEcj4meXnCk6BhLyFmqNHdeZAaF5hC0sh+XKwDWAsv4rGhYZSIn+OxuQ
-	BA0/WF7vUZqvOxPStyYQOcZPDE6N5VXdeNFm3jostgPdMvw52xBp1DNojEWRPBRKfZMUaNJdVo+
-	bxEUE6z4n1z2alCYbn60gzorUVPDni4eh4t5c5++upAhGuufOqAByPghsYSRQog0kLzc0xrVXq8
-	q92k1rQGa017u09ikmRpsTWQyusVah0ORa5gYNvk+fatOl1ixEkrfZ0x5N9H39EBtLzRXXWAxcj
-	8eILS9gwidN0srHdN0leDdddaDSM9TjSJp9UPfD
-X-Received: by 2002:a05:620a:164b:b0:936:af34:468e with SMTP id af79cd13be357-9396dead470mr2333006285a.4.1788918896064;
-        Tue, 08 Sep 2026 18:54:56 -0700 (PDT)
-Received: from reolab.localdomain ([146.70.168.136])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-939ad19dc90sm624164785a.41.2026.09.08.18.54.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 18:54:54 -0700 (PDT)
-From: Amir Mohammad Jahangirzad <a.jahangirzad@gmail.com>
-To: Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Hongren Zheng <i@zenithal.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
+	s=arc-20240116; t=1788919833; c=relaxed/simple;
+	bh=g3Ea4k9nAvXGjzhNYBnEARC1XmiIc4V4OZYrptIGcsk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=FddzdVQOV4xYAWwzE43r028ITs3DJAt8qlhZZEbAww/KCsNzoFC2rBzec1+GntR8Tf3CHXtHSNT3X9IAwoD1WzeLsBqmqJv2YNcWeD1H1YpR6lKvbqI+dGhFyeO2k7dl+4vgRWsJ8g2GD90mInl+yyCmMSGyBMU90vozWifq8z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9b3491deabf311f19a56ed5b684f684d-20260909
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:395ff580-4c19-475b-9e6d-bcc09d1ad401,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:248f661811a9764546178ebf6d39a347,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50|99,ED
+	M:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 9b3491deabf311f19a56ed5b684f684d-20260909
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1780386430; Wed, 09 Sep 2026 10:10:19 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: gregkh@linuxfoundation.org
+Cc: Thinh.Nguyen@synopsys.com,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzkaller@googlegroups.com,
-	Amir Mohammad Jahangirzad <a.jahangirzad@gmail.com>,
-	Mohammad Mahdi Anbaraki <m.mahdianbaraki@gmail.com>
-Subject: [BUG] KASAN: slab-use-after-free in usb_control_msg / kobject_put (vhci_hcd)
-Date: Wed,  9 Sep 2026 05:24:38 +0330
-Message-ID: <20260909015438.274093-1-a.jahangirzad@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Huang Wei <huangwei@kylinos.cn>,
+	kakapapa2 <kakapapa2@gmail.com>
+Subject: [PATCH v2] usb: dwc2: debugfs: fix memory leak of hsotg->regset
+Date: Wed,  9 Sep 2026 10:10:14 +0800
+Message-Id: <20260909021014.906548-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260807100400.3179625-1-huangwei@kylinos.cn>
+References: <20260807100400.3179625-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,296 +54,62 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We have found two related KASAN slab-use-after-free bugs in the USB
-subsystem (specifically involving vhci_hcd and usbip) using syzkaller.
+hsotg->regset is allocated in dwc2_debugfs_init() using devm_kzalloc(),
+which ties its lifetime to the device (struct dwc2_hsotg) rather than
+to the debugfs entries it serves. dwc2_debugfs_exit() removes the
+debugfs directory but leaves hsotg->regset allocated until the device
+itself is removed, so the pointer dangles for the remainder of the
+device lifetime.
 
-Exact kernel branch and revision: upstream torvalds/linux master tree,
-commit 893e11787f78e43b534e252249ac3fff4d1333f8.
-Kernel config: https://gist.github.com/Reodus/dd06d0efddc483bc5f6e17dd392376d8
+Switch to kzalloc() and free it explicitly in dwc2_debugfs_exit() so
+the regset lifetime matches the debugfs lifetime. Set the pointer to
+NULL after freeing to avoid a stale dangling pointer.
 
-Note: Because this bug relies on a race condition, it may not trigger on the
-very first run. The reproducer needs to be executed concurrently in a loop.
-For example, using syzkaller's syz-execprog utility inside a QEMU VM, we
-run it with multiple processes:
+Reported-by: kakapapa2 <kakapapa2@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219977
+Reviewed-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Signed-off-by: Huang Wei <huangwei@kylinos.cn>
 
-./syz-execprog -executor=./syz-executor -os=linux -arch=amd64 \  -threaded=true -repeat=0 -procs=16 -sandbox=none \
-  -enable=usb,net_dev,net_reset,cgroups,binfmt_misc,close_fds,sysctl,swap \
-  ./repro.prog
+---
+Changes in v2:
+- Rework the commit message per Thinh Nguyen: the issue is an
+  allocation lifetime mismatch with the debugfs lifetime, not a
+  traditional memory leak (the devm_kzalloc() allocation is
+  eventually reclaimed by devres). Drop the misleading reference to the
+  dwc3 regset commit, which addressed a separate problem.
+---
+ drivers/usb/dwc2/debugfs.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Alternatively, you can compile the provided syz programs into C reproducers
-and run them in a loop with multiple threads.
+diff --git a/drivers/usb/dwc2/debugfs.c b/drivers/usb/dwc2/debugfs.c
+index 3116ac72747f..2ecbf6523aaa 100644
+--- a/drivers/usb/dwc2/debugfs.c
++++ b/drivers/usb/dwc2/debugfs.c
+@@ -9,6 +9,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
++#include <linux/slab.h>
+ #include <linux/uaccess.h>
+ 
+ #include "core.h"
+@@ -787,8 +788,7 @@ int dwc2_debugfs_init(struct dwc2_hsotg *hsotg)
+ 	/* Add gadget debugfs nodes */
+ 	dwc2_hsotg_create_debug(hsotg);
+ 
+-	hsotg->regset = devm_kzalloc(hsotg->dev, sizeof(*hsotg->regset),
+-								GFP_KERNEL);
++	hsotg->regset = kzalloc_obj(*hsotg->regset, GFP_KERNEL);
+ 	if (!hsotg->regset) {
+ 		ret = -ENOMEM;
+ 		goto err;
+@@ -810,4 +810,6 @@ void dwc2_debugfs_exit(struct dwc2_hsotg *hsotg)
+ {
+ 	debugfs_remove_recursive(hsotg->debug_root);
+ 	hsotg->debug_root = NULL;
++	kfree(hsotg->regset);
++	hsotg->regset = NULL;
+ }
+-- 
+2.25.1
 
-
-Crash 1:
-
-[   98.877298] BUG: KASAN: slab-use-after-free in usb_control_msg+0x417/0x490
-[   98.877321] Read of size 4 at addr ffff8881082bc51c by task kworker/0:4/8296
-[   98.877333] 
-[   98.877342] CPU: 0 UID: 0 PID: 8296 Comm: kworker/0:4 Not tainted 7.3.0-rc2-g893e11787f78 #7 PREEMPT(lazy) 
-[   98.877360] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS Arch Linux 1.17.0-2-2 04/01/2014
-[   98.877371] Workqueue: usb_hub_wq hub_event
-[   98.877392] Call Trace:
-[   98.877398]  <TASK>
-[   98.877427]  dump_stack_lvl+0x70/0xa0
-[   98.877450]  print_report+0x14b/0x4b0
-[   98.877471]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
-[   98.877493]  kasan_report+0xfa/0x120
-[   98.877513]  ? usb_control_msg+0x417/0x490
-[   98.877528]  ? usb_control_msg+0x417/0x490
-[   98.877546]  usb_control_msg+0x417/0x490
-[   98.877560]  ? __pfx_usb_control_msg+0x10/0x10
-[   98.877575]  ? __pfx__dev_info+0x10/0x10
-[   98.877591]  ? __pfx_hub_port_reset+0x10/0x10
-[   98.877608]  get_bMaxPacketSize0+0xef/0x260
-[   98.877624]  hub_port_init+0x5b9/0x3200
-[   98.877641]  ? device_set_wakeup_capable+0x11c/0x170
-[   98.877662]  hub_event+0x24c0/0x39f0
-[   98.877684]  ? __pfx_hub_event+0x10/0x10
-[   98.877701]  ? pwq_dec_nr_in_flight+0x157/0xd30
-[   98.877720]  ? remove_waiter+0x571/0xd40
-[   98.877733]  ? _raw_spin_lock_irqsave+0x85/0xe0
-[   98.877752]  ? mutex_unlock+0x7f/0xd0
-[   98.877771]  ? __pfx_pwq_dec_nr_in_flight+0x10/0x10
-[   98.877789]  ? _raw_spin_lock_irq+0x80/0xe0
-[   98.877806]  ? __pfx__raw_spin_lock_irq+0x10/0x10
-[   98.877824]  ? kick_pool_pick+0x208/0x660
-[   98.877840]  ? __pm_runtime_suspend+0xae/0x260
-[   98.877860]  process_one_work+0x6fc/0x1110
-[   98.877879]  ? __pfx___schedule+0x10/0x10
-[   98.877896]  ? move_linked_works+0x1af/0x290
-[   98.877918]  ? __pfx_process_one_work+0x10/0x10
-[   98.877936]  ? __pfx_hub_event+0x10/0x10
-[   98.877953]  worker_thread+0x49a/0xb80
-[   98.877972]  ? __kthread_parkme+0x113/0x190
-[   98.877994]  ? __pfx_worker_thread+0x10/0x10
-[   98.878011]  kthread+0x361/0x460
-[   98.878025]  ? __pfx_kthread+0x10/0x10
-[   98.878040]  ret_from_fork+0x3e6/0x670
-[   98.878058]  ? __pfx_ret_from_fork+0x10/0x10
-[   98.878075]  ? __switch_to+0x74b/0xf90
-[   98.878089]  ? __pfx_kthread+0x10/0x10
-[   98.878104]  ret_from_fork_asm+0x1a/0x30
-[   98.878127]  </TASK>
-[   98.878133] 
-[   98.878136] Allocated by task 8296:
-[   98.878145]  kasan_save_stack+0x2f/0x50
-[   98.878166]  kasan_save_track+0x14/0x30
-[   98.878182]  __kasan_kmalloc+0x7f/0x90
-[   98.878197]  __kmalloc_cache_noprof+0x181/0x3b0
-[   98.878210]  usb_alloc_dev+0x5f/0xef0
-[   98.878221]  hub_event+0x21e0/0x39f0
-[   98.878237]  process_one_work+0x6fc/0x1110
-[   98.878252]  worker_thread+0x49a/0xb80
-[   98.878268]  kthread+0x361/0x460
-[   98.878280]  ret_from_fork+0x3e6/0x670
-[   98.878294]  ret_from_fork_asm+0x1a/0x30
-[   98.878313] 
-[   98.878316] Freed by task 72:
-[   98.878323]  kasan_save_stack+0x2f/0x50
-[   98.878338]  kasan_save_track+0x14/0x30
-[   98.878353]  kasan_save_free_info+0x3b/0x70
-[   98.878366]  __kasan_slab_free+0x47/0x70
-[   98.878382]  kfree+0x216/0x450
-[   98.878393]  device_release+0xd6/0x3b0
-[   98.878417]  kobject_put+0x1a6/0x360
-[   98.878435]  put_device+0x1f/0x30
-[   98.878448]  usb_put_dev+0x23/0x30
-[   98.878469]  vhci_device_reset+0xd6/0x220
-[   98.878487]  event_handler+0x1f4/0x3f0
-[   98.878502]  process_one_work+0x6fc/0x1110
-[   98.878518]  worker_thread+0x49a/0xb80
-[   98.878533]  kthread+0x361/0x460
-[   98.878545]  ret_from_fork+0x3e6/0x670
-[   98.878560]  ret_from_fork_asm+0x1a/0x30
-[   98.878579] 
-[   98.878582] The buggy address belongs to the object at ffff8881082bc000
-[   98.878582]  which belongs to the cache kmalloc-2k of size 2048
-[   98.878594] The buggy address is located 1308 bytes inside of
-[   98.878594]  freed 2048-byte region [ffff8881082bc000, ffff8881082bc800)
-[   98.878609] 
-[   98.878612] The buggy address belongs to the physical page:
-[   98.878619] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1082b8
-[   98.878633] head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[   98.878644] flags: 0x200000000000040(head|node=0|zone=2)
-[   98.878657] page_type: f5(slab)
-[   98.878671] raw: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
-[   98.878684] raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-[   98.878697] head: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
-[   98.878709] head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-[   98.878721] head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-[   98.878733] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-[   98.878741] page dumped because: kasan: bad access detected
-[   98.878746] 
-[   98.878749] Memory state around the buggy address:
-[   98.878756]  ffff8881082bc400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   98.878765]  ffff8881082bc480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   98.878775] >ffff8881082bc500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   98.878782]                             ^
-[   98.878789]  ffff8881082bc580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   98.878798]  ffff8881082bc600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   98.878806] ==================================================================
-
-
-The syz reproducer:
-
-
-# {Threaded:true Repeat:true RepeatTimes:0 Procs:16 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:false NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Trace:false CallComments:true LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}
-syz_usb_connect$midi(0x0, 0x24, &(0x7f0000000300)={{0x12, 0x1, 0x300, 0x0, 0x0, 0x0, 0x20, 0x194f, 0x10c, 0x40, 0x1, 0x2, 0x3, 0x1, [{{0x9, 0x2, 0x12, 0x1, 0x1, 0x4, 0x80, 0xe, "", {{{0x9, 0x4, 0x0, 0x0, 0x0, 0x1, 0x3, 0x0, 0x4}}}}}]}}, 0x0)
-syz_open_dev$usbfs(&(0x7f0000000380), 0x1ff, 0x2)
-syz_usbip_server_init(0x1)
-
-
-
-Crash 2:
-
-[   96.159481] BUG: KASAN: slab-use-after-free in kobject_put+0x2da/0x360
-[   96.159490] Read of size 1 at addr ffff888102e160ec by task kworker/0:11/8637
-[   96.159494] 
-[   96.159498] CPU: 0 UID: 0 PID: 8637 Comm: kworker/0:11 Not tainted 7.3.0-rc2-g893e11787f78 #7 PREEMPT(lazy) 
-[   96.159503] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS Arch Linux 1.17.0-2-2 04/01/2014
-[   96.159507] Workqueue: usb_hub_wq hub_event
-[   96.159516] Call Trace:
-[   96.159518]  <TASK>
-[   96.159519]  dump_stack_lvl+0x70/0xa0
-[   96.159527]  print_report+0x14b/0x4b0
-[   96.159534]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
-[   96.159541]  kasan_report+0xfa/0x120
-[   96.159548]  ? kobject_put+0x2da/0x360
-[   96.159554]  ? kobject_put+0x2da/0x360
-[   96.159559]  kobject_put+0x2da/0x360
-[   96.159565]  ? get_device+0x2a/0x40
-[   96.159569]  put_device+0x1f/0x30
-[   96.159573]  usb_put_dev+0x23/0x30
-[   96.159579]  vhci_urb_enqueue+0x42e/0x9b0
-[   96.159586]  usb_hcd_submit_urb+0x24b/0x1e00
-[   96.159593]  usb_submit_urb+0x71f/0x1550
-[   96.159598]  usb_start_wait_urb+0x138/0x340
-[   96.159602]  ? __pfx_usb_start_wait_urb+0x10/0x10
-[   96.159606]  ? kasan_save_track+0x14/0x30
-[   96.159612]  ? __kmalloc_noprof+0x1cc/0x480
-[   96.159616]  ? usb_alloc_urb+0x53/0x180
-[   96.159620]  ? __asan_memset+0x27/0x50
-[   96.159624]  usb_control_msg+0x321/0x490
-[   96.159628]  ? __pfx_usb_control_msg+0x10/0x10
-[   96.159632]  ? __pfx__dev_info+0x10/0x10
-[   96.159637]  ? __pfx_hub_port_reset+0x10/0x10
-[   96.159642]  get_bMaxPacketSize0+0xef/0x260
-[   96.159647]  hub_port_init+0x5b9/0x3200
-[   96.159652]  ? device_set_wakeup_capable+0x11c/0x170
-[   96.159658]  hub_event+0x24c0/0x39f0
-[   96.159664]  ? __pfx_hub_event+0x10/0x10
-[   96.159669]  ? pwq_dec_nr_in_flight+0x157/0xd30
-[   96.159675]  ? remove_waiter+0x371/0xd40
-[   96.159679]  ? _raw_spin_lock_irqsave+0x85/0xe0
-[   96.159684]  ? mutex_unlock+0x7f/0xd0
-[   96.159690]  ? __pfx_pwq_dec_nr_in_flight+0x10/0x10
-[   96.159695]  ? _raw_spin_lock_irq+0x80/0xe0
-[   96.159700]  ? __pfx__raw_spin_lock_irq+0x10/0x10
-[   96.159705]  ? kick_pool_pick+0x208/0x660
-[   96.159710]  ? __pm_runtime_suspend+0xae/0x260
-[   96.159716]  process_one_work+0x6fc/0x1110
-[   96.159721]  ? __pfx___schedule+0x10/0x10
-[   96.159726]  ? move_linked_works+0x1af/0x290
-[   96.159732]  ? __pfx_process_one_work+0x10/0x10
-[   96.159738]  ? __pfx_hub_event+0x10/0x10
-[   96.159743]  worker_thread+0x49a/0xb80
-[   96.159748]  ? __kthread_parkme+0x113/0x190
-[   96.159755]  ? __pfx_worker_thread+0x10/0x10
-[   96.159760]  kthread+0x361/0x460
-[   96.159765]  ? __pfx_kthread+0x10/0x10
-[   96.159769]  ret_from_fork+0x3e6/0x670
-[   96.159776]  ? __pfx_ret_from_fork+0x10/0x10
-[   96.159780]  ? __switch_to+0x74b/0xf90
-[   96.159785]  ? __pfx_kthread+0x10/0x10
-[   96.159789]  ret_from_fork_asm+0x1a/0x30
-[   96.159796]  </TASK>
-[   96.159797] 
-[   96.159798] Allocated by task 8287:
-[   96.159801]  kasan_save_stack+0x2f/0x50
-[   96.159806]  kasan_save_track+0x14/0x30
-[   96.159810]  __kasan_kmalloc+0x7f/0x90
-[   96.159815]  __kmalloc_cache_noprof+0x181/0x3b0
-[   96.159818]  usb_alloc_dev+0x5f/0xef0
-[   96.159821]  hub_event+0x21e0/0x39f0
-[   96.159826]  process_one_work+0x6fc/0x1110
-[   96.159830]  worker_thread+0x49a/0xb80
-[   96.159835]  kthread+0x361/0x460
-[   96.159838]  ret_from_fork+0x3e6/0x670
-[   96.159842]  ret_from_fork_asm+0x1a/0x30
-[   96.159848] 
-[   96.159849] Freed by task 8287:
-[   96.159851]  kasan_save_stack+0x2f/0x50
-[   96.159855]  kasan_save_track+0x14/0x30
-[   96.159860]  kasan_save_free_info+0x3b/0x70
-[   96.159867]  __kasan_slab_free+0x47/0x70
-[   96.159872]  kfree+0x216/0x450
-[   96.159875]  device_release+0xd6/0x3b0
-[   96.159880]  kobject_put+0x1a6/0x360
-[   96.159885]  put_device+0x1f/0x30
-[   96.159888]  usb_put_dev+0x23/0x30
-[   96.159893]  hub_event+0x288c/0x39f0
-[   96.159898]  process_one_work+0x6fc/0x1110
-[   96.159902]  worker_thread+0x49a/0xb80
-[   96.159907]  kthread+0x361/0x460
-[   96.159911]  ret_from_fork+0x3e6/0x670
-[   96.159916]  ret_from_fork_asm+0x1a/0x30
-[   96.159921] 
-[   96.159922] The buggy address belongs to the object at ffff888102e16000
-[   96.159922]  which belongs to the cache kmalloc-2k of size 2048
-[   96.159933] The buggy address is located 236 bytes inside of
-[   96.159933]  freed 2048-byte region [ffff888102e16000, ffff888102e16800)
-[   96.159937] 
-[   96.159938] The buggy address belongs to the physical page:
-[   96.159941] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x102e10
-[   96.159945] head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[   96.159948] flags: 0x200000000000040(head|node=0|zone=2)
-[   96.159952] page_type: f5(slab)
-[   96.159966] raw: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
-[   96.159970] raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-[   96.159974] head: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
-[   96.159977] head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-[   96.159981] head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-[   96.159985] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-[   96.159987] page dumped because: kasan: bad access detected
-[   96.159988] 
-[   96.159989] Memory state around the buggy address:
-[   96.159991]  ffff888102e15f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[   96.159994]  ffff888102e16000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   96.159997] >ffff888102e16080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   96.159999]                                                           ^
-[   96.160002]  ffff888102e16100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   96.160004]  ffff888102e16180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-
-
-
-The syz reproducer:
-
-# {Threaded:true Repeat:true RepeatTimes:0 Procs:16 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:false NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Trace:false CallComments:true LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}
-r0 = syz_open_dev$usbfs(&(0x7f0000000000), 0xffffffffffffffff, 0x0)
-read$usbfs(r0, 0x0, 0x0)
-syz_usbip_server_init(0x2)
-r1 = syz_open_dev$usbmon(0x0, 0x6, 0x21c101)
-ioctl$MON_IOCX_MFETCH(r1, 0xc0109207, 0x0)
-read$usbmon(r1, &(0x7f00000000c0)=""/46, 0x2e)
-ioctl$MON_IOCH_MFLUSH(r1, 0x9208, 0xfffffffffffffffb)
-r2 = syz_open_dev$evdev(&(0x7f00000000c0), 0x1, 0x20202)
-ioctl$EVIOCGKEYCODE_V2(r2, 0x80284504, 0x0)
-ioctl$EVIOCSKEYCODE_V2(r2, 0x40284504, &(0x7f0000000940)={0x5b, 0x1b, 0x9, 0x2, "1db770ad90b40f4c0ec86113b4925fb80fe792c1e3c6484977b162a138445e84"})
-r3 = syz_usbip_server_init(0x3)
-write$usbip_server(r3, 0x0, 0x41)
-mmap$usbmon(&(0x7f0000ffd000/0x3000)=nil, 0x3000, 0x2, 0x11, 0xffffffffffffffff, 0x8000000000000000)
-syz_open_dev$evdev(&(0x7f0000001340), 0xfffffffffffffbff, 0x440)
-syz_open_dev$evdev(&(0x7f0000000300), 0x83, 0x0)
-r4 = syz_usb_connect$sierra_net(0x0, 0x3f, &(0x7f0000000080)={{0x12, 0x1, 0x200, 0xff, 0xff, 0xff, 0x40, 0x1199, 0x68a3, 0x0, 0x1, 0x2, 0x3, 0x1, [{{0x9, 0x2, 0x2d, 0x1, 0x1, 0x0, 0x80, 0xfa, "", {{0x9, 0x4, 0x7, 0x0, 0x3, 0xff, 0x0, 0x0, 0x0, "", {{0x9, 0x5, 0x43978451d8f6fedb, 0x2, 0x40, 0x2, 0x1b, 0xfe}, {0x9, 0x5, 0x7, 0x2, 0x200, 0xc, 0x77, 0x3}, {0x9, 0x5, 0x81, 0x3, 0x20, 0x0, 0xfd, 0x32}}}}}}]}}, 0x0)
-syz_usb_control_io$sierra_net(r4, 0x0, 0x0)
-r5 = syz_usb_connect$cdc_ncm(0x0, 0x0, 0x0, 0x0)
-syz_usb_control_io$cdc_ncm(r5, 0x0, 0x0)
-syz_usb_control_io$cdc_ncm(r5, 0x0, 0x0)
-syz_usb_control_io$cdc_ncm(r5, 0x0, 0x0)
-syz_open_dev$usbmon(&(0x7f0000000100), 0x6, 0x2)
-ioctl$MON_IOCQ_URB_LEN(r1, 0x9201)
-read$usbmon(r1, &(0x7f0000000100)=""/231, 0xe7)
-
-
-Reported-by: Amir Mohammad Jahangirzad <a.jahangirzad@gmail.com>
-Reported-by: Mohammad Mahdi Anbaraki <m.mahdianbaraki@gmail.com>
