@@ -1,534 +1,530 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011040.outbound.protection.outlook.com [40.93.194.40])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFA0392C2A;
-	Wed,  9 Sep 2026 19:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788980553; cv=fail; b=hDUT07mmj82OCk6lhR6H19gDWxqLlrAJuO7nPk7zJnDq07pvXKM2Dl+oXimySWNXZ/C2yvqkHz+bw8J5phmt8u/K151dx0/H/Z7ljLQ16Kgat7q9aYw4tf0HloA/64ePQYxTm2Oc362d39AMy3QYhwby4Sr+WCZdYIF7vfbJnzc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788980553; c=relaxed/simple;
-	bh=I4+89MiL1t3AK8h8ZY9jhD4YGaUcTri1uX5SEE0SRSU=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ok4PBU8xLbtMn6SkOVgp6PGAaSzO3lWerXhznUXI9jlcaKHT4sUshzknS6BnIWg3x5jpY1yRdcUbMmClMhPHufS2gU9CdwPxhvBzVEko8ZFJfW5xiVCdkidoI467pT/wr9TCzYJSpW4VUh2ssHDismBMLZYvsuZRUyAZAOlBEeU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=HXd4tcW8; arc=fail smtp.client-ip=40.93.194.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633E43B0597;
+	Wed,  9 Sep 2026 19:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788980771; cv=none; b=s7UmooNRdcYDgSpc53pv6HxdqFOcFdUT59o3BqSkCrm0VFXrhKJ/SnETxoYg5YHDyecV5p28Yxs+IN+vOK8XDOkXe6fq8NChynVlK+a2/op254Ut/6Vyon4S7rM35Ev8KlUVeF937alCFkhZt7r5ra1h4fBooeFEtUED82pBmqo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788980771; c=relaxed/simple;
+	bh=lchH5ix4lRTS91JtZuVQZZ/QcqS5TqXdeq7uD5eutWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s97B5bUhzZwWDYvZ7fyRuTBI3RDbIop4Z4byP10jnpWM7NGoZu42tm1n/kW20Y/s1dITb4Dqtx3+8nYj9NaVsTwTXePynJc06k5pc0AhsDEB0Phv5ni5ZHOAZ/pq9i27skUiXvuFWMM7/TEK8ZupFnlugtG4Ck3DULWFTMgLqtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DU/4Cndq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="HXd4tcW8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zz1pi2Z8/swrQ2eQr2p9eY8sIB3nQmbHZyXEj2x4XldSxhowSGjkXvubncxXIOD0J+/JHpxunkvNMQitcNSaWTZoI5eszaNp47O2bnvTTEm1rxI+zooE/Ac6CBVU2ApSy2aLn9MZb9YymjcOWaz2/AELUKO+XRapbugmyz6Y39XUkk0MoJhDAisYLI8lFp+hdJ+Sxl1SHa9Ih2EWm7HagWYwOmwPOBRU5Am1L2rD2hvS+OYnIoF5reJLf16tda1vQ84+T94T9Nk6J8g+grRCFjdEFSqTkkndzVC8lZK2NueTx5DGBBf15/QN4zvUOrzRYirOjmrK2BQ14Cf4j4tvhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I4+89MiL1t3AK8h8ZY9jhD4YGaUcTri1uX5SEE0SRSU=;
- b=eaoBRXgVj8PEoMdkA4rnxb9wYb04Sns05vfOCZA731nfGGdYoGi/121JiztRII+56pGUWm+pbFqfKcFubiChCdkZ/VuuV+rX573Hskszk4SkOtgIc87d8Rzdk1Ofa7KVLHAHBUrwuFo7SoW5IsSvJGEbKSZjbdqy8H42xsL3fIUIqQOSJjLYiK9lUykGmyGpz+vY2Am8ZsfBgH4cU/GnA4WQ/4ZE+0wnANmPI/ZsWo8m8igfQrcDX77i1iusOq69ylEy6UtGaXNtCdAzos3zNAYtQcA79mRHGl/rLH2pRxoi/aIgrx8gGAGIxNzt9FOS6fwptZ6JnBqCInkHM1iFeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I4+89MiL1t3AK8h8ZY9jhD4YGaUcTri1uX5SEE0SRSU=;
- b=HXd4tcW8WOKgBvykZbZCO1maMivzX91MTC3bw1+q6gP+IgOTZbfK8BuqsyCeyIyDOADvF800Ty2DvtIy83fLF52edXQc/ZIuaDMWoSt/r2kUy+2j04u6etHWDHTiIBffDwu+P6QHgxDnKRJ9pU6odhUDsvNGsmMVkpV1nExL69i5VzPv2Dabuv8mvWTUeQN5LSE0DsifcUf9vbH2GITKSm/Jqf6zeFIR+ZfFtQvsxWZaK8jWHJYSsuYRJ+YFK1KDlgOnY9NVOYKGGgv9Xy3M6XZraO8w6NmCmv0Xo6sHko5ji5wLLv7pX4IdTnPtOOF+fsrae7xjTXNFI3V92RaJIA==
-Received: from SJ2PR11MB8369.namprd11.prod.outlook.com (2603:10b6:a03:53d::16)
- by DS0PR11MB6349.namprd11.prod.outlook.com (2603:10b6:8:ce::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Wed, 9 Sep 2026
- 19:02:26 +0000
-Received: from SJ2PR11MB8369.namprd11.prod.outlook.com
- ([fe80::6777:e753:dd60:983b]) by SJ2PR11MB8369.namprd11.prod.outlook.com
- ([fe80::6777:e753:dd60:983b%4]) with mapi id 15.21.0382.014; Wed, 9 Sep 2026
- 19:02:26 +0000
-From: <Don.Brace@microchip.com>
-To: <dlemoal@kernel.org>, <martin.petersen@oracle.com>,
-	<James.Bottomley@HansenPartnership.com>, <linux-scsi@vger.kernel.org>,
-	<linux-ide@vger.kernel.org>, <cassel@kernel.org>,
-	<linux-usb@vger.kernel.org>, <stern@rowland.harvard.edu>,
-	<gregkh@linuxfoundation.org>, <linux-s390@vger.kernel.org>,
-	<hca@linux.ibm.com>
-Subject: Re: [PATCH v6 32/40] scsi: hpsa: use 16-bits defined sense codes
-Thread-Topic: [PATCH v6 32/40] scsi: hpsa: use 16-bits defined sense codes
-Thread-Index: AQHdP3J2W+8tAW/djE6cvScNrIQCCLbGnBhz
-Date: Wed, 9 Sep 2026 19:02:25 +0000
-Message-ID:
- <SJ2PR11MB8369387FD288B23A40A3955DE1B02@SJ2PR11MB8369.namprd11.prod.outlook.com>
-References: <20260908090308.1085097-1-dlemoal@kernel.org>
- <20260908090308.1085097-33-dlemoal@kernel.org>
-In-Reply-To: <20260908090308.1085097-33-dlemoal@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ2PR11MB8369:EE_|DS0PR11MB6349:EE_
-x-ms-office365-filtering-correlation-id: fba16887-a457-4147-dee4-08df0ea4e339
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|10067099003|4143699003|3023799007|22082099003|18002099003|11063799006|56012099006|38070700021|921020;
-x-microsoft-antispam-message-info:
- 6YXE8hknq+32Wz3PD+JwERnNjGba6Nh/bP2ALNfxNucQ6g/CMMCxz/ZLRQlRcYiHYP0w0pHEXQg99atSy7m10UCAxnbSCiuYfqDMWyVQ4Jz3T1bO0KzU2Eqpea19iima4uuIwTGpBKyS0NFHSBFsOSZiwJSQ4uyh2wdLqhJwZ66vv2FQ2UNqjXapN8Wp0JtE7jmN1o6lKm1f2Y+XvkpRuDGMCgNkexmPcRbI/eXuq//jUaaLuH7Cqj6QZ7c3HVnsY9a26tGTribi/9YgOrU9wjNa4mLHL7unHq9TxnzZuPrIcF4/PnT5VWNu6xyjFF4O72Pb+qh1U+h6NRbWRF9CaiXB1ywEM/oOHgX8oDK7/vqCvx2J/UvL3uLqlU0xeBOfOM4GmRM4vr3UbnxFz/5h3gxKiEj1WTEJnaHRJ8KQuBPB/YLrbXzaS012yEY0gfzMmmpp6mijumMV6i1SRLEbpiAbOmQVIhPD+wbR6MVn8qoWJ0uB3EggDSKTag6yGOlkTKJ9CtRtLsByerNfOpNsP9Nw0rc17Rd4zWQwV1kGwN5WTJD55kpfBqGD6GyYWkwy9wL3oNwxkkHv/WuYl7BQ96H7Tgo6Lv+wCr/htoN4mKL9k+ZZeugsBNLeGumKgohs+BHgXCtX9aTDFoiuxlCfDAJ4hsEfnNWse30q2HsT4trRpSKs8djlavyiPgWk6UPllj8jFWUKsB6bwN0TlnlJseMYxuuvbkdB64TtHnnJSgwEADP5zxq9yUvnrUR6nXfa
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8369.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(10067099003)(4143699003)(3023799007)(22082099003)(18002099003)(11063799006)(56012099006)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?Windows-1252?Q?4B8Z2kscM6MxGyNP/qgc4TVQxyYIEj/aI9VYQ0LAtqkWgWYT72bSseJZ?=
- =?Windows-1252?Q?5Oj6xTshj5eNgpu0ts2uOJ4PW459yOZ57Qn/BCiDnGK1WUDUobV6glYz?=
- =?Windows-1252?Q?TgnPwd1BsbSX67cANTUWk/p+wK63YLAm/BxA4D6KS0M4yKKPMttnvzzJ?=
- =?Windows-1252?Q?PDhKEAzRMjNBRfuuKJM+jCNSnAvNsInnXa70sz6JPJGNGWS2HZH7q5WU?=
- =?Windows-1252?Q?F5yhryDxx74xzlgHfATqFWLc1aQE28fDzAPVfiHwXI9LTb5dxpX+8jDr?=
- =?Windows-1252?Q?jCPuC4u2S6lD5UuijF2Tdojon9Wda9aEGRVxNojL4k0v1r3lDaQ4okId?=
- =?Windows-1252?Q?3jERPGjBKfb28ezwkHpfzfL5jjC6V7F8ku3Kr8p60ZBwGc3UD0daH7Z1?=
- =?Windows-1252?Q?YffyHomSOrPuBkzrsX8QsoREFpsQth7v8LsvKfyS3Mk86PvsAgVCWBpR?=
- =?Windows-1252?Q?ZvarNgHX6Hx1TZi6rwY7MWGv1zI6H8uLWMhKeRjJ8eRsc9VTbH6OLy/b?=
- =?Windows-1252?Q?YjE87OyHw+sJkG9iDJTjTHeoSTPBk13ieTmzBnfN/ECyiDWSFcafZgxv?=
- =?Windows-1252?Q?AqTQlhLIV5U+Ac2TdEhmchLLbVHIaxyWbSqs4jgI5ZtKpomDZx/1GncT?=
- =?Windows-1252?Q?XMTTJiEUAsp1mF7/Hmkcw0VvXYdm801Al/fKpsqxRuEqfgRYkNY3tQXh?=
- =?Windows-1252?Q?t6B4v0UyhX/3VHbICAlP6Fq7S4LvUT6ZPoevtH1fx34+xGpCqDoY5bE6?=
- =?Windows-1252?Q?Uz+jG4cvazPqzlicwUa0KGbzmxrcnMjToYDBcTCBRgVGewhgzQk942Lr?=
- =?Windows-1252?Q?/IYjyJjo9yUqiNJ1Msc8+6M8nCG6KDYYWLi/YTtg3LCYHdT4yNGIaUFj?=
- =?Windows-1252?Q?nk/MkvP+JMhwqxF2Tk8Wd7kW7tPihxl62iWO2wzUffB254YntThg9uUK?=
- =?Windows-1252?Q?wG0rHx+mqoVfUQ8esl/LSSno3r263ousgvsXFaHe9DprQktXztUJtMWO?=
- =?Windows-1252?Q?AnB+SoHHKIm4VNBUrFpk4Qjr7EqFfN16B9nC7umwIUqRdtuZVbSMkYHH?=
- =?Windows-1252?Q?HawRfpOXWzzaBm5h0F9GgCDsQKPpBDs2QG/ilslJTJlEHqIAiWoVC4WC?=
- =?Windows-1252?Q?V1GPkKfVeHBFnaOZag6U5hTiXd7g7w4gIxa/hX8xl+pv7q0bIqUKPU9j?=
- =?Windows-1252?Q?Z7vndLCN63OEXE3FLC8kXlo7y4itkuK3q/5J6tfML4iFHx/uXK35s6f1?=
- =?Windows-1252?Q?dVCrDdm1SswGJXXsD1HkuhOwJ+eTktoJBRQwBBwODqCosL0bCWWSHSjg?=
- =?Windows-1252?Q?QgFD9tW644WaM2IPXU1dBZZVIcCN0ZGmmqnmjxuwkSLW1lC02L2OLdoW?=
- =?Windows-1252?Q?K3ZvkBjJmGqA+sh6JL0o3xZFZ2eN0yWNlM5vnwLjK/Pzc1j9DPeobQIZ?=
- =?Windows-1252?Q?d59n1Pug0OXsHUehuiuzHP5eu0zzTyUUQvEMwwNjImozS03LRaG4R74h?=
- =?Windows-1252?Q?OhnBhjr0cID77sbPNv86a5TP6ZVic+61Ops9wBYbm4d4Cip0CifBvICg?=
- =?Windows-1252?Q?hHIQBX4DXhoBrUHq3k4sl60Ww/R4NH4lJZWm82xQNUmbMb18tVUaJEkl?=
- =?Windows-1252?Q?SfHHTuUad3KYPXFnmwBkNdVcl6Q85SXm5dRSxUXtfc0kO9OMY+GcbNt1?=
- =?Windows-1252?Q?OFWRGN3u3zUVcd3D0O2VJRsEVumAGMvNUP2qwFqPQCwvh2ViDp8rHkBT?=
- =?Windows-1252?Q?DtQuGB8TuU4VgRs2tbvxI3E7yVk48ZWV5CNXk2nNUWe+UT8tXoXCkFsc?=
- =?Windows-1252?Q?sVrtYGyV5MRCCoPqUc9p2OPKoiNgq7bbEMtqA87LATWVow9/LyRr8aVq?=
- =?Windows-1252?Q?px9JKOo7vrX+MQ=3D=3D?=
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DU/4Cndq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3781A1F000FF;
+	Wed,  9 Sep 2026 19:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788980768;
+	bh=6T3MuQsejVROFfo1mw5FnA0/kR6iWM4QF61mzApcgyY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DU/4CndqTsPcBb/5A+Sr9S4cPaKWpAFVAcPqymi2JAwMdUCkxje+fzo7fQ8vTDnoT
+	 feA/1aXJLLFeole14fBl1E32Ls7UhJ+ZtEKTV4sQENeqUo15F92pCXBNhvN+9c/xgR
+	 FaufaDX6Xe46WeG3S/nIoyVmR+dpFgR93L0OcO27fXmD4Ikr7J7vP89wy8bqbxYqc7
+	 wcE7Q4ZRoC840x+7RoCM976GZtoDX8gjTBslVhUFLV/TMiz96dLux3Py2lpgD1Fmr2
+	 3UBrht29QwjkaumOSrvRtAZjgVDB9B5SjojtSS+HkXDUH5avnnuEYszjoXqQgZZ24N
+	 sHb8sQfHn3pjg==
+Message-ID: <21cbfbaf-ef1f-469b-a33b-8d623dd7f9a3@kernel.org>
+Date: Wed, 9 Sep 2026 14:06:06 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8369.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fba16887-a457-4147-dee4-08df0ea4e339
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2026 19:02:25.9211
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mWoH7pQxT1F8dS6JYmF+0lRDMNm0+UxSqiYsnAlq9YBfeZZawIkrRwCw/76MwCYpLZ6yZ2zfKwE4qa3IbvKPKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6349
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v5] thunderbolt: Fix tb->lock deadlock during hot-unplug
+ on AMD USB4 routers
+Content-Language: en-US
+To: Sanath.S@amd.com, "Natikar, Basavaraj" <basavaraj.natikar@amd.com>,
+ Juan Martinez <Juan.Martinez@amd.com>
+Cc: westeri@kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+References: <20260831130638.GK124825@black.igk.intel.com>
+ <20260831161610.1322731-1-juan.martinez@amd.com>
+ <ae19d381-0fcd-45fb-9e53-033c7d664d73@kernel.org>
+ <20260902054800.GI106095@black.igk.intel.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260902054800.GI106095@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-________________________________________=0A=
-From: Damien Le Moal <dlemoal@kernel.org>=0A=
-Sent: Tuesday, September 8, 2026 4:03 AM=0A=
-To: Martin K . Petersen <martin.petersen@oracle.com>; James E . J . Bottoml=
-ey <James.Bottomley@HansenPartnership.com>; linux-scsi@vger.kernel.org <lin=
-ux-scsi@vger.kernel.org>; linux-ide@vger.kernel.org <linux-ide@vger.kernel.=
-org>; Niklas Cassel <cassel@kernel.org>; linux-usb@vger.kernel.org <linux-u=
-sb@vger.kernel.org>; Alan Stern <stern@rowland.harvard.edu>; Greg Kroah-Har=
-tman <gregkh@linuxfoundation.org>; linux-s390@vger.kernel.org <linux-s390@v=
-ger.kernel.org>; Heiko Carstens <hca@linux.ibm.com>=0A=
-Subject: [PATCH v6 32/40] scsi: hpsa: use 16-bits defined sense codes=0A=
-=A0=0A=
-EXTERNAL EMAIL: Do not click links or open attachments unless you know the =
-content is safe=0A=
-=0A=
-Refactor the hpsa driver to replace all hard-coded additional sense codes=
-=0A=
-and additional sense code qualifiers with the enum values defined in=0A=
-include/scsi/scsi_sense.h. This helps with code clarity as the sense codes=
-=0A=
-being processed are easier to test and self-documented.=0A=
-=0A=
-The function decode_sense_data() is also modified to take a pointer to a=0A=
-16-bits sense_code variable in place of the two pointers to the additional=
-=0A=
-sense code and its code qualifier. The local definitions of ASCs and ASCQs=
-=0A=
-are deleted too.=0A=
-=0A=
-No functional change intended, but the function hpsa_volume_offline() was=
-=0A=
-checking only the addditional sense code qualifier with checking the=0A=
-additional sense code. This change assumes that the intended additional=0A=
-sense code to check is ASC_LU_NOT_READY.=0A=
-=0A=
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>=0A=
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>=0A=
-Reviewed-by: Hannes Reinecke <hare@kernel.org>=0A=
-=0A=
-Acked-by: Don Brace <don.brace@microchip.com>=0A=
-=0A=
-On the hpsa_volume_offline() change you flag in the commit message: the=0A=
-ASCQ-only test predates me, and checking the full 0x0404/0x0402 is what=0A=
-was intended there.=0A=
-=0A=
-The tightening is only reachable on a non-legacy board with an LU that=0A=
-does not advertise VPD page 0xC3 =97 on legacy boards the caller overrides=
-=0A=
-the result back to online regardless. Those controllers only report NOT=0A=
-READY with ASC 0x04, so there is no behavior change in practice.=0A=
-=0A=
-The rest is value-exact substitution; I checked the constants against=0A=
-scsi_sense.h and *sense_code =3D -1 still trips the asc =3D=3D 0xff invalid=
-=0A=
-sense guard through scsi_sense_code_asc().=0A=
-=0A=
-Two typos in the commit message: "addditional", and "was checking only=0A=
-the additional sense code qualifier with checking" should read "without=0A=
-checking".=0A=
-=0A=
-Thanks,=0A=
-Don=0A=
----=0A=
-=A0drivers/scsi/hpsa.c=A0=A0=A0=A0 | 69 +++++++++++++++++++++--------------=
-------=0A=
-=A0drivers/scsi/hpsa_cmd.h | 23 --------------=0A=
-=A02 files changed, 35 insertions(+), 57 deletions(-)=0A=
-=0A=
-diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c=0A=
-index 8edad1830abe..795e8c7592af 100644=0A=
---- a/drivers/scsi/hpsa.c=0A=
-+++ b/drivers/scsi/hpsa.c=0A=
-@@ -353,14 +353,13 @@ static inline bool hpsa_is_cmd_idle(struct CommandLis=
-t *c)=0A=
-=0A=
-=A0/* extract sense key, asc, and ascq from sense data.=A0 -1 means invalid=
-. */=0A=
-=A0static void decode_sense_data(const u8 *sense_data, int sense_data_len,=
-=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 u8 *sen=
-se_key, u8 *asc, u8 *ascq)=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0 u8 *sense_key, u16 *sense_code)=0A=
-=A0{=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct scsi_sense_hdr sshdr;=0A=
-=A0=A0=A0=A0=A0=A0=A0 bool rc;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 *sense_key =3D -1;=0A=
--=A0=A0=A0=A0=A0=A0 *asc =3D -1;=0A=
--=A0=A0=A0=A0=A0=A0 *ascq =3D -1;=0A=
-+=A0=A0=A0=A0=A0=A0 *sense_code =3D -1;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 if (sense_data_len < 1)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return;=0A=
-@@ -368,15 +367,15 @@ static void decode_sense_data(const u8 *sense_data, i=
-nt sense_data_len,=0A=
-=A0=A0=A0=A0=A0=A0=A0 rc =3D scsi_normalize_sense(sense_data, sense_data_le=
-n, &sshdr);=0A=
-=A0=A0=A0=A0=A0=A0=A0 if (rc) {=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *sense_key =3D sshdr.sense_ke=
-y;=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *asc =3D sshdr.asc;=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *ascq =3D sshdr.ascq;=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *sense_code =3D sshdr.sense_cod=
-e;=0A=
-=A0=A0=A0=A0=A0=A0=A0 }=0A=
-=A0}=0A=
-=0A=
-=A0static int check_for_unit_attention(struct ctlr_info *h,=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct CommandList *c)=0A=
-=A0{=0A=
--=A0=A0=A0=A0=A0=A0 u8 sense_key, asc, ascq;=0A=
-+=A0=A0=A0=A0=A0=A0 u8 sense_key;=0A=
-+=A0=A0=A0=A0=A0=A0 u16 sense_code;=0A=
-=A0=A0=A0=A0=A0=A0=A0 int sense_len;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 if (c->err_info->SenseLen > sizeof(c->err_info->Sense=
-Info))=0A=
-@@ -385,34 +384,35 @@ static int check_for_unit_attention(struct ctlr_info =
-*h,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sense_len =3D c->err_info->Se=
-nseLen;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 decode_sense_data(c->err_info->SenseInfo, sense_len,=
-=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 &sense_key, &asc, &ascq);=0A=
--=A0=A0=A0=A0=A0=A0 if (sense_key !=3D UNIT_ATTENTION || asc =3D=3D 0xff)=
-=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 &=
-sense_key, &sense_code);=0A=
-+=A0=A0=A0=A0=A0=A0 if (sense_key !=3D UNIT_ATTENTION ||=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 scsi_sense_code_asc(sense_code) =3D=3D 0xff=
-)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return 0;=0A=
-=0A=
--=A0=A0=A0=A0=A0=A0 switch (asc) {=0A=
--=A0=A0=A0=A0=A0=A0 case STATE_CHANGED:=0A=
-+=A0=A0=A0=A0=A0=A0 switch (scsi_sense_code_asc(sense_code)) {=0A=
-+=A0=A0=A0=A0=A0=A0 case ASC_PARAMETERS_CHANGED:=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_warn(&h->pdev->dev,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "%s: =
-a state change detected, command retried\n",=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 h->de=
-vname);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
--=A0=A0=A0=A0=A0=A0 case LUN_FAILED:=0A=
-+=A0=A0=A0=A0=A0=A0 case ASC_LU_HAS_NOT_SELF_CONFIGURED_YET:=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_warn(&h->pdev->dev,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "%s: =
-LUN failure detected\n", h->devname);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
--=A0=A0=A0=A0=A0=A0 case REPORT_LUNS_CHANGED:=0A=
-+=A0=A0=A0=A0=A0=A0 case ASC_TARGET_OPERATING_CONDITIONS_HAVE_CHANGED:=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_warn(&h->pdev->dev,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "%s: =
-report LUN data changed\n", h->devname);=0A=
-=A0=A0=A0=A0=A0=A0=A0 /*=0A=
--=A0=A0=A0=A0=A0=A0=A0 * Note: this REPORT_LUNS_CHANGED condition only occu=
-rs on the external=0A=
--=A0=A0=A0=A0=A0=A0=A0 * target (array) devices.=0A=
-+=A0=A0=A0=A0=A0=A0=A0 * Note: this ASC_TARGET_OPERATING_CONDITIONS_HAVE_CH=
-ANGED condition=0A=
-+=A0=A0=A0=A0=A0=A0=A0 * only occurs on the external target (array) devices=
-.=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 */=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
--=A0=A0=A0=A0=A0=A0 case POWER_OR_RESET:=0A=
-+=A0=A0=A0=A0=A0=A0 case ASC_POWER_ON_RESET_OR_BUS_DEVICE_RESET_OCCURRED:=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_warn(&h->pdev->dev,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "%s: =
-a power on or device reset detected\n",=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 h->de=
-vname);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
--=A0=A0=A0=A0=A0=A0 case UNIT_ATTENTION_CLEARED:=0A=
-+=A0=A0=A0=A0=A0=A0 case ASC_COMMANDS_CLEARED_BY_ANOTHER_INITIATOR:=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_warn(&h->pdev->dev,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "%s: =
-unit attention cleared by another initiator\n",=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 h->de=
-vname);=0A=
-@@ -2562,10 +2562,8 @@ static void complete_scsi_command(struct CommandList=
- *cp)=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct ErrorInfo *ei;=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct hpsa_scsi_dev_t *dev;=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct io_accel2_cmd *c2;=0A=
--=0A=
-=A0=A0=A0=A0=A0=A0=A0 u8 sense_key;=0A=
--=A0=A0=A0=A0=A0=A0 u8 asc;=A0=A0=A0=A0=A0 /* additional sense code */=0A=
--=A0=A0=A0=A0=A0=A0 u8 ascq;=A0=A0=A0=A0 /* additional sense code qualifier=
- */=0A=
-+=A0=A0=A0=A0=A0=A0 u16 sense_code;=0A=
-=A0=A0=A0=A0=A0=A0=A0 unsigned long sense_data_size;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 ei =3D cp->err_info;=0A=
-@@ -2666,18 +2664,19 @@ static void complete_scsi_command(struct CommandLis=
-t *cp)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 memcpy(cmd->sense_buffer, ei-=
->SenseInfo, sense_data_size);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ei->ScsiStatus)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 decod=
-e_sense_data(ei->SenseInfo, sense_data_size,=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 &sense_key, &asc, &ascq);=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 &sense_key, &sense_code);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ei->ScsiStatus =3D=3D SAM=
-_STAT_CHECK_CONDITION) {=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 switc=
-h (sense_key) {=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 case =
-ABORTED_COMMAND:=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 cmd->result |=3D DID_SOFT_ERROR << 16;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 break;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 case =
-UNIT_ATTENTION:=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 if (asc =3D=3D 0x3F && ascq =3D=3D 0x0E)=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 if (sense_code =3D=3D=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 REPORTED_LUNS_DATA_HAS_CHANGED)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 h->drv_req_rescan =3D 1;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 break;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 case =
-ILLEGAL_REQUEST:=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 if (asc =3D=3D 0x25 && ascq =3D=3D 0x00) {=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 if (sense_code =3D=3D LU_NOT_SUPPORTED) {=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev->removed =3D 1;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 cmd->result =3D DID_NO_CONNECT <=
-< 16;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 }=0A=
-@@ -2693,7 +2692,9 @@ static void complete_scsi_command(struct CommandList =
-*cp)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 "Sense: 0x%x, ASC: 0x%x, ASCQ: 0x%x, "=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 "Returning result: 0x%x\n",=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 cp, ei->ScsiStatus,=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 sense_key, asc, ascq,=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 sense_key,=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 scsi_sense_code_asc(sense_code),=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 scsi_sense_code_ascq(sense_code),=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 cmd->result);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 } else {=A0 /* scsi status is=
- zero??? How??? */=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_w=
-arn(&h->pdev->dev, "cp %p SCSI status was 0. "=0A=
-@@ -2919,7 +2920,8 @@ static void hpsa_scsi_interpret_error(struct ctlr_inf=
-o *h,=0A=
-=A0{=0A=
-=A0=A0=A0=A0=A0=A0=A0 const struct ErrorInfo *ei =3D cp->err_info;=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct device *d =3D &cp->h->pdev->dev;=0A=
--=A0=A0=A0=A0=A0=A0 u8 sense_key, asc, ascq;=0A=
-+=A0=A0=A0=A0=A0=A0 u8 sense_key;=0A=
-+=A0=A0=A0=A0=A0=A0 u16 sense_code;=0A=
-=A0=A0=A0=A0=A0=A0=A0 int sense_len;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 switch (ei->CommandStatus) {=0A=
-@@ -2928,12 +2930,13 @@ static void hpsa_scsi_interpret_error(struct ctlr_i=
-nfo *h,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sense=
-_len =3D sizeof(ei->SenseInfo);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 else=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sense=
-_len =3D ei->SenseLen;=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 decode_sense_data(ei->SenseInfo=
-, sense_len,=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 &sense_key, &asc, &ascq);=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 decode_sense_data(ei->SenseInfo=
-, sense_len, &sense_key,=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 &sense_code);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 hpsa_print_cmd(h, "SCSI statu=
-s", cp);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ei->ScsiStatus =3D=3D SAM=
-_STAT_CHECK_CONDITION)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_w=
-arn(d, "SCSI Status =3D 02, Sense key =3D 0x%02x, ASC =3D 0x%02x, ASCQ =3D =
-0x%02x\n",=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 sense_key, asc, ascq);=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 sense_key, scsi_sense_code_asc(sense_code),=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 scsi_sense_code_ascq(sense_code));=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 else=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_w=
-arn(d, "SCSI Status =3D 0x%02x\n", ei->ScsiStatus);=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ei->ScsiStatus =3D=3D 0)=
-=0A=
-@@ -3868,12 +3871,10 @@ static unsigned char hpsa_volume_offline(struct ctl=
-r_info *h,=0A=
-=A0{=0A=
-=A0=A0=A0=A0=A0=A0=A0 struct CommandList *c;=0A=
-=A0=A0=A0=A0=A0=A0=A0 unsigned char *sense;=0A=
--=A0=A0=A0=A0=A0=A0 u8 sense_key, asc, ascq;=0A=
-+=A0=A0=A0=A0=A0=A0 u8 sense_key;=0A=
-+=A0=A0=A0=A0=A0=A0 u16 sense_code;=0A=
-=A0=A0=A0=A0=A0=A0=A0 int sense_len;=0A=
-=A0=A0=A0=A0=A0=A0=A0 int rc, ldstat =3D 0;=0A=
--#define ASC_LUN_NOT_READY 0x04=0A=
--#define ASCQ_LUN_NOT_READY_FORMAT_IN_PROGRESS 0x04=0A=
--#define ASCQ_LUN_NOT_READY_INITIALIZING_CMD_REQ 0x02=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 c =3D cmd_alloc(h);=0A=
-=0A=
-@@ -3889,7 +3890,7 @@ static unsigned char hpsa_volume_offline(struct ctlr_=
-info *h,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sense_len =3D sizeof(c->err_i=
-nfo->SenseInfo);=0A=
-=A0=A0=A0=A0=A0=A0=A0 else=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sense_len =3D c->err_info->Se=
-nseLen;=0A=
--=A0=A0=A0=A0=A0=A0 decode_sense_data(sense, sense_len, &sense_key, &asc, &=
-ascq);=0A=
-+=A0=A0=A0=A0=A0=A0 decode_sense_data(sense, sense_len, &sense_key, &sense_=
-code);=0A=
-=A0=A0=A0=A0=A0=A0=A0 cmd_free(h, c);=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0 /* Determine the reason for not ready state */=0A=
-@@ -3912,8 +3913,8 @@ static unsigned char hpsa_volume_offline(struct ctlr_=
-info *h,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* If VPD status page isn't a=
-vailable,=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * use ASC/ASCQ to determin=
-e state=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if ((ascq =3D=3D ASCQ_LUN_NOT_R=
-EADY_FORMAT_IN_PROGRESS) ||=0A=
--=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (ascq =
-=3D=3D ASCQ_LUN_NOT_READY_INITIALIZING_CMD_REQ))=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (sense_code =3D=3D LU_NOT_RE=
-ADY_FORMAT_IN_PROGRESS ||=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sense_code =3D=3D L=
-U_NOT_READY_INITIALIZING_COMMAND_REQUIRED)=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 retur=
-n ldstat;=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
-=A0=A0=A0=A0=A0=A0=A0 default:=0A=
-diff --git a/drivers/scsi/hpsa_cmd.h b/drivers/scsi/hpsa_cmd.h=0A=
-index ba6a3aa8d954..0dbfbec37ce2 100644=0A=
---- a/drivers/scsi/hpsa_cmd.h=0A=
-+++ b/drivers/scsi/hpsa_cmd.h=0A=
-@@ -63,29 +63,6 @@=0A=
-=A0#define CISS_TMF_WRONG_LUN=A0=A0=A0=A0 0x09=0A=
-=A0#define CISS_TMF_OVERLAPPED_TAG 0x0a=0A=
-=0A=
--/* Unit Attentions ASC's as defined for the MSA2012sa */=0A=
--#define POWER_OR_RESET=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x2=
-9=0A=
--#define STATE_CHANGED=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=
-x2a=0A=
--#define UNIT_ATTENTION_CLEARED=A0=A0=A0=A0=A0=A0=A0=A0 0x2f=0A=
--#define LUN_FAILED=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 0x3e=0A=
--#define REPORT_LUNS_CHANGED=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x3f=0A=
--=0A=
--/* Unit Attentions ASCQ's as defined for the MSA2012sa */=0A=
--=0A=
--=A0=A0=A0=A0=A0=A0 /* These ASCQ's defined for ASC =3D POWER_OR_RESET */=
-=0A=
--#define POWER_ON_RESET=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x0=
-0=0A=
--#define POWER_ON_REBOOT=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 0x01=0A=
--#define SCSI_BUS_RESET=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x0=
-2=0A=
--#define MSA_TARGET_RESET=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x03=0A=
--#define CONTROLLER_FAILOVER=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x04=0A=
--#define TRANSCEIVER_SE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x0=
-5=0A=
--#define TRANSCEIVER_LVD=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 0x06=0A=
--=0A=
--=A0=A0=A0=A0=A0=A0 /* These ASCQ's defined for ASC =3D STATE_CHANGED */=0A=
--#define RESERVATION_PREEMPTED=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x03=0A=
--#define ASYM_ACCESS_CHANGED=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x06=0A=
--#define LUN_CAPACITY_CHANGED=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x09=0A=
--=0A=
-=A0/* transfer direction */=0A=
-=A0#define XFER_NONE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x00=0A=
-=A0#define XFER_WRITE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x01=0A=
---=0A=
-2.55.0=0A=
-=0A=
+On 9/2/26 00:48, Mika Westerberg wrote:
+> Hi,
+> 
+> On Tue, Sep 01, 2026 at 05:16:03PM -0500, Mario Limonciello wrote:
+>> On 8/31/26 11:16, juan.martinez@amd.com wrote:
+>>> From: Juan Martinez <juan.martinez@amd.com>
+>>>
+>>> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+>>> DMA path teardown for AMD USB4 routers") introduced a deadlock when
+>>> physically unplugging a Thunderbolt cable on AMD systems.
+>>>
+>>> The problem occurs because tb_handle_hotplug() holds tb->lock while
+>>> processing the unplug event. When it removes the XDomain services,
+>>> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+>>> tb_domain_reset_interface(). That function tries to acquire tb->lock
+>>> via guard(mutex), but the hotplug worker already holds it, causing a
+>>> self-deadlock.
+>>>
+>>> The deadlock manifests as a complete network hang because
+>>> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+>>> all network operations system-wide.
+>>>
+>>> The existing code already handles this scenario partially: when
+>>> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+>>> skips the DMA teardown because the hotplug handler tears down the DMA
+>>> tunnels itself. However, the reset was still being called
+>>> unconditionally.
+>>>
+>>> Fix this by splitting tb_domain_reset_interface() into a locked inner
+>>> function and a locking wrapper. Skip the reset from
+>>> tb_domain_disconnect_xdomain_paths() when xd->is_unplugged is true, and
+>>> instead reset the interface after the hotplug handler tears down the DMA
+>>> tunnel while already holding tb->lock.
+>>>
+>>> Handle both unplug topologies: reset after the direct XDomain teardown,
+>>> and after invalid DMA tunnels are removed when an upstream router and its
+>>> downstream XDomain are unplugged together.
+>>>
+>>> This preserves the reset behavior for normal shutdown paths while
+>>> avoiding the deadlock during physical cable unplug.
+>>>
+>>> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+>>> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+>>
+>> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>>
+>> BTW -
+>>
+>> I did take a look through the Sashiko feedback and the first point doesn't
+>> matter because no pre-USB4 hosts take this quirk.
+>>
+>> The second point is a side effect of this reset and accepted behavior.
+> 
+> I did not find Sashiko comments for this last version but started thinking
+> that the way we are doing it now is quite brutal. Say we have this setup:
+> 
+>    - Thunderbolt networking for control traffic
+>    - One USB4STREAM for data plane
+> 
+> The data plane comes and goes depending on the needs but what happens now
+> is that after USB4STREAM tears down the tunnels, the whole host interface
+> get reset so that makes the Thunderbolt networking to fail as well.
+> 
+> Is the original hardware hang per-ring? So for example in this case without
+> any fixes the rings for USB4STREAM would hang but the Thunderbolt
+> networking would keep working? I would expect so bot it would be good to
+> confirm.
+> 
+> Because then I think what we can do is to revert the original fix and then
+> handle this all in nhi.c so that we delay the reset until the rings are
+> idle and during that time we hand off "unused" rings (until running out of
+> them). After we find the rings to be idle we block the CM and control
+> channel and do the reset. I don't know how many rings AMD hardware has,
+> though.
+> 
+
+IIUC the problem ends up happening while tearing down xdomain.  So if a 
+few xdomain tunnels are active you can hit it.
+
+Juan, Sanath, Basavaraj, can you please check and comment?
+> I sketched something along those lines (only compile tested) with LLM see
+> below. I wonder if this could work?
+> 
+> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+> index b6f5079cdf6f..1564ce6fca37 100644
+> --- a/drivers/thunderbolt/domain.c
+> +++ b/drivers/thunderbolt/domain.c
+> @@ -671,6 +671,32 @@ int tb_domain_runtime_resume(struct tb *tb)
+>   	return 0;
+>   }
+>   
+> +/**
+> + * tb_domain_pause() - Pause the domain
+> + * @tb: Domain to pause
+> + *
+> + * Blocks the connection manager and stops the control channel so that
+> + * the caller can touch the host interface hardware behind its back.
+> + * Takes @tb->lock.
+> + *
+> + * Once done whatever operations needed call tb_domain_unpause().
+> + */
+> +void tb_domain_pause(struct tb *tb)
+> +{
+> +	mutex_lock(&tb->lock);
+> +	tb_ctl_stop(tb->ctl);
+> +}
+> +
+> +/**
+> + * tb_domain_unpause() - Resume paused domain
+> + * @tb: Domain to unpause
+> + */
+> +void tb_domain_unpause(struct tb *tb)
+> +{
+> +	tb_ctl_start(tb->ctl);
+> +	mutex_unlock(&tb->lock);
+> +}
+> +
+>   /**
+>    * tb_domain_disapprove_switch() - Disapprove switch
+>    * @tb: Domain the switch belongs to
+> @@ -835,21 +861,6 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   			transmit_ring, receive_path, receive_ring);
+>   }
+>   
+> -static void tb_domain_reset_interface(struct tb *tb)
+> -{
+> -	struct tb_nhi *nhi = tb->nhi;
+> -
+> -	if (!nhi->ops->reset_interface)
+> -		return;
+> -
+> -	guard(mutex)(&tb->lock);
+> -
+> -	/* The reset clears the ring state so stop the control channel */
+> -	tb_ctl_stop(tb->ctl);
+> -	nhi->ops->reset_interface(nhi);
+> -	tb_ctl_start(tb->ctl);
+> -}
+> -
+>   /**
+>    * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+>    * @tb: Domain disabling the DMA paths
+> @@ -872,20 +883,11 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>   				       int transmit_path, int transmit_ring,
+>   				       int receive_path, int receive_ring)
+>   {
+> -	int ret;
+> -
+>   	if (!tb->cm_ops->disconnect_xdomain_paths)
+>   		return -ENOTSUPP;
+>   
+> -	ret = tb->cm_ops->disconnect_xdomain_paths(tb, xd, transmit_path,
+> +	return tb->cm_ops->disconnect_xdomain_paths(tb, xd, transmit_path,
+>   			transmit_ring, receive_path, receive_ring);
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
+> -		tb_domain_reset_interface(tb);
+> -
+> -	return 0;
+>   }
+>   
+>   static int disconnect_xdomain(struct device *dev, void *data)
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index a7e6184cdfe1..423e7dba473c 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -523,9 +523,45 @@ irqreturn_t ring_msix(int irq, void *data)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> +static bool ring_is_dma(const struct tb_ring *ring)
+> +{
+> +	return ring->hop >= RING_FIRST_USABLE_HOPID;
+> +}
+> +
+> +static bool nhi_dma_rings_running(const struct tb_nhi *nhi)
+> +{
+> +	int i;
+> +
+> +	lockdep_assert_held(&nhi->lock);
+> +
+> +	/*
+> +	 * Holding nhi->lock is enough here because tb_ring_start() and
+> +	 * tb_ring_stop() both hold it when they update ring->running.
+> +	 */
+> +	for (i = RING_FIRST_USABLE_HOPID; i < nhi->hop_count; i++) {
+> +		if (nhi->tx_rings[i] && nhi->tx_rings[i]->running)
+> +			return true;
+> +		if (nhi->rx_rings[i] && nhi->rx_rings[i]->running)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static bool nhi_avoid_used_dma_rings(const struct tb_nhi *nhi)
+> +{
+> +	lockdep_assert_held(&nhi->lock);
+> +
+> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+> +		return false;
+> +
+> +	return nhi_dma_rings_running(nhi);
+> +}
+> +
+>   static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>   {
+>   	unsigned int start_hop = RING_FIRST_USABLE_HOPID;
+> +	bool avoid_used;
+>   	int ret = 0;
+>   
+>   	if (nhi->quirks & QUIRK_E2E) {
+> @@ -539,6 +575,8 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>   
+>   	spin_lock_irq(&nhi->lock);
+>   
+> +	avoid_used = nhi_avoid_used_dma_rings(nhi);
+> +
+>   	if (ring->hop < 0) {
+>   		unsigned int i;
+>   
+> @@ -547,6 +585,8 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>   		 * range 1 .. hop_count - 1.
+>   		 */
+>   		for (i = start_hop; i < nhi->hop_count; i++) {
+> +			if (avoid_used && test_bit(i, nhi->dma_hops_used))
+> +				continue;
+>   			if (ring->is_tx) {
+>   				if (!nhi->tx_rings[i]) {
+>   					ring->hop = i;
+> @@ -559,6 +599,13 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>   				}
+>   			}
+>   		}
+> +
+> +		if (ring->hop < 0 && avoid_used) {
+> +			dev_warn(nhi->dev,
+> +				 "out of HopIDs that do not need a host interface reset\n");
+> +			ret = -EBUSY;
+> +			goto err_unlock;
+> +		}
+>   	}
+>   
+>   	if (ring->hop > 0 && ring->hop < start_hop) {
+> @@ -583,6 +630,15 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>   		ret = -EBUSY;
+>   		goto err_unlock;
+>   	}
+> +	/* Automatic allocation above already skips the used HopIDs */
+> +	if (avoid_used && ring_is_dma(ring) &&
+> +	    test_bit(ring->hop, nhi->dma_hops_used)) {
+> +		dev_warn(nhi->dev,
+> +			 "hop %d needs a host interface reset before reuse\n",
+> +			 ring->hop);
+> +		ret = -EBUSY;
+> +		goto err_unlock;
+> +	}
+>   
+>   	if (ring->is_tx)
+>   		nhi->tx_rings[ring->hop] = ring;
+> @@ -710,6 +766,62 @@ struct tb_ring *tb_ring_alloc_rx(struct tb_nhi *nhi, int hop, int size,
+>   }
+>   EXPORT_SYMBOL_GPL(tb_ring_alloc_rx);
+>   
+> +/**
+> + * nhi_reset_interface() - Reset the host interface
+> + * @nhi: Host interface to reset
+> + *
+> + * Brings the registers in the memory BAR back to their default state and
+> + * clears the End-to-End Flow Control state. The caller is responsible for
+> + * stopping the control channel over the reset because it clears the ring
+> + * state as well.
+> + */
+> +static void nhi_reset_interface(struct tb_nhi *nhi)
+> +{
+> +	u32 val;
+> +
+> +	val = ioread32(nhi->iobase + REG_CAPS);
+> +	/* Only v1 host interfaces implement the reset */
+> +	if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
+> +		return;
+> +
+> +	dev_dbg(nhi->dev, "issuing host interface reset\n");
+> +
+> +	iowrite32(REG_HOST_INTERFACE_RESET_RST,
+> +		  nhi->iobase + REG_HOST_INTERFACE_RESET);
+> +	/* Wait for tHIReset (10 ms) to complete */
+> +	usleep_range(10000, 20000);
+> +}
+> +
+> +static void nhi_reset_quirk(struct tb_ring *ring)
+> +{
+> +	struct tb_nhi *nhi = ring->nhi;
+> +	struct tb *tb = dev_get_drvdata(nhi->dev);
+> +
+> +	if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+> +		return;
+> +	if (!ring_is_dma(ring))
+> +		return;
+> +
+> +	scoped_guard(spinlock_irq, &nhi->lock) {
+> +		if (nhi->going_away)
+> +			return;
+> +		if (bitmap_empty(nhi->dma_hops_used, nhi->hop_count))
+> +			return;
+> +		/*
+> +		 * If any of the DMA rings are still running we cannot
+> +		 * do the reset.
+> +		 */
+> +		if (nhi_dma_rings_running(nhi))
+> +			return;
+> +
+> +		bitmap_zero(nhi->dma_hops_used, nhi->hop_count);
+> +	}
+> +
+> +	/* CM must be blocked before host interface reset can be done */
+> +	scoped_guard(tb_domain_paused, tb)
+> +		nhi_reset_interface(nhi);
+> +}
+> +
+>   /**
+>    * tb_ring_start() - enable a ring
+>    * @ring: Ring to start
+> @@ -721,6 +833,8 @@ void tb_ring_start(struct tb_ring *ring)
+>   	u16 frame_size;
+>   	u32 flags;
+>   
+> +	nhi_reset_quirk(ring);
+> +
+>   	spin_lock_irq(&ring->nhi->lock);
+>   	spin_lock(&ring->lock);
+>   	if (ring->nhi->going_away)
+> @@ -781,6 +895,8 @@ void tb_ring_start(struct tb_ring *ring)
+>   	if (!(ring->flags & RING_FLAG_NO_INTERRUPT))
+>   		ring_interrupt_active(ring, true);
+>   	ring->running = true;
+> +	if (ring->nhi->dma_hops_used && ring_is_dma(ring))
+> +		__set_bit(ring->hop, ring->nhi->dma_hops_used);
+>   err:
+>   	spin_unlock(&ring->lock);
+>   	spin_unlock_irq(&ring->nhi->lock);
+> @@ -1241,32 +1357,6 @@ static void nhi_reset(struct tb_nhi *nhi)
+>   	dev_warn(nhi->dev, "timeout resetting host router\n");
+>   }
+>   
+> -/**
+> - * nhi_reset_interface() - Reset the host interface
+> - * @nhi: Host interface to reset
+> - *
+> - * Brings the registers in the memory BAR back to their default state and
+> - * clears the End-to-End Flow Control state. The caller is responsible for
+> - * stopping the control channel over the reset because it clears the ring
+> - * state as well.
+> - */
+> -void nhi_reset_interface(struct tb_nhi *nhi)
+> -{
+> -	u32 val;
+> -
+> -	val = ioread32(nhi->iobase + REG_CAPS);
+> -	/* Only v1 host interfaces implement the reset */
+> -	if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
+> -		return;
+> -
+> -	dev_dbg(nhi->dev, "issuing host interface reset\n");
+> -
+> -	iowrite32(REG_HOST_INTERFACE_RESET_RST,
+> -		  nhi->iobase + REG_HOST_INTERFACE_RESET);
+> -	/* Wait for tHIReset (10 ms) to complete */
+> -	usleep_range(10000, 20000);
+> -}
+> -
+>   static struct tb *nhi_select_cm(struct tb_nhi *nhi)
+>   {
+>   	bool linked = false;
+> @@ -1331,6 +1421,13 @@ int nhi_probe(struct tb_nhi *nhi)
+>   	if (!nhi->tx_rings || !nhi->rx_rings || !nhi->interrupt_mask)
+>   		return -ENOMEM;
+>   
+> +	if (nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN) {
+> +		nhi->dma_hops_used = devm_bitmap_zalloc(dev, nhi->hop_count,
+> +							GFP_KERNEL);
+> +		if (!nhi->dma_hops_used)
+> +			return -ENOMEM;
+> +	}
+> +
+>   	nhi_reset(nhi);
+>   
+>   	/* In case someone left them on. */
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index b2e2e2c413b2..53374c12b685 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -36,7 +36,6 @@ irqreturn_t nhi_msi(int irq, void *data);
+>   irqreturn_t ring_msix(int irq, void *data);
+>   int nhi_probe(struct tb_nhi *nhi);
+>   void nhi_shutdown(struct tb_nhi *nhi);
+> -void nhi_reset_interface(struct tb_nhi *nhi);
+>   
+>   extern const struct dev_pm_ops nhi_pm_ops;
+>   
+> @@ -55,7 +54,6 @@ extern const struct dev_pm_ops nhi_pm_ops;
+>    * @release_ring_irq: NHI specific interrupt release hook
+>    * @is_present: Whether the device is currently present on the parent bus
+>    * @init_interrupts: NHI specific interrupt initialization hook
+> - * @reset_interface: Resets the host interface
+>    */
+>   struct tb_nhi_ops {
+>   	int (*init)(struct tb_nhi *nhi);
+> @@ -71,7 +69,6 @@ struct tb_nhi_ops {
+>   	void (*release_ring_irq)(struct tb_ring *ring);
+>   	bool (*is_present)(struct tb_nhi *nhi);
+>   	int (*init_interrupts)(struct tb_nhi *nhi);
+> -	void (*reset_interface)(struct tb_nhi *nhi);
+>   };
+>   
+>   /*
+> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> index e40d4d6af071..0a586122db47 100644
+> --- a/drivers/thunderbolt/pci.c
+> +++ b/drivers/thunderbolt/pci.c
+> @@ -357,7 +357,6 @@ static const struct tb_nhi_ops pci_nhi_default_ops = {
+>   	.shutdown = nhi_pci_release_irq,
+>   	.is_present = nhi_pci_is_present,
+>   	.init_interrupts = nhi_pci_init_msi,
+> -	.reset_interface = nhi_reset_interface,
+>   };
+>   
+>   /* Ice Lake specific NHI operations */
+> @@ -576,7 +575,6 @@ static const struct tb_nhi_ops icl_nhi_ops = {
+>   	.release_ring_irq = nhi_pci_ring_release_msix,
+>   	.is_present = nhi_pci_is_present,
+>   	.init_interrupts = nhi_pci_init_msi,
+> -	.reset_interface = nhi_reset_interface,
+>   };
+>   
+>   static int nhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index 1f78e2528c05..268bc7d90267 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -826,6 +826,10 @@ int tb_domain_thaw_noirq(struct tb *tb);
+>   void tb_domain_complete(struct tb *tb);
+>   int tb_domain_runtime_suspend(struct tb *tb);
+>   int tb_domain_runtime_resume(struct tb *tb);
+> +void tb_domain_pause(struct tb *tb);
+> +void tb_domain_unpause(struct tb *tb);
+> +DEFINE_GUARD(tb_domain_paused, struct tb *, tb_domain_pause(_T),
+> +	     tb_domain_unpause(_T))
+>   int tb_domain_disapprove_switch(struct tb *tb, struct tb_switch *sw);
+>   int tb_domain_approve_switch(struct tb *tb, struct tb_switch *sw);
+>   int tb_domain_approve_switch_key(struct tb *tb, struct tb_switch *sw);
+> diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+> index 69839a514433..e1c270496cf6 100644
+> --- a/include/linux/thunderbolt.h
+> +++ b/include/linux/thunderbolt.h
+> @@ -537,6 +537,9 @@ void tb_service_properties_changed(struct tb_service *svc);
+>    *		    MSI-X is used.
+>    * @hop_count: Number of rings (end point hops) supported by NHI.
+>    * @quirks: NHI specific quirks if any
+> + * @dma_hops_used: Bitmap of HopIDs that have been programmed after the
+> + *		   last host interface reset. Used only with
+> + *		   %QUIRK_RESET_DMA_ON_TEARDOWN.
+>    * @domain_released: Completed when domain has been fully released
+>    * @host_reset: Host router was reset on driver load, or forced on system
+>    *		shutdown/reboot. When set, tb_stop() asserts DPR on connected
+> @@ -557,6 +560,7 @@ struct tb_nhi {
+>   	struct work_struct interrupt_work;
+>   	u32 hop_count;
+>   	unsigned long quirks;
+> +	unsigned long *dma_hops_used;
+>   	struct completion domain_released;
+>   	bool host_reset;
+>   };
+
