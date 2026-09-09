@@ -1,115 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BE453FD2B;
-	Wed,  9 Sep 2026 16:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE719568FDF;
+	Wed,  9 Sep 2026 16:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788972583; cv=none; b=PebsL+CRFr2AMrtW+9bWi3F7NxJ/3rUIUdu4VQZk2nNGtbaxF3pNYzENKMChHIU4Hh64WeW/Ke3I9axgfvpoBZrSpdGUp7akWFj3nG+GGVL/Z4u1AHoLivVf566TTNXXibKt6JIb/NBLOeqJcqzaDXKl3F9j48JUqbsiDTpytAE=
+	t=1788972761; cv=none; b=cKLvENhHHhGSiE/JDpzm7cPiKP+GiV5B/1CqoLDfFReJcDTlYcGlUeWqR1s0VdD8MPS/NisFeGC0Uii2JewlsVialTni9BCYBnN4cc35GPOYNBvRtOwjMYVLizRI1KRtdLGi16zMAS1AUYT0bpBYDnyST99QnTM5VmZHoiZHFG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788972583; c=relaxed/simple;
-	bh=bJW1tgJxo4gENcvU9KvW5CwFcvtaLi4Tvtj+Kg8yOTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYPQ8QLcUiGN3X2Ggqvh7NHvyL2oAhnbDzIgd25IVL0qH40CB8ntXDndWVhIqUq4JQfvhBGdpleO9INq6sbiBupaZ6NQ0mDb+5HPLtEcm2bFjOsEWMEsEhzDE5dS5iwBGhunztdaY2UhcmxRP5CiTeJSYT4r3y75w0kfeClDxKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BDdimfjC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788972761; c=relaxed/simple;
+	bh=D8Xg7T6KqYH4/WUvkf9lj526uOKKiRcA2jkTEUin+E8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O997wvWyYkzMqs0P64MTvksCBCjp/Wyx7gu5e5VczTumwdzz57e61GJzFZMO+8+dsMwNZ2fdxcTVVtm/dmzu4C/UyOWqSa/smJ2V5EcGy0cQqiEQCCsK711+qWQkRqREHwXZHRu/s6jeM8S71cyDXISCwdH8ZE322/ARJAKqXYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=CEVMBYM2; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BDdimfjC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5152E1F000FF;
-	Wed,  9 Sep 2026 16:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788972582;
-	bh=CtmdG6WXQsfL+iqlX99cR+kUk06H7B+pqUNW8uqAW5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BDdimfjC4kJnh2nelU1CQ87s2cKn5KwuSGaFlUT8TuCSMQzYokvf+LtOMEvQUEJWP
-	 sJlkaFF2WM8ocTVMTycl/89Ej7MkFfAgRO3h1+jhPeAXMVy3E2kPACtmZsDulf8HrF
-	 R6l+0vE+M3sfXKNSGZtXxMb97JoFsiqtknCNNxOWxYmsKI1rNK2W8UD869cAQ4N7Ds
-	 jy9GvYpnUsqi0jKPlNrNqTN9/LOaEbFnmXKa8eoP5UY7jXCey7kyZrfa7vc5NLdnAJ
-	 WH9dWyjEEaeNOQTmaF9JVMqCTPDVPtTncEbha3YfI4w2a/sZsdJoKXa/VCX9cgW304
-	 IG1iAcKx5xwIQ==
-Date: Wed, 9 Sep 2026 18:49:31 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Andreas Zdziarstek <andreas.zdziarstek@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Jonas Karlman <jonas@kwiboo.se>, Frank Wang <frank.wang@rock-chips.com>, 
-	Louis Chauvet <louis.chauvet@bootlin.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/2] phy: rockchip: inno-usb2: fix USB gadget
- hot-plug on peripheral-only OTG ports
-Message-ID: <6ly7ywoptz5ipixy65mh4bibf6cqj237nxa6ujuy23o3rvql3l@zxceopmephl3>
-References: <20260706223627.113814-1-andreas.zdziarstek@gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="CEVMBYM2"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hg6LD3WqWzMlGK;
+	Wed, 09 Sep 2026 18:52:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788972756;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wANtG2Wck81u3ITB1BffycJAGPKSfj9OAY9Ew1PSRKk=;
+	b=CEVMBYM2BnLkVG3JuEdeDg1EQxeHGPhwOfeiIlk5vHwGcD4wFkqW9UVpLX5BVTOh43eD/X
+	hqjQAH3MFjIFQLnkEBTeoV2hCSKL4OtLmXeXBRp27LAP3+G5pY0WuCYHQ8OjNni/0q2oik
+	0895QKLQvP74XrhzS+hRWPSf4/v8BxKQI5bFLQb986bJIRWNpHIpuMYdAG6WwJ9sz2OhKS
+	c99QrIePvOm1sUGburFEw0VMapoqjDL/GOTjIrcVF835cnQD1Y9V535O3IMr7TxplN2meY
+	bv62AL1LwjJX/EmWq1MrVu3crIWKYOOPK+zzyfVKiWS5671IfIEtFigi+e3LSA==
+Message-ID: <3b345291-b14d-45a4-818e-355b487c46a9@mailbox.org>
+Date: Wed, 9 Sep 2026 16:43:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260706223627.113814-1-andreas.zdziarstek@gmail.com>
+Subject: Re: [PATCH v7 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car
+ Gen5 DWC3 xHCI USB controller
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-usb@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260903213031.314473-1-marek.vasut+renesas@mailbox.org>
+ <20260904-colonial-wimp-b37c27657664@spud>
+ <7771adfd-7447-4802-ad75-7c889ad32ee7@mailbox.org>
+ <20260907-tassel-bargraph-836b6f41fc43@spud>
+ <04bb7d78-4b0e-49ba-910a-6fa2b0a8c1a7@mailbox.org> <aqE11WTb6EMhn6Tb@squawk>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <aqE11WTb6EMhn6Tb@squawk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: kq35cnhos6bpsrynf31z5uqsc8hur51r
+X-MBO-RS-ID: 4ad110d8ca3e4f81110
 
-On Tue, Jul 07, 2026 at 12:36:25AM +0200, Andreas Zdziarstek wrote:
-> Hi All,
-> 
-> I had an interesting time trying out the USB OTG micro-USB port on the
-> Odroid-M1S (Rockchip RK3566) on the mainline Kernel. My intention was to
-> set up a cdc_ncm+cdc_acm peripheral gadget as a hot-pluggable debug
-> port.
-> 
-> For the most part that went swimmingly. Just not quite with the
-> hot-plugging. The apparent first problem was that peripheral mode only
-> works if the host is connected at boot time of the RK3566 Kernel,
-> regardless if the dr_mode settings is "otg" or "peripheral". When no
-> connection is present at boot, gadget setup fails with a
-> "failed to enable ep0out" error and the port seems to end up in an
-> unrecoverable state afterwards.
-> 
-> I investigated a little as to why. With my very limited understanding
-> of the subsystems involved, I think I have identified some problems.
-> All seem largely related to each other.
-> 
-> * The M1S references its 5V OTG VBUS switch as phy-supply of the OTG
->   port in its DT. The phy core unconditionally enables that on phy
->   power_on. From then on it powers its own VBUSDET input, making further
->   cable VBUS detection impossible. Also, apparently, after reading the
->   schematic, that means even with a cable connected at boot (and
->   peripheral mode therefore working), the board will try to back-power
->   the host. Seems my host port is pretty robust, luckily.
-> * The inno-usb2 driver seems to generally lack DRP power supply VBUS
->   switching support? At least PHY and VBUS supply are semantically
->   treated the same.
-> * The inno-usb2 driver's state machine powers off the Phy in several
->   places: on an initial no-VBUS sample, on DCP detection and on
->   disconnect. That seems to happen unrelated to controller-initiated
->   phy_power_on/off calls and looks like the main cause the gadget setup
->   fails and then borks the controller state.
-> 
-> My proposed fixes are in two places:
-> 
-> * set the micro-USB M1S port to "peripheral" in DTS and remove the
->   supply node. The board has two USB-A host ports, so device mode is the
->   most likely usage scenario for the microUSB and real compliant DRP
->   does not seem to be in the cards in the current state. Also, this
->   fixes the potentially harmful back-powering issue. (2nd patch)
-> * keep the inno-usb2 phy driver from autonomously powering off when in
->   peripheral mode. This makes hot-plugging and gadget-setup without a
->   connected cable work. (1st patch)
-> 
+On 9/9/26 12:32 PM, Conor Dooley wrote:
 
-I'm not an USB expert, but your proposed fix does cause high power consumption
-by keeping PHY always ON even when the cable is not connected.
+Hello Conor,
 
-To fix this issue properly, first I would investigate whether
-rockchip_usb2phy_power_on() is called during cable connect or not and also at
-the right time i.e., before the DWC3 gadget driver starts to drive the
-interface. If there is a race here, it would still cause the interface to be not
-up.
+>> I could make only the ones which are currently used available, but that
+>> would be confusing the implementers by suggesting that the other quirks are
+>> not applicable even if they might be ; and this would likely turn into an
+>> endless stream of schema updates, with random users enabling random quirks
+>> they just used. I don't think that would be helpful.
+> 
+> My understanding was that these things were effectively errata, so users
+> should not be enabling them willy nilly - the vast majority of these are
+> set in soc.dtsi files, and the couple dts users I checked were all SoCs
+> for which there was only one board.
 
-- Mani
+I agree with the careful application of these properties part.
+
+However, I perceive them as tunables, not errata. If they were errata, I 
+would argue the errata quirks that apply to each controller instance in 
+each SoC should be derived from the compatible string. If they were 
+tunables, they should be DT properties.
+
+> IMO it's far more confusing to suggest
+> that a user has to figure out which of these may apply on their platform.
+
+The way I interpret this is, that the user should keep the defaults and 
+not enable any of the additional quirks unless they really need them. 
+But the DT checker should not warn the user that the quirk is invalid, 
+because I do not think that is the case -- the quirk is not invalid, it 
+is only not necessary in the majority of cases.
+
+> But of course, do what you want, they're your users.
+
+How shall we proceed here ?
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Best regards,
+Marek Vasut
