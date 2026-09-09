@@ -1,250 +1,215 @@
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4211158E2A2;
-	Wed,  9 Sep 2026 21:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788988124; cv=pass; b=duPO/lpC3i1agccGIan/rVeIOM6+L+AXDUG0ohtDbdABWeb0WzFHGDSWtB6xJb36vjgDMpy7SF5uXLE2/4SyIbwttdV6aBd6yVD4mmKj80r6gEaKmv4UukotHiZiKN83Ukx0n5v10cRy/vRGwcaTpEhFBqEYSeYX6x84iAGaHp8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788988124; c=relaxed/simple;
-	bh=tj/bEIU1bcu8t022BqWb+Qu+7tbxn3sUWiwo2QeLhKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eGMRrQ6l2JE/ywg0bq6ertBq20jd0QlSRLZpHEBYhvveknVwePmn8ar3qwY4x5KFKbqAFtswvmquwX00a0lnJ6dWUXp5o8MW5bO/l1Xh3MIj6vNJ+p9aaGVtji2yDwqsYm7EP6Dd5nGAUKdcPUsf6Q5F3pcJInLmllRTMpl7DKo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=EmASXpM1; arc=pass smtp.client-ip=165.173.180.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BE83C9EFC;
+	Wed,  9 Sep 2026 21:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788990463; cv=none; b=NUP5bZVnLRa3eDSDNxNB0ymReH42n3aSR3qUb6H7J2B9HjvPN+qa+K6nLH+LTizUzXAOub1NU/0Nty9ZDXBbml1hfbhNWdrzMDFDm14LWMICY99H2GERKTuq001h9HhqauiYwaWO1Sq4hT8Y3XGu2PUKHqjNQ/bl44GwnaC2fsU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788990463; c=relaxed/simple;
+	bh=PyzES/uHVDs3di3nq3fTez/4i/LkgOc9RwISRBJ8LTI=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FN+9q5k3X0MTNys0LQ5OgufpUeLDIYonI2xpXUZeKumJAcQ6rCOgthGS9nH5RN8xPwnri/sj8zKtXbHtfn8ZfyYVhJJLJhH758dPzyx811Oa2xygpx2vS6BTBCHvJgHOAnNGIvkkUCPm+qQ1GsaLNAWsDbb56BTkLAPYXcB3RoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6u+QKaV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="EmASXpM1"
-ARC-Seal: i=1; a=rsa-sha256; t=1788988113; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=CpD6VP6KZMOrlJhjQVEp3m2dy6Ey/biNn+DSAbVi4EgvHeDVRriB+nB+D3QvOC18WUaJX7S2Br+HEOLhUYQ2QWunOjERd4M9u3VC/pU+8IkGcOdm7vQwz5Qv8K4FxoutH/sXGBX2wW+PXCxLO/eByLK3540ZZ+i7eOwKEYnvUAg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1788988113; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=i20i/ggCALMNwDadOAv6mdnZuvWfc14LrBp1z4LLOr0=; 
-	b=D8MgXatBd7g78cinmgSi55n9sHMgN/O4IlrNAHpR9JgbWfpnxXl5T1nKF2kepmkdrprvyGLvM5MR5188D9N5tCr6QV1y8EuHNw3K6zS08VeYgBDKvTIcYwvBSY80GXZZ0O6pRDEnku2fVHfF4BejbNNFYRBC9t+M/vWCg+WfbRo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1788988113;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=i20i/ggCALMNwDadOAv6mdnZuvWfc14LrBp1z4LLOr0=;
-	b=EmASXpM1N46pu71p6ZHd999oEuT2GFWBnbT7+psLaJdhDcNY8qPKaonvI5a+l2eo
-	pWfAB6MKph8mJFvitVRvuhOHExB6VsfkmR3rqZK+mkGNozWu1bRW4XTIFryPGyMJkBQ
-	EyKU+vP5s23IS7/CbENiP38xSLzEKYowb0s0jZrE=
-Received: by mx.zohomail.com with SMTPS id 1788988111194745.2781428972909;
-	Wed, 9 Sep 2026 14:08:31 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 8B1C2183377; Wed, 09 Sep 2026 23:08:27 +0200 (CEST)
-Date: Wed, 9 Sep 2026 23:08:27 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: amitsd@google.com
-Cc: Badhri Jagan Sridharan <badhri@google.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, RD Babiera <rdbabiera@google.com>, 
-	Kyle Tso <kyletso@google.com>
-Subject: Re: [PATCH] usb: typec: tcpm: Support native battery energy
- properties in battery AMS
-Message-ID: <aqHJtbFkepedz7BO@venus>
-References: <20260820-tcpm-energy-props-upstream-v1-1-0a0167863848@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6u+QKaV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA2E1F000FF;
+	Wed,  9 Sep 2026 21:47:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788990455;
+	bh=TxkCSwEjNOtlm2Jrz5XkAhDF93yeqvQiIMcyAnanaqY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=R6u+QKaVRPsDjo795RGERogcW8BlorlfyZp1m/A63WxvCkSsjQ/T4Qgpn7nycKKj3
+	 QwhS0iZwP0OALvYCoQ8fKL1xwq1lgVprjMYaZbcStzWOTjGB7z/EHvT6os1MLyP6+4
+	 MnYqVSn4RbzUNR2uUrPRxxUQXqWft5UcSs1ecoWUJJTi7T4otKAvh7J04VggHrjlEy
+	 fcFlkfz8vz/Gm+2bAgEfkGnF9DFyy4xlkzxtIYOX7veI7hVxAt7VNIr1bf+Ihs56Wc
+	 YlVE4g6AD62a6OLumyjds5UL+pImuYnTsSOxK9aov9uHBALEOEpIub08eoMAjdbRts
+	 FiZQJKTBs26ag==
+Subject:
+ Re: [PATCH net v4] usbnet: fix smp_processor_id() use in preemptible context
+From: netdev-bot+sashiko@kernel.org
+To: omermetekaya0@gmail.com
+Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ david.laight.linux@gmail.com,
+ syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Date: Wed, 09 Sep 2026 21:47:34 +0000
+Message-ID: <178899045475.219967.8804711454240391662@kernel.org>
+In-Reply-To: <20260907214727.692307-1-omermetekaya0@gmail.com>
+References: <20260907214727.692307-1-omermetekaya0@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="deq6sdnandm5mu3o"
-Content-Disposition: inline
-In-Reply-To: <20260820-tcpm-energy-props-upstream-v1-1-0a0167863848@google.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/288.982.46
-X-ZohoMailClient: External
 
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
---deq6sdnandm5mu3o
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] usb: typec: tcpm: Support native battery energy
- properties in battery AMS
-MIME-Version: 1.0
+Critical: 0 · High: 1 · Medium: 0 · Low: 0
 
-Hi,
+- [High] usbnet: dropping
+  u64_stats_update_begin_irqsave()/u64_stats_update_end_irqrestore() in…
 
-On Thu, Aug 20, 2026 at 09:17:58PM +0000, Amit Sunil Dhamne via B4 Relay wr=
-ote:
-> From: Amit Sunil Dhamne <amitsd@google.com>
->=20
-> Some fuel gauges report battery telemetry in energy rather than charge.
-> Add support for querying native energy properties for Battery Status and
-> Battery Capabilities AMS, falling back to calculating energy from charge
-> and average voltage when primary properties are not supported.
->=20
-> +---------+--------------------+----------------------------------+
-> | Sr. No. | Primary            | Fallback                         |
-> +---------+--------------------+----------------------------------+
-> | 1       | ENERGY_NOW         | CHARGE_NOW + VOLTAGE_AVG         |
-> | 2       | ENERGY_FULL_DESIGN | CHARGE_FULL_DESIGN + VOLTAGE_AVG |
-> | 3       | ENERGY_FULL        | CHARGE_FULL + VOLTAGE_AVG        |
-> +---------+--------------------+----------------------------------+
-> Note: All properties above are to be prefixed with POWER_SUPPLY_PROP_.
->=20
-> Closes: https://lore.kernel.org/all/amVJ1u67qHENBQ5l@venus/
-> Suggested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Assisted-by: Gemini:gemini-3.1-pro
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
-> ---
+--
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+usbnet: fix smp_processor_id() use in preemptible context
 
-Greetings,
+This changes usbnet_skb_return() and tx_complete() to fetch the per-CPU
+pcpu_sw_netstats pointer with get_cpu_ptr()/put_cpu_ptr() instead of a bare
+this_cpu_ptr(), addressing a smp_processor_id()-in-preemptible-code report
+from syzbot.  Along with the pointer change it also switches the seqcount
+write helpers from the _irqsave variants to the plain ones.
 
--- Sebastian
+Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
 
->  drivers/usb/typec/tcpm/tcpm.c | 57 +++++++++++++++++++++++++++----------=
-------
->  1 file changed, 36 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index a8cd1959c426..0d7dc0b51c87 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -410,6 +410,9 @@ struct pd_timings {
->  /* Convert microwatt to watt */
->  #define UW_TO_W(pow)				(div_u64((pow), 1000000))
-> =20
-> +/* Convert micro-Watt-hours to USB PD energy (increments of 0.1Wh) */
-> +#define UWH_TO_PD_ENERGY(energy)		(UW_TO_W((u64)(energy) * 10))
-> +
->  /*
->   * As per USB PD Spec Rev 3.18 (Sec. 6.5.13.11), the number of fixed bat=
-teries
->   * that a port can be queried is restricted to 4.
-> @@ -1580,8 +1583,7 @@ static u16 tcpm_charge_to_energy(int charge, int vo=
-ltage)
+> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+> index a19ecf718f36a..3df72b0c6bcfc 100644
+> --- a/drivers/net/usb/usbnet.c
+> +++ b/drivers/net/usb/usbnet.c
+> @@ -325,8 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
+>   */
+>  void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
 >  {
->  	u64 energy =3D div_u64((u64)charge * voltage, 1000000);
-> =20
-> -	/* Battery telemetry is reported in increments of 0.1Wh */
-> -	return (u16)UW_TO_W(energy * 10);
-> +	return UWH_TO_PD_ENERGY(energy);
->  }
-> =20
->  static int tcpm_pd_send_batt_status(struct tcpm_port *port)
-> @@ -1612,16 +1614,17 @@ static int tcpm_pd_send_batt_status(struct tcpm_p=
-ort *port)
->  	else
->  		batt_present =3D val.intval > 0;
-> =20
-> -	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW,
-> -					&val);
-> +	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_NOW, &=
-val);
->  	if (!ret) {
-> -		charge_now =3D val.intval;
-> -		ret =3D power_supply_get_property(batt,
-> -						POWER_SUPPLY_PROP_VOLTAGE_AVG,
-> -						&val);
-> -		if (!ret)
-> -			present_charge =3D tcpm_charge_to_energy(charge_now,
-> -							       val.intval);
-> +		present_charge =3D UWH_TO_PD_ENERGY(val.intval);
-> +	} else {
-> +		ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW, =
-&val);
-> +		if (!ret) {
-> +			charge_now =3D val.intval;
-> +			ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG=
-, &val);
-> +			if (!ret)
-> +				present_charge =3D tcpm_charge_to_energy(charge_now, val.intval);
-> +		}
->  	}
-> =20
->  	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_STATUS, &val);
-> @@ -1678,19 +1681,31 @@ static int tcpm_pd_send_batt_cap(struct tcpm_port=
- *port)
-> =20
->  	invalid_ref =3D false;
->  	batt =3D port->fixed_batt[batt_id];
-> -	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG,
-> -					&val);
-> -	if (!ret) {
-> -		vol =3D val.intval;
-> -		ret =3D power_supply_get_property(batt,
-> -						POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
-> -						&val);
-> +
-> +	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_FULL_D=
-ESIGN, &val);
-> +	if (!ret)
-> +		design_cap =3D UWH_TO_PD_ENERGY(val.intval);
-> +
-> +	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_ENERGY_FULL, =
-&val);
-> +	if (!ret)
-> +		charge_cap =3D UWH_TO_PD_ENERGY(val.intval);
-> +
-> +	if (design_cap !=3D BATTERY_PROPERTY_UNKNOWN && charge_cap !=3D BATTERY=
-_PROPERTY_UNKNOWN)
-> +		goto send_cap;
-> +
-> +	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG, =
-&val);
-> +	if (ret)
-> +		goto send_cap;
-> +
-> +	vol =3D val.intval;
-> +	if (design_cap =3D=3D BATTERY_PROPERTY_UNKNOWN) {
-> +		ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_FULL_=
-DESIGN, &val);
->  		if (!ret)
->  			design_cap =3D tcpm_charge_to_energy(val.intval, vol);
-> +	}
-> =20
-> -		ret =3D power_supply_get_property(batt,
-> -						POWER_SUPPLY_PROP_CHARGE_FULL,
-> -						&val);
-> +	if (charge_cap =3D=3D BATTERY_PROPERTY_UNKNOWN) {
-> +		ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_FULL,=
- &val);
->  		if (!ret)
->  			charge_cap =3D tcpm_charge_to_energy(val.intval, vol);
->  	}
->=20
-> ---
-> base-commit: e1e6e541c5c9cf548e9fdc35fc26808c82074440
-> change-id: 20260820-tcpm-energy-props-upstream-a493353f0054
->=20
-> Best regards,
-> --=20
-> Amit Sunil Dhamne <amitsd@google.com>
->=20
->=20
->=20
+> -	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
+> -	unsigned long flags;
+> +	struct pcpu_sw_netstats *stats64;
+>  	int	status;
+>  
+>  	if (test_bit(EVENT_RX_PAUSED, &dev->flags)) {
+> @@ -338,10 +337,12 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+>  	if (skb->protocol == 0)
+>  		skb->protocol = eth_type_trans(skb, dev->net);
+>  
+> -	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+> +	stats64 = get_cpu_ptr(dev->net->tstats);
+> +	u64_stats_update_begin(&stats64->syncp);
+>  	u64_stats_inc(&stats64->rx_packets);
+>  	u64_stats_add(&stats64->rx_bytes, skb->len);
+> -	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
+> +	u64_stats_update_end(&stats64->syncp);
+> +	put_cpu_ptr(dev->net->tstats);
 
---deq6sdnandm5mu3o
-Content-Type: application/pgp-signature; name="signature.asc"
+[Severity: High]
 
------BEGIN PGP SIGNATURE-----
+Does dropping the _irqsave seqcount helpers here re-open the problem that
+commit 2695578b896a ("net: usbnet: fix potential deadlock on 32bit hosts")
+closed?
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmqhyscACgkQ2O7X88g7
-+pp1cQ//e6lmtujD0Yb0vr0irVWyua8bCpQyKIA/YNOeHE02WIRDmvBScuqsQDXK
-/02HJUS03X4UVKtn1r0LkiaBElSdouay6hUIaz8pkbzZ/KZdTugFe7cK4Dcdp80W
-4Whu/cZD6+mT7sYFNui4JOIKZECas+9Szo+IhyYZh4lrkwihv1X/oOSiS1NKEWqS
-tyitONuftplvKOAgOpp7JcSBSXAN1PymrTpbD8VnKcMmBbUUaXFKlTXKGsOvBxRq
-T7hsjaMHpQUcQwxZs0DELuJu9t1cHjdoVZGUmYD6t3/YdJJFwop8MWeOFOau5RBC
-nMcWpU27uFLGw7zR6kl8OnM2rXMcnkkuGMpBjv0v1PGyzwmFdxlnrqaaB0CByWQ0
-stAPgd90KEaZiuXKtDllptdF9Bme8ccIGd3/gz48D5KWRCuPaI12amRqEAlXwTNj
-LE2OLAICljX/DR31J6ryFKoSBOMi7SvJODiOHjiwgZBn3YCCYwE7EApfrx9rQ6m5
-dmAmNueV8mcryZl4UQju7e9P+4ieu29zHLgGymCSkBdSKyok9y7wx8iGDFcRPOov
-QAcEJBQeZozuMTzWhCruHUSLxZaLMTK164gWDIvvtGMxR3aQcSx85Z0hV1QNoQb3
-1nOuEC9L4fDgqff4Zz0sjCy5z5pyde7FI0gnnKTV3GGYWShT+4E=
-=b/yb
------END PGP SIGNATURE-----
+The reported splat is about the per-CPU pointer being taken outside of a
+preempt-disabled section, which get_cpu_ptr() addresses.  But get_cpu_ptr()
+only disables preemption:
 
---deq6sdnandm5mu3o--
+  include/linux/percpu-defs.h
+  #define get_cpu_ptr(var)						\
+  ({									\
+	preempt_disable();						\
+	this_cpu_ptr(var);						\
+  })
+
+so nothing masks interrupts across the seqcount write section anymore.
+
+usbnet_skb_return() runs from usbnet_bh_work()->rx_process() (and from
+usbnet_resume_rx() in BH-disabled process context), i.e. with hardirqs
+enabled.  tx_complete() below is the urb->complete callback, and for host
+controllers that do not set HCD_BH it is invoked straight from the
+controller's hardirq handler:
+
+  drivers/usb/core/hcd.c:usb_hcd_giveback_urb() {
+	if (!hcd_giveback_urb_in_bh(hcd) && !is_root_hub(urb->dev)) {
+		__usb_hcd_giveback_urb(urb);
+		return;
+	}
+  }
+
+  drivers/usb/core/hcd.c:__usb_hcd_giveback_urb() {
+	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
+	urb->complete(urb);
+	kcov_remote_stop_softirq();
+  }
+
+There is no local_irq_save() around urb->complete().  In-tree only
+ehci-hcd, xhci and dwc2 set HCD_BH, so on OHCI/UHCI/musb/max3421/sl811 and
+friends tx_complete() is a hardirq-context writer.
+
+Both sites write the same object, since struct pcpu_sw_netstats has a
+single u64_stats_sync shared by the rx and tx counters:
+
+  include/linux/netdevice.h
+  struct pcpu_sw_netstats {
+	u64_stats_t		rx_packets;
+	u64_stats_t		rx_bytes;
+	u64_stats_t		tx_packets;
+	u64_stats_t		tx_bytes;
+	struct u64_stats_sync   syncp;
+  };
+
+On 32-bit, where u64_stats_sync is a real seqcount, can the following
+nesting happen on one CPU?
+
+  usbnet_bh_work() -> rx_process() -> usbnet_skb_return()
+     u64_stats_update_begin()          /* seq odd, rx_bytes half written */
+        <HCD hardirq>
+        usb_hcd_giveback_urb() -> __usb_hcd_giveback_urb() -> tx_complete()
+           u64_stats_update_begin()    /* seq even again */
+           u64_stats_update_end()      /* seq odd */
+     u64_stats_update_end()            /* seq even */
+
+A reader coming in via dev_get_tstats64()->dev_fetch_sw_netstats() (for
+example "ip -s link show") would then see an even sequence in the middle of
+the outer update and accept a torn 64-bit counter without
+u64_stats_fetch_retry() firing.  With lockdep on 32-bit, is this also the
+"inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W}" report that 2695578b896a
+removed?
+
+This is the constraint documented in include/linux/u64_stats_sync.h:
+
+   * 3) Write side must use the _irqsave() variant if other writers, or a reader,
+   *    can be invoked from an IRQ context. On 64bit systems this variant does not
+   *    disable interrupts.
+
+Since the _irqsave variant compiles away on 64-bit, would it work to keep
+it and only change the pointer acquisition?
+
+  stats64 = get_cpu_ptr(dev->net->tstats);
+  flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+  u64_stats_inc(&stats64->rx_packets);
+  u64_stats_add(&stats64->rx_bytes, skb->len);
+  u64_stats_update_end_irqrestore(&stats64->syncp, flags);
+  put_cpu_ptr(dev->net->tstats);
+
+The changelog only mentions the get_cpu_ptr()/put_cpu_ptr() conversion and
+says nothing about dropping the IRQ-safe helpers; could that be spelled out
+if the removal is intentional?
+
+>  
+>  	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
+>  		  skb->len + sizeof(struct ethhdr), skb->protocol);
+> @@ -1298,13 +1299,14 @@ static void tx_complete(struct urb *urb)
+>  	struct usbnet		*dev = entry->dev;
+>  
+>  	if (urb->status == 0) {
+> -		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
+> -		unsigned long flags;
+> +		struct pcpu_sw_netstats *stats64;
+>  
+> -		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+> +		stats64 = get_cpu_ptr(dev->net->tstats);
+> +		u64_stats_update_begin(&stats64->syncp);
+>  		u64_stats_add(&stats64->tx_packets, entry->packets);
+>  		u64_stats_add(&stats64->tx_bytes, entry->length);
+> -		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
+> +		u64_stats_update_end(&stats64->syncp);
+> +		put_cpu_ptr(dev->net->tstats);
+>  	} else {
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260907214727.692307-1-omermetekaya0%40gmail.com
