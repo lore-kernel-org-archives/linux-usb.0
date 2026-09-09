@@ -1,215 +1,339 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f6.google.com (mail-oi2-f6.google.com [74.125.231.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BE83C9EFC;
-	Wed,  9 Sep 2026 21:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA8843E49A
+	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 22:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788990463; cv=none; b=NUP5bZVnLRa3eDSDNxNB0ymReH42n3aSR3qUb6H7J2B9HjvPN+qa+K6nLH+LTizUzXAOub1NU/0Nty9ZDXBbml1hfbhNWdrzMDFDm14LWMICY99H2GERKTuq001h9HhqauiYwaWO1Sq4hT8Y3XGu2PUKHqjNQ/bl44GwnaC2fsU=
+	t=1788993947; cv=none; b=IRk8PX4gXjiZIJOfg1CQOIWDHPl+xDmFHLTEZChv6mfwobuQA3AQuu4LRwey912CgaUaDSX6HcrUu2+JLTltZ1k1Z8tHg6aOGsaIYN9HbVKwfbhDky4Y1chaLpGuhn1mWA9k/8EuThrNuu6UmBym+r9/9MRjgLz6CjaLE5VoJdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788990463; c=relaxed/simple;
-	bh=PyzES/uHVDs3di3nq3fTez/4i/LkgOc9RwISRBJ8LTI=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FN+9q5k3X0MTNys0LQ5OgufpUeLDIYonI2xpXUZeKumJAcQ6rCOgthGS9nH5RN8xPwnri/sj8zKtXbHtfn8ZfyYVhJJLJhH758dPzyx811Oa2xygpx2vS6BTBCHvJgHOAnNGIvkkUCPm+qQ1GsaLNAWsDbb56BTkLAPYXcB3RoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6u+QKaV; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6u+QKaV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA2E1F000FF;
-	Wed,  9 Sep 2026 21:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788990455;
-	bh=TxkCSwEjNOtlm2Jrz5XkAhDF93yeqvQiIMcyAnanaqY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=R6u+QKaVRPsDjo795RGERogcW8BlorlfyZp1m/A63WxvCkSsjQ/T4Qgpn7nycKKj3
-	 QwhS0iZwP0OALvYCoQ8fKL1xwq1lgVprjMYaZbcStzWOTjGB7z/EHvT6os1MLyP6+4
-	 MnYqVSn4RbzUNR2uUrPRxxUQXqWft5UcSs1ecoWUJJTi7T4otKAvh7J04VggHrjlEy
-	 fcFlkfz8vz/Gm+2bAgEfkGnF9DFyy4xlkzxtIYOX7veI7hVxAt7VNIr1bf+Ihs56Wc
-	 YlVE4g6AD62a6OLumyjds5UL+pImuYnTsSOxK9aov9uHBALEOEpIub08eoMAjdbRts
-	 FiZQJKTBs26ag==
-Subject:
- Re: [PATCH net v4] usbnet: fix smp_processor_id() use in preemptible context
-From: netdev-bot+sashiko@kernel.org
-To: omermetekaya0@gmail.com
-Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- david.laight.linux@gmail.com,
- syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
-Date: Wed, 09 Sep 2026 21:47:34 +0000
-Message-ID: <178899045475.219967.8804711454240391662@kernel.org>
-In-Reply-To: <20260907214727.692307-1-omermetekaya0@gmail.com>
-References: <20260907214727.692307-1-omermetekaya0@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1788993947; c=relaxed/simple;
+	bh=1g7kSsKp6Grtu7gbR4g0hoVygi5iP9DIjBhPWJE0Flc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=k5ZqbauAFSaA6xaaxbCObf18d6S2CO4+0SiaaPYSqpX8kBRHOXToKistZjK5M8NmAhXrVSUmah2KguXFIsW/FqFvhOquCbLkwyuDwjcKUkL9Y5remENph7NWFQ2FXjP1ra2w22dC+AhaYzeL2Lu7ZC/Ui4++/uilywSTVgjeDjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f6.google.com with SMTP id 5614622812f47-4b374c2cf2cso811997b6e.1
+        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 15:45:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788993937; x=1789598737;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4tM6Fo3j14kANylpNKhX4epaNxZX0PA4BzbTEwJ4m/w=;
+        b=UGNQvSzJVCVwx6RIW4Fwkktk4MCsipavoz1oSGYH/gXxZbyZzEV4gFJ7X9rfoMgTh5
+         S5sFEHN0HwQGAlBLOVjhFjmqV2SdvP/AydRSoKMV5XQBkyPyUiF7q+uZXFVfVRizufCq
+         DzUPRGjZzKEtzoB4XzngdWjeMNsVvW5Hr0nZ561+h/rBUr3zgSdDVxZgL4g/aBv1P5Tj
+         Lz4apLakF1mQSFm2iVOmue21Us4cUEsl/WO0KBb+yR10A9COSKtBZWQI9TeiN6qCFfeH
+         bdJPHnJXW5YB5rgbYllvx7t32bwXfwvoesYBPzueoWFlLHXddj0QwMtmiZn9oNocZV2E
+         dtlg==
+X-Forwarded-Encrypted: i=1; AKwUvBzvhEjWWXt04avUHp5hPXDOkCDWu6z8bPebYihPJGkg2zXBi9Wc1MIb6pJmA2bvRacJADwGaafQfgU=@vger.kernel.org
+X-Gm-Message-State: AFuF++lBMfNXRbVrtxN4WS3liruB+XYG8HN+QqtpknArutPAtZc4/KE8
+	j+lMOeuqZV0oe/+2Nc3yLOnXuqL64nEzhM/zing7prddfIWcFezcSgcSazWGfAI59ivQG9LM5R9
+	+3AOZLCwLtA18OCAzvN8ld2sC+WDdmS2T8NqaSG56zC7EZiF736CLn6Hsfqw=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Received: by 2002:a05:6820:179b:b0:6b1:42ab:d040 with SMTP id
+ 006d021491bc7-6b6fd3c83cbmr21512508eaf.28.1788993937575; Wed, 09 Sep 2026
+ 15:45:37 -0700 (PDT)
+Date: Wed, 09 Sep 2026 15:45:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aa1e191.f81106d8.2ab401.0004.GAE@google.com>
+Subject: [syzbot] [mm?] [cgroups?] inconsistent lock state in
+ fs_reclaim_acquire (4)
+From: syzbot <syzbot+093e05755c2d99caab91@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, cgroups@vger.kernel.org, hannes@cmpxchg.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, 
+	mhocko@kernel.org, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+Hello,
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 0
+syzbot found the following issue on:
 
-- [High] usbnet: dropping
-  u64_stats_update_begin_irqsave()/u64_stats_update_end_irqrestore() in…
+HEAD commit:    34c9c5517033 Merge 7.3-rc2 into usb-next
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1408d749580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c451f9f64434b622
+dashboard link: https://syzkaller.appspot.com/bug?extid=093e05755c2d99caab91
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=102c2ef9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=156d7af9580000
 
---
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/8a384e63cde6/disk-34c9c551.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e5a73decdc30/vmlinux-34c9c551.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/13abc163bbdc/bzImage-34c9c551.xz
 
-usbnet: fix smp_processor_id() use in preemptible context
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+093e05755c2d99caab91@syzkaller.appspotmail.com
 
-This changes usbnet_skb_return() and tx_complete() to fetch the per-CPU
-pcpu_sw_netstats pointer with get_cpu_ptr()/put_cpu_ptr() instead of a bare
-this_cpu_ptr(), addressing a smp_processor_id()-in-preemptible-code report
-from syzbot.  Along with the pointer change it also switches the seqcount
-write helpers from the _irqsave variants to the plain ones.
+================================
+WARNING: inconsistent lock state
+syzkaller #0 Not tainted
+--------------------------------
+inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
+syz.3.17/3981 [HC0[0]:SC1[1]:HE0:SE0] takes:
+ffffffff89ab7bc0 (fs_reclaim){+.?.}-{0:0}, at: might_alloc include/linux/sched/mm.h:316 [inline]
+ffffffff89ab7bc0 (fs_reclaim){+.?.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:4636 [inline]
+ffffffff89ab7bc0 (fs_reclaim){+.?.}-{0:0}, at: slab_alloc_node mm/slub.c:4974 [inline]
+ffffffff89ab7bc0 (fs_reclaim){+.?.}-{0:0}, at: __do_kmalloc_node mm/slub.c:5413 [inline]
+ffffffff89ab7bc0 (fs_reclaim){+.?.}-{0:0}, at: __kmalloc_node_track_caller_noprof+0xcc/0x820 mm/slub.c:5545
+{SOFTIRQ-ON-W} state was registered at:
+  lock_acquire kernel/locking/lockdep.c:5942 [inline]
+  lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+  __fs_reclaim_acquire mm/page_alloc.c:4375 [inline]
+  fs_reclaim_acquire+0xc4/0x100 mm/page_alloc.c:4389
+  might_alloc include/linux/sched/mm.h:316 [inline]
+  xa_alloc include/linux/xarray.h:876 [inline]
+  mem_cgroup_alloc mm/memcontrol.c:4160 [inline]
+  mem_cgroup_css_alloc+0x7e/0x1ce0 mm/memcontrol.c:4225
+  cgroup_init_subsys+0x223/0x700 kernel/cgroup/cgroup.c:6431
+  cgroup_init+0x569/0xe50 kernel/cgroup/cgroup.c:6558
+  start_kernel+0x470/0x490 init/main.c:1176
+  x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+  x86_64_start_kernel+0x12b/0x130 arch/x86/kernel/head64.c:291
+  common_startup_64+0x13e/0x158
+irq event stamp: 317
+hardirqs last  enabled at (316): [<ffffffff878ad162>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:210 [inline]
+hardirqs last  enabled at (316): [<ffffffff878ad162>] _raw_spin_unlock_irqrestore+0x52/0x80 kernel/locking/spinlock.c:221
+hardirqs last disabled at (317): [<ffffffff878acd32>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:153 [inline]
+hardirqs last disabled at (317): [<ffffffff878acd32>] _raw_spin_lock_irqsave+0x52/0x60 kernel/locking/spinlock.c:181
+softirqs last  enabled at (302): [<ffffffff8177a2a8>] __do_softirq kernel/softirq.c:679 [inline]
+softirqs last  enabled at (302): [<ffffffff8177a2a8>] invoke_softirq kernel/softirq.c:519 [inline]
+softirqs last  enabled at (302): [<ffffffff8177a2a8>] __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
+softirqs last disabled at (313): [<ffffffff8177a2a8>] __do_softirq kernel/softirq.c:679 [inline]
+softirqs last disabled at (313): [<ffffffff8177a2a8>] invoke_softirq kernel/softirq.c:519 [inline]
+softirqs last disabled at (313): [<ffffffff8177a2a8>] __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
 
-Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
+other info that might help us debug this:
+ Possible unsafe locking scenario:
 
-> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-> index a19ecf718f36a..3df72b0c6bcfc 100644
-> --- a/drivers/net/usb/usbnet.c
-> +++ b/drivers/net/usb/usbnet.c
-> @@ -325,8 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
->   */
->  void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
->  {
-> -	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
-> -	unsigned long flags;
-> +	struct pcpu_sw_netstats *stats64;
->  	int	status;
->  
->  	if (test_bit(EVENT_RX_PAUSED, &dev->flags)) {
-> @@ -338,10 +337,12 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
->  	if (skb->protocol == 0)
->  		skb->protocol = eth_type_trans(skb, dev->net);
->  
-> -	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
-> +	stats64 = get_cpu_ptr(dev->net->tstats);
-> +	u64_stats_update_begin(&stats64->syncp);
->  	u64_stats_inc(&stats64->rx_packets);
->  	u64_stats_add(&stats64->rx_bytes, skb->len);
-> -	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
-> +	u64_stats_update_end(&stats64->syncp);
-> +	put_cpu_ptr(dev->net->tstats);
+       CPU0
+       ----
+  lock(fs_reclaim);
+  <Interrupt>
+    lock(fs_reclaim);
 
-[Severity: High]
+ *** DEADLOCK ***
 
-Does dropping the _irqsave seqcount helpers here re-open the problem that
-commit 2695578b896a ("net: usbnet: fix potential deadlock on 32bit hosts")
-closed?
+locks held by syz.3.17/3981: 1, on CPU#0:
+ #0: ffff888122130870 (&hiddev->existancelock){+.+.}-{4:4}, at: hiddev_ioctl+0x165/0x15b0 drivers/hid/usbhid/hiddev.c:610
 
-The reported splat is about the per-CPU pointer being taken outside of a
-preempt-disabled section, which get_cpu_ptr() addresses.  But get_cpu_ptr()
-only disables preemption:
+stack backtrace:
+CPU: 0 UID: 0 PID: 3981 Comm: syz.3.17 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_usage_bug.part.0+0x258/0x340 kernel/locking/lockdep.c:4086
+ print_usage_bug kernel/locking/lockdep.c:4054 [inline]
+ valid_state kernel/locking/lockdep.c:4100 [inline]
+ mark_lock_irq kernel/locking/lockdep.c:4311 [inline]
+ mark_lock+0x956/0x1020 kernel/locking/lockdep.c:4797
+ mark_usage kernel/locking/lockdep.c:4686 [inline]
+ __lock_acquire+0x7f1/0x1f40 kernel/locking/lockdep.c:5242
+ lock_acquire kernel/locking/lockdep.c:5942 [inline]
+ lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+ __fs_reclaim_acquire mm/page_alloc.c:4375 [inline]
+ fs_reclaim_acquire+0xc4/0x100 mm/page_alloc.c:4389
+ might_alloc include/linux/sched/mm.h:316 [inline]
+ slab_pre_alloc_hook mm/slub.c:4636 [inline]
+ slab_alloc_node mm/slub.c:4974 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_node_track_caller_noprof+0xcc/0x820 mm/slub.c:5545
+ alloc_dr drivers/base/devres.c:141 [inline]
+ devm_kmalloc+0xa5/0x2b0 drivers/base/devres.c:951
+ devm_kzalloc include/linux/device/devres.h:50 [inline]
+ mt_allocate_report_data+0x59/0xcc0 drivers/hid/hid-multitouch.c:695
+ mt_find_report_data drivers/hid/hid-multitouch.c:745 [inline]
+ mt_event+0x1bf/0x270 drivers/hid/hid-multitouch.c:1570
+ hid_process_event+0x37d/0x5a0 drivers/hid/hid-core.c:1572
+ hid_process_report drivers/hid/hid-core.c:1730 [inline]
+ hid_report_raw_event+0xb14/0x14c0 drivers/hid/hid-core.c:2109
+ __hid_input_report.constprop.0+0x349/0x470 drivers/hid/hid-core.c:2180
+ hid_ctrl+0x4a4/0x560 drivers/hid/usbhid/hid-core.c:486
+ __usb_hcd_giveback_urb+0x38e/0x610 drivers/usb/core/hcd.c:1657
+ usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+ dummy_timer+0xdb2/0x3700 drivers/usb/gadget/udc/dummy_hcd.c:2019
+ __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+ __hrtimer_run_queues+0x462/0x9c0 kernel/time/hrtimer.c:2124
+ hrtimer_run_softirq+0x1ca/0x360 kernel/time/hrtimer.c:2141
+ handle_softirqs+0x1d9/0x9b0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:211 [inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:221
+Code: f5 53 48 8b 74 24 10 48 89 fb 48 83 c7 18 e8 56 f7 05 fa 48 89 df e8 de 4d 06 fa f7 c5 00 02 00 00 75 23 9c 58 f6 c4 02 75 37 <bf> 01 00 00 00 e8 65 a3 f8 f9 65 48 83 3d d4 ee 98 05 00 74 16 5b
+RSP: 0018:ffffc90001bff9f0 EFLAGS: 00000246
+RAX: 0000000000000002 RBX: ffff8881f5625fc0 RCX: 0000000000000040
+RDX: 0000000000000001 RSI: ffffffff89329b79 RDI: ffffffff87d2b780
+RBP: 0000000000000287 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8881f5625fc0
+R13: 0000000000000000 R14: 00000000ffffffff R15: ffff8881f5626008
+ __mod_timer+0x409/0xca0 kernel/time/timer.c:1139
+ add_timer+0x62/0x90 kernel/time/timer.c:1249
+ schedule_timeout+0x122/0x280 kernel/time/sleep_timeout.c:98
+ usbhid_wait_io+0x24e/0x420 drivers/hid/usbhid/hid-core.c:648
+ usbhid_init_reports+0x1a7/0x390 drivers/hid/usbhid/hid-core.c:787
+ hiddev_ioctl+0xddb/0x15b0 drivers/hid/usbhid/hiddev.c:794
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x119/0x710 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f01bd5ee159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f01bd42e028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f01bd876090 RCX: 00007f01bd5ee159
+RDX: 0000000000000000 RSI: 00000000c018480b RDI: 0000000000000004
+RBP: 00007f01bd68503b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f01bd876128 R14: 00007f01bd876090 R15: 00007ffe3b7b3048
+ </TASK>
+------------[ cut here ]------------
+do not call blocking ops when !TASK_RUNNING; state=2 set at [<ffffffff818d66ad>] prepare_to_wait_event+0x8d/0x720 kernel/sched/wait.c:318
+WARNING: kernel/sched/core.c:9179 at __might_sleep+0x94/0xc0 kernel/sched/core.c:9179, CPU#0: syz.3.17/3981
+Modules linked in:
+CPU: 0 UID: 0 PID: 3981 Comm: syz.3.17 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:__might_sleep+0x97/0xc0 kernel/sched/core.c:9179
+Code: 8b 94 24 c0 17 00 00 48 85 d2 75 14 48 83 c4 08 89 ee 48 89 df 31 d2 5b 5d 41 5c e9 33 fc ff ff 48 8d 3d 5c d9 92 09 48 89 d1 <67> 48 0f b9 3a eb db e8 fd 20 9c 00 eb 9f 89 74 24 04 e8 22 21 9c
+RSP: 0018:ffffc90000007828 EFLAGS: 00010082
+RAX: dffffc0000000000 RBX: ffffffff8931ad45 RCX: ffffffff818d66ad
+RDX: ffffffff818d66ad RSI: 0000000000000002 RDI: ffffffff8b16a1e0
+RBP: 0000000000000142 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff888107ed3c80
+R13: 0000000000000dc0 R14: 00000000ffffffff R15: 00000000ffffffff
+FS:  00007f01bd42e6c0(0000) GS:ffff8882683e4000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f01bd42dff8 CR3: 00000001214ba000 CR4: 00000000003506f0
+Call Trace:
+ <IRQ>
+ might_alloc include/linux/sched/mm.h:322 [inline]
+ slab_pre_alloc_hook mm/slub.c:4636 [inline]
+ slab_alloc_node mm/slub.c:4974 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_node_track_caller_noprof+0x473/0x820 mm/slub.c:5545
+ alloc_dr drivers/base/devres.c:141 [inline]
+ devm_kmalloc+0xa5/0x2b0 drivers/base/devres.c:951
+ devm_kzalloc include/linux/device/devres.h:50 [inline]
+ mt_allocate_report_data+0x59/0xcc0 drivers/hid/hid-multitouch.c:695
+ mt_find_report_data drivers/hid/hid-multitouch.c:745 [inline]
+ mt_event+0x1bf/0x270 drivers/hid/hid-multitouch.c:1570
+ hid_process_event+0x37d/0x5a0 drivers/hid/hid-core.c:1572
+ hid_process_report drivers/hid/hid-core.c:1730 [inline]
+ hid_report_raw_event+0xb14/0x14c0 drivers/hid/hid-core.c:2109
+ __hid_input_report.constprop.0+0x349/0x470 drivers/hid/hid-core.c:2180
+ hid_ctrl+0x4a4/0x560 drivers/hid/usbhid/hid-core.c:486
+ __usb_hcd_giveback_urb+0x38e/0x610 drivers/usb/core/hcd.c:1657
+ usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+ dummy_timer+0xdb2/0x3700 drivers/usb/gadget/udc/dummy_hcd.c:2019
+ __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+ __hrtimer_run_queues+0x462/0x9c0 kernel/time/hrtimer.c:2124
+ hrtimer_run_softirq+0x1ca/0x360 kernel/time/hrtimer.c:2141
+ handle_softirqs+0x1d9/0x9b0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:211 [inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:221
+Code: f5 53 48 8b 74 24 10 48 89 fb 48 83 c7 18 e8 56 f7 05 fa 48 89 df e8 de 4d 06 fa f7 c5 00 02 00 00 75 23 9c 58 f6 c4 02 75 37 <bf> 01 00 00 00 e8 65 a3 f8 f9 65 48 83 3d d4 ee 98 05 00 74 16 5b
+RSP: 0018:ffffc90001bff9f0 EFLAGS: 00000246
+RAX: 0000000000000002 RBX: ffff8881f5625fc0 RCX: 0000000000000040
+RDX: 0000000000000001 RSI: ffffffff89329b79 RDI: ffffffff87d2b780
+RBP: 0000000000000287 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8881f5625fc0
+R13: 0000000000000000 R14: 00000000ffffffff R15: ffff8881f5626008
+ __mod_timer+0x409/0xca0 kernel/time/timer.c:1139
+ add_timer+0x62/0x90 kernel/time/timer.c:1249
+ schedule_timeout+0x122/0x280 kernel/time/sleep_timeout.c:98
+ usbhid_wait_io+0x24e/0x420 drivers/hid/usbhid/hid-core.c:648
+ usbhid_init_reports+0x1a7/0x390 drivers/hid/usbhid/hid-core.c:787
+ hiddev_ioctl+0xddb/0x15b0 drivers/hid/usbhid/hiddev.c:794
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x119/0x710 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f01bd5ee159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f01bd42e028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f01bd876090 RCX: 00007f01bd5ee159
+RDX: 0000000000000000 RSI: 00000000c018480b RDI: 0000000000000004
+RBP: 00007f01bd68503b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f01bd876128 R14: 00007f01bd876090 R15: 00007ffe3b7b3048
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	f5                   	cmc
+   1:	53                   	push   %rbx
+   2:	48 8b 74 24 10       	mov    0x10(%rsp),%rsi
+   7:	48 89 fb             	mov    %rdi,%rbx
+   a:	48 83 c7 18          	add    $0x18,%rdi
+   e:	e8 56 f7 05 fa       	call   0xfa05f769
+  13:	48 89 df             	mov    %rbx,%rdi
+  16:	e8 de 4d 06 fa       	call   0xfa064df9
+  1b:	f7 c5 00 02 00 00    	test   $0x200,%ebp
+  21:	75 23                	jne    0x46
+  23:	9c                   	pushf
+  24:	58                   	pop    %rax
+  25:	f6 c4 02             	test   $0x2,%ah
+  28:	75 37                	jne    0x61
+* 2a:	bf 01 00 00 00       	mov    $0x1,%edi <-- trapping instruction
+  2f:	e8 65 a3 f8 f9       	call   0xf9f8a399
+  34:	65 48 83 3d d4 ee 98 	cmpq   $0x0,%gs:0x598eed4(%rip)        # 0x598ef11
+  3b:	05 00
+  3d:	74 16                	je     0x55
+  3f:	5b                   	pop    %rbx
 
-  include/linux/percpu-defs.h
-  #define get_cpu_ptr(var)						\
-  ({									\
-	preempt_disable();						\
-	this_cpu_ptr(var);						\
-  })
 
-so nothing masks interrupts across the seqcount write section anymore.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-usbnet_skb_return() runs from usbnet_bh_work()->rx_process() (and from
-usbnet_resume_rx() in BH-disabled process context), i.e. with hardirqs
-enabled.  tx_complete() below is the urb->complete callback, and for host
-controllers that do not set HCD_BH it is invoked straight from the
-controller's hardirq handler:
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-  drivers/usb/core/hcd.c:usb_hcd_giveback_urb() {
-	if (!hcd_giveback_urb_in_bh(hcd) && !is_root_hub(urb->dev)) {
-		__usb_hcd_giveback_urb(urb);
-		return;
-	}
-  }
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-  drivers/usb/core/hcd.c:__usb_hcd_giveback_urb() {
-	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
-	urb->complete(urb);
-	kcov_remote_stop_softirq();
-  }
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-There is no local_irq_save() around urb->complete().  In-tree only
-ehci-hcd, xhci and dwc2 set HCD_BH, so on OHCI/UHCI/musb/max3421/sl811 and
-friends tx_complete() is a hardirq-context writer.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Both sites write the same object, since struct pcpu_sw_netstats has a
-single u64_stats_sync shared by the rx and tx counters:
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-  include/linux/netdevice.h
-  struct pcpu_sw_netstats {
-	u64_stats_t		rx_packets;
-	u64_stats_t		rx_bytes;
-	u64_stats_t		tx_packets;
-	u64_stats_t		tx_bytes;
-	struct u64_stats_sync   syncp;
-  };
-
-On 32-bit, where u64_stats_sync is a real seqcount, can the following
-nesting happen on one CPU?
-
-  usbnet_bh_work() -> rx_process() -> usbnet_skb_return()
-     u64_stats_update_begin()          /* seq odd, rx_bytes half written */
-        <HCD hardirq>
-        usb_hcd_giveback_urb() -> __usb_hcd_giveback_urb() -> tx_complete()
-           u64_stats_update_begin()    /* seq even again */
-           u64_stats_update_end()      /* seq odd */
-     u64_stats_update_end()            /* seq even */
-
-A reader coming in via dev_get_tstats64()->dev_fetch_sw_netstats() (for
-example "ip -s link show") would then see an even sequence in the middle of
-the outer update and accept a torn 64-bit counter without
-u64_stats_fetch_retry() firing.  With lockdep on 32-bit, is this also the
-"inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W}" report that 2695578b896a
-removed?
-
-This is the constraint documented in include/linux/u64_stats_sync.h:
-
-   * 3) Write side must use the _irqsave() variant if other writers, or a reader,
-   *    can be invoked from an IRQ context. On 64bit systems this variant does not
-   *    disable interrupts.
-
-Since the _irqsave variant compiles away on 64-bit, would it work to keep
-it and only change the pointer acquisition?
-
-  stats64 = get_cpu_ptr(dev->net->tstats);
-  flags = u64_stats_update_begin_irqsave(&stats64->syncp);
-  u64_stats_inc(&stats64->rx_packets);
-  u64_stats_add(&stats64->rx_bytes, skb->len);
-  u64_stats_update_end_irqrestore(&stats64->syncp, flags);
-  put_cpu_ptr(dev->net->tstats);
-
-The changelog only mentions the get_cpu_ptr()/put_cpu_ptr() conversion and
-says nothing about dropping the IRQ-safe helpers; could that be spelled out
-if the removal is intentional?
-
->  
->  	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
->  		  skb->len + sizeof(struct ethhdr), skb->protocol);
-> @@ -1298,13 +1299,14 @@ static void tx_complete(struct urb *urb)
->  	struct usbnet		*dev = entry->dev;
->  
->  	if (urb->status == 0) {
-> -		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
-> -		unsigned long flags;
-> +		struct pcpu_sw_netstats *stats64;
->  
-> -		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
-> +		stats64 = get_cpu_ptr(dev->net->tstats);
-> +		u64_stats_update_begin(&stats64->syncp);
->  		u64_stats_add(&stats64->tx_packets, entry->packets);
->  		u64_stats_add(&stats64->tx_bytes, entry->length);
-> -		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
-> +		u64_stats_update_end(&stats64->syncp);
-> +		put_cpu_ptr(dev->net->tstats);
->  	} else {
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260907214727.692307-1-omermetekaya0%40gmail.com
+If you want to undo deduplication, reply with:
+#syz undup
