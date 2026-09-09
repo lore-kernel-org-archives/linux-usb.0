@@ -1,163 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBB15476D7;
-	Wed,  9 Sep 2026 12:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC06488205;
+	Wed,  9 Sep 2026 12:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788956520; cv=none; b=h/31L9eAB8LWiE8aFVscvPPmiLw4dxqBJwbspKkUQa89lS21/LWe7BYJLeqC2bDviQP7Crw2dVE+NuAjd49hMfYfXwnYIbDR2zOKWExdkc3beE9oBCYVwjH83BU9oF42RbnT+6HRcVoO1G14OLIkwqIV/jasL5yRl/12APL3CEw=
+	t=1788957007; cv=none; b=DpkyLZYAYf5sA87rwrSVUSbckxrLvyTZzkHh5duTMgIxon1DHscsX2oOXs5X0r5g4y+ysNhJ4ii5CGkBkaTh2fFcKROakWFrQsBbvYpxNTi5nmt2MFTBi+2RWW+sBiY0V0BdzICsJtji/HqITGKgGLY5n4m5pnU5EubJi99YmqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788956520; c=relaxed/simple;
-	bh=j5lY9JXTSe8oVe5CEQaUyb0rcl/kv2YLcmYFWqaW05U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SOn8Ax5dr50jOkOvRqOxg9bEwbzYJgKDdzfLzSUHGZS4WAjUf8CN3cmoVfS8GYuylOHOv3CvPslDqr0NfWYR3OBVZ+MEe+NsIiVHz1292HlYFhqgNSpCYOZWPa1GWr1GQGwkhrD0tjyrW4xjdeYj4DitLPvldzJcgq4qSMIi/CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PnppqEXy; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788957007; c=relaxed/simple;
+	bh=NqGy6hIXcY4gDq+NTJQchl2Qf5eZxe6SHEnUw1M93BY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UlOwCDwwVjyT//0Iz5O0DeITlqf08t/uVF9NXH8s2qsO5g9NO+6fU4c8nDXqoQNpAF3UGFhGZJJxXFUZcEJgD4GvzFTolK0ijo5lzEqP3j2ma7sRAHO4MggIm/hVnZFSFRQSZKkUS9JfDgpEvAHSg8GYJjL7tTDci9xe+jA2Jcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=Ou70p9+N; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PnppqEXy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788956518; x=1820492518;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j5lY9JXTSe8oVe5CEQaUyb0rcl/kv2YLcmYFWqaW05U=;
-  b=PnppqEXyKyhh1YYY3+7IhcsoE4FvhkUQ061u81V6rHN/0K/Jcp3iwvYQ
-   iGVMVW+/nqUn7ZUTqEtAciNP+qF1nl9TOuzgNEOsss+GcbCjcfmVzQ+wb
-   8YaGnECgbK39Wo5F31HyT2xMo99vxf8lxGTUECzbDvGMOSRCjBgu7/PVI
-   LQbVV6XMLtDubWaNEQcSDve3pZPovOt36XBzNdRfIDymqlXCK72Lo5GIm
-   vSOmuarMl9i4SuTJ9ax23cBzejIU9VNYCqv2jc9FbYN2h0WCW6ZV0bnZ4
-   yrh3zPYn0pIJeMrR/Qhay7MbdFPuI7PvP4IhBA2fik+Vsa17N51RjEOFx
-   w==;
-X-CSE-ConnectionGUID: QDhSQqlITHWROrjTPKUiPw==
-X-CSE-MsgGUID: xyXuko54QM+RdNDoB9+6bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89398595"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="89398595"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 05:21:57 -0700
-X-CSE-ConnectionGUID: vMW+wi3RRUG2Qva+nXk6ow==
-X-CSE-MsgGUID: NFVqkCGASXWkLrU3d8qA7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="267022125"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Sep 2026 05:21:55 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id CA9E299; Wed, 09 Sep 2026 14:21:54 +0200 (CEST)
-Date: Wed, 9 Sep 2026 14:21:54 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Daehyeon Ko <4ncienth@gmail.com>
-Cc: Mika Westerberg <westeri@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] thunderbolt: Validate output ports while discovering
- paths
-Message-ID: <20260909122154.GM106095@black.igk.intel.com>
-References: <20260909035040.2929285-1-4ncienth@gmail.com>
- <20260909035040.2929285-3-4ncienth@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="Ou70p9+N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1788956942;
+	bh=C2S7dFgrFR2UVsQVVBeuk6XfCFWA9wrDEPE+fq83Yxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=Ou70p9+NDG4z5c0Q7ksw9p3VKS3uKV1ySllHMaxcbNx+SKW66s2lAf6zPdKXE4MWh
+	 VY81c0BtWiIAhxg/+BEXI4dqCYOpREnvPsx/Gg/iwQNjhOWQ2TsTf/GwPfxXwMjeaF
+	 r/6gkFnAU3Q7i4KT8ZM4FhgP9mftG35zOWTWkJxQ=
+X-QQ-mid: esmtpgz11t1788956936tc860ccf5
+X-QQ-Originating-IP: h3Eg+sQTt311ySAh+/RtmDu0Zm0fZFzy5GGqlSDlFIc=
+Received: from [192.168.1.100] ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 09 Sep 2026 20:28:54 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 13942927660563248268
+Message-ID: <566DD22E9074C793+eaef8bb4-9602-4f76-8915-6e322387c7aa@linux.spacemit.com>
+Date: Wed, 9 Sep 2026 20:28:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260909035040.2929285-3-4ncienth@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: dwc3: core: resume xHCI child on runtime resume
+ in host mode
+To: Troy Mitchell <troy.mitchell@linux.dev>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev
+References: <20260908-resume-xhci-v1-1-aca107602e9c@linux.spacemit.com>
+ <DL9ZZ8F7HTZT.1IUMD1ECSOZXL@linux.dev>
+Content-Language: en-US
+From: Junzhong Pan <panjunzhong@linux.spacemit.com>
+In-Reply-To: <DL9ZZ8F7HTZT.1IUMD1ECSOZXL@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
+X-QQ-XMAILINFO: OSKIRUYof16RjqqdbG+gVfpyHd1KyaLGRllpkrhPCbQWJJbmk7n46Aee
+	DrlR0F38NPNsN9zk19fD+foh1foFuBw2v5GjN01pSznBpZGB2Hc8igHcEHT7aJkrljBBfNC
+	LSToICgJebFizsaigNqvR+q2Lx7NpxrkZI8UgEa1Zn9eE91xcmnj3NS5Ai6avD6o+u/pkbH
+	KS6k9nw16EyW1hwHj7F/ht1qJlew+T6yEiymDtv4eH6jDPqWe/k17QciROLOPpHBL7scGCn
+	wg14IED8nZhtql9/VkmQYtkVNzbmSzbHVZV+ChJ/2+qpgBCXerL08UAHTel1zsFTo5qwD76
+	upvynMBfBclESEalHV5uciEsC87peyzeNaD4CBw3dVBfE39eKU7Puwp9F5aNPaq095dTd9b
+	9jmbeCh8NFYarp4xsycAHNHgXkW7YtOTpDT3XEFdPus2+E4FYplhO4LAutFAC0E7bpB38YR
+	c0lQ8KlabH0ypS51Xse/GLuOeICLq2r9eVLYp8ZIqYnfZteDkFVCAcQBEvSazb3icCBjr0p
+	X7oX6F6jJ4Y2nibEKLXSV+iCanWlWX7iP1e39fGoJuaB6jA5etoiq4ghkRnJGwgPLSnXoOU
+	5ommdQeBEzGl5yno3QFJ+a/GY61jhrrgezvNrS9NOWCLSnDWI5N1LChowRTbvfXP9+xa692
+	ZrCl0JEYRZQgmYuOGOOSD2xRRVZ6S41EjPkC1KeAf7PUiZytK5SkGa9TF11376Cjrr8Ymzz
+	i28r+qyXYTEVrZ57q7hhA9/48BPnSARd71Z1LZbxaPRcUfMKEmsoIcI2RW3fvW4cFaNG8K1
+	0IcCx7MXWPT1Y7KVptWSyqKcDr4A9tvzNOKX7TclmtyP247lEfY+9oNHxQ5IvAYs+4aO66N
+	Gh+qPTAdkDTOqL+UbedG8DWtDtJDRlfiBCwp2gUFid9XRPQWt0mWPyX4firF8hlBd0xMQUl
+	1YVejVaN3NJtmSj1Pf3m3wyIej2jeNeeb3KP07QGHtckXq5y17OdeowQS96MxXtnRTj/So5
+	MbY1sHyujZMlspim4uPff+bEzZp4zoMbcnZGZqiIBl/DJg47vmYQH8YPdci4Oy+mld7fM9C
+	wIuhaBlnFTAWfl3RpIG6BanEqIBgmwYk2eliBgsDyhr
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-RECHKSPAM: 0
 
-Hi,
-
-On Wed, Sep 09, 2026 at 12:50:40PM +0900, Daehyeon Ko wrote:
-> Path discovery reads the six-bit output port number from router HOPS
-> configuration space and uses it to index sw->ports at three sites. A
-> router can return a number larger than max_port_number and make the
-> connection manager read an out-of-bounds tb_port, retain the invalid
-> pointer in a path, or pass its embedded HopID allocator to IDA.
+On 9/8/2026 10:16 PM, Troy Mitchell wrote:
+> On Tue Sep 8, 2026 at 10:01 PM +08, Junzhong Pan wrote:
+>> USB controller runtime suspend halts the controller on disconnection.
+>> It relies on platforms with custom connection notification to start
+>> the controller again.
+>>
+>> The host branch of dwc3_runtime_resume() does nothing currently. There
+>> are two paths that can trigger a runtime resume of the dwc3 core in
+>> host mode:
+>>
+>> (a) Wake lands on the xHCI child (DT platforms, e.g. Qualcomm, i.MX8MP)
+>>     A platform wakeup IRQ fires and the glue handler calls
+>>     pm_runtime_resume(&xhci->dev). Runtime PM walks upward, resumes
+>>     the dwc3 parent first, then resumes xHCI. Both wake correctly.
+>>
+>> (b) Wake lands on the dwc3 parent (ACPI platforms)
+>>     When an ACPI Notify(ACPI_NOTIFY_DEVICE_WAKE) targets the dwc3
+>>     parent device -- for example via a Generic Event Device on a
+>>     hardware-reduced platform where dwc3 is enumerated as an ACPI
+>>     device without a glue driver -- the ACPI core turns this into
+>>     pm_request_resume(dwc3_dev). Runtime PM does not propagate resume
+>>     downward, so the xHCI child stays suspended. Root hub polling is
+>>     never re-armed, and a device plugged in while suspended is silently
+>>     dropped.
+>>
+>> This patch fills in the host branch to cover case (b) by requesting an
+>> async resume of the xHCI child so xhci_resume() can restore the port
+>> state machine and re-arm root hub polling. Glue drivers in case (a)
+>> resume xHCI directly, an extra call introduced by this change, but
+>> runtime PM can serialize those requests and skip device already active,
+>> so the extra resume call is safe. Those calls can be replaced with
+>> resume calls to dwc3 device later.
+>>
+>> Tested on SpacemiT K3 Pico-ITX, covering both wakeup paths: an ACPI
+>> boot with a GED device notifying the dwc3 node (HID 808622B7), and a
+>> DT boot with a modified dwc3-generic-plat driver exposing a wakeup IRQ
+>> similar to dwc3-qcom.c and dwc3-imx8mp.c. This is not validation on
+>> actual Qualcomm or i.MX8MP hardware, changing those drivers would still
+>> need platform-specific testing.
+>>
+>> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+>> Assisted-by: Opencode:claude-opus-5
+>> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+>> ---
+>> Changes since RFC:
+>> - add Assisted-By tag and collect tag
+>> - refine the commit message and comments as suggested
+>>
+>> Link to RFC: https://lore.kernel.org/linux-usb/20260811090817.109350-1-panjunzhong@linux.spacemit.com/
+>> ---
+>>  drivers/usb/dwc3/core.c | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>
+>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+>> index fd5c2cd36c59..76883dc6184c 100644
+>> --- a/drivers/usb/dwc3/core.c
+>> +++ b/drivers/usb/dwc3/core.c
+>> @@ -2739,6 +2739,18 @@ int dwc3_runtime_resume(struct dwc3 *dwc)
+>>  		}
+>>  		break;
+>>  	case DWC3_GCTL_PRTCAP_HOST:
+>> +		/*
+>> +		 * Only the xHCI child's resume re-arms root hub polling, which
+>> +		 * is what rediscovers a device plugged in while suspended.
+>> +		 * Runtime PM doesn't resume children, so request it here.
+>> +		 * Keep it asynchronous to avoid waiting for the parent's resume
+>> +		 * callback to finish from inside it. Glue drivers may also
+>> +		 * resume xHCI directly, but runtime PM will serialize those
+>> +		 * requests and skips an already-active device.
+>> +		 */
+>> +		if (dwc->xhci)
+>> +			pm_request_resume(&dwc->xhci->dev);
+>> +		break;
+> Could we also check a parent-only resume with no USB wake event? For
+> example, reading the DWC3 debugfs lsp_dump file calls
+> pm_runtime_resume_and_get(dwc->dev). With both devices suspended, this
+> change would wake xHCI too.
 > 
-> Resolve each output port through a bounded helper. In the construction
-> pass, validate the output port before allocating the input HopID so a
-> rejected entry needs no additional unwind.
 
-If a router deliberately provides wrong information it can do much worse
-things than just mess up with the CM. We should outright deny that thing
-from even connecting not trying to fix every possible place where things
-can go wrong.
+Thanks for pointing out, I did missed those paths before, I will do some
+investigation and testing on the two non-wakeup path:debugfs attr access
+and the dwc3_set_mode() path then report back.
 
-Second thing is that this is path discovery which is now pretty much
-debugging tool rather than the default so a regular user never hits this
-anyway.
-
-> Fixes: 0414bec5f39a ("thunderbolt: Discover preboot PCIe paths the boot firmware established")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
-> ---
->  drivers/thunderbolt/path.c | 27 ++++++++++++++++++++++-----
->  1 file changed, 22 insertions(+), 5 deletions(-)
+> Would both devices return to autosuspend after the read and still
+> detect a subsequent plug-in? This would help cover the non-wakeup
+> case.
+>>  	default:
+>>  		/* do nothing */
+>>  		break;
+>>
+>> ---
+>> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+>> change-id: 20260908-resume-xhci-0fa34ff9b332
+>>
+>> Best regards,
 > 
-> diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-> index b2c322e76b8ad..ea72153690dd3 100644
-> --- a/drivers/thunderbolt/path.c
-> +++ b/drivers/thunderbolt/path.c
-> @@ -31,6 +31,17 @@ static void tb_dump_hop(const struct tb_path_hop *hop, const struct tb_regs_hop
->  		    regs->unknown1, regs->unknown2, regs->unknown3);
->  }
->  
-> +static struct tb_port *tb_path_hop_out_port(struct tb_switch *sw,
-> +					    const struct tb_regs_hop *hop)
-> +{
-> +	if (hop->out_port > sw->config.max_port_number) {
-> +		tb_sw_warn(sw, "hop refers to non-existent port %u\n",
-> +			   hop->out_port);
-> +		return NULL;
-> +	}
-> +	return &sw->ports[hop->out_port];
-> +}
-> +
->  static struct tb_port *tb_path_find_dst_port(struct tb_port *src, int src_hopid,
->  					     int dst_hopid)
->  {
-> @@ -54,7 +65,9 @@ static struct tb_port *tb_path_find_dst_port(struct tb_port *src, int src_hopid,
->  		if (!hop.enable)
->  			return NULL;
->  
-> -		out_port = &sw->ports[hop.out_port];
-> +		out_port = tb_path_hop_out_port(sw, &hop);
-> +		if (!out_port)
-> +			return NULL;
->  		hopid = hop.next_hop;
->  		port = out_port->remote;
->  	}
-> @@ -141,7 +154,9 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
->  		if (!hop.enable)
->  			break;
->  
-> -		out_port = &sw->ports[hop.out_port];
-> +		out_port = tb_path_hop_out_port(sw, &hop);
-> +		if (!out_port)
-> +			return NULL;
->  		if (last)
->  			*last = out_port;
->  
-> @@ -178,12 +193,14 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
->  			goto err;
->  		}
->  
-> -		if (alloc_hopid && tb_port_alloc_in_hopid(p, h, h) < 0)
-> +		out_port = tb_path_hop_out_port(sw, &hop);
-> +		if (!out_port)
->  			goto err;
-> -
-> -		out_port = &sw->ports[hop.out_port];
->  		next_hop = hop.next_hop;
->  
-> +		if (alloc_hopid && tb_port_alloc_in_hopid(p, h, h) < 0)
-> +			goto err;
-> +
->  		if (alloc_hopid &&
->  		    tb_port_alloc_out_hopid(out_port, next_hop, next_hop) < 0) {
->  			tb_port_release_in_hopid(p, h);
-> -- 
-> 2.55.0
+> 
+
+
