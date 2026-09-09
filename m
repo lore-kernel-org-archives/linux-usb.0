@@ -1,81 +1,79 @@
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A895C563FAC
-	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 14:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADAD584946
+	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 14:58:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788965700; cv=none; b=A/skIRpFksaz/Eok7af4cpY2wSjSzn+YlrAIE4bU46XZgd0DcWqu7UyvdPHLrq41g1bgp9JcJTk7FPeakAhwP8Me0OtykzAEE9r+ivQXVDsr/JUI2H46UVrRRjDKge43eempxQbxMgTmgMk5Aj7E82EIGFetliAtZDCwYtY3k60=
+	t=1788965922; cv=none; b=TjARsbMFHCPOYrMPUE5PhV2WdPjPKcuZnkmJBold/ZQ1CSGZK+6SmnI9vzBsXWPHdxwELNPfofzLltB4GrOfAijyCUxXDMqY4pQGo0JI602Hvq/nSR/AaOu8Ch4XU38cgvkfdDklxNITmzwJveMIi270deLeiFihGshp9i/aPCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788965700; c=relaxed/simple;
-	bh=3mrzF4PFQcJ4DbH3RGaSc+zm2PljjP5W+lnaM84CL3A=;
+	s=arc-20240116; t=1788965922; c=relaxed/simple;
+	bh=OG8rM47+wQa5telCcXnv0ivoaCzuHrNel/g8JAXQwo0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKe+zobqGTyZjN3SnqQTZoP1NMrFVHgL+lrweqstCoZMXEF3v8fBRWrYsZgUx0k1HXXeNJV7pICGGLvQlNvHmMG8LSPgpc4rYBE0FPTmutrXsCQG/zRUKVGV+oDvHs/ZLKnaGJY8QUCQftm0lxDKsND6uK6Xtof96dGAr/Waah0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IffCLY9U; arc=none smtp.client-ip=74.125.225.140
+	 Content-Type:Content-Disposition:In-Reply-To; b=GLx0CEGgy12uDEUq28a+rmVm3HD4Ees0WJ/dKMzlmAvsPuKq9AfkdiDFj3Wd+l1k9fh8/p9ALfGoxv5SKauxfQiZyjQ3296B5dLX7DPoL+pw5dsYWH2o9DSZhESmmN/Z5NkPevCOyHnhmtkqthM1/p3szbDfkIOpYQrVsLLv2Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcrX/Osr; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IffCLY9U"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e2406so9931665e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 07:54:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcrX/Osr"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso2905435e9.3
+        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 07:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788965696; x=1789570496; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788965917; x=1789570717; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CEnAlwwtVf98S0MQnKDx/a7P5qnwKuSWE+q0EOlFqn8=;
-        b=IffCLY9U20m06r8jq41Wip3wbMxiCRO5u98+gwJ4IShm4wkkg7X/pL8ySww6J4XebT
-         8G83o+T8HV7UQxDY3AILmU5PPSPuO0534vpsVpgml81WxUkg+jSWdlsrkZC1XojQfCR9
-         wPEjfOUTpu0aWTpyHsP2JLI4iJJRVFv2sABsgKZDRr9k7CZCff9jMvjKbbYGvq36IDFe
-         m7IyRHupa9IRPB9ER/5GcA3V13z7+3yeRCUbOWz3N6E2aXBB+QFxpxYsIAmSR8V60/bn
-         NLxgbMrD38xmDezTXGpi3zHNw6RU9YnQGWCE6LS1nhtK5eZf2geTo1QVmBir/zZ28I2y
-         AQCA==
+        bh=OG8rM47+wQa5telCcXnv0ivoaCzuHrNel/g8JAXQwo0=;
+        b=gcrX/Osr7jULvPpbVsiR/YE9EUyFW21uf4qekP/mL8NCiWrT1G2PD6OTMxmnXIrSka
+         zqfBu5VH68FGtu7lDQVTDlvArzM+4iBhQ5nocWDOLp7d4KKrDA67U+PjVqCsFPgU+7DZ
+         ZKE0IKelzKPx5DmCzVdVlSMBGfvaT2ywShlnxBvYgzaZiNssuHexjXI5QPVZDugjDpac
+         hYRskKl/Htp256c7oZMUlEvnNlloEPSRqZbz0N7Ja+UgV7SxwsaK9XS9g/kRKaacRT5h
+         nJmuTTSDM15tsAc2Yk+K1Vy8KAtovzExAWL1uYxt4Vms3KMrckO0QgYfPM4ni+OzpLVc
+         8VNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788965696; x=1789570496;
+        d=1e100.net; s=20251104; t=1788965917; x=1789570717;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CEnAlwwtVf98S0MQnKDx/a7P5qnwKuSWE+q0EOlFqn8=;
-        b=bFyQHI7eFcYRXWcYrhgUxj5/llWxFYiePjVW6XpVdMDDR1ABj7zSvJjeTDbdTPToLk
-         cYFvb6+12RVQegDImMvqv4/0rmHoVnA0cSHIjT8+KeRNwRT/l//1PEnK3p9jsazT9zPN
-         mcbqnfpfObsvOQ7fLsySFqHi4VyjcrThpMacl+JECH2pf7T1ZIYFY+Q111n0xN5PfyvZ
-         jwJFM6kBZHSb6d5raP7kLSOBFrUrgIuhotZly7xK83WHOt7s78OsXCCHbkuEyx/S7AnJ
-         5WSEBrgvY9cT07h8xtEBHezVCzyF925H229o5Gaq2+Ru6SPPduh1zUBmn5rnM30GXC0h
-         uEWw==
-X-Forwarded-Encrypted: i=1; AKwUvBzBeAteMrR+h+U2iOkL2uFcBWiYqAKu43RizkfoLcQLUAkqqs/VZWFn9a3nX2jtc3eMufTovt5orC8=@vger.kernel.org
-X-Gm-Message-State: AFuF++nVUUSnw1nNpOyEoTmAr3I/OluBoOrhI0LiTObkX/9fjFuFqhli
-	hpEGVEf+PcjRsfaOFhH5fJMALoSVJhp/GK+x5aOnl8BRJEHLaISNeag/
-X-Gm-Gg: AYBFou2L+Z6l2+T8yNmmdH1fp2NA/Ax0AxdECIupuM0g1ZNg6rI75zTZpdAu+PWSJIo
-	FBCGsFVCDgz1bZEiXkMO2XI1ccmK1LB62fzKEjgn95XpMbBXATAc/8s0B7fzeFf4KmKl78RMNq3
-	SpLjs0KBbCWKKRhIlw/QZwE+df0RXLc3RrORnGgF2QDWyW+Auush7qAbw1b16d3gPHihOxbtmb5
-	VFYDgcBPqC2Z/vVQ63M2z1tZbpwwpi93B70/c0ylNBMbKTdJ5jCJbH7WQnAIFWhzC7lufoSuN6v
-	r5BnLxVSW0gYIMNc2B2CDlEwMHZmrhgBuDB50LRE0xEeq7/fNB+m2UWDsMtjCZlWW8Cc4duQ0cb
-	B44slLbMr8ppD3NJ3YOywx/oOG4W6A87GvRwYLQgj6aj9yw5ZDe8xOwck4ErsPymJN/Mz1jccU8
-	u6gZxwqVsmj5wcp1djjk2y8aTJ/s6FMjk5cUDsZgm4floMb+9grwrpmxIXRmgQ+bLGu/PuOGeNo
-	+N59OA=
-X-Received: by 2002:a05:600c:a01:b0:49d:1916:2133 with SMTP id 5b1f17b1804b1-49d1916215amr117005945e9.8.1788965695566;
-        Wed, 09 Sep 2026 07:54:55 -0700 (PDT)
+        bh=OG8rM47+wQa5telCcXnv0ivoaCzuHrNel/g8JAXQwo0=;
+        b=RHD0pryHM4+Z5QhSqZ1ocnifzQBjnp1pzras+WkgWXfcT/2I1ZEITs9JGqZ0sGyjD0
+         Blh2Isd1hVL6ztDhvL4AU8s9ZRFUG3MyAaJegGzYkn1mp2VCJOiLhhoc2yM1rcpNdyf0
+         TPOh9e+Obs9RssxwQlBvu6WDu5DLNCifYSmHKqjcepEeiltdc3fIpFs5qAQC7gsUL0DJ
+         Oak1FhF76afFm+QfMBy38U1eMInUBfJMWCx3e8Wtqt2b8qeqSlyvH5ekR1UyGL8TAQf9
+         l5fseOS5LzPOCluEFUoL8d6UCaXKVRPOXlznz8zmLp/8e4Kc6DV9mssQhkfbVLwpZE0H
+         AfUw==
+X-Forwarded-Encrypted: i=1; AKwUvBz4dw8e51EpcqoMsM4VEp/P0scBKJ6tKXK53bn+hqHuJV6YhNEKn4jNyO8RuFDWM4r3YMTWLJF0RGw=@vger.kernel.org
+X-Gm-Message-State: AFuF++n+zremVP5ZEIKNFtCP8XbpnOSrpOXCCuuMAeNbH4jfodTrXx3/
+	ZQpY0OfWxa+6CNKIwr1MOxEtxVzcwuwA+zp3FrV95+YOKorlFeQlyf5xbEAenzUDJA194Q==
+X-Gm-Gg: AYBFou2/Lph4XismyiWHrBa0YkylVjlM828i2zUi72kmfhrbb5loZjUhFyHd7F0Vw8z
+	NvH/2HHBRKYz6eMgMJoZz13hoeoNa4zMW6YcLQI9+VmKtoNkVGzBL0ufV4376r298REUUIsn/RP
+	gE+N16Ob2x2xAoqXArLDqEVu43PVW/BjrHDeKR2LvSVvcYM5ucjVjVziY7MepA3+CQp/OmN861M
+	c1EXfJBioviq3NOezWcNvspXkPTo3qpYnPZuO53wKEbo3CzSH598yXQdD/jwCBZAYkuoJ24/Ox7
+	wKoq77c4IiX7vL8i2wp5jWrVEBuHymyJIroiubbeMteYFjjUvnxqYHBW3mb3Z9oICXtT6tKw3Na
+	YB2ohcE7EXjtVv0+xnG8HFoKWtYNGomv/XxqlcqAfYJqgeAV3qivwgPv3DCZNpdUq+AVMMpPMRS
+	8VC6NatsBJes9nYK3FloYak3KY+3S09aKI2Lz8nQNyorjemMMSCiAfz5mHfPzsWdo1WZbkxf4m4
+	9vJ3Q==
+X-Received: by 2002:a05:600c:8b88:b0:49c:f512:2361 with SMTP id 5b1f17b1804b1-49d2593842emr34218375e9.14.1788965916931;
+        Wed, 09 Sep 2026 07:58:36 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm384918195e9.13.2026.09.09.07.54.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d00a5b19dsm423987255e9.2.2026.09.09.07.58.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 07:54:54 -0700 (PDT)
-Date: Wed, 9 Sep 2026 17:54:48 +0300
+        Wed, 09 Sep 2026 07:58:36 -0700 (PDT)
+Date: Wed, 9 Sep 2026 17:58:32 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Breno Rodrigues Alves <breno3011alves@gmail.com>,
-	torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, arnd@arndb.de,
+To: Breno Rodrigues Alves <breno3011alves@gmail.com>
+Cc: gregkh@linuxfoundation.org, torvalds@linux-foundation.org,
+	linux-kernel@vger.kernel.org, arnd@arndb.de,
 	linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
 	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
 	linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v5] Kconfig: fix typos in core makefiles and purge
- defective DVB debug (v5)
-Message-ID: <aqFzOFa3ADXIBo3G@stanley.mountain>
-References: <20260905003005.118245-1-breno3011alves@gmail.com>
- <22707a1f-970b-4309-905d-13ac794c51fa@suse.de>
+Subject: Re: [PATCH v9 1/3] interconnect: mediatek: fix Makefile typo for
+ mt8196
+Message-ID: <aqF0GLDB5a-P-uvq@stanley.mountain>
+References: <20260905130925.7115-1-breno3011alves@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -84,14 +82,11 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <22707a1f-970b-4309-905d-13ac794c51fa@suse.de>
+In-Reply-To: <20260905130925.7115-1-breno3011alves@gmail.com>
 
-On Mon, Sep 07, 2026 at 08:59:28AM +0200, Thomas Zimmermann wrote:
-> Please stop spamming this list with revisions.
-> 
+What changed between versions?
 
-Generally, the rule is wait a day between resends.  Otherwise it
-becomes pair programming and no one wants that.
+staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 regards,
 dan carpenter
