@@ -1,202 +1,274 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023094.outbound.protection.outlook.com [52.101.72.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD84F4732
-	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 12:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788955593; cv=fail; b=rBSMb+pk252Ga254V1T06axcQFXYACOadk946IEOqutof05DNYn3dhtFkhh0lG8Us//uXCK2kQINoTV01CAUS2W6gEnpWBw2g7Xqbgln9Iga6/rfLJQTCLlG3qKQviU66uladjWqsU4/i4SV6+EzpojaSd/OJlplMV4idP+uIZE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788955593; c=relaxed/simple;
-	bh=XdL0zhWpRnkDIVpRnis0vSIJoZc6lLcODoRoTlam8Jg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CzNCP/t0ryw/PHfqcOmQfOvB9DTk2SInrq8Qoe+0eo2f5+lMOUVH6EWKA3bcu/XXB0vWMUp+6FGmPG9G9X8BwhiOsLDrAkIC+hOmFCqew7uLAaIfwU94be7PjQKEs+T9EOP9R+a7an2n8oRPam4ZwubR1vhBCfNk2/OCoq6/YYA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gofore.com; spf=pass smtp.mailfrom=gofore.com; dkim=pass (1024-bit key) header.d=gofore.com header.i=@gofore.com header.b=R2lhgLMy; arc=fail smtp.client-ip=52.101.72.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gofore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gofore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5B954DAC8;
+	Wed,  9 Sep 2026 12:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788955684; cv=none; b=lXvxLdXGAwNPj1jDOkJzFnjPrrEl5Vi8zu+PoiqV3G44M8a07fMIomu/sj5H3oOReKeu7/9GNEpshtEY1ynFgWicPIpIG2uP+8jVG6NbxXwxQ+opHQoIu7+B3f5VApEDjW2ZdSbkDtO9ZkpRFOaEp0wokXeEsV17bW2cd57V4kM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788955684; c=relaxed/simple;
+	bh=qhZzv3+w6u5VffgNW+o34f0K00FSNYAmal52FMUVvno=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CwDAawZmPhJmmgquBEl8FTuJ8q0VsdOLaDDudJYEwtNN+78wo7NeNESR8C/l76NNELwSF1PsvRdiLfokXlOlWMKXQzVokvZ5b/Bl/lIDYPBURsLTThG1IeJ9azTqdsi2lNVZEFa2dQhp26KcYg5BzfVimkMr966tWa54TniZGZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLY49pi+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gofore.com header.i=@gofore.com header.b="R2lhgLMy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W1YjH59P37AwW23/wtuX5roCE5aS3q8fthvyrj8l2udaByKo8GcDIPhmU+ncj9wE3NyWVEgCiEwSRRv8Vdw+8M9gv0PGXLc1aZGcUrfOGzHZMqJFpkDy9sR134M8bUmenMqasP4xgnxxwF6NP1cuXA3USZ2v+8Y7XH6UDjK4DUMOtB58Ci50EzSv92QA9vwLcfK4r7eZWOE99GbrIVTiVTJzUqvM5mLeAH8BwqF1M6cyS6AYYZmZUnXev36xTgjEaH4cqqbKSmLyoO9vCvs3EixU3vJU4BzV93DAIeMf36+F/8nO2m4y6bLSY84WhTmMvOVH/7OmKSVojqOTjdZ/Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6wU+PfFlTnucwm3OK+tEBMK7hd0Yt2eMMQBP0A8NCW8=;
- b=KG4819SBTcrQu/Gtm+QdoEJ04waA9X8VAg0dcw8mbSVESVGt3lRBhHz5LFJeGM9Nw6ZfEEeHnLCLLqU3qLPGGhXzmWWmLObcegdpxtTJicxK5V0nFTYuD0e5tB/WvwYGIgTP7YzllWTFColE5MaKDHxkjfXbKKKrIuIA3ngcbXgEMEcF5+DYbsnlH2mtv4NGDTcyec0n1XBiApsozqz3rqEaScCTwuMg5IB7nuJ2G0AqCErpVB/Q4VXnvftWdeOlBvMDb2pdlJv1JaKva0U7yBlpz7cEPfNQyZFJ1zu6kVydIH37n+b+AryTv8aNwdXqOOIc/lBxDvGDX6kcyWx2fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gofore.com; dmarc=pass action=none header.from=gofore.com;
- dkim=pass header.d=gofore.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gofore.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6wU+PfFlTnucwm3OK+tEBMK7hd0Yt2eMMQBP0A8NCW8=;
- b=R2lhgLMyYAMq3w+iuA4KiZakD3dQ70JUijMwAoLznUM9PWd4hUsz095g2jDQNExCZf6UTv0syvxDviieruT5W0YN6p/RRdSKzRC3Jcfatpo/vYIjKDoLqPicCdqOxb0QJ18ZhWq+5LGgBVC/8JYWDYXZUZpWMYXMJCUCsQd+hd0=
-Received: from GV2PR05MB10593.eurprd05.prod.outlook.com (2603:10a6:150:d6::7)
- by DU4PR05MB12678.eurprd05.prod.outlook.com (2603:10a6:10:639::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Wed, 9 Sep 2026
- 12:06:24 +0000
-Received: from GV2PR05MB10593.eurprd05.prod.outlook.com
- ([fe80::ed4c:d85b:4bc3:fd2c]) by GV2PR05MB10593.eurprd05.prod.outlook.com
- ([fe80::ed4c:d85b:4bc3:fd2c%4]) with mapi id 15.21.0382.014; Wed, 9 Sep 2026
- 12:06:24 +0000
-From: Markus Mikonsaari <markus.mikonsaari@gofore.com>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC: "valentina.manea.m@gmail.com" <valentina.manea.m@gmail.com>,
-	"shuah@kernel.org" <shuah@kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "i@zenithal.me" <i@zenithal.me>
-Subject: [PATCH v2] usbip: fix number_of_packets for non-iso transfers
-Thread-Topic: [PATCH v2] usbip: fix number_of_packets for non-iso transfers
-Thread-Index: AQHdQFOiL9PDJodKokaAmdpCo121mg==
-Date: Wed, 9 Sep 2026 12:06:24 +0000
-Message-ID:
- <GV2PR05MB1059367FCD72A27E51B29D03E98B02@GV2PR05MB10593.eurprd05.prod.outlook.com>
-References:
- <GV2PR05MB10593A82388157FCA3397879898B02@GV2PR05MB10593.eurprd05.prod.outlook.com>
- <2026090926-blunt-lushness-1012@gregkh>
-In-Reply-To: <2026090926-blunt-lushness-1012@gregkh>
-Accept-Language: en-US, en-FI
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gofore.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR05MB10593:EE_|DU4PR05MB12678:EE_
-x-ms-office365-filtering-correlation-id: 125912fd-a00d-43e7-e943-08df0e6ac4c8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|10067099003|3023799007|18002099003|22082099003|56012099006|4143699003|38070700021;
-x-microsoft-antispam-message-info:
- EnyLtq6/uWznievZWdwXt/+0IK1pB1NaKBhukX846tWdh7sDZEvrGKzlxelNC4kk2bwa8pB8XuRAUkqQsBDIPbbSo1Ia53dv6O3SsvytAn9/Nyl94cOScerBUQp8Y/pK3uKx4J4fAMLVGj05ncAeHQjzjQVu2m7BQrMItMkU4b8LncXvBilzlnrFEjRynDb8dvYLB8VgKAWf7bsmUVIHt7X7UvOG0C0dGsfl+ZW2069OrVDm/eG1sHh8JvKCZwBSTz4JJvovz0f15bqLFz7Yb+vRcMr7UlySd03PAQ0ZuV+ODA8Ie9+ZwHgyNHwFTAiwQoFB3zpwvZ7R80ovkOaO0mX3SnrjcYKDcW9X+Qwv/SnaGIJ+euTBq76rYMusGQAZdd4ZlqN5mPvzgd0oeRe9oVKaQ5VXPISV7V90Ccn/kvWPd5p8nA9dNCF1Bn09/d0SPCJwqGUG54j3aR0X4fIQnKFkqKF3VQBDPo98TRXzqOlgJJlihTjCwDTfFqZZaUO4OCQG02OcqQOvGHNAOEzCPhrf2ocaDZgwBgRYXR5l+G9h4OrPo4lgQgRUN+8izdkb2OiNxWqDRqEQ+ZDjy1XaOyJ+XwjScPrFowH1tjEajSnRcXA+VwjYOxmcvG148j8/xvpk7r8HcK7dH9bgfGoVkcA6VApY5l/lZ6NJ6DE3ofW/iiQnDCWCDIZJqXYLo4UZKA/OoGFNU0s17Yxxki7QRBJzjqaGm+PjhCMZpbyX4gk=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR05MB10593.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(10067099003)(3023799007)(18002099003)(22082099003)(56012099006)(4143699003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?gkuXO69AWl6VJh3CGNH+j//K1aSPEOgRWQmqd0NYh52qDGX5fTYTg6/yoh?=
- =?iso-8859-1?Q?bYArStKtG5Lar2VWXaObimG31lDi594PmMe9Hs27lJAcsjGN5WKnbbh8kt?=
- =?iso-8859-1?Q?9pByHsxeYfGl0fG5n8g6jLjuHI1qZoziqWRfbrQnxz9cGhF5b76NyKs/Et?=
- =?iso-8859-1?Q?yjZZYDLmTCE1Yqee4+ieK6mwPxhO2mW3iiagAgW8FgiwEnCjONPnSytbLu?=
- =?iso-8859-1?Q?GwOy+h1WUj/fmnbgJRivAbhNPzCufhIXEGPlvvq2Zl2rVviIk4m5UzWzBN?=
- =?iso-8859-1?Q?omXj7pc+MgjlV5CTKfneocwlWl9YDzLrmegyHFFo/qtsAoSIWyOhogMPU6?=
- =?iso-8859-1?Q?anFr+BjkIQkCaGYUQ4TqSHy0d+DI+fd9SdPEyHSt3PqP/rduEHX773ogGf?=
- =?iso-8859-1?Q?q3Ned8IjS5le3ZUZKRTMSvJSkME4hYXT6Itxbg8uIdCtN0VLmEHVtFEZIM?=
- =?iso-8859-1?Q?cQieDsVvfvk7+BKR2THBEd3NjxNZ0mW06Kp/84i6Xu13khvoeDH0AYVhWe?=
- =?iso-8859-1?Q?vgDz1NVAG4wqrlxKHz8UI86YOH2aO6FV6bJ82fivT6rGb2Efu5HmrwVM/Q?=
- =?iso-8859-1?Q?xiBuK7/Ak6qaVzrIAw2Ib1oT6rgvO3N0+gDq7iLcba6FxKyFcpjznXb8TM?=
- =?iso-8859-1?Q?14S/R4ZiQd/T4nGQAlpCsCJ9K3tQ1O+p/jTX1nXMrLBKRWiCS3aULmMn2W?=
- =?iso-8859-1?Q?gx70pqz42VzlLBYnWFomEkA28ZH56LFQdxmPlXt4clsx98Xxd2K40ymljO?=
- =?iso-8859-1?Q?D/fS6PiBcmJrzK6aeCui3a/wu3MTZ62xsER5qX2NYtOLCXyNBlFTaH4lTd?=
- =?iso-8859-1?Q?8fRfzKtf9wuzuS92ty8Yvm0FlrXjDG9Inb/vQoevfHgqpRXeqk3iU5sj91?=
- =?iso-8859-1?Q?Cv5SyJlMMP9LFY9u00PDXYqSN+XXvTW0m/ZgY0ObUfR9mG/SScNEJrWQ3x?=
- =?iso-8859-1?Q?b7kEbmi3cx6SEQq1sVdbGVLigb1qmGpNw7aJOfQaJ20I5ndyEAJpYyD1YS?=
- =?iso-8859-1?Q?UJN79rcrdBCFHqWA0bZlPqK3jik5f2IcAcMEk6M/g7+ieNj2jl5fAJU4pA?=
- =?iso-8859-1?Q?hbH5cbRGFB7pI8srLwOxwwI1E+dGC8kFAZimHGYF5NRawh90jXZERcpN4w?=
- =?iso-8859-1?Q?LDl5OZF4b/Qigh0wtm44FIPTTB9dHE28gn43zaYUFfSndMu3kwEaVQFcFn?=
- =?iso-8859-1?Q?t+5eRoeiLXVTShoMWAg/qmC9CSvqYJxvNag6fKTDGbQQspK+hUC1cGs6oB?=
- =?iso-8859-1?Q?g1/NZR2EmuUN8rVkuzjfLAUhL8sSoLtKZc45n13+8JxlIrWkQNTUfu+cy+?=
- =?iso-8859-1?Q?xTn/84jkfxqfTJFjo+QZ3pYm+LMio7z4s0hJsuQIa4/BWgle3126rpB3oA?=
- =?iso-8859-1?Q?JPqqY24Tve4mX+8ZvYOZsiQyoczJPhGfVgHALhtBdRt7B5ghINZ5jpXuTM?=
- =?iso-8859-1?Q?8iUn47ft/nLuHUG2DcizOH1bVWwZRd2sNUWqHmrU6pM4EtglOR/fapXyGs?=
- =?iso-8859-1?Q?ygo0Sq8FghNO8z1KrxKzD428gjMgKEDoaN8vCVmONfd+Vw2qtzH40CrTuX?=
- =?iso-8859-1?Q?z8g8QZ913mxB/0nDg15enOjAWSxsp8Jrqw4dxp2RtrXbRMw0HgLrLRTGN9?=
- =?iso-8859-1?Q?WCvmLiLwcWwAYNLJ313dvB6pImR1po/7JYWinEcn1zgJXyRIpFjjP38yrs?=
- =?iso-8859-1?Q?n8gstOs2dDvKxK1J1pDu6D8hEVYTfa0UXtJZqJ4bf6po0ds1B50wUID2ND?=
- =?iso-8859-1?Q?SpxggG7y8jhnWFwMIme0QVKMP3mkVD+f2NDEkisGsYPjWvzVc9iIQ+7rog?=
- =?iso-8859-1?Q?ajsG27/Qtg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLY49pi+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B041F00A3D;
+	Wed,  9 Sep 2026 12:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788955682;
+	bh=s0XvwQqrYpxLMLTJmGlP3OBogX+H2vHo2hOLlq5lC/4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=TLY49pi+Cs7EEMaDTGcn4qy6Qpcb4tCLLQabsiuxRuieFcOduuhR0SXsNy/UqV053
+	 LTLJzRsrZobFM+u8KAWi/AxL9rak8lF/hB3ASc5j/P5gK6JsTYTLznyOIjtDTtDa+k
+	 ORmjuFe/YcEbLMRVg0hXrf/0pz4nkqGBIjyKjBGWoHBcNRUe90PkvSLs5HLrZYszHB
+	 EdQZy99ss9QvvDBlcj1jiu7Nbzz/FMu6uLgae9WC6VNYg9MrsiTw00X9RT6CKbWfK3
+	 uOoG3Ngxmo6HIBl33vl+TtXZPg1CPUWrOiI2FFoUv677uPNi2hHjh6Cry1F/dt0+F4
+	 wpDbNWMsR4n5Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1x4H5r-00000006fj0-1Co8;
+	Wed, 09 Sep 2026 12:07:59 +0000
+Date: Wed, 09 Sep 2026 13:07:57 +0100
+Message-ID: <86y0da39wi.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Doug Gilbert <dgilbert@interlog.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Jaya Kumar <jayalk@intworks.biz>,
+	Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Sebastian Reichel <sre@kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Anup Patel <anup@brainfault.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	selinux@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 27/39] mm: rename is_vm_hugetlb_page() to vma_is_hugetlb()
+In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-27-dacf19cce22b@kernel.org>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+	<20260908-b4-mmap-prepare-vma-flag-sanify-v1-27-dacf19cce22b@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: gofore.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR05MB10593.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 125912fd-a00d-43e7-e943-08df0e6ac4c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2026 12:06:24.0503
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4b4e036d-f94b-4209-8f07-6860b3641366
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: s0EibD5TujcXHSUy3Wr7vWftr3LHjTwgjFf5kAfXHFuSfWNNNzpZs3svnGuS3v5lKirgekKqY8mWj4hTZmmscEiPqV1ACdWp2mkRCd2dln8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR05MB12678
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ljs@kernel.org, akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de, david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org, paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz, tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com, James.Bottomley@HansenPartnership.com, mkp@kernel.org, jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com, mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen
+ @linux.intel.com, x86@kernel.org, acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com, harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de, willy@infradead.org, jack@suse.cz, oupton@kernel.org, catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com, agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com, viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, chrisl@kernel.
+ org, kasong@tencent.com, shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com, hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-d
+ evel@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-In the USB/IP protocol, number_of_packets is set to 0xffffffff (-1)=0A=
-by sender when the transfer is not isochronous.=0A=
-usbip_pack_pdu() copies this value into urb->number_of_packets.=0A=
-=0A=
-A host controller driver may compute the iso_frame_desc size directly=0A=
-from number_of_packets without independently validating it against =0A=
-the pipe type which produces an undersized allocation.=0A=
-For example on a Raspberry Pi, the dwc_otg driver panics with a =0A=
-slab-out-of-bounds write in dwc_otg_hcd_urb_alloc() during a =0A=
-USB/IP attach involving a non-isochronous transfer.=0A=
-=0A=
-Correct the number_of_packets to the value the urb was actually=0A=
-allocated for immediately after usbip_pack_pdu() overwrites it.=0A=
-=0A=
-Assisted-by: LLM=0A=
-Signed-off-by: Markus Mikonsaari <markus.mikonsaari@gofore.com>=0A=
----=0A=
-v2: =0A=
-  - Moved fix and comment into a static helper=0A=
-  - Shortened summary=0A=
-  - Added Assisted-by tag=0A=
-=0A=
- drivers/usb/usbip/stub_rx.c | 16 ++++++++++++++++=0A=
- 1 file changed, 16 insertions(+)=0A=
-=0A=
-diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c=0A=
-index 1e9ae578810d..d592fd8edd87 100644=0A=
---- a/drivers/usb/usbip/stub_rx.c=0A=
-+++ b/drivers/usb/usbip/stub_rx.c=0A=
-@@ -461,6 +461,20 @@ static int stub_recv_xbuff(struct usbip_device *ud, st=
-ruct stub_priv *priv)=0A=
- 	return ret;=0A=
- }=0A=
- =0A=
-+/*=0A=
-+ * number_of_packets is set to -1 by the USB/IP sender when the transfer=
-=0A=
-+ * is not isochronous.=0A=
-+ * usbip_pack_pdu() copies this value into urb->number_of_packets.=0A=
-+ * Leaving the number_of_packets at -1 can lead to=0A=
-+ * downstream consumers of this urb (e.g. host-controller drivers)=0A=
-+ * to allocate negative iso_frame_desc storage.=0A=
-+ * Set it to what the urb was actually allocated for.=0A=
-+ */=0A=
-+static inline void stub_fixup_urb_number_of_packets(struct urb *urb, int n=
-p)=0A=
-+{=0A=
-+	urb->number_of_packets =3D np;=0A=
-+}=0A=
-+=0A=
- static void stub_recv_cmd_submit(struct stub_device *sdev,=0A=
- 				 struct usbip_header *pdu)=0A=
- {=0A=
-@@ -567,6 +581,7 @@ static void stub_recv_cmd_submit(struct stub_device *sd=
-ev,=0A=
- 		}=0A=
- =0A=
- 		usbip_pack_pdu(pdu, priv->urbs[0], USBIP_CMD_SUBMIT, 0);=0A=
-+		stub_fixup_urb_number_of_packets(priv->urbs[0], np);=0A=
- 	} else {=0A=
- 		for_each_sg(sgl, sg, nents, i) {=0A=
- 			priv->urbs[i] =3D usb_alloc_urb(0, GFP_KERNEL);=0A=
-@@ -579,6 +594,7 @@ static void stub_recv_cmd_submit(struct stub_device *sd=
-ev,=0A=
- 			usbip_pack_pdu(pdu, priv->urbs[i], USBIP_CMD_SUBMIT, 0);=0A=
- 			priv->urbs[i]->transfer_buffer =3D sg_virt(sg);=0A=
- 			priv->urbs[i]->transfer_buffer_length =3D sg->length;=0A=
-+			stub_fixup_urb_number_of_packets(priv->urbs[i], 0);=0A=
- 		}=0A=
- 		priv->sgl =3D sgl;=0A=
- 	}=0A=
--- =0A=
-2.55.0=0A=
-=0A=
+On Tue, 08 Sep 2026 21:01:31 +0100,
+"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> 
+> The is_vm_hugetlb_page() predicate is badly named - the mapping can span
+> more than a page and it is inconsistent with other VMA predicates that
+> typically are prefixed by vma_.
+> 
+> Rename to vma_is_hugetlb() for consistency, and while we're here update
+> some VM_BUG_ON_VMA() to VM_WARN_ON_ONCE_VMA() as to avoid unnecessary
+> oopses.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  arch/arm64/kvm/mmu.c                      |  4 ++--
+>  arch/powerpc/mm/book3s64/radix_tlb.c      |  6 +++---
+>  arch/powerpc/mm/nohash/e500_hugetlbpage.c |  2 +-
+>  arch/powerpc/mm/nohash/tlb.c              |  2 +-
+>  arch/riscv/kvm/mmu.c                      |  2 +-
+>  arch/riscv/mm/tlbflush.c                  |  2 +-
+>  arch/s390/mm/gmap_helpers.c               |  6 +++---
+>  arch/sparc/mm/init_64.c                   |  2 +-
+>  drivers/gpu/drm/drm_gpusvm.c              |  2 +-
+>  fs/coredump.c                             |  2 +-
+>  fs/hugetlbfs/inode.c                      |  2 +-
+>  fs/proc/task_mmu.c                        |  8 ++++----
+>  include/asm-generic/tlb.h                 |  2 +-
+>  include/linux/hugetlb.h                   |  4 ++--
+>  include/linux/mm.h                        | 19 ++++++++++++++++---
+>  include/linux/rmap.h                      |  2 +-
+>  kernel/events/core.c                      |  2 +-
+>  kernel/sched/fair.c                       |  2 +-
+>  mm/gup.c                                  |  4 ++--
+>  mm/huge_memory.c                          |  2 +-
+>  mm/hugetlb.c                              | 14 +++++++-------
+>  mm/internal.h                             |  2 +-
+>  mm/madvise.c                              |  4 ++--
+>  mm/memory.c                               | 12 ++++++------
+>  mm/mempolicy.c                            |  2 +-
+>  mm/migrate_device.c                       |  2 +-
+>  mm/mmap.c                                 |  2 +-
+>  mm/mmu_gather.c                           |  2 +-
+>  mm/mprotect.c                             |  2 +-
+>  mm/mremap.c                               |  6 +++---
+>  mm/page_vma_mapped.c                      |  4 ++--
+>  mm/pagewalk.c                             |  2 +-
+>  mm/swapfile.c                             |  2 +-
+>  mm/userfaultfd.c                          | 26 +++++++++++++-------------
+>  mm/vma.c                                  |  8 ++++----
+>  mm/vmscan.c                               |  2 +-
+>  tools/testing/vma/include/stubs.h         |  2 +-
+>  37 files changed, 92 insertions(+), 79 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 9ba86450fe4a..a7968f8d24bf 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -1463,13 +1463,13 @@ static int get_vma_page_shift(struct vm_area_struct *vma, unsigned long hva)
+>  {
+>  	unsigned long pa;
+>  
+> -	if (is_vm_hugetlb_page(vma) && !(vma->vm_flags & VM_PFNMAP))
+> +	if (vma_is_hugetlb(vma) && !(vma->vm_flags & VM_PFNMAP))
+>  		return huge_page_shift(hstate_vma(vma));
+>  
+>  	if (!(vma->vm_flags & VM_PFNMAP))
+>  		return PAGE_SHIFT;
+>  
+> -	VM_BUG_ON(is_vm_hugetlb_page(vma));
+> +	VM_BUG_ON(vma_is_hugetlb(vma));
+>  
+>  	pa = (vma->vm_pgoff << PAGE_SHIFT) + (hva - vma->vm_start);
+>  
+
+Acked-by: Marc Zyngier <maz@kernel.org>
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
