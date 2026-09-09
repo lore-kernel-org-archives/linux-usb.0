@@ -1,104 +1,139 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE719568FDF;
-	Wed,  9 Sep 2026 16:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF7A559CB5
+	for <linux-usb@vger.kernel.org>; Wed,  9 Sep 2026 16:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788972761; cv=none; b=cKLvENhHHhGSiE/JDpzm7cPiKP+GiV5B/1CqoLDfFReJcDTlYcGlUeWqR1s0VdD8MPS/NisFeGC0Uii2JewlsVialTni9BCYBnN4cc35GPOYNBvRtOwjMYVLizRI1KRtdLGi16zMAS1AUYT0bpBYDnyST99QnTM5VmZHoiZHFG4=
+	t=1788973173; cv=none; b=gOEPRm/0hoXAAdPh9PEtjMLge8vrIWAC1eeYnaBmVcKNR+jiMz0VDKJ7n7zjI0VmCMh1tjy3FFbqhyLcHyrM/BS716GRaIV1UtgFUUyYqm5PeSr/RYLUNoUUS/SziPILZSnJd0N7U3+h1XkdK21o1t74U6ZzGJ7XseUfJS1i+PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788972761; c=relaxed/simple;
-	bh=D8Xg7T6KqYH4/WUvkf9lj526uOKKiRcA2jkTEUin+E8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O997wvWyYkzMqs0P64MTvksCBCjp/Wyx7gu5e5VczTumwdzz57e61GJzFZMO+8+dsMwNZ2fdxcTVVtm/dmzu4C/UyOWqSa/smJ2V5EcGy0cQqiEQCCsK711+qWQkRqREHwXZHRu/s6jeM8S71cyDXISCwdH8ZE322/ARJAKqXYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=CEVMBYM2; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788973173; c=relaxed/simple;
+	bh=rj4viG58U0ANXfxVZ4RrFE31NhkHdx71+5e/Am26pAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QTFF56AgXU4JP8wkJ1JhMLg/ONhkoHp5WR1VEfI6sQZ12HjBjMV+t4RAfw44QH7maiwiNpW3SnFjY1cLEdWjtkvpaSiE30vPGG1u4K3Li71efK7cIAYde6Bl+PERDFPtK+Az1vAOO0Ztx/TKb/yVoywlW3a+GwJ3O5u2RoL5+Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=IoqfmLSC; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="CEVMBYM2"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hg6LD3WqWzMlGK;
-	Wed, 09 Sep 2026 18:52:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788972756;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wANtG2Wck81u3ITB1BffycJAGPKSfj9OAY9Ew1PSRKk=;
-	b=CEVMBYM2BnLkVG3JuEdeDg1EQxeHGPhwOfeiIlk5vHwGcD4wFkqW9UVpLX5BVTOh43eD/X
-	hqjQAH3MFjIFQLnkEBTeoV2hCSKL4OtLmXeXBRp27LAP3+G5pY0WuCYHQ8OjNni/0q2oik
-	0895QKLQvP74XrhzS+hRWPSf4/v8BxKQI5bFLQb986bJIRWNpHIpuMYdAG6WwJ9sz2OhKS
-	c99QrIePvOm1sUGburFEw0VMapoqjDL/GOTjIrcVF835cnQD1Y9V535O3IMr7TxplN2meY
-	bv62AL1LwjJX/EmWq1MrVu3crIWKYOOPK+zzyfVKiWS5671IfIEtFigi+e3LSA==
-Message-ID: <3b345291-b14d-45a4-818e-355b487c46a9@mailbox.org>
-Date: Wed, 9 Sep 2026 16:43:19 +0200
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="IoqfmLSC"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-939adff838bso246287785a.0
+        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 09:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1788973170; x=1789577970; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+EHbIY/Ywlf9FLSv7Ev5/Wuo8w+C3q1oqLdJpQ1+dBE=;
+        b=IoqfmLSCrKzaQx2KEcRp+7kaSip7eT8piOdMAYiSukd0UhkDytgNfhU9mZKmqVpBlO
+         PCgIfWPJtCAW9PqnrFrzUD4qfx0qs5HXjSF8fiSNzH9vRAPNbqgWBFAK+g2DNoaWiYsd
+         czVqe0y/0rSWJhdjNMrCB0bcFDEk/UGoO+278hPsZE//dfSSKAOaZxI6MymrtHY59siT
+         i6g89Sop2Js0pZTLxFSDCyLNrveWhAh2YTvSuff1xs3acKbQqSYyqMa4W5PcLJQvVfLO
+         mWt5YssOgowsPS4X3+rs7v+Xaghy+XaLm+qM6/icTDRLowK8BcjgL3S5GxzDYaAaNrnp
+         PpOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788973170; x=1789577970;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+EHbIY/Ywlf9FLSv7Ev5/Wuo8w+C3q1oqLdJpQ1+dBE=;
+        b=V4ubpDm/CrejOl04f28Y/8+YOseVESCGqkNNHtGphPhzxrRptuSIPhmRAe76Qy+IPr
+         f3hOBwbdWdx4VUxHMlM66s471iKF3ik9ogzd9ZdwEb0Exw7NFXD2S0FRZTkRg0SH99Nd
+         pczeqcKgJ1V8erkw0/zFIQafGvgv1aCMTOsB6pivwjAMnW7MdtVNKwqs+0MLFeTSRMRf
+         Gx7NrTMVC8dCJJ0k43WMnr6UsKA3y2QOiYEJGjc6084ZCfTFK4708bqjimHdLrGyheQT
+         p3efy4ONmgOtftgUmtVI0Skvg/tdGaKfAaGnSuOVAsQKadJidPsmaSlQRvrP0P8ma/rt
+         OfJg==
+X-Forwarded-Encrypted: i=1; AKwUvBxbSQ3/itT/u411cDrgFwUux217lXEncWHH08qarase6jQYfMZWCA1cj0lSuL4bPp4YI2z9OpTfZ90=@vger.kernel.org
+X-Gm-Message-State: AFuF++knphQW5wLQVVXut/phRdZ0vb/ha9voxmO9ayk2rJ3/d0bIcP4l
+	0TghZBqTADHxDlK6pKGV298sBjTHJLg/dFfkK5IWUk/SsEsgojtIoyNsEvvNi7xJnw==
+X-Gm-Gg: AYBFou2HU8E/i2JLjgHENpViq8YbKoLhQu7nbGLv+PFpccBs7LnRxDE3K4QrQKMt1bC
+	Q1Rn5rc/tyOfxFn9hkTtKd1MNVCyqNZcPFMNgcZTXkRnhO7RzP8Rcb9XJ/58g51L2NPbxHMBH3i
+	foHWgTj4RRNZ6sVT4M4VwEG+YIzW7o3K2x6mjUhYKpdrQL04WzAadsHakwmnXJlRWqY7TQP5hKA
+	LdvTuJJgMCJ4w+RYVOH4bciKTk/HOXpJG/kpFluyhvztHKWKpC/zqi2isb/2XqWR9/qVY2nS1jc
+	u/8vbv1Df21hSGGk5ziyiFaIpU+8yWLEHut1oNbh6xIHjdHGBn6S1V9n/vntOvGwGASxs1QLNCj
+	OLcRB684pjEaJijItdZlG7gZBWrXo5KdIMNFs319pl3xEpJfDOIIcOw/oj64M6xFBU+VSRxjmyL
+	G1FyV8Q9NK6s10nEGuGhclY29dvRyxTk4X4qRfPYEo2qtvPtMPTmtKBbVoHHV+P11ycv7dvOXVG
+	Aex2BhEPUMdd+WxveCKD/Lg5aFfTD6+Tl3/1Z8xpvo=
+X-Received: by 2002:a05:620a:4721:b0:939:a003:7127 with SMTP id af79cd13be357-939a0037342mr2809210285a.52.1788973170370;
+        Wed, 09 Sep 2026 09:59:30 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9399cf10c7dsm1027567985a.15.2026.09.09.09.59.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 09:59:25 -0700 (PDT)
+Date: Wed, 9 Sep 2026 12:59:23 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	syzbot+356ae236154297f0d60d@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: storage: ene_ub6250: set transport_reset to avoid
+ NULL deref
+Message-ID: <f97797b6-52ff-4c40-80b8-eb9c6bc42228@rowland.harvard.edu>
+References: <20260909162710.28740-1-ngocthang2710.1999@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car
- Gen5 DWC3 xHCI USB controller
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-usb@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260903213031.314473-1-marek.vasut+renesas@mailbox.org>
- <20260904-colonial-wimp-b37c27657664@spud>
- <7771adfd-7447-4802-ad75-7c889ad32ee7@mailbox.org>
- <20260907-tassel-bargraph-836b6f41fc43@spud>
- <04bb7d78-4b0e-49ba-910a-6fa2b0a8c1a7@mailbox.org> <aqE11WTb6EMhn6Tb@squawk>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aqE11WTb6EMhn6Tb@squawk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: kq35cnhos6bpsrynf31z5uqsc8hur51r
-X-MBO-RS-ID: 4ad110d8ca3e4f81110
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909162710.28740-1-ngocthang2710.1999@gmail.com>
 
-On 9/9/26 12:32 PM, Conor Dooley wrote:
-
-Hello Conor,
-
->> I could make only the ones which are currently used available, but that
->> would be confusing the implementers by suggesting that the other quirks are
->> not applicable even if they might be ; and this would likely turn into an
->> endless stream of schema updates, with random users enabling random quirks
->> they just used. I don't think that would be helpful.
+On Wed, Sep 09, 2026 at 11:27:10PM +0700, Nguyen Ngoc Thang wrote:
+> ene_ub6250_probe() sets us->transport but never sets
+> us->transport_reset. get_transport() only fills in transport_reset
+> for the standard USB_PR_CB/CBI/BULK protocols; since this driver
+> matches on VID/PID alone, a device can report any bInterfaceProtocol
+> value and still bind, leaving transport_reset NULL.
 > 
-> My understanding was that these things were effectively errata, so users
-> should not be enabling them willy nilly - the vast majority of these are
-> set in soc.dtsi files, and the couple dts users I checked were all SoCs
-> for which there was only one board.
+> When the transport then reports an error, usb_stor_invoke_transport()
+> calls us->transport_reset(us) in its Handle_Errors path, dereferencing
+> a NULL function pointer:
+> 
+>   BUG: kernel NULL pointer dereference, address: 0000000000000000
+>   RIP: 0010:0x0
+>   Call Trace:
+>    usb_stor_invoke_transport+0x55a/0x1a40 drivers/usb/storage/transport.c:926
+>    usb_stor_control_thread+0x44c/0x8f0 drivers/usb/storage/usb.c:462
+>    kthread+0x38b/0x480 kernel/kthread.c:436
+> 
+> Set transport_reset to usb_stor_Bulk_reset, matching the same pattern
+> already used by the other subdrivers with a custom transport function
+> (alauda, datafab, jumpshot, karma).
+> 
+> Reported-by: syzbot+356ae236154297f0d60d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=356ae236154297f0d60d
+> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+> ---
 
-I agree with the careful application of these properties part.
+Is there any reason to think that usb_stor_Bulk_reset is appropriate for 
+the ene_ub6250?
 
-However, I perceive them as tunables, not errata. If they were errata, I 
-would argue the errata quirks that apply to each controller instance in 
-each SoC should be derived from the compatible string. If they were 
-tunables, they should be DT properties.
+Probably a better solution would be either to make usb_stor_probe2() 
+check that us->transport_reset isn't NULL, or even better, make 
+scsiglue.c:device_reset() fail immediately if us->transport_reset is 
+NULL.  Either one of these would work if some other subdriver forgets to 
+set transport_reset.
 
-> IMO it's far more confusing to suggest
-> that a user has to figure out which of these may apply on their platform.
+Alan Stern
 
-The way I interpret this is, that the user should keep the defaults and 
-not enable any of the additional quirks unless they really need them. 
-But the DT checker should not warn the user that the quirk is invalid, 
-because I do not think that is the case -- the quirk is not invalid, it 
-is only not necessary in the majority of cases.
-
-> But of course, do what you want, they're your users.
-
-How shall we proceed here ?
-
--- 
-Best regards,
-Marek Vasut
+>  drivers/usb/storage/ene_ub6250.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
+> index ed49a3bc859c..3137c2cdd021 100644
+> --- a/drivers/usb/storage/ene_ub6250.c
+> +++ b/drivers/usb/storage/ene_ub6250.c
+> @@ -2350,6 +2350,8 @@ static int ene_ub6250_probe(struct usb_interface *intf,
+> 
+>  	us->transport_name = "ene_ub6250";
+>  	us->transport = ene_transport;
+> +	/* get_transport() only sets this for the standard USB_PR_* protocols */
+> +	us->transport_reset = usb_stor_Bulk_reset;
+>  	us->max_lun = 0;
+> 
+>  	result = usb_stor_probe2(us);
+> --
+> 2.43.0
+> 
