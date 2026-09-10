@@ -1,137 +1,88 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DCA48EC90
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 15:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315F44A8419;
+	Thu, 10 Sep 2026 15:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789055512; cv=none; b=GdF4omwVUY7PQXegUkRfJdxUTmmnOVYbSA1lKPpGZjLrfRPxmcgKFTY3jLGacqbzyLkrNBJFjTtinbKeuMXZczMdcnu63cJOUQ91TdWDPbEpyW+u20UW1PEpwaryozPDIRHNfyzQ2FcfnbJXZITIgOZFQNH60yYv2BOzUxp2+vo=
+	t=1789055642; cv=none; b=B4e9tyWt9B1HFiDkUS5mjptJzavZXvG4ohIaDT/lFuJ32rE5OLiSd8stPWAjvxrgXbGwNtDqaOri4tl1VUpPMo1qhyMaXWcjfKjw8kf7x5mK5F62pHZF/HxebLwBRuX4ObmbFlpTpaH8ILD87SXmhGnNxSCdMeZ7GaD+Eb3WPK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789055512; c=relaxed/simple;
-	bh=b5Ymm/ECofLnPQCTo+E/rmIx2nAMwNPMuKuCAVOQii0=;
+	s=arc-20240116; t=1789055642; c=relaxed/simple;
+	bh=y15tVjuIpOkxFOtnQgQwuuNo79AxvLPn57cz3WK6kVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IPSyyTkfrk3KPTlzp4554c2vFahXNh6s+cxA8ZExvIPaRk2YyxBsi5BIgrqxAJf10pWHMpeen+Ww6vSrE/uFgpR4dCySxY5kY8dqHLDY8+wphyjj5kCsMyGbHyU8wgsYy5s3z+fcVL44XIGCaPUJ8sTiOFC5ybZ8a2x/Xql7ZnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=bOcroJMA; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=blWsq7alQrYtR9iuByIqJXGPXkiXMq4q1bCVTzl284eps18g/72Qco1BORO6NWPKkVrK1hQSit79UqcdjfRu1LYt+GxUl2YqeDAGGeOkV6w7Q5fZzNaoYl0a+UYziKHNb9onEhivZO7gHac9t7+DfbkdYtr6anRd9HdUzEz+VVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pv1tSWs7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="bOcroJMA"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-836c8bde2dcso58282427b3.0
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 08:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789055509; x=1789660309; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v/Ll3fwIdpv7mlEfFgIe9/htJBU9V9jdUb8GRoDGxak=;
-        b=bOcroJMA8usKHkKesnAK6pqNhbEctAJxi2E4k548bbKaAQuHlzPZ77F2vSg2q3Fsjw
-         3Nafd3Gyb2HBNdWMG/0sGe412/UWgkHNnfo7hpIj3ATL77cZj+KndUCWoaoWd9jRo+rb
-         s/8Ee/ejR51KIkBRTFViNvKE6cqvm7Bf+AZ9rgDoEO3n9xlaUhZgRshRM/6KjzI1f2Ba
-         iSMCtJ28nB5yymPIeYH8+ucFzd5ylzRNkMxhEj6E4DT0N514kHzkFqPJoL5gIvYZvP7N
-         0NxoQU/oRa6kwpaE95jj8tbzBfk5hHpcvBNZ8OFwxsjnQGp/WBmaRi8LNdl/S1/7BRIr
-         SUAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789055509; x=1789660309;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v/Ll3fwIdpv7mlEfFgIe9/htJBU9V9jdUb8GRoDGxak=;
-        b=P3ADTLZrke9AOksl1ZPn2LZgmRI4NtmOSMvBKKXbc/KejY6QdEdDv8tq4tbEphHVYZ
-         ggqoNs/9hqSuFdK8mrTD+3paYA6pwh/AaprsStVWdtWsdi+/WonYWMevo9ARs2HLZYqg
-         ROJvStoLIqXD4yy6MgWrCAY8c+TxSchtKTehB+Is0qH10pT5Nfy2WOt4F1gGNyMA+g8M
-         CXzmX80WvYE1qPdxkmf3M6yYRzhW1Fh/PPrkNkOrwVBesbYzbc1Ooj4ARUTAN1Q7lQaQ
-         b2fEySnf/fGP5IpBHSiWmbfZH9QCdfeFNS9F8jMfxKCoXDP5/f1p7nm4VjXmSVL8F4zW
-         tDJw==
-X-Gm-Message-State: AFuF++kWVHcDCNCLLB2L7Rh/TrBxE/HfExnwUKTnOsJjv70b3izLyQcP
-	gkRvOFagpG/ClLuovylFXZn3F5C5RjuqZgUNNp3saoZHKa6lIRkBjlH6dQ3QbIgBHB6zfnRLOD0
-	PUpsMYg==
-X-Gm-Gg: AYBFou0IErjle4CuXE3SLqpGhIK6JtJEb3OQIhjJcQm10XjXI9oFeUNy+LgHhKTVLHv
-	rzyZY2mLBc8arvHY4f2R7fCRsEcp/lAyhfec0H6GjDwrOAcfbfKUwFhCL2i7LBVqn7uKSKyfo3O
-	uO3sQQnygNg1P87B4+kdGgt8Fe0ZoqwZgjBxubBZGkxpplL0Vi/JXOXUURw2GEC4jyR78rn2W+y
-	yCSZiLb3cbuu7CLWqZF5YHL21Nigmq8v82r3nZc05TC7syqhj6TQJq/hliOXNP6pgDk8gaxWERu
-	Tm7T4ld5RBpNNGPsGfTNWghR/efy6pA6MlbsrBEhEn/1lAnD65hnxTEZsmze/OgCqCawVTHyG4h
-	pTnzYDD7Iv5JFrfHDE4btlXRtLYDtnhlU1Ow+2P4XZ64nAoKuIrdBf4BtJQbfqt6cM9dlqeNhAL
-	gFmgxH07BquZGumquLrXqB79Fp5Y6tAqaVIBx9XT/EVqdfGwqr2eoMkE3vaC77WFcz+5Mcy7PJ
-X-Received: by 2002:a05:690c:298:b0:87f:dd04:b453 with SMTP id 00721157ae682-87fdd04b821mr48840217b3.68.1789055509477;
-        Thu, 10 Sep 2026 08:51:49 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-939e7f184d9sm13144085a.12.2026.09.10.08.51.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 08:51:48 -0700 (PDT)
-Date: Thu, 10 Sep 2026 11:51:46 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Syed Labeeq Sajid Bukhari <syedlabeeq@gmail.com>
-Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-	gregkh@linuxfoundation.org, stable@vger.kernel.org
-Subject: Re: [usb-storage] [PATCH v2] usb: storage: sierra_ms: reject short
- SWoC info transfers
-Message-ID: <38e316b8-2305-4156-b4ce-185364c377f2@rowland.harvard.edu>
-References: <20260910140343.49371-1-syedlabeeq@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pv1tSWs7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8111F000FF;
+	Thu, 10 Sep 2026 15:53:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789055640;
+	bh=Rhw/XB4oZMCuaT9L25oXSIHQQoDpEoegzurtGHYUhlM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pv1tSWs7ainajgYjsidtvlIdbZM9m8x7e6csAWxID/NPmmB5o3ArXkWrZvipXRaeC
+	 hq0kBETRmNeoP+zyEdGWNjFIAK8A5EyuJZQT7sKkNa3tvOZ6+Rx2s37xxKr3hdmlBs
+	 j4YI8+qgXsY7OXesAo55+bE4n43jnmwL1PrbpU5kyAKMf+c7mkJzChPpo5xmMhUcQX
+	 XbUUUasK8nQH2dyAE4wfLNfQa5w6ddQm+7vvsWy/9ocUCLFbV/IDZp8y02dirkpxl/
+	 1T8zPHdu+MEkXxTPC4m/ayQFm3Cz79GmQmAtngKrMaHbowbDrPoIXxKq4xxM8iDKlh
+	 mmGYWiOz/PQZA==
+Date: Thu, 10 Sep 2026 17:53:51 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v7 1/5] dt-bindings: phy: Add PHY_TYPE_EUSB2 definition
+Message-ID: <kwtken2y246g2se2bmn3uvxed2ynzxyseck6y2dlnjjn6icug5@p67crwakk4la>
+References: <20260905-eusb2-interrupt-v7-v7-0-820cf5377a70@oss.qualcomm.com>
+ <20260905-eusb2-interrupt-v7-v7-1-820cf5377a70@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260910140343.49371-1-syedlabeeq@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260905-eusb2-interrupt-v7-v7-1-820cf5377a70@oss.qualcomm.com>
 
-On Thu, Sep 10, 2026 at 07:03:43PM +0500, Syed Labeeq Sajid Bukhari wrote:
-> sierra_get_swoc_info() requests sizeof(struct swoc_info) (60) bytes
-> from the device via usb_control_msg(), but its callers only treat a
-> negative return value as failure. A device that answers the
-> vendor-specific GetSwocInfo request with a short IN transfer is
-> therefore accepted, leaving the tail of the freshly allocated
-> (kmalloc(), non-zeroing) swoc_info buffer uninitialized.
+On Sat, Sep 05, 2026 at 08:59:05PM +0530, Krishna Kurapati wrote:
+> eUSB2 (Embedded USB2) is a MIPI Alliance standard for chip-to-chip USB2
+> signaling. Unlike standard USB2, which uses 3.3V signaling, eUSB2 uses
+> low-voltage differential signaling (~0.4V) and requires a repeater to
+> interface with external USB2 ports. Because of these differences, eUSB2
+> PHY initialization sequences, voltage tuning, and register configuration
+> are distinct from USB2.
 > 
-> truinst_show() subsequently prints swocInfo->rev, swocInfo->LinuxSKU
-> and swocInfo->LinuxVer from that buffer into the world-readable
-> (0444) "truinst" sysfs attribute. An emulated/malicious USB device
-> (VID 0x1199, PID 0x0fff) can exploit this to disclose up to 5 bytes
-> of stale kernel heap memory (kmalloc-64) to unprivileged userspace,
-> once per sysfs read, indefinitely. On kernels built without
-> init_on_alloc this leaks recently freed heap contents.
+> Additionally, eUSB2 targets handle wakeup interrupts differently
+> depending on device speed when operating in host mode. According to the
+> eUSB2 specification, remote wakeup signaling in host mode is detected
+> via different data-line assertions based on the connected device speed:
 > 
-> Only accept the transfer when the full structure was received.
-> sierra_ms_init() already retries failed queries, so well-behaved
-> devices are unaffected.
+> - Low-speed devices: the host repeater drives eD+ to logic '1' upon
+>   detecting a K-state on the USB lines during remote wakeup (eUSB2
+>   spec, Section 5.5.14).
+> - Full-speed/high-speed devices: the host repeater drives eD- to
+>   logic '1' upon detecting a K-state during remote wakeup (eUSB2 spec,
+>    Sections 5.5.15 and 5.5.18).
 > 
-> Fixes: 32fe5e393455 ("USB Storage Sierra: TRU-Install feature update")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Syed Labeeq Sajid Bukhari <syedlabeeq@gmail.com>
-> Assisted-by: Kimi:K2 [Kimi Code CLI]
-> ---
-> v2: add blank line before the comment block; add Assisted-by tag.
->     No functional change.
->  drivers/usb/storage/sierra_ms.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+> Since the eUSB2 PHY's DP and DM lines need to be configured differently
+> from USB2 PHYs, controllers should be able to query the PHY type and
+> configure wakeup interrupts accordingly.
+> 
+> Add PHY_TYPE_EUSB2 to distinguish eUSB2 PHYs from standard USB2 PHYs.
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-> diff --git a/drivers/usb/storage/sierra_ms.c b/drivers/usb/storage/sierra_ms.c
-> index 177fa6cd143ab2837640c26f8336781ddd3cf9cb..d8fe9561b2b5f4cce6aa8702309cfc195bc3c891 100644
-> --- a/drivers/usb/storage/sierra_ms.c
-> +++ b/drivers/usb/storage/sierra_ms.c
-> @@ -77,6 +77,13 @@
->  			sizeof(struct swoc_info),	/* __u16 size 	     */
->  			USB_CTRL_SET_TIMEOUT);		/* int timeout 	     */
->  
-> +	/*
-> +	 * A short IN transfer leaves the tail of swocInfo uninitialized;
-> +	 * only a full transfer is valid.
-> +	 */
-> +	if (result != sizeof(struct swoc_info))
-> +		return -EIO;
-> +
->  	swocInfo->LinuxSKU = le16_to_cpu(swocInfo->LinuxSKU);
->  	swocInfo->LinuxVer = le16_to_cpu(swocInfo->LinuxVer);
->  	return result;
-> -- 
-> 2.43.0
-> 
-> -- 
-> You received this message because you are subscribed to the Google Groups "USB Mass Storage on Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to usb-storage+unsubscribe@lists.one-eyed-alien.net.
-> To view this discussion visit https://groups.google.com/a/lists.one-eyed-alien.net/d/msgid/usb-storage/20260910140343.49371-1-syedlabeeq%40gmail.com.
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
