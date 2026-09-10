@@ -1,66 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A744A3F3F;
-	Thu, 10 Sep 2026 15:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F384A0938;
+	Thu, 10 Sep 2026 15:06:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789052746; cv=none; b=Z1aoYlgjIOl9fgfvmyKnD88Lv2KB/sdwiC0fTAJQAGkJi5XuhrhKE3LJlQMOrrtHW6Rlqg/RdR/h9VdukvXztZkSd6gHnIAU6YZD7l9H3cLO8GAukjwCX1UwgkB91Q57kSFiNh0dvB9eR7/8Fj0Jx8SPSvIG8b6KZ9FulTFEqmY=
+	t=1789052783; cv=none; b=N86/JIksKf5DPtiOxKZozyAQrVrl8KLMMbHEmuYCuzBC84acogC5EvGE71VMVOYJgp5H5a53YUUb80BY5j73hcqIXICVZQJW4QtA8HkL2knEms157P5uM/Xi4HKQcUoIhDhnV0TKb+3PyuQB1V78V+JgpPdMDA7WkvkB2clOtXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789052746; c=relaxed/simple;
-	bh=O70yEI1pPnFpud5qoO9FT7VNRhm5mP60rnj+d43hRhc=;
+	s=arc-20240116; t=1789052783; c=relaxed/simple;
+	bh=YTL/L0Itj+cl9Acg/S9H10KZtg/+4tGA6//3qw0ri4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMJGj+eMP3FnChYUn/Qdh+ynDJWAT8IL0vbIrgrRBPvIz9qfwQMqXuR7Mc4PsCb7CcCZJ1c4fdwUt/me9VPhyRBA60YynNvWdZbym/LcOJ9oblalPMMcrVkm3uvI3JVtctZ6QDHcaASrU9clQf4RCm0nMP7bz0X52ALCCjECI7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eTPa37ao; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=q+UzJicOu5WFyXg8XXjg2Kz4/W2V5ER7+IpxVC34fMuGm1+yjJhFgU2lHSe5o54LYdbegtuHMaCUWNzT4t3Kwswfe6UHDg/XM9f1SFrW+BfkV2qYLMRjUiUQUdSVTQTZITW6C3cCdqncZg/HoX15hub5/bquzd1owH3sJNFMJVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IeVnbC7A; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eTPa37ao"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D10D11F000FF;
-	Thu, 10 Sep 2026 15:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789052740;
-	bh=fNJfBB0dtBLdMyGIkCZwE78OBlB5VJOhJPRoi8njbN0=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IeVnbC7A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C651F000FF;
+	Thu, 10 Sep 2026 15:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789052777;
+	bh=twqHB2sSjyRayKyZEYerIYKyvTil6EVw6/BmOMMck6s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eTPa37ao7xBiYzSwzThZutJOJBBh0xOQF4YPJKD+xCGi9HfM2APjrnsGGvsV7weXa
-	 pGJRLbfk8jLgQFwKz5d0MMGa2lgoUZUiUF7PK/QzJZUD0tJo8u6Ys3WFlip4Qz9Dik
-	 PPPpX94Uoj5/+yCpolZUWZmcFwl3yC4sJXoxMzqfPdf4feBrgNQ4T/A0eYjtodLqdv
-	 rr26gTf0pYPxChuopk8YOf9ph5g+HylQuMqOrJjBmtLO+9C+QzGww+9g8ykqmggtnZ
-	 5CzdUGefnQUUQYbyneZ7bz2U3orcUFAxhIKtszxSV38DCgiBxQbluzO3ojX5j29CK7
-	 CsIyDT0aFhGow==
-Date: Thu, 10 Sep 2026 17:05:31 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ronak Raheja <ronak.raheja@oss.qualcomm.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v5] dt-bindings: usb: qcom,snps-dwc3: Add Hawi compatible
-Message-ID: <xvq35z7lmbbeu6e65m2wcepd3mar4uhh2nuhf25n5xibrjec3g@y33hgycfqzgg>
-References: <20260811160835.2968717-1-mojha@qti.qualcomm.com>
+	b=IeVnbC7AJwprYTf6t2/ugFBEtKwKViK5asM1yNgZkibHDsCcjQ4vUpcEizaiqPOcD
+	 zNxKDjUPQLKlruFwaHTMJAX3laUuP/pPpQgbk5wYU97jawwVdU3fY/m4ytY/R9jXKQ
+	 nxNDfXmzOkeAMYtBpODpd6G6jeTtLnjTkNu8zm6I=
+Date: Thu, 10 Sep 2026 17:06:09 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH v6 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
+Message-ID: <2026091051-gizzard-sandbar-0e24@gregkh>
+References: <20260826-tipd-ace3-v6-0-e919f39a93a2@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260811160835.2968717-1-mojha@qti.qualcomm.com>
+In-Reply-To: <20260826-tipd-ace3-v6-0-e919f39a93a2@chaosmail.tech>
 
-On Tue, Aug 11, 2026 at 09:38:35PM +0530, Mukesh Ojha wrote:
-> From: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+On Wed, Aug 26, 2026 at 12:52:56PM +0200, Sasha Finkelstein wrote:
+> Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
+> variant that wraps the tps6598x core register set with a SPMI based
+> regmap-like protocol, first appearing in Apple M3 devices. This series
+> first makes the core parts bus-agnostic, and then adds the new SPMI
+> interface as a custom regmap implementation.
 > 
-> Document the Synopsys DWC3 USB controller found on the Hawi platform.
+> To simplify the merge strategy, the device tree entries will be sent
+> in a future patch series.
 > 
-> Signed-off-by: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+> Changes in v6:
+> - Fix rebase issues
+> - Link to v5: https://patch.msgid.link/20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Can you please rebase again against the usb-testing branch?  Patch 2/3
+doesn't apply :(
 
-- Mani
+thanks,
 
--- 
-மணிவண்ணன் சதாசிவம்
+greg k-h
