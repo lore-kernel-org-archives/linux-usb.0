@@ -1,129 +1,137 @@
-Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D417636B906
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 14:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.139
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789051639; cv=pass; b=I5+JIIoeZRSyHDBTNcUTeoLfBz3MtnxlWYpywpSXO9fY+r3ohPT9GOR5/pvz31NiwoQ3b6kwX4KFF5V2QAWIWoZUXV8+gqD2KwGqYsccbOGfmfeurLZ5DPkuzkwwghPGcfPf7m8b/iwW14uKPq1zvrOE9UnlDHapy8GrglolwPY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789051639; c=relaxed/simple;
-	bh=FcKa3GDpNQlGeGx/ZlUmyLDwgumO6DS97C+OnMj8H+s=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=IVe32giq5NP86/ZOZL0IunhZndCnrHXiNAKZQmxJQxQZhc9al5Z5rHSmDrUBa8pWfLcfElQIyTHSNm53w5oIBakuoGO2dz/rJHv9DKP4bcmmxcnzRoUFQdIhxV5vZB8RisokVl3POyVwpwHFkwHxQLGtI9I7fmeFeBAjz10IkY4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pm23wsdw; arc=pass smtp.client-ip=74.125.227.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1534AA01C
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 14:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789052055; cv=none; b=fP2NjQMODfvhsAOVg0/Zn4ZudHMjxD8KbV/tm12JM2G4cDtal6ShCD7cYKNFCKukhLXJs8UoqZ9u6Aa9kHx3ZfSKBGUx4/7zM8sHDIrEQljzEzelavkG9YsdDha/eUlSRkArFGLzSSsx8JRX4y6FYoIUblTft2C39Ws7JF1a8FI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789052055; c=relaxed/simple;
+	bh=AW1voraFR+VCTHLGPTYMB1dx82/9seIqzpUGNvihkEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oIdANYPBzXj7hy2FW8LGOC5nUEzx3sD8pKisbRtkaSkpVVCNU/2VN8VON5WhSKSHqvXTzjIslm6aJa7NE3KZWt9Pdx2hMlU1q2Rct1Y7+8+nfpK/6Alwhm2IRAMK2e1A/pKYD3KwF7I3hojR+609c5c8FmeyawW9+J645O1QMl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=cKqq1R/G; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pm23wsdw"
-Received: by mail-pj2-f11.google.com with SMTP id 98e67ed59e1d1-396a51b2605so2960611a91.0
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 07:47:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789051637; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZfVao0Bf28pDebQwGy0k5gPQT5CgPGIBJDLkccJFGa6NJgiXLJfI6xfq71ooBD8has
-         mYBeUalPGwN5JUbDzDM1NB5TumHYQID0xSdu/ek0lrmUp246vHbAomJ2Kbax7ufYzi6x
-         uTyNH5wBU7s44983XfH3WoKXUH0l1BjR4gazVJwEFco6HYbBafAfPuaXTEUPhHG3+Y9w
-         fAhOf9545/VHY8yUslWB5kNjSG3UBVIHJzwWr9OkCjXNy+vkwpz7Oi4V2rp+wOZYox4n
-         Ze3Mym8asNjIat3qh/PN1ovD0NyGE5GIgErcLFZYtK3N5+0BgAomlKBfg48uUt16Mvjd
-         bm5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=0I4S7TxcWO7etWBolEQHprlfGVHVPvhEGdWvS3KhUOU=;
-        fh=/GOGXKy1WWO2h92cvxBBf9jrMM71MC/65GCqPdy63lc=;
-        b=WppchWF1a20FgYLtOAu1GEJDBtW56usG6Rcxct4nlkrL165Sinrc9mCSQE1R3eURw5
-         dktOG5ZmkioLQy1c+Phm4fmkbUbUbfCF/nBnc7jRSHtPeJvRaorsxdzjgy1ppv39xdFX
-         zDbWNNjOavgDo8WMudt6pj8UjOzcoSUKnzJcF9vPsAFth2SFjjSeg5/c1IUU6Mr3agm9
-         S7Hk8/9KK58vGSmhaWsYWJps5BEW+R+eSoTsqLiXmoZAdOXgQYLnPErMpnU5z4pUXXh/
-         IuatfD+G4dQQru/0ziv2ydGhOIoIv9HrZWAKyg10p5xONcI1+wm0eMQMwAcuxLhHt5IO
-         mlIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="cKqq1R/G"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76543e1so13077821cf.0
+        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 07:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789051637; x=1789656437; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0I4S7TxcWO7etWBolEQHprlfGVHVPvhEGdWvS3KhUOU=;
-        b=Pm23wsdwsyfzkb1t8Gk5jT80MAYFOEXg2Y7r618mv11I95gSXZWaAXgQq5CUwrHtgM
-         B8w1jFaR9d62WVA4gU90CSXaDb2qnlezfQoot1pETirMC47Re0mStMCDw4/yUYQuwdGC
-         rbmjfXgsgsTqia8DtkBaNj9azEPf6tYYnZkz6baMQuq9AjLv4F4cPD3PUlJSudwCKeZE
-         sbG2pCBtNm/Y3uOg6cWB8VyaVdaiH2SmHfodndYT4m78W7orM0BY6AhQO8OyNFvXqcW9
-         AvYL4xE5SHpNKIxtdEIRF3wGeYkp0k8DaWfVHlZTpJEG7yz/T6C9zlyTAg4Kv8fIypUv
-         /0xw==
+        d=rowland.harvard.edu; s=google; t=1789052053; x=1789656853; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=S9fpkkULHFsgtcssGIc+n8ftfpgEomFj1gRnKkIL/Qg=;
+        b=cKqq1R/Gx5gJ+prr0aW8dFH0YVoAoTmlxJslM1lFOJ8mEVKvhuOh6JwriOU5LFmJeg
+         joIBv2xx8cYWFOUryWxb3HcJBDZ+vtf2GY9W7CJmg+NvkuyitwCLP4rMPyfCJ7dCbnlN
+         nCNOqvBAAm6CutULO0zOJGAfzycjw5roKpjfDFCAwjWOuODOtkO1LjqX3aMYV2gQ/f+n
+         vuwit1wosLqK2HlSr6hiWHiUsb1BEWM7Hhx+qrFqKx8Lp7bQuaKZjMnTD6iQG+CWCGf+
+         /prnpuxVOwn0tkdF46OipGWp6ODXVugdoNdkXUXhPDbZPCm4BfxMLi8uXOqMeEViaoJH
+         iwDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789051637; x=1789656437;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0I4S7TxcWO7etWBolEQHprlfGVHVPvhEGdWvS3KhUOU=;
-        b=ISsNsg61O8w6McRpCBsm5G+UByQ1spVkh096poVDkX7Vq2kE0TtmGyazNny6iuXKob
-         bKr6YKkPNTo5n/pnB7qQaXEIct6sds9+Mhja7HBAMHjDuiJceMRQCwV7WMT9+zJr+ZJb
-         6mVo5yCCe8pDZ9X4ZJC4OFv45PwZm+qlB+CoA8Gk1evklsaqvbSe2QW5MpzxZPqAGzBT
-         X+9vRXiSWLczbeitXPklZcuKqQqGMOIOGPeFiffxgFTNkTIXzme6VFgr+5m5obgQvpaH
-         JMRUVXWzcXv97MMMIq7HG+1yt0bgcEvA8dgrYZPyYMxMyG/5ggRTG5t364BEAHJrkwSg
-         3X5w==
-X-Forwarded-Encrypted: i=1; AKwUvBynN1VlxqsYbAKfuArZTzcor9H1/eKbOGUHl3gUUEmdw3ttLnrgoTlkZy+Br6LdomJBs2JcPLqi7AU=@vger.kernel.org
-X-Gm-Message-State: AFuF++lUdXWdW0bSmrel5ylFZPSpKMxFxcsB+xKYatsc6eHC/GHvj480
-	nKOQ0vop1dziED4JMzkbCg8ZKRN5QyvH0luMa68nyGsVxetcOH8JpP7z6bYyrDW6GSfQBWzhSSy
-	fmVr+MqLN51Qeqve219iEJ/n5/vD24YQ=
-X-Gm-Gg: AYBFou23+0TPWllC5op+MocDiP94ZTi1CVlPkDR3MLmeiX1JzExYjPf8aGTc6zKZEys
-	WCDNDlbWYj6MuS/m4l/7WF42wYafcLVrk9q0CWI2uZZCevpM3+q7q+x3kbQzet/03BNIAqZBqij
-	AVWSrXIHdouyCRGw8v156LHoHXpA2Lr+5bIcqSWezALghcNwHJvXnHbkY6yLqYzvL9VOPPdyXqV
-	LjuYCY2npnoc1YLn8eBpaBuaOB2EOqvU6DhMZ//V8/njOT5m1xIT0e0Bp+SbsAsKan41s4CKjCD
-	JIBPVeIQ9A+LJYIwOUydiGzeHyh5p6V1Rbm0oI92xAZShHPVxTBuE+z4xEkdVR3qLs0+rQ==
-X-Received: by 2002:a17:90b:2ccf:b0:398:a2a3:b631 with SMTP id
- 98e67ed59e1d1-39b262aaf3dmr66063766a91.19.1789051636990; Thu, 10 Sep 2026
- 07:47:16 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789052053; x=1789656853;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S9fpkkULHFsgtcssGIc+n8ftfpgEomFj1gRnKkIL/Qg=;
+        b=qAttiTlSZqTaggg7StBx3f4e193A1OV2cQJHHBvAWc/MP/aYHYJ9UPf7keXja9UUdK
+         Fh/UvKT3F6/SLU5GMDeG3b3b+db85mM1VqS4BmTsMF8WxrSNOKffH866yrmIekUBJ12W
+         YwjrYRY8KR/gaLoQzDBKQJPhrPfoCEuyDB0QIAd5NaCwuQ4I3HRy1gA+zjVPMXpYZisZ
+         E2OFThsN4ARHWtj7zpJ/2pwntfVayFPodCuJvZJ+UAropYau7PrqamYxAx4YSfedW+t4
+         N/ol7fjnI9/y5yIHTIZkyv9j1RYZNp5XDPD2zMvc3iAg7QdPZgyUinuKHCXtOVNFi+Jf
+         d3hw==
+X-Forwarded-Encrypted: i=1; AKwUvBxB1GHGhTugi2OS1YULr1lOOEcHr56eRMZD1GEZq89VEDasbXKHOckwAQbm8CGQr2u67HvuZq1bfqw=@vger.kernel.org
+X-Gm-Message-State: AFuF++nMMvauu5Ibe65fu+8GpU9p76D5CJRlzT2gxCS1X/AGYcM04Azv
+	3jYZiUP26D63SR1DqdbrP5ypvJaPGccy6bd06CL0TlAA6i87kpnL3O6IfjM7QXEjlg==
+X-Gm-Gg: AYBFou3AhP0ExRiH+YWURetRnX0p4mABKoWNpQfn6LTfzsJVfJ1BYOswhxWmx2lm07T
+	Y7UQD5Y64pJiP66MjWArJa81BOFdy3Owv9Jqw6whqsOTsXbfXELZJp7tuzjooH9mm6UW2pSiQ47
+	P3ACRp0w2LuPpo6BdETuPOU5D0/Y3w16CCgKeiz/89hhAbh4SC0g1KR/+K5dZzvaA+4CQipWQp/
+	giMdxiSLvsseuvR4o5VuIOm173UbxUkSxjb6p06nh2P1fCCW9FHuPn7gyAxCUAJcKDjHlL3vwAH
+	spWeqVibwQh7hTmDHqSrJMIedyH0Pa0L8FI83EYBDNLJN/NwpNYOlq5TeCYzJ+YnRtgNzrXSWcD
+	85sZETEDcDwsgfUZoBTc3Zxq45+NKJXNL0PsB8RQ0IdcZqnaRlA9iDJGa4W0pE0C8mLZiyg4E0+
+	luBguyei3wSgXwGmaZuYJyjLF59ec0lxZnt8FiWsKtIhdeqSr3MJAREFEWDfGqvwyI99YukvZr
+X-Received: by 2002:ac8:5f47:0:b0:530:b2e3:f774 with SMTP id d75a77b69052e-530b3638587mr59852731cf.29.1789052052689;
+        Thu, 10 Sep 2026 07:54:12 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ac575c32sm39327271cf.5.2026.09.10.07.54.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 07:54:12 -0700 (PDT)
+Date: Thu, 10 Sep 2026 10:54:09 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Adriano Cordova <adrianox@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sarah Sharp <sarah.a.sharp@linux.intel.com>
+Subject: Re: [PATCH] xhci: ring: use get_unaligned_le32() for setup packet
+Message-ID: <2c57827f-261f-4b10-b5f5-71bf49ceeeca@rowland.harvard.edu>
+References: <20260910123629.345114-1-adrianox@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Eric Lin <ericlin050914@gmail.com>
-Date: Thu, 10 Sep 2026 22:47:05 +0800
-X-Gm-Features: AcwNN1XgLNv6JuW5S3gbLLx69aCTMbsFoHrs5XI5Ub2o_qUIYbs9MmGoZifWNHY
-Message-ID: <CAFb0CM2Rh7uRYmqY5coE3RoGT1F6NAuO2qr6dU=K4W9aZKVuAw@mail.gmail.com>
-Subject: [BUG] Usb fingerprint sensor constantly resetting on MSI Prestige 16
- Flip AI+ C3MTG
-To: mathias.nyman@intel.com
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910123629.345114-1-adrianox@gmail.com>
 
-Hi! I am experiencing an issue where my internal USB fingerprint
-sensor enters a continuous reset loop on Linux
+On Thu, Sep 10, 2026 at 09:36:29AM -0300, Adriano Cordova wrote:
+> The setup packet maps directly onto the two little-endian data words,
+> so read it with get_unaligned_le32() instead of manipulating
+> bRequestType/bRequest/wValue/wIndex/wLength by hand. No functional
+> change.
+> 
+> Signed-off-by: Adriano Cordova <adrianox@gmail.com>
+> ---
 
-System Info:
-Laptop Model: MSI Prestige 16 Flip AI+ C3MTG
-Device info: Bus 003 Device 002: ID 27c6:6090 Shenzhen Goodix
-Technology Co.,Ltd. Goodix USB2.0 MISC
-Kernel Version: 7.3.0-rc2-1-cachyos-rc
-Linux Distro: Arch Linux
+Nobody asked my opinion, but I'll give it anyway.
 
-Behavior:
-The device repeatedly disconnects and reconnects. I have tried
-disabling USB autosuspend via udev rules, but the reset behavior
-continues
+The original code was fine as it was, regardless of the FIXME comment.  
+Using get_unaligned_32() relies on details of the layout of the setup 
+packet and is harder for a reader to follow.  I would not do it unless 
+it provided a measurable improvement in speed -- which it doesn't.
 
-Relevant dmesg log output:
-[    0.728290] usb 3-6: new full-speed USB device number 2 using xhci_hcd
-[    0.852232] usb 3-6: New USB device found, idVendor=27c6,
-idProduct=6090, bcdDevice= 1.00
-[    0.853030] usb 3-6: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[    0.853035] usb 3-6: Product: Goodix USB2.0 MISC
-[    0.853038] usb 3-6: Manufacturer: Goodix Technology Co., Ltd.
-[    0.853041] usb 3-6: SerialNumber: UIDEA968203_XXXX_MOC_B0
-[   10.774839] ucsi_acpi USBC000:00: GET_CURRENT_CAM command failed
-[   30.365584] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[   30.605812] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[  425.108819] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[  425.368738] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[ 1265.198999] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[ 1265.447057] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[ 1283.745362] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[ 1491.845657] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
-[ 1492.094664] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
+Alan Stern
 
-Please let me know if you need any further hardware traces or if I
-should test a specific kernel patch.
-
-Best regards,
-Eric
+>  drivers/usb/host/xhci-ring.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index ec278a9f9540..e428d3794717 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -58,6 +58,7 @@
+>  #include <linux/string_choices.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/bitfield.h>
+> +#include <linux/unaligned.h>
+>  
+>  #include "xhci.h"
+>  #include "xhci-trace.h"
+> @@ -3837,7 +3838,6 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+>  	start_cycle = ep_ring->cycle_state;
+>  
+>  	/* Queue setup TRB - see section 6.4.1.2.1 */
+> -	/* FIXME better way to translate setup_packet into two u32 fields? */
+>  	setup = (struct usb_ctrlrequest *) urb->setup_packet;
+>  	field = 0;
+>  	field |= TRB_IDT | TRB_TYPE(TRB_SETUP);
+> @@ -3855,8 +3855,8 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+>  	}
+>  
+>  	queue_trb(xhci, ep_ring, true,
+> -		  setup->bRequestType | setup->bRequest << 8 | le16_to_cpu(setup->wValue) << 16,
+> -		  le16_to_cpu(setup->wIndex) | le16_to_cpu(setup->wLength) << 16,
+> +		  get_unaligned_le32(setup),
+> +		  get_unaligned_le32((u8 *)setup + sizeof(u32)),
+>  		  TRB_LEN(8) | TRB_INTR_TARGET(0),
+>  		  /* Immediate data in pointer */
+>  		  field);
+> -- 
+> 2.51.0
+> 
+> 
