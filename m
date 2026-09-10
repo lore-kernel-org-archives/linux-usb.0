@@ -1,94 +1,82 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99778488D83
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 12:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12659489891;
+	Thu, 10 Sep 2026 12:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789044492; cv=none; b=Ve+Osw3JHPOmWjhxqjdbpDHKhvjcpNqt4807dhXXuzn4ojonq39OLwUJppTkNvjRm/fi8t/fTrzWgBA0gPOHqxxdttvF8xnj0K6Ly5V37raZ/SSlg2BniDcWsHhApxeKxtF8VinV3RSKE//vz2dubYA/2EgumbZjMD5vsvPJJLA=
+	t=1789044547; cv=none; b=pQr1trKr/SUXDDMPFIwLfiPuyqqAKd45O9J2ivtV8hapuxaw3tR1Me2eYf6sg6KxjNNSM4rD7ARTGDf3SJEhgT//qZGAvTCPfcqEMylFEfDNZ78fiZntTILrjL378KOfQ3L1mClCcM08Azk7LH8ZcNyvRHqjsmlpHc+rGdTApYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789044492; c=relaxed/simple;
-	bh=mdFqA9b1vwv/HgvAJdzR9haYudDRU1I1e9rqnCn/1Ho=;
+	s=arc-20240116; t=1789044547; c=relaxed/simple;
+	bh=l5+A02h73yIrASfg3OaLIlNxRCZnwXIYp/SV3zHJCT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fzKDEFvs1HPnvROKhhh7sTS3TF0jdnAAKtwzgIn22SSnG0TlQZrdPA1J64iX1EpfF+rPtPtGhV50qo0IPhifQ4tkn75EIckPc6l2DgYXMXidd+H3T917XuqpuTyaaYa5WQlHn056DkqW9Xw2fbD6vjwPkxtmfat+HLyusRWKL8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QgI+rvFS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CG3uASiJ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bb+TuTJ+oLntyEgS1+bbj+WW1PLVkU+xQZlYmazJjhvMUAAIrjHWQZjhBU94YEogl18wDEHyMADSeCbIx1ZHr3VVuZ3ecENSD2RNRNWqvLDKP5rQ/32iJJZ0Y/GOYE19yG2Kh0QgvcJluAj9O3Pn/zVPQ4if8DrZjq+HNTvWBTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=WibuvB5I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZNkaqB4H; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QgI+rvFS";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CG3uASiJ"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68AC7h65244656
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 12:48:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Ij3/oBZ1i0OirLfX4+rwP5dv
-	ng06nvVC7F+lzK7bFHw=; b=QgI+rvFSIYHLoiTvE6Sx2A1sxUQ3ysn3nK4LxX2j
-	9uU+/m74yZGnBd01wax7Qq6a67FxQyNKjvsw31BQlPTk4QngVdmBJmWDiFOxPnfj
-	79bNK/PubU+SO2qYPUGmOeP4QCfztAC6DcNZYkJcwaYXyOB1CyAcOGnkhUQro5Fs
-	uMx01Rigi/qI/SpZtkaVEvC6n3tyWRCY3HoWsFkxYWn4RQuF0Utsi30luYK7J/VM
-	Ox69S/uE/KmdUuzyXsUhEoqvTNNBJazFyNXkc4G3JEN9DeV9xaQymDuwXrVa10mk
-	gCVPVCyKQHGPFuPWU315NyNCpzS/zF30Ui2S6wvGAVbOKg==
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkcyfkxdh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 12:48:09 +0000 (GMT)
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6b352d9062fso8985041eaf.3
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 05:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789044488; x=1789649288; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ij3/oBZ1i0OirLfX4+rwP5dvng06nvVC7F+lzK7bFHw=;
-        b=CG3uASiJzxs19f9aULAXvwFmWkOR5/uRc//jmmGWfIcdp9ISgBT+WwsR3tBpiHEDsu
-         t4MTBq14w/6cweuPsrFd6kSGnYgRyL0VjVFmrlouNQUkczdyqckyfWVyqwghaBqzoMQm
-         tLNyF8ts2qPTLAjB3yaFfPTE4aqXmzGIbLFFalxDrTN1t2FnZi+qRuPYgMjjIU9nHu8a
-         lCdKqT9zp6nmuXTrd1yAXzKgWqOW1u1NUdn6LS656VBaS9E+3/tacbdq1ZM+ebN5ARrd
-         LFE1LAdveya2irKt0SWBHp61JYAZ0q97rThPBreU7V1xpQoih05W1aM3YvZzI6rPZEnD
-         R9DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789044488; x=1789649288;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ij3/oBZ1i0OirLfX4+rwP5dvng06nvVC7F+lzK7bFHw=;
-        b=M+v8IuXl3AWrHUaqLNLdKcpqR9FtsJWFk1Y8rsB9Xw+9bAf9G7nUPwvCw4wInop1x9
-         6/GDytVVQz8nU+zByHboiSSJicIs52hM1DWLuJDDLlQiQN1xJsbzzbAH53wuzWviZPfb
-         gfjaCysOHQRrAXc3HVsCzuQG3SQ9B7utVS2CROTmXTQPM3yqGrfZO02uGeQ9GGvXLkS+
-         Qgppv6G/bRoha8O0QeQfafIP6b9hau2DkxH9sXpSNwo8ZVyIiX8EjXl7SGChSYtReO9R
-         +fqgJwVwMsXrgof22z/PwWOn/b7qqss6ZiyInzL6cQyhVRsWn7AAW7zZYIxPsgRLjqHs
-         nxIQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzs5HPBhegG/+NIh7QBnNZZe+xs5NVt3ZmEGFXsX66jBBMEsCn0DFamXsmCUvXO7FfL3SPt11MxNoc=@vger.kernel.org
-X-Gm-Message-State: AFuF++luw0O9y6hOWULVGJViQVQRkYGPUQNzPK13jbEnCMnCwItDh+g/
-	o6ZXjRclNiBJcAXeAKMWpW89Kuou2TC0xbgOOCA8uUt7YmsL51blxgKKdwrNkGdULZXEmwsqb8K
-	bdwKUYRxMJWLvmB+8VgG6aI9RsFPuh98ammei16ZhrkVRAo+bJOKlsLdUUQQx/Zk=
-X-Gm-Gg: AYBFou0Yoe1LOAp+VbIPhmKwH77i+vSyIC8NwPwyVa7DnOJ9HGIiAELXQNFp6YnTWVM
-	q+JNZRnb+3rbQ5CDrOb0Gqk1/ukk2ix6Yo+QwC6SJfePAi+/IfjEfI/IedJEghDy1C0g5whoNHt
-	DLEpGhoU1QwIHg93pFi+Mj1psId0xj8+gWbabNuBTASIj2HihHqQM7f3TL2NvQfZDqlOu25zU7w
-	8FpTtTuOcz7VWxPi8duNV1r+BTOsTLSXB3NhM/t+xhnfvVXHsU8Khs2I8S/4RZQ3GelONAbVziC
-	E3JQcu3/E0caWCIplzfa8WCwYKyIZ0DeZ9QEnCpnrIZLxmlwZJi3RgLDNd6nRaheJkHm8OLand+
-	Fhi0aEYswEbH47RRAdEyJL8igO6M=
-X-Received: by 2002:a05:6820:1622:b0:6b3:5475:4855 with SMTP id 006d021491bc7-6b6fcfddf2dmr25661238eaf.31.1789044488203;
-        Thu, 10 Sep 2026 05:48:08 -0700 (PDT)
-X-Received: by 2002:a05:6820:1622:b0:6b3:5475:4855 with SMTP id 006d021491bc7-6b6fcfddf2dmr25661211eaf.31.1789044487664;
-        Thu, 10 Sep 2026 05:48:07 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-333c9db92b1sm52628275eec.9.2026.09.10.05.48.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 05:48:06 -0700 (PDT)
-Date: Thu, 10 Sep 2026 18:18:01 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Val Packett <val@packett.cool>
-Subject: Re: [PATCH] Revert "usb: dwc3: qcom: Add support to skip phy
- management by USB core"
-Message-ID: <20260910124801.lxybhrpskeqi4i4a@hu-mojha-hyd.qualcomm.com>
-References: <20260909-xhci-fixes-revert-v1-1-7cc97fa0f307@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="WibuvB5I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZNkaqB4H"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id AEF07EC01E2;
+	Thu, 10 Sep 2026 08:49:03 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 10 Sep 2026 08:49:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1789044543; x=1789130943; bh=/f7y8GIYOt
+	1dmihm8mAaj1Wt7G6td6c+pu/O53d6aOE=; b=WibuvB5I5YlPZ9uOJPMzzTYQBP
+	azAfLa3mexlUIZJ+CM44Bod5PlGhKv0ZXc6ezfGY25sujlloco1K/yR1dPiVkVOj
+	erpvRhVbD3JsuDJYZATiQLotMQIsVDPfZCbRkbd6XdgI8euDs/w+JaihBP2+Cu5N
+	l1saRyBS7DYDkwnKlTPTJSiT3RXV/cv37DGvyDn6T9OkRhCxbvdkYbjrb5yvPZOi
+	WP/yaiNfRe8krY9///uApCm4Y/CRL2UiuaPmsBxvmbLagAdgjx0DZmGBrsL+EO2Z
+	oONU3fA64v3zadyIEwSlnvp0TZThUb8hZYnth6tEz5tMJLKqDd+LmWMFFxJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1789044543; x=1789130943; bh=/f7y8GIYOt1dmihm8mAaj1Wt7G6td6c+pu/
+	O53d6aOE=; b=ZNkaqB4HGS+/d+93uVVScv91ONajaKZqrGHBHWDq6m4VuzitNNO
+	roBpgd0SoXayemarh5yWtnZemezpX/z2eEglyNSXsPOL09vIvxYZnOACWKGlx1e1
+	PKAXjHnURjYGTicY2kfpfA7RriKX9P5oXhzLRd8F6uV9NL/wYhfWR5M2zImEQZ94
+	J9saZ8KtNWj5UdrMjON5oydTIV+P5yDZC3ASiLxtTvuheaikmuY7NX2vo9XOUA5G
+	y9+MJLP1Pz1XbJLCRjZhkgOpiUS531w1Nj+BXKql9zrOQ0s2jTlaXct+xoz41aHj
+	VT78rRhzf0pO2jeShDMIXbE38KZSmGaq/sw==
+X-ME-Sender: <xms:P6eiakkhtSsQze5UG2iAHIpW8wm4Cw_D0Z9fXCsbzSKXmhmUTwUN_w>
+    <xme:P6eiaqbL-GoEOe36ff19G14K5rBrAzBZZKrEMHrsdeStcLdzVvN2YeG2FLTZ3NCBi
+    gfBwLTNT1rNuJojArpBPM6KBHpkN91LqaYxT7-9UkzSWyAD>
+X-ME-Received: <xmr:P6eiakU30djSYEV-ER9lPmA2lEYrJyvtVr6WfxPpr64LtYhmz6V8UJExBZM5L_1-da8ouLiwJCDS9snyVRHdxjCT8DdEYR05c8JAQR2eSYc>
+X-ME-Proxy-Cause: dmFkZTFKKiM4dyM6zauEw8A7kaHIbwivS0cEwiKibpIDAHKepDSn11kfRGIkXb87PHeDz8
+    UzfehcInsnAxCHgXmDVsOKH0vO1It6FnI+wNZ/8JExs+2XooLq1draESBhVSOftLbgQpkA
+    JOlX8X30k4nXfwnAOHxnMkznyeocH0x5iiAwBQ/nKk/+X8G4R53Z/JHt16QRS5/qF0MjhK
+    eEflwQfkRO4mk/2ha4T2WZmSGw3lM20TF6x0DWgw1+3WspZoP6mgWlkvlmv7pEqFSkrx7x
+    VMc5hRBR7bpTLBsAMNiGYtw5U05GCCswooQD6ohBo6lBbHfLSebqWVDqWQw3801RDjv/t9
+    dr5HCk1K1hR8eHK5MihF7olfo9zf07rLhxNzEnFqm+2CdpkSVOiQsc5Ay+LZToDIpBEL9e
+    coKIkR4K0QUsHas0mzRbo2/DC7KWXudvnumG+wwuCVbO3B5yyr2dAFe9jm2jySq17JcKew
+    yFBwXJVUaxKXtndSAv3WAIpFE6pY76WJwIqyXhq1JjNogQ/wfmcD973aKH1DOJgthsKGu7
+    94Ww+aG28Qtsx15CKhvTA2/xq9udsfc2PEQe8bSGoQyOuTOf/VFaClpYgWwQwHMiKoEf9S
+    Qhe4VT8I2bi6NjdQ5D6Z1Pn2bZGAci6Vq/hXKYOU6uh0S1R9s+IfWmz5kmLA
+X-ME-Proxy: <xmx:P6eiaqDYR8Qjlf_6HHEY8FTNNGm_lktZdmrhsQwGuRMupdxCb7TXaQ>
+    <xmx:P6eiajw0bbeg5dSpK1iPljOosYNF_1gGp9-nBOX9USItSiWpXNz5Gw>
+    <xmx:P6eiagYaHIAbYsCaJTrd0uu_LyfEyNgZdkKnqtu-3gCauA5jOjVOtA>
+    <xmx:P6eiagRQsnmMCcsr2jDekJtUliorOjOrVF2QJUJMvQhmxKLoczTlzQ>
+    <xmx:P6eiakjwHgAGCO5aUV1Z5fBmpWoklUY2-rkvGqVkIxyfbf3GzTgf7UiH>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Sep 2026 08:49:02 -0400 (EDT)
+Date: Thu, 10 Sep 2026 14:48:54 +0200
+From: Greg KH <greg@kroah.com>
+To: bolewara@gmail.com
+Cc: Chas Williams <3chas3@gmail.com>,
+	accessrunner-general@lists.sourceforge.net,
+	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+e4b1171e7c5ae2556f9e@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: atm: cxacru: stop polling on device shutdown
+Message-ID: <2026091037-rosy-cardigan-e5ac@gregkh>
+References: <20260804-usb-atm-cxacru-stop-polling-on-device-shutdown-v1-1-d7fd757cee31@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -97,85 +85,43 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909-xhci-fixes-revert-v1-1-7cc97fa0f307@oss.qualcomm.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDE1MiBTYWx0ZWRfX5JTzac/oJwc3
- JBxyQ8DKf5AcpeHZ5fSI2cfpd/mrc1+y0jgaUukQDLDJtKMGisrlZAF6lENDcnRS7VSkMMf3qPE
- lYQ0VjKC9M/l2sS3Jlr9XlfkkgNRCKs=
-X-Proofpoint-ORIG-GUID: OIvPVG0eD7ZnmKt3OVj7tE1Qu2KTeBSN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDE1MiBTYWx0ZWRfXwAzuUtqjFK8s
- aZTrTjlli9C9/3st0HFdioL5BBy7cIMBFlPXExuFYYyN7qDNg/Pp2qer3t7MdyBDKUG3NvC2eki
- ad0J/JOokGmBSC+CEL325oBQ/OZTIpP/sfb5/RXKileD/j9ombtr0GIk2jZo5xigdwZNvmFIDOx
- HqP0EVzxg6govuIFfc64zuHMGQEoxLYy70m82PR75fjonKlQo15IfTAWMgaImxtzJxch2kxm83O
- jwmPNPM0sgfFI+IbQga54dsmAhkMhBEbpmlbQjHlmqPI3S9B+GLpCMbPc2cAMIU873otq7tTDzY
- 4sK1my4SiNxFDIPpaUsrv+JPUfJGUinns4dR/6IhRvCSC2sFsxiKY8gC2pZJfdK6Xz6YflTA0Ce
- HAUgyAp6hjl+g45RwN/EGcOie8M1VzD4g8fTqMpw5yqg1GLoOfTBziTDobnrYpQrsVJfFc1GKBL
- wsbB8ajdeDtmtegOoSQ==
-X-Authority-Analysis: v=2.4 cv=H5pOUOYi c=1 sm=1 tr=0 ts=6aa2a709 cx=c_pps
- a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ZHuVh4Jgrl5pHFg6gWUA:9 a=CjuIK1q_8ugA:10
- a=rBiNkAWo9uy_4UTK5NWh:22
-X-Proofpoint-GUID: OIvPVG0eD7ZnmKt3OVj7tE1Qu2KTeBSN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-10_04,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100152
+In-Reply-To: <20260804-usb-atm-cxacru-stop-polling-on-device-shutdown-v1-1-d7fd757cee31@gmail.com>
 
-On Wed, Sep 09, 2026 at 03:19:10PM +0530, Krishna Kurapati wrote:
-> This reverts commit be7b1c68cd3e4fc0f5a4e1b85696de1052f21f2f.
+On Tue, Aug 04, 2026 at 10:28:36PM +0530, Anuj Bolewar via B4 Relay wrote:
+> From: Anuj Bolewar <bolewara@gmail.com>
 > 
-> Commit be7b1c68cd3e ("usb: dwc3: qcom: Add support to skip phy management by USB core")
-> is causing a regression on qualcomm platforms.
+> cxacru_unbind() sets poll_state to CXPOLL_SHUTDOWN under
+> poll_state_serialize and then calls cancel_delayed_work_sync(). If
+> cxacru_poll_status() is already running it only stops rescheduling when
+> it observes CXPOLL_STOPPED; CXPOLL_SHUTDOWN is ignored, so a running
+> worker re-queues itself. cancel_delayed_work_sync() then returns while a
+> delayed work is still pending, and the work fires after cxacru_unbind()
+> has freed the instance, causing a use-after-free.
 > 
-> During role switch it tends to cause the following crash:
+> Treat CXPOLL_SHUTDOWN like CXPOLL_STOPPED in the reschedule decision so
+> a worker that sees the shutdown state stops polling and cannot re-queue
+> itself after unbind.
 > 
-> [    5.620951] refcount_t: underflow; use-after-free.
-> [    5.621114] Call trace:
-> [    5.621115]  refcount_warn_saturate+0xd8/0x140 (P)
-> [    5.621117]  kobject_put+0x11c/0x230
-> [    5.621121]  software_node_notify_remove+0xdc/0xf8
-> [    5.621124]  device_del+0x1dc/0x328
-> [    5.621126]  usb_disconnect+0x1d8/0x348
-> [    5.621129]  usb_remove_hcd+0x100/0x2a8
-> [    5.621131]  xhci_plat_remove+0x8c/0x170
-> [    5.621134]  platform_remove+0x28/0x40
-> [    5.621135]  device_release_driver_internal+0x174/0x290
-> [    5.621138]  device_release_driver+0x20/0x38
-> [    5.621140]  bus_remove_device+0x19c/0x1f8
-> [    5.621142]  device_del+0x1c4/0x328
-> [    5.621143]  platform_device_unregister+0x34/0xc0
-> [    5.621145]  dwc3_host_exit+0x50/0x70
-> [    5.621146]  __dwc3_set_mode+0xa4/0x378
+> Reported-by: syzbot+e4b1171e7c5ae2556f9e@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e4b1171e7c5ae2556f9e
+> Assisted-by: deepseek:v4-pro
+> Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+> ---
+> cxacru_poll_status() reschedules itself with schedule_delayed_work()
+> unless poll_state is CXPOLL_STOPPED. cxacru_unbind() sets poll_state
+> to CXPOLL_SHUTDOWN and relies on cancel_delayed_work_sync() to stop
+> the worker, but a worker that is already running when unbind starts
+> never observes CXPOLL_STOPPED and re-queues itself, so the delayed
+> work still fires after the instance has been freed.
 > 
-> [    5.644535] Unable to handle kernel paging request at virtual address
-> [    5.644657] Workqueue: events_freezable __dwc3_set_mode
-> [    5.644664] pc : __pi_strcmp+0x9c/0x140
-> [    5.644668] lr : software_node_property_present+0x60/0x98
-> [    5.644697] Call trace:
-> [    5.644698]  __pi_strcmp+0x9c/0x140 (P)
-> [    5.644700]  device_property_present+0x9c/0xc0
-> [    5.644703]  dwc3_gadget_init+0x230/0x7b0
-> [    5.644704]  __dwc3_set_mode+0x314/0x378
-> [    5.644707]  process_scheduled_works+0x1b8/0x538
-> [    5.644710]  worker_thread+0x1fc/0x2f8
-> [    5.644711]  kthread+0x114/0x148
-> [    5.644713]  ret_from_fork+0x10/0x20
-> 
-> Revert skipping of usb core phy management for Qualcomm platforms to avoid
-> the above issues.
-> 
-> Reported-by: Val Packett <val@packett.cool>
-> Closes: https://lore.kernel.org/all/f9926203-ee69-4e18-b6c7-95261ba10807@packett.cool/
-> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+> Treat CXPOLL_SHUTDOWN like CXPOLL_STOPPED when deciding whether to
+> reschedule, so a running worker cannot re-queue itself during unbind.
+> ---
+>  drivers/usb/atm/cxacru.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-It was causing the  issue on Hawi too; revert fixes it.
+Did syzbot ever test this?  I don't see that in the link above :(
 
-Tested-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com> #Hawi
+thanks,
 
--- 
--Mukesh Ojha
+greg k-h
