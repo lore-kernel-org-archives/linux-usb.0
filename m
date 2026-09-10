@@ -1,37 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CC4495047;
-	Thu, 10 Sep 2026 13:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B598718859B;
+	Thu, 10 Sep 2026 13:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789047451; cv=none; b=Qw/bzEifGHyZsX1mv1fvs/pyLXYhLAx+dlQBjW72ogdHtAdxLuRHEvtY5pP7sHeLfql7BRyQOyw4TEmiBgtzOqxzmiO6dCsb6B7GVzHAYPmlvR9zH2aWaWB03uENyRf63xqO5lzfXaabi6QVXDLKE7yCSJGrfMwDLxATfLVciHc=
+	t=1789047498; cv=none; b=eMkndScWA3lbh87myc637A+lX/zGaSrDzzJZ1aGbt1jAqD4TZOR0LrQzOfZbbcBO+ezwhL6XaKSKAEx860FeSy9jyb6aVzS2BjFdSnkyO6Lg11Bxc7mqJhGjv7qPJcQCAEyMjVZd6yICYCXcvdEAjwnNSnw5zWq+YyGEv44XeuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789047451; c=relaxed/simple;
-	bh=3qQIlrKTVXNwRUe+zvROS/6qPifGmLudF4Xf7XwsnjQ=;
+	s=arc-20240116; t=1789047498; c=relaxed/simple;
+	bh=KERzQXu4AuOB8o41LGXwQ6MDdb42/46HViF8vTcqx2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TC+sJXqSBBIBNreu4dUVWzRJZPUHT/YMUDVfF6H3uvzKTv1eud7HgOh0GXnnyjXh/f7gD0V7HuhHpbHQn2metrQvTFcE7N/PXAvlTzJZ6wlcVuUOgcueW557BmqrE3L0FzPO44EgIjxBjj4lmLeioOG8jf9uazDHocLgU3blOqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MxPTNwiQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tx9YpLeQczu8gPt/u2cZB62TCpohMag+7Iuu1Ub9mWVXGbOBdLT6Dq3KUJQhnhGYVPlQnZUfM4lFFMdl/BgRzVEFfLc6Ti3n57PYVVeiwwyx/hBlNCpnjIZdo6WbzcruelBQ0aRAuxIyruO8QilyvXzs+OybEE3H85ml0/eAQjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xsNrvoCs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MxPTNwiQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 732261F000FF;
-	Thu, 10 Sep 2026 13:37:29 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xsNrvoCs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C24CB1F000FF;
+	Thu, 10 Sep 2026 13:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789047450;
-	bh=73NdsiSzx2IC1jJoyJd2c/TUGnOqFWmUTE19FcPsK4I=;
+	s=korg; t=1789047496;
+	bh=IXBSAOGIh6jCZvCkv9yCum8ZJroML+LqgNj3BgTtpxI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MxPTNwiQU4ixRQyds5mzBluhLRwTqS5fmkNwnhcMGfvfWSIxi1Zvi1HhmTcFuIGJV
-	 VqAxuwqgLNdq0EF/CbsRtGdw78XH2v2zsyCVQORvxerNqsUVOw5aLqFzfDvjYD/HMI
-	 pKzuLCIxJjHgqV5dIVQe/CytY0j9Kcy+IppgDMgs=
-Date: Thu, 10 Sep 2026 15:37:22 +0200
+	b=xsNrvoCs9Ftw5+cXXa+IjekEtsA6YzktE0MZJSCvJtXliyEzc6/DT/+fV33QVUdc2
+	 W7UGTKGoHLg1MucSEEoonFQOfEExOoSj6h4fbOGOzlJG4Ip2WbRgir5VW++FBCcHDG
+	 L13Wj+On8GsdLvIp+T7d8A4WHlexX2oUAitBXOmU=
+Date: Thu, 10 Sep 2026 15:38:08 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: gadget: stop propagating controller OF nodes
-Message-ID: <2026091014-untie-reshoot-d251@gregkh>
-References: <20260702145350.109509-1-johan@kernel.org>
- <anx-7aOxjC2Hinxu@hovoldconsulting.com>
+To: phucduc.bui@gmail.com
+Cc: Peter Chen <peter.chen@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-usb@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Sashiko Bot <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v3 2/2] usb: chipidea: ci_hdrc_imx: Fix error handling
+ when creating IRQ name
+Message-ID: <2026091054-preflight-capacity-e7e2@gregkh>
+References: <20260810093112.47807-1-phucduc.bui@gmail.com>
+ <20260810093112.47807-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,33 +46,65 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <anx-7aOxjC2Hinxu@hovoldconsulting.com>
+In-Reply-To: <20260810093112.47807-2-phucduc.bui@gmail.com>
 
-On Wed, Aug 12, 2026 at 04:10:53PM +0200, Johan Hovold wrote:
-> On Thu, Jul 02, 2026 at 04:53:50PM +0200, Johan Hovold wrote:
-> > Some UDC drivers propagate the controller OF node to the gadget device
-> > but there are no (and has never been any) users of this as the
-> > devicetree binding and composite driver support was never merged. [1]
-> > 
-> > Drop the unused and incomplete support for OF node propagation which if
-> > ever needed should be handled by UDC core.
-> > 
-> > Note that this also avoids probe failures when reusing an OF node that
-> > describe resources like pinctrl that are managed by driver core (cf.
-> > commit 48ed32482c41 ("usb: gadget: aspeed: Fix probe regression")).
-> > 
-> > Link: https://lore.kernel.org/all/1340720833-781-1-git-send-email-aletes.xgr@gmail.com/ [1]
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > ---
-> > 
-> > This was something I stumbled over when fixing a couple of gadget device
-> > name leaks. This one applies on top of those fixes:
-> > 
-> > 	https://lore.kernel.org/all/20260702141536.90887-1-johan@kernel.org/
+On Mon, Aug 10, 2026 at 04:31:12PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> These fixes are now in 7.2-rc5 (and usb-next) so can this one be picked
-> up for 7.3?
+> devm_kasprintf() can fail when allocating the wakeup IRQ name. The error
+> was logged with dev_err_probe(), but its return value was ignored and
+> probe could continue with a successful return value.
+> 
+> Store the error returned by dev_err_probe() in ret and jump to the error
+> path to propagate the failure.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Acked-by: Peter Chen <peter.chen@kernel.org>
+> Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
+> Link: https://lore.kernel.org/all/20260806065755.C9F361F000E9@smtp.kernel.org/
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+> 
+> Link v2: 
+> https://lore.kernel.org/all/20260807065619.30604-2-phucduc.bui@gmail.com/
+> Changes in v3:
+>  - Use the phy_shutdown label instead of err_clk as suggested by 
+>    Sashiko's review. 
+>  - Add Peter Chen's Acked-by tag.
+>  - Add Frank Li's Reviewed-by tag.
+> 
+>  drivers/usb/chipidea/ci_hdrc_imx.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
+> index 9e529398c607..edbf9df9b8f2 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_imx.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_imx.c
+> @@ -532,8 +532,8 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
+>  	if (data->wakeup_irq > 0) {
+>  		irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", pdata.name);
+>  		if (!irq_name) {
+> -			dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
+> -			goto err_clk;
+> +			ret = dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
+> +			goto phy_shutdown;
+>  		}
+>  
+>  		ret = devm_request_threaded_irq(dev, data->wakeup_irq,
+> @@ -541,7 +541,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
+>  						IRQF_ONESHOT | IRQF_NO_AUTOEN,
+>  						irq_name, data);
+>  		if (ret)
+> -			goto err_clk;
+> +			goto phy_shutdown;
+>  	}
+>  
+>  	ret = imx_usbmisc_init(data->usbmisc_data);
+> -- 
+> 2.43.0
+>
 
-I'll take it now, thanks.
+This patch did not apply, please rebase and resend.
 
+thanks,
 greg k-h
