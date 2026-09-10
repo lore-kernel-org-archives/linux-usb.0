@@ -1,248 +1,107 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013061.outbound.protection.outlook.com [40.107.162.61])
+Received: from outbound.st.icloud.com (st-2006g-snip4-11.eps.apple.com [57.103.76.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EA04CCDE8;
-	Thu, 10 Sep 2026 16:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789057125; cv=fail; b=Fyo0/AgLkLnsq12c8H344SRU9BxCm2sUBAdcjpNV5MCsc7hteJ8QGLkOt1T9kTqx7PmRLc/Zmps1Cs+aJ5u3LQaOM8SCyCMXCEGgQL72GlhhwjNqeF6wVoqbcT9tTqmi4HgAKbrUzIKHGnCbLRlUGk1R/360z+sRcSNN+torH48=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789057125; c=relaxed/simple;
-	bh=31xKCLLrIIBlVu9j9ChMFU8XTNbXbuN1K4ik3zymyUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gzAsBOc+k0PNlz2fGpYAJE6oXQ9uhHBR671W73CgONknvMho7Vl8HGQBEd9UbUheVqh4Da+gq/AaXtfDCDtJ47R1fMfEsurxGnx6IP136EW0Iduy8vN00+//GmIGXJ+6BWGdr4eqQMno9GBJiVn4PQ4Sl/4BCtlj+VgUFoAdwws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=EzPY8qGC; arc=fail smtp.client-ip=40.107.162.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A303C4E13E7
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 16:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.161
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789057597; cv=none; b=otaPdXzkYoNTmVw85RR5mPy4LcAg5e//ail1WVqoAJjVwvDPLOW+4Ek6fpHkxzRRthzC+2hNVNQrbcrBXiB90N/7ifQRfBONgHwZcu4gohTXUmvxSAVaOcvO4B0vt2Ut8ArG6mo1ezSOCcyi7otp/tsUVX/me2TTfDLxPElP4r0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789057597; c=relaxed/simple;
+	bh=fiqkf6675GNm7nhttV5qagPYP8x3fM05twA0PEOC/bU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q/v8/RqwvVJpXinI456SQICJ/f05+m1O59+f3p3VNjlCC48wHdcRS6KAGLozPhFa3/okD4l6tYn8h5QqtSJXeMlCuCgZptnE4FQ+mU83i3RTlVPpABKOMaD/8AlyWlPeqYv04PkSloz7jFo32hcWLzlZ1v4ficgOT01wUMSfryw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=Bd6p7TO+; arc=none smtp.client-ip=57.103.76.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="EzPY8qGC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EcCfDH6iLhVzdrERKmRo3aWr6AqmIhmnqwMk9pJurqhYVp8v/TRQWAWhHPiJhRZ+0T5cD3/f54UDxu81mn+T1garkOgHkdLhI2IvriXWZTMD/smhclbR5z9lemkjg1+JJZLQRX7XBW5I3f5UMji3e1A2qDu4n6VJ+hH5guOsguVgZqmHvXboFirzZohqbhIO1NcLiVGB8ynUHj+VOFgjcjNe0nWrhzrchPSjzE/sypkGpre+JLBmauZpPeCMXuHOQYzobCMd5fIOEseN4gIYqhVTiprx7Gws/+i7BPfP56CRThLy9lY7sHkUudOpx7iKtunPOc0b/8Ov496k0fMkRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XlGmQIimNNv0zNQkUs5tyS2Zt6/GWcnEpjM3m+LZ9Zg=;
- b=pUcUp4r3DEvPMK32PAuijq0EJGsRU9bPzm+faLE7qb+2l9oBQ6b4sAMLz9sF+0kc8UGrh1Axpve2iYsh6GKq92QldOLbvIsTWJ5Ahr7WkbTMGYwRKSREh/lszy14bHrrMHpyHmoF0yhWxwW3v2AjXVL3ZJtyo8gwVAhQjYSEI/gEpSyLmQmz21BfqIYE2PlM5kTzDMvhidfmUJJzRhQiGKeBOwvpbJHK2OBphX3DgdX6iicwCs2gmMT8oYq685I3+99XMESDdMcF33aXOZ8HWCX+p+TL5rBCn7nH/ao1+hN20jadIeZmXH8dTG0m2Dgl3IuaFVyC0Fuhz2ER7dNysw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=nabladev.com smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XlGmQIimNNv0zNQkUs5tyS2Zt6/GWcnEpjM3m+LZ9Zg=;
- b=EzPY8qGCs2wXC6OQzA/rqgz6IFnxcQOuW8feXumVGIkojoQEK6uWZkugP9bel7Ry5XhBaqT1qvPLqAf+MbQn1V+A/AN++rwydEJH3m4WLhAwEGoZ/ji72seOrxGqiXOw/5zDRvvhajM0ioAgr+Z76HsQsjMrBKUhwC6sYTavg94YFvkq1N968QdSIaNIYJ0tSqKToPta1q18BEV6ThJ7aW+6KlZG2I5WWNWCkdV6WItyQzUz3lCCyPiDI1mLdscPyWRTk33xdQ/qYBqXebGPFatHvppQXv18MSAaJlUqa943W7/o8jCAdebgWinU4f5ti1UMZrRy2BjMw4jc3NTd4g==
-Received: from DU2P251CA0028.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::32)
- by AS2PR10MB7021.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:59b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
- 2026 16:18:35 +0000
-Received: from DU2PEPF00028CFF.eurprd03.prod.outlook.com
- (2603:10a6:10:230:cafe::2c) by DU2P251CA0028.outlook.office365.com
- (2603:10a6:10:230::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.9 via Frontend Transport; Thu, 10
- Sep 2026 16:18:34 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- DU2PEPF00028CFF.mail.protection.outlook.com (10.167.242.183) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.5 via Frontend Transport; Thu, 10 Sep 2026 16:18:34 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Thu, 10 Sep
- 2026 18:24:36 +0200
-Received: from [10.48.86.251] (10.48.86.251) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Thu, 10 Sep
- 2026 18:18:33 +0200
-Message-ID: <ced0e0f8-c077-4329-b7cc-4387ab415d27@foss.st.com>
-Date: Thu, 10 Sep 2026 18:18:32 +0200
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="Bd6p7TO+"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-8 (Postfix) with ESMTPS id 3F98B18001FB;
+	Thu, 10 Sep 2026 16:26:30 +0000 (UTC)
+X-ICL-RepId: 01a08c24-6781-73a7-bb8e-f166ba5482f9
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQFKHVsARQRGF0oCWhcOVk1THUEIWhIcE1gKQQxDK1sTVRdGCRkIXR0ZHldQXgheH0wcHQ5YBhICWkUGTV8OXh8EF0YZVQRHHl1WQBkZAlEcVg1XQ1QEX1BJDEFQbFoARxdIHV0ZWW9QXRwOBFQHXQVdVlACWktfGV1FD18HWQRAAEkDXAFZBEAAVgReAFgfQRQSVh9SBkteWhlBH1YfchlaFFwYU0VRH1RGExlOG1dNUBtfAkIP
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1789057592; x=1791649592; bh=CedLZi6/DYp20wds8zhzkpptm7bu2Nic8V4Hjcg/RYs=; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=Bd6p7TO+NiCj/R4jxkU966WagkwUUXEraYzb1kvSh4GARSS6x04NmQqaYiAGb9efNnynVzopcST0IGI2fJmrEs9vMuZ6F7MSulZ3ewNsHSdgDOVqwL73n2OTQD9GY+RLoyJNhYsOndbukQaiNhL//0sCbTR3+5WU/sH3JSWdNdwei1buPwuztuVamvBEWP22jPcTzl1I38oNohpQ294kEAnN+wWlrxRi7wTqG+wF9HECgIy40x140pc+fRRz7mx6LQKrWooGJGZrzWOWlGfz7aWOzsLjCErNpSfAWdyyvZPTjJjk4V9HON4i2ZQ0g5f8mX/+hn+Tzgc5Ce+N7vVrUA==
+mail-alias-created-date: 1412714464000
+Received: from bazzite (unknown [17.156.216.30])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-8 (Postfix) with ESMTPSA id E40DA180018F;
+	Thu, 10 Sep 2026 16:26:29 +0000 (UTC)
+From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Carrat?= <jeremy.carrat@icloud.com>
+To: johan@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?J=C3=A9r=C3=A9my=20Carrat?= <jeremy.carrat@icloud.com>
+Subject: [PATCH] USB: serial: cp210x: add Corsair AX1500i Power Supply
+Date: Thu, 10 Sep 2026 18:26:09 +0200
+Message-ID: <20260910162609.7373-1-jeremy.carrat@icloud.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] usb: dwc3: dwc3-generic-plat: Add ST STM32MP2 DWC3
- xHCI USB controller glue
-To: Marek Vasut <marex@nabladev.com>, <linux-usb@vger.kernel.org>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Conor Dooley <conor+dt@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Rob
- Herring" <robh@kernel.org>, <devicetree@vger.kernel.org>,
-	<kernel@dh-electronics.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>
-References: <20260910052340.246717-1-marex@nabladev.com>
- <20260910052340.246717-2-marex@nabladev.com>
-Content-Language: en-US
-From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-In-Reply-To: <20260910052340.246717-2-marex@nabladev.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028CFF:EE_|AS2PR10MB7021:EE_
-X-MS-Office365-Filtering-Correlation-Id: 596af608-397d-460b-c033-08df0f5729d5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700016|1800799024|82310400026|23010399003|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003|6133799003|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	eed0GDtw734op/yOSD3vaFdfIiJKhU8L1xcZymP+z0XulC3P2O9nXDRrQG9ZBMzJFikFNZsFJpmnp/3WZ254eVNRf+/ZgnWm8fb6rjDVsXD9MRL7x5WsIkOGOl9E9ESRkN0TdW0DO2vRV+kzRkS6gryiDiMM+erYLO6aCxwbCel/cW5JKmHF2ckYKhXecA0r63ER5V3+OY/PUSj113Zv84X1/9XyLc20Y0sSq5kFbagQLUeg4FYHSCIyy3grEBN4k4UJq4Y0mKXadMO13/G0M/APYT0msuhlu0LIO46xl4kr4Psk5oibOrRr8GtZfh3eNDWqIWjZnpZ5IkhoqnmvNi3eVCJ2NE205ENxmG9+z9ApJvNjm4Kb92qL0oFEghN/qtyCei6uXUloAP0xNhjS28Lgj11qHJDzzCJld2XcgOtKiFpil4RYLu3x/34pf/WvTR84wZ8930cbGp/tqpSlaSGjvz4zLHhgIv+4xZNvdVPCnU0v631FC7qNzEXHcy573hymb+DW3W90/DH+F83mpcQz7TGJo30WI5+LuOGfKj30VxPlAWF/eB/p5l/+gutBWK+UyZqXfE9yzuQWmAnn/D7/+k+vZY7xi42pOfROxXfmZ12GSXFRnk6NfTFrzuJ1WXBY/nohftMk38C39gblKcuKUlzP661P66eVKmeKfIMxdzmGGNlgHhEpmsAjAFFwbJk933yl73v7dbYXd41l3w==
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(1800799024)(82310400026)(23010399003)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Z4HNUdDPxFzwxr5e72N47tzHBVCIOh1wYmo7rcbCsYi+Gicblmg3mI+cN1L+gRkLm3sBmhOkZVofKqJSe3c0m0EMltxj9Jfqae9PvVrm0PYZ2pHrOdH5y4E/nLuL5E51EePjK61xxbOs7jLrmtH4Fn14V24lQYEFfoFaJZiZyh2obkDxaj7K6AcmKubZTy+6I6WYaX4gctRl5SOVOAZuzm/FLf4PGesEfSLo3c4bwcC4ak1yFbEqSFMNdTsE/XCgoZCPXPpRj82YEjAzVB+8aTn0YVgd0QiujVqxmHa+AV5orGBmvBb0FgBZPd+TNwzn6auRzCx/0u8sfUdWuV+Tq1Xbw6+11Vcwa5iSoimoox2RNOiLS21DzIT8LK/HMGDn7Qs3Whq/kIqb6uBKCtlCKSXO7C7PcBA4N9HEBeLKGw7hoz9viS9QSKl+ao5rNO6u
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 16:18:34.7186
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 596af608-397d-460b-c033-08df0f5729d5
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU2PEPF00028CFF.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7021
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: O2a3o71c_h5oiAOOnt4_Nz_RdN6L-JDZ
+X-Authority-Info-Out: v=2.4 cv=auW/yCZV c=1 sm=1 tr=0 ts=6aa2da37
+ cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
+ a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=M51BFTxLslgA:10 a=x7bEGLp0ZPQA:10 a=SdTBC3XCTZEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=v3ZZPjhaAAAA:8
+ a=u89meySVsq_JGV0VyUEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: O2a3o71c_h5oiAOOnt4_Nz_RdN6L-JDZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDIwMCBTYWx0ZWRfX1ymULZdhinB5
+ 175LMbjbB9AE53KacfjaRz+zPvnIxvZ3sDfUwAkXXn02YifE8GZYpduRcMjUMV/OUDoAHNldGUd
+ wLx1ZSNTL3tkoJc4Dht5VcZ5hhTkF7oYP8zbUtqhs78llCAkOVs453TGKIP9+ISPu+YQ5J7uDim
+ 3q4rCtXzleN5OdVSzX3HT2EkmkhD2+JWqoABfo9vF5rObHvsr81t220VVuh+KE79NgUHCTB5yGr
+ JiYbT1FOOXqvDxLdSQtlVf83c+JIRY007ZwInxbZUSM1tfopEmsA6D32luCBQf8NGPYacbIBSvH
+ ayo8MGe8Qr1I0CBTbjRlRXDL9rVf7KO9DiiyGLUvM4TiGT5UoCdpnGGPZa3EtU=
+X-JNJ: AAAAAAABjXDBPcJavW4/YXYMejBzyubKGgG1R/oQshXzBTwdfOMwKirr0vYJKvIQlteJ9U9FGLKsOQL40g5Xxw5ybbLhwcbEeh+XWAoPSV5zO63yLZ16PpXRGUsVfYYu4cmUDY2/rYZbhB5eH60xC1Q5wqgegIkoZG7J9AirijeIACH+l7Nn/HlaW4zSNZvifOVMGetbAumuEr7oYCdBWRIkbJLCTHFD3CiMsTq1d0zLoXMBvvK0GNwvzqM/PhqdGf8Cd8BBSC/dPWuVcAJTqdxm1SMD0Ad+G2f4JTDRx4/W6YKQrs+ut0wxpWO8zCbAVDS6T+RY/204xJPOCXBXrmuPz74eEnw/NBVvSbhPNJbO89gn0Do2pIlrN3ksjG7cDVSX41MvikBm4QNjcDWVd1Zu8JQ3gBuWlHWvB02AhF8NjghnKvCYlnU7VE6x3x8urexIRZOQIpmmJBJWGlmLRtHiKWqZlmUMGHGgBjJlEah12K+ELtZmyQioU8XrPNhDePQM32V6kHZ2BnfeRKbhZ7jzLb2eo+/wjHaALoHb6OAYyB+bduO5aJsIH8712YRpp7VDE6n/rENIr6qtlSMhJr97FZz+ZIoy1g9cKyruJQnbzshsFj07oJmBsxv87b+1F3YRXaBf4PXZ19pRKPX8VbEA+OoHBMSug5mJJRbvlAPsFmPm/1v/Uh9q60yihjzcerWa6Gs9GgpuZyqM1XU0W1+RosrjLCpHF+kHE83W30FKx+L6mDSKRihbhmD6xhNAVSTo5LMdkaqoaDBUwid4yYS9+nmH70PEZU5UDOLweXFAEUfx3iCTfz/ZWA8dxPw9ixi1OKa8SzH45BAuJN9UOmAJWF01E/shyx+peTpZNUAg5Yi7m92YARVAFtq4gYIC1wB8T4bPYxfXFIBgu86Hhq1lzF9ntVEKZnyY2DwhuAtr3/YHunsyOdMwCKb6TnxKkGgQ7QH1aOkJBz1XwTuKaF966TlEXI0
+ L98P4iJDbAvob69owehPFeXZxwP7EzBUJPfyB5N7RnochvvWgvaMzYPgwL3OuaONbrOeY6IcsFjjAByq14fAOtSuqZS0Es5NyoBYq2QXxLYhCob6JEFi9xwXaj8zueJD1KwdiyBRu8ENdEe9mVmN8c74idxzlsnXnR8PYGBKRmU8CcHuWXEImwN+YDzsU/8SK+Xw/8OyiuNq5aH+Gf2Xpp62+2yDKDGHCkdB9NAMjtaTMPRD3sqMD3L0jc40ZL71huooHNV915fkaUixJWwejPphu20nGmqYQvGMuYQX5diXu
+X-Apple-Category-Label: MTAxOTExMTg0MDokY2F0ZWdvcnkkX1BlcnNvbmFsLA==
 
-On 9/10/26 07:22, Marek Vasut wrote:
-> The ST STM32MP2 SoC contains one instance of DWC3 USB controller with
-> glue logic wrapper around it controlled by syscon. Extend the generic
-> DWC3 platform driver with ST STM32MP2 glue logic specifics.
-> 
-> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Signed-off-by: Marek Vasut <marex@nabladev.com>
+The Corsair AX1500i power supply exposes its Corsair Link monitoring
+interface on a mini-USB port through an on-board CP2103, using a
+Corsair-specific product ID. Without the ID in the table no driver binds
+and no tty is created.
 
-Hi Marek,
+Tested by forcing the driver association with
 
-You can add my:
-Acked-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Tested-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+  echo 1b1c 1c02 > /sys/bus/usb-serial/drivers/cp210x/new_id
 
-BR,
-Fabrice
+and then setting the serial port to 115200 8N1. Adding the ID is sufficient
+to talk to the device: the tty reaches a USB-to-SMBus bridge sitting behind
+the UART, which identifies itself as "USB to SMB Bridge (Firmware by Ross
+Fosler)" version 0.9 and relays PMBus reads to the power supply controller.
+Input voltage and current, input and output power, internal temperature and
+fan speed were all read back on an AX1500i.
 
-> ---
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Marek Vasut <marex@nabladev.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: kernel@dh-electronics.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-usb@vger.kernel.org
-> ---
-> V2: No change
-> V3: - Use generic over-current-active-low
-> V4: - Include bitfield.h
->     - Split this from series arm64: dts: phy: st: usb: Add STM32MP2 USB support
->       https://lore.kernel.org/all/20260822074816.548662-1-marex@nabladev.com/
-> V5: - Reorder usb2only_conf to improve readability
->     - Drop superfluous !!
->     - Add AB from Thinh
-> ---
->  drivers/usb/dwc3/dwc3-generic-plat.c | 46 ++++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-> index ca69ac0eb07ce..2dce1f24615c8 100644
-> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
-> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-> @@ -7,6 +7,7 @@
->   * Inspired by dwc3-qcom.c and dwc3-of-simple.c
->   */
->  
-> +#include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
-> @@ -22,6 +23,12 @@
->  #define EIC7700_HSP_AXI_LP_XM_CSYSREQ	BIT(0)
->  #define EIC7700_HSP_AXI_LP_XS_CSYSREQ	BIT(16)
->  
-> +#define STM32MP2_USB3DRCR_HOST_PORT_POWER_CONTROL_PRESENT	BIT(0)
-> +#define STM32MP2_USB3DRCR_OVRCUR_POLARITY			BIT(1)
-> +#define STM32MP2_USB3DRCR_VBUSEN_POLARITY			BIT(2)
-> +#define STM32MP2_USB3DRCR_USB2ONLYH				BIT(3)
-> +#define STM32MP2_USB3DRCR_USB2ONLYD				BIT(4)
-> +
->  struct dwc3_generic {
->  	struct device		*dev;
->  	struct dwc3		dwc;
-> @@ -85,6 +92,39 @@ static int dwc3_spacemit_k1_init(struct dwc3_generic *dwc3g)
->  	return 0;
->  }
->  
-> +static int dwc3_stm32mp25_init(struct dwc3_generic *dwc3g)
-> +{
-> +	struct device *dev = dwc3g->dev;
-> +	bool ovrcur_polarity_low = device_property_read_bool(dev, "over-current-active-low");
-> +	bool prt_pwr_ctrl = device_property_read_bool(dev, "st,enable-port-power-control");
-> +	bool vbusen_polarity_low = device_property_read_bool(dev, "st,vbusen-active-low");
-> +	bool usb2only_conf = false;
-> +	struct regmap *regmap;
-> +	u32 drcr;
-> +
-> +	if (device_property_match_string(dev, "phy-names", "usb3-phy") < 0)
-> +		usb2only_conf = true;
-> +
-> +	regmap = syscon_regmap_lookup_by_phandle_args(dev->of_node, "st,syscfg", 1, &drcr);
-> +	if (IS_ERR(regmap))
-> +		return dev_err_probe(dev, PTR_ERR(regmap), "No st,syscfg phandle specified\n");
-> +
-> +	return regmap_update_bits(regmap, drcr,
-> +				  STM32MP2_USB3DRCR_HOST_PORT_POWER_CONTROL_PRESENT |
-> +				  STM32MP2_USB3DRCR_OVRCUR_POLARITY |
-> +				  STM32MP2_USB3DRCR_VBUSEN_POLARITY |
-> +				  STM32MP2_USB3DRCR_USB2ONLYD |
-> +				  STM32MP2_USB3DRCR_USB2ONLYH,
-> +				  FIELD_PREP(STM32MP2_USB3DRCR_HOST_PORT_POWER_CONTROL_PRESENT,
-> +					     prt_pwr_ctrl) |
-> +				  FIELD_PREP(STM32MP2_USB3DRCR_OVRCUR_POLARITY,
-> +					     ovrcur_polarity_low) |
-> +				  FIELD_PREP(STM32MP2_USB3DRCR_VBUSEN_POLARITY,
-> +					     vbusen_polarity_low) |
-> +				  FIELD_PREP(STM32MP2_USB3DRCR_USB2ONLYD, usb2only_conf) |
-> +				  FIELD_PREP(STM32MP2_USB3DRCR_USB2ONLYH, usb2only_conf));
-> +}
-> +
->  static int dwc3_generic_probe(struct platform_device *pdev)
->  {
->  	const struct dwc3_generic_config *plat_config;
-> @@ -231,12 +271,18 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
->  	.properties = DWC3_DEFAULT_PROPERTIES,
->  };
->  
-> +static const struct dwc3_generic_config stm32mp25_dwc3 =  {
-> +	.init = dwc3_stm32mp25_init,
-> +	.properties = DWC3_DEFAULT_PROPERTIES,
-> +};
-> +
->  static const struct of_device_id dwc3_generic_of_match[] = {
->  	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
->  	{ .compatible = "spacemit,k3-dwc3", },
->  	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
->  	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
->  	{ .compatible = "starfive,jhb100-dwc3", },
-> +	{ .compatible = "st,stm32mp25-dwc3", &stm32mp25_dwc3 },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
+  [    7.806181] usb 3-14: New USB device found, idVendor=1b1c, idProduct=1c02, bcdDevice= 1.00
+  [  698.526754] usbcore: registered new interface driver cp210x
+  [  698.526767] usbserial: USB Serial support registered for cp210x
+  [  698.527863] cp210x 3-14:1.0: cp210x converter detected
+  [  698.529263] usb 3-14: cp210x converter now attached to ttyUSB0
 
+The related AX1600i (1b1c:1c11, iProduct "USB API") is expected to be the
+same kind of device but has not been tested here, so it is not added.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Jérémy Carrat <jeremy.carrat@icloud.com>
+---
+ drivers/usb/serial/cp210x.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -223,6 +223,7 @@ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(0x19CF, 0x3000) }, /* Parrot NMEA GPS Flight Recorder */
+ 	{ USB_DEVICE(0x1ADB, 0x0001) }, /* Schweitzer Engineering C662 Cable */
+ 	{ USB_DEVICE(0x1B1C, 0x1C00) }, /* Corsair USB Dongle */
++	{ USB_DEVICE(0x1B1C, 0x1C02) }, /* Corsair AX1500i Power Supply */
+ 	{ USB_DEVICE(0x1B93, 0x1013) }, /* Phoenix Contact UPS Device */
+ 	{ USB_DEVICE(0x1BA4, 0x0002) },	/* Silicon Labs 358x factory default */
+ 	{ USB_DEVICE(0x1BE3, 0x07A6) }, /* WAGO 750-923 USB Service Cable */
+-- 
+2.55.0
