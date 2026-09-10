@@ -1,126 +1,245 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013058.outbound.protection.outlook.com [40.107.44.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43915146D5A;
-	Thu, 10 Sep 2026 03:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789009462; cv=fail; b=kvwTnyCsYmQB2G6nbPEDb16xXU+kIt38TC2Bu2/fxvWUzsdjlgkMWsAKHmsLin/bs6X0gJaJt/PQHRTWqSVOTapYu7hM9YB4+7QaC+jpnzxZOUOtN/lFs9FlezesA0fNx4dmCKXToug8juqigyrhYjDRHHdMf9tflr4y/xmfOKI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789009462; c=relaxed/simple;
-	bh=Q1ybr7DX3I+DbmV8tYrEiL7orDFZQ0ncEY5WYm8tfrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=dUEJ1MHy3nzDH/QH4bRN/H2K07biWp8aYMdfXJBqG9qMquHQIVSTX/pMXJ554499zP3Jspc5TasP45Gsnxd6iuvtAbQmfUtJuh4cmAIvEjX7FiCsTaKKdxnbofhBlff90HcsVWkcO8uRyP1lGgGAJHdn2dNvOdpBFL+vhlbx0hU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com; spf=pass smtp.mailfrom=moxa.com; dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b=X4ZBxshp; arc=fail smtp.client-ip=40.107.44.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=moxa.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0F0396B76;
+	Thu, 10 Sep 2026 04:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789014377; cv=none; b=fLa1BqHBdCm4SxgwOsdFIxOEA99H+dJDSr8bWrnWPSGsl2nHne0//DHLdXZZfdR0siXhG7X0dy0/wMNo5qMrkvpVjBLuYzNtdmqNN06klHGW1GucfiUL+BRzDYIj3lHyZ0zKIikKgu9gtrsz+oicv6FZnLgt83Hk3OLuqkDPEEY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789014377; c=relaxed/simple;
+	bh=EkKMYN6rqU1yP4gebFP8T2LzpNwQ81LdLlbjkhdEiZ4=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Au2r58pnDzAZrH3GGYBlEN5BFSv+JBXoojOBEulV9I4o4NmxYOKIE6gi+LWsmpXaGhkkmzNFYO6paene71isa7p83PBEhjVZtCn1l4V9oUCk9rBmQxwHFQZgtN02fwFsH6L/pa/801K2OY2LiM6w+KkgrNH8edRSflS0nfXesng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFRyBBys; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b="X4ZBxshp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZNkYuz8GSBmCFWQ9kKHXRQxR/TsDdYEVQSUhUhAko7dO8x5LrShGvPh4b3lWCrAzBdoUi4zUEG2uGSE2VeTKBaDxMSLRTfZVmGJ+KIhQPamqn3SfAycIfEteRJa3JXOPm0LLP+nPphqAiTjdne+DnAcnBu0lIEV29t/02OmvdHa0KMlEnHng0K9ABtuPLP4C7nJVBL6mcQ8Nfj+KxgzRTFMEUC+D3N3B4ONWDEp1lekM7fAg3TL0jdXxVc4wG4arkZTVg90BD9jthLd+1K/aZBFmaKbqymPHorBQdgSNt9q0h6a5h0/pG1oJmyCWMBD+RQbAotTXOhS2j6sxMuzV/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q1ybr7DX3I+DbmV8tYrEiL7orDFZQ0ncEY5WYm8tfrI=;
- b=SP4XXpVViB+SA4UCbkKkkwAqoZlerW14CNZmpfytEE3dpKxDiaCic6F0e15et4GcPiBVMkDlHSY91BtKNP58fkKBHzCE7488Tvy8s7IlaHLbT7z92PDpimjp19nSf0fyJjkJEihuMxk0JcCjN/Xv7PnZE42DqU0L/n01gAc30kXRfnD8J0jJoH23IQnpx2lyDMudR/rCOEDQ54F5dS7bU9yH7oqrAqi4aymbpYIXi0KewCZBXmvUryKOUD3bWB6IaqNHe/E67OlabLsF49T89q3cyhH1qno9C7O0eabA1JQB00n2jJdvaMeJ+NsMCV2PUwm0IMBPhNo0mRxuJkpomw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=moxa.com; dmarc=pass action=none header.from=moxa.com;
- dkim=pass header.d=moxa.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=moxa.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q1ybr7DX3I+DbmV8tYrEiL7orDFZQ0ncEY5WYm8tfrI=;
- b=X4ZBxshpG8ZuyhkFtBZYRhnW8imbUg4sE3PN71qQLmGLxuW3PLDC4wq597nSLZpSI1lYtG/w0nrCzaWRZKWyp0mHXwV0XOWx25L2Aemm/dWNu6uQW+j9MrrPd4qtX7skBiShMNTELV6k5AE1nNrQbORU16QCZiXe4qFaylLEQHk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=moxa.com;
-Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- (2603:1096:301:115::14) by TYZPR01MB6073.apcprd01.prod.exchangelabs.com
- (2603:1096:405:74::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Thu, 10 Sep
- 2026 03:04:17 +0000
-Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- ([fe80::ae38:e821:cf7d:3717]) by PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- ([fe80::ae38:e821:cf7d:3717%4]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
- 03:04:16 +0000
-Date: Thu, 10 Sep 2026 11:03:23 +0800
-From: Crescent Hsieh <crescentcy.hsieh@moxa.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com, EddieSY.Lin@moxa.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] USB: serial: mxuport: add MUX50U support and
- updates
-Message-ID: <aqId-z4u65j7Szqi@moxa-ThinkCentre-M90t>
-References: <20260811060501.2307836-1-crescentcy.hsieh@moxa.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260811060501.2307836-1-crescentcy.hsieh@moxa.com>
-X-ClientProxiedBy: TP0P295CA0053.TWNP295.PROD.OUTLOOK.COM (2603:1096:910:3::8)
- To PUZPR01MB5405.apcprd01.prod.exchangelabs.com (2603:1096:301:115::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFRyBBys"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930901F000FF;
+	Thu, 10 Sep 2026 04:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789014375;
+	bh=ROvdocL9BxILIzjnJ5VJFG7M9GIFNFE2U/YroZ5F2sQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=gFRyBBysaoOcok/S9I3ibfCNXzk5A2BA701rs0lhGIBtMYUFR7kgRdqOj9CYJuaWT
+	 jDfK2GubbDof2hKP/CKFJLX4+5ugcxGPMGPcOnZKLtLDGOvfdgJ2+mPy7P1UGZldHy
+	 Q3vy1IskcXauCTTa9e07n/Dsll5grMuZIAI6LjD70jlcxARkGGaWF1KqS2v5tXkQjd
+	 Y2SDoNWz3XO9+Di8ojGvwWMh6942hkIzKoa4Zi7UZSjdbgvNIahMsUB8Sj+izdVXd4
+	 eUAUgSccxn/I9jvL022PgcZswVcU37eI+LWMp5eraM3D6dyZUx+53KK5NLT2+DRVBJ
+	 mINIAQ7n9mwGw==
+Subject: Re: [PATCH] net: usb: catc: fix out-of-bounds read in catc_rx_done()
+From: netdev-bot+sashiko@kernel.org
+To: elb12345@hotmail.co.uk
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, peter@korsgaard.com,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, stable@vger.kernel.org
+Date: Thu, 10 Sep 2026 04:26:14 +0000
+Message-ID: <178901437412.219967.4393218357548011225@kernel.org>
+In-Reply-To: =?utf-8?q?=3CAS8P251MB00013A0DCA600A79DC58B0FEC8B22=40AS8P251MB?=
+ =?utf-8?q?0001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
+References: =?utf-8?q?=3CAS8P251MB00013A0DCA600A79DC58B0FEC8B22=40AS8P251MB0?=
+ =?utf-8?q?001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR01MB5405:EE_|TYZPR01MB6073:EE_
-X-MS-Office365-Filtering-Correlation-Id: 372035b4-bf26-4236-332c-08df0ee83329
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|52116014|376014|366016|10067099003|22082099003|18002099003|56012099006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	+LBt/3EccK+k+/xXPop9fpMYek5M96FGY/wYCUIcx6oaldkxEOS0PDOHBbFHjQRM9MrEz/coudeWDs908QGZrco+W6MEUJoQGH7Ao1k7ziNnZQk6Pejp+sIa2g3SEJ9tIMAMeXrBftroZXYXg/324Drtp8mEGKwZDoNqWcvi6u4uiH3UFSM4CLkm5XFZxoOctnMPbwHKbJLdLMBTN8qU5PgSTaABj3Wda4T+najoL3Kq1LC3rv2unCT7UK98YHOfFXdA6Vfb8pVzmO3RRZB0eo/gNgelO91iyZudcXqV6eLach3rdKsA5bREllg7qaX94SV9i2WmQS4z+23ZgF0ezdPa/YunNOLDGjRz8lBIXXsglFUK9Ox6UaU/mvM4FKowfdn+a66lMIIW6D+f081MAsnqlqAKAxo+VNc87yqY8G7+qNLgQx8CPLDc9u6AFOB7UeXZSa1QZbUGTKj/WQdpRidhI7i1IFiHTBZR6QFmBccOZppFVM1t+ohlEB+pgEfa7/6WYppe2RAhcQr7OU1zQFNFlyhGh+67ZenF0pofHsqLeI9rpoWPn7qdX29NQgalqTBjk7x0cDjT4LQ4lRPydQy7q341fDjKbQq0YRj2rh30sY+IVHpFHmAAuFLhCASzpdv4nkLR0hgY+0FXCONQpquUngUk8kSYPqQTJdsIROUjF15oOw88MvTneehmiqz8Q8vPXo3pDa4mnBoBMJgtmUJLZok8wWaj0UcJwfBa3c0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR01MB5405.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(52116014)(376014)(366016)(10067099003)(22082099003)(18002099003)(56012099006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?T97haQtGrKaf2X8/G5HhD40it0f4EiSs+b88WOQQ8My8e98Wi8yoYcSSbXlq?=
- =?us-ascii?Q?oDzHBb5YSzHu3YszQ4uFuXRWydrSTnjytfEoLLfyIUH1tRNgpm8HoLA+ewOL?=
- =?us-ascii?Q?sgBBMzEbmGr9lcKK6C56AzFE5g7qX99hCl6uTNHg440u/+fLEdDIvqWpzad5?=
- =?us-ascii?Q?y1lhsChp/o6Uvl0addIz+LBQspgKhNysPftCs6AA2Mg2335k9o2+vZ8NZIBz?=
- =?us-ascii?Q?aqF6xgcfjZ77DWd91u5lQh20bvSKPhha05sPNSDtpe4J9NURuFwwiRANveJn?=
- =?us-ascii?Q?EoxBuVWt2+UdLiVv+q97Xs6cbTkZ+EhvE5l4696VGifDU58vJupPgUWd9GGt?=
- =?us-ascii?Q?5oTi8p9pquP2h1ZXMUMw1oD+PKXgmNCo5GiFEYyBmwlMP2OPpn0Q0luvg3yp?=
- =?us-ascii?Q?CQOTyAAYFcO8gUgI9/t/ZfVgeGvNJq/IXjwq1fAD4zQTAhBotv/uJV4Xrx83?=
- =?us-ascii?Q?zC2WTqbB5vtexgM3d3huAawJfJWW2l3YpX0Zg1mXWxqiDgWGBH350dwLkwOo?=
- =?us-ascii?Q?MF71i2CLRFRUCFTnR2X/4u03Ly3EZ/WeaO6vAh60HN9uaPthn+yQ0J/g6eLO?=
- =?us-ascii?Q?9X7kavLZjgSRXQgfvgGZcpa1zNWo46h/OeyZTsPQH8jhFT9vBXjs3st3I2ta?=
- =?us-ascii?Q?5MBbIInF0ENw/Vtgek7TDo7PVKPPeAJTnl9w8XWOpvpGII/ZUIsG251U0yp/?=
- =?us-ascii?Q?elWdT/VamxgIXuxLldKq6x6jlvBTuMcykah4Fvhs47uTRqn8wsSHgyAyJAZO?=
- =?us-ascii?Q?uz2kw9phKSLoq8qAs/BV9IX4jAVJaNEK3DHnOJOr0gXewSac7v7HBemmNu/3?=
- =?us-ascii?Q?embX3H0bf0TWeGtyzTQWkr5fZZlPK9zb0G6GzZaODF6Fd9Bk9Dt5xWjtHUZc?=
- =?us-ascii?Q?J0LLi4VigMEAYn2XLJ3t641U/qqFE+Ry+ShmNbwr4M3VdGfExyAilnho4hJW?=
- =?us-ascii?Q?LT2JYpWKyqIDrEgnJ9LEh3csuiuriF0J3BBSMaFrRhBWhu6ZdFF7NlBP9xhf?=
- =?us-ascii?Q?PH3qlHBi0bnk36GTq06S/KguaQzLZWvGGPfFmZLIUB+zckit/ZpKf7omSs/W?=
- =?us-ascii?Q?9+FjTxfFaXgdfKWE+pBms9CZaQamcwSZypMkZGovd7p2lAubqS953MtdvMIJ?=
- =?us-ascii?Q?KsTJW6c7ZV5GCEfmKnERHROJJagCTunZmbY6bw6l9JEsgBSLtn60IOTNgwr3?=
- =?us-ascii?Q?vHPx/rcU6/XgDN5GIBfQphxYRKuSTk+aBZTQfo7nxjLMBlO5wuuM1OWcAb9R?=
- =?us-ascii?Q?DgM46Okv+Pg2U8oylI1WrBs3OCCnDgRJGxf4uXIIkPxeWipZeBDwUM0/nQSn?=
- =?us-ascii?Q?U+d5Y3R4QdW1tYB/6g+YVg6TzEv7iUqTEoen8o7ctXjIoUpJ6/VToDWeceCP?=
- =?us-ascii?Q?vSywPbnJLtK6qwbyJj2kZA8EGhlxF0xUm5B7JsA6Er44uIp9TBHIv7+vburR?=
- =?us-ascii?Q?6S1dsOQFUJnfg/o/Sgc9hqHlsYxNtZXvM6q4plLxXa/ui/B69WmBKdlr2XfV?=
- =?us-ascii?Q?RZM1TKZ3NBYj75LI65biu8BVoso6XgZiD9Jz5di4Sco0T2RHk84txeAIEJQO?=
- =?us-ascii?Q?S4fckmKmbh6SrCn6OH4cpiaiPrx2WxFqqsK0Peypd4aoRbJyx4dQTVthBbjJ?=
- =?us-ascii?Q?yDcJBMErZmkESvDJQXr1raqdB+VG62khFcu0THTFdVZIx7MWCnDv4iSM2BFQ?=
- =?us-ascii?Q?H0RfMnUHMcDc7nSG7B/3D0MNZmOBCHAZUJFs+2YkoiyBe2JcqnsJDeK0jadV?=
- =?us-ascii?Q?9Qu7A33R6FCBVSVKcCrspPq65Eb4rXI=3D?=
-X-OriginatorOrg: moxa.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 372035b4-bf26-4236-332c-08df0ee83329
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR01MB5405.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 03:04:16.6168
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5571c7d4-286b-47f6-9dd5-0aa688773c8e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ws1PC21IqYpLDbxAkSxcorjPK/x7TqGcjz8FUGQpsM0x2737t+3KYpG8qLXkpZaCe+T6OifOwondNzQWMdYvrXiKVyy+CKlfl7Y5/SuGQBs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR01MB6073
 
-Hi,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
-Just a gentle ping on this series. Any comments would be appreciated.
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 0 (1)
+
+- [Medium] catc_rx_done() (drivers/net/usb/catc.c) still accepts a
+  device-supplied pkt_len that is smaller than an Ethernet header.
+
+Pre-existing issues:
+- [High] For F5U011 (Belkin) devices catc_rx_done() can return with the
+  RX_RUNNING flag set and no bulk-IN URB in flight, which permanently…
+- [Low] The new bounds validation in catc_rx_done() re-reads
+  urb->actual_length (line 237-238: `remaining = urb->actual_length -…
 
 --
-Thanks,
-Crescent Hsieh
+
+net: usb: catc: fix out-of-bounds read in catc_rx_done()
+
+The patch reworks the length validation in catc_rx_done() so the 2-byte
+per-packet header offset is accounted for and so each packet in a
+multi-packet URB is checked against the bytes remaining from the current
+pkt_start rather than against urb->actual_length. A few questions about
+the new check and the surrounding code follow.
+
+> diff --git a/drivers/net/usb/catc.c b/drivers/net/usb/catc.c
+> index 96e82f94edcf8..e4f8b9a0caf19 100644
+> --- a/drivers/net/usb/catc.c
+> +++ b/drivers/net/usb/catc.c
+> @@ -234,8 +234,16 @@ static void catc_rx_done(struct urb *urb)
+>  
+>  	do {
+>  		if(!catc->is_f5u011) {
+> +			int remaining = urb->actual_length -
+> +					(pkt_start - (u8 *)urb->transfer_buffer);
+> +
+> +			if (remaining < pkt_offset) {
+> +				catc->netdev->stats.rx_length_errors++;
+> +				catc->netdev->stats.rx_errors++;
+> +				break;
+> +			}
+>  			pkt_len = le16_to_cpup((__le16*)pkt_start);
+> -			if (pkt_len > urb->actual_length) {
+> +			if (pkt_len + pkt_offset > remaining) {
+>  				catc->netdev->stats.rx_length_errors++;
+>  				catc->netdev->stats.rx_errors++;
+>  				break;
+
+[Severity: Medium]
+Since this block is being rewritten to sanitise the device-supplied
+length, should it also reject a pkt_len smaller than an Ethernet header?
+
+As written, any value in [0, remaining - 2] is accepted, including 0, and
+the rest of the loop then does:
+
+drivers/net/usb/catc.c:catc_rx_done() {
+	...
+	if (!(skb = dev_alloc_skb(pkt_len)))
+		return;
+
+	skb_copy_to_linear_data(skb, pkt_start + pkt_offset, pkt_len);
+	skb_put(skb, pkt_len);
+
+	skb->protocol = eth_type_trans(skb, catc->netdev);
+	netif_rx(skb);
+	...
+}
+
+eth_type_trans() dereferences 14 bytes unconditionally:
+
+net/ethernet/eth.c:eth_type_trans() {
+	...
+	eth = eth_skb_pull_mac(skb);
+	eth_skb_pkt_type(skb, dev);
+	...
+	if (likely(eth_proto_is_802_3(eth->h_proto)))
+		return eth->h_proto;
+	...
+}
+
+include/linux/etherdevice.h:eth_skb_pull_mac() {
+	struct ethhdr *eth = (struct ethhdr *)skb->data;
+
+	skb_pull_inline(skb, ETH_HLEN);
+	return eth;
+}
+
+With pkt_len between 0 and 13, h_dest and h_proto are read from bytes
+that were never copied into the skb, so skb->pkt_type and skb->protocol
+are derived from uninitialised tailroom. skb_pull_inline() also declines
+the ETH_HLEN pull when ETH_HLEN > skb->len, so the runt skb reaches
+netif_rx() with its MAC header still unpulled.
+
+Note this does not look like memory corruption: skb->len is not
+underflowed, since skb_pull_inline() returns NULL without touching
+skb->len or skb->data when len > skb->len.
+
+The is_f5u011 branch of the same loop takes the length straight from the
+transfer:
+
+		} else {
+			pkt_len = urb->actual_length;
+		}
+
+so a zero-length transfer reaches the same path there. Would a shared
+pkt_len < ETH_HLEN test cover both branches? A sanity maximum against
+PKT_SZ or dev->mtu might be worth adding at the same time, as the new
+check only bounds pkt_len by what fits in the URB.
+
+[Severity: High]
+This is a pre-existing issue and is not introduced by this patch, but
+while this loop is under discussion: can reception stop permanently on
+F5U011 devices?
+
+RX_RUNNING is only cleared early for the non-F5U011 case:
+
+drivers/net/usb/catc.c:catc_rx_done() {
+	if (!catc->is_f5u011) {
+		clear_bit(RX_RUNNING, &catc->flags);
+		pkt_offset = 2;
+	}
+	...
+}
+
+so on the F5U011 path the flag is only cleared (or the URB resubmitted)
+by the tail block:
+
+	if (catc->is_f5u011) {
+		if (atomic_read(&catc->recq_sz)) {
+			int state;
+			atomic_dec(&catc->recq_sz);
+			netdev_dbg(catc->netdev, "getting extra packet\n");
+			urb->dev = catc->usbdev;
+			if ((state = usb_submit_urb(urb, GFP_ATOMIC)) < 0) {
+				netdev_dbg(catc->netdev,
+					   "submit(rx_urb) status %d\n", state);
+			}
+		} else {
+			clear_bit(RX_RUNNING, &catc->flags);
+		}
+	}
+
+Two paths appear to skip re-arming the endpoint:
+
+  - the "if (!(skb = dev_alloc_skb(pkt_len))) return;" early return in
+    the loop leaves the function before the tail block, so RX_RUNNING
+    stays set and recq_sz is not decremented;
+
+  - a usb_submit_urb() failure in the tail block is only logged, after
+    recq_sz has already been decremented, so no URB is in flight and
+    RX_RUNNING remains set.
+
+catc_irq_done() is the only other place that starts the bulk transfer,
+and it is gated purely on the flag:
+
+drivers/net/usb/catc.c:catc_irq_done() {
+	if (hasdata) {
+		if (test_and_set_bit(RX_RUNNING, &catc->flags)) {
+			if (catc->is_f5u011)
+				atomic_inc(&catc->recq_sz);
+		} else {
+			catc->rx_urb->dev = catc->usbdev;
+			if ((res = usb_submit_urb(catc->rx_urb, GFP_ATOMIC)) < 0) {
+	...
+}
+
+With the bit stuck set, every later data notification only increments
+recq_sz and never resubmits catc->rx_urb, so RX would stay dead until
+the interface is brought down and up. The submit-failure path also loses
+one unit of the pending-frame credit, leaving recq_sz permanently out of
+step with what the adapter holds.
+
+[Severity: Low]
+This is also pre-existing rather than something the patch introduces, but
+the new computation re-reads urb->actual_length on every iteration:
+
+			int remaining = urb->actual_length -
+					(pkt_start - (u8 *)urb->transfer_buffer);
+
+For non-F5U011 devices RX_RUNNING is cleared before the parsing loop
+starts, and catc_irq_done() only checks that bit before resubmitting the
+same URB over catc->rx_buf. If the two ever overlap, usb_submit_urb()
+resets urb->actual_length to 0 and the controller refills catc->rx_buf,
+so the value validated here and the two header bytes read as pkt_len can
+change before skb_copy_to_linear_data() runs.
+
+The accesses stay inside catc->rx_buf, since rx_urb->transfer_buffer_length
+equals sizeof(catc->rx_buf), so the visible effect would be garbled
+frames handed to netif_rx() plus spurious rx_length_errors rather than an
+out-of-bounds access. This one is speculative: URB giveback for a single
+host controller is normally serialised, so it is not clear that the bulk
+and interrupt completion handlers of this device can actually run at the
+same time. Is the bit flag intended to provide exclusion here?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/AS8P251MB00013A0DCA600A79DC58B0FEC8B22%40AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
