@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F30486B8F;
-	Thu, 10 Sep 2026 15:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893854AA1EC;
+	Thu, 10 Sep 2026 15:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789055748; cv=none; b=Pb4FBJW5TRLaZGLVNFuWzLxD/wFOYqTMap7ssBvBSGeVy8ZpNTtcHVpC9wNp6uyQO+ODR/aWCxMxy0S2Cn8OeBgMgS5ctJ1hQJVh+8Jyl8x/AXBWm76jevDByhFsKzh2L9fXAXAcvZ9xpG0dM+KwPxRz8vXq/w85KkBiZWBbmO0=
+	t=1789055788; cv=none; b=Sg5TrfYBbBw7A+KLwufAwUhCyoW4dZEPVllMjiYrKewEbJmI4HxNx8RF/+t3I5YiGPqZQxkXsNX/Ay0bbAnhDJ7jd6rh+tlmiM7VqX+z0+D+bnZnpV59viS81ldVHz13ieG9PI8aZFoG6Hidry5DlC1PH1e2CvsAhAL3v8CqQkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789055748; c=relaxed/simple;
-	bh=ciVCjD0nAjPEsPqrLiFJtQJgCxwjLwR7cnFGlamgydk=;
+	s=arc-20240116; t=1789055788; c=relaxed/simple;
+	bh=0wPBQuAwEqrykF9+xWfNkfzPr9buu9dW1edQKRxbT+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UMD5lPWNsy9PthRkaYCJ1zK1vjl3LpujqqKv9LjMJ/54j30VuCyUbEydlvBVVH6laOy0EnMJL9wJ/K1ggBfW5rUz5VnDpyYDsb9S0HxM9a+O1ZhGdi/iD/fej2AQR6xMiWT/viLL8z5xmYA/M1uB6yWF8k78Hxs9xh5E35Fdz58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5Cn8kaW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=KtpRO7lIG4kIdwPQ3gDfC3E/a6aokoQgSCS2u0qk/dbCTPgGcU4dkv0a8Q4J0KiHeGKDjA+SUsIpPsP5Skzf5XLeK5Bv4QGMQbpNi+vmC57VuxTjs3ykvRhYJ+Zl+ActdBhMYz9y34UFsEpSfF1oXYpFRvKd4Ehw2YgIju2QaYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WN2nasbJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5Cn8kaW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7AC1F00893;
-	Thu, 10 Sep 2026 15:55:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WN2nasbJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A0C61F000FF;
+	Thu, 10 Sep 2026 15:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789055745;
-	bh=bKshaFwruqjQK9EWEG5Mo3nqXakrva70yXuhtDwvIa8=;
+	s=k20260515; t=1789055787;
+	bh=T0xOV2XeqOE1Qmp8JpFgC8m+9TTqK0Rb0vPMhfpsMmI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d5Cn8kaW0O6xNYglXyTa93E79fJAGksLcKApVxsoZYHkchgMiaxhmCzfcfJOQF4UC
-	 H+RBpHkMpApf5Jmv9w9QkchuuiRj3WFTWZHlWNk1pE5gacOGOdGxO980iUwa/rVQD/
-	 gc+MxkDmrk8AuVDYIiB6guV2NMdpZG+bA5xa0XG1BG2CIpI0OU5Tg+OUiZ2JGOHHjx
-	 DwqpMPC0hGR20Ifa0gLAy8B21pnUgzG8PcoL65zYqsZ5WKBSlVrE7q/tkuy71laCuS
-	 jT4HdEOI/gfTpPB1KX8i6SalvLkIqwm3rUmVTAaiOZ2u9GudELkA3pHO2YE4Euw4af
-	 zxbZjk42/dv6g==
-Date: Thu, 10 Sep 2026 17:55:37 +0200
+	b=WN2nasbJLrjKzbp+V4Q2gFjZkZhqtUqNA7JzY923WT4+pC5Rhy+8o2AuHb+IsLVl7
+	 lDYnNgSi6F3XJmcFQzAYmkrZb2Q7YRDuUnnX78xhExdNPPbtwpXlAWwD0Sr/jVAyCp
+	 Alzfpxd6rG/5Ds7PKIBzASRgs9055rLevso2px4hdX5C2nFbgm1/8HnnxwmFjh0AeJ
+	 AKmnBfMuSd3eEBbznDUOAerlRsSixpnU8uT68PE2fYauSuxL6VTRDiq2nkYTnwno2Q
+	 h+4ilMZfvJlFaFCem+gD5IolN+DELILMltgM8Xl/xAAqtL1/0k4Fry6jEFCXJ0dV0M
+	 PBqtxn9dttPrA==
+Date: Thu, 10 Sep 2026 17:56:18 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 Cc: Vinod Koul <vkoul@kernel.org>, 
@@ -35,10 +35,10 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v7 3/5] phy: snps-eusb2: Set phy type to EUSB2
-Message-ID: <thiiul7sbjzwo6i3znf4qmer466elq6j4hivjf4cuyj46rhoij@ctkodmuebrg5>
+Subject: Re: [PATCH v7 4/5] phy: qcom: m31-eusb2: Set phy type to EUSB2
+Message-ID: <zog5ubweep57jr6dokjuzr6eupd5uj3yb6pjyextx72bls2dbo@v2j4nwuigixt>
 References: <20260905-eusb2-interrupt-v7-v7-0-820cf5377a70@oss.qualcomm.com>
- <20260905-eusb2-interrupt-v7-v7-3-820cf5377a70@oss.qualcomm.com>
+ <20260905-eusb2-interrupt-v7-v7-4-820cf5377a70@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,9 +48,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260905-eusb2-interrupt-v7-v7-3-820cf5377a70@oss.qualcomm.com>
+In-Reply-To: <20260905-eusb2-interrupt-v7-v7-4-820cf5377a70@oss.qualcomm.com>
 
-On Sat, Sep 05, 2026 at 08:59:07PM +0530, Krishna Kurapati wrote:
+On Sat, Sep 05, 2026 at 08:59:08PM +0530, Krishna Kurapati wrote:
 > USB controllers like DWC3 are agnostic of the kind of phy (USB2/eUSB2)
 > connected to it. Set the phy type to EUSB2 to let the controller know
 > the phy type when queried during its probe.
