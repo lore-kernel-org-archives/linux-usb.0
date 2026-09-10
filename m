@@ -1,63 +1,68 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C81436196E
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 23:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F684309F08
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 23:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789083362; cv=none; b=Q22jXvxcfziESkRWiTa4kBOIGX9AxqlJZynlTmEXsLtVF0aUexuVNmAeq3p1GpxyJkSnRXIV7QHX0VjwAQwNRZmyDZNDUvgd0c4v4hWIJoob8pjmRCxXsIARJc83O1ckQbGScIwkRBOlzcXU1UhOuNzuVbwnLUkpxRd1OoKVqF0=
+	t=1789083368; cv=none; b=N6FF2ctcB+44HV7NrapTs2BWmtki87mpnjWgh9WLGK0AyKYRuU1A3g4KLojCLIgUr0iXEY77uEuxmGdeII7uKyW8cidqN8RBNigk3Gv7oZHYmtnB8Iypfq+tXPihIWCJ8KsF9kKgT3rW5+CzYG7Jq5a4g7xl7Ec0onW54kF9lpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789083362; c=relaxed/simple;
-	bh=+HKSqS7cIb57NuFxVyCGGHw3CGX6MedxvTwAXB3aruY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=jfQDruTWE3Drq8SK51FElPlcIABcZ56NTVm8pdqx16zKCKv6Q0DThtzk4XFaEAcukYM/GkeYMek1afRA2Md/EI5b2vxCtYqwwEd1TrC2YHQLWPYvu1CA66jO4JbWNtILfQamTftqpy/nY7w3wGVuy0/PYopfE1ifYGESlHCmt2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W0l3vLQ5; arc=none smtp.client-ip=209.85.215.197
+	s=arc-20240116; t=1789083368; c=relaxed/simple;
+	bh=xbQoCyxq2vDtVAGPi/CiFV4EVdzFrtPv9kkX2JiQXrA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=uh3W/qpy/TbFO9Hie+4bYvD5pFI438SdW7sVkCOrkqPgS4HycKYozdWWVnVUcW7EZRiA8a7OZUB4WxAQtOIGYfxP/ScF/xwV1h6d+tTXl9e73l+wSfsNrnZpSfeBt8ssuwOwsZZbUgUpP/g4AUW5KjKcLcSO2SvcUR/3bfwNDcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UtpJAfoE; arc=none smtp.client-ip=209.85.215.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W0l3vLQ5"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc1eb205d31so524161a12.2
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 16:35:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UtpJAfoE"
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cc1cade6b71so277306a12.0
+        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 16:36:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789083358; x=1789688158; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AU2Dj008QjxxNszWxSoESh/TxmP0j+xMdx3/UcdzlLY=;
-        b=W0l3vLQ5wQsNtVd5TMfNRYcBumNMXN11gKIrmvsp9u/Ue8nPllXTSmdN3dQyzq5m0n
-         ka+frwH/2z8YKPFh8tlOrFWaAFkAB73FQVIXu/tl9LyrwQpKiPrMxzKX3fw78wQQQv1K
-         xnPB1QRAtbb9ynEfmMFSNoPttfJauRhrsxf9YEaE8qmPg9JVrqKQvx/7KJf6nnVmOe+W
-         7fjkseG4c+7BEMiD8kOAqV7zzGX8j5nddebChth/C0YLOvHFfukMsFecvJuB5uQUCj7O
-         zqDiot67ICFhpV16ubPeqlneerRZoGbldbo4/BMh3zAUQmJ7DUODx4HDYQsEAop7yCTM
-         wzDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789083358; x=1789688158;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1789083361; x=1789688161; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AU2Dj008QjxxNszWxSoESh/TxmP0j+xMdx3/UcdzlLY=;
-        b=QeKYFLCdmKetYSkFxxU4/fiqflzMDyCkGid622uzSjCDgZPhhBcbszaqdTiRQeTN2a
-         ZwxkKmLXtcXyfy7E+WuO9qFtgTRybnG9AHc+qFIopEyTQyHrDalzDT1bCgqfe039f0kV
-         eIMJoO54WGYixtmneShRHratd/JMKIrWMe9cZnQn1uhAZ27bRfN2tVB4ff+91x5YuqOg
-         JP/rNeZhZAcl19Tl87EiHuJ3dDW0XUudfUb/JoUZyjPc9LO1GdH08O4NZv1nTvM56WiY
-         aEpESRGaDj/nPEPZqmN4/AmOnl//efGJvVD807GKPIBm0mZJXuR+kQAZ1qxNqbONNMsT
-         6R5w==
-X-Forwarded-Encrypted: i=1; AKwUvBxxt/DVyLxnN7ypT/crc+Pf8D3WzBNy0aJwh0wMsiUY58HfONTf5l8NzLG9r3wih3AisvJGVxp4BEo=@vger.kernel.org
-X-Gm-Message-State: AFuF++nMyRvl+YvztqNJVUkZzwQe++7UoCRRp8gKVpGe8lH6FLMEK6hX
-	MVidakc4rhE8XP8ib6w2rlFL/ahadocC3WUUTzi/vzsZUpdA5n5Lb5jdRr8+48pEukrVnK1pBj8
-	TOvlEGg==
-X-Received: from dydc26.prod.google.com ([2002:a05:7300:311a:b0:315:bf25:ce14])
- (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:a0a:b0:3c3:a3f4:5485
- with SMTP id adf61e73a8af0-3daed0feedamr2308211637.6.1789083358392; Thu, 10
- Sep 2026 16:35:58 -0700 (PDT)
-Date: Thu, 10 Sep 2026 23:35:51 +0000
+        bh=hJwMurigxPdsSokMQdzc3e8H0y48idqyHey4xFC9msk=;
+        b=UtpJAfoEhXtnu0Sj1LEPnBoCuSeOeWMYcUewP+vFmN3uwBwOePR/rRqcn6rKRuD8B4
+         zLLpmRueCUr2X33kuhlFuXZmrtXBXFabeTst4cidaa7cuLYrnE54+6PbCwZMR7QSOeg/
+         4+Nuj9cG4Xi3BuVmHDgZvlFjKwXzfmt+Lb3MtxxorHzy+0E5zyryQG8MXIymuvr1VFvq
+         FiEv5qs0iAL8pxzm0Xe6K5t33M1/mLz57YPDPakPRmAH2F3EyD90N5XouL6ShiRcKJVw
+         mn4hlA3hXofAGAc4ZpwDgUKsuUw9JYkroBpbwgxuFcpn61YFRAyF7cHgcAXU2rM55ElI
+         +pUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789083361; x=1789688161;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hJwMurigxPdsSokMQdzc3e8H0y48idqyHey4xFC9msk=;
+        b=f9MXmRUI3o4D45GUhdFfAoql0oSLp9pSH6rc458nT3Jd8L/p+Z+e5jNq53ptmgKuCM
+         wq2dooFA/s6i7T08iv5anoes63sBTwX0KO+5eWxkywCXpdDn6xTlbLyMooopI8sZaqWp
+         AlZeDzMxJzGdWn+ykehxlCBYNnHLfrvzhXECfgE14Myl8LKs4gDrgQbH8aeq/JhFh0o5
+         AzekYI1P1y1APANUxuqLW+d552M5ubFNu1f0srNBnfNjgsfosnjuaOyUWQYBV0rV/S1M
+         8CbSf/cK2iSJsu/36cGCVGlFOuYvAwruLLjF6JmOpS6zW0DjilOCmh9PcJr2PZtTnu0w
+         dj4w==
+X-Forwarded-Encrypted: i=1; AKwUvBwHikylL7gWcY9QvdeROiJG2rQSaJerMhFeevqW+p3BcuMOmr6zTN3j6sbSgWY8w0ijUvCX8cuW16k=@vger.kernel.org
+X-Gm-Message-State: AFuF++kLRbdXtHLs7CdsUnZ3u5OWDL2hU9AmhWmkX0Ab6RhP0pKlfIpi
+	sgozIkrO0NW9U4CpR6DA3aMeDCDPcMkEeNFKIdf63Tq0gVdZmEvXX5l0egmugqqqKs949j0Nadu
+	jdYFNcw==
+X-Received: from dybim52.prod.google.com ([2002:a05:7301:2d34:b0:339:7c3c:1ab6])
+ (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:6f8f:b0:3d3:aed2:6f22
+ with SMTP id adf61e73a8af0-3dad28fb2b4mr9018979637.22.1789083360585; Thu, 10
+ Sep 2026 16:36:00 -0700 (PDT)
+Date: Thu, 10 Sep 2026 23:35:52 +0000
+In-Reply-To: <20260910233553.3477055-1-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20260910233553.3477055-1-jthies@google.com>
 X-Mailer: git-send-email 2.55.0.1007.g17ff1f9808-goog
-Message-ID: <20260910233553.3477055-1-jthies@google.com>
-Subject: [PATCH v1 0/2] Cleanup UCSI DisplayPort OOB fix
+Message-ID: <20260910233553.3477055-2-jthies@google.com>
+Subject: [PATCH v1 1/2] Revert "usb: typec: ucsi: displayport: Fix OOB altmode
+ array index"
 From: Jameson Thies <jthies@google.com>
 To: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
@@ -65,31 +70,26 @@ Cc: bleung@chromium.org, gregkh@linuxfoundation.org, akuchynski@chromium.org,
 	Jameson Thies <jthies@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Recently I sent 
-https://patch.msgid.link/20260825234545.2076049-1-jthies@google.com 
-to prevent an OOB array index in the UCSI displayport driver. This
-merged to 7.3-rc2 but did not include feedback from reviewers in a
-v2 version of the patch here
-https://lore.kernel.org/all/20260904234401.2339633-1-jthies@google.com/
+This reverts commit 04cec690b1fd9d1c4c314b91a10d8c68a3acfe18.
 
-This series reverts the v1 version of the patch merged to 7.3-rc2
-then applies the fix including reviewer feedback. Because this
-series is cleaning up the previous change, and not needed to prevent
-the OOB access, I've removed the CC stable and Fixes tag from the
-displayport driver update.
+Signed-off-by: Jameson Thies <jthies@google.com>
+---
+ drivers/usb/typec/ucsi/displayport.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Let mw know if you have any questions/concerns.
-
-Jameson Thies (2):
-  Revert "usb: typec: ucsi: displayport: Fix OOB altmode array index"
-  usb: typec: ucsi: displayport: Check CAM to fix OOB altmode array
-    index
-
- drivers/usb/typec/ucsi/displayport.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-
-base-commit: 34c9c5517033a74039a54dfab24e7bf767a4e0e4
+diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+index 8d2032d0762c..7067f2561b84 100644
+--- a/drivers/usb/typec/ucsi/displayport.c
++++ b/drivers/usb/typec/ucsi/displayport.c
+@@ -74,7 +74,7 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
+ 		cur = 0xff;
+ 	}
+ 
+-	if (cur < UCSI_MAX_ALTMODES) {
++	if (cur != 0xff) {
+ 		ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
+ 		goto err_unlock;
+ 	}
 -- 
 2.55.0.1007.g17ff1f9808-goog
 
