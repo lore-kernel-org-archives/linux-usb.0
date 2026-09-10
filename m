@@ -1,39 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6354736EA98;
-	Thu, 10 Sep 2026 16:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7353A4F4A;
+	Thu, 10 Sep 2026 16:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789057980; cv=none; b=f3bpiLKcQGDJagySo8DwicWgw0PU908IyLT9C1wS2X+7+WgO4pcC278CyydT73U5Mlqthe6TPgoYINh+MgEST9kcjtXIarujPhL14MuctS0K4WUHqc4Cm/VuheeFtxGh+35AVi//56J4/FK6M1iaeUJBJyM9ias8uaoCBLtlDn4=
+	t=1789058350; cv=none; b=d0k+B4LGle0JIFLN2OiSgnecrF+x4BaLPQPbgzUD7eRXRDNuzOWP/dudJjBEHff4OkMUlbthUQaia/Pzss5C+fH0Yjpq8pyktXU7THythMKMOGLwzwvyQwhBso48D2J+UlDI7rvkyQDU8f8IHGMaIBXatbtEowUzV5bh1zGKF88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789057980; c=relaxed/simple;
-	bh=Th51M9BCateIl9TBihSGO9j60HRPXhjHMcz9jqjrkoU=;
+	s=arc-20240116; t=1789058350; c=relaxed/simple;
+	bh=Ta7gu2SURjls0C3yd3Ubg1mY+sBZiejfBfLWaQsKXVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lIUWEdfq1hFXee4OS84NnlCvVps2ev+lCBfVWuwoDp9gkJS3NxleVxxg2Txc37e804mAu8HE5CRoHEwxJfkbfuIDS38Gm2aTDJhj37oU+NTo8OmX4LXWGsb9TX4+JQ5GrHvZK+OjHHqCE29uX5UJw+nBGvpb6aMB3WBt1sM2m7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g8mkJRT+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BeDoMQOicbL994QsV6vOAwHhdYVzhxHbWZLPnSAGTL5gxfqXAv3JzkYo2jflBg/9CbEdBLmRkIhHmH0rXnCKsDHNJWgAsL8lB2FZ30bblW83+sH/jVJUXV3caKek1bS1C9lD9mG2oCvcld1gTuULUR7D5bBTzU54TwJYqdd/hfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JZ5Hc1Mw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g8mkJRT+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C301F000FF;
-	Thu, 10 Sep 2026 16:32:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JZ5Hc1Mw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919A11F000FF;
+	Thu, 10 Sep 2026 16:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789057979;
-	bh=4e/lHMBOqQKn3tV9EgQ5nOxZ0TJdWTfi86ircsxOjv8=;
+	s=korg; t=1789058348;
+	bh=J1DxlwO1SBdCyEGtWOR+zVNhrDhFkdpFxBdKteLQo+I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=g8mkJRT+VpsF1LDqf0QbPdjXUxdW0lDDUcsT5E4By5cMroV01BhURWAqDqMpgF4OJ
-	 eV0DzNlZd/U5ub5NFGR3EmWVI/JZanQQDacgdZarU+GY5tTsOnsRVYOe793XlLtesW
-	 leZN06nK3tz0ndTsEeeEIjzKn9jYIN6MsA2qxEsc=
-Date: Thu, 10 Sep 2026 18:32:50 +0200
+	b=JZ5Hc1Mwtqzu82LhttrRUmeNlpFGPoY/bvKKGXp0zNzZeCve25kEo7dE5/MTLLrTo
+	 V3kaRcRTsTTSMPXUvcjx1+vxlE0faXEcaXLeUh0ZnBDYFdkZzJI5LSGu1aag8/NYiB
+	 gO1D980rZweXLHkH+hv9NaGqROLVzJLcMEWD2mfU=
+Date: Thu, 10 Sep 2026 18:38:59 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
-Cc: christophe.jaillet@wanadoo.fr, kees@kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
-Subject: Re: [PATCH RESEND] usb: gadget: f_loopback: fix descriptor leak on
- unbind
-Message-ID: <2026091028-launder-jockstrap-be0c@gregkh>
-References: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
- <20260902105153.3516793-1-nagachaithanya9911@gmail.com>
+To: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] usb: gadget: f_phonet: fix use-after-free in pn_bind
+Message-ID: <2026091047-cover-resolute-5d4a@gregkh>
+References: <20260804074432.2906951-1-khiemtranzo532001@gmail.com>
+ <20260805041319.3197126-1-khiemtranzo532001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,42 +40,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260902105153.3516793-1-nagachaithanya9911@gmail.com>
+In-Reply-To: <20260805041319.3197126-1-khiemtranzo532001@gmail.com>
 
-On Wed, Sep 02, 2026 at 10:51:53AM +0000, Chaithanya Lagisetty wrote:
-> loopback_bind() allocates descriptor copies through
-> usb_assign_descriptors(), but f_loopback does not release them during
-> the unbind path. On every bind/unbind cycle of the gadget (for example
-> by repeatedly writing the UDC attribute through configfs) a new set of
-> descriptors is allocated while the previous ones are leaked. syzbot
-> reported this via kmemleak:
+On Wed, Aug 05, 2026 at 12:13:19PM +0800, Nguyen Quang Le Kien wrote:
+> pn_bind() and phonet_free_inst() race on opts->bound and opts->net.
+> If configfs removes the function instance while pn_bind() is between
+> the !bound check and setting bound = true, free_inst() frees opts->net
+> and pn_bind() then writes to net->dev.parent via gphonet_set_gadget().
 > 
->   BUG: memory leak
->   unreferenced object 0xffff888016b8f180 (size 64):
->     comm "repro", pid 5613
->     backtrace:
->       __kmalloc_noprof+0x3bf/0x550
->       usb_copy_descriptors+0x6c/0x160
->       usb_assign_descriptors+0x48/0x180
->       loopback_bind+0xff/0x120
->       usb_add_function+0xca/0x270
->       configfs_composite_bind+0x667/0x9b0
->       gadget_bind_driver+0xed/0x390
+> The old "no race condition" comment was wrong - configfs_rmdir() can
+> run in parallel with the composite bind path.
 > 
-> Move descriptor cleanup to a new loopback_unbind() callback that frees
-> them with usb_free_all_descriptors(), matching the lifecycle used by
-> other gadget functions such as f_acm. With descriptors released during
-> unbind, the usb_free_all_descriptors() call in lb_free_func() becomes
-> redundant and can be removed.
+> Add a mutex to f_phonet_opts, use scoped_guard(mutex) in both paths,
+> add kernel-doc on the struct, and destroy the mutex before freeing
+> opts.
 > 
-> Fixes: 10287baec761 ("usb: gadget: always update HS/SS descriptors and create a copy of them")
-> Reported-by: syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=28cf08dec5895bd562e6
+> Fixes: 00a2430ff07d ("usb: gadget: Gadget directory cleanup - group usb functions")
+> Reported-by: syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=098999e05b6b877c01b3
+> Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+> ---
+> v3: drop the redundant #include <linux/mutex.h> in f_phonet.c -
+>     u_phonet.h already includes it.
+> 
+> v2: scoped_guard(mutex) instead of open-coded lock/unlock; kernel-doc
+>     on the struct; mutex_destroy(); remove the wrong comment.
 
-How was this tested?  I don't see syzbot doing the test, did you?
+You did not use the Assisted-by: tag as you should have :(
 
-And did you forget an Assisted-by: tag?
-
-thanks,
-
-greg k-h
