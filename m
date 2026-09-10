@@ -1,71 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F384A0938;
-	Thu, 10 Sep 2026 15:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377AD3E2AB1
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 15:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789052783; cv=none; b=N86/JIksKf5DPtiOxKZozyAQrVrl8KLMMbHEmuYCuzBC84acogC5EvGE71VMVOYJgp5H5a53YUUb80BY5j73hcqIXICVZQJW4QtA8HkL2knEms157P5uM/Xi4HKQcUoIhDhnV0TKb+3PyuQB1V78V+JgpPdMDA7WkvkB2clOtXE=
+	t=1789054551; cv=none; b=NhANhRIsy7qjiGtrKDvegji1CqOno2RuiY2XtKLWFKithnUCtBRcrD0zXorpPF8POq7WB/1IFKAy1+9Dx6iCCXVP979U2+6q468NBaSEvgijXVDUVDfVjMVY6SJ1dU6arV8EVXxzAO0wiGpdhCl83TwRPzA4xuuNf+gowDn/goM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789052783; c=relaxed/simple;
-	bh=YTL/L0Itj+cl9Acg/S9H10KZtg/+4tGA6//3qw0ri4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q+UzJicOu5WFyXg8XXjg2Kz4/W2V5ER7+IpxVC34fMuGm1+yjJhFgU2lHSe5o54LYdbegtuHMaCUWNzT4t3Kwswfe6UHDg/XM9f1SFrW+BfkV2qYLMRjUiUQUdSVTQTZITW6C3cCdqncZg/HoX15hub5/bquzd1owH3sJNFMJVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IeVnbC7A; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789054551; c=relaxed/simple;
+	bh=mINC9wuk5w2pBAaP+rXLMgllfTpENgg7Y94mWha5EIA=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BCrk6++x0x9uRwVmfd3jYqhAXsfqLSQp6RWX/OTzogSYNttl2K+v52k6PZ/X4Ti0wbe7X4ktNNtgk9eBFHwwkgzaqnmfxRcB0kQpueAEQ3x/OEecX4pC8BQT1oC7jYN3dB10TvExL17h4KyzKZVbcKeyIf/6NQxBdRwcJSGrl1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PeDUdiMs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IeVnbC7A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C651F000FF;
-	Thu, 10 Sep 2026 15:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789052777;
-	bh=twqHB2sSjyRayKyZEYerIYKyvTil6EVw6/BmOMMck6s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IeVnbC7AJwprYTf6t2/ugFBEtKwKViK5asM1yNgZkibHDsCcjQ4vUpcEizaiqPOcD
-	 zNxKDjUPQLKlruFwaHTMJAX3laUuP/pPpQgbk5wYU97jawwVdU3fY/m4ytY/R9jXKQ
-	 nxNDfXmzOkeAMYtBpODpd6G6jeTtLnjTkNu8zm6I=
-Date: Thu, 10 Sep 2026 17:06:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alyssa Milburn <amilburn@zall.org>
-Subject: Re: [PATCH v6 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
-Message-ID: <2026091051-gizzard-sandbar-0e24@gregkh>
-References: <20260826-tipd-ace3-v6-0-e919f39a93a2@chaosmail.tech>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PeDUdiMs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BCA73C2BCFA
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 15:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1789054550;
+	bh=mINC9wuk5w2pBAaP+rXLMgllfTpENgg7Y94mWha5EIA=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=PeDUdiMsPxq9b/V6hkXVFe/g30OH0Tlwc9uKOaD4lLJKcsbYYraYrK0eluoIvCzFM
+	 i9oe+8FavYVPK1AmcoP9xBqcWS8hsNfgBdEqYWrBQi21723daQuTvJJ13rp9ur4Ih3
+	 e5kLo31LMd+cm4JaXOfDex0oa3qUGq8JC+Ghh3zBrxPt5Sn/wppwUa40LzE4WYKtsi
+	 RKsggA5f4ey19QysT0Y9L4etRaYQ9AhaW28X8ja6Q4AvStshNASoqQnuIIiTOY22NV
+	 d/cA6ovPGF+csY6O+E14yVimJSRa8ddKPZnR6jQTuGSuy+FV5sUZ4z2tMStSFJ7e6S
+	 cYcg4nqsW+IXQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id A18BDC41616; Thu, 10 Sep 2026 15:35:50 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221655] Barlow Ridge TB5 tunneled xHCI (8086:5782)
+ runtime-suspends to D3hot and fails to wake on USB-C device connect (Lenovo
+ Legion 9 18IAX10)
+Date: Thu, 10 Sep 2026 15:35:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andy.shevchenko@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status cc resolution
+Message-ID: <bug-221655-208809-yhUOnOPOvS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221655-208809@https.bugzilla.kernel.org/>
+References: <bug-221655-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260826-tipd-ace3-v6-0-e919f39a93a2@chaosmail.tech>
 
-On Wed, Aug 26, 2026 at 12:52:56PM +0200, Sasha Finkelstein wrote:
-> Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
-> variant that wraps the tps6598x core register set with a SPMI based
-> regmap-like protocol, first appearing in Apple M3 devices. This series
-> first makes the core parts bus-agnostic, and then adds the new SPMI
-> interface as a custom regmap implementation.
-> 
-> To simplify the merge strategy, the device tree entries will be sent
-> in a future patch series.
-> 
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
-> Changes in v6:
-> - Fix rebase issues
-> - Link to v5: https://patch.msgid.link/20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221655
 
-Can you please rebase again against the usb-testing branch?  Patch 2/3
-doesn't apply :(
+Andy Shevchenko (andy.shevchenko@gmail.com) changed:
 
-thanks,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |andy.shevchenko@gmail.com
+         Resolution|---                         |INVALID
 
-greg k-h
+--- Comment #4 from Andy Shevchenko (andy.shevchenko@gmail.com) ---
+Closed based on the comment #3.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
