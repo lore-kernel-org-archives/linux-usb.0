@@ -1,101 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256B01E51E0;
-	Thu, 10 Sep 2026 02:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C314381B0F;
+	Thu, 10 Sep 2026 02:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789007314; cv=none; b=JQEy+jmFdH12D294L3lU+02r5GrXfbsGTo02koTOxD3Q2zWgOu7iCa6g7zujW/2hMKRlxMoT2QuS9ckBU83AM5jm/ZrbacjrqvO7nJS6v+BpQB+SOcsz7IZ0IjmXFdAsHB3yfOI4hOjFnXl1Dc++x5sdcN/nm7UU5wvviY2pnlE=
+	t=1789007472; cv=none; b=hZphmPwXv7/JOn8lIxrJ58jQB+1PYE0BnJjWykUdai3zbifgkGnIlzO/aLRWPjxGR7gVWefBJ7LFtnjAyhr0yjlAP3P2pgA1/71k8kiQbU8KaVkSQ8W0YRL63Gwm2EGjvvSo6gcVNTo1wcPdf5dqVutTo0YQjj5Ni5wVmofw+vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789007314; c=relaxed/simple;
-	bh=qEMmzoO+HC0iJ6rzMg9/5xEshklNUaRQFLrDToeQ0f8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oxm1/Ianh5OdlV5KlqOKAIb5WmnW32LdnU+WmlbdsTRK6hC70bkWorR0OYjtpsqK4OtEEKy1LuSEAjfyslv9kjPHE0jAvTk4PhB7aGnIw1Pq3C9aik4TUmvRLUEpdRojf4F786VmRsAYyePD0UrOC5kO4MHFwW5qsOet2zvZ7iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1StZFcU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789007472; c=relaxed/simple;
+	bh=x7FoWY7B87S7H3jW44KzHSvH2K4cjYbCfUcRdQzjDPA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=XTI8WOzpCJKVCbnDk93++M9j7vzVMLQgMFKXkoHDcd7PQYuTcgpMyMxpWzGu9vy6uN8tL79wHKk1tpxmcU10jL9cLHsr8SJT7RZl+dd3sF3GAOOydRUviMpYEKL2umBsAfx2j2Ww+eIN+/DGrCa9xpq3Lhaz0Dv2pWbgKH1p9tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=niX6GcJ/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1StZFcU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688941F000FF;
-	Thu, 10 Sep 2026 02:28:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="niX6GcJ/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CC371F000FF;
+	Thu, 10 Sep 2026 02:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789007312;
-	bh=eUwQmgsQqzQQenhKvvPa+VT7E6BdXxWZIJScwCHFucI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V1StZFcUUowVRlS4Sr890zbyy5pvRsD/DGaXNYeYFGs/d2xSRMpXddcndg0EFedWo
-	 wm4etMO7xJURU6fsT/AnnPFvAiUCX0HOld8UCgEvTxmTvLdTbt4qbUv10ieHIRBjlK
-	 wPWnIc1a6eN+aRAj65gSciT5EacL2/dkOUNdhkmBcLK/7As+wVm0hEDANtMXjdZN7j
-	 R746OKNZyhF9JJAj91YfETDUWsQRHNzmCVloaOmcnB5XRRvJnyuKZbmqK80cmrskeE
-	 umvKEFsNWdvEPnsh2CWSoVqXG0plW5EuGQ1gZPO8rEJK6n8Eq/CsyW1Cs4FYYGorrV
-	 uuosE6bhUdsPg==
-Date: Wed, 9 Sep 2026 19:28:31 -0700
-From: Peter Chen <peter.chen@kernel.org>
-To: Fan Wu <fanwu01@zju.edu.cn>
-Cc: linux-usb@vger.kernel.org, Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Song Li <songl@zju.edu.cn>, Sicong Huang <congei42@163.com>
-Subject: Re: [PATCH] usb: cdns3: fix use-after-free in cdns3_gadget_exit()
-Message-ID: <aqIVzxZyRyx67GPX@hu-petche-lv.qualcomm.com>
-References: <20260909095655.694527-1-fanwu01@zju.edu.cn>
+	s=k20260515; t=1789007470;
+	bh=ILWMeGu8Q4VrWnsELjeVOHZhSwlw7EOggWUiFpzcROM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=niX6GcJ/heij9i8Av5D9HFjXSCeBDB3y8JqoglkD3MtjE1LhelhBPbSeIs0YkhXVi
+	 P30sL70uts1KINW2P3kpI4cA8AxxTJtRhHJmDS9LHBf76v6XiC001WicRTKI4EpG7W
+	 8e7PpEe1UpIp0HQAPdNXUfLERIs6ji51cBOxFNHQqpLLj7PTUqPk+AlItW16R6bV6v
+	 P33bQ40syh68002FrdB65u3obeIkxfMwLsgFzy6PfdZai/yva/BItcA6HhluJ68h1O
+	 oE1qmJjCDAL8ur9fAKKynjmBqKVfB4Uinj0sUbUyNj8jLvu2tAJ93Oc4VvkFWbHcrB
+	 MeaXk1nGSrc5A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19DF7380CEC7;
+	Thu, 10 Sep 2026 02:30:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909095655.694527-1-fanwu01@zju.edu.cn>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3] r8152: simplify loops in
+ generic_ocp_{read,write}()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178900740762.1158570.15374984168475217881.git-patchwork-notify@kernel.org>
+Date: Thu, 10 Sep 2026 02:30:07 +0000
+References: <863dac62-89ef-42d7-9108-d4a0600913a4@auroraos.dev>
+In-Reply-To: <863dac62-89ef-42d7-9108-d4a0600913a4@auroraos.dev>
+To: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, michal.pecio@gmail.com
 
-On 26-09-09 09:56:55, Fan Wu wrote:
-> cdns3_gadget_start() arms two works on system_freezable_wq:
-> pending_status_wq for the deferred ep0 status stage and aligned_buf_wq
-> for realigned request buffers. Both handlers use the cdns3_device the
-> works are embedded in, and cdns3_pending_setup_status_handler() also
-> calls the ep0 request completion.
-> 
-> cdns3_gadget_exit() does not wait for these works. It frees all
-> endpoints and aligned buffers and drops the last reference to the
-> gadget device, which frees priv_dev, so a work queued before the exit
-> can run after the free.
-> 
-> Fix this by waiting for both works after the gadget driver is unbound
-> and the IRQ is freed, when no new work can be queued, and before the
-> endpoints and buffers are released.
-> 
-> This issue was found by an in-house static analysis tool.
-> 
-> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-> Cc: stable@vger.kernel.org
-> Reported-by: Sicong Huang <congei42@163.com>
-> Closes: https://lore.kernel.org/linux-usb/7f5719b.8700.18f67b324d3.Coremail.congei42@163.com/
-> Suggested-by: Sicong Huang <congei42@163.com>
-> Assisted-by: Codex:gpt-5.6
-> Co-developed-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
-> ---
->  drivers/usb/cdns3/cdns3-gadget.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-> index 42311c1bf..0d272e9c5 100644
-> --- a/drivers/usb/cdns3/cdns3-gadget.c
-> +++ b/drivers/usb/cdns3/cdns3-gadget.c
-> @@ -3269,6 +3269,10 @@ static void cdns3_gadget_exit(struct cdns *cdns)
->  	usb_del_gadget(&priv_dev->gadget);
->  	devm_free_irq(cdns->dev, cdns->dev_irq, priv_dev);
->  
-> +	/* The works can still be queued until the IRQ is freed. */
-> +	cancel_work_sync(&priv_dev->pending_status_wq);
-> +	cancel_work_sync(&priv_dev->aligned_buf_wq);
-> +
+Hello:
 
-We may cancel work before going to de-init. How about move them before
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-	pm_runtime_put_autosuspend(cdns->dev);
+On Mon, 7 Sep 2026 22:46:32 +0300 you wrote:
+> In generic_ocp_{read,write}(), the *while* loops look very strange:
+> the last iteration is implemented differently to the previous ones
+> (doing some useless assignments before *break*) for no good reason.
+> Merge the different iterations into one, using the local variables
+> in the loop bodies...
+> 
+> Found by Linux Verification Center (linuxtesting.org) with the Svace
+> static analysis tool.
+> 
+> [...]
 
+Here is the summary with links:
+  - [net-next,v3] r8152: simplify loops in generic_ocp_{read,write}()
+    https://git.kernel.org/netdev/net-next/c/f217004a40c4
+
+You are awesome, thank you!
 -- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks,
-Peter Chen
+
