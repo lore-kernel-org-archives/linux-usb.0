@@ -1,103 +1,132 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1412530D3E8;
-	Thu, 10 Sep 2026 05:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B92639734A
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 06:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789019467; cv=none; b=i8SY/ldp1rt9NNVOBry9sxsuAoJmfHt0SDurL1KZzAhvySRvgYookB6uXZK0XD5+0nRS8+AVksxDYHIhTkM1VzgjonFSuIC7SYfqBfw2aYSAq2LIqmOho0p3vK6IUNbTk90DciCwFUawxFl+AEnyD0px2bxTkUEBR8M7f+s53Uw=
+	t=1789021245; cv=none; b=nNWPms4NuXq46Y24YwV0EDY6kzi8BivnPl7mPgGNIaPZYXjCdokMUL9irTRD99vL32UVzaZ6zDSNac+tJrRgVl5VnPpZxlako7chdumqQjTv7ppTh8HdqpSMMXQ3Obh/FQGlWUXWwbLZZSNwe6vduXhd/kbBSLeY5AsAudhrgOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789019467; c=relaxed/simple;
-	bh=DrXfTS8ZxyUDNE5U6sJBSOlmwS0hqMzaEq5mQxDQUFA=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=fM2fT3col2MhTMeNgIDJjnsvC663lEqYb6nAi+8IghBVvTWGYP0+/JeAkX3G7Xn04G8Ls0lR1Sec6H4ZLEhRKssqJHHuusGu38A3r2rvZl+Gj98n98gstfm6KQwuw5679wv1xe2pHrYhaU/Dd7Xfa0RuIy3sVI5GooDWqOQTs8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.192.40.33])
-	by mtasvr (Coremail) with SMTP id _____wC3Yz1ARaJqE6kFAQ--.2549S3;
-	Thu, 10 Sep 2026 13:50:57 +0800 (CST)
-Received: from smtpclient.apple (unknown [10.192.40.33])
-	by mail-app3 (Coremail) with SMTP id zS_KCgBHX3FARaJquhMPBQ--.5303S2;
-	Thu, 10 Sep 2026 13:50:56 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
+	s=arc-20240116; t=1789021245; c=relaxed/simple;
+	bh=o40RrjqkHQXK/DHsFMFuJqYUz3oni/RmZax3gunIa9k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hKQguypPC1q+nLYfT7N1ul9bEJh4l4H7DRlgjRC5KBJgDFIK2YrEro/6j88aPVyYHnSBhddZ0nY3XHW5ePWZVqsTBDbN9XToP/XGsLoGJl3k/RQAQqUZNT+ku0a8VSsPYac6j2iwd4mCrBG6WG74z3fsRJp2cHYnyislEU1Purw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACVCErWK; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACVCErWK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789021243; x=1820557243;
+  h=date:from:to:cc:subject:message-id;
+  bh=o40RrjqkHQXK/DHsFMFuJqYUz3oni/RmZax3gunIa9k=;
+  b=ACVCErWKpp95Kva8DpNn4BKOWZgNzJT0T0a20OUpcWWa0ED75AAXVcJS
+   +2iIw0d1fTW24eh2vaInzzm/wnjIMlPPPrvn4sbhYPXyr/hzvDShKr8a5
+   dPHI9SK3wzSs9IYJiE7VcZ6fws+IQSo81E4pdgZFe/S5rBMSiC4pOQgd5
+   D76c+/ivoUOe3+5nclryLKO5rUppNMm6HG7DWBDO9hd0fbSCNG9WgdCgk
+   JKGA2bxRI4j81YX7ImZ3+4hbkzAqCuv613/3hiT+TEgp7STOfKcxIbbNK
+   fcBV/238kyFFz/uGsowqG0pUW97wqQnjDlQ5SrE6SliHKu7YkmI2s+I8U
+   A==;
+X-CSE-ConnectionGUID: w28RnG3fRBqgQeX67Kny8w==
+X-CSE-MsgGUID: IbXZ3GqoRbK/kSdLgGnF0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="88609089"
+X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
+   d="scan'208";a="88609089"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 23:20:41 -0700
+X-CSE-ConnectionGUID: aXG0/eYZQeaewn0Rzw+oPw==
+X-CSE-MsgGUID: w1VDzJGrS9eCLXtkvH99sA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
+   d="scan'208";a="296494968"
+Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 09 Sep 2026 23:20:39 -0700
+Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4Y9F-000000001SI-0WBe;
+	Thu, 10 Sep 2026 06:20:37 +0000
+Date: Thu, 10 Sep 2026 14:19:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ 6ea92f0109dd7f86ac9787f1634ee68be1185721
+Message-ID: <202609101437.9OWnUYMY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH] usb: cdns3: fix use-after-free in cdns3_gadget_exit()
-From: Fan Wu <12321260@zju.edu.cn>
-In-Reply-To: <aqIVzxZyRyx67GPX@hu-petche-lv.qualcomm.com>
-Date: Thu, 10 Sep 2026 13:50:46 +0800
-Cc: Fan Wu <fanwu01@zju.edu.cn>,
- linux-usb@vger.kernel.org,
- Pawel Laszczak <pawell@cadence.com>,
- Roger Quadros <rogerq@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- Song Li <songl@zju.edu.cn>,
- Sicong Huang <congei42@163.com>
-Content-Transfer-Encoding: 7bit
-Message-Id: <4BDFACF5-50C7-43B5-861C-9467B6E3D819@zju.edu.cn>
-References: <20260909095655.694527-1-fanwu01@zju.edu.cn>
- <aqIVzxZyRyx67GPX@hu-petche-lv.qualcomm.com>
-To: Peter Chen <peter.chen@kernel.org>
-X-Mailer: Apple Mail (2.3774.600.62)
-X-CM-TRANSID:zS_KCgBHX3FARaJquhMPBQ--.5303S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?WHDvpwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnZPoDCNGYdHSfuFmYJL54WNB66d1lXcKtjZp12WNyL+NGUIw2xCv9nnYIkgX6xtv+Pvs
-	3eJmM/Z+qZRsjNnOb0wB5rM+H8XhqwExY4Cjs2QP
-X-Coremail-Antispam: 1Uk129KBj9xXoWrKF1ruw1kCF45CFykWr18CrX_yoWkAwc_Wa
-	yvkr97Ga1UW39rAwnxCr15Ar93GFyxWa48Ww4qyFWfC3yUtrs8Jr18Gr95Cr43Xw4fKFn3
-	A3s5t3yfur9rZosvyTuYvTs0mTUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUb-AYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24l42xK82IYc2Ij64vIr41l4I8I3I0E
-	4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
-	WUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
-	Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
-	WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
-	YxBIdaVFxhVjvjDU0xZFpf9x07jbo7NUUUUU=
 
-> On Sep 10, 2026, at 10:28, Peter Chen <peter.chen@kernel.org> wrote:
-> 
-> We may cancel work before going to de-init. How about move them before
-> 
-> pm_runtime_put_autosuspend(cdns->dev);
-> 
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: 6ea92f0109dd7f86ac9787f1634ee68be1185721  Merge tag 'thunderbolt-for-v7.3-rc3' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
 
-Hi Peter,
+elapsed time: 1058m
 
-Thanks for the review.
+configs tested: 55
+configs skipped: 0
 
-I think the work items need to be cancelled only after the gadget has
-been quiesced. Moving the cancellations before
-pm_runtime_put_autosuspend() would run them while the gadget driver is
-still bound and requests may still be queued.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-In particular, an EP0 status request can queue pending_status_wq from
-cdns3_gadget_ep0_queue(), and an endpoint request can queue
-aligned_buf_wq from cdns3_prepare_aligned_request_buf(). Thus either
-work can be re-queued after an early cancellation and before
-usb_del_gadget() unbinds the gadget driver.
+tested configs:
+alpha         allnoconfig    gcc-16.1.0
+alpha        allyesconfig    gcc-16.1.0
+arc          allmodconfig    clang-24
+arc           allnoconfig    gcc-16.1.0
+arc          allyesconfig    clang-24
+arm           allnoconfig    gcc-16.1.0
+arm          allyesconfig    clang-24
+arm64        allmodconfig    clang-24
+arm64         allnoconfig    gcc-16.1.0
+csky         allmodconfig    gcc-16.1.0
+csky          allnoconfig    gcc-16.1.0
+hexagon      allmodconfig    gcc-16.1.0
+hexagon       allnoconfig    gcc-16.1.0
+i386         allmodconfig    clang-22
+i386          allnoconfig    gcc-16.1.0
+i386         allyesconfig    clang-22
+loongarch    allmodconfig    clang-24
+loongarch     allnoconfig    gcc-16.1.0
+m68k         allmodconfig    gcc-16.1.0
+m68k          allnoconfig    gcc-16.1.0
+m68k         allyesconfig    clang-24
+microblaze    allnoconfig    gcc-16.1.0
+microblaze   allyesconfig    gcc-16.1.0
+mips         allmodconfig    gcc-16.1.0
+mips          allnoconfig    gcc-16.1.0
+mips         allyesconfig    gcc-16.1.0
+nios2        allmodconfig    clang-20
+nios2         allnoconfig    clang-24
+openrisc     allmodconfig    clang-20
+openrisc      allnoconfig    clang-24
+parisc       allmodconfig    gcc-16.1.0
+parisc        allnoconfig    clang-24
+parisc       allyesconfig    clang-17
+powerpc      allmodconfig    gcc-16.1.0
+powerpc       allnoconfig    clang-24
+riscv        allmodconfig    clang-24
+riscv         allnoconfig    clang-24
+riscv        allyesconfig    clang-24
+s390         allmodconfig    clang-17
+s390          allnoconfig    clang-24
+s390         allyesconfig    gcc-16.1.0
+sh           allmodconfig    gcc-16.1.0
+sh            allnoconfig    clang-24
+sh           allyesconfig    clang-17
+sparc         allnoconfig    clang-24
+sparc64      allmodconfig    clang-20
+um           allmodconfig    clang-17
+um            allnoconfig    clang-24
+um           allyesconfig    gcc-16.1.0
+x86_64       allmodconfig    clang-22
+x86_64        allnoconfig    clang-24
+x86_64       allyesconfig    clang-22
+x86_64      rhel-9.4-rust    clang-22
+xtensa        allnoconfig    clang-24
+xtensa       allyesconfig    clang-20
 
-usb_del_gadget() performs the gadget unbind and synchronizes the gadget
-IRQ; devm_free_irq() then removes the driver's IRQ handler. Keeping the
-cancellations after these teardown steps ensures that both works are
-drained before cdns3_free_all_eps() and the aligned buffers are freed.
-
-Could we keep the current placement?
-
-Thanks,
-Fan
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
