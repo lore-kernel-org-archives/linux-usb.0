@@ -1,83 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377AD3E2AB1
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 15:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4E337D13D
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 15:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789054551; cv=none; b=NhANhRIsy7qjiGtrKDvegji1CqOno2RuiY2XtKLWFKithnUCtBRcrD0zXorpPF8POq7WB/1IFKAy1+9Dx6iCCXVP979U2+6q468NBaSEvgijXVDUVDfVjMVY6SJ1dU6arV8EVXxzAO0wiGpdhCl83TwRPzA4xuuNf+gowDn/goM=
+	t=1789055436; cv=none; b=OhAWMTiJ2O4+PR//gChanupzIC63IM2EcXMwpAAct/Tz7sC2hA4BR3gSYeDZhcnrkA+GYaAdkd8XzHNsPf2hTKuX11lDpil8cH/wRCwJY0tZkQNcQn24sjq1bJ7MOFHjTZ8fu0coINWqwQLxjdOCSHg5hBDZxKlTnHJ0yiPceGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789054551; c=relaxed/simple;
-	bh=mINC9wuk5w2pBAaP+rXLMgllfTpENgg7Y94mWha5EIA=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BCrk6++x0x9uRwVmfd3jYqhAXsfqLSQp6RWX/OTzogSYNttl2K+v52k6PZ/X4Ti0wbe7X4ktNNtgk9eBFHwwkgzaqnmfxRcB0kQpueAEQ3x/OEecX4pC8BQT1oC7jYN3dB10TvExL17h4KyzKZVbcKeyIf/6NQxBdRwcJSGrl1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PeDUdiMs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1789055436; c=relaxed/simple;
+	bh=P2cYmpDWwylnIYYzqHe2uB/lHncOSeAxt5HhICWyv9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZflSbjVmYofYgX24ukNqkfS5AyPXfzvfah2vz0LF46fgTWDW4VxX0sMvrswbtI6VPzJGZsYHn0zkdDBye467cONFZvfHfHwGPjoz4ToKnfC4HgjVFWGUjh9RmrqxRAo4gY5gpOU8Zpu2S2twYtGfYrN+NdESa4IIXnMW/WeVkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=cFS937W/; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PeDUdiMs"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BCA73C2BCFA
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 15:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1789054550;
-	bh=mINC9wuk5w2pBAaP+rXLMgllfTpENgg7Y94mWha5EIA=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=PeDUdiMsPxq9b/V6hkXVFe/g30OH0Tlwc9uKOaD4lLJKcsbYYraYrK0eluoIvCzFM
-	 i9oe+8FavYVPK1AmcoP9xBqcWS8hsNfgBdEqYWrBQi21723daQuTvJJ13rp9ur4Ih3
-	 e5kLo31LMd+cm4JaXOfDex0oa3qUGq8JC+Ghh3zBrxPt5Sn/wppwUa40LzE4WYKtsi
-	 RKsggA5f4ey19QysT0Y9L4etRaYQ9AhaW28X8ja6Q4AvStshNASoqQnuIIiTOY22NV
-	 d/cA6ovPGF+csY6O+E14yVimJSRa8ddKPZnR6jQTuGSuy+FV5sUZ4z2tMStSFJ7e6S
-	 cYcg4nqsW+IXQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id A18BDC41616; Thu, 10 Sep 2026 15:35:50 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221655] Barlow Ridge TB5 tunneled xHCI (8086:5782)
- runtime-suspends to D3hot and fails to wake on USB-C device connect (Lenovo
- Legion 9 18IAX10)
-Date: Thu, 10 Sep 2026 15:35:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andy.shevchenko@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status cc resolution
-Message-ID: <bug-221655-208809-yhUOnOPOvS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221655-208809@https.bugzilla.kernel.org/>
-References: <bug-221655-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="cFS937W/"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-9399daa3c8eso431369685a.1
+        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 08:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1789055433; x=1789660233; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qCACd8tmHvailDsRp61klS/38HeTmJcv/x0NuwIEl6E=;
+        b=cFS937W/HQ9IhaW+caCuEBqpOQJRKKtbHOPLFcy8iRo5JRjex50hc+mE7E5/DOqJLt
+         ++rvq/enCKbFTH8Yjh7jNk5CrMt9YA4OsoqDLkrAQtCjf8vRzIEG8NKGte7BWNy7sp9l
+         b4rP56pwFtw/QSiWyI+vapuKzqK6X5e78H7HT7VCzpEUd6Fjr7g9PMXi7ZUG3qN0HUEO
+         +zw8IB8mMxqp+qTMVXLyeQwiL/meQh7XSHMGxl4OvjnAsvOsbWx+ALHdNcTNi6t4MLnk
+         CGBuDv7U+yndMkPKgjVQx06kunxMb6Rarzy2IMRxHt7sSBRxA7jOIOywqMxgKBFVi2d9
+         MF4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789055433; x=1789660233;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qCACd8tmHvailDsRp61klS/38HeTmJcv/x0NuwIEl6E=;
+        b=WHmrwHPdmEZFe1Q6umIYguGBj4tp2PyYfq+F7KaqrfyLo48pI77u3+OJdCao1IZVWd
+         B1+clVIPvDGksiwpbZqh9onuw+wV3LPTUUAfDBoXvv09AmyhgoqVoXAnVA33Rdm0xhO6
+         u7yWMnfNDLtslElKBSw8Wx7jndZjHigdsxt9HzR0dMmuv+C1Wy9gv7Qlw4/O8W+aQEZz
+         wkFD9w+4uNC/kWUQIPXrsVacn8SdqgGiNG9LTxbnD9GrfAhsjKONngMd9c3dkbi9TyZK
+         05d1dPMPtZuapuWxVf1nmWpYs2dM6YVoY9JBZywZ8Mb8hLwoB8/CooLL1s7GZY/vzfc6
+         yGJg==
+X-Forwarded-Encrypted: i=1; AKwUvBy+F+nN2qtQufY/wTZYGhuV1XfVkwOmCwtOL+UTH/7YvPgy50jbYBv46sI1EWXMtf9x7OZyQIWc5N8=@vger.kernel.org
+X-Gm-Message-State: AFuF++no/waN9kN6exLnOCcNbwl+1zlsfxEvy4S5DsbZBMct68rnsmb+
+	qhnnP8JjULzDFVoVEOECSLoAplMYjB1lMghkm6OYs4CCMsuAC7k7uEaYg4BzqmYQOA==
+X-Gm-Gg: AYBFou2Ssn3LWTp0cDgjZCxZhRWNUpjwBxCZEVO8sownEvglj9Suye5TKhG74CqjF9+
+	Cdb+eeDQ1bk6lLzXHRpBZLsfEtkPeZ3F/Mumo0q+A2RK5jL35wWjpRGXrRkrzWWY+nn1OmOhMzW
+	BiQJ4Lu3bmQIt7K/YdX0LrzLJBrJh7ZOqv5TpQV50fjqfSMXTbnQQlEzBPsAhND0ZOaJcGgb1+m
+	qAp2eQWkBhyWKbwUCSAKdBGWeyImOlcXQyd2HVpK98B/fO6VQu4Fudd0Rup8RPrYadtRJWU5/It
+	GFZIN6CxPRQ6+DCCopiLnEeTLfn8WXcZKu5i5DcbYvDoOqZtmDsMlZa09Zr9mL6EfV2GjkXwvVl
+	an5poiHHWsZTke7zq71mkGS1Mdi24xnl+F1l1ogCyGJpkr0OY4pXb1U0JLVnuu2WXkdZ4FfiHfU
+	s0yFnIV3xLF35EmIXiQ8hLfPOjrAuPaijITvWXQ5H3f4Snc6fZVoWt6fYhMmbQlEoDZmixyWkP
+X-Received: by 2002:a05:620a:3941:b0:939:c0b3:6d8e with SMTP id af79cd13be357-939c0b37c88mr1866043685a.30.1789055432800;
+        Thu, 10 Sep 2026 08:50:32 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-939e7d9f945sm15031085a.6.2026.09.10.08.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 08:50:32 -0700 (PDT)
+Date: Thu, 10 Sep 2026 11:50:29 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
+References: <0305182d-5914-4022-a0a6-1ab4221b0a6c@rowland.harvard.edu>
+ <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com>
+ <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
+ <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
+ <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
+ <CAFmvuTXWxQJUZfAAC=vs5QM=myDLE-o0jZZ8OXdqiGioPkRwfA@mail.gmail.com>
+ <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
+ <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
+ <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
+ <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221655
+On Thu, Sep 10, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
+> Hi Alan,
+> 
+> Thank you for the second patch.
+> 
+> > In your earlier testing, didn't you find that with the unpatched driver,
+> > the driver module's usage count remained elevated as long as the
+> > ep_user_copy_worker() was pending on the workqueue? And therefore it
+> > was impossible to unload the module while a work item was still queued
+> > or running?
+> 
+> To check that point directly, I tested the unpatched upstream copy-work
+> path using diagnostic gates at two points in ep_user_copy_worker(). The
+> module usage count remained elevated when I held the worker at entry,
+> before iocb->ki_complete(). When I held the worker after that call, the
+> usage count reached zero and the module was unloaded before the worker
+> finished; the kernel then warned and panicked. This suggests that
+> AIO may not retain the file reference throughout the worker tail after
+> ki_complete().
 
-Andy Shevchenko (andy.shevchenko@gmail.com) changed:
+Okay, it's good to know that.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |andy.shevchenko@gmail.com
-         Resolution|---                         |INVALID
+> > Could you test it and verify that it prevents the problem you observed
+> > with only the first patch installed?
+> 
+> Yes. I applied your first patch and then your second patch to upstream
+> v7.2-rc1, commit dc59e4fea9d83f03bad6bddf3fa2e52491777482.
+> 
+> With the first patch alone, I reproduced the earlier module-unload
+> failure with ep_unlink_worker() held at entry. With both patches applied
+> using the same reproducer and ep_unlink_worker() entry gate,
+> gadgetfs_unbind() reached the flush point and the ep0 close remained
+> blocked, while unmount and rmmod attempts were rejected. After I released
+> the worker, the close completed and subsequent unmount and rmmod attempts
+> succeeded. Holding ep_user_copy_worker() at entry with both patches
+> applied produced the same result.
+> 
+> I also tested the boundary where gadgetfs_unbind() reached the flush
+> point before the completion callback queued copy_work.
 
---- Comment #4 from Andy Shevchenko (andy.shevchenko@gmail.com) ---
-Closed based on the comment #3.
+I didn't think this was possible.  gadgetfs_unbind() calls 
+destroy_ep_files() before doing the flush, and destroy_ep_files() calls 
+usb_ep_disable() for each active endpoint.  usb_ep_disable() doesn't 
+return until the completion handlers for all the outstanding requests on 
+the endpoint have finished.  This means no copy_work items should have 
+been left to queue when the flush occurred.
 
---=20
-You may reply to this email to add a comment.
+>  After the
+> callback queued the work, I held the worker tail immediately after
+> iocb->ki_complete(). In this ordering, rmmod did not complete while the
+> worker was held; after I released the worker, rmmod completed cleanly.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+What prevented rmmod from completing after iocb->ki_complete() had 
+finished?  Was it waiting for the flush to finish?  If any additional 
+work items were added to the queue after the flush started, they should 
+not have blocked the flush.
+
+> I reran the exact pre-queue cancellation matrix, the original
+> null-ptr-deref reproducer, the directed cross-CPU UAF reproducer,
+> deferred giveback, forced dequeue failure, the earlier NULL-endpoint
+> case, payload checks, and CPU hotplug. With both patches applied, all
+> produced the expected results without a KASAN report, Oops, or LOCKDEP
+> warning. Strict KCSAN did not report a race involving GadgetFS or its AIO
+> work functions.
+> 
+> In my x86-64 QEMU and dummy_hcd tests, the second patch prevented the
+> module-unload problem that remained with the first patch alone. I did not
+> find a new failure attributable to the second patch in these tests.
+
+All right.  So once these last few questions have been resolved, I will 
+submit both of the patches (with your Tested-by: added to the second as 
+well as the first).
+
+Thanks again for all your hard work running multiple tests.
+
+Alan Stern
