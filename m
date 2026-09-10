@@ -1,182 +1,103 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B253B9D8D;
-	Thu, 10 Sep 2026 05:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1412530D3E8;
+	Thu, 10 Sep 2026 05:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789017839; cv=none; b=NtjfW+MMc6wyMmib51EOVGII/IVMtUxfk4xzRAMU9S7gfn/0/3ugYKV3+7kxFOIvvSz5Q2hd4XFm0JYalPCLA9Y8oQt5qWmWrJBy/mmlpxhlpeOcDkEOoe6WmFA8PeOmCHbWkODn46bKO8yQknL0HYuwk2RNfuLo8NijiNdtCw0=
+	t=1789019467; cv=none; b=i8SY/ldp1rt9NNVOBry9sxsuAoJmfHt0SDurL1KZzAhvySRvgYookB6uXZK0XD5+0nRS8+AVksxDYHIhTkM1VzgjonFSuIC7SYfqBfw2aYSAq2LIqmOho0p3vK6IUNbTk90DciCwFUawxFl+AEnyD0px2bxTkUEBR8M7f+s53Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789017839; c=relaxed/simple;
-	bh=rwyCzwzbGYbIYUr3KkZa7tK/XBTqHFsb6PcNgDfkLfU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bFH65JULMpC1Fej5/ozwuoWtXxVIuUW9P8aTuMB35L9R6NI8BdpFHO2raUUlYTr335PO6v9vmKlzR40LA5QfbNjGaTBYuHDbfEW1VW2DlnKS1cxsO8l6RNUgBXybA2hAEkzp3YDMW8cl/ienNeZahvBT/jPEhzmuUYv8isM8JOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=P8jnnJ96; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="P8jnnJ96"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BFC5C102E36;
-	Thu, 10 Sep 2026 07:23:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1789017831; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=RyHAMGObrZ2W+LqPoNz/UDlskVqAfuHrAD8Veert9AY=;
-	b=P8jnnJ96+KUgJHiHbucVSZVx4CKShWIKHcpwRPIs9Y64mupOm7IGll/Qsz73qQEujH8mu3
-	crGhzHcJPPQHW5CHVHELrbJjygYERhQKyzHjMzLXlKtNJf1fQqVksJkN7OQHXDrwyZl/q2
-	Gz96t9AQGaIaMGs2R8ZnjHTAKl73QV95DaYDlromICoGpmioUkPdsZc60e+PChn+3Pydn+
-	liaNbiWl5bPKQjufTEQNpxS9tH6XNA+i3gq92KtBvbDtlSu2mdIR+OB5FPoaQcBClJJONs
-	9nWBhLrCvcuYsb21hru+zMydR2lfHKwDQ309kS12WcrbqlcRqCfnmEVzdG8nyA==
-From: Marek Vasut <marex@nabladev.com>
-To: linux-usb@vger.kernel.org
-Cc: Marek Vasut <marex@nabladev.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	kernel@dh-electronics.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v5 2/2] usb: dwc3: dwc3-generic-plat: Add ST STM32MP2 DWC3 xHCI USB controller glue
-Date: Thu, 10 Sep 2026 07:22:41 +0200
-Message-ID: <20260910052340.246717-2-marex@nabladev.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260910052340.246717-1-marex@nabladev.com>
-References: <20260910052340.246717-1-marex@nabladev.com>
+	s=arc-20240116; t=1789019467; c=relaxed/simple;
+	bh=DrXfTS8ZxyUDNE5U6sJBSOlmwS0hqMzaEq5mQxDQUFA=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=fM2fT3col2MhTMeNgIDJjnsvC663lEqYb6nAi+8IghBVvTWGYP0+/JeAkX3G7Xn04G8Ls0lR1Sec6H4ZLEhRKssqJHHuusGu38A3r2rvZl+Gj98n98gstfm6KQwuw5679wv1xe2pHrYhaU/Dd7Xfa0RuIy3sVI5GooDWqOQTs8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.192.40.33])
+	by mtasvr (Coremail) with SMTP id _____wC3Yz1ARaJqE6kFAQ--.2549S3;
+	Thu, 10 Sep 2026 13:50:57 +0800 (CST)
+Received: from smtpclient.apple (unknown [10.192.40.33])
+	by mail-app3 (Coremail) with SMTP id zS_KCgBHX3FARaJquhMPBQ--.5303S2;
+	Thu, 10 Sep 2026 13:50:56 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [PATCH] usb: cdns3: fix use-after-free in cdns3_gadget_exit()
+From: Fan Wu <12321260@zju.edu.cn>
+In-Reply-To: <aqIVzxZyRyx67GPX@hu-petche-lv.qualcomm.com>
+Date: Thu, 10 Sep 2026 13:50:46 +0800
+Cc: Fan Wu <fanwu01@zju.edu.cn>,
+ linux-usb@vger.kernel.org,
+ Pawel Laszczak <pawell@cadence.com>,
+ Roger Quadros <rogerq@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org,
+ Song Li <songl@zju.edu.cn>,
+ Sicong Huang <congei42@163.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <4BDFACF5-50C7-43B5-861C-9467B6E3D819@zju.edu.cn>
+References: <20260909095655.694527-1-fanwu01@zju.edu.cn>
+ <aqIVzxZyRyx67GPX@hu-petche-lv.qualcomm.com>
+To: Peter Chen <peter.chen@kernel.org>
+X-Mailer: Apple Mail (2.3774.600.62)
+X-CM-TRANSID:zS_KCgBHX3FARaJquhMPBQ--.5303S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?WHDvpwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnZPoDCNGYdHSfuFmYJL54WNB66d1lXcKtjZp12WNyL+NGUIw2xCv9nnYIkgX6xtv+Pvs
+	3eJmM/Z+qZRsjNnOb0wB5rM+H8XhqwExY4Cjs2QP
+X-Coremail-Antispam: 1Uk129KBj9xXoWrKF1ruw1kCF45CFykWr18CrX_yoWkAwc_Wa
+	yvkr97Ga1UW39rAwnxCr15Ar93GFyxWa48Ww4qyFWfC3yUtrs8Jr18Gr95Cr43Xw4fKFn3
+	A3s5t3yfur9rZosvyTuYvTs0mTUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUb-AYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
+	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
+	6r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
+	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24l42xK82IYc2Ij64vIr41l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
+	WUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
+	Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
+	WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
+	YxBIdaVFxhVjvjDU0xZFpf9x07jbo7NUUUUU=
 
-The ST STM32MP2 SoC contains one instance of DWC3 USB controller with
-glue logic wrapper around it controlled by syscon. Extend the generic
-DWC3 platform driver with ST STM32MP2 glue logic specifics.
+> On Sep 10, 2026, at 10:28, Peter Chen <peter.chen@kernel.org> wrote:
+> 
+> We may cancel work before going to de-init. How about move them before
+> 
+> pm_runtime_put_autosuspend(cdns->dev);
+> 
+> 
 
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Marek Vasut <marex@nabladev.com>
----
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Marek Vasut <marex@nabladev.com>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: devicetree@vger.kernel.org
-Cc: kernel@dh-electronics.com
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-usb@vger.kernel.org
----
-V2: No change
-V3: - Use generic over-current-active-low
-V4: - Include bitfield.h
-    - Split this from series arm64: dts: phy: st: usb: Add STM32MP2 USB support
-      https://lore.kernel.org/all/20260822074816.548662-1-marex@nabladev.com/
-V5: - Reorder usb2only_conf to improve readability
-    - Drop superfluous !!
-    - Add AB from Thinh
----
- drivers/usb/dwc3/dwc3-generic-plat.c | 46 ++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+Hi Peter,
 
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07ce..2dce1f24615c8 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -7,6 +7,7 @@
-  * Inspired by dwc3-qcom.c and dwc3-of-simple.c
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-@@ -22,6 +23,12 @@
- #define EIC7700_HSP_AXI_LP_XM_CSYSREQ	BIT(0)
- #define EIC7700_HSP_AXI_LP_XS_CSYSREQ	BIT(16)
- 
-+#define STM32MP2_USB3DRCR_HOST_PORT_POWER_CONTROL_PRESENT	BIT(0)
-+#define STM32MP2_USB3DRCR_OVRCUR_POLARITY			BIT(1)
-+#define STM32MP2_USB3DRCR_VBUSEN_POLARITY			BIT(2)
-+#define STM32MP2_USB3DRCR_USB2ONLYH				BIT(3)
-+#define STM32MP2_USB3DRCR_USB2ONLYD				BIT(4)
-+
- struct dwc3_generic {
- 	struct device		*dev;
- 	struct dwc3		dwc;
-@@ -85,6 +92,39 @@ static int dwc3_spacemit_k1_init(struct dwc3_generic *dwc3g)
- 	return 0;
- }
- 
-+static int dwc3_stm32mp25_init(struct dwc3_generic *dwc3g)
-+{
-+	struct device *dev = dwc3g->dev;
-+	bool ovrcur_polarity_low = device_property_read_bool(dev, "over-current-active-low");
-+	bool prt_pwr_ctrl = device_property_read_bool(dev, "st,enable-port-power-control");
-+	bool vbusen_polarity_low = device_property_read_bool(dev, "st,vbusen-active-low");
-+	bool usb2only_conf = false;
-+	struct regmap *regmap;
-+	u32 drcr;
-+
-+	if (device_property_match_string(dev, "phy-names", "usb3-phy") < 0)
-+		usb2only_conf = true;
-+
-+	regmap = syscon_regmap_lookup_by_phandle_args(dev->of_node, "st,syscfg", 1, &drcr);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(dev, PTR_ERR(regmap), "No st,syscfg phandle specified\n");
-+
-+	return regmap_update_bits(regmap, drcr,
-+				  STM32MP2_USB3DRCR_HOST_PORT_POWER_CONTROL_PRESENT |
-+				  STM32MP2_USB3DRCR_OVRCUR_POLARITY |
-+				  STM32MP2_USB3DRCR_VBUSEN_POLARITY |
-+				  STM32MP2_USB3DRCR_USB2ONLYD |
-+				  STM32MP2_USB3DRCR_USB2ONLYH,
-+				  FIELD_PREP(STM32MP2_USB3DRCR_HOST_PORT_POWER_CONTROL_PRESENT,
-+					     prt_pwr_ctrl) |
-+				  FIELD_PREP(STM32MP2_USB3DRCR_OVRCUR_POLARITY,
-+					     ovrcur_polarity_low) |
-+				  FIELD_PREP(STM32MP2_USB3DRCR_VBUSEN_POLARITY,
-+					     vbusen_polarity_low) |
-+				  FIELD_PREP(STM32MP2_USB3DRCR_USB2ONLYD, usb2only_conf) |
-+				  FIELD_PREP(STM32MP2_USB3DRCR_USB2ONLYH, usb2only_conf));
-+}
-+
- static int dwc3_generic_probe(struct platform_device *pdev)
- {
- 	const struct dwc3_generic_config *plat_config;
-@@ -231,12 +271,18 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
- 	.properties = DWC3_DEFAULT_PROPERTIES,
- };
- 
-+static const struct dwc3_generic_config stm32mp25_dwc3 =  {
-+	.init = dwc3_stm32mp25_init,
-+	.properties = DWC3_DEFAULT_PROPERTIES,
-+};
-+
- static const struct of_device_id dwc3_generic_of_match[] = {
- 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
- 	{ .compatible = "spacemit,k3-dwc3", },
- 	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
- 	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
- 	{ .compatible = "starfive,jhb100-dwc3", },
-+	{ .compatible = "st,stm32mp25-dwc3", &stm32mp25_dwc3 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
--- 
-2.53.0
+Thanks for the review.
+
+I think the work items need to be cancelled only after the gadget has
+been quiesced. Moving the cancellations before
+pm_runtime_put_autosuspend() would run them while the gadget driver is
+still bound and requests may still be queued.
+
+In particular, an EP0 status request can queue pending_status_wq from
+cdns3_gadget_ep0_queue(), and an endpoint request can queue
+aligned_buf_wq from cdns3_prepare_aligned_request_buf(). Thus either
+work can be re-queued after an early cancellation and before
+usb_del_gadget() unbinds the gadget driver.
+
+usb_del_gadget() performs the gadget unbind and synchronizes the gadget
+IRQ; devm_free_irq() then removes the driver's IRQ handler. Keeping the
+cancellations after these teardown steps ensures that both works are
+drained before cdns3_free_all_eps() and the aligned buffers are freed.
+
+Could we keep the current placement?
+
+Thanks,
+Fan
 
