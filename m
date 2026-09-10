@@ -1,40 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1441B48425C;
-	Thu, 10 Sep 2026 12:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47353D16FD;
+	Thu, 10 Sep 2026 12:54:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789044581; cv=none; b=mos8u4oknI2jt0e3Zzk3DQgiO1dEcUPb5MzaB8h2LOE8lBoiO6tf65BSnrABcyCBz/QRifdLioBi0nyaUIuCW2GdCKhEHBKkDctLLtdye5lj/INoe0uR66QAhXSkepUAqjmgAZrpu99YjvRYV9r9S6qpXSMOthUR9p/QUXbl0Ww=
+	t=1789044871; cv=none; b=GmRPykohaXbEWL2JvhKTg3kd0k6FG6WHwk+hV1KBT0NGysaLyTJXvlifQrGdezZclIvJF27TnZbec0Wpq4zyCgzIdQN84bobQ2XOkITru8GVK4siGxkhQkn1JqxCR7gnEw1YYrQqN2Veu2W//8IUiu9xfy2A7FPT/Pgs7vuLjnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789044581; c=relaxed/simple;
-	bh=tf2IGoX3SZi08DOfXNPtbhAO3K0HpLyefQHKq64r6is=;
+	s=arc-20240116; t=1789044871; c=relaxed/simple;
+	bh=6/btzPwfznfFv8TQiUa+owP0pEk3ovBqE7vaMGsT/Mo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7WWSG3B9HulotIAfNcde5SORpXFwFsYRtUpaqeHbleCY3rQquC+y+AWAQaikNVScmneuUhMP1xAS+zPbbwTKvdF6Zl8KTwcF/KYamgFkIg5mwY5eQn0vA1Sm8khr/z+hKdiSZQn4oMv/NYzapJCDDsgqkaTUozbJq2DUGXPqKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UpEsYGxA; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+anqache/CtFAot6nju1+EudjUq0jymY2RZ1D1IHJdyDJmTZGV359kWQ1HHaEt3ZwFjSZJh35PYm9wfj81AyiP0OzF7Cqmm6QSQ5SIJ33fQLZy55jY/s/hbBhufIGoguuWl9wcBiLtPK15+IuRnF1lD3AW1LPTLIh4oDniMVPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhxOMiwv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UpEsYGxA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45FE1F000FF;
-	Thu, 10 Sep 2026 12:49:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789044579;
-	bh=YsPKbnm14nAjsbC5ay+LAnMKluwaE6VtMw8viCHB23g=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhxOMiwv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719111F000FF;
+	Thu, 10 Sep 2026 12:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789044870;
+	bh=RSjpK7/yTSMoZLSzD0J28LyBuQzrzJ/HO5DpbMjTJWY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UpEsYGxAJp5bKwNUDDW+lWIR/spNjq/Ga15MhUAZHYc24ZEmfynV3Wmm+Yiylrwad
-	 KKC8SRzx7ebOowsIo3egkYbXVESZjvVwua+2Nmk/3D12Eh4hrgcMfvJySRzmQqxvqn
-	 8Ukg141Jqn3EtzKjjs04n1dPYpEM7Gwgc1oTiySw=
-Date: Thu, 10 Sep 2026 14:49:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Cc: 3chas3@gmail.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	accessrunner-general@lists.sourceforge.net,
-	syzbot+24eb38c789655fc43663@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: atm: cxacru: fix use-after-free in
- cxacru_poll_status
-Message-ID: <2026091016-gracious-purity-9ca9@gregkh>
-References: <20260803101716.2592486-1-khiemtranzo532001@gmail.com>
+	b=RhxOMiwvxOMcYAg9oDHNz9zvp0M8/fm4lqdxThbwjbpdnzYucg0dKnrU6xvDXARQn
+	 GobT6Htbn3qqUNjPJE0bvpdPG4GTiEb+yrwh2QE2K6YZwaYGAEYS4ws/dsG57qtqs+
+	 CHdjx1lTbloZhQ0CnFFqZIPjHBohOPn0Qg7X8yI8bJXpDWiQxrIem1KXprxn3Cpwdh
+	 H07iqYQzdHUZ5z6A+xDTVrKE6uhuDHBFT42+tkF6bRld3PQjkP+TffRjoW0nlzFphR
+	 RvVJx6dOV2O4YaAozXPO55WPmax8R1RVsoytUQrOsZMpgBqaepm1cuOnt3Zm0MZVs6
+	 tysxgmt7ia4mg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x4eIO-00000002gnD-19hc;
+	Thu, 10 Sep 2026 14:54:28 +0200
+Date: Thu, 10 Sep 2026 14:54:28 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+5fabc1ae99ff40690d84@syzkaller.appspotmail.com
+Subject: Re: [PATCH] USB: serial: keyspan: fix use-after-free in keyspan_close
+Message-ID: <aqKohDTyqN_MGKSf@hovoldconsulting.com>
+References: <20260831023701.9579-1-kartikey406@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -43,32 +47,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803101716.2592486-1-khiemtranzo532001@gmail.com>
+In-Reply-To: <20260831023701.9579-1-kartikey406@gmail.com>
 
-On Mon, Aug 03, 2026 at 06:17:16PM +0800, Nguyen Quang Le Kien wrote:
-> In cxacru_unbind(), cancel_delayed_work_sync() was conditionally skipped
-> when poll_state was CXPOLL_STOPPED. However, a work item previously
-> scheduled when poll_state was CXPOLL_POLLING may still be pending in the
-> workqueue at the time poll_state transitions to CXPOLL_STOPPED. Skipping
-> cancel_delayed_work_sync() in this case allows the work to fire after
-> cxacru_data is freed, causing a use-after-free when cxacru_poll_status()
-> attempts to acquire instance->poll_state_serialize.
+On Mon, Aug 31, 2026 at 08:07:01AM +0530, Deepanshu Kartikey wrote:
+> keyspan_port_remove() frees the port's private data (p_priv) while
+> keyspan_close() may still be running concurrently on another task,
+> e.g. triggered by an explicit TIOCVHANGUP ioctl on an already-open
+> tty racing with device disconnect. This results in keyspan_close()
+> dereferencing freed memory.
 > 
-> Fix this by always calling cancel_delayed_work_sync() regardless of
-> poll_state, ensuring no pending or in-flight work can access the freed
-> instance.
+> Fix this by adding a mutex to keyspan_serial_private that serializes
+> keyspan_close() against keyspan_port_remove(): the latter clears the
+> port's private data pointer under the lock before freeing it, and
+> the former re-fetches and checks that pointer under the same lock
+> before use.
 > 
-> Reported-by: syzbot+24eb38c789655fc43663@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=24eb38c789655fc43663
-> Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-> ---
->  drivers/usb/atm/cxacru.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
+> Reported-by: syzbot+5fabc1ae99ff40690d84@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=5fabc1ae99ff40690d84
 
-Did you forget the assisted-by: tag?
+This isn't a driver specific issue. I've just sent a fix for the tty
+port implementation here:
 
-And how did you test this?
+	https://lore.kernel.org/r/20260910125114.640880-1-johan@kernel.org
 
-thanks.
-
-greg k-h
+Johan
