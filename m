@@ -1,353 +1,605 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010013.outbound.protection.outlook.com [52.101.193.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3535335B4;
-	Thu, 10 Sep 2026 17:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059820; cv=fail; b=cJo7OrLtqkJp8mX8UHYLBjn66+tZw+TUQyjA/SCMST+5RcVa0MGhlCucVL2rMf2TRZZj54e+b5KfAPDSPYUak4Aqc2/8ViJhRyECS3PBF6U8kWYDkrLLEFAVCcwSCPlXzIH51sdpKysdGkhnxoV2n5y6H6SsQcYa/P7bxUl3WcM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059820; c=relaxed/simple;
-	bh=P/kZhoaW4B+Vb4tYSXyPVjh9QCdtESqdc5agU73dpOc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q7rJJoJKxvtjQp8XZbDomoUzXbWux25MFZtDAtFST9yczVGtLT6mdWEdHz1rtFIrMSs8HjtS/d3mPBBpHBDGVqt3iiCW1n6+8Yr+7oHh/fISfvd9jk6PhMxxi/d3Q9VgxtNy68DRM8k/5TTsAI1oDncDq8Why86MDZdHgfRvNzE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=op3YoTBQ; arc=fail smtp.client-ip=52.101.193.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711E85581F2;
+	Thu, 10 Sep 2026 17:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789061078; cv=none; b=KOjJGaYEKe0Um5acm7aV+coOe/6cs0CL7VOXVgqphqwV3viZk3aySZvsCMm7mAExJruoMRC+O7Oq0KCOaRCtVK3W7oZJKRTHsmNv93/NNWV6aqCDwk/jBl6yHEKIRDVOv83H23Sigj4QlGxdZnUheTCTfrNDcOzf2M0i7ZkW6ns=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789061078; c=relaxed/simple;
+	bh=kDSlOSxYXn4i7eskYwk2cbQr5brn38eq0khHDeL68P4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XgH1LyU+Vwz94kTE08VnMq6YCXadZ1hYqNYT6Jihr9v7ZcAXzguASDxF/tOnRudadt+2ePwWwi9fsxBsHtb2JDQtbuaDjUBFcxVb6EnyTzZsGzasg9iItj45k0CuoawDs7KVDCHmr2vQS3cuyemZ3rXVRQ00SGwiNpMzBmaRR5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iT85ktt8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="op3YoTBQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xaHREHSmXidG4dG3EGDFO9nsVT9lS/M12BcqVuKlmNUIsZJzKLLLcH/q5rI8G99KwQy2V+2z3ow/PJiQLceeDQ7Yk3aVJicVkymDMV2BAjut9/nVbsMH4MRGFn3L7vlSEQr3LPXnS0SALzP01ndSMzoZcUXs8GlwdCebKrX03p+aPqu58VzF8Id5HBlX1ZadhI0PXZ/v4L4Qv3MNo2Cx+EYlb60/R6I1wmUYHt0+uAFQ2Ifs1iM6zS9FAu5GU0/Ihx1OAbsjj5TAobUmTWBa+QLjGZFs/V29Q5JQ4/289foSY8hQgqiSOw+rgZdMPSqj15zNrgJJ8oi0JERMVqQ0Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CXGnD71+ZmzvAQrL5HcEtwuhWbweiN6C2slVimsvaIY=;
- b=stTaDNeUi6M+2QmoTzidGpAUZXRzenHT71dDi4k5et1wrnV9L7xURrktdcLCpGyzUalfufsY8FBA93dVa+PQoPN1uaBr6umHxPNFXLWIONJuPrfSxWyPC97+tDfVa622R5tFsIdTuxYyeWcmyfAlRhBM7yo8Ab1zR4+X7GiHAIy+iIkFC6DG1NrNmS7rGKP0g1gON8b6/WasvEq/0c8Epeg5I2fpxKRp2x3AVtLSMiSKiwi1+QOsqMHDH2I27kZ0hFe/J+rf/64jXD0RJvL4zMtRqKci72GD5yYfF81gT7BITlHmBLnjmlwMF7hYBelw5IaqzkHM144lpjdUgwUUsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CXGnD71+ZmzvAQrL5HcEtwuhWbweiN6C2slVimsvaIY=;
- b=op3YoTBQiNCq6lmj0TCfgjSCRQZIJTrPw4OXVtG5i5tqpT5vDmBZScZnAwlfxtqIuXfA8iMJdu2DMNb4BB3y41kcJ34hd5eENibIYYi+K8Ko0SynpaPcivTbPJy1Yw5mKsYET7PpWf+cAYmrLN7hudLqTTg+uGudVYEnneBfP8U=
-Received: from PH7P220CA0006.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:326::12)
- by CY8PR12MB9036.namprd12.prod.outlook.com (2603:10b6:930:78::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
- 2026 17:03:16 +0000
-Received: from CY4PEPF0000EE3B.namprd03.prod.outlook.com
- (2603:10b6:510:326:cafe::97) by PH7P220CA0006.outlook.office365.com
- (2603:10b6:510:326::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.7 via Frontend Transport; Thu, 10
- Sep 2026 17:03:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000EE3B.mail.protection.outlook.com (10.167.242.14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.5 via Frontend Transport; Thu, 10 Sep 2026 17:03:15 +0000
-Received: from aus0006770c4n-lx01.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Thu, 10 Sep 2026 12:03:11 -0500
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Pierre-Loup Griffais <pgriffais@valvesoftware.com>, open list
-	<linux-kernel@vger.kernel.org>, "open list:HID CORE LAYER"
-	<linux-input@vger.kernel.org>, "open list:USB SUBSYSTEM"
-	<linux-usb@vger.kernel.org>, Curtis Vogt <curtis.vogt@gmail.com>, "Mario
- Limonciello" <mario.limonciello@amd.com>
-Subject: [PATCH 2/3] HID: valve-index: Reboot headset on system power transitions
-Date: Thu, 10 Sep 2026 12:02:53 -0500
-Message-ID: <20260910170254.833871-3-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260910170254.833871-1-mario.limonciello@amd.com>
-References: <20260910170254.833871-1-mario.limonciello@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iT85ktt8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 287EF1F000FF;
+	Thu, 10 Sep 2026 17:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789061054;
+	bh=qn8hFN5rKBhABa3XAcHvvYhgH6PEosaVNMpxcicmSBQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=iT85ktt8BBcI+CXHcmVtjeYT5SG28NniNfDLGlFmDE0zz4teXui/CW+aHsh0GQCy6
+	 w9sJeAGHsgah++0g1E2DmzGL1MJ69rJCYUmTv16Rl3HouSvNidmtzrPdnbsCN0S/Nv
+	 /OyOKNAUmBVCAAmVe0REXfNfpJNi5OBrQ2GAVXdu5HSWQWsO1U6IUIO3PWVViaCoY3
+	 wzN3s0kSHzbKddsPsr+VK94YlFwyv5emitgvesnXES0Ywl05uwM/ps20QMe6uSF0F6
+	 LiM8g3KD2dYjc4KUhboc/5pEqaWnxSG6LgQDEiE8VTxzOi/gmaTQLNADNQoDmqPoTG
+	 aV1FApX2CkftA==
+Message-ID: <70448c19-1ac5-4350-bdcc-eb3ebd008992@kernel.org>
+Date: Thu, 10 Sep 2026 12:24:12 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3B:EE_|CY8PR12MB9036:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0479bb6c-a90b-4a71-3733-08df0f5d6807
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|23010399003|376014|10067099003|3023799007|6133799003|18002099003|22082099003|56012099006|5023799004|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	q39GxoTHv2IkRMr/UbtePC8BvPdjmiS51fTwS4Cz5hf1BPK+65/ERR14MClBQCrturKZZicoGDs/zvZH3aL+7ZkN3ZB4B7lkfS014Bq/wiiN/we3hJ2DGhkGeJSxc4Tswudw6O85i4GZXgNN8ZmzzSy9xcF6DJzappsZcEyN8AfxrgztPlj0TtRgt6ppJF3nz8QSQau4D+/aOEx+HL6xthLDbkx65/EHwiejqFtHRjPbLf2dOzbBCkvCIHrKSEPP/hKB1xyHF2v8mNutfeq7ZrTiDXjGnjhV9xWwE80eMPOcUTbNGJuV9Q8DqMSVuc8Kz082rsni2u4FNm1LFmlEctIFMatq6GXpuHZZYXsuBhWEqstSpPjA+jB4iE75bVmX3OW9i3YHp7sVABQSD73/YO5c5EcgnGjhNrCRGW1qcYNrI7nVRSAOmUXoqv2qZkf86IcT8Ycp3OYfdBp+cZphYC6CdNdcJopMaOisLhnrrCnSah/HJue7vKKcRROqcsj7HTxlb0gVYvyiFeVml6WH+BXWhmAXdNrhEhN0JHrLbZR7TZhijZmuPiRV82nl/6NZ9nDqr8mRC3rCpBCUptYrwQ0mIWvaJQgeavmq7c0inwVZBL+F2wI4hkFts6WzVH0fXgT5NoMwoASvydd6OPlzhg==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(23010399003)(376014)(10067099003)(3023799007)(6133799003)(18002099003)(22082099003)(56012099006)(5023799004)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	BWrlUaofT/+UKjVdROge4S4Bn3yGrlibTWAyY/t5eWmLpV6ipJHSDuBVJL0+FwPydhfSaqcLc18oJxn4zh24L0TR83QLiQwFux3dNPy51uiHtZj4qfxm9l5q1i5CGqa/wIrK/bazSDvAHwHJWM55HDUBooobuyaXKHvbhKefwefCL7+PvrTAKHOwZ4hTnswSIdelMf2YyC2O2KtMRlG0h4t20T30KUNuuYhAUSYTRZL2B5rL3Y/Gm7JAODp4FzjuKF+2576HoXnwp+9WvXNLX3IKE3t58HytZM/AvjfXxIGIZ28CKOvOs8MW4CFflSJEueN2d2mG9dpGZl+geGaxgqJMgi42WA7homNLW4OHbfY1vgg707UH+sLtrbnk3xj3WwKvyp8pTh4cBbRmBhn0KKiSJFGnfklNS3JqzVXU2R3ZVKXwj3j6TyNvYZ2UNV7m
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 17:03:15.9541
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0479bb6c-a90b-4a71-3733-08df0f5d6807
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE3B.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB9036
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v5] thunderbolt: Fix tb->lock deadlock during hot-unplug
+ on AMD USB4 routers
+Content-Language: en-US
+To: "S, Sanath" <Sanath.S@amd.com>,
+ "Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>,
+ "Martinez, Juan" <Juan.Martinez@amd.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "westeri@kernel.org" <westeri@kernel.org>,
+ "SP, Prakruthi" <Prakruthi.SP@amd.com>
+Cc: "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+ "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260831130638.GK124825@black.igk.intel.com>
+ <20260831161610.1322731-1-juan.martinez@amd.com>
+ <ae19d381-0fcd-45fb-9e53-033c7d664d73@kernel.org>
+ <20260902054800.GI106095@black.igk.intel.com>
+ <21cbfbaf-ef1f-469b-a33b-8d623dd7f9a3@kernel.org>
+ <MW4PR12MB7016EE093475BF1821A0046281BF2@MW4PR12MB7016.namprd12.prod.outlook.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <MW4PR12MB7016EE093475BF1821A0046281BF2@MW4PR12MB7016.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The Valve Index HMD stops serving its EDID after the host disables the
-DisplayPort PHY.  The headset remains powered by its breakout box across
-suspend and shutdown, so the bad state survives and the next connector
-detection reports "No EDID read".  The HMD then appears as a synthesized
-640x480 display until it is power-cycled.
+On 9/10/26 09:19, S, Sanath wrote:
+> 
+> On 9/10/2026 12:36 AM, Mario Limonciello wrote:
+>> On 9/2/26 00:48, Mika Westerberg wrote:
+>>> Hi,
+>>>
+>>> On Tue, Sep 01, 2026 at 05:16:03PM -0500, Mario Limonciello wrote:
+>>>> On 8/31/26 11:16, juan.martinez@amd.com wrote:
+>>>>> From: Juan Martinez <juan.martinez@amd.com>
+>>>>>
+>>>>> Commit f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on
+>>>>> DMA path teardown for AMD USB4 routers") introduced a deadlock when
+>>>>> physically unplugging a Thunderbolt cable on AMD systems.
+>>>>>
+>>>>> The problem occurs because tb_handle_hotplug() holds tb->lock while
+>>>>> processing the unplug event. When it removes the XDomain services,
+>>>>> tbnet_remove() calls tb_xdomain_disable_paths() which eventually calls
+>>>>> tb_domain_reset_interface(). That function tries to acquire tb->lock
+>>>>> via guard(mutex), but the hotplug worker already holds it, causing a
+>>>>> self-deadlock.
+>>>>>
+>>>>> The deadlock manifests as a complete network hang because
+>>>>> tb_handle_hotplug() holds RTNL while waiting on its own mutex, blocking
+>>>>> all network operations system-wide.
+>>>>>
+>>>>> The existing code already handles this scenario partially: when
+>>>>> xd->is_unplugged is true, tb_disconnect_xdomain_paths() intentionally
+>>>>> skips the DMA teardown because the hotplug handler tears down the DMA
+>>>>> tunnels itself. However, the reset was still being called
+>>>>> unconditionally.
+>>>>>
+>>>>> Fix this by splitting tb_domain_reset_interface() into a locked inner
+>>>>> function and a locking wrapper. Skip the reset from
+>>>>> tb_domain_disconnect_xdomain_paths() when xd->is_unplugged is true, and
+>>>>> instead reset the interface after the hotplug handler tears down the DMA
+>>>>> tunnel while already holding tb->lock.
+>>>>>
+>>>>> Handle both unplug topologies: reset after the direct XDomain teardown,
+>>>>> and after invalid DMA tunnels are removed when an upstream router and its
+>>>>> downstream XDomain are unplugged together.
+>>>>>
+>>>>> This preserves the reset behavior for normal shutdown paths while
+>>>>> avoiding the deadlock during physical cable unplug.
+>>>>>
+>>>>> Fixes: f1de1fc5f632 ("thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers")
+>>>>> Signed-off-by: Juan Martinez <juan.martinez@amd.com>
+>>>>
+>>>> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>>>>
+>>>> BTW -
+>>>>
+>>>> I did take a look through the Sashiko feedback and the first point doesn't
+>>>> matter because no pre-USB4 hosts take this quirk.
+>>>>
+>>>> The second point is a side effect of this reset and accepted behavior.
+>>>
+>>> I did not find Sashiko comments for this last version but started thinking
+>>> that the way we are doing it now is quite brutal. Say we have this setup:
+>>>
+>>>     - Thunderbolt networking for control traffic
+>>>     - One USB4STREAM for data plane
+>>>
+>>> The data plane comes and goes depending on the needs but what happens now
+>>> is that after USB4STREAM tears down the tunnels, the whole host interface
+>>> get reset so that makes the Thunderbolt networking to fail as well.
+>>>
+>>> Is the original hardware hang per-ring? So for example in this case without
+>>> any fixes the rings for USB4STREAM would hang but the Thunderbolt
+>>> networking would keep working? I would expect so bot it would be good to
+>>> confirm.
+> Yes, the hang is per ring. Only the reset is host interface wide, which is
+> exactly the asymmetry you are pointing at.
+>>>
+>>> Because then I think what we can do is to revert the original fix and then
+>>> handle this all in nhi.c so that we delay the reset until the rings are
+>>> idle and during that time we hand off "unused" rings (until running out of
+>>> them). After we find the rings to be idle we block the CM and control
+>>> channel and do the reset. I don't know how many rings AMD hardware has,
+>>> though.
+>>>
+> REG_CAPS reports hop_count = 3, so HopID 0 for the control channel and two
+> usable DMA HopIDs.
+>>
+>> IIUC the problem ends up happening while tearing down xdomain.  So if a few xdomain tunnels are active you can hit it.
+>>
+>> Juan, Sanath, Basavaraj, can you please check and comment?
+>>> I sketched something along those lines (only compile tested) with LLM see
+>>> below. I wonder if this could work?
+>>>
+> We ported it and ran it on two hosts connected back to back. It does what you
+> want - networking survives a second tunnel teardown - with three findings.
 
-The 64-byte HID output report 0x16 with command 0x01 reboots the headset
-and restores its EDID service.  Add a device-specific driver which sends
-this report for system sleep transitions and orderly shutdown while leaving
-runtime autosuspend alone.
+Does it still help with the hang though?  I would think that we can 
+still hang the router from doing a stress on the first tunnel 
+teardown/creation.  Could you make a script and confirm while networking 
+is running?
 
-Resume a runtime-suspended interface for a shutdown request and restrict
-the command to the composite interface which declares report 0x16.
-
-Closes: https://gitlab.freedesktop.org/drm/amd/-/work_items/4333
-Link: https://github.com/ValveSoftware/SteamVR-for-Linux/issues/939
-Assisted-by: LLM
-Co-developed-by: Curtis Vogt <curtis.vogt@gmail.com>
-Signed-off-by: Curtis Vogt <curtis.vogt@gmail.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- .../ABI/testing/sysfs-driver-hid-valve-index  |  12 ++
- drivers/hid/Kconfig                           |  11 ++
- drivers/hid/Makefile                          |   1 +
- drivers/hid/hid-ids.h                         |   1 +
- drivers/hid/hid-valve-index.c                 | 142 ++++++++++++++++++
- 5 files changed, 167 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-valve-index
- create mode 100644 drivers/hid/hid-valve-index.c
-
-diff --git a/Documentation/ABI/testing/sysfs-driver-hid-valve-index b/Documentation/ABI/testing/sysfs-driver-hid-valve-index
-new file mode 100644
-index 0000000000000..47d8c26b1eace
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-hid-valve-index
-@@ -0,0 +1,12 @@
-+What:		/sys/bus/hid/devices/<bus>:<vid>:<pid>.<n>/reboot
-+Date:		October 2026
-+Contact:	linux-input@vger.kernel.org
-+Description:
-+		Writing a boolean true value reboots the Valve Index headset to
-+		recover its EDID service. Writing a boolean false value has no
-+		effect. This file is write-only.
-+
-+		The Valve Index is a composite HID device. The reboot command is
-+		only supported by the interface that provides the headset's 64-byte
-+		output report. Writing true to this file on another interface fails
-+		with -ENODEV.
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index a81bf51cbcf10..8ea2dd570058f 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -547,6 +547,17 @@ config HID_WALTOP
- 	help
- 	Support for Waltop tablets.
- 
-+config HID_VALVE_INDEX
-+	tristate "Valve Index headset"
-+	depends on USB_HID
-+	help
-+	  Support for the Valve Index headset. This driver works around the
-+	  headset failing to provide its EDID after a DisplayPort link shutdown
-+	  by rebooting the headset on resume from system suspend and at shutdown.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called hid-valve-index.
-+
- config HID_VIEWSONIC
- 	tristate "ViewSonic/Signotec"
- 	help
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 48a863b245eed..21f512cab6250 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -156,6 +156,7 @@ obj-$(CONFIG_HID_XIAOMI)	+= hid-xiaomi.o
- obj-$(CONFIG_HID_XINMO)		+= hid-xinmo.o
- obj-$(CONFIG_HID_ZEROPLUS)	+= hid-zpff.o
- obj-$(CONFIG_HID_ZYDACRON)	+= hid-zydacron.o
-+obj-$(CONFIG_HID_VALVE_INDEX)	+= hid-valve-index.o
- obj-$(CONFIG_HID_VIEWSONIC)	+= hid-viewsonic.o
- obj-$(CONFIG_HID_VRC2)		+= hid-vrc2.o
- obj-$(CONFIG_HID_HUAWEI)	+= hid-huawei.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index b3aca5aa91767..15cd29a338a8d 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1391,6 +1391,7 @@
- #define USB_DEVICE_ID_STEAM_CONTROLLER_IBEX_BLE	0x1303
- #define USB_DEVICE_ID_STEAM_CONTROLLER_PROTEUS	0x1304
- #define USB_DEVICE_ID_STEAM_CONTROLLER_NEREID	0x1305
-+#define USB_DEVICE_ID_VALVE_INDEX_HEADSET	0x2300
- 
- #define USB_VENDOR_ID_STEELSERIES	0x1038
- #define USB_DEVICE_ID_STEELSERIES_SRWS1	0x1410
-diff --git a/drivers/hid/hid-valve-index.c b/drivers/hid/hid-valve-index.c
-new file mode 100644
-index 0000000000000..43c1142b7215b
---- /dev/null
-+++ b/drivers/hid/hid-valve-index.c
-@@ -0,0 +1,142 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * HID driver for the Valve Index headset
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+#define VALVE_INDEX_REBOOT_REPORT_ID	0x16
-+#define VALVE_INDEX_REBOOT_CMD		0x01
-+#define VALVE_INDEX_REPORT_SIZE		64
-+
-+static bool valve_index_has_reboot_report(struct hid_device *hdev)
-+{
-+	struct hid_report *report;
-+
-+	/*
-+	 * The reboot command is a vendor protocol carried in the unnumbered
-+	 * 64-byte output report of the headset's third interface; the first
-+	 * data byte is the command id.  Report 0x16 is only declared as a
-+	 * feature report and is not what the command is sent as.
-+	 */
-+	report = hdev->report_enum[HID_OUTPUT_REPORT].report_id_hash[0];
-+
-+	return report && hid_report_len(report) == VALVE_INDEX_REPORT_SIZE;
-+}
-+
-+static void valve_index_reboot(struct hid_device *hdev, bool wake)
-+{
-+	u8 *report;
-+	int ret;
-+
-+	if (!valve_index_has_reboot_report(hdev))
-+		return;
-+
-+	/* USB transfer buffers must be DMA-able, so not on the stack. */
-+	report = kzalloc(VALVE_INDEX_REPORT_SIZE, GFP_KERNEL);
-+	if (!report)
-+		return;
-+	report[0] = VALVE_INDEX_REBOOT_REPORT_ID;
-+	report[1] = VALVE_INDEX_REBOOT_CMD;
-+
-+	if (wake) {
-+		ret = hid_hw_power(hdev, PM_HINT_FULLON);
-+		if (ret < 0) {
-+			hid_warn(hdev, "failed to resume headset for reboot: %d\n",
-+				 ret);
-+			goto out;
-+		}
-+	}
-+
-+	/* Use the same interrupt-out then SET_REPORT fallback as hidraw. */
-+	ret = hid_hw_output_report(hdev, report, VALVE_INDEX_REPORT_SIZE);
-+	if (ret == -ENOSYS)
-+		ret = hid_hw_raw_request(hdev, report[0], report,
-+					 VALVE_INDEX_REPORT_SIZE,
-+					 HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-+	if (ret < 0)
-+		hid_warn(hdev, "failed to reboot headset: %d\n", ret);
-+	else if (ret != VALVE_INDEX_REPORT_SIZE)
-+		hid_warn(hdev, "short headset reboot report: %d\n", ret);
-+
-+	if (wake)
-+		hid_hw_power(hdev, PM_HINT_NORMAL);
-+out:
-+	kfree(report);
-+}
-+
-+/*
-+ * The suspend and shutdown hooks only cover orderly power transitions.  After
-+ * a crash, a hard reset or a power cut the headset is left in the state where
-+ * its EDID no longer reads, and nothing recovers it until the next orderly
-+ * transition.  Expose the reboot command as a write-only "reboot" attribute
-+ * on the HID device so userspace can recover it, for instance from a udev
-+ * rule that fires only when the connector reports no EDID.  Writing to an
-+ * interface that does not carry the reboot report returns -ENODEV.
-+ */
-+static ssize_t reboot_store(struct device *dev, struct device_attribute *attr,
-+			    const char *buf, size_t count)
-+{
-+	struct hid_device *hdev = to_hid_device(dev);
-+	bool val;
-+
-+	if (kstrtobool(buf, &val))
-+		return -EINVAL;
-+	if (!val)
-+		return count;
-+	if (!valve_index_has_reboot_report(hdev))
-+		return -ENODEV;
-+
-+	valve_index_reboot(hdev, true);
-+
-+	return count;
-+}
-+static DEVICE_ATTR_WO(reboot);
-+
-+static struct attribute *valve_index_attrs[] = {
-+	&dev_attr_reboot.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(valve_index);
-+
-+/*
-+ * The headset's EDID service is lost when the host disables the DisplayPort
-+ * PHY during system suspend, so it needs the reboot on the way out of
-+ * suspend.  Doing it on the way in does not work: the headset dropping off
-+ * USB is a remote-wakeup event from its hub and aborts the suspend.
-+ */
-+static int valve_index_resume(struct hid_device *hdev)
-+{
-+	valve_index_reboot(hdev, false);
-+
-+	return 0;
-+}
-+
-+static void valve_index_shutdown(struct hid_device *hdev)
-+{
-+	valve_index_reboot(hdev, true);
-+}
-+
-+static const struct hid_device_id valve_index_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_VALVE,
-+			 USB_DEVICE_ID_VALVE_INDEX_HEADSET) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, valve_index_devices);
-+
-+static struct hid_driver valve_index_driver = {
-+	.name = "valve-index",
-+	.id_table = valve_index_devices,
-+	.resume = valve_index_resume,
-+	.reset_resume = valve_index_resume,
-+	.shutdown = valve_index_shutdown,
-+	.driver.dev_groups = valve_index_groups,
-+};
-+module_hid_driver(valve_index_driver);
-+
-+MODULE_AUTHOR("Mario Limonciello <mario.limonciello@amd.com>");
-+MODULE_DESCRIPTION("HID driver for Valve Index headset");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
+> 
+> 1) Every reset is preceded by:
+> 
+>       thunderbolt 0000:c6:00.6: dangling request in request_queue
+>       WARNING: ctl.c:761 at tb_ctl_stop+0x7c/0xf0 [thunderbolt]
+>       Workqueue: events_long tbnet_connected_work [thunderbolt_net]
+>        tb_domain_pause+0x25/0x40 [thunderbolt]
+>        tb_ring_start+0x325/0x4a0 [thunderbolt]
+>        tbnet_connected_work+0xd9/0x3b0 [thunderbolt_net]
+> 
+>     8 out of 8 cycles. tb_ring_start() runs from service driver context while
+>     the XDomain exchange still has control requests outstanding.
+> 
+> 2) With two DMA HopIDs and tbnet holding one, the second tunnel gets -EBUSY
+>     from the second iteration on and stays that way until the last DMA ring
+>     stops. Unplug and replug recovers it, so it is more a consequence of the
+>     hop count than a bug, but tbnet has to go down to get the tunnel back.
+> 
+> 3) tb_domain_pause() takes tb->lock from tb_ring_start(), while unplug holds
+>     tb->lock across tbnet_remove() -> stop_login() ->
+>     cancel_work_sync(&net->connected_work) and connected_work waits for
+>     tb->lock. That is the same deadlock in a different place.
+> 
+> The variant below keeps your bitmap but moves the reset into a per-NHI work
+> item scheduled from tb_ring_stop() when the last DMA ring stops, so nothing
+> takes tb->lock or sleeps in a service driver callback, and
+> tb_domain_pause()/unpause() are not needed. On the same two hosts:
+> 
+>   - 8 x ifdown/ifup: 8/8 up, 8 resets, 0 WARNINGs (was 8 of 8).
+>   - tbnet + second tunnel: same behaviour as yours, and the reset now happens
+>     by itself as soon as tbnet goes down.
+>   - 3 x disconnect/reconnect: 3/3 up, 0 WARNINGs, no hung tasks.
+> 
+> static void nhi_reset_work(struct work_struct *work)
+> {
+>      struct tb_nhi *nhi = container_of(work, struct tb_nhi, reset_work);
+>      struct tb *tb = dev_get_drvdata(nhi->dev);
+> 
+>      guard(mutex)(&tb->lock);
+> 
+>      scoped_guard(spinlock_irq, &nhi->lock) {
+>          if (nhi->going_away)
+>              return;
+>          if (bitmap_empty(nhi->dma_hops_used, nhi->hop_count))
+>              return;
+>          if (nhi_dma_rings_running(nhi))
+>              return;
+>      }
+> 
+>      tb_ctl_stop(tb->ctl);
+>      nhi_reset_interface(nhi);
+>      tb_ctl_start(tb->ctl);
+> 
+>      scoped_guard(spinlock_irq, &nhi->lock)
+>          bitmap_zero(nhi->dma_hops_used, nhi->hop_count);
+> }
+> 
+> and schedule it from tb_ring_stop() once the last DMA ring is gone:
+> 
+>      ring->running = false;
+> 
+>      if (ring->nhi->dma_hops_used && ring_is_dma(ring) &&
+>          !nhi_dma_rings_running(ring->nhi))
+>          needs_reset = true;
+>   err:
+>      spin_unlock(&ring->lock);
+>      spin_unlock_irq(&ring->nhi->lock);
+> 
+>      if (needs_reset)
+>          schedule_work(&ring->nhi->reset_work);
+> 
+> Plus INIT_WORK() in nhi_probe(), cancel_work_sync() in nhi_shutdown(), and
+> tb_domain_pause()/tb_domain_unpause() dropped. The rest of your sketch is
+> unchanged. I can post it as a proper patch if you want to look at it in full.
+>>> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+>>> index b6f5079cdf6f..1564ce6fca37 100644
+>>> --- a/drivers/thunderbolt/domain.c
+>>> +++ b/drivers/thunderbolt/domain.c
+>>> @@ -671,6 +671,32 @@ int tb_domain_runtime_resume(struct tb *tb)
+>>>        return 0;
+>>>    }
+>>>    +/**
+>>> + * tb_domain_pause() - Pause the domain
+>>> + * @tb: Domain to pause
+>>> + *
+>>> + * Blocks the connection manager and stops the control channel so that
+>>> + * the caller can touch the host interface hardware behind its back.
+>>> + * Takes @tb->lock.
+>>> + *
+>>> + * Once done whatever operations needed call tb_domain_unpause().
+>>> + */
+>>> +void tb_domain_pause(struct tb *tb)
+>>> +{
+>>> +    mutex_lock(&tb->lock);
+>>> +    tb_ctl_stop(tb->ctl);
+>>> +}
+>>> +
+>>> +/**
+>>> + * tb_domain_unpause() - Resume paused domain
+>>> + * @tb: Domain to unpause
+>>> + */
+>>> +void tb_domain_unpause(struct tb *tb)
+>>> +{
+>>> +    tb_ctl_start(tb->ctl);
+>>> +    mutex_unlock(&tb->lock);
+>>> +}
+>>> +
+>>>    /**
+>>>     * tb_domain_disapprove_switch() - Disapprove switch
+>>>     * @tb: Domain the switch belongs to
+>>> @@ -835,21 +861,6 @@ int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>>>                transmit_ring, receive_path, receive_ring);
+>>>    }
+>>>    -static void tb_domain_reset_interface(struct tb *tb)
+>>> -{
+>>> -    struct tb_nhi *nhi = tb->nhi;
+>>> -
+>>> -    if (!nhi->ops->reset_interface)
+>>> -        return;
+>>> -
+>>> -    guard(mutex)(&tb->lock);
+>>> -
+>>> -    /* The reset clears the ring state so stop the control channel */
+>>> -    tb_ctl_stop(tb->ctl);
+>>> -    nhi->ops->reset_interface(nhi);
+>>> -    tb_ctl_start(tb->ctl);
+>>> -}
+>>> -
+>>>    /**
+>>>     * tb_domain_disconnect_xdomain_paths() - Disable DMA paths for XDomain
+>>>     * @tb: Domain disabling the DMA paths
+>>> @@ -872,20 +883,11 @@ int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>>>                           int transmit_path, int transmit_ring,
+>>>                           int receive_path, int receive_ring)
+>>>    {
+>>> -    int ret;
+>>> -
+>>>        if (!tb->cm_ops->disconnect_xdomain_paths)
+>>>            return -ENOTSUPP;
+>>>    -    ret = tb->cm_ops->disconnect_xdomain_paths(tb, xd, transmit_path,
+>>> +    return tb->cm_ops->disconnect_xdomain_paths(tb, xd, transmit_path,
+>>>                transmit_ring, receive_path, receive_ring);
+>>> -    if (ret)
+>>> -        return ret;
+>>> -
+>>> -    if (tb->nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN)
+>>> -        tb_domain_reset_interface(tb);
+>>> -
+>>> -    return 0;
+>>>    }
+>>>      static int disconnect_xdomain(struct device *dev, void *data)
+>>> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+>>> index a7e6184cdfe1..423e7dba473c 100644
+>>> --- a/drivers/thunderbolt/nhi.c
+>>> +++ b/drivers/thunderbolt/nhi.c
+>>> @@ -523,9 +523,45 @@ irqreturn_t ring_msix(int irq, void *data)
+>>>        return IRQ_HANDLED;
+>>>    }
+>>>    +static bool ring_is_dma(const struct tb_ring *ring)
+>>> +{
+>>> +    return ring->hop >= RING_FIRST_USABLE_HOPID;
+>>> +}
+>>> +
+>>> +static bool nhi_dma_rings_running(const struct tb_nhi *nhi)
+>>> +{
+>>> +    int i;
+>>> +
+>>> +    lockdep_assert_held(&nhi->lock);
+>>> +
+>>> +    /*
+>>> +     * Holding nhi->lock is enough here because tb_ring_start() and
+>>> +     * tb_ring_stop() both hold it when they update ring->running.
+>>> +     */
+>>> +    for (i = RING_FIRST_USABLE_HOPID; i < nhi->hop_count; i++) {
+>>> +        if (nhi->tx_rings[i] && nhi->tx_rings[i]->running)
+>>> +            return true;
+>>> +        if (nhi->rx_rings[i] && nhi->rx_rings[i]->running)
+>>> +            return true;
+>>> +    }
+>>> +
+>>> +    return false;
+>>> +}
+>>> +
+>>> +static bool nhi_avoid_used_dma_rings(const struct tb_nhi *nhi)
+>>> +{
+>>> +    lockdep_assert_held(&nhi->lock);
+>>> +
+>>> +    if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+>>> +        return false;
+>>> +
+>>> +    return nhi_dma_rings_running(nhi);
+>>> +}
+>>> +
+>>>    static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>>>    {
+>>>        unsigned int start_hop = RING_FIRST_USABLE_HOPID;
+>>> +    bool avoid_used;
+>>>        int ret = 0;
+>>>          if (nhi->quirks & QUIRK_E2E) {
+>>> @@ -539,6 +575,8 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>>>          spin_lock_irq(&nhi->lock);
+>>>    +    avoid_used = nhi_avoid_used_dma_rings(nhi);
+>>> +
+>>>        if (ring->hop < 0) {
+>>>            unsigned int i;
+>>>    @@ -547,6 +585,8 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>>>             * range 1 .. hop_count - 1.
+>>>             */
+>>>            for (i = start_hop; i < nhi->hop_count; i++) {
+>>> +            if (avoid_used && test_bit(i, nhi->dma_hops_used))
+>>> +                continue;
+>>>                if (ring->is_tx) {
+>>>                    if (!nhi->tx_rings[i]) {
+>>>                        ring->hop = i;
+>>> @@ -559,6 +599,13 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>>>                    }
+>>>                }
+>>>            }
+>>> +
+>>> +        if (ring->hop < 0 && avoid_used) {
+>>> +            dev_warn(nhi->dev,
+>>> +                 "out of HopIDs that do not need a host interface reset\n");
+>>> +            ret = -EBUSY;
+>>> +            goto err_unlock;
+>>> +        }
+>>>        }
+>>>          if (ring->hop > 0 && ring->hop < start_hop) {
+>>> @@ -583,6 +630,15 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>>>            ret = -EBUSY;
+>>>            goto err_unlock;
+>>>        }
+>>> +    /* Automatic allocation above already skips the used HopIDs */
+>>> +    if (avoid_used && ring_is_dma(ring) &&
+>>> +        test_bit(ring->hop, nhi->dma_hops_used)) {
+>>> +        dev_warn(nhi->dev,
+>>> +             "hop %d needs a host interface reset before reuse\n",
+>>> +             ring->hop);
+>>> +        ret = -EBUSY;
+>>> +        goto err_unlock;
+>>> +    }
+>>>          if (ring->is_tx)
+>>>            nhi->tx_rings[ring->hop] = ring;
+>>> @@ -710,6 +766,62 @@ struct tb_ring *tb_ring_alloc_rx(struct tb_nhi *nhi, int hop, int size,
+>>>    }
+>>>    EXPORT_SYMBOL_GPL(tb_ring_alloc_rx);
+>>>    +/**
+>>> + * nhi_reset_interface() - Reset the host interface
+>>> + * @nhi: Host interface to reset
+>>> + *
+>>> + * Brings the registers in the memory BAR back to their default state and
+>>> + * clears the End-to-End Flow Control state. The caller is responsible for
+>>> + * stopping the control channel over the reset because it clears the ring
+>>> + * state as well.
+>>> + */
+>>> +static void nhi_reset_interface(struct tb_nhi *nhi)
+>>> +{
+>>> +    u32 val;
+>>> +
+>>> +    val = ioread32(nhi->iobase + REG_CAPS);
+>>> +    /* Only v1 host interfaces implement the reset */
+>>> +    if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
+>>> +        return;
+>>> +
+>>> +    dev_dbg(nhi->dev, "issuing host interface reset\n");
+>>> +
+>>> +    iowrite32(REG_HOST_INTERFACE_RESET_RST,
+>>> +          nhi->iobase + REG_HOST_INTERFACE_RESET);
+>>> +    /* Wait for tHIReset (10 ms) to complete */
+>>> +    usleep_range(10000, 20000);
+>>> +}
+>>> +
+>>> +static void nhi_reset_quirk(struct tb_ring *ring)
+>>> +{
+>>> +    struct tb_nhi *nhi = ring->nhi;
+>>> +    struct tb *tb = dev_get_drvdata(nhi->dev);
+>>> +
+>>> +    if (!(nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN))
+>>> +        return;
+>>> +    if (!ring_is_dma(ring))
+>>> +        return;
+>>> +
+>>> +    scoped_guard(spinlock_irq, &nhi->lock) {
+>>> +        if (nhi->going_away)
+>>> +            return;
+>>> +        if (bitmap_empty(nhi->dma_hops_used, nhi->hop_count))
+>>> +            return;
+>>> +        /*
+>>> +         * If any of the DMA rings are still running we cannot
+>>> +         * do the reset.
+>>> +         */
+>>> +        if (nhi_dma_rings_running(nhi))
+>>> +            return;
+>>> +
+>>> +        bitmap_zero(nhi->dma_hops_used, nhi->hop_count);
+>>> +    }
+>>> +
+>>> +    /* CM must be blocked before host interface reset can be done */
+>>> +    scoped_guard(tb_domain_paused, tb)
+>>> +        nhi_reset_interface(nhi);
+>>> +}
+>>> +
+>>>    /**
+>>>     * tb_ring_start() - enable a ring
+>>>     * @ring: Ring to start
+>>> @@ -721,6 +833,8 @@ void tb_ring_start(struct tb_ring *ring)
+>>>        u16 frame_size;
+>>>        u32 flags;
+>>>    +    nhi_reset_quirk(ring);
+>>> +
+>>>        spin_lock_irq(&ring->nhi->lock);
+>>>        spin_lock(&ring->lock);
+>>>        if (ring->nhi->going_away)
+>>> @@ -781,6 +895,8 @@ void tb_ring_start(struct tb_ring *ring)
+>>>        if (!(ring->flags & RING_FLAG_NO_INTERRUPT))
+>>>            ring_interrupt_active(ring, true);
+>>>        ring->running = true;
+>>> +    if (ring->nhi->dma_hops_used && ring_is_dma(ring))
+>>> +        __set_bit(ring->hop, ring->nhi->dma_hops_used);
+>>>    err:
+>>>        spin_unlock(&ring->lock);
+>>>        spin_unlock_irq(&ring->nhi->lock);
+>>> @@ -1241,32 +1357,6 @@ static void nhi_reset(struct tb_nhi *nhi)
+>>>        dev_warn(nhi->dev, "timeout resetting host router\n");
+>>>    }
+>>>    -/**
+>>> - * nhi_reset_interface() - Reset the host interface
+>>> - * @nhi: Host interface to reset
+>>> - *
+>>> - * Brings the registers in the memory BAR back to their default state and
+>>> - * clears the End-to-End Flow Control state. The caller is responsible for
+>>> - * stopping the control channel over the reset because it clears the ring
+>>> - * state as well.
+>>> - */
+>>> -void nhi_reset_interface(struct tb_nhi *nhi)
+>>> -{
+>>> -    u32 val;
+>>> -
+>>> -    val = ioread32(nhi->iobase + REG_CAPS);
+>>> -    /* Only v1 host interfaces implement the reset */
+>>> -    if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
+>>> -        return;
+>>> -
+>>> -    dev_dbg(nhi->dev, "issuing host interface reset\n");
+>>> -
+>>> -    iowrite32(REG_HOST_INTERFACE_RESET_RST,
+>>> -          nhi->iobase + REG_HOST_INTERFACE_RESET);
+>>> -    /* Wait for tHIReset (10 ms) to complete */
+>>> -    usleep_range(10000, 20000);
+>>> -}
+>>> -
+>>>    static struct tb *nhi_select_cm(struct tb_nhi *nhi)
+>>>    {
+>>>        bool linked = false;
+>>> @@ -1331,6 +1421,13 @@ int nhi_probe(struct tb_nhi *nhi)
+>>>        if (!nhi->tx_rings || !nhi->rx_rings || !nhi->interrupt_mask)
+>>>            return -ENOMEM;
+>>>    +    if (nhi->quirks & QUIRK_RESET_DMA_ON_TEARDOWN) {
+>>> +        nhi->dma_hops_used = devm_bitmap_zalloc(dev, nhi->hop_count,
+>>> +                            GFP_KERNEL);
+>>> +        if (!nhi->dma_hops_used)
+>>> +            return -ENOMEM;
+>>> +    }
+>>> +
+>>>        nhi_reset(nhi);
+>>>          /* In case someone left them on. */
+>>> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+>>> index b2e2e2c413b2..53374c12b685 100644
+>>> --- a/drivers/thunderbolt/nhi.h
+>>> +++ b/drivers/thunderbolt/nhi.h
+>>> @@ -36,7 +36,6 @@ irqreturn_t nhi_msi(int irq, void *data);
+>>>    irqreturn_t ring_msix(int irq, void *data);
+>>>    int nhi_probe(struct tb_nhi *nhi);
+>>>    void nhi_shutdown(struct tb_nhi *nhi);
+>>> -void nhi_reset_interface(struct tb_nhi *nhi);
+>>>      extern const struct dev_pm_ops nhi_pm_ops;
+>>>    @@ -55,7 +54,6 @@ extern const struct dev_pm_ops nhi_pm_ops;
+>>>     * @release_ring_irq: NHI specific interrupt release hook
+>>>     * @is_present: Whether the device is currently present on the parent bus
+>>>     * @init_interrupts: NHI specific interrupt initialization hook
+>>> - * @reset_interface: Resets the host interface
+>>>     */
+>>>    struct tb_nhi_ops {
+>>>        int (*init)(struct tb_nhi *nhi);
+>>> @@ -71,7 +69,6 @@ struct tb_nhi_ops {
+>>>        void (*release_ring_irq)(struct tb_ring *ring);
+>>>        bool (*is_present)(struct tb_nhi *nhi);
+>>>        int (*init_interrupts)(struct tb_nhi *nhi);
+>>> -    void (*reset_interface)(struct tb_nhi *nhi);
+>>>    };
+>>>      /*
+>>> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+>>> index e40d4d6af071..0a586122db47 100644
+>>> --- a/drivers/thunderbolt/pci.c
+>>> +++ b/drivers/thunderbolt/pci.c
+>>> @@ -357,7 +357,6 @@ static const struct tb_nhi_ops pci_nhi_default_ops = {
+>>>        .shutdown = nhi_pci_release_irq,
+>>>        .is_present = nhi_pci_is_present,
+>>>        .init_interrupts = nhi_pci_init_msi,
+>>> -    .reset_interface = nhi_reset_interface,
+>>>    };
+>>>      /* Ice Lake specific NHI operations */
+>>> @@ -576,7 +575,6 @@ static const struct tb_nhi_ops icl_nhi_ops = {
+>>>        .release_ring_irq = nhi_pci_ring_release_msix,
+>>>        .is_present = nhi_pci_is_present,
+>>>        .init_interrupts = nhi_pci_init_msi,
+>>> -    .reset_interface = nhi_reset_interface,
+>>>    };
+>>>      static int nhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+>>> index 1f78e2528c05..268bc7d90267 100644
+>>> --- a/drivers/thunderbolt/tb.h
+>>> +++ b/drivers/thunderbolt/tb.h
+>>> @@ -826,6 +826,10 @@ int tb_domain_thaw_noirq(struct tb *tb);
+>>>    void tb_domain_complete(struct tb *tb);
+>>>    int tb_domain_runtime_suspend(struct tb *tb);
+>>>    int tb_domain_runtime_resume(struct tb *tb);
+>>> +void tb_domain_pause(struct tb *tb);
+>>> +void tb_domain_unpause(struct tb *tb);
+>>> +DEFINE_GUARD(tb_domain_paused, struct tb *, tb_domain_pause(_T),
+>>> +         tb_domain_unpause(_T))
+>>>    int tb_domain_disapprove_switch(struct tb *tb, struct tb_switch *sw);
+>>>    int tb_domain_approve_switch(struct tb *tb, struct tb_switch *sw);
+>>>    int tb_domain_approve_switch_key(struct tb *tb, struct tb_switch *sw);
+>>> diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+>>> index 69839a514433..e1c270496cf6 100644
+>>> --- a/include/linux/thunderbolt.h
+>>> +++ b/include/linux/thunderbolt.h
+>>> @@ -537,6 +537,9 @@ void tb_service_properties_changed(struct tb_service *svc);
+>>>     *            MSI-X is used.
+>>>     * @hop_count: Number of rings (end point hops) supported by NHI.
+>>>     * @quirks: NHI specific quirks if any
+>>> + * @dma_hops_used: Bitmap of HopIDs that have been programmed after the
+>>> + *           last host interface reset. Used only with
+>>> + *           %QUIRK_RESET_DMA_ON_TEARDOWN.
+>>>     * @domain_released: Completed when domain has been fully released
+>>>     * @host_reset: Host router was reset on driver load, or forced on system
+>>>     *        shutdown/reboot. When set, tb_stop() asserts DPR on connected
+>>> @@ -557,6 +560,7 @@ struct tb_nhi {
+>>>        struct work_struct interrupt_work;
+>>>        u32 hop_count;
+>>>        unsigned long quirks;
+>>> +    unsigned long *dma_hops_used;
+>>>        struct completion domain_released;
+>>>        bool host_reset;
+>>>    };
+>>
 
