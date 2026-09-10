@@ -1,120 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DBD4A3D3B;
-	Thu, 10 Sep 2026 13:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CC4495047;
+	Thu, 10 Sep 2026 13:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789047362; cv=none; b=a98XPbAkEjEXrE+ZaQxghEVnAKjsKdliJWyZK/gUGgHCNh7khViffEQIw4KQlV+I2uAVJfRx5oHno9UucJjGkhEHDHrYUowbhQDQ6AAHnJ2MIxLChbAQz8ArGSHxJ7JJ9ipNbR9hJVE2VcHdUFrXF+z1nIm2YsLty5dU/SfLWUU=
+	t=1789047451; cv=none; b=Qw/bzEifGHyZsX1mv1fvs/pyLXYhLAx+dlQBjW72ogdHtAdxLuRHEvtY5pP7sHeLfql7BRyQOyw4TEmiBgtzOqxzmiO6dCsb6B7GVzHAYPmlvR9zH2aWaWB03uENyRf63xqO5lzfXaabi6QVXDLKE7yCSJGrfMwDLxATfLVciHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789047362; c=relaxed/simple;
-	bh=1h0TzmWhWdjCSxWri2fXQes5Q55yMqXFM6zfRX64d0U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F4a0FE8xEZKld2epwW92BbfmEYZfdEsQcl3wcI1kTuxRrQIIdCbiuHl7JF3/te1pQxUGfzzhpVwXdth/otCKRjWQDVLthqljvwLCACqyHgr/UGITritPBB0JyknSXNCKmioPmmHLIfBCnaDeRhgsSGTYAw9YGxDXZB9tF/Pryd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hzxz8TM2; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789047451; c=relaxed/simple;
+	bh=3qQIlrKTVXNwRUe+zvROS/6qPifGmLudF4Xf7XwsnjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TC+sJXqSBBIBNreu4dUVWzRJZPUHT/YMUDVfF6H3uvzKTv1eud7HgOh0GXnnyjXh/f7gD0V7HuhHpbHQn2metrQvTFcE7N/PXAvlTzJZ6wlcVuUOgcueW557BmqrE3L0FzPO44EgIjxBjj4lmLeioOG8jf9uazDHocLgU3blOqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MxPTNwiQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hzxz8TM2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789047361; x=1820583361;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=1h0TzmWhWdjCSxWri2fXQes5Q55yMqXFM6zfRX64d0U=;
-  b=Hzxz8TM21mNfPB6s5UBgR3aDCvC7j8sg0HiEIMGoWCQPk3fkqFkXfOzq
-   g05ul0BSu4s7YGg4iwAfBjbcDmbr0L18a4EjSJEAEES8lguUqLtIXUz7H
-   h6cGAo6HyT1d245o65LEBaoOsnl4dytZxontO+m14ntRDQ5LJdYFzYq1F
-   darPtrzg2Cri26mg9dRYHg0MQphKAMm6XHBilUgjlnnYefFExjPXsBo4R
-   8GqYPKzgpQ40hdAidk8lmzpNBCLY3xCqySyNNFL2SvlpvUww88C2uO2xk
-   i2ya3JaLtS9kwQcnHHcnTNRyFKTfPwbXnBByjV/0l4XQEXhknfnCAYVTr
-   A==;
-X-CSE-ConnectionGUID: 6b9iZUNmRJONm4Q6I2Zftg==
-X-CSE-MsgGUID: zAk5iyC2T5G0V8vbU4lcjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="99828320"
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="99828320"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 06:36:00 -0700
-X-CSE-ConnectionGUID: UGJ+kIffTb+ah9vSOaGBSw==
-X-CSE-MsgGUID: ZzS7AwbzTCOBU8cTxvqn3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="295132299"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.245.216]) ([10.245.245.216])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 06:35:58 -0700
-Message-ID: <cb0ffb2a-a102-4653-8362-f846b514bce0@linux.intel.com>
-Date: Thu, 10 Sep 2026 16:35:55 +0300
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MxPTNwiQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 732261F000FF;
+	Thu, 10 Sep 2026 13:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789047450;
+	bh=73NdsiSzx2IC1jJoyJd2c/TUGnOqFWmUTE19FcPsK4I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MxPTNwiQU4ixRQyds5mzBluhLRwTqS5fmkNwnhcMGfvfWSIxi1Zvi1HhmTcFuIGJV
+	 VqAxuwqgLNdq0EF/CbsRtGdw78XH2v2zsyCVQORvxerNqsUVOw5aLqFzfDvjYD/HMI
+	 pKzuLCIxJjHgqV5dIVQe/CytY0j9Kcy+IppgDMgs=
+Date: Thu, 10 Sep 2026 15:37:22 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: gadget: stop propagating controller OF nodes
+Message-ID: <2026091014-untie-reshoot-d251@gregkh>
+References: <20260702145350.109509-1-johan@kernel.org>
+ <anx-7aOxjC2Hinxu@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: pci-quirks: abort xHCI handoff if MMIO is
- inaccessible
-To: Haowen Bai <calvin.bai@ugreen.com>, mathias.nyman@intel.com
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <A8558181A93455E3+20260906162614.26940-1-calvin.bai@ugreen.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <A8558181A93455E3+20260906162614.26940-1-calvin.bai@ugreen.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anx-7aOxjC2Hinxu@hovoldconsulting.com>
 
-On 9/6/26 19:26, Haowen Bai wrote:
-> The xHCI early handoff quirk polls the BIOS ownership, CNR, and HALT bits
-> with readl_poll_timeout_atomic(). Unlike xhci_handshake(), handshake()
-> does not treat an all-ones read as an inaccessible controller.
+On Wed, Aug 12, 2026 at 04:10:53PM +0200, Johan Hovold wrote:
+> On Thu, Jul 02, 2026 at 04:53:50PM +0200, Johan Hovold wrote:
+> > Some UDC drivers propagate the controller OF node to the gadget device
+> > but there are no (and has never been any) users of this as the
+> > devicetree binding and composite driver support was never merged. [1]
+> > 
+> > Drop the unused and incomplete support for OF node propagation which if
+> > ever needed should be handled by UDC core.
+> > 
+> > Note that this also avoids probe failures when reusing an OF node that
+> > describe resources like pinctrl that are managed by driver core (cf.
+> > commit 48ed32482c41 ("usb: gadget: aspeed: Fix probe regression")).
+> > 
+> > Link: https://lore.kernel.org/all/1340720833-781-1-git-send-email-aletes.xgr@gmail.com/ [1]
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > ---
+> > 
+> > This was something I stumbled over when fixing a couple of gadget device
+> > name leaks. This one applies on top of those fixes:
+> > 
+> > 	https://lore.kernel.org/all/20260702141536.90887-1-johan@kernel.org/
 > 
-> If the controller becomes inaccessible, readl() can return U32_MAX. The CNR
-> bit then never clears, and the atomic poll keeps retrying. The atomic poll
-> budget is decremented using the requested delay and loop iterations, but
-> not the time spent in readl(). Slow failed MMIO reads can therefore keep
-> the PCI hotplug thread spinning far beyond the nominal timeout and trigger
-> a soft lockup. The 26-second value in the first warning is the watchdog
-> threshold, not the handshake timeout; repeated warnings showed the thread
-> still stuck up to 260 seconds before a controlled reboot, leaving the
-> system unavailable to normal management. Comparing the watchdog timestamps
-> with the RBP loop counter in the dumps (about 1,372 iterations in 26 s and
-> 15,638 in 260 s) implies roughly 16-19 ms per polling iteration, despite
-> configured 10 us delay; these values are inferred, not direct measurements
-> of an individual readl().
-> 
-> Return -ENODEV when the polled register reads U32_MAX and stop the handoff
-> before issuing further accesses. This prevents an inaccessible xHCI from
-> keeping the PCI hotplug thread busy and making the system unavailable. An
-> eGPU may still fail to enumerate, but that failure must remain controlled
-> rather than causing a kernel Soft Lockup and taking down SSH or desktop
-> management. The existing timeout behavior for non-all-ones reads is
-> preserved, matching xhci_handshake().
-> 
-> A Thunderbolt-attached AMD Radeon Pro W5700 in a Razer Core X enclosure
-> reproduced this on an x86_64 UGREEN DXP8800 Plus with an Intel Core
-> i5-1235U. The GPU's xHCI function 0000:06:00.2 (1002:7316) triggered
-> the soft lockup in irq/123-pciehp; the register dump contained
-> RAX=U32_MAX:
-> 
->    watchdog: BUG: soft lockup - CPU#6 stuck for 26s! [irq/123-pciehp:139]
->    RIP: 0010:quirk_usb_early_handoff+0x552/0x7e0
->    register state: RAX=00000000ffffffff
-> 
-> The call trace was:
-> 
->    pci_do_fixups
->    pci_bus_add_device
->    pci_bus_add_devices
->    pciehp_configure_device
->    pciehp_handle_presence_or_link_change
->    pciehp_ist
->    irq_thread_fn
-> 
-> The failure reproduced on two hot-plug attempts and did not occur when the
-> enclosure was connected before boot.
-> 
-> Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Haowen Bai <calvin.bai@ugreen.com>
-Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> These fixes are now in 7.2-rc5 (and usb-next) so can this one be picked
+> up for 7.3?
+
+I'll take it now, thanks.
+
+greg k-h
