@@ -1,409 +1,203 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02E52E7F2C
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 00:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA332F7EF3;
+	Thu, 10 Sep 2026 00:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789000678; cv=none; b=oFUrPnFzlnj/PsCECeH328za3b3HgFHGeLY4SdIPrnBTTkypfArCRmpiKgriMga0tw4UESl0XaOxgV9PPJeUaVV5GRs4a9ajRkDsuIuuEl3+ZLg7myf7ZMfgVGQ43CuhkxyGL0tuWbfPKxBQk60jV9lJClVLeQpaP1BeS5PKA+o=
+	t=1789001388; cv=none; b=pKJscqRTcVVJhDdZJAPt+c2he+kNVb7wrEhQ5NZnYvm8koLwiQvDhcKf7+pxFkLg2yBEC184AgC86YoDcdKeb3FeNI/nNOrn2KOoiYPvXiKRFJMBGHDYjKfNmBu25OGBuT2SUdJ7IsAXnEZMZX+pv1LCd9kJOvgKP8O7KeSuV6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789000678; c=relaxed/simple;
-	bh=g6+lDSV7c/I/rpsXtbTpMhV094bJUKl2aNgFcsm5eGw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ptdiLJsBcUShKtY+4zo0x23H7ymsh0C45NbDNwFJP3vcny6dXbt3t+gsTKMwgaGRZf7DwfYOFyAdDBRMvWHOx5wINsGWG6ItqtTD8FRRjFUEm98ROI1QDL0a0rvUapTAWvF9BaMXXHsuT0IjLo4FrwqgzbwgjCIWXGF+RFDbmYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m+JMcqvd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B1Ak95Pn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789001388; c=relaxed/simple;
+	bh=5mswXCQphVxe1jBRJjmsJFTnRy+RdkOy9NFf9Y8/jTg=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RRRghekCdm+6P7+pVUYn6kdfX60LVxyJvR/GFCRkSjWZdyQvv5uFtkIelf1Hlyn2Ce7+2O6Osq7GRWOrZMW9iXkHDGhqJCExT4R0KZy1ZsJiGlCIM5d5jlpU5ZDHdetqaxX03eYFOJno590q3roST7/3wO7aOuGWam4/eQg5N6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMm5JeLI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m+JMcqvd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B1Ak95Pn"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689M9sk73789360
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=; b=m+JMcqvdzVMtd7qT
-	zANkRxcnMk+bcn9FhoMvgrMW+o6VNb9yWEind83+aKQHXYY6m09Ah3AE70gt56br
-	I4wpWnbfnvW2wiA0y2kkmbab+zO89Le+HPuvoUCZQIyLU488QL/NafAWQmCzQsCX
-	AD4y1Zy2yisScDMcSQNU2pgNjvx7MGPJMbps1f7cviLeVEGW8XHXi/1lwZSqzfvl
-	Ghc1HJXUWW/blofU/RvGhYh7/1o5ECyaY0buD7G/QSNJugBUpw8mIW5dIFoOzOgm
-	jJm7l/AH7PYbbproyP/fT8s6suD/LItJeVJThD7gWjwlf8MrqKClNx88KtjEV4ok
-	5yu/NA==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkcygh8e7-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e8fee6af3so8654461a91.1
-        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 17:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789000674; x=1789605474; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
-        b=B1Ak95PniSaITIijcear0N/BY33ra8eLfnWEB9U8PAK1E43voqeZJ/Cc0EhgjUEfwY
-         g1lxqcevYYeQkF9pRFifd2Aep7YB7Cm2/f5Lhbped5Hkzob1UaLbGJT3ziPhkIAvqvKr
-         dPCceGXBuCHjr4xf9RD6i7l4ZrJPzVUQuFUYsa8brkR9SX/+8roE5KDKPJevT5cJ6bO1
-         dWXJhz/Y/vWhCTHA2syK+w792VwVYM4k5jtDcs9P9U9/j3RCbFcAYQEFYvb0dKD1A1b1
-         +R9ms4cUnLzNl9xuj7IswjMxc8afCAZmshmmfx43TgeSoJ7/t6qqIQDBZafIF6B29o/7
-         wxEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789000674; x=1789605474;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
-        b=eKxPhdgd9i3vbe2Un2op3Jw+xl2cGA4dAWXHpbdpHPKsZp1kvD+PwlvDwIQuRdp436
-         XUdJBOelOUwDC6MHWYPaghy8Ov8IdmUyijBQ9DGUR2zU69udM47v0cevJAHiwc2cLvAs
-         SEFOVQ47tgCeLClve3AUz/MooEGrnvYCMdNlJAH95WAW4qq7uCuJ9tqm/Pw4Dra0D85+
-         yoe528PCowg4z9ZK+lt9c4ISkEg3jZN1YdJX3o+hgVc3aTjQjwp3vFCjYpkgzRsBb2+2
-         10hCZ563hASBskVP6bK4d4PdgPKm3C+ara8oBhVj8lPYnnkA199hKqLIw4mMTcSo7WXI
-         EX/A==
-X-Gm-Message-State: AFuF++kyUgmYi6IYFQrcM/qBpzUzExy/PIjqrGwm21mhC5DJHcjR/CNi
-	OvNDikQX7xWEq05nePuuSnWJyCach3RiBWd3RZxnbVjSyjcL4pFMuL8qgdkaaW2HoJuyJtwWiVn
-	lDYF8qpeeWtRZ7KdNBYcI56o3AjJDQoy/ELbrrDQwOoau+R/LiCkqdu/r2grbrVM=
-X-Gm-Gg: AYBFou1GO3Wx9/2RRXeagLIELnu4j/LtGFInQbgvcUOzjm2vF39MkX37giq2RZ5ARP2
-	84Omih6ELJInmqWRLBBWa6CN1lGkABCh0k3XaUlL7it1HCcejhrhBacMlk3wCZZIo47gqKjh0aS
-	99EeSqULwm2gUpXg/syuzDQshfzL3pVnwdpx3gQXCCimmdJ/w0z4Qh5i/I0KrcI+XJSqZc/qCOG
-	BaOFexr2PHU0zFWpW6j3fNPRQQi8Cr/XRAS2oL1HkdLd8m9U7yTrZEYx05gg1ej2XzRI/Jag7Qb
-	3I7M29xCgZshLwVZKTVo17yV/jGdGIb77SQyjwcvDxGveJr/5cxhPUQTvgzVSCe9l0s2UG0dV6J
-	SpJhIEi21bgdWrtJTbH3+Yt2ks777mu3BE9wrUBcS+/SwPzk=
-X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635833a91.8.1789000674199;
-        Wed, 09 Sep 2026 17:37:54 -0700 (PDT)
-X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635742a91.8.1789000673530;
-        Wed, 09 Sep 2026 17:37:53 -0700 (PDT)
-Received: from [10.73.194.28] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339ac24d7esm74760649eec.15.2026.09.09.17.37.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 17:37:52 -0700 (PDT)
-Message-ID: <0b323a5d-6d49-4309-8b23-4ffb1e0c4f0b@oss.qualcomm.com>
-Date: Wed, 9 Sep 2026 17:37:50 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMm5JeLI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE6F91F000FF;
+	Thu, 10 Sep 2026 00:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789001386;
+	bh=mK8p/Ek0PtL4WMQc8bjkI/6rLce6gIGBdtERaUshizo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=YMm5JeLIfxTdfoQrwO4l9DysebS/zmVW8QC2lJrhwFb69vFsKgD1tzvcdwDweSnsE
+	 KVrClDUDUPhueuxxvEFg7q70ikFqpu446hKxS4oV69pkdrUbdrE6rzzuFa/ddUWiRb
+	 X9s5HR7llUHVOshh0CW1PI79GWTddKyQfP4wqAm92w/8oggZ4nl6+B14OTz3iweKN6
+	 C3VQhz7dvcaCAqltwsINcDeOZQfOGsIFSdfnG577F1Fa+U9jUg/e++CyvgEqoyrzkI
+	 xyBz6VS5cWWgDCYBirSVydbPWtWhbzklBuGnt/OCS070Qyq9YjwVCVNBtpEyZQe+bA
+	 amSdIuMXadIZw==
+Subject: Re: [PATCH] net: usb: cx82310_eth: validate skb length in partial
+ packet reassembly
+From: netdev-bot+sashiko@kernel.org
+To: elb12345@hotmail.co.uk
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 10 Sep 2026 00:49:45 +0000
+Message-ID: <178900138543.219967.2109789659455615313@kernel.org>
+In-Reply-To: =?utf-8?q?=3CAS8P251MB0001C1EC5208155FCAB25268C8B22=40AS8P251MB?=
+ =?utf-8?q?0001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
+References: =?utf-8?q?=3CAS8P251MB0001C1EC5208155FCAB25268C8B22=40AS8P251MB0?=
+ =?utf-8?q?001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] usb: xhci: sideband: allocate sideband ring
- segments from a dedicated pool
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org
-References: <20260903-16k_offload_v1_b4-v3-0-135928dc2408@oss.qualcomm.com>
- <20260903-16k_offload_v1_b4-v3-2-135928dc2408@oss.qualcomm.com>
- <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-In-Reply-To: <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX0UaNxiezdNfI
- qcqvgUKRfrmVNYZ676u/YgTeVH5oI9D0TBHrVcWq3ehAvCfTny5OWNDAbWcqlFEk5+zqEhHcyfU
- eoNiNwUN7xg3kUdXAZlq54FgKfiH1bU=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX8fImllzmE0CX
- 70mkBpNWMAm7McEkgAHw23DcNPKaWgYUkRxa86NdvGIAf+QEGKP6SWX2beGBMUfWcaNWrPJ24zN
- USFc4D1IJIMgR4ugiiXJXHIE7ysIRwDy5xn5iLG5lB0UShBcQAjhBfbXuSpq2MapNlKqaNYB9So
- B94IBVPzeDsFPVZts1lSDDxoTBGHQYvTyAxPlYqA/x3ZByG+popoXMl01gtCX12msy9RLnpgeF9
- k51xvMGJpQk0fgEHxvmaQD4JoSYNayIlKDMQuQZn6a6jSU3VJCK2p1/4zkBe3yJgM75kqnC8rnH
- I/9+hiBVHr9kkpRAGpHjIvcRUtDLWYJ/rgoAgQl8CTqc0c2MPc6wxFidkgylOIr0a9eAKoBPRTU
- qGXbbzLF8F4pVFggqDDHooGuS7VBkw+vIzyn7kE4Ra2URYUOPVfuEyU/Xc40h/pzPC/1JL8B+wO
- 0wbVIvnE7Ss+ccd8iHw==
-X-Proofpoint-ORIG-GUID: hrgld5-2lnEtsKn7hIk4wX_It0fnY1Vy
-X-Proofpoint-GUID: hrgld5-2lnEtsKn7hIk4wX_It0fnY1Vy
-X-Authority-Analysis: v=2.4 cv=Z/F5j3RA c=1 sm=1 tr=0 ts=6aa1fbe3 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=r2LSxhclMoEJzFSgZ9EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-09_02,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1015 priorityscore=1501
- impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609100005
 
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider:
 
+Critical: 0 · High: 1 · Medium: 1 · Low: 0
 
-On 9/9/2026 3:08 AM, Mathias Nyman wrote:
-> On 9/4/26 09:57, Wesley Cheng wrote:
->> Ring segments are normally allocated from a shared DMA pool sized and
->> aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
->> larger PAGE_SIZE (e.g. 16K or 64K page arches), a segment can end up
->> at a non-page-aligned offset within its enclosing CPU page, and
->> multiple segments can share the same physical page.
->>
->> A sideband client that maps a ring buffer directly via the IOMMU
->> (which operates at page granularity) needs to know exactly which
->> page(s) back the ring, and only pages that are actually intended to
->> be exposed to that client should ever be mapped this way.
->>
->> Allow each xhci_sideband endpoint to pass its own segment_pool, allocated
->> separately from the core xhci->segment_pool, so every segment backing
->> a sideband-tagged endpoint always comes from a page that is meant to
->> be visible by the entity handling the offloaded endpoints. Normal
->> (non-offloaded) endpoints are unaffected, as they keep allocating from
->> xhci->segment_pool.
->>
->> The offload client owns the pool's full lifetime, and since
->> that lifetime is no longer tied to the sideband instance itself,
->> xhci_sideband_unregister() must free any ring still backed by a
->> client-supplied pool before returning, rather than leaving it for xhci
->> to free later when the client and its pool may already be gone.
->>
->> Assisted-by: Claude:claude-sonnet-5
->> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
->> ---
->>   drivers/usb/host/xhci-mem.c       | 63 ++++++++++++++++++++++++ 
->> +--------------
->>   drivers/usb/host/xhci-sideband.c  | 40 ++++++++++++++++++++++---
->>   drivers/usb/host/xhci.h           | 16 +++++-----
->>   include/linux/usb/xhci-sideband.h | 20 +++++++++++--
->>   sound/usb/qcom/qc_audio_offload.c | 21 +++++++++++--
->>   5 files changed, 121 insertions(+), 39 deletions(-)
->>
->> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
->> index 7a21ac81f9c8..a041a35fcd4f 100644
->> --- a/drivers/usb/host/xhci-mem.c
->> +++ b/drivers/usb/host/xhci-mem.c
->> @@ -28,6 +28,7 @@
->>    * "All components of all Command and Transfer TRBs shall be 
->> initialized to '0'"
->>    */
->>   static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
->> +                           struct dma_pool *pool,
->>                              unsigned int max_packet,
->>                              unsigned int num,
->>                              gfp_t flags)
->> @@ -40,7 +41,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
->> xhci_hcd *xhci,
->>       if (!seg)
->>           return NULL;
->> -    seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
->> +    seg->trbs = dma_pool_zalloc(pool, flags, &dma);
->>       if (!seg->trbs) {
->>           kfree(seg);
->>           return NULL;
->> @@ -50,7 +51,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
->> xhci_hcd *xhci,
->>           seg->bounce_buf = kzalloc_node(max_packet, flags,
->>                       dev_to_node(dev));
->>           if (!seg->bounce_buf) {
->> -            dma_pool_free(xhci->segment_pool, seg->trbs, dma);
->> +            dma_pool_free(pool, seg->trbs, dma);
->>               kfree(seg);
->>               return NULL;
->>           }
->> @@ -62,10 +63,11 @@ static struct xhci_segment *xhci_segment_alloc(struct 
->> xhci_hcd *xhci,
->>       return seg;
->>   }
->> -static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment 
->> *seg)
->> +static void xhci_segment_free(struct xhci_hcd *xhci, struct dma_pool *pool,
->> +                  struct xhci_segment *seg)
->>   {
->>       if (seg->trbs) {
->> -        dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
->> +        dma_pool_free(pool, seg->trbs, seg->dma);
->>           seg->trbs = NULL;
->>       }
->>       kfree(seg->bounce_buf);
->> @@ -81,7 +83,7 @@ static void xhci_ring_segments_free(struct xhci_hcd 
->> *xhci, struct xhci_ring *rin
->>       while (seg) {
->>           next = seg->next;
->> -        xhci_segment_free(xhci, seg);
->> +        xhci_segment_free(xhci, ring->segment_pool, seg);
->>           seg = next;
->>       }
->>   }
->> @@ -334,7 +336,7 @@ static int xhci_alloc_segments_for_ring(struct 
->> xhci_hcd *xhci, struct xhci_ring
->>       struct xhci_segment *prev;
->>       unsigned int num = 0;
->> -    prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
->> +    prev = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
->> >bounce_buf_len, num, flags);
->>       if (!prev)
->>           return -ENOMEM;
->>       num++;
->> @@ -343,7 +345,8 @@ static int xhci_alloc_segments_for_ring(struct 
->> xhci_hcd *xhci, struct xhci_ring
->>       while (num < ring->num_segs) {
->>           struct xhci_segment    *next;
->> -        next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
->> +        next = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
->> >bounce_buf_len,
->> +                      num, flags);
->>           if (!next)
->>               goto free_segments;
->> @@ -362,15 +365,10 @@ static int xhci_alloc_segments_for_ring(struct 
->> xhci_hcd *xhci, struct xhci_ring
->>       return -ENOMEM;
->>   }
->> -/*
->> - * Create a new ring with zero or more segments.
->> - *
->> - * Link each segment together into a ring.
->> - * Set the end flag and the cycle toggle bit on the last segment.
->> - * See section 4.9.1 and figures 15 and 16.
->> - */
->> -struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
->> num_segs,
->> -                  enum xhci_ring_type type, unsigned int max_packet, 
->> gfp_t flags)
->> +static struct xhci_ring *
->> +xhci_ring_alloc_from_pool(struct xhci_hcd *xhci, unsigned int num_segs,
->> +              enum xhci_ring_type type, unsigned int max_packet,
->> +              struct dma_pool *pool, gfp_t flags)
->>   {
->>       struct xhci_ring    *ring;
->>       int ret;
->> @@ -382,6 +380,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
->> *xhci, unsigned int num_segs,
->>       ring->num_segs = num_segs;
->>       ring->bounce_buf_len = max_packet;
->> +    ring->segment_pool = pool;
->>       INIT_LIST_HEAD(&ring->td_list);
->>       ring->type = type;
->>       if (num_segs == 0)
->> @@ -398,6 +397,20 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
->> *xhci, unsigned int num_segs,
->>       return NULL;
->>   }
->> +/*
->> + * Create a new ring with zero or more segments.
->> + *
->> + * Link each segment together into a ring.
->> + * Set the end flag and the cycle toggle bit on the last segment.
->> + * See section 4.9.1 and figures 15 and 16.
->> + */
->> +struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
->> num_segs,
->> +                  enum xhci_ring_type type, unsigned int max_packet, 
->> gfp_t flags)
->> +{
->> +    return xhci_ring_alloc_from_pool(xhci, num_segs, type, max_packet,
->> +                     xhci->segment_pool, flags);
->> +}
->> +
->>   void xhci_free_endpoint_ring(struct xhci_hcd *xhci,
->>           struct xhci_virt_device *virt_dev,
->>           unsigned int ep_index)
->> @@ -422,6 +435,7 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct 
->> xhci_ring *ring,
->>       new_ring.num_segs = num_new_segs;
->>       new_ring.bounce_buf_len = ring->bounce_buf_len;
->>       new_ring.type = ring->type;
->> +    new_ring.segment_pool = ring->segment_pool;
->>       ret = xhci_alloc_segments_for_ring(xhci, &new_ring, flags);
->>       if (ret)
->>           return -ENOMEM;
->> @@ -1424,6 +1438,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
->>       unsigned int mult;
->>       unsigned int avg_trb_len;
->>       unsigned int err_count = 0;
->> +    struct dma_pool *pool;
->>       ep_index = xhci_get_endpoint_index(&ep->desc);
->>       ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
->> @@ -1487,8 +1502,10 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
->>           avg_trb_len = 8;
->>       /* Set up the endpoint ring */
->> +    pool = virt_dev->eps[ep_index].priv_seg_pool ?
->> +           virt_dev->eps[ep_index].priv_seg_pool : xhci->segment_pool;
->>       virt_dev->eps[ep_index].new_ring =
->> -        xhci_ring_alloc(xhci, 2, ring_type, max_packet, mem_flags);
->> +        xhci_ring_alloc_from_pool(xhci, 2, ring_type, max_packet, pool, 
->> mem_flags);
->>       if (!virt_dev->eps[ep_index].new_ring)
->>           return -ENOMEM;
->> @@ -2291,7 +2308,8 @@ static int xhci_setup_port_arrays(struct xhci_hcd 
->> *xhci, gfp_t flags)
->>   }
->>   static struct xhci_interrupter *
->> -xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t 
->> flags)
->> +xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs,
->> +               struct dma_pool *pool, gfp_t flags)
->>   {
->>       struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
->>       struct xhci_interrupter *ir;
->> @@ -2308,7 +2326,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, 
->> unsigned int segs, gfp_t flags)
->>       if (!ir)
->>           return NULL;
->> -    ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, flags);
->> +    ir->event_ring = xhci_ring_alloc_from_pool(xhci, segs, TYPE_EVENT, 
->> 0, pool, flags);
->>       if (!ir->event_ring) {
->>           xhci_warn(xhci, "Failed to allocate interrupter event ring\n");
->>           kfree(ir);
->> @@ -2356,7 +2374,8 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, 
->> unsigned int intr_num)
->>   struct xhci_interrupter *
->>   xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
->> -                  u32 imod_interval, unsigned int intr_num)
->> +                  struct dma_pool *pool, u32 imod_interval,
->> +                  unsigned int intr_num)
->>   {
->>       struct xhci_hcd *xhci = hcd_to_xhci(hcd);
->>       struct xhci_interrupter *ir;
->> @@ -2367,7 +2386,7 @@ xhci_create_secondary_interrupter(struct usb_hcd 
->> *hcd, unsigned int segs,
->>           intr_num >= xhci->max_interrupters)
->>           return NULL;
->> -    ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
->> +    ir = xhci_alloc_interrupter(xhci, segs, pool, GFP_KERNEL);
-> 
-> 
-> Passing a custom dma pool to xhci_create_secondary_interrupters() shuld be 
-> optional.
-> Callers shoudn't need to be aware of the xhci->segment_pool, and pass it in 
-> the default case.
-> 
+- [High] The new bound check `if (skb->len < dev->partial_rem)` in
+  cx82310_rx_fixup() is a check-then-use on completely unsynchronized…
+- [Medium] The new guard in cx82310_rx_fixup() validates `skb->len >=
+  dev->partial_rem`, but the reassembly block consumes…
 
-Makes sense, will fix this.
+--
 
-> Instead use the default xhci->segment_pool if caller passes NULL for pool.
-> 
-> 
->>       if (!ir)
->>           return NULL;
->> @@ -2498,7 +2517,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
->>       if (!xhci->interrupters)
->>           goto fail;
->> -    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
->> +    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, xhci- 
->> >segment_pool, flags);
->>       if (!xhci->interrupters[0])
->>           goto fail;
-> 
-> I would split the patch here.
-> 
-> Do all xhci "core" code above in one patch, and the sideband changes in a 
-> separate patch.
-> Only sideband change needed in first patch would be passing NULL for pool when
-> creating the secondary interrupter:
-> 
->       sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
-> -                           num_seg, imod_interval,
-> -                           intr_num);
-> +                           num_seg, NULL,
-> +                           imod_interval, intr_num);
-> 
-Sounds good. Will split the patch accordingly.
+net: usb: cx82310_eth: validate skb length in partial packet reassembly
 
-Thanks
-Wesley Cheng
+This adds a length check in cx82310_rx_fixup() before the memcpy that
+completes a partially received packet from the previous URB, so a short
+follow-up transfer no longer causes a read past the end of the skb data.
+When the transfer is too short, partial_rem is cleared and the frame is
+dropped.
+
+> diff --git a/drivers/net/usb/cx82310_eth.c b/drivers/net/usb/cx82310_eth.c
+> index 5df657acf3d55..bdae1d8ad5f43 100644
+> --- a/drivers/net/usb/cx82310_eth.c
+> +++ b/drivers/net/usb/cx82310_eth.c
+> @@ -251,6 +251,10 @@ static int cx82310_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+>  	 * end of that packet at the beginning.
+>  	 */
+>  	if (dev->partial_rem) {
+> +		if (skb->len < dev->partial_rem) {
+> +			dev->partial_rem = 0;
+> +			return 0;
+> +		}
+
+[Severity: Medium]
+Should this compare against the rounded-up length instead?  The block
+right below consumes (dev->partial_rem + 1) & ~1 bytes from the skb, not
+dev->partial_rem bytes:
+
+drivers/net/usb/cx82310_eth.c:cx82310_rx_fixup() {
+	...
+	memcpy(skb2->data + dev->partial_len, skb->data,
+	       dev->partial_rem);
+	usbnet_skb_return(dev, skb2);
+	skb_pull(skb, (dev->partial_rem + 1) & ~1);
+	dev->partial_rem = 0;
+	if (skb->len < 2)
+		return 1;
+	...
+}
+
+The extra byte comes from the odd-length padding the file comment
+describes:
+
+ * If a packet has odd length, there is one extra byte at the end (before next
+ * packet or at the end of the URB).
+
+partial_rem is fully device controlled, since the previous transfer sets
+it in the incomplete-packet path:
+
+			dev->partial_len = skb->len;
+			dev->partial_rem = len - skb->len;
+
+So with a header length of 1497 and 4 payload bytes the device gets
+partial_rem = 1493, and a continuation transfer of exactly 1493 bytes
+passes the new check.  The reassembled frame is returned, and then
+skb_pull(skb, 1494) is a no-op because skb_pull_inline() bails out when
+the pull exceeds skb->len:
+
+include/linux/skbuff.h:skb_pull_inline() {
+	return unlikely(len > skb->len) ? NULL : __skb_pull(skb, len);
+}
+
+The return value is not checked and partial_rem is cleared, so with
+skb->len still 1493 the while (skb->len > 1) loop re-parses the payload
+bytes that were just delivered as a fresh 2-byte length header.
+
+Can that lose RX framing?  Depending on the payload bytes the loop then
+either trims and delivers a duplicate/garbled frame to the stack, logs
+"RX packet too long", schedules priv->reenable_work when the two bytes
+happen to read 0xffff, or stores a bogus partial_len/partial_rem pair
+that mis-frames the following transfer too.
+
+Would testing skb->len < ((dev->partial_rem + 1) & ~1) here, or checking
+the skb_pull() result, cover the odd-partial_rem case as well?
+
+[Severity: High]
+Is dev->partial_rem stable between this check and its uses below?  The
+guard reads dev->partial_rem, and the code then re-reads
+dev->partial_len and dev->partial_rem for the allocation size, for
+skb_put() and for both memcpy lengths, with no lock, no READ_ONCE() and
+no local snapshot.  These are plain struct usbnet fields aliased by the
+macros in this file:
+
+#define partial_len	data[0]		/* length of partial packet data */
+#define partial_rem	data[1]		/* remaining (missing) data length */
+#define partial_data	data[2]		/* partial packet data */
+
+cx82310_rx_fixup() runs from rx_process() under usbnet_bh(), which has
+two entry points that are not mutually exclusive.  usbnet_bh() is
+registered directly as the delay timer callback in usbnet_probe():
+
+	timer_setup(&dev->delay, usbnet_bh, 0);
+
+and it is also the body of the BH work item:
+
+drivers/net/usb/usbnet.c:usbnet_bh_work() {
+	...
+	usbnet_bh(&dev->delay);
+	...
+}
+
+The timer is armed from the RX error-throttle path in rx_complete():
+
+			mod_timer(&dev->delay, jiffies + THROTTLE_JIFFIES);
+
+which is exactly what a malfunctioning device produces, while
+rx_complete()/defer_bh() keep queueing bh_work on another CPU.
+usbnet_bh() takes no lock around its loop; only skb_dequeue() self-locks
+the done queue, and rx_fixup() is called after that lock is dropped:
+
+drivers/net/usb/usbnet.c:usbnet_bh() {
+	while ((skb = skb_dequeue (&dev->done))) {
+		entry = (struct skb_data *) skb->cb;
+		switch (entry->state) {
+		case rx_done:
+			if (rx_process(dev, skb))
+	...
+}
+
+So can two invocations run cx82310_rx_fixup() in parallel on different
+skbs?  If CPU A passes the new guard with partial_rem = 100 and
+skb->len = 200, and CPU B then executes the incomplete-packet store:
+
+			dev->partial_len = skb->len;
+			dev->partial_rem = len - skb->len;
+			memcpy((void *)dev->partial_data, skb->data,
+			       dev->partial_len);
+
+CPU A's later re-reads use the new values: the second memcpy copies the
+larger partial_rem from a 200-byte skb (the over-read this patch aims to
+close), and the first memcpy can copy a larger partial_len into an skb2
+that was allocated from the earlier, smaller len, writing past the slab
+object.  partial_data is also read while being rewritten.
+
+Would snapshotting partial_len and partial_rem into locals and
+validating and using only the locals (or serializing the reassembly
+state) close this, rather than adding another unsynchronized read?  The
+race window predates the patch, but the new check's soundness depends on
+partial_rem not changing between the check and the copies.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/AS8P251MB0001C1EC5208155FCAB25268C8B22%40AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
