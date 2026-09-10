@@ -1,49 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50347475335;
-	Thu, 10 Sep 2026 12:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA39C3D16FD;
+	Thu, 10 Sep 2026 12:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789044178; cv=none; b=CzVu1tVVKlXYTn1eORY5fDWqdNcOXkbuC9sHV/9r77LHN6TOEhdmrKA98GvU/H9hQzlBmWsnMFErEh/XklM0kuWENJB5qQqY+PoOdS/6tkRnXdNoi+vSw4dtW5rgx97cQrKQJsFElNby1JFRjmUmfaX7ZAURYrpJvgakTuku+Fc=
+	t=1789044472; cv=none; b=EXo6dNPR9Ubh9ut8eR7wDqUYNYK4OrvmbuSRWAKNfTTyzypXRb/sO6QJPuRrSJkL4yqUXSRXxh/FQxtN7GAXwkZLbZVykEIdIW0cP7YP6Uhl2xwRUW0YIp6obczUVU5TSRhk2qbDQWCIWlVG1GgGwqlL7QIg8ecVO1IyxKIZUF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789044178; c=relaxed/simple;
-	bh=rD2r0ZJHQ4pnPyzvZzv6ITnpgWvWEqQMsaZpzTxq+eE=;
+	s=arc-20240116; t=1789044472; c=relaxed/simple;
+	bh=XrEpGiXVeiwMS3iFogJDxxaP8k+IAOl/YZRlLx9MYYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVpZoMPSgn1uGJwFMzLx3ZU2sr3UengcQFhIEFvYC0/mgpNk0cLkdlXs0WLUprz20q2rcdRpv3MyebM0EvxZI17BiLqsPzDsgo6PwKB8b78gxx1Hm+3/orPzHtHacDy3+mUL3DX8Z4g6N3mx/GJgIvDFvavhPmFLyjnb7sCkCb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yK+RulPa; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=p6eEYHvkPXI3ymxRq8JkJ/Rr+ToTQsxSOXD0k8cfu5u8EvPtTsSMCC/ELLxAwDTY6kCwml7l1yeOBUy3QlcrUmrTJpoJrNITSp1tCRXKAQQ8HA0t09E4+HG+PX9L8Lvpbtt7MTovRKTtaAz+g7GqoqAMh8Bb9nEKoX3hwxo57jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Io2K2HJ7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yK+RulPa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D951F000FF;
-	Thu, 10 Sep 2026 12:42:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Io2K2HJ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E66FB1F000FF;
+	Thu, 10 Sep 2026 12:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789044172;
-	bh=O1TCJNckcR1ZCasoAjnNvFB4xDvkSyyaa1YH7Joef6M=;
+	s=korg; t=1789044470;
+	bh=f489y3/cjqIMXi2Vm5eX0XSu0uZWkW9AoqmcNi3ETqg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=yK+RulPacUHhpAYnJuoHh8GDv71b4aSmFvhUE6Y2XCOVOlh6lvucgxqC+aDsczaHa
-	 2kODvhRmbmlXG9KMIldiXzavjoo0BEyVI6isRfuHAlqsio/aYRU3RfAN+yRsY/2pn9
-	 hVyocgAVna/IJwYzvgPjMDrrO4vpteCO+E+4tuEo=
-Date: Thu, 10 Sep 2026 14:42:44 +0200
+	b=Io2K2HJ7altBOlDra2yUc8d4e4OmM8nzK/XIwWY5pNmjgb+sFk3ZzBfNoz0vk5Gct
+	 wPMQkDCuCit/aOCzbTxRo3PZgHQMXTSrtAN/hsmcm6JpQOkiMzTpoMue6rgtFM7OwA
+	 o0A14V+gt/w6d2QI52hHKZKR3R+L/nJsaCX3tGck=
+Date: Thu, 10 Sep 2026 14:47:42 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Bastien Nocera <hadess@hadess.net>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Rahul Bukte <rahul.bukte@sony.com>, Tim Bird <tim.bird@sony.com>,
-	linux-embedded@vger.kernel.org
-Subject: Re: [PATCH 2/4] usb: core: set mod_name in driver registration
-Message-ID: <2026091010-awkward-crouton-31e0@gregkh>
-References: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
- <20260722-mod_name_usb-v1-2-96d781530f3f@sony.com>
+To: Jie Wang <jie.wang@intel.com>
+Cc: Chas Williams <3chas3@gmail.com>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	accessrunner-general@lists.sourceforge.net,
+	syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] usb: atm: cxacru: fix NULL deref of atm_dev on sysfs
+ writes
+Message-ID: <2026091012-nastiness-coveted-74e3@gregkh>
+References: <f3ef0a67-79d7-47da-be6e-7e82d92e68fe@mail.kernel.org>
+ <20260908150203.2119844-1-jie.wang@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,39 +44,43 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722-mod_name_usb-v1-2-96d781530f3f@sony.com>
+In-Reply-To: <20260908150203.2119844-1-jie.wang@intel.com>
 
-On Wed, Jul 22, 2026 at 12:31:22PM +0900, Shashank Balaji wrote:
-> The driver core only creates the sysfs "module" symlink for a built-in
-> driver when its struct device_driver has mod_name set (see
-> module_add_driver()). This registration path left mod_name unset, so built-in
-> drivers using it had no such symlink.
+On Tue, Sep 08, 2026 at 03:02:03PM +0000, Jie Wang wrote:
+> The adsl_state and adsl_config sysfs attributes are created via
+> dev_groups, so the driver core exposes them as soon as ->probe()
+> returns. At that point instance->atm_dev can still be NULL:
+> usbatm_heavy_init() only waits for the heavy-init kthread to start, not
+> to finish, and instance->atm_dev is assigned later, in usbatm_atm_init().
 > 
-> Set mod_name to KBUILD_MODNAME during driver registration. Built-in
-> drivers now gain the symlink, while loadable modules are unaffected.
+> A write to either attribute in that window passes the existing
+> "instance == NULL" check and reaches atm_err()/atm_info() on the error
+> path (and, for adsl_config, on the success path). Both expand to
+> instance->atm_dev->number and dereference the NULL atm_dev.
 > 
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> Fix this by logging with usb_err()/usb_info() instead. They reference the
+> USB interface device, which stays valid for the whole write, and
+> usbatm_atm_init() already logs this way before atm_dev exists.
+> 
+> adsl_state_store() also calls cxacru_poll_status() directly, which
+> dereferences atm_dev via atm_dev_signal_change() and atm_dev->link_rate.
+> Return early from the poll when atm_dev is not yet set.
+> 
+> Fixes: e605c30977bb ("USB: atm: cxacru: convert to use dev_groups")
+> Reported-by: syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=9b195c4f412ea5c4e56a
+> Tested-by: syzbot+9b195c4f412ea5c4e56a@syzkaller.appspotmail.com
+> Signed-off-by: Jie Wang <jie.wang@intel.com>
+
+Did you forget an assisted-by: tag?
+
+
 > ---
->  include/linux/usb.h       | 4 ++--
->  drivers/usb/core/driver.c | 4 +++-
->  2 files changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/usb.h b/include/linux/usb.h
-> index 2466183a45f0..6507c217bca7 100644
-> --- a/include/linux/usb.h
-> +++ b/include/linux/usb.h
-> @@ -1369,9 +1369,9 @@ extern void usb_deregister(struct usb_driver *);
->  		       usb_deregister)
->  
->  #define usb_register_device_driver(new_udriver) \
-> -	__usb_register_device_driver(new_udriver, THIS_MODULE)
-> +	__usb_register_device_driver(new_udriver, THIS_MODULE, KBUILD_MODNAME)
+> Changes since v1 [1]:
+>  - v1 gated on ->atm_dev at handler entry, but that check is an
+>    unsynchronized TOCTOU; remove the ->atm_dev dereference from these
+>    paths instead.
 
-It seems odd to me that struct module doesn't contain the name of the
-module, and you have to pass this around all the time...
+Sashiko still has some objections:
+	https://sashiko.dev/#/patchset/20260908150203.2119844-1-jie.wang@intel.com
 
-Anyway, all now queued up, thanks!
-
-greg k-h
