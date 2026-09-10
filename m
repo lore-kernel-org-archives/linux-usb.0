@@ -1,252 +1,409 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azolkn19011035.outbound.protection.outlook.com [52.103.12.35])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9A22248AF;
-	Thu, 10 Sep 2026 00:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.12.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788999215; cv=fail; b=hMG0mEOakdG0S8SXfQihfjp8CqG8VXtxEUPN3Bi2ebkVCCt2FQf9/Yd8slCkgVkM0B+017U2FdqvtWI5a96mZAQa/UzEN8MOHWgh9KuAQn0qyDm6ALIg3LjzBkDbqbo+ll/ZfnlnmrM84NQ154EsYIy28wv1xZCKqY/NkQ041tg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788999215; c=relaxed/simple;
-	bh=NXA2uLOtH7vzQb59VgjNbMCN5fkRoJ+VrzSoGJ9BLiY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=FBw7vmNaOJKUu0wsGKaAkiHaDqvqHjIz3gnzZ8IGzefmkvcoH6h8vbU1uH/lkdC9p+Jmwvx1Y3LUlhZmQhEkWZo4KOznwNQ8y0tbBo5IXWRIB9qrpqQfkShJqajOEHzXhdr4snc+emDF6noBp4/BU3M5eNL2u2i4Qd3yl7JCI+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=BsRwbMiD; arc=fail smtp.client-ip=52.103.12.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02E52E7F2C
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 00:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789000678; cv=none; b=oFUrPnFzlnj/PsCECeH328za3b3HgFHGeLY4SdIPrnBTTkypfArCRmpiKgriMga0tw4UESl0XaOxgV9PPJeUaVV5GRs4a9ajRkDsuIuuEl3+ZLg7myf7ZMfgVGQ43CuhkxyGL0tuWbfPKxBQk60jV9lJClVLeQpaP1BeS5PKA+o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789000678; c=relaxed/simple;
+	bh=g6+lDSV7c/I/rpsXtbTpMhV094bJUKl2aNgFcsm5eGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ptdiLJsBcUShKtY+4zo0x23H7ymsh0C45NbDNwFJP3vcny6dXbt3t+gsTKMwgaGRZf7DwfYOFyAdDBRMvWHOx5wINsGWG6ItqtTD8FRRjFUEm98ROI1QDL0a0rvUapTAWvF9BaMXXHsuT0IjLo4FrwqgzbwgjCIWXGF+RFDbmYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m+JMcqvd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B1Ak95Pn; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="BsRwbMiD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cV/JVK4xQ9SmtwG64HZv/Q6lIwXQvTazGxTwRlEOlCQUATTync44tzpYSRIzugsxA0xMIn5622oDDzpgi7DZr74fHzhU9MBpYnQWVkOLAL2UTnirDd7H7hnfjD2dUPZnShm3DpSX8BP9qMIZdEwNb7h6wnadl7S9pT3ZVhmaTAZi5vI23T1FmK4oHaMCRsgajUfvmxA7mFiP/RYhf+PMJ1yLqgu4TnfzHSrsszTveYESL7VIi6nZshImavYH5r6i7z+qUzvIzkqz75x/LVMWCDVZcsnpgTYa5hG2E8HaYIrAOEZ5v0lMzebJbVh+QbwIsUztr4+0g3MJgObrbvgCPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VkZ8J7FzOrhYsoiE93aD1XCuqLlpWIF63SfdVm8s3Xk=;
- b=l3yXlNCuHTWDo+icddgc3p+iWaiJZ5Gxoa1tqxhlVesPicCIYm4XzeKksLBAgTbTVoZZj3+aDGosfwEthjGl60lkU5WY9S4joBy0zJE4kuPZ2oRlFgk6CnDD4Ba9HtArSwqHozMXDO2awm8WKXhZYFSzcytOtb+rt6PjwczO2fAY148sVPSvbWdJaD/LqbyPyP+hKRJEa8YevHwYE0yQuu21yqpqC69nIu6Pi0QeOmhZab1Ozw6iGbCXPAGSIoqXws6n3Ujbfh837orORMlPRkusf2etb9kjyyAD66XmhwlYIOQjyQGR3GhrgVM9IQQxs9k6dcLefk2rFx+cBMkN4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VkZ8J7FzOrhYsoiE93aD1XCuqLlpWIF63SfdVm8s3Xk=;
- b=BsRwbMiDKUmgHg3I3pSNHNs+o5CtjmxS84q9P9maTugOvy2md/5j1M6zFPpRBfLSMvYAIbgxLw/J3Nqh1Z0YV6YHBGx/4KpieOhomWVXZWpZ+km50iQbRW14oNEAdjuK3EBYFXEpI1qRE99DkDuK+Tjki5lVYJNl8jztf4YZfgBeHwS/Ig2mj7w6POx2p6Vjk1WfLxHVvXrpttbF1UelJs8KVwss286viyWaE665pzpgEGSlbTiQ+yTpl4O/GvIXpJUtqIC58yIjBVZgIXQFr+Rnf2BohtKgbe/fa46a+GxnkKScPu6xo2DitigSRo5JbqSd0+HlpNsCPuhfaMhwyA==
-Received: from CY8PR14MB5980.namprd14.prod.outlook.com (2603:10b6:930:5c::17)
- by SA1PR14MB5449.namprd14.prod.outlook.com (2603:10b6:806:239::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Thu, 10 Sep
- 2026 00:13:19 +0000
-Received: from CY8PR14MB5980.namprd14.prod.outlook.com
- ([fe80::7c2a:5f3b:b2b5:e77c]) by CY8PR14MB5980.namprd14.prod.outlook.com
- ([fe80::7c2a:5f3b:b2b5:e77c%4]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
- 00:13:19 +0000
-Message-ID:
- <CY8PR14MB59803EC0F6C7FD39A6D3C42FA0BF2@CY8PR14MB5980.namprd14.prod.outlook.com>
-Date: Wed, 9 Sep 2026 18:13:17 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] HID: logitech-hidpp: G502 LIGHTSPEED loses hi-res scroll
- state after S3 resume
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <CY8PR14MB59809F95431FC6FFB0D0A56DA0B02@CY8PR14MB5980.namprd14.prod.outlook.com>
- <20260909222724.30fc8f52.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Quinn Schive <quinnschive@hotmail.com>
-In-Reply-To: <20260909222724.30fc8f52.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P223CA0025.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:303:80::30) To CY8PR14MB5980.namprd14.prod.outlook.com
- (2603:10b6:930:5c::17)
-X-Microsoft-Original-Message-ID:
- <e2396e9f-7cc2-446a-8962-6d65f4ef0cc5@hotmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m+JMcqvd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B1Ak95Pn"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689M9sk73789360
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=; b=m+JMcqvdzVMtd7qT
+	zANkRxcnMk+bcn9FhoMvgrMW+o6VNb9yWEind83+aKQHXYY6m09Ah3AE70gt56br
+	I4wpWnbfnvW2wiA0y2kkmbab+zO89Le+HPuvoUCZQIyLU488QL/NafAWQmCzQsCX
+	AD4y1Zy2yisScDMcSQNU2pgNjvx7MGPJMbps1f7cviLeVEGW8XHXi/1lwZSqzfvl
+	Ghc1HJXUWW/blofU/RvGhYh7/1o5ECyaY0buD7G/QSNJugBUpw8mIW5dIFoOzOgm
+	jJm7l/AH7PYbbproyP/fT8s6suD/LItJeVJThD7gWjwlf8MrqKClNx88KtjEV4ok
+	5yu/NA==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkcygh8e7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e8fee6af3so8654461a91.1
+        for <linux-usb@vger.kernel.org>; Wed, 09 Sep 2026 17:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789000674; x=1789605474; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
+        b=B1Ak95PniSaITIijcear0N/BY33ra8eLfnWEB9U8PAK1E43voqeZJ/Cc0EhgjUEfwY
+         g1lxqcevYYeQkF9pRFifd2Aep7YB7Cm2/f5Lhbped5Hkzob1UaLbGJT3ziPhkIAvqvKr
+         dPCceGXBuCHjr4xf9RD6i7l4ZrJPzVUQuFUYsa8brkR9SX/+8roE5KDKPJevT5cJ6bO1
+         dWXJhz/Y/vWhCTHA2syK+w792VwVYM4k5jtDcs9P9U9/j3RCbFcAYQEFYvb0dKD1A1b1
+         +R9ms4cUnLzNl9xuj7IswjMxc8afCAZmshmmfx43TgeSoJ7/t6qqIQDBZafIF6B29o/7
+         wxEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789000674; x=1789605474;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
+        b=eKxPhdgd9i3vbe2Un2op3Jw+xl2cGA4dAWXHpbdpHPKsZp1kvD+PwlvDwIQuRdp436
+         XUdJBOelOUwDC6MHWYPaghy8Ov8IdmUyijBQ9DGUR2zU69udM47v0cevJAHiwc2cLvAs
+         SEFOVQ47tgCeLClve3AUz/MooEGrnvYCMdNlJAH95WAW4qq7uCuJ9tqm/Pw4Dra0D85+
+         yoe528PCowg4z9ZK+lt9c4ISkEg3jZN1YdJX3o+hgVc3aTjQjwp3vFCjYpkgzRsBb2+2
+         10hCZ563hASBskVP6bK4d4PdgPKm3C+ara8oBhVj8lPYnnkA199hKqLIw4mMTcSo7WXI
+         EX/A==
+X-Gm-Message-State: AFuF++kyUgmYi6IYFQrcM/qBpzUzExy/PIjqrGwm21mhC5DJHcjR/CNi
+	OvNDikQX7xWEq05nePuuSnWJyCach3RiBWd3RZxnbVjSyjcL4pFMuL8qgdkaaW2HoJuyJtwWiVn
+	lDYF8qpeeWtRZ7KdNBYcI56o3AjJDQoy/ELbrrDQwOoau+R/LiCkqdu/r2grbrVM=
+X-Gm-Gg: AYBFou1GO3Wx9/2RRXeagLIELnu4j/LtGFInQbgvcUOzjm2vF39MkX37giq2RZ5ARP2
+	84Omih6ELJInmqWRLBBWa6CN1lGkABCh0k3XaUlL7it1HCcejhrhBacMlk3wCZZIo47gqKjh0aS
+	99EeSqULwm2gUpXg/syuzDQshfzL3pVnwdpx3gQXCCimmdJ/w0z4Qh5i/I0KrcI+XJSqZc/qCOG
+	BaOFexr2PHU0zFWpW6j3fNPRQQi8Cr/XRAS2oL1HkdLd8m9U7yTrZEYx05gg1ej2XzRI/Jag7Qb
+	3I7M29xCgZshLwVZKTVo17yV/jGdGIb77SQyjwcvDxGveJr/5cxhPUQTvgzVSCe9l0s2UG0dV6J
+	SpJhIEi21bgdWrtJTbH3+Yt2ks777mu3BE9wrUBcS+/SwPzk=
+X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635833a91.8.1789000674199;
+        Wed, 09 Sep 2026 17:37:54 -0700 (PDT)
+X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635742a91.8.1789000673530;
+        Wed, 09 Sep 2026 17:37:53 -0700 (PDT)
+Received: from [10.73.194.28] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339ac24d7esm74760649eec.15.2026.09.09.17.37.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 17:37:52 -0700 (PDT)
+Message-ID: <0b323a5d-6d49-4309-8b23-4ffb1e0c4f0b@oss.qualcomm.com>
+Date: Wed, 9 Sep 2026 17:37:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR14MB5980:EE_|SA1PR14MB5449:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97159af0-bb6f-40ea-51ad-08df0ed050f3
-X-MS-Exchange-SLBlob-MailProps:
-	laRBL560oLSPhlJ95/U7v6W/AahuugGa9amhVH1bOOMzGShn6L1hXXtP07nLAJrZSlL9cueJonl3VKG9NIAdw54/mPtGpkytrPAnX5NM3Cf95I0NspCbCk5WKJ7pCaB+RvkdcqNIDvH1Bx2jlnMdYuGfxVa6tHLPX/FcGkumFXNPemFfOqQmy6y3umWBeJS24NOhQGJG0wrIH4cKIccEq+GnybZ95401E8+i1t23uRe+R8IOIk4CuxKTv05x8E3OxTPUbXskyeGVt6RC6bl7tLwhxExyxj3YTEHtvlRkV5tXoVlDJ0kEhmk77uym5YFXNF86W7VXQBLS1UKlZP6d41Xd0WtJgRV8g4GWLMuv1RL95R2lrcePTafDrlmWBnS98f7Yr7Tq+N45mYTozMAttOAKBTbFiejbZ5lg0qyk2CRs0Ry/OFPAzElU8urUIthhR3hVlo2T/4OkpK42pRkbK+0BoE00+8qLMJKQ5MQjPTire6mqmg1Ah+bBMn9pfZxn+SF198QfIApR4UJpIASzL8D2SI5E6gdF2uFWiyu2hfXCcsegZwMRFApkmdcJgYCJNK6CwORT1rzH7UJnrCCiRWbqjoo5XjfAVoOH+VnDsVmbTg+B9W/Ogo15OMDLc3R1QU+Zgy3p5xjo+uWqvkcr/64nA8PBbHexWR0xo8fqdknUNjdQbJ0/XXSRLBInQORILSQHCNWz2yzN1Z4sjiALD+I1760pVCjsL5pLpuZ5VoBCO5fF1XkTxGx8Drgrw7Q/y0gS1WLSVhpywUpjwwGsYt34VTArFgKP
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|51005399006|25010399006|25031999004|19110799012|8060799015|15080799012|5072599009|24021099003|6090799003|40105399003|1602099012|10035399007|2607281247196008|4302099013|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UGNOVnRPeGsvZ09vQVVhQUhUZDVPNGtlTmNpTzNKYnU1UmhMNGRjMzNNUmIz?=
- =?utf-8?B?ekpkT0F5dXozVGVnbzhjK3NxZkFDeTUxMXFxUGFybzdJamppR01telhKME44?=
- =?utf-8?B?Y3N3U2QxWGlLSUhvODRBcW1IVUNacXhvSW1aQUU0a1Q4YytVcmRHUCtFSkR4?=
- =?utf-8?B?Q1MyUXhzYkppemEycDlNYnlqNDlLTGI4R1V1eDhwZ2RZRjdqN1M4VUs3OWo4?=
- =?utf-8?B?dXZtbFNMRVpENkloZ3h2U3U1aDV3c1ViS1BSWkxsS1pVbnhpVFNQcjJLUkpq?=
- =?utf-8?B?dmxUWDNpOGZrNXlDclNIeitxZWFqSjZhSHdxZVlWUk5TVnBCM2FSL1ZkNU9j?=
- =?utf-8?B?OTd5T3NvdGRjSWhndFdKS1RaYkJoUjdzNUUvdDZqZVZaeGwvNkl0OUJSNE4w?=
- =?utf-8?B?TkJjMG92Mk44WVlKdDF6QVJzcU5WaThkMzhKSVVTelY2N0R4aVdqOEZmU0dR?=
- =?utf-8?B?YnhkV0lRS0VYbGxpeXE4VG0vZHBESis1RGRXczVJZHc2SWlCa3JwbXFPTStO?=
- =?utf-8?B?OVVWbmFpN09BbjlUeFdrT2VWdTFGaS9xQWhLdlhNa0RmZ2UxMWxxMVAzc2dO?=
- =?utf-8?B?R1V3OWptTSs5dXV2U09Femp4b0V1cG5hWElsUFZ0ZTFaL2kzYVNoOU5GWU85?=
- =?utf-8?B?ZEE2ODFRdHhIU0MxdlU4TXhjZEhNbmFodXduQXhsWThVdU90alVNUzhMT2xu?=
- =?utf-8?B?RlowMWhwa2cvWTJySFRqWDd0LytZeTJKbFM5TDhHajJFRFRDYzNXTjF2bUQ3?=
- =?utf-8?B?NWpuQnVTYjFKZWpSZHh2dkY4dGNiQlZOVVJkbk1peXR1elZuMkRLSXhCaGdi?=
- =?utf-8?B?MktkM3BSMEdiU0c1MHdKYVZmWjJhUitvZnEyUTFpQWliN2tReDh0c2hmQU90?=
- =?utf-8?B?d1dsSzYvc1hlN3RRUnplbkJ2OGlZZStPQ2xEZlBWRVBON3E1YUpZd1l2citQ?=
- =?utf-8?B?VWNEZ0hPN0piZGRkQTR6TjFBQjdndXdDTzYvUC9TblFXZHFCZ0RnSC96b2cv?=
- =?utf-8?B?dU1GbnI3Y0MvYjFXcTA1WXJ2dkw0V2JVTlZYNDJzcDNRRkh5ZGV1V1haU0xn?=
- =?utf-8?B?NSt4TGRaUFMzaHBVa0l1TTVXcy9FMWVmYzFjRjA1eS9XYXhkcHdETGFFUXE0?=
- =?utf-8?B?T1U0SGhDaThCbU43YTBMc1dNL0JXTElTVXVOWkN0MUJLOE50QTZZNkgwck1r?=
- =?utf-8?B?ZmxjRmxhaDZyaVlob0ZpcVRFNm8wSVh6YkZXRVdZMk1XZTN1eUpXeEhUbjdj?=
- =?utf-8?B?cnBEWWkzTUFEVU9VTFFXRWg2NzFoQmg4MldJYTJXZEx5QzVOUGNKMERjRC9V?=
- =?utf-8?B?NEpHQnhQN3VzVVNTeGxJZXRKb2FyaFVtU1hWSHdRSnZSblpHenhFM2JnQko2?=
- =?utf-8?B?MXMrMnFaZDFxdWo2a1A2V1pWZ1ZuazZpZkszSFZzTGV3d1RXc0V4WXE1byt3?=
- =?utf-8?B?VUFaRVJLQ25yMHFoWWtaNCtiOXBlQUpFMUMvNmFMM1c1S1NLaVVCdXlQYTB3?=
- =?utf-8?Q?chVlh4=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bXl0Z05lY2dVREtjV1QyVHIvWFE1MFMyeWVoZzJLajZlSEtpYlpMdG9NRElQ?=
- =?utf-8?B?OHUwTzU0YkJBaUtxblQzMlVEaVVEazAvY245MTlYdDc1dGFhb1ZpYjZJajY1?=
- =?utf-8?B?MDBZa0tLSU1UR2Jhbnkxa2ovNlA1VjBOMlB6czc4QktnbSsrak9qY3dZM2o3?=
- =?utf-8?B?MXozdHVIL0NUSm0xSXFTVGFKdm51U1ZGeVhxK0kyVjluRGlmNFdIUDgxc2dz?=
- =?utf-8?B?RXVZSGVmaXhlUm8vaWtpdFhFTkpRdGY2YnE4cnFDVG9IcVNFMkJKWVR0LzBT?=
- =?utf-8?B?ektYdUpVZ2tlT1JGTHZOTG5HNjNVU0w0WE16NFJpWGFZME9PZ1RoN2NYSTRG?=
- =?utf-8?B?WStvTGw0R3lienR2b0lWaGF6OTF1K1JFMXR0TVJYSml3OXh1dFVycWRzTllz?=
- =?utf-8?B?eHhtL3QrY2FxM1hCdGhuQkFkbGNRbkpGUVoxSHlJbWxaRVFRM3VYbzBTbkNS?=
- =?utf-8?B?OSsydHRibVdzbEI3bmkrdjVkU05QelJrQVpsc3lhZnR2Q0FwY1ZaVW9vLzkx?=
- =?utf-8?B?NWU0b2J5aE5kSkF0NGxodnpSSTRqL1M4QU5xZFZ4dVZMWjJYMWprL05EWXdk?=
- =?utf-8?B?VFNJV2ZESm42cStyOFBJWkM0aS9sVDZ5WWQwNlVUSDE1K3FWZmZkMzcvU3h6?=
- =?utf-8?B?WDdEMXh5cDRTazMvVzRWUWRQTEtzaTNxSVhjOVl5SUJlZTh3M0dRSVZwWndh?=
- =?utf-8?B?ZmZhdmkrRDBVdjNGNTZhUHFoQ1FMU3lSVHhTMHdhdHh6aXhRTzVkYXNyTjJn?=
- =?utf-8?B?QSt3aVBZU3J3S1Z4YVJYSzNqMVp3YUJ2dE1GdUcweXdVYkJUMFdwalpQMGVS?=
- =?utf-8?B?ejRZM2FFaEg1VmZLMkZxR0doNnNhUmtadlFuVW1RTk42Q0VZcnpzeWpGVDhQ?=
- =?utf-8?B?SGhuN210WTFsbEVoanZkZGFJem5oVEhwV0FHUHBPMDR3OU9pQ0htb01YeGtM?=
- =?utf-8?B?RnZCUVk3eTc4emg3U0JiN1B1U21GQUJBMGdnZ0FJeXpxaUROQjhuYVBLVzVn?=
- =?utf-8?B?TENIc09FOVBZK0FFT0hnaXl4UWtZOTJNR2tKM3dYYkZ0NFQrQmdLRHM4aW9O?=
- =?utf-8?B?ZWExOGVQaUJoYk1jaGRrVjFWdSsvUnRnVTV3Z3lCRVdFMTRSaDV1VFM1RGQz?=
- =?utf-8?B?UTdvSmFDMWdyaEdPV1A3WVB2ckJUTmloYTNpWDRsbDVGUHpXbmdxQzNRUU5v?=
- =?utf-8?B?aHpCdEtmMkVCVG5SZW1hVko1NVhNTEVhL0FqODdKSG9uWHZtUVp2TlFQSFRO?=
- =?utf-8?B?ZUFYK3ZKQktWK2NGdzJ5UERUcE90OE5rc005eXNuQWFJbDlSY2k1QjZyb09O?=
- =?utf-8?B?TzZwM2c0aVlkQjRqUjRrZVBCTFNvSU5kS3dNZGN2TzBrZlY4MFp3UUdqWExy?=
- =?utf-8?B?c2phZmlHUDhjMVMxTlZVN0UrbXBsMFNtYU9HZ2djRVVjUXN1RzdEYjNXdnVP?=
- =?utf-8?B?RFU4Qm1zYzlIeU1UbS8ySUVXc01KTGIyR0s4Sk1GNE9zK0dhOXg2d2xYMzFK?=
- =?utf-8?B?TFdLUURIK0Jwb0tVdDVMdmh2V3VTUnlmWnVraGk5S0JIRS9VSkg0SXM5dHFY?=
- =?utf-8?B?clRWeGRDcEIxRVBBVHh1MW1OLzdjYmtlVmc4NGlURTRWdHZKenZLRjhPN0xM?=
- =?utf-8?B?NDlXdWd3NXZKbllxMHZBUFlKck5ZRUp4enJMWjI4U29nRGtZeDA3d3RhNkU3?=
- =?utf-8?B?LzcxMmJXQ2xFMXhFYncyOGRyYVA0OHd0TStzT0VuMG1xaEsyeXdLVkNqMDFp?=
- =?utf-8?B?Q2xvaHhYMmhVMDE0Z2NhUW9vTkd0MzJIbS85WERuOTJOdzYwMlgwSHBwWk41?=
- =?utf-8?B?ZVRqM0s3NlRWMklWVFJJMDZVY2dSS21ta0QxUFdqZFVEQmFMbUxEK1FXN251?=
- =?utf-8?B?UFZGd0kvek5rTVFjSDd1Qzc4TDJxQUNxSk5vK3Fvc29aTXlVK3g2c3BJL1No?=
- =?utf-8?Q?p5MjaoeMbEsB91YLjiOUv9kq+pDNlw9N?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-13b70.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97159af0-bb6f-40ea-51ad-08df0ed050f3
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR14MB5980.namprd14.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 00:13:18.8980
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR14MB5449
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] usb: xhci: sideband: allocate sideband ring
+ segments from a dedicated pool
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260903-16k_offload_v1_b4-v3-0-135928dc2408@oss.qualcomm.com>
+ <20260903-16k_offload_v1_b4-v3-2-135928dc2408@oss.qualcomm.com>
+ <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+In-Reply-To: <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX0UaNxiezdNfI
+ qcqvgUKRfrmVNYZ676u/YgTeVH5oI9D0TBHrVcWq3ehAvCfTny5OWNDAbWcqlFEk5+zqEhHcyfU
+ eoNiNwUN7xg3kUdXAZlq54FgKfiH1bU=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX8fImllzmE0CX
+ 70mkBpNWMAm7McEkgAHw23DcNPKaWgYUkRxa86NdvGIAf+QEGKP6SWX2beGBMUfWcaNWrPJ24zN
+ USFc4D1IJIMgR4ugiiXJXHIE7ysIRwDy5xn5iLG5lB0UShBcQAjhBfbXuSpq2MapNlKqaNYB9So
+ B94IBVPzeDsFPVZts1lSDDxoTBGHQYvTyAxPlYqA/x3ZByG+popoXMl01gtCX12msy9RLnpgeF9
+ k51xvMGJpQk0fgEHxvmaQD4JoSYNayIlKDMQuQZn6a6jSU3VJCK2p1/4zkBe3yJgM75kqnC8rnH
+ I/9+hiBVHr9kkpRAGpHjIvcRUtDLWYJ/rgoAgQl8CTqc0c2MPc6wxFidkgylOIr0a9eAKoBPRTU
+ qGXbbzLF8F4pVFggqDDHooGuS7VBkw+vIzyn7kE4Ra2URYUOPVfuEyU/Xc40h/pzPC/1JL8B+wO
+ 0wbVIvnE7Ss+ccd8iHw==
+X-Proofpoint-ORIG-GUID: hrgld5-2lnEtsKn7hIk4wX_It0fnY1Vy
+X-Proofpoint-GUID: hrgld5-2lnEtsKn7hIk4wX_It0fnY1Vy
+X-Authority-Analysis: v=2.4 cv=Z/F5j3RA c=1 sm=1 tr=0 ts=6aa1fbe3 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=r2LSxhclMoEJzFSgZ9EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-09_02,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609100005
 
-Hi Michal,
 
-I tested the patch you suggested, and so far it appears to have fixed 
-the problem on my system.
 
-For reference, I have two AMD PROM21 xHCI controllers:
-
-0f:00.0 AMD 800 Series Chipset USB 3.x XHCI Controller [1022:43fd]
-11:00.0 AMD 800 Series Chipset USB 3.x XHCI Controller [1022:43fd]
-
-Before applying the patch, the problem was occurring often enough that 
-it was very easy to reproduce. I was able to reproduce the resume 
-failure on the unmodified Arch Linux 7.2.4 kernel:
-
-xhci-pci-prom21 0000:11:00.0: xHC error in resume, USBSTS 0x401, Reinit
-usb usb10: root hub lost power or was reset
-usb usb11: root hub lost power or was reset
-
-The same type of failure also occurred on the other PROM21 controller.
-
-I then built the same Arch Linux 7.2.4 kernel with the v5 "usb: 
-pci-quirks: always assert xHCI OS ownership" patch applied.
-
-I have now completed 10+ consecutive S3 deep suspend/resume cycles with 
-the patched kernel. This included several short manual suspend cycles, 
-normal automatic suspend cycles, and one suspend lasting about 40 minutes.
-
-So far, across all 10+ cycles, I have not seen any of the following:
-
-xHC error in resume
-USBSTS 0x401
-PROM21 controller reinitialization
-root hub lost power or was reset
-reset of the Logitech LIGHTSPEED receiver
-
-Subjectively, the G502 wheel has also remained completely normal after 
-every resume. Before applying the patch, the slow scrolling problem was 
-happening very frequently and was easy to reproduce, so the difference 
-has been quite noticeable.
-
-These are just my findings on this particular system, but at this point 
-the patch appears to be working very well here.
-
-If there are any additional tests, logs, or specific suspend/resume 
-scenarios you would like me to try, please let me know and I would be 
-happy to test them.
-
-Thanks for pointing me to the patch.
-
-Regards,
-Quinn S.
-
-On 2026-09-09 14:27, Michal Pecio wrote:
-> On Wed, 9 Sep 2026 09:58:28 -0600, Quinn Schive wrote:
->> After some S3 resumes, mouse wheel scrolling becomes approximately 8
->> times slower.
+On 9/9/2026 3:08 AM, Mathias Nyman wrote:
+> On 9/4/26 09:57, Wesley Cheng wrote:
+>> Ring segments are normally allocated from a shared DMA pool sized and
+>> aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
+>> larger PAGE_SIZE (e.g. 16K or 64K page arches), a segment can end up
+>> at a non-page-aligned offset within its enclosing CPU page, and
+>> multiple segments can share the same physical page.
 >>
->> Turning the G502 off and back on immediately restores normal
->> scrolling.
+>> A sideband client that maps a ring buffer directly via the IOMMU
+>> (which operates at page granularity) needs to know exactly which
+>> page(s) back the ring, and only pages that are actually intended to
+>> be exposed to that client should ever be mapped this way.
 >>
->> I captured the failure before power-cycling the mouse.
+>> Allow each xhci_sideband endpoint to pass its own segment_pool, allocated
+>> separately from the core xhci->segment_pool, so every segment backing
+>> a sideband-tagged endpoint always comes from a page that is meant to
+>> be visible by the entity handling the offloaded endpoints. Normal
+>> (non-offloaded) endpoints are unaffected, as they keep allocating from
+>> xhci->segment_pool.
 >>
->> During the resume that triggered the problem, both PROM21 xHCI
->> controllers reported:
+>> The offload client owns the pool's full lifetime, and since
+>> that lifetime is no longer tied to the sideband instance itself,
+>> xhci_sideband_unregister() must free any ring still backed by a
+>> client-supplied pool before returning, rather than leaving it for xhci
+>> to free later when the client and its pool may already be gone.
 >>
->> xhci-pci-prom21 0000:11:00.0: xHC error in resume, USBSTS 0x401, Reinit
->> usb usb10: root hub lost power or was reset
->> usb usb11: root hub lost power or was reset
+>> Assisted-by: Claude:claude-sonnet-5
+>> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+>> ---
+>>   drivers/usb/host/xhci-mem.c       | 63 ++++++++++++++++++++++++ 
+>> +--------------
+>>   drivers/usb/host/xhci-sideband.c  | 40 ++++++++++++++++++++++---
+>>   drivers/usb/host/xhci.h           | 16 +++++-----
+>>   include/linux/usb/xhci-sideband.h | 20 +++++++++++--
+>>   sound/usb/qcom/qc_audio_offload.c | 21 +++++++++++--
+>>   5 files changed, 121 insertions(+), 39 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+>> index 7a21ac81f9c8..a041a35fcd4f 100644
+>> --- a/drivers/usb/host/xhci-mem.c
+>> +++ b/drivers/usb/host/xhci-mem.c
+>> @@ -28,6 +28,7 @@
+>>    * "All components of all Command and Transfer TRBs shall be 
+>> initialized to '0'"
+>>    */
+>>   static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
+>> +                           struct dma_pool *pool,
+>>                              unsigned int max_packet,
+>>                              unsigned int num,
+>>                              gfp_t flags)
+>> @@ -40,7 +41,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
+>> xhci_hcd *xhci,
+>>       if (!seg)
+>>           return NULL;
+>> -    seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
+>> +    seg->trbs = dma_pool_zalloc(pool, flags, &dma);
+>>       if (!seg->trbs) {
+>>           kfree(seg);
+>>           return NULL;
+>> @@ -50,7 +51,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
+>> xhci_hcd *xhci,
+>>           seg->bounce_buf = kzalloc_node(max_packet, flags,
+>>                       dev_to_node(dev));
+>>           if (!seg->bounce_buf) {
+>> -            dma_pool_free(xhci->segment_pool, seg->trbs, dma);
+>> +            dma_pool_free(pool, seg->trbs, dma);
+>>               kfree(seg);
+>>               return NULL;
+>>           }
+>> @@ -62,10 +63,11 @@ static struct xhci_segment *xhci_segment_alloc(struct 
+>> xhci_hcd *xhci,
+>>       return seg;
+>>   }
+>> -static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment 
+>> *seg)
+>> +static void xhci_segment_free(struct xhci_hcd *xhci, struct dma_pool *pool,
+>> +                  struct xhci_segment *seg)
+>>   {
+>>       if (seg->trbs) {
+>> -        dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
+>> +        dma_pool_free(pool, seg->trbs, seg->dma);
+>>           seg->trbs = NULL;
+>>       }
+>>       kfree(seg->bounce_buf);
+>> @@ -81,7 +83,7 @@ static void xhci_ring_segments_free(struct xhci_hcd 
+>> *xhci, struct xhci_ring *rin
+>>       while (seg) {
+>>           next = seg->next;
+>> -        xhci_segment_free(xhci, seg);
+>> +        xhci_segment_free(xhci, ring->segment_pool, seg);
+>>           seg = next;
+>>       }
+>>   }
+>> @@ -334,7 +336,7 @@ static int xhci_alloc_segments_for_ring(struct 
+>> xhci_hcd *xhci, struct xhci_ring
+>>       struct xhci_segment *prev;
+>>       unsigned int num = 0;
+>> -    prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
+>> +    prev = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
+>> >bounce_buf_len, num, flags);
+>>       if (!prev)
+>>           return -ENOMEM;
+>>       num++;
+>> @@ -343,7 +345,8 @@ static int xhci_alloc_segments_for_ring(struct 
+>> xhci_hcd *xhci, struct xhci_ring
+>>       while (num < ring->num_segs) {
+>>           struct xhci_segment    *next;
+>> -        next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
+>> +        next = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
+>> >bounce_buf_len,
+>> +                      num, flags);
+>>           if (!next)
+>>               goto free_segments;
+>> @@ -362,15 +365,10 @@ static int xhci_alloc_segments_for_ring(struct 
+>> xhci_hcd *xhci, struct xhci_ring
+>>       return -ENOMEM;
+>>   }
+>> -/*
+>> - * Create a new ring with zero or more segments.
+>> - *
+>> - * Link each segment together into a ring.
+>> - * Set the end flag and the cycle toggle bit on the last segment.
+>> - * See section 4.9.1 and figures 15 and 16.
+>> - */
+>> -struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
+>> num_segs,
+>> -                  enum xhci_ring_type type, unsigned int max_packet, 
+>> gfp_t flags)
+>> +static struct xhci_ring *
+>> +xhci_ring_alloc_from_pool(struct xhci_hcd *xhci, unsigned int num_segs,
+>> +              enum xhci_ring_type type, unsigned int max_packet,
+>> +              struct dma_pool *pool, gfp_t flags)
+>>   {
+>>       struct xhci_ring    *ring;
+>>       int ret;
+>> @@ -382,6 +380,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
+>> *xhci, unsigned int num_segs,
+>>       ring->num_segs = num_segs;
+>>       ring->bounce_buf_len = max_packet;
+>> +    ring->segment_pool = pool;
+>>       INIT_LIST_HEAD(&ring->td_list);
+>>       ring->type = type;
+>>       if (num_segs == 0)
+>> @@ -398,6 +397,20 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
+>> *xhci, unsigned int num_segs,
+>>       return NULL;
+>>   }
+>> +/*
+>> + * Create a new ring with zero or more segments.
+>> + *
+>> + * Link each segment together into a ring.
+>> + * Set the end flag and the cycle toggle bit on the last segment.
+>> + * See section 4.9.1 and figures 15 and 16.
+>> + */
+>> +struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
+>> num_segs,
+>> +                  enum xhci_ring_type type, unsigned int max_packet, 
+>> gfp_t flags)
+>> +{
+>> +    return xhci_ring_alloc_from_pool(xhci, num_segs, type, max_packet,
+>> +                     xhci->segment_pool, flags);
+>> +}
+>> +
+>>   void xhci_free_endpoint_ring(struct xhci_hcd *xhci,
+>>           struct xhci_virt_device *virt_dev,
+>>           unsigned int ep_index)
+>> @@ -422,6 +435,7 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct 
+>> xhci_ring *ring,
+>>       new_ring.num_segs = num_new_segs;
+>>       new_ring.bounce_buf_len = ring->bounce_buf_len;
+>>       new_ring.type = ring->type;
+>> +    new_ring.segment_pool = ring->segment_pool;
+>>       ret = xhci_alloc_segments_for_ring(xhci, &new_ring, flags);
+>>       if (ret)
+>>           return -ENOMEM;
+>> @@ -1424,6 +1438,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
+>>       unsigned int mult;
+>>       unsigned int avg_trb_len;
+>>       unsigned int err_count = 0;
+>> +    struct dma_pool *pool;
+>>       ep_index = xhci_get_endpoint_index(&ep->desc);
+>>       ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
+>> @@ -1487,8 +1502,10 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
+>>           avg_trb_len = 8;
+>>       /* Set up the endpoint ring */
+>> +    pool = virt_dev->eps[ep_index].priv_seg_pool ?
+>> +           virt_dev->eps[ep_index].priv_seg_pool : xhci->segment_pool;
+>>       virt_dev->eps[ep_index].new_ring =
+>> -        xhci_ring_alloc(xhci, 2, ring_type, max_packet, mem_flags);
+>> +        xhci_ring_alloc_from_pool(xhci, 2, ring_type, max_packet, pool, 
+>> mem_flags);
+>>       if (!virt_dev->eps[ep_index].new_ring)
+>>           return -ENOMEM;
+>> @@ -2291,7 +2308,8 @@ static int xhci_setup_port_arrays(struct xhci_hcd 
+>> *xhci, gfp_t flags)
+>>   }
+>>   static struct xhci_interrupter *
+>> -xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t 
+>> flags)
+>> +xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs,
+>> +               struct dma_pool *pool, gfp_t flags)
+>>   {
+>>       struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
+>>       struct xhci_interrupter *ir;
+>> @@ -2308,7 +2326,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, 
+>> unsigned int segs, gfp_t flags)
+>>       if (!ir)
+>>           return NULL;
+>> -    ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, flags);
+>> +    ir->event_ring = xhci_ring_alloc_from_pool(xhci, segs, TYPE_EVENT, 
+>> 0, pool, flags);
+>>       if (!ir->event_ring) {
+>>           xhci_warn(xhci, "Failed to allocate interrupter event ring\n");
+>>           kfree(ir);
+>> @@ -2356,7 +2374,8 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, 
+>> unsigned int intr_num)
+>>   struct xhci_interrupter *
+>>   xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+>> -                  u32 imod_interval, unsigned int intr_num)
+>> +                  struct dma_pool *pool, u32 imod_interval,
+>> +                  unsigned int intr_num)
+>>   {
+>>       struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+>>       struct xhci_interrupter *ir;
+>> @@ -2367,7 +2386,7 @@ xhci_create_secondary_interrupter(struct usb_hcd 
+>> *hcd, unsigned int segs,
+>>           intr_num >= xhci->max_interrupters)
+>>           return NULL;
+>> -    ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
+>> +    ir = xhci_alloc_interrupter(xhci, segs, pool, GFP_KERNEL);
 > 
-> Hi,
 > 
-> You could try if this problem is fixed by the following patch:
-> https://lore.kernel.org/linux-usb/178832755831.50581.1058201741431375556@gmail.com/
+> Passing a custom dma pool to xhci_create_secondary_interrupters() shuld be 
+> optional.
+> Callers shoudn't need to be aware of the xhci->segment_pool, and pass it in 
+> the default case.
 > 
-> That being said,
-> 
->> My interpretation, with the caveat that I am not familiar with the
->> HID++ driver internals, is:
->>
->> 1. Before suspend, the G502 is configured for high-resolution
->> scrolling and hid-logitech-hidpp stores wheel_multiplier=8.
->>
->> 2. During S3 resume, the PROM21 xHCI controller fails normal resume
->> and is reinitialized.
->>
->> 3. The LIGHTSPEED receiver gets a USB reset while USB persistence
->> keeps the logical receiver/HID device present.
->>
->> 4. The G502 appears to lose its high-resolution wheel reporting
->> configuration. In the affected state, one physical detent generates
->> only one raw increment.
->>
->> 5. hid-logitech-hidpp retains wheel_multiplier=8 and apparently does
->> not re-run the necessary high-resolution configuration on this
->> recovery path.
-> 
-> this still looks like missing functionality in the driver.
-> Needs to handle reset_resume() perhaps?
-> 
-> Regards,
-> Michal
 
+Makes sense, will fix this.
+
+> Instead use the default xhci->segment_pool if caller passes NULL for pool.
+> 
+> 
+>>       if (!ir)
+>>           return NULL;
+>> @@ -2498,7 +2517,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+>>       if (!xhci->interrupters)
+>>           goto fail;
+>> -    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
+>> +    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, xhci- 
+>> >segment_pool, flags);
+>>       if (!xhci->interrupters[0])
+>>           goto fail;
+> 
+> I would split the patch here.
+> 
+> Do all xhci "core" code above in one patch, and the sideband changes in a 
+> separate patch.
+> Only sideband change needed in first patch would be passing NULL for pool when
+> creating the secondary interrupter:
+> 
+>       sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+> -                           num_seg, imod_interval,
+> -                           intr_num);
+> +                           num_seg, NULL,
+> +                           imod_interval, intr_num);
+> 
+Sounds good. Will split the patch accordingly.
+
+Thanks
+Wesley Cheng
