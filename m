@@ -1,43 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B598718859B;
-	Thu, 10 Sep 2026 13:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314DF37C10C;
+	Thu, 10 Sep 2026 13:40:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789047498; cv=none; b=eMkndScWA3lbh87myc637A+lX/zGaSrDzzJZ1aGbt1jAqD4TZOR0LrQzOfZbbcBO+ezwhL6XaKSKAEx860FeSy9jyb6aVzS2BjFdSnkyO6Lg11Bxc7mqJhGjv7qPJcQCAEyMjVZd6yICYCXcvdEAjwnNSnw5zWq+YyGEv44XeuM=
+	t=1789047634; cv=none; b=Frxp1Ic+dc2n0ZfcWqCOk7lLThFEh0Ru/ZiJ/mxKRBEeqsYQzb2ugxjRJmFHROED02w0sHQg1HlC9G14iyhT18dzg0oWEXYqhmYodwK/oyfuwXE3uymKUKjE5V2CBl0+eOz77AdaaTYNwvjdc/xHokGYh25z7Es7Q6VIWgbVB9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789047498; c=relaxed/simple;
-	bh=KERzQXu4AuOB8o41LGXwQ6MDdb42/46HViF8vTcqx2A=;
+	s=arc-20240116; t=1789047634; c=relaxed/simple;
+	bh=ebLIaGFPwn6jlZr+scsUSMLgbdDN6IZAobs0/FT/3Rg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tx9YpLeQczu8gPt/u2cZB62TCpohMag+7Iuu1Ub9mWVXGbOBdLT6Dq3KUJQhnhGYVPlQnZUfM4lFFMdl/BgRzVEFfLc6Ti3n57PYVVeiwwyx/hBlNCpnjIZdo6WbzcruelBQ0aRAuxIyruO8QilyvXzs+OybEE3H85ml0/eAQjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xsNrvoCs; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hc8CpdvjkWr98xhM8qKRW/fXNQEiXYsfPz2GrPYSV/EAg5jrY77AT332gh8guUq44p3FIxWy9PHnlvAKCFnPPvuE3wGP1tkC76P2jDG+IiYyoSkoN3h35KeA/pe0FK3UAUyughSCkChh46kPPjC+zP00xHQ/EBBph6euFQ4mc94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qaD+85Wm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xsNrvoCs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C24CB1F000FF;
-	Thu, 10 Sep 2026 13:38:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qaD+85Wm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB6F1F000FF;
+	Thu, 10 Sep 2026 13:40:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789047496;
-	bh=IXBSAOGIh6jCZvCkv9yCum8ZJroML+LqgNj3BgTtpxI=;
+	s=korg; t=1789047631;
+	bh=xO6IrZJlrsRk11VGROOdZQbQRlbEHwSOdyIM9DozyvE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xsNrvoCs9Ftw5+cXXa+IjekEtsA6YzktE0MZJSCvJtXliyEzc6/DT/+fV33QVUdc2
-	 W7UGTKGoHLg1MucSEEoonFQOfEExOoSj6h4fbOGOzlJG4Ip2WbRgir5VW++FBCcHDG
-	 L13Wj+On8GsdLvIp+T7d8A4WHlexX2oUAitBXOmU=
-Date: Thu, 10 Sep 2026 15:38:08 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: phucduc.bui@gmail.com
-Cc: Peter Chen <peter.chen@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-usb@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sashiko Bot <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v3 2/2] usb: chipidea: ci_hdrc_imx: Fix error handling
- when creating IRQ name
-Message-ID: <2026091054-preflight-capacity-e7e2@gregkh>
-References: <20260810093112.47807-1-phucduc.bui@gmail.com>
- <20260810093112.47807-2-phucduc.bui@gmail.com>
+	b=qaD+85Wm9UdcVhU4FJz0n/oUK4e0HMXOaFLSSo2wki/nHdDy9wPq8VaLW6MXrusoU
+	 TXceK9wB3DIRRnk9I4ySAqnI5y6HnJtY/EAD3nyhtBqzvVMnc4kRk/n+fri2SN0IzT
+	 XeS3v5p8xaVYGFd8V0GEZjH1F5C+UWOGjFSsT24g=
+Date: Thu, 10 Sep 2026 15:40:23 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: syedlabeeq <syedlabeeq@gmail.com>
+Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	stern@rowland.harvard.edu, stable@vger.kernel.org
+Subject: Re: [PATCH RESEND] usb: storage: sierra_ms: reject short SWoC info
+ transfers
+Message-ID: <2026091052-refueling-bulk-afc5@gregkh>
+References: <20260910123129.16793-1-syedlabeeq@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,65 +40,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260810093112.47807-2-phucduc.bui@gmail.com>
+In-Reply-To: <20260910123129.16793-1-syedlabeeq@gmail.com>
 
-On Mon, Aug 10, 2026 at 04:31:12PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
+On Thu, Sep 10, 2026 at 05:31:28PM +0500, syedlabeeq wrote:
+> From: Syed Labeeq Sajid Bukhari <syedlabeeq@gmail.com>
 > 
-> devm_kasprintf() can fail when allocating the wakeup IRQ name. The error
-> was logged with dev_err_probe(), but its return value was ignored and
-> probe could continue with a successful return value.
+> sierra_get_swoc_info() requests sizeof(struct swoc_info) (60) bytes
+> from the device via usb_control_msg(), but its callers only treat a
+> negative return value as failure. A device that answers the
+> vendor-specific GetSwocInfo request with a short IN transfer is
+> therefore accepted, leaving the tail of the freshly allocated
+> (kmalloc(), non-zeroing) swoc_info buffer uninitialized.
 > 
-> Store the error returned by dev_err_probe() in ret and jump to the error
-> path to propagate the failure.
+> truinst_show() subsequently prints swocInfo->rev, swocInfo->LinuxSKU
+> and swocInfo->LinuxVer from that buffer into the world-readable
+> (0444) "truinst" sysfs attribute. An emulated/malicious USB device
+> (VID 0x1199, PID 0x0fff) can exploit this to disclose up to 5 bytes
+> of stale kernel heap memory (kmalloc-64) to unprivileged userspace,
+> once per sysfs read, indefinitely. On kernels built without
+> init_on_alloc this leaks recently freed heap contents.
 > 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Acked-by: Peter Chen <peter.chen@kernel.org>
-> Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
-> Link: https://lore.kernel.org/all/20260806065755.C9F361F000E9@smtp.kernel.org/
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> Only accept the transfer when the full structure was received.
+> sierra_ms_init() already retries failed queries, so well-behaved
+> devices are unaffected.
+> 
+> Fixes: 32fe5e393455 ("USB Storage Sierra: TRU-Install feature update")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Syed Labeeq Sajid Bukhari <syedlabeeq@gmail.com>
 > ---
+> Resend: the first posting was whitespace-mangled by a webmail client;
+> no code changes.
+>  drivers/usb/storage/sierra_ms.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> Link v2: 
-> https://lore.kernel.org/all/20260807065619.30604-2-phucduc.bui@gmail.com/
-> Changes in v3:
->  - Use the phy_shutdown label instead of err_clk as suggested by 
->    Sashiko's review. 
->  - Add Peter Chen's Acked-by tag.
->  - Add Frank Li's Reviewed-by tag.
-> 
->  drivers/usb/chipidea/ci_hdrc_imx.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-> index 9e529398c607..edbf9df9b8f2 100644
-> --- a/drivers/usb/chipidea/ci_hdrc_imx.c
-> +++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-> @@ -532,8 +532,8 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
->  	if (data->wakeup_irq > 0) {
->  		irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", pdata.name);
->  		if (!irq_name) {
-> -			dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
-> -			goto err_clk;
-> +			ret = dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
-> +			goto phy_shutdown;
->  		}
->  
->  		ret = devm_request_threaded_irq(dev, data->wakeup_irq,
-> @@ -541,7 +541,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
->  						IRQF_ONESHOT | IRQF_NO_AUTOEN,
->  						irq_name, data);
->  		if (ret)
-> -			goto err_clk;
-> +			goto phy_shutdown;
->  	}
->  
->  	ret = imx_usbmisc_init(data->usbmisc_data);
-> -- 
-> 2.43.0
->
+> diff --git a/drivers/usb/storage/sierra_ms.c b/drivers/usb/storage/sierra_ms.c
+> index 177fa6cd143ab2837640c26f8336781ddd3cf9cb..8755fda42eed2afd3235283e990a35aac14cb829 100644
+> --- a/drivers/usb/storage/sierra_ms.c
+> +++ b/drivers/usb/storage/sierra_ms.c
+> @@ -76,6 +76,12 @@
+>  			(void *) swocInfo,		/* void *data        */
+>  			sizeof(struct swoc_info),	/* __u16 size 	     */
+>  			USB_CTRL_SET_TIMEOUT);		/* int timeout 	     */
+> +	/*
+> +	 * A short IN transfer leaves the tail of swocInfo uninitialized;
+> +	 * only a full transfer is valid.
+> +	 */
+> +	if (result != sizeof(struct swoc_info))
+> +		return -EIO;
 
-This patch did not apply, please rebase and resend.
+Don't you need a blank line before this comment?
+
+And did you forget an Assisted-by: tag?
 
 thanks,
+
 greg k-h
