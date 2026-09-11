@@ -1,184 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BE847ECD8;
-	Fri, 11 Sep 2026 13:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451DD39022A;
+	Fri, 11 Sep 2026 13:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789132213; cv=none; b=OKazKJQbM9o2abwGiuoU+JiZv3Sh7cTqkPo/+Un0vcuI778V2FHtA2ioUFZmCUHXrx6MNRKi5CpD9MI+O6cpdGoo+RUkkKC9TqXF/sXSoqUUxIo5lkwN3p0cpoC2J1NE/N/Bb2AqrVwmV0w/kEy9SELBEh9ET1g/nd1QponuaNU=
+	t=1789133161; cv=none; b=mQXd5tHqC+2DaCWiT7UoXiF37PWZF4EDMK7E82RIarYGywgLbtJtfEeg6HJO2qojAWaM99zF0kchPcxtikodkckEEGM3/PY/bqjEGX/LuWiaM4JSdluc6kAkscS3sl1W9nRMvpTWQmGBuwiDOXjkMBii2WTq/bIBiqve+SKO6sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789132213; c=relaxed/simple;
-	bh=RDsh0/RkU1LRBCdyggweRnW5LdD/lsWbDH9O0Yk+1UI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iRAzKw8hMGG0vWPAkUZSXf2KolwGi4EbewB8mlOJ0G3uhgjYKefABll+AH7C8RNLqRU0HsFPYsOVIUG4Y8KNIrl9IQBmOuvBj+FS4uxII+p5FHHqp+f6H/tuFZheRIPcE9ylTpSxQ+VYiY4W8NhcGZKkfa75AgJq1UvEf99XycY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RC6Z8NlS; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789133161; c=relaxed/simple;
+	bh=zFyyWzdhfFZMVM5stqf613uCaXnIeVSxmc31g5HKUZA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ldRG3ptfGA+efkj+hq8IbutQrj6EoFKmZYy4TUQPd3CbJaINrnr0X1GUejTi4MkQ8kVJAqaeshedy37fE2dJ0A3GtB74pNrR9SPJwAunrvBKkEcbhKjz9yuk6m38UgVgPU/ZuduFa35nQv5zZK8UnZro6CkKN63rK+wvVDmMi3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXtn1fiY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RC6Z8NlS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789132212; x=1820668212;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=RDsh0/RkU1LRBCdyggweRnW5LdD/lsWbDH9O0Yk+1UI=;
-  b=RC6Z8NlSEyz57i53bip88zZEJjyjJnZGWK1apC1d3z7sf9gzHpS1WTd7
-   EwKUcXe9geVnCmeg18AeHUyu15Bd3rqYCoe/zp/jpSmpUBPw+ojHOL0jB
-   SOeWfoGKFdkzjmZiLep8zahIHVR3Tk8JlGlQYi1nVYPa16M6PyuIFfAt0
-   JdswlUZFtP9GDalJGCEqjylMWb/r4LQJWE7y0rGo0tn8F00f8DjjpsTAg
-   1Q2lGz0U9GUKihMqkP2ex0SwpCucSot3Ht/9MhCtG7XOEfFkFHcuyJgRE
-   kqZtEjH/KFabr83iRQtqGoEW3cctKE1rPx9RtrPeqYmhnp6rzc6e02snk
-   w==;
-X-CSE-ConnectionGUID: E+fBN89JQum2rbPHB3CBaw==
-X-CSE-MsgGUID: yfKDxF/4Sr+eJ+s+FhOGyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89805599"
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="89805599"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 06:10:11 -0700
-X-CSE-ConnectionGUID: cjIHxHfLQRik0mbu7DuvIw==
-X-CSE-MsgGUID: LDG+R1U1TWWN0ensOXUbsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="194005"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO [10.245.244.154]) ([10.245.244.154])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 06:10:08 -0700
-Message-ID: <191ee5d5-d93d-4fa3-9654-b3735d344118@linux.intel.com>
-Date: Fri, 11 Sep 2026 16:10:04 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXtn1fiY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34FF51F00898;
+	Fri, 11 Sep 2026 13:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789133159;
+	bh=b8hBkIDR5gbaIa/OcVZo7VYHM8DXFaO8ihp5gcV65Tc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=VXtn1fiY2o5DXMdoNaf8ZzLgSZsGCdT7ZwNY6FB4pdySVmjeQIqo+jTZLfm3/q33+
+	 LnCbzK/A0d6W3mHy5MlGsh+dOBxN4T+7UuC7if51SC4Y4WOsawT4loI6z4f/cPPsPb
+	 LEHZm4NM/UiYfaaDB2e8nAEDA/bUbIeD89ffVwAWP5YoZyzbml/CvceH29+Tq6pfbc
+	 5OiH8ODldkyB5xaiz0JQc+5SkYuDaxk8ZB5CaqnQ1olk+xod9sHadlEIgKFs0bPhqk
+	 mpWXADE1ONaJWHe+tK1DyeoOXHAnAcaBRnsz8NpG1Ysw760kl3cXOV1DCzOlIhHu25
+	 jY4cewUPGE/7g==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda
+ <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
+ <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno
+ Lossin <lossin@kernel.org>, Trevor
+ Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
+ Lyude Paul
+ <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
+ =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
+ <tkjos@android.com>, Christian
+ Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
+ J.
+ Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
+ Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
+ <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>,
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski
+ <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Philipp Stanner <phasta@kernel.org>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, driver-core@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, Oliver Mangold
+ <oliver.mangold@pm.me>
+Subject: Re: [PATCH v21 6/9] rust: Add `OwnableRefCounted`
+In-Reply-To: <aqPHvi1xFnMXvYLW@google.com>
+References: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
+ <20260910-unique-ref-v21-6-e83257373062@kernel.org>
+ <or1Yx6egJPyUT07SJzH5J4d8aI6S2qOc1sfl70J55bvsy-l2H0DHJHa-MeXQIv40mrfFILbhL0uB2G0aHIYUlA==@protonmail.internalid>
+ <aqPHvi1xFnMXvYLW@google.com>
+Date: Fri, 11 Sep 2026 15:25:43 +0200
+Message-ID: <87se3fvs14.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBbUEFUQ0hdIHhoY2k6IHNpZGViYW5k?=
- =?UTF-8?Q?=3A_check_vdev_liveness_before_removing_endpoints_on_unregister?=
-To: Selvarasu Ganesan <selvarasu.g@samsung.com>, =?UTF-8?B?6IOh6L+e5Yuk?=
- <hulianqin@vivo.com>, Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
- "broonie@kernel.org" <broonie@kernel.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "cpgs@samsung.com" <cpgs@samsung.com>,
- "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
- "thiagu.r@samsung.com" <thiagu.r@samsung.com>
-References: <TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <CGME20260910101324epcas5p1faf6f82de85c9468f42f6f9b2f13e99b@epcas5p1.samsung.com>
- <c17e0351-d390-4a40-89c4-51d4be9f0123@linux.intel.com>
- <360067785.01789039502721.JavaMail.epsvc@epcpadp1new>
- <TYUPR06MB62172308C897F81F7DAFF557D2BF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <750468423.101789103583573.JavaMail.epsvc@epcpadp2new>
- <TYUPR06MB6217F0788C14DD89D237C807D2BE2@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <937773018.41789116303608.JavaMail.epsvc@epcpadp1new>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <937773018.41789116303608.JavaMail.epsvc@epcpadp1new>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 9/11/26 11:41, Selvarasu Ganesan wrote:
-> 
-> On 9/11/2026 12:59 PM, 胡连勤 wrote:
->> Hi Selva,
+"Alice Ryhl" <aliceryhl@google.com> writes:
+
+> On Thu, Sep 10, 2026 at 11:00:10AM +0200, Andreas Hindborg wrote:
+>> From: Oliver Mangold <oliver.mangold@pm.me>
 >>
->>>>     drivers/usb/host/xhci-mem.c      |  8 ++++++++
->>>>     drivers/usb/host/xhci-sideband.c | 25 ++++++++++++++++++-------
->>>>     2 files changed, 26 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
->>>> index af8d4b74c4ba..afdcfb38b35f 100644
->>>> --- a/drivers/usb/host/xhci-mem.c
->>>> +++ b/drivers/usb/host/xhci-mem.c
->>>> @@ -922,6 +922,14 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
->>>>     		dev->rhub_port->slot_id = 0;
->>>>     	if (xhci->devs[slot_id] == dev)
->>>>     		xhci->devs[slot_id] = NULL;
->>>> +
->>>> +	if (dev->sideband) {
->>>> +		xhci_dbg(xhci, "vdev for slot %d has sideband still set at free, clearing dangling pointer\n",
->>>> +			  slot_id);
->>>> +		dev->sideband->vdev = NULL;
->>> Thanks for your updated patch.
->>>
->>> Dont forget to add #include <linux/usb/xhci-sideband.h> in this
->>> xhci-mem.c file otherwise getting below error,
->>>
->>> drivers/usb/host/xhci-mem.c:928:30: error: invalid use of undefined type
->>> ‘struct xhci_sideband’
->>>        928 |                 dev->sideband->vdev = NULL;
->>>
->> Include the corresponding header file
->> #include <linux/dmapool.h>
->>    #include <linux/dma-mapping.h>
->>    #include <linux/bitfield.h>
->> +#include <linux/usb/xhci-sideband.h>
->>    
+>> Types implementing one of these traits can safely convert between an
+>> `ARef<T>` and an `Owned<T>`.
 >>
->>>> +		dev->sideband = NULL;
->>>> +	}
->>>> +
->>>>     	kfree(dev);
->>>>     }
->>>>
->>>> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
->>>> index a5deeee4d5dc..6312c9e3af65 100644
->>>> --- a/drivers/usb/host/xhci-sideband.c
->>>> +++ b/drivers/usb/host/xhci-sideband.c
->>>> @@ -472,12 +472,22 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
->>>>
->>>>     	scoped_guard(mutex, &sb->mutex) {
->>>>     		vdev = sb->vdev;
->>>> -		if (!vdev)
->>>> -			return;
->>>> -
->>>> -		for (i = 0; i < EP_CTX_PER_DEV; i++)
->>>> -			if (sb->eps[i])
->>>> -				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
->>>> +		/*
->>>> +		 * If vdev is NULL, xhci_free_virt_device() has already
->>>> +		 * cleared sb->vdev and freed vdev (e.g. on
->>>> +		 * COMP_USB_TRANSACTION_ERROR during address device
->>>> +		 * recovery). Skip endpoint cleanup as the xHC has already
->>>> +		 * disabled the slot.
->>>> +		 *
->>>> +		 * The interrupter and sideband instance are host-level
->>>> +		 * resources independent of vdev, so still remove and free
->>>> +		 * them to avoid leaks.
->>>> +		 */
->>>> +		if (vdev) {
->>>> +			for (i = 0; i < EP_CTX_PER_DEV; i++)
->>>> +				if (sb->eps[i])
->>>> +					__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
->>> I have one query on  skip endpoint cleanup due to  vdev is NULL, in this
->>> case the pointers in sb->eps are not cleared. Since these pointers point
->>> into the virtual device eps, any subsequent call to sideband API
->>> functions like xhci_sideband_get_endpoint_buffer() that dereference
->>> sb->eps could result in a use after free if the virtual device has been
->>> freed. Is it possible?
+>> This is useful for types which generally are accessed through an `ARef`
+>> but have methods which can only safely be called when the reference is
+>> unique, like e.g. `block::mq::Request::end_ok()`.
+>>
+>> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+>> [ Andreas: Fix formatting, update documentation, fix error handling in
+>>   examples. ]
+>> Assisted-by: LLM
+>> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>
+>>  /// Types that specify their own way of performing allocation and destruction. Typically, this trait
+>>  /// is implemented on types from the C side.
+>>  ///
+>> -/// Implementing this trait allows types to be referenced via the [`Owned<Self>`] pointer type. This
+>> -/// is useful when it is desirable to tie the lifetime of the reference to an owned object, rather
+>> -/// than pass around a bare reference. [`Ownable`] types can define custom drop logic that is
+>> -/// executed when the owned reference [`Owned<Self>`] pointing to the object is dropped.
+>> +/// Implementing this trait allows types to be referenced via the [`Owned<Self>`] pointer type.
+>> +///  - This is useful when it is desirable to tie the lifetime of an object reference to an owned
+>> +///    object, rather than pass around a bare reference.
+>> +///  - [`Ownable`] types can define custom drop logic that is executed when the owned reference
+>> +///    of type [`Owned<_>`] pointing to the object is dropped.
+>
+> This diff looks like it should be in the patch introducing Ownable.
 
-Good point, endpoint use after free is a much bigger and earlier issue here.
+Yes, wrong target commit for the edit.
 
-The endpoint rings that audio driver is accessing via sideband are freed and
-reallocated much earlier. Audio driver is unaware of this reset, and may still
-try to access the freed ring buffers.
-This is an issue long before xhci_sideband_unregister() is called.
+>
+>> +/// # #![expect(clippy::disallowed_names)]
+>> +/// # use core::ptr::NonNull;
+>> +/// # use kernel::alloc::{flags, kbox::KBox, AllocError};
+>> +/// # use kernel::sync::aref::{ARef, RefCounted};
+>> +/// # use kernel::sync::atomic::Acquire;
+>> +/// # use kernel::sync::Refcount;
+>> +/// # use kernel::types::{Owned, Ownable, OwnableRefCounted};
+>> +///
+>
+> This newline will appear weirdly in generated docs because no content is
+> shown above it. Consider not hiding the imports.
 
-usb_reset_and_verify_device()
-   hub_port_init()  // resets port
-   usb_hcd_alloc_bandwidth(udev, udev->actconfig, NULL, NULL);
-     hcd->driver->drop_endpoint()  // for all endpoints, xhci tags ep to be dropped
-     hcd->driver->add_endpoint()   // for active endpoints. xhci allocs new ring for ep
-     hcd->driver->check_bandwidth(hcd, udev) // xhci frees old ring and takes new ring into use
-     
-So turns out setting vdev->sideband->vdev to NULL in xhci_free_virt_dev(), and
-reacting to it in xhci_sideband_unregister() is too little too late.
+Will remove.
 
-I think wee need to look at using drv->pre_reset and drv->post_reset
-to unregister and re-register sideband, or optionally to unbind and rebind
-the whole interface.
+>
+>> +pub trait OwnableRefCounted: RefCounted + Ownable + Sized {
+>> +    /// Checks if the [`ARef`] is unique and converts it to an [`Owned`] if that is the case.
+>> +    /// Otherwise it returns again an [`ARef`] to the same underlying object.
+>> +    fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, ARef<Self>>;
+>> +
+>> +    /// Converts the [`Owned`] into an [`ARef`].
+>> +    fn into_shared(this: Owned<Self>) -> ARef<Self>;
+>> +}
+>
+> This trait provides two methods that have very different conditions for
+> existing, IMO.
+>
+> The into_shared() method is so likely to exist, that I would almost
+> consider placing it on the Ownable trait.
+>
+> pub trait Ownable {
+>     unsafe fn release(this: NonNull<Self>);
+>
+>     fn into_shared(this: Owned<Self>) -> ARef<Self>
+>     where
+>     	Self: Refcounted;
+> }
+>
+> On the other hand, I think try_from_shared() is more likely to be a
+> tricky operation you cannot necessarily implement, and as such it can be
+> on its own separate trait like you have here.
 
-Thanks
-Mathias
+Ownable does not require RefCounted, so this method is not always
+implementable.
+
+>
+> At the very least, I can easily imagine that some types can never become
+> unique again after having been shared.
+
+It could make sense to split the capability in a separate trait. But
+perhaps we should wait with that till we need it and not introduce
+premature complexity?
+
+Best regards,
+Andreas Hindborg
+
+
 
