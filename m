@@ -1,122 +1,140 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA4448F03E
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 13:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789135122; cv=pass; b=ACoxOuDzbfOOdgiYXWDyLl2Y46M92LkkYgsVws+IBo0djAiFNCcbB7PlRVk3mJuF/+qAgAIyuFO0QmOWmc1XyEVXEAhEcQzGpNPzlnMOZ2jDcOk3osBjK2l+AUEmI532eQXY7TDlz728Vni1t8Yht5N6LQZHF0MT8KKDffUa90I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789135122; c=relaxed/simple;
-	bh=xDEHxvbeRV+H+3ZnrTLb1ZOhWNi2risnbOgmdwBS5bk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ALMUkc5os7eM89SxYX/5I0nKp3E7bF1tK5z8EI8Gi0wF7Ahxoy6F7Q3XE7z43XNAlYB/GIQD9qKm8OY7caddo5Cch8FJeEPvXqpNM/Kpf2hchiGEmw57IZoFNX2JWGGwChaZyiokN67PC29fALQAaUVz/Ep9IXTpqBNxYDVUu6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xc0mAi9M; arc=pass smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ADB48AE1F
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 13:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789135161; cv=none; b=dlwZDzUp3Z1HfhaxIqFaiox4EiiZfGL2StM7vfZ5fXViitYb4bE++qrQXFrPGA4QOvVROS4K10wOiefRF5T0CboHqtfvI8RHJgpVHFKpV5cEe0Q8WNCcPDnzohRUvO4PgOZuFC1ozs0MmlyM0ShdpA1M3+r3CPfCyxhiiwMZ7kc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789135161; c=relaxed/simple;
+	bh=LWoqwo8OPOF1pqAPY7zk58MStnc+PQK6YDQKYR9dyZA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bcvrK4NnkkUHzm3f3Lw1KAHV8JSutrThVuuC764CXaxIf+s7ZpR93imqW3aMdKE0zMyo6EB4M2TlC3+YsuaZWBsISFzvbNa2jbePyd5XZP2wzBLQuOn5QSJEnsnrStT/tH2smtmJ/4f5CesuoWkHY8bPUnNmBhHn85Kj+h4rduI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PB8VItdy; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xc0mAi9M"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3a2e985245eso7752261fa.0
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 06:58:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789135119; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WNsVOKFx/Ya5TjrOm9S/LcOyeON+nzoqkDfsPrgcz3v95so4uVeC5HEveiih/rJQYz
-         qkI37H729CHGupWkbST6AEOMS2rjxw1QrqhB1WcVpZNMiZDT65Gz4KHgnxlHIZo9SZMa
-         EuBVzNoRORWSpAcFVTG2EON96VI1VTycW06eEA2xVTriVFnwJrk3T+MJs+yN4RmisATK
-         yknyH4n4PR4UTnoDsvonIA52D4Spv6a8OVladtFZ43pFXSYQakpjDgZ+CYWXp0Yar0Vo
-         QeezId78zAqwF96X7lQKHa7sVBZ5uXovwr8T5583kElxHVPJsfioYB4vuahdN0gtMOKk
-         popA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qy+0mFYaryQ+eScYF7uiBLvncEmqva9qKNca69Pe4l8=;
-        fh=9GKrEXJ0voBtLRTaLgaNEl+d/MMuIV4VzZGcR1CWe7k=;
-        b=Fxxvgwh3V0ImkIcfLiXBoVfTS43bMXFzFEnbwKF786iSDR835jKD2aJzGkdzjNeoZF
-         UFxaFCUMT2sPeOB3tYW/VBgXHAlSdXWkbux/54Qxoa7Cvbd8OzIlYWd84JaxSmyIrBDc
-         vSNKvpQkIQnN/1dbsY5udLnZdgyLhywzPxrFOPbQx52saQIEC5d/whsnCkZ5WGta/z15
-         64WT/iIMD9+vsJVwzFpBn9GMFVumuLB1VBYcVh1PBRGk9jeRD+BTeWSYokN96K58vlb2
-         PRPi9d9e/PH+Vc3wPi175QSKLmr/zxtu04RtZB5YC41MiTRGgrhIMJlETcQBM3BDi2hS
-         OI9w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PB8VItdy"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cbee846deecso1370315a12.1
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 06:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789135119; x=1789739919; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qy+0mFYaryQ+eScYF7uiBLvncEmqva9qKNca69Pe4l8=;
-        b=Xc0mAi9M7OOJ1D+QjwjD6pnDoHqBQK0299xq6Umf436oZe+bvTEQYAJ0IgK8W7vqgN
-         IsPtSdNuvH3Xx2ehVwLola7q7y3wF8pBNnhAMu8Ua/0hgBT8SxIpC1tTHsoyMmB3F1mV
-         V45kFYDsmr9Q9wC6KCaKCUhfgTGLCiEXAmZEwRx8Sidp7jVEcvFdlXohWnu03Kg6RGXP
-         BcyP2Hsk2saEbASBDep9R9LUwEu+cNr0OMliKKMcjdaAZYF+6qA8NVYHdu2oywrN2jh3
-         2k6JnB8G3wkD9qAB09ymXq07ZvVAe4CGL4rbk6za+bEh79rCNzJROzN6USmw+Z/j2Gsh
-         7WqQ==
+        d=gmail.com; s=20251104; t=1789135158; x=1789739958; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pHtTy9lDcxvA2WiCWTCjZ0Fyc3K2ZxTW6s38+wxLTi4=;
+        b=PB8VItdyJaSpA3h9dyrkvqzTCZ3E4T0+tYwfJ/eRiI1TnIe0boTHRF4KB6+xjwatti
+         83RRp5WbySoBj58AqIAXoomo4uljpuqxyKdvGTis7Imv74Al4Y+6xtE8qqBagEo38n4e
+         Nx1ULG7KY4/jGWzc94BjC9MyADP94NenDaDjyXvR6/R2D8ZYBPdiwMn9rTXoEAWHVygP
+         /IrgSI0FuosFJVjD6u3tPz2OwE+eGPChHWd/U7fEEOslMFXI6usDSmmZwHocnkNFBv2O
+         kAwMQ0i+vpk9O4BKAX4HiWUDQOWJGk0hSIKSGoGHQfRGRD9V8DjWRDc5p0+0MrkWiqQe
+         Hcow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789135119; x=1789739919;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qy+0mFYaryQ+eScYF7uiBLvncEmqva9qKNca69Pe4l8=;
-        b=lfohb4eyJdvQ4QTqh3oD8goNyNFmbwyVZz5B4Q1MxQ2NOvEaNeQpMizKTOPjwdAkZt
-         fmTZHubJnFR2D+6BeHrIt+G6ydyAg/WyHn7tA7q9KdAgQPzjcLAlRFgqOO2KkWp/j9dj
-         5oxEYCMkfQQiIk9iKGQaNTeB4M77cZTMRNnbhZfTZoPrSsSu3LFJXAnrGjaimZ867Sel
-         gs0GB3KUYEfugaqbYUL5Q7KNlgyAtDs56qmblbAVV/auWupl+NN++5XMv5nhR6eDiTBY
-         c11eX2wKBlxl1/RNufPXrR+GY/mLZP4DIHMC9rNwtEjmAPel1jT7CPWnus032SRy5Eqc
-         Xh8g==
-X-Forwarded-Encrypted: i=1; AKwUvBynQSoFMojfozUY98QP0+qZ+oOMDPsec+m/qCIaCQtEBbpYUqZxhve9UIHCWGmHA/t7zGJFsnymMIU=@vger.kernel.org
-X-Gm-Message-State: AFuF++m8kFqwu4xdkWUY7Bjv1gRq5LbXqCqzHv/UrlHz2ZCnO1+hzFyh
-	AWhNtIEdnHo22oeHaVZLy2JDVJ9969iALedl5TpY0EnDgaRZV4ImIrFPcNV7K9W/j9o7YnZr3AC
-	kFAxSIn/JGXxKgSCH0+2L8JuV8sSTUqE=
-X-Gm-Gg: AYBFou0PUVsC/3angm0TJ08tRVVRxMLCsVtqSkHfffaUeu+Fpi0OzQ6CRqMHlSGTN0K
-	Pjkcq/Y2bcEj4F3dVXq8tzCJr4Il8XOyc6Xt7lSCzuAaiixNuLWzO1CcbOw18C2V56GIP+wjKsk
-	53k8EDrIHRg01SxK27Q/Ir1e0/muKJUGKp5BDT0quUAXS55H05EGsdjSMlCeW2sLky3BF9CDeI8
-	Imk6f0qjECKS+t3YQDpHWS/DK8BHaFC+Y70Pkm91Ghw5eOhgvO+5wvHvt6x2j1+4PvmJ8BXcDdL
-	4Y3Ccqt9aagNhOY5REJOPwGf6IsJJCkiJ2JwTvx5ReIcmkAvmu5iQ6K7syQ1jgS9J/3fOEK3rEs
-	c++G1+1+6IYiZFvXrypkG0M8scLVxw7tdBcgwenxoLpPn6PjfNguOIR8=
-X-Received: by 2002:a2e:a54d:0:b0:3a3:74b9:8a77 with SMTP id
- 38308e7fff4ca-3a5a51d1316mr5420091fa.16.1789135118445; Fri, 11 Sep 2026
- 06:58:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789135158; x=1789739958;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pHtTy9lDcxvA2WiCWTCjZ0Fyc3K2ZxTW6s38+wxLTi4=;
+        b=jCRlPVqyABp7QAmn6JWcjl/yfplz6H2n2VDBTCXzNdXwYizEXDNJLhPdUNdt3//zY/
+         9Vwzuj1o4HAdZZ0D5j2a2LAjEk5kYbhl0lep9S2ZNhUEic4LMlz+QXVto0aczG2gdZUe
+         RAagXH7ZL815AAw6gZWYXSP6kmkKh2tP8WykT/3W8r9xvD3znQHjGmlBpNQlsqFw0HDj
+         R/fQhRrHb/SB0MqEzj9XTrOEtGZQMWYIhA3f/qhIX7jUwEJcO28MtfUr1rVc+Zk5bQ9V
+         VO0HiWpausFsSCAC2TaBuYoXurnjc+wPwWYZDmBhY4EvxLpEwA2z7b8NUOWjH0jq3t8o
+         G6Vw==
+X-Forwarded-Encrypted: i=1; AKwUvBzQGCwQ25c1Iwt/S8iVCl552xrUwEsT+C2mZa10X5WWIYO6zUDTj8LvlpFfROIvhRhgtvCvkih6JaM=@vger.kernel.org
+X-Gm-Message-State: AFuF++nxScWaTvuQJ/wHWN4qt4TF6WHupvy7zyi1iDmWT2VL2sB1OJM7
+	HrabVxFr7mLpnKnCouRcgtcpNIm4oKTpZuBt5Eb3Z0O9dZ14yS9MY99Qr7fA6A==
+X-Gm-Gg: AYBFou1DtzhNPAmJ9tVogdEisP3myClwgt9oQmPGWXaD4hdE2g7GsyZDBk8WosynZ33
+	HcG5VGqN+mRp7bedBz8UhtXS2RbrQJ5fySmMPFCypGTVNO8XmeO7wi8JVn30CHMrtj4wGyEFt78
+	Cziap3QOfwAMdnSPVpg3JZNnLsHM7NtQXTpxpDe6wjetW9dxGelOaWYXwSe5V608uQxAPn+V+/t
+	+VCmTzwvgHWPaZC2bZx0MdQJAnizPneZsQfOOAiAokSspTi90dY1CxATGAxmQKwD9pjz7fd9By3
+	Caslq3yeBgs1PFvs/pTOGSHlltMIbkQv5kJ7/WElaZmCeRiYLXUR1uAvZ9x3Y3ms2fon/pHQYj6
+	NclT1uCoOxjjpNrXCP+sK+19v3Fhf53cphOQIhLxo64M/AJnRBj42Qe9o5xCXd3JESFwMCjO9IP
+	Idj8ydjtLb2aBiIW1tOkhkNaBR005JYFdCDIQp4vTV2HWVNHfvvuOxMQT9RYVCZ00WLyQpiHY+x
+	n5ZC5RUbOJrTedivX/fbw5HrOTfYk0D2AUzCYb4PCjN66B8
+X-Received: by 2002:a05:6a20:a120:b0:3d3:ae50:97c7 with SMTP id adf61e73a8af0-3daed7dcbedmr7207784637.20.1789135158291;
+        Fri, 11 Sep 2026 06:59:18 -0700 (PDT)
+Received: from fabio-X870-EAGLE-WIFI7.. ([2804:1b3:a803:6c49:9c35:d64e:78e3:c51b])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4e5193dsm6586878eec.10.2026.09.11.06.59.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 06:59:17 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: mathias.nyman@intel.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	parth.pancholi@toradex.com,
+	francesco.dolcini@toradex.com,
+	Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2] usb: xhci-pci: Add TUSB73x0 definitions
+Date: Fri, 11 Sep 2026 10:59:12 -0300
+Message-ID: <20260911135912.1604622-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260909125842.528340-1-festevam@gmail.com> <20260909125842.528340-3-festevam@gmail.com>
- <20260909164339.7252469b.michal.pecio@gmail.com>
-In-Reply-To: <20260909164339.7252469b.michal.pecio@gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 11 Sep 2026 10:58:27 -0300
-X-Gm-Features: AcwNN1Xun7EaOLsaQG84F5_Fc8OiEmhbwXmVCCU5E7N0Id-pN0oZLYQbqB7PQyA
-Message-ID: <CAOMZO5DfPToSOqi4CW8ETAVkU0RXTr=eyyOqLwkFC8CjhKkoeA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] usb: xhci-pci: Put PWRON_POLARITY on a defined state
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: gregkh@linuxfoundation.org, mathias.nyman@intel.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	parth.pancholi@toradex.com, francesco.dolcini@toradex.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Michal,
+Instead of hard-coding the TUSB73X0 PCI ID, USB_CTRL register address
+and the PWRON_POLARITY, introduce definitions for them to make the code
+easier to read.
 
-On Wed, Sep 9, 2026 at 11:43=E2=80=AFAM Michal Pecio <michal.pecio@gmail.co=
-m> wrote:
->
-> On Wed,  9 Sep 2026 09:58:42 -0300, Fabio Estevam wrote:
-> > Currently, TUSB73X0_PWRON_POLARITY is set when the
-> > "ti,pwron-active-high" is present.
-> >
-> > However, when "ti,pwron-active-high" is absent, its status could have
-> > been set previously by a bootloader or by a previous running kernel.
->
-> or by EEPROM.
->
-> Do they bother to put the chip in a wrong, non-default state at boot?
+No functional change.
 
-I was working on a hardware bring-up with the TUSB7320, and I never
-saw it happen.
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+Changes since v1:
+- None. Only sent it as a standalone patch instead of part
+of a series.
 
-Since this is more theoretical, let's discard patches 2 and 3 for now.
+ drivers/usb/host/xhci-pci.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-I'll resend only the first patch of this series.
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index a8889081ae82..c580e0b86011 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -28,6 +28,9 @@
+ #define SPARSE_DISABLE_BIT	17
+ #define SPARSE_CNTL_ENABLE	0xC12C
+ 
++#define TUSB73X0_USB_CTRL			0xe0
++#define TUSB73X0_PWRON_POLARITY			BIT(22)
++
+ /* Device for a quirk */
+ #define PCI_VENDOR_ID_FRESCO_LOGIC		0x1b73
+ #define PCI_DEVICE_ID_FRESCO_LOGIC_PDK		0x1000
+@@ -95,6 +98,8 @@
+ #define PCI_DEVICE_ID_ASMEDIA_3042_XHCI			0x3042
+ #define PCI_DEVICE_ID_ASMEDIA_3242_XHCI			0x3242
+ 
++#define PCI_DEVICE_ID_TI_TUSB73X0			0x8241
++
+ static const char hcd_name[] = "xhci_hcd";
+ 
+ static struct hc_driver __read_mostly xhci_pci_hc_driver;
+@@ -479,7 +484,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	    pdev->device == PCI_DEVICE_ID_ASMEDIA_3042_XHCI)
+ 		xhci->quirks |= XHCI_RESET_ON_RESUME;
+ 
+-	if (pdev->vendor == PCI_VENDOR_ID_TI && pdev->device == 0x8241)
++	if (pdev->vendor == PCI_VENDOR_ID_TI &&
++	    pdev->device == PCI_DEVICE_ID_TI_TUSB73X0)
+ 		xhci->quirks |= XHCI_LIMIT_ENDPOINT_INTERVAL_7;
+ 
+ 	if ((pdev->vendor == PCI_VENDOR_ID_BROADCOM ||
+@@ -678,7 +684,8 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	dma_set_max_seg_size(&dev->dev, UINT_MAX);
+ 
+ 	if (device_property_read_bool(&dev->dev, "ti,pwron-active-high"))
+-		pci_clear_and_set_config_dword(dev, 0xE0, 0, 1 << 22);
++		pci_clear_and_set_config_dword(dev, TUSB73X0_USB_CTRL, 0,
++					       TUSB73X0_PWRON_POLARITY);
+ 
+ 	return 0;
+ 
+-- 
+2.43.0
+
