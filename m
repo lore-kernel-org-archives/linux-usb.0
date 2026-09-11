@@ -1,147 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F197B23BD1D
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 13:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016833955F9;
+	Fri, 11 Sep 2026 13:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789133335; cv=none; b=OSJzQqIkCgLjLE7IOek2Np9QxWZAkZ5f6dtumVDijOL2YmKfBhBSsuUuco1XE97sdvFofEBRii5v2qcjPTAOfa2QOMBqVNwOxdcM0x8/0ezVg4lB+8XV/3WpFH0moo+9Wf3hX26FroG8UbYMWk0VXFgY/2vLbZZZwy1JpKF7SUo=
+	t=1789133521; cv=none; b=U27v1BhvtnEusJbEspN7rzAQ/9eAB1JZ8w8WLd8ua65baKpMzrrK4jQ28/6TVcqJoZKKVLKUGaoWrRma2hOi+fQFGO8vMq9rxcx1wnWtoS00fUU8NrlKSz6gULm3zIu8grwPHHy00tfKUutXrkpfPDsqLeWA5nPAIgP1JexeZoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789133335; c=relaxed/simple;
-	bh=lsA3snkWNRUh/3FE8jC+3A97vtwrfJqIVLqsX3sKTwM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HywXTgTLbCM9eu3eiYCUtjUYjm1J4/vUdCwwL+v0f7ESvqiB3aC63tBIP110h+8fLRn/mfjmyYIthUUn/mPho/yQ0nsMc4M4BSBgd7OFwYmrlZwNbcXLwO0i0Hb1rrui1JlEyMk1m9RQUM1ftLDySN8A4VPBgQVKyUEQHo5sfZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLXdnm7c; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1789133521; c=relaxed/simple;
+	bh=/I2uuwjWaxGY66U0trLeBUL6rVzxs+/pRjNxCZAMbGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0Tk0Nvis4OKG1vo+YCOstqL+FRQH0s4y/jHIrtdrwZNjviyj8HH0GRRUDJkMzd4ngzKRTLtba8CaGMKk6wC+SMCRbbwkhijISzYsyHvtdqGKY9OU3k3ClbdaoOXxuVDi1AwMHw0ZXrMqMVoyNvJFLP14HZ7iseOyHfM60x0Ad0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaxbaJOd; arc=none smtp.client-ip=192.198.163.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLXdnm7c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaxbaJOd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789133334; x=1820669334;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lsA3snkWNRUh/3FE8jC+3A97vtwrfJqIVLqsX3sKTwM=;
-  b=iLXdnm7c/AqrwX6PacHvPiTx9gUyx67hucd+mXzUMUnAyzfxy5KCgHvg
-   TSzCsfL+z1QQzKCs5uQ8ZgGa8TZpxzdxoelW5Y077NoGic7Hqcm5u5PGK
-   OhEeP+ueR8Rs0PvhUukTfhbWho3E/herPi3Gu/oRdJG8WIvNlWRbh0kNc
-   GrxdaHBj3kOIkDY8TGunCemFo5xw+wq21IUPTaasalSQDnFeHQqXpn3Hg
-   H6wnpnPym88iOwsPmEBqrEcX4JDQuupKMyESDzR/K4UdE4gGkD84vGoXj
-   NuqGJAK99lJURsxZEyE0PDbXTBW8MR9UXqXzVRYc+5WQ52gYlmajLHU+N
-   g==;
-X-CSE-ConnectionGUID: +A0zdTwcRHSZTSY+Ur1IzA==
-X-CSE-MsgGUID: ZXzp21QXRY+MC+MRp2JAjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="107426"
+  t=1789133520; x=1820669520;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/I2uuwjWaxGY66U0trLeBUL6rVzxs+/pRjNxCZAMbGs=;
+  b=HaxbaJOdVvt4SWyMQQ9HtC6oyGcnh4k6W5KUCRp/D9qZ8ZGSv4gCeXJ+
+   A0OKN3NiWZIBRCHHRrkzDkiGMCl1563qIulYKoie2Tm3odNLQJuYHR53o
+   I2oBJz+IqVOtfH3yVTvoOO3kjjlQPg8DuAiKKloropr08LJUez8VmaP1y
+   RvSXQ5mriyj6q0xk2fpVfrULXJ8ZRemnSW5irWoWtU080oeQh7MOnROBS
+   BUW2QDzlYv9nO3lAZusTBoaBIQ068DQ9P29e1nMx+lY86d/OMFOZ5tk86
+   FMs5VRInPwimmyWDmHje6kai7UbfUFbBbVWSbc1+pkj5bo9eUHpvu0k4u
+   w==;
+X-CSE-ConnectionGUID: fb47Xgt5Sh+rdyrfMxh4yA==
+X-CSE-MsgGUID: uKvFsdmuTzWFGDH3ftuFiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="104502"
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="107426"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 06:28:53 -0700
-X-CSE-ConnectionGUID: 9mhWWXNbQgqNQ4jehWOIiQ==
-X-CSE-MsgGUID: SUVYjdiMSwSlqRYZ/YX+EA==
+   d="scan'208";a="104502"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 06:32:00 -0700
+X-CSE-ConnectionGUID: sYo1BQJDSt2HuL54k0OvRQ==
+X-CSE-MsgGUID: 8kYak2VqT+iHzwahbaSQNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="310186975"
+   d="scan'208";a="296907378"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 11 Sep 2026 06:28:51 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 11 Sep 2026 06:31:58 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id C5DB799; Fri, 11 Sep 2026 15:31:56 +0200 (CEST)
+Date: Fri, 11 Sep 2026 15:31:56 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Manuel Knitza <manuel.knitza@googlemail.com>
-Cc: linux-usb@vger.kernel.org
-Subject: [PATCH v1] usb: typec: ucsi: acpi: Add DMI quirk for Dell XPS platforms
-Date: Fri, 11 Sep 2026 15:28:50 +0200
-Message-ID: <20260911132850.1580669-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+To: Jameson Thies <jthies@google.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bleung@chromium.org, gregkh@linuxfoundation.org,
+	akuchynski@chromium.org
+Subject: Re: [PATCH v1 0/2] Cleanup UCSI DisplayPort OOB fix
+Message-ID: <aqQCzNp9e6JfozyO@black.igk.intel.com>
+References: <20260910233553.3477055-1-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910233553.3477055-1-jthies@google.com>
 
-On Dell XPS systems, the UCSI firmware incorrectly reports duplicate
-or extra DisplayPort and Thunderbolt alternate mode entries with
-conflicting and malformed VDOs when querying alternate mode details.
-This causes the kernel to retain an invalid VDO descriptor, breaking
-DisplayPort Alternate Mode functionality during hotplug events.
+On Thu, Sep 10, 2026 at 11:35:51PM +0000, Jameson Thies wrote:
+> Recently I sent 
+> https://patch.msgid.link/20260825234545.2076049-1-jthies@google.com 
+> to prevent an OOB array index in the UCSI displayport driver. This
+> merged to 7.3-rc2 but did not include feedback from reviewers in a
+> v2 version of the patch here
+> https://lore.kernel.org/all/20260904234401.2339633-1-jthies@google.com/
+> 
+> This series reverts the v1 version of the patch merged to 7.3-rc2
+> then applies the fix including reviewer feedback. Because this
+> series is cleaning up the previous change, and not needed to prevent
+> the OOB access, I've removed the CC stable and Fixes tag from the
+> displayport driver update.
+> 
+> Let mw know if you have any questions/concerns.
 
-Work around this issue by clearing the UCSI_CAP_ALT_MODE_DETAILS
-feature flag in a DMI quirk matching Dell XPS platforms so that the
-driver does not attempt to register alternate modes on these systems.
-
-Reported-by: Manuel Knitza <manuel.knitza@googlemail.com>
-Closes: https://lore.kernel.org/linux-usb/CAMRbua4xZfsQ0FXsrfq=SCbyZa1n=Aw5UrD3bEaU41d+J3KmXw@mail.gmail.com/
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
-Hi,
-
-This has to be tested, I'm "guessing" the DMI match.
-Manuel, can you test this?
+I don't think this is necessary.
 
 Thanks,
 
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 41 ++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 18286d3e9cc59..58cdc07a095eb 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -161,6 +161,39 @@ static const struct ucsi_operations ucsi_gram_ops = {
- 	.async_control = ucsi_acpi_async_control
- };
- 
-+static int ucsi_dell_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
-+				  void *val, size_t len, void *msg_out,
-+				  size_t msg_out_size)
-+{
-+	int ret;
-+
-+	ret = ucsi_sync_control_common(ucsi, command, cci, val, len,
-+				       msg_out, msg_out_size);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (UCSI_COMMAND(command) == UCSI_GET_CAPABILITY && val) {
-+		struct ucsi_capability *cap = val;
-+
-+		if (cap->features & UCSI_CAP_ALT_MODE_DETAILS) {
-+			dev_warn(ucsi->dev,
-+				 "Firmware bug: broken altmode details reporting, disabling\n");
-+			cap->features &= ~UCSI_CAP_ALT_MODE_DETAILS;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct ucsi_operations ucsi_dell_ops = {
-+	.read_version = ucsi_acpi_read_version,
-+	.read_cci = ucsi_acpi_read_cci,
-+	.poll_cci = ucsi_acpi_poll_cci,
-+	.read_message_in = ucsi_acpi_read_message_in,
-+	.sync_control = ucsi_dell_sync_control,
-+	.async_control = ucsi_acpi_async_control
-+};
-+
- static const struct dmi_system_id ucsi_acpi_quirks[] = {
- 	{
- 		.matches = {
-@@ -170,6 +203,14 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
- 		},
- 		.driver_data = (void *)&ucsi_gram_ops,
- 	},
-+	{
-+		.ident = "Dell XPS",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "XPS"),
-+		},
-+		.driver_data = (void *)&ucsi_dell_ops,
-+	},
- 	{ }
- };
- 
 -- 
-2.50.1
-
+heikki
