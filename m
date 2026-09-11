@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D2344C662;
-	Fri, 11 Sep 2026 07:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8F03CA487;
+	Fri, 11 Sep 2026 07:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789111286; cv=none; b=PGASzMV4W5JKmf+VC6QnOQFX+Hgr+VPxtfKRwFKa5rUGgIaAUeu/UUndmUgXP/UtNs/t2DjP26yqF7M9icW28zq2DHRoNb/+8VVk7GYiVdNBAVyV9LA6bx3mJg3r1yay+mfLFPNVzzaIWj9R2C+73gwqGUVZ1gy4rjmcTViZM0U=
+	t=1789111337; cv=none; b=OhC6v0YPy16OAWB0++Gc6+z9X0Q6kAaECemQ3jJGNGpBJij/keeyBZVjGe8AQDuWF9OTGTscUb6knfdGvnjT04PICemkMy4RWTPxm5EL84ecNNRMUqHPQOSZk5W+nH0rNAlA0C9ZkVX1Yh8kcYprFrUD0OfI+oLXnRaSNptEDhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789111286; c=relaxed/simple;
-	bh=rNlr3tnJ5jZxFQ6d8h88tXGyOADzGkZQF1pl/F1xmAc=;
+	s=arc-20240116; t=1789111337; c=relaxed/simple;
+	bh=GSzeQlze8mk25qilmRgYJmp+Hv2x6iqlsFKSe7tqdbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFPRyF3OYcjMeq0wUvwGMnCjAIBfLCY8iFWrddzbKLoPdgafmAIbV+RcSHmdyWlg7OIlcZUMQp6ji/g4jD9p6E7Md9KG7v2LyVaX+oFMyzrRY0VylHX5VUAPT8hsCZj0wOVnrZRMgFyO0x0cfFzBx5//gK1X9cA2l8378FGHni4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNUveuZu; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=dYiU+kLfh9ZhxjCkgdVsQ5rB+B5WLlBFnZnoqRyvb41YcJl0FveMnlkEJfTMht9YYqtM6r+fl8Y9DvBKZIw9xMvVPe2jG8dfbIEgCDjoUieOU3ngVnoHEyAWqbQYm8IKdUdsONqmtmJy69xmpUeO5A9mhQP3igHV5DejAEkXTSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hBfB9ZEr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNUveuZu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 246591F000FF;
-	Fri, 11 Sep 2026 07:21:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hBfB9ZEr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016761F000FF;
+	Fri, 11 Sep 2026 07:22:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789111278;
-	bh=mhwepqDvkhQvBOfX7hfNjS0pa6bknwpbmJ6wXLxOzNc=;
+	s=k20260515; t=1789111323;
+	bh=IhwF+lrZvFWuzKFVCCY0bHX+OUwiXbN1quuZf6B4SrM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZNUveuZug9anBBVMumZG8RcbFZ4JYSRFDofahuscD2MiGhPSKwjWPapUmaVDzTfft
-	 NorvRixBeOL0B/P76Z+QDQji5WSxZ9c3giN0GCVWdiLI78Ji1JLuzckCcGFuQUDKqC
-	 JJi4u915+qgHMfKK0YuOmufl4DTVVLUqC2Q41Gv8cmtzxtq8p+sA9ZWG4r3Dgi8TFy
-	 VPz6f5MlrT7kZ84yHouK4gUS00pX4Hna8tI0X3xgPRb5stI+mOYfMmlYWOw8cUoD5h
-	 XNV1HOl4RBv19EbttmGke7Py0WROra2ePMwL/XFUjrWv/pkiJP7afT/JlsXptXNu1B
-	 UJrWWqDDHlRIQ==
-Date: Fri, 11 Sep 2026 09:21:14 +0200
+	b=hBfB9ZEr6afNsMfK/nKM69m/AR9s/tbujMc5F3I350GYEopaPrRXAXlsOP3Z0knjK
+	 c5Lj5YG6blzay6u+pCeicE6ga/S6ZATzqU3+5u91Uyti9mQsI51pPlt5pihe14zs53
+	 hqoOeFmYaYpMrhQzfAN1MP5+zVKlAz6tw1KbjEIAzFkGvUVe25lkiCytZpc9Qrbr8h
+	 JDORobxSDnYTEd/BeiuazJSPqt+QYAunGRj2unQ+9MK0QhJKrf0ZMSoLgh/mRy5eeM
+	 fWzzGaQAhfKM+hi0JcSBRH+cdHxzfSrtkKdZISrr+U0Zfc497V5kJ+Q29aMK4tM/FN
+	 1JtB4Gtts74Yg==
+Date: Fri, 11 Sep 2026 09:21:59 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -34,11 +34,11 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/4] dt-bindings: usb: add Altera Agilex5 DWC3
- controller
-Message-ID: <20260911-nondescript-toucan-of-perspective-6bd8bd@quoll>
+Subject: Re: [PATCH v6 2/4] arm64: dts: intel: agilex5: add USB3.1 controller
+ node
+Message-ID: <20260911-courageous-ninja-gibbon-9f8b0d@quoll>
 References: <cover.1788886615.git.adrian.ho.yin.ng@altera.com>
- <44ba8639fb41b7c576c0795cb1474a6797754600.1788886615.git.adrian.ho.yin.ng@altera.com>
+ <17405f3736bb2fb20456d00b7bb75ffa8c1311b9.1788886615.git.adrian.ho.yin.ng@altera.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,24 +47,20 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <44ba8639fb41b7c576c0795cb1474a6797754600.1788886615.git.adrian.ho.yin.ng@altera.com>
+In-Reply-To: <17405f3736bb2fb20456d00b7bb75ffa8c1311b9.1788886615.git.adrian.ho.yin.ng@altera.com>
 
-On Wed, Sep 09, 2026 at 01:04:37AM +0800, Adrian Ng Ho Yin wrote:
-> Add a binding for the Altera Agilex5 SoC integration of the Synopsys DWC3
-> USB controller (compatible "altr,agilex5-dwc3"), covering clocks, resets,
-> PHYs, and optional IOMMU support.
+On Wed, Sep 09, 2026 at 01:04:38AM +0800, Adrian Ng Ho Yin wrote:
+> Add a DTS node for the Synopsys DWC3 USB3.1 controller on the Agilex5 SoC.
+> Place it under a simple-bus with a 40-bit dma-ranges window (#address-cells
+> = 2) to match the USB DMA address width of the interconnect. Enable it in
+> host mode on the SoCDK board.
 > 
-> Clock names follow the snps,dwc3.yaml example order (bus_early, ref,
-> suspend). Reset names use core/ecc. On this SoC ref and suspend are the
-> same hardware source, so the example reuses AGILEX5_USB31_SUSPEND_CLK.
+> ref and suspend both use AGILEX5_USB31_SUSPEND_CLK because they share the
+> same hardware clock source on this SoC.
 > 
 > Signed-off-by: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
-> ---
->  .../bindings/usb/altr,agilex5-dwc3.yaml       | 112 ++++++++++++++++++
->  1 file changed, 112 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/altr,agilex5-dwc3.yaml
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Same comments apply. From 5 revisions ago!
 
 Best regards,
 Krzysztof
