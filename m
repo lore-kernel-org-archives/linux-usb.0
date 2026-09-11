@@ -1,226 +1,124 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D343B4BB
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 08:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789117120; cv=pass; b=tOkAvXK4zbqnG1kcKpKHjw1NWUmB/eTM01C93HasXrCW7d5ygpVDhdujpMgbPtKzjG6/KpE3sfdGgcAYzyeTe7hfXCCFEJreGeBk1ITmSyf6A6EmnEO57biUlrMCo5mj9TbiF5miQtmuf/IaMCUAq0ZKq5Rkj3qxCs5bE7WH7LQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789117120; c=relaxed/simple;
-	bh=KRWayakKg54b1ejAA7wnTRxMcaVbAc8OZKXSDlvym5Y=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=m6loXRJJ2AYPurWBS7z9gMIuRBw+bd2Djr1U8tveqES9Qmihl0iLjWmt4ph5TS5VElCtm7JqIQ0UncvfBReONzq1PTREKSfoqheJiEwZiu4wZg9VyuziNZnFTg6lcSWUnmaMT7tcQurW7+dJcuwgF/HVInNXixXXCRhkR+8WJzU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Svk6h4EJ; arc=pass smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C144D469840
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 09:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789117308; cv=none; b=jXbftj1BLth1fKetwSzkykcF80WR15o5p5JPuSPaMwonaHP+RZf3mxQ5ap/1gE3YjVslEGTwLJ03bV2E3IySZA5pLEzg3Lj2CbCg/rzQ9+a3UqCA/3wXsmivxr/OUsslbEhp32RXwyLolwavx5VfHt+nmOcYAoLH+O99MIISlok=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789117308; c=relaxed/simple;
+	bh=jZ2qMqO5eZVlGJ3aHfWX9Y4yYvUAlS6QZiIMvQHNRQY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rrqA6rL5qhsndQs5If3ZymoVvoiTqq/Biqq0C+KEzYUXQ0IVWW6kwFl/ybx0TfrOfxxTDxkPDzDtcNih+KT3Nm6DfMJWA55JSI2jNDnVXtFCblJskF26DX2waPrB/1Quz+4M6FkT3yCS4W4E+ip8AXk3yGYLJE6crFdS8oANwYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YpyuaX5e; arc=none smtp.client-ip=209.85.160.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Svk6h4EJ"
-Received: by mail-vs2-f12.google.com with SMTP id ada2fe7eead31-790b4aeb66bso322885137.0
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 01:58:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789117118; cv=none;
-        d=google.com; s=arc-20260327;
-        b=plfSl68W5G7QZZzLNXFMkmoU9UnGg3KKAicEvG8Hu/dtFe18fdm48gW7NUJiQ5OPX1
-         7j5XmdrNhzZPP+nQffjViwUpJqgBYOCe1Yy9cdWhiExSzIkhhOBWqqBL7S3lOp12cLx7
-         H3+q3jv4a83H7Q36ZWpnJtAVWi78gM0f55lZ9mKo3jwYL/xYak/xf8TYOJKhq1cGv9J9
-         yYMlFGz7mnny28ksEgPLHcPXhn8aWDV2E2Z3rRiuvbYtwK2Eh4PerRLpnHDfAbnMIySZ
-         4YHBqbrl4OuM7XBSnKb6iQ1GKFL5QJzTFdDgxEsSgDPAJD7IX6N/P7/PYKcgI4lviL9V
-         sfkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=sIlFHZx9QRrxI0zvnnTqa2141v+o9orLJpuHyRKFQEs=;
-        fh=VbyMUhZIRcoAH9vVl0/Y8W1XzUdMlPSah7KJkL7JykA=;
-        b=GNgXQBrHIViR070v4U3R5IGpNt9lRE0gOuKkPjqqbhiRNU7o95PUrovmhEmkLpjH8V
-         4q0ANwxnHRKzViAdlyuHnFX+t4f4EaqoSY3uKqQrigEIk6HRooZfsLqttkRcnmCWUQy+
-         9bxMPwNbTr44dgAHxEKEkSp0aCRcoX9kwXdkNUjQQLa6AmyqtK79Je0kmPkPWhwuxR0c
-         sp0fH6htjdxSDgeQaefk0TAYrpqeGGy5UDzRJQjrWLqdyMwvVE+2V+CVatHRvKhQCaa4
-         P3uFKVFvCxxJ7K0pIVGHiI+zYkVUrUGmlrNHFZnfqmP45i60ebKn2X+WtiSp4UG5LQTS
-         pPnQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YpyuaX5e"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-4765ce0573eso430777fac.0
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 02:01:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789117118; x=1789721918; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sIlFHZx9QRrxI0zvnnTqa2141v+o9orLJpuHyRKFQEs=;
-        b=Svk6h4EJTrf0sIM29sNvHKM3DH0AEUODSYyoV3mbX4DBitj4wwc5mbgb0/GvadujCC
-         DPkCf9GacO7d/MKSN/rt4VfFLYs4lha/cc7YcJp9oS3ILuuIXbZHzGqFjU+dROUZxiFN
-         9SdJtQqR9TG7LKM0VtKC3dZ2pPpKJ2vptp9NoBi8SbooSBkDe1yVihWu+fQmmk8ySweH
-         uJ6tQGRYIEykdRe73qN7gHuqD4O2qBF8MMPkPGj4lcSaLfsmEfELelQ4pjuZHJJ1yTy+
-         slMGCFhJnT3oDstT+X612FzwKMAlKxxRw+gbtFeRxc75K0R8WP/ajiv0Fjo2erql22U1
-         VFmA==
+        d=gmail.com; s=20251104; t=1789117305; x=1789722105; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xxbt6VBxlFS0O7thJuARW3qejAi/zI4cNWaBhSouUn0=;
+        b=YpyuaX5e9OMO67M4hq1eYSzqcEkr8QBIPK8ncaSXH6WCuH60+nXR9g0CocyjowC2rO
+         ZRCmfyZxynTSVUnD88A95Y1iubtM50Xb9bht/380MDMJzCStHzC5gBC3it2ryroUsbWw
+         3szAJI4nkvwNknx1D8gmvJ8reyL+mXh3WTHQcGI/ibxA84KCydqsk2WeMr/PdqAdOTEM
+         /ck5cCS8p0vyCGXOGOppnNkl2FuF2ZOFz3yQjEFoUg5xGso14IvHI6aJbG+OyigwBjpi
+         JVy7sQ+wPeIzm722MqD5kWPJ4e3izsHILX1HCQM9z13O6OI/AcsEZQl83zMUgeG0DfZS
+         f+rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789117118; x=1789721918;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=sIlFHZx9QRrxI0zvnnTqa2141v+o9orLJpuHyRKFQEs=;
-        b=AU2LY5pDEhlWuFWeLjnyOIFRhdMM9C20omb+UF3Rka9wifOTirjXFAhNQIL7GI9wu9
-         huJwELyZYpBdC3XyvuvfzWe1385zqs1nUD4c10/0fNdnnw7n6sarrjk+LCBi0RO2I3Rc
-         kk48hdrTIBkJXCz+ho5t3KNnq/4WZf+wOlu1Tb+orpjiHy1e7FzhDP8QdXqQ4OQ71yIn
-         ue8t+IGgwpTkbW71//xM6n/GDo8avz1tA2i+2wdGuYeJIVFceSS+KnWrU6k7K8gnggom
-         awQOlXNNqAzkNnjWVSl5lpAeko2tnqe6VLHjq688W0DPZ2pvIQqjJy1H6+4rJpyklohW
-         OP6g==
-X-Forwarded-Encrypted: i=1; AKwUvBynqPuQArpqdeVxfM84nmqZQZJd15zSVN6PzId/tnI9Y6ITt9FLzx9jr25AogA9bgoHx2OOn0JVEQM=@vger.kernel.org
-X-Gm-Message-State: AFuF++lP/KZ5n8ZZqLpjaMeo+DNGd3SI1iI/iZ+W6aXjxRpyM2eYwcdM
-	YlK1puemx+mFDeKSCX3V1HEbDkRcCxO9rpJmiF3sdodhvaXe6i7pm7jcjHNIc3KYttlLW/suspf
-	3fmTznOL3xy4yeoejylE6/w4d0qzjJfs=
-X-Gm-Gg: AYBFou0508pT0bKOCUgXjTJPDMNjTb+395KR5rAYuRfvDs30yad5qmj11CBcZT8PCRv
-	ExYN+HsGyjBg8Esu3DvxHkd2dMTwFdazVQqri9NL0IzJz0QptYr5qdDvluBa3zBArExvxAwi81Y
-	JCHECDJpEKj7OFwkcnphftRlB+nzs0222pkiXaGZ9XBm1GUuatwKaiSQPC1ss+VIsB6sQ3v3Bst
-	s5N1+iIcQbJTxmhmh8JEmpsmycA7n4LGLvrxEZ5mrkM4BQwF9Doxj45mx6ioyo7Gd2ecTbS1Krv
-	mu2oFXP4W7dH8Wr79Szg7r9uOFRFmbNOg3yOofMUV9MmA/Y6ThWXmWhv
-X-Received: by 2002:a05:6102:5719:b0:78e:1e0f:ea42 with SMTP id
- ada2fe7eead31-792a47f4705mr1895004137.2.1789117117241; Fri, 11 Sep 2026
- 01:58:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789117305; x=1789722105;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xxbt6VBxlFS0O7thJuARW3qejAi/zI4cNWaBhSouUn0=;
+        b=fGJ5ImFNdlGM+KW1Ku9xf1B67xq8xiVLn8wj9Anib0foou7fHvFUBf80MdHvy6MeES
+         8eDPA3zqsaHMxjnx5tXaSSc6+C+Ynjx0blgb0VD1ZiUceKmUus0W+SDJnA31oU0TRnj/
+         WnoluOvj+QOQuXOMcwCVa8IUe4xw31y1tWsINjmJwRlaYpKELt1BA3rxmRp0ot8OR9hb
+         FcNctREjEUfQAuzrGyQsmwHyx+iezr3o9J8kiZCv0jaLmjrAqGsDfou/hrFYwAv48N7g
+         HMuer2SD3qJSro+Xw0hm5S1F5sci593H+vW55aQpj3+JIFfjg6+k7gD8PbRffp7FtuR6
+         AcbA==
+X-Forwarded-Encrypted: i=1; AKwUvBwz/+XtdlwPOTdOvAIqSrKutgr3HSUUTjBIjQh2YL3X1+CW2ZqyjmC50nHo9Td8z6MAeKOAGdchlS4=@vger.kernel.org
+X-Gm-Message-State: AFuF++k3ebtDJT6+xwyfly3T4UX5amIuzaQlYicjGMERgp2G1R8dTMFu
+	S4+K9cs2+/56h5mMT60eZ6SZi04O53OiEHND1bMsDJz6b4zbgJHxTtN7
+X-Gm-Gg: AYBFou3iP3se3kIEEY10+p661I10M+4DOZR11Hdl+GWzbZ5H8sxUYyi1US1uBFlGayT
+	TbW06KKMYg/ehS8xPMC+4mHoEtPj2IvIpLCgcEAviZ4u/+1xM8Svwmdcunfv/CqH0EYmB2Q2qz0
+	XcI3oHUuxBxtzudgjsOqzNEA7B1RlydQeNRf/XlHIPgvppccSwv2TylCNfD3igPJGqsnd7deGiK
+	gS2GWVksGM4yQZ6BCr8PLa9K7z+/URXj5VKEOKEvteypfs3PjM+NE3E6OmnNGZne24fsGdiTVov
+	916S9w1gjrcJO50SKbYY1gZky3o5HIFUOfUxJqviY0Enwtf8W5Q/Z66le71G97tPZycCLHPlBDD
+	dtvoN79grJ0mPcM43PxVEdCGqqo2NBbnqrCZcmepCt6u7GGFp7szccSXFyhJl1HQsQTeTT3dUVO
+	gOoIMupDmgH2GtFzYU26ce+HcKoXFIWkji9omSZ3Qs3a2rzsLBW+ROvqb1eI9V0faZAQitHCrTy
+	4Qadz0Vej/U
+X-Received: by 2002:a4a:dbcf:0:b0:6b1:b68e:5109 with SMTP id 006d021491bc7-6c0bc2cdb2amr1631376eaf.33.1789117305422;
+        Fri, 11 Sep 2026 02:01:45 -0700 (PDT)
+Received: from amd.ban-spse ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf31c1sm4902177eec.1.2026.09.11.02.01.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 02:01:44 -0700 (PDT)
+From: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Kees Cook <kees@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com,
+	Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+Subject: Re: [PATCH RESEND] usb: gadget: f_loopback: fix descriptor leak on unbind
+Date: Fri, 11 Sep 2026 09:01:36 +0000
+Message-ID: <20260911090136.64549-1-nagachaithanya9911@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026091028-launder-jockstrap-be0c@gregkh>
+References: <20260808181504.462492-1-nagachaithanya9911@gmail.com> <20260902105153.3516793-1-nagachaithanya9911@gmail.com> <2026091028-launder-jockstrap-be0c@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?6bOl5LqV5Y6f6IyC?= <monogokoro2026@gmail.com>
-Date: Fri, 11 Sep 2026 17:58:26 +0900
-X-Gm-Features: AcwNN1U40C3-c-OzibjwOHdiCZ7c30ZeLMPgU3KxM6RxiJbLZNEyCv9dhpn1p6M
-Message-ID: <CAFpUU0sqt2VzdGGUcx3fkLyyDSynOhNgAraT7-gL53oBq1aMfw@mail.gmail.com>
-Subject: PCI: Resizable BAR never considered for Thunderbolt/USB4 hotplugged eGPUs
-To: linux-pci@vger.kernel.org
-Cc: bhelgaas@google.com, ilpo.jarvinen@linux.intel.com, 
-	linux-usb@vger.kernel.org, westeri@kernel.org, andreas.noever@gmail.com, 
-	YehezkelShB@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On Thu, Sep 10, 2026 at 06:32:50PM +0200, Greg KH wrote:
+> How was this tested?  I don't see syzbot doing the test, did you?
 
-I am reporting a case where a Thunderbolt/USB4-attached eGPU is
-enumerated and links
-correctly but can never be used for compute, because its BAR stays at
-the power-on
-default of 256MB and the Resizable BAR capability is never exercised.
+I ran the syzbot reproducer from the reported bug against both an
+unpatched and a patched kernel.
 
-I am not sure whether this is considered a known limitation or a bug
-worth fixing, and
-I would like to ask before assuming either. I have the hardware and am
-happy to test
-patches.
+Both kernels were built from the same source tree and .config, with the
+same compiler and QEMU environment; the patch was the only difference.
 
-Environment
------------
-  Host:      ThinkPad X1 Carbon Gen 13 (21NS0000JP), Lunar Lake
-             BIOS N4BET77W (1.47), 2026-06-30
-  Kernel:    7.0.0-31 (Ubuntu 26.04.1)
-  Enclosure: AOOSTAR AG03, connected over USB4 (not OCuLink)
-  GPU:       Intel Arc B580 (Battlemage, 12GB), driver xe
+On the unpatched kernel, the reproducer triggered 3 "BUG: memory leak"
+reports in 5 iterations.  All reported allocations originated from
+loopback_bind() through usb_assign_descriptors() / usb_copy_descriptors():
 
-What happens
-------------
-The card enumerates, binds to xe, and its edge connector trains at
-16GT/s x4, which is
-the expected ceiling for a USB4 PCIe tunnel. The link is healthy.
+  BUG: memory leak
+  unreferenced object 0xffff888016dad4c0 (size 64):
+    comm "repro", pid 5597, jiffies 4294942168
+    backtrace (crc c8d54481):
+      __kmalloc_noprof+0x391/0x540
+      usb_copy_descriptors+0x6c/0x170
+      usb_assign_descriptors+0x6c/0x180
+      loopback_bind+0xf4/0x130
+      usb_add_function+0xca/0x270
+      configfs_composite_bind+0x6dc/0xa90
+      gadget_bind_driver+0xf7/0x3e0
+      ...
+      gadget_dev_desc_UDC_store+0x153/0x1e0
 
-BAR2 stays at 256 MiB. The card advertises Resizable BAR support for
-256MB..16GB:
+On the patched kernel, I ran 25 reproducer iterations and observed no
+"BUG: memory leak" reports.  I also performed three explicit kmemleak
+scans, all of which were clean.
 
-  # cat /sys/bus/pci/devices/0000:24:00.0/resource2_resize
-  0000000000007f00
+> And did you forget an Assisted-by: tag?
 
-Level Zero (intel-compute-runtime 26.31.39395.13) prints
+Yes, I did.  I will add:
 
-  WARNING: Resizable BAR not detected for device 0000:24:00.0
+  Assisted-by: Cursor:opus-5
 
-and then drops the device from enumeration entirely, so it never
-appears to any compute
-API. The integrated Arc 140V is enumerated normally.
+in the next revision.
 
-Why the BAR cannot be grown after the fact
-------------------------------------------
-Attempting the resize by hand fails for every size down to 512MB:
-
-  # echo 0000:24:00.0 > /sys/bus/pci/drivers/xe/unbind
-  # echo 14 > /sys/bus/pci/devices/0000:24:00.0/resource2_resize   #
-16GB -> fails
-  # echo 9  > /sys/bus/pci/devices/0000:24:00.0/resource2_resize   #
-512MB -> fails
-
-BAR2 is placed at 0x2010000000, which is only 256MB-aligned, so a
-larger size cannot be
-aligned to the bridge base. The prefetchable window of the Thunderbolt root port
-(0000:00:07.0) is only a few hundred MB and comes from firmware:
-
-  PCI: Using host bridge windows from ACPI; if necessary, use
-"pci=nocrs" and report a bug
-
-I measured 711 MiB and 448 MiB for that window across two boots.
-
-Things that do not help
------------------------
-  pci=realloc                  no effect on already-populated bridges
-
-  pci=hpmmioprefsize=32G       makes it worse: the Thunderbolt
-downstream port the GPU
-                               sits behind gets no window at all, and
-the whole card
-                               disappears from the bus:
-
-    pci 0000:22:00.0: BAR 0 [mem 0x00800000-0x00ffffff 64bit pref]: assigned
-    pcieport 0000:21:00.0: bridge window [mem 0x00800000-0x00ffffff 64bit pref]:
-        can't claim; no compatible bridge window
-
-  pci=nocrs                    the machine does not boot: the NVMe
-holding the rootfs
-                               fails to get resources and probe returns -ENOMEM
-    nvme 0000:04:00.0: probe with driver nvme failed with error -12
-
-  thunderbolt.host_reset=0     no effect here, and I believe the
-reason is that the
-                               firmware never enumerates the tunnel at
-POST. The eGPU
-                               first appears 63 seconds after kernel
-boot (16:05:11 boot,
-                               16:06:14 first sighting of the card),
-i.e. purely as an
-                               OS-side hotplug event. There is nothing
-from POST to
-                               preserve.
-
-The BIOS has no relevant setup option: under Config > Thunderbolt 4
-there is only
-"PCIe Tunneling" (on/off). No Resizable BAR, no Above 4G Decoding, no
-BIOS Assist Mode.
-I have filed a separate request with the vendor about that.
-
-What I think the underlying issue is
-------------------------------------
-On hotplug, the PCI core reads the BAR at its power-on size, sizes the
-bridge windows to
-match and assigns addresses, all before any driver binds -- and the
-ReBAR capability is
-not consulted at any point in that path. By the time a driver could
-ask for a larger BAR,
-the surrounding windows are already committed and too small to grow into.
-
-This looks like exactly what "PCI: Allow BAR movement during boot and hotplug"
-(Sergei Miroshnichenko, v9, Dec 2020, 26 patches) was written to solve
--- the cover letter
-explicitly lists Resizable BARs as a use case. As far as I can tell it
-never landed:
-
-  # grep -c -e rescan_prepare -e rescan_done -e bar_fixed -e
-movable_bars /proc/kallsyms
-  0
-
-Questions
----------
-1. Is ReBAR-over-Thunderbolt-hotplug considered a known limitation, or
-is this worth
-   treating as a bug?
-2. Is there any current plan to consult the ReBAR capability during
-hotplug resource
-   assignment?
-3. What is the status of the movable-BARs series? Is it abandoned,
-superseded, or waiting
-   on something?
-4. Is there a kernel parameter or sysfs path I have missed that would
-let the BAR grow
-   after enumeration?
-
-Thanks, s-tory.
+Regards,
+Chaithanya
