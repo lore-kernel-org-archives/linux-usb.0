@@ -1,261 +1,115 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8373A8756
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 05:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789103589; cv=none; b=jpK+j5M7lzh69i3rlj4eiaTATEb5SFP/77/pOmg/fk/M1BhN2sx6isusp5CQRtgQps4XEVsiLmkVXxrk6m6D+h89bkUh1y3zvRJRZmbxq6JS/NbHknWovajcjiezBFwzebzUq7oqbm8zIx3XPdUc4qNzDfmXnbnSe+abXKvHUtY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789103589; c=relaxed/simple;
-	bh=8Abnj6azgbs91xRPF2cXeQoqVw8kD7bJ9Ve9k+m/Ib0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=XMBnSN/95OyjC3cWIeo4qAyunzOWH3bpgEGWE+xQWtKXFYyWHxN6W3pDr0auXU+I48ftFrA7op8QPhpT48+gWsHZbBC2TaDOPYhgpaX1cJ4gc25J8UEHi86faz7eKWJYJsqyfFVYSGaLT9iO1015VmgwGV6dv9tJOaBOupLRwNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=EY17css3; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB3E37DEB2
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 05:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789103655; cv=pass; b=NruWs+26kVCW6hnAwwLaTvqTybSDQ96Ny7e5q5U40/sbyHJrBWXgzqQN0sYv/IL7x3HtBLnj72gUWVzLLfUvcK9LCWK/udkxYAbjhBgx+033K134jR82c8d80XKMDlw5rf5mt9MmSRxfPyjTxBqoYPotrGAruoUocHCFRHVlAE4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789103655; c=relaxed/simple;
+	bh=f2m1o0L17hiAg/ebV6tkp4vTmGCqvNCUxTgQkLD8Y+I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rv02f2KgfAGAHzupuL7fe/lb2RT4VEf0d3hE5w3MHtDYf/ChPqJPJLU4xkhMbTGsI43pMrd8LdOtBGyMLn3whmfl0ssdGy92AQu8o1Ihk4xWUtY2LDA/1UAuhWuT/zFmBcDYZoxEKDBX2s/sFXtQbFA2ot/Zodi0ndqzLgaQfgc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UxOPaxXj; arc=pass smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="EY17css3"
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260911051303epoutp03ead973ed0057e6719b44667fb593558c~ULDsDddqv1606016060epoutp03L
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 05:13:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260911051303epoutp03ead973ed0057e6719b44667fb593558c~ULDsDddqv1606016060epoutp03L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1789103583;
-	bh=fZBWhodU4eaMIS3/+hE9SWO7koD5cEYRpcFIiPmsQhU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=EY17css3hWuXdMDtVnRbpL6sNFVRra5JDUYF8lqgTurC7ILdqnHLWh4soPQTJjmsZ
-	 0+NRnB2MH5X5O1Ys+hTF1J0mPlLuCluuOEV/IKYbDFIgPP5IaCr0T5TkU2LE2tgXm8
-	 c5iTSAVYWQpEWp80l2atlXv6S2niQ91XGLfeoKq0=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260911051303epcas5p21ff248c21f1639327165bcf6de64f1c1~ULDrv8NDW1918819188epcas5p2B;
-	Fri, 11 Sep 2026 05:13:03 +0000 (GMT)
-Received: from epcpadp2new (unknown [182.195.40.142]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4hh2k748c5z6B9mF; Fri, 11 Sep
-	2026 05:13:03 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260911051055epcas5p1763981159c931b76a4f627f14910b339~ULB0fTJkk2083520835epcas5p1f;
-	Fri, 11 Sep 2026 05:10:55 +0000 (GMT)
-Received: from [107.122.5.126] (unknown [107.122.5.126]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260911051054epsmtip21a540febf9788b634a2aa3fb7569fc70~ULBzGQ-2y2028620286epsmtip2Z;
-	Fri, 11 Sep 2026 05:10:53 +0000 (GMT)
-Message-ID: <750468423.101789103583573.JavaMail.epsvc@epcpadp2new>
-Date: Fri, 11 Sep 2026 10:40:52 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UxOPaxXj"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ed9865so3620735ad.1
+        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 22:14:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789103653; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YCej2pBPozu7WH3Zdjoa5jEAq+LEZvZ8TpE1f66yxzZjPwv+DGransDn3Fd1n7JNaQ
+         kqF83rm44Wu7jnLA3293D8iklv8pooXoK+WAZ29YT7oiAFw0bdMgxnLiEOD5L/g6dPq3
+         jLm6SHp3KZch9rg7pceFrj35FwufyIctkblh1nHWx7akKGgDcuNOdxpY0WBU3iRjZo0t
+         zPQNdFkG+ZJjiSFqvSJpkcedEPchgmeag2ds7bgnTyuej7XuaTnesf3e8Ub1J50/ZcKt
+         O2+34pUcFfYR41AGzr4eTiULFzZM+7SM+6M4kJGrjZHlNAFsiptPaSE3aMVeNCVbH0Jp
+         rYHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=f2m1o0L17hiAg/ebV6tkp4vTmGCqvNCUxTgQkLD8Y+I=;
+        fh=mh/4V6XiggomJDPwRtINEzn33+ROg3pf8+Im44Zu1SA=;
+        b=CvfMmZSI1MinIDJTGIFR/BHRrJDHb0Jg5f/uvQj0QWXJXlO9qyHp29M1lngNyw9msd
+         N4JBnI31UMcSNWGUNYnHmc6TiOZVqkFZRN7oeASB4Z11275MAT38wJ7TcUVgzV9nMOXa
+         lCQQboulX7TnkTFx/GKDiWxN1rIT24Mgj/H4DW1R1wBDM1n1KV+K2pYosiJdKZgtTlzY
+         Hp5YhAz1jFhf9MTBq8T3s2JhmEOsr7oeWBC7VUjZY4iIbBsjaYKNpTlwnhkJEAFFQr2q
+         Uh4+dVfmMYRwuEHEsQjdAfobOJCeFu32xPK/lJYdixeTSAAvPrsrMx87GR8Dz4d1MFKF
+         1Sxg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789103653; x=1789708453; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=f2m1o0L17hiAg/ebV6tkp4vTmGCqvNCUxTgQkLD8Y+I=;
+        b=UxOPaxXjtgJPe1tiqCkPoSj61g8Vl5PYOj1H/lISebiEGxIOeWP1MY21cICuDtHlc0
+         gwnWFigFLVTDEZWE1sxRdjmhtYGdtyD+ZD2Clf5gVTuFPJEN67hF/quPK/C1D3O5xakX
+         rFhLJ8fxM/RMShX9RZtMLIPYnH/SZDVcykJsRpFp392qc6Qq2qFMThAIr1ljbs2rn4WJ
+         5Gky4s7F+Cx94Q2p3kFBlKg2MewW4HHV0FOrMFjhhMAqcha8+AZsWs39KG67XYWmHwES
+         O1l6/jFGe3n3MmKd3jV7GZRcM+sn0sKP7wxZV9nGS2mJ2cmQuByZygLlF3BN7V0wZG3W
+         NbGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789103653; x=1789708453;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=f2m1o0L17hiAg/ebV6tkp4vTmGCqvNCUxTgQkLD8Y+I=;
+        b=rNwtE9JtGAlUDPB5hkqrhRMogMemKCZ0bG3MuSX4ZnvrdKYOJKZk2LjRTsNFRdMgz5
+         pMJRPp7ngXrwLVwU/myDyi3QMBH/ShJfpjVy/2LPcQd47vgWFFHNs4ivzC8/kXAW067E
+         kWmLF5cxO5Nipp0cvxyrCm3IIJ9IUrdhgv4+5TAoMUHbznfOurjFLIi3qm9tzr9ehz4Z
+         FRKlHdh4HiPKxdMX8pGFIfmAp60syVkKnf7mYGAmIUv21NYv+eue3cGnMRyXiY1l9eiT
+         b2CAHuGnMxGCvNBt2T2c/L5BFCJgEtM9JKtF14Vv6FOSO4xDkQjNRNL6qVjntLcTTr2W
+         f4kQ==
+X-Forwarded-Encrypted: i=1; AKwUvByW4QkP0BOtKeh1rHgoCk6g5u/2aDg2YAX75hvVMrHbAj0NeNlwC4ORNzEwrVZ9p5fvwrrQ+uZngH8=@vger.kernel.org
+X-Gm-Message-State: AFuF++k7tYPHO6zREu+uuenTkWIkaTIg2Sea1OvtJzXFOOMG1n0cznD6
+	gcdNWd9yl7rW8gFlZkK35DYSwP5BugJpRKUczZQ3sg/5ptfNsQIWGH/Nddf64A2Fd3HdInpZpLY
+	eoTfMnqKc1ASJ8Nv4pnRIYw5Q29S8GJg=
+X-Gm-Gg: AYBFou0lIGWA/mFNKG706PTomTsUbQF+oDe/UfpODT72SMHHL59Xrc1dmJUOXb/ZL7L
+	4rCgSjUorNoObuyBdgqC63kLFHWwo8vjGPEUB9BLyRPaSLCcjH8Q0L8/QjmCcci0iEJmz1KTw3L
+	CY8vDGDSCC6FakCYdV74xy6xMFo5GGVKAr7unf4Y0TWrMDFPx0pdXCxMl/Q4o8HdS8t0RucaPIS
+	N7RpYblNZTJ4waz2lR1JmNY6OoWeuhnbcC6dIJ+xLtQbOy85PfqC3PNXLlWU2QCdEhdKjm6ElJF
+	3onUC0yri8Fro0WQpaNi9ShpBiNKbkJcRhWKa/7fSoZ7bxisTZ67gHpgmaLcoGtrGfIRHzxAWh7
+	YkSUBpYghWgA5+kd3fsU+mHsp6KeA8U1nOlf+ykPjzNmTpTdcSXXqQNC7e7nlxBJTiUM=
+X-Received: by 2002:a17:903:2451:b0:2db:7269:38ef with SMTP id
+ d9443c01a7336-2dd2a3362camr50043605ad.14.1789103652898; Thu, 10 Sep 2026
+ 22:14:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIXSB4aGNpOiBzaWRlYmFuZDogY2hlY2sg?=
- =?UTF-8?Q?vdev_liveness_before_removing_endpoints_on_unregister?=
-To: =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>, Mathias Nyman
-	<mathias.nyman@linux.intel.com>, Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "quic_wcheng@quicinc.com"
-	<quic_wcheng@quicinc.com>, "broonie@kernel.org" <broonie@kernel.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"cpgs@samsung.com" <cpgs@samsung.com>, "alim.akhtar@samsung.com"
-	<alim.akhtar@samsung.com>, "thiagu.r@samsung.com" <thiagu.r@samsung.com>
-Content-Language: en-US
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <TYUPR06MB62172308C897F81F7DAFF557D2BF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260911051055epcas5p1763981159c931b76a4f627f14910b339
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20260910101324epcas5p1faf6f82de85c9468f42f6f9b2f13e99b
-References: <TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<CGME20260910101324epcas5p1faf6f82de85c9468f42f6f9b2f13e99b@epcas5p1.samsung.com>
-	<c17e0351-d390-4a40-89c4-51d4be9f0123@linux.intel.com>
-	<360067785.01789039502721.JavaMail.epsvc@epcpadp1new>
-	<TYUPR06MB62172308C897F81F7DAFF557D2BF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <20260810093112.47807-1-phucduc.bui@gmail.com> <20260810093112.47807-2-phucduc.bui@gmail.com>
+ <2026091054-preflight-capacity-e7e2@gregkh>
+In-Reply-To: <2026091054-preflight-capacity-e7e2@gregkh>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 11 Sep 2026 12:14:01 +0700
+X-Gm-Features: AcwNN1U4E0obWJZ95GdL5H5vM5ixf2nzVS2DjnR9WxfFgAkwdtRnN-OtjhWnZCA
+Message-ID: <CAABR9nGc+ERL_AenTWzHZwxUeRB4KqyvMB5REOgGzko7X-+p8w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] usb: chipidea: ci_hdrc_imx: Fix error handling
+ when creating IRQ name
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Chen <peter.chen@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	linux-usb@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Sashiko Bot <sashiko-bot@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Greg,
 
-On 9/10/2026 5:41 PM, 胡连勤 wrote:
-> Hi Mathias, Selva,
+Thanks for letting me know.
+
 >
->>> I think we need to address this issue a lot earlier than in
->>> xhci_sideband_unregister()
->>>
->>> xhci_free_virt_device() shouldn't leave any dangling pointers, if
->>> vdev->sideband
->>> is still set at this point then something is wrong, and should as a
->>> final resort be
->>> fixed here. Print a debug message and set vdev->sideband->vdev = NULL
->>> before freeing vdev.
->>>
->>> Another issue is the transaction error recovery during address device.
->>> xHCI specs say we should disable and re-enable the slot.
->>> xhci driver additionally frees and reallocates the vdev.
->>> We could probably avoid this and just re-initialize the contexts without
->>> reallocating vdev.  This being said I think it would be even better to
->>> not
->>> try to 'usb persist' sideband over a usb device reset.
->>>
->>> Might be best to unregister sideband in qualcomm usb audio driver
->>> completely in
->>> the drv->pre_reset, and re-register it back in drv->post_reset
->>>
->>> But to avoid this specific issue we should also set
->>> vdev->sideband->vdev to NULL
->>> in xhci_free_virt_device()
->> Regarding the suggestion to set vdev->sideband->vdev = NULL within
->> xhci_free_virt_device() to avoid dangling pointers, I agree that this
->> effectively prevents the use after free during unregistration.
->>
->> But, I would like to highlight a critical point regarding the
->> interrupter lifecycle. Even if sb->vdev is set to NULL ,
->> __xhci_sideband_remove_interrupter() must still be invoked during the
->> unregistration sequence.
->>
->> If the interrupter removal is skipped because vdev=NULL , the secondary
->> interrupter resource is leaked. In our observations, this leads to a
->> failure during the subsequent device connection and registration
->> attempt, resulting in the error: "Failed to add secondary interrupter,
->> max interrupters".
->>
->> So it is essential that the cleanup path ensures the interrupter is
->> released regardless of whether the vdev is still alive.
->>
-> Thanks for the review and the detailed suggestions.
+> This patch did not apply, please rebase and resend.
 >
-> You're right, xhci_free_virt_device() is the right place to ensure
-> no dangling pointers are left. I've updated the patch accordingly:
->
-> 1. In xhci_free_virt_device(), if vdev->sideband is still set at free
->     time, print a debug message and set vdev->sideband->vdev = NULL
->     before kfree(dev). This breaks the dangling pointer at the source.
->
-> 2. In xhci_sideband_unregister(), check sb->vdev before issuing stop
->     endpoint commands. If already NULL (cleared by
->     xhci_free_virt_device), skip endpoint cleanup but still remove the
->     interrupter and free the sideband instance. The interrupter and
->     sideband struct are host-level resources independent of vdev's
->     lifecycle, so they must be released unconditionally to avoid
->     leaks.
->
-> Regarding Selva's point on the interrupter lifecycle: I entirely
-> agree. If the interrupter removal is skipped when vdev is NULL,
-> the secondary interrupter leaks and causes "Failed to add secondary
-> interrupter, max interrupters" on subsequent device connections.
-> This is exactly why the updated patch ensures
-> __xhci_sideband_remove_interrupter() is called regardless of whether
-> vdev is still alive.
->
-> Regarding the USB device reset path: I agree that unregistering
-> sideband in drv->pre_reset and re-registering in drv->post_reset
-> would be the cleaner approach. I'll look into implementing this as
-> a follow-up change in the qualcomm usb audio offload driver.
->
-> Regarding the vdev free+realloc during address device error recovery:
-> while re-initializing contexts without reallocating vdev could reduce
-> the risk of dangling pointers, this is a separate concern from the
-> immediate fix and would require a thorough analysis of the slot
-> lifecycle. I plan to investigate this as a separate effort.
->
-> Proposed changes below for review:
->
->   drivers/usb/host/xhci-mem.c      |  8 ++++++++
->   drivers/usb/host/xhci-sideband.c | 25 ++++++++++++++++++-------
->   2 files changed, 26 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-> index af8d4b74c4ba..afdcfb38b35f 100644
-> --- a/drivers/usb/host/xhci-mem.c
-> +++ b/drivers/usb/host/xhci-mem.c
-> @@ -922,6 +922,14 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
->   		dev->rhub_port->slot_id = 0;
->   	if (xhci->devs[slot_id] == dev)
->   		xhci->devs[slot_id] = NULL;
-> +
-> +	if (dev->sideband) {
-> +		xhci_dbg(xhci, "vdev for slot %d has sideband still set at free, clearing dangling pointer\n",
-> +			  slot_id);
-> +		dev->sideband->vdev = NULL;
 
-Thanks for your updated patch.
+I have rebased the patch and resent it here:
 
-Dont forget to add #include <linux/usb/xhci-sideband.h> in this 
-xhci-mem.c file otherwise getting below error,
+https://lore.kernel.org/all/20260911051043.15962-1-phucduc.bui@gmail.com/
 
-drivers/usb/host/xhci-mem.c:928:30: error: invalid use of undefined type 
-‘struct xhci_sideband’
-     928 |                 dev->sideband->vdev = NULL;
-
-
-> +		dev->sideband = NULL;
-> +	}
-> +
->   	kfree(dev);
->   }
->   
-> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-> index a5deeee4d5dc..6312c9e3af65 100644
-> --- a/drivers/usb/host/xhci-sideband.c
-> +++ b/drivers/usb/host/xhci-sideband.c
-> @@ -472,12 +472,22 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
->   
->   	scoped_guard(mutex, &sb->mutex) {
->   		vdev = sb->vdev;
-> -		if (!vdev)
-> -			return;
-> -
-> -		for (i = 0; i < EP_CTX_PER_DEV; i++)
-> -			if (sb->eps[i])
-> -				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
-> +		/*
-> +		 * If vdev is NULL, xhci_free_virt_device() has already
-> +		 * cleared sb->vdev and freed vdev (e.g. on
-> +		 * COMP_USB_TRANSACTION_ERROR during address device
-> +		 * recovery). Skip endpoint cleanup as the xHC has already
-> +		 * disabled the slot.
-> +		 *
-> +		 * The interrupter and sideband instance are host-level
-> +		 * resources independent of vdev, so still remove and free
-> +		 * them to avoid leaks.
-> +		 */
-> +		if (vdev) {
-> +			for (i = 0; i < EP_CTX_PER_DEV; i++)
-> +				if (sb->eps[i])
-> +					__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
-
-I have one query on  skip endpoint cleanup due to  vdev is NULL, in this 
-case the pointers in sb->eps are not cleared. Since these pointers point 
-into the virtual device eps, any subsequent call to sideband API 
-functions like xhci_sideband_get_endpoint_buffer() that dereference 
-sb->eps could result in a use after free if the virtual device has been 
-freed. Is it possible?
-
-
-Thanks,
-
-Selva
-
-> +		}
->   
->   		__xhci_sideband_remove_interrupter(sb);
->   
-> @@ -486,7 +496,8 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
->   
->   	spin_lock_irq(&xhci->lock);
->   	sb->xhci = NULL;
-> -	vdev->sideband = NULL;
-> +	if (vdev)
-> +		vdev->sideband = NULL;
->   	spin_unlock_irq(&xhci->lock);
->   
->   	kfree(sb);
->
-> Does this approach look good to you? If so I'll send a formal v2 patch.
->
-> Thanks
-> Lianqin
-
+Best regards,
+Phuc
