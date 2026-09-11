@@ -1,283 +1,158 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-pj2-f10.google.com (mail-pj2-f10.google.com [74.125.227.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994C6320CBE
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 14:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789135262; cv=pass; b=Pc3s+5Bbv2xnyLi6gOqk8lwzKYSrh93TGtLPoWYHvin7yH6OWj3NhHzKKv/WLPk4N2K+xq2Nhyi4IaK8LZPk4KIhMairqUBJMoJcnMBfX44PCkaUOkHA7hfLuBrbi05aM3HYSztcQ9BlJWbsU/dHzM+APy0piBZ+CHd12N/yz2w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789135262; c=relaxed/simple;
-	bh=NRvv2CvBhQfSSHuxoZHX834hrUfwPP0XyLc6xmcOP4g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VXcRzCVXlKQyhzjYxh/FKc1f7uqqVMCF8JjeI6AjSPjGyaDZuxgMO1vCQqrPWCy1z4XGgpSTNftJjF7J/lzoc5GDJ3ZYA2RpGyIs6fE5xasd4f+aWj3vZp7MbQGcCC0C80Vt8pkIXI77qAhCpZmmOUT+ytIAdhdPuma5aZgBucM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xy/3YGsy; arc=pass smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB36A36B911
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 14:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789138133; cv=none; b=h6j50XAWKB1YE0T/evSpB8pVUxk+NdVOTi5b5WPxMvdCwOUzFGD+H7cqopg9d15po15RCrGxOkbN1vgaggbzpBagBFEsAXmh1nKjqRLaTYkwViGFi0qHoVG5Tfhcur0AqiqJxFw+Mv94tVu+lhIAXVX2T0A0pAHyVL07vVlep9c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789138133; c=relaxed/simple;
+	bh=4mLudD8PYlOLuTEEbJwIHQPFAEvTbwtEdiJBOGu1jB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ggPCZ+sA6cZtBhwYGFkGvEifbvFnhDmk9oX6oT0FBd4N0hHRGFJ7+E3wh1Hbym98jp3p4NRcVY6Z2rerVlEoES85KxXBd43GFiC6JRAlRnYPAB+3d9MAt4hF+VgHXnWQOljuHZB2QFOtzVzNVv8d7LeRTsz9htIeYy+lDyemjEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YdRZEf8m; arc=none smtp.client-ip=74.125.227.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xy/3YGsy"
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so477017241.2
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:00:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789135256; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pc3x0S5vcJsGbJ6qEHnLovRfb7dM1U5v4973r5vSsh2IcZFzJLEwEu/SheIgDBPxvL
-         w1DDAaDX/IQxsPTRZedpoON58b7hOvi5Br+/9frgUneEV7Jy6s7dAeJw/rcVMScfC5mk
-         u5SiTfgMcuV1+9l7JHm3quA9Kc7kYQCflOEMrdfECrJGM8qskZw5dLu6p7wkRjvmCIWh
-         CVbenDjAiyOY5qcpyBC7kXFbQGHFqUS6vWMbpy3JzabeGJVwN5f4hNZpWtZu1th/MNY7
-         DIwXxzmqgtZPRp0TjhUXgLXhZ5fgnf8nc+T21jCH609vDb2SIx0RJ5ntyoGvz660mKDW
-         FVLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AFZKX0Bh8yI6tq49fsjAsZ3QlB7gksDmYTTq4uLYACo=;
-        fh=wWlU/U1QBTTomnSHNacwboivggBVm0o2ilaDZtDygG8=;
-        b=O/QcdPmIF/CmdVbV9ahdEmvWeF4ohuArAYsDdlxvj1YyECYfkVbd4iSUNRYbWD0KYA
-         OF4reTHuyGQH78i5fQZEB0r4XnazmBBOSD8uvnrdZbyzK4lBk1I6EgNXBE9WMyp/hDqW
-         iUcDNSBOzgZN/u8kDgoOR5tZTaKNee97uoA0LMexK7fzttE0PQSRmI66mOo9Czh6MnHl
-         P7xTSWJl9R4yvoQAYHZsYgFQyPCsmjoud8lbZX+VlqS89PsEvR2ke93/mXikgM8G396k
-         xDLRRp1HEwNueoqzOleIwsXZOvaWw5JT0wnVpo3XMKsP47HPVOO63MD+HgG86R3ePkGW
-         soKg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdRZEf8m"
+Received: by mail-pj2-f10.google.com with SMTP id 98e67ed59e1d1-39d70d669a3so954766a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789135256; x=1789740056; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AFZKX0Bh8yI6tq49fsjAsZ3QlB7gksDmYTTq4uLYACo=;
-        b=Xy/3YGsysWacMGCvZbiZTfm/OXuNH2LU6n9nI8/I/hVH6o3lZnNzWV7eGAf8zEucWS
-         T+K7aroUl1OGdo26Mm5iO2pUg1GE40Zh3CPYvpBtuz2Wwo4Gtxim2oQ6T2YhtIJ/Usi0
-         sFlEvIdaezfEJ7m0RUZUzC51BIZK+ez6BvPPE0Y6bJRkG1ruOquy+JPw+v36KyGO66BP
-         unUMvG7WkGmfxkf9qUdFR3GSxn8ZDOw9UtwOIf6RfTKOgDy+ZAcxvbd6WR6/P1iZRCis
-         aOprCFQQcjlLl2awWckGDjs4mGSu2TeO43YLGONLjqBen3FwhVQCv6dVqP0QHXI3MlKt
-         7dmg==
+        d=gmail.com; s=20251104; t=1789138129; x=1789742929; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=87DnCORHQMnGKefjZm7JvpLCw1nQMKjUqG2otvelVVs=;
+        b=YdRZEf8mkHdOo7h91U72QNKvdVFaLR8I3sLyisRkSYwNGJNoGP2pWg0KRBO6JHvvJs
+         GqxdVWCUzryx63cWiyvcNUHP61Ofg3JZCfXb0PC/J6VD11q4TWXGMCZI9pR3y9asmVHB
+         UL4MMKZa0+pG+B6pZqYc6mpyGN2D+Uyg51mPUp20phY4JvKgDduY7NtlgV+LTrXDbMzu
+         s/dIB9O4yyQM0NSe1fPn6/gfRYYFPuN3775j99uOvKtA643N28hYd4rwB/kENOxCEaSb
+         beknmWMpZbbAyzPZ1oj8nJmCEBuEZbyrouWC65eOdRMH4q9yj773ozu278y5hGp8AIFM
+         ZYaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789135256; x=1789740056;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AFZKX0Bh8yI6tq49fsjAsZ3QlB7gksDmYTTq4uLYACo=;
-        b=Nmk4XedPZUss/oqZ1RJE7RSf/HsN8j2HAAQG/wxnSrmr8TWAZ+0p4tPtrFECqNZxjc
-         A3tSgufyq9Lyv/6hGCHacLNuUAO9c9JfJmEoGK5TcfH+fwElrMUPh9aGEM6NSl5bVi8r
-         lUiEq+akO9pdbpw2QtmpDKbKR1XfvK7FkO6NDolde+AnVZaK+DAxh8u9syX8JKTSmVCE
-         mOgud1BM8XLyB1SDd9KCPRBp+w6xW3rw7G1ipLQn0bbcdhJExWcO9ipLv6Yy0wzb3mq1
-         2F45DntWqtqXrOALzop1KncUkCL6YvfsItPltZ8l0a8+kK/Qh0zTE7tC/Q2YI36wTKT6
-         GjtA==
-X-Forwarded-Encrypted: i=1; AKwUvBxj7E0ZInwl6JYsdeXRnp2HkMdKEbrCVseB2XOuWGol6XgCvcjBfj6a/o+dP6E1j8O6fF76GPUCk2E=@vger.kernel.org
-X-Gm-Message-State: AFuF++nomhLJAvINZn/TiWX8zEd5p5QWk+c99LPs+ZaBIBUcEPXhKcOs
-	aZJq9hQvODgbd2jLQVYZ5G0d20BKFpigRmpknU0uGaFA6PWPuStwDbTSXKWcv1zdvOgHz0UhcRf
-	WESvuQePTMloDbz2/8M00VCjck+r8BBQ=
-X-Gm-Gg: AYBFou0fBEDVEORNmAQrjVwbtm3vOfTt9tsgVRT2+yyUMkfXGQ0vOi9DCcOxmYB7u5t
-	ycvMzaWVAyT1ABlFVl66XjUUXg1uZMon1GHmsP+o9P8IYfgnibU3T72Pjiopl30MjJLCk71WY6K
-	TBTSRE/uJmWMSLApgAXkrGWz71o5kaTNIB9nxxriPuCHmJ1xZqmMV0s8naIGgTiFUGEPbW3qe+P
-	nmp415ST4/3VYC4/RxTc3LGxowZsHyz134z5rG+GnOtYinHJkJ3qs8tiZ3fGftok0/7LM5r7Fzw
-	HsFXqUNDwn6BkqDXJgCIkm/5TBMuoLWcJjGIv6ze6nzj4HGIecYk5wHPu3HvO4Wr42gVNt3QbQQ
-	b3+IjQSPn0McHUPxO1+YcM+A8kSgqa8Xz4S8RTWdBDOC1K6J2QpmOGWcy6XQiZE4qQPTlHDfTFF
-	Veg7pC9A==
-X-Received: by 2002:a05:6122:428a:b0:5c7:a9ee:dcfb with SMTP id
- 71dfb90a1353d-5c8462c1d9cmr6354196e0c.5.1789135246821; Fri, 11 Sep 2026
- 07:00:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789138129; x=1789742929;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=87DnCORHQMnGKefjZm7JvpLCw1nQMKjUqG2otvelVVs=;
+        b=GST08DLX7nKGkbToOv4UIQd8yPqU0MS5qhBYvoGi2DzBGLtYBO+uzgB7AgAW8spOKO
+         +UwU2NNlJg0JbyvQEzH84VVBPpfYUt8Jmg4KAlcsonnRZuytHQbk72bbS21l+b8+IhLZ
+         NRFtOBJAPeWs5mG3tfMxAxkYzpYWkpGOI+nPc1+auzgj2s226vM1BZHZYOyFXhv4gnP3
+         Lopn6t28dMcik8Qcaai90ApARM/RqVA4o1UsVGQnj7mU6OH1FE53x7+8Gbs+DGr0R3W1
+         oXvo0FJhxnC/w2GtocUINS7mFFCAMptxaQS//Im3KBlRrouebpNUCnM4sX2OTSsCNwTp
+         kPGQ==
+X-Forwarded-Encrypted: i=1; AKwUvBywM30FGAIdCL9ev0z58I6Yu2dGutQ6O3gh/ECFW6i7XFrn/gVocmH8SOyHjM0iFpKqiZasijwWyf4=@vger.kernel.org
+X-Gm-Message-State: AFuF++k/MYGewR/UmwNUFgRcN3O4ZxkEeYh7LipRQ437fwRzVkv5GsDu
+	m2qQuPc18D4cXpfD7l9YMnq1IIQMftD0zjZ8SVHZEj41QMJ0l2XhKVXB
+X-Gm-Gg: AYBFou14nx5ecNbmNdnm5VlXZYqg0PyRPkCzQAz5q0TYUX8ZDPoLGWvINv6z2l7xzZ/
+	35zPlKUpuxapXPfXogRZ78tPgZqiNm8jZDX9yzKhtt3qyDfEMui9ipIy8ncXTxogbLs85mIhenF
+	3MtFt/JOo5gFl2Frb5UkVYUJjLycKr9u8yZwMK2jOGHAyfAKAqOiQQgMbmzMaWaSirX5VYOJYeM
+	br3HXiANl1af891vidCRsZnZtlKvYNkF70cM9iJyh+xlaEkfroNdEcBUS+kc+XYmbf1pRbP7hi3
+	2AYwrdVqSmvgR3pN9IQWpoozMUwW0ho1aSyVM22arhpzNH7ssCgoBGyu6RM/+5UFSaVW7ixTR5c
+	8Jh9dNmjdjIDeQ9xB3wrdoeEuS32Sh1dWkbvOJ2P09QZkaCCF9DpRY4KZVUK6YqwIr5Yz5Dgzh7
+	FoBrruQ+7U/dyH+bEQlEE9/IO+qtOLSE3+Y+A2K3c8QjBwmKUpLUnRZaNnrFiA11uQmcgpZZZEy
+	4CPOWDnEmMrHiFPKIosc30+l4eaYx48w7bUbCqN
+X-Received: by 2002:a17:90a:e7cb:b0:395:7fff:a08f with SMTP id 98e67ed59e1d1-39d9b960825mr7697463a91.0.1789138129118;
+        Fri, 11 Sep 2026 07:48:49 -0700 (PDT)
+Received: from localhost (230.161.92.34.bc.googleusercontent.com. [34.92.161.230])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9959ac65sm5244382a91.16.2026.09.11.07.48.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 07:48:47 -0700 (PDT)
+From: EricLin <ericlin050914@gmail.com>
+To: mathias.nyman@linux.intel.com
+Cc: ericlin050914@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	mathias.nyman@intel.com
+Subject: Re: [BUG] Usb fingerprint sensor constantly resetting on MSI Prestige 16 Flip AI+ C3MTG
+Date: Fri, 11 Sep 2026 22:48:41 +0800
+Message-ID: <20260911144841.5047-1-ericlin050914@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <fe9a4727-52a1-4464-9fe7-c5f50d09713b@linux.intel.com>
+References: <fe9a4727-52a1-4464-9fe7-c5f50d09713b@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0305182d-5914-4022-a0a6-1ab4221b0a6c@rowland.harvard.edu>
- <CAFmvuTULxq6O0t7FyhEwnGVdMMpbj1yZrPN6mVRDWTgF0ODJxg@mail.gmail.com>
- <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
- <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
- <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
- <CAFmvuTXWxQJUZfAAC=vs5QM=myDLE-o0jZZ8OXdqiGioPkRwfA@mail.gmail.com>
- <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
- <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
- <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
- <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com> <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
-In-Reply-To: <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
-From: Minseo Kim <neck3922@gmail.com>
-Date: Fri, 11 Sep 2026 23:00:00 +0900
-X-Gm-Features: AcwNN1Xqh3GyctgJruY5InWmnsoX-qNccIhI0RH8WTu6wKnaxxMjL09bKKt9J28
-Message-ID: <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF in ep_aio_cancel()
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Alan,
+> Ok, looks like xHC (and fingerprint sensor) were suspended, and sensor reset
+> at resume.
 
-Thank you for the questions. I reran the tests to distinguish the
-request's endpoint-queue state from the callback's execution state, and
-the unbind flush from workqueue destruction during module cleanup.
+> Does disabling runtime suspend for xHCI and the sensor help?
+> After boot, as root:
 
-> I didn't think this was possible.  gadgetfs_unbind() calls
-> destroy_ep_files() before doing the flush, and destroy_ep_files() calls
-> usb_ep_disable() for each active endpoint.  usb_ep_disable() doesn't
-> return until the completion handlers for all the outstanding requests on
-> the endpoint have finished.  This means no copy_work items should have
-> been left to queue when the flush occurred.
+> echo on > /sys/bus/pci/devices/0000:00:14.0/power/control
+> echo on > /sys/bus/usb/devices/3-6/power/control
 
-With both patches applied, this ordering was possible in the dummy_hcd
-test because the target request had already been removed from its
-endpoint queue before ep_aio_complete() ran. When gadgetfs_unbind()
-subsequently called destroy_ep_files(), dummy_disable() found the
-endpoint queue empty. The request associated with the already-running
-callback was no longer on that queue, so nuke() had no queued request to
-give back and dummy_disable() returned while the callback was still held
-at the gate. The unbind flush then returned before the callback queued
-copy_work.
+Sadly, These command doesn't work
 
-I confirmed this with markers recording the request and endpoint
-pointers. The gate was inside ep_aio_complete(), after the request had
-already been removed from its endpoint queue. It used a bounded,
-non-sleeping loop. dummy_hcd had already released dum->lock before
-calling usb_gadget_giveback_request().
+[    0.481019] xhci_hcd 0000:00:0d.0: xHCI Host Controller
+[    0.481023] xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+[    0.482157] xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+[    0.482447] xhci_hcd 0000:00:0d.0: xHCI Host Controller
+[    0.482451] xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+[    0.482453] xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+[    0.484361] xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    0.484363] xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 3
+[    0.485511] xhci_hcd 0000:00:14.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+[    0.485793] xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    0.485795] xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 4
+[    0.485796] xhci_hcd 0000:00:14.0: Host supports USB 3.2 Enhanced SuperSpeed
+[    0.725275] usb 3-6: new full-speed USB device number 2 using xhci_hcd
+[    0.849356] usb 3-6: New USB device found, idVendor=27c6, idProduct=6090, bcdDevice= 1.00
+[    0.850388] usb 3-6: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[    0.850393] usb 3-6: Product: Goodix USB2.0 MISC
+[    0.850396] usb 3-6: Manufacturer: Goodix Technology Co., Ltd.
+[    0.850399] usb 3-6: SerialNumber: UIDEA968203_XXXX_MOC_B0
+[    0.965230] usb 3-7: new high-speed USB device number 3 using xhci_hcd
+[   26.846586] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
+[   27.088643] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
+[   44.120047] usb 3-6: reset full-speed USB device number 2 using xhci_hcd        # Disabled runtime suspend for xHCI and the sensor
+[   55.557350] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
+[   81.929983] xhci_hcd 0000:00:14.0: set port reset, actual port 3-6 status  = 0x791        # Enabled debug
+[   81.983851] xhci_hcd 0000:00:14.0: Port change event, 3-6, id 6, portsc: 0x200603
+[   81.983866] xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
+[   81.991791] xhci_hcd 0000:00:14.0: Get port status 3-6 read: 0x200603, return 0x100103
+[   81.991845] xhci_hcd 0000:00:14.0: clear port6 reset change, portsc: 0x603
+[   82.042778] xhci_hcd 0000:00:14.0: Resetting device with slot ID 1
+[   82.042793] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.043072] xhci_hcd 0000:00:14.0: Completed reset device command.
+[   82.043193] xhci_hcd 0000:00:14.0: Successful reset device command.
+[   82.043344] usb 3-6: reset full-speed USB device number 2 using xhci_hcd
+[   82.043351] xhci_hcd 0000:00:14.0: Slot already in default state
+[   82.043518] xhci_hcd 0000:00:14.0: Waiting for status stage event
+[   82.043572] xhci_hcd 0000:00:14.0: set port reset, actual port 3-6 status  = 0x791
+[   82.066750] xhci_hcd 0000:00:14.0: xhci_hub_status_data: stopping usb3 port polling
+[   82.097440] xhci_hcd 0000:00:14.0: Port change event, 3-6, id 6, portsc: 0x200603
+[   82.097453] xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
+[   82.103779] xhci_hcd 0000:00:14.0: Get port status 3-6 read: 0x200603, return 0x100103
+[   82.103820] xhci_hcd 0000:00:14.0: clear port6 reset change, portsc: 0x603
+[   82.154786] xhci_hcd 0000:00:14.0: Resetting device with slot ID 1
+[   82.154800] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.154942] xhci_hcd 0000:00:14.0: Completed reset device command.
+[   82.155025] xhci_hcd 0000:00:14.0: Can't reset device (slot ID 1) in default state
+[   82.155033] xhci_hcd 0000:00:14.0: Not freeing device rings.
+[   82.155052] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.155268] xhci_hcd 0000:00:14.0: Successful setup address command
+[   82.155279] xhci_hcd 0000:00:14.0: Op regs DCBAA ptr = 0x000000fffff000
+[   82.155284] xhci_hcd 0000:00:14.0: Slot ID 1 dcbaa entry @00000000c504d3ce = 0x000000fffd7000
+[   82.155290] xhci_hcd 0000:00:14.0: Output Context DMA address = 0xfffd7000
+[   82.155293] xhci_hcd 0000:00:14.0: Internal device address = 1
+[   82.166500] xhci_hcd 0000:00:14.0: Waiting for status stage event
+[   82.166625] xhci_hcd 0000:00:14.0: add ep 0x83, slot id 1, new drop flags = 0x0, new add flags = 0x80
+[   82.166651] xhci_hcd 0000:00:14.0: add ep 0x1, slot id 1, new drop flags = 0x0, new add flags = 0x84
+[   82.166656] xhci_hcd 0000:00:14.0: xhci_check_bandwidth called for udev 00000000d584fa66
+[   82.166665] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.166961] xhci_hcd 0000:00:14.0: Successful Endpoint Configure command
+[   82.167272] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.167388] xhci_hcd 0000:00:14.0: Stopped on No-op or Link TRB for slot 1 ep 6
+[   82.167412] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.167646] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.167672] xhci_hcd 0000:00:14.0: Stopped on No-op or Link TRB for slot 1 ep 1
+[   82.167720] xhci_hcd 0000:00:14.0: // Ding dong!
+[   82.314749] xhci_hcd 0000:00:14.0: xhci_hub_status_data: stopping usb3 port polling
 
-In a control with the host-side transfer delayed, the request remained
-queued when usb_ep_disable() began. dummy_disable() called nuke(), which
-removed it and invoked its completion callback through
-usb_gadget_giveback_request(). While I held the callback at entry,
-neither usb_ep_disable() nor the ep0 close returned. After I released the
-gate, the callback returned before usb_ep_disable() did, matching your
-expectation for this pending-request case. The AIO request produced
-exactly one completion with res=3D-ESHUTDOWN.
-
-In a separate run with GadgetFS still mounted, the unbind flush and ep0
-close returned while the callback was held before queuing copy_work. The
-reproducer had no GadgetFS file descriptors left open in userspace, but
-the module usage count was 2. rmmod was rejected because gadgetfs was in
-use, and gadgetfs_cleanup() had not begun. After I released the callback
-and the reproducer exited, the count was 1; subsequent unmount and rmmod
-succeeded.
-
-> What prevented rmmod from completing after iocb->ki_complete() had
-> finished?  Was it waiting for the flush to finish?  If any additional
-> work items were added to the queue after the flush started, they should
-> not have blocked the flush.
-
-In a separate worker-tail run using the same late-queueing ordering, the
-unbind flush had already returned before the callback queued copy_work.
-I then held the worker immediately after iocb->ki_complete() returned.
-The module usage count was zero before rmmod started. When rmmod was
-started, it waited in destroy_workqueue() during module cleanup, not in
-the earlier unbind flush. The relevant part of the blocked rmmod task's
-stack was:
-
-    __flush_workqueue
-    drain_workqueue
-    destroy_workqueue
-    gadgetfs_cleanup [gadgetfs]
-    __do_sys_delete_module
-
-The __flush_workqueue frame came from drain_workqueue(), which was
-called by destroy_workqueue(). Thus, the late copy_work did not block
-the earlier flush_workqueue() in gadgetfs_unbind(); it was already
-running when gadgetfs_cleanup() called destroy_workqueue(), and
-drain_workqueue() waited for it instead. Markers confirmed that
-destroy_workqueue() returned only after I released the worker, and rmmod
-then completed successfully.
-
-This is consistent with the entry-gated ep_unlink_worker result in my
-previous message. In that test, unlink_work had already been queued
-before the unbind flush began, so the flush and the ep0 close remained
-blocked until I released the worker. In the late-queueing run above,
-copy_work was not queued until after the unbind flush had returned. A
-separate control with copy_work queued before the flush likewise kept
-the unbind flush and the ep0 close blocked until I released the worker.
-
-Thank you for asking me to check this more closely.
-
-With sincere appreciation and great respect,
-Minseo Kim
-
-2026=EB=85=84 9=EC=9B=94 11=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 12:50, =
-Alan Stern <stern@rowland.harvard.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
-:
->
-> On Thu, Sep 10, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
-> > Hi Alan,
-> >
-> > Thank you for the second patch.
-> >
-> > > In your earlier testing, didn't you find that with the unpatched driv=
-er,
-> > > the driver module's usage count remained elevated as long as the
-> > > ep_user_copy_worker() was pending on the workqueue? And therefore it
-> > > was impossible to unload the module while a work item was still queue=
-d
-> > > or running?
-> >
-> > To check that point directly, I tested the unpatched upstream copy-work
-> > path using diagnostic gates at two points in ep_user_copy_worker(). The
-> > module usage count remained elevated when I held the worker at entry,
-> > before iocb->ki_complete(). When I held the worker after that call, the
-> > usage count reached zero and the module was unloaded before the worker
-> > finished; the kernel then warned and panicked. This suggests that
-> > AIO may not retain the file reference throughout the worker tail after
-> > ki_complete().
->
-> Okay, it's good to know that.
->
-> > > Could you test it and verify that it prevents the problem you observe=
-d
-> > > with only the first patch installed?
-> >
-> > Yes. I applied your first patch and then your second patch to upstream
-> > v7.2-rc1, commit dc59e4fea9d83f03bad6bddf3fa2e52491777482.
-> >
-> > With the first patch alone, I reproduced the earlier module-unload
-> > failure with ep_unlink_worker() held at entry. With both patches applie=
-d
-> > using the same reproducer and ep_unlink_worker() entry gate,
-> > gadgetfs_unbind() reached the flush point and the ep0 close remained
-> > blocked, while unmount and rmmod attempts were rejected. After I releas=
-ed
-> > the worker, the close completed and subsequent unmount and rmmod attemp=
-ts
-> > succeeded. Holding ep_user_copy_worker() at entry with both patches
-> > applied produced the same result.
-> >
-> > I also tested the boundary where gadgetfs_unbind() reached the flush
-> > point before the completion callback queued copy_work.
->
-> I didn't think this was possible.  gadgetfs_unbind() calls
-> destroy_ep_files() before doing the flush, and destroy_ep_files() calls
-> usb_ep_disable() for each active endpoint.  usb_ep_disable() doesn't
-> return until the completion handlers for all the outstanding requests on
-> the endpoint have finished.  This means no copy_work items should have
-> been left to queue when the flush occurred.
->
-> >  After the
-> > callback queued the work, I held the worker tail immediately after
-> > iocb->ki_complete(). In this ordering, rmmod did not complete while the
-> > worker was held; after I released the worker, rmmod completed cleanly.
->
-> What prevented rmmod from completing after iocb->ki_complete() had
-> finished?  Was it waiting for the flush to finish?  If any additional
-> work items were added to the queue after the flush started, they should
-> not have blocked the flush.
->
-> > I reran the exact pre-queue cancellation matrix, the original
-> > null-ptr-deref reproducer, the directed cross-CPU UAF reproducer,
-> > deferred giveback, forced dequeue failure, the earlier NULL-endpoint
-> > case, payload checks, and CPU hotplug. With both patches applied, all
-> > produced the expected results without a KASAN report, Oops, or LOCKDEP
-> > warning. Strict KCSAN did not report a race involving GadgetFS or its A=
-IO
-> > work functions.
-> >
-> > In my x86-64 QEMU and dummy_hcd tests, the second patch prevented the
-> > module-unload problem that remained with the first patch alone. I did n=
-ot
-> > find a new failure attributable to the second patch in these tests.
->
-> All right.  So once these last few questions have been resolved, I will
-> submit both of the patches (with your Tested-by: added to the second as
-> well as the first).
->
-> Thanks again for all your hard work running multiple tests.
->
-> Alan Stern
