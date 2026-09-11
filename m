@@ -1,109 +1,139 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B21746984F
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 09:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789117748; cv=none; b=UyLPIgmDTqMlZkVoAYaFEufbtqnu35WwBFOxMM6q3HNUq8Br4SgUOyiXqRjXqy6OnohLujzrvvk4T+WNsZiHs9o6kS7J+lVNWlJu2rtrw/5wAk3kjaJ9YRnnExKt0Aq3AXcql6KMKUbeqOaYg3F/I/DF42jKME134xRICu5uahs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789117748; c=relaxed/simple;
-	bh=GlBA5EYIQ6CD+fxLgdiVFVnrJanT42tvil+T0KoJmHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SILLMfx7oNGsHtrNraw505+ykWp9EEbK9SM35jloKO0RqnfpK7enarAIHbzUoXcBGok8AoII92KdQQGmwiDex89IfTyRhTQK8voAyxAvJ10vHtggJC2xO5juaIpDvTpg97Sn5KZCJ9nMDlp6gql77QEPNPBn3A7WuJd7bYYoLU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BL9LSe2B; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA67471D02
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 09:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789117799; cv=pass; b=E/flBQ8pEtuRshGnmb+O5/I6Yf8orp7Ft0pUqnMEKex/zTC9PQ9j2KFivf4LUC0XcA8Ke+8rEgA2c9rwkoppPObZesui1CXfFYfx15NP9tqmzAyr9whyr9LFUWf1OHGBfNK/b7/lqeXIlgf77z7gn8wcFWVA6+qlqJIl0Dgg2Z8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789117799; c=relaxed/simple;
+	bh=DqoU+uWaz7+Vutomy33tnRZ5BBkjj/lsKZ4FCxPriAw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nNNkikQS0u4lBTDYG0BsOAPnPNDW4N3xmNNcATCveI/OC+ZQ9xLRKtmr61SlBU7cvtBbOGLHLfGJPRHp5GHk5ZkF44KRSyImyJqxZw6WIrWZ3Q67IJyQM0JzCxLGGo2zJHuKEE4w3UGi1KLZOKbsVGRaM/ciocf4YqTyF10t2/I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MSlPe9Et; arc=pass smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BL9LSe2B"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6356256so187361f8f.1
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 02:09:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MSlPe9Et"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47de0093c42so599191f8f.3
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 02:09:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789117793; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EJP0MLWDHwq3aMQyHKybKcXxohX3TWpAkz6XfVd+4K7l2WYsYyM1HKGx36fo5QhPGX
+         3ZHEFxFpMW9A7OcgHIz7iIto3uCW9NfRr/CaZxcJmKVDFadSLyVZ2ar5oRjTCu5Y8MOF
+         tcjTG18oTc1XiPBQmmDn9d/fFj2WJlaiGjOH5KqNSs+AK1VabLk/dr2aHWqAHsDr6cKQ
+         3MkkhKWoFGq/kqx6Z1vINkWqssmMlhbYo+NIDPM8Ft/K5RDbrM2D3RSrQQa7ahqmq5gZ
+         YGF/GIdvmJkST+hN4stO+xWtSUJanULL7WLcr+1y4/n8SDtbRPDqZGf1wVVXhSp76bbS
+         veNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DqoU+uWaz7+Vutomy33tnRZ5BBkjj/lsKZ4FCxPriAw=;
+        fh=8DCosdzABeR7yenRJtYroWMgfl04mNE681tdb4k2Q1g=;
+        b=cDccxcFDk9jGmkihZ+ZSvJaW9N1qZRttX7eyf9f6RW+oSVyvR5KrtyE9W8sTZh1dju
+         w6mqNraI9orIFXaq3abVrcpAnvsoV0p0w+gtqTti2hbFpYUmzMksevs0uIKCp+ECIEVR
+         dxLXvjBDCnWAPhE0G2O+pxWqfFMxOARQtyvRW8+So3EfMPKwtuAyOLFFj5/NT9TJhw2R
+         jtcMmPXrhJ8c9FKoowHSJbt+28ymlcXlJfpO6Cen+iqk5ce3XQS1vWtMDqGzf8vtwu0J
+         ZR/kn4yVYlBhDd7+n6MPpWukvzU89mG6BKtcMdSNpyk5+Pp+C33JgHyuT43bnEot/Fal
+         w71Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789117744; x=1789722544; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=google.com; s=20251104; t=1789117793; x=1789722593; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=nYa44DvrJZUlDmo9hZUhETJNxOcn28Cv0gCdecKcd2Y=;
-        b=BL9LSe2Bpzhk4hv3BGWBQ8I7uj9xjXnVpPeiSqc3HV/nZXnrDIaJRGn67v9P8tCKrd
-         /e2e09Cfajq32Bnwz4/kcCQdjwkUqZJ1lE7l8KjBOAy26kYGMrPS/LTcFmizS4QOf34h
-         YCW8BeshkXIm5SIY64YIiOMIoZrpYp1ll1rYS/6LWYctLKdhGyjW1W6T3D215cDq0in/
-         dMD0SUk3dsuQcivbP0h/sJg27MwBbCIIw3LnCkl9w53B497p4ncSholZ1GRoyyYY+0DL
-         Zlwfnwr9sC+5TGypVsZGaFhgZywXHrxowQzPdNbiB4F1/KsxIkLhVFggv9gR5KEdMfVs
-         g1WQ==
+        bh=DqoU+uWaz7+Vutomy33tnRZ5BBkjj/lsKZ4FCxPriAw=;
+        b=MSlPe9Et/aYooxs+mmr25pr80uFZG23i1Ff+HYNwoUYblRVkid0l2inKFKvyYhCHpA
+         74RMEIvUI+LYnoLKLKfOmV3XsO+idJkaF0kKg+yth0rRQtl5E2y2iqZ2+BzrV44esGe9
+         Gfqu0/0FtTeTt/gj1nMdkeGllp4GG8/dPMW6SAduAajB2PJTTh0EyTtISUFtDK6olxs/
+         iuCpPN7ycYnpIx1qtI10WS4KO12IM90KAskYtoHYQeaRXYEsRQKGp3BGi7i/JLvOBusZ
+         K3RJXi816wGUGyT/m2NeekI8C+6tI9P5dFmWFfKhpigFYWlsVGwnGy/m0LuueQHmrlvX
+         Kr3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789117744; x=1789722544;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1789117793; x=1789722593;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nYa44DvrJZUlDmo9hZUhETJNxOcn28Cv0gCdecKcd2Y=;
-        b=GjgNN+4IqKqOsETYAD1Mf9AJo+fqID3kllkWojIaJx9EdCBIjYb+VxiQqpK9/6ug0N
-         vx/FeTPtvhD36zCti3a+cnfzXKGKquqGJjvrYgLAo5pP0jSsJL4fWcK4kzAhGG5ZM50D
-         Ir9CyuJ4PxRM07WhDUhkFkrLkJjcUh/sXH8G7OZYTtqzofjEtr2U9jwhhBQZEo2Vt+sz
-         gMsfinEQrV236++1FtPkUxPFLyhqpySzXLKsi/eTu1C9cWubaOGg7+9H5NBR4bam/muY
-         wbw1jJ6bcdI5EVSrXLwXsVdtkmzvHbZVvMnTkupyo/fuqr8q7nEbw/5J0WZkFSg4LVni
-         PTUg==
-X-Forwarded-Encrypted: i=1; AKwUvBxTckY8al4qyoxYng88/B5SvlNocGWhJ43VrUD8A+dGHTqsmZkoHhEpHtfXK1n0YSYTg+Q6wxo2SzI=@vger.kernel.org
-X-Gm-Message-State: AFuF++l/x5ct5gtGDGVuBwEOVu5x36BhlMnGpvYU1i2p82en4ftWSBpa
-	gCmJ0AYRtAteprv8Mr/bAWYogZUFPEaIZl2ckjPTJY4ebvbtjS+mhRRR
-X-Gm-Gg: AYBFou1VT4LrRzV4v6NlfcO8f+/mf+zs+SC+S5OVIwpMaelZXN0FRDZUKXYfVTmFnLo
-	PGHzn3PLHRQqEgTjKWDKp+IKBmnZv9HmwwIfMmNO02XyIIufTZE+MlpwBuI7IlnWc2lbPf/RkU3
-	NFg+dc+XmjzF0NTPmHgysh6mvhs3mVrZmiVsOu1SmB/JSOaGdQirZYV2r7LwP4es0AvHv/eDevj
-	Jd4RQQs/2Q33NQ/SCsaZeVFqpNme9m+tAteabCe+0ePkMAv3VHoZwXuRhNZwwrXveeTIOvwuxd5
-	6TApBuo/8kruU5TKnJgIFy+MPiQRUKzmTJ4yGQVFcvsQ3WSfR4edkXnFqOfR2VssKiUvuvvMYhk
-	KgAvASSUFg+e35L2OHUn9ekAuJ3YrCulbstfYgEYvPZbFfmUtB6j7diswxY13Op5B9xyVxqWWpO
-	BRs+hfhXI18XtfFIGzxnlRvXWXWtos3fbvXqAn8b0l9QH5Lgmtigq55NdFuZmSivLOrtqKjm6xe
-	Sw7Z6Hnuw==
-X-Received: by 2002:a05:600c:3115:b0:49d:1e79:35d6 with SMTP id 5b1f17b1804b1-49e61094b9bmr41732955e9.14.1789117744202;
-        Fri, 11 Sep 2026 02:09:04 -0700 (PDT)
-Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6499d57bsm45431495e9.3.2026.09.11.02.09.03
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 11 Sep 2026 02:09:03 -0700 (PDT)
-Date: Fri, 11 Sep 2026 11:08:59 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Curtis Vogt <curtis.vogt@gmail.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Pierre-Loup Griffais
- <pgriffais@valvesoftware.com>, open list <linux-kernel@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, "open list:USB
- SUBSYSTEM" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 2/3] HID: valve-index: Reboot headset on system power
- transitions
-Message-ID: <20260911110859.3feac97d.michal.pecio@gmail.com>
-In-Reply-To: <aqOJfj79_NVkU6Db@dhoja>
-References: <20260910170254.833871-1-mario.limonciello@amd.com>
-	<20260910170254.833871-3-mario.limonciello@amd.com>
-	<20260910220421.40356e51.michal.pecio@gmail.com>
-	<55918a70-72c9-4f55-934b-81a692d4619b@amd.com>
-	<aqOJfj79_NVkU6Db@dhoja>
+        bh=DqoU+uWaz7+Vutomy33tnRZ5BBkjj/lsKZ4FCxPriAw=;
+        b=cUygIOGPjVnnpszVunxVl0hkccKL8P+tcXYnKWXwTHIT8CBE02hQvukk/4ahD7pjEC
+         9VNLhyinsbZDQOMb2uv1iOOdKZ+s9QpPMAQgeNuNIgFGiCSUDYwzbodgx4+JFmOtx/oK
+         4+lAq+v3adYaSJR5OsNja9pi+V6n/gIaAAy56G/YsNdVBNwUK9M9Z3wOLgP8ybkpIcE4
+         CVmn/OaPpS3opXrZ+fbDpLlsTwiyya3jvrXVCVRsJOLwg55F0eB3Vkm9DWr8EHohK1Xj
+         zibQ+zZHThbyGeINnsk94SzGlEJfeIQgU3D3mRt6T+wMDeMwXgQoArp0uYkcNwxJac+Q
+         VMNg==
+X-Forwarded-Encrypted: i=1; AKwUvBzCQZYolkzHCf0gFDGYlUwFXjbYzUa0pJ9tUChRrBHVadrVrVK13lylHpoUL0hiBM3xy8y7FON+iOE=@vger.kernel.org
+X-Gm-Message-State: AFuF++lSUA8KSa3/Pz5heFHAaqVppPppjkI3E4R11LrF66Qxvp1J7GFP
+	pXkVFxFE4VqDhtASSKJwWZCTfKlTIRBtt6BffVzpBpYRdsaeMXsjN07R/zmTKrQGm2uF4L5OaJS
+	JTOH1dLH/2F7tBcv4e1ONfecc5Z0hab1qTp5wfbLA
+X-Gm-Gg: AYBFou2fusQXrZv5C/yH8Hb4T2w5SxIW6bspgcfK+RCq2jEUH9JaiEi3+IJjEgdAKU5
+	DOp8H5fDx4hbaD5i6vv5ohjO0bpsktHjoKUpgTcUpK8Jk9c9ymarZDksKwqgbiawSSw0+BfTntg
+	UEnZZXgSBY0Cpm6iFCUZ3C94OUVhniitb4tqSQ9TXOhogCZDyl+/G+s5Cx2MNutUQyk7Jtqlxk0
+	wH81MAq8KaPSuRnDaulV0ZxYRNQVYkIBX+RTdKEHy6ue+iYUfiWNLr3g+tCYfUFSXVC9VDLFcea
+	9694ShMP8okG7giwdhh73a50c5mT+zpxmO7V4JubDU92Fl9mrC5zLPFbNWiQbIxPL6e2Kg6ydJH
+	v404qE8mdz+MZdt1YsMqBM7klWhtXGmmwH5OOIrqVMQWiTmT5+nTa
+X-Received: by 2002:a05:6000:118b:b0:485:8c16:5ef0 with SMTP id
+ ffacd0b85a97d-486eb2fe6e9mr2544735f8f.42.1789117791504; Fri, 11 Sep 2026
+ 02:09:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260910-unique-ref-v21-0-e83257373062@kernel.org> <20260910-unique-ref-v21-5-e83257373062@kernel.org>
+In-Reply-To: <20260910-unique-ref-v21-5-e83257373062@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Fri, 11 Sep 2026 11:09:37 +0200
+X-Gm-Features: AcwNN1U8uQc4Zj212gVRashrRro-WErwh8uVMQ_MWKQsPaL29993fZfZR2Hn4U8
+Message-ID: <CAH5fLggBGvXayMT2QGo5JeQkYeJYc0L-348-kKLsBs_g45-fnQ@mail.gmail.com>
+Subject: Re: [PATCH v21 5/9] rust: Add missing SAFETY documentation for `ARef` example
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Oliver Mangold <oliver.mangold@pm.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 10 Sep 2026 23:54:22 -0500, Curtis Vogt wrote:
-> When I was using Windows I believe I observed a similiar behavior of
-> the system booting into a black screen and hanging. I remember this
-> occurring as far back as 2020 when I was using a 5700XT (RDNA1).
-> 
-> I'm willing to test on Windows again but I'll need to setup a Windows
-> system since I don't currently have one available.
+On Thu, Sep 10, 2026 at 11:02=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
+l.org> wrote:
+>
+> From: Oliver Mangold <oliver.mangold@pm.me>
+>
+> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
+>
+> Link: https://github.com/Rust-for-Linux/linux/issues/351
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Assisted-by: LLM
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-It's not extremely important, I frankly asked this question because
-I didn't expect problems on Windows. I assumed it would be either:
-
-1. Obviously, Windows resets this device every time when XYZ, therefore
-   Linux can just reset it the same, problem solved.
-2. Windows doesn't reset anything and doesn't have any issues, clearly
-   Linux is broken, maybe somebody will finally bother to bisect it.
-
-IDK if anything useful can be learned from seeing that Windows fails.
-
-Regards,
-Michal
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
