@@ -1,257 +1,271 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D15382F03
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 18:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C26409277
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 19:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789152352; cv=none; b=axlsrWP50z5DPAyKh0SMoBCREBR15On8P4gPpX27xfnstwU+3qTfgiUk12+31u2yJOYiOStG3k0scERvpP+T6/KvUb4qDY06EZ1ML91NdJoAMj3LiEoBjIKNlwa10uKjQg22rzqyiUE0n1h5NvR9G188Bi9Xl8TPFcrkgW9QiLk=
+	t=1789154563; cv=none; b=BXwVBE9qk5S1HIqvuR0Lsikk3qYZCJcUcAB7MjBRGecUFanvvIMwRnvGr770AjBYuoCe+CioC18ES9Ccud+1M0N198Dwfu19LlRTywEEr3fTwkdqLSQ3lLYNhTb4uodGwvPgABu1JcON699VS7zMi152kCSEoFjJDObsxZGpA/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789152352; c=relaxed/simple;
-	bh=KZBgDGRxGD+j6ftPqKXcyk3g8eUzSym0VpRFCg4HP20=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gD7SB1mva9AhB6jKhiVPEYbeFElByNEqvHn8OjBNTQI8JJJZzcq4nMVKvRl1KKiMjHDB5sb4vr4tE6k3kf7hgc/zooBTt9aRdrE6yxB0tITJJf8snwnjrtmTRha2/M1ajQcTx0Gt9XAwzSz0TCRiDsXwvJk50XXHGoT8p9+SNJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IO3NaHV1; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789154563; c=relaxed/simple;
+	bh=SjqVUcClyaoSghgoqURaG31bIRC48pa5N+lDRfufibY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttjWmS3LqaCaeoVzb49KbGgvUXaH3wdSGu2QjE7x6atrSBuHEihRdxvFp6N97phj5MYkAvju96nzK03DneRFMwMjdvvJ9zK0C2hMy2Q4p0HWolv1pttP4th3EGnFiqsuvrz90e/OT5PzDfvw2NcAYzbjfq69w6mVh+9wCWcmHVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Uq7oAbAX; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IO3NaHV1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789152351; x=1820688351;
-  h=date:from:to:cc:subject:message-id;
-  bh=KZBgDGRxGD+j6ftPqKXcyk3g8eUzSym0VpRFCg4HP20=;
-  b=IO3NaHV1GvGvrAnGoVgUdUVVPlYwacg+BjY2Lc10gbrs1XnuM1clAnBH
-   h9z6FpERdAt++zPkaTz/f5gpnEcUgVklkF/jstdCU33oiS62bFv3Acs6/
-   R16kDyCBhywqWmGdQdQeefM3Ss/+yZo0ii1iHuIQz1/UnJ6auZTxv5d42
-   a7qCpqXasoep3ICwci/SnxWLr6iCBp3PqgD0nxBI/QCqSAhte2sDUuk9g
-   ArUVuMt9MD1B+c0Z/UVuofMeu4wAHpf+bDjwj9KcfBBIPK4Jt4S9LMFsY
-   H96DjYbhxctXvZYjA7s8c1ZZ+kYElFGDyEfcnUJeedNcG7it79mUIpXfE
-   A==;
-X-CSE-ConnectionGUID: ++1W+gpUTwe8ZProJUcOeQ==
-X-CSE-MsgGUID: 2dzMqmrQR2GntOmQwHRkaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89496964"
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="89496964"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 11:45:48 -0700
-X-CSE-ConnectionGUID: mggYe8oZR1K/7t4edSsmQQ==
-X-CSE-MsgGUID: SVPrr4wITaqBqdTkxi3wfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="270614276"
-Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 11 Sep 2026 11:45:47 -0700
-Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x56Ff-000000001xL-1ybY;
-	Fri, 11 Sep 2026 18:45:34 +0000
-Date: Sat, 12 Sep 2026 02:40:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- ed2050bc671b44b2c948dbd4347cc534d44ccc9f
-Message-ID: <202609120214.A0vnqXsL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Uq7oAbAX"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-92ed3993c1eso91186285a.1
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 12:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1789154549; x=1789759349; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=M0EoHccTp+TMQFIefzO5qRUOI8W90Xabolm9/fCqvXs=;
+        b=Uq7oAbAXxujpk9ulKRMdcpWzowK6TtzkwT/z2lCZdUApoWnYA2+1KbxIOUDZLkgYrR
+         15VJqOGfNgm1+IPxHr3gh5/Qi7ml1ra7o1+3YyX1B5r/d3b/WIeQO6LHbhWUrKbNek/e
+         ntmYWHmWvIH0vFWWJHHv8lhNmS72tM6AGwK6gOzC2FldgYlblHPY2Txhp1Y3iHG1aQnE
+         m90ODbH0jL9jypD3hIdYXKxUqKgQdUgPTIL4BqI5L2c4TTAIijHQkzBCJ5Ch04cGNV3O
+         CkoADhB+AREKrQVZlm4Qs9IL0YY+BR1nR67NI5EPGUqaCLHuXmqq0Lgviw6+bQDIij0D
+         VRQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789154549; x=1789759349;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=M0EoHccTp+TMQFIefzO5qRUOI8W90Xabolm9/fCqvXs=;
+        b=PslawY1FynR9pEU3SwFogBH2PrVgFQxSj2z4ZxrkzluMnn4i/db2E/fUWUImXkqquE
+         /rZgHX6jry0HHqRpYC4ibxdZpjf0FAee6VPFUORlm+fPARU9OmcYjQYHQ68emfM77Cww
+         KbcViWyi70CsASEMA7qyACTduOHiNodHIZNYRxePFNumiANnjJ3a1zlG/6aShcZ5rUpp
+         C2ccPtLHedPJiHo/sWlwb2CnM/QrMOzhkx5wuQrjaaTqkUYSOuMi/8sdoFrKSJ8sgWte
+         1lorAyosrcweTH/EvCqI0liG7XeX28+lZT3lxRAW0KB5jVpIEK7iVc/spikT+vyZ7Snm
+         WHSw==
+X-Forwarded-Encrypted: i=1; AKwUvBxmn9RZxCv7Q5F2lslZEiGSkTe1nuMIuGkDID5oTGIIHNjhy0di/s7ONI0U1Kvy1nN22AnjES8lAzQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++l7IqIEq4qrp9tXflcXjVOacOAxY8ucvIHRK9zWCQ9KgKuvZG5c
+	NtasaKhNg+zdwTRE+fRSjbTytmv32jxvHz65TkCWfvQaxrU9hy0pNL0R7QNVjpm5Hw==
+X-Gm-Gg: AYBFou2/e2M8kWx+SEuXiL7d8DL9B+DJJZA+vkV5adNLnIeKdARyBv64pPryz+N96Do
+	d1x6qvDDslEBXGTqW1PvDEtUriFzLpsNznL4j6veqKKrBZD5s1zIoxa3CdACilajZViCfjg0HvS
+	IgRI3kOyfA4wfqiVBZ/Ls9chqclnhufEVXKybaizJhUs3LnIavfzLAuNwuiTlse02pKjVbzPtgZ
+	x2814I+IFrNJ8lHpi9S1yOVmIFamDFczmIJLw51sgLBDdIEKwX3KaNdJ9anM98SpJQoQ/8bc0+X
+	cazjQPmN7EQ5j/14gtjU3ru2IbEJoINI2l/Q61lcEFHFuLbXEZ0VnVDTgMxuAw028MnLtbblMoj
+	YBNqOcdt+pbbvCuK3cxuuxCNn2jG3QpXXQtfal7M5lXxc46SYpSR4H2I6cGfaC+UMDtSGq7xZcX
+	ieo/Bvs/Wka9dP0xUgV3ddMhNKZpNUatwmogjwXNkWyJWDsCGDmAeGibea44eFkcgndpRh4jFT
+X-Received: by 2002:a05:620a:7087:b0:939:15e:1a5 with SMTP id af79cd13be357-939ea24729bmr820094985a.35.1789154549125;
+        Fri, 11 Sep 2026 12:22:29 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-939e8080404sm312628785a.28.2026.09.11.12.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 12:22:27 -0700 (PDT)
+Date: Fri, 11 Sep 2026 15:22:24 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
+References: <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
+ <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
+ <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
+ <CAFmvuTXWxQJUZfAAC=vs5QM=myDLE-o0jZZ8OXdqiGioPkRwfA@mail.gmail.com>
+ <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
+ <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
+ <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
+ <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
+ <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
+ <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: ed2050bc671b44b2c948dbd4347cc534d44ccc9f  USB: Improve "New device found" printout message
+On Fri, Sep 11, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
+> Hi Alan,
+> 
+> Thank you for the questions. I reran the tests to distinguish the
+> request's endpoint-queue state from the callback's execution state, and
+> the unbind flush from workqueue destruction during module cleanup.
+> 
+> > I didn't think this was possible.  gadgetfs_unbind() calls
+> > destroy_ep_files() before doing the flush, and destroy_ep_files() calls
+> > usb_ep_disable() for each active endpoint.  usb_ep_disable() doesn't
+> > return until the completion handlers for all the outstanding requests on
+> > the endpoint have finished.  This means no copy_work items should have
+> > been left to queue when the flush occurred.
+> 
+> With both patches applied, this ordering was possible in the dummy_hcd
+> test because the target request had already been removed from its
+> endpoint queue before ep_aio_complete() ran. When gadgetfs_unbind()
+> subsequently called destroy_ep_files(), dummy_disable() found the
+> endpoint queue empty. The request associated with the already-running
+> callback was no longer on that queue, so nuke() had no queued request to
+> give back and dummy_disable() returned while the callback was still held
+> at the gate. The unbind flush then returned before the callback queued
+> copy_work.
 
-elapsed time: 1550m
+Aha!  In other words, usb_ep_disable() doesn't guarantee that the 
+completion handlers for all outstanding requests on the endpoint have 
+finished -- it only guarantees that they have started.  That's an 
+important difference.  Guess I should update the documentation for 
+that routine.
 
-configs tested: 180
-configs skipped: 10
+> I confirmed this with markers recording the request and endpoint
+> pointers. The gate was inside ep_aio_complete(), after the request had
+> already been removed from its endpoint queue. It used a bounded,
+> non-sleeping loop. dummy_hcd had already released dum->lock before
+> calling usb_gadget_giveback_request().
+> 
+> In a control with the host-side transfer delayed, the request remained
+> queued when usb_ep_disable() began. dummy_disable() called nuke(), which
+> removed it and invoked its completion callback through
+> usb_gadget_giveback_request(). While I held the callback at entry,
+> neither usb_ep_disable() nor the ep0 close returned. After I released the
+> gate, the callback returned before usb_ep_disable() did, matching your
+> expectation for this pending-request case. The AIO request produced
+> exactly one completion with res=-ESHUTDOWN.
+> 
+> In a separate run with GadgetFS still mounted, the unbind flush and ep0
+> close returned while the callback was held before queuing copy_work. The
+> reproducer had no GadgetFS file descriptors left open in userspace, but
+> the module usage count was 2. rmmod was rejected because gadgetfs was in
+> use, and gadgetfs_cleanup() had not begun. After I released the callback
+> and the reproducer exited, the count was 1; subsequent unmount and rmmod
+> succeeded.
+> 
+> > What prevented rmmod from completing after iocb->ki_complete() had
+> > finished?  Was it waiting for the flush to finish?  If any additional
+> > work items were added to the queue after the flush started, they should
+> > not have blocked the flush.
+> 
+> In a separate worker-tail run using the same late-queueing ordering, the
+> unbind flush had already returned before the callback queued copy_work.
+> I then held the worker immediately after iocb->ki_complete() returned.
+> The module usage count was zero before rmmod started. When rmmod was
+> started, it waited in destroy_workqueue() during module cleanup, not in
+> the earlier unbind flush. The relevant part of the blocked rmmod task's
+> stack was:
+> 
+>     __flush_workqueue
+>     drain_workqueue
+>     destroy_workqueue
+>     gadgetfs_cleanup [gadgetfs]
+>     __do_sys_delete_module
+> 
+> The __flush_workqueue frame came from drain_workqueue(), which was
+> called by destroy_workqueue(). Thus, the late copy_work did not block
+> the earlier flush_workqueue() in gadgetfs_unbind(); it was already
+> running when gadgetfs_cleanup() called destroy_workqueue(), and
+> drain_workqueue() waited for it instead. Markers confirmed that
+> destroy_workqueue() returned only after I released the worker, and rmmod
+> then completed successfully.
+> 
+> This is consistent with the entry-gated ep_unlink_worker result in my
+> previous message. In that test, unlink_work had already been queued
+> before the unbind flush began, so the flush and the ep0 close remained
+> blocked until I released the worker. In the late-queueing run above,
+> copy_work was not queued until after the unbind flush had returned. A
+> separate control with copy_work queued before the flush likewise kept
+> the unbind flush and the ep0 close blocked until I released the worker.
+> 
+> Thank you for asking me to check this more closely.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+These results explain a lot.  They mean that flushing the workqueue in 
+gadgetfs_unbind() not only doesn't do what we want, it also isn't 
+necessary -- because destroy_workqueue() will automatically do a flush 
+for us.
 
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-alpha                               defconfig    gcc-16.1.0
-arc                              allmodconfig    clang-24
-arc                               allnoconfig    gcc-16.1.0
-arc                                 defconfig    gcc-16.1.0
-arc                   randconfig-001-20260911    clang-24
-arc                   randconfig-002-20260911    clang-24
-arm                               allnoconfig    clang-17
-arm                               allnoconfig    gcc-16.1.0
-arm                              allyesconfig    clang-24
-arm                                 defconfig    gcc-16.1.0
-arm                   randconfig-001-20260911    clang-24
-arm                   randconfig-002-20260911    clang-24
-arm                   randconfig-003-20260911    clang-24
-arm                   randconfig-004-20260911    clang-24
-arm                           sama5_defconfig    gcc-16.1.0
-arm64                             allnoconfig    gcc-16.1.0
-arm64                               defconfig    gcc-16.1.0
-arm64                 randconfig-001-20260911    gcc-16.1.0
-arm64                 randconfig-002-20260911    gcc-16.1.0
-arm64                 randconfig-003-20260911    gcc-16.1.0
-arm64                 randconfig-004-20260911    gcc-16.1.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                                defconfig    gcc-16.1.0
-csky                  randconfig-001-20260911    gcc-16.1.0
-csky                  randconfig-002-20260911    gcc-16.1.0
-hexagon                           allnoconfig    clang-24
-hexagon                           allnoconfig    gcc-16.1.0
-hexagon                             defconfig    gcc-16.1.0
-hexagon               randconfig-001-20260911    gcc-12.5.0
-hexagon               randconfig-001-20260912    clang-24
-hexagon               randconfig-002-20260911    gcc-12.5.0
-hexagon               randconfig-002-20260912    clang-24
-i386                             allmodconfig    clang-22
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-16.1.0
-i386                             allyesconfig    clang-22
-i386        buildonly-randconfig-001-20260911    clang-22
-i386        buildonly-randconfig-002-20260911    clang-22
-i386        buildonly-randconfig-003-20260911    clang-22
-i386        buildonly-randconfig-004-20260911    clang-22
-i386        buildonly-randconfig-005-20260911    clang-22
-i386        buildonly-randconfig-006-20260911    clang-22
-i386                                defconfig    gcc-16.1.0
-i386                  randconfig-001-20260911    clang-22
-i386                  randconfig-002-20260911    clang-22
-i386                  randconfig-003-20260911    clang-22
-i386                  randconfig-004-20260911    clang-22
-i386                  randconfig-005-20260911    clang-22
-i386                  randconfig-006-20260911    clang-22
-i386                  randconfig-007-20260911    clang-22
-i386                  randconfig-011-20260911    clang-22
-i386                  randconfig-012-20260911    clang-22
-i386                  randconfig-013-20260911    clang-22
-i386                  randconfig-014-20260911    clang-22
-i386                  randconfig-015-20260911    clang-22
-i386                  randconfig-016-20260911    clang-22
-i386                  randconfig-017-20260911    clang-22
-loongarch                         allnoconfig    clang-20
-loongarch                         allnoconfig    gcc-16.1.0
-loongarch                           defconfig    clang-24
-loongarch             randconfig-001-20260911    gcc-12.5.0
-loongarch             randconfig-001-20260912    clang-24
-loongarch             randconfig-002-20260911    gcc-12.5.0
-loongarch             randconfig-002-20260912    clang-24
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    clang-24
-m68k                                defconfig    clang-24
-m68k                       m5249evb_defconfig    gcc-16.1.0
-m68k                       m5275evb_defconfig    gcc-16.1.0
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    clang-24
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-nios2                            allmodconfig    clang-20
-nios2                             allnoconfig    clang-24
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-24
-nios2                 randconfig-001-20260911    gcc-12.5.0
-nios2                 randconfig-001-20260912    clang-24
-nios2                 randconfig-002-20260911    gcc-12.5.0
-nios2                 randconfig-002-20260912    clang-24
-openrisc                         allmodconfig    clang-20
-openrisc                          allnoconfig    clang-24
-openrisc                          allnoconfig    gcc-16.1.0
-openrisc                            defconfig    gcc-16.1.0
-parisc                            allnoconfig    clang-24
-parisc                            allnoconfig    gcc-16.1.0
-parisc                           allyesconfig    gcc-16.1.0
-parisc                              defconfig    gcc-16.1.0
-parisc                randconfig-001-20260911    gcc-8.5.0
-parisc                randconfig-002-20260911    gcc-8.5.0
-parisc64                            defconfig    clang-24
-powerpc                           allnoconfig    clang-24
-powerpc                           allnoconfig    gcc-16.1.0
-powerpc               randconfig-001-20260911    gcc-8.5.0
-powerpc               randconfig-002-20260911    gcc-8.5.0
-powerpc64             randconfig-001-20260911    gcc-8.5.0
-powerpc64             randconfig-002-20260911    gcc-8.5.0
-riscv                             allnoconfig    clang-24
-riscv                             allnoconfig    gcc-16.1.0
-riscv                            allyesconfig    clang-24
-riscv                               defconfig    gcc-16.1.0
-riscv                    nommu_k210_defconfig    gcc-16.1.0
-riscv                 randconfig-001-20260911    gcc-16.1.0
-riscv                 randconfig-002-20260911    gcc-16.1.0
-s390                              allnoconfig    clang-24
-s390                                defconfig    gcc-16.1.0
-s390                  randconfig-001-20260911    gcc-16.1.0
-s390                  randconfig-002-20260911    gcc-16.1.0
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    clang-24
-sh                                allnoconfig    gcc-16.1.0
-sh                               allyesconfig    gcc-16.1.0
-sh                        apsh4ad0a_defconfig    gcc-16.1.0
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260911    gcc-16.1.0
-sh                    randconfig-002-20260911    gcc-16.1.0
-sh                           se7619_defconfig    gcc-16.1.0
-sh                   sh7770_generic_defconfig    gcc-16.1.0
-sparc                             allnoconfig    clang-24
-sparc                             allnoconfig    gcc-16.1.0
-sparc                               defconfig    gcc-16.1.0
-sparc                 randconfig-001-20260911    gcc-13.4.0
-sparc                 randconfig-002-20260911    gcc-13.4.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260911    gcc-13.4.0
-sparc64               randconfig-002-20260911    gcc-13.4.0
-um                                allnoconfig    clang-17
-um                                allnoconfig    clang-24
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260911    gcc-13.4.0
-um                    randconfig-002-20260911    gcc-13.4.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-22
-x86_64                            allnoconfig    clang-22
-x86_64                            allnoconfig    clang-24
-x86_64                           allyesconfig    clang-22
-x86_64      buildonly-randconfig-001-20260911    gcc-14
-x86_64      buildonly-randconfig-002-20260911    gcc-14
-x86_64      buildonly-randconfig-003-20260911    gcc-14
-x86_64      buildonly-randconfig-004-20260911    gcc-14
-x86_64      buildonly-randconfig-005-20260911    gcc-14
-x86_64      buildonly-randconfig-006-20260911    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-22
-x86_64                randconfig-001-20260911    clang-22
-x86_64                randconfig-002-20260911    clang-22
-x86_64                randconfig-003-20260911    clang-22
-x86_64                randconfig-004-20260911    clang-22
-x86_64                randconfig-005-20260911    clang-22
-x86_64                randconfig-006-20260911    clang-22
-x86_64                randconfig-011-20260911    gcc-14
-x86_64                randconfig-012-20260911    gcc-14
-x86_64                randconfig-013-20260911    gcc-14
-x86_64                randconfig-014-20260911    gcc-14
-x86_64                randconfig-015-20260911    gcc-14
-x86_64                randconfig-016-20260911    gcc-14
-x86_64                randconfig-071-20260911    gcc-14
-x86_64                randconfig-072-20260911    gcc-14
-x86_64                randconfig-073-20260911    gcc-14
-x86_64                randconfig-074-20260911    gcc-14
-x86_64                randconfig-075-20260911    gcc-14
-x86_64                randconfig-076-20260911    gcc-14
-x86_64                               rhel-9.4    clang-22
-x86_64                          rhel-9.4-func    clang-22
-x86_64                    rhel-9.4-kselftests    clang-22
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    clang-24
-xtensa                            allnoconfig    gcc-16.1.0
-xtensa                           allyesconfig    clang-20
-xtensa                generic_kc705_defconfig    gcc-16.1.0
-xtensa                randconfig-001-20260911    gcc-13.4.0
-xtensa                randconfig-002-20260911    gcc-13.4.0
+Also, it isn't really necessary to flush the workqueue when the user 
+program closes ep0 or unmounts the gadgetfs filesystem.  We merely have 
+to make sure that when the module is unloaded, no work items are running 
+or will be started.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Here's a revised version of the second patch, which omits the 
+flush_workqueue() call from gadgetfs_unbind().  I expect it will 
+eliminate the "module unloaded while work items are still running" 
+problem just as well as the original version did.
+
+Alan Stern
+
+
+
+Index: usb-devel/drivers/usb/gadget/legacy/inode.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
++++ usb-devel/drivers/usb/gadget/legacy/inode.c
+@@ -237,6 +237,7 @@ static const char *CHIP;
+ static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
+ 
+ static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
++static struct workqueue_struct *gadgetfs_wq;
+ 
+ /*----------------------------------------------------------------------*/
+ 
+@@ -514,9 +515,7 @@ static int ep_aio_cancel(struct kiocb *i
+ 		spin_unlock_irqrestore(&aio_lock, flags);
+ 		return 0;	/* ep_aio() will call us again if needed */
+ 	}
+-
+ 	priv->cancel_state = AIO_UNLINKING;
+-	spin_unlock_irqrestore(&aio_lock, flags);
+ 
+ 	/*
+ 	 * We are called with the aio core holding iocb's context lock.
+@@ -527,7 +526,9 @@ static int ep_aio_cancel(struct kiocb *i
+ 	 * For this reason, do the dequeue operation in a work routine.
+ 	 */
+ 	INIT_WORK(&priv->unlink_work, ep_unlink_worker);
+-	schedule_work(&priv->unlink_work);
++	queue_work(gadgetfs_wq, &priv->unlink_work);
++
++	spin_unlock_irqrestore(&aio_lock, flags);
+ 	return 0;
+ }
+ 
+@@ -597,7 +598,7 @@ static void ep_aio_complete(struct usb_e
+ 
+ 	if (new_req_state == AIO_COMPLETED) {
+ 		INIT_WORK(&priv->copy_work, ep_user_copy_worker);
+-		schedule_work(&priv->copy_work);
++		queue_work(gadgetfs_wq, &priv->copy_work);
+ 	}
+ 	if (cancel_state != AIO_UNLINKING) {
+ 		usb_ep_free_request(ep, req);
+@@ -2245,10 +2246,17 @@ static int __init gadgetfs_init (void)
+ {
+ 	int status;
+ 
++	gadgetfs_wq = alloc_workqueue("gadgetfs", WQ_PERCPU, 0);
++	if (!gadgetfs_wq)
++		return -ENOMEM;
++
+ 	status = register_filesystem (&gadgetfs_type);
+-	if (status == 0)
+-		pr_info ("%s: %s, version " DRIVER_VERSION "\n",
+-			shortname, driver_desc);
++	if (status) {
++		destroy_workqueue(gadgetfs_wq);
++		return status;
++	}
++
++	pr_info("%s: %s, version " DRIVER_VERSION "\n", shortname, driver_desc);
+ 	return status;
+ }
+ module_init (gadgetfs_init);
+@@ -2257,6 +2265,7 @@ static void __exit gadgetfs_cleanup (voi
+ {
+ 	pr_debug ("unregister %s\n", shortname);
+ 	unregister_filesystem (&gadgetfs_type);
++	destroy_workqueue(gadgetfs_wq);
+ }
+ module_exit (gadgetfs_cleanup);
+ 
+
