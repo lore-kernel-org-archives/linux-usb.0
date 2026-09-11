@@ -1,271 +1,108 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C26409277
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 19:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B14741B8E4
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 19:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789154563; cv=none; b=BXwVBE9qk5S1HIqvuR0Lsikk3qYZCJcUcAB7MjBRGecUFanvvIMwRnvGr770AjBYuoCe+CioC18ES9Ccud+1M0N198Dwfu19LlRTywEEr3fTwkdqLSQ3lLYNhTb4uodGwvPgABu1JcON699VS7zMi152kCSEoFjJDObsxZGpA/A=
+	t=1789155138; cv=none; b=e25p5lDBo8sy/1iyvbou1/6wLLxn1iO8Aq8IhS0Sze0GUyXe2dkNay9FK3ZlUvHGneWdVXZC614l4zTonIMBKo+FzXRL4YCBN020camK+OZwyGlaGzpXQQsg2eaityc193yBmLIFCZeMYDwwPvSRcAlC7OHTQL8xyn0KmLRUrRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789154563; c=relaxed/simple;
-	bh=SjqVUcClyaoSghgoqURaG31bIRC48pa5N+lDRfufibY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttjWmS3LqaCaeoVzb49KbGgvUXaH3wdSGu2QjE7x6atrSBuHEihRdxvFp6N97phj5MYkAvju96nzK03DneRFMwMjdvvJ9zK0C2hMy2Q4p0HWolv1pttP4th3EGnFiqsuvrz90e/OT5PzDfvw2NcAYzbjfq69w6mVh+9wCWcmHVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Uq7oAbAX; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1789155138; c=relaxed/simple;
+	bh=MWBKaKAgVwihCCWR2GGd8f0EU555UEzyDLj0NZKrvrM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=S+9FfG4oW8ice0YH82++zpJsjeQcaJffPh6C92yPZ+rQY7BlH7kKMGgyHDrLBKv0M5HgAXbxpR99HpW2JTT2CNgd/t2tetWMXlmGhgSK339nIClHbP9mn/4veoxPq3D4FPa2OhfuKko8L0l9CGpcw8VS8Ou0jDSPV4k4upA/gqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sfjaA5So; arc=none smtp.client-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Uq7oAbAX"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-92ed3993c1eso91186285a.1
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 12:22:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sfjaA5So"
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cc1eb205d31so1833849a12.2
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 12:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789154549; x=1789759349; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=M0EoHccTp+TMQFIefzO5qRUOI8W90Xabolm9/fCqvXs=;
-        b=Uq7oAbAXxujpk9ulKRMdcpWzowK6TtzkwT/z2lCZdUApoWnYA2+1KbxIOUDZLkgYrR
-         15VJqOGfNgm1+IPxHr3gh5/Qi7ml1ra7o1+3YyX1B5r/d3b/WIeQO6LHbhWUrKbNek/e
-         ntmYWHmWvIH0vFWWJHHv8lhNmS72tM6AGwK6gOzC2FldgYlblHPY2Txhp1Y3iHG1aQnE
-         m90ODbH0jL9jypD3hIdYXKxUqKgQdUgPTIL4BqI5L2c4TTAIijHQkzBCJ5Ch04cGNV3O
-         CkoADhB+AREKrQVZlm4Qs9IL0YY+BR1nR67NI5EPGUqaCLHuXmqq0Lgviw6+bQDIij0D
-         VRQg==
+        d=google.com; s=20251104; t=1789155130; x=1789759930; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=C3Sdr0xnGJhayX0+7SVudIOnTCNUYdJvqUT4sShaBGE=;
+        b=sfjaA5SookkJboucp7EfUVKtBXVPixlKaLXtH8oesjq5VjK9M4Px/9pNFUNbTd4siC
+         3ddgpjvLHZYmLEbo76r8dDRVdhey3Ej3Z1ejU1uN7wtRYvP4sfLWknMx1WBLZr5IcxjY
+         l/8TK/wEq5PhGuvg69HT/6tKzLtr99W84e7Sv97E3QlrxmVD5poeg8e7iWs5kh+cPzjs
+         liYtlIK66eO6fWhKHhLIjHxuPXHHMDrL6yaAWPij9IxrjzzDKTPqq2NweSW/vQ8iQ60R
+         UKbvE26RxK7ZrO1sh0RHFMUBHkH/s2p+30eBzy4dC0ogkHWH2j7GA4Fi9XBdg7zODl/7
+         /Vrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789154549; x=1789759349;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1789155130; x=1789759930;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=M0EoHccTp+TMQFIefzO5qRUOI8W90Xabolm9/fCqvXs=;
-        b=PslawY1FynR9pEU3SwFogBH2PrVgFQxSj2z4ZxrkzluMnn4i/db2E/fUWUImXkqquE
-         /rZgHX6jry0HHqRpYC4ibxdZpjf0FAee6VPFUORlm+fPARU9OmcYjQYHQ68emfM77Cww
-         KbcViWyi70CsASEMA7qyACTduOHiNodHIZNYRxePFNumiANnjJ3a1zlG/6aShcZ5rUpp
-         C2ccPtLHedPJiHo/sWlwb2CnM/QrMOzhkx5wuQrjaaTqkUYSOuMi/8sdoFrKSJ8sgWte
-         1lorAyosrcweTH/EvCqI0liG7XeX28+lZT3lxRAW0KB5jVpIEK7iVc/spikT+vyZ7Snm
-         WHSw==
-X-Forwarded-Encrypted: i=1; AKwUvBxmn9RZxCv7Q5F2lslZEiGSkTe1nuMIuGkDID5oTGIIHNjhy0di/s7ONI0U1Kvy1nN22AnjES8lAzQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++l7IqIEq4qrp9tXflcXjVOacOAxY8ucvIHRK9zWCQ9KgKuvZG5c
-	NtasaKhNg+zdwTRE+fRSjbTytmv32jxvHz65TkCWfvQaxrU9hy0pNL0R7QNVjpm5Hw==
-X-Gm-Gg: AYBFou2/e2M8kWx+SEuXiL7d8DL9B+DJJZA+vkV5adNLnIeKdARyBv64pPryz+N96Do
-	d1x6qvDDslEBXGTqW1PvDEtUriFzLpsNznL4j6veqKKrBZD5s1zIoxa3CdACilajZViCfjg0HvS
-	IgRI3kOyfA4wfqiVBZ/Ls9chqclnhufEVXKybaizJhUs3LnIavfzLAuNwuiTlse02pKjVbzPtgZ
-	x2814I+IFrNJ8lHpi9S1yOVmIFamDFczmIJLw51sgLBDdIEKwX3KaNdJ9anM98SpJQoQ/8bc0+X
-	cazjQPmN7EQ5j/14gtjU3ru2IbEJoINI2l/Q61lcEFHFuLbXEZ0VnVDTgMxuAw028MnLtbblMoj
-	YBNqOcdt+pbbvCuK3cxuuxCNn2jG3QpXXQtfal7M5lXxc46SYpSR4H2I6cGfaC+UMDtSGq7xZcX
-	ieo/Bvs/Wka9dP0xUgV3ddMhNKZpNUatwmogjwXNkWyJWDsCGDmAeGibea44eFkcgndpRh4jFT
-X-Received: by 2002:a05:620a:7087:b0:939:15e:1a5 with SMTP id af79cd13be357-939ea24729bmr820094985a.35.1789154549125;
-        Fri, 11 Sep 2026 12:22:29 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-939e8080404sm312628785a.28.2026.09.11.12.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 12:22:27 -0700 (PDT)
-Date: Fri, 11 Sep 2026 15:22:24 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
-References: <1b92cd86-fe64-43eb-9539-53a559cd14e3@rowland.harvard.edu>
- <CAFmvuTWw90k+Fvs5Ve=1nxCDSQrzH7rytY-3vjGwv=edQOCBPw@mail.gmail.com>
- <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
- <CAFmvuTXWxQJUZfAAC=vs5QM=myDLE-o0jZZ8OXdqiGioPkRwfA@mail.gmail.com>
- <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
- <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
- <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
- <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
- <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
- <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
+        bh=C3Sdr0xnGJhayX0+7SVudIOnTCNUYdJvqUT4sShaBGE=;
+        b=DZhBJtDPAYwgtlqWwQQLSpm2drxxI+a08ZE7OWPY9WTbezrydnk7t1Re5UUpAGvuWJ
+         RjJawN8WuizrebARMYtuA8OyhGf1yLT0hWiwcsNztTc4ICtvaAXEC/0JBdMgiNVrZV1i
+         afTgKnppJAa6Aj7ZDk0XelNnK5PGArnrVUy0xN57egQG63ajcRqxNmSnoGEmZyOK8V4I
+         KMPY5e2MXFQVJE4IQSDalffUJ/qhcrj2/80jUISlggOirmkopibyWJEAq7GU5zQPxmtB
+         uIqeNrLDjAKo37MU50jnMfNSbJpNPsK8rQtk0VYS/rHZd2gaIaghvpny14M/nkA6Y73L
+         vagQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxlxnGnop5qzdM0Jt1hpuAjdUadtPF8hLFhFCosmnAjmptxAS9CgHgfSk6/Ry1TteFL7NTfb8tf6/I=@vger.kernel.org
+X-Gm-Message-State: AFuF++nMjvvVP/jJb07G6H9lTh6WmPC/lzehC5rqgSvGSh+EAkjEXCMn
+	u5U9msUnw1MZ99PSq0JQmzO/MR0IU1cCMnzGpjrMv655WBwg4qtCMBH2WYjXEakx5FVHr+GHtQL
+	Z3OqvHA==
+X-Received: from dyaw18-n2.prod.google.com ([2002:a05:693c:4152:20b0:33b:a05e:d42e])
+ (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:329c:b0:3d3:afd9:6040
+ with SMTP id adf61e73a8af0-3daed3f044fmr10105464637.27.1789155130306; Fri, 11
+ Sep 2026 12:32:10 -0700 (PDT)
+Date: Fri, 11 Sep 2026 19:32:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.1007.g17ff1f9808-goog
+Message-ID: <20260911193208.410015-1-jthies@google.com>
+Subject: [PATCH] usb: typec: ucsi: displayport: Current CAM OOB index fixup
+From: Jameson Thies <jthies@google.com>
+To: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: bleung@chromium.org, gregkh@linuxfoundation.org, akuchynski@chromium.org, 
+	Jameson Thies <jthies@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 11, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
-> Hi Alan,
-> 
-> Thank you for the questions. I reran the tests to distinguish the
-> request's endpoint-queue state from the callback's execution state, and
-> the unbind flush from workqueue destruction during module cleanup.
-> 
-> > I didn't think this was possible.  gadgetfs_unbind() calls
-> > destroy_ep_files() before doing the flush, and destroy_ep_files() calls
-> > usb_ep_disable() for each active endpoint.  usb_ep_disable() doesn't
-> > return until the completion handlers for all the outstanding requests on
-> > the endpoint have finished.  This means no copy_work items should have
-> > been left to queue when the flush occurred.
-> 
-> With both patches applied, this ordering was possible in the dummy_hcd
-> test because the target request had already been removed from its
-> endpoint queue before ep_aio_complete() ran. When gadgetfs_unbind()
-> subsequently called destroy_ep_files(), dummy_disable() found the
-> endpoint queue empty. The request associated with the already-running
-> callback was no longer on that queue, so nuke() had no queued request to
-> give back and dummy_disable() returned while the callback was still held
-> at the gate. The unbind flush then returned before the callback queued
-> copy_work.
+Update ucsi_displayport_enter() to return invalid error when the PPM
+reports an current alternate mode greater than or equal to
+UCSI_MAX_ALTMODES. While here, remove 0xff current cam assignment on
+failed GET_CURRENT_CAM response.
 
-Aha!  In other words, usb_ep_disable() doesn't guarantee that the 
-completion handlers for all outstanding requests on the endpoint have 
-finished -- it only guarantees that they have started.  That's an 
-important difference.  Guess I should update the documentation for 
-that routine.
+Signed-off-by: Jameson Thies <jthies@google.com>
+---
+Original patch didn't incorporate reviewer feedback. This is a fixup
+to be amended to:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=04cec690b1fd9d1c4c314b91a10d8c68a3acfe18
 
-> I confirmed this with markers recording the request and endpoint
-> pointers. The gate was inside ep_aio_complete(), after the request had
-> already been removed from its endpoint queue. It used a bounded,
-> non-sleeping loop. dummy_hcd had already released dum->lock before
-> calling usb_gadget_giveback_request().
-> 
-> In a control with the host-side transfer delayed, the request remained
-> queued when usb_ep_disable() began. dummy_disable() called nuke(), which
-> removed it and invoked its completion callback through
-> usb_gadget_giveback_request(). While I held the callback at entry,
-> neither usb_ep_disable() nor the ep0 close returned. After I released the
-> gate, the callback returned before usb_ep_disable() did, matching your
-> expectation for this pending-request case. The AIO request produced
-> exactly one completion with res=-ESHUTDOWN.
-> 
-> In a separate run with GadgetFS still mounted, the unbind flush and ep0
-> close returned while the callback was held before queuing copy_work. The
-> reproducer had no GadgetFS file descriptors left open in userspace, but
-> the module usage count was 2. rmmod was rejected because gadgetfs was in
-> use, and gadgetfs_cleanup() had not begun. After I released the callback
-> and the reproducer exited, the count was 1; subsequent unmount and rmmod
-> succeeded.
-> 
-> > What prevented rmmod from completing after iocb->ki_complete() had
-> > finished?  Was it waiting for the flush to finish?  If any additional
-> > work items were added to the queue after the flush started, they should
-> > not have blocked the flush.
-> 
-> In a separate worker-tail run using the same late-queueing ordering, the
-> unbind flush had already returned before the callback queued copy_work.
-> I then held the worker immediately after iocb->ki_complete() returned.
-> The module usage count was zero before rmmod started. When rmmod was
-> started, it waited in destroy_workqueue() during module cleanup, not in
-> the earlier unbind flush. The relevant part of the blocked rmmod task's
-> stack was:
-> 
->     __flush_workqueue
->     drain_workqueue
->     destroy_workqueue
->     gadgetfs_cleanup [gadgetfs]
->     __do_sys_delete_module
-> 
-> The __flush_workqueue frame came from drain_workqueue(), which was
-> called by destroy_workqueue(). Thus, the late copy_work did not block
-> the earlier flush_workqueue() in gadgetfs_unbind(); it was already
-> running when gadgetfs_cleanup() called destroy_workqueue(), and
-> drain_workqueue() waited for it instead. Markers confirmed that
-> destroy_workqueue() returned only after I released the worker, and rmmod
-> then completed successfully.
-> 
-> This is consistent with the entry-gated ep_unlink_worker result in my
-> previous message. In that test, unlink_work had already been queued
-> before the unbind flush began, so the flush and the ep0 close remained
-> blocked until I released the worker. In the late-queueing run above,
-> copy_work was not queued until after the unbind flush had returned. A
-> separate control with copy_work queued before the flush likewise kept
-> the unbind flush and the ep0 close blocked until I released the worker.
-> 
-> Thank you for asking me to check this more closely.
+ drivers/usb/typec/ucsi/displayport.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-These results explain a lot.  They mean that flushing the workqueue in 
-gadgetfs_unbind() not only doesn't do what we want, it also isn't 
-necessary -- because destroy_workqueue() will automatically do a flush 
-for us.
-
-Also, it isn't really necessary to flush the workqueue when the user 
-program closes ep0 or unmounts the gadgetfs filesystem.  We merely have 
-to make sure that when the module is unloaded, no work items are running 
-or will be started.
-
-Here's a revised version of the second patch, which omits the 
-flush_workqueue() call from gadgetfs_unbind().  I expect it will 
-eliminate the "module unloaded while work items are still running" 
-problem just as well as the original version did.
-
-Alan Stern
-
-
-
-Index: usb-devel/drivers/usb/gadget/legacy/inode.c
-===================================================================
---- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
-+++ usb-devel/drivers/usb/gadget/legacy/inode.c
-@@ -237,6 +237,7 @@ static const char *CHIP;
- static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
- 
- static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
-+static struct workqueue_struct *gadgetfs_wq;
- 
- /*----------------------------------------------------------------------*/
- 
-@@ -514,9 +515,7 @@ static int ep_aio_cancel(struct kiocb *i
- 		spin_unlock_irqrestore(&aio_lock, flags);
- 		return 0;	/* ep_aio() will call us again if needed */
+diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+index 8d2032d0762c..572da7bbd29c 100644
+--- a/drivers/usb/typec/ucsi/displayport.c
++++ b/drivers/usb/typec/ucsi/displayport.c
+@@ -71,11 +71,14 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
+ 	if (ret < 0) {
+ 		if (ucsi->version > 0x0100)
+ 			goto err_unlock;
+-		cur = 0xff;
  	}
--
- 	priv->cancel_state = AIO_UNLINKING;
--	spin_unlock_irqrestore(&aio_lock, flags);
  
- 	/*
- 	 * We are called with the aio core holding iocb's context lock.
-@@ -527,7 +526,9 @@ static int ep_aio_cancel(struct kiocb *i
- 	 * For this reason, do the dequeue operation in a work routine.
- 	 */
- 	INIT_WORK(&priv->unlink_work, ep_unlink_worker);
--	schedule_work(&priv->unlink_work);
-+	queue_work(gadgetfs_wq, &priv->unlink_work);
+-	if (cur < UCSI_MAX_ALTMODES) {
+-		ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
++	if (cur != 0xff) {
++		if (cur < UCSI_MAX_ALTMODES)
++			ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
++		else
++			ret = -EINVAL;
 +
-+	spin_unlock_irqrestore(&aio_lock, flags);
- 	return 0;
- }
- 
-@@ -597,7 +598,7 @@ static void ep_aio_complete(struct usb_e
- 
- 	if (new_req_state == AIO_COMPLETED) {
- 		INIT_WORK(&priv->copy_work, ep_user_copy_worker);
--		schedule_work(&priv->copy_work);
-+		queue_work(gadgetfs_wq, &priv->copy_work);
+ 		goto err_unlock;
  	}
- 	if (cancel_state != AIO_UNLINKING) {
- 		usb_ep_free_request(ep, req);
-@@ -2245,10 +2246,17 @@ static int __init gadgetfs_init (void)
- {
- 	int status;
  
-+	gadgetfs_wq = alloc_workqueue("gadgetfs", WQ_PERCPU, 0);
-+	if (!gadgetfs_wq)
-+		return -ENOMEM;
-+
- 	status = register_filesystem (&gadgetfs_type);
--	if (status == 0)
--		pr_info ("%s: %s, version " DRIVER_VERSION "\n",
--			shortname, driver_desc);
-+	if (status) {
-+		destroy_workqueue(gadgetfs_wq);
-+		return status;
-+	}
-+
-+	pr_info("%s: %s, version " DRIVER_VERSION "\n", shortname, driver_desc);
- 	return status;
- }
- module_init (gadgetfs_init);
-@@ -2257,6 +2265,7 @@ static void __exit gadgetfs_cleanup (voi
- {
- 	pr_debug ("unregister %s\n", shortname);
- 	unregister_filesystem (&gadgetfs_type);
-+	destroy_workqueue(gadgetfs_wq);
- }
- module_exit (gadgetfs_cleanup);
- 
+
+base-commit: ed2050bc671b44b2c948dbd4347cc534d44ccc9f
+-- 
+2.55.0.1007.g17ff1f9808-goog
 
