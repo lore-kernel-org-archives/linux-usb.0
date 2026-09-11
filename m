@@ -1,162 +1,258 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012058.outbound.protection.outlook.com [52.101.48.58])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7102445A29B;
-	Fri, 11 Sep 2026 07:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789113572; cv=fail; b=GqRPyiQnB/es6V21p7LedlO3FUjcrOEvH3MmPFkU6o+AheuwNtcHGtA1EtPa88+TkUwNPE48Vo7ujLjH3U0p/u+tcSGThp0vdN52IX5sImNTHPJENpCHrTvcb5lSspG9NS+vn8zNAJLDmi3xZyhFOdbnjKVENCwedyy0KvQvkG8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789113572; c=relaxed/simple;
-	bh=klhzcm68JxRt9kblDYpZEZYce+rIzaH7I4/xK5MfjXY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=k8s9Hc/KpOCWLWCY8ydAJrfAMFtt/cvx2+J4PpEa/s8hIq8IhR6iiGTs32pN08vuaGTlK2a3Ded5/XIJVgicnThSggelBfRwHO0Kjb55EIW7TqZyzD1hOSaMiQQjPvRc22ZeQ0fgAiVI2JRc4BD0zhtjM1h5Bca361WD4V/NM3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=jrFYWQLV; arc=fail smtp.client-ip=52.101.48.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A441F47010D
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 08:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789116317; cv=none; b=jyQQdRuOylqdOxAmfiKecCOJlGwx2XBfkfFlC0h3uHZycL8ijozXFPtRu/MqLecIRCGOfhP1BaDXAWRBgdux5wijtn4v6Ce2hh4tUcptUX0j4h4XM/h0RNU7hdC6b2e+DPVtFxGuEjprP073Qqu5j7jaT2qLmk+3Eol96wctNq0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789116317; c=relaxed/simple;
+	bh=CbvohmmfWuvyIvE0d9VWANni2cvOKKgt5xA335J7/AU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=BlP1s4sKH81IRIdYEKdXL9xwDVOSOZTCZxUMk4rFv1nQqsjQ9fXYp1abkqasp6z2wxow6poeOla4goWsKrBGvw609+LMfSvg7SirxLuXtUzLmRINIaW3R7psUm2pMBO3G4rq3ID1bwOKq/KXxzr0r7KFFOiFrIkY8WywgSF2MUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=nNOmUglg; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="jrFYWQLV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ffg+PJA2H92t/dRGT8ymoUwrh6awoZGWJHVOJWzHePpNP0IrBpr8gC6H4TudE9aPd7LrDucIu6KKL3PFgjcbQVWrCv/K1FtYvW2OBvAf2OEiUn9nNNduxWzErv3Ysh2AaqXcpkLAIMj5FCLEFOw/45lBjM4gLMbhUAwvSWWGKel9Ken9/qwEjmSQi4o2dcNBwr8vYFBQm0/e9YkR9aSDuBLqN7RepooigYLDWfThlAXV+ftiGdhlCmdPLlgVh+tldpxfFzk3qgskTexLYHKHbhW2GSZaOvqveGb5WsddVaOq5gF2sepfQ03wKARPRU7pCv5K4eTO2nL7/A/LXOk2HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=klhzcm68JxRt9kblDYpZEZYce+rIzaH7I4/xK5MfjXY=;
- b=DHMPRPqbTjlXfSXlM2xd3JLLzuiG7dvOl9/dmaOne5JED4h9F6hA4zILakmAzZP0qGDr8cnzzAl+wFJUCLysSociciEb6KiL1JAhOavn+uoA5KCTPdVSNWxgoGKQYXcXcyUSSZP8aDR/TYx+ezNT/ljWxDWXt4P0rAuVF6O0L5MDXRhHPawwkLqp1mIFBLGku8OoIUYsaoNvSWOlK4P3/rZeVDvVqBeJr3bJW6ZcF4+Ocb5Y7jbEqWSf0JFmUcn1WSG6q8Npj7YurzB7akB0RoPOXFfnCc3PF2DBPdWmwx62OpSUvDPsvCdp8wDotwuy1TlnNmHE6JP8ljR3GDKOWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=klhzcm68JxRt9kblDYpZEZYce+rIzaH7I4/xK5MfjXY=;
- b=jrFYWQLV9XEZvwNPsfLM1DB0BtSjm2eB/+iW/929rypxmTpD/MSWBtE9Nrrwfyg3A6UnlMZyHgvBFmJip4JzK6C6XZMawVd8AdBfMMG1q7TasuCYM0IJBFNnr65PlHse9UrkwQszUVsAKIvcIHa7aUEuxWgykig1fmeDfPmeIUiUr6GWd6UPhjHL6ix8+DB7EdH8KHS2KSF3K0pEpuX7zJ3VjngZRwbL5xUsdfvboJ5sfG3yn8/s2apJk5399GrT9Y7DIYbl+APP/5LRPob3LWSL8pK1mlBHzAupf3tkG3s6MeFDWi1w/owYXubmOJfF8hPPwcoI5pwc+bQgziPrmw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-Received: from DM8PR03MB6230.namprd03.prod.outlook.com (2603:10b6:8:3c::13) by
- EAYPR03MB989276.namprd03.prod.outlook.com (2603:10b6:303:2c9::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 11 Sep
- 2026 07:59:29 +0000
-Received: from DM8PR03MB6230.namprd03.prod.outlook.com
- ([fe80::abad:9d80:7a13:9542]) by DM8PR03MB6230.namprd03.prod.outlook.com
- ([fe80::abad:9d80:7a13:9542%3]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 07:59:29 +0000
-Message-ID: <cb2831d3-8c64-4de0-b61b-4ca5a25baa83@altera.com>
-Date: Fri, 11 Sep 2026 15:59:25 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] arm64: dts: intel: agilex5: remove usb0 in Agilex5
- SoCDK
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1788886615.git.adrian.ho.yin.ng@altera.com>
- <6c324c1953c6fb9e217e878bdd42c06bc4b6bceb.1788886615.git.adrian.ho.yin.ng@altera.com>
- <20260911-elephant-of-great-certainty-4e0bbf@quoll>
-Content-Language: en-US
-From: "NG, ADRIAN HO YIN" <adrian.ho.yin.ng@altera.com>
-In-Reply-To: <20260911-elephant-of-great-certainty-4e0bbf@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0016.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::21) To DM8PR03MB6230.namprd03.prod.outlook.com
- (2603:10b6:8:3c::13)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="nNOmUglg"
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260911084504epoutp04965eba0d402efc07e2abee9a5d1be205~UN8ymBe_d3038030380epoutp04i
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 08:45:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260911084504epoutp04965eba0d402efc07e2abee9a5d1be205~UN8ymBe_d3038030380epoutp04i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1789116304;
+	bh=kxHWEFK6LwdESOcR4h1nBkZJn58oMfECaIcdzF1zAQs=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=nNOmUglgfYIparfwCYe7fBRSVlC04rkHguj4b4qBaCuekZry+4hq3SKo0jQSmfwtJ
+	 xtKOofILW4Ktcr5PTBV1xWDz7O/pt6avnyrUM1ET6pqsL2EAYUwnxUdV2/MyAkMueR
+	 TZkLYA3CGNOhzzQI0Y2PIZlgraZgNxvHpIz2GKo8=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260911084503epcas5p3e856827347dd5fb83c687b8838c6f2a7~UN8yMn-nW1476114761epcas5p3E;
+	Fri, 11 Sep 2026 08:45:03 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4hh7Ql4M3xz2SSKr; Fri, 11 Sep
+	2026 08:45:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260911084154epcas5p35d2504edcb322593accc357b9161d7b7~UN6CaiYQ60442104421epcas5p3c;
+	Fri, 11 Sep 2026 08:41:54 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260911084153epsmtip175687bf91bdc8cb92432e9a7f939d8e9~UN6BAfIUb3121631216epsmtip1H;
+	Fri, 11 Sep 2026 08:41:53 +0000 (GMT)
+Message-ID: <937773018.41789116303608.JavaMail.epsvc@epcpadp1new>
+Date: Fri, 11 Sep 2026 14:11:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM8PR03MB6230:EE_|EAYPR03MB989276:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b9a8638-4590-4891-3680-08df0fda9b78
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|366016|376014|1800799024|4143699003|10067099003|11063799006|56012099006|6133799003|55112099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	eaJ0D1pujN1J3zOg5so3a7qw8b932gyX1EpZ2MllA6RJ0S8TnZ3Zy/khfF0do7CM+BZjU6YDYpAJNDU6hjCjvHgGKpqQPoj+6/8ioKxN7z5sb6n/etL3npKfFKO91i3F5DNqPINS+G05DFlYGw5aVhygNvRGhBKKwRg/48W92tC03b+6b1XhTzWZytuiPWgD8zdi9RfOtfAHKygqZsooevhg2hqCmZWmjVwrGTpR0vIoPDUyKV6p0KrbzYFQ2JcVZvFLO50qNdmhQzCZXxt2Vp9Pi9lhzMUd6rrcoWWDZnFVXE3h4AxaOTUicbSRRj2jbupDCOJQqQDxibVBebfCIQL0NKTxUS8mU2D2CAtXxW3Suog49yUycoFaK3iJusOR2Vznjf3+NF5ZDf9eWjtEOuHA8hBPcC6Df4pOYYhz8z/AUmXKoi3OI6XTcJ3WruMqqzLgQNOv0fXlyWiPZmkWSblp4pypczI15zc877H+vwKIqcwnnCJunqMIUI/yhRr3BcFfkXIZ3RWOq6eJbbBBU4XN+XS00wFagmudkeX9vLNxiU8ZpIlVluEelQm46U8tgHNj22KgL+KHW5m/rXfLqsw4oZ/8voIHH0NiHfGgPbDFTgSPw2aCxJyVi9mbb+D9MRdbfi9bx03T+qfTDwQcHw1hH3CrZuFma3uV0HJLYfo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR03MB6230.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(376014)(1800799024)(4143699003)(10067099003)(11063799006)(56012099006)(6133799003)(55112099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bGdoR1ZDREpTOUZwLzNYMjgzZmhhWXdUa0ZKQXVrYlMxeWx3NUNCMktUM09T?=
- =?utf-8?B?MDdBc0RmbndPQ3NvQ3VURlBwMlVnY09naElCdUtVQkxJeDJaVmpiVGNZRlV2?=
- =?utf-8?B?emc5WjltRFJyT08zcTdWSkRtMk9OSTR1SDJOWC83aTNiR1BpWlVrbW9WYTNs?=
- =?utf-8?B?V2FuUk5QSHZROFp1bEwzb2h5WnE3emxZZktWaFpJa2U0Umx2OGEwVDE5bkU1?=
- =?utf-8?B?bzRtL2VMcEU1SThVMVFLdXNTbUwxbEo0ZElGem93QmsvZ0FvWlk5U2x5Snh0?=
- =?utf-8?B?OEx1MmVJYkRTQjlldlhFMGlXeDRUUmY1T3dJWTA3ZmZuWFhBKzkzaEJoaER6?=
- =?utf-8?B?enZTekFOa3FHQUp1Z1VWVFBoSERjVXZTQXBIV1B6ak9iSFBZa1V6UDdGR2dY?=
- =?utf-8?B?aEl3MmZHSVNSa3lZRjNYcVhqTGN4YXBjckZkSGpEbzZWeUgxQk14Wkd3NTB4?=
- =?utf-8?B?Mlh1QVZZNjU2dUF4WkZlNnNPRHVBSFRsSHZRdFlaZGRJWWM4U2xWazFOSDZ3?=
- =?utf-8?B?cXhKdVBvSVUxYUhDSHF2Si9VZ2dXTDM5d3FqSTZCdVA4UHpyQ2tSZ2RCU2U4?=
- =?utf-8?B?MHdkdmhUd2gwWlFjQUhIcTJ6UGFSbERZWUpmRDgxRklhak94TFBiRFdWM0Zp?=
- =?utf-8?B?N1ZwL2RkWk1Rc1UxMUpOeE1KNHFNNDh0WkF3V0xRai9LYU5wLzhJREdGSENt?=
- =?utf-8?B?KzhoWE1jOEp4NXFkSjc1cVNEa0dJNS9YRllOWUZWMGpySDZFb2xXMlZ6d05K?=
- =?utf-8?B?eHA5S0lIZzRnb000VmJaa0laMU9hOHhrRnA0VUhCU1ZMUGIxTDlhVDNTK0pm?=
- =?utf-8?B?Z2xiMmhHTzBHV3dFaGJvb2pFMTBpRmw1bFFqeDZ3UkZEV2FGblFTeFphWVN6?=
- =?utf-8?B?c3RHT0szV29zRWlxYUFyOTQ3cTBPUDRJT0Z0aUZ4anJjaGgzWVpsT3c5UWZK?=
- =?utf-8?B?YjYyRnFQZDhxZGNkOWovdGdXTDgyQ1h2RGdzQUF6M21WaFVDUk1DRWZvZ3p0?=
- =?utf-8?B?T3NmczE3K2lWczN6MFhudWp3bFBnejRwUXhhSWRSRFJLZXpmSHFKeFFWc3BZ?=
- =?utf-8?B?aXMzRDN1Zm90Z2ExMVF2a0gxZTB1VDBseXBITkpHZHR5VmZFQWNRdG5GR1Yx?=
- =?utf-8?B?UVJtK01FUUtnUnptQkFhTzZHMVBaYy9SdVRrUnV3Q09xSm85WjVjWGJKVlBx?=
- =?utf-8?B?Nkl0VE96Z0ZGRnN2OVI3SWhLWmNaUGV5bUhyZ3B5aU5JUWpyNEJWVHowRG1P?=
- =?utf-8?B?NXF6T2hiMUp5ckFsdFVqS1NXMDZVVUJzR08yWFdlcVlxVnh1L043UkRuK05l?=
- =?utf-8?B?MVdkZWhQQnp5U01jRlBRNkRkcmpzaEpmeWpWRjR3KzE4NzFQbmY1WmpsYXN1?=
- =?utf-8?B?TzR0V2c3OE9VOFNPTUx1SXUyMlQ0bVpyM0JHNzB2RU9MMnF0M0xDbStieERD?=
- =?utf-8?B?OEtraWx5V1krcTFFZGlCL0tQb2xLOHJPbVhqN1FUOE9RS25sV1BveldvZitL?=
- =?utf-8?B?SFFwWWpaS0N5anZvSXRxWW0wQnNJZFBoZ2ZVUnJIY3MrZUxlelY1c2xORlNT?=
- =?utf-8?B?RWlOMWkwNTVVNDYyd2tZckppeEVpcytudFBnK2FXemNnMCtPMXMrUVRGb3VG?=
- =?utf-8?B?ODM5K0pyUy9CVHN0NCtVYlA4b0ZtR1NKbk9LQVY5UWhrekxPRi9ITUxqV3Fs?=
- =?utf-8?B?dnQ1VzhKMk1UcVY2N29UOGdqRllsZHArb1ZmRUw5WitQQjRyYnFoSFk0TU9F?=
- =?utf-8?B?dXo2NjVBeWpzcFF3Wmt1alF3WVB2RTR6WktUcEJpTXczT05sdGppNHk0MEVM?=
- =?utf-8?B?bnF3bXgrcmxMOEZtelZPL2RUem1ENXBjUW1YQ1Y2UHZiUExXdmJFRS9md3dT?=
- =?utf-8?B?OFZJTW5HdnVZSGFsbEM5Y0xjZzVBMXovbzByQ1dUWDVRSTYzUG9UbzVRME9C?=
- =?utf-8?B?U2QxVXhmdkZ5Z0hsK0F5RlovcVhlczRKRTRlVWVBMDZyRDVJejV5MEh4YlZD?=
- =?utf-8?B?UXM0akZsZnRmY3g2NVBlWStWL1NjNjBYRUgyT0VXQTloM0gzUlBUUmkvVkVF?=
- =?utf-8?B?K3p2TWZMaXlSZEgrSVFYMm9ySlFrRVRIR3VGS3cveDNaMGlzSE8vWm81WGpo?=
- =?utf-8?B?Y2VjQ2lDQTRmejVwcFk0c29tRzVsVnBnQjgwbit1eVEzWkxQdHdyWHYyS1NJ?=
- =?utf-8?B?RExiUm5sRk5Qc0ZBZXdQL0dRNHNNZXFlV1ZMQU1ZS1oydkoyU3lmd0dZYXdG?=
- =?utf-8?B?M1E2K1Qrbk1hSGxweTdIeThVL2dHZEdpNWdGQmtKS0E5elJBNEFnZEZTdStW?=
- =?utf-8?B?UytlS3NaY2VqTkpvOTc0WW10a2JSaWZnNUUvU21JWnBhUmp2TTh1bFl5Y2hu?=
- =?utf-8?Q?vIrYgg2v9bcfUerU=3D?=
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b9a8638-4590-4891-3680-08df0fda9b78
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR03MB6230.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 07:59:29.6983
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fs43P4egu1+Yin0O4lNannRQ7m2prc+HUebVqb30UhPfXxzCPMv7wyVZdYb/E3/PP8FSKp1t5CirsO1EdX6My1BQga/iTQMbaCsGnezkAoY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: EAYPR03MB989276
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBbUEFUQ0hdIHhoY2k6IHNpZGViYW5k?=
+ =?UTF-8?Q?=3A_check_vdev_liveness_before_removing_endpoints_on_unregister?=
+To: =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>, Mathias Nyman
+	<mathias.nyman@linux.intel.com>, Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "quic_wcheng@quicinc.com"
+	<quic_wcheng@quicinc.com>, "broonie@kernel.org" <broonie@kernel.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"cpgs@samsung.com" <cpgs@samsung.com>, "alim.akhtar@samsung.com"
+	<alim.akhtar@samsung.com>, "thiagu.r@samsung.com" <thiagu.r@samsung.com>
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <TYUPR06MB6217F0788C14DD89D237C807D2BE2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260911084154epcas5p35d2504edcb322593accc357b9161d7b7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260910101324epcas5p1faf6f82de85c9468f42f6f9b2f13e99b
+References: <TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com>
+	<CGME20260910101324epcas5p1faf6f82de85c9468f42f6f9b2f13e99b@epcas5p1.samsung.com>
+	<c17e0351-d390-4a40-89c4-51d4be9f0123@linux.intel.com>
+	<360067785.01789039502721.JavaMail.epsvc@epcpadp1new>
+	<TYUPR06MB62172308C897F81F7DAFF557D2BF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+	<750468423.101789103583573.JavaMail.epsvc@epcpadp2new>
+	<TYUPR06MB6217F0788C14DD89D237C807D2BE2@TYUPR06MB6217.apcprd06.prod.outlook.com>
 
 
-On 9/11/2026 3:22 PM, Krzysztof Kozlowski wrote:
-> On Wed, Sep 09, 2026 at 01:04:39AM +0800, Adrian Ng Ho Yin wrote:
->> The Agilex5 SoCDK daughter card only provides a USB3.1 interface (USB1).
->> USB0 is not connected or used on this board. Remove the USB0 node to avoid
->> unnecessary initialization and potential resource conflicts.
+On 9/11/2026 12:59 PM, 胡连勤 wrote:
+> Hi Selva,
+>
+>>>    drivers/usb/host/xhci-mem.c      |  8 ++++++++
+>>>    drivers/usb/host/xhci-sideband.c | 25 ++++++++++++++++++-------
+>>>    2 files changed, 26 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+>>> index af8d4b74c4ba..afdcfb38b35f 100644
+>>> --- a/drivers/usb/host/xhci-mem.c
+>>> +++ b/drivers/usb/host/xhci-mem.c
+>>> @@ -922,6 +922,14 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
+>>>    		dev->rhub_port->slot_id = 0;
+>>>    	if (xhci->devs[slot_id] == dev)
+>>>    		xhci->devs[slot_id] = NULL;
+>>> +
+>>> +	if (dev->sideband) {
+>>> +		xhci_dbg(xhci, "vdev for slot %d has sideband still set at free, clearing dangling pointer\n",
+>>> +			  slot_id);
+>>> +		dev->sideband->vdev = NULL;
+>> Thanks for your updated patch.
 >>
->> Signed-off-by: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
-> Same comments.
+>> Dont forget to add #include <linux/usb/xhci-sideband.h> in this
+>> xhci-mem.c file otherwise getting below error,
+>>
+>> drivers/usb/host/xhci-mem.c:928:30: error: invalid use of undefined type
+>> ‘struct xhci_sideband’
+>>       928 |                 dev->sideband->vdev = NULL;
+>>
+> Include the corresponding header file
+> #include <linux/dmapool.h>
+>   #include <linux/dma-mapping.h>
+>   #include <linux/bitfield.h>
+> +#include <linux/usb/xhci-sideband.h>
+>   
 >
-> Respond to the feedback or implement it.
+>>> +		dev->sideband = NULL;
+>>> +	}
+>>> +
+>>>    	kfree(dev);
+>>>    }
+>>>
+>>> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+>>> index a5deeee4d5dc..6312c9e3af65 100644
+>>> --- a/drivers/usb/host/xhci-sideband.c
+>>> +++ b/drivers/usb/host/xhci-sideband.c
+>>> @@ -472,12 +472,22 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
+>>>
+>>>    	scoped_guard(mutex, &sb->mutex) {
+>>>    		vdev = sb->vdev;
+>>> -		if (!vdev)
+>>> -			return;
+>>> -
+>>> -		for (i = 0; i < EP_CTX_PER_DEV; i++)
+>>> -			if (sb->eps[i])
+>>> -				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
+>>> +		/*
+>>> +		 * If vdev is NULL, xhci_free_virt_device() has already
+>>> +		 * cleared sb->vdev and freed vdev (e.g. on
+>>> +		 * COMP_USB_TRANSACTION_ERROR during address device
+>>> +		 * recovery). Skip endpoint cleanup as the xHC has already
+>>> +		 * disabled the slot.
+>>> +		 *
+>>> +		 * The interrupter and sideband instance are host-level
+>>> +		 * resources independent of vdev, so still remove and free
+>>> +		 * them to avoid leaks.
+>>> +		 */
+>>> +		if (vdev) {
+>>> +			for (i = 0; i < EP_CTX_PER_DEV; i++)
+>>> +				if (sb->eps[i])
+>>> +					__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
+>> I have one query on  skip endpoint cleanup due to  vdev is NULL, in this
+>> case the pointers in sb->eps are not cleared. Since these pointers point
+>> into the virtual device eps, any subsequent call to sideband API
+>> functions like xhci_sideband_get_endpoint_buffer() that dereference
+>> sb->eps could result in a use after free if the virtual device has been
+>> freed. Is it possible?
+> Yes, you're absolutely right. If sb->eps[] is not cleared when vdev
+> is NULL, subsequent calls to xhci_sideband_get_endpoint_buffer() or
+> similar API functions would dereference dangling pointers into the
+> freed vdev, resulting in use-after-free.
 >
-> NAK
-Acknowledged — dropping this from the USB series.
+> I added the else branch to clear sb->eps[]:
+>
+> 	} else {
+> 		for (i = 0; i < EP_CTX_PER_DEV; i++)
+> 			sb->eps[i] = NULL;
+> 	}
+>
+>
+> The complete code modification is as follows:
+> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+> index af8d4b74c4ba..448d28aaff3e 100644
+> --- a/drivers/usb/host/xhci-mem.c
+> +++ b/drivers/usb/host/xhci-mem.c
+> @@ -15,6 +15,7 @@
+>   #include <linux/dmapool.h>
+>   #include <linux/dma-mapping.h>
+>   #include <linux/bitfield.h>
+> +#include <linux/usb/xhci-sideband.h>
+>   
+>   #include "xhci.h"
+>   #include "xhci-trace.h"
+> @@ -922,6 +923,14 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
+>   		dev->rhub_port->slot_id = 0;
+>   	if (xhci->devs[slot_id] == dev)
+>   		xhci->devs[slot_id] = NULL;
+> +
+> +	if (dev->sideband) {
+> +		xhci_dbg(xhci, "vdev for slot %d has sideband still set at free, clearing dangling pointer\n",
+> +			 slot_id);
+> +		dev->sideband->vdev = NULL;
+> +		dev->sideband = NULL;
+> +	}
+> +
+>   	kfree(dev);
+>   }
+>   
+> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+> index a5deeee4d5dc..f979ce517163 100644
+> --- a/drivers/usb/host/xhci-sideband.c
+> +++ b/drivers/usb/host/xhci-sideband.c
+> @@ -472,12 +472,25 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
+>   
+>   	scoped_guard(mutex, &sb->mutex) {
+>   		vdev = sb->vdev;
+> -		if (!vdev)
+> -			return;
+> -
+> -		for (i = 0; i < EP_CTX_PER_DEV; i++)
+> -			if (sb->eps[i])
+> -				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
+> +		/*
+> +		 * If vdev is NULL, xhci_free_virt_device() has already
+> +		 * cleared sb->vdev and freed vdev (e.g. on
+> +		 * COMP_USB_TRANSACTION_ERROR during address device
+> +		 * recovery). Skip endpoint cleanup as the xHC has already
+> +		 * disabled the slot.
+> +		 *
+> +		 * The interrupter and sideband instance are host-level
+> +		 * resources independent of vdev, so still remove and free
+> +		 * them to avoid leaks.
+> +		 */
+> +		if (vdev) {
+> +			for (i = 0; i < EP_CTX_PER_DEV; i++)
+> +				if (sb->eps[i])
+> +					__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
+> +		} else {
+> +			for (i = 0; i < EP_CTX_PER_DEV; i++)
+> +				sb->eps[i] = NULL;
+> +		}
+>   
+>   		__xhci_sideband_remove_interrupter(sb);
+>   
+> @@ -486,7 +499,8 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
+>   
+>   	spin_lock_irq(&xhci->lock);
+>   	sb->xhci = NULL;
+> -	vdev->sideband = NULL;
+> +	if (vdev)
+> +		vdev->sideband = NULL;
+>   	spin_unlock_irq(&xhci->lock);
+>   
+>   	kfree(sb);
 
-USB0 removal stays with the separate arm64 DTS posting (SoC/board
-enablement), not with the USB bindings/driver patches.
+Looks good to me.
 
-Best regards,
-Adrian
+Thanks,
+Selva
+
+
 >
-> Best regards,
-> Krzysztof
+> Thanks
+> Lianqin
+
