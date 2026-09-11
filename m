@@ -1,383 +1,146 @@
-Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD4C356744
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 04:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4292A3590A9
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 05:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789102469; cv=none; b=pXrKS9c37xUzG7fNp9lVo9/mrpvfQQ9oEWLkS50ceVkSTHx005MJpkEyHSuygtVkMP9lHd5MyOXV7o/oGY8ifrWYkdik4LP/M0SluUpmiRUm6Y057gjUBR2SqrIB19mPP5g1zHdK7q9F8MCFNqFkKLx9gg6aMn5gpnidBNcFZik=
+	t=1789103467; cv=none; b=R39HCBWRgMk9jA1iSe5qvcWQ0uWGqyabIYvDw2ST7PNv1jt05HL7p8Ew7hQPpPeCRkhL57AwwjjBLJPlne3FM6zhnMeZbgQdq0k2gRspgZBRTE5+DIhjYYqZ0isn39S0Hp96h9jQBJp7cABlMdcOgnR0ZUUs9F/HRUaYX6X0gDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789102469; c=relaxed/simple;
-	bh=WY5bY4BH3alMkwZgCvPT8IWgmqIbk4E3qEmfdJU6RqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tb2m/kBL7QxxAXnkazISaIZauH4LxlAJveO/Jgnscq4U5Cnq6FjP8I58MlEVddWYYgJwpaNbD4b8ISNqxLFSwqS0qZkUyGM9980nK2zu22wJQfbt5sMyTUdD2tUwxmH00iURY6vd4tpUFilXae/h2/Qjlo7Jxz6bxySLK3ANjmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YD+Bn0vD; arc=none smtp.client-ip=74.125.231.205
+	s=arc-20240116; t=1789103467; c=relaxed/simple;
+	bh=op8zp3xtqZK1y+5EYbArVhH3q3yVDjwvN7ve9EQ2nqU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z2U5sJe7zvPrg7m2SNc2tKfn6marI3m5xOi3AibFTj7XoLdGZtz2nxNlPVaru/OvCKgAE1V6DuuIl1UIZgABfYD17bJN8Lr6YyNZOh+rBeMsTS4QhiRGIIcOZdUgGuMB5fAK3I0+9NsNJBUfDgIep16jHzkTzditRXnjsbwt6QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXFGsnZo; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YD+Bn0vD"
-Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4bf948737e1so461481b6e.2
-        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 21:54:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXFGsnZo"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2db858d60e0so4779055ad.0
+        for <linux-usb@vger.kernel.org>; Thu, 10 Sep 2026 22:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789102466; x=1789707266; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EvsmNcwc934PZgzPHOzcBHOJAVFXVErbLecWRacl4K0=;
-        b=YD+Bn0vDQrVV4QMaZcKLaLIRBZ9rpT9Wfy7guVQu+tt4sVQDc+h4xNFdiTZOlAgi9t
-         PWg3SXMKOJRJGPWJ6H2xoMaChtcnnVBJiv5UQ1D3y2Q38fx96z9S3oNLrRooPP23+1/V
-         7y665BfEfK6n1MyZG5wDVy2roz1H/p3kTomCQvg5PCQVR93dbAGvSUyGq8lXKeHDc67I
-         qWGKns1+yFZjQlots+uFjWR4+jlN/PkjTsj7pQEdbmBlhR6xwidxa0aewjZW2kEh8UoO
-         0+eiJtClTucRRWfjI6aX/dnbO7138cskaZ4pU3SKDHmTIgQg9riDdeyHo3HtDTJStDuQ
-         MMFw==
+        d=gmail.com; s=20251104; t=1789103465; x=1789708265; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yMlwh42zfWxw3I8aSGFHE6JsCvmUNQVYKp3fX73TBuY=;
+        b=mXFGsnZoJ0WTGKnPFuk31otCAjD/QZ4ATK6pZmuH03BBWYSE8ukDhIoKI+pxcsM7jo
+         yuA0KBDO+v23vqA2NQ6+83tjF1apnGZJSaJzxqMGmgi+aGxa6/42jOEjIzZgba60uY9C
+         9PCZdnegjcGp3Fy9hEG9BMXyKoIIUootyUf9d6YXvfusoWg6sD1cePqnO8Ltmcrx3o01
+         OA6H+oJVm6z9d/yzprDglOsQadYIovrKVuivaGkfqH4gZmPSlKEyQtlPWInTVIoLhVWg
+         Zcy3Wgk+XxYSBeleHMHlvHQ+qOBgNaDbj3drGXNIu21LIO8r+6drSmvoY7R6FyLLEP0o
+         l4aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789102466; x=1789707266;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EvsmNcwc934PZgzPHOzcBHOJAVFXVErbLecWRacl4K0=;
-        b=mxDyDYwGKmPyLnOmR2AirXRPXKGsYjLZTiays4AH8fFMXY3YhA8au5wcXRvjzvI04S
-         EffT8nKK6+or9mdCkVEVg649bJLHO9VqQt7M+BMfTMyEhpRnrMlUxPz/BHZad8d/O+Gh
-         0wwvvCKT/VQW753IdrFTY8vWxGPy/rDkQE7Ksz4IhXKGpolYCYbqwGNnyu0rv2czvoEh
-         waoOGeGDYuJuHuZP0zK1iqoEK2RS1CXJJMULf9M7jb9mXGkcxOfSSIREK89zAWBg7Wl/
-         hrfRIkR+PH6IUF2eikMNyXpsYsIufFYn7LsuZfZH6Vg+RmugYczXvaQVjytFtWLUR1a9
-         XTqw==
-X-Forwarded-Encrypted: i=1; AKwUvByBGTwQ0VcxcqURPiPcxM1r4s7wVm2jVWs1vc9oORYxyfC4W04I2+nJdX9D2Fzy6A1OVF2DCI8S2g4=@vger.kernel.org
-X-Gm-Message-State: AFuF++n0dC173Rdwbm823LEIpSRJIoLBMQ8DKlGHk/I/nthdotCKsTIs
-	LaIk5JVbeXtEuoDx40VO7a8woVPr3yz828fYkrsv2EG8UKoH+9lrEZfP
-X-Gm-Gg: AYBFou3iu3rKODwZk5ECNXwVuuo5lJBwzA915SI66nadaHtBjAzzlJ+CxohJEd5T8M5
-	TEuIZb7A79hIqGDnU1GRVsV7CZU2Dz/atUOq0lzkWX624ibLh71vfiihBjOt0ufWT14n7WPwLrV
-	7suQHVniERbbXw5VUJ0b+Yi4FQenPZuRjwOG/7QtDQoWb+XUn8Wkad6RFcUg/vMJkm/nCKLjK1M
-	CIH+c6DS3dO/reR71TRGvJ4d5kXiPr+VHp10RjRcvsyEXEnHcpZF4GsvDlUI0wMt7zLABDH7XFn
-	3x2yJ9zvceBQhz/rBKZ7qx5nQkOLq6GcUrgY5Rbm6ZZ3fMlcbSWqCSaoxu5ALHqc9Obfq4w7LUM
-	DfJ8FDmpkvd8sFRjcDPqMXFEe+yCBt3enUGhKoVvg/6V6DBs3OSBRmHQlDMCSKl4okxg8Qp5Qwx
-	JGMesXLAf89lRXw/fHWy9BJrJaLTbzcGQK2bWMP1yin+38var1IFz7J2gbE+5lnTyZqqwnW7p9L
-	dMRWmx6Dh3+IRurSsrHqvIV8zITww==
-X-Received: by 2002:a05:6808:6905:b0:4a3:fb6c:9adf with SMTP id 5614622812f47-4c31b6d0361mr3599265b6e.12.1789102465674;
-        Thu, 10 Sep 2026 21:54:25 -0700 (PDT)
-Received: from dhoja (S01067483c248479d.wp.shawcable.net. [50.72.244.202])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4c3314b5179sm1226015b6e.9.2026.09.10.21.54.24
+        d=1e100.net; s=20251104; t=1789103465; x=1789708265;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yMlwh42zfWxw3I8aSGFHE6JsCvmUNQVYKp3fX73TBuY=;
+        b=RbaHPc2rUEhcoHmZ03EPRtynQP1VEyyFU5iugIxrFhbB7DUc9Hj2X262cOUEOjafsN
+         9pMq8aSqwu3G+t40dqfRrpBxKptcwTZ99Qt8f2rVTTNR2U2x2fy/AwGtg637pEkeaQ4Q
+         MG3zx/C8bjaULZ8NWb5aSmTuQsW5ApCK0AiIuY+w9ndeKw1yb7a85tw1NdYkylfj83Zy
+         Pd3XxuwupmAUlPn37f6BUSZDFF19roL8TSTpjPx+bZmRBf9VJ7VEMgpnJpmh6t8T9ppG
+         CaPT3zvvV7ARGPgERhB+YFbh1IVshw2OzTNrQm9K7Dv3twMy3DYyLlfFxli5FY3gv0C7
+         Fftw==
+X-Forwarded-Encrypted: i=1; AKwUvByVi6tGt+MV0I2J3oNWzp6WTNrXZkBaIHyR6G4M89ufMOwDp3EqBBivBlCfWdXQMzlH2mr8Oqd1e5I=@vger.kernel.org
+X-Gm-Message-State: AFuF++nk8q+o0DEoPnFu4YXXw2ATmszpHsonpHLjn3C/ZfZ0af/SVjAs
+	bd8KDi8mqQGU5BbkT2rBZdJ94stK1MvpmiUIP9FBCIV2n9H/wZL/tsKxJ9hhVQ==
+X-Gm-Gg: AYBFou0t+R6OeET3v4C4ACqW+Ttk07Ttb0TKmw9+gyX5//Oeh66TdR0mKEabZzsiV0f
+	5kyYGqPJMZdyMZCM61h2rAuaIJSVf4AY37mIJ6DKziDsYP4/pNQ4NrngmQZYlh9OuNgqzmSf/M5
+	0FUUW1src6EWvK6SJsMl7Y71tw+uc+qmPecvC4szM1IL1x0KqoDDBrY1jqZn3LAqVM+B7nuejk6
+	X8dxJszFWBi99wA5VFL17r2zd1CbVmaZsFacV+rBLAnMnKfn3/17bfCkXR7eqadKOICdbe5cs+U
+	amfxRlzB5/mMqdciKS27438WtG0sWJ/0bmC5t+ef1pDXupY9tVqqbFu1Q9a2tuN3NgKYiG8NiFY
+	74p6VivVbvQphWmcbnXf3v1JEiOvR6spmqJ+SV14B+VLFeP5AEsXR8A9ZvWAmnpZLdhwk8X4PFO
+	ui3Jw7bA/IPbNqG5SNNp8NcgKSR3DB2cMcQknMybwLXHjiphxbjesDQW45ne2oGa60NdN+AYD3o
+	e2CksKOdqlvE4KSY5Th7Pln/mTeFd5azYwCnjdhnUeq+YTMbNAAZ3/avqjgdfed2KngFw8emDK1
+	mOC8Xdx5GmcA9xA=
+X-Received: by 2002:a17:90b:2641:b0:398:9bd1:3215 with SMTP id 98e67ed59e1d1-39d9c352a63mr4011103a91.22.1789103465343;
+        Thu, 10 Sep 2026 22:11:05 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d995a42a5sm2512810a91.17.2026.09.10.22.11.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 21:54:25 -0700 (PDT)
-Date: Thu, 10 Sep 2026 23:54:22 -0500
-From: Curtis Vogt <curtis.vogt@gmail.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
+        Thu, 10 Sep 2026 22:11:04 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Peter Chen <peter.chen@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 2/3] HID: valve-index: Reboot headset on system power
- transitions
-Message-ID: <aqOJfj79_NVkU6Db@dhoja>
-References: <20260910170254.833871-1-mario.limonciello@amd.com>
- <20260910170254.833871-3-mario.limonciello@amd.com>
- <20260910220421.40356e51.michal.pecio@gmail.com>
- <55918a70-72c9-4f55-934b-81a692d4619b@amd.com>
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-usb@vger.kernel.org
+Cc: Fabio Estevam <festevam@gmail.com>,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	Sashiko Bot <sashiko-bot@kernel.org>
+Subject: [PATCH v4] usb: chipidea: ci_hdrc_imx: Fix error handling when creating IRQ name
+Date: Fri, 11 Sep 2026 12:10:43 +0700
+Message-ID: <20260911051043.15962-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <55918a70-72c9-4f55-934b-81a692d4619b@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 10, 2026 at 03:43:18PM -0500, Mario Limonciello wrote:
-> 
-> 
-> On 9/10/26 15:04, Michal Pecio wrote:
-> > On Thu, 10 Sep 2026 12:02:53 -0500, Mario Limonciello wrote:
-> > > The Valve Index HMD stops serving its EDID after the host disables the
-> > > DisplayPort PHY.  The headset remains powered by its breakout box across
-> > > suspend and shutdown, so the bad state survives and the next connector
-> > > detection reports "No EDID read".  The HMD then appears as a synthesized
-> > > 640x480 display until it is power-cycled.
-> > > 
-> > > The 64-byte HID output report 0x16 with command 0x01 reboots the headset
-> > > and restores its EDID service.  Add a device-specific driver which sends
-> > > this report for system sleep transitions and orderly shutdown while leaving
-> > > runtime autosuspend alone.
-> > > 
-> > > Resume a runtime-suspended interface for a shutdown request and restrict
-> > > the command to the composite interface which declares report 0x16.
-> > > 
-> > > Closes: https://gitlab.freedesktop.org/drm/amd/-/work_items/4333
-> > 
-> > Hmm, people say it's a regression, so it looks like at least one
-> > alternative solution should, in theory, exist...
-> 
-> Right.  This bug sat for a very long time hoping someone with the hardware
-> would bisect and we could explain what changed.
-> 
-> My initial suspicion is timing.  But scouring the web you can see it happens
-> on NVIDIA hardware too.
-> 
-> https://forums.developer.nvidia.com/t/valve-index-initialized-in-unusable-state-on-boot/324710
-> 
-> So 'unlikely' that a DRM change caused it.  Maybe tied to the F/W version on
-> the Index and it got updated from initial report to failure?
-> 
-> I have no idea.  I don't have this hardware so I'm just trying to help these
-> people how I can :)
-> 
-> > 
-> > Obligatory question: does it work any better with Windows? :)
-> 
-> Curtis?
->
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-When I was using Windows I believe I observed a similiar behavior of the
-system booting into a black screen and hanging. I remember this
-occurring as far back as 2020 when I was using a 5700XT (RDNA1).
+devm_kasprintf() can fail when allocating the wakeup IRQ name. In this
+case, the probe error path should shut down the PHY before returning.
 
-I'm willing to test on Windows again but I'll need to setup a Windows
-system since I don't currently have one available.
+Use the phy_shutdown error path instead of err_clk so that the PHY is
+properly shut down when creating the IRQ name or requesting the wakeup
+IRQ fails.
 
-> > 
-> > > Link: https://github.com/ValveSoftware/SteamVR-for-Linux/issues/939
-> > > Assisted-by: LLM
-> > > Co-developed-by: Curtis Vogt <curtis.vogt@gmail.com>
-> > > Signed-off-by: Curtis Vogt <curtis.vogt@gmail.com>
-> > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> > > ---
-> > >   .../ABI/testing/sysfs-driver-hid-valve-index  |  12 ++
-> > >   drivers/hid/Kconfig                           |  11 ++
-> > >   drivers/hid/Makefile                          |   1 +
-> > >   drivers/hid/hid-ids.h                         |   1 +
-> > >   drivers/hid/hid-valve-index.c                 | 142 ++++++++++++++++++
-> > >   5 files changed, 167 insertions(+)
-> > >   create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-valve-index
-> > >   create mode 100644 drivers/hid/hid-valve-index.c
-> > > 
-> > > diff --git a/Documentation/ABI/testing/sysfs-driver-hid-valve-index b/Documentation/ABI/testing/sysfs-driver-hid-valve-index
-> > > new file mode 100644
-> > > index 0000000000000..47d8c26b1eace
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-driver-hid-valve-index
-> > > @@ -0,0 +1,12 @@
-> > > +What:		/sys/bus/hid/devices/<bus>:<vid>:<pid>.<n>/reboot
-> > > +Date:		October 2026
-> > > +Contact:	linux-input@vger.kernel.org
-> > > +Description:
-> > > +		Writing a boolean true value reboots the Valve Index headset to
-> > > +		recover its EDID service. Writing a boolean false value has no
-> > > +		effect. This file is write-only.
-> > > +
-> > > +		The Valve Index is a composite HID device. The reboot command is
-> > > +		only supported by the interface that provides the headset's 64-byte
-> > > +		output report. Writing true to this file on another interface fails
-> > > +		with -ENODEV.
-> > > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > > index a81bf51cbcf10..8ea2dd570058f 100644
-> > > --- a/drivers/hid/Kconfig
-> > > +++ b/drivers/hid/Kconfig
-> > > @@ -547,6 +547,17 @@ config HID_WALTOP
-> > >   	help
-> > >   	Support for Waltop tablets.
-> > > +config HID_VALVE_INDEX
-> > > +	tristate "Valve Index headset"
-> > > +	depends on USB_HID
-> > > +	help
-> > > +	  Support for the Valve Index headset. This driver works around the
-> > > +	  headset failing to provide its EDID after a DisplayPort link shutdown
-> > > +	  by rebooting the headset on resume from system suspend and at shutdown.
-> > > +
-> > > +	  To compile this driver as a module, choose M here: the module will be
-> > > +	  called hid-valve-index.
-> > > +
-> > >   config HID_VIEWSONIC
-> > >   	tristate "ViewSonic/Signotec"
-> > >   	help
-> > > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> > > index 48a863b245eed..21f512cab6250 100644
-> > > --- a/drivers/hid/Makefile
-> > > +++ b/drivers/hid/Makefile
-> > > @@ -156,6 +156,7 @@ obj-$(CONFIG_HID_XIAOMI)	+= hid-xiaomi.o
-> > >   obj-$(CONFIG_HID_XINMO)		+= hid-xinmo.o
-> > >   obj-$(CONFIG_HID_ZEROPLUS)	+= hid-zpff.o
-> > >   obj-$(CONFIG_HID_ZYDACRON)	+= hid-zydacron.o
-> > > +obj-$(CONFIG_HID_VALVE_INDEX)	+= hid-valve-index.o
-> > >   obj-$(CONFIG_HID_VIEWSONIC)	+= hid-viewsonic.o
-> > >   obj-$(CONFIG_HID_VRC2)		+= hid-vrc2.o
-> > >   obj-$(CONFIG_HID_HUAWEI)	+= hid-huawei.o
-> > > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> > > index b3aca5aa91767..15cd29a338a8d 100644
-> > > --- a/drivers/hid/hid-ids.h
-> > > +++ b/drivers/hid/hid-ids.h
-> > > @@ -1391,6 +1391,7 @@
-> > >   #define USB_DEVICE_ID_STEAM_CONTROLLER_IBEX_BLE	0x1303
-> > >   #define USB_DEVICE_ID_STEAM_CONTROLLER_PROTEUS	0x1304
-> > >   #define USB_DEVICE_ID_STEAM_CONTROLLER_NEREID	0x1305
-> > > +#define USB_DEVICE_ID_VALVE_INDEX_HEADSET	0x2300
-> > >   #define USB_VENDOR_ID_STEELSERIES	0x1038
-> > >   #define USB_DEVICE_ID_STEELSERIES_SRWS1	0x1410
-> > > diff --git a/drivers/hid/hid-valve-index.c b/drivers/hid/hid-valve-index.c
-> > > new file mode 100644
-> > > index 0000000000000..43c1142b7215b
-> > > --- /dev/null
-> > > +++ b/drivers/hid/hid-valve-index.c
-> > > @@ -0,0 +1,142 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > +/*
-> > > + * HID driver for the Valve Index headset
-> > > + */
-> > > +
-> > > +#include <linux/hid.h>
-> > > +#include <linux/module.h>
-> > > +
-> > > +#include "hid-ids.h"
-> > > +
-> > > +#define VALVE_INDEX_REBOOT_REPORT_ID	0x16
-> > > +#define VALVE_INDEX_REBOOT_CMD		0x01
-> > > +#define VALVE_INDEX_REPORT_SIZE		64
-> > > +
-> > > +static bool valve_index_has_reboot_report(struct hid_device *hdev)
-> > > +{
-> > > +	struct hid_report *report;
-> > > +
-> > > +	/*
-> > > +	 * The reboot command is a vendor protocol carried in the unnumbered
-> > > +	 * 64-byte output report of the headset's third interface; the first
-> > > +	 * data byte is the command id.  Report 0x16 is only declared as a
-> > > +	 * feature report and is not what the command is sent as.
-> > > +	 */
-> > > +	report = hdev->report_enum[HID_OUTPUT_REPORT].report_id_hash[0];
-> > > +
-> > > +	return report && hid_report_len(report) == VALVE_INDEX_REPORT_SIZE;
-> > > +}
-> > > +
-> > > +static void valve_index_reboot(struct hid_device *hdev, bool wake)
-> > > +{
-> > > +	u8 *report;
-> > > +	int ret;
-> > > +
-> > > +	if (!valve_index_has_reboot_report(hdev))
-> > > +		return;
-> > > +
-> > > +	/* USB transfer buffers must be DMA-able, so not on the stack. */
-> > > +	report = kzalloc(VALVE_INDEX_REPORT_SIZE, GFP_KERNEL);
-> > > +	if (!report)
-> > > +		return;
-> > > +	report[0] = VALVE_INDEX_REBOOT_REPORT_ID;
-> > > +	report[1] = VALVE_INDEX_REBOOT_CMD;
-> > > +
-> > > +	if (wake) {
-> > > +		ret = hid_hw_power(hdev, PM_HINT_FULLON);
-> > > +		if (ret < 0) {
-> > > +			hid_warn(hdev, "failed to resume headset for reboot: %d\n",
-> > > +				 ret);
-> > > +			goto out;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	/* Use the same interrupt-out then SET_REPORT fallback as hidraw. */
-> > > +	ret = hid_hw_output_report(hdev, report, VALVE_INDEX_REPORT_SIZE);
-> > > +	if (ret == -ENOSYS)
-> > > +		ret = hid_hw_raw_request(hdev, report[0], report,
-> > > +					 VALVE_INDEX_REPORT_SIZE,
-> > > +					 HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-> > > +	if (ret < 0)
-> > > +		hid_warn(hdev, "failed to reboot headset: %d\n", ret);
-> > > +	else if (ret != VALVE_INDEX_REPORT_SIZE)
-> > > +		hid_warn(hdev, "short headset reboot report: %d\n", ret);
-> > > +
-> > > +	if (wake)
-> > > +		hid_hw_power(hdev, PM_HINT_NORMAL);
-> > > +out:
-> > > +	kfree(report);
-> > > +}
-> > > +
-> > > +/*
-> > > + * The suspend and shutdown hooks only cover orderly power transitions.  After
-> > > + * a crash, a hard reset or a power cut the headset is left in the state where
-> > > + * its EDID no longer reads, and nothing recovers it until the next orderly
-> > > + * transition.  Expose the reboot command as a write-only "reboot" attribute
-> > > + * on the HID device so userspace can recover it, for instance from a udev
-> > > + * rule that fires only when the connector reports no EDID.  Writing to an
-> > > + * interface that does not carry the reboot report returns -ENODEV.
-> > > + */
-> > > +static ssize_t reboot_store(struct device *dev, struct device_attribute *attr,
-> > > +			    const char *buf, size_t count)
-> > > +{
-> > > +	struct hid_device *hdev = to_hid_device(dev);
-> > > +	bool val;
-> > > +
-> > > +	if (kstrtobool(buf, &val))
-> > > +		return -EINVAL;
-> > > +	if (!val)
-> > > +		return count;
-> > > +	if (!valve_index_has_reboot_report(hdev))
-> > > +		return -ENODEV;
-> > > +
-> > > +	valve_index_reboot(hdev, true);
-> > > +
-> > > +	return count;
-> > > +}
-> > > +static DEVICE_ATTR_WO(reboot);
-> > > +
-> > > +static struct attribute *valve_index_attrs[] = {
-> > > +	&dev_attr_reboot.attr,
-> > > +	NULL
-> > > +};
-> > > +ATTRIBUTE_GROUPS(valve_index);
-> > > +
-> > > +/*
-> > > + * The headset's EDID service is lost when the host disables the DisplayPort
-> > > + * PHY during system suspend, so it needs the reboot on the way out of
-> > > + * suspend.  Doing it on the way in does not work: the headset dropping off
-> > > + * USB is a remote-wakeup event from its hub and aborts the suspend.
-> > > + */
-> > 
-> > The internal hub which will be quirked by the next patch, or its parent?
-> 
-> It has to be the internal hub if quirking it works, no?
-> 
-> I guess it's easy to check this by looking up wakeup count from all the
-> applicable devices in sysfs while toggling the sysfs file introduced by this
-> patch?
-> 
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Acked-by: Peter Chen <peter.chen@kernel.org>
+Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
+Link: https://lore.kernel.org/all/20260806065755.C9F361F000E9@smtp.kernel.org/
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
 
-I can try to look into this.
+Link v2:
+https://lore.kernel.org/all/20260807065619.30604-2-phucduc.bui@gmail.com/
+Link v3:
+https://lore.kernel.org/all/20260810093112.47807-2-phucduc.bui@gmail.com/
 
-> > 
-> > > +static int valve_index_resume(struct hid_device *hdev)
-> > > +{
-> > > +	valve_index_reboot(hdev, false);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void valve_index_shutdown(struct hid_device *hdev)
-> > > +{
-> > > +	valve_index_reboot(hdev, true);
-> > > +}
-> > > +
-> > > +static const struct hid_device_id valve_index_devices[] = {
-> > > +	{ HID_USB_DEVICE(USB_VENDOR_ID_VALVE,
-> > > +			 USB_DEVICE_ID_VALVE_INDEX_HEADSET) },
-> > > +	{ }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(hid, valve_index_devices);
-> > > +
-> > > +static struct hid_driver valve_index_driver = {
-> > > +	.name = "valve-index",
-> > > +	.id_table = valve_index_devices,
-> > > +	.resume = valve_index_resume,
-> > > +	.reset_resume = valve_index_resume,
-> > > +	.shutdown = valve_index_shutdown,
-> > > +	.driver.dev_groups = valve_index_groups,
-> > > +};
-> > > +module_hid_driver(valve_index_driver);
-> > > +
-> > > +MODULE_AUTHOR("Mario Limonciello <mario.limonciello@amd.com>");
-> > > +MODULE_DESCRIPTION("HID driver for Valve Index headset");
-> > > +MODULE_LICENSE("GPL");
-> > > -- 
-> > > 2.43.0
-> > > 
-> 
+Changes in v3:
+ - Use the phy_shutdown label instead of err_clk as suggested by
+   Sashiko's review.
+ - Add Peter Chen's Acked-by tag.
+ - Add Frank Li's Reviewed-by tag.
+Changes in v4:
+ - Rebased on top of gregkh/usb-testing.
+ - The ret assignment for dev_err_probe() is already handled by
+   1db5c6b0b983 ("usb: chipidea: imx: fix missing ret assignment for
+   dev_err_probe").
+ - Keep this patch focused on the phy_shutdown error path.
+
+ drivers/usb/chipidea/ci_hdrc_imx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
+index 6a17b22047b3..edbf9df9b8f2 100644
+--- a/drivers/usb/chipidea/ci_hdrc_imx.c
++++ b/drivers/usb/chipidea/ci_hdrc_imx.c
+@@ -533,7 +533,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
+ 		irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", pdata.name);
+ 		if (!irq_name) {
+ 			ret = dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
+-			goto err_clk;
++			goto phy_shutdown;
+ 		}
+ 
+ 		ret = devm_request_threaded_irq(dev, data->wakeup_irq,
+@@ -541,7 +541,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
+ 						IRQF_ONESHOT | IRQF_NO_AUTOEN,
+ 						irq_name, data);
+ 		if (ret)
+-			goto err_clk;
++			goto phy_shutdown;
+ 	}
+ 
+ 	ret = imx_usbmisc_init(data->usbmisc_data);
+-- 
+2.43.0
+
