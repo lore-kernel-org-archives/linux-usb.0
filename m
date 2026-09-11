@@ -1,82 +1,82 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76FA45517B
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA0E455623
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789112079; cv=none; b=HzSnl2WVhSz2XQlbJ7qWxC5Cs/lseuOY9VaXI6Y+1peAwehpn4AQxAfoIW1CsDuW+ZFzmuzTutEUK07Sicq4IUb/83nXrI3qSgav6fJG15EsjW/CvPLr1Agj5K6INe9JpxK0pJk4dHCfH1VU0e/39/8oy99NAX6IwUe3/TDrxWs=
+	t=1789112086; cv=none; b=IZkvaYJ990sdttNdFqWF9PfIgxhhMvDz842hSSZSKMkWS6dJt630KpYZW4fmzT6UHEu/+054nl9LpQq53tkCBLv+U/GfDh/7hNzYoLHPS67l8XLH09JKSOhMtCeiU4mlJyZulXqJaNEv82+Uak6BrSR8XoplAzuQwPRiK8jk25s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789112079; c=relaxed/simple;
-	bh=dNlCiFXswF1Fr7PLA3aiv3UeITCFkH2J/BpCPdFze04=;
+	s=arc-20240116; t=1789112086; c=relaxed/simple;
+	bh=3LnQvNqZQtAvp9WnUb4/NIPWUGzliW1Fem44ssAi8l0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ozvz98HSbCWHQYaXVW/q62QILxZSOCFy1nrryRb5xJn94D0EfKOnJrLKondlufhmb7q1Xzy9vHZ+5rGpmemlS/LM6O1S9TyIE3XXgseUY2zgoe+nNu62yTcw3gQXF+wxxl8m4p2xQpFBfNogXujkugkMAU4KKTidf1b/ZUIZab4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aPbK9oO1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Sa8njN6n; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=Ll9G/fANxgCqXbnpVsBOIiBlcQP1YEf3IZlwYa+qP7qBIDfrKcEpxvAy4FcnUubGcl+PV9E5fm/wvc6H7bv9FzQbRc4aj/gSf8X75oPoKardfKg3um0DK3r1TOznHml4KB/kT680ruz3eAdIsTNQBW9YDXkHJmTfGpGbNf/CsAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e/7+dNlX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MosjIWGd; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aPbK9oO1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Sa8njN6n"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68B6kJGQ2175515
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:34:31 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e/7+dNlX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MosjIWGd"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68B6kEO2286268
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:34:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=vfNW1OxUfVz
-	0rEV2Xyz3S/A58KC8eNirMOoV11ylpYY=; b=aPbK9oO1d0Km4gxFf1hGuf0UYo0
-	0ct4QlfUk1t3Zk7zVYR67PehKlLuEWvoZwJYehxvtZygEuOd22Q8rgdrZ0Pvo82w
-	aXgDywtCT2WLMUANu09ydHXYmyPVBJQHTi/++cHG2sbU1JwovrsKcJ6bl+Vv24gk
-	k6w93oPMavVT7IZ1CS/u8QR+cE8bwdur94a4wxNeNWu0NV8ExV6V2zgMkfyqYOrO
-	wORPmFbTWmno08UK4d+SqgVx5xR6732bbSACfJBpU6CC+WR0AAff+xR5/c0+sjdC
-	3J0Ai1VLEUSImvztkW/CkoAs157nEx+0OH5YqmWcLjY+P/ah4J7S9U6iVtg==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gm7uch9jn-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=HF4QKyKT/Je
+	wEhpZBgJfZkbG4kIoIpYGSlO1FDEn/LE=; b=e/7+dNlXIbqKoYBVy1X9Z764qIK
+	Gp7RaxU8522b+PSpXMeUpglW/C5SEiHpy+aYOlnSjGaZmHj8Lps5O3TbtByeQqyA
+	61Q2yldVkC8viyYzy29NYh9PZtaAtxbkH+mQYAFqbTKWyWdH4zEMGnCAdBKZn6AF
+	H8yQBpyW+BO6Kh0g5gDvnEPYLnNWl2OidvQk61shcBkLpWyDZf6wcT6yjZ2SM42N
+	1cEcFbECSKxg0E+QsuNWHQqJrLMKdUMyc7n8+phT3saBBD+1zGlVjCqm5pzvBdC4
+	GLtGi30q55r/jce/PHAHCDnoL6G0QmksO/+MRoasUX+fBjWk8LdHoywxSfA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gmbf8gg8w-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:34:31 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38e7ff7b375so857428a91.1
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 00:34:31 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 07:34:36 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-39af92138f9so1244095a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 00:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789112071; x=1789716871; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1789112075; x=1789716875; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vfNW1OxUfVz0rEV2Xyz3S/A58KC8eNirMOoV11ylpYY=;
-        b=Sa8njN6nA/UDi/lGSZ8likoPm8QF2FVdiSzF8M713w7NR6Z6vaIWYUq55nCpIgGiOk
-         +beHy22NG9hWhTOPlTVdSxl9xt0hCQwMUqk84/hqyYnAAJgYqP6dMfs6i1RLDHuCJBp4
-         azOyAsYdBjIs23TeTw2yWgUU6ac4vgGcWDWb2UxeK1f0UpkfSDwVDMx94fUy9++MohXQ
-         iVMc67J8SKmIzMZAL8vMY77KPAta/sp70lax8cjtdv+eehelQPB/sF80hlZpiegAWw4K
-         ex0t7Z7LhjRthLRuX1LrOs1nQwY4w9FeHx037oDjQMwkHDPpB3qAAQMLxuiuwWj5aQGi
-         2b9Q==
+        bh=HF4QKyKT/JewEhpZBgJfZkbG4kIoIpYGSlO1FDEn/LE=;
+        b=MosjIWGdY8GfARVnddky/kkAa1H7iTf395GR+UVU0oe9dTXG3LPO+EIA1Z3lpcOG9G
+         U/LnxasMg3rtsSsd6+vHoHnvVLe87nXTF9EPgoUH35y3Pi6KqP39S8/a02c5mhx/fze3
+         ySS5OHEH56IjqVOLcL8Id66NYY9xrtAh8kMirRMvLr82sz5hAJxFBD5gQEmWt5HNJxvu
+         gcDFKqY7PZ/k+++dqjfZ5C5BGxiyS/gtHokMTclQZNriTA3rGaD5fL12lEKSz21C1LRX
+         cD/9f6lL+7oXp3W8MAWXx5RcP8A77MCGjTChrtI40/JIw0Ht5//e5/5NrGvSRataJlhP
+         SzLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789112071; x=1789716871;
+        d=1e100.net; s=20251104; t=1789112075; x=1789716875;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vfNW1OxUfVz0rEV2Xyz3S/A58KC8eNirMOoV11ylpYY=;
-        b=ocWbOL3vNxA8g66ES+dpY1WXHVsOOuWvBUbp+/MuxiOUNITsF4Z8n6TGWr4PjASJ3i
-         KAxVdjP/lg8oC94jOceJAlRvNV2FGfQt11tmobYA3MfIDvZ54SPxdhq+vwcrt1ZBVg7i
-         sHoHf+OUuD5Uwa79oYSfJDMxtGJxMph29Jg9KnpIR2M61IOL2dG4fWQhEIvPEw4B1y3M
-         6HWP9Jq/BXfMFF+Y2F0SxS23QIbm74UQao2j7LiX8rEgMj/Uqs5ZMNmDojZn8nrHEFkj
-         WvEgfh+oZH7aPgzLmD+9kmay+G60eU++Xx7H/0jPu6WnpuMCp61wiQtpuITyfQ/qG/Nf
-         S0TQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzH5/ySYwazoCbQ9nyemXHqwydswSusQzOn650X6BE2yW+kYJxsGxsUyuZYm7SleKAfLljaXIPWSIY=@vger.kernel.org
-X-Gm-Message-State: AFuF++k3Zxwi3bXDVdmiwDa4PRI9fo/xq1Nys7Wt6OUlnVYDlxixhiWi
-	aj6C6mFcPE59tXBq5BHrPmQGNdBn225QQzt7Qvnc2vWSw0QVQurJGLzayvWCiIG3F+quqRnPmAg
-	X2NyChRLyLEtiGltNHyXm+C8/xr0w6bxk3VwMePx0vnVEsoEPoLhPP81onu+aR3w=
-X-Gm-Gg: AYBFou1jjBdDRrA+qgEf4Ad9T2ud2tWAn76m712G4joNiPHoupWd8entEMKhaP0ctqW
-	zWjye/x8VDei9l+DFxWeKU1GIviwZKfiylI37WwHgSvdlkXCAnGb+Rlty/2Guobc8exj16VS4ey
-	pF/o3QR1Zszp6Ul6Yphddq/3URi5JSyw6yZhGewgmPemoQ1uPxpycOtfC8CzMbTNc8Wcou6U5uL
-	xVf7lWV56a5GeCMb2TiTSgnIcWaUxXPOJuWGIrIIMKhG5QAgcnxQIlkLXVCw8S83R1bQEBBEbBO
-	vtKqifvQacQBXVnjgdzZuIzPBnK1UMiJEwhLF2MMfpL+CX0JG25DAmAeutSwX0S63UHWtD2rGZ7
-	ORI0cAsBYsBK10kwh5V93wtaZPGG9o0RkKEYzA4fhmxi2aNKDMcA1nxs+v6Rk
-X-Received: by 2002:a17:90b:5605:b0:398:b17b:3bd2 with SMTP id 98e67ed59e1d1-39d9bbc9177mr4679374a91.4.1789112070400;
-        Fri, 11 Sep 2026 00:34:30 -0700 (PDT)
-X-Received: by 2002:a17:90b:5605:b0:398:b17b:3bd2 with SMTP id 98e67ed59e1d1-39d9bbc9177mr4679322a91.4.1789112069869;
-        Fri, 11 Sep 2026 00:34:29 -0700 (PDT)
+        bh=HF4QKyKT/JewEhpZBgJfZkbG4kIoIpYGSlO1FDEn/LE=;
+        b=odMGXWJGdhTYY1dCq9YO/bqlkYVXZzEjsv7CAkF9F5f+dJpc3QZY3DRjckbKAWHi5U
+         S+iE5nCHely+YCi7i89nrW/grU4G86lKt1nhUEWRvZYCV002GzhbyNNxa6u/t3LdP/OD
+         FB34yoM9kbOUxqM/gtzVgvz/lTH4dUPd408IqIz8GCkUmWuHsks3QpAOJKpH7mucga22
+         72rlvvFJTq8GLjL2ELv1jJuFNvAKEC24R28XGA5YzZkAlN2MyJSQ5jyTL491N+bTB1KD
+         Cblu0yziqFPaY8NRK0GWetdrt/almWNB9emrl7KUyyOMQtx3zTQgm6AL/NNf0j3JJ3gr
+         k1Xg==
+X-Forwarded-Encrypted: i=1; AKwUvBzdtmMDLXxTZlWOyGf3jOyhIu2PIgT+w8DbORhD/4bAetftiKxY0inV/nOd6zJB5lvgnKsJus/U+Kw=@vger.kernel.org
+X-Gm-Message-State: AFuF++kpWU9PSRY2rpbHRcZDR7HYNPeOAXyQfuuZuD7d5W6MEIgImh6+
+	OxktrTDFAHYplrNEnHCYGBcfz/9yOdEsG3UCWaBZS9FOww7gwQ9Jkb7NakpAzOkjgrpw0KYcgPL
+	wxpLzJXZjuot9zvy5bHlnXGMM9reGp4k3KCnm1mPg2iuFFgQb9CYD1HD+L0Y3oOQ=
+X-Gm-Gg: AYBFou25hWsJRcriLXjjQv5U7wW1LwblrX8ZXtc3gRjnpQHn8STe4KVdO/VxYDm5Vy9
+	nSBfhnv0PezJ4ALAie/QmBERSQLJZZZYOHOkcVptLdmNhgr7PkGfKiulJS9X8JhPnCh+bI0jckc
+	sfW8HO7YeOM1TVwq4QLHsOnHXXWiZ0/IHad6iSwLym9+I6ZfwmsKipI90LIm1+Oy0KrnroRUvKN
+	T0HJSi3MytQ/x2zCOSFjnblI/+ku81D+lMqmRlAFh1fk+APL7OjR6u2tv6jw2nnXyDqVdlyzUrz
+	g4UdybGuLmoe+EXSaXUsbcmz4Dt7W2sMAe/Nb5ESZkpKcHhNURw9daaWOgoSH12AUzdMYmueWSz
+	QmEFV4ES56pNQLPUYCt9/ec4HN9Bk5YIvn1NE0CdzBj7twdENT9qec6FV1hyt
+X-Received: by 2002:a17:90b:2d82:b0:398:9beb:a2be with SMTP id 98e67ed59e1d1-39d77d22aa2mr10616578a91.32.1789112075020;
+        Fri, 11 Sep 2026 00:34:35 -0700 (PDT)
+X-Received: by 2002:a17:90b:2d82:b0:398:9beb:a2be with SMTP id 98e67ed59e1d1-39d77d22aa2mr10616523a91.32.1789112074317;
+        Fri, 11 Sep 2026 00:34:34 -0700 (PDT)
 Received: from QCOM-aGQu4IUr3Y.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365ba729dsm6163058c88.14.2026.09.11.00.34.26
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365ba729dsm6163058c88.14.2026.09.11.00.34.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 00:34:29 -0700 (PDT)
+        Fri, 11 Sep 2026 00:34:33 -0700 (PDT)
 From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -89,10 +89,10 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Shawn Guo <shengchao.guo@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v2 RESEND 1/2] dt-bindings: usb: Add onsemi FUSB15201 Type-C and PD controller
-Date: Fri, 11 Sep 2026 15:34:13 +0800
-Message-ID: <20260911073414.16711-2-shengchao.guo@oss.qualcomm.com>
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2 RESEND 2/2] usb: typec: Add onsemi FUSB15201 driver
+Date: Fri, 11 Sep 2026 15:34:14 +0800
+Message-ID: <20260911073414.16711-3-shengchao.guo@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260911073414.16711-1-shengchao.guo@oss.qualcomm.com>
 References: <20260911073414.16711-1-shengchao.guo@oss.qualcomm.com>
@@ -103,208 +103,690 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=O4asLx9W c=1 sm=1 tr=0 ts=6aa3af07 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+X-Proofpoint-GUID: ymHVhTPUoMnKkVKc_r0ARC6hCsmunRc3
+X-Proofpoint-ORIG-GUID: ymHVhTPUoMnKkVKc_r0ARC6hCsmunRc3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTExMDEwNCBTYWx0ZWRfX1xhjCEbIaxSy
+ zd+i3iFV7tji31CA6lUUjHtNgA1qNvirtHYWmqiwWZEWULhUIQlQPzuKPicJlvpZqW6hJqtkSXr
+ 4fR0MFoxeXJ+J4tARQ3o16hDxlYYIaqonqDuzHsa9WpaIITIjePBai9UkhyFNP9AifcYJ883u+k
+ ZzedvtnySEnCoaLajRmaH9I1zHum8BbOmuMoptBodi0m+US2d6xg+n4qz5VAksaXxe5ywroyRgr
+ 6RQXfpcVL4dDPwjuriDkr4RORQBQaRmoAlsVTb3+CgK2Bhfsi1AyBS8nRZ94TQJrDr0Q4A94n5I
+ dJkr6z7CeRNN8I1Xy0eRs8ghLQrAQQuOBu0srPQpVfgPYVJ3Rta4eKb9AdRFlg5wNjx7TetLNq0
+ HSfOv7DauTPTFR7kjZesR27tPKgXvQH4KsP/wAXore57noNK/a8pqDX0f1J+czG+YHhqITjZB9h
+ rj77OClsH4e1IV9hrJw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTExMDEwNCBTYWx0ZWRfXxJUof0ZSRTOz
+ w4zCRSscHVtpxEdyo25jVsyQpwiYuGnuqBJf/xlTykF4K9ao4C+O1GoerIPgyRL9OUZ/q/EVy39
+ YXp0Z//BshIfp3zTniXg5ffJC1hmf6A=
+X-Authority-Analysis: v=2.4 cv=UJFIjyfy c=1 sm=1 tr=0 ts=6aa3af0c cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
  a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=gEfo2CItAAAA:8
- a=EUspDBNiAAAA:8 a=pw356RtDBc5WmomScbsA:9 a=iS9zxrgQBfv6-_F4QbHw:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTExMDEwNCBTYWx0ZWRfXwJLySJ1Gyv16
- 9NsSz7PsssuzJOUXoppb5cDIA4JQS7OxBhZmfOzuEZgJB3asI3nZFRWSOZ0bu9323cYZVsVqoWN
- wqMGcMWaa1h3Skg8MlZEg+Mj67IUW8x5jMrMo1WpBU0N0fQDge6O8kiahGuWcX3x8ivd3grMiEQ
- LdGfzCrcNFrYNx/VlRj3lmkShkqV6mIZroUwaRXXcPZCv7/4sahDzcOl/+5PNi/TaYdm/VRx9fq
- jnaP5fvbkK/D9+M3g+/FJ9QWrDcyQywxcKhc7OplK/Ce8X9jemAM/XV5UBFUlhegAW4M1k+meTF
- prgZANJdhbt1ELc5LHWNq0FAevb9fbc/HaWg+qswx8zcxCRJU3huzQKGca9LxO3m6UlNPXO2vnu
- CLI8runQbX83KkvGwsE1E/olH4BT1YtVlKwY6qhT8DaITob/YYWeHC9q/8hYsbiOLLeJbxtJZTV
- 0ejWJU9HEsNnCaFB9Ww==
-X-Proofpoint-GUID: M3WfovDtDScPjmXdJQITsZts6XyHwY-k
-X-Proofpoint-ORIG-GUID: M3WfovDtDScPjmXdJQITsZts6XyHwY-k
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTExMDEwNCBTYWx0ZWRfX4Zkk1p4I8UU4
- 6UPqblgc3EeLnmJA1CVdITqLXh4VkDfYPq/iO/6GJVPA8adqeLoSdn1L6KT1DaF0Orx0twzgQ5H
- SbGwBwX/bhqdAKHmNcAaxTRacxRzUFY=
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
+ a=-ozyDiMbBtCkaKFn3fsA:9 a=uKXjsCUrEbL0IQVhDsJ9:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-11_02,2026-09-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609110104
+ lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0 adultscore=0
+ malwarescore=0 suspectscore=0 impostorscore=0 clxscore=1015
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609110104
 
-The FUSB15201 is an autonomous dual-port USB Type-C and Power Delivery
-controller. It runs the Type-C state machine and the Power Delivery
-policy engine on an integrated microcontroller, and exposes only a
-status and command interface over I2C, so it is not a TCPC.
+The FUSB15201 is a dual-port USB Type-C and Power Delivery controller
+which runs the Type-C state machine and the PD policy engine on an
+integrated microcontroller. The host only observes the resulting state
+and may ask for role swaps, so this is a plain Type-C class driver
+rather than a TCPC driven by the Type-C Port Manager.
 
-Describe the two ports as addressed connector child nodes, so that a
-board which wires up only one of them can describe just that one.
+Register a Type-C port for each connector described in firmware, report
+attach and detach, orientation, power and data roles and the PD
+capability of the partner, and drive the USB role switch of the attached
+USB controller so that OTG role switching works. Data and power role
+swaps requested through sysfs are forwarded to the controller, which
+performs them asynchronously and reports the outcome as a port status
+interrupt.
+
+The controller exposes a per-port VBUS ADC reading, but the Type-C class
+has no VBUS attribute and nothing needs the value, so it is not read.
+PD messages, PDOs and alternate modes are not exposed by the hardware at
+all. The chip-wide MASTER_RESET command would drop both ports at once
+and has no caller, so it is left alone as well.
 
 Assisted-by: LLM
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
 ---
- .../bindings/usb/onnn,fusb15201.yaml          | 152 ++++++++++++++++++
- 1 file changed, 152 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/onnn,fusb15201.yaml
+ drivers/usb/typec/Kconfig     |  17 +
+ drivers/usb/typec/Makefile    |   1 +
+ drivers/usb/typec/fusb15201.c | 580 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 598 insertions(+)
+ create mode 100644 drivers/usb/typec/fusb15201.c
 
-diff --git a/Documentation/devicetree/bindings/usb/onnn,fusb15201.yaml b/Documentation/devicetree/bindings/usb/onnn,fusb15201.yaml
+diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+index 2f80c2792dbd..e21854cb89d4 100644
+--- a/drivers/usb/typec/Kconfig
++++ b/drivers/usb/typec/Kconfig
+@@ -64,6 +64,23 @@ config TYPEC_ANX7411
+ 	  If you choose to build this driver as a dynamically linked module, the
+ 	  module will be called anx7411.ko.
+ 
++config TYPEC_FUSB15201
++	tristate "onsemi FUSB15201 Type-C and Power Delivery controller driver"
++	depends on I2C
++	depends on USB_ROLE_SWITCH
++	select REGMAP_I2C
++	help
++	  Say Y or M here if your system has an onsemi FUSB15201 dual-port USB
++	  Type-C and Power Delivery controller.
++
++	  The FUSB15201 handles Type-C detection and Power Delivery negotiation
++	  autonomously. This driver reports the resulting state to the Type-C
++	  class, drives the USB role switch of the attached USB controller, and
++	  allows data and power role swaps to be requested.
++
++	  If you choose to build this driver as a dynamically linked module, the
++	  module will be called fusb15201.ko.
++
+ config TYPEC_RT1719
+ 	tristate "Richtek RT1719 Sink Only Type-C controller driver"
+ 	depends on USB_ROLE_SWITCH || !USB_ROLE_SWITCH
+diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+index 8a6a1c663eb6..9f3a156d9c9f 100644
+--- a/drivers/usb/typec/Makefile
++++ b/drivers/usb/typec/Makefile
+@@ -7,6 +7,7 @@ obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
+ obj-$(CONFIG_TYPEC_UCSI)	+= ucsi/
+ obj-$(CONFIG_TYPEC_TPS6598X)	+= tipd/
+ obj-$(CONFIG_TYPEC_ANX7411)	+= anx7411.o
++obj-$(CONFIG_TYPEC_FUSB15201)	+= fusb15201.o
+ obj-$(CONFIG_TYPEC_HD3SS3220)	+= hd3ss3220.o
+ obj-$(CONFIG_TYPEC_STUSB160X) 	+= stusb160x.o
+ obj-$(CONFIG_TYPEC_RT1719)	+= rt1719.o
+diff --git a/drivers/usb/typec/fusb15201.c b/drivers/usb/typec/fusb15201.c
 new file mode 100644
-index 000000000000..09f2e964d3ef
+index 000000000000..897b2fabc449
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/onnn,fusb15201.yaml
-@@ -0,0 +1,152 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/onnn,fusb15201.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/usb/typec/fusb15201.c
+@@ -0,0 +1,580 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ *
++ * Driver for the onsemi FUSB15201 dual-port USB Type-C and Power Delivery
++ * controller.
++ *
++ * The FUSB15201 runs the Type-C state machine and the Power Delivery policy
++ * engine on an integrated microcontroller. The host only observes the
++ * resulting state and may ask for role swaps, so this is a plain Type-C class
++ * driver rather than a TCPC on the Type-C Port Manager.
++ */
 +
-+title: onsemi FUSB15201 dual-port Type-C and Power Delivery controller
++#include <linux/bits.h>
++#include <linux/device.h>
++#include <linux/i2c.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/property.h>
++#include <linux/regmap.h>
++#include <linux/usb/role.h>
++#include <linux/usb/typec.h>
 +
-+maintainers:
-+  - Shawn Guo <shengchao.guo@oss.qualcomm.com>
++#define FUSB15201_NUM_PORTS		2
 +
-+description:
-+  The FUSB15201 is an autonomous dual-port USB Type-C and Power Delivery
-+  controller. It runs the Type-C state machine and the Power Delivery policy
-+  engine on an integrated microcontroller, so the host is not involved in
-+  Power Delivery messaging. Over I2C it reports the attach state, CC
-+  orientation, data and power roles, faults and the VBUS voltage of each of
-+  its two ports, and accepts commands to initiate data and power role swaps.
++#define FUSB15201_REG_VENDID		0x00
++#define FUSB15201_REG_PRODID		0x01
++#define FUSB15201_REG_DEVID		0x02
++#define FUSB15201_REG_HWVER		0x03
++#define FUSB15201_REG_FWVER		0x04
 +
-+  The two ports are described as connector child nodes, addressed 0 for port A
-+  and 1 for port B. A board that wires up only one of the two ports describes
-+  only the corresponding connector.
++#define FUSB15201_VENDID		0xaa
++#define FUSB15201_PRODID		0x65
++#define FUSB15201_DEVID			0x01
 +
-+properties:
-+  compatible:
-+    const: onnn,fusb15201
++/* Per-port status block, port A at 0x06 and port B at 0x0c */
++#define FUSB15201_PORT_BASE(p)		(0x06 + (p) * 0x06)
++#define FUSB15201_REG_STATUS(p)		(FUSB15201_PORT_BASE(p) + 0x02)
++#define FUSB15201_REG_RESET_STATUS(p)	(FUSB15201_PORT_BASE(p) + 0x03)
++#define FUSB15201_REG_FAULT_STATUS(p)	(FUSB15201_PORT_BASE(p) + 0x04)
 +
-+  reg:
-+    maxItems: 1
++#define FUSB15201_STATUS_ATTACHED	BIT(0)
++#define FUSB15201_STATUS_USBPD		BIT(1)
++#define FUSB15201_STATUS_CC2		BIT(2)
++#define FUSB15201_STATUS_DFP		BIT(3)
++#define FUSB15201_STATUS_SINK		BIT(4)
 +
-+  interrupts:
-+    maxItems: 1
-+    description:
-+      Interrupt line shared by both ports, driven by the I2C_INT pin. The pin
-+      is active low and stays asserted until every pending interrupt has been
-+      cleared, so it has to be described as level triggered.
++#define FUSB15201_RESET_ERR_RECOVERY	BIT(2)
 +
-+  '#address-cells':
-+    const: 1
++#define FUSB15201_FAULT_VBUS_OVP	BIT(0)
++#define FUSB15201_FAULT_OTP		BIT(1)
++#define FUSB15201_FAULT_CC_OVP		BIT(2)
++#define FUSB15201_FAULT_VCONN_OCP	BIT(3)
 +
-+  '#size-cells':
-+    const: 0
++/* Per-port command block, port A at 0x11 and port B at 0x13 */
++#define FUSB15201_REG_COMMANDS(p)	(0x11 + (p) * 0x02)
++#define FUSB15201_REG_INT_MASK(p)	(0x12 + (p) * 0x02)
 +
-+patternProperties:
-+  '^connector@[01]$':
-+    type: object
-+    $ref: /schemas/connector/usb-connector.yaml#
-+    unevaluatedProperties: false
++/*
++ * The swap command bits are named after the role the port is in when the swap
++ * is requested, not the role it ends up in.
++ */
++#define FUSB15201_CMD_UFP_TO_DFP	BIT(4)
++#define FUSB15201_CMD_DFP_TO_UFP	BIT(5)
++#define FUSB15201_CMD_SINK_TO_SOURCE	BIT(6)
++#define FUSB15201_CMD_SOURCE_TO_SINK	BIT(7)
 +
-+    properties:
-+      compatible:
-+        const: usb-c-connector
++#define FUSB15201_REG_MASTER_CONTROL	0x15
++#define FUSB15201_MASTER_DRP_DISABLE	BIT(1)
 +
-+      reg:
-+        maximum: 1
-+        description:
-+          0 for port A, 1 for port B.
++/* Per-port interrupt status, write one to clear */
++#define FUSB15201_REG_INTERRUPT(p)	(0x16 + (p))
++#define FUSB15201_INT_FAULT		BIT(0)
++#define FUSB15201_INT_RESET_STATUS	BIT(1)
++#define FUSB15201_INT_PORT_STATUS	BIT(2)
++#define FUSB15201_INT_ALL		(FUSB15201_INT_FAULT | \
++					 FUSB15201_INT_RESET_STATUS | \
++					 FUSB15201_INT_PORT_STATUS)
 +
-+    required:
-+      - reg
++#define FUSB15201_REG_MAX		FUSB15201_REG_INTERRUPT(1)
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - '#address-cells'
-+  - '#size-cells'
++struct fusb15201;
 +
-+anyOf:
-+  - required: [connector@0]
-+  - required: [connector@1]
++struct fusb15201_port {
++	struct fusb15201 *chip;
++	unsigned int index;
++	struct typec_port *port;
++	struct typec_partner *partner;
++	struct usb_role_switch *role_sw;
++	struct typec_capability cap;
++	unsigned int status;
++};
 +
-+additionalProperties: false
++struct fusb15201 {
++	struct device *dev;
++	struct regmap *regmap;
++	struct mutex lock;	/* serialises access to the shared registers */
++	struct fusb15201_port ports[FUSB15201_NUM_PORTS];
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
++static enum typec_role fusb15201_default_pwr_role(struct fusb15201_port *port)
++{
++	switch (port->cap.type) {
++	case TYPEC_PORT_SRC:
++		return TYPEC_SOURCE;
++	case TYPEC_PORT_SNK:
++		return TYPEC_SINK;
++	default:
++		if (port->cap.prefer_role == TYPEC_SOURCE)
++			return TYPEC_SOURCE;
++		return TYPEC_SINK;
++	}
++}
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++static void fusb15201_set_roles(struct fusb15201_port *port,
++				enum typec_role pwr_role,
++				enum typec_data_role data_role, bool attached)
++{
++	typec_set_pwr_role(port->port, pwr_role);
++	typec_set_vconn_role(port->port, pwr_role);
++	typec_set_data_role(port->port, data_role);
 +
-+        typec@50 {
-+            compatible = "onnn,fusb15201";
-+            reg = <0x50>;
-+            interrupts-extended = <&pmic_gpios 8 IRQ_TYPE_LEVEL_LOW>;
++	if (!port->role_sw)
++		return;
 +
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++	if (!attached)
++		usb_role_switch_set_role(port->role_sw, USB_ROLE_NONE);
++	else if (data_role == TYPEC_HOST)
++		usb_role_switch_set_role(port->role_sw, USB_ROLE_HOST);
++	else
++		usb_role_switch_set_role(port->role_sw, USB_ROLE_DEVICE);
++}
 +
-+            connector@0 {
-+                compatible = "usb-c-connector";
-+                reg = <0>;
-+                label = "USB-C0";
-+                power-role = "dual";
-+                data-role = "dual";
-+                try-power-role = "sink";
++static void fusb15201_hw_update(struct fusb15201_port *port)
++{
++	struct fusb15201 *chip = port->chip;
++	enum typec_data_role data_role;
++	enum typec_role pwr_role;
++	unsigned int status;
++	int ret;
 +
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
++	ret = regmap_read(chip->regmap, FUSB15201_REG_STATUS(port->index),
++			  &status);
++	if (ret) {
++		dev_warn(chip->dev, "port%u: failed to read status: %d\n",
++			 port->index, ret);
++		return;
++	}
 +
-+                    port@0 {
-+                        reg = <0>;
++	if (!(status & FUSB15201_STATUS_ATTACHED)) {
++		if (port->partner) {
++			typec_unregister_partner(port->partner);
++			port->partner = NULL;
++		}
 +
-+                        endpoint {
-+                            remote-endpoint = <&usb_0_dwc3_hs>;
-+                        };
-+                    };
++		/*
++		 * None of the remaining status bits are valid while detached,
++		 * so fall back to what the port is configured to do.
++		 */
++		typec_set_orientation(port->port, TYPEC_ORIENTATION_NONE);
++		typec_set_pwr_opmode(port->port, TYPEC_PWR_MODE_USB);
 +
-+                    port@1 {
-+                        reg = <1>;
++		pwr_role = fusb15201_default_pwr_role(port);
++		data_role = pwr_role == TYPEC_SOURCE ? TYPEC_HOST : TYPEC_DEVICE;
++		fusb15201_set_roles(port, pwr_role, data_role, false);
 +
-+                        endpoint {
-+                            remote-endpoint = <&usb_0_qmpphy_ss>;
-+                        };
-+                    };
-+                };
-+            };
++		port->status = status;
++		return;
++	}
 +
-+            connector@1 {
-+                compatible = "usb-c-connector";
-+                reg = <1>;
-+                label = "USB-C1";
-+                power-role = "dual";
-+                data-role = "dual";
-+                try-power-role = "sink";
++	if (!(port->status & FUSB15201_STATUS_ATTACHED)) {
++		struct typec_partner_desc desc = {
++			.usb_pd = !!(status & FUSB15201_STATUS_USBPD),
++		};
 +
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
++		port->partner = typec_register_partner(port->port, &desc);
++		if (IS_ERR(port->partner)) {
++			dev_err(chip->dev,
++				"port%u: failed to register partner: %pe\n",
++				port->index, port->partner);
++			port->partner = NULL;
++		}
++	}
 +
-+                    port@0 {
-+                        reg = <0>;
++	typec_set_orientation(port->port, status & FUSB15201_STATUS_CC2 ?
++			      TYPEC_ORIENTATION_REVERSE :
++			      TYPEC_ORIENTATION_NORMAL);
 +
-+                        endpoint {
-+                            remote-endpoint = <&usb_1_dwc3_hs>;
-+                        };
-+                    };
++	/*
++	 * The controller only tells us whether the partner is PD capable. The
++	 * Type-C current advertisement is not reported, so 1.5A and 3.0A
++	 * operation cannot be distinguished from the default.
++	 */
++	typec_set_pwr_opmode(port->port, status & FUSB15201_STATUS_USBPD ?
++			     TYPEC_PWR_MODE_PD : TYPEC_PWR_MODE_USB);
 +
-+                    port@1 {
-+                        reg = <1>;
++	pwr_role = status & FUSB15201_STATUS_SINK ? TYPEC_SINK : TYPEC_SOURCE;
++	data_role = status & FUSB15201_STATUS_DFP ? TYPEC_HOST : TYPEC_DEVICE;
++	fusb15201_set_roles(port, pwr_role, data_role, true);
 +
-+                        endpoint {
-+                            remote-endpoint = <&usb_1_qmpphy_ss>;
-+                        };
-+                    };
-+                };
-+            };
-+        };
-+    };
-+...
++	port->status = status;
++}
++
++static void fusb15201_report_faults(struct fusb15201_port *port)
++{
++	struct fusb15201 *chip = port->chip;
++	unsigned int fault;
++	int ret;
++
++	ret = regmap_read(chip->regmap, FUSB15201_REG_FAULT_STATUS(port->index),
++			  &fault);
++	if (ret)
++		return;
++
++	/*
++	 * The controller protects itself, so there is nothing to do here
++	 * beyond making the fault visible.
++	 */
++	if (fault & FUSB15201_FAULT_VBUS_OVP)
++		dev_warn_ratelimited(chip->dev, "port%u: VBUS overvoltage\n",
++				     port->index);
++	if (fault & FUSB15201_FAULT_OTP)
++		dev_warn_ratelimited(chip->dev, "port%u: over temperature\n",
++				     port->index);
++	if (fault & FUSB15201_FAULT_CC_OVP)
++		dev_warn_ratelimited(chip->dev, "port%u: CC overvoltage\n",
++				     port->index);
++	if (fault & FUSB15201_FAULT_VCONN_OCP)
++		dev_warn_ratelimited(chip->dev, "port%u: VCONN overcurrent\n",
++				     port->index);
++}
++
++static void fusb15201_report_reset(struct fusb15201_port *port)
++{
++	struct fusb15201 *chip = port->chip;
++	unsigned int reset;
++	int ret;
++
++	ret = regmap_read(chip->regmap, FUSB15201_REG_RESET_STATUS(port->index),
++			  &reset);
++	if (ret)
++		return;
++
++	dev_dbg(chip->dev, "port%u: reset status 0x%02x\n", port->index, reset);
++
++	if (reset & FUSB15201_RESET_ERR_RECOVERY)
++		dev_warn_ratelimited(chip->dev,
++				     "port%u: entered error recovery\n",
++				     port->index);
++}
++
++static irqreturn_t fusb15201_irq(int irq, void *data)
++{
++	struct fusb15201 *chip = data;
++	irqreturn_t ret = IRQ_NONE;
++	unsigned int i;
++
++	guard(mutex)(&chip->lock);
++
++	for (i = 0; i < FUSB15201_NUM_PORTS; i++) {
++		struct fusb15201_port *port = &chip->ports[i];
++		unsigned int pending;
++
++		if (!port->port)
++			continue;
++
++		if (regmap_read(chip->regmap, FUSB15201_REG_INTERRUPT(i),
++				&pending))
++			continue;
++
++		pending &= FUSB15201_INT_ALL;
++		if (!pending)
++			continue;
++
++		/* Write one to clear */
++		regmap_write(chip->regmap, FUSB15201_REG_INTERRUPT(i), pending);
++
++		if (pending & FUSB15201_INT_PORT_STATUS)
++			fusb15201_hw_update(port);
++		if (pending & FUSB15201_INT_FAULT)
++			fusb15201_report_faults(port);
++		if (pending & FUSB15201_INT_RESET_STATUS)
++			fusb15201_report_reset(port);
++
++		ret = IRQ_HANDLED;
++	}
++
++	return ret;
++}
++
++/*
++ * Role swaps are asynchronous: the command only asks the controller to start
++ * the swap, and the outcome arrives later as a port status interrupt.
++ */
++static int fusb15201_command(struct fusb15201_port *port, unsigned int cmd)
++{
++	struct fusb15201 *chip = port->chip;
++
++	guard(mutex)(&chip->lock);
++
++	if (!(port->status & FUSB15201_STATUS_ATTACHED))
++		return -ENOTCONN;
++
++	return regmap_write(chip->regmap, FUSB15201_REG_COMMANDS(port->index),
++			    cmd);
++}
++
++static int fusb15201_dr_set(struct typec_port *p, enum typec_data_role role)
++{
++	struct fusb15201_port *port = typec_get_drvdata(p);
++	unsigned int cmd;
++
++	cmd = role == TYPEC_HOST ? FUSB15201_CMD_UFP_TO_DFP :
++				   FUSB15201_CMD_DFP_TO_UFP;
++
++	return fusb15201_command(port, cmd);
++}
++
++static int fusb15201_pr_set(struct typec_port *p, enum typec_role role)
++{
++	struct fusb15201_port *port = typec_get_drvdata(p);
++	unsigned int cmd;
++
++	cmd = role == TYPEC_SOURCE ? FUSB15201_CMD_SINK_TO_SOURCE :
++				     FUSB15201_CMD_SOURCE_TO_SINK;
++
++	return fusb15201_command(port, cmd);
++}
++
++static const struct typec_operations fusb15201_typec_ops = {
++	.dr_set = fusb15201_dr_set,
++	.pr_set = fusb15201_pr_set,
++};
++
++/*
++ * Nearly every register is either volatile or write-only, and the interrupt
++ * registers are write-one-to-clear, so the register map is not cached.
++ */
++static const struct regmap_config fusb15201_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = FUSB15201_REG_MAX,
++};
++
++static void fusb15201_unregister_port(void *data)
++{
++	struct fusb15201_port *port = data;
++
++	if (port->partner)
++		typec_unregister_partner(port->partner);
++	typec_unregister_port(port->port);
++}
++
++static void fusb15201_put_role_sw(void *data)
++{
++	usb_role_switch_put(data);
++}
++
++static int fusb15201_check_id(struct fusb15201 *chip)
++{
++	static const struct {
++		unsigned int reg;
++		unsigned int expected;
++		const char *name;
++	} ids[] = {
++		{ FUSB15201_REG_VENDID, FUSB15201_VENDID, "vendor" },
++		{ FUSB15201_REG_PRODID, FUSB15201_PRODID, "product" },
++		{ FUSB15201_REG_DEVID, FUSB15201_DEVID, "device" },
++	};
++	unsigned int val, hwver, fwver;
++	int ret, i;
++
++	for (i = 0; i < ARRAY_SIZE(ids); i++) {
++		ret = regmap_read(chip->regmap, ids[i].reg, &val);
++		if (ret)
++			return dev_err_probe(chip->dev, ret,
++					     "failed to read %s id\n",
++					     ids[i].name);
++
++		if (val != ids[i].expected)
++			return dev_err_probe(chip->dev, -ENODEV,
++					     "bad %s id 0x%02x, expected 0x%02x\n",
++					     ids[i].name, val, ids[i].expected);
++	}
++
++	/*
++	 * The register semantics are defined by the firmware image, so record
++	 * the versions to make mismatches easier to spot.
++	 */
++	if (!regmap_read(chip->regmap, FUSB15201_REG_HWVER, &hwver) &&
++	    !regmap_read(chip->regmap, FUSB15201_REG_FWVER, &fwver))
++		dev_dbg(chip->dev, "hardware version %u, firmware version %u\n",
++			hwver, fwver);
++
++	return 0;
++}
++
++static int fusb15201_register_port(struct fusb15201 *chip,
++				   struct fwnode_handle *fwnode)
++{
++	struct fusb15201_port *port;
++	unsigned int index;
++	int ret;
++
++	ret = fwnode_property_read_u32(fwnode, "reg", &index);
++	if (ret)
++		return dev_err_probe(chip->dev, ret,
++				     "missing reg property of %pfwP\n", fwnode);
++
++	if (index >= FUSB15201_NUM_PORTS)
++		return dev_err_probe(chip->dev, -EINVAL,
++				     "invalid connector index %u\n", index);
++
++	port = &chip->ports[index];
++	if (port->port)
++		return dev_err_probe(chip->dev, -EINVAL,
++				     "duplicate connector for port %u\n", index);
++
++	port->chip = chip;
++	port->index = index;
++
++	ret = typec_get_fw_cap(&port->cap, fwnode);
++	if (ret)
++		return dev_err_probe(chip->dev, ret,
++				     "port%u: failed to get capabilities\n",
++				     index);
++
++	port->cap.revision = USB_TYPEC_REV_2_0;
++	port->cap.orientation_aware = true;
++	port->cap.driver_data = port;
++	port->cap.ops = &fusb15201_typec_ops;
++
++	port->port = typec_register_port(chip->dev, &port->cap);
++	if (IS_ERR(port->port)) {
++		ret = PTR_ERR(port->port);
++		port->port = NULL;
++		return dev_err_probe(chip->dev, ret,
++				     "port%u: failed to register\n", index);
++	}
++
++	ret = devm_add_action_or_reset(chip->dev, fusb15201_unregister_port,
++				       port);
++	if (ret)
++		return ret;
++
++	port->role_sw = fwnode_usb_role_switch_get(fwnode);
++	if (IS_ERR(port->role_sw))
++		return dev_err_probe(chip->dev, PTR_ERR(port->role_sw),
++				     "port%u: failed to get role switch\n",
++				     index);
++
++	if (port->role_sw) {
++		ret = devm_add_action_or_reset(chip->dev, fusb15201_put_role_sw,
++					       port->role_sw);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static int fusb15201_hw_init(struct fusb15201 *chip)
++{
++	bool source_only = true;
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < FUSB15201_NUM_PORTS; i++) {
++		struct fusb15201_port *port = &chip->ports[i];
++
++		if (!port->port) {
++			/* Nothing describes this port, keep it quiet. */
++			ret = regmap_write(chip->regmap,
++					   FUSB15201_REG_INT_MASK(i),
++					   FUSB15201_INT_ALL);
++			if (ret)
++				return ret;
++
++			continue;
++		}
++
++		if (port->cap.type != TYPEC_PORT_SRC)
++			source_only = false;
++
++		ret = regmap_write(chip->regmap, FUSB15201_REG_INT_MASK(i), 0);
++		if (ret)
++			return ret;
++
++		/* Discard anything that happened before we got here */
++		ret = regmap_write(chip->regmap, FUSB15201_REG_INTERRUPT(i),
++				   FUSB15201_INT_ALL);
++		if (ret)
++			return ret;
++	}
++
++	/*
++	 * Dual role toggling is the only configurable part of the Type-C state
++	 * machine, and it is chip wide rather than per port, which is why it is
++	 * set up here instead of from a port_type_set() callback.
++	 */
++	return regmap_update_bits(chip->regmap, FUSB15201_REG_MASTER_CONTROL,
++				  FUSB15201_MASTER_DRP_DISABLE,
++				  source_only ? FUSB15201_MASTER_DRP_DISABLE : 0);
++}
++
++static int fusb15201_probe(struct i2c_client *client)
++{
++	struct device *dev = &client->dev;
++	struct fusb15201 *chip;
++	unsigned int i, nports = 0;
++	int ret;
++
++	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return -ENOMEM;
++
++	chip->dev = dev;
++	i2c_set_clientdata(client, chip);
++
++	ret = devm_mutex_init(dev, &chip->lock);
++	if (ret)
++		return ret;
++
++	chip->regmap = devm_regmap_init_i2c(client, &fusb15201_regmap_config);
++	if (IS_ERR(chip->regmap))
++		return dev_err_probe(dev, PTR_ERR(chip->regmap),
++				     "failed to initialise register map\n");
++
++	ret = fusb15201_check_id(chip);
++	if (ret)
++		return ret;
++
++	device_for_each_child_node_scoped(dev, fwnode) {
++		ret = fusb15201_register_port(chip, fwnode);
++		if (ret)
++			return ret;
++
++		nports++;
++	}
++
++	if (!nports)
++		return dev_err_probe(dev, -ENODEV, "no connector described\n");
++
++	ret = fusb15201_hw_init(chip);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to initialise\n");
++
++	/* Seed the Type-C class with the current state before arming the IRQ */
++	for (i = 0; i < FUSB15201_NUM_PORTS; i++) {
++		if (chip->ports[i].port)
++			fusb15201_hw_update(&chip->ports[i]);
++	}
++
++	ret = devm_request_threaded_irq(dev, client->irq, NULL, fusb15201_irq,
++					IRQF_ONESHOT, dev_name(dev), chip);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to request irq\n");
++
++	return 0;
++}
++
++static const struct of_device_id fusb15201_of_match[] = {
++	{ .compatible = "onnn,fusb15201" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, fusb15201_of_match);
++
++static struct i2c_driver fusb15201_driver = {
++	.driver = {
++		.name = "fusb15201",
++		.of_match_table = fusb15201_of_match,
++	},
++	.probe = fusb15201_probe,
++};
++module_i2c_driver(fusb15201_driver);
++
++MODULE_AUTHOR("Shawn Guo <shengchao.guo@oss.qualcomm.com>");
++MODULE_DESCRIPTION("onsemi FUSB15201 Type-C and Power Delivery controller");
++MODULE_LICENSE("GPL");
 -- 
 2.43.0
 
