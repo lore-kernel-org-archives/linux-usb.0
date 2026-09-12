@@ -1,206 +1,194 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6453F37FF60
-	for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 13:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789218784; cv=pass; b=epXRSLjKTwpaHcw3gRic45L8XVc/G8BI0HxBxwkYR7Mwy4mMk91lQ7eQyw5s7OKCfBMwAWQAVfyOkTOoA7qHUO1xY8nETu1n99UI64rHSpvDi1GyFPxEKDsH09n/EGzLk8KjSi2wd7559d2u4PDIYk1Gys+w1wFdZ8N0snASc3Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789218784; c=relaxed/simple;
-	bh=/rWnSn94XW4dak/92NRYKqU4/QRRc2HocPcC6LvcBw8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lfXC/vu2VnjUpGRGW09dRz8/vibu/6V8vlUbTyJQHtfnm7kpJw22J5KsCf1JzYKO/NR2kjvYYYFXNBAsDLAkaige7FTNZGNhSo55EBffwLQ25QeHg7rV1kg4/YGPzZOxYBwHcpC+tvQfH6C/RgAzGPEJqp70F3LQy9SF/CdFgbU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=na68zHDp; arc=pass smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7CF33EAEC
+	for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 14:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789222084; cv=none; b=JR/7gi0+D51uD8eVu/0kpCiYqPltcmWcbRUr1VxPVbuFzRMnQo31plE0HIZ1JJiiR9AKrgOfZ+94z3dzQ43w+Xs+CNzNpoUTeU2Nh3oWq+NAXtITCgLdpOvR3n9a5teykB2WqmMrHjuRyRfwafJFV4rL59f8lyoUdaDYuLfUd0Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789222084; c=relaxed/simple;
+	bh=N5pN1DI1Bpg+NRDQIZl0zY7ixBv/obs7rvlGbXuLJdc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AGG3kCz/ETxJBEZtPIGeZcJR7NWeDpRyH1uuf8OVBZacb9zJwcOZ0X9qsEcg2oRxD0TiCsatFj/T4t7/piQkbo3gKCWDTKv7a9BeJ3unbi4rdilTLq4MIDwl26UWalm1e4uoW6aRfwpwod4sa6ZQ+5wIdUpf3aF7QyTKLGxl12o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OL9K6/57; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="na68zHDp"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea50dc3so310396a12.3
-        for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 06:13:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789218783; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ECO7rSU2/sfyfzLZwv7zAApfL+HO9FljO+VzgflhJGI0Hnn56b3hmY89PWLfcRqBoe
-         ee1P/3k55Yl1ZF/OPcmVBywEOjvAxyFKgio3ziD5raz3vH6jytUinNdZUOlf0hlxBNcC
-         L5SfK8gQ8IqJSxNtr52wLNoSWSFYrWOUZObI4Yrxtu+dPqXGyctBdChHJpVn3UbMySof
-         SPQwGj4IVRDwdNh6AowOdw/+xtsfh8wcoLNRtW8BgEoAdIlwYRPpo22hDFTAWsVOiB/w
-         jlkkTwR3+iuROchs1yCzZPJWWYQ7Z4co5wUTdKYgxns7qm+mf57tdGAiicjVZHkc7wzG
-         1OgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=YglntG+3HVQsRHEzrZgo724dnawTqgCfzPU67VyDtNM=;
-        fh=JKrmxPQ339LK7MI0dMQTWtYYD04N6T/7uw1sJjx/yY8=;
-        b=G4yYsGW2385F6hn1VIhl+1zYgqhje+vUZsHUwCKbOX6/kS3eHQXhl1lqf4Mb8APpVp
-         mlXqovjBGXpqRIxyin8hkh4KCddHdnmyFB5gJ3Nb/7yRBNFk/467l6nmJ46kP2u8BKrK
-         3s7gXkquBGt7isYZ5OlUiQOYweVjNjEsZMiSZRKvRdW9j38yrYS5aridUfdk5YnoqDVF
-         7x5BI/yqXlF/NKkWxTYkkz8B3uX2IWztqsfxkpgLPv71mTzJVhfqoiUP1WHuj01670Pt
-         /90W6wPvdW98M0dggI3iRVW0QTWNb3ofuBdJ4DtDNaAMUiA1VIIsa6ZHa0EOS3xHUH/H
-         3bFQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OL9K6/57"
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93a0fd41a7bso14521185a.1
+        for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 07:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20251104; t=1789218783; x=1789823583; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YglntG+3HVQsRHEzrZgo724dnawTqgCfzPU67VyDtNM=;
-        b=na68zHDpybM23TltoXE3NsuOqQtXZJ/Tk3QCS4HS7XViuGhKqCUHxsE+9Mci+2b70P
-         UaUdL9wvnhCGyC9CeWOiYPfiJcW9I3CBSbWk8pwI3mZP40JfvgK8Xcsj3OvphZZ2uoaX
-         mKuUeFyOhXbRs8pQsD7NZvoQCBMKFYz5C/GI2WOa3cmNcXAN8+wDOHSYu7dZNRAZVP+Y
-         aJTByy1DaUQF9yh/Fk0FbUzjuXKSXFcGWRImdlloRMDhD1MwWCHg/nVuiz7ery4+TSz/
-         tFaPYpWOrI/GZK/+f6GV0kru5jfLl4u8UG+o1R5UC5yCz9/6s02z+zcN5wajZbqJ92mx
-         QJbQ==
+        d=gmail.com; s=20251104; t=1789222081; x=1789826881; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UTCfdkP73gLXJ25CwDT//d6Us1e6esblg46ABiyVDOM=;
+        b=OL9K6/57FIfCiT+NwWQ6zY2Rf+odEE1e+8iauB/eF1iL6JPqlnYHxbF2XVVBMrnWZg
+         PshKvIB5uuBojMfXqQOyEYX8JQ0s73caJ904v/Ob81w6pRCiv+/mQVT3u4viq7R5urbW
+         Lnpe5C7MeBvEeVFv+jmxEhfnTjVwmAhWNGKKILQSLM62pQFWq28tmFDzKBWJe2+aXoFP
+         JWoKNKf19P2A50q6FCmbP38y7w3V2dn+dvLMhsbwKAcGQUELWoF0ZER1d5kuALUJpnsf
+         eu6gfljlCmU/jSMn9Hvxh67ZZ/01TWIRLdm1oLDCghkyvsmQ3oUqbzaOopeVAkNOV88D
+         saPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789218783; x=1789823583;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YglntG+3HVQsRHEzrZgo724dnawTqgCfzPU67VyDtNM=;
-        b=QPeOhNrvFMEoHqz3fSoTSuzgeVMLKplgY/PNmUv8jRAaC2C6cOoB6kF19En3IY3Od8
-         TNafBVQHfjGd8PwsLx1PvsPNwiTD2g/uepzjGu1xwAlzfES2rTpyxQ2RAZ8D0gmXlnKA
-         nHEpUAkAl3O+hnf/S+rTb4QcywWxEqLqJPw6H61W8reNwvlwo4AioK5vBPOrfJih0515
-         GlmxqjhI3Cg8LzMXArIuQaEwPR4yDHz7UdK1CEWtAx43H5A8leT1+Ah2ELEcodXOEr2F
-         SNxXxoepwzKkeU4CypL5fqRXva+dKWKPZGvslTaEVSUJE9beh5m+fJKmfBCv/uiQ3qp0
-         lkbw==
-X-Forwarded-Encrypted: i=1; AKwUvBygaUuufUyitPviTA7rHOaJeVeXlhgeXZZosuuY/lH7ra8qGxFBRMbo4+m9SLHR9/o53wWvNLwA2K8=@vger.kernel.org
-X-Gm-Message-State: AFuF++lmRX+4MSFK4keutWv1NoGFvAlusdAIFAKHwiGhh9l1Nwt7EIO1
-	/EtYAkt5pRoosEPnsjJrVBk6/ZbX5zvLJTF57nK1LM50Hbvc39oHoFeZmUcfad/l5DQUpPFEDsV
-	xJjBkQQ0/JT0HlSbeItNDNmNG/UtH3wsY8fG9
-X-Gm-Gg: AYBFou1XAhlePjrTvBTRbh8hnx/1O4dIyLUDxJBo8S97ab/M25ZhlCHbygXuns5UhJL
-	pbETrhI2JJIYX0rsrEZzI+u8tb7UD8jKwH9IPibcqogOfBwd+it/kw5Hmcl8p0DLe+decc5ijsZ
-	dbvvolmMuJQ2Tu16mviXBDylSEm2UK6rlCFRPK7UDgGrHcV4oevaHakIHPVFS0CaSJx1JZ0LMN4
-	3gRW44jP9V/+Yi9GaIl/xay/RKFEMNEqt3IcfVWJczoT5zXZwl/3D2EHDcTB6blQv4c727VC+W8
-	VQnMs8GZC8wfusyWN2DbUQJDMt3E01gNEPn/oJDNkwBHV8lF0uZTMN8th+C66lhPVFvrfTIuBc8
-	2Qc4EtX9Wfq8=
-X-Received: by 2002:a17:90b:258c:b0:396:4c63:7193 with SMTP id
- 98e67ed59e1d1-39dbc1d79aamr5456534a91.11.1789218782504; Sat, 12 Sep 2026
- 06:13:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789222081; x=1789826881;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UTCfdkP73gLXJ25CwDT//d6Us1e6esblg46ABiyVDOM=;
+        b=c8m0kEjQkZnANS+tqEEZrfIcryO9zRld4xkYzGBr4OS6gUc2N/YiV6cQhAZwJ/dPLw
+         KiZqKbfFGPjh5jfxOWunm15xKJyZiHkW1/tdWkJHZA1QoSmTdL818q13zOkUEQKKP4RT
+         VmNoYVZVOB16pAOO+DLgrm9rZPUAVKCEyYL0TLBHD+RyCsVp3dCK2OlA8F0Vl1d5Ycog
+         GzzciWHd2Mc1bDDrLmrwNjWHKa25oFYpzg5VDOKpQBLedi1wXGXf0e7irZVmecaIhxoV
+         XzrX16/7BvpsUaFXqFZV96N0PfMuEsPCSuLXG7vIhnYOmVqDzfhOwn3RBg7RvYxVgiIQ
+         Wyng==
+X-Forwarded-Encrypted: i=1; AKwUvBwiHWaVZG3hrD3/yodR7Nj6BKQG8MNxEW7ez9XEnmKoUX15tWNp4f+jRMh7o4BmQNEmWluxLbnnhbQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++litAAQoSr/u5ZGq6x9gHvlJVK3r1NmcsSB6twfF7gedV+Qz4Sv
+	rJD1OSpjtov7AJkc66J1D3pMWbaUR9UPZRUJ/jqnNhJ3kN5QW7K1X3UX
+X-Gm-Gg: AYBFou0yWBxm6+mLHYZL9UsNKrDDTUzbflRHELd78Ez89dBYLY0fQYsQQmyWUgQypqB
+	XNB8kSYNCMm48hpGZo6NTz3wVk8o8Oq/yX/BS0NS7tK8jrGahH6k6SM+/GfPdP8W5s2JmhKqZtF
+	GfpKEP0k2wMSeBLjULVownEx515wbmXkcia7Igv5AR8SfQ3afadSlgKD9HK/e+KHw/5qpaDUCJD
+	kLR2RjUIoY6KczoXRDBkSQsK/A7aid8TG4HDZWaUGLDO2jG4e+92YeUZJOpSlCPZjJtG/8w8lIb
+	GShY7BqHhHvlnywy+HnBkdPPVf+vmKw3On43NlT9KhQVARfwqK1imdqBAGv5+P6/ossIWtOpXZa
+	azRP+H9GAf1RRQZhFSxUIyOkJ6oCF7gXSu4TY+u7RfaWR0UV7kT1mbC0D1U88iT1McNj1shSHsq
+	CRtDQ2f7tUXKOXXEScTq9A0wQpYPanjzQ5qmhIX4VwN/FVZoMnFRCeTMIslAuJpksic785eCfqA
+	nbnGJFXPBc/bkmtvaA4enLotXjjc+E=
+X-Received: by 2002:a05:620a:3182:b0:939:6dea:374c with SMTP id af79cd13be357-93a038efc6fmr409029785a.48.1789222077789;
+        Sat, 12 Sep 2026 07:07:57 -0700 (PDT)
+Received: from dhoja (S01067483c248479d.wp.shawcable.net. [50.72.244.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-939fc4a9455sm292155585a.31.2026.09.12.07.07.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Sep 2026 07:07:56 -0700 (PDT)
+Date: Sat, 12 Sep 2026 09:07:54 -0500
+From: Curtis Vogt <curtis.vogt@gmail.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Michal Pecio <michal.pecio@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 2/3] HID: valve-index: Reboot headset on system power
+ transitions
+Message-ID: <aqVcun3-ksMgzb9z@dhoja>
+References: <20260910170254.833871-1-mario.limonciello@amd.com>
+ <20260910170254.833871-3-mario.limonciello@amd.com>
+ <20260910220421.40356e51.michal.pecio@gmail.com>
+ <55918a70-72c9-4f55-934b-81a692d4619b@amd.com>
+ <20260910225259.66b480c6.michal.pecio@gmail.com>
+ <cb4d4f93-2e34-4c5b-b400-06fb01b6b04c@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260911132850.1580669-1-heikki.krogerus@linux.intel.com>
-In-Reply-To: <20260911132850.1580669-1-heikki.krogerus@linux.intel.com>
-From: Manuel Knitza <manuel.knitza@googlemail.com>
-Date: Sat, 12 Sep 2026 15:12:51 +0200
-X-Gm-Features: AcwNN1VG3NPrLKVGZf37fWdTZhk_8RRkI8Sk-4YvIrwLJwKOMqD9TfHVXqe6TbU
-Message-ID: <CAMRbua5wOXA5Y0eziYsv+-AwFr5Occ+pfb1TCTvYU6GKtiNeEA@mail.gmail.com>
-Subject: Re: [PATCH v1] usb: typec: ucsi: acpi: Add DMI quirk for Dell XPS platforms
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb4d4f93-2e34-4c5b-b400-06fb01b6b04c@amd.com>
 
-Tested-by: Manuel Knitza <manuel.knitza@googlemail.com>
+On Thu, Sep 10, 2026 at 03:58:27PM -0500, Mario Limonciello wrote:
+> 
+> 
+> On 9/10/26 15:52, Michal Pecio wrote:
+> > On Thu, 10 Sep 2026 15:43:18 -0500, Mario Limonciello wrote:
+> > > > > +/*
+> > > > > + * The headset's EDID service is lost when the host disables the DisplayPort
+> > > > > + * PHY during system suspend, so it needs the reboot on the way out of
+> > > > > + * suspend.  Doing it on the way in does not work: the headset dropping off
+> > > > > + * USB is a remote-wakeup event from its hub and aborts the suspend.
+> > > > > + */
+> > > > 
+> > > > The internal hub which will be quirked by the next patch, or its parent?
+> > > 
+> > > It has to be the internal hub if quirking it works, no?
 
-Tested on a Dell XPS 16 DA16260 (BIOS 1.10.1), which the DMI match hits
-("Dell Inc." / "XPS 16 DA16260"). Unmodified patch built and loaded on
-7.2.3-arch1-3: alt modes registered go 1 -> 0, the duplicate-altmode and
-VDO-mismatch warnings disappear, the new warning appears, all connectors
-still register, and a running DisplayPort link (5120x2160@60, HBR3,
-4 lanes) is undisturbed by the module swap. The same change backported to
-the 5-argument sync_control signature behaves identically on 7.1.8.
+The parent needs to be quirked: the breakout box's own hub, 28de:2613,
+sits above Microchip USB2744 (0424:2744). Only the 28de:2613 hub ever
+registered wakeup events, and quirking it alone is enough.
 
-Note it does not build on 7.1.x as-is - msg_out/msg_out_size only arrived
-in 7.2.
+I also tested the quirk using a stock kernel (7.2.3) using the kernel
+param `usbcore.quirks=28de:2613:j` which stopped the headset from waking
+the host. Without that param I found that the headset would wake the
+host when healthy but not when wedged.
 
-Details, and one caveat worth reading before this is taken as a fix, are
-in the bug thread:
-https://lore.kernel.org/linux-usb/CAMRbua4oitgPgCXtWKTJa0_5AHbtzLV-47k=nCSP0Rq-Mhpx-w@mail.gmail.com/
+> > I believe there are two separate problems here:
+> > 
+> > 1. resetting the device at suspend causes instant wakeup
+> > 2. a few seconds later the system wakes up anyway
+> > 
+> > 1. is solved by resetting on resume rather than suspend
+> > 2. is solved by the quirk
+> > 
+> > Questions:
+> > 
+> > Any chance that 2 also solves 1?
 
-Short form of the caveat: with the quirk active, DisplayPort still never
-comes back on hotplug or on resume. The quirk removes misleading data,
-it does not restore the function.
+It does. With the quirk from 3/3 and the driver rebooting from the suspend
+hook instead of resume the headset reboots during suspend entry and the
+host stays asleep.
 
-Am Fr., 11. Sept. 2026 um 15:28 Uhr schrieb Heikki Krogerus
-<heikki.krogerus@linux.intel.com>:
->
-> On Dell XPS systems, the UCSI firmware incorrectly reports duplicate
-> or extra DisplayPort and Thunderbolt alternate mode entries with
-> conflicting and malformed VDOs when querying alternate mode details.
-> This causes the kernel to retain an invalid VDO descriptor, breaking
-> DisplayPort Alternate Mode functionality during hotplug events.
->
-> Work around this issue by clearing the UCSI_CAP_ALT_MODE_DETAILS
-> feature flag in a DMI quirk matching Dell XPS platforms so that the
-> driver does not attempt to register alternate modes on these systems.
->
-> Reported-by: Manuel Knitza <manuel.knitza@googlemail.com>
-> Closes: https://lore.kernel.org/linux-usb/CAMRbua4xZfsQ0FXsrfq=SCbyZa1n=Aw5UrD3bEaU41d+J3KmXw@mail.gmail.com/
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
-> Hi,
->
-> This has to be tested, I'm "guessing" the DMI match.
-> Manuel, can you test this?
->
-> Thanks,
->
-> ---
->  drivers/usb/typec/ucsi/ucsi_acpi.c | 41 ++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
->
-> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> index 18286d3e9cc59..58cdc07a095eb 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> @@ -161,6 +161,39 @@ static const struct ucsi_operations ucsi_gram_ops = {
->         .async_control = ucsi_acpi_async_control
->  };
->
-> +static int ucsi_dell_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
-> +                                 void *val, size_t len, void *msg_out,
-> +                                 size_t msg_out_size)
-> +{
-> +       int ret;
-> +
-> +       ret = ucsi_sync_control_common(ucsi, command, cci, val, len,
-> +                                      msg_out, msg_out_size);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (UCSI_COMMAND(command) == UCSI_GET_CAPABILITY && val) {
-> +               struct ucsi_capability *cap = val;
-> +
-> +               if (cap->features & UCSI_CAP_ALT_MODE_DETAILS) {
-> +                       dev_warn(ucsi->dev,
-> +                                "Firmware bug: broken altmode details reporting, disabling\n");
-> +                       cap->features &= ~UCSI_CAP_ALT_MODE_DETAILS;
-> +               }
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +static const struct ucsi_operations ucsi_dell_ops = {
-> +       .read_version = ucsi_acpi_read_version,
-> +       .read_cci = ucsi_acpi_read_cci,
-> +       .poll_cci = ucsi_acpi_poll_cci,
-> +       .read_message_in = ucsi_acpi_read_message_in,
-> +       .sync_control = ucsi_dell_sync_control,
-> +       .async_control = ucsi_acpi_async_control
-> +};
-> +
->  static const struct dmi_system_id ucsi_acpi_quirks[] = {
->         {
->                 .matches = {
-> @@ -170,6 +203,14 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
->                 },
->                 .driver_data = (void *)&ucsi_gram_ops,
->         },
-> +       {
-> +               .ident = "Dell XPS",
-> +               .matches = {
-> +                       DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "XPS"),
-> +               },
-> +               .driver_data = (void *)&ucsi_dell_ops,
-> +       },
->         { }
->  };
->
-> --
-> 2.50.1
->
+> > Would resetting on suspend be preferable, as the comment suggests?
+> > Maybe it would, if the reset can race with DP seeing empty EDID?
+
+Yes, and the log bears out the ordering concern. With the reboot on
+suspend the headset is already back and so the EDID reads cleanly the
+first time. With the headset reboot on resume a re-enumeration occurs.
+There was no "EDID err" upon resume with either variant. We can go back to
+Mario's implementation of headset reboot on suspend.
+
+> I do think that resetting on suspend makes a lot more sense for that exact
+> reason.  That's why my original PoC did it that way.
+> 
+> That's a very good idea to see if the quirk + moving it back to suspend
+> works.
+
+I've validated this approach works. Happy to return to it.
+
+Diff against 2/3 moving the headset reboot back to the suspend hook:
+
+---8<---
+ drivers/hid/hid-valve-index.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/hid/hid-valve-index.c b/drivers/hid/hid-valve-index.c
+index 43c1142b7215..f6941dd04910 100644
+--- a/drivers/hid/hid-valve-index.c
++++ b/drivers/hid/hid-valve-index.c
+@@ -103,14 +103,18 @@ static struct attribute *valve_index_attrs[] = {
+ ATTRIBUTE_GROUPS(valve_index);
+ 
+ /*
+- * The headset's EDID service is lost when the host disables the DisplayPort
+- * PHY during system suspend, so it needs the reboot on the way out of
+- * suspend.  Doing it on the way in does not work: the headset dropping off
+- * USB is a remote-wakeup event from its hub and aborts the suspend.
++ * Disabling the DisplayPort PHY during system suspend leaves the headset
++ * unable to serve its EDID until it is rebooted, so send the reboot from
++ * the suspend hook.  The headset drops off USB about a second later; that
++ * does not abort the suspend because its breakout box hub is quirked to
++ * not be a wakeup source.  On resume the hub finds the rebooted headset on
++ * the same port and resets it in place, and the connector detection reads
++ * a fresh EDID.  Runtime autosuspend is left alone.
+  */
+-static int valve_index_resume(struct hid_device *hdev)
++static int valve_index_suspend(struct hid_device *hdev, pm_message_t message)
+ {
+-	valve_index_reboot(hdev, false);
++	if (!PMSG_IS_AUTO(message))
++		valve_index_reboot(hdev, false);
+ 
+ 	return 0;
+ }
+@@ -130,8 +134,7 @@ MODULE_DEVICE_TABLE(hid, valve_index_devices);
+ static struct hid_driver valve_index_driver = {
+ 	.name = "valve-index",
+ 	.id_table = valve_index_devices,
+-	.resume = valve_index_resume,
+-	.reset_resume = valve_index_resume,
++	.suspend = valve_index_suspend,
+ 	.shutdown = valve_index_shutdown,
+ 	.driver.dev_groups = valve_index_groups,
+ };
