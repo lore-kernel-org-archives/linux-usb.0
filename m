@@ -1,159 +1,147 @@
 Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853DC81724
-	for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 01:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25FF2C032E
+	for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 01:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.141
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789175429; cv=pass; b=eZdiGeLW0BrL+mSKAEgUHlGUanXiWgFzFdmrS8itMGJLvU3qIDrgDDgQ9P/D+BiF9rXARjKmscOv4FPCFc1EKzfWUn6SURfvd+UrND/bUj1CLURM47Zq99dQutk3/dtpHcmXJProW2G8MJu0DIozGEKHVGO2RB2809nxTNF5FG0=
+	t=1789175491; cv=pass; b=o0K9qltYPQyaIOPz2tKUAIccuEIHyhFgeAFbS+KJAutrTxdIwmnofxZCxt7LWwso1b78ni4EAjxOiGdTTWd9IpWGa5DNK7TTaCaZxi1VQc8PqnqxhtH4Jwg+QGBB3KqINhdJSqUViJL5RWP7G9+9AHSWJYJKfYAtqXKhyDAk0Dw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789175429; c=relaxed/simple;
-	bh=JvgmADxtqm79vi3+L1vND5IB6+lcqu7Lgy8WrH4V1rM=;
+	s=arc-20240116; t=1789175491; c=relaxed/simple;
+	bh=ivHv98UdkMx1tNUXp0u1i9tvsMHfppuazLYuOELJamk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bIi22fAe3YTI5N5Hay/eczPsAPdfi4yPJtZeB/Cg5pysBn4y48JTKG01YNKI+kAC1bB3x6YuwXG7yOn7SMl5dc5PAQaW34oBJtt98Cy60ekO5IbPX8bI1JbIAxvcPudeyF7i6dt5gQ1awDP/ZAS+Z0J3yhEbRQBneMmq1DRRvtk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pUr3XX6x; arc=pass smtp.client-ip=74.125.224.141
+	 To:Cc:Content-Type; b=D18Wh2ORJxVDRQvM8rUQAzdsIl8DqLwaKyIqetpvRj+V5/tEJulRuTjNKqKIEXWQYOPFVa79vODchJqTp5nRopTOG9/n02e5aXi4oMM/gwKLrRhexM+11ltSfW2vqmJNM81Gz0NDfsU03mvhJMDpRoo8DWXfCNbJE5sjANAF64s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wg2/OpXT; arc=pass smtp.client-ip=74.125.224.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pUr3XX6x"
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66f943b286fso137059d50.2
-        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 18:10:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789175426; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wg2/OpXT"
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4ab201f9so275869d50.0
+        for <linux-usb@vger.kernel.org>; Fri, 11 Sep 2026 18:11:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789175489; cv=none;
         d=google.com; s=arc-20260327;
-        b=YSqM/bitQ0mM2HV3xEbe0+hf2iudAQfaFWaIpDbgnUSFIDR+r4lBLlkimn+EmxuYMo
-         288S6Jk5t/M0GsuI95sIzCVKKahed1sBOHag4zfyOZigc38RChejI7NnibQqzrvwnVn9
-         gkQKpuHeS0UWUzHJ9kEj32NxJwSKjivBsdk+TD2YYqLxkngd09jnd3Ww5Cf16WgoQaFR
-         UWmzdj0mcMOHZitsj6ie1NkgA1A7fTzjD7jCzg6XgAMSrEdGRCOuFfxKSbLvjgyz6PAM
-         GZ0sBP3/ikqZR+raO2Qw6oRHlTHB4kJm3Fels7iUKokMrnaM1h0gZxR/uaLFkXhWOqPy
-         0pLw==
+        b=VndLBBtS1OIxsNkOHOC7iA6N15EOi+t1YQVM5VYGtoayRp9ju/Gw+HWqPBt4UoVTaw
+         6DjRyOUnIAl62VRT08/IKInqAAHRJxg173w6eVsBOanZLCU4AJfQbhZnNQWSJHdKoQoz
+         YDMYegV3oopOPmPZVMTtQSnidwyTGqCh+DvEKjpkNgURfFnVsSt59a9HjITNyWuAcPB8
+         AfMgXIij8dWlDu7CnNLmAbBnLgYpvrgaLFPZTCXxvbWEuAjfwx2KiHljH758EQsSopLC
+         dCSHeZG2RBBkrKKKhmdrlOb7NHfASnIekYThR1yCnG9O2ayTEpeQn9PLXT5X49Dm+rlJ
+         7t+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZXx0sRtnKVpp4RBcl+M+AX/xvH16BRmJcRsmv15A+r8=;
-        fh=KSoxjSARcinqALM2DzjMckZwS3l8Nh8oDTbSLoGn8oc=;
-        b=eBiU0dGCIc3/ly2UX2Hvb+TD/N1eAo0cJLoLmNl3qC3+9RlEXPuhnojdzBFQDLBPH1
-         upJ/W1+542P5FBHse3t8p2g1nIQTECaMQMEa70zTPbHFeRr74rs6hmob+nhgQ4nsZ8W7
-         fc+okLF7n+tIhUb74UKNZJcpF6jjTkogNtyFgnRNPg5o/54/ZHMqJfWSE+b8ZUByrxu0
-         c3LeWMjTeNcKwIerSDjW+vhi9W90XbNH2Lv0UMDt6aWDtGjEFsHmz54QXT/qwphXMX5O
-         U0xIIvIMVljN2oRVvZbLdmXocb5vFslwHadBwfNbn8Jw76F2l6Uyhw+jCZkBJiqY96Qe
-         X/SQ==;
+        bh=22PTpkoIp5WvdbaY/vm5LSTUvfhXc2qCbslNQIxRLso=;
+        fh=oWtcEB3crF31423G5obyUjQBzhjr7D0Ekp59lE8jeGA=;
+        b=FAT43yajwqLzTk2z0iKpSODXjqKS6qn1G9uhzGCIbRkV6C84fha5La0CwZxW6cFye/
+         m9ey/SEO51Ii5jv36aI/5An+mItqPyCwLxK6UatYPoOSbQOzq1rS+gnNjzD+UaCa6ZPP
+         R3C7I7F+PsY+bDaqVST6Q56cSeayG0hY7lFDRost5yfpkGwBETTEj9/6AP96rJK39Nr3
+         lWeNAvX6xQE9qug5oNYznDvmHaOa+t+n5szD/pQBoU5E2PrXKJX0taQFraVKKo6xfLFw
+         OyiUk90rBtt3Lv/ksCJ7dAnWgqTOfr+3NUkR5MBdmce9pTrUIeL8sebVzqwu64nXd7o6
+         Ku+Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789175426; x=1789780226; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789175489; x=1789780289; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ZXx0sRtnKVpp4RBcl+M+AX/xvH16BRmJcRsmv15A+r8=;
-        b=pUr3XX6xTjMVe1E2iCIC5HZQMBz648qPFxUt7OpLVcA7kifdtyCXxrVU1aTobUGyUY
-         X9hAJb58VlK+BgZ9prKHOLawZpm/z0OmRaDPZ+V4NSiHjqyVgvf2WOabks3bZHTtAi6o
-         rZcCTK0C2wXtiHJghmw5pifr/zu0Zcz68n2xz84J28fOv1JOffRLYb/UCCmkMyV8Ujpx
-         Ln9JFnuP9wHykWhijoas9BZB+NILiuBvDTNS8FV4eNti5D16/ZfXtBA5najRdmtr3QCj
-         xrL4zH1cq7CT9RgIfwri9mItC/NF9zxAlcDVaTyQUOQ/Ms38O20UBq0K9ycrN/NBVnfc
-         zfew==
+        bh=22PTpkoIp5WvdbaY/vm5LSTUvfhXc2qCbslNQIxRLso=;
+        b=Wg2/OpXTRM4qryEpCwQJ7czKFMnVXTi+Kpk1usvstc5eq246IdkgXjPn6exTBLhplz
+         oCScouXGxuBoTUe3Q70e+qE7QRwNqRFzJKoOP8bSuCN4jE4gllmGchv/zVmJV2oA9KCS
+         oRKCzGH+aLhOGPqrlzDJPLSUNEvnUYGStjXEh2agrtkUdBH/G8JUrqUKUn5GSUVEt0v4
+         txdQ5mq8QxBU41wYESKn4OejHX+ckjHp8yVfZGuz5ebR3OLvT0uD0crEHGtS/8EMASLE
+         dFrHpQhaB3pU6UFTi2IQFwVE8Wmek4iWrBVuj1R/Bg5EwJbWTGPtJ1c+TazPuQDOSnmf
+         SzGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789175426; x=1789780226;
+        d=1e100.net; s=20251104; t=1789175489; x=1789780289;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZXx0sRtnKVpp4RBcl+M+AX/xvH16BRmJcRsmv15A+r8=;
-        b=p891qfAZi7BeL0+24ckL8CE2og64eNG4784TXHCExyXdCmVFwHdBMUlUNsrFgI3FeH
-         HXbYud2RFIYmfB5c3dFy8G9IG3f5vcKJYjnPKnjT4/hhVp9dCAhLPnLzTtgQFIBf8Crn
-         jirjRYhBVIRUDUtLYKUn+vdPUDbENtIuffyXxIOWe1TmlzMoSxMNGfgg8DGr+yIgNdUy
-         Us/QuAFaTMmelCmRIZ4bpEu6g5aF4Wpes+7aqA0bH7liq/kGllRvcMhjUwMFFtrcH78s
-         mXx02+lnsI0RiZBZ6mE/1Skh8fuRd92A3sU96mUbzz1HKkfh8lIQRjXm7AThrjpokYW8
-         8cSg==
-X-Forwarded-Encrypted: i=1; AKwUvBzukpbaQ8TiKwnR1YsQx+XTCWQx3U3wjvPgCiL2pZi4fUOg7SjqsPjTlllIgsrojgMlRdOlJ9vxhbM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mT4ipr5/PAmJkLvbjQdHbMV24Xhywg3ROX+zXN5IlWs34GQJTl
-	Q/GzB7D6l0VBHEp4C+zWWoyWTfobzvh8YJpxoJ81Acqwp4XLviRpLsB+6WVMCoEY45X0xTycZMk
-	oZZ0brBzvc4yXZTaqbaiVGSWzK4h8S+E=
-X-Gm-Gg: AYBFou23VqMxn56wdANWn6DO/woea6Ss9wP7nUkgFhIugVnetCbJ8PExjYBluUswXdn
-	nhCYn86I7HOmGdcA57ajXtQLgElVqCt4H5B+8GuFshhmgpVGE24oTCkr9aITbY/8NHaIKOWxqm4
-	ka/2tJSoeTjz6y55IQpaExK4XqjRETa0hywMz4l8O8C4CEmcAE4Y9NdbQ9tSkkTg8JAJF6pRg2+
-	jWtrStMVgEhmYOpFt7xfSZr2+yx3SwRfL1dR6Tc+8kktUw5IH2/RyTqvQb3v1M5cCqe8D1H0XRJ
-	O2IIv+QFWArcxLLxv1wF8HuNeqJ5LHw2782t2rvBP8xselMe2hBd/HASfrOV/MsXxMOlqYdkj8q
-	ccG5QtvrXQuhH54Bc1E70L47BXzEVhZZvDoTbzLGeCY08
-X-Received: by 2002:a05:690e:e89:b0:671:2eed:f70f with SMTP id
- 956f58d0204a3-67135a5d1bdmr122851d50.80.1789175426402; Fri, 11 Sep 2026
- 18:10:26 -0700 (PDT)
+        bh=22PTpkoIp5WvdbaY/vm5LSTUvfhXc2qCbslNQIxRLso=;
+        b=UVfk+kNef2ZGHJsRXgsIS0cW+a8a8KsIbisjf/1HbiIoLP8Eb2+EXj5csHn1CNljwC
+         jAxv3paL2u2p6tzcY9hDK9Xx4coYAReK+rAolYJpxcRAWz3bUA+wscDgbehbuDmLE9fJ
+         vw1t0gcWD/2ifNNaX+tYEvUFnjmkGU07pRGeG2BdPoLQExxkbeHL977lJaG4L/MRLNuC
+         XrZvq/Lbplb1KKYsmuB7AIilvUJjr2wdT3t6DexoZzJr4uLy185Uz5ExfeN96Hyf+99V
+         4cYhxfz94pHkOEFCiShgeCeuo88xouklNVRhZjeIT1/w3eVg4QgzlS2gsQXTwd7krOkr
+         9NZw==
+X-Forwarded-Encrypted: i=1; AKwUvBwgvV7crCi6raz+uLTKublU2FLh/bg4kIJmw1nHY29jKuRT6kcxFBqh1nuHwjPKjhPvbYGaBfzmI+g=@vger.kernel.org
+X-Gm-Message-State: AFuF++nmgMM1b2bRZH2uy8oQIBXGC9ZzSQ8yS69OeQ4aVj8ajFDnyNah
+	6TBKu676J6iJFDv5XbBYYvK0cnDUTAnIdwwtko5XXdir3pua44s0H78ysCHjsXJbXIcg2BdbLSs
+	FnJRRf7z5nxiU59p4FNFQEXV872gGE4s=
+X-Gm-Gg: AYBFou2b8FS3oJHm2OFp0v5n7IpzZThILN5DhyiAyKFQub2P144TYI6O7d9zQ687TKu
+	6XiD3Q8BLXJAlTEgJGJxF0zVaYSlLi4wMwQbANhmzM1uFbR6UpsxiHGCwSWx5BPYUYqYXu/01pl
+	jcxpyax8wiYe7hj1YTYLX09OGqisJQ9jE3b2mPBnSEdZ/6q3v0R0FMK74CIyF+K+WMk+2Oqf+53
+	itSxQ/t41Sz8KgIDhum7abyQLLGGMaa7KVNPZtb3SRZE9nZU4te5gDMRpPbbwg36HcMvcIDHNv/
+	cotOCF7QmLfgEIAtBJeX6mREXmbOntn5RqNvOLf6AL1mvFeqcm9RXkoz1o/jKOkaayGpAoIf73h
+	YiJgxaygeIG/wDd70p0bqGgzU+PQpZRx55BlhqA2GkILjwA==
+X-Received: by 2002:a05:690e:c41:b0:671:2a94:b4ae with SMTP id
+ 956f58d0204a3-6712a94b628mr1658998d50.36.1789175488898; Fri, 11 Sep 2026
+ 18:11:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260821121220.13006-1-kartikey406@gmail.com>
-In-Reply-To: <20260821121220.13006-1-kartikey406@gmail.com>
+References: <20260821114854.12218-1-kartikey406@gmail.com>
+In-Reply-To: <20260821114854.12218-1-kartikey406@gmail.com>
 From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sat, 12 Sep 2026 06:40:14 +0530
-X-Gm-Features: AcwNN1U9RkyNLzz4vVHls-7nZlLrzjOJk34j0pUokLY7L6h0NfcCetYb4ATKesg
-Message-ID: <CADhLXY7xwBGOd04P3+W92HDivj3aztipzdeFaDg7zCOemAqyBQ@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: net2280: fix NULL pointer deref in usb_reinit_338x()
+Date: Sat, 12 Sep 2026 06:41:17 +0530
+X-Gm-Features: AcwNN1V3fWj5K6wqF8if7WrltpimdvvzgHCiuYvtPlf4pmG6r8o8plNVskWxjLw
+Message-ID: <CADhLXY4TxUf0yTxjCJqBV0s=tpU_JaCFEduLznjS7jm4RZ_oWQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
+ unconfigured direction
 To: gregkh@linuxfoundation.org
-Cc: kees@kernel.org, stern@rowland.harvard.edu, lgs201920130244@gmail.com, 
-	balbi@ti.com, ribalda@kernel.org, linux-usb@vger.kernel.org, 
+Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, 
-	syzbot+2ec7fc1793a63864d9d6@syzkaller.appspotmail.com
+	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 21, 2026 at 5:42=E2=80=AFPM Deepanshu Kartikey
+On Fri, Aug 21, 2026 at 5:19=E2=80=AFPM Deepanshu Kartikey
 <kartikey406@gmail.com> wrote:
 >
-> net2280_probe() only maps dev->llregs when the PLX_PCIE quirk bit is
-> set. usb_reinit() dispatches to usb_reinit_338x() for any device that
-> doesn't have PLX_LEGACY set, assuming such a device must have
-> PLX_PCIE set (and thus llregs mapped). That assumption holds for
-> every entry in the driver's pci_device_id table, but a forced driver
-> bind (e.g. via sysfs bind/driver_override) can invoke probe() with
-> quirks that have neither bit set, leaving llregs NULL and crashing
-> in usb_reinit_338x() on the first readl().
+> u_audio_get_playback_srate() unconditionally locks and reads
+> uac->p_prm.lock/srate, but g_audio_setup() only initializes
+> p_prm.lock when p_chmask is set. On a UAC2 instance configured
+> without a playback direction, this results in acquiring a
+> never spin_lock_init()'d lock when a GET_CUR sample rate
+> request targets playback, triggering a lockdep "trying to
+> register non-static key" warning.
 >
-> Reject probe() early when quirks has neither PLX_LEGACY nor
-> PLX_PCIE set, instead of proceeding into a reinit path that assumes
-> one of them is always present.
+> Reject the request with -EOPNOTSUPP when p_chmask is not set,
+> before touching prm->lock.
 >
-> Fixes: adc82f77bee3 ("usb: gadget: net2280: Add support for PLX USB338X")
-> Reported-by: syzbot+2ec7fc1793a63864d9d6@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D2ec7fc1793a63864d9d6
+> Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srate ge=
+tter")
+> Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+> Closes: http://syzkaller.appspot.com/bug?extid=3De1d0e66badecc32d45eb
 > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
 > ---
->  drivers/usb/gadget/udc/net2280.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  drivers/usb/gadget/function/u_audio.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/ne=
-t2280.c
-> index 7c5f30cfd24d..02d12c2ad58b 100644
-> --- a/drivers/usb/gadget/udc/net2280.c
-> +++ b/drivers/usb/gadget/udc/net2280.c
-> @@ -3708,6 +3708,17 @@ static int net2280_probe(struct pci_dev *pdev, con=
-st struct pci_device_id *id)
->                 writel(0, &dev->usb->usbctl);
->         }
+> diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/f=
+unction/u_audio.c
+> index e53f2927b539..ff811ea1e25a 100644
+> --- a/drivers/usb/gadget/function/u_audio.c
+> +++ b/drivers/usb/gadget/function/u_audio.c
+> @@ -575,6 +575,9 @@ int u_audio_get_playback_srate(struct g_audio *audio_=
+dev, u32 *val)
+>         struct uac_rtd_params *prm;
+>         unsigned long flags;
 >
-> +       /* usb_reinit() dispatches on PLX_LEGACY vs PLX_PCIE and assumes
-> +        * every non-legacy chip has llregs mapped (PLX_PCIE branch above=
-).
-> +        * A forced/mismatched driver bind can hand us quirks that satisf=
-y
-> +        * neither, so refuse to proceed rather than dereference NULL.
-> +        */
-> +       if (!(dev->quirks & (PLX_LEGACY | PLX_PCIE))) {
-> +               ep_err(dev, "unsupported device (quirks=3D%#lx)\n", dev->=
-quirks);
-> +               retval =3D -ENODEV;
-> +               goto done;
-> +       }
+> +       if (!audio_dev->params.p_chmask)
+> +               return -EOPNOTSUPP;
 > +
->         usb_reset(dev);
->         usb_reinit(dev);
->
+>         prm =3D &uac->p_prm;
+>         spin_lock_irqsave(&prm->lock, flags);
+>         *val =3D prm->srate;
 > --
 > 2.43.0
 >
 
-Please let me know the status of this patch . is this rejected ?
+Gentle Reminder. Please let me know the status of this patch
 
 Thanks
 
