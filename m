@@ -1,194 +1,249 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7CF33EAEC
-	for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 14:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9970B2DC321;
+	Sat, 12 Sep 2026 14:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789222084; cv=none; b=JR/7gi0+D51uD8eVu/0kpCiYqPltcmWcbRUr1VxPVbuFzRMnQo31plE0HIZ1JJiiR9AKrgOfZ+94z3dzQ43w+Xs+CNzNpoUTeU2Nh3oWq+NAXtITCgLdpOvR3n9a5teykB2WqmMrHjuRyRfwafJFV4rL59f8lyoUdaDYuLfUd0Y=
+	t=1789223034; cv=none; b=nIX3zaIOOYUZ2KapZDe2sr0h4ZF8h9HzFluydO+2qKXS9lMMrKr9uxM5RxstX8VNOvkdhTE8ub5OTpe+dSGo9CddHX6rasTdJ7R8y5mJHBHFY0KSlXhXLSG+2BnPbLOSZzODLGtZl5MmLQYLAGW9B4X21sYdSGQZseHOhIAQ/R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789222084; c=relaxed/simple;
-	bh=N5pN1DI1Bpg+NRDQIZl0zY7ixBv/obs7rvlGbXuLJdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AGG3kCz/ETxJBEZtPIGeZcJR7NWeDpRyH1uuf8OVBZacb9zJwcOZ0X9qsEcg2oRxD0TiCsatFj/T4t7/piQkbo3gKCWDTKv7a9BeJ3unbi4rdilTLq4MIDwl26UWalm1e4uoW6aRfwpwod4sa6ZQ+5wIdUpf3aF7QyTKLGxl12o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OL9K6/57; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789223034; c=relaxed/simple;
+	bh=mZqKJJYasQujCyX4EraeMPwUTWogr9NVQR9FOE64Re0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nAvE6qtxGv99H/guTu+iSiSQkpZRvy0mivVOKzsJH67Pl0SUEwxp1DTvNaKh7X06aBPeDBPfelisPufJRnXiLKhGemozPADh+wGVuBA2IwBk/bLwDB2Of4lzSdZ128TY80JWU5TV63ct9Gzv8IEZwcU4S8GBsGsa/F9rY3QdnFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DIge7UV4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OL9K6/57"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93a0fd41a7bso14521185a.1
-        for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 07:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789222081; x=1789826881; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UTCfdkP73gLXJ25CwDT//d6Us1e6esblg46ABiyVDOM=;
-        b=OL9K6/57FIfCiT+NwWQ6zY2Rf+odEE1e+8iauB/eF1iL6JPqlnYHxbF2XVVBMrnWZg
-         PshKvIB5uuBojMfXqQOyEYX8JQ0s73caJ904v/Ob81w6pRCiv+/mQVT3u4viq7R5urbW
-         Lnpe5C7MeBvEeVFv+jmxEhfnTjVwmAhWNGKKILQSLM62pQFWq28tmFDzKBWJe2+aXoFP
-         JWoKNKf19P2A50q6FCmbP38y7w3V2dn+dvLMhsbwKAcGQUELWoF0ZER1d5kuALUJpnsf
-         eu6gfljlCmU/jSMn9Hvxh67ZZ/01TWIRLdm1oLDCghkyvsmQ3oUqbzaOopeVAkNOV88D
-         saPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789222081; x=1789826881;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UTCfdkP73gLXJ25CwDT//d6Us1e6esblg46ABiyVDOM=;
-        b=c8m0kEjQkZnANS+tqEEZrfIcryO9zRld4xkYzGBr4OS6gUc2N/YiV6cQhAZwJ/dPLw
-         KiZqKbfFGPjh5jfxOWunm15xKJyZiHkW1/tdWkJHZA1QoSmTdL818q13zOkUEQKKP4RT
-         VmNoYVZVOB16pAOO+DLgrm9rZPUAVKCEyYL0TLBHD+RyCsVp3dCK2OlA8F0Vl1d5Ycog
-         GzzciWHd2Mc1bDDrLmrwNjWHKa25oFYpzg5VDOKpQBLedi1wXGXf0e7irZVmecaIhxoV
-         XzrX16/7BvpsUaFXqFZV96N0PfMuEsPCSuLXG7vIhnYOmVqDzfhOwn3RBg7RvYxVgiIQ
-         Wyng==
-X-Forwarded-Encrypted: i=1; AKwUvBwiHWaVZG3hrD3/yodR7Nj6BKQG8MNxEW7ez9XEnmKoUX15tWNp4f+jRMh7o4BmQNEmWluxLbnnhbQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++litAAQoSr/u5ZGq6x9gHvlJVK3r1NmcsSB6twfF7gedV+Qz4Sv
-	rJD1OSpjtov7AJkc66J1D3pMWbaUR9UPZRUJ/jqnNhJ3kN5QW7K1X3UX
-X-Gm-Gg: AYBFou0yWBxm6+mLHYZL9UsNKrDDTUzbflRHELd78Ez89dBYLY0fQYsQQmyWUgQypqB
-	XNB8kSYNCMm48hpGZo6NTz3wVk8o8Oq/yX/BS0NS7tK8jrGahH6k6SM+/GfPdP8W5s2JmhKqZtF
-	GfpKEP0k2wMSeBLjULVownEx515wbmXkcia7Igv5AR8SfQ3afadSlgKD9HK/e+KHw/5qpaDUCJD
-	kLR2RjUIoY6KczoXRDBkSQsK/A7aid8TG4HDZWaUGLDO2jG4e+92YeUZJOpSlCPZjJtG/8w8lIb
-	GShY7BqHhHvlnywy+HnBkdPPVf+vmKw3On43NlT9KhQVARfwqK1imdqBAGv5+P6/ossIWtOpXZa
-	azRP+H9GAf1RRQZhFSxUIyOkJ6oCF7gXSu4TY+u7RfaWR0UV7kT1mbC0D1U88iT1McNj1shSHsq
-	CRtDQ2f7tUXKOXXEScTq9A0wQpYPanjzQ5qmhIX4VwN/FVZoMnFRCeTMIslAuJpksic785eCfqA
-	nbnGJFXPBc/bkmtvaA4enLotXjjc+E=
-X-Received: by 2002:a05:620a:3182:b0:939:6dea:374c with SMTP id af79cd13be357-93a038efc6fmr409029785a.48.1789222077789;
-        Sat, 12 Sep 2026 07:07:57 -0700 (PDT)
-Received: from dhoja (S01067483c248479d.wp.shawcable.net. [50.72.244.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-939fc4a9455sm292155585a.31.2026.09.12.07.07.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 07:07:56 -0700 (PDT)
-Date: Sat, 12 Sep 2026 09:07:54 -0500
-From: Curtis Vogt <curtis.vogt@gmail.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 2/3] HID: valve-index: Reboot headset on system power
- transitions
-Message-ID: <aqVcun3-ksMgzb9z@dhoja>
-References: <20260910170254.833871-1-mario.limonciello@amd.com>
- <20260910170254.833871-3-mario.limonciello@amd.com>
- <20260910220421.40356e51.michal.pecio@gmail.com>
- <55918a70-72c9-4f55-934b-81a692d4619b@amd.com>
- <20260910225259.66b480c6.michal.pecio@gmail.com>
- <cb4d4f93-2e34-4c5b-b400-06fb01b6b04c@amd.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DIge7UV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0631F000FF;
+	Sat, 12 Sep 2026 14:23:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789223033;
+	bh=Dx2GMMF3WpjXlspvE8Y3Q5Avy9A57EqS6EvNGonCDkE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=DIge7UV4c64npEv/S8zW9NcOlBAMU24MLOLx+9WoXZeFgOQ2qYINY9EhJh/cao4uy
+	 JRIm5H+re/yqFvHUndac8HohVu+NW5t2+RJAf/yilPzV2/XK+GUrHIC/OI8zPnuqT0
+	 mnBLRdep7pDzW6O/dwmquvh7t1wBsB9cvFxoBVcc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Johan Hovold <johan@kernel.org>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Grant Grundler <grundler@chromium.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Yajun Deng <yajun.deng@linux.dev>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-usb@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6 0706/1424] USB: make single lock for all usb dynamic id lists
+Date: Sat, 12 Sep 2026 08:52:18 +0200
+Message-ID: <20260912065623.110486812@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260912065607.279695368@linuxfoundation.org>
+References: <20260912065607.279695368@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cb4d4f93-2e34-4c5b-b400-06fb01b6b04c@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 10, 2026 at 03:58:27PM -0500, Mario Limonciello wrote:
-> 
-> 
-> On 9/10/26 15:52, Michal Pecio wrote:
-> > On Thu, 10 Sep 2026 15:43:18 -0500, Mario Limonciello wrote:
-> > > > > +/*
-> > > > > + * The headset's EDID service is lost when the host disables the DisplayPort
-> > > > > + * PHY during system suspend, so it needs the reboot on the way out of
-> > > > > + * suspend.  Doing it on the way in does not work: the headset dropping off
-> > > > > + * USB is a remote-wakeup event from its hub and aborts the suspend.
-> > > > > + */
-> > > > 
-> > > > The internal hub which will be quirked by the next patch, or its parent?
-> > > 
-> > > It has to be the internal hub if quirking it works, no?
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
-The parent needs to be quirked: the breakout box's own hub, 28de:2613,
-sits above Microchip USB2744 (0424:2744). Only the 28de:2613 hub ever
-registered wakeup events, and quirking it alone is enough.
+------------------
 
-I also tested the quirk using a stock kernel (7.2.3) using the kernel
-param `usbcore.quirks=28de:2613:j` which stopped the headset from waking
-the host. Without that param I found that the headset would wake the
-host when healthy but not when wedged.
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-> > I believe there are two separate problems here:
-> > 
-> > 1. resetting the device at suspend causes instant wakeup
-> > 2. a few seconds later the system wakes up anyway
-> > 
-> > 1. is solved by resetting on resume rather than suspend
-> > 2. is solved by the quirk
-> > 
-> > Questions:
-> > 
-> > Any chance that 2 also solves 1?
+[ Upstream commit 0b3144da31f855fce652303f588416a60991bdef ]
 
-It does. With the quirk from 3/3 and the driver rebooting from the suspend
-hook instead of resume the headset reboots during suspend entry and the
-host stays asleep.
+There are a number of places where we accidentally pass in a constant
+structure to later cast it off to a dynamic one, and then attempt to
+grab a lock on it, which is not a good idea.  To help resolve this, move
+the dynamic id lock out of the dynamic id structure for the driver and
+into one single lock for all USB dynamic ids.  As this lock should never
+have any real contention (it's only every accessed when a device is
+added or removed, which is always serialized) there should not be any
+difference except for some memory savings.
 
-> > Would resetting on suspend be preferable, as the comment suggests?
-> > Maybe it would, if the reset can race with DP seeing empty EDID?
+Note, this just converts the existing use of the dynamic id lock to the
+new static lock, there is one place that is accessing the dynamic id
+list without grabbing the lock, that will be fixed up in a follow-on
+change.
 
-Yes, and the log bears out the ordering concern. With the reboot on
-suspend the headset is already back and so the EDID reads cleanly the
-first time. With the headset reboot on resume a re-enumeration occurs.
-There was no "EDID err" upon resume with either variant. We can go back to
-Mario's implementation of headset reboot on suspend.
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Herve Codina <herve.codina@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Grant Grundler <grundler@chromium.org>
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Yajun Deng <yajun.deng@linux.dev>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: linux-usb@vger.kernel.org
+Link: https://lore.kernel.org/r/2024111322-kindly-finalist-d247@gregkh
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Stable-dep-of: ef8154d8b52d ("usb: fix UAF when probe runs concurrent to dyn ID removal")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/common/common.c     |  3 +++
+ drivers/usb/core/driver.c       | 15 +++++----------
+ drivers/usb/serial/bus.c        |  4 +---
+ drivers/usb/serial/usb-serial.c |  4 +---
+ include/linux/usb.h             |  2 +-
+ 5 files changed, 11 insertions(+), 17 deletions(-)
 
-> I do think that resetting on suspend makes a lot more sense for that exact
-> reason.  That's why my original PoC did it that way.
-> 
-> That's a very good idea to see if the quirk + moving it back to suspend
-> works.
-
-I've validated this approach works. Happy to return to it.
-
-Diff against 2/3 moving the headset reboot back to the suspend hook:
-
----8<---
- drivers/hid/hid-valve-index.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/hid/hid-valve-index.c b/drivers/hid/hid-valve-index.c
-index 43c1142b7215..f6941dd04910 100644
---- a/drivers/hid/hid-valve-index.c
-+++ b/drivers/hid/hid-valve-index.c
-@@ -103,14 +103,18 @@ static struct attribute *valve_index_attrs[] = {
- ATTRIBUTE_GROUPS(valve_index);
+diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
+index b84efae26e154..532c1965392d1 100644
+--- a/drivers/usb/common/common.c
++++ b/drivers/usb/common/common.c
+@@ -417,6 +417,9 @@ EXPORT_SYMBOL_GPL(usb_of_get_companion_dev);
+ struct dentry *usb_debug_root;
+ EXPORT_SYMBOL_GPL(usb_debug_root);
  
- /*
-- * The headset's EDID service is lost when the host disables the DisplayPort
-- * PHY during system suspend, so it needs the reboot on the way out of
-- * suspend.  Doing it on the way in does not work: the headset dropping off
-- * USB is a remote-wakeup event from its hub and aborts the suspend.
-+ * Disabling the DisplayPort PHY during system suspend leaves the headset
-+ * unable to serve its EDID until it is rebooted, so send the reboot from
-+ * the suspend hook.  The headset drops off USB about a second later; that
-+ * does not abort the suspend because its breakout box hub is quirked to
-+ * not be a wakeup source.  On resume the hub finds the rebooted headset on
-+ * the same port and resets it in place, and the connector detection reads
-+ * a fresh EDID.  Runtime autosuspend is left alone.
-  */
--static int valve_index_resume(struct hid_device *hdev)
-+static int valve_index_suspend(struct hid_device *hdev, pm_message_t message)
++DEFINE_MUTEX(usb_dynids_lock);
++EXPORT_SYMBOL_GPL(usb_dynids_lock);
++
+ static int __init usb_common_init(void)
  {
--	valve_index_reboot(hdev, false);
-+	if (!PMSG_IS_AUTO(message))
-+		valve_index_reboot(hdev, false);
+ 	usb_debug_root = debugfs_create_dir("usb", NULL);
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index f64910e4f7c04..b0181fd4bdce7 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -95,9 +95,9 @@ ssize_t usb_store_new_id(struct usb_dynids *dynids,
+ 		}
+ 	}
  
- 	return 0;
+-	spin_lock(&dynids->lock);
++	mutex_lock(&usb_dynids_lock);
+ 	list_add_tail(&dynid->node, &dynids->list);
+-	spin_unlock(&dynids->lock);
++	mutex_unlock(&usb_dynids_lock);
+ 
+ 	retval = driver_attach(driver);
+ 
+@@ -160,7 +160,7 @@ static ssize_t remove_id_store(struct device_driver *driver, const char *buf,
+ 	if (fields < 2)
+ 		return -EINVAL;
+ 
+-	spin_lock(&usb_driver->dynids.lock);
++	guard(mutex)(&usb_dynids_lock);
+ 	list_for_each_entry_safe(dynid, n, &usb_driver->dynids.list, node) {
+ 		struct usb_device_id *id = &dynid->id;
+ 
+@@ -171,7 +171,6 @@ static ssize_t remove_id_store(struct device_driver *driver, const char *buf,
+ 			break;
+ 		}
+ 	}
+-	spin_unlock(&usb_driver->dynids.lock);
+ 	return count;
  }
-@@ -130,8 +134,7 @@ MODULE_DEVICE_TABLE(hid, valve_index_devices);
- static struct hid_driver valve_index_driver = {
- 	.name = "valve-index",
- 	.id_table = valve_index_devices,
--	.resume = valve_index_resume,
--	.reset_resume = valve_index_resume,
-+	.suspend = valve_index_suspend,
- 	.shutdown = valve_index_shutdown,
- 	.driver.dev_groups = valve_index_groups,
+ 
+@@ -220,12 +219,11 @@ static void usb_free_dynids(struct usb_driver *usb_drv)
+ {
+ 	struct usb_dynid *dynid, *n;
+ 
+-	spin_lock(&usb_drv->dynids.lock);
++	guard(mutex)(&usb_dynids_lock);
+ 	list_for_each_entry_safe(dynid, n, &usb_drv->dynids.list, node) {
+ 		list_del(&dynid->node);
+ 		kfree(dynid);
+ 	}
+-	spin_unlock(&usb_drv->dynids.lock);
+ }
+ 
+ static const struct usb_device_id *usb_match_dynamic_id(struct usb_interface *intf,
+@@ -233,14 +231,12 @@ static const struct usb_device_id *usb_match_dynamic_id(struct usb_interface *in
+ {
+ 	struct usb_dynid *dynid;
+ 
+-	spin_lock(&drv->dynids.lock);
++	guard(mutex)(&usb_dynids_lock);
+ 	list_for_each_entry(dynid, &drv->dynids.list, node) {
+ 		if (usb_match_one_id(intf, &dynid->id)) {
+-			spin_unlock(&drv->dynids.lock);
+ 			return &dynid->id;
+ 		}
+ 	}
+-	spin_unlock(&drv->dynids.lock);
+ 	return NULL;
+ }
+ 
+@@ -1059,7 +1055,6 @@ int usb_register_driver(struct usb_driver *new_driver, struct module *owner,
+ 	new_driver->driver.owner = owner;
+ 	new_driver->driver.mod_name = mod_name;
+ 	new_driver->driver.dev_groups = new_driver->dev_groups;
+-	spin_lock_init(&new_driver->dynids.lock);
+ 	INIT_LIST_HEAD(&new_driver->dynids.list);
+ 
+ 	retval = driver_register(&new_driver->driver);
+diff --git a/drivers/usb/serial/bus.c b/drivers/usb/serial/bus.c
+index 6c812d01b37d7..a1dde939f3115 100644
+--- a/drivers/usb/serial/bus.c
++++ b/drivers/usb/serial/bus.c
+@@ -136,12 +136,11 @@ static void free_dynids(struct usb_serial_driver *drv)
+ {
+ 	struct usb_dynid *dynid, *n;
+ 
+-	spin_lock(&drv->dynids.lock);
++	guard(mutex)(&usb_dynids_lock);
+ 	list_for_each_entry_safe(dynid, n, &drv->dynids.list, node) {
+ 		list_del(&dynid->node);
+ 		kfree(dynid);
+ 	}
+-	spin_unlock(&drv->dynids.lock);
+ }
+ 
+ const struct bus_type usb_serial_bus_type = {
+@@ -157,7 +156,6 @@ int usb_serial_bus_register(struct usb_serial_driver *driver)
+ 	int retval;
+ 
+ 	driver->driver.bus = &usb_serial_bus_type;
+-	spin_lock_init(&driver->dynids.lock);
+ 	INIT_LIST_HEAD(&driver->dynids.list);
+ 
+ 	retval = driver_register(&driver->driver);
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index fff16bd34fea0..bd90af9b3dbcb 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -706,14 +706,12 @@ static const struct usb_device_id *match_dynamic_id(struct usb_interface *intf,
+ {
+ 	struct usb_dynid *dynid;
+ 
+-	spin_lock(&drv->dynids.lock);
++	guard(mutex)(&usb_dynids_lock);
+ 	list_for_each_entry(dynid, &drv->dynids.list, node) {
+ 		if (usb_match_one_id(intf, &dynid->id)) {
+-			spin_unlock(&drv->dynids.lock);
+ 			return &dynid->id;
+ 		}
+ 	}
+-	spin_unlock(&drv->dynids.lock);
+ 	return NULL;
+ }
+ 
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 00e67827a9bfd..21358e1600216 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1128,8 +1128,8 @@ static inline int usb_make_path(struct usb_device *dev, char *buf, size_t size)
+ /* ----------------------------------------------------------------------- */
+ 
+ /* Stuff for dynamic usb ids */
++extern struct mutex usb_dynids_lock;
+ struct usb_dynids {
+-	spinlock_t lock;
+ 	struct list_head list;
  };
+ 
+-- 
+2.53.0
+
+
+
