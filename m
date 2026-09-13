@@ -1,75 +1,75 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730F723741
-	for <linux-usb@vger.kernel.org>; Sun, 13 Sep 2026 00:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F145322D785
+	for <linux-usb@vger.kernel.org>; Sun, 13 Sep 2026 01:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789257954; cv=none; b=YA1YEdYjCerAISKO8tbtzKm0A3T6d8y7gjmtUITieaw4fJFQ2HA2Ewwh11D94NeFSlWcp+lh3xZALR+lclEpdM78Lk86+aEz6GqR/sCi4k4xZWsF9UyTCjtd1P1aeHQlQpU1t5gIH5vP7lOMMJyz92f4MWyVNKNw1YyRNfjaU1Y=
+	t=1789262789; cv=none; b=ejV75A3UBxQ/TpPlP4dR1DPGFP9q56DS/gF2rNAqE6zK2atTKwFGRK64s8QFSr7cqAEmL8uvsjneFq3k4ggz9yyPPVNPXD6Xlt9PGWyNalmC1Ouk6Ux1J1QfZSAcsiwlmakVQcoxlIOpDRzrH+Slz1AR+8H+Pl8/2AbugqaccCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789257954; c=relaxed/simple;
-	bh=soSVvu882ur4gHwbnjSkaVSHvtFTrlKyZLnJU6qRmC0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=unD9mti30tYXyA9zy/w4Y4llLr0QhLz2T2yyyvGtEGj9pZntmNpKxXuYeWJ29Y7vRnd91MJRjVrsOaaoCSn+xLkwoUTDbevAevnEWN4SARH8y0rSSLEuXqx+lwN+ooJA5UPPT46PGv3fET4nd9hH5g5KnYNo561AsHreMHFpBSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ERaSw/b5; arc=none smtp.client-ip=74.125.230.205
+	s=arc-20240116; t=1789262789; c=relaxed/simple;
+	bh=vq0BLZJKQQeXcOLMrECiZQUoz/qRm0wp8uFG6cl/bUs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QfN7qnrbtY27y9W7X6EJFGEU2KPxp0jepsfDUrqI9qBLWz45du5dqlQtRM9n5To+Y4URYCXG2zwCYfb+RKJQQy/MAm6OqkINX1tu4ZUyeFmJmWPgrFgV/Q0fGm74jysXooGVf4ctA5bcMHq6DK3qCs3njZ5L22DT+SwRjATU5EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJECNUtV; arc=none smtp.client-ip=74.125.230.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERaSw/b5"
-Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-93910ad20d4so109669185a.3
-        for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 17:05:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJECNUtV"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76c9df1so12834211cf.3
+        for <linux-usb@vger.kernel.org>; Sat, 12 Sep 2026 18:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789257952; x=1789862752; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qtDrgayZWHV3rgFLZVw/6lppQCotHhXm5qxr/q5oXn0=;
-        b=ERaSw/b5xbawgXevqAtS24lWFk0d3XBSm9LoMmy0m7EHVV9CaUB+VvRi0tmHpJHs0k
-         9Xdh5dEsEjZOxYFyU1MaMiVMPDnAAemM5+e1LWlsg1D6w6tEz5C7QZu7FugtCE/gbTy7
-         0BzX8ni1y+BGNsEPfTMbzAfbJ71+4bNzxYxovao9jvnKmVweacWNTJdSKkGhGGsALjUk
-         XMKgg7awz4VmqeK02IbkmbLwtovYxL7oPThKIerh+aY3Mw55ld3ng6syh2cxYtkqomNx
-         zyqF260DSIHkKt09g2R4zmqloM/zCMQ57tLwE4Tm3vhNiVvjVNnVZYyvmk9rJf0hZeY9
-         u1Zw==
+        d=gmail.com; s=20251104; t=1789262787; x=1789867587; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OrmWLT4Zwpo2KcrRAH9rEocONFRPlYSL9C/P1/i0Lis=;
+        b=MJECNUtVbPGBdzcoYV+rPPFrAXTTLCddaVay0l+OeDCl1kE4PSC0rwdjK+ILF00gDH
+         avSLIHw6Cr7pZPUOGzYe3HJaTWr9EPAffSSX0rxNP6HzK+4K4UkAYfwx7/uXN+GDioeB
+         tI9Dem56XYz26DzlEDSX053UGtJ9R3QjWaFevhv8CGLtxffBfBdE5ntZsyQtkTheLAou
+         nELisOjQfCsy07UOeHk8lHbI51toIU+ISFbsMzCqYP/Y6j/QUzLM1XoB/a1CQYelhDlB
+         1s0uDn4JQ/ZznSUvaeAXuiYjuIonyg3Td2G2jWr9ldhzxLCnrUpe8Z+eCGQxn2ABKagN
+         07AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789257952; x=1789862752;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qtDrgayZWHV3rgFLZVw/6lppQCotHhXm5qxr/q5oXn0=;
-        b=nL+BOqoDV9nHTObpATYSE0IQDh/oI9tGVSYAFyH+QGrEPeZNV7LvcqfRoCtN34f6d/
-         OpmcOS6D39o8zpVy1Csry5RQo/BDnJit8IVtitQN+elIUL4VR7mCk/UbTgUlzXLJI/za
-         8okaSeKuvWXWqGbvRJtIeOyOQ9KSg76kOJmXcrXiSAkmeBfz7eI9fNgha8AgMr2qBIdV
-         QFz+645LEgnZuBARXoCK4OxGHBILfAZaPRi0o8LfJgzFt8yU5NeXRBaLxpP2QY2lhQe3
-         bkR6+5ePp7T98kIpxmLMd9XJ+bsP2ElwJ/oils6yUTqoG+DeLIjsEhR91NIU5/MvOrZV
-         TZOA==
-X-Gm-Message-State: AFuF++l8N5GXbfG+KeyCmljtwVDXfH8Qah/8qBiaB9ULqlmSRZsiUxyk
-	CtFww0GcIFkIRWjUyADxgwd6q1Qvkq6HhYQEMiwCBQDo9tJ2Fzg1roxF
-X-Gm-Gg: AYBFou2FXx3NsDWQ7eMlm+PNDWas4ZHpXB6N0begTHoEit2yrNo//RdLZP84YXeRIfr
-	RMK/SlIxpQwZ6bFosHjg0emY1ci3/AiUCve6iteQaGHBE3YqKGfbxQsck2OkTBcgE2CIima23j7
-	2WRBbXYDYeoetirnVGc+lHGTcYFP5vORXaE1jUc0aeXc4CGsOA8k9KBAp8UljagGDzb/4JhXb9y
-	KNDrDm0Ddu/mUEGqE2QX+ALDrkPdI37iPcGxGHTpiS6f5G7M0nc/LFUFo9dy5mdH07BTUvGxami
-	YoxbxcSIbE/p5yQUgc7FrUTOpElGZ3fpxtRhYxPoOlWQziIhB+vG1pSSnuEcd6Wu+tRYVsJhelQ
-	ehwwooOEVS6XtiBOO7J7EmVRr8LnXe20zX8kuA4DMWqUCuVmpgXxBaXFrbAfmOxo5p9VwZR+yv7
-	Skbv5R0nOvXGsEUiDpXzWd6M/5N8VnSndYg78CNVr1S2SUM5bLYIwqZEWKVngY46WzV6ea3Ovf5
-	8I1Od750SJ8tLfwzMPr
-X-Received: by 2002:a05:620a:488d:b0:939:6dee:4b09 with SMTP id af79cd13be357-93a039802e9mr652219485a.51.1789257952159;
-        Sat, 12 Sep 2026 17:05:52 -0700 (PDT)
-Received: from KernDev ([128.239.252.181])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93a00c1cc18sm327238985a.5.2026.09.12.17.05.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 17:05:51 -0700 (PDT)
-From: Alexander Bendezu <alexanderbendezu10@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
+        d=1e100.net; s=20251104; t=1789262787; x=1789867587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OrmWLT4Zwpo2KcrRAH9rEocONFRPlYSL9C/P1/i0Lis=;
+        b=JnZDXvhPnMl2D+brBJSj6NVuWYElr3CA6N+y60RCUdqS2ZVC8kiZ1GcOezgc/fAcfh
+         Myw7Vghv2IIAOsLswTqOdP6uLhauTzWh7M8f7WmbDV/PZapW1xxZ2E8Sem70r9Rp7LjB
+         q4ExHvApB+FA+cZ+OnkDiWbkRerSMx1qsvV/5MXsrDQVB4T+SzH0PK9AaQqXHopnLNGo
+         aPOw5R0x34zFO5JZy+D4vmk3MeRTixmAFfecTl/K1NDg4Rnekg+JTZdHPX3Pvmh8Ch+W
+         eKhC6Vl2XK/GLdWBQVvrxHP/m2h74WPKCm/VByh4W5EpQF44+R+gpsx3f1LWYznHIwx+
+         OKIw==
+X-Forwarded-Encrypted: i=1; AKwUvBzHicMlX85uHLVn5bT5ujqSsbqufdR99SVr+CpS22d2RgLi7KplL4/1kZNn2mp4W1lwrcq4sH64LUA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mtZeBHHXrfrJA1ulcuLlFiZH8PN/jzejuzalx3GiMCQfuRk9zd
+	BnaDj75Pz4W8OAL8W2M4JPhIOX9Ac3sU97+P0Xmbc0BZuzqmqwQ3epY=
+X-Gm-Gg: AYBFou2MFKmXp86naRQh0xSr5/PnNDw0kYuZUdZxqiFnZMO+wuBNVjdmAMf9lpcVAsU
+	/nb8/m/yGIPZib57/2YIV7FwKykJPfm07+TNDGfveO0sFB6uCe3k26nxwYBo0bVUpjsbquCO5tg
+	TFJeOzulMVABzYPkCcIabtlH4ct99wVcornywVJWJ8C+gsLzf9fCujkb6LNkW128FmSEuSxKCnq
+	/SoytoXRCSKzQudfrOhAP+jzt4QZX7TgO4lf0Lc6ejt/4t4ELaA5DugAt5nyEyBzoeo5VkhveTv
+	HoCVaR82PeE+ei4NXjt8ntHl/uNFY184TFOSwDOxSOE7Vlblj+teS9fRnI0BfQzMFUM8VSLsPYv
+	HO9XaDJhXQ0Ohx/Gb2h5tbxGEimppXuOZDYzqNy9RNvL4rm0su6hsuXlN9Em22fLgDRKbNoYj2V
+	PSbmRZjczrWsLsbDnmA1N/5K6aGCzzitjnKL4Ems6Br7Qf1H4HK14odVfGr5iw3TQE3CrMW4ZlZ
+	6PfgT0AnxMywUazxFuUxDNr8xIzyoAztNWfwkHCArc24mxiSRbN0gWT/WHO6DA90VGqinwBvwaF
+	V97MrZqdq8fn0Bf8UzmqILvr34LsjBEf+Q==
+X-Received: by 2002:a05:622a:1ba5:b0:530:db17:b1b1 with SMTP id d75a77b69052e-530e7da1b86mr73978581cf.8.1789262786856;
+        Sat, 12 Sep 2026 18:26:26 -0700 (PDT)
+Received: from localhost.localdomain ([104.39.73.78])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca511ff0sm59610871cf.31.2026.09.12.18.26.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 12 Sep 2026 18:26:26 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Roger Quadros <rogerq@kernel.org>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Alexander Bendezu <alexanderbendezu10@gmail.com>,
-	syzbot+3a0d6aa450317f25e501@syzkaller.appspotmail.com
-Subject: [PATCH v2] usb: gadget: f_phonet: don't call gether_get_ifname() on a non-u_ether netdev
-Date: Sun, 13 Sep 2026 00:05:46 +0000
-Message-ID: <20260913000546.99778-1-alexanderbendezu10@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026082242-celery-circle-dee9@gregkh>
-References: <2026082242-celery-circle-dee9@gregkh>
+	Myeonghun Pak <mhun512@gmail.com>,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] usb: dwc3-am62: shut down refclk on remove
+Date: Sat, 12 Sep 2026 21:26:20 -0400
+Message-ID: <20260913012620.13593-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,98 +78,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The f_phonet_ifname_show() function incorrectly used gether_get_ifname(),
-which casts the net_device private data to 'struct eth_dev'. Since the
-Phonet gadget only allocates a small 'struct phonet_port' for its private
-data, this resulted in a KASAN slab-out-of-bounds read when accessing
-dev->ifname_set.
+dwc3_ti_remove() relies on pm_runtime_put_sync() to invoke the
+runtime-suspend callback and disable the USB2 reference clock.  The
+callback is not guaranteed to run: autosuspend may defer it, and a
+reference held by pm_runtime_forbid() keeps the usage count above zero.
+The following pm_runtime_disable() then cancels pending work while the
+clock remains enabled.
 
-  BUG: KASAN: slab-out-of-bounds in gether_get_ifname+0xda/0x100
-  Read of size 1 at addr ffff8880091feaea by task cat/190
+Balance only the reference acquired by remove without requesting a suspend,
+then disable runtime PM to drain any operation in progress.  Disable the
+clock explicitly when the stable runtime status shows that the device was
+not already suspended.  This also handles CONFIG_PM=n, where the runtime-PM
+calls are stubs, without double-disabling the clock after a failed resume.
 
-  Call Trace:
-   <TASK>
-   dump_stack_lvl+0x4d/0x70
-   print_report+0x153/0x4c6
-   kasan_report+0xda/0x110
-   gether_get_ifname+0xda/0x100
-   f_phonet_ifname_show+0x3a/0x60
-   configfs_read_iter+0x2ea/0x600
-   vfs_read+0x6da/0xa40
-   ksys_read+0xfd/0x200
-   do_syscall_64+0xe0/0x5a0
-   entry_SYSCALL_64_after_hwframe+0x77/0x7f
-   </TASK>
+This issue was identified during our ongoing static-analysis research while
+reviewing kernel code.
 
-  Allocated by task 189:
-   kasan_save_stack+0x30/0x50
-   kasan_save_track+0x14/0x30
-   __kasan_kmalloc+0x7f/0x90
-   __kvmalloc_node_noprof+0x1c2/0x5b0
-   alloc_netdev_mqs+0x78/0x12d0
-   phonet_alloc_inst+0x9e/0x1d0
-   try_get_usb_function_instance+0xf9/0x1a0
-   usb_get_function_instance+0xd/0x50
-   function_make+0x163/0x340
-   configfs_mkdir+0x47d/0xfc0
-
-  The buggy address is located 154 bytes to the right of
-   allocated 2640-byte region [ffff8880091fe000, ffff8880091fea50)
-
-Fix this by reading the network device name directly with sysfs_emit(),
-avoiding the invalid struct cast. The u_ether.h include is no longer
-needed and is dropped.
-
-No locking is needed: opts->net is established before the config group is
-initialised, so the attribute cannot exist without a valid netdev, and
-holding rtnl_lock() across the read would not prevent a rename from taking
-effect before userspace sees the buffer.
-
-It went unnoticed because the helper function is reached only through
-USB_ETHERNET_CONFIGFS_ITEM_ATTR_IFNAME(), which is used exclusively by
-u_ether functions, so phonet was the only caller passing a netdev u_ether
-did not create.
-
-Fixes: 83408745b202 ("usb: gadget: f_phonet: add configfs support")
-Reported-by: syzbot+3a0d6aa450317f25e501@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3a0d6aa450317f25e501
-Signed-off-by: Alexander Bendezu <alexanderbendezu10@gmail.com>
+Fixes: 6661befe4100 ("usb: dwc3-am62: fix module unload/reload behavior")
+Assisted-by: OpenAI:GPT-5.6
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
-v2:
- - use sysfs_emit() instead of scnprintf() (Greg KH)
- - drop rtnl_lock(); the netdev cannot go away while the attribute
-   exists, and holding it across the read would not prevent a rename
-   from taking effect before userspace reads the buffer (Greg KH)
- - rewrite the commit message to describe the type confusion rather
-   than the symptom
- - drop the now-unused u_ether.h include
+ drivers/usb/dwc3/dwc3-am62.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- drivers/usb/gadget/function/f_phonet.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
-index b1ee9a7c2e94..2c6558b1a2ff 100644
---- a/drivers/usb/gadget/function/f_phonet.c
-+++ b/drivers/usb/gadget/function/f_phonet.c
-@@ -23,7 +23,6 @@
- #include <linux/usb/composite.h>
+diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
+index 632634d6e..2fb9e088f 100644
+--- a/drivers/usb/dwc3/dwc3-am62.c
++++ b/drivers/usb/dwc3/dwc3-am62.c
+@@ -319,9 +319,11 @@ static void dwc3_ti_remove(struct platform_device *pdev)
+ 	reg &= ~USBSS_MODE_VALID;
+ 	dwc3_ti_writel(am62, USBSS_MODE_CONTROL, reg);
  
- #include "u_phonet.h"
--#include "u_ether.h"
- 
- #define PN_MEDIA_USB	0x1B
- #define MAXPACKET	512
-@@ -600,7 +599,9 @@ static const struct configfs_item_operations phonet_item_ops = {
- 
- static ssize_t f_phonet_ifname_show(struct config_item *item, char *page)
- {
--	return gether_get_ifname(to_f_phonet_opts(item)->net, page, PAGE_SIZE);
-+	struct net_device *net = to_f_phonet_opts(item)->net;
-+
-+	return sysfs_emit(page, "%s\n", netdev_name(net));
+-	pm_runtime_put_sync(dev);
++	pm_runtime_put_noidle(dev);
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_dont_use_autosuspend(dev);
++	if (!pm_runtime_status_suspended(dev))
++		clk_disable_unprepare(am62->usb2_refclk);
+ 	pm_runtime_set_suspended(dev);
  }
  
- CONFIGFS_ATTR_RO(f_phonet_, ifname);
 -- 
-2.53.0
+2.47.1
 
