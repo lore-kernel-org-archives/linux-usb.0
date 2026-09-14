@@ -1,98 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641503E8695;
-	Mon, 14 Sep 2026 07:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9623E3BD653;
+	Mon, 14 Sep 2026 07:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789371025; cv=none; b=fJXGmGQ/QQvMORIhEKPGegYB4vlDXUL9UDKzoIxgJHBEVw9rss9J6Y+w1qWvXl1j6vkOnyylj6bCDoYAOHRf8GsuS8NcXQ3cDE4337LEzAd9rCzHZ2mxOBwr0yAQB3YS0NDJc9jxvMBGqFQ71hjfAWeklwKsSlZcNcW87UtXjiU=
+	t=1789371434; cv=none; b=WQMajGmN1xmzgKPsk3SmLv8sUInHqSB8WPynJ62AbeqIouO+dqLRO8+toV4mm/PwWs58wRQpvCjVSVBNILkf4KE7Osje+mpDhzqbxhucoiPMt41aFTnA7J5ysVZpE70ua1EXm1uTyXdQewxk+3GnPq1Z3UprJxdFAjMPb8nmXtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789371025; c=relaxed/simple;
-	bh=c14ChKL6PRGqOZLNMJpanHGJdHSuxKfNrsyQIOBcZG4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=te9xHiF7YGV1ejZUn0U3s69VuE+5bRSmKwGvKpiEIGZBHFP3xEtNkuHshUuV2U9NBk5/f54SayPg16JFAbGpEa86ZTAWOp3PYMsxwxkQ29PpObrMcuwRcJdsaXJIhonhmZ9txKgxFpCchn7IrPE8RC7KULPEd7+SeuOXDQgnE6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZGEgBgwh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789371434; c=relaxed/simple;
+	bh=LpYebXs+O885NgbsAwNRQzdckxOiT+MxHANXfwzxR3U=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=GNuGTTX2fPaln9xi+FaMEXe/iHIhWs2e8bWpTJd1CeYL0XQ44dBajYG0u7x3/0MAC3J0epA8GLPNfW6Vd6RawOjq+DHOuq5B5xtzQVqBl7VjVTArLYLwbjnS/eXfcsWpePPrM4mPxodvj2/S+/WhAOWdkWZGCgQAWZpLZVHSAzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=EOmty24Q; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZGEgBgwh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA391F000FF;
-	Mon, 14 Sep 2026 07:30:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789371024;
-	bh=h/bCH6JayuhRRPjziWt8ur5m+OvaGjyIb6tFSlY3JbI=;
-	h=From:Date:Subject:To:Cc;
-	b=ZGEgBgwhlPc2UrSLhIjFRNthvUb+67/aXrLJ/h2kuDCDTzn/vhyB/orm8UIROzRRR
-	 wMNFTkECVSyahxsCK8fceYvqlN2DI9Fbh+K/AE2CKv+CvgEvrZT/gHbviqwuCS7Nh5
-	 9aqRfuGx4qsOA1ykyVEp7PefAImW6YZ5eTY8615+K3lTo6NQKkI6qKU/wQYGkKUj6j
-	 hE4S9Gzmevs03wr1vmACJhtWumnzoygI+qrgqM2T1P9EaPxb8cpOaO8G8BLpZJ9D6S
-	 OAu9ugH5Cljhz3yIz2abDFR7jY1AYTJf8iGtfCmU0/OaqwObxzvJ+YTVYimviYDt+E
-	 4DI+CZp6Tz4jw==
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 14 Sep 2026 09:30:20 +0200
-Subject: [PATCH v2] usb: fotg210: guard host shutdown in gadget-only builds
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="EOmty24Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=LpYebXs+O885NgbsAwNRQzdckxOiT+MxHANXfwzxR3U=; b=E
+	Omty24QVCWNlBHUHn3PoLz8XExMavVPhWbEW6lD9w1ayGED4+cE9W6SWFOE/tzRp
+	6J8Q5MrVKHLxixxBddsCUZluSv38bWA1XZq1l04swNRAFpr5jWK2GWxempW7nBnZ
+	HB+leBspZz80UlvzfP+TziD+w8Z40/Z2jfZSO2if8w=
+Date: Mon, 14 Sep 2026 15:36:36 +0800 (CST)
+From: CJ <firefly0158@163.com>
+To: gregkh@linuxfoundation.org, oneukum@suse.com, n7l8m4@u.northwestern.edu,
+	kees@kernel.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG] usb: mdc800: possible circular locking dependency between
+ io_lock and minor_rwsem
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+X-NTES-SC: AL_Qu2TC/+cvksi4CeQbOkdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/3rjaPTZFDSn9GkNCD5lRoQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-fotg210-ehci-fixes-v2-1-f98f7d3550d3@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NQQrCMBBFr1Jm7cgk1sa68h7SRUinzaAkkpSgl
- N7d2AO4fP/z/l8hcxLOcG1WSFwkSwwV9KEB522YGWWsDJp0R71qcYrLrBUheyc4yZszqstIprV
- 86omhiq/Ee1G9+1DZS15i+uwfRf3Sv3NFoUJrzs52ZrKO2tuDU+DnMaYZhm3bvoH8i2e1AAAA
-X-Change-ID: 20260914-fotg210-ehci-fixes-18d074ae390e
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Alan Stern <stern@rowland.harvard.edu>, Daniel Palmer <daniel@thingy.jp>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>, Linus Walleij <linusw@kernel.org>
-X-Mailer: b4 0.16.0
+Message-ID: <5c30f641.6b79.1a09ed8b2bf.Coremail.firefly0158@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:hygvCgD3f78FpKdqmRkPAA--.18456W
+X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3gWuYGqnpAWtwgAA3W
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-FOTG210 can be built with CONFIG_USB=n, but its shutdown callback
-references usb_hcd_platform_shutdown() from the USB host core,
-causing a link failure.
-
-Guard the call with CONFIG_USB_FOTG210_HCD so gadget-only builds do
-not reference the host shutdown helper.
-
-Fixes: 7dbc2e1ba8fd ("usb: fotg210: use the common EHCI core")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202609141128.DQicnuRW-lkp@intel.com/
-Assisted-by: LLM
-Signed-off-by: Linus Walleij <linusw@kernel.org>
----
-Fix the gadget-only build failure introduced by the FOTG210 common
-EHCI conversion by guarding the host shutdown call.
-
-Based on the complete FOTG210 modernization series. Verified with
-PowerPC64 gadget-only and Gemini host object builds using LLVM.
----
-Changes in v2:
-- Add Fixes: tag for the commit on Gregs usb-next branch.
-- Link to v1: https://patch.msgid.link/20260914-fotg210-ehci-fixes-v1-1-a75ca67fac04@kernel.org
----
- drivers/usb/fotg210/fotg210-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/fotg210/fotg210-core.c b/drivers/usb/fotg210/fotg210-core.c
-index 7976bdae5f07..7de49b7eb3aa 100644
---- a/drivers/usb/fotg210/fotg210-core.c
-+++ b/drivers/usb/fotg210/fotg210-core.c
-@@ -258,7 +258,8 @@ static void fotg210_remove(struct platform_device *pdev)
- 
- static void fotg210_shutdown(struct platform_device *pdev)
- {
--	if (usb_get_dr_mode(&pdev->dev) != USB_DR_MODE_PERIPHERAL)
-+	if (IS_ENABLED(CONFIG_USB_FOTG210_HCD) &&
-+	    usb_get_dr_mode(&pdev->dev) != USB_DR_MODE_PERIPHERAL)
- 		usb_hcd_platform_shutdown(pdev);
- }
- 
-
----
-base-commit: da11df946e2c5288ba1124b20af7faada58b85eb
-change-id: 20260914-fotg210-ehci-fixes-18d074ae390e
-
-Best regards,
---  
-Linus Walleij <linusw@kernel.org>
-
+CkhpLAoKCkkgYW0gcmVwb3J0aW5nIGEgbG9ja2RlcC1kZXRlY3RlZCBjaXJjdWxhciBsb2NraW5n
+IGRlcGVuZGVuY3kgaW4gdGhlIG1kYzgwMCBVU0IKZHJpdmVyLCB0cmlnZ2VyZWQgYnkgYSBzeXpr
+YWxsZXIgVVNCIHJlcHJvZHVjZXIuICBUaGUgaXNzdWUgaXMgcmVwcm9kdWNpYmxlIHdpdGgKSEVB
+RCBjb21taXQgY2VlOTM5NWFjZDgwNDNiZTA2NDRiMjVjMzRiZmE4NjYyM2YyYjkzNSAodjcuMy1y
+YzEsIExpbnV4CjcuMy4wLXJjMSkuCgoKVGhlIHJlcHJvZHVjZXIgY29ubmVjdHMgYSBzeW50aGV0
+aWMgVVNCIGRldmljZSB0aHJvdWdoIGR1bW15X2hjZCB0aGF0IGVudW1lcmF0ZXMKYXMgdGhlIG1k
+YzgwMCBjYW1lcmEsIHRoZW4gb3BlbnMgdGhlIGNoYXJhY3RlciBkZXZpY2Ugbm9kZS4gIE5vIGZp
+bGVzeXN0ZW0gb3IKaW1hZ2UgaW5wdXQgaXMgaW52b2x2ZWQ7IHRoZSB0cmlnZ2VyIGlzIHRoZSBj
+b25uZWN0LXRoZW4tb3BlbiBzZXF1ZW5jZSBvbiBhCmRldmljZSB0aGF0IGJpbmRzIHRvIHRoaXMg
+ZHJpdmVyLgoKCk9wZW5pbmcgdGhlIGRldmljZSByZWFjaGVzIG1kYzgwMF9kZXZpY2Vfb3BlbiB0
+aHJvdWdoIHRoZSBVU0IgY2hhcmFjdGVyLWRldmljZQpmaWxlIG9wZXJhdGlvbnMsIGFuZCBsb2Nr
+ZGVwIHJlcG9ydHMgdGhhdCB0aGUgdGFzayBpcyBhY3F1aXJpbmcKJm1kYzgwMC0+aW9fbG9jayB3
+aGlsZSBhbHJlYWR5IGhvbGRpbmcgbWlub3JfcndzZW0jMiB0YWtlbiBieSB1c2Jfb3Blbi4gIFRo
+ZQpleGlzdGluZyBkZXBlbmRlbmN5IGNoYWluIGluIHRoZSByZXBvcnQgc2hvd3MgdGhlIG9wcG9z
+aXRlIG9yZGVyLCBzbyB0aGUgdHdvCmxvY2sgY2xhc3NlcyBhcmUgcmVjb3JkZWQgaW4gYm90aCBv
+cmRlcnMgYW5kIGxvY2tkZXAgZGVjbGFyZXMgYSBwb3NzaWJsZQpjaXJjdWxhciBkZXBlbmRlbmN5
+LgoKCk9uZSBwb3NzaWJsZSBjYXVzZSBpcyB0aGF0IHRoZSBkcml2ZXIncyBwcml2YXRlIGlvX2xv
+Y2sgaXMgYWNxdWlyZWQgaW5zaWRlIHRoZQpVU0IgY29yZSdzIGZpbGUtb3BlbiBwYXRoLCB3aGlj
+aCBhbHJlYWR5IGhvbGRzIHRoZSBtaW5vciByd3NlbSB0aGF0IGd1YXJkcyB0aGUKZHJpdmVyIGJp
+bmRpbmcsIHdoaWxlIGFub3RoZXIgcGF0aCB0YWtlcyB0aGUgc2FtZSB0d28gbG9ja3MgdGhlIG90
+aGVyIHdheQphcm91bmQuICBUaGlzIGxvb2tzIGxpa2UgYSBsb2NrLW9yZGVyaW5nIHByb2JsZW0g
+YmV0d2VlbiBhIGRyaXZlci1wcml2YXRlIG11dGV4CmFuZCB0aGUgVVNCIGNvcmUgZmlsZS1sYXll
+ciBsb2NrIHJhdGhlciB0aGFuIGEgdXNlIG9mIGEgc2luZ2xlIGxvY2suICBJIGFtCnJlcG9ydGlu
+ZyB0aGUgb3JkZXJpbmcgYXMgb2JzZXJ2ZWQ7IHRoZSBkcml2ZXIgaXMgbGVnYWN5IGFuZCBwb3Nz
+aWJseSB1bnVzZWQsIHNvCmlmIHRoZSBpbnRlbmRlZCBmaXggaXMgdG8ga2VlcCB0aGUgbG9jayBv
+cmRlciwgcGxlYXNlIHRyZWF0IHRoaXMgYXMgYSByZXBvcnQgb2YKdGhlIGRlYWRsb2NrIHBvdGVu
+dGlhbCBvbmx5LgoKClRoaXMgYXBwZWFycyB0byBiZSBhIHJlY3VycmVuY2Ugb2YgdGhlIHN5emJv
+dCBpc3N1ZSB3aG9zZSBleHRlcm5hbCBpZCBpcwoxMDUwYzAwOTllYzViZmU3ZWU0ZSwgdGl0bGUg
+InBvc3NpYmxlIGRlYWRsb2NrIGluIG1kYzgwMF9kZXZpY2Vfb3BlbiIuICBJdApyZW1haW5zIHJl
+cHJvZHVjaWJsZSBvbiB2Ny4zLXJjMS4KCgpSZXByb2R1Y2VyOgoKCnN5eiByZXByb2R1Y2VyOgpz
+eXpfdXNiX2Nvbm5lY3QoMHgyLCAweDQwLCAmKDB4N2YwMDAwMDAwMDAwKT1BTlk9W0BBTllCTE9C
+PSIxMjAxMDAwMTAwMDAwMDA4NWYwNTAwYTgwMDAxMDAwMDAwMDEwOTAyMmUwMDAxMDEwMDgwMzIw
+OTA0MDAwMDA0ZmYwMDAwMDAwNzA1MDEwMjA4MDAwMDA3MDU4MjAzMDgwMDAxMDcwNTAzMDI0MDAw
+MDAwNzA1ODQwMjQwMDAwMCJdLCAweDApCnN5el9vcGVuX2RldiRjaGFyX3VzYigweGMsIDB4YjQs
+IDB4MCkKCgpjb25zb2xlIG91dHB1dDogaHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3LzJqQjBkMUxt
+Cmtlcm5lbCBjb25maWc6IGh0dHBzOi8vcGFzdGViaW4uY29tL3Jhdy9ZWml3YWJ4awoKCktlcm5l
+bDoKCgpIRUFEIGNvbW1pdDogY2VlOTM5NWFjZDgwNDNiZTA2NDRiMjVjMzRiZmE4NjYyM2YyYjkz
+NQpnaXQgdHJlZTogdXBzdHJlYW0gKGxpbnV4LmdpdCksIHRlc3RlZCB0aHJvdWdoIHRoZSB2Ny4z
+LXJjMSBhbm5vdGF0ZWQgdGFnIG9iamVjdArCoCDCoCDCoCDCoCDCoCDCoGU1ZTA0NzI2Y2RkMDQz
+ZTMwOTY3NzA3MWFiMWI2NWE0YjE4ZjQyMmIKa2VybmVsIHZlcnNpb246IDcuMy4wLXJjMSAjMSBQ
+UkVFTVBUKGZ1bGwpCnRlc3RlZCB0YWc6IHY3LjMtcmMxIChMaW51eCA3LjMtcmMxLCAyMDI2LTA4
+LTMwKQoKCkxldCBtZSBrbm93IGlmIHlvdSBuZWVkIG1vcmUgZGV0YWlscyBvciB0ZXN0aW5nLgoK
+CkJlc3QgcmVnYXJkcywKQ2hhbmdqaWFu
