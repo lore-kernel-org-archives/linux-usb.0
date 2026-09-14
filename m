@@ -1,32 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A834A480DEC;
-	Mon, 14 Sep 2026 14:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA7947668C
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 14:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396263; cv=none; b=cwcQcCJUMHfrXwM9yMxGgriRuyu6li7jgm/CJjgYm3MnDZ7gNcVwTl4MtGbiyMKMWgv6MOUCGtsH9ocz8YzBr5CjTTsOR1bcvGwSAk94XyVRvSJCClhnV/LmjvhydaduVLYczIZiBTtpOluTRDE1EnVAnKD2koLiA+nhRXGh7+I=
+	t=1789396571; cv=none; b=GGPxDwgINCl57gXM+O2ouoFR7WEnjpxOjHr4aBJ94y/s+NdVP6U0t/CPrs6fW/UdIfi9iAQ+NZilWYSfCiHMHHZ/+inPwP9ESwWW5DeSXkv0EIVZCwplGpyDjr1Armi+JFZLK4ouQIqj4oWaChLtZAAUsmsjiS0dHGo/2fmtkBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396263; c=relaxed/simple;
-	bh=Z3E1hZeNvURbzCH4DGhMWQZAayLO6QmTSTK8h0higAc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AWdnjTuNq/keWl4o4qGMJHcbqWV/uCsCo2Tglsqexf1OswmDIlDoHXqMLYXLJLCYcv3XDT508GHxkTFovqZFpku5snkm0jrEapqt0REPBuWItX7NwBxNfqglVs3TvBWW+o0lbDxbpvv+KHi6bF/wuoj7TbZeP8mjht5MRDXpD6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oX+q0OYO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789396571; c=relaxed/simple;
+	bh=JSOYkk1sGGaCjE3i0cw3Y06fiQPH0EUnCpLAagRRTWo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hG17wls+ops8nEZEQtB9JmKM8Y4FoS6gd5ItTJ5NwXPIdRdMcQqVkyGI8g0Vx3yEiGHbNz4wwBHXQfZSs4n9Zbq2lMZYL1Z3bITWyVwZJC2lKT+xsRNBA4IR4zVl8GJCR8ao9SHKIGXNqnd4va66u8CBaJboIW1pGVDvpuhw7Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Y2Lpjlat; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dxHYYfhT; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oX+q0OYO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824541F000FF;
-	Mon, 14 Sep 2026 14:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789396261;
-	bh=QU/gZVED0AtjJX6+GC2V0P7psA+KVinUaVQghPSJtXw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oX+q0OYO1Fktez0rwXQHiVnV+hWx4Kv7NlHOJGc7Y4bbZyCPD80FO1KcxhSpBfbYX
-	 X++G0vdPmuBOKbkgMFl2U3G1wS7V1NvnCp4W8x7oTys1xs8hwXO5UaWq2TASnRagEG
-	 zhwpPDJwB20IhdrlkZivltLl7K4/RF0a8GokOf40=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Mon, 14 Sep 2026 16:30:33 +0200
-Subject: [PATCH v4 3/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y2Lpjlat";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dxHYYfhT"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68ED0YPG830678
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 14:36:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=LfpYWv8mDIWbhQzeiTGiBs
+	vb4f261tT/LiVuOxiQSgo=; b=Y2LpjlatsReSUn8Lmwvo8O+EjbNvE5LF10GMi2
+	UgA1MQXx81/98OH7QrtcxVpelr8wzX/WiBRF1xgES4yQQELZXbRnw4KCLk7frFG0
+	QYvB8aAFbZVxzwPmb/sXg7p9ELxKenlDhdHmn7sr11sDwcJKYqy6v03VaZyReqgP
+	DnzDtkLRfblwSozDZ/TG8LAKhUR2mioEsUFTmMrjn4ztNE3PINugxpkSB+6u9/SI
+	Ur7dvEvLOykq5Oo+6KOGeBc1cgxa5RUYxUdUeq3Lr9aAHMex4wltKd6y5bcplecO
+	vGHjgAQY8sInHrGeWnkM7Iu/LnGZr29O4T2W9nwE9iurccMw==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gp3hstvvk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 14:36:08 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-86a63cca6ffso4067318b3a.3
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 07:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789396567; x=1790001367; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LfpYWv8mDIWbhQzeiTGiBsvb4f261tT/LiVuOxiQSgo=;
+        b=dxHYYfhTxTLsFWaKhT49IGxIOfxBsJFJ6rSFZ/62l/VZfdLwUPw1bP2UAKZzyWFA2M
+         SGSD3aYTCZawupKln8gDajpVbByIRJkfNTD9S3Ux/u/WIbEi6S6/WvvdNXXbYi8RYYKq
+         sBQmWrSNXBEXfDEQjFg8A3GdI9I3dllBGxIS9P292Yaq3ou13knW255CYTYYDk2jXYeG
+         LAUQGKLoB3WHlj5N9Fv12Z3c5mja5ilf1eWUb4R4Twwig+prXm9TNPBw7Cav5lC7SuGc
+         R1I3XVJ0FGoxEjkQ/rEKjhWaIMLxQgaSCmwJB3B3HqYe9AHiB5bpwW2DJfP9AQbpnau9
+         JKdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789396567; x=1790001367;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=LfpYWv8mDIWbhQzeiTGiBsvb4f261tT/LiVuOxiQSgo=;
+        b=DNU9HkDYUKosZixzFFTr6diRVxT8Qf79vMYWNgJ+Prk6UsLl3BPTop/GE1v0zSPSuA
+         coqFNKrED6mbzM73Ff6TbfsX5GyRmRFarpBakaopucV172DvXojjlTGaYHd7eIbLGwaZ
+         7LDLt/CmLqq9/bWVgftPwIAvG+XVJOYbU5+7s8b4/Li9sEGjIyfj7M+41ETA/mrEMZMW
+         kC9wupehau1k0kuwAHX5IAmY7CshDjjskC2DFlsWGnn8QBknaQ2MoTK/75emfVjkkiq8
+         5nYJrY60SkrFG01zRA31SQuBZjx+4bdkZBE5jLd5ExsU2wALoYa6PXSibtkZEXuB1ebI
+         1kjA==
+X-Gm-Message-State: AFuF++mSWwbs0y7SOC3+qTgPJKZ+/BuY7PEapxUmogchf3IsSBJXFvuO
+	5s0pZL3dNPbAxG9ESbQnSOP9OW9s47slU/BM7DADWqNnxoOlJngkEgjp0PZNFFGqtcJYUIWxl9z
+	W6LhjMpkMxDaRZlevkIkAaBufJlF6gilbLvUvMeVFCpfvcVmocOnCyJ49MbgiVJn3PJpcSwU=
+X-Gm-Gg: AYBFou08a7bQcD16phFi+3Us7kg7rAB3xDlYJQgpPn+vIU1ISX6aqfS/AHwDYttPEUr
+	sGtSYWeNmQvR/h5BtjHy6i3mDumHIoVzN27spp6WuzQdaa7AR51obv/KXGcUewsPOCR9532DtNg
+	IKJLyk2XrRzu4NCwt5pG1IGUtxoZP8LgFOtHwv9kv8+Q75CCDyElToR+3HyhB44TfD7PBrcCaLd
+	cRKNEePqGrQZheJZPvj/ZEWF9HVGc2oTPS54rGsp0NtgDWxuDDfiVzlA+zoAetNWzIq4m7JGNu5
+	qnWqDxAiA91odVSZUuRtv+h5mwtMwbdmePGZ5HnWvqXx0mwrVo0TE0ic5r8u8sI6i1Zfd7Y45l8
+	XCvMpEfjpUgXKxH6F/h/mcKD3o/IZBAAO0h76UPeVGn/Rodf456asw8S0v80Z0hmU3PvW9g==
+X-Received: by 2002:a05:6a20:918b:b0:3da:e7db:5afe with SMTP id adf61e73a8af0-3db405d3f9amr6924975637.14.1789396567133;
+        Mon, 14 Sep 2026 07:36:07 -0700 (PDT)
+X-Received: by 2002:a05:6a20:918b:b0:3da:e7db:5afe with SMTP id adf61e73a8af0-3db405d3f9amr6924867637.14.1789396566556;
+        Mon, 14 Sep 2026 07:36:06 -0700 (PDT)
+Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c652ab37sm5247998a12.11.2026.09.14.07.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 07:36:06 -0700 (PDT)
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Date: Mon, 14 Sep 2026 20:05:58 +0530
+Subject: [PATCH] usb: dwc3: qcom: Add support to skip phy management by USB
+ core
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,264 +87,165 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-bind_taint-v4-3-eadf8a090903@linuxfoundation.org>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-In-Reply-To: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Bradley Morgan <brads@mainlining.org>, 
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Johan Hovold <johan@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10654;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=Z3E1hZeNvURbzCH4DGhMWQZAayLO6QmTSTK8h0higAc=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkrWIWK++seileE2bVHfp3Rr9rS6XP9Kp9pw7fmFX/rj
- 95emn6zI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZieZxhwaWmQ6+s72aJf4qc
- 8zYtu/qL11G7WoZ51p6S8fsUbC5PsLgtIiRvonpy7aqzAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Message-Id: <20260914-xhci-skip-phy-init-v1-1-9c46b31a5a39@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAE0GqGoC/yXMQQrCMBBG4auUWTuQVAnUq4iLJpmaXyGGTCuV0
+ rsbdfkt3ttIpUKUzt1GVV5QPHODPXQU0phvwojN1JvemcGeeE0BrA8ULunNyJg5mtH5ODhvjxO
+ 1sFSZsP6ml+vfuvi7hPl7on3/AJHu1+B2AAAA
+X-Change-ID: 20260914-xhci-skip-phy-init-d0a6bd96b13f
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789396563; l=4556;
+ i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
+ bh=JSOYkk1sGGaCjE3i0cw3Y06fiQPH0EUnCpLAagRRTWo=;
+ b=8sWib0iVeloFYe7LoOk7asVkDiJUxtbXTvn2mXHdgC6Jf40Kp6XNjvgzz3/nLHcJ8OwjX0qsr
+ aTrdpWVuUswAFrcpZ4vzvItE+kHwEgMiUMFbUn4NNFHYKqBmPE945TY
+X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
+ pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDIwOSBTYWx0ZWRfXy9PJP5rTnaE+
+ iWuazqQvnoxew3oYhwYAI8cX0bsBd99LWrLIiulL1/NnihMQfDqvfD9SgZsek3M5XSQZfb/KPZL
+ rhWBkK5QCrBSTL+Kb6av94dlQMk3tHWTVgEN2YCvivuhy8QSEWKcDExo5XcceSkW8zDLX6U5Xdh
+ 2x1u4I0XV2OcVozCrUQNKVNV58jN20SUeg+b9lEFGS0o5toXrWh2IyEu+4zW/HJyp0f4rbjSfPe
+ bFr4qxWgMGz1FvPuJCjWb6MTz6e+SSxcYCgJ1r8QssrUa39D4GFlwe1n9jre0qRbU9Gkw6GQFkG
+ kFNY/qtEgpQ7OjxTkmoPrrJ7zUObnhW5cP+hxysBqs5b6AWkp6cr/Y/IlyfgYQ7bB1MZ7vbnzFw
+ tSqFzVKX8/tydZ30bmEfr+opIpUUILl3v7HEJFN5WQtbDh0gEArbc5OfQAazmAQh9LIWfXtrWMQ
+ mAnUP1CneucyEq6WscQ==
+X-Authority-Analysis: v=2.4 cv=IZwSymqa c=1 sm=1 tr=0 ts=6aa80658 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Ad8HgbVwfoR85nvhAlAA:9 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: LOu9ofC2GjtUrdZyiOpkDUkE9rur9G-I
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDIwOSBTYWx0ZWRfX5Wb4s1ovJ6Oq
+ 45iW4MG9798JP/YoixQy75N3mw4ANtrTX5PUi3Ey6gbQOwb8kiYdhWkuvD0x4PPGiX5d4uonHa0
+ wdO53ZiU1/xy9M2HiPIGfOwN6Hvv5ww=
+X-Proofpoint-ORIG-GUID: LOu9ofC2GjtUrdZyiOpkDUkE9rur9G-I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-14_03,2026-09-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609140209
 
-The ability to add and remove devices from a driver through the sysfs
-"bind" and "unbind" files was created all those decades ago as a way
-that kernel developers can iterate faster, and provide a debugging way
-for users to attempt to add a new device to a driver without having to
-rebuild their kernel.
+DWC3 driver does manage phys itself sufficiently for Qualcomm platforms.
+If xhci-skip-phy-init is not set, the HCD core does a phy_init and phy_
+exit is done only when roothub is being destroyed. Due to this, during
+system suspend in host mode, although phy_exit is done by DWC3 core, the
+init_count on phy is never down to zero since HCD core also did an init.
+consequently causing phy's exit routine to not be called. Hence, add
+support to skip phy management by USB core.
 
-This api over the years has been abused and recently come under a major
-fuzzing "attack" through tools like syzbot which decided that it would
-attempt to just randomly bind any driver to any type of device, causing
-loads of unneeded errors and pointless kernel patches to be generated by
-unsuspecting new developers.
+Some Exynos platforms still do rely on USB core for phy_calibrate calls,
+hence disable USB core management for Qualcomm platforms only.
 
-Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-will be set on the driver if the bind/unbind sysfs files are ever
-written to.  This lets kernel developers "know" that a user is
-attempting to do something that is not normal, and as such, if the
-kernel breaks they get to keep the shiny pieces laying around on the
-floor.
-
-The flag is 'Y' which was unused, and can remembered as the user is
-"yeeting" the device being operated on here (thrown with force without
-regard for the thing being thrown).
-
-Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-as many times crashes/oops/warnings/failures happen within the callback,
-and the taint flag needs to be there to show what was being attempted.
-If it were to be set after the callback happens, the oops report would
-not properly reflect what foolishness was being attempted.
-
-Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-the tool from hitting bind/unbind, should be run with panic_on_taint
-enabled so that they fall over and don't continue on, thinking that they
-actually found a real issue.
-
-Userspace operations that rely on the bind/unbind files to work around
-the lack of will to upgrade a kernel image to a newer version with
-proper support for new devices, or the lack of will to submit valid
-device ids to driver authors, will still work properly, but now the
-kernel will be flagged in a way that will show that perhaps those users
-should reconsider their behavior and work to have the drivers properly
-support these devices in a "native" manner.
-
-Finally, the bind/unbind files can find real use-after-free issues with
-some drivers by forcing the process to happen virtually without having
-to rely on manual removal processes.  Those real bugs should still be
-worked on, but by adding this taint flag, developers can more easily
-determine bug reports that are actually worth looking at.
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Tested-by: Johan Hovold <johan@kernel.org>
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 ---
- Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
- drivers/base/bus.c                            |  3 ++
- include/linux/panic.h                         |  3 +-
- include/trace/events/module.h                 |  3 +-
- kernel/panic.c                                |  5 +--
- tools/debugging/kernel-chktaint               |  8 +++++
- 6 files changed, 46 insertions(+), 28 deletions(-)
+Initially, a patch was sent adding software_node properties [1]. But it
+was causing a bootup issue as mentioned in [2]. Hence a revert was sent
+to fix it [3]. This patch uses a different approach as opposed to adding
+sofware node properties and was tested on sm8750 mtp.
 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index 9ead927a37c0..abbf5e3dd749 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -79,30 +79,31 @@ which bits are set::
- Table for decoding tainted state
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[1]: https://lore.kernel.org/all/20260723-dwc3-skip-init-quirk-v1-1-97682bb44ebd@oss.qualcomm.com/
+[2]: https://lore.kernel.org/all/cbb4ae94-7862-4d91-b01d-0d7f18d49a45@packett.cool/
+[3]: https://lore.kernel.org/all/20260909-xhci-fixes-revert-v1-1-7cc97fa0f307@oss.qualcomm.com/
+---
+ drivers/usb/dwc3/core.c      | 3 +++
+ drivers/usb/dwc3/core.h      | 1 +
+ drivers/usb/dwc3/dwc3-qcom.c | 1 +
+ drivers/usb/dwc3/glue.h      | 2 ++
+ drivers/usb/dwc3/host.c      | 5 ++++-
+ 5 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index fd5c2cd36c59..d9f4e4109abb 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1694,6 +1694,9 @@ static void dwc3_get_software_properties(struct dwc3 *dwc,
+ 	if (properties->needs_full_reinit)
+ 		dwc->needs_full_reinit = true;
  
--===  ===  ======  ========================================================
--Bit  Log  Number  Reason that got the kernel tainted
--===  ===  ======  ========================================================
--  0  G/P       1  proprietary module was loaded
--  1  _/F       2  module was force loaded
--  2  _/S       4  kernel running on an out of specification system
--  3  _/R       8  module was force unloaded
--  4  _/M      16  processor reported a Machine Check Exception (MCE)
--  5  _/B      32  bad page referenced or some unexpected page flags
--  6  _/U      64  taint requested by userspace application
--  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
--  8  _/A     256  ACPI table overridden by user
--  9  _/W     512  kernel issued warning
-- 10  _/C    1024  staging driver was loaded
-- 11  _/I    2048  workaround for bug in platform firmware applied
-- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
-- 13  _/E    8192  unsigned module was loaded
-- 14  _/L   16384  soft lockup occurred
-- 15  _/K   32768  kernel has been live patched
-- 16  _/X   65536  auxiliary taint, defined for and used by distros
-- 17  _/T  131072  kernel was built with the struct randomization plugin
-- 18  _/N  262144  an in-kernel test has been run
-- 19  _/J  524288  userspace used a mutating debug operation in fwctl
--===  ===  ======  ========================================================
-+===  ===  =======  ========================================================
-+Bit  Log  Number   Reason that got the kernel tainted
-+===  ===  =======  ========================================================
-+  0  G/P        1  proprietary module was loaded
-+  1  _/F        2  module was force loaded
-+  2  _/S        4  kernel running on an out of specification system
-+  3  _/R        8  module was force unloaded
-+  4  _/M       16  processor reported a Machine Check Exception (MCE)
-+  5  _/B       32  bad page referenced or some unexpected page flags
-+  6  _/U       64  taint requested by userspace application
-+  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
-+  8  _/A      256  ACPI table overridden by user
-+  9  _/W      512  kernel issued warning
-+ 10  _/C     1024  staging driver was loaded
-+ 11  _/I     2048  workaround for bug in platform firmware applied
-+ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
-+ 13  _/E     8192  unsigned module was loaded
-+ 14  _/L    16384  soft lockup occurred
-+ 15  _/K    32768  kernel has been live patched
-+ 16  _/X    65536  auxiliary taint, defined for and used by distros
-+ 17  _/T   131072  kernel was built with the struct randomization plugin
-+ 18  _/N   262144  an in-kernel test has been run
-+ 19  _/J   524288  userspace used a mutating debug operation in fwctl
-+ 20  _/Y  1048576  device was manually bound or unbound from a driver
-+===  ===  =======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
- easier.
-@@ -189,3 +190,6 @@ More detailed explanation for tainting
-  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
-      to use the devices debugging features. Device debugging features could
-      cause the device to malfunction in undefined ways.
++	if (properties->skip_phy_init)
++		dwc->skip_phy_init = true;
 +
-+ 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
-+     successfully bound or removed a device from a driver.
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index d17bd91490ee..c51ad96d4de4 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/mutex.h>
- #include <linux/sysfs.h>
-+#include <linux/panic.h>
- #include "base.h"
- #include "power/power.h"
+ 	dwc->gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED;
  
-@@ -241,6 +242,7 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+ 	if (properties->gsbuscfg0_reqinfo !=
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 608daeb7ef10..b72869380933 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1420,6 +1420,7 @@ struct dwc3 {
+ 	unsigned		wakeup_configured:1;
+ 	unsigned		suspended:1;
+ 	unsigned		susphy_state:1;
++	unsigned		skip_phy_init:1;
  
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && dev->driver == drv) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		device_driver_detach(dev);
- 		err = count;
- 	}
-@@ -264,6 +266,7 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
+ 	u16			imod_interval;
  
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && driver_match_device(drv, dev)) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		err = device_driver_attach(drv, dev);
- 		if (!err) {
- 			/* success */
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index f1dd417e54b2..8e7250b0e913 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -88,7 +88,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_RANDSTRUCT		17
- #define TAINT_TEST			18
- #define TAINT_FWCTL			19
--#define TAINT_FLAGS_COUNT		20
-+#define TAINT_FORCED_BIND		20
-+#define TAINT_FLAGS_COUNT		21
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/include/trace/events/module.h b/include/trace/events/module.h
-index e5a006be9dc6..19df3e39bba4 100644
---- a/include/trace/events/module.h
-+++ b/include/trace/events/module.h
-@@ -26,7 +26,8 @@ struct module;
- 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
- 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
- 	{ (1UL << TAINT_CRAP),			"C" },		\
--	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
-+	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
-+	{ (1UL << TAINT_FORCED_BIND),		"Y" })
- 
- TRACE_EVENT(module_load,
- 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 892045d8409e..a4dbb6b8cd2b 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -826,6 +826,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
- 	TAINT_FLAG(TEST,			'N', ' '),
- 	TAINT_FLAG(FWCTL,			'J', ' '),
-+	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index e6b6beb38fcb..5387658dd38d 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -738,6 +738,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	probe_data.res = &res;
+ 	probe_data.ignore_clocks_and_resets = true;
+ 	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
++	probe_data.properties.skip_phy_init = true;
+ 	ret = dwc3_core_probe(&probe_data);
+ 	if (ret)  {
+ 		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
+index d738e1739ae0..72c5593e657a 100644
+--- a/drivers/usb/dwc3/glue.h
++++ b/drivers/usb/dwc3/glue.h
+@@ -14,10 +14,12 @@
+  * @gsbuscfg0_reqinfo: Value to be programmed in the GSBUSCFG0.REQINFO field
+  * @needs_full_reinit: indicate the controller may not remain power during system
+  *			pm and need full initialization
++ * @skip_phy_init: skip xHCI PHY initialization on host init
+  */
+ struct dwc3_properties {
+ 	u32 gsbuscfg0_reqinfo;
+ 	unsigned needs_full_reinit:1;
++	unsigned skip_phy_init:1;
  };
  
- #undef TAINT_FLAG
-@@ -862,9 +863,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
-  * exact size is allocated dynamically; the initial buffer remains
-  * as a fallback if allocation fails.
-  *
-- * The verbose taint string currently requires up to 327 characters.
-+ * The verbose taint string currently requires up to 344 characters.
-  */
--#define INIT_TAINT_BUF_MAX 350
-+#define INIT_TAINT_BUF_MAX 370
+ #define DWC3_DEFAULT_PROPERTIES ((struct dwc3_properties){		\
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index c5674161b2b0..3fb8be8be590 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -130,7 +130,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
  
- static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
- static char *taint_buf __refdata = init_taint_buf;
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-index e1571c04afb5..d8628be37214 100755
---- a/tools/debugging/kernel-chktaint
-+++ b/tools/debugging/kernel-chktaint
-@@ -211,6 +211,14 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
+ int dwc3_host_init(struct dwc3 *dwc)
+ {
+-	struct property_entry	props[6];
++	struct property_entry	props[7];
+ 	struct platform_device	*xhci;
+ 	int			ret, irq;
+ 	int			prop_idx = 0;
+@@ -174,6 +174,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	if (dwc->usb2_lpm_disable)
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("usb2-lpm-disable");
+ 
++	if (dwc->skip_phy_init)
++		props[prop_idx++] = PROPERTY_ENTRY_BOOL("xhci-skip-phy-init-quirk");
 +
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "Y"
-+	echo " * device was manually bound or unbound from a driver (#20)"
-+fi
- echo "Raw taint value as int/string: $taint/'$out'"
- 
- # report on any tainted loadable modules
+ 	/**
+ 	 * WORKAROUND: dwc3 revisions <=3.00a have a limitation
+ 	 * where Port Disable command doesn't work.
 
--- 
-2.55.0
+---
+base-commit: 7f69cecb6098fada87b010c911aa736a5af8f679
+change-id: 20260914-xhci-skip-phy-init-d0a6bd96b13f
+
+Best regards,
+--  
+Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
