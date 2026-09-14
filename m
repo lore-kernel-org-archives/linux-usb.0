@@ -1,201 +1,117 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C968D3630AC
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 10:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF29F3D6CDF
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 11:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789381545; cv=none; b=mE38LwcDVhhk5i4T8nNlR3TqacngK926UF+nNWVuIHnSrq+CS5px1yYsiZGtf8u35SHJBf+Lg/R8mfvVJKnHNH7gwxoj+kRdLj3dvLnt4wJ2p/9/1aW3FF/3YGK3hNlCgsUiFrrkYovSxFbkB9+/zvvyuzCCNOhQVKm972eedfE=
+	t=1789384155; cv=none; b=Xr02gCVoDJJt1aE1GuTD3YD0lWRjFGgJ0EKE8Aa56kaXLuUSRxP6qrwH1otGOiDhZ44duP7kUiUmgAqEmD0ZZzb8nYGAtk549o5V+F3HPp7Cpm1v3uws8VxxetwdTA2V/ENyCgNZ822eGcNPtvJjHjyiO773FSWEdZUTDBd4P+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789381545; c=relaxed/simple;
-	bh=OOWFS0fW8PalHpuUVagUzGyLfGec2bM6XnZpla9OrZw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PuUQhoANKtyeovwOltLO0RH2b3Lm0gk0pquUqHDYnqNnhVtAaywZ7SPPnIukbBG1Jt4XOyxef53vOsWfK9pXgK+nWrATPeCV/Zr3Xg6Sxp8g8rjEgHob/SyKk1PRF36PFCW5GpgvJBQNgqHjYslI907VE1I1IEY92GQKqdgn2Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cnzhIN5V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LXMKi8k8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789384155; c=relaxed/simple;
+	bh=qTA2dRNcFqJDFhu+c25jioQ8GVeDgRltoT3IMjZhlwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YP/HTcp4+aXXaou1YEExxFU382GPSzgbRtuhxu9udRl3FxNVD8yxrxyLiXjJAsbji7Xa/JvGFXmO7ehgNPj6eSpa3aK6wntEya5kf18ApDnE/7yi231qe7cjH+3tqU7TyYYR/81zoCgNkqVsSXDJheUikjXYlnfBhdpvIIq12iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDAaiBHp; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cnzhIN5V";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LXMKi8k8"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68E9nca7600356
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 10:25:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JX+0a+hStUyRWI2lGYq3KNdkSglVyMZwq3O+0P0j1GY=; b=cnzhIN5Vo1Za/wEv
-	iMIWGnZ/ZNlCOPEn0dLGgl2lbE/Y6zmJQxqkHWj1HZ0RlzzbH/X9oJIGFfx6uUss
-	YlfJAlMxBA5Sif3PUYnaLeijGTGtmxszQkU5gPELQQpalkZtnGJ/+2zFU/eEn0F9
-	K3FhQN8CTJfXQu4/ZmQS4G5KTDbhihEpcU7MsX28EpFVnt1f2FcKX8TgC0T25+Fx
-	XO8+has4seybPo68RyZrU3k6oeLScIuHpDdZHbogp/55tx0WYZRS/A5tMhVgaPSs
-	Mfn89sTqStt53pqGs326mWxWdWnwKnTFSnOBXcQuUfazkO0apCT6m6X0fLivrorR
-	1yIsiA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gpdb5rd6w-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 10:25:42 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-939fc317691so51311885a.3
-        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 03:25:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDAaiBHp"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48434392b02so1551214f8f.3
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 04:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789381542; x=1789986342; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JX+0a+hStUyRWI2lGYq3KNdkSglVyMZwq3O+0P0j1GY=;
-        b=LXMKi8k8BGD7f0yXH++i8uRRGqOmZNchiFOtB2cT2zErtL5YGzWqjWGAc9Mj4AN2jh
-         cR+KxCAP3BfRhXkvN7Vpa8mDubIfaXddtEOfVYa16dyZleJ1nG6ofZhwniIDTfxdKPKT
-         aB9PQEk+l+qgs8jbbLQGNgg0IZ962RWb3afHbaZvl6BHn+GThPRoEaqkZ7higWHED2e2
-         ADqqDvHSbRZBTbDw0Dq1LoZMspiZq/TbHQXGkLx9pgbcAH+HX7hg8Np1qm+iZUoUggaw
-         ppF5ZTEeNjCP6HAGLkx5SCYFSIPxnSyiX0oPIu7ArALLZRUfpSgLISeeD8+ip2PPEyLt
-         n5Wg==
+        d=gmail.com; s=20251104; t=1789384152; x=1789988952; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6jTR68vGZLrU0MBAPrI+UYgQ9UIwPjEd7uTlsDfLE3Y=;
+        b=aDAaiBHpfiOwRhbGvm6I4oBCXY7UKTcH1L94nG5KgnDJuCvSHzyKBFmkFo39YQCMbO
+         IohECtbFFe4QWFAa3ISsslKRE9RNAewqYMlvsr/T7e/0c3TppdoXCIZmXvD3R8mbjvk6
+         eAyGNcvmMkXVexZ1RcDK78AHY8wHKhxf85ZSw55soMqEJRGWj3yamBO8lG8/ZU33uNnL
+         TpHhBljriCFumVsbqEg7cx2DvLeIDFOYde3vWXzBMhus21go9D3JgnKS9hUEz5rrzh64
+         sg4RwUbWEnuQkymzC6gHu1q+Pzs9YzG9lgX3u5XCIshQrzSLhDwdImA9AiO7sfBRsRIL
+         3bwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789381542; x=1789986342;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JX+0a+hStUyRWI2lGYq3KNdkSglVyMZwq3O+0P0j1GY=;
-        b=sOHTiNfNgPGMDAQ0iUT/x0vySVUjU+sMM6PFuXp2Pquhq7jw49QuPUgyQBfBmGl9CH
-         Fw5+bzdXZ91rLIwGv1XN4J33uTuvgUbAxnb5lkIjh60BckuVIZMHi48iI1mIHt/+Lhcl
-         xHDzHPUXJz3aICo+WvVrXE7vPln9yYka4oum+c4sp6vkKwpIzKg412/YZa5NsBi9tw6a
-         DzwLSbqzJ95ZbBa9zdwdG5eyn3q/tzElXvr+Hgqrx2N/OagZ/KmKZKEdJ6Gi74fgFOtn
-         vPOJmvKNkAkscebdGAayLys5AVQuY6Xpz4KGfaxJVJ33M+YZJXJH0c84fGdmRl3iv9jH
-         +8cw==
-X-Gm-Message-State: AFuF++nYghRA//HveRnzG3PdnWLMLPpAeuxKBz2itcv/TqdajEuvqNd6
-	ntkxyLzXqo82b+A7UeDrnLX3LKhH6oVJIN+Aogfrry6jkkhlUC+JmfoQ1i+NwpeU0xoqbi8bNVR
-	10kkMN0rKNiL+UvorfzkubePsyToZr/mI4ACXE1JbNQHAXBJJZ1h5IXK2GOB8Xnw=
-X-Gm-Gg: AYBFou3kV1R913h7pmbKRfVE/uCiSKmS01prVBbBnXKeKLtHKIe+Kd+o8XcSujb2neG
-	ympkAq3eq9octzQK9LOgvZJ9+UOufYre7njRLJpeG5oHQQL3hE7ddJBTQvDHKQ3pCpEhha6T7mR
-	rRMfrghJv1TS+YieSLYmc8Qoh7pL5JHN2sHbFsdtljytGnNTHhNbzsG6IVQIhP401MZ5ubic/8v
-	Wk8HzsiuW4LroqTlpbn/Yui8oPYb91kw+GSimjU1M8oYuhI3OMTc5Wot0tayY8ftc4PiFIURzX8
-	OsrzDA8jGh/4mmIqgygQpjg0q0KhZ44X4VpIaB7gKxXSUHhQeAHxl9eWQ7UpzgaSYfhGC5TTGfN
-	sRYHZqnCD5a3CFa/SzHPyfQ==
-X-Received: by 2002:a05:620a:4707:b0:939:de49:6c78 with SMTP id af79cd13be357-93a297cbe3bmr211356685a.2.1789381541950;
-        Mon, 14 Sep 2026 03:25:41 -0700 (PDT)
-X-Received: by 2002:a05:620a:4707:b0:939:de49:6c78 with SMTP id af79cd13be357-93a297cbe3bmr211352085a.2.1789381541452;
-        Mon, 14 Sep 2026 03:25:41 -0700 (PDT)
-Received: from [192.168.202.12] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29660234f2sm404140166b.12.2026.09.14.03.25.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2026 03:25:40 -0700 (PDT)
-Message-ID: <b96659e1-d2e4-4272-8e78-8042cd5bca9b@oss.qualcomm.com>
-Date: Mon, 14 Sep 2026 12:25:38 +0200
+        d=1e100.net; s=20251104; t=1789384152; x=1789988952;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6jTR68vGZLrU0MBAPrI+UYgQ9UIwPjEd7uTlsDfLE3Y=;
+        b=s3l4+vUj5aooNDKnepslHhLhMYBhhQnNNUMA/jOfchnWElvBvGaUoUpty4UaVlH1pY
+         YWIEzRcEC9Un6c5kQ/tEQDUZq9AzBw14gT0+MZezXDJW1k758aqA4MPFekSWG/phwCO9
+         LSGxTrOyJjBaAku3d2TiWgs9EXHeRAZ+2vRZLmb3ntYaX7PqryBVPIrHjDVPRK405avV
+         myQ5xjUnm4nUtvOCTsrBaLbcexIdCSz799+m+Vf+LIZ+oNRmN7A4FUxNOhPW1l04XMey
+         G/A3t6cX5+6kJEWbdgqjWzBOOEEqxV9ZOeHTpaqmNATMcQfS7RsV/UfOy3LHKgwaYHzm
+         ifaw==
+X-Forwarded-Encrypted: i=1; AKwUvBxG9hgqOe2Xy9wYOaixr/OSO6KvKNep/YE+xJBL4f08qWdQqnr1gtAjpOQAUMeSRu7QyO9rUGVihn4=@vger.kernel.org
+X-Gm-Message-State: AFuF++loMHiiTjjDt0mZbp370LEeApgS60stbZ3vrj0gWZBhazSymYy2
+	9Q/UMXLiHeGbJKZX3AQLjoZYVxMurUrqSkQUxuU87R3QRA+k+efZfTBt
+X-Gm-Gg: AYBFou3N2w+x8cdDWFudmpDqgfvhrR3w/V28BmRG/EVot35zqTqRrunDdTxHc/U0FB/
+	5KF3tWtaVY7BG7p1I09CjPEOQTSWVeJp89kMe+y1jZGdXkioSz/6YGySK+qVBJskrptpcen69Mw
+	hiZJbeUDL2odIrFlhUyT25DdRQnBbrOm5b9rb7jZoXjfPNLTHbRvdpYINP7GNPiYbyrtroLP05M
+	QMKxRCZWlKTVjmipAEZmFQxlX0XDsZ8KtN5GtxQ4xWNAzr+7ho7iaCX5ILqXL9J8LIpG0wbz8BC
+	wZtfUpfq2FYoQS/Aa8jZko8v2MZc7K7FJI33xl+odHobrOR9Dz/x7xEHNVT+Ns+LohlyAyT/N4F
+	jHPFThg1av9zfDVPAB+82NDKhzlX+3CwExHnymtR+xZLo4ganVnAS92vEHuAxtNVNRWTHnf3L+m
+	cftbXi4LbO5BneckaathRTR6vqPyiJlDQ438Wmt/oTkYtQxpSfTSl1p13jXTGNHwiKwXP1w/NjB
+	NnbA0w4pCY=
+X-Received: by 2002:a05:6000:5ca:b0:485:ac96:7272 with SMTP id ffacd0b85a97d-48702b134b9mr4816220f8f.19.1789384151557;
+        Mon, 14 Sep 2026 04:09:11 -0700 (PDT)
+Received: from foxbook (bfh234.neoplus.adsl.tpnet.pl. [83.28.45.234])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e81asm27568903f8f.7.2026.09.14.04.09.10
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 14 Sep 2026 04:09:11 -0700 (PDT)
+Date: Mon, 14 Sep 2026 13:09:07 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Kuangyi Chiang <ki.chiang65@gmail.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] xhci: Fix HIK camera control timeout on Etron hosts
+Message-ID: <20260914130907.749cd8e7.michal.pecio@gmail.com>
+In-Reply-To: <20260914013033.3938-1-ki.chiang65@gmail.com>
+References: <20260914013033.3938-1-ki.chiang65@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] usb: typec: mux: ps883x: support TYPEC_DP_STATE_F
- like qmp-combo
-To: jens.glathe@oldschoolsolutions.biz,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, stable@vger.kernel.org,
-        "Dr. David Alan Gilbert" <dave@treblig.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260914-ps883x-disable-usb4-v2-0-523c32b4e4d7@oldschoolsolutions.biz>
- <20260914-ps883x-disable-usb4-v2-1-523c32b4e4d7@oldschoolsolutions.biz>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260914-ps883x-disable-usb4-v2-1-523c32b4e4d7@oldschoolsolutions.biz>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDE0OSBTYWx0ZWRfX+N68ONJgFGcJ
- H3hiGbKNrkdRSvloozv39k4QyYeEds6lH3DmQZqOecfFhvCOB6L0pIMn7Qlai9A/mFoOYKNTXVN
- dLjfyVOY8LSAxEM5GU+NZH3ldBT1pxI=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDE0OSBTYWx0ZWRfX6T1V3EsEIQlp
- 4mQkoqoZm1xpjhjj7/uR1mAmr53aIS/fKREuEPoaY+tk+yKDZUhnWFzyCxri6MguBMNYh4dhEd4
- ly4rVFHIvraycrMLSDw6VECe5tkHdoscmzw+Xglu54qlW5hNoDus7QX8pDqOnKanm/xOGaSaue6
- A3aL08AeQuqJU9uLcLP7J3TLDLU8fV44Fn1Ma04HpFOlxrxd9/JVI70+ZHLCq4DHw9zg+ot8dn9
- SVauSgK9vDtXllJWsUV+pIuDFAXW4Srnw4bmTZHMonmed3SfpvIdgY61PIyPBoSBE+Rpeaz1C5I
- wQ4qn76gFF9FTSrGdPaWlL83ufJikl/GHOG4xFixNlo5NPzs6kMiWyeWgLEV6JfLMW9c2olD7BR
- dQazVohjtT4lEmf3DS7W7YxqwW/iHzAhcCj8sxoLEUn1WwTtGVr/UV+ig5M7I5hhnX6K0BIbLq2
- hwqIeQVYz64XTw6GnWg==
-X-Proofpoint-GUID: BLbX_Nufj4YVXH760S02CiJjrgv0WYig
-X-Authority-Analysis: v=2.4 cv=Ie4Symqa c=1 sm=1 tr=0 ts=6aa7cba6 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=gxl3bz0cAAAA:8 a=lhgTqZXDA9jZt3rOk0sA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=kiRiLd-pWN9FGgpmzFdl:22
-X-Proofpoint-ORIG-GUID: BLbX_Nufj4YVXH760S02CiJjrgv0WYig
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-14_03,2026-09-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 impostorscore=0 phishscore=0 adultscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609140149
 
-On 9/14/26 8:05 AM, Jens Glathe via B4 Relay wrote:
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+On Mon, 14 Sep 2026 09:30:33 +0800, Kuangyi Chiang wrote:
+> Control transfers to the HIK 1080P Camera (2bdf:0280) can time out when
+> the device is connected through an Etron xHCI host:
 > 
-> Several docks, including the Lenovo 40B0 and SSK SC220, still send the
-> legacy TYPEC_DP_STATE_F mode request (deprecated since DisplayPort Alt
-> Mode spec version 1.0b).
+> [   48.363671] uvcvideo: Found UVC 1.00 device HIK 1080P Camera (2bdf:0280)
+> [   53.465662] uvcvideo: Failed to set UVC probe control : -110 (exp. 26).
+> [   58.585653] uvcvideo: Failed to query (129) UVC probe control : -110 (exp. 26).
+> [   58.592967] uvcvideo: Failed to initialize the device (-5).
 > 
-> Keep the handling in the existing DP altmode path in ps883x_set() and
-> mirror qcom-qmp-combo: pin C/E are DP-only, pin D/F are USB3 + DP.
-> STATE_E is grouped with STATE_C the same way.
+> Testing shows that at least 125 us between control transfers is required
+> to avoid the timeout. Limit the workaround to the affected Etron host and
+> USB device combination to avoid changing control-transfer timing for other
+> devices.
 
-The premise here is entirely wrong, you shouldn't assume wholly
-different hardware should be programmed the same way
+Any idea why it happens or why the delay helps?
+How many other HCs did you test this camera with?
+Does it help to reconnect and try again?
 
-> 
-> Assisted-by: Grok(xAI):4.6
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> ---
->  drivers/usb/typec/mux/ps883x.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
-> index 64e0a61b776a1..c185d8897e3a4 100644
-> --- a/drivers/usb/typec/mux/ps883x.c
-> +++ b/drivers/usb/typec/mux/ps883x.c
-> @@ -205,21 +205,24 @@ static int ps883x_set(struct ps883x_retimer *retimer, struct typec_retimer_state
->  			cfg1 |= CONN_STATUS_1_DP_CONNECTED |
->  				CONN_STATUS_1_DP_HPD_LEVEL;
->  
-> -			switch (state->mode)  {
-> +			switch (state->mode) {
-> +			/* DP + USB3 (pin D, and legacy pin F) */
->  			case TYPEC_DP_STATE_D:
-> +			case TYPEC_DP_STATE_F:
->  				cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
->  				fallthrough;
-> +			/* DP only (pin C, and pin E) */
->  			case TYPEC_DP_STATE_C:
-> +			case TYPEC_DP_STATE_E:
+FWIW, I tried a few USB 2.0 cameras with my Etron and they mostly work,
+except one. It passes probe just fine, but fails on streaming attempt.
+Adding 125us delay doesn't help, but 1000 works sometimes and 4000 even
+more often.
 
-STATE_E must not set the CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D bit
-I don't know if that's the case for F too, possibly.
+Probably a HW bug. Honestly, I never use Etron for anything serious.
 
-Setting DP_SINK_REQUESTED seems to be valid on _E.
+> Perform the delay before taking xhci->lock so the existing state
+> validation and TD queueing remain in the same critical section. Use
+> udelay() because urb_enqueue() may be called from atomic context and
+> cannot use a sleeping delay.
 
->  				cfg1 |= CONN_STATUS_1_DP_SINK_REQUESTED |
->  					CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D;
->  				break;
-> -			default: /* MODE_E */
-> +			default:
->  				break;
->  			}
->  			break;
->  		case USB_TYPEC_TBT_SID:
->  			tb_data = state->data;
-> -
->  			/* Unconditional */
->  			cfg2 |= CONN_STATUS_2_TBT_CONNECTED;
+Actually, you would need to do that under lock if you want to ensure
+that multiple callers can't submit URBs closely together. But that's
+dodgy and we don't even know what exactly triggers it or whether this
+solution really is the best one.
 
-Stray change
-
-Konrad
+Regards,
+Michal
