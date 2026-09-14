@@ -1,196 +1,173 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazolkn19013072.outbound.protection.outlook.com [52.103.46.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f5.google.com (mail-oo2-f5.google.com [74.125.231.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EB1340281;
-	Mon, 14 Sep 2026 21:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.46.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789421033; cv=fail; b=ftBXUCNZ2zR8xmIhbBKbvQK9VV8PmN5LExV+nMSMUjO4FPJ8WDU1m6jOUz9XjW+dEsucOpoudDpCilSNvoBUsagIWwOr2GOO6gVvs+maH/t3Thye03Ca+VX51ExuTM93gg30wOIhPtkTzEBdVIdFddUQbcAGeUGBfYMMZ7cmbJY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789421033; c=relaxed/simple;
-	bh=JqUCUC8aQgHQV0AKPUH7zpQ88HIikDgHozj4gyl1ZVE=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=UqY9OzmVlkEd81lMIF+AoVb3G4glSV934W9YaBZ9PUQHIA5X62JQbDWPO1lS0km2z33GMO3mRd1DvTWfR7fOXnV356fVKlicI5Yc//IH4ADc29YSyrM7EJ01AkCmjvwIvOxqeQj/TY9iFotOXK45nHMPubK8ukfCHL0GqnEaGKM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=W0SAP96u; arc=fail smtp.client-ip=52.103.46.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="W0SAP96u"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dJgErdCmndWrYOtGI3JPxXIyUqbr/7DxV39IA61WM2ICTovg26WUWr/LKVJSxzl5niXdKgElxwh3Gffh9NmcE16dzTY0xkGCb2uaMWPeTUDEUN7CywZNQqme4WJhnO1KJesCfEYnnB2PcZ4XQz4UmESuX4EjBz3klf9NsbREP6bjM6E6FZS7yR2rDOqhKaEtxA8KdEu++JwiN8dZgtDi6zL/l/mVUHza7Yjzgb7JGMXWx2E4MJrlHS6YWjuXJMX7qTrlXa0ubIQGSzsvBOVPLOQrQCuD+lCTQrQIFmMRLvzPJ+wKHSWusYsUXx+rpnOJ/gb7LHv8PrV+EvKxBrWXOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wyi2BzvhmOlCqydFNPat8tB45Jj/2DtY6YvCyluD9vQ=;
- b=iJm7+LLQY1nF8jdgyGeIrOj6yCCHYhMdiZ+4EByWi4QN09trbYV+c9oBF/MteRimqmjtCZTfk1IkMV8iS3Lo2VTcogn9OPFK0nSAGLUtchVraLciW9JNxsgiWpa7fH8Lai3tW2X8070cZy5E2QhZjXhQNQlZ2VXrj6vlNwhdwkxbJsNw+ZeEXPptoq7aR5asMpSxbkhZrL0gdk6k6IIb7arKuYn4xiIC+6x4dFwnr342PysxY6dtWoZIiT6mqlgfxIZFG85ogm832tal375vzE5pFzQs58TLMQQOiVjC9rPwGF2eWF6aF3cUi/uLHIAXkoMg0I+a6f7Y5PwF03Xlog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wyi2BzvhmOlCqydFNPat8tB45Jj/2DtY6YvCyluD9vQ=;
- b=W0SAP96us5e2Ksg114EnY+7Fn6ESvQ2g8nnksMmob8mVlwmKgOwX65P4XFq1xhrn3VbiskzpLyIf/hdtCpJvh4qAIBzTb3lw+BOMoPSfw8MY0woKLb1q01MT4lsUe/yfF8VPsqEkXvtmCmLwRDK1+JNi2Q/c8jwYxNVw2ZW/nXJK0WCfrbqk9aUiW96UH5cGgo+Bl0omGsBj/4IC6W/qTul6sFkDFtOmnV7oNxuz8STEvYsbLZgwJTi6hoCTZKMrM813ew2oKQqkm/5YsrjaliALABr6s/3AJFyLGCQ38H8G2xVMbY0hcTUT4mJqfE3f9id/KGqKMov9W3Vex6BX7g==
-Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:344::22)
- by GV1P251MB1145.EURP251.PROD.OUTLOOK.COM (2603:10a6:150:284::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 21:23:47 +0000
-Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
- ([fe80::2952:d4d0:4ba:8352]) by AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
- ([fe80::2952:d4d0:4ba:8352%3]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
- 21:23:47 +0000
-From: Aamir Ahmed <elb12345@hotmail.co.uk>
-To: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Lucas Stach <dev@lynxeye.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aamir Ahmed <elb12345@hotmail.co.uk>
-Subject: [PATCH net-next v2] net: usb: asix: reject a truncated Data header in rx_fixup
-Date: Mon, 14 Sep 2026 22:23:45 +0100
-Message-ID:
- <AS8P251MB000193C798F98A11C73C3E9DC8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.53.0.windows.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0234.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:315::11) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:344::22)
-X-Microsoft-Original-Message-ID:
- <20260914212345.119840-1-elb12345@hotmail.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650023876A7
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 21:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789421189; cv=none; b=Vq4SlFOKjP0p7FPKjcS9eAhOGuyrar6tgYRbz0aBDMiZK2OmmU7YnEmdmPkVk+jy6UppFwN6P+T85w/sTdtbHcB4QPFhzevfRLx2LRb8i2ZRtfwWhw8xB9wk/0kpv8QIRVzwAHbXovRZnH/ZIvL+3hjCDpg7cn893V2DrPhEFLQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789421189; c=relaxed/simple;
+	bh=KvJhzZd6AwkkIU2Es4vbnEfIFXnH+ahy6asB0LKS7NE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=odrpJQwQ3aNYrM8nFI1M+8E7etuNz9bZ3RHMfa7wA3UCCvbwRQ8xcQ085avAX2rhdc0bz7z+hBNvt9Yq8vxIXHbf/MWL7AxnaJ0RN4df0FH+jgG1vWSxgT6vqn03o+MdgJISGnlL2mHaEfnhuq+s5xbeyB6c/cWScA1xUg2OZXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f5.google.com with SMTP id 46e09a7af769-7f66624aa21so807977a34.1
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 14:26:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789421186; x=1790025986;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UJSsiHzVynrUipB9iDSOlhf+oxil+0VedCJ6OweJF3s=;
+        b=bV+KSynjOM8OKTbSw9Kp3Lf4aHTPQAt20RT2fu1xoiDUiydZ7QjADhYQy7zjzp58qH
+         wq98IpeaVLr1umwzt4Tvrus9/YE0V/Ondar8RVQnAQ0GATHnGoaxMRojRlE78fA1OyuV
+         FOBPOCLNxsMaq9qn+9DmKX08Sf5zttTAG7Uymubc217NfJj4X7DT+Gu+UTT4Sl6WaHTX
+         uqZUu4PnB1Ny5DAa9yZcYjPEAAmDT1U4Dz1Y+cAnIDIEr9c3lq/YCvfqgJvnCzAMOq04
+         IRVX4wk5sLpm+qX6rkcqoROAcly8haeqVC/qgZ16Eqi5Lwg7vLMldNjjgGYC32lhvoc9
+         YjTw==
+X-Forwarded-Encrypted: i=1; AKwUvBxaAXQGNkaPdkYBWRE5W5oJ071bEOHktPSmVwwI0D6sSsxt1oMJvpoQegcIGewNfV9e9xSUsTrUdNo=@vger.kernel.org
+X-Gm-Message-State: AFuF++kRkFvBIREc6/TE2dorMSQo0UyIRwfbCOmP/ysGfj876gcKJoJD
+	jsfxc61ntnTYtAeG4yt7MZFFYm275uqOEiCKJPFySpveITq41I3DWt0WL7LpGJlkYCA/986eWaU
+	6hSipJy4a4OZFj9l+HV+YgNs2nWWFqv6pyvTa6icmk9H8e7f0wQJpr/ypb9M=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|GV1P251MB1145:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa28d2b0-8785-4c35-011d-08df12a67680
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|5062599005|12121999013|5072599009|15080799012|25010399006|4140399003|23021999003|19110799012|8060799015|55001999006|24021099003|41001999006|25031999004|37011999003|440099028|4302099013|3412199025|26104999009|1602099012|40105399003|2607281247196008|10035399007|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+XaoofOy8P/QmWi8SSDI3bh+63ULSoMMfgbB9gLihscb+HYXiwCOIAE0g+lk?=
- =?us-ascii?Q?Y9RVISTEVARAt09dpkbBrgDYMg5EM5a90Fo3Pa2dDWXzg+DVAOLCnQqHWWmw?=
- =?us-ascii?Q?RHzOI6IPlFRXTnHHRE+Tq6RPAW22OmSs9kTVoiX1Lqt36pYi5s6kgAsw3jo9?=
- =?us-ascii?Q?qhcZUrzfpdUXAQAr8pwxZrDjEIc6bn4uWlybFZknoWWG/Cjdkkv5d21bB+E0?=
- =?us-ascii?Q?gXmjPJJspCkNYjEOa7nga5K0NLOC9Lt2O/WpnCfXflOX/VDtFZi3l0y11RPu?=
- =?us-ascii?Q?/S15KtBwZXYafkz/ih+gDm9Thp9wMKDWBNqRS5jDzz7C04c/YaGyHxRh9gdx?=
- =?us-ascii?Q?9EN6IBhFDc2EnJKrVhjnIgDqTXwSkweHl5O9E1l7+PjMCbuSroyCVAH3RCGJ?=
- =?us-ascii?Q?Kf5b0C6ZAahvgvcxQeBv8YOSElOe64Vx2aAUbC3QWCsxEFHNO+3aeeJcq+4O?=
- =?us-ascii?Q?OzqL8J3M6Arvikw+EhEMnMifpyTJcUKQrkiB5WbNMz+k6IWfofzj0sc/s53E?=
- =?us-ascii?Q?pVSK11vrCykAQVWlYncDur+VCkugQEnwMjFHGURaCaIjShKNbR0iXgxD/dT3?=
- =?us-ascii?Q?mG9sZIcgvloARjW8l1oMJcXe6pXmh+ffVzTO9dszXKhx0Bjbd575p1P2o9qz?=
- =?us-ascii?Q?4x1mwX+hOI0KxJutPB+2veN8s7WJXVUH2VAvQ8B6FTGpz/3uuCyRzvrai3S/?=
- =?us-ascii?Q?H/fEHdqe9QD3cpN5g4DCTS84yYizoYNXPRcQ+BhbqKPsjveYycjDAwhBREeG?=
- =?us-ascii?Q?GBooDyZEQhEuIeuTEWcLOWsdjE2Ol7UVcvXjJS4A+A4nVN+gLIXN/dl9H+tz?=
- =?us-ascii?Q?OQ1sOqzAmLnl9HJBxBkoI28pbjMeSQzzihZrIC8ljVZrzy5r/8HM9Oc3Kbcm?=
- =?us-ascii?Q?HH9UhCoT9jlNHt+ZpsrWFemj/n95wMSq8KQict5aHGgvb70SvTo8YFCOSWXN?=
- =?us-ascii?Q?T8M/uby3OFOXrUHtFYtILFX14I8nrM8Jdlb+6CL3sOBfN2IevIEfe4xa5oT1?=
- =?us-ascii?Q?8VDE/frpgkIGmeZxIiox85UQBsbMgBp5so32D7eB931EJ8xbMmM/NtQrJCgu?=
- =?us-ascii?Q?zQsr1BMovRv91nk2jWlbiJ1sZdWB7ASo998ilLmGDnWooFaAdRQfLQPbg/7m?=
- =?us-ascii?Q?RXRj8NYxXGomciv3AhIyIxCcRBjZkIcKb6WC7F0ss0pWkEORZtWOxJSp+shG?=
- =?us-ascii?Q?zQFSrD6lWkOqNavEQoBwkMXhTiKQyXtuN2qUiQ=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7HfcdTe871Ow2TwkDeWRcvfOAijNhZKTIwMjxYh1RIfG8gFXSVWfeMhZwhBF?=
- =?us-ascii?Q?wIiJ7g1M9g21Qd92MgW2qiji5/NFNHvBp96UZeVW8eJPHMV3lIqstUS7vJfR?=
- =?us-ascii?Q?3d0qVrgXozbtQS84maT+oVgiKl/ZHd5DfyF0rbcNIIrAvDScuODYZ7prqMhL?=
- =?us-ascii?Q?ioHvD1fWylJIODxYOf2zZmbBUlwsUstqk43Q7zzRarcGUtx7xJGzxmIPgLKR?=
- =?us-ascii?Q?07nHzCqTHLJY6xMQW0DVvqIPvGGApGeFt1Pzn7+4HTV3DcEOxAgRzOI6g3Yi?=
- =?us-ascii?Q?sqXXP5asluB8mCcE904sGY2Jz2ObYhby4a69fP2bGrfYO4L2iO0Henzd1OgQ?=
- =?us-ascii?Q?UQadYC54bVOCyWUB2wkGi+DzvZsdZizQx/vemfZi7DevJX6iduXhud0CSArT?=
- =?us-ascii?Q?4cLxpwlYKB2e4tbU+q4pBmCkiaBVA1vZF0WRnhlL9QQUDOLuu6IIEskp1StY?=
- =?us-ascii?Q?TY+He0uQqyToYV7cX4b+Irj+ctTbq97l5gt5OJCIAuW4pykqBRdy+xeC6Izg?=
- =?us-ascii?Q?tBn3SV5pTqdK7iMZs094Y22a26fmTBvRgekHn3oIS+bADVMBDOh3nCIamUQu?=
- =?us-ascii?Q?T3lq9p0qBpQAAj5qx4ywlSvyOmZe29gARp7H3xi1RMqbgV1+aMstVNWb2fIX?=
- =?us-ascii?Q?UhL0TR2QkJgoeGJe7GP4J3xpaRW4Vdbtxx9P420Ub6bKhG61uGLZw0KKrHpV?=
- =?us-ascii?Q?Zm4hHZ30hgu0D10abmY02O+B7JTbAbs/L8hyU7pR90un8lBQfzJDcrUzhF9F?=
- =?us-ascii?Q?a7SHA+ZvW1mEfRs6A3uIgj7b0H+XBy4Yfg+nOSO6VB8TPfevO4MkGEscz2xU?=
- =?us-ascii?Q?L8yJfk+dHcGEo0nm4rdfhShf8cu9VNxQNjhdwIE+RWQz5Mpy3i53IRl3uJQI?=
- =?us-ascii?Q?7P1U46n4RPCZb/X5jgLxNr3bX9hN+/33+8RybxktRzQ0Ha/ZJlyZiuqhHh+b?=
- =?us-ascii?Q?pPdw+ZP2nxu39nsO1AGBD8kfVLR6jQPqSvmCViEaK3xjhuSdUNNCarB/Yq/r?=
- =?us-ascii?Q?PqKVITB4jMj2yPkE/zR21Zk/SMnbHVeleF0xFNkwSqS/XP6cbANLWlr5AUzr?=
- =?us-ascii?Q?IU3abI/OMvCimvHiTInt6ZGn4yJwimvDnudu4G3tdZ+qPPlGHFo6n7R6fdJS?=
- =?us-ascii?Q?osyLH80Cg8lg36hvNVbzY5ope5f8N5AJ9ico77kmtlhmQe9pa3hOBmJNvIvP?=
- =?us-ascii?Q?4H/c6HjPu2+DsC5C3OzpwuS1YOO7kxYg0YE5VKJBqNdr9ChT6Ndm0NakKq+6?=
- =?us-ascii?Q?P7TZISjUU08sZNALQQic17bi6A2QCQGPtcUewXGZSOb1df63a1htmSiTyPam?=
- =?us-ascii?Q?rYEhNza3eoSTAhfQUuO0cbaNghTGoYYwVDCZP8XnSgxVuWHaiABgau+u0/F2?=
- =?us-ascii?Q?jswNCsi9r1VDkC18elLYtq+ZFqIwF9CvnawoS+d9McvriNZdNszu5RvV0QY9?=
- =?us-ascii?Q?hrBvm7ZO8vlK8o0QoovlxzLMoV7fBBwG?=
-X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa28d2b0-8785-4c35-011d-08df12a67680
-X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 21:23:47.6989
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P251MB1145
+X-Received: by 2002:a05:6820:1389:b0:6c1:dc9f:ab2e with SMTP id
+ 006d021491bc7-6c53f446182mr2350443eaf.27.1789421186287; Mon, 14 Sep 2026
+ 14:26:26 -0700 (PDT)
+Date: Mon, 14 Sep 2026 14:26:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aa86682.f81106d8.2ab401.0055.GAE@google.com>
+Subject: [syzbot] [usb?] general protection fault in ucsi_acpi_probe (2)
+From: syzbot <syzbot+e7aa19176573a6992617@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-asix_rx_fixup_internal() runs its parsing loop while two bytes remain,
-but the branch that starts a new frame reads a four-byte Data header.
-Only a two-byte tail is special-cased, via split_head, so a three-byte
-tail reaches that read and leaves offset at skb->len + 1. The clamp
-below it then takes the unsigned difference skb->len - offset, which
-wraps, so copy_length becomes the full length the device asked for:
-skb_put_data() copies from one byte past the received data and
-usbnet_skb_return() passes the frame to the stack, before the trailing
-skb->len != offset check can report it.
+Hello,
 
-Reject a Data header that does not fit and reset the parser state, as
-the other malformed-header paths do.
+syzbot found the following issue on:
 
-Only a device emitting an odd skb->len can get there - every asix
-rx_urb_size is even and offset always advances by an even number of
-bytes - so this is net-next material rather than a stable backport.
+HEAD commit:    704340f1cd0d Merge tag 'x86_urgent_for_7.3-rc4' of git://g..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=14358df9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
+dashboard link: https://syzkaller.appspot.com/bug?extid=e7aa19176573a6992617
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10c5bdf9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c5bdf9580000
 
-Fixes: 8b5b6f5413e9 ("net: asix: handle packets crossing URB boundaries")
-Assisted-by: LLM
-Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/a1f812f889ad/disk-704340f1.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/8aa4ccae83ac/vmlinux-704340f1.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8f86a50bf181/bzImage-704340f1.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e7aa19176573a6992617@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc00000000fc: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x00000000000007e0-0x00000000000007e7]
+CPU: 0 UID: 0 PID: 5618 Comm: syz-executor238 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/08/2026
+RIP: 0010:ucsi_acpi_probe+0x6c/0x4b0 drivers/usb/typec/ucsi/ucsi_acpi.c:199
+Code: 89 74 24 08 4c 8b 23 4c 89 e7 e8 bf 7d cd fd 49 83 c4 f0 45 31 f6 84 c0 4d 0f 45 f4 49 81 c6 e4 07 00 00 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 28 84 c0 0f 85 16 04 00 00 41 8b 2e 31 ff 89 ee e8 fb
+RSP: 0018:ffffc90004c27ab8 EFLAGS: 00010207
+RAX: 00000000000000fc RBX: ffff88801d7ac4e8 RCX: ffff888011e4be80
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: ffffffff8760c1c0 R12: fffffffffffffff0
+R13: dffffc0000000000 R14: 00000000000007e4 R15: 1ffff11003af589d
+FS:  0000555588eb7400(0000) GS:ffff888125bcb000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000000000 CR3: 0000000045e66000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1507
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ device_driver_attach+0xe0/0x1d0 drivers/base/dd.c:1203
+ bind_store+0x1d3/0x220 drivers/base/bus.c:267
+ kernfs_fop_write_iter+0x3a5/0x540 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x61e/0xbb0 fs/read_write.c:687
+ ksys_write+0x156/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5d40826649
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd2d524bb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f5d40826649
+RDX: 0000000000000007 RSI: 0000200000000600 RDI: 0000000000000006
+RBP: 0000000000000001 R08: 0000000000000006 R09: 0000000000000006
+R10: 0000000000000006 R11: 0000000000000246 R12: 00007ffd2d524d28
+R13: 431bde82d7b634db R14: 00007f5d408b9c40 R15: 0000000000000002
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:ucsi_acpi_probe+0x6c/0x4b0 drivers/usb/typec/ucsi/ucsi_acpi.c:199
+Code: 89 74 24 08 4c 8b 23 4c 89 e7 e8 bf 7d cd fd 49 83 c4 f0 45 31 f6 84 c0 4d 0f 45 f4 49 81 c6 e4 07 00 00 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 28 84 c0 0f 85 16 04 00 00 41 8b 2e 31 ff 89 ee e8 fb
+RSP: 0018:ffffc90004c27ab8 EFLAGS: 00010207
+RAX: 00000000000000fc RBX: ffff88801d7ac4e8 RCX: ffff888011e4be80
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: ffffffff8760c1c0 R12: fffffffffffffff0
+R13: dffffc0000000000 R14: 00000000000007e4 R15: 1ffff11003af589d
+FS:  0000555588eb7400(0000) GS:ffff888125ccb000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555588eb76d0 CR3: 0000000045e66000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	89 74 24 08          	mov    %esi,0x8(%rsp)
+   4:	4c 8b 23             	mov    (%rbx),%r12
+   7:	4c 89 e7             	mov    %r12,%rdi
+   a:	e8 bf 7d cd fd       	call   0xfdcd7dce
+   f:	49 83 c4 f0          	add    $0xfffffffffffffff0,%r12
+  13:	45 31 f6             	xor    %r14d,%r14d
+  16:	84 c0                	test   %al,%al
+  18:	4d 0f 45 f4          	cmovne %r12,%r14
+  1c:	49 81 c6 e4 07 00 00 	add    $0x7e4,%r14
+  23:	4c 89 f0             	mov    %r14,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 0f b6 04 28       	movzbl (%rax,%r13,1),%eax <-- trapping instruction
+  2f:	84 c0                	test   %al,%al
+  31:	0f 85 16 04 00 00    	jne    0x44d
+  37:	41 8b 2e             	mov    (%r14),%ebp
+  3a:	31 ff                	xor    %edi,%edi
+  3c:	89 ee                	mov    %ebp,%esi
+  3e:	e8                   	.byte 0xe8
+  3f:	fb                   	sti
+
+
 ---
-v2:
-  - guard the header read inside the loop, not the pre-loop predicate
-  - rewrite the changelog around the unsigned underflow
-  - target net-next, drop Cc: stable, repoint Fixes at 8b5b6f5413e9
-  - add Assisted-by: LLM
-v1: https://lore.kernel.org/netdev/AS8P251MB00014BB4591CE6011152DB4FC8B22@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM/
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Built with W=1 (asix_common.o) on x86_64; no warnings. I have no asix
-hardware, so this is not runtime-tested.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
- drivers/net/usb/asix_common.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-index 4f03f4e57655..8c5f863efe7d 100644
---- a/drivers/net/usb/asix_common.c
-+++ b/drivers/net/usb/asix_common.c
-@@ -179,6 +179,13 @@ int asix_rx_fixup_internal(struct usbnet *dev, struct sk_buff *skb,
- 				rx->split_head = false;
- 				offset += sizeof(u16);
- 			} else {
-+				if (offset + sizeof(u32) > skb->len) {
-+					netdev_err(dev->net, "asix_rx_fixup() Short Data header, offset %d, len %d\n",
-+						   offset, skb->len);
-+					reset_asix_rx_fixup_info(rx);
-+					return 0;
-+				}
-+
- 				rx->header = get_unaligned_le32(skb->data +
- 								offset);
- 				offset += sizeof(u32);
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-base-commit: c297ed90fbba72d32b7759aae362b36d15b2db1f
--- 
-2.43.0
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
