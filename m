@@ -1,216 +1,219 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazolkn19010019.outbound.protection.outlook.com [52.103.32.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0114570D8
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 22:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB913B14A2;
+	Mon, 14 Sep 2026 23:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.32.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789423882; cv=pass; b=MLJj5G6yWuY38cQPSwMRJxqFD48LSe6kgTxX3UPzX9us7yoAZv7Yd4/MmwF7YfaABPVBD1kWXX5vrLS07U1vHy778LdXQm0FBU1k4uIPDKbo9uNXGto4Ws0e1xkYZvDAEiJju2sNXDnvPwjmkf2FVy78di/ppv0shPGUldP2saY=
+	t=1789427226; cv=fail; b=BCjpUq7+wC2M/DpMEz2UwnGL9sPK++e72pKCS1roWSfe2XRK5UVa+ou0XHPKMMh2A1xAZVnauEsILVPsQptx0nC9oihb+XSm9M1mPdOx4EOEX215wFBR1Qiwh5kk4BZFGWo7eOIcYFjOZrusQ8ftRBOU6JcKPDIN+4ki0Itk4Ss=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789423882; c=relaxed/simple;
-	bh=NcB4ATQRCdpaieY6u4UOP1AJs6mx8wh+glgXQen3/xQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QJBlVQInX0G+FlAFpd936kM9sHuZweYjR5Ix32Hq4gZC8zdUbx9aEAUpGlRZ+8xuEqpaaVTKkmvTGoDtO8Kmgazv6kuBusMnzAsKyLWE6oyL2LYxRDiIC6aqdbbtjQT3z1X0l+KNHgE4MkG8VBNGyKabyEU1GGv4TewY7RCw/6Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=Pl6xeP98; arc=pass smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+	s=arc-20240116; t=1789427226; c=relaxed/simple;
+	bh=7croyZ9dpPIvZUWjK8ZQPJmoYXSlnM7ZNPKZrq4J+Nw=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=WzRvq/KgXIVo+QG6JE35+HBNWK0BwJy6wQbLCzf7Xm8alTjEqf1vTzFadI4Kb5iDt5f9A45FKXYjXAHZM3Vt4Nhmd6EvkH/rPYUtunXpqB3VaCwCfIJInx5y/MQMTvVY7qXHNO8dAz3DS9z0BpNlA4x4Bz0HyczfvMTx/ePIxBI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=ksbCu2Kv; arc=fail smtp.client-ip=52.103.32.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="Pl6xeP98"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2dd664da0f5so14080755ad.0
-        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 15:11:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789423880; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aVqwLKv++Hfj8B9z8LqMarU3s9MlFX5mR+o3zPw2yc/gvDwzgveBkWl9Pp2a+w6Mfi
-         xsYF6bMjJvKYVhBnaFlbH1r4eKQmHedKWYOuXDcJYjWVx/2VG9cCV5bNXKJRY4FtkfeV
-         6T4Jf3RkzMay7Nm5sAhZGqHd3tTxkCj1h0csGWDnw4ZQBTxr4FdgtwOmRVGZRvD0MMha
-         DgpfgJgks5LyBeFTrtN0SpHTspHsuUZFRZXLq1e204O8fykNIUOmjwFZTRI91EfKjlPL
-         gnlEXIFDilG+1Xq99CZlKU2LjurE2ikAQjVbPQopifL5CW7y9YiHz5Nf+9KAslRkUEdQ
-         +IVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=w/oKC+Df0i0nlWK1p0/VROW0b/LkWm38BOYdDDAQoHo=;
-        fh=GRNc47e2QHM70lT0f2uU7O0b9rCKsSKVp3ZATOCLHfs=;
-        b=i2sTF4WiR4Wrzvm4GwluIzEpYYqcWp5CuWZkHTWHXJqXvgYvDITiECl/fKdcMdznaa
-         YCkB/K/zIe16lasXy8Rpu/Ex+tjEKz8lDJNZKxzemeexD61fWFQ4XAZHDN+gqFkfcbSl
-         50hfug/zTeGOQJ1zP78NY1YrfRN5PcKqQO7ArCjcP43WPRBRcZNLBZTb0jSaR+QOLSy2
-         9f0FMpYWIxzrSE/2p8oZz5dtilj6+XUF0pm7TYOReEcmMfFInALyTV3mmcF+8iJsyJmz
-         YsrdRaXrMYnTNaX/L40jHKPcQ6ru4MglWNdqWOLCGAMC+wjRICTNEZo1BYrv40pjVHyO
-         YG/w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1789423880; x=1790028680; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=w/oKC+Df0i0nlWK1p0/VROW0b/LkWm38BOYdDDAQoHo=;
-        b=Pl6xeP98qWQ7cc3jycgStF1pnTxIpyRkwtkrBofB9HUyfNsvRN8IGR2jvAD3My7Qxp
-         fnalI6HsHR9eYiLySKfYfacaz71HqT0RuuJVO4j4s15bvAxuX6Fq41b6VxwtVprO1zjd
-         VHecroC4gUdisjFdHiE+sT/AbmTU8/8DrufdCE4+PyRiwc1JyeI2e07w3r0aay1HACYU
-         QbJewlKCppdhj9Efzh71YF4JPbuUXymeUUQkB5COMEfHiO4Nwr4lhwO36pLSqEdQh33s
-         XgJF0iKQnc294S1+2BDQbCqmT6RI3seIovADLEQQxwWjtXc66ys/lnOxDYRcVp30zikc
-         JGgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789423880; x=1790028680;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=w/oKC+Df0i0nlWK1p0/VROW0b/LkWm38BOYdDDAQoHo=;
-        b=pI+qiH2fY/LRkq38GJd56S2WceEc8XkerQwFyQOGgayDMJGzhmLg5vgfYGVfjyg7cE
-         0bbSTALuYYblxcOXrImgdPd/cRbP6oIBL6a/Yytu6gV3YsRGzt9t+4u8IUl68y4dSRYK
-         DWfzjmt/9XWYNsCO1mz9vPByxiOyLwzSTcHgWnccQfMt5LWSw9k8m/BPogcy396Os7Yu
-         b4rPqLodvcfcvaHFMSsEeQNaZ4wocc77NtNNLVvp0n/cv1TL5bnpwRG9fT98TyqlLlwa
-         OrSfHPsTYgz3TtPP7ShlYcuA9ldRVb9itbiPU2iHITR4aebatoqzJsicauwB1q7kJXxw
-         k1Ww==
-X-Forwarded-Encrypted: i=1; AKwUvBxF471TXqnzDzcWgI46PRHVL5qE3jhJjr0PqTORuQFs9+xsw7ZHWPgB5jIw+SKKvBIe1F4Pl5EHQjU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mxAn2UWB74+ZbTVnRM/NsYoSWYlAuVYrUVziffGNONbwNQtFTz
-	Zmt9VBsZjhhCo04Q9G+3kV6Z5744IW5YgxvcGa83xiojVlyPyvVa5tkqt9CrsxE0niXABXDYVEG
-	yd09g+ytR9bmeDSgISBnIAeR7tOT7GiiGTZBWPVojwesPQloFVezFCbdw
-X-Gm-Gg: AYBFou2BIwzmhOOeK84O16x1MOkrW2F36POeGWUBYua9c2J6aJmAx8P7Xovf9LbeOOZ
-	8roPx1eIafRDaGkNA8uBmMiIpOCcil9C86py4r7SAU4tZNb9tcoWiJi7CbNdDjhyzEGWDsmKvq1
-	ewq6KJfT2z3EBKUZ7htskBo4WglqQ70Rtvr/Icip28PcKky5fqp1myj5xmy2w81j4YTAHKYVslU
-	lfiLzrpHgwK1r4d9xdOnZkihWB5UDBN/NacOudq3HI5vQfVWZGJTDmmYad4FNGHllD8wDyQA56I
-	RfIxYIXaecGMUOu408eQ5klNa0Hdf3yE7m+7w/dZGNMXKg0gI3v5dQDOVU7uvDRNes/0AMgzUZI
-	K7upVuVRvFa4JKzLdeYqHDw==
-X-Received: by 2002:a17:903:fa5:b0:2ca:f21a:a6c5 with SMTP id
- d9443c01a7336-2dd6c5bdd5amr99665495ad.1.1789423879717; Mon, 14 Sep 2026
- 15:11:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="ksbCu2Kv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qo/2o0JlzrgFqklYBxiIDEFJPRrOcBg/CbThh2O1xGM2apxuEcfVam09c1mgoIf2CTIeVWfaajxiSKJUun4aGVZAQ5EaOhNh4iJ2EZAfj4nI4WDVb+XJkC2xbIF2YZzXKFGZ6LgjUCJQy5wpLW7dSK5szTfrqcjfGdB4y8sg8bo+YS0fsBGi6lJVMyUj9iUO47f1sQY5XzIaBOldk/pz1bPYitw++zJ/4soQu4zQ8vJ/ivX+1Ojr/6R3Tgo0kt4Qop1nfZUpk7VefHVxTRHCPpg+OWO0Pznz01ZMrvXYBeq0nU6T+0HuV0mNFhRbRpWLylAfNekfXjQnKZ9eRLEbPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vuZoavzq1vIRSu+p6dqh527j1JOzJEPtPAPkHsWnwks=;
+ b=UK6lEQdNZWmOLGucSoBlzb3dlxKehFVgWFmeb/uawbWhlcakrE/DZnTBCA+3WsQC0oVim8HtzkPujVdU4nABN7C2szWZhouJ693XctPUbx+pgFKC0Luk85iwPfN8VtG10f8of1ZQJmqKnLfWbAjuR2uwT276H9DEepxT6Jrr0y7/G243GrdgD6flRatJNAzjSc6rsvWYHG1sucgeYkvvvwZxJazbq6tyPNIVdJGYAtUH/60iG3+vD/h+YNPNy31PS58ssg7XvFctgqwT4rOaTELsSm8hqcBuwup7dho09IOArivlIWftR8t6MPTZ+CJMaXfcPg3l5Qua4r2QWKd9Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vuZoavzq1vIRSu+p6dqh527j1JOzJEPtPAPkHsWnwks=;
+ b=ksbCu2KvUxXObKv5tZo93yiZhuo6GlXSPwHVtkhvBCwTyQ8u0h0b59tCURIaXQXC3EXwDO/sffZht1lKrKaZlZ3eyA8wz1aXvER08Aue9vZQRANQZJiM8Z4VkWbsyB9MMgbVYgLU6plex+226Ve2jTqc2izz20+7vtXcxhjHQBUacPolTyByPCJihA0rPIQoAj5pequGyb878P1kIzuQ2cAY2isnhGS5h2+g6iWqxiqU1M0tKAH1fq2AzxlQOJY2KvKBtUZZPASoli31u9+onHQ+jcpPTrlmvif+ZAGeim+v5FfMhzyUla5w/5HRNG6l2KDT0KvCQTAng4TdKRvPlQ==
+Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:344::22)
+ by GV1P251MB0882.EURP251.PROD.OUTLOOK.COM (2603:10a6:150:8d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 23:07:01 +0000
+Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ ([fe80::2952:d4d0:4ba:8352]) by AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ ([fe80::2952:d4d0:4ba:8352%3]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 23:07:00 +0000
+From: Aamir Ahmed <elb12345@hotmail.co.uk>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Ziyi Guo <n7l8m4@u.northwestern.edu>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aamir Ahmed <elb12345@hotmail.co.uk>
+Subject: [PATCH net v2] net: usb: catc: bound the RX packet length in catc_rx_done()
+Date: Tue, 15 Sep 2026 00:06:58 +0100
+Message-ID:
+ <AS8P251MB00015FD7716F38C345619B56C8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.53.0.windows.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0157.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c7::14) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:344::22)
+X-Microsoft-Original-Message-ID:
+ <20260914230658.148754-1-elb12345@hotmail.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <J3vQPnNHSkQ6YUiFvu1bk8ai3Q8aZ7a9J1Y7@bugs.sh> <2026091217-almighty-slouching-de2c@gregkh>
- <CAPpSM+TjBEDy0zpkeNfz2ZeCZxYBHSKrw3spDBYS-kBw=EXL8g@mail.gmail.com> <2026091348-sheep-showman-5a20@gregkh>
-In-Reply-To: <2026091348-sheep-showman-5a20@gregkh>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Mon, 14 Sep 2026 15:11:08 -0700
-X-Gm-Features: AcwNN1UIdONuXr8P1Zw9ERNZdlwWynOnzA0ZnFkLhlAV-42N5iBsZA8R1jXtbdM
-Message-ID: <CAPpSM+RR1ztW_iCnSkYCm62VWsLYygXr2hWEeoikKk9Q8HKR3Q@mail.gmail.com>
-Subject: Re: [BUG] drivers/usb: NULL pointer dereference in stub_recv_cmd_submit()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: co <co+66c3f58096d0bde8@bugs.sh>, linux-usb@vger.kernel.org, 
-	Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Hongren Zheng <i@zenithal.me>, Suwan Kim <suwan.kim027@gmail.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|GV1P251MB0882:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47bb0e6e-4fef-48de-bc1f-08df12b4e210
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799012|41001999006|5062599005|8060799015|12121999013|55001999006|5072599009|24021099003|25010399006|15080799012|37011999003|51005399006|25031999004|4140399003|23021999003|440099028|4302099013|3412199025|26104999009|1602099012|40105399003|2607281247196008|10035399007|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?irFfpChdySt4NYT4ka9I7Zv2jnLP4+lprrkIjahG1yvF/76XF2WF4PyhYPtw?=
+ =?us-ascii?Q?4h/Js2RhDy1yRRhBWOga5J1aEzgvMeiNBb4vS39ZCB+yJOjoJiBn6wgb6RlF?=
+ =?us-ascii?Q?OqKG8iCNNhGs5skb1GKX10OHppRLKZt8vQ0mr/9Qarkgqe9m8UXaPYZQ7Oo6?=
+ =?us-ascii?Q?gfcVkAW1YkckJwQ0v7vjqUQWrXjNPPBUW1IH7l820ecw9KyJdglBqZ4//N91?=
+ =?us-ascii?Q?SXPwi/gPL9MSOiGjtLa679UkAkk8YXpkG2jLSLOOhFLPvSh/gQEL82DsPQyS?=
+ =?us-ascii?Q?lcH2e0sXK1Ysb+EGprKd1oGduTr6r9WJPp7KJuYbAHXoztI1fanFPBak0ltZ?=
+ =?us-ascii?Q?82fD/WeXFB2k3hnTvMeayjCpekfHFeI2pPDZoW0hIP9JjIlPoLFSdu30SW9G?=
+ =?us-ascii?Q?xirafX/vVVdBmLcZqaAZbrG8gsMO3fMEuTuAOQfEDWoTjJ6vEpG13Ofn4Tc1?=
+ =?us-ascii?Q?6R2iVhHTPLtW8OEqX9yNvWiFA/E1NEwojnW2mMTHaQvIwhNCfFjiNYakE8kw?=
+ =?us-ascii?Q?gvuQXrK90cDns6vb0BHlFxhuL3VgqJ/0fujVxDwqAOwrbu2oNLlWMmdQsgwc?=
+ =?us-ascii?Q?vj77bxr0NsZhmNjgNby19Jn4KxBYLFI+9QE+1tiKEEYwC/jt2BRiuJSYTHdn?=
+ =?us-ascii?Q?jsmBVUY5AXRKQDN+UwRRrcxNpgD/scPpLBhLHkz5Qk2OyU+MZ+01fgcOethr?=
+ =?us-ascii?Q?FDQWGtYMt9XdAZFxVwolLkBvcxf6tOqoUVFPDXNknstadyEfj97Tm/a5rL0w?=
+ =?us-ascii?Q?tjRZJVx1sEedwgaj1trZJmHz106GWriU4fGgL6SWCsJO7EEGPEDFQBzWOQmC?=
+ =?us-ascii?Q?1ZymDc/r7BkJTW1431BSvFy9U9vjsftxRIB0ECkDAqgNZkRQbgMOSzQxCWl/?=
+ =?us-ascii?Q?hZNg+5S2ThiUx0zcBxOQFe0nLxtGq/zRIWJ2vqYY4mXPKHpa9Qy3zwQOSWw8?=
+ =?us-ascii?Q?1KSXe9ULEuA1N2cIHQ4cq8M71nIiNvozIWZtVxJy3J83kZn9qkaKk1lIZMHV?=
+ =?us-ascii?Q?yhVVJHIVXucwBwR2jZjP4P4PPXeukz+Dz+Gj4E3BlgP6+06bvDpliaTg9SEC?=
+ =?us-ascii?Q?2BysNtpXEAqht0UEO64wRbjBL7TnNGCPQ+SCtFwhcPPeARbauRw6P2FtZIQt?=
+ =?us-ascii?Q?7KQdxS/CFlhC05hkyb9rdWEm5Qv1WNbY9WvC1ZZx2Xv+rmUdrnAIbU5Em5PM?=
+ =?us-ascii?Q?jmW2g8xdXCaFYricyZYWjnw95oca6TlvSFc4F5BSG3vO/e3o/598l0b/z4HJ?=
+ =?us-ascii?Q?zGsnNRwTYPvV2GrRGIbh?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pfVlyoqHDGRJ97Cx5ybMkrbPDM7L6iURCiDgkwgcIoo6rpPAJVGeKcVuy2PS?=
+ =?us-ascii?Q?WCET6A4RC59WwlHVlFH2JzOZDvDZuU+VZlyj7OqkugW/aC/9bmbLv3v6Losb?=
+ =?us-ascii?Q?XHg0hGBvhHoFnEQGZ2BLyJY8LDBK997NgWqaMX4wZCYzXQ8nZ/DlWTDxLsVl?=
+ =?us-ascii?Q?qJj3vV4c81PjIYjBPdM8mJvF+R0q2vSuS+5yx45QPvKPGBZ9eS0PpL5svmGE?=
+ =?us-ascii?Q?aQRM08qYSgMz2ygIdFrGxJMvRrBDuMokQtXQZo1D2H4dzUFQ51Rx61hEy1n/?=
+ =?us-ascii?Q?Up6i1naYIxc45No+JMs7omzT/RBHFdGegobfSKmnlGvjA08W+PZVCBgVqv50?=
+ =?us-ascii?Q?ftmTfULvVOXc5rVhnm8U0WvimCPUC4ifH8FPIw12VSZn6mOhjdo9Sg0/g0tM?=
+ =?us-ascii?Q?kJgbMVkjSmRt+7OP5hb5ClRLAut6uDxZGPHpE/jQtuUuwJo1AsL1NXEYwnu5?=
+ =?us-ascii?Q?3O/lPpPu8r+HBDdihEIvIYF/XyFKOQ1tsx+Tm3xfB8ZH/NaVFL6fOgBDvp6L?=
+ =?us-ascii?Q?lncjtHuvb0Tn9zhKQfdZ5o1qnOPLPFoBRWXLVppVCbArvJVmNNBiFSWNNks5?=
+ =?us-ascii?Q?SJ9i57uOH0xdevpWLoacRmQu4yGCXjQ3BXT0DH5feGnOq/IAm2hEnlsRUub3?=
+ =?us-ascii?Q?2Pg6feUapgrC8sDQw/FxJHGaqk5qRrY0ZeGNzm0HaUZl9isvP9RSWh5UxnpB?=
+ =?us-ascii?Q?EKuLJj5TOeisQchOoTBYvNI+109DBPsLQzu4oUKBX+epf5a5LzV4BhFBFTsW?=
+ =?us-ascii?Q?Kx7xsPTIcjBdjEks4FO5jIeCIbHKFuTtuDzyZBp8kfKOWsxdbmzbTvNgnWqs?=
+ =?us-ascii?Q?8baGxKhvXPdv3HYPTqgkZk8De3aSnMesfcJJ0ASY3dCN3lIW1BxXinFthitR?=
+ =?us-ascii?Q?vhLezYmK4ZbZe5Fmz7e9/uQEIt3xVMzfbm1BKaWEyoHfac5IUJJGld7Y6keq?=
+ =?us-ascii?Q?BhFd2LEVRHemv3BdfSaRLKyGwoe8a2RkJWsxqfy9EtmRhRpUlNTsL/BZ+Phn?=
+ =?us-ascii?Q?I0gYR8mjFwArqk6LNKyKeMx3t4bAjgaGn1QziG6GO57CC68aupo0x4sedEha?=
+ =?us-ascii?Q?sLKrdDhCfMfZq6Do5mDMpVWnOeozgy7VKScpUyWPtqD5lAp+P0Ytg8A1HQra?=
+ =?us-ascii?Q?EoudFCV2dPCBtM4K9fEnrqTcaVTAaDfghXnOV/6PB2R2Ss/10z8YSxFfKZTT?=
+ =?us-ascii?Q?OqQjkPsR0Uno8dHjnHuwtbVgty3Lakap7sNR3lEdtt/bvMwpT/ACm3E7fGQ0?=
+ =?us-ascii?Q?vWbj24A0/eWnAMXGDYM5z8IB7GNCLAtwXQCzh3H0Az8pywRji5HzjpsbwFPh?=
+ =?us-ascii?Q?0oqHJr9gGzP9ua0QCZWAveQgS8qY7r2/RmUjJP/Wo3r1WhnyBMWd/LG4GDtb?=
+ =?us-ascii?Q?63JVjMb9HWMTAlySuc6Xbz7PdCG6TYjpuF0QVh39PjeQUomK01LxcG++xxW+?=
+ =?us-ascii?Q?m8GQ7qjU3ShK88+zacjr6AZOZL7+PF/P?=
+X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47bb0e6e-4fef-48de-bc1f-08df12b4e210
+X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 23:07:00.9185
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P251MB0882
 
-On Sun, Sep 13, 2026 at 2:19=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Sep 12, 2026 at 11:41:00AM -0700, Xiang Mei wrote:
-> > On Fri, Sep 11, 2026 at 10:47=E2=80=AFPM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Sat, Sep 12, 2026 at 02:06:13AM +0000, co wrote:
-> > > > This is a bug report, not a patch submission. See
-> > > > https://bugs.sh/reporting.html
-> > > >
-> > > > We found a bug reachable in:
-> > > >
-> > > >     path    drivers/usb/usbip
-> > > >     crash   NULL pointer dereference in stub_recv_cmd_submit()
-> > > >     commit  2f1baf1fc892 ("Merge tag 'trace-v7.2-rc7' of git://git.=
-kernel.org/pub/scm/linux/kernel/git/trace/linux-trace")
-> > > >
-> > > > Config, environment, the sanitizer report and a C reproducer follow=
-.
-> > > >
-> > > > =3D=3D Notes =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >     If you fix this bug, this tag credits the report and lets us
-> > > >     close it on our side:
-> > > >
-> > > > Reported-by: co+66c3f58096d0bde8@bugs.sh
-> > > >
-> > > >     Everything in this mail is validated by the reproducer below.
-> > > >
-> > > >     We also hold an unreviewed LLM-generated analysis and candidate
-> > > >     patch. The same reproducer panics the unpatched kernel and runs
-> > > >     clean with that patch applied. Use it as a starting point, or i=
-gnore
-> > > >     it and write your own:
-> > > >
-> > > >         patch.diff  https://bugs.sh/b/66c3f58096d0bde8/patch.diff
-> > >
-> > > Please just submit patches like normal, in a format that can be appli=
-ed,
-> > > and do not make us go to random links to attempt to get any informati=
-on.
-> > > That's not how kernel development works at all.
-> > >
-> >
-> > Hi Greg,
-> >
-> > Sorry about this. We may have misunderstood your earlier reply in this =
-thread:
-> >
-> > "But sure, posting bug reports is fine, but again, patches are better :=
-)"
-> >
-> > https://lore.kernel.org/all/2026090139-shortlist-junkie-9bee@gregkh/#t
-> >
-> > We interpreted this as meaning that sending bug reports without
-> > patches was acceptable. We understand your concern with the current
-> > format, and we will stop sending reports in this format to you and
-> > linux-usb@vger.kernel.org.
-> >
-> > To make sure we understand correctly and follow the appropriate
-> > practice going forward, should we:
-> >
-> > 1. Send pure bug reports without any LLM-generated analysis or
-> > candidate patch, similar to the bug reports syzbot sends to kernel
-> > mailing lists;
-> > 2. For USB, do not send bug reports and only submit patches in the
-> > normal kernel format; or
-> > 3. More generally, do not send bug reports to Linux kernel mailing
-> > lists and only submit patches in the normal kernel format?
-> >
-> > Sorry again for the misunderstanding, and thanks for taking the time
-> > to clarify this despite your busy schedule.
->
-> Think about what _you_ would want to see if you were on the receiving
-> end of hundreds of patches a week.  Would you want to see a vague email
-> with links required to dig stuff out to potentially have to make up a
-> fix yourself for an unknown and poorly worded description, or would you
-> want a real patch, in mergable format, that describes the problem and
-> how it is being resolved?
->
-> I think the latter :)
->
+catc_rx_done() walks a multi-packet URB, reading a two-byte length from
+each packet header. Its bound, pkt_len > urb->actual_length, ignores the
+header offset and compares against the whole transfer rather than the
+bytes left from pkt_start, so a crafted packet header makes
+skb_copy_to_linear_data() read past the buffer.
 
+A length below ETH_HLEN is also accepted, including zero, and
+eth_type_trans() then reads a MAC header from the uninitialised tailroom
+of a shorter skb. The is_f5u011 branch takes its length straight from
+the transfer, so a zero-length URB reaches the same path.
 
+Track the bytes remaining from the current packet, and reject a header
+that does not fit, a length past what is left, and a length below an
+Ethernet header.
 
-> Right now, most developers just ignore syzbot reports, as we are
-> drowning in real fixes from developers instead.  There's no need for us
-> to go research new fixes when we are having a hard time keeping on top
-> of the stuff people are sending us that are in mergable state already!
->
+A transfer shorter than an Ethernet header, including a zero-length one,
+previously became a runt skb passed to netif_rx() and counted as
+received; it is now counted in rx_length_errors and ends the walk.
 
-You are right. We understand how overloaded maintainers and reviewers
-are right now.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Assisted-by: LLM
+Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
+---
+v2:
+  - reject pkt_len below ETH_HLEN, covering the is_f5u011 branch too (Sashiko)
+  - hoist the remaining-bytes calculation so one check bounds both ends
+  - drop Cc: stable; no conforming device reaches this
+  - add Assisted-by: LLM
+v1: https://lore.kernel.org/netdev/AS8P251MB00013A0DCA600A79DC58B0FEC8B22@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM/
 
-It's true that bug reports without a mergeable patch still take
-maintainers' attention, even when no response is expected.
+Sashiko also suggested a sanity maximum on pkt_len. I left it out: PKT_SZ
+would reject the 1537-1600 byte transfers the is_f5u011 path allows, since
+RX_PKT_SZ is 1600, and dev->mtu excludes the MAC header that pkt_len
+includes.
 
-We'd still like to make one last request: would it be okay to continue
-sending a small number of reports to other lists, with no external
-links (just PoC and crash sanitizer log)? We'd take responsibility for
-each report and follow up with a patch, even if no one responds. We
-just hope that contributors who know the subsystem better might be
-interested in helping us check the issues.
+Built with W=1 (catc.o) on x86_64; no warnings. I have no CATC hardware,
+so this is not runtime-tested.
 
-We'll stop sending these reports to linux-usb@vger.kernel.org.
-Super appreciate you taking the time to explain this and discuss it with us=
-.
+ drivers/net/usb/catc.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Thanks,
-Xiang
+diff --git a/drivers/net/usb/catc.c b/drivers/net/usb/catc.c
+index 96e82f94edcf..39b678f175dd 100644
+--- a/drivers/net/usb/catc.c
++++ b/drivers/net/usb/catc.c
+@@ -233,17 +233,26 @@ static void catc_rx_done(struct urb *urb)
+ 	}
+ 
+ 	do {
+-		if(!catc->is_f5u011) {
+-			pkt_len = le16_to_cpup((__le16*)pkt_start);
+-			if (pkt_len > urb->actual_length) {
++		int remaining = urb->actual_length -
++				(pkt_start - (u8 *)urb->transfer_buffer);
++
++		if (!catc->is_f5u011) {
++			if (remaining < pkt_offset) {
+ 				catc->netdev->stats.rx_length_errors++;
+ 				catc->netdev->stats.rx_errors++;
+ 				break;
+ 			}
++			pkt_len = le16_to_cpup((__le16 *)pkt_start);
+ 		} else {
+ 			pkt_len = urb->actual_length;
+ 		}
+ 
++		if (pkt_len < ETH_HLEN || pkt_len + pkt_offset > remaining) {
++			catc->netdev->stats.rx_length_errors++;
++			catc->netdev->stats.rx_errors++;
++			break;
++		}
++
+ 		if (!(skb = dev_alloc_skb(pkt_len)))
+ 			return;
+ 
 
-> thanks,
->
-> greg k-h
+base-commit: c297ed90fbba72d32b7759aae362b36d15b2db1f
+-- 
+2.43.0
+
