@@ -1,124 +1,145 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5750347AF5F
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 15:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8302035C6A1
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 16:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789400052; cv=none; b=jOaIaxWgK+ud3/tniTzBEttP/6LvbzjbEzy6TE8hF3GU4fiRz3yYmuxUXAJm5XCgT4ADp07FlNAQ9vRhh9H/vTHcZIZL63lpkVEW6ynMmUXz8t9fpmU3DKg2BwZaDiVQts+PxZYsXlfd+GVjmR00PI3z2gC1YCHtKTs1iYTu52w=
+	t=1789401669; cv=none; b=SK5rKh+ACCjk9nlgsIF/OhH5KguHinF+Qh1FVLaUIeGHmYuR9mxLUkHV0BLGBJBbr0op61cgkQf4GyxVw0U8ZSO+xNAkdJMrnBBhhrE5G8u8+xvTfm6Sa661buDbumQtfr/JWJofe/CkYp27LhfWxmmChOpRpwjGKQ3KctqUHzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789400052; c=relaxed/simple;
-	bh=73+u3x/n1YfpiE8SSLEI/w9n2zZJ9GrkZIhTNXSFHP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XA++nVcFrHX5VUPq8vmi39knyZOCxudk3mdtsgHWDxdtkb71khN8tyr8j82papmegwP3tabI8aTUFAn9j1xxLN6JBdQTuGc/Vv57BudzjcBPfAZvvKQ7McYLxPvroeSk77Pq+0T7u9shjNJlc0Y+HGJH0rIGjnCwqvKnFtBkx2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJZIQ5VY; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789401669; c=relaxed/simple;
+	bh=CbP2Yc6QOC1TaqWXpk9VKHDdPov5UCKmBGqZZE0al8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=egVarMujyaiCeRz3EjFWUNeegjPB17qKsG/f7TYrsr2FqAB/AZDfMR4IxQESou82xuFCWvL95z9qt4wgXGIp528tKUqm+hsiVoF/fxI/sWHoF3ac3LwRy6R+VhlHAkBpFr6JOa44xH7bzBE8vIL+UDtPsha7Md9Y3OVERK0vs6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vSGiwET2; arc=none smtp.client-ip=74.125.231.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJZIQ5VY"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485933b2522so1839170f8f.0
-        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 08:34:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vSGiwET2"
+Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-470417e5b52so1718926fac.3
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 09:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789400048; x=1790004848; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=rowland.harvard.edu; s=google; t=1789401666; x=1790006466; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=7+kCrOYTrT0PBR6fmrHzTjMR9TWO6j/pXIvsh9ilVI8=;
-        b=aJZIQ5VY7WRzyyDd/vZTwCJqg3wVhoFLLhU69s2CYBQtkchAJaehOE9JB0HLSiJeLD
-         J2UHv/x5hsW/Rik8IMLuu4ePHxKyWFHAduCO3W68AnD3fWMF2ZWm8gfiWJyV7hnbhlHe
-         SDeGWQNl4ZJMTcrtaVOYo9kWrbOaDN9x1/sifGQQ5fQpdLeQdAU0aySOuMuzeHZ1UogS
-         xGFhAFZpDKTnUxKb9QgMxUfLXdP1qe5j6U7t02UlQGvavBAalNORDwlIwttYo3pBjVy2
-         dcpobYqIRSs+aT6HJJkhM3oDWcigPNN/p0yxqrVavxqz81Hwl6DxbEaQUf0wHcorlaJs
-         hUug==
+        bh=iBllaTOuazudRqgAdFSA/MXIeDVbKXR+ECVpXkcNDSM=;
+        b=vSGiwET2fUu4tZIrwbrvjd1XfIol48xkbKwSmnIaYR6TIGf748zgIy1ek7Evjfk2MO
+         tL2uZPMFSU0yvwjg1Z+1kln/umFBmrtYAV8XRSsfocvdCjHMONWUMGtAwtxXxpZbtOHt
+         90+coEUKXcKam3xymzy0s8nI6pfAk7VwWvfdsmbP92qZrcde5H1OCjLJbberfpom+hxh
+         lMz1WzVODDguEvgJaguke0y6H12WJOHi9rzq09ejLbEulMUzx/gN0CrNi11oIEXz6jdd
+         Z2WuuRCoLu5o/tjKM1zY6I1xqRBIPL/JE6uru9lcsa1rJgy+qATJxtI+x/Yv2bqGkxm8
+         x+Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789400048; x=1790004848;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1789401666; x=1790006466;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7+kCrOYTrT0PBR6fmrHzTjMR9TWO6j/pXIvsh9ilVI8=;
-        b=rXoyHdCSORGRtAo4d8NmviYGxIlnh4wA5Y5+DjHzs9IfgKjo5mD/ihgLDXbde9+/kG
-         p/Goaqsx7DVbcmQ6nrNcPKsQ9IDpNJFXdVwMIRx2AZqlnGC4BmfP+818aT+YRmT9e8aG
-         nqNXJS1VCDqWs8RyxWohEklWb/qDTG3RGl+9xev50pr5Z/PUqsPb6n7dAfXNYnnJ3A5b
-         rmLmRrnwpDT1sqkY0+MmMhI6qL5Ws6ECS+NYPYF9wHV8RMj13ExJ1lww4+OosLXsHI6N
-         xms/xihid+YPh48pl1w0S16uuYaT90ZuvP0IJeztyjzpPpAnCHlpMaNJNHtoRA6mDYXy
-         d5tg==
-X-Forwarded-Encrypted: i=1; AKwUvBy4UK7IxDnIzlFsLHBjRtwdggjthSprS5Wymz8w9Jn/DY283kvn5DGupzdDukbyRejtAvplldwpHzk=@vger.kernel.org
-X-Gm-Message-State: AFuF++mIICBwWciFjpm6nUTiYY3jfKSNA4ImSUAH9FtdmgckOktRdHR5
-	aRrSmb4lvbFd8nHmABSQXYiVoqhewS1coqu38T/r7V1l5wWHni6QLYbV
-X-Gm-Gg: AYBFou3U4Du1Ejw36RS5M8FNVPoZSjSf6mXF1/EW8SBN2n8S5syE3JTel1JI2MTJL/5
-	h92UHAFMju1KsxmGfvyb9iGXAe+vb15M1cuj+41HNnMlrY+1/sbjVtb/DrXbmAL30LZc7DkFOS5
-	0FSEEuWqCtVBUlFZI1+rOtIgbazF+tywh5MTBbaRsK2oH2YvW2PeD5UL8UcB/vhMlUIG4J2zjaK
-	TED2t3LrofEXkMy8a1uDZHZr0dqcHEPiZC53wxDahZ28QK8RwqITtEVPOQ7wX+a2x0PErWpwEXd
-	W3gh9udMp5kHnWcajwRgFMcC9c7NnM/tYdTJ2GN7r4g9ey28apyFPoHgp/mO4VGoQjBn0lnaAbc
-	UZSiOcrQot1PKC4Oa1H+lnVfkGLnO2Hgp7YAvPv9x4hw4GKK/OJyqGzUmfQ6+cNFMGeMsd79HUk
-	B0IHkkMoF2ibjhmVDYPiAMOCwUc9/+9Nam/b3fb5mh18HnPkgAcn5qeUn5lkONFMxS+nuzYQITc
-	HLKxc6dMebT3zO6gWgQPQ==
-X-Received: by 2002:a05:6000:2685:b0:485:ac96:7251 with SMTP id ffacd0b85a97d-48702b1d3f6mr9417456f8f.21.1789400048017;
-        Mon, 14 Sep 2026 08:34:08 -0700 (PDT)
-Received: from foxbook (bfh234.neoplus.adsl.tpnet.pl. [83.28.45.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e8d1sm28140259f8f.11.2026.09.14.08.34.06
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 14 Sep 2026 08:34:07 -0700 (PDT)
-Date: Mon, 14 Sep 2026 17:34:03 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>, Selvarasu Ganesan
- <selvarasu.g@samsung.com>, Mathias Nyman <mathias.nyman@intel.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "quic_wcheng@quicinc.com"
- <quic_wcheng@quicinc.com>, "broonie@kernel.org" <broonie@kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "cpgs@samsung.com" <cpgs@samsung.com>, "alim.akhtar@samsung.com"
- <alim.akhtar@samsung.com>, "thiagu.r@samsung.com" <thiagu.r@samsung.com>,
- Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: Re: [PATCH] xhci: sideband: check vdev liveness before removing
- endpoints on unregister
-Message-ID: <20260914173403.05d1bca1.michal.pecio@gmail.com>
-In-Reply-To: <9d326c6e-f033-495c-a5e1-dacb46ea7b73@linux.intel.com>
-References: <TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<CGME20260910101324epcas5p1faf6f82de85c9468f42f6f9b2f13e99b@epcas5p1.samsung.com>
-	<c17e0351-d390-4a40-89c4-51d4be9f0123@linux.intel.com>
-	<360067785.01789039502721.JavaMail.epsvc@epcpadp1new>
-	<TYUPR06MB62172308C897F81F7DAFF557D2BF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<750468423.101789103583573.JavaMail.epsvc@epcpadp2new>
-	<TYUPR06MB6217F0788C14DD89D237C807D2BE2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<937773018.41789116303608.JavaMail.epsvc@epcpadp1new>
-	<191ee5d5-d93d-4fa3-9654-b3735d344118@linux.intel.com>
-	<20260912141837.06b2f3cf.michal.pecio@gmail.com>
-	<TYUPR06MB62174110FB101AD6B7B069EBD2BB2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<20260914110949.38a46596.michal.pecio@gmail.com>
-	<TYUPR06MB62170DB4AB23F7A79E8DA466D2BB2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<c6c9890f-46d8-42f1-a7e7-8a5d551fa22c@linux.intel.com>
-	<9d326c6e-f033-495c-a5e1-dacb46ea7b73@linux.intel.com>
+        bh=iBllaTOuazudRqgAdFSA/MXIeDVbKXR+ECVpXkcNDSM=;
+        b=nCbylScvPTmdySt4mGhMrMGcZpD4S7RZu/J/LQpsXFox3nAA0KLeYpdWUQoYok4jTN
+         vOJ+kSzfMb3At3aS3AGwRPV7qT0+dwbKmOq3I0CVzKWyx6r7rmy09QoiIcdnTzqIuY4t
+         YCGa03Ih0SahQishjM1mSkSbs9yQFrKSoxLVHDKj4p2cTdBwUd9Nr9VhMFpV+0n5IjZ7
+         bQsIbJZR2MTQXSZ0Yjq98qQpr++5YhJX0NHAovzbVOK2fb/U17e/Afd8dEvfwVDurIsV
+         YIAtGM8VWfLVJVOTLfoxv3FAF2QS+4F0+jlIyniuOWBssPh0gT+rTYTqAdaM1Pb0cELM
+         GZ/g==
+X-Forwarded-Encrypted: i=1; AKwUvBwMPUXJQj+XMzfwvGj3BsgULCFbRV6Fh/40DRL2xkbXzlMCC2d298JRxn3fmcrX862ebD3Nh0w86BQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++m1l9hEZaxWGlbBBB37dwqYNW8WAOVn8FdfMgUwRuiRTdu4nNP8
+	d7vlagEfL3BHJhNVQK/aTXXJHCB2DAgys+K9XdUuoUkZOOmjIlWckZO5W+lW4GrgvukjBbDBQ+F
+	V6JavAQ==
+X-Gm-Gg: AYBFou12HK08PZmYQn+b3uhKodA2Yz5amBFNMzpV7NU8uuMFal0mTtMWd7Svwa9kvzJ
+	F+XHIgpcorw4Cml9IAtToO3ukfwneJJmXgWaY44E2miY9KPwWEsi3Ac9lOEXYF6hHa0mHKmSdba
+	ixLxHngDpDnrJoM/bbZGbuzVtjd+Do4y0Dx+JzUEpoOkiR+sJFB4LDzdQuCgitzu9R5HJOoEvFd
+	CPeDnbM68rxoeYqrqqG1FU9nEGuleFt+dYFUsU4XSC1v9H7epsvGo7lMNSHlhNzNTeM3q1lTWVq
+	4YIeyBikVvVyHEnxYdOYX9bCXXiNASaDSXRpHokd6h0W1/u1VnDuzbmOXLQT8lQ+Pdiq1hWNR0R
+	QXDZe90meaPa6HJipyUDimMzWgEHbr19PZ/Yl+ak24VGRv24SBIF//yncKrL1Rs8dwk97OUJQGS
+	UbjGVaXLigeuNl91Rj0tl8bkwEdXcWGCnu0xEtcvg8f3jC5MC45/gp/CU5H5F/dZXDKyyxCIQ58
+	82091wZ+7E=
+X-Received: by 2002:a05:622a:1786:b0:530:b2e2:903b with SMTP id d75a77b69052e-5310d0bc66emr40415231cf.59.1789401655453;
+        Mon, 14 Sep 2026 09:00:55 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca3098easm102330871cf.3.2026.09.14.09.00.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 09:00:54 -0700 (PDT)
+Date: Mon, 14 Sep 2026 12:00:51 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <f42b44ef-b083-4976-bf06-f2a21098474b@rowland.harvard.edu>
+References: <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
+ <CAFmvuTXWxQJUZfAAC=vs5QM=myDLE-o0jZZ8OXdqiGioPkRwfA@mail.gmail.com>
+ <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
+ <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
+ <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
+ <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
+ <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
+ <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
+ <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
+ <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
 
-On Mon, 14 Sep 2026 17:06:35 +0300, Mathias Nyman wrote:
-> > Selvarasu Ganesan pointed out that xhci 'core' in fact doesn't
-> > include xhci-sideband.h yet. If possible I'd like to keep it that
-> > way.
-> > 
-> > Setting xhci->sideband->vdev to NULL, or calling a callback here
-> > changes this and is the first time we then intertwine xhci core
-> > with sideband. 
+On Mon, Sep 14, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
+> Hi Alan,
 > 
-> Disregard the above, I forgot about the
-> xhci_sideband_notify_ep_ring_free() call in
-> xhci_discover_or_reset_device().
+> Thank you for the revised patch.
+> 
+> Following your explanation, I focused this round of testing on how the
+> revised patch handles module lifetime.
+> 
+> I applied your first patch followed by this revised second patch to
+> upstream v7.2-rc1, commit
+> dc59e4fea9d83f03bad6bddf3fa2e52491777482, using
+> CONFIG_USB_GADGETFS=m for the runtime tests.
 
-You aren't entirely wrong, xhci_sideband_notify_ep_ring_free() isn't
-useful to sideband clients so it could be declared in "xhci.h" instead
-of <xhci-sideband.h>. Then xhci.c won't need the public API header.
+...
 
-This function is also exported unnecessarily. Another unused export is
-xhci_stop_endpoint_sync(), because sideband hasn't become new module.
+> I also held ep_aio_complete() immediately after iocb->ki_complete() on
+> the PWRITE path that does not queue copy_work. In two runs, each starting
+> from a fresh boot, after the reproducer consumed the AIO completion event
+> and closed all GadgetFS descriptors, unmount remained pending, at least
+> one concurrent delete_module() attempt failed with errno set to
+> EWOULDBLOCK, and gadgetfs_cleanup() did not begin while the callback tail
+> was held. After I released the gate, the callback returned, unmount
+> completed, and module removal succeeded.
 
-Regards,
-Michal
+Hmmm.  Do you know where the unmount operation was getting stuck?  Was 
+it the usb_gadget_unregister_driver() call inside dev_release()?  I just 
+want to be sure about this.
+
+> In another cancellation test, both unlink_work and copy_work were
+> outstanding on gadgetfs_wq when rmmod entered destroy_workqueue().
+> Releasing unlink_work alone did not allow cleanup to return; it returned
+> only after I released copy_work.
+> 
+> Using the GadgetFS source with both patches applied and without the
+> diagnostic gates or markers, I reran the original NULL pointer dereference
+> and UAF reproducers and the relevant AIO cancellation, payload, teardown,
+> CPU hotplug, rebind, module reload, and partial read stress tests. All
+> completed with the expected results and without a KASAN report, Oops, or
+> LOCKDEP warning.
+> 
+> In these x86-64 QEMU and dummy_hcd tests, module cleanup did not begin while
+> a callback still had work to publish, and destroy_workqueue() waited for the
+> remaining GadgetFS AIO work once module cleanup began. I did not find a new
+> failure attributable to the revised second patch in these tests.
+
+That all sounds very good.
+
+> Thank you for examining this issue with such care and for the time and 
+> effort you have devoted to it.
+
+And the same to you.
+
+Alan Stern
