@@ -1,94 +1,91 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEAC282F03;
-	Mon, 14 Sep 2026 09:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD1141B8DC;
+	Mon, 14 Sep 2026 09:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789376577; cv=none; b=X/hTmKpp3l2WoNaWN/uelFeNiVmPqhzUpGokC1insUGHLjUMGLVz90sZXiHV/gmGzHpkEE5ChPRggbCCV5tgj43E9to8Lle3j1b24e3iNheuAjL4FLS7Cv3wPEgDyWlUHogJEgvlhscCc1gnsM1Ifo1F07cE4MPdlcwwct337ZI=
+	t=1789376953; cv=none; b=BW8RbHXpK0eY5ZCh350xCF4NbJIacuZD1VKLl0RGkGPvW2em8X6VjRaZPZlpmVosHYHSJr5IGg7wUYjvMmbi+jsWDYFdfs1qCx7Aqtg0mxnWRPmOShQYMZorM0yXj8joP1LTv9GC8qXrJv2brcCgmn7o6vvwJRLwNwicPBrFzqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789376577; c=relaxed/simple;
-	bh=JPEEuy2VASbVsx3jEIdlRTwkvRJCJkGKOmbHTX/386I=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=cFP83GnlFnP/dUePeAy55lhyHezbrBvpWTzpwd5gKHuW12OK4qhy/kWI2W5Ok/Dd+M8aJplhIXhTynVLHBbNnMvMbuArOpqpz3diBVfBCJdPMjcoeq7q6PJyKdHXBeYdLasycdavrHOO6l6yeomUlrAANj1KHs4Q6OQbVAU8Ohc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=mmNi9O9w; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1789376953; c=relaxed/simple;
+	bh=ajsEAEFVhYkei0ULQCPMvG1Rjbuwpj3uhTVR2PEtLjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uPYTcetZIAWqP76ySlS65VzabR4+Jq9XNQ1kzORRyx5zAevYI3SNOD6xGV9qsbrieNvUJHodmRo7lo10i+n0FBeJCRNNoBP4cYvsDJEvX4eF10NMi1+XBmoUdW9XEYoiMVaFQ3Wipxs7BnMcgmvILNoag4cGIN9MB6DHqYV234s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evpk+TvI; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="mmNi9O9w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=JPEEuy2VASbVsx3jEIdlRTwkvRJCJkGKOmbHTX/386I=; b=m
-	mNi9O9wzgiFzWbNSGwTzs9/l4BvV29q0D8mmxWSP2Ix35Xmhfsulp6PWAsBi2ljU
-	8sy7GPVtMXkwBXAeDxZQzDqarIzudryS4VI8BqTVOdaHMcEYqVf/qsHvck9SyjXo
-	KREy7G0+3NShMWta+fMzXbKzWz6f1FBYL9nN/F2JOc=
-Date: Mon, 14 Sep 2026 17:02:42 +0800 (CST)
-From: CJ <firefly0158@163.com>
-To: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [BUG] thunderbolt: page fault on ioread32 in nhi_probe
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2TC/+cuU0t5CObZOkdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/GX1hxNj8GZCChCNjrywVfA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evpk+TvI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789376950; x=1820912950;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ajsEAEFVhYkei0ULQCPMvG1Rjbuwpj3uhTVR2PEtLjk=;
+  b=evpk+TvIi+5wBXjrspa2+5JmCjhPYJXaxqXnJdFZXJtiENFyat4k7Z1k
+   rGGCym1KsfRJuKHLUMmCwzT2y/s11YVtndY5CosT4eaJcMnkI7nb2wdZh
+   Wd3Zy8Oih7a1sAPm8nrZ1kfMX3BlS34NaRH6Ya6wERpC5IyjcgAryHp3p
+   vKeIDupvQsk8ISBVG6W8/aCYwoy1pq06WZ84H8nMdGPxGmZTUR39DNmtN
+   UVMAfsb/r3B9UdxDJ5h42O2lH6pGsMr4vBPL0l0DyO4bkMmPx7xw7N991
+   d3EXataz1AT5herxXIvwmvK7CkXcFI8Oep57qcIKnxb5ilyMn9PQYXBl+
+   Q==;
+X-CSE-ConnectionGUID: O0PMClS7QI+SjAZW0cn1Yw==
+X-CSE-MsgGUID: hFnek7NrTnmhoFhUzJY9Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="88667310"
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="88667310"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 02:09:08 -0700
+X-CSE-ConnectionGUID: iB80/MQiQEOUXB5GAPl9LA==
+X-CSE-MsgGUID: UYLwprqfQ02uvaG76GQ8xA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="989778"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa013.fm.intel.com with ESMTP; 14 Sep 2026 02:09:07 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5FBA799; Mon, 14 Sep 2026 11:09:06 +0200 (CEST)
+Date: Mon, 14 Sep 2026 11:09:06 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: CJ <firefly0158@163.com>
+Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] thunderbolt: page fault on ioread32 in nhi_probe
+Message-ID: <20260914090906.GD106095@black.igk.intel.com>
+References: <6947b53a.8863.1a09f2784a6.Coremail.firefly0158@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <6947b53a.8863.1a09f2784a6.Coremail.firefly0158@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:hygvCgC3550yuKdqtkAPAA--.18966W
-X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3RK+cGqnuDJYkQAA3P
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6947b53a.8863.1a09f2784a6.Coremail.firefly0158@163.com>
 
-CkhpLAoKCkkgYW0gcmVwb3J0aW5nIGEgcGFnZSBmYXVsdCBpbiB0aGUgVGh1bmRlcmJvbHQgTkhJ
-IHByb2JlIHBhdGgsIHRyaWdnZXJlZCBieSBhCnN5emthbGxlciByZXByb2R1Y2VyLiAgVGhlIGlz
-c3VlIGlzIHJlcHJvZHVjaWJsZSB3aXRoIEhFQUQgY29tbWl0CmNlZTkzOTVhY2Q4MDQzYmUwNjQ0
-YjI1YzM0YmZhODY2MjNmMmI5MzUgKHY3LjMtcmMxLCBMaW51eCA3LjMuMC1yYzEpLgoKClRoZSBy
-ZXByb2R1Y2VyIG1vdW50cyBzeXNmcywgdW5iaW5kcyBQQ0kgZGV2aWNlIDAwMDA6MDA6MDMuMCwg
-d3JpdGVzCiJ0aHVuZGVyYm9sdCIgdG8gaXRzIGRyaXZlcl9vdmVycmlkZSBhdHRyaWJ1dGUsIGFu
-ZCB0aGVuIHdyaXRlcyB0aGUgZGV2aWNlIG5hbWUKdG8gdGhlIHRodW5kZXJib2x0IGRyaXZlcidz
-IGJpbmQgYXR0cmlidXRlLCBmb3JjaW5nIHRoZSBkcml2ZXIgb250byBhIGRldmljZQp0aGF0IGlz
-IG5vdCBhIFRodW5kZXJib2x0IGNvbnRyb2xsZXIuCgoKVGhlIGNvbnNvbGUgc2hvd3MgIkJVRzog
-dW5hYmxlIHRvIGhhbmRsZSBwYWdlIGZhdWx0IGZvciBhZGRyZXNzOgowMDAwMDAwMDAwMDU1NmMw
-IiB3aXRoIGEgc3VwZXJ2aXNvciByZWFkIGFjY2VzcywgUklQIGluIGlvcmVhZDMyIChyZWFkbApp
-bmxpbmVkKSwgcmVhY2hlZCBmcm9tIG5oaV9wcm9iZSBhbmQgbmhpX3BjaV9wcm9iZSB0aHJvdWdo
-IGxvY2FsX3BjaV9wcm9iZS4gIFRoZQpmYXVsdGluZyBhZGRyZXNzIGlzIGEgbG93IE1NSU8tc3R5
-bGUgYWRkcmVzcywgd2hpY2ggaW5kaWNhdGVzIGEgcmVnaXN0ZXIgYWNjZXNzCmF0IGFuIG9mZnNl
-dCBmcm9tIGEgYmFzZSB0aGF0IHdhcyBuZXZlciBtYXBwZWQgZm9yIHRoaXMgZGV2aWNlLgoKCk9u
-ZSBwb3NzaWJsZSBjYXVzZSBpcyB0aGF0IG5oaV9wcm9iZSBpc3N1ZXMgTU1JTyByZWFkcyBhdCBy
-ZWdpc3RlciBvZmZzZXRzCndpdGhvdXQgZmlyc3QgY29uZmlybWluZyB0aGF0IHRoZSBkZXZpY2Un
-cyBCQVIgd2FzIGFzc2lnbmVkLCBzbyBhIGZvcmNlZCBiaW5kIG9uCmFuIHVucmVsYXRlZCBQQ0kg
-ZGV2aWNlIG1ha2VzIGl0IHJlYWQgYW4gdW5tYXBwZWQgYWRkcmVzcy4gIFRoZSBmYXVsdCBhZGRy
-ZXNzIGluCnRoZSBvcmlnaW5hbCByZXBvcnQgZGlmZmVycyBvbmx5IGluIGl0cyBsb3cgYnl0ZSBm
-cm9tIHRoZSBvbmUgc2VlbiBoZXJlLCB3aGljaCBJCnRha2UgYXMgcmVzb3VyY2UtcGxhY2VtZW50
-IGRyaWZ0IHJhdGhlciB0aGFuIGEgZGlmZmVyZW50IGFjY2Vzcy4gIFRoaXMgbG9va3MKbGlrZSBh
-IG1pc3NpbmcgcmVzb3VyY2UtdmFsaWRpdHkgY2hlY2sgb24gdGhlIHByb2JlIHBhdGguICBJIG5v
-dGUgdGhhdCByZWNlbnQKd29yayBpbiB0aGlzIGZpbGUgKDljYmM2MzQwMGY3ZCwgZjFkZTFmYzVm
-NjMyKSB0b3VjaGVkIHByb2JlLXRpbWUKaW5pdGlhbGl6YXRpb24gYnV0IG5vdCB0aGlzIHBhdGgu
-CgoKVGhpcyBhcHBlYXJzIHRvIGJlIGEgcmVjdXJyZW5jZSBvZiB0aGUgc3l6Ym90IGlzc3VlIHdo
-b3NlIGV4dGVybmFsIGlkIGlzCjZmMWQ2MjBkMTdiODQ0ZWMyY2Y3LiAgSXQgcmVtYWlucyByZXBy
-b2R1Y2libGUgb24gdjcuMy1yYzEuCgoKUmVwcm9kdWNlcjoKCgpzeXogcmVwcm9kdWNlcjoKbWtk
-aXJhdCgweGZmZmZmZmZmZmZmZmZmOWMsICYoMHg3ZjAwMDAwMDAwNDApPScuL3N5c1x4MDAnLCAw
-eDFmZikKbW91bnQoMHgwLCAmKDB4N2YwMDAwMDAwMDgwKT0nLi9zeXNceDAwJywgJigweDdmMDAw
-MDAwMDBjMCk9J3N5c2ZzXHgwMCcsIDB4MCwgMHgwKQpyMCA9IG9wZW5hdCgweGZmZmZmZmZmZmZm
-ZmZmOWMsICYoMHg3ZjAwMDAwMDAxMDApPScuL3N5cy9idXMvcGNpL2RldmljZXMvMDAwMDowMDow
-My4wL2RyaXZlci91bmJpbmRceDAwJywgMHgxLCAweDApCndyaXRlKHIwLCAmKDB4N2YwMDAwMDAw
-MTQwKT0nMDAwMDowMDowMy4wXHgwMCcsIDB4ZCkKcjEgPSBvcGVuYXQoMHhmZmZmZmZmZmZmZmZm
-ZjljLCAmKDB4N2YwMDAwMDAwMTgwKT0nLi9zeXMvYnVzL3BjaS9kZXZpY2VzLzAwMDA6MDA6MDMu
-MC9kcml2ZXJfb3ZlcnJpZGVceDAwJywgMHgxLCAweDApCndyaXRlKHIxLCAmKDB4N2YwMDAwMDAw
-MWMwKT0ndGh1bmRlcmJvbHRceDAwJywgMHhjKQpyMiA9IG9wZW5hdCgweGZmZmZmZmZmZmZmZmZm
-OWMsICYoMHg3ZjAwMDAwMDAyMDApPScuL3N5cy9idXMvcGNpL2RyaXZlcnMvdGh1bmRlcmJvbHQv
-YmluZFx4MDAnLCAweDEsIDB4MCkKd3JpdGUocjIsICYoMHg3ZjAwMDAwMDAyNDApPScwMDAwOjAw
-OjAzLjBceDAwJywgMHhkKQoKCmNvbnNvbGUgb3V0cHV0OiBodHRwczovL3Bhc3RlYmluLmNvbS9y
-YXcvS1RmQ3ZOTEIKa2VybmVsIGNvbmZpZzogaHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L3V1RHFZ
-NnY5CgoKS2VybmVsOgoKCkhFQUQgY29tbWl0OiBjZWU5Mzk1YWNkODA0M2JlMDY0NGIyNWMzNGJm
-YTg2NjIzZjJiOTM1CmdpdCB0cmVlOiB1cHN0cmVhbSAobGludXguZ2l0KSwgdGVzdGVkIHRocm91
-Z2ggdGhlIHY3LjMtcmMxIGFubm90YXRlZCB0YWcgb2JqZWN0CsKgIMKgIMKgIMKgIMKgIMKgZTVl
-MDQ3MjZjZGQwNDNlMzA5Njc3MDcxYWIxYjY1YTRiMThmNDIyYgprZXJuZWwgdmVyc2lvbjogNy4z
-LjAtcmMxICMxIFBSRUVNUFQoZnVsbCkKdGVzdGVkIHRhZzogdjcuMy1yYzEgKExpbnV4IDcuMy1y
-YzEsIDIwMjYtMDgtMzApCgoKTGV0IG1lIGtub3cgaWYgeW91IG5lZWQgbW9yZSBkZXRhaWxzIG9y
-IHRlc3RpbmcuCgoKQmVzdCByZWdhcmRzLApDaGFuZ2ppYW4K
+Hi,
+
+On Mon, Sep 14, 2026 at 05:02:42PM +0800, CJ wrote:
+> 
+> Hi,
+> 
+> 
+> I am reporting a page fault in the Thunderbolt NHI probe path, triggered by a
+> syzkaller reproducer.  The issue is reproducible with HEAD commit
+> cee9395acd8043be0644b25c34bfa86623f2b935 (v7.3-rc1, Linux 7.3.0-rc1).
+> 
+> 
+> The reproducer mounts sysfs, unbinds PCI device 0000:00:03.0, writes
+> "thunderbolt" to its driver_override attribute, and then writes the device name
+> to the thunderbolt driver's bind attribute, forcing the driver onto a device
+> that is not a Thunderbolt controller.
+> 
+> 
+> The console shows "BUG: unable to handle page fault for address:
+> 00000000000556c0" with a supervisor read access, RIP in ioread32 (readl
+> inlined), reached from nhi_probe and nhi_pci_probe through local_pci_probe.  The
+> faulting address is a low MMIO-style address, which indicates a register access
+> at an offset from a base that was never mapped for this device.
+
+Yes if you bind it to a random device you get what you asked for. Don't do
+that. I think syzkaller recently got fixed not to do that.
