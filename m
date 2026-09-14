@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE4047987A;
-	Mon, 14 Sep 2026 13:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E27F470137;
+	Mon, 14 Sep 2026 13:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789391542; cv=none; b=Ui1N0YyNv4uF6WvjCEqpG6yt+u++AwpPYrCtWFglFjZLQ7a4ltC+fHBCG7I7cVDJu8O8xqD2fcPd9+kt5aGFjziNTnrt7RESp2fT9QWea3lNGgHg33/SSsbGUF4ni6FPibKSuRUgUZ/4hyAoaKlrdMPi6fxddvObZiqwDExPokk=
+	t=1789391689; cv=none; b=ZcycLGNWAKFZd+rxx9PIprMFFJQH6kPOWOEQfd2fj9aG82JW84MLn4Cl8sCpDwDZnMDsLwuHeUBRI1ztkeHq0T02+iTydul6l7basjaW4UiQnpgzilpfgr2gmrTAx4Oah4iV10pkTbf0dIYWhUQK0IodnIVQYRwdkyITwFBJSew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789391542; c=relaxed/simple;
-	bh=oxbFhAvr6JSfGzP5RlSIkIiQp3K9ZHr1MCwoENtbehI=;
+	s=arc-20240116; t=1789391689; c=relaxed/simple;
+	bh=BFRBA8DV2oP10cMJI4g3tsK+H2FtgVGWqvV8xiozWzI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KjUSpIa9tuRdTlomwu0+/ciIg7mEovaqliNBvl4xU8gfZLUTZa0UJ8wC/8V6PF4WBRPRn7PpelZiqjjAAuxphqmkZtyl8Ds5v5w6kj7+JSupXOgIl4PnwqddUWfMVDGIFuVp7SgKw5ws8qtG/eCsG9/cM4nU2nSM/91cbxdYILY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPBSdDIB; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/cq0guR+xPUG+LX7ylVehaYmzHnqkTiL3eXxoX1BJwFJ7rlf6PoeG71SQSVpqsNSTDmHZFw+tijYn0pP+k6aHi13d5y2U6ZEM+yTFKJjkRmMoXkkNhnV9ITTL5nsN1ap5Zwvmh4riW/5TPzTSYyoQ4tXqW1htVnu0MRkCcAcks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZ5/EOhg; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPBSdDIB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZ5/EOhg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789391540; x=1820927540;
+  t=1789391688; x=1820927688;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oxbFhAvr6JSfGzP5RlSIkIiQp3K9ZHr1MCwoENtbehI=;
-  b=mPBSdDIBFWF1SQT+VjfdPVHFSXjrs7TKpab9zSYV7DhyBmM5w2Wtw6dT
-   2UdNib5PFjRQAqsRcOUDE6NqsX2fRRFY0MLLyxux6YJcK+unCC+TiRpRH
-   KJJeP9f+9LUl5XOMJwM7jw+z3GjaqNOFj02qCz9k2s6OxBf4EvlTfxzVU
-   xBV3vN9GM1pNC0ceeooFCvEi8XIEr+dMfxe0ZGDngzkq/3xvIKuAPZVs5
-   SCnZLeB98dvGp4R4Tjw3aW7f4HuPmGltyqJ0jpnTWB/rwEHUpxgG9XqvL
-   wG6fSP48xcL+vUtzzOTCc/jPZ30gOLRacuwX9Ck0ZkN3t56sL0k7Bb0wr
-   A==;
-X-CSE-ConnectionGUID: CpZ6BkesRhyQu0FT0WTvAg==
-X-CSE-MsgGUID: znMlWhcfQgyVx4W/Jmnmqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="112511240"
+  bh=BFRBA8DV2oP10cMJI4g3tsK+H2FtgVGWqvV8xiozWzI=;
+  b=PZ5/EOhgPBBkonfS9n5Oi/Uat/DNx6PEwlyiK31r28SCWdq+dmdONQ7Q
+   7ucEKVKrGCMAz9oKYTro9hR66OvOTQd5N1ax3gvNubWslVs4b7HBeU0W0
+   Sg/1T3k1v/qF1zHPvKUV9aoC8JANQqCxebcURmLxAJZlYSVjx42NcHBSz
+   WCVevMRxEAMsT0msctl7u471DTWiEA+i9GERdEIJEwPECc7xndcLSJEFv
+   2AiqnrLMQtgc3kN/Z0kUc7P2VErWoY6yufG1K+GgPk55Z+D0xdkuDWv7O
+   omSOETH6AhQ20P0nVNewJI2vV+pQX81VY5hET7r+9Z09tuFyPjhEjbTyQ
+   Q==;
+X-CSE-ConnectionGUID: euKO1RGUQDeTPtTMkoQo+w==
+X-CSE-MsgGUID: I5EL5rf4S4SWezAA5pjJzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="101093021"
 X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="112511240"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 06:12:19 -0700
-X-CSE-ConnectionGUID: K5cBbZILTeK5caqNakas1g==
-X-CSE-MsgGUID: YqxQpIzbRh2TnzGxHNT0cQ==
+   d="scan'208";a="101093021"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 06:14:48 -0700
+X-CSE-ConnectionGUID: qeEX/YG0RQ+S1Rr1ef0yLA==
+X-CSE-MsgGUID: SSlO6rYUSMaHwHjNU2/HQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="270832192"
+   d="scan'208";a="276170656"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 14 Sep 2026 06:12:15 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 Sep 2026 06:14:47 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 5371A99; Mon, 14 Sep 2026 15:12:14 +0200 (CEST)
-Date: Mon, 14 Sep 2026 15:12:14 +0200
+	id F233899; Mon, 14 Sep 2026 15:14:44 +0200 (CEST)
+Date: Mon, 14 Sep 2026 15:14:44 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Subasri S <subasris1210@gmail.com>
-Cc: Peter Chen <peter.chen@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Duncan Sands <duncan.sands@free.fr>,
-	Chas Williams <3chas3@gmail.com>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Badhri Jagan Sridharan <badhri@google.com>,
-	linux-usb@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] usb: typec: Use %pe to print error pointers
-Message-ID: <aqfyrs6Hdjc_ywZG@black.igk.intel.com>
-References: <20260801-usb-ptr_err_patchset-v2-0-1698e298c1e3@gmail.com>
- <20260801-usb-ptr_err_patchset-v2-3-1698e298c1e3@gmail.com>
+To: Jameson Thies <jthies@google.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bleung@chromium.org, gregkh@linuxfoundation.org,
+	akuchynski@chromium.org
+Subject: Re: [PATCH] usb: typec: ucsi: displayport: Current CAM OOB index
+ fixup
+Message-ID: <aqfzRPdG_bYemE6U@black.igk.intel.com>
+References: <20260911193208.410015-1-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -73,85 +63,52 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260801-usb-ptr_err_patchset-v2-3-1698e298c1e3@gmail.com>
+In-Reply-To: <20260911193208.410015-1-jthies@google.com>
 
-On Sat, Aug 01, 2026 at 05:59:52PM +0530, Subasri S wrote:
-> Use the %pe format specifier instead of %ld with PTR_ERR() for printing
-> error pointers in various typec drivers. This prints symbolic
-> error names (e.g.-ENOMEM) instead of errno numbers (e.g. -12),
-> making error logs more readable.
+On Fri, Sep 11, 2026 at 07:32:08PM +0000, Jameson Thies wrote:
+> Update ucsi_displayport_enter() to return invalid error when the PPM
+> reports an current alternate mode greater than or equal to
+> UCSI_MAX_ALTMODES. While here, remove 0xff current cam assignment on
+> failed GET_CURRENT_CAM response.
 > 
-> Fix coccinelle reported warning:
-> WARNING: Consider using %pe to print PTR_ERR()
-> 
-> Compile tested only.
-> 
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
-> Signed-off-by: Subasri S <subasris1210@gmail.com>
+> Signed-off-by: Jameson Thies <jthies@google.com>
 
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
->  drivers/usb/typec/mux/pi3usb30532.c | 6 ++----
->  drivers/usb/typec/tcpm/tcpm.c       | 2 +-
->  drivers/usb/typec/wusb3801.c        | 4 ++--
->  3 files changed, 5 insertions(+), 7 deletions(-)
+> Original patch didn't incorporate reviewer feedback. This is a fixup
+> to be amended to:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=04cec690b1fd9d1c4c314b91a10d8c68a3acfe18
 > 
-> diff --git a/drivers/usb/typec/mux/pi3usb30532.c b/drivers/usb/typec/mux/pi3usb30532.c
-> index 985683fe49e9..b32f4c433de9 100644
-> --- a/drivers/usb/typec/mux/pi3usb30532.c
-> +++ b/drivers/usb/typec/mux/pi3usb30532.c
-> @@ -139,8 +139,7 @@ static int pi3usb30532_probe(struct i2c_client *client)
->  
->  	pi->sw = typec_switch_register(dev, &sw_desc);
->  	if (IS_ERR(pi->sw)) {
-> -		dev_err(dev, "Error registering typec switch: %ld\n",
-> -			PTR_ERR(pi->sw));
-> +		dev_err(dev, "Error registering typec switch: %pe\n", pi->sw);
->  		return PTR_ERR(pi->sw);
+>  drivers/usb/typec/ucsi/displayport.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+> index 8d2032d0762c..572da7bbd29c 100644
+> --- a/drivers/usb/typec/ucsi/displayport.c
+> +++ b/drivers/usb/typec/ucsi/displayport.c
+> @@ -71,11 +71,14 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
+>  	if (ret < 0) {
+>  		if (ucsi->version > 0x0100)
+>  			goto err_unlock;
+> -		cur = 0xff;
 >  	}
 >  
-> @@ -151,8 +150,7 @@ static int pi3usb30532_probe(struct i2c_client *client)
->  	pi->mux = typec_mux_register(dev, &mux_desc);
->  	if (IS_ERR(pi->mux)) {
->  		typec_switch_unregister(pi->sw);
-> -		dev_err(dev, "Error registering typec mux: %ld\n",
-> -			PTR_ERR(pi->mux));
-> +		dev_err(dev, "Error registering typec mux: %pe\n", pi->mux);
->  		return PTR_ERR(pi->mux);
+> -	if (cur < UCSI_MAX_ALTMODES) {
+> -		ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
+> +	if (cur != 0xff) {
+> +		if (cur < UCSI_MAX_ALTMODES)
+> +			ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
+> +		else
+> +			ret = -EINVAL;
+> +
+>  		goto err_unlock;
 >  	}
 >  
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 89eec20a2064..ad10470ea73b 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -4796,7 +4796,7 @@ static void tcpm_typec_connect(struct tcpm_port *port)
->  			port->partner_desc.accessory = TYPEC_ACCESSORY_NONE;
->  		partner = typec_register_partner(port->typec_port, &port->partner_desc);
->  		if (IS_ERR(partner)) {
-> -			dev_err(port->dev, "Failed to register partner (%ld)\n", PTR_ERR(partner));
-> +			dev_err(port->dev, "Failed to register partner (%pe)\n", partner);
->  			return;
->  		}
->  
-> diff --git a/drivers/usb/typec/wusb3801.c b/drivers/usb/typec/wusb3801.c
-> index 6062875fb04a..86d13ab41670 100644
-> --- a/drivers/usb/typec/wusb3801.c
-> +++ b/drivers/usb/typec/wusb3801.c
-> @@ -277,8 +277,8 @@ static void wusb3801_hw_update(struct wusb3801 *wusb3801)
->  		if (partner_type != WUSB3801_STAT_PARTNER_STANDBY) {
->  			wusb3801->partner = typec_register_partner(port, &desc);
->  			if (IS_ERR(wusb3801->partner))
-> -				dev_err(dev, "Failed to register partner: %ld\n",
-> -					PTR_ERR(wusb3801->partner));
-> +				dev_err(dev, "Failed to register partner: %pe\n",
-> +					wusb3801->partner);
->  		}
->  
->  		data_role = pwr_role == TYPEC_SOURCE ? TYPEC_HOST : TYPEC_DEVICE;
 > 
+> base-commit: ed2050bc671b44b2c948dbd4347cc534d44ccc9f
 > -- 
-> 2.43.0
+> 2.55.0.1007.g17ff1f9808-goog
 
 -- 
 heikki
