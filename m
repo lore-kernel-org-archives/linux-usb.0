@@ -1,80 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D353041687C
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 08:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEAC282F03;
+	Mon, 14 Sep 2026 09:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789376204; cv=none; b=BzPUA2cR3bSY808LSfiFZnXTqjcalDlZLVq5XIuTj0t0IpNTEjajFbszGgwRw7UNeMJlWl4sckhkErZ2XGs+QqULdp62t2C1VrKKS9cExA59RB1Y0Z+WBWAQC+CrDHcUe0cm00MyCof/VQglTVBoDaMA0bbTnLLpyGAHq2sWIY4=
+	t=1789376577; cv=none; b=X/hTmKpp3l2WoNaWN/uelFeNiVmPqhzUpGokC1insUGHLjUMGLVz90sZXiHV/gmGzHpkEE5ChPRggbCCV5tgj43E9to8Lle3j1b24e3iNheuAjL4FLS7Cv3wPEgDyWlUHogJEgvlhscCc1gnsM1Ifo1F07cE4MPdlcwwct337ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789376204; c=relaxed/simple;
-	bh=imlZbf2oBgjBACwhCfLpOdS4zo0oNQ4YdpE2XU2jzWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=biOpdX5sBxw87x8dkAK1SmeH/dsvdDPuSxqoKHov2yYyIKR0fY6NsaTOY1RlL7T5FVrMzp40wTDKW1ua80lOw7FHYO+hUz76izuCMZ4d16L9zw70Law14l2m6UWjekVjWEF+0soJMhyTs4EKXLlg51oNrets59VoPxxcNHR+ZuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Alm6eVUv; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789376577; c=relaxed/simple;
+	bh=JPEEuy2VASbVsx3jEIdlRTwkvRJCJkGKOmbHTX/386I=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=cFP83GnlFnP/dUePeAy55lhyHezbrBvpWTzpwd5gKHuW12OK4qhy/kWI2W5Ok/Dd+M8aJplhIXhTynVLHBbNnMvMbuArOpqpz3diBVfBCJdPMjcoeq7q6PJyKdHXBeYdLasycdavrHOO6l6yeomUlrAANj1KHs4Q6OQbVAU8Ohc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=mmNi9O9w; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Alm6eVUv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789376198; x=1820912198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=imlZbf2oBgjBACwhCfLpOdS4zo0oNQ4YdpE2XU2jzWI=;
-  b=Alm6eVUv6tQDaIP3LEjkwUfT6vsUTel9a6DFYtvI43doBQhH9/yp2iei
-   cC6ZQOEyotR8u3zcUQMEJiO5+sWdWSbgy5NpxL0q5rt2+RMhV2rXtzW2q
-   ve07GOCHQe8cbKHWPX9CP5oDuIIAtrAdfLlxaSVLH4hK6SPKwZ7BgqkyX
-   yrO7bKStFcUy24FgfCAyTfaKX9PBmu6mJjzpVHk6kueA7QuZRfeiMSl3h
-   Lj5ygDGz+US+tI9VCklf72l/UqJ8rVWwzsLVx8rrpB6S66JexIzLzextR
-   aTmdNC2qZ/8aSy45mSs3A7NidzTGWhxx59vFEUfXLUDr/fMmESIKDVooL
-   Q==;
-X-CSE-ConnectionGUID: CP+GhIIhTLGz/4Egy5g5+w==
-X-CSE-MsgGUID: LhLh06D8TtCQlnOpIjlkRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="77287614"
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="77287614"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:56:35 -0700
-X-CSE-ConnectionGUID: FAF+VpeaS2qitqYFwFIPcA==
-X-CSE-MsgGUID: 47s2lBwQT8mmoJ8zTAHPwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="800638"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa011.fm.intel.com with ESMTP; 14 Sep 2026 01:56:33 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 5DA3699; Mon, 14 Sep 2026 10:56:32 +0200 (CEST)
-Date: Mon, 14 Sep 2026 10:56:32 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>, Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Subject: Re: [PATCH 0/4] thunderbolt: More improvements to USB4STREAM
-Message-ID: <20260914085632.GC106095@black.igk.intel.com>
-References: <20260908081449.3424884-1-mika.westerberg@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="mmNi9O9w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=JPEEuy2VASbVsx3jEIdlRTwkvRJCJkGKOmbHTX/386I=; b=m
+	mNi9O9wzgiFzWbNSGwTzs9/l4BvV29q0D8mmxWSP2Ix35Xmhfsulp6PWAsBi2ljU
+	8sy7GPVtMXkwBXAeDxZQzDqarIzudryS4VI8BqTVOdaHMcEYqVf/qsHvck9SyjXo
+	KREy7G0+3NShMWta+fMzXbKzWz6f1FBYL9nN/F2JOc=
+Date: Mon, 14 Sep 2026 17:02:42 +0800 (CST)
+From: CJ <firefly0158@163.com>
+To: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG] thunderbolt: page fault on ioread32 in nhi_probe
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+X-NTES-SC: AL_Qu2TC/+cuU0t5CObZOkdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/GX1hxNj8GZCChCNjrywVfA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260908081449.3424884-1-mika.westerberg@linux.intel.com>
+Message-ID: <6947b53a.8863.1a09f2784a6.Coremail.firefly0158@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:hygvCgC3550yuKdqtkAPAA--.18966W
+X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3RK+cGqnuDJYkQAA3P
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Tue, Sep 08, 2026 at 10:14:45AM +0200, Mika Westerberg wrote:
-> Hi all,
-> 
-> Alan noticed that in certain workloads with concurrent reader and writer
-> the stream could stall for a while. These below improvements should make it
-> behave better in these cases.
-> 
-> Mika Westerberg (4):
->   thunderbolt: Write descriptors in tb_ring_poll()
->   thunderbolt: Add tb_ring_poll_pending()
->   thunderbolt: stream: Do not hold the lock while busy polling
->   thunderbolt: stream: Check the Rx ring before task starts sleeping
-
-Applied to thunderbolt.git/next.
+CkhpLAoKCkkgYW0gcmVwb3J0aW5nIGEgcGFnZSBmYXVsdCBpbiB0aGUgVGh1bmRlcmJvbHQgTkhJ
+IHByb2JlIHBhdGgsIHRyaWdnZXJlZCBieSBhCnN5emthbGxlciByZXByb2R1Y2VyLiAgVGhlIGlz
+c3VlIGlzIHJlcHJvZHVjaWJsZSB3aXRoIEhFQUQgY29tbWl0CmNlZTkzOTVhY2Q4MDQzYmUwNjQ0
+YjI1YzM0YmZhODY2MjNmMmI5MzUgKHY3LjMtcmMxLCBMaW51eCA3LjMuMC1yYzEpLgoKClRoZSBy
+ZXByb2R1Y2VyIG1vdW50cyBzeXNmcywgdW5iaW5kcyBQQ0kgZGV2aWNlIDAwMDA6MDA6MDMuMCwg
+d3JpdGVzCiJ0aHVuZGVyYm9sdCIgdG8gaXRzIGRyaXZlcl9vdmVycmlkZSBhdHRyaWJ1dGUsIGFu
+ZCB0aGVuIHdyaXRlcyB0aGUgZGV2aWNlIG5hbWUKdG8gdGhlIHRodW5kZXJib2x0IGRyaXZlcidz
+IGJpbmQgYXR0cmlidXRlLCBmb3JjaW5nIHRoZSBkcml2ZXIgb250byBhIGRldmljZQp0aGF0IGlz
+IG5vdCBhIFRodW5kZXJib2x0IGNvbnRyb2xsZXIuCgoKVGhlIGNvbnNvbGUgc2hvd3MgIkJVRzog
+dW5hYmxlIHRvIGhhbmRsZSBwYWdlIGZhdWx0IGZvciBhZGRyZXNzOgowMDAwMDAwMDAwMDU1NmMw
+IiB3aXRoIGEgc3VwZXJ2aXNvciByZWFkIGFjY2VzcywgUklQIGluIGlvcmVhZDMyIChyZWFkbApp
+bmxpbmVkKSwgcmVhY2hlZCBmcm9tIG5oaV9wcm9iZSBhbmQgbmhpX3BjaV9wcm9iZSB0aHJvdWdo
+IGxvY2FsX3BjaV9wcm9iZS4gIFRoZQpmYXVsdGluZyBhZGRyZXNzIGlzIGEgbG93IE1NSU8tc3R5
+bGUgYWRkcmVzcywgd2hpY2ggaW5kaWNhdGVzIGEgcmVnaXN0ZXIgYWNjZXNzCmF0IGFuIG9mZnNl
+dCBmcm9tIGEgYmFzZSB0aGF0IHdhcyBuZXZlciBtYXBwZWQgZm9yIHRoaXMgZGV2aWNlLgoKCk9u
+ZSBwb3NzaWJsZSBjYXVzZSBpcyB0aGF0IG5oaV9wcm9iZSBpc3N1ZXMgTU1JTyByZWFkcyBhdCBy
+ZWdpc3RlciBvZmZzZXRzCndpdGhvdXQgZmlyc3QgY29uZmlybWluZyB0aGF0IHRoZSBkZXZpY2Un
+cyBCQVIgd2FzIGFzc2lnbmVkLCBzbyBhIGZvcmNlZCBiaW5kIG9uCmFuIHVucmVsYXRlZCBQQ0kg
+ZGV2aWNlIG1ha2VzIGl0IHJlYWQgYW4gdW5tYXBwZWQgYWRkcmVzcy4gIFRoZSBmYXVsdCBhZGRy
+ZXNzIGluCnRoZSBvcmlnaW5hbCByZXBvcnQgZGlmZmVycyBvbmx5IGluIGl0cyBsb3cgYnl0ZSBm
+cm9tIHRoZSBvbmUgc2VlbiBoZXJlLCB3aGljaCBJCnRha2UgYXMgcmVzb3VyY2UtcGxhY2VtZW50
+IGRyaWZ0IHJhdGhlciB0aGFuIGEgZGlmZmVyZW50IGFjY2Vzcy4gIFRoaXMgbG9va3MKbGlrZSBh
+IG1pc3NpbmcgcmVzb3VyY2UtdmFsaWRpdHkgY2hlY2sgb24gdGhlIHByb2JlIHBhdGguICBJIG5v
+dGUgdGhhdCByZWNlbnQKd29yayBpbiB0aGlzIGZpbGUgKDljYmM2MzQwMGY3ZCwgZjFkZTFmYzVm
+NjMyKSB0b3VjaGVkIHByb2JlLXRpbWUKaW5pdGlhbGl6YXRpb24gYnV0IG5vdCB0aGlzIHBhdGgu
+CgoKVGhpcyBhcHBlYXJzIHRvIGJlIGEgcmVjdXJyZW5jZSBvZiB0aGUgc3l6Ym90IGlzc3VlIHdo
+b3NlIGV4dGVybmFsIGlkIGlzCjZmMWQ2MjBkMTdiODQ0ZWMyY2Y3LiAgSXQgcmVtYWlucyByZXBy
+b2R1Y2libGUgb24gdjcuMy1yYzEuCgoKUmVwcm9kdWNlcjoKCgpzeXogcmVwcm9kdWNlcjoKbWtk
+aXJhdCgweGZmZmZmZmZmZmZmZmZmOWMsICYoMHg3ZjAwMDAwMDAwNDApPScuL3N5c1x4MDAnLCAw
+eDFmZikKbW91bnQoMHgwLCAmKDB4N2YwMDAwMDAwMDgwKT0nLi9zeXNceDAwJywgJigweDdmMDAw
+MDAwMDBjMCk9J3N5c2ZzXHgwMCcsIDB4MCwgMHgwKQpyMCA9IG9wZW5hdCgweGZmZmZmZmZmZmZm
+ZmZmOWMsICYoMHg3ZjAwMDAwMDAxMDApPScuL3N5cy9idXMvcGNpL2RldmljZXMvMDAwMDowMDow
+My4wL2RyaXZlci91bmJpbmRceDAwJywgMHgxLCAweDApCndyaXRlKHIwLCAmKDB4N2YwMDAwMDAw
+MTQwKT0nMDAwMDowMDowMy4wXHgwMCcsIDB4ZCkKcjEgPSBvcGVuYXQoMHhmZmZmZmZmZmZmZmZm
+ZjljLCAmKDB4N2YwMDAwMDAwMTgwKT0nLi9zeXMvYnVzL3BjaS9kZXZpY2VzLzAwMDA6MDA6MDMu
+MC9kcml2ZXJfb3ZlcnJpZGVceDAwJywgMHgxLCAweDApCndyaXRlKHIxLCAmKDB4N2YwMDAwMDAw
+MWMwKT0ndGh1bmRlcmJvbHRceDAwJywgMHhjKQpyMiA9IG9wZW5hdCgweGZmZmZmZmZmZmZmZmZm
+OWMsICYoMHg3ZjAwMDAwMDAyMDApPScuL3N5cy9idXMvcGNpL2RyaXZlcnMvdGh1bmRlcmJvbHQv
+YmluZFx4MDAnLCAweDEsIDB4MCkKd3JpdGUocjIsICYoMHg3ZjAwMDAwMDAyNDApPScwMDAwOjAw
+OjAzLjBceDAwJywgMHhkKQoKCmNvbnNvbGUgb3V0cHV0OiBodHRwczovL3Bhc3RlYmluLmNvbS9y
+YXcvS1RmQ3ZOTEIKa2VybmVsIGNvbmZpZzogaHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L3V1RHFZ
+NnY5CgoKS2VybmVsOgoKCkhFQUQgY29tbWl0OiBjZWU5Mzk1YWNkODA0M2JlMDY0NGIyNWMzNGJm
+YTg2NjIzZjJiOTM1CmdpdCB0cmVlOiB1cHN0cmVhbSAobGludXguZ2l0KSwgdGVzdGVkIHRocm91
+Z2ggdGhlIHY3LjMtcmMxIGFubm90YXRlZCB0YWcgb2JqZWN0CsKgIMKgIMKgIMKgIMKgIMKgZTVl
+MDQ3MjZjZGQwNDNlMzA5Njc3MDcxYWIxYjY1YTRiMThmNDIyYgprZXJuZWwgdmVyc2lvbjogNy4z
+LjAtcmMxICMxIFBSRUVNUFQoZnVsbCkKdGVzdGVkIHRhZzogdjcuMy1yYzEgKExpbnV4IDcuMy1y
+YzEsIDIwMjYtMDgtMzApCgoKTGV0IG1lIGtub3cgaWYgeW91IG5lZWQgbW9yZSBkZXRhaWxzIG9y
+IHRlc3RpbmcuCgoKQmVzdCByZWdhcmRzLApDaGFuZ2ppYW4K
