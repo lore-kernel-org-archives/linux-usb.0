@@ -1,92 +1,98 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40B538B15E;
-	Mon, 14 Sep 2026 07:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0587B3ED5C3
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 08:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789372722; cv=none; b=gMlldiwGn1QV54f4Dq5DXGwLVVj3jBoMJF9lMhJL4HCfH2ZDSyVde6MZAU9SjJkmghWkBZNM0kQBhgeOVFhocACgS6Xsuf4sAJ24020kekoDL1liOf3GrNHKkiR9iOffJbGrzmhNUk9iej6q2uUddu/EP3StlE6GFOrQqAWTb0I=
+	t=1789372860; cv=none; b=M3dmWtM9adsT7W3eLTuMnZwXvYeEK5w+LAB11RuA9dK+MUUbh7SbDAMIzS08L3vVF22xjdvzBQ2WENKZt4RdaL4yD5jX73d7noIhnEgPMtBVTq3SB0nmCnAZRQkJo99tGI0Yi2ION639qYPh8ngqju6OXrWONLC26QgOSlomEJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789372722; c=relaxed/simple;
-	bh=xqF1D2it+CT0FHpisnF4W3jHDhmlHjY9xHR7PkYWLCQ=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=j+LEvi+TgwE7mg6FI2id28pbTV3Spiv8/8TsGUk/jCZL2vA0Uu23QRtQQyGb5whuMy3dE6zLe9nWC+1Mv5CTbh8ckvw44DzqMscJzPS8WvLTNTnVHpL3isn9C84LDi30LcJEGyh0Vhd9ZMOQsYVUXddoQWW5YdbKtyK81eBMYRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=R+yrHjab; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1789372860; c=relaxed/simple;
+	bh=EYQOeSNuOoXjqRUIdNe++z2p6T2udVShkfpEKbrrMj4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=syCvJ+ZAYfIjJpGBQdR6V8iPDIFvmjiBh5qxHpQz+7EEEWtreeWiDy6qjuQzWaYMkWrhz65fVR+Lshptmykf4PWfPXP0mBwR8twBLH+CGiONb5VyGjPhAqmOsxmZJcCkxH2hrJczHu4fx3vhBfHwXtwAdM8rjMCz6abdaKQZ/Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OrVaSuRm; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="R+yrHjab"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=xqF1D2it+CT0FHpisnF4W3jHDhmlHjY9xHR7PkYWLCQ=; b=R
-	+yrHjabyG9a2Lk/JVHiV7lFwY+CaqvfRclL/p4PjS458+6cjyPsw8AumAEGmD6GK
-	bgE1NMbEqt6rvGvt9LxgAb4XTPb+p+ZVUjuTetk957KTRuZGKhFW2dUdZ/8mEpXK
-	9+B2O0CgMYcWDNHGKj5ZeiQhPz7S1gJNgt2Lcw+8Y8=
-Date: Mon, 14 Sep 2026 15:58:16 +0800 (CST)
-From: CJ <firefly0158@163.com>
-To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [BUG] usb: dwc3-pci: general protection fault in
- software_node_register during probe
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2TC/+cvU4i4CKaYekdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/W5PjoHlSMvDlZ4pg7bfcrg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OrVaSuRm"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so8313665e9.3
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 01:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1789372857; x=1789977657; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cmYhlDLXbDHAFy+wmv5M6UosyGJ8HUUEwo3iL6kJsHg=;
+        b=OrVaSuRmJutYx2IOtNi9FcKxKApNX/a5HymYOCPyuYDUUNG2QXN90yXabvp0sPaJ5T
+         E630+E7uvsqsHQbU01F/mYqSNq7Bs8STzVFiD7SMRKOuwXj8jCYkxTZZ1PCXK7dEdic3
+         4FniaSLH/Bo9qygIlol0E1NkaBUa/5s8pH2k73vhs/wpkBRdmNdgzDasWcSI02Nrw4S2
+         SnBL5wdxDOofu6ZCr0ibj6DtTiEeFOgNg5/RSYh0SDRnxaNg/arggG3vQUPzk5QmggLv
+         yk9bE7uoIb8P1vRzI+C5SjAdwT+pEbuRo5wBtjWAHPlJ/Sqyrx1sdvAIPUIQ4uxv5yrU
+         fvpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789372857; x=1789977657;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cmYhlDLXbDHAFy+wmv5M6UosyGJ8HUUEwo3iL6kJsHg=;
+        b=NMjzZf3m7mGGhFtdaEANcZG8d/PWhFUqQBvPEm83krTBRV17yBPWUy580o42qWOICL
+         Cd2nZPxw/WDlKb9DnxvVqFofnMDfcdtdMF2TvwIvpXymNQDnnOgEe7x4EzFTu1wGWJ/u
+         GLEHFN1oU+aqUxIfh1r9YM/j3vsNZGqzoYjlfYtfqWI1etDaYUjPlk1SjV0pVDvwBlHV
+         THdGfJdBTpLCPk8ZS8uUFrtgck+23M0RkEhhXLx+WBradeDQN/3PA4vCZUuHpe35Ip9X
+         N4xcZf5N5jrgdFB1ZLSGQbwQgfdCLM5Z1H8Ruqfde92Noiq16CIbgQ5NQ0KHJzsMsHTb
+         7GVQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx7UmKVobu1f6oV3VoGMXFjZqKbAHYGU7Ez0SNd2YeeNWuw21vAGv/bY6KR1ihUtlE4TBDIEp33ZgY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nj39Ndb34cfNpaVfwCgf9t8UacGgn05F6kEzg2Qqng27lbMLO+
+	ES8JpyCGQj6o8VFnrQE7qewzPaV+/VsTSTc8nv+dIHaJCmmqexwdvlFR+rT56DfzTaUAi6EBxoF
+	OS5zm
+X-Gm-Gg: AYBFou1sn6rxOPe31SRVGOvPdlz1J95Mlbjg9hP/XhEaf/t3QlNEWD0WHLEw1frG2Ma
+	JQf6wAtODdvcFdHNEgP5SbLbcbeJmonvNUxWzzQycWvYsJxWypVUnv+AKpWPCrY1EcTcbuQPZw4
+	4DpOdM2ZJl4/96KaZlGe2K6G19i2fPv0JvSV/lxsMaA4QGv+iFh4aBVpsRiQ8QMLJnNUoZrRd78
+	bWysj5PFOeU9B0RoLmSU2vj76tE2K+fV99J4kut/EB/jpOc6+acHf1+EKqn3BxmQmqj1kkEUbAl
+	EePl/l+UU34Ah5cXRFEFVLZEqOHHbEHpfOT3CgqEanD43cpxDCB3IvPrj3tr4SKeAFIoRygqUN5
+	m9TuF7xcE930nQe5eb1RibrGGEODZq7cfPo6PzRiBf00he0yPYo73UjZyUbMqE/A2RxKOjuqcZD
+	RAdi4K14mqUenAeqI6lHiWrhu4Z5LVQygHUjVULLz3R7JLkSLDWOse0XDaBkj4KiIQClqvoQZCy
+	5GJKaQoDgxenr3dQ+IC7lbH+AO4UksZK/TolfN6sR8=
+X-Received: by 2002:a05:600c:4e45:b0:49e:6050:9fbe with SMTP id 5b1f17b1804b1-49e7a68cefdmr32722865e9.15.1789372856926;
+        Mon, 14 Sep 2026 01:00:56 -0700 (PDT)
+Received: from ?IPV6:2a02:3033:271:ff25:5180:f8d1:43d5:f6a0? ([2a02:3033:271:ff25:5180:f8d1:43d5:f6a0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e71e300f3sm201135275e9.7.2026.09.14.01.00.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2026 01:00:56 -0700 (PDT)
+Message-ID: <c335085d-a824-4632-ad3a-c06715258c81@suse.com>
+Date: Mon, 14 Sep 2026 10:00:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <fb19a92.730a.1a09eec86ab.Coremail.firefly0158@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:hygvCgD3n7EYqadqNCMPAA--.18633W
-X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3hj0pmqnqRgYGwAA3r
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] uas: JMS578 returns reproducibly incorrect data after host
+ reboot
+To: djraszit <djraszit@gmail.com>, Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGksCgoKSSBhbSByZXBvcnRpbmcgYSBnZW5lcmFsIHByb3RlY3Rpb24gZmF1bHQgb24gdGhlIGR3
-YzMtcGNpIHByb2JlIHBhdGgsIHRyaWdnZXJlZApieSBhIHN5emthbGxlciByZXByb2R1Y2VyLiAg
-VGhlIGlzc3VlIGlzIHJlcHJvZHVjaWJsZSB3aXRoIEhFQUQgY29tbWl0CmNlZTkzOTVhY2Q4MDQz
-YmUwNjQ0YjI1YzM0YmZhODY2MjNmMmI5MzUgKHY3LjMtcmMxLCBMaW51eCA3LjMuMC1yYzEpLgoK
-ClRoZSByZXByb2R1Y2VyIG1vdW50cyBzeXNmcywgd3JpdGVzICJkd2MzLXBjaSIgdG8gdGhlIGRy
-aXZlcl9vdmVycmlkZSBhdHRyaWJ1dGUKb2YgUENJIGRldmljZSAwMDAwOjAwOjAzLjAsIHVuYmlu
-ZHMgdGhlIGRldmljZSwgYW5kIHRoZW4gd3JpdGVzIHRoZSBkZXZpY2UgbmFtZQp0byB0aGUgZHJp
-dmVyJ3MgYmluZCBhdHRyaWJ1dGUuICBUaGF0IGZvcmNlcyB0aGUgZHJpdmVyIHRvIHByb2JlIGEg
-ZGV2aWNlCndpdGhvdXQgdGhlIGZpcm13YXJlIGRlc2NyaXB0aW9uIGl0IHdvdWxkIG5vcm1hbGx5
-IGJlIG1hdGNoZWQgYWdhaW5zdC4KCgpUaGUgcHJvYmUgcnVucyBmcm9tIHRoZSB3b3JrcXVldWUg
-d29ya2VyIGt3b3JrZXIvMDo5IGluIHRoZSB3b3JrX2Zvcl9jcHVfZm4KY29udGV4dC4gIEtBU0FO
-IHJlcG9ydHMgYSBudWxsLXB0ci1kZXJlZiBpbiB0aGUgcmFuZ2UgWzB4OC0weGZdIGFuZCB0aGUg
-Y29uc29sZQpzaG93cyBhIGdlbmVyYWwgcHJvdGVjdGlvbiBmYXVsdCBmb3IgdGhlIG5vbi1jYW5v
-bmljYWwgYWRkcmVzcwoweGRmZmZmYzAwMDAwMDAwMDEsIHdpdGggUklQIGluIHNvZnR3YXJlX25v
-ZGVfcmVnaXN0ZXIuICBUaGUgcGF0aCBpcwpkZXZpY2VfYWRkX3NvZnR3YXJlX25vZGUgLT4gc29m
-dHdhcmVfbm9kZV9yZWdpc3RlciwgcmVhY2hlZCBmcm9tIGR3YzNfcGNpX3Byb2JlLgoKCk9uZSBw
-b3NzaWJsZSBjYXVzZSBpcyB0aGF0IHRoZSBzb2Z0d2FyZSBub2RlIGhhbmRlZCB0bwpkZXZpY2Vf
-YWRkX3NvZnR3YXJlX25vZGUgb24gdGhpcyBwYXRoIGhhcyBhIE5VTEwgcGFyZW50LCB3aGljaApz
-b2Z0d2FyZV9ub2RlX3JlZ2lzdGVyIHRoZW4gd2Fsa3MuICBUaGlzIGxvb2tzIGxpa2UgYSBtaXNz
-aW5nIHZhbGlkYXRpb24gb2YgdGhlCm5vZGUgcmVsYXRpb25zaGlwIG9uIHRoZSBwcm9iZSBwYXRo
-IHJhdGhlciB0aGFuIGEgZmF1bHQgY2F1c2VkIGJ5IHRoZSBQQ0kKZGV2aWNlIGl0c2VsZi4gIEkg
-YW0gcmVwb3J0aW5nIHRoZSBmYXVsdCBhbmQgdGhlIHBhdGggYXMgb2JzZXJ2ZWQuCgoKVGhpcyBh
-cHBlYXJzIHRvIGJlIGEgcmVjdXJyZW5jZSBvZiB0aGUgc3l6Ym90IGlzc3VlIHdob3NlIGV4dGVy
-bmFsIGlkIGlzCjQ2ZTM5M2ZlMGZmZDViNTUwYmNhLiAgSXQgcmVtYWlucyByZXByb2R1Y2libGUg
-b24gdjcuMy1yYzEuCgoKUmVwcm9kdWNlcjoKCgpzeXogcmVwcm9kdWNlcjoKbWtkaXJhdCgweGZm
-ZmZmZmZmZmZmZmZmOWMsICYoMHg3ZjAwMDAwMDAwNDApPScuL3N5c1x4MDAnLCAweDFmZikKbW91
-bnQoMHgwLCAmKDB4N2YwMDAwMDAwMDgwKT0nLi9zeXNceDAwJywgJigweDdmMDAwMDAwMDBjMCk9
-J3N5c2ZzXHgwMCcsIDB4MCwgMHgwKQpyMCA9IG9wZW5hdCgweGZmZmZmZmZmZmZmZmZmOWMsICYo
-MHg3ZjAwMDAwMDAxMDApPScuL3N5cy9idXMvcGNpL2RldmljZXMvMDAwMDowMDowMy4wL2RyaXZl
-cl9vdmVycmlkZVx4MDAnLCAweDEsIDB4MCkKd3JpdGUocjAsICYoMHg3ZjAwMDAwMDAxNDApPSdk
-d2MzLXBjaVx4MDAnLCAweDkpCnIxID0gb3BlbmF0KDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdm
-MDAwMDAwMDE4MCk9Jy4vc3lzL2J1cy9wY2kvZGV2aWNlcy8wMDAwOjAwOjAzLjAvZHJpdmVyL3Vu
-YmluZFx4MDAnLCAweDEsIDB4MCkKd3JpdGUocjEsICYoMHg3ZjAwMDAwMDAxYzApPScwMDAwOjAw
-OjAzLjBceDAwJywgMHhkKQpyMiA9IG9wZW5hdCgweGZmZmZmZmZmZmZmZmZmOWMsICYoMHg3ZjAw
-MDAwMDAyMDApPScuL3N5cy9idXMvcGNpL2RyaXZlcnMvZHdjMy1wY2kvYmluZFx4MDAnLCAweDEs
-IDB4MCkKd3JpdGUocjIsICYoMHg3ZjAwMDAwMDAyNDApPScwMDAwOjAwOjAzLjBceDAwJywgMHhk
-KQoKCmNvbnNvbGUgb3V0cHV0OiBodHRwczovL3Bhc3RlYmluLmNvbS9yYXcveFJIUDY2WHAKa2Vy
-bmVsIGNvbmZpZzogaHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L2NKQmJ1WWRZCgoKS2VybmVsOgoK
-CkhFQUQgY29tbWl0OiBjZWU5Mzk1YWNkODA0M2JlMDY0NGIyNWMzNGJmYTg2NjIzZjJiOTM1Cmdp
-dCB0cmVlOiB1cHN0cmVhbSAobGludXguZ2l0KSwgdGVzdGVkIHRocm91Z2ggdGhlIHY3LjMtcmMx
-IGFubm90YXRlZCB0YWcgb2JqZWN0CsKgIMKgIMKgIMKgIMKgIMKgZTVlMDQ3MjZjZGQwNDNlMzA5
-Njc3MDcxYWIxYjY1YTRiMThmNDIyYgprZXJuZWwgdmVyc2lvbjogNy4zLjAtcmMxICMxIFBSRUVN
-UFQoZnVsbCkKdGVzdGVkIHRhZzogdjcuMy1yYzEgKExpbnV4IDcuMy1yYzEsIDIwMjYtMDgtMzAp
-CgoKTGV0IG1lIGtub3cgaWYgeW91IG5lZWQgbW9yZSBkZXRhaWxzIG9yIHRlc3RpbmcuCgoKQmVz
-dCByZWdhcmRzLApDaGFuZ2ppYW4KCgoK
+On 13.09.26 16:38, djraszit wrote:
+> The same correct value is also obtained when the enclosure and disk are connected to another Linux computer.
+
+Hi,
+
+thank you for this valuable and comprehensive bug report.
+Just to clarify, does the quote from above indicate that
+the device returns correct data on other systems after
+reboot or does it mean that you verified that the disk
+holds the correct content by attaching it to another system?
+
+	Regards
+		Oliver
+
