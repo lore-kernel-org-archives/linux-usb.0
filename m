@@ -1,98 +1,98 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0587B3ED5C3
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 08:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27783F482F;
+	Mon, 14 Sep 2026 08:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789372860; cv=none; b=M3dmWtM9adsT7W3eLTuMnZwXvYeEK5w+LAB11RuA9dK+MUUbh7SbDAMIzS08L3vVF22xjdvzBQ2WENKZt4RdaL4yD5jX73d7noIhnEgPMtBVTq3SB0nmCnAZRQkJo99tGI0Yi2ION639qYPh8ngqju6OXrWONLC26QgOSlomEJs=
+	t=1789373623; cv=none; b=GDCy8lFZ+XmCYlZ6hkqY9DHKAmiWXgXdqdG3S/ZT5EFc76cY+ekGjOqIoOjGMcYpvNo7hnPXW6y+wGLLZx+JD6VcAiM15zEbn32lYKdmvPWYtPsSdii8l+NMJ9M+SerfXTq0KFkPYzrZnDKkVqWmZwORI8/dzTlyH8JXvPzD5A0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789372860; c=relaxed/simple;
-	bh=EYQOeSNuOoXjqRUIdNe++z2p6T2udVShkfpEKbrrMj4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=syCvJ+ZAYfIjJpGBQdR6V8iPDIFvmjiBh5qxHpQz+7EEEWtreeWiDy6qjuQzWaYMkWrhz65fVR+Lshptmykf4PWfPXP0mBwR8twBLH+CGiONb5VyGjPhAqmOsxmZJcCkxH2hrJczHu4fx3vhBfHwXtwAdM8rjMCz6abdaKQZ/Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OrVaSuRm; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1789373623; c=relaxed/simple;
+	bh=w6LFFT4ah61/bN/ZRxmcseqysWCf9cQShtrkPgzMYkQ=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=EmjwRKFRSq7zaj93djZhchIYH8wJC6lviwbkcwSHDqNAYJPGVmtqY8Tzy+vZRcG5e99fNjTXBQGRNWpf6RSfW9xC1unWHSggD+pHpuVx16VN5J5lvLGn6sJgxJEkVNvbUik40By/VFyfBeD3QW91BSZ+6/vwRHn1yzdiyWMtSp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=beQ2Dmsx; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OrVaSuRm"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so8313665e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 01:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1789372857; x=1789977657; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cmYhlDLXbDHAFy+wmv5M6UosyGJ8HUUEwo3iL6kJsHg=;
-        b=OrVaSuRmJutYx2IOtNi9FcKxKApNX/a5HymYOCPyuYDUUNG2QXN90yXabvp0sPaJ5T
-         E630+E7uvsqsHQbU01F/mYqSNq7Bs8STzVFiD7SMRKOuwXj8jCYkxTZZ1PCXK7dEdic3
-         4FniaSLH/Bo9qygIlol0E1NkaBUa/5s8pH2k73vhs/wpkBRdmNdgzDasWcSI02Nrw4S2
-         SnBL5wdxDOofu6ZCr0ibj6DtTiEeFOgNg5/RSYh0SDRnxaNg/arggG3vQUPzk5QmggLv
-         yk9bE7uoIb8P1vRzI+C5SjAdwT+pEbuRo5wBtjWAHPlJ/Sqyrx1sdvAIPUIQ4uxv5yrU
-         fvpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789372857; x=1789977657;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cmYhlDLXbDHAFy+wmv5M6UosyGJ8HUUEwo3iL6kJsHg=;
-        b=NMjzZf3m7mGGhFtdaEANcZG8d/PWhFUqQBvPEm83krTBRV17yBPWUy580o42qWOICL
-         Cd2nZPxw/WDlKb9DnxvVqFofnMDfcdtdMF2TvwIvpXymNQDnnOgEe7x4EzFTu1wGWJ/u
-         GLEHFN1oU+aqUxIfh1r9YM/j3vsNZGqzoYjlfYtfqWI1etDaYUjPlk1SjV0pVDvwBlHV
-         THdGfJdBTpLCPk8ZS8uUFrtgck+23M0RkEhhXLx+WBradeDQN/3PA4vCZUuHpe35Ip9X
-         N4xcZf5N5jrgdFB1ZLSGQbwQgfdCLM5Z1H8Ruqfde92Noiq16CIbgQ5NQ0KHJzsMsHTb
-         7GVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx7UmKVobu1f6oV3VoGMXFjZqKbAHYGU7Ez0SNd2YeeNWuw21vAGv/bY6KR1ihUtlE4TBDIEp33ZgY=@vger.kernel.org
-X-Gm-Message-State: AFuF++nj39Ndb34cfNpaVfwCgf9t8UacGgn05F6kEzg2Qqng27lbMLO+
-	ES8JpyCGQj6o8VFnrQE7qewzPaV+/VsTSTc8nv+dIHaJCmmqexwdvlFR+rT56DfzTaUAi6EBxoF
-	OS5zm
-X-Gm-Gg: AYBFou1sn6rxOPe31SRVGOvPdlz1J95Mlbjg9hP/XhEaf/t3QlNEWD0WHLEw1frG2Ma
-	JQf6wAtODdvcFdHNEgP5SbLbcbeJmonvNUxWzzQycWvYsJxWypVUnv+AKpWPCrY1EcTcbuQPZw4
-	4DpOdM2ZJl4/96KaZlGe2K6G19i2fPv0JvSV/lxsMaA4QGv+iFh4aBVpsRiQ8QMLJnNUoZrRd78
-	bWysj5PFOeU9B0RoLmSU2vj76tE2K+fV99J4kut/EB/jpOc6+acHf1+EKqn3BxmQmqj1kkEUbAl
-	EePl/l+UU34Ah5cXRFEFVLZEqOHHbEHpfOT3CgqEanD43cpxDCB3IvPrj3tr4SKeAFIoRygqUN5
-	m9TuF7xcE930nQe5eb1RibrGGEODZq7cfPo6PzRiBf00he0yPYo73UjZyUbMqE/A2RxKOjuqcZD
-	RAdi4K14mqUenAeqI6lHiWrhu4Z5LVQygHUjVULLz3R7JLkSLDWOse0XDaBkj4KiIQClqvoQZCy
-	5GJKaQoDgxenr3dQ+IC7lbH+AO4UksZK/TolfN6sR8=
-X-Received: by 2002:a05:600c:4e45:b0:49e:6050:9fbe with SMTP id 5b1f17b1804b1-49e7a68cefdmr32722865e9.15.1789372856926;
-        Mon, 14 Sep 2026 01:00:56 -0700 (PDT)
-Received: from ?IPV6:2a02:3033:271:ff25:5180:f8d1:43d5:f6a0? ([2a02:3033:271:ff25:5180:f8d1:43d5:f6a0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e71e300f3sm201135275e9.7.2026.09.14.01.00.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2026 01:00:56 -0700 (PDT)
-Message-ID: <c335085d-a824-4632-ad3a-c06715258c81@suse.com>
-Date: Mon, 14 Sep 2026 10:00:54 +0200
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="beQ2Dmsx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=w6LFFT4ah61/bN/ZRxmcseqysWCf9cQShtrkPgzMYkQ=; b=b
+	eQ2Dmsx1nFfHbVn9BTTc6oDwNEOIgcxVAcjTdVMA4baY9f2xw9bAzJlENz6kCktv
+	rrSCZeTy5LmtULvTaDxOimThbKRjbxwa3kvn9QqNrTWJYIHH0tskJfv04WmZQM62
+	wVfcs2/cljMHcSkSFyE94e+YQIZg5L0OwQ3Zr1lE1k=
+Date: Mon, 14 Sep 2026 16:13:19 +0800 (CST)
+From: CJ <firefly0158@163.com>
+To: gregkh@linuxfoundation.org, marco.crivellari@suse.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG] usb: f_hid: WARNING in usb_ep_enable for endpoint with
+ maxpacket 0
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+X-NTES-SC: AL_Qu2TC/+cvE0i7imQbOkdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/rKtQ4u+tudGg0TVFZ/3X7g==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] uas: JMS578 returns reproducibly incorrect data after host
- reboot
-To: djraszit <djraszit@gmail.com>, Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <79ccbb66.77bd.1a09efa4d1a.Coremail.firefly0158@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:hygvCgD3N8agrKdqjCkPAA--.18724W
+X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3gDXiWqnrKBrcQAA3b
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On 13.09.26 16:38, djraszit wrote:
-> The same correct value is also obtained when the enclosure and disk are connected to another Linux computer.
-
-Hi,
-
-thank you for this valuable and comprehensive bug report.
-Just to clarify, does the quote from above indicate that
-the device returns correct data on other systems after
-reboot or does it mean that you verified that the disk
-holds the correct content by attaching it to another system?
-
-	Regards
-		Oliver
-
+wqAKSGksCgoKSSBhbSByZXBvcnRpbmcgYSBXQVJOSU5HIGluIHRoZSBVU0IgZ2FkZ2V0IGVuZHBv
+aW50LWVuYWJsZSBwYXRoIHJlYWNoZWQgZnJvbSB0aGUKSElEIGdhZGdldCBmdW5jdGlvbiwgdHJp
+Z2dlcmVkIGJ5IGEgc3l6a2FsbGVyIHJlcHJvZHVjZXIuICBUaGUgaXNzdWUgaXMKcmVwcm9kdWNp
+YmxlIHdpdGggSEVBRCBjb21taXQgY2VlOTM5NWFjZDgwNDNiZTA2NDRiMjVjMzRiZmE4NjYyM2Yy
+YjkzNQoodjcuMy1yYzEsIExpbnV4IDcuMy4wLXJjMSkuCgoKVGhlIHJlcHJvZHVjZXIgbW91bnRz
+IGNvbmZpZ2ZzLCBjcmVhdGVzIGEgZ2FkZ2V0IHdpdGggYSBoaWQudXNiMCBmdW5jdGlvbiwgbGlu
+a3MKaXQgaW50byBhIGNvbmZpZ3VyYXRpb24sIGFuZCB0aGVuIHdyaXRlcyAiZHVtbXlfdWRjLjAi
+IHRvIHRoZSBnYWRnZXQncyBVREMKYXR0cmlidXRlLiAgVGhhdCB3cml0ZSBkcml2ZXMgdGhlIGdh
+ZGdldCBiaW5kIG9uIHRoZSBkdW1teSBVREMgYW5kIGVuYWJsZXMgdGhlCmZ1bmN0aW9uJ3MgZW5k
+cG9pbnRzLgoKClRoZSBjb25zb2xlIHNob3dzIHRoZSBtZXNzYWdlICJ1c2JfZXBfZW5hYmxlOiBl
+cDEyOSAoZXAxaW4tYnVsaykgaGFzIG1heHBhY2tldAowIiBmb2xsb3dlZCBieSBhIFdBUk5JTkcg
+YXQgZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9jb3JlLmM6MTI0IHdpdGggUklQIGluCnVzYl9lcF9l
+bmFibGUsIG9uIENQVSAwIGluIHRoZSBjb250ZXh0IG9mIGt3b3JrZXIvMDozLiAgVGhlIGVuZHBv
+aW50IGJlaW5nCmVuYWJsZWQgY2FycmllcyBhIHplcm8gbWF4aW11bSBwYWNrZXQgc2l6ZSBpbiBp
+dHMgZGVzY3JpcHRvci4KCgpPbmUgcG9zc2libGUgY2F1c2UgaXMgdGhhdCB0aGUgSElEIGZ1bmN0
+aW9uIGJ1aWxkcyBpdHMgZW5kcG9pbnQgZGVzY3JpcHRvcgp3aXRob3V0IHZhbGlkYXRpbmcgdGhl
+IHBhY2tldCBzaXplIGl0IGRlcml2ZXMgZnJvbSB0aGUgY29uZmlnZnMtcHJvdmlkZWQKcGFyYW1l
+dGVycywgc28gYSB6ZXJvLXNpemVkIGVuZHBvaW50IGRlc2NyaXB0b3IgcmVhY2hlcyB1c2JfZXBf
+ZW5hYmxlLCB3aGljaAp3YXJucyBvbiBpdC4gIFRoaXMgbG9va3MgbGlrZSBhIG1pc3Npbmcgc2Fu
+aXR5IGNoZWNrIGluIHRoZSBmdW5jdGlvbidzCmRlc2NyaXB0b3Igc2V0dXAgcmF0aGVyIHRoYW4g
+YSBVREMgcHJvYmxlbS4gIEkgc2hvdWxkIG5vdGUgdGhhdCB0aGUgdGFyZ2V0CmNvbnNvbGUgZm9y
+IHRoaXMgY2FzZSBpcyB0cnVuY2F0ZWQgaW1tZWRpYXRlbHkgYWZ0ZXIgdGhlIHdhcm5pbmcgaGVh
+ZGVyLCBzbyB0aGUKY2FsbGVyIGZyYW1lcyBvbiB0aGUgdGFyZ2V0IHNpZGUgY291bGQgbm90IGJl
+IGNvbXBhcmVkIHdpdGggdGhlIG9yaWdpbmFsIHJlcG9ydDsKdGhlIHdhcm5pbmcgdGV4dCwgdGhl
+IGZpbGUsIHRoZSBmdW5jdGlvbiBhbmQgdGhlIHJlcHJvZHVjZXIgYXJlIHRoZSBzYW1lLCBhbmQg
+SQphbSBkZXNjcmliaW5nIHRoaXMgYXMgYSBsaWtlbHkgcmVjdXJyZW5jZSBvbiB0aGF0IGJhc2lz
+LgoKClRoaXMgYXBwZWFycyB0byBiZSBhIHJlY3VycmVuY2Ugb2YgdGhlIHN5emJvdCBpc3N1ZSB3
+aG9zZSBleHRlcm5hbCBpZCBpcwo1YmQ0MTJiYWEyYzQyMTFiZGM3YS4gIEl0IHJlbWFpbnMgcmVw
+cm9kdWNpYmxlIG9uIHY3LjMtcmMxLgoKClJlcHJvZHVjZXI6CgoKc3l6IHJlcHJvZHVjZXI6Cm1r
+ZGlyYXQoMHhmZmZmZmZmZmZmZmZmZjljLCAmKDB4N2YwMDAwMDAwMDAwKT0nLi9jb25maWdceDAw
+JywgMHgxZmYpCm1vdW50KDB4MCwgJigweDdmMDAwMDAwMDIwMCk9Jy4vY29uZmlnXHgwMCcsICYo
+MHg3ZjAwMDAwMDAzMDApPSdjb25maWdmc1x4MDAnLCAweDAsIDB4MCkKbWtkaXJhdCgweGZmZmZm
+ZmZmZmZmZmZmOWMsICYoMHg3ZjAwMDAwMDA0MDApPScuL2NvbmZpZy91c2JfZ2FkZ2V0L2cxXHgw
+MCcsIDB4MWZmKQpta2RpcmF0KDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMDkwMCk9
+Jy4vY29uZmlnL3VzYl9nYWRnZXQvZzEvY29uZmlncy9jMS4xXHgwMCcsIDB4MWZmKQpta2RpcmF0
+KDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMGEwMCk9Jy4vY29uZmlnL3VzYl9nYWRn
+ZXQvZzEvZnVuY3Rpb25zL2hpZC51c2IwXHgwMCcsIDB4MWZmKQpzeW1saW5rYXQoJigweDdmMDAw
+MDAwMTMwMCk9Jy4vY29uZmlnL3VzYl9nYWRnZXQvZzEvZnVuY3Rpb25zL2hpZC51c2IwXHgwMCcs
+IDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMTQwMCk9Jy4vY29uZmlnL3VzYl9nYWRn
+ZXQvZzEvY29uZmlncy9jMS4xL2hpZC51c2IwXHgwMCcpCnIwID0gb3BlbmF0KDB4ZmZmZmZmZmZm
+ZmZmZmY5YywgJigweDdmMDAwMDAwMTUwMCk9Jy4vY29uZmlnL3VzYl9nYWRnZXQvZzEvVURDXHgw
+MCcsIDB4MSwgMHgxZmYpCndyaXRlKHIwLCAmKDB4N2YwMDAwMDAxNjAwKT0nZHVtbXlfdWRjLjAn
+LCAweGIpCgoKY29uc29sZSBvdXRwdXQ6IGh0dHBzOi8vcGFzdGViaW4uY29tL3Jhdy9TSnlHS0pM
+awprZXJuZWwgY29uZmlnOiBodHRwczovL3Bhc3RlYmluLmNvbS9yYXcvNTBKc3FiN20KCktlcm5l
+bDoKCgpIRUFEIGNvbW1pdDogY2VlOTM5NWFjZDgwNDNiZTA2NDRiMjVjMzRiZmE4NjYyM2YyYjkz
+NQpnaXQgdHJlZTogdXBzdHJlYW0gKGxpbnV4LmdpdCksIHRlc3RlZCB0aHJvdWdoIHRoZSB2Ny4z
+LXJjMSBhbm5vdGF0ZWQgdGFnIG9iamVjdArCoCDCoCDCoCDCoCDCoCDCoGU1ZTA0NzI2Y2RkMDQz
+ZTMwOTY3NzA3MWFiMWI2NWE0YjE4ZjQyMmIKa2VybmVsIHZlcnNpb246IDcuMy4wLXJjMSAjMSBQ
+UkVFTVBUKGZ1bGwpCnRlc3RlZCB0YWc6IHY3LjMtcmMxIChMaW51eCA3LjMtcmMxLCAyMDI2LTA4
+LTMwKQoKCkxldCBtZSBrbm93IGlmIHlvdSBuZWVkIG1vcmUgZGV0YWlscyBvciB0ZXN0aW5nLgoK
+CkJlc3QgcmVnYXJkcywKCkNoYW5namlhbgoK
