@@ -1,85 +1,76 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8302035C6A1
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 16:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3143E7BC6
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 16:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789401669; cv=none; b=SK5rKh+ACCjk9nlgsIF/OhH5KguHinF+Qh1FVLaUIeGHmYuR9mxLUkHV0BLGBJBbr0op61cgkQf4GyxVw0U8ZSO+xNAkdJMrnBBhhrE5G8u8+xvTfm6Sa661buDbumQtfr/JWJofe/CkYp27LhfWxmmChOpRpwjGKQ3KctqUHzw=
+	t=1789402051; cv=none; b=cRqaz5/vWa9pPt/bPTaVnZwQi1EtIfSyes1i8FUivF2NuU8iJnj2WhZh83qAaOXpEsVUol9R/UjfZNBFbq4XHRz7ef3Cow0rySWWiPPXxIYnuO7Kcy73vJ5m5vyIJZUrdphkoT+M+6qWZFMVgfFLTAQpOnr6GShKIGJg9LOapUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789401669; c=relaxed/simple;
-	bh=CbP2Yc6QOC1TaqWXpk9VKHDdPov5UCKmBGqZZE0al8o=;
+	s=arc-20240116; t=1789402051; c=relaxed/simple;
+	bh=xcZmHyG+PyHzYnI3+XgZ/pF1qAMwzINMPPYcsiRQc+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egVarMujyaiCeRz3EjFWUNeegjPB17qKsG/f7TYrsr2FqAB/AZDfMR4IxQESou82xuFCWvL95z9qt4wgXGIp528tKUqm+hsiVoF/fxI/sWHoF3ac3LwRy6R+VhlHAkBpFr6JOa44xH7bzBE8vIL+UDtPsha7Md9Y3OVERK0vs6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vSGiwET2; arc=none smtp.client-ip=74.125.231.76
+	 Content-Type:Content-Disposition:In-Reply-To; b=iwUvjGlFN2NbDQEwuCPg4Mxn6ysXl6WlntPzqkJ8tSCefBAOPCW8WJZRoe7TVSASQGRaMYStCDkXHhN4oSBRDUrFZAqha+gXd+3L3AqQOOw3J6qVgmbeYAhjfXyClgIf7C0gCGfGDRz4jr834tosor4N/W0ZmHrDF1glBLEM9J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=YrWN0t3s; arc=none smtp.client-ip=74.125.230.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vSGiwET2"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-470417e5b52so1718926fac.3
-        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 09:01:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="YrWN0t3s"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-52fb769ca17so25899231cf.2
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 09:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789401666; x=1790006466; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1789402048; x=1790006848; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=iBllaTOuazudRqgAdFSA/MXIeDVbKXR+ECVpXkcNDSM=;
-        b=vSGiwET2fUu4tZIrwbrvjd1XfIol48xkbKwSmnIaYR6TIGf748zgIy1ek7Evjfk2MO
-         tL2uZPMFSU0yvwjg1Z+1kln/umFBmrtYAV8XRSsfocvdCjHMONWUMGtAwtxXxpZbtOHt
-         90+coEUKXcKam3xymzy0s8nI6pfAk7VwWvfdsmbP92qZrcde5H1OCjLJbberfpom+hxh
-         lMz1WzVODDguEvgJaguke0y6H12WJOHi9rzq09ejLbEulMUzx/gN0CrNi11oIEXz6jdd
-         Z2WuuRCoLu5o/tjKM1zY6I1xqRBIPL/JE6uru9lcsa1rJgy+qATJxtI+x/Yv2bqGkxm8
-         x+Ug==
+        bh=JOjpLjBtfnP2SB+Px5CSsqFZEkc+Xu2rctfSBKsfLPM=;
+        b=YrWN0t3sT1ci6hyCr3+AzDTZ1ucRhRQ+wO3+C/VVtAaEiIekI+eH8e8m2NrYUO81VE
+         GasybH1PuOlMIeY7HFrnVLDh2YUwGL39CyEU34cwktthK01bR6+FIksZlkddIeFfNjhr
+         iN2IrhfXBHsIdQJ4/VxcpEdLB+I/WDI8pDH/dysIGr8pK/BslITJAEB6ppFGDmuYWM7X
+         WQU67g8h3ZFKHgSOTrWyK3FbC2lGtxwgPV2xifIhuRxok0Fw3Inu8FtEJRk50Ro+CQc/
+         l76TaLp874POFFWkl52xIgFigQtBujDykI0i4F0rAckxH6iguV8XqBpVjvkMqq2XDFt+
+         AJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789401666; x=1790006466;
+        d=1e100.net; s=20251104; t=1789402048; x=1790006848;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iBllaTOuazudRqgAdFSA/MXIeDVbKXR+ECVpXkcNDSM=;
-        b=nCbylScvPTmdySt4mGhMrMGcZpD4S7RZu/J/LQpsXFox3nAA0KLeYpdWUQoYok4jTN
-         vOJ+kSzfMb3At3aS3AGwRPV7qT0+dwbKmOq3I0CVzKWyx6r7rmy09QoiIcdnTzqIuY4t
-         YCGa03Ih0SahQishjM1mSkSbs9yQFrKSoxLVHDKj4p2cTdBwUd9Nr9VhMFpV+0n5IjZ7
-         bQsIbJZR2MTQXSZ0Yjq98qQpr++5YhJX0NHAovzbVOK2fb/U17e/Afd8dEvfwVDurIsV
-         YIAtGM8VWfLVJVOTLfoxv3FAF2QS+4F0+jlIyniuOWBssPh0gT+rTYTqAdaM1Pb0cELM
-         GZ/g==
-X-Forwarded-Encrypted: i=1; AKwUvBwMPUXJQj+XMzfwvGj3BsgULCFbRV6Fh/40DRL2xkbXzlMCC2d298JRxn3fmcrX862ebD3Nh0w86BQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++m1l9hEZaxWGlbBBB37dwqYNW8WAOVn8FdfMgUwRuiRTdu4nNP8
-	d7vlagEfL3BHJhNVQK/aTXXJHCB2DAgys+K9XdUuoUkZOOmjIlWckZO5W+lW4GrgvukjBbDBQ+F
-	V6JavAQ==
-X-Gm-Gg: AYBFou12HK08PZmYQn+b3uhKodA2Yz5amBFNMzpV7NU8uuMFal0mTtMWd7Svwa9kvzJ
-	F+XHIgpcorw4Cml9IAtToO3ukfwneJJmXgWaY44E2miY9KPwWEsi3Ac9lOEXYF6hHa0mHKmSdba
-	ixLxHngDpDnrJoM/bbZGbuzVtjd+Do4y0Dx+JzUEpoOkiR+sJFB4LDzdQuCgitzu9R5HJOoEvFd
-	CPeDnbM68rxoeYqrqqG1FU9nEGuleFt+dYFUsU4XSC1v9H7epsvGo7lMNSHlhNzNTeM3q1lTWVq
-	4YIeyBikVvVyHEnxYdOYX9bCXXiNASaDSXRpHokd6h0W1/u1VnDuzbmOXLQT8lQ+Pdiq1hWNR0R
-	QXDZe90meaPa6HJipyUDimMzWgEHbr19PZ/Yl+ak24VGRv24SBIF//yncKrL1Rs8dwk97OUJQGS
-	UbjGVaXLigeuNl91Rj0tl8bkwEdXcWGCnu0xEtcvg8f3jC5MC45/gp/CU5H5F/dZXDKyyxCIQ58
-	82091wZ+7E=
-X-Received: by 2002:a05:622a:1786:b0:530:b2e2:903b with SMTP id d75a77b69052e-5310d0bc66emr40415231cf.59.1789401655453;
-        Mon, 14 Sep 2026 09:00:55 -0700 (PDT)
+        bh=JOjpLjBtfnP2SB+Px5CSsqFZEkc+Xu2rctfSBKsfLPM=;
+        b=XXfcvORs/Cjgd0QwWAMVndBcmGM+LxbZl+g7B/FHHXi4HYS1ISNowCuQDO7Ym041zQ
+         nwmejyDxG9jSIpyZ8pOWfnIaBwmKtrqXK/rnl9meHqMcT3AD5Waqz67DNrOidwlc3ang
+         iYhrVSg85SrnVl6A9nD/t+SrlDZHG/NZcaSGHidtlfKakGVW+ujtbfaR3mc4A3Se1ZVg
+         tt/viuDI0NHKqJmlOuA8BJVr6VqWQ+JFDAkaPHjPuaY3ecgwmGNcNQiUQuRInu23UyJQ
+         xgp3TntZMPCHuSeYZgzwDwwFrb8WFO5OSKy+xdTUh1muJdeLvGwFkGGrXjgZLzcGaI8g
+         sXEw==
+X-Forwarded-Encrypted: i=1; AKwUvBzDt9VWMNCo5C22Tu7DwEq9inoxYhIYxw/qRJ3c25xrTYhdVC100cqPwgtaQlBAe1OQpZF7VswSBNk=@vger.kernel.org
+X-Gm-Message-State: AFuF++kSB2s5A65G8pAnWdrTaA0H5Zp7YU2rIkWhu8yrAUThtTTeEoz2
+	cgMKHb/iJLGc4GAB5eWqoB2PHBacwF7tdKN2iMYMnk0HUWe2MB2XPcX3iCRaT2jXR8Uwr40fE54
+	wB6dPwg==
+X-Gm-Gg: AYBFou3tqVyeVXrAiaK3/OxNtZ1n3ySXe/4Q8y8PWpwUd7kScOTb7LleStZgfj9uCVJ
+	K44bvEPyWzKesUbUkoOqxZKaXgkkok+4RRLDZ6iwJN5kBJTmkloEXpSbHVXyu4Nq5x+eiYrLRtO
+	v1rhohyjtcZUdW9ExO4If08XASwaBafOzjJTx9NML00yHAlUg0iY+tS9ztjsAG0bsCBpiif4Fzz
+	0/WcUb5ORIDqKenm9j2H1pg/Yx4J8V/80egXo1fYw85DaTcJpOHVoVGmSH0/jYHMYVGH9llTMLT
+	mXEt3Aoq9IP4BAKhk3V6eQv1vDYCEl6161YuvUEoC46I+fTKDvERVWPKP44x+AWcT7Q7QzG4nsz
+	1vfKZPN36tND6wyC1+VY9Qn52fnfz/gtloL7AoLHJ2epGa9fINv90qWsE+Mn4S0B15ramc9xwHp
+	A8vnSliTOhA7Jnwf6JNU31aNmwRqYWPXwmYaR/Kq3aI2FB3u6i88sVPy5xaTleVI+T1lLVVxOWV
+	cL+h7JRdqk=
+X-Received: by 2002:a05:622a:1e11:b0:530:b2e2:2f4 with SMTP id d75a77b69052e-5310d0a8dcfmr59810971cf.54.1789402048282;
+        Mon, 14 Sep 2026 09:07:28 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca3098easm102330871cf.3.2026.09.14.09.00.54
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca4ba156sm101928181cf.19.2026.09.14.09.07.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 09:00:54 -0700 (PDT)
-Date: Mon, 14 Sep 2026 12:00:51 -0400
+        Mon, 14 Sep 2026 09:07:27 -0700 (PDT)
+Date: Mon, 14 Sep 2026 12:07:25 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <f42b44ef-b083-4976-bf06-f2a21098474b@rowland.harvard.edu>
-References: <fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu>
- <CAFmvuTXWxQJUZfAAC=vs5QM=myDLE-o0jZZ8OXdqiGioPkRwfA@mail.gmail.com>
- <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
- <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
- <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
- <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
- <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
- <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
- <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
- <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
+To: Myeonghun Pak <mhun512@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] usb: ehci-platform: Disable controller wakeup on
+ removal
+Message-ID: <1d42418c-0a0f-44f5-9be2-1e56013024a9@rowland.harvard.edu>
+References: <20260913223732.92882-1-mhun512@gmail.com>
+ <20260913223732.92882-2-mhun512@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -88,58 +79,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
+In-Reply-To: <20260913223732.92882-2-mhun512@gmail.com>
 
-On Mon, Sep 14, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
-> Hi Alan,
+On Sun, Sep 13, 2026 at 06:37:30PM -0400, Myeonghun Pak wrote:
+> On wakeup-capable ACPI controllers, a successful probe-time wakeup enable
+> leaves a source attached after driver unbind: usb_remove_hcd() does not
+> disable controller wakeup.
 > 
-> Thank you for the revised patch.
+> Disable it after usb_remove_hcd() to balance the enable.
 > 
-> Following your explanation, I focused this round of testing on how the
-> revised patch handles module lifetime.
+> This issue was identified during our ongoing static-analysis research while
+> reviewing kernel code.
 > 
-> I applied your first patch followed by this revised second patch to
-> upstream v7.2-rc1, commit
-> dc59e4fea9d83f03bad6bddf3fa2e52491777482, using
-> CONFIG_USB_GADGETFS=m for the runtime tests.
+> Fixes: 776c15d0ad0c ("USB: ehci-platform: Add ACPI bindings for the EHCI platform driver.")
+> Assisted-by: OpenAI:GPT-5.6
+> Co-developed-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+> ---
 
-...
+For all three patches:
 
-> I also held ep_aio_complete() immediately after iocb->ki_complete() on
-> the PWRITE path that does not queue copy_work. In two runs, each starting
-> from a fresh boot, after the reproducer consumed the AIO completion event
-> and closed all GadgetFS descriptors, unmount remained pending, at least
-> one concurrent delete_module() attempt failed with errno set to
-> EWOULDBLOCK, and gadgetfs_cleanup() did not begin while the callback tail
-> was held. After I released the gate, the callback returned, unmount
-> completed, and module removal succeeded.
-
-Hmmm.  Do you know where the unmount operation was getting stuck?  Was 
-it the usb_gadget_unregister_driver() call inside dev_release()?  I just 
-want to be sure about this.
-
-> In another cancellation test, both unlink_work and copy_work were
-> outstanding on gadgetfs_wq when rmmod entered destroy_workqueue().
-> Releasing unlink_work alone did not allow cleanup to return; it returned
-> only after I released copy_work.
-> 
-> Using the GadgetFS source with both patches applied and without the
-> diagnostic gates or markers, I reran the original NULL pointer dereference
-> and UAF reproducers and the relevant AIO cancellation, payload, teardown,
-> CPU hotplug, rebind, module reload, and partial read stress tests. All
-> completed with the expected results and without a KASAN report, Oops, or
-> LOCKDEP warning.
-> 
-> In these x86-64 QEMU and dummy_hcd tests, module cleanup did not begin while
-> a callback still had work to publish, and destroy_workqueue() waited for the
-> remaining GadgetFS AIO work once module cleanup began. I did not find a new
-> failure attributable to the revised second patch in these tests.
-
-That all sounds very good.
-
-> Thank you for examining this issue with such care and for the time and 
-> effort you have devoted to it.
-
-And the same to you.
-
-Alan Stern
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
