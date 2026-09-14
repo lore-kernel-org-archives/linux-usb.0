@@ -1,81 +1,72 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7AD40BCD4
-	for <linux-usb@vger.kernel.org>; Sun, 13 Sep 2026 22:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C36B14AD0D
+	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 01:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789339077; cv=none; b=E8XtfALvqCOb/5WylhASFV14YEESgTjX+Wo1Cp4OaYWWTXJz4umhPahSJ6PAKGDLu/voks2//dIzSt+SCvZHMSt0Y8k2QGV7dGApBDrDcqBSjX+WjCzyFT5waFYb5t9QlMeIkgtO0q1I75WOauHOZC3kW3jZEG4lNquSFKpHF3E=
+	t=1789349442; cv=none; b=lETgaduYngyXn3XwKJv796qjLNAmGYVQnV8Kp9VuK7LKfv03/eGaO3Qmd6TFP0GwUOXeYzo6nM9ReENulCmKd45xsGm0JppOksfMibyyYY6wEyNYeX5mVgvmpPt83HRKTt/ps+6AEVzTgkqc093+erAXR98W+G/B0YzBGPNrCoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789339077; c=relaxed/simple;
-	bh=3yFoHeW1ePG+i4RCbEU2JofKauVW53+A/Z/TXfsz8qo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aRFR69FUsAW9yBm8l46IrhjQ/3Jzx0Mn3xr4gTgLQXXB0MCfjlt9ddyMMpJnrDGgWw64WYlUnI+GUuRJnoTa/vLblwVHQwBw1H/7IOvRSTblxsqSAhTNJGhwcjoHQeWH22HKZA6xPRl9RGdrz8sO11gcTf9memsXBntJFJoTrvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bNghW4Jq; arc=none smtp.client-ip=209.85.222.170
+	s=arc-20240116; t=1789349442; c=relaxed/simple;
+	bh=x2YSwtGWkoi8vtL/lIbsZM8/SJRylBmyWKVvTPqiEoQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FU08Tju/hxBJBKpxbNJaCY0fUeXYs7y0ubcG9WaeZA/OVogTKH13KyfQbrv1C54LJIHWKe5HTiS642DplALOtpktmfX5Hk7svg+IbJMJX1vAXaF7GmWJeAjPebAUjCzXKCeqliDVlY3HSccA0+QQfeVjfHoYhkn2ZctPsl/uX3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K45z+sqc; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNghW4Jq"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-936623c6dd3so394670285a.0
-        for <linux-usb@vger.kernel.org>; Sun, 13 Sep 2026 15:37:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K45z+sqc"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb752so1542592a91.0
+        for <linux-usb@vger.kernel.org>; Sun, 13 Sep 2026 18:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789339075; x=1789943875; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DHFmaO+kDb8wMPnqE7UfVX7wmIXcuui9FuHVD6Z8w4w=;
-        b=bNghW4JqbzV+nmJqMj0JcEhLWNJC6XhUTI4gO2ieCIw45NBc6ZiL4eWtWx+298tzcs
-         QMUl68yjAlapHf837bttbmeW4kCC8iwM5Zc2jLotnIK0GUAZV0jqIcx6bZq6INP3yTd4
-         LjoloRiXm8vQw63jLtnyTxNZv8dKj0NO4nGlZGe8AYpJkB8wf4WTsfbEcPDizLzodVzC
-         TO2r0RbpIY7hSXvBXCFSYXJSXc7DWpHeKxHMo33jNUN/WqbBmRcKWDiG33OCkhsm/KRA
-         d3wAcpFTU/JwdtEtoSB6Jp62CMz1KpZEMLkQvx+2ga2wjmuuB89j2JY5izfLqfTEQi+n
-         RgjQ==
+        d=gmail.com; s=20251104; t=1789349440; x=1789954240; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Mcnz/anIni8O7yQ67/BZn3naBRVhXN1aoBOwdzqDEUo=;
+        b=K45z+sqcnBgA4toaafwf1ghtkPFEUT4NJRBIV90JSd3LrXPgdR7EAO5cQIPET2bHU5
+         3/IAhEf7gCo7SzS9yCoKFvK65K4EqRJWod37JEr73kR9rqj5pSdLqflAhzLGXLBFenkN
+         jQzsqYgZk12W/YZLGwvXEQNyed0StvB2EvImotyRhhn2f9k5bwNELnMuR6WAaPFMUksz
+         FlFM682OA/RpV5UUzsSmvrHTAc6e5nu1jFULTH253OXTPtZM9fdD8oU57dlbYUngsKXO
+         w0mQXmF/mupTxZ5FDsU88hexv3VMDiRWO36g5FsowchfhopdZtJuSsuV04uKeI1dyyhM
+         FfEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789339075; x=1789943875;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DHFmaO+kDb8wMPnqE7UfVX7wmIXcuui9FuHVD6Z8w4w=;
-        b=rlEzQXneGYWwXdM7WmZDbdMqKjmIeDQLccSyqQDjpUGVWkKB+h4mvDWpVRoM4PG8Cq
-         AcpFSBsR6qR1DHMDqiZrzWtchiAzWRjX5/W1OVlD93aLJChO03juSkApgZ6vg7rivOym
-         NcJw4ktLCkH5bEKKBf+u9pTkNtUnOT5V3S0Iw1Swns7j7d3gsHff3135lq42GtCHwQo8
-         VB/z/vj+rjBPm2fKE8KXPOaDzUcj1B9rtiS9IMixJ2vTeIQyCaI1AZqox8ZoA/GJhwQb
-         F7OZUzVIj3tWx9K/fWSuuAG4kRYf/13neG/NV5/QdHmD1SkdXfGXulrgraTqi1GvoN5B
-         PbeA==
-X-Forwarded-Encrypted: i=1; AKwUvBxkMn0lmD2wg7HsoHJ0uOqm7AemgM5eY43bW0mHWVNUdk/9XEMqxGVZW+7y/qMweS0Vqjucr6fIryU=@vger.kernel.org
-X-Gm-Message-State: AFuF++lOPrJ0hYNSowOkQR5JqFSih+icznm26pajbi0713j8frBYcn8E
-	4CZTCd9umsw56WuQ6+a8Th0qprhSBMKtnKgBfQoi4PwaaT6pwjVbG5o=
-X-Gm-Gg: AYBFou3B1Xy782WqGOakaoYGc9AUISk55PheL9BmWAwQr/oL5i35/sE/R0Hc9XwL4BR
-	q6ZSZJQELYAnJbVHYMgY9WUyyhBsV9zighgV05FpPPfvqtfYzD+GDOwQUXsgRTUUncqvGuAxaTQ
-	sqFknESJFYW2Nk4Ae6OYhz91KBipiaCzJqe0jccngNrSrwsqGpNY17Q5pynMnHxyTLjkunGoEa2
-	AlBbAuYlLrBTWY5uz2BZuyNzEVJ1sZAApfo5U93c2XjNB8qZK9UcfEw2nPz2saRM9RoQoc9jxCn
-	pCEJonilmn7L3cdjsJ+w3Jar/5NKgHyQqKMVm0BlxppWCu4odavBDOowy421xkU8zYnsQHgPAH2
-	GqwA45O7unUIgFTugzpI07ZJUuk5SU4j4LK6RcVElXnOJpRmWLUoLjV7z5DgBUDt/mpKeKzLQrV
-	0MmM3K/1Hzftuaf62vV22zmzD12SyiBuyKVfyRtVhLI06N+znQElN2Hy6AdH254JnPLSSB0ctmk
-	HLWlQSUUkL47BIC3QTD2Phekave2JV0FBxz9zWRHAgROSh1QWmD0IfrH1PLobY1Mj5HmZTIgPns
-	QJSCP/rn7B/52CvaA5QcR9hiuLCQWd8t9w==
-X-Received: by 2002:a05:620a:2708:b0:93a:133a:310b with SMTP id af79cd13be357-93a1870eb4amr396136385a.26.1789339075060;
-        Sun, 13 Sep 2026 15:37:55 -0700 (PDT)
-Received: from localhost.localdomain ([104.39.73.78])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9120f45cbf2sm79361056d6.17.2026.09.13.15.37.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 13 Sep 2026 15:37:53 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: stern@rowland.harvard.edu
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
+        d=1e100.net; s=20251104; t=1789349440; x=1789954240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Mcnz/anIni8O7yQ67/BZn3naBRVhXN1aoBOwdzqDEUo=;
+        b=RZ0GlK27ehUL5aIDH3M7yNkEmA9m7axlTQ9fmYjGg/pFs2PWcdm7LqiloSvQdS4Uga
+         2l13lzgE1FMQH/Pl/FDF5mFT1o6+yLO+XrTizcOtucRvU+sI6JV3qBv/OXcyVHqpxOsf
+         Z5JCKlkAZlFmN2PHmIKBEad8wdM3tA77szaqX3AzSSD6OCSZqGh/4OdNXnp8EP2ybdfm
+         0mg1xt9MRgLekr3ygTfQHMtF9wyTsjvmE3IhjXi+hmBH3ijBA650ZLngLfWU3nPO0deH
+         vC+GnSFmp/krtkVfTWUOU+KnRFXSL8BYerRLBwWpHBbSMm9L5i+Pz79p4nEB2uinL0ow
+         KV0Q==
+X-Gm-Message-State: AFuF++lEaAAwuXDZwuKpMF4TINszqR0I/pARoem/y5dPR+h1IHm/aocT
+	Qr+9SgTiWVEHuvg7uONthTSLm7hvcswdjzyQfMzrXN+0RyUVDRgARTTA
+X-Gm-Gg: AYBFou0RJP/Fl3s+H8kCKpvu9znLfXA8SHFJtN8PyQV2VH6mqDePBnsGE7730sXfupr
+	IA8dW4wN69EXAUSktMpxdwqMxv9VZFvEG3WYX0dL7ku9QkQBSy6EShirdjqDDKzu77mTgnR3wSB
+	gtBXKfxmBakKaZkxF6GpRZYRzHlHp5J7K+STeeEWHoE6vsA10OQb7WUfCa9phOlHbO9xxpwzYjP
+	FG89Y5CpvYJZ4bF2B0GdtC/hjSFqzbnn/jbVC7UT49/SptEqPu1+aauDW2X1RtKshtvVfUC07zU
+	TCWqHRYzd4Qnk38VKUTEYhkWlQ5bvsR2ynmvpKyQv4DL1qwKFwrZnb52ZTtPhLz1QUIWynAMVBx
+	XhqoMuLZoSppUerzBdbUN3dccNV9J9W8cwfMq3aC9zZo7zH/eq19tGgppbRsTsJMZ1u6lbjbGKo
+	igwe97cxDHJGRm8/cy++a7yUQHAduhuOvqu2+mkIpllwZGIk4+xr3jvrKe96UM7wSoWcaCcgDSS
+	NnvAHyyOb6S00K0r3UN+w+JSM//MFvgyvWBsj9LgTol3GIvhRHsyy/5GatDZlDYA8hmJ2hBH27i
+	dAQ=
+X-Received: by 2002:a17:90b:1d4e:b0:38d:fda6:4873 with SMTP id 98e67ed59e1d1-39debfa4b03mr1210528a91.10.1789349440495;
+        Sun, 13 Sep 2026 18:30:40 -0700 (PDT)
+Received: from kic-machine.localdomain (122-117-151-175.hinet-ip.hinet.net. [122.117.151.175])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cca6b7bsm39627135ad.3.2026.09.13.18.30.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2026 18:30:40 -0700 (PDT)
+From: Kuangyi Chiang <ki.chiang65@gmail.com>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	krzk@kernel.org,
-	peter.griffin@linaro.org,
-	alim.akhtar@samsung.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 3/3] usb: ohci-exynos: Disable controller wakeup on removal
-Date: Sun, 13 Sep 2026 18:37:32 -0400
-Message-ID: <20260913223732.92882-4-mhun512@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260913223732.92882-1-mhun512@gmail.com>
-References: <20260913223732.92882-1-mhun512@gmail.com>
+	ki.chiang65@gmail.com
+Subject: [PATCH] xhci: Fix HIK camera control timeout on Etron hosts
+Date: Mon, 14 Sep 2026 09:30:33 +0800
+Message-Id: <20260914013033.3938-1-ki.chiang65@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -84,33 +75,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When OHCI reports remote-wakeup capability, a successful wakeup enable
-leaves a source attached after driver unbind: usb_remove_hcd() does not
-disable controller wakeup.
+Control transfers to the HIK 1080P Camera (2bdf:0280) can time out when
+the device is connected through an Etron xHCI host:
 
-Disable it after usb_remove_hcd() to balance the enable.
+[   48.363671] uvcvideo: Found UVC 1.00 device HIK 1080P Camera (2bdf:0280)
+[   53.465662] uvcvideo: Failed to set UVC probe control : -110 (exp. 26).
+[   58.585653] uvcvideo: Failed to query (129) UVC probe control : -110 (exp. 26).
+[   58.592967] uvcvideo: Failed to initialize the device (-5).
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+Testing shows that at least 125 us between control transfers is required
+to avoid the timeout. Limit the workaround to the affected Etron host and
+USB device combination to avoid changing control-transfer timing for other
+devices.
 
-Fixes: 62194244cf87 ("USB: Add Samsung Exynos OHCI diver")
-Assisted-by: OpenAI:GPT-5.6
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Perform the delay before taking xhci->lock so the existing state validation
+and TD queueing remain in the same critical section. Use udelay() because
+urb_enqueue() may be called from atomic context and cannot use a sleeping
+delay.
+
+Signed-off-by: Kuangyi Chiang <ki.chiang65@gmail.com>
 ---
- drivers/usb/host/ohci-exynos.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/host/xhci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
-index cc5cb09..86ff7a0 100644
---- a/drivers/usb/host/ohci-exynos.c
-+++ b/drivers/usb/host/ohci-exynos.c
-@@ -194,6 +194,7 @@ static void exynos_ohci_remove(struct platform_device *pdev)
- 	pdev->dev.of_node = exynos_ohci->of_node;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 5c759ad..925716a 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1648,6 +1648,16 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
  
- 	usb_remove_hcd(hcd);
-+	device_wakeup_disable(hcd->self.controller);
+ 	trace_xhci_urb_enqueue(urb);
  
- 	exynos_ohci_phy_disable(&pdev->dev);
++	/*
++	 * This camera needs at least 125 us between control transfers
++	 * when used with an Etron xHCI host.
++	 */
++	if ((xhci->quirks & XHCI_ETRON_HOST) &&
++	    usb_endpoint_xfer_control(&urb->ep->desc) &&
++	    le16_to_cpu(urb->dev->descriptor.idVendor) == 0x2bdf &&
++	    le16_to_cpu(urb->dev->descriptor.idProduct) == 0x0280)
++		udelay(125);
++
+ 	spin_lock_irqsave(&xhci->lock, flags);
  
+ 	ret = xhci_check_args(hcd, urb->dev, urb->ep,
+-- 
+2.25.1
+
