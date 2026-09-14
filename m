@@ -1,125 +1,184 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A4747ACCC;
-	Mon, 14 Sep 2026 14:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BF73BB134;
+	Mon, 14 Sep 2026 14:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789395472; cv=none; b=DSzyn57jFvCaS8d+4rMfCzlA+FRjhsSKOdaR9cSMFqq/Cb4A1hqwlJ87bEnDg0bKb5wq91WcwLsYrTbCsdk1Uoir38qAJujKSFSwTSGVYJcpE7ODZMcXZBk343UQHA7UeDJQEd2WRK9ov57nDabLwAjWVER+zUKbFrBOHXyOsrw=
+	t=1789396255; cv=none; b=dyx3/1t+CQ523ok6vFpG8nLKoezQ+rDXqywydJxTqx7tKrO1aRSsNjBTbnAq6qQApNag9qzogyeX59kkYXY90Cf2dBqjd9r/T3quNihE1oPv+u35bptPSpTJHWxIn9pOZcSQhrhgSzO6AeLhg0/gDZ8zsUepeJ7FXvze7Gv3sFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789395472; c=relaxed/simple;
-	bh=SDqAZti/BCotUVGV4wz0wJY55FTzMyO0+5R5FdBHTJA=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=tm2n6ZJQdYYRIBHOiYSut9VhlUUsbLjGLe7sOT8kyG+Qmoif3WgBq8Qk/NP0lGjsz/lqsFpq5Zdid4JSEmvKULTYCtOkH7xCE4u4vOcGLFhBJ4FNqWMbvV2DN6wKCZNK47nQ/OeGD88ha4fjbZzA5HXYqudJpauhIZZbwzU46NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=2fotui9Y; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	s=arc-20240116; t=1789396255; c=relaxed/simple;
+	bh=H96wjuuBOZ9l+qPrAsLg02Mb1gl8IaRXEedwtI84byM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=urBBlW3K/HqGI27AHE6t/WjyscWl0YF4L3/CEI07gffloZZDcznkY53L9tmNTYPTM4Zn2UiU4FmVWrQR5u+689Y0ud4GwBvK4td2GhjgKNXPpsZwgeIM4ajhN1C1fkZJhr9gZlh4OHD8Yby7SxogTbhMYGU58vJa/oSoJ7rqErM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UdOka88T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="2fotui9Y"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 95983A91DB;
-	Mon, 14 Sep 2026 16:17:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1789395467; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=//gKRI6vJSt4tiZ77db84KWCpaV85uXVckkTDkSP5og=;
-	b=2fotui9Y6irYr6DzUhfTUYI2wQDd/7FxAw3DALcVwZsSXBF+kP9pbUDJHG09AH0RkOFbaw
-	D20Ljfmxmgfzm+qidEu20PpuixJeJWviA3/dBO4qdyJky67/I2a3SjUM0V+516cNZumNCz
-	9xvPoHtvfnf2E3Qur/mgSO3gvm26unWVu237iqsrZ3jPi/f0HmFsypg1Y2j1lfy0VdqCC4
-	Jzy2u0FT+qPFjKmGroVjkpW9xJrlBcLFhGh0pnNwYQRBYiwdC1/0hIC2oFksaQIf4HHxBi
-	U7PNpldO9zyCpK85FvgPc+6sjb2Vd/MZbqxFa6WG59kIZzWWvtokt2w1nOwVBw==
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UdOka88T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D841F000FF;
+	Mon, 14 Sep 2026 14:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789396252;
+	bh=5DDu/i8F7CfME2M9V7A9fVs9AnBB0/zE0PZdH5IOtd4=;
+	h=From:Subject:Date:To:Cc;
+	b=UdOka88T09ASL0PXRvO30+gEhyo707Onj+bi2XeDQRmMPnUAzRI/r2DJwdr7GsDMK
+	 sCIWQsyGSkx+s4U+MckFMuUab2qymH0amDuDVf2x84+TOKuzWZxi5mIoiCK4jJ6R17
+	 5vz4vtcWGK4A23kUlxrmSa9ClD9vzny+lmLgZgw4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Date: Mon, 14 Sep 2026 16:30:30 +0200
+Message-Id: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 14 Sep 2026 16:17:47 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Russell King
- <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
- <hkallweit1@gmail.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
-Subject: Re: [PATCH net-next v11 08/15] ax88179_178a: Add EEE configuration
- support for AX88179A PHYs
-In-Reply-To: <20260914-ax88179a-v11-8-5ea7a925ba6d@birger-koblitz.de>
-References: <20260914-ax88179a-v11-0-5ea7a925ba6d@birger-koblitz.de>
- <20260914-ax88179a-v11-8-5ea7a925ba6d@birger-koblitz.de>
-Message-ID: <9217e516e7725ee9b5f982af380eae87@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTQrCMBAF4KtI1kYmv62uvIeIJE2qI5JKkhZFe
+ ndTRVTQ5YM335sbST6iT2Q1u5HoB0zYhRLkfEaagwl7T9GVTDhwDTVX1GJwu2wwZOokVJWtK7C
+ NJOXgHH2Llwe22T5z6u3RN3kSpsYBU+7i9bE2sKn3gvUnPDAKVHELqpVmqVWzPmHoL23XB2dy+
+ XDRxT2ZJgb+gQj2hfCCsEI7LRhnwv5HxBtZgvxCREEEAFdSq1bU5jcyjuMdFyR6ZEoBAAA=
+X-Change-ID: 20260825-bind_taint-d4077b870bc4
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Bradley Morgan <brads@mainlining.org>, 
+ Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Johan Hovold <johan@kernel.org>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5415;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=H96wjuuBOZ9l+qPrAsLg02Mb1gl8IaRXEedwtI84byM=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkrWAW4Gsorj7c2cE37q1/W1r9eqlTc+teel5MYyhT6t
+ gT+ld7dEcvCIMjEICumyPJlG8/R/RWHFL0MbU/DzGFlAhnCwMUpABOJ2Mswz7i9yjY2sn9GY9jq
+ HxGbVu6u4Dv1mGEOt8Kk2cHWFTttYp3FVq/8t2PBV98QAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-On 14.9.2026 14:46, Birger Koblitz wrote:
-> Configure phylink to work with the PHYs in the AX88197A controllers
-> and provide ethtool get/set eee operations calling into phylink.
-> 
-> Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> ---
->  drivers/net/usb/ax88179a_devices.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/drivers/net/usb/ax88179a_devices.c 
-> b/drivers/net/usb/ax88179a_devices.c
-> index 
-> 80cabe3557cdef8267c365fccc0bc379936bb241..97aad545daee1dd1f5c4d63a1276523589c9617f 
-> 100644
-> --- a/drivers/net/usb/ax88179a_devices.c
-> +++ b/drivers/net/usb/ax88179a_devices.c
-> @@ -206,6 +206,20 @@ static int ax88179a_get_eeprom_len(struct 
-> net_device *net)
->  		return AX88179A_EEPROM_LEN;
->  }
-> 
-> +static int ax88179a_get_eee(struct net_device *net, struct 
-> ethtool_keee *edata)
-> +{
-> +	struct ax88179_data *ax179_data = netdev2data(net);
-> +
-> +	return phylink_ethtool_get_eee(ax179_data->phylink, edata);
-> +}
-> +
-> +static int ax88179a_set_eee(struct net_device *net, struct 
-> ethtool_keee *edata)
-> +{
-> +	struct ax88179_data *ax179_data = netdev2data(net);
-> +
-> +	return phylink_ethtool_set_eee(ax179_data->phylink, edata);
-> +}
-> +
->  static const struct ethtool_ops ax88179a_ethtool_ops = {
->  	.get_link		= ethtool_op_get_link,
->  	.get_msglevel		= usbnet_get_msglevel,
-> @@ -215,6 +229,8 @@ static const struct ethtool_ops 
-> ax88179a_ethtool_ops = {
->  	.get_eeprom_len		= ax88179a_get_eeprom_len,
->  	.get_eeprom		= ax88179_get_eeprom,
->  	.set_eeprom		= ax88179_set_eeprom,
-> +	.get_eee		= ax88179a_get_eee,
-> +	.set_eee		= ax88179a_set_eee,
->  	.nway_reset		= usbnet_nway_reset,
->  	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
->  	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
-> @@ -440,6 +456,10 @@ static int ax88179a_phylink_setup(struct usbnet 
-> *dev)
->  		phy_if_mode = PHY_INTERFACE_MODE_SGMII;
->  	}
-> 
-> +	memcpy(data->phylink_config.lpi_interfaces,
-> +	       data->phylink_config.supported_interfaces,
-> +	       sizeof(data->phylink_config.lpi_interfaces));
-> +
->  	phylink = phylink_create(&data->phylink_config, dev->net->dev.fwnode,
->  				 phy_if_mode, &ax88179a_phylink_mac_ops);
->  	if (IS_ERR(phylink))
+The ability to add and remove devices from a driver through the sysfs
+"bind" and "unbind" files was created all those decades ago as a way
+that kernel developers can iterate faster, and provide a debugging way
+for users to attempt to add a new device to a driver without having to
+rebuild their kernel.
 
+This api over the years has been abused and recently come under a major
+fuzzing "attack" through tools like syzbot which decided that it would
+attempt to just randomly bind any driver to any type of device, causing
+loads of unneeded errors and pointless kernel patches to be generated by
+unsuspecting new developers.
 
-Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
+Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+will be set on the driver if the bind/unbind sysfs files are ever
+written to.  This lets kernel developers "know" that a user is
+attempting to do something that is not normal, and as such, if the
+kernel breaks they get to keep the shiny pieces laying around on the
+floor.
 
-Thanks,
-Nicolai
+The flag is 'Y' which was unused, and can remembered as the user is
+"yeeting" the device being operated on here (thrown with force without
+regard for the thing being thrown).
+
+Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+as many times crashes/oops/warnings/failures happen within the callback,
+and the taint flag needs to be there to show what was being attempted.
+If it were to be set after the callback happens, the oops report would
+not properly reflect what foolishness was being attempted.
+
+Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+the tool from hitting bind/unbind, should be run with panic_on_taint
+enabled so that they fall over and don't continue on, thinking that they
+actually found a real issue.
+
+Userspace operations that rely on the bind/unbind files to work around
+the lack of will to upgrade a kernel image to a newer version with
+proper support for new devices, or the lack of will to submit valid
+device ids to driver authors, will still work properly, but now the
+kernel will be flagged in a way that will show that perhaps those users
+should reconsider their behavior and work to have the drivers properly
+support these devices in a "native" manner.
+
+Finally, the bind/unbind files can find real use-after-free issues with
+some drivers by forcing the process to happen virtually without having
+to rely on manual removal processes.  Those real bugs should still be
+worked on, but by adding this taint flag, developers can more easily
+determine bug reports that are actually worth looking at.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Changes in v4:
+- add documentation fixup for add_taint() and add_taint_module()
+- Link to v3: https://patch.msgid.link/20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org
+
+Changes in v3:
+- Fixes based on sashiko review:
+  - Fix up prototype for when CONFIG_MODULES is disabled so it will
+    build properly, AGAIN.
+- Link to v2: https://patch.msgid.link/20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org
+
+Changes in v2:
+- rebase on 7.3-rc1
+- Add changelog text to describe panic_on_taint and how it should be set
+  for tools like syzbot.
+- Add changelog text to describe why 'Y' was picked.
+- Fixes based on sashiko review:
+  - Make add_taint_module() handle a NULL for module pointer, fixing a
+    problem with built-in drivers.
+  - Fix up prototype for when CONFIG_MODULES is disabled so it will
+    actually build properly.
+  - rst table header fixes.
+- Link to v1: https://patch.msgid.link/20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org
+
+To: Luis Chamberlain <mcgrof@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+To: Daniel Gomez <da.gomez@kernel.org>
+To: Sami Tolvanen <samitolvanen@google.com>
+To: Aaron Tomlin <atomlin@atomlin.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-modules@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-trace-kernel@vger.kernel.org
+
+---
+Greg Kroah-Hartman (3):
+      module: pull out add_taint_module() to be public
+      module: fix up documentation for add_taint() and add_taint_module()
+      driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers
+
+ Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
+ drivers/base/bus.c                            |  3 ++
+ include/linux/module.h                        | 10 ++++++
+ include/linux/panic.h                         |  3 +-
+ include/trace/events/module.h                 |  3 +-
+ kernel/module/main.c                          | 17 +++++++--
+ kernel/panic.c                                | 10 +++---
+ tools/debugging/kernel-chktaint               |  8 +++++
+ 8 files changed, 73 insertions(+), 33 deletions(-)
+---
+base-commit: 704340f1cd0dcef829eb62f5b48ae95a2ce17bdf
+change-id: 20260825-bind_taint-d4077b870bc4
+
+Best regards,
+--  
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
