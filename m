@@ -1,98 +1,117 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27783F482F;
-	Mon, 14 Sep 2026 08:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE85035F16C;
+	Mon, 14 Sep 2026 08:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789373623; cv=none; b=GDCy8lFZ+XmCYlZ6hkqY9DHKAmiWXgXdqdG3S/ZT5EFc76cY+ekGjOqIoOjGMcYpvNo7hnPXW6y+wGLLZx+JD6VcAiM15zEbn32lYKdmvPWYtPsSdii8l+NMJ9M+SerfXTq0KFkPYzrZnDKkVqWmZwORI8/dzTlyH8JXvPzD5A0=
+	t=1789374900; cv=none; b=be/GP/SvYczacN/5kdYK7YjMEoCj4D/mb9YmC5UwMaOW8Cw4vTvNfiP5R1U4GvgNDnhfOuVAWrXiFOupg37Xw62bjysQ4QTbaKu/bl/CMgWLOtH9oQQ1iq6N2uHW40IE6MKuh0WHGFbx2/qxVh8qD9asus34kA237mux6BvOCmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789373623; c=relaxed/simple;
-	bh=w6LFFT4ah61/bN/ZRxmcseqysWCf9cQShtrkPgzMYkQ=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=EmjwRKFRSq7zaj93djZhchIYH8wJC6lviwbkcwSHDqNAYJPGVmtqY8Tzy+vZRcG5e99fNjTXBQGRNWpf6RSfW9xC1unWHSggD+pHpuVx16VN5J5lvLGn6sJgxJEkVNvbUik40By/VFyfBeD3QW91BSZ+6/vwRHn1yzdiyWMtSp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=beQ2Dmsx; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1789374900; c=relaxed/simple;
+	bh=p2O0AFyvs5/7ZNI0oeDRA42QiFrcGG3sbWSKTgR1DV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V8FguEYN80e0AyQ9JRqDz08EHoX7TkbFzCQ+fVA+siY01bixCBLc2Ar2eOQGYrDpYBm/fHb4wHpFxDNG2yt/wbWFATCfmpO6FmpaVn7U26K7ZLgNadN/feiCTJKOdN3+PAaR4WGdfBWxA+ebl3qLciihBGJJ77R+W7GysFX8ahI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iUfCTouM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="beQ2Dmsx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=w6LFFT4ah61/bN/ZRxmcseqysWCf9cQShtrkPgzMYkQ=; b=b
-	eQ2Dmsx1nFfHbVn9BTTc6oDwNEOIgcxVAcjTdVMA4baY9f2xw9bAzJlENz6kCktv
-	rrSCZeTy5LmtULvTaDxOimThbKRjbxwa3kvn9QqNrTWJYIHH0tskJfv04WmZQM62
-	wVfcs2/cljMHcSkSFyE94e+YQIZg5L0OwQ3Zr1lE1k=
-Date: Mon, 14 Sep 2026 16:13:19 +0800 (CST)
-From: CJ <firefly0158@163.com>
-To: gregkh@linuxfoundation.org, marco.crivellari@suse.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [BUG] usb: f_hid: WARNING in usb_ep_enable for endpoint with
- maxpacket 0
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2TC/+cvE0i7imQbOkdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/rKtQ4u+tudGg0TVFZ/3X7g==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iUfCTouM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B51E31F000FF;
+	Mon, 14 Sep 2026 08:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789374898;
+	bh=rxx8B1w3xIz3jG8+k/uTEDqQjidwEidLPqZwuCRaVj0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iUfCTouMNK5/y8ZQ8p46qIw7r+mgSaIdyFc4KaRHOitHm/mOWZA2AaJvRG7oJOau8
+	 gO4iAZUTNxjMy3DkjYYzbxnKRO8FdRh9/YrzAzOk8zDYhIKB3gc6lsVsnMY95YbndX
+	 hDCRsJnjy5yxRlYNuvT6Xjp5dMU3/npld62iAfaw=
+Date: Mon, 14 Sep 2026 10:34:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: CJ <firefly0158@163.com>
+Cc: oneukum@suse.com, n7l8m4@u.northwestern.edu, kees@kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] usb: mdc800: possible circular locking dependency between
+ io_lock and minor_rwsem
+Message-ID: <2026091404-dipping-stubborn-b658@gregkh>
+References: <5c30f641.6b79.1a09ed8b2bf.Coremail.firefly0158@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <79ccbb66.77bd.1a09efa4d1a.Coremail.firefly0158@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:hygvCgD3N8agrKdqjCkPAA--.18724W
-X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3gDXiWqnrKBrcQAA3b
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5c30f641.6b79.1a09ed8b2bf.Coremail.firefly0158@163.com>
 
-wqAKSGksCgoKSSBhbSByZXBvcnRpbmcgYSBXQVJOSU5HIGluIHRoZSBVU0IgZ2FkZ2V0IGVuZHBv
-aW50LWVuYWJsZSBwYXRoIHJlYWNoZWQgZnJvbSB0aGUKSElEIGdhZGdldCBmdW5jdGlvbiwgdHJp
-Z2dlcmVkIGJ5IGEgc3l6a2FsbGVyIHJlcHJvZHVjZXIuICBUaGUgaXNzdWUgaXMKcmVwcm9kdWNp
-YmxlIHdpdGggSEVBRCBjb21taXQgY2VlOTM5NWFjZDgwNDNiZTA2NDRiMjVjMzRiZmE4NjYyM2Yy
-YjkzNQoodjcuMy1yYzEsIExpbnV4IDcuMy4wLXJjMSkuCgoKVGhlIHJlcHJvZHVjZXIgbW91bnRz
-IGNvbmZpZ2ZzLCBjcmVhdGVzIGEgZ2FkZ2V0IHdpdGggYSBoaWQudXNiMCBmdW5jdGlvbiwgbGlu
-a3MKaXQgaW50byBhIGNvbmZpZ3VyYXRpb24sIGFuZCB0aGVuIHdyaXRlcyAiZHVtbXlfdWRjLjAi
-IHRvIHRoZSBnYWRnZXQncyBVREMKYXR0cmlidXRlLiAgVGhhdCB3cml0ZSBkcml2ZXMgdGhlIGdh
-ZGdldCBiaW5kIG9uIHRoZSBkdW1teSBVREMgYW5kIGVuYWJsZXMgdGhlCmZ1bmN0aW9uJ3MgZW5k
-cG9pbnRzLgoKClRoZSBjb25zb2xlIHNob3dzIHRoZSBtZXNzYWdlICJ1c2JfZXBfZW5hYmxlOiBl
-cDEyOSAoZXAxaW4tYnVsaykgaGFzIG1heHBhY2tldAowIiBmb2xsb3dlZCBieSBhIFdBUk5JTkcg
-YXQgZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9jb3JlLmM6MTI0IHdpdGggUklQIGluCnVzYl9lcF9l
-bmFibGUsIG9uIENQVSAwIGluIHRoZSBjb250ZXh0IG9mIGt3b3JrZXIvMDozLiAgVGhlIGVuZHBv
-aW50IGJlaW5nCmVuYWJsZWQgY2FycmllcyBhIHplcm8gbWF4aW11bSBwYWNrZXQgc2l6ZSBpbiBp
-dHMgZGVzY3JpcHRvci4KCgpPbmUgcG9zc2libGUgY2F1c2UgaXMgdGhhdCB0aGUgSElEIGZ1bmN0
-aW9uIGJ1aWxkcyBpdHMgZW5kcG9pbnQgZGVzY3JpcHRvcgp3aXRob3V0IHZhbGlkYXRpbmcgdGhl
-IHBhY2tldCBzaXplIGl0IGRlcml2ZXMgZnJvbSB0aGUgY29uZmlnZnMtcHJvdmlkZWQKcGFyYW1l
-dGVycywgc28gYSB6ZXJvLXNpemVkIGVuZHBvaW50IGRlc2NyaXB0b3IgcmVhY2hlcyB1c2JfZXBf
-ZW5hYmxlLCB3aGljaAp3YXJucyBvbiBpdC4gIFRoaXMgbG9va3MgbGlrZSBhIG1pc3Npbmcgc2Fu
-aXR5IGNoZWNrIGluIHRoZSBmdW5jdGlvbidzCmRlc2NyaXB0b3Igc2V0dXAgcmF0aGVyIHRoYW4g
-YSBVREMgcHJvYmxlbS4gIEkgc2hvdWxkIG5vdGUgdGhhdCB0aGUgdGFyZ2V0CmNvbnNvbGUgZm9y
-IHRoaXMgY2FzZSBpcyB0cnVuY2F0ZWQgaW1tZWRpYXRlbHkgYWZ0ZXIgdGhlIHdhcm5pbmcgaGVh
-ZGVyLCBzbyB0aGUKY2FsbGVyIGZyYW1lcyBvbiB0aGUgdGFyZ2V0IHNpZGUgY291bGQgbm90IGJl
-IGNvbXBhcmVkIHdpdGggdGhlIG9yaWdpbmFsIHJlcG9ydDsKdGhlIHdhcm5pbmcgdGV4dCwgdGhl
-IGZpbGUsIHRoZSBmdW5jdGlvbiBhbmQgdGhlIHJlcHJvZHVjZXIgYXJlIHRoZSBzYW1lLCBhbmQg
-SQphbSBkZXNjcmliaW5nIHRoaXMgYXMgYSBsaWtlbHkgcmVjdXJyZW5jZSBvbiB0aGF0IGJhc2lz
-LgoKClRoaXMgYXBwZWFycyB0byBiZSBhIHJlY3VycmVuY2Ugb2YgdGhlIHN5emJvdCBpc3N1ZSB3
-aG9zZSBleHRlcm5hbCBpZCBpcwo1YmQ0MTJiYWEyYzQyMTFiZGM3YS4gIEl0IHJlbWFpbnMgcmVw
-cm9kdWNpYmxlIG9uIHY3LjMtcmMxLgoKClJlcHJvZHVjZXI6CgoKc3l6IHJlcHJvZHVjZXI6Cm1r
-ZGlyYXQoMHhmZmZmZmZmZmZmZmZmZjljLCAmKDB4N2YwMDAwMDAwMDAwKT0nLi9jb25maWdceDAw
-JywgMHgxZmYpCm1vdW50KDB4MCwgJigweDdmMDAwMDAwMDIwMCk9Jy4vY29uZmlnXHgwMCcsICYo
-MHg3ZjAwMDAwMDAzMDApPSdjb25maWdmc1x4MDAnLCAweDAsIDB4MCkKbWtkaXJhdCgweGZmZmZm
-ZmZmZmZmZmZmOWMsICYoMHg3ZjAwMDAwMDA0MDApPScuL2NvbmZpZy91c2JfZ2FkZ2V0L2cxXHgw
-MCcsIDB4MWZmKQpta2RpcmF0KDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMDkwMCk9
-Jy4vY29uZmlnL3VzYl9nYWRnZXQvZzEvY29uZmlncy9jMS4xXHgwMCcsIDB4MWZmKQpta2RpcmF0
-KDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMGEwMCk9Jy4vY29uZmlnL3VzYl9nYWRn
-ZXQvZzEvZnVuY3Rpb25zL2hpZC51c2IwXHgwMCcsIDB4MWZmKQpzeW1saW5rYXQoJigweDdmMDAw
-MDAwMTMwMCk9Jy4vY29uZmlnL3VzYl9nYWRnZXQvZzEvZnVuY3Rpb25zL2hpZC51c2IwXHgwMCcs
-IDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMTQwMCk9Jy4vY29uZmlnL3VzYl9nYWRn
-ZXQvZzEvY29uZmlncy9jMS4xL2hpZC51c2IwXHgwMCcpCnIwID0gb3BlbmF0KDB4ZmZmZmZmZmZm
-ZmZmZmY5YywgJigweDdmMDAwMDAwMTUwMCk9Jy4vY29uZmlnL3VzYl9nYWRnZXQvZzEvVURDXHgw
-MCcsIDB4MSwgMHgxZmYpCndyaXRlKHIwLCAmKDB4N2YwMDAwMDAxNjAwKT0nZHVtbXlfdWRjLjAn
-LCAweGIpCgoKY29uc29sZSBvdXRwdXQ6IGh0dHBzOi8vcGFzdGViaW4uY29tL3Jhdy9TSnlHS0pM
-awprZXJuZWwgY29uZmlnOiBodHRwczovL3Bhc3RlYmluLmNvbS9yYXcvNTBKc3FiN20KCktlcm5l
-bDoKCgpIRUFEIGNvbW1pdDogY2VlOTM5NWFjZDgwNDNiZTA2NDRiMjVjMzRiZmE4NjYyM2YyYjkz
-NQpnaXQgdHJlZTogdXBzdHJlYW0gKGxpbnV4LmdpdCksIHRlc3RlZCB0aHJvdWdoIHRoZSB2Ny4z
-LXJjMSBhbm5vdGF0ZWQgdGFnIG9iamVjdArCoCDCoCDCoCDCoCDCoCDCoGU1ZTA0NzI2Y2RkMDQz
-ZTMwOTY3NzA3MWFiMWI2NWE0YjE4ZjQyMmIKa2VybmVsIHZlcnNpb246IDcuMy4wLXJjMSAjMSBQ
-UkVFTVBUKGZ1bGwpCnRlc3RlZCB0YWc6IHY3LjMtcmMxIChMaW51eCA3LjMtcmMxLCAyMDI2LTA4
-LTMwKQoKCkxldCBtZSBrbm93IGlmIHlvdSBuZWVkIG1vcmUgZGV0YWlscyBvciB0ZXN0aW5nLgoK
-CkJlc3QgcmVnYXJkcywKCkNoYW5namlhbgoK
+On Mon, Sep 14, 2026 at 03:36:36PM +0800, CJ wrote:
+> 
+> Hi,
+> 
+> 
+> I am reporting a lockdep-detected circular locking dependency in the mdc800 USB
+> driver, triggered by a syzkaller USB reproducer.  The issue is reproducible with
+> HEAD commit cee9395acd8043be0644b25c34bfa86623f2b935 (v7.3-rc1, Linux
+> 7.3.0-rc1).
+> 
+> 
+> The reproducer connects a synthetic USB device through dummy_hcd that enumerates
+> as the mdc800 camera, then opens the character device node.  No filesystem or
+> image input is involved; the trigger is the connect-then-open sequence on a
+> device that binds to this driver.
+> 
+> 
+> Opening the device reaches mdc800_device_open through the USB character-device
+> file operations, and lockdep reports that the task is acquiring
+> &mdc800->io_lock while already holding minor_rwsem#2 taken by usb_open.  The
+> existing dependency chain in the report shows the opposite order, so the two
+> lock classes are recorded in both orders and lockdep declares a possible
+> circular dependency.
+> 
+> 
+> One possible cause is that the driver's private io_lock is acquired inside the
+> USB core's file-open path, which already holds the minor rwsem that guards the
+> driver binding, while another path takes the same two locks the other way
+> around.  This looks like a lock-ordering problem between a driver-private mutex
+> and the USB core file-layer lock rather than a use of a single lock.  I am
+> reporting the ordering as observed; the driver is legacy and possibly unused, so
+> if the intended fix is to keep the lock order, please treat this as a report of
+> the deadlock potential only.
+> 
+> 
+> This appears to be a recurrence of the syzbot issue whose external id is
+> 1050c0099ec5bfe7ee4e, title "possible deadlock in mdc800_device_open".  It
+> remains reproducible on v7.3-rc1.
+> 
+> 
+> Reproducer:
+> 
+> 
+> syz reproducer:
+> syz_usb_connect(0x2, 0x40, &(0x7f0000000000)=ANY=[@ANYBLOB="12010001000000085f0500a800010000000109022e0001010080320904000004ff00000007050102080000070582030800010705030240000007058402400000"], 0x0)
+> syz_open_dev$char_usb(0xc, 0xb4, 0x0)
+> 
+> 
+> console output: https://pastebin.com/raw/2jB0d1Lm
+> kernel config: https://pastebin.com/raw/YZiwabxk
+> 
+> 
+> Kernel:
+> 
+> 
+> HEAD commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> git tree: upstream (linux.git), tested through the v7.3-rc1 annotated tag object
+>            e5e04726cdd043e309677071ab1b65a4b18f422b
+> kernel version: 7.3.0-rc1 #1 PREEMPT(full)
+> tested tag: v7.3-rc1 (Linux 7.3-rc1, 2026-08-30)
+> 
+> 
+> Let me know if you need more details or testing.
+
+Great, can you provide fixes for this, and the other reports you just
+sent out?  Otherwise there's not much we really can do with this at the
+moment as we are drowning in real fixes, and probably don't have time to
+spend on reports-only.
+
+thanks,
+
+greg k-h
