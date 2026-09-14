@@ -1,93 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB69315D49
-	for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 03:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2624032B11C;
+	Mon, 14 Sep 2026 05:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789355158; cv=none; b=lJj+dAIKc0UjnN/JZoyNWmS2tHk+/hNMR7vnnzgmeqBO+eeJcI1V6dLZ5pxOlkRT86BvthnnhWOBnyur65ybPyezD3IwD3aiMnEeuKvdf0iRQeryBtEEWwUZH6BlgjRZ1eVh0/Lqnz+Sbe8i1ZZWl5h+VH2AcOiHjGsGd0wS1AY=
+	t=1789363482; cv=none; b=HMWOMqLurt0aK+leupDJdDyuwWCLRCsuexVl2Xvpv56pSckYQZDHxJy8crE3bJ6VtxKUIKetGiQhShMUdKCaqr+hcATPalRMa6c0+9Ii4U5sMcoLejRX92JwN7Yoy/VuRR+wm8tt2O18d7wxYgCC9m/DErQ8QnhTnMpdbSyO0eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789355158; c=relaxed/simple;
-	bh=2KO0TEs1p8g3EM5FVoXjgn2VNQedcbcyABKubVLWlFg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bP2IC6L2i33qONgaZRJ0mryX7Id3hHMKDxX62r0UjQH7c3fVIHnQgXicPn1PLpWn/EbtOSxjaEVO5Ukjk0IoXNbpD9bLv71Z/0dA0ODZHcITGoNyvIwO1PoDgVr2qA8Lic9/O3WYaOj40dYpomUnfGlBkIs+3VmRDVNNPAJ9NmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KqU4G1UQ; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789363482; c=relaxed/simple;
+	bh=IzbMcXq77wl7SCNXE3d7CF2D1JQiUrOVEGdvlMtaGTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jdi1j5LIcsmzAPX5w7Bh0tv027zksvWlx/vWE3CNGPlpWklDiBdJNHfFors9UkyZhtmSTqom3PWPXuWQb+at+/nSrFiV/7JPR5xt845faSIiDRKVkpmL6VqS9JQM7yeMxeXyF167q4idZcGc/7EUl8EFu1BwxrTQ9QLdtr7dkBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=zAfPEA2A; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=1EPR5yxA; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KqU4G1UQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789355157; x=1820891157;
-  h=date:from:to:cc:subject:message-id;
-  bh=2KO0TEs1p8g3EM5FVoXjgn2VNQedcbcyABKubVLWlFg=;
-  b=KqU4G1UQdwd+SzBkp/8RCmYR6xSPFPCPCZOgOGv3Ha3tom3j6fwbTA4G
-   eN83zaY88kDmcVhbSe5SNcpMOMZ2V/NzhGJNB1ZO2oIZMRP2JEm0D1GKM
-   9dlU0/cgNReX+zJcVq2X+0u97pMWJmm5feYNyc1Enq3syMalsaDBVjv1l
-   cNteprXqP1//hBtt98Z1p4JjB3pymUP/pNl7k53yhs7zAzoor6FpnwGsC
-   L6XE+3CiF3/r66gg4mVEJ0o7kEsiMesV+LBlGBD4Vu67kVmdsxblc4VR1
-   Vd+yHIWRXkG+KkAN728r8o9hN99c6G2gTBj0fBk6NPe6RBzDH9fca/AAI
-   Q==;
-X-CSE-ConnectionGUID: 4p3ldLrLQLiP4uO/b/b2VA==
-X-CSE-MsgGUID: lJakIBOoSZ2bfN7xElkjvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="89917334"
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="89917334"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 20:05:57 -0700
-X-CSE-ConnectionGUID: 8DzffHTXQ/OiRGPKFFWQpA==
-X-CSE-MsgGUID: So+b5qRfS1WPjgT4Zuf/LA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="302408695"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Sep 2026 20:05:55 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x5x0y-000000002QU-1hET;
-	Mon, 14 Sep 2026 03:05:52 +0000
-Date: Mon, 14 Sep 2026 11:05:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [usb:usb-testing 32/48] fotg210-core.c:undefined reference
- to `usb_hcd_platform_shutdown'
-Message-ID: <202609141128.DQicnuRW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="zAfPEA2A";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="1EPR5yxA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1789362911;
+	bh=IzbMcXq77wl7SCNXE3d7CF2D1JQiUrOVEGdvlMtaGTQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=zAfPEA2AnKOKb5ZNIGNc3S3d1FpomTiGn5RredNPVq9VQxgo+4jSZb5b0oMUZ7Fi3
+	 YsRbYQgodevmxyRpfnKlIK0xhJqUvzyaKLmEtY9bUa1EoDm71kvzaYrdZd7I02U+fB
+	 XSYyjQJ3syRMrK6REvAxa5LBQR8BlQ5Ap9g1RULKbEazr10I3DzVZ5fFFQfFznfGhL
+	 eDLUxmtcDf0iDxfnIhbIsb9WDjCo3zgoDynoiqvCuScxJeUi3pHU5K7vEGHJScWxNm
+	 CnCMVAnlT2EPt2h6C4tKMyKnlGlmKrhNtsYlJHzUSy7LzhR0vAzReDpowUfWmEf3DK
+	 KY/cdyguVyxFg==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 719713F693; Mon, 14 Sep 2026 05:15:11 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1789362910;
+	bh=IzbMcXq77wl7SCNXE3d7CF2D1JQiUrOVEGdvlMtaGTQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=1EPR5yxAuTEcDL3YokL0hDVvjjlRAJhV1gtVzk34cfSuH4l9Hm7FOfiTK7czMKSZa
+	 aDYOdBxs+jrfuTw7lpqMZREdJYXTaWzuHNdIf3clseF1OScbDmnZb5bVFzYoh0VfFv
+	 /UNb50ecwlo9JE9bVBtUtR2oZPlXvjcJKz4TfCi8itmT6Xdr/oP0RiqoRiKbFH42EV
+	 RKcMcOlNje1KGzcqpgADgvoSNfix5jqi376bjjCvw+8JXsUGREwmTYwutq86W6P4bo
+	 5YwHWDVhSKUFNehePzo9+UFGWrgJpjA6kwpY2S7dlhPktcrlNYKZBMN+mWfx9H5rtN
+	 GetkR2oA/SOJw==
+Received: from [192.168.2.233] (unknown [223.86.26.228])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 579423F693;
+	Mon, 14 Sep 2026 05:15:03 +0000 (UTC)
+Message-ID: <2eddb9fe-22b3-4fe4-a2ab-e408e4a726e7@birger-koblitz.de>
+Date: Mon, 14 Sep 2026 07:14:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 06/15] ax88179_178a: Add HW support for
+ AX179A-based chips
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
+References: <20260904-ax88179a-v10-0-b5e60eca7690@birger-koblitz.de>
+ <20260904-ax88179a-v10-6-b5e60eca7690@birger-koblitz.de>
+ <20260910170055.524e3c25@kernel.org>
+Content-Language: en-US
+From: Birger Koblitz <mail@birger-koblitz.de>
+In-Reply-To: <20260910170055.524e3c25@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   dbe68462fa656078eac3a5a09039038dc47e08da
-commit: 7dbc2e1ba8fd7793af299d8a813eae727759ecf3 [32/48] usb: fotg210: use the common EHCI core
-config: powerpc64-randconfig-002-20260914 (https://download.01.org/0day-ci/archive/20260914/202609141128.DQicnuRW-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609141128.DQicnuRW-lkp@intel.com/reproduce)
+Thanks for checking the code, Jakub!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609141128.DQicnuRW-lkp@intel.com/
+On 9/11/26 02:00, Jakub Kicinski wrote:
+> Sparse flags a number of warnings here:
+> 
+> drivers/net/usb/ax88179a_devices.c:509:37: warning: restricted __le16 degrades to integer
+> drivers/net/usb/ax88179a_devices.c:678:32: warning: incorrect type in argument 1 (different base types)
+> drivers/net/usb/ax88179a_devices.c:678:32:    expected restricted __le64 const [usertype] *p
+> drivers/net/usb/ax88179a_devices.c:678:32:    got unsigned long long [usertype] *
+> drivers/net/usb/ax88179a_devices.c:705:45: warning: incorrect type in argument 1 (different base types)
+> drivers/net/usb/ax88179a_devices.c:705:45:    expected restricted __le64 const [usertype] *p
+> drivers/net/usb/ax88179a_devices.c:705:45:    got unsigned long long [usertype] *[assigned] pkt_desc_ptr
+> drivers/net/usb/ax88179a_devices.c:801:22: warning: incorrect type in assignment (different base types)
+> drivers/net/usb/ax88179a_devices.c:801:22:    expected unsigned long long [usertype]
+> drivers/net/usb/ax88179a_devices.c:801:22:    got restricted __le64 [usertype]
+These are indeed actual bugs and I will fix them in the next version.
 
-All errors (new ones prefixed by >>):
-
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `usb_hcd_platform_shutdown'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/usb/fotg210/fotg210-core.o: in function `fotg210_shutdown':
->> fotg210-core.c:(.text+0x104): undefined reference to `usb_hcd_platform_shutdown'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Birger
