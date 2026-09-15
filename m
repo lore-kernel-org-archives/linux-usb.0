@@ -1,140 +1,115 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E4943A7E9;
-	Tue, 15 Sep 2026 05:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1171D353A94;
+	Tue, 15 Sep 2026 06:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789450164; cv=none; b=foc2HCkmyex3Kbp7fIxGqmXkzqQ+2ti4CtN0LQi0Lz7+805JJR+EXtw743YBuqEFJ80up9Tj8wG0pBgoa1s4X/hBGA0A5ASkNVHa2TCx7TrkrOCW4ZnYf+7QHqG7rSo0xnNUWbgb/8Ddmyd8PspsyiHrhQHqexYH/xyRGLbgUII=
+	t=1789452306; cv=none; b=hPUtNmyb7Ezvo3IES+rWtQfNkAq2C1tACfisdoxyu4j+byakEtS/9FTHpBaaD2vgnx+k+uqlQ2DdPmN6gaCKHB8SbPF6UlFDx8qDVxOvMRDJnzgyZpjUOQn0n4DTlOsZNR9kGfjQ6767q4nRA1yUqluLHQc399QwDLqilb4Liss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789450164; c=relaxed/simple;
-	bh=8RN+0SmxBN0En5bKl6m+0wqn9GNYqbU1vWllzXU7Z6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pmqe5iGf2QclH7xPAzwDMWfG6WZqjY5xGrkGBHXKmMHIdLR//nF38tSHt6MrxwG+a58UxerOMHngJgqTaxeNT2V2Bm/HVUg7UX7ME1tK/gHm2ZT0jSKYCxJo3mGB/0lQsDu8SP8Tc1RabJH4khbMvUwc6PP1uGr9CfeDo2cpJxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=u74FFgMC; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=1fEN9DYk; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1789452306; c=relaxed/simple;
+	bh=IqlWKPvg8bK/ZokRX2t1XAdAV/hSsCgbgwoTVO6jzwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CgP+PxyXR4jSpnKq9bJKhpjVfbDUCTbfhwOy8mYe+Hnq4YzbM9f+Rus0YnTNUZLz7uUPNATEoLS2UT2hOwk1NLZekmPV1uuMUFA9FtWvTskeuoOAN4Ta9I410RgKeI3DEpgOC4t/adDxYYJ1zIywznk+9bZfnI43k6gtcpCbGGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MNPaOL3d; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="u74FFgMC";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="1fEN9DYk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1789450155;
-	bh=8RN+0SmxBN0En5bKl6m+0wqn9GNYqbU1vWllzXU7Z6A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=u74FFgMCNHjbDw0cGN0EmtV+8aiEUH54hWAM8QE43LJpFsF6OzoardM8nuKRbjSp9
-	 wxjwRfstHiWhekpVphJAk0RYn1xVeLZyDVbeXcprfqx6bEQ07OTDhOMNx9Mk186wQn
-	 626eLdXl6v6bvfzMDWiOTPeVxV+6fMb62QWmTAKuEoqZQIs/f/UAHp5b8KQK5mndVj
-	 K72g4H4V8twpDrIOHW+FewZq1GQABnXNCo+oBTdhjxIODGx4fqSjVG5Y2vyAtVA171
-	 HoqOHtWagMQTt+xfnK0DnZSU+LvH7FlVoIAK4zlthiBeVhGiLqQ++DekasxeP0GmuD
-	 E3tFtQGSY8KdA==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 871FD3F88F; Tue, 15 Sep 2026 05:29:15 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1789450154;
-	bh=8RN+0SmxBN0En5bKl6m+0wqn9GNYqbU1vWllzXU7Z6A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=1fEN9DYkFdQIBraoha6Snh2GWZj+H6H0FfS8D+vehSadWcu1vL5cwVGjpQWL4GB2p
-	 NhZnX8y8NqNntLNMleEZD3TVHKoS9WTAKaHuNH1qKV0grzzvTDg5pFGpBogGgu1nME
-	 LeUL3N1IyzZN0eGYkoc1zCQpbPOTncvRNr2bQoy5KjgtUy1JY78P/HU32PKEFHWAhu
-	 od1Qq2dxAGvH1zzO/vGTHj8B0/aV7mBA326BRnPiCCJb6ca9j4b4XaIWsOO8SOVCkT
-	 c+4r3SVqxaC3EQ39ikzzTF+Iiic1ynLMR44dwx20Br0vkGnunvA202HwFIUQ+eM2ro
-	 vzHdJhuxjJIFQ==
-Received: from [192.168.2.233] (unknown [223.86.26.228])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 24E7F3F846;
-	Tue, 15 Sep 2026 05:29:07 +0000 (UTC)
-Message-ID: <4510106f-ef2c-4c01-9235-c910faf74b2e@birger-koblitz.de>
-Date: Tue, 15 Sep 2026 07:28:58 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNPaOL3d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789452304; x=1820988304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IqlWKPvg8bK/ZokRX2t1XAdAV/hSsCgbgwoTVO6jzwY=;
+  b=MNPaOL3dabJp2IkAD8ACFGEt02TuJrEcgmu0xl+M3GXH4vcFqNGzDzSD
+   1cp22wczKqYTorLkTnbqq0Kqp0P9vhbEsYJVOlJ23oDWI4AtCUVOq+SnI
+   lUZVRQhwrWf6xLNTirV1G/m4cAierTly8JIr8ucyfPdFwSo7VkJqAvT6H
+   48XiKyjGJDEqaQ3L6s9m2r6xsMG+eWxtUkIjYz3phpOBaZ6Dylqr8u6ws
+   1oWIfzTLREPUo+8pKaz5BLPjiHQLBjg5nStERIaS7OwJfhopRJklX9N/J
+   svIR4R9pRPUGlbZxtc1RE87qQq0UOF8O4Txgpxw2F8cx0plT8UBAhzTsZ
+   A==;
+X-CSE-ConnectionGUID: m5FvpWo5TIyjx96Lmx2asA==
+X-CSE-MsgGUID: TICsfZdbQRWMQxZqzEV9YQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89567046"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="89567046"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 23:05:03 -0700
+X-CSE-ConnectionGUID: Y8jRlnWyToaUKtxyhFskhA==
+X-CSE-MsgGUID: ZLlM0n82SFupWVIFWOfVyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="272848343"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 14 Sep 2026 23:05:01 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5B2F199; Tue, 15 Sep 2026 08:04:59 +0200 (CEST)
+Date: Tue, 15 Sep 2026 08:04:59 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: "S, Sanath" <Sanath.S@amd.com>
+Cc: Mario Limonciello <superm1@kernel.org>,
+	"Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>,
+	"Martinez, Juan" <Juan.Martinez@amd.com>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5] thunderbolt: Fix tb->lock deadlock during hot-unplug
+ on AMD USB4 routers
+Message-ID: <20260915060459.GJ106095@black.igk.intel.com>
+References: <20260831130638.GK124825@black.igk.intel.com>
+ <20260831161610.1322731-1-juan.martinez@amd.com>
+ <ae19d381-0fcd-45fb-9e53-033c7d664d73@kernel.org>
+ <20260902054800.GI106095@black.igk.intel.com>
+ <21cbfbaf-ef1f-469b-a33b-8d623dd7f9a3@kernel.org>
+ <MW4PR12MB7016EE093475BF1821A0046281BF2@MW4PR12MB7016.namprd12.prod.outlook.com>
+ <70448c19-1ac5-4350-bdcc-eb3ebd008992@kernel.org>
+ <MW4PR12MB7016137EFD6AEB235F3D50E481BA2@MW4PR12MB7016.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v11 06/15] ax88179_178a: Add HW support for
- AX179A-based chips
-To: Nicolai Buchwitz <nb@tipi-net.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jianhui Xu <neuromoments@gmail.com>
-References: <20260914-ax88179a-v11-0-5ea7a925ba6d@birger-koblitz.de>
- <20260914-ax88179a-v11-6-5ea7a925ba6d@birger-koblitz.de>
- <18c931ca985a82a044c9269743fb4fb7@tipi-net.de>
-Content-Language: en-US
-From: Birger Koblitz <mail@birger-koblitz.de>
-In-Reply-To: <18c931ca985a82a044c9269743fb4fb7@tipi-net.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <MW4PR12MB7016137EFD6AEB235F3D50E481BA2@MW4PR12MB7016.namprd12.prod.outlook.com>
 
-Hi Nicolai,
+Hi,
 
-thanks so much for reviewing this patch-series!
-On 9/14/26 16:12, Nicolai Buchwitz wrote:
->>  static const struct usb_device_id products[] = {
->>  {
->> +    /* ASIX AX88179A USB 3.2 1000Mbit Ethernet */
->> +    USB_DEVICE_VER(0x0b95, 0x1790, 0, 0x0200),
+On Tue, Sep 15, 2026 at 04:51:00AM +0000, S, Sanath wrote:
+> Ported it and stressed it on two Strix Halo hosts connected back to back.
+> REG_CAPS reports hop_count = 3 here, so two usable DMA HopIDs. Observations:
 > 
-> USB_DEVICE_VER(0x0b95, 0x1790, 0x0200, 0x0200),
+>  - Single tunnel it works: 50 x traffic then link down/up, plus 42 x
+>    dma_test create / transfer / teardown. One reset per cycle, no ping loss,
+>    no errors, and every ring restart had a reset before it.
 > 
-> Otherwise it would select the wrong callback the existing AX88179 (0x0100)?
-Oops, that is a good catch! I took this from manufacturer code and 
-probably that range includes also prototypes. The older devices are
-handled there with a different driver, however, but indeed we need to be 
-sure the 0x0100 versions are not caught. Will fix in the v12.
+>  - Every reset is preceded by "dangling request in request_queue" and a
+>    WARNING from tb_ctl_stop(), 8 of 8 cycles, via tb_domain_pause() <-
+>    tb_ring_start() <- tbnet_connected_work().
+> 
+>  - Two tunnels: the networking ring is stopped and restarted with no reset
+>    in between, because the check only runs in nhi_alloc_hop() and tbnet
+>    reuses its rings across a reconnect. 18 such cycles did not hang, so the
+>    unsafe reuse is reachable but I cannot say it hangs.
+> 
+>  - When the check does fire it takes networking down, reproduced twice:
+>    "RTNETLINK answers: Cannot allocate memory" plus "out of HopIDs that do
+>    not need a host interface reset", until the second tunnel stops.
+> 
+>  - tb_domain_pause() takes tb->lock from tb_ring_start(), while unplug holds
+>    tb->lock across tbnet_remove() -> stop_login() ->
+>    cancel_work_sync(&net->connected_work).
+> 
+> Moving the reset into a per-NHI work item scheduled from tb_ring_stop() when
+> the last DMA ring stops removes the warning and the tb->lock inversion, and
+> passes the same tests cleanly. The reuse hole and the lockout still need the
+> reset to key off ring reuse rather than ring allocation.
+> 
+> Mika, Can I respin your patch along those lines and post it as a new version?
 
-> 
-> Same as with AX88179 above.
-Indeed. Will fix.
-
-
->> +static const struct net_device_ops ax88179a_netdev_ops = {
->> +    .ndo_open        = usbnet_open,
->> +    .ndo_stop        = usbnet_stop,
->> +    .ndo_start_xmit        = usbnet_start_xmit,
->> +    .ndo_tx_timeout        = usbnet_tx_timeout,
->> +    .ndo_get_stats64    = dev_get_tstats64,
->> +    .ndo_change_mtu        = ax88179_change_mtu,
->> +    .ndo_set_mac_address    = ax88179_set_mac_addr,
->> +    .ndo_validate_addr    = eth_validate_addr,
->> +    .ndo_eth_ioctl        = usbnet_mii_ioctl,
-> 
-> dev->mii.mdio_read is never initialized for ax88179a, so dev- 
->  >mii.mdio_read()
-> through usbnet_mii_ioctl() is a NULL function pointer.
-> 
-> Something like:
-> 
->    static int ax88179a_mii_ioctl(...)
->    {
->        struct ax88179_data *data = netdev2data(net);
->        return phylink_mii_ioctl(data->phylink, ifr, cmd);
->    }
-> 
-I will remove the entire
-+    .ndo_eth_ioctl        = usbnet_mii_ioctl,
-line. It should not be necessary.
-
->> +
->> +        if (pkt_desc & AX179A_RX_PD_VLAN) {
->> +            vlan_tag = pkt_desc >> AX179A_RX_PD_VLAN_SHIFT;
->> +            __vlan_hwaccel_put_tag(ax_skb, htons(ETH_P_8021Q),
->> +                           vlan_tag & VLAN_VID_MASK);
-> 
-> Drop the mask and pass the complete vlan_tag, so priority is preserved?
-Indeed. Will fix.
-
->> +    if (!dev->can_dma_sg && (dev->net->features & NETIF_F_SG) && 
->> skb_linearize(skb))
->> +        return NULL;
-> 
-> Call dev_kfree_skb_any() before returning, so the skb can't leak when 
-> skb_linearize() fails.
-Will fix.
-
-Birger
+Of course. I'm thinking though that should we do the revert for v7.3-rcX
+now and then do the proper fix for v7.4 with your updated patch?
