@@ -1,103 +1,132 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526BB44A3F1
-	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 21:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789508304; cv=none; b=nH4rgnnRuT355UdawZKczZC0Yjp1zXzLdozFqRC/T9CoN6SZEBk7KSOgG7U3SovNFhXib92GLpQFerQRUzgBev+Xw22Vcdz/8BrSV93A1ZGkQlRWkRLlQCdeKsia21E1QkxLqcLAwltFvNTR4wEqD2YbIa9UFiCcdf16OltYG8k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789508304; c=relaxed/simple;
-	bh=sRJdjMNq8iNjwpDIBmIuNCaQb8aJVuFJtpaL92IS5G4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WGwlMKiZp3g8t1UtB2TsXkuDKdVU8UGDRGYH4j9HcRxpDq6DH+2luR/AcBfaFQJthZKXvV8yBsalw2V3yUkUwZz3lVrXNH6cSTEleBDYGmT/uE6/RVOXBmrN8zUZigZq7CItdwtv9avJ6mt5uw9KjO9N+2t/EBrKIuuFV0agKZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NkPNjjH4; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97633B969
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 21:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789508904; cv=pass; b=IPIVCUuRzi58HZvjbsFuW5+ev5u4J9Iy9f/LWQxDJOP/Wc5hu87SlepDi6JS1J30Ssp8lncqBb8eRPv3Dv+OXq8eP76Ptb7TESc/Eq2UlsozCRAUgIvUD09NvtHbJAtHaqsXHQIrEudaHTNKnAUx6vLr6wgq3EX31rpNu8RNTlU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789508904; c=relaxed/simple;
+	bh=nluMotzuvyfQBBacTu6S31Z8h47e2NGM8xSwwTJ4Byw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=p0SfzXLZt9mPn2/A7fdEXvHha7S5rIB1mtfpgBKlQ3KKzM2dXIw2lNGT0uoCA4s85ODNBZEP9IO8wVOnjGAupC5HPaz3Nl3l2IM4U2DlUELbIUDTSZ7iEHbyev8Ci5D09d1wiNFfUscC56lgOWCgZY98gW3pH32R0Nm/DLspu7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tGdTMq7o; arc=pass smtp.client-ip=74.125.229.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NkPNjjH4"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso1968065e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 14:38:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tGdTMq7o"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b4a0b384b7so1204e87.0
+        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 14:48:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789508900; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IMt8vFCSDMXzzdBMkJJN/U0WNTX2LLb6p6PhHV3o3k4h0hISpcHs0CI2CwQIM1G+8l
+         6nzKFCsi+XV7S18YMXGsI91B4R3br3mjhhojcyk6lnAzs5u+BjA39PJBrzy19EzUFcfm
+         RADKsamc9pJthh+cRWU9DGN3T8VA/BP94FGyKrKG9mutG+hOKbosWPnN3+HPR2QruPYx
+         khh9F4nbhZZS4l7TdjyEtB8Th7YStfYkqmusR9bQoD7e41+IlX2Xo5B1DqfhBdWQX6S0
+         aiJVz+46yYvWbJxw5gdULPoqFwNX1WadL6fAOV7PhR99Sz09DeejTPPUsp1UD9LEWv0T
+         sZyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=raUcs9w8c8+49uR5r2LYZQMNRYVlzNMqviwksfE5cQc=;
+        fh=pU6ey+KNMRLC7HAQLDh4XLOfoNkJrzBBX1iK5bYJRsI=;
+        b=RSuCW83+wfM+9UytC9zTuVTeCRNst4wC8F85P79FpU9Y9aIHpg/jdggzZDPrsbVvgO
+         GJ5lAcladOpny2TcjtsJvngjdv239CF+DnGedI66337uvWLUnsXcZpD1dlfvmW07RzG0
+         6R0pwfLUqD729waZ3fd6hiTf6v753Npux0i+1ETFjFphzQb0mKdyC+Ji6FaRxRlVvNF5
+         WW9htBn2adbjklQnvfGlcFkU3HsD5BKXwjIclGWEM0UJVYkp9DqnZ+QG0/F5XoISQlSv
+         4613WOavJPrWmJrUT+4hBczlYiTFTHxEnJ4ReCwlX56H+HR2ZNE0IhM4yoUtVd0yNugT
+         zXUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789508301; x=1790113101; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sRJdjMNq8iNjwpDIBmIuNCaQb8aJVuFJtpaL92IS5G4=;
-        b=NkPNjjH4ifWfKCLHhyBQYoFDXvaCxHl/snH+ZzcGXQ6PAaAw1xX15lzb6VHsNpp41H
-         dui6RZiXwRY+bBwEg2uSJjGKVBv9Rnq6Y5AmbmWSbTLzZXMfzH0+sYTLGyqNdZoszVLh
-         vaKGESyrKLTFjnq2S/2R2dPr/PLZt6UlvWX40qviv3X9NXhekJK0uXmWgbuuatiP0EMT
-         MRCY8+cet5lm4t1akTdAWehW6R7blkp2Dfjh6UmFdX3bZCpv1jIsIdLnniE5dxA0R1OH
-         uP+hSfgf4xbtymHXRsyRJTv3PWEqNRJU3X60PnX4xx6ViG6gEWgIPmw3vJnJDF2zTNxM
-         9SnQ==
+        d=google.com; s=20251104; t=1789508900; x=1790113700; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=raUcs9w8c8+49uR5r2LYZQMNRYVlzNMqviwksfE5cQc=;
+        b=tGdTMq7oKXnG3/1njwMTQbgon6HHu7ecruIq/cXtG5kWnPG/GxKJextdndTJDv+H6b
+         kWA8WuxcNBN8xAHJLI9Iv4y9CnSRo77+Bi5oDwRf7qVKvA8QzxUEOshSPDsapTyOfePw
+         s6shk9sTLHDrL4tZBhRAlJb7Rb9VUoo4LeixtS57kiLtWJ7YNy9sMSLABVXCNvrn+Tbm
+         nr/38IUVCMwZzTnKMwGaLKi4SNoRZukDmbe/TWWA1JF0Cn5ZN2UxkwpBBbo1JYimyrHB
+         MW2S9eobMCuEG4l371+1rB9qTdo+qXNdd4Usj5IU3lvy1AwGJmcgwgf/ktM4AlIHwl28
+         oVVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789508301; x=1790113101;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sRJdjMNq8iNjwpDIBmIuNCaQb8aJVuFJtpaL92IS5G4=;
-        b=OYl5XiM4788XZFbbgD8usOUo5SzZCLGjmW0LEg+ryoVwrvgieRdoJcERiA75cnBWYn
-         pmGGtoThs/7W4Mruwbli1X1+uaANcSCAKgBB84W77cVvjG6S/nwWXTxM/7wKoKm1+suv
-         c1tkhn2hL/i15+69NErV0lJG9IpD/DSKKydvx/NoWSJVGjxHzUstfuPmRbxH7Oo8y87B
-         0sufcGSsKfIrFspKjZpHIutJfBx/FztApi8WCkuOMiiORMkICN6uHPyMbCMNwGVZxETE
-         XZn3G/BLt74vTsrlxE2bRPew57ZwEdGXuGP6wN+mu5H5I2ge01gkboztuqm/DizwVw7F
-         IZZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxbF6oO67FM2d+SjheNoLDZLZrSsq055Efh88gHPDpPvJCkGJzkoGq20ZL3kVC+9epuiOojavjlHqM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mm7Q8jI4QZOub89TCxx1VqlVjXsgjc/Eho/4IeULkiOSn0kQHZ
-	t9aYfWupVMdVFmuiIdIGAYDGdIlOlozr0sOnNP+1rzIkP7pKMtk8RP0j
-X-Gm-Gg: AYBFou1wFhScSgJNHTn9u63Uvtc50f5FBwaNGwMuVQnJzOSux0FE+/ENHtmxpuslOxn
-	Vt9dbySgBkYyozDoagLAzO6I7ptPj2VCFmqfTPk+rfXnpmzV+BaQ9J1k+8WTs1ygPCN8garoily
-	EEY73UrU08r+e8sttmnRkdGu9reodt5wBbbsdKBbRlc1kTh5dyuS43+IZhb04Bta/BiQ82GBz22
-	FOfUsWltAm+lwzhx8lYP2DG87wFWr7jTgr7qDa3slkAwCUqljFS+wCudr2H/r2ss6jhqYkrop4r
-	lIVY5DBJo2OnZbZof6wa/+NmU9U3m7COl6S2fdr8BFAlNErdLdedWYW+9PBKovWs/c3o1+SDJd0
-	5nj712Pyd65y/N4rY30DAiVCuWCG+dRN4cn5EJ2Dv3pWDG1Es9LQmjnGvV1mZT+wUjrjd/tXG5O
-	DGSLCwJujc+sxDrHYCjcfzaR65qn8YOZqAtmP1GYMhomC4SVvAfnjKII1jOLjkt18rYXcijjU01
-	EHCuEWZ54Q=
-X-Received: by 2002:a05:600c:c168:b0:496:c1f3:e8f8 with SMTP id 5b1f17b1804b1-49e7a662e89mr107381965e9.7.1789508301467;
-        Tue, 15 Sep 2026 14:38:21 -0700 (PDT)
-Received: from foxbook (bfh234.neoplus.adsl.tpnet.pl. [83.28.45.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf27ce2sm1927059f8f.20.2026.09.15.14.38.20
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 15 Sep 2026 14:38:21 -0700 (PDT)
-Date: Tue, 15 Sep 2026 23:38:18 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: djraszit <djraszit@gmail.com>
-Cc: Oliver Neukum <oliver@neukum.org>, Alan Stern
- <stern@rowland.harvard.edu>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] uas: JMS578 returns reproducibly incorrect data after
- host reboot
-Message-ID: <20260915233818.5881ad97.michal.pecio@gmail.com>
-In-Reply-To: <CAFKhL9eTD7DxtxMSMuUVP9cDG7Nq4jvrkTCjYfwr9puZfuC4Gg@mail.gmail.com>
-References: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
-	<c335085d-a824-4632-ad3a-c06715258c81@suse.com>
-	<CAFKhL9f6aLZgerw_7bohbQWvzMxSfd-m-LFcuNP1_p1vWkN4=Q@mail.gmail.com>
-	<1320caa3-85b5-47dc-aa2d-56d3b003c6ef@neukum.org>
-	<CAFKhL9eTD7DxtxMSMuUVP9cDG7Nq4jvrkTCjYfwr9puZfuC4Gg@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1789508900; x=1790113700;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=raUcs9w8c8+49uR5r2LYZQMNRYVlzNMqviwksfE5cQc=;
+        b=thsfz0occAc6gFNrZf/jyiBoe/0M7xLKYCpxTw8e5xAFJ1K3ogVzNDEIrEhgLQ4RNy
+         u4Em/rZ8uUVEzFR05EiPu7WXSXlGfsIbhrJqcQRZVJpboNIg/YNF+nSn0eybmCQeiFxB
+         ZT2S7bl2MRPGttzbCtNZGEhT52EDUxIPcTFklkuYpJV5ypIryG1uwvO15UNvbTxKPixo
+         YmBNyIC8S96iKzAvdzi5LEgA0wjXpitS36Q/8D4zo8+unB/pLbj2tpQOg0vje1IGKIod
+         14SLSIz7TH7i23nz7IGc4llu1K0bCem3CdibIHywgpQf74/TajSlZsOPt9BK1saUx+KL
+         FDhg==
+X-Gm-Message-State: AFuF++kB6HBtLH3LyV4lNjLJBNbBed/KgdLjzBlJoUf6VMmkJqA69BQU
+	YPAHcxguk/RHFVcqT4o1d0sCMfYP68uh6k3nJj7ldbOq9n4oAvkj5M/unr1A1i29lAgQlJgsQaQ
+	GCa7GQOI0m2wDFxlkac2nXrVYEPkaWmJ6xtUaVHMtWL+lT+Ka/3rP0++Ix/8=
+X-Gm-Gg: AYBFou1UlQcdEXOCsu2z4sUsXSxDNLLoVkH0ylBxsnVH51tg5SbCsTnuHpD79ZQsRLt
+	i8blnWCcSvSNccep7jPDOuXj+GpIcb6Kfq/wekzxJSm1FAGBumQRAfJ1K81yLlXjcHSLZurQJqj
+	pxAmdDSlo6Zp2KQm6lRPpPLLYN7Mhd9+nvRWKAXbrypglUNQn842QDM6Bdq136W4B2QDXlSPoIw
+	MeQ8Vb4NVMKPm9tnCBEiA8X6oSSR+wNNGjtwrgPeH8Pf+2AOVwf0ASYCvwZV2mvBtsbatVK2PI2
+	YnOMeokwh4WVxP/wCy1i5pGH6ZY+HnnU1SCLO12eowXHGfe0BcbPUGPsMICQHq3w2DqwvZfgGH1
+	zfpV8uAQct2CVNd2T6Ll6HzNDDJxCf1zKeXcA4Y9uQw==
+X-Received: by 2002:a05:6512:10d3:b0:5ae:cf5f:4a88 with SMTP id
+ 2adb3069b0e04-5b8b63637ecmr11095e87.8.1789508899845; Tue, 15 Sep 2026
+ 14:48:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: Fabien Sanglard <sanglardf@google.com>
+Date: Tue, 15 Sep 2026 14:48:08 -0700
+X-Gm-Features: AcwNN1VuGnyCHTepEIAO5l1NopbW_fZljokOq-pQmZ58eTysaDiKJqRZdvFsTtE
+Message-ID: <CAA92w6k-LA4tVXyX1mFNOR3e+_mC43F_BXqhXeWqQyFx2D4_Mg@mail.gmail.com>
+Subject: Missing uevents after successful USBDEVFS_RESET
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Content-Type: text/plain; charset="UTF-8"
 
 Hi,
 
-This looks bizarre and it isn't even obvious which device to blame.
-Have you tried any of these things?
+I am investigating an issue where userspace processes using usbfs (such as
+ADB) cannot reliably track device state across a USBDEVFS_RESET ioctl by
+monitoring netlink uevents.
 
-Disconnect the USB cable and connect it back, without powering down
-the disk or the Pi. Can this fix it? Can this break it when good?
+Repro steps: (Lenovo P620, kernel 7.1.6)
+1. Plug an ADB device into your computer.
+2. Open a console to monitor netlink events: udevadm monitor -p -u.
+3. Send USBDEVFS_RESET a couple of times (i used adb_usbreset).
+4. 50% of the time the event sequence is UNBIND/REMOVE/ADD/BIND. 50%
+of the time, the event sequence is just UNBIND.
 
-In good state: disconnect, reboot the Pi, connect. Does this break?
+When USBDEVFS_RESET is issued via drivers/usb/core/devio.c, it calls
+usb_reset_device() -> usb_reset_and_verify_device() in drivers/usb/core/hub.c.
+Depending on the reset outcome, userspace sees inconsistent uevents:
 
-In bad state: disconnect and connect it to another machine without
-power cycling. Still broken?
+Case 1: Full re-enumeration (descriptors changed or reset/verify failed)
+The device is torn down and reprobed. Userspace receives:
+  UNBIND -> REMOVE -> ADD -> BIND
+Userspace processes monitoring uevents immediately detect that the device
+is available again and re-open it.
 
-Regards,
-Michal
+Case 2: Reset succeeds without re-enumeration (descriptors unchanged)
+The kernel unbinds usbfs/interface drivers before reset, generating a
+KOBJ_UNBIND uevent. Because the usb_device structure is preserved and
+usbfs does not re-probe, no subsequent KOBJ_BIND, KOBJ_ADD, or KOBJ_CHANGE
+event is ever emitted.
 
+As a result of Case 2, userspace receives an UNBIND ("disconnect") signal
+and assumes the device went away, but never receives an event indicating
+that the reset finished and the device is ready for reuse. This forces
+daemons like adb to fall back to polling /dev/bus/usb instead of relying
+on netlink/udev events.
+
+Is the omission of a completion uevent after a successful reset without
+re-enumeration intentional?
+
+If not, would a patch emitting KOBJ_CHANGE (or re-binding/notifying userspace)
+upon completion of usb_reset_device() be acceptable here?
+
+Thanks,
+Fab
