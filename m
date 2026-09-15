@@ -1,181 +1,98 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7A018B0A;
-	Tue, 15 Sep 2026 01:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6972A4BEE36
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 01:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789434901; cv=none; b=P6+ufAp5XUvTDGWrzQnfXhbTm/G0MiQ+U23pryz5ZUCiVOfbxfE/w4/d72O6hYNsW30xvYCdZBJ6iHN9vfPYoghd74BSIpYJkKgwmewTi/SIT8j7+L6f+8ysG7cO17vT3ftnwF9ZRREntSa2R/FC7sJwVFZT+tEFKGs57pReY/0=
+	t=1789435227; cv=none; b=dJyVl4rLb+DTDgzNHd9VWUlOjks1y+/xG5xvM22Q2XHQ1P+qUXaWn9C8BIy+IUzb5R+faLFBmVv154RLtrK/w27GeCXzoIlvlCOqvhGQcWtOy01y23VgLUnwlw17Ql9Cl+F1AqfnubK0d4aFijSpceJdHRIoAPJPS3eubRwkW7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789434901; c=relaxed/simple;
-	bh=DwJjwn5HIEHKhtU52jSO9IR5QQMvOoresNqNN3wGl5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XN6xnCDgqmkC2gWEnMyHSLn5ML59OMLoWHtr5EFRkH6IVxervcBkykv44MZlJ/bQ4w44qXBeYy16UePRUnJSxLQY7ILVXIM49JJlXZSOqkcWfaDzLXBxuSuZD6njN00xfAHpatqTSIvFQlTDsFAeKIHeaCvllcWwxWUg06sB7dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=fTWCjfLh; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1789435227; c=relaxed/simple;
+	bh=zLBagadYIkgHnlxLvmsxj4cwyFqnUnBYuMtGNS57J5U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q8THgr7lx40DMGHKbOq2J4JsEtnRxkKy4gyvfAL6CApjtVMSQsM7WKBjCK+vLQ/+76JWW3X6of/ZcnLqbR/xcaC1LfSNZfQsIaTtuIiiwiS3kDmJ1GWCwsqxRWfhlB3oIgV01RnsC3bMqi2KmovKEDxd1NC1JTZIH3XGvhpADrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRwU3e2l; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="fTWCjfLh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=Aq7S2rs88ABpoxMUNzWr6791EmdCrGhcJbnJNOT1LaY=; b=fTWCjfLh+xAA/d3S
-	+hLFdzyMouCmLyX9WpIXLQfgIoLUr0Zw+7zVYUtWDjR38X7lTMuAu9sVwXVnP1nQm8k8jQoK4GlEr
-	Hi1zPTbYoKSbBxgxkJWPBf9LEw+WBBBwTwqloVcyA3eHtGCsdj9/d5bYivdlwg8Ehba77ACvnmaLa
-	vFZo/Zqr/TkuxGNFgFIywB86wE3jWqgxqypOpIBsGTxcN5p6VA2/6n6zQF7OgIRHhNvyJ7WYF6ULJ
-	phrpvA+xWfS7uqr4aWDGThsjWr6rvSsgCM5uKlq2scUL44eOBcJJMJVl49EhG4j8zsQOmPR7psTWs
-	YyY+IRkLo+OsV0SPYw==;
-Received: from dg by mx.treblig.org with local (Exim 4.98.2)
-	(envelope-from <dg@treblig.org>)
-	id 1x6HTA-00000000b9C-2ZS7;
-	Tue, 15 Sep 2026 00:56:20 +0000
-Date: Tue, 15 Sep 2026 00:56:20 +0000
-From: "Dr. David Alan Gilbert" <dave@treblig.org>
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	stable@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 3/3] usb: typec: mux: ps883x: disable USB4 on
- incomplete USB4 platforms
-Message-ID: <aqiXtO3WrwSFHE3e@gallifrey>
-References: <20260914-ps883x-disable-usb4-v2-0-523c32b4e4d7@oldschoolsolutions.biz>
- <20260914-ps883x-disable-usb4-v2-3-523c32b4e4d7@oldschoolsolutions.biz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRwU3e2l"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-530de452c33so35992051cf.1
+        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 18:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789435224; x=1790040024; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HicEH3nO+EqTxA/vkVDZn60ZwfdK+A3BWy3aE6/nD5g=;
+        b=KRwU3e2lJzL9bN3kEEQJUTJr4GgPM7IrPwwDPdOjhocptk3gvGY9kIJB8so/YHEuzp
+         CEtbSw19rJO+Yv88kbXpFJr6VaJDe0s/4zImniUjnSueh2UvYlvt7jtsL1OISb6/0cQi
+         BaMjMgsfm4s5lkhpyqXj201Hb4AqLIXNLPCg7fHD1QLwRHMmPdTGhrFSwEKHNxci1wiY
+         otECcYsoKcS/tLKCUmQwmZZoqf697lYYOkQcjhRUYAMJWFIj3GxX2pOSxFiehJ2vtKdq
+         GZgYQuRWut0cAQve2uFIAb6MlwYBta9lXS3+eQ/Iy+6ROXn0pB2KaDkNoeE/2JA+prn3
+         9hQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789435224; x=1790040024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HicEH3nO+EqTxA/vkVDZn60ZwfdK+A3BWy3aE6/nD5g=;
+        b=dOfMbiInNpiNhO70FQ60hW9ksxzqSJM0TSiaM+jPbnOia4DsHXZh4vD++9HEnSw/Ab
+         GjBJc6P9Xt0CjIMFmBJUwuMSi5bVJYT5L1vLekpZbjl17yPueNzkkcVtzyVkZH+od1DI
+         /OhwgyEphZBHPZL/vQ/feS2fhFQvqsAQoeNmQEe50CZh+vI5+Wil1r/Ssc4dfZVxIhbN
+         EHoDAijG804ZxgdEXULFUapqAGOg9P4rCJhQjbxEwBqiZ5k3pIpY+N2DxPjflzbMAgi3
+         Ko3USREl9PgK9bQXuS2y1NSHyof3CcsaWDjtHfg8m96yX/qekY399VbmJmzfbXtXVRoe
+         yVTg==
+X-Forwarded-Encrypted: i=1; AKwUvBxnN7tzeWBDWn1OneKIEBPRQrpMGSYYkjrU0dv9CMYtdBaHtGnHONMMlTt338bW5qSCR3Y8DftQN+I=@vger.kernel.org
+X-Gm-Message-State: AFuF++klUBYs+LO2jeZEMFjGlj7YfN9os/kJ7zfU1VXYcsywGK6Dkt2f
+	iRpKaXmmf6m1gI7AJQ2Jke/lpu3gmz3G28MRNcLQyrhFnjROaUobB/k=
+X-Gm-Gg: AYBFou0mch29aya0hLk+rB45r7bROf2MiSGww4J2O2w1Xf8kfi25sVCLI/+x9Gfzm/b
+	SfNqqTaEo2PhE2MhiouI4wLAILL9wBs3FyGLLr70V7XgZ/Phv0/CGXWCi7OMMdEIQ6M0EmcndMe
+	3nVuSKhOT4Op3ttSPUkm2nSqGND3rCNfc6ARGlhgYqLtWDoerUYlJ0bZ61YJOCUtxLsKRk/+CBf
+	Qs2HSII7ElsfCvLmjhfQO9oHcL5XLAEu7W6lRv4t/U3kc8pd0Ekpu4Vfpyvz7qirGl+Wn2+iOwf
+	foZVCJRDCs/HehCtoaYqV0Ldjxxhg3/HiifzzecyjxIL9pL3ekzr20BO580gjpOHT6wZYf9caPC
+	UMIcAnXbfEKHmpESuFgWMBcJvyvuLiSObjF3GZpukqiUvr6Nd61h3XoLkE1Q3kI0xkevCZujD4v
+	6xBVUv5k2rFFnrsLaMDuSdmXBezzKiiO2NXc4aFOjUModL3OtjfkJm8IY73oyyTUHDFIMVSFqWX
+	K7i/FF71G/NeBm7hkbJCo9pTsrgu4LulF/2e2QQOnrBNzq3yPgQlzWEfWgSdGV/48aPkudzdUtE
+	Jkvu1rl5WuGDDxoxUGsft2ilkpUOhj3f4nYxXVBlxX/vBJpLjTA5CZGYQgvf3q3n3KLrOA==
+X-Received: by 2002:a05:622a:4c8:b0:530:1613:e09e with SMTP id d75a77b69052e-5310cf14c2cmr70974781cf.1.1789435220207;
+        Mon, 14 Sep 2026 18:20:20 -0700 (PDT)
+Received: from 6e-wmo5420-02.ad.psu.edu.net (6e-wmo5420-02.ad.psu.edu. [104.39.213.233])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9121a62b783sm91141946d6.23.2026.09.14.18.20.18
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 14 Sep 2026 18:20:18 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 0/4] usb: ohci: Balance controller wakeup on cleanup
+Date: Mon, 14 Sep 2026 21:20:07 -0400
+Message-ID: <20260915012011.61874-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20260914-ps883x-disable-usb4-v2-3-523c32b4e4d7@oldschoolsolutions.biz>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.12.107+deb13-amd64 (x86_64)
-X-Uptime: 00:55:31 up 2 days, 12:40,  3 users,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.13 (2024-03-09)
+Content-Transfer-Encoding: 8bit
 
-* Jens Glathe via B4 Relay (devnull+jens.glathe.oldschoolsolutions.biz@kernel.org) wrote:
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> 
-> On Qualcomm X1E80100 / X1P42100 platforms using the Parade PS883x
-> retimer, hotplugging USB4-capable docks such as the Lenovo 40B0 can
-> result in working USB but no DisplayPort output.
-> 
-> When the dock negotiates USB4, the retimer receives TYPEC_MODE_USB4
-> and forwards it via typec_mux_set(). The qmp-combo PHY then selects
-> USB3-only because no classic DP altmode SVID is present in the state,
-> leaving the DP transmitter and AUX channel disabled.
-> 
-> Reject USB4 with -EOPNOTSUPP on platforms whose USB4 / DP-tunneling
-> stack is not ready yet. The Type-C stack then falls back to USB3 + DP
-> Alt Mode. DP altmode configuration continues to use the existing
-> ps883x_set() path.
-> 
-> Use a machine-compatible table rather than a DT property so the quirk
-> stays inside the kernel and can be removed later without creating ABI.
-> 
-> Link: https://patch.msgid.link/20260312101431.2375709-1-krishna.kurapati@oss.qualcomm.com
-> Assisted-by: Grok(xAI):4.6
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+These four independent fixes disable controller wakeup after HCD removal
+in the DA8xx, S3C2410, SPEAr and ST drivers. DA8xx also needs the same
+cleanup when notifier registration fails after the HCD is added.
 
-Seems to work here (pair of Asus zenbook a14's doing usb networking), so:
+This issue was identified during our ongoing static-analysis research
+while reviewing kernel code.
 
-Tested-by: Dr. David Alan Gilbert <dave@treblig.org>
+Assisted-by: LLM
 
-> ---
->  drivers/usb/typec/mux/ps883x.c | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
-> index e93e958065f6f..02d6c04d45ae3 100644
-> --- a/drivers/usb/typec/mux/ps883x.c
-> +++ b/drivers/usb/typec/mux/ps883x.c
-> @@ -13,6 +13,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/of.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/usb/pd.h>
-> @@ -42,6 +43,22 @@
->  #define CONN_STATUS_2_TBT_UNIDIR_LSRX_ACT_LT	BIT(4)
->  #define CONN_STATUS_2_USB4_CONNECTED		BIT(7)
->  
-> +/*
-> + * Platforms where the USB4 / DP-tunneling stack is not ready yet. Rejecting
-> + * USB4 here lets the Type-C stack fall back to USB3 + DP Alt Mode instead of
-> + * negotiating USB4 and then failing to drive DisplayPort.
-> + *
-> + * This is a temporary, kernel-contained quirk (not DT ABI). Drop the entries
-> + * once the corresponding USB4 support is complete.
-> + */
-> +static const char * const ps883x_disable_usb4_compats[] = {
-> +	"qcom,x1e80100",
-> +	"qcom,x1p42100",
-> +	"qcom,hamoa",
-> +	"qcom,purwa",
-> +	NULL,
-> +};
-> +
->  struct ps883x_retimer {
->  	struct i2c_client *client;
->  	struct gpio_desc *reset_gpio;
-> @@ -63,8 +80,21 @@ struct ps883x_retimer {
->  
->  	enum typec_orientation orientation;
->  	bool in_reset;
-> +	bool disable_usb4;
->  };
->  
-> +static bool ps883x_should_disable_usb4(void)
-> +{
-> +	const char * const *compat;
-> +
-> +	for (compat = ps883x_disable_usb4_compats; *compat; compat++) {
-> +		if (of_machine_is_compatible(*compat))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static int ps883x_enable_vregs(struct ps883x_retimer *retimer)
->  {
->  	struct device *dev = &retimer->client->dev;
-> @@ -262,6 +292,9 @@ static int ps883x_set(struct ps883x_retimer *retimer, struct typec_retimer_state
->  			cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
->  			break;
->  		case TYPEC_MODE_USB4:
-> +			if (retimer->disable_usb4)
-> +				return -EOPNOTSUPP;
-> +
->  			eudo_data = state->data;
->  
->  			cfg2 |= CONN_STATUS_2_USB4_CONNECTED;
-> @@ -391,6 +424,10 @@ static int ps883x_retimer_probe(struct i2c_client *client)
->  
->  	retimer->client = client;
->  
-> +	retimer->disable_usb4 = ps883x_should_disable_usb4();
-> +	if (retimer->disable_usb4)
-> +		dev_info(dev, "USB4 disabled until platform USB4 support is complete\n");
-> +
->  	mutex_init(&retimer->lock);
->  
->  	retimer->regmap = devm_regmap_init_i2c(client, &ps883x_retimer_regmap);
-> 
-> -- 
-> 2.53.0
-> 
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Myeonghun Pak (4):
+  usb: ohci-da8xx: disable controller wakeup on cleanup
+  usb: ohci-s3c2410: disable controller wakeup on removal
+  usb: ohci-spear: disable controller wakeup on removal
+  usb: ohci-st: disable controller wakeup on removal
