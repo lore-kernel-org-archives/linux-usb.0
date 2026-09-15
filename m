@@ -1,211 +1,115 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E3B3B8BA4;
-	Tue, 15 Sep 2026 13:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C453B9DB3
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 14:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789478575; cv=none; b=YU6LOSnJgWZ9cFPHRAhlmlDgkzl+eIQt2alC96yjrSzDYNtGcbBJ/njy04hy66Mc0YDnA+O+O8PuWKdxTW8+kgV5N8ht8HJrojVQzvHtUD/16azK7vNXl8dDPWefl3XLDNbiqWBjIeyIiBvX8+bVjsHfb1YzTKTcMxdjPCoc8nU=
+	t=1789482911; cv=none; b=MgtMjgdIPp6uxeD/Ck0MgIMPynAYO102pyKBwO0vh8P2Kl0A1f/z0S1MpcmkLF/zH8VYaJdLH8FTraXAaouvYlTcALfr1pRbyYyfmYC/g9fewcqojk+ATtSLobnp8u4TshcXfxW7eqeLdctkXAsdS6jY8Hjh6kuBo+vBo4x81G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789478575; c=relaxed/simple;
-	bh=Xt6w8PfG4hMbOwR/dzA+tZEVL3wfRZ/KyrFLLcGlPwo=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=PIXQvZbrtN/0tA+3715myEvt+Ix4sJxdLJaIxstSHVIDPuY1xFsqhtCxKE8wV9D525Wca+5HFaELdXn32m5H3Moh4FWaqXIoE0UyKXw9Lm9mlJ4yjPVPYo4N+XvmDEgm+AxDyKCEqCaoO8pHBVLLPd1uk+FtqlhBgM4Wxg2tdkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=GP2cdT+5; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1789482911; c=relaxed/simple;
+	bh=BaTy1mJgbJAcsliMSea+KT9ybagMiGHMdv+/HCc3oJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FDGysKeat/kq+/9wJ2pCdN5oyM372V/9KgaMiNSCquQAI8Bm7P1foA4CSrhbgl81NKBgXMxtXB5ypaN0LG3Hbhw3rFdU9f+ovVpvwIeEyn0PwbYrHTfeAbSzfZnpTvQuf0Wyb4DlqDIROADtgeb+c64zQMdTe37xV+QvlQXiV1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Pd2chXqN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Oy1d0P9Z; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="GP2cdT+5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
-	:From:Date:MIME-Version:From:Reply-To;
-	bh=WRMMiWWcyTFpWUwbgbFdf0DV8pHtweezXgm7yfIeL8k=; b=GP2cdT+5DdSmxi+Uri+gi7nrPu
-	TRjrDTAj4V3ejNLKBjt9jwJspffUi/rzPduH1zvtSyspJGukuReReyW6LjRmOz9HvdlfC4e/oXZn+
-	4V51wU7Ub+OsZ8JD5KudErnUNo9mwzEpA7G4HJCuDez4ZNw913ifbOx/w4+PeXnKxgqD1EirU87B0
-	9D3aN17DeujwjIIDwchZfMrOvSy5381j336BHsMdpHSB3rbBRDQoC67JWzeJYs2CvUGg2ZkUJYVdU
-	3PIFtuZX0c0dfmP/+hnh61wy2hfRaSRLsXfCHCNQd03mmnE2PiPdfJh9B0qIeODdMsAzBi0ePxrZE
-	RVyrmD5A==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine2.igalia.com with esmtps 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1x6T7K-002SRi-69; Tue, 15 Sep 2026 15:22:33 +0200
-Received: from webmail.service.igalia.com ([192.168.21.45])
-	by mail.igalia.com with esmtp (Exim)
-	id 1x6T7I-007La0-Ec; Tue, 15 Sep 2026 15:22:33 +0200
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
-	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
-	(envelope-from <uajain@igalia.com>)
-	id 1x6T7I-000000022Qx-27Gw;
-	Tue, 15 Sep 2026 15:22:32 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Pd2chXqN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Oy1d0P9Z"
+Date: Tue, 15 Sep 2026 16:35:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789482907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=nx6kcC6T/CBVAANjLTqKgoQ+eAsQB2eLKb2QMIhX71s=;
+	b=Pd2chXqNhfsyyVA3mOANEDBu9rqAg4YRHmcXYXsF0c4N+xgXGjBMRtOxvexqWTsTWV6fNu
+	AMrYAUjBtwWQr2PTi1rWjlzwFRrwzdPDvzUqT6RrFw8W2GZHtcxXO7PHeTkir/pV0oEhfB
+	Wbpow+EKBTdMZ/OkKRt7gpRMjA52jptVf+1nCowPtD+GtZaw53Da5QCAhUCET8S+vITRe9
+	WM4rAxdi+NDgu0CpGpMDHQRyR+VjECQKnQpk8P4OHDxzW+1RM8IZGqKNyN6UhtHri79Z7e
+	cfKvfGuE7JCxw8XNS6GWANfmQ2HnmHjZfaLhxy6idvt5k3cB5MLkBKNN6xPlzA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789482907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=nx6kcC6T/CBVAANjLTqKgoQ+eAsQB2eLKb2QMIhX71s=;
+	b=Oy1d0P9ZSJtaxieXglY3zjfYX+QGJbzbbquBiZtTVGpnwXJN8xVBK3sMp1awtGq0sUNvq1
+	YOVi3G6CqdIfHWBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH v3 REPOST] USB: mtu3: tracing: fix pointers dereferencing
+Message-ID: <20260915143505.k5Mxo7_J@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 15 Sep 2026 13:22:32 +0000
-From: Umang Jain <uajain@igalia.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lucas De Marchi
- <demarchi@kernel.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v2] early: usb: xhci-dbc: Handle out of bounds xhci-xdbc
- capability
-In-Reply-To: <aaf0e818-32b5-41f2-a2a2-fdf9b32ea892@linux.intel.com>
-References: <20260915074049.613842-1-uajain@igalia.com>
- <aaf0e818-32b5-41f2-a2a2-fdf9b32ea892@linux.intel.com>
-Message-ID: <195958b071b8cd57062060688b611ac6@igalia.com>
-X-Sender: uajain@igalia.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005
-X-Spam-Score: -20
-X-Spam-Bar: --
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 2026-09-15 12:11, Mathias Nyman wrote:
-> On 9/15/26 10:40, Umang Jain wrote:
->> Currently, the early xhci-dbc assumes that the entire PCIe memory IO
->> can be entirely mapped  within the fixed boot time mappings
->> dictated by NR_FIX_BTMAPS. This patch handles the case where the PCIe
->> memory IO size can be larger than the fixed boot time mappings and
->> query the xhci debug extended capability in xdbc_map_pci_mmio().
->> 
->> This commit ensures that the xHCI debug capability can still be queried
->> when the PCIe memory IO space exceeds the fixmap size. In this scenario,
->> the base address is mapped uptil fixmap size and debug capabilities are
->> queried thereafter. Iterating over the entire PCIe BAR address size is
->> left for future improvement as and when, such a case arises.
->> 
->> Additionally, this brings the need to track the early_ioremap() mapped
->> size separately hence, introduce additional struct member xhci_base_length
->> in struct xdbc_state.
->> 
->> Signed-off-by: Umang Jain <uajain@igalia.com>
->> ---
->> Changes in v2:
->> - Commit message update
->> - Changed and tested behaviour for mapping only first fixmap_size
->>    of PCIe Base address size instead of iteration over entire BAR size
->> - Updated comments
->> - Updated XDBC MAPPING SIZE to 64
-> 
-> Thanks, this starts to look good.
-> 
-> Some small fixes and cleanups still needed.
-> 
->> 
->> v1:
->> - https://lore.kernel.org/all/20260720191249.1272328-1-uajain@igalia.com/
->> ---
->>   drivers/usb/early/xhci-dbc.c | 78 ++++++++++++++++++++++++++++++++----
->>   drivers/usb/early/xhci-dbc.h |  1 +
->>   2 files changed, 71 insertions(+), 8 deletions(-)
->> 
->> diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
->> index 41118bba9197..d2e6ae410b0d 100644
->> --- a/drivers/usb/early/xhci-dbc.c
->> +++ b/drivers/usb/early/xhci-dbc.c
->> @@ -35,10 +35,23 @@ static bool early_console_keep;
->>   static inline void xdbc_trace(const char *fmt, ...) { }
->>   #endif /* XDBC_TRACE */
->>   +/* Size of xHCI debug capability structure as per section 7.6.8 of xHCI spec. */
->> +#define XDBC_MAPPING_SIZE	64
->> +
->> +enum xdbc_capability_flags {
->> +	XDBC_CAP_FLAG_NONE		= 0,
->> +	XDBC_CAP_FLAG_LEGACY		= 1 << 0,
->> +	XDBC_CAP_FLAG_PROTOCOL		= 1 << 1,
->> +	XDBC_CAP_FLAG_DEBUG		= 1 << 2,
->> +};
->> +
->>   static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
->>   {
->> -	u64 val64, sz64, mask64;
->> +	u64 val64, sz64, mask64, fixmap_size, mapped_size;
-> 
-> mapped_size in no longer needed. Can be removed
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-ah right, fallout from last version / changing implementation
-> 
->> +	enum xdbc_capability_flags cap_flags = XDBC_CAP_FLAG_NONE;
->> +	bool found_all_caps = false;
->>   	void __iomem *base;
->> +	int offset;
->>   	u32 val, sz;
->>   	u8 byte;
->>   @@ -85,7 +98,56 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
->>     	xdbc.xhci_start = val64;
->>   	xdbc.xhci_length = sz64;
->> -	base = early_ioremap(val64, sz64);
->> +
->> +	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
->> +	if (sz64 < fixmap_size) {
->> +		xdbc.xhci_base_length = sz64;
->> +		return early_ioremap(val64, sz64);
->> +	}
->> +
->> +	/*
->> +	 * Base address size is greater than fixed size boot time mappings
->> +	 * hence, map maximum allowed fixmap size from base address and
->> +	 * determine if the required extended capabilities lies within the
->> +	 * fixmap.
->> +	 */
->> +	base = early_ioremap(val64, fixmap_size);
-> 
-> if (!base)
-> 	return NULL;
-> 
->> +	offset = xhci_find_next_ext_cap(base, 0, 0);
->> +	mapped_size = fixmap_size;
-> 
-> mapped_size not used
-> 
->> +
->> +	while (offset < fixmap_size) {
->> +		val = readl(base + offset);
->> +		switch (XHCI_EXT_CAPS_ID(val)) {
->> +		case XHCI_EXT_CAPS_DEBUG:
->> +			if (offset + XDBC_MAPPING_SIZE < fixmap_size)
->> +				cap_flags |= XDBC_CAP_FLAG_DEBUG;
->> +			break;
->> +		case XHCI_EXT_CAPS_PROTOCOL:
->> +			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
->> +			break;
->> +		case XHCI_EXT_CAPS_LEGACY:
->> +			cap_flags |= XDBC_CAP_FLAG_LEGACY;
->> +			break;
->> +		}
->> +
->> +		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
->> +		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
->> +		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
->> +			found_all_caps = true;
->> +			break;
->> +		}
->> +
->> +		offset = xhci_find_next_ext_cap(base, offset, 0);
->> +		if (!offset)
->> +			break;
->> +	}
->> +
->> +	if (found_all_caps) {
->> +		xdbc.xhci_base_length = fixmap_size;
->> +	} else {
->> +		xdbc.xhci_base_length = 0;
->> +		base = NULL;
-> 
-> we need to early_iounmap() in this fail path before returning NULL.
+Commit b5cc230af5e5 ("tracing: Warn when an event dereferences a pointer
+in TP_printk()") added a warning when printing an event dereferences
+a pointer, because it might be already freed at that time.
 
-good catch ;-)
+MTU3 driver is one of the drivers triggering this warning. Fix it by
+storing the DMA address in the event structure to avoid dereferencing
+gpd_ring pointer during event printing.
 
-Thanks for review, I'll address and send out new version soon.
+Fixes: 83374e035b62 ("usb: mtu3: add tracepoints to help debug")
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
 
-Are we sure we intend to keep this implementation? And leave passing
-over the entire PCIe BAR range for later ?
-> 
->> +	}
->>     	return base;
->>   }
-> 
-> Thanks
-> Mathias
+Could this please be routed via the USB tree?
+
+v3:
+  - Repost
+
+v2: https://lore.kernel.org/20260904083644.2010063-1-m.szyprowski@samsung.com
+- fixed typos in commit description
+
+v1: https://lore.kernel.org/all/20260804100531.88576-1-m.szyprowski@samsung.com/
+
+ drivers/usb/mtu3/mtu3_trace.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
+index 89870175d6356..b24c6411a8cf1 100644
+--- a/drivers/usb/mtu3/mtu3_trace.h
++++ b/drivers/usb/mtu3/mtu3_trace.h
+@@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__field(unsigned int, flags)
+ 		__field(unsigned int, direction)
+ 		__field(struct mtu3_gpd_ring *, gpd_ring)
++		__field(dma_addr_t, gpd_ring_dma)
+ 	),
+ 	TP_fast_assign(
+ 		__assign_str(name);
+@@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__entry->flags = mep->flags;
+ 		__entry->direction = mep->is_in;
+ 		__entry->gpd_ring = &mep->gpd_ring;
++		__entry->gpd_ring_dma = __entry->gpd_ring->dma;
+ 	),
+ 	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
+ 		__get_str(name), usb_ep_type_string(__entry->type),
+ 		__entry->maxp, __entry->slot,
+ 		__entry->mult, __entry->maxburst,
+-		__entry->gpd_ring, &__entry->gpd_ring->dma,
++		__entry->gpd_ring, &__entry->gpd_ring_dma,
+ 		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
+ 		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
+ 		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
+-- 
+2.55.0
+
