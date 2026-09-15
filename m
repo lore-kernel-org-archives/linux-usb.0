@@ -1,111 +1,114 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DF6408623
-	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 04:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A96B3D47A3
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 04:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789445514; cv=none; b=TWWmS0dgk8S8C33UW276H8rIaIMeOi6rehh0y5D1u2acN6yTFqVgHb/yjsfWbTZXKXVO6AfwiJXsa/d5RHUt9akkJhds5XaP5p31uVAMl0+MX0PM+69Zx45l9tUDxE5msX2LD0I5T6tKSxCKh/kr38ptAPWStE2ClrNF+pHdZ6A=
+	t=1789446008; cv=none; b=iPLchIeGGjVGXPlYfyf3qNh9vdkeA7XpvdwT1XnPZjH0BH5p9YYr08eMZn104dVJFaK5glmIaYGPVEqxpnX9j6PGMKdsSAIk+VUBuC43gZlFlar5IRtVSjfS6u15ok66K32O9uNx/DFGZz0Zsr/qCh+C1xoedFttJ1/V/5M5Mo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789445514; c=relaxed/simple;
-	bh=jJQXdjO2V/cOvEj3uj557Xb3P7Xy4TEg36nRpimZhLE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H/ZepgFt8vD214nakiJ+hwv0LmEScP+atge7o/Cm9rnnhEAKaTAxY8+K8agaZr82dHRL5dXY4zvyLkS2s9PgipRmDFOCzNE+edm2ZoU5aMo1yYvINdpIrGzz+2fN2tTD5a+bNepVnelB837FqiSO6FYzu9rxKjDHwMGifL/QMLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bLSouhVe; arc=none smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789446008; c=relaxed/simple;
+	bh=MCeM1YG3A4UV5ube6C2VvTv7aMCA+MEP1egwTGfhWMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tRhiDMur9Evi+egcdAMV6vTk2uqsZOE/XddzLMLo8B1fGXklsG7+RQlGQIIZnhfw0VEE8f4Ql2hduR6F4d4E8mOc7d5iwUgUjobXTkr3bYsFvJYjnTXkTD283BRHhD8FJFhoq2OGYP0qmppMdE2nQPqPmhS1JJ5q9YnnU5s3D0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+BDKPNz; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLSouhVe"
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e2ff27eso2235804e0c.0
-        for <linux-usb@vger.kernel.org>; Mon, 14 Sep 2026 21:11:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789445511; x=1790050311; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WLhmRzqAjQTbZa0DbB/6iNv5vi/I13aI5oDHnsU4F2I=;
-        b=bLSouhVeR13I0U0U8FIlCnMpSdCMciAZwQmMfhw2v6kzUoTDhDqvkmGZP1aEfJI+nZ
-         AikERlsdo0bNgEq3qybhmTLQJBIqDoPEuS+qya/6W+cvn8S4etXCDjeAOtiLIfp5rshJ
-         71OD1oZrWh7yrYMxzO4AJ5j8b5q2bxXY5JGrG6BPxHhZffJhN/8AlM+P4IPGrleD7nWA
-         WHNMJ7CzKamNE2NO6zVU/km9NtpvQOLq9cbjYES75PR6qGjAJu1cI4gOqWj/DqMfaFp3
-         /ndCTChGGUXtjEbWGndN1V1h6/3EK5QTfnp7HH2DqraElheM7tOd+jYp0kTEHLeOdflS
-         XFyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789445511; x=1790050311;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WLhmRzqAjQTbZa0DbB/6iNv5vi/I13aI5oDHnsU4F2I=;
-        b=p6lUvm26IL7Ox3cyciXKE46tvrl4Hwsnoe07OvP00EEddKV57/3OqOMZjvu4qcuPJm
-         nHTCxh0Jh6VHqXMYZbYjNmjLCB6AS6HP8Lq5s2iqCOie9QdOaAnrvJDpVGnkW0lF0fnC
-         N1tfcqHPVMl4LIguXxqp/gr8GdcrWU5b3Ptxgc1UmFgLDxNxHxRDBSRsThaVV4PV9uTE
-         91VHOX9DGcm7sLLrGjLCl58HnmP2fkumwoqrxv8dXWInLbha+/nsczXUXxrM7l/7/QzN
-         GFbnzNm3GuWrmvLDxXJ3f0HR4CoSPoUBx4Vex6AnDu40FXLcV9+f8BONib2KDQkBEy6w
-         9Qqw==
-X-Gm-Message-State: AFuF++mH/oo957kcF1lv22WY0Lo68xcFUmzm1glXWLIXc2Tf3fPxPUnt
-	4bVvPhbgf9Mx21bW3BnfEOjOByfkl0pufHrFSGbADQXDm9bxAcOex2dg
-X-Gm-Gg: AYBFou1fxInoZRkDdG6ykggrDG5JADOX6v41Qk/5Z/Vfydx3ZsA635Q2W97uU6h2UQv
-	+JJK2p+tkHZ4CWUBB6ik8hHD7BtpPrbW4hB0P9EdZOuZT32i7ZhY/eTA0oCsQD1NxtbF8NT1WwM
-	2FtXUUldQK675csWArqFBYPo461pmV9WD57vHkIubtl2pRfDEPPKy8148SuaU49I7DrvoVG4sGK
-	Ko0vORTcLTsn61SDFOQgkAhEs9dXrRMjUsBJQd6xsM02L6OJxV4h5WHt86J8zQe9yhvSQJtohTb
-	ykPfbIlT+YHET+S5aO3S5Zz51L1WcYgR/UJ1dEXLFvTvDXqCBTw8hOCHyI2gfvD4JEyE3HJT42d
-	8sQhueDstlO6fQYn2Pawzbw2JpteXtqr2fwDuS3AmouI6mgRzQjTLFkFi91hOxP0qefM4I6lK0P
-	IF646lg3z3l85ps/1W/WNwGjwquzmnWpf2S8M0RD4yoDygu/piTWmGpottp4DqEzpy
-X-Received: by 2002:a05:6122:1d08:b0:5bf:9461:91d with SMTP id 71dfb90a1353d-5c981d7b2f9mr5611703e0c.5.1789445511584;
-        Mon, 14 Sep 2026 21:11:51 -0700 (PDT)
-Received: from beelink.. ([187.13.206.89])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c8470add08sm13857915e0c.3.2026.09.14.21.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 21:11:51 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
-	Guangshuo Li <lgs201920130244@gmail.com>
-Subject: [PATCH] usb: gadget: ncm: validate NDP length against the NTB
-Date: Tue, 15 Sep 2026 01:11:42 -0300
-Message-ID: <20260915041142.2430163-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+BDKPNz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789446002; x=1820982002;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=MCeM1YG3A4UV5ube6C2VvTv7aMCA+MEP1egwTGfhWMQ=;
+  b=D+BDKPNzQ4UgG/X9VoJ1UYZMQ3bA6CjFeNS6CKGz9RgZgY2QHBW6kbPP
+   esmIkAa9lhI/KY3HEyJpsY23+ei0YDU+z7fnYXhY2Q2J/jxMETRo3DaPY
+   jhTA01Ei2M6lR0QCOgrHWLCe9p7FMHTfwsKWS/6q0Lxfrx0vZvQiU1mkt
+   oU873WEkTPiHq5sPGGqH01M89TD1TztScACqIB5YGpjMkSIFARdlhbb+1
+   q/5kk3XSSvvSA/U9SXi/ppHVjmSdXLHm9aQKzjFkE0dCDsr6uI0Z7YVrI
+   bGk5hrOzVMyNCNzghUXv2Uf4lYx7+W3SHTC+eH64Jet6RuPFV9aNY6mPL
+   g==;
+X-CSE-ConnectionGUID: IqTZIa8rRymhtWBDN148WA==
+X-CSE-MsgGUID: FSCMN6HfQFSrHJyc3V++AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107171422"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="107171422"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 21:20:01 -0700
+X-CSE-ConnectionGUID: QlU+W0TZShaYdSEDIMnzIA==
+X-CSE-MsgGUID: ySzlBLBZSkOj1hIRClWolg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="272826007"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 14 Sep 2026 21:20:00 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id C5BA299; Tue, 15 Sep 2026 06:19:58 +0200 (CEST)
+Date: Tue, 15 Sep 2026 06:19:58 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Ben <benstaples10@gmail.com>
+Cc: linux-usb@vger.kernel.org, andreas.noever@gmail.com, westeri@kernel.org,
+	YehezkelShB@gmail.com
+Subject: Re: xhci_hcd 0000:0c:00.0 dies with "Abort failed to stop command
+ ring: -110" exactly 24s post-init, tunneled USB4 xHCI behind Goshen Ridge
+ (ASUS ThunderboltEX 4) + CalDigit TS4
+Message-ID: <20260915041958.GE106095@black.igk.intel.com>
+References: <CANcA1gDByZBwvkHBi4Bin-eCzBpN31OHaNStbpi4vhTF-WOAPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANcA1gDByZBwvkHBi4Bin-eCzBpN31OHaNStbpi4vhTF-WOAPg@mail.gmail.com>
 
-The NDP length is validated for its minimum size and alignment, but
-not against the containing NTB.  A host can provide an NDP near the
-end of the block with an oversized length, causing the datagram parser
-to read beyond the block.
+Hi,
 
-The NDP index has already been checked against block_len, so compare
-the length with the remaining bytes using an overflow-safe
-subtraction.
+On Tue, Sep 15, 2026 at 12:04:34AM -0400, Ben wrote:
+> Hello,
+> 
+> Long and short of it is that my Caldigit TB4 dock is not working properly with
+> my modern linux desktop setup that has thunderbolt enabled by installing a PCIE
+> card. It's able to drive two 1440p displays fine, but USB is not functioning at
+> all. USB does work with another machine so I'm sure it's not the dock.  
+> 
+> I have done a lot of investigation over the last two nights, and I figured that
+> y'all would be the people to send the results to (though there is a terribly
+> large amount of stuff I'm sending)
+> 
+> Attached are reports generated immediately after boot on various kernels and a
+> writeup of what I've done to try and work around the issue. 
+> 
+> Best,
+> Ben
 
-Fixes: 9f6ce4240a2b ("usb: gadget: f_ncm.c added")
-Reported-by: Guangshuo Li <lgs201920130244@gmail.com>
-Link: https://lore.kernel.org/r/20260708123048.760209-1-lgs201920130244@gmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
----
- drivers/usb/gadget/function/f_ncm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> ############################################
+> # Captured: Tue Sep 15 03:19:04 AM UTC 2026
+> ############################################
+> 
+> === uname -r ===
+> 7.3.0-rc2-1-cachyos-rc
+> 
+> === uname -a ===
+> Linux moomooPC-cachy 7.3.0-rc2-1-cachyos-rc #1 SMP PREEMPT_DYNAMIC Fri, 11 Sep 2026 06:51:19 +0000 x86_64 GNU/Linux
+> 
+> === /proc/cmdline ===
+> initrd=\initramfs-linux-cachyos-rc.img root=UUID=a9c18677-7688-4fb4-a1e6-dd5fc4ee40a7 rw rootflags=subvol=/@ zswap.enabled=0 nowatchdog quiet pcie_aspm=off iommu=soft usbcore.autosuspend=-1 thunderbolt.d3cold=0 thunderbolt.host_reset=0
+> 
 
-diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
-index 64eabda2f..1ff05eb0f 100644
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -1262,7 +1262,8 @@ static int ncm_unwrap_ntb(struct gether *port,
- 		 */
- 		if ((ndp_len < opts->ndp_size
- 				+ 2 * 2 * (opts->dgram_item_len * 2)) ||
--				(ndp_len % opts->ndplen_align != 0)) {
-+				(ndp_len % opts->ndplen_align != 0) ||
-+				(ndp_len > block_len - ndp_index)) {
- 			INFO(port->func.config->cdev, "Bad NDP length: %#X\n",
- 			     ndp_len);
- 			goto err;
--- 
-2.43.0
+Please drop all the non-default command line options. For instance
+pcie_aspm=off goes and disables whole native PCIe support. I have never
+seen thunderbolt.d3cold so must be something not in the mainline.
 
+Once that is done then at least PCIe should be working. However, if this is
+a PCIe add-in-card you need to have BIOS support for this too to add the
+"power contract" in order to keep the tunnels after PM transitions. But
+let's see the full dmesg after you have dropped all the non-default command
+line options first. 
+
+But you can still add "thunderbolt.dyndbg=+p" so we can see what is going
+on.
