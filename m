@@ -1,170 +1,156 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazolkn19011034.outbound.protection.outlook.com [52.103.33.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2651C4908A6
-	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 08:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461885; cv=none; b=jrBSRHAmjRu149eUO/kBR10Z5Vf3UHqBwMGhZmlGJvEXnJHcAkzQD9b2tMhkOsVJPEL2PTAwdHYPz0J6oXcW72R/z2d98rocg7e30SUaFWFQaMJ4daMK54rKgXKy4/NJ0xFXxA/oxPOwDfDPqVH8r/s8vYL3dOiN7yLZ++BwF1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461885; c=relaxed/simple;
-	bh=smtLoJu19ETJOp/Y/sLlhHENYirZdw2ORnRTQyyrSTo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A96D3A9D99;
+	Tue, 15 Sep 2026 08:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.33.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789462796; cv=fail; b=gjedWtisjA8X2EWO4/mOt1WVJNqsPl6/fuD1emQ18scv1bcCjWhD2voj+hoi8+miyk569d9nVwo+717m7Gq1f5crsErdJvcg3BcmbxbHAMyRq+NMB8OMjYPyrmp8g1PjDuOhZrGVjZ2+Z3U+qbfv6bpBz9gcWrZPkySuSLkJm4s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789462796; c=relaxed/simple;
+	bh=jmraQDb42aqW6DYaceHFy2Rb0dRpfKOPtqQXicTiNl4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QTQrNgj9EKJd2xY4Cir6+WZqciy1IvxM7HwEwadf0EG1ekRYwh2sF0ZZ0HBmUU4ddxL9GrXqRTOLftZ4Cd8enaRTeDJvBsb/5rsMDFAtuiox9PwpCrEAXI42n8ymXaMpf6QtwDeAApszcWIOOl5qxFHAc0v5ugIsVIzDIrJQUuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W5I7F8bh; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:MIME-Version; b=aUCpHPOxEa/6GJZRra5iFHeFq68IENa/IdwpuV0UNeHlXpP1Va0fcTxF4A8NL8D9BjG4o+A8YIj0zwlS9bfMNh6sxwSTDFvuPKbCeS8nPfF2rIaiungw+XRpGQ9gwKlDmurFPZlkh2rKqLdWH8lytkbpeugXKozsmh3Nfc5B15o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=rqDVJlXA; arc=fail smtp.client-ip=52.103.33.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W5I7F8bh"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91ede8035so33995425ad.3
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 01:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461882; x=1790066682; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5BHjMuJMoMYFD23nqg/tI9zUAc/rmyhpkTd9W93sZe8=;
-        b=W5I7F8bh5lpjejlNMChqcRGrzgs5nR5EqnpzDVheyq7DSe1VslPMyv0YMwAsffUGce
-         LPYcOeV78HJvou37l7d4loT8wU7iF2SjlgV/UEKOKrdQGFsIMPdHL9erdfUvxU8x3b1o
-         bub4XzAwx0GpKySAvQpU7vZb/AQWtqQMSf8iCyY1GkWrWlAyGRQQPGxHxkU4RIIQ0BXv
-         3/DKByzqhj5H08jDLZVx/KlYpxjveksUzQAXZMI0zx6CEBppvf3MHqnpQt7bxsRoNgFL
-         4TDlAn7Xnpj4FHrhjHrcz6jq0C4m/r01vn1/LaHh/fB08RxiyMZ833gG1ATGqkKv7e9g
-         aXhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461882; x=1790066682;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5BHjMuJMoMYFD23nqg/tI9zUAc/rmyhpkTd9W93sZe8=;
-        b=k8s4J5R/uCpig46fl+YNqFvciE3Czf078rExv1WLDnXaMm59XqCO+yTyWUdalSnZoM
-         2kDRtyhLnmarHLKgTHtmkRVih2IwbEeSXsc9dhYyv8+4wfH1Qi98Xx3lOGjPrmBcL2Bo
-         g9CLdT2apKzbmXx276gca12PJ+LjANJBiTyqIbOlGkyUyF/zmOZz7Nd9/aJYkDtafwlF
-         mZM9rW6bXF3luhbkqe88C9aPOzdHvZv0LUqKA8CMh+lacup2xkcPoaKPB7BOgjDkSqVi
-         2kbJV92k2r8C5oEQXuPRKFR9ebd0It7cJfUNsa+DBj6jYxBw5N/Tk0tiRAgWAM40KXNE
-         NAmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxrwZhlZYcrKmSEfz3IwznENOMOf/5gvvzLBnaTZO+PCXxgL6CcOYLDV1sAIPg7mJyQPb3t0mkGbLw=@vger.kernel.org
-X-Gm-Message-State: AFuF++nnP29nFo/0AcEsY7Dso5WcqL+GKqCZbaB5v1/cEL6bPSPZiaVq
-	vGUj3CLNyB5h0PxR12VI+Hg0WtCfgwTiZk+5C8IuJDc3TV4tJGUerTNa
-X-Gm-Gg: AYBFou03amE1TP4kV9YWZlMt6aCnHrsOOKKTNc/tT8s5W/OoydLgDvsKGis24sKy0wy
-	jD3i/HCGFySP+NSaR4GHwN00O5pW72fFOLj05Da3g/RfjMou0FzYBwXTpkGbjkTsG/Ktr5daral
-	HcZKiL0hyvNjM05p9w5JXyugnxPdddPEHZ5YOXSBO6FQ3Zube3qHD2UdV8rPIpsETFTVrg0VDQS
-	z5tAVw31Hhidcl5Q4fo0csTv0JMwrukjdIf7loNI6dVYw7d4pl1SxsRj2IYPe6Ocbn+aq87a6Pt
-	P3E51wz9eLjynu8fI6elvRU4BjPusD6T22fHrcO+hg72Jv3yDuKnVhNHJt5eDWBFVu1pZq3MrgV
-	fivLf/ZYzmGtJSvjhKqPFJnW4GoKojtSuWoD50wJVriBIDvzdtGCGandiUU/WuRtuqbdHpB70r/
-	tJ/a7q7/6myvM8mYk5WDhoEwGc0LBt7JHP0yyo5dVyEIVSelvEsV6FFxPOgZEOD2h5W7XVZ36PO
-	nL5y1RjiaD5
-X-Received: by 2002:a17:90b:164d:b0:398:9c00:29ec with SMTP id 98e67ed59e1d1-39dec0a8e92mr11181359a91.20.1789461882378;
-        Tue, 15 Sep 2026 01:44:42 -0700 (PDT)
-Received: from amd.ban-spse ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1439110be78sm2421527c88.4.2026.09.15.01.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:44:41 -0700 (PDT)
-From: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Kees Cook <kees@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="rqDVJlXA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aKs+tAN+11YCVvalKjKGGGdO7TCbosf1xMDJzjKJmNV3zH68RMcMesMnNoymeW+Mg6y/pm/86lx8XFwBWudmaHyasw7cwfDIvuL0/juoR+bWZX/FXrwyanc52/0Ka/NNtAkcLY0VeVit7I9ZAEnXraxj086cCyfoNPXjiujYObenlo3tlYbkQbLnptd453NHYj/dz0jjpfAwQZ/n5XL1LX4k7rZnlnVCBGjnuaKus0KGJAsZbHF8iWIDqGZkvAyTZLHv9Fgtm8+MwAwk+YA/HPIr9TJceqVvShNjnzZEJULLqkijsHcdj/8LzWx3xzpoplmdYiz7Ol2b+JAebX97Ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jmraQDb42aqW6DYaceHFy2Rb0dRpfKOPtqQXicTiNl4=;
+ b=jjdDflmgLm5xeCs487ob06JErLhTllxpDsBi5OmsKEyMOSfdKkBkgbzZByn+Vwn3u1xkXcU9l1hLDsv1lcb5FU3XxYj3TPlojCbZWpcVHoaOozZoAzlKeOJR+nVo/o70pGRt64zCtlercuGthHcbSbZwGNDZKPh8L8etWObvYTyZkzPRdsLe+p6NA5b1Eoz8cuLyo2wQZZmXn/dEj0LYiFZ/WHWtxzqR3P93lqtguE/WZH/9alobHRmzxd4ZUpq+7UDTIeBsPvmHBz2PiIcVjdZ6l47QlNT/iZVz7VBf5qZxvwZ7lf6Kvc07UfXKA7eqsdSpFD8LjqY4FFKO5MgvzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jmraQDb42aqW6DYaceHFy2Rb0dRpfKOPtqQXicTiNl4=;
+ b=rqDVJlXAJUHzpy2xcygV8L3fXFzgzvF5RFbIX4Fzf1XJGHuJ5QC8VkdwtjDGso/W4BglLf0UaLk4gLSxVwQxQlLWG3qs2cPkcclxo23RxJXQ5SATELkrUY6rND6v6b3dNal/Okr1g0hZdTGvhicV7hEIbMQ8Q3ipD1WOpvjSl1YDueAHaN2Qd24N1L3Po3uepNHBFoDylM+UHQHkENpIhS1iRseRGB0m3V5ylOb80F512Ivztw8HWQnqqm7AbnDh2YgalVsZCrsK2+7683/jUn8Vj0z7v91rhoNO2WFV356q1Ign+L1kI/yB8WfoNJaGypz22OeBBCVSLvZcaDqF2g==
+Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:344::22)
+ by DB9P251MB0667.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:333::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
+ 2026 08:59:52 +0000
+Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ ([fe80::2952:d4d0:4ba:8352]) by AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ ([fe80::2952:d4d0:4ba:8352%3]) with mapi id 15.21.0428.008; Tue, 15 Sep 2026
+ 08:59:52 +0000
+From: Aamir Ahmed <elb12345@hotmail.co.uk>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Aamir Ahmed <elb12345@hotmail.co.uk>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Lucas Stach <dev@lynxeye.de>,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com,
-	Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
-Subject: [PATCH v2] usb: gadget: f_loopback: fix descriptor leak on unbind
-Date: Tue, 15 Sep 2026 08:44:17 +0000
-Message-ID: <20260915084417.131614-1-nagachaithanya9911@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
-References: <20260808181504.462492-1-nagachaithanya9911@gmail.com>
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2] net: usb: asix: reject a truncated Data header in rx_fixup
+Date: Tue, 15 Sep 2026 09:59:47 +0100
+Message-ID:
+ <AS8P251MB000100297C073F6DFAFB1190C8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.53.0.windows.1
+In-Reply-To: <aqj1X8aIEs5SqEAK@ashevche-desk.local>
+References: <AS8P251MB000193C798F98A11C73C3E9DC8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM> <aqj1X8aIEs5SqEAK@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0027.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ae::17) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:344::22)
+X-Microsoft-Original-Message-ID: <20260915085948.449-1-elb12345@hotmail.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|DB9P251MB0667:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59cae67f-d4ca-4bc9-6ff5-08df1307b42a
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|51005399006|37011999003|25031999004|15080799012|25010399006|23021999003|5072599009|19110799012|8060799015|24021099003|55001999006|40105399003|2607281247196008|56899033|440099028|26104999009|3412199025|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?iLazmh5as0msW6h28a9J43xz341VET4C+3cq7WEpN/hJxYJMjKXf10/xkYBn?=
+ =?us-ascii?Q?zUWQm12i78kU6blS1XGkZ5aioDfc5MxGL+M0SZx1kBqyZEvxQ8u0nuRsIs8T?=
+ =?us-ascii?Q?zViVaJdgeDAqq1rdERHv5BAEQDTEQSlC+K2ezlWq3kYMXcDyiX/v9cT/IGpR?=
+ =?us-ascii?Q?a6ic++0Cy0YniIRxWMlP5BNSd7GfFjSrGKfLOr0laSZ767p36qQ05sNpx7Ut?=
+ =?us-ascii?Q?V1HF8TIrop/LOATRzJLQbN5edDID007NWMhlNAiXOZMmtYX3hu5rOWbVsfne?=
+ =?us-ascii?Q?FuhjTVPY7rWstRY0KGwJWn0b+RWMd8cgld4BOVahRfbNCbq+PVyvZTw1Tny5?=
+ =?us-ascii?Q?hDX4dLC/cEn3xaQowqIHeaBH4Xin3GaoOvCgToFiUqkoH3PzEmBV6UYKsnB+?=
+ =?us-ascii?Q?WNPmZ+lbEtDwmAVU3EluMnR64L5d9z+c2paNNCx8b+OLJBkea0MDYN+hbJo+?=
+ =?us-ascii?Q?06mV+rwDk9dVtSLxYkcnU9Cigultp+DzhZjMA6qiWYe4D1iJTB2nOWACy3up?=
+ =?us-ascii?Q?C2xgK6r+Tty8Q+6T/QfQPgKR2INc4EdQzcQUA8Gay3D/evd0NXfPmzCCG7rj?=
+ =?us-ascii?Q?Ed5K4OCJ4985UMh6ClNIwABXrCS3YiRWrC6aB/EOQbM62i8nhmF3G/wuji52?=
+ =?us-ascii?Q?ZaIknsjHKVjGpn3GD/E2J2jo+31j9OoT/lBjufAQOA9vgsXX7JBVzoYEg21I?=
+ =?us-ascii?Q?RujKbBvA9xHFfnWvbys7sSdjzX0yeO4SaAa4jTgyKhZ183jWYZ67z/ed26GW?=
+ =?us-ascii?Q?hfYef6inPlA7VM2Ksp5HE8+Sr44nRJHRLb4szNPoM2+p3LVXCLH6TY/yLBDr?=
+ =?us-ascii?Q?xni4/noUjI1jrRkn7sMV5f8uGMeus3hLn/nnfA0L4iUBsQmNyHLtdXvaizIF?=
+ =?us-ascii?Q?nxC5hDHtMBwiRvhW8THSVclrM27XB1sDBPTz3ZWqbliDng8T2246cbixLL+c?=
+ =?us-ascii?Q?yZq0k899p26RprulqthVT85FT7AGnOFe40KtnOtMAuiN8f80T0WjtlPsDFJc?=
+ =?us-ascii?Q?oDBq+D/HQk8s+WCxJ5EjTwgAu934S8pAbk6OBCehy2iATa5SmarNWKm4vqwB?=
+ =?us-ascii?Q?eZ6VNkZx?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?eq7sFw9LQVHH7Dr03kT+Z2bpEwl8WsLAibjQovqm/qfxDZ7PRFWiynrDjBbI?=
+ =?us-ascii?Q?Trs+RDbJ4BNLdRmWzUpfPE+Lw7BANppsZWFhGA8mbVoRlFAisV9WAWcps6O3?=
+ =?us-ascii?Q?HsKgWV+PQ0SeWSMYm+j9jXpsd8o36Fn71f1wbbCws4kniQUQtrDYcmVh21P8?=
+ =?us-ascii?Q?knGyUPGbxV0mUCddr1PK4kjO04SiGxXjsQRnm/AdB3BSFNwFVqjMNAfJygcd?=
+ =?us-ascii?Q?3CN9qKo75UZVTRXgYd0Qgo7i0EmFHoD7SL5At0i4BODdG0GqRcdFVse/gRx/?=
+ =?us-ascii?Q?JdppQ0DNTjd3WHlHKGE1Zxn+X/5jrz6Z+Y49ZjMu5thL6GZFTZLkJnwrxXlw?=
+ =?us-ascii?Q?GPneUen+402HyfIgZwu6T5Xo9JHYbqUzndQ1y6yi1UfBcF7bETlnrILA2xoE?=
+ =?us-ascii?Q?UK1+0BIdM+tb9p/kTn9t6hQXFGM+72vDCnY3rcjTrH+fOdQm2mZJoiotQXH4?=
+ =?us-ascii?Q?wRPzrK3intP+HMAn6uREnSOLyqNex0RYXa8P95wYGbW6aOBXhTadCe/OaSpf?=
+ =?us-ascii?Q?Cm3JhzM4rBYTA9rUY6fbJED7LPA7oKOC/3/4lF2xPTvi9KXRMtFn9iTbByR/?=
+ =?us-ascii?Q?19NUFQEjRE6RcVM3utVd/kN+1ROVvx/tFdMWz2OaRQKIxPuerfcFuu7HicBz?=
+ =?us-ascii?Q?vJl/0voTIx4EoQe4u+0p7Fw/JPJu8y4v0622oBLnWvFmtQf/fJFYvoYkK7Mi?=
+ =?us-ascii?Q?ZDUsxTIet4Om6zHsVQAFBGIwJSr6fWsTY2I1bDpt4wLPXTVOTC8sDkGMJV1O?=
+ =?us-ascii?Q?N/aW1ll7KguWcdZb65Gwyyi1NaqW6y+kBsX40gB8O7ri0jKnT/Au7VopL2V6?=
+ =?us-ascii?Q?wWKJ3pcyC62j2XNvM0qOgeygQRWok8olD9v2Ro82HyRrbix9hm+GJagjvgNx?=
+ =?us-ascii?Q?gyZ0omGaSSHzy//RhzaezQPtfX/Sj6o2BKfcOw2W0g8e1c73hKQRT+78O34g?=
+ =?us-ascii?Q?Plq634y/qXtB7PE/pkbFnF7djlPofwoz5tf1kFEoXp1t8PYehY+ZOmQiYebn?=
+ =?us-ascii?Q?OQnSvvBZY4SwNiu/wBw41wV03x+xbbedzBItF7b/MyC4J7vkRUFZi/7d36G8?=
+ =?us-ascii?Q?1SH5FElJo2JeIOxHbBmfsmw1YkgT2xXBypuJnPWmxvjrP4wJzaCYmtPUKRCR?=
+ =?us-ascii?Q?Zg9jcPjCe3LEa6q4PV6eF0PWinxe4SyucKYiy2wnYxK7RM31E9jDt+1p223Y?=
+ =?us-ascii?Q?qklyCb2nYGiX6NBBmixUOrpuFXyrkAKmQzLFyDfyL2qS7k26UupYX1MGeJjR?=
+ =?us-ascii?Q?AbI/szxDX5RhPzd0YKOln5O/CU9MSN94DZSYXjPHqfN1zN6lUw36IVOsHXup?=
+ =?us-ascii?Q?EQQiIicJJtBfqNAyIQJ76r2zbVMpUrJZzmMkQXHCvcXP60kAmE93XmzkoOWM?=
+ =?us-ascii?Q?GgHHrqI8U5wSQC57L1Cjo/7KxiF3JSIl7UsD0d0Zkta6TolgNQ0+VpreLcqv?=
+ =?us-ascii?Q?Hy2U00Cspm/seIg+6YrzD1iTwbCnkpBl?=
+X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59cae67f-d4ca-4bc9-6ff5-08df1307b42a
+X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 08:59:52.1772
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P251MB0667
 
-loopback_bind() allocates descriptor copies through
-usb_assign_descriptors(), but f_loopback does not release them during
-the unbind path. On every bind/unbind cycle of the gadget (for example
-by repeatedly writing the UDC attribute through configfs) a new set of
-descriptors is allocated while the previous ones are leaked. syzbot
-reported this via kmemleak:
+On Tue, Sep 15, 2026 at 10:35:59AM +0300, Andy Shevchenko wrote:
+> On Mon, Sep 14, 2026 at 10:23:45PM +0100, Aamir Ahmed wrote:
+> > Only a device emitting an odd skb->len can get there - every asix
+> > rx_urb_size is even and offset always advances by an even number of
+> > bytes - so this is net-next material rather than a stable backport.
+> >
+> > Fixes: 8b5b6f5413e9 ("net: asix: handle packets crossing URB boundaries")
+>
+> If it's a fix, why net-next and not net in the Subject?
 
-  BUG: memory leak
-  unreferenced object 0xffff888016b8f180 (size 64):
-    comm "repro", pid 5613
-    backtrace:
-      __kmalloc_noprof+0x3bf/0x550
-      usb_copy_descriptors+0x6c/0x160
-      usb_assign_descriptors+0x48/0x180
-      loopback_bind+0xff/0x120
-      usb_add_function+0xca/0x270
-      configfs_composite_bind+0x667/0x9b0
-      gadget_bind_driver+0xed/0x390
+Yes, on review this should be on net ideally. I'll raise a v3 later
+with this correction. Thank you.
 
-Move descriptor cleanup to a new loopback_unbind() callback that frees
-them with usb_free_all_descriptors(), matching the lifecycle used by
-other gadget functions such as f_acm. With descriptors released during
-unbind, the usb_free_all_descriptors() call in lb_free_func() becomes
-redundant and can be removed.
+pw-bot: changes-requested
 
-Tested with CONFIG_DEBUG_KMEMLEAK=y, CONFIG_USB_CONFIGFS_F_LB_SS=y and
-CONFIG_USBIP_VUDC=y by running the syzbot reproducer in QEMU with
-kmemleak=on. The patched and unpatched kernels were built from the same
-tree, config and compiler, so this patch is the only difference between
-them. Without it, five reproducer iterations produce three leak reports,
-every one of them through loopback_bind(). With it applied, 25
-iterations produce none and kmemleak stays silent.
-
-Fixes: 10287baec761 ("usb: gadget: always update HS/SS descriptors and create a copy of them")
-Reported-by: syzbot+28cf08dec5895bd562e6@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=28cf08dec5895bd562e6
-Tested-by: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
----
-v2:
- - Add the Assisted-by: tag that should have been in v1 (Greg KH).
- - Describe the kmemleak testing in the commit message (Greg KH).
- - No change to the code; the diff is identical to v1.
-
-Link to v1:
-https://lore.kernel.org/all/20260808181504.462492-1-nagachaithanya9911@gmail.com/
-
- drivers/usb/gadget/function/f_loopback.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
-index d2d07fb49e70..40aaf2eb00f2 100644
---- a/drivers/usb/gadget/function/f_loopback.c
-+++ b/drivers/usb/gadget/function/f_loopback.c
-@@ -216,6 +216,11 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
- 	return 0;
- }
- 
-+static void loopback_unbind(struct usb_configuration *c, struct usb_function *f)
-+{
-+	usb_free_all_descriptors(f);
-+}
-+
- static void lb_free_func(struct usb_function *f)
- {
- 	struct f_lb_opts *opts;
-@@ -226,7 +231,6 @@ static void lb_free_func(struct usb_function *f)
- 	opts->refcnt--;
- 	mutex_unlock(&opts->lock);
- 
--	usb_free_all_descriptors(f);
- 	kfree(func_to_loop(f));
- }
- 
-@@ -442,6 +446,7 @@ static struct usb_function *loopback_alloc(struct usb_function_instance *fi)
- 
- 	loop->function.name = "loopback";
- 	loop->function.bind = loopback_bind;
-+	loop->function.unbind = loopback_unbind;
- 	loop->function.set_alt = loopback_set_alt;
- 	loop->function.disable = loopback_disable;
- 	loop->function.strings = loopback_strings;
--- 
-2.43.0
-
+Kind Regards
+Aamir A.
