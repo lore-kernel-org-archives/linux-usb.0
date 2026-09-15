@@ -1,141 +1,211 @@
-Received: from mail-ua2-f12.google.com (mail-ua2-f12.google.com [74.125.226.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148D13911C7
-	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 13:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.226.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789477475; cv=pass; b=nSZskq/ZLjEBQgrt1nyBIMbk/pRuiz+1aelGCzePODt5/jxJatVdAL7NQ13UVHkY6p2xzNucA9fGK8pil29HX6PrJVsVSImDvIqLl+6apt+lY+/v15tX1tQWqatsDdzorSNdaAGdWril3FYdRumAJdOs1JXILuUrqbJxL++XAvk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789477475; c=relaxed/simple;
-	bh=pDpHJ7q1a2X7oew84p65Wb0V1E6lmyTzSVYGKtb/fAY=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J5Kd3b972nhvtdvlexXb9CKdt920XOu/J5DIov5MHypkm1GON4yaWcPw4l714Zvh54uObOtc3+AvDXEjOpn5xUgsmTjR75DiPXloO3lRtJ9gSPHTWZmJR0ugPJ/7g7nXTcRi1PgKJnWFJi0JO05mrUm+ekcMOYakR8kVK1GjC8M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hGlNsBGg; arc=pass smtp.client-ip=74.125.226.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E3B3B8BA4;
+	Tue, 15 Sep 2026 13:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789478575; cv=none; b=YU6LOSnJgWZ9cFPHRAhlmlDgkzl+eIQt2alC96yjrSzDYNtGcbBJ/njy04hy66Mc0YDnA+O+O8PuWKdxTW8+kgV5N8ht8HJrojVQzvHtUD/16azK7vNXl8dDPWefl3XLDNbiqWBjIeyIiBvX8+bVjsHfb1YzTKTcMxdjPCoc8nU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789478575; c=relaxed/simple;
+	bh=Xt6w8PfG4hMbOwR/dzA+tZEVL3wfRZ/KyrFLLcGlPwo=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=PIXQvZbrtN/0tA+3715myEvt+Ix4sJxdLJaIxstSHVIDPuY1xFsqhtCxKE8wV9D525Wca+5HFaELdXn32m5H3Moh4FWaqXIoE0UyKXw9Lm9mlJ4yjPVPYo4N+XvmDEgm+AxDyKCEqCaoO8pHBVLLPd1uk+FtqlhBgM4Wxg2tdkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=GP2cdT+5; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGlNsBGg"
-Received: by mail-ua2-f12.google.com with SMTP id a1e0cc1a2514c-97e7c8c0754so564615241.0
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 06:04:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789477473; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QPDLCR5PhOXIvJGRrk78z7oN5h1JeTTxid4SvGCPF3c7vuUWHTWc/lenCnk8ub/gc9
-         TeFeJE9ZaijD1P726PzdFJvHglI1n953vFrOa+9EdhKWtuXorpywHV+098s6rqBg+ok4
-         5dt9qiWPnwkRiRrl6mMsxYYVibJUX8Fw8ihKxgSpHLGYSJ7T/NgIu1njWrJnjx+gnwfi
-         g5iYOGBiks0Sem2GtjE/SzLJdbkjBPl0tOpnP6TcZtsG++1KwkssFgIJFstqs51Dhaq6
-         GjSxZW5/C6ejPvNa5ng1Aeq/6k2ZV7dAsrsuyTfbtyI8v1tHrEAj/cTOHCNGGspxtVkJ
-         XuEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:dkim-signature;
-        bh=S53+YKgv9ossQwhtVWfKuizXo6fNejVhczXoysTOhbw=;
-        fh=Mkp69qN5ADA4slW+EAEvfQI/ggj4rxigi/QC49UWQxc=;
-        b=kc9x64062Pj/mHOmz8IDf2Abt7kCw8a+3jXZ4HbyKMUYrDzh1QuBChB70ZcTJ8WPkG
-         3DgHQ5puW9oz+Luf+6vu5pT3bqOjqEnw/bZXBM+71YcZdSFsTtWCppX55S5nfUpspZY8
-         gwmA0XiwqBHL3xqzYnh5qV4Cgx7pF4cWb2pkhCGAIr87ZrinesDW/Q65NehRRPdQ5+oI
-         VSr3av+YqpzYAy1a2jR3Daf9T5GLSmRObGgsTIwBcLm8kYPjptzAfJGb5/2sreoVyW4y
-         Hic8CWNhn7shI3rZ9CBtjP+BcuFXAtu/2eQabpNlyt9ryKAFLH8uCOfKpQxy2ZTM8RZ8
-         QoYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789477473; x=1790082273; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=S53+YKgv9ossQwhtVWfKuizXo6fNejVhczXoysTOhbw=;
-        b=hGlNsBGgpfpzt97xDJDcp1UnnsG3/AO1SweFiJguK7kSZtNcp7Haz/ML+9H79XhgsV
-         lnFNaeHBDwILtkvDiBsVu2Pa9oKZlujrNjTKOExXguCg4DmuCm/T++z9IacOX8RYVEM+
-         mU9fE4n//TUk+iOkWzM4Z9pqtuTec4Gpwv+03hHcRzLlqKyOIJqxU7gvpAJ6e7Ef3TXU
-         93DyoEGGUdrlOEqDLg4rlYLAcz/pmzBSAlYxE29i1fTcw0b8cgGubAIDSK0OBYKDzffx
-         7PfnlBL4YYXq7SrOQgkGGyCgrh/ECa1JuLa0P20yDNQ4zHDihNvxSVQJXaOPpYLl4Wzy
-         vcYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789477473; x=1790082273;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=S53+YKgv9ossQwhtVWfKuizXo6fNejVhczXoysTOhbw=;
-        b=ZvPKsTqEJ5ge9p6pwpT7BrJ2yeBZXhw/rV451OPtL9Ax/ETbDhxZNapjmceOhUu+Q0
-         /vZaP2gDpTooKfgyGsSjbepRtrI9aKF7VsEqXPYGye86dFBCekIM9AlCNCxTruUr6pHF
-         OYB8H9DsYgpDzCz99hrItWjd01qV46rnp8jCSjpFzAkgM9ru+iUcbYHqoPyioV9rsSAq
-         7b6NAsC1XvKKe4OOzHvIkHoNquIqVVn869AOt+yt+PeoHLXWjEF6OGpfpbKAl5GGh2vM
-         OhoRF6i1kU0CeD67+KHPQDTZZxVDmzoxzQj8KYXa0maXwOLw9oSJM7iq9Dh/vRPaSPox
-         arvQ==
-X-Gm-Message-State: AFuF++lcrNmRPPdc+XyByKUY9amFWuEBXcOSn/Ic52aIPcdXpO0gI/rU
-	YZU1jP9Fy9Ib06NrevJg8EOkVkFQ1lUgXP2uEQBlPDOBK3J7BpKoWacup6BhMhFyp4W6KQ3rGyv
-	R2n/QbrLfUQHuFq3Cq0clv5y9jUYALibgbA==
-X-Gm-Gg: AYBFou38jmPqBogEoEuaOb8WiZqCLTsPt9Fnma22Aoz5PVs2rPqUVfOdOxjJfX21LPD
-	QEIk7pACB/HfBlD7b00DGkNGaQBox4dOXPg+yHwDFYCSqgsrJbloEiNuCIiBfz1CoOQeiQ1w7Qh
-	vDKJjTWCbkj9bJ7AGo9E5SOH3ODR0iOPDfCBimdCKKKpv7vMeQQdxwaAKR3y3O4oe4Jt35J/RbW
-	7qjC+C5j7RDb2Fsnu+ee2w/GzvSdFZeos7KMkB/jb+0bsx0iKnQrA8LLpn0Hf1+p+6nWCZ4VF87
-	wjVfI80kL/cBcUdiD4y/W4Pc2k8Dw35ZsgXMTQzy18W2z2kmBwe4Oh5MQeyHr7M4cOg7R+ZDR77
-	/25cOXuQIFUQ=
-X-Received: by 2002:a05:6102:3708:b0:79e:df6b:d2b6 with SMTP id
- ada2fe7eead31-79edf7b4044mr355961137.2.1789477472670; Tue, 15 Sep 2026
- 06:04:32 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Tue, 15 Sep 2026 09:04:31 -0400
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Tue, 15 Sep 2026 09:04:31 -0400
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="GP2cdT+5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
+	:From:Date:MIME-Version:From:Reply-To;
+	bh=WRMMiWWcyTFpWUwbgbFdf0DV8pHtweezXgm7yfIeL8k=; b=GP2cdT+5DdSmxi+Uri+gi7nrPu
+	TRjrDTAj4V3ejNLKBjt9jwJspffUi/rzPduH1zvtSyspJGukuReReyW6LjRmOz9HvdlfC4e/oXZn+
+	4V51wU7Ub+OsZ8JD5KudErnUNo9mwzEpA7G4HJCuDez4ZNw913ifbOx/w4+PeXnKxgqD1EirU87B0
+	9D3aN17DeujwjIIDwchZfMrOvSy5381j336BHsMdpHSB3rbBRDQoC67JWzeJYs2CvUGg2ZkUJYVdU
+	3PIFtuZX0c0dfmP/+hnh61wy2hfRaSRLsXfCHCNQd03mmnE2PiPdfJh9B0qIeODdMsAzBi0ePxrZE
+	RVyrmD5A==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1x6T7K-002SRi-69; Tue, 15 Sep 2026 15:22:33 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1x6T7I-007La0-Ec; Tue, 15 Sep 2026 15:22:33 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <uajain@igalia.com>)
+	id 1x6T7I-000000022Qx-27Gw;
+	Tue, 15 Sep 2026 15:22:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CANJWS4yi_2X1h_V14V=kMOYL+pALacVF0U6byJJXVAsgpXPy1A@mail.gmail.com>
-References: <CANJWS4yi_2X1h_V14V=kMOYL+pALacVF0U6byJJXVAsgpXPy1A@mail.gmail.com>
-From: Ola Cewers <ola.cewers@gmail.com>
-Date: Tue, 15 Sep 2026 09:04:31 -0400
-X-Gm-Features: AcwNN1XFLNea6nmmYYEGClQFRP3vQ9QNe6LBpKoGD_ZBltfVTyZx4sC04M91S5k
-Message-ID: <CANJWS4z3S_hOUhtJpg7WwC_Hknwc=9mDWOBDPoAnWNsj8cFNTQ@mail.gmail.com>
-Subject: Re: ThinkPad X1 Carbon Gen 14: DP reconnect fails with Type-C ports
- registered; connector reset does not recover
-To: linux-usb@vger.kernel.org
-Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 15 Sep 2026 13:22:32 +0000
+From: Umang Jain <uajain@igalia.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lucas De Marchi
+ <demarchi@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v2] early: usb: xhci-dbc: Handle out of bounds xhci-xdbc
+ capability
+In-Reply-To: <aaf0e818-32b5-41f2-a2a2-fdf9b32ea892@linux.intel.com>
+References: <20260915074049.613842-1-uajain@igalia.com>
+ <aaf0e818-32b5-41f2-a2a2-fdf9b32ea892@linux.intel.com>
+Message-ID: <195958b071b8cd57062060688b611ac6@igalia.com>
+X-Sender: uajain@igalia.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005
+X-Spam-Score: -20
+X-Spam-Bar: --
 
-Hi,
+On 2026-09-15 12:11, Mathias Nyman wrote:
+> On 9/15/26 10:40, Umang Jain wrote:
+>> Currently, the early xhci-dbc assumes that the entire PCIe memory IO
+>> can be entirely mapped  within the fixed boot time mappings
+>> dictated by NR_FIX_BTMAPS. This patch handles the case where the PCIe
+>> memory IO size can be larger than the fixed boot time mappings and
+>> query the xhci debug extended capability in xdbc_map_pci_mmio().
+>> 
+>> This commit ensures that the xHCI debug capability can still be queried
+>> when the PCIe memory IO space exceeds the fixmap size. In this scenario,
+>> the base address is mapped uptil fixmap size and debug capabilities are
+>> queried thereafter. Iterating over the entire PCIe BAR address size is
+>> left for future improvement as and when, such a case arises.
+>> 
+>> Additionally, this brings the need to track the early_ioremap() mapped
+>> size separately hence, introduce additional struct member xhci_base_length
+>> in struct xdbc_state.
+>> 
+>> Signed-off-by: Umang Jain <uajain@igalia.com>
+>> ---
+>> Changes in v2:
+>> - Commit message update
+>> - Changed and tested behaviour for mapping only first fixmap_size
+>>    of PCIe Base address size instead of iteration over entire BAR size
+>> - Updated comments
+>> - Updated XDBC MAPPING SIZE to 64
+> 
+> Thanks, this starts to look good.
+> 
+> Some small fixes and cleanups still needed.
+> 
+>> 
+>> v1:
+>> - https://lore.kernel.org/all/20260720191249.1272328-1-uajain@igalia.com/
+>> ---
+>>   drivers/usb/early/xhci-dbc.c | 78 ++++++++++++++++++++++++++++++++----
+>>   drivers/usb/early/xhci-dbc.h |  1 +
+>>   2 files changed, 71 insertions(+), 8 deletions(-)
+>> 
+>> diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
+>> index 41118bba9197..d2e6ae410b0d 100644
+>> --- a/drivers/usb/early/xhci-dbc.c
+>> +++ b/drivers/usb/early/xhci-dbc.c
+>> @@ -35,10 +35,23 @@ static bool early_console_keep;
+>>   static inline void xdbc_trace(const char *fmt, ...) { }
+>>   #endif /* XDBC_TRACE */
+>>   +/* Size of xHCI debug capability structure as per section 7.6.8 of xHCI spec. */
+>> +#define XDBC_MAPPING_SIZE	64
+>> +
+>> +enum xdbc_capability_flags {
+>> +	XDBC_CAP_FLAG_NONE		= 0,
+>> +	XDBC_CAP_FLAG_LEGACY		= 1 << 0,
+>> +	XDBC_CAP_FLAG_PROTOCOL		= 1 << 1,
+>> +	XDBC_CAP_FLAG_DEBUG		= 1 << 2,
+>> +};
+>> +
+>>   static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+>>   {
+>> -	u64 val64, sz64, mask64;
+>> +	u64 val64, sz64, mask64, fixmap_size, mapped_size;
+> 
+> mapped_size in no longer needed. Can be removed
 
-Additional controlled comparison on 15 September 2026:
+ah right, fallout from last version / changing implementation
+> 
+>> +	enum xdbc_capability_flags cap_flags = XDBC_CAP_FLAG_NONE;
+>> +	bool found_all_caps = false;
+>>   	void __iomem *base;
+>> +	int offset;
+>>   	u32 val, sz;
+>>   	u8 byte;
+>>   @@ -85,7 +98,56 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+>>     	xdbc.xhci_start = val64;
+>>   	xdbc.xhci_length = sz64;
+>> -	base = early_ioremap(val64, sz64);
+>> +
+>> +	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
+>> +	if (sz64 < fixmap_size) {
+>> +		xdbc.xhci_base_length = sz64;
+>> +		return early_ioremap(val64, sz64);
+>> +	}
+>> +
+>> +	/*
+>> +	 * Base address size is greater than fixed size boot time mappings
+>> +	 * hence, map maximum allowed fixmap size from base address and
+>> +	 * determine if the required extended capabilities lies within the
+>> +	 * fixmap.
+>> +	 */
+>> +	base = early_ioremap(val64, fixmap_size);
+> 
+> if (!base)
+> 	return NULL;
+> 
+>> +	offset = xhci_find_next_ext_cap(base, 0, 0);
+>> +	mapped_size = fixmap_size;
+> 
+> mapped_size not used
+> 
+>> +
+>> +	while (offset < fixmap_size) {
+>> +		val = readl(base + offset);
+>> +		switch (XHCI_EXT_CAPS_ID(val)) {
+>> +		case XHCI_EXT_CAPS_DEBUG:
+>> +			if (offset + XDBC_MAPPING_SIZE < fixmap_size)
+>> +				cap_flags |= XDBC_CAP_FLAG_DEBUG;
+>> +			break;
+>> +		case XHCI_EXT_CAPS_PROTOCOL:
+>> +			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
+>> +			break;
+>> +		case XHCI_EXT_CAPS_LEGACY:
+>> +			cap_flags |= XDBC_CAP_FLAG_LEGACY;
+>> +			break;
+>> +		}
+>> +
+>> +		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
+>> +		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
+>> +		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
+>> +			found_all_caps = true;
+>> +			break;
+>> +		}
+>> +
+>> +		offset = xhci_find_next_ext_cap(base, offset, 0);
+>> +		if (!offset)
+>> +			break;
+>> +	}
+>> +
+>> +	if (found_all_caps) {
+>> +		xdbc.xhci_base_length = fixmap_size;
+>> +	} else {
+>> +		xdbc.xhci_base_length = 0;
+>> +		base = NULL;
+> 
+> we need to early_iounmap() in this fail path before returning NULL.
 
-The same reconnect failure reproduces with Omarchy's linux-ptl kernel
-7.2.3-arch1-1-ptl, in addition to Arch 7.2.3-arch1-3. These share the
-Linux 7.2.3 base, so this is a variant comparison, not a test of a newer
-upstream kernel. Dell U2722DE firmware remains M3T107.
+good catch ;-)
 
-With USB-C connected at boot, DP-1 was connected and displaying
-2560x1440 at 59.951 Hz. However, this PTL boot already logged:
-  UCSI_GET_PDOS failed (-70) [twice]
-  possible UCSI driver bug 2
-  error -EINVAL: PPM init failed
-/sys/class/typec was empty even while the display worked.
+Thanks for review, I'll address and send out new version soon.
 
-After unplug/replug in the same boot:
-- DRM DP-1 changed from connected to disconnected.
-- The external monitor disappeared from Hyprland's monitor list.
-- Monitor USB hubs and Realtek Ethernet re-enumerated; Ethernet carrier
-  returned. AC/online remained 1.
-- /sys/class/typec remained empty; no new UCSI messages were logged
-  during the captured reconnect interval.
-
-Boot-relative timestamps: USB disconnect at ~196.48 s, re-enumeration
-starting at ~203.99 s, Ethernet carrier on at ~208.21 s.
-No driver resets or configuration changes were made during this test.
-
-This confirms that the installed PTL variant does not resolve the issue,
-and that USB data/external power can return while the display connection
-does not. It does not distinguish laptop firmware from a shared kernel
-driver issue. The earlier stock-kernel boot with registered Type-C ports
-and a failed reconnect remains a separate observation.
-
-Full before/after kernel logs and connector state were saved locally
-and can be provided if useful.
-
-Firmware-side report:
-https://github.com/fwupd/firmware-lenovo/issues/628
-
-Thanks,
-Ola Cewers
+Are we sure we intend to keep this implementation? And leave passing
+over the entire PCIe BAR range for later ?
+> 
+>> +	}
+>>     	return base;
+>>   }
+> 
+> Thanks
+> Mathias
