@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275CF42AF9C;
-	Tue, 15 Sep 2026 20:39:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C934DBD61
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 20:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789504746; cv=none; b=kLLbCwa2tW3kPPpD3ywy7u6m7B2wn6GVrPBGeAVlxrCjEpFR6tXhNuatW6l+sKYgKY8H7US66O+vGbmL0ALnfXacBP3Rg91pNOm6hdzHYXfBqHSGQz7tF2Mj5iVWzSbQsfnyPaDwaS2J0HuoCQCPqdqBoS/mDUlrG8B7jLSb8Zc=
+	t=1789504971; cv=none; b=HBEP+322/KCvx34/Q3ErfB5e3wee80IpgMo/3O5UDXO/XTbyzDbywmiTI3o6weYokGgvjA0rMP3Fj5ZJC3cOLsY34y6tIMW6+8pFNlhl0tsfXvDDMLThR8O/h3hjdtJ9rDICH5NDEA1/z7EliF7c922iOBE6e/g2+sB4FC6fFJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789504746; c=relaxed/simple;
-	bh=dsSBuYg3JBYapY7bi06MLYvpxn7GBuq/YDinOSGcfro=;
+	s=arc-20240116; t=1789504971; c=relaxed/simple;
+	bh=Ln38LgOgczlmNkJ0wPM0hRGSLl1tBZg6Te+h/lLt7vE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r5BUtN1pZzwkog2tI8bHh0jdbfn2/MKMefyWUzEzh0ZDn3/74lwjVIkvJz5YiFAclzenqIpOBfmUV9anmVjFwr0+n3Qjr0yiOTstW4ZEJdFnsd7/bfw2YGgWEmDo+tKxuU0WpHd6jSzTn4TCcBkwonku42ruJZLDudmoEtVaz6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSkf6Ixt; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=h2bboCfb0AaZ8WrvXLJcHn4PWyoxhV/PMGbhDYUe0oP98nECsEv7QECao7j6kd/rmfN4NSVakgQiSCMr0JOT1U7jRb0CryKkrv488fcbTHNvSWLhVL1da1lyARt/+OIwKM7YFNH8XKi5MZtB4nJ6ExiJU5k4UMpcdZaWSA6Aq3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXJU2GD7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSkf6Ixt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2651F000FF;
-	Tue, 15 Sep 2026 20:39:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXJU2GD7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9111F000FF;
+	Tue, 15 Sep 2026 20:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789504744;
-	bh=3NsxLamSdtQ+xD2ZFRjSVxRVF1bNXgRXnGPsLEeKb8Q=;
+	s=k20260515; t=1789504965;
+	bh=1e8nCQCRowaxnhlknhuwl+E3ICRZ2Ndinc7DVdmb2/0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gSkf6Ixt++stq5XJM6lz6YwtnVTdYZPGaKVJpmVh3nn9DolsWpqptXut9lplBf0Se
-	 mTbtg7VWXNFacHasIK+48jSM4JDSfqCYUIaQeRxbVjtoMLLawr7T1Tk+iEOcmtkO8c
-	 DK2kBALmGF0JqjvDNOy2cj5draSisAZt9nb0flDe5C4PNZHDFDVRt14ZBqY5qVgVXK
-	 Z94TTnouMYT+snKXhOyfO7kqeYDh6zGlPq0h/MKpAja/TN9Ao5fHRHcmkd0IV+G4J4
-	 4Lq+5FQB9UR1EvTxZNY8xIXVZLggivfH3jA4IalxsXNxaz+ajLrTeXUmqo98QI1WbE
-	 zbp5wz0psvlTA==
-Message-ID: <1ce40451-0bdf-4091-a478-e82a1b9e1d13@kernel.org>
-Date: Tue, 15 Sep 2026 15:39:02 -0500
+	b=NXJU2GD77rUGrAvJXITy6baz8//PpUHnNbV7gkK48C1rjyLllhX+p1Pt3+A3Wo9th
+	 HfTfc4lHXZl1668AhxdgccPz7E6DFAojdpxRtCDW0DsgTBvBihGQvTv8hwc1TCw2Ac
+	 N2yBC5Pc58aOf6whzeu6/BqlBIGNGm6fmmr/I/7wQygJPB5FtVr3iy5dO+ziDmejYu
+	 Mo45qHwQ0YaULGaWGj5iGjPXupgF7Vjf3QB77lZlP/y99NtT4Kz4zisE+SjUf0cfzr
+	 AC9XbLYQDrOUAU8m44a9JcLOnB53X+vr8Vfgv1KW1cM0Wn1brv08SEaq+fC/GwrHb6
+	 shqJhvGZNJMfQ==
+Message-ID: <853b62e8-5b07-43d2-be93-bfbd95f55165@kernel.org>
+Date: Tue, 15 Sep 2026 15:42:43 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,68 +35,46 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] thunderbolt: Fix tb->lock deadlock during hot-unplug
- on AMD USB4 routers
+Subject: Re: AMD Strix Halo USB4: 20/40 Gbit/s negotiation with RJ45 and
+ original host-reset patch regression
 Content-Language: en-US
 To: Mika Westerberg <mika.westerberg@linux.intel.com>,
- "S, Sanath" <Sanath.S@amd.com>
-Cc: "Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>,
- "Martinez, Juan" <Juan.Martinez@amd.com>,
- "westeri@kernel.org" <westeri@kernel.org>,
- "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
- "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260831130638.GK124825@black.igk.intel.com>
- <20260831161610.1322731-1-juan.martinez@amd.com>
- <ae19d381-0fcd-45fb-9e53-033c7d664d73@kernel.org>
- <20260902054800.GI106095@black.igk.intel.com>
- <21cbfbaf-ef1f-469b-a33b-8d623dd7f9a3@kernel.org>
- <MW4PR12MB7016EE093475BF1821A0046281BF2@MW4PR12MB7016.namprd12.prod.outlook.com>
- <70448c19-1ac5-4350-bdcc-eb3ebd008992@kernel.org>
- <MW4PR12MB7016137EFD6AEB235F3D50E481BA2@MW4PR12MB7016.namprd12.prod.outlook.com>
- <20260915060459.GJ106095@black.igk.intel.com>
+ Nils Arnold <ns.arnold@web.de>
+Cc: linux-usb@vger.kernel.org, Sanath.S@amd.com, Basavaraj.Natikar@amd.com,
+ westeri@kernel.org
+References: <a3437a3c-cf2a-4034-ae1f-0fb4bad0197b@web.de>
+ <20260915124904.GK106095@black.igk.intel.com>
 From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260915060459.GJ106095@black.igk.intel.com>
+In-Reply-To: <20260915124904.GK106095@black.igk.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/15/26 01:04, Mika Westerberg wrote:
+On 9/15/26 07:49, Mika Westerberg wrote:
 > Hi,
 > 
-> On Tue, Sep 15, 2026 at 04:51:00AM +0000, S, Sanath wrote:
->> Ported it and stressed it on two Strix Halo hosts connected back to back.
->> REG_CAPS reports hop_count = 3 here, so two usable DMA HopIDs. Observations:
+> On Tue, Sep 15, 2026 at 01:21:39PM +0200, Nils Arnold wrote:
+>> Hello Sanath, Mario, Mika and Basavaraj,
 >>
->>   - Single tunnel it works: 50 x traffic then link down/up, plus 42 x
->>     dma_test create / transfer / teardown. One reset per cycle, no ping loss,
->>     no errors, and every ring restart had a reset before it.
->>
->>   - Every reset is preceded by "dangling request in request_queue" and a
->>     WARNING from tb_ctl_stop(), 8 of 8 cycles, via tb_domain_pause() <-
->>     tb_ring_start() <- tbnet_connected_work().
->>
->>   - Two tunnels: the networking ring is stopped and restarted with no reset
->>     in between, because the check only runs in nhi_alloc_hop() and tbnet
->>     reuses its rings across a reconnect. 18 such cycles did not hang, so the
->>     unsafe reuse is reachable but I cannot say it hangs.
->>
->>   - When the check does fire it takes networking down, reproduced twice:
->>     "RTNETLINK answers: Cannot allocate memory" plus "out of HopIDs that do
->>     not need a host interface reset", until the second tunnel stops.
->>
->>   - tb_domain_pause() takes tb->lock from tb_ring_start(), while unplug holds
->>     tb->lock across tbnet_remove() -> stop_login() ->
->>     cancel_work_sync(&net->connected_work).
->>
->> Moving the reset into a per-NHI work item scheduled from tb_ring_stop() when
->> the last DMA ring stops removes the warning and the tb->lock inversion, and
->> passes the same tests cleanly. The reuse hole and the lockout still need the
->> reset to key off ring reuse rather than ring allocation.
->>
->> Mika, Can I respin your patch along those lines and post it as a new version?
+>> I would like to add test evidence from two Strix Halo hosts to this
+>> USB4 reset discussion. My reset test used a backport of the ORIGINAL
+>> f1de1fc5f632 commit, not the newer deferred-reset implementation.
+>> I have not tested the revisions discussed on September 15.
 > 
-> Of course. I'm thinking though that should we do the revert for v7.3-rcX
-> now and then do the proper fix for v7.4 with your updated patch?
+> Okay the last message on the thread I asked if we should revert the commit
+> for v7.3-rcX and then try to get the "better" fix into v7.4. At least what
+> I understood it seems to solve the issue without the deadlock and killing
+> the whole host interface underneath everybody else.
 
-Yeah; I think that's the right call right now given the timing and risk.
+FWIW to Nils I left a note on that thread and agree with Mika.
+
+> 
+> Once we have that patch, you can test and see if that helps in your case
+> too. Now that we know AMD guys can CC you when they submit it.
+
+One thing I'd like to note though; I would rather that we keep out of 
+tree modules out of the conversation on the kernel mailing list when it 
+comes to upstream behavior.
+
+There are multiple ways to do xdomain tunnels in the kernel, and we 
+should collectively fixate our time and energy on bugs related to those 
+instead of PoC out of tree drivers.
