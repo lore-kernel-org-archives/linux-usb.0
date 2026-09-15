@@ -1,100 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE131FB1;
-	Tue, 15 Sep 2026 07:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14531248881;
+	Tue, 15 Sep 2026 07:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789457767; cv=none; b=NSemO9L41zmxgiEeo46Yj2e/jss5whsGjuXTeB1Znb0sF5t5c+AJLBGwl8NWitwkJ6h893CB6yXBhmJ7VlwAEHQQvFkHq8FkpwbeIsxf5XuZRt60XRlgtBHM28lY2CWHdB03P5hu9dqbIBZ4O9+5/Ltng3+F1CFUySH1oAz3FrU=
+	t=1789457965; cv=none; b=FC330hX53fXyWCZabuIUtJsXg4NNJbW20wHWY8rYGZ6j441kuSTkZaRngoufRfzikOLi27+JjGtRCJ7bo/525Qh54RTyDtIXoWvp5wsn7Uw7k2r2gQWwelhvdOhq48LRrREzR68lrA76PYdAop5oBI2nS5RsvzAHGgswJCfjtUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789457767; c=relaxed/simple;
-	bh=XI314yk2mcLA3E5rxG8QGiO3KQMt+/7qiDJWUztORNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKiY3/2SAlG9p2BEwzw6w0vMSP5KxUA6SimfB6cdu8dfAGhCxHu1ZTtYFhuSXFwy3bEgeMKti0x23FrdbjlwzudX8QnzOPDt5a6ZNQhli4BedNw2D3Xel1glQs8Ud2ae79nlFJyJbjU79nBOHoeIzaulAivROnGb3avRkeiOBJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jo6kmtoi; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789457965; c=relaxed/simple;
+	bh=3za1xEBwxCASiKysG5KnCpfCygeiBcxKDPJYawuy0so=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ClwF3WKUYb9BbEHJUthEG92fL1nOCBIxrzPnV0ZV88Q9Lk5etn6lx9AuK7PAZT2DwHbLipe2S5I044+JXWzS10OADIQuBhgttTEMTLjAZREW1DJcoVw7WfvDmAvBHLERYFijaLBwQC+zq8lHA9KPnXYMAkecjVGcPQmAuFdAsks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=JSUjHzpt; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jo6kmtoi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789457765; x=1820993765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XI314yk2mcLA3E5rxG8QGiO3KQMt+/7qiDJWUztORNE=;
-  b=Jo6kmtoicpmWxEaBWYrpe36mM6D5I808tsTonPVMUf3MiA4gy4i/YcOs
-   W7UTMRO6FGa42Rwpe5HJXMsyLmtyrjF2ySBa5tQ4DC9JXs7pQTe5wGr62
-   QQsUzjQ0TC8A063XpjwgkWJcSuUw3mEx0UQLURwIoL6DO0YjEBo66KkrK
-   KbasPhdDLABss29P9aGiO/EwyB7jMmPPrUXSAya5jh3O85ByZeikmaOX8
-   x4za6n/WFU75GU4SybamDhqL1UxTZArl8RQp01jfsDGLZ0VQ8pXPqawcP
-   nIuymMhCW4StY+BzWF/CHhrVLrjCLz4peAipVs/O+ztlkCQzC3EPnjkTo
-   g==;
-X-CSE-ConnectionGUID: 29zJ97P2SCCtzsd9bs4xRA==
-X-CSE-MsgGUID: EvGH581cRPmLArBHvS81nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90019247"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="90019247"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:36:05 -0700
-X-CSE-ConnectionGUID: 5NzGOxZcSlioubbv6v+4ig==
-X-CSE-MsgGUID: z4d7+SynT9Cjp4sbKYG6UA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1271050"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.203])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:36:02 -0700
-Date: Tue, 15 Sep 2026 10:35:59 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aamir Ahmed <elb12345@hotmail.co.uk>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Lucas Stach <dev@lynxeye.de>,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2] net: usb: asix: reject a truncated Data
- header in rx_fixup
-Message-ID: <aqj1X8aIEs5SqEAK@ashevche-desk.local>
-References: <AS8P251MB000193C798F98A11C73C3E9DC8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="JSUjHzpt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:From:Reply-To; bh=zJlBVWV/3RAEteqVHBhzyAqeRpIeBaIJLBky+iz7yR4=; b=
+	JSUjHzpthOwRYKnLJCYqqjCbt3mVss72IovqW5qkMxX8hoB66eWMNswchM2l7PJfA6i82ozTTiEpD
+	42bCAQhWHi/vDMq/QwpkTBOpa07U6HT26lvMjNJiDuJNk3A057FGOURW87Sr00N+OruijuQPXnkgj
+	kf93HoeZIGHWuFvQq/E1o1PjfJ/OmkNqyH1Ri3LJ5BWIaaIw7VFtA6CpcVzGAnlLEz0xAeMzRak9I
+	Ik1mBeaR99k5pbVDOmOoy3rN8+OiDOGaVjwvAp/UXeLle4NwKfQE36JabzLPMdwhCjqnlqNJ3hGZF
+	EiW8W0cqtjZaPl1dFnahYk29OdYA66Hm0Q==;
+Received: from [49.36.127.23] (helo=uajain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1x6Nl1-002IOX-FN; Tue, 15 Sep 2026 09:39:11 +0200
+From: Umang Jain <uajain@igalia.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas De Marchi <demarchi@kernel.org>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	Umang Jain <uajain@igalia.com>
+Subject: [PATCH v2] early: usb: xhci-dbc: Handle out of bounds xhci-xdbc capability
+Date: Tue, 15 Sep 2026 13:10:49 +0530
+Message-ID: <20260915074049.613842-1-uajain@igalia.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AS8P251MB000193C798F98A11C73C3E9DC8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 10:23:45PM +0100, Aamir Ahmed wrote:
-> asix_rx_fixup_internal() runs its parsing loop while two bytes remain,
-> but the branch that starts a new frame reads a four-byte Data header.
-> Only a two-byte tail is special-cased, via split_head, so a three-byte
-> tail reaches that read and leaves offset at skb->len + 1. The clamp
-> below it then takes the unsigned difference skb->len - offset, which
-> wraps, so copy_length becomes the full length the device asked for:
-> skb_put_data() copies from one byte past the received data and
-> usbnet_skb_return() passes the frame to the stack, before the trailing
-> skb->len != offset check can report it.
-> 
-> Reject a Data header that does not fit and reset the parser state, as
-> the other malformed-header paths do.
-> 
-> Only a device emitting an odd skb->len can get there - every asix
-> rx_urb_size is even and offset always advances by an even number of
-> bytes - so this is net-next material rather than a stable backport.
-> 
-> Fixes: 8b5b6f5413e9 ("net: asix: handle packets crossing URB boundaries")
+Currently, the early xhci-dbc assumes that the entire PCIe memory IO
+can be entirely mapped  within the fixed boot time mappings
+dictated by NR_FIX_BTMAPS. This patch handles the case where the PCIe
+memory IO size can be larger than the fixed boot time mappings and
+query the xhci debug extended capability in xdbc_map_pci_mmio().
 
-If it's a fix, why net-next and not net in the Subject?
+This commit ensures that the xHCI debug capability can still be queried
+when the PCIe memory IO space exceeds the fixmap size. In this scenario,
+the base address is mapped uptil fixmap size and debug capabilities are
+queried thereafter. Iterating over the entire PCIe BAR address size is
+left for future improvement as and when, such a case arises.
 
+Additionally, this brings the need to track the early_ioremap() mapped
+size separately hence, introduce additional struct member xhci_base_length
+in struct xdbc_state.
+
+Signed-off-by: Umang Jain <uajain@igalia.com>
+---
+Changes in v2:
+- Commit message update
+- Changed and tested behaviour for mapping only first fixmap_size
+  of PCIe Base address size instead of iteration over entire BAR size
+- Updated comments
+- Updated XDBC MAPPING SIZE to 64
+
+v1:
+- https://lore.kernel.org/all/20260720191249.1272328-1-uajain@igalia.com/
+---
+ drivers/usb/early/xhci-dbc.c | 78 ++++++++++++++++++++++++++++++++----
+ drivers/usb/early/xhci-dbc.h |  1 +
+ 2 files changed, 71 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
+index 41118bba9197..d2e6ae410b0d 100644
+--- a/drivers/usb/early/xhci-dbc.c
++++ b/drivers/usb/early/xhci-dbc.c
+@@ -35,10 +35,23 @@ static bool early_console_keep;
+ static inline void xdbc_trace(const char *fmt, ...) { }
+ #endif /* XDBC_TRACE */
+ 
++/* Size of xHCI debug capability structure as per section 7.6.8 of xHCI spec. */
++#define XDBC_MAPPING_SIZE	64
++
++enum xdbc_capability_flags {
++	XDBC_CAP_FLAG_NONE		= 0,
++	XDBC_CAP_FLAG_LEGACY		= 1 << 0,
++	XDBC_CAP_FLAG_PROTOCOL		= 1 << 1,
++	XDBC_CAP_FLAG_DEBUG		= 1 << 2,
++};
++
+ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+ {
+-	u64 val64, sz64, mask64;
++	u64 val64, sz64, mask64, fixmap_size, mapped_size;
++	enum xdbc_capability_flags cap_flags = XDBC_CAP_FLAG_NONE;
++	bool found_all_caps = false;
+ 	void __iomem *base;
++	int offset;
+ 	u32 val, sz;
+ 	u8 byte;
+ 
+@@ -85,7 +98,56 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+ 
+ 	xdbc.xhci_start = val64;
+ 	xdbc.xhci_length = sz64;
+-	base = early_ioremap(val64, sz64);
++
++	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
++	if (sz64 < fixmap_size) {
++		xdbc.xhci_base_length = sz64;
++		return early_ioremap(val64, sz64);
++	}
++
++	/*
++	 * Base address size is greater than fixed size boot time mappings
++	 * hence, map maximum allowed fixmap size from base address and
++	 * determine if the required extended capabilities lies within the
++	 * fixmap.
++	 */
++	base = early_ioremap(val64, fixmap_size);
++	offset = xhci_find_next_ext_cap(base, 0, 0);
++	mapped_size = fixmap_size;
++
++	while (offset < fixmap_size) {
++		val = readl(base + offset);
++		switch (XHCI_EXT_CAPS_ID(val)) {
++		case XHCI_EXT_CAPS_DEBUG:
++			if (offset + XDBC_MAPPING_SIZE < fixmap_size)
++				cap_flags |= XDBC_CAP_FLAG_DEBUG;
++			break;
++		case XHCI_EXT_CAPS_PROTOCOL:
++			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
++			break;
++		case XHCI_EXT_CAPS_LEGACY:
++			cap_flags |= XDBC_CAP_FLAG_LEGACY;
++			break;
++		}
++
++		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
++		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
++		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
++			found_all_caps = true;
++			break;
++		}
++
++		offset = xhci_find_next_ext_cap(base, offset, 0);
++		if (!offset)
++			break;
++	}
++
++	if (found_all_caps) {
++		xdbc.xhci_base_length = fixmap_size;
++	} else {
++		xdbc.xhci_base_length = 0;
++		base = NULL;
++	}
+ 
+ 	return base;
+ }
+@@ -643,9 +705,9 @@ int __init early_xdbc_parse_parameter(char *s, int keep_early)
+ 	offset = xhci_find_next_ext_cap(xdbc.xhci_base, 0, XHCI_EXT_CAPS_DEBUG);
+ 	if (!offset) {
+ 		pr_notice("xhci host doesn't support debug capability\n");
+-		early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++		early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 		xdbc.xhci_base = NULL;
+-		xdbc.xhci_length = 0;
++		xdbc.xhci_base_length = 0;
+ 
+ 		return -ENODEV;
+ 	}
+@@ -682,9 +744,9 @@ int __init early_xdbc_setup_hardware(void)
+ 		xdbc.table_base = NULL;
+ 		xdbc.out_buf = NULL;
+ 
+-		early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++		early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 		xdbc.xhci_base = NULL;
+-		xdbc.xhci_length = 0;
++		xdbc.xhci_base_length = 0;
+ 	}
+ 
+ 	return ret;
+@@ -987,7 +1049,7 @@ static int __init xdbc_init(void)
+ 	}
+ 
+ 	raw_spin_lock_irqsave(&xdbc.lock, flags);
+-	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++	early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 	xdbc.xhci_base = base;
+ 	offset = xhci_find_next_ext_cap(xdbc.xhci_base, 0, XHCI_EXT_CAPS_DEBUG);
+ 	xdbc.xdbc_reg = (struct xdbc_regs __iomem *)(xdbc.xhci_base + offset);
+@@ -1004,7 +1066,7 @@ static int __init xdbc_init(void)
+ 	memblock_phys_free(xdbc.table_dma, PAGE_SIZE);
+ 	memblock_phys_free(xdbc.out_dma, PAGE_SIZE);
+ 	writel(0, &xdbc.xdbc_reg->control);
+-	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++	early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/usb/early/xhci-dbc.h b/drivers/usb/early/xhci-dbc.h
+index 8b4d71de45fc..e2aefb796084 100644
+--- a/drivers/usb/early/xhci-dbc.h
++++ b/drivers/usb/early/xhci-dbc.h
+@@ -144,6 +144,7 @@ struct xdbc_state {
+ 	u32			dev;
+ 	u32			func;
+ 	void __iomem		*xhci_base;
++	size_t			xhci_base_length;
+ 	u64			xhci_start;
+ 	size_t			xhci_length;
+ 	int			port_number;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.55.0
 
