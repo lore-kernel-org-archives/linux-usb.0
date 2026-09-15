@@ -1,116 +1,132 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D347B36B915
-	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 08:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01DA3B059D
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 08:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789459306; cv=none; b=jA7vNDEhTEL/6EKJuKtglYwl9vyCpgUDyQYLL4oSPpzEaDep+k54PWpWD0XN36tSyC3uFtPPvTF+VVfepIbBfJmTA222YP/xuSG7hJqgoWskTSWeB6pC7BRIp+iVoq/bxql93OlOMz172jsO+KfsnXaNJvk0SR4/UMzzM3z8+1w=
+	t=1789459549; cv=none; b=maoLO2IYQvP85MMRzoHSvIQlsPTtUVcTQlvzEYNyCwAOTlJQ7VPy2BovqwBxrwWkL7DhRr02W/3KsngpqI6wB9mLgHTE40aH31wSd9ped0ooyJz6oQwEQ1TODgdSWqfL71245fleKCcQkXV9lxKx2yEjI1HvSIn2yH/nt7ZtP7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789459306; c=relaxed/simple;
-	bh=FOo0Y3p7vyu4KKdgSMto6VL5M2vg6GZPbJkqE93g7BA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lR0O1LJdw870EiKyj8fS/hMoGThyv9HQphiUeiSGeUchXtwhrKO8zZDOf0EnbQ8VUxhdG4U3KLE3uEnPKyVYjnUBn0XkbniZOmCMllvVJSQRb9S7hhlZIO0yj5DL7uAP/3+aPlFlbF5tULRHn8APMN1hpLB+OMKnCL5APxzxyiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qNJ2tfLl; arc=none smtp.client-ip=74.125.228.76
+	s=arc-20240116; t=1789459549; c=relaxed/simple;
+	bh=5IK3FxgV24djvTZ27qsfexgDP3v5xGlhYgnjilnpCzo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZ5jSkQKQolh9xveS/rzWb/LP/zm1yJM/6sfAONxOqmysSg2q1H01wigulKezK9S949Q8IEqgC6/8JBNry2uqm7NZDEWEUj3EHyCrJwL67zH7wkGnIgLXExvNexXxHYKndvGnY+pFc//39UtRfTptr3pWBwTvDYP17oDBXYMGIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZ3qn34/; arc=none smtp.client-ip=74.125.231.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qNJ2tfLl"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a9c0cd47bbso4522527a12.1
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 01:01:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZ3qn34/"
+Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4b37a2ffef2so1207581b6e.3
+        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 01:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789459303; x=1790064103; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5VtSVjDln4jqzVqGjOlnJtu5rx3kg5yWZwFJ4uLXpRA=;
-        b=qNJ2tfLlSP2GHW+UCpN+L90Q0rXKgNc70fpR5zgRM/yPD5cj1RGvfYlo52n2WxNwJx
-         qjMusn60MIvnV9Jk0Y7LT9AnysHymsrggGVek1yBNF0/QdffaEFCXKj6z4MYMWfQbQ0V
-         KMoHudnOWGTJoxfszyYkpAoDXq5BHUpiOc9Nlj7CiFwVmeiI7JrJxMkIRRZF9gsYqg8Q
-         2jrqeeJKOQde9SgsWm8wZDD2D0cZCVFRwHWemb1jwh7fyOze8ORWlIq3wJpMsnZ6KkN8
-         kfW6OftZmXqfUxueBRrvEomRPQGaVN/iefCX7h5spKu3K6L8FcSUisk+LbowO0pvyPhZ
-         M0Xg==
+        d=gmail.com; s=20251104; t=1789459543; x=1790064343; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8y3BbK3AOzFDW1qQRhNYfeabqJLNEeHv6A39ZBXCEoc=;
+        b=ZZ3qn34/kQzlTzanorqJ45WsrkRzTbjvGHfKd2UbCsW+Jrc2WkAXs769J+K0EH+arq
+         7QL0ou2fnxU84TlV59LMLSt9L10+uqYLy43+AysPOkdpOxXx5tA+SL1ESWHEPpBRCeQd
+         qfiUO/GVGxJW2nfovupLrTl4C1t5j/bf5qasIh4AFaZs2U/vWK0x2tItwJsr+dJYJaZY
+         nQmW5tLbUOlX6YirPaYManQnzx7lxhfu5pYRqDXcKiIo0Y8ibrQK/nGi+1vtPoinbBOQ
+         0GdHXlfvjSN5bmMFgeLzqHWDe1p3s88EtyZdC2L0Gef/9i89FO3REgC9YVXlodar3itq
+         oPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789459303; x=1790064103;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5VtSVjDln4jqzVqGjOlnJtu5rx3kg5yWZwFJ4uLXpRA=;
-        b=xhmeBpLXeIVULzp2oKoI0IbbHmtokJOaikuWxIsI+k+o8cxyFGbYJNzRnovuQ77xg7
-         p7FteDNpAFU+xzbbHU4ALenU6eLFI0jmj26T07XcyhL2xR+pzYJqzZAr6jKd4V0MeO1x
-         HkUtU+9RSn+lphcx0zdMHtl77P91ulRWJpNKNenUWx7AQEe/muA8j3Bj3lDTUXj9oNBJ
-         23WU2GE7vEze5Kiq0qlxsMiyt0QwPujzvJ1+gSx+SKxaCGR+UymvgiPrOOedZrxikEUk
-         4YVuw+mSI3u4WB1VFigAGvyJ3leKjGVM7JD79PshBx3NcFBcf0NLbHORjNU/1QOi6HrH
-         C24Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzv5oYG8SO+9YMKEheNwZXrvzrAyzbyVUo4gX5BW/Pg1mRh0yQNzUqA3qMj4veS1lhKxTy6IJtjolw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mGBl8rKiSbQJwjXd9C/20wxD3xmU/WnaAJQniS9UGldnxgpIdG
-	Xo7u2VHw9SRxLoGroqw10pBTY4FdskYf8FUVT18R/vlDmc49HoJr9duL
-X-Gm-Gg: AYBFou1a5l75BoqpOeFxxqbg9XOgnmftPy1aemQ1oqdkU4ocoejdf82/JpWgkWAssM0
-	TpHFUSlcsYbQkKX6xaWvsbSq3RBATujthkwX7z0+OuT4CGYeYa238/d9SLAZ5znZWPk+5pILrx6
-	SWbbWdAYr8j/7ppMvhSAY0l832ETNDyNfRBQimV9J24g0ONP7QZ0fLBx9bX23G24MrCZYJOpNG8
-	tLZqsCWCp4X0Zdq3Po3YD7IfOqC264Qtrr87Hnc2e1xvJcf0X5liQ2P4Y9T7kNC29LUCRkQ7tDU
-	Va2bErIwPraHKQTEaYdFEulkfEoQ2s09TdgUQTIWHJoYtW9XOv9cwE5ZLVwp3RYAVRJjl8/0gzr
-	oNXrpj3Xbd7PaUr0o+tB8Er8NX22fuHyz9YilCH0fsvuxpSuiMYsEbCUskAJHDVZMLP+dtVe2wS
-	5y0DmdCN4GwinYxBHJOSxUxMcAQ0AabP6W4etoEYP2gLoDoRrM+lrsOXWplZwVjF0IDxN+rDqOQ
-	YyJEC4seek=
-X-Received: by 2002:a05:6402:1ed6:b0:6a9:92f0:76c7 with SMTP id 4fb4d7f45d1cf-6a9f6398f97mr3990458a12.34.1789459302200;
-        Tue, 15 Sep 2026 01:01:42 -0700 (PDT)
-Received: from foxbook (bfh234.neoplus.adsl.tpnet.pl. [83.28.45.234])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a9c7e82cc1sm4177292a12.0.2026.09.15.01.01.40
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 15 Sep 2026 01:01:42 -0700 (PDT)
-Date: Tue, 15 Sep 2026 10:01:36 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, Selvarasu Ganesan
- <selvarasu.g@samsung.com>, Mathias Nyman <mathias.nyman@intel.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "quic_wcheng@quicinc.com"
- <quic_wcheng@quicinc.com>, "broonie@kernel.org" <broonie@kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "cpgs@samsung.com" <cpgs@samsung.com>, "alim.akhtar@samsung.com"
- <alim.akhtar@samsung.com>, "thiagu.r@samsung.com" <thiagu.r@samsung.com>
-Subject: Re: [PATCH] xhci: sideband: check vdev liveness before removing
- endpoints on unregister
-Message-ID: <20260915100136.38b4c31f.michal.pecio@gmail.com>
-In-Reply-To: <TYUPR06MB62176901C1E1403E65F9A365D2BA2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<c17e0351-d390-4a40-89c4-51d4be9f0123@linux.intel.com>
-	<360067785.01789039502721.JavaMail.epsvc@epcpadp1new>
-	<TYUPR06MB62172308C897F81F7DAFF557D2BF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<750468423.101789103583573.JavaMail.epsvc@epcpadp2new>
-	<TYUPR06MB6217F0788C14DD89D237C807D2BE2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<937773018.41789116303608.JavaMail.epsvc@epcpadp1new>
-	<191ee5d5-d93d-4fa3-9654-b3735d344118@linux.intel.com>
-	<20260912141837.06b2f3cf.michal.pecio@gmail.com>
-	<TYUPR06MB62174110FB101AD6B7B069EBD2BB2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<20260914110949.38a46596.michal.pecio@gmail.com>
-	<852003c6-317c-4004-ba2c-d6c4b0bd31e6@linux.intel.com>
-	<TYUPR06MB621791B56D232A2219614493D2BB2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<20260914154656.56824fbd.michal.pecio@gmail.com>
-	<TYUPR06MB62176901C1E1403E65F9A365D2BA2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+        d=1e100.net; s=20260707; t=1789459543; x=1790064343;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8y3BbK3AOzFDW1qQRhNYfeabqJLNEeHv6A39ZBXCEoc=;
+        b=lekL95xvaYcWUM+oPxz5PXfRyjviciBAw/15HU59wdYGc18yBFU6iyv7RuznQNHgsB
+         zWNFNZe8epiLxUdjJJX7lbyhFJmbb/PRUnTfBnSOf3HSYmYiW2UbS74HOuq05sjYi4uB
+         rplePPdt+mA0V0JWYmk+dmPqWV3elxViRKVXCIiYZHIXJyhQkMd3PV6tR+Kklp9YBLJX
+         Ety8tj5rydpoEH8fXNSXEUJ0vM6FLxgl26Xzk4+r3+qhia3fvtEFXTAXbTIjFiKQz5+j
+         zUv06jmp9VlLT0BqBqOhi9MaoS3bsjdm2EWhc8ZTV37rh/S+li8ncOwczOmigDB0qzfy
+         u0ng==
+X-Forwarded-Encrypted: i=1; AKwUvBwCuRLf0x75t0ejnDey8S67ETsL+YAaM2tkxKBZtjadMtGdE6D+j8i9iyOvQHU7SwdfXbUOtV6XPRw=@vger.kernel.org
+X-Gm-Message-State: AFuF++n2P2Vb287853TewBLJHeoTzfxHLERIyPtnqoRCEYEftuahbd85
+	lLUFqG9oFwI9rWY3OQg5hDiXGGH+wrXcXMx5Gf2te5hwqBcU2gUE+jve
+X-Gm-Gg: AYBFou3naCdnQXV/h2AG0tMcCveGJVPS47ke+A/qx4YY283YsMtopDpu8SoXMnZg2js
+	w8hPYeDvKGIDAMzGI3fq3Ednhd9oTwKd8/Ni+e4Ua4bnnAYs/Wc0lgbIbAwXYIA5R6LooP0ct4r
+	EKQuL1MUWe6mlPqvKIJwzgJ8/cdSgsimjwFkvOJJdwEuN3Jprjr8B2Y2CjJdYpG1HMaCISxuQEw
+	EaFTEGZ8MzbuZIwVmlyJ1fKtrcJY2xVIn/IiLI5BYF3F5EgHavSObkDzecngtbPHqId4kH1zWOQ
+	a0OfouruGtwn2k8hSQVpk/HnRHL3rqn4JAvWcLrLOVF2DVYVEn5YcE0hTTzfvcRUgnTu1/e+/xr
+	cGWyc5QPRy/R+unRxZabYXIX1ANHf274l7dCafe5tKiUrzok9N7RsstevPU3LpbiqNHcJH6zoy3
+	/6QhdHB8FK7ClKTJ9kMwBRYNJTDM1Z22GatPKFfC6Q0Y6r8Q/5bLtX6A6ojYQ8c3AFSK6GzMkJr
+	c2LhL0=
+X-Received: by 2002:a05:6820:198b:b0:6c2:10e7:e044 with SMTP id 006d021491bc7-6c54214b2c9mr3748286eaf.64.1789459543377;
+        Tue, 15 Sep 2026 01:05:43 -0700 (PDT)
+Received: from user.. ([2405:201:c052:b00b:2d66:72bd:41df:2efc])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33be92873b7sm3615552eec.21.2026.09.15.01.05.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 01:05:42 -0700 (PDT)
+From: pavankumaryalagada@gmail.com
+To: gregkh@linuxfoundation.org
+Cc: michael.christie@oracle.com,
+	nab@linux-iscsi.org,
+	mkp@kernel.org,
+	leitao@debian.org,
+	skhan@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
+	syzbot+a9efa71b884a23e74153@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: f_tcm: avoid NULL dereference in usbg_make_tpg()
+Date: Tue, 15 Sep 2026 13:35:23 +0530
+Message-ID: <20260915080523.15979-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 15 Sep 2026 07:45:50 +0000, =E8=83=A1=E8=BF=9E=E5=8B=A4 wrote:
-> Unfortunately, no. The reproduction rate is very low, and we have
-> not yet found a stable way to reproduce it =E2=80=94 it requires the
-> device to be in a specific state where the port is disabled after
-> autosuspend resume, which happens rarely in the field.
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-Why are offloaded devices being suspended at all? Obviously, no
-"sideband entity" can be using a suspended device, so it seems that:
+usbg_make_tpg() can race with creation of USB gadget function
+instance. tcm_alloc_inst() adds the function instance to
+tpg_instances before configfs links the item to its parent group.
 
-- if the device is unused and meant to be suspended, sideband can be
-  removed before suspending
-- if the device becomes suspended while in use, obviously it's a bug
+As a result, usbg_make_tpg() can find the instance while its
+ci_group is still NULL. Passing this item to
+configfs_depend_item_unlocked() then causes a NULL pointer
+dereference.
 
-Regards,
-Michal
+Verify that ci_group is set before calling configfs_depend_item_unlocked()
+and fail TPG creation if the item has not been linked yet.
+
+keep this validation in f_tcm instead of changing the configfs API to
+accept unlinked items.
+
+Reported-by: syzbot+a9efa71b884a23e74153@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a9efa71b884a23e74153
+Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+---
+Changes in v2:
+ - Move the NULL check from configfs to f_tcm.
+ - Restore configfs_depend_item_unlocked() to its original behaviour
+
+v1: https://lore.kernel.org/all/20260914094426.25595-1-pavankumaryalagada@gmail.com/T/
+---
+ drivers/usb/gadget/function/f_tcm.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index 9e6d4f39900a..2c2cf1164edf 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -1682,6 +1682,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
+ 		if (!try_module_get(opts->dependent))
+ 			goto unlock_inst;
+ 	} else {
++		if (!READ_ONCE(opts->func_inst.group.cg_item.ci_group))
++			goto unlock_inst;
++
+ 		/*
+ 		 * configfs_depend_item_unlocked() may acquire the configfs
+ 		 * root inode lock when the target belongs to a different
+-- 
+2.43.0
+
