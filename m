@@ -1,67 +1,67 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90772466AE6
-	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 09:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AEC4718DB
+	for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 09:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789462982; cv=none; b=LjzVnwiYtaOdVfHlmToI34RULjQdVmjXMPAYj7TxrNBqkP+CwHWF0pv9FaMkecjFzt632ixxWSBUjTcsjNPwdC/9ptZNUszeSaSYlfaE98tTG6jFkFj1lJIDjJiku9tAmxisAmgrDhKFkehNzbYlw/0yBPR1mZJHnTBQNlAeMo8=
+	t=1789462983; cv=none; b=r1zp7KIpMfn8kyAulddBcU8f3VYrjML9mzAK4iBRozNx+uN4ivqAGWc2Piutv84HqPnC9DLyNq1cLlO2tVlZuXj0xP2rvChr7d6lVoO2iQuw6lQEvFMQSkJ1Jt4hpUWM52OMyRUDYESGfkeAy958Be2gaLOYcsDxTe+3q265s1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789462982; c=relaxed/simple;
-	bh=NZRchLVy5n31XYbiS5i8BQVcxRXCGTbKv1t0C+lcWuQ=;
+	s=arc-20240116; t=1789462983; c=relaxed/simple;
+	bh=SU0lEeXHIti5ysNgnJklZ5vgIPS1RNGl7D8jm31yYEs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K8w1Xsin0R2iYhWFCfXQTeoAnl88sOQUkfKDGZZH3de6eescxd5s5GejpCbIeNTtNtr/n3jenrG/qGgfIbEhj2mNp0POLJJNX53EJfCbSsb/rJBj4g5QsbFlhFijHseIawLiDeeDoApz/ZxxB75+45P3aWNsdQsvPHkQVzVTC8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r63vqtep; arc=none smtp.client-ip=74.125.228.76
+	 MIME-Version; b=j82kEyV9yWiGvvQsjYmzvWq5pIXbePKuydDrQhjqoK9l2b/GVjsIdf39vNs/OijJw/JNPvTEpBUdg0j5kTzP3XkZIS6FZPYqDe0VBYBxAh5lQ1rz1BsX0zCkI3OCAUvqHLNvcIDny6IoERw8evovv9TMzpX8YFqGaWb7XKiWT5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UVkz5j77; arc=none smtp.client-ip=74.125.228.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r63vqtep"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a9c0cd47bbso4625532a12.1
-        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 02:02:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UVkz5j77"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f560398so9041266b.1
+        for <linux-usb@vger.kernel.org>; Tue, 15 Sep 2026 02:03:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789462978; x=1790067778; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789462979; x=1790067779; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qexTWbdmW8eEb6vSlsUiXVjBfkjIzpmrkaoJ6YlOyks=;
-        b=r63vqtepd53cEOx6fnhk2GMJuUhErH34LrZgVUhSFTY3r/1oS1as8t+bfGQGzn+8C1
-         o36ZjLZU2UjIuUY+cnOoyM07KzBFh7MEkjxh0COVLMZqnxQNjYwfK3TM0vyRXP/wtr4+
-         hKneX4S1r9gzPwWKH1/3YvrpFcbso9eXvkKosoUWeeIZUaq4xzGrSqW1pkG+J/uuzPTo
-         7710zKIKrjBN+1vSG4GG3a03iBYKjHK4uPtLkvYvkEJfaefnDBDX8uSSJIHaXo38Doos
-         BxsBnKQ1XlvXxaBjRZChqAtZoeOpcWH+lXIMFBx54m4frT9qF+achk+4U8I+TPuffqPn
-         EXzA==
+        bh=eb3xZy75NQGOxtpcjzjk4/qG4sLL2mvyNHZ62g17sL0=;
+        b=UVkz5j77RjpAaK0y/jNeuHj0ZHg+B1g5NmpH9THqtTxkiZ+uOZuYp0HIkjUqpO3l+5
+         y9gM0JT0/m8yekq9HFO64OpAISrUSILIh4hPnwhcmitY6JBwptAeGjdvP7o77KvQ56Ys
+         iEmR782OZA0Ha7ct7fZXkI8Au9Lo7d4XMtR88B9Aoh1eWTG8Ah6YtJb2NGQAId3EUQ+Z
+         L1dU+O3NDj82gkz9KNA4lZ5PqUfK+A54UDlszBE08ilapTUtYu4mhbw+A+1fIiQW9Wk0
+         MD2nVkuVBFXwzz2xysEHuL58H1j2vfF1u61QJ+hWTePudpdxc4H3Z8xCSfuw/0fx1A+C
+         bBpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789462978; x=1790067778;
+        d=1e100.net; s=20260707; t=1789462979; x=1790067779;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qexTWbdmW8eEb6vSlsUiXVjBfkjIzpmrkaoJ6YlOyks=;
-        b=vYAYdzEl2an/mUkNXGtZs0QMKANE2Ox1OQlAJ2UoDw9h3gK46fwXJb0W1KFWNboG1R
-         uF/R0DJzkyLTd3lB+cnkUKqnf6cNJPRo+3lpgxZl54cO92QCo+11UJGUCUNEIVfR3Ifu
-         xPEuW2+W3omou2s8NRLEVZNNF3RlqS27qabMYc4dSNCOw1zw3lzOh+7A+IJaPX+A+ewd
-         0TL6S/m9ReuhYdxn5GMgWmlDlIkYPS7lHRyXeKU0LPl8Jdk0I9sjxnLLTz5XcG5IKpG5
-         p9HThvJumDVbTbhgQMIJsmYMPBeWBqopWHVCdzEX4n6lOO2Hk9OOOuBQCLfZX59zxP15
-         8xIg==
-X-Gm-Message-State: AFuF++kZ+8ZI74b/mXTnFI/vGYuTxoia7laMoUnIXmNXaKuH7FX/wH+B
-	SQ16NG4lV01Tbg70K8t9TRftMhkUT/AzRhnbdgmAUeoAbsUwD8RSo1Dy
-X-Gm-Gg: AYBFou1jET62zJp1WkrJBLMe6yS+IK6pLpiMHS2k0f+gJFSmpGW6LimPtMzNu4nVBtm
-	J6IZHnCFF9A3tcYpjRkseUHIiDo+55DDfz4oeSf3z2vpmfk/4CdUEPka/NNittwaxXAqOfhkB4s
-	PEAKTsSkV4NWjExnKzwDseJ3ZIySXUUQ+ZxcDG4xewp+hu32NC8KoJXGM9rLoGlzKWYZATK9+JP
-	qXzond8mRNeM3g5aNbsLhpM9AYQOe6RQ59NbEQ5NENq7NyzX47yuCc7dcy14McHnbQBweMT13QT
-	Pi3G9RhOpKgUuWz3woq1joPRiqhI5OFiKRAUgV3nElJjv40hKH6Ph16nMIRXz/FYUGUO7WrB6nz
-	EfgYM97r0OmG8qo2xoK4haQ4boSExxbl7oHpcntNLiggch906D6c3Y4+ITrT4vaNDCMwt6Iw7zV
-	8WCZs1wvwuGsyblnxFCCaX3y+lSP0I1RdIyo0BDryabi6qwwnYu12JMgUOlq/ul8PNPbBO00s4Q
-	oaE+O+jbIlxVaZf4VuzBWaPHoRPJngzitde5sGGsBGQnHcD2X91Us2KzPB9w7hOpSB1wsrhAhDx
-	RYlS9KR4zuls4CnXpHHkNmAckYkCkdZsmz+6BLclnivxcPhsWDB+titHhJ98YLqJggtrj72Jd45
-	urLd5vDN0Z1+5pwchTBaNc96oi/H5tJ5raO9wPjlQETRjL6IAoSlB9hVx3PWwfplKQsq4bm4dr5
-	m8WrFb763SsryI3aLXvTyK6Nd9oARSz2Twhe5TANrcEHJd35KPyeqKG2z7U2DE6Miggru4ac+1Q
-	krTzA74vOk=
-X-Received: by 2002:a17:906:f597:b0:c19:45e3:2f57 with SMTP id a640c23a62f3a-c29b84c7106mr395967466b.9.1789462977606;
-        Tue, 15 Sep 2026 02:02:57 -0700 (PDT)
+        bh=eb3xZy75NQGOxtpcjzjk4/qG4sLL2mvyNHZ62g17sL0=;
+        b=L50D+xxr8Q+zrhEMICX+hXFUOPPXxE+RMss8bFX8NGm/3nk3bHYm9t8MLk2eeF9Zxz
+         GC6GGnlQj1Zwy7n8Agv3wYi+8Uhmwpg6P6/dlHzbTqRNEGspHppEJpz7QjZEmgeG3ToB
+         JieZ07DreWgFLXrYS3cXtO1naUxrTQAtv47cuVD/QvqlMxaD/3wRsnfCQGryz7B6+SE2
+         ngjxnaYlNTGJWEpxgtWh2nxIXU1DjYQM9sUpHsRRKDl2L/+EQoJwCTTC09FoSIel3Ird
+         uQcm75LuNpMcagJcgZRrJ87RY/jttT4+/8kZI9SwTK2dh/ZvB0EneC7n157wtM5JrQuC
+         WIuw==
+X-Gm-Message-State: AFuF++mNwrBMrlv2N/HyfmhrY67nklR1fZUXA+yCJBuq5K5J24Qn5ePF
+	ZZMCmZN8/dvAHQgVZztEqztI5QAYQv4yeE4Uorz/H7tSEao4LyruWGt6
+X-Gm-Gg: AYBFou0+B2sj5Hg4mWL1YHmFVz76heUNP02G5DiFHXggaRzlnhsQz8V5UgY+AvlCbbC
+	PD69yzP8Ew88yQcNkQZkdTSlFd902eH5OG9fqIL8SFsM7MCJx1ioG3XKKj3Bi/XMkhOWnnlwyDq
+	rSq4CmBBIzMGSnFhxPc5+nShbxSjquRXvoz77uy3hFjOjpu9CDJY/zO10cTEEw8dZJBsmxrNO/Z
+	wiMn6Fzr0q8ukB2fOB3F1LzPvBeOnMslSp+MIa+R8oQFzBUT1L0oOxv4r5ZQcrOuIFwe1g3Rdiz
+	Ci+AIpO+qWQWXfEufAViHlGhHHDjaFbQSz/gzyWFlGsKLUr8rvKO/wQQhyWeMAP7uRlbDJRPMfz
+	drkcZn7FaxtqxXmZFtD43wuKUUs8BBks0tJiLLrO/Z5oNRk1WuvP2Vl0s92xQ3RUUMmubW5jfNA
+	YT9P94lVvjIYGAjXC2qzxZuqKYHyc0TYyTJbjg63Keyc7LzCAt9xg+8LEqjdwQdX3MILR/ExGdE
+	aihCZEE38eCIhLB/HU8W/6vxVAc87ggHgUqLFkdVLhemp6mB0Ijfefh9y3gIQAwlljA76wmJP1l
+	LN9z8Jew1gXykvuRCApcSRpvlniu/zS11/vp4TKfh4QCz5q5Ms1H9jm1Fi6YqFlho+Q1+vZ9++r
+	ckl14UhicJqYP9DsPzWeo3+FX4gNwTPJQpqgdffG+VRIjJTHDm/a+jirDVrUazZo2YknPpxFBNu
+	D2j7g9UuiY8bTTw1D0whkOAcgNDyDP1CqYLoXNLKNesH60Za6tlE92q9THSoVBfkmoTIwoG4wfr
+	iq+iQEE3CU=
+X-Received: by 2002:a17:907:3c86:b0:c29:60c1:7e55 with SMTP id a640c23a62f3a-c29d7794becmr17686466b.12.1789462979111;
+        Tue, 15 Sep 2026 02:02:59 -0700 (PDT)
 Received: from cs-280612103108-default.europe-west4-b.c.oa7bb030819b2a894-tp.internal (88.71.12.34.bc.googleusercontent.com. [34.12.71.88])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2965c4cf01sm546369266b.1.2026.09.15.02.02.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2965c4cf01sm546369266b.1.2026.09.15.02.02.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 02:02:56 -0700 (PDT)
+        Tue, 15 Sep 2026 02:02:58 -0700 (PDT)
 From: Joshua Crofts <joshua.crofts1@gmail.com>
 To: Peter Chen <peter.chen@kernel.org>,
 	Pawel Laszczak <pawell@cadence.com>,
@@ -77,9 +77,9 @@ Cc: linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	stable@vger.kernel.org
-Subject: [PATCH 4/6] usb: typec: ucsi: ccg: add missing pm_runtime_dont_use_autosuspend() call
-Date: Tue, 15 Sep 2026 09:02:21 +0000
-Message-ID: <20260915090223.1346-5-joshua.crofts1@gmail.com>
+Subject: [PATCH 6/6] usb: cdns3: add missing pm_runtime_dont_use_autosuspend() call
+Date: Tue, 15 Sep 2026 09:02:23 +0000
+Message-ID: <20260915090223.1346-7-joshua.crofts1@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260915090223.1346-1-joshua.crofts1@gmail.com>
 References: <20260915090223.1346-1-joshua.crofts1@gmail.com>
@@ -91,32 +91,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ucsi_ccg_remove() disables PM runtime on teardown, but doesn't call
-pm_runtime_dont_use_autosuspend(), causing resource leaks.
+cdns3_plat_remove() calls pm_runtime_disable() on device teardown, but
+doesn't call pm_runtime_dont_use_autosuspend(), causing resource leaks.
 
 Add the missing pm_runtime_dont_use_autosuspend() call.
 
 Found using Coccinelle.
 
-Fixes: a94ecde41f7e ("usb: typec: ucsi: ccg: enable runtime pm support")
+Fixes: f738957277ba ("usb: cdns3: Split core.c into cdns3-plat and core.c file")
 Cc: <stable@vger.kernel.org>
 Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
 ---
- drivers/usb/typec/ucsi/ucsi_ccg.c | 1 +
+ drivers/usb/cdns3/cdns3-plat.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 91c2958a708c..9d3ebb255de7 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -1519,6 +1519,7 @@ static void ucsi_ccg_remove(struct i2c_client *client)
+diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
+index e3f32c3e9535..b85d5d1c48fd 100644
+--- a/drivers/usb/cdns3/cdns3-plat.c
++++ b/drivers/usb/cdns3/cdns3-plat.c
+@@ -219,6 +219,7 @@ static void cdns3_plat_remove(struct platform_device *pdev)
+ 	if (!(cdns->pdata && (cdns->pdata->quirks & CDNS3_DEFAULT_PM_RUNTIME_ALLOW)))
+ 		pm_runtime_allow(dev);
  
- 	cancel_work_sync(&uc->pm_work);
- 	cancel_work_sync(&uc->work);
-+	pm_runtime_dont_use_autosuspend(uc->dev);
- 	pm_runtime_disable(uc->dev);
- 	ucsi_unregister(uc->ucsi);
- 	free_irq(uc->irq, uc);
++	pm_runtime_dont_use_autosuspend(dev);
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_put_noidle(dev);
+ 	cdns_remove(cdns);
 -- 
 2.47.3
 
