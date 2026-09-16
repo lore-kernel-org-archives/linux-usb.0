@@ -1,125 +1,122 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7720146DFF8
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 08:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C14C45FFC8;
+	Wed, 16 Sep 2026 08:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789546905; cv=none; b=efggkqIaOA8izZbyeuP81vfuIGIyk3nANABoMH8xNsFJ2SkhOd9zbk9zP4ux1hQjaeNW5FsYFGcdso89T2JHnjQ+Ax+ksjQuQ4139MMkznQUWwxjk1Lgz0DtlnvfBUBhiFhnMtDf89rX6kDEGbz0bpvvT0xJhcf6MW32gRXGQFM=
+	t=1789547195; cv=none; b=Z44lmdWyapXmVbXgcvgQYlTk3CBvK2k3GZGLm8dGFNyaOoN4QXeZZJmv3W1VGVuyx+DNlHpOgwUSmaAMyhLisr8MziRjcMIpKZZ8eL/fZ6t8z6cAWKmAdh6Y82hbKVObOuUWllyCYiyQAmOLMydzCBC/UpzL5vUqVGHYh5/EwMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789546905; c=relaxed/simple;
-	bh=1HUGQWUo7DHa+QDueDddUtzEPEP4VkzaWUaP9uZ2X0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hIBTHojWNe0GauSdR0E9Z+02S6peJ1fSrYa35ePQ4TEEo3TNOQP+47KpF6TqzD5JOOOVunZHzdpqOsB0FIalLntEWb0dXT+cJZtzL7ykAJOi5vzYrFN31RH7tGflckoEM7PYIR1XCa2rMnkqQhDrJ/8qIAFhjp9D2KXcTvu7+HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nog/maE0; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789547195; c=relaxed/simple;
+	bh=m0d2WTIkjQxTbXdqiU508PHYyhCo5TmTFEYRErZEBj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NuWgSushbKY28OdiBvKQMKv0EPrBD18f4vYjS+SUmwy15OUOrfz9c29pE1D8gL3dHX1eB1tGx9D65nXaWJyFTJn+R8LfYYbYqH7ojjl/PPBPa9tLeBWIwkq2ilghHJqRP9tGiTaGsWmSZAvyt9TSjNpF+9U4OL9fM6ABlDNgu74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwf23AuL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nog/maE0"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912e4ad9so3289475e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 01:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789546894; x=1790151694; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Bw432elLmhA4oy2qWRZIhT4M5eB1za1G9hSrgeusNHM=;
-        b=Nog/maE0UF8Pv5w4f87Y92+hTJ9B0UFhPpIBZ/M378xf3MGgTi31u0SippM9dZKV6u
-         Vmi7i8GqkzddAK33fd0PDalmtqmd9EGjGqG28czpyzbpJtzdaRGGZATjcPO7pibvyKT5
-         UL9dvd8LUOqicH6MkTMlu7R4DFhr2vleT5wQEh7Hulp9OjEwP/O4fHyeiNhRGyni0Cdf
-         qTwesT4cnDJiGv+snoUEgSbnKlVmnzGQoEIBjrM2b2QXW6XP/O11jCC2MglsJOEHgZHZ
-         lQWpOIoG4FFP0DE9Ks3+FYVPlDTFPB2BBgJkMAFTnJVLSElAw7AmWSWU/8NVMOlZG8rf
-         YHxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789546894; x=1790151694;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Bw432elLmhA4oy2qWRZIhT4M5eB1za1G9hSrgeusNHM=;
-        b=Pouu766glxz823k6knhI4Ycr324WXz25izz7iaSfNSEKlpycSbxkLyvvKcdTdfLxIV
-         CG6M3M8z0JvH7adPRBtoW5P/bk1Nun10RexedjOuHqbcnbks9oBR8aHTPbsvCFetp1Rl
-         KGFA8hpfLdX9AoJRB58Dfz5Cip7O0WT6OyxHf5Et/VDUBs/BIJQWnujuxrSBnhm2nJzM
-         lGEN2EGOreqjSf8+bhyQwz+GA6budi39iLQBu/JQoABsQ9iSi7ZQsNE8iDfFRh5a6Tin
-         K3kNRMKxlulLWKDXEx7dkUj5JETHG114MNDNRREL1bswppqTZu284Ns43Gl8Ef9TgPkO
-         cfMg==
-X-Forwarded-Encrypted: i=1; AKwUvBz1Pmt1IFzUTW8wKwIHDOD5PuYdcRuZ/LrRw98+v8S+PyM+uDReiJ2Ide7MdqghbF+8ME+WAZlZUG0=@vger.kernel.org
-X-Gm-Message-State: AFuF++k2cSTL0yu6SHb1dRvcf3x41ccVmxXYgpDw7J/1DYekrO3l9JZQ
-	KN+boWjXoqr7sXOqRLcMULy7nZCAF7aD3FWrbnNOHj7oCW2b7tUDOYHJ
-X-Gm-Gg: AYBFou0l1Rxu4P45gv/WJjOXgBNP+NwWBkBpyqnwRI/amyRi67MQ37l33jkg729di4i
-	D0alWpPB3D5pMwTAFMuuh1nUj7tXMOqfqsUQwNk4YX9+qEQEX3aOCYhIaZ0e/mKXHbUIgoBZde5
-	kGs5N9s+aIAxeFOW1T5HrctO5VUWAsNFX9h20gHdhcNbpyz4k+wsbcj8igRWyZ095bbVFo3xRf7
-	LltsM9qEKsqPM60luPGEhvgx8TDQYzpF+1qPUcafytCM7K5Q9vrttizyReG1Ykai8apwLZilvng
-	YA10RMn0z78jp7m8a0PFUYUD5mIGrHtft/PAZVC3W0Cc5b2DQVYoWC+O+O4WUnI+ajRA/kuNE/N
-	NWXPOIYuPE/UcHPOdcDsyMTWbtj3SPfSXNA6Pi5ROMRc+N1DFwch9yycipyh38NJn9OWzsP7RBs
-	3IrhwhLDNsVromGbuekIBIMKmOOup3MaGjgLXtuw9NTxBadaVChUQms2VtHr6h/NwN3WP6PkOh1
-	BLm72xWfCEP6YVsDvAV0xHyg+yHkBfKRAkJVJ3exyDJ47Jc0bO21i14AtJURdYqGyYZIYJTturh
-	H/iaVl7xIk9GSQ9UxnQdBinK2CfvlAlVfSB/dK44qCKvcswCWc8/J4OXtMIBERwZU9Fyhq/GRfa
-	9tqYAypciKXi3uBSFN6dmz4NyNTncAuDuLUYjuoTR8kz9MOkObPBceozBS0szxQKzIbGZ1rdafx
-	j3kxo2
-X-Received: by 2002:a05:600c:470a:b0:49e:6bce:b0f9 with SMTP id 5b1f17b1804b1-49eb732cc87mr17337945e9.16.1789546893641;
-        Wed, 16 Sep 2026 01:21:33 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83da071asm73394925e9.8.2026.09.16.01.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 01:21:33 -0700 (PDT)
-Date: Wed, 16 Sep 2026 10:21:32 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
- Roger Quadros <rogerq@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Heikki Krogerus
- <heikki.krogerus@linux.intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/6] usb: core: add missing
- pm_runtime_dont_use_autosuspend() call
-Message-ID: <20260916102132.00005129@gmail.com>
-In-Reply-To: <aqpOlKtxeROh-G_s@hovoldconsulting.com>
-References: <20260915090223.1346-1-joshua.crofts1@gmail.com>
-	<20260915090223.1346-2-joshua.crofts1@gmail.com>
-	<aqpOlKtxeROh-G_s@hovoldconsulting.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwf23AuL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0E11F000FF;
+	Wed, 16 Sep 2026 08:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789547188;
+	bh=NuE4sMVYdM+eUx2iV5diW9Nt1p3GTQkPRMECpQTVcec=;
+	h=From:To:Cc:Subject:Date;
+	b=kwf23AuLHh+xa+7XbgF+ka5tyTgfq6a+3y8Wk9Rs50lxbeki14BXDxgbD8n8SWQE2
+	 4VMEhKZTp+NuAaiAl5Q4wH6uxsXbDxWjWrV+L60Fr0FFwjS3gbIB21Pb28DHaVifSE
+	 HyG/96ME4F+l9WbFVjO6UGmaksuJj4/QkrA2SndqxEmR3Po8GQcmjV7ZlW3+BJL56M
+	 h0NfW/rejlzc5sm4UBjmKcZHB6KRZ83lURZDoeiz0JleaAa7r22BItc9dZySx3bLWX
+	 9swhYm618Ops4I0XvD0c91AtWefemfVzkoa02tkVfd3+gG7XHS7wZ1HMS909fNYHy0
+	 puybaQSCZ4FTA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Linus Walleij <linusw@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Kees Cook <kees@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: fotg210: fix link error for CONFIG_USB=n
+Date: Wed, 16 Sep 2026 10:26:05 +0200
+Message-ID: <20260916082623.3972767-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 16 Sep 2026 10:08:52 +0200
-Johan Hovold <johan@kernel.org> wrote:
+From: Arnd Bergmann <arnd@arndb.de>
 
-> On Tue, Sep 15, 2026 at 09:02:18AM +0000, Joshua Crofts wrote:
-> > The fail label in usb_new_device() disables pm_runtime on failure, but
-> > doesn't call pm_runtime_dont_use_autosuspend(), causing resource leaks.  
-> 
-> No it does not, as the device itself is about to be freed. Sure we could
-> disable autosuspend again here, but it does not really matter.
-> 
+Calling usb_hcd_platform_shutdown() is not possible if CONFIG_USB
+is disabled:
 
-Okay, commit message aside, you still need to call dont_use_autosuspend()
-on teardown as the driver doesn't use the devm_* counterparts. Currently
-(according to my cocci SmPL [1]) there are 195 instances of this in the kernel.
+arm-linux-gnueabi-ld: drivers/usb/fotg210/fotg210-core.o: in function `fotg210_shutdown':
+fotg210-core.c:(.text+0x40): undefined reference to `usb_hcd_platform_shutdown'
 
-...
+Move this call into the hcd file to ensure this is only used
+when USB host mode is actually available.
 
-> But this one should not have a Fixes tag and does not need to be
-> backported.
+Fixes: 7dbc2e1ba8fd ("usb: fotg210: use the common EHCI core")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/usb/fotg210/fotg210-core.c | 2 +-
+ drivers/usb/fotg210/fotg210-hcd.c  | 5 +++++
+ drivers/usb/fotg210/fotg210.h      | 5 +++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-Yeah, you already mentioned this in IIO once [2]. I found several instances
-of patches like these being backported however, so perhaps times have changed.
-
-[1] https://lore.kernel.org/cocci/20260915064327.1377-1-joshua.crofts1@gmail.com/
-[2] https://lore.kernel.org/linux-iio/aoQEyeHUiTwWenBL@hovoldconsulting.com/
-
-
-
+diff --git a/drivers/usb/fotg210/fotg210-core.c b/drivers/usb/fotg210/fotg210-core.c
+index 7976bdae5f07..86e9ecd2c8ed 100644
+--- a/drivers/usb/fotg210/fotg210-core.c
++++ b/drivers/usb/fotg210/fotg210-core.c
+@@ -259,7 +259,7 @@ static void fotg210_remove(struct platform_device *pdev)
+ static void fotg210_shutdown(struct platform_device *pdev)
+ {
+ 	if (usb_get_dr_mode(&pdev->dev) != USB_DR_MODE_PERIPHERAL)
+-		usb_hcd_platform_shutdown(pdev);
++		fotg210_hcd_shutdown(pdev);
+ }
+ 
+ static int fotg210_suspend(struct device *dev)
+diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
+index 0a36820f189b..8e2346a3e23f 100644
+--- a/drivers/usb/fotg210/fotg210-hcd.c
++++ b/drivers/usb/fotg210/fotg210-hcd.c
+@@ -186,6 +186,11 @@ int fotg210_hcd_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++void fotg210_hcd_shutdown(struct platform_device *pdev)
++{
++	usb_hcd_platform_shutdown(pdev);
++}
++
+ int fotg210_hcd_suspend(struct device *dev)
+ {
+ #ifdef CONFIG_PM
+diff --git a/drivers/usb/fotg210/fotg210.h b/drivers/usb/fotg210/fotg210.h
+index aab0f0300dc8..96a8cf76deeb 100644
+--- a/drivers/usb/fotg210/fotg210.h
++++ b/drivers/usb/fotg210/fotg210.h
+@@ -26,6 +26,7 @@ void fotg210_vbus(struct fotg210 *fotg, bool enable);
+ #ifdef CONFIG_USB_FOTG210_HCD
+ int fotg210_hcd_probe(struct platform_device *pdev, struct fotg210 *fotg);
+ int fotg210_hcd_remove(struct platform_device *pdev);
++void fotg210_hcd_shutdown(struct platform_device *pdev);
+ int fotg210_hcd_suspend(struct device *dev);
+ int fotg210_hcd_resume(struct device *dev);
+ int fotg210_hcd_init(void);
+@@ -42,6 +43,10 @@ static inline int fotg210_hcd_remove(struct platform_device *pdev)
+ 	return -ENODEV;
+ }
+ 
++static inline void fotg210_hcd_shutdown(struct platform_device *pdev)
++{
++}
++
+ static inline int fotg210_hcd_suspend(struct device *dev)
+ {
+ 	return -ENODEV;
 -- 
-Kind regards,
-Joshua Crofts
+2.53.0
+
