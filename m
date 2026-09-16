@@ -1,113 +1,96 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B524BFE61
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 12:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DE836F8EF
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 12:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789561444; cv=none; b=TvfRB5y51lWG2uCVXs0yxWbsI5JKMBQA894TuTKshhSzvVyZIIw0d3HjL+YvdH3mxVaANE6Bd82NuIAsklNpAbn+V6l1JtX9XidWSUnaYUkhd66gqdVWH4+Fd8PUtFX2SPWYqZliNTPa5DMaztdiYhlEMnTeJ8UV+fThEPnKzE0=
+	t=1789562883; cv=none; b=LdOX9cwcXD6w2wxUZPP3kebJfowAF7vMicKLZEfm2Guya8J98waCJVHqVVua4AkeRh/iWDVPpgN82Y6WDmOueYfTzIZDDR8dVntpwAFYfwEgBMXoQHrNADiylgdelg22Ek4IS1C4dsLNrzotoc+miuhAW0gI+DkTzyRQBaYTI+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789561444; c=relaxed/simple;
-	bh=gsiJC+8KYfKWnEm6drxojd2SA0aWwriaMc4BSfAPcEc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:Content-Type:
-	 References; b=H0IoINFT1lKdyhcjfH1GvTzlr2SDaDoyNZO98XfidpJKT2cxWHOp7EkK5EY+lR7qZxpjnOWZ4lT1onYurHqe7k6X6udhsc+X6csG7xDPmxf9pCHXJVfCN6FqLKH1GAN6eWmQ8bX22XeudBqxdMECFuJ89SRmstOGd061d0FCwf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RUu6s6C1; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1789562883; c=relaxed/simple;
+	bh=pF4Z1nahF4n/bVVB8LrpLu/J89R98KhciUBy0FswVAg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DwNXrT81XjqmPvGiNqif/R9E3BHga5wGnyPz+PwAvkkTkanwRmDET9LUsieyad0orRfoWy4QpucteiD8cfeNnt/GzNEykzBN7ZVHuVITxxB8SawIO52QyorthltVpIFIEuf1/RtIochcj0kxsHXQJGEa1BPR6QytxX57acF+YR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HO6rWiGG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RUu6s6C1"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260916122359epoutp019b0a7684a352ba3020072f23710dca9d~VzKXtZ7FY1362213622epoutp01T
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 12:23:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260916122359epoutp019b0a7684a352ba3020072f23710dca9d~VzKXtZ7FY1362213622epoutp01T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1789561440;
-	bh=fKL6HImdTiqBULRthcBWF6Nv0t3+2obCrlxnJAI24Vo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RUu6s6C1rO3r03Ron2UQrDWMzfW4zswX+fH56Yv6sXAlsj5s7250UDMScV2X0IZR6
-	 V9fCYpdjJE2bYEgs7bJvWS+lqgXw8iPQ8wTTF2iybXq1EWtdFql7WukjqMr4n3HNV7
-	 MsIOudhtDT7TsvWGaaOnCIIiW3InnsdVmv1wmBsk=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20260916122359epcas5p4d7652fb157b69e8523d96d7139a526d4~VzKXLNoit2123921239epcas5p47;
-	Wed, 16 Sep 2026 12:23:59 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4hlJ322qQlz3hhT8; Wed, 16 Sep
-	2026 12:23:58 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260916122357epcas5p3578059e36eafeb4602f4fb57cd72c883~VzKVr2h4q1679016790epcas5p32;
-	Wed, 16 Sep 2026 12:23:57 +0000 (GMT)
-Received: from vega.samsungds.net (unknown [107.108.73.84]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260916122354epsmtip23a7f3a74468b642496b307c223b4c8c2~VzKS51nxf2261622616epsmtip2_;
-	Wed, 16 Sep 2026 12:23:54 +0000 (GMT)
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: krzk@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com,
-	gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org,
-	Thinh.Nguyen@synopsys.com, mani@kernel.org, selvarasu.g@samsung.com,
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com,
-	akash.m5@samsung.com, hongpooh.kim@samsung.com, eomji.oh@samsung.com,
-	shijie.cai@samsung.com, muhammed.ali@samsung.com, thiagu.r@samsung.com
-Subject: [PATCH v2 3/3] usb: dwc3: Add Exynos8855 to the generic platform
- driver
-Date: Wed, 16 Sep 2026 17:52:29 +0530
-Message-Id: <20260916122229.2604003-4-selvarasu.g@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260916122229.2604003-1-selvarasu.g@samsung.com>
-X-CMS-MailID: 20260916122357epcas5p3578059e36eafeb4602f4fb57cd72c883
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260916122357epcas5p3578059e36eafeb4602f4fb57cd72c883
-References: <20260916122229.2604003-1-selvarasu.g@samsung.com>
-	<CGME20260916122357epcas5p3578059e36eafeb4602f4fb57cd72c883@epcas5p3.samsung.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HO6rWiGG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A2C1F00899
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 12:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789562881;
+	bh=pF4Z1nahF4n/bVVB8LrpLu/J89R98KhciUBy0FswVAg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=HO6rWiGGoXUibLEdm0OOC501JdPqHz9pjVMIvP1Hv3gNzqI0q7iSY7AElJfXzykw+
+	 rVScEEKhjlljY34PeC1lUtZprDNsl3HiZBmuGiHvmpzdSkRy9ZVh3ZDFQTfG1alN2N
+	 xbEIHh+VuqPerDqB3jgKj/fnECw/hq7CEHiyt8nw4AiM5ExrAEUVwyFKDFWPfa/1kG
+	 HiYZxv5UpP1mfjc8K03rAtfLRzLV4q3KsvvMYpR3r/ZrRaCoYP9hijnDXIfSzpIKSh
+	 6sNEn/Nqb9s8CNrjBncUADA8oOr9m69OpVPG3pXz7/JmS+pqe0GfQSLmICihyOQTdt
+	 gEXmOUb9GjRvg==
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1b846so1118519e87.0
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 05:48:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwY2gn47azM94u6NTvGpgiATRTak4nLwQFFWXjorPSrTRsRwFGb+CFPmkZGYgSfhIA3GAHhCQ42TnA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mIRUudQjVA0ImW2ysONZP9ua88zdJdJ027nj6sZm1FLDv25u/5
+	MEz1HkaqUGNkis36bg0r56x6Hvp599KD9CCpSBR0fOM8tXqfrIyVSp2romHmDJgh74bVkxTANS5
+	QuMJ/1LlpheX7EKEqgmOLSs438aeJC2Q=
+X-Received: by 2002:a05:6512:3f22:b0:5b8:23ef:34db with SMTP id
+ 2adb3069b0e04-5b8b65ffbf7mr664198e87.6.1789562880080; Wed, 16 Sep 2026
+ 05:48:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260916082623.3972767-1-arnd@kernel.org> <CAD++jLnsKoXxK5mdNUqWT+ggn+7k4D6H0HZuCcLu4_pv6QFS1w@mail.gmail.com>
+ <75d05e40-789e-4cfe-a6f9-fc86af5864e0@app.fastmail.com>
+In-Reply-To: <75d05e40-789e-4cfe-a6f9-fc86af5864e0@app.fastmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 16 Sep 2026 14:47:47 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=NqTsZWDyZe=KvFVjtBAHXDyQ-+yXikA8tdxrubBRmiA@mail.gmail.com>
+X-Gm-Features: AcwNN1XTVr7ctQab3bIfjuljjC9Jfq_rcYJ1ca5CFvzWyBtotnMTV1R6-o5sCQU
+Message-ID: <CAD++jL=NqTsZWDyZe=KvFVjtBAHXDyQ-+yXikA8tdxrubBRmiA@mail.gmail.com>
+Subject: Re: [PATCH] usb: fotg210: fix link error for CONFIG_USB=n
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Kees Cook <kees@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Huacai Chen <chenhuacai@kernel.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the "samsung,snps-dwc3" compatible string to dwc3-generic-plat so
-the Exynos8855 USB3 DWC3 controller can probe through the generic DWC3
-platform glue. While at it, alphabetically reorder the existing entries.
+On Wed, Sep 16, 2026 at 1:44=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Wed, Sep 16, 2026, at 11:45, Linus Walleij wrote:
+> > On Wed, Sep 16, 2026 at 10:26=E2=80=AFAM Arnd Bergmann <arnd@kernel.org=
+> wrote:
+> >
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >>
+> >> Calling usb_hcd_platform_shutdown() is not possible if CONFIG_USB
+> >> is disabled:
+> >>
+> >> arm-linux-gnueabi-ld: drivers/usb/fotg210/fotg210-core.o: in function =
+`fotg210_shutdown':
+> >> fotg210-core.c:(.text+0x40): undefined reference to `usb_hcd_platform_=
+shutdown'
+> >>
+> >> Move this call into the hcd file to ensure this is only used
+> >> when USB host mode is actually available.
+> >>
+> >> Fixes: 7dbc2e1ba8fd ("usb: fotg210: use the common EHCI core")
+> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> >
+> > Good catch!
+> > Reviewed-by: Linus Walleij <linusw@kernel.org>
+>
+> Apparently you you already fixed this yourself in commit 600334ef2f29
+> ("usb: fotg210: guard host shutdown in gadget-only builds") in today's
+> linux-next, so this one is no longer needed, the two patches are
+> equivalent.
 
-The "samsung,snps-dwc3" string is used as a generic fallback to support
-any Exynos SoC that utilizes a flattened model instantiation. This
-fallback allows multiple Exynos SoCs to be supported by the generic
-platform driver simply by adding the fallback compatible to their
-respective device tree nodes.
+Haha the solution was so different that I didn't understand it was
+the same problem :D
 
-Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
-Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
-Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
----
- drivers/usb/dwc3/dwc3-generic-plat.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07c..10c1146564b7 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -232,10 +232,11 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
- };
- 
- static const struct of_device_id dwc3_generic_of_match[] = {
-+	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
-+	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
-+	{ .compatible = "samsung,snps-dwc3", },
- 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
- 	{ .compatible = "spacemit,k3-dwc3", },
--	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
--	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
- 	{ .compatible = "starfive,jhb100-dwc3", },
- 	{ /* sentinel */ }
- };
--- 
-2.17.1
-
+Yours,
+Linus Walleij
