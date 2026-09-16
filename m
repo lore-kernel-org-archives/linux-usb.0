@@ -1,158 +1,118 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F7A4FDE52
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455754FDE50
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789565600; cv=none; b=eFrw4bJ7mh8ogGbUhWxsQ7Aqq4/ylIJl+vyWKPrIt6+ybn9IbUzYI/WBYSe0t72JRRlv/hQiW+EpKW6t7i/mqrsRuVr3ETb/MyD/RQ8kJwFnAPzWaQ7OkcTY/4ke9bvYABLiahJkz8PiLycxRLITypBp1xiEILISao+HaM9PadM=
+	t=1789565737; cv=none; b=OMudfwoPDQMIX2JrJy6/QhHaPknmAqs1mgW5/ktfJKRsHIPD9cwwFJDxs8R3YxlUcXhz7M6iHovJXN3vaFEochnuTyJbKWtWuEghb4A22wKqZ+BoK25j3uYwghCfFp0YsQwkS5SmD3eap2mfGXt6JVIvPmZ9ARrWm2ak0h4iie0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789565600; c=relaxed/simple;
-	bh=pSG/TrwXhQ2SDtoVxMKdzFoXta17jnhiWAGC9pF1ycE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mldnL63jh9XHOsUnR/6M7RBznZ72QOMvGbj0czUoamDqEeceU7y+IByHlOjXU3CUyS/iqVr12s6tPrUoauklBAKwU+JExf085f8LmMgVmUdNET2BXMHYHn7lSaz6TPeIDkL44wQW+KP1CEDMpOkhA3rIF1wnopNXTzORrpY+8yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e+LUSMrR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IajFUMuj; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789565737; c=relaxed/simple;
+	bh=fj/EATdwIgq34QHGqNjGnfNoNpswFV8WiGoD0rVwZZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CW0z/fYGMkQGL+41YmWRU6OxR4o8BzC6AfKysh+QvpMPE+oIPMqUPN4ewYoKtzf/iEFXcst+far4H+39D45qtfbvVL9fuB/0RZvqLD/4pyMy804CaiL8x9UEqnOB+/JU0bGf3otF42fy33h8ABbOSHrZQ8/pEWBCiAaL2iKgkrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nBxUgyHi; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e+LUSMrR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IajFUMuj"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68GCYmsI3124474
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:33:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=WSw25v0bjyM
-	ImA+vtAQs+sdauYT+Btn5U4Rr1BPpU9w=; b=e+LUSMrRDwemHg4p3ifF/lzSPkU
-	zt8FGkx3j9M+3A7eYDS6Spkff0SQ4hwBEsrh2+vJ3NP/xNWGQDY6aiISob6rRZ11
-	GKoNfvIvpg4u4rN0R4suLbisqtCokQ8WYI/FCyhGDJNsOKTlrssw5PAK+Y40FBbl
-	Ostu745vptMplsHY3GwU5g33+3YiR4MfwQdR5vtI2N8COs+F8DVwhU4bmD16YEwM
-	lOQakvzEkhyIQOyj/1XfRlVc3wFU9Uq4qTixpS6xp9AJWRHkRz4Ev21DDsCj9Tbx
-	Hub8xbfP2NczQ6bgBtrecHN6YQ/HcE4vUdBYbAYKdacU99wfTRM0PB4UX9g==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqftuk1t0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:33:11 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2d6f80c76e6so106522835ad.3
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 06:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789565590; x=1790170390; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WSw25v0bjyMImA+vtAQs+sdauYT+Btn5U4Rr1BPpU9w=;
-        b=IajFUMuj3YDDivI/ZNpbWu2zZ4zfHCxIerLxj9/qsXDpSlrfLL1GdI6bLOHPysux9G
-         2jq0R6s9MbGicC42gzHmCiyDatbovPSfZV7pqsRfIVIaCTNcEa2DGYhRTN/9FkHvKQ8O
-         5jf5uuZeYxJLz9lE9Kvuqd8WbIzmLD2p/vGEyAu+EZ9qkSJEZ4LVh6NloBdpOvLn/qkR
-         pAC9v9L3bvwXkErSdPZg2W2HAaxONVrsTTwj42+c1kYxCZHKmD6IQHXeSZPhO5i/wuB5
-         3Si4xxwt2nD2FAH7g6YQBt2DQPzX7l0mtl2Act9Zbk+6K3nOFaDpdv0mbX6Ja9lAvNJK
-         PtLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789565590; x=1790170390;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WSw25v0bjyMImA+vtAQs+sdauYT+Btn5U4Rr1BPpU9w=;
-        b=L+lIcy3a0XIMmYdzBP5GLP7GSGOJRUKDsRBi0U3wAvWnNSesHFaH2tL1xvT3jI70HI
-         gBFgzOWVDZha2zxgZWQ3O0QvEeVlavH0RjkTWN/ihovIpgnkIt36Egz0dsUoS2HBBcVJ
-         9v6lXb3b4iXxPo219V/FVG0QAaYapCPArYbklpoPlZD5Ndgwo9gE46CI0Ar/Yq/kWBOO
-         0W3pRwTrQ/Hex6xUZVus/3DoXE34VmYPQ/9qx8BZtNhpsAf/F/CvDpfnSSXh2BFiKXIw
-         sdYfXTmOYJ66Ih56sqfvT+5jaQvc4TKzf1X8wsML5ASPHTN9/aSs/zr7+5cw8cFvGPEC
-         0iZA==
-X-Forwarded-Encrypted: i=1; AKwUvBwlNa1q0Ua9MxfQYGvKIx5Cdx/60CRHdSNQgNDGEFcWXCZtujbnbbzjv6vhzSEZG7JfZ5nb13bd1TE=@vger.kernel.org
-X-Gm-Message-State: AFuF++nB5kQCJ10unk7u7Va1Gzi20ilpaqabcP75L+EKKhFKopEvpFci
-	WyjZRSN5PoPGAHmr+vqEOXa8yqhpTKBeDm+mJyLKTn8Uy2JUjBbs9jERHa+hlNhCfGK55NSWfd1
-	sAvkpkov95fNs5ttgArVqouX5RqLex+tO4urC2epcueO1VUPOUK3H8F+e+baNTB4=
-X-Gm-Gg: AYBFou1r+ziOsLRVl6E4BwmNJjMioDo+VA5Llodqccpz4NcLchtzhv7dIh23ku1EaL/
-	AhCHSuftUIL5TquG1hppZ55Iza159ubqLEr0ukqzuFUvAw0tWUE5/9Psc3wWmFB3ZjXlfoxULCz
-	JWoJgQQ+4/c9WsnvxKpPYUJ5P+gb8dxcMOOzUzxNj26sCzIFtyl8tjeeDf/rNqrCeGn8p4+48kq
-	lK6Dk/0kKxF5y3NOUgcwfqD6Zs7yYx1Inq0lky9RISyYlvcXYfN1pQCC7N+y6MsyhmEpGIGk9e6
-	Brjjq8FutNYdIAuAA5U3PvyuhI7CgX6jDpkEPApM4TJnbPTpvj/SgsaPSMPkNp15DKA4G1JkFnx
-	wn33L2c/bZMgUDoYFh0rjcNVKbWlWz600
-X-Received: by 2002:a17:902:db06:b0:2db:18fe:bb08 with SMTP id d9443c01a7336-2dd8e632e4emr60389725ad.10.1789565590189;
-        Wed, 16 Sep 2026 06:33:10 -0700 (PDT)
-X-Received: by 2002:a17:902:db06:b0:2db:18fe:bb08 with SMTP id d9443c01a7336-2dd8e632e4emr60388955ad.10.1789565589697;
-        Wed, 16 Sep 2026 06:33:09 -0700 (PDT)
-Received: from hu-faisalh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd89ebf2e2sm12077945ad.42.2026.09.16.06.33.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 06:33:09 -0700 (PDT)
-From: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Sriram Dash <sriram.dash@oss.qualcomm.com>,
-        Jack Pham <jack.pham@oss.qualcomm.com>,
-        Shazad Hussain <shazad.hussain@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/7] usb: dwc3: add xhci-reset-on-resume property for power-loss resume
-Date: Wed, 16 Sep 2026 19:03:04 +0530
-Message-Id: <20260916133304.3720801-1-faisal.hassan@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <aqSVKL2riEdZfS0D@vbox>
-References: <aqSVKL2riEdZfS0D@vbox>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBxUgyHi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789565727; x=1821101727;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fj/EATdwIgq34QHGqNjGnfNoNpswFV8WiGoD0rVwZZM=;
+  b=nBxUgyHi42HltYr31m0YOHz+y5Y/mp3FiZBgYwNkj7mGJPmoiAgPXyGM
+   FVnvv/mxHClilKLGU2P8+UTTCpTbgXDtmPTdny4GVN2TFMS7sJWNLppbF
+   uza0MMWa+FyzWO05zs+RsueCI1sdJ/wbds6zsNgaTtkjvgDIsk1Zbo3Cj
+   O2rsXFE1PtRBwTRdCS551gzyHJ5oYkZFjaGgU/zzofffaHpn8umaL7S3y
+   +Rwo+UagsLOTp8peJyPzo1Ew8XLwPkjlLcbvG4Wp9jXXTf4hi542FyrSj
+   cGOiwvKP9k1fytNH1Zjim675uTubzoSoIFMQo9gwQ4NHLj51VKsAtukKW
+   w==;
+X-CSE-ConnectionGUID: iLTYYihCS5GYhZjvx6Ly8g==
+X-CSE-MsgGUID: QtqH1IIhTNW3JgTtNgbrZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89811011"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="89811011"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 06:35:21 -0700
+X-CSE-ConnectionGUID: dmBtqW31Rd+6lbkNMEVtqQ==
+X-CSE-MsgGUID: x9tnBYiGTriEXf8Xm4iyIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="298410845"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 16 Sep 2026 06:35:20 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id E5B309B; Wed, 16 Sep 2026 15:35:18 +0200 (CEST)
+Date: Wed, 16 Sep 2026 15:35:18 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Nils Arnold <ns.arnold@web.de>, linux-usb@vger.kernel.org,
+	Sanath.S@amd.com, Basavaraj.Natikar@amd.com, westeri@kernel.org
+Subject: Re: AMD Strix Halo USB4: 20/40 Gbit/s negotiation with RJ45 and
+ original host-reset patch regression
+Message-ID: <20260916133518.GS106095@black.igk.intel.com>
+References: <a3437a3c-cf2a-4034-ae1f-0fb4bad0197b@web.de>
+ <20260915124904.GK106095@black.igk.intel.com>
+ <853b62e8-5b07-43d2-be93-bfbd95f55165@kernel.org>
+ <20260916073839.GL106095@black.igk.intel.com>
+ <70a3162e-aca7-44b0-9896-423dd8071838@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE2MDE4MSBTYWx0ZWRfX2aq66QeztHAF
- Mq76JnB6Jj8TxNL6YLxE0bfiA2Q7NvPv+sUEXoeetrRsgKd+XAqm+ra7UevXnTMexHa8bSrGXJh
- pQc96OJxFInWZrHWsfEbczSjv0IfsefHqM2I9rMCA0NwBKJ6hf1RnPi6hIvQTY8o6nHkQ3UAbu5
- jmdtYXy4lSryh7U6IIRGwADL4Uosar8es62lGtTP2cDlJ4YlrfJ1egQA9qZG+f7ZkXlZzWgEJPd
- +zQNVO6ZqdGDXHnEqRUh+k6g9UnuUEzccgI/zdFeDdMtmMMKyVr8EOLBHyvBBaXyQHZjClOfumk
- Mub82Vng6qRoSDGklRZRFzl51Xwel23eowFIgRug9E3eXGS78vSkLGCUtuMtniYDqFTFr+pqqXj
- iiLUe3pVMz25E05bpfk7SUZavOztimldrLe9eZ3G77qVZ/anwuJIAATQKqGeVosGw4z5yhx0LRB
- y8cdqdgGdqYvsJlzQ/Q==
-X-Authority-Analysis: v=2.4 cv=a5ulZkSF c=1 sm=1 tr=0 ts=6aaa9a97 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=hk5jl9konaNAbWeGehQA:9
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE2MDE4MSBTYWx0ZWRfX0Jo2Z2b+HeVx
- V2Z6NRemw42OS2BPFwHS45FSaXKPmOnAJFluDZyDbGdn1fF5xkGX25EoVNszTLT9IlmxJqzfFC+
- 63dJp62qv52HL7dMmR/61oz8y1/NICc=
-X-Proofpoint-GUID: Rk1hHGHDBmV45L65HmqKQ9oB5Oy5YTGq
-X-Proofpoint-ORIG-GUID: Rk1hHGHDBmV45L65HmqKQ9oB5Oy5YTGq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-16_02,2026-09-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609160181
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <70a3162e-aca7-44b0-9896-423dd8071838@kernel.org>
 
-On Thu, Sep 03, 2026, Thinh Nguyen wrote:
->> --- a/drivers/usb/dwc3/core.h
->> +++ b/drivers/usb/dwc3/core.h
->> @@ -1420,6 +1424,7 @@ struct dwc3 {
->>  	unsigned		wakeup_configured:1;
->>  	unsigned		suspended:1;
->>  	unsigned		susphy_state:1;
->> +	unsigned		xhci_reset_on_resume:1;
->
-> Can you move this after dis_split_quirk and add a blank line to separate
-> properties from dwc3 state/config fields?
->
->> --- a/drivers/usb/dwc3/host.c
->> +++ b/drivers/usb/dwc3/host.c
->> @@ -129,7 +129,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
->>  int dwc3_host_init(struct dwc3 *dwc)
->>  {
->> -	struct property_entry	props[6];
->> +	struct property_entry	props[7];
->
-> This should be 8. There's already a fix patch for this. Hopefully it
-> gets picked up soon.
+On Wed, Sep 16, 2026 at 08:26:07AM -0500, Mario Limonciello wrote:
+> On 9/16/26 02:38, Mika Westerberg wrote:
+> > Hi,
+> > 
+> > On Tue, Sep 15, 2026 at 03:42:43PM -0500, Mario Limonciello wrote:
+> > > On 9/15/26 07:49, Mika Westerberg wrote:
+> > > > Hi,
+> > > > 
+> > > > On Tue, Sep 15, 2026 at 01:21:39PM +0200, Nils Arnold wrote:
+> > > > > Hello Sanath, Mario, Mika and Basavaraj,
+> > > > > 
+> > > > > I would like to add test evidence from two Strix Halo hosts to this
+> > > > > USB4 reset discussion. My reset test used a backport of the ORIGINAL
+> > > > > f1de1fc5f632 commit, not the newer deferred-reset implementation.
+> > > > > I have not tested the revisions discussed on September 15.
+> > > > 
+> > > > Okay the last message on the thread I asked if we should revert the commit
+> > > > for v7.3-rcX and then try to get the "better" fix into v7.4. At least what
+> > > > I understood it seems to solve the issue without the deadlock and killing
+> > > > the whole host interface underneath everybody else.
+> > > 
+> > > FWIW to Nils I left a note on that thread and agree with Mika.
+> > > 
+> > > > 
+> > > > Once we have that patch, you can test and see if that helps in your case
+> > > > too. Now that we know AMD guys can CC you when they submit it.
+> > > 
+> > > One thing I'd like to note though; I would rather that we keep out of tree
+> > > modules out of the conversation on the kernel mailing list when it comes to
+> > > upstream behavior.
+> > > 
+> > > There are multiple ways to do xdomain tunnels in the kernel, and we should
+> > > collectively fixate our time and energy on bugs related to those instead of
+> > > PoC out of tree drivers.
+> > 
+> > Fully agree. But the same behaviour is with the in-tree Thunderbolt
+> > networking and stream (and maybe DMA test) drivers so those should at least
+> > be working with the AMD controller without wedging.
+> 
+> Yes and no.  That out of tree driver might be configured as a module, but at
+> least I haven't audited it.  It could be causing other problems too when it
+> accesses certain symbols.
 
-Turns out this whole patch isn't needed -- see my reply to Krishna on
-this same thread. xhci-plat already walks the parent device chain for
-this property, so I'm dropping this patch and attaching it directly on
-dwc3-qcom's own device instead, in the "Support broken suspend for
-SA8255P" patch later in the series. Both nits go away with it.
-
-Thanks,
-Faisal
+Yes agree this but I mean if the issue happens with the in-tree drivers we
+should try to fix it the best way possible. And my understanding is that it
+happens in your own validation too, right? This is the same AMD controller
+wedge issue we are talking about where the fix was just reverted by you and
+now you (AMD) are working on better one? Or I'm missing something :)
