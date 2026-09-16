@@ -1,166 +1,304 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A98F466B08
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 07:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C97F46E000;
+	Wed, 16 Sep 2026 07:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789545589; cv=none; b=nyi6W1CLfgq0cnqwLA3DrYFBkkRLMfcPrV9JRcGUWZsW+xIeE0Ao2xZqA0DhmHQnnQhrrJt2V7c8WIhTYESuouN3Ev9WAzM1BROHRcNaMyl7HvBX7XEvB6+4i4pzgT6Ot/hYPnn7sLZqgyNK63Q/tcncuFpqEP+Jh8V8/xLCDQo=
+	t=1789545595; cv=none; b=n5WwDDe0wFcjqkmfs6JPWGNmdZ5s8Lv2V0b1QCZZMwnVTFGb8T+BxxTvXHnvrbwv7+QRxahuk+hSr/yd55JTTDXKrr8TGJPTo74WjE4jkTOc1G53Ndhz0lQE0CWNGbK44YUrGPnSxEx4nVcmfzQxwKoEWOhnSbh2pvdkrMTrBs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789545589; c=relaxed/simple;
-	bh=n5OM2/VFYsx7oj5lWPwm1kxpni3dSJJQk03UQEkKIio=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DTGJlXGE4dBoMS3lnQg3RhrzpEkv+YogvTctrxmJlFDHN/dBKlfEwUwUKHjxK8qnNiehFSQEbj88SO5A6L1KudOhR0U22jHpFXeKFxm0pgBiEeaaNkihSP2G0H1c+bYLQUQmtA0JKvMCDIc3oDrScXaCOBrNkJXPOhsf9++4RU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ohYqnxUt; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1789545595; c=relaxed/simple;
+	bh=b4CqmzvQVSWRsMYDiuzp2BVcXBYrPbrqgrL7jKTp+C0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RYLNTK+fgvmIuWUlExU+CaNUQ7wUC7TbRtZLdJXSoD+TKRVnVGuGL1Jn4xjSwT/iGH42SaDpn/mDOmSK/ht5gJl10nCTmyaDJjlBPTdFbMsFRosvYh2qsiWtNKaZiplhHLNUFZFsL8D8OB6ObDO0swA6lCxwDHliRxRpX67DcN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=db80HVJD; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ohYqnxUt"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396cccbba92so528184a91.0
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 00:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1789545556; x=1790150356; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UnPIF04bEgfqnB06sJJ+n/4J6DJ5aXluvuxFl2QwIxQ=;
-        b=ohYqnxUtCPXeFU+yDLfm/g1jv2GU38BjR70gPaXT6fZBcN1akUi9BoI/csovFlpLeS
-         X8cZbpOkdAT7PpAIHjYLJsNJXHKv2pVqHHFVhp77Ze8Mz8Pjou+T1OuotuigsqHGgzKo
-         GTUvC3aWZ47Z7rkhK+0MjnFLYucVqepA4e0UI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789545556; x=1790150356;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UnPIF04bEgfqnB06sJJ+n/4J6DJ5aXluvuxFl2QwIxQ=;
-        b=wP+VEBKagQfyDrxf70MqL9NgTEA6qZ/XeFTLXR9PbUuYYtdzAh9RIvVKwddz07UDcB
-         t+Bh5809dFGXTJY0ZMrCvdBmsVqh+IG+0IOeZtlcKSlcPwyd5eA5nROo/F5b2u3A+xUN
-         I4cXJlqares3yXgEqYBKr45+NOmfYnd+VMv3EkzZKZRovFcLzEu4bXR1hA+MUdtKViyj
-         cdkxuBXsRljgsGpwXBMDvMqYk1IQIrLJ5AfB842DpU0Y1hW55wOILsqZG+FX7hctF76/
-         OZ5T5e+J7aPSVGraTUvaT4/0H7gyz9ERULWbB/gL6FTk0WWzau2zmkevaH1yrx2lo2na
-         xdLA==
-X-Forwarded-Encrypted: i=1; AKwUvBxP0Yz3X0Umn59+xoelAb1b7mzdvnMEVXo98/BX5+8o7aAyFOfuZw+zxcWPTIdBjuO5804PhnqUtYI=@vger.kernel.org
-X-Gm-Message-State: AFuF++l75JhhQf/QlJW3CE8REwXvci4g140ERFZY3Q9MpXSQ4FVuXsN5
-	EWh2neyNoL+qMxxPYVdrjQ4bVpD1fFylL5QsuNTfX58FYUP92/gj1HvrgzmmuumAWA==
-X-Gm-Gg: AYBFou0nn2Lq72yNvjuTYIncw+T0pgJwUDyrZ6LtZglIBF6Wti7G++WfIxaDIpEOlLd
-	gVQ43pJMx/SckZRUs8WUGEJwuTCYlA5e9w5vsvqZCzaxrJuVhQQPlWwWwW0ZVGGFH9kTmVlmnKM
-	KXchL0iQ5uLNFFm3N18ybgrdG7Ld7QNak7fV82D6CoDTXluM/i4ZcHzHr6TA7gUv5RIdhLgcdQ/
-	GWzDqlSC7wr0sXB4HPO1YclRRDLadEQbBHJ73G5Ke2g6gm16F86tK8prhA1ahQ7uA802ID4mWUI
-	FwKbY4/W0mFJwniApoXk6sY/xLMtJth71PqrxWlkePwvB6YTFofAJHJ52vDhr5jCSTOx7pwLfeV
-	Z32WSZyExXWD9ffvZIc+TG/2dwNfY2MMQta0gpYQBrLRPUpB9sgY3lLpDPipfLMITF2iaYlLQlE
-	Ltd4LrZf8NmHusx+PRhWj8B9m05lOmDsorP9dUBzC27ED3aaELNG3JbcNvQkDRTW1l0rzet4/S+
-	SbJCw3rLNR6L3VmnLMskehGoMO8MCPCG9zeg1QVQlr9/K5fiZduFPaJfA==
-X-Received: by 2002:a17:90b:4cc8:b0:398:c292:ac80 with SMTP id 98e67ed59e1d1-39e1e330a2dmr4372580a91.10.1789545556050;
-        Wed, 16 Sep 2026 00:59:16 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:203d:7:1f62:7622:5d61:2578])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1b7acba2sm4348197a91.16.2026.09.16.00.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 00:59:15 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v9 10/15] dt-bindings: usb: mediatek,mtk-xhci: Switch to ports for USB connections
-Date: Wed, 16 Sep 2026 15:57:36 +0800
-Message-ID: <20260916075745.3549953-11-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-In-Reply-To: <20260916075745.3549953-1-wenst@chromium.org>
-References: <20260916075745.3549953-1-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="db80HVJD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789545573; x=1821081573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b4CqmzvQVSWRsMYDiuzp2BVcXBYrPbrqgrL7jKTp+C0=;
+  b=db80HVJDgOXSTDglzLs5ZDPmBx5aXT7rfPxyMCTtVqMVpHRbhEVPZB4w
+   C3nHgiI4YQ9Ia70jKG9XnyCP+/WEvHdyFGhhQ+6jzTs73OSHawjjYSc3r
+   lIuJG6pvNlpGxV+VGMd/a+IF5AQ8S0L5nCDk4g0qbTuoHJDFvZN4WRkca
+   iTMUDdp+3c5mnRvLJ86sYiokHpveBpSUX7WHLxpPpeaTPzz+SUBOcviuM
+   zY8fn5cMX3DKLdBpHKO7Uoh3FYjKQIwEDTaHf07+PoE11tsfU8GbPVphk
+   d8ogu5twVDYdubUVa9UVBq1W2O6j1q6L5xCRcc+uLa6On4b93aTK3QSk7
+   Q==;
+X-CSE-ConnectionGUID: qFCb0fWARFayeqPswppXQg==
+X-CSE-MsgGUID: hca7KLx+S9qcd9dhfvtqOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90050962"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="90050962"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 00:59:27 -0700
+X-CSE-ConnectionGUID: SHkrBPlPTSqxkBqYym0tFw==
+X-CSE-MsgGUID: io/nI3CpSQKChBsvvbXWng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="271812541"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa010.jf.intel.com with ESMTP; 16 Sep 2026 00:59:25 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 84FC499; Wed, 16 Sep 2026 09:59:24 +0200 (CEST)
+Date: Wed, 16 Sep 2026 09:59:24 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, usb4-upstream@oss.qualcomm.com,
+	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH] thunderbolt: Make PCIe NHI support opt-in
+Message-ID: <20260916075924.GO106095@black.igk.intel.com>
+References: <20260915-topic-tbt_pcie_optional-v1-1-47c4a3d129bd@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260915-topic-tbt_pcie_optional-v1-1-47c4a3d129bd@oss.qualcomm.com>
 
-This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
+Hi,
 
-MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
-and USB 3.x Super Speed (SS). The block can also be synthesized with
-either HS-only capability or HS+SS capability. The SSUSB controller
-handles the device or gadget mode. Saying that SSUSB handles the HS
-portion is wrong.
+On Tue, Sep 15, 2026 at 07:04:10PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> With more implementations coming in, one may desire not to enable
+> support for the PCIe-attached NHIs. Allow it to be built as a module
+> atop the framework.
 
-For example, on the MT8195, the first two instances support both HS and
-SS, while the latter two instances support only HS.
+Is it so that Qualcomm platform does not support PCIe tunneling at all
+then?
 
-Switch to a "ports" sub-node for describing USB connections. Port 1 is
-Super Speed if the controller is SS-capable, otherwise it is High Speed.
-Port 2 is High Speed if SS-capable. This port mapping scheme directly
-matches what the hardware returns in its capability registers.
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+> The diff came out a little messy.. compile-tested with CONFIG_PCI=n and
+> tested USB4_PCIE=m/=y on a NUC with an Alpine Ridge controller
+> ---
+>  drivers/thunderbolt/Kconfig   | 11 ++++++++++-
+>  drivers/thunderbolt/Makefile  |  7 +++++--
+>  drivers/thunderbolt/ctl.c     |  6 +++++-
+>  drivers/thunderbolt/domain.c  | 14 ++++++++++++--
+>  drivers/thunderbolt/nhi.c     | 18 +++++++++++-------
+>  drivers/thunderbolt/nhi.h     |  2 ++
+>  drivers/thunderbolt/pci.c     | 39 ++++++++++++++-------------------------
+>  drivers/thunderbolt/switch.c  |  9 +++++++++
+>  drivers/thunderbolt/tb.h      |  2 --
+>  drivers/thunderbolt/tunnel.c  |  1 +
+>  drivers/thunderbolt/xdomain.c |  5 +++++
+>  11 files changed, 74 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/thunderbolt/Kconfig b/drivers/thunderbolt/Kconfig
+> index 294b3227a545..81fca3bfcdd7 100644
+> --- a/drivers/thunderbolt/Kconfig
+> +++ b/drivers/thunderbolt/Kconfig
+> @@ -1,7 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  menuconfig USB4
+>  	tristate "Unified support for USB4 and Thunderbolt"
+> -	depends on PCI
+>  	select APPLE_PROPERTIES if EFI_STUB && X86
+>  	select CRC32
+>  	select CRYPTO_LIB_SHA256
+> @@ -18,6 +17,16 @@ menuconfig USB4
+>  
+>  if USB4
+>  
+> +config USB4_PCIE
+> +	depends on PCI
+> +	tristate "Support for PCIe-attached USB4 and Thunderbolt controllers"
 
-Fixes: 454a1e3cd36c ("dt-bindings: usb: mediatek,mtk-xhci: Add port for SuperSpeed EP")
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v1:
-- Squashed DT binding revert and addition together
-- Dropped reviewed-by from Bartosz
----
- .../bindings/usb/mediatek,mtk-xhci.yaml         | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+I think USB4_PCI and so on.
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 231e6f35a986..d6c75bd20b78 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -107,10 +107,6 @@ properties:
-       - description: USB3/SS(P) PHY
-       - description: USB2/HS PHY
- 
--  port:
--    $ref: /schemas/graph.yaml#/properties/port
--    description: Super Speed (SS) Output endpoint to a Type-C connector
--
-   vusb33-supply:
-     description: Regulator of USB AVDD3.3v
- 
-@@ -188,6 +184,19 @@ properties:
-   "#size-cells":
-     const: 0
- 
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Super Speed (SS) data bus if SS-capable;
-+          otherwise High Speed (HS) data bus.
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: High Speed (HS) data bus if controller is SS-capable.
-+
- patternProperties:
-   "@[0-9a-f]{1}$":
-     type: object
--- 
-2.55.0.1032.g73a4cd73de-goog
+> +	help
+> +	  Say Y here to add support for the USB4 and Thunderbolt host
+> +	  routers attached over the PCIe bus, commonly found on x86 PCs.
+> +
+> +	  To compile this driver a module, choose M here. The module will be
+> +	  called thunderbolt_pcie.
 
+thunderbolt_pci
+
+> +
+>  config USB4_CONFIGFS
+>  	def_tristate USB4
+>  	depends on CONFIGFS_FS && !(USB4=y && CONFIGFS_FS=m)
+> diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
+> index beb054c3126b..fc808c6b23e6 100644
+> --- a/drivers/thunderbolt/Makefile
+> +++ b/drivers/thunderbolt/Makefile
+> @@ -1,10 +1,13 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  ccflags-y := -I$(src)
+>  obj-${CONFIG_USB4} := thunderbolt.o
+> -thunderbolt-objs := nhi.o ctl.o tb.o switch.o cap.o pci.o path.o tunnel.o eeprom.o
+> -thunderbolt-objs += domain.o dma_port.o icm.o property.o xdomain.o lc.o tmu.o usb4.o
+> +thunderbolt-objs := nhi.o ctl.o tb.o switch.o cap.o path.o tunnel.o eeprom.o
+> +thunderbolt-objs += domain.o dma_port.o property.o xdomain.o lc.o tmu.o usb4.o
+>  thunderbolt-objs += usb4_port.o nvm.o retimer.o quirks.o clx.o
+>  
+> +obj-${CONFIG_USB4_PCIE} += thunderbolt_pcie.o
+> +thunderbolt_pcie-y := pci.o icm.o
+> +
+>  thunderbolt-${CONFIG_ACPI} += acpi.o
+>  thunderbolt-$(CONFIG_DEBUG_FS) += debugfs.o
+>  thunderbolt-$(CONFIG_USB4_CONFIGFS) += configfs.o
+> diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+> index 965988b18608..96717a0a94b1 100644
+> --- a/drivers/thunderbolt/ctl.c
+> +++ b/drivers/thunderbolt/ctl.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/crc32.h>
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+> -#include <linux/pci.h>
+>  #include <linux/dmapool.h>
+>  #include <linux/workqueue.h>
+>  
+> @@ -96,6 +95,7 @@ struct tb_cfg_request *tb_cfg_request_alloc(void)
+>  
+>  	return req;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_cfg_request_alloc);
+>  
+>  /**
+>   * tb_cfg_request_get() - Increase refcount of a request
+> @@ -128,6 +128,7 @@ void tb_cfg_request_put(struct tb_cfg_request *req)
+>  	kref_put(&req->kref, tb_cfg_request_destroy);
+>  	mutex_unlock(&tb_cfg_request_lock);
+>  }
+> +EXPORT_SYMBOL_GPL(tb_cfg_request_put);
+>  
+>  static int tb_cfg_request_enqueue(struct tb_ctl *ctl,
+>  				  struct tb_cfg_request *req)
+> @@ -575,6 +576,7 @@ int tb_cfg_request(struct tb_ctl *ctl, struct tb_cfg_request *req,
+>  	tb_cfg_request_dequeue(req);
+>  	return ret;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_cfg_request);
+>  
+>  /**
+>   * tb_cfg_request_cancel() - Cancel a control request
+> @@ -634,6 +636,7 @@ struct tb_cfg_result tb_cfg_request_sync(struct tb_ctl *ctl,
+>  
+>  	return req->result;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_cfg_request_sync);
+>  
+>  /* public interface, alloc/start/stop/free */
+>  
+> @@ -1009,6 +1012,7 @@ struct tb_cfg_result tb_cfg_read_raw(struct tb_ctl *ctl, void *buffer,
+>  		memcpy(buffer, &reply.data, 4 * length);
+>  	return res;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_cfg_read_raw);
+>  
+>  /**
+>   * tb_cfg_write_raw() - write from buffer into config space
+> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+> index 12c88509a54f..1c76fd8151ca 100644
+> --- a/drivers/thunderbolt/domain.c
+> +++ b/drivers/thunderbolt/domain.c
+> @@ -313,6 +313,7 @@ const struct bus_type tb_bus_type = {
+>  	.remove = tb_service_remove,
+>  	.shutdown = tb_service_shutdown,
+>  };
+> +EXPORT_SYMBOL_GPL(tb_bus_type);
+>  
+>  static void tb_domain_release(struct device *dev)
+>  {
+> @@ -421,6 +422,7 @@ struct tb *tb_domain_alloc(struct tb_nhi *nhi, int timeout_msec, size_t privsize
+>  
+>  	return NULL;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_domain_alloc);
+>  
+>  /**
+>   * tb_domain_add() - Add domain to the system
+> @@ -514,6 +516,7 @@ void tb_domain_remove(struct tb *tb)
+>  
+>  	device_unregister(&tb->dev);
+>  }
+> +EXPORT_SYMBOL_GPL(tb_domain_remove);
+>  
+>  /**
+>   * tb_domain_suspend_noirq() - Suspend a domain
+> @@ -904,8 +907,9 @@ int tb_domain_unregister_unplugged_xdomains(struct tb *tb)
+>  
+>  	return ctx.n;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_domain_unregister_unplugged_xdomains);
+>  
+> -int tb_domain_init(void)
+> +static int __init tb_domain_init(void)
+>  {
+>  	int ret;
+>  
+> @@ -931,7 +935,7 @@ int tb_domain_init(void)
+>  	return ret;
+>  }
+>  
+> -void tb_domain_exit(void)
+> +static void __exit tb_domain_exit(void)
+>  {
+>  	bus_unregister(&tb_bus_type);
+>  	ida_destroy(&tb_domain_ida);
+> @@ -941,3 +945,9 @@ void tb_domain_exit(void)
+>  	tb_debugfs_exit();
+>  	tb_configfs_exit();
+>  }
+> +
+> +postcore_initcall(tb_domain_init);
+> +module_exit(tb_domain_exit);
+> +
+> +MODULE_DESCRIPTION("Thunderbolt/USB4 core driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index 020db5a1f029..9b1165b2a484 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -548,6 +548,7 @@ irqreturn_t ring_msix(int irq, void *data)
+>  
+>  	return IRQ_HANDLED;
+>  }
+> +EXPORT_SYMBOL_GPL(ring_msix);
+
+We need to think what is going to be exported and how. For example here
+ring_msix is pretty common name so if nothing else it needs to be properly
+namespaced and that should be the first patch in the series.
+
+Secondly I think it would be good to have this whole thing as part of a
+patch series that adds the Qualcomm controller support so we have an
+explanation there why we are doing all this.
+
+>  
+>  static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
+>  {
+> @@ -1001,6 +1002,7 @@ int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data)
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(nhi_mailbox_cmd);
+>  
+>  /**
+>   * nhi_mailbox_mode() - Return current firmware operation mode
+> @@ -1021,6 +1023,7 @@ enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi)
+>  
+>  	return (enum nhi_fw_mode)val;
+>  }
+> +EXPORT_SYMBOL_GPL(nhi_mailbox_mode);
+
+We really need to think what should be exported and what not. This for
+example I think we can move inside pci.c because there is really no user
+outside of Intel PCIe based systems for these.
+
+Ideally export the minimal.
