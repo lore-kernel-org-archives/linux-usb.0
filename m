@@ -1,105 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4823E7174
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971E14FECC9
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789565799; cv=none; b=fU4AueW/1OXe3dato2DhUWbwuVqCDGzMcxKZK8zeQPoBlLjIEU1QrdBqGKKzyDE51EfSHIorctBk6uiMe8gUiON/jEOXxPlPXmizTdiqRwV91FB3MV9Mz4GWp4EciFZnGj6yeImzOQJOGngCDFNCNWDHxoLjfkha3g7DYxObL5s=
+	t=1789565911; cv=none; b=okPT/YjUkdjkJ6sg0eWe+cn3blIXnZKyqqcUeVvo6z86uZURZNQ2SOlymApQVHLMlAz0v3NlN5WR1Oh4pwy/1UYpfw4Ykqp6pnrbj/uTrQPv6hVxElX43rxH1Zp8qfVNUx/tNHPEvnpJRmdqwe5WyqgYDT2yQwVXx8KdvHQRNKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789565799; c=relaxed/simple;
-	bh=6IPGjiQEUJIIuK0aM6PJeTeVkWSgSV6E4g2h3MaKVL8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qd4ndk3XBllGKdNPmtNFYg5Twqc5rFYYNu7XZNY9DqgTQEYEA0j9pX5edG2O/n0JkYkWNqClbrrafcg4sti1gOUXMeXVHYJSw3WlJs2gWfSIGI0K5F1YvsCMSJVt75EwQVTdZU8JFv0N9Oe4j6GCpZDOkojMe7xbjFxJ1V8dRLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b+JTn199; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789565911; c=relaxed/simple;
+	bh=gr8uD9XWy7EPGvPIwLrmL5ImB5sWtzac4sXA0IvvQd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2sfTS+r+2RxLdVrpfkPapTG4XoilC51XIsddl4SMNl4xrGwsqCy/5eLlZvrYlBrq1On9ph/fv4+BeQnDfzHnyhj2komq+FsXqH/GRL4bX9J8S/BJtRskbV+IWmfSsNvcVe2mbxSBbihVS10x2vOgo49F11h3g7AcbtyOugo0Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=F8kSfjgk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TY6GmmXl; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b+JTn199"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B821D1F000FF;
-	Wed, 16 Sep 2026 13:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789565797;
-	bh=xGpadioZ9a8WZQWlBNG7iy2ht/l/73ULAJbo071Ntok=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=b+JTn199Pl/adC0T7CbZk6k6Ck97H7F50CW8omw4B/I30T35CFlxwM1ajocdfwXML
-	 P7AThr697c19/baYU4KIpSTIyTwWslnRV7pIhkMa/1ZeqbrOIRn0KmPdPrU8/HXMdT
-	 G3n3oZVrbXPTr6cwuAmWGAFD6xnsvt2/NjexIlYpd/mlFAPnU0ltoMvTspKctfaUn3
-	 WIEYN5tRQCFq41zLa4tuw6arO2MP7jObDGVfu9NBrN4sSIhGB3EII3mzSWltmGgrxJ
-	 MFIyWI8hWIbPLSgzii9xdqEoxJzJWsnPy0QgRhDYGloTm4DCqYWQ4AD6IWnygwfzBO
-	 bITYv3XzsNbRg==
-Message-ID: <1ee4ce2d-ba61-40d8-8eae-e3462df15493@kernel.org>
-Date: Wed, 16 Sep 2026 08:36:36 -0500
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="F8kSfjgk";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TY6GmmXl"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68GCYUVY2052857
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:38:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=LlhMlNHGEpK0T30X/QJXpo30
+	EE7ZsUpq2JBHpDtamuk=; b=F8kSfjgkXsDY12jEah2EiaQ98LB4kaRz6Sw5gUOD
+	dS3eDgCRFh2ZAlTRJWcgy48XpX9PzIAhjSO7vthSxzPJPWWNFJpzhJp8tEPrxA4h
+	u873Ci8ACv7nlOsU/Dxof+ezLjEs6cWrJdbScBHKoIJkOJCit5ih2E1IKCc9RsrW
+	8tqiyc37ynjhH2V2nkDN0x8QKoLp16aB5CpbzEz3vMKQcbtKTOSim68smku3mpnf
+	Jr2fiDpHVMAZpKyHzvxkPJJzWnXzIRWTLBjtOnE1HQSOL0ConSZU6fnNXNekqQie
+	DQXtDrzY/AfZkQ3j7P/oIsPs9mGOpByYOlSBYjOiyMn6sw==
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqtn50cun-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 13:38:12 +0000 (GMT)
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-804e6c7acb6so6621446a34.2
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 06:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789565892; x=1790170692; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LlhMlNHGEpK0T30X/QJXpo30EE7ZsUpq2JBHpDtamuk=;
+        b=TY6GmmXl6/ib8uv3Ot3V+A7hpe1nV7WaAjtJh2DTJgi+RvnaWH0WhXbxGQs2/W25tl
+         JzL5jE66B1YNrLST1a6g6M7+xRV/1yeZlrRAViRCGHhqlFNsvy7kqRvcPvBNkb6o+BWi
+         3HFnmhYSDZuHra6x94y3aeuI9B7Xwq6SSeOXIR7ijIfJ6yKSEKTcgGvyFUG+w3Yp+i0L
+         ymn3xLJ74biNk9FMxfqL3BchmeYt88DEEtNospknxEGb2o/3H80/5Nqyb8OlivHhGT6e
+         aMn7GmH71Lp04Ya8zDGlEipejxR453DfOAR2COsqbEbNI6r6Yd+87NUzBnlULQs/yRnV
+         UAOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789565892; x=1790170692;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LlhMlNHGEpK0T30X/QJXpo30EE7ZsUpq2JBHpDtamuk=;
+        b=HU6tA5F7tGjgf3fTrt7CvrLIMRPCHe30aCQtxoB9ntmOAzX03Jiw4FQ4UmzblWhXqE
+         Zdzts7flenOVE9hzuWImsrBKXeMyFGqCe8MUo8VPqJhtAOPNYoDoRM05cBTJB/baIroT
+         9N8HelFk1g5ikCNyYYlOA+af9hIB0fvK94uDIQ3w30nY5uoyzPPSTiLJkZ76WKM2FZre
+         yrN3yg9uk9tD7V1YDKAPr3648AMjIKzyUEFiNEeVVwUeL+JU3erL+FOQ8lz3JlbCFvGp
+         ZR6dnelN/brXUXUjSrAblN2Gj33XnDCuoD7VXpPaDORgCEm8XBRoCgPmRiaoh1ncm1mC
+         63NA==
+X-Forwarded-Encrypted: i=1; AKwUvBy+dp8aqSiABtME/cySh2tQb1aJVjJqqFSfbmUQ6mL8kQuReLkJ/R/Nm4fYH9LM4Y9TkH8b5zOFbcA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mwRfvBJPwi1Y2ecYKEek1WgraXzsqlkwrRItqmf88jP7k8N7QJ
+	XsikpvglTvvR74/JqJlO7DxvZ4WrS2ZnLDQ4B6CjOu4A9fTXdcjcDtJXbV7Iuf5U90kSYc/Vcif
+	LLqNB06+IVKpMcCkm/FJcRlssZHi01QoA9GndRfQi0mwEu4XXNnrQwC6WgmZcbcnf6bOQuJ+uMA
+	==
+X-Gm-Gg: AYBFou1EFkqinc6/YeDfWG5PMal9rmtX45p8lpKL3Ywl9AI5UGgThBaUdwuNcEmuECB
+	4WW5kzbWuBDXp+NIUP3DkIw1/+nny+BNDXCfVIqirHt5Q2nD4LofaIEdDwpfWG7U7dsd5Ky1jPa
+	64sbVyS8xjajkZ8d3K7VuwPmkeoyWnTY3D6+u90cpkW0gukcpTO8qQc/qSKNih43unzlny44ZSt
+	F5cmuyANR/+hPNukuN1QzoofM+aHa5QsV9e8mrXZH8ElDT8qXrGtJbuS6bPPsGwOImxuGG7wWE3
+	uBii/cF+FT0yUHcuY7hO5hcV4C2HlRZ/8ksAthFa06ofDO3aLtU1lqSfKeT2DMYuStaShUQYxgX
+	YMW3+ksJnmUa60wpI+WZwyeu+MR4KMFbdN65C+onQMEc=
+X-Received: by 2002:a05:6830:410c:b0:7f4:effa:a5ad with SMTP id 46e09a7af769-80b2ec5aac4mr4800101a34.10.1789565891859;
+        Wed, 16 Sep 2026 06:38:11 -0700 (PDT)
+X-Received: by 2002:a05:6830:410c:b0:7f4:effa:a5ad with SMTP id 46e09a7af769-80b2ec5aac4mr4800069a34.10.1789565891485;
+        Wed, 16 Sep 2026 06:38:11 -0700 (PDT)
+Received: from QCOM-aGQu4IUr3Y (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-80b07ad0302sm2541841a34.25.2026.09.16.06.38.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 06:38:11 -0700 (PDT)
+Date: Wed, 16 Sep 2026 21:38:04 +0800
+From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v2 RESEND 2/2] usb: typec: Add onsemi FUSB15201 driver
+Message-ID: <aqqbvEH0U6LYR8UR@QCOM-aGQu4IUr3Y>
+References: <20260911073414.16711-1-shengchao.guo@oss.qualcomm.com>
+ <20260911073414.16711-3-shengchao.guo@oss.qualcomm.com>
+ <aqfyPQ8bxxvBEB_3@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: AMD Strix Halo USB4: 20/40 Gbit/s negotiation with RJ45 and
- original host-reset patch regression
-Content-Language: en-US
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Nils Arnold <ns.arnold@web.de>, linux-usb@vger.kernel.org,
- Sanath.S@amd.com, Basavaraj.Natikar@amd.com, westeri@kernel.org
-References: <a3437a3c-cf2a-4034-ae1f-0fb4bad0197b@web.de>
- <20260915124904.GK106095@black.igk.intel.com>
- <853b62e8-5b07-43d2-be93-bfbd95f55165@kernel.org>
- <20260916073839.GL106095@black.igk.intel.com>
- <70a3162e-aca7-44b0-9896-423dd8071838@kernel.org>
- <20260916133518.GS106095@black.igk.intel.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260916133518.GS106095@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqfyPQ8bxxvBEB_3@black.igk.intel.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE2MDE4MiBTYWx0ZWRfX5Xn05DUuifKq
+ hNnOFZodxug8StRZdJVY0r0/L/RczHLKnI9bxnfmCo02BrVqVYabMUDXJc/m15HokihaESnm3D+
+ q9uJY6UQhznfJvxMVc1tMUXka7/J+eMDLjYCXBxn2cCklu+AS3n3O4JRr9nnZNXynD99gH7d0q6
+ E57oxawFfvSZlaxv6CbQWXD1us3RH6FoS+9BcZBylnQy/1h/XUaQ27uXD1yK7Z7xFxu3znWQkwY
+ 2Ol3qfrrH15U9PvCw7mv7DDrEXMG4aFhHqS9y33YRRGxEhFDUTChe9Iv3Ntg8PFxQ047q/8f5qF
+ u59BSKf1wzjjhamEtv4OQhnywOM/E3MnWB9zXFkGwRC8AcKKHbLcV9qrderVFvgMuDjb2soK6OB
+ Gw65pbCkeDE9ex1LJ0ASos99ZhjUK3iV9oWeUkmNrRfibcygZ2qFWZ6UXA0q5t6KJSAWTWZaN6O
+ 2PdbRAzjtLJEU0B9Nag==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE2MDE4MiBTYWx0ZWRfX0PcrkrerGVzQ
+ S2LxXDuCql32YBDkjXZaH+5x3JoXf1+DzcQBSNTRGIzZX1J0Y9qSfVveReV48/jrFlFbuNM8esg
+ pQK6bMJKT1JC5nFApb72UWwlV0B3HiE=
+X-Proofpoint-ORIG-GUID: YjNj_fEWETo3u5pja9xXBeAJEEzfgxC6
+X-Authority-Analysis: v=2.4 cv=K7O3jCWI c=1 sm=1 tr=0 ts=6aaa9bc4 cx=c_pps
+ a=OI0sxtj7PyCX9F1bxD/puw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=8alAasM9Vt_m-_31djgA:9 a=CjuIK1q_8ugA:10
+ a=Z1Yy7GAxqfX1iEi80vsk:22
+X-Proofpoint-GUID: YjNj_fEWETo3u5pja9xXBeAJEEzfgxC6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-16_02,2026-09-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609160182
 
-On 9/16/26 08:35, Mika Westerberg wrote:
-> On Wed, Sep 16, 2026 at 08:26:07AM -0500, Mario Limonciello wrote:
->> On 9/16/26 02:38, Mika Westerberg wrote:
->>> Hi,
->>>
->>> On Tue, Sep 15, 2026 at 03:42:43PM -0500, Mario Limonciello wrote:
->>>> On 9/15/26 07:49, Mika Westerberg wrote:
->>>>> Hi,
->>>>>
->>>>> On Tue, Sep 15, 2026 at 01:21:39PM +0200, Nils Arnold wrote:
->>>>>> Hello Sanath, Mario, Mika and Basavaraj,
->>>>>>
->>>>>> I would like to add test evidence from two Strix Halo hosts to this
->>>>>> USB4 reset discussion. My reset test used a backport of the ORIGINAL
->>>>>> f1de1fc5f632 commit, not the newer deferred-reset implementation.
->>>>>> I have not tested the revisions discussed on September 15.
->>>>>
->>>>> Okay the last message on the thread I asked if we should revert the commit
->>>>> for v7.3-rcX and then try to get the "better" fix into v7.4. At least what
->>>>> I understood it seems to solve the issue without the deadlock and killing
->>>>> the whole host interface underneath everybody else.
->>>>
->>>> FWIW to Nils I left a note on that thread and agree with Mika.
->>>>
->>>>>
->>>>> Once we have that patch, you can test and see if that helps in your case
->>>>> too. Now that we know AMD guys can CC you when they submit it.
->>>>
->>>> One thing I'd like to note though; I would rather that we keep out of tree
->>>> modules out of the conversation on the kernel mailing list when it comes to
->>>> upstream behavior.
->>>>
->>>> There are multiple ways to do xdomain tunnels in the kernel, and we should
->>>> collectively fixate our time and energy on bugs related to those instead of
->>>> PoC out of tree drivers.
->>>
->>> Fully agree. But the same behaviour is with the in-tree Thunderbolt
->>> networking and stream (and maybe DMA test) drivers so those should at least
->>> be working with the AMD controller without wedging.
->>
->> Yes and no.  That out of tree driver might be configured as a module, but at
->> least I haven't audited it.  It could be causing other problems too when it
->> accesses certain symbols.
+On Mon, Sep 14, 2026 at 03:10:21PM +0200, Heikki Krogerus wrote:
+> On Fri, Sep 11, 2026 at 03:34:14PM +0800, Shawn Guo wrote:
+> > The FUSB15201 is a dual-port USB Type-C and Power Delivery controller
+> > which runs the Type-C state machine and the PD policy engine on an
+> > integrated microcontroller. The host only observes the resulting state
+> > and may ask for role swaps, so this is a plain Type-C class driver
+> > rather than a TCPC driven by the Type-C Port Manager.
+> > 
+> > Register a Type-C port for each connector described in firmware, report
+> > attach and detach, orientation, power and data roles and the PD
+> > capability of the partner, and drive the USB role switch of the attached
+> > USB controller so that OTG role switching works. Data and power role
+> > swaps requested through sysfs are forwarded to the controller, which
+> > performs them asynchronously and reports the outcome as a port status
+> > interrupt.
+> > 
+> > The controller exposes a per-port VBUS ADC reading, but the Type-C class
+> > has no VBUS attribute and nothing needs the value, so it is not read.
+> > PD messages, PDOs and alternate modes are not exposed by the hardware at
+> > all. The chip-wide MASTER_RESET command would drop both ports at once
+> > and has no caller, so it is left alone as well.
+> > 
+> > Assisted-by: LLM
+> > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> > Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
 > 
-> Yes agree this but I mean if the issue happens with the in-tree drivers we
-> should try to fix it the best way possible. And my understanding is that it
-> happens in your own validation too, right? This is the same AMD controller
-> wedge issue we are talking about where the fix was just reverted by you and
-> now you (AMD) are working on better one? Or I'm missing something :)
+> You changed the commit message, and that counts too. This is v3.
 
-Yep, totally!
+The resend only removes a Link tag. I did not know that removal/addition
+of tags in commit log counts too.
+
+> A
+> few nitpicks below.
+
+I will change those as suggested.
+
+Thanks for reviewing, Heikki!
+
+Shawn
