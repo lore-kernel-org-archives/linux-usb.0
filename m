@@ -1,174 +1,99 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1011F3DBD65
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 18:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F8349A3DD;
+	Wed, 16 Sep 2026 19:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789584458; cv=none; b=QAMUVnzSRaIIe++BHJe2+XWYJh3cHlsuIuCSHzqEgvtdax5PzYlWEUy6IYqN8M/cKopmJdNwBvmrCs/QnLeM6xwIUDYwCw4jMKMzcrDi4A/KyLy9DYkKy/5Nb9sgkjTwjtlto6J8a1cWPqDixWzVLoY+E4UKbAax+RGNAJxLgzw=
+	t=1789585335; cv=none; b=iiOLq4u4txt+14vaHU7vD2dp8BGcYIQcwIIwUrx2EplQZbswYKlFqB7Fzz5L326TcqJmsZN8Rf0QdbSw3SNjJHr9dyLnZO0shh2E+4tDLfyKK1s4dcxbuzMsEQLduqzi3Mj5qQ8zKCiuk2cZMJtoUf0N1yKIeshl75uQCOHHykU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789584458; c=relaxed/simple;
-	bh=Dl2mOkWxuEJmH6efH0xuQ0K5VoLefb/xYo6CedeIICc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qwo/dJOwOQRQk5Ea4JF6FSg5n+Oo7vuDRGwDk1Pqy3/0jsC+gUo5pn52hEXg4VPbOUJglvknEkmKUMbzmo4csmaLyHJHuSegKp9KXpyQieebMuQWN49DfnzueIfqi2RcQ8H+FAZyJFKQis+Bhi2/fDx8p2TQOyn4HuJtadgyqMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E3Onb8w/; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789585335; c=relaxed/simple;
+	bh=EI8ULIbBrDvRXrJW5Q2Smr4/pWyac6UYfVhBkBYaouY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rPk4dBK7at7RR7D/xB4O1psRJyD89lyfY4jIZx84V2mssPTQpVKP5O+uxenSdi4rfqZMJ76K5gGjHNdbpPPyp31/weNngDbz6Bp3tQ8NzbDBhNq6hAZwAQZLtfpgWBBAKhD6Ups1T/oh5vUR3FQzbA0BPsxSS0qlVYbuds6r30g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=MVkXWlzo; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3Onb8w/"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so338755e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 11:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789584437; x=1790189237; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kIpgcpjulhrzjmnC5wF0dcase85PBIaYQH7p3PkSuY4=;
-        b=E3Onb8w/Nm72mNKr5Cvk0URbzhfIWgJCzBuhgrTz3b40gWj6O3ejHpK5fX2P8Q6Q4J
-         hsinOPf6uvyd64HCN+Qfjg1hffKvG6MjkhWt7jkMDZzlKCSQKeFiY9VW39soLCvhNXVT
-         rj/lbWvhgzQ1/maDsSPoX16EzQuZlqM2AC86BMQ3/qabSJ7LW29zQ2aKmQ3i4cMFmgpF
-         GeMyyxtlsOhUjZXQVxBnTaK4iJSS7P21pXHKSbXR0rpriLu5OUmZBYEffAsdlMt6YRQ+
-         Zz5Rtr9xbFFbK5l/fAhN6QHLoN0bgkl4gf22JEg1WYzj3qIhBF/fbbSa+BcBFDUK6P/e
-         12sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789584437; x=1790189237;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kIpgcpjulhrzjmnC5wF0dcase85PBIaYQH7p3PkSuY4=;
-        b=DKjTwDCP2jI1YuYDzFs9wbjMAM/96rr8nF99oOi9R2+grX0vtBXHNZba6P/fh1f6rR
-         U7sXnPagShLJzA7uUH/ya7JQqHwekNYNNr1uKisGxqpXjBC4Fol2c3/cQDIdPnHcsS8e
-         IlAHpxMESQbTbscv1geJDwpjw6Gp7qzP2uW6/ejm3GzixpRh2AcTdwRziCH342KvO+tJ
-         iJy9OzCLFJvTzkEBnf16ot+Uoz+ATtCsyTvBbGFtUtYG6/9kkkPOiCd2h31kdmoqdvuw
-         owTXIKmnRlRhb16SaoF6bnAQcZviuyqLAdoZYotqTFPDvutBzUq/1rSRoxxhrJW3xrLZ
-         Wjsw==
-X-Forwarded-Encrypted: i=1; AKwUvBzl6XaozlVPtLEJHkNuOKk4u2mtmF0kRGuX6EQfRwtOkKkQSPrtuopvliKuQhmck5vrNx0G/EaxYMY=@vger.kernel.org
-X-Gm-Message-State: AFuF++lMEBDkaAHpY84W+0LtRaDWDXWcQmIsM2HZQSzY0XCn2VEjiWRU
-	hAR3myeegex/mSlqxRSO7hfWDiBP74PAihxa62ED9fiJws6Kvrua53Mk
-X-Gm-Gg: AYBFou12YDY0NGkcUCuvLZZHPdujnDvIMcFoAQISF09kOfyR4HM5mkFnPuC4CaWQqn+
-	p+vX3zy77LlWGAvyODgzpDC+SAN5kEdUy0K6i7MZ4K2ttjOdOBv7VRpH7kdFog4tHQ4UmDq6KY0
-	TqkfG/3F0cgDXD5GQk7aXN63XmNGTHYLUN0PC9aYBMIvjV2Q8/+s9h/8iPnaIcqq4B6DO7uffZc
-	4yCTKQekimicNyWNdX/V04k7l4Rlwk+GH6vEzCwg/3pTTw3eoARwNYoq2/33yqIuYEnIEtfPgN4
-	BZaOKAEEAOudEpj6VpIt2UpKIBBPZ4xM9uQFijIQkFDlRrtxPvxGOGk+oN4wcdR/ygrBACh8fPG
-	gCrz6IgVEumcNkc+HRC6rXt7w3DUx80NDJCRRtEfuhxOV4aZN5FNeTR4B5GVrqPY9sKQT3gypZo
-	cyYAizIhIhCQkD8uhdXwP3uysE56Zh3icMjj5zNnq0nm/jgsyy80g6c1PSQiqPoC+Ljcr0RPG1p
-	dGhVnQ0Ss2fnARsw6/cIA==
-X-Received: by 2002:a05:600c:350d:b0:49c:fa20:cbfd with SMTP id 5b1f17b1804b1-49eb73253ebmr43138425e9.20.1789584437531;
-        Wed, 16 Sep 2026 11:47:17 -0700 (PDT)
-Received: from foxbook (bfh234.neoplus.adsl.tpnet.pl. [83.28.45.234])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbda77d6fsm316845e9.0.2026.09.16.11.47.16
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 16 Sep 2026 11:47:17 -0700 (PDT)
-Date: Wed, 16 Sep 2026 20:47:13 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: djraszit <djraszit@gmail.com>
-Cc: Oliver Neukum <oliver@neukum.org>, Alan Stern
- <stern@rowland.harvard.edu>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] uas: JMS578 returns reproducibly incorrect data after
- host reboot
-Message-ID: <20260916204713.22c4f575.michal.pecio@gmail.com>
-In-Reply-To: <CAFKhL9fL++S1xh+aUCuYbk6EkLQnfUn95y7TBoWaGnPAVP1gYA@mail.gmail.com>
-References: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
-	<c335085d-a824-4632-ad3a-c06715258c81@suse.com>
-	<CAFKhL9f6aLZgerw_7bohbQWvzMxSfd-m-LFcuNP1_p1vWkN4=Q@mail.gmail.com>
-	<1320caa3-85b5-47dc-aa2d-56d3b003c6ef@neukum.org>
-	<CAFKhL9eTD7DxtxMSMuUVP9cDG7Nq4jvrkTCjYfwr9puZfuC4Gg@mail.gmail.com>
-	<20260915233818.5881ad97.michal.pecio@gmail.com>
-	<CAFKhL9fL++S1xh+aUCuYbk6EkLQnfUn95y7TBoWaGnPAVP1gYA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="MVkXWlzo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=Qljgg2HuwrDs6FB5Z7besedOOauzUgeW51ZsZoEhveQ=; t=1789585329;
+	x=1790190129; b=MVkXWlzownt6DqBM7DPADbbwqiDGNVqerMeHL9+8tynYYOAMYDrt7pUSjQNFF
+	zPwT1vPb+oCaZ6NNBOjxCbcovWBV4y32ql18b5w5pkLrzGWPXiPQrHJUPBi9DPjOsdudWJAiDpBAx
+	5ReH3cvFGYueeaShA2oluPaYz0Uc6XhxjSRbOM+wQx37rcHYbFZ49BJAP0nFBzYIiBGAU9ueJWI0o
+	hdjeM8B05+2ApBDtOW37p/cDwPRdJ70shyK7Qdbm9MZpYRxD7oBxJMOIB37GlLuFhQYhLoAL8kPI2
+	CLmh8ffZ6GE7Od24MQ0MajKLtlBfO5HyiMQRlt0LD/PgeeNqZQ==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.99)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1x6utQ-0000000192f-04Al; Wed, 16 Sep 2026 21:02:04 +0200
+Received: from p5dc55206.dip0.t-ipconnect.de ([93.197.82.6] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.99)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1x6utP-0000000324a-3KcW; Wed, 16 Sep 2026 21:02:03 +0200
+Message-ID: <84a0f85161d26174f47965b3ae760dc3b9beee2a.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH v2] sh: defconfig: enable the current M66592 UDC symbol
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Pengpeng Hou
+	 <pengpeng@iscas.ac.cn>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
+ <dalias@libc.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 16 Sep 2026 21:02:03 +0200
+In-Reply-To: <CAMuHMdUZdv6FdhgSB_u5wU4YoqpKFqKmhs8x+bZeGFYyvZ5Puw@mail.gmail.com>
+References: <20260814075531.15446-1-pengpeng@iscas.ac.cn>
+	 <CAMuHMdUZdv6FdhgSB_u5wU4YoqpKFqKmhs8x+bZeGFYyvZ5Puw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-On Wed, 16 Sep 2026 19:56:25 +0200, djraszit wrote:
-> First, I tested the original enclosure (0080:a001, apparently JMS578)
-> connected to a USB 2.0 port of the Raspberry Pi 4.
-> 
-> Interestingly, it still uses UAS
+Hi Geert,
 
-Yes, UAS can run on USB 2.0. It uses a custom protocol to multiplex
-requests over ordinary bulk pipes, without USB 3.0 "streams".
+On Fri, 2026-08-14 at 10:32 +0200, Geert Uytterhoeven wrote:
+> On Fri, 14 Aug 2026 at 10:01, Pengpeng Hou <pengpeng@iscas.ac.cn> wrote:
+> > The M66592 UDC provider is built under CONFIG_USB_M66592. Several
+> > SuperH defconfigs still enable the removed CONFIG_USB_GADGET_M66592
+> > symbol.
+> >=20
+> > Replace the stale entries with the current provider symbol.
+> >=20
+> > Assisted-by: Codex:gpt-5
+> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+>=20
+> Fixes: 193ab2a6070039e7 ("usb: gadget: allow multiple gadgets to be built=
+")
+>=20
+> > The Kconfig/provider mapping was reviewed statically; no SuperH kernel
+> > build was performed.
+>=20
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be> # build-tested
 
-So it's yet another different protocol and a different speed.
+Thanks, I'll pick up this patch and add the Fixes tag manually if b4 doesn'=
+t
+do it automatically when downloading the series.
 
-> RPi4 + USB3/SuperSpeed + UAS  -> BAD after reboot
-> RPi4 + USB3/SuperSpeed + BOT  -> GOOD
-> RPi4 + USB2/480M       + UAS  -> GOOD
+Adrian
 
-> As a control test, while the original enclosure was in a known-good
-> state I manually disconnected its USB cable for approximately three
-> seconds and reconnected it. This did NOT trigger the bad state.
-
-> enclosure in GOOD state
-> -> shutdown Raspberry Pi 4
-> -> remove Raspberry Pi power completely
-> -> wait several seconds
-> -> apply Raspberry Pi power
-> -> wait for complete boot
-> -> test data  
-> 
-> The enclosure remained powered and physically connected to the
-> Raspberry Pi during this test.
-> 
-> The result was BAD.
-
-> enclosure in GOOD state
-> -> disconnect USB
-> -> reboot Raspberry Pi 4
-> -> wait until the Pi has completely booted
-> -> reconnect USB  
-> 
-> The result was GOOD.
-
-Looks like JMS578 doesn't like being connected to a booting Pi 4.
-
-Or maybe it's shutdown? What happens if you:
-
-- disconnect, shutdown, connect, boot
-- shutdown, disconnect, boot, connect
-
-If the problem is boot (second case works, first case fails), then
-I wonder if it's the firmware or the kernel. Maybe you could plug
-the disk after the kernel beigns booting, but before xhci_hcd loads?
-You could blacklist it if it's a module, or bind pci-stub to VL805
-to prevent automatic xhci_hcd activation and widen the time window.
-
-> With the original enclosure, after the bad state had been triggered by
-> a Raspberry Pi 4 reboot, I disconnected its USB cable and connected it
-> to another Linux computer without power-cycling the enclosure. The
-> device could still be accessed there, but it returned the same
-> incorrect data.
-> 
-> For both JMicron devices there is also an interesting recovery behaviour.
-> 
-> Simply disconnecting and reconnecting USB does not recover them.
-> 
-> Switching the enclosure/dock off and on while the USB cable remains
-> connected does not recover them either.
-> 
-> Recovery requires both
-
-Clearly the persistent breakage occurs inside JMS578. Looks like
-either external PSU or VBUS suffices to maintain this state.
-
-So the chip is somewhat dodgy and the only hope is that maybe we
-could avoid triggering this failure.
-
-And it seems to be the chip, not the disk, because only USB 3.0
-UAS is broken. Though no harm in trying other HDD to be sure.
-
-> Finally, I also tested the original enclosure on a Raspberry Pi 5. I
-> performed several reboots with it connected and could not reproduce
-> the corruption.
-
-That was USB 3.0? What's the USB controller on this board?
-
-Regards,
-Michal
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
