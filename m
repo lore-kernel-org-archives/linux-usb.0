@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1776250C289
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 14:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D35C50AC3D
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 14:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789568172; cv=none; b=DXgFWGxLPfO7yrIEZgd+BcxNN6eNm52m33bt30AGb/udrcXmE0MXjSEnT8vtWatjm5S0wmgkwHOmnUNBooVM/8RirPjnLNMJE+4tFtzXjZP09LW3RV7oQv/BnAah5eu5IGRiWDVc6CDZ87zmqMeVU6qn8dMdCjNfIpHc6IixvE8=
+	t=1789568172; cv=none; b=huzzkLnWHMITeTG+P4hYav2F/Q42aeekZSElaKPpXMM6NG469CV4WCNowou1yIfIbj5ZWgfgpiPEK7yfVOaN28zTjrhmmeDYkqwxVzhHwoTbLVZ7gPzWob34S4vCyi5YamTzOl+pDBomicKiiAZay0jWZVpQNWCdwX8QrYg+4Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789568172; c=relaxed/simple;
-	bh=yn06GAEJZoEfweKJZTke3pTHpixoAA7K+DeGkazAEso=;
+	bh=Rp1qPzICnIoAuQyYOGdGNo4FFkGQgJThIKVEzqyR/z0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YTMUYORN8LLZG37nJ8H5N0+7ODYry4myAxJcLMJhj3VD/Syf3RRFmHuxIrUysftTvEy9ZMfANAAnDFsUD7IkELd/d5L1DR3kSZh2/H8LxtfCVzzt9Li7l3u03jcqmL6eRiT0hMrKOL/NtipeoNJ65s+zX+DGlyNFOaryxew4TKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n4tEfawX; arc=none smtp.client-ip=192.198.163.5
+	 MIME-Version; b=KLca6d9SUQ7CuEVSUpHd7WdL1SZ5UFXEv2dklOw9KRNprVmbS6PlRyPBn6iOjbJbAfAFiCBaJ5ud3eK+hPhhpI9dx0jCRQ2X1flEfzycWeGFH59w9WDQ7oZ+kUAkhgmqClrkM+ACrGWAncN6hIB8P5+t14Z62h5R71PqUO9K8Jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maykivvm; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4tEfawX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maykivvm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789568171; x=1821104171;
+  t=1789568172; x=1821104172;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=yn06GAEJZoEfweKJZTke3pTHpixoAA7K+DeGkazAEso=;
-  b=n4tEfawXobjUNdeutfHICfofgfsdcweYjX0cW92yX8Z3/Hi7zOdm3ym6
-   /Jmrd6MoQF+aRvagc6R+WB5aFZW7jVKscTzPeCi1hC66JlgG0/MFR5t5T
-   DCA3QmuqUp30DuBZjcYE4hRPQ4+KuNUzXzQRlYqLraZaKQNc0Gb0SDW/H
-   N+9AHEOisW9gJdURSDmMSdXonhwVGXHiseJAQDrPlNG7QY21sagy5mK0e
-   wwC9/iRs5OXRdIfXDNXgJofuNYtDIiQAq5s6K7NNXh7HJZpQEVGq50kk1
-   gVW+kZNykTxbGxxMXn466k5x7PCUdzhgTvpTj/XuAer5V1ZBEdbC7B4ms
-   w==;
-X-CSE-ConnectionGUID: m9bgvbNGRA+25PkqB7qFgw==
-X-CSE-MsgGUID: kbOzKu4LS/W+SGExO5K32A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="453787"
+  bh=Rp1qPzICnIoAuQyYOGdGNo4FFkGQgJThIKVEzqyR/z0=;
+  b=maykivvmclbdymv0u+UzwHxDgCScCbY/mcNHV0CNVenLdYo59Zo9E6xr
+   AGOlEtaiwVyt65WFktDkYhGkxECud4xy9fRU3GKih14vHEE4wx1ZiLKf4
+   h6cXJ6YYXE40QmqAE9AG/f6bmaiKboUz6aQmlOpqHi0j24/c8Pp6Zm6R/
+   Q0YkaMEWUoEXLc6Wd+43PAf+XLzpti9JpvkhHvDYbTzBRmlvE5XNvbNPk
+   1dTwJNniqHsfRzzD9CkWJEvooV2AEjiyx8/oByuvrWFuN6mAbqwivGcs/
+   +hESiAHsLBmFOrcsYziXOUnjUakGg0VFiaZPWAV56CI/Kd0CwwLs5b9aV
+   Q==;
+X-CSE-ConnectionGUID: zQTTzCMSSLy5/rjfNQdrdA==
+X-CSE-MsgGUID: eJKspqPJTOC9nBvecv4fXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89967311"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="453787"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:16:10 -0700
-X-CSE-ConnectionGUID: szhfdXgUTa2OyaJx92rGEg==
-X-CSE-MsgGUID: ta9IIadtRhemZ2DzTWWXWw==
+   d="scan'208";a="89967311"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:16:11 -0700
+X-CSE-ConnectionGUID: ojSOCBGZQ/ekYi6A7YYwjA==
+X-CSE-MsgGUID: DShSFzqqQkiqO4JWwTeSCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273889499"
+   d="scan'208";a="270720205"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa009.jf.intel.com with ESMTP; 16 Sep 2026 07:16:10 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2026 07:16:10 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id AD2E099; Wed, 16 Sep 2026 16:16:08 +0200 (CEST)
+	id 621269B; Wed, 16 Sep 2026 16:16:09 +0200 (CEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH v2 15/20] usb: xhci: update PORTSC aggregate macros
-Date: Wed, 16 Sep 2026 16:14:04 +0200
-Message-ID: <20260916141409.629621-16-niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 16/20] usb: xhci: consolidate PORTSC RW1CS bit macros
+Date: Wed, 16 Sep 2026 16:14:05 +0200
+Message-ID: <20260916141409.629621-17-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260916141409.629621-1-niklas.neronin@linux.intel.com>
 References: <20260916141409.629621-1-niklas.neronin@linux.intel.com>
@@ -63,62 +63,144 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-PORTSC bit 24 is no longer reserved and is defined as Cold Attach
-Status (CAS), a read-only field. Include it in 'XHCI_PORT_RO' and
-remove it from the reserved mask.
+There are currently multiple macros describing overlapping sets of
+write-1-to-clear (RW1CS) bits in the PORTSC register:
 
-PORTSC bit 31 is Warm Port Reset (WPR), used on USB 3 ports and
-write-1-to-set. Include it in 'XHCI_PORT_RW1S', the macro is
-currently not in use, hence no visible issues.
+  PORT_CHANGE_MASK  (      CSC | PEC | WRC | OCC | PRC | PLC | CEC)
+  PORT_RWC_BITS     (PED | CSC | PEC | WRC | OCC | PRC | PLC      )
+  XHCI_PORT_RW1CS   (PED | CSC | PEC | WRC | OCC | PRC | PLC | CEC)
+
+These definitions largely duplicate each other, with 'XHCI_PORT_RW1CS'
+being a superset of the others. This duplication adds unnecessary
+complexity and makes it harder to reason about which bits are being
+manipulated in different contexts.
+
+Remove the redundant macros and introduce a single 'PORTSC_RW1CS_BITS'
+definition covering all RW1CS bits. Callers can mask out or extend the
+set as needed for specific use cases.
+
+This simplifies the code, avoids duplication, and makes the intent clearer
+when handling PORTSC change/status bits.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci-hub.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/usb/host/xhci-hub.c  | 21 ++++-----------------
+ drivers/usb/host/xhci-port.h |  5 +++--
+ drivers/usb/host/xhci.c      | 10 ++++++----
+ 3 files changed, 13 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index fb75a171f5a0..365b821675a7 100644
+index 365b821675a7..48814dea1b60 100644
 --- a/drivers/usb/host/xhci-hub.c
 +++ b/drivers/usb/host/xhci-hub.c
-@@ -392,12 +392,12 @@ static unsigned int xhci_port_speed(int portsc)
+@@ -18,8 +18,6 @@
+ #include "xhci-trace.h"
  
- /*
-  * These bits are Read Only (RO) and should be saved and written to the
-- * registers: 0, 3, 10:13, 30
-+ * registers: 0, 3, 10:13, 24, 30
-  * connect status, over-current status, port speed, and device removable.
-  * connect status and port speed are also sticky - meaning they're in
-  * the AUX well and they aren't changed by a hot, warm, or cold reset.
-  */
--#define	XHCI_PORT_RO	(PORT_CCS | PORT_OCA | PORT_SPEED_MASK | PORT_DR)
-+#define	XHCI_PORT_RO	(PORT_CCS | PORT_OCA | PORT_SPEED_MASK | PORT_CAS | PORT_DR)
- /*
-  * These bits are RW; writing a 0 clears the bit, writing a 1 sets the bit:
-  * bits 5:8, 9, 14:15, 25, 26, 27
-@@ -407,9 +407,9 @@ static unsigned int xhci_port_speed(int portsc)
- 			 PORT_WDE | PORT_WOE)
- /*
-  * These bits are RW; writing a 1 sets the bit, writing a 0 has no effect:
-- * bit 4 (port reset)
-+ * bits 4, 31
-  */
--#define	XHCI_PORT_RW1S	(PORT_PR)
-+#define	XHCI_PORT_RW1S	(PORT_PR | PORT_WPR)
- /*
-  * These bits are RW; writing a 1 clears the bit, writing a 0 has no effect:
-  * bits 1, 17, 18, 19, 20, 21, 22, 23
-@@ -426,9 +426,9 @@ static unsigned int xhci_port_speed(int portsc)
- #define	XHCI_PORT_RW	(PORT_LWS)
- /*
-  * These bits are Reserved Zero (RsvdZ) and zero should be written to them:
-- * bits 2, 24, 28:31
-+ * bits 2, 28:31
-  */
--#define	XHCI_PORT_RZ	((1<<2) | (1<<24) | (0xf<<28))
-+#define	XHCI_PORT_RZ	((1<<2) | (0xf<<28))
+ #define	PORT_WAKE_BITS	(PORT_WOE | PORT_WDE | PORT_WCE)
+-#define	PORT_RWC_BITS	(PORT_CSC | PORT_PEC | PORT_WRC | PORT_OCC | \
+-			 PORT_PRC | PORT_PLC | PORT_PED)
  
- /**
-  * xhci_port_state_to_neutral() - Clean up read portsc value back into writeable
+ /* Default sublink speed attribute of each lane */
+ static u32 ssp_cap_default_ssa[] = {
+@@ -410,15 +408,6 @@ static unsigned int xhci_port_speed(int portsc)
+  * bits 4, 31
+  */
+ #define	XHCI_PORT_RW1S	(PORT_PR | PORT_WPR)
+-/*
+- * These bits are RW; writing a 1 clears the bit, writing a 0 has no effect:
+- * bits 1, 17, 18, 19, 20, 21, 22, 23
+- * port enable/disable, and
+- * change bits: connect, PED, warm port reset changed (reserved zero for USB 2.0 ports),
+- * over-current, reset, link state, and L1 change
+- */
+-#define XHCI_PORT_RW1CS	(PORT_PED | PORT_CSC | PORT_PEC | PORT_WRC | PORT_OCC | PORT_PRC | \
+-			 PORT_PLC | PORT_CEC)
+ /*
+  * Bit 16 is RW, and writing a '1' to it causes the link state control to be
+  * latched in
+@@ -1339,10 +1328,8 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 				 * Clear all change bits, so that we get a new
+ 				 * connection event.
+ 				 */
+-				portsc |= PORT_CSC | PORT_PEC | PORT_WRC |
+-					  PORT_OCC | PORT_PRC | PORT_PLC |
+-					  PORT_CEC;
+-				xhci_portsc_writel(port, portsc | PORT_PED);
++				portsc |= PORTSC_RW1CS_BITS;
++				xhci_portsc_writel(port, portsc);
+ 				portsc = xhci_portsc_readl(port);
+ 				break;
+ 			}
+@@ -1835,7 +1822,7 @@ static bool xhci_port_missing_cas_quirk(struct xhci_port *port)
+ 		return false;
+ 
+ 	/* clear wakeup/change bits, and do a warm port reset */
+-	portsc &= ~(PORT_RWC_BITS | PORT_CEC | PORT_WAKE_BITS);
++	portsc &= ~(PORTSC_RW1CS_BITS | PORT_WAKE_BITS);
+ 	portsc |= PORT_WPR;
+ 	xhci_portsc_writel(port, portsc);
+ 	/* flush write */
+@@ -1915,7 +1902,7 @@ int xhci_bus_resume(struct usb_hcd *hcd)
+ 				break;
+ 			}
+ 		/* disable wake for all ports, write new link state if needed */
+-		portsc &= ~(PORT_RWC_BITS | PORT_CEC | PORT_WAKE_BITS);
++		portsc &= ~(PORTSC_RW1CS_BITS | PORT_WAKE_BITS);
+ 		xhci_portsc_writel(ports[port_index], portsc);
+ 	}
+ 
+diff --git a/drivers/usb/host/xhci-port.h b/drivers/usb/host/xhci-port.h
+index 69d583d1faae..78735dc0e899 100644
+--- a/drivers/usb/host/xhci-port.h
++++ b/drivers/usb/host/xhci-port.h
+@@ -117,8 +117,9 @@
+ #define PORT_DR		BIT(30)
+ /* bit 31 - Warm Port Reset, complete when PORT_WRC is '1' */
+ #define PORT_WPR		BIT(31)
+-#define PORT_CHANGE_MASK	(PORT_CSC | PORT_PEC | PORT_WRC | PORT_OCC | \
+-				 PORT_PRC | PORT_PLC | PORT_CEC)
++/* Writing 1 clears the bit, writing 0 has no effect. */
++#define PORTSC_RW1CS_BITS	(PORT_PED | PORT_CSC | PORT_PEC | PORT_WRC | PORT_OCC | PORT_PRC | \
++				 PORT_PLC | PORT_CEC)
+ 
+ /* We mark duplicate entries with -1 */
+ #define DUPLICATE_ENTRY ((u8)(-1))
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 3f80000fc5a9..9fc5b30c75ec 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -914,6 +914,7 @@ static bool xhci_pending_portevent(struct xhci_hcd *xhci)
+ 	int			port_index;
+ 	u32			status;
+ 	u32			portsc;
++	u32			mask;
+ 
+ 	status = readl(&xhci->op_regs->status);
+ 	if (status & STS_EINT)
+@@ -926,18 +927,19 @@ static bool xhci_pending_portevent(struct xhci_hcd *xhci)
+ 
+ 	port_index = xhci->usb2_rhub.num_ports;
+ 	ports = xhci->usb2_rhub.ports;
++	/* Check all Sticky Write-1-to-clear status bits, except for the Port Enadled bit. */
++	mask = PORTSC_RW1CS_BITS & ~PORT_PED;
+ 	while (port_index--) {
+ 		portsc = xhci_portsc_readl(ports[port_index]);
+-		if (portsc & PORT_CHANGE_MASK ||
+-		    FIELD_GET(PORT_PLS_MASK, portsc) == PLS_RESUME)
++		if (portsc & mask || FIELD_GET(PORT_PLS_MASK, portsc) == PLS_RESUME)
+ 			return true;
+ 	}
+ 	port_index = xhci->usb3_rhub.num_ports;
+ 	ports = xhci->usb3_rhub.ports;
++	mask |= PORT_CAS;
+ 	while (port_index--) {
+ 		portsc = xhci_portsc_readl(ports[port_index]);
+-		if (portsc & (PORT_CHANGE_MASK | PORT_CAS) ||
+-		    FIELD_GET(PORT_PLS_MASK, portsc) == PLS_RESUME)
++		if (portsc & mask || FIELD_GET(PORT_PLS_MASK, portsc) == PLS_RESUME)
+ 			return true;
+ 	}
+ 	return false;
 -- 
 2.50.1
 
