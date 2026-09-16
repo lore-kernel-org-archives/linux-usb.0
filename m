@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EE950C297
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 14:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0C950C2A6
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 14:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789568161; cv=none; b=G0kaWlfqdjkPiLoIyy4Le0+Lqet4WOzHl9DbCAxJOxVzhJDGe4n8z/wM2j1ejlCXNFU8h3gXpYUt3dVx8LMZKtf6t0Z4B0Gf+0V1yGUNdZI8v+bK6WsU2+L5jCigQ1P2OPy2XkII7WinYgDHQneqPJj6Ky3l0eJ7ulN/4KyptM4=
+	t=1789568162; cv=none; b=nTu2wP35A6Sey/EiJdAy/0COP9ZT/ec+rp8y3dZvUML33OrDCk79f2gl/FNW6ouhySs2yluxLgOasx/iXCRhLhSihywC6AC37O95VprrhB2vPdcWoikqOdpA/oM+uVVpxGtK3e81vgTknCUmgZZuTON0q2YOYppk51/Bw5wUYeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789568161; c=relaxed/simple;
-	bh=/3D0XTrZtaqEPjQYFo5/4Bc/cH6OFKrdpY2fJhEZcxk=;
+	s=arc-20240116; t=1789568162; c=relaxed/simple;
+	bh=5WbodEMgdSwRXeCsk65XCvbjRfm4RqfDvG4l5pQNarY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QdmDyTWPGHjsJehlF9BPqGupcNBNggp3L/AThhqn2/NmjQRjc+oy5Tf6Z0ogQZ3CwZhu4uM84f8gIDJMEh4vjfbajBcO5DJWFpMhwta6uZBfN4h6RJuaGcf/L5P0D71LO3PvOv55rSUN1iL8uJimkyiQEODumcM9srPcOX4YuUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6F5UUvc; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version; b=Wzm9HITGte+/J0zkajktlIyhI1L9FBTfpZ0rTgfUEDaDMB7IeyMgIkE6aCBlRYUlXB4TobbHqzRrDRu10+MiS1dh+27Ny8f+2g6RwWbJGHOD4wsFf5cerPFHbufvd0PiGntF4qs7FWOOSJ2ZrMlJU0xY33LvaMwijnLERnWl/B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIWcNkXA; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6F5UUvc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIWcNkXA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1789568161; x=1821104161;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/3D0XTrZtaqEPjQYFo5/4Bc/cH6OFKrdpY2fJhEZcxk=;
-  b=A6F5UUvc2t/SRR6z5nymD3EG/ArrJyJVK7MjcGyHNeg/z3hjwMEqWYuS
-   ZSqOyfeiX6/aAqPpq1w+7MsB1n8Ex9fOa5jn5ZxXNSsLDg3fkYqW2Z2Mo
-   SW1VoLx57f18iAXfUnFAF8yK5DAMX4b7A2+QcSsthb8cbguet1llK3Yb1
-   H8vLoiiHIw622WXkxJPdOO3x37y97o9w/A1jGorKBG7Ez2Xn972aQP5Y1
-   WKBogr7kXUof25mAbzrVm32KBX2XKzuhcXd59T2e27m5UlQG7wPWuBVrI
-   NQYCT9d4/8K8r1g/yRYdyAbcU/uJkiuKqixusZ4YM4/vn/cI10H/6Ol0j
-   w==;
-X-CSE-ConnectionGUID: 20sy2CTJQR6md2mYytrEHQ==
-X-CSE-MsgGUID: i+DXZG4/TlSM3ZSouM8x7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89967275"
+  bh=5WbodEMgdSwRXeCsk65XCvbjRfm4RqfDvG4l5pQNarY=;
+  b=bIWcNkXAfTBwx+yVOnP2sYVgnch+W4cR4TtL8esA45jFPRCPFXu53UIg
+   7ADZm2NqkwmDF6yGI4rguZlZIQhjGyZnc+mb+Gc8WUcIbitHj0852fn+F
+   TwSQIPHfj2rUNb6b64pKd+zaRkmqatg3mopM93uMEvbgi+dJLXkBVy+rq
+   K8WuJfQVIvaLvYlY5wZZKMC10DErS6NlYT5u/awbmcGpvSt9xhTfQuPFm
+   XVf5aKc9a/cGSrdeVqXa6Upd+yBvLDIm2fzXHJafYDqRsPdTB+K+NEncN
+   HdE4w+lHqNf/fuK6t5uKZdR0VeAeNwERXgK+GbNzmGci1/fCqg6MXVnWi
+   g==;
+X-CSE-ConnectionGUID: kcjwHZqhS3uZcC7iD/oBTg==
+X-CSE-MsgGUID: qfT+YCDER6SKoObYREMtAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="453768"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89967275"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:16:00 -0700
-X-CSE-ConnectionGUID: EgdiqRXaSiSVyZ5czaBJ1A==
-X-CSE-MsgGUID: KplTSuluTyieRFdGgv2W+A==
+   d="scan'208";a="453768"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:16:00 -0700
+X-CSE-ConnectionGUID: r9JnVOUBRzeS1KvKQ7vCqg==
+X-CSE-MsgGUID: dxURMWLTROCPfJ0iOqk6NQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="270720132"
+   d="scan'208";a="273889309"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2026 07:15:59 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 Sep 2026 07:16:00 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 157579D; Wed, 16 Sep 2026 16:15:58 +0200 (CEST)
+	id 74D3999; Wed, 16 Sep 2026 16:15:59 +0200 (CEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH v2 06/20] usb: xhci: rework USB3 PORTPMSC macros
-Date: Wed, 16 Sep 2026 16:13:55 +0200
-Message-ID: <20260916141409.629621-7-niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 08/20] usb: xhci: rework USB3 PORTLI macros
+Date: Wed, 16 Sep 2026 16:13:57 +0200
+Message-ID: <20260916141409.629621-9-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260916141409.629621-1-niklas.neronin@linux.intel.com>
 References: <20260916141409.629621-1-niklas.neronin@linux.intel.com>
@@ -73,69 +73,66 @@ handling.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci-hub.c  |  6 ++----
- drivers/usb/host/xhci-port.h | 23 ++++++++++++++---------
- 2 files changed, 16 insertions(+), 13 deletions(-)
+ drivers/usb/host/xhci-debugfs.c |  6 ++++--
+ drivers/usb/host/xhci-hub.c     |  4 ++--
+ drivers/usb/host/xhci-port.h    | 12 ++++++++----
+ 3 files changed, 14 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index e61ee722e2cd..8a73d3ee3481 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -402,8 +402,10 @@ static int xhci_portli_show(struct seq_file *s, void *unused)
+ 
+ 	/* PORTLI fields are valid if port is a USB3 or eUSB2V2 port */
+ 	if (port->rhub == &xhci->usb3_rhub)
+-		seq_printf(s, "0x%08x LEC=%u RLC=%u TLC=%u\n", portli,
+-			   PORT_LEC(portli), PORT_RX_LANES(portli), PORT_TX_LANES(portli));
++		seq_printf(s, "0x%08x LEC=%lu RLC=%lu TLC=%lu\n", portli,
++			   FIELD_GET(PORT_LEC_MASK, portli),
++			   FIELD_GET(PORT_RLC_MASK, portli),
++			   FIELD_GET(PORT_TLC_MASK, portli));
+ 	else if (xhci->hcc_params2 & HCC2_E2V2C)
+ 		seq_printf(s, "0x%08x RDR=%u TDR=%u\n", portli,
+ 			   PORTLI_RDR(portli), PORTLI_TDR(portli));
 diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index d464f261284d..e2b1986d217c 100644
+index 6b5867ca5d6b..ff5645df55e3 100644
 --- a/drivers/usb/host/xhci-hub.c
 +++ b/drivers/usb/host/xhci-hub.c
-@@ -1493,8 +1493,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+@@ -1013,8 +1013,8 @@ static u32 xhci_get_ext_port_status(u32 portsc, u32 port_li)
+ 	ext_stat |= speed_id;		/* bits 3:0, RX speed id */
+ 	ext_stat |= speed_id << 4;	/* bits 7:4, TX speed id */
  
- 			timeout = (wIndex & 0xff00) >> 8;
- 			portpmsc = readl(&port->port_reg->portpmsc);
--			portpmsc &= ~PORT_U1_TIMEOUT_MASK;
--			portpmsc |= PORT_U1_TIMEOUT(timeout);
-+			FIELD_MODIFY(PORT_U1_TIMEOUT_MASK, &portpmsc, timeout);
- 			writel(portpmsc, &port->port_reg->portpmsc);
- 			break;
- 		case USB_PORT_FEAT_U2_TIMEOUT:
-@@ -1503,8 +1502,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+-	ext_stat |= PORT_RX_LANES(port_li) << 8;  /* bits 11:8 Rx lane count */
+-	ext_stat |= PORT_TX_LANES(port_li) << 12; /* bits 15:12 Tx lane count */
++	ext_stat |= FIELD_GET(PORT_RLC_MASK, port_li) << 8;  /* bits 11:8 Rx lane count */
++	ext_stat |= FIELD_GET(PORT_TLC_MASK, port_li) << 12; /* bits 15:12 Tx lane count */
  
- 			timeout = (wIndex & 0xff00) >> 8;
- 			portpmsc = readl(&port->port_reg->portpmsc);
--			portpmsc &= ~PORT_U2_TIMEOUT_MASK;
--			portpmsc |= PORT_U2_TIMEOUT(timeout);
-+			FIELD_MODIFY(PORT_U2_TIMEOUT_MASK, &portpmsc, timeout);
- 			writel(portpmsc, &port->port_reg->portpmsc);
- 			break;
- 		case USB_PORT_FEAT_TEST:
+ 	return ext_stat;
+ }
 diff --git a/drivers/usb/host/xhci-port.h b/drivers/usb/host/xhci-port.h
-index dca6d5c7ad1e..fb4a2c4f7691 100644
+index 889a6b7f8721..e5bf7e7c083d 100644
 --- a/drivers/usb/host/xhci-port.h
 +++ b/drivers/usb/host/xhci-port.h
-@@ -117,16 +117,21 @@
- /* We mark duplicate entries with -1 */
- #define DUPLICATE_ENTRY ((u8)(-1))
+@@ -152,10 +152,14 @@
+ /* bits 31:28 - Port Test Control */
+ #define PORT_TEST_MODE_MASK	GENMASK(31, 28)
  
--/* Port Power Management Status and Control - port_power_base bitmasks */
--/* Inactivity timer value for transitions into U1, in microseconds.
-- * Timeout can be up to 127us.  0xFF means an infinite timeout.
-+/* USB3 Port Power Management Status and Control (PORTPMSC) 5.4.9.1 */
-+/*
-+ * bits 7:0 - U1 Timeout, inactivity timer value for transitions into U1.
-+ * Timeout can be 0us to 127us (0x7f), in 1us increments.
-+ * Value 0xff means an infinite timeout.
-  */
--#define PORT_U1_TIMEOUT(p)	((p) & 0xff)
--#define PORT_U1_TIMEOUT_MASK	0xff
--/* Inactivity timer value for transitions into U2 */
--#define PORT_U2_TIMEOUT(p)	(((p) & 0xff) << 8)
--#define PORT_U2_TIMEOUT_MASK	(0xff << 8)
--/* Bits 24:31 for port testing */
-+#define PORT_U1_TIMEOUT_MASK	GENMASK(7, 0)
-+/*
-+ * bits 15:8 - U2 Timeout, inactivity timer value for transitions into U2.
-+ * Timeout can be 0us to 65024ms (0xfe), in 256us increments.
-+ * Value 0xff means an infinite timeout.
-+ */
-+#define PORT_U2_TIMEOUT_MASK	GENMASK(15, 8)
-+/* bit 16 - Force Link PM Accept (FLA) */
-+/* bits 31:17 - RsvdP */
+-/* USB3 Protocol PORTLI  Port Link Information */
+-#define PORT_LEC(p)		((p) & 0xffff)
+-#define PORT_RX_LANES(p)	(((p) >> 16) & 0xf)
+-#define PORT_TX_LANES(p)	(((p) >> 20) & 0xf)
++/* USB3 Port Link Info Register (PORTLI) 5.4.10.1 */
++/* bits 15:0 - Link Error Count */
++#define PORT_LEC_MASK		GENMASK(15, 0)
++/* bits 19:16 - Rx Lane Count */
++#define PORT_RLC_MASK		GENMASK(19, 16)
++/* bits 23:20 - Tx Lane Count */
++#define PORT_TLC_MASK		GENMASK(23, 20)
++/* bits 31:24 - RsvdP */
  
- /* USB2 Protocol PORTSPMSC */
- #define	PORT_L1S_MASK		7
+ /* eUSB2v2 protocol PORTLI Port Link information, RsvdP for normal USB2 */
+ #define PORTLI_RDR(p)		((p) & 0xf)
 -- 
 2.50.1
 
