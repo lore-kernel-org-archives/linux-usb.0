@@ -1,104 +1,80 @@
-Received: from mail-vs2-f42.google.com (mail-vs2-f42.google.com [74.125.227.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2F936D503
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 17:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0323BBFC8
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 17:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789579753; cv=none; b=Ue/QtsxrpDH8Zck+zBydaKRsPpwnJGKzOBGXJxuew1mB1fVvtZ5CFD54rY+1PoqCbrYo3T8MX3jd+YqKuR72TDk1WGiPrCXk0MbdF0mhdQqCZV3h6ohTLm2pYIjykisXofKPa7uONb3+ENgaEcz1UUghsyJV/dRl4DtF/dP1FEY=
+	t=1789580008; cv=none; b=ckm1Xs/hClvSB6DYvuhtS49dGh/STqmWqXuLO/Cr9E1w/QknL7E38FyLNV2LapIOlFkngTo1CLp4be5qY/VIBzMkLlHcEsy8YImQnK5f2lLBuBmtoDmtnxyC7Ob0w63WObCczZOTH3QH6AtXNvsDO7QTPXzSlDkaMURF/K/ho20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789579753; c=relaxed/simple;
-	bh=BUtOKTxFIQkOe0jmccHTs9lWssJf/74PG3MnQiHKRwg=;
-	h=Message-ID:Date:From:To:Subject; b=ASA9xnofDzxAZsRJUfXTIQ9jYREe1mJAj5zQfzmEfnRY8nJMoojIbwl1t4YqD0d8UKW3LiAf62PHuOboBZ6xmJ9Gs7qONbT40/wJUGjtvlfYtwWvBAZgU48lkhJ/Jr43J4Z/nr0NHsz3NHr374ov8toptdCcpYDKWOiQ279Vo18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpIpOqP4; arc=none smtp.client-ip=74.125.227.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789580008; c=relaxed/simple;
+	bh=GcTh15PW//gSMU/YsgyhcYFq7hKCflEMZCNpoIZgTes=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dI1e6HB3Etw4aDqSaGYZ7E+AnTwl/eC6BfWTQfjqu40ovfAWgHCwcT47xoQMo5Aa7mbz4HLwNZyPDxhFCk/1Vs9a1AkWdfxk32frKVA4YPYybTiNQv9r7gaJbJHuLVCrYYWRdpCj3suxmzG+7LETC4Os2rRWYHeFce5QHFMdIvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nRd6SvrU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpIpOqP4"
-Received: by mail-vs2-f42.google.com with SMTP id 71dfb90a1353d-5c67e504d59so431839e0c.1
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 10:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789579750; x=1790184550; darn=vger.kernel.org;
-        h=subject:to:from:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=BUtOKTxFIQkOe0jmccHTs9lWssJf/74PG3MnQiHKRwg=;
-        b=WpIpOqP4hLayf9rvpNIfUyyPBDwN8RYeUTsZXBChXw2TuiOASHbBf9cQ4MvaDjRSHG
-         L8DZp0CwJv4X8Jyo0Lf8YKakE5y/6IsdNymY1nQA/NXFtLRZQl6COgViYx2Hs6qUtm6A
-         8Rjpnhr4cT0qe+0ReNTmCJD5MQHZlNdhSUAWVNuLblhnQbRnOIHvUxaNPjn8cayiaHZE
-         dNKnHddq0T4KN6CuP0IkEqBulA/qhyJ/UafyYdPpnegwq9zIKnFHk0jC3317Ao2coOz6
-         pAptbZkryMmjXnhf7Hr408+d5Zu28EXzTL8wXP5s3iWhqa/ZnptmTa9ev/nc3aWDf97r
-         Xk3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789579750; x=1790184550;
-        h=subject:to:from:date:message-id:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=BUtOKTxFIQkOe0jmccHTs9lWssJf/74PG3MnQiHKRwg=;
-        b=jZMLArO5M7rwcLwGuAllRDyocL2e6pBugD6Mros+xssbyyruXOZ5ZoHyHrjlBZqhl5
-         AvRllsp1/qSXacJV9SN4CKo70bwhqMhwQzJOQ78kYBCep/LiICaXgBZHiIWuJJrPWE1i
-         zGveX/5F0fk+QXmbTswsPMeK5mJFZJgZjd4DeRJcf3vouVgFolcHe8MhmG/PxKJFcy0k
-         D/+iYMBpQBTjsYvw3rFU+lWoY4HHFLkTzopAXDzmSPc6UAZM5oYR8ajZHPDAjt1SDsgR
-         BhEyexQFwGbgWDCyVC5ip0Y9OiCSENna2hGtQdAyL5QnL0sEzENe8roHkbGkcSWPLJuT
-         okPg==
-X-Gm-Message-State: AFuF++nmhEhK/dGyPT8RP+xCyV6Bzz6nZ5t+x6I9KXLMaYJIDCvw91Ea
-	rMlNUjfA+m+NHysKnQPv8dWHeLyXNkvGORg97NVQrOD9x0LCUsfeShwoCSgoYJcd
-X-Gm-Gg: AYBFou0tAQJ39lUgxo9q5AEAklKdVO2uQF+JyUltY4ysT76mxbsqZvTIoHe3SzSzjSi
-	sRP9Iv+3hmRny4TIF6eXUiUbPXlcAx11TlGJ5lQwVUacxzeKoQEdV1MQrk5fEkCXzimjgIqrG9l
-	cWy/7fb/X6HSvmy+APbEbpmAQLo3RCxe4cl76m6ZucKxqdtyX9jE9kFKb390vv7jcT/8hj3bP7/
-	Ch4TPopwSGCrSfGGyYroaKSgppHELrFhk7TNVKxq7BTAj+cAJ5a/Y0QjQoZBO8MHxcW2zBKtEiM
-	QINVuQqkeGWFf61mdQwWWPsCIZUB9LPkcqGpsixLr3x9x452IBCtAofUGNc/4PlFu186Zu5Oida
-	f6kHlrIjtNSjIhftzsDkonbZQTD2ssICpfQimtaqVaXPjITn75nheliunFCg63Ce7fB6LTZBbeT
-	qA4rHG+Mn3yle+u0+DeBvAz7Ytw5/TGPckBz3RWwR6iKktp33pGaCLN3wHLQJEfLWZT55peR8p5
-	1cIWTH/SURrU+L6Z8B+JcQRt0rQzrJY
-X-Received: by 2002:a05:6122:6091:b0:5c9:66f7:2f23 with SMTP id 71dfb90a1353d-5c99ab6c983mr4672662e0c.2.1789579750172;
-        Wed, 16 Sep 2026 10:29:10 -0700 (PDT)
-Received: from localhost ([43.157.151.93])
-        by smtp.gmail.com with UTF8SMTPSA id a1e0cc1a2514c-98323524dafsm394111241.7.2026.09.16.10.29.08
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2026 10:29:09 -0700 (PDT)
-Message-ID: <6aaad1e5.be41e256.d1205.9df1@mx.google.com>
-Date: Wed, 16 Sep 2026 10:29:09 -0700 (PDT)
-From: munnawhere90@gmail.com
-X-Google-Original-From: PayPal
-To: linux-usb@vger.kernel.org
-Subject: Invoice Generated | $496.13 | Ref: I-78NJ93RR32UZ1H
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nRd6SvrU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 747D01F00899
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 17:33:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789580001;
+	bh=GcTh15PW//gSMU/YsgyhcYFq7hKCflEMZCNpoIZgTes=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=nRd6SvrUJPixWqiNVNs04n6wzX7HOjvgYITHaZIWIovGp5ADJ8mm1hVK+CmitSCYf
+	 FoNS8APHaGCdQ3xmK5rM0AhPuBAHzw9+0UyYMNMTVmETontzaoUOWX4opZ/YG7nzY0
+	 kXUi4TzWrLGkVdkBhXDzmhbPWUA3MfATUluVcZ+lizltBjpvOXrRGpx2Q94v3X4HTq
+	 urNLtiydmj3DD28Qjw/PxHI7ZkSdP8iXW8MCSycUldY83SjERuVdT4pSgep9AxpohO
+	 yK7gm2+ivfU6jV/ICE0bHdCY/AUOR8+KX0BvybfCjOcjYYPWw24yXY/qUBd8D8JeiT
+	 9uj77DlPa9Weg==
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f16cd1so1127734e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 10:33:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzoRujzIUYUuQUmubgxRYnkOtdaRDeC42Y1PJkIRuAZnzUQAWcbkUI66WeL3Lg6E4jumrC0bkLzuXI=@vger.kernel.org
+X-Gm-Message-State: AFuF++nSu9ZzVC+BJcl7qOIlh3Pj+SgE7+Tztd9vgI1y+WYvD638Cv3/
+	C3usgWjlB1yR0r8WVB43zE3uPEwggWpTEq4odchx7GZvEPEjITCX+vpkqx6RbUQ5gTFPnPnF5gJ
+	1FKiThOvb3hh6wXFxFH88IjOA2/grc8I=
+X-Received: by 2002:a05:6512:124f:b0:5b0:c96:cc8c with SMTP id
+ 2adb3069b0e04-5b8b660c549mr1087879e87.12.1789580000228; Wed, 16 Sep 2026
+ 10:33:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260916165055.2085246-1-vulab@iscas.ac.cn>
+In-Reply-To: <20260916165055.2085246-1-vulab@iscas.ac.cn>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 16 Sep 2026 19:33:07 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=oj_+WvvDqXK1GePJuBtQLOfU7vjf2HkYOTXgO4cFy-w@mail.gmail.com>
+X-Gm-Features: AcwNN1WOr3a54NiznxoZ846KCk_kzFxY07htViF09enn8AIUZHYMsfgpfYGFaUk
+Message-ID: <CAD++jL=oj_+WvvDqXK1GePJuBtQLOfU7vjf2HkYOTXgO4cFy-w@mail.gmail.com>
+Subject: Re: [PATCH] usb: musb: ux500: Fix transceiver leak in ux500_musb_init()
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: b-liu@ti.com, balbi@ti.com, fabio.baltieri@linaro.org, 
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dear linux-usb,
+On Wed, Sep 16, 2026 at 6:51=E2=80=AFPM Wentao Liang <vulab@iscas.ac.cn> wr=
+ote:
 
-Your PayPal subscription is scheduled for renewal, and a payment of 496.13 USD will be processed within the next 24 hours for another year of service.
+> ux500_musb_init() takes a reference on the USB2 transceiver with
+> usb_get_phy() and stores it in musb->xceiv. If the subsequent
+> usb_register_notifier() call fails, the function returns without
+> releasing the reference, leaking the transceiver. The only place the
+> reference is put is ux500_musb_exit(), which is not run when the init
+> fails.
+>
+> Put the transceiver before returning on the notifier registration
+> failure path. The notifier itself does not need to be unregistered
+> since usb_register_notifier() failed.
+>
+> Fixes: 0135522c4898 ("usb: musb: ux500: add otg notifier support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 
-Renewal Details:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Service: Bitcoin
-
-Account: linux-usbHello linux-usb,
-
-Thank you for your recent purchase with PayPal.
-We’re confirming that your payment has been successfully received via PayPal.
-
-Transaction Details
-Date: 2026-09-16
-Transaction ID: I-UMM37L8FGPTBKUYGX
-Payment Method: Pay.Pal
-Amount Charged: $496.13 USD
-Item: Bitcoin
-Quantity: 0.05 BTC
-Total: $496.13 USD
-
-A confirmation receipt has been sent to your registered email address: linux-usb@vger.kernel.org.
-
-If you have any questions or need assistance, feel free to contact our support team at 804-409-7943.
-You may also view your order or manage preferences by logging into your account.
-
-Merchant: linux-usb
-Shipping/Billing Address: 2140 Cedar Creek Rd Creedmoor Nc 27522 United States
-
-Thank you for choosing PayPal.
-
-Best regards,
-The PayPal Team
+Yours,
+Linus Walleij
