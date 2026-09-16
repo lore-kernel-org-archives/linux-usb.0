@@ -1,154 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A5048FF93;
-	Wed, 16 Sep 2026 19:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43668436BC9
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 19:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789587414; cv=none; b=Hf6sGjnRkCbBcJMS5Sil5aP++Vki3sDezky+8dbMct7xDL9eWU4noLRt3TYD4Ml93qgb95Tp+Tfqg2XrqVejl8x0Vc5rvmZO3RJ9A0MBQ5IrLfqUTr3vSBeOV8PtdVHS/h7S0P92l9vmuTA/EvndVZhySzXF1xTkmOIofdVo/LY=
+	t=1789587592; cv=none; b=l09TKMqeVY8jMul10uciSFtSipqLWpIK9xRAFedfmv+VC4Dpx6a0vIR36BJlPcOsTmV93mNz5On3xYrCi/6IFiF4jyEh1uDepZkvqIf6mB2WxxA4DLCbfCF8H65zIaQ0DIAUmGjIIuNs+ExzdHB3vq7UPjvEfjHf+k/Ijk/g5pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789587414; c=relaxed/simple;
-	bh=ou649mxHCC/RhzyeDOzpFEYd5h2WxLvcnk6b0TrSZWg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eVKLQxgPeXDkyyPaKViC9rnSTHSoUgB1UMM5exXfAuK/4JuK24ZA/yBLrEfDavqDlGJO92ROIA9nS6Zyidud0vdc+/ceZBLmyqLypgG9gGfMNEtY6D8O+LrFU3CH/8kkQUtN5N0ocHCCn7yQ/bpOcpTEPGRSKbl5QhKS6BpJ03I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgXNDmLu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1789587592; c=relaxed/simple;
+	bh=KKWtxsa4+JxynoqTU3twhaxB29xf4CJ4YYZF5aGtZHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PLGkTGX2rx15EfONUz5b6JdQrZJ+04/w9lYqEqSz7RVU3Kan7dpU62BI1QUNPokcEQmWuMFAnLwpx0DRyLFg5t6/foID0MGUyvZDC71RyscfU/3kUWX2j9KkgNNmnP+dL26B5OdoExnDB4Hr53oCGEhvDXbPsmp98GUzU76uVrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=GiMiMMWE; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgXNDmLu"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C6BD7C2BCC7;
-	Wed, 16 Sep 2026 19:36:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1789587412;
-	bh=ou649mxHCC/RhzyeDOzpFEYd5h2WxLvcnk6b0TrSZWg=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=sgXNDmLuZtNdYeybVnUX7IObwjD9gkFHtLEuXnI9J3X2kZmd9OAlLjkg7seEHaJG/
-	 u6eUycUbhOGd5ykC0tIsNlqzVzDtVZbnMVV0L2IiFAgof85AbDH6TC9V36erUYVbjB
-	 dqHAgGKf7i6LnhXs2b/Tm15vpS8ZVZhY5THua9bJtHl75o23vW87TTajRCVcTVYIj2
-	 ckaie3fY7i6BVLijUO1fEITr4k2PXTtfMfTeVW19LNfYWzR5cs78rJ+Yj4G5Zcxi5Y
-	 CO68dUxZrg2/4oRC0ipKgD3jQYp8xfr38iArVaCbIGT9F8U1a5U+O0yy6FERO+qKtW
-	 YL2AqJa3v33Ow==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9342CC982C1;
-	Wed, 16 Sep 2026 19:36:52 +0000 (UTC)
-From: Jens Glathe via B4 Relay <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
-Subject: [PATCH v3 0/3] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-Date: Wed, 16 Sep 2026 21:36:31 +0200
-Message-Id: <20260916-ps883x-disable-usb4-v3-0-8f19386456d0@oldschoolsolutions.biz>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="GiMiMMWE"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb766bfd6so12319411cf.1
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 12:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1789587583; x=1790192383; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bLWCt+dlTo+bsva3Fw8pE5vrcV7G5HDlYsoQqT2I0wc=;
+        b=GiMiMMWEd5C708KuSjNKTPc3sRMzRWGxgdOtrpJxZSmx+3D3s7A1OVs0kTKm8PJAIG
+         TiTZ2TP0HxVhQaF/42xRQtUw2hG5eGoQoddH60q8pqC1ZroIijXyhV+1RWw9C0VVh+UV
+         WcyRVVQuiEIFTBjw5c66hVUtpFINPFCHeZ7+q6OZu1MVFQtL+KPvvhF+5xPUWQGXdPkN
+         ENnlsU74cN0cPdKYgEAl7LeI1bSu5KB7xIehfJx6krqEWnYLSbtSY82lzxEXtXwhyODn
+         fl6sAoZcTg99pA1pfHAmRgOKivJIz26XQALJVaq/alupC+GWP5BbepgHVnsdOYng27pk
+         E0TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789587583; x=1790192383;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bLWCt+dlTo+bsva3Fw8pE5vrcV7G5HDlYsoQqT2I0wc=;
+        b=AiH1cKnTIKdF6ScnNwUsTvqhsMQBUArg0Ga5Mxk8lONOmm8+8GAzX+FOWUW0KSSEt9
+         nWp7cEEZ9NMYwQe2Rca46d+fZnF71dlwFXnin+lbFBIMqM70XHJXR4dLirpnQzCA0XcN
+         p2b6eEle8MYNm1hOw2I7zuYbubhHIx4fd09gUNMdV325MMCXGLSCvEwS3qpwvprGfxY+
+         Wx7H3qyXggXWH5acfl/UdTU4UGJgKInpBVr7WEa/Xict+/yD+d6hR8NSUVCXCfKRl1m5
+         BK3p5XU3njMl2rQU4eL7LeJo28n+L78cuJLIgLbNEx+PYliCzk5YgL14sdw9aYgmGS6b
+         78vQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy2dFMuftmj0SvxK/C/47r2cwwyZBbpZF8BcgvsBV6Vj0a56ROgG452w0YfjadvSYkJsPmvBIpK8Es=@vger.kernel.org
+X-Gm-Message-State: AFuF++kY+bIbf9fUgCXHbH+QG2+YrKdwlaYJfIqI1Tv7G5qhjBrH/18y
+	7LL6DIkzBXNMt15mNmEZZJUQrIoS0w12bnXbMYkg5+gD8p4mbUr+ii3LEAhu3izvIw==
+X-Gm-Gg: AYBFou1lf75fdTLFsSwkrhSOdQzfB5HjUhzYBq83YWJnngMonipH5JIRt7Rh5F7AVYe
+	rV5gHEgGZgMFc2/eN2ehTxwM0mVGhu4fnZ9CyAJmFbfafkj6Z+Bhg/qI78u8ClRlAipmF4D3CBB
+	FkX8B+O8MM3BTCniN3uY4wNuKW77Rj5C3fKFxW5JryFcC8CYQmM4+cxfyw1tFYn7V4WMp3jGN3N
+	gTcjMDE1hnWh+irSxw94ngmz2MYnsudR9/OZWV7xzFjgBlDEUgkSxfEuWTVScdYbh2cgo0HNnlp
+	ABALyEtXR1pwxJTzI31eu+f5Owr5Pn8THds+3fLgRswolD2UCuThzHtQa2XDhNAkR0I+i6xuh6a
+	NL3TXfembNYWvB2OLZ+1dD6HXqEnLr+WQEELQ1agkOGA6sLgbGJpuZLirp9oF4sDZ4XBa0gtxBL
+	/w9EmPYlCXN5yGPps5wutCoKdPNW3ZowfRtRyCAVYl0q4EYqsA1VI8nAwj/BPM9V09mYQ3EaHw
+X-Received: by 2002:a05:620a:3182:b0:939:bd4e:b2fd with SMTP id af79cd13be357-93bb791873bmr728894685a.43.1789587583154;
+        Wed, 16 Sep 2026 12:39:43 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93b81cf2568sm279486985a.36.2026.09.16.12.39.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 12:39:42 -0700 (PDT)
+Date: Wed, 16 Sep 2026 15:39:39 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <7a87e293-633c-4100-aa8d-91560ba5e5c5@rowland.harvard.edu>
+References: <f928b74b-ce57-4454-bdd4-511b823bf742@rowland.harvard.edu>
+ <CAFmvuTXwUiap39-FHv6aqGbJVzORRx8tV1QfN0BDjJaPsbfKHg@mail.gmail.com>
+ <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
+ <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
+ <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
+ <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
+ <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
+ <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
+ <f42b44ef-b083-4976-bf06-f2a21098474b@rowland.harvard.edu>
+ <CAFmvuTUZ+iP313qz5J5vaT7QGz2y-tHQ6XMrq2tnvStZqXDECg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OSw6CMBCA4auQrq3pg0frynsYF7QdpAmhpAMEJ
- dzdwsaNuvwnmW9mJQjRA5JLtpIIs0cf+hTylBHb1v0DqHepiWCiZBVXdECl5EKdx9p0QCc0OeX
- asMZyaYrakLQ5RGj8cqi3e+rW4xji8zgy833635s5ZdSCVaVjRjMN19A5tG0IHYZuGtOPeDb+R
- XZ8Fh9Q8/w7KBJYCGmlMDnkrvoJbtv2Bu9sXQYUAQAA
-X-Change-ID: 20260718-ps883x-disable-usb4-19b0fc13b5ab
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Abel Vesa <abelvesa@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Sebastian Reichel <sre@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, stable@vger.kernel.org, 
- "Dr. David Alan Gilbert" <dave@treblig.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789587411; l=3700;
- i=jens.glathe@oldschoolsolutions.biz; s=20240919;
- h=from:subject:message-id;
- bh=ou649mxHCC/RhzyeDOzpFEYd5h2WxLvcnk6b0TrSZWg=;
- b=/vtkPJS1lQaoeTa12qBwE/GLKEgdfmX7BGw+uoik9WWWHW+CxBV5qdeZ2m1uk9GGOM1p5MNsl
- 2ccPIpcU0WbAENDEuDtB19nM+xodQsTodo/2tM8dfb4d/bdD+JlOEAc
-X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
- pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
-X-Endpoint-Received: by B4 Relay for
- jens.glathe@oldschoolsolutions.biz/20240919 with auth_id=216
-X-Original-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-Reply-To: jens.glathe@oldschoolsolutions.biz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTUZ+iP313qz5J5vaT7QGz2y-tHQ6XMrq2tnvStZqXDECg@mail.gmail.com>
 
-On Qualcomm X1E80100 / X1P42100 platforms using the Parade PS883x
-retimer, connecting USB4-capable docks such as the Lenovo 40B0 via a
-regular Type-C cable (Type-C fallback mode) often results in working
-USB but no DisplayPort output.
+On Wed, Sep 16, 2026 at 11:00:00PM +0900, Minseo Kim wrote:
+> Hi Alan,
+> 
+> > Hmmm.  Do you know where the unmount operation was getting stuck?  Was
+> > it the usb_gadget_unregister_driver() call inside dev_release()?  I just
+> > want to be sure about this.
+> 
+> In these reruns, I found that the unmount task was blocked in
+> synchronize_rcu_expedited(), called from namespace_unlock(), rather than
+> in usb_gadget_unregister_driver().
+> 
+> I reran the PWRITE callback tail test with both patches applied, using a
+> resident helper whose main thread invoked umount2() directly. A monitor
+> thread in the helper captured the blocked main thread's kernel stack. In
+> three runs from fresh boots, the relevant frames were:
+> 
+>     synchronize_rcu_expedited
+>     namespace_unlock
+>     path_umount
+>     __x64_sys_umount
+> 
+> In each of those three runs, the same umount2() call returned
+> successfully after I released the callback gate.
+> 
+> USB gadget request completion callbacks run with interrupts disabled, and
+> interrupt-disabled regions act as implicit RCU read-side critical
+> sections. The observed wait is therefore consistent with the diagnostic
+> gate delaying completion of the expedited grace period.
+> 
+> I also added diagnostic markers around dev_release() and
+> usb_gadget_unregister_driver(). The test harness signaled the resident
+> helper only after the reproducer had closed ep0. In five clean runs from
+> fresh boots with these markers, both usb_gadget_unregister_driver() and
+> dev_release() had returned before the resident helper invoked umount2(),
+> while ep_aio_complete() was still held immediately after
+> iocb->ki_complete().
 
-This series addresses the issue with three driver-only changes:
+Okay, that's not good.  We can't expect to rely on an unintended side 
+effect.  All the completion handlers should finish before 
+usb_gadget_unregister_driver() returns; we need to enforce that.
 
-- Support the legacy TYPEC_DP_STATE_F request (deprecated since DP Alt
-  Mode 1.0b) that docks such as the 40B0 and SSK SC220 still send.
-  Handle it in the existing DP altmode path in ps883x_set(). F is 
-  programmed like D; E is unchanged.
+I believe this misbehavior is caused by an oversight in the dummy-hcd 
+driver.  Can you repeat these tests with the patch below applied on top 
+of the other two?  It should cause usb_gadget_unregister_driver() to 
+wait until ep_aio_complete() returns (the actual wait loop is in 
+dummy-hcd's dummy_udc_async_callbacks() routine).
 
-- Add a post-configuration delay after writing the connection-status
-  registers so the analog front-end can settle. This makes DP Alt Mode
-  hotplug reliable on the 40B0.
+Alan Stern
 
-- On platforms whose USB4 / DP-tunneling stack is not ready yet, reject
-  TYPEC_MODE_USB4 with -EOPNOTSUPP. That forces the Type-C stack to
-  fall back to USB3 + DP Alt Mode. The quirk is a machine-compatible
-  table inside the driver, not a DT property.
 
-This is a temporary workaround until full USB4 DP tunneling support is
-available in the X1E USB4 controller and qmp-combo PHY stack.
-
-As an additional observation, the same dock with a Type-C cable works
-well on Thinkpad X13s, Thinkbook 16 G7 QOY and Ideapad 5 14Q8X9, which
-do not use this retimer.
-
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Abel Vesa <abelvesa@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: stable@vger.kernel.org
-Cc: Dr. David Alan Gilbert <dave@treblig.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Assisted-by: Grok(xAI):4.6
-Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
----
-Changes in v3:
-- reduced the dp logic changein ps883x_set() to only adding 
-  TYPEC_DP_STATE_F handling grouped with TYPEC_DP_STATE_D.
-- picked up Tested-by tag from David, thanks for the re-test.
-- Link to v2: https://lore.kernel.org/r/20260914-ps883x-disable-usb4-v2-0-523c32b4e4d7@oldschoolsolutions.biz
-
-Changes in v2:
-- Drop the parade,disable-usb4 DT property, bindings and board DTS
-  changes (Sebastian Reichel, Krzysztof Kozlowski). DT describes
-  hardware; incomplete software support is not a board property.
-- Disable USB4 from the driver via of_machine_is_compatible() for
-  qcom,x1e80100, qcom,x1p42100, qcom,hamoa and qcom,purwa. The quirk
-  stays kernel-contained and can be dropped later without ABI.
-- Keep DP altmode handling in the existing ps883x_set() path instead
-  of extracting a helper (Konrad Dybcio). Treat STATE_F like STATE_D
-  and STATE_E like STATE_C, matching qcom-qmp-combo.
-- Replace usleep_range(20000, 30000) with fsleep(30000) and document
-  why the delay is required (Heikki Krogerus).
-- Drop the per-event "USB4 disabled via DT property" log; print once
-  at probe when the quirk is active.
-- Link to v1: https://lore.kernel.org/r/20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz
-
----
-Jens Glathe (3):
-      usb: typec: mux: ps883x: support TYPEC_DP_STATE_F
-      usb: typec: mux: ps883x: add a delay after writing config regs
-      usb: typec: mux: ps883x: disable USB4 on incomplete USB4 platforms
-
- drivers/usb/typec/mux/ps883x.c | 48 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
----
-base-commit: 601057b3eec13d1f37e5b45dd1410facd7b1bdeb
-change-id: 20260718-ps883x-disable-usb4-19b0fc13b5ab
-
-Best regards,
--- 
-Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-
+Index: usb-devel/drivers/usb/gadget/udc/dummy_hcd.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/udc/dummy_hcd.c
++++ usb-devel/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -343,9 +343,11 @@ static void dummy_giveback(struct dummy
+ {
+ 	bool fifo = req == &dum->fifo_req;
+ 
++	++dum->callback_usage;
+ 	spin_unlock(&dum->lock);
+ 	usb_gadget_giveback_request(_ep, &req->req);
+ 	spin_lock(&dum->lock);
++	--dum->callback_usage;
+ 	if (fifo)
+ 		dum->fifo_req_busy = 0;
+ }
+@@ -759,11 +761,13 @@ static int dummy_queue(struct usb_ep *_e
+ 		req->req.complete = fifo_complete;
+ 
+ 		list_add_tail(&req->queue, &ep->queue);
++		++dum->callback_usage;
+ 		spin_unlock(&dum->lock);
+ 		_req->actual = _req->length;
+ 		_req->status = 0;
+ 		usb_gadget_giveback_request(_ep, _req);
+ 		spin_lock(&dum->lock);
++		--dum->callback_usage;
+ 	}  else
+ 		list_add_tail(&req->queue, &ep->queue);
+ 	spin_unlock_irqrestore(&dum->lock, flags);
 
