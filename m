@@ -1,119 +1,62 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A533EBF14
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 06:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0653411F83;
+	Wed, 16 Sep 2026 07:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789541740; cv=none; b=AJTm7PHghauSENU6RCbcvx1QifvdNNWnNupd4VjK6ttIeINL+lJQBmt15VcEYZ0co07tzTGsDbwuO7WQLOE5dY7oegL74JI/6s0jQlG58SZ8IWT5nGMThTv7E6KP9o7OW/m8YLCnsnjhrUHlRKmRJ44cH5wyVoYUL/TdhpLX0m0=
+	t=1789542811; cv=none; b=IvvsLgdj5JiZ/qSZxT4YrZqGyU3cPlTpArfXF/y6qhAbLQsY/2sWw8umoMor54OQl55u9ymj8jWwnJO0ca/9UpgyxpAlaTtOClTe2GC26AOQwTMsORHhhnGOZz/GM98n0ulg6UrzfH6tsDwN/+94Cm4qYgtWbkDnlxNTqJF8Ilk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789541740; c=relaxed/simple;
-	bh=JTJ88IGbzVBPXF6knhuLYB1+SszOHaf+na+fa/yh0/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=QPq0WbqkDI/zL3VAT9J/9h9RaiTrEMOttO+VgxiHAlpLuPAIVEN5zmKDauANaPnstrcxX10fXlcLAMGGMH2rOlk9CDJwB4gX7xAK0OMeoXB/ldEphCuWIJGyuhSASOlGAXMg9eggT+g/8o6Q9CfAtzTaAzbwjEwNpqHPEPNQLsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=sN29VXdR; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1789542811; c=relaxed/simple;
+	bh=NGUu7Eat2u8NKBdJT5OjJPLD4oT04Rr5HsjYrsGJzW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5EypVXIMabbyu9uqVJfrENQ6ENaD1uV4Lf6yPhSFgQCVHtJec3Wr/74CzK+B32LyY8NxPvB3yOAUOBCPkT/Zia06driZGbjG8WUDB/wvWi5i69QTvjCwr2EKokwqMA0SSdFss7xQ64fCWCz193g8PXDLG14nz3NeSaj95kxGeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EYmQ4H0n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="sN29VXdR"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260916065535epoutp0221d557684a8e5cc9934fb953d8becbd1~VuroDQII60129801298epoutp02W
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 06:55:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260916065535epoutp0221d557684a8e5cc9934fb953d8becbd1~VuroDQII60129801298epoutp02W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1789541735;
-	bh=Dmq9AZ1vIHHYBfJ/kR1wgFXYb1HSX0N4D1w5gRdEoaA=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=sN29VXdR2j2bHvRXpPTbj65RGugMMyVibw4Cu63eA28RRhMrNqI0nPBPvmSnvDR5x
-	 gP6nnnf8gREha+A1Ic3cb+oXm+ZsDuAs4r29tPDWqiGZ/cwIwQd1+NbHqICNrggcYE
-	 wcMP9LcNSs4xbG6HRoWfXxv9I4rIQan2LaNPgUSs=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260916065534epcas5p3a129d4f73b4e4d18ce8fb3af12881fb3~VurnU534m1719117191epcas5p3p;
-	Wed, 16 Sep 2026 06:55:34 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.86]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4hl8m50R9Bz3hhT7; Wed, 16 Sep
-	2026 06:55:33 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260916065532epcas5p3bac23ebb76d7f13815042d4e89821649~Vurln5I_T1987819878epcas5p3u;
-	Wed, 16 Sep 2026 06:55:32 +0000 (GMT)
-Received: from [107.122.5.126] (unknown [107.122.5.126]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260916065529epsmtip129833710e6fe28286b722fa81fb5efef~Vuri6XZjm1077810778epsmtip18;
-	Wed, 16 Sep 2026 06:55:29 +0000 (GMT)
-Message-ID: <0faf2d75-3b0c-4b89-ab89-d5f93eb26821@samsung.com>
-Date: Wed, 16 Sep 2026 12:25:21 +0530
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EYmQ4H0n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70CD11F000FF;
+	Wed, 16 Sep 2026 07:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789542796;
+	bh=ZSwnXaMIy041+a4ctb+SDaVtRs2WLnKtUxx+YycEzsY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EYmQ4H0nu5BZqOUtqtFo2NYp9AVPzFGDUe5ZwCzKuB6TK2x6pfyMvPLUQ1VNB92nJ
+	 RBjVq9PohXucMP4aCYhLKbojQHmHs3Nor66iA6XLOGyB72336VGWq4TrCo0zahYyny
+	 Ya+OFzY9rlUmmOj2+IbcvqNtd4RwAMQ0GVVoKAz4=
+Date: Wed, 16 Sep 2026 09:11:22 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, usb4-upstream@oss.qualcomm.com,
+	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH] thunderbolt: Make PCIe NHI support opt-in
+Message-ID: <2026091611-backward-monogram-82e7@gregkh>
+References: <20260915-topic-tbt_pcie_optional-v1-1-47c4a3d129bd@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] usb: dwc3: Add Exynos8855 to the generic platform
- driver
-To: Krzysztof Kozlowski <krzk@kernel.org>, peter.griffin@linaro.org,
-	alim.akhtar@samsung.com, gregkh@linuxfoundation.org, robh@kernel.org,
-	conor+dt@kernel.org, Thinh.Nguyen@synopsys.com,
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com,
-	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
-	muhammed.ali@samsung.com, thiagu.r@samsung.com
-Content-Language: en-US
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <9969f6d6-71ee-4c22-9b37-a0f6bac97169@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260916065532epcas5p3bac23ebb76d7f13815042d4e89821649
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260903071322epcas5p2a40e3299b0954dd880c9b3651555760c
-References: <20260903071250.3421499-1-selvarasu.g@samsung.com>
-	<CGME20260903071322epcas5p2a40e3299b0954dd880c9b3651555760c@epcas5p2.samsung.com>
-	<20260903071250.3421499-4-selvarasu.g@samsung.com>
-	<9969f6d6-71ee-4c22-9b37-a0f6bac97169@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915-topic-tbt_pcie_optional-v1-1-47c4a3d129bd@oss.qualcomm.com>
 
+On Tue, Sep 15, 2026 at 07:04:10PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> With more implementations coming in, one may desire not to enable
+> support for the PCIe-attached NHIs. Allow it to be built as a module
+> atop the framework.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-On 9/5/2026 12:49 PM, Krzysztof Kozlowski wrote:
-> On 03/09/2026 09:12, Selvarasu Ganesan wrote:
->> Add the "samsung,snps-dwc3" compatible string to dwc3-generic-plat so
->> the Exynos8855 USB3 DWC3 controller can probe through the generic DWC3
->> platform glue.
->>
->> The "samsung,snps-dwc3" string is used as a generic fallback to support
->> any Exynos SoC that utilizes a flattened model instantiation. This
->> fallback allows multiple Exynos SoCs to be supported by the generic
->> platform driver simply by adding the fallback compatible to their
->> respective device tree nodes.
->>
->> Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
->> Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
->> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
->> ---
->>   drivers/usb/dwc3/dwc3-generic-plat.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
->> index ca69ac0eb07c..33a76c37d15d 100644
->> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
->> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
->> @@ -237,6 +237,7 @@ static const struct of_device_id dwc3_generic_of_match[] = {
->>   	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
->>   	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
->>   	{ .compatible = "starfive,jhb100-dwc3", },
->> +	{ .compatible = "samsung,snps-dwc3", },
-> Why not in alphabetical order?
+Why would you not want this?  Can hardware not provide this for some
+platforms?  I thought it was part of the spec...
 
-You're right, it's not in alphabetical order. I'll fix this in the next 
-version.
+thanks,
 
-Thanks,
-Selva
->
-> Best regards,
-> Krzysztof
+greg k-h
