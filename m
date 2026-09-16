@@ -1,88 +1,132 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81984DD3C6;
-	Wed, 16 Sep 2026 16:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9974A7C9D;
+	Wed, 16 Sep 2026 16:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789577834; cv=none; b=GJ+SdsNWB3+mmH6sFKQDwgSLYAbw7CIfGSH3IAOdW1LP4kB+9oUMCjgoymjiBwX8tEXiFL4Cm7PZWat2gOEMb1qvLvCOVWMijpzDfUACNFalix6Bibvq1iuwumb0BCxcMmVCxbKGnAElcJWO4wSb/GVxk2djwKgSg8ruo9xOJJg=
+	t=1789577943; cv=none; b=HVIXVKm+aDDwmh3roe6G6gFNd3hR6p/Vs4+bA7E6Q1idLkc0HS9TmF2dIDxR4VIYFvOZtKQtt0RYq3VJ/Wky7j1WRxx3SdANE6O7yB+phDC38byLMJok2kHVli1+fBtXCenxij0SSfAT17VUrsO9jkILvdaYREsVORw5lWXkN44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789577834; c=relaxed/simple;
-	bh=Q0vKnsBhU5N70+ASDlEYTgbNg+QlDDAhAMOMiJCKFR0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EesBS2mJMbxxylLjqTX7ac2vFrJivlqYUqm34xCDG44GspTHLuJVkBOYnn4N+sMYaZGsR8u5x0PH5+SiGrLrIxAmB8+jX5rc+0KrJyCz5NwQiQYgD9RLr3W4R/MR7TnRMgKUDqgrlQ1eWDg0prgDySNDprF7zDIs3zOVxe9LusQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowABnmEJDyqpqpxFuCA--.22468S2;
-	Thu, 17 Sep 2026 00:56:35 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: gregkh@linuxfoundation.org
-Cc: johan@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] USB: usb_wwan: Fix urb leak in usb_wwan_close()
-Date: Wed, 16 Sep 2026 16:56:08 +0000
-Message-Id: <20260916165608.2085613-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1789577943; c=relaxed/simple;
+	bh=nCOkKQ3QYNmr6YwW0KkBrOquIDT5V02Kc3+70ny9WPM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JiWAWPZ7cq0HkWX3mncu6uIv4DJ9Vnhpe4Tjj4UQaz1AjTkvUHg6vYg0q7HEWOmlr76+PEPKfJl5MHEroAc7/7q5PUAzCarL/cfKaB3ZOu7jU+olFofYN5cpmj9wcbShu7wPTCmxI1OzKc9WBmEuYlMTl1reJEPNjavMSj7xVDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from [192.168.2.104] (91.78.42.68) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Wed, 16 Sep
+ 2026 19:58:42 +0300
+Message-ID: <9fad10fc-dcd9-437e-b422-018638524632@auroraos.dev>
+Date: Wed, 16 Sep 2026 19:58:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net] ch9200: return error on failed register writes in
+ ch9200_bind()
+To: <netdev-bot+sashiko@kernel.org>
+CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <linux-usb@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <mjg59@srcf.ucam.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20260914202503.52920-1-s.shtylyov@auroraos.dev>
+ <178951445003.22033.8083675025384414442@kernel.org>
+Content-Language: en-US
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+In-Reply-To: <178951445003.22033.8083675025384414442@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABnmEJDyqpqpxFuCA--.22468S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JryDZFWkAry7ZryDXw4UCFg_yoWkKFb_Kr
-	n5WFnrXw4UCFs5KF13KFy3uFy3Ka1kXan7JFsagr43JFyjyFWqq3s3K393Gwnrt3yUWFn8
-	Jw1vk3yFvF1kGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbxkFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AK
-	xVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
-	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1l
-	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxV
-	AFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8
-	JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUj
-	nmRUUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMMA2qqozVdRwAAsZ
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
 
-usb_wwan_close() drains the delayed write urbs with
-usb_get_from_anchor(), which returns the urb with a new reference
-taken. The loop only clears the busy flag of the urb and never drops
-that reference, so each drained urb keeps one reference forever and
-the urb object is not freed when usb_wwan_port_remove() later drops
-the port's own reference.
+On 9/16/26 2:20 AM, netdev-bot+sashiko@kernel.org wrote:
 
-Drop the reference with usb_put_urb() once the urb has been found in
-the out_urb array by unbusy_queued_urb(), leaving the reference held
-by the port's preallocated out_urbs array.
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider:
+> 
+> Critical: 0 · High: 1 · Medium: 0 · Low: 0
+> 
+> - [High] Ineffective fix: the six newly added `if (retval < 0) return
+>   retval;` checks in ch9200_bind() (drivers/net/usb/ch9200.c) cannot…
+> 
+> --
+> 
+> ch9200: return error on failed register writes in ch9200_bind()
+> 
+> The patch adds error checks after the six control_write() calls in
+> ch9200_bind() so that a failed vendor register write aborts the bind
+> instead of being ignored.  It carries a Fixes tag for the original driver
+> commit 4a476bd6d1d9.
+> 
+>> diff --git a/drivers/net/usb/ch9200.c b/drivers/net/usb/ch9200.c
+>> index a206ffa76f1b9..ab3cd3902ed72 100644
+>> --- a/drivers/net/usb/ch9200.c
+>> +++ b/drivers/net/usb/ch9200.c
+>> @@ -360,32 +360,44 @@ static int ch9200_bind(struct usbnet *dev, struct usb_interface *intf)
+>>       data[1] = 0x0F;
+>>       retval = control_write(dev, REQUEST_WRITE, 0, MAC_REG_THRESHOLD, data,
+>>                              0x02, CONTROL_TIMEOUT_MS);
+>> +     if (retval < 0)
+>> +             return retval;
+> 
+> [Severity: High]
 
-Fixes: 79eed03e77d4 ("USB: usb_wwan: fix urb leak at shutdown")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- drivers/usb/serial/usb_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+   But why? 8-)
 
-diff --git a/drivers/usb/serial/usb_wwan.c b/drivers/usb/serial/usb_wwan.c
-index e752ffa4dc62..2c46330f10da 100644
---- a/drivers/usb/serial/usb_wwan.c
-+++ b/drivers/usb/serial/usb_wwan.c
-@@ -403,6 +403,7 @@ void usb_wwan_close(struct usb_serial_port *port)
- 		if (!urb)
- 			break;
- 		unbusy_queued_urb(urb, portdata);
-+		usb_put_urb(urb);
- 		usb_autopm_put_interface_async(serial->interface);
- 	}
- 
--- 
-2.34.1
+> Can these new checks ever observe a failed register write?  control_write()
+> in the same file discards the USB transfer status on its normal path:
+
+   By "failed register write" I meant any error in control_write(), including
+kmemdup() failure (which precludes the USB request from being sent at all)...
+
+> drivers/net/usb/ch9200.c:control_write() {
+>         ...
+>         err = usb_control_msg(dev->udev,
+>                               usb_sndctrlpipe(dev->udev, 0),
+>                               request, request_type, value, index, buf, size,
+>                               timeout);
+>         if (err >= 0 && err < size)
+>                 err = -EINVAL;
+>         kfree(buf);
+> 
+>         return 0;
+> 
+> err_out:
+>         return err;
+> }
+> 
+> The only return err; is at err_out:, which is reached solely from the
+> kmemdup() -ENOMEM branch.  All six patched call sites pass a non-NULL
+> 2-byte data buffer, so the only negative value the new checks can see is
+> -ENOMEM from that allocation.
+
+   I kinda noticed. :-)
+
+[...]
+
+> The sibling helper control_read() already returns err on its normal path,
+> and ch9200_mdio_read() checks it with if (ret < 0), so the convention
+> control_write() is expected to follow already exists in this file.
+
+   And I'm extending it to control_write(), but in another patch...
+
+> Would it make more sense to change control_write() to return err after
+> kfree(buf) instead of (or in addition to) adding the caller-side checks?
+> As it stands the commit message claim that this makes the driver "bail out
+> of ch9200_bind() on failed writes" does not seem to hold for actual
+> transfer failures.
+
+   I'm getting bored...
+   If any *human* maintainer insists that I merge the 2 patches, I surely
+will... Or maybe I should resubmit both against net.git (net-next.git?) as
+a series?
+
+[...]
+
+MBR, Sergey
 
