@@ -1,424 +1,157 @@
-Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499E13DE440
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 17:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789581414; cv=pass; b=ALT6IF5N/h0MA/J5h1JYSzZMI6bEn3p6eCEUijrTeDOgFujJzJldjeW8zpRt0HZnQ2ObfZ868WC6zr9+CmdW3bdxLNBGCZs6mF4Xps/V2YxbWI48yAt79mAcrbn5K5LkRcEkLfGSRA9Wygnr1nTqb6fo0NGS5E7mbCs9xp7DVNc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789581414; c=relaxed/simple;
-	bh=pI++wm/4uwN+AR/4qfoavqe/XGuBJ2gh68sX+zWaAe0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hAr7s57PHFO1Q08YRXvNVK7XMkktcfegPgeDhxfdnPq6d776Zwo6q/9VOxfQFI7jbLLEWAiu6ca3fXRavOdOjtICLTnpnbG3OMMIlJXHa40P/zoshqb/f3u4JPijkVDBrjRYl4nhgGV2mm1aYAE5kHh+KaXHsH7sE5kAKbr1CZ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jC0jqgWD; arc=pass smtp.client-ip=74.125.231.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DD53BA225
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 18:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789582537; cv=none; b=H2utRRERYFpZUT2o2g1Mk3771rkBatd6/R1Pz87+SIF85Vi1tktmEe44XqAmNIsZjD256RnC4O0M9OgCCQRIDVJG3QEZfjx0Us1a3QQX82CzE1s+q4bt3UKwpZsTQ6O+ssSd1jd8ulccS8Vhh6CGqpn4c5pyCQ5IA1u72Jzr4GE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789582537; c=relaxed/simple;
+	bh=dSCqGgYRwdYm3xNWISQSdyfDzLRDfEZdXIIMlDmoWSU=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=ZCL8uw87AE3iQVDB6pansEeVrchImqI1CzSBJ5wJ5bZP+1LA0nAojU/JA+w0SxbjZlPE4AILiAFFN7+YfuA1O4oEY4+k1G5TjltJZnNAPa71PzovjZcaXyW+4I/v6WvSlG6knFosICCOIL26MsWtYgH2bjXQY2xhyCcnnLdcmB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EWmNkSM9; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jC0jqgWD"
-Received: by mail-oi2-f12.google.com with SMTP id 5614622812f47-4b375b957e0so64177b6e.2
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 10:56:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789581396; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZTIQNSOuleE5L9fMlxkDd6HAlslbHRWbWcg+8COt1HRlA7wy0xwmEC9f44192klRJw
-         g91x4D7QL/J+EKqKO3WfI8G7GTvDx2ncYT7oJcaQvj9hjxyivpVf/W9cqjlrBFT7KZ9+
-         bshr3UDvHjkMyDkXqyy3MGfgoD/a0ko4lE3ZDkIrrBXOaqubH4wssRp4pIQ4s2jZHiIj
-         RBLno+j6Gk9OKOTxHwFERvcrTsSvFRR/VypVPhC7Mpvd+5gCyaYcGRDJFFuVVa5SW/Ny
-         3YdujLOkjVAiqPoWT6m+nOUYUpq/CGq7L95THCDbS+CrgGtYDskY3mO2LPJrJxsu3qOz
-         MhAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XSG+LfPoqDAo8z5BJEH/0UmvJNbKlpg21KVGrnuzFWc=;
-        fh=ttWoJezXwlBflNtWBfI9v94eShESXveQjb1b14nKSAs=;
-        b=YrJtUIogZJJl3hicNMEF66EBPNBt3FwP+kOndPR1AQjIQwB7mXHlEflbpy5RkYyyLm
-         Y1hgaHgPGyRx04ZWqIqFy91c+/ga3Zwr7RtHJFIU/VPL36Jvyhfbo6pwdsalK/TCAuWH
-         qAJMLXYxjc6ZGFoESP/Jysg2V6k+FFwKNVnYXJJc5/xb3jpyMaah7VEZQeDsJe17fMZ6
-         DJVMC6EfW1UFCkngVzlQsOL9mYWbpE7VD8eWPavUrnF5SrijKQA1cqs1NBiIU/55wpms
-         +InndV90En1AO4aRoNK6na8Fz41+9bSBkPIU6O4g4+GE4ib13JuGCXqu9CPDEpCVNwCC
-         CTbA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EWmNkSM9"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so426465e9.1
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 11:15:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789581396; x=1790186196; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XSG+LfPoqDAo8z5BJEH/0UmvJNbKlpg21KVGrnuzFWc=;
-        b=jC0jqgWDV1uFnsXpCPEhF73WnJLJrxE4cpnDxxpguRls4sIElzCQ1TEdWKIoHU0zpI
-         jES7Xu/l1W9i+1Pq2nBah+6qzacxKesee3CveXb116KwtaGO7lAcarAhTXV8Hf3IvWEg
-         dNkFjfbt+Bk1sbvf/wzmM28yyWfOiJe9zCntIxF3Sjan8zMeO6V98KBfADp2YfvekCLw
-         KswKgwRLwheJ5w3afAckmTIcQgGjHdbP6/CUodoYYz5J1NTG862s8QWFVBl3mPngidhp
-         CLyOh02PqKVePy+XkFcNeuu4wcAqXIp5l+vF+gtvPLwHFVAYPSnrk+sbqzP2V7PUvkxK
-         3CpQ==
+        d=suse.com; s=google; t=1789582523; x=1790187323; darn=vger.kernel.org;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:content-type:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FYx9isMMr8aF+/2UYelOTScXJOAkcODXeEKi0uXPtyk=;
+        b=EWmNkSM90lG/CZsoKQvEyrmQSsrXwqRT+2h9sYtdUVm1/gEGXnYQFIEbSQZLol4BQO
+         3kHHwWhbcxl68Xcvooi2wP56DlePHZsCfNQpweyOQI9TYlRqNo5hjshZuoKWBbHYryMO
+         Dikrq8LiSxJt6yfHHDPuSVow+IpcpXhcHmk8NTJpZCgCu8laQgbiOWkRqDzt0zmz3Wkj
+         t/f7cX+pVhfNH1hD3Vf5QRlAQ6Iwt3hw8Ru8gaWiJPNYbAdLad+87bMOsqDmBQCsCwYo
+         tqe3YbGCQ9q3cwVG2pzsjChi+enLDFhTUw37vqrBtd4DbrLwdzwWaGPgKx63cv2M0KkQ
+         5ChA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789581396; x=1790186196;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1789582523; x=1790187323;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:content-type:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XSG+LfPoqDAo8z5BJEH/0UmvJNbKlpg21KVGrnuzFWc=;
-        b=QlbSjrW2DLJp5X1CstCFUEybrLMEiWg+ClYMvqRvgDXcOFtiks8Qv/frDWrjuZtcPa
-         0wJOMD6wjxocuZsZ9URzrb0PeBwDEjBYoRYFZBeJCP/Y/8Kb/Ulc+bHLyWP46L2SatBh
-         CN1Mz6uKfFJ25CqwaE3KaqtMkKZe0Jvn4jmxzolkkiPD6NO6CphkzhGhd6QwF04mCH8R
-         GmzHRxaCL0IfMr89P48mwOqMQO+bJSKev95ua4fGgOb2UJ1aFiECWkME6MMkN2JOV9m6
-         F04gQzs4rDFYz3OwdaMYEbZfwHT7JgsqQhVJ3SeUg3Hkf1Zli/OJqL/cLa2Surz655I5
-         kOsw==
-X-Forwarded-Encrypted: i=1; AKwUvBz8kuUsWLR5iZAWF80yFWwAsWsAMFIMarygtLSHgT3Mljq/OrPBgNjbh8YmsDRJkLU/9AcTDP+77nU=@vger.kernel.org
-X-Gm-Message-State: AFuF++lA4GEY5LarNlVK3/zVQppYkoVQ3myJbL4NjY/GqEMEgr2/vqOL
-	ukMk5dx6R/CK3k/ReQYFkrLZ80pYAok2KuVk+twneoOkPT/aj4B8fhkC/E2mNJEVQVshukDy8OC
-	S04n6MUkK8C8ciO1QSenI67z/Vr5xMTE=
-X-Gm-Gg: AYBFou2H6TcsyzLlXCZzCKvR1xXlrITMQVYVL4r4egeRWfGSk8UBfdX/gZAobgIrqbD
-	qW7dIKE3HTJt1yEliLoeASE8jk8xhYZug1J3G2ws7ggGuxnsZLAcTFchewN1MHNRlukWzjgN3wV
-	x2hw8ru8JGhjZHGYpG1MOBv6W/wXDCRZJjrdYSVyY08McFVemW7UXCqc0IKaO13SlKQIRpELsSW
-	uTuex8Y0NMYBWd6/xNDhIiBpW84GB+WXefgGbGb69biO6sRAqOtF4lJinL6+9c39I4ZzQ2CaZbS
-	gVotSoiE0TArey5dRQs6kWaSGT64Ykjkw5NSj8TWQe0/d8PY6jSSp+5HXhZ4+ANmthc=
-X-Received: by 2002:a05:6808:1a24:b0:495:d9fc:238a with SMTP id
- 5614622812f47-4ca4d911f64mr3473858b6e.3.1789581396449; Wed, 16 Sep 2026
- 10:56:36 -0700 (PDT)
+        bh=FYx9isMMr8aF+/2UYelOTScXJOAkcODXeEKi0uXPtyk=;
+        b=ImJ3FPuGfwo5GJ9sIVCD5XXTRlSoEJ8AcKJRS72EXzE/GmE8HEtJ9X06j1Nc4WBW10
+         S/VQBzodMiLoS5XKkVFdhueVIEIUUINrI7FZ+LIlGUBvo2DViNJwJzmVmb+051wyn1GL
+         IMrwC9dH0eclLDaLJQXNflJtR9zBTtuIRQ7UfW6Gt7sDK4GqaZjRnKTHuujdso4uEZ0a
+         kErZ2dhdBWkYuHu9cZTrbIDNFAH3bizUHaQVFVucXPJjIppimcZFmZPPyMVRFzvvvKew
+         MKpd8XBBbbgpY8P7i+ALSCdkdOAM22OX/b4yuePgOD2iwTn5iMp4md3Y4i9oHJpBTCnC
+         JOtw==
+X-Gm-Message-State: AFuF++kxtg4AJXJ8N7iyCBSi6BExOZlQ+vPsGs7uzHmedvCV81czXLOA
+	YabzM12T1MYrEljyemDnNFDLIgjBsTsHWm9zWnwLE5NgBZpJjQrDoz7ieKtTpVzs71s=
+X-Gm-Gg: AYBFou08LW31ZbF42o0Dl59ugb3XYXC4ZB0MWJu9lRXW56YDHgLaDoREE5x9Al9Ldg2
+	OY5W9/t7aXqUJbaSEP1YHuOUeoHdcX5cA+SgSGRSrYKNzRlqIHlpd+fVdTrZNCJpTVoVx9xAHpg
+	Xf5rPErqBOD9Tpl2tI6fn5IZB4iDfvELbUE/Ilw47YHaJs7E1dgZNiMcHNRxGvXZ44avsLuJYEu
+	cT3ovLTM4v+iR9Jkw9G7Jt4Z8bo9aIHkMGC2v1H2Ehqu9bIDKLN76nrGUmVPcB0p2Cvq/6tZ6nQ
+	u7iuSJ0+6bS4NniML6hqPjaSzx4D/AlN3cwORyIsvxGEQGSRDbGUCkTkhtBS6PW9R+ZLVz3csLi
+	STepJ0KFMXshYISE7ptVkkJzSHFBRelQDkLVUeq+XjXu51914pP5DlPU4w3EgmkNXOX8s8wrMSl
+	5EekazFcpBDfr2OTWyQz/D8zmIzXoktjwBrv45OQv0QzSPlbYP1r6sWza3zCKEuSrgqmToH2M6X
+	5QsguuIDlVbTbG85b34qagAu5A281p9Vqjqd+I5vg==
+X-Received: by 2002:a05:600c:4505:b0:49c:fc6e:8cae with SMTP id 5b1f17b1804b1-49eb73475efmr44858405e9.18.1789582522693;
+        Wed, 16 Sep 2026 11:15:22 -0700 (PDT)
+Received: from ?IPV6:2a02:3035:b61:cd4c:428e:991d:75b:c0b0? ([2a02:3035:b61:cd4c:428e:991d:75b:c0b0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd32c5e1sm15131045e9.5.2026.09.16.11.15.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 11:15:21 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------XEnvVPO2Q6hJ7Mw5RBTj5USZ"
+Message-ID: <9e4b67a2-1975-43a6-b79f-00ad833c4214@suse.com>
+Date: Wed, 16 Sep 2026 20:15:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
- <c335085d-a824-4632-ad3a-c06715258c81@suse.com> <CAFKhL9f6aLZgerw_7bohbQWvzMxSfd-m-LFcuNP1_p1vWkN4=Q@mail.gmail.com>
- <1320caa3-85b5-47dc-aa2d-56d3b003c6ef@neukum.org> <CAFKhL9eTD7DxtxMSMuUVP9cDG7Nq4jvrkTCjYfwr9puZfuC4Gg@mail.gmail.com>
- <20260915233818.5881ad97.michal.pecio@gmail.com>
-In-Reply-To: <20260915233818.5881ad97.michal.pecio@gmail.com>
-From: djraszit <djraszit@gmail.com>
-Date: Wed, 16 Sep 2026 19:56:25 +0200
-X-Gm-Features: AcwNN1Voh3059Pog29v63YAMQiaaG6ARtNCtPnnmLRj4ikAVRDSA5XKwQY54ICE
-Message-ID: <CAFKhL9fL++S1xh+aUCuYbk6EkLQnfUn95y7TBoWaGnPAVP1gYA@mail.gmail.com>
-Subject: Re: [BUG] uas: JMS578 returns reproducibly incorrect data after host reboot
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Oliver Neukum <oliver@neukum.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] usb: mdc800: possible circular locking dependency between
+ io_lock and minor_rwsem
+To: CJ <firefly0158@163.com>, gregkh@linuxfoundation.org, oneukum@suse.com,
+ n7l8m4@u.northwestern.edu, kees@kernel.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <5c30f641.6b79.1a09ed8b2bf.Coremail.firefly0158@163.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <5c30f641.6b79.1a09ed8b2bf.Coremail.firefly0158@163.com>
+
+This is a multi-part message in MIME format.
+--------------XEnvVPO2Q6hJ7Mw5RBTj5USZ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+
+On 14.09.26 09:36, CJ wrote:
+> 
+> Hi,
+> 
+> 
+> I am reporting a lockdep-detected circular locking dependency in the mdc800 USB
+> driver, triggered by a syzkaller USB reproducer.  The issue is reproducible with
+> HEAD commit cee9395acd8043be0644b25c34bfa86623f2b935 (v7.3-rc1, Linux
+> 7.3.0-rc1).
+> 
+> 
+> The reproducer connects a synthetic USB device through dummy_hcd that enumerates
+> as the mdc800 camera, then opens the character device node.  No filesystem or
+> image input is involved; the trigger is the connect-then-open sequence on a
+> device that binds to this driver.
 
 Hi,
 
-I have done several more tests and I think I need to correct one of my
-earlier assumptions. Initially I suspected that UAS itself might be
-involved, but the new results show that UAS alone is not sufficient to
-reproduce the problem. The failure appears to be much more
-specifically related to the Raspberry Pi 4 SuperSpeed USB path, or to
-an interaction between it and these JMicron bridges.
-
-First, I tested the original enclosure (0080:a001, apparently JMS578)
-connected to a USB 2.0 port of the Raspberry Pi 4.
-
-Interestingly, it still uses UAS:
-
-```
-Class=3DMass Storage, Driver=3Duas, 480M
-```
-
-I performed multiple reboots in this configuration. I did not get the
-"Alternate GPT is invalid" message and the known test block remained
-correct:
-
-```
-6b716692a9eecccf9ab693a6419dc7325b3072c6ecf8499ffa2a1e4bd126b483
-```
-
-This seems important because the same enclosure connected through USB
-3.0/SuperSpeed with UAS can return reproducibly incorrect data after a
-Raspberry Pi 4 reboot, whereas UAS over USB 2.0 remains correct.
-
-I had also previously tested USB 3.0/SuperSpeed with BOT forced via:
-
-```
-usb-storage.quirks=3D0080:a001:u
-```
-
-In that configuration the enclosure used usb-storage instead of UAS
-and the data remained correct after reboot.
-
-So the combinations tested so far are approximately:
-
-```
-RPi4 + USB3/SuperSpeed + UAS  -> BAD after reboot
-RPi4 + USB3/SuperSpeed + BOT  -> GOOD
-RPi4 + USB2/480M       + UAS  -> GOOD
-```
-
-There is also the earlier result from dynamically switching transport
-after a bad state had already been triggered:
-
-```
-UAS -> BAD
-BOT -> GOOD
-UAS -> the same BAD data again
-```
-
-Therefore neither UAS alone nor SuperSpeed alone appears sufficient to
-explain all of the observations.
-
-I also measured USB VBUS during reboot with an oscilloscope.
-
-With:
-
-```
-USB_MSD_PWR_OFF_TIME=3D0
-```
-
-VBUS disappears for approximately 3.17 seconds during reboot.
-
-During a normal cold start after "shutdown now", removal of Raspberry
-Pi power, and subsequent application of power, I did not observe any
-unusual spikes on VBUS. The USB voltage simply appeared after a delay.
-
-As a control test, while the original enclosure was in a known-good
-state I manually disconnected its USB cable for approximately three
-seconds and reconnected it. This did NOT trigger the bad state.
-
-I also tested a complete Raspberry Pi 4 power cycle:
-
-```
-enclosure in GOOD state
--> shutdown Raspberry Pi 4
--> remove Raspberry Pi power completely
--> wait several seconds
--> apply Raspberry Pi power
--> wait for complete boot
--> test data
-```
-
-The enclosure remained powered and physically connected to the
-Raspberry Pi during this test.
-
-The result was BAD.
-
-So the problem is not specific to a warm reboot. Starting a completely
-power-cycled Raspberry Pi 4 while the already-powered enclosure
-remains connected can also trigger the problem.
-
-In contrast, I performed the test suggested by Michal:
-
-```
-enclosure in GOOD state
--> disconnect USB
--> reboot Raspberry Pi 4
--> wait until the Pi has completely booted
--> reconnect USB
-```
-
-The result was GOOD. There was no "Alternate GPT is invalid" message
-and the test block had the correct hash.
-
-I also tried removing the SCSI device before reboot with:
-
-```
-echo 1 > /sys/block/sdX/device/delete
-```
-
-while leaving the USB device physically connected.
-
-This did not prevent the problem. After reboot the original enclosure
-again produced "Alternate GPT is invalid" and incorrect data.
-
-I then tested a second, different docking station which also uses a
-JMicron bridge:
-
-```
-152d:0578
-Product: USB3.0 HDD DOCK
-Manufacturer: JMicron
-```
-
-This device shows a different failure mode, but it is also affected by
-Raspberry Pi 4 reboots on USB 3.0/SuperSpeed.
-
-After recovering the docking station it enumerated normally as SuperSpeed/U=
-AS:
-
-```
-JMicron USB3.0 HDD DOCK
-152d:0578
-Driver=3Duas, 5000M
-```
-
-The disk was detected correctly, there were no GPT errors, and the
-known test block returned the correct hash:
-
-```
-6b716692a9eecccf9ab693a6419dc7325b3072c6ecf8499ffa2a1e4bd126b483
-```
-
-After another Raspberry Pi 4 reboot, however, this second JMicron
-device could no longer enumerate on the SuperSpeed bus. The kernel
-repeatedly reported:
-
-```
-usb usb2-port1: Cannot enable. Maybe the USB cable is bad?
-usb usb2-port1: Cannot enable. Maybe the USB cable is bad?
-usb usb2-port1: Cannot enable. Maybe the USB cable is bad?
-usb usb2-port1: Cannot enable. Maybe the USB cable is bad?
-usb usb2-port1: Cannot enable. Maybe the USB cable is bad?
-```
-
-The device was completely absent from lsusb and no block device was created=
-.
-
-I recovered the docking station, verified that it again worked
-normally and returned the correct hash, and repeated the reboot test.
-The failure occurred again.
-
-I have now also performed Michal's test with this second 152d:0578
-dock while it was in that failed state.
-
-Without switching off or otherwise power-cycling the dock, I
-disconnected only its USB cable from the Raspberry Pi 4 and connected
-it to a Linux laptop.
-
-There was no USB activity at all on the laptop: no new messages
-appeared in dmesg and the device did not enumerate.
-
-I then disconnected it from the laptop and connected it back to the
-Raspberry Pi 4, still without power-cycling the dock.
-
-Again there was no USB activity at all and no new dmesg messages.
-
-Therefore, in this case the failed state follows the JMicron dock to
-another host and survives USB disconnection/reconnection. It is not
-simply a bad state retained by the Raspberry Pi 4 USB controller.
-
-This is similar to what I had already observed with the original
-0080:a001 enclosure, although its failure mode is different.
-
-With the original enclosure, after the bad state had been triggered by
-a Raspberry Pi 4 reboot, I disconnected its USB cable and connected it
-to another Linux computer without power-cycling the enclosure. The
-device could still be accessed there, but it returned the same
-incorrect data.
-
-For both JMicron devices there is also an interesting recovery behaviour.
-
-Simply disconnecting and reconnecting USB does not recover them.
-
-Switching the enclosure/dock off and on while the USB cable remains
-connected does not recover them either.
-
-Recovery requires both:
-
-```
-disconnect USB
-+ switch off the enclosure/dock
-```
-
-followed by powering it again and reconnecting USB.
-
-This suggests that the failure state persists somewhere in the device
-while either side is still providing enough power to retain that
-state.
-
-Finally, I also tested the original enclosure on a Raspberry Pi 5. I
-performed several reboots with it connected and could not reproduce
-the corruption.
-
-I also tested suspend/resume with the enclosure on a Linux laptop and
-the reads remained correct.
-
-So the current observations can be summarized as:
-
-```
-Original 0080:a001 enclosure:
-
-RPi4 + USB3/SuperSpeed + UAS
-    -> reboot/cold boot can cause incorrect reads
-    -> "Alternate GPT is invalid"
-    -> incorrect block contents
-
-RPi4 + USB3/SuperSpeed + BOT
-    -> GOOD
-
-RPi4 + USB2/480M + UAS
-    -> multiple reboots tested
-    -> GOOD
-
-RPi4 reboot while enclosure is physically disconnected,
-followed by connection after Linux has booted
-    -> GOOD
-
-Bad state -> move enclosure to another Linux host
-without power-cycling
-    -> same incorrect data on the other host
-
-
-Second JMicron 152d:0578 dock:
-
-RPi4 + USB3/SuperSpeed + UAS
-    -> reboot can leave the device unable to enumerate
-    -> repeated "Cannot enable. Maybe the USB cable is bad?"
-
-Bad state -> move dock to another Linux host
-without power-cycling
-    -> still completely unresponsive
-    -> no USB event on the other host
-
-
-Other tests:
-
-Original enclosure + RPi5 USB3
-    -> several reboots
-    -> GOOD
-
-Original enclosure + laptop suspend/resume
-    -> GOOD
-
-approximately 3 seconds manual USB disconnect/reconnect
-    -> does not create the bad state
-
-SCSI device/delete before RPi4 reboot
-    -> does not prevent the bad state
-
-complete RPi4 power-off/cold boot while the powered
-enclosure remains connected
-    -> can still produce BAD
-```
-
-The new results therefore change my earlier interpretation. UAS by
-itself does not appear to be the cause, because the original enclosure
-operates correctly with UAS at 480M and survives multiple Raspberry Pi
-4 reboots.
-
-At the same time, the fact that the failed state follows both JMicron
-devices to another host indicates that the persistent failed state is
-in the enclosure/dock rather than being only a retained state of the
-Raspberry Pi USB controller.
-
-What I still cannot determine is what initially puts the JMicron
-bridges into that state. At present it appears to require some
-interaction with the Raspberry Pi 4 SuperSpeed USB path during
-boot/reboot. I do not know whether the root cause is on the Raspberry
-Pi 4/VL805 side, in the JMicron firmware, or in the interaction
-between the two.
-
-Please let me know what additional traces or tests would be most useful.
-
-Regards,
-djraszit
-
-wt., 15 wrz 2026 o 23:38 Michal Pecio <michal.pecio@gmail.com> napisa=C5=82=
-(a):
->
-> Hi,
->
-> This looks bizarre and it isn't even obvious which device to blame.
-> Have you tried any of these things?
->
-> Disconnect the USB cable and connect it back, without powering down
-> the disk or the Pi. Can this fix it? Can this break it when good?
->
-> In good state: disconnect, reboot the Pi, connect. Does this break?
->
-> In bad state: disconnect and connect it to another machine without
-> power cycling. Still broken?
->
-> Regards,
-> Michal
->
+please try the attached patch.
+
+	Regards
+		Oliver
+
+--------------XEnvVPO2Q6hJ7Mw5RBTj5USZ
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-usb-misc-mdc800-avoid-circular-locking.patch"
+Content-Disposition: attachment;
+ filename="0001-usb-misc-mdc800-avoid-circular-locking.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSAwMWU0YTViN2YyMTViNWY2OWVjMWZkZGU4MjljMWNkMDk0OThhMjJmIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29t
+PgpEYXRlOiBXZWQsIDE2IFNlcCAyMDI2IDE3OjM3OjI1ICswMjAwClN1YmplY3Q6IFtQQVRD
+SF0gdXNiOiBtaXNjOiBtZGM4MDA6IGF2b2lkIGNpcmN1bGFyIGxvY2tpbmcKCk5vIG5lZWQg
+Zm9yIGxvY2tpbmcgaW4gcHJvYmUoKQoKU2lnbmVkLW9mZi1ieTogT2xpdmVyIE5ldWt1bSA8
+b25ldWt1bUBzdXNlLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9pbWFnZS9tZGM4MDAuYyB8IDI2
+ICsrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRp
+b25zKCspLCAxNyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9pbWFn
+ZS9tZGM4MDAuYyBiL2RyaXZlcnMvdXNiL2ltYWdlL21kYzgwMC5jCmluZGV4IGY3Y2FhMWM1
+Y2JiNy4uOWVkZjBhZmU4ZGFkIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9pbWFnZS9tZGM4
+MDAuYworKysgYi9kcml2ZXJzL3VzYi9pbWFnZS9tZGM4MDAuYwpAQCAtNDgwLDE1ICs0ODAs
+NiBAQCBzdGF0aWMgaW50IG1kYzgwMF91c2JfcHJvYmUgKHN0cnVjdCB1c2JfaW50ZXJmYWNl
+ICppbnRmLAogCiAJZGV2X2luZm8oJmludGYtPmRldiwgIkZvdW5kIE11c3RlayBNREM4MDAg
+b24gVVNCLlxuIik7CiAKLQltdXRleF9sb2NrKCZtZGM4MDAtPmlvX2xvY2spOwotCi0JcmV0
+dmFsID0gdXNiX3JlZ2lzdGVyX2RldihpbnRmLCAmbWRjODAwX2NsYXNzKTsKLQlpZiAocmV0
+dmFsKSB7Ci0JCWRldl9lcnIoJmludGYtPmRldiwgIk5vdCBhYmxlIHRvIGdldCBhIG1pbm9y
+IGZvciB0aGlzIGRldmljZS5cbiIpOwotCQltdXRleF91bmxvY2soJm1kYzgwMC0+aW9fbG9j
+ayk7Ci0JCXJldHVybiAtRU5PREVWOwotCX0KLQogCW1kYzgwMC0+ZGV2PWRldjsKIAltZGM4
+MDAtPm9wZW49MDsKIApAQCAtNTI2LDcgKzUxNywxMSBAQCBzdGF0aWMgaW50IG1kYzgwMF91
+c2JfcHJvYmUgKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCiAJbWRjODAwLT5zdGF0
+ZT1SRUFEWTsKIAotCW11dGV4X3VubG9jaygmbWRjODAwLT5pb19sb2NrKTsKKwlyZXR2YWwg
+PSB1c2JfcmVnaXN0ZXJfZGV2KGludGYsICZtZGM4MDBfY2xhc3MpOworCWlmIChyZXR2YWwp
+IHsKKwkJZGV2X2VycigmaW50Zi0+ZGV2LCAiTm90IGFibGUgdG8gZ2V0IGEgbWlub3IgZm9y
+IHRoaXMgZGV2aWNlLlxuIik7CisJCXJldHVybiAtRU5PREVWOworCX0KIAkKIAl1c2Jfc2V0
+X2ludGZkYXRhKGludGYsIG1kYzgwMCk7CiAJcmV0dXJuIDA7CkBAIC01NDgsMTUgKzU0Mywx
+MiBAQCBzdGF0aWMgdm9pZCBtZGM4MDBfdXNiX2Rpc2Nvbm5lY3QgKHN0cnVjdCB1c2JfaW50
+ZXJmYWNlICppbnRmKQogCiAJCXVzYl9kZXJlZ2lzdGVyX2RldihpbnRmLCAmbWRjODAwX2Ns
+YXNzKTsKIAotCQkvKiBtdXN0IGJlIHVuZGVyIGxvY2sgdG8gbWFrZSBzdXJlIG5vIFVSQgot
+CQkgICBpcyBzdWJtaXR0ZWQgYWZ0ZXIgdXNiX2tpbGxfdXJiKCkgKi8KLQkJbXV0ZXhfbG9j
+aygmbWRjODAwLT5pb19sb2NrKTsKIAkJbWRjODAwLT5zdGF0ZT1OT1RfQ09OTkVDVEVEOwog
+Ci0JCXVzYl9raWxsX3VyYihtZGM4MDAtPmlycV91cmIpOwotCQl1c2Jfa2lsbF91cmIobWRj
+ODAwLT53cml0ZV91cmIpOwotCQl1c2Jfa2lsbF91cmIobWRjODAwLT5kb3dubG9hZF91cmIp
+OwotCQltdXRleF91bmxvY2soJm1kYzgwMC0+aW9fbG9jayk7CisJCXVzYl9wb2lzb25fdXJi
+KG1kYzgwMC0+aXJxX3VyYik7CisJCXVzYl9wb2lzb25fdXJiKG1kYzgwMC0+d3JpdGVfdXJi
+KTsKKwkJdXNiX3BvaXNvbl91cmIobWRjODAwLT5kb3dubG9hZF91cmIpOworCiAKIAkJbWRj
+ODAwLT5kZXYgPSBOVUxMOwogCQl1c2Jfc2V0X2ludGZkYXRhKGludGYsIE5VTEwpOwotLSAK
+Mi41NS4wCgo=
+
+--------------XEnvVPO2Q6hJ7Mw5RBTj5USZ--
