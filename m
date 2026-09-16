@@ -1,143 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC35544AB7C;
-	Wed, 16 Sep 2026 07:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B5B3C109A
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 07:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789543448; cv=none; b=CNe9dRiYWyiGWAvjWOGTziN3KnsRZuzWenGUDW46FF8adNQNVOoabOb7Pm6WVCB9g8JHcC+Q8AhPiZ+zD6JajWxPpzLnYRQXinsVmF8vinyPdTzl4fUk6gmdeMe0hDaYLxIf80qhrA4TPZKsoMXbMUnH6mtdNwnUw6JR13x4JPg=
+	t=1789544335; cv=none; b=uZBGnMoZJ2P35Lhiv0UBNWmaaAinScgf4RiTFHrZaYXkSYRik1FogpF8ycCZC2euNFg/qpdMsoIjj8A0urORClZADbARlmTNZQ7QHq4Z5hT6bqISYH1VW3FOZtd1P/hfmF7ksAkLQva4HQ5aW09hgVhg0ZpR+CKID7gpqoeEIhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789543448; c=relaxed/simple;
-	bh=pv4YiSEYhniYeLjq5C6aGWtnsM7lriLkIlczhuma2jA=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bzwNjNYDLh9d+bjPgEbQbZCphWOHeBXr4ICYMA19SWuJT8Kc6Np4fuYCSXiC/VaRnLqMiPmpYW7GHIgQEoUrvhBKs0cpairpuaQP2pVygpC4vXDvS3+EI4Mce4P9/bPUtb5Ac8w2pm2z8nzvM8Ow0QhuXbw5yBT9lmK/7qbkmy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ciyHJtRG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789544335; c=relaxed/simple;
+	bh=k7OKeulNavXpC2MT+XQZIyDcs9FqfB1VNG9sE9o7R/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lxMMCeyZW9FBCta62p+F6fWLroWj5PHl24oZLiUJupNoaSYlXpZqnV4h2XvBZdEn9w7AZmyU/jrerxXhX4oHVSF/WiWsVuQG4w8ZfmLtiMPQMekBqgpcNJB5r6RYUq3T2iVTuU8o1kqD89/ee0Qp/QPykkm/IETucwWcgaWH2oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJR1vfVG; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ciyHJtRG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DBC51F000FF;
-	Wed, 16 Sep 2026 07:23:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789543411;
-	bh=JEEBo7DCo8qHlpa9rPEfL3KH46iSCK/Xfmzst8QTGW0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ciyHJtRGkfrkTrp3XYYpNPTa5GPqeJnxo6KUyPBNpeW7OuRDgjIxZzmgTJnm0upRJ
-	 DKe8tmiFC4xYKIimL/AP6jaWXqLSnj7J0fDHX9Dp+UuOIlH0OchdFkjz6PU7Jbw78V
-	 9y+3M5f3pY3vfPfOkmXXufu23mJN1D7p3r45V3QCLwslF2tIeYmqWVUSc0arGrmKtU
-	 oG1UUtMrT0CEWKKYo/fDSaEThT2VDl3f0Bf7j73E/thBoj+AqNipL2ylAuzD99CuQn
-	 um098l0CkeNWEBZr4Bm4SD7/+sVqlsiZP8smQ8WRXKtsG2odBCBcNPhOc9v1XU9MQe
-	 tkRnjW5Q30cqg==
-Subject:
- Re: [PATCH net-next v2] ch9200: do return USB errors from control_write()
-From: netdev-bot+sashiko@kernel.org
-To: s.shtylyov@auroraos.dev
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 16 Sep 2026 07:23:30 +0000
-Message-ID: <178954341078.22033.8722936070498955076@kernel.org>
-In-Reply-To: <20260915185805.38712-1-s.shtylyov@auroraos.dev>
-References: <20260915185805.38712-1-s.shtylyov@auroraos.dev>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJR1vfVG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789544327; x=1821080327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k7OKeulNavXpC2MT+XQZIyDcs9FqfB1VNG9sE9o7R/Q=;
+  b=UJR1vfVGC4Hd9rxBhAdoAPADAIqL/SJWbsd4fcy4aV1t+ar6d2WS/AZE
+   cjVSNMVgB53L2rNeJZqLjtcawUxYsvUg9sdGlLqBcVPFRT7U3frt9Pofd
+   auqZf3x3vqjEWwimqedyCtc/7Q1ZuU9c+CRPhrFtGDYPrplnn72wGsj6o
+   h3iXeXtUCulY6PnGmTQLAihEIP2HYGto90JKt7OUShISjonkU6R5IC2Ba
+   nBZ8rueVbmCPgi1lLZzF0jHahQYclJ8OrEe1s1nWENbwgl96/daqA5a84
+   7bUa8tVF9VBDBPcBhWACLkVc/1ToUtRJdttz18VgeYeLGqleP4euXkdpO
+   w==;
+X-CSE-ConnectionGUID: oQtju5UsS7iWE/bBUXFggw==
+X-CSE-MsgGUID: Jl0EQL+NT+SKEosR5yMmxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89671566"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="89671566"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 00:38:43 -0700
+X-CSE-ConnectionGUID: 7hhPL24XRce8A6b5u58Pbg==
+X-CSE-MsgGUID: FXiCAbozTyWSU4TRH2uBjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="277379758"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa005.jf.intel.com with ESMTP; 16 Sep 2026 00:38:41 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id D7B5399; Wed, 16 Sep 2026 09:38:39 +0200 (CEST)
+Date: Wed, 16 Sep 2026 09:38:39 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Nils Arnold <ns.arnold@web.de>, linux-usb@vger.kernel.org,
+	Sanath.S@amd.com, Basavaraj.Natikar@amd.com, westeri@kernel.org
+Subject: Re: AMD Strix Halo USB4: 20/40 Gbit/s negotiation with RJ45 and
+ original host-reset patch regression
+Message-ID: <20260916073839.GL106095@black.igk.intel.com>
+References: <a3437a3c-cf2a-4034-ae1f-0fb4bad0197b@web.de>
+ <20260915124904.GK106095@black.igk.intel.com>
+ <853b62e8-5b07-43d2-be93-bfbd95f55165@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <853b62e8-5b07-43d2-be93-bfbd95f55165@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+Hi,
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 0
+On Tue, Sep 15, 2026 at 03:42:43PM -0500, Mario Limonciello wrote:
+> On 9/15/26 07:49, Mika Westerberg wrote:
+> > Hi,
+> > 
+> > On Tue, Sep 15, 2026 at 01:21:39PM +0200, Nils Arnold wrote:
+> > > Hello Sanath, Mario, Mika and Basavaraj,
+> > > 
+> > > I would like to add test evidence from two Strix Halo hosts to this
+> > > USB4 reset discussion. My reset test used a backport of the ORIGINAL
+> > > f1de1fc5f632 commit, not the newer deferred-reset implementation.
+> > > I have not tested the revisions discussed on September 15.
+> > 
+> > Okay the last message on the thread I asked if we should revert the commit
+> > for v7.3-rcX and then try to get the "better" fix into v7.4. At least what
+> > I understood it seems to solve the issue without the deadlock and killing
+> > the whole host interface underneath everybody else.
+> 
+> FWIW to Nils I left a note on that thread and agree with Mika.
+> 
+> > 
+> > Once we have that patch, you can test and see if that helps in your case
+> > too. Now that we know AMD guys can CC you when they submit it.
+> 
+> One thing I'd like to note though; I would rather that we keep out of tree
+> modules out of the conversation on the kernel mailing list when it comes to
+> upstream behavior.
+> 
+> There are multiple ways to do xdomain tunnels in the kernel, and we should
+> collectively fixate our time and energy on bugs related to those instead of
+> PoC out of tree drivers.
 
-- [High] Incomplete fix: after removing `return 0;` from control_write()
-  (drivers/net/usb/ch9200.c:137-171), the helper now returns the…
-
---
-
-ch9200: do return USB errors from control_write()
-
-This removes the unconditional "return 0;" at the end of control_write()
-in drivers/net/usb/ch9200.c so that the function falls through to
-"return err;" instead. The stated intent is to propagate usb_control_msg()
-errors to the callers.
-
-> diff --git a/drivers/net/usb/ch9200.c b/drivers/net/usb/ch9200.c
-> index a206ffa76f1b9..3a81e9e96fd33 100644
-> --- a/drivers/net/usb/ch9200.c
-> +++ b/drivers/net/usb/ch9200.c
-> @@ -168,8 +168,6 @@ static int control_write(struct usbnet *dev, unsigned char request,
->  		err = -EINVAL;
->  	kfree(buf);
->  
-> -	return 0;
-> -
->  err_out:
->  	return err;
->  }
-
-[Severity: High]
-The commit message says this will "propagate USB errors to the callers",
-but do any of the callers actually consume the value?
-
-There are two in-tree callers.  ch9200_mdio_write() is void and calls it
-as a bare statement:
-
-drivers/net/usb/ch9200.c:ch9200_mdio_write() {
-	...
-	control_write(dev, REQUEST_WRITE, 0, loc * 2, buff, 0x02,
-		      CONTROL_TIMEOUT_MS);
-}
-
-ch9200_bind() stores the result six times and overwrites it every time,
-with the last store clobbered by get_mac_address():
-
-drivers/net/usb/ch9200.c:ch9200_bind() {
-	...
-	retval = control_write(dev, REQUEST_WRITE, 0, MAC_REG_THRESHOLD, data,
-			       0x02, CONTROL_TIMEOUT_MS);
-	...
-	retval = control_write(dev, REQUEST_WRITE, 0, MAC_REG_CTRL, data, 0x02,
-			       CONTROL_TIMEOUT_MS);
-
-	retval = get_mac_address(dev, addr);
-	eth_hw_addr_set(dev->net, addr);
-
-	return retval;
-}
-
-Since usbnet_probe() only aborts on a negative bind() status:
-
-drivers/net/usb/usbnet.c:usbnet_probe() {
-	...
-		status = info->bind(dev, udev);
-		if (status < 0)
-			goto out1;
-}
-
-bind still reports success when every register write failed, for example
-when a failed MAC_REG_THRESHOLD/MAC_REG_FIFO_DEPTH write is followed by a
-successful MAC_REG_CTRL = 0x0D5F write that arms DMA/receiver/transmitter
-with unprogrammed FIFO and flow-control watermarks, or when the
-MAC_REG_CTRL write itself fails and the netdev is registered with the
-datapath never enabled.  Is the observable behaviour of the driver changed
-at all by this patch?
-
-There is a second point about the resulting contract.  On success
-usb_control_msg() returns the transferred length, so control_write() now
-returns a positive value (2 for these register writes) rather than 0:
-
-	err = usb_control_msg(dev->udev, ...);
-	if (err >= 0 && err < size)
-		err = -EINVAL;
-
-Would the obvious caller-side follow-up "if (retval) return retval;" then
-treat every successful 2-byte register write as a failure?  Would it be
-better to normalize success to 0 in control_write(), or to check
-"retval < 0" in each caller and update the callers in the same patch so
-the errors being returned are actually acted upon?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260915185805.38712-1-s.shtylyov%40auroraos.dev
+Fully agree. But the same behaviour is with the in-tree Thunderbolt
+networking and stream (and maybe DMA test) drivers so those should at least
+be working with the AMD controller without wedging.
