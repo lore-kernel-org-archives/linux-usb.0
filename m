@@ -1,99 +1,214 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f10.google.com (mail-oi2-f10.google.com [74.125.231.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F8349A3DD;
-	Wed, 16 Sep 2026 19:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF43449A3D8
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 19:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789585335; cv=none; b=iiOLq4u4txt+14vaHU7vD2dp8BGcYIQcwIIwUrx2EplQZbswYKlFqB7Fzz5L326TcqJmsZN8Rf0QdbSw3SNjJHr9dyLnZO0shh2E+4tDLfyKK1s4dcxbuzMsEQLduqzi3Mj5qQ8zKCiuk2cZMJtoUf0N1yKIeshl75uQCOHHykU=
+	t=1789585618; cv=none; b=hjoZPxrvXZfYAfaWCYZq2vpM/ms+EPezrV/69OLnpJzdMiP1NI5t5RAG83NWq9APfGkPVDfjhr9rS4kfWCIRskojFoltwQZ4Zczx5nxsw6g0c9fHk++3q1m+hwRpFNylNKmWp0NlPu8pEpWuxhmVvq3VtW5oQ90V3pILTAYeCuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789585335; c=relaxed/simple;
-	bh=EI8ULIbBrDvRXrJW5Q2Smr4/pWyac6UYfVhBkBYaouY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rPk4dBK7at7RR7D/xB4O1psRJyD89lyfY4jIZx84V2mssPTQpVKP5O+uxenSdi4rfqZMJ76K5gGjHNdbpPPyp31/weNngDbz6Bp3tQ8NzbDBhNq6hAZwAQZLtfpgWBBAKhD6Ups1T/oh5vUR3FQzbA0BPsxSS0qlVYbuds6r30g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=MVkXWlzo; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="MVkXWlzo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=Qljgg2HuwrDs6FB5Z7besedOOauzUgeW51ZsZoEhveQ=; t=1789585329;
-	x=1790190129; b=MVkXWlzownt6DqBM7DPADbbwqiDGNVqerMeHL9+8tynYYOAMYDrt7pUSjQNFF
-	zPwT1vPb+oCaZ6NNBOjxCbcovWBV4y32ql18b5w5pkLrzGWPXiPQrHJUPBi9DPjOsdudWJAiDpBAx
-	5ReH3cvFGYueeaShA2oluPaYz0Uc6XhxjSRbOM+wQx37rcHYbFZ49BJAP0nFBzYIiBGAU9ueJWI0o
-	hdjeM8B05+2ApBDtOW37p/cDwPRdJ70shyK7Qdbm9MZpYRxD7oBxJMOIB37GlLuFhQYhLoAL8kPI2
-	CLmh8ffZ6GE7Od24MQ0MajKLtlBfO5HyiMQRlt0LD/PgeeNqZQ==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1x6utQ-0000000192f-04Al; Wed, 16 Sep 2026 21:02:04 +0200
-Received: from p5dc55206.dip0.t-ipconnect.de ([93.197.82.6] helo=suse-laptop.fritz.box)
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1x6utP-0000000324a-3KcW; Wed, 16 Sep 2026 21:02:03 +0200
-Message-ID: <84a0f85161d26174f47965b3ae760dc3b9beee2a.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v2] sh: defconfig: enable the current M66592 UDC symbol
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Pengpeng Hou
-	 <pengpeng@iscas.ac.cn>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
- <dalias@libc.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 16 Sep 2026 21:02:03 +0200
-In-Reply-To: <CAMuHMdUZdv6FdhgSB_u5wU4YoqpKFqKmhs8x+bZeGFYyvZ5Puw@mail.gmail.com>
-References: <20260814075531.15446-1-pengpeng@iscas.ac.cn>
-	 <CAMuHMdUZdv6FdhgSB_u5wU4YoqpKFqKmhs8x+bZeGFYyvZ5Puw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 
+	s=arc-20240116; t=1789585618; c=relaxed/simple;
+	bh=OI/zLBdcwWqcXJBcsdijqs7A/oYENRcAZRhIyGNfddw=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=mISy2ez54O4nWUP7bwuEA4e2xSPlmRToq7zeYf6QtOtMlmc+9VrCI1MI08sFsyZpHwbmJoHM4fISsw5FOZKJpcJhq4NHKpPlh2M41DyK1ZSz7UTKNKUzn9b98mexSMGDPv/BBcSboULDp/j+ZRPXMnaFBr6509N2m361gkIUAHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f10.google.com with SMTP id 5614622812f47-4c3bb46aaf0so15400b6e.1
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 12:06:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789585600; x=1790190400;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XIPY72zdQv/KP29Dl1qeIzc7ZNVmzi1pbkW7l8G4bEo=;
+        b=D21vlR8LvXuB1fkX/MvpVUYqaD/iZQxREIKeNkLHV1H5OiO4MtjdUqoSlObGb8pQwd
+         VSfAP0H+/J1R3/NvS0o2oQQ9r+bNfrbO85zEd/h15TZMH1sb8eSjhEoUsTO5enibMOZu
+         Eykc1gvdfHTbV6IiSQtGnB+qDUhSktsy4dRJHgEH0sOLO/LBt3HlEAYi2bc+90QqIxWB
+         zC+1Xi7p3yLFbXrByKvMde2s7ksgsbvw9+KYkB5GtCD4WMup8/IWyVWL3SefgOMno2S9
+         geNKNi+BMBVLJXH1j/QsEf9nrjdXhRAjD3t4zJAC6HfNM8DN1lnnvBIJyhf7d0An4YqL
+         uOkg==
+X-Forwarded-Encrypted: i=1; AKwUvBzCVR3QD5KjBty51VVTXL0I1JXlgTPCBoH3Hpbdb3dkgC12vUTHwR4+2jqip+NtHYEYXsuh7GPbMDM=@vger.kernel.org
+X-Gm-Message-State: AFuF++lC1BtwChiTr27y9x0iZqoV+/LygWMJTwORO+NxgsZgL7ib+l4L
+	k2/HfP76AdCy+AZrnOwq+Ombhwuha7ulUERw+wZTVI6vAYU5z0ohj6edH4cQ13HVP34FOZbeQXz
+	CKmwsN4xK13KXCFGgVhmBdhpkiYjQA6+U3avduGdz4UANAgLZmcVnSxFvDRk=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+X-Received: by 2002:a05:6808:f94:b0:4c5:bdb8:e579 with SMTP id
+ 5614622812f47-4ca4ccde595mr6372904b6e.12.1789585599946; Wed, 16 Sep 2026
+ 12:06:39 -0700 (PDT)
+Date: Wed, 16 Sep 2026 12:06:39 -0700
+In-Reply-To: <6a88eb8b.ae6ddae5.3da009.004b.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aaae8bf.e91c2013.3bdb06.0002.GAE@google.com>
+Subject: Re: [syzbot] [media?] [usb?] WARNING in vb2_video_unregister_device
+From: syzbot <syzbot+f26bc23e42eeb548dee1@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org, m.szyprowski@samsung.com, mchehab@kernel.org, 
+	syzkaller-bugs@googlegroups.com, tfiga@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Geert,
+syzbot has found a reproducer for the following issue on:
 
-On Fri, 2026-08-14 at 10:32 +0200, Geert Uytterhoeven wrote:
-> On Fri, 14 Aug 2026 at 10:01, Pengpeng Hou <pengpeng@iscas.ac.cn> wrote:
-> > The M66592 UDC provider is built under CONFIG_USB_M66592. Several
-> > SuperH defconfigs still enable the removed CONFIG_USB_GADGET_M66592
-> > symbol.
-> >=20
-> > Replace the stale entries with the current provider symbol.
-> >=20
-> > Assisted-by: Codex:gpt-5
-> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
->=20
-> Fixes: 193ab2a6070039e7 ("usb: gadget: allow multiple gadgets to be built=
-")
->=20
-> > The Kconfig/provider mapping was reviewed statically; no SuperH kernel
-> > build was performed.
->=20
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be> # build-tested
+HEAD commit:    5445d6419962 arm64: Don't read GMID_EL1 when MTE is disabled
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=151998c9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=56ed23170c168d4c
+dashboard link: https://syzkaller.appspot.com/bug?extid=f26bc23e42eeb548dee1
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ec93f9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17e15bf9580000
 
-Thanks, I'll pick up this patch and add the Fixes tag manually if b4 doesn'=
-t
-do it automatically when downloading the series.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e8b70e3bd109/disk-5445d641.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e5227e56ac93/vmlinux-5445d641.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/54905f78be59/Image-5445d641.gz.xz
 
-Adrian
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f26bc23e42eeb548dee1@syzkaller.appspotmail.com
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+em28xx 1-1:1.0: Registered radio device as radio2
+usb 1-1: Decoder not found
+em28xx 1-1:1.0: failed to create media graph
+em28xx 1-1:1.0: V4L2 device radio2 deregistered
+------------[ cut here ]------------
+WARNING: drivers/media/common/videobuf2/videobuf2-v4l2.c:1264 at vb2_video_unregister_device+0x1c8/0x1d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1264, CPU#1: kworker/1:2/1094
+Modules linked in:
+CPU: 1 UID: 0 PID: 1094 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/14/2026
+Workqueue: events request_module_async
+pstate: 83400005 (Nzcv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : vb2_video_unregister_device+0x1c8/0x1d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1264
+lr : vb2_video_unregister_device+0x1c8/0x1d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1264
+sp : ffff800094617a20
+x29: ffff800094617a20 x28: dfff800000000000 x27: 1fffe0001945a826
+x26: ffff800087610300 x25: ffff800087611620 x24: 1fffe00018d04aa1
+x23: ffff0000c6825508 x22: dfff800000000000 x21: ffff0000c6824000
+x20: 0000000000000001 x19: ffff0000c6824f58 x18: 00000000ffffffff
+x17: ffff800083d9271c x16: ffff800083da2fd4 x15: ffff800083a47b40
+x14: 0000000000000001 x13: 0000000000000001 x12: 0000000000000003
+x11: 0000000000000000 x10: 0000000000000001 x9 : 0000000000000000
+x8 : 0000000000000000 x7 : ffff80008048e314 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffff800083b611c0
+x2 : 0000000000000001 x1 : ffff0000c74cbb00 x0 : 0000000000000000
+Call trace:
+ vb2_video_unregister_device+0x1c8/0x1d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1264 (P)
+ em28xx_v4l2_init+0x1320/0x247c drivers/media/usb/em28xx/em28xx-video.c:3085
+ em28xx_init_extension+0x10c/0x1b4 drivers/media/usb/em28xx/em28xx-core.c:1248
+ request_module_async+0x24/0x34 drivers/media/usb/em28xx/em28xx-cards.c:-1
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0x91c/0x1250 kernel/workqueue.c:3470
+ worker_thread+0x798/0xbd0 kernel/workqueue.c:3551
+ kthread+0x304/0x3d4 kernel/kthread.c:436
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
+irq event stamp: 35758
+hardirqs last  enabled at (35757): [<ffff8000804918ac>] vprintk_store+0x924/0xb94 kernel/printk/printk.c:2385
+hardirqs last disabled at (35758): [<ffff8000869841d4>] el1_brk64+0x20/0x54 arch/arm64/kernel/entry-common.c:445
+softirqs last  enabled at (35698): [<ffff800084c72d48>] __alloc_skb+0x1c0/0x610 net/core/skbuff.c:698
+softirqs last disabled at (35696): [<ffff800084c72d30>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (35696): [<ffff800084c72d30>] __alloc_skb+0x1a8/0x610 net/core/skbuff.c:697
+---[ end trace 0000000000000000 ]---
+em28xx 1-1:1.0: V4L2 device video11 deregistered
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 1 UID: 0 PID: 1094 Comm: kworker/1:2 Tainted: G        W           syzkaller #0 PREEMPT 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/14/2026
+Workqueue: events request_module_async
+Call trace:
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
+ __dump_stack+0x30/0x40 lib/dump_stack.c:94
+ dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
+ dump_stack+0x1c/0x28 lib/dump_stack.c:129
+ assign_lock_key+0xcc/0xdc kernel/locking/lockdep.c:1000
+ register_lock_class+0xf8/0x31c kernel/locking/lockdep.c:1315
+ __lock_acquire+0xc0/0x2a6c kernel/locking/lockdep.c:5128
+ lock_acquire+0x150/0x370 kernel/locking/lockdep.c:5908
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:155 [inline]
+ _raw_spin_lock_irqsave+0x5c/0x7c kernel/locking/spinlock.c:181
+ __wake_up_common_lock+0x30/0x78 kernel/sched/wait.c:125
+ __wake_up+0x18/0x24 kernel/sched/wait.c:147
+ __vb2_queue_cancel+0x248/0xa78 drivers/media/common/videobuf2/videobuf2-core.c:2244
+ vb2_core_queue_release+0x34/0x13c drivers/media/common/videobuf2/videobuf2-core.c:2677
+ vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:943 [inline]
+ vb2_video_unregister_device+0x12c/0x1d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1279
+ em28xx_v4l2_init+0x1368/0x247c drivers/media/usb/em28xx/em28xx-video.c:3097
+ em28xx_init_extension+0x10c/0x1b4 drivers/media/usb/em28xx/em28xx-core.c:1248
+ request_module_async+0x24/0x34 drivers/media/usb/em28xx/em28xx-cards.c:-1
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0x91c/0x1250 kernel/workqueue.c:3470
+ worker_thread+0x798/0xbd0 kernel/workqueue.c:3551
+ kthread+0x304/0x3d4 kernel/kthread.c:436
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
+Unable to handle kernel paging request at virtual address dfff800000000000
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+Mem abort info:
+  ESR = 0x0000000096000005
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x05: level 1 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+  GCS = 0, Overlay = 0, DirtyBit = 0
+[dfff800000000000] address between user and kernel address ranges
+Internal error: Oops: 0000000096000005 [#1]  SMP
+Modules linked in:
+CPU: 1 UID: 0 PID: 1094 Comm: kworker/1:2 Tainted: G        W           syzkaller #0 PREEMPT 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/14/2026
+Workqueue: events request_module_async
+pstate: 034000c5 (nzcv daIF +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : __wake_up_common+0xac/0x180 kernel/sched/wait.c:105
+lr : __wake_up_common_lock+0x4c/0x78 kernel/sched/wait.c:126
+sp : ffff8000946178a0
+x29: ffff8000946178a0 x28: dfff800000000000 x27: dfff800000000000
+x26: dfff800000000000 x25: ffff0000c682576c x24: 0000000000000000
+x23: ffff0000c6825800 x22: 0000000000000003 x21: 0000000000000000
+x20: 0000000000000000 x19: 0000000000000000 x18: 00000000ffffffff
+x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000004
+x11: ffff7000128c2f04 x10: ffff7000128c2f04 x9 : 0000000000000003
+x8 : 0000000000000000 x7 : 0000000000000000 x6 : ffff80008048e314
+x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000000000003 x0 : ffff0000c68257c0
+Call trace:
+ __wake_up_common+0xac/0x180 kernel/sched/wait.c:105 (P)
+ __wake_up_common_lock+0x4c/0x78 kernel/sched/wait.c:126
+ __wake_up+0x18/0x24 kernel/sched/wait.c:147
+ __vb2_queue_cancel+0x248/0xa78 drivers/media/common/videobuf2/videobuf2-core.c:2244
+ vb2_core_queue_release+0x34/0x13c drivers/media/common/videobuf2/videobuf2-core.c:2677
+ vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:943 [inline]
+ vb2_video_unregister_device+0x12c/0x1d0 drivers/media/common/videobuf2/videobuf2-v4l2.c:1279
+ em28xx_v4l2_init+0x1368/0x247c drivers/media/usb/em28xx/em28xx-video.c:3097
+ em28xx_init_extension+0x10c/0x1b4 drivers/media/usb/em28xx/em28xx-core.c:1248
+ request_module_async+0x24/0x34 drivers/media/usb/em28xx/em28xx-cards.c:-1
+ process_one_work kernel/workqueue.c:3387 [inline]
+ process_scheduled_works+0x91c/0x1250 kernel/workqueue.c:3470
+ worker_thread+0x798/0xbd0 kernel/workqueue.c:3551
+ kthread+0x304/0x3d4 kernel/kthread.c:436
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
+Code: f94002f8 eb17031f 54000500 d343ff08 (387b6908) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	f94002f8 	ldr	x24, [x23]
+   4:	eb17031f 	cmp	x24, x23
+   8:	54000500 	b.eq	0xa8  // b.none
+   c:	d343ff08 	lsr	x8, x24, #3
+* 10:	387b6908 	ldrb	w8, [x8, x27] <-- trapping instruction
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
