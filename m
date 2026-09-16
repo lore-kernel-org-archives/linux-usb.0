@@ -1,31 +1,32 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF7D4C6515;
-	Wed, 16 Sep 2026 16:53:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E997521203;
+	Wed, 16 Sep 2026 16:54:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789577603; cv=none; b=edCnXtJCUWaaaCSsVWly32ZqVXF0zW6rNgkyiTleLJBGMC2eI5bFOiuPv2+BPlO8Esm62VrZlXCv+fbYmzJM8Zs70VFYM8YmwDATiiB9uiyfayPLGMeqUuQL7S1G4HkQder6/lrvMP7O9dBp7ujsIzemxCXGExqWSzDFNhd7g+Q=
+	t=1789577681; cv=none; b=fDuVPOdYjwNhf6QDV7bkkRwnxRCxMpVxe2aJ8OR+UPPdKMzGRWo3oPFVNDwhzcJwZO3qWO+bj3DMtIMy9WgjoM4E4xsB1zBtVlQNGmcwsFg52ZZm1E8LS91nngdS2pzRyQz8sugKY7B3/FwzksTf5nU0PdpaD1DqTZZTLRx9S7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789577603; c=relaxed/simple;
-	bh=dPZo3LSu9a/yakAaWi7jqjb8hMyJHbQA5bsD2Vijpfg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JpwZpvhVc+vxPWrziV+Q2ERjf0++sjgOBCqgPO1SbQnpeZwbabTdbnL5DwkFgwBKwOlnu8bX6E7NY4OCgFjPh4zIXkaKQ69ApDmnPBW530fpKRxux/S90crUZOftA3oCvkM5phncMTO0Jixx8Z+imm2AxWaZIxR9aWNIUklZ5Pg=
+	s=arc-20240116; t=1789577681; c=relaxed/simple;
+	bh=6e23mqm25si6H1wh1ucL0DzKHh3dU3bcDqWPZtiZtbw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZYHv0+1Tt1fXjIKuASmuBr1C8naHlhcKjILtJE4UxjhDT86buB3XKfqFMaszBJAi+S05W8hh03aLvACW4Of3l+fFWD0rFJbC3LI+L7EJ1ZN6/fg067zcdIGv4xWiM0b2Xbi96sVAAk9KSibLOF/Rrt/wxM1SdbYOnEO0IkVb/oo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowACXAj14yapq5wNuCA--.21781S2;
-	Thu, 17 Sep 2026 00:53:12 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowAB3pkC7yapqoQhuCA--.22465S2;
+	Thu, 17 Sep 2026 00:54:19 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
 To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+Cc: johan@kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	yoshihiro.shimoda.uh@renesas.com,
+	oliver@neukum.org,
 	Wentao Liang <vulab@iscas.ac.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH] usb: renesas_usbhs: Fix runtime PM leak in usbhsc_power_ctrl()
-Date: Wed, 16 Sep 2026 16:52:45 +0000
-Message-Id: <20260916165245.2085374-1-vulab@iscas.ac.cn>
+Subject: [PATCH] USB: sierra: Fix urb leak in sierra_submit_delayed_urbs()
+Date: Wed, 16 Sep 2026 16:53:52 +0000
+Message-Id: <20260916165352.2085480-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -34,11 +35,11 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACXAj14yapq5wNuCA--.21781S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJr1kGr1Duw4Dur45XF1rXrb_yoW8Gryfpr
-	4ktFWIyry8JF4jvwsxAr1kZFyrGFWayry3Ar97Ka1kuw13Aa40kFy09F1Y9F1qyrWfJ3Z0
-	qw1vkF9rAF15CrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:zQCowAB3pkC7yapqoQhuCA--.22465S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw45Cw4fWry5Zw13uFWruFg_yoW8GF13pr
+	WYgr4akr1DJF15Aw47Cw15uFyFvanFyr9Ik3y0vrW3ZF15Ja4SgFy8XwsIgr1UA397Ja4a
+	qw42grW5WryqkrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
 	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
@@ -50,42 +51,43 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxJr1kGr1Duw4Dur45XF1rXrb_yoW8Gryfpr
 	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxV
 	AFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8
 	JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUj
-	nmRUUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRQMA2qqozVcEwAAsL
+	d-PUUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwEMA2qqpVhUQgAAsi
 
-usbhsc_power_ctrl() takes a runtime PM usage count with
-pm_runtime_get_sync() when enabling the controller. If the subsequent
-usbhsc_clk_prepare_enable() call fails, the function returns without
-dropping that usage count, so the device's runtime PM usage count is
-leaked and the device can never suspend.
+sierra_submit_delayed_urbs() takes a reference to each delayed urb
+with usb_get_from_anchor() before submitting it. The submit failure
+path releases the reference with usb_free_urb(), but on the success
+path the reference is never dropped: the urb is only anchored in the
+active list and the USB core unanchors it on completion, leaving the
+reference returned by usb_get_from_anchor() dangling so the urb
+object is never freed.
 
-Put the runtime PM reference back with pm_runtime_put_sync() before
-returning on the clock enable failure path, mirroring the disable path
-of the function.
+Drop the reference with usb_put_urb() after a successful submission,
+matching the reference handling in sierra_write() and the sierra_close()
+drain loop. Skip the rest of the loop body with continue on the error
+path, which already frees the urb.
 
-Fixes: 3df0e240caba6 ("usb: renesas_usbhs: Add multiple clocks management")
+Fixes: e6929a9020ac ("USB: support for autosuspend in sierra while online")
 Cc: stable@vger.kernel.org
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/usb/renesas_usbhs/common.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/serial/sierra.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 8c93bde4b816..187d6298c265 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -412,8 +412,10 @@ static void usbhsc_power_ctrl(struct usbhs_priv *priv, int enable)
- 		pm_runtime_get_sync(dev);
+diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
+index 6e443aacae07..c11259a8e66c 100644
+--- a/drivers/usb/serial/sierra.c
++++ b/drivers/usb/serial/sierra.c
+@@ -977,7 +977,9 @@ static int sierra_submit_delayed_urbs(struct usb_serial_port *port)
+ 			spin_lock(&portdata->lock);
+ 			portdata->outstanding_urbs--;
+ 			spin_unlock(&portdata->lock);
++			continue;
+ 		}
++		usb_put_urb(urb);
+ 	}
  
- 		/* enable clks */
--		if (usbhsc_clk_prepare_enable(priv))
-+		if (usbhsc_clk_prepare_enable(priv)) {
-+			pm_runtime_put_sync(dev);
- 			return;
-+		}
- 
- 		/* enable platform power */
- 		usbhs_platform_call(priv, power_ctrl, pdev, priv->base, enable);
+ 	if (ec)
 -- 
 2.34.1
 
