@@ -1,82 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDF8453A59
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 07:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A71368D5A;
+	Wed, 16 Sep 2026 07:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789544480; cv=none; b=QGPBGf7BlYPU8dg+ZUWVNry2SRnzypZMNDnL3I2Vre/LBkpshNYkqLIP2/UCh0I65EhT1aeGaGayTohoroUbdYHeJCYBsrs+fup9EKT9+eOWjvQbCGvwVhs6uUt2RDdl0PfYkS9Bk+oxuUFdloCTYt4J6HRtuVFaRRotIL6K+sk=
+	t=1789545042; cv=none; b=Hw0QRVU1eHHtjn/Vlil1kNQqxK6mesL//ZtFm8Cv42AsXrJe9+rBR7q2HdG0NyWa6SzT3euxy7QDXoFHutnxqA96jGgjFGhDvxbAFUvusyRu9Rh9L4BPN06Rn+VZ1dKZD/u6WuKjy9YEOraiaG6xenxD/jK2UI4hGjs0HMAsoT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789544480; c=relaxed/simple;
-	bh=tNsjgnJ3C5Bm3uowYFQ2ir1HeHVWkZNj6GzFk2VgG2o=;
+	s=arc-20240116; t=1789545042; c=relaxed/simple;
+	bh=HmW3hgKNdZFFqVaGuZlse+FuUvYALkm6XBDMsPTxHDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nW68Qqfy2nWu4G8z/FC/VENSJ1AQ0TSHUO/mH9n3ZIPTZAd/XUbMKCSaT9CHvlcccVxFZ7B3IO1jIVFeWOkJ0hcpOXS1lXdZ7FV/EUL+8dbk7/kfz/25SdG17oRrdWSdBc53u5/qng52O/HNUqGO1q2NxbwJgSEkLJWoF8iD77Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EW3FF0Gs; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cw9RDWrPKPdSNhNn0uf64q/UGfNYvDgANukPhRj3HFl+kz2SDLQTEQEAPkmBRZa8Q6EIFIkrCwwIuaNhF5x5Mi+AsNyPyVEg82oC4/upf/gCX8AItVngTUXEdJ2vi+yRCXbXDQv1bVbEfHr5PI1Vs+f7uHG9mvV1jUje13A4k5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8gYDB85; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EW3FF0Gs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8gYDB85"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789544467; x=1821080467;
+  t=1789545030; x=1821081030;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tNsjgnJ3C5Bm3uowYFQ2ir1HeHVWkZNj6GzFk2VgG2o=;
-  b=EW3FF0GsVX4K1wZxeTq3GwQ6u+MMS+wtX4AbRZA9WbSKHK2jsNC5+SjL
-   8E3koMA7tK1S1eSsif9+drbIYsI7epoDA5u6MxSuE5G18o7/cWFqyZ2yx
-   4IuD2Z15QvykzFfrDixVgJrrBvqEcletMbCRNsrd9Lj30n4bXZD6QgIUD
-   E40sue6tJdg7zjs2zdR74N8kg1yQU4zUS6qlHyK+rxEgfCLXBxZSLKnTk
-   +JyD+tY61bKzzwkpYLoUi0Es3smPDB1htfc0QNZhhzIJzrcYBh+PBsilm
-   DiIFL8YDVCALd32DWhMYCbtnljmBFnhHPa3qPLbMP2QD8118QkL84GnGC
+  bh=HmW3hgKNdZFFqVaGuZlse+FuUvYALkm6XBDMsPTxHDQ=;
+  b=U8gYDB85SIb4prRfk3OAvbPlTBxXiPhHnnyUTAMdMLeHwJqu1vUd38y8
+   Q6HZxiQqf6UrH8IqI/esahwvdxqaqPsVPRBp/AdonBW625+4tfqwd2YyA
+   ja9MIqtrcXoGE5irDUvFuFha4MQyVR3ya0eh3W33vnWlonuKCSRaag8Q6
+   S7nhxf3EfMpb22hNVYE128bH3qDQYwT4cvogZb6B20H0lfJskowKdFuoB
+   hV7ybeTEZINmq2Fk2NxAtzQ0H19sWlcJEP6R2Jy8t/iQhpq/z+QokI40V
+   cHxQ4OKoUb44LJUMJV1hwQxL0D11C4B09Dj2829qDGHiSfJ3h78mG/cC0
    Q==;
-X-CSE-ConnectionGUID: B1ekvXlZRLWbkrU9l0ovwA==
-X-CSE-MsgGUID: BKZfTdu5SnepcUX5hIEtew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="101433242"
+X-CSE-ConnectionGUID: O0EtwG76S5Onq/cTK6hZ0g==
+X-CSE-MsgGUID: lekpKMgqQvOS+rFKvsyBmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89787592"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="101433242"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 00:41:04 -0700
-X-CSE-ConnectionGUID: KKktMmI+S+GjP0hxt+hAxw==
-X-CSE-MsgGUID: cJ242pIVSPq+msX7ReoxwQ==
+   d="scan'208";a="89787592"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 00:50:26 -0700
+X-CSE-ConnectionGUID: lT79ZWUSRim8+OhCC8iRNg==
+X-CSE-MsgGUID: mn0cNCjwTvmlVSZRXJM3gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="270632426"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2026 00:41:02 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 463D699; Wed, 16 Sep 2026 09:41:01 +0200 (CEST)
-Date: Wed, 16 Sep 2026 09:41:01 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
-	juan.martinez@amd.com, Sanath S <Sanath.S@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] Revert "thunderbolt: Add quirk to reset host interface
- on DMA path teardown for AMD USB4 routers"
-Message-ID: <20260916074101.GM106095@black.igk.intel.com>
-References: <20260915204625.2239505-1-mario.limonciello@amd.com>
+   d="scan'208";a="1489856"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.145])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 00:50:23 -0700
+Date: Wed, 16 Sep 2026 10:50:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aamir Ahmed <elb12345@hotmail.co.uk>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Lucas Stach <dev@lynxeye.de>, Peter Korsgaard <peter@korsgaard.com>,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] net: usb: asix: reject a truncated Data header in
+ rx_fixup
+Message-ID: <aqpKPXiVESngnVhp@ashevche-desk.local>
+References: <AS8P251MB0001D5442318B9E58797D230C8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260915204625.2239505-1-mario.limonciello@amd.com>
+In-Reply-To: <AS8P251MB0001D5442318B9E58797D230C8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
-
-On Tue, Sep 15, 2026 at 03:46:23PM -0500, Mario Limonciello wrote:
-> This commit has caused a deadlock at shutdown. A proper fix with
-> another approach will be coming later.  Revert commit
-> f1de1fc5f632cdeae1f5c2984572ab710d4dfcaa for now.
+On Tue, Sep 15, 2026 at 11:57:24PM +0100, Aamir Ahmed wrote:
+> asix_rx_fixup_internal() runs its parsing loop while two bytes remain,
+> but the branch that starts a new frame reads a four-byte Data header.
+> Only a two-byte tail is special-cased, via split_head, so a three-byte
+> tail reaches that read and leaves offset at skb->len + 1. The clamp
+> below it then takes the unsigned difference skb->len - offset, which
+> wraps, so copy_length becomes the full length the device asked for:
+> skb_put_data() copies from one byte past the received data and
+> usbnet_skb_return() passes the frame to the stack, before the trailing
+> skb->len != offset check can report it.
 > 
-> Reported-by: juan.martinez@amd.com
-> Closes: https://lore.kernel.org/linux-usb/20260825214237.4179813-1-juan.martinez@amd.com/
-> Cc: Sanath S <Sanath.S@amd.com>
-> Cc: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Reject a Data header that does not fit and reset the parser state, as
+> the other malformed-header paths do.
+> 
+> Only a device emitting an odd skb->len can get there, since offset
+> always advances by an even number of bytes.
 
-Applied to thunderbolt.git/fixes, thanks!
+...
+
+> int asix_rx_fixup_internal(struct usbnet *dev, struct sk_buff *skb,
+
+> +				if (offset + sizeof(u32) > skb->len) {
+> +					netdev_err(dev->net, "asix_rx_fixup() Short Data header, offset %d, len %d\n",
+> +						   offset, skb->len);
+> +					reset_asix_rx_fixup_info(rx);
+> +					return 0;
+> +				}
+
+I don't know the rules about __func__ in the error messages in net, but above
+may be simplified as
+
+					netdev_err(dev->net, "%s(): Short Data header, offset %d, len %d\n",
+						   __func__, offset, skb->len);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
