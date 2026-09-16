@@ -1,110 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw [219.87.157.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4254AC155;
-	Wed, 16 Sep 2026 09:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3017E2EEE62;
+	Wed, 16 Sep 2026 09:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.87.157.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789552126; cv=none; b=qDNLIqr6WMDyovYn+rYUsR499D3i64SZVJo5P6YkXw+pIiA8f3AmrWiNLiXgza1qkL+fjMH+JmRDn0wYyxQjGtlHzK7sha/sTPMG9JBogwFLrBiOvX37khmLrls7bILp7dsKdZwwfC/mYs096Maces11MthUQ3QWFg/hekg0JeE=
+	t=1789552817; cv=none; b=EE36/RoLeVkmRK4OfgUZp9UCPGZcKkW9Kx6sJq+OBXo8xePgZDBeJWKql4aL5BzOFooHKhBUhnYKXXwvr2XKHy7htHfN0yFPwq3+m1GRCFalrNfcpWEEpBL4O+cvOwSzer8JPxow6ev1X1zWeRM/JhojN5TtglWYJI5FBqYNqCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789552126; c=relaxed/simple;
-	bh=DNHnn50GsIUIzWdFRjg15OCsLK/KeuBXWd77ZzcOKME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eLTGCywr9JcSKqFw/AH3sGcEhJ6PTkqi8gJoRTgnzwyDceP/6FdK2GoFyjSZJuk7qzaMy5nqficLTwwVYr36E1Fr/4oOkYpMdI8wEM8bOM2PEWvgVwm9mOpFzc5xwgttCIlRXlLdtwpywFdBMvu2rRR9k7bYOKxCDpzIinD88w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXblpg6k; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789552817; c=relaxed/simple;
+	bh=Wam7TiijU2Ty04faK0eac858fW1KFL0oplRiLwxTaYc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hcJR4GsyOBoqFNA/InoCxY1YCiOKA2B1Wk7p5aU1w8vzIgMYL9EQr3lVIOr9XrHinMmaOiQ0YZNuYybRKpnvuZAD+bQGC/uehBqNka9Osr6cfCrl12bDORCWt2NxHziRARV3iMRgQumbi9s7zK6TIfql6vu+Uvc594UIl/5/vPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=f28K4H9z; arc=none smtp.client-ip=219.87.157.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXblpg6k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789552106; x=1821088106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DNHnn50GsIUIzWdFRjg15OCsLK/KeuBXWd77ZzcOKME=;
-  b=LXblpg6kNwUgQOFweKxvyuVB4zXIkHInKLRb5jKpiZf8GMtVkw2WjRPy
-   wde7Sc4iVYVaVkbYV+QfEPX6FrPla/MOar4zm2PFy0GkjN6XxJbkxcoZF
-   Rw+CJpprEd+kwy0068YiN+DbjS7RS6bTipyBwAgc/zUR2bAdPri3R0p0s
-   XBWXEalSw871V8FCRZaTTBfi1fYVoWjIMT5ATrkj+fAm/e+bEuJu9zErD
-   qWZQeXGG8CLvCT9kZwCMd+r0dtKtr7T3McBX7hcsOUn/nAdiimzxoFcMC
-   SnMqW/qIUryVTB/7lixiuYwN3SdSyeJ3mR65ArwMhPg0/vzlGu35Pa+HZ
+	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="f28K4H9z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=ite.com.tw; s=dkim;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Wam7TiijU2Ty04faK0eac858fW1KFL0oplRiLwxTaYc=;
+  b=f28K4H9z2jbWIaUvgr8tbqyy/R5FbgzwC+qzq6iy8nLyEr1R96BWt8HE
+   BBTHRvZPDbAqkGOu/RmgKshF13Ajty8edQWVCK/2ot04yjoY2feuSxAHh
+   vrLUr2ThWVjtGEyK9T4r6x4Dy1HdCwLtKXuVCaltbP+levKUHh7o2tw+F
+   1dthU+RYiG9rt6KaOLe1EwilkCvKNHYIQmU2tv+faCpgLtmKmcBO1hyWF
+   Y583W1icVrZzaL0UNAmNusNeZ2d/9GEfqvexiNGlyXGBCmbmRxcLw13HB
+   5oCaJETqGXTgft6rHtaxuRI2SmT561zNJTHmvw4SF3LuZ5sR8gjsLwql8
    g==;
-X-CSE-ConnectionGUID: m0y6BYLHRyG0tq4J3fsoMg==
-X-CSE-MsgGUID: 0BaAcJcaQme7CFrE1w/LjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90136455"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="90136455"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 02:48:22 -0700
-X-CSE-ConnectionGUID: IlpqL7MrQl+Ox2jDvxO/ow==
-X-CSE-MsgGUID: 5FoteMpKSTy0yhwRnoZcZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269013733"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.145])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 02:48:19 -0700
-Date: Wed, 16 Sep 2026 12:48:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aamir Ahmed <elb12345@hotmail.co.uk>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Lucas Stach <dev@lynxeye.de>, Peter Korsgaard <peter@korsgaard.com>,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3] net: usb: asix: reject a truncated Data header in
- rx_fixup
-Message-ID: <aqpl4EPCIvXDLn8j@ashevche-desk.local>
-References: <AS8P251MB0001D5442318B9E58797D230C8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
- <aqpKPXiVESngnVhp@ashevche-desk.local>
- <AS8P251MB000156CD4ABF9B3E03324492C8B92@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+X-CSE-ConnectionGUID: 97p49QIRTt2QI90kYRSDGQ==
+X-CSE-MsgGUID: 6EXX2J1VRDad6gLapECBEw==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+  by ironport.ite.com.tw with ESMTP; 16 Sep 2026 17:59:52 +0800
+Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
+	by mse.ite.com.tw with ESMTP id 68G9xk2u013181;
+	Wed, 16 Sep 2026 17:59:46 +0800 (+08)
+	(envelope-from amber.kao@ite.com.tw)
+Received: from HSCMAIL1.internal.ite.com.tw (192.168.35.58) by
+ HSCMAIL1.internal.ite.com.tw (192.168.35.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 16 Sep 2026 17:59:45 +0800
+Received: from HSCMAIL1.internal.ite.com.tw ([fe80::d4ad:7d1f:bb56:79ee]) by
+ HSCMAIL1.internal.ite.com.tw ([fe80::d4ad:7d1f:bb56:79ee%6]) with mapi id
+ 15.02.2562.046; Wed, 16 Sep 2026 17:59:45 +0800
+From: <amber.kao@ite.com.tw>
+To: <krzk@kernel.org>, <ite_pd@ite.com.tw>
+CC: <jeson.yang@ite.com.tw>, <Yaode.Fang@ite.com.tw>,
+        <gregkh@linuxfoundation.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <heikki.krogerus@linux.intel.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 1/2] dt-bindings: usb: ite,it8851: Add IT5271 series
+ support
+Thread-Topic: [PATCH 1/2] dt-bindings: usb: ite,it8851: Add IT5271 series
+ support
+Thread-Index: AQHdQda7Q3HtgoumGkCkAW29wGBzTrbLtLMAgAVJr2A=
+Date: Wed, 16 Sep 2026 09:59:45 +0000
+Message-ID: <f1b3ac1a3c714e63a9b3e87de29903b1@ite.com.tw>
+References: <20260911-ucsi-itepd-it527x-v1-0-14c8041afb53@ite.com.tw>
+ <20260911-ucsi-itepd-it527x-v1-1-14c8041afb53@ite.com.tw>
+ <20260913-sincere-wolverine-of-refinement-d1f3e5@quoll>
+In-Reply-To: <20260913-sincere-wolverine-of-refinement-d1f3e5@quoll>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-snts-smtp: 69F14AC09A94E9D15C5E397CADB992DB12DB0FEAFB985238A57FB6DE985ED8D72002:8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AS8P251MB000156CD4ABF9B3E03324492C8B92@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MAIL:mse.ite.com.tw 68G9xk2u013181
 
-On Wed, Sep 16, 2026 at 09:19:13AM +0100, Aamir Ahmed wrote:
-> On Wed, Sep 16, 2026 at 09:50:21AM +0300, Andy Shevchenko wrote:
-
-...
-
-> > I don't know the rules about __func__ in the error messages in net, but above
-> > may be simplified as
-> >
-> >     netdev_err(dev->net, "%s(): Short Data header, offset %d, len %d\n",
-> >                __func__, offset, skb->len);
-> 
-> I've based the error messages on others I found in this function, here
-> are some examples:
-> 
->   netdev_err(dev->net, "asix_rx_fixup() Data Header synchronisation was lost, remaining %d\n", ...);
->   netdev_err(dev->net, "asix_rx_fixup() Bad Header Length 0x%x, offset %d\n", ...);
->   netdev_dbg(dev->net, "asix_rx_fixup() Bad RX Length %d\n", ...);
->   netdev_err(dev->net, "asix_rx_fixup() Bad SKB Length %d, %d\n", ...);
-> 
-> __func__ here expands to asix_rx_fixup_internal, the internal helper
-> rather than the asix_rx_fixup() the others name.
-
-Yes, and current state of affairs is confusing. If this is _internal() helper,
-it should either take a name as a parameter, or use __func__, or ideally drop
-it altogether and make error messages to be unique enough that one may easily
-guess where the problem came from.
-
-But okay, since it's a common style this discussion and possible amendment is
-for another patch.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+T24gU3VuLCBTZXAgMTMsIDIwMjYgYXQgMDk6MDc6MDRBTSArMDAwMCwgS3J6eXN6dG9mIEtvemxv
+d3NraSB3cm90ZToNCj4gTm8gbmVlZCBmb3IgYSBuZXcgZXhhbXBsZSBpZiBpdCBkaWZmZXJlcyBv
+bmx5IGJ5IHRoZSBjb21wYXRpYmxlLg0KDQpSaWdodCwgd2lsbCBkcm9wIGl0IGluIHYyLg0KDQpU
+aGFua3MsDQpBbWJlcg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogS3J6eXN6
+dG9mIEtvemxvd3NraSA8a3J6a0BrZXJuZWwub3JnPiANClNlbnQ6IFN1bmRheSwgU2VwdGVtYmVy
+IDEzLCAyMDI2IDU6MDcgUE0NClRvOiBJVEVfUEQgPGl0ZV9wZEBpdGUuY29tLnR3Pg0KQ2M6IEFt
+YmVyIEthbyAo6auY6Yi655uIKSA8YW1iZXIua2FvQGl0ZS5jb20udHc+OyBKZXNvbiBZYW5nICjm
+pYrlv5fos6IpIDxqZXNvbi55YW5nQGl0ZS5jb20udHc+OyBZYW9kZSBGYW5nICjmlrnogIDlvrcp
+IDxZYW9kZS5GYW5nQGl0ZS5jb20udHc+OyBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51
+eGZvdW5kYXRpb24ub3JnPjsgUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz47IEtyenlzenRv
+ZiBLb3psb3dza2kgPGtyemsrZHRAa2VybmVsLm9yZz47IENvbm9yIERvb2xleSA8Y29ub3IrZHRA
+a2VybmVsLm9yZz47IEhlaWtraSBLcm9nZXJ1cyA8aGVpa2tpLmtyb2dlcnVzQGxpbnV4LmludGVs
+LmNvbT47IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc7IGRldmljZXRyZWVAdmdlci5rZXJuZWwu
+b3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQpTdWJqZWN0OiBSZTogW1BBVENIIDEv
+Ml0gZHQtYmluZGluZ3M6IHVzYjogaXRlLGl0ODg1MTogQWRkIElUNTI3MSBzZXJpZXMgc3VwcG9y
+dA0KDQpPbiBGcmksIFNlcCAxMSwgMjAyNiBhdCAwNjoxNzo1N1BNICswODAwLCBBbWJlciBLYW8g
+d3JvdGU6DQo+ICAgIHJlZzoNCj4gICAgICBtYXhJdGVtczogMQ0KPiBAQCAtNjMsNyArNzMsMTAg
+QEAgYWxsT2Y6DQo+ICAgICAgICAgIHByb3BlcnRpZXM6DQo+ICAgICAgICAgICAgY29tcGF0aWJs
+ZToNCj4gICAgICAgICAgICAgIGNvbnRhaW5zOg0KPiAtICAgICAgICAgICAgICBjb25zdDogaXRl
+LGl0ODg1Mw0KPiArICAgICAgICAgICAgICBlbnVtOg0KPiArICAgICAgICAgICAgICAgIC0gaXRl
+LGl0NTI3Mg0KPiArICAgICAgICAgICAgICAgIC0gaXRlLGl0NTI3NA0KPiArICAgICAgICAgICAg
+ICAgIC0gaXRlLGl0ODg1Mw0KPiAgICAgIHRoZW46DQo+ICAgICAgICBwcm9wZXJ0aWVzOg0KPiAg
+ICAgICAgICBjb25uZWN0b3JAMTogZmFsc2UNCj4gQEAgLTE1NCwzICsxNjcsNDggQEAgZXhhbXBs
+ZXM6DQo+ICAgICAgICAgICAgICB9Ow0KPiAgICAgICAgICB9Ow0KPiAgICAgIH07DQo+ICsNCj4g
+KyAgLSB8DQo+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2ludGVycnVwdC1jb250cm9sbGVy
+L2lycS5oPg0KPiArDQo+ICsgICAgaTJjIHsNCj4gKyAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8
+MT47DQo+ICsgICAgICAgICNzaXplLWNlbGxzID0gPDA+Ow0KPiArDQoNCk5vIG5lZWQgZm9yIGEg
+bmV3IGV4YW1wbGUgaWYgaXQgZGlmZmVyZXMgb25seSBieSB0aGUgY29tcGF0aWJsZS4NCg0KQmVz
+dCByZWdhcmRzLA0KS3J6eXN6dG9mDQoNCg==
