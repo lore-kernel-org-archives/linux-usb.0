@@ -1,127 +1,120 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462D03CB54A
-	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 17:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B4935E1AA
+	for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 17:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789580851; cv=none; b=XjFZk4NksnF2mgAl53ZeGjURDxK+0mfpCPPO33DDd7B11qXYgeczL/2il1ekWy/HWA0YFcdogIUujsv6JL5GYlWmeheKFK/KQDGN5GnRNjEN0pKYtkr400Unb6Bws9dPoUC0zBryZfulvel3CgF3ZDi+PSM96o/641oKsdyRymc=
+	t=1789580881; cv=none; b=mnn4NNvQZrreLE2ZWCfel5O3GaBpZnVVkDz0UwCvg/UR6uMADQ15q8TLrRXN8rbQWuiyed/J41inomVL5eUl3kQi77lw8c2gg687yZe8Aoe0wOVWVV6BuWvwG83Ul2qrIcRs82ZoSSYPn/7uv35/SSiv/HXXVuHzSx6DpXgh4Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789580851; c=relaxed/simple;
-	bh=G/PY36hb3mMFej1b0Th4YsjbgNjq9OtQrJFaa5sQyUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqHdI5yCTF3Hlz2Nlk9DPgajW53yB7LmXbyX5eBLfg7UdKT2ZD4D65y7+3PH5z7cHGeGtfEhPmCM3IjwrCVikGscZ+tdy9pW7jLumltulJJ3oBDcQGXhZ6hXcBqP1UjPgthJnh/rcJAXc3ZTUdwkI77izfdZ1EFUJEDDVGaowq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLQ2TffJ; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1789580881; c=relaxed/simple;
+	bh=423QCoFRko5QoenBYgH5SA389zSQJ1eZi3cHQBiuFc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c8IRwdE+DRmx0tEe2b7q716S7fb1eBhdEHRdb6ya8n0QVlAaaR8tKummwkudhC0T0ISE1xCctsfrBLhKjTWz2Z0LKrI4c6h4fQ5rdhfYCdzZSwSzK1o8ezHaqEzf87Uf1vKfYMqFExV/TQ48XEnuCuRDl4kAowzapOEJioKlHQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJ65aMqm; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLQ2TffJ"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d8fb334e72so12280535ad.1
-        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 10:47:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJ65aMqm"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so12635e9.3
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 10:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789580833; x=1790185633; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789580861; x=1790185661; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=5fRuhsyZpo67PM/nz3BCI8bcnib/ogSlc/1jN1DlRcc=;
-        b=XLQ2TffJXbd9KSLRh9hSZVNATFTKaadjzW0fmN51Abn0RMUn7f1TwJV12WAqnj/Mq5
-         5LPvt1YfLNeZt0hzJo9jfyg/UyGMKO4noCXSkKzupgfV/VLdhzr/A3EXGR0SrDpXWHyg
-         bmhwLSfsXd92cT2gaOLonP1Z+61XwCcfxcjhOkbesF4ocaQoWIGIiRgBhW9NoSCudjTD
-         WidUfChyT4TQTa8LJYFK69SoNuo/CM94bAjMO9C+gvCNfbKrfoWyLeV/dvFH7YZHjOJz
-         8ArR1VRxxpO8LDzZzUVshVwuq8fq/9BVtHSK5pf/eOaAoKONnj+0fS1TMEPGwrnHOa/X
-         Sl9w==
+        bh=clnnyObsMqwlypspEmmRDCHaoGhK1U61AypucZ20MzM=;
+        b=DJ65aMqmRbxRcLEB12SRLW0f0nBr5xfh6Dh6UuF983Zyo9KacSCvK7k7uskz2S71bC
+         j3a/uKELI4s0pM7mWFqZrdGWWxtLBNJfe8mcVlqpzogwhWQuIJQGtk/napwChJk0Sjyb
+         7duxmomdu4ifR59uVqW4AqX7U9lYQT+gnxW9vymym3rh3DYFqw77KLg3FQw+J++jg2IT
+         F/qicKVdgnNAdcaHJhap/fp1F6qpra1gw085hEnsmc0fpYmbtXwjUJYS1NzpcBNysES8
+         kvjZVDhZYUKl2Qq/DNWMj9vhqTfydMHbKBqHcm676zQ1kc67P28qR8mrmXzK0ktvO5LO
+         mH9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789580833; x=1790185633;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1789580861; x=1790185661;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5fRuhsyZpo67PM/nz3BCI8bcnib/ogSlc/1jN1DlRcc=;
-        b=ItVBZ79q5jg1QdEBq4ocYf+tHmFO4rrjxu3cdAzOpA9a4S/GwgYdCuMVaqCcG2tAqP
-         wHj1TtNpwT7SPHApCLk/bBBgyyQUti2nE1+iWfz+E9JVhxpIZIGdITaaik5mlOdpR1/m
-         asxxnhjIZ1xvscEWbbiIot1MsqbqKefUwnFRm4ypAiV4ly+SyQxhBKItiiUv/ZpLjzbK
-         3Hm97+g5YGR7xGSHOThsEB9xPpnflPkzbcDaa+8gEVzVZjBZ7jS1kV0jPZTjKCU2qAgw
-         u6P+5Nrw+KLkM7NdWDqX88Ls9NDb65ZO7+nSMaTyB647rpvhYovsyIz10yo31N+4OcMN
-         WUWg==
-X-Gm-Message-State: AFuF++lyHdXvMQDU83D+i8bR5N56BL5MDF763I190b9ti4BEyIl1iK3+
-	Zbb7btAwlrm6qkFGxJGJwTpAqixAgy7Em3MMy28avpYs2tH192U/iyXV
-X-Gm-Gg: AYBFou2RI6lDuxSFc1yPwiLyXsDvQZa5g/t5dD2czglmHaD/W+diZuo1vy/BTMqRNKs
-	eKFeqARg0OZ3wpZfX14D0zulW7GI8D9r3IRBo+1ojvuZEFnvuSCk7d70a+U+TFvexStw7g1esK9
-	iOVNjIueHQrDjsTp8EAHRqoYlcFli6hIT9fU3vmMu3ZucAkMYES8d20wiGGSb/dqpo2aFJ7iV5J
-	D7PcrrzPSU5puWqmSEXtqvpuGGJ6UR0bhMCrteddLPDYTl2Lo64DftwuXsoKL/fgmjDh/TBLjOj
-	GsQNeA1tiM7fq+qv7zeYDcu/XakCw1U1plgOzgc8cDF61/l5d47oNbEGeGVIzgnHCPRCVNPf81R
-	cx4XBEHN2twuLo3kLzMM7IGcl6Y/l/LrLFa70+BHe8BIKPwH02w6eqAmxzGuBHlUqelDFuhkLpQ
-	tcdz74r3GS488M6W/l56l/osilHuJfBIYHutLhj474RzBz2kbjXgZ9X7cQNZXEVPe2ilVyaHtB/
-	9f+xWDEZ2O8qiaHiSIi4ETTQnvxfcpXt2gogA==
-X-Received: by 2002:a17:90b:5624:b0:39e:b7:cbef with SMTP id 98e67ed59e1d1-39e1e5612d3mr10626719a91.25.1789580833109;
-        Wed, 16 Sep 2026 10:47:13 -0700 (PDT)
-Received: from eggarch ([2409:40c4:18:7581:88e6:16cb:6cd3:1ba1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1c7e2200sm1772020a91.4.2026.09.16.10.47.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 10:47:12 -0700 (PDT)
-Date: Wed, 16 Sep 2026 23:17:05 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Michal Pecio <michal.pecio@gmail.com>, Mathieu Fluhr <mathieu.fluhr@gmail.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Thorsten Leemhuis <regressions@leemhuis.info>, 
-	regressions@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] xhci: drop 120ms U3 LFPS wake retry wait from
- runtime resume
-Message-ID: <aqrK5PwpJodCmbdM@eggarch>
-References: <20260831190349.29590-1-lovekeshsolanki00@gmail.com>
- <20260831190349.29590-2-lovekeshsolanki00@gmail.com>
- <a6a8526f-4b6f-46f7-9d02-05bfe3efcd48@linux.intel.com>
- <apbrp8EaJoIfEg5X@eggarch>
- <1be8e57f-9abe-4b34-bc09-e7934a2fa1bc@linux.intel.com>
- <apg16LtZ-ru9MIBQ@eggarch>
- <082467bf-d045-45d7-b097-97a5790e79d6@linux.intel.com>
- <apq4FFSD2QKG-jUu@eggarch>
+        bh=clnnyObsMqwlypspEmmRDCHaoGhK1U61AypucZ20MzM=;
+        b=T3RaNCIqb9UPc0pu7SrKOUDd3QksRXIJIOqlyhZhMLTdTpPSfvSnFu9hfBoPdNPvU1
+         eh9SrV1c5K+BHGek99sdomVc7zgnDZE6gJINxU3Yf7W5pilxFosSXVm5ieZnXVKWmFXE
+         Zo5L3JsrF4bNhbdCGItmp1LU8XHXUnMahn6GJukke4CuRweRwaxX1wHYzXei/Eem9pZ4
+         NdPbEvphnGebsL7Pe7JWPA4cNCXxKxx7YVVwP8cwfxMc7Oiu+ln6GdqDv0FMmGskpTIy
+         u98duDp1TBQyyJuXDOAiWykQ/q8e32z35DlHkfVhAdgm4N2QEBLUA4CWB1Bt5U4YgsbJ
+         YhZA==
+X-Forwarded-Encrypted: i=1; AKwUvBwZ667DfEs7rslRiYLOasvA97IxodNPrUUKYZ5xyzqUQ6kQmxaQAo3P/y2v8+JnfGtCEbQD/8Cm3UU=@vger.kernel.org
+X-Gm-Message-State: AFuF++niuqvHtKPeQKGDi0dH0dWw6FRM4smKBydsZD+9F6lzNik/Va1q
+	a7tTsN9h07JRUZ8Jk1b5pp3cHkvGFVt4XxbN1jMRTW3jHGjBZVQValV8
+X-Gm-Gg: AYBFou0jc+X2WSrOAfinWntmn6FnpOsMCKvxlp1BMSL3qXUMmJuUhaFi58LvW+NPG3N
+	RLPq71B/bRzUyj5CZRTJDjthHDGcXz9soii3cfZWRZIEl1UP50PQ4E59992pLMc9AZ5QoqiBoXm
+	mvCsLnkign2gu9oing2+FBvodx3JhHm9941GY/CXMKgZ4Xz0e1IDyYpZLk7G52BtmwXHO0yVnY1
+	mznjboMEv8oyNrKcFly4mmKQfgf/KxqpXxObfeYBdsaoXh+l1QDjVyaR6MttdeEVgrzh/Bi8LGx
+	2JprtRkjQIh277da7FA1DWWodn9u5SipvkJPtO4d2ngj/oXACBTC6ti8kmp6b23UMtCAAWZDXid
+	o+oxa3zWEPR/9enya9fAil7ssMA3vIN0aypXLxsywFLni072R7mYTLtxhwnOH3O5lNnQkgE0/jW
+	ayyfxOU9ivY4Aeyhk+RYT7aa+Fl5i33VqZIZzcPvDz59osU1tFYLnt8LFNpBaDlro0UKqtrrIP2
+	5tKhYXZ4vI=
+X-Received: by 2002:a05:600c:190b:b0:49d:870:7a69 with SMTP id 5b1f17b1804b1-49eb73309d8mr72372485e9.12.1789580860990;
+        Wed, 16 Sep 2026 10:47:40 -0700 (PDT)
+Received: from foxbook (bfh234.neoplus.adsl.tpnet.pl. [83.28.45.234])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd1d0d0bsm8512885e9.1.2026.09.16.10.47.40
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 16 Sep 2026 10:47:40 -0700 (PDT)
+Date: Wed, 16 Sep 2026 19:47:36 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: EricLin <ericlin050914@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com, mathias.nyman@linux.intel.com
+Subject: Re: [BUG] Usb fingerprint sensor constantly resetting on MSI
+ Prestige 16 Flip AI+ C3MTG
+Message-ID: <20260916194736.7ba779c2.michal.pecio@gmail.com>
+In-Reply-To: <20260916131730.5522-1-ericlin050914@gmail.com>
+References: <20260911222137.6639b397.michal.pecio@gmail.com>
+	<20260916131730.5522-1-ericlin050914@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apq4FFSD2QKG-jUu@eggarch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 04, 2026 at 06:43:43PM +0530, Lovekesh Solanki wrote:
-> On Thu, Sep 03, 2026 at 10:42:48AM +0300, Mathias Nyman wrote:
-> > On 9/2/26 21:21, Lovekesh Solanki wrote:
-> > > On Wed, Sep 02, 2026 at 03:10:41PM +0300, Mathias Nyman wrote:
-> > > > It's possible PCI side or pm core already provides some easy way for xhci driver to check this.
-> > > > This specific issue is currently not on my todo list, yet.
-> > > Alright, would you like to me to work on this? I could look into
-> > > that side and possibly come up with an approach.
-> > 
-> > Yes, please, that would be great.
-> I took a look at the PCI / PM side, and it seems to me there isn't any
-> reliable approach for xhci driver to use right now.
+On Wed, 16 Sep 2026 21:17:30 +0800, EricLin wrote:
+> I'm using fprint to operate this fingerprint sensor
 > 
-> The pci_check_pme_status() both checks and clears the pme status bit 
-> and the pci core devours it inside pci_pme_wakeup(), and 
-> pm_request_resume is async so xhci's runtime_resume may run much later
-> after the bit is already gone. We can't simply export pci_check_pme_status()
-> that wouldn't give any useful info.
-> 
-> One solution I can think of would be adding a pme_wake_detected bitfield
-> on pci_dev struct, we set it in pci_pme_wakeup() when PME is confirmed
-> and we clear it in pci_pm_runtime_resume() after the driver has
-> returned.
-> Then, we could directly read via pdev->pme_wake_detected in its own
-> resume.
-> 
-> What are your thoughts on this?
+>     |__ Port 006: Dev 002, If 0, Class=Vendor Specific Class, Driver=[none], 12M
+>         ID 27c6:6090 Shenzhen Goodix Technology Co.,Ltd.
 
-Hey Mathias,
+This all sounds like some userspace driver is used.
 
-Just wondering if you have looked into the proposal above.
-I suggested adding a new field to pci_dev struct for knowing whether a
-resume came from PCI PME side.
+And to me, this below looks like completely normal and successful USB2
+device resume, followed by a reset initiated for unknown reason. 
 
-Would it be better to send it as an RFC too?
+[  240.364611] xhci_hcd 0000:00:14.0: clear USB_PORT_FEAT_SUSPEND
+[  240.364612] xhci_hcd 0000:00:14.0: PORTSC 0663
+# PLS is suspend, write resume
+[  240.364616] xhci_hcd 0000:00:14.0: Set port 3-6 link state, portsc: 0x663, write 0x107e1
+# PLS is resume, write U0
+[  240.405029] xhci_hcd 0000:00:14.0: Set port 3-6 link state, portsc: 0x7e3, write 0x10601
+[  240.405066] usb 3-6: usb auto-resume
+# reached U0 state
+[  240.405138] xhci_hcd 0000:00:14.0: Port change event, 3-6, id 6, portsc: 0x400603
+[  240.405148] xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
+[  240.446041] xhci_hcd 0000:00:14.0: Get port status 3-6 read: 0x603, return 0x40103
+[  240.446119] xhci_hcd 0000:00:14.0: clear port6 suspend/resume change, portsc: 0x603
+# this would be "finish reset-resume" if one was intended
+# or "retry with reset-resume" if resume failed
+# see drivers/usb/core/hub.c::finish_port_resume()
+[  240.456987] usb 3-6: finish resume
+[  240.457379] xhci_hcd 0000:00:14.0: set port reset, actual port 3-6 status  = 0x791
 
-Thanks,
-Lovekesh
+So maybe it's just the userspace software doing it for whatever reason
+on every use. Guess you could run "strace -eioctl" on this program to
+see if there is USBDEVFS_RESET each time the dmesg message shows up.
+
+Or add dump_stack() in usb_reset_device(), recompile and see what pops
+up. Probably ioctl syscall at the bottom of the call stack...
+
+Regards,
+Michal
