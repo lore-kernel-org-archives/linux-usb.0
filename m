@@ -1,104 +1,168 @@
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f17.google.com (mail-qk2-f17.google.com [74.125.230.209])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51D04E0216;
-	Thu, 17 Sep 2026 15:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C5A4DDB3A
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 15:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789658534; cv=none; b=ZsVyiDUZgwslwOlf/hIbtqJpZLkcW6dWh2Z3WkdyeLk9VaZrlZbcidqvwLBqPXRM338AsVb6m+9oGM7v9raXOIC1uEbuMRqpEWqIZ15jUthFy6mGXuMLQS11BVz8KohBVMaf4j3LZMYTPQo/ndDoOo7NpNWB/5ueFtIhysbHRDc=
+	t=1789659546; cv=none; b=JRuBjZcqPtUnanfMSWANB3nS+nCOMW2FRr8a6iJO49fJlPif5MOG7GvwQbN4MlfW5uswqo8geALTmKDWDVuDh+tT0JN/d5RJ/OW9LXigNIcRHoWCEPSWY6pbmdwmP0xh0L3JgSn0Q8CdLO5kc3hpgt5wOCs7+I8godLtS9g9b5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789658534; c=relaxed/simple;
-	bh=A94HsU69g5I66yksg+106KqVV8VdZ7lpjKXhjsYT1PQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sel5a9/CYiN4NaVVg5EvBS9qgAktQDffMGxZg5lQJBuBpUCAUybCWbTrjDk2wsAdwM25CV4R+ZC+46ByVIt9nK3CzgSepWl99BTD1BCA/M0OJ2YpA7oBbf3jLZUyq9nNgZIkEWn6FpEZsMxZoMp8omPYm6FSD/amombO0Kb9R8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=fail smtp.mailfrom=lht.dlh.de; arc=none smtp.client-ip=212.27.42.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lht.dlh.de
-Received: from OMT-CWNXR4TFW5-LHT (unknown [213.61.137.106])
-	(Authenticated sender: albeu@free.fr)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 7177E13F880;
-	Thu, 17 Sep 2026 17:21:57 +0200 (CEST)
-Date: Thu, 17 Sep 2026 17:21:52 +0200
-From: Alban Bedel <alban.bedel@lht.dlh.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Johan Hovold
- <johan@kernel.org>, Alban Bedel <alban.bedel@lht.dlh.de>
-Subject: Re: [PATCH] USB: serial: Support attaching serdev devices
-Message-ID: <20260917172152.1b1cb540@OMT-CWNXR4TFW5-LHT>
-In-Reply-To: <2026091756-unmolded-fructose-a018@gregkh>
-References: <20260917081103.1917665-1-alban.bedel@lht.dlh.de>
-	<2026091739-spousal-linked-2a36@gregkh>
-	<20260917153736.600061de@OMT-CWNXR4TFW5-LHT>
-	<2026091756-unmolded-fructose-a018@gregkh>
-Organization: Lufthansa Technik AG
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-apple-darwin25.4.0)
+	s=arc-20240116; t=1789659546; c=relaxed/simple;
+	bh=273R7P4iV55BuQ0Vv3fFNp7dBDML9cdOiqCSVSzG80Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=saRl4JXz46iMCEm2UysjJRNj5+nyn9JuuTXzwPZflV8KWw5RqCliSQfvnYPD4bxH1QmJzNHFERV3IbmLdK4Zq/hajZwTzA/n2mHo7pu0qVubDab8bkGBIPjcEaFl3XyrQr3Ern6I8b2peNSUeMBnTKII5Oh/23lFgD+92qV74hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=XrzjwFf7; arc=none smtp.client-ip=74.125.230.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="XrzjwFf7"
+Received: by mail-qk2-f17.google.com with SMTP id af79cd13be357-93910ca5aa7so96754385a.1
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 08:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1789659534; x=1790264334; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jc5S0ginpT++NJYPgFJw0iizISYmUmx4tHS2Km60SDM=;
+        b=XrzjwFf70plw/4t5bMgrM7fpJ87WEKVY38wL7TJZNa1kXncLxwa2bNpAZIUfxg6reE
+         WAYvgciPNmu6Xv/1Unc4HPt2EbF80ziBUR2OXV5vSwgcVV06OFATBIZiFIZAM7dsvV/K
+         9tki7a1S5dz8OsXUyVmjT8odBXntGDN/27KQNAb5fpR+zqDQ+llSgozPzD/vD+u/gXF/
+         V9Ngzvo3y8VybtLzEDqn7G4cMfNBMkUBD8voV8dD5ncoCLFbAdo2ht2mUBZNWb8M8sOa
+         ETnhA376RRwdnwdKwUvnChTIho2vM5sHE6vhfXvwJ/KkEY0o13IuASIz//EKOAdbPO9L
+         6BDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789659534; x=1790264334;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jc5S0ginpT++NJYPgFJw0iizISYmUmx4tHS2Km60SDM=;
+        b=H7vkz3Y12Av939/AilwpUfjaJf8XabRoPUQP9YQiK4lIM05TyyGzONjd5f5xvsT5nf
+         D+Nn/P1PbGQet+1sh5rnnk6XRKS3jvlQbDQQDj8/lyKDMiIj9n8uXkkb4w8bsjegi5LN
+         J8q3Qc2knB1adxT8FKV0DLRRJ0POE8TMw2AN2UQ8l4XoeVSgOQWR5xnXqGD2vfjE2FgU
+         Th99Sur5LDIR8M5/SOdmHQOkqs05vpOokiAYBXkwAZNZi+9hC3pxOhikSkRVLFoSlqgs
+         FCCU776lRZR7//GGkh8a9OFkqYrIG4Sf5YaJztQ/zn0ipt/N2vYqLxS3hdA1DMANTCKP
+         m41g==
+X-Forwarded-Encrypted: i=1; AKwUvByjocHamO92fQtI/2sg0KAtp8BfPds2pEAg7GbjMm6dqt036kQyQk3PiIgh5tyG+MpCFE3F5GB8Sl4=@vger.kernel.org
+X-Gm-Message-State: AFuF++kI3+tNdOOapF5EYsndkHzwijBIN1W7qaAq2p+1TPxsHw3jwYVd
+	1CVDLI6+HhXUvIcWZaBJp3YFQ2ZuHONjU3JBDb2B4oNeWeUiVW08kyO0/5aZIuNtcA==
+X-Gm-Gg: AYBFou2OA0OPuvVT/tg7fqqzLwoNnDvDGzifn1n6giJbRrWMqiVqsIuXNr/yDghEC4a
+	SiO9c4sK/jULxSsRTQTXdfbcxgqwZDKISaaUJuUCrogQBR9eFXa365K7fpRxJ//+5aouxMPunuN
+	slWR9jacC9mQ7tEMv39d9tOzp1lxHQsw6p1mUT3/6msfviPhLqD4+VEbsnSaN1QncFPwVR+VoLD
+	1MIoMuVDUAcwZ73nMn3Q9eZPQRUjrFihVH9B5QEj1ccl8fxenQu3fKJ5n8er5hzY4u5N7nPu3LV
+	TC6/ajbpOLNo7yuFjFxonVAAvte0/Vm1YadQaJGCvrshAfY9GsYaI44Ch8leVt68xGZWWQekyvC
+	N92LaQ/ahvJPXgvd6TtNWjeLX9nE3ovUWwXRoX9xecLlxyyCOKXX0wmFNOuo1iDHunrQsW9tzPz
+	bkTyr231zkogG2uzpR9EUpXXItG50jrR6bdKLVCUMnV7/KtNbd8svyXppSpGAXIgX5xXQZ2STW
+X-Received: by 2002:a05:620a:254f:b0:939:57ca:7e0a with SMTP id af79cd13be357-93bb76a7bb1mr1296427185a.7.1789659533820;
+        Thu, 17 Sep 2026 08:38:53 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93b781dfde3sm498388785a.12.2026.09.17.08.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 08:38:53 -0700 (PDT)
+Date: Thu, 17 Sep 2026 11:38:49 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <9c07ce98-a5bf-4bcc-9304-e7f5e1747842@rowland.harvard.edu>
+References: <cec9b2a0-3454-45a6-b128-51d708cc8cbc@rowland.harvard.edu>
+ <CAFmvuTUwGr-=joWrsYMu-Ra3XpHTe_HFhaY5inJnhg=e5b=1PA@mail.gmail.com>
+ <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
+ <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
+ <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
+ <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
+ <f42b44ef-b083-4976-bf06-f2a21098474b@rowland.harvard.edu>
+ <CAFmvuTUZ+iP313qz5J5vaT7QGz2y-tHQ6XMrq2tnvStZqXDECg@mail.gmail.com>
+ <7a87e293-633c-4100-aa8d-91560ba5e5c5@rowland.harvard.edu>
+ <CAFmvuTU9xfCWFaoXzE6J0uC6y6eCZ43CRg+JWkLV3dgLNYu5Cw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTU9xfCWFaoXzE6J0uC6y6eCZ43CRg+JWkLV3dgLNYu5Cw@mail.gmail.com>
 
-On Thu, 17 Sep 2026 15:08:11 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> On Thu, Sep 17, 2026 at 03:37:36PM +0200, Alban Bedel wrote:
-> > On Thu, 17 Sep 2026 09:27:42 +0100
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> >   
-> > > On Thu, Sep 17, 2026 at 10:11:03AM +0200, Alban Bedel wrote:  
-> > > > Use tty_port_register_device_serdev() to allow attaching serdev
-> > > > devices to USB serial ports. Also set the ACPI companion device on the
-> > > > USB serial device to let the serdev matching work on ACPI systems.    
-> > > 
-> > > "also" should be a separate patch, right?  
-> > 
-> > Will do.
-> >   
-> > > And I didn't think that serdev could handle devices going away at any
-> > > point in time, when did that change?  How was this all tested and what
-> > > ACPI device wants to use this?  
-> > 
-> > The use case here is an x86 embedded platform with a soldered USB serial
-> > adapter connecting to a MAX9265 GMSL serializer. As everything is on a
-> > single PCB there is no question of anything getting disconnected at
-> > runtime.  
+On Thu, Sep 17, 2026 at 11:02:13PM +0900, Minseo Kim wrote:
+> Hi Alan,
 > 
-> You hope :)
-
-Obviously anything can fail, but I don't see why that should be treated
-differently than an UART connected via PCI or LPC. The link could also
-fail anytime.
-
-> > But I now see that I missed that the bus remove also need to be
-> > adjusted to use tty_port_unregister_device() instead of
-> > tty_unregister_device().  With that done the serdev device get properly
-> > taken down when I manually disable the port. With a small fix to the
-> > serdev core it also comes back up when the port is enabled again.  
+> Thank you for the patch.
 > 
-> Please read the archives for why we don't want to do this unless/until
-> serdev is "fixed" to properly handle dynamic device removals.
-
-All I could find is the "USB-Serial serdev support" thread from last
-year which sadly doesn't provides much details. Like Marco Felsch back
-then I tested disabling/enabling the USB port and didn't have any
-issue, the serdev device get removed and added back just fine. In my
-case the serdev driver provides an I2C bus, all devices on it get
-removed and added back again as well and work just fine.
-
-I really fail to see an issue in pratice, would you care to explain
-what I'm missing here?
-
-> > The ACPI part is a custom DSDT overlay that defines the chain
-> > starting from the USB port. At this level there is no difference to 
-> > classic UART where serdev are already working.  
+> > Can you repeat these tests with the patch below applied on top
+> > of the other two?  It should cause usb_gadget_unregister_driver() to
+> > wait until ep_aio_complete() returns (the actual wait loop is in
+> > dummy-hcd's dummy_udc_async_callbacks() routine).
 > 
-> So acpi now defines USB to serial devices?  Is that new?
+> Yes. With the new dummy_hcd change applied on top of the two GadgetFS
+> patches, usb_gadget_unregister_driver() waited in
+> dummy_udc_async_callbacks() until the held ep_aio_complete() callback
+> returned in both the normal transfer path through dummy_giveback() and
+> the direct giveback path in dummy_queue().
+> 
+> I used upstream v7.2-rc1 as the base. Because dummy_giveback() is not
+> present in v7.2-rc1, both matched test trees also included the changes
+> from upstream commit d5e5cd3654d2b5359a12ea6586120f05b28634ee
+> ("usb: gadget: dummy_hcd: prevent fifo_req reuse during giveback").
 
-UARTSerialBusV2() is there to define devices using an UART, the
-specification doesn't mention any limitation on the kind of UART it can
-be pointed at. What is the issue here?
+Okay.  I recently rebased my kernel tree to v7.3-rc3, so a few 
+discrepancies are to be expected.
 
-Alban
+> In the normal transfer case, I held ep_aio_complete() immediately after
+> iocb->ki_complete(). Without the new dummy_hcd change,
+> dummy_udc_async_callbacks(false) saw callback_usage equal to 0, and the
+> ep0 close returned while the callback was still held. With the change,
+> it saw callback_usage equal to 1, and the ep0 close task remained blocked
+> in dummy_udc_async_callbacks(). The relevant part of the blocked close
+> task's stack was:
+> 
+>     dummy_udc_async_callbacks [dummy_hcd]
+>     gadget_unbind_driver
+>     device_remove
+>     device_release_driver_internal
+>     driver_detach
+>     bus_remove_driver
+>     driver_unregister
+>     usb_gadget_unregister_driver
+>     dev_release [gadgetfs]
+
+That is just as it should be.
+
+dummy-hcd emulates a UDC driver.  With a real driver, givebacks would be 
+triggered by a device interrupt (signalling completion of a request) and 
+the synchronize_irq() call in gadget_unbind_driver() would wait until 
+outstanding calls to the IRQ handler (and thus the completion handler) 
+had completed.  But dummy-hcd doesn't have real hardware, so instead of 
+device interrupts it relies on timer interrupts and its 
+dummy_ucd_async_callbacks() routine is supposed to emulate 
+synchronize_irq().  Thus it should wait until all outstanding completion 
+handler calls have completed.
+
+> After I released the callback gate, ep_aio_complete() returned,
+> callback_usage fell to 0, and the same close completed. I observed this
+> sequence in four separate runs with the new change.
+> 
+> To exercise the other accounting site, I separately tested the direct
+> giveback path for a 64-byte write in dummy_queue(). With the change, the
+> close task again waited in dummy_udc_async_callbacks() with callback_usage
+> equal to 1. In the matched control, dummy_udc_async_callbacks() returned
+> with callback_usage at 0, and gadgetfs_unbind() then remained in its
+> existing udc_usage wait until I released the callback gate.
+
+I wonder which part of the code was holding udc_usage above 0?
+
+> I also repeated the case where the request was still on the endpoint
+> queue when usb_ep_disable() began. Neither usb_ep_disable() nor the ep0
+> close returned while the completion callback was held. After I released
+> the callback gate, io_getevents() returned one completion with
+> res=-ESHUTDOWN, and a subsequent check returned no additional completion
+> event.
+
+It all sounds good.  I will submit the patches, with your Signed-off-by: 
+added to this one also, if that's okay with you.
+
+Alan Stern
