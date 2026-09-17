@@ -1,120 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B61D550DB8;
-	Thu, 17 Sep 2026 15:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51D04E0216;
+	Thu, 17 Sep 2026 15:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789658272; cv=none; b=XbGrl/6WG3j/DIMOqxXVvXSNRGfwuHUDniGTmVl86gW34aa6AXW0+rEdawC8BYcy5DHhaHkqZEyGyDo2igh0rsXzluZ/W3fs7uwOXJQPwZz29ZPJk8xdQ+x+TQW0hBhz2Brp5yH+rqEnvqgWNqHnE3kDw+015tS/pTiAPE8r6O8=
+	t=1789658534; cv=none; b=ZsVyiDUZgwslwOlf/hIbtqJpZLkcW6dWh2Z3WkdyeLk9VaZrlZbcidqvwLBqPXRM338AsVb6m+9oGM7v9raXOIC1uEbuMRqpEWqIZ15jUthFy6mGXuMLQS11BVz8KohBVMaf4j3LZMYTPQo/ndDoOo7NpNWB/5ueFtIhysbHRDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789658272; c=relaxed/simple;
-	bh=WCjWZ4ko8FeIN8sqh99s+ccnuIOlIyUFY3KoAf3vhJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyMDjRw5+aDh8hZnKDT7OXnM2SuokGLjcAG4tGIXSmHRrnXZ6NblZK1icyUJ/+uLLHEOKEBQHTajbdK1rgLDWBxvk3ocNFsv4mFDuNTtfkpiWVLE5Uc9moTbwR/xVWe3Kt8ZUhZEEGMisF5CiomDmLy83pv8SOpzi8ryyYF4kb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wjSpXKYJ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wjSpXKYJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B99A1F008AB;
-	Thu, 17 Sep 2026 15:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789658241;
-	bh=06xNhlMbIFLF21+BuJrYXqeFqRP7MJS9PBsX0UaCkhQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wjSpXKYJHPFycTzd1iXnjgHzdvBxBhlFzL2mfY2SS5StsMkvkflCULZj9hBz9mnoS
-	 YK9wAs0H+AZPtBikMp4GcXgoLGh1OBadn3Yf4BJKhfmexFcZMZ81KEfF6COFdLEwcV
-	 EBLxm+bEMe11XktZ9D2lkLo8HDjGeISOIrlT7adU=
-Date: Thu, 17 Sep 2026 16:15:26 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: zjamg <ndaugoing@gmail.com>
-Cc: Michal Nazarewicz <mina86@mina86.com>,
-	Robert Baldyga <r.baldyga@samsung.com>, Felipe Balbi <balbi@ti.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] usb: gadget: f_fs: Fix NULL pointer dereference in
- FUNCTIONFS_ENDPOINT_DESC
-Message-ID: <2026091710-trapper-sudden-0d05@gregkh>
-References: <20260917135337.65444-1-ndaugoing@gmail.com>
- <20260917135337.65444-2-ndaugoing@gmail.com>
+	s=arc-20240116; t=1789658534; c=relaxed/simple;
+	bh=A94HsU69g5I66yksg+106KqVV8VdZ7lpjKXhjsYT1PQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sel5a9/CYiN4NaVVg5EvBS9qgAktQDffMGxZg5lQJBuBpUCAUybCWbTrjDk2wsAdwM25CV4R+ZC+46ByVIt9nK3CzgSepWl99BTD1BCA/M0OJ2YpA7oBbf3jLZUyq9nNgZIkEWn6FpEZsMxZoMp8omPYm6FSD/amombO0Kb9R8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=fail smtp.mailfrom=lht.dlh.de; arc=none smtp.client-ip=212.27.42.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lht.dlh.de
+Received: from OMT-CWNXR4TFW5-LHT (unknown [213.61.137.106])
+	(Authenticated sender: albeu@free.fr)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 7177E13F880;
+	Thu, 17 Sep 2026 17:21:57 +0200 (CEST)
+Date: Thu, 17 Sep 2026 17:21:52 +0200
+From: Alban Bedel <alban.bedel@lht.dlh.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Johan Hovold
+ <johan@kernel.org>, Alban Bedel <alban.bedel@lht.dlh.de>
+Subject: Re: [PATCH] USB: serial: Support attaching serdev devices
+Message-ID: <20260917172152.1b1cb540@OMT-CWNXR4TFW5-LHT>
+In-Reply-To: <2026091756-unmolded-fructose-a018@gregkh>
+References: <20260917081103.1917665-1-alban.bedel@lht.dlh.de>
+	<2026091739-spousal-linked-2a36@gregkh>
+	<20260917153736.600061de@OMT-CWNXR4TFW5-LHT>
+	<2026091756-unmolded-fructose-a018@gregkh>
+Organization: Lufthansa Technik AG
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-apple-darwin25.4.0)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917135337.65444-2-ndaugoing@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 17, 2026 at 09:53:37PM +0800, zjamg wrote:
-> When user space sets up FunctionFS with only full-speed descriptors
-> (e.g., flags = FUNCTIONFS_HAS_FS_DESC) and the gadget operates at a
-> higher speed (such as USB_SPEED_HIGH or USB_SPEED_SUPER),
-> config_ep_by_speed() detects that the function lacks descriptors for
-> the current speed, logs a warning, and falls back to full-speed
-> descriptors. The endpoint is then successfully enabled via
-> usb_ep_enable(), and epfile->ep becomes valid.
+On Thu, 17 Sep 2026 15:08:11 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+
+> On Thu, Sep 17, 2026 at 03:37:36PM +0200, Alban Bedel wrote:
+> > On Thu, 17 Sep 2026 09:27:42 +0100
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> >   
+> > > On Thu, Sep 17, 2026 at 10:11:03AM +0200, Alban Bedel wrote:  
+> > > > Use tty_port_register_device_serdev() to allow attaching serdev
+> > > > devices to USB serial ports. Also set the ACPI companion device on the
+> > > > USB serial device to let the serdev matching work on ACPI systems.    
+> > > 
+> > > "also" should be a separate patch, right?  
+> > 
+> > Will do.
+> >   
+> > > And I didn't think that serdev could handle devices going away at any
+> > > point in time, when did that change?  How was this all tested and what
+> > > ACPI device wants to use this?  
+> > 
+> > The use case here is an x86 embedded platform with a soldered USB serial
+> > adapter connecting to a MAX9265 GMSL serializer. As everything is on a
+> > single PCB there is no question of anything getting disconnected at
+> > runtime.  
 > 
-> However, when user space subsequently issues the FUNCTIONFS_ENDPOINT_DESC
-> ioctl to query the endpoint descriptor, ffs_epfile_ioctl() selects the
-> descriptor index solely based on gadget->speed:
+> You hope :)
+
+Obviously anything can fail, but I don't see why that should be treated
+differently than an UART connected via PCI or LPC. The link could also
+fail anytime.
+
+> > But I now see that I missed that the bus remove also need to be
+> > adjusted to use tty_port_unregister_device() instead of
+> > tty_unregister_device().  With that done the serdev device get properly
+> > taken down when I manually disable the port. With a small fix to the
+> > serdev core it also comes back up when the port is enabled again.  
 > 
-> 	switch (epfile->ffs->gadget->speed) {
-> 	case USB_SPEED_SUPER:
-> 	case USB_SPEED_SUPER_PLUS:
-> 		desc_idx = 2;
-> 		break;
-> 	case USB_SPEED_HIGH:
-> 		desc_idx = 1;
-> 		break;
-> 	default:
-> 		desc_idx = 0;
-> 	}
-> 	desc = epfile->ep->descs[desc_idx];
-> 	memcpy(&desc1, desc, desc->bLength);
+> Please read the archives for why we don't want to do this unless/until
+> serdev is "fixed" to properly handle dynamic device removals.
+
+All I could find is the "USB-Serial serdev support" thread from last
+year which sadly doesn't provides much details. Like Marco Felsch back
+then I tested disabling/enabling the USB port and didn't have any
+issue, the serdev device get removed and added back just fine. In my
+case the serdev driver provides an I2C bus, all devices on it get
+removed and added back again as well and work just fine.
+
+I really fail to see an issue in pratice, would you care to explain
+what I'm missing here?
+
+> > The ACPI part is a custom DSDT overlay that defines the chain
+> > starting from the USB port. At this level there is no difference to 
+> > classic UART where serdev are already working.  
 > 
-> Because user space only supplied full-speed descriptors,
-> epfile->ep->descs[1] is NULL. Dereferencing desc->bLength triggers an
-> immediate kernel NULL pointer dereference panic.
-> 
-> Fix this by falling back through lower speed descriptors if the current
-> speed descriptor was not supplied, matching the fallback logic in
-> config_ep_by_speed() and historical f_fs behavior. If still missing,
-> fall back to epfile->ep->ep->desc (the active descriptor), and return
-> -EINVAL safely if no valid descriptor is found. In addition, mark desc
-> as const to match struct usb_ep::desc and avoid discarding qualifiers.
-> 
-> Fixes: c559a3534109 ("usb: gadget: f_fs: add ioctl returning ep descriptor")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: zjamg <ndaugoing@gmail.com>
-> ---
->  drivers/usb/gadget/function/f_fs.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
-> 
+> So acpi now defines USB to serial devices?  Is that new?
 
-Hi,
+UARTSerialBusV2() is there to define devices using an UART, the
+specification doesn't mention any limitation on the kind of UART it can
+be pointed at. What is the issue here?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Alban
