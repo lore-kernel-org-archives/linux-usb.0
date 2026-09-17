@@ -1,33 +1,45 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA204DC557;
-	Thu, 17 Sep 2026 15:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F75433AD;
+	Thu, 17 Sep 2026 15:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789660356; cv=none; b=MjXeoCTZfXq6qoGV+0oBK2dd3ogtBfQICKPo3sjMHBUn1aDxc+ypJozIsR1d7QQiPmJcADIQSH6x8owZ/yE6beak5YxGgEhgNhfuBnQUbPkiQ5qyvCxRW5pDMXA/30BwouKaRB5LZTYMZxynayHw8cptj0V+LzLmGgqc13YZmUs=
+	t=1789660624; cv=none; b=bRHizJ01JrGVayJ1Pz9w5efGNF78sPyD6EM6QAw2MaiPICFWejbCGruAxV+jP0Mn70me6KHmeTC0Gv8csM+B6JcRZfVdVkEN0JSiiAvbvNWS3CRmaatkBvIPdDw90R8ePZvSbI/aBh2c7rcYyUHXSL/zQneVinuMp0pKktt+X/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789660356; c=relaxed/simple;
-	bh=St9pZs9VJ0+ANsFUdpwr9oNDHPZBqi1nYt0una1XOdM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PApiGWTmU4mt9Zax5+OnIVnvvdZgutDDDgOytFkccchmjySZuvbGmcsu/1nUPQ9sh8P9WhB4qUpuXevPqYzpJLfLNfXx6fCjya4RrQW43SdUEgane0lj3wmTddXgeYXdC3TqK0a7+V8SoMOpClK2ElCqySjFZ3a3xf4+eMS62ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowADHMTy_DKxq2+WDCA--.6131S2;
-	Thu, 17 Sep 2026 23:52:31 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: YehezkelShB@gmail.com
-Cc: andreas.noever@gmail.com,
-	duoming@zju.edu.cn,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1789660624; c=relaxed/simple;
+	bh=/eEvWIGvI3aKrQ4e1fj77fUtnMYfN2KrI7neR/7GoCY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U1DkRS43NQ4l8AxIG8SAlOife/RUUxQOGgHQ08uZxxbQvu1igXS/WEAM1RHMHiloUiwSvkXivKrUbrBIOLBhLmmYUa62aHPtNcbB+kpH/iAzfWzWOlR3C4rUJGKMC1+Mq0LUblJTmqlM6QUZrUv/I92UBHMUtu8qBUwW8HaaoC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8qX6gmb; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8qX6gmb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346F31F000FF;
+	Thu, 17 Sep 2026 15:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789660623;
+	bh=f0ZOP0Yw/WONd2MaPzjS3OZNsmbzgPVfLO/uHIlT6Ts=;
+	h=From:To:Cc:Subject:Date;
+	b=g8qX6gmbZQpEq5eT71AJ5gbmxXa19dxWffSxyX9o9TjpZ8w0Tfk3p3RCh2re0xVt6
+	 kbouqQWxgZ45GwgVGaAuyeNdp3iIriXOra7LnafrrhwEvagSrnSZP6e7s980O5vtYo
+	 jYzzQT4nh09Js8TvECdCRI4nNX4EisYM3H6FzFCrqIt2CfukNNkrbUjiSPIpfhwl8p
+	 nAzm2Z+DSAT/fW2G/MAshmAHNGN/C/3NKU5G/lC3zT1hknaTOK+M7p+V5Ipd8Qs7wg
+	 /6gFHEGHhr/nraKAeAtIdKPgFNWmMh9T5+SgP5IgbX1gNem3i0yJOTBiMKS70kJgP8
+	 PwqgYADb7bPvw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
 	linux-usb@vger.kernel.org,
-	westeri@kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>
-Subject: [PATCH] thunderbolt: Fix tunnel reference leak in tb_dp_dprx_start()
-Date: Thu, 17 Sep 2026 15:52:31 +0000
-Message-Id: <20260917155231.2161107-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] usb: gadget: pxa25x: prevent ixp4xx + pxa25x combination
+Date: Thu, 17 Sep 2026 17:56:27 +0200
+Message-ID: <20260917155657.2200191-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,67 +47,92 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADHMTy_DKxq2+WDCA--.6131S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur13XFWUJr1fWr4fZF45Awb_yoW8WFy5pw
-	45G3yjyr98KFWFyFZFqw4UuFyak39ayay5JrZrGan5Aw1Fq343Jay5GrW8Zr45ArWkJw12
-	yr1rtrW3GrWqyrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUB0b7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWxJr0_GcWlOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq62Iq12xI8VA0II8E6IAqYI8I648v4I1lc7Cj
-	xVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8GFyrJr
-	1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
-	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7
-	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2z280aVCY1x
-	0267AKxVW0oVCq3bIYCTnIWIevJa73UjIFyTuYvjxUF_MaUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAINA2qr9nA1YAAAsS
 
-The extra tunnel reference taken to keep the tunnel around while
-tunnel->dprx_work is pending is only dropped in tb_dp_dprx_stop() when
-cancel_delayed_work() reports that it canceled a pending work. For
-tunnels created by tb_tunnel_discover_dp() there is no callback, so no
-work is queued and that condition is never true, leaking the reference
-on every activation.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Only take the reference when the delayed work is actually queued.
+The USB gadget driver is one of the holdouts of Arm single-platform
+support that conflicts with a multiplatform kernel. Trying to
+build this for both Intel PXA and IXP fails with:
 
-Fixes: 67600ccfc4f3 ("thunderbolt: Fix use-after-free in tb_dp_dprx_work")
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+drivers/usb/gadget/udc/pxa25x_udc.c:144:9: error: 'UDCCS_IO_ROF' redefined [-Werror]
+  144 | #define UDCCS_IO_ROF    (1 << 2)        /* Receive overflow */
+      |         ^~~~~~~~~~~~
+drivers/usb/gadget/udc/pxa25x_udc.c:141:9: note: this is the location of the previous definition
+  141 | #define UDCCS_IO_ROF    (1 << 3)        /* Receive overflow */
+      |         ^~~~~~~~~~~~
+drivers/usb/gadget/udc/pxa25x_udc.c:232:2: error: #error "Can't configure both IXP and PXA"
+  232 | #error "Can't configure both IXP and PXA"
+
+Until recently this was not a problem, as ixp4xx was only big-endian
+and pxa is only little-endian, so these could never be in the same
+kernel image.
+
+As this has changed recently, an allmodconfig kernel for ARMv5 runs
+into the above failure. I don't think this is an important scenario
+in practice, especially as pxa25x support is already rather broken,
+so prevent this configuration using a Kconfig dependency, and
+rework the driver to allow a combined ixp4xx/pxa3xx kernel that
+only uses this driver on ixp.
+
+Cc: Linus Walleij <linusw@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/thunderbolt/tunnel.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/usb/gadget/udc/Kconfig      | 1 +
+ drivers/usb/gadget/udc/pxa25x_udc.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index f38f7753b6e4..696a7e06d940 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -1078,15 +1078,16 @@ static void tb_dp_dprx_work(struct work_struct *work)
+diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
+index 7ddbc2606686..5142f70b6f3a 100644
+--- a/drivers/usb/gadget/udc/Kconfig
++++ b/drivers/usb/gadget/udc/Kconfig
+@@ -126,6 +126,7 @@ config USB_OMAP
+ config USB_PXA25X
+ 	tristate "PXA 25x or IXP 4xx"
+ 	depends on (ARCH_PXA && PXA25x) || ARCH_IXP4XX
++	depends on !(PXA25x && ARCH_IXP4XX)
+ 	depends on HAS_IOMEM
+ 	help
+ 	   Intel's PXA 25x series XScale ARM-5TE processors include
+diff --git a/drivers/usb/gadget/udc/pxa25x_udc.c b/drivers/usb/gadget/udc/pxa25x_udc.c
+index 594d67193763..7e158ca73fa1 100644
+--- a/drivers/usb/gadget/udc/pxa25x_udc.c
++++ b/drivers/usb/gadget/udc/pxa25x_udc.c
+@@ -140,7 +140,7 @@
+ #ifdef CONFIG_ARCH_IXP4XX /* FIXME: is this right?, datasheed says '2' */
+ #define UDCCS_IO_ROF	(1 << 3)	/* Receive overflow */
+ #endif
+-#ifdef CONFIG_ARCH_PXA
++#ifdef CONFIG_PXA25x
+ #define UDCCS_IO_ROF	(1 << 2)	/* Receive overflow */
+ #endif
+ #define UDCCS_IO_DME	(1 << 3)	/* DMA enable */
+@@ -228,7 +228,7 @@ static const char ep0name [] = "ep0";
+ #ifdef CONFIG_ARCH_IXP4XX
  
- static int tb_dp_dprx_start(struct tb_tunnel *tunnel)
- {
--	/*
--	 * Bump up the reference to keep the tunnel around. It will be
--	 * dropped in tb_dp_dprx_stop() once the tunnel is deactivated.
--	 */
--	tb_tunnel_get(tunnel);
--
- 	tunnel->dprx_started = true;
+ /* cpu-specific register addresses are compiled in to this code */
+-#ifdef CONFIG_ARCH_PXA
++#ifdef CONFIG_PXA25x
+ #error "Can't configure both IXP and PXA"
+ #endif
  
- 	if (tunnel->callback) {
-+		/*
-+		 * Bump up the reference to keep the tunnel around while
-+		 * the delayed work is pending. It is dropped either in
-+		 * tb_dp_dprx_stop() when the work was canceled, or by the
-+		 * work itself.
-+		 */
-+		tb_tunnel_get(tunnel);
- 		tunnel->dprx_timeout = dprx_timeout_to_ktime(dprx_timeout);
- 		queue_delayed_work(tunnel->tb->wq, &tunnel->dprx_work, 0);
- 		return -EINPROGRESS;
+@@ -2230,7 +2230,7 @@ static struct pxa25x_udc memory = {
+ 
+ #define CP15R0_VENDOR_MASK	0xffffe000
+ 
+-#if	defined(CONFIG_ARCH_PXA)
++#if	defined(CONFIG_PXA25x)
+ #define CP15R0_XSCALE_VALUE	0x69052000	/* intel/arm/xscale */
+ 
+ #elif	defined(CONFIG_ARCH_IXP4XX)
+@@ -2282,7 +2282,7 @@ static int pxa25x_udc_probe(struct platform_device *pdev)
+ 
+ 	/* trigger chiprev-specific logic */
+ 	switch (chiprev & CP15R0_PRODREV_MASK) {
+-#if	defined(CONFIG_ARCH_PXA)
++#if	defined(CONFIG_PXA25x)
+ 	case PXA255_A0:
+ 		dev->has_cfr = 1;
+ 		break;
 -- 
-2.34.1
+2.53.0
 
