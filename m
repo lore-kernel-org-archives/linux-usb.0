@@ -1,138 +1,252 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A19302146
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 04:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899EA3A83BF;
+	Thu, 17 Sep 2026 07:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789619933; cv=none; b=J2VbmU/Dj4sOvoItSXmgCKskV0/Jki35n/ZFMyB++6BecqzuzRP8E0yRK0C1Q98DlbpIMphybIsAetZheMe6Rm/uJlUYSf7zFBv0sdNecbSf2CXY7BpwOkSTsdj9WeGdq+t3cnhRB9B4dY0jyZ5F+913gMbhQ9CtUCNRfOQvN7M=
+	t=1789628842; cv=none; b=hPHi+IiHlO4LpMNrUEAAFYiqzFIStq4TaRCKx3nAz5Rqna457zIOUXCMMs5VNcIrnqvgnr/7Ofj7ucGDGBiHjUI10S8nUN2t8Jxlsumk43tR03os/W7BZaHpAqJKPUly3quYw0EHE1tvnRfek8wvZkmDdKqGOm7mzdVzt/NCZ2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789619933; c=relaxed/simple;
-	bh=X1Maw6YHizyaphGc8hhi5NqlmVrz09GMX62AC3dhNKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNeLPLGMrvAkepVHkvLcZJAt9bqofpyU0BpbHKjy/DzUVIhBB8rzp/3UKjbX3D/pmqnxHoNdTQsLBKKMN3B2rZCkPxaq47mYLEjJiy2A6c6SD5zHnn5CMQi0AqGmDhAYUlMgWnjeaV4PNKRfkIWU+j5IgVx9eSMnfgDgVPaCe+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpnQ4dkj; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789628842; c=relaxed/simple;
+	bh=ts9GKfwCp6caRLak4YpdW4z899iK8x0TzDZ/3sQ0ttU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P9ravQe3kNzUR83gvW5D+zL58a/+bOJfEGWzL9unxlrQvmEaoN6a4oAm0ztIIoeElQOhLobAeVF9A0hjZRU47DOVxKEtVahfeSvYmDGGHvowi1n+9Msb+iev6T8ATbM3tQakUl4VlTcMuaApxtlE0Fp+zMBUwsRlmruF3ZzEiGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=JCYu+NjG; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpnQ4dkj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789619930; x=1821155930;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X1Maw6YHizyaphGc8hhi5NqlmVrz09GMX62AC3dhNKE=;
-  b=BpnQ4dkjgzbvfnY1NLSMviATASj95ZLR2vdxId08AMINUYd/2zXBGC8c
-   OAv2sm8K3lDMxCXrq/ZQj06lATw+Ea865X/Nmu52/MrsBpa0cLIkA8oVp
-   xALj2DsWo7VgsxbOoLHZuUs+9Ki7moPWvmEKx+b5cFv3NSdo3zSCQqztf
-   kkA2SJnnbh1nFhHW9pcRasIhOQE2flcOLqSkGP//Lr2x4Jkw6DrjhkyI9
-   Qzxhnbw6xtQC6QYcs7UVKL0pNLho2wSgNPx4NOWMOn4dKCNK5EoMSTxe3
-   WGPoN6SLaNaVJc1hdqWi7rqylAUqeU9xFFY2vnWiaTWp96bzQdawDPrF8
-   A==;
-X-CSE-ConnectionGUID: hPVRSIiGRFyB89U1edMk7g==
-X-CSE-MsgGUID: cKlQu6X4QPm848rfUIblSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="88938147"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="88938147"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 21:38:50 -0700
-X-CSE-ConnectionGUID: faR24b6NTH2vNMu+uFhbPg==
-X-CSE-MsgGUID: 3W/G9eYoQ0OuWDjWqMk6nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1957576"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa013.fm.intel.com with ESMTP; 16 Sep 2026 21:38:48 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 653C499; Thu, 17 Sep 2026 06:38:47 +0200 (CEST)
-Date: Thu, 17 Sep 2026 06:38:47 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Ben <benstaples10@gmail.com>
-Cc: linux-usb@vger.kernel.org, andreas.noever@gmail.com, westeri@kernel.org,
-	YehezkelShB@gmail.com
-Subject: Re: xhci_hcd 0000:0c:00.0 dies with "Abort failed to stop command
- ring: -110" exactly 24s post-init, tunneled USB4 xHCI behind Goshen Ridge
- (ASUS ThunderboltEX 4) + CalDigit TS4
-Message-ID: <20260917043847.GV106095@black.igk.intel.com>
-References: <CANcA1gDByZBwvkHBi4Bin-eCzBpN31OHaNStbpi4vhTF-WOAPg@mail.gmail.com>
- <20260915041958.GE106095@black.igk.intel.com>
- <CANcA1gC3cEuuK1OJkeq44ZZ_7uZZN=ZDkOJH0L-ERUNQcgZ12g@mail.gmail.com>
- <20260915043845.GG106095@black.igk.intel.com>
- <CANcA1gDh9AKFOdzK+kfLieJByxN1kjFQpSiexKPjHyOY8YMVQA@mail.gmail.com>
- <20260915050515.GI106095@black.igk.intel.com>
- <CANcA1gDbddDkZAQr_O6njK4PvaDk6nnj+fPsrzigH132u0f0Ng@mail.gmail.com>
- <20260916075135.GN106095@black.igk.intel.com>
- <CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="JCYu+NjG"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68H76gc663094124, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1789628803; bh=165Ffk/7PsthNVNc3FRX4MomV14yYGUiU6x3L23pcbE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	b=JCYu+NjGhbS9sBbLMt9NsuFTGGfhh3C/WbeZmNPGosNlUH+G0RB8mEnZcmXGCRVE8
+	 jiNnZ3pQD/cEIIOBKMuDdHV8+COxsZRIllNVuRYYwUjHHksTJVlcZKdazz7oKg2Io7
+	 JI7NosmW5bzobPxYtqp7aaqmKYprSJKQArkNePOZv1rmQmzQORvZgAV5WgnPi73u6g
+	 1Yp6BKIXht+s9/0Knva/Rz7WKmCoZcN9QJchtERpXEA197NqAURdnxcoGl7zNEl2fV
+	 R+cJJATAjYh9pNxZ56SndUTexqUl1oDb6pqcAiv7+RKLfaKB0FRFoUCDwwCkzSujPb
+	 V4BBjxzstoz0Q==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68H76gc663094124
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 17 Sep 2026 15:06:43 +0800
+Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 17 Sep 2026 15:06:40 +0800
+Received: from fc44.realtek.com.tw (172.22.241.7) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
+ 15.2.2562.49 via Frontend Transport; Thu, 17 Sep 2026 15:06:40 +0800
+From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>
+CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
+	<linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
+	<hsu.chih.kai@realtek.com>, <andrew+netdev@lunn.ch>
+Subject: [PATCH net-next v4 7/8] r8152: extract rtl_fc_pause_pkt_en() and apply it to RTL8156/8157/8159
+Date: Thu, 17 Sep 2026 15:06:36 +0800
+Message-ID: <20260917070637.62827-8-nic_swsd@realtek.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260917070637.62827-1-nic_swsd@realtek.com>
+References: <20260917070637.62827-1-nic_swsd@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi,
+The flow-control patch in r8156b_init() only ran for RTL8156B
+(VER_12/13/15). RTL8156A (VER_10/11) and RTL8157/RTL8159 (VER_16/17)
+never applied any flow-control patch at all.
 
-On Wed, Sep 16, 2026 at 10:18:59PM -0400, Ben wrote:
-> Mika,
-> 
-> The TCM bit is set.
-> I have tried two cables. The cablematters premium 40gbps thunderbolt 4
-> cable as well as the apple thunderbolt 5 pro cable. Both the 1m
-> version. I believe they should be passive.
-> 
-> > 0x00a2 0x00003701 0b00000000 00000000 00110111 00000001 ..7. PORT_CS_18
-> >   [00:07]        0x1 Cable USB4 Version
+Extract it into rtl_fc_pause_pkt_en(tp, speed) and add the missing
+cases:
 
-This tells that the cable does not support USB4 (should be 0x10)
+- VER_10/11: same FC timer + FLOW_CTRL_PATCH_OPT sequence RTL8153B
+  (VER_09) already applies via its pre_fw/post_fw hooks, applied
+  directly here instead.
 
-> >   [08:08]        0x1 Bonding Enabled (BE)
-> >   [09:09]        0x1 TBT3-Compatible Mode (TCM)
+- VER_16/17_QFN68/QFN100: RTL8157/RTL8159 use a different mechanism.
+  The datasheet gives a fixed pause-packet count per link speed via
+  the new PLA_PAUSE_LIMIT register; num_pause_pkts is computed with
+  a log2-ratio formula that reproduces that table. Since the count
+  depends on the negotiated speed, call rtl_fc_pause_pkt_en() from
+  rtl8157_enable() instead of from init.
 
-and because of that the link goes into TB3 mode.
+Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+---
+ drivers/net/usb/r8152.c | 112 ++++++++++++++++++++++++++++++++++------
+ 1 file changed, 97 insertions(+), 15 deletions(-)
 
-Which is really interesting if you say that these are actual TB4+ cables.
-Especially the Apple one should definitely be supporting USB4.
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 3473061af129a..05b2b79ab3e31 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -89,6 +89,7 @@
+ #define PLA_MTPS		0xe615
+ #define PLA_TXFIFO_CTRL		0xe618
+ #define PLA_TXFIFO_FULL		0xe61a
++#define PLA_PAUSE_LIMIT         0xe61e
+ #define PLA_RSTTALLY		0xe800
+ #define PLA_CR			0xe813
+ #define PLA_CRWECR		0xe81c
+@@ -301,6 +302,10 @@
+ #define MTPS_JUMBO		(12 * 1024 / 64)
+ #define MTPS_DEFAULT		(6 * 1024 / 64)
+ 
++/* PLA_PAUSE_LIMIT */
++#define PAUSE_LIMIT_EN		BIT(3)
++#define PAUSE_LIMIT_MASK	0xf0
++
+ /* PLA_RSTTALLY */
+ #define TALLY_RESET		0x0001
+ 
+@@ -6163,6 +6168,93 @@ static void r8152b_enter_oob(struct r8152 *tp)
+ 			   RCR_APM | RCR_AM | RCR_AB);
+ }
+ 
++static void rtl_fc_pause_pkt_en(struct r8152 *tp, u16 speed)
++{
++	int log2_ratio, ratio;
++	u16 num_pause_pkts;
++	u32 ocp_data;
++
++	switch (tp->version) {
++	case RTL_VER_10:
++	case RTL_VER_11:
++		ocp_write_word(tp, MCU_TYPE_USB, USB_FC_TIMER,
++			       CTRL_TIMER_EN | (1000 / 8));
++
++		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_CTRL,
++				  FLOW_CTRL_PATCH_OPT);
++
++		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_TASK, FC_PATCH_TASK);
++		break;
++	case RTL_VER_12:
++	case RTL_VER_13:
++	case RTL_VER_15:
++		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR, SLOT_EN);
++
++		ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_CPCR, FLOW_CTRL_EN);
++
++		/* enable fc timer and set timer to 600 ms. */
++		ocp_write_word(tp, MCU_TYPE_USB, USB_FC_TIMER,
++			       CTRL_TIMER_EN | (600 / 8));
++
++		ocp_data = ocp_read_word(tp, MCU_TYPE_PLA, PLA_POL_GPIO_CTRL);
++		if (!(ocp_data & DACK_DET_EN))
++			ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_CTRL,
++					  FLOW_CTRL_PATCH_2);
++
++		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_TASK, FC_PATCH_TASK);
++		break;
++	case RTL_VER_16:
++	case RTL_VER_17_QFN68:
++	case RTL_VER_17_QFN100:
++		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR, SLOT_EN);
++
++		num_pause_pkts = 0xa;
++		ratio = 10000;
++
++		if (!(speed & LINK_STATUS)) {
++			dev_dbg(&tp->intf->dev, "No link\n");
++			goto no_link;
++		} else if (speed & _10bps) {
++			ratio /= 10;
++		} else if (speed & _100bps) {
++			ratio /= 100;
++		} else if (speed & _1000bps) {
++			ratio /= 1000;
++		} else if (speed & _2500bps) {
++			ratio /= 2500;
++		} else if (speed & _5000bps) {
++			ratio /= 5000;
++		} else if (speed & _10000bps) {
++			ratio /= 10000;
++		} else {
++			dev_err(&tp->intf->dev, "Unknown link speed\n");
++			goto no_link;
++		}
++
++		log2_ratio = ilog2(ratio);
++		num_pause_pkts -= log2_ratio;
++
++		/* Round up if ratio is more than halfway to the next power of 2.
++		 * Floating-point is avoided by rewriting
++		 * ratio > 1.5 * 2^log2_ratio as
++		 * 2 * ratio > 3 * 2^log2_ratio
++		 */
++		if (2 * ratio > 3 * (1 << log2_ratio))
++			num_pause_pkts--;
++
++no_link:
++		ocp_word_w0w1(tp, MCU_TYPE_PLA, PLA_PAUSE_LIMIT,
++			      PAUSE_LIMIT_MASK | PAUSE_LIMIT_EN,
++			      num_pause_pkts << 4);
++
++		ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_PAUSE_LIMIT,
++				  PAUSE_LIMIT_EN);
++		break;
++	default:
++		break;
++	}
++}
++
+ static int r8153_pre_firmware_1(struct r8152 *tp)
+ {
+ 	int i;
+@@ -6694,6 +6786,8 @@ static int rtl8157_enable(struct r8152 *tp)
+ 	r8153_set_rx_early_size(tp);
+ 
+ 	speed = rtl8152_get_speed(tp);
++	rtl_fc_pause_pkt_en(tp, speed);
++
+ 	rtl_set_ifg(tp, speed);
+ 
+ 	return rtl_enable(tp);
+@@ -8842,6 +8936,8 @@ static void r8156_init(struct r8152 *tp)
+ 
+ 	usb_enable_lpm(tp->udev);
+ 
++	rtl_fc_pause_pkt_en(tp, 0);
++
+ 	r8156_mac_clk_spd(tp, true);
+ 
+ 	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL3,
+@@ -8878,7 +8974,6 @@ static void r8156b_u2phy_backup(struct r8152 *tp)
+ 
+ static void r8156b_init(struct r8152 *tp)
+ {
+-	u32 ocp_data;
+ 	u16 data;
+ 
+ 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+@@ -8943,20 +9038,7 @@ static void r8156b_init(struct r8152 *tp)
+ 
+ 	usb_enable_lpm(tp->udev);
+ 
+-	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR, SLOT_EN);
+-
+-	ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_CPCR, FLOW_CTRL_EN);
+-
+-	/* enable fc timer and set timer to 600 ms. */
+-	ocp_write_word(tp, MCU_TYPE_USB, USB_FC_TIMER,
+-		       CTRL_TIMER_EN | (600 / 8));
+-
+-	ocp_data = ocp_read_word(tp, MCU_TYPE_PLA, PLA_POL_GPIO_CTRL);
+-	if (!(ocp_data & DACK_DET_EN))
+-		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_CTRL,
+-				  FLOW_CTRL_PATCH_2);
+-
+-	ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_TASK, FC_PATCH_TASK);
++	rtl_fc_pause_pkt_en(tp, 0);
+ 
+ 	r8156_mac_clk_spd(tp, true);
+ 
+-- 
+2.34.1
 
-> >   [10:10]        0x1 CLx Protocol Support (CPS)
-> >   [11:11]        0x0 RS-FEC Enabled (Gen 2) (RE2)
-> >   [12:12]        0x1 RS-FEC Enabled (Gen 3) (RE3)
-> >   [13:13]        0x1 Router Detected (RD)
-> >   [16:16]        0x0 Wake on Connect Status
-> >   [17:17]        0x0 Wake on Disconnect Status
-> >   [18:18]        0x0 Wake on USB4 Wake Status
-> >   [19:19]        0x0 Wake on Inter-Domain Status
-> >   [20:20]        0x0 Cable Gen 3 Support (CG3)
-> >   [21:21]        0x0 Cable Gen 4 Support (CG4)
-> >   [22:22]        0x0 Cable Asymmetric Support (CSA)
-> >   [23:23]        0x0 Cable CLx Support (CSC)
-> >   [24:24]        0x0 AsymmetricTransitionInProgress (TIP)
-> 
-> 
-> On the options, noted. I will keep them as standard as possible.
-> 
->  And yes, this is a PCIe add-in card. I poked around my BIOS a bit and
-> was not able to get it to be recognized on boot. All boot provided to
-> you were performed with these options set:
-> 
-> > USB4 (ASM4242 Controller) Support Disabled (mutually exclusive with Thunderbolt Setting)
-> > Thunderbolt/USB4 (Intel JHL8540 controller) Support: Enabled
-> > Thunderbolt/USB4 (Intel JHL8540 controller) Security Level: No Security
-> > Thunderbolt/USB4 (Intel JHL8540 controller) MMIO Resource: Full Size
-> > Thunderbolt/USB4 (Intel JHL8540 controller) Wake Up Command: GO2SX
-
-Okay this tells that it actually has support. However, the BIOS itself
-might not support the PCIe resource allocation (well that's pretty much
-proven already since you booted with the device connected). For your cases
-it should be enough though because the BIOS seems to allocate the minimum
-and if you are not planning to expand the chain afterwards with more
-devices the one on the dock should be working okay (even the xHCI when the
-link is TB3). When the link is USB4 you get the same devices through the
-USB3 tunnel and PCIe is not even needed because it just contains PCIe
-switch that has nothing behind it.
-
-> I also have IOMMU enabled.
-
-Yes that's expected and should be enabled.
