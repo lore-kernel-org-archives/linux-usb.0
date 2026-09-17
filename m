@@ -1,73 +1,69 @@
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1610A53CA76;
-	Thu, 17 Sep 2026 13:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E84553D0A8;
+	Thu, 17 Sep 2026 13:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789652278; cv=none; b=he+i8jxKCWQvVzwtUX5dk4lK+zzqCXBBMpKl0mC/vovgi66RJqKrmnAPJ4IjVVdBupdujDTpy+cY10aVBA3IdnxWg8hZ2Q4wWVPwXMB2yGAVI+lw0wJe5Fbni3t42f5XHuJS04PbhSIUTtpnmk1y8cPoWTtS07y1VHHdfFyLavY=
+	t=1789652484; cv=none; b=p69xa/LNMqNPZdMsaTd/H6iTIyXOolwpr4B+hTx8biZbF1U2OUMpnbHqj+m3ITh/7/0Jdj8XiFDec0xdvBGNvc+G+uzmuRAJmuW2CKepTLq9ZHT8w6Z3qJDX3oYEv7cEhhUM1yrPsE8ai135sopxGYmOXP3wrQ7EnyFDUrLja9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789652278; c=relaxed/simple;
-	bh=+Mav/8AnNGlq86rf2YmOGxNH9RIAU8iyzCwURNunyg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W2gNYUhcUAEaBs52J7R7rJUg9LDhRFDwBG20mYNXj9KCA4RdbSgstEM/z4oAf4aMWt85Ubusx9rIcrXzopyw/whdl0iwSJUCO3ZFjl4Qwu67ZpXFln8+ImQAVjhBW53FOP0pkGwuhF2puseyhSVEmFq3HLwMrlFm7NCbPMvUkbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=fail smtp.mailfrom=lht.dlh.de; arc=none smtp.client-ip=212.27.42.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lht.dlh.de
-Received: from OMT-CWNXR4TFW5-LHT (unknown [213.61.137.106])
-	(Authenticated sender: albeu@free.fr)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id A3DA813F8B5;
-	Thu, 17 Sep 2026 15:37:42 +0200 (CEST)
-Date: Thu, 17 Sep 2026 15:37:36 +0200
-From: Alban Bedel <alban.bedel@lht.dlh.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Johan Hovold
- <johan@kernel.org>, Alban Bedel <alban.bedel@lht.dlh.de>
-Subject: Re: [PATCH] USB: serial: Support attaching serdev devices
-Message-ID: <20260917153736.600061de@OMT-CWNXR4TFW5-LHT>
-In-Reply-To: <2026091739-spousal-linked-2a36@gregkh>
-References: <20260917081103.1917665-1-alban.bedel@lht.dlh.de>
-	<2026091739-spousal-linked-2a36@gregkh>
-Organization: Lufthansa Technik AG
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-apple-darwin25.4.0)
+	s=arc-20240116; t=1789652484; c=relaxed/simple;
+	bh=WXnbHCnUYR5s688B9EDCkVdUk9C84hOPHL2r2I0cRMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CTzieIPkNrNTs5X1n0/YdFqQsDEWKbQYK4BafCxcuseGB1QL1QXvmPuQgRXEFbOuhrOGrCYLH8hfzD/vuxA1PRg/uqp6+SNwZVHpnBYlZI1uiMF/IN4bfgybNY55UmVJrQgxBfX6PjpGn6faBmh3/ITZ1rDF2hTcEzC6fo0RQAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kmCkZOj1; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kmCkZOj1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1789652472;
+	bh=WXnbHCnUYR5s688B9EDCkVdUk9C84hOPHL2r2I0cRMQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kmCkZOj13qxW+S9TnLgN8z4faQzr+EEMKxY3glYI6AvDpyI0Xx2vRPsc8VVbLWAQL
+	 9HpIKHi3DmVhIa1qZr7QjHxRY9hQJGI67VyY0p94wAnHdgHCbIsDEDi9DtGF0hM05O
+	 R6P3aA9/6reVrlQEQ7g1bFgOFAwmoxEWHm3nydCvAyTr1jy5835DhLBXGN9noH2dKj
+	 2o8R6pFOj66jXveiPN41+LlMFeXynIDk6QP9jFGFH4gzpuVKVsXoyl/82C4kUjBjkO
+	 IBW/sjuATU2x3yib11NY8XjqTS25lHwlozNtmcM3UgECGFtFjs0Aj5jWxS2ZLsPHdt
+	 EzqSTe51B4sXA==
+Received: from [100.64.1.21] (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 90C1C17E01C5;
+	Thu, 17 Sep 2026 15:41:11 +0200 (CEST)
+Message-ID: <0e161194-aa14-4e63-b7c0-b1cf488203c6@collabora.com>
+Date: Thu, 17 Sep 2026 15:41:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: usb: mtu3: add mt6595
+To: rva333@protonmail.com, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260917-6595-mtu3-v1-0-a2ba7c230d68@protonmail.com>
+ <20260917-6595-mtu3-v1-1-a2ba7c230d68@protonmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260917-6595-mtu3-v1-1-a2ba7c230d68@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 17 Sep 2026 09:27:42 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> On Thu, Sep 17, 2026 at 10:11:03AM +0200, Alban Bedel wrote:
-> > Use tty_port_register_device_serdev() to allow attaching serdev
-> > devices to USB serial ports. Also set the ACPI companion device on the
-> > USB serial device to let the serdev matching work on ACPI systems.  
+On 9/17/26 09:32, Roman Vivchar via B4 Relay wrote:
+> From: Roman Vivchar <rva333@protonmail.com>
 > 
-> "also" should be a separate patch, right?
+> Add a compatible string for the MTU3 IP found on the MediaTek mt6595 SoC.
+> 
+> Signed-off-by: Roman Vivchar <rva333@protonmail.com>
 
-Will do.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> And I didn't think that serdev could handle devices going away at any
-> point in time, when did that change?  How was this all tested and what
-> ACPI device wants to use this?
-
-The use case here is an x86 embedded platform with a soldered USB serial
-adapter connecting to a MAX9265 GMSL serializer. As everything is on a
-single PCB there is no question of anything getting disconnected at
-runtime.
-
-But I now see that I missed that the bus remove also need to be
-adjusted to use tty_port_unregister_device() instead of
-tty_unregister_device().  With that done the serdev device get properly
-taken down when I manually disable the port. With a small fix to the
-serdev core it also comes back up when the port is enabled again.
-
-The ACPI part is a custom DSDT overlay that defines the chain
-starting from the USB port. At this level there is no difference to 
-classic UART where serdev are already working.
-
-Alban
