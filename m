@@ -1,113 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA41380FD8;
-	Thu, 17 Sep 2026 08:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E328C22F01;
+	Thu, 17 Sep 2026 08:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789632549; cv=none; b=INC1JJNbxpK4C5T8m6DTD6bqYgwoO+AFprHuKrvg6DVEN4VOpqjssXMApBt7p1/j/5+lu+p68HdSFhHwQRTvPRQrd9KaFmFtK5vPPGAB1UJfWvZ1UTk4sf15d3GGhxGEms25Yv+4rGuEajz/JJtqBYqLEircpLELtl+75gdYLLg=
+	t=1789632687; cv=none; b=NuLlBiKVW0Bizm/lwygPnZb7vXiQWvAcwAWqliEJmVZ6ebMQSBR+CtNCunETG1O5EL4kQ1jmgBLUIyBFHk05w3QvVKF/UTXVxLF8aXrYV31y1oJxsPio6/eKd9nv2gh7mc7MS3zHLw8eHBFcoe40PyFKttrugcuSnd3c7XYkK6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789632549; c=relaxed/simple;
-	bh=gwWkMGJjjSbsocRZTBOxGibjPdweYuDPyAE7Jq1gZGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bhm1d6l2DAdNGgItlrqxIumAXufQ9iM3OHTjIiN+ubitmu9pXUn0vVQodBu8ajTXHpHYUuW3x9VAtF63VfRKwqCEtf1cmSHTw+FOiXQOOfL2kgHIpapQoUtxFY/hEOx1sEbQYSivpI8QL46KzCyBXxsLKp+oeZFZFcu0FC6LNKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sCAcVDGK; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sCAcVDGK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A43D21F000FF;
-	Thu, 17 Sep 2026 08:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789632544;
-	bh=ktt0LKwu42At/FK2VP2oPtkN1yqBjuI7vtR1o1qh3y8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=sCAcVDGKo+bBGxol8ulI0U6qTix6SNSVI5PnVvU7NrVxb36rLXLOTO3MBmNt0r1sQ
-	 iKQE+mZqWYR8A3t1ZySuUn0glbDBHxI1xxHSeGrKou5C1h7Rt8p319Z71SZiHRod5G
-	 Y6DjMjUcgkLUD1Bf5BforQ4xj1OL+khG0r5ubqDI=
-Date: Thu, 17 Sep 2026 09:07:08 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: CJ <firefly0158@163.com>
-Cc: stern@rowland.harvard.edu, kees@kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] usb: dummy_hcd: general protection fault in set_link_state
- on unbind
-Message-ID: <2026091724-upcountry-dental-3e1e@gregkh>
-References: <34667d49.9099.1a09f41e473.Coremail.firefly0158@163.com>
+	s=arc-20240116; t=1789632687; c=relaxed/simple;
+	bh=cfCoYpGqmiDJPutSUQU1zm2/la0SsnFiEnQLjHY8IXU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p3Xoam/Bq2K2eVtweMu6B5DBAes18H7h7XEPLT3laXq2Sd5aBLv/62tHpZloKare/JI+lDHnsxyb7rPwJ5jZm4371YaB90Q5LfhPYhDr92qmzI45wJbnahXQjfXDwPn3/04ePiyIlJQcMIftSUmoSLmQ28IScGh3XsdWmlWWAU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from albans-vm.. (unknown [213.61.137.106])
+	(Authenticated sender: albeu@free.fr)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 6E35913F8A9;
+	Thu, 17 Sep 2026 10:11:12 +0200 (CEST)
+From: Alban Bedel <alban.bedel@lht.dlh.de>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alban Bedel <alban.bedel@lht.dlh.de>
+Subject: [PATCH] USB: serial: Support attaching serdev devices
+Date: Thu, 17 Sep 2026 10:11:03 +0200
+Message-Id: <20260917081103.1917665-1-alban.bedel@lht.dlh.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <34667d49.9099.1a09f41e473.Coremail.firefly0158@163.com>
 
-On Thu, Sep 17, 2026 at 04:00:00PM +0800, CJ wrote:
-> 
-> Hi,
-> 
-> 
-> I am reporting a general protection fault in the dummy_hcd link-state handling,
-> triggered by a syzkaller USB reproducer.  The issue is reproducible with HEAD
-> commit cee9395acd8043be0644b25c34bfa86623f2b935 (v7.3-rc1, Linux 7.3.0-rc1).
-> 
-> 
-> The reproducer connects a synthetic HID USB device through dummy_hcd and then
-> unbinds the dummy_hcd.0 platform device by writing its name to the driver's
-> unbind attribute.  The failure happens during the teardown that follows.
-> 
-> 
-> The console shows a general protection fault for the non-canonical address
-> 0xdffffc0000000000 with a KASAN null-ptr-deref in the range [0x0-0x7], and RIP
-> in set_link_state.  The path reaches it through the gadget disconnect and
-> unbind sequence (usb_gadget_disconnect_locked -> gadget_unbind_driver ->
-> device_remove) while the dummy UDC is being removed.
-> 
-> 
-> One possible cause is that the link-state helper runs on a UDC whose private
-> data has already been released by the unbind, so it dereferences a NULL
-> pointer.  This looks like an ordering/lifetime problem between the platform
-> driver's remove path and the gadget disconnect path.  I note that d5e5cd3654d2
-> fixed a related giveback lifetime issue in this file but does not cover
-> set_link_state.  I am reporting the fault and the path as observed.
-> 
-> 
-> This appears to be a recurrence of the syzbot issue whose external id is
-> 83e39b821587064bd7a3.  It remains reproducible on v7.3-rc1.
-> 
-> 
-> Reproducer:
-> 
-> 
-> syz reproducer:
-> syz_usb_connect$hid(0x3, 0x36, &(0x7f0000000140)=ANY=[@ANYBLOB="1201000000000010d804dd00000000000001090224000100000000090400000103000000092105000001220500090581030002"], 0x0)
-> mkdirat(0xffffffffffffff9c, &(0x7f0000000000)='./mysys\x00', 0x1ff)
-> mount(0x0, &(0x7f0000000080)='./mysys\x00', &(0x7f00000000c0)='sysfs\x00', 0x0, 0x0)
-> r0 = openat(0xffffffffffffff9c, &(0x7f0000000100)='./mysys/bus/platform/drivers/dummy_hcd/unbind\x00', 0x1, 0x0)
-> write(r0, &(0x7f0000000200)='dummy_hcd.0\x00', 0xb)
-> 
-> 
-> console output: https://pastebin.com/raw/1CNVfMHw
-> kernel config: https://pastebin.com/raw/19YvTSEp
-> 
-> 
-> Kernel:
-> 
-> 
-> HEAD commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> git tree: upstream (linux.git), tested through the v7.3-rc1 annotated tag object
->            e5e04726cdd043e309677071ab1b65a4b18f422b
-> kernel version: 7.3.0-rc1 #1 PREEMPT(full)
-> tested tag: v7.3-rc1 (Linux 7.3-rc1, 2026-08-30)
-> 
-> 
-> Let me know if you need more details or testing.
+Use tty_port_register_device_serdev() to allow attaching serdev
+devices to USB serial ports. Also set the ACPI companion device on the
+USB serial device to let the serdev matching work on ACPI systems.
 
-As you have a reproducer, why not make up a patch to fix it as you have
-a way to test this?  That's the best way to get things resolved given
-our HUGE pending patch queue to work through.
+Signed-off-by: Alban Bedel <alban.bedel@lht.dlh.de>
+---
+ drivers/usb/serial/bus.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/drivers/usb/serial/bus.c b/drivers/usb/serial/bus.c
+index 9e2a18c0b2183..0b0a5ea1ba5aa 100644
+--- a/drivers/usb/serial/bus.c
++++ b/drivers/usb/serial/bus.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/kernel.h>
++#include <linux/acpi.h>
+ #include <linux/errno.h>
+ #include <linux/tty.h>
+ #include <linux/slab.h>
+@@ -49,9 +50,13 @@ static int usb_serial_device_probe(struct device *dev)
+ 			goto err_autopm_put;
+ 	}
+ 
++	ACPI_COMPANION_SET(dev, ACPI_COMPANION(&port->serial->dev->dev));
++
+ 	minor = port->minor;
+-	tty_dev = tty_port_register_device(&port->port, usb_serial_tty_driver,
+-					   minor, dev);
++	tty_dev = tty_port_register_device_serdev(&port->port,
++						  usb_serial_tty_driver,
++						  minor, dev,
++						  &port->serial->dev->dev);
+ 	if (IS_ERR(tty_dev)) {
+ 		retval = PTR_ERR(tty_dev);
+ 		goto err_port_remove;
+-- 
+2.39.5
 
-greg k-h
