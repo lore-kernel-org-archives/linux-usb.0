@@ -1,128 +1,63 @@
-Received: from r9204.ps.combzmail.jp (r9204.ps.combzmail.jp [160.16.62.132])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1912931D5
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 01:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.16.62.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7FC37F01A;
+	Thu, 17 Sep 2026 01:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789610054; cv=none; b=Z5xi5Lh0EZ9rPesg2n6BtBYqBPZo19ntnbu+5fZzLKyMsJlQUV4ZxgVhhscGPMsi6QUz4JiFr9a/pAhK3KxQT3/MLVWWkRP+C9dmJeZRH0W0rXpRjdlQn/nbU1LKdSNW+s4uuRa1aPLi+QioT6W3JUAZJxAy262ZWCOzkglJA+I=
+	t=1789610153; cv=none; b=o3/frggJ9u/J1QHj/cbzeUwUdsdChMW3qyQrEMf2IBCjWPW3arO3WJW/UaathL+O1NGxP2BW5WGRPHgFef1R37wHHrIh96jEj5Sbfdx+/dTkKqBOCrBWOK2QZzqiUS8gPFZUhTaAUIjDXkNvMhn8+r1999B/f9uz+15qAR6NDeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789610054; c=relaxed/simple;
-	bh=HlizVZr1fDBuiVc3LJZPmbtEuIF/O6EeaRBwsMufKPM=;
-	h=To:From:Subject:Mime-Version:Content-Type:Message-Id:Date; b=fDLQV5ZkMiPZma0P+KJL7e50WDuoUnpGZSkRLoGHvVzPd4acwTHCqEJywz+sOtNVvkAECtJMkk7ufmxgfcl2KfmHmYV8rOFRYW8mMm2u1FMsCeh6mbuWG1gI678/rCqXgKjdunc93q3AoFpitj1H3X+Q1vkNZB7ArckPp2yeLYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knowledgelink-corp.jp; spf=pass smtp.mailfrom=magerr.combzmail.jp; arc=none smtp.client-ip=160.16.62.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knowledgelink-corp.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
-Received: by r9204.ps.combzmail.jp (Postfix, from userid 99)
-	id DA7F01038E1; Thu, 17 Sep 2026 10:41:03 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 r9204.ps.combzmail.jp DA7F01038E1
-To: linux-usb@vger.kernel.org
-From: =?ISO-2022-JP?B?GyRCJUolbCVDJTglaiVzJS8bKEI=?= <info@knowledgelink-corp.jp>
-X-Ip: 1910603680434054
-X-Ip-source: k85gj73p48dnsa9wu0p6gd
-Precedence: bulk
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Subject: =?ISO-2022-JP?B?GyRCTSUkNyQkPFJEOSROGyhCTkc=?=
- =?ISO-2022-JP?B?GyRCOVRGMBsoQg==?=
+	s=arc-20240116; t=1789610153; c=relaxed/simple;
+	bh=leY8wMGkTfutZn5wiWzZQCJuYU1YPT6drrc823ch9VI=;
+	h=To:Cc:Subject:From:In-Reply-To:Message-ID:References:Date:
+	 MIME-Version:Content-Type; b=TIRH4LVvHuFP9LHgHR0TnTAEusqcUUzEMRW7l2r+cknyuVIOFZLsdIAQ1gv6AL5Kq9A99akAjJDbluhniPZLwg7gsKceYCe58fpRqoJEZdjuqoYQ8ef9Uwnyq8AxwRQiU5IOvClgebDjkkVobFG1gCyODu6R9DThYPrBfbDzcR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGSeA4hB; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGSeA4hB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30EB1F000FF;
+	Thu, 17 Sep 2026 01:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789610152;
+	bh=GEzggXJFz3MfgaB6UJ3OZqGbLL+FDfTZb4lg+3S2JQs=;
+	h=To:Cc:Subject:From:In-Reply-To:References:Date;
+	b=HGSeA4hBoHcTLyjeeZF8hNj0aUtpiu8QavqzySY4L8zYaWbwscqlnHnH/nnyh5E37
+	 6PoLhkU+NUpmyAMeR351E787HggYt8Z6D/TnN49erg8CHyDVAao+qVqnj6a6VhBMgt
+	 dxwquxGuGr/gRHMpnuWnB5tAPZyV76x4PvqoQpkf1IV151QtGEb//vL3f9aJ1uKmRV
+	 z3VfpDQl+8HzzWeTmCtArOdNHWbyFflYre4NniENEPRLiE2si2hnHMUvOEz61XoHzI
+	 /cnkcYqcjbIQKRF35Ex7G3NfmF+7rE+7JH9sT6Bdu6EM4IdUQ6/9Y9xZ5qpUG40JRx
+	 +rosBaM0zKtlA==
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+  linux-scsi@vger.kernel.org,  linux-ide@vger.kernel.org,  Niklas Cassel
+ <cassel@kernel.org>,  linux-usb@vger.kernel.org,  Alan Stern
+ <stern@rowland.harvard.edu>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  linux-s390@vger.kernel.org,  Heiko Carstens
+ <hca@linux.ibm.com>
+Subject: Re: [PATCH v6 00/40] Use defined 16-bits ASC/ASCQ combinations
+From: "Martin K. Petersen (Oracle)" <mkp@kernel.org>
+In-Reply-To: <20260908090308.1085097-1-dlemoal@kernel.org>
+Message-ID: <yq14ifovdyw.fsf@mail.kernel.org>
+References: <20260908090308.1085097-1-dlemoal@kernel.org>
+Date: Wed, 16 Sep 2026 21:55:50 -0400
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
-X-MagazineId: 3p9w
-X-uId: 6764305539486065704185541005
-X-Sender: CombzMailSender
-X-Url: http://www.combzmail.jp/
-Message-Id: <20260917014233.DA7F01038E1@r9204.ps.combzmail.jp>
-Date: Thu, 17 Sep 2026 10:41:03 +0900 (JST)
+MIME-Version: 1.0
+Content-Type: text/plain
 
-　
-　中小企業の経営者様へ
-　
-　・社員のモチベーションを上げようと声をかける
-　・現場のトラブルに、自ら先頭に立って対応する
-　
-　もし、社長がこれらを率先しているようであれば
-　残念ながら、その組織の成長はそこで止まります。
-　
-　社長の“優しさ”が、社員の甘えを生み、責任感を奪い
-　「指示待ち人間」を量産する装置になっているからです。
-　
-　
-　4,800社の経営者が衝撃を受けた、
-　良かれと思ってやってしまう「社長のNG行動」の正体。
-　
-　組織を劇的に変えるためのウェビナーです。　
-　もし心当たりがあれば、一度ご視聴ください。　
-　
-　>>視聴予約はこちら
-　https://knowledge-co.jp/shikigaku5/
-　
-----------------------------------------------
-　
-　テーマ ：　それ、危険です 『社長のNG行動』
-　　　　　 〜 その行動が、組織崩壊を招く 〜
-　
 
-　日 程　： 9月29日（火）13:00スタート
-　　　　　  10月14日（水）13:00スタート
-　　　　　  ※内容は同じです。
-　　　　　
-　会 場　：Zoom開催
-　定 員　：先着100名（費用は不要）
-----------------------------------------------
-　※経営層の方限定です
-　
-　
-　なぜ、社員は「言われたこと」しかやらないのか。
-　なぜ、次世代のリーダー候補が育たないのか。
-　
-　それは、能力の問題ではなく、
-　
-　良かれと思って続けている「社長の配慮」こそが、
-　組織成長を止める、最大のボトルネックかもしれません。
-　
-　本セミナーでは、4,800社以上が導入した
-　独自の組織論「識学」に基づき、社長の「NG行動」と
-　真の経営者へ脱皮するためのマインドセットを伝授します。
-　
-　
-　【セミナー内容(一部抜粋)】
-　 ○ NG行動3選
-　 ○ なぜ優秀なNo.2や部長が育たないのか
-　 ○ マネジメントスタイルの変革について
-　 ○ 導入企業の事例
-　
-　「管理職が育ったら任せる」ではなく「任せるから育つ」
-　という思考の逆転を提言。
-　
-　現場から「冷たくなった」と思われることを恐れず
-　機能的な階層構造を作ることで
+Damien,
 
-　結果として社員全員を守り
-　利益を最大化させる道筋を明示します。
+> This patch series defines as macros all ASC/ASCQ combinations present
+> in https://www.t10.org/lists/asc-num.txt and converts the SCSI core
+> code and SCSI low level drivers to use these macros instead of
+> hard-coded ASC/ASCQs. To do this, struct scsi_sense_hdr and struct
+> scsi_failure are modified to replace the asc and ascq 8-bits fields
+> with a 16-bits sense_code field.
 
-　「優しさ」で人を動かすのではなく
-　「正しさ」で組織を動かす。
+Applied to 7.4/scsi-staging, thanks!
 
-　音声やお顔が表に出ることはございませんので
-　お気軽にご視聴ください。
-　
-　>>視聴予約はこちら
-　https://knowledge-co.jp/shikigaku5/
-　
-　
------------------------
-　一般社団法人 ナレッジリンク
-　東京都千代田区神田小川町1-8-3
-　電話：03-5256-7638
-
-　セミナーのご案内が不要な方は大変残念ではございますが、
-　下記URLより手続き下さいませ。
-　
-　メール配信のワンクリック解除はこちら
-　https://fc-knowledgelink-corp.jp/mail/
-　
+-- 
+Martin K. Petersen
